@@ -16,7 +16,7 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
-const { fictionSites, fictionAppSites, fictionRouter } = useService<{ fictionSites: FictionSites, fictionAppSites: FictionApp }>()
+const { fictionSites, fictionAppSites } = useService<{ fictionSites: FictionSites, fictionAppSites: FictionApp }>()
 
 const showCreateModal = vue.ref(false)
 
@@ -48,8 +48,7 @@ const formattedData = vue.computed<IndexItem[]>(() => {
       desc: `${displayDomain}`,
       key: site.settings.siteId,
       href: editLink,
-      fig: vue.defineAsyncComponent(() => import('./fig/FigSite.vue')),
-      figProps: { site },
+      figure: { el: vue.defineAsyncComponent(() => import('./fig/FigSite.vue')), props: { site } },
 
     }
 
@@ -77,10 +76,10 @@ const actions: ActionItem[] = [{
         :index-meta="{}"
         :edit-actions="[]"
         :empty="{
-          title: 'Start New Website',
-          description: `Welcome to the world's simplest and fastest web creation platform for influencers and professionals.`,
+          name: 'Start New Website',
+          desc: `Welcome to the world's simplest and fastest web creation platform for influencers and professionals.`,
           actions,
-          fig: vue.defineAsyncComponent(() => import('./fig/FigSite.vue')),
+          figure: { el: vue.defineAsyncComponent(() => import('./fig/FigSite.vue')) },
         }"
         :actions="[]"
         :on-item-click="() => {}"

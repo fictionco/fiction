@@ -100,8 +100,8 @@ onResetUi(() => {
                 <div class="text-base">
                   {{ item.name }}
                 </div>
-                <div v-if="item.fig" class="flex justify-end grow">
-                  <component :is="item.fig" :site="site" />
+                <div v-if="item.figure?.el" class="flex justify-end grow">
+                  <component :is="item.figure?.el" :site="site" />
                 </div>
               </div>
             </component>

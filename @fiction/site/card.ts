@@ -2,7 +2,8 @@
 import type { vueRouter } from '@fiction/core'
 import { FictionObject, deepMerge, objectId, setNested, toLabel, toSlug, vue } from '@fiction/core'
 import type { InputOption } from '@fiction/ui'
-
+import type { z } from 'zod'
+import { refineOptions } from './utils/refiner'
 import type { CardConfigPortable, SiteUserConfig, TableCardConfig } from './tables'
 import type { Site } from './site'
 import type { iconStyle } from './util'
@@ -25,11 +26,11 @@ interface CardTemplateSettings<U extends string = string, T extends ComponentCon
   thumb?: string
   isPublic?: boolean
   el: T
-  //  render?: (card: Card) => vue.ComputedRef<CardRender<ComponentConstructor>>
   isContainer?: boolean // ui drawer
   isRegion?: boolean
   spacingClass?: string
   options?: InputOption[]
+  schema?: z.AnyZodObject
   userConfig?: CardTemplateUserConfig<T> & SiteUserConfig
   sections?: Record<string, CardConfigPortable>
   root?: string
@@ -39,10 +40,14 @@ interface CardTemplateSettings<U extends string = string, T extends ComponentCon
 export class CardTemplate<U extends string = string, T extends ComponentConstructor = ComponentConstructor> extends FictionObject<
 CardTemplateSettings<U, T>
 > {
-  // jsonSchema = vue.computed(() => getOptionJsonSchema(this.settings.options))
   constructor(settings: CardTemplateSettings<U, T>) {
     super('CardTemplate', { title: toLabel(settings.templateId), ...settings })
   }
+
+  optionConfig = vue.computed(() => {
+    const r = refineOptions({ inputOptions: this.settings.options || [], schema: this.settings.schema })
+    return r
+  })
 
   toCard(args: { cardId?: string, site?: Site }) {
     const { cardId } = args
@@ -83,7 +88,7 @@ export class Card<
   tpl = vue.computed(() => this.settings.inlineTemplate || this.site?.theme.value?.templates?.find(t => t.settings.templateId === this.templateId.value))
   generation = new CardGeneration({ card: this })
   isActive = vue.computed<boolean>(() => this.site?.editor.value.selectedCardId === this.settings.cardId)
-  options: vue.ComputedRef<InputOption[]> = vue.computed(() => this.tpl.value?.settings.options || [])
+  options: vue.ComputedRef<InputOption[]> = vue.computed(() => this.tpl.value?.optionConfig.value.options || [])
 
   constructor(settings: CardSettings<T>) {
     super('Card', settings)

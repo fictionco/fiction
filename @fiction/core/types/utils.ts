@@ -1,6 +1,29 @@
-import type { ComputedRef, Ref } from 'vue'
-import type { MediaDisplayObject } from '../plugin-media'
+import type { Component, ComputedRef, Ref } from 'vue'
+import type { TableMediaConfig } from '../plugin-media'
 import type { User } from '../plugin-user'
+
+export type MediaDisplayObject = {
+  _key?: string
+  filters?: ImageFilterConfig[]
+  overlay?: OverlaySetting
+  html?: string
+  text?: string
+  classes?: string
+  format?: 'url' | 'video' | 'iframe' | 'html' | 'audio' | 'text'
+} & TableMediaConfig
+
+export type GradientItem = { color?: string, percent?: number }
+export type GradientSetting = { angle?: number, stops?: GradientItem[], css?: string }
+export type OverlaySetting = { gradient?: GradientSetting, opacity?: number, blendMode?: string }
+export const imageFilters = ['brightness', 'opacity', 'contrast', 'blur', 'grayscale', 'sepia', 'saturate', 'invert', 'hue-rotate'] as const
+
+export type ImageFilter = typeof imageFilters[number]
+
+export interface ImageFilterConfig {
+  filter: ImageFilter
+  percent?: number
+  value?: string
+}
 
 export interface ListItem {
   name?: string
@@ -15,20 +38,7 @@ export interface ListItem {
   [key: string]: unknown
 }
 
-/**
- * Object with a priority key for sorting
- */
-export interface PriorityItem {
-  priority?: number
-  [key: string]: any
-}
-
-export type RawListItem = ListItem | string
-
-export type ClickHandler = (args: {
-  event?: MouseEvent
-  item?: NavItem
-}) => void | Promise<void>
+export type ClickHandler = (args: { event?: MouseEvent, item?: NavItem }) => void | Promise<void>
 
 export interface NavItem {
   name?: string
@@ -71,6 +81,8 @@ export interface NavGroup {
   items: NavItem[]
 }
 
+export type Figure = { el?: Component, props?: Record<string, any> }
+
 export type IndexItem = {
   images?: MediaDisplayObject[]
   links?: ActionItem[]
@@ -78,6 +90,7 @@ export type IndexItem = {
   category?: ActionItem[]
   tags?: ActionItem[]
   authors?: User[]
+  figure?: Figure
 } & NavItem
 
 // @deprecated

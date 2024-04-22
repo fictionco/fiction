@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import ElButton from '@fiction/ui/ElButton.vue'
 import ElIndexGrid from '@fiction/ui/ElIndexGrid.vue'
 import type { FictionExtend } from '.'
 

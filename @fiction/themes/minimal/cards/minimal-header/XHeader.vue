@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActionItem, MediaDisplayObject, NavItem } from '@fiction/core'
+import type { MediaDisplayObject, NavItem } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import XNav from '../ui/XNav.vue'
@@ -7,11 +7,8 @@ import XSiteLogo from '../ui/XSiteLogo.vue'
 import XNavMobile from './XNavMobile.vue'
 
 export type UserConfig = {
-  icon?: string
   nav?: NavItem[]
   logo?: MediaDisplayObject
-  actions?: ActionItem[]
-  socialList?: NavItem[]
 }
 
 const props = defineProps({

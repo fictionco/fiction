@@ -1,36 +1,58 @@
-// @unocss-include
-
 import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import { CardTemplate } from '@fiction/site/card'
 import { createCard } from '@fiction/site'
-import { refineOptions } from '../utils/refiner'
+import { z } from 'zod'
+import { refineOptions } from '../../../site/utils/refiner'
 import { standardOption } from '../inputSets'
-import type { UserConfig } from './ElCard.vue'
+
+export const UserConfigSchema = z.object({
+  heading: z.string().optional().describe('Primary headline for profile 3 to 8 words'),
+  subHeading: z.string().optional().describe('Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs'),
+  superHeading: z.string().optional().describe('Shorter badge above headline, 2 to 5 words'),
+  layout: z.union([z.literal('left'), z.literal('right')]).optional().describe('Media on left or right'),
+  detailsTitle: z.string().optional().describe('Title for list of details'),
+  mediaItems: z.array(z.object({
+    media: z.object({
+      format: z.enum(['url', 'html']).optional(),
+      url: z.string().optional(),
+      alt: z.string().optional(),
+      html: z.string().optional(),
+    }),
+  })).optional().describe('Splash picture in portrait format'),
+  details: z.array(z.object({
+    name: z.string().optional(),
+    desc: z.string().optional(),
+    icon: z.string().optional(),
+    href: z.string().optional(),
+  })).optional().describe('List of details with contact details, location, etc.'),
+  socials: z.array(z.object({
+    name: z.string().optional().describe('@handle on (platform)'),
+    href: z.string().optional().describe('Full link for href'),
+    icon: z.string().optional().describe('icon reference associated with the social media platform (x, youtube, facebook, etc)'),
+  })).optional().describe('List of social media links'),
+})
+
+export type UserConfig = z.infer<typeof UserConfigSchema>
 
 function userControls() {
-  const options = [
-    standardOption.mediaItems({ generation: { prompt: 'Splash picture in portrait format' } }),
-    standardOption.headers({ generation: { prompt: 'home page text' } }),
-    standardOption.navItems({ label: 'Bullets', key: 'details', generation: { prompt: 'short bullet details, resume contact information' } }),
-    standardOption.socials({ generation: { prompt: 'social media accounts' } }),
-  ]
-
-  return refineOptions({
+  const { options } = refineOptions({
     inputOptions: [
-      new InputOption({ label: 'Settings', input: 'group', options, key: 'minProfileSettings' }),
+      new InputOption({
+        label: 'Settings',
+        input: 'group',
+        key: 'minProfileSettings',
+        options: [
+          standardOption.mediaItems(),
+          standardOption.headers(),
+          standardOption.navItems({ label: 'Details', key: 'details' }),
+          standardOption.socials(),
+        ],
+      }),
     ],
-    refine: {
-      'mediaItems': 'Splash picture in portrait format',
-      'heading': 'Primary headline for profile 3 to 8 words',
-      'subHeading': 'Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs',
-      'superHeading': 'Shorter badge above headline, 2 to 5 words',
-      'details.name': 'Label for a detail, like "Location"',
-      'details.desc': 'Value for a detail, like "Laguna Beach, CA"',
-      'socialsTitle': false,
-      'socials.desc': false,
-    },
+    schema: UserConfigSchema,
   })
+  return options
 }
 
 const options = [
@@ -55,9 +77,9 @@ const defaultContent: UserConfig = {
     { name: 'Phone', desc: '123-456-7890' },
   ],
   socials: [
-    { name: '@handle on facebook', href: '#', icon: 'facebook', target: '_blank' },
-    { name: '@handle on x', href: '#', icon: 'x', target: '_blank' },
-    { name: '@handle on linkedin', href: '#', icon: 'linkedin', target: '_blank' },
+    { name: '@handle on facebook', href: '#', icon: 'facebook' },
+    { name: '@handle on x', href: '#', icon: 'x' },
+    { name: '@handle on linkedin', href: '#', icon: 'linkedin' },
   ],
 }
 const minimalProfile = new CardTemplate({

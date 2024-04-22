@@ -17,6 +17,7 @@ export const standardOption = {
   }),
   name: (_: OptArgs = {}) => new InputOption({ key: 'name', label: 'Text', input: 'InputText', schema: ({ z }) => z.string(), ..._ }),
   desc: (_: OptArgs = {}) => new InputOption({ key: 'desc', label: 'Description', input: 'InputTextarea', schema: ({ z }) => z.string().optional(), ..._ }),
+  icon: (_: OptArgs = {}) => new InputOption({ key: 'icon', label: 'Icon', input: 'InputSelect', schema: ({ z }) => z.string().optional(), ..._ }),
   href: (_: OptArgs = {}) => new InputOption({
     key: 'href',
     label: 'Link / Route',
@@ -135,7 +136,7 @@ export const standardOption = {
   navItems: (_: OptArgs = {}) => {
     const s = standardOption
     const __ = { label: 'Nav Items', key: 'navItems', ..._ }
-    const g = s.group({ ...__, options: [s.groupTitle(__), s.inputList({ ...__, options: [s.name(), s.desc(), s.href(), s.target()] })] })
+    const g = s.group({ ...__, options: [s.groupTitle(__), s.inputList({ ...__, options: [s.name(), s.desc(), s.icon(), s.href(), s.target()] })] })
     return g
   },
   mediaItems: (_: OptArgs = {}) => {

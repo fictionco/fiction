@@ -9,7 +9,7 @@ defineProps({
   list: { type: Array as vue.PropType<IndexItem[]>, default: () => [] },
   indexMeta: { type: Object as vue.PropType<IndexMeta>, default: () => ({}) },
   editActions: { type: Array as vue.PropType<string[]>, default: () => [] },
-  empty: { type: Object as vue.PropType<{ title: string, description: string, actions?: ActionItem[], fig?: vue.Component }>, required: false },
+  empty: { type: Object as vue.PropType<IndexItem>, required: false },
   actions: { type: Array as vue.PropType<ActionItem[]>, default: undefined },
   size: { type: String as vue.PropType<'xs' | 'md'>, default: undefined },
   loading: { type: Boolean, default: false },
@@ -64,11 +64,11 @@ const boxClass = 'dark:bg-theme-975 hover:bg-theme-50 dark:hover:bg-theme-700 px
       </ul>
       <div v-if="list.length === 0 && empty">
         <ElZeroBanner
-          :title="empty.title"
-          :description="empty.description"
+          :title="empty.name || 'No items found'"
+          :description="empty.desc || 'Try creating a new one.'"
           :actions="empty.actions || actions"
         >
-          <component :is="empty.fig" v-if="empty.fig" />
+          <component :is="empty.figure.el" v-if="empty.figure?.el" />
         </ElZeroBanner>
       </div>
 
@@ -96,4 +96,4 @@ const boxClass = 'dark:bg-theme-975 hover:bg-theme-50 dark:hover:bg-theme-700 px
       </nav>
     </div>
   </div>
-</template>
+</template>Figure,Figure,Figure,Figure,

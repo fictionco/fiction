@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { timeAgo, useService, vue } from '@fiction/core'
+import { useService, vue } from '@fiction/core'
 import ElAvatar from '@fiction/ui/ElAvatar.vue'
 import ElIndexGrid from '@fiction/ui/ElIndexGrid.vue'
 import type { Card } from '@fiction/site/card'

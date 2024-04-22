@@ -1,5 +1,4 @@
 import deepMergeUtility from 'deepmerge'
-import type { PriorityItem } from '../types'
 import { sortPriority } from './list'
 
 export function omit<T extends Record<string, any>, K extends keyof T>(
@@ -204,6 +203,6 @@ export function deepMergeAll<T extends Record<string, any>>(items: (Partial<T> |
  * Merges an array of objects, but first sorts them by priority attr
  * @param arr - array of objects w priority key
  */
-export function sortMerge(arr: PriorityItem[]): Record<string, any> {
+export function sortMerge<T extends { priority?: number }[]>(arr: T): Record<string, any> {
   return deepMerge(sortPriority(arr))
 }

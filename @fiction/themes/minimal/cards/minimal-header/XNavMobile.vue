@@ -5,10 +5,7 @@ import XSiteLogo from '../ui/XSiteLogo.vue'
 import type { UserConfig } from './XHeader.vue'
 
 const props = defineProps({
-  card: {
-    type: Object as vue.PropType<Card<UserConfig>>,
-    required: true,
-  },
+  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
 const uc = vue.computed(() => {

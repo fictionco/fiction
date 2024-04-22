@@ -74,7 +74,7 @@ const accountMenu: vue.ComputedRef<IndexItem[]> = vue.computed(() => {
     {
       name: 'Dark Mode',
       icon: 'i-tabler-moon-stars',
-      fig: DashDarkModeToggle,
+      figure: { el: DashDarkModeToggle },
     },
     {
       name: 'Sign Out',

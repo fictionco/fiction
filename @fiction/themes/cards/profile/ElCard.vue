@@ -1,22 +1,10 @@
 <script setup lang="ts">
-import type { ActionItem, MediaItem, NavItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import ElImage from '@fiction/ui/ElImage.vue'
 import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
 import CardSocials from '../el/CardSocials.vue'
-
-export type UserConfig = {
-  heading?: string
-  subHeading?: string
-  superHeading?: string
-  layout?: 'left' | 'right'
-  mediaItems?: MediaItem[]
-  detailsTitle?: string
-  details?: NavItem[]
-  actions?: ActionItem[]
-  socials?: NavItem[]
-}
+import type { UserConfig } from '.'
 
 const props = defineProps({
   card: {
@@ -73,11 +61,7 @@ vue.onMounted(() => {
                 v-for="(s, i) in mediaItems"
                 :key="i"
                 class="h-3 rounded-full transition-all duration-700 bg-black/40 ring-2 ring-white shadow-lg"
-                :class="
-                  i === activeItem
-                    ? ' w-5'
-                    : 'opacity-40 hover:opacity-100 cursor-pointer w-3'
-                "
+                :class="i === activeItem ? ' w-5' : 'opacity-40 hover:opacity-100 cursor-pointer w-3' "
                 @click="setActiveItem(i)"
               />
             </div>
@@ -101,7 +85,7 @@ vue.onMounted(() => {
               <CardText
                 tag="div"
                 :card="card"
-                class="sub-heading mt-6 text-lg  font-medium  entry text-balance"
+                class="sub-heading mt-6 text-lg  font-medium entry text-balance"
                 path="subHeading"
                 :is-markdown="true"
               />
