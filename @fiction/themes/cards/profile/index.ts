@@ -92,6 +92,7 @@ const minimalProfile = new CardTemplate({
   userConfig: defaultContent,
   isPublic: true,
   options,
+  schema: UserConfigSchema,
 })
 
 export const templates = [minimalProfile] as const

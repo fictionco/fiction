@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
 import { waitFor } from '@fiction/core'
-import { getOptionJsonSchema } from '@fiction/ui'
 import { standardCardTemplates } from '@fiction/cards'
 import { Card, CardTemplate } from '../card'
 import { Site } from '../site'
@@ -162,90 +161,6 @@ describe('cardTemplate', async () => {
 
     expect(card.templateId.value).toBe('hero')
 
-    const jsonSchema = getOptionJsonSchema(card.tpl.value?.settings.options)
-
-    if (!jsonSchema)
-      throw new Error('jsonSchema is undefined')
-
-    expect(jsonSchema).toMatchInlineSnapshot(`
-      {
-        "$schema": "http://json-schema.org/draft-07/schema#",
-        "additionalProperties": false,
-        "properties": {
-          "actions": {
-            "description": "Actions",
-            "items": {
-              "additionalProperties": false,
-              "properties": {
-                "href": {
-                  "description": "Link / Route",
-                  "type": "string",
-                },
-                "name": {
-                  "description": "Text",
-                  "type": "string",
-                },
-              },
-              "required": [
-                "name",
-                "href",
-              ],
-              "type": "object",
-            },
-            "type": "array",
-          },
-          "heading": {
-            "description": "Heading",
-            "type": "string",
-          },
-          "layout": {
-            "description": "Layout",
-            "enum": [
-              "justify",
-              "center",
-              "left",
-              "right",
-            ],
-            "type": "string",
-          },
-          "splash": {
-            "additionalProperties": false,
-            "description": "Splash Image",
-            "properties": {
-              "format": {
-                "enum": [
-                  "url",
-                ],
-                "type": "string",
-              },
-              "url": {
-                "type": "string",
-              },
-            },
-            "required": [
-              "url",
-              "format",
-            ],
-            "type": "object",
-          },
-          "subHeading": {
-            "description": "Sub Heading",
-            "type": "string",
-          },
-          "superHeading": {
-            "description": "Super Heading",
-            "type": "string",
-          },
-        },
-        "required": [
-          "heading",
-          "subHeading",
-          "splash",
-          "actions",
-        ],
-        "type": "object",
-      }
-    `)
     expect(card.tpl.value).toBeInstanceOf(CardTemplate)
   })
 })

@@ -38,9 +38,10 @@ export function refineOptions<T extends z.AnyZodObject>(args: {
   const { inputOptions, schema } = args
 
   if (!schema)
-    return { options: inputOptions, unusedSchema: {} }
+    return { options: inputOptions, unusedSchema: {}, hiddenOptions: [] }
 
   let simple = simplifySchema(zodToJsonSchema(schema) as JsonSchema7ObjectType)
+  const hiddenOptions: string[] = []
   const refineOption = (option: InputOption, basePath = '') => {
     // If the option is a group, refine its children
     if (option.input.value === 'group' && option.options?.value) {
@@ -53,15 +54,23 @@ export function refineOptions<T extends z.AnyZodObject>(args: {
 
     const schemaPart = getNested<JsonSchema7Type>({ data: simple, path })
 
-    if (typeof schemaPart !== 'object')
+    if (typeof schemaPart !== 'object') {
+      simple = setNested<SimpleSchema>({ data: simple, path, value: undefined })
+    }
+
+    else if (typeof schemaPart === 'object' && option.fields) {
+      option.fields.value.forEach((f) => {
+        simple = setNested<SimpleSchema>({ data: simple, path: `${path}.${f}`, value: undefined })
+      })
+    }
+
+    if (typeof schemaPart === 'object' && Object.keys(schemaPart).length === 0)
       simple = setNested<SimpleSchema>({ data: simple, path, value: undefined })
 
-    const prompt = schemaPart?.description
-    if (prompt)
-      option.generation.value.prompt = prompt
-
-    if (!schemaPart)
+    if (!schemaPart) {
+      hiddenOptions.push(option.key.value)
       option.isHidden.value = true
+    }
 
     // If the option is a group, refine its children
     if (option.options?.value)
@@ -70,7 +79,7 @@ export function refineOptions<T extends z.AnyZodObject>(args: {
     return option
   }
 
-  return { options: inputOptions.map(_ => refineOption(_)), unusedSchema: simple }
+  return { options: inputOptions.map(_ => refineOption(_)), unusedSchema: simple, hiddenOptions }
 }
 
 export function collectKeysFromOptions(inputOptions: InputOption[] | readonly InputOption[]): string[] {

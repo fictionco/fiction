@@ -17,17 +17,17 @@ const maps = vue.computed(() => {
 })
 
 const mapCols = vue.computed(() => {
-  return maps.value.length > 1 ? 'lg:grid-cols-2' : 'lg:grid-cols-1'
+  return maps.value.length > 1 ? 'md:grid-cols-2' : 'md:grid-cols-1'
 })
 </script>
 
 <template>
   <div class="relative" :class="card.classes.value.contentWidth">
-    <div class="grid grid-cols-1 gap-4 lg:gap-6" :class="[mapCols]">
+    <div class="grid grid-cols-1 gap-4 md:gap-6 lg:gap-10" :class="[mapCols]">
       <ElMap
         v-for="(map, i) in uc.maps"
         :key="i"
-        class="aspect-square lg:aspect-video  lg:h-auto [clip-path:inset(0_round_20px)] shadow-sm  drop-shadow-md"
+        class="aspect-square md:aspect-[3/2]  md:h-auto [clip-path:inset(0_round_20px)] shadow-sm  drop-shadow-md"
         :map-config="map"
         :container="`mapbox-${i}`"
       />

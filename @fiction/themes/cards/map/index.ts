@@ -66,12 +66,11 @@ export const templates = [
   }),
 ] as const
 
-// export function demo() {
-//   return createCard({
-//     slug: 'card-map',
-//     cards: [
-//       createCard({ templateId, templates, userConfig: { } }),
-//       createCard({ templateId, templates, userConfig: { layout: 'left' } }),
-//     ],
-//   })
-// }
+export function demo() {
+  return createCard({
+    slug: 'card-map',
+    cards: [
+      createCard({ templateId, templates, userConfig: { maps: [mapBase, mapBase] } }),
+    ],
+  })
+}

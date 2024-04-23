@@ -7,46 +7,14 @@ import InputAi from '@fiction/site/plugin-builder/InputAi.vue'
 type OptArgs<T extends string = string> = (Partial<InputOptionSettings<T>> & Record<string, unknown>) | undefined
 
 export const standardOption = {
-  media: (_: OptArgs = {}) => new InputOption({
-    key: 'media',
-    label: 'Image',
-    input: 'InputMediaDisplay',
-    props: { formats: _?.formats },
-    schema: ({ z }) => z.object({ url: z.string(), format: z.enum(['url']) }),
-    ..._,
-  }),
-  name: (_: OptArgs = {}) => new InputOption({ key: 'name', label: 'Text', input: 'InputText', schema: ({ z }) => z.string(), ..._ }),
-  desc: (_: OptArgs = {}) => new InputOption({ key: 'desc', label: 'Description', input: 'InputTextarea', schema: ({ z }) => z.string().optional(), ..._ }),
-  icon: (_: OptArgs = {}) => new InputOption({ key: 'icon', label: 'Icon', input: 'InputSelect', schema: ({ z }) => z.string().optional(), ..._ }),
-  href: (_: OptArgs = {}) => new InputOption({
-    key: 'href',
-    label: 'Link / Route',
-    input: 'InputText',
-    schema: ({ z }) => z.string().refine(val => /^(\/[^\s]*)|([a-z]+:\/\/[^\s]*)$/i.test(val)),
-    ..._,
-  }),
-  target: (_: OptArgs = {}) => new InputOption({
-    key: 'target',
-    label: 'Target',
-    input: 'InputSelect',
-    list: [{ name: 'Normal', value: '_self' }, { name: 'New Window', value: '_blank' }],
-    schema: ({ z }) => z.enum(['_self', '_blank']).optional(),
-    ..._,
-  }),
-  size: (_: OptArgs = {}) => new InputOption({
-    key: 'size',
-    label: 'Size',
-    input: 'InputSelect',
-    list: ['default', '2xl', 'xl', 'lg', 'md', 'sm', 'xs'],
-    ..._,
-  }),
-  btn: (_: OptArgs = {}) => new InputOption({
-    key: 'btn',
-    label: 'Type',
-    input: 'InputSelect',
-    list: ['primary', 'default', 'theme', 'danger', 'caution', 'success', 'naked'],
-    ..._,
-  }),
+  media: (_: OptArgs = {}) => new InputOption({ key: 'media', label: 'Image', input: 'InputMediaDisplay', props: { formats: _?.formats }, ..._ }),
+  name: (_: OptArgs = {}) => new InputOption({ key: 'name', label: 'Text', input: 'InputText', ..._ }),
+  desc: (_: OptArgs = {}) => new InputOption({ key: 'desc', label: 'Description', input: 'InputTextarea', ..._ }),
+  icon: (_: OptArgs = {}) => new InputOption({ key: 'icon', label: 'Icon', input: 'InputSelect', ..._ }),
+  href: (_: OptArgs = {}) => new InputOption({ key: 'href', label: 'Link / Route', input: 'InputText', ..._ }),
+  target: (_: OptArgs = {}) => new InputOption({ key: 'target', label: 'Target', input: 'InputSelect', list: [{ name: 'Normal', value: '_self' }, { name: 'New Window', value: '_blank' }], ..._ }),
+  size: (_: OptArgs = {}) => new InputOption({ key: 'size', label: 'Size', input: 'InputSelect', list: ['default', '2xl', 'xl', 'lg', 'md', 'sm', 'xs'], ..._ }),
+  btn: (_: OptArgs = {}) => new InputOption({ key: 'btn', label: 'Type', input: 'InputSelect', list: ['primary', 'default', 'theme', 'danger', 'caution', 'success', 'naked'], ..._ }),
   heading: (_: OptArgs = {}) => new InputOption({
     key: 'heading',
     label: 'Heading',
@@ -181,64 +149,3 @@ export const standardOption = {
   },
   ai: (_: OptArgs = {}) => new InputOption({ label: 'AI', input: 'group', key: 'ai', options: [new InputOption({ key: 'purpose', input: InputAi, ..._ })], ..._ }),
 }
-
-// export const headerOptionSet = new OptionSet({
-//   inputOptions(args) {
-//     return [standardOption.headers(args)]
-//   },
-// })
-
-// export const actionItemOptionSet = new OptionSet({
-//   inputOptions: (args) => {
-//     return [standardOption.actionItems(args)]
-//   },
-// })
-
-// export const navItemsOptionSet = new OptionSet({
-//   inputOptions: (args) => {
-//     return [standardOption.navItems(args)]
-//   },
-// })
-
-// export const mediaItemsOptionSet = new OptionSet< {
-//   formats?: { url?: boolean, html?: boolean }
-// }> ({
-//   inputOptions: (args) => {
-//     return [standardOption.mediaItems(args)]
-//   },
-// })
-
-// export const socialsOptionSet = new OptionSet ({
-//   inputOptions: (args) => {
-//     return [standardOption.socials(args)]
-//   },
-// })
-
-// export const quoteOptionSet = new OptionSet<{ mode: 'single' } | { mode: 'multi' }>({
-//   inputOptions: (args) => {
-//     return [standardOption.quotes(args)]
-//   },
-// })
-
-// export const postOptionSet = new OptionSet< { refine?: { title?: boolean, authorName?: boolean, bodyMarkdown?: boolean } }> ({
-//   inputOptions: (args) => {
-//     return [standardOption.post(args)]
-//   },
-// })
-
-// export const aiOptionSet = new OptionSet< { refine?: { title?: boolean, authorName?: boolean, bodyMarkdown?: boolean } }> ({
-//   inputOptions: (args) => {
-//     return [standardOption.ai(args)]
-//   },
-// })
-
-// export const optionSets = {
-//   post: postOptionSet,
-//   quotes: quoteOptionSet,
-//   socials: socialsOptionSet,
-//   mediaItems: mediaItemsOptionSet,
-//   navItems: navItemsOptionSet,
-//   actionItems: actionItemOptionSet,
-//   headers: headerOptionSet,
-//   ai: aiOptionSet,
-// }

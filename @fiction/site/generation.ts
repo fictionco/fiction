@@ -1,6 +1,7 @@
 import { FictionObject, setNested, toLabel, vue } from '@fiction/core'
 import type { InputOptionGeneration } from '@fiction/ui'
-import { getOptionJsonSchema } from '@fiction/ui'
+import type { JsonSchema7ObjectType } from 'zod-to-json-schema'
+import zodToJsonSchema from 'zod-to-json-schema'
 import { getCardCompletion } from './utils/ai'
 import { getGenerationInputConfig } from './utils/generation'
 import type { Card } from '.'
@@ -106,7 +107,10 @@ export class CardGeneration extends FictionObject<CardGenerationSettings> {
     if (!this.site || !this.tpl.value)
       throw new Error('site and template required')
 
-    const jsonSchema = getOptionJsonSchema(this.tpl.value.settings.options, this.inputConfig.value)
+    if (!this.tpl.value.settings.schema)
+      throw new Error('missing schema')
+
+    const jsonSchema = zodToJsonSchema(this.tpl.value.settings.schema) as JsonSchema7ObjectType
 
     const completionArgs = { runPrompt: this.prompt.value, outputFormat: jsonSchema, site: this.site }
 

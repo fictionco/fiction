@@ -54,5 +54,6 @@ export function getDemoPages() {
     marquee.demo(),
     hero.demo(),
     profile.demo(),
+    map.demo(),
   ]
 }

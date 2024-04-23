@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import mapboxgl from 'mapbox-gl'
+import type { Point } from 'geojson'
 import { vue } from '@fiction/core'
 import { onMounted, watch } from 'vue'
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -9,14 +10,6 @@ const props = defineProps({
   container: { type: String, default: 'mapbox' },
   mapConfig: { type: Object as vue.PropType<MapSchemaConfig>, default: () => ({}) },
   mapboxAccessToken: { type: String, default: '' },
-  // lng: { type: Number, default: -117.778_471 },
-  // lat: { type: Number, default: 33.535_439 },
-  // zoom: { type: Number, default: 14 },
-  // pitch: { type: Number, default: 0 },
-  // mapStyle: { type: String as vue.PropType<'satellite' | 'streets' | 'outdoors' | 'dark' | 'light' | 'satellite-streets' | 'navigation-day' | 'navigation-night'>, default: 'street' },
-  //
-  // markers: { type: Array as vue.PropType<{ lat: number, lng: number }[]>, default: () => [] },
-  // aspect: { type: String as vue.PropType<'aspect-[16/9]' | 'aspect-[2/1]'>, default: 'aspect-[2/1]' },
 })
 
 const fullMapConfig = vue.computed(() => {
@@ -80,6 +73,9 @@ function renderMap() {
   // Disable zoom on scroll
   map.value.scrollZoom.disable()
 
+  // Disable drag
+  map.value.dragPan.disable()
+
   // Disable zoom on double-click
   map.value.doubleClickZoom.disable()
 
@@ -90,6 +86,7 @@ function renderMap() {
       const m = new mapboxgl.Marker()
         .setLngLat([marker.lng, marker.lat])
         .addTo(map.value!)
+
       markers.value.push(m)
     })
   }, { deep: true })
@@ -112,10 +109,11 @@ onMounted(() => {
 <template>
   <div
     :id="container"
-    class=" w-full outline-none focus:outline-none focus:ring-0"
+    class=" w-full outline-none focus:outline-none focus:ring-0 cursor-auto"
   />
 </template>
 
 <style :lang="less">
 .mapboxgl-ctrl-attrib{display: none !important;}
+.mapboxgl-canvas-container.mapboxgl-interactive{cursor: auto !important;}
 </style>

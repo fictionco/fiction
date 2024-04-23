@@ -6,7 +6,7 @@ import type { InputOption } from '../inputs'
 
 const props = defineProps({
   inputName: { type: String, default: '' },
-  inputEl: { type: Object as vue.PropType<{ el: vue.Component, schema: any }>, default: () => ({}) },
+  inputEl: { type: Object as vue.PropType<{ el: vue.Component }>, default: () => ({}) },
   modelValue: {
     type: [Array, Object, String, Number, Boolean],
     default: undefined,
