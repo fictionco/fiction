@@ -177,16 +177,21 @@ const quoteCard = createCard({
   templates,
   templateId: 'quotes',
   userConfig: {
-    quote: {
-      authorName: 'Tim Ferris',
-      authorImage: {
-        format: 'url',
-        url: new URL('img/ferriss_fe.webp', import.meta.url).href,
-      },
+    quotes: [{
       text: `Going on a date? Your 'blind' date has Googled your name. Going to a job interview? Ditto.`,
-      orgName: 'Uber',
-      authorTitle: 'Author + Personal Branding Advisor',
-    },
+      author: {
+        name: 'Tim Ferris',
+        image: {
+          format: 'url',
+          url: new URL('img/ferriss_fe.webp', import.meta.url).href,
+        },
+        title: 'Author of The 4-Hour Workweek',
+      },
+      org: {
+        name: 'Tim Ferris',
+      },
+
+    }],
   },
 })
 

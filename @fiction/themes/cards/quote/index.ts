@@ -9,7 +9,7 @@ const MediaSchema = z.object({
   url: z.string().optional(),
   html: z.string().optional(),
   format: z.enum(['html', 'url']).optional(),
-})
+}).optional()
 
 const QuoteSchema = z.object({
   text: z.string(),
