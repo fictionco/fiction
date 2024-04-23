@@ -32,13 +32,26 @@ export function refineOptions<T extends z.AnyZodObject>(args: {
     }
   }
 
+  const removeDotKeyParents = (key: string, basePath: string) => {
+    key.split('.').forEach((part) => {
+      const path = basePath ? `${basePath}.${part}` : part
+      if (dotRecord[path])
+        delete dotRecord[path]
+    })
+  }
+
   const refineOption = (option: InputOption, basePath = '') => {
     const isGroup = option.input.value === 'group'
+    const key = option.key.value
+
     // Check for a refinement based on the option's key
-    const path = basePath ? `${basePath}.${option.key.value}` : option.key.value
+    const path = basePath ? `${basePath}.${key}` : key
 
     if (!isGroup && !checkRecord(path))
       option.isHidden.value = true
+
+    // remove empty objects that dont need inputs
+    removeDotKeyParents(key, basePath)
 
     // If the option is a group, refine its children
     if (option.options?.value.length > 0) {
@@ -87,8 +100,7 @@ export type SimpleSchema = {
 }
 
 function simplifySchema(schema: JsonSchema7ObjectType): SimpleSchema {
-  const defaultDesc = 'no description'
-  const val = (value: any) => `${value.type}: ${value.description || defaultDesc}`
+  const val = (value: any) => [value.type, value.description].filter(Boolean).join(', ')
   // Recursively process each property to build a simplified structure
   function processProperties(properties: JsonSchema7Type) {
     return Object.entries(properties).reduce((acc, [key, value]) => {
@@ -122,16 +134,29 @@ function flattenSchema(schema: SimpleSchema | SimpleSchema[], prefix: string = '
     if (typeof value === 'object' && value !== null)
       Object.assign(result, flattenSchema(value, fullPath))
     else
-      result[fullPath.replace(/^_/, '')] = value
+      result[fullPath.replace(/^_|(?<=\.)_/g, '')] = value
   })
 
   return result
 }
 
-export function createDotPathRecord(schema: JsonSchema7ObjectType): Record<string, string> {
+type DotPathOptions = {
+  removePlainObjects?: boolean
+}
+
+export function createDotPathRecord(schema: JsonSchema7ObjectType, options: DotPathOptions = {}): Record<string, string> {
+  const { removePlainObjects = false } = options
+
   const simpleSchema = simplifySchema(schema)
 
   const flatSchema = flattenSchema(simpleSchema)
+
+  if (removePlainObjects) {
+    Object.entries(flatSchema).forEach(([key, value]) => {
+      if (value === 'object')
+        delete flatSchema[key]
+    })
+  }
 
   return flatSchema
 }
@@ -140,6 +165,6 @@ export function zodToSimpleSchema<T extends z.AnyZodObject>(schema: T): SimpleSc
   return simplifySchema(zodToJsonSchema(schema) as JsonSchema7ObjectType)
 }
 
-export function zodSchemaToDotPathRecord<T extends z.AnyZodObject>(schema: T): Record<string, string> {
-  return createDotPathRecord(zodToJsonSchema(schema) as JsonSchema7ObjectType)
+export function zodSchemaToDotPathRecord<T extends z.AnyZodObject>(schema: T, options: DotPathOptions = {}): Record<string, string> {
+  return createDotPathRecord(zodToJsonSchema(schema) as JsonSchema7ObjectType, options)
 }

@@ -123,14 +123,14 @@ export const standardOption = {
     const s = standardOption
     const quoteOptions = () => {
       const options = [
-        new InputOption({ key: 'text', label: 'Quote Text', input: 'InputText', schema: ({ z }) => z.string() }),
-        new InputOption({ key: 'authorName', label: 'Author Name', input: 'InputText', schema: ({ z }) => z.string() }),
-        new InputOption({ key: 'authorTitle', label: 'Author Title', input: 'InputText', schema: ({ z }) => z.string().optional() }),
-        new InputOption({ key: 'authorImage', label: 'Author Image', input: 'InputMediaUpload', schema: ({ z }) => z.string().optional() }),
-        new InputOption({ key: 'authorUrl', label: 'Author Link', input: 'InputUrl', schema: ({ z }) => z.string().optional() }),
-        new InputOption({ key: 'orgName', label: 'Organization Name', input: 'InputText', schema: ({ z }) => z.string().optional() }),
-        new InputOption({ key: 'orgImage', label: 'Organization Image', input: 'InputMediaUpload', schema: ({ z }) => z.object({ url: z.string() }).optional() }),
-        new InputOption({ key: 'orgUrl', label: 'Organization Url', input: 'InputText', schema: ({ z }) => z.string().optional() }),
+        new InputOption({ key: 'text', label: 'Quote Text', input: 'InputText' }),
+        new InputOption({ key: 'authorName', label: 'Author Name', input: 'InputText' }),
+        new InputOption({ key: 'authorTitle', label: 'Author Title', input: 'InputText' }),
+        new InputOption({ key: 'authorImage', label: 'Author Image', input: 'InputMediaUpload' }),
+        new InputOption({ key: 'authorUrl', label: 'Author Link', input: 'InputUrl' }),
+        new InputOption({ key: 'orgName', label: 'Organization Name', input: 'InputText' }),
+        new InputOption({ key: 'orgImage', label: 'Organization Image', input: 'InputMediaUpload' }),
+        new InputOption({ key: 'orgUrl', label: 'Organization Url', input: 'InputText' }),
       ]
 
       return options

@@ -2,6 +2,7 @@
 
 import { envConfig, safeDirname, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site/card'
+import { z } from 'zod'
 import * as four04 from './404'
 import * as quote from './quote'
 import { templates as templatesLogos } from './logos'
@@ -27,6 +28,7 @@ export const standardCardTemplates = [
   new CardTemplate({
     templateId: 'wrap',
     el: vue.defineAsyncComponent(() => import('./CardWrap.vue')),
+    schema: z.object({}),
   }),
   ...four04.templates,
   ...quote.templates,

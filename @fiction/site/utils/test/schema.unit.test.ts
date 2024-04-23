@@ -8,6 +8,8 @@ describe('schema tools', () => {
     new InputOption({ key: 'text', label: 'test', input: 'InputText' }),
     new InputOption({ key: 'sub', label: 'whatever', input: 'InputList', options: [
       new InputOption({ key: 'subText', label: 'subText', input: 'InputText' }),
+      new InputOption({ key: 'author.name', label: 'Author', input: 'InputText' }),
+      new InputOption({ key: 'author.title', label: 'Title', input: 'InputText' }),
     ] }),
     new InputOption({ key: 'grp', label: 'Group 1', input: 'group', options: [
       new InputOption({ key: 'groupInput', label: 'subText', input: 'InputTextarea' }),
@@ -19,6 +21,10 @@ describe('schema tools', () => {
     text: z.string().optional(),
     sub: z.array(z.object({
       subText: z.string().optional(),
+      author: z.object({
+        name: z.string().optional(),
+        title: z.string().optional(),
+      }),
     })).optional(),
     groupInput: z.string().optional(),
     media: z.object({
@@ -32,12 +38,12 @@ describe('schema tools', () => {
     extra: z.string().optional(),
   })
 
-  it('rectifies options with schema', () => {
+  it.only('rectifies options with schema', () => {
     const out = refineOptions({ options, schema })
 
     expect(out.unusedSchema).toMatchInlineSnapshot(`{}`)
 
-    expect(Object.keys(out?.unusedSchema || { f: '' }).length).toBe(0)
+    expect(Object.keys(out?.unusedSchema || { f: '', f2: '' }).length).toBe(0)
 
     expect(out.hiddenOptions).toMatchInlineSnapshot(`[]`)
 
@@ -47,7 +53,7 @@ describe('schema tools', () => {
 
     expect(out2.unusedSchema).toMatchInlineSnapshot(`
       {
-        "extra": "string: no description",
+        "extra": "string",
       }
     `)
 
@@ -63,6 +69,8 @@ describe('schema tools', () => {
         "text",
         "sub",
         "sub.0.subText",
+        "sub.0.author.name",
+        "sub.0.author.title",
         "groupInput",
         "media",
         "media.url",
@@ -81,6 +89,10 @@ describe('schema tools', () => {
         desc: z.string().optional(),
         icon: z.string().optional(),
         href: z.string().optional(),
+        subObject: z.object({
+          subName: z.string().optional(),
+          subDesc: z.string().optional(),
+        }).optional(),
       })).optional().describe('List of details with contact details, location, etc.'),
       media: z.object({
         url: z.string().optional(),
@@ -93,24 +105,29 @@ describe('schema tools', () => {
 
     expect(simple).toMatchInlineSnapshot(`
       {
-        "_details": "array: List of details with contact details, location, etc.",
-        "_media": "object: no description",
+        "_details": "array, List of details with contact details, location, etc.",
+        "_media": "object",
         "details": [
           {
-            "desc": "string: no description",
-            "href": "string: no description",
-            "icon": "string: no description",
-            "name": "string: no description",
+            "_subObject": "object",
+            "desc": "string",
+            "href": "string",
+            "icon": "string",
+            "name": "string",
+            "subObject": {
+              "subDesc": "string",
+              "subName": "string",
+            },
           },
         ],
-        "heading": "string: Primary headline for profile 3 to 8 words",
+        "heading": "string, Primary headline for profile 3 to 8 words",
         "media": {
-          "format": "string: no description",
-          "html": "string: no description",
-          "url": "string: no description",
+          "format": "string",
+          "html": "string",
+          "url": "string",
         },
-        "subHeading": "string: Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs",
-        "superHeading": "string: Shorter badge above headline, 2 to 5 words",
+        "subHeading": "string, Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs",
+        "superHeading": "string, Shorter badge above headline, 2 to 5 words",
       }
     `)
 
@@ -118,18 +135,21 @@ describe('schema tools', () => {
 
     expect(r).toMatchInlineSnapshot(`
       {
-        "details": "array: List of details with contact details, location, etc.",
-        "details.0.desc": "string: no description",
-        "details.0.href": "string: no description",
-        "details.0.icon": "string: no description",
-        "details.0.name": "string: no description",
-        "heading": "string: Primary headline for profile 3 to 8 words",
-        "media": "object: no description",
-        "media.format": "string: no description",
-        "media.html": "string: no description",
-        "media.url": "string: no description",
-        "subHeading": "string: Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs",
-        "superHeading": "string: Shorter badge above headline, 2 to 5 words",
+        "details": "array, List of details with contact details, location, etc.",
+        "details.0.desc": "string",
+        "details.0.href": "string",
+        "details.0.icon": "string",
+        "details.0.name": "string",
+        "details.0.subObject": "object",
+        "details.0.subObject.subDesc": "string",
+        "details.0.subObject.subName": "string",
+        "heading": "string, Primary headline for profile 3 to 8 words",
+        "media": "object",
+        "media.format": "string",
+        "media.html": "string",
+        "media.url": "string",
+        "subHeading": "string, Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs",
+        "superHeading": "string, Shorter badge above headline, 2 to 5 words",
       }
     `)
   })

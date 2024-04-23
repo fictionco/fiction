@@ -11,11 +11,11 @@ describe('verify template settings config', () => {
       [
         {
           "templateId": "wrap",
-          "unusedSchema": undefined,
+          "unusedSchema": {},
         },
         {
           "templateId": "404",
-          "unusedSchema": undefined,
+          "unusedSchema": {},
         },
         {
           "templateId": "quotes",
@@ -45,6 +45,7 @@ describe('verify template settings config', () => {
           "templateId": "map",
           "unusedSchema": {
             "maps.0._markers": "array: no description",
+            "maps.0.markers.0.label": "string: no description",
           },
         },
       ]
