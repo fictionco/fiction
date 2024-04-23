@@ -1,12 +1,12 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import { z } from 'zod'
+import { refineOptions } from '@fiction/site/utils/schema'
 import { standardOption } from '../inputSets'
-import { refineOptions } from '../../../site/utils/refiner'
 
 describe('refine options with schema', () => {
   it('refines options', () => {
     const schema = z.object({
-      heading: z.string().describe('test').optional().describe('Primary headline for profile 3 to 8 words'),
+      heading: z.string().optional().describe('Primary headline for profile 3 to 8 words'),
       subHeading: z.string().optional().describe('Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs'),
       superHeading: z.string().optional().describe('Shorter badge above headline, 2 to 5 words'),
       details: z.array(z.object({
@@ -17,7 +17,7 @@ describe('refine options with schema', () => {
       })).optional().describe('List of details with contact details, location, etc.'),
     })
 
-    const { options, unusedSchema } = refineOptions({ inputOptions: [
+    const { options, unusedSchema } = refineOptions({ options: [
       standardOption.headers(),
       standardOption.navItems({ label: 'Details', key: 'details' }),
     ], schema })

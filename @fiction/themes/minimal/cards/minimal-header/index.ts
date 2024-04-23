@@ -2,7 +2,7 @@ import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import { standardOption } from '@fiction/cards/inputSets'
 import { CardTemplate } from '@fiction/site/card'
-import { refineOptions } from '@fiction/site/utils/refiner'
+import { refineOptions } from '@fiction/site/utils/schema'
 import { createCard } from '@fiction/site'
 import { z } from 'zod'
 
@@ -18,7 +18,7 @@ const o = [
   standardOption.navItems({ key: 'nav' }),
 ]
 
-const { options } = refineOptions({ inputOptions: o, schema: UserConfigSchema })
+const { options } = refineOptions({ options: o, schema: UserConfigSchema })
 
 const el = vue.defineAsyncComponent(() => import('./XHeader.vue'))
 export const templates = [

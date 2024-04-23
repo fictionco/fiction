@@ -10,7 +10,7 @@ type SchemaDef = (args: { z: typeof z, subSchema: z.AnyZodObject }) => z.Schema
 
 const gradientSetting: SchemaDef = ({ z }) => z.object({ angle: z.number(), stops: z.object({ color: z.string(), percent: z.number(), colorId: z.string() }), css: z.string() })
 
-export const inputs: Record<string, { el: vue.Component, fields?: string[] }> = {
+export const inputs: Record<string, { el: vue.Component, shape?: string[] }> = {
   InputUsername: { el: def(() => import('./InputUsername.vue')) },
   InputMarkdown: { el: def(() => import('./InputMarkdown.vue')) },
   InputList: { el: def(() => import('./InputList.vue')) },
@@ -34,7 +34,7 @@ export const inputs: Record<string, { el: vue.Component, fields?: string[] }> = 
   InputWeight: { el: def(() => import('./InputWeight.vue')) },
   InputNumber: { el: def(() => import('./InputNumber.vue')) },
   InputMediaUpload: { el: def(() => import('./InputMediaUpload.vue')) },
-  InputMediaDisplay: { el: def(() => import('./InputMediaDisplay.vue')), fields: ['url', 'format', 'html'] },
+  InputMediaDisplay: { el: def(() => import('./InputMediaDisplay.vue')), shape: ['url', 'format', 'html'] },
   InputRanking: { el: def(() => import('./InputRanking.vue')) },
   InputMultipleChoice: { el: def(() => import('./InputMultipleChoice.vue')) },
   InputRating: { el: def(() => import('./InputRating.vue')) },
@@ -76,6 +76,7 @@ export interface InputOptionSettings<T extends string = string, U = any> {
   schema?: SchemaCallback
   generation?: InputOptionGeneration
   isHidden?: boolean
+  shape?: string[]
 }
 
 export type OptArgs = (Partial<InputOptionSettings> & Record<string, unknown>) | undefined
@@ -86,7 +87,7 @@ export class InputOption<T extends string = string, U = any> extends FictionObje
   key = vue.ref(this.settings.key)
   aliasKey = vue.ref(this.settings.aliasKey || this.key)
   input = vue.shallowRef(this.settings.input)
-  fields = vue.computed(() => typeof this.input.value === 'string' ? inputs[this.input.value].fields || [] : [])
+  shape = vue.ref(typeof this.input.value === 'string' ? inputs[this.input.value]?.shape || [] : [])
 
   label = vue.ref(this.settings.label)
   subLabel = vue.ref(this.settings.subLabel)
@@ -139,6 +140,7 @@ export class InputOption<T extends string = string, U = any> extends FictionObje
       input: this.input.value,
       props: { ...this.outputProps.value, options: subOptions },
       options: subOptions,
+      shape: this.shape.value,
     })
   }
 }

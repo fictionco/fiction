@@ -3,7 +3,7 @@ import { InputOption } from '@fiction/ui'
 import { CardTemplate } from '@fiction/site/card'
 import { createCard } from '@fiction/site'
 import { z } from 'zod'
-import { refineOptions } from '../../../site/utils/refiner'
+import { refineOptions } from '@fiction/site/utils/schema'
 import { standardOption } from '../inputSets'
 
 export const UserConfigSchema = z.object({
@@ -37,7 +37,7 @@ export type UserConfig = z.infer<typeof UserConfigSchema>
 
 function userControls() {
   const { options } = refineOptions({
-    inputOptions: [
+    options: [
       new InputOption({
         label: 'Settings',
         input: 'group',

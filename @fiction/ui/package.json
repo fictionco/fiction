@@ -6,12 +6,12 @@
     "@tailwindcss/forms": "^0.5.7",
     "blurhash": "^2.0.5",
     "gravatar-url": "^4.0.1",
-    "monaco-editor": "^0.47.0",
+    "monaco-editor": "^0.48.0",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
     "vue": "^3.4.24",
-    "zod": "^3.23.0",
-    "zod-to-json-schema": "^3.22.5"
+    "zod": "^3.23.4",
+    "zod-to-json-schema": "^3.23.0"
   },
   "devDependencies": {
     "shikiji": "^0.10.2"

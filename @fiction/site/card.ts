@@ -3,7 +3,7 @@ import type { vueRouter } from '@fiction/core'
 import { FictionObject, deepMerge, objectId, setNested, toLabel, toSlug, vue } from '@fiction/core'
 import type { InputOption } from '@fiction/ui'
 import type { z } from 'zod'
-import { refineOptions } from './utils/refiner'
+import { refineOptions } from './utils/schema'
 import type { CardConfigPortable, SiteUserConfig, TableCardConfig } from './tables'
 import type { Site } from './site'
 import type { iconStyle } from './util'
@@ -44,7 +44,7 @@ CardTemplateSettings<U, T>
     super('CardTemplate', { title: toLabel(settings.templateId), ...settings })
   }
 
-  optionConfig = refineOptions({ inputOptions: this.settings.options || [], schema: this.settings.schema })
+  optionConfig = refineOptions({ options: this.settings.options || [], schema: this.settings.schema })
 
   toCard(args: { cardId?: string, site?: Site }) {
     const { cardId } = args
