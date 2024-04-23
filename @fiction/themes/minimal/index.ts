@@ -16,6 +16,16 @@ function pages() {
         createCard({ templates, templateId: 'profile', userConfig: { } }),
       ],
     }),
+    createCard({
+      templates,
+      regionId: 'main',
+      templateId: 'wrap',
+      slug: 'contact',
+      title: 'Contact',
+      cards: [
+        createCard({ templates, templateId: 'map', userConfig: { } }),
+      ],
+    }),
   ]
 }
 

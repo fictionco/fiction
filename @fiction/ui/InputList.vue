@@ -1,28 +1,15 @@
 <script lang="ts" setup>
 import { getNested, setNested, shortId, vue, waitFor } from '@fiction/core'
-
 import type { InputOption } from './inputs'
 import ElInput from './ElInput.vue'
 import ElButton from './ElButton.vue'
 import TransitionSlide from './TransitionSlide.vue'
 
 const props = defineProps({
-  modelValue: {
-    type: Array as vue.PropType<Record<string, unknown>[]>,
-    default: () => [],
-  },
-  options: {
-    type: Array as vue.PropType<InputOption[]>,
-    default: () => [],
-  },
-  depth: {
-    type: Number,
-    default: 0,
-  },
-  inputClass: {
-    type: String,
-    default: '',
-  },
+  modelValue: { type: Array as vue.PropType<Record<string, unknown>[]>, default: () => [] },
+  options: { type: Array as vue.PropType<InputOption[]>, default: () => [] },
+  depth: { type: Number, default: 0 },
+  inputClass: { type: String, default: '' },
 })
 
 const emit = defineEmits<{
@@ -42,11 +29,15 @@ const keyedModelValue = vue.computed<KeyedItem[]>(() => {
   }) as KeyedItem[]
 })
 
+function updateModelValue(val: Record<string, unknown>[]) {
+  emit('update:modelValue', val)
+}
+
 function updateOrder() {
   if (!wrapperEl.value)
     return
 
-  const rank: Record<string, unknown>[] = []
+  const val: Record<string, unknown>[] = []
   wrapperEl.value.querySelectorAll(itemSelector).forEach((el) => {
     const element = el as HTMLElement
     const value = element.dataset.dragId
@@ -54,11 +45,11 @@ function updateOrder() {
     if (value) {
       const item = keyedModelValue.value.find(i => i._key === value)
       if (item)
-        rank.push(item)
+        val.push(item)
     }
   })
 
-  emit('update:modelValue', rank)
+  updateModelValue(val)
 }
 
 function updateInputValue(args: { index: number, key: string, value: unknown }) {
@@ -67,14 +58,14 @@ function updateInputValue(args: { index: number, key: string, value: unknown }) 
   const val = [...props.modelValue]
   val[index] = setNested({ path: key, data: val[index], value })
 
-  emit('update:modelValue', val)
+  updateModelValue(val)
 }
 
 function addItem() {
   const _key = shortId()
   const val = [...props.modelValue, { name: 'New Item', _key }]
   openItem.value = _key
-  emit('update:modelValue', val)
+  updateModelValue(val)
 }
 
 function removeItem(item: Record<string, unknown> & { _key: string }) {
@@ -82,7 +73,7 @@ function removeItem(item: Record<string, unknown> & { _key: string }) {
   if (!confirmed)
     return
   const val = props.modelValue.filter(i => i._key !== item._key)
-  emit('update:modelValue', val)
+  updateModelValue(val)
 }
 
 function toggleItem(item: Record<string, unknown> & { _key: string }) {
@@ -115,13 +106,13 @@ vue.onMounted(async () => {
     <div
       v-for="(item, i) in keyedModelValue"
       :key="i"
-      class="rounded-md border border-theme-300 dark:border-theme-600 mb-2 shadow-sm bg-theme-0 dark:bg-theme-700 cursor-pointer text-theme-700 dark:text-theme-100"
+      class="rounded-md border border-theme-200 dark:border-theme-600 mb-2 shadow-sm bg-theme-0 dark:bg-theme-700 cursor-pointer text-theme-700 dark:text-theme-100"
       :data-drag-id="item._key"
       :data-drag-depth="depth"
     >
       <div
-        class="px-1 py-1 bg-theme-100 dark:bg-theme-600/50 hover:bg-theme-200 text-xs font-mono  font-medium flex justify-between items-center"
-        :class="openItem === item._key ? 'rounded-t-md border-b border-theme-300 dark:border-theme-600' : 'rounded-md'"
+        class="px-1 py-1 bg-theme-50 dark:bg-theme-600/50 hover:bg-theme-100/80 text-xs font-mono  font-medium flex justify-between items-center"
+        :class="openItem === item._key ? 'rounded-t-md border-b border-theme-200 dark:border-theme-600' : 'rounded-md'"
         :data-drag-handle="depth"
         @click="toggleItem(item)"
       >

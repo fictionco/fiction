@@ -73,8 +73,6 @@ const mapCard = createCard({
   templates,
   templateId: 'map',
   userConfig: {
-    subHeading: `Fiction is based in Orange County, California.`,
-    heading: `Our Offices`,
     maps: [mapBase, { ...mapBase, mapStyle: 'satellite' }],
   },
 })

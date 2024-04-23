@@ -18,13 +18,10 @@ const ico = iconStyle[props.iconTheme]
 
 <template>
   <div class="tool pb-24">
-    <div
-      class="flex justify-between p-4 items-center select-none z-10  "
-    >
+    <div class="flex justify-between p-4 items-center select-none z-10">
       <div>
         <div v-if="back" class="mb-3">
           <div
-
             class="inline-block text-[10px] rounded-md py-0.5 px-2 bg-theme-50 dark:bg-theme-600 uppercase font-semibold tracking-wide cursor-pointer text-theme-400 dark:text-theme-0 hover:bg-theme-100"
             @click.stop="back?.onClick?.({ event: $event })"
           >
@@ -58,15 +55,8 @@ const ico = iconStyle[props.iconTheme]
         </div>
       </div>
     </div>
-
     <div>
       <slot />
     </div>
   </div>
 </template>
-
-<style lang="less" scoped>
-.tool {
-  --input-bg: theme("colors.theme.50");
-}
-</style>

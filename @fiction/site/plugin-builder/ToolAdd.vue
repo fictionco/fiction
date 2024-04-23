@@ -66,17 +66,17 @@ function addCard(args: { templateId: string }) {
               <div
                 v-for="(item, ii) in tplGroup"
                 :key="ii"
-                class="flex flex-col shadow-sm group cursor-pointer hover:shadow hover:-translate-y-0.5 transition-all rounded-md w-[30%] border border-theme-200 dark:border-theme-600 p-1 space-y-1 text-theme-600 dark:text-theme-50 hover:bg-theme-50 dark:hover:bg-theme-800"
+                class="flex flex-col shadow-sm group cursor-pointer hover:shadow hover:-translate-y-0.5 transition-all rounded-md w-[30%] border border-theme-300/80 dark:border-theme-600 p-1 space-y-1 text-theme-600 dark:text-theme-50 hover:bg-theme-50 dark:hover:bg-theme-800"
                 @click="addCard({ templateId: item.settings.templateId })"
               >
                 <div
-                  class="px-3 text-3xl flex justify-center items-center  "
+                  class="px-3 text-3xl flex justify-center items-center text-theme-500"
                 >
                   <div :class="item.settings.icon" />
                 </div>
                 <div class="px-1 grow">
                   <div class=" leading-tight truncate text-center">
-                    <div class="font-medium text-[9px] text-theme-500  dark:text-theme-200 truncate tracking-tight">
+                    <div class="font-medium text-[10px] text-theme-500  dark:text-theme-200 truncate tracking-tight">
                       {{ item.settings.title }}
                     </div>
                     <div class="hidden text-[10px] font-normal text-theme-400 dark:text-theme-100">

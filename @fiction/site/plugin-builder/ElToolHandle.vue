@@ -25,19 +25,19 @@ const i = vue.computed(() => {
 
     :class="
       handle.isActive
-        ? 'border-primary-300 dark:border-primary-600'
+        ? 'border-theme-300 dark:border-theme-600'
         : 'border-theme-300'
     "
   >
     <div
       class="handlebar flex group rounded-md select-none min-w-0 hover:opacity-80"
-      :class="[handle.isActive ? 'bg-primary-50 dark:bg-primary-900 text-primary-700 dark:text-primary-0' : '']"
+      :class="[handle.isActive ? 'bg-theme-50 dark:bg-theme-800 text-theme-700 dark:text-theme-0' : '']"
       @mouseover="draggableMode = handle.depth"
       @mouseleave="draggableMode = -1"
     >
       <div
-        class="flex items-center justify-center border    shrink-0 p-1 px-2"
-        :class="[handle.hasDrawer ? 'rounded-tl-md' : 'rounded-l-md', i]"
+        class="flex items-center justify-center border    shrink-0 p-1 px-2 "
+        :class="[handle.hasDrawer ? 'rounded-tl-md' : 'rounded-l-md', handle.isActive ? 'dark:border-theme-500 border-theme-300' : 'dark:border-theme-500 border-theme-200']"
       >
         <div :class="handle.icon ?? 'i-carbon-blockchain'" />
       </div>
@@ -45,7 +45,7 @@ const i = vue.computed(() => {
         class="flex grow border-y border-r   min-w-0 overflow-hidden"
         :class="[
           handle.hasDrawer ? 'rounded-tr-md' : 'rounded-r-md',
-          handle.isActive ? 'dark:border-primary-500 border-primary-300' : 'dark:border-theme-500 border-theme-200']"
+          handle.isActive ? 'dark:border-theme-500 border-theme-300' : 'dark:border-theme-500 border-theme-200']"
       >
         <div
           class="flex grow cursor-pointer items-center px-3 truncate gap-1 text-[10px] min-w-0"

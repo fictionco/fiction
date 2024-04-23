@@ -34,7 +34,7 @@ export const standardCardTemplates = [
   ...hero.templates,
   ...marquee.templates,
   ...area.templates,
-
+  ...map.templates,
 ] as const
 
 export const marketingCardTemplates = [
@@ -45,7 +45,7 @@ export const marketingCardTemplates = [
   ...templatesMediaGrid,
   ...features.templates,
   ...metrics.templates,
-  ...map.templates,
+
   ...faq.templates,
 ] as const
 

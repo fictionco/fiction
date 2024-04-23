@@ -16,7 +16,7 @@ declare global {
 
 // setup process env handling inside of app/browser
 function setupGlobalRunVars<T extends keyof RunVars = keyof RunVars>() {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== 'undefined' && typeof document !== 'undefined') {
     // @ts-expect-error (avoid confusion with node process.env)
     window.process ||= { env: {} }
     window.fictionRunVars ||= {}

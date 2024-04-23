@@ -44,10 +44,7 @@ CardTemplateSettings<U, T>
     super('CardTemplate', { title: toLabel(settings.templateId), ...settings })
   }
 
-  optionConfig = vue.computed(() => {
-    const r = refineOptions({ inputOptions: this.settings.options || [], schema: this.settings.schema })
-    return r
-  })
+  optionConfig = refineOptions({ inputOptions: this.settings.options || [], schema: this.settings.schema })
 
   toCard(args: { cardId?: string, site?: Site }) {
     const { cardId } = args
@@ -88,7 +85,7 @@ export class Card<
   tpl = vue.computed(() => this.settings.inlineTemplate || this.site?.theme.value?.templates?.find(t => t.settings.templateId === this.templateId.value))
   generation = new CardGeneration({ card: this })
   isActive = vue.computed<boolean>(() => this.site?.editor.value.selectedCardId === this.settings.cardId)
-  options: vue.ComputedRef<InputOption[]> = vue.computed(() => this.tpl.value?.optionConfig.value.options || [])
+  options: vue.ComputedRef<InputOption[]> = vue.computed(() => this.tpl.value?.optionConfig.options || [])
 
   constructor(settings: CardSettings<T>) {
     super('Card', settings)

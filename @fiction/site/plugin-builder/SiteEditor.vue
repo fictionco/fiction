@@ -34,14 +34,14 @@ async function load() {
   loading.value = true
 
   try {
-    const { siteId } = fictionRouter.query.value as Record<string, string>
+    const { siteId, themeId } = fictionRouter.query.value as Record<string, string>
 
-    if (!siteId)
+    if (!siteId && !themeId)
       throw new Error('No siteId')
 
     await fictionRouterSites.create({ noBrowserNav: true, caller: 'SiteEditor' })
 
-    const mountContext = getMountContext({ queryVars: { siteId }, siteMode: 'editor' })
+    const mountContext = getMountContext({ queryVars: { siteId, themeId }, siteMode: 'editor' })
 
     site.value = await loadSite({
       fictionSites,
