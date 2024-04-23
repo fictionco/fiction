@@ -22,11 +22,7 @@ describe('refine options with schema', () => {
       standardOption.navItems({ label: 'Details', key: 'details' }),
     ], schema })
 
-    expect(unusedSchema).toMatchInlineSnapshot(`
-      {
-        "details": {},
-      }
-    `)
+    expect(unusedSchema).toMatchInlineSnapshot(`{}`)
 
     const option = options[0]
 

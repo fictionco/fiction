@@ -9,14 +9,9 @@ describe('minimalProfile', async () => {
 
     expect(templates[0].optionConfig.unusedSchema).toMatchInlineSnapshot(`
       {
-        "details": {},
-        "layout": "Media on left or right",
-        "mediaItems": {
-          "media": {
-            "alt": "string",
-          },
-        },
-        "socials": {},
+        "layout": "string: Media on left or right",
+        "mediaItems.0._media": "object: no description",
+        "mediaItems.0.media.alt": "string: no description",
       }
     `)
 

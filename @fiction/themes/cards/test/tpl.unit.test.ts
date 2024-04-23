@@ -11,49 +11,40 @@ describe('verify template settings config', () => {
       [
         {
           "templateId": "wrap",
-          "unusedSchema": {},
+          "unusedSchema": undefined,
         },
         {
           "templateId": "404",
-          "unusedSchema": {},
+          "unusedSchema": undefined,
         },
         {
           "templateId": "quotes",
-          "unusedSchema": {},
+          "unusedSchema": undefined,
         },
         {
           "templateId": "profile",
           "unusedSchema": {
-            "details": {},
-            "layout": "Media on left or right",
-            "mediaItems": {
-              "media": {
-                "alt": "string",
-              },
-            },
-            "socials": {},
+            "layout": "string: Media on left or right",
+            "mediaItems.0._media": "object: no description",
+            "mediaItems.0.media.alt": "string: no description",
           },
         },
         {
           "templateId": "hero",
-          "unusedSchema": {},
+          "unusedSchema": undefined,
         },
         {
           "templateId": "marquee",
-          "unusedSchema": {},
+          "unusedSchema": undefined,
         },
         {
           "templateId": "area",
-          "unusedSchema": {},
+          "unusedSchema": undefined,
         },
         {
           "templateId": "map",
           "unusedSchema": {
-            "maps": {
-              "markers": {
-                "lng": undefined,
-              },
-            },
+            "maps.0._markers": "array: no description",
           },
         },
       ]

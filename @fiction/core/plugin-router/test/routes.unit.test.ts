@@ -46,7 +46,7 @@ describe('fictionRouterCreate', async () => {
   })
 })
 
-describe.skip('fictionRouter', async () => {
+describe('fictionRouter', async () => {
   const testUtils = createTestUtils()
 
   await testUtils.init()

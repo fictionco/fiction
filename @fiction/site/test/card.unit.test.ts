@@ -40,9 +40,9 @@ describe('card', async () => {
   it('card computes total estimated time correctly', () => {
     // Assuming options have been set up to produce a known total time
     const totalEstimatedTime = generation.totalEstimatedTime.value
-    expect(totalEstimatedTime).toBeGreaterThan(0)
+    expect(totalEstimatedTime).toBeGreaterThan(20)
     // Update the expected time based on your options setup
-    expect(totalEstimatedTime).toBe(24)
+    expect(totalEstimatedTime).toMatchInlineSnapshot(`28`)
   })
 
   it('card generates correct prompt for content creation', () => {
@@ -66,7 +66,7 @@ describe('card', async () => {
     const totalEstimatedTime = card.generation.totalEstimatedTime.value
 
     expect(totalEstimatedTime).toBeGreaterThan(0)
-    expect(totalEstimatedTime).toMatchInlineSnapshot(`24`)
+    expect(totalEstimatedTime).toMatchInlineSnapshot(`28`)
   })
 
   it('should have correct generations settings', () => {
@@ -107,6 +107,14 @@ describe('card', async () => {
           "isDisabled": undefined,
           "key": "layout",
           "label": "Layout",
+          "prompt": undefined,
+        },
+        "purpose": {
+          "cumulativeTime": 28000,
+          "estimatedMs": 4000,
+          "isDisabled": undefined,
+          "key": "purpose",
+          "label": undefined,
           "prompt": undefined,
         },
         "splash": {
@@ -152,6 +160,7 @@ describe('cardTemplate', async () => {
         "hero",
         "marquee",
         "area",
+        "map",
         "testWrap",
       ]
     `)

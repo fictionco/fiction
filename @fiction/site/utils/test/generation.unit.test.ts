@@ -64,6 +64,13 @@ describe('generation utils', async () => {
           "label": "Actions",
           "prompt": undefined,
         },
+        {
+          "estimatedMs": 4000,
+          "isDisabled": undefined,
+          "key": "purpose",
+          "label": undefined,
+          "prompt": undefined,
+        },
       ]
     `)
   })

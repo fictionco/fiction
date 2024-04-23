@@ -75,10 +75,10 @@ describe('org team', () => {
           "memberAccess": "owner",
           "memberRole": null,
           "memberStatus": "active",
-          "orgId": "[id:**************************]",
+          "orgId": "[id:***************************]",
           "priority": null,
           "updatedAt": "[dateTime:]",
-          "userId": "[id:**************************]",
+          "userId": "[id:***************************]",
         },
       ]
     `)
