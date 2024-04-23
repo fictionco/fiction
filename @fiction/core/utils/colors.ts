@@ -1,3 +1,14 @@
+export function isDarkOrLightMode(element: HTMLElement | null): 'light' | 'dark' {
+  while (element) {
+    if (element.classList.contains('dark'))
+      return 'dark'
+    if (element.classList.contains('light'))
+      return 'light'
+    element = element.parentElement
+  }
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+}
+
 export type ColorScale =
   | 0
   | 25

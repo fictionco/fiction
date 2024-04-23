@@ -30,10 +30,13 @@ describe('validate option keys', async () => {
     expect(keys).toMatchInlineSnapshot(`
       [
         "items",
-        "items.media",
-        "items.name",
-        "items.desc",
-        "items.href",
+        "items.0.media",
+        "items.0.media.url",
+        "items.0.media.format",
+        "items.0.media.html",
+        "items.0.name",
+        "items.0.desc",
+        "items.0.href",
         "direction",
         "stagger",
       ]
@@ -41,10 +44,13 @@ describe('validate option keys', async () => {
 
     const expectedKeys = [
       'items',
-      'items.media',
-      'items.name',
-      'items.desc',
-      'items.href',
+      'items.0.media',
+      'items.0.media.url',
+      'items.0.media.format',
+      'items.0.media.html',
+      'items.0.name',
+      'items.0.desc',
+      'items.0.href',
       'direction',
       'stagger',
     ]

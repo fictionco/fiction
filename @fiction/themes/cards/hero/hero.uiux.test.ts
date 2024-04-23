@@ -28,19 +28,20 @@ describe('validate option keys', async () => {
 
     expect(keys).toMatchInlineSnapshot(`
       [
-        "headers",
-        "headers.heading",
-        "headers.subHeading",
-        "headers.superHeading",
+        "heading",
+        "subHeading",
+        "superHeading",
         "layout",
         "splash",
+        "splash.url",
+        "splash.format",
+        "splash.html",
         "actions",
-        "actions.name",
-        "actions.href",
-        "actions.btn",
-        "actions.size",
-        "ai",
-        "ai.purpose",
+        "actions.0.name",
+        "actions.0.href",
+        "actions.0.btn",
+        "actions.0.size",
+        "purpose",
       ]
     `)
   })

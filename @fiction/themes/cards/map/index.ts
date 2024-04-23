@@ -8,8 +8,19 @@ import { standardOption } from '../inputSets'
 const markerSchema = z.object({
   lat: z.number(),
   lng: z.number(),
+  label: z.string().optional(),
 })
-const mapStyles = ['satellite', 'streets', 'outdoors', 'light', 'dark', 'satellite', 'satellite-streets'] as const
+const mapStyles = [
+  'satellite',
+  'streets',
+  'outdoors',
+  'light',
+  'dark',
+  'satellite',
+  'satellite-streets',
+  'mode',
+  'navigation-night',
+] as const
 
 // Define the schema for maps as used in UserConfig
 export const mapSchema = z.object({
@@ -33,7 +44,7 @@ const mapBase = {
   lat: 33.652199,
   lng: -117.747719,
   zoom: 13,
-  markers: [{ lat: 33.652199, lng: -117.747719 }],
+  markers: [{ lat: 33.652199, lng: -117.747719, label: 'Headquarters' }],
   mapStyle: 'streets' as const,
 }
 
@@ -70,7 +81,13 @@ export function demo() {
   return createCard({
     slug: 'card-map',
     cards: [
-      createCard({ templateId, templates, userConfig: { maps: [mapBase, mapBase] } }),
+      createCard({ templateId, templates, userConfig: { maps: [mapBase, mapBase, { ...mapBase, zoom: 10, pitch: 60 }, { ...mapBase, zoom: 15, pitch: 70, mapStyle: 'mode' }, { ...mapBase, zoom: 15, pitch: 70, mapStyle: 'navigation-night' }] } }),
+      createCard({ templateId, templates, userConfig: { maps: [{ ...mapBase, mapStyle: 'dark' }] } }),
+      createCard({ templateId, templates, userConfig: { maps: [{ ...mapBase, mapStyle: 'outdoors' }] } }),
+      createCard({ templateId, templates, userConfig: { maps: [{ ...mapBase, mapStyle: 'mode', markers: [
+        { lat: 33.652199, lng: -117.747719, label: 'Some longer text goes here, what do you think' },
+        { lat: 33.632199, lng: -117.747719, label: 'more text goes here, what do you think about all that' },
+      ] }] } }),
     ],
   })
 }

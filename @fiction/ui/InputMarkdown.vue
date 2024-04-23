@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { isNode, vue, waitFor } from '@fiction/core'
+import { isDarkOrLightMode, isNode, vue, waitFor } from '@fiction/core'
 import { twMerge } from 'tailwind-merge'
 
 import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
@@ -95,14 +95,9 @@ vue.onMounted(async () => {
   })
 
   const determineTheme = (element: HTMLElement | null): 'vs' | 'vs-dark' => {
-    while (element) {
-      if (element.classList.contains('dark'))
-        return 'vs-dark'
-      if (element.classList.contains('light'))
-        return 'vs'
-      element = element.parentElement
-    }
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'vs-dark' : 'vs'
+    const mode = isDarkOrLightMode(element)
+
+    return mode === 'dark' ? 'vs-dark' : 'vs'
   }
 
   // const varnameValue = getComputedStyle(el).getPropertyValue('--input-bg')

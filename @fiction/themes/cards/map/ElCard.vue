@@ -29,7 +29,7 @@ const mapCols = vue.computed(() => {
         :key="i"
         class="aspect-square md:aspect-[3/2]  md:h-auto [clip-path:inset(0_round_20px)] shadow-sm  drop-shadow-md"
         :map-config="map"
-        :container="`mapbox-${i}`"
+        :container="`mapbox-${card.cardId}-${i}`"
       />
     </div>
   </div>
