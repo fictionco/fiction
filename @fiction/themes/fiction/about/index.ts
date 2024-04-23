@@ -66,7 +66,7 @@ const mapBase = {
   lng: -117.747719,
   zoom: 13,
   markers: [{ lat: 33.652199, lng: -117.747719 }],
-  mapStyle: 'street' as const,
+  mapStyle: 'streets' as const,
 }
 
 const mapCard = createCard({
