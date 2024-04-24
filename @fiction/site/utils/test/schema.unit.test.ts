@@ -38,7 +38,7 @@ describe('schema tools', () => {
     extra: z.string().optional(),
   })
 
-  it.only('rectifies options with schema', () => {
+  it('rectifies options with schema', () => {
     const out = refineOptions({ options, schema })
 
     expect(out.unusedSchema).toMatchInlineSnapshot(`{}`)

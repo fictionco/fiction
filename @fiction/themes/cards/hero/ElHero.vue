@@ -5,14 +5,8 @@ import type { Card } from '@fiction/site'
 import ElImage from '@fiction/ui/ElImage.vue'
 import CardHeader from '../el/CardHeader.vue'
 
-export type UserConfig = {
-  heading?: string
-  subHeading?: string
-  superHeading?: string
-  actions?: ActionItem[]
-  splash?: MediaDisplayObject
-  layout?: 'center' | 'justify' | 'right' | 'left'
-}
+import type { UserConfig } from '.'
+
 const props = defineProps({
   card: {
     type: Object as vue.PropType<Card<UserConfig>>,

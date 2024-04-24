@@ -61,14 +61,15 @@ export const templates = [
     options: [
 
       standardOption.inputList({ label: 'Maps', key: 'maps', options: [
-        new InputOption({ key: 'lat', label: 'Latitude', input: 'InputNumber', schema: ({ z }) => z.number() }),
-        new InputOption({ key: 'lng', label: 'Longitude', input: 'InputNumber', schema: ({ z }) => z.number() }),
-        new InputOption({ key: 'zoom', label: 'Zoom', input: 'InputRange', schema: ({ z }) => z.number(), props: { min: 1, max: 20 } }),
-        new InputOption({ key: 'pitch', label: 'Pitch', input: 'InputRange', schema: ({ z }) => z.number(), props: { min: 0, max: 100 } }),
-        new InputOption({ key: 'mapStyle', label: 'Map Style', input: 'InputSelect', schema: ({ z }) => z.enum(mapStyles), props: { list: mapStyles } }),
+        new InputOption({ key: 'lat', label: 'Latitude', input: 'InputNumber' }),
+        new InputOption({ key: 'lng', label: 'Longitude', input: 'InputNumber' }),
+        new InputOption({ key: 'zoom', label: 'Zoom', input: 'InputRange', props: { min: 1, max: 20 } }),
+        new InputOption({ key: 'pitch', label: 'Pitch', input: 'InputRange', props: { min: 0, max: 100 } }),
+        new InputOption({ key: 'mapStyle', label: 'Map Style', input: 'InputSelect', props: { list: mapStyles } }),
         standardOption.inputList({ label: 'Markers', key: 'markers', options: [
-          new InputOption({ key: 'lat', label: 'Latitude', input: 'InputNumber', schema: ({ z }) => z.number() }),
-          new InputOption({ key: 'lng', label: 'Longitude', input: 'InputNumber', schema: ({ z }) => z.number() }),
+          new InputOption({ key: 'lat', label: 'Latitude', input: 'InputNumber' }),
+          new InputOption({ key: 'lng', label: 'Longitude', input: 'InputNumber' }),
+          new InputOption({ key: 'label', label: 'Label', input: 'InputText' }),
         ] }),
       ] }),
     ],

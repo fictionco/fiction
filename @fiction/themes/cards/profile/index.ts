@@ -16,7 +16,6 @@ export const UserConfigSchema = z.object({
     media: z.object({
       format: z.enum(['url', 'html']).optional(),
       url: z.string().optional(),
-      alt: z.string().optional(),
       html: z.string().optional(),
     }),
   })).optional().describe('Splash picture in portrait format'),
@@ -43,6 +42,14 @@ function userControls() {
         input: 'group',
         key: 'minProfileSettings',
         options: [
+          new InputOption({
+            key: 'layout',
+            input: 'InputSelect',
+            list: [
+              { name: 'Media on Left', value: 'left' },
+              { name: 'Media on Right', value: 'right' },
+            ],
+          }),
           standardOption.mediaItems(),
           standardOption.headers(),
           standardOption.navItems({ label: 'Details', key: 'details' }),

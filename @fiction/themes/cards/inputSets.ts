@@ -99,7 +99,7 @@ export const standardOption = {
   },
   actionItems: (_: OptArgs = {}) => {
     const s = standardOption
-    return s.inputList({ label: 'Actions', key: 'actions', ..._, options: [s.name(), s.href(), s.btn(), s.size()] })
+    return s.inputList({ label: 'Actions', key: 'actions', ..._, options: [s.name(), s.href(), s.btn(), s.size(), s.target()] })
   },
   navItems: (_: OptArgs = {}) => {
     const s = standardOption

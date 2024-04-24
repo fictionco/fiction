@@ -19,23 +19,19 @@ describe('verify template settings config', () => {
         },
         {
           "templateId": "quotes",
-          "unusedSchema": undefined,
+          "unusedSchema": {},
         },
         {
           "templateId": "profile",
-          "unusedSchema": {
-            "layout": "string: Media on left or right",
-            "mediaItems.0._media": "object: no description",
-            "mediaItems.0.media.alt": "string: no description",
-          },
+          "unusedSchema": {},
         },
         {
           "templateId": "hero",
-          "unusedSchema": undefined,
+          "unusedSchema": {},
         },
         {
           "templateId": "marquee",
-          "unusedSchema": undefined,
+          "unusedSchema": {},
         },
         {
           "templateId": "area",
@@ -43,10 +39,7 @@ describe('verify template settings config', () => {
         },
         {
           "templateId": "map",
-          "unusedSchema": {
-            "maps.0._markers": "array: no description",
-            "maps.0.markers.0.label": "string: no description",
-          },
+          "unusedSchema": {},
         },
       ]
     `)

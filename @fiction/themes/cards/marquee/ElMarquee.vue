@@ -3,11 +3,7 @@ import type { MediaItem } from '@fiction/core'
 import { getNavComponentType, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 
-export type UserConfig = {
-  items?: MediaItem[]
-  direction?: 'left' | 'right'
-  stagger?: boolean
-}
+import type { UserConfig } from '.'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },

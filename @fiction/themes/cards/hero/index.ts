@@ -1,9 +1,10 @@
 // @unocss-include
 
+import type { ActionItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import { CardTemplate, createCard } from '@fiction/site'
+import { z } from 'zod'
 import { standardOption } from '../inputSets'
-import type { UserConfig } from './ElHero.vue'
 
 const templateId = 'hero'
 
@@ -13,6 +14,23 @@ const defaultContent: UserConfig = {
   superHeading: 'Category or Tagline',
   actions: [{ name: 'Primary', href: '/', btn: 'primary' }, { name: 'Secondary', href: '/learn-more', btn: 'default' }],
 }
+
+const UserConfigSchema = z.object({
+  heading: z.string().optional().describe('Primary hero headline, 3 to 13 words'),
+  subHeading: z.string().optional(),
+  superHeading: z.string().optional().describe('Shorter badge above headline, 2 to 5 words'),
+  layout: z.enum(['justify', 'center', 'left', 'right']).optional(),
+  splash: z.object({ url: z.string(), format: z.enum(['url', 'html']).optional() }).optional().describe('Splash picture for hero'),
+  actions: z.array(z.object({
+    name: z.string().optional(),
+    href: z.string().optional(),
+    btn: z.enum(['primary', 'default', 'theme', 'danger', 'caution', 'success', 'naked']).optional(),
+    size: z.enum(['default', '2xl', 'xl', 'lg', 'md', 'sm', 'xs']).optional(),
+    target: z.enum(['_self', '_blank']).optional(),
+  })).optional().describe('List of action items') as z.Schema<ActionItem[] | undefined>,
+})
+
+export type UserConfig = z.infer<typeof UserConfigSchema>
 
 export const templates = [
   new CardTemplate({
@@ -31,6 +49,7 @@ export const templates = [
       standardOption.ai(),
     ],
     userConfig: defaultContent,
+    schema: UserConfigSchema,
   }),
 ] as const
 

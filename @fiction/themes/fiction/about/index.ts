@@ -25,7 +25,7 @@ const missionHeroCard = createCard({
     superHeading: 'Mission',
     subHeading: `We believe everyone has a story to tell and a reputation to build. Fiction's mission is to elevate people and remove barriers to success.`,
     heading: `Helping People.`,
-    splash: { format: 'url', url: pro },
+    splash: { format: 'url' as const, url: pro },
     layout: 'left',
     actions: [],
   },
