@@ -2,7 +2,6 @@ import { vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
-import _ from 'lodash'
 import { standardOption } from '../inputSets'
 
 const MediaSchema = z.object({
@@ -42,6 +41,7 @@ export const templates = [
     icon: 'i-tabler-quote',
     iconTheme: 'green',
     el: vue.defineAsyncComponent(() => import('./ElQuote.vue')),
+    isPublic: true,
     options: [
       standardOption.ai(),
       new InputOption({

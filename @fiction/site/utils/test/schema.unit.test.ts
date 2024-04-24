@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
+import { colorList, colorTheme } from '@fiction/core'
 import { collectKeysFromOptions, refineOptions, zodSchemaToDotPathRecord, zodToSimpleSchema } from '../schema'
 
 describe('schema tools', () => {
@@ -38,6 +39,21 @@ describe('schema tools', () => {
     extra: z.string().optional(),
   })
 
+  const ColorSchema = {
+    bg: z.object({
+      color: z.string().optional(),
+    }),
+    theme: z.enum(colorTheme).optional(),
+  }
+
+  const UserConfigSchema = z.object({
+    scheme: z.object({
+      flip: z.boolean().optional(),
+      light: z.object(ColorSchema).optional(),
+      dark: z.object(ColorSchema).optional(),
+    }),
+  })
+
   it('rectifies options with schema', () => {
     const out = refineOptions({ options, schema })
 
@@ -61,6 +77,54 @@ describe('schema tools', () => {
     expect(out2.unusedSchema?.extra).toBeTruthy()
     expect(out2.hiddenOptions).toMatchInlineSnapshot(`[]`)
   })
+
+  it.only('handles duplicated nested options', () => {
+    const s = zodToSimpleSchema(UserConfigSchema)
+
+    expect(s).toMatchInlineSnapshot(`
+      {
+        "_scheme": "object",
+        "scheme": {
+          "_dark": "object",
+          "_light": "object",
+          "dark": {
+            "_bg": "object",
+            "bg": {
+              "color": "string",
+            },
+            "theme": "string",
+          },
+          "flip": "boolean",
+          "light": {
+            "_bg": "object",
+            "bg": {
+              "color": "string",
+            },
+            "theme": "string",
+          },
+        },
+      }
+    `)
+
+    const ops = [
+      new InputOption({ key: 'scheme.flip', label: 'Reverse Color Scheme', input: 'InputCheckbox' }),
+      new InputOption({ key: 'scheme.light', label: 'Light Mode', input: 'group', options: [
+        new InputOption({ key: 'scheme.light.bg.color', label: 'Light Background Color', input: 'InputColor' }),
+        new InputOption({ key: 'scheme.light.theme', label: 'Light Color Theme', input: 'InputSelect', props: { list: colorList } }),
+      ] }),
+      new InputOption({ key: 'scheme.dark', label: 'Dark Mode', input: 'group', options: [
+        new InputOption({ key: 'scheme.dark.bg.color', label: 'Dark Background Color', input: 'InputColor' }),
+        new InputOption({ key: 'scheme.dark.theme', label: 'Dark Color Theme', input: 'InputSelect', props: { list: colorList } }),
+      ] }),
+    ]
+
+    const r = refineOptions({ options: ops, schema: UserConfigSchema })
+
+    expect(r.unusedSchema).toMatchInlineSnapshot(`{}`)
+
+    expect(Object.keys(r.unusedSchema || { noop: false }).length).toBe(0)
+  })
+
   it('creates keys from a nested list of options', () => {
     const keys = collectKeysFromOptions(options)
 

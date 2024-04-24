@@ -1,31 +1,24 @@
-// @unocss-include
-
-import type { ColorScheme } from '@fiction/core'
-import { colorList, safeDirname, vue } from '@fiction/core'
+import { colorList, colorTheme, safeDirname, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
+import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 
-const schemes = ['slate', 'gray', 'zinc', 'neutral', 'stone', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'] as const
-
-export type UserConfig = {
-  flipColorMode?: boolean
-  lightMode?: {
-    bgColor?: string
-    scheme?: ColorScheme
-  }
-  darkMode?: {
-    bgColor?: string
-    scheme?: ColorScheme
-  }
-}
+const SchemeSchema = z.object({
+  bg: z.object({
+    color: z.string().optional(),
+  }),
+  theme: z.enum(colorTheme).optional(),
+})
 
 const UserConfigSchema = z.object({
-  flipColorMode: z.boolean().optional(),
-  lightMode: z.object({
-    bgColor: z.string().optional(),
-    scheme: z.enum(schemes).optional(),
+  scheme: z.object({
+    reverse: z.boolean().optional(),
+    light: SchemeSchema.optional(),
+    dark: SchemeSchema.optional(),
   }).optional(),
 })
+
+export type UserConfig = z.infer<typeof UserConfigSchema>
 
 export const templates = [
   new CardTemplate({
@@ -38,10 +31,20 @@ export const templates = [
     el: vue.defineAsyncComponent(() => import('./ElArea.vue')),
     isContainer: true, // ui drawer
     userConfig: {
-      spacing: {
-        spacingClass: '',
-      },
+      spacing: { spacingClass: '' },
     },
-    options: [],
+    isPublic: true,
+    options: [
+      new InputOption({ key: 'scheme.reverse', label: 'Reverse Color Scheme', input: 'InputCheckbox' }),
+      new InputOption({ key: 'scheme.light', label: 'Light Mode', input: 'group', options: [
+        new InputOption({ key: 'scheme.light.bg.color', label: 'Light Background Color', input: 'InputColor' }),
+        new InputOption({ key: 'scheme.light.theme', label: 'Light Color Theme', input: 'InputSelect', props: { list: colorList } }),
+      ] }),
+      new InputOption({ key: 'scheme.dark', label: 'Dark Mode', input: 'group', options: [
+        new InputOption({ key: 'scheme.dark.bg.color', label: 'Dark Background Color', input: 'InputColor' }),
+        new InputOption({ key: 'scheme.dark.theme', label: 'Dark Color Theme', input: 'InputSelect', props: { list: colorList } }),
+      ] }),
+    ],
+    schema: UserConfigSchema,
   }),
 ] as const

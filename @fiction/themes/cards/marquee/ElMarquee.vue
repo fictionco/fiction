@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type { MediaItem } from '@fiction/core'
 import { getNavComponentType, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 

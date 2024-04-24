@@ -29,6 +29,7 @@ export const standardCardTemplates = [
     templateId: 'wrap',
     el: vue.defineAsyncComponent(() => import('./CardWrap.vue')),
     schema: z.object({}),
+    isPublic: false,
   }),
   ...four04.templates,
   ...quote.templates,

@@ -1,43 +1,19 @@
 <script lang="ts" setup>
-import type { ColorScheme } from '@fiction/core'
 import { getColorScheme, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import ElEngine from '../CardEngine.vue'
-
-export type UserConfig = {
-  flipColorMode?: boolean
-  lightMode?: {
-    bgColor?: string
-    scheme?: ColorScheme
-  }
-  darkMode?: {
-    bgColor?: string
-    scheme?: ColorScheme
-  }
-}
+import type { UserConfig } from '.'
 
 const props = defineProps({
-  card: {
-    type: Object as vue.PropType<Card<UserConfig>>,
-    required: true,
-  },
+  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
-const uc = vue.computed(() => {
-  return props.card.userConfig.value || {}
-})
-
+const uc = vue.computed(() => props.card.userConfig.value || {})
 const isDarkMode = vue.computed(() => props.card.site?.isDarkMode.value)
-const flipModeClass = vue.computed(() => (uc.value.flipColorMode ? (!props.card.site?.isDarkMode.value ? 'dark' : 'light') : ''))
-const theme = vue.computed(() => {
-  const scheme = isDarkMode.value && uc.value.darkMode?.scheme ? uc.value.darkMode?.scheme : uc.value.lightMode?.scheme
-  return getColorScheme(scheme || 'slate')
-})
-
-const st = vue.computed(() => {
-  const bgColor = isDarkMode.value && uc.value.darkMode?.bgColor ? uc.value.darkMode?.bgColor : uc.value.lightMode?.bgColor
-  return { 'background-color': bgColor }
-})
+const colorScheme = vue.computed(() => uc.value.scheme?.[isDarkMode.value ? 'dark' : 'light'])
+const flipModeClass = vue.computed(() => uc.value?.scheme?.reverse ? (!isDarkMode.value ? 'dark' : 'light') : '')
+const theme = vue.computed(() => getColorScheme(colorScheme.value?.theme || 'gray'))
+const st = vue.computed(() => ({ 'background-color': colorScheme.value?.bg?.color }))
 </script>
 
 <template>

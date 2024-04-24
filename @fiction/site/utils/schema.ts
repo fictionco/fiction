@@ -33,11 +33,16 @@ export function refineOptions<T extends z.AnyZodObject>(args: {
   }
 
   const removeDotKeyParents = (key: string, basePath: string) => {
-    key.split('.').forEach((part) => {
-      const path = basePath ? `${basePath}.${part}` : part
-      if (dotRecord[path])
-        delete dotRecord[path]
-    })
+    const parts = key.split('.')
+
+    const subPath = parts.slice(0, parts.length - 1).join('.')
+
+    const path = basePath ? `${basePath}.${subPath}` : subPath
+    if (dotRecord[path])
+      delete dotRecord[path]
+
+    if (subPath.includes('.'))
+      removeDotKeyParents(subPath, basePath)
   }
 
   const refineOption = (option: InputOption, basePath = '') => {
@@ -162,9 +167,9 @@ export function createDotPathRecord(schema: JsonSchema7ObjectType, options: DotP
 }
 
 export function zodToSimpleSchema<T extends z.AnyZodObject>(schema: T): SimpleSchema {
-  return simplifySchema(zodToJsonSchema(schema) as JsonSchema7ObjectType)
+  return simplifySchema(zodToJsonSchema(schema, { $refStrategy: 'none' }) as JsonSchema7ObjectType)
 }
 
 export function zodSchemaToDotPathRecord<T extends z.AnyZodObject>(schema: T, options: DotPathOptions = {}): Record<string, string> {
-  return createDotPathRecord(zodToJsonSchema(schema) as JsonSchema7ObjectType, options)
+  return createDotPathRecord(zodToJsonSchema(schema, { $refStrategy: 'none' }) as JsonSchema7ObjectType, options)
 }

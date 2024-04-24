@@ -1,7 +1,5 @@
 import type { ListItem } from '@fiction/core'
 import { FictionObject, removeUndefined, vue } from '@fiction/core'
-import type { JsonSchema7ObjectType } from 'zod-to-json-schema'
-import zodToJsonSchema from 'zod-to-json-schema'
 import type { z } from 'zod'
 
 const def = vue.defineAsyncComponent

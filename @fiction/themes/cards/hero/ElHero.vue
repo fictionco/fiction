@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type { ActionItem, MediaDisplayObject } from '@fiction/core'
 import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import ElImage from '@fiction/ui/ElImage.vue'

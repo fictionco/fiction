@@ -59,7 +59,6 @@ const hasValue = vue.computed(() => {
       :max="max"
       :step="step"
       @input="handleEmit($event.target)"
-
     >
   </div>
 </template>
