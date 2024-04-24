@@ -2,8 +2,11 @@
 import { vue } from '@fiction/core'
 import ElImage from '@fiction/ui/ElImage.vue'
 import type { Card } from '@fiction/site'
+import anime from 'animejs'
 import CardText from '../CardText.vue'
 import CardSocials from '../el/CardSocials.vue'
+import NavDots from '../el/NavDots.vue'
+import { useElementVisible } from '../utils/animation'
 import type { UserConfig } from '.'
 
 const props = defineProps({
@@ -22,65 +25,40 @@ const mediaItems = vue.computed(() => {
 })
 
 const activeItem = vue.ref(0)
-
-function setActiveItem(index: number) {
-  activeItem.value = index
-}
-const observer = vue.ref()
-function createObserver() {
-  const options = { root: null, rootMargin: '0px', threshold: 0.5 }
-
-  observer.value = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      const e = entry.target as HTMLElement
-      if (entry.isIntersecting)
-        activeItem.value = Number.parseInt(e.dataset.index || '0')
-    })
-  }, options)
-}
-
-vue.onMounted(() => {
-  createObserver()
-  const elements = document.querySelectorAll('.snap-center')
-  elements.forEach(el => observer.value.observe(el))
+const isVisible = vue.ref(false)
+vue.onMounted(async () => {
+  await useElementVisible({ selector: `.minimal-profile`, tracker: isVisible })
 })
 </script>
 
 <template>
   <div class="minimal-profile">
     <div :class="card.classes.value.contentWidth">
-      <div class="md:flex -mx-2 " :class="uc.layout === 'left' ? 'md:flex-row-reverse' : ''">
+      <div class="md:flex -mx-2 items-center" :class="uc.layout === 'left' ? 'md:flex-row-reverse' : ''">
         <div class="w-full md:w-[50%] px-2 ">
           <div class="relative">
-            <div class="aspect-[5.3/8] relative w-full overflow-x-auto snap-mandatory snap-x flex no-scrollbar [clip-path:inset(0_round_10px)]">
-              <ElImage v-for="(item, i) in mediaItems" :key="i" :data-index="i" :media="item.media" class="h-full aspect-[5.5/8] snap-center shrink-0" />
+            <div class="aspect-[5/7] relative w-full overflow-x-auto snap-mandatory snap-x flex no-scrollbar clip-path-anim" :class="isVisible ? '[clip-path:inset(0_round_20px)] opacity-100' : '[clip-path:inset(30%)] opacity-50'">
+              <ElImage v-for="(item, i) in mediaItems" :key="i" :data-index="i" :media="item.media" class="nav-item  w-full h-full snap-center shrink-0" />
             </div>
-
-            <div v-if="mediaItems?.length && mediaItems.length > 1" class="nav flex w-full justify-center space-x-3 absolute bottom-4 z-20">
-              <div
-                v-for="(s, i) in mediaItems"
-                :key="i"
-                class="h-3 rounded-full transition-all duration-700 bg-black/40 ring-2 ring-white shadow-lg"
-                :class="i === activeItem ? ' w-5' : 'opacity-40 hover:opacity-100 cursor-pointer w-3' "
-                @click="setActiveItem(i)"
-              />
-            </div>
+            <NavDots v-model:active-item="activeItem" :items="mediaItems || []" :container-id="card.cardId" class="absolute bottom-4 z-20" />
           </div>
         </div>
-        <div class="md:w-[50%]  px-2 flex items-center">
-          <div class="p-6 md:p-12 xl:p-[calc(1500px*0.06)] flex flex-col justify-center gap-20">
+        <div class="md:w-[50%] mt-6 md:mt-0 px-2 flex items-center">
+          <div class="p-6 md:p-12 xl:p-20 flex flex-col justify-center gap-20 clip-path-anim" :class="isVisible ? 'translate-y-0' : 'translate-y-[100px]'">
             <div class="details">
               <CardText
                 tag="h3"
                 :card="card"
                 class="text-theme-300 mb-4 text-base lg:text-base x-font-sans font-semibold"
                 path="superHeading"
+                animate="rise"
               />
               <CardText
                 tag="h1"
                 :card="card"
                 class="heading text-3xl font-bold md:text-4xl lg:text-5xl x-font-title tracking-tight lg:leading-[1.1] text-balance"
                 path="heading"
+                animate="rise"
               />
               <CardText
                 tag="div"
@@ -88,6 +66,7 @@ vue.onMounted(() => {
                 class="sub-heading mt-6 text-lg  font-medium entry text-balance"
                 path="subHeading"
                 :is-markdown="true"
+                animate="rise"
               />
             </div>
 
@@ -127,4 +106,9 @@ vue.onMounted(() => {
 
 <style lang="less">
 @import "@fiction/ui/entry.less";
+
+.clip-path-anim{
+  // '0.25,1,0.5,1'
+  transition: clip-path 2s cubic-bezier(0.25, 1, 0.33, 1), opacity 2s cubic-bezier(0.25, 1, 0.33, 1), transform 2s cubic-bezier(0.25, 1, 0.33, 1);
+}
 </style>

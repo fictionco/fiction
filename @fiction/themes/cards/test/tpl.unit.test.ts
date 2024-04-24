@@ -28,7 +28,7 @@ describe('verify template settings config', () => {
           "unusedSchema": {},
         },
         {
-          "hasDemo": false,
+          "hasDemo": true,
           "isPublic": true,
           "templateId": "quotes",
           "unusedSchema": {},
@@ -52,7 +52,7 @@ describe('verify template settings config', () => {
           "unusedSchema": {},
         },
         {
-          "hasDemo": false,
+          "hasDemo": true,
           "isPublic": true,
           "templateId": "area",
           "unusedSchema": {},
@@ -70,8 +70,9 @@ describe('verify template settings config', () => {
 
     expect(incompleteSchema).toBe(false)
 
-    // const incompletePublic = templatesOptionConfig.some(_ => typeof _.isPublic === 'undefined' || (_.isPublic === true && _.hasDemo === false))
+    const incompletePublic = templatesOptionConfig.map(_ => typeof _.isPublic === 'undefined' || (_.isPublic === true && _.hasDemo === false ? _.templateId : undefined)).filter(Boolean)
 
-    // expect(incompletePublic).toBe(false)
+    expect(incompletePublic).toMatchInlineSnapshot(`[]`)
+    expect(incompletePublic.length).toBe(0)
   })
 })

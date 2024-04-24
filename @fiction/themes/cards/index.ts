@@ -58,5 +58,7 @@ export function getDemoPages() {
     hero.demo(),
     profile.demo(),
     map.demo(),
+    quote.demo(),
+    area.demo(),
   ]
 }
