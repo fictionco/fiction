@@ -29,7 +29,7 @@ describe('verify template settings config', () => {
         },
         {
           "hasDemo": false,
-          "isPublic": undefined,
+          "isPublic": true,
           "templateId": "quotes",
           "unusedSchema": {},
         },

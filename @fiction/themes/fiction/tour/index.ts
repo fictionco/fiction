@@ -239,14 +239,16 @@ export function page() {
         templates,
         templateId: 'area',
         userConfig: {
-          flipColorMode: true,
-          lightMode: {
-            scheme: 'slate',
-            bgColor: '#000000',
-          },
-          darkMode: {
-            scheme: 'slate',
-            bgColor: '#FFFFFF',
+          scheme: {
+            reverse: true,
+            light: {
+              theme: 'slate',
+              bg: { color: '#000000' },
+            },
+            dark: {
+              theme: 'slate',
+              bg: { color: '#FFFFFF' },
+            },
           },
         },
         cards: [heroCard],
