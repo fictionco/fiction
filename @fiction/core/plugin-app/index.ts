@@ -39,10 +39,8 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   isLive = this.settings.isLive ?? this.settings.fictionEnv.isProd
   viteDevServer?: vite.ViteDevServer
   hooks = this.settings.hooks ?? []
-  fictionRouter = this.settings.fictionRouter
   isTest = this.settings.isTest || isTest()
   rootComponent = this.settings.rootComponent || ElRoot
-  fictionEnv = this.settings.fictionEnv
   fictionBuild?: FictionBuild
   fictionSitemap?: FictionSitemap
   fictionRender?: FictionRender
@@ -58,7 +56,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     return isLive ? this.liveUrl.value : this.localUrl
   })
 
-  srcFolder = this.settings.srcFolder || this.fictionEnv.cwd
+  srcFolder = this.settings.srcFolder || this.settings.fictionEnv.cwd
   mainIndexHtml = this.settings.mainIndexHtml || path.join(this.srcFolder, 'index.html')
   publicFolder = this.settings.publicFolder || path.join(this.srcFolder, 'public')
 
@@ -71,37 +69,37 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     /**
      * node application init
      */
-    if (!this.fictionEnv.isApp.value && this.fictionEnv?.cwd) {
+    if (!this.settings.fictionEnv.isApp.value && this.settings.fictionEnv?.cwd) {
       this.fictionRender = new FictionRender({
         fictionApp: this,
-        fictionEnv: this.fictionEnv,
-        fictionRouter: this.fictionRouter,
+        fictionEnv: this.settings.fictionEnv,
+        fictionRouter: this.settings.fictionRouter,
       })
     }
 
     // add testing routes
-    this.fictionRouter.update([new AppRoute({ name: 'renderTest', path: '/render-test', component: (): Promise<any> => import('./test/TestRunVars.vue') })])
+    this.settings.fictionRouter.update([new AppRoute({ name: 'renderTest', path: '/render-test', component: (): Promise<any> => import('./test/TestRunVars.vue') })])
 
     this.addSchema()
   }
 
   addSchema() {
-    if (this.fictionEnv) {
-      this.fictionEnv.addHook({
+    if (this.settings.fictionEnv) {
+      this.settings.fictionEnv.addHook({
         hook: 'staticSchema',
         callback: async (existing) => {
-          const routeKeys = this.fictionRouter.routes.value?.map(_ => _.name).filter(Boolean).sort()
+          const routeKeys = this.settings.fictionRouter.routes.value?.map(_ => _.name).filter(Boolean).sort()
 
           return { ...existing, routes: { enum: routeKeys, type: 'string' }, menus: { enum: [''], type: 'string' } }
         },
       })
 
-      this.fictionEnv.addHook({
+      this.settings.fictionEnv.addHook({
         hook: 'staticConfig',
         callback: (
           schema: Record<string, unknown>,
         ): Record<string, unknown> => {
-          return { ...schema, routes: this.fictionRouter.routes.value?.map(ep => ({ key: ep.name, path: ep.path })) }
+          return { ...schema, routes: this.settings.fictionRouter.routes.value?.map(ep => ({ key: ep.name, path: ep.path })) }
         },
       })
     }
@@ -117,14 +115,14 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   }
 
   async buildApp(options: { render?: boolean, serve?: boolean } = {}) {
-    if (this.fictionEnv.isApp.value)
+    if (this.settings.fictionEnv.isApp.value)
       return
 
     return this.fictionRender?.buildApp(options)
   }
 
   async serveStaticApp() {
-    if (this.fictionEnv.isApp.value)
+    if (this.settings.fictionEnv.isApp.value)
       return
     return this.fictionRender?.serveStaticApp()
   }
@@ -136,19 +134,19 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   }): Promise<FictionAppEntry> => {
     const { renderRoute, service, runVars } = args
 
-    const router = this.fictionRouter.create({ caller: `mountApp:${this.appInstanceId}` })
+    const router = this.settings.fictionRouter.create({ caller: `mountApp:${this.appInstanceId}` })
 
     if (renderRoute)
-      await this.fictionRouter.replace({ path: renderRoute }, { caller: 'createVueApp' })
+      await this.settings.fictionRouter.replace({ path: renderRoute }, { caller: 'createVueApp' })
 
-    await this.fictionEnv.runHooks('afterAppSetup', { service })
+    await this.settings.fictionEnv.runHooks('afterAppSetup', { service })
 
     const app: vue.App = renderRoute
       ? vue.createSSRApp(this.rootComponent)
       : vue.createApp(this.rootComponent)
 
-    this.fictionEnv.service.value = { ...this.fictionEnv.service.value, ...service, runVars }
-    app.provide('service', this.fictionEnv.service)
+    this.settings.fictionEnv.service.value = { ...this.settings.fictionEnv.service.value, ...service, runVars }
+    app.provide('service', this.settings.fictionEnv.service)
 
     app.use(router)
 
@@ -172,19 +170,19 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     const { selector = '#app', renderRoute, service, runVars, serviceConfig } = args
 
     if (serviceConfig)
-      await this.fictionEnv.crossRunCommand({ context: 'app', serviceConfig, runVars })
+      await this.settings.fictionEnv.crossRunCommand({ context: 'app', serviceConfig, runVars })
 
     const entry = await this.createVueApp({ renderRoute, runVars, service })
 
-    if (typeof window !== 'undefined' && !this.fictionEnv.isSSR.value) {
-      await this.fictionEnv.runHooks('beforeAppMounted', entry)
+    if (typeof window !== 'undefined' && !this.settings.fictionEnv.isSSR.value) {
+      await this.settings.fictionEnv.runHooks('beforeAppMounted', entry)
 
       const mountEl = args.mountEl || document.querySelector(selector)
 
       if (!mountEl)
         throw new Error(`mountEl not found: ${selector}`)
 
-      initializeResetUi(this.fictionRouter).catch(console.error)
+      initializeResetUi(this.settings.fictionRouter).catch(console.error)
       entry.app.mount(mountEl)
 
       document.documentElement.style.opacity = '1'
@@ -192,7 +190,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
       mountEl.classList.remove('loading')
       mountEl.classList.add('loaded')
 
-      await this.fictionEnv.runHooks('appMounted', entry)
+      await this.settings.fictionEnv.runHooks('appMounted', entry)
     }
 
     return entry
@@ -219,7 +217,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   async ssrServerSetup(
     args: { isProd?: boolean, expressApp?: Express } = {},
   ): Promise<Express | undefined> {
-    if (this.fictionEnv.isApp.value || !this.fictionRender)
+    if (this.settings.fictionEnv.isApp.value || !this.fictionRender)
       return
 
     const { isProd = false, expressApp } = args
@@ -232,7 +230,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     args: { isProd?: boolean, expressApp?: Express } = {},
   ): Promise<http.Server | undefined> {
     const { isProd = false, expressApp } = args
-    if (this.fictionEnv.isApp.value || !this.fictionRender)
+    if (this.settings.fictionEnv.isApp.value || !this.fictionRender)
       return
 
     const eApp = await this.ssrServerSetup({ isProd, expressApp })

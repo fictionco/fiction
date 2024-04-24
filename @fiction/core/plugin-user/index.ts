@@ -249,7 +249,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     }
   }
 
-  createQueries() {
+  override createQueries() {
     const deps = { ...this.settings, fictionUser: this as FictionUser }
 
     return {

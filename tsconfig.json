@@ -19,6 +19,8 @@
     "rootDir": ".",
     "module": "ESNext",
     "moduleResolution": "Node",
+    "verbatimModuleSyntax": true,
+    "noImplicitOverride": true,
     "resolveJsonModule": true,
     "types": ["node"],
     "allowJs": true,

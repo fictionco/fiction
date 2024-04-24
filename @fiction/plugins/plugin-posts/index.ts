@@ -37,7 +37,7 @@ class FictionPosts extends FictionPlugin<FictionPostsSettings> {
     } })
   }
 
-  async setup() {
+  override async setup() {
     console.warn('------------------------------------SETUP WORLD------------------------------------')
   }
 }

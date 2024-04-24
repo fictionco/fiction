@@ -31,12 +31,11 @@ export type FictionRenderSettings = {
 
 export class FictionRender extends FictionPlugin<FictionRenderSettings> {
   fictionApp = this.settings.fictionApp
-  fictionEnv = this.settings.fictionEnv
   fictionRouter = this.settings.fictionRouter
   fictionBuild: FictionBuild
   fictionSitemap: FictionSitemap
-  isApp = this.fictionEnv.isApp
-  distFolder = path.join(this.fictionEnv.distFolder, this.fictionApp.appInstanceId)
+  isApp = this.settings.fictionEnv.isApp
+  distFolder = path.join(this.settings.fictionEnv.distFolder, this.fictionApp.appInstanceId)
   distFolderServer = path.join(this.distFolder, `server`)
   distFolderServerMountFile = path.join(this.distFolderServer, 'mount')
   distFolderClient = path.join(this.distFolder, `client`)
@@ -64,8 +63,8 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     if (this.isApp.value)
       throw new Error('render is server only')
 
-    this.fictionBuild = new FictionBuild({ fictionEnv: this.fictionEnv })
-    this.fictionSitemap = new FictionSitemap({ fictionRouter: this.fictionRouter, fictionEnv: this.fictionEnv })
+    this.fictionBuild = new FictionBuild({ fictionEnv: this.settings.fictionEnv })
+    this.fictionSitemap = new FictionSitemap({ fictionRouter: this.fictionRouter, fictionEnv: this.settings.fictionEnv })
   }
 
   getViteServer = async (config: {
@@ -93,7 +92,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
   getAppViteConfigFile = async (): Promise<vite.InlineConfig | undefined> => {
     const _module = await importIfExists<{
       default: vite.InlineConfig | (() => Promise<vite.InlineConfig>)
-    }>(path.join(this.fictionEnv.cwd, 'vite.config.ts'))
+    }>(path.join(this.settings.fictionEnv.cwd, 'vite.config.ts'))
 
     let config: vite.InlineConfig | undefined
     const result = _module?.default
@@ -109,7 +108,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
   }
 
   async getTailwindConfig(): Promise<Record<string, any> | undefined> {
-    const baseUiPaths = [...Array.from(this.fictionEnv.uiPaths)]
+    const baseUiPaths = [...Array.from(this.settings.fictionEnv.uiPaths)]
     const fullUiPaths = baseUiPaths.map(p => path.normalize(p))
 
     const c: Record<string, any>[] = [
@@ -123,7 +122,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     ]
 
     const userTailwindConfig = await requireIfExists(
-      path.join(this.fictionEnv.cwd, 'tailwind.config.cjs'),
+      path.join(this.settings.fictionEnv.cwd, 'tailwind.config.cjs'),
     )
 
     if (userTailwindConfig) {
@@ -166,8 +165,8 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
     const commonVite = await this.fictionBuild?.getFictionViteConfig({
       isProd,
-      root: this.fictionEnv.cwd,
-      mainFilePath: this.fictionEnv.mainFilePath,
+      root: this.settings.fictionEnv.cwd,
+      mainFilePath: this.settings.fictionEnv.mainFilePath,
       isServerBuild,
     })
 
@@ -203,7 +202,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
         plugins,
         resolve: {
           alias: [
-            ...this.getStaticPathAliases({ mainFilePath: this.fictionEnv.mainFilePath }),
+            ...this.getStaticPathAliases({ mainFilePath: this.settings.fictionEnv.mainFilePath }),
           ],
         },
       },
@@ -392,7 +391,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     fs.emptyDirSync(distFolderStatic)
     fs.copySync(distFolderClient, distFolderStatic)
 
-    if (!this.fictionEnv.isProd?.value) {
+    if (!this.settings.fictionEnv.isProd?.value) {
       this.log.warn(
         'pre-rendering in development mode (should be prod in most cases)',
       )
@@ -410,7 +409,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
         this.log.info(`pre-rendering [${filePath}]`)
 
         const runVars: Partial<RunVars> = {
-          ...this.fictionEnv.getRenderedEnvVars(),
+          ...this.settings.fictionEnv.getRenderedEnvVars(),
           PATHNAME: pathname,
         }
 
@@ -439,7 +438,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
   getRunVars = (args: { request: Request }): Record<string, string> => {
     const { request } = args
     return {
-      ...this.fictionEnv.getRenderedEnvVars(),
+      ...this.settings.fictionEnv.getRenderedEnvVars(),
       APP_INSTANCE: this.fictionApp.appInstanceId,
       ...getRequestVars({ request }),
     }

@@ -200,7 +200,7 @@ class DurationHandler extends PageStat {
     super(settings)
   }
 
-  resetPersistent(): void {
+  override resetPersistent(): void {
     this.totalSecondsActive.value = 0
   }
 

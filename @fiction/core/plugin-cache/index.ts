@@ -7,7 +7,7 @@ import type { FictionAws } from '../plugin-aws'
 import type { FictionDb } from '../plugin-db'
 import type { FictionEnv } from '../plugin-env'
 import { EnvVar, vars } from '../plugin-env'
-import { camelKeys, shortId, toSnakeCaseKeys, uuid } from '../utils'
+import { camelKeys, safeDirname, shortId, toSnakeCaseKeys, uuid } from '../utils'
 
 // import { JSendMessage } from "./types"
 
@@ -41,7 +41,6 @@ export interface MessageData {
 
 export class FictionCache extends FictionPlugin<FictionCacheSettings> {
   connectionUrl?: URL
-  fictionEnv = this.settings.fictionEnv
   fictionServer = this.settings.fictionServer
   fictionAws = this.settings.fictionAws
   fictionDb = this.settings.fictionDb
@@ -59,7 +58,7 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
   private primaryCache?: Redis
   idd = shortId()
   constructor(settings: FictionCacheSettings) {
-    super('cache', settings)
+    super('cache', { root: safeDirname(import.meta.url), ...settings })
 
     if (this.settings.redisConnectionUrl)
       this.connectionUrl = new URL(this.settings.redisConnectionUrl)
@@ -74,7 +73,7 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
   }
 
   init() {
-    if (this.fictionEnv.isApp.value)
+    if (this.fictionEnv?.isApp.value)
       return
 
     if (!this.connectionUrl)
@@ -223,7 +222,7 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
   // }
 
   getCache(): Redis | undefined {
-    if (!this.primaryCache && !this.fictionEnv.isApp.value) {
+    if (!this.primaryCache && !this.fictionEnv?.isApp.value) {
       this.log.error('no primary cache - missing REDIS_URL')
       return
     }

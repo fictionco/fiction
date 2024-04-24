@@ -3,9 +3,9 @@ import nodeMailer from 'nodemailer'
 import nodeMailerHtmlToText from 'nodemailer-html-to-text'
 import type { FictionEnv } from '../plugin-env'
 import { EnvVar, vars } from '../plugin-env'
-import { FictionPlugin } from '../plugin'
+import { FictionPlugin, type FictionPluginSettings } from '../plugin'
 import { renderMarkdown } from '../utils/markdown'
-import { isActualBrowser, isTest } from '../utils'
+import { isActualBrowser, isTest, safeDirname } from '../utils'
 import type * as types from './types'
 
 const verify: EnvVar<string>['verify'] = ({ fictionEnv, value }) => {
@@ -13,30 +13,20 @@ const verify: EnvVar<string>['verify'] = ({ fictionEnv, value }) => {
 }
 
 vars.register(() => [
-  new EnvVar({
-    name: 'SMTP_HOST',
-    verify,
-  }),
-  new EnvVar({
-    name: 'SMTP_USER',
-    verify,
-  }),
-  new EnvVar({
-    name: 'SMTP_PASSWORD',
-    verify,
-  }),
+  new EnvVar({ name: 'SMTP_HOST', verify }),
+  new EnvVar({ name: 'SMTP_USER', verify }),
+  new EnvVar({ name: 'SMTP_PASSWORD', verify }),
 ])
 
-interface FictionEmailSettings {
+type FictionEmailSettings = {
   smtpPort?: number
   fictionEnv: FictionEnv
   smtpHost?: string
   smtpUser?: string
   smtpPassword?: string
-}
+} & FictionPluginSettings
 
 export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
-  fictionEnv = this.settings.fictionEnv
   client?: Transporter
   smtpHost = this.settings.smtpHost
   smtpUser = this.settings.smtpUser
@@ -45,14 +35,14 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
   isTest = isTest()
   isInitialized = false
   constructor(settings: FictionEmailSettings) {
-    super('email', settings)
+    super('email', { root: safeDirname(import.meta.url), ...settings })
   }
 
   init() {
     if (isActualBrowser())
       return
 
-    if (this.fictionEnv.isApp.value)
+    if (this.fictionEnv?.isApp.value)
       return
 
     if (this.isInitialized) {
@@ -88,7 +78,7 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
       })
     }
 
-    if (!this.isTest && !this.fictionEnv.isApp.value && missing.length === 0) {
+    if (!this.isTest && !this.fictionEnv?.isApp.value && missing.length === 0) {
       const emailServiceClient = nodeMailer.createTransport(options)
 
       // https://github.com/andris9/nodemailer-html-to-text
@@ -99,7 +89,7 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
   }
 
   getFromAddress = (): string => {
-    const app = this.fictionEnv.meta.app || {}
+    const app = this.fictionEnv?.meta.app || {}
     return `${app.name ?? ''} <${app.email}>`
   }
 

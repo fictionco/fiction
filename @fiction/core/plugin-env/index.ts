@@ -138,7 +138,7 @@ export class FictionEnv<
     envConfig.list.forEach(c => c.onLoad({ fictionEnv: this }))
   }
 
-  setup() {
+  override setup() {
     const vars = this.getVars()
 
     if (!this.isApp.value) {
@@ -287,7 +287,7 @@ export class FictionEnv<
     })
   }
 
-  async afterSetup() {
+  override async afterSetup() {
     if (
       !this.isProd.value
       && !this.isApp.value

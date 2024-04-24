@@ -2,29 +2,26 @@ import process from 'node:process'
 import type * as vite from 'vite'
 import type * as esLexer from 'es-module-lexer'
 import type * as cjsLexer from 'cjs-module-lexer'
-import { FictionPlugin } from '../plugin'
+import { FictionPlugin, type FictionPluginSettings } from '../plugin'
 import { deepMergeAll, randomBetween, safeDirname } from '../utils'
 import type { FictionEnv } from '../plugin-env'
 
 export * from './plugin-release'
 
-interface FictionBuildSettings {
-  fictionEnv: FictionEnv
-}
+type FictionBuildSettings = FictionPluginSettings
 
 export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
   esLexer?: typeof esLexer
   cjsLexer?: typeof cjsLexer
   loadingPromise: Promise<void> | undefined
-  fictionEnv = this.settings.fictionEnv
   root = safeDirname(import.meta.url)
   constructor(settings: FictionBuildSettings) {
-    super('build', settings)
+    super('build', { root: safeDirname(import.meta.url), ...settings })
     this.loadingPromise = this.getLexers().catch(console.error)
   }
 
   async getLexers() {
-    if (!this.fictionEnv.isApp.value) {
+    if (!this.fictionEnv?.isApp.value) {
       const [esLexer, cjsLexer] = await Promise.all([
         import(/* @vite-ignore */ 'es-module-lexer'),
         import(/* @vite-ignore */ 'cjs-module-lexer'),
@@ -90,7 +87,7 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
   getCustomBuildPlugins = async (): Promise<vite.Plugin[]> => {
     await this.loadingPromise
 
-    const fullServerModules = Object.entries(this.fictionEnv.serverOnlyImports).map(([id, value]) => {
+    const fullServerModules = Object.entries(this.fictionEnv?.serverOnlyImports || {}).map(([id, value]) => {
       // construct exports from object
       const additional = typeof value === 'object'
         ? Object.entries(value).map(([imp, importValue]) => {
@@ -165,7 +162,7 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
    * Common vite options for all builds
    */
   getOptimizeDeps = (): Partial<vite.InlineConfig['optimizeDeps']> => {
-    const configExcludeIds = Object.keys(this.fictionEnv.serverOnlyImports)
+    const configExcludeIds = Object.keys(this.fictionEnv?.serverOnlyImports || {})
 
     return {
       exclude: [

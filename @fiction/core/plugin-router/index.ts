@@ -2,7 +2,7 @@ import type { NavigationGuardWithThis, NavigationHookAfter, RouteLocationNormali
 
 import type { FictionPluginSettings } from '../plugin'
 import { FictionPlugin } from '../plugin'
-import { refineRoute, sortPriority, vue, vueRouter } from '../utils'
+import { refineRoute, safeDirname, sortPriority, vue, vueRouter } from '../utils'
 import type { FictionEnv } from '../plugin-env'
 import type { AppRoute } from './appRoute'
 
@@ -37,13 +37,13 @@ export class FictionRouter<
   router: vue.Ref<vueRouter.Router | undefined> = vue.shallowRef()
 
   replacers: LinkReplace
-  fictionEnv = this.settings.fictionEnv
+
   loadingRoute = vue.ref(true)
-  baseUrl = this.settings.baseUrl || this.fictionEnv.meta.app?.url || ''
+  baseUrl = this.settings.baseUrl || this.fictionEnv?.meta.app?.url || ''
   routeBasePath = this.settings.routeBasePath || '/'
-  noBrowserNav = vue.ref(!!this.fictionEnv.isNode)
+  noBrowserNav = vue.ref(!!this.fictionEnv?.isNode)
   constructor(settings: FictionRouterSettings) {
-    super(settings.routerId || 'router', settings)
+    super(settings.routerId || 'router', { root: safeDirname(import.meta.url), ...settings })
     this.replacers = settings.replacers || {}
 
     const initialRoutes = typeof settings.routes === 'function' ? settings.routes(this) : settings.routes
@@ -94,7 +94,7 @@ export class FictionRouter<
 
     let navigate: ReturnType<vueRouter.NavigationGuard> = result.navigate || true
     if (ar && ar.before)
-      navigate = await ar.before({ fictionRouter: this, isSSR: this.fictionEnv.isSSR.value, to, from, navigate })
+      navigate = await ar.before({ fictionRouter: this, isSSR: this.fictionEnv?.isSSR.value || false, to, from, navigate })
 
     return navigate
   }

@@ -119,7 +119,7 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
     await this.extend()
   }
 
-  setup() {
+  override setup() {
     this.addSchema()
   }
 

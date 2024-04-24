@@ -12,7 +12,7 @@ import { QueryManageMedia, QueryMediaIndex, QuerySaveMedia } from './queries'
 import { type TableMediaConfig, mediaTable } from './tables'
 
 export * from './utils'
-export { TableMediaConfig }
+export type { TableMediaConfig }
 
 vars.register(() => [
   new EnvVar({ name: 'UNSPLASH_ACCESS_KEY', isOptional: true }),

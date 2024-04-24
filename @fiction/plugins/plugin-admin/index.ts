@@ -40,7 +40,7 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
     super('FictionAdmin', { ...settings, root: safeDirname(import.meta.url) })
   }
 
-  async setup(args: PluginSetupArgs) {
+  override async setup(args: PluginSetupArgs) {
     await this.addPlugins(args)
   }
 

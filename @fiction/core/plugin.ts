@@ -46,7 +46,6 @@ export abstract class FictionPlugin<
   T extends FictionPluginSettings = { fictionEnv: FictionEnv },
 > extends FictionObject<T> {
   basePath: string
-  log: LogHelper
   fictionEnv?: FictionEnv
   constructor(name: string, settings: T) {
     super(name, settings)
@@ -115,7 +114,7 @@ export abstract class FictionPlugin<
     return requests as M
   }
 
-  toJSON(): Record<string, unknown> {
+  override toJSON(): Record<string, unknown> {
     return omit(this, 'stop', 'log', 'settings', 'toJSON', 'fictionEnv', 'tbl')
   }
 }

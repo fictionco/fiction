@@ -8,23 +8,21 @@ import type { ReleaseType } from 'semver'
 import semver from 'semver'
 import type { FictionEnv } from '../plugin-env'
 import { log } from '../plugin-log'
-import { getRequire } from '../utils'
+import { getRequire, safeDirname } from '../utils'
 import type { PackageJson } from '../types'
-import { FictionPlugin } from '../plugin'
+import { FictionPlugin, type FictionPluginSettings } from '../plugin'
 import { getPackages, isGitDirty } from './utils'
 
 const { prompt } = enquirer
 
-interface FictionReleaseSettings {
+type FictionReleaseSettings = {
   fictionEnv: FictionEnv
-}
+} & FictionPluginSettings
 
 export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
   versionIncrements: ReleaseType[] = ['patch', 'minor', 'major', 'prerelease']
-  fictionEnv: FictionEnv
   constructor(settings: FictionReleaseSettings) {
-    super('release', settings)
-    this.fictionEnv = settings.fictionEnv
+    super('release', { root: safeDirname(import.meta.url), ...settings })
   }
 
   currentVersion = (): string => {

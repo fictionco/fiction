@@ -43,7 +43,7 @@ export type AppRouteParams<T extends string = string, U extends vue.Component = 
   redirect?: vueRouter.RouteRecordRedirectOption
 }
 export class AppRoute<T extends string = string, U extends vue.Component = vue.Component> extends FictionObject<AppRouteParams<T, U>> {
-  name = this.settings.name
+  override name = this.settings.name
   title = this.settings.title || toLabel(this.settings.name)
   niceName = this.settings.niceName || (() => toLabel(this.name))
   path = this.settings.path

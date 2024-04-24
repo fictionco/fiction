@@ -35,7 +35,6 @@ export class FictionContact extends FictionPlugin<FictionContactSettings> {
   fictionUser = this.settings.fictionUser
   fictionRouter = this.settings.fictionRouter
   fictionApp = this.settings.fictionApp
-  fictionEnv = this.settings.fictionEnv
   fictionMonitor = this.settings.fictionMonitor
   fictionEmail = this.settings.fictionEmail
   queries = this.createQueries()
@@ -54,8 +53,8 @@ export class FictionContact extends FictionPlugin<FictionContactSettings> {
     const { submission } = args
     const s: Partial<TableSubmissionConfig> = {
       appUrl: this.fictionRouter.current.value.fullPath,
-      appName: this.fictionEnv.meta.app?.name,
-      notificationEmail: this.fictionEnv.meta.app?.email,
+      appName: this.fictionEnv?.meta.app?.name,
+      notificationEmail: this.fictionEnv?.meta.app?.email,
       ...submission,
     }
 
@@ -67,17 +66,9 @@ export class FictionContact extends FictionPlugin<FictionContactSettings> {
     return result
   }
 
-  protected createQueries() {
-    const deps = {
-      fictionUser: this.fictionUser,
-      fictionContact: this,
-      fictionDb: this.fictionDb,
-      fictionEnv: this.fictionEnv,
-      fictionMonitor: this.fictionMonitor,
-      fictionEmail: this.fictionEmail,
-    }
+  protected override createQueries() {
     return {
-      ManageSubmission: new QueryManageSubmission(deps),
+      ManageSubmission: new QueryManageSubmission({ fictionContact: this, ...this.settings }),
     } as const
   }
 }

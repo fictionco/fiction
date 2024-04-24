@@ -56,7 +56,7 @@ export class FictionClient extends WriteBuffer<TrackingEvent> {
   }
 
   // override of empty WriteBuffer function
-  protected flush(events: TrackingEvent[]): void {
+  protected override flush(events: TrackingEvent[]): void {
     return this.transmitSync({ events })
   }
 

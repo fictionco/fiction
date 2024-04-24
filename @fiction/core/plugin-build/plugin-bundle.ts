@@ -4,16 +4,16 @@ import fs from 'fs-extra'
 import { execaCommand } from 'execa'
 import * as vite from 'vite'
 import type { RollupWatcher, RollupWatcherEvent } from 'rollup'
-import { deepMergeAll, getRequire, isNode } from '../utils'
-import { FictionPlugin } from '../plugin'
+import { deepMergeAll, getRequire, isNode, safeDirname } from '../utils'
+import { FictionPlugin, type FictionPluginSettings } from '../plugin'
 import type { CliOptions, FictionEnv } from '../plugin-env'
 import type { PackageJson } from '../types'
 import { getCommit, getPackages } from './utils'
 import { FictionBuild } from '.'
 
-interface FictionBundleSettings {
+type FictionBundleSettings = {
   fictionEnv: FictionEnv
-}
+} & FictionPluginSettings
 
 type BuiltCallback = (opts: {
   packageName: string
@@ -21,13 +21,12 @@ type BuiltCallback = (opts: {
 }) => Promise<void> | void
 export class FictionBundle extends FictionPlugin<FictionBundleSettings> {
   fictionBuild: FictionBuild
-  fictionEnv = this.settings.fictionEnv
   bundlingTotal = 0
   bundlingCurrent = 0
   watchers: RollupWatcher[] = []
   constructor(settings: FictionBundleSettings) {
-    super('bundle', settings)
-    this.fictionBuild = new FictionBuild({ fictionEnv: this.fictionEnv })
+    super('bundle', { root: safeDirname(import.meta.url), ...settings })
+    this.fictionBuild = new FictionBuild({ fictionEnv: this.settings.fictionEnv })
   }
 
   bundleAll = async (

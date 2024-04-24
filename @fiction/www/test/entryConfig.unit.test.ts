@@ -81,7 +81,7 @@ describe('user config', () => {
         ]
       `)
 
-    expect(service.fictionApp.fictionRouter.routes.value?.map(_ => _.name))
+    expect(service.fictionApp.settings.fictionRouter.routes.value?.map(_ => _.name))
       .toMatchInlineSnapshot(`
         [
           "themeMinimal",

@@ -35,7 +35,6 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
   fictionUser = this.settings.fictionUser
   fictionRouter = this.settings.fictionRouter
   fictionApp = this.settings.fictionApp
-  fictionEnv = this.settings.fictionEnv
   fictionMonitor = this.settings.fictionMonitor
   fictionEmail = this.settings.fictionEmail
   queries = this.createQueries()
@@ -61,17 +60,9 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
     return result
   }
 
-  protected createQueries() {
-    const deps = {
-      fictionUser: this.fictionUser,
-      fictionSubscribe: this,
-      fictionDb: this.fictionDb,
-      fictionEnv: this.fictionEnv,
-      fictionMonitor: this.fictionMonitor,
-      fictionEmail: this.fictionEmail,
-    }
+  protected override createQueries() {
     return {
-      ManageSubscribe: new QueryManageSubscribe(deps),
+      ManageSubscribe: new QueryManageSubscribe({ fictionSubscribe: this, ...this.settings }),
     } as const
   }
 }

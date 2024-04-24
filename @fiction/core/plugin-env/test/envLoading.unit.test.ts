@@ -20,7 +20,7 @@ class TestPlugin extends FictionPlugin {
     super('TestPlugin', { root: safeDirname(import.meta.url), ...settings })
   }
 
-  async setup() {
+  override async setup() {
     this.foo.value = 'bar'
   }
 }

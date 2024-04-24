@@ -44,7 +44,7 @@ export class FictionExtend<T extends PluginIndexSettings = PluginIndexSettings> 
     } })
   }
 
-  async setup(args: PluginSetupArgs) {
+  override async setup(args: PluginSetupArgs) {
     await this.addPlugins(args)
   }
 
