@@ -7,7 +7,7 @@ import PostsIndex from './PostsIndex.vue'
 type UserConfig = {
   isNavItem: boolean
 }
-const props = defineProps({
+defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 </script>

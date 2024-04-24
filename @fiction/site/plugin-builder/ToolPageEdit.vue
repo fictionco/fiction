@@ -15,7 +15,7 @@ const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
 })
-const control = props.site.settings.fictionSites
+
 const loading = vue.ref(false)
 
 const page = vue.computed(() => props.site.editPageConfig.value)

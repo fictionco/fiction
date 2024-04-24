@@ -78,7 +78,7 @@ describe('schema tools', () => {
     expect(out2.hiddenOptions).toMatchInlineSnapshot(`[]`)
   })
 
-  it.only('handles duplicated nested options', () => {
+  it('handles duplicated nested options', () => {
     const s = zodToSimpleSchema(UserConfigSchema)
 
     expect(s).toMatchInlineSnapshot(`

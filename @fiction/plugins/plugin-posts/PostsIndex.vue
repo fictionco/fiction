@@ -8,8 +8,6 @@ defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
-const { fictionUser } = useService()
-
 const posts = vue.ref([{
   postId: '1',
   name: 'Hello World',
@@ -25,8 +23,6 @@ const list = vue.computed(() => {
     }
   })
 })
-
-const boxClass = 'dark:bg-theme-975 hover:bg-theme-50 dark:hover:bg-theme-700 px-6 border border-theme-200/60 dark:border-theme-600 rounded-xl'
 </script>
 
 <template>

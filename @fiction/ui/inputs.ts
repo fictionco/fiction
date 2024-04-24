@@ -4,10 +4,6 @@ import type { z } from 'zod'
 
 const def = vue.defineAsyncComponent
 
-type SchemaDef = (args: { z: typeof z, subSchema: z.AnyZodObject }) => z.Schema
-
-const gradientSetting: SchemaDef = ({ z }) => z.object({ angle: z.number(), stops: z.object({ color: z.string(), percent: z.number(), colorId: z.string() }), css: z.string() })
-
 export const inputs: Record<string, { el: vue.Component, shape?: string[] }> = {
   InputUsername: { el: def(() => import('./InputUsername.vue')) },
   InputMarkdown: { el: def(() => import('./InputMarkdown.vue')) },
