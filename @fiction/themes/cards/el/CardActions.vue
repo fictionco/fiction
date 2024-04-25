@@ -2,6 +2,7 @@
 import type { ActionItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
+import { animateItemEnter } from '@fiction/ui/anim'
 import CardElement from '../CardElement.vue'
 
 type UserConfig = {
@@ -17,6 +18,10 @@ const props = defineProps({
 const uc = vue.computed(() => {
   return props.card.userConfig.value || {}
 })
+
+vue.onMounted(() => {
+  animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'pop', config: { overallDelay: 400 } })
+})
 </script>
 
 <template>
@@ -28,6 +33,7 @@ const uc = vue.computed(() => {
     <CardElement
       v-for="(action, i) in uc.actions"
       :key="i"
+      class="x-action-item"
       :card="card"
       theme-el="button"
       :btn="action.btn || 'default'"

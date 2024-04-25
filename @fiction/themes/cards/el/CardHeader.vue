@@ -62,6 +62,7 @@ const layout = vue.computed(() => {
           class="text-theme-500 dark:text-primary-300/50 font-sans text-sm lg:text-lg font-medium antialiased"
           path="superHeading"
           placeholder="Super Heading"
+          animate="fade"
         />
         <CardText
           tag="h1"
@@ -70,6 +71,7 @@ const layout = vue.computed(() => {
           :class="layout === 'justify' || layout === 'left' ? 'mt-3' : 'my-7'"
           path="heading"
           placeholder="Heading"
+          animate="fade"
         />
       </div>
       <div :class="layout === 'justify' ? 'lg:max-w-[50%]' : ''">
@@ -80,6 +82,7 @@ const layout = vue.computed(() => {
           :class="layout === 'justify' ? 'lg:text-right' : ''"
           path="subHeading"
           placeholder="Sub Heading"
+          animate="fade"
         />
       </div>
     </div>

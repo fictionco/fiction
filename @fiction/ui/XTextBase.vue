@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { clean, onResetUi, shortId, toHtml, toMarkdown, vue } from '@fiction/core'
-import anime from 'animejs'
+
+import { animateItemEnter } from './anim'
 
 const props = defineProps({
   tag: {
@@ -66,48 +67,8 @@ function loadAnimation() {
       return `<span class='word'>${match.split('').map(character => `<span class='fx'>${character}</span>`).join('')}</span>`
     })
   }
-
-  const themes = {
-    rise: {
-      translateY: [30, 0],
-      translateZ: 0,
-      opacity: [0, 1],
-      easing: 'easeInOutCubic',
-      duration: 700, // Total duration each word's animation should last
-      overallDelay: 150, // Initial delay before the first word starts animating
-      totalAnimationTime: 1200, // Total time from the start of the first word's animation to the end of the last word's animation
-    },
-    fade: {
-      translateY: [0, 0], // No vertical movement
-      translateZ: 0,
-      opacity: [0, 1],
-      easing: 'easeInCubic',
-      duration: 1000,
-      overallDelay: 200,
-      totalAnimationTime: 2200,
-    },
-  }
-
   const themeId = typeof props.animate == 'string' ? props.animate : 'rise'
-
-  const theme = themes[themeId] || themes.rise
-
-  function calculateDelay(el: HTMLElement, i: number, length: number) {
-    if (length <= 5)
-      return theme.overallDelay + 10 * i // Fixed delay increment if not enough words
-    else
-      return theme.overallDelay + (theme.totalAnimationTime - theme.duration) * i / (length - 1) // Dynamic delay for longer texts
-  }
-
-  anime.timeline({ loop: false }).add({
-    targets: `#${randomId} .fx`,
-    translateY: theme.translateY,
-    translateZ: theme.translateZ,
-    opacity: theme.opacity,
-    easing: theme.easing,
-    duration: theme.duration,
-    delay: calculateDelay,
-  })
+  animateItemEnter({ targets: `#${randomId} .fx`, themeId })
 }
 
 vue.onMounted(() => {
