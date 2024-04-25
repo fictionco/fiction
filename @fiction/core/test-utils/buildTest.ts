@@ -163,41 +163,50 @@ export async function performActions(args: {
 
   for (const action of actions) {
     const element = page.locator(action.selector)
+    await element.waitFor({ state: 'visible' })
 
-    switch (action.type) {
-      case 'click': {
-        logger.info('CLICK_ELEMENT', { data: { selector: action.selector } })
-        await element.click()
-        break
+    try {
+      switch (action.type) {
+        case 'click': {
+          logger.info('CLICK_ELEMENT', { data: { selector: action.selector } })
+          await element.click()
+          break
+        }
+        case 'type': {
+          logger.info('TYPE_TEXT', { data: { selector: action.selector, text: action.text } })
+          await element.type(action.text || '')
+          break
+        }
+        case 'keyboard': {
+          logger.info('TYPE_KEY', { data: { key: action.key } })
+          await page.keyboard.press(action.key || '')
+          break
+        }
+        case 'visible': {
+          const isVisible = await element.isVisible()
+          logger.info('IS_VISIBLE', { data: { result: isVisible, selector: action.selector } })
+          expect(isVisible, `${action.selector} is visible`).toBe(true)
+          break
+        }
+        case 'exists': {
+          const exists = await element.count()
+          logger.info('EXISTS', { data: { result: exists, selector: action.selector } })
+          expect(exists, `${action.selector} exists`).toBeGreaterThan(0)
+          break
+        }
+        case 'count': {
+          const cnt = await element.count()
+          logger.info('CNT', { data: { result: cnt, selector: action.selector } })
+          expect(cnt, `${action.selector} count ${cnt}`).toBe(cnt)
+          break
+        }
       }
-      case 'type': {
-        logger.info('TYPE_TEXT', { data: { selector: action.selector, text: action.text } })
-        await element.type(action.text || '')
-        break
-      }
-      case 'keyboard': {
-        logger.info('TYPE_KEY', { data: { key: action.key } })
-        await page.keyboard.press(action.key || '')
-        break
-      }
-      case 'visible': {
-        const isVisible = await element.isVisible()
-        logger.info('IS_VISIBLE', { data: { result: isVisible, selector: action.selector } })
-        expect(isVisible, `${action.selector} is visible`).toBe(true)
-        break
-      }
-      case 'exists': {
-        const exists = await element.count()
-        logger.info('EXISTS', { data: { result: exists, selector: action.selector } })
-        expect(exists, `${action.selector} exists`).toBeGreaterThan(0)
-        break
-      }
-      case 'count': {
-        const cnt = await element.count()
-        logger.info('CNT', { data: { result: cnt, selector: action.selector } })
-        expect(cnt, `${action.selector} count ${cnt}`).toBe(cnt)
-        break
-      }
+    }
+    catch (error) {
+      const e = error as Error
+      const errorMessage = `Error performing action ${action.type} on selector ${action.selector}: ${e.message}`
+      console.error(errorMessage)
+      throw new Error(errorMessage)
     }
 
     if (action.wait)

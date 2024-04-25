@@ -2,13 +2,14 @@
 import { getNavComponentType, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 
-import { animateItemEnter } from '@fiction/ui/anim'
+import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import type { UserConfig } from '.'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
+const loaded = vue.ref(false)
 const uc = vue.computed(() => props.card.userConfig.value)
 
 const temp = vue.computed(() => {
@@ -40,12 +41,18 @@ function getStagger(index: number): string {
 }
 
 vue.onMounted(() => {
-  animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'fade', config: { overallDelay: 400, isRandom: true } })
+  useElementVisible({
+    selector: `#${props.card.cardId}`,
+    onVisible: async () => {
+      await animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'fade', config: { overallDelay: 400, isRandom: true } })
+      loaded.value = true
+    },
+  })
 })
 </script>
 
 <template>
-  <div class="marquee relative z-10 mx-auto overflow-hidden">
+  <div class="marquee relative z-10 mx-auto overflow-hidden" :class="loaded ? '' : 'invisible'">
     <div class="marquee-track" :class="uc.direction === 'right' ? 'reverse' : ''">
       <div class="marquee-grid grid">
         <component
@@ -54,7 +61,7 @@ vue.onMounted(() => {
           :key="i"
           :to="item.href"
           :href="item.href"
-          class="x-action-item marquee-item relative overflow-hidden transition-all duration-300"
+          class="x-action-item marquee-item relative overflow-hidden transition-all duration-300 opacity-0"
           :class="[getStagger(i), item.href ? 'hover:-translate-y-1' : '']"
           :data-display-items="temp.length"
           :data-display-direction="uc.direction || 'left'"
