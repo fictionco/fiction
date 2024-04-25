@@ -163,7 +163,6 @@ export async function performActions(args: {
 
   for (const action of actions) {
     const element = page.locator(action.selector)
-    await element.waitFor({ state: 'visible' })
 
     try {
       switch (action.type) {
