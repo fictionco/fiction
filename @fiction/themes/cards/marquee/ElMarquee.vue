@@ -2,6 +2,7 @@
 import { getNavComponentType, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 
+import { animateItemEnter } from '@fiction/ui/anim'
 import type { UserConfig } from '.'
 
 const props = defineProps({
@@ -37,6 +38,10 @@ function getStagger(index: number): string {
 
   return staggerClasses[index % staggerClasses.length] || ''
 }
+
+vue.onMounted(() => {
+  animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'fade', config: { overallDelay: 400, isRandom: true } })
+})
 </script>
 
 <template>
@@ -49,7 +54,7 @@ function getStagger(index: number): string {
           :key="i"
           :to="item.href"
           :href="item.href"
-          class="marquee-item relative overflow-hidden transition-all duration-300"
+          class="x-action-item marquee-item relative overflow-hidden transition-all duration-300"
           :class="[getStagger(i), item.href ? 'hover:-translate-y-1' : '']"
           :data-display-items="temp.length"
           :data-display-direction="uc.direction || 'left'"

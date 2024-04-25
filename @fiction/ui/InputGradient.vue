@@ -1,14 +1,12 @@
 <script lang="ts" setup>
 // @unocss-include
 import { DraggableList, getGradientCss, vue } from '@fiction/core'
+import type { GradientItem, GradientSetting } from '@fiction/core'
 import InputColor from './InputColor.vue'
 import InputRange from './InputRange.vue'
 
 const props = defineProps({
-  modelValue: {
-    type: Object as vue.PropType<GradientSetting>,
-    default: undefined,
-  },
+  modelValue: { type: Object as vue.PropType<GradientSetting>, default: undefined },
 })
 
 const emit = defineEmits<{
@@ -22,12 +20,12 @@ const colorEl = vue.ref<HTMLElement>()
  * to re-render the list when it changes
  */
 const renderKey = vue.ref(0)
-type GradientItem = { color?: string, percent?: number, colorId?: string }
-type GradientSetting = {
-  angle?: number
-  stops?: GradientItem[]
-  css?: string
-}
+// type GradientItem = { color?: string, percent?: number, colorId?: string }
+// type GradientSetting = {
+//   angle?: number
+//   stops?: GradientItem[]
+//   css?: string
+// }
 
 const gradientCss = vue.computed(() => {
   return getGradientCss(props.modelValue)

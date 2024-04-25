@@ -35,10 +35,14 @@ const activeItem = vue.ref(0)
         </div>
         <div class="flex-col justify-center text-balance">
           <div class="min-w-0 text-left md:text-center text-3xl sm:text-4xl lg:text-7xl">
-            <!-- Increased the size of quotes and added vertical alignment -->
-            <span class="">&#8220;</span>
-            <XText tag="span" :card="card" :path="`quotes.${i}.text`" animate="fade" />
-            <span class="">&#8221;</span>
+            <XText
+              tag="span"
+              :card="card"
+              :path="`quotes.${i}.text`"
+              animate="fade"
+              prefix="&#8220;"
+              suffix="&#8221;"
+            />
           </div>
         </div>
         <div v-if="quote?.author?.name" class="mt-4 md:mt-8 flex items-center justify-start md:justify-center gap-4 md:gap-8">

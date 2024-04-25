@@ -1,4 +1,5 @@
 import { createCard } from '@fiction/site/theme'
+import type { MapSchemaConfig } from '@fiction/themes/cards/map'
 import { templates } from '../templates'
 import spectrum from './spectrum.jpg'
 import ap from './ap.webp'
@@ -61,19 +62,29 @@ const teamCard = createCard({
   },
 })
 
-const mapBase = {
-  lat: 33.652199,
-  lng: -117.747719,
-  zoom: 13,
-  markers: [{ lat: 33.652199, lng: -117.747719 }],
-  mapStyle: 'streets' as const,
+const mapIrvine: MapSchemaConfig = {
+  lat: 33.5427,
+  lng: -117.7854,
+  zoom: 15,
+  pitch: 60,
+  markers: [{ lat: 33.5427, lng: -117.7854, label: 'Orange County, CA' }],
+  mapStyle: 'satellite' as const,
+}
+
+const mapSaltLake: MapSchemaConfig = {
+  lat: 40.7608,
+  lng: -111.8910,
+  zoom: 8,
+  pitch: 80,
+  markers: [{ lat: 40.7608, lng: -111.8910, label: 'Salt Lake City, UT' }],
+  mapStyle: 'outdoors' as const,
 }
 
 const mapCard = createCard({
   templates,
   templateId: 'map',
   userConfig: {
-    maps: [mapBase, { ...mapBase, mapStyle: 'satellite' }],
+    maps: [mapIrvine, mapSaltLake],
   },
 })
 

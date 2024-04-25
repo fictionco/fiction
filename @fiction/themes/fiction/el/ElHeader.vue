@@ -91,7 +91,7 @@ const accountMenu = vue.computed((): NavItem[] => {
           <div class="flex lg:flex-1 text-left">
             <RouterLink
               to="/"
-              class="hover:text-primary-700 dark:hover:text-primary-100 x-font-title block rounded-md text-2xl font-bold transition-all max-w-[30dvw]"
+              class="flex hover:text-primary-700 dark:hover:text-primary-100 x-font-title rounded-md text-2xl font-bold transition-all max-w-[30dvw]"
             >
               <ElImage :media="uc.logo" class="h-6 inline-block" />
             </RouterLink>

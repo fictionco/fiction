@@ -40,7 +40,7 @@ export const inputs: Record<string, { el: vue.Component, shape?: string[] }> = {
   InputRange: { el: def(() => import('./InputRange.vue')) },
   InputDropDown: { el: def(() => import('./InputDropDown.vue')) },
   InputOverlay: { el: def(() => import('./InputOverlay.vue')) },
-  InputGradient: { el: def(() => import('./InputGradient.vue')) },
+  InputGradient: { el: def(() => import('./InputGradient.vue')), shape: ['angle', 'stops', 'stops.0.color', 'stops.0.percent', 'css'] },
 }
 
 type SchemaCallback = (args: { z: typeof z, subSchema: z.AnyZodObject }) => z.Schema

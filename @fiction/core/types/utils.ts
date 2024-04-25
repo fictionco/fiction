@@ -15,6 +15,16 @@ export type MediaDisplayObject = {
 export type GradientItem = { color?: string, percent?: number }
 export type GradientSetting = { angle?: number, stops?: GradientItem[], css?: string }
 export type OverlaySetting = { gradient?: GradientSetting, opacity?: number, blendMode?: string }
+
+export type BackgroundStyle = {
+  color?: string
+  gradient?: GradientSetting
+  image?: string
+  repeat?: 'repeat' | 'no-repeat' | 'repeat-x' | 'repeat-y'
+  position?: 'center' | 'top' | 'bottom' | 'left' | 'right'
+  size?: 'cover' | 'contain' | 'auto'
+}
+
 export const imageFilters = ['brightness', 'opacity', 'contrast', 'blur', 'grayscale', 'sepia', 'saturate', 'invert', 'hue-rotate'] as const
 
 export type ImageFilter = typeof imageFilters[number]

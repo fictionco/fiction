@@ -3,12 +3,14 @@ import { clean, log, vue, waitFor } from '@fiction/core'
 import * as bh from 'blurhash'
 import type { ImageFilterConfig, MediaDisplayObject } from '@fiction/core'
 import ElOverlay from './ElOverlay.vue'
+import ClipPathAnim from './AnimClipPath.vue'
 
 defineOptions({ name: 'ElImage' })
 
 const props = defineProps({
   media: { type: Object as vue.PropType<MediaDisplayObject>, default: undefined },
   imageClass: { type: String as vue.PropType<string>, default: '' },
+  animate: { type: Boolean, default: false },
 })
 
 const logger = log.contextLogger('ElImage')
@@ -95,40 +97,43 @@ const filters = vue.computed<ImageFilterConfig[]>(() => props.media?.filters || 
 </script>
 
 <template>
-  <div v-if="media" :class="cls">
-    <transition
-      enter-active-class="transition ease duration-500"
-      enter-from-class="opacity-0"
-      enter-to-class="opacity-100"
-      leave-active-class="transition ease duration-500"
-      leave-from-class="opacity-100 "
-      leave-to-class="opacity-0"
-    >
-      <canvas
-        v-if="blurhash && loading"
-        ref="blurCanvas"
-        class="absolute inset-0 z-10 h-full w-full"
-        :class="imageClass"
-        :data-hash="blurhash"
-        width="64"
-        height="64"
-      />
-    </transition>
-    <template v-if="!loading">
-      <div
-        v-if="media.format === 'html'"
-        class="h-full w-full *:w-full *:h-full"
-        v-html="clean(media.html)"
-      />
-      <img
-        v-else-if="media?.url"
-        class="absolute inset-0 object-cover h-full w-full z-0"
-        :class="imageClass"
-        :src="media?.url || ''"
-        :style="{ filter: filters?.map((_) => _.value).join(' ') }"
+  <ClipPathAnim :enabled="animate">
+    <div v-if="media" :class="cls" class="h-full w-full">
+      <transition
+        enter-active-class="transition ease duration-500"
+        enter-from-class="opacity-0"
+
+        enter-to-class="opacity-100"
+        leave-active-class="transition ease duration-500"
+        leave-from-class="opacity-100 "
+        leave-to-class="opacity-0"
       >
-    </template>
-    <ElOverlay :overlay="media.overlay" />
-    <slot />
-  </div>
+        <canvas
+          v-if="blurhash && loading"
+          ref="blurCanvas"
+          class="absolute inset-0 z-10 h-full w-full"
+          :class="imageClass"
+          :data-hash="blurhash"
+          width="64"
+          height="64"
+        />
+      </transition>
+      <template v-if="!loading">
+        <div
+          v-if="media.format === 'html'"
+          class="h-full w-full *:w-full *:h-full"
+          v-html="clean(media.html)"
+        />
+        <img
+          v-else-if="media?.url"
+          class="absolute inset-0 object-cover h-full w-full z-0"
+          :class="imageClass"
+          :src="media?.url || ''"
+          :style="{ filter: filters?.map((_) => _.value).join(' ') }"
+        >
+      </template>
+      <ElOverlay :overlay="media.overlay" />
+      <slot />
+    </div>
+  </ClipPathAnim>
 </template>

@@ -240,14 +240,32 @@ export function page() {
         templateId: 'area',
         userConfig: {
           scheme: {
-            reverse: true,
             light: {
-              theme: 'slate',
-              bg: { color: '#000000' },
+              theme: 'gray',
+              bg: {
+                color: '#f7f7f7', // light gray
+                gradient: {
+                  angle: 45,
+                  stops: [
+                    { color: '#ffffff', percent: 0 },
+                    { color: '#f7f7f7', percent: 100 },
+                  ],
+                },
+              },
             },
             dark: {
-              theme: 'slate',
-              bg: { color: '#FFFFFF' },
+              theme: 'gray',
+              bg: {
+                color: '#333333', // dark gray
+                gradient: {
+                  angle: 45,
+                  stops: [
+                    { color: '#2c2d4c', percent: 0 },
+                    { color: '#070d16', percent: 80 },
+                    { color: '#17123a', percent: 100 },
+                  ],
+                },
+              },
             },
           },
         },

@@ -2,7 +2,6 @@
 import { vue } from '@fiction/core'
 import ElImage from '@fiction/ui/ElImage.vue'
 import type { Card } from '@fiction/site'
-import anime from 'animejs'
 import { useElementVisible } from '@fiction/ui/anim'
 import CardText from '../CardText.vue'
 import CardSocials from '../el/CardSocials.vue'

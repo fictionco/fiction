@@ -6,6 +6,13 @@ import { z } from 'zod'
 const SchemeSchema = z.object({
   bg: z.object({
     color: z.string().optional(),
+    gradient: z.object({
+      angle: z.number().optional(),
+      stops: z.array(z.object({
+        color: z.string(),
+        percent: z.number(),
+      })).optional(),
+    }).optional(),
   }),
   theme: z.enum(colorTheme).optional(),
 })
@@ -38,12 +45,14 @@ export const templates = [
     options: [
       new InputOption({ key: 'scheme.reverse', label: 'Reverse Color Scheme', input: 'InputCheckbox' }),
       new InputOption({ key: 'scheme.light', label: 'Light Mode', input: 'group', options: [
-        new InputOption({ key: 'scheme.light.bg.color', label: 'Light Background Color', input: 'InputColor' }),
+        new InputOption({ key: 'scheme.light.bg.color', label: 'Light Mode Color', input: 'InputColor' }),
         new InputOption({ key: 'scheme.light.theme', label: 'Light Color Theme', input: 'InputSelect', props: { list: colorList } }),
+        new InputOption({ key: 'scheme.light.bg.gradient', label: 'Light Mode Gradient', input: 'InputGradient' }),
       ] }),
       new InputOption({ key: 'scheme.dark', label: 'Dark Mode', input: 'group', options: [
-        new InputOption({ key: 'scheme.dark.bg.color', label: 'Dark Background Color', input: 'InputColor' }),
+        new InputOption({ key: 'scheme.dark.bg.color', label: 'Dark Mode Color', input: 'InputColor' }),
         new InputOption({ key: 'scheme.dark.theme', label: 'Dark Color Theme', input: 'InputSelect', props: { list: colorList } }),
+        new InputOption({ key: 'scheme.dark.bg.gradient', label: 'Dark Mode Gradient', input: 'InputGradient' }),
       ] }),
     ],
     schema: UserConfigSchema,

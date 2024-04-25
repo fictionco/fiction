@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { vue, waitFor } from '@fiction/core'
-import type { Card } from '@fiction/site'
 
 const props = defineProps({
   items: { type: Array, required: true },

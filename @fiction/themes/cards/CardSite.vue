@@ -16,7 +16,7 @@ const props = defineProps({
   siteRouter: { type: Object as vue.PropType<FictionRouter>, default: undefined },
 })
 
-const { fictionSites, runVars, fictionRouterSites } = useService<{ fictionSites: FictionSites, fictionRouterSites: FictionRouter }>()
+const { fictionEnv, fictionSites, runVars, fictionRouterSites } = useService<{ fictionSites: FictionSites, fictionRouterSites: FictionRouter }>()
 
 const loading = vue.ref(false)
 const site = vue.shallowRef<Site>()

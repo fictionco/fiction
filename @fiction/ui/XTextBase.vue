@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { clean, onResetUi, shortId, toHtml, toMarkdown, vue } from '@fiction/core'
 
-import { animateItemEnter, useElementVisible } from './anim'
+import { animateItemEnter, splitLetters, useElementVisible } from './anim'
 
 const props = defineProps({
   tag: {
@@ -13,6 +13,8 @@ const props = defineProps({
   modelValue: { type: String, default: '' },
   isMarkdown: { type: Boolean, default: false },
   animate: { type: [String, Boolean] as vue.PropType<'rise' | 'fade' | boolean>, default: undefined },
+  prefix: { type: String, default: '' },
+  suffix: { type: String, default: '' },
 })
 
 const emit = defineEmits<{
@@ -23,6 +25,7 @@ const emit = defineEmits<{
 
 const randomId = shortId()
 
+const loaded = vue.ref(false)
 const isEditing = vue.ref(false)
 const updateValue = vue.ref()
 
@@ -51,29 +54,32 @@ function onInput(ev: Event) {
 
 function textValue() {
   const v = clean(props.modelValue || '')
-  return props.isMarkdown ? toHtml(v) : v
+  const out = props.isMarkdown ? toHtml(v) : v
+
+  return `${props.prefix}${out}${props.suffix}`
 }
 
+const hasAnimation = vue.computed(() => props.animate && !isEditing.value)
+
 function loadAnimation() {
-  if (props.isEditable || !props.animate)
-    return
+  splitLetters(`#${randomId}`)
 
-  const textWrapper = document.querySelector(`#${randomId}`)
-
-  if (textWrapper?.textContent) {
-  // Wrap each word and punctuation with 'word' and each character within them with 'fx'
-    textWrapper.innerHTML = textWrapper.textContent.replace(/(\b\w+\b|\S)/g, (match) => {
-    // Wrap each character in 'match' within 'fx' spans and group them under 'word'
-      return `<span class='word'>${match.split('').map(character => `<span class='fx'>${character}</span>`).join('')}</span>`
-    })
-  }
   const themeId = typeof props.animate == 'string' ? props.animate : 'rise'
 
-  useElementVisible({ selector: `#${randomId}`, onVisible: () => animateItemEnter({ targets: `#${randomId} .fx`, themeId }) })
+  useElementVisible({
+    selector: `#${randomId}`,
+    onVisible: () => {
+      loaded.value = true
+      animateItemEnter({ targets: `#${randomId} .fx`, themeId })
+    },
+  })
 }
 
 vue.onMounted(() => {
-  loadAnimation()
+  if (hasAnimation.value)
+    loadAnimation()
+  else
+    loaded.value = true
 })
 </script>
 
@@ -83,6 +89,7 @@ vue.onMounted(() => {
     v-if="textValue()"
     :id="randomId"
     class="focus:outline-none xtext"
+    :class="loaded ? '' : 'invisible'"
     :contenteditable="isEditable ? 'true' : 'false'"
     spellcheck="false"
     @input="onInput($event)"

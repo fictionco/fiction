@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import mapboxgl from 'mapbox-gl'
 import { isDarkOrLightMode, vue } from '@fiction/core'
+import AnimClipPath from '@fiction/ui/AnimClipPath.vue'
 import { onMounted, watch } from 'vue'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import type { MapSchemaConfig } from '.'
@@ -9,6 +10,7 @@ const props = defineProps({
   container: { type: String, default: 'mapbox' },
   mapConfig: { type: Object as vue.PropType<MapSchemaConfig>, default: () => ({}) },
   mapboxAccessToken: { type: String, default: '' },
+  animate: { type: Boolean, default: true },
 })
 
 const fullMapConfig = vue.computed(() => {
@@ -64,7 +66,6 @@ function renderMap() {
   const style = styleUrl.value
   map.value = new mapboxgl.Map({
     container: props.container,
-    minZoom: 12,
     zoom: c.zoom,
     center: latlng,
     style,
@@ -73,19 +74,6 @@ function renderMap() {
   // Dynamically create and style SVG element
   const createCustomMarker = (clr: { bg: string, stroke: string }) => {
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24">
-    <defs>
-      <filter id="dropshadow" height="130%">
-        <feGaussianBlur in="SourceAlpha" stdDeviation="1"/> <!-- Reduced blur for a smaller shadow -->
-        <feOffset dx="1" dy="2" result="offsetblur"/> <!-- Smaller vertical offset -->
-        <feComponentTransfer>
-          <feFuncA type="linear" slope="0.3"/> <!-- Reduced opacity -->
-        </feComponentTransfer>
-        <feMerge>
-          <feMergeNode/> <!-- Contains the blurred and offset image -->
-          <feMergeNode in="SourceGraphic"/> <!-- The original graphic -->
-        </feMerge>
-      </filter>
-    </defs>
     <path fill="${clr.bg}" stroke="${clr.stroke}" stroke-width="0.7" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" filter="url(#dropshadow)"/>
   </svg>`
 
@@ -112,7 +100,7 @@ function renderMap() {
     // Disable zoom on double-click
     m.doubleClickZoom.disable()
 
-    const markerColor = ['dark', 'night'].some(_ => styleUrl.value.includes(_)) ? { bg: '#fff', stroke: '#000' } : { bg: '#3b82f6', stroke: '#dbeafe' }
+    const markerColor = ['dark', 'night'].some(_ => styleUrl.value.includes(_)) ? { bg: '#fff', stroke: '#000' } : { bg: '#3452ff', stroke: '#FFF' }
 
     watch(() => c.markers, (newMarkers) => {
       markers.value.forEach(marker => marker.remove())
@@ -152,10 +140,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    :id="container"
-    class=" w-full outline-none focus:outline-none focus:ring-0 cursor-auto text-black font-bold font-sans antialiased text-xs"
-  />
+  <AnimClipPath :enabled="animate" class="w-full h-full outline-none focus:outline-none focus:ring-0 ">
+    <div
+      :id="container"
+      class="h-full cursor-auto text-black font-bold font-sans antialiased text-xs"
+    />
+  </AnimClipPath>
 </template>
 
 <style :lang="less">
