@@ -20,7 +20,7 @@ const uc = vue.computed(() => {
 })
 
 vue.onMounted(() => {
-  animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'pop', config: { overallDelay: 400 } })
+  animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'fade', config: { overallDelay: 400 } })
 })
 </script>
 

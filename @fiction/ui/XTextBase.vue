@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { clean, onResetUi, shortId, toHtml, toMarkdown, vue } from '@fiction/core'
 
-import { animateItemEnter } from './anim'
+import { animateItemEnter, useElementVisible } from './anim'
 
 const props = defineProps({
   tag: {
@@ -68,7 +68,8 @@ function loadAnimation() {
     })
   }
   const themeId = typeof props.animate == 'string' ? props.animate : 'rise'
-  animateItemEnter({ targets: `#${randomId} .fx`, themeId })
+
+  useElementVisible({ selector: `#${randomId}`, onVisible: () => animateItemEnter({ targets: `#${randomId} .fx`, themeId }) })
 }
 
 vue.onMounted(() => {

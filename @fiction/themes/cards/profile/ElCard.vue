@@ -3,10 +3,10 @@ import { vue } from '@fiction/core'
 import ElImage from '@fiction/ui/ElImage.vue'
 import type { Card } from '@fiction/site'
 import anime from 'animejs'
+import { useElementVisible } from '@fiction/ui/anim'
 import CardText from '../CardText.vue'
 import CardSocials from '../el/CardSocials.vue'
 import NavDots from '../el/NavDots.vue'
-import { useElementVisible } from '../utils/animation'
 import type { UserConfig } from '.'
 
 const props = defineProps({
@@ -27,7 +27,7 @@ const mediaItems = vue.computed(() => {
 const activeItem = vue.ref(0)
 const isVisible = vue.ref(false)
 vue.onMounted(async () => {
-  await useElementVisible({ selector: `.minimal-profile`, tracker: isVisible })
+  await useElementVisible({ selector: `.minimal-profile`, onVisible: () => isVisible.value = true })
 })
 </script>
 

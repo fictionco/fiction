@@ -74,3 +74,28 @@ export function animateItemEnter(args: { targets: string, themeId?: keyof typeof
     easing: 'cubicBezier(0.25, 1, 0.33, 1)',
   })
 }
+
+export async function useElementVisible(args: { selector: string, onVisible: () => void }): Promise<void> {
+  const { selector, onVisible } = args
+  if (typeof IntersectionObserver === 'undefined') {
+    console.warn('IntersectionObserver is not supported here.')
+    return
+  }
+
+  const observer = new IntersectionObserver((entries, observer) => {
+    const [entry] = entries
+    if (entry.isIntersecting) {
+      onVisible()
+      observer.disconnect() // Disconnect after the element is visible
+    }
+  }, {
+    threshold: 0.1, // Customize the threshold as needed
+  })
+
+  // Ensure the element is present in the DOM
+  const element = document.querySelector(selector)
+  if (element)
+    observer.observe(element)
+  else
+    console.warn(`Element with selector ${selector} not found at the time of observer setup.`)
+}
