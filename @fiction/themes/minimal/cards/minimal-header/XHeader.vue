@@ -2,9 +2,9 @@
 import type { MediaDisplayObject, NavItem } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
+import NavMobile from '@fiction/ui/NavMobile.vue'
 import XNav from '../ui/XNav.vue'
 import XSiteLogo from '../ui/XSiteLogo.vue'
-import XNavMobile from './XNavMobile.vue'
 
 export type UserConfig = {
   nav?: NavItem[]
@@ -27,6 +27,8 @@ const nav = vue.computed(() => {
     return { ...item, isActive }
   })
 })
+
+const vis = vue.ref(false)
 </script>
 
 <template>
@@ -40,7 +42,10 @@ const nav = vue.computed(() => {
           <XSiteLogo :logo="uc.logo" />
         </div>
         <div class="flex lg:hidden">
-          <XNavMobile :card="card" />
+          <div class="text-3xl z-30 relative" :class="vis ? 'text-white' : ''" @click.stop="vis = !vis">
+            <div class="i-tabler-menu" />
+          </div>
+          <NavMobile v-model:vis="vis" :nav="nav" />
         </div>
         <XNav
           class="hidden lg:flex lg:justify-center lg:gap-x-4 items-center"

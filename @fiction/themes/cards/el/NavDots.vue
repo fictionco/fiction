@@ -68,12 +68,12 @@ vue.onMounted(() => {
     <div
       v-for="(s, i) in items"
       :key="i"
-      class="group dots-nav flex justify-center items-center rounded-full transition-all  text-theme-400 dark:text-theme-0 shadow-lg relative"
+      class="group dots-nav flex justify-center items-center rounded-full transition-all text-theme-400 dark:text-theme-0 shadow-lg relative"
       :class="i === activeItem ? 'is-active' : 'cursor-pointer' "
       @click="setActiveItem(i)"
     >
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full size-1.5 bg-theme-0 group-active:opacity-50" />
-      <svg class="size-5" viewBox="0 0 66 66" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full size-1.5 bg-theme-0 group-active:opacity-50 transition-opacity duration-1000" :class="i === activeItem ? 'opacity-40' : 'opacity-100' " />
+      <svg class="size-5 text-theme-0" viewBox="0 0 66 66" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
         <circle
           class="time"
           stroke-width="5"

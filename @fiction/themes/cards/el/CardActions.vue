@@ -28,7 +28,7 @@ vue.onMounted(() => {
   <div
     v-if="uc.actions?.length"
     class="mt-10 flex items-center gap-x-6"
-    :class="justify === 'left' ? 'justify-start' : (justify === 'right' ? 'justify-end' : 'justify-center')"
+    :class="justify === 'left' ? 'justify-start' : (justify === 'right' ? 'justify-end' : 'justify-start md:justify-center')"
   >
     <CardElement
       v-for="(action, i) in uc.actions"

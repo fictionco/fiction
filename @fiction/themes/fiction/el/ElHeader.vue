@@ -7,7 +7,7 @@ import ElImage from '@fiction/ui/ElImage.vue'
 import ElAvatar from '@fiction/ui/ElAvatar.vue'
 import XElement from '@fiction/cards/CardElement.vue'
 import ElNavLink from '@fiction/ui/ElNavLink.vue'
-import NavMobile from './NavMobile.vue'
+import NavMobile from '@fiction/ui/NavMobile.vue'
 import NavAccount from './NavAccount.vue'
 
 export type UserConfig = {
