@@ -96,29 +96,6 @@ const accountMenu = vue.computed((): NavItem[] => {
               <ElImage :media="uc.logo" class="h-6 inline-block" />
             </RouterLink>
           </div>
-          <div class="flex lg:hidden items-center cursor-pointer hover:opacity-90 active:opacity-60" @click.stop="vis = !vis">
-            <ElAvatar v-if="fictionUser?.activeUser.value?.email" class="mr-3 h-7 w-7 rounded-full" :email="fictionUser?.activeUser.value?.email" />
-            <button
-              type="button"
-              class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5"
-            >
-              <span class="sr-only">Open main menu</span>
-              <svg
-                class="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                />
-              </svg>
-            </button>
-          </div>
           <div class="hidden lg:block space-x-2">
             <ElNavLink
               v-for="item in nav"
@@ -128,7 +105,7 @@ const accountMenu = vue.computed((): NavItem[] => {
             />
           </div>
           <div
-            class="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4 items-center"
+            class="flex lg:flex-1 lg:justify-end gap-x-4 items-center"
           >
             <NavAccount v-if="activeUser" :card="card" :account-menu="accountMenu" />
             <template v-else>
@@ -153,11 +130,20 @@ const accountMenu = vue.computed((): NavItem[] => {
               id="google-signin-prompt"
               class="absolute right-0 top-full"
             />
+            <button
+
+              type="button"
+              class="-m-2.5 inline-flex lg:hidden items-center justify-center rounded-md p-2.5"
+              @click.stop="vis = !vis"
+            >
+              <span class="sr-only">Open main menu</span>
+              <div class="i-tabler-menu text-2xl" />
+            </button>
           </div>
         </nav>
       </div>
     </div>
     <!-- Mobile Nav -->
-    <NavMobile v-model:vis="vis" :card="card" :account-menu="accountMenu" />
+    <NavMobile v-model:vis="vis" :nav="nav" :account-menu="accountMenu" />
   </div>
 </template>

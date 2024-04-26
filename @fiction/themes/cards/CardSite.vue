@@ -184,8 +184,8 @@ const primary = vue.computed(() => site.value?.colors.value.primary || getColorS
 </script>
 
 <template>
-  <div class="x-site">
-    <div class="x-font-body bg-theme-0 dark:bg-theme-950 text-theme-900 dark:text-theme-0" :class="site?.isEditable.value ? '' : ''">
+  <div class="x-site x-font-body bg-theme-50 dark:bg-theme-900 text-theme-900 dark:text-theme-0">
+    <div class="x-site-content relative z-10 bg-theme-0 dark:bg-theme-950" :class="site?.isEditable.value ? '' : ''">
       <div
         class="x-engine"
         :data-site-id="site?.siteId ?? '[empty]'"
@@ -278,6 +278,7 @@ body,
   --primary-950: v-bind("primary?.[950]");
   --primary-975: v-bind("primary?.[975]");
   --primary-1000: v-bind("primary?.[1000]");
+
 }
 
 /* Chrome, Safari and Opera */

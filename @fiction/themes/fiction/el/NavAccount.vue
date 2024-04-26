@@ -36,18 +36,8 @@ onResetUi(() => {
       class="group flex cursor-pointer items-center space-x-2 hover:opacity-90 active:opacity-80"
       @click.stop.prevent="toggle()"
     >
-      <ElAvatar class="ml-3 h-7 w-7 rounded-full" :email="fictionUser.activeUser?.value.email" />
-      <div class="flex w-4 flex-col items-end justify-center space-y-1">
-        <div
-          v-for="i in 3"
-          :key="i"
-          class="h-1 rounded-full transition-all"
-          :class="[
-            vis ? 'bg-theme-300 dark:bg-theme-600' : 'bg-theme-200 dark:bg-theme-500 group-hover:bg-theme-400 dark:group-hover:bg-theme-600',
-            i === 2 ? 'w-3 group-hover:translate-x-0.5' : 'w-4',
-          ]"
-        />
-      </div>
+      <ElAvatar class="ml-3 h-7 w-7 rounded-full ring-2 ring-theme-200 dark:ring-theme-0" :email="fictionUser.activeUser?.value.email" />
+
     </div>
 
     <transition
