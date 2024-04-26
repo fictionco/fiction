@@ -31,6 +31,10 @@ export function getViewMap(args: { pages: Card[] }) {
   pages.forEach((card) => {
     // Use the provided slug or generate one from the title.
     const slug = card.slug.value
+
+    if (!slug)
+      return logger.error('missing slug', { data: { cardId: card.cardId } })
+
     cardMap[slug] = card.cardId // Map the slug or title-slug to cardId
 
     // Check for isHome and is404 directly on the card.

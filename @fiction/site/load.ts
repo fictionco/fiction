@@ -215,3 +215,58 @@ export function getMountContext(args: {
 
   return { siteMode, ...selector } as MountContext
 }
+
+function formatPath(basePath: string, path: string): string {
+  const out = `${basePath}${path}`.replace(/\/\/+/g, '/').replace(/\/+$/, '')
+  return out || '/'
+}
+
+export function getPathsFromSite(site: Site, basePath: string = ''): string[] {
+  if (!site?.pages?.value)
+    return []
+
+  return site.pages.value
+    .filter(page => page.slug.value && page.slug.value !== '_404')
+    .flatMap((page) => {
+      const pagePath = page.slug.value === '_home' ? '/' : `/${page.slug.value}`
+      const cardPaths = page.cards.value
+        .filter(card => card.slug.value)
+        .map(card => `${pagePath}/${card.slug.value}`)
+
+      return [pagePath, ...cardPaths]
+    })
+    .map(path => formatPath(basePath, path))
+}
+
+export async function loadSitemap(args: { mode: 'static' | 'dynamic', runVars?: Partial<RunVars>, fictionRouter: FictionRouter, fictionSites: FictionSites }): Promise<{ hostname: string, paths: string[] }> {
+  const { runVars, fictionRouter, fictionSites, mode } = args
+
+  if (mode === 'static') {
+    const routes = fictionRouter.routes.value
+    const routesWithThemeId = routes.filter(r => r.settings.props?.themeId).map((r) => {
+      const basePath = r.settings.path.split('/:viewId')[0]
+      const out = { basePath: basePath || '/', themeId: r.settings.props.themeId }
+
+      return out
+    })
+
+    const themeSites = await Promise.all(routesWithThemeId.map(async ({ basePath, themeId }) => {
+      const site = await loadSiteFromTheme({ themeId, siteRouter: fictionRouter, fictionSites, siteMode: 'editor' })
+      return { site, basePath }
+    }))
+
+    const paths = themeSites.flatMap(({ site, basePath }) => getPathsFromSite(site, basePath))
+
+    return { hostname: fictionRouter.baseUrl, paths }
+  }
+  else {
+    const mountContext = getMountContext({ runVars })
+    const site = await loadSite({ ...args, siteRouter: fictionRouter, mountContext })
+
+    if (!site)
+      return { hostname: '', paths: [] }
+
+    const paths = getPathsFromSite(site)
+    return { hostname: runVars?.HOSTNAME || '', paths }
+  }
+}

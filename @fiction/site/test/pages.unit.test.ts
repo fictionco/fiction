@@ -2,7 +2,7 @@
  * @vitest-environment happy-dom
  */
 import { describe, expect, it } from 'vitest'
-import { loadSiteFromTheme } from '../load'
+import { getPathsFromSite, loadSiteFromTheme } from '../load'
 import { createSiteTestUtils } from './siteTestUtils'
 
 describe('site plugin tests', async () => {
@@ -46,5 +46,45 @@ describe('site plugin tests', async () => {
     await site.siteRouter.push('/', { caller: ctx.task.name })
 
     expect(site?.currentPage.value?.slug.value).toBe('_home')
+  })
+
+  it('generates correct paths for site pages and cards', async () => {
+    site.update({ pages: [
+      { slug: '_home', cards: [{ slug: 'welcome' }] },
+      { slug: 'blog', cards: [{ slug: 'first-post' }, { slug: 'second-post' }] },
+    ] })
+
+    const paths = getPathsFromSite(site)
+
+    expect(paths).toMatchInlineSnapshot(`
+      [
+        "/",
+        "/welcome",
+        "/blog",
+        "/blog/first-post",
+        "/blog/second-post",
+      ]
+    `)
+    const expectedPaths = [
+      '/',
+      '/welcome',
+      '/blog',
+      '/blog/first-post',
+      '/blog/second-post',
+    ]
+
+    expect(paths).toEqual(expectedPaths)
+
+    const paths2 = getPathsFromSite(site, '/test')
+
+    expect(paths2).toMatchInlineSnapshot(`
+      [
+        "/test",
+        "/test/welcome",
+        "/test/blog",
+        "/test/blog/first-post",
+        "/test/blog/second-post",
+      ]
+    `)
   })
 })

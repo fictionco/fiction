@@ -42,12 +42,3 @@ export interface EntryModuleExports {
   runAppEntry: (c: { renderRoute?: string, runVars?: Partial<RunVars> }) => Promise<FictionAppEntry>
   [key: string]: unknown
 }
-
-export type SiteMapEntry =
-  | (() => SitemapConfig)
-  | (() => Promise<SitemapConfig>)
-
-export interface SitemapConfig {
-  paths: string[]
-  topic: string
-}

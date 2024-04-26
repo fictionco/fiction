@@ -38,7 +38,7 @@ export type AppRouteParams<T extends string = string, U extends vue.Component = 
     navigate: ReturnType<vueRouter.NavigationGuard>
   }) => Promise<ReturnType<vueRouter.NavigationGuard>>
   meta?: Record<string, unknown>
-  props?: ComponentInterface<U>['$props']
+  props?: ComponentInterface<U>['$props'] | undefined
   component: U
   redirect?: vueRouter.RouteRecordRedirectOption
 }

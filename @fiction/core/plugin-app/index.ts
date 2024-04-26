@@ -10,10 +10,9 @@ import { FictionPlugin } from '../plugin'
 import type { FictionBuild } from '../plugin-build'
 import { AppRoute, type FictionRouter } from '../plugin-router'
 import type { RunVars, StandardServices } from '../inject'
+import { FictionSitemap } from '../plugin-sitemap'
 import { FictionRender } from './plugin-render'
 import ElRoot from './ElRoot.vue'
-import type { FictionSitemap } from './sitemap'
-import type { SiteMapEntry } from './types'
 
 export interface FictionAppSettings {
   mode?: 'production' | 'development'
@@ -26,7 +25,6 @@ export interface FictionAppSettings {
   fictionEnv: FictionEnv
   rootComponent?: vue.Component
   fictionRouter: FictionRouter
-  sitemaps?: SiteMapEntry[]
   tailwindConfig?: Partial<TailwindConfig>[]
   srcFolder?: string
   mainIndexHtml?: string
@@ -42,8 +40,8 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   isTest = this.settings.isTest || isTest()
   rootComponent = this.settings.rootComponent || ElRoot
   fictionBuild?: FictionBuild
-  fictionSitemap?: FictionSitemap
   fictionRender?: FictionRender
+  fictionSitemap?: FictionSitemap
   sitemaps = this.settings.sitemaps ?? []
   port = this.settings.port || 3000
   appServer?: http.Server
@@ -70,11 +68,8 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
      * node application init
      */
     if (!this.settings.fictionEnv.isApp.value && this.settings.fictionEnv?.cwd) {
-      this.fictionRender = new FictionRender({
-        fictionApp: this,
-        fictionEnv: this.settings.fictionEnv,
-        fictionRouter: this.settings.fictionRouter,
-      })
+      this.fictionRender = new FictionRender({ fictionApp: this, ...this.settings })
+      this.fictionSitemap = new FictionSitemap({ fictionApp: this, ...this.settings })
     }
 
     // add testing routes
@@ -84,11 +79,12 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   }
 
   addSchema() {
+    const routes = this.settings.fictionRouter.routes.value || []
     if (this.settings.fictionEnv) {
       this.settings.fictionEnv.addHook({
         hook: 'staticSchema',
         callback: async (existing) => {
-          const routeKeys = this.settings.fictionRouter.routes.value?.map(_ => _.name).filter(Boolean).sort()
+          const routeKeys = routes.map(_ => _.name).filter(Boolean).sort()
 
           return { ...existing, routes: { enum: routeKeys, type: 'string' }, menus: { enum: [''], type: 'string' } }
         },
@@ -99,14 +95,10 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
         callback: (
           schema: Record<string, unknown>,
         ): Record<string, unknown> => {
-          return { ...schema, routes: this.settings.fictionRouter.routes.value?.map(ep => ({ key: ep.name, path: ep.path })) }
+          return { ...schema, routes: routes.map(ep => ({ key: ep.name, path: ep.path })) }
         },
       })
     }
-  }
-
-  addSitemap(sitemap: SiteMapEntry) {
-    this.sitemaps = [...this.sitemaps, sitemap]
   }
 
   tailwindConfig = this.settings.tailwindConfig ?? []

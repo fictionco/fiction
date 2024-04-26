@@ -13,6 +13,7 @@ import { ManageCert } from './endpoint-certs'
 import { getRoutes } from './routes'
 import type { Theme } from './theme'
 import { FictionSiteBuilder } from './plugin-builder'
+import { loadSitemap } from './load'
 
 export * from './site'
 export * from './card'
@@ -64,6 +65,20 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
 
     this.settings.fictionDb.addTables(tables)
     this.settings.fictionRouter?.update(getRoutes({ ...this.settings, fictionSites: this }))
+
+    this.addSitemaps()
+  }
+
+  addSitemaps() {
+    this.settings.fictionApp.fictionSitemap?.sitemapLoaders.push(async (args) => {
+      const { paths, hostname } = await loadSitemap({ ...args, mode: 'static', fictionSites: this })
+      return { paths, hostname, topic: 'site' }
+    })
+
+    this.settings.fictionAppSites.fictionSitemap?.sitemapLoaders.push(async (args) => {
+      const { paths, hostname } = await loadSitemap({ ...args, mode: 'dynamic', fictionSites: this })
+      return { paths, hostname, topic: 'site' }
+    })
   }
 
   override async afterSetup() {

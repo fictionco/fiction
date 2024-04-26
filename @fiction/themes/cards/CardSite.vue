@@ -16,7 +16,7 @@ const props = defineProps({
   siteRouter: { type: Object as vue.PropType<FictionRouter>, default: undefined },
 })
 
-const { fictionEnv, fictionSites, runVars, fictionRouterSites } = useService<{ fictionSites: FictionSites, fictionRouterSites: FictionRouter }>()
+const { fictionSites, runVars, fictionRouterSites } = useService<{ fictionSites: FictionSites, fictionRouterSites: FictionRouter }>()
 
 const loading = vue.ref(false)
 const site = vue.shallowRef<Site>()
@@ -143,9 +143,7 @@ vue.onServerPrefetch(async () => {
 
 vue.onMounted(async () => {
   unhead.useHead({
-    bodyAttrs: {
-      class: () => site.value?.isDarkMode.value ? 'dark' : 'light',
-    },
+    bodyAttrs: { class: () => site.value?.isDarkMode.value ? 'dark' : 'light' },
   })
 
   if (!site.value)

@@ -17,7 +17,6 @@ import { FictionPlugin } from '../plugin'
 import { version } from '../package.json'
 import type { RunVars } from '../inject'
 import type * as types from './types'
-import { FictionSitemap } from './sitemap'
 import { getMarkdownPlugins } from './utils/vitePluginMarkdown'
 import { IndexHtml, getRequestVars } from './render/utils'
 import { SSR } from './render/ssr'
@@ -33,7 +32,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
   fictionApp = this.settings.fictionApp
   fictionRouter = this.settings.fictionRouter
   fictionBuild: FictionBuild
-  fictionSitemap: FictionSitemap
+
   isApp = this.settings.fictionEnv.isApp
   distFolder = path.join(this.settings.fictionEnv.distFolder, this.fictionApp.appInstanceId)
   distFolderServer = path.join(this.distFolder, `server`)
@@ -63,8 +62,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     if (this.isApp.value)
       throw new Error('render is server only')
 
-    this.fictionBuild = new FictionBuild({ fictionEnv: this.settings.fictionEnv })
-    this.fictionSitemap = new FictionSitemap({ fictionRouter: this.fictionRouter, fictionEnv: this.settings.fictionEnv })
+    this.fictionBuild = new FictionBuild(this.settings)
   }
 
   getViteServer = async (config: {
@@ -348,17 +346,14 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
       this.log.info(`[done:build] build completed successfully (${this.fictionApp.appInstanceId})`)
 
-      const sitemaps = await Promise.all(
-        this.fictionApp.sitemaps.map(async (s) => {
-          const r = await s()
-          return r
-        }),
-      )
-      await this.fictionSitemap?.generateSitemap({
-        appUrl: this.fictionApp.appUrl.value,
-        sitemaps,
-        distClient: distFolderClient,
-      })
+      // const sitemaps = await Promise.all(
+      //   this.fictionApp.sitemaps.map(s => s()),
+      // )
+      // await this.fictionSitemap?.generateSitemap({
+      //   appUrl: this.fictionApp.appUrl.value,
+      //   sitemaps,
+      //   distClient: distFolderClient,
+      // })
 
       if (render)
         await this.preRender({ serve })
@@ -373,19 +368,12 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     const distFolderClient = this.distFolderClient
     const distFolderStatic = this.distFolderStatic
     const isProd = true
-    const sitemaps = await Promise.all(
-      this.fictionApp.sitemaps.map(async (s) => {
-        const r = await s()
-        return r
-      }),
-    )
 
     const template = await this.indexHtml.getRenderedIndexHtml()
 
-    const urls
-      = (await this.fictionSitemap?.getSitemapPaths({
-        sitemaps,
-      })) || []
+    const urls = (await this.fictionApp.fictionSitemap?.getSitemapPaths({ runVars: {
+      HOSTNAME: this.fictionEnv?.meta.app?.url || '',
+    } })) || []
 
     fs.ensureDirSync(distFolderStatic)
     fs.emptyDirSync(distFolderStatic)
@@ -397,7 +385,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
       )
     }
 
-    this.log.info('pre-render URLS', { data: { sitemaps, urls } })
+    this.log.info('pre-render URLS', { data: { urls } })
 
     /**
      * @important pre-render in series
@@ -435,7 +423,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     this.log.info(`[done:render]`)
   }
 
-  getRunVars = (args: { request: Request }): Record<string, string> => {
+  getRunVars = (args: { request: Request }): Partial<RunVars> & Record<string, string> => {
     const { request } = args
     return {
       ...this.settings.fictionEnv.getRenderedEnvVars(),
@@ -468,44 +456,57 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     if (this.isApp.value)
       return
 
-    const { isProd, expressApp } = config
+    const { isProd } = config
 
-    const eApp = expressApp || express()
+    const expressApp = config.expressApp || express()
 
     // allow additional forwarded info
     // https://stackoverflow.com/questions/23413401/what-does-trust-proxy-actually-do-in-express-js-and-do-i-need-to-use-it
-    eApp.set('trust proxy', true)
+    expressApp.set('trust proxy', true)
 
     try {
       let viteServer: vite.ViteDevServer | undefined
 
       let template: string
       if (isProd) {
-        eApp.use(compression())
-        eApp.use(serveStatic(this.distFolderClient, { index: false }))
+        expressApp.use(compression())
+        expressApp.use(serveStatic(this.distFolderClient, { index: false }))
         template = await this.indexHtml.getRenderedIndexHtml()
       }
       else {
         viteServer = await this.getViteServer({ isProd })
-        eApp.use(viteServer.middlewares)
+        expressApp.use(viteServer.middlewares)
         template = await this.indexHtml.getDevIndexHtml({ viteServer, pathname: '/' })
       }
 
-      // server side rendering
-      eApp.use('*', async (req, res) => {
-        const pathname = req.originalUrl
+      await this.fictionEnv?.runHooks('expressApp', { expressApp, isProd })
 
-        // This is the page catch all loader,
-        // If a file request falls through to this its 404
-        // make sure false triggers don't occur
-        const rawPath = pathname.split('?')[0]
-        if (rawPath.includes('.') && rawPath.split('.').pop() !== 'html') {
-          res.status(404).end()
-          return
-        }
+      // server side rendering
+      expressApp.use('*', async (req, res) => {
+        const pathname = req.originalUrl
 
         try {
           const runVars = this.getRunVars({ request: req })
+
+          if (pathname === '/sitemap.xml') {
+            const sitemap = await this.fictionApp.fictionSitemap?.generateSitemap({ runVars })
+            res.status(200).set({ 'Content-Type': 'text/xml' }).end(sitemap)
+            return
+          } else if (pathname === '/sitemap.xsl') {
+            const xslFile = await this.fictionApp.fictionSitemap?.getXslContent()
+            res.status(200).set({ 'Content-Type': 'text/xml' }).end(xslFile)
+            return
+          }
+
+          // This is the page catch all loader,
+          // If a file request falls through to this its 404
+          // make sure false triggers don't occur
+          const rawPath = pathname.split('?')[0]
+          if (rawPath.includes('.') && rawPath.split('.').pop() !== 'html') {
+            res.status(404).end()
+            return
+          }
+
           const html = await this.serverRenderHtml({ template, pathname, isProd, runVars })
 
           const outputHtml = this.addRunVarsToHtml({ html, runVars })
@@ -520,13 +521,13 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
           res.status(500).end(e.stack)
         }
       })
-      return eApp
+      return expressApp
     }
     catch (error) {
       const e = error as Error
       this.log.error(`express creation error: ${e.message}`, { error: e })
 
-      return eApp
+      return expressApp
     }
   }
 

@@ -76,7 +76,7 @@ export class Card<
   templateId = vue.ref(this.settings.templateId || (this.parentId ? 'area' : 'wrap'))
   title = vue.ref(this.settings.title)
   description = vue.ref(this.settings.description)
-  slug = vue.ref(this.settings.slug ?? `${(this.title.value ? toSlug(this.title.value) : `page`)}`)
+  slug = vue.ref(this.settings.slug)
   displayTitle = vue.computed(() => this.title.value || toLabel(this.slug.value))
   userConfig = vue.ref<T>(this.settings.userConfig || {} as T)
   fullConfig = vue.computed(() => deepMerge([this.site?.fullConfig.value, this.userConfig.value as T]) as SiteUserConfig & T)
