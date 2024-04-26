@@ -80,31 +80,34 @@ export function animateItemEnter(args: { targets: string, themeId?: keyof typeof
 }
 
 export async function useElementVisible(args: { selector: string, onVisible: () => void }): Promise<void> {
-  // wait for dom load to prevent false positives
-  await waitFor(50)
+  const { selector, onVisible } = args;
 
-  const { selector, onVisible } = args
   if (typeof IntersectionObserver === 'undefined') {
-    console.warn('IntersectionObserver is not supported here.')
-    return
+    console.warn('IntersectionObserver is not supported in this environment.');
+    return;
   }
 
   const observer = new IntersectionObserver((entries, observer) => {
-    const [entry] = entries
+    const [entry] = entries;
     if (entry.isIntersecting) {
-      onVisible()
-      observer.disconnect() // Disconnect after the element is visible
+      onVisible();
+      observer.disconnect(); // Disconnect after the element becomes visible
     }
   }, {
-    threshold: 0.1, // Customize the threshold as needed
-  })
+    threshold: 0.1 // Customize the threshold as needed
+  });
 
-  // Ensure the element is present in the DOM
-  const element = document.querySelector(selector)
-  if (element)
-    observer.observe(element)
-  else
-    console.warn(`Element with selector ${selector} not found at the time of observer setup.`)
+  // Function to check for element and start observing
+  const checkAndObserve = () => {
+    const element = document.querySelector(selector);
+    if (element) {
+      observer.observe(element);
+      clearInterval(intervalId); // Clear the interval once the element is found and observed
+    }
+  };
+
+  // Interval to check for the element periodically until it is available
+  const intervalId = setInterval(checkAndObserve, 50); // Check every 50 ms
 }
 
 export function splitLetters(selector: string): void {

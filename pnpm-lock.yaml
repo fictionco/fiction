@@ -99,8 +99,8 @@ importers:
         version: 4.3.2(vue@3.4.25(typescript@5.4.5))
     devDependencies:
       '@antfu/eslint-config':
-        specifier: ^2.15.0
-        version: 2.15.0(@vue/compiler-sfc@3.4.25)(eslint@8.57.0)(typescript@5.4.5)(vitest@1.5.2(@types/node@20.12.7)(@vitest/ui@1.5.2)(happy-dom@14.7.1)(jsdom@24.0.0)(less@4.2.0))
+        specifier: ^2.16.0
+        version: 2.16.0(@vue/compiler-sfc@3.4.25)(eslint@8.57.0)(typescript@5.4.5)(vitest@1.5.2(@types/node@20.12.7)(@vitest/ui@1.5.2)(happy-dom@14.7.1)(jsdom@24.0.0)(less@4.2.0))
       '@benasher44/eslint-plugin-implicit-dependencies':
         specifier: ^1.1.3
         version: 1.1.3
@@ -175,7 +175,7 @@ importers:
         version: 3.9.0(@types/node@20.12.7)(rollup@4.16.4)(typescript@5.4.5)(vite@5.2.10(@types/node@20.12.7)(less@4.2.0))
       vitepress:
         specifier: ^1.1.3
-        version: 1.1.3(@algolia/client-search@4.23.3)(@types/node@20.12.7)(axios@1.6.8)(less@4.2.0)(postcss@8.4.38)(react-dom@18.3.0(react@18.3.0))(react@18.3.0)(search-insights@2.13.0)(typescript@5.4.5)
+        version: 1.1.3(@algolia/client-search@4.23.3)(@types/node@20.12.7)(axios@1.6.8)(less@4.2.0)(postcss@8.4.38)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.13.0)(typescript@5.4.5)
       vue-tsc:
         specifier: ^2.0.14
         version: 2.0.14(typescript@5.4.5)
@@ -183,11 +183,11 @@ importers:
   '@fiction/core':
     dependencies:
       '@aws-sdk/client-cloudfront':
-        specifier: ^3.556.0
-        version: 3.556.0
+        specifier: ^3.563.0
+        version: 3.563.0
       '@aws-sdk/client-s3':
-        specifier: ^3.556.0
-        version: 3.556.0
+        specifier: ^3.563.0
+        version: 3.563.0
       '@egoist/tailwindcss-icons':
         specifier: ^1.7.4
         version: 1.7.4(tailwindcss@3.4.3(ts-node@10.9.2(@types/node@20.12.7)(typescript@5.4.5)))
@@ -216,8 +216,8 @@ importers:
         specifier: ^3.2.0
         version: 3.2.0
       '@sinclair/typebox':
-        specifier: ^0.32.24
-        version: 0.32.24
+        specifier: ^0.32.25
+        version: 0.32.25
       '@slack/webhook':
         specifier: ^7.0.2
         version: 7.0.2
@@ -300,8 +300,8 @@ importers:
         specifier: ^5.0.3
         version: 5.0.3
       dompurify:
-        specifier: ^3.1.0
-        version: 3.1.0
+        specifier: ^3.1.1
+        version: 3.1.1
       dotenv:
         specifier: ^16.4.5
         version: 16.4.5
@@ -465,8 +465,8 @@ importers:
         specifier: ^0.2.1
         version: 0.2.1
       react:
-        specifier: ^18.3.0
-        version: 18.3.0
+        specifier: ^18.3.1
+        version: 18.3.1
       remove-markdown:
         specifier: ^0.5.0
         version: 0.5.0
@@ -643,8 +643,8 @@ importers:
         specifier: ^1.43.1
         version: 1.43.1
       react-dom:
-        specifier: ^18.3.0
-        version: 18.3.0(react@18.3.0)
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
       rollup:
         specifier: ^4.16.4
         version: 4.16.4
@@ -838,8 +838,8 @@ importers:
         specifier: ^4.19.2
         version: 4.19.2
       stripe:
-        specifier: ^15.3.0
-        version: 15.3.0
+        specifier: ^15.4.0
+        version: 15.4.0
     devDependencies:
       dotenv:
         specifier: ^16.4.5
@@ -1230,8 +1230,8 @@ packages:
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
 
-  '@antfu/eslint-config@2.15.0':
-    resolution: {integrity: sha512-qoqw+0N8bqz0vBIigGJamaIf1LdzXcmCDuleygJAF3EtACLieKyIMvpOdc2TU9AnuPbMBFCkN40340UWRChELw==}
+  '@antfu/eslint-config@2.16.0':
+    resolution: {integrity: sha512-K56svKb2tRtJcONE548tyvZJ8ZQPJiHp+20Aez1Dy77nVKQbPiCDFYGHxuk3fn1+NSL6PUxbVm/IEhqIWtZFCQ==}
     hasBin: true
     peerDependencies:
       '@eslint-react/eslint-plugin': ^1.5.8
@@ -1276,8 +1276,8 @@ packages:
   '@antfu/install-pkg@0.1.1':
     resolution: {integrity: sha512-LyB/8+bSfa0DFGC06zpCEfs89/XoWZwws5ygEa5D+Xsm3OfI+aXQ86VgVG7Acyef+rSZ5HE7J8rrxzrQeM3PjQ==}
 
-  '@antfu/install-pkg@0.3.2':
-    resolution: {integrity: sha512-FFYqME8+UHlPnRlX/vn+8cTD4Wo/nG/lzRxpABs3XANBmdJdNImVz3QvjNAE/W3PSCNbG387FOz8o5WelnWOlg==}
+  '@antfu/install-pkg@0.3.3':
+    resolution: {integrity: sha512-nHHsk3NXQ6xkCfiRRC8Nfrg8pU5kkr3P3Y9s9dKqiuRmBD0Yap7fymNDjGFKeWhZQHqqbCS5CfeMy9wtExM24w==}
 
   '@antfu/utils@0.7.7':
     resolution: {integrity: sha512-gFPqTG7otEJ8uP6wrhDv6mqwGWYZKNvAcCq6u9hOj0c+IKCEsY4L1oC9trPq2SaWIzAfHvqfBDxF591JkMf+kg==}
@@ -1310,12 +1310,12 @@ packages:
   '@aws-crypto/util@3.0.0':
     resolution: {integrity: sha512-2OJlpeJpCR48CC8r+uKVChzs9Iungj9wkZrl8Z041DWEWvyIHILYKCPNzJghKsivj+S3mLo6BVc7mBNzdxA46w==}
 
-  '@aws-sdk/client-cloudfront@3.556.0':
-    resolution: {integrity: sha512-ELYlp/9lj60jxOO/0i6NAKOZHPGwEmbSfvQf03HIwIjAI0lSXrKexW9TAOpKisC+2KwW5jBZg93d0aeD5iZ1fg==}
+  '@aws-sdk/client-cloudfront@3.563.0':
+    resolution: {integrity: sha512-atcQqES1bXiOWzWpKWMcCUyEq4L3gpEVJPt+Pz2d+6nxNXRiQf4iIaU6nxqA/ZQY9oyzFl8kpl6j3iHtu1sgCA==}
     engines: {node: '>=14.0.0'}
 
-  '@aws-sdk/client-s3@3.556.0':
-    resolution: {integrity: sha512-6WF9Kuzz1/8zqX8hKBpqj9+FYwQ5uTsVcOKpTW94AMX2qtIeVRlwlnNnYyywWo61yqD3g59CMNHcqSsaqAwglg==}
+  '@aws-sdk/client-s3@3.563.0':
+    resolution: {integrity: sha512-M9W70sFhP0Am5bB8Y8kXtxoQepZHuM7vG6cIL2/Kk3NBFCwxDDL7Lwi7QmNpFcPgf1poA5EZrXWQimCXgfTOIw==}
     engines: {node: '>=14.0.0'}
 
   '@aws-sdk/client-sso-oidc@3.556.0':
@@ -1350,8 +1350,8 @@ packages:
     resolution: {integrity: sha512-0Nz4ErOlXhe3muxWYMbPwRMgfKmVbBp36BAE2uv/z5wTbfdBkcgUwaflEvlKCLUTdHzuZsQk+BFS/gVyaUeOuA==}
     engines: {node: '>=14.0.0'}
 
-  '@aws-sdk/credential-provider-node@3.556.0':
-    resolution: {integrity: sha512-s1xVtKjyGc60O8qcNIzS1X3H+pWEwEfZ7TgNznVDNyuXvLrlNWiAcigPWGl2aAkc8tGcsSG0Qpyw2KYC939LFg==}
+  '@aws-sdk/credential-provider-node@3.563.0':
+    resolution: {integrity: sha512-cNGT93uuAzM2ZnWT0rHbT/bjnVRCIQDTi8ylnvNpsOj+zFCn2q2eQAh6fgACPjKhCA7Szc38AX0hH2PDXH6+yg==}
     engines: {node: '>=14.0.0'}
 
   '@aws-sdk/credential-provider-process@3.535.0':
@@ -2303,6 +2303,10 @@ packages:
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
 
+  '@jsdevtools/ez-spawn@3.0.4':
+    resolution: {integrity: sha512-f5DRIOZf7wxogefH03RjMPMdBF7ADTWUMoOs9kaJo06EfwF+aFhMZMDZxHg/Xe12hptN9xoZjGso2fdjapBRIA==}
+    engines: {node: '>=10'}
+
   '@jsdevtools/ono@7.1.3':
     resolution: {integrity: sha512-4JQNk+3mVzK3xh2rqd6RB4J46qUR19azEHBneZyTZM+c456qOrbbM/5xcR8huNCCcbVt7+UmizG6GuUvPvKUYg==}
 
@@ -2578,8 +2582,8 @@ packages:
   '@sinclair/typebox@0.29.6':
     resolution: {integrity: sha512-aX5IFYWlMa7tQ8xZr3b2gtVReCvg7f3LEhjir/JAjX2bJCMVJA5tIPv30wTD4KDfcwMd7DDYY3hFDeGmOgtrZQ==}
 
-  '@sinclair/typebox@0.32.24':
-    resolution: {integrity: sha512-2NhY+gf/fHvqYlWUAjuCI4+/esEVDicSIPLMFC98bZrqQ+YYpBc9YPOsAEosQNhu6AhVomlwn+yDe0UPzUYFTw==}
+  '@sinclair/typebox@0.32.25':
+    resolution: {integrity: sha512-Is/Phy0ZksiKfl1i8jh2Ez8YwX9ZzXjwrSvZQRc7wIQBrUvEjMBOdlIFiAOOhXJW1EvCsGtqvdT+UeB2D0qjMQ==}
 
   '@sindresorhus/is@4.6.0':
     resolution: {integrity: sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==}
@@ -3413,16 +3417,16 @@ packages:
   '@vue/devtools-api@6.6.1':
     resolution: {integrity: sha512-LgPscpE3Vs0x96PzSSB4IGVSZXZBZHpfxs+ZA1d+VEPwHdOXowy/Y2CsvCAIFrf+ssVU1pD1jidj505EpUnfbA==}
 
-  '@vue/devtools-api@7.1.2':
-    resolution: {integrity: sha512-AKd49cN3BdRgttmX5Aw8op7sx6jmaPwaILcDjaa05UKc1yIHDYST7P8yGZs6zd2pKFETAQz40gmyG7+b57slsQ==}
+  '@vue/devtools-api@7.1.3':
+    resolution: {integrity: sha512-W8IwFJ/o5iUk78jpqhvScbgCsPiOp2uileDVC0NDtW38gCWhsnu9SeBTjcdu3lbwLdsjc+H1c5Msd/x9ApbcFA==}
 
-  '@vue/devtools-kit@7.1.2':
-    resolution: {integrity: sha512-UTrcUSOhlI9eXqbPMHUWwA6NQiiPT3onzXsVk2JHGR8ZFFSkzsWTTpHyVA1woG8zvgu2HNV/wigW2k87p858zw==}
+  '@vue/devtools-kit@7.1.3':
+    resolution: {integrity: sha512-NFskFSJMVCBXTkByuk2llzI3KD3Blcm7WqiRorWjD6nClHPgkH5BobDH08rfulqq5ocRt5xV+3qOT1Q9FXJrwQ==}
     peerDependencies:
       vue: ^3.0.0
 
-  '@vue/devtools-shared@7.1.2':
-    resolution: {integrity: sha512-r9cUf93VMhKSsxF2/cBbf6Lm1nRBx+r1pRuji5CiAf3JIPYPOjeEqJ13OuwP1fauYh1tyBFcCxt3eJPvHT59gg==}
+  '@vue/devtools-shared@7.1.3':
+    resolution: {integrity: sha512-KJ3AfgjTn3tJz/XKF+BlVShNPecim3G21oHRue+YQOsooW+0s+qXvm09U09aO7yBza5SivL1QgxSrzAbiKWjhQ==}
 
   '@vue/language-core@1.8.27':
     resolution: {integrity: sha512-L8Kc27VdQserNaCUNiSFdDl9LWT24ly8Hpwf1ECy3aFb9m6bDhBGQYOujDm21N7EW3moKIOKEanQwe1q5BK+mA==}
@@ -3847,6 +3851,9 @@ packages:
   call-bind@1.0.7:
     resolution: {integrity: sha512-GHTSNSYICQ7scH7sZ+M2rFopRoLh8t2bLSW6BbgrtLsahOIB5iyAVJf9GjWK3cYTDaMj4XdBpM1cA6pIS0Kv2w==}
     engines: {node: '>= 0.4'}
+
+  call-me-maybe@1.0.2:
+    resolution: {integrity: sha512-HpX65o1Hnr9HH25ojC1YGs7HCQLq0GCOibSaWER0eNpgJ/Z1MZv2mTc7+xh6WOPxbRVcmgbv4hGU+uSQ/2xFZQ==}
 
   callsites@3.1.0:
     resolution: {integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==}
@@ -4444,8 +4451,8 @@ packages:
     resolution: {integrity: sha512-cgwlv/1iFQiFnU96XXgROh8xTeetsnJiDsTc7TYCLFd9+/WNkIqPTxiM/8pSd8VIrhXGTf1Ny1q1hquVqDJB5w==}
     engines: {node: '>= 4'}
 
-  dompurify@3.1.0:
-    resolution: {integrity: sha512-yoU4rhgPKCo+p5UrWWWNKiIq+ToGqmVVhk0PmMYBK4kRsR3/qhemNFL8f6CFmBd4gMwm3F4T7HBoydP5uY07fA==}
+  dompurify@3.1.1:
+    resolution: {integrity: sha512-tVP8C/GJwnABOn/7cx/ymx/hXpmBfWIPihC1aOEvS8GbMqy3pgeYtJk1HXN3CO7tu+8bpY18f6isjR5Cymj0TQ==}
 
   domutils@2.8.0:
     resolution: {integrity: sha512-w96Cjofp72M5IIhpjgobBimYEfoPjx1Vx0BSX9P30WBdZW2WIKU0T1Bd0kz2eNZ9ikjKgHbEyKx8BB6H1L3h3A==}
@@ -4487,8 +4494,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  electron-to-chromium@1.4.748:
-    resolution: {integrity: sha512-VWqjOlPZn70UZ8FTKUOkUvBLeTQ0xpty66qV0yJcAGY2/CthI4xyW9aEozRVtuwv3Kpf5xTesmJUcPwuJmgP4A==}
+  electron-to-chromium@1.4.750:
+    resolution: {integrity: sha512-9ItEpeu15hW5m8jKdriL+BQrgwDTXEL9pn4SkillWFu73ZNNNQ2BKKLS+ZHv2vC9UkNhosAeyfxOf/5OSeTCPA==}
 
   elliptic@6.5.5:
     resolution: {integrity: sha512-7EjbcmUm17NQFu4Pmgmq2olYMj8nwMnpcddByChSUjArp8F5DQWcIcpriwO4ZToLNAJig0yiyjswfyGNje/ixw==}
@@ -4631,6 +4638,11 @@ packages:
 
   eslint-plugin-antfu@2.1.2:
     resolution: {integrity: sha512-s7ZTOM3uq0iqpp6gF0UEotnvup7f2PHBUftCytLZX0+6C9j9KadKZQh6bVVngAyFgsmeD9+gcBopOYLClb2oDg==}
+    peerDependencies:
+      eslint: '*'
+
+  eslint-plugin-command@0.1.2:
+    resolution: {integrity: sha512-LxP9coE/GwLvF4JMFyJxqjyMxOASxl8Y3UPWyjjfaIBz4X0yWGqidX0gbAeVuZ9xkaBNWIWZtlPtLPlN/wckOA==}
     peerDependencies:
       eslint: '*'
 
@@ -7135,16 +7147,16 @@ packages:
   rc-config-loader@4.1.3:
     resolution: {integrity: sha512-kD7FqML7l800i6pS6pvLyIE2ncbk9Du8Q0gp/4hMPhJU6ZxApkoLcGD8ZeqgiAlfwZ6BlETq6qqe+12DUL207w==}
 
-  react-dom@18.3.0:
-    resolution: {integrity: sha512-zaKdLBftQJnvb7FtDIpZtsAIb2MZU087RM8bRDZU8LVCCFYjPTsDZJNFUWPcVz3HFSN1n/caxi0ca4B/aaVQGQ==}
+  react-dom@18.3.1:
+    resolution: {integrity: sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==}
     peerDependencies:
-      react: ^18.3.0
+      react: ^18.3.1
 
-  react-is@18.3.0:
-    resolution: {integrity: sha512-wRiUsea88TjKDc4FBEn+sLvIDesp6brMbGWnJGjew2waAc9evdhja/2LvePc898HJbHw0L+MTWy7NhpnELAvLQ==}
+  react-is@18.3.1:
+    resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
 
-  react@18.3.0:
-    resolution: {integrity: sha512-RPutkJftSAldDibyrjuku7q11d3oy6wKOyPe5K1HA/HwwrXcEqBdHsLypkC2FFYjP7bPUa6gbzSBhw4sY2JcDg==}
+  react@18.3.1:
+    resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
     engines: {node: '>=0.10.0'}
 
   read-cache@1.0.0:
@@ -7366,8 +7378,8 @@ packages:
     resolution: {integrity: sha512-xAg7SOnEhrm5zI3puOOKyy1OMcMlIJZYNJY7xLBwSze0UjhPLnWfj2GF2EpT0jmzaJKIWKHLsaSSajf35bcYnA==}
     engines: {node: '>=v12.22.7'}
 
-  scheduler@0.23.1:
-    resolution: {integrity: sha512-5GKS5JGfiah1O38Vfa9srZE4s3wdHbwjlCrvIookrg2FO9aIwKLOJXuJQFlEfNcVSOXuaL2hzDeY20uVXcUtrw==}
+  scheduler@0.23.2:
+    resolution: {integrity: sha512-UOShsPwz7NrMUqhR6t0hWjFduvOzbtv7toDH1/hIrfRNIDBnnBWd0CwJTGvTpngVlmwGCdP9/Zl/tVrDqcuYzQ==}
 
   search-insights@2.13.0:
     resolution: {integrity: sha512-Orrsjf9trHHxFRuo9/rzm0KIWmgzE8RMlZMzuhZOJ01Rnz3D0YBAe+V6473t6/H6c7irs6Lt48brULAiRWb3Vw==}
@@ -7658,8 +7670,8 @@ packages:
   strip-literal@2.1.0:
     resolution: {integrity: sha512-Op+UycaUt/8FbN/Z2TWPBLge3jWrP3xj10f3fnYxf052bKuS3EKs1ZQcVGjnEMdsNVAM+plXRdmjrZ/KgG3Skw==}
 
-  stripe@15.3.0:
-    resolution: {integrity: sha512-5J1NUZaCy0DnFINyxKWR+107BQ7gkhhOwMRp+ckHQP8j7+0HbwE8cN2Vi/qnja3k3sFC2ft6g6hcvM7lmavEAQ==}
+  stripe@15.4.0:
+    resolution: {integrity: sha512-o3STlHYUmJh1ogAem434As7hCMEGG43R1fFkX0NuxabnmZoOQ9Ytxuu+e5Tq5NSE3LPUIV64jbjQebHoZvLTKw==}
     engines: {node: '>=12.*'}
 
   strnum@1.0.5:
@@ -8587,9 +8599,9 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@antfu/eslint-config@2.15.0(@vue/compiler-sfc@3.4.25)(eslint@8.57.0)(typescript@5.4.5)(vitest@1.5.2(@types/node@20.12.7)(@vitest/ui@1.5.2)(happy-dom@14.7.1)(jsdom@24.0.0)(less@4.2.0))':
+  '@antfu/eslint-config@2.16.0(@vue/compiler-sfc@3.4.25)(eslint@8.57.0)(typescript@5.4.5)(vitest@1.5.2(@types/node@20.12.7)(@vitest/ui@1.5.2)(happy-dom@14.7.1)(jsdom@24.0.0)(less@4.2.0))':
     dependencies:
-      '@antfu/install-pkg': 0.3.2
+      '@antfu/install-pkg': 0.3.3
       '@clack/prompts': 0.7.0
       '@stylistic/eslint-plugin': 1.7.2(eslint@8.57.0)(typescript@5.4.5)
       '@typescript-eslint/eslint-plugin': 7.7.1(@typescript-eslint/parser@7.7.1(eslint@8.57.0)(typescript@5.4.5))(eslint@8.57.0)(typescript@5.4.5)
@@ -8599,6 +8611,7 @@ snapshots:
       eslint-flat-config-utils: 0.2.4
       eslint-merge-processors: 0.1.0(eslint@8.57.0)
       eslint-plugin-antfu: 2.1.2(eslint@8.57.0)
+      eslint-plugin-command: 0.1.2(eslint@8.57.0)
       eslint-plugin-eslint-comments: 3.2.0(eslint@8.57.0)
       eslint-plugin-import-x: 0.5.0(eslint@8.57.0)(typescript@5.4.5)
       eslint-plugin-jsdoc: 48.2.3(eslint@8.57.0)
@@ -8635,9 +8648,9 @@ snapshots:
       execa: 5.1.1
       find-up: 5.0.0
 
-  '@antfu/install-pkg@0.3.2':
+  '@antfu/install-pkg@0.3.3':
     dependencies:
-      execa: 8.0.1
+      '@jsdevtools/ez-spawn': 3.0.4
 
   '@antfu/utils@0.7.7': {}
 
@@ -8700,13 +8713,13 @@ snapshots:
       '@aws-sdk/util-utf8-browser': 3.259.0
       tslib: 1.14.1
 
-  '@aws-sdk/client-cloudfront@3.556.0':
+  '@aws-sdk/client-cloudfront@3.563.0':
     dependencies:
       '@aws-crypto/sha256-browser': 3.0.0
       '@aws-crypto/sha256-js': 3.0.0
-      '@aws-sdk/client-sts': 3.556.0(@aws-sdk/credential-provider-node@3.556.0)
+      '@aws-sdk/client-sts': 3.556.0(@aws-sdk/credential-provider-node@3.563.0)
       '@aws-sdk/core': 3.556.0
-      '@aws-sdk/credential-provider-node': 3.556.0
+      '@aws-sdk/credential-provider-node': 3.563.0
       '@aws-sdk/middleware-host-header': 3.535.0
       '@aws-sdk/middleware-logger': 3.535.0
       '@aws-sdk/middleware-recursion-detection': 3.535.0
@@ -8748,14 +8761,14 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-s3@3.556.0':
+  '@aws-sdk/client-s3@3.563.0':
     dependencies:
       '@aws-crypto/sha1-browser': 3.0.0
       '@aws-crypto/sha256-browser': 3.0.0
       '@aws-crypto/sha256-js': 3.0.0
-      '@aws-sdk/client-sts': 3.556.0(@aws-sdk/credential-provider-node@3.556.0)
+      '@aws-sdk/client-sts': 3.556.0(@aws-sdk/credential-provider-node@3.563.0)
       '@aws-sdk/core': 3.556.0
-      '@aws-sdk/credential-provider-node': 3.556.0
+      '@aws-sdk/credential-provider-node': 3.563.0
       '@aws-sdk/middleware-bucket-endpoint': 3.535.0
       '@aws-sdk/middleware-expect-continue': 3.535.0
       '@aws-sdk/middleware-flexible-checksums': 3.535.0
@@ -8810,13 +8823,13 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-sso-oidc@3.556.0(@aws-sdk/credential-provider-node@3.556.0)':
+  '@aws-sdk/client-sso-oidc@3.556.0(@aws-sdk/credential-provider-node@3.563.0)':
     dependencies:
       '@aws-crypto/sha256-browser': 3.0.0
       '@aws-crypto/sha256-js': 3.0.0
-      '@aws-sdk/client-sts': 3.556.0(@aws-sdk/credential-provider-node@3.556.0)
+      '@aws-sdk/client-sts': 3.556.0(@aws-sdk/credential-provider-node@3.563.0)
       '@aws-sdk/core': 3.556.0
-      '@aws-sdk/credential-provider-node': 3.556.0
+      '@aws-sdk/credential-provider-node': 3.563.0
       '@aws-sdk/middleware-host-header': 3.535.0
       '@aws-sdk/middleware-logger': 3.535.0
       '@aws-sdk/middleware-recursion-detection': 3.535.0
@@ -8898,12 +8911,12 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-sts@3.556.0(@aws-sdk/credential-provider-node@3.556.0)':
+  '@aws-sdk/client-sts@3.556.0(@aws-sdk/credential-provider-node@3.563.0)':
     dependencies:
       '@aws-crypto/sha256-browser': 3.0.0
       '@aws-crypto/sha256-js': 3.0.0
       '@aws-sdk/core': 3.556.0
-      '@aws-sdk/credential-provider-node': 3.556.0
+      '@aws-sdk/credential-provider-node': 3.563.0
       '@aws-sdk/middleware-host-header': 3.535.0
       '@aws-sdk/middleware-logger': 3.535.0
       '@aws-sdk/middleware-recursion-detection': 3.535.0
@@ -8971,13 +8984,13 @@ snapshots:
       '@smithy/util-stream': 2.2.0
       tslib: 2.6.2
 
-  '@aws-sdk/credential-provider-ini@3.556.0(@aws-sdk/credential-provider-node@3.556.0)':
+  '@aws-sdk/credential-provider-ini@3.556.0(@aws-sdk/credential-provider-node@3.563.0)':
     dependencies:
-      '@aws-sdk/client-sts': 3.556.0(@aws-sdk/credential-provider-node@3.556.0)
+      '@aws-sdk/client-sts': 3.556.0(@aws-sdk/credential-provider-node@3.563.0)
       '@aws-sdk/credential-provider-env': 3.535.0
       '@aws-sdk/credential-provider-process': 3.535.0
-      '@aws-sdk/credential-provider-sso': 3.556.0(@aws-sdk/credential-provider-node@3.556.0)
-      '@aws-sdk/credential-provider-web-identity': 3.556.0(@aws-sdk/credential-provider-node@3.556.0)
+      '@aws-sdk/credential-provider-sso': 3.556.0(@aws-sdk/credential-provider-node@3.563.0)
+      '@aws-sdk/credential-provider-web-identity': 3.556.0(@aws-sdk/credential-provider-node@3.563.0)
       '@aws-sdk/types': 3.535.0
       '@smithy/credential-provider-imds': 2.3.0
       '@smithy/property-provider': 2.2.0
@@ -8988,14 +9001,14 @@ snapshots:
       - '@aws-sdk/credential-provider-node'
       - aws-crt
 
-  '@aws-sdk/credential-provider-node@3.556.0':
+  '@aws-sdk/credential-provider-node@3.563.0':
     dependencies:
       '@aws-sdk/credential-provider-env': 3.535.0
       '@aws-sdk/credential-provider-http': 3.552.0
-      '@aws-sdk/credential-provider-ini': 3.556.0(@aws-sdk/credential-provider-node@3.556.0)
+      '@aws-sdk/credential-provider-ini': 3.556.0(@aws-sdk/credential-provider-node@3.563.0)
       '@aws-sdk/credential-provider-process': 3.535.0
-      '@aws-sdk/credential-provider-sso': 3.556.0(@aws-sdk/credential-provider-node@3.556.0)
-      '@aws-sdk/credential-provider-web-identity': 3.556.0(@aws-sdk/credential-provider-node@3.556.0)
+      '@aws-sdk/credential-provider-sso': 3.556.0(@aws-sdk/credential-provider-node@3.563.0)
+      '@aws-sdk/credential-provider-web-identity': 3.556.0(@aws-sdk/credential-provider-node@3.563.0)
       '@aws-sdk/types': 3.535.0
       '@smithy/credential-provider-imds': 2.3.0
       '@smithy/property-provider': 2.2.0
@@ -9013,10 +9026,10 @@ snapshots:
       '@smithy/types': 2.12.0
       tslib: 2.6.2
 
-  '@aws-sdk/credential-provider-sso@3.556.0(@aws-sdk/credential-provider-node@3.556.0)':
+  '@aws-sdk/credential-provider-sso@3.556.0(@aws-sdk/credential-provider-node@3.563.0)':
     dependencies:
       '@aws-sdk/client-sso': 3.556.0
-      '@aws-sdk/token-providers': 3.556.0(@aws-sdk/credential-provider-node@3.556.0)
+      '@aws-sdk/token-providers': 3.556.0(@aws-sdk/credential-provider-node@3.563.0)
       '@aws-sdk/types': 3.535.0
       '@smithy/property-provider': 2.2.0
       '@smithy/shared-ini-file-loader': 2.4.0
@@ -9026,9 +9039,9 @@ snapshots:
       - '@aws-sdk/credential-provider-node'
       - aws-crt
 
-  '@aws-sdk/credential-provider-web-identity@3.556.0(@aws-sdk/credential-provider-node@3.556.0)':
+  '@aws-sdk/credential-provider-web-identity@3.556.0(@aws-sdk/credential-provider-node@3.563.0)':
     dependencies:
-      '@aws-sdk/client-sts': 3.556.0(@aws-sdk/credential-provider-node@3.556.0)
+      '@aws-sdk/client-sts': 3.556.0(@aws-sdk/credential-provider-node@3.563.0)
       '@aws-sdk/types': 3.535.0
       '@smithy/property-provider': 2.2.0
       '@smithy/types': 2.12.0
@@ -9145,9 +9158,9 @@ snapshots:
       '@smithy/types': 2.12.0
       tslib: 2.6.2
 
-  '@aws-sdk/token-providers@3.556.0(@aws-sdk/credential-provider-node@3.556.0)':
+  '@aws-sdk/token-providers@3.556.0(@aws-sdk/credential-provider-node@3.563.0)':
     dependencies:
-      '@aws-sdk/client-sso-oidc': 3.556.0(@aws-sdk/credential-provider-node@3.556.0)
+      '@aws-sdk/client-sso-oidc': 3.556.0(@aws-sdk/credential-provider-node@3.563.0)
       '@aws-sdk/types': 3.535.0
       '@smithy/property-provider': 2.2.0
       '@smithy/shared-ini-file-loader': 2.4.0
@@ -9522,9 +9535,9 @@ snapshots:
 
   '@docsearch/css@3.6.0': {}
 
-  '@docsearch/js@3.6.0(@algolia/client-search@4.23.3)(react-dom@18.3.0(react@18.3.0))(react@18.3.0)(search-insights@2.13.0)':
+  '@docsearch/js@3.6.0(@algolia/client-search@4.23.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.13.0)':
     dependencies:
-      '@docsearch/react': 3.6.0(@algolia/client-search@4.23.3)(react-dom@18.3.0(react@18.3.0))(react@18.3.0)(search-insights@2.13.0)
+      '@docsearch/react': 3.6.0(@algolia/client-search@4.23.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.13.0)
       preact: 10.20.2
     transitivePeerDependencies:
       - '@algolia/client-search'
@@ -9533,15 +9546,15 @@ snapshots:
       - react-dom
       - search-insights
 
-  '@docsearch/react@3.6.0(@algolia/client-search@4.23.3)(react-dom@18.3.0(react@18.3.0))(react@18.3.0)(search-insights@2.13.0)':
+  '@docsearch/react@3.6.0(@algolia/client-search@4.23.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.13.0)':
     dependencies:
       '@algolia/autocomplete-core': 1.9.3(@algolia/client-search@4.23.3)(algoliasearch@4.23.3)(search-insights@2.13.0)
       '@algolia/autocomplete-preset-algolia': 1.9.3(@algolia/client-search@4.23.3)(algoliasearch@4.23.3)
       '@docsearch/css': 3.6.0
       algoliasearch: 4.23.3
     optionalDependencies:
-      react: 18.3.0
-      react-dom: 18.3.0(react@18.3.0)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
       search-insights: 2.13.0
     transitivePeerDependencies:
       - '@algolia/client-search'
@@ -9995,6 +10008,13 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
 
+  '@jsdevtools/ez-spawn@3.0.4':
+    dependencies:
+      call-me-maybe: 1.0.2
+      cross-spawn: 7.0.3
+      string-argv: 0.3.2
+      type-detect: 4.0.8
+
   '@jsdevtools/ono@7.1.3': {}
 
   '@kurkle/color@0.3.2': {}
@@ -10305,7 +10325,7 @@ snapshots:
 
   '@sinclair/typebox@0.29.6': {}
 
-  '@sinclair/typebox@0.32.24': {}
+  '@sinclair/typebox@0.32.25': {}
 
   '@sindresorhus/is@4.6.0': {}
 
@@ -11506,22 +11526,22 @@ snapshots:
 
   '@vue/devtools-api@6.6.1': {}
 
-  '@vue/devtools-api@7.1.2(vue@3.4.25(typescript@5.4.5))':
+  '@vue/devtools-api@7.1.3(vue@3.4.25(typescript@5.4.5))':
     dependencies:
-      '@vue/devtools-kit': 7.1.2(vue@3.4.25(typescript@5.4.5))
+      '@vue/devtools-kit': 7.1.3(vue@3.4.25(typescript@5.4.5))
     transitivePeerDependencies:
       - vue
 
-  '@vue/devtools-kit@7.1.2(vue@3.4.25(typescript@5.4.5))':
+  '@vue/devtools-kit@7.1.3(vue@3.4.25(typescript@5.4.5))':
     dependencies:
-      '@vue/devtools-shared': 7.1.2
+      '@vue/devtools-shared': 7.1.3
       hookable: 5.5.3
       mitt: 3.0.1
       perfect-debounce: 1.0.0
       speakingurl: 14.0.1
       vue: 3.4.25(typescript@5.4.5)
 
-  '@vue/devtools-shared@7.1.2':
+  '@vue/devtools-shared@7.1.3':
     dependencies:
       rfdc: 1.3.1
 
@@ -11924,7 +11944,7 @@ snapshots:
   browserslist@4.23.0:
     dependencies:
       caniuse-lite: 1.0.30001612
-      electron-to-chromium: 1.4.748
+      electron-to-chromium: 1.4.750
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.23.0)
 
@@ -11985,6 +12005,8 @@ snapshots:
       function-bind: 1.1.2
       get-intrinsic: 1.2.4
       set-function-length: 1.2.2
+
+  call-me-maybe@1.0.2: {}
 
   callsites@3.1.0: {}
 
@@ -12588,7 +12610,7 @@ snapshots:
     dependencies:
       domelementtype: 2.3.0
 
-  dompurify@3.1.0: {}
+  dompurify@3.1.1: {}
 
   domutils@2.8.0:
     dependencies:
@@ -12631,7 +12653,7 @@ snapshots:
     dependencies:
       jake: 10.8.7
 
-  electron-to-chromium@1.4.748: {}
+  electron-to-chromium@1.4.750: {}
 
   elliptic@6.5.5:
     dependencies:
@@ -12897,6 +12919,10 @@ snapshots:
       eslint: 8.57.0
 
   eslint-plugin-antfu@2.1.2(eslint@8.57.0):
+    dependencies:
+      eslint: 8.57.0
+
+  eslint-plugin-command@0.1.2(eslint@8.57.0):
     dependencies:
       eslint: 8.57.0
 
@@ -15510,7 +15536,7 @@ snapshots:
     dependencies:
       '@jest/schemas': 29.6.3
       ansi-styles: 5.2.0
-      react-is: 18.3.0
+      react-is: 18.3.1
 
   prettyoutput@1.2.0:
     dependencies:
@@ -15711,15 +15737,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  react-dom@18.3.0(react@18.3.0):
+  react-dom@18.3.1(react@18.3.1):
     dependencies:
       loose-envify: 1.4.0
-      react: 18.3.0
-      scheduler: 0.23.1
+      react: 18.3.1
+      scheduler: 0.23.2
 
-  react-is@18.3.0: {}
+  react-is@18.3.1: {}
 
-  react@18.3.0:
+  react@18.3.1:
     dependencies:
       loose-envify: 1.4.0
 
@@ -15982,7 +16008,7 @@ snapshots:
     dependencies:
       xmlchars: 2.2.0
 
-  scheduler@0.23.1:
+  scheduler@0.23.2:
     dependencies:
       loose-envify: 1.4.0
 
@@ -16319,7 +16345,7 @@ snapshots:
     dependencies:
       js-tokens: 9.0.0
 
-  stripe@15.3.0:
+  stripe@15.4.0:
     dependencies:
       '@types/node': 20.12.7
       qs: 6.12.1
@@ -16887,15 +16913,15 @@ snapshots:
       fsevents: 2.3.3
       less: 4.2.0
 
-  vitepress@1.1.3(@algolia/client-search@4.23.3)(@types/node@20.12.7)(axios@1.6.8)(less@4.2.0)(postcss@8.4.38)(react-dom@18.3.0(react@18.3.0))(react@18.3.0)(search-insights@2.13.0)(typescript@5.4.5):
+  vitepress@1.1.3(@algolia/client-search@4.23.3)(@types/node@20.12.7)(axios@1.6.8)(less@4.2.0)(postcss@8.4.38)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.13.0)(typescript@5.4.5):
     dependencies:
       '@docsearch/css': 3.6.0
-      '@docsearch/js': 3.6.0(@algolia/client-search@4.23.3)(react-dom@18.3.0(react@18.3.0))(react@18.3.0)(search-insights@2.13.0)
+      '@docsearch/js': 3.6.0(@algolia/client-search@4.23.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.13.0)
       '@shikijs/core': 1.3.0
       '@shikijs/transformers': 1.3.0
       '@types/markdown-it': 14.0.1
       '@vitejs/plugin-vue': 5.0.4(vite@5.2.10(@types/node@20.12.7)(less@4.2.0))(vue@3.4.25(typescript@5.4.5))
-      '@vue/devtools-api': 7.1.2(vue@3.4.25(typescript@5.4.5))
+      '@vue/devtools-api': 7.1.3(vue@3.4.25(typescript@5.4.5))
       '@vueuse/core': 10.9.0(vue@3.4.25(typescript@5.4.5))
       '@vueuse/integrations': 10.9.0(axios@1.6.8)(focus-trap@7.5.4)(vue@3.4.25(typescript@5.4.5))
       focus-trap: 7.5.4
