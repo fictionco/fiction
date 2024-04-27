@@ -76,7 +76,7 @@ const hasAccessCode = vue.ref(false)
                 id="modal-title"
                 class="x-font-title text-3xl font-bold text-balance tracking-tight"
               >
-                To ensure quality, Fiction is currently invite-only.
+                Fiction is invite-only.
               </h3>
               <div class="mt-4">
                 <p class="text-theme-500 text-sm ">
@@ -89,20 +89,22 @@ const hasAccessCode = vue.ref(false)
             <div v-if="!hasAccessCode" class="actions flex justify-center space-y-4 md:space-y-0 md:space-x-4 flex-col md:flex-row">
               <ElButton
                 type="button"
-                btn="primary"
+                btn="default"
                 size="lg"
                 @click="hasAccessCode = true"
               >
-                I Have An Invite Code
+                Use Invite Code
               </ElButton>
               <ElButton
                 type="button"
-                btn="default"
+                btn="success"
                 size="lg"
-                href="https://calendly.com/andrewpowers"
+                href="https://wa.me/message/CX5P5VWZ3YWDH1"
                 target="_blank"
               >
-                Talk with Us <span class="i-tabler-arrow-up-right ml-2 opacity-50" />
+                <span class="i-tabler-brand-whatsapp mr-2 opacity-50" />
+                <span>Talk to us</span>
+                <span class="i-tabler-arrow-up-right ml-2 opacity-50" />
               </ElButton>
             </div>
             <div v-else>

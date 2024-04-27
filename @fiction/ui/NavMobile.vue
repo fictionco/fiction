@@ -2,7 +2,6 @@
 import { getNavComponentType, onBrowserEvent, onResetUi, shortId, useService, vue } from '@fiction/core'
 import type { NavItem } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from './anim'
-import ElAvatar from './ElAvatar.vue'
 import ElButton from './ElButton.vue'
 
 const props = defineProps({
@@ -12,8 +11,6 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:vis'])
-
-const { fictionUser } = useService()
 
 const randomId = shortId()
 const afterVisible = vue.ref(false)
@@ -75,7 +72,50 @@ function getIcon(icon: string): string {
 
 <template>
   <teleport to=".x-site">
-    <div v-if="vis" class="z-0 fixed h-[100dvh] top-0 right-0 w-full bg-theme-900 text-theme-0" @update:vis="emit('update:vis', $event)" @click.stop>
+    <div v-if="vis" class="dark z-0 fixed h-[100dvh] top-0 right-0 w-full bg-theme-900 text-theme-0" @update:vis="emit('update:vis', $event)" @click.stop>
+      <div :id="randomId" class="w-[275px] h-full float-right">
+        <a class="close absolute block right-10 top-10 z-10 cursor-pointer hover:scale-110" :class="!vis ? 'out' : ''" @click="close()">
+          <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60px] h-[60px]  rounded-full transition-all " />
+          <span class="close-wrap overflow-hidden top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[28px] h-[28px] absolute">
+            <span class="close-line close-line1 h-full w-[2px] bg-theme-0 absolute rounded-[5px] left-[13px] transition-all" />
+            <span class="close-line close-line2 h-full w-[2px] bg-theme-0 absolute rounded-[5px] left-[13px] transition-all" />
+          </span>
+        </a>
+
+        <div class="h-full py-20 flex flex-col justify-between relative z-10">
+          <div class="h-full overflow-y-scroll p-6 flex flex-col justify-center">
+            <div
+              class="flex flex-col gap-6"
+              role="menu"
+              aria-orientation="vertical"
+              aria-labelledby="main-menu"
+            >
+              <component
+                :is="getNavComponentType(item)"
+                v-for="(item, i) in nav"
+                :key="i"
+                :to="item.href"
+                :href="item.href"
+                role="menuitem"
+                class="x-action-item font-sans antialiased text-3xl font-light hover:text-theme-100"
+                :class="item.isActive ? '' : ''"
+                @click="item.onClick ? item.onClick($event) : null"
+              >
+                <span class="relative group inline-flex gap-x-2 items-center">
+                  <span v-if="item.icon" :class="getIcon(item.icon)" />
+                  <span v-html="item.name" />
+                  <span class=" origin-left scale-x-0 group-hover:scale-x-100 transition-all border-b-2 border-theme-0 w-full absolute bottom-0 left-0" />
+                </span>
+              </component>
+            </div>
+          </div>
+          <div class="px-12">
+            <ElButton btn="danger" format="block" size="lg">
+              Test
+            </ElButton>
+          </div>
+        </div>
+      </div>
       <svg class="h-full text-theme-800 absolute inset-0" viewBox="0 0 8000 8000">
         <defs><pattern id="bg_pattern" width="100" height="100" patternUnits="userSpaceOnUse">
           <line
@@ -144,42 +184,6 @@ function getIcon(icon: string): string {
           opacity="1"
         />
       </svg>
-      <div :id="randomId" class="w-[275px] h-full float-right">
-        <a class="close absolute block right-10 top-10 z-10 cursor-pointer hover:scale-110" :class="!vis ? 'out' : ''" @click="close()">
-          <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60px] h-[60px]  rounded-full transition-all " />
-          <span class="close-wrap overflow-hidden top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[28px] h-[28px] absolute">
-            <span class="close-line close-line1 h-full w-[2px] bg-theme-0 absolute rounded-[5px] left-[13px] transition-all" />
-            <span class="close-line close-line2 h-full w-[2px] bg-theme-0 absolute rounded-[5px] left-[13px] transition-all" />
-          </span>
-        </a>
-
-        <div class="h-full overflow-y-scroll p-6 flex flex-col justify-center">
-          <div
-            class="flex flex-col gap-6"
-            role="menu"
-            aria-orientation="vertical"
-            aria-labelledby="main-menu"
-          >
-            <component
-              :is="getNavComponentType(item)"
-              v-for="(item, i) in nav"
-              :key="i"
-              :to="item.href"
-              :href="item.href"
-              role="menuitem"
-              class="x-action-item font-sans antialiased text-3xl font-light hover:text-theme-100"
-              :class="item.isActive ? '' : ''"
-              @click="item.onClick ? item.onClick($event) : null"
-            >
-              <span class="relative group inline-flex gap-x-2 items-center">
-                <span v-if="item.icon" :class="getIcon(item.icon)" />
-                <span v-html="item.name" />
-                <span class=" origin-left scale-x-0 group-hover:scale-x-100 transition-all border-b-2 border-theme-0 w-full absolute bottom-0 left-0" />
-              </span>
-            </component>
-          </div>
-        </div>
-      </div>
     </div>
   </teleport>
 </template>

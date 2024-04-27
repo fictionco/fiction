@@ -25,6 +25,7 @@ export type AppRouteParams<T extends string = string, U extends vue.Component = 
   path: string
   icon?: string
   isActive?: IsActiveCallback
+  noSitemap?: boolean
   parent?: string
   priority?: number
   services?: Record<string, FictionPlugin>

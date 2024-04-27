@@ -243,7 +243,7 @@ export async function loadSitemap(args: { mode: 'static' | 'dynamic', runVars?: 
 
   if (mode === 'static') {
     const routes = fictionRouter.routes.value
-    const routesWithThemeId = routes.filter(r => r.settings.props?.themeId).map((r) => {
+    const routesWithThemeId = routes.filter(r => r.settings.props?.themeId && !r.settings.noSitemap).map((r) => {
       const basePath = r.settings.path.split('/:viewId')[0]
       const out = { basePath: basePath || '/', themeId: r.settings.props.themeId }
 
