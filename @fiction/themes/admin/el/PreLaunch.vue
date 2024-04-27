@@ -76,11 +76,11 @@ const hasAccessCode = vue.ref(false)
                 id="modal-title"
                 class="x-font-title text-3xl font-bold text-balance tracking-tight"
               >
-                Fiction is invite-only.
+                Publicly Available Summer 2024
               </h3>
               <div class="mt-4">
-                <p class="text-theme-500 text-sm ">
-                  Want access? Just get in touch to discuss how we can help you.
+                <p class="text-theme-500 text-sm text-balance">
+                  Fiction is currently in private beta. Please message us for early access.
                 </p>
               </div>
             </div>
@@ -93,7 +93,7 @@ const hasAccessCode = vue.ref(false)
                 size="lg"
                 @click="hasAccessCode = true"
               >
-                Use Invite Code
+                Enter Invite Code
               </ElButton>
               <ElButton
                 type="button"
@@ -102,9 +102,8 @@ const hasAccessCode = vue.ref(false)
                 href="https://wa.me/message/CX5P5VWZ3YWDH1"
                 target="_blank"
               >
-                <span class="i-tabler-brand-whatsapp mr-2 opacity-50" />
-                <span>Talk to us</span>
-                <span class="i-tabler-arrow-up-right ml-2 opacity-50" />
+                <span class="i-tabler-brand-whatsapp mr-2 text-xl" />
+                <span>Message on WhatsApp</span>
               </ElButton>
             </div>
             <div v-else>

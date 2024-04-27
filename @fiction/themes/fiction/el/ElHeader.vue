@@ -4,7 +4,7 @@ import { useService, vue } from '@fiction/core'
 import { googleOneTap } from '@fiction/core/plugin-user/google'
 import type { Card } from '@fiction/site/card'
 import ElImage from '@fiction/ui/ElImage.vue'
-import ElAvatar from '@fiction/ui/ElAvatar.vue'
+import ElButton from '@fiction/ui/ElButton.vue'
 import XElement from '@fiction/cards/CardElement.vue'
 import ElNavLink from '@fiction/ui/ElNavLink.vue'
 import NavMobile from '@fiction/ui/NavMobile.vue'
@@ -144,6 +144,14 @@ const accountMenu = vue.computed((): NavItem[] => {
       </div>
     </div>
     <!-- Mobile Nav -->
-    <NavMobile v-model:vis="vis" :nav="nav" :account-menu="accountMenu" />
+    <NavMobile v-model:vis="vis" :nav="nav" :account-menu="accountMenu">
+      <template #foot>
+        <div class="px-12">
+          <ElButton btn="default" format="block" size="lg" href="/app?reload">
+            View Dashboard
+          </ElButton>
+        </div>
+      </template>
+    </NavMobile>
   </div>
 </template>

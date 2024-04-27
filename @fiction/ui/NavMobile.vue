@@ -74,7 +74,7 @@ function getIcon(icon: string): string {
   <teleport to=".x-site">
     <div v-if="vis" class="dark z-0 fixed h-[100dvh] top-0 right-0 w-full bg-theme-900 text-theme-0" @update:vis="emit('update:vis', $event)" @click.stop>
       <div :id="randomId" class="w-[275px] h-full float-right">
-        <a class="close absolute block right-10 top-10 z-10 cursor-pointer hover:scale-110" :class="!vis ? 'out' : ''" @click="close()">
+        <a class="close absolute block right-10 top-10 z-20 cursor-pointer hover:scale-110" :class="!vis ? 'out' : ''" @click="close()">
           <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60px] h-[60px]  rounded-full transition-all " />
           <span class="close-wrap overflow-hidden top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[28px] h-[28px] absolute">
             <span class="close-line close-line1 h-full w-[2px] bg-theme-0 absolute rounded-[5px] left-[13px] transition-all" />
@@ -109,14 +109,10 @@ function getIcon(icon: string): string {
               </component>
             </div>
           </div>
-          <div class="px-12">
-            <ElButton btn="danger" format="block" size="lg">
-              Test
-            </ElButton>
-          </div>
+          <slot name="foot" />
         </div>
       </div>
-      <svg class="h-full text-theme-800 absolute inset-0" viewBox="0 0 8000 8000">
+      <svg class="h-full text-theme-800 absolute inset-0 pointer-events-none" viewBox="0 0 8000 8000">
         <defs><pattern id="bg_pattern" width="100" height="100" patternUnits="userSpaceOnUse">
           <line
             x1="0"
