@@ -33,7 +33,7 @@ export function getViewMap(args: { pages: Card[] }) {
     const slug = card.slug.value
 
     if (!slug)
-      return logger.error('missing slug', { data: { cardId: card.cardId } })
+      return
 
     cardMap[slug] = card.cardId // Map the slug or title-slug to cardId
 

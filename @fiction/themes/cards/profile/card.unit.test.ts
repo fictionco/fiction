@@ -7,13 +7,7 @@ describe('minimalProfile', async () => {
     if (!templates[0].settings.schema)
       throw new Error('no schema')
 
-    expect(templates[0].optionConfig.unusedSchema).toMatchInlineSnapshot(`
-      {
-        "layout": "string: Media on left or right",
-        "mediaItems.0._media": "object: no description",
-        "mediaItems.0.media.alt": "string: no description",
-      }
-    `)
+    expect(templates[0].optionConfig.unusedSchema).toMatchInlineSnapshot(`{}`)
 
     const jsonSchema = zodToJsonSchema(templates[0].settings.schema)
     expect(jsonSchema).toMatchInlineSnapshot(`
@@ -67,9 +61,6 @@ describe('minimalProfile', async () => {
                 "media": {
                   "additionalProperties": false,
                   "properties": {
-                    "alt": {
-                      "type": "string",
-                    },
                     "format": {
                       "enum": [
                         "url",

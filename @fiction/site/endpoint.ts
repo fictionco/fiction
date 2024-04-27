@@ -56,7 +56,7 @@ export class ManagePage extends SitesQuery {
     await this.specialSlugConflicts({ slug: prepped.slug, cardId: fields.cardId, siteId, db })
 
     // all are needed to do propper recursion, without slug it infintely loops
-    const where = { siteId, slug: prepped.slug }
+    const where = { siteId, slug: prepped.slug || `page` }
 
     for (const key in where) {
       if (!where[key as keyof typeof where])

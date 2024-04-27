@@ -8,18 +8,16 @@ import { Site } from '../../site'
 describe('getViewMap', async () => {
   it('should map card slugs to cardIds correctly', () => {
     const pages = [
-      new Card({ cardId: 'id1', title: 'Default Page', regionId: 'main', templateId: 'engine', isHome: true }),
+      new Card({ cardId: 'id1', slug: '_home', title: 'Default Page', regionId: 'main', templateId: 'engine' }),
       new Card({ cardId: 'id2', slug: 'example', title: 'Example Page', regionId: 'main', templateId: 'engine' }),
-      new Card({ cardId: 'id3', slug: 'foo', title: 'Foo Page', regionId: 'main', templateId: 'engine', is404: true }),
+      new Card({ cardId: 'id3', slug: '_404', title: 'Foo Page', regionId: 'main', templateId: 'engine' }),
     ]
 
     const map = getViewMap({ pages })
     expect(map).toEqual({
-      'default-page': 'id1',
-      '_home': 'id1',
-      'example': 'id2',
-      '_404': 'id3',
-      'foo': 'id3',
+      _home: 'id1',
+      example: 'id2',
+      _404: 'id3',
     })
   })
 

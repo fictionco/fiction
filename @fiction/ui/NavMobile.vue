@@ -45,15 +45,12 @@ vue.onMounted(() => {
         el.style.overflow = 'hidden'
 
         setTimeout(() => (afterVisible.value = true), 300)
-
       }
       else {
         afterVisible.value = false
         el.style.transform = 'none'
         el.style.height = 'auto'
         el.style.overflow = 'auto'
-
-
       }
     },
     { immediate: true },
@@ -71,28 +68,83 @@ vue.onMounted(() => {
 })
 
 // TODO
-const getIcon = (icon: string): string => {
+function getIcon(icon: string): string {
   return ``
 }
 </script>
 
 <template>
   <teleport to=".x-site">
-    <div v-if="vis"  class="z-0 fixed h-[100dvh] top-0 right-0 w-full bg-theme-800 text-theme-0" @update:vis="emit('update:vis', $event)" @click.stop>
-      <svg class="h-full text-theme-700/60 absolute inset-0" viewBox="0 0 8000 8000">
-          <defs><pattern id="bg_pattern" width="100" height="100" patternUnits="userSpaceOnUse">
-            <line x1="0" y1="0" x2="10" y2="10" stroke="currentColor" stroke-width="6" stroke-linecap="round"></line>
-            <line x1="90" y1="90" x2="100" y2="100" stroke="currentColor" stroke-width="6" stroke-linecap="round"></line>
-            <line x1="10" y1="90" x2="0" y2="100" stroke="currentColor" stroke-width="6" stroke-linecap="round"></line>
-            <line x1="90" y1="10" x2="100" y2="0" stroke="currentColor" stroke-width="6" stroke-linecap="round"></line>
-            <line x1="40" y1="40" x2="60" y2="60" stroke="currentColor" stroke-width="6" stroke-linecap="round"></line>
-            <line x1="60" y1="40" x2="40" y2="60" stroke="currentColor" stroke-width="6" stroke-linecap="round"></line>
-          </pattern>
+    <div v-if="vis" class="z-0 fixed h-[100dvh] top-0 right-0 w-full bg-theme-900 text-theme-0" @update:vis="emit('update:vis', $event)" @click.stop>
+      <svg class="h-full text-theme-800 absolute inset-0" viewBox="0 0 8000 8000">
+        <defs><pattern id="bg_pattern" width="100" height="100" patternUnits="userSpaceOnUse">
+          <line
+            x1="0"
+            y1="0"
+            x2="10"
+            y2="10"
+            stroke="currentColor"
+            stroke-width="6"
+            stroke-linecap="round"
+          />
+          <line
+            x1="90"
+            y1="90"
+            x2="100"
+            y2="100"
+            stroke="currentColor"
+            stroke-width="6"
+            stroke-linecap="round"
+          />
+          <line
+            x1="10"
+            y1="90"
+            x2="0"
+            y2="100"
+            stroke="currentColor"
+            stroke-width="6"
+            stroke-linecap="round"
+          />
+          <line
+            x1="90"
+            y1="10"
+            x2="100"
+            y2="0"
+            stroke="currentColor"
+            stroke-width="6"
+            stroke-linecap="round"
+          />
+          <line
+            x1="40"
+            y1="40"
+            x2="60"
+            y2="60"
+            stroke="currentColor"
+            stroke-width="6"
+            stroke-linecap="round"
+          />
+          <line
+            x1="60"
+            y1="40"
+            x2="40"
+            y2="60"
+            stroke="currentColor"
+            stroke-width="6"
+            stroke-linecap="round"
+          />
+        </pattern>
         </defs>
 
-        <rect x="0" y="0" width="100%" height="100%" fill="url(#bg_pattern)" opacity="1"></rect>
+        <rect
+          x="0"
+          y="0"
+          width="100%"
+          height="100%"
+          fill="url(#bg_pattern)"
+          opacity="1"
+        />
       </svg>
-      <div class="w-[275px] h-full float-right" :id="randomId" >
+      <div :id="randomId" class="w-[275px] h-full float-right">
         <a class="close absolute block right-10 top-10 z-10 cursor-pointer hover:scale-110" :class="!vis ? 'out' : ''" @click="close()">
           <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60px] h-[60px]  rounded-full transition-all " />
           <span class="close-wrap overflow-hidden top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[28px] h-[28px] absolute">
@@ -102,7 +154,6 @@ const getIcon = (icon: string): string => {
         </a>
 
         <div class="h-full overflow-y-scroll p-6 flex flex-col justify-center">
-
           <div
             class="flex flex-col gap-6"
             role="menu"
@@ -121,7 +172,7 @@ const getIcon = (icon: string): string => {
               @click="item.onClick ? item.onClick($event) : null"
             >
               <span class="relative group inline-flex gap-x-2 items-center">
-                <span v-if="item.icon" :class="getIcon(item.icon)"></span>
+                <span v-if="item.icon" :class="getIcon(item.icon)" />
                 <span v-html="item.name" />
                 <span class=" origin-left scale-x-0 group-hover:scale-x-100 transition-all border-b-2 border-theme-0 w-full absolute bottom-0 left-0" />
               </span>
