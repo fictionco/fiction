@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import ProseEditor from "../ProseEditor.vue"
+import ProseEditor from '../ProseEditor.vue'
+import {content} from './testContent'
 </script>
 
 <template>
   <div>
-    <ProseEditor />
+    <ProseEditor :content="content"/>
   </div>
 </template>

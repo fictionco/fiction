@@ -9,10 +9,11 @@ import { Color } from '@tiptap/extension-color'
 import { TaskItem } from '@tiptap/extension-task-item'
 import { TaskList } from '@tiptap/extension-task-list'
 import { InputRule } from '@tiptap/core'
-import { TextAlign } from '@tiptap/extension-text-align'
+import TextAlign from '@tiptap/extension-text-align'
 import Highlight from '@tiptap/extension-highlight'
-
-import { Markdown } from 'tiptap-markdown'
+import Superscript from '@tiptap/extension-superscript'
+import Subscript from '@tiptap/extension-subscript'
+import BubbleMenu from '@tiptap/extension-bubble-menu'
 
 import GlobalDragHandle from 'tiptap-extension-global-drag-handle'
 
@@ -62,6 +63,7 @@ const Horizontal = HorizontalRule.extend({
 
 export const extensions = [
   StarterKit,
+  BubbleMenu,
   PlaceholderExtension,
   Horizontal,
   TiptapLink,
@@ -70,11 +72,17 @@ export const extensions = [
   TaskItem,
   TaskList,
   TiptapUnderline,
+  Superscript,
+  Subscript,
   TextStyle,
   Color,
   Highlight.configure({ multicolor: true }),
   // Markdown.configure({ html: false, transformCopiedText: true }),
   GlobalDragHandle.configure({ scrollTreshold: 0 }),
   AutoJoiner,
-  TextAlign,
+  TextAlign.configure({
+    types: ['heading', 'paragraph'],
+    defaultAlignment: 'left',
+    alignments: ['left', 'center', 'right', 'justify'],
+  }),
 ]

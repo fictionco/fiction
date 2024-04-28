@@ -48,7 +48,7 @@ export interface ListItem {
   [key: string]: unknown
 }
 
-export type ClickHandler = (args: { event?: MouseEvent, item?: NavItem }) => void | Promise<void>
+export type ClickHandler = (args: { event?: MouseEvent, item?: NavItem }) => any | Promise<any>
 
 export interface NavItem {
   name?: string
@@ -61,6 +61,7 @@ export interface NavItem {
   priority?: number
   class?: string
   target?: string
+  items?: NavItem[]
 }
 
 export type ActionItem = NavItem & {

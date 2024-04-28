@@ -2,10 +2,12 @@ import type { FictionPluginSettings } from '@fiction/core'
 
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { CardTemplate, type FictionSites, createCard } from '@fiction/site'
+import { FictionEditor } from '@fiction/plugin-editor'
 import type { ExtensionManifest } from '../plugin-extend'
 
  type FictionPostsSettings = { fictionSites: FictionSites } & FictionPluginSettings
 class FictionPosts extends FictionPlugin<FictionPostsSettings> {
+  editor = new FictionEditor(this.settings)
   constructor(settings: FictionPostsSettings) {
     super('FictionPosts', { ...settings, root: safeDirname(import.meta.url) })
 
