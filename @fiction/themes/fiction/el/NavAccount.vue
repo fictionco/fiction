@@ -37,7 +37,6 @@ onResetUi(() => {
       @click.stop.prevent="toggle()"
     >
       <ElAvatar class="ml-3 h-7 w-7 rounded-full ring-2 ring-theme-200 dark:ring-theme-0" :email="fictionUser.activeUser?.value.email" />
-
     </div>
 
     <transition

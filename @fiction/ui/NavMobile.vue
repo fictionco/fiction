@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import { getNavComponentType, onBrowserEvent, onResetUi, shortId, useService, vue } from '@fiction/core'
+import { getNavComponentType, onBrowserEvent, onResetUi, shortId, vue } from '@fiction/core'
 import type { NavItem } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from './anim'
-import ElButton from './ElButton.vue'
 
 const props = defineProps({
   vis: { type: Boolean, default: false },

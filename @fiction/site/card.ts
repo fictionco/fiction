@@ -1,6 +1,6 @@
 // @unocss-include
 import type { vueRouter } from '@fiction/core'
-import { FictionObject, deepMerge, objectId, setNested, toLabel, toSlug, vue } from '@fiction/core'
+import { FictionObject, deepMerge, objectId, setNested, toLabel, vue } from '@fiction/core'
 import type { InputOption } from '@fiction/ui'
 import type { z } from 'zod'
 import { refineOptions } from './utils/schema'

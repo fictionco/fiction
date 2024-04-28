@@ -1,4 +1,3 @@
-import { waitFor } from '@fiction/core'
 import anime from 'animejs'
 
 type AnimationThemeConfig = Partial<{
@@ -80,34 +79,35 @@ export function animateItemEnter(args: { targets: string, themeId?: keyof typeof
 }
 
 export async function useElementVisible(args: { selector: string, onVisible: () => void }): Promise<void> {
-  const { selector, onVisible } = args;
+  const { selector, onVisible } = args
 
   if (typeof IntersectionObserver === 'undefined') {
-    console.warn('IntersectionObserver is not supported in this environment.');
-    return;
+    console.warn('IntersectionObserver is not supported in this environment.')
+    return
   }
 
+  let intervalId: NodeJS.Timeout
   const observer = new IntersectionObserver((entries, observer) => {
-    const [entry] = entries;
+    const [entry] = entries
     if (entry.isIntersecting) {
-      onVisible();
-      observer.disconnect(); // Disconnect after the element becomes visible
+      onVisible()
+      observer.disconnect() // Disconnect after the element becomes visible
     }
   }, {
-    threshold: 0.1 // Customize the threshold as needed
-  });
+    threshold: 0.1, // Customize the threshold as needed
+  })
 
   // Function to check for element and start observing
   const checkAndObserve = () => {
-    const element = document.querySelector(selector);
+    const element = document.querySelector(selector)
     if (element) {
-      observer.observe(element);
-      clearInterval(intervalId); // Clear the interval once the element is found and observed
+      observer.observe(element)
+      clearInterval(intervalId) // Clear the interval once the element is found and observed
     }
-  };
+  }
 
   // Interval to check for the element periodically until it is available
-  const intervalId = setInterval(checkAndObserve, 50); // Check every 50 ms
+  intervalId = setInterval(checkAndObserve, 50) // Check every 50 ms
 }
 
 export function splitLetters(selector: string): void {

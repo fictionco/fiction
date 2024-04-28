@@ -492,7 +492,8 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
             const sitemap = await this.fictionApp.fictionSitemap?.generateSitemap({ runVars })
             res.status(200).set({ 'Content-Type': 'text/xml' }).end(sitemap)
             return
-          } else if (pathname === '/sitemap.xsl') {
+          }
+          else if (pathname === '/sitemap.xsl') {
             const xslFile = await this.fictionApp.fictionSitemap?.getXslContent()
             res.status(200).set({ 'Content-Type': 'text/xml' }).end(xslFile)
             return
