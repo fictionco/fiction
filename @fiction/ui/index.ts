@@ -2,6 +2,7 @@ import type { FictionApp, FictionPluginSettings, vue } from '@fiction/core'
 import { FictionPlugin, safeDirname } from '@fiction/core'
 import twForms from '@tailwindcss/forms'
 import twContainerQueries from '@tailwindcss/container-queries'
+import twTypography from '@tailwindcss/typography'
 import { tailwindVarColorScheme } from '@fiction/core/utils/colors'
 import type { Config as TailwindConfig } from 'tailwindcss'
 import { inputs } from './inputs'
@@ -35,7 +36,7 @@ export class FictionUi extends FictionPlugin<FictionUiSettings> {
     return {
       darkMode: ['variant', '&:not(.light *)'],
       content: [`${this.settings.root}/*.vue`, `${this.settings.root}/*.ts`],
-      plugins: [twForms, twContainerQueries],
+      plugins: [twForms, twContainerQueries, twTypography],
       theme: {
         extend: {
           fontFamily: {

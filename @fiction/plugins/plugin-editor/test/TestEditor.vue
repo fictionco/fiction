@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import ProseEditor from '../ProseEditor.vue'
+import ProseEditor from "../ProseEditor.vue"
 </script>
 
 <template>
