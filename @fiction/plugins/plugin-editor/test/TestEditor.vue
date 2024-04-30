@@ -4,7 +4,9 @@ import { content } from './testContent'
 </script>
 
 <template>
-  <div>
-    <ProseEditor :content="content" />
+  <div class="">
+    <div class="dark:bg-theme-900 bg-theme-0 dark:text-theme-0">
+      <ProseEditor :content="content" />
+    </div>
   </div>
 </template>

@@ -13,8 +13,8 @@
     }
   ],
   "dependencies": {
-    "@aws-sdk/client-cloudfront": "^3.564.0",
-    "@aws-sdk/client-s3": "^3.564.0",
+    "@aws-sdk/client-cloudfront": "^3.565.0",
+    "@aws-sdk/client-s3": "^3.565.0",
     "@egoist/tailwindcss-icons": "^1.7.4",
     "@faker-js/faker": "^8.4.1",
     "@iconify-json/carbon": "^1.1.32",
@@ -131,7 +131,7 @@
     "vue": "^3.4.26",
     "vue-router": "^4.3.2",
     "ws": "^8.17.0",
-    "zod": "^3.23.4",
+    "zod": "^3.23.5",
     "zod-to-json-schema": "^3.23.0"
   },
   "devDependencies": {

@@ -98,7 +98,7 @@ export class FictionUi extends FictionPlugin<FictionUiSettings> {
             transparent: 'transparent',
             slate: { 25: '#fdfdff' },
             primary: tailwindVarColorScheme({ variable: 'primary', color: 'blue' }),
-            theme: tailwindVarColorScheme({ variable: 'theme', color: 'slate' }),
+            theme: tailwindVarColorScheme({ variable: 'theme', color: 'gray' }),
             // action: {
             //   'main': 'var(--action-main, var(--primary-500, #2563eb))',
             //   'contrast': 'var(--action-contrast, var(--primary-0, #FFFFFF))',

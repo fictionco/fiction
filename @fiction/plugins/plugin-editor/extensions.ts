@@ -14,26 +14,23 @@ import Highlight from '@tiptap/extension-highlight'
 import Superscript from '@tiptap/extension-superscript'
 import Subscript from '@tiptap/extension-subscript'
 import BubbleMenu from '@tiptap/extension-bubble-menu'
+// import DropCursor from '@tiptap/extension-dropcursor'
+// import FloatingMenu from '@tiptap/extension-floating-menu'
 
-import GlobalDragHandle from 'tiptap-extension-global-drag-handle'
-
+// import GlobalDragHandle from 'tiptap-extension-global-drag-handle'
 import AutoJoiner from 'tiptap-extension-auto-joiner'
-
-import UpdatedImage from './imageUpdated'
+import DragHandle from './extensionsDragHandle'
+import SlashCommand from './extensionsSlash'
 
 const PlaceholderExtension = Placeholder.configure({
   placeholder: ({ node }) => {
     if (node.type.name === 'heading')
       return `Heading ${node.attrs.level}`
 
-    return 'Press \'/\' for commands'
+    return 'Press \'/\' for commands, or \'++\' for AI autocomplete...'
   },
   includeChildren: true,
 })
-
-const simpleExtensions = [
-
-] as const
 
 const Horizontal = HorizontalRule.extend({
   addInputRules() {
@@ -55,20 +52,26 @@ const Horizontal = HorizontalRule.extend({
       }),
     ]
   },
+}).configure({
+  HTMLAttributes: {
+    class: 'mt-4 mb-6 border-t border-theme-300 dark:border-theme-700',
+  },
 })
 
-//
-// InputRule,
-// simpleExtensions,
-
 export const extensions = [
-  StarterKit,
+  StarterKit.configure({
+    horizontalRule: false,
+    dropcursor: {
+      color: '#3452ff',
+      width: 4,
+      class: 'rounded-lg opacity-40',
+    },
+  }),
   BubbleMenu,
   PlaceholderExtension,
   Horizontal,
   TiptapLink,
   TiptapImage,
-  UpdatedImage,
   TaskItem,
   TaskList,
   TiptapUnderline,
@@ -78,11 +81,13 @@ export const extensions = [
   Color,
   Highlight.configure({ multicolor: true }),
   // Markdown.configure({ html: false, transformCopiedText: true }),
-  GlobalDragHandle.configure({ scrollTreshold: 0 }),
+  // GlobalDragHandle.configure({ scrollTreshold: 0 }),
   AutoJoiner,
   TextAlign.configure({
     types: ['heading', 'paragraph'],
     defaultAlignment: 'left',
     alignments: ['left', 'center', 'right', 'justify'],
   }),
+  SlashCommand,
+  DragHandle,
 ]

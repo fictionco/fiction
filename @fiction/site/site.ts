@@ -216,7 +216,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   }
 
   colors = vue.computed(() => {
-    const { colorPrimary = 'blue', colorTheme = 'slate', isDarkMode = false } = this.fullConfig.value.colors || {}
+    const { colorPrimary = 'blue', colorTheme = 'gray', isDarkMode = false } = this.fullConfig.value.colors || {}
     const theme = getColorScheme(colorTheme)
     return {
       primary: getColorScheme(colorPrimary),
