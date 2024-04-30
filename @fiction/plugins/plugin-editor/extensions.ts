@@ -72,8 +72,17 @@ export const extensions = [
   Horizontal,
   TiptapLink,
   TiptapImage,
-  TaskItem,
-  TaskList,
+  TaskList.configure({
+    HTMLAttributes: {
+      class: 'not-prose pl-2',
+    },
+  }),
+  TaskItem.configure({
+    HTMLAttributes: {
+      class: 'flex items-start my-4',
+    },
+    nested: true,
+  }),
   TiptapUnderline,
   Superscript,
   Subscript,

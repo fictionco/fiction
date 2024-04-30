@@ -1,0 +1,23 @@
+
+Todos:
+  Working:
+    ☐ Image caption editing
+    ☐ Image upload
+    ☐ Image deletion
+    ☐ Link Add, Edit and Remove
+    ☐ Slash remove on bail from slash menu
+    ☐ Slash menu as grid
+    ☐ Dark/Light Mode on Bubblemenu
+    ☐ Code block in bubble menu
+
+
+
+Archive:
+  ✔ You can archive finished todos here
+  ✔ Congratulations, you are now a Todo+ master!
+  ✔ Press Alt+D to mark a todo as done
+  ✔ Completed todos can show a timestamp @done(17-11-03 10:42)
+  ✔ Press Alt+S to mark a todo as started @started(17-11-03 10:42) @done(24-04-29 22:07) @lasted(6y25w4d11h25m5s)
+    ✔ Now it will show the elapsed time @started(17-11-03 10:42) @done(17-11-03 20:11) @lasted(9h29m)
+  ☐ You can provide time estimates for your todos @1h30m
+    ☐ We are even doing some natural language processing @est(1 day and 20 minutes)

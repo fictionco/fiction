@@ -36,7 +36,6 @@ export function uuid(): string {
 }
 /**
  * Gets a short ID consisting only of lowercase letters
- * @note
  *  - needed in DB, lowercase only means it's immune to transforms of case (snake_case to camelCase)
  */
 export function shortId(args: { len?: number, withNumbers?: boolean, prefix?: string } = {}): string {

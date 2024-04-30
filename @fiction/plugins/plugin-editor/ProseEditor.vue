@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { BubbleMenu, EditorContent, useEditor } from '@tiptap/vue-3'
 import type { NavItem } from '@fiction/core'
-import { onResetUi, vue } from '@fiction/core'
+import { isDarkOrLightMode, onResetUi, vue } from '@fiction/core'
 import { extensions } from './extensions'
-import './editor.css'
 
 const props = defineProps({
   content: { type: String, default: '' },
@@ -148,10 +147,18 @@ const bubbleMenuButtons = vue.computed<NavItem[]>(() => {
 
   ]
 })
+
+const tt = vue.ref<HTMLElement>()
+vue.onMounted(() => {
+  if (tt.value) {
+    const md = isDarkOrLightMode(tt.value)
+    tt.value.classList.add(md)
+  }
+})
 </script>
 
 <template>
-  <div class="tiptap">
+  <div ref="tt" class="tiptap-wrap px-6">
     <BubbleMenu
       v-if="editor"
       :editor="editor"
@@ -208,4 +215,98 @@ const bubbleMenuButtons = vue.computed<NavItem[]>(() => {
 </template>
 
 <style lang="less">
+.tiptap-wrap{
+  .suggestion{
+    opacity: 0;
+  }
+
+  .ProseMirror .is-editor-empty:first-child::before,
+  .ProseMirror .is-empty::before {
+    content: attr(data-placeholder);
+    float: left;
+    pointer-events: none;
+    height: 0;
+    color: rgba(var(--theme-300));
+  }
+
+  /* Custom image styles */
+
+  .ProseMirror img {
+    transition: filter 0.1s ease-in-out;
+
+    &:hover {
+      cursor: pointer;
+      filter: brightness(90%);
+    }
+
+    &.ProseMirror-selectednode {
+      outline: 3px solid #5abbf7;
+      filter: brightness(90%);
+    }
+  }
+
+  .img-placeholder {
+    position: relative;
+
+    &:before {
+      content: "";
+      box-sizing: border-box;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 3px solid var(--theme-200);
+      border-top-color: var(--theme-800);
+      animation: spinning 0.6s linear infinite;
+    }
+  }
+
+  @keyframes spinning {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Custom TODO list checkboxes – shoutout to this awesome tutorial: https://moderncss.dev/pure-css-custom-checkbox-style/ */
+
+  ul[data-type="taskList"] li > label {
+    margin-right: 0.2rem;
+    user-select: none;
+  }
+
+  @media screen and (max-width: 768px) {
+    ul[data-type="taskList"] li > label {
+      margin-right: 0.5rem;
+    }
+  }
+
+  ul[data-type="taskList"] li > label input[type="checkbox"] {
+    border-radius: .3em;
+    margin: 0;
+    cursor: pointer;
+    width: 1.2em;
+    height: 1.2em;
+    position: relative;
+    top: .2em;
+    margin-right: .8rem;
+    display: grid;
+    place-content: center;
+  }
+
+  ul[data-type="taskList"] li[data-checked="true"] > div > p {
+    color: rgba(var(--theme-400));
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+  }
+
+}
+
+.dark .tiptap-wrap .ProseMirror {
+  .is-editor-empty:first-child::before,
+  .is-empty::before {
+    color: rgba(var(--theme-500) / 0.8);
+  }
+}
 </style>

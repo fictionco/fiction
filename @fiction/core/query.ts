@@ -26,7 +26,7 @@ export abstract class Query<T extends object = object> {
 
   /**
    * Wrapper to catch errors
-   * @note must await the result of run or it wont catch
+   * -- must await the result of run or it wont catch
    */
   async serve(
     params: Parameters<this['run']>[0],

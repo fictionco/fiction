@@ -29,7 +29,7 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
     meta: sharp.OutputInfo,
   ): Promise<string | undefined> {
     /**
-     * @note that the raw img data removes the size/meta data
+     * NOTE: that the raw img data removes the size/meta data
      * thats why its passed in above
      */
     const alphaImg = img.raw().ensureAlpha()

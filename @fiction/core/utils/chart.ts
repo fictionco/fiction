@@ -52,7 +52,7 @@ export interface SetData {
   datasets: DataSet[]
   labels: string[]
   mode?: 'compare' | 'multi'
-  dataKey?: string // debug only
+  dataKey?: string
 }
 
 // const colorCompare = (): string[] => [

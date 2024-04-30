@@ -154,6 +154,7 @@ function getSuggestionItems({ query }: { query: string }) {
   })
 }
 
+const zeroWidthSpace = '\u200B'
 const SlashCommand = Extension.create({
   name: 'slash-command',
   addProseMirrorPlugins() {
@@ -162,54 +163,55 @@ const SlashCommand = Extension.create({
         char: '/',
         items: getSuggestionItems,
         editor: this.editor,
-        command: ({ editor, range, props, }: {   editor: Editor; range: Range; props: any;  }) => {
-          props.command({ editor, range });
+        command: ({ editor, range, props }: { editor: Editor, range: Range, props: any }) => {
+          props.command({ editor, range })
         },
         render: () => {
-        let component: VueRenderer | null = null
-        let popup: any | null = null
+          let component: VueRenderer | null = null
+          let popup: any | null = null
 
-        return {
-          onStart: (props: SuggestionProps) => {
-            component = new VueRenderer(SlashCommandList, {
-              props,
-              editor: props.editor,
-            })
+          return {
+            onStart: (props: SuggestionProps) => {
+              component = new VueRenderer(SlashCommandList, { props, editor: props.editor })
 
-            const domRect = props.clientRect?.()
-            if (!domRect)
-              return
+              const domRect = props.clientRect?.()
+              if (!domRect)
+                return
 
-            popup = tippy('body', {
-              getReferenceClientRect: () => domRect,
-              appendTo: () => document.body,
-              content: component.element,
-              showOnCreate: true,
-              interactive: true,
-              trigger: 'manual',
-              placement: 'bottom-start',
-            })
-          },
-          onUpdate: (props: SuggestionProps) => {
-            component?.updateProps(props)
+              popup = tippy('body', {
+                getReferenceClientRect: () => domRect,
+                appendTo: () => document.body,
+                content: component.element,
+                showOnCreate: true,
+                interactive: true,
+                trigger: 'manual',
+                placement: 'bottom-start',
+              })
 
-            popup && popup[0].setProps({ getReferenceClientRect: props.clientRect })
-          },
-          onKeyDown: (props: SuggestionKeyDownProps) => {
-            if (props.event.key === 'Escape') {
-              popup?.[0].hide()
+            },
+            onUpdate: (props: SuggestionProps) => {
+              component?.updateProps(props)
 
-              return true
-            }
+              popup && popup[0].setProps({ getReferenceClientRect: props.clientRect })
+            },
+            onKeyDown: (props: SuggestionKeyDownProps) => {
+              if (props.event.key === 'Escape') {
+                popup?.[0].hide()
 
-            return component?.ref?.onKeyDown(props.event)
-          },
-          onExit: (props: SuggestionProps) => {
-            popup?.[0].destroy()
-            component?.destroy()
-          },
-        } as const
-      } }),
+
+                return true
+              }
+
+              return component?.ref?.onKeyDown(props.event)
+            },
+            onExit: (props: SuggestionProps) => {
+
+              popup?.[0].destroy()
+              component?.destroy()
+            },
+          } as const
+        },
+      }),
     ]
   },
 })

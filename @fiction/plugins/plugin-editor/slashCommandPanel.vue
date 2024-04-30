@@ -87,8 +87,7 @@ function selectItem(index: number) {
       if (isLoading.value)
         return
       complete(
-        getPrevText(props.editor, {
-          chars: 5000,
+        getPrevText(props.editor, {  chars: 5000,
           offset: 1,
         }),
       )

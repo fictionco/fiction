@@ -97,7 +97,7 @@ describe('incrementSlugId', () => {
   })
 
   // Handling Non-String Inputs (for JavaScript compatibility)
-  // Note: These tests are relevant if the function could be used in JavaScript.
+  // -- These tests are relevant if the function could be used in JavaScript.
   it('should handle non-string inputs gracefully', () => {
     // Assuming the function has been modified to handle any type as input
     expect(incrementSlugId(null as unknown as undefined)).toBe('view-1')
