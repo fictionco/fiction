@@ -1,4 +1,4 @@
-import type { Editor, Range } from '@tiptap/core'
+import type {  CommandProps, Editor, Range } from '@tiptap/core'
 import { Extension } from '@tiptap/core'
 import { VueRenderer } from '@tiptap/vue-3'
 import Suggestion from '@tiptap/suggestion'
@@ -8,14 +8,11 @@ import tippy from 'tippy.js'
 
 import { CheckSquare, Code, Heading1, Heading2, Heading3, Image, List, ListOrdered, MessageSquarePlus, Sparkles, Text, TextQuote } from 'lucide-vue-next'
 
-import SlashCommandList from './slashCommandPanel.vue'
+import ElSlashPanel from './ElSlashPanel.vue'
 import { startImageUpload } from './uploadImages'
 // import Magic from "../icons/magic.vue";
 
-interface CommandProps {
-  editor: Editor
-  range: Range
-}
+
 
 export interface SuggestionItem {
   title: string
@@ -23,29 +20,36 @@ export interface SuggestionItem {
   icon: any
 }
 
+type CProps = {
+  editor: Editor
+  range: Range
+  props: Record<string, any>
+
+}
+
 function getSuggestionItems({ query }: { query: string }) {
   return [
-    {
-      title: 'Continue writing',
-      description: 'Use AI to expand your thoughts.',
-      searchTerms: ['gpt'],
-      icon: Sparkles,
-    },
-    {
-      title: 'Send Feedback',
-      description: 'Let us know how we can improve.',
-      icon: MessageSquarePlus,
-      command: ({ editor, range }: CommandProps) => {
-        editor.chain().focus().deleteRange(range).run()
-        window.open('/feedback', '_blank')
-      },
-    },
+    // {
+    //   title: 'Continue writing',
+    //   description: 'Use AI to expand your thoughts.',
+    //   searchTerms: ['gpt'],
+    //   icon: Sparkles,
+    // },
+    // {
+    //   title: 'Send Feedback',
+    //   description: 'Let us know how we can improve.',
+    //   icon: MessageSquarePlus,
+    //   command: ({ editor, range }: CommandProps) => {
+    //     editor.chain().focus().deleteRange(range).run()
+    //     window.open('/feedback', '_blank')
+    //   },
+    // },
     {
       title: 'Text',
       description: 'Just start typing with plain text.',
       searchTerms: ['p', 'paragraph'],
       icon: Text,
-      command: ({ editor, range }: CommandProps) => {
+      command: ({ editor, range }: CProps) => {
         editor.chain().focus().deleteRange(range).toggleNode('paragraph', 'paragraph').run()
       },
     },
@@ -54,7 +58,7 @@ function getSuggestionItems({ query }: { query: string }) {
       description: 'Track tasks with a to-do list.',
       searchTerms: ['todo', 'task', 'list', 'check', 'checkbox'],
       icon: CheckSquare,
-      command: ({ editor, range }: CommandProps) => {
+      command: ({ editor, range }: CProps) => {
         editor.chain().focus().deleteRange(range).toggleTaskList().run()
       },
     },
@@ -63,7 +67,7 @@ function getSuggestionItems({ query }: { query: string }) {
       description: 'Big section heading.',
       searchTerms: ['title', 'big', 'large'],
       icon: Heading1,
-      command: ({ editor, range }: CommandProps) => {
+      command: ({ editor, range }: CProps) => {
         editor.chain().focus().deleteRange(range).setNode('heading', { level: 1 }).run()
       },
     },
@@ -72,7 +76,7 @@ function getSuggestionItems({ query }: { query: string }) {
       description: 'Medium section heading.',
       searchTerms: ['subtitle', 'medium'],
       icon: Heading2,
-      command: ({ editor, range }: CommandProps) => {
+      command: ({ editor, range }: CProps) => {
         editor.chain().focus().deleteRange(range).setNode('heading', { level: 2 }).run()
       },
     },
@@ -81,7 +85,7 @@ function getSuggestionItems({ query }: { query: string }) {
       description: 'Small section heading.',
       searchTerms: ['subtitle', 'small'],
       icon: Heading3,
-      command: ({ editor, range }: CommandProps) => {
+      command: ({ editor, range }: CProps) => {
         editor.chain().focus().deleteRange(range).setNode('heading', { level: 3 }).run()
       },
     },
@@ -90,7 +94,7 @@ function getSuggestionItems({ query }: { query: string }) {
       description: 'Create a simple bullet list.',
       searchTerms: ['unordered', 'point'],
       icon: List,
-      command: ({ editor, range }: CommandProps) => {
+      command: ({ editor, range }: CProps) => {
         editor.chain().focus().deleteRange(range).toggleBulletList().run()
       },
     },
@@ -99,7 +103,7 @@ function getSuggestionItems({ query }: { query: string }) {
       description: 'Create a list with numbering.',
       searchTerms: ['ordered'],
       icon: ListOrdered,
-      command: ({ editor, range }: CommandProps) => {
+      command: ({ editor, range }: CProps) => {
         editor.chain().focus().deleteRange(range).toggleOrderedList().run()
       },
     },
@@ -108,7 +112,7 @@ function getSuggestionItems({ query }: { query: string }) {
       description: 'Capture a quote.',
       searchTerms: ['blockquote'],
       icon: TextQuote,
-      command: ({ editor, range }: CommandProps) =>
+      command: ({ editor, range }: CProps) =>
         editor.chain().focus().deleteRange(range).toggleNode('paragraph', 'paragraph').toggleBlockquote().run(),
     },
     {
@@ -116,7 +120,7 @@ function getSuggestionItems({ query }: { query: string }) {
       description: 'Capture a code snippet.',
       searchTerms: ['codeblock'],
       icon: Code,
-      command: ({ editor, range }: CommandProps) =>
+      command: ({ editor, range }: CProps) =>
         editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
     },
     {
@@ -124,21 +128,13 @@ function getSuggestionItems({ query }: { query: string }) {
       description: 'Upload an image from your computer.',
       searchTerms: ['photo', 'picture', 'media'],
       icon: Image,
-      command: ({ editor, range }: CommandProps) => {
-        editor.chain().focus().deleteRange(range).run()
-        // upload image
-        const input = document.createElement('input')
-        input.type = 'file'
-        input.accept = 'image/*'
-        input.onchange = async () => {
-          if (input.files?.length) {
-            const file = input.files[0]
-            const pos = editor.view.state.selection.from
-            startImageUpload(file, editor.view, pos)
-          }
-        }
-        input.click()
-      },
+      command: ({ editor, range, props }: CProps) => {
+
+        editor.chain().focus().deleteRange(range).insertContent({
+          type: 'imageSelector',
+          attrs: { /* attributes if any */ }
+        }).run()
+      }
     },
   ].filter((item) => {
     if (typeof query === 'string' && query.length > 0) {
@@ -154,7 +150,6 @@ function getSuggestionItems({ query }: { query: string }) {
   })
 }
 
-const zeroWidthSpace = '\u200B'
 const SlashCommand = Extension.create({
   name: 'slash-command',
   addProseMirrorPlugins() {
@@ -163,8 +158,8 @@ const SlashCommand = Extension.create({
         char: '/',
         items: getSuggestionItems,
         editor: this.editor,
-        command: ({ editor, range, props }: { editor: Editor, range: Range, props: any }) => {
-          props.command({ editor, range })
+        command: (_) => {
+          _.props.command(_)
         },
         render: () => {
           let component: VueRenderer | null = null
@@ -172,7 +167,7 @@ const SlashCommand = Extension.create({
 
           return {
             onStart: (props: SuggestionProps) => {
-              component = new VueRenderer(SlashCommandList, { props, editor: props.editor })
+              component = new VueRenderer(ElSlashPanel, { props, editor: props.editor })
 
               const domRect = props.clientRect?.()
               if (!domRect)

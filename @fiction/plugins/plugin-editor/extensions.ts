@@ -14,11 +14,12 @@ import Highlight from '@tiptap/extension-highlight'
 import Superscript from '@tiptap/extension-superscript'
 import Subscript from '@tiptap/extension-subscript'
 import BubbleMenu from '@tiptap/extension-bubble-menu'
+import AutoJoiner from 'tiptap-extension-auto-joiner'
+import { ImageSelector } from './extensionImageAdd'
 // import DropCursor from '@tiptap/extension-dropcursor'
 // import FloatingMenu from '@tiptap/extension-floating-menu'
 
 // import GlobalDragHandle from 'tiptap-extension-global-drag-handle'
-import AutoJoiner from 'tiptap-extension-auto-joiner'
 import DragHandle from './extensionsDragHandle'
 import SlashCommand from './extensionsSlash'
 
@@ -59,6 +60,7 @@ const Horizontal = HorizontalRule.extend({
 })
 
 export const extensions = [
+  ImageSelector,
   StarterKit.configure({
     horizontalRule: false,
     dropcursor: {

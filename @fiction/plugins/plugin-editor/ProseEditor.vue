@@ -155,6 +155,8 @@ vue.onMounted(() => {
     tt.value.classList.add(md)
   }
 })
+
+const btnClass = `relative inline-flex items-center  bg-white dark:bg-theme-800 dark:text-theme-0 px-3 py-2 text-sm font-semibold text-theme-900 ring-1 ring-inset ring-theme-300 dark:ring-theme-600 hover:bg-theme-50 hover:dark:bg-theme-700 focus:z-10`
 </script>
 
 <template>
@@ -177,8 +179,9 @@ vue.onMounted(() => {
           :class="[
             i !== 0 ? '-ml-px' : 'rounded-l-md',
             i === bubbleMenuButtons.length - 1 ? 'rounded-r-md' : '',
-            item.isActive ? 'bg-theme-200' : '']"
-          class="relative inline-flex items-center  bg-white px-3 py-2 text-sm font-semibold text-theme-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+            item.isActive ? 'bg-theme-200' : '',
+            btnClass,
+          ]"
           @click="item.onClick ? item.onClick({ event: $event, item }) : ''"
         >
           <span class="text-lg" :class="item.icon" :title="item.name" />
@@ -195,8 +198,8 @@ vue.onMounted(() => {
               <template v-for="(subItem, ii) in item.items" :key="ii">
                 <button
                   type="button"
-                  class="relative inline-flex items-center  bg-white px-3 py-2 text-sm font-semibold text-theme-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
                   :class="[
+                    btnClass,
                     ii !== 0 ? '-ml-px' : 'rounded-l-md',
                     ii === item.items.length - 1 ? 'rounded-r-md' : '',
                     item.isActive ? 'bg-theme-200' : '']"
@@ -220,8 +223,8 @@ vue.onMounted(() => {
     opacity: 0;
   }
 
-  .ProseMirror .is-editor-empty:first-child::before,
-  .ProseMirror .is-empty::before {
+  .ProseMirror p.is-editor-empty:first-child::before,
+  .ProseMirror p.is-empty::before {
     content: attr(data-placeholder);
     float: left;
     pointer-events: none;
@@ -304,8 +307,8 @@ vue.onMounted(() => {
 }
 
 .dark .tiptap-wrap .ProseMirror {
-  .is-editor-empty:first-child::before,
-  .is-empty::before {
+  p.is-editor-empty:first-child::before,
+  p.is-empty::before {
     color: rgba(var(--theme-500) / 0.8);
   }
 }

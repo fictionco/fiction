@@ -8,18 +8,9 @@ import type { SuggestionItem } from './extensionsSlash'
 
 const props = defineProps({
   items: { type: Array as PropType<SuggestionItem[]>, required: true },
-  command: {
-    type: Function,
-    required: true,
-  },
-  editor: {
-    type: Object as PropType<Editor>,
-    required: true,
-  },
-  range: {
-    type: Object as PropType<Range>,
-    required: true,
-  },
+  command: {  type: Function,  required: true, },
+  editor: { type: Object as PropType<Editor>,  required: true, },
+  range: {  type: Object as PropType<Range>,  required: true,  },
 })
 
 const selectedIndex = ref(0)
@@ -124,26 +115,25 @@ function scrollToSelected() {
   <div
     v-if="items.length > 0"
     ref="commandListContainer"
-    class="z-50 h-auto max-h-[330px] w-72 overflow-y-auto rounded-md border border-stone-200 bg-white px-1 py-2 shadow-md transition-all"
+    class="grid grid-cols-4 gap-2 p-4 z-50 h-auto max-h-[40dvh] w-[60dvw] overflow-y-auto rounded-md border border-theme-200 dark:border-theme-700 bg-theme-0 dark:bg-theme-800 px-1 py-2 shadow-md transition-all"
   >
     <button
       v-for="(item, index) in items"
       :key="index"
-      class="flex items-center w-full px-2 py-1 space-x-2 text-sm text-left rounded-md text-stone-900 hover:bg-stone-100"
-      :class="index === selectedIndex ? 'bg-stone-100 text-stone-900' : ''"
+      class="flex items-center px-2 py-1 space-x-2 text-sm text-left rounded-md text-theme-900 dark:text-theme-100 hover:bg-theme-100 dark:hover:bg-theme-700"
+      :class="index === selectedIndex ? 'bg-theme-100 dark:bg-theme-700 text-theme-900 dark:text-theme-0' : ''"
       @click="selectItem(index)"
     >
-      <div
-        class="flex items-center justify-center w-10 h-10 bg-white border rounded-md border-stone-200"
-      >
-        <component :is="item.icon" size="18" />
+      <div class="shrink-0 flex items-center dark:text-theme-0 text-theme-500">
+        <div
+          class="shrink-0 flex items-center justify-center w-10 h-10"
+        >
+          <component :is="item.icon" size="18" />
+        </div>
       </div>
       <div>
         <p class="font-medium">
           {{ item.title }}
-        </p>
-        <p class="text-xs text-stone-500">
-          {{ item.description }}
         </p>
       </div>
     </button>
