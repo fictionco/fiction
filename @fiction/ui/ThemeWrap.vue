@@ -17,17 +17,19 @@ const fonts = vue.computed(() => getThemeFontConfig(props.fontConfig))
 
 const themeWrapEl = vue.ref<HTMLElement>()
 const modeClass = vue.ref<string>(props.mode)
+const loading = vue.ref(true)
 vue.onMounted(() => {
   if (themeWrapEl.value && !modeClass.value) {
     const md = isDarkOrLightMode(themeWrapEl.value)
 
     modeClass.value = md
   }
+  loading.value = false
 })
 </script>
 
 <template>
-  <div ref="themeWrapEl" class="x-theme-wrap" :class="modeClass">
+  <div v-show="!loading" ref="themeWrapEl" class="transition-opacity x-theme-wrap" :class="[modeClass]">
     <div class="x-theme-base bg-theme-0 dark:bg-theme-900 text-theme-900 dark:text-theme-0">
       <slot />
     </div>

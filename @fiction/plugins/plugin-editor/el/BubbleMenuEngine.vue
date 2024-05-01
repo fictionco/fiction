@@ -1,12 +1,18 @@
 <script setup lang="ts">
 import { BubbleMenu } from '@tiptap/vue-3'
 import type { Editor } from '@tiptap/core'
-import type { NavItem, vue } from '@fiction/core'
+import type { NavItem } from '@fiction/core'
+import { vue } from '@fiction/core'
+import type { MenuType } from './menu'
+import { BubbleMenuTools } from './menu'
 
 const props = defineProps({
-  items: { type: Array as vue.PropType<NavItem[]>, required: true },
   editor: { type: Object as vue.PropType<Editor>, required: true },
+  menuType: { type: String as vue.PropType<MenuType>, default: undefined },
+
 })
+
+const menuTools = new BubbleMenuTools({ editor: props.editor })
 
 const groupClass = 'bg-theme-0 text-theme-900 dark:bg-theme-800 dark:text-theme-0 overflow-hidden'
 const ringClass = 'ring-1 ring-theme-300 dark:ring-theme-600 ring-inset'
@@ -25,11 +31,13 @@ function getItemClass(args: { item: NavItem, i: number, items: NavItem[], noHove
     item.isActive ? 'bg-theme-200 dark:bg-theme-700' : '',
   ]
 }
+
+const items = vue.computed(() => menuTools.activeMenu.value)
 </script>
 
 <template>
   <BubbleMenu
-    v-if="editor"
+
     :editor="editor"
     :tippy-options="{ duration: 100 }"
     class="isolate inline-flex rounded-md shadow-sm"

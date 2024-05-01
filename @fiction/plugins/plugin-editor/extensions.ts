@@ -8,7 +8,7 @@ import TextStyle from '@tiptap/extension-text-style'
 import { Color } from '@tiptap/extension-color'
 import { TaskItem } from '@tiptap/extension-task-item'
 import { TaskList } from '@tiptap/extension-task-list'
-import { InputRule } from '@tiptap/core'
+import { Extension, InputRule, isTextSelection } from '@tiptap/core'
 import TextAlign from '@tiptap/extension-text-align'
 import Highlight from '@tiptap/extension-highlight'
 import Superscript from '@tiptap/extension-superscript'
@@ -16,7 +16,9 @@ import Subscript from '@tiptap/extension-subscript'
 import BubbleMenu from '@tiptap/extension-bubble-menu'
 import AutoJoiner from 'tiptap-extension-auto-joiner'
 import Focus from '@tiptap/extension-focus'
-import { PluginKey } from '@tiptap/pm/state'
+import CodeBlockLowLight from '@tiptap/extension-code-block-lowlight'
+import { common, createLowlight } from 'lowlight'
+
 import { ImageSelector } from './extensionImageAdd'
 // import DropCursor from '@tiptap/extension-dropcursor'
 // import FloatingMenu from '@tiptap/extension-floating-menu'
@@ -25,12 +27,14 @@ import { ImageSelector } from './extensionImageAdd'
 import DragHandle from './extensionsDragHandle'
 import SlashCommand from './extensionsSlash'
 
+export const lowlight = createLowlight(common)
+
 const PlaceholderExtension = Placeholder.configure({
   placeholder: ({ node }) => {
     if (node.type.name === 'heading')
       return `Heading ${node.attrs.level}`
 
-    return 'Press \'/\' for commands, or \'++\' for AI autocomplete...'
+    return 'Press \'/\' for commands...'
   },
   includeChildren: true,
 })
@@ -55,6 +59,7 @@ const Horizontal = HorizontalRule.extend({
       }),
     ]
   },
+
 }).configure({
   HTMLAttributes: {
     class: 'mt-4 mb-6 border-t border-theme-300 dark:border-theme-700',
@@ -65,29 +70,22 @@ export const extensions = [
   ImageSelector,
   StarterKit.configure({
     horizontalRule: false,
-    dropcursor: {
-      color: '#3452ff',
-      width: 4,
-      class: 'rounded-lg opacity-40',
-    },
+    dropcursor: { color: '#3452ff', width: 4, class: 'rounded-lg opacity-40' },
+    codeBlock: false,
   }),
-  BubbleMenu.configure({
-    pluginKey: new PluginKey('bubbleMenuText'),
-    element: document.querySelector('.bubble-menu-text') as HTMLElement | undefined | null,
-  }),
+  BubbleMenu,
   PlaceholderExtension,
   Horizontal,
-  TiptapLink,
+  TiptapLink.configure({
+    openOnClick: 'whenNotEditable',
+    HTMLAttributes: { class: 'hover:bg-theme-100 dark:hover:bg-theme-600 cursor-pointer' },
+  }),
   TiptapImage,
   TaskList.configure({
-    HTMLAttributes: {
-      class: 'not-prose pl-2',
-    },
+    HTMLAttributes: { class: 'not-prose pl-2' },
   }),
   TaskItem.configure({
-    HTMLAttributes: {
-      class: 'flex items-start my-4',
-    },
+    HTMLAttributes: { class: 'flex items-start my-4' },
     nested: true,
   }),
   TiptapUnderline,
@@ -106,4 +104,5 @@ export const extensions = [
   SlashCommand,
   DragHandle,
   Focus,
+  CodeBlockLowLight.configure({ lowlight }),
 ]

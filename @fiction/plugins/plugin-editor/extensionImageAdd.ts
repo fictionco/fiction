@@ -6,6 +6,7 @@ export const ImageSelector = Node.create({
   name: 'imageSelector',
   group: 'block',
   draggable: true,
+  selectable: true,
 
   addNodeView() {
     return VueNodeViewRenderer(ImageUploader)

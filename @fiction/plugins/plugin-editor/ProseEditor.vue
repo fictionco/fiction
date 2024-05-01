@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { EditorContent, useEditor } from '@tiptap/vue-3'
 import { isDarkOrLightMode, vue } from '@fiction/core'
+import ElSpinner from '@fiction/ui/ElSpinner.vue'
+import './utils/hljs.css'
 import { extensions } from './extensions'
-import BubbleMenuText from './el/BubbleMenuText.vue'
+import BubbleMenuEngine from './el/BubbleMenuEngine.vue'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
@@ -38,10 +40,18 @@ vue.onMounted(() => {
 </script>
 
 <template>
-  <div v-if="editor" ref="tt" class="tiptap-wrap px-6">
-    <BubbleMenuText :editor="editor" />
+  <div ref="tt" class="tiptap-wrap px-6">
+    <div
+      v-if="!editor"
+      class="flex py-24 justify-center h-[90dvh] text-theme-300 dark:text-theme-700"
+    >
+      <ElSpinner class="h-12 w-12" />
+    </div>
+    <template v-else>
+      <BubbleMenuEngine :editor="editor" />
 
-    <EditorContent class="prose dark:prose-invert prose-sm lg:prose-lg xl:prose-2xl mx-auto focus:outline-none" :editor="editor" />
+      <EditorContent class="prose dark:prose-invert prose-sm lg:prose-lg xl:prose-2xl mx-auto focus:outline-none" :editor="editor" />
+    </template>
   </div>
 </template>
 
@@ -140,4 +150,4 @@ vue.onMounted(() => {
     color: rgba(var(--theme-500) / 0.8);
   }
 }
-</style>
+</style>Editor,Editor,

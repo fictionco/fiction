@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { NodeViewContent, NodeViewWrapper, nodeViewProps } from '@tiptap/vue-3'
+import { NodeViewWrapper, nodeViewProps } from '@tiptap/vue-3'
 import InputMediaUpload from '@fiction/ui/InputMediaUpload.vue'
 import type { MediaDisplayObject } from '@fiction/core'
 import { vue } from '@fiction/core'
@@ -25,6 +25,7 @@ vue.watch(
     })
   },
 )
+const imageFigure = vue.ref<HTMLElement>()
 
 function updateCaption(event: Event) {
   const v = (event.target as HTMLElement).textContent
@@ -33,29 +34,33 @@ function updateCaption(event: Event) {
 </script>
 
 <template>
-  <NodeViewWrapper>
-    <div class="not-prose">
-      <div v-if="!media?.url" class="bg-theme-50 border border-theme-200 dark:bg-theme-800 dark:border-theme-700 rounded-lg">
-        <InputMediaUpload v-model:model-value="media" />
-      </div>
-      <div v-else>
-        <img class="w-full" :src="media?.url" :alt="media?.alt">
-        <figcaption
-          class="cptn w-full focus:outline-none p-4 text-center font-sans"
-          contenteditable="true"
-          placeholder="Testing"
-          spellcheck="false"
-          @input="updateCaption($event)"
-          @click="isEditing = true"
-        >
-          {{ media.caption }}
-        </figcaption>
-      </div>
+  <NodeViewWrapper as="figure" :data-menu="media?.url ? 'image' : 'none'" class="ifigure not-prose outline-dotted outline-theme-200/30 dark:outline-theme-700/30 dark:focus:outline-theme-500 p-1 rounded-lg">
+    <div v-if="!media?.url" class="p-8">
+      <InputMediaUpload v-model:model-value="media" />
+    </div>
+    <div v-else ref="imageFigure">
+      <img class="w-full" :src="media?.url" :alt="media?.alt">
+      <figcaption
+        class="cptn w-full focus:outline-none p-4 text-center font-sans"
+        contenteditable="true"
+        placeholder="Testing"
+        spellcheck="false"
+        @input="updateCaption($event)"
+        @click="isEditing = true"
+      >
+        {{ media.caption }}
+      </figcaption>
     </div>
   </NodeViewWrapper>
 </template>
 
 <style lang="less">
+.ifigure{
+
+  &.has-focus {
+  outline-color: rgba(var(--primary-500) / 0.3);
+}
+}
 .cptn[contentEditable="true"]:empty {
   &::before {
     content: attr(placeholder);
@@ -71,4 +76,5 @@ function updateCaption(event: Event) {
     opacity: 0.2;
   }
 }
-</style>
+</style>import tippy from 'tippy.js';
+import tippy from 'tippy.js';
