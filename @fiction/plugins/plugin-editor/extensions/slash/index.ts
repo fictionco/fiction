@@ -127,7 +127,7 @@ function getSuggestionItems({ query }: { query: string }) {
       icon: Image,
       command: ({ editor, range, props }: CProps) => {
         editor.chain().focus().deleteRange(range).insertContent({
-          type: 'imageSelector',
+          type: 'xImage',
           attrs: { /* attributes if any */ },
         }).run()
       },

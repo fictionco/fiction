@@ -171,6 +171,7 @@ export interface CompiledServiceConfig {
       | 'mediaId'
       | 'userId'
       | 'orgId'
+      | 'caption'
       | 'hash'
       | 'url'
       | 'originUrl'

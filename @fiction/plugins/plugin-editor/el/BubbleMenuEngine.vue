@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { BubbleMenu } from '@tiptap/vue-3'
+import { BubbleMenu, isTextSelection } from '@tiptap/vue-3'
 import type { Editor } from '@tiptap/core'
-import type { NavItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import type { MenuType } from './menu'
 import { BubbleMenuTools } from './menu'
+import ButtonMenu from './ButtonMenu.vue'
 
 const props = defineProps({
   editor: { type: Object as vue.PropType<Editor>, required: true },
@@ -14,79 +14,36 @@ const props = defineProps({
 
 const menuTools = new BubbleMenuTools({ editor: props.editor })
 
-const groupClass = 'bg-theme-0 text-theme-900 dark:bg-theme-800 dark:text-theme-0 overflow-hidden'
-const ringClass = 'ring-1 ring-theme-300 dark:ring-theme-600 ring-inset'
-const hoverClass = 'hover:bg-theme-50 hover:dark:bg-theme-700'
-const btnClass = `relative inline-flex items-center px-3 py-2 text-sm font-semibold focus:z-10`
-
-function getItemClass(args: { item: NavItem, i: number, items: NavItem[], noHover?: boolean }) {
-  const { item, i, items = [], noHover = false } = args
-  return [
-    groupClass,
-    btnClass,
-    ringClass,
-    noHover ? '' : hoverClass,
-    i !== 0 ? '-ml-px' : 'rounded-l-md',
-    i === items.length - 1 ? 'rounded-r-md' : '',
-    item.isActive ? 'bg-theme-200 dark:bg-theme-700' : '',
-  ]
-}
-
 const items = vue.computed(() => menuTools.activeMenu.value)
+type ShouldShowArgs = Parameters<NonNullable<InstanceType<typeof BubbleMenu>['$props']['shouldShow']>>[0]
+function shouldShow(args: ShouldShowArgs) {
+  const { editor, view, state, from, to } = args
+  // Reworked from the default, because we only want the selection
+  // menu for text selections where a mark change will be visible.
+  // https://github.com/ueberdosis/tiptap/blob/063ced27ca55f331960b01ee6aea5623eee0ba49/packages/extension-bubble-menu/src/bubble-menu-plugin.ts#L43
+  if (!view.hasFocus())
+    return false
+  const { doc, selection } = state
+  const isText = isTextSelection(selection)
+  if (!isText)
+    return false
+  const isEmpty = selection.empty || (isText && doc.textBetween(from, to).length === 0)
+  if (isEmpty)
+    return false
+  if (editor.isActive('codeBlock'))
+    return false
+  return true
+}
 </script>
 
 <template>
   <BubbleMenu
-
+    :should-show="shouldShow"
     :editor="editor"
     :tippy-options="{ duration: 100 }"
     class="isolate inline-flex rounded-md shadow-sm"
     @click.stop
   >
-    <div
-      v-for="(item, i) in items"
-      :key="i"
-      class="relative"
-    >
-      <button
-
-        type="button"
-        :class="getItemClass({ item, i, items })"
-        @click="item.onClick ? item.onClick({ event: $event, item }) : ''"
-      >
-        <span class="text-lg" :class="item.icon" :title="item.name" />
-        <span v-if="item.items" class="text-lg i-tabler-chevron-down" />
-      </button>
-
-      <div
-        v-if="item.items"
-        v-show="item.isActive"
-        class="absolute z-10 mt-2 transform px-2  sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2"
-      >
-        <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden ">
-          <div class="relative inline-flex ">
-            <template v-for="(subItem, ii) in item.items" :key="ii">
-              <component
-                :is="subItem.figure.el"
-                v-if="subItem.figure?.el"
-                v-bind="subItem.figure?.props || {}"
-                :class="getItemClass({ item: subItem, i: ii, items: item.items, noHover: true })"
-                :item="subItem"
-                :parent="item"
-                :editor="editor"
-              />
-              <button
-                v-else
-                type="button"
-                :class="getItemClass({ item: subItem, i: ii, items: item.items })"
-                @click="subItem.onClick ? subItem.onClick({ event: $event, item }) : ''"
-              >
-                <span class="text-base" :class="subItem.icon" :title="item.name" />
-              </button>
-            </template>
-          </div>
-        </div>
-      </div>
-    </div>
+    <ButtonMenu :items="items" :editor="editor" />
   </BubbleMenu>
 </template>

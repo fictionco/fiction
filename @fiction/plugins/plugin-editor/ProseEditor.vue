@@ -3,7 +3,7 @@ import { EditorContent, useEditor } from '@tiptap/vue-3'
 import { isDarkOrLightMode, vue } from '@fiction/core'
 import ElSpinner from '@fiction/ui/ElSpinner.vue'
 import './utils/hljs.css'
-import { extensions } from './extensions'
+import { extensions } from './extensions/index'
 import BubbleMenuEngine from './el/BubbleMenuEngine.vue'
 
 const props = defineProps({
@@ -57,6 +57,24 @@ vue.onMounted(() => {
 
 <style lang="less">
 .tiptap-wrap{
+  [contentEditable="true"]:focus{
+    outline: none;
+  }
+  [contentEditable="true"]:empty {
+    &::before {
+      content: attr(placeholder);
+      opacity: 0.4;
+    }
+
+    &:hover:not(:focus)::before {
+      cursor: pointer;
+      opacity: 0.65;
+    }
+
+    &:focus::before {
+      opacity: 0.2;
+    }
+  }
   .suggestion{
     opacity: 0;
   }

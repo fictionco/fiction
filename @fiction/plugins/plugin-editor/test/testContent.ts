@@ -21,7 +21,7 @@ export const content = `<h1>The Forgotten Island</h1>
 <p>Emily left at dawn, the sun casting long shadows through the tall trees, her heart filled with a mix of excitement and anxiety.</p>
 
 <p>Here is a view from the plane:</p>
-<figure>
+<figure data-x-image>
     <img src="https://images.unsplash.com/photo-1641350517309-0da6ea5ac684?q=80&w=3135&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Aerial view of the jungle">
     <figcaption>Aerial view of the dense jungle canopy.</figcaption>
 </figure>

@@ -8,7 +8,7 @@ import TextStyle from '@tiptap/extension-text-style'
 import { Color } from '@tiptap/extension-color'
 import { TaskItem } from '@tiptap/extension-task-item'
 import { TaskList } from '@tiptap/extension-task-list'
-import { Extension, InputRule, isTextSelection } from '@tiptap/core'
+import { InputRule, isTextSelection } from '@tiptap/core'
 import TextAlign from '@tiptap/extension-text-align'
 import Highlight from '@tiptap/extension-highlight'
 import Superscript from '@tiptap/extension-superscript'
@@ -18,14 +18,9 @@ import AutoJoiner from 'tiptap-extension-auto-joiner'
 import Focus from '@tiptap/extension-focus'
 import CodeBlockLowLight from '@tiptap/extension-code-block-lowlight'
 import { common, createLowlight } from 'lowlight'
-
-import { ImageSelector } from './extensionImageAdd'
-// import DropCursor from '@tiptap/extension-dropcursor'
-// import FloatingMenu from '@tiptap/extension-floating-menu'
-
-// import GlobalDragHandle from 'tiptap-extension-global-drag-handle'
-import DragHandle from './extensionsDragHandle'
-import SlashCommand from './extensionsSlash'
+import { xImage } from './image'
+import DragHandle from './handle'
+import SlashCommand from './slash'
 
 export const lowlight = createLowlight(common)
 
@@ -67,7 +62,7 @@ const Horizontal = HorizontalRule.extend({
 })
 
 export const extensions = [
-  ImageSelector,
+  xImage,
   StarterKit.configure({
     horizontalRule: false,
     dropcursor: { color: '#3452ff', width: 4, class: 'rounded-lg opacity-40' },
@@ -78,7 +73,7 @@ export const extensions = [
   Horizontal,
   TiptapLink.configure({
     openOnClick: 'whenNotEditable',
-    HTMLAttributes: { class: 'hover:bg-theme-100 dark:hover:bg-theme-600 cursor-pointer' },
+    HTMLAttributes: { class: 'cursor-pointer' },
   }),
   TiptapImage,
   TaskList.configure({

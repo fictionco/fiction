@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Editor } from '@tiptap/core'
-import { Check, Trash } from 'lucide-vue-next'
+import { Check } from 'lucide-vue-next'
 import { vue } from '@fiction/core'
 
 const props = defineProps({

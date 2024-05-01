@@ -3,8 +3,8 @@ import type { PropType } from 'vue'
 import { ref, watch } from 'vue'
 import type { Editor, Range } from '@tiptap/core'
 import { useCompletion } from 'ai/vue'
-import { getPrevText } from './utils/editor'
-import type { SuggestionItem } from './extensionsSlash'
+import { getPrevText } from '../../utils/editor'
+import type { SuggestionItem } from '.'
 
 const props = defineProps({
   items: { type: Array as PropType<SuggestionItem[]>, required: true },
