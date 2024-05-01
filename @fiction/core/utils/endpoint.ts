@@ -263,7 +263,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     const url = this.requestUrl
 
     if (!userInfo)
-      throw new Error(`no active organization or user`)
+      return { status: 'error', context: 'projectReguest: no active organization or user' } as ReturnType<T['run']>
 
     const { orgId, userId } = userInfo
 

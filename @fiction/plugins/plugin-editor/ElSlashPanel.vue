@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
-import { inject, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import type { Editor, Range } from '@tiptap/core'
 import { useCompletion } from 'ai/vue'
 import { getPrevText } from './utils/editor'
@@ -8,16 +8,16 @@ import type { SuggestionItem } from './extensionsSlash'
 
 const props = defineProps({
   items: { type: Array as PropType<SuggestionItem[]>, required: true },
-  command: {  type: Function,  required: true, },
-  editor: { type: Object as PropType<Editor>,  required: true, },
-  range: {  type: Object as PropType<Range>,  required: true,  },
+  command: { type: Function, required: true },
+  editor: { type: Object as PropType<Editor>, required: true },
+  range: { type: Object as PropType<Range>, required: true },
 })
 
 const selectedIndex = ref(0)
 
 const { complete, isLoading } = useCompletion({
   id: 'novel-vue',
-  api: "/api/generate",
+  api: '/api/generate',
   onResponse: (_) => {
     props.editor.chain().focus().deleteRange(props.range).run()
   },
@@ -78,9 +78,7 @@ function selectItem(index: number) {
       if (isLoading.value)
         return
       complete(
-        getPrevText(props.editor, {  chars: 5000,
-          offset: 1,
-        }),
+        getPrevText(props.editor, { chars: 5000, offset: 1 }),
       )
     }
     else {
@@ -115,7 +113,7 @@ function scrollToSelected() {
   <div
     v-if="items.length > 0"
     ref="commandListContainer"
-    class="grid grid-cols-4 gap-2 p-4 z-50 h-auto max-h-[40dvh] w-[60dvw] overflow-y-auto rounded-md border border-theme-200 dark:border-theme-700 bg-theme-0 dark:bg-theme-800 px-1 py-2 shadow-md transition-all"
+    class="grid grid-cols-4 gap-2 p-4 z-50 h-auto max-h-[40dvh] w-[100dvw] max-w-prose overflow-y-auto rounded-md border border-theme-200 dark:border-theme-700 bg-theme-0 dark:bg-theme-800 px-1 py-2 shadow-md transition-all"
   >
     <button
       v-for="(item, index) in items"

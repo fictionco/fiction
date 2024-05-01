@@ -117,7 +117,7 @@ export function startImageUpload(file: File, view: EditorView, pos: number) {
 }
 
 export async function handleImageUpload(file: File) {
-  console.warn("TODO")
+  console.warn('TODO')
   // // upload to Vercel Blob
   // return new Promise((resolve) => {
   //   toast.promise(

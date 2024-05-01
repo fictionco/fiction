@@ -1,4 +1,4 @@
-import type {  CommandProps, Editor, Range } from '@tiptap/core'
+import type { Editor, Range } from '@tiptap/core'
 import { Extension } from '@tiptap/core'
 import { VueRenderer } from '@tiptap/vue-3'
 import Suggestion from '@tiptap/suggestion'
@@ -6,13 +6,10 @@ import type { SuggestionKeyDownProps, SuggestionProps } from '@tiptap/suggestion
 
 import tippy from 'tippy.js'
 
-import { CheckSquare, Code, Heading1, Heading2, Heading3, Image, List, ListOrdered, MessageSquarePlus, Sparkles, Text, TextQuote } from 'lucide-vue-next'
+import { CheckSquare, Code, Heading1, Heading2, Heading3, Image, List, ListOrdered, Text, TextQuote } from 'lucide-vue-next'
 
 import ElSlashPanel from './ElSlashPanel.vue'
-import { startImageUpload } from './uploadImages'
 // import Magic from "../icons/magic.vue";
-
-
 
 export interface SuggestionItem {
   title: string
@@ -129,12 +126,11 @@ function getSuggestionItems({ query }: { query: string }) {
       searchTerms: ['photo', 'picture', 'media'],
       icon: Image,
       command: ({ editor, range, props }: CProps) => {
-
         editor.chain().focus().deleteRange(range).insertContent({
           type: 'imageSelector',
-          attrs: { /* attributes if any */ }
+          attrs: { /* attributes if any */ },
         }).run()
-      }
+      },
     },
   ].filter((item) => {
     if (typeof query === 'string' && query.length > 0) {
@@ -182,7 +178,6 @@ const SlashCommand = Extension.create({
                 trigger: 'manual',
                 placement: 'bottom-start',
               })
-
             },
             onUpdate: (props: SuggestionProps) => {
               component?.updateProps(props)
@@ -193,14 +188,12 @@ const SlashCommand = Extension.create({
               if (props.event.key === 'Escape') {
                 popup?.[0].hide()
 
-
                 return true
               }
 
               return component?.ref?.onKeyDown(props.event)
             },
             onExit: (props: SuggestionProps) => {
-
               popup?.[0].destroy()
               component?.destroy()
             },

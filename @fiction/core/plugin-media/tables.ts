@@ -36,6 +36,12 @@ const columns = [
     default: () => '' as string,
   }),
   new FictionDbCol({
+    key: 'caption',
+    create: ({ schema, column }) => schema.string(column.pgKey),
+    default: () => '' as string,
+    isSetting: true,
+  }),
+  new FictionDbCol({
     key: 'hash',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as string,

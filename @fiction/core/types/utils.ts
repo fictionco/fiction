@@ -10,6 +10,7 @@ export type MediaDisplayObject = {
   text?: string
   classes?: string
   format?: 'url' | 'video' | 'iframe' | 'html' | 'audio' | 'text'
+
 } & TableMediaConfig
 
 export type GradientItem = { color?: string, percent?: number }
@@ -62,6 +63,7 @@ export interface NavItem {
   class?: string
   target?: string
   items?: NavItem[]
+  figure?: Figure
 }
 
 export type ActionItem = NavItem & {

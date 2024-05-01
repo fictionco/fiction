@@ -8,6 +8,7 @@ const props = defineProps({
   theme: { type: String as vue.PropType<ColorScheme>, default: 'gray' },
   primary: { type: String as vue.PropType<ColorScheme>, default: 'blue' },
   fontConfig: { type: Object as vue.PropType<FontConfig>, default: undefined },
+  mode: { type: String as vue.PropType<'light' | 'dark'>, default: 'light' },
 })
 
 const theme = vue.computed(() => getColorScheme(props.theme || 'gray'))
@@ -15,22 +16,30 @@ const primary = vue.computed(() => getColorScheme(props.primary || 'blue'))
 const fonts = vue.computed(() => getThemeFontConfig(props.fontConfig))
 
 const themeWrapEl = vue.ref<HTMLElement>()
+const modeClass = vue.ref<string>(props.mode)
 vue.onMounted(() => {
-  if (themeWrapEl.value) {
+  if (themeWrapEl.value && !modeClass.value) {
     const md = isDarkOrLightMode(themeWrapEl.value)
-    themeWrapEl.value.classList.add(md)
+
+    modeClass.value = md
   }
 })
 </script>
 
 <template>
-  <div ref="themeWrapEl" class="x-theme-wrap">
-    <slot />
+  <div ref="themeWrapEl" class="x-theme-wrap" :class="modeClass">
+    <div class="x-theme-base bg-theme-0 dark:bg-theme-900 text-theme-900 dark:text-theme-0">
+      <slot />
+    </div>
   </div>
 </template>
 
 <style lang="less">
 .x-theme-wrap{
+  .x-theme-base {
+    min-height: 100dvh;
+  }
+
   --font-family-mono: v-bind(fonts?.mono);
   --font-family-input: v-bind(fonts?.input);
   --font-family-sans: v-bind(fonts?.sans);

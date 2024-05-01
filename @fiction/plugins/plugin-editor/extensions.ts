@@ -15,6 +15,8 @@ import Superscript from '@tiptap/extension-superscript'
 import Subscript from '@tiptap/extension-subscript'
 import BubbleMenu from '@tiptap/extension-bubble-menu'
 import AutoJoiner from 'tiptap-extension-auto-joiner'
+import Focus from '@tiptap/extension-focus'
+import { PluginKey } from '@tiptap/pm/state'
 import { ImageSelector } from './extensionImageAdd'
 // import DropCursor from '@tiptap/extension-dropcursor'
 // import FloatingMenu from '@tiptap/extension-floating-menu'
@@ -69,7 +71,10 @@ export const extensions = [
       class: 'rounded-lg opacity-40',
     },
   }),
-  BubbleMenu,
+  BubbleMenu.configure({
+    pluginKey: new PluginKey('bubbleMenuText'),
+    element: document.querySelector('.bubble-menu-text') as HTMLElement | undefined | null,
+  }),
   PlaceholderExtension,
   Horizontal,
   TiptapLink,
@@ -92,7 +97,6 @@ export const extensions = [
   Color,
   Highlight.configure({ multicolor: true }),
   // Markdown.configure({ html: false, transformCopiedText: true }),
-  // GlobalDragHandle.configure({ scrollTreshold: 0 }),
   AutoJoiner,
   TextAlign.configure({
     types: ['heading', 'paragraph'],
@@ -101,4 +105,5 @@ export const extensions = [
   }),
   SlashCommand,
   DragHandle,
+  Focus,
 ]
