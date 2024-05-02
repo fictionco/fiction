@@ -1,8 +1,73 @@
 import { createTestUtils } from '@fiction/core/test-utils/init'
 
 import { afterAll, describe, expect, it, vi } from 'vitest'
+import type { DataFilter } from '@fiction/core'
 import { FictionPosts } from '..'
 import type { TablePostConfig } from '../schema'
+
+describe('post index tests', async () => {
+  const testUtils = createTestUtils()
+  const { orgId, user } = await testUtils.init()
+  const { userId = '' } = user
+  const fictionPosts = new FictionPosts(testUtils)
+  let createdPost: TablePostConfig | undefined
+  afterAll(async () => {
+    await testUtils.close()
+  })
+
+  it('lists sites correctly', async () => {
+    const create = {
+      _action: 'create',
+      fields: {
+        title: 'New Post',
+        content: 'Content of the new post',
+      },
+      orgId,
+      userId,
+    } as const
+
+    const r = await fictionPosts.queries.ManagePost.serve(create, {})
+    createdPost = r.data
+
+    const listParams = {
+      _action: 'list',
+      orgId,
+      limit: 10,
+      offset: 0,
+      filters: [] as DataFilter[],
+    } as const
+
+    const result = await fictionPosts.queries.ManagePostIndex.serve(listParams, {})
+
+    expect(result.status).toBe('success')
+    expect(result.data).toBeInstanceOf(Array)
+    expect(result.data?.length).toBe(1)
+    expect(result.indexMeta).toHaveProperty('count')
+    expect(result.indexMeta?.count).toBe(1)
+    expect(result.message).toBeFalsy()
+
+    const post = result.data?.[0]
+
+    expect(post?.postId).toBe(createdPost?.postId)
+
+    expect(post?.title).toBe(createdPost?.title)
+    expect(post?.content).toBe(createdPost?.content)
+    expect(post?.authors?.[0].userId).toBe(userId)
+  })
+
+  it('deletes selected posts', async () => {
+    const deleteParams = {
+      _action: 'delete' as const,
+      selectedIds: [createdPost?.postId || ''],
+      orgId,
+    }
+
+    const deleteResult = await fictionPosts.queries.ManagePostIndex.serve(deleteParams, {})
+
+    expect(deleteResult.status).toBe('success')
+    expect(deleteResult.message).toBe('Deleted successfully')
+  })
+})
 
 describe('post crud tests', async () => {
   const testUtils = createTestUtils()

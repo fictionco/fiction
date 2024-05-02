@@ -1,5 +1,5 @@
-import type { EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser } from '@fiction/core'
-import { Query, abort } from '@fiction/core'
+import type { DataFilter, EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser } from '@fiction/core'
+import { Query, standardTable } from '@fiction/core'
 import type { TablePostConfig } from './schema'
 import { tableNames } from './schema'
 import type { FictionPosts } from '.'
@@ -16,12 +16,10 @@ export abstract class PostsQuery extends Query<PostsQuerySettings> {
   }
 }
 
-export type ManagePostParams =
+export type ManagePostParamsRequest =
   | {
     _action: 'create'
     fields: Partial<TablePostConfig>
-    orgId: string
-    userId: string
   }
   | {
     _action: 'update'
@@ -37,6 +35,8 @@ export type ManagePostParams =
     _action: 'delete'
     postId: string
   }
+
+export type ManagePostParams = ManagePostParamsRequest & { userId?: string, orgId?: string }
 
 type ManagePostResponse = EndpointResponse<TablePostConfig> & {
   isNew?: boolean
@@ -104,6 +104,10 @@ export class QueryManagePost extends PostsQuery {
   private async createPost(params: ManagePostParams & { _action: 'create' }): Promise<TablePostConfig | undefined> {
     const db = this.db()
     const { fields, orgId, userId } = params
+
+    if (!orgId || !userId)
+      throw this.abort('userId and orgId are required to create a post')
+
     const fieldsWithOrg = { type: 'post', status: 'draft', ...fields, orgId, userId }
     const [{ postId }] = await db(tableNames.posts).insert(fieldsWithOrg).returning('postId')
 
@@ -117,5 +121,108 @@ export class QueryManagePost extends PostsQuery {
     await db(tableNames.posts).where({ postId }).delete()
 
     return post
+  }
+}
+
+export type ManageIndexParamsRequest = {
+  _action: 'delete' | 'list'
+  limit?: number
+  offset?: number
+  selectedIds?: string[]
+  filters?: DataFilter[]
+}
+
+export type ManageIndexParams = ManageIndexParamsRequest & { userId?: string, orgId?: string }
+
+type ManageIndexResponse = EndpointResponse<TablePostConfig[]> & {
+  indexMeta?: { count: number, limit: number, offset: number }
+}
+
+export class ManagePostIndex extends PostsQuery {
+  async run(params: ManageIndexParams, _meta: EndpointMeta): Promise<ManageIndexResponse> {
+    if (!params._action)
+      throw this.abort('Action parameter is required.')
+
+    switch (params._action) {
+      case 'list':
+        return this.list(params)
+      case 'delete':
+        return this.deleteSites(params.selectedIds)
+      default:
+        throw this.abort(`Unsupported action '${params._action as string}'`)
+    }
+  }
+
+  private async list({ orgId, limit = 10, offset = 0, filters = [] }: ManageIndexParams): Promise<ManageIndexResponse> {
+    if (!orgId)
+      throw this.abort('orgId is required to list posts')
+
+    const posts = await this.fetchPosts(orgId, limit, offset, filters)
+    const allAuthorIds = posts.map(post => post.userId)
+    const allAuthors = await this.fetchAuthors(allAuthorIds)
+
+    const postsWithAuthors = posts.map(post => ({
+      ...post,
+      authors: [post.userId].filter(Boolean).map(userId => allAuthors.find(author => author.userId === userId)),
+    })) as TablePostConfig[]
+
+    const count = await this.fetchCount(orgId)
+
+    return {
+      status: 'success',
+      data: postsWithAuthors,
+      indexMeta: { count, limit, offset },
+    }
+  }
+
+  private async fetchPosts(orgId: string, limit: number, offset: number, filters: DataFilter[]) {
+    const query = this.db()
+      .select<TablePostConfig[]>('*')
+      .from(tableNames.posts)
+      .where('org_id', orgId)
+      .limit(limit)
+      .offset(offset)
+      .orderBy('updatedAt', 'desc')
+
+    filters.forEach((filter) => {
+      if (filter.field && filter.operator && filter.value)
+        void query.where(filter.field, filter.operator, filter.value)
+    })
+
+    return query
+  }
+
+  private async fetchAuthors(userIds: string[]) {
+    if (userIds.length === 0)
+      return []
+
+    return this.db()
+      .select('*')
+      .from(standardTable.user)
+      .whereIn('userId', userIds)
+  }
+
+  private async fetchCount(orgId: string): Promise<number> {
+    const result = await this.db()
+      .count<{ count: string }>('*')
+      .from(tableNames.posts)
+      .where({ orgId })
+      .first()
+
+    return Number.parseInt(result?.count || '0', 10)
+  }
+
+  private async deleteSites(selectedIds?: string[]): Promise<ManageIndexResponse> {
+    if (!selectedIds || selectedIds.length === 0)
+      throw this.abort('No posts selected for deletion')
+
+    await this.db()(tableNames.posts)
+      .whereIn('post_id', selectedIds)
+      .delete()
+
+    return {
+      status: 'success',
+      message: 'Deleted successfully',
+    }
   }
 }

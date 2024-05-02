@@ -5,7 +5,7 @@ import { CardTemplate, createCard } from '@fiction/site'
 import { FictionEditor } from '@fiction/plugin-editor'
 import type { ExtensionManifest } from '../plugin-extend'
 import { tables } from './schema'
-import { QueryManagePost } from './endpoint'
+import { ManagePostIndex, QueryManagePost } from './endpoint'
 
 type FictionPostsSettings = { fictionUser: FictionUser, fictionServer: FictionServer, fictionDb: FictionDb } & FictionPluginSettings
 
@@ -13,6 +13,7 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
   editor = new FictionEditor(this.settings)
   queries = {
     ManagePost: new QueryManagePost({ fictionPosts: this, ...this.settings }),
+    ManagePostIndex: new ManagePostIndex({ fictionPosts: this, ...this.settings }),
   }
 
   requests = this.createRequests({
@@ -40,7 +41,7 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
             createCard({
               tpl: new CardTemplate({
                 templateId: 'sites',
-                el: vue.defineAsyncComponent(() => import('./ViewPosts.vue')),
+                el: vue.defineAsyncComponent(() => import('./el/PagePostIndex.vue')),
               }),
             }),
           ],
@@ -52,10 +53,6 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
         }),
       ]
     } })
-  }
-
-  override async setup() {
-    console.warn('------------------------------------SETUP WORLD------------------------------------')
   }
 }
 

@@ -1,4 +1,4 @@
-import type { CreateObjectType, PostStatus } from '@fiction/core'
+import type { CreateObjectType, PostStatus, User } from '@fiction/core'
 import { FictionDbCol, FictionDbTable } from '@fiction/core/plugin-db'
 
 export const tableNames = { posts: 'fiction_posts' }
@@ -6,7 +6,7 @@ export const tableNames = { posts: 'fiction_posts' }
 type PostUserConfig = Record<string, any>
 type PostMeta = Record<string, any>
 
-export type TablePostConfig = CreateObjectType<typeof postCols>
+export type TablePostConfig = CreateObjectType<typeof postCols> & { authors?: User[] }
 
 const postCols = [
   new FictionDbCol({
