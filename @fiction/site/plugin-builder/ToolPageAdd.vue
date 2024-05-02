@@ -3,12 +3,12 @@ import { toSlug, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import ElInput from '@fiction/ui/ElInput.vue'
 import ElForm from '@fiction/ui/ElForm.vue'
+import type { EditorTool } from '@fiction/admin'
+import ElTool from '@fiction/admin/ElTool.vue'
+import ToolForm from '@fiction/admin/ToolForm.vue'
 import type { CardConfigPortable } from '../tables'
 import type { Site } from '../site'
 import { requestManagePage } from '../utils/region'
-import type { EditorTool } from '../admin'
-import ElTool from './ElTool.vue'
-import ToolForm from './ToolForm.vue'
 import InputSlug from './InputSlug.vue'
 import { siteEditController } from './tools'
 
@@ -78,7 +78,7 @@ async function save() {
       <ToolForm
         v-model="page"
         :options="options"
-        :site="site"
+        :input-props="{ site }"
       />
 
       <div class="text-right px-4 py-2">

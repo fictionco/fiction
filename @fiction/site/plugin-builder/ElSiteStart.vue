@@ -14,7 +14,10 @@ import ElThemeSelect from './ElThemeSelect.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
+  vis: { type: Boolean, default: false },
 })
+
+const emit = defineEmits(['update:vis'])
 
 const serv = useService<{ fictionSites: FictionSites, fictionRouterSites: FictionRouter }>()
 
@@ -112,11 +115,13 @@ const opts = [
 
 <template>
   <ElModal
-    modal-class="max-w-screen-lg"
-    style-class="none"
+    modal-class="max-w-screen-md"
+    style-class="pointer-events-none"
+    :vis="vis"
+    @update:vis="emit('update:vis', $event)"
   >
     <ElStepNav v-slot="{ step }" :step-config="stepConfig">
-      <div v-if="step.key === 'name'">
+      <div v-if="step.key === 'name'" class="">
         <ElInput
           v-model="form.title"
           input="InputText"

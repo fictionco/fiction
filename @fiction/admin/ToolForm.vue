@@ -1,19 +1,17 @@
 <script lang="ts" setup>
-import type { vue } from '@fiction/core'
-import { getNested, localRef, setNested } from '@fiction/core'
+import { getNested, localRef, setNested, vue } from '@fiction/core'
 import type { InputOption } from '@fiction/ui'
 import ElInput from '@fiction/ui/ElInput.vue'
 import TransitionSlide from '@fiction/ui/TransitionSlide.vue'
-import type { Site } from '..'
-import ElToolSep from './ElToolSep.vue'
+import ElToolSep from '@fiction/admin/ElToolSep.vue'
 
 const props = defineProps({
   options: { type: Array as vue.PropType<InputOption[]>, required: true },
   loading: { type: Boolean, default: false },
   modelValue: { type: Object as vue.PropType<Record<string, unknown>>, default: () => {} },
   depth: { type: Number, default: 0 },
-  site: { type: Object as vue.PropType<Site>, required: true },
   basePath: { type: String, default: '' },
+  inputProps: { type: Object as vue.PropType<Record<string, unknown>>, default: () => ({}) },
 })
 
 const emit = defineEmits<{
@@ -32,10 +30,16 @@ function hide(key: string, val?: boolean) {
 function getOptionPath(key: string) {
   return props.basePath ? `${props.basePath}.${key}` : key
 }
+
+const attrs = vue.useAttrs()
+const passProps = vue.computed(() => {
+  const { class: _, ...rest } = attrs
+  return rest
+})
 </script>
 
 <template>
-  <div class="">
+  <div>
     <div class="flex gap-4 flex-col">
       <div
         v-for="(opt, i) in options.filter(_ => !_.settings.isHidden)"
@@ -65,10 +69,10 @@ function getOptionPath(key: string) {
             <div v-show="!hide(opt.key.value)">
               <div class="p-4">
                 <ToolForm
+                  :input-props="inputProps"
                   :options="opt.options.value || []"
                   :model-value="modelValue"
                   :depth="1"
-                  :site="site"
                   :base-path="basePath"
                   @update:model-value="emit('update:modelValue', $event)"
                 />
@@ -87,11 +91,10 @@ function getOptionPath(key: string) {
           <ElInput
             v-if="opt.isHidden.value !== true"
             class="setting-input"
-            v-bind="opt.outputProps.value"
+            v-bind="{ ...inputProps, ...opt.outputProps.value }"
             :input="opt.input.value"
             input-class="bg-theme-50 dark:bg-theme-800 text-theme-700 dark:text-theme-25 border-theme-200 dark:border-theme-600"
             :model-value="getNested({ path: getOptionPath(opt.key.value), data: modelValue })"
-            :site="site"
             @update:model-value="emit('update:modelValue', setNested({ path: getOptionPath(opt.key.value), data: modelValue, value: $event }))"
           />
         </div>

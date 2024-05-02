@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
 import type { ActionItem } from '@fiction/core'
-import type { Site } from '../site'
+import type { EditorTool, Handle } from '@fiction/admin'
 
+import ElTool from '@fiction/admin/ElTool.vue'
+import ElToolBanner from '@fiction/admin/ElToolBanner.vue'
+import ELToolHandle from '@fiction/admin/ElToolHandle.vue'
+import DraggableSort from '@fiction/admin/DraggableSort.vue'
 import { saveSite } from '../utils/site'
-import type { EditorTool, Handle } from '../admin/index'
-import ElTool from './ElTool.vue'
-import ElToolBanner from './ElToolBanner.vue'
-import ELToolHandle from './ElToolHandle.vue'
-import DraggableSort from './DraggableSort.vue'
+import type { Site } from '../site'
 import { siteEditController } from './tools'
 
 const props = defineProps({

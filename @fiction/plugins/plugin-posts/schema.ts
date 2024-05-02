@@ -10,7 +10,8 @@ export const tableNames = {
 type PostUserConfig = Record<string, any>
 type PostMeta = Record<string, any>
 
-export type TablePostConfig = CreateObjectType<typeof postCols> & { authors?: User[] }
+export type TablePostConfig = CreateObjectType<typeof postCols> & { authors?: User[], taxonomy?: TableTaxonomyConfig[] }
+export type TableTaxonomyConfig = CreateObjectType<typeof taxonomyCols>
 
 const postCols = [
   new FictionDbCol({
@@ -132,6 +133,20 @@ const taxonomyCols = [
     default: () => '' as string,
     zodSchema: ({ z }) => z.string().optional(),
   }),
+  new FictionDbCol({
+    key: 'priority',
+    create: ({ schema, column }) => schema.integer(column.pgKey).defaultTo(0),
+    default: () => 0 as number,
+    zodSchema: ({ z }) => z.number().int().optional(),
+  }),
+  new FictionDbCol({
+    key: 'meta',
+    create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo({}),
+    prepare: ({ value }) => JSON.stringify(value),
+    default: () => ({} as Record<string, any>),
+    zodSchema: ({ z }) => z.record(z.unknown()),
+  }),
+
 ] as const
 
 // Post-Taxonomies join table columns

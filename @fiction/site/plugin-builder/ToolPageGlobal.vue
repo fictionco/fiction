@@ -3,11 +3,11 @@ import { toSlug, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import ElInput from '@fiction/ui/ElInput.vue'
 import ElForm from '@fiction/ui/ElForm.vue'
+import type { EditorTool } from '@fiction/admin'
+import ElTool from '@fiction/admin/ElTool.vue'
+import ToolForm from '@fiction/admin/ToolForm.vue'
 import type { Site } from '../site'
 import { saveSite, updateSite } from '../utils/site'
-import type { EditorTool } from '../admin'
-import ElTool from './ElTool.vue'
-import ToolForm from './ToolForm.vue'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },
@@ -88,7 +88,7 @@ const v = vue.computed({
       <ToolForm
         v-model="v"
         :options="options"
-        :site="site"
+        :input-props="{ site }"
       />
 
       <div class="text-right px-4 py-2">

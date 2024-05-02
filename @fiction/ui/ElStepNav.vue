@@ -93,12 +93,12 @@ async function next(currentStep: StepItem) {
 </script>
 
 <template>
-  <ElForm id="stepForm" class="h-full overflow-scroll py-[12vh] relative">
+  <ElForm id="stepForm" class="h-full  py-[12vh] relative">
     <ElStep
       v-slot="{ step }"
       :steps="steps"
       :current-index="stepIndex"
-      class="steps"
+      class="steps pointer-events-auto"
       transit="next"
     >
       <div class="space-y-8">
@@ -113,15 +113,14 @@ async function next(currentStep: StepItem) {
             size="lg"
             :loading="step.isLoading"
             :animate="true"
-            @click.prevent="next(step)
-            "
+            @click.prevent="next(step)"
           >
             {{ step.actionText || "Next" }}
           </ElButton>
         </div>
       </div>
     </ElStep>
-    <div class="nav mt-12 flex w-full justify-center space-x-3">
+    <div class="nav mt-12 flex w-full justify-center space-x-3 pointer-events-auto">
       <div
         v-for="(s, i) in steps"
         :key="i"

@@ -3,7 +3,6 @@ import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import type { DataFilter, FictionApp, FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionRouter, FictionServer, FictionUser, IndexMeta } from '@fiction/core'
 
 import { EnvVar, vars } from '@fiction/core/plugin-env'
-// import type { PluginMain } from '@fiction/plugin-admin-index'
 import type { FictionAi } from '@fiction/plugin-ai'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
 import { ManageIndex, ManagePage, ManageSite } from './endpoint'

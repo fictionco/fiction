@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import type { vue } from '@fiction/core'
 import { toLabel } from '@fiction/core'
+import type { Handle } from '@fiction/admin'
+import ElToolHandle from '@fiction/admin/ElToolHandle.vue'
+import TransitionList from '@fiction/admin/TransitionList.vue'
 import type { Site } from '../site'
 import type { Card } from '../card'
-import type { Handle } from '../admin'
-import ElToolHandle from './ElToolHandle.vue'
-import TransitionList from './TransitionList.vue'
 import { siteEditController } from './tools'
 
 const props = defineProps({

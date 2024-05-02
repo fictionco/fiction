@@ -5,13 +5,13 @@ import { InputOption } from '@fiction/ui'
 import ElButton from '@fiction/ui/ElButton.vue'
 import ElForm from '@fiction/ui/ElForm.vue'
 import ElModalConfirm from '@fiction/ui/ElModalConfirm.vue'
+import type { EditorTool } from '@fiction/admin'
+import ElTool from '@fiction/admin/ElTool.vue'
+import ToolForm from '@fiction/admin/ToolForm.vue'
 import type { Site } from '../site'
 import type { TableSiteConfig } from '../tables'
 import { tableNames } from '../tables'
 import { activeSiteHostname, saveSite } from '../utils/site'
-import type { EditorTool } from '../admin'
-import ElTool from './ElTool.vue'
-import ToolForm from './ToolForm.vue'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },
@@ -83,7 +83,7 @@ const showConfirm = vue.ref(false)
     v-bind="props"
   >
     <ElForm @submit="showConfirm = true">
-      <ToolForm v-model="v" :options="options" :site="site" />
+      <ToolForm v-model="v" :options="options" :input-props="{ site }" />
 
       <div class="text-right px-4 py-2 border-t border-theme-200 dark:border-theme-600 pt-4 space-x-4 flex justify-between">
         <ElButton btn="default" @click="reset()">

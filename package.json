@@ -49,6 +49,7 @@
     "@fiction/ui",
     "@fiction/www",
     "@fiction/site",
+    "@fiction/admin",
     "@fiction/platform",
     "@fiction/themes/*",
     "@fiction/plugins/*"

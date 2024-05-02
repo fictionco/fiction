@@ -3,7 +3,6 @@ import { AppRoute, FictionApp, FictionAws, FictionMedia, FictionRouter, isCi, ra
 import { FictionAi } from '@fiction/plugin-ai'
 import type { TestUtils } from '@fiction/core/test-utils/init'
 import { createTestUtils } from '@fiction/core/test-utils/init'
-import type { FictionAdmin } from '@fiction/plugin-admin'
 import { testEnvFile } from '@fiction/core/test-utils'
 import FSite from '@fiction/cards/CardSite.vue'
 import { runServicesSetup } from '@fiction/core/plugin-env/entry'
@@ -15,7 +14,6 @@ import * as testTheme from './test-theme'
 import { setup as mainFileSetup } from './siteTestMainFile'
 
 export type SiteTestUtils = TestUtils & {
-  fictionAdmin: FictionAdmin
   fictionSites: FictionSites
   fictionRouterSites: FictionRouter
   fictionAppSites: FictionApp

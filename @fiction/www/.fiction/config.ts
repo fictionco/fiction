@@ -255,6 +255,20 @@ export interface CompiledServiceConfig {
       | 'date'
       | 'createdAt'
       | 'updatedAt'
+    fiction_taxonomies:
+      | 'taxonomyId'
+      | 'userId'
+      | 'orgId'
+      | 'title'
+      | 'slug'
+      | 'type'
+      | 'description'
+      | 'parentId'
+      | 'priority'
+      | 'meta'
+      | 'createdAt'
+      | 'updatedAt'
+    fiction_post_taxonomies: 'postTaxonomyId' | 'postId' | 'taxonomyId' | 'createdAt' | 'updatedAt'
     [k: string]: unknown
   }
   [k: string]: unknown

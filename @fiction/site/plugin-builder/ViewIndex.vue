@@ -35,7 +35,7 @@ vue.onMounted(async () => {
   await loadIndex()
 })
 
-const formattedData = vue.computed<IndexItem[]>(() => {
+const list = vue.computed<IndexItem[]>(() => {
   if (!sites.value)
     return []
 
@@ -58,35 +58,32 @@ const formattedData = vue.computed<IndexItem[]>(() => {
   return rows
 })
 
-const actions: ActionItem[] = [{
-  name: 'Create New Website',
-  btn: 'primary',
-  onClick: () => {
-    showCreateModal.value = true
-  },
-}]
+function getActions(location: 'top' | 'zero') {
+  const actions: ActionItem[] = [{ name: 'Create New Site', btn: 'primary', onClick: () => (showCreateModal.value = true) }]
+  return location === 'zero' || list.value.length > 0 ? actions : []
+}
 </script>
 
 <template>
-  <ElPanel :actions="actions" :class="card.classes.value.contentWidth">
+  <ElPanel :class="card.classes.value.contentWidth">
     <div class="pt-8  ">
       <ElIndexGrid
         :loading="loading"
-        :list="formattedData"
+        :list="list"
         :index-meta="{}"
         :edit-actions="[]"
         :empty="{
-          name: 'Start New Website',
-          desc: `Welcome to the world's simplest and fastest web creation platform for influencers and professionals.`,
-          actions,
-          figure: { el: vue.defineAsyncComponent(() => import('./fig/FigSite.vue')) },
+          name: 'Create Your First Site',
+          desc: `The homebase for your online presence. Create a search engine optimized website in minutes.`,
+          actions: getActions('zero'),
+          icon: 'i-tabler-browser-plus',
         }"
-        :actions="[]"
+        :actions="getActions('top')"
         :on-item-click="() => {}"
         @bulk-edit="() => {}"
       />
     </div>
 
-    <ElSiteStart :vis="showCreateModal" :card="card" />
+    <ElSiteStart v-model:vis="showCreateModal" :card="card" />
   </ElPanel>
 </template>

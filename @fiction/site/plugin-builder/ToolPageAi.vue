@@ -3,11 +3,11 @@ import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import ElInput from '@fiction/ui/ElInput.vue'
 import ElForm from '@fiction/ui/ElForm.vue'
+import type { EditorTool } from '@fiction/admin'
+import ElTool from '@fiction/admin/ElTool.vue'
+import ToolForm from '@fiction/admin/ToolForm.vue'
 import type { Site } from '../site'
 import { imageStyle } from '../util'
-import type { EditorTool } from '../admin'
-import ElTool from './ElTool.vue'
-import ToolForm from './ToolForm.vue'
 
 const props = defineProps({
   site: {
@@ -110,7 +110,7 @@ async function save() {
       <ToolForm
         :model-value="site.toConfig()"
         :options="options"
-        :site="site"
+        :input-props="{ site }"
         @update:model-value="site.update($event)"
       />
 

@@ -1,6 +1,6 @@
 import { type ActionItem, type ClickHandler, FictionObject, onResetUi, vue } from '@fiction/core'
 
-import type { iconStyle } from '../util'
+import type { iconStyle } from './util'
 
 export type Handle = {
   handleId: string

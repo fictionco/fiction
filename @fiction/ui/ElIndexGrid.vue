@@ -48,7 +48,7 @@ const boxClass = 'dark:bg-theme-975 hover:bg-theme-50 dark:hover:bg-theme-700 px
               </div>
             </div>
             <dl class="flex w-full flex-none justify-between gap-x-8 sm:w-auto items-center">
-              <slot :item="item" />
+              <slot :item="item" name="item" />
 
               <div class="hidden sm:flex sm:flex-col sm:items-end">
                 <p class="text-sm leading-6  ">
@@ -62,13 +62,20 @@ const boxClass = 'dark:bg-theme-975 hover:bg-theme-50 dark:hover:bg-theme-700 px
           </component>
         </li>
       </ul>
-      <div v-if="list.length === 0 && empty">
+      <div v-if="list.length === 0 ">
+        <template v-if="$slots.zero">
+          <slot name="zero" />
+        </template>
         <ElZeroBanner
-          :title="empty.name || 'No items found'"
-          :description="empty.desc || 'Try creating a new one.'"
-          :actions="empty.actions || actions"
+          v-else
+          :title="empty?.name || 'No items found'"
+          :description="empty?.desc || 'Try creating a new one.'"
+          :actions="empty?.actions || actions"
+          :icon="empty?.icon || 'i-heroicons-search'"
         >
-          <component :is="empty.figure.el" v-if="empty.figure?.el" />
+          <template v-if="empty?.figure?.el" #figure>
+            <component :is="empty?.figure.el" />
+          </template>
         </ElZeroBanner>
       </div>
 

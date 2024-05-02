@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import type { FictionApp, FictionAppEntry, FictionRouter } from '@fiction/core'
 import { log, unhead, useService, vue } from '@fiction/core'
-import type { FictionAdmin } from '@fiction/plugin-admin'
 import type { FictionSites } from '..'
 import { getMountContext } from '../load'
 
-const service = useService<{ fictionAppSites: FictionApp, fictionRouterSites: FictionRouter, fictionAdmin: FictionAdmin, fictionSites: FictionSites }>()
+const service = useService<{ fictionAppSites: FictionApp, fictionRouterSites: FictionRouter, fictionSites: FictionSites }>()
 
 const base = service.fictionSites.getPreviewPath()
 

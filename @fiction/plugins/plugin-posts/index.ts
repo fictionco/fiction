@@ -40,7 +40,7 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
           cards: [
             createCard({
               tpl: new CardTemplate({
-                templateId: 'sites',
+                templateId: 'postIndex',
                 el: vue.defineAsyncComponent(() => import('./el/PagePostIndex.vue')),
               }),
             }),
@@ -50,6 +50,22 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
             navIcon: 'i-tabler-pin',
             navIconAlt: 'i-tabler-pin-filled',
           },
+        }),
+        createCard({
+          templates,
+          regionId: 'main',
+          templateId: 'dash',
+          slug: 'post-edit',
+          title: 'Edit Post',
+          cards: [
+            createCard({
+              tpl: new CardTemplate({
+                templateId: 'postEdit',
+                el: vue.defineAsyncComponent(() => import('./el/PagePostEdit.vue')),
+              }),
+            }),
+          ],
+          userConfig: { },
         }),
       ]
     } })

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { useService, vue } from '@fiction/core'
+import ElTool from '@fiction/admin/ElTool.vue'
+import ElToolBanner from '@fiction/admin/ElToolBanner.vue'
+import ToolForm from '@fiction/admin/ToolForm.vue'
 import type { Site } from '../site'
 import type { FictionSites } from '..'
 import type { TableCardConfig } from '../tables'
-import ElTool from './ElTool.vue'
-import ElToolBanner from './ElToolBanner.vue'
-import ToolForm from './ToolForm.vue'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, default: undefined },
@@ -44,7 +44,7 @@ function setActiveCardConfig(config: Partial<TableCardConfig>) {
       <ToolForm
         :model-value="site.activeCardConfig.value"
         :options="options"
-        :site="site"
+        :input-props="{ site }"
         base-path="userConfig"
         @update:model-value="setActiveCardConfig($event)"
       />

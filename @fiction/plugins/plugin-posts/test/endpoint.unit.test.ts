@@ -1,6 +1,6 @@
 import { createTestUtils } from '@fiction/core/test-utils/init'
 
-import { afterAll, describe, expect, it, vi } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import type { DataFilter } from '@fiction/core'
 import { FictionPosts } from '..'
 import type { TablePostConfig } from '../schema'

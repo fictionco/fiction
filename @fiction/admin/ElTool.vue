@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { ActionItem, vue } from '@fiction/core'
 import { toLabel } from '@fiction/core'
-import { iconStyle } from '../util'
-import type { EditorTool } from '../admin'
+import type { EditorTool } from '@fiction/admin'
+import { iconStyle } from './util'
 
 const props = defineProps({
   tool: { type: Object as vue.PropType<EditorTool>, required: true },

@@ -1,13 +1,13 @@
 {
   "dependencies": {
     "@fiction/core": "workspace:*",
-    "@fiction/plugin-admin": "workspace:*",
+    "@fiction/admin": "workspace:*",
+    "@fiction/ui": "workspace:*",
     "@fiction/plugin-ai": "workspace:*",
     "@fiction/plugin-highlight-code": "workspace:*",
     "@fiction/plugin-monitor": "workspace:*",
     "@fiction/plugin-notify": "workspace:*",
     "@fiction/plugin-stripe": "workspace:*",
-    "@fiction/ui": "workspace:*",
     "@shopify/draggable": "^1.1.3",
     "graphql": "^16.8.1",
     "graphql-request": "^6.1.0",
