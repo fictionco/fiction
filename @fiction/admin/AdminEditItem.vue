@@ -29,7 +29,7 @@ defineProps({
       >
         <div class="space-y-1 py-2 z-30 relative h-full bg-theme-0 dark:bg-theme-900 border-r border-theme-200 dark:border-theme-700">
           <div
-            v-for="(tool, i) in controller.tools.filter(_ => _.isPrimary)"
+            v-for="(tool, i) in controller.tools?.filter(_ => _.isPrimary) || []"
             :key="i"
             class="flex items-center justify-center"
           >

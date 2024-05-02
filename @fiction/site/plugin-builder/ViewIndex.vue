@@ -59,7 +59,7 @@ const list = vue.computed<IndexItem[]>(() => {
 })
 
 function getActions(location: 'top' | 'zero') {
-  const actions: ActionItem[] = [{ name: 'Create New Site', btn: 'primary', onClick: () => (showCreateModal.value = true) }]
+  const actions: ActionItem[] = [{ name: 'Create New Site', icon: 'i-tabler-plus', btn: 'primary', onClick: () => (showCreateModal.value = true) }]
   return location === 'zero' || list.value.length > 0 ? actions : []
 }
 </script>
@@ -70,6 +70,7 @@ function getActions(location: 'top' | 'zero') {
       <ElIndexGrid
         :loading="loading"
         :list="list"
+        list-title="Sites"
         :index-meta="{}"
         :edit-actions="[]"
         :empty="{

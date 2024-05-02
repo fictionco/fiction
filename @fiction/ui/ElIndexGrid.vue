@@ -7,6 +7,7 @@ import ElSpinner from './ElSpinner.vue'
 
 defineProps({
   list: { type: Array as vue.PropType<IndexItem[]>, default: () => [] },
+  listTitle: { type: String, default: 'Items' },
   indexMeta: { type: Object as vue.PropType<IndexMeta>, default: () => ({}) },
   editActions: { type: Array as vue.PropType<string[]>, default: () => [] },
   empty: { type: Object as vue.PropType<IndexItem>, required: false },
@@ -18,7 +19,7 @@ defineProps({
 
 const sending = vue.ref(false)
 
-const boxClass = 'dark:bg-theme-975 hover:bg-theme-50 dark:hover:bg-theme-700 px-6 border border-theme-300/70 shadow-xs dark:border-theme-600 rounded-xl'
+const boxClass = 'dark:bg-theme-800 hover:bg-theme-50 dark:hover:bg-theme-700 px-6 border border-theme-300/70 shadow-xs dark:border-theme-600/60 rounded-xl'
 </script>
 
 <template>
@@ -30,6 +31,35 @@ const boxClass = 'dark:bg-theme-975 hover:bg-theme-50 dark:hover:bg-theme-700 px
       <ElSpinner class="h-6 w-6" />
     </div>
     <div v-else>
+      <div class="mb-6 flex justify-between items-end">
+        <div class="text-base font-medium leading-4 text-theme-500 dark:text-theme-500">
+          {{ listTitle }} ({{ list.length }})
+        </div>
+        <nav
+          v-if="actions?.length"
+          class="mt-3 flex items-center justify-between pt-3"
+          aria-label="Pagination"
+        >
+          <div class="">
+            <ElButton
+              v-for="(act, i) in actions"
+              :key="i"
+              :href="act.href"
+              :btn="act.btn || 'default'"
+              :icon="act.icon"
+              size="md"
+              @click.stop="act.onClick ? act.onClick({ event: $event, item: act }) : null"
+            >
+              {{ act.name }}
+            </ElButton>
+          </div>
+          <div v-if="indexMeta.count" class="hidden sm:block">
+            <div class="text-theme-400 mr-2">
+              {{ indexMeta.count }} total
+            </div>
+          </div>
+        </nav>
+      </div>
       <ul role="list" class="space-y-8">
         <li
           v-for="item in list"
@@ -78,29 +108,6 @@ const boxClass = 'dark:bg-theme-975 hover:bg-theme-50 dark:hover:bg-theme-700 px
           </template>
         </ElZeroBanner>
       </div>
-
-      <nav
-        v-else-if="actions?.length"
-        class="bg-theme-0 mt-3 flex items-center justify-between pt-3"
-        aria-label="Pagination"
-      >
-        <div class="">
-          <ElButton
-            v-for="(act, i) in actions"
-            :key="i"
-            :href="act.href"
-            :btn="act.btn || 'default'"
-            @click.stop="act.onClick ? act.onClick({ event: $event, item: act }) : null"
-          >
-            {{ act.name }}
-          </ElButton>
-        </div>
-        <div v-if="indexMeta.count" class="hidden sm:block">
-          <div class="text-theme-400 mr-2">
-            {{ indexMeta.count }} total
-          </div>
-        </div>
-      </nav>
     </div>
   </div>
 </template>

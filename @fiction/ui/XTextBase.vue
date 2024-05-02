@@ -76,7 +76,7 @@ function loadAnimation() {
 }
 
 vue.onMounted(() => {
-  if (hasAnimation.value)
+  if (hasAnimation.value && !props.isEditable)
     loadAnimation()
   else
     loaded.value = true

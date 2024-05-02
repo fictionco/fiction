@@ -65,7 +65,7 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
               }),
             }),
           ],
-          userConfig: { },
+          userConfig: { layoutFormat: 'full' },
         }),
       ]
     } })
