@@ -147,6 +147,10 @@
     {
       "key": "ManagePost",
       "path": "/api/fiction-posts/ManagePost"
+    },
+    {
+      "key": "ManagePostIndex",
+      "path": "/api/fiction-posts/ManagePostIndex"
     }
   ]
 }

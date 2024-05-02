@@ -57,6 +57,7 @@ export interface CompiledServiceConfig {
     | 'ManageOrganization'
     | 'ManagePage'
     | 'ManagePost'
+    | 'ManagePostIndex'
     | 'ManageSite'
     | 'ManageUser'
     | 'ManageVectors'
