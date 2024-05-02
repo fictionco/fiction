@@ -11,6 +11,7 @@ import type { EndpointMeta } from '../utils/endpoint'
 import type { EndpointResponse } from '../types'
 import type { FictionEmail } from '../plugin-email'
 import type { FictionEnv } from '../plugin-env'
+import { standardTable } from '../tbl'
 import type { FictionTeam } from '.'
 
 export interface TeamQuerySettings {
@@ -47,35 +48,35 @@ export class QueryOrgMembers extends TeamQuery {
 
     const db = this.fictionDb?.client()
     const base = db
-      .from(this.tbl.member)
+      .from(standardTable.member)
       .join(
-        this.tbl.org,
-        `${this.tbl.member}.org_id`,
+        standardTable.org,
+        `${standardTable.member}.org_id`,
         '=',
-        `${this.tbl.org}.org_id`,
+        `${standardTable.org}.org_id`,
       )
       .join(
-        this.tbl.user,
-        `${this.tbl.user}.user_id`,
+        standardTable.user,
+        `${standardTable.user}.user_id`,
         '=',
-        `${this.tbl.member}.user_id`,
+        `${standardTable.member}.user_id`,
       )
-      .where(`${this.tbl.member}.org_id`, orgId)
+      .where(`${standardTable.member}.org_id`, orgId)
 
     let indexMeta
     let data: OrganizationMember[] = []
 
     const selector = [
-      `${this.tbl.member}.*`,
-      `${this.tbl.user}.full_name`,
-      `${this.tbl.user}.email`,
-      `${this.tbl.user}.last_seen_at`,
+      `${standardTable.member}.*`,
+      `${standardTable.user}.full_name`,
+      `${standardTable.user}.email`,
+      `${standardTable.user}.last_seen_at`,
     ]
     if (_action === 'single') {
       const r = await base
         .clone()
         .select<OrganizationMember[]>(selector)
-        .where(`${this.tbl.member}.user_id`, params.memberId)
+        .where(`${standardTable.member}.user_id`, params.memberId)
 
       data = r
     }
@@ -86,7 +87,7 @@ export class QueryOrgMembers extends TeamQuery {
         .select<OrganizationMember[]>(selector)
         .limit(limit)
         .offset(offset)
-        .orderBy(`${this.tbl.user}.lastSeenAt`, 'desc')
+        .orderBy(`${standardTable.user}.lastSeenAt`, 'desc')
 
       const countRows = await base.clone().count<{ count: number }[]>()
       indexMeta = { offset, limit, count: +countRows[0].count }

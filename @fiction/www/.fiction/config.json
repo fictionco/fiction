@@ -143,6 +143,10 @@
     {
       "key": "SeekInviteFromUser",
       "path": "/api/fiction-team/SeekInviteFromUser"
+    },
+    {
+      "key": "ManagePost",
+      "path": "/api/fiction-posts/ManagePost"
     }
   ]
 }

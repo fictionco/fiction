@@ -8,6 +8,7 @@ import {
   Query,
 } from '@fiction/core'
 import type { TableUsageConfig } from './tables'
+import { tableNames } from './tables'
 
 interface UsageQuerySettings {
   fictionUser?: FictionUser
@@ -56,7 +57,7 @@ export class QueryManageUsage extends QueryUsage {
 
       ;[queryResponse] = await db
         .insert(formattedData)
-        .table(this.tbl.usage)
+        .table(tableNames.usage)
         .returning<TableUsageConfig[]>('*')
       message = 'usage added'
     }
@@ -69,7 +70,7 @@ export class QueryManageUsage extends QueryUsage {
       const select = [`sum(credits) as credits`]
       const usage = await db
         .select(db.raw(select.join(', ')))
-        .from(this.tbl.usage)
+        .from(tableNames.usage)
         .where({ orgId })
         .whereBetween('createdAt', [cycleStartAtIso, cycleEndAtIso])
         .first()

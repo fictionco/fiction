@@ -1,3 +1,5 @@
+export type PostStatus = 'draft' | 'published' | 'hidden' | 'protected'
+
 export type ProgressStatus =
   | 'pending'
   | 'requested'

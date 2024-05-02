@@ -1,5 +1,5 @@
 import type express from 'express'
-import type { ErrorCode } from './error'
+import type { ErrorCode } from '../utils/error'
 import type { UserRoles } from './roles'
 
 export interface IndexMeta {

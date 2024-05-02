@@ -1,15 +1,30 @@
-import type { FictionPluginSettings } from '@fiction/core'
+import type { FictionDb, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
 
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
-import { CardTemplate, type FictionSites, createCard } from '@fiction/site'
+import { CardTemplate, createCard } from '@fiction/site'
 import { FictionEditor } from '@fiction/plugin-editor'
 import type { ExtensionManifest } from '../plugin-extend'
+import { tables } from './schema'
+import { QueryManagePost } from './endpoint'
 
- type FictionPostsSettings = { fictionSites: FictionSites } & FictionPluginSettings
-class FictionPosts extends FictionPlugin<FictionPostsSettings> {
+type FictionPostsSettings = { fictionUser: FictionUser, fictionServer: FictionServer, fictionDb: FictionDb } & FictionPluginSettings
+
+export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
   editor = new FictionEditor(this.settings)
+  queries = {
+    ManagePost: new QueryManagePost({ fictionPosts: this, ...this.settings }),
+  }
+
+  requests = this.createRequests({
+    queries: this.queries,
+    fictionServer: this.settings.fictionServer,
+    fictionUser: this.settings.fictionUser,
+  })
+
   constructor(settings: FictionPostsSettings) {
     super('FictionPosts', { ...settings, root: safeDirname(import.meta.url) })
+
+    this.settings.fictionDb.addTables(tables)
 
     this.settings.fictionEnv.addHook({ hook: 'adminPages', callback: async (pages, meta) => {
       const { templates } = meta

@@ -1,6 +1,6 @@
 /// <reference path="../env.d.ts" />
 export * from './endpoint'
-export * from './error'
+
 export * from './geo'
 export * from './ops'
 export * from './roles'

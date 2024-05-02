@@ -1,4 +1,4 @@
-import { Query } from '@fiction/core'
+import { Query, standardTable } from '@fiction/core'
 import type { EndpointManageAction, EndpointMeta, EndpointResponse, FictionDb, FictionEnv, FictionUser, Organization, OrganizationCustomerData } from '@fiction/core'
 import type Stripe from 'stripe'
 import type { CustomerData } from './types'
@@ -34,7 +34,7 @@ abstract class QueryPayments extends Query<QueryPaymentsSettings> {
     if (customerAuthorized)
       save.customerAuthorized = customerAuthorized
 
-    await db.update(save).from(this.tbl.org).where({ orgId })
+    await db.update(save).from(standardTable.org).where({ orgId })
 
     if (data) {
       const customerField = liveStripe ? 'customer' : 'customer_test'
@@ -50,7 +50,7 @@ abstract class QueryPayments extends Query<QueryPaymentsSettings> {
 
       await db
         .update(saveMeta)
-        .from(this.tbl.org)
+        .from(standardTable.org)
         .where({ orgId })
         .returning('*')
     }
@@ -71,7 +71,7 @@ abstract class QueryPayments extends Query<QueryPaymentsSettings> {
 
     const org = await db
       .select('*')
-      .from(this.tbl.org)
+      .from(standardTable.org)
       .where({ orgId })
       .first<Organization>()
 

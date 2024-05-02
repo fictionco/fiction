@@ -12,6 +12,7 @@ import type { FictionEnv } from '../plugin-env'
 import { Query } from '../query'
 import type { FictionEmail } from '../plugin-email'
 import { prepareFields } from '../utils'
+import { standardTable } from '../tbl'
 import type { MemberAccess, MemberStatus, OnboardStoredSettings, Organization, OrganizationMembership, User } from './types'
 import type { FictionUser } from '.'
 
@@ -242,7 +243,7 @@ export class QueryManageUser extends UserQuery {
 
   private async prepareResponse(args: { user?: User, isNew: boolean, token?: string, message?: string, params: ManageUserParams }, meta: EndpointMeta): Promise<ManageUserResponse> {
     const { isNew, token, params, message } = args
-    let user = prepareFields({ type: 'returnInfo', fields: args.user, table: this.tbl.user, meta, fictionDb: this.fictionDb })
+    let user = prepareFields({ type: 'returnInfo', fields: args.user, table: standardTable.user, meta, fictionDb: this.fictionDb })
 
     if (user && user.userId) {
       let orgs: Organization[] = []
@@ -287,7 +288,7 @@ export class QueryManageUser extends UserQuery {
       throw this.stop('get user requires email/username/userId')
 
     const keys = _action === 'getPublic' ? this.publicUserFieldKeys() : ['*']
-    const q = db.select(keys).from(this.tbl.user).where(where)
+    const q = db.select(keys).from(standardTable.user).where(where)
 
     const user = await q.first<User>()
 
@@ -309,13 +310,13 @@ export class QueryManageUser extends UserQuery {
     fields.ip = ipData.ip
     fields.geo = await getGeoFree(fields.ip)
     const fType = meta?.server ? 'internal' : 'settings'
-    const insertFields = prepareFields({ type: fType, fields, meta, fictionDb: this.fictionDb, table: this.tbl.user })
+    const insertFields = prepareFields({ type: fType, fields, meta, fictionDb: this.fictionDb, table: standardTable.user })
 
     const where = userId ? { userId } : { email }
 
     this.log.info('updating user', { data: { where, insertFields, fields } })
 
-    const [user] = await db(this.tbl.user)
+    const [user] = await db(standardTable.user)
       .update(insertFields)
       .where(where)
       .returning<User[]>('*')
@@ -355,7 +356,7 @@ export class QueryManageUser extends UserQuery {
     fields.ip = ipData.ip
     fields.geo = await getGeoFree(fields.ip)
 
-    const table = this.tbl.user
+    const table = standardTable.user
     const insertFields = prepareFields({
       type: 'internal',
       fields: {
@@ -516,7 +517,7 @@ export class QueryUpdateCurrentUser extends UserQuery {
       throw this.stop('authorization required (bearer)')
 
     const save: Partial<User> & { password?: string }
-      = prepareFields({ type: 'settings', fields, meta, fictionDb: this.fictionDb, table: this.tbl.user }) || {}
+      = prepareFields({ type: 'settings', fields, meta, fictionDb: this.fictionDb, table: standardTable.user }) || {}
 
     if (!fields)
       throw this.stop('no fields to update')
@@ -968,12 +969,12 @@ export class QueryNewVerificationCode extends UserQuery {
 export abstract class QueryOrganization extends UserQuery {
   memberObject(): string {
     const memberObject = [
-      ['user_id', this.tbl.user],
-      ['email', this.tbl.user],
-      ['full_name', this.tbl.user],
-      ['last_seen_at', this.tbl.user],
-      ['member_access', this.tbl.member],
-      ['member_status', this.tbl.member],
+      ['user_id', standardTable.user],
+      ['email', standardTable.user],
+      ['full_name', standardTable.user],
+      ['last_seen_at', standardTable.user],
+      ['member_access', standardTable.member],
+      ['member_status', standardTable.member],
     ]
       .map(([key, table]) => `'${key}', ${table}.${key}`)
       .join(', ')
@@ -984,17 +985,17 @@ export abstract class QueryOrganization extends UserQuery {
   orgBaseQuery(db: Knex): Knex.QueryBuilder {
     // const subQueryProject = db
     //   .select(
-    //     db.raw(`json_agg(row_to_json(${this.tbl.project}.*)) as projects`),
-    //     `${this.tbl.project}.org_id`,
+    //     db.raw(`json_agg(row_to_json(${standardTable.project}.*)) as projects`),
+    //     `${standardTable.project}.org_id`,
     //   )
-    //   .from(this.tbl.org)
+    //   .from(standardTable.org)
     //   .join(
-    //     this.tbl.project,
-    //     `${this.tbl.project}.org_id`,
+    //     standardTable.project,
+    //     `${standardTable.project}.org_id`,
     //     `=`,
-    //     `${this.tbl.org}.org_id`,
+    //     `${standardTable.org}.org_id`,
     //   )
-    //   .groupBy(`${this.tbl.project}.org_id`)
+    //   .groupBy(`${standardTable.project}.org_id`)
     //   .as(`org_projects`)
 
     // lateral join is key to get a limit on number of aggregated members
@@ -1007,9 +1008,9 @@ export abstract class QueryOrganization extends UserQuery {
         db.raw(
           `json_agg(json_build_object(${this.memberObject()})) as members, max(member_count) as member_count`,
         ),
-        `${this.tbl.org}.org_id`,
+        `${standardTable.org}.org_id`,
       )
-      .from(this.tbl.org)
+      .from(standardTable.org)
       .joinRaw(
         `left join lateral (
         select *, count(*) OVER() AS member_count
@@ -1019,22 +1020,22 @@ export abstract class QueryOrganization extends UserQuery {
       ) as "fiction_org_user" on true`,
       )
       .join(
-        this.tbl.user,
-        `${this.tbl.user}.user_id`,
+        standardTable.user,
+        `${standardTable.user}.user_id`,
         `=`,
-        `${this.tbl.member}.user_id`,
+        `${standardTable.member}.user_id`,
       )
-      .groupBy(`${this.tbl.org}.org_id`)
+      .groupBy(`${standardTable.org}.org_id`)
       .as('org_member')
 
     const q = db
-      .select([`${this.tbl.org}.*`, `org_member.*`])
-      .from(this.tbl.org)
+      .select([`${standardTable.org}.*`, `org_member.*`])
+      .from(standardTable.org)
       .leftJoin(
         subQueryMembers,
         `org_member.org_id`,
         `=`,
-        `${this.tbl.org}.org_id`,
+        `${standardTable.org}.org_id`,
       )
 
     return q
@@ -1056,7 +1057,7 @@ export class QueryFindOneOrganization extends QueryOrganization {
     const q = this.orgBaseQuery(db)
 
     const r = await q
-      .where(`${this.tbl.org}.org_id`, orgId)
+      .where(`${standardTable.org}.org_id`, orgId)
       .first<Organization | undefined>()
 
     const data = r
@@ -1088,22 +1089,22 @@ export class QueryOrganizationsByUserId extends QueryOrganization {
     const q = this.orgBaseQuery(db)
       .select(
         db.raw(`json_build_object(${this.memberObject()}) as relation`),
-        `${this.tbl.org}.org_id`,
+        `${standardTable.org}.org_id`,
       )
       .join(
-        this.tbl.member,
-        `${this.tbl.member}.org_id`,
+        standardTable.member,
+        `${standardTable.member}.org_id`,
         '=',
-        `${this.tbl.org}.org_id`,
+        `${standardTable.org}.org_id`,
       )
       .join(
-        this.tbl.user,
-        `${this.tbl.user}.user_id`,
+        standardTable.user,
+        `${standardTable.user}.user_id`,
         '=',
-        `${this.tbl.member}.user_id`,
+        `${standardTable.member}.user_id`,
       )
-      .where<Organization[]>(`${this.tbl.member}.user_id`, userId)
-      .orderBy(`${this.tbl.org}.updated_at`, 'desc')
+      .where<Organization[]>(`${standardTable.member}.user_id`, userId)
+      .orderBy(`${standardTable.org}.updated_at`, 'desc')
 
     const r = await q
 
@@ -1151,7 +1152,7 @@ export class QueryUpdateOrganizationMemberStatus extends QueryOrganization {
         // if so, update to active
         if (pendingMember && ind >= 0) {
           await db
-            .table(this.tbl.member)
+            .table(standardTable.member)
             .update({ memberStatus: 'active' })
             .where({ orgId: org.orgId, userId })
 
@@ -1196,7 +1197,7 @@ export class QueryGenerateApiSecret extends UserQuery {
     }
 
     ;[org] = await db
-      .table(this.tbl.org)
+      .table(standardTable.org)
       .update(update)
       .where({ orgId })
       .limit(1)
@@ -1263,7 +1264,7 @@ export class QueryManageMemberRelation extends UserQuery {
     if (_action === 'delete') {
       ;[relation] = await db
         .delete()
-        .from(this.tbl.member)
+        .from(standardTable.member)
         .where({ userId: memberId, orgId })
         .limit(1)
         .returning<OrganizationMembership[]>('*')
@@ -1283,7 +1284,7 @@ export class QueryManageMemberRelation extends UserQuery {
         })
         .onConflict(['user_id', 'org_id'])
         .merge()
-        .into(this.tbl.member)
+        .into(standardTable.member)
         .returning<OrganizationMembership[]>('*')
 
       message = 'member updated'
@@ -1372,7 +1373,7 @@ export class QueryManageOrganization extends UserQuery {
           ownerId: userId,
           orgEmail: orgEmail || email,
         })
-        .into(this.tbl.org)
+        .into(standardTable.org)
         .returning<Organization[]>('*')
 
       await this.fictionUser.queries.ManageMemberRelation.serve(
@@ -1410,13 +1411,13 @@ export class QueryManageOrganization extends UserQuery {
         type,
         fields: org,
         meta,
-        table: this.tbl.org,
+        table: standardTable.org,
         fictionDb: this.fictionDb,
       })
 
       ;[responseOrg] = await db
         .update(insertFields)
-        .into(this.tbl.org)
+        .into(standardTable.org)
         .where({ orgId })
         .limit(1)
         .returning<Organization[]>('*')
@@ -1433,7 +1434,7 @@ export class QueryManageOrganization extends UserQuery {
       })
       ;[responseOrg] = await db
         .delete()
-        .from(this.tbl.org)
+        .from(standardTable.org)
         .where({ orgId })
         .limit(1)
         .returning<Organization[]>('*')
@@ -1441,14 +1442,14 @@ export class QueryManageOrganization extends UserQuery {
       // track deleted org
       await db
         .insert({ orgId, deletedType: 'org' })
-        .table(this.tbl.deleted)
+        .table(standardTable.deleted)
 
       message = `deleted "${responseOrg.orgName}" organization`
     }
     else if (_action === 'retrieve') {
       const { orgId } = params
 
-      ;[responseOrg] = await db.select('*').from(this.tbl.org).where({ orgId })
+      ;[responseOrg] = await db.select('*').from(standardTable.org).where({ orgId })
     }
 
     const user = await this.returnUser(meta)
@@ -1478,7 +1479,7 @@ export class QueryManageOnboard extends UserQuery {
     const columnKey = 'onboard'
     const newSettings = JSON.stringify(settings)
 
-    const tbl = mode === 'org' ? this.tbl.org : this.tbl.user
+    const tbl = mode === 'org' ? standardTable.org : standardTable.user
     const where = mode === 'org' ? { orgId } : { userId }
 
     const setter = db.raw(

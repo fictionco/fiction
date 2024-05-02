@@ -1,18 +1,19 @@
-import { log } from './plugin-log'
-import { _stop } from './utils/error'
-import type { EndpointResponse, ErrorConfig } from './types'
-import * as utils from './utils'
+import { type LogHelper, log } from './plugin-log'
+import type { ErrorConfig } from './utils/error'
+import { abort } from './utils/error'
+import type { EndpointResponse } from './types'
 import type { EndpointMeta } from './utils/endpoint'
-import { standardTable } from './tbl'
 
 export abstract class Query<T extends object = object> {
+  name: string
   settings: T
-  stop = _stop
-  utils = utils
-  log = log.contextLogger(this.constructor.name)
-  tbl = standardTable
+  stop = abort
+  abort = abort
+  log: LogHelper
   constructor(settings: T) {
+    this.name = this.constructor.name
     this.settings = settings
+    this.log = log.contextLogger(this.name)
   }
 
   allowed(_params: Parameters<this['run']>[0], _meta: Parameters<this['run']>[1]): boolean | Promise<boolean> {
@@ -36,7 +37,7 @@ export abstract class Query<T extends object = object> {
       const allowed = await this.allowed(params, meta)
 
       if (!allowed)
-        throw this.stop('unauthorized')
+        throw this.abort('unauthorized', { code: 'PERMISSION_DENIED' })
 
       const result = await this.run(params, meta)
 

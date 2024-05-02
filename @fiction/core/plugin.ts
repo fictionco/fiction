@@ -6,7 +6,7 @@ import type { LogHelper } from './plugin-log'
 import { log } from './plugin-log'
 import type { Query } from './query'
 import type { FictionServer } from './plugin-server'
-import { _stop } from './utils/error'
+import { abort } from './utils/error'
 import type { FictionEnv } from './plugin-env'
 import { standardTable } from './tbl'
 import type { express } from './utils/libraries'
@@ -26,7 +26,8 @@ export abstract class FictionObject<
 > {
   name: string
   settings: T
-  stop = _stop
+  stop = abort
+  abort = abort
   log: LogHelper
   tbl = standardTable
   constructor(name: string, settings: T) {

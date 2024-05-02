@@ -1,7 +1,10 @@
 import { FictionDbCol, FictionDbTable } from '@fiction/core/plugin-db'
 
-import type { CreateObjectType } from '@fiction/core/tbl'
-import { standardTable } from '@fiction/core/tbl'
+import { type CreateObjectType, standardTable } from '@fiction/core/tbl'
+
+export const tableNames = {
+  usage: 'fiction_usage',
+}
 
 interface st { updatedAt?: string, createdAt?: string }
 
