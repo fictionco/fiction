@@ -9,7 +9,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="grid grid-flow-dense h-full grid-cols-[1fr] grid-rows-[auto_minmax(0,1fr)]">
+  <div class="grid grid-flow-dense h-full md:h-[100dvh] grid-cols-[1fr] grid-rows-[auto_minmax(0,1fr)]">
     <div class="border-b border-theme-200 dark:border-theme-700 bg-theme-0 dark:bg-theme-950">
       <div class="grid-cols-12 py-2 md:grid md:items-center md:justify-between px-4">
         <div class="col-span-6 items-center flex text-sm lg:text-base space-x-4">
@@ -72,7 +72,7 @@ defineProps({
       </div>
       <div @click="controller.useTool({ toolId: '' })">
         <div class="h-full min-h-0 grid grid-flow-dense relative grid-rows-[minmax(0,1fr)] grid-cols-[1fr_300px] xl:grid-cols-[1fr_400px]">
-          <div class="cards relative flex h-full w-full flex-col justify-center overflow-scroll bg-theme-50 dark:bg-theme-800">
+          <div class="cards relative  h-full w-full  overflow-scroll bg-theme-50 dark:bg-theme-800">
             <slot />
           </div>
 
