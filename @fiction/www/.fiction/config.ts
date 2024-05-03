@@ -246,6 +246,7 @@ export interface CompiledServiceConfig {
       | 'postId'
       | 'userId'
       | 'orgId'
+      | 'slug'
       | 'type'
       | 'title'
       | 'content'

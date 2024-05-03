@@ -13,7 +13,7 @@ export function toCamel(str: string, options = { allowPeriods: false }): string 
  * Converts regular space delimited text into a hyphenated slug
  */
 export function toSlug(text: string | undefined, options?: { maintainCase?: boolean, replaceNumbers?: boolean }): string {
-  const { maintainCase = false, replaceNumbers = true } = options || {}
+  const { maintainCase = false, replaceNumbers = false } = options || {}
 
   if (!text)
     return ''

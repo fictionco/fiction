@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { ResponseStatus, ValidationReason } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
+import type { CheckColumnValue } from '@fiction/core/plugin-db/endpoint'
 import { textInputClasses } from './theme'
 
 const props = defineProps({
@@ -8,9 +9,9 @@ const props = defineProps({
   placeholder: { type: [String], default: '' },
   beforeInput: { type: String, default: '' },
   afterInput: { type: String, default: '' },
-  table: { type: String, required: true },
-  column: { type: String, required: true },
   inputClass: { type: String, default: '' },
+  table: { type: String, required: true },
+  columns: { type: Array as vue.PropType<CheckColumnValue[]>, default: () => [] },
 })
 
 const emit = defineEmits<{
@@ -44,6 +45,8 @@ async function handleEmit(target: EventTarget | null) {
 
   const value = el.value
 
+  const columns = props.columns.map(c => ({ name: c.name, value: !c.value ? value : c.value }))
+
   if (!value)
     return
 
@@ -67,7 +70,7 @@ async function handleEmit(target: EventTarget | null) {
     status.value = 'loading'
 
     try {
-      const r = await fictionDb.requests.CheckUsername.request({ table: props.table, column: props.column, value })
+      const r = await fictionDb.requests.CheckUsername.request({ table: props.table, columns })
 
       status.value = r.data?.available || 'error'
       reason.value = r.data?.reason ?? 'unknown'

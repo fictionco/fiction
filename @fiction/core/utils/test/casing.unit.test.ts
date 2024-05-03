@@ -83,11 +83,11 @@ describe('toSlug', () => {
   })
 
   it('preserves numbers when replaceNumbers option is false', () => {
-    expect(toSlug('123 numbers', { replaceNumbers: false })).toBe('123-numbers')
+    expect(toSlug('123 numbers', { replaceNumbers: true })).toBe('numbers')
   })
 
   it('removes numbers when replaceNumbers option is true', () => {
-    expect(toSlug('123 numbers')).toBe('numbers')
+    expect(toSlug('123 numbers')).toBe('123-numbers')
   })
 
   it('handles mixed cases, spaces, and special characters', () => {

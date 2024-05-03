@@ -40,7 +40,7 @@ const options = [
           beforeInput: 'https://',
           afterInput: getSuffixUrl(),
           table: tableNames.sites,
-          column: 'subDomain',
+          columns: [{ name: 'subDomain' }],
         },
       }),
       new InputOption({

@@ -64,7 +64,7 @@ vue.watch(
         sub-label="Must be unique. Used in profile URL."
         placeholder="username123"
         table="fiction_user"
-        column="username"
+        :columns="[{ name: 'username' }]"
         required
       />
 

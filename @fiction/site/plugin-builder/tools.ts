@@ -66,6 +66,7 @@ export const tools = [
     title: 'Edit Element',
     icon: 'i-tabler-edit-circle',
     location: 'context',
+    isDefault: true,
     props: (args) => {
       const p = args as { site?: Site }
       return vue.computed(() => {

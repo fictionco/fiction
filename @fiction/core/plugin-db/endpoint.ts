@@ -1,10 +1,15 @@
 import type { EndpointResponse, ResponseStatus, ValidationReason } from '@fiction/core'
+import { toSlug } from '@fiction/core'
 import { Query } from '../query'
 import type { FictionDb } from '.'
 
 type QuerySettings = { fictionDb: FictionDb }
 
 type UsernameResult = { available: ResponseStatus, reason: ValidationReason }
+
+export type CheckColumnValue = { name: string, value: string, minLength?: number, allowReserved?: boolean, allowAnyValue?: boolean }
+
+type CheckUsernameParams = { table: string, columns: CheckColumnValue[] }
 
 export class CheckUsername extends Query<QuerySettings> {
   isUrlFriendly(username: string): boolean {
@@ -17,42 +22,55 @@ export class CheckUsername extends Query<QuerySettings> {
   }
 
   async run(
-    params: { table: string, column: string, value: string },
+    params: CheckUsernameParams,
   ): Promise<EndpointResponse<UsernameResult>> {
     const wordsSet = await this.getWords()
     const { fictionDb } = this.settings
-    const { table, column, value } = params
-
-    const prepped = value.trim().toLowerCase()
+    const { table, columns } = params
 
     let result: UsernameResult = { available: 'loading', reason: 'loading' }
 
     try {
-      if (prepped.length <= 3) {
-        result = { available: 'fail', reason: 'short' }
-      }
-      else if (!this.isUrlFriendly(prepped)) {
-        result = { available: 'fail', reason: 'invalid' }
-      }
-      else if (wordsSet.has(prepped)) {
-        result = { available: 'fail', reason: 'reserved' }
-      }
+      for (const { value, minLength = 1, allowReserved = false, allowAnyValue = false } of columns) {
+        const prepped = allowAnyValue ? value.trim() : toSlug(value.trim())
 
-      else {
-        const r = await fictionDb.db?.table(table).select(column).where(column, prepped)
+        if (prepped.length < minLength) {
+          result = { available: 'fail', reason: 'short' }
+          break
+        }
+        else if (!allowAnyValue && !this.isUrlFriendly(prepped)) {
+          result = { available: 'fail', reason: 'invalid' }
+          break
+        }
+        else if (!allowReserved && wordsSet.has(prepped)) {
+          result = { available: 'fail', reason: 'reserved' }
+          break
+        }
 
-        if (r?.length)
+        const r = await fictionDb.db?.table(table)
+          .where((builder) => {
+            columns.forEach(({ name, value }) => {
+              const v = allowAnyValue ? value.trim() : toSlug(value.trim())
+              void builder.andWhere(name, v)
+            })
+          })
+          .first()
+
+        if (r) {
           result = { available: 'fail', reason: 'taken' }
+          break
+        }
+      }
 
-        else
-          result = { available: 'success', reason: 'success' }
+      if (result.available === 'loading') { // All checks passed
+        result = { available: 'success', reason: 'success' }
       }
 
       return { status: 'success', data: result }
     }
     catch (error) {
-      this.log.error('error checking username', { error, data: { table, column, value } })
-      result = { available: 'error', reason: `error` }
+      this.log.error('Error checking username', { error, data: params })
+      result = { available: 'error', reason: 'error' }
       return { status: 'error', data: result }
     }
   }

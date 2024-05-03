@@ -1,14 +1,16 @@
 <script lang="ts" setup>
-import type { vue } from '@fiction/core'
-import { resetUi, toLabel } from '@fiction/core'
+import { resetUi, toLabel, vue } from '@fiction/core'
 import ElSpinner from '@fiction/ui/ElSpinner.vue'
 import type { AdminEditorController } from '../admin'
-import ElLoadingLogoFiction from './el/ElLoadingLogoFiction.vue'
 
-defineProps({
+const props = defineProps({
   controller: { type: Object as vue.PropType<AdminEditorController>, required: true },
   loading: { type: Boolean, default: false },
+  toolProps: { type: Object as vue.PropType<Record<string, unknown>>, default: () => ({}) },
 })
+
+const primaryTool = vue.computed(() => props.controller.activeTool.primary.value)
+const contextTool = vue.computed(() => props.controller.activeTool.context.value)
 </script>
 
 <template>
@@ -59,17 +61,13 @@ defineProps({
             leave-to-class="transform -translate-x-10 opacity-0"
           >
             <div
-              v-if="controller.activeTool.primary.value"
+              v-if="primaryTool"
               class="absolute left-full h-full bg-theme-0 dark:bg-theme-900 top-0 z-30 border-r shadow-[10px_0_18px_-15px_rgba(0,0,0,0.6)] border-theme-300 dark:border-theme-600 overflow-scroll no-scrollbar "
-              :class="controller.activeTool.primary.value.widthClasses || 'w-[300px]'"
+              :class="primaryTool.widthClasses || 'w-[300px]'"
             >
               <component
-                :is="controller.activeTool.primary.value.el"
-                v-bind="{
-                  ...$attrs,
-                  tool: controller.activeTool.primary.value,
-                  ...controller.activeTool.primary.value.props?.($attrs).value,
-                }"
+                :is="primaryTool.el"
+                v-bind="{ ...toolProps, tool: primaryTool, ...primaryTool.props?.(toolProps).value }"
               />
             </div>
           </transition>
@@ -88,6 +86,7 @@ defineProps({
             </div>
 
             <div class="no-scrollbar  bg-theme-0 dark:bg-theme-900 border-l border-theme-200 dark:border-theme-700 relative overflow-scroll">
+
               <transition
                 mode="out-in"
                 enter-active-class="ease-out duration-200"
@@ -98,13 +97,9 @@ defineProps({
                 leave-to-class="transform scale-80 translate-y-4 opacity-0"
               >
                 <component
-                  :is="controller.activeTool.context.value.el"
-                  v-if="controller.activeTool.context.value"
-                  v-bind="{
-                    ...$attrs,
-                    tool: controller.activeTool.context.value,
-                    ...controller.activeTool.context.value.props?.($attrs).value,
-                  }"
+                  :is="contextTool.el"
+                  v-if="contextTool"
+                  v-bind="{ ...toolProps, tool: contextTool, ...contextTool.props?.(toolProps).value }"
                 />
               </transition>
             </div>

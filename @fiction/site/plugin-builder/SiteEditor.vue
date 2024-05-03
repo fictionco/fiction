@@ -96,7 +96,7 @@ async function save() {
     </div>
     <El404 v-else-if="!site && !loading" heading="Site Not Found" sub-heading="No site was found here." />
     <template v-else>
-      <AdminEditItem :site="site" :controller="siteEditController">
+      <AdminEditItem :tool-props="{ site }" :controller="siteEditController">
         <template #headerLeft>
           <ElButton btn="default" :href="card.link('/')">
             <div class="i-tabler-home text-lg" />

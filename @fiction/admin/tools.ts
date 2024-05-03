@@ -23,6 +23,7 @@ export type EditorTool<T extends string = string, U extends Record<string, any> 
   icon: string
   el?: vue.Component
   isPrimary?: boolean
+  isDefault?: boolean
   location?: 'primary' | 'context'
   props?: (args: U) => vue.ComputedRef<Record<string, unknown>>
   widthClasses?: string
@@ -49,9 +50,13 @@ export class AdminEditorController extends FictionObject<AdminEditorControllerSe
     context: vue.ref<string>(),
   }
 
+  defaultTool = {
+    context: vue.computed(() => this.settings.tools.find(t => t.isDefault && t.location === 'context')?.toolId),
+  }
+
   activeTool = {
     primary: vue.computed(() => this.settings.tools.find(t => t.toolId === this.activeToolId.primary.value)),
-    context: vue.computed(() => this.settings.tools.find(t => t.toolId === (this.activeToolId.context.value ? this.activeToolId.context.value : 'editCard'))),
+    context: vue.computed(() => this.settings.tools.find(t => t.toolId === (this.activeToolId.context.value ? this.activeToolId.context.value : this.defaultTool.context.value))),
   }
 
   isUsingTool(args: { toolId?: string, locations?: ('primary' | 'context')[] } = {}) {

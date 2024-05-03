@@ -52,7 +52,7 @@ vue.onMounted(async () => {
 
 <template>
   <div>
-    <AdminEditItem :controller="postEditController" :loading="loading">
+    <AdminEditItem :tool-props="{ post }" :controller="postEditController" :loading="loading">
       <template #headerLeft>
         <ElButton btn="default" :href="card.link('/')">
           <div class="i-tabler-home text-lg" />

@@ -1,4 +1,4 @@
-import type { CreateObjectType, PostStatus, User } from '@fiction/core'
+import { type CreateObjectType, type PostStatus, type User, toSlug } from '@fiction/core'
 import { FictionDbCol, FictionDbTable } from '@fiction/core/plugin-db'
 
 export const tableNames = {
@@ -8,7 +8,7 @@ export const tableNames = {
 }
 
 type PostUserConfig = Record<string, any>
-type PostMeta = Record<string, any>
+type PostMeta = { seoTitle: string, seoDescription: string, seoKeywords: string }
 
 export type TablePostConfig = CreateObjectType<typeof postCols> & { authors?: User[], taxonomy?: TableTaxonomyConfig[] }
 export type TableTaxonomyConfig = CreateObjectType<typeof taxonomyCols>
@@ -24,13 +24,21 @@ const postCols = [
     key: 'userId',
     create: ({ schema, column }) => schema.string(column.pgKey, 50).references(`fiction_user.user_id`).onDelete('SET NULL').onUpdate('CASCADE').index(),
     default: () => '' as string,
-    zodSchema: ({ z }) => z.string().length(50),
+    zodSchema: ({ z }) => z.string(),
   }),
   new FictionDbCol({
     key: 'orgId',
     create: ({ schema, column }) => schema.string(column.pgKey, 50).references(`fiction_org.org_id`).onUpdate('CASCADE').notNullable().index(),
     default: () => '' as string,
-    zodSchema: ({ z }) => z.string().length(50),
+    zodSchema: ({ z }) => z.string(),
+  }),
+  new FictionDbCol({
+    key: 'slug',
+    create: ({ schema, column }) => schema.string(column.pgKey).notNullable().defaultTo('post'),
+    default: () => '' as string,
+    isSetting: true,
+    prepare: ({ value }) => toSlug(value),
+    zodSchema: ({ z }) => z.string(),
   }),
   new FictionDbCol({
     key: 'type',
@@ -47,11 +55,25 @@ const postCols = [
     zodSchema: ({ z }) => z.string().min(1),
   }),
   new FictionDbCol({
+    key: 'subTitle',
+    create: ({ schema, column }) => schema.text(column.pgKey).defaultTo(column.default()),
+    default: () => '' as string,
+    isSetting: true,
+    zodSchema: ({ z }) => z.string(),
+  }),
+  new FictionDbCol({
+    key: 'excerpt',
+    create: ({ schema, column }) => schema.text(column.pgKey).defaultTo(column.default()),
+    default: () => '' as string,
+    isSetting: true,
+    zodSchema: ({ z }) => z.string(),
+  }),
+  new FictionDbCol({
     key: 'content',
     create: ({ schema, column }) => schema.text(column.pgKey).defaultTo(column.default()),
     default: () => '' as string,
     isSetting: true,
-    zodSchema: ({ z }) => z.string().min(1),
+    zodSchema: ({ z }) => z.string(),
   }),
   new FictionDbCol({
     key: 'status',
