@@ -2,6 +2,7 @@
   "dependencies": {
     "@fiction/cards": "workspace:*",
     "@fiction/core": "workspace:*",
+    "@fiction/admin": "workspace:*",
     "@fiction/plugin-stripe": "workspace:*",
     "@fiction/site": "workspace:*",
     "@fiction/ui": "workspace:*",

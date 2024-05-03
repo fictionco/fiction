@@ -203,7 +203,7 @@ importers:
         version: 3.1.12
       zod-to-json-schema:
         specifier: ^3.23.0
-        version: 3.23.0(zod@3.23.5)
+        version: 3.23.0(zod@3.23.6)
 
   '@fiction/core':
     dependencies:
@@ -562,11 +562,11 @@ importers:
         specifier: ^8.17.0
         version: 8.17.0
       zod:
-        specifier: ^3.23.5
-        version: 3.23.5
+        specifier: ^3.23.6
+        version: 3.23.6
       zod-to-json-schema:
         specifier: ^3.23.0
-        version: 3.23.0(zod@3.23.5)
+        version: 3.23.0(zod@3.23.6)
     devDependencies:
       '@babel/parser':
         specifier: ^7.24.5
@@ -840,7 +840,7 @@ importers:
         version: 2.3.1(@tiptap/core@2.3.1(@tiptap/pm@2.3.1))(@tiptap/pm@2.3.1)(vue@3.4.26(typescript@5.4.5))
       ai:
         specifier: ^3.1.1
-        version: 3.1.1(react@18.3.1)(solid-js@1.8.17)(svelte@4.2.15)(vue@3.4.26(typescript@5.4.5))(zod@3.23.5)
+        version: 3.1.1(react@18.3.1)(solid-js@1.8.17)(svelte@4.2.15)(vue@3.4.26(typescript@5.4.5))(zod@3.23.6)
       highlight.js:
         specifier: ^11.9.0
         version: 11.9.0
@@ -925,6 +925,9 @@ importers:
 
   '@fiction/plugins/plugin-posts':
     dependencies:
+      '@fiction/admin':
+        specifier: workspace:*
+        version: link:../../admin
       '@fiction/cards':
         specifier: workspace:*
         version: link:../../themes/cards
@@ -1038,6 +1041,9 @@ importers:
 
   '@fiction/themes/admin':
     dependencies:
+      '@fiction/admin':
+        specifier: workspace:*
+        version: link:../../admin
       '@fiction/cards':
         specifier: workspace:*
         version: link:../cards
@@ -1104,7 +1110,7 @@ importers:
         version: 3.1.12
       zod-to-json-schema:
         specifier: ^3.23.0
-        version: 3.23.0(zod@3.23.5)
+        version: 3.23.0(zod@3.23.6)
 
   '@fiction/themes/fiction':
     dependencies:
@@ -1193,11 +1199,11 @@ importers:
         specifier: ^3.4.26
         version: 3.4.26(typescript@5.4.5)
       zod:
-        specifier: ^3.23.5
-        version: 3.23.5
+        specifier: ^3.23.6
+        version: 3.23.6
       zod-to-json-schema:
         specifier: ^3.23.0
-        version: 3.23.0(zod@3.23.5)
+        version: 3.23.0(zod@3.23.6)
     devDependencies:
       shikiji:
         specifier: ^0.10.2
@@ -8937,22 +8943,22 @@ packages:
     peerDependencies:
       zod: ^3.23.3
 
-  zod@3.23.5:
-    resolution: {integrity: sha512-fkwiq0VIQTksNNA131rDOsVJcns0pfVUjHzLrNBiF/O/Xxb5lQyEXkhZWcJ7npWsYlvs+h0jFWXXy4X46Em1JA==}
+  zod@3.23.6:
+    resolution: {integrity: sha512-RTHJlZhsRbuA8Hmp/iNL7jnfc4nZishjsanDAfEY1QpDQZCahUp3xDzl+zfweE9BklxMUcgBgS1b7Lvie/ZVwA==}
 
   zwitch@1.0.5:
     resolution: {integrity: sha512-V50KMwwzqJV0NpZIZFwfOD5/lyny3WlSzRiXgA0G7VUnRlqttta1L6UQIHzd6EuBY/cHGfwTIck7w1yH6Q5zUw==}
 
 snapshots:
 
-  '@ai-sdk/provider-utils@0.0.5(zod@3.23.5)':
+  '@ai-sdk/provider-utils@0.0.5(zod@3.23.6)':
     dependencies:
       '@ai-sdk/provider': 0.0.3
       eventsource-parser: 1.1.2
       nanoid: 3.3.6
       secure-json-parse: 2.7.0
     optionalDependencies:
-      zod: 3.23.5
+      zod: 3.23.6
 
   '@ai-sdk/provider@0.0.3':
     dependencies:
@@ -12478,10 +12484,10 @@ snapshots:
     dependencies:
       humanize-ms: 1.2.1
 
-  ai@3.1.1(react@18.3.1)(solid-js@1.8.17)(svelte@4.2.15)(vue@3.4.26(typescript@5.4.5))(zod@3.23.5):
+  ai@3.1.1(react@18.3.1)(solid-js@1.8.17)(svelte@4.2.15)(vue@3.4.26(typescript@5.4.5))(zod@3.23.6):
     dependencies:
       '@ai-sdk/provider': 0.0.3
-      '@ai-sdk/provider-utils': 0.0.5(zod@3.23.5)
+      '@ai-sdk/provider-utils': 0.0.5(zod@3.23.6)
       eventsource-parser: 1.1.2
       json-schema: 0.4.0
       jsondiffpatch: 0.6.0
@@ -12492,13 +12498,13 @@ snapshots:
       swr: 2.2.0(react@18.3.1)
       swr-store: 0.10.6
       swrv: 1.0.4(vue@3.4.26(typescript@5.4.5))
-      zod-to-json-schema: 3.22.5(zod@3.23.5)
+      zod-to-json-schema: 3.22.5(zod@3.23.6)
     optionalDependencies:
       react: 18.3.1
       solid-js: 1.8.17
       svelte: 4.2.15
       vue: 3.4.26(typescript@5.4.5)
-      zod: 3.23.5
+      zod: 3.23.6
 
   ajv-errors@1.0.1(ajv@6.12.6):
     dependencies:
@@ -18182,14 +18188,14 @@ snapshots:
 
   zhead@2.2.4: {}
 
-  zod-to-json-schema@3.22.5(zod@3.23.5):
+  zod-to-json-schema@3.22.5(zod@3.23.6):
     dependencies:
-      zod: 3.23.5
+      zod: 3.23.6
 
-  zod-to-json-schema@3.23.0(zod@3.23.5):
+  zod-to-json-schema@3.23.0(zod@3.23.6):
     dependencies:
-      zod: 3.23.5
+      zod: 3.23.6
 
-  zod@3.23.5: {}
+  zod@3.23.6: {}
 
   zwitch@1.0.5: {}

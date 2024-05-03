@@ -4,9 +4,9 @@ import { getAccessLevel, onResetUi, sortPriority, useService, vue } from '@ficti
 import El404 from '@fiction/ui/El404.vue'
 import type { Card } from '@fiction/site/card'
 import ElEngine from '@fiction/cards/CardEngine.vue'
+import ElLoadingLogo from '@fiction/admin/el/ElLoadingLogo.vue'
 import DashNav from './DashNav.vue'
 import DashBar from './DashBar.vue'
-import ElLoadingLogo from './ElLoadingLogo.vue'
 import DashDarkModeToggle from './DashDarkModeToggle.vue'
 import PreLaunch from './PreLaunch.vue'
 

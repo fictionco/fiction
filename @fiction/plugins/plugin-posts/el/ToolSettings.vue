@@ -3,9 +3,8 @@ import { vue } from '@fiction/core'
 import type { ActionItem } from '@fiction/core'
 
 import ElToolBanner from '@fiction/admin/ElToolBanner.vue'
-import type { EditorTool, Handle } from '@fiction/admin'
+import type { EditorTool } from '@fiction/admin'
 import ElTool from '@fiction/admin/ElTool.vue'
-import { postEditController } from './tools'
 
 defineProps({
   tool: { type: Object as vue.PropType<EditorTool>, required: true },

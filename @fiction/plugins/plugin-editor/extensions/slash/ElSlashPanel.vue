@@ -113,7 +113,7 @@ function scrollToSelected() {
   <div
     v-if="items.length > 0"
     ref="commandListContainer"
-    class="grid grid-cols-4 gap-2 p-4 z-50 h-auto max-h-[40dvh] w-[100dvw] max-w-prose overflow-y-auto rounded-md border border-theme-200 dark:border-theme-700 bg-theme-0 dark:bg-theme-800 px-1 py-2 shadow-md transition-all"
+    class="grid grid-cols-4 gap-2 p-4 z-50 h-auto max-h-[40dvh] w-[100dvw] max-w-prose overflow-y-auto rounded-md border border-theme-200 dark:border-theme-600 bg-theme-0 dark:bg-theme-900 px-1 py-2 shadow-md transition-all"
   >
     <button
       v-for="(item, index) in items"

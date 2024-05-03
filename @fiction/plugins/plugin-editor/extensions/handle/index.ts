@@ -229,10 +229,10 @@ function DragHandle(options: GlobalDragHandleOptions) {
     view: (view) => {
       // Create the parent element
       handleContainerElement = document.createElement('div')
-      handleContainerElement.classList.add('handle-container', 'flex', 'gap-x-0.5', 'fixed', 'transition-opacity', 'w-[3.5em]', 'h-[2em]', 'text-theme-300', 'dark:text-theme-600')
+      handleContainerElement.classList.add('handle-container', 'flex', 'fixed', 'transition-opacity', 'w-[2.5em]', 'h-[1.5em]', 'text-theme-300', 'dark:text-theme-600')
 
       // Create the add button
-      const btnClass = ['add-button', 'cursor-pointer', 'hover:text-primary-500', 'dark:hover:text-theme-0', 'hover:bg-theme-100', 'dark:hover:bg-theme-800', 'rounded-md', 'p-1', 'transition-colors', 'duration-200']
+      const btnClass = ['add-button', 'cursor-pointer', 'hover:text-primary-500', 'dark:hover:text-theme-0', 'hover:bg-theme-100', 'dark:hover:bg-theme-800', 'rounded-md', 'transition-colors', 'duration-200']
       addItemElement = document.createElement('div')
       addItemElement.classList.add('add-button', 'cursor-pointer', ...btnClass)
       addItemElement.innerHTML = plus
@@ -296,9 +296,10 @@ function DragHandle(options: GlobalDragHandleOptions) {
           const lineHeight = Number.parseInt(compStyle.lineHeight, 10)
           const paddingTop = Number.parseInt(compStyle.paddingTop, 10)
           const nodeRect = absoluteRect(node)
+          const handleHeight = handleContainerElement.offsetHeight
 
           // Adjust top position based on the line height and padding
-          const adjustedTop = nodeRect.top + (lineHeight - 26) / 2 + paddingTop
+          const adjustedTop = nodeRect.top + paddingTop + (lineHeight / 2) - (handleHeight / 2)
 
           // Adjust left position to appear to the left of the node by taking into account the handleContainerElement's width
           let adjustedLeft = nodeRect.left - handleContainerElement.offsetWidth - gutter // This will get the width dynamically

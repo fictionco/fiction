@@ -40,7 +40,7 @@ vue.onMounted(() => {
 </script>
 
 <template>
-  <div ref="tt" class="tiptap-wrap px-6">
+  <div ref="tt" class="tiptap-wrap">
     <div
       v-if="!editor"
       class="flex py-24 justify-center h-[90dvh] text-theme-300 dark:text-theme-700"
@@ -50,7 +50,7 @@ vue.onMounted(() => {
     <template v-else>
       <BubbleMenuEngine :editor="editor" />
 
-      <EditorContent class="prose dark:prose-invert prose-sm lg:prose-lg xl:prose-2xl mx-auto focus:outline-none" :editor="editor" />
+      <EditorContent class=" focus:outline-none" :editor="editor" />
     </template>
   </div>
 </template>

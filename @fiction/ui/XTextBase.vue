@@ -8,7 +8,7 @@ const props = defineProps({
     type: String as vue.PropType<'h1' | 'h2' | 'h3' | 'div' | 'span' | 'p' | 'a'>,
     default: 'div',
   },
-  placeholder: { type: String, default: '123' },
+  placeholder: { type: String, default: '' },
   isEditable: { type: Boolean, default: false },
   modelValue: { type: String, default: '' },
   isMarkdown: { type: Boolean, default: false },
@@ -27,7 +27,8 @@ const randomId = shortId()
 
 const loaded = vue.ref(false)
 const isEditing = vue.ref(false)
-const updateValue = vue.ref()
+const textValue = vue.ref('')
+const updateValue = vue.ref('')
 
 function getValue(rawValue: string) {
   const v = props.isMarkdown ? toMarkdown(rawValue) : rawValue
@@ -35,29 +36,47 @@ function getValue(rawValue: string) {
   return v
 }
 
-// only update model on blur to prevent cursor jumping
-onResetUi(() => {
-  isEditing.value = false
-  const v = getValue(updateValue.value)
-
-  if (v) {
-    emit('reset', v)
-    emit('update:modelValue', v)
-    updateValue.value = ''
-  }
-})
-
-function onInput(ev: Event) {
-  updateValue.value = (ev.target as HTMLElement).innerHTML
-  emit('input', getValue(updateValue.value))
+// set the displayed text, only do this when not editing
+// as any reactive change bounces the cursor to the start
+function setTextValue() {
+  textValue.value = updateValue.value = valueFromModelValue()
 }
 
-function textValue() {
+function valueFromModelValue() {
   const v = clean(props.modelValue || '')
   const out = props.isMarkdown ? toHtml(v) : v
 
   return `${props.prefix}${out}${props.suffix}`
 }
+
+// only update model on blur to prevent cursor jumping
+onResetUi(() => {
+  isEditing.value = false
+  emitValue()
+  setTextValue()
+})
+
+function onInput(ev: Event) {
+  updateValue.value = (ev.target as HTMLElement).innerHTML
+  emit('input', getValue(updateValue.value))
+  emitValue()
+}
+
+function emitValue() {
+  const v = getValue(updateValue.value)
+  if (v) {
+    emit('reset', v)
+    emit('update:modelValue', v)
+  }
+}
+
+// watch model value when not editing
+vue.watchEffect(() => {
+  if (isEditing.value)
+    return
+
+  setTextValue()
+})
 
 const hasAnimation = vue.computed(() => props.animate && !isEditing.value)
 
@@ -86,32 +105,39 @@ vue.onMounted(() => {
 <template>
   <component
     :is="tag"
-    v-if="textValue()"
+    v-if="(isEditable && placeholder) || textValue"
     :id="randomId"
     class="focus:outline-none xtext"
     :class="loaded ? '' : 'invisible'"
     :contenteditable="isEditable ? 'true' : 'false'"
     spellcheck="false"
+    :placeholder="placeholder"
     @input="onInput($event)"
-    @click="isEditing = true"
-    v-html="textValue()"
+    @click.stop="isEditing = true"
+    v-html="textValue"
   />
 </template>
 
 <style lang="less">
+.xtext{
+  --ph-color: var(--theme-500);
+}
+.dark &:not(.light *) .xtext{
+  --ph-color: var(--theme-600);
+}
 [contentEditable="true"]:empty {
   &::before {
     content: attr(placeholder);
-    opacity: 0.4;
+    color: rgba(var(--ph-color) / 0.8);
   }
 
   &:hover:not(:focus)::before {
     cursor: pointer;
-    opacity: 0.65;
+    color: rgba(var(--ph-color) / 0.5);
   }
 
   &:focus::before {
-    opacity: 0.2;
+    color: rgba(var(--ph-color) / 0.3);
   }
 }
 

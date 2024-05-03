@@ -131,7 +131,7 @@
     "vue": "^3.4.26",
     "vue-router": "^4.3.2",
     "ws": "^8.17.0",
-    "zod": "^3.23.5",
+    "zod": "^3.23.6",
     "zod-to-json-schema": "^3.23.0"
   },
   "devDependencies": {

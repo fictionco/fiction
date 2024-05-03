@@ -114,7 +114,7 @@ export class SSR extends FictionObject<SSRSettings> {
     }
     catch (error) {
       logger.error(`SSR Error (${args.pathname}) - ${(error as Error).message}`, { error })
-      throw error
+      return this.init()
     }
     finally {
       this.revertWindow()
