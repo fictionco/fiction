@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { getNested, localRef, setNested, vue } from '@fiction/core'
 import type { InputOption } from '@fiction/ui'
-import ElInput from '@fiction/ui/ElInput.vue'
+import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import TransitionSlide from '@fiction/ui/TransitionSlide.vue'
 import ElToolSep from '@fiction/admin/ElToolSep.vue'
 

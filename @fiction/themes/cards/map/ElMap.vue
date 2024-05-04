@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import mapboxgl from 'mapbox-gl'
 import { isDarkOrLightMode, vue } from '@fiction/core'
-import AnimClipPath from '@fiction/ui/AnimClipPath.vue'
+import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
 import { onMounted, watch } from 'vue'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import type { MapSchemaConfig } from '.'

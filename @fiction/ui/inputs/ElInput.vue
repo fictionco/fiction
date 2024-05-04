@@ -3,7 +3,7 @@
 
 <script lang="ts" setup>
 import { omit, vue } from '@fiction/core'
-import { inputs } from './inputs'
+import { inputs } from '.'
 
 const props = defineProps({
   modelValue: {

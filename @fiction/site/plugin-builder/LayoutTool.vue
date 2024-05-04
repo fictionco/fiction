@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ActionItem, ListItem } from '@fiction/core'
 import { vue } from '@fiction/core'
-import ElInput from '@fiction/ui/ElInput.vue'
+import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import type { EditorTool } from '@fiction/admin'
 import ElTool from '@fiction/admin/ElTool.vue'

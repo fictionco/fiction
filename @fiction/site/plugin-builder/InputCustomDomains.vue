@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
-import InputText from '@fiction/ui/InputText.vue'
+import InputText from '@fiction/ui/inputs/InputText.vue'
 
 export interface CustomDomain {
   hostname?: string

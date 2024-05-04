@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
 import type { MediaDisplayObject } from '@fiction/core'
-import InputMediaUpload from './InputMediaUpload.vue'
-import ElImage from './ElImage.vue'
+import ElImage from '../ElImage.vue'
 import ElInput from './ElInput.vue'
 import ElDropDown from './InputDropDown.vue'
+import InputMediaUpload from './InputMediaUpload.vue'
 
 const props = defineProps({
   modelValue: { type: Object as vue.PropType<MediaDisplayObject>, default: () => undefined },

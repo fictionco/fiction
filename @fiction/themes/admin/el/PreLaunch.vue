@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { localRef, vue } from '@fiction/core'
-import InputText from '@fiction/ui/InputText.vue'
+import InputText from '@fiction/ui/inputs/InputText.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import ElImage from '@fiction/ui/ElImage.vue'
 import type { Card } from '@fiction/site'

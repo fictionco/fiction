@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
-import ElInput from '@fiction/ui/ElInput.vue'
-import ElForm from '@fiction/ui/ElForm.vue'
+import ElInput from '@fiction/ui/inputs/ElInput.vue'
+import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import type { EditorTool } from '@fiction/admin'
 import ElTool from '@fiction/admin/ElTool.vue'
 import ToolForm from '@fiction/admin/ToolForm.vue'

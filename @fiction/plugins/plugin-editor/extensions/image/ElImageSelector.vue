@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { NodeViewWrapper, nodeViewProps } from '@tiptap/vue-3'
-import InputMediaUpload from '@fiction/ui/InputMediaUpload.vue'
+import InputMediaUpload from '@fiction/ui/inputs/InputMediaUpload.vue'
 import type { MediaDisplayObject } from '@fiction/core'
 import { vue } from '@fiction/core'
 import ButtonMenu from '../../el/ButtonMenu.vue'

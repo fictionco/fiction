@@ -2,7 +2,7 @@
 import type { FictionRouter, StepConfig, StepItem } from '@fiction/core'
 import { getNested, notify, resetUi, setNested, useService, vue } from '@fiction/core'
 import ElModal from '@fiction/ui/ElModal.vue'
-import ElInput from '@fiction/ui/ElInput.vue'
+import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElStepNav from '@fiction/ui/ElStepNav.vue'
 import { InputOption } from '@fiction/ui'
 import type { FictionSites } from '..'

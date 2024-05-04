@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { shortId, vue } from '@fiction/core'
-import { useElementVisible } from './anim'
+import { useElementVisible } from '.'
 
 defineOptions({ name: 'AnimClipPath' })
 

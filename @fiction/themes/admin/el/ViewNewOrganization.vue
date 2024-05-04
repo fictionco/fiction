@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { emitEvent, useService, vue, vueRouter } from '@fiction/core'
-import ElInput from '@fiction/ui/ElInput.vue'
-import ElForm from '@fiction/ui/ElForm.vue'
+import ElInput from '@fiction/ui/inputs/ElInput.vue'
+import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import type { Card } from '@fiction/site/card'
 import ElPanelSettings from './ElPanelSettings.vue'
 

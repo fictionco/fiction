@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
 import type { ActionItem } from '@fiction/core'
-
 import ElToolBanner from '@fiction/admin/ElToolBanner.vue'
 import type { EditorTool } from '@fiction/admin'
 import ElTool from '@fiction/admin/ElTool.vue'

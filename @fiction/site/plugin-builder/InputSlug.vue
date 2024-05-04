@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ResponseStatus, ValidationReason } from '@fiction/core'
 import { vue } from '@fiction/core'
-import { textInputClasses } from '@fiction/ui/theme'
+import { textInputClasses } from '@fiction/ui/inputs/theme'
 import ElButton from '@fiction/ui/ElButton.vue'
 import ElModalConfirm from '@fiction/ui/ElModalConfirm.vue'
 import type { Site } from '../site'

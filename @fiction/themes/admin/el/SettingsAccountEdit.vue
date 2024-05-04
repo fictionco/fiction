@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { User } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
-import ElInput from '@fiction/ui/ElInput.vue'
+import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import type { Card } from '@fiction/site/card'
 

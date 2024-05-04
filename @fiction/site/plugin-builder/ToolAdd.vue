@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { toLabel, vue } from '@fiction/core'
-import ElInput from '@fiction/ui/ElInput.vue'
+import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import type { EditorTool } from '@fiction/admin'
 import ElTool from '@fiction/admin/ElTool.vue'
 import type { CardTemplate } from '../card'

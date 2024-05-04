@@ -1,17 +1,9 @@
 <script lang="ts" setup>
-import type {
-  ActionItem,
-  IndexMeta,
-} from '@fiction/core'
-import {
-  onResetUi,
-  resetUi,
-  toLabel,
-  vue,
-} from '@fiction/core'
+import type { ActionItem, IndexMeta } from '@fiction/core'
+import { onResetUi, resetUi, toLabel, vue } from '@fiction/core'
 import ElZeroBanner from './ElZeroBanner.vue'
 import ElButton from './ElButton.vue'
-import InputCheckbox from './InputCheckbox.vue'
+import InputCheckbox from './inputs/InputCheckbox.vue'
 import ElSpinner from './ElSpinner.vue'
 
 export type TableCell =

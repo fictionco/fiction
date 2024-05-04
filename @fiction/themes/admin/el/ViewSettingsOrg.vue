@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import ElInput from '@fiction/ui/ElInput.vue'
+import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import type { Organization, UserMeta } from '@fiction/core'
 import { emitEvent, log, useService, vue } from '@fiction/core'

@@ -2,7 +2,7 @@
 import type { FictionRouter, FictionUser, StepConfig, StepItem } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
-import ElForm from '@fiction/ui/ElForm.vue'
+import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElStep from './ElStep.vue'
 
 const props = defineProps({

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { localRef, toCamel } from '@fiction/core'
-import InputToggle from './InputToggle.vue'
+import InputToggle from './inputs/InputToggle.vue'
 
 const props = defineProps({
   label: {

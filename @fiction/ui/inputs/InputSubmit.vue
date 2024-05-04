@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
-import ElButton from './ElButton.vue'
+import ElButton from '../ElButton.vue'
 
 const attrs = vue.useAttrs()
 </script>

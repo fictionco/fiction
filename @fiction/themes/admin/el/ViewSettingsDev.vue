@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { useService, vue } from '@fiction/core'
-import ElInput from '@fiction/ui/ElInput.vue'
-import InputText from '@fiction/ui/InputText.vue'
-import InputPassword from '@fiction/ui/InputPassword.vue'
+import ElInput from '@fiction/ui/inputs/ElInput.vue'
+import InputText from '@fiction/ui/inputs/InputText.vue'
+import InputPassword from '@fiction/ui/inputs/InputPassword.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import type { Card } from '@fiction/site/card'
 import ElPanelSettings from './ElPanelSettings.vue'

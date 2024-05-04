@@ -79,7 +79,10 @@ vue.onMounted(async () => {
           target="_blank"
           :disabled="true"
         >
-          {{ post?.isDirty.value ? 'Saving' : 'Saved' }}
+          <svg class="h-1.5 w-1.5 mr-2" :class="post?.isDirty.value ? 'fill-orange-500' : 'fill-green-500'" viewBox="0 0 6 6" aria-hidden="true">
+            <circle cx="3" cy="3" r="3" />
+          </svg>
+          {{ post?.isDirty.value ? 'Syncing' : 'Draft Saved' }}
         </ElButton>
         <ElButton
           btn="primary"
