@@ -13,7 +13,7 @@ defineProps({
 <template>
   <div v-if="post">
     <div class="py-12 prose dark:prose-invert prose-sm lg:prose-lg mx-auto focus:outline-none antialiased ">
-      <div class="flex gap-4 justify-between">
+      <div class="flex gap-6 justify-between">
         <div class=" flex-grow">
           <XTextBase
             :model-value="post.title.value"
@@ -32,8 +32,8 @@ defineProps({
             @update:model-value="post?.update({ subTitle: $event as string })"
           />
         </div>
-        <div>
-          <ElImage class="size-32 border border-theme-600 rounded-md bg-theme-800" />
+        <div class="not-prose">
+          <ElImage :media="post.image.value" class="size-32 border border-theme-600 rounded-md bg-theme-800 overflow-hidden" />
         </div>
       </div>
       <div class="border-b border-theme-700 my-12" />

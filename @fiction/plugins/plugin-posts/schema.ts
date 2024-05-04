@@ -1,4 +1,4 @@
-import { type CreateObjectType, type PostStatus, type User, toSlug } from '@fiction/core'
+import { type CreateObjectType, type MediaDisplayObject, type PostStatus, type User, toSlug } from '@fiction/core'
 import { FictionDbCol, FictionDbTable } from '@fiction/core/plugin-db'
 
 export const tableNames = {
@@ -13,8 +13,7 @@ type PostMeta = { seoTitle: string, seoDescription: string, seoKeywords: string 
 export type TablePostConfig = CreateObjectType<typeof postCols> & { authors?: User[], taxonomy?: TableTaxonomyConfig[] }
 export type TableTaxonomyConfig = CreateObjectType<typeof taxonomyCols>
 
-export type PostDraft = {title: string, content: string, userConfig: PostUserConfig, createdAt: string, updatedAt: string}
-
+export type PostDraft = { title: string, content: string, userConfig: PostUserConfig, createdAt: string, updatedAt: string }
 
 const postCols = [
   new FictionDbCol({
@@ -77,6 +76,14 @@ const postCols = [
     default: () => '' as string,
     isSetting: true,
     zodSchema: ({ z }) => z.string(),
+  }),
+  new FictionDbCol({
+    key: 'image',
+    create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo(column.default()),
+    default: () => ({} as MediaDisplayObject),
+    prepare: ({ value }) => JSON.stringify(value),
+    isSetting: true,
+    zodSchema: ({ z }) => z.record(z.unknown()),
   }),
   new FictionDbCol({
     key: 'status',

@@ -4,6 +4,7 @@ packages:
   - '@fiction/www'
   - '@fiction/site'
   - '@fiction/admin'
+  - '@fiction/cards'
   - '@fiction/platform'
   - '@fiction/themes/*'
   - '@fiction/plugins/*'

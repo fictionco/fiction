@@ -1,5 +1,5 @@
 import { createCard } from '@fiction/site/theme'
-import type { MapSchemaConfig } from '@fiction/themes/cards/map'
+import type { MapSchemaConfig } from '@fiction/cards/map'
 import { templates } from '../templates'
 import spectrum from './spectrum.jpg'
 import ap from './ap.webp'

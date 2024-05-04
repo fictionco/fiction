@@ -59,10 +59,10 @@ const options = vue.computed(() => {
       input: 'group',
       options: [
         new InputOption({
-          key: 'thumbnail',
-          label: 'Post Image',
+          key: 'image',
+          label: 'Featured Image',
           description: 'The image that will be displayed with the post',
-          input: 'InputMediaDisplay',
+          input: 'InputImage',
         }),
         new InputOption({
           key: 'title',
