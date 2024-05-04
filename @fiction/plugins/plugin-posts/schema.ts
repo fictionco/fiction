@@ -13,6 +13,9 @@ type PostMeta = { seoTitle: string, seoDescription: string, seoKeywords: string 
 export type TablePostConfig = CreateObjectType<typeof postCols> & { authors?: User[], taxonomy?: TableTaxonomyConfig[] }
 export type TableTaxonomyConfig = CreateObjectType<typeof taxonomyCols>
 
+export type PostDraft = {title: string, content: string, userConfig: PostUserConfig, createdAt: string, updatedAt: string}
+
+
 const postCols = [
   new FictionDbCol({
     key: 'postId',
@@ -102,6 +105,27 @@ const postCols = [
     key: 'date',
     create: ({ schema, column }) => schema.timestamp(column.pgKey),
     default: () => '' as string,
+  }),
+  new FictionDbCol({
+    key: 'archivedAt',
+    create: ({ schema, column }) => schema.timestamp(column.pgKey),
+    default: () => '' as string,
+  }),
+  new FictionDbCol({
+    key: 'draft',
+    create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo({}),
+    prepare: ({ value }) => JSON.stringify(value),
+    isSetting: true,
+    default: () => ({} as PostDraft),
+    zodSchema: ({ z }) => z.record(z.unknown()),
+  }),
+  new FictionDbCol({
+    key: 'draftHistory',
+    create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo({}),
+    prepare: ({ value }) => JSON.stringify(value),
+    isSetting: true,
+    default: () => ([] as PostDraft[]),
+    zodSchema: ({ z }) => z.array(z.record(z.unknown())),
   }),
 ] as const
 

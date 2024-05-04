@@ -35,6 +35,11 @@ export type ManagePostParamsRequest =
     _action: 'delete'
     postId: string
   }
+  | {
+    _action: 'saveDraft'
+    postId: string
+    fields: Partial<TablePostConfig>
+  }
 
 export type ManagePostParams = ManagePostParamsRequest & { userId?: string, orgId?: string }
 
@@ -63,6 +68,9 @@ export class QueryManagePost extends PostsQuery {
         await this.deletePost(params.postId)
         message = 'Post deleted'
         break
+      case 'saveDraft':
+        post = await this.saveDraft(params)
+        break
       default:
         return { status: 'error', message: 'Invalid action' }
     }
@@ -76,7 +84,7 @@ export class QueryManagePost extends PostsQuery {
     const post = await query.first<TablePostConfig>()
 
     if (!post)
-      throw this.abort('Post not found')
+      throw this.abort('Post not found', { data: { _action: 'get', postId } })
 
     return post
   }
@@ -90,7 +98,7 @@ export class QueryManagePost extends PostsQuery {
     // Retrieve current post details
     const currentPost = await this.getPost(postId, ['status', 'date'])
     if (!currentPost)
-      throw this.abort('Post not found')
+      throw this.abort('Post not found', { data: params })
 
     // Set date to current time if status changes and date is still empty
     if (!fields.date && fields.status && fields.status !== 'draft' && currentPost.status === 'draft' && !currentPost.date)
@@ -122,6 +130,42 @@ export class QueryManagePost extends PostsQuery {
 
     return post
   }
+
+  private async saveDraft(params: ManagePostParams & { _action: 'saveDraft' }): Promise<TablePostConfig | undefined> {
+    const db = this.db()
+    const { postId, fields } = params
+
+    // Get current date and format
+    const now = new Date()
+    fields.updatedAt = now.toISOString()
+
+    const currentDrafts = await db.select<TablePostConfig>('draft', 'draft_history')
+      .from(tableNames.posts)
+      .where({ postId })
+      .first()
+
+    const draft = (currentDrafts?.draft || {}) as TablePostConfig
+    const draftHistory = (currentDrafts?.draftHistory || []) as TablePostConfig[]
+    const TEN_MINUTES = 600000
+    // Create or update draft
+    const isNewDraftNeeded = draft.createdAt && (now.getTime() - new Date(draft.createdAt).getTime()) > TEN_MINUTES
+    if (isNewDraftNeeded) {
+      draftHistory.push({ ...draft, archivedAt: now.toISOString() }) // Archive the current draft
+      draft.createdAt = now.toISOString() // Reset creation time for a new draft
+    }
+
+    const newDraft = { ...draft, ...fields, updatedAt: now, createdAt: draft.createdAt }
+
+    // Persist the updated draft and history
+    await db(tableNames.posts)
+      .where({ postId })
+      .update({
+        draft: newDraft,
+        draft_history: draftHistory,
+      })
+
+    return this.getPost(postId)
+  }
 }
 
 export type ManageIndexParamsRequest = {
@@ -147,7 +191,7 @@ export class ManagePostIndex extends PostsQuery {
       case 'list':
         return this.list(params)
       case 'delete':
-        return this.deleteSites(params.selectedIds)
+        return this.deletePosts(params.selectedIds)
       default:
         throw this.abort(`Unsupported action '${params._action as string}'`)
     }
@@ -212,7 +256,7 @@ export class ManagePostIndex extends PostsQuery {
     return Number.parseInt(result?.count || '0', 10)
   }
 
-  private async deleteSites(selectedIds?: string[]): Promise<ManageIndexResponse> {
+  private async deletePosts(selectedIds?: string[]): Promise<ManageIndexResponse> {
     if (!selectedIds || selectedIds.length === 0)
       throw this.abort('No posts selected for deletion')
 

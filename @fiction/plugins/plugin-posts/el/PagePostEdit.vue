@@ -23,8 +23,11 @@ const loading = vue.ref(true)
 const sending = vue.ref()
 const post = vue.shallowRef<Post | undefined>()
 
-function save() {
-
+async function publish() {
+  if (!post.value)
+    return
+  sending.value = 'save'
+  await post.value.save('publish')
 }
 
 async function load() {
@@ -74,17 +77,18 @@ vue.onMounted(async () => {
           btn="default"
           href="/"
           target="_blank"
+          :disabled="true"
         >
-          View
+          {{ post?.isDirty.value ? 'Saving' : 'Saved' }}
         </ElButton>
         <ElButton
           btn="primary"
           :loading="sending === 'save'"
           class="min-w-36"
           icon="i-tabler-save"
-          @click.prevent="save()"
+          @click.prevent="publish()"
         >
-          Save Post
+          Publish Changes
         </ElButton>
       </template>
       <template #default>

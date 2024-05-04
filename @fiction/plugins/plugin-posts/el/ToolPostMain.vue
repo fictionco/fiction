@@ -46,33 +46,43 @@ const options = vue.computed(() => {
     }),
 
     new InputOption({
+      key: 'date',
+      label: 'Publication Date',
+      description: 'For display and SEO purposes only.',
+      input: 'InputDate',
+      props: { },
+    }),
+
+    new InputOption({
       key: 'postContentGroup',
       label: 'Post Content',
       input: 'group',
       options: [
         new InputOption({
+          key: 'thumbnail',
+          label: 'Post Image',
+          description: 'The image that will be displayed with the post',
+          input: 'InputMediaDisplay',
+        }),
+        new InputOption({
           key: 'title',
-          label: 'Name',
+          label: 'Post Title',
           input: 'InputText',
           placeholder: 'Post Title',
           isRequired: true,
         }),
         new InputOption({
           key: 'subTitle',
-          label: 'Sub Title',
+          label: 'Sub Title / Tagline',
           input: 'InputText',
         }),
         new InputOption({
-          key: 'summary',
-          label: 'Summary / Excerpt',
+          key: 'excerpt',
+          label: 'Excerpt',
+          description: 'A short teaser for the post',
           input: 'InputTextarea',
         }),
-        new InputOption({
-          key: 'date',
-          label: 'Display Date',
-          input: 'InputDate',
-          props: { },
-        }),
+
       ],
     }),
     new InputOption({

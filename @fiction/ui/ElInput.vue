@@ -109,12 +109,10 @@ vue.onMounted(() => {
             :for="attrs.for"
             v-text="label"
           />
-          <div v-if="description" class="group relative">
-            <div class="text-theme-500 hover:text-theme-400">
-              <div class="i-carbon-information" />
-            </div>
+          <div v-if="description" class="group relative flex items-center">
+            <div class="text-lg text-theme-500 hover:text-theme-400 i-tabler-info-circle" />
             <div
-              class="bg-theme-0 dark:bg-theme-700 dark:text-theme-0 absolute -left-4 z-30 mt-2 hidden w-56 origin-top-right rounded-md p-3 text-[10px] shadow-lg ring-1 ring-black/10 focus:outline-none group-hover:block"
+              class="bg-theme-0 dark:bg-theme-700 dark:border-theme-600 border dark:text-theme-0 absolute -left-4 top-full z-30 mt-2 hidden w-56 origin-top-right rounded-md p-3 text-[10px] shadow-lg ring-1 ring-black/10 focus:outline-none group-hover:block"
             >
               {{ description }}
             </div>

@@ -141,6 +141,21 @@ describe('post crud tests', async () => {
     expect(retrieveResult.message).toBeFalsy()
   })
 
+  it('saves draft', async () => {
+    const newTitle = 'Draft Saved'
+    const draftParams = {
+      _action: 'saveDraft',
+      postId: createdPost?.postId || '',
+      fields: { ...createdPost, title: newTitle },
+    } as const
+
+    const r = await fictionPosts.queries.ManagePost.serve(draftParams, {})
+
+    expect(r.status).toBe('success')
+    expect(r.data?.draft.title).toBe(newTitle)
+    expect(r.data?.title).not.toBe(newTitle)
+  })
+
   it('deletes a post', async () => {
     const deleteAction = {
       _action: 'delete',
@@ -165,7 +180,10 @@ describe('post crud tests', async () => {
       {
         "code": "OPERATION_FAILED",
         "context": "QueryManagePost",
-        "data": undefined,
+        "data": {
+          "_action": "get",
+          "postId": "nonexistent",
+        },
         "expose": true,
         "httpStatus": 500,
         "location": undefined,

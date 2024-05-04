@@ -126,9 +126,7 @@ const icon = vue.computed(() => {
       <div v-if="afterInput" class="opacity-50">
         {{ afterInput }}
       </div>
-      <div class="text-lg" :class="icon.color">
-        <div :class="icon.icon" />
-      </div>
+      <div class="text-lg" :class="[icon.color, icon.icon]" />
     </div>
     <div v-if="reasonText" class="mt-2 text-[10px] font-sans text-theme-400">
       {{ reasonText }}
