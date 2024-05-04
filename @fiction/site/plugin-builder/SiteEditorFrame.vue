@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
-import ElBrowserFrameDevice from '@fiction/ui/ElBrowserFrameDevice.vue'
-import type { FrameUtility } from '@fiction/ui/elBrowserFrameUtil'
+import ElBrowserFrameDevice from '@fiction/ui/frame/ElBrowserFrameDevice.vue'
+import type { FrameUtility } from '@fiction/ui/frame/elBrowserFrameUtil'
 import type { Site } from '../site'
 import type { FramePostMessageList } from '../utils/frame'
 

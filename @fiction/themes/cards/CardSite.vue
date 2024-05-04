@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { FictionRouter } from '@fiction/core'
 import { getColorScheme, log, toLabel, unhead, useService, vue } from '@fiction/core'
-import { FrameUtility } from '@fiction/ui/elBrowserFrameUtil'
-import ElSpinner from '@fiction/ui/ElSpinner.vue'
+import { FrameUtility } from '@fiction/ui/frame/elBrowserFrameUtil'
+import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/El404.vue'
 import NotifyToaster from '@fiction/plugin-notify/NotifyToaster.vue'
 import { getThemeFontConfig } from '@fiction/core/utils/fonts'

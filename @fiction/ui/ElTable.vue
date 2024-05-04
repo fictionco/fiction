@@ -4,7 +4,7 @@ import { onResetUi, resetUi, toLabel, vue } from '@fiction/core'
 import ElZeroBanner from './ElZeroBanner.vue'
 import ElButton from './ElButton.vue'
 import InputCheckbox from './inputs/InputCheckbox.vue'
-import ElSpinner from './ElSpinner.vue'
+import ElSpinner from './loaders/ElSpinner.vue'
 
 export type TableCell =
   | {

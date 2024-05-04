@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { MediaDisplayObject } from '@fiction/core'
 import { log, shortId, useService, vue } from '@fiction/core'
-import ElSpinner from '../ElSpinner.vue'
+import ElSpinner from '../loaders/ElSpinner.vue'
 
 defineProps({
   modelValue: { type: Object as vue.PropType<MediaDisplayObject>, default: () => {} },

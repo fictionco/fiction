@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { resetUi, toLabel, vue } from '@fiction/core'
-import ElSpinner from '@fiction/ui/ElSpinner.vue'
+import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import type { AdminEditorController } from '../admin'
 
 const props = defineProps({
@@ -86,7 +86,6 @@ const contextTool = vue.computed(() => props.controller.activeTool.context.value
             </div>
 
             <div class="no-scrollbar  bg-theme-0 dark:bg-theme-900 border-l border-theme-200 dark:border-theme-700 relative overflow-scroll">
-
               <transition
                 mode="out-in"
                 enter-active-class="ease-out duration-200"

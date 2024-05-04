@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { onEvent, vue } from '@fiction/core'
-import ElSpinner from '../ElSpinner.vue'
+import ElSpinner from '../loaders/ElSpinner.vue'
 
 const props = defineProps({
   name: { type: String, default: '' },

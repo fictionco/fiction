@@ -1,6 +1,6 @@
 <script lang='ts' setup>
 import type { vue } from '@fiction/core'
-import ElBrowserFrameDevice from '@fiction/ui/ElBrowserFrameDevice.vue'
+import ElBrowserFrameDevice from '@fiction/ui/frame/ElBrowserFrameDevice.vue'
 import type { Site } from '../../../site'
 import FigSite from './img/figSite.svg'
 import FigSiteMobile from './img/figSiteMobile.svg'

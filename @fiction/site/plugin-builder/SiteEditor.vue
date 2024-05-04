@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { FictionApp, FictionRouter } from '@fiction/core'
 import { onResetUi, resetUi, useService, vue } from '@fiction/core'
-import ElSpinner from '@fiction/ui/ElSpinner.vue'
+import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import El404 from '@fiction/ui/El404.vue'
 import XTextBase from '@fiction/ui/XTextBase.vue'

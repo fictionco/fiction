@@ -3,7 +3,7 @@ import type { ActionItem, IndexItem, IndexMeta } from '@fiction/core'
 import { getNavComponentType, vue } from '@fiction/core'
 import ElZeroBanner from './ElZeroBanner.vue'
 import ElButton from './ElButton.vue'
-import ElSpinner from './ElSpinner.vue'
+import ElSpinner from './loaders/ElSpinner.vue'
 
 defineProps({
   list: { type: Array as vue.PropType<IndexItem[]>, default: () => [] },
