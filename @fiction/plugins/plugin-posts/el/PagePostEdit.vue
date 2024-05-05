@@ -28,6 +28,7 @@ async function publish() {
     return
   sending.value = 'save'
   await post.value.save('publish')
+  sending.value = ''
 }
 
 async function load() {
@@ -42,7 +43,7 @@ async function load() {
     r.replace({ query: { postId: post.value?.postId } })
   }
   else {
-    const editParams = { _action: 'get', postId } as const
+    const editParams = { _action: 'get', postId, loadDraft: true } as const
     post.value = await managePost({ fictionPosts: service.fictionPosts, params: editParams })
   }
   loading.value = false
@@ -77,7 +78,7 @@ vue.onMounted(async () => {
           btn="default"
           href="/"
           target="_blank"
-          :disabled="true"
+          @click.prevent=""
         >
           <svg class="h-1.5 w-1.5 mr-2" :class="post?.isDirty.value ? 'fill-orange-500' : 'fill-green-500'" viewBox="0 0 6 6" aria-hidden="true">
             <circle cx="3" cy="3" r="3" />
@@ -88,10 +89,11 @@ vue.onMounted(async () => {
           btn="primary"
           :loading="sending === 'save'"
           class="min-w-36"
-          icon="i-tabler-save"
+          :icon="post?.settings.isPublished ? 'i-tabler-arrow-big-up-lines' : 'i-tabler-calendar-bolt'"
+          size="md"
           @click.prevent="publish()"
         >
-          Publish Changes
+          {{ post?.settings.isPublished ? 'Publish Changes' : 'Schedule Publication' }}
         </ElButton>
       </template>
       <template #default>

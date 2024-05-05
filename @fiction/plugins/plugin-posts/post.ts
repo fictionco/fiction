@@ -9,9 +9,11 @@ export class Post extends FictionObject<PostConfig> {
   postId = this.settings.postId || objectId({ prefix: 'pst' })
   title = vue.ref(this.settings.title || '')
   subTitle = vue.ref(this.settings.subTitle || '')
+  excerpt = vue.ref(this.settings.excerpt || '')
   content = vue.ref(this.settings.content || '')
   slug = vue.ref(this.settings.slug || '')
   image = vue.ref(this.settings.image || {})
+  dateAt = vue.ref(this.settings.dateAt || new Date().toISOString())
   userConfig = vue.ref(this.settings.userConfig || {})
   isDirty = vue.ref(false)
   saveTimeout: ReturnType<typeof setTimeout> | null = null // Store timeout reference
@@ -23,7 +25,7 @@ export class Post extends FictionObject<PostConfig> {
   update(postConfig: Partial<TablePostConfig>) {
     if (!postConfig)
       return
-    const availableKeys = ['title', 'subTitle', 'content', 'slug', 'userConfig', 'image']
+    const availableKeys = ['title', 'subTitle', 'content', 'slug', 'userConfig', 'image', 'excerpt', 'dateAt']
     const entries = Object.entries(postConfig).filter(([key]) => availableKeys.includes(key))
     entries.forEach(([key, value]) => {
       const k = this[key as keyof this]
@@ -75,9 +77,11 @@ export class Post extends FictionObject<PostConfig> {
       postId: this.postId,
       title: this.title.value,
       subTitle: this.subTitle.value,
+      excerpt: this.excerpt.value,
       content: this.content.value,
       userConfig: this.userConfig.value,
       image: this.image.value,
+      dateAt: this.dateAt.value,
     }
   }
 }

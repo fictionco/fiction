@@ -1,5 +1,5 @@
 import type { DataFilter, EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser } from '@fiction/core'
-import { Query, standardTable } from '@fiction/core'
+import { Query, objectId, standardTable } from '@fiction/core'
 import type { TablePostConfig } from './schema'
 import { tableNames } from './schema'
 import type { FictionPosts } from '.'
@@ -25,11 +25,13 @@ export type ManagePostParamsRequest =
     _action: 'update'
     postId: string
     fields: Partial<TablePostConfig>
+    loadDraft?: boolean
   }
   | {
     _action: 'get'
     postId: string
     select?: (keyof TablePostConfig)[] | ['*']
+    loadDraft?: boolean
   }
   | {
     _action: 'delete'
@@ -54,7 +56,7 @@ export class QueryManagePost extends PostsQuery {
 
     switch (params._action) {
       case 'get':
-        post = await this.getPost(params.postId, params.select)
+        post = await this.getPost(params.postId, params)
         break
       case 'update':
         post = await this.updatePost(params)
@@ -78,13 +80,18 @@ export class QueryManagePost extends PostsQuery {
     return { status: 'success', data: post, message }
   }
 
-  private async getPost(postId: string, select: (keyof TablePostConfig)[] | ['*'] = ['*']): Promise<TablePostConfig | undefined> {
+  private async getPost(postId: string, options: { loadDraft?: boolean, select?: (keyof TablePostConfig)[] | ['*'] } = {}): Promise<TablePostConfig | undefined> {
+    const { select = ['*'], loadDraft = false } = options
     const db = this.db()
     const query = db.select(select).from(tableNames.posts).where({ postId })
-    const post = await query.first<TablePostConfig>()
+
+    let post = await query.first<TablePostConfig>()
 
     if (!post)
       throw this.abort('Post not found', { data: { _action: 'get', postId } })
+
+    if (loadDraft && post.draft)
+      post = { ...post, ...post.draft }
 
     return post
   }
@@ -96,17 +103,17 @@ export class QueryManagePost extends PostsQuery {
     fields.updatedAt = new Date().toISOString()
 
     // Retrieve current post details
-    const currentPost = await this.getPost(postId, ['status', 'date'])
+    const currentPost = await this.getPost(postId, { select: ['status', 'dateAt'] })
     if (!currentPost)
       throw this.abort('Post not found', { data: params })
 
     // Set date to current time if status changes and date is still empty
-    if (!fields.date && fields.status && fields.status !== 'draft' && currentPost.status === 'draft' && !currentPost.date)
-      fields.date = fields.updatedAt
+    if (!fields.dateAt && fields.status && fields.status !== 'draft' && currentPost.status === 'draft' && !currentPost.dateAt)
+      fields.dateAt = fields.updatedAt
 
     // Update the post and return the updated post details
     await db(tableNames.posts).update(fields).where({ postId })
-    return this.getPost(postId)
+    return this.getPost(postId, params)
   }
 
   private async createPost(params: ManagePostParams & { _action: 'create' }): Promise<TablePostConfig | undefined> {
@@ -150,11 +157,11 @@ export class QueryManagePost extends PostsQuery {
     // Create or update draft
     const isNewDraftNeeded = draft.createdAt && (now.getTime() - new Date(draft.createdAt).getTime()) > TEN_MINUTES
     if (isNewDraftNeeded) {
-      draftHistory.push({ ...draft, archivedAt: now.toISOString() }) // Archive the current draft
+      draftHistory.push({ ...draft, archiveAt: now.toISOString() }) // Archive the current draft
       draft.createdAt = now.toISOString() // Reset creation time for a new draft
     }
 
-    const newDraft = { ...draft, ...fields, updatedAt: now, createdAt: draft.createdAt }
+    const newDraft = { draftId: objectId({ prefix: 'dft' }), ...draft, ...fields, updatedAt: now, createdAt: draft.createdAt }
 
     // Persist the updated draft and history
     await db(tableNames.posts)
@@ -202,7 +209,7 @@ export class ManagePostIndex extends PostsQuery {
       throw this.abort('orgId is required to list posts')
 
     const posts = await this.fetchPosts(orgId, limit, offset, filters)
-    const allAuthorIds = posts.map(post => post.userId)
+    const allAuthorIds = posts.map(post => post.userId).filter(Boolean) as string[]
     const allAuthors = await this.fetchAuthors(allAuthorIds)
 
     const postsWithAuthors = posts.map(post => ({

@@ -68,8 +68,6 @@ const uploadInput = vue.ref< HTMLInputElement>()
 async function triggerFileUpload() {
   uploadInput.value?.click() // Programmatically trigger the file input dialog
 }
-
-
 </script>
 
 <template>
@@ -87,7 +85,7 @@ async function triggerFileUpload() {
         <div v-else-if="!v?.url" class="my-3 i-tabler-photo-up text-3xl dark:text-theme-600" />
         <img v-else class="max-h-[90px]" :src="v.url">
       </div>
-      <div class="space-y-2 grow">
+      <div class="space-y-2 grow @container">
         <template v-if="layoutMode === 'url'">
           <InputText
             :model-value="v?.url"
@@ -100,10 +98,10 @@ async function triggerFileUpload() {
           </ElButton>
         </template>
         <template v-else>
-          <div class="font-sans antialiased text-xs font-semibold dark:text-theme-600">
+          <div class="font-sans antialiased text-xs font-semibold dark:text-theme-600 hidden @[5rem]:block">
             Drag &amp; Drop or...
           </div>
-          <div class="flex gap-x-2">
+          <div class="flex gap-x-2 flex-col @[5rem]:flex-row gap-y-1">
             <ElButton icon="i-tabler-upload" btn="theme" size="xs" @click="triggerFileUpload">
               Upload
             </ElButton>

@@ -58,6 +58,7 @@ const items = vue.computed(() => {
           figure: {
             el: ElImageResize,
             props: {
+              'editor': props.editor,
               'onUpdate:modelValue': (value: string) => {
                 imageWidth.value = value
                 props.updateAttributes({ width: value })
@@ -95,7 +96,7 @@ const items = vue.computed(() => {
         <figcaption
 
           contenteditable="true"
-          placeholder="Testing"
+          placeholder="Add a caption..."
           class="cptn w-full text-center text-sm mt-4 text-theme-500 dark:text-theme-400"
           spellcheck="false"
           @input="updateCaption($event)"

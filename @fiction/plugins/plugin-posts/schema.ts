@@ -10,10 +10,10 @@ export const tableNames = {
 type PostUserConfig = Record<string, any>
 type PostMeta = { seoTitle: string, seoDescription: string, seoKeywords: string }
 
-export type TablePostConfig = CreateObjectType<typeof postCols> & { authors?: User[], taxonomy?: TableTaxonomyConfig[] }
-export type TableTaxonomyConfig = CreateObjectType<typeof taxonomyCols>
+export type TablePostConfig = Partial<CreateObjectType<typeof postCols>> & { authors?: User[], taxonomy?: TableTaxonomyConfig[], draftId?: string }
+export type TableTaxonomyConfig = Partial<CreateObjectType<typeof taxonomyCols>>
 
-export type PostDraft = { title: string, content: string, userConfig: PostUserConfig, createdAt: string, updatedAt: string }
+export type PostDraft = { draftId: string, title: string, content: string, userConfig: PostUserConfig, createdAt: string, updatedAt: string }
 
 const postCols = [
   new FictionDbCol({
@@ -94,33 +94,31 @@ const postCols = [
   }),
   new FictionDbCol({
     key: 'userConfig',
-    create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo({}),
+    create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo(column.default()),
     prepare: ({ value }) => JSON.stringify(value),
     isSetting: true,
     default: () => ({} as PostUserConfig),
     zodSchema: ({ z }) => z.record(z.unknown()),
   }),
   new FictionDbCol({
-    key: 'meta',
-    create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo({}),
-    prepare: ({ value }) => JSON.stringify(value),
+    key: 'isPublished',
+    create: ({ schema, column }) => schema.boolean(column.pgKey).defaultTo(column.default()),
+    default: () => false as boolean,
+  }),
+  new FictionDbCol({
+    key: 'publishAt',
+    create: ({ schema, column }) => schema.timestamp(column.pgKey),
+    default: () => '' as string,
+  }),
+  new FictionDbCol({
+    key: 'dateAt',
+    create: ({ schema, column }) => schema.timestamp(column.pgKey),
+    default: () => '' as string,
     isSetting: true,
-    default: () => ({} as PostMeta),
-    zodSchema: ({ z }) => z.record(z.unknown()),
-  }),
-  new FictionDbCol({
-    key: 'date',
-    create: ({ schema, column }) => schema.timestamp(column.pgKey),
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'archivedAt',
-    create: ({ schema, column }) => schema.timestamp(column.pgKey),
-    default: () => '' as string,
   }),
   new FictionDbCol({
     key: 'draft',
-    create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo({}),
+    create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo(column.default()),
     prepare: ({ value }) => JSON.stringify(value),
     isSetting: true,
     default: () => ({} as PostDraft),
@@ -128,11 +126,24 @@ const postCols = [
   }),
   new FictionDbCol({
     key: 'draftHistory',
-    create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo({}),
+    create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo(column.default()),
     prepare: ({ value }) => JSON.stringify(value),
     isSetting: true,
     default: () => ([] as PostDraft[]),
     zodSchema: ({ z }) => z.array(z.record(z.unknown())),
+  }),
+  new FictionDbCol({
+    key: 'archiveAt',
+    create: ({ schema, column }) => schema.timestamp(column.pgKey),
+    default: () => '' as string,
+  }),
+  new FictionDbCol({
+    key: 'meta',
+    create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo(column.default()),
+    prepare: ({ value }) => JSON.stringify(value),
+    isSetting: true,
+    default: () => ({} as PostMeta),
+    zodSchema: ({ z }) => z.record(z.unknown()),
   }),
 ] as const
 
@@ -194,7 +205,7 @@ const taxonomyCols = [
   }),
   new FictionDbCol({
     key: 'meta',
-    create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo({}),
+    create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo(column.default()),
     prepare: ({ value }) => JSON.stringify(value),
     default: () => ({} as Record<string, any>),
     zodSchema: ({ z }) => z.record(z.unknown()),

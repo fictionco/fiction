@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-import { isDarkOrLightMode, vue } from '@fiction/core'
+import { dayjs, isDarkOrLightMode, vue } from '@fiction/core'
 import { textInputClasses } from './theme'
 
-defineProps({
+const props = defineProps({
   modelValue: { type: [String], default: '' },
   inputClass: { type: String, default: '' },
+  includeTime: { type: Boolean, default: false },
 })
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: string): void
@@ -13,8 +14,13 @@ const emit = defineEmits<{
 function handleEmit(target: EventTarget | null): void {
   const el = target as HTMLInputElement
 
-  emit('update:modelValue', el.value)
+  const isoValue = dayjs(el.value).toISOString()
+  emit('update:modelValue', isoValue)
 }
+
+const inputValue = vue.computed(() => {
+  return dayjs(props.modelValue).format(props.includeTime ? 'YYYY-MM-DDTHH:mm' : 'YYYY-MM-DD')
+})
 
 const dateEl = vue.ref<HTMLInputElement>()
 const mode = vue.ref<'dark' | 'light'>()
@@ -26,9 +32,10 @@ vue.onMounted(() => {
 <template>
   <input
     ref="dateEl"
+    :data-value="modelValue"
     :class="textInputClasses({ inputClass })"
-    type="date"
-    :value="modelValue"
+    :type="includeTime ? 'datetime-local' : 'date'"
+    :value="inputValue"
     :style="{ colorScheme: mode }"
     @input="handleEmit($event.target)"
   >

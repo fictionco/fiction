@@ -30,7 +30,7 @@ export function getButtonClasses(args: { btn: UiElementStyle | string, size: UiE
     'xxs': 'px-2 py-0.5 text-[9px]',
     'xs': 'px-2 py-1 text-[10px]',
     'sm': 'px-2.5 py-1 text-xs',
-    'md': 'px-2.5 py-1.5 text-xs',
+    'md': 'px-3 py-1.5 text-sm',
     'lg': 'px-4 py-2 text-base',
     'xl': 'px-6 py-2.5 sm:text-base md:text-lg',
     '2xl': 'px-8 py-3 sm:text-base md:text-lg',
