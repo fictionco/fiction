@@ -1,6 +1,6 @@
 import { afterAll, describe, expect, it } from 'vitest'
 import { createTestUtils } from '../../test-utils'
-import { objectId, shortId, toSlug } from '../../utils'
+import { objectId, shortId } from '../../utils'
 import { standardTable } from '../../tbl'
 
 describe('check username', async () => {

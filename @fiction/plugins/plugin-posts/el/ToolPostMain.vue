@@ -45,8 +45,6 @@ const options = vue.computed(() => {
       },
     }),
 
-
-
     new InputOption({
       key: 'postContentGroup',
       label: 'Post Content',
@@ -77,12 +75,12 @@ const options = vue.computed(() => {
           input: 'InputTextarea',
         }),
         new InputOption({
-      key: 'dateAt',
-      label: 'Display Date',
-      description: 'For display and SEO purposes only.',
-      input: 'InputDate',
-      props: { },
-    }),
+          key: 'dateAt',
+          label: 'Display Date',
+          description: 'For display and SEO purposes only.',
+          input: 'InputDate',
+          props: { },
+        }),
       ],
     }),
     new InputOption({
@@ -112,7 +110,6 @@ const options = vue.computed(() => {
 <template>
   <ElTool v-if="post" :tool="tool" :actions="actions">
     <div class="p-4">
-
       <ToolForm
         :model-value="post.toConfig()"
         :options="options"

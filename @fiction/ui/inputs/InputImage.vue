@@ -2,12 +2,8 @@
 import { log, shortId, useService, vue } from '@fiction/core'
 import type { MediaDisplayObject } from '@fiction/core'
 import ElButton from '../ElButton.vue'
-import ElImage from '../ElImage.vue'
 import ElSpinner from '../loaders/ElSpinner.vue'
 import InputText from './InputText.vue'
-import ElInput from './ElInput.vue'
-import InputMediaUpload from './InputMediaUpload.vue'
-import ElDropDown from './InputDropDown.vue'
 
 const props = defineProps({
   modelValue: { type: Object as vue.PropType<MediaDisplayObject>, default: () => undefined },
