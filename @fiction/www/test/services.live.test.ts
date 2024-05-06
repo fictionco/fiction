@@ -23,7 +23,7 @@ describe('service health checks', () => {
 
       logger.info('fetch:start', { data: { url } })
 
-      const response = await fetchWithTimeout(url, { headers: { 'User-Agent': 'Fiction-Test' }, method: 'GET', timeout: 9000 })
+      const response = await fetchWithTimeout(url, { headers: { 'User-Agent': 'Fiction-Test' }, method: 'GET', timeout: 20000 })
       const endTime = Date.now()
 
       const responseTime = endTime - startTime

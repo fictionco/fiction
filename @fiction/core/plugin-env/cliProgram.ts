@@ -23,6 +23,9 @@ export async function runCommand(command: string, optionsFromCli: Record<string,
     const mainFileRelPath = pkg?.main ?? 'index'
     const mainFilePath = path.resolve(cwd, mainFileRelPath)
 
+    if (optionsFromCli.inspector)
+      await initializeNodeInspector()
+
     process.env.RUNTIME_VERSION = pkg.version
     process.env.RUNTIME_COMMIT = getLatestCommitId()
     process.env.COMMAND = command
