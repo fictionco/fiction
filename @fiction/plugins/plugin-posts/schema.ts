@@ -36,7 +36,7 @@ const postCols = [
   }),
   new FictionDbCol({
     key: 'slug',
-    create: ({ schema, column }) => schema.string(column.pgKey).notNullable().defaultTo('post'),
+    create: ({ schema, column }) => schema.string(column.pgKey).index(),
     default: () => '' as string,
     isSetting: true,
     prepare: ({ value }) => toSlug(value),
@@ -102,6 +102,11 @@ const postCols = [
   }),
   new FictionDbCol({
     key: 'isPublished',
+    create: ({ schema, column }) => schema.boolean(column.pgKey).defaultTo(column.default()),
+    default: () => false as boolean,
+  }),
+  new FictionDbCol({
+    key: 'isDirty',
     create: ({ schema, column }) => schema.boolean(column.pgKey).defaultTo(column.default()),
     default: () => false as boolean,
   }),

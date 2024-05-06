@@ -35,7 +35,7 @@ async function showPublishModal() {
 async function publish() {
   if (!post.value)
     return
-  sending.value = 'save'
+  sending.value = 'publish'
   await post.value.save('publish')
   sending.value = ''
 }
@@ -79,7 +79,7 @@ const publishMenu: ListItem[] = [
         <div class="flex space-x-1 font-medium">
           <RouterLink
             class="text-theme-400 dark:text-theme-300  pr-1 hover:text-primary-500 dark:hover:text-theme-0 flex items-center gap-1"
-            :to="card.link('/')"
+            :to="card.link('/posts')"
           >
             <span class="i-tabler-pin text-xl inline-block dark:text-theme-500" />
             <span>Edit Post</span>
@@ -161,7 +161,7 @@ const publishMenu: ListItem[] = [
             <ElButton v-if="publishItemSelected" size="md" @click="publishItemSelected = ''">
               &larr; Back
             </ElButton>
-            <ElButton size="md" btn="primary" icon="i-tabler-arrow-big-up-lines">
+            <ElButton size="md" btn="primary" icon="i-tabler-arrow-big-up-lines" :loading="sending === 'publish'" @click="publish()">
               Go Live
             </ElButton>
           </div>

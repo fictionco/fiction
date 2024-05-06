@@ -1,3 +1,39 @@
+export function incrementSlugId(slug?: string, options: { defaultSlug?: string, specialSlugRenameWord?: string } = {}): string {
+  const { defaultSlug = 'view', specialSlugRenameWord = 'old' } = options
+
+  if (!slug)
+    return `${defaultSlug}-1`
+
+  if (typeof slug !== 'string')
+    slug = String(slug)
+
+  // Handle slugs starting with an underscore
+  if (slug.startsWith('_')) {
+    // Remove the leading underscore and prepend with 'old-'
+    const modifiedSlug = `${specialSlugRenameWord}-${slug.slice(1)}`
+
+    // Directly return the modified slug if it's the first one
+    return modifiedSlug
+  }
+
+  // Append '-1' if slug is purely numeric
+  if (/^\d+$/.test(slug))
+    return `${slug}-1`
+
+  const parts = slug.split('-')
+  const lastPart = parts.pop() as string
+  const lastNumber = Number.parseInt(lastPart)
+
+  // Special handling for negative numbers
+  if (lastPart.startsWith('-') && !Number.isNaN(lastNumber))
+    return `${parts.join('-')}-${(lastNumber + 1).toString()}`
+
+  // If lastPart is a number, increment it, else append '1'
+  parts.push(!Number.isNaN(lastNumber) ? `${lastNumber + 1}` : (lastPart ? `${lastPart}-1` : '1'))
+
+  return parts.join('-')
+}
+
 /**
  * get host part of URL, useful for domain handling
  */

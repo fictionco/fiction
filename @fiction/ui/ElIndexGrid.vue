@@ -4,6 +4,7 @@ import { getNavComponentType, vue } from '@fiction/core'
 import ElZeroBanner from './ElZeroBanner.vue'
 import ElButton from './ElButton.vue'
 import ElSpinner from './loaders/ElSpinner.vue'
+import ElImage from './ElImage.vue'
 
 defineProps({
   list: { type: Array as vue.PropType<IndexItem[]>, default: () => [] },
@@ -15,11 +16,13 @@ defineProps({
   size: { type: String as vue.PropType<'xs' | 'md'>, default: undefined },
   loading: { type: Boolean, default: false },
   onItemClick: { type: Function as vue.PropType<(id: string | number) => void>, default: undefined },
+  mediaIcon: { type: String, default: 'i-tabler-photo' },
 })
 
 const sending = vue.ref(false)
 
 const boxClass = 'dark:bg-theme-800 hover:bg-theme-50 dark:hover:bg-theme-700 px-6 border border-theme-300/70 shadow-xs dark:border-theme-600/60 rounded-xl'
+const mediaClass = `size-12 border border-theme-200 dark:bg-theme-700 dark:border-theme-600 rounded-md overflow-hidden text-theme-500/50`
 </script>
 
 <template>
@@ -67,14 +70,22 @@ const boxClass = 'dark:bg-theme-800 hover:bg-theme-50 dark:hover:bg-theme-700 px
           @click.stop="onItemClick && item.key ? onItemClick(item.key) : ''"
         >
           <component :is="getNavComponentType(item)" :to="item.href" :href="item.href" class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap" :class="boxClass">
-            <div>
-              <p class="text-lg font-semibold leading-6 ">
-                <a href="#" class="hover:underline">{{ item.name }}</a>
-              </p>
-              <div class="mt-1 flex items-center gap-x-2 text-sm leading-5 text-gray-500">
-                <p>
-                  <a href="#" class="hover:underline">{{ item.desc }}</a>
+            <div class="flex gap-6 items-center">
+              <div>
+                <div v-if="!item.media?.url" class="flex items-center justify-center size-12" :class="mediaClass">
+                  <div class="text-2xl" :class="mediaIcon" />
+                </div>
+                <ElImage v-else :class="mediaClass" :media="item.media" />
+              </div>
+              <div>
+                <p class="text-lg font-semibold leading-6 ">
+                  <span class="hover:underline cursor-pointer">{{ item.name }}</span>
                 </p>
+                <div class="mt-1 flex items-center gap-x-2 text-sm leading-5 text-gray-500">
+                  <p>
+                    <span class="hover:underline cursor-pointer">{{ item.desc }}</span>
+                  </p>
+                </div>
               </div>
             </div>
             <dl class="flex w-full flex-none justify-between gap-x-8 sm:w-auto items-center">
@@ -82,7 +93,7 @@ const boxClass = 'dark:bg-theme-800 hover:bg-theme-50 dark:hover:bg-theme-700 px
 
               <div class="hidden sm:flex sm:flex-col sm:items-end">
                 <p class="text-sm leading-6  ">
-                  Published
+                  {{ item.slug }}
                 </p>
               </div>
               <svg class="h-5 w-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">

@@ -55,6 +55,39 @@ describe('post index tests', async () => {
     expect(post?.authors?.[0].userId).toBe(userId)
   })
 
+  it('lists sites correctly with draft', async () => {
+    const draftTitle = 'Draft Post'
+    const update = {
+      postId: createdPost?.postId || '',
+      _action: 'saveDraft',
+      fields: { title: draftTitle },
+      orgId,
+      userId,
+    } as const
+
+    await fictionPosts.queries.ManagePost.serve(update, {})
+
+    const listParams = { _action: 'list', orgId, loadDraft: true } as const
+
+    const result = await fictionPosts.queries.ManagePostIndex.serve(listParams, {})
+
+    expect(result.status).toBe('success')
+    expect(result.data).toBeInstanceOf(Array)
+    expect(result.data?.length).toBe(1)
+
+    const post = result.data?.[0]
+
+    expect(post?.title).toBe(draftTitle)
+
+    const listParams2 = { _action: 'list', orgId, loadDraft: false } as const
+
+    const result2 = await fictionPosts.queries.ManagePostIndex.serve(listParams2, {})
+
+    const post2 = result2.data?.[0]
+
+    expect(post2?.title).toBe(createdPost?.title)
+  })
+
   it('deletes selected posts', async () => {
     const deleteParams = {
       _action: 'delete' as const,
@@ -100,14 +133,27 @@ describe('post crud tests', async () => {
     expect(createdPost?.userId).toBe(userId)
     expect(createdPost?.postId).toBeTruthy()
     expect(createdPost?.createdAt).toBeTruthy()
-    expect(createdPost?.date).toBeFalsy()
+    expect(createdPost?.dateAt).toBeFalsy()
+    expect(createdPost?.slug).toBe('new-post')
 
     expect(result.message).toBe('Post created')
+
+    const create2 = {
+      _action: 'create',
+      fields: { title: 'New Post' },
+      orgId,
+      userId,
+    } as const
+
+    const result2 = await fictionPosts.queries.ManagePost.serve(create2, {})
+
+    expect(result2.data?.slug).toBe(`new-post-1`)
   })
 
   it('updates a post', async () => {
     const update = {
       _action: 'update',
+      orgId,
       postId: createdPost?.postId || '',
       fields: {
         title: 'Updated Post',
@@ -124,7 +170,7 @@ describe('post crud tests', async () => {
     expect(updateResult.message).toBe('Post updated')
     expect(updateResult.data?.status).toBe('published')
     expect(updateResult.data?.postId).toBe(update.postId)
-    expect(updateResult.data?.date).toStrictEqual(updateResult.data?.updatedAt)
+    expect(updateResult.data?.dateAt).toStrictEqual(updateResult.data?.updatedAt)
   })
 
   it('retrieves a post', async () => {
@@ -147,19 +193,20 @@ describe('post crud tests', async () => {
       _action: 'saveDraft',
       postId: createdPost?.postId || '',
       fields: { ...createdPost, title: newTitle },
+      orgId,
     } as const
 
     const r = await fictionPosts.queries.ManagePost.serve(draftParams, {})
 
     expect(r.status).toBe('success')
-    expect(r.data?.draft.title).toBe(newTitle)
-    expect(r.data?.title).not.toBe(newTitle)
+    expect(r.data?.title).toBe(newTitle)
   })
 
   it('deletes a post', async () => {
     const deleteAction = {
       _action: 'delete',
       postId: createdPost?.postId || '',
+      orgId,
     } as const
 
     const deleteResult = await fictionPosts.queries.ManagePost.serve(deleteAction, {})

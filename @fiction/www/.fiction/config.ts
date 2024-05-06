@@ -256,6 +256,7 @@ export interface CompiledServiceConfig {
       | 'status'
       | 'userConfig'
       | 'isPublished'
+      | 'isDirty'
       | 'publishAt'
       | 'dateAt'
       | 'draft'

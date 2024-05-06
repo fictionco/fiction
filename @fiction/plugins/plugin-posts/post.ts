@@ -15,7 +15,7 @@ export class Post extends FictionObject<PostConfig> {
   image = vue.ref(this.settings.image || {})
   dateAt = vue.ref(this.settings.dateAt || new Date().toISOString())
   userConfig = vue.ref(this.settings.userConfig || {})
-  isDirty = vue.ref(false)
+  isDirty = vue.ref(this.settings.isDirty || false)
   saveTimeout: ReturnType<typeof setTimeout> | null = null // Store timeout reference
 
   constructor(settings: PostConfig) {
@@ -82,6 +82,7 @@ export class Post extends FictionObject<PostConfig> {
       userConfig: this.userConfig.value,
       image: this.image.value,
       dateAt: this.dateAt.value,
+      isDirty: this.isDirty.value,
     }
   }
 }

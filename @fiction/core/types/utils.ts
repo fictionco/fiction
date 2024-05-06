@@ -104,6 +104,8 @@ export type IndexItem = {
   tags?: ActionItem[]
   authors?: User[]
   figure?: Figure
+  media?: MediaDisplayObject
+  slug?: string
 } & NavItem
 
 // @deprecated

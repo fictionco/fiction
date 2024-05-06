@@ -1,5 +1,5 @@
 import type { DataFilter, EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser } from '@fiction/core'
-import { Query, objectId, standardTable } from '@fiction/core'
+import { Query, incrementSlugId, objectId, standardTable, toSlug } from '@fiction/core'
 import type { TablePostConfig } from './schema'
 import { tableNames } from './schema'
 import type { FictionPosts } from '.'
@@ -98,14 +98,23 @@ export class QueryManagePost extends PostsQuery {
 
   private async updatePost(params: ManagePostParams & { _action: 'update' }): Promise<TablePostConfig | undefined> {
     const db = this.db()
-    const { postId, fields } = params
+    const { postId, fields, orgId } = params
+
+    if (!postId)
+      throw this.abort('postId is required to update a post')
+
+    if (!orgId)
+      throw this.abort('orgId is required to update a post')
 
     fields.updatedAt = new Date().toISOString()
 
     // Retrieve current post details
-    const currentPost = await this.getPost(postId, { select: ['status', 'dateAt'] })
+    const currentPost = await this.getPost(postId, { select: ['status', 'dateAt', 'slug'] })
     if (!currentPost)
       throw this.abort('Post not found', { data: params })
+
+    if (fields.slug && fields.slug !== currentPost.slug)
+      fields.slug = await this.getSlugId({ orgId, postId, fields })
 
     // Set date to current time if status changes and date is still empty
     if (!fields.dateAt && fields.status && fields.status !== 'draft' && currentPost.status === 'draft' && !currentPost.dateAt)
@@ -116,12 +125,39 @@ export class QueryManagePost extends PostsQuery {
     return this.getPost(postId, params)
   }
 
+  private async isSlugTaken(orgId: string, slug: string, postId?: string): Promise<boolean> {
+    const existingPost = await this.db()(tableNames.posts)
+      .where({ orgId, slug })
+      .andWhere((builder) => {
+        if (postId)
+          void builder.whereNot({ postId })
+      })
+      .first()
+
+    return !!existingPost
+  }
+
+  private async getSlugId(args: { orgId: string, postId?: string, fields: Partial<TablePostConfig> }) {
+    const { orgId, postId, fields: { slug, title } } = args
+
+    let currentSlug = slug || toSlug(title) || 'post'
+
+    // Continuously check for uniqueness and adjust the slug if necessary
+    while (await this.isSlugTaken(orgId, currentSlug, postId))
+      currentSlug = incrementSlugId(currentSlug)
+
+    return currentSlug
+  }
+
   private async createPost(params: ManagePostParams & { _action: 'create' }): Promise<TablePostConfig | undefined> {
     const db = this.db()
     const { fields, orgId, userId } = params
 
     if (!orgId || !userId)
       throw this.abort('userId and orgId are required to create a post')
+
+    // Ensure the slug is unique within the organization
+    fields.slug = await this.getSlugId({ orgId, fields })
 
     const fieldsWithOrg = { type: 'post', status: 'draft', ...fields, orgId, userId }
     const [{ postId }] = await db(tableNames.posts).insert(fieldsWithOrg).returning('postId')
@@ -171,7 +207,7 @@ export class QueryManagePost extends PostsQuery {
         draft_history: draftHistory,
       })
 
-    return this.getPost(postId)
+    return this.getPost(postId, { loadDraft: true })
   }
 }
 
@@ -181,6 +217,7 @@ export type ManageIndexParamsRequest = {
   offset?: number
   selectedIds?: string[]
   filters?: DataFilter[]
+  loadDraft?: boolean
 }
 
 export type ManageIndexParams = ManageIndexParamsRequest & { userId?: string, orgId?: string }
@@ -204,11 +241,23 @@ export class ManagePostIndex extends PostsQuery {
     }
   }
 
-  private async list({ orgId, limit = 10, offset = 0, filters = [] }: ManageIndexParams): Promise<ManageIndexResponse> {
+  private async list(args: ManageIndexParams): Promise<ManageIndexResponse> {
+    const { orgId, limit = 10, offset = 0, filters = [], loadDraft = false } = args
+
     if (!orgId)
       throw this.abort('orgId is required to list posts')
 
-    const posts = await this.fetchPosts(orgId, limit, offset, filters)
+    let posts = await this.fetchPosts({ orgId, limit, offset, filters })
+
+    if (loadDraft) {
+      posts = posts.map((post) => {
+        if (post.draft)
+          return { ...post, ...post.draft }
+
+        return post
+      })
+    }
+
     const allAuthorIds = posts.map(post => post.userId).filter(Boolean) as string[]
     const allAuthors = await this.fetchAuthors(allAuthorIds)
 
@@ -226,7 +275,8 @@ export class ManagePostIndex extends PostsQuery {
     }
   }
 
-  private async fetchPosts(orgId: string, limit: number, offset: number, filters: DataFilter[]) {
+  private async fetchPosts(args: { orgId: string, limit: number, offset: number, filters: DataFilter[] }) {
+    const { orgId, limit, offset, filters } = args
     const query = this.db()
       .select<TablePostConfig[]>('*')
       .from(tableNames.posts)

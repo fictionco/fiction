@@ -10,8 +10,7 @@ type UserConfig = {
 defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
-
-//
+const _x = true
 </script>
 
 <template>

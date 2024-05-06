@@ -1,29 +1,50 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
+import { useService, vue } from '@fiction/core'
 import ElAvatar from '@fiction/ui/ElAvatar.vue'
 import ElIndexGrid from '@fiction/ui/ElIndexGrid.vue'
 import type { Card } from '@fiction/site/card'
 import ElZeroBanner from '@fiction/ui/ElZeroBanner.vue'
 import type { TablePostConfig } from '../schema'
+import { managePostIndex } from '../utils'
+import type { FictionPosts } from '..'
+import type { Post } from '../post'
 
-defineProps({
+const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
-const posts = vue.ref<TablePostConfig[]>([])
+const service = useService<{ fictionPosts: FictionPosts }>()
+
+const posts = vue.shallowRef<Post[]>([])
 
 const list = vue.computed(() => {
-  return posts.value.map((ext) => {
+  return posts.value.map((p) => {
     return {
-      ...ext,
-      key: ext.postId,
+      ...p.toConfig(),
+      key: p.postId,
+      name: p.title.value || 'Untitled',
+      desc: p.subTitle.value || 'No description',
+      href: props.card.link(`/post-edit?postId=${p.postId}`),
+      media: p.image.value,
     }
   })
+})
+
+const loading = vue.ref(true)
+async function load() {
+  loading.value = true
+  const createParams = { _action: 'list', fields: { }, loadDraft: true } as const
+  posts.value = await managePostIndex({ fictionPosts: service.fictionPosts, params: createParams })
+  loading.value = false
+}
+
+vue.onMounted(async () => {
+  await load()
 })
 </script>
 
 <template>
-  <ElIndexGrid :list="list">
+  <ElIndexGrid :list="list" :loading="loading">
     <template #item="{ item }">
       <div class="flex -space-x-0.5">
         <dt class="sr-only">
