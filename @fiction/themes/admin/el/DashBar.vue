@@ -26,7 +26,7 @@ const emit = defineEmits<{
         <RouterLink :to="card.link('/')" class="active:opacity-80 sm:hidden">
           <ElImage class="h-[21px]" :media="card.userConfig.value.homeIcon" />
         </RouterLink>
-        <div class="hidden text-xl font-semibold sm:block">
+        <div class="hidden text-xl font-bold sm:block font-sans text-theme-700">
           {{ card.site.currentPage.value?.title.value }}
         </div>
       </div>

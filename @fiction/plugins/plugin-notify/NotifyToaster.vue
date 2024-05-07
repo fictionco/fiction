@@ -68,13 +68,13 @@ vue.onMounted(() => {
         <div
           v-for="(toast, i) in topToasts"
           :key="i"
-          class="pointer-events-auto mb-4 w-full max-w-xs overflow-hidden rounded-full bg-black/80 dark:bg-white/95 text-sm text-white dark:text-theme-1000 shadow-xl ring-1 ring-black/10 transition-all duration-300"
+          class="pointer-events-auto mb-4 w-full max-w-xs overflow-hidden rounded-full bg-black/80 dark:bg-theme-600 text-sm text-white dark:text-theme-0 shadow-xl border border-black dark:border-theme-500 transition-all duration-300"
           :class="[toast.type]"
         >
           <div class="py-2 pl-2 pr-4">
             <div class="flex items-center justify-between">
               <div class="ml-4 capitalize">
-                <div class="text-xs font-semibold tracking-tight">
+                <div class="text-sm font-semibold tracking-tight">
                   {{ capitalizeFirstLetter(toast.message) }}
                 </div>
                 <div v-if="toast.more" class="text-xs opacity-80">
@@ -82,7 +82,7 @@ vue.onMounted(() => {
                 </div>
               </div>
               <div
-                class="shrink-0"
+                class="shrink-0 flex items-center"
                 :class="
                   toast.type === 'success'
                     ? 'text-emerald-500'

@@ -32,7 +32,7 @@ export function textInputClasses(args: { inputClass: string }) {
     'py-input-y',
     'text-[.9em]',
     'input-shadow-sm',
-    'border-theme-200 dark:border-theme-600 focus:border-theme-400 dark:focus:border-theme-500',
+    'border-theme-300 dark:border-theme-600 focus:border-theme-400 dark:focus:border-theme-500',
     'placeholder:text-theme-300 dark:placeholder:text-theme-600',
     'bg-theme-50 dark:bg-theme-900',
     'text-theme-800 dark:text-theme-0',

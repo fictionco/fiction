@@ -128,6 +128,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
 
     const router = this.settings.fictionRouter.create({ caller: `mountApp:${this.appInstanceId}` })
 
+
     if (renderRoute)
       await this.settings.fictionRouter.replace({ path: renderRoute }, { caller: 'createVueApp' })
 
@@ -163,6 +164,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
 
     if (serviceConfig)
       await this.settings.fictionEnv.crossRunCommand({ context: 'app', serviceConfig, runVars })
+
 
     const entry = await this.createVueApp({ renderRoute, runVars, service })
 

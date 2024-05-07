@@ -6,6 +6,7 @@ const props = defineProps({
   modelValue: { type: [String], default: '' },
   inputClass: { type: String, default: '' },
   includeTime: { type: Boolean, default: false },
+  dateMode: { type: String as vue.PropType<'future' | 'past' | 'any'>, default: 'any' },
 })
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: string): void
@@ -18,8 +19,11 @@ function handleEmit(target: EventTarget | null): void {
   emit('update:modelValue', isoValue)
 }
 
+const dateFormat = vue.computed(() => {
+  return props.includeTime ? 'YYYY-MM-DDTHH:mm' : 'YYYY-MM-DD'
+})
 const inputValue = vue.computed(() => {
-  return dayjs(props.modelValue).format(props.includeTime ? 'YYYY-MM-DDTHH:mm' : 'YYYY-MM-DD')
+  return dayjs(props.modelValue).format(dateFormat.value)
 })
 
 const dateEl = vue.ref<HTMLInputElement>()
@@ -27,16 +31,29 @@ const mode = vue.ref<'dark' | 'light'>()
 vue.onMounted(() => {
   mode.value = isDarkOrLightMode(dateEl.value)
 })
+
+const minDate = vue.computed(() => {
+  return props.dateMode === 'future' ? dayjs().format(dateFormat.value) : undefined
+})
+
+const maxDate = vue.computed(() => {
+  return props.dateMode === 'past' ? dayjs().format(dateFormat.value) : undefined
+})
 </script>
 
 <template>
   <input
     ref="dateEl"
+    name="date-input"
     :data-value="modelValue"
+    :data-min-date="minDate"
+    :data-max-date="maxDate"
     :class="textInputClasses({ inputClass })"
     :type="includeTime ? 'datetime-local' : 'date'"
     :value="inputValue"
     :style="{ colorScheme: mode }"
+    :min="minDate"
+    :max="maxDate"
     @input="handleEmit($event.target)"
   >
 </template>

@@ -28,12 +28,6 @@ const options = vue.computed(() => {
   const activeOrganizationId = service.fictionUser.activeOrgId.value
   return [
     new InputOption({
-      key: 'status',
-      label: 'Publication Status',
-      input: 'InputSelectCustom',
-      list: ['draft', 'published', 'archived', 'hidden'],
-    }),
-    new InputOption({
       key: 'slug',
       label: 'Slug',
       input: 'InputUsername',

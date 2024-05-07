@@ -1,5 +1,5 @@
 import type { DataFilter, EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser } from '@fiction/core'
-import { Query, incrementSlugId, objectId, standardTable, toSlug } from '@fiction/core'
+import { Query, incrementSlugId, objectId, prepareFields, standardTable, toSlug } from '@fiction/core'
 import type { TablePostConfig } from './schema'
 import { tableNames } from './schema'
 import type { FictionPosts } from '.'
@@ -56,22 +56,22 @@ export class QueryManagePost extends PostsQuery {
 
     switch (params._action) {
       case 'get':
-        post = await this.getPost(params.postId, params)
+        post = await this.getPost(params, _meta)
         break
       case 'update':
-        post = await this.updatePost(params)
+        post = await this.updatePost(params, _meta)
         message = 'Post updated'
         break
       case 'create':
-        post = await this.createPost(params)
+        post = await this.createPost(params, _meta)
         message = 'Post created'
         break
       case 'delete':
-        await this.deletePost(params.postId)
+        await this.deletePost(params.postId, _meta)
         message = 'Post deleted'
         break
       case 'saveDraft':
-        post = await this.saveDraft(params)
+        post = await this.saveDraft(params, _meta)
         break
       default:
         return { status: 'error', message: 'Invalid action' }
@@ -80,8 +80,8 @@ export class QueryManagePost extends PostsQuery {
     return { status: 'success', data: post, message }
   }
 
-  private async getPost(postId: string, options: { loadDraft?: boolean, select?: (keyof TablePostConfig)[] | ['*'] } = {}): Promise<TablePostConfig | undefined> {
-    const { select = ['*'], loadDraft = false } = options
+  private async getPost(options: { postId: string, loadDraft?: boolean, select?: (keyof TablePostConfig)[] | ['*'] }, _meta: EndpointMeta): Promise<TablePostConfig | undefined> {
+    const { postId, select = ['*'], loadDraft = false } = options
     const db = this.db()
     const query = db.select(select).from(tableNames.posts).where({ postId })
 
@@ -96,7 +96,7 @@ export class QueryManagePost extends PostsQuery {
     return post
   }
 
-  private async updatePost(params: ManagePostParams & { _action: 'update' }): Promise<TablePostConfig | undefined> {
+  private async updatePost(params: ManagePostParams & { _action: 'update' }, _meta: EndpointMeta): Promise<TablePostConfig | undefined> {
     const db = this.db()
     const { postId, fields, orgId } = params
 
@@ -109,20 +109,30 @@ export class QueryManagePost extends PostsQuery {
     fields.updatedAt = new Date().toISOString()
 
     // Retrieve current post details
-    const currentPost = await this.getPost(postId, { select: ['status', 'dateAt', 'slug'] })
+    const currentPost = await this.getPost({ postId, select: ['status', 'dateAt', 'slug'] }, _meta)
     if (!currentPost)
       throw this.abort('Post not found', { data: params })
 
     if (fields.slug && fields.slug !== currentPost.slug)
       fields.slug = await this.getSlugId({ orgId, postId, fields })
 
+    const prepped = prepareFields({ type: 'settings', fields, table: tableNames.posts, meta: _meta, fictionDb: this.settings.fictionDb })
+
     // Set date to current time if status changes and date is still empty
-    if (!fields.dateAt && fields.status && fields.status !== 'draft' && currentPost.status === 'draft' && !currentPost.dateAt)
-      fields.dateAt = fields.updatedAt
+    if (!prepped.dateAt && prepped.status && prepped.status !== 'draft' && currentPost.status === 'draft' && !currentPost.dateAt)
+      prepped.dateAt = prepped.updatedAt
+
+    const keysToRemove = ['postId', 'orgId']
+
+    keysToRemove.forEach((key) => {
+      delete prepped[key as keyof typeof prepped]
+    })
+
+    prepped.draft = {}
 
     // Update the post and return the updated post details
-    await db(tableNames.posts).update(fields).where({ postId })
-    return this.getPost(postId, params)
+    await db(tableNames.posts).update(prepped).where({ postId })
+    return this.getPost(params, _meta)
   }
 
   private async isSlugTaken(orgId: string, slug: string, postId?: string): Promise<boolean> {
@@ -149,7 +159,7 @@ export class QueryManagePost extends PostsQuery {
     return currentSlug
   }
 
-  private async createPost(params: ManagePostParams & { _action: 'create' }): Promise<TablePostConfig | undefined> {
+  private async createPost(params: ManagePostParams & { _action: 'create' }, _meta: EndpointMeta): Promise<TablePostConfig | undefined> {
     const db = this.db()
     const { fields, orgId, userId } = params
 
@@ -162,19 +172,19 @@ export class QueryManagePost extends PostsQuery {
     const fieldsWithOrg = { type: 'post', status: 'draft', ...fields, orgId, userId }
     const [{ postId }] = await db(tableNames.posts).insert(fieldsWithOrg).returning('postId')
 
-    return this.getPost(postId)
+    return this.getPost({ postId }, _meta)
   }
 
-  private async deletePost(postId: string): Promise<TablePostConfig | undefined> {
+  private async deletePost(postId: string, _meta: EndpointMeta): Promise<TablePostConfig | undefined> {
     const db = this.db()
     // Ensure the post exists before deleting it, error if it doesn't
-    const post = await this.getPost(postId)
+    const post = await this.getPost({ postId }, _meta)
     await db(tableNames.posts).where({ postId }).delete()
 
     return post
   }
 
-  private async saveDraft(params: ManagePostParams & { _action: 'saveDraft' }): Promise<TablePostConfig | undefined> {
+  private async saveDraft(params: ManagePostParams & { _action: 'saveDraft' }, _meta: EndpointMeta): Promise<TablePostConfig | undefined> {
     const db = this.db()
     const { postId, fields } = params
 
@@ -196,8 +206,15 @@ export class QueryManagePost extends PostsQuery {
       draftHistory.push({ ...draft, archiveAt: now.toISOString() }) // Archive the current draft
       draft.createdAt = now.toISOString() // Reset creation time for a new draft
     }
+    const prepped = prepareFields({ type: 'settings', fields, table: tableNames.posts, meta: _meta, fictionDb: this.settings.fictionDb })
 
-    const newDraft = { draftId: objectId({ prefix: 'dft' }), ...draft, ...fields, updatedAt: now, createdAt: draft.createdAt }
+    const keysToRemove = ['draft', 'draftHistory', 'createdAt', 'updatedAt', 'postId', 'userId', 'orgId', 'status']
+
+    keysToRemove.forEach((key) => {
+      delete prepped[key as keyof typeof prepped]
+    })
+
+    const newDraft = { draftId: objectId({ prefix: 'dft' }), ...draft, ...prepped, updatedAt: now, createdAt: draft.createdAt }
 
     // Persist the updated draft and history
     await db(tableNames.posts)
@@ -207,7 +224,7 @@ export class QueryManagePost extends PostsQuery {
         draft_history: draftHistory,
       })
 
-    return this.getPost(postId, { loadDraft: true })
+    return this.getPost({ postId, loadDraft: true }, _meta)
   }
 }
 

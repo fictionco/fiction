@@ -1,4 +1,13 @@
-export type PostStatus = 'draft' | 'published' | 'hidden' | 'protected'
+export type PostStatus =
+  | 'draft'
+  | 'scheduled'
+  | 'published'
+  | 'hidden'
+  | 'protected'
+  | 'deleted'
+  | 'archived'
+  | 'trashed'
+  | 'spam'
 
 export type ProgressStatus =
   | 'pending'

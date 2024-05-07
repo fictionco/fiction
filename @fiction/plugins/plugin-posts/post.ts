@@ -7,6 +7,7 @@ export type PostConfig = { fictionPosts: FictionPosts } & TablePostConfig
 
 export class Post extends FictionObject<PostConfig> {
   postId = this.settings.postId || objectId({ prefix: 'pst' })
+  status = vue.ref(this.settings.status || 'draft')
   title = vue.ref(this.settings.title || '')
   subTitle = vue.ref(this.settings.subTitle || '')
   excerpt = vue.ref(this.settings.excerpt || '')
@@ -16,6 +17,7 @@ export class Post extends FictionObject<PostConfig> {
   dateAt = vue.ref(this.settings.dateAt || new Date().toISOString())
   userConfig = vue.ref(this.settings.userConfig || {})
   isDirty = vue.ref(this.settings.isDirty || false)
+  publishAt = vue.ref(this.settings.publishAt)
   saveTimeout: ReturnType<typeof setTimeout> | null = null // Store timeout reference
 
   constructor(settings: PostConfig) {
@@ -25,7 +27,7 @@ export class Post extends FictionObject<PostConfig> {
   update(postConfig: Partial<TablePostConfig>) {
     if (!postConfig)
       return
-    const availableKeys = ['title', 'subTitle', 'content', 'slug', 'userConfig', 'image', 'excerpt', 'dateAt']
+    const availableKeys = ['title', 'subTitle', 'content', 'slug', 'userConfig', 'image', 'excerpt', 'dateAt', 'publishAt']
     const entries = Object.entries(postConfig).filter(([key]) => availableKeys.includes(key))
     entries.forEach(([key, value]) => {
       const k = this[key as keyof this]
@@ -55,14 +57,22 @@ export class Post extends FictionObject<PostConfig> {
     this.clearAutosave()
 
     this.saveTimeout = setTimeout(() => {
-      this.save('draft').catch(console.error) // Error handling
+      this.save({ mode: 'draft' }).catch(console.error) // Error handling
     }, 2000) // Set a new timeout for 10 seconds
   }
 
-  async save(mode: 'publish' | 'draft' = 'draft') {
+  async save(args: { mode: 'publish' | 'draft' | 'schedule', publishAt?: string }) {
+    const { mode = 'draft' } = args
     this.log.info(`Saving post: ${mode}`)
     const _action = mode === 'publish' ? 'update' : 'saveDraft'
-    const params = { _action, postId: this.postId, fields: this.toConfig() } as const
+
+    const fields = mode === 'publish'
+      ? { ...this.toConfig(), status: 'published', isPublished: true } as const
+      : mode === 'schedule'
+        ? { ...this.toConfig(), status: 'scheduled', isPublished: true, publishAt: args.publishAt } as const
+        : this.toConfig()
+
+    const params = { _action, postId: this.postId, fields } as const
     await managePost({ fictionPosts: this.settings.fictionPosts, params })
     this.isDirty.value = false
     this.clearAutosave()
@@ -83,6 +93,8 @@ export class Post extends FictionObject<PostConfig> {
       image: this.image.value,
       dateAt: this.dateAt.value,
       isDirty: this.isDirty.value,
+      publishAt: this.publishAt.value,
+      status: this.status.value,
     }
   }
 }

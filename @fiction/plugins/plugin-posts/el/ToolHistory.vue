@@ -19,8 +19,8 @@ const handles = vue.computed<Handle[]>(() => {
 
   return history?.map((item) => {
     return {
-      handleId: item.draftId,
-      title: item.title,
+      handleId: item.draftId || '',
+      title: item.title || 'Untitled',
       date: item.createdAt,
       icon: 'i-tabler-file',
       depth: 0,

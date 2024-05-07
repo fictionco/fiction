@@ -13,7 +13,7 @@ type PostMeta = { seoTitle: string, seoDescription: string, seoKeywords: string 
 export type TablePostConfig = Partial<CreateObjectType<typeof postCols>> & { authors?: User[], taxonomy?: TableTaxonomyConfig[], draftId?: string }
 export type TableTaxonomyConfig = Partial<CreateObjectType<typeof taxonomyCols>>
 
-export type PostDraft = { draftId: string, title: string, content: string, userConfig: PostUserConfig, createdAt: string, updatedAt: string }
+export type PostDraft = Partial<{ draftId: string, title: string, content: string, userConfig: PostUserConfig, createdAt: string, updatedAt: string }>
 
 const postCols = [
   new FictionDbCol({
@@ -104,16 +104,19 @@ const postCols = [
     key: 'isPublished',
     create: ({ schema, column }) => schema.boolean(column.pgKey).defaultTo(column.default()),
     default: () => false as boolean,
+    isSetting: true,
   }),
   new FictionDbCol({
     key: 'isDirty',
     create: ({ schema, column }) => schema.boolean(column.pgKey).defaultTo(column.default()),
     default: () => false as boolean,
+    isSetting: true,
   }),
   new FictionDbCol({
     key: 'publishAt',
     create: ({ schema, column }) => schema.timestamp(column.pgKey),
     default: () => '' as string,
+    isSetting: true,
   }),
   new FictionDbCol({
     key: 'dateAt',
@@ -141,6 +144,7 @@ const postCols = [
     key: 'archiveAt',
     create: ({ schema, column }) => schema.timestamp(column.pgKey),
     default: () => '' as string,
+    isSetting: true,
   }),
   new FictionDbCol({
     key: 'meta',

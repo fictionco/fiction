@@ -10,7 +10,7 @@ export function getButtonClasses(args: { btn: UiElementStyle | string, size: UiE
   const hoverStyles = {
     danger: 'hover:bg-rose-400 dark:hover:bg-rose-800',
     caution: 'hover:bg-amber-400 dark:hover:bg-amber-600',
-    primary: 'hover:bg-primary-600 dark:hover:bg-primary-900 hover:border-primary-600 dark:hover:border-primary-900',
+    primary: 'hover:bg-primary-600 dark:hover:bg-primary-900 hover:border-primary-600 dark:hover:border-primary-700',
     success: 'hover:bg-emerald-400 dark:hover:bg-emerald-600',
     theme: 'hover:bg-theme-400 dark:hover:bg-theme-500/60',
     default: 'hover:bg-theme-100 dark:hover:bg-theme-900',
@@ -19,11 +19,11 @@ export function getButtonClasses(args: { btn: UiElementStyle | string, size: UiE
   const staticStyles = {
     danger: 'border bg-rose-500 dark:bg-rose-900 focus-visible:outline-rose-500 text-rose-50 dark:text-rose-0 border-rose-500 dark:border-rose-600',
     caution: 'border bg-amber-500 dark:bg-amber-700 focus-visible:outline-amber-500 text-amber-50 border-amber-500 dark:border-amber-600',
-    primary: 'border bg-primary-500 dark:bg-primary-800 focus-visible:outline-primary-600 text-primary-50 border-primary-500 dark:border-primary-600',
+    primary: 'border bg-primary-500 dark:bg-primary-800 focus-visible:outline-primary-600 text-primary-0 border-primary-500 dark:border-primary-600',
     success: 'border bg-emerald-500 dark:bg-emerald-900 focus-visible:outline-emerald-500 text-emerald-50 border-emerald-500 dark:border-emerald-600',
     theme: 'border bg-theme-500 dark:bg-theme-600 focus-visible:outline-theme-500 text-theme-0 border-theme-500 dark:border-theme-500',
     naked: '',
-    default: 'border bg-theme-0 dark:bg-theme-700 text-theme-600 dark:text-theme-0 border-theme-200 dark:border-theme-600',
+    default: 'border bg-theme-0 dark:bg-theme-700 text-theme-600 dark:text-theme-0 border-theme-300 dark:border-theme-600',
   }
 
   const sizes = {

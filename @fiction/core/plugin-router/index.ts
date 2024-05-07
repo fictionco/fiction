@@ -306,8 +306,11 @@ export class FictionRouter<
     else if ('path' in location)
       path = location.path
 
+    if (typeof path !== 'string')
+      this.log.error(`invalid path: ${path}`, { data: location })
+
     if (!this.fictionEnv?.isRendering)
-      this.log.info(`setting route ${path} [from ${caller}]`)
+      this.log.info(`replacing route ${path} [from ${caller}]`)
 
     await this.router.value.replace(location)
   }

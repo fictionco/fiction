@@ -36,7 +36,7 @@ defineProps({
           <ElImage :media="post.image.value" class="size-32 border border-theme-600 rounded-md bg-theme-800 overflow-hidden" />
         </div>
       </div>
-      <div class="border-b border-theme-700 my-12" />
+      <div class="border-b border-theme-200 dark:border-theme-700 my-12" />
       <ProseEditor
         :model-value="post.content.value"
         @update:model-value="post?.update({ content: $event as string })"
