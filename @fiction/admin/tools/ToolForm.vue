@@ -4,7 +4,7 @@ import { getNested, localRef, setNested } from '@fiction/core'
 import type { InputOption } from '@fiction/ui'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import TransitionSlide from '@fiction/ui/TransitionSlide.vue'
-import ElToolSep from '@fiction/admin/ElToolSep.vue'
+import ElToolSep from '@fiction/admin/tools/ElToolSep.vue'
 
 const props = defineProps({
   options: { type: Array as vue.PropType<InputOption[]>, required: true },

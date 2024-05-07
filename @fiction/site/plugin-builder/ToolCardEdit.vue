@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { useService, vue } from '@fiction/core'
-import ElTool from '@fiction/admin/ElTool.vue'
-import ElToolBanner from '@fiction/admin/ElToolBanner.vue'
-import ToolForm from '@fiction/admin/ToolForm.vue'
+import ElTool from '@fiction/admin/tools/ElTool.vue'
+import ElToolBanner from '@fiction/admin/tools/ElToolBanner.vue'
+import ToolForm from '@fiction/admin/tools/ToolForm.vue'
 import type { Site } from '../site'
 import type { FictionSites } from '..'
 import type { TableCardConfig } from '../tables'

@@ -1,4 +1,3 @@
-// @unocss-include
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import type { DataFilter, FictionApp, FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionRouter, FictionServer, FictionUser, IndexMeta } from '@fiction/core'
 

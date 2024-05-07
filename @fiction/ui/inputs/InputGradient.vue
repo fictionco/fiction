@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-// @unocss-include
 import { DraggableList, getGradientCss, vue } from '@fiction/core'
 import type { GradientItem, GradientSetting } from '@fiction/core'
 import InputColor from './InputColor.vue'

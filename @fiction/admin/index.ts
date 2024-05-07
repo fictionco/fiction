@@ -1,6 +1,6 @@
 import { envConfig, safeDirname } from '@fiction/core'
 
-export * from './tools'
+export * from './tools/tools'
 
 /**
  * Add path for tailwindcss to scan for styles

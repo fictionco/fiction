@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-// @unocss-include
+
 import type { ListItem, MenuGroup } from '@fiction/core'
 import { normalizeList, onResetUi, resetUi, vue } from '@fiction/core'
 import { getButtonClasses } from '../utils'

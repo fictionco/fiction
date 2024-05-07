@@ -3,10 +3,10 @@ import { vue } from '@fiction/core'
 import type { ActionItem } from '@fiction/core'
 import type { EditorTool, Handle } from '@fiction/admin'
 
-import ElTool from '@fiction/admin/ElTool.vue'
-import ElToolBanner from '@fiction/admin/ElToolBanner.vue'
-import ELToolHandle from '@fiction/admin/ElToolHandle.vue'
-import DraggableSort from '@fiction/admin/DraggableSort.vue'
+import ElTool from '@fiction/admin/tools/ElTool.vue'
+import ElToolBanner from '@fiction/admin/tools/ElToolBanner.vue'
+import ELToolHandle from '@fiction/admin/tools/ElToolHandle.vue'
+import EffectDraggableSort from '@fiction/admin/el/EffectDraggableSort.vue'
 import { saveSite } from '../utils/site'
 import type { Site } from '../site'
 import { siteEditController } from './tools'
@@ -80,7 +80,7 @@ async function handleSorted(sorted: string[]) {
       />
       <template v-else>
         <div>
-          <DraggableSort class="space-y-2" @update:sorted="handleSorted($event)">
+          <EffectDraggableSort class="space-y-2" @update:sorted="handleSorted($event)">
             <ELToolHandle
               v-for="handle in handles"
               :key="handle.handleId"
@@ -88,7 +88,7 @@ async function handleSorted(sorted: string[]) {
               :handle="handle"
               :data-drag-id="handle.handleId"
             />
-          </DraggableSort>
+          </EffectDraggableSort>
         </div>
       </template>
     </div>

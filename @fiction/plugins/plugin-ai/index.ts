@@ -1,5 +1,3 @@
-// @unocss-include
-
 import type { FictionDb, FictionMedia, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
 import { EnvVar, FictionPlugin, safeDirname, vars, vue } from '@fiction/core'
 import { AiCompletion, AiImage, QueryManageVectors } from './endpoint'

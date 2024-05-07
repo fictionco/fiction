@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
 import type { EditorTool, Handle } from '@fiction/admin'
-import ElToolBanner from '@fiction/admin/ElToolBanner.vue'
-import ELToolHandle from '@fiction/admin/ElToolHandle.vue'
-import ElTool from '@fiction/admin/ElTool.vue'
+import ElToolBanner from '@fiction/admin/tools/ElToolBanner.vue'
+import ELToolHandle from '@fiction/admin/tools/ElToolHandle.vue'
+import ElTool from '@fiction/admin/tools/ElTool.vue'
 import type { Post } from '../post'
 
 const props = defineProps({

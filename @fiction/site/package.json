@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@fiction/cards": "workspace:*",
-    "@fiction/theme-admin": "workspace:*",
+    "@fiction/admin": "workspace:*",
     "@fiction/theme-fiction": "workspace:*",
     "playwright": "^1.44.0"
   },

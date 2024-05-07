@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useService, vue, waitFor } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import AdminEditItem from '@fiction/admin/AdminEditItem.vue'
+import ViewEditor from '@fiction/admin/ViewEditor.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import XTextBase from '@fiction/ui/XTextBase.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
@@ -72,7 +72,7 @@ vue.onMounted(async () => {
 
 <template>
   <div>
-    <AdminEditItem :tool-props="{ post }" :controller="postEditController" :loading="loading">
+    <ViewEditor :tool-props="{ post }" :controller="postEditController" :loading="loading">
       <template #headerLeft>
         <ElButton btn="default" :href="card.link('/')" class="shrink-0">
           <div class="i-tabler-home text-lg" />
@@ -110,7 +110,7 @@ vue.onMounted(async () => {
       <template #default>
         <div><ElPostEditor :post="post" /></div>
       </template>
-    </AdminEditItem>
+    </ViewEditor>
     <ElModal v-model:vis="vis" modal-class="max-w-screen-md p-24 ">
       <div v-if="post" class="relative max-w-xl mx-auto">
         <div class="text-center mb-8 ">

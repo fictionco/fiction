@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import type { IndexItem, MediaDisplayObject, MemberAccess, NavItem } from '@fiction/core'
-import { getAccessLevel, onResetUi, sortPriority, useService, vue } from '@fiction/core'
-import El404 from '@fiction/ui/El404.vue'
 import type { Card } from '@fiction/site/card'
-import ElEngine from '@fiction/cards/CardEngine.vue'
-import ElLoadingLogo from '@fiction/admin/el/ElLoadingLogo.vue'
 import DashNav from './DashNav.vue'
 import DashBar from './DashBar.vue'
 import DashDarkModeToggle from './DashDarkModeToggle.vue'
 import PreLaunch from './PreLaunch.vue'
+import type { IndexItem, MediaDisplayObject, MemberAccess, NavItem } from '@fiction/core'
+import { getAccessLevel, onResetUi, sortPriority, useService, vue } from '@fiction/core'
+import El404 from '@fiction/ui/El404.vue'
+import ElEngine from '@fiction/cards/CardEngine.vue'
+import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 
 export type UserConfig = {
   layoutFormat?: 'container' | 'full'
@@ -142,14 +142,14 @@ function toggleSidebar() {
           >
             <DashBar class="border-theme-300/70 dark:border-theme-700 border-b" :account-menu="accountMenu" :card="card" :site="site" @nav="toggleSidebar()" />
             <div
-              class="mx-auto pt-4 md:pt-8 md:pb-36 min-h-full bg-theme-0 dark:bg-theme-950"
+              class="mx-auto pt-4 md:pt-8 md:pb-36 min-h-full bg-theme-50/50 dark:bg-theme-950"
             >
               <div
                 v-if="loading"
                 class="text-theme-300 mx-auto flex h-[40vh] w-48 flex-col justify-center rounded-xl p-6 text-center"
               >
                 <div class="flex justify-center">
-                  <ElLoadingLogo class="w-12" />
+                  <ElSpinner class="size-12" />
                 </div>
               </div>
               <template v-else>

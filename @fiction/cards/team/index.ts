@@ -1,5 +1,3 @@
-// @unocss-include
-
 import { vue } from '@fiction/core'
 import { CardTemplate, createCard } from '@fiction/site'
 import { standardOption } from '../inputSets'

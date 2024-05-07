@@ -5,7 +5,7 @@ import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import El404 from '@fiction/ui/El404.vue'
 import XTextBase from '@fiction/ui/XTextBase.vue'
-import AdminEditItem from '@fiction/admin/AdminEditItem.vue'
+import ViewEditor from '@fiction/admin/ViewEditor.vue'
 import type { Site } from '../site'
 import type { FictionSites } from '..'
 import { getMountContext, loadSite } from '../load'
@@ -96,7 +96,7 @@ async function save() {
     </div>
     <El404 v-else-if="!site && !loading" heading="Site Not Found" sub-heading="No site was found here." />
     <template v-else>
-      <AdminEditItem :tool-props="{ site }" :controller="siteEditController">
+      <ViewEditor :tool-props="{ site }" :controller="siteEditController">
         <template #headerLeft>
           <ElButton btn="default" :href="card.link('/')">
             <div class="i-tabler-home text-lg" />
@@ -133,7 +133,7 @@ async function save() {
         <template #default>
           <SiteEditorFrame :site="site" />
         </template>
-      </AdminEditItem>
+      </ViewEditor>
     </template>
   </div>
 </template>

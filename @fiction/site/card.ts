@@ -1,4 +1,3 @@
-// @unocss-include
 import type { vueRouter } from '@fiction/core'
 import { FictionObject, deepMerge, objectId, setNested, toLabel, vue } from '@fiction/core'
 import type { InputOption } from '@fiction/ui'

@@ -1,5 +1,3 @@
-// @unocss-include
-
 import { vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { z } from 'zod'

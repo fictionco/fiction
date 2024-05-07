@@ -1,8 +1,7 @@
-// @unocss-include
-import type { FictionEnv } from '@fiction/core'
-import { safeDirname, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site/card'
 import { Theme, createCard } from '@fiction/site/theme'
+import type { FictionEnv } from '@fiction/core'
+import { safeDirname, vue } from '@fiction/core'
 import { standardCardTemplates } from '@fiction/cards'
 
 const def = vue.defineAsyncComponent

@@ -1,5 +1,3 @@
-// @unocss-include
-
 import type { ActionItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import { CardTemplate, createCard } from '@fiction/site'

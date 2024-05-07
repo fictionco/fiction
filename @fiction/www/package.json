@@ -12,7 +12,7 @@
     "@fiction/plugin-extend": "workspace:*",
     "@fiction/plugin-editor": "workspace:*",
     "@fiction/site": "workspace:*",
-    "@fiction/theme-admin": "workspace:*",
+    "@fiction/admin": "workspace:*",
     "@fiction/theme-fiction": "workspace:*",
     "@fiction/theme-minimal": "workspace:*",
     "@fiction/ui": "workspace:*",

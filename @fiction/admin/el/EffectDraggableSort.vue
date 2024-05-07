@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { vue, waitFor } from '@fiction/core'
-import TransitionList from './TransitionList.vue'
+import EffectTransitionList from './EffectTransitionList.vue'
 
 const props = defineProps({
   itemSelector: { type: String, default: '[data-drag-id]' },
@@ -66,8 +66,8 @@ vue.onMounted(async () => {
 
 <template>
   <div ref="wrapperEl" class="relative min-h-[30px] rounded-md">
-    <TransitionList>
+    <EffectTransitionList>
       <slot />
-    </TransitionList>
+    </EffectTransitionList>
   </div>
 </template>

@@ -176,9 +176,21 @@ importers:
 
   '@fiction/admin':
     dependencies:
+      '@fiction/admin':
+        specifier: workspace:*
+        version: 'link:'
+      '@fiction/cards':
+        specifier: workspace:*
+        version: link:../cards
       '@fiction/core':
         specifier: workspace:*
         version: link:../core
+      '@fiction/plugin-stripe':
+        specifier: workspace:*
+        version: link:../plugins/plugin-stripe
+      '@fiction/site':
+        specifier: workspace:*
+        version: link:../site
       '@fiction/ui':
         specifier: workspace:*
         version: link:../ui
@@ -734,6 +746,9 @@ importers:
 
   '@fiction/platform':
     dependencies:
+      '@fiction/admin':
+        specifier: workspace:*
+        version: link:../admin
       '@fiction/cards':
         specifier: workspace:*
         version: link:../cards
@@ -743,9 +758,6 @@ importers:
       '@fiction/site':
         specifier: workspace:*
         version: link:../site
-      '@fiction/theme-admin':
-        specifier: workspace:*
-        version: link:../themes/admin
       '@fiction/theme-fiction':
         specifier: workspace:*
         version: link:../themes/fiction
@@ -1078,42 +1090,12 @@ importers:
       '@fiction/cards':
         specifier: workspace:*
         version: link:../cards
-      '@fiction/theme-admin':
-        specifier: workspace:*
-        version: link:../themes/admin
       '@fiction/theme-fiction':
         specifier: workspace:*
         version: link:../themes/fiction
       playwright:
         specifier: ^1.44.0
         version: 1.44.0
-
-  '@fiction/themes/admin':
-    dependencies:
-      '@fiction/admin':
-        specifier: workspace:*
-        version: link:../../admin
-      '@fiction/cards':
-        specifier: workspace:*
-        version: link:../../cards
-      '@fiction/core':
-        specifier: workspace:*
-        version: link:../../core
-      '@fiction/plugin-stripe':
-        specifier: workspace:*
-        version: link:../../plugins/plugin-stripe
-      '@fiction/site':
-        specifier: workspace:*
-        version: link:../../site
-      '@fiction/ui':
-        specifier: workspace:*
-        version: link:../../ui
-      tailwindcss:
-        specifier: ^3.4.3
-        version: 3.4.3(ts-node@10.9.2(@types/node@20.12.10)(typescript@5.4.5))
-      vue:
-        specifier: ^3.4.27
-        version: 3.4.27(typescript@5.4.5)
 
   '@fiction/themes/fiction':
     dependencies:
@@ -1214,6 +1196,9 @@ importers:
 
   '@fiction/www':
     dependencies:
+      '@fiction/admin':
+        specifier: workspace:*
+        version: link:../admin
       '@fiction/cards':
         specifier: workspace:*
         version: link:../cards
@@ -1250,9 +1235,6 @@ importers:
       '@fiction/site':
         specifier: workspace:*
         version: link:../site
-      '@fiction/theme-admin':
-        specifier: workspace:*
-        version: link:../themes/admin
       '@fiction/theme-fiction':
         specifier: workspace:*
         version: link:../themes/fiction

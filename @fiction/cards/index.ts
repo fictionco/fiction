@@ -1,5 +1,3 @@
-// @unocss-include
-
 import { envConfig, safeDirname, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site/card'
 import { z } from 'zod'

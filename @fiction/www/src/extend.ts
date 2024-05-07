@@ -1,6 +1,6 @@
 import * as themeFiction from '@fiction/theme-fiction'
 import * as themeMinimal from '@fiction/theme-minimal'
-import * as themeAdmin from '@fiction/theme-admin'
+import * as themeAdmin from '@fiction/admin/theme'
 import type { FictionEnv } from '@fiction/core'
 import type { Theme } from '@fiction/site/theme'
 import type { FictionStripe } from '@fiction/plugins/plugin-stripe'
