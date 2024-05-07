@@ -138,6 +138,7 @@ const buttonClasses = twMerge([
   'focus:outline-none',
   'bg-theme-50',
   'dark:bg-theme-700',
+  'text-[.9em]',
   props.inputClass,
 ])
 </script>
@@ -213,7 +214,7 @@ const buttonClasses = twMerge([
       >
         <div
           v-if="active"
-          class="bg-theme-0 dark:bg-theme-700 ring-theme-200 dark:ring-theme-600 absolute z-50 mt-1 w-full rounded-md shadow-xl ring-1"
+          class="text-[.9em] bg-theme-0 dark:bg-theme-700 ring-theme-200 dark:ring-theme-600 absolute z-50 mt-1 w-full rounded-md shadow-xl ring-1"
         >
           <ul
             role="listbox"

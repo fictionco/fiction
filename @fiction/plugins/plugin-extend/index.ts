@@ -3,6 +3,7 @@ import { FictionPlugin } from '@fiction/core/plugin'
 import type { FictionUser } from '@fiction/core/plugin-user'
 import { safeDirname, vue } from '@fiction/core/utils'
 import type { FictionPluginSettings, PluginSetupArgs } from '@fiction/core/plugin'
+import { runServicesSetup } from '@fiction/core'
 import type { ExtensionLoader, ExtensionManifest } from './utils'
 import { loadAndInitializeExtensions } from './utils'
 
@@ -44,7 +45,7 @@ export class FictionExtend<T extends PluginIndexSettings = PluginIndexSettings> 
     } })
   }
 
-  override async setup(args: PluginSetupArgs) {
+  override async beforeSetup(args: PluginSetupArgs) {
     await this.addPlugins(args)
   }
 
@@ -70,6 +71,8 @@ export class FictionExtend<T extends PluginIndexSettings = PluginIndexSettings> 
     }
 
     const service = await loadAndInitializeExtensions({ extensions: this.extensions.value, settings: this.settings, installIds })
+
+    await runServicesSetup(service, { context })
 
     const s = this.settings.fictionEnv.service.value
     this.settings.fictionEnv.service.value = { ...s, ...service }

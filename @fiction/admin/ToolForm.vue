@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { getNested, localRef, setNested, vue } from '@fiction/core'
+import type { vue } from '@fiction/core'
+import { getNested, localRef, setNested } from '@fiction/core'
 import type { InputOption } from '@fiction/ui'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import TransitionSlide from '@fiction/ui/TransitionSlide.vue'
@@ -30,12 +31,6 @@ function hide(key: string, val?: boolean) {
 function getOptionPath(key: string) {
   return props.basePath ? `${props.basePath}.${key}` : key
 }
-
-const attrs = vue.useAttrs()
-const passProps = vue.computed(() => {
-  const { class: _, ...rest } = attrs
-  return rest
-})
 </script>
 
 <template>
@@ -53,17 +48,15 @@ const passProps = vue.computed(() => {
           ]"
         >
           <div
-            class=" py-2 px-4 text-xs flex justify-between cursor-pointer items-center hover:opacity-90"
+            class=" select-none py-2 px-4 text-xs flex justify-between cursor-pointer items-center hover:opacity-90 antialiased"
             :class="[
               !hide(opt.key.value) || depth === 0 ? 'border-b ' : '',
-              hide(opt.key.value) ? 'bg-primary-50 dark:bg-theme-700 text-primary-600 dark:text-theme-100 border-primary-200 dark:border-theme-500' : 'border-theme-200 dark:border-theme-700 text-theme-500 dark:text-theme-100 hover:bg-theme-50 dark:hover:bg-theme-800 active:bg-theme-100 dark:active:bg-theme-700',
+              hide(opt.key.value) ? 'bg-theme-50 dark:bg-theme-700 text-theme-600 dark:text-theme-100 border-primary-200 dark:border-theme-500' : 'border-theme-200 dark:border-theme-700 text-theme-500/50 dark:text-theme-100 hover:bg-theme-50 dark:hover:bg-theme-800 active:bg-theme-100 dark:active:bg-theme-700',
             ]"
             @click="hide(opt.key.value, !hide(opt.key.value))"
           >
             <div class="font-semibold" v-html="opt.label.value" />
-            <div v-if="opt.key.value" class="text-lg">
-              <div class="i-tabler-chevron-up transition-all" :class="hide(opt.key.value) ? 'rotate-180' : ''" />
-            </div>
+            <div v-if="opt.key.value" class="text-lg i-tabler-chevron-up transition-all" :class="hide(opt.key.value) ? 'rotate-180' : ''" />
           </div>
           <TransitionSlide>
             <div v-show="!hide(opt.key.value)">
@@ -93,7 +86,7 @@ const passProps = vue.computed(() => {
             class="setting-input"
             v-bind="{ ...inputProps, ...opt.outputProps.value }"
             :input="opt.input.value"
-            input-class="bg-theme-50 dark:bg-theme-800 text-theme-700 dark:text-theme-25 border-theme-200 dark:border-theme-600"
+            input-class="bg-theme-50 dark:bg-theme-800 text-theme-700 dark:text-theme-25 border-theme-300/70 dark:border-theme-600"
             :model-value="getNested({ path: getOptionPath(opt.key.value), data: modelValue })"
             @update:model-value="emit('update:modelValue', setNested({ path: getOptionPath(opt.key.value), data: modelValue, value: $event }))"
           />

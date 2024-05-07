@@ -38,7 +38,9 @@ async function publish(mode: 'publish' | 'schedule' = 'publish') {
   sending.value = 'publish'
 
   // min 1 second for UX reasons
-  await Promise.all([waitFor(1000), post.value.save({ mode })])
+  await waitFor(500)
+
+  await post.value.save({ mode })
 
   sending.value = ''
   vis.value = false
@@ -72,33 +74,28 @@ vue.onMounted(async () => {
   <div>
     <AdminEditItem :tool-props="{ post }" :controller="postEditController" :loading="loading">
       <template #headerLeft>
-        <ElButton btn="default" :href="card.link('/')">
+        <ElButton btn="default" :href="card.link('/')" class="shrink-0">
           <div class="i-tabler-home text-lg" />
         </ElButton>
         <div class="flex space-x-1 font-medium">
           <RouterLink
-            class="text-theme-400 dark:text-theme-300  pr-1 hover:text-primary-500 dark:hover:text-theme-0 flex items-center gap-1"
+            class=" whitespace-nowrap text-theme-400 dark:text-theme-300  pr-1 hover:text-primary-500 dark:hover:text-theme-0 flex items-center gap-1"
             :to="card.link('/posts')"
           >
             <span class="i-tabler-pin text-xl inline-block dark:text-theme-500" />
             <span>Edit Post</span>
             <span class="i-tabler-slash text-xl dark:text-theme-500" />
           </RouterLink>
-          <XTextBase v-if="post" v-model="post.title.value" :is-editable="true" />
+          <XTextBase v-if="post" v-model="post.title.value" class="whitespace-nowrap" :is-editable="true" />
         </div>
       </template>
       <template #headerRight>
-        <ElButton
-          btn="default"
-          href="/"
-          target="_blank"
-          @click.prevent=""
-        >
-          <svg class="h-1.5 w-1.5 mr-2" :class="post?.isDirty.value ? 'fill-orange-500' : 'fill-green-500'" viewBox="0 0 6 6" aria-hidden="true">
+        <span class="inline-flex items-center gap-x-1.5 rounded-md  px-2 py-1 text-xs font-medium text-theme-400 antialiased">
+          <svg class="h-1.5 w-1.5" :class="post?.isDirty.value ? 'fill-orange-500' : 'fill-green-500'" viewBox="0 0 6 6" aria-hidden="true">
             <circle cx="3" cy="3" r="3" />
           </svg>
           {{ post?.isDirty.value ? 'Syncing' : 'Draft Saved' }}
-        </ElButton>
+        </span>
         <ElButton
           btn="primary"
           :loading="sending === 'publish'"
@@ -117,7 +114,7 @@ vue.onMounted(async () => {
     <ElModal v-model:vis="vis" modal-class="max-w-screen-md p-24 ">
       <div v-if="post" class="relative max-w-xl mx-auto">
         <div class="text-center mb-8 ">
-          <div class="x-font-title text-xl font-bold antialiased dark:text-theme-0 mb-4 text-balance">
+          <div class="text-2xl font-bold antialiased dark:text-theme-0 mb-4 text-balance">
             <template v-if="publishItemSelected === 'publish'">
               Publish Now
             </template>
@@ -128,7 +125,7 @@ vue.onMounted(async () => {
               This post is in draft.
             </template>
           </div>
-          <div class="text-base font-medium dark:text-theme-300 text-balance">
+          <div class="text-base font-medium text-theme-500 dark:text-theme-300 text-balance">
             <template v-if="publishItemSelected === 'publish'">
               This action will publish now the post and syndicate it to your audience (based on your settings).
             </template>
@@ -136,7 +133,7 @@ vue.onMounted(async () => {
               This will schedule the post to be published at the selected time.
             </template>
             <template v-else>
-              Publishing will make it live and syndicate it to your audience (based on your settings).
+              Publish to go live and syndicate to your audience (based on your settings).
             </template>
           </div>
         </div>

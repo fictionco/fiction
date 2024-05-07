@@ -38,6 +38,7 @@ export abstract class FictionObject<
 
   afterSetup(_args: PluginSetupArgs): void | Promise<void> {}
   setup(_args: PluginSetupArgs): void | Promise<void> {}
+  beforeSetup(_args: PluginSetupArgs): void | Promise<void> {}
   toJSON(): Record<string, unknown> {
     return omit(this, 'stop', 'log', 'settings', 'toJSON', 'tbl')
   }

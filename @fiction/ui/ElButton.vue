@@ -52,8 +52,8 @@ const buttonClasses = vue.computed(() => {
     @click="onClick()"
   >
     <div
-      :class="!loading ? 'translate-y-[-150%] opacity-0' : ''"
-      class="absolute left-0 flex w-full items-center justify-center transition-all ease-[cubic-bezier(0.25,1,0.33,1)]"
+      :class="!loading ? 'translate-y-[150%] opacity-0' : ''"
+      class="absolute left-0 flex w-full items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.25,1,0.33,1)]"
     >
       <svg
         class="h-4 w-4"
@@ -78,8 +78,8 @@ const buttonClasses = vue.computed(() => {
       </svg>
     </div>
     <span
-      class="flex w-full min-w-0 items-center whitespace-nowrap transition-all ease-[cubic-bezier(0.25,1,0.33,1)]"
-      :class="[loading ? 'translate-y-[150%] opacity-0' : '', wrapClass, format === 'spread' ? '' : 'justify-center']"
+      class="flex w-full min-w-0 items-center whitespace-nowrap transition-all duration-500 ease-[cubic-bezier(0.25,1,0.33,1)]"
+      :class="[loading ? 'translate-y-[-150%] opacity-0' : '', wrapClass, format === 'spread' ? '' : 'justify-center']"
     >
       <div v-if="icon" class="flex space-x-1 items-center">
         <div class="text-[1.2em] -mt-[1px]" :class="[icon, $slots.default ? '-ml-0.5' : 'mx-[-2px]']" />

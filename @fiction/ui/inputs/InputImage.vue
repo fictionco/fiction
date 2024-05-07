@@ -71,17 +71,17 @@ async function triggerFileUpload() {
     <div
       :for="uploadId"
       :class="draggingOver ? 'dark:border-primary-400' : 'dark:border-theme-600'"
-      class="flex gap-4 border border-dashed rounded-md p-4 items-center"
+      class="flex gap-4 border border-dashed border-theme-300/80 rounded-md p-4 items-center"
       @drop.prevent="handleDropFile"
       @dragover.prevent="draggingOver = true"
       @dragleave="draggingOver = false"
     >
-      <div class="overflow-hidden border dark:border-theme-600 flex bg-cover bg-center justify-center items-center shrink-0 w-28 dark:bg-theme-700/70 rounded-md">
+      <div class="overflow-hidden border border-theme-300/70 hover:border-theme-300 cursor-pointer dark:border-theme-600 flex bg-cover bg-center justify-center items-center shrink-0 w-28 bg-theme-100/40 dark:bg-theme-700/70 rounded-md" @click="triggerFileUpload">
         <ElSpinner v-if="uploading" class="my-3 size-5" />
-        <div v-else-if="!v?.url" class="my-3 i-tabler-photo-up text-3xl dark:text-theme-600" />
+        <div v-else-if="!v?.url" class="my-3 i-tabler-photo-up text-3xl text-theme-300 dark:text-theme-600" />
         <img v-else class="max-h-[90px]" :src="v.url">
       </div>
-      <div class="space-y-2 grow @container">
+      <div class="space-y-2 grow ">
         <template v-if="layoutMode === 'url'">
           <InputText
             :model-value="v?.url"
@@ -94,10 +94,10 @@ async function triggerFileUpload() {
           </ElButton>
         </template>
         <template v-else>
-          <div class="font-sans antialiased text-xs font-semibold dark:text-theme-600 hidden @[5rem]:block">
+          <div class="font-sans antialiased text-xs font-semibold dark:text-theme-600 hidden xl:block">
             Drag &amp; Drop or...
           </div>
-          <div class="flex gap-x-2 flex-col @[5rem]:flex-row gap-y-1">
+          <div class="flex gap-x-2 flex-col xl:flex-row gap-y-1">
             <ElButton icon="i-tabler-upload" btn="theme" size="xs" @click="triggerFileUpload">
               Upload
             </ElButton>

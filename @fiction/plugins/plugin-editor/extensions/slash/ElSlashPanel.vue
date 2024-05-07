@@ -118,8 +118,8 @@ function scrollToSelected() {
     <button
       v-for="(item, index) in items"
       :key="index"
-      class="flex items-center px-2 py-1 space-x-2 text-sm text-left rounded-md text-theme-900 dark:text-theme-100 hover:bg-theme-100 dark:hover:bg-theme-700"
-      :class="index === selectedIndex ? 'bg-theme-100 dark:bg-theme-700 text-theme-900 dark:text-theme-0' : ''"
+      class="flex items-center px-2 py-1 space-x-2 text-sm text-left rounded-md text-theme-900 dark:text-theme-100 hover:bg-theme-100/50 dark:hover:bg-theme-700"
+      :class="index === selectedIndex ? 'bg-theme-100/50 dark:bg-theme-700 text-theme-900 dark:text-theme-0' : ''"
       @click="selectItem(index)"
     >
       <div class="shrink-0 flex items-center dark:text-theme-0 text-theme-500">

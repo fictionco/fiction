@@ -116,7 +116,13 @@ export class QueryManagePost extends PostsQuery {
     if (fields.slug && fields.slug !== currentPost.slug)
       fields.slug = await this.getSlugId({ orgId, postId, fields })
 
-    const prepped = prepareFields({ type: 'settings', fields, table: tableNames.posts, meta: _meta, fictionDb: this.settings.fictionDb })
+    const prepped = prepareFields({
+      type: 'settings',
+      fields,
+      table: tableNames.posts,
+      meta: _meta,
+      fictionDb: this.settings.fictionDb,
+    })
 
     // Set date to current time if status changes and date is still empty
     if (!prepped.dateAt && prepped.status && prepped.status !== 'draft' && currentPost.status === 'draft' && !currentPost.dateAt)
@@ -130,8 +136,11 @@ export class QueryManagePost extends PostsQuery {
 
     prepped.draft = {}
 
+    this.log.info('saving post', { data: { prepped, params } })
+
     // Update the post and return the updated post details
     await db(tableNames.posts).update(prepped).where({ postId })
+
     return this.getPost(params, _meta)
   }
 
@@ -208,7 +217,7 @@ export class QueryManagePost extends PostsQuery {
     }
     const prepped = prepareFields({ type: 'settings', fields, table: tableNames.posts, meta: _meta, fictionDb: this.settings.fictionDb })
 
-    const keysToRemove = ['draft', 'draftHistory', 'createdAt', 'updatedAt', 'postId', 'userId', 'orgId', 'status']
+    const keysToRemove = ['draft', 'draftHistory', 'postId', 'userId', 'orgId']
 
     keysToRemove.forEach((key) => {
       delete prepped[key as keyof typeof prepped]

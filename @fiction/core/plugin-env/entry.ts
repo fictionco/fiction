@@ -16,26 +16,19 @@ export async function runServicesSetup(service: ServiceList, args: { context: 'a
   const pluginList = Object.values(service).filter(isPlugin)
 
   if (pluginList.length > 0) {
-    for (const plugin of pluginList) {
-      try {
-        await plugin.setup(args)
-      }
-      catch (error: unknown) {
-        const e = error as Error
-        const name = plugin.constructor.name ?? 'unknown'
-        e.message = `plugin setup error (${name}): ${e.message}`
-        throw e
-      }
-    }
-    for (const plugin of pluginList) {
-      try {
-        await plugin.afterSetup(args)
-      }
-      catch (error: unknown) {
-        const e = error as Error
-        const name = plugin.constructor.name ?? 'unknown'
-        e.message = `plugin after setup error (${name}): ${e.message}`
-        throw e
+    const setupPhases = ['beforeSetup', 'setup', 'afterSetup'] as const
+
+    for (const phase of setupPhases) {
+      for (const plugin of pluginList) {
+        try {
+          await plugin[phase](args)
+        }
+        catch (error: unknown) {
+          const e = error as Error
+          const name = plugin.constructor.name ?? 'unknown'
+          e.message = `plugin ${phase} error (${name}): ${e.message}`
+          throw e
+        }
       }
     }
   }

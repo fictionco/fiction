@@ -16,7 +16,8 @@ export class Post extends FictionObject<PostConfig> {
   image = vue.ref(this.settings.image || {})
   dateAt = vue.ref(this.settings.dateAt || new Date().toISOString())
   userConfig = vue.ref(this.settings.userConfig || {})
-  isDirty = vue.ref(this.settings.isDirty || false)
+  isDirty = vue.ref(false)
+  hasChanges = vue.ref(this.settings.hasChanges || false)
   publishAt = vue.ref(this.settings.publishAt)
   saveTimeout: ReturnType<typeof setTimeout> | null = null // Store timeout reference
 
@@ -24,10 +25,24 @@ export class Post extends FictionObject<PostConfig> {
     super('Post', settings)
   }
 
-  update(postConfig: Partial<TablePostConfig>) {
+  update(postConfig: Partial<TablePostConfig>, options: { noSave?: boolean } = {}) {
+    const { noSave = false } = options
+
     if (!postConfig)
       return
-    const availableKeys = ['title', 'subTitle', 'content', 'slug', 'userConfig', 'image', 'excerpt', 'dateAt', 'publishAt']
+    const availableKeys = [
+      'title',
+      'subTitle',
+      'content',
+      'slug',
+      'userConfig',
+      'image',
+      'excerpt',
+      'dateAt',
+      'publishAt',
+      'hasChanges',
+      'status',
+    ]
     const entries = Object.entries(postConfig).filter(([key]) => availableKeys.includes(key))
     entries.forEach(([key, value]) => {
       const k = this[key as keyof this]
@@ -37,7 +52,9 @@ export class Post extends FictionObject<PostConfig> {
         const existing = k.value
         if (existing !== value) {
           ref.value = value
-          this.autosave()
+
+          if (!noSave)
+            this.autosave()
         }
       }
 
@@ -73,7 +90,11 @@ export class Post extends FictionObject<PostConfig> {
         : this.toConfig()
 
     const params = { _action, postId: this.postId, fields } as const
-    await managePost({ fictionPosts: this.settings.fictionPosts, params })
+    const p = await managePost({ fictionPosts: this.settings.fictionPosts, params })
+
+    if (mode !== 'draft')
+      this.update(p?.toConfig() || {})
+
     this.isDirty.value = false
     this.clearAutosave()
   }
@@ -92,7 +113,7 @@ export class Post extends FictionObject<PostConfig> {
       userConfig: this.userConfig.value,
       image: this.image.value,
       dateAt: this.dateAt.value,
-      isDirty: this.isDirty.value,
+      hasChanges: this.hasChanges.value,
       publishAt: this.publishAt.value,
       status: this.status.value,
     }

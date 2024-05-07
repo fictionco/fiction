@@ -70,6 +70,20 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
       ]
     } })
   }
+
+  override async setup() {
+    if (!this.settings.fictionEnv.isApp.value) {
+      const { CronJob } = await import('cron')
+      const job = new CronJob(
+        '0 */1 * * * *', // cronTime: At minute 0 past every 5th hour
+        () => {
+          this.log.info('RUN ----> job scheduler (5 minutes)')
+        },
+      )
+
+      job.start()
+    }
+  }
 }
 
 export const plugin: ExtensionManifest<FictionPostsSettings> = {

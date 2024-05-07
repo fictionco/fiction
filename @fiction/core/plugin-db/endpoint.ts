@@ -31,7 +31,8 @@ export class CheckUsername extends Query<QuerySettings> {
     let result: UsernameResult = { available: 'loading', reason: 'loading' }
 
     try {
-      for (const { value, minLength = 1, allowReserved = false, allowAnyValue = false } of columns) {
+      for (const col of columns) {
+        const { value, minLength = 3, allowReserved = false, allowAnyValue = false } = col
         const prepped = allowAnyValue ? value.trim() : toSlug(value.trim())
 
         if (prepped.length < minLength) {

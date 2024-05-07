@@ -1,11 +1,12 @@
 {
   "dependencies": {
-    "@fiction/core": "workspace:*",
     "@fiction/admin": "workspace:*",
     "@fiction/cards": "workspace:*",
+    "@fiction/core": "workspace:*",
+    "@fiction/plugin-editor": "workspace:*",
     "@fiction/site": "workspace:*",
     "@fiction/ui": "workspace:*",
-    "@fiction/plugin-editor": "workspace:*"
+    "cron": "^3.1.7"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "license": "GPL-2.0-only",

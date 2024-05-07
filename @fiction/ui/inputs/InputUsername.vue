@@ -12,6 +12,8 @@ const props = defineProps({
   inputClass: { type: String, default: '' },
   table: { type: String, required: true },
   columns: { type: Array as vue.PropType<CheckColumnValue[]>, default: () => [] },
+  maxLength: { type: Number, default: 100 },
+  minLength: { type: Number, default: 3 },
 })
 
 const emit = defineEmits<{
@@ -35,6 +37,7 @@ const reasonText = vue.computed(() => {
     error: 'There was a problem',
     loading: 'Checking...',
     taken: 'Not available',
+    reserved: 'Reserved',
   } as const
 
   return r[reason.value as keyof typeof r]
@@ -45,7 +48,9 @@ async function handleEmit(target: EventTarget | null) {
 
   const value = el.value
 
-  const columns = props.columns.map(c => ({ name: c.name, value: !c.value ? value : c.value }))
+  const columns = props.columns.map(c => ({ ...c, value: !c.value ? value : c.value }))
+
+  emit('update:modelValue', value)
 
   if (!value)
     return
@@ -54,11 +59,11 @@ async function handleEmit(target: EventTarget | null) {
     status.value = 'success'
     reason.value = 'current'
   }
-  else if (value.length <= 3) {
+  else if (value.length < props.minLength) {
     status.value = 'fail'
     reason.value = 'short'
   }
-  else if (value.length > 25) {
+  else if (value.length > props.maxLength) {
     status.value = 'fail'
     reason.value = 'long'
   }
@@ -90,7 +95,6 @@ async function handleEmit(target: EventTarget | null) {
     validEl.value?.setCustomValidity(reasonText.value)
     isValid.value = 0
   }
-  emit('update:modelValue', value)
 }
 
 const icon = vue.computed(() => {
@@ -128,8 +132,8 @@ const icon = vue.computed(() => {
       </div>
       <div class="text-lg" :class="[icon.color, icon.icon]" />
     </div>
-    <div v-if="reasonText" class="mt-2 text-[10px] font-sans text-theme-400">
-      {{ reasonText }}
+    <div v-if="reasonText || reason" class="mt-2 text-[10px] font-sans text-theme-400">
+      {{ reasonText || reason }}
     </div>
   </div>
 </template>
