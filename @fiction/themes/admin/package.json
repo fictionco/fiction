@@ -1,13 +1,13 @@
 {
   "dependencies": {
+    "@fiction/admin": "workspace:*",
     "@fiction/cards": "workspace:*",
     "@fiction/core": "workspace:*",
-    "@fiction/admin": "workspace:*",
     "@fiction/plugin-stripe": "workspace:*",
     "@fiction/site": "workspace:*",
     "@fiction/ui": "workspace:*",
     "tailwindcss": "^3.4.3",
-    "vue": "^3.4.26"
+    "vue": "^3.4.27"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "license": "GPL-2.0-only",

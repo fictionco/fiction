@@ -87,8 +87,6 @@ describe('check username', async () => {
   })
 
   it('should return fail for a username that is already taken within the same org', async () => {
-    const takenUsername = objectId({ prefix: 'test' })
-
     if (!userId)
       throw new Error('userId is undefined')
 

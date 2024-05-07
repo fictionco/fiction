@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { toLabel, useService, vue } from '@fiction/core'
+import { useService, vue } from '@fiction/core'
 import type { ActionItem } from '@fiction/core'
 import ToolForm from '@fiction/admin/ToolForm.vue'
 import type { EditorTool } from '@fiction/admin'
