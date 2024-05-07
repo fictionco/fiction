@@ -9,6 +9,10 @@ import { ManagePostIndex, QueryManagePost } from './endpoint'
 
 type FictionPostsSettings = { fictionUser: FictionUser, fictionServer: FictionServer, fictionDb: FictionDb } & FictionPluginSettings
 
+export * from './schema'
+export * from './utils'
+export * from './post'
+
 export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
   editor = new FictionEditor(this.settings)
   queries = {

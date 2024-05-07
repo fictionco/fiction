@@ -118,14 +118,15 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
     const { file, filePath: sourceFilePath, orgId, userId, fields, storagePath = orgId } = args
     const fileSource = file?.buffer || (sourceFilePath && fs.readFileSync(sourceFilePath))
     const fileName = file?.originalname || (sourceFilePath && path.basename(sourceFilePath))
+    const cleanFileName = fileName?.replace(/[^a-zA-Z0-9-.]/g, '')
 
-    if (!fileSource || !fileName)
+    if (!fileSource || !cleanFileName)
       throw new Error('No file provided')
 
-    const fileMime = getMimeType(fileName, file?.mimetype)
+    const fileMime = getMimeType(cleanFileName, file?.mimetype)
     const mediaId = objectId({ prefix: 'md' })
-    const filePath = `${storagePath}/${mediaId}-${fileName}`
-    const thumbFilePath = `${storagePath}/${mediaId}-thumb-${fileName}`
+    const filePath = `${storagePath}/${mediaId}-${cleanFileName}`
+    const thumbFilePath = `${storagePath}/${mediaId}-thumb-${cleanFileName}`
     const isRasterImage = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'].includes(fileMime)
 
     let mainBuffer = fileSource
