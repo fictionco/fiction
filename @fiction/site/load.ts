@@ -53,8 +53,6 @@ export async function loadSiteById(args: {
 
 export async function loadSiteFromTheme(args: {
   themeId: string
-  fictionSiteId?: string
-  fictionOrgId?: string
   siteRouter: FictionRouter
   fictionSites: FictionSites
   siteMode: SiteMode
@@ -64,6 +62,9 @@ export async function loadSiteFromTheme(args: {
   const availableThemes = fictionSites.themes.value
   const theme = availableThemes.find(t => t.themeId === themeId)
 
+  const fictionOrgId = fictionSites.settings.fictionApp.settings.fictionOrgId
+  const fictionSiteId = fictionSites.settings.fictionApp.settings.fictionSiteId
+
   if (!theme) {
     const msg = `${caller}: no theme found for themeId: ${themeId}`
     logger.error(msg, { data: { availableThemes: availableThemes.map(t => t.themeId) } })
@@ -71,8 +72,8 @@ export async function loadSiteFromTheme(args: {
   }
   const themeConfig = await theme.toSite()
 
-  const dbConfig = { orgId: args.fictionOrgId, siteId: args.fictionSiteId }
-  const site = new Site({ fictionSites, ...themeConfig, ...dbConfig, siteRouter, siteMode, themeId })
+  const cloudSiteIds = { orgId: fictionOrgId, siteId: fictionSiteId }
+  const site = new Site({ fictionSites, ...themeConfig, ...cloudSiteIds, siteRouter, siteMode, themeId })
 
   return site
 }
@@ -105,11 +106,11 @@ export async function loadSite(args: {
       return
 
     if (themeId) {
-      logger.info('Loading site from theme', { data: { themeId } })
+      logger.debug('Loading site from theme', { data: { themeId } })
       site = await loadSiteFromTheme({ themeId, siteRouter, fictionSites, siteMode, caller: 'loadSite' })
     }
     else if (hasWhere) {
-      logger.info('Loading site with Selector', {
+      logger.debug('Loading site with Selector', {
         data: { ...(subDomain && { subDomain }), ...(siteId && { siteId }), ...(themeId && { themeId }), vals },
       })
 

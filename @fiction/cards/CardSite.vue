@@ -30,6 +30,7 @@ async function load() {
       queryVars: { themeId: props.themeId }, // passed in by route sometimes
       runVars,
     })
+
     site.value = await loadSite({
       siteRouter: props.siteRouter || fictionRouterSites,
       fictionSites,

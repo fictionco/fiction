@@ -5,7 +5,8 @@ import { CardTemplate, createCard } from '@fiction/site'
 import { FictionEditor } from '@fiction/plugin-editor'
 import type { ExtensionManifest } from '../plugin-extend'
 import { tables } from './schema'
-import { ManagePostIndex, QueryManagePost } from './endpoint'
+import { ManagePostIndex, QueryManagePost, QueryManageTaxonomy } from './endpoint'
+import { Post } from './post'
 
 type FictionPostsSettings = { fictionUser: FictionUser, fictionServer: FictionServer, fictionDb: FictionDb } & FictionPluginSettings
 
@@ -18,6 +19,7 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
   queries = {
     ManagePost: new QueryManagePost({ fictionPosts: this, ...this.settings }),
     ManagePostIndex: new ManagePostIndex({ fictionPosts: this, ...this.settings }),
+    ManageTaxonomy: new QueryManageTaxonomy({ fictionPosts: this, ...this.settings }),
   }
 
   requests = this.createRequests({
@@ -87,6 +89,24 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
 
       job.start()
     }
+  }
+
+  async getPost(args: { orgId: string, postId?: string, slug?: string } &({ postId: string } | { slug: string })) {
+    const { orgId, postId, slug } = args
+
+    const params = postId ? { postId } : { slug }
+
+    const r = await this.requests.ManagePost.request({ _action: 'get', orgId, ...params })
+
+    return r.data ? new Post({ fictionPosts: this, ...r.data }) : undefined
+  }
+
+  async getPostIndex(args: { orgId: string, limit?: number, offset?: number }) {
+    const { orgId, limit, offset } = args
+
+    const r = await this.requests.ManagePostIndex.request({ _action: 'list', orgId, limit, offset })
+
+    return r.data?.length ? r.data.map(p => new Post({ fictionPosts: this, ...p })) : []
   }
 }
 

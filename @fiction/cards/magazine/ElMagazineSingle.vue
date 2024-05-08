@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import { type IndexItem, dayjs, useService, vue } from '@fiction/core'
-import ElAvatar from '@fiction/ui/ElAvatar.vue'
+
 import type { Card } from '@fiction/site'
-import { managePost } from '@fiction/plugin-posts'
 import type { FictionPosts, Post, TablePostConfig } from '@fiction/plugin-posts'
 import ClipPathAnim from '@fiction/ui/anim/AnimClipPath.vue'
 import ElBadge from './ElBadge.vue'
@@ -20,9 +19,14 @@ const post = vue.shallowRef<Post | undefined>()
 
 const loading = vue.ref(true)
 async function load(slug: string) {
-  console.log('ORG', props.card.site?.settings.orgId)
   loading.value = true
-  post.value = await managePost({ fictionPosts: service.fictionPosts, params: { slug, _action: 'get' } })
+
+  const orgId = props.card.site?.settings.orgId
+
+  if (!orgId)
+    throw new Error('No fiction orgId found')
+
+  post.value = await service.fictionPosts.getPost({ slug, orgId })
   loading.value = false
 }
 
@@ -60,7 +64,7 @@ const proseClass = `prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl mx-
         <ElBadge v-if="userIsAuthor" theme="overlay">
           Edit Post
         </ElBadge>
-        {{ post?.settings.authors }}123123
+
       </div>
       <h1 class="text-6xl font-bold x-font-title text-balance">
         {{ post.title.value }}

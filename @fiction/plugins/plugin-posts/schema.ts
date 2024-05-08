@@ -11,7 +11,7 @@ type PostUserConfig = Record<string, any>
 type PostMeta = { seoTitle: string, seoDescription: string, seoKeywords: string }
 
 export type TablePostConfig = Partial<CreateObjectType<typeof postCols>> & { authors?: User[], taxonomy?: TableTaxonomyConfig[], draftId?: string }
-export type TableTaxonomyConfig = Partial<CreateObjectType<typeof taxonomyCols>>
+export type TableTaxonomyConfig = Partial<CreateObjectType<typeof taxonomyCols>> & { isNew?: boolean }
 
 export type PostDraft = Partial<{ draftId: string, title: string, content: string, userConfig: PostUserConfig, createdAt: string, updatedAt: string }>
 

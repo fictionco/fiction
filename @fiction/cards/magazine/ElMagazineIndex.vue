@@ -35,9 +35,12 @@ const list = vue.computed<(IndexItem & TablePostConfig)[]>(() => {
 const loading = vue.ref(true)
 async function load() {
   loading.value = true
+  const orgId  = props.card.site?.settings.orgId
 
-  const createParams = { _action: 'list', fields: { }, loadDraft: true, limit: 5 } as const
-  posts.value = await managePostIndex({ fictionPosts: service.fictionPosts, params: createParams })
+  if (!orgId)
+    throw new Error('No fiction orgId found')
+
+  posts.value = await service.fictionPosts.getPostIndex({limit: 5, orgId})
   loading.value = false
 }
 
@@ -60,7 +63,7 @@ function getItemClasses(index: number): string {
 <template>
   <div class="p-8" :class="card.classes.value.contentWidth">
     <!-- Grid Container -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
       <!-- Loop through posts -->
       <component
         :is="getNavComponentType(item)"

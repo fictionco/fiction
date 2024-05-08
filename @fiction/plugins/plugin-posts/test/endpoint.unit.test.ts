@@ -177,6 +177,7 @@ describe('post crud tests', async () => {
     const retrieve = {
       _action: 'get',
       postId: createdPost?.postId || '',
+      orgId: createdPost?.orgId || '',
     } as const
 
     const retrieveResult = await fictionPosts.queries.ManagePost.serve(retrieve, {})
@@ -219,6 +220,7 @@ describe('post crud tests', async () => {
     const retrieve = {
       _action: 'get',
       postId: 'nonexistent',
+      orgId,
     } as const
 
     const retrieveResult = await fictionPosts.queries.ManagePost.serve(retrieve, {})
@@ -246,6 +248,7 @@ describe('post crud tests', async () => {
     const deleteAgain = {
       _action: 'delete',
       postId: createdPost?.postId || '',
+      orgId,
     } as const
 
     const deleteResult = await fictionPosts.queries.ManagePost.serve(deleteAgain, {})
