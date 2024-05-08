@@ -64,7 +64,7 @@ function onInput(ev: Event) {
 
 function emitValue() {
   const v = getValue(updateValue.value)
-  if (v) {
+  if (typeof v !== 'undefined') {
     emit('reset', v)
     emit('update:modelValue', v)
   }
@@ -100,6 +100,15 @@ vue.onMounted(() => {
   else
     loaded.value = true
 })
+
+function onPaste(event: ClipboardEvent) {
+  event.preventDefault() // Prevent the default paste action
+  const text = event.clipboardData?.getData('text/plain') || '' // Get plain text from clipboard
+  textValue.value = clean(text) // Clean and set the updated value
+  updateValue.value = textValue.value // Update the value
+  emit('input', getValue(updateValue.value)) // Emit input event
+  emitValue() // Emit value update
+}
 </script>
 
 <template>
@@ -113,6 +122,7 @@ vue.onMounted(() => {
     spellcheck="false"
     :placeholder="placeholder"
     @input="onInput($event)"
+    @paste="onPaste($event)"
     @click.stop="isEditing = true"
     v-html="textValue"
   />

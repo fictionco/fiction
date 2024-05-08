@@ -10,7 +10,7 @@ export type SiteMode = 'editor' | 'editable' | 'standard'
 export type WhereSite = { siteId?: string, subDomain?: string, hostname?: string, themeId?: string, internal?: string }
   & ({ siteId: string } | { subDomain: string } | { hostname: string } | { themeId: string } | { internal: string })
 
-type MountContext = { siteMode?: SiteMode } & WhereSite
+type MountContext = { siteMode?: SiteMode, fictionOrgId?: string, fictionSiteId?: string } & WhereSite
 type RequestManageSiteParams = Omit<ManageSiteParams, 'orgId' | 'siteId'> & { siteRouter: FictionRouter, fictionSites: FictionSites, siteMode: SiteMode }
 
 export async function requestManageSite(args: RequestManageSiteParams) {
@@ -53,6 +53,8 @@ export async function loadSiteById(args: {
 
 export async function loadSiteFromTheme(args: {
   themeId: string
+  fictionSiteId?: string
+  fictionOrgId?: string
   siteRouter: FictionRouter
   fictionSites: FictionSites
   siteMode: SiteMode
@@ -68,7 +70,9 @@ export async function loadSiteFromTheme(args: {
     throw new Error(msg)
   }
   const themeConfig = await theme.toSite()
-  const site = new Site({ fictionSites, ...themeConfig, siteRouter, siteMode, themeId })
+
+  const dbConfig = { orgId: args.fictionOrgId, siteId: args.fictionSiteId }
+  const site = new Site({ fictionSites, ...themeConfig, ...dbConfig, siteRouter, siteMode, themeId })
 
   return site
 }
@@ -165,6 +169,8 @@ export function getMountContext(args: {
 
   let selector: Partial<MountContext> = {}
   let siteMode = args.siteMode || 'standard'
+  const fictionOrgId = runVars?.FICTION_ORG_ID
+  const fictionSiteId = runVars?.FICTION_SITE_ID
 
   // Premade mount context as passed in mount, used in preview and editing
   if (mountContext) {
@@ -213,7 +219,7 @@ export function getMountContext(args: {
     throw new Error(errorMessage)
   }
 
-  return { siteMode, ...selector } as MountContext
+  return { siteMode, fictionOrgId, fictionSiteId, ...selector } as MountContext
 }
 
 function formatPath(basePath: string, path: string): string {

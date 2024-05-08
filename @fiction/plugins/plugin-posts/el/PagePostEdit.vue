@@ -102,7 +102,7 @@ vue.onMounted(async () => {
           class="min-w-36"
           icon="i-tabler-arrow-big-up-lines"
           size="md"
-          @click.stop.prevent="post?.status.value === 'draft' ? showPublishModal() : publish()"
+          @click.stop.prevent="publish()"
         >
           {{ post?.status.value === 'draft' ? 'Publish Post' : 'Update Post' }}
         </ElButton>

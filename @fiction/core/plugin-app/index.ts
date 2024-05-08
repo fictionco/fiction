@@ -5,7 +5,8 @@ import type { Config as TailwindConfig } from 'tailwindcss'
 import type { Express } from 'express'
 import { createHead } from '@unhead/vue'
 import { initializeResetUi, isTest, safeDirname, vue } from '../utils'
-import type { FictionAppEntry, FictionEnv, ServiceConfig, ServiceList } from '../plugin-env'
+import { EnvVar, type FictionAppEntry, type FictionEnv, type ServiceConfig, type ServiceList, vars } from '../plugin-env'
+import type { FictionPluginSettings } from '../plugin'
 import { FictionPlugin } from '../plugin'
 import type { FictionBuild } from '../plugin-build'
 import { AppRoute, type FictionRouter } from '../plugin-router'
@@ -14,7 +15,12 @@ import { FictionSitemap } from '../plugin-sitemap'
 import { FictionRender } from './plugin-render'
 import ElRoot from './ElRoot.vue'
 
-export interface FictionAppSettings {
+vars.register(() => [
+  new EnvVar({ name: 'FICTION_ORG_ID', isOptional: true, isPublic: true }),
+  new EnvVar({ name: 'FICTION_SITE_ID', isOptional: true, isPublic: true }),
+])
+
+export type FictionAppSettings = {
   mode?: 'production' | 'development'
   isTest?: boolean
   liveUrl?: string
@@ -30,19 +36,19 @@ export interface FictionAppSettings {
   mainIndexHtml?: string
   publicFolder?: string
   appInstanceId?: string // to differentiate multiple apps
-  [key: string]: unknown
-}
+  fictionOrgId?: string
+  fictionSiteId?: string
+  root?: string
+} & FictionPluginSettings
 
 export class FictionApp extends FictionPlugin<FictionAppSettings> {
   isLive = this.settings.isLive ?? this.settings.fictionEnv.isProd
   viteDevServer?: vite.ViteDevServer
-  hooks = this.settings.hooks ?? []
   isTest = this.settings.isTest || isTest()
   rootComponent = this.settings.rootComponent || ElRoot
   fictionBuild?: FictionBuild
   fictionRender?: FictionRender
   fictionSitemap?: FictionSitemap
-  sitemaps = this.settings.sitemaps ?? []
   port = this.settings.port || 3000
   appServer?: http.Server
   staticServer?: http.Server

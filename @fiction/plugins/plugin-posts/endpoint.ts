@@ -14,6 +14,16 @@ export abstract class PostsQuery extends Query<PostsQuerySettings> {
   constructor(settings: PostsQuerySettings) {
     super(settings)
   }
+
+  protected async fetchAuthors(userIds: string[]) {
+    if (userIds.length === 0)
+      return []
+
+    return this.db()
+      .select('*')
+      .from(standardTable.user)
+      .whereIn('userId', userIds)
+  }
 }
 
 export type ManagePostParamsRequest =
@@ -29,7 +39,8 @@ export type ManagePostParamsRequest =
   }
   | {
     _action: 'get'
-    postId: string
+    postId?: string
+    slug?: string
     select?: (keyof TablePostConfig)[] | ['*']
     loadDraft?: boolean
   }
@@ -67,7 +78,7 @@ export class QueryManagePost extends PostsQuery {
         message = 'Post created'
         break
       case 'delete':
-        await this.deletePost(params.postId, _meta)
+        await this.deletePost(params, _meta)
         message = 'Post deleted'
         break
       case 'saveDraft':
@@ -80,10 +91,19 @@ export class QueryManagePost extends PostsQuery {
     return { status: 'success', data: post, message }
   }
 
-  private async getPost(options: { postId: string, loadDraft?: boolean, select?: (keyof TablePostConfig)[] | ['*'] }, _meta: EndpointMeta): Promise<TablePostConfig | undefined> {
-    const { postId, select = ['*'], loadDraft = false } = options
+  private async getPost(options: { postId?: string, orgId?: string, slug?: string, loadDraft?: boolean, select?: (keyof TablePostConfig)[] | ['*'] }, _meta: EndpointMeta): Promise<TablePostConfig | undefined> {
+    const { postId, slug, select = ['*'], loadDraft = false, orgId } = options
     const db = this.db()
-    const query = db.select(select).from(tableNames.posts).where({ postId })
+
+    if (!orgId)
+      throw this.abort('orgId is required to get a post')
+
+    if (!postId && !slug)
+      throw this.abort('postId or slug is required to get a post')
+
+    const queryKey = slug ? { slug } : { postId }
+
+    const query = db.select(select).from(tableNames.posts).where({ ...queryKey, orgId })
 
     let post = await query.first<TablePostConfig>()
 
@@ -92,6 +112,11 @@ export class QueryManagePost extends PostsQuery {
 
     if (loadDraft && post.draft)
       post = { ...post, ...post.draft }
+
+    const allAuthorIds = [post.userId].filter(Boolean) as string[]
+    const allAuthors = await this.fetchAuthors(allAuthorIds)
+
+    post.authors = allAuthorIds.map(userId => allAuthors.find(author => author.userId === userId))
 
     return post
   }
@@ -109,7 +134,7 @@ export class QueryManagePost extends PostsQuery {
     fields.updatedAt = new Date().toISOString()
 
     // Retrieve current post details
-    const currentPost = await this.getPost({ postId, select: ['status', 'dateAt', 'slug'] }, _meta)
+    const currentPost = await this.getPost({ postId, orgId, select: ['status', 'dateAt', 'slug'] }, _meta)
     if (!currentPost)
       throw this.abort('Post not found', { data: params })
 
@@ -181,21 +206,26 @@ export class QueryManagePost extends PostsQuery {
     const fieldsWithOrg = { type: 'post', status: 'draft', ...fields, orgId, userId }
     const [{ postId }] = await db(tableNames.posts).insert(fieldsWithOrg).returning('postId')
 
-    return this.getPost({ postId }, _meta)
+    return this.getPost({ postId, orgId }, _meta)
   }
 
-  private async deletePost(postId: string, _meta: EndpointMeta): Promise<TablePostConfig | undefined> {
+  private async deletePost(args: { postId: string, orgId?: string }, _meta: EndpointMeta): Promise<TablePostConfig | undefined> {
+    const { postId, orgId } = args
+
+    if (!orgId)
+      throw this.abort('orgId is required to delete a post')
+
     const db = this.db()
     // Ensure the post exists before deleting it, error if it doesn't
-    const post = await this.getPost({ postId }, _meta)
-    await db(tableNames.posts).where({ postId }).delete()
+    const post = await this.getPost({ postId, orgId }, _meta)
+    await db(tableNames.posts).where({ postId, orgId }).delete()
 
     return post
   }
 
   private async saveDraft(params: ManagePostParams & { _action: 'saveDraft' }, _meta: EndpointMeta): Promise<TablePostConfig | undefined> {
     const db = this.db()
-    const { postId, fields } = params
+    const { postId, fields, orgId } = params
 
     // Get current date and format
     const now = new Date()
@@ -233,7 +263,7 @@ export class QueryManagePost extends PostsQuery {
         draft_history: draftHistory,
       })
 
-    return this.getPost({ postId, loadDraft: true }, _meta)
+    return this.getPost({ postId, orgId, loadDraft: true }, _meta)
   }
 }
 
@@ -317,16 +347,6 @@ export class ManagePostIndex extends PostsQuery {
     })
 
     return query
-  }
-
-  private async fetchAuthors(userIds: string[]) {
-    if (userIds.length === 0)
-      return []
-
-    return this.db()
-      .select('*')
-      .from(standardTable.user)
-      .whereIn('userId', userIds)
   }
 
   private async fetchCount(orgId: string): Promise<number> {

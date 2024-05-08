@@ -10,7 +10,8 @@ import type { FictionServer } from './plugin-server'
 export type RunVars = {
   APP_INSTANCE: string
   MOUNT_CONTEXT: Record<string, string>
-  SITE_ID: string
+  FICTION_ORG_ID: string // integrate db org with static
+  FICTION_SITE_ID: string // integrate db site with static
   APP_PORT: string
   COMMAND: string
   COMMAND_OPTS: string

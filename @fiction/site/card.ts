@@ -163,15 +163,16 @@ export class Card<
     if (!router)
       return ''
 
-    if (!router.currentRoute.value.matched[0])
+    const matchedRoute = router.currentRoute.value.matched[0]
+    if (!matchedRoute)
       throw new Error('Card.link - No matched current route')
 
-    const prefix = router.currentRoute.value.matched[0].path.match(/.*?(?=\/:viewId|$)/)?.[0] || ''
+    const prefix = matchedRoute.path.match(/.*?(?=\/:viewId|$)/)?.[0] || ''
     const resolvedHref = router.resolve(location).href
+    const finalHref = (resolvedHref.startsWith(prefix) ? resolvedHref : `${prefix}${resolvedHref}`)
+      .replace(/:viewId/g, router.currentRoute.value.params.viewId as string | undefined || '')
 
-    const out = !resolvedHref.startsWith(prefix) ? `${prefix}${resolvedHref}` : resolvedHref
-
-    return out.replace(/([^:]\/)\/+/g, '$1')
+    return finalHref.replace(/([^:]\/)\/+/g, '$1')
   }
 
   async goto(location: vueRouter.RouteLocationRaw, options: { replace?: boolean } = { }) {

@@ -64,12 +64,10 @@ const fictionApp = new FictionApp({
   port: comboPort,
   fictionRouter,
   isLive: fictionEnv.isProd,
-  uiPaths: [
-    path.join(cwd, './src/**/*.{vue,js,ts,html}'),
-    path.join(cwd, './src/*.{vue,js,ts,html}'),
-  ],
   fictionEnv,
   srcFolder: path.join(cwd, './src'),
+  fictionOrgId: fictionEnv.var('FICTION_ORG_ID'),
+  fictionSiteId: fictionEnv.var('FICTION_SITE_ID'),
 })
 
 const fictionRouterSites = new FictionRouter({

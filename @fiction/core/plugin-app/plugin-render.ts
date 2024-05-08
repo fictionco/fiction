@@ -346,15 +346,6 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
       this.log.info(`[done:build] build completed successfully (${this.fictionApp.appInstanceId})`)
 
-      // const sitemaps = await Promise.all(
-      //   this.fictionApp.sitemaps.map(s => s()),
-      // )
-      // await this.fictionSitemap?.generateSitemap({
-      //   appUrl: this.fictionApp.appUrl.value,
-      //   sitemaps,
-      //   distClient: distFolderClient,
-      // })
-
       if (render)
         await this.preRender({ serve })
     }
@@ -428,6 +419,8 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     return {
       ...this.settings.fictionEnv.getRenderedEnvVars(),
       APP_INSTANCE: this.fictionApp.appInstanceId,
+      FICTION_ORG_ID: this.fictionApp.settings.fictionOrgId || '',
+      FICTION_SITE_ID: this.fictionApp.settings.fictionSiteId || '',
       ...getRequestVars({ request }),
     }
   }

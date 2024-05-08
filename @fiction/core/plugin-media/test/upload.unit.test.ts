@@ -66,6 +66,7 @@ describe('media upload/download tests', async () => {
         "mediaId",
         "userId",
         "orgId",
+        "caption",
         "hash",
         "url",
         "originUrl",

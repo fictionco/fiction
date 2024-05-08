@@ -43,6 +43,8 @@ export function getViewMap(args: { pages: Card[] }) {
 
     if (card.is404.value)
       cardMap._404 = card.cardId
+
+    cardMap._ = cardMap._home
   })
 
   return cardMap

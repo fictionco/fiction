@@ -5,7 +5,8 @@ export * from './util'
 export * from './init'
 
 const toolUtilsRoot = safeDirname(import.meta.url)
-const testImgPath = path.join(toolUtilsRoot, 'test.jpg')
+// test special characters in path
+const testImgPath = path.join(toolUtilsRoot, 'test (#).jpg')
 const testEnvFile = path.join(toolUtilsRoot, '.env.test')
 
 export { toolUtilsRoot, testImgPath, testEnvFile }

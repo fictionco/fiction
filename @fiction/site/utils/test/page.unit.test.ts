@@ -30,6 +30,7 @@ describe('getViewMap', async () => {
 
     const map = getViewMap({ pages })
     expect(map).toEqual({
+      _: 'id1',
       _home: 'id1',
       example: 'id2',
       _404: 'id3',
@@ -44,6 +45,7 @@ describe('getViewMap', async () => {
 
     const map = getViewMap({ pages })
     expect(map).toEqual({
+      _: undefined,
       _home: undefined,
       def: 'id1',
       example: 'id2',
