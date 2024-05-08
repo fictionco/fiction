@@ -22,7 +22,7 @@ export const templates = [
     userConfig: {
       spacing: { spacingClass: '' },
     },
-    isPublic: true,
+    isPublic: false,
     options: [
       new InputOption({ key: 'scheme.reverse', label: 'Reverse Color Scheme', input: 'InputCheckbox' }),
     ],

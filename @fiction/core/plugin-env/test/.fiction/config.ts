@@ -11,6 +11,8 @@ export interface CompiledServiceConfig {
     | 'AWS_ACCESS_KEY_SECRET'
     | 'COMMAND'
     | 'COMMAND_OPTS'
+    | 'FICTION_ORG_ID'
+    | 'FICTION_SITE_ID'
     | 'GOOGLE_CLIENT_ID'
     | 'GOOGLE_CLIENT_SECRET'
     | 'IS_TEST'

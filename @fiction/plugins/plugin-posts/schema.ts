@@ -1,17 +1,18 @@
-import { type CreateObjectType, type MediaDisplayObject, type PostStatus, type User, toSlug } from '@fiction/core'
+import { type CreateObjectType, type MediaDisplayObject, type PostStatus, type User, standardTable, toSlug } from '@fiction/core'
 import { FictionDbCol, FictionDbTable } from '@fiction/core/plugin-db'
 
-export const tableNames = {
+export const t = {
   posts: 'fiction_posts',
   taxonomies: 'fiction_taxonomies',
   postTaxonomies: 'fiction_post_taxonomies',
+  ...standardTable,
 }
 
 type PostUserConfig = Record<string, any>
 type PostMeta = { seoTitle: string, seoDescription: string, seoKeywords: string }
 
 export type TablePostConfig = Partial<CreateObjectType<typeof postCols>> & { authors?: User[], taxonomy?: TableTaxonomyConfig[], draftId?: string }
-export type TableTaxonomyConfig = Partial<CreateObjectType<typeof taxonomyCols>> & { isNew?: boolean }
+export type TableTaxonomyConfig = Partial<CreateObjectType<typeof taxonomyCols>> & { isNew?: boolean, usageCount?: number }
 
 export type PostDraft = Partial<{ draftId: string, title: string, content: string, userConfig: PostUserConfig, createdAt: string, updatedAt: string }>
 
@@ -202,7 +203,7 @@ const taxonomyCols = [
   }),
   new FictionDbCol({
     key: 'parentId',
-    create: ({ schema, column }) => schema.string(column.pgKey).references(`${tableNames.taxonomies}.taxonomy_id`).onDelete('SET NULL'),
+    create: ({ schema, column }) => schema.string(column.pgKey).references(`${t.taxonomies}.taxonomy_id`).onDelete('SET NULL'),
     default: () => '' as string,
     zodSchema: ({ z }) => z.string().optional(),
   }),
@@ -232,20 +233,26 @@ const postTaxonomyCols = [
   }),
   new FictionDbCol({
     key: 'postId',
-    create: ({ schema, column }) => schema.string(column.pgKey).references(`${tableNames.posts}.postId`).onDelete('CASCADE'),
+    create: ({ schema, column }) => schema.string(column.pgKey).references(`${t.posts}.postId`).onDelete('CASCADE'),
     default: () => '' as string,
     zodSchema: ({ z }) => z.string(),
   }),
   new FictionDbCol({
     key: 'taxonomyId',
-    create: ({ schema, column }) => schema.string(column.pgKey).references(`${tableNames.taxonomies}.taxonomyId`).onDelete('CASCADE'),
+    create: ({ schema, column }) => schema.string(column.pgKey).references(`${t.taxonomies}.taxonomyId`).onDelete('CASCADE'),
+    default: () => '' as string,
+    zodSchema: ({ z }) => z.string(),
+  }),
+  new FictionDbCol({
+    key: 'orgId',
+    create: ({ schema, column }) => schema.string(column.pgKey, 50).references(`${t.org}.org_id`).onUpdate('CASCADE').notNullable().index(),
     default: () => '' as string,
     zodSchema: ({ z }) => z.string(),
   }),
 ] as const
 
 export const tables = [
-  new FictionDbTable({ tableKey: tableNames.posts, timestamps: true, columns: postCols }),
-  new FictionDbTable({ tableKey: tableNames.taxonomies, columns: taxonomyCols, timestamps: true, onCreate: t => t.unique(['org_id', 'slug']) }),
-  new FictionDbTable({ tableKey: tableNames.postTaxonomies, columns: postTaxonomyCols, timestamps: true }),
+  new FictionDbTable({ tableKey: t.posts, timestamps: true, columns: postCols }),
+  new FictionDbTable({ tableKey: t.taxonomies, columns: taxonomyCols, timestamps: true, onCreate: t => t.unique(['org_id', 'slug']) }),
+  new FictionDbTable({ tableKey: t.postTaxonomies, columns: postTaxonomyCols, timestamps: true }),
 ]

@@ -8,7 +8,7 @@ import { InputOption } from '@fiction/ui'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import type { Post } from '../post'
 import type { TablePostConfig } from '../schema'
-import { tableNames } from '../schema'
+import { t } from '../schema'
 
 const props = defineProps({
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
@@ -53,7 +53,7 @@ const options = vue.computed(() => {
       placeholder: 'my-post',
       isRequired: true,
       props: {
-        table: tableNames.posts,
+        table: t.posts,
         columns: [{ name: 'slug', allowReserved: true }, { name: 'orgId', value: activeOrganizationId }],
       },
     }),

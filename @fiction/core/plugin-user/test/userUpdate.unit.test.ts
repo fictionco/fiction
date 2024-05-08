@@ -36,11 +36,11 @@ describe('user settings update', async () => {
 
     expect(r).toMatchInlineSnapshot(`
       {
-        "code": "STOP",
+        "code": "OPERATION_FAILED",
         "context": "QueryUpdateCurrentUser",
         "data": undefined,
         "expose": true,
-        "httpStatus": 200,
+        "httpStatus": 500,
         "location": undefined,
         "message": "incorrect password",
         "status": "error",

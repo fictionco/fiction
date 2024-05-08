@@ -128,7 +128,6 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
     envFiles = [],
     env = {},
     rootComponent = ElRoot,
-    uiPaths = [],
     version = fictionVersion,
     checkEnvVars = [],
   } = opts || {}
@@ -167,7 +166,6 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
     ...base,
     port: appPort,
     rootComponent,
-    uiPaths,
     isTest: true,
   })
 

@@ -61,6 +61,7 @@ export interface CompiledServiceConfig {
     | 'ManagePost'
     | 'ManagePostIndex'
     | 'ManageSite'
+    | 'ManageTaxonomy'
     | 'ManageUser'
     | 'ManageVectors'
     | 'MediaIndex'
@@ -280,7 +281,7 @@ export interface CompiledServiceConfig {
       | 'meta'
       | 'createdAt'
       | 'updatedAt'
-    fiction_post_taxonomies: 'postTaxonomyId' | 'postId' | 'taxonomyId' | 'createdAt' | 'updatedAt'
+    fiction_post_taxonomies: 'postTaxonomyId' | 'postId' | 'taxonomyId' | 'orgId' | 'createdAt' | 'updatedAt'
     [k: string]: unknown
   }
   [k: string]: unknown

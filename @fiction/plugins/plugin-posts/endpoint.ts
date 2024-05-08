@@ -1,7 +1,7 @@
 import type { DataFilter, EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser } from '@fiction/core'
 import { Query, incrementSlugId, objectId, prepareFields, standardTable, toLabel, toSlug } from '@fiction/core'
 import type { TablePostConfig, TableTaxonomyConfig } from './schema'
-import { tableNames } from './schema'
+import { t } from './schema'
 import type { FictionPosts } from '.'
 
 export type PostsQuerySettings = FictionPluginSettings & {
@@ -91,8 +91,15 @@ export class QueryManagePost extends PostsQuery {
     return { status: 'success', data: post, message }
   }
 
-  private async getPost(options: { postId?: string, orgId: string, slug?: string, loadDraft?: boolean, select?: (keyof TablePostConfig)[] | ['*'] }, _meta: EndpointMeta): Promise<TablePostConfig | undefined> {
-    const { postId, slug, select = ['*'], loadDraft = false, orgId } = options
+  private async getPost(options: {
+    postId?: string
+    orgId: string
+    slug?: string
+    loadDraft?: boolean
+    select?: (keyof TablePostConfig)[] | ['*']
+    caller?: string
+  }, _meta: EndpointMeta): Promise<TablePostConfig | undefined> {
+    const { postId, slug, select = ['*'], loadDraft = false, orgId, caller = 'unknown' } = options
     const db = this.db()
 
     if (!orgId)
@@ -103,7 +110,7 @@ export class QueryManagePost extends PostsQuery {
 
     const queryKey = slug ? { slug } : { postId }
 
-    const query = db.select(select).from(tableNames.posts).where({ ...queryKey, orgId })
+    const query = db.select(select).from(t.posts).where({ ...queryKey, orgId })
 
     let post = await query.first<TablePostConfig>()
 
@@ -118,11 +125,17 @@ export class QueryManagePost extends PostsQuery {
 
     post.authors = allAuthorIds.map(userId => allAuthors.find(author => author.userId === userId))
 
-    post.taxonomy = await db
-      .select('*')
-      .from(tableNames.taxonomies)
-      .join(tableNames.postTaxonomies, `${tableNames.taxonomies}.taxonomy_id`, `${tableNames.postTaxonomies}.taxonomy_id`)
-      .where(`${tableNames.postTaxonomies}.post_id`, postId)
+    this.log.info(`post(${caller})`, { caller, data: post })
+
+    if (post.postId) {
+      const q = db
+        .select([`${t.taxonomies}.*`])
+        .from(t.postTaxonomies)
+        .join(t.taxonomies, `${t.taxonomies}.taxonomy_id`, `=`, `${t.postTaxonomies}.taxonomy_id`)
+        .where(`${t.postTaxonomies}.post_id`, post.postId)
+
+      post.taxonomy = await q
+    }
 
     return post
   }
@@ -140,7 +153,7 @@ export class QueryManagePost extends PostsQuery {
     fields.updatedAt = new Date().toISOString()
 
     // Retrieve current post details
-    const currentPost = await this.getPost({ postId, orgId, select: ['status', 'dateAt', 'slug'] }, _meta)
+    const currentPost = await this.getPost({ postId, orgId, select: ['status', 'dateAt', 'slug'], caller: 'updatePostGetExisting' }, _meta)
     if (!currentPost)
       throw this.abort('Post not found', { data: params })
 
@@ -150,7 +163,7 @@ export class QueryManagePost extends PostsQuery {
     const prepped = prepareFields({
       type: 'settings',
       fields,
-      table: tableNames.posts,
+      table: t.posts,
       meta: _meta,
       fictionDb: this.settings.fictionDb,
     })
@@ -170,11 +183,11 @@ export class QueryManagePost extends PostsQuery {
     this.log.info('saving post', { data: { prepped, params } })
 
     // Update the post and return the updated post details
-    await db(tableNames.posts).update(prepped).where({ postId })
+    await db(t.posts).update(prepped).where({ postId })
 
     await this.updatePostTaxonomies(params)
 
-    return this.getPost(params, _meta)
+    return this.getPost({ ...params, caller: 'updatePostEnd' }, _meta)
   }
 
   // Handle the association between post and taxonomies
@@ -182,36 +195,46 @@ export class QueryManagePost extends PostsQuery {
     const { postId, fields: { taxonomy = [] }, orgId } = params
     const db = this.db()
 
-    const newTaxonomies = taxonomy.filter(tax => tax.isNew)
+    const newTaxonomies = taxonomy.filter(tax => !tax.taxonomyId)
 
-    const insertedTaxonomies = await db(tableNames.taxonomies)
-      .insert(newTaxonomies.map(tax => ({ title: tax.title, description: tax.description, orgId })))
-      .onConflict('slug')
-      .ignore()
-      .returning('taxonomyId')
+    let insertedTaxonomyIds: string[] = []
+    if (newTaxonomies.length > 0) {
+      const insertItems = newTaxonomies.map((_) => {
+        const { slug = toSlug(_.title), title = toLabel(_.slug), type = '', description } = _
+        return { slug, title, description, type, orgId }
+      })
+      // Insert new taxonomies and get their IDs
+      const r = await db(t.taxonomies)
+        .insert(insertItems)
+        .onConflict(['slug', 'org_id'])
+        .merge(['slug']) // return without changing anything (ignore wont return existing)
+        .returning<{ taxonomyId: string }[]>('taxonomyId')
 
-    const existingTaxonomies = await db.select('taxonomyId').from(tableNames.postTaxonomies).where({ postId })
+      insertedTaxonomyIds = r.map(t => t.taxonomyId)
+    }
 
+    const existingTaxonomies = await db.select('taxonomyId').from(t.postTaxonomies).where({ postId })
     const existingTaxonomyIds = existingTaxonomies.map(t => t.taxonomyId)
-    const toRemove = existingTaxonomyIds.filter(id => !taxonomy.some(t => id === t.taxonomyId))
-    const toAdd = [
-      ...taxonomy.filter(tax => !existingTaxonomyIds.includes(tax.taxonomyId)),
-      ...insertedTaxonomies.map(t => t.taxonomyId),
-    ]
+
+    const oldTaxonomiesIds = taxonomy.filter(tax => tax.taxonomyId).map(tax => tax.taxonomyId)
+    const passedInTaxonomyIds = [...oldTaxonomiesIds, ...insertedTaxonomyIds]
+
+    const toRemoveFromPost = existingTaxonomyIds.filter(id => !passedInTaxonomyIds.includes(id))
+    const needsTaxonomies = passedInTaxonomyIds.filter(id => !existingTaxonomyIds.includes(id))
 
     // Remove old associations
-    if (toRemove.length > 0)
-      await db(tableNames.postTaxonomies).where({ postId }).whereIn('taxonomyId', toRemove).delete()
+    if (toRemoveFromPost.length > 0)
+      await db.table(t.postTaxonomies).where({ postId }).whereIn('taxonomyId', toRemoveFromPost).delete()
 
     // Add new associations
-    if (toAdd.length > 0) {
-      const newTaxonomies = toAdd.map(taxonomyId => ({ postId, taxonomyId, orgId }))
-      await db(tableNames.postTaxonomies).insert(newTaxonomies)
+    if (needsTaxonomies.length > 0) {
+      const newTaxonomies = needsTaxonomies.map(taxonomyId => ({ postId, taxonomyId, orgId }))
+      await db.table(t.postTaxonomies).insert(newTaxonomies)
     }
   }
 
   private async isSlugTaken(orgId: string, slug: string, postId?: string): Promise<boolean> {
-    const existingPost = await this.db()(tableNames.posts)
+    const existingPost = await this.db()(t.posts)
       .where({ orgId, slug })
       .andWhere((builder) => {
         if (postId)
@@ -234,7 +257,7 @@ export class QueryManagePost extends PostsQuery {
     return currentSlug
   }
 
-  private async createPost(params: ManagePostParams & { _action: 'create' }, _meta: EndpointMeta): Promise<TablePostConfig | undefined> {
+  private async createPost(params: ManagePostParams & { _action: 'create' }, meta: EndpointMeta): Promise<TablePostConfig | undefined> {
     const db = this.db()
     const { fields, orgId, userId } = params
 
@@ -244,10 +267,14 @@ export class QueryManagePost extends PostsQuery {
     // Ensure the slug is unique within the organization
     fields.slug = await this.getSlugId({ orgId, fields })
 
-    const fieldsWithOrg = { type: 'post', status: 'draft', ...fields, orgId, userId }
-    const [{ postId }] = await db(tableNames.posts).insert(fieldsWithOrg).returning('postId')
+    const prepped = prepareFields({ type: 'create', fields, table: t.posts, meta, fictionDb: this.settings.fictionDb })
 
-    return this.getPost({ postId, orgId }, _meta)
+    const fieldsWithOrg = { type: 'post', status: 'draft', ...prepped, orgId, userId }
+    const [{ postId }] = await db(t.posts).insert(fieldsWithOrg).returning('postId')
+
+    await this.updatePostTaxonomies({ ...params, postId, _action: 'update' })
+
+    return this.getPost({ postId, orgId, caller: 'createPost' }, meta)
   }
 
   private async deletePost(args: { postId: string, orgId?: string }, _meta: EndpointMeta): Promise<TablePostConfig | undefined> {
@@ -258,8 +285,8 @@ export class QueryManagePost extends PostsQuery {
 
     const db = this.db()
     // Ensure the post exists before deleting it, error if it doesn't
-    const post = await this.getPost({ postId, orgId }, _meta)
-    await db(tableNames.posts).where({ postId, orgId }).delete()
+    const post = await this.getPost({ postId, orgId, caller: 'deletePost' }, _meta)
+    await db(t.posts).where({ postId, orgId }).delete()
 
     return post
   }
@@ -273,7 +300,7 @@ export class QueryManagePost extends PostsQuery {
     fields.updatedAt = now.toISOString()
 
     const currentDrafts = await db.select<TablePostConfig>('draft', 'draft_history')
-      .from(tableNames.posts)
+      .from(t.posts)
       .where({ postId })
       .first()
 
@@ -286,7 +313,7 @@ export class QueryManagePost extends PostsQuery {
       draftHistory.push({ ...draft, archiveAt: now.toISOString() }) // Archive the current draft
       draft.createdAt = now.toISOString() // Reset creation time for a new draft
     }
-    const prepped = prepareFields({ type: 'settings', fields, table: tableNames.posts, meta: _meta, fictionDb: this.settings.fictionDb })
+    const prepped = prepareFields({ type: 'settings', fields, table: t.posts, meta: _meta, fictionDb: this.settings.fictionDb })
 
     const keysToRemove = ['draft', 'draftHistory', 'postId', 'userId', 'orgId']
 
@@ -297,14 +324,14 @@ export class QueryManagePost extends PostsQuery {
     const newDraft = { draftId: objectId({ prefix: 'dft' }), ...draft, ...prepped, updatedAt: now, createdAt: draft.createdAt }
 
     // Persist the updated draft and history
-    await db(tableNames.posts)
+    await db(t.posts)
       .where({ postId })
       .update({
         draft: newDraft,
         draft_history: draftHistory,
       })
 
-    return this.getPost({ postId, orgId, loadDraft: true }, _meta)
+    return this.getPost({ postId, orgId, loadDraft: true, caller: 'saveDraft' }, _meta)
   }
 }
 
@@ -324,9 +351,12 @@ export type ManageTaxonomyParamsRequest =
   }
   | {
     _action: 'list'
-    limit: number
-    offset: number
-    filters: DataFilter[]
+    search?: string
+    type?: 'tag' | 'category'
+    limit?: number
+    offset?: number
+    filters?: DataFilter[]
+    orderMode?: 'popularity' | 'recent'
   }
   | {
     _action: 'delete'
@@ -372,7 +402,7 @@ export class QueryManageTaxonomy extends PostsQuery {
       return { title: toLabel(item.slug), slug: toSlug(item.title), ...item }
     })
 
-    const results = await db(tableNames.taxonomies).insert(refined.map(item => ({ ...item, orgId }))).returning('*')
+    const results = await db(t.taxonomies).insert(refined.map(item => ({ ...item, orgId }))).returning('*')
 
     return results
   }
@@ -389,7 +419,7 @@ export class QueryManageTaxonomy extends PostsQuery {
       const whereQuery = slug ? { slug, orgId } : { taxonomyId, orgId }
 
       const r = db.select(select)
-        .from(tableNames.taxonomies)
+        .from(t.taxonomies)
         .where(whereQuery)
         .first()
 
@@ -400,21 +430,54 @@ export class QueryManageTaxonomy extends PostsQuery {
   }
 
   private async listTaxonomies(params: ManageTaxonomyParams & { _action: 'list' }, _meta: EndpointMeta): Promise<TableTaxonomyConfig[]> {
-    const { limit, offset, filters, orgId } = params
+    const { limit = 20, offset = 0, filters = [], orgId, search, type, orderMode = 'recent' } = params
     const db = this.db()
 
-    const query = db.select('*')
-      .from(tableNames.taxonomies)
-      .where('orgId', orgId)
+    // Define ordering logic in a dictionary for easy extension
+    const orderCriteria = {
+      popularity: { field: 'usage_count', direction: 'desc' },
+      recent: { field: 'createdAt', direction: 'desc' },
+      alphabetical: { field: 'title', direction: 'asc' },
+      updated: { field: 'updatedAt', direction: 'desc' },
+    }
+
+    const query = db
+      .select('*')
+      .from(
+        db.select([
+          `${t.taxonomies}.*`,
+          db.raw('CAST(COUNT(DISTINCT ??) AS INTEGER) as usage_count', `${t.postTaxonomies}.post_id`),
+        ])
+          .from(t.taxonomies)
+          .leftJoin(t.postTaxonomies, `${t.postTaxonomies}.taxonomy_id`, `${t.taxonomies}.taxonomy_id`)
+          .where(`${t.taxonomies}.orgId`, '=', orgId)
+          .groupBy(`${t.taxonomies}.taxonomy_id`)
+          .as('subquery'),
+      ) // The results of this are treated as a table
       .offset(offset)
       .limit(limit)
-      .orderBy('createdAt', 'desc')
+
+    // Apply optional filters
+    if (type)
+      void query.andWhere({ type })
+
+    if (search) {
+      void query.andWhere(function () {
+        void this.where('title', 'like', `%${search}%`).orWhere('slug', 'like', `%${search}%`)
+      })
+    }
 
     filters.forEach((filter) => {
-      void query.where(filter.field, filter.operator, filter.value)
+      void query.andWhere(filter.field, filter.operator, filter.value)
     })
 
-    return query
+    // Apply ordering based on mode
+    const { field, direction } = orderCriteria[orderMode]
+    void query.orderBy(field, direction)
+
+    const r = await query
+
+    return r
   }
 
   private async updateTaxonomies(params: ManageTaxonomyParams & { _action: 'update' }, _meta: EndpointMeta): Promise<TableTaxonomyConfig[]> {
@@ -424,7 +487,7 @@ export class QueryManageTaxonomy extends PostsQuery {
     const results = await Promise.all(items.map(async (item) => {
       const { slug, taxonomyId } = item
       const whereQuery = slug ? { slug } : { taxonomyId }
-      const r = await db(tableNames.taxonomies)
+      const r = await db(t.taxonomies)
         .where({ ...whereQuery, orgId })
         .update(item).returning('*')
 
@@ -441,7 +504,7 @@ export class QueryManageTaxonomy extends PostsQuery {
     const results = await Promise.all(items.map(async (item) => {
       const { slug, taxonomyId } = item
       const whereQuery = slug ? { slug } : { taxonomyId }
-      const r = await db(tableNames.taxonomies)
+      const r = await db(t.taxonomies)
         .where({ ...whereQuery, orgId })
         .delete()
         .returning('*')
@@ -521,7 +584,7 @@ export class ManagePostIndex extends PostsQuery {
     const { orgId, limit, offset, filters } = args
     const query = this.db()
       .select<TablePostConfig[]>('*')
-      .from(tableNames.posts)
+      .from(t.posts)
       .where('org_id', orgId)
       .limit(limit)
       .offset(offset)
@@ -538,7 +601,7 @@ export class ManagePostIndex extends PostsQuery {
   private async fetchCount(orgId: string): Promise<number> {
     const result = await this.db()
       .count<{ count: string }>('*')
-      .from(tableNames.posts)
+      .from(t.posts)
       .where({ orgId })
       .first()
 
@@ -549,7 +612,7 @@ export class ManagePostIndex extends PostsQuery {
     if (!selectedIds || selectedIds.length === 0)
       throw this.abort('No posts selected for deletion')
 
-    await this.db()(tableNames.posts)
+    await this.db()(t.posts)
       .whereIn('post_id', selectedIds)
       .delete()
 

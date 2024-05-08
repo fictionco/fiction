@@ -153,6 +153,7 @@ describe('cardTemplate', async () => {
         "marquee",
         "area",
         "map",
+        "magazine",
         "testWrap",
       ]
     `)

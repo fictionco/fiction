@@ -78,6 +78,9 @@ describe('user config', () => {
           "OrgMembers",
           "TeamInvite",
           "SeekInviteFromUser",
+          "ManagePost",
+          "ManagePostIndex",
+          "ManageTaxonomy",
         ]
       `)
 
@@ -85,6 +88,7 @@ describe('user config', () => {
       .toMatchInlineSnapshot(`
         [
           "themeMinimal",
+          "testEditor",
           "testInputs",
           "dash",
           "engine",

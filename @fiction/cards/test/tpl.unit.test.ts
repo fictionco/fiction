@@ -63,10 +63,18 @@ describe('verify template settings config', () => {
           "templateId": "map",
           "unusedSchema": {},
         },
+        {
+          "hasDemo": true,
+          "isPublic": false,
+          "templateId": "magazine",
+          "unusedSchema": {
+            "test": "",
+          },
+        },
       ]
     `)
 
-    const incompleteSchema = templatesOptionConfig.some(_ => typeof _.unusedSchema === 'undefined' || Object.keys(_.unusedSchema).length > 0)
+    const incompleteSchema = templatesOptionConfig.some(_ => typeof _.unusedSchema === 'undefined' || (Object.keys(_.unusedSchema).length > 0 && _.isPublic))
 
     expect(incompleteSchema).toBe(false)
 

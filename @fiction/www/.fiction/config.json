@@ -151,6 +151,10 @@
     {
       "key": "ManagePostIndex",
       "path": "/api/fiction-posts/ManagePostIndex"
+    },
+    {
+      "key": "ManageTaxonomy",
+      "path": "/api/fiction-posts/ManageTaxonomy"
     }
   ]
 }

@@ -70,7 +70,6 @@ export function createFictionPlatformServices(opts?: CreateSiteSettings) {
     envFiles = [],
     env = {},
     rootComponent = ElRoot,
-    uiPaths = [],
     version = fictionVersion,
     checkEnvVars = [],
   } = opts || {}
@@ -109,7 +108,6 @@ export function createFictionPlatformServices(opts?: CreateSiteSettings) {
     ...base,
     port: appPort,
     rootComponent,
-    uiPaths,
     isTest: true,
   })
 

@@ -16,10 +16,10 @@ export const standardTable = {
   followers: 'fiction_followers',
   jobs: 'fiction_jobs',
   deleted: 'fiction_deleted',
-  agent: 'pagelines_agent',
-  source: 'pagelines_source',
-  thread: 'pagelines_thread',
-  message: 'pagelines_message',
+  agent: 'fiction_agent',
+  source: 'fiction_source',
+  thread: 'fiction_thread',
+  message: 'fiction_message',
 }
 
 type Timestamps = {
