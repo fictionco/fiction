@@ -1,11 +1,11 @@
 <script lang="ts" setup>
+import type { Card } from '@fiction/site/card'
+import ElPanelSettings from './ElPanelSettings.vue'
+import type { UserConfig } from './SettingsWrap.vue'
 import { useService, vue } from '@fiction/core'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
-import type { Card } from '@fiction/site/card'
-import ElPanelSettings from './ElPanelSettings.vue'
-import type { UserConfig } from './SettingsWrap.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },

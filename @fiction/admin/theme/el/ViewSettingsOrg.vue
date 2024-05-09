@@ -1,8 +1,4 @@
 <script lang="ts" setup>
-import ElInput from '@fiction/ui/inputs/ElInput.vue'
-import ElButton from '@fiction/ui/ElButton.vue'
-import type { Organization, UserMeta } from '@fiction/core'
-import { emitEvent, log, useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import ElAvatarOrg from './ElAvatarOrg.vue'
 import ElPanelSettings from './ElPanelSettings.vue'
@@ -10,6 +6,10 @@ import UtilDeleteOrg from './UtilDeleteOrg.vue'
 import UtilListOrganizations from './UtilListOrganizations.vue'
 
 import type { UserConfig } from './SettingsWrap.vue'
+import { emitEvent, log, useService, vue } from '@fiction/core'
+import type { Organization, UserMeta } from '@fiction/core'
+import ElButton from '@fiction/ui/ElButton.vue'
+import ElInput from '@fiction/ui/inputs/ElInput.vue'
 
 defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },

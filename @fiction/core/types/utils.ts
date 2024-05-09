@@ -46,6 +46,7 @@ export interface ListItem {
   callback?: () => any
   actions?: ListItem[]
   items?: ListItem[]
+  count?: number
   [key: string]: unknown
 }
 

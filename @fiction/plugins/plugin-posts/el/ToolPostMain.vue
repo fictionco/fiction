@@ -1,21 +1,25 @@
 <script lang="ts" setup>
-import { useService, vue, waitFor } from '@fiction/core'
+import { useService, vue } from '@fiction/core'
 import type { ActionItem } from '@fiction/core'
 import ToolForm from '@fiction/admin/tools/ToolForm.vue'
 import type { EditorTool } from '@fiction/admin'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
 import { InputOption } from '@fiction/ui'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
+import type { Card } from '@fiction/site'
 import type { Post } from '../post'
 import type { TablePostConfig } from '../schema'
 import { t } from '../schema'
+import type { FictionPosts } from '..'
+import InputTaxonomy from './InputTaxonomy.vue'
 
 const props = defineProps({
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
   post: { type: Object as vue.PropType<Post>, default: undefined },
+  card: { type: Object as vue.PropType<Card>, required: true },
 })
 
-const service = useService()
+const service = useService<{ fictionPosts: FictionPosts }>()
 
 const actions: ActionItem[] = [
   // {
@@ -34,26 +38,9 @@ const options = vue.computed(() => {
       input: 'group',
       options: [
         new InputOption({
-          key: 'status',
+          key: 'tags',
           label: 'Tags',
-          input: 'InputSelectCustom',
-          props: {
-            fetchList: async (search: string) => {
-              await waitFor(1000)
-              return [
-                { value: 'tag1', name: 'Tag 1' },
-                { value: 'tag2', name: 'Tag 2' },
-                { value: 'tag3', name: 'Tag 3' },
-                { value: 'tag4', name: 'Tag 4' },
-                { value: 'tag5', name: 'Tag 5' },
-                { value: 'tag6', name: 'Tag 6' },
-                { value: 'tag7', name: 'Tag 7' },
-                { value: 'tag8', name: 'Tag 8' },
-                { value: 'tag9', name: 'Tag 9' },
-                { value: 'tag10', name: 'Tag 10' },
-              ]
-            },
-          },
+          input: InputTaxonomy,
         }),
 
       ],

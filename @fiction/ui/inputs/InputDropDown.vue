@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-
 import type { ListItem, MenuGroup } from '@fiction/core'
 import { normalizeList, onResetUi, resetUi, vue } from '@fiction/core'
 import { getButtonClasses } from '../utils'

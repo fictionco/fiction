@@ -3,9 +3,11 @@ import type { vue } from '@fiction/core'
 import ProseEditor from '@fiction/plugin-editor/ProseEditor.vue'
 import XTextBase from '@fiction/ui/XTextBase.vue'
 import ElImage from '@fiction/ui/ElImage.vue'
+import type { Card } from '@fiction/site'
 import type { Post } from '../post'
 
 defineProps({
+  card: { type: Object as vue.PropType<Card>, required: true },
   post: { type: Object as vue.PropType<Post>, default: undefined },
 })
 </script>

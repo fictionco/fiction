@@ -72,7 +72,7 @@ vue.onMounted(async () => {
 
 <template>
   <div>
-    <ViewEditor :tool-props="{ post }" :controller="postEditController" :loading="loading">
+    <ViewEditor :tool-props="{ post, card }" :controller="postEditController" :loading="loading">
       <template #headerLeft>
         <ElButton btn="default" :href="card.link('/')" class="shrink-0">
           <div class="i-tabler-home text-lg" />
@@ -108,7 +108,7 @@ vue.onMounted(async () => {
         </ElButton>
       </template>
       <template #default>
-        <div><ElPostEditor :post="post" /></div>
+        <div><ElPostEditor :post="post" :card="card" /></div>
       </template>
     </ViewEditor>
     <ElModal v-model:vis="vis" modal-class="max-w-screen-md p-24 ">

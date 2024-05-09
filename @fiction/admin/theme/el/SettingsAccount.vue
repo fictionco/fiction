@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import type { vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import AccountWrap from './AccountWrap.vue'
 import SettingsAccountEdit from './SettingsAccountEdit.vue'
 import SettingsAccountEditProfile from './SettingsAccountEditProfile.vue'
 import ElPanelSettings from './ElPanelSettings.vue'
 import type { UserConfig } from './SettingsWrap.vue'
+import type { vue } from '@fiction/core'
 
 defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },

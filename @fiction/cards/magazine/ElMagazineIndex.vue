@@ -2,7 +2,6 @@
 import { type IndexItem, dayjs, getNavComponentType, useService, vue } from '@fiction/core'
 import ElAvatar from '@fiction/ui/ElAvatar.vue'
 import type { Card } from '@fiction/site'
-import { managePostIndex } from '@fiction/plugin-posts'
 import type { FictionPosts, Post, TablePostConfig } from '@fiction/plugin-posts'
 import ClipPathAnim from '@fiction/ui/anim/AnimClipPath.vue'
 import ElBadge from './ElBadge.vue'
@@ -35,12 +34,12 @@ const list = vue.computed<(IndexItem & TablePostConfig)[]>(() => {
 const loading = vue.ref(true)
 async function load() {
   loading.value = true
-  const orgId  = props.card.site?.settings.orgId
+  const orgId = props.card.site?.settings.orgId
 
   if (!orgId)
     throw new Error('No fiction orgId found')
 
-  posts.value = await service.fictionPosts.getPostIndex({limit: 5, orgId})
+  posts.value = await service.fictionPosts.getPostIndex({ limit: 5, orgId })
   loading.value = false
 }
 

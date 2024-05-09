@@ -2,7 +2,7 @@ import { createTestUtils } from '@fiction/core/test-utils/init'
 
 import { afterAll, describe, expect, it } from 'vitest'
 import type { DataFilter } from '@fiction/core'
-import type { TablePostConfig, TableTaxonomyConfig } from '../schema'
+import type { TablePostConfig } from '../schema'
 import { FictionPosts } from '..'
 import type { ManagePostParams, ManageTaxonomyParams } from '../endpoint'
 

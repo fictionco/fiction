@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { ListItem } from '@fiction/core'
-import { debounce, normalizeList, onResetUi, resetUi, vue } from '@fiction/core'
+import { normalizeList, onResetUi, resetUi, vue } from '@fiction/core'
 import type { RouteLocationRaw } from 'vue-router'
 import { selectInputClasses } from './theme'
 
@@ -9,6 +9,9 @@ type RouteListItem = ListItem & { route?: RouteLocationRaw }
 const props = defineProps({
   modelValue: { type: [Number, String, Boolean], default: '' },
   list: { type: Array as vue.PropType<(RouteListItem | string)[] | readonly (RouteListItem | string)[]>, default: () => [] },
+  loading: { type: Boolean, default: false },
+  search: { type: String, default: '' },
+  allowSearch: { type: Boolean, default: false },
   defaultValue: { type: [Number, String, Boolean], default: '' },
   defaultText: { type: String, default: '' },
   zeroText: { type: String, default: 'No items.' },
@@ -16,13 +19,16 @@ const props = defineProps({
   classOption: { type: String, default: '' },
   disabled: { type: Boolean, default: false },
   inputClass: { type: String, default: '' },
-  fetchList: { type: Function as vue.PropType<(search: string) => Promise<ListItem[]>>, default: undefined },
 })
-const emit = defineEmits(['update:modelValue'])
+
+const emit = defineEmits<{
+  (event: 'update:modelValue', payload: number | string | boolean | undefined): void
+  (event: 'update:search', payload: string | undefined): void
+  (event: 'update:focused', payload: boolean): void
+}>()
+
 const active = vue.ref(false)
 const hovered = vue.ref(-1)
-const searchText = vue.ref<string | undefined>()
-const loading = vue.ref(false)
 
 if (!props.modelValue && props.defaultValue) {
   emit('update:modelValue', props.defaultValue)
@@ -34,12 +40,19 @@ else if (!props.modelValue) {
     emit('update:modelValue', defaultValue.value)
 }
 
-const isFocused = vue.ref(false)
-const dynamic = vue.ref<ListItem[]>([])
+const li = vue.computed(() => normalizeList(props.list))
 
 function setInactive() {
-  searchText.value = undefined
+  setSearchTextValue(undefined)
   active.value = false
+}
+
+function setSearchTextValue(value?: string): void {
+  emit('update:search', value)
+}
+
+function setFocused(value: boolean): void {
+  emit('update:focused', value)
 }
 
 async function selectValue(item: RouteListItem): Promise<void> {
@@ -75,51 +88,9 @@ function listItemClass(item: ListItem, i: number): string {
   return out.join(' ')
 }
 
-const searchCache = new Map<string, ListItem[]>()
-async function loadData(search: string) {
-  if (!props.fetchList)
-    return
-
-  if (searchCache.has(search)) {
-    dynamic.value = searchCache.get(search) ?? []
-    return
-  }
-
-  loading.value = true
-  try {
-    dynamic.value = await props.fetchList(search)
-
-    if (search)
-      searchCache.set(search, dynamic.value)
-  }
-  catch (error) {
-    console.error('Error fetching data:', error)
-  }
-  finally {
-    loading.value = false
-  }
-}
-
-const renderList = vue.computed(() => {
-  // Normalize the search text by converting to lower case and removing all whitespace
-  const search = searchText.value?.toLowerCase().replace(/\s+/g, '')
-
-  const list = normalizeList([...props.list, ...dynamic.value])
-
-  return !search || !isFocused.value
-    ? list
-    : list.filter((item) => {
-      // Construct a single string from name, description, and value, also normalized
-      const searchString = `${item.name?.toLowerCase() || ''} ${item.desc?.toLowerCase() || ''} ${item.value}`
-        .replace(/\s+/g, '') // Remove all whitespace for robust matching
-
-      return searchString.includes(search)
-    })
-})
-
-const defaultItem = vue.computed(() => renderList.value.find(item => item.value === props.defaultValue))
-const selectedItem = vue.computed<ListItem | undefined>(() => renderList.value.find(item => item.value === props.modelValue) || defaultItem.value)
-const selectedIndex = vue.computed<number>(() => renderList.value.findIndex(_ => _.value === props.modelValue))
+const defaultItem = vue.computed(() => li.value.find(item => item.value === props.defaultValue))
+const selectedItem = vue.computed<ListItem | undefined>(() => li.value.find(item => item.value === props.modelValue) || defaultItem.value)
+const selectedIndex = vue.computed<number>(() => li.value.findIndex(_ => _.value === props.modelValue))
 
 function toggle(): void {
   if (props.disabled)
@@ -131,17 +102,10 @@ function toggle(): void {
 }
 
 async function selectByIndex(index: number): Promise<void> {
-  const item = renderList.value[index]
+  const item = li.value[index]
   if (item)
     await selectValue(item)
 }
-
-vue.watch(() => [searchText.value, isFocused.value], () => {
-  if (isFocused.value)
-    debounce(loadData, 150)()
-  // else
-  //   searchText.value = ''
-})
 </script>
 
 <template>
@@ -153,7 +117,7 @@ vue.watch(() => [searchText.value, isFocused.value], () => {
         class="relative"
         tabindex="-1"
         @click="toggle()"
-        @keydown.down.prevent="hovered = hovered === renderList.length - 1 ? 0 : hovered + 1"
+        @keydown.down.prevent="hovered = hovered === li.length - 1 ? 0 : hovered + 1"
         @keydown.up.prevent="hovered = hovered ? hovered - 1 : 0"
         @keydown.enter.prevent="!active ? toggle() : selectByIndex(hovered)"
         @keydown.esc.prevent="setInactive()"
@@ -162,12 +126,12 @@ vue.watch(() => [searchText.value, isFocused.value], () => {
           type="text"
           :class="[themeClasses.buttonClasses.always, disabled ? themeClasses.buttonClasses.disabled : themeClasses.buttonClasses.regular]"
 
-          :value="searchText ?? selectedItem?.name"
+          :value="search ?? selectedItem?.name"
           :placeholder="String(defaultValue) || defaultText || 'Select'"
-          :readonly="!props.fetchList"
-          @input="searchText = ($event.target as HTMLInputElement)?.value"
-          @focus="isFocused = true"
-          @blur="isFocused = false"
+          :readonly="!props.allowSearch"
+          @input="setSearchTextValue(($event.target as HTMLInputElement)?.value)"
+          @focus="setFocused(true)"
+          @blur="setFocused(false)"
         >
 
         <div class="z-10 absolute right-1 top-0 h-full flex items-center px-1" :class="[themeClasses.selector.always, active ? themeClasses.selector.active : '']" @click.stop="toggle()">
@@ -195,7 +159,7 @@ vue.watch(() => [searchText.value, isFocused.value], () => {
             :aria-activedescendant="`listbox-item-${selectedIndex}`"
             class="focus:outline-none p-2"
           >
-            <div v-if="!renderList || renderList.length === 0" class="p-2 text-center text-theme-300 dark:text-theme-600 text-sm">
+            <div v-if="!li || li.length === 0" class="p-2 text-center text-theme-300 dark:text-theme-600 text-sm">
               <template v-if="loading">
                 <div class="i-svg-spinners-3-dots-bounce text-2xl" />
               </template>
@@ -203,7 +167,7 @@ vue.watch(() => [searchText.value, isFocused.value], () => {
                 {{ zeroText }}
               </template>
             </div>
-            <template v-for="(item, i) of renderList" v-else :key="i">
+            <template v-for="(item, i) of li" v-else :key="i">
               <li v-if="item.format === 'divider' || item.value === 'divider'">
                 <div :class="themeClasses.optionClasses.divider" />
               </li>

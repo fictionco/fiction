@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { type IndexItem, dayjs, useService, vue } from '@fiction/core'
+import { useService, vue } from '@fiction/core'
 
 import type { Card } from '@fiction/site'
-import type { FictionPosts, Post, TablePostConfig } from '@fiction/plugin-posts'
+import type { FictionPosts, Post } from '@fiction/plugin-posts'
 import ClipPathAnim from '@fiction/ui/anim/AnimClipPath.vue'
 import ElBadge from './ElBadge.vue'
 import type { UserConfig } from '.'
@@ -64,7 +64,6 @@ const proseClass = `prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl mx-
         <ElBadge v-if="userIsAuthor" theme="overlay">
           Edit Post
         </ElBadge>
-
       </div>
       <h1 class="text-6xl font-bold x-font-title text-balance">
         {{ post.title.value }}

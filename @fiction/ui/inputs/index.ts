@@ -5,7 +5,6 @@ import type { z } from 'zod'
 const def = vue.defineAsyncComponent
 
 export const inputs: Record<string, { el: vue.Component, shape?: string[] }> = {
-  InputComboBox: { el: def(() => import('./InputComboBox.vue')) },
   InputUsername: { el: def(() => import('./InputUsername.vue')) },
   InputImage: { el: def(() => import('./InputImage.vue')) },
   InputMarkdown: { el: def(() => import('./InputMarkdown.vue')) },

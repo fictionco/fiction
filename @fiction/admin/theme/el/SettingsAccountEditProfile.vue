@@ -1,10 +1,9 @@
 <script lang="ts" setup>
+import type { Card } from '@fiction/site/card'
 import type { User, UserMeta } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
-
-import type { Card } from '@fiction/site/card'
 
 defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },

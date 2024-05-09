@@ -91,6 +91,14 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
     }
   }
 
+  async getPostTaxonomyList(args: { orgId: string, search?: string, type: 'category' | 'tag' }) {
+    const { orgId, search } = args
+
+    const r = await this.requests.ManageTaxonomy.request({ _action: 'list', orgId, search, orderMode: 'popularity' })
+
+    return r.data || []
+  }
+
   async getPost(args: { orgId: string, postId?: string, slug?: string } &({ postId: string } | { slug: string })) {
     const { orgId, postId, slug } = args
 
