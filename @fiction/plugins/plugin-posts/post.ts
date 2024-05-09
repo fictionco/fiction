@@ -93,9 +93,9 @@ export class Post extends FictionObject<PostConfig> {
     const _action = mode === 'publish' ? 'update' : 'saveDraft'
 
     const fields = mode === 'publish'
-      ? { ...this.toConfig(), status: 'published', isPublished: true } as const
+      ? { ...this.toConfig() } as const
       : mode === 'schedule'
-        ? { ...this.toConfig(), status: 'scheduled', isPublished: true, publishAt: args.publishAt } as const
+        ? { ...this.toConfig(), status: 'scheduled', publishAt: args.publishAt } as const
         : this.toConfig()
 
     const params = { _action, postId: this.postId, fields } as const

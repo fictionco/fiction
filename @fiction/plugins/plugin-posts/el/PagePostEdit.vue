@@ -101,7 +101,7 @@ vue.onMounted(async () => {
           size="md"
           @click.stop.prevent="publish()"
         >
-          {{ post?.status.value === 'draft' ? 'Publish Post' : 'Update Post' }}
+          {{ post?.status.value !== 'draft' ? 'Save Changes' : 'Update Draft' }}
         </ElButton>
       </template>
       <template #default>

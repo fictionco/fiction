@@ -313,15 +313,18 @@ export class QueryManagePost extends PostsQuery {
 
     // Ensure the slug is unique within the organization
     fields.slug = await this.getSlugId({ orgId, fields })
+    fields.title = fields.title || `Untitled Post`
 
     const prepped = prepareFields({ type: 'create', fields, table: t.posts, meta, fictionDb: this.settings.fictionDb })
 
-    const fieldsWithOrg = { type: 'post', status: 'draft', ...prepped, orgId, userId }
+    const fieldsWithOrg = { type: 'post', status: 'draft', ...prepped, orgId, userId } as const
     const [{ postId }] = await db(t.posts).insert(fieldsWithOrg).returning('postId')
 
-    const authors = fields.authors || [{ userId }]
+    const authors = fields.authors?.length ? fields.authors : [{ userId }]
 
-    const associationParams = { ...params, authors, postId, _action: 'update' } as const
+    const associationFields = { ...fieldsWithOrg, taxonomy: fields.taxonomy, postId, authors } as const
+
+    const associationParams = { ...params, fields: associationFields, postId, _action: 'update' } as const
     await Promise.all([
       this.updatePostTaxonomies(associationParams),
       this.updateAssociations('authors', associationParams),

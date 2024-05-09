@@ -19,6 +19,21 @@ describe('taxonomy management tests', async () => {
   })
 
   it('handles authors on a post', async () => {
+    const createNoAuthors: ManagePostParams = {
+      _action: 'create',
+      fields: {
+        title: 'Author Post',
+        content: 'Content of the new post',
+      },
+      orgId,
+      userId,
+    } as const
+
+    const res = await fictionPosts.queries.ManagePost.serve(createNoAuthors, {})
+
+    expect(res.data?.authors?.length).toBe(1)
+    expect(res.data?.authors?.[0].userId).toBe(userId)
+
     const { user: { userId: userId2 } = {} } = await createTestUser(testUtils.fictionUser)
 
     const passedAuthors = [{ userId }, { userId: userId2 }]

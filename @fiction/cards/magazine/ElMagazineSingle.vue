@@ -47,6 +47,18 @@ const userIsAuthor = vue.computed(() => {
   return post.value?.settings.authors?.some(a => a.userId === service.fictionUser.activeUser.value?.userId)
 })
 const proseClass = `prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl mx-auto focus:outline-none `
+
+const imageAspect = vue.computed(() => {
+  const img = post.value?.image.value
+  const h = img?.height
+  const w = img?.width
+
+  console.log('img', img, h, w)
+  if (!img || !w || !h)
+    return 'aspect-[2/1]'
+
+  return w > h ? 'aspect-square max-h-[70dvh]' : 'aspect-[2/1]'
+})
 </script>
 
 <template>
@@ -58,7 +70,6 @@ const proseClass = `prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl mx-
       <ElSpinner class="h-12 w-12" />
     </div>
     <article v-if="post" class="p-8" :class="card.classes.value.contentWidth">
-
       <div class="space-y-8 my-[min(max(35px,_5vw),_60px)] prose:max-w-none text-center max-w-screen-lg mx-auto" :class="proseClass">
         <div class="tags space-x-3">
           <ElBadge theme="naked" :href="card.link('/:viewId')">
@@ -79,9 +90,9 @@ const proseClass = `prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl mx-
         </h3>
       </div>
       <ClipPathAnim :enabled="true" class="my-[min(max(35px,_5vw),_60px)]">
-        <div v-if="post.image.value?.url" class=" mx-auto aspect-[2/1] relative overflow-hidden rounded-lg ">
+        <div v-if="post.image.value?.url" class=" mx-auto relative overflow-hidden rounded-lg" :class="imageAspect">
           <!-- Optionally display media -->
-          <img :src="post.image.value?.url" alt="Post media" class="absolute h-full w-full object-cover object-[center_40%]">
+          <img :src="post.image.value?.url" alt="Post media" class="absolute h-full w-full object-cover object-center">
         </div>
       </ClipPathAnim>
       <div class="content-container px-4" :class="proseClass" v-html="post.content.value" />
