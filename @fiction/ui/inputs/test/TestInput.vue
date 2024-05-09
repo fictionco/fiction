@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
-import XTextBase from '../../XTextBase.vue'
+import XText from '../../common/XText.vue'
 import ElForm from '../ElForm.vue'
 import type { InputOption } from '..'
 
@@ -54,7 +54,7 @@ const isValid = vue.ref(false)
             </span>
           </div>
           <div class="min-w-0 break-words tracking-tight" :data-input-value="val">
-            <XTextBase
+            <XText
               tag="div"
               class=""
               :model-value="(val || '[empty]').toString()"

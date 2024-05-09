@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import type { ActionItem, IndexItem, IndexMeta } from '@fiction/core'
 import { getNavComponentType, vue } from '@fiction/core'
-import ElZeroBanner from './ElZeroBanner.vue'
-import ElButton from './ElButton.vue'
-import ElSpinner from './loaders/ElSpinner.vue'
-import ElImage from './ElImage.vue'
+import ElZeroBanner from '../ElZeroBanner.vue'
+import ElButton from '../ElButton.vue'
+import ElSpinner from '../loaders/ElSpinner.vue'
+import ElImage from '../media/ElImage.vue'
 
 defineProps({
   list: { type: Array as vue.PropType<IndexItem[]>, default: () => [] },

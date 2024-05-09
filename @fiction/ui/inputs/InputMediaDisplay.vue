@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
 import type { MediaDisplayObject } from '@fiction/core'
-import ElImage from '../ElImage.vue'
+import ElImage from '../media/ElImage.vue'
 import ElInput from './ElInput.vue'
 import ElDropDown from './InputDropDown.vue'
 import InputMediaUpload from './InputMediaUpload.vue'

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import ElPanel from '@fiction/ui/ElPanel.vue'
-import ElIndexGrid from '@fiction/ui/ElIndexGrid.vue'
+import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 import type { ActionItem, FictionApp, IndexItem, IndexMeta } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
 

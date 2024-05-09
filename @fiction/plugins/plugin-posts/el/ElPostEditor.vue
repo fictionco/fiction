@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { vue } from '@fiction/core'
 import ProseEditor from '@fiction/plugin-editor/ProseEditor.vue'
-import XTextBase from '@fiction/ui/XTextBase.vue'
-import ElImage from '@fiction/ui/ElImage.vue'
+import XText from '@fiction/ui/common/XText.vue'
+import ElImage from '@fiction/ui/media/ElImage.vue'
 import type { Card } from '@fiction/site'
 import type { Post } from '../post'
 
@@ -17,7 +17,7 @@ defineProps({
     <div class="py-12 prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl mx-auto focus:outline-none antialiased ">
       <div class="flex gap-6 justify-between">
         <div class=" flex-grow">
-          <XTextBase
+          <XText
             :model-value="post.title.value"
             tag="h1"
             class="text-balance"
@@ -25,7 +25,7 @@ defineProps({
             placeholder="Enter Title"
             @update:model-value="post?.update({ title: $event as string })"
           />
-          <XTextBase
+          <XText
             :model-value="post.subTitle.value"
             tag="h3"
             class="dark:text-theme-300"

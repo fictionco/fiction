@@ -4,7 +4,7 @@ import { onResetUi, resetUi, useService, vue } from '@fiction/core'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import El404 from '@fiction/ui/El404.vue'
-import XTextBase from '@fiction/ui/XTextBase.vue'
+import XText from '@fiction/ui/common/XText.vue'
 import ViewEditor from '@fiction/admin/ViewEditor.vue'
 import type { Site } from '../site'
 import type { FictionSites } from '..'
@@ -109,7 +109,7 @@ async function save() {
               Site Builder /
             </RouterLink>
 
-            <XTextBase v-if="site" v-model="site.title.value" :is-editable="true" class="hover:bg-theme-100" />
+            <XText v-if="site" v-model="site.title.value" :is-editable="true" class="hover:bg-theme-100" />
           </div>
         </template>
         <template v-if="site" #headerRight>

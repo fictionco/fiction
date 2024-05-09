@@ -3,7 +3,7 @@ import { useService, vue, waitFor } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import ViewEditor from '@fiction/admin/ViewEditor.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
-import XTextBase from '@fiction/ui/XTextBase.vue'
+import XText from '@fiction/ui/common/XText.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
 import InputDate from '@fiction/ui/inputs/InputDate.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
@@ -86,7 +86,7 @@ vue.onMounted(async () => {
             <span>Edit Post</span>
             <span class="i-tabler-slash text-xl dark:text-theme-500" />
           </RouterLink>
-          <XTextBase v-if="post" v-model="post.title.value" class="whitespace-nowrap" :is-editable="true" />
+          <XText v-if="post" v-model="post.title.value" class="whitespace-nowrap" :is-editable="true" />
         </div>
       </template>
       <template #headerRight>

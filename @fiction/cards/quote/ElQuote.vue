@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
-import ElImage from '@fiction/ui/ElImage.vue'
+import ElImage from '@fiction/ui/media/ElImage.vue'
 import type { Card } from '@fiction/site'
-import XText from '../CardText.vue'
+import CardText from '../CardText.vue'
 import NavDots from '../el/NavDots.vue'
 
 import type { Quote, UserConfig } from '.'
@@ -35,7 +35,7 @@ const activeItem = vue.ref(0)
         </div>
         <div class="flex-col justify-center text-balance">
           <div class="min-w-0 text-left md:text-center text-3xl sm:text-4xl lg:text-7xl">
-            <XText
+            <CardText
               tag="span"
               :card="card"
               :path="`quotes.${i}.text`"
@@ -56,8 +56,8 @@ const activeItem = vue.ref(0)
             />
           </div>
           <div class="text-left  space-y-0.5" :class="hasAuthorImage(quote) ? 'text-left' : 'md:text-center'">
-            <XText :card="card" :path="`quotes.${i}.author.name`" class="text-lg md:text-3xl font-bold" animate="fade" />
-            <XText class="font-sans text-sm md:text-xl text-theme-500 dark:text-theme-400" :card="card" :path="`quotes.${i}.author.title`" animate="fade" />
+            <CardText :card="card" :path="`quotes.${i}.author.name`" class="text-lg md:text-3xl font-bold" animate="fade" />
+            <CardText class="font-sans text-sm md:text-xl text-theme-500 dark:text-theme-400" :card="card" :path="`quotes.${i}.author.title`" animate="fade" />
           </div>
         </div>
       </div>

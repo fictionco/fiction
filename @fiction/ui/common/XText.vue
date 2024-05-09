@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { clean, onResetUi, shortId, toHtml, toMarkdown, vue } from '@fiction/core'
 
-import { animateItemEnter, splitLetters, useElementVisible } from './anim'
+import { animateItemEnter, splitLetters, useElementVisible } from '../anim'
 
 const props = defineProps({
   tag: {

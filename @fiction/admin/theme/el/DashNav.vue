@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site/card'
-import ElAvatarOrg from './ElAvatarOrg.vue'
 import type { MediaDisplayObject, NavItem, vue } from '@fiction/core'
 import { getNavComponentType, toLabel, useService } from '@fiction/core'
-import ElImage from '@fiction/ui/ElImage.vue'
+import ElImage from '@fiction/ui/media/ElImage.vue'
+import ElAvatarOrg from './ElAvatarOrg.vue'
 
 defineProps({
   icon: { type: Object as vue.PropType<MediaDisplayObject>, default: undefined },

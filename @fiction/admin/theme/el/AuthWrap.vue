@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site/card'
-import AuthForm from './AuthForm.vue'
 import type { MediaDisplayObject } from '@fiction/core'
 import { unhead, useService, vue } from '@fiction/core'
-import ElImage from '@fiction/ui/ElImage.vue'
+import ElImage from '@fiction/ui/media/ElImage.vue'
+import AuthForm from './AuthForm.vue'
 
 export type UserConfig = { logo?: MediaDisplayObject, termsUrl?: string, privacyUrl?: string }
 const props = defineProps({

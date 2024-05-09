@@ -2,8 +2,8 @@
 import { clean, log, vue, waitFor } from '@fiction/core'
 import * as bh from 'blurhash'
 import type { ImageFilterConfig, MediaDisplayObject } from '@fiction/core'
+import ClipPathAnim from '../anim/AnimClipPath.vue'
 import ElOverlay from './ElOverlay.vue'
-import ClipPathAnim from './anim/AnimClipPath.vue'
 
 defineOptions({ name: 'ElImage' })
 

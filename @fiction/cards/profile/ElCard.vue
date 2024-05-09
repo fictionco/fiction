@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { vue } from '@fiction/core'
-import ElImage from '@fiction/ui/ElImage.vue'
+import ElImage from '@fiction/ui/media/ElImage.vue'
 import type { Card } from '@fiction/site'
 import { useElementVisible } from '@fiction/ui/anim'
 import CardText from '../CardText.vue'

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { getNested, setNested, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
-import XTextBase from '@fiction/ui/XTextBase.vue'
+import XText from '@fiction/ui/common/XText.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
@@ -34,7 +34,7 @@ const value = vue.computed(() => {
 </script>
 
 <template>
-  <XTextBase
+  <XText
     :data-key="path"
     v-bind="attrs"
     :tag="tag"

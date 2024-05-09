@@ -2,7 +2,7 @@
 import type { MediaDisplayObject, NavItem, NavItemGroup } from '@fiction/core'
 import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
-import ElImage from '@fiction/ui/ElImage.vue'
+import ElImage from '@fiction/ui/media/ElImage.vue'
 import CardSocials from '@fiction/cards/el/CardSocials.vue'
 import ElNavLink from '@fiction/ui/ElNavLink.vue'
 
