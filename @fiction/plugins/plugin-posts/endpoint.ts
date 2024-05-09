@@ -115,7 +115,7 @@ export class QueryManagePost extends PostsQuery {
     let post = await query.first<TablePostConfig>()
 
     if (!post)
-      throw this.abort('Post not found', { data: { _action: 'get', postId } })
+      throw this.abort('Post not found')
 
     const allAuthorIds = [post.userId].filter(Boolean) as string[]
     const allAuthors = await this.fetchAuthors(allAuthorIds)
@@ -155,7 +155,7 @@ export class QueryManagePost extends PostsQuery {
     // Retrieve current post details
     const currentPost = await this.getPost({ postId, orgId, select: ['status', 'dateAt', 'slug'], caller: 'updatePostGetExisting' }, _meta)
     if (!currentPost)
-      throw this.abort('Post not found', { data: params })
+      throw this.abort('Post not found')
 
     if (fields.slug && fields.slug !== currentPost.slug)
       fields.slug = await this.getSlugId({ orgId, postId, fields })

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { ActionItem, vue } from '@fiction/core'
-import ElButton from './ElButton.vue'
+import ElButton from '../ElButton.vue'
 
 defineProps({
   superHeading: { type: String, default: undefined },
@@ -11,9 +11,9 @@ defineProps({
 </script>
 
 <template>
-  <div class="grid min-h-full place-items-center  px-6 py-24 sm:py-32 lg:px-8 v-dvh">
+  <div class="grid min-h-full place-items-center  px-6 py-24 sm:py-32 lg:px-8 h-[80dvh]">
     <div class="text-center">
-      <p class="text-base font-semibold text-theme-400">
+      <p class="text-sm font-medium text-theme-400 font-sans antialiased uppercase tracking-widest">
         {{ superHeading || '404' }}
       </p>
       <h1 class="mt-4 text-3xl font-bold tracking-tight sm:text-5xl x-font-title">

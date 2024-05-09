@@ -5,6 +5,7 @@ import type { Card } from '@fiction/site'
 import type { FictionPosts, Post, TablePostConfig } from '@fiction/plugin-posts'
 import ClipPathAnim from '@fiction/ui/anim/AnimClipPath.vue'
 import ElBadge from '@fiction/ui/common/ElBadge.vue'
+import El404 from '@fiction/ui/page/El404.vue'
 import type { UserConfig } from '.'
 
 const props = defineProps({
@@ -40,6 +41,7 @@ async function load() {
     throw new Error('No fiction orgId found')
 
   posts.value = await service.fictionPosts.getPostIndex({ limit: 5, orgId })
+
   loading.value = false
 }
 
@@ -62,26 +64,26 @@ function getItemClasses(index: number): string {
 <template>
   <div class="p-8" :class="card.classes.value.contentWidth">
     <!-- Grid Container -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+    <div v-if="list.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
       <!-- Loop through posts -->
       <component
         :is="getNavComponentType(item)"
-        v-for="(item, index) in list"
+        v-for="(item, i) in list"
         :key="item.slug"
         :to="item.href ? card.link(item.href) : ''"
         :href="item.href ? card.link(item.href) : ''"
-        :class="[getItemClasses(index)]"
+        :class="[getItemClasses(i)]"
       >
         <ClipPathAnim :enabled="true" class="w-full h-full">
           <div
             class="h-full w-full relative group cursor-pointer block "
-            :class="index === 0 ? '' : 'aspect-[4/3]'"
+            :class="i === 0 ? '' : 'aspect-[4/3]'"
             :style="item.media?.url ? { backgroundImage: `url(${item.media.url})` } : {}"
           >
             <div :data-bg="item.media?.url" class="group-hover:scale-110 duration-1000 ease-[cubic-bezier(0.25,1,0.33,1)] absolute z-0 inset-0 bg-cover  bg-gradient-to-br from-theme-50 dark:from-theme-600 to-theme-100 dark:to-theme-700 rounded-lg overflow-hidden bg-center" :style="item.media?.url ? { backgroundImage: `url(${item.media.url})` } : {}" />
-            <div v-if="index === 0" class="overlay absolute w-full h-full z-10 pointer-events-none inset-0" />
+            <div v-if="i === 0" class="overlay absolute w-full h-full z-10 pointer-events-none inset-0" />
             <div v-if="!item.media" class="w-full h-60 sm:h-full" />
-            <div v-if="index === 0" class="p-[min(max(35px,_3.5vw),_50px)] text-theme-0 z-20 relative ">
+            <div v-if="i === 0" class="p-[min(max(35px,_3.5vw),_50px)] text-theme-0 z-20 relative ">
               <div class="mb-4">
                 <ElBadge theme="overlay">
                   About
@@ -104,7 +106,7 @@ function getItemClasses(index: number): string {
             </div>
           </div>
         </ClipPathAnim>
-        <div v-if="index !== 0" class="pt-4">
+        <div v-if="i !== 0" class="pt-4">
           <h2 class="text-xl font-bold x-font-title text-balance">
             {{ item.name }}
           </h2>
@@ -116,6 +118,7 @@ function getItemClasses(index: number): string {
         </div>
       </component>
     </div>
+    <El404 v-else super-heading="Blog" heading="No Posts Found" sub-heading="No posts were available to show here." :actions="[{ name: 'Go to Home', href: '/' }]" />
   </div>
 </template>
 

@@ -44,13 +44,13 @@ async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
           <div class="nav-menu">
             <component
               :is="getNavComponentType(sub)"
-              class="group nav-item flex  cursor-pointer items-center py-4 px-4 space-x-3 truncate rounded-full font-sans text-base antialiased  focus:outline-none transition-all duration-100"
+              class="group nav-item flex  cursor-pointer items-center py-3 px-4 space-x-3 truncate rounded-full font-sans text-base antialiased  focus:outline-none transition-all duration-100"
               :to="sub.href"
               :href="sub.href"
               :class="
                 sub.isActive
-                  ? 'font-bold bg-primary-100/50 text-primary-700 hover:text-primary-500 dark:bg-primary-975 dark:text-primary-200 '
-                  : 'font-medium text-theme-700 dark:text-theme-0 dark:hover:bg-primary-975 hover:text-theme-900 border-theme-0'
+                  ? 'font-bold bg-primary-100/50 text-primary-700 hover:text-primary-500 dark:bg-theme-700 dark:text-theme-0 '
+                  : 'font-medium text-theme-700 dark:text-theme-300 dark:hover:bg-theme-700 hover:text-theme-900 border-theme-0'
               "
               @click="handleClick($event, sub)"
             >

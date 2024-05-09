@@ -5,6 +5,8 @@ import type { Card } from '@fiction/site'
 import type { FictionPosts, Post } from '@fiction/plugin-posts'
 import ClipPathAnim from '@fiction/ui/anim/AnimClipPath.vue'
 import ElBadge from '@fiction/ui/common/ElBadge.vue'
+import El404 from '@fiction/ui/page/El404.vue'
+import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import type { UserConfig } from '.'
 
 const props = defineProps({
@@ -48,38 +50,44 @@ const proseClass = `prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl mx-
 </script>
 
 <template>
-  <article v-if="post" class="p-8" :class="card.classes.value.contentWidth">
-    <!-- Post container -->
-    <div class="space-y-8 my-[min(max(35px,_5vw),_60px)] prose:max-w-none text-center max-w-screen-lg mx-auto" :class="proseClass">
-      <div class="tags space-x-3">
-        <ElBadge theme="naked" :href="card.link('/:viewId')">
-          &larr; All Posts
-        </ElBadge>
-        <ElBadge theme="blue">
-          Work
-        </ElBadge>
-        <ElBadge theme="red">
-          Writing
-        </ElBadge>
-        <ElBadge v-if="userIsAuthor" theme="overlay">
-          Edit Post
-        </ElBadge>
-      </div>
-      <h1 class="text-6xl font-bold x-font-title text-balance">
-        {{ post.title.value }}
-      </h1>
-      <h3 class=" font-medium dark:text-theme-400 text-balance">
-        {{ post.subTitle.value }}
-      </h3>
+  <div>
+    <div
+      v-if="loading"
+      class="flex py-24 justify-center h-[90dvh] text-theme-300 dark:text-theme-700"
+    >
+      <ElSpinner class="h-12 w-12" />
     </div>
-    <ClipPathAnim :enabled="true" class="my-[min(max(35px,_5vw),_60px)]">
-      <div v-if="post.image.value?.url" class=" mx-auto aspect-[2/1] relative overflow-hidden rounded-lg ">
-        <!-- Optionally display media -->
-        <img :src="post.image.value?.url" alt="Post media" class="absolute h-full w-full object-cover object-[center_40%]">
+    <article v-if="post" class="p-8" :class="card.classes.value.contentWidth">
+
+      <div class="space-y-8 my-[min(max(35px,_5vw),_60px)] prose:max-w-none text-center max-w-screen-lg mx-auto" :class="proseClass">
+        <div class="tags space-x-3">
+          <ElBadge theme="naked" :href="card.link('/:viewId')">
+            &larr; All Posts
+          </ElBadge>
+          <ElBadge v-for="(categories, i) in post.categories.value" :key="i" theme="theme">
+            {{ categories.title }}
+          </ElBadge>
+          <ElBadge v-if="userIsAuthor" theme="theme" :href="post.editLink.value">
+            Edit Post <span class="ml-1 i-heroicons-arrow-up-right-20-solid" />
+          </ElBadge>
+        </div>
+        <h1 class="text-6xl font-bold x-font-title text-balance">
+          {{ post.title.value }}
+        </h1>
+        <h3 class=" font-medium dark:text-theme-400 text-balance">
+          {{ post.subTitle.value }}
+        </h3>
       </div>
-    </ClipPathAnim>
-    <div class="content-container px-4" :class="proseClass" v-html="post.content.value" />
-  </article>
+      <ClipPathAnim :enabled="true" class="my-[min(max(35px,_5vw),_60px)]">
+        <div v-if="post.image.value?.url" class=" mx-auto aspect-[2/1] relative overflow-hidden rounded-lg ">
+          <!-- Optionally display media -->
+          <img :src="post.image.value?.url" alt="Post media" class="absolute h-full w-full object-cover object-[center_40%]">
+        </div>
+      </ClipPathAnim>
+      <div class="content-container px-4" :class="proseClass" v-html="post.content.value" />
+    </article>
+    <El404 v-else heading="Post Not Found" :actions="[{ name: 'All Posts', href: card.link('/:viewId') }]" />
+  </div>
 </template>
 
 <style lang="less">
