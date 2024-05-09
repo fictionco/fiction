@@ -110,10 +110,7 @@ async function selectByIndex(index: number): Promise<void> {
 
 <template>
   <div @keydown.stop @click.stop>
-    <div
-      :class="themeClasses.wrapClass"
-    >
-
+    <div :class="themeClasses.wrapClass">
       <div
         class="relative"
         tabindex="-1"

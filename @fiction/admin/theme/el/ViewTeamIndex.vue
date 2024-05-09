@@ -2,13 +2,13 @@
 import { useService } from '@fiction/core/inject'
 import type { FictionTeam } from '@fiction/core/plugin-team'
 import type { Card } from '@fiction/site/card'
-import ElPanelSettings from './ElPanelSettings.vue'
 
-import type { UserConfig } from './SettingsWrap.vue'
 import ElTable from '@fiction/ui/ElTable.vue'
 import type { TableCell } from '@fiction/ui/ElTable.vue'
 import { dayjs, vue } from '@fiction/core'
 import type { OrganizationMember } from '@fiction/core'
+import type { UserConfig } from './SettingsWrap.vue'
+import ElPanelSettings from './ElPanelSettings.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },

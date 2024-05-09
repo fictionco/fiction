@@ -16,6 +16,8 @@ export class Post extends FictionObject<PostConfig> {
   image = vue.ref(this.settings.image || {})
   tags = vue.ref(this.settings.taxonomy?.filter(_ => _.type === 'tag') || [])
   categories = vue.ref(this.settings.taxonomy?.filter(_ => _.type === 'category') || [])
+  authors = vue.ref(this.settings.authors || [])
+  sites = vue.ref(this.settings.sites || [])
   dateAt = vue.ref(this.settings.dateAt || new Date().toISOString())
   userConfig = vue.ref(this.settings.userConfig || {})
   isDirty = vue.ref(false)
@@ -47,6 +49,8 @@ export class Post extends FictionObject<PostConfig> {
       'status',
       'tags',
       'categories',
+      'authors',
+      'sites',
     ]
     const entries = Object.entries(postConfig).filter(([key]) => availableKeys.includes(key))
     entries.forEach(([key, value]) => {
@@ -124,6 +128,8 @@ export class Post extends FictionObject<PostConfig> {
       taxonomy: [...this.tags.value, ...this.categories.value],
       tags: this.tags.value,
       categories: this.categories.value,
+      authors: this.authors.value,
+      sites: this.sites.value,
     }
   }
 }

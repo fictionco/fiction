@@ -28,9 +28,6 @@ const post = vue.shallowRef<Post | undefined>()
 const publishItemSelected = vue.ref<string | undefined>()
 
 const vis = vue.ref(false)
-async function showPublishModal() {
-  vis.value = true
-}
 
 async function publish(mode: 'publish' | 'schedule' = 'publish') {
   if (!post.value)

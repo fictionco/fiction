@@ -20,6 +20,7 @@ export const standardTable = {
   source: 'fiction_source',
   thread: 'fiction_thread',
   message: 'fiction_message',
+  site: 'fiction_site',
 }
 
 type Timestamps = {

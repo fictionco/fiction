@@ -1,4 +1,4 @@
-import { createTestUtils } from '@fiction/core/test-utils/init'
+import { createTestUser, createTestUtils } from '@fiction/core/test-utils/init'
 
 import { afterAll, describe, expect, it } from 'vitest'
 import type { DataFilter } from '@fiction/core'
@@ -16,6 +16,30 @@ describe('taxonomy management tests', async () => {
 
   afterAll(async () => {
     await testUtils.close()
+  })
+
+  it('handles authors on a post', async () => {
+    const { user: { userId: userId2 } = {} } = await createTestUser(testUtils.fictionUser)
+
+    const passedAuthors = [{ userId }, { userId: userId2 }]
+    const create: ManagePostParams = {
+      _action: 'create',
+      fields: {
+        title: 'Author Post',
+        content: 'Content of the new post',
+        authors: passedAuthors,
+      },
+      orgId,
+      userId,
+    } as const
+
+    const r = await fictionPosts.queries.ManagePost.serve(create, {})
+
+    expect(r.status).toBe('success')
+    expect(r.data).toBeInstanceOf(Object)
+    expect(r.data?.authors).toBeInstanceOf(Array)
+    expect(r.data?.authors?.length).toBe(2)
+    expect(r.data?.authors?.map(_ => _.userId).sort()).toStrictEqual([userId, userId2].sort())
   })
 
   it('creates a taxonomy', async () => {

@@ -16,6 +16,7 @@ import { loadSitemap } from './load'
 export * from './site'
 export * from './card'
 export * from './theme'
+export * from './tables'
 
 vars.register(() => [new EnvVar({ name: 'FLY_API_TOKEN' })])
 

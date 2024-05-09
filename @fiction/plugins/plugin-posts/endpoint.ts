@@ -117,12 +117,10 @@ export class QueryManagePost extends PostsQuery {
     if (!post)
       throw this.abort('Post not found')
 
-    const allAuthorIds = [post.userId].filter(Boolean) as string[]
-    const allAuthors = await this.fetchAuthors(allAuthorIds)
-
-    post.authors = allAuthorIds.map(userId => allAuthors.find(author => author.userId === userId))
-
     if (post.postId) {
+      post.authors = await db.select([`${t.user}.userId`, `${t.user}.email`, `${t.user}.fullName`]).from(t.postAuthor).join(t.user, `${t.user}.user_id`, `=`, `${t.postAuthor}.user_id`).where(`${t.postAuthor}.post_id`, post.postId)
+      post.sites = await db.select([`${t.site}.siteId`, `${t.site}.title`]).from(t.postSite).join(t.site, `${t.site}.site_id`, `=`, `${t.postSite}.site_id`).where(`${t.postSite}.post_id`, post.postId)
+
       const q = db
         .select([`${t.taxonomies}.*`])
         .from(t.postTaxonomies)
@@ -187,6 +185,12 @@ export class QueryManagePost extends PostsQuery {
 
     await this.updatePostTaxonomies(params)
 
+    await Promise.all([
+      this.updatePostTaxonomies(params),
+      this.updateAssociations('authors', params),
+      this.updateAssociations('sites', params),
+    ])
+
     return this.getPost({ ...params, caller: 'updatePostEnd' }, _meta)
   }
 
@@ -213,6 +217,40 @@ export class QueryManagePost extends PostsQuery {
     }
 
     return insertedTaxonomyIds
+  }
+
+  private async updateAssociations(type: 'authors' | 'sites', params: ManagePostParams & { _action: 'update' }) {
+    const db = this.db()
+
+    const tableName = type === 'authors' ? t.postAuthor : t.postSite
+    const foreignKey = type === 'authors' ? 'userId' : 'siteId'
+
+    const { postId, orgId, fields } = params
+
+    const items = fields[type] || []
+    const newIds = items.map((item) => {
+      if (type === 'authors' && 'userId' in item)
+        return item.userId
+      else if (type === 'sites' && 'siteId' in item)
+        return item.siteId
+      return ''
+    }).filter(Boolean)
+
+    // Fetch existing associations
+    const existingAssociations = await db.select(foreignKey).from(tableName).where({ postId })
+    const existingIds = existingAssociations.map(a => a[foreignKey])
+    const toRemove = existingIds.filter(id => !newIds.includes(id))
+    const toAdd = newIds.filter(id => !existingIds.includes(id))
+
+    // Remove old associations
+    if (toRemove.length > 0)
+      await db.table(tableName).where({ postId }).whereIn(foreignKey, toRemove).delete()
+
+    // Add new associations
+    if (toAdd.length > 0) {
+      const newAssociations = toAdd.map(id => ({ postId, [foreignKey]: id, orgId }))
+      await db.table(tableName).insert(newAssociations).onConflict(['postId', foreignKey]).ignore()
+    }
   }
 
   // Handle the association between post and taxonomies
@@ -281,7 +319,14 @@ export class QueryManagePost extends PostsQuery {
     const fieldsWithOrg = { type: 'post', status: 'draft', ...prepped, orgId, userId }
     const [{ postId }] = await db(t.posts).insert(fieldsWithOrg).returning('postId')
 
-    await this.updatePostTaxonomies({ ...params, postId, _action: 'update' })
+    const authors = fields.authors || [{ userId }]
+
+    const associationParams = { ...params, authors, postId, _action: 'update' } as const
+    await Promise.all([
+      this.updatePostTaxonomies(associationParams),
+      this.updateAssociations('authors', associationParams),
+      this.updateAssociations('sites', associationParams),
+    ])
 
     return this.getPost({ postId, orgId, caller: 'createPost' }, meta)
   }
@@ -332,7 +377,9 @@ export class QueryManagePost extends PostsQuery {
 
     // taxonomies are removed by prepare, due to joined table, saved directly in draft
     const taxonomy = fields.taxonomy || []
-    const newDraft = { draftId: objectId({ prefix: 'dft' }), ...draft, ...prepped, taxonomy, updatedAt: now, createdAt: draft.createdAt }
+    const authors = fields.authors || []
+    const sites = fields.sites || []
+    const newDraft = { draftId: objectId({ prefix: 'dft' }), ...draft, ...prepped, taxonomy, sites, authors, updatedAt: now, createdAt: draft.createdAt }
 
     // Persist the updated draft and history
     await db(t.posts)

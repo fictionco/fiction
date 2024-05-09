@@ -100,7 +100,7 @@ function removeTaxomomy(tax: TableTaxonomyConfig) {
 <template>
   <div class="space-y-2">
     <div class="tag-list flex flex-row flex-wrap gap-1">
-      <ElBadge v-for="(tax, i) in modelValue" :key="i" class="gap-1">
+      <ElBadge v-for="(tax, i) in modelValue" :key="i" class="gap-1" :theme="taxonomyType === 'tag' ? 'green' : 'orange'">
         {{ tax.title }}
         <span class="i-tabler-x hover:opacity-70 cursor-pointer" @click="removeTaxomomy(tax)" />
       </ElBadge>

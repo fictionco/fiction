@@ -12,6 +12,7 @@ import type { TablePostConfig } from '../schema'
 import { t } from '../schema'
 import type { FictionPosts } from '..'
 import InputTaxonomy from './InputTaxonomy.vue'
+import InputAuthors from './InputAuthors.vue'
 
 const props = defineProps({
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
@@ -142,6 +143,13 @@ const options = vue.computed(() => {
           },
         }),
 
+        new InputOption({
+          key: 'authors',
+          label: 'Authors',
+          input: InputAuthors,
+          props: { },
+        }),
+
       ],
     }),
   ]
@@ -164,7 +172,7 @@ function updatePost(config: TablePostConfig) {
       <ToolForm
         :model-value="post.toConfig()"
         :options="options"
-        :input-props="{ post }"
+        :input-props="{ post, card }"
         @update:model-value="updatePost($event as TablePostConfig)"
       />
     </ElForm>

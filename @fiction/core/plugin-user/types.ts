@@ -39,6 +39,11 @@ type UserCapabilities = {
   [K in UserCapability]: boolean
 }
 
+export type User = Partial<CreateObjectType<typeof userColumns>> & {
+  orgs?: Organization[]
+  relation?: OrganizationMember
+}
+
 export type OrganizationMember = CreateObjectType<typeof membersColumns> & {
   fullName: string
   email: string
@@ -46,11 +51,6 @@ export type OrganizationMember = CreateObjectType<typeof membersColumns> & {
   lastSeenAt: string
   accessLevel: number
 } & UserCapabilities
-
-export type User = Partial<CreateObjectType<typeof userColumns>> & {
-  orgs?: Organization[]
-  relation?: OrganizationMember
-}
 
 export interface OrganizationCustomerData {
   customerId?: string

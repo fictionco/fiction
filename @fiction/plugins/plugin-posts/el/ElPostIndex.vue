@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { IndexItem } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
 import ElAvatar from '@fiction/ui/ElAvatar.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
@@ -16,7 +17,7 @@ const service = useService<{ fictionPosts: FictionPosts }>()
 
 const posts = vue.shallowRef<Post[]>([])
 
-const list = vue.computed(() => {
+const list = vue.computed<IndexItem[]>(() => {
   return posts.value.map((p) => {
     return {
       ...p.toConfig(),
@@ -25,7 +26,7 @@ const list = vue.computed(() => {
       desc: p.subTitle.value || 'No description',
       href: props.card.link(`/post-edit?postId=${p.postId}`),
       media: p.image.value,
-    }
+    } as IndexItem
   })
 })
 

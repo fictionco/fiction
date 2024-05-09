@@ -28,7 +28,7 @@ const list = vue.computed<(IndexItem & TablePostConfig)[]>(() => {
       desc: p.subTitle.value || 'No description',
       href: props.card.link(`/${viewId}/${p.slug.value}`),
       media: p.image.value,
-    }
+    } as IndexItem & TablePostConfig
   })
 })
 

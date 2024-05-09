@@ -62,6 +62,23 @@ export interface TestUtilSettings {
   isGlobalSetup?: boolean
 }
 
+const randomName = () => `${['Captain', 'Mister', 'Doctor', 'Professor', 'Mad', 'Sir'][Math.floor(Math.random() * 6)]} ${['Waffles', 'Pancakes', 'Spaghetti', 'Snickers', 'Twinkles', 'Moonbeam'][Math.floor(Math.random() * 6)]}`
+export async function createTestUser(fictionUser: FictionUser) {
+  const email = getTestEmail()
+  const password = 'test'
+  const fullName = randomName()
+
+  const r = await fictionUser.queries.ManageUser.serve(
+    {
+      fields: { email, password, emailVerified: true, fullName },
+      _action: 'create',
+    },
+    { server: true, caller: 'initializeTestUtilsCreate' },
+  )
+
+  return { user: r.data, token: r.token, email, password }
+}
+
 /**
  * Runs services 'setup' functions
  * Creates a new user
@@ -80,19 +97,7 @@ export async function initializeTestUtils(service: TestUtilServices & { [key: st
 
   await Promise.all(promises)
 
-  const email = getTestEmail()
-  const password = 'test'
-
-  const r = await fictionUser.queries.ManageUser.serve(
-    {
-      fields: { email, password, emailVerified: true },
-      _action: 'create',
-    },
-    { server: true, caller: 'initializeTestUtilsCreate' },
-  )
-
-  const user = r.data
-  const token = r.token
+  const { user, token, email, password } = await createTestUser(fictionUser)
 
   if (!token)
     throw new Error('token not returned (DB Connected?')

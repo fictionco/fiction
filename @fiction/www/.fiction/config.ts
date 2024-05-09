@@ -274,14 +274,16 @@ export interface CompiledServiceConfig {
       | 'orgId'
       | 'title'
       | 'slug'
+      | 'priority'
       | 'type'
       | 'description'
       | 'parentId'
-      | 'priority'
       | 'meta'
       | 'createdAt'
       | 'updatedAt'
     fiction_post_taxonomy: 'postTaxonomyId' | 'postId' | 'taxonomyId' | 'orgId' | 'createdAt' | 'updatedAt'
+    fiction_post_author: 'postAuthorId' | 'postId' | 'userId' | 'orgId' | 'createdAt' | 'updatedAt'
+    fiction_post_site: 'postSiteId' | 'postId' | 'siteId' | 'orgId' | 'createdAt' | 'updatedAt'
     [k: string]: unknown
   }
   [k: string]: unknown

@@ -1,17 +1,12 @@
 import { Query } from '../query'
 import type { FictionDb } from '../plugin-db'
 import type { FictionRouter } from '../plugin-router'
-import type {
-  FictionUser,
-  MemberAccess,
-  OrganizationMember,
-  User,
-} from '../plugin-user'
+import type { FictionUser, MemberAccess, OrganizationMember, User } from '../plugin-user'
 import type { EndpointMeta } from '../utils/endpoint'
 import type { EndpointResponse } from '../types'
 import type { FictionEmail } from '../plugin-email'
 import type { FictionEnv } from '../plugin-env'
-import { standardTable } from '../tbl'
+import { standardTable as t } from '../tbl'
 import type { FictionTeam } from '.'
 
 export interface TeamQuerySettings {
@@ -24,11 +19,7 @@ export interface TeamQuerySettings {
 }
 
 export abstract class TeamQuery extends Query<TeamQuerySettings> {
-  fictionTeam = this.settings.fictionTeam
-  fictionDb = this.settings.fictionDb
-  fictionUser = this.settings.fictionUser
-  fictionEmail = this.settings.fictionEmail
-  fictionRouter = this.settings.fictionRouter
+  db = () => this.settings.fictionDb.client()
   constructor(settings: TeamQuerySettings) {
     super(settings)
   }
@@ -46,37 +37,22 @@ export class QueryOrgMembers extends TeamQuery {
   ): Promise<EndpointResponse<OrganizationMember[]>> {
     const { orgId, _action } = params
 
-    const db = this.fictionDb?.client()
+    const db = this.db()
     const base = db
-      .from(standardTable.member)
-      .join(
-        standardTable.org,
-        `${standardTable.member}.org_id`,
-        '=',
-        `${standardTable.org}.org_id`,
-      )
-      .join(
-        standardTable.user,
-        `${standardTable.user}.user_id`,
-        '=',
-        `${standardTable.member}.user_id`,
-      )
-      .where(`${standardTable.member}.org_id`, orgId)
+      .from(t.member)
+      .join(t.org, `${t.member}.org_id`, '=', `${t.org}.org_id`)
+      .join(t.user, `${t.user}.user_id`, '=', `${t.member}.user_id`)
+      .where(`${t.member}.org_id`, orgId)
 
     let indexMeta
     let data: OrganizationMember[] = []
 
-    const selector = [
-      `${standardTable.member}.*`,
-      `${standardTable.user}.full_name`,
-      `${standardTable.user}.email`,
-      `${standardTable.user}.last_seen_at`,
-    ]
+    const selector = [`${t.member}.*`, `${t.user}.full_name`, `${t.user}.email`, `${t.user}.last_seen_at`]
     if (_action === 'single') {
       const r = await base
         .clone()
         .select<OrganizationMember[]>(selector)
-        .where(`${standardTable.member}.user_id`, params.memberId)
+        .where(`${t.member}.user_id`, params.memberId)
 
       data = r
     }
@@ -87,18 +63,14 @@ export class QueryOrgMembers extends TeamQuery {
         .select<OrganizationMember[]>(selector)
         .limit(limit)
         .offset(offset)
-        .orderBy(`${standardTable.user}.lastSeenAt`, 'desc')
+        .orderBy(`${t.user}.lastSeenAt`, 'desc')
 
       const countRows = await base.clone().count<{ count: number }[]>()
       indexMeta = { offset, limit, count: +countRows[0].count }
       data = r
     }
 
-    return {
-      status: 'success',
-      data,
-      indexMeta,
-    }
+    return { status: 'success', data, indexMeta }
   }
 }
 
@@ -111,16 +83,10 @@ export class QuerySeekInviteFromUser extends TeamQuery {
     },
     meta: EndpointMeta,
   ): Promise<EndpointResponse<boolean>> {
-    if (!this.fictionUser)
+    if (!this.settings.fictionUser)
       throw new Error('no user service')
     const { email, requestingEmail, requestingName } = params
-    const { data: user } = await this.fictionUser.queries.ManageUser.serve(
-      {
-        _action: 'getPublic',
-        email,
-      },
-      meta,
-    )
+    const { data: user } = await this.settings.fictionUser.queries.ManageUser.serve({ _action: 'getPublic', email }, meta)
 
     if (!user)
       throw this.stop('request invite error')
@@ -131,14 +97,14 @@ export class QuerySeekInviteFromUser extends TeamQuery {
       requestingName || 'A user'
     } (${requestingEmail}) has requested access to one of your organizations.`
 
-    if (!this.fictionEmail)
+    if (!this.settings.fictionEmail)
       throw new Error('no email service')
 
     const appUrl = this.settings.fictionEnv.meta.app?.url
 
-    const path = this.fictionRouter?.rawPath('teamInvite')
+    const path = this.settings.fictionRouter?.rawPath('teamInvite')
 
-    await this.fictionEmail.sendEmail({
+    await this.settings.fictionEmail.sendEmail({
       subject: `${requestingName || requestingEmail}: Request for Access`,
       text,
       linkText: 'Login and Invite',
@@ -148,7 +114,7 @@ export class QuerySeekInviteFromUser extends TeamQuery {
     return {
       status: 'success',
       message: 'Invite requested',
-      more: `The user using '${email}' should get an email requesting they invite you to their account.`,
+      more: `The user using '${email}' should get an email requesting they invite you`,
     }
   }
 }
@@ -161,9 +127,9 @@ export class QueryTeamInvite extends TeamQuery {
     },
     meta: EndpointMeta,
   ): Promise<EndpointResponse<boolean>> {
-    if (!this.fictionUser)
+    if (!this.settings.fictionUser)
       throw new Error('no user service')
-    if (!this.fictionEmail)
+    if (!this.settings.fictionEmail)
       throw new Error('no email service')
 
     const appUrl = this.settings.fictionEnv.meta.app?.url
@@ -179,12 +145,7 @@ export class QueryTeamInvite extends TeamQuery {
       throw this.stop('no invites were set')
 
     const { data: org }
-      = await this.fictionUser.queries.FindOneOrganization.serve(
-        {
-          orgId,
-        },
-        meta,
-      )
+      = await this.settings.fictionUser.queries.FindOneOrganization.serve({ orgId }, meta)
 
     if (!org)
       throw this.stop(`couldn't find organization`)
@@ -192,7 +153,7 @@ export class QueryTeamInvite extends TeamQuery {
     const invitedById = bearer?.userId
 
     const _promises = invites.map(async (invite) => {
-      if (!this.fictionUser)
+      if (!this.settings.fictionUser)
         throw new Error('no user service')
       const { memberAccess } = invite
       const email = invite.email.toLowerCase() // ensure lowercase
@@ -203,18 +164,18 @@ export class QueryTeamInvite extends TeamQuery {
       let linkText = 'Login'
       let message = `Login to get access.`
       // does the user already exist
-      let { data: user } = await this.fictionUser.queries.ManageUser.serve(
+      let { data: user } = await this.settings.fictionUser.queries.ManageUser.serve(
         { _action: 'getPrivate', email },
         { server: true, returnAuthority: ['hashedPassword'] },
       )
       if (!user?.hashedPassword) {
         const { data: newUser }
-          = await this.fictionUser.queries.ManageUser.serve(
+          = await this.settings.fictionUser.queries.ManageUser.serve(
             { _action: 'create', fields: { invitedById, email } },
             { server: true, returnAuthority: ['verificationCode'] },
           )
 
-        linkUrl = this.fictionTeam.invitationReturnUrl({
+        linkUrl = this.settings.fictionTeam.invitationReturnUrl({
           code: newUser?.verificationCode as string,
           email,
           orgId,
@@ -228,7 +189,7 @@ export class QueryTeamInvite extends TeamQuery {
       if (!user?.userId)
         throw this.stop('error creating user')
 
-      await this.fictionUser.queries.ManageMemberRelation.serve(
+      await this.settings.fictionUser.queries.ManageMemberRelation.serve(
         {
           memberId: user.userId,
           orgId,
@@ -245,7 +206,7 @@ export class QueryTeamInvite extends TeamQuery {
         org.orgName
       }" organization.\n\n${message}`
 
-      await this.fictionEmail?.sendEmail({
+      await this.settings.fictionEmail?.sendEmail({
         subject: `${org.orgName}: You've been invited!`,
         text,
         linkText,
@@ -258,22 +219,14 @@ export class QueryTeamInvite extends TeamQuery {
 
     let user: User | undefined
     if (bearer?.userId) {
-      const r = await this.fictionUser.queries.ManageUser.serve(
-        {
-          _action: 'getPrivate',
-          userId: bearer.userId,
-        },
+      const r = await this.settings.fictionUser.queries.ManageUser.serve(
+        { _action: 'getPrivate', userId: bearer.userId },
         meta,
       )
 
       user = r.data
     }
 
-    return {
-      status: 'success',
-      message: 'Invites sent',
-      more: `New members were added based on the emails provided.`,
-      user,
-    }
+    return { status: 'success', message: 'Invites sent', more: `New members were added.`, user }
   }
 }

@@ -7,7 +7,7 @@ import type { FictionRouter } from '../plugin-router'
 import type { FictionDb } from '../plugin-db'
 import type { FictionApp } from '../plugin-app'
 import { safeDirname } from '../utils'
-import { QueryOrgMembers, QuerySeekInviteFromUser, QueryTeamInvite } from './query'
+import { QueryOrgMembers, QuerySeekInviteFromUser, QueryTeamInvite } from './endpoint'
 
 type FictionTeamSettings = {
   fictionApp: FictionApp
@@ -44,9 +44,7 @@ export class FictionTeam extends FictionPlugin<FictionTeamSettings> {
   }
 
   async loadMemberIndex() {
-    const requestPromise = this.requests.OrgMembers.projectRequest({
-      _action: 'index',
-    })
+    const requestPromise = this.requests.OrgMembers.projectRequest({ _action: 'index' })
 
     const r = await requestPromise
 
