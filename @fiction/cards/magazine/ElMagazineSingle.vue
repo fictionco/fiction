@@ -4,7 +4,7 @@ import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { FictionPosts, Post } from '@fiction/plugin-posts'
 import ClipPathAnim from '@fiction/ui/anim/AnimClipPath.vue'
-import ElBadge from './ElBadge.vue'
+import ElBadge from '@fiction/ui/common/ElBadge.vue'
 import type { UserConfig } from '.'
 
 const props = defineProps({

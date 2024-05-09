@@ -1,5 +1,5 @@
 import type { DataFilter, EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser } from '@fiction/core'
-import { Query, incrementSlugId, objectId, prepareFields, standardTable, toLabel, toSlug } from '@fiction/core'
+import { Query, deepMerge, incrementSlugId, objectId, prepareFields, standardTable, toLabel, toSlug } from '@fiction/core'
 import type { TablePostConfig, TableTaxonomyConfig } from './schema'
 import { t } from './schema'
 import type { FictionPosts } from '.'
@@ -67,7 +67,7 @@ export class QueryManagePost extends PostsQuery {
 
     switch (params._action) {
       case 'get':
-        post = await this.getPost(params, _meta)
+        post = await this.getPost({ caller: 'switch', ...params }, _meta)
         break
       case 'update':
         post = await this.updatePost(params, _meta)
@@ -117,15 +117,10 @@ export class QueryManagePost extends PostsQuery {
     if (!post)
       throw this.abort('Post not found', { data: { _action: 'get', postId } })
 
-    if (loadDraft && post.draft)
-      post = { ...post, ...post.draft }
-
     const allAuthorIds = [post.userId].filter(Boolean) as string[]
     const allAuthors = await this.fetchAuthors(allAuthorIds)
 
     post.authors = allAuthorIds.map(userId => allAuthors.find(author => author.userId === userId))
-
-    this.log.info(`post(${caller})`, { caller, data: post })
 
     if (post.postId) {
       const q = db
@@ -136,6 +131,11 @@ export class QueryManagePost extends PostsQuery {
 
       post.taxonomy = await q
     }
+
+    if (loadDraft && post.draft)
+      post = deepMerge([post, post.draft as TablePostConfig])
+
+    this.log.info(`getPost(${caller})`, { caller, data: { post } })
 
     return post
   }
@@ -190,10 +190,9 @@ export class QueryManagePost extends PostsQuery {
     return this.getPost({ ...params, caller: 'updatePostEnd' }, _meta)
   }
 
-  // Handle the association between post and taxonomies
-  private async updatePostTaxonomies(params: ManagePostParams & { _action: 'update' }) {
-    const { postId, fields: { taxonomy = [] }, orgId } = params
+  private async insertNewTaxonomies(args: { taxonomy: TableTaxonomyConfig[], orgId: string }) {
     const db = this.db()
+    const { taxonomy = [], orgId } = args
 
     const newTaxonomies = taxonomy.filter(tax => !tax.taxonomyId)
 
@@ -213,6 +212,16 @@ export class QueryManagePost extends PostsQuery {
       insertedTaxonomyIds = r.map(t => t.taxonomyId)
     }
 
+    return insertedTaxonomyIds
+  }
+
+  // Handle the association between post and taxonomies
+  private async updatePostTaxonomies(params: ManagePostParams & { _action: 'update' }) {
+    const { postId, fields: { taxonomy = [] }, orgId } = params
+    const db = this.db()
+
+    const insertedTaxonomyIds = await this.insertNewTaxonomies({ taxonomy, orgId })
+
     const existingTaxonomies = await db.select('taxonomyId').from(t.postTaxonomies).where({ postId })
     const existingTaxonomyIds = existingTaxonomies.map(t => t.taxonomyId)
 
@@ -229,7 +238,7 @@ export class QueryManagePost extends PostsQuery {
     // Add new associations
     if (needsTaxonomies.length > 0) {
       const newTaxonomies = needsTaxonomies.map(taxonomyId => ({ postId, taxonomyId, orgId }))
-      await db.table(t.postTaxonomies).insert(newTaxonomies)
+      await db.table(t.postTaxonomies).insert(newTaxonomies).onConflict(['postId', 'taxonomyId']).ignore()
     }
   }
 
@@ -321,7 +330,9 @@ export class QueryManagePost extends PostsQuery {
       delete prepped[key as keyof typeof prepped]
     })
 
-    const newDraft = { draftId: objectId({ prefix: 'dft' }), ...draft, ...prepped, updatedAt: now, createdAt: draft.createdAt }
+    // taxonomies are removed by prepare, due to joined table, saved directly in draft
+    const taxonomy = fields.taxonomy || []
+    const newDraft = { draftId: objectId({ prefix: 'dft' }), ...draft, ...prepped, taxonomy, updatedAt: now, createdAt: draft.createdAt }
 
     // Persist the updated draft and history
     await db(t.posts)
@@ -330,6 +341,10 @@ export class QueryManagePost extends PostsQuery {
         draft: newDraft,
         draft_history: draftHistory,
       })
+
+    // save any new taxonomies that are not already in the database
+    if (fields.taxonomy?.length)
+      await this.insertNewTaxonomies({ orgId, taxonomy: fields.taxonomy })
 
     return this.getPost({ postId, orgId, loadDraft: true, caller: 'saveDraft' }, _meta)
   }
@@ -399,10 +414,10 @@ export class QueryManageTaxonomy extends PostsQuery {
     const db = this.db()
 
     const refined = items.map((item) => {
-      return { title: toLabel(item.slug), slug: toSlug(item.title), ...item }
+      return { orgId, title: toLabel(item.slug), slug: toSlug(item.title), ...item }
     })
 
-    const results = await db(t.taxonomies).insert(refined.map(item => ({ ...item, orgId }))).returning('*')
+    const results = await db(t.taxonomies).insert(refined).onConflict(['slug', 'orgId']).merge(['slug']).returning('*')
 
     return results
   }

@@ -52,7 +52,7 @@ const nav = vue.computed<NavItem[]>(() => {
             </component>
           </div>
         </div>
-        <div class="grow min-w-0 bg-theme-0 border-theme-300/70 dark:border-theme-700 border rounded-md">
+        <div class="grow min-w-0 bg-theme-0 border-theme-300/70 dark:bg-theme-800 dark:border-theme-700 border rounded-md">
           <component :is="currentPanel?.tpl.value?.settings.el" :card="currentPanel" />
         </div>
       </div>

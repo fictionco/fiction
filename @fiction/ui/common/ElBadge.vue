@@ -26,7 +26,7 @@ function getBadgeClasses(theme: ColorTheme, size: UiElementSize) {
   const cls = {
     naked: 'ring-transparent text-theme-500',
     overlay: 'text-white/90 bg-white/10 ring-white/30',
-    theme: 'bg-theme-50 text-theme-600 ring-theme-500/10 dark:bg-theme-400/10 dark:text-theme-400 dark:ring-theme-400/20',
+    theme: 'bg-theme-50 text-theme-600 ring-theme-500/30 dark:bg-theme-400/10 dark:text-theme-400 dark:ring-theme-400/20',
     gray: 'bg-gray-50 text-gray-600 ring-gray-500/10 dark:bg-gray-400/10 dark:text-gray-400 dark:ring-gray-400/20',
     red: 'bg-red-50 text-red-600 ring-red-500/10 dark:bg-red-400/10 dark:text-red-400 dark:ring-red-400/20',
     yellow: 'bg-yellow-50 text-yellow-600 ring-yellow-500/10 dark:bg-yellow-400/10 dark:text-yellow-400 dark:ring-yellow-400/20',

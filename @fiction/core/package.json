@@ -60,7 +60,7 @@
     "es-module-lexer": "^1.5.2",
     "esbuild": "^0.21.1",
     "events": "^3.3.0",
-    "execa": "^9.0.1",
+    "execa": "^8.0.1",
     "express": "^4.19.2",
     "extract-domain": "^5.0.2",
     "fast-safe-stringify": "^2.1.1",
@@ -184,5 +184,4 @@
   },
   "type": "module",
   "version": "6.0.35"
-
 }

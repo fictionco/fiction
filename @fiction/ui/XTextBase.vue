@@ -124,6 +124,7 @@ function onPaste(event: ClipboardEvent) {
     @input="onInput($event)"
     @paste="onPaste($event)"
     @click.stop="isEditing = true"
+    @focus="isEditing = true"
     v-html="textValue"
   />
 </template>

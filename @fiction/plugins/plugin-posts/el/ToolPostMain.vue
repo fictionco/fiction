@@ -32,19 +32,7 @@ const actions: ActionItem[] = [
 const options = vue.computed(() => {
   const activeOrganizationId = service.fictionUser.activeOrgId.value
   return [
-    new InputOption({
-      key: 'taxonomyGroup',
-      label: 'Taxonomy',
-      input: 'group',
-      options: [
-        new InputOption({
-          key: 'tags',
-          label: 'Tags',
-          input: InputTaxonomy,
-        }),
 
-      ],
-    }),
     new InputOption({
       key: 'status',
       label: 'Status',
@@ -132,7 +120,30 @@ const options = vue.computed(() => {
         }),
       ],
     }),
+    new InputOption({
+      key: 'taxonomyGroup',
+      label: 'Taxonomy',
+      input: 'group',
+      options: [
+        new InputOption({
+          key: 'tags',
+          label: 'Tags',
+          input: InputTaxonomy,
+          props: {
+            taxonomyType: 'tag',
+          },
+        }),
+        new InputOption({
+          key: 'categories',
+          label: 'Categories',
+          input: InputTaxonomy,
+          props: {
+            taxonomyType: 'category',
+          },
+        }),
 
+      ],
+    }),
   ]
 })
 

@@ -121,6 +121,8 @@ export class Post extends FictionObject<PostConfig> {
       publishAt: this.publishAt.value,
       status: this.status.value,
       taxonomy: [...this.tags.value, ...this.categories.value],
+      tags: this.tags.value,
+      categories: this.categories.value,
     }
   }
 }

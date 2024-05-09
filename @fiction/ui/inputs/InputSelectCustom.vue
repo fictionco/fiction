@@ -7,18 +7,18 @@ import { selectInputClasses } from './theme'
 type RouteListItem = ListItem & { route?: RouteLocationRaw }
 
 const props = defineProps({
-  modelValue: { type: [Number, String, Boolean], default: '' },
+  modelValue: { type: [Number, String, Boolean], default: undefined },
   list: { type: Array as vue.PropType<(RouteListItem | string)[] | readonly (RouteListItem | string)[]>, default: () => [] },
   loading: { type: Boolean, default: false },
-  search: { type: String, default: '' },
+  search: { type: String, default: undefined },
   allowSearch: { type: Boolean, default: false },
   defaultValue: { type: [Number, String, Boolean], default: '' },
-  defaultText: { type: String, default: '' },
+  defaultText: { type: String, default: undefined },
   zeroText: { type: String, default: 'No items.' },
-  listSuffix: { type: String, default: '' },
-  classOption: { type: String, default: '' },
+  listSuffix: { type: String, default: undefined },
+  classOption: { type: String, default: undefined },
   disabled: { type: Boolean, default: false },
-  inputClass: { type: String, default: '' },
+  inputClass: { type: String, default: undefined },
 })
 
 const emit = defineEmits<{
@@ -68,7 +68,7 @@ onResetUi(() => {
 function isSelected(value?: string | number): boolean {
   return !!(value && props.modelValue === value)
 }
-const themeClasses = selectInputClasses({ inputClass: props.inputClass })
+const themeClasses = selectInputClasses({ inputClass: props.inputClass || '' })
 function listItemClass(item: ListItem, i: number): string {
   const o = themeClasses.optionClasses
   const out: string[] = [o.always]
@@ -113,6 +113,7 @@ async function selectByIndex(index: number): Promise<void> {
     <div
       :class="themeClasses.wrapClass"
     >
+
       <div
         class="relative"
         tabindex="-1"

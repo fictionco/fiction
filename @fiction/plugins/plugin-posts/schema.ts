@@ -2,16 +2,22 @@ import { type CreateObjectType, type MediaDisplayObject, type PostStatus, type U
 import { FictionDbCol, FictionDbTable } from '@fiction/core/plugin-db'
 
 export const t = {
-  posts: 'fiction_posts',
-  taxonomies: 'fiction_taxonomies',
-  postTaxonomies: 'fiction_post_taxonomies',
+  posts: 'fiction_post',
+  taxonomies: 'fiction_taxonomy',
+  postTaxonomies: 'fiction_post_taxonomy',
   ...standardTable,
 }
 
 type PostUserConfig = Record<string, any>
 type PostMeta = { seoTitle: string, seoDescription: string, seoKeywords: string }
 
-export type TablePostConfig = Partial<CreateObjectType<typeof postCols>> & { authors?: User[], taxonomy?: TableTaxonomyConfig[], draftId?: string }
+export type TablePostConfig = Partial<CreateObjectType<typeof postCols>> & {
+  authors?: User[]
+  taxonomy?: TableTaxonomyConfig[]
+  tags?: TableTaxonomyConfig[]
+  categories: TableTaxonomyConfig[]
+  draftId?: string
+}
 export type TableTaxonomyConfig = Partial<CreateObjectType<typeof taxonomyCols>> & { isNew?: boolean, usageCount?: number }
 
 export type PostDraft = Partial<{ draftId: string, title: string, content: string, userConfig: PostUserConfig, createdAt: string, updatedAt: string }>
@@ -191,7 +197,7 @@ const taxonomyCols = [
   }),
   new FictionDbCol({
     key: 'type',
-    create: ({ schema, column }) => schema.string(column.pgKey).notNullable().defaultTo(column.default()).index(),
+    create: ({ schema, column }) => schema.string(column.pgKey).notNullable().index(),
     default: () => '' as 'tag' | 'category',
     zodSchema: ({ z }) => z.enum(['tag', 'category']),
   }),

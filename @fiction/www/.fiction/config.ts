@@ -245,7 +245,7 @@ export interface CompiledServiceConfig {
       | 'certificateAuthority'
       | 'createdAt'
       | 'updatedAt'
-    fiction_posts:
+    fiction_post:
       | 'postId'
       | 'userId'
       | 'orgId'
@@ -268,7 +268,7 @@ export interface CompiledServiceConfig {
       | 'meta'
       | 'createdAt'
       | 'updatedAt'
-    fiction_taxonomies:
+    fiction_taxonomy:
       | 'taxonomyId'
       | 'userId'
       | 'orgId'
@@ -281,7 +281,7 @@ export interface CompiledServiceConfig {
       | 'meta'
       | 'createdAt'
       | 'updatedAt'
-    fiction_post_taxonomies: 'postTaxonomyId' | 'postId' | 'taxonomyId' | 'orgId' | 'createdAt' | 'updatedAt'
+    fiction_post_taxonomy: 'postTaxonomyId' | 'postId' | 'taxonomyId' | 'orgId' | 'createdAt' | 'updatedAt'
     [k: string]: unknown
   }
   [k: string]: unknown

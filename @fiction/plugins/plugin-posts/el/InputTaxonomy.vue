@@ -1,14 +1,16 @@
 <script lang="ts" setup>
 import type { ListItem } from '@fiction/core'
-import { debounce, useService, vue } from '@fiction/core'
+import { debounce, toLabel, useService, vue } from '@fiction/core'
 import InputSelectCustom from '@fiction/ui/inputs/InputSelectCustom.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
+import ElBadge from '@fiction/ui/common/ElBadge.vue'
 import type { FictionPosts } from '..'
 import type { TableTaxonomyConfig } from '../schema'
 
 const props = defineProps({
   modelValue: { type: Array as vue.PropType<TableTaxonomyConfig[]>, default: () => [] },
+  taxonomyType: { type: String as vue.PropType<'category' | 'tag'>, default: 'tag' },
 })
 
 const emit = defineEmits<{
@@ -34,7 +36,7 @@ async function fetchList() {
   if (searchCache.has(s))
     return
 
-  const tax = await service.fictionPosts.getPostTaxonomyList({ orgId, type: 'tag', search: search.value })
+  const tax = await service.fictionPosts.getPostTaxonomyList({ orgId, type: props.taxonomyType, search: search.value })
 
   // if not in all taxonomies, add it
   tax.forEach((t) => {
@@ -83,25 +85,36 @@ function addNew() {
     addNewVisible.value = true
   }
   else if (addNewTitle.value) {
-    const newTaxonomy = { title: addNewTitle.value, description: '', taxonomyId: '' }
+    const newTaxonomy = { title: addNewTitle.value, description: '', taxonomyId: '', type: props.taxonomyType }
     emit('update:modelValue', [...props.modelValue, newTaxonomy])
     addNewVisible.value = false
     addNewTitle.value = ''
   }
 }
+
+function removeTaxomomy(tax: TableTaxonomyConfig) {
+  emit('update:modelValue', props.modelValue.filter(t => t.taxonomyId !== tax.taxonomyId))
+}
 </script>
 
 <template>
   <div class="space-y-2">
-    <div class="tag-list">
-      <div v-for="(tag, i) in modelValue" :key="i" class="p-2">
-        {{ tag.title }}
-      </div>
+    <div class="tag-list flex flex-row flex-wrap gap-1">
+      <ElBadge v-for="(tax, i) in modelValue" :key="i" class="gap-1">
+        {{ tax.title }}
+        <span class="i-tabler-x hover:opacity-70 cursor-pointer" @click="removeTaxomomy(tax)" />
+      </ElBadge>
     </div>
-    <InputSelectCustom :list="renderList" @update:focused="isFocused = $event" @update:search="search = $event" @update:model-value="addTaxonomyFromId($event as string)" />
+    <InputSelectCustom
+      v-model:search="search"
+      v-model:focused="isFocused"
+      :allow-search="true"
+      :list="renderList"
+      @update:model-value="addTaxonomyFromId($event as string)"
+    />
     <div class="flex justify-start gap-2">
-      <InputText v-if="addNewVisible" v-model="addNewTitle" placeholder="Tag Name" />
-      <ElButton class="shrink-0" :size="!addNewVisible ? 'xs' : 'md'" :btn="addNewVisible ? 'primary' : 'default'" @click="addNew()">
+      <InputText v-if="addNewVisible" v-model="addNewTitle" :placeholder="`${toLabel(taxonomyType)} Name`" />
+      <ElButton class="shrink-0" :size="!addNewVisible ? 'xs' : 'md'" :btn="addNewVisible ? 'primary' : 'default'" @click.prevent="addNew()">
         Add New
       </ElButton>
       <ElButton
@@ -110,7 +123,7 @@ function addNew() {
         class="shrink-0"
         size="md"
         btn="default"
-        @click="addNew()"
+        @click.prevent="addNew()"
       />
     </div>
   </div>
