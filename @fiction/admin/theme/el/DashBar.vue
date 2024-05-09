@@ -1,9 +1,9 @@
 <script lang="ts" setup>
+import type { UserConfig } from './DashWrap.vue'
+import DashBarMenu from './DashBarMenu.vue'
 import type { NavItem, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import ElImage from '@fiction/ui/ElImage.vue'
-import type { UserConfig } from './DashWrap.vue'
-import DashBarMenu from './DashBarMenu.vue'
 
 defineProps({
   iconDashboard: { type: String, default: '' },

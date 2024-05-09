@@ -13,8 +13,8 @@
     }
   ],
   "dependencies": {
-    "@aws-sdk/client-cloudfront": "^3.569.0",
-    "@aws-sdk/client-s3": "^3.569.0",
+    "@aws-sdk/client-cloudfront": "^3.572.0",
+    "@aws-sdk/client-s3": "^3.572.0",
     "@egoist/tailwindcss-icons": "^1.8.0",
     "@faker-js/faker": "^8.4.1",
     "@iconify-json/carbon": "^1.1.32",
@@ -23,6 +23,7 @@
     "@iconify-json/flag": "^1.1.51",
     "@iconify-json/heroicons": "^1.1.21",
     "@iconify-json/logos": "^1.1.42",
+    "@iconify-json/svg-spinners": "^1.1.2",
     "@iconify-json/tabler": "^1.1.111",
     "@medv/finder": "^3.2.0",
     "@sinclair/typebox": "^0.32.29",
@@ -131,7 +132,7 @@
     "vue": "^3.4.27",
     "vue-router": "^4.3.2",
     "ws": "^8.17.0",
-    "zod": "^3.23.6",
+    "zod": "^3.23.8",
     "zod-to-json-schema": "^3.23.0"
   },
   "devDependencies": {
@@ -152,7 +153,7 @@
     "@types/jsonwebtoken": "^9.0.6",
     "@types/mime-types": "^2.1.4",
     "@types/multer": "^1.4.11",
-    "@types/node": "^20.12.10",
+    "@types/node": "^20.12.11",
     "@types/nodemailer": "^6.4.15",
     "@types/nodemailer-html-to-text": "^3.1.3",
     "@types/nodemon": "^1.19.6",

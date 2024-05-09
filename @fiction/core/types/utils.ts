@@ -64,6 +64,7 @@ export interface NavItem {
   target?: string
   items?: NavItem[]
   figure?: Figure
+  count?: number
 }
 
 export type ActionItem = NavItem & {

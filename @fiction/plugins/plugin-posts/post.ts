@@ -14,6 +14,7 @@ export class Post extends FictionObject<PostConfig> {
   content = vue.ref(this.settings.content || '')
   slug = vue.ref(this.settings.slug || '')
   image = vue.ref(this.settings.image || {})
+  tags = vue.ref(this.settings.taxonomy?.filter(_ => _.type === 'tag') || [])
   dateAt = vue.ref(this.settings.dateAt || new Date().toISOString())
   userConfig = vue.ref(this.settings.userConfig || {})
   isDirty = vue.ref(false)

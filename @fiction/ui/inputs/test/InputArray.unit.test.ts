@@ -12,11 +12,7 @@ describe('yourComponent', () => {
 
   beforeEach(() => {
     wrapper = mount(InputList, {
-      props: {
-        modelValue: [{ name: 'Item 1', _key: 'key1' }],
-        options: [],
-        depth: 0,
-      },
+      props: { modelValue: [{ name: 'Item 1', _key: 'key1' }], options: [], depth: 0 },
     })
   })
 

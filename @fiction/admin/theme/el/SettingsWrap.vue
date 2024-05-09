@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import type { Card } from '@fiction/site/card'
 import type { NavItem } from '@fiction/core'
 import { getNavComponentType, toLabel, toSlug, vue } from '@fiction/core'
 import ElPanel from '@fiction/ui/ElPanel.vue'
-import type { Card } from '@fiction/site/card'
 
 export type UserConfig = { isNavItem?: boolean, navIcon?: string, navIconAlt?: string, parentItemId?: string }
 
@@ -31,7 +31,7 @@ const nav = vue.computed<NavItem[]>(() => {
 
 <template>
   <div :class="card.classes.value.contentWidth">
-    <ElPanel class=" mx-5 rounded-md bg-theme-0 dark:bg-theme-800" box-class="p-0">
+    <ElPanel class=" mx-5 rounded-md dark:bg-theme-800" box-class="p-0">
       <div class="flex">
         <div class="border-theme-200 dark:border-theme-700 w-48 shrink-0 rounded-l-md  pb-32 px-4 py-4  dark:bg-theme-900">
           <div class="space-y-1 text-right">
@@ -52,7 +52,7 @@ const nav = vue.computed<NavItem[]>(() => {
             </component>
           </div>
         </div>
-        <div class="grow min-w-0  border-theme-200 dark:border-theme-700 border rounded-md">
+        <div class="grow min-w-0 bg-theme-0 border-theme-300/70 dark:border-theme-700 border rounded-md">
           <component :is="currentPanel?.tpl.value?.settings.el" :card="currentPanel" />
         </div>
       </div>

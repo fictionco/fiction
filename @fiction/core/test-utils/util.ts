@@ -13,7 +13,6 @@ export interface Interaction {
   typeText?: string
   check?: (element: Element, expectedValue: unknown) => void
 }
-
 async function simulateAction(mountPoint: HTMLDivElement, interaction: Interaction): Promise<void> {
   const { action, selector, typeText } = interaction
 

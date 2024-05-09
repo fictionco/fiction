@@ -112,13 +112,13 @@ const icon = vue.computed(() => {
 
 <template>
   <div>
-    <div class="flex items-center space-x-2 border" :class="textInputClasses({ inputClass })">
-      <div v-if="beforeInput" class="opacity-50">
+    <div class="flex items-center space-x-2 " :class="textInputClasses({ inputClass: [inputClass, 'py-0'].join(' ') })" tabindex="-1">
+      <div v-if="beforeInput" class="opacity-50 py-2">
         {{ beforeInput }}
       </div>
       <input
         ref="validEl"
-        class="grow appearance-none border-none bg-transparent focus:outline-none focus:ring-0 focus:border-transparent p-0 leading-[1]"
+        class="grow appearance-none border-none bg-transparent focus:outline-none focus:ring-0 focus:border-transparent px-0 py-2 leading-[1]"
         :style="{ fontSize: 'inherit' }"
         type="text"
         :value="modelValue"
@@ -127,7 +127,7 @@ const icon = vue.computed(() => {
         :data-is-valid="isValid"
         @input="handleEmit($event.target)"
       >
-      <div v-if="afterInput" class="opacity-50">
+      <div v-if="afterInput" class="opacity-50 py-2">
         {{ afterInput }}
       </div>
       <div class="text-lg" :class="[icon.color, icon.icon]" />

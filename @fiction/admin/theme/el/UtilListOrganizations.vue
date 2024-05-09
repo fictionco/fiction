@@ -1,9 +1,8 @@
 <script lang="ts" setup>
+import type { Card } from '@fiction/site/card'
 import type { vue } from '@fiction/core'
 import { timeAgo, useService } from '@fiction/core'
 import ElAvatar from '@fiction/ui/ElAvatar.vue'
-
-import type { Card } from '@fiction/site/card'
 
 defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
@@ -15,7 +14,7 @@ const { fictionUser } = useService()
 <template>
   <ul role="list" class="space-y-4">
     <li v-for="(org, i) in fictionUser.activeOrganizations.value" :key="i">
-      <a :href="card.link(`/?orgId=${org.orgId}`)" class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap hover:bg-theme-50 dark:hover:bg-theme-700 px-6 border border-theme-200/60 dark:border-theme-600 rounded-xl">
+      <a :href="card.link(`/?orgId=${org.orgId}`)" class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap hover:bg-theme-50 dark:hover:bg-theme-700 px-6 border border-theme-300/60 dark:border-theme-600 rounded-xl">
         <div>
           <p class="text-lg font-semibold leading-6 ">
             <a href="#" class="hover:underline">{{ org.orgName }}</a>

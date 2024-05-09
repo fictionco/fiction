@@ -1,26 +1,40 @@
 /**
  * Throttle a function to run only every period
  */
-export function throttle(cb: (...args: any[]) => any, period: number): ((...args: any) => any) {
-  let inThrottle = false
-  let lastArgs: any[] | null = null
+export function throttle(func: (...args: any[]) => void, wait: number): (...args: any[]) => void {
+  let lastTime = 0
+  let timeout: NodeJS.Timeout | null = null
 
-  return function (this: any, ...args: any[]): any {
-    if (inThrottle) {
-      // Save the last args passed in while throttling
-      lastArgs = args
+  return function (...args: any[]) {
+    const now = Date.now()
+    const remaining = wait - (now - lastTime)
+    if (remaining <= 0 || remaining > wait) {
+      if (timeout) {
+        clearTimeout(timeout)
+        timeout = null
+      }
+      lastTime = now
+      func(...args)
     }
-    else {
-      inThrottle = true
-      cb.apply(this, args)
-      setTimeout(() => {
-        inThrottle = false
-        // If there were calls during throttling, call with lastArgs
-        if (lastArgs) {
-          cb.apply(this, lastArgs)
-          lastArgs = null // Reset lastArgs
-        }
-      }, period)
+    else if (!timeout) {
+      timeout = setTimeout(() => {
+        lastTime = Date.now()
+        timeout = null
+        func(...args)
+      }, remaining)
     }
+  }
+}
+
+/**
+ * multiple sequential calls to a function into a single call
+ */
+export function debounce(func: (...args: any[]) => void, delay: number) {
+  let timeoutId: NodeJS.Timeout | null = null
+  return (...args: any[]) => {
+    if (timeoutId !== null)
+      clearTimeout(timeoutId)
+
+    timeoutId = setTimeout(() => func(...args), delay)
   }
 }
