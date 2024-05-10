@@ -31,23 +31,6 @@ const list = vue.computed<(IndexItem & TablePostConfig)[]>(() => {
   })
 })
 
-// const loading = vue.ref(true)
-// async function load() {
-//   loading.value = true
-//   const orgId = props.card.site?.settings.orgId
-
-//   if (!orgId)
-//     throw new Error('No fiction orgId found')
-
-//   props.postIndex = await service.fictionPosts.getPostIndex({ limit: 5, orgId })
-
-//   loading.value = false
-// }
-
-// vue.onMounted(async () => {
-//   await load()
-// })
-
 function getItemClasses(index: number): string {
   const out = []
 

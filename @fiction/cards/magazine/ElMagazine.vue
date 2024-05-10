@@ -44,23 +44,21 @@ vue.onMounted(async () => {
 })
 
 const head = vue.computed(() => {
-  if (routeSlug.value) {
-    const uc = singlePost.value?.userConfig.value
-    const single = singlePost.value
-    return {
-      title: uc?.seoTitle || single?.title.value || 'Untitled Post',
-      description: uc?.seoDescription || single?.subTitle.value || 'No description',
-    }
-  }
-  else {
-    return { title: 'Magazine', description: 'No description' }
+  const uc = singlePost.value?.userConfig.value
+  const single = singlePost.value
+  return {
+    title: uc?.seoTitle || single?.title.value || 'Untitled Post',
+    description: uc?.seoDescription || single?.subTitle.value || 'No description',
   }
 })
 
-unhead.useHead({
-  title: () => head.value.title,
-  meta: [{ name: `description`, content: () => head.value.description }],
-})
+// render as usual for main page
+if (routeSlug.value) {
+  unhead.useHead({
+    title: () => head.value.title,
+    meta: [{ name: `description`, content: () => head.value.description }],
+  })
+}
 </script>
 
 <template>
