@@ -200,12 +200,6 @@ const taxonomyCols = [
     zodSchema: ({ z }) => z.string().min(1),
   }),
   new FictionDbCol({
-    key: 'priority',
-    create: ({ schema, column }) => schema.string(column.pgKey).index(),
-    default: () => '' as string,
-    zodSchema: ({ z }) => z.string().min(1),
-  }),
-  new FictionDbCol({
     key: 'type',
     create: ({ schema, column }) => schema.string(column.pgKey).notNullable().index(),
     default: () => '' as 'tag' | 'category',
