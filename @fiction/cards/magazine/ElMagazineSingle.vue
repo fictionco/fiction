@@ -53,7 +53,7 @@ const imageAspect = vue.computed(() => {
   const h = img?.height
   const w = img?.width
 
-  console.log('img', img, h, w)
+
   if (!img || !w || !h)
     return 'aspect-[2/1]'
 

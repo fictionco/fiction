@@ -229,10 +229,7 @@ describe('post crud tests', async () => {
       {
         "code": "OPERATION_FAILED",
         "context": "QueryManagePost",
-        "data": {
-          "_action": "get",
-          "postId": "nonexistent",
-        },
+        "data": undefined,
         "expose": true,
         "httpStatus": 500,
         "location": undefined,

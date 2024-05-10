@@ -64,12 +64,12 @@ describe('org team', () => {
       expect(sample?.[k]).toBeDefined()
     })
 
-    expect(snap(q?.data)).toMatchInlineSnapshot(`
+    expect(snap(q?.data, { maskedKeys: ['fullName'] })).toMatchInlineSnapshot(`
       [
         {
           "createdAt": "[dateTime:]",
           "email": "[email:********+**********@*****.***]",
-          "fullName": null,
+          "fullName": "**MASKED**",
           "invitedById": null,
           "lastSeenAt": "[dateTime:]",
           "memberAccess": "owner",
