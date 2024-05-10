@@ -118,22 +118,21 @@ export class QueryManagePost extends PostsQuery {
       throw this.abort('Post not found')
 
     if (post.postId) {
-      post.authors = await db.select([`${t.user}.userId`, `${t.user}.email`, `${t.user}.fullName`]).from(t.postAuthor).join(t.user, `${t.user}.user_id`, `=`, `${t.postAuthor}.user_id`).where(`${t.postAuthor}.post_id`, post.postId)
+      post.authors = await db.select([`${t.user}.userId`, `${t.user}.email`, `${t.user}.fullName`, `${t.postAuthor}.priority`]).from(t.postAuthor).join(t.user, `${t.user}.user_id`, `=`, `${t.postAuthor}.user_id`).where(`${t.postAuthor}.post_id`, post.postId).orderBy(`${t.postAuthor}.priority`, 'asc')
       post.sites = await db.select([`${t.site}.siteId`, `${t.site}.title`]).from(t.postSite).join(t.site, `${t.site}.site_id`, `=`, `${t.postSite}.site_id`).where(`${t.postSite}.post_id`, post.postId)
 
       const q = db
-        .select([`${t.taxonomies}.*`])
+        .select([`${t.taxonomies}.*`, `${t.postTaxonomies}.priority`])
         .from(t.postTaxonomies)
         .join(t.taxonomies, `${t.taxonomies}.taxonomy_id`, `=`, `${t.postTaxonomies}.taxonomy_id`)
         .where(`${t.postTaxonomies}.post_id`, post.postId)
+        .orderBy(`${t.postTaxonomies}.priority`, 'asc')
 
       post.taxonomy = await q
     }
 
     if (loadDraft && post.draft)
       post = deepMerge([post, post.draft as TablePostConfig])
-
-    this.log.info(`getPost(${caller})`, { caller, data: { post } })
 
     return post
   }
@@ -240,16 +239,15 @@ export class QueryManagePost extends PostsQuery {
     const existingAssociations = await db.select(foreignKey).from(tableName).where({ postId })
     const existingIds = existingAssociations.map(a => a[foreignKey])
     const toRemove = existingIds.filter(id => !newIds.includes(id))
-    const toAdd = newIds.filter(id => !existingIds.includes(id))
 
     // Remove old associations
     if (toRemove.length > 0)
       await db.table(tableName).where({ postId }).whereIn(foreignKey, toRemove).delete()
 
     // Add new associations
-    if (toAdd.length > 0) {
-      const newAssociations = toAdd.map(id => ({ postId, [foreignKey]: id, orgId }))
-      await db.table(tableName).insert(newAssociations).onConflict(['postId', foreignKey]).ignore()
+    if (newIds.length > 0) {
+      const newAssociations = newIds.map((id, index) => ({ postId, [foreignKey]: id, orgId, priority: index }))
+      await db.table(tableName).insert(newAssociations).onConflict(['postId', foreignKey]).merge(['priority'])
     }
   }
 
@@ -267,16 +265,15 @@ export class QueryManagePost extends PostsQuery {
     const passedInTaxonomyIds = [...oldTaxonomiesIds, ...insertedTaxonomyIds]
 
     const toRemoveFromPost = existingTaxonomyIds.filter(id => !passedInTaxonomyIds.includes(id))
-    const needsTaxonomies = passedInTaxonomyIds.filter(id => !existingTaxonomyIds.includes(id))
 
     // Remove old associations
     if (toRemoveFromPost.length > 0)
       await db.table(t.postTaxonomies).where({ postId }).whereIn('taxonomyId', toRemoveFromPost).delete()
 
     // Add new associations
-    if (needsTaxonomies.length > 0) {
-      const newTaxonomies = needsTaxonomies.map(taxonomyId => ({ postId, taxonomyId, orgId }))
-      await db.table(t.postTaxonomies).insert(newTaxonomies).onConflict(['postId', 'taxonomyId']).ignore()
+    if (passedInTaxonomyIds.length > 0) {
+      const newTaxonomies = passedInTaxonomyIds.map((taxonomyId, index) => ({ postId, taxonomyId, orgId, priority: index }))
+      await db.table(t.postTaxonomies).insert(newTaxonomies).onConflict(['postId', 'taxonomyId']).merge(['priority'])
     }
   }
 

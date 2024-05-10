@@ -1,58 +1,33 @@
 <script lang="ts" setup>
-import { useService, vue } from '@fiction/core'
-
+import { unhead, useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { FictionPosts, Post } from '@fiction/plugin-posts'
 import ClipPathAnim from '@fiction/ui/anim/AnimClipPath.vue'
 import ElBadge from '@fiction/ui/common/ElBadge.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
+import ElAuthor from './ElAuthor.vue'
 import type { UserConfig } from '.'
 
 const props = defineProps({
-  card: {
-    type: Object as vue.PropType<Card<UserConfig>>,
-    required: true,
-  },
+  card: {  type: Object as vue.PropType<Card<UserConfig>>, required: true,},
+  loading: { type: Boolean, default: true },
+  post: { type: Object as vue.PropType<Post>, default: undefined },
 })
 
 const service = useService<{ fictionPosts: FictionPosts }>()
-const post = vue.shallowRef<Post | undefined>()
 
-const loading = vue.ref(true)
-async function load(slug: string) {
-  loading.value = true
 
-  const orgId = props.card.site?.settings.orgId
-
-  if (!orgId)
-    throw new Error('No fiction orgId found')
-
-  post.value = await service.fictionPosts.getPost({ slug, orgId })
-  loading.value = false
-}
-
-vue.onMounted(async () => {
-  vue.watchEffect(async () => {
-    const slug = service.fictionRouter.params.value.itemId as string | undefined
-
-    if (!slug)
-      return
-
-    await load(slug)
-  })
-})
 
 const userIsAuthor = vue.computed(() => {
-  return post.value?.settings.authors?.some(a => a.userId === service.fictionUser.activeUser.value?.userId)
+  return props.post?.settings.authors?.some(a => a.userId === service.fictionUser.activeUser.value?.userId)
 })
 const proseClass = `prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl mx-auto focus:outline-none `
 
 const imageAspect = vue.computed(() => {
-  const img = post.value?.image.value
+  const img = props.post?.image.value
   const h = img?.height
   const w = img?.width
-
 
   if (!img || !w || !h)
     return 'aspect-[2/1]'
@@ -69,7 +44,7 @@ const imageAspect = vue.computed(() => {
     >
       <ElSpinner class="h-12 w-12" />
     </div>
-    <article v-if="post" class="p-8" :class="card.classes.value.contentWidth">
+    <article v-if="post" class="p-8 pb-44" :class="card.classes.value.contentWidth">
       <div class="space-y-8 my-[min(max(35px,_5vw),_60px)] prose:max-w-none text-center max-w-screen-lg mx-auto" :class="proseClass">
         <div class="tags space-x-3">
           <ElBadge theme="naked" :href="card.link('/:viewId')">
@@ -88,6 +63,9 @@ const imageAspect = vue.computed(() => {
         <h3 class=" font-medium dark:text-theme-400 text-balance">
           {{ post.subTitle.value }}
         </h3>
+        <div class="flex justify-center">
+          <ElAuthor v-for="(author, i) in post.authors.value" :key="i" :user="author" :date-at="post.dateAt.value" />
+        </div>
       </div>
       <ClipPathAnim :enabled="true" class="my-[min(max(35px,_5vw),_60px)]">
         <div v-if="post.image.value?.url" class=" mx-auto relative overflow-hidden rounded-lg" :class="imageAspect">
@@ -96,6 +74,17 @@ const imageAspect = vue.computed(() => {
         </div>
       </ClipPathAnim>
       <div class="content-container px-4" :class="proseClass" v-html="post.content.value" />
+
+      <div v-if="post.tags.value?.length" class="tags flex gap-4 mt-12 mb-8 items-center px-4 justify-center" :class="proseClass">
+        <div class="text-xs italic text-theme-500">
+          tagged with &rarr;
+        </div>
+        <div class="gap-3 flex">
+          <ElBadge v-for="(tags, i) in post.tags.value" :key="i" theme="theme">
+            {{ tags.title }}
+          </ElBadge>
+        </div>
+      </div>
     </article>
     <El404 v-else heading="Post Not Found" :actions="[{ name: 'All Posts', href: card.link('/:viewId') }]" />
   </div>

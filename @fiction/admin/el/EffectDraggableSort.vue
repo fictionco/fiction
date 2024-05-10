@@ -4,6 +4,7 @@ import EffectTransitionList from './EffectTransitionList.vue'
 
 const props = defineProps({
   itemSelector: { type: String, default: '[data-drag-id]' },
+  allowHorizontal: { type: Boolean, default: false },
 })
 
 const emit = defineEmits<{
@@ -43,7 +44,7 @@ vue.onMounted(async () => {
     swapAnimation: {
       duration: 200,
       easingFunction: 'ease-in-out',
-      horizontal: false,
+      horizontal: props.allowHorizontal,
     },
     plugins: [Plugins.SwapAnimation], // Or [SwapAnimation]
   })

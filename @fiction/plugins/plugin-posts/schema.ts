@@ -11,7 +11,7 @@ export const t = {
   ...standardTable,
 }
 
-type PostUserConfig = Record<string, any>
+type PostUserConfig = Partial<{ seoTitle: string, seoDescription: string, seoKeywords: string }>
 type PostMeta = { seoTitle: string, seoDescription: string, seoKeywords: string }
 
 export type TablePostConfig = Partial<CreateObjectType<typeof postCols>> & {
@@ -265,6 +265,12 @@ const postTaxonomyCols = [
     default: () => '' as string,
     zodSchema: ({ z }) => z.string(),
   }),
+  new FictionDbCol({
+    key: 'priority',
+    create: ({ schema, column }) => schema.integer(column.pgKey).defaultTo(0),
+    default: () => 0 as number,
+    zodSchema: ({ z }) => z.number().int().optional(),
+  }),
 ] as const
 
 // Post-Author join table columns
@@ -293,6 +299,12 @@ const postAuthorCols = [
     default: () => '' as string,
     zodSchema: ({ z }) => z.string(),
   }),
+  new FictionDbCol({
+    key: 'priority',
+    create: ({ schema, column }) => schema.integer(column.pgKey).defaultTo(0),
+    default: () => 0 as number,
+    zodSchema: ({ z }) => z.number().int().optional(),
+  }),
 ] as const
 
 const postSiteCols = [
@@ -319,6 +331,12 @@ const postSiteCols = [
     create: ({ schema, column }) => schema.string(column.pgKey, 50).references(`${t.org}.orgId`).onUpdate('CASCADE').notNullable().index(),
     default: () => '' as string,
     zodSchema: ({ z }) => z.string(),
+  }),
+  new FictionDbCol({
+    key: 'priority',
+    create: ({ schema, column }) => schema.integer(column.pgKey).defaultTo(0),
+    default: () => 0 as number,
+    zodSchema: ({ z }) => z.number().int().optional(),
   }),
 ] as const
 

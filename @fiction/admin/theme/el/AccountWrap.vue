@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useService } from '@fiction/core'
-import ElAvatar from '@fiction/ui/ElAvatar.vue'
+import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import ElZeroBanner from '@fiction/ui/ElZeroBanner.vue'
 
 const { fictionUser } = useService()

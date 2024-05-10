@@ -3,6 +3,7 @@ import { Theme, createCard } from '@fiction/site/theme'
 import type { FictionEnv } from '@fiction/core'
 import { safeDirname, vue } from '@fiction/core'
 import { standardCardTemplates } from '@fiction/cards'
+import DashWrap from './el/DashWrap.vue'
 
 const def = vue.defineAsyncComponent
 
@@ -12,7 +13,7 @@ export const templates = [
   ...standardCardTemplates,
   new CardTemplate({
     templateId: 'dash',
-    el: def(() => import('./el/DashWrap.vue')),
+    el: DashWrap,
     userConfig: {
       homeIcon: {
         format: 'html' as const,

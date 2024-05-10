@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import type { ListItem } from '@fiction/core'
-import { debounce, toLabel, useService, vue } from '@fiction/core'
+import { debounce, toLabel, useService, vue, waitFor } from '@fiction/core'
 import InputSelectCustom from '@fiction/ui/inputs/InputSelectCustom.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
 import ElBadge from '@fiction/ui/common/ElBadge.vue'
+import EffectDraggableSort from '@fiction/admin/el/EffectDraggableSort.vue'
 import type { FictionPosts } from '..'
 import type { TableTaxonomyConfig } from '../schema'
 
@@ -95,16 +96,23 @@ function addNew() {
 function removeTaxomomy(tax: TableTaxonomyConfig) {
   emit('update:modelValue', props.modelValue.filter(t => t.taxonomyId !== tax.taxonomyId))
 }
+
+async function sortValue(sortedTitles: string[]) {
+  await waitFor(20)
+  const v = props.modelValue
+  const newValue = sortedTitles.map(title => v.find(val => val.title === title)).filter(Boolean) as TableTaxonomyConfig[]
+  emit('update:modelValue', newValue)
+}
 </script>
 
 <template>
   <div class="space-y-2">
-    <div class="tag-list flex flex-row flex-wrap gap-1">
-      <ElBadge v-for="(tax, i) in modelValue" :key="i" class="gap-1" :theme="taxonomyType === 'tag' ? 'green' : 'orange'">
-        {{ tax.title }}
+    <EffectDraggableSort class="tag-list flex flex-row flex-wrap gap-1" :allow-horizontal="true" @update:sorted="sortValue($event)">
+      <ElBadge v-for="(tax, i) in modelValue" :key="i" :data-drag-id="tax.title" class="gap-1 cursor-grab" :theme="taxonomyType === 'tag' ? 'green' : 'orange'">
+        <span>{{ tax.title }}</span>
         <span class="i-tabler-x hover:opacity-70 cursor-pointer" @click="removeTaxomomy(tax)" />
       </ElBadge>
-    </div>
+    </EffectDraggableSort>
     <InputSelectCustom
       v-model:search="search"
       v-model:focused="isFocused"

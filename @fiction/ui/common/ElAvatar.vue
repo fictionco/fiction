@@ -2,7 +2,7 @@
 import type { PublicUser } from '@fiction/core'
 import { stored, vue } from '@fiction/core'
 import gravatarUrl from 'gravatar-url'
-import userBlank from './img/user-blank.png'
+import userBlank from './user-blank.png'
 
 const props = defineProps({
   userId: { type: String, default: '' },

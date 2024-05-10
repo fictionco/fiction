@@ -1,26 +1,25 @@
 <script lang="ts" setup>
 import { type IndexItem, dayjs, getNavComponentType, useService, vue } from '@fiction/core'
-import ElAvatar from '@fiction/ui/ElAvatar.vue'
 import type { Card } from '@fiction/site'
 import type { FictionPosts, Post, TablePostConfig } from '@fiction/plugin-posts'
 import ClipPathAnim from '@fiction/ui/anim/AnimClipPath.vue'
 import ElBadge from '@fiction/ui/common/ElBadge.vue'
 import El404 from '@fiction/ui/page/El404.vue'
+import ElAuthor from './ElAuthor.vue'
 import type { UserConfig } from '.'
 
 const props = defineProps({
-  card: {
-    type: Object as vue.PropType<Card<UserConfig>>,
-    required: true,
-  },
+  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
+  postIndex: { type: Array as vue.PropType<Post[]>, default: () => [] },
+  loading: { type: Boolean, default: true },
 })
 
 const service = useService<{ fictionPosts: FictionPosts }>()
-const posts = vue.shallowRef<Post[]>([])
+// const posts = vue.shallowRef<Post[]>([])
 
 const list = vue.computed<(IndexItem & TablePostConfig)[]>(() => {
   const viewId = service.fictionRouter.params.value.viewId || '_'
-  return posts.value.map((p) => {
+  return props.postIndex.map((p) => {
     return {
       ...p.toConfig(),
       key: p.postId,
@@ -32,22 +31,22 @@ const list = vue.computed<(IndexItem & TablePostConfig)[]>(() => {
   })
 })
 
-const loading = vue.ref(true)
-async function load() {
-  loading.value = true
-  const orgId = props.card.site?.settings.orgId
+// const loading = vue.ref(true)
+// async function load() {
+//   loading.value = true
+//   const orgId = props.card.site?.settings.orgId
 
-  if (!orgId)
-    throw new Error('No fiction orgId found')
+//   if (!orgId)
+//     throw new Error('No fiction orgId found')
 
-  posts.value = await service.fictionPosts.getPostIndex({ limit: 5, orgId })
+//   props.postIndex = await service.fictionPosts.getPostIndex({ limit: 5, orgId })
 
-  loading.value = false
-}
+//   loading.value = false
+// }
 
-vue.onMounted(async () => {
-  await load()
-})
+// vue.onMounted(async () => {
+//   await load()
+// })
 
 function getItemClasses(index: number): string {
   const out = []
@@ -92,17 +91,7 @@ function getItemClasses(index: number): string {
               <h2 class="text-3xl font-bold x-font-title text-balance max-w-[75%]">
                 {{ item.name }}
               </h2>
-              <div class="text-base flex gap-3 items-center mt-4">
-                <ElAvatar class="size-12 rounded-full" :email="item.authors?.[0].email" />
-                <div>
-                  <div class="font-semibold text-lg">
-                    {{ item.authors?.[0].fullName }}
-                  </div>
-                  <div class="font-sans antialiased text-sm">
-                    {{ dayjs(item.dateAt).format('MMMM D, YYYY') }}
-                  </div>
-                </div>
-              </div>
+              <ElAuthor v-for="(author, i) in item.authors || []" :key="i" :user="author" :date-at="item.dateAt" />
             </div>
           </div>
         </ClipPathAnim>

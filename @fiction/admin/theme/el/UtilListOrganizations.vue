@@ -2,7 +2,7 @@
 import type { Card } from '@fiction/site/card'
 import type { vue } from '@fiction/core'
 import { timeAgo, useService } from '@fiction/core'
-import ElAvatar from '@fiction/ui/ElAvatar.vue'
+import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 
 defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { IndexItem } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
-import ElAvatar from '@fiction/ui/ElAvatar.vue'
+import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 import type { Card } from '@fiction/site/card'
 import ElZeroBanner from '@fiction/ui/ElZeroBanner.vue'

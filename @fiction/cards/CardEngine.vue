@@ -3,14 +3,8 @@ import { resetUi, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 
 const props = defineProps({
-  card: {
-    type: Object as vue.PropType<Card>,
-    default: undefined,
-  },
-  tag: {
-    type: String,
-    default: 'div',
-  },
+  card: { type: Object as vue.PropType<Card>, default: undefined },
+  tag: { type: String, default: 'div' },
 })
 
 const isEditable = vue.computed(() => {

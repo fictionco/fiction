@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import type { FictionTeam } from '@fiction/core/plugin-team'
 import type { Card } from '@fiction/site/card'
-import ElPanelSettings from './ElPanelSettings.vue'
-import type { UserConfig } from './SettingsWrap.vue'
 import type {
   OrganizationMember,
 } from '@fiction/core'
@@ -14,7 +12,9 @@ import {
 import ElButton from '@fiction/ui/ElButton.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
-import ElAvatar from '@fiction/ui/ElAvatar.vue'
+import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
+import type { UserConfig } from './SettingsWrap.vue'
+import ElPanelSettings from './ElPanelSettings.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
