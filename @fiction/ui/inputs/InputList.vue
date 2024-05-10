@@ -106,12 +106,12 @@ vue.onMounted(async () => {
     <div
       v-for="(item, i) in keyedModelValue"
       :key="i"
-      class="rounded-md border border-theme-200 dark:border-theme-600 mb-2 shadow-sm bg-theme-0 dark:bg-theme-700 cursor-pointer text-theme-700 dark:text-theme-100"
+      class="rounded-md border border-theme-300 dark:border-theme-600 mb-2 shadow-sm bg-theme-0 dark:bg-theme-700 cursor-pointer text-theme-700 dark:text-theme-100"
       :data-drag-id="item._key"
       :data-drag-depth="depth"
     >
       <div
-        class="px-1 py-1 bg-theme-50 dark:bg-theme-600/50 hover:bg-theme-100/80 text-xs font-mono  font-medium flex justify-between items-center"
+        class="px-1 py-1 bg-theme-50/50 dark:bg-theme-600/50 hover:bg-theme-50 text-xs font-mono  font-medium flex justify-between items-center"
         :class="openItem === item._key ? 'rounded-t-md border-b border-theme-200 dark:border-theme-600' : 'rounded-md'"
         :data-drag-handle="depth"
         @click="toggleItem(item)"

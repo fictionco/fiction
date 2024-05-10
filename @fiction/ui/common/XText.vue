@@ -122,7 +122,7 @@ function onPaste(event: ClipboardEvent) {
     :placeholder="placeholder"
     @input="onInput($event)"
     @paste="onPaste($event)"
-    @click.stop="isEditing = 'click'"
+    @click="isEditing = 'click'"
     @focus="isEditing = 'focus'"
     @blur="handleBlur()"
     v-html="textValue"

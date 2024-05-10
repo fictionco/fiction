@@ -103,13 +103,15 @@ async function save() {
           </ElButton>
           <div class="flex space-x-1 font-medium">
             <RouterLink
-              class="text-theme-400 block pr-1 hover:text-primary-500"
+              class=" whitespace-nowrap text-theme-400 dark:text-theme-300  pr-1 hover:text-primary-500 dark:hover:text-theme-0 flex items-center gap-1"
               :to="card.link('/')"
             >
-              Site Builder /
+              <span class="i-tabler-browser-plus text-xl inline-block dark:text-theme-500" />
+              <span>Site Designer</span>
+              <span class="i-tabler-slash text-xl dark:text-theme-500" />
             </RouterLink>
 
-            <XText v-if="site" v-model="site.title.value" :is-editable="true" class="hover:bg-theme-100" />
+            <XText v-if="site" v-model="site.title.value" :is-editable="true" class="hover:bg-theme-100 whitespace-nowrap" />
           </div>
         </template>
         <template v-if="site" #headerRight>

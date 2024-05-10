@@ -43,8 +43,8 @@ const contextTool = vue.computed(() => props.controller.activeTool.context.value
                 class=" space-x-2 cursor-pointer p-2 justify-end w-[40px] h-[40px] rounded-lg transition-all"
                 :title="toLabel(tool.title || tool.toolId)"
                 :class="controller.isUsingTool({ toolId: tool.toolId })
-                  ? 'bg-primary-100 dark:bg-primary-700 text-primary-600 dark:text-primary-50'
-                  : 'text-theme-700 dark:text-theme-0 dark:hover:bg-theme-600 hover:bg-theme-100 d'"
+                  ? 'bg-primary-50 dark:bg-primary-700 text-primary-500 dark:text-primary-50'
+                  : 'text-theme-700 dark:text-theme-0 dark:hover:bg-theme-600 hover:bg-theme-50'"
                 @click="controller.useTool({ toolId: tool.toolId })"
               >
                 <div class="text-2xl" :class="tool.icon" />

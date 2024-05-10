@@ -45,10 +45,10 @@ vue.watch(
         <div
           v-for="(mode, i) in deviceModes"
           :key="i"
-          class="inline-flex cursor-pointer select-none items-center rounded px-2 py-1 font-medium font-sans antialiased space-x-1 border transition-all hover:opacity-80"
+          class="inline-flex cursor-pointer select-none items-center rounded px-2 py-1  font-sans antialiased space-x-1  transition-all hover:opacity-80"
           :class="activeDeviceMode === mode.name
-            ? 'bg-theme-500 dark:bg-theme-600 dark:border-theme-500 border-theme-600 text-theme-0 dark:text-theme-0 dark:text-theme-0'
-            : 'text-theme-500 dark:text-theme-100 bg-theme-100 dark:bg-theme-700 dark:border-theme-600 hover:text-white hover:bg-primary-500 hover:border-primary-600'
+            ? 'text-theme-600 bg-theme-100 font-semibold dark:bg-theme-600  dark:text-theme-0 dark:text-theme-0'
+            : 'text-theme-500 font-medium dark:text-theme-100  border-transparent dark:bg-theme-700  '
           "
           @click.stop="activeDeviceMode = mode.name"
         >
