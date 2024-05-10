@@ -106,6 +106,32 @@ async function selectByIndex(index: number): Promise<void> {
   if (item)
     await selectValue(item)
 }
+
+function handleKeydown(event: KeyboardEvent) {
+  if (props.disabled)
+    return
+
+  event.preventDefault()
+
+  switch (event.key) {
+    case 'ArrowDown':
+      hovered.value = hovered.value === li.value.length - 1 ? 0 : hovered.value + 1
+      break
+    case 'ArrowUp':
+      hovered.value = hovered.value ? hovered.value - 1 : li.value.length - 1
+      break
+    case 'Enter':
+      if (!active.value)
+        toggle()
+      else
+        selectByIndex(hovered.value)
+
+      break
+    case 'Escape':
+      setInactive()
+      break
+  }
+}
 </script>
 
 <template>
@@ -115,10 +141,7 @@ async function selectByIndex(index: number): Promise<void> {
         class="relative"
         tabindex="-1"
         @click="toggle()"
-        @keydown.down.prevent="hovered = hovered === li.length - 1 ? 0 : hovered + 1"
-        @keydown.up.prevent="hovered = hovered ? hovered - 1 : 0"
-        @keydown.enter.prevent="!active ? toggle() : selectByIndex(hovered)"
-        @keydown.esc.prevent="setInactive()"
+        @keydown="handleKeydown($event)"
       >
         <input
           type="text"
