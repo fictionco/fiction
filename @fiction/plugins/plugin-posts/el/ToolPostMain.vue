@@ -13,6 +13,7 @@ import { t } from '../schema'
 import type { FictionPosts } from '..'
 import InputTaxonomy from './InputTaxonomy.vue'
 import InputAuthors from './InputAuthors.vue'
+import InputActions from './InputActions.vue'
 
 const props = defineProps({
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
@@ -148,6 +149,36 @@ const options = vue.computed(() => {
           label: 'Authors',
           input: InputAuthors,
           props: { },
+        }),
+
+      ],
+    }),
+    new InputOption({
+      key: 'dangerZone',
+      label: 'Danger Zone',
+      input: 'group',
+      options: [
+        new InputOption({
+          key: 'deletePost',
+          label: 'Permanently Delete Post',
+          input: InputActions,
+          props: {
+            actions: [
+              {
+                name: 'Delete Post...',
+                btn: 'danger',
+                onClick: (args) => {
+                  const p = args.props as { post: Post }
+                  const confirmed = confirm('Are you sure you want to delete this post?')
+
+                  if (confirmed){
+                    p.post?.delete()
+                    props.card.goto('/posts')
+                  }
+                },
+              },
+            ] as ActionItem[],
+          },
         }),
 
       ],

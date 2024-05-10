@@ -40,7 +40,7 @@ defineProps({
               :size="action.size || 'md'"
               :loading="action.loading"
               :href="action.href"
-              @click.stop="action.onClick ? action.onClick($event) : ''"
+              @click.stop="action.onClick ? action.onClick({ event: $event }) : ''"
             >
               {{ action.name }}
             </ElButton>

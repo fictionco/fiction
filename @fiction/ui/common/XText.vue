@@ -26,7 +26,7 @@ const emit = defineEmits<{
 const randomId = shortId()
 
 const loaded = vue.ref(false)
-const isEditing = vue.ref(false)
+const isEditing = vue.ref<string | undefined>()
 const textValue = vue.ref('')
 const updateValue = vue.ref('')
 
@@ -49,12 +49,11 @@ function valueFromModelValue() {
   return `${props.prefix}${out}${props.suffix}`
 }
 
-// only update model on blur to prevent cursor jumping
-onResetUi(() => {
-  isEditing.value = false
+function handleBlur() {
+  isEditing.value = undefined
   emitValue()
   setTextValue()
-})
+}
 
 function onInput(ev: Event) {
   updateValue.value = (ev.target as HTMLElement).innerHTML
@@ -123,8 +122,9 @@ function onPaste(event: ClipboardEvent) {
     :placeholder="placeholder"
     @input="onInput($event)"
     @paste="onPaste($event)"
-    @click.stop="isEditing = true"
-    @focus="isEditing = true"
+    @click.stop="isEditing = 'click'"
+    @focus="isEditing = 'focus'"
+    @blur="handleBlur()"
     v-html="textValue"
   />
 </template>

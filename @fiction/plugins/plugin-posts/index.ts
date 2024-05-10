@@ -28,6 +28,8 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
     fictionUser: this.settings.fictionUser,
   })
 
+  cacheKey = vue.ref(0)
+
   constructor(settings: FictionPostsSettings) {
     super('FictionPosts', { ...settings, root: safeDirname(import.meta.url) })
 
@@ -105,7 +107,6 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
     const params = postId ? { postId } : { slug }
 
     const r = await this.requests.ManagePost.request({ _action: 'get', orgId, ...params })
-
 
     return r.data ? new Post({ fictionPosts: this, ...r.data }) : undefined
   }

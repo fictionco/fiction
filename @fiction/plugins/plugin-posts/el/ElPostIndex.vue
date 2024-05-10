@@ -39,7 +39,7 @@ async function load() {
 }
 
 vue.onMounted(async () => {
-  await load()
+  vue.watch(() => service.fictionPosts.cacheKey.value, load, { immediate: true })
 })
 </script>
 

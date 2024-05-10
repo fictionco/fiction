@@ -108,6 +108,12 @@ export class Post extends FictionObject<PostConfig> {
     this.clearAutosave()
   }
 
+  async delete() {
+    this.log.info('Deleting post')
+    await managePost({ fictionPosts: this.settings.fictionPosts, params: { _action: 'delete', postId: this.postId } })
+    this.settings.fictionPosts.cacheKey.value++
+  }
+
   toConfig(): TablePostConfig {
     const { fictionPosts, ...rest } = this.settings
 
