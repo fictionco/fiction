@@ -27,9 +27,9 @@ onResetUi(() => {
 <template>
   <div class="relative ml-auto">
     <div @click.stop="active = !active">
-      <div class="group flex cursor-pointer items-center space-x-1 hover:bg-theme-50 dark:border-theme-700 dark:bg-theme-800 dark:hover:bg-theme-700/60 px-1.5 py-1 rounded-md">
+      <div class="group flex cursor-pointer items-center space-x-1 hover:bg-theme-50 dark:border-theme-700 dark:bg-theme-700 dark:hover:bg-theme-700/60 px-1.5 py-1 rounded-full">
         <ElAvatar
-          class=" h-9 w-9 rounded-md  "
+          class=" h-9 w-9 rounded-full ring-2 ring-black/90 dark:ring-theme-600"
           :class="active ? 'opacity-70' : ''"
           :email="fictionUser.activeUser.value?.email"
         />
