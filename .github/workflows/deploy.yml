@@ -122,11 +122,11 @@ jobs:
       - name: Create Tables
         run: npm -w @fiction/www exec -- fiction run generate
 
-      - name: E2E/UI tests
-        run: npm exec -- vitest run uiux -u --no-file-parallelism
-
       - name: SPOT tests
         run: npm exec -- vitest run spot -u --passWithNoTests
+
+      - name: E2E/UI tests
+        run: npm exec -- vitest run uiux -u --no-file-parallelism
 
       - name: UNIT tests
         run: npm exec -- vitest run unit -u
