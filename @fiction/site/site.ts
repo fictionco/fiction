@@ -1,5 +1,5 @@
 import type { FictionRouter } from '@fiction/core'
-import { FictionObject, deepMerge, getColorScheme, localRef, objectId, resetUi, shortId, vue, waitFor } from '@fiction/core'
+import { FictionObject, deepMerge, getColorScheme, isDarkOrLightMode, localRef, objectId, resetUi, shortId, vue, waitFor } from '@fiction/core'
 import type { CardConfigPortable, PageRegion, SiteUserConfig, TableCardConfig, TableSiteConfig } from './tables'
 import type { Card } from './card'
 import { flattenCards, setLayoutOrder } from './utils/layout'
@@ -10,10 +10,8 @@ import { addNewCard, removeCard } from './utils/region'
 import type { QueryVarHook } from './utils/site'
 import { saveSite, setSections, setupRouteWatcher, updateSite } from './utils/site'
 import type { SiteMode } from './load'
-import { siteEditController } from './plugin-builder/tools'
+import { siteEditController } from './plugin-builder/tools/tools'
 import type { FictionSites } from '.'
-
-
 
 export type EditorState = {
   selectedCardId: string
@@ -77,7 +75,17 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
   userConfig = vue.ref(this.settings.userConfig || {})
   fullConfig = vue.computed(() => deepMerge<SiteUserConfig>([this.theme.value?.config(), this.userConfig.value]))
-  isDarkMode = localRef({ key: `isDarkMode-${this.themeId.value}`, def: this.fullConfig.value.colors?.isDarkMode || false })
+
+  localDarkMode = localRef({ key: `isDarkMode-${this.siteId}`, def: this.fullConfig.value.isDarkMode })
+  isDarkMode = vue.computed({
+    get: () => {
+      return (this.siteMode.value === 'standard') ? this.localDarkMode.value : this.fullConfig.value.isDarkMode
+    },
+    set: (v) => {
+      this.userConfig.value = { ...this.userConfig.value, isDarkMode: v }
+      this.localDarkMode.value = v
+    },
+  })
 
   pages = vue.shallowRef(setPages({ pages: this.settings.pages, site: this }))
 
@@ -218,13 +226,9 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   }
 
   colors = vue.computed(() => {
-    const { colorPrimary = 'blue', colorTheme = 'gray', isDarkMode = false } = this.fullConfig.value.colors || {}
+    const { colorPrimary = 'blue', colorTheme = 'gray' } = this.fullConfig.value.colors || {}
     const theme = getColorScheme(colorTheme)
-    return {
-      primary: getColorScheme(colorPrimary),
-      theme,
-      isDarkMode,
-    }
+    return { primary: getColorScheme(colorPrimary), theme }
   })
 
   activeRegionKey = vue.ref<PageRegion>('main')

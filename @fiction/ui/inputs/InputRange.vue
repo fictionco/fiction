@@ -6,7 +6,7 @@ const props = defineProps({
   min: { type: [String, Number], default: 0 },
   max: { type: [String, Number], default: undefined },
   step: { type: [String, Number], default: 1 },
-  prefix: { type: String, default: '' },
+  icon: { type: String, default: '' },
   hideValue: { type: Boolean, default: false },
 })
 const emit = defineEmits<{
@@ -42,9 +42,9 @@ const hasValue = vue.computed(() => {
   <div class="text-input-size max-w-input flex items-center">
     <span
       v-if="!hideValue"
-      class="bg-theme-100 dark:bg-theme-800 text-theme-600 dark:text-theme-0 mr-[1em] inline-flex items-center space-x-1 rounded-full px-[1em] py-[.2em] text-right text-[10px] font-mono font-medium"
+      class=" dark:bg-theme-800 text-theme-600 dark:text-theme-0 mr-[1em] inline-flex items-center space-x-1 rounded-full px-[1em] py-[.2em] text-right text-[10px] font-mono font-medium"
     >
-      <span v-if="prefix" class="opacity-80 truncate">{{ prefix }}:</span>
+      <span v-if="icon" class="opacity-80 truncate text-xs" :class="icon" />
       <span v-if="hasValue">
         {{ modelValue }}
       </span>

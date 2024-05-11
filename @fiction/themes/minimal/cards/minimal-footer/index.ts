@@ -8,7 +8,7 @@ export const templates = [
     templateId: 'minimalFooter',
     category: ['theme'],
     icon: 'i-tabler-box-align-bottom',
-    iconTheme: 'blue',
+    colorTheme: 'blue',
 
     el: vue.defineAsyncComponent(() => import('./XTemplate.vue')),
     userConfig: {

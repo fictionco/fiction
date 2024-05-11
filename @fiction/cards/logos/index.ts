@@ -9,7 +9,7 @@ export const templates = [
     category: ['marketing'],
     description: 'image/logo grid',
     icon: 'i-tabler-input-check',
-    iconTheme: 'cyan',
+    colorTheme: 'cyan',
     el: vue.defineAsyncComponent(() => import('./ElLogos.vue')),
     options: [
       new InputOption({ key: 'userConfig.label', label: 'Label', input: 'InputText' }),

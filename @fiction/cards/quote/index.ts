@@ -76,7 +76,7 @@ export const templates = [
     category: ['marketing'],
     description: 'A quote card with author and organization information',
     icon: 'i-tabler-quote',
-    iconTheme: 'green',
+    colorTheme: 'green',
     el: vue.defineAsyncComponent(() => import('./ElQuote.vue')),
     isPublic: true,
     options: [

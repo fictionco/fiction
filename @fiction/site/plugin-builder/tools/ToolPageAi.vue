@@ -6,8 +6,8 @@ import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import type { EditorTool } from '@fiction/admin'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
 import ToolForm from '@fiction/admin/tools/ToolForm.vue'
-import type { Site } from '../site'
-import { imageStyle } from '../util'
+import type { Site } from '../../site'
+import { imageStyle } from '../../util'
 
 const props = defineProps({
   site: {

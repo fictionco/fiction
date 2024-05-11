@@ -3,12 +3,11 @@ import { vue } from '@fiction/core'
 import type { ActionItem } from '@fiction/core'
 import type { EditorTool, Handle } from '@fiction/admin'
 
-import ElTool from '@fiction/admin/tools/ElTool.vue'
 import ElToolBanner from '@fiction/admin/tools/ElToolBanner.vue'
 import ELToolHandle from '@fiction/admin/tools/ElToolHandle.vue'
 import EffectDraggableSort from '@fiction/admin/el/EffectDraggableSort.vue'
-import { saveSite } from '../utils/site'
-import type { Site } from '../site'
+import { saveSite } from '../../utils/site'
+import type { Site } from '../../site'
 import { siteEditController } from './tools'
 
 const props = defineProps({
@@ -69,28 +68,26 @@ async function handleSorted(sorted: string[]) {
 </script>
 
 <template>
-  <ElTool :tool="tool" :actions="actions">
-    <div class="p-4">
-      <ElToolBanner
-        v-if="handles.length === 0"
-        title="Add New Page"
-        sub="Click the add button above to add your first page."
-        :icon="tool.icon"
-        :actions="actions"
-      />
-      <template v-else>
-        <div>
-          <EffectDraggableSort class="space-y-2" @update:sorted="handleSorted($event)">
-            <ELToolHandle
-              v-for="handle in handles"
-              :key="handle.handleId"
-              class="drag-handle"
-              :handle="handle"
-              :data-drag-id="handle.handleId"
-            />
-          </EffectDraggableSort>
-        </div>
-      </template>
-    </div>
-  </ElTool>
+  <div>
+    <ElToolBanner
+      v-if="handles.length === 0"
+      title="Add New Page"
+      sub="Click the add button above to add your first page."
+      :icon="tool.icon"
+      :actions="actions"
+    />
+    <template v-else>
+      <div>
+        <EffectDraggableSort class="space-y-2" @update:sorted="handleSorted($event)">
+          <ELToolHandle
+            v-for="handle in handles"
+            :key="handle.handleId"
+            class="drag-handle"
+            :handle="handle"
+            :data-drag-id="handle.handleId"
+          />
+        </EffectDraggableSort>
+      </div>
+    </template>
+  </div>
 </template>

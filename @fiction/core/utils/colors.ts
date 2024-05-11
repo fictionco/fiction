@@ -1,4 +1,7 @@
-export function isDarkOrLightMode(element: HTMLElement | null | undefined): 'light' | 'dark' {
+export function isDarkOrLightMode(element?: HTMLElement | null | undefined): 'light' | 'dark' {
+  if (!element)
+    element = document.querySelector('body')
+
   while (element) {
     if (element.classList.contains('dark'))
       return 'dark'

@@ -7,7 +7,7 @@ export const templates = [
     category: ['marketing'],
     description: 'Pricing table',
     icon: 'i-tabler-layout-bottombar-collapse-filled',
-    iconTheme: 'orange',
+    colorTheme: 'orange',
     el: vue.defineAsyncComponent(() => import('./ElCard.vue')),
     options: [
     ],

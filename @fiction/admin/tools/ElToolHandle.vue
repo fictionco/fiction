@@ -2,77 +2,57 @@
 import { vue } from '@fiction/core'
 import TransitionSlide from '@fiction/ui/TransitionSlide.vue'
 import type { Handle } from '@fiction/admin'
-import { iconStyle } from '../util'
+import { getColorThemeStyles } from '@fiction/ui/utils'
 
 const props = defineProps({
   handle: { type: Object as vue.PropType<Handle>, required: true },
 })
 
 const draggableMode = vue.ref<number>(-1)
-
-const i = vue.computed(() => {
-  const isActive = props.handle.isActive
-  const stl = iconStyle[isActive ? 'primary' : (props.handle.iconTheme || 'theme')]
-  return `${stl.bg} ${stl.color} ${stl.border}`
-})
 </script>
 
 <template>
   <div
-    class="handle "
     :data-handle-id="handle.handleId"
     :data-handle-depth="handle.depth"
-
-    :class="
-      handle.isActive
-        ? 'border-theme-300 dark:border-theme-600'
-        : 'border-theme-300'
-    "
+    class="handle border border-theme-300 dark:border-theme-600 rounded-md"
+    :class="[handle.isActive ? 'ring-2 ring-primary-500/10' : '']"
   >
     <div
-      class="handlebar flex group rounded-md select-none min-w-0 hover:opacity-80"
+      class="handlebar flex group rounded-full select-none min-w-0 hover:opacity-80 justify-between cursor-pointer"
       :class="[handle.isActive ? 'bg-theme-50 dark:bg-theme-800 text-theme-700 dark:text-theme-0' : '']"
       @mouseover="draggableMode = handle.depth"
       @mouseleave="draggableMode = -1"
+      @click="handle.onClick?.({ event: $event })"
     >
       <div
-        class="flex items-center justify-center border    shrink-0 p-1 px-2 "
-        :class="[handle.hasDrawer ? 'rounded-tl-md' : 'rounded-l-md', handle.isActive ? 'dark:border-theme-500 border-theme-300' : 'dark:border-theme-500 border-theme-200']"
+        class="p-1 flex gap-0.5 font-medium items-center justify-center  shrink-0 x-font-title antialiased text-xs"
+        :class="[
+          handle.hasDrawer ? 'rounded-tl-full' : 'rounded-l-full',
+        ]"
       >
-        <div :class="handle.icon ?? 'i-carbon-blockchain'" />
+        <div
+          class="p-0.5 flex cursor-grab items-center active:cursor-grabbing hover:opacity-80 opacity-30"
+        >
+          <div class="i-carbon-draggable text-lg" />
+        </div>
+        <div class="flex items-center gap-1.5">
+          <div :class="handle.icon ?? 'i-carbon-blockchain'" class="text-base" />
+
+          <div>{{ handle.title || "Untitled" }}</div>
+        </div>
       </div>
       <div
-        class="flex grow border-y border-r   min-w-0 overflow-hidden"
+        class="flex grow justify-end pr-0.5 min-w-0 overflow-hidden gap-0.5"
         :class="[
-          handle.hasDrawer ? 'rounded-tr-md' : 'rounded-r-md',
           handle.isActive ? 'dark:border-theme-500 border-theme-300' : 'dark:border-theme-500 border-theme-200']"
       >
         <div
-          class="flex grow cursor-pointer items-center px-3 truncate gap-1 text-[10px] min-w-0"
-          @click="handle.onClick?.({ event: $event })"
-        >
-          <div class="py-1 uppercase font-medium tracking-wide shrink-0">
-            {{ handle.title || "Untitled" }}
-          </div>
-          <div v-if="handle.sub" class="py-1 text-theme-400 font-medium italic truncate" :class="handle.isActive ? 'text-primary-300' : 'text-theme-400'">
-            {{ handle.sub }}
-          </div>
-        </div>
-
-        <div
-          class="flex cursor-grab items-center p-1 active:cursor-grabbing"
-          :class="handle.isActive ? 'hover:bg-primary-200 dark:hover:bg-primary-600' : 'hover:bg-theme-200 dark:hover:bg-theme-600'"
-        >
-          <div
-            class="i-carbon-draggable text-sm"
-          />
-        </div>
-        <div
           v-for="(action, ii) in handle.actions"
           :key="ii"
-          class="flex  items-center p-1"
+          class="flex items-center p-1"
           :class="[
-            handle.isActive && action.onClick ? 'hover:bg-primary-200 dark:hover:bg-primary-600' : action.onClick ? 'hover:bg-theme-200 dark:hover:bg-theme-600' : '',
+            action.onClick ? 'hover:text-primary-500 hover:scale-110 transition-all dark:hover:bg-theme-600' : '',
             action.onClick ? 'cursor-pointer' : ' ',
           ]"
         >
@@ -88,23 +68,20 @@ const i = vue.computed(() => {
     <TransitionSlide>
       <div
         v-show="handle.hasDrawer"
-        class="card-drawer rounded-b-md border-x border-b   p-3 bg-theme-0 dark:bg-theme-700"
-        :class="handle.isActive ? 'border-primary-300 dark:border-primary-600' : 'border-theme-200 dark:border-theme-600'"
+        class="card-drawer border-t rounded-b-md border-theme-300 dark:border-theme-600 px-2 py-3 bg-theme-0 dark:bg-theme-700/50"
       >
-        <div>
-          <div class="drag-input-zone min-h-[1em] space-y-2">
-            <div
-              tag="div"
-              class="space-y-2 sortable-zone min-h-[40px]"
-              data-drag-zone
-              :data-drag-depth="handle.depth + 1"
-            >
-              <ElToolHandle
-                v-for="subHandle in handle.handles ?? []"
-                :key="subHandle.handleId"
-                :handle="subHandle"
-              />
-            </div>
+        <div class="drag-input-zone min-h-[1em] space-y-2">
+          <div
+            tag="div"
+            class="space-y-2 sortable-zone min-h-[40px]"
+            data-drag-zone
+            :data-drag-depth="handle.depth + 1"
+          >
+            <ElToolHandle
+              v-for="subHandle in handle.handles ?? []"
+              :key="subHandle.handleId"
+              :handle="subHandle"
+            />
           </div>
         </div>
       </div>

@@ -18,18 +18,19 @@ const flipModeClass = vue.computed(() => isReversed ? schemeKey.value : '')
 const colorScheme = vue.computed(() => uc.value.scheme?.[schemeKey.value])
 const theme = vue.computed(() => getColorScheme(colorScheme.value?.theme || 'gray'))
 
-const background = vue.computed(() => {
-  return colorScheme.value?.bg
-})
-
 const st = vue.computed(() => {
-  const bg = background.value
+  const bg = colorScheme.value?.bg
+  const stops = bg?.gradient?.stops || []
+
+  if (stops?.length === 1)
+    stops.push({ color: bg?.color || 'transparent' })
+
   let out = {}
   if (bg && bg.gradient) {
     out = {
-      'background-image': `linear-gradient(${bg.gradient.angle}deg, ${bg.gradient.stops?.map(stop => `${stop.color} ${stop.percent}%`).join(', ')})`,
-      'background-color': bg.color,
-      'background-size': '150% 150%',
+      backgroundImage: stops.length ? `linear-gradient(${bg.gradient.angle || 90}deg, ${stops.map(stop => `${stop.color || 'transparent'}`).join(', ')})` : '',
+      backgroundColor: bg.color,
+      backgroundSize: '150% 150%',
     }
   }
   else {
@@ -72,5 +73,20 @@ vue.onMounted(() => {
   --theme-950: v-bind("theme[950]");
   --theme-975: v-bind("theme[975]");
   --theme-1000: v-bind("theme[1000]");
+  --primary-0: v-bind("theme[0]");
+  --primary-25: v-bind("theme[25]");
+  --primary-50: v-bind("theme[50]");
+  --primary-100: v-bind("theme[100]");
+  --primary-200: v-bind("theme[200]");
+  --primary-300: v-bind("theme[300]");
+  --primary-400: v-bind("theme[400]");
+  --primary-500: v-bind("theme[500]");
+  --primary-600: v-bind("theme[600]");
+  --primary-700: v-bind("theme[700]");
+  --primary-800: v-bind("theme[800]");
+  --primary-900: v-bind("theme[900]");
+  --primary-950: v-bind("theme[950]");
+  --primary-975: v-bind("theme[975]");
+  --primary-1000: v-bind("theme[1000]");
 }
 </style>

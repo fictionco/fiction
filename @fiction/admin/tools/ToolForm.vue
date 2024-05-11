@@ -51,7 +51,7 @@ function getOptionPath(key: string) {
             class=" select-none py-2 px-4 text-xs flex justify-between cursor-pointer items-center hover:opacity-90 antialiased"
             :class="[
               !hide(opt.key.value) || depth === 0 ? 'border-b ' : '',
-              hide(opt.key.value) ? 'bg-theme-50 dark:bg-theme-700 text-theme-600 dark:text-theme-100 border-primary-200 dark:border-theme-500' : 'border-theme-200 dark:border-theme-700 text-theme-500/50 dark:text-theme-100 hover:bg-theme-50 dark:hover:bg-theme-800 active:bg-theme-100 dark:active:bg-theme-700',
+              hide(opt.key.value) ? 'bg-theme-50 dark:bg-theme-700 text-theme-600 dark:text-theme-100 border-primary-200 dark:border-theme-500' : 'border-theme-300/50 dark:border-theme-700 text-theme-500 dark:text-theme-100 hover:bg-theme-50 dark:hover:bg-theme-800 active:bg-theme-100 dark:active:bg-theme-700',
             ]"
             @click="hide(opt.key.value, !hide(opt.key.value))"
           >

@@ -104,9 +104,9 @@ vue.onMounted(async () => {
 </script>
 
 <template>
-  <div class="max-w-input border border-theme-200 dark:border-theme-700 rounded-md p-3 space-y-3">
+  <div class="max-w-input border border-theme-300/70 dark:border-theme-700 rounded-md p-3 space-y-3">
     <div
-      class="bar bg-theme-100 dark:bg-theme-700 h-[2.5em] w-full rounded-md shadow-sm"
+      class="bar bg-theme-50 dark:bg-theme-700 h-[1em] w-full rounded-full shadow-sm ring-2 ring-inset ring-theme-800/20"
       :style="{ 'background-image': gradientCss }"
     />
 
@@ -128,7 +128,7 @@ vue.onMounted(async () => {
           />
           <div class="flex items-center">
             <div
-              class="text-theme-400 hover:text-theme-500 cursor-move items-center p-0.5 text-base i-tabler-grip-vertical"
+              class="text-theme-400/80 hover:text-theme-500 cursor-move items-center p-0.5 text-sm i-tabler-grip-vertical"
             />
           </div>
         </div>
@@ -136,14 +136,14 @@ vue.onMounted(async () => {
           class="text-theme-500 hover:text-theme-600 flex items-center space-x-1 cursor-pointer  p-[.3em] text-xs font-mono"
           @click="addColor()"
         >
-          <div class="text-base i-tabler-crosshair" />
-          <div>Add Color</div>
+          <div class="text-base i-tabler-plus" />
+          <div>Color</div>
         </div>
       </div>
     </div>
     <div class="flex shrink-0 items-center space-x-2 ">
       <InputRange
-        prefix="Angle"
+        icon="i-tabler-angle"
         min="0"
         max="360"
         step="1"

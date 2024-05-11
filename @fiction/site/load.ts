@@ -62,8 +62,9 @@ export async function loadSiteFromTheme(args: {
   const availableThemes = fictionSites.themes.value
   const theme = availableThemes.find(t => t.themeId === themeId)
 
-  const fictionOrgId = fictionSites.settings.fictionApp.settings.fictionOrgId
-  const fictionSiteId = fictionSites.settings.fictionApp.settings.fictionSiteId
+  const appSettings = fictionSites.settings.fictionApp.settings
+  const orgId = appSettings.fictionOrgId || `org-${themeId}`
+  const siteId = appSettings.fictionSiteId || `site-${themeId}`
 
   if (!theme) {
     const msg = `${caller}: no theme found for themeId: ${themeId}`
@@ -72,8 +73,7 @@ export async function loadSiteFromTheme(args: {
   }
   const themeConfig = await theme.toSite()
 
-  const cloudSiteIds = { orgId: fictionOrgId, siteId: fictionSiteId }
-  const site = new Site({ fictionSites, ...themeConfig, ...cloudSiteIds, siteRouter, siteMode, themeId })
+  const site = new Site({ fictionSites, ...themeConfig, siteId, orgId, siteRouter, siteMode, themeId })
 
   return site
 }

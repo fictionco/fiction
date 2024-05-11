@@ -3,9 +3,9 @@ import { useService, vue } from '@fiction/core'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
 import ElToolBanner from '@fiction/admin/tools/ElToolBanner.vue'
 import ToolForm from '@fiction/admin/tools/ToolForm.vue'
-import type { Site } from '../site'
-import type { FictionSites } from '..'
-import type { TableCardConfig } from '../tables'
+import type { Site } from '../../site'
+import type { FictionSites } from '../..'
+import type { TableCardConfig } from '../../tables'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, default: undefined },

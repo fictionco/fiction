@@ -1,28 +1,35 @@
 import { vue } from '@fiction/core'
 import type { EditorTool } from '@fiction/admin'
 import { AdminEditorController } from '@fiction/admin'
-import type { Site } from '../site'
+import type { Site } from '../../site'
 
 export const tools = [
   {
-    toolId: 'pages',
-    icon: 'i-tabler-files',
-    el: vue.defineAsyncComponent(() => import('./ToolPages.vue')),
+    toolId: 'pageMaster',
+    icon: 'i-tabler-edit',
+    title: 'Pages',
+    el: vue.defineAsyncComponent(() => import('./PageToolMaster.vue')),
     isPrimary: true,
   },
-  {
-    toolId: 'layout',
-    icon: 'i-tabler-layout',
-    el: vue.defineAsyncComponent(() => import('./LayoutTool.vue')),
-    isPrimary: true,
-  },
-  {
-    toolId: 'add',
-    title: 'Add Elements',
-    icon: 'i-tabler-new-section',
-    el: vue.defineAsyncComponent(() => import('./ToolAdd.vue')),
-    isPrimary: true,
-  },
+  // {
+  //   toolId: 'pages',
+  //   icon: 'i-tabler-files',
+  //   el: vue.defineAsyncComponent(() => import('./ToolPages.vue')),
+  //   isPrimary: true,
+  // },
+  // {
+  //   toolId: 'layout',
+  //   icon: 'i-tabler-layout',
+  //   el: vue.defineAsyncComponent(() => import('./LayoutTool.vue')),
+  //   isPrimary: true,
+  // },
+  // {
+  //   toolId: 'add',
+  //   title: 'Add Elements',
+  //   icon: 'i-tabler-new-section',
+  //   el: vue.defineAsyncComponent(() => import('./ToolAdd.vue')),
+  //   isPrimary: true,
+  // },
 
   {
     toolId: 'addPage',
@@ -74,8 +81,8 @@ export const tools = [
         const cardTitle = c?.title.value || c?.tpl.value?.settings.title
         const title = p.site?.editor.value.selectedCardId ? cardTitle : 'Select Element'
         const icon = c?.tpl.value?.settings.icon || 'i-tabler-click'
-        const iconTheme = c?.tpl.value?.settings.iconTheme || 'theme'
-        return { title, icon, iconTheme }
+        const colorTheme = c?.tpl.value?.settings.colorTheme || 'theme'
+        return { title, icon, colorTheme }
       })
     },
     el: vue.defineAsyncComponent(() => import('./ToolCardEdit.vue')),

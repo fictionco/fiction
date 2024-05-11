@@ -26,7 +26,7 @@ export const templates = [
     templateId: 'minimalHeader',
     category: ['theme'],
     icon: 'i-tabler-box-align-top',
-    iconTheme: 'blue',
+    colorTheme: 'blue',
     el,
     userConfig: {
       logo: { format: 'html', html: 'Your Name' },

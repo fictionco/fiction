@@ -7,7 +7,7 @@ export const templates = [
     category: ['stats'],
     description: 'display stats/metrics',
     icon: 'i-tabler-number',
-    iconTheme: 'sky',
+    colorTheme: 'sky',
     el: vue.defineAsyncComponent(() => import('./ElMetrics.vue')),
     options: [
     ],

@@ -30,7 +30,7 @@ const contextTool = vue.computed(() => props.controller.activeTool.context.value
         class="editor-work-area min-h-0 grid grid-flow-dense grid-cols-[60px_1fr] grid-rows-[minmax(0,1fr)]"
       >
         <div
-          class="no-scrollbar min-w-0 grow-0 relative"
+          class="no-scrollbar min-w-0 grow-0 relative "
           @click.stop="resetUi({ scope: 'inputs', cause: 'clickEditorTools' })"
         >
           <div class="space-y-1 py-2 z-30 relative h-full bg-theme-0 dark:bg-theme-900 border-r border-theme-200 dark:border-theme-700">
@@ -43,8 +43,8 @@ const contextTool = vue.computed(() => props.controller.activeTool.context.value
                 class=" space-x-2 cursor-pointer p-2 justify-end w-[40px] h-[40px] rounded-lg transition-all"
                 :title="toLabel(tool.title || tool.toolId)"
                 :class="controller.isUsingTool({ toolId: tool.toolId })
-                  ? 'bg-primary-50 dark:bg-primary-700 text-primary-500 dark:text-primary-50'
-                  : 'text-theme-700 dark:text-theme-0 dark:hover:bg-theme-600 hover:bg-theme-50'"
+                  ? 'bg-theme-100/80 dark:bg-theme-700 text-theme-900 dark:text-theme-50'
+                  : 'text-theme-700 dark:text-theme-0 dark:hover:bg-theme-600 hover:bg-theme-100/80'"
                 @click="controller.useTool({ toolId: tool.toolId })"
               >
                 <div class="text-2xl" :class="tool.icon" />
@@ -62,7 +62,7 @@ const contextTool = vue.computed(() => props.controller.activeTool.context.value
           >
             <div
               v-if="primaryTool"
-              class="absolute left-full h-full bg-theme-0 dark:bg-theme-900 top-0 z-30 border-r shadow-[10px_0_18px_-15px_rgba(0,0,0,0.6)] border-theme-300 dark:border-theme-600 overflow-scroll no-scrollbar "
+              class="absolute left-full h-full bg-theme-0 dark:bg-theme-900 top-0 z-30 border-r shadow-[10px_0_18px_-15px_rgba(0,0,0,0.6)] border-theme-300/70 dark:border-theme-600 overflow-scroll no-scrollbar "
               :class="primaryTool.widthClasses || 'w-[300px]'"
             >
               <component

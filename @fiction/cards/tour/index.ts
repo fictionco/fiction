@@ -7,7 +7,7 @@ export const templates = [
     category: ['marketing'],
     description: 'list of tour hero elements',
     icon: 'i-tabler-compass',
-    iconTheme: 'green',
+    colorTheme: 'green',
     el: vue.defineAsyncComponent(() => import('./ElTour.vue')),
     options: [
     ],

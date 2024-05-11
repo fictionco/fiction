@@ -6,9 +6,9 @@ import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import type { EditorTool } from '@fiction/admin'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
 import ToolForm from '@fiction/admin/tools/ToolForm.vue'
-import type { Site } from '../site'
-import { requestManagePage } from '../utils/region'
-import InputSlug from './InputSlug.vue'
+import type { Site } from '../../site'
+import { requestManagePage } from '../../utils/region'
+import InputSlug from '../InputSlug.vue'
 import { siteEditController } from './tools'
 
 const props = defineProps({
@@ -69,7 +69,7 @@ async function save() {
       <ToolForm
         v-model="site.editPageConfig.value"
         :options="options"
-        :input-props="{ site }"
+        :input-props="{ site, tool }"
       />
 
       <div class="text-right px-4 py-2">

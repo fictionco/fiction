@@ -11,7 +11,7 @@ import ElModal from '@fiction/ui/ElModal.vue'
 import ElProgress from '@fiction/ui/loaders/ElProgress.vue'
 import type { Site } from '../site'
 import type { Card } from '../card'
-import { siteEditController } from './tools'
+import { siteEditController } from './tools/tools'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },

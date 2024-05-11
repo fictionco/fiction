@@ -10,7 +10,7 @@ const SchemeSchema = z.object({
       angle: z.number().optional(),
       stops: z.array(z.object({
         color: z.string(),
-        percent: z.number(),
+        percent: z.number().optional(),
       })).optional(),
     }).optional(),
   }),
@@ -35,7 +35,7 @@ export const templates = [
     category: ['basic'],
     description: 'container for other elements',
     icon: 'i-tabler-box-padding',
-    iconTheme: 'blue',
+    colorTheme: 'blue',
     el: vue.defineAsyncComponent(() => import('./ElArea.vue')),
     isContainer: true, // ui drawer
     userConfig: {
@@ -43,15 +43,15 @@ export const templates = [
     },
     isPublic: true,
     options: [
-      new InputOption({ key: 'scheme.reverse', label: 'Reverse Color Scheme', input: 'InputCheckbox' }),
+      new InputOption({ key: 'scheme.reverse', label: 'Flip Color Scheme', input: 'InputToggle' }),
       new InputOption({ key: 'scheme.light', label: 'Light Mode', input: 'group', options: [
         new InputOption({ key: 'scheme.light.bg.color', label: 'Light Mode Color', input: 'InputColor' }),
-        new InputOption({ key: 'scheme.light.theme', label: 'Light Color Theme', input: 'InputSelect', props: { list: colorList } }),
+        new InputOption({ key: 'scheme.light.theme', label: 'Light Color Theme', input: 'InputSelect', props: { list: colorTheme } }),
         new InputOption({ key: 'scheme.light.bg.gradient', label: 'Light Mode Gradient', input: 'InputGradient' }),
       ] }),
       new InputOption({ key: 'scheme.dark', label: 'Dark Mode', input: 'group', options: [
         new InputOption({ key: 'scheme.dark.bg.color', label: 'Dark Mode Color', input: 'InputColor' }),
-        new InputOption({ key: 'scheme.dark.theme', label: 'Dark Color Theme', input: 'InputSelect', props: { list: colorList } }),
+        new InputOption({ key: 'scheme.dark.theme', label: 'Dark Color Theme', input: 'InputSelect', props: { list: colorTheme } }),
         new InputOption({ key: 'scheme.dark.bg.gradient', label: 'Dark Mode Gradient', input: 'InputGradient' }),
       ] }),
     ],

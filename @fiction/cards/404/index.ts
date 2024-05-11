@@ -18,7 +18,7 @@ export const templates = [
     category: ['special'],
     description: 'Shown when a page is not found',
     icon: 'i-tabler-error-404',
-    iconTheme: 'red',
+    colorTheme: 'red',
     el: vue.defineAsyncComponent(() => import('./El404.vue')),
     isPublic: false,
     options: [

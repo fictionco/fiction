@@ -28,7 +28,7 @@ const ico = iconStyle[props.iconTheme]
             &larr; {{ back?.name || "Back" }}
           </div>
         </div>
-        <h3 class="font-semibold flex space-x-2 items-center">
+        <h3 class="font-semibold flex gap-3 items-center">
           <div
             class="rounded-md p-1 size-7 border flex items-center justify-center"
             :data-theme="iconTheme"

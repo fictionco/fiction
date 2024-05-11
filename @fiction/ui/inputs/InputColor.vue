@@ -56,7 +56,7 @@ const classes = [
 
 <template>
   <label
-    class="text-input-size text-theme-700 dark:text-theme-0 bg-theme-100 dark:bg-theme-800 hover:bg-theme-200 dark:hover:bg-theme-700 hover:border-theme-400 dark:hover:border-theme-600 border-theme-300 dark:border-theme-700 inline-flex cursor-pointer items-center overflow-hidden rounded-md border"
+    class="text-input-size text-theme-700 dark:text-theme-0 bg-theme-50 dark:bg-theme-800 hover:bg-theme-100 dark:hover:bg-theme-700 hover:border-theme-400 dark:hover:border-theme-600 border-theme-300 dark:border-theme-700 inline-flex cursor-pointer items-center overflow-hidden rounded-full border"
     @click.stop
   >
     <div class="p-[.4em]" :for="inputId">
@@ -84,14 +84,7 @@ const classes = [
       >
         {{ modelValue || "Select" }}
       </div>
-      <div v-if="modelValue" class="rem ml-0.5 -mr-0.5">
-        <div
-          class="text-theme-400 hover:text-theme-500 cursor-pointer items-center p-0.5"
-          @click.stop.prevent="removeColor()"
-        >
-          <div class="i-carbon-trash-can text-[10px]" />
-        </div>
-      </div>
+      <div v-if="modelValue" class="rem ml-0.5 -mr-0.5 text-theme-400 hover:text-theme-500 cursor-pointer items-center p-0.5 i-tabler-x text-xs" @click.stop.prevent="removeColor()" />
     </div>
   </label>
 </template>

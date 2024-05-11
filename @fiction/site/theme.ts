@@ -17,6 +17,7 @@ export type ThemeSettings<T extends Record<string, unknown> = Record<string, unk
   templates: readonly CardTemplate[] | CardTemplate[]
   ui?: UiConfig
   isPublic?: boolean
+  isDarkMode?: boolean
   userConfig?: Partial<SiteUserConfig> & T
   pages: () => Promise<TableCardConfig[]> | TableCardConfig[]
   sections?: () => Record<string, TableCardConfig>

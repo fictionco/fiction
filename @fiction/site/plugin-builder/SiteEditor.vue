@@ -12,7 +12,7 @@ import { getMountContext, loadSite } from '../load'
 import type { Card } from '../card'
 import { activeSiteDisplayUrl } from '../utils/site'
 import SiteEditorFrame from './SiteEditorFrame.vue'
-import { siteEditController } from './tools'
+import { siteEditController } from './tools/tools'
 
 type UserConfig = {
   isNavItem: boolean
@@ -119,6 +119,8 @@ async function save() {
             btn="default"
             :href="activeSiteDisplayUrl(site, { mode: 'staging' }).value"
             target="_blank"
+            size="md"
+            icon="i-tabler-arrow-up-right"
           >
             View
           </ElButton>
@@ -126,7 +128,8 @@ async function save() {
             btn="primary"
             :loading="sending === 'save'"
             class=" min-w-36"
-            icon="i-tabler-save"
+            icon="i-tabler-arrow-big-up-lines"
+            size="md"
             @click.prevent="save()"
           >
             Save Site

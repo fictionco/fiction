@@ -27,10 +27,10 @@ export type SiteUserConfig = Partial<{
     baseInstruction?: string
     objectives?: { about?: string, targetCustomer?: string, imageStyle?: string }
   }
+  isDarkMode?: boolean
   colors: {
     colorPrimary?: ColorScheme
     colorTheme?: ColorScheme
-    isDarkMode?: boolean
   }
   fonts: FontConfig
   spacing: {

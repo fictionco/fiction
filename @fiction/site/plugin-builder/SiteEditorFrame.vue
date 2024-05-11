@@ -31,6 +31,15 @@ vue.watch(
   },
   { immediate: true },
 )
+
+function toggleDarkMode() {
+  if (!props.site)
+    return
+
+  props.site.isDarkMode.value = !props.site.isDarkMode.value
+
+  props.site.frame.syncSite({ caller: 'updateDarkMode' })
+}
 </script>
 
 <template>
@@ -56,6 +65,10 @@ vue.watch(
           <div class="capitalize tracking-tight text-[10px]">
             {{ mode.name }}
           </div>
+        </div>
+
+        <div class="dark px-2 py-1 text-theme-500 hover:opacity-80 dark:text-theme-100 cursor-pointer flex items-center" @click="toggleDarkMode()">
+          <div :class="site.isDarkMode.value ? 'i-tabler-moon' : 'i-tabler-sun'" class="text-lg" />
         </div>
       </div>
       <ElBrowserFrameDevice

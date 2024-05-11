@@ -8,7 +8,7 @@ export const templates = [
     category: ['marketing'],
     description: 'grid of text elements',
     icon: 'i-tabler-discount-check',
-    iconTheme: 'indigo',
+    colorTheme: 'indigo',
     el: vue.defineAsyncComponent(() => import('./ElFeatures.vue')),
     options: [
       standardOption.headers(),

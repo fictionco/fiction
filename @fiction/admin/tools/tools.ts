@@ -1,6 +1,5 @@
-import { type ActionItem, type ClickHandler, FictionObject, onResetUi, vue } from '@fiction/core'
-
-import type { iconStyle } from '../util'
+import type { ActionItem, ClickHandler, colorTheme } from '@fiction/core'
+import { FictionObject, onResetUi, vue } from '@fiction/core'
 
 export type Handle = {
   handleId: string
@@ -8,7 +7,7 @@ export type Handle = {
   sub?: string
   depth: number
   icon?: string
-  iconTheme?: keyof typeof iconStyle
+  colorTheme?: typeof colorTheme[number]
   isDraggable?: boolean
   hasDrawer?: boolean
   handles?: Handle[]

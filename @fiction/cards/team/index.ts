@@ -10,7 +10,7 @@ export const templates = [
     category: ['marketing'],
     description: 'Team listing',
     icon: 'i-tabler-layout-bottombar-collapse-filled',
-    iconTheme: 'orange',
+    colorTheme: 'orange',
     el,
     options: [
       standardOption.headers(),

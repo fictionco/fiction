@@ -1,4 +1,4 @@
-import type { vueRouter } from '@fiction/core'
+import type { colorTheme, vueRouter } from '@fiction/core'
 import { FictionObject, deepMerge, objectId, setNested, toLabel, vue } from '@fiction/core'
 import type { InputOption } from '@fiction/ui'
 import type { z } from 'zod'
@@ -21,7 +21,7 @@ interface CardTemplateSettings<U extends string = string, T extends ComponentCon
   description?: string
   category?: CardCategory[]
   icon?: string
-  iconTheme?: keyof typeof iconStyle
+  colorTheme?: typeof colorTheme[number]
   thumb?: string
   isPublic?: boolean
   el: T

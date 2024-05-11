@@ -8,10 +8,10 @@ import ElModalConfirm from '@fiction/ui/ElModalConfirm.vue'
 import type { EditorTool } from '@fiction/admin'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
 import ToolForm from '@fiction/admin/tools/ToolForm.vue'
-import type { Site } from '../site'
-import type { TableSiteConfig } from '../tables'
-import { tableNames } from '../tables'
-import { activeSiteHostname, saveSite } from '../utils/site'
+import type { Site } from '../../site'
+import type { TableSiteConfig } from '../../tables'
+import { tableNames } from '../../tables'
+import { activeSiteHostname, saveSite } from '../../utils/site'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },
@@ -46,7 +46,7 @@ const options = [
       new InputOption({
         key: 'customDomains',
         label: 'Custom Domain',
-        input: vue.defineAsyncComponent(() => import('./InputCustomDomains.vue')),
+        input: vue.defineAsyncComponent(() => import('../InputCustomDomains.vue')),
         isRequired: true,
         props: {
           destination: activeSiteHostname(props.site, { isProd: true }).value,

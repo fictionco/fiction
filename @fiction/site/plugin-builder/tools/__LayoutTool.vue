@@ -5,7 +5,7 @@ import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import type { EditorTool } from '@fiction/admin'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
-import type { Site } from '../site'
+import type { Site } from '../../site'
 import DraggableLayout from './LayoutDraggable.vue'
 import LayoutToolRegion from './LayoutToolRegion.vue'
 import { siteEditController } from './tools'
@@ -53,7 +53,7 @@ const pageList = vue.computed<ListItem[]>(() => {
               Change Page
             </ElButton>
           </div>
-          <LayoutToolRegion region-id="main" :card="site.currentPage.value" :site="site" />
+          <LayoutToolRegion icon="i-tabler-layout-distribute-horizontal-filled" region-id="main" :card="site.currentPage.value" :site="site" />
           <ElInput
             v-model="site.activePageId.value"
             class="hidden"
@@ -63,16 +63,13 @@ const pageList = vue.computed<ListItem[]>(() => {
           />
         </div>
         <div class="rounded-md space-y-1">
-          <div class="relative">
-            <span class="text-[10px] uppercase text-theme-400/40 font-semibold tracking-wide">Global Areas</span>
-          </div>
-
           <LayoutToolRegion
             v-for="(card, regionId) in site.sections.value"
             :key="regionId"
             :region-id="String(regionId)"
             :card="card"
             :site="site"
+            icon="i-tabler-world"
           />
         </div>
       </DraggableLayout>

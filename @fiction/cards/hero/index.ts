@@ -37,7 +37,7 @@ export const templates = [
     isPublic: true,
     description: 'standard hero section',
     icon: 'i-tabler-layout-bottombar-collapse-filled',
-    iconTheme: 'orange',
+    colorTheme: 'orange',
     el: vue.defineAsyncComponent(() => import('./ElHero.vue')),
     options: [
       standardOption.headers({}),

@@ -30,7 +30,7 @@ export const templates = [
     category: ['marketing'],
     description: 'animated image marquee',
     icon: 'i-tabler-carousel-horizontal',
-    iconTheme: 'pink',
+    colorTheme: 'pink',
     isPublic: true,
     el,
     options: [

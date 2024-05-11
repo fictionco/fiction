@@ -55,7 +55,7 @@ export const templates = [
     category: ['other'],
     description: 'map with markers, powered by Mapbox',
     icon: 'i-tabler-map',
-    iconTheme: 'amber',
+    colorTheme: 'amber',
     isPublic: true,
     el: vue.defineAsyncComponent(() => import('./ElCard.vue')),
     options: [

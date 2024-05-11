@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { vue, waitFor } from '@fiction/core'
-import type { LayoutOrder } from '../utils/layout'
-import { getOrderRecursive, selectors } from '../utils/layout'
+import type { LayoutOrder } from '../../utils/layout'
+import { getOrderRecursive, selectors } from '../../utils/layout'
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: LayoutOrder[]): void

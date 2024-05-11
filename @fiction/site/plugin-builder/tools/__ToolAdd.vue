@@ -3,9 +3,9 @@ import { toLabel, vue } from '@fiction/core'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import type { EditorTool } from '@fiction/admin'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
-import type { CardTemplate } from '../card'
-import type { Site } from '../site'
-import { categoryOrder } from '../card'
+import type { CardTemplate } from '../../card'
+import type { Site } from '../../site'
+import { categoryOrder } from '../../card'
 import { siteEditController } from './tools'
 
 const props = defineProps({
