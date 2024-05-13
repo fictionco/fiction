@@ -80,6 +80,10 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
   }
 
   override async setup() {
+
+  }
+
+  async runScheduler() {
     if (!this.settings.fictionEnv.isApp.value) {
       const { CronJob } = await import('cron')
       const job = new CronJob(

@@ -40,7 +40,7 @@ async function send(): Promise<void> {
 }
 
 vue.onMounted(async () => {
-  await fictionUser.userInitialized()
+  await fictionUser.userInitialized({ caller: 'SettingsAccountEditProfile' })
   vue.watch(
     () => fictionUser.activeUser.value,
     (v) => {

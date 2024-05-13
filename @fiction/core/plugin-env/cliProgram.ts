@@ -96,27 +96,45 @@ export async function execute(): Promise<void> {
 function getLatestCommitId() {
   let currentPath = process.cwd()
 
-  for (let i = 0; i < 3; i++) { // Check current, parent, and grandparent directories
-    const gitFolderPath = path.join(currentPath, '.git')
+  const buildInfoPath = path.join(currentPath, 'buildInfo.json')
 
-    if (fs.existsSync(gitFolderPath)) {
-      const headFilePath = path.join(gitFolderPath, 'HEAD')
-      if (!fs.existsSync(headFilePath))
-        return 'noHead'
+  const buildInfo = fs.existsSync(buildInfoPath)
 
-      const headContent = fs.readFileSync(headFilePath, 'utf8').trim()
-      const refMatch = headContent.match(/ref: (.+)/)
-      if (!refMatch)
-        return 'noRefMatch' // Not a typical HEAD file pointing to a ref
-
-      const refPath = path.join(gitFolderPath, refMatch[1])
-      if (!fs.existsSync(refPath))
-        return 'noRefPath'
-
-      return fs.readFileSync(refPath, 'utf8').trim() // Latest Commit ID
+  try {
+    if (buildInfo) {
+      const buildInfoContent = fs.readFileSync(buildInfoPath, 'utf8')
+      const { commitId } = JSON.parse(buildInfoContent)
+      return `(json)${commitId.slice(-9)}`
     }
+    else {
+      for (let i = 0; i < 3; i++) { // Check current, parent, and grandparent directories
+        const gitFolderPath = path.join(currentPath, '.git')
 
-    currentPath = path.dirname(currentPath) // Move up to the parent directory
+        if (fs.existsSync(gitFolderPath)) {
+          const headFilePath = path.join(gitFolderPath, 'HEAD')
+          if (!fs.existsSync(headFilePath))
+            return 'noHead'
+
+          const headContent = fs.readFileSync(headFilePath, 'utf8').trim()
+          const refMatch = headContent.match(/ref: (.+)/)
+          if (!refMatch)
+            return 'noRefMatch' // Not a typical HEAD file pointing to a ref
+
+          const refPath = path.join(gitFolderPath, refMatch[1])
+          if (!fs.existsSync(refPath))
+            return 'noRefPath'
+
+          const commitId = fs.readFileSync(refPath, 'utf8').trim() // Latest Commit ID
+
+          return `(git)${commitId.slice(-9)}`
+        }
+
+        currentPath = path.dirname(currentPath) // Move up to the parent directory
+      }
+    }
+  }
+  catch (error) {
+    logger.error('Error getting latest commit id', { error })
   }
 
   return 'notFound' // No .git folder found

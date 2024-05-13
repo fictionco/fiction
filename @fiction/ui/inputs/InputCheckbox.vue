@@ -22,18 +22,23 @@ function handleEmit(target: EventTarget | null): void {
 const classes = [
   'cursor-pointer',
   'mr-[.8em]',
-  'h-[1.1em]',
-  'w-[1.1em]',
+  'h-[1.4em]',
+  'w-[1.4em]',
   'appearance-none',
   'rounded-[.25em]',
   'focus:outline-none',
   'focus:ring-0',
   'focus:ring-offset-0',
-  'bg-theme-100 focus:bg-theme-200 hover:bg-primary-500 dark:bg-theme-800 dark:hover:bg-theme-700 dark:focus:bg-theme-600',
-
+  'bg-theme-100 focus:bg-theme-200 hover:bg-primary-500 dark:bg-theme-800',
+  'active:bg-primary-500 selected:bg-primary-500',
 ]
 
-const inputClasses = vue.computed(() => twMerge(classes, props.inputClass))
+function inputClasses() {
+  return vue.computed(() => {
+    const sel = props.modelValue ? 'bg-primary-500 dark:bg-primary-700' : ''
+    return twMerge(classes, props.inputClass, sel)
+  })
+}
 </script>
 
 <script lang="ts">
@@ -47,7 +52,7 @@ export default {
     <input
       v-bind="attrs"
       type="checkbox"
-      :class="inputClasses"
+      :class="inputClasses().value"
       :checked="modelValue"
       @input="handleEmit($event.target)"
     >

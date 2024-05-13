@@ -22,6 +22,7 @@ export interface EndpointResponse<
   data?: T
   message?: string
   more?: string
+  meta?: Record<string, any>
   error?: Error | unknown
   code?: ErrorCode
   expose?: boolean

@@ -63,8 +63,8 @@ export class FictionExtend<T extends PluginIndexSettings = PluginIndexSettings> 
     }))
 
     let installIds: string[] | undefined = undefined
-    if (context === 'app') {
-      await this.settings.fictionUser.userInitialized()
+    if (context === 'app' && !this.settings.fictionEnv.isNode) {
+      await this.settings.fictionUser.userInitialized({ caller: 'extend' })
       // const extend = this.settings.fictionUser.activeOrganization?.value?.extend || {}
       const extend = [{ extensionId: 'fictionPosts', isActive: true }]
       installIds = extend.map(v => v?.isActive && v?.extensionId ? v.extensionId : undefined).filter(Boolean) as string[] || []

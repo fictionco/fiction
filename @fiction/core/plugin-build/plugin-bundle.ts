@@ -205,17 +205,7 @@ export class FictionBundle extends FictionPlugin<FictionBundleSettings> {
     subRoot?: string
     configFile?: string
   }): Promise<RollupWatcher | undefined> => {
-    const {
-      buildName,
-      packageName,
-      cwd,
-      outputDir,
-      entryFile,
-      onBuilt,
-      watch,
-      withDts,
-      configFile,
-    } = options
+    const { buildName, packageName, cwd, outputDir, entryFile, onBuilt, watch, withDts, configFile } = options
 
     try {
       if (!cwd)
@@ -246,11 +236,7 @@ export class FictionBundle extends FictionPlugin<FictionBundleSettings> {
         addedConfig = config({ buildName, fictionBuild: this.fictionBuild })
       }
 
-      const vc = await this.fictionBuild.getFictionViteConfig({
-        root: cwd,
-        isProd: true,
-        isServerBuild: true,
-      })
+      const vc = await this.fictionBuild.getFictionViteConfig({ root: cwd, isProd: true, isServerBuild: true })
 
       // library mode if entry is defined
       const lib: vite.LibraryOptions | undefined = entry
@@ -301,9 +287,7 @@ export class FictionBundle extends FictionPlugin<FictionBundleSettings> {
               await watcher.close()
           }
           else if (event.code === 'ERROR') {
-            this.log.error(`error building ${packageName}:${buildName}`, {
-              error: event.error,
-            })
+            this.log.error(`error building ${packageName}:${buildName}`, { error: event.error })
           }
         })
 
@@ -314,15 +298,7 @@ export class FictionBundle extends FictionPlugin<FictionBundleSettings> {
 
         await vite.build(clientBuildOptions)
 
-        await this.doneBuilding({
-          buildName,
-          packageName,
-          entry,
-          distDir,
-          cwd,
-          withDts,
-          onBuilt,
-        })
+        await this.doneBuilding({ buildName, packageName, entry, distDir, cwd, withDts, onBuilt })
       }
     }
     catch (error) {

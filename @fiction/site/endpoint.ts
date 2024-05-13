@@ -289,7 +289,7 @@ export class ManageSite extends SitesQuery {
        */
       const _promises = (themeSite.pages || []).map(async (region) => {
         if (!siteId)
-          throw this.stop('ENDPOINT: siteId missing')
+          throw this.abort('ENDPOINT: siteId missing')
 
         const fields = { ...region, siteId } as const
 
@@ -323,8 +323,10 @@ export class ManageSite extends SitesQuery {
         .where(selector)
         .first()
 
-      if (!site?.siteId)
-        throw this.stop('Site not found', { data: { where } })
+      if (!site?.siteId) {
+        this.log.warn('Site not found', { data: { where } })
+        return { status: 'error', message: 'Site not found', meta: { where } }
+      }
 
       siteId = site.siteId
 

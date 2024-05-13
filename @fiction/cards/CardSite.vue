@@ -155,7 +155,7 @@ vue.onMounted(async () => {
       relation: 'child',
       onMessage: (msg) => {
         if (!site.value)
-          throw new Error('Site not found')
+          throw new Error('Site not found in frame')
 
         site.value.frame.processFrameMessage({ msg: msg as FramePostMessageList, scope: 'child' })
       },

@@ -1,13 +1,12 @@
 <script lang="ts" setup>
 import type { ListItem } from '@fiction/core'
 import { normalizeList, vue } from '@fiction/core'
+import { twMerge } from 'tailwind-merge'
 
 const props = defineProps({
-  modelValue: {
-    type: [Array, String],
-    default: () => [],
-  },
+  modelValue: { type: [Array, String], default: () => [] },
   list: { type: Array as vue.PropType<ListItem[]>, default: () => {} },
+  inputClass: { type: String, default: '' },
 })
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: (string | number)[]): void
@@ -57,24 +56,28 @@ function selectValue(item: ListItem): void {
 }
 
 const classes = [
-  'form-checkbox',
+  'cursor-pointer',
   'mr-[.8em]',
-  'h-[1.1em]',
-  'w-[1.1em]',
+  'h-[1.4em]',
+  'w-[1.4em]',
   'appearance-none',
   'rounded-[.25em]',
-  'border',
   'focus:outline-none',
   'focus:ring-0',
-  'border-theme-300',
-  'hover:border-theme-400',
-  'text-theme-500',
-  'bg-theme-100',
+  'focus:ring-offset-0',
+  'bg-theme-100 focus:bg-theme-200 hover:bg-primary-500 dark:bg-theme-800',
+  'active:bg-primary-500 selected:bg-primary-500',
 ]
+function inputClasses(item: ListItem) {
+  return vue.computed(() => {
+    const sel = isSelected(item.value) ? 'bg-primary-500 dark:bg-primary-700' : ''
+    return twMerge(classes, props.inputClass, sel)
+  })
+}
 </script>
 
 <template>
-  <div class="text-input-size my-4">
+  <div class="my-4">
     <div v-if="li.length === 0" class="text-input-placeholder">
       No Items
     </div>
@@ -88,11 +91,11 @@ const classes = [
         <input
           v-bind="attrs"
           type="checkbox"
-          :class="classes"
+          :class="inputClasses(item).value"
           :checked="isSelected(item.value)"
           @input="selectValue(item)"
         >
-        <span class="checkbox-label text-theme-700 select-none">
+        <span v-if="item.name" class="checkbox-label text-theme-700 dark:text-theme-50 dark:hover:text-theme-0 hover:text-theme-500 font-sans">
           {{ item.name }}
         </span>
       </label>

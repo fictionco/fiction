@@ -1,5 +1,5 @@
 export function isDarkOrLightMode(element?: HTMLElement | null | undefined): 'light' | 'dark' {
-  if (typeof document === 'undefined')
+  if (typeof document === 'undefined' || typeof window === 'undefined' || !window?.matchMedia)
     return 'light'
 
   if (!element)

@@ -315,6 +315,10 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
 
   async getCheckoutUrl(args: CheckoutQueryParams): Promise<string> {
     const { loginPath } = args
+
+    if (this.fictionEnv?.isNode)
+      return '#'
+
     await this.settings.fictionUser.userInitialized({ caller: 'getCheckoutUrl' })
 
     const u = this.settings.fictionUser.activeUser.value

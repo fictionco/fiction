@@ -21,7 +21,7 @@ const formError = vue.ref('')
 const sending = vue.ref(false)
 
 vue.onMounted(async () => {
-  await fictionUser.userInitialized()
+  await fictionUser.userInitialized({ caller: 'ViewNewOrganization' })
 })
 
 async function send(): Promise<void> {

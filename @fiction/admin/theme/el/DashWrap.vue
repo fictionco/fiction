@@ -89,7 +89,7 @@ const accountMenu: vue.ComputedRef<IndexItem[]> = vue.computed(() => {
 })
 
 vue.onMounted(async () => {
-  const user = await fictionUser.userInitialized()
+  const user = await fictionUser.userInitialized({ caller: 'DashWrap' })
 
   if (!user && uc.value.authRedirect)
     props.card.site?.siteRouter.push(uc.value.authRedirect, { caller: 'DashWrap' })
