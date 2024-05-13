@@ -1,15 +1,15 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site/card'
+import { emitEvent, log, useService, vue } from '@fiction/core'
+import type { Organization, UserMeta } from '@fiction/core'
+import ElButton from '@fiction/ui/ElButton.vue'
+import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElAvatarOrg from './ElAvatarOrg.vue'
 import ElPanelSettings from './ElPanelSettings.vue'
 import UtilDeleteOrg from './UtilDeleteOrg.vue'
 import UtilListOrganizations from './UtilListOrganizations.vue'
 
 import type { UserConfig } from './SettingsWrap.vue'
-import { emitEvent, log, useService, vue } from '@fiction/core'
-import type { Organization, UserMeta } from '@fiction/core'
-import ElButton from '@fiction/ui/ElButton.vue'
-import ElInput from '@fiction/ui/inputs/ElInput.vue'
 
 defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
@@ -47,7 +47,7 @@ async function send(context: string): Promise<void> {
 }
 
 vue.onMounted(async () => {
-  const user = await fictionUser.userInitialized()
+  const user = await fictionUser.userInitialized({ caller: 'ViewSettingsOrg' })
 
   if (org.value) {
     form.value = org.value
@@ -56,10 +56,7 @@ vue.onMounted(async () => {
   else {
     log.error('SETTINGS', 'no org', { data: { user } })
   }
-})
 
-vue.onMounted(async () => {
-  await fictionUser.userInitialized()
   vue.watch(
     () => fictionUser.activeOrganization.value,
     (v) => {
@@ -71,6 +68,7 @@ vue.onMounted(async () => {
     { immediate: true },
   )
 })
+
 </script>
 
 <template>

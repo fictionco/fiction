@@ -55,7 +55,7 @@ const formattedData = vue.computed(() => {
 })
 
 vue.onMounted(async () => {
-  await fictionUser.userInitialized()
+  await fictionUser.userInitialized({ caller: 'ViewTeamIndex' })
   index.value = await fictionTeam.loadMemberIndex()
 
   loading.value = false

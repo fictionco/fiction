@@ -361,6 +361,11 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
   ): Promise<User | undefined> => {
     const { caller = 'unknown', callback } = args || {}
 
+    if (!isActualBrowser()) {
+      this.log.warn('user initialization called on server', { data: { caller } })
+      return
+    }
+
     if (!this.initialized) {
       this.log.info('initializing user', { data: { caller } })
       this.initialized = new Promise(async (resolve) => {
