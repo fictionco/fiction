@@ -1,4 +1,7 @@
 export function isDarkOrLightMode(element?: HTMLElement | null | undefined): 'light' | 'dark' {
+  if (typeof document === 'undefined')
+    return 'light'
+
   if (!element)
     element = document.querySelector('body')
 

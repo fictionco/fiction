@@ -64,6 +64,16 @@ jobs:
           echo "SHOULD_DEPLOY: ${{ env.SHOULD_DEPLOY }}"
           echo "Commit Message: ${{ github.event.head_commit.message }}"
 
+      - name: Write Build Information to a Config File
+        run: |
+          echo '{
+            "commitId": "${{ github.sha }}",
+            "buildTime": "${{ steps.current_time.outputs.time }}",
+            "buildNumber": "${{ github.run_number }}",
+            "branch": "${{ github.ref_name }}"
+          }' > ./buildInfo.json
+        shell: bash
+
       - name: Get The Code
         uses: actions/checkout@v4
 
