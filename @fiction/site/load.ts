@@ -6,7 +6,7 @@ import type { FictionSites } from '.'
 
 const logger = log.contextLogger('siteLoader')
 
-export type SiteMode = 'editor' | 'editable' | 'standard'
+export type SiteMode = 'designer' | 'editable' | 'standard'
 export type WhereSite = { siteId?: string, subDomain?: string, hostname?: string, themeId?: string, internal?: string }
   & ({ siteId: string } | { subDomain: string } | { hostname: string } | { themeId: string } | { internal: string })
 
@@ -258,7 +258,7 @@ export async function loadSitemap(args: { mode: 'static' | 'dynamic', runVars?: 
     })
 
     const themeSites = await Promise.all(routesWithThemeId.map(async ({ basePath, themeId }) => {
-      const site = await loadSiteFromTheme({ themeId, siteRouter: fictionRouter, fictionSites, siteMode: 'editor' })
+      const site = await loadSiteFromTheme({ themeId, siteRouter: fictionRouter, fictionSites, siteMode: 'designer' })
       return { site, basePath }
     }))
 

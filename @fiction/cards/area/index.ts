@@ -1,4 +1,4 @@
-import { colorList, colorTheme, deepMerge, safeDirname, vue } from '@fiction/core'
+import { colorList, colorTheme, deepMerge, safeDirname, toLabel, vue } from '@fiction/core'
 import { CardTemplate, createCard } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
@@ -15,6 +15,7 @@ const SchemeSchema = z.object({
     }).optional(),
   }),
   theme: z.enum(colorTheme).optional(),
+  primary: z.enum(colorTheme).optional(),
 })
 
 const UserConfigSchema = z.object({
@@ -28,6 +29,16 @@ const UserConfigSchema = z.object({
 export type UserConfig = z.infer<typeof UserConfigSchema>
 
 const templateId = 'area'
+
+function modeOptions(mode: 'light' | 'dark'): InputOption {
+  return new InputOption({ key: `scheme.${mode}`, label: `${toLabel(mode)} Mode`, input: 'group', options: [
+    new InputOption({ key: `scheme.${mode}.bg.color`, label: 'Background Color', input: 'InputColor' }),
+    new InputOption({ key: `scheme.${mode}.theme`, label: 'Text and Element Color', input: 'InputSelect', props: { list: colorTheme } }),
+    new InputOption({ key: `scheme.${mode}.primary`, label: 'Primary Color', input: 'InputSelect', props: { list: colorTheme } }),
+    new InputOption({ key: `scheme.${mode}.bg.gradient`, label: 'Background Gradient', input: 'InputGradient' }),
+  ] })
+}
+
 export const templates = [
   new CardTemplate({
     root: safeDirname(import.meta.url),
@@ -43,17 +54,9 @@ export const templates = [
     },
     isPublic: true,
     options: [
-      new InputOption({ key: 'scheme.reverse', label: 'Flip Color Scheme', input: 'InputToggle' }),
-      new InputOption({ key: 'scheme.light', label: 'Light Mode', input: 'group', options: [
-        new InputOption({ key: 'scheme.light.bg.color', label: 'Light Mode Color', input: 'InputColor' }),
-        new InputOption({ key: 'scheme.light.theme', label: 'Light Color Theme', input: 'InputSelect', props: { list: colorTheme } }),
-        new InputOption({ key: 'scheme.light.bg.gradient', label: 'Light Mode Gradient', input: 'InputGradient' }),
-      ] }),
-      new InputOption({ key: 'scheme.dark', label: 'Dark Mode', input: 'group', options: [
-        new InputOption({ key: 'scheme.dark.bg.color', label: 'Dark Mode Color', input: 'InputColor' }),
-        new InputOption({ key: 'scheme.dark.theme', label: 'Dark Color Theme', input: 'InputSelect', props: { list: colorTheme } }),
-        new InputOption({ key: 'scheme.dark.bg.gradient', label: 'Dark Mode Gradient', input: 'InputGradient' }),
-      ] }),
+      new InputOption({ key: 'scheme.reverse', label: 'Flip Color Scheme', description: 'Great for contrast. This will flip the mode to the opposite of the mode for the website (from dark to light or vice versa).', input: 'InputToggle' }),
+      modeOptions('light'),
+      modeOptions('dark'),
     ],
     schema: UserConfigSchema,
   }),

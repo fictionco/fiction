@@ -36,8 +36,8 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   siteRouter = this.settings.siteRouter
   siteMode = vue.ref(this.settings.siteMode || 'standard')
   isEditable = vue.computed(() => this.siteMode.value === 'editable' || false)
-  isEditor = vue.computed(() => this.siteMode.value === 'editor' || false)
-  frame = new SiteFrameTools({ site: this, relation: this.siteMode.value === 'editor' ? 'parent' : 'child' })
+  isEditor = vue.computed(() => this.siteMode.value === 'designer' || false)
+  frame = new SiteFrameTools({ site: this, relation: this.siteMode.value === 'designer' ? 'parent' : 'child' })
   constructor(settings: T) {
     super('Site', settings)
     this.watchers()
@@ -76,10 +76,11 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   userConfig = vue.ref(this.settings.userConfig || {})
   fullConfig = vue.computed(() => deepMerge<SiteUserConfig>([this.theme.value?.config(), this.userConfig.value]))
 
-  localDarkMode = localRef({ key: `isDarkMode-${this.siteId}`, def: this.fullConfig.value.isDarkMode })
+  configDarkMode = vue.computed(() => this.fullConfig.value.isDarkMode ?? isDarkOrLightMode() === 'dark')
+  localDarkMode = localRef({ key: `isDarkMode-${this.siteId || 'noSiteId'}`, def: this.configDarkMode.value })
   isDarkMode = vue.computed({
     get: () => {
-      return (this.siteMode.value === 'standard') ? this.localDarkMode.value : this.fullConfig.value.isDarkMode
+      return (this.siteMode.value === 'standard') ? this.localDarkMode.value : this.configDarkMode.value
     },
     set: (v) => {
       this.userConfig.value = { ...this.userConfig.value, isDarkMode: v }

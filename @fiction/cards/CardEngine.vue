@@ -23,24 +23,34 @@ function handleCardClick(args: { cardId: string, event: MouseEvent }) {
 </script>
 
 <template>
-  <component
-    :is="tag"
-    v-if="card?.cards.value.length"
-    class="card-engine"
-  >
-    <component
-      :is="subCard.tpl.value?.settings.el"
+  <component :is="tag" v-if="card?.cards.value.length" class="card-engine">
+    <div
       v-for="(subCard, i) in card?.cards.value"
-      :id="subCard.cardId"
       :key="i"
+      class="relative group/engine"
       :class="[
         subCard.classes.value.spacingClass,
         subCard.isActive.value && isEditable ? 'outline-2 outline-dashed outline-theme-300 dark:outline-theme-600' : '',
         isEditable ? 'hover:outline-2 hover:outline-dashed hover:outline-blue-300 dark:hover:outline-blue-600 cursor-pointer  transition-all' : '',
       ]"
-      :data-card-type="subCard.templateId.value"
-      :card="subCard"
-      @click="handleCardClick({ cardId: subCard.cardId, event: $event })"
-    />
+    >
+      <component
+        :is="subCard.tpl.value?.settings.el"
+        :id="subCard.cardId"
+        :data-card-type="subCard.templateId.value"
+        :card="subCard"
+        @click="handleCardClick({ cardId: subCard.cardId, event: $event })"
+      />
+      <div
+        v-if="isEditable"
+        class="opacity-0 group-hover/engine:opacity-100 transition-all bg-black/40 hover:bg-black/80 hover:z-20 cursor-pointer py-0.5 px-1.5 text-cyan-50 font-sans text-[10px] absolute top-1 flex gap-0.5 items-center justify-center rounded-md "
+        :class="subCard.tpl.value?.settings.isContainer ? 'left-1' : 'right-1'"
+        @click="handleCardClick({ cardId: subCard.cardId, event: $event })"
+      >
+        <div :class="subCard.tpl.value?.settings.icon" />
+        <div>{{ subCard.tpl.value?.settings.title }}</div>
+
+      </div>
+    </div>
   </component>
 </template>

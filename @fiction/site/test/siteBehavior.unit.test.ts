@@ -39,7 +39,7 @@ describe('siteInit', async () => {
   })
 
   it('should initialize the siteRouter with the correct history', () => {
-    const site = new Site({ ...common, siteMode: 'editor' })
+    const site = new Site({ ...common, siteMode: 'designer' })
     expect(site.siteRouter.noBrowserNav).toBeTruthy()
   })
 })

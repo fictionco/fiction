@@ -13,6 +13,7 @@ const emit = defineEmits<{
 }>()
 
 const colorEl = vue.ref<HTMLElement>()
+const visible = vue.ref(false)
 
 /**
  * Renderkey is needed for drag and drop
@@ -104,52 +105,64 @@ vue.onMounted(async () => {
 </script>
 
 <template>
-  <div class="max-w-input border border-theme-300/70 dark:border-theme-700 rounded-md p-3 space-y-3">
-    <div
-      class="bar bg-theme-50 dark:bg-theme-700 h-[1em] w-full rounded-full shadow-sm ring-2 ring-inset ring-theme-800/20"
-      :style="{ 'background-image': gradientCss }"
-    />
-
-    <div class="  ">
+  <div class="max-w-input border border-theme-300/70 dark:border-theme-600 rounded-md p-3 space-y-3">
+    <div class="flex justify-between items-center gap-6">
+      <div class="flex items-center gap-2 cursor-pointer hover:opacity-70" @click="visible = !visible">
+        <div class="i-tabler-background text-xl" />
+        <div class="font-sans text-xs font-medium">
+          Edit Gradient
+        </div>
+        <div class="i-tabler-chevron-down text-xl" :class="visible ? 'rotate-180' : ''" />
+      </div>
       <div
-        ref="colorEl"
-        class="color-wrap flex flex-wrap items-center "
+        class="bar bg-theme-50 text-white/30 text-center text-[10px] font-sans flex items-center justify-center dark:bg-theme-700 h-6 grow rounded-full shadow-sm ring-2 ring-inset ring-theme-800/20"
+        :style="{ 'background-image': gradientCss }"
       >
-        <div
-          v-for="(c, i) in colorList"
-          :key="`${i}-${renderKey}`"
-          class="color-item my-1 mr-2 flex"
-          :data-color="c.color"
-          draggable="true"
-        >
-          <InputColor
-            :model-value="c.color"
-            @update:model-value="updateColor(i, $event)"
-          />
-          <div class="flex items-center">
-            <div
-              class="text-theme-400/80 hover:text-theme-500 cursor-move items-center p-0.5 text-sm i-tabler-grip-vertical"
-            />
-          </div>
-        </div>
-        <div
-          class="text-theme-500 hover:text-theme-600 flex items-center space-x-1 cursor-pointer  p-[.3em] text-xs font-mono"
-          @click="addColor()"
-        >
-          <div class="text-base i-tabler-plus" />
-          <div>Color</div>
-        </div>
+        Preview
       </div>
     </div>
-    <div class="flex shrink-0 items-center space-x-2 ">
-      <InputRange
-        icon="i-tabler-angle"
-        min="0"
-        max="360"
-        step="1"
-        :model-value="modelValue?.angle"
-        @update:model-value="updateField('angle', $event)"
-      />
+    <div v-if="visible" class="space-y-3">
+      <div class="  ">
+        <div
+          ref="colorEl"
+          class="color-wrap flex flex-wrap items-center "
+        >
+          <div
+            v-for="(c, i) in colorList"
+            :key="`${i}-${renderKey}`"
+            class="color-item my-1 mr-2 flex"
+            :data-color="c.color"
+            draggable="true"
+          >
+            <InputColor
+              :model-value="c.color"
+              @update:model-value="updateColor(i, $event)"
+            />
+            <div class="flex items-center">
+              <div
+                class="text-theme-400/80 hover:text-theme-500 cursor-move items-center p-0.5 text-sm i-tabler-grip-vertical"
+              />
+            </div>
+          </div>
+          <div
+            class="text-theme-500 hover:text-theme-600 flex items-center space-x-1 cursor-pointer  p-[.3em] text-xs font-mono"
+            @click="addColor()"
+          >
+            <div class="text-base i-tabler-plus" />
+            <div>Color</div>
+          </div>
+        </div>
+      </div>
+      <div class="flex shrink-0 items-center space-x-2 ">
+        <InputRange
+          icon="i-tabler-angle"
+          min="0"
+          max="360"
+          step="1"
+          :model-value="modelValue?.angle"
+          @update:model-value="updateField('angle', $event)"
+        />
+      </div>
     </div>
   </div>
 </template>

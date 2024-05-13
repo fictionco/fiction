@@ -77,6 +77,7 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
         contentWidthClass: 'max-w-screen-2xl px-4 sm:px-6 lg:px-20 mx-auto',
         spacingClass: `py-[calc(1.5rem+4vw)]`,
       },
+      isDarkMode: true,
       titleTemplate: `{{pageTitle}} - Fiction`,
       customCode: { gtmContainerId: `GTM-5LQBZDJ` },
     },

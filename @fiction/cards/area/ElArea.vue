@@ -17,6 +17,7 @@ const schemeKey = vue.computed(() => (isDarkMode.value && !isReversed.value) || 
 const flipModeClass = vue.computed(() => isReversed ? schemeKey.value : '')
 const colorScheme = vue.computed(() => uc.value.scheme?.[schemeKey.value])
 const theme = vue.computed(() => getColorScheme(colorScheme.value?.theme || 'gray'))
+const primary = vue.computed(() => getColorScheme(colorScheme.value?.primary || 'blue'))
 
 const st = vue.computed(() => {
   const bg = colorScheme.value?.bg
@@ -50,7 +51,8 @@ vue.onMounted(() => {
 </script>
 
 <template>
-  <div class="engine-container" :style="st" :class="[flipModeClass, loaded ? 'loaded' : '']">
+  <div class="engine-container relative" :style="st" :class="[flipModeClass, loaded ? 'loaded' : '']">
+
     <ElEngine :card="card" class="text-theme-950 dark:text-theme-50" />
   </div>
 </template>
@@ -73,20 +75,20 @@ vue.onMounted(() => {
   --theme-950: v-bind("theme[950]");
   --theme-975: v-bind("theme[975]");
   --theme-1000: v-bind("theme[1000]");
-  --primary-0: v-bind("theme[0]");
-  --primary-25: v-bind("theme[25]");
-  --primary-50: v-bind("theme[50]");
-  --primary-100: v-bind("theme[100]");
-  --primary-200: v-bind("theme[200]");
-  --primary-300: v-bind("theme[300]");
-  --primary-400: v-bind("theme[400]");
-  --primary-500: v-bind("theme[500]");
-  --primary-600: v-bind("theme[600]");
-  --primary-700: v-bind("theme[700]");
-  --primary-800: v-bind("theme[800]");
-  --primary-900: v-bind("theme[900]");
-  --primary-950: v-bind("theme[950]");
-  --primary-975: v-bind("theme[975]");
-  --primary-1000: v-bind("theme[1000]");
+  --primary-0: v-bind("primary[0]");
+  --primary-25: v-bind("primary[25]");
+  --primary-50: v-bind("primary[50]");
+  --primary-100: v-bind("primary[100]");
+  --primary-200: v-bind("primary[200]");
+  --primary-300: v-bind("primary[300]");
+  --primary-400: v-bind("primary[400]");
+  --primary-500: v-bind("primary[500]");
+  --primary-600: v-bind("primary[600]");
+  --primary-700: v-bind("primary[700]");
+  --primary-800: v-bind("primary[800]");
+  --primary-900: v-bind("primary[900]");
+  --primary-950: v-bind("primary[950]");
+  --primary-975: v-bind("primary[975]");
+  --primary-1000: v-bind("primary[1000]");
 }
 </style>
