@@ -80,12 +80,12 @@ export default {
           class="flex min-h-full items-center justify-center text-center sm:items-center sm:p-0"
         >
           <transition
-            enter-active-class="ease-out duration-300"
-            enter-from-class="opacity-0 translate-y-24 sm:translate-y-0 sm:scale-75"
+            enter-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-300"
+            enter-from-class="opacity-0 translate-y-24 sm:translate-y-0 sm:scale-50"
             enter-to-class="opacity-100 translate-y-0 sm:scale-100"
-            leave-active-class="ease-in duration-200"
+            leave-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-200"
             leave-from-class="opacity-100 translate-y-0 sm:scale-100"
-            leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-75"
+            leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-50"
           >
             <div
               v-if="vis"

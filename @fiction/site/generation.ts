@@ -1,8 +1,10 @@
 import { FictionObject, removeUndefined, setNested, toLabel, vue } from '@fiction/core'
 import type { JsonSchema7ObjectType } from 'zod-to-json-schema'
 import zodToJsonSchema from 'zod-to-json-schema'
+
+import type { InputOptionGeneration, ProgressState } from './utils/generation'
+import { calculateTotalEstimatedTimeSeconds, generateJsonPropConfig, generateOutputProps, simulateProgress } from './utils/generation'
 import { getCardCompletion } from './utils/ai'
-import { getGenerationInputConfig } from './utils/generation'
 import type { Card } from '.'
 
 type CardGenerationSettings = {
@@ -15,15 +17,6 @@ export type CardGenerationConfig = {
   userPropConfig?: Record<string, InputOptionGeneration | undefined>
 }
 
-export type InputOptionGeneration = {
-  prompt?: string
-  isEnabled?: boolean
-  estimatedMs?: number
-  key?: string
-  label?: string
-  cumulativeTime?: number
-}
-
 export class CardGeneration extends FictionObject<CardGenerationSettings> {
   card = this.settings.card
   savedSettings = this.card.settings.generation || {}
@@ -31,8 +24,6 @@ export class CardGeneration extends FictionObject<CardGenerationSettings> {
 
   constructor(settings: CardGenerationSettings) {
     super('CardGeneration', settings)
-
-
   }
 
   tpl = vue.computed(() => this.card.tpl.value)
@@ -47,50 +38,8 @@ export class CardGeneration extends FictionObject<CardGenerationSettings> {
     return jsonSchema
   })
 
-  parseDescription(description: string) {
-    const meta: Record<string, any> = {}
-    const parts = description.split(';').map(part => part.trim())
-    const desc = parts.shift() // The first part is the description
-
-    parts.forEach((part) => {
-      const [key, value] = part.split(':').map(s => s.trim())
-      meta[key] = value
-    })
-
-    return { description: desc, meta }
-  };
-
-  jsonPropConfig = vue.computed(() => {
-    const props = this.jsonSchema.value?.properties || {}
-    let cumulativeTime = 0
-    const uc = this.userPropConfig.value
-    const jsonProp = Object.fromEntries(Object.entries(props).map(([key, value]) => {
-      const d = this.parseDescription(value.description || '')
-      const userValue = uc[key]
-      const estimatedMs = +d.meta.time || 4000
-      if (userValue?.isEnabled)
-        cumulativeTime += estimatedMs
-
-      return [key, { key, label: key, prompt: d.description, estimatedMs, cumulativeTime, ...userValue }]
-    }))
-
-    return jsonProp
-  })
-
-  outputProps = vue.computed(() => {
-    const props = this.jsonSchema.value?.properties || {}
-    const entries = Object.entries(props).map(([key, value]) => {
-      const userConfig = this.jsonPropConfig.value[key]
-
-      if (!userConfig?.isEnabled)
-        return [key, undefined]
-
-      const description = userConfig?.prompt || value.description
-      return [key, { ...value, description }]
-    }).filter(_ => _[1])
-
-    return Object.fromEntries(entries)
-  })
+  jsonPropConfig = vue.computed(() => generateJsonPropConfig({ jsonSchema: this.jsonSchema.value, userPropConfig: this.userPropConfig.value }))
+  outputProps = vue.computed(() => generateOutputProps({ jsonSchema: this.jsonSchema.value, jsonPropConfig: this.jsonPropConfig.value }))
 
   outputSchema = vue.computed(() => {
     const fullSchema = { ...this.jsonSchema.value }
@@ -114,49 +63,9 @@ export class CardGeneration extends FictionObject<CardGenerationSettings> {
   userPrompt = vue.ref(this.savedSettings.prompt || '')
   prompt = vue.computed(() => this.userPrompt.value || this.defaultPrompt.value)
 
-  totalEstimatedTime = vue.computed(() => {
-    const total = Object.values(this.jsonPropConfig.value).filter(_ => _.isEnabled).reduce((acc, opt) => {
-      const time = opt.estimatedMs ?? 3000
-      return acc + time
-    }, 0)
-    return Math.round(total / 1000)
-  })
+  totalEstimatedTime = vue.computed(() => calculateTotalEstimatedTimeSeconds({ jsonPropConfig: this.jsonPropConfig.value }))
 
-  progress = vue.ref({ percent: 0, status: '' })
-
-  private simulateProgress() {
-    this.progress.value = { percent: 0, status: `Initializing...` }
-    const timeStart = Date.now()
-    const totalEstimatedTime = this.totalEstimatedTime.value
-
-    const interval = 500
-
-    // this stops iteration for cases when error occurs
-    let completed = false
-
-    const updateProgress = () => {
-      const timeElapsed = Date.now() - timeStart
-      const percent = Math.round(Math.min((timeElapsed / (totalEstimatedTime * 1000)) * 100, 100))
-      const currentSetting = Object.values(this.jsonPropConfig.value).find(_ => _.isEnabled && _.cumulativeTime && timeElapsed <= _.cumulativeTime)
-
-      this.progress.value = { percent, status: `Generating ${currentSetting?.label || ''}` }
-
-      if (percent < 100 && !completed)
-        setTimeout(updateProgress, interval)
-
-      else
-        this.progress.value = { percent: 100, status: `Wrapping up...` }
-    }
-
-    updateProgress()
-
-    return {
-      complete: () => {
-        completed = true
-        this.progress.value = { percent: 100, status: `Complete!` }
-      },
-    }
-  }
+  progress = vue.ref<ProgressState>({ percent: 0, status: '' })
 
   applyChanges(c?: Record<string, any>) {
     if (c) {
@@ -185,7 +94,11 @@ export class CardGeneration extends FictionObject<CardGenerationSettings> {
 
     this.log.info('RUNNING COMPLETION', { data: completionArgs })
 
-    const progress = this.simulateProgress()
+    const progress = simulateProgress({
+      totalEstimatedTime: this.totalEstimatedTime.value,
+      jsonPropConfig: this.jsonPropConfig.value,
+      updateProgress: (state: ProgressState) => (this.progress.value = state),
+    })
 
     try {
       const c = await getCardCompletion(completionArgs)

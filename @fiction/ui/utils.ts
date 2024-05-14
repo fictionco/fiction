@@ -34,7 +34,7 @@ export function getColorThemeStyles(theme: ColorTheme = 'theme') {
   return cls[theme as keyof typeof cls]
 }
 
-export function getBadgeClasses(args: { theme?: ColorTheme, size?: UiElementSize, isLink?: boolean }) {
+export function getBadgeClasses(args: { theme?: ColorTheme, size?: UiElementSize, isLink?: boolean, isActive?: boolean }) {
   const { theme = 'theme', size = 'sm', isLink = false } = args
 
   const base = `not-prose x-font-title antialiased inline-flex gap-1 items-center rounded-md font-medium ring-1 ring-inset`
@@ -42,6 +42,7 @@ export function getBadgeClasses(args: { theme?: ColorTheme, size?: UiElementSize
   const stl = getColorThemeStyles(theme)
 
   const hoverStyle = isLink ? 'hover:bg-opacity-30 active:bg-opacity-100 cursor-pointer' : ''
+  const activeStyle = args.isActive ? 'bg-opacity-80' : ''
 
   const sizeStyles = {
     'xxs': 'px-1 py-0.5 text-[10px]',

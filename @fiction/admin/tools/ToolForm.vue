@@ -3,7 +3,7 @@ import type { vue } from '@fiction/core'
 import { getNested, localRef, setNested } from '@fiction/core'
 import type { InputOption } from '@fiction/ui'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
-import TransitionSlide from '@fiction/ui/TransitionSlide.vue'
+import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
 import ElToolSep from '@fiction/admin/tools/ElToolSep.vue'
 
 const props = defineProps({
