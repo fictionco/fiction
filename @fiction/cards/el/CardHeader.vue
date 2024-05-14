@@ -67,7 +67,7 @@ const layout = vue.computed(() => {
         <CardText
           tag="h1"
           :card="card"
-          class="x-font-title text-4xl sm:text-5xl lg:text-7xl lg:tracking-tight font-bold text-balance"
+          class="x-font-title dark:text-theme-0 text-theme-900 text-4xl sm:text-5xl lg:text-7xl lg:tracking-tight font-bold text-balance"
           :class="layout === 'justify' || layout === 'left' ? 'mt-3' : 'my-7'"
           path="heading"
           placeholder="Heading"

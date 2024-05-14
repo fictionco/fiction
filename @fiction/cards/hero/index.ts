@@ -18,7 +18,7 @@ const UserConfigSchema = z.object({
   subHeading: z.string().optional(),
   superHeading: z.string().optional().describe('Shorter badge above headline, 2 to 5 words'),
   layout: z.enum(['justify', 'center', 'left', 'right']).optional(),
-  splash: z.object({ url: z.string(), format: z.enum(['url', 'html']).optional() }).optional().describe('Splash picture for hero'),
+  splash: z.object({ url: z.string(), format: z.enum(['url', 'html']).optional() }).optional().describe('Splash picture for hero;time:40000').refine(_ => true, { params: { time: 40 } }),
   actions: z.array(z.object({
     name: z.string().optional(),
     href: z.string().optional(),
@@ -40,11 +40,11 @@ export const templates = [
     colorTheme: 'orange',
     el: vue.defineAsyncComponent(() => import('./ElHero.vue')),
     options: [
+      standardOption.ai(),
       standardOption.headers({}),
       standardOption.layout(),
       standardOption.media({ key: 'splash', label: 'Splash Image' }),
       standardOption.actionItems(),
-      standardOption.ai(),
     ],
     userConfig: defaultContent,
     schema: UserConfigSchema,

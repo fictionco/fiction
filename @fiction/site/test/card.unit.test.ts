@@ -58,19 +58,19 @@ describe('card', async () => {
 
     card.update({ title: 'Updated Card' })
     expect(card.title.value).toBe('Updated Card')
-    const prompt = card.generation.prompt.value
+    const prompt = card.genUtil.prompt.value
     expect(prompt.toLowerCase()).toContain('updated card')
   })
 
   it('should compute total estimated time correctly', () => {
-    const totalEstimatedTime = card.generation.totalEstimatedTime.value
+    const totalEstimatedTime = card.genUtil.totalEstimatedTime.value
 
     expect(totalEstimatedTime).toBeGreaterThan(0)
     expect(totalEstimatedTime).toMatchInlineSnapshot(`24`)
   })
 
   it('should have correct generations settings', () => {
-    const inputConfig = card.generation.inputConfig.value
+    const inputConfig = card.genUtil.jsonPropConfig.value
 
     expect(inputConfig).toEqual(expect.objectContaining({
       actions: expect.any(Object),

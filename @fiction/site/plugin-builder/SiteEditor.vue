@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { FictionApp, FictionRouter } from '@fiction/core'
-import { onResetUi, resetUi, useService, vue } from '@fiction/core'
+import { onResetUi, resetUi, useService, vue, waitFor } from '@fiction/core'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import El404 from '@fiction/ui/page/El404.vue'
@@ -71,10 +71,14 @@ async function save() {
   if (!site.value)
     throw new Error('No site to save')
 
+  sending.value = 'save'
+
+  // min time for UX reasons
+  await waitFor(500)
+
   // make sure any blur events are triggered
   resetUi({ scope: 'all', cause: 'saveSite' })
 
-  sending.value = 'save'
   await site.value.save()
   sending.value = ''
 }

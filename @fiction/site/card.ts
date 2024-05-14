@@ -82,7 +82,7 @@ export class Card<
   cards = vue.shallowRef((this.settings.cards || []).map(c => this.initSubCard({ cardConfig: c })))
   site = this.settings.site
   tpl = vue.computed(() => this.settings.inlineTemplate || this.site?.theme.value?.templates?.find(t => t.settings.templateId === this.templateId.value))
-  generation = new CardGeneration({ card: this })
+  genUtil = new CardGeneration({ card: this })
   isActive = vue.computed<boolean>(() => this.site?.editor.value.selectedCardId === this.settings.cardId)
   options: vue.ComputedRef<InputOption[]> = vue.computed(() => this.tpl.value?.optionConfig.options || [])
 
@@ -185,6 +185,9 @@ export class Card<
     const { site: __, ...rest } = this.settings
 
     const cards = this.cards.value.map(c => c.toConfig())
+
+    const generation = this.genUtil.toConfig()
+
     return {
       ...rest,
       regionId: this.regionId,
@@ -199,7 +202,7 @@ export class Card<
       userConfig: this.userConfig.value as T,
       cards,
       scope: this.settings.scope,
-      generation: this.generation.toConfig(),
+      generation,
     }
   }
 }

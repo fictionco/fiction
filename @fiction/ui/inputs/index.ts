@@ -48,7 +48,7 @@ type SchemaCallback = (args: { z: typeof z, subSchema: z.AnyZodObject }) => z.Sc
 
 export type InputOptionGeneration = {
   prompt?: string
-  isDisabled?: boolean
+  isEnabled?: boolean
   estimatedMs?: number
   key?: string
   label?: string
@@ -71,6 +71,7 @@ export interface InputOptionSettings<T extends string = string, U = any> {
   schema?: SchemaCallback
   generation?: InputOptionGeneration
   isHidden?: boolean
+  isUtility?: boolean
   shape?: string[]
 }
 
@@ -83,7 +84,6 @@ export class InputOption<T extends string = string, U = any> extends FictionObje
   aliasKey = vue.ref(this.settings.aliasKey || this.key)
   input = vue.shallowRef(this.settings.input)
   shape = vue.ref(typeof this.input.value === 'string' ? inputs[this.input.value]?.shape || [] : [])
-
   label = vue.ref(this.settings.label)
   subLabel = vue.ref(this.settings.subLabel)
   placeholder = vue.ref(this.settings.placeholder)

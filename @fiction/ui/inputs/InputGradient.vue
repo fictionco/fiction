@@ -115,8 +115,9 @@ vue.onMounted(async () => {
         <div class="i-tabler-chevron-down text-xl" :class="visible ? 'rotate-180' : ''" />
       </div>
       <div
-        class="bar bg-theme-50 text-white/30 text-center text-[10px] font-sans flex items-center justify-center dark:bg-theme-700 h-6 grow rounded-full shadow-sm ring-2 ring-inset ring-theme-800/20"
+        class="cursor-pointer hover:opacity-80 bar bg-theme-50 text-white/30 text-center text-[10px] font-sans flex items-center justify-center dark:bg-theme-700 h-6 grow rounded-full shadow-sm ring-2 ring-inset ring-theme-800/20"
         :style="{ 'background-image': gradientCss }"
+        @click="visible = !visible"
       >
         Preview
       </div>

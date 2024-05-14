@@ -19,12 +19,14 @@ export function refineOptions<T extends z.AnyZodObject>(args: {
     return { options, unusedSchema: undefined, hiddenOptions: [] }
 
   const dotRecord = zodSchemaToDotPathRecord(schema)
+
   const hiddenOptions: string[] = []
 
   const checkRecord = (path: string) => {
     if (dotRecord[path]) {
+      const prompt = dotRecord[path]
       delete dotRecord[path]
-      return true
+      return prompt
     }
     else {
       hiddenOptions.push(path)
@@ -45,22 +47,28 @@ export function refineOptions<T extends z.AnyZodObject>(args: {
       removeDotKeyParents(subPath, basePath)
   }
 
-  const refineOption = (option: InputOption, basePath = '') => {
+  const refineOptionRecursive = (option: InputOption, basePath = '', parent?: InputOption) => {
     const isGroup = option.input.value === 'group'
     const key = option.key.value
 
     // Check for a refinement based on the option's key
     const path = basePath ? `${basePath}.${key}` : key
 
-    if (!isGroup && !checkRecord(path))
+    const optionIsUtility = option.settings.isUtility || parent?.settings.isUtility
+
+    const fieldDescription = checkRecord(path)
+
+    if (!isGroup && !optionIsUtility && !fieldDescription)
       option.isHidden.value = true
+
+    option.generation.value = { ...option.generation.value, prompt: fieldDescription || undefined }
 
     // remove empty objects that dont need inputs
     removeDotKeyParents(key, basePath)
 
     // If the option is a group, refine its children
     if (option.options?.value.length > 0) {
-      option.options.value = option.options.value.map(_ => refineOption(_, !isGroup ? `${path}.0` : basePath))
+      option.options.value = option.options.value.map(_ => refineOptionRecursive(_, !isGroup ? `${path}.0` : basePath, option))
       return option
     }
     else if (option.shape.value.length > 0) {
@@ -76,7 +84,7 @@ export function refineOptions<T extends z.AnyZodObject>(args: {
     return option
   }
 
-  return { options: options.map(_ => refineOption(_)), unusedSchema: dotRecord, hiddenOptions }
+  return { options: options.map(_ => refineOptionRecursive(_)), unusedSchema: dotRecord, hiddenOptions }
 }
 
 export function collectKeysFromOptions(inputOptions: InputOption[] | readonly InputOption[]): string[] {

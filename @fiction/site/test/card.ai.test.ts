@@ -10,9 +10,9 @@ describe('cardCompletion', async () => {
   it('generates the content for the card', async () => {
     const card = new Card({ templateId: 'hero', site })
 
-    card.generation.userPrompt.value = 'get the content for home page hero section'
+    card.genUtil.userPrompt.value = 'get the content for home page hero section'
 
-    const r = await card.generation.getCompletion()
+    const r = await card.genUtil.getCompletion()
 
     expect(r).toMatchInlineSnapshot(`
       {
