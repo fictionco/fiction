@@ -1,5 +1,5 @@
 import { log } from '@fiction/core'
-import type { Site } from '..'
+import type { CardTemplate, Site } from '..'
 import { Card } from '../card'
 import type { CardConfigPortable, PageRegion, TableCardConfig } from '../tables'
 
@@ -119,7 +119,7 @@ export function addNewCard(args: {
     if (onAdd)
       onAdd(cardConfig)
 
-    // site.editor.selectedCardId = cardConfig.cardId
+    site.events.emit('addCard', { template: tpl })
 
     return cardConfig
   }

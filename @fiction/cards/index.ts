@@ -18,6 +18,7 @@ import * as faq from './faq'
 import * as pricing from './pricing'
 import * as marquee from './marquee'
 import * as magazine from './magazine'
+import * as capture from './capture'
 /**
  * Add path for tailwindcss to scan for styles
  */
@@ -38,6 +39,7 @@ export const standardCardTemplates = [
   ...area.templates,
   ...map.templates,
   ...magazine.templates,
+  ...capture.templates,
 ] as const
 
 export const marketingCardTemplates = [
@@ -48,7 +50,6 @@ export const marketingCardTemplates = [
   ...templatesMediaGrid,
   ...features.templates,
   ...metrics.templates,
-
   ...faq.templates,
 ] as const
 
@@ -61,5 +62,6 @@ export function getDemoPages() {
     quote.demo(),
     area.demo(),
     magazine.demo(),
+    capture.demo(),
   ]
 }

@@ -12,7 +12,6 @@ import ElBadge from '@fiction/ui/common/ElBadge.vue'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
 import type { Site } from '../site'
 import type { Card } from '../card'
-import { siteEditController } from '../plugin-builder/tools/tools'
 import AiSettings from './AiSettings.vue'
 
 const props = defineProps({
@@ -93,18 +92,7 @@ const fieldClasses = `font-sans antialiased capitalize inline-block inline-flex 
         </ElButton>
       </div>
 
-      <div class="flex items-center space-x-2">
-        <ElButton
-          btn="default"
-          size="xs"
-          tag="div"
-          wrap-class="gap-1 cursor-pointer"
-          icon="i-tabler-settings"
-          @click.stop="siteEditController.useTool({ toolId: 'ai' })"
-        >
-          Change AI Model
-        </ElButton>
-      </div>
+      <div class="flex items-center space-x-2" />
     </div>
 
     <ElModal v-model:vis="vis" modal-class="max-w-screen-sm p-12">

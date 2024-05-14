@@ -1,7 +1,13 @@
 <script lang="ts" setup>
 import { vue, waitFor } from '@fiction/core'
+import type { Sortable } from '@shopify/draggable'
 import type { LayoutOrder } from '../../utils/layout'
 import { getOrderRecursive, selectors } from '../../utils/layout'
+import type { Site } from '../../site'
+
+const props = defineProps({
+  site: { type: Object as vue.PropType<Site>, required: true },
+})
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: LayoutOrder[]): void
@@ -37,21 +43,28 @@ function setEmptyRecursive(args: { depth?: number, parentEl: Element }) {
   })
 }
 
-vue.onMounted(async () => {
+const sortable = vue.shallowRef<Sortable>()
+function getContainers() {
+  return wrapperEl.value?.querySelectorAll(selectors.dragZone)
+}
+async function createSortable() {
   await waitFor(200)
 
   if (!wrapperEl.value)
     return
 
-  const containers = wrapperEl.value.querySelectorAll(selectors.dragZone)
+  const containers = getContainers()
 
   if (!containers)
     return
 
+  if (sortable.value)
+    sortable.value.destroy()
+
   setEmptyRecursive({ parentEl: wrapperEl.value })
 
   const { Plugins, Sortable } = await import('@shopify/draggable')
-  const sortable = new Sortable(containers, {
+  sortable.value = new Sortable(containers, {
     draggable: selectors.handleId,
     distance: 3,
     handle: '.handlebar',
@@ -68,17 +81,17 @@ vue.onMounted(async () => {
   })
 
   // --- Draggable events --- //
-  sortable.on('drag:start', (_evt) => { })
+  sortable.value.on('drag:start', (_evt) => { })
 
-  sortable.on('sortable:sort', (_evt) => { })
+  sortable.value.on('sortable:sort', (_evt) => { })
 
-  sortable.on('sortable:sorted', (_evt) => {
+  sortable.value.on('sortable:sorted', (_evt) => {
     if (!wrapperEl.value)
       return
     setEmptyRecursive({ parentEl: wrapperEl.value })
   })
 
-  sortable.on('sortable:stop', (_evt) => {
+  sortable.value.on('sortable:stop', (_evt) => {
     setTimeout(() => {
       if (!wrapperEl.value)
         return
@@ -86,6 +99,12 @@ vue.onMounted(async () => {
       update()
     }, 100)
   })
+}
+
+vue.onMounted(() => {
+  createSortable()
+
+  props.site.events.on('addCard', createSortable)
 })
 </script>
 

@@ -12,7 +12,7 @@ import { getMountContext, loadSite } from '../load'
 import type { Card } from '../card'
 import { activeSiteDisplayUrl } from '../utils/site'
 import SiteEditorFrame from './SiteEditorFrame.vue'
-import { siteEditController } from './tools/tools'
+import { createSiteEditingController } from './tools/tools'
 
 type UserConfig = {
   isNavItem: boolean
@@ -100,7 +100,7 @@ async function save() {
     </div>
     <El404 v-else-if="!site && !loading" heading="Site Not Found" sub-heading="No site was found here." />
     <template v-else>
-      <ViewEditor :tool-props="{ site }" :controller="siteEditController">
+      <ViewEditor :tool-props="{ site }" :controller="createSiteEditingController(site)">
         <template #headerLeft>
           <ElButton btn="default" :href="card.link('/')">
             <div class="i-tabler-home text-lg" />

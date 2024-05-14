@@ -10,7 +10,7 @@ import { addNewCard, removeCard } from './utils/region'
 import type { QueryVarHook } from './utils/site'
 import { saveSite, setSections, setupRouteWatcher, updateSite } from './utils/site'
 import type { SiteMode } from './load'
-import { siteEditController } from './plugin-builder/tools/tools'
+import { TypedEventTarget } from './siteEvents'
 import type { FictionSites } from '.'
 
 export type EditorState = {
@@ -38,6 +38,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   isEditable = vue.computed(() => this.siteMode.value === 'editable' || false)
   isEditor = vue.computed(() => this.siteMode.value === 'designer' || false)
   frame = new SiteFrameTools({ site: this, relation: this.siteMode.value === 'designer' ? 'parent' : 'child' })
+  events = new TypedEventTarget()
   constructor(settings: T) {
     super('Site', settings)
     this.watchers()
@@ -170,7 +171,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
     this.editor.value.selectedCardId = cardId
 
-    siteEditController.useTool({ toolId: 'editCard' })
+    this.events.emit('setActiveCard', { cardId })
 
     this.frame.syncActiveCard({ cardId })
   }

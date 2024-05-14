@@ -6,13 +6,13 @@ import ElToolHandle from '@fiction/admin/tools/ElToolHandle.vue'
 import TransitionList from '@fiction/admin/el/EffectTransitionList.vue'
 import type { Site } from '../../site'
 import type { Card } from '../../card'
-import { siteEditController } from './tools'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },
   card: { type: Object as vue.PropType<Card>, required: true },
   regionId: { type: String, required: true },
   scope: { type: String, default: undefined },
+
 })
 
 function getCardHandle(card: Card): Handle {
@@ -76,14 +76,6 @@ function getCardHandle(card: Card): Handle {
     </div>
 
     <div class="relative">
-      <div
-        v-if="!card.cards.value.length"
-        key="add"
-        class="hidden border-3 border-dashed border-theme-200 dark:border-theme-700 rounded-lg mt-2 p-4 text-xs text-center hover:border-theme-300 cursor-pointer text-theme-300 hover:text-theme-400 font-semibold"
-        @click="site.activeRegionKey.value = regionId; siteEditController.useTool({ toolId: 'add' })"
-      >
-        Add Element
-      </div>
       <TransitionList
         tag="div"
         class="space-y-2 sortable-zone min-h-[30px] rounded-md"

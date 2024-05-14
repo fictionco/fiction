@@ -67,7 +67,7 @@ const contextTool = vue.computed(() => props.controller.activeTool.context.value
             >
               <component
                 :is="primaryTool.el"
-                v-bind="{ ...toolProps, tool: primaryTool, ...primaryTool.props?.(toolProps).value }"
+                v-bind="{ controller, ...toolProps, tool: primaryTool, ...primaryTool.props?.(toolProps).value }"
               />
             </div>
           </transition>
@@ -98,7 +98,7 @@ const contextTool = vue.computed(() => props.controller.activeTool.context.value
                 <component
                   :is="contextTool.el"
                   v-if="contextTool"
-                  v-bind="{ ...toolProps, tool: contextTool, ...contextTool.props?.(toolProps).value }"
+                  v-bind="{ controller, ...toolProps, tool: contextTool, ...contextTool.props?.(toolProps).value }"
                 />
               </transition>
             </div>

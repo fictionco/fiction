@@ -1,18 +1,18 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
 import type { ActionItem } from '@fiction/core'
-import type { EditorTool, Handle } from '@fiction/admin'
+import type { AdminEditorController, EditorTool, Handle } from '@fiction/admin'
 
 import ElToolBanner from '@fiction/admin/tools/ElToolBanner.vue'
 import ELToolHandle from '@fiction/admin/tools/ElToolHandle.vue'
 import EffectDraggableSort from '@fiction/admin/el/EffectDraggableSort.vue'
 import { saveSite } from '../../utils/site'
 import type { Site } from '../../site'
-import { siteEditController } from './tools'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
+  controller: { type: Object as vue.PropType<AdminEditorController>, required: true },
 })
 
 function useEditPage(args: { cardId?: string } = {}) {
@@ -23,7 +23,7 @@ function useEditPage(args: { cardId?: string } = {}) {
 
   props.site.editor.value.selectedPageId = cardId || ''
 
-  siteEditController.useTool({ toolId: cardId ? 'editPage' : 'addPage' })
+  props.controller.useTool({ toolId: cardId ? 'editPage' : 'addPage' })
 }
 
 const actions: ActionItem[] = [
@@ -90,4 +90,4 @@ async function handleSorted(sorted: string[]) {
       </div>
     </template>
   </div>
-</template>
+</template>AdminEditorController,
