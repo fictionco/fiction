@@ -186,7 +186,7 @@ const fieldClasses = `font-sans antialiased capitalize inline-block inline-flex 
                 <label :for="`opt-${key}`" class="w-24 truncate font-semibold cursor-pointer select-none">
                   {{ toLabel(opt.label) }}
                 </label>
-                <div v-if="opt.isEnabled" class="grow" @click.stop>
+                <div class="grow" @click.stop>
                   <div v-if="editField !== opt.key" :class="fieldClasses" @click.stop="editField = opt.key">
                     <span class="i-tabler-pencil mr-1 text-xs" /><span class="grow">{{ opt.prompt || 'Edit Field Description' }}</span>
                   </div>

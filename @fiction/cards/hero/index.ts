@@ -15,9 +15,9 @@ const defaultContent: UserConfig = {
 
 const UserConfigSchema = z.object({
   heading: z.string().optional().describe('Primary hero headline, 3 to 13 words'),
-  subHeading: z.string().optional(),
+  subHeading: z.string().optional().describe('Secondary hero headline, 10 to 30 words'),
   superHeading: z.string().optional().describe('Shorter badge above headline, 2 to 5 words'),
-  layout: z.enum(['justify', 'center', 'left', 'right']).optional(),
+  layout: z.enum(['justify', 'center', 'left', 'right']).optional().describe('Alignment style of text and images'),
   splash: z.object({ url: z.string(), format: z.enum(['url', 'html']).optional() }).optional().describe('Splash picture for hero;time:40000').refine(_ => true, { params: { time: 40 } }),
   actions: z.array(z.object({
     name: z.string().optional(),
@@ -25,7 +25,7 @@ const UserConfigSchema = z.object({
     btn: z.enum(['primary', 'default', 'theme', 'danger', 'caution', 'success', 'naked']).optional(),
     size: z.enum(['default', '2xl', 'xl', 'lg', 'md', 'sm', 'xs']).optional(),
     target: z.enum(['_self', '_blank']).optional(),
-  })).optional().describe('List of action items') as z.Schema<ActionItem[] | undefined>,
+  })).optional().describe('List of link buttons') as z.Schema<ActionItem[] | undefined>,
 })
 
 export type UserConfig = z.infer<typeof UserConfigSchema>
