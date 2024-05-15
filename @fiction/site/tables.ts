@@ -97,7 +97,7 @@ const siteCols = [
     create: ({ schema, column, db }) => schema.string(column.pgKey).unique().notNullable().defaultTo(db.raw(`short_id(9)`)).index(),
     default: () => '' as string,
     isSetting: true,
-    prepare: ({ value }) => (value).replaceAll(/[^\dA-Za-z-_]+/g, '').toLowerCase(),
+    prepare: ({ value }) => (value).replaceAll(/[^\w-]+/g, '').toLowerCase(),
     zodSchema: ({ z }) => z.string().min(1), // Adapt the schema as needed
   }),
   new FictionDbCol({
@@ -189,7 +189,7 @@ const pageCols = [
     create: ({ schema, column, db }) => schema.string(column.pgKey).defaultTo(db.raw(`short_id(5)`)).index(),
     default: () => '' as string,
     isSetting: true,
-    prepare: ({ value }) => (value).replaceAll(/[\s]+/g, '-').replaceAll(/[^\dA-Za-z-_]+/g, '').toLowerCase(),
+    prepare: ({ value }) => (value).replaceAll(/\s+/g, '-').replaceAll(/[^\w-]+/g, '').toLowerCase(),
   }),
 
   new FictionDbCol({

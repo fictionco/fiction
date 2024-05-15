@@ -13,8 +13,8 @@
     }
   ],
   "dependencies": {
-    "@aws-sdk/client-cloudfront": "^3.576.0",
-    "@aws-sdk/client-s3": "^3.576.0",
+    "@aws-sdk/client-cloudfront": "^3.577.0",
+    "@aws-sdk/client-s3": "^3.577.0",
     "@egoist/tailwindcss-icons": "^1.8.0",
     "@faker-js/faker": "^8.4.1",
     "@iconify-json/carbon": "^1.1.33",
@@ -58,7 +58,7 @@
     "dotenv": "^16.4.5",
     "enquirer": "^2.4.1",
     "es-module-lexer": "^1.5.2",
-    "esbuild": "^0.21.2",
+    "esbuild": "^0.21.3",
     "events": "^3.3.0",
     "execa": "^8.0.1",
     "express": "^4.19.2",
