@@ -94,7 +94,7 @@ export async function useElementVisible(args: { selector: string, onVisible: () 
       observer.disconnect() // Disconnect after the element becomes visible
     }
   }, {
-    threshold: 0.1, // Customize the threshold as needed
+    threshold: 0.05, // Customize the threshold as needed
   })
 
   // Function to check for element and start observing
@@ -116,7 +116,7 @@ export function splitLetters(selector: string): void {
   if (textWrapper) {
     const processTextNode = (node: ChildNode): void => {
       const content = node.nodeValue ?? ''
-      const newContent = content.replace(/(&[a-zA-Z]+;|<[^>]*>|\b\w+\b|\S)/g, (match) => {
+      const newContent = content.replace(/(&[a-z]+;|<[^>]*>|\b\w+\b|\S)/gi, (match) => {
         if (match.startsWith('<') && match.endsWith('>'))
           return match
         else if (match.startsWith('&') && match.endsWith(';'))

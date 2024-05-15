@@ -4,13 +4,13 @@ import { ref, watch } from 'vue'
 // Global cache to store refs by key
 const refCache: Record<string, ReturnType<typeof ref>> = {}
 
-export function localRef<T>(opts: { key: string, def: T, lifecycle?: 'session' | 'local' }): Ref<T> {
+export function localRef<T>(opts: { key: string, def: T, lifecycle?: 'session' | 'local' | 'disable' }): Ref<T> {
   const { key, def, lifecycle = 'local' } = opts
   // Return the existing ref if one is already created with the same key
   if (refCache[key])
     return refCache[key] as Ref<T>
 
-  const storage = typeof localStorage !== 'undefined' ? (lifecycle === 'session' ? sessionStorage : localStorage) : null
+  const storage = typeof localStorage !== 'undefined' && lifecycle !== 'disable' ? (lifecycle === 'session' ? sessionStorage : localStorage) : null
 
   // Try to deserialize the value from storage or use default
   let initialValue: T

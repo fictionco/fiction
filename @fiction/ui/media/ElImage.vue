@@ -10,7 +10,7 @@ defineOptions({ name: 'ElImage' })
 const props = defineProps({
   media: { type: Object as vue.PropType<MediaDisplayObject>, default: undefined },
   imageClass: { type: String as vue.PropType<string>, default: '' },
-  animate: { type: Boolean, default: false },
+  animate: { type: [Boolean, String] as vue.PropType<'swipe' | 'expand' | '' | boolean>, default: false },
 })
 
 const logger = log.contextLogger('ElImage')
@@ -97,7 +97,7 @@ const filters = vue.computed<ImageFilterConfig[]>(() => props.media?.filters || 
 </script>
 
 <template>
-  <ClipPathAnim :enabled="animate">
+  <ClipPathAnim :animate="animate">
     <div v-if="media" :class="cls" class="h-full w-full">
       <transition
         enter-active-class="transition ease duration-500"

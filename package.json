@@ -100,7 +100,7 @@
     "@types/node": "^20.12.12",
     "@vitest/coverage-istanbul": "^1.6.0",
     "@vue/test-utils": "^2.4.6",
-    "happy-dom": "^14.10.3",
+    "happy-dom": "^14.11.0",
     "jsdom": "^24.0.0",
     "ngrok": "5.0.0-beta.2",
     "nodemon": "^3.1.0",
@@ -114,6 +114,6 @@
     "tslib": "^2.6.2",
     "vite-plugin-dts": "^3.9.1",
     "vitepress": "^1.1.4",
-    "vue-tsc": "^2.0.17"
+    "vue-tsc": "^2.0.18"
   }
 }

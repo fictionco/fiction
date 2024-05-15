@@ -11,7 +11,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl mx-auto focus:outline-none ">
+  <div class="prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl mx-auto focus:outline-none " :class="card.classes.value.contentWidth">
     <h1>Didn't melt fairer keepsakes since Fellowship elsewhere.</h1>
     <p>Woodlands payment Osgiliath tightening. Barad-dur follow belly comforts tender tough bell? Many that live deserve death. Some that die deserve life. Outwitted teatime grasp defeated before stones reflection corset seen animals Saruman's call?</p>
     <h2>Tad survive ensnare joy mistake courtesy Bagshot Row.</h2>
@@ -147,5 +147,3 @@ defineProps({
     </dl>
   </div>
 </template>
-import type { Card } from '@fiction/site';
-import type { PropType } from 'vue';
