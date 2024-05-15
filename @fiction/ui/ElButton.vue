@@ -18,6 +18,7 @@ const props = defineProps({
   rounded: { type: String as vue.PropType<'md' | 'lg' | 'full'>, default: '' },
   wrapClass: { type: String, default: '' },
   icon: { type: String, default: '' },
+  iconAfter: { type: String, default: '' },
   animate: { type: Boolean, default: false },
   tag: { type: String as vue.PropType<'button' | 'div'>, default: 'button' },
 })
@@ -81,9 +82,10 @@ const buttonClasses = vue.computed(() => {
       class="flex w-full min-w-0 items-center whitespace-nowrap transition-all duration-500 ease-[cubic-bezier(0.25,1,0.33,1)]"
       :class="[loading ? 'translate-y-[-150%] opacity-0' : '', wrapClass, format === 'spread' ? '' : 'justify-center']"
     >
-      <div v-if="icon" class="flex space-x-1 items-center">
-        <div class="text-[1.2em] -mt-[1px]" :class="[icon, $slots.default ? '-ml-0.5' : 'mx-[-2px]']" />
+      <div v-if="icon || iconAfter" class="flex space-x-1 items-center">
+        <div v-if="icon" class="text-[1.2em] -mt-[1px]" :class="[icon, $slots.default ? '-ml-0.5' : 'mx-[-2px]']" />
         <div v-if="$slots.default"><slot /></div>
+        <div v-if="iconAfter" class="text-[1.2em] -mt-[1px]" :class="[iconAfter, $slots.default ? '-mr-0.5' : 'mx-[-2px]']" />
       </div>
       <template v-else><slot /></template>
     </span>

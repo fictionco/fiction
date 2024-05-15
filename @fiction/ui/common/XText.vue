@@ -139,16 +139,16 @@ function onPaste(event: ClipboardEvent) {
 [contentEditable="true"]:empty {
   &::before {
     content: attr(placeholder);
-    color: rgba(var(--ph-color) / 0.8);
+    color: rgba(var(--ph-color) / 0.5);
   }
 
   &:hover:not(:focus)::before {
     cursor: pointer;
-    color: rgba(var(--ph-color) / 0.5);
+    color: rgba(var(--ph-color) / 0.3);
   }
 
   &:focus::before {
-    color: rgba(var(--ph-color) / 0.3);
+    color: rgba(var(--ph-color) / 0.2);
   }
 }
 

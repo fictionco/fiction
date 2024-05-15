@@ -3,7 +3,7 @@ import { textInputClasses } from './theme'
 
 defineProps({
   modelValue: { type: [String], default: '' },
-  placeholder: { type: [String], default: 'name@example.com' },
+  placeholder: { type: [String], default: 'Type your email...' },
   inputClass: { type: String, default: '' },
 })
 

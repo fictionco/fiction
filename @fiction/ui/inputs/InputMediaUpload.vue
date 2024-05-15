@@ -2,6 +2,8 @@
 import type { MediaDisplayObject } from '@fiction/core'
 import { log, shortId, useService, vue } from '@fiction/core'
 import ElSpinner from '../loaders/ElSpinner.vue'
+import ElButton from '../ElButton.vue'
+import { textInputClasses } from './theme'
 
 defineProps({
   modelValue: { type: Object as vue.PropType<MediaDisplayObject>, default: () => {} },
@@ -69,19 +71,12 @@ async function handleDropFile(ev: Event) {
       @dragleave="draggingOver = false"
     >
       <span class="font-mono relative flex grow  shadow-sm  group  cursor-pointer space-x-2">
-        <span
-          class="rounded-md bg-theme-50 dark:bg-theme-700 hover:bg-primary-500 hover:text-primary-0 border border-theme-300 dark:border-theme-500 bg-input-bg-alt hover:border-primary-600 flex justify-center items-center  text-theme-700 dark:text-theme-0 lg:inline-flex select-none space-x-2 text-xs px-4"
-        >
-          <span v-if="uploading">
-            <ElSpinner class="m-auto h-4 w-4" />
-          </span>
-          <span v-else><span class="inline-block i-tabler-upload" /></span>
-          <span>Upload</span>
-        </span>
+
+        <ElButton class="shrink-0" icon="i-tabler-upload" :loading="uploading">Upload</ElButton>
         <input
           :value="modelValue?.url"
           type="text"
-          class="grow rounded-md block border border-theme-300 dark:border-theme-500 text-theme-500 dark:text-theme-0 bg-theme-0 dark:bg-theme-950 w-full min-w-0 flex-1   text-xs focus:border-input-border-alt focus:ring-0 "
+          :class="textInputClasses({ inputClass: 'grow' })"
           @input="updateValue({ url: ($event.target as HTMLInputElement).value })"
         >
       </span>

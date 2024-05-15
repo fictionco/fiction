@@ -3,26 +3,21 @@ import { CardTemplate, createCard } from '@fiction/site'
 import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
 import { standardOption } from '../inputSets'
+import { mediaSchema } from '../schemaSets'
 import franklin from './franklin.jpg'
 import socrates from './socrates.jpg'
-
-const MediaSchema = z.object({
-  url: z.string().optional(),
-  html: z.string().optional(),
-  format: z.enum(['html', 'url']).optional(),
-}).optional()
 
 const QuoteSchema = z.object({
   text: z.string(),
   author: z.object({
     name: z.string(),
     title: z.string().optional(),
-    image: MediaSchema,
+    image: mediaSchema,
     href: z.string().optional(),
   }).optional(),
   org: z.object({
     name: z.string().optional(),
-    image: MediaSchema,
+    image: mediaSchema,
     href: z.string().optional(),
   }).optional(),
 }).optional()

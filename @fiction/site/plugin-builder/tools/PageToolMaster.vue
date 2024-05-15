@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
+import type { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
-import type { EditorTool } from '@fiction/admin'
+import type { AdminEditorController, EditorTool } from '@fiction/admin'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
 import ToolForm from '@fiction/admin/tools/ToolForm.vue'
 import type { Site } from '../../site'
@@ -13,9 +13,8 @@ import InputAddElements from './InputAddElements.vue'
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
+  controller: { type: Object as vue.PropType<AdminEditorController>, required: true },
 })
-
-const loading = vue.ref(false)
 
 const options = [
 
@@ -53,10 +52,7 @@ const options = [
     v-bind="props"
   >
     <ElForm>
-      <ToolForm
-        :options="options"
-        :input-props="{ site, tool }"
-      />
+      <ToolForm :options="options" :input-props="{ site, tool, controller }" />
     </ElForm>
   </ElTool>
 </template>

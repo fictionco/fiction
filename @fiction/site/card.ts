@@ -85,6 +85,7 @@ export class Card<
   genUtil = new CardGeneration({ card: this })
   isActive = vue.computed<boolean>(() => this.site?.editor.value.selectedCardId === this.settings.cardId)
   options: vue.ComputedRef<InputOption[]> = vue.computed(() => this.tpl.value?.optionConfig.options || [])
+  isNotInline = vue.ref(false) // allows cards to break out of inline mode
 
   constructor(settings: CardSettings<T>) {
     super('Card', settings)

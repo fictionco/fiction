@@ -7,7 +7,7 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
   tag: { type: String as vue.PropType<'h1' | 'h2' | 'h3' | 'div' | 'span' | 'p' | 'a'>, default: 'div' },
   path: { type: String, required: true },
-  placeholder: { type: String, default: '123' },
+  placeholder: { type: String, default: 'Placeholder' },
 })
 
 const attrs = vue.useAttrs()

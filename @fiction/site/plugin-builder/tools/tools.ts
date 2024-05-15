@@ -6,7 +6,7 @@ import type { Site } from '../../site'
 export const tools = [
   {
     toolId: 'pageMaster',
-    icon: 'i-tabler-edit',
+    icon: 'i-tabler-drag-drop-2',
     title: 'Pages',
     el: vue.defineAsyncComponent(() => import('./PageToolMaster.vue')),
     isPrimary: true,
@@ -55,7 +55,7 @@ export const tools = [
   {
     toolId: 'global',
     title: 'Site Settings',
-    icon: 'i-tabler-settings',
+    icon: 'i-tabler-browser',
     isPrimary: true,
     widthClasses: 'w-[500px]',
     el: vue.defineAsyncComponent(() => import('./ToolPageGlobal.vue')),
@@ -63,7 +63,7 @@ export const tools = [
   {
     toolId: 'publish',
     title: 'Domain',
-    icon: 'i-tabler-world',
+    icon: 'i-tabler-world-upload',
     isPrimary: true,
     widthClasses: 'w-[600px]',
     el: vue.defineAsyncComponent(() => import('./ToolPagePublish.vue')),
