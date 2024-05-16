@@ -11,6 +11,7 @@ import type { UserConfig } from '.'
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
   animate: { type: Boolean, default: false },
+  showDismiss: { type: Boolean, default: false },
 })
 
 const emit = defineEmits<{
@@ -45,8 +46,8 @@ const uc = vue.computed(() => {
       </ElButton>
     </div>
 
-    <div class=" text-xs font-sans antialiased font-medium text-center">
-      <a href="#" class="text-theme-300 dark:text-theme-500 hover:opacity-80 cursor-pointer select-none" @click.prevent="emit('update:vis', false)">{{ uc.dismissText }} &rarr;</a>
+    <div v-if="showDismiss" class=" text-xs font-sans antialiased font-medium text-center">
+      <a href="#" class="text-theme-300 dark:text-theme-400 hover:opacity-80 cursor-pointer select-none" @click.prevent="emit('update:vis', false)">{{ uc.dismissText }} &rarr;</a>
     </div>
   </div>
 </template>

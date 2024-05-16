@@ -60,8 +60,8 @@ export default {
       <div class="z-[10000] text-theme-800 dark:text-theme-0 fixed left-0 top-0 flex h-full w-full items-center justify-center bg-theme-0 dark:bg-theme-900">
         <div class="fixed inset-0 z-10 overflow-y-auto">
           <div class="flex min-h-full flex-col items-center justify-center p-4 text-center sm:items-center sm:p-0">
-            <div class="relative w-full overflow-hidden rounded-lg px-4 md:px-8 py-10 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-12">
-              <EmailForm :animate="true" :card="card" v-bind="attrs" @update:vis="setHide($event)" />
+            <div class="relative w-full overflow-hidden rounded-lg px-4 md:px-8 py-10 text-left transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-12">
+              <EmailForm :animate="true" :card="card" v-bind="attrs" :show-dismiss="true" @update:vis="setHide($event)" />
             </div>
           </div>
         </div>
@@ -69,7 +69,7 @@ export default {
     </teleport>
     <EffectScrollModal v-if="uc.presentationMode === 'onScroll' && showCard">
       <div class="px-4 md:px-8 py-10">
-        <EmailForm :card="card" v-bind="attrs" @update:vis="setHide($event)" />
+        <EmailForm :card="card" v-bind="attrs" :show-dismiss="true" @update:vis="setHide($event)" />
       </div>
     </EffectScrollModal>
   </template>

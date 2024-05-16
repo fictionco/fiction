@@ -1,6 +1,7 @@
 import { objectId, toSnakeCaseKeys } from '../utils'
 import { FictionDbCol, FictionDbTable } from '../plugin-db'
 import { standardTable } from '../tbl'
+import type { MediaDisplayObject } from '../types'
 import type { GeoData } from '../utils-analytics/geo'
 import type { MemberAccess, OnboardStoredSettings, OrganizationConfig, OrganizationCustomerData, Plan, PushSubscriptionDetail, UserMeta } from './types'
 
@@ -21,7 +22,7 @@ export const userColumns = [
     create: ({ schema, column }) => schema.string(column.pgKey).unique().index(),
     default: () => '' as string,
     isSetting: true,
-    prepare: ({ value }) => (value).replaceAll(/[^\dA-Za-z]+/g, '').toLowerCase(),
+    prepare: ({ value }) => (value).replaceAll(/[^\dA-Z]+/gi, '').toLowerCase(),
   }),
   new FictionDbCol({
     key: 'googleId',
@@ -132,8 +133,7 @@ export const userColumns = [
   }),
   new FictionDbCol({
     key: 'emailVerified',
-    create: ({ schema, column }) =>
-      schema.boolean(column.pgKey).notNullable().defaultTo(false),
+    create: ({ schema, column }) => schema.boolean(column.pgKey).notNullable().defaultTo(false),
     default: () => false as boolean,
   }),
   new FictionDbCol({
@@ -151,16 +151,10 @@ export const userColumns = [
     default: () => '' as string,
   }),
   new FictionDbCol({
-    key: 'avatarUrl',
-    create: ({ schema, column }) => schema.string(column.pgKey),
+    key: 'avatar',
+    create: ({ schema, column }) => schema.jsonb(column.pgKey),
     isSetting: true,
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'picture',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    isSetting: true,
-    default: () => '' as string,
+    default: () => ({} as MediaDisplayObject),
   }),
 
   new FictionDbCol({
@@ -171,8 +165,7 @@ export const userColumns = [
   }),
   new FictionDbCol({
     key: 'gender',
-    create: ({ schema, column }) =>
-      schema.enum(column.pgKey, ['male', 'female', 'other']),
+    create: ({ schema, column }) => schema.enum(column.pgKey, ['male', 'female', 'other']),
     isSetting: true,
     default: () => '',
   }),
@@ -203,11 +196,9 @@ export const userColumns = [
     isSetting: true,
     prepare: ({ value }) => JSON.stringify(toSnakeCaseKeys(value)),
   }),
-
   new FictionDbCol({
     key: 'invitedById',
-    create: ({ schema, column }) =>
-      schema.string(column.pgKey).references(`fiction_user.user_id`),
+    create: ({ schema, column }) => schema.string(column.pgKey).references(`fiction_user.user_id`),
     isSetting: true,
     default: () => '' as string,
   }),
@@ -220,14 +211,12 @@ export const userColumns = [
   new FictionDbCol({
     key: 'lastSeenAt',
     isSetting: true,
-    create: ({ schema, column, db }) =>
-      schema.dateTime(column.pgKey).defaultTo(db.fn.now()),
+    create: ({ schema, column, db }) => schema.dateTime(column.pgKey).defaultTo(db.fn.now()),
     default: () => '' as string,
   }),
   new FictionDbCol({
     key: 'isSuperAdmin',
-    create: ({ schema, column }) =>
-      schema.boolean(column.pgKey).defaultTo(false),
+    create: ({ schema, column }) => schema.boolean(column.pgKey).defaultTo(false),
     default: () => false,
   }),
   new FictionDbCol({
@@ -272,8 +261,7 @@ export const orgColumns = [
     create: ({ schema, column }) => schema.string(column.pgKey).unique(),
     default: () => '' as string,
     isSetting: true,
-    prepare: ({ value }) =>
-      (value).replaceAll(/[^\dA-Za-z]+/g, '').toLowerCase(),
+    prepare: ({ value }) => (value).replaceAll(/[^\dA-Z]+/gi, '').toLowerCase(),
   }),
   new FictionDbCol({
     key: 'orgName',
@@ -289,64 +277,29 @@ export const orgColumns = [
   }),
   new FictionDbCol({
     key: 'orgStatus',
-    create: ({ schema, column }) =>
-      schema.string(column.pgKey).notNullable().defaultTo('active'),
+    create: ({ schema, column }) => schema.string(column.pgKey).notNullable().defaultTo('active'),
     default: () => 'active' as 'active' | 'inactive',
   }),
-  new FictionDbCol({
-    key: 'orgPlan',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => ({} as Plan),
-  }),
+
   new FictionDbCol({
     key: 'ownerId',
     create: ({ schema, column }) => schema.string(column.pgKey).references(`fiction_user.user_id`).onUpdate('CASCADE'),
     default: () => '' as string,
   }),
   new FictionDbCol({
-    key: 'avatarUrl',
-    create: ({ schema, column }) => schema.string(column.pgKey),
+    key: 'avatar',
+    create: ({ schema, column }) => schema.jsonb(column.pgKey),
     isSetting: true,
-    default: () => '' as string,
+    default: () => ({} as MediaDisplayObject),
   }),
-  new FictionDbCol({
-    key: 'customerId',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'customer',
-    create: ({ schema, column }) => schema.jsonb(column.pgKey),
-    default: () => ({} as OrganizationCustomerData),
-  }),
-  new FictionDbCol({
-    key: 'customerAuthorized',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as 'authorized' | 'invalid' | 'unknown',
-  }),
-  new FictionDbCol({
-    key: 'customerIdTest',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'customerTest',
-    create: ({ schema, column }) => schema.jsonb(column.pgKey),
-    default: () => ({} as OrganizationCustomerData),
-  }),
+
   new FictionDbCol({
     key: 'lastSeenAt',
     isSetting: true,
-    create: ({ schema, column, db }) =>
-      schema.dateTime(column.pgKey).defaultTo(db.fn.now()),
+    create: ({ schema, column, db }) => schema.dateTime(column.pgKey).defaultTo(db.fn.now()),
     default: () => '' as string,
   }),
-  new FictionDbCol({
-    key: 'specialPlan',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    isAdmin: true,
-    default: () => '' as 'vip' | 'npo',
-  }),
+
   new FictionDbCol({
     key: 'apiSecret',
     create: ({ schema, column }) => schema.string(column.pgKey),
@@ -358,12 +311,6 @@ export const orgColumns = [
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'dashboards',
-    create: ({ schema, column }) => schema.jsonb(column.pgKey),
-    isPrivate: true,
-    default: () => ({} as Record<string, unknown>),
   }),
   new FictionDbCol({
     key: 'config',
@@ -395,6 +342,46 @@ export const orgColumns = [
     prepare: ({ value }) => JSON.stringify(toSnakeCaseKeys(value)),
     default: () => ({} as Partial<Record<string, { extensionId: string, isActive: boolean }>>),
   }),
+
+  /**
+   * Billing Stuff / Move to Plugin?
+   */
+  new FictionDbCol({
+    key: 'customerId',
+    create: ({ schema, column }) => schema.string(column.pgKey),
+    default: () => '' as string,
+  }),
+  new FictionDbCol({
+    key: 'customer',
+    create: ({ schema, column }) => schema.jsonb(column.pgKey),
+    default: () => ({} as OrganizationCustomerData),
+  }),
+  new FictionDbCol({
+    key: 'customerAuthorized',
+    create: ({ schema, column }) => schema.string(column.pgKey),
+    default: () => '' as 'authorized' | 'invalid' | 'unknown',
+  }),
+  new FictionDbCol({
+    key: 'customerIdTest',
+    create: ({ schema, column }) => schema.string(column.pgKey),
+    default: () => '' as string,
+  }),
+  new FictionDbCol({
+    key: 'customerTest',
+    create: ({ schema, column }) => schema.jsonb(column.pgKey),
+    default: () => ({} as OrganizationCustomerData),
+  }),
+  new FictionDbCol({
+    key: 'orgPlan',
+    create: ({ schema, column }) => schema.string(column.pgKey),
+    default: () => ({} as Plan),
+  }),
+  new FictionDbCol({
+    key: 'specialPlan',
+    create: ({ schema, column }) => schema.string(column.pgKey),
+    isAdmin: true,
+    default: () => '' as 'vip' | 'npo',
+  }),
 ] as const
 
 export const membersColumns = [
@@ -406,13 +393,7 @@ export const membersColumns = [
   }),
   new FictionDbCol({
     key: 'orgId',
-    create: ({ schema, column }) => {
-      schema
-        .string(column.pgKey)
-        .references(`fiction_org.org_id`)
-        .onUpdate('CASCADE')
-        .index()
-    },
+    create: ({ schema, column }) => schema.string(column.pgKey).references(`fiction_org.org_id`).onUpdate('CASCADE').index(),
     default: () => objectId(),
   }),
   new FictionDbCol({
@@ -427,11 +408,7 @@ export const membersColumns = [
   }),
   new FictionDbCol({
     key: 'memberAccess',
-    create: ({ schema, column }) =>
-      schema
-        .enum(column.pgKey, ['profile', 'observer', 'editor', 'admin', 'owner'])
-        .notNullable()
-        .defaultTo('observer'),
+    create: ({ schema, column }) => schema.enum(column.pgKey, ['profile', 'observer', 'editor', 'admin', 'owner']).notNullable().defaultTo('observer'),
     default: () => '' as MemberAccess,
   }),
   new FictionDbCol({

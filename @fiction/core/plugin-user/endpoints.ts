@@ -85,11 +85,11 @@ export abstract class UserQuery extends Query<UserQuerySettings> {
       throw new Error('no fictionEmail')
     const { code, email } = args
     const nm = this.fictionEnv.meta.app?.name
-    await this.fictionEmail.sendEmail({
+    await this.fictionEmail.sendTransactional({
       subject: `${nm}: ${code} is your verification code`,
       text: `Hi there!\n\n This email is to verify your account using a one-time code.\n\n Your code is: **${code}**`,
       to: email,
-    })
+    }, { server: true })
   }
 
   /**

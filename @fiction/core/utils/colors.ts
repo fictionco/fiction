@@ -456,7 +456,7 @@ export function hexToRgb(hex: string) {
 }
 
 export function tailwindVarColorScheme(args: {
-  variable: string
+  variable?: string
   color?: ColorScheme
   scheme?: ColorRecord
 }): Record<ColorScale | 'DEFAULT', string> {
@@ -467,7 +467,8 @@ export function tailwindVarColorScheme(args: {
 
   const entries = Object.entries(scheme || {}).map(([key, value]) => {
     const defaultValue = value.includes('#') ? hexToRgb(value) : value
-    return [Number.parseInt(key), `rgb(var(--${variable}-${key}, ${defaultValue}) / <alpha-value>)`]
+    const clr = variable ? `var(--${variable}-${key}, ${defaultValue})` : defaultValue
+    return [Number.parseInt(key), `rgb(${clr} / <alpha-value>)`]
   })
 
   const out = Object.fromEntries(entries) as Record<ColorScale | 'DEFAULT', string>
