@@ -22,7 +22,7 @@ const cwd = safeDirname(import.meta.url, '..')
 
 const meta = { version, app: {
   name: 'Fiction',
-  email: 'hello@fiction.com',
+  email: 'admin@fiction.com',
   url: `https://www.fiction.com`,
   domain: `fiction.com`,
 } }
@@ -49,7 +49,7 @@ const fictionRouter = new FictionRouter({
   baseUrl: fictionEnv.meta.app?.url,
   routes: (fictionRouter) => {
     return [
-      new AppRoute({ name: 'email', path: '/test-email', component: (): Promise<any> => import('@fiction/core/plugin-email/EmailPreview.vue') }),
+      new AppRoute({ name: 'email', path: '/test-email', component: (): Promise<any> => import('@fiction/core/plugin-email/preview/EmailPreview.vue') }),
       new AppRoute({ name: 'themeMinimal', path: '/theme-minimal/:viewId?/:itemId?', component: FSite, props: { siteRouter: fictionRouter, themeId: 'minimal' }, noSitemap: true }),
       new AppRoute({ name: 'testEditor', path: '/test-editor', component: (): Promise<any> => import('@fiction/plugin-editor/test/TestEditor.vue'), noSitemap: true }),
       new AppRoute({ name: 'testInputs', path: '/inputs', component: (): Promise<any> => import('@fiction/ui/inputs/test/TestInputsAll.vue'), noSitemap: true }),
@@ -224,8 +224,10 @@ export type ServiceList = typeof service
 const fictionExtend = new FictionExtend({ ...service, extensionIndex: getExtensionIndex(service) })
 
 async function initializeBackingServices() {
-  await fictionDb.init()
-  fictionEmail.init()
+  await Promise.all([
+    fictionDb.init(),
+    fictionEmail.init(),
+  ])
 }
 
 export function setup(): ServiceConfig {

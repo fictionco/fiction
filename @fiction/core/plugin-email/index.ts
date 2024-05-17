@@ -1,9 +1,12 @@
 import type { FictionEnv } from '../plugin-env'
 import { EnvVar, vars } from '../plugin-env'
 import { FictionPlugin, type FictionPluginSettings } from '../plugin'
-import { safeDirname } from '../utils'
-
+import { isTest, safeDirname, vue } from '../utils'
+import type { EndpointResponse } from '../types'
+import type EmailStandard from './templates/EmailStandard.vue'
 import { QueryTransactionalEmail } from './endpoint'
+
+export type TransactionalEmailConfig = InstanceType<typeof EmailStandard>['$props'] & { bodyHtml?: string }
 
 const verify: EnvVar<string>['verify'] = ({ fictionEnv, value }) => {
   return !(!value && fictionEnv.isProd.value && !fictionEnv.isApp.value)
@@ -24,6 +27,7 @@ type FictionEmailSettings = {
 } & FictionPluginSettings
 
 export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
+  isTest = isTest()
   queries = {
     TransactionEmail: new QueryTransactionalEmail({ fictionEmail: this, ...this.settings }),
   }
@@ -38,7 +42,7 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
       this.queries.TransactionEmail.getClient()
   }
 
-  async sendTransactional() {
-    return {}
+  async sendTransactional(fields: TransactionalEmailConfig) {
+    return this.queries.TransactionEmail.serve({ _action: 'send', fields }, { server: true })
   }
 }

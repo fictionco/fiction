@@ -93,7 +93,7 @@ export class QuerySeekInviteFromUser extends TeamQuery {
 
     const { fullName } = user
 
-    const text = `Hi ${fullName}!\n\n${
+    const bodyMarkdown = `Hi ${fullName}!\n\n${
       requestingName || 'A user'
     } (${requestingEmail}) has requested access to one of your organizations.`
 
@@ -104,12 +104,14 @@ export class QuerySeekInviteFromUser extends TeamQuery {
 
     const path = this.settings.fictionRouter?.rawPath('teamInvite')
 
-    await this.settings.fictionEmail.sendEmail({
-      subject: `${requestingName || requestingEmail}: Request for Access`,
-      text,
-      linkText: 'Login and Invite',
-      linkUrl: `${appUrl}${path}`,
+    await this.settings.fictionEmail.sendTransactional({
       to: email,
+      subject: `${requestingName || requestingEmail}: Request for Access`,
+      bodyMarkdown,
+      actions: [{
+        name: 'Login and Invite',
+        href: `${appUrl}${path}`,
+      }],
     })
     return {
       status: 'success',
@@ -200,18 +202,24 @@ export class QueryTeamInvite extends TeamQuery {
         meta,
       )
 
-      const text = `Hello!\n\nGood news. ${bearer?.fullName || 'A user'} (${
+      const bodyMarkdown = `Hello!\n\nGood news. ${bearer?.fullName || 'A user'} (${
         bearer?.email || 'unknown'
       }) has added you as an ${memberAccess} to the "${
         org.orgName
       }" organization.\n\n${message}`
 
-      await this.settings.fictionEmail?.sendEmail({
-        subject: `${org.orgName}: You've been invited!`,
-        text,
-        linkText,
-        linkUrl,
+      await this.settings.fictionEmail?.sendTransactional({
         to: email,
+        subject: `${org.orgName}: You've been invited!`,
+        bodyMarkdown,
+        actions: [
+          {
+            name: linkText,
+            href: linkUrl,
+            btn: 'primary',
+          },
+        ],
+
       })
     })
 

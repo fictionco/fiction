@@ -87,7 +87,7 @@ export const colorList = {
     600: '#394151',
     700: '#1e2026',
     800: '#131519',
-    900: '#0e0f11', // Adjusted to ensure a smooth transition to the darker end
+    900: '#0e0f11',
     950: '#0A0B0D',
     975: '#08090A',
     1000: '#000000',

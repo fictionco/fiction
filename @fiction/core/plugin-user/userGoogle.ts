@@ -91,7 +91,7 @@ export class QueryUserGoogleAuth extends Query<GoogleQuerySettings> {
               fullName: payload?.name,
               firstName: payload?.given_name,
               lastName: payload?.family_name,
-              picture: payload?.picture,
+              avatar: { format: 'url', url: payload?.picture },
             },
           },
           _meta,

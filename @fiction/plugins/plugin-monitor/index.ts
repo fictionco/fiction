@@ -112,7 +112,7 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
           await this.settings.fictionEmail.sendTransactional({
             to: this.monitorEmail,
             subject: `Notify: ${message}`,
-            text: markdownText,
+            bodyMarkdown: markdownText,
           })
         }
       }

@@ -160,35 +160,28 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
       throw new Error(`env var not set: ${key}`)
   })
 
+  // ENV VARS NEEDED
+  const smtpHost = fictionEnv.var('SMTP_HOST')
+  const smtpPassword = fictionEnv.var('SMTP_PASSWORD')
+  const smtpUser = fictionEnv.var('SMTP_USER')
+  const connectionUrl = fictionEnv.var('POSTGRES_URL')
+  const googleClientId = fictionEnv.var('GOOGLE_CLIENT_ID')
+  const googleClientSecret = fictionEnv.var('GOOGLE_CLIENT_SECRET')
+
   const fictionServer = new FictionServer({ port: serverPort, liveUrl: 'https://server.test.com', fictionEnv })
   const fictionRouter = new FictionRouter({ routerId: 'testRouter', fictionEnv, create: true })
-  const fictionDb = new FictionDb({ fictionEnv, fictionServer, connectionUrl: fictionEnv.var('POSTGRES_URL') })
-  const fictionEmail = new FictionEmail({ fictionEnv })
+  const fictionDb = new FictionDb({ fictionEnv, fictionServer, connectionUrl })
+  const fictionEmail = new FictionEmail({ fictionEnv, smtpHost, smtpPassword, smtpUser })
 
   const base = { fictionEnv, fictionRouter, fictionServer, fictionDb, fictionEmail }
 
-  const fictionApp = new FictionApp({
-    ...base,
-    port: appPort,
-    rootComponent,
-    isTest: true,
-  })
+  const fictionApp = new FictionApp({ ...base, port: appPort, rootComponent, isTest: true })
 
-  const fictionUser = new FictionUser({
-    ...base,
-    googleClientId: fictionEnv.var('GOOGLE_CLIENT_ID'),
-    googleClientSecret: fictionEnv.var('GOOGLE_CLIENT_SECRET'),
-    tokenSecret: 'test',
-  })
+  const fictionUser = new FictionUser({ ...base, googleClientId, googleClientSecret, tokenSecret: 'test' })
 
   const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp] })
 
-  const services = {
-    ...base,
-    fictionApp,
-    fictionUser,
-    fictionUi,
-  }
+  const services = { ...base, fictionApp, fictionUser, fictionUi }
 
   return services
 }

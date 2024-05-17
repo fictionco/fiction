@@ -4,8 +4,10 @@ import { marked } from 'marked'
 import type { Component } from 'vue'
 import { gfmHeadingId } from 'marked-gfm-heading-id'
 import removeMarkdownUtility from 'remove-markdown'
-import type { NodeHtmlMarkdownOptions } from 'node-html-markdown'
-import { NodeHtmlMarkdown } from 'node-html-markdown'
+// import type { NodeHtmlMarkdownOptions } from 'node-html-markdown'
+// import { NodeHtmlMarkdown } from 'node-html-markdown'
+
+import TurndownService from 'turndown'
 import { fastHash } from './utils'
 
 export type PostOrPage = {
@@ -53,10 +55,16 @@ export function toHtml(markdown?: string) {
   return (result as string).trim()
 }
 
-export function toMarkdown(html: string, options?: NodeHtmlMarkdownOptions) {
+export function toMarkdown(html: string, options: TurndownService.Options & { keep?: (keyof HTMLElementTagNameMap)[] } = {}) {
   if (!html)
     return ''
-  return NodeHtmlMarkdown.translate(html, options)
+
+  const turndownService = new TurndownService({ headingStyle: 'atx', hr: '---', ...options })
+
+  if (options.keep)
+    turndownService.keep(options.keep)
+
+  return turndownService.turndown(html)
 }
 
 /**

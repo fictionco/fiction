@@ -59,7 +59,7 @@
     "pre-push": "npm run types:ci"
   },
   "dependencies": {
-    "@changesets/cli": "^2.27.1",
+    "@changesets/cli": "^2.27.2",
     "@esbuild-kit/esm-loader": "^2.6.5",
     "@fiction/core": "workspace:*",
     "@fiction/plugin-notify": "workspace:*",
@@ -82,7 +82,7 @@
     "source-map-support": "^0.5.21",
     "textlint": "^14.0.4",
     "ts-node": "^10.9.2",
-    "tsx": "^4.10.2",
+    "tsx": "^4.10.4",
     "typescript": "^5.4.5",
     "vite": "^5.2.11",
     "vitest": "^1.6.0",
@@ -108,12 +108,12 @@
     "playwright": "^1.44.0",
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
-    "sharp": "^0.33.3",
+    "sharp": "^0.33.4",
     "simple-git-hooks": "^2.11.1",
     "tailwindcss": "^3.4.3",
     "tslib": "^2.6.2",
     "vite-plugin-dts": "^3.9.1",
     "vitepress": "^1.1.4",
-    "vue-tsc": "^2.0.18"
+    "vue-tsc": "^2.0.19"
   }
 }

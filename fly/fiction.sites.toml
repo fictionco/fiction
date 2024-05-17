@@ -7,11 +7,15 @@ build-target = "fiction-sites"
 
 [http_service]
 internal_port = 6565
+processes = [ 'app' ]
 force_https = true
 auto_stop_machines = true
 auto_start_machines = true
-min_machines_running = 1
-processes = [ 'app' ]
+min_machines_running = 0
+[http_service.concurrency]
+  type = "requests"
+  soft_limit = 200
+  hard_limit = 250
 
 [[http_service.checks]]
 grace_period = "10s"
