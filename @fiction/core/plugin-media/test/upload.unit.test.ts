@@ -114,7 +114,7 @@ describe('media upload/download tests', async () => {
     expect(r?.data?.url).toContain('.jpg')
     expect(r?.message).toMatchInlineSnapshot('"uploaded successfully"')
     expect(r?.data?.mime).toBe('image/jpeg')
-    expect(r?.data?.size).toMatchInlineSnapshot(`1728`)
+    expect(r?.data?.size).toMatchInlineSnapshot(`123812`)
     expect(r?.data?.userId).toBe(testUtils?.initialized?.user?.userId)
 
     const img = await fetch(url)

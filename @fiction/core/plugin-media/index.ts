@@ -19,8 +19,8 @@ vars.register(() => [
 ])
 
 type FictionMediaSettings = {
-  fictionUser?: FictionUser
-  fictionDb?: FictionDb
+  fictionUser: FictionUser
+  fictionDb: FictionDb
   fictionServer: FictionServer
   fictionAws: FictionAws
   bucket: string
@@ -37,7 +37,6 @@ export interface UploadConfig {
 
 export class FictionMedia extends FictionPlugin<FictionMediaSettings> {
   imageFieldName = 'imageFile'
-  tableName = 'fiction_media'
   bucket = this.settings.bucket
   unsplashAccessKey = this.settings.unsplashAccessKey
   cdnUrl = this.settings.cdnUrl

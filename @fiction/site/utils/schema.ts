@@ -7,6 +7,7 @@ type RefineOptionsResult = {
   options: InputOption[]
   unusedSchema?: Record<string, string>
   hiddenOptions: string[]
+  dotRecord?: Record<string, string>
 }
 export function refineOptions<T extends z.AnyZodObject>(args: {
   options: InputOption[]
@@ -50,21 +51,23 @@ export function refineOptions<T extends z.AnyZodObject>(args: {
   const refineOptionRecursive = (option: InputOption, basePath = '', parent?: InputOption) => {
     const isGroup = option.input.value === 'group'
     const key = option.key.value
-
     // Check for a refinement based on the option's key
     const path = basePath ? `${basePath}.${key}` : key
 
-    const optionIsUtility = option.settings.isUtility || parent?.settings.isUtility
+    if (!isGroup) {
 
-    const fieldDescription = checkRecord(path)
+      const optionIsUtility = option.settings.isUtility || parent?.settings.isUtility
 
-    if (!isGroup && !optionIsUtility && !fieldDescription)
-      option.isHidden.value = true
+      const fieldDescription = checkRecord(path)
 
-    option.generation.value = { ...option.generation.value, prompt: fieldDescription || undefined }
+      if (!isGroup && !optionIsUtility && !fieldDescription)
+        option.isHidden.value = true
 
-    // remove empty objects that dont need inputs
-    removeDotKeyParents(key, basePath)
+      option.generation.value = { ...option.generation.value, prompt: fieldDescription || undefined }
+
+      // remove empty objects that dont need inputs
+      removeDotKeyParents(key, basePath)
+    }
 
     // If the option is a group, refine its children
     if (option.options?.value.length > 0) {
@@ -84,7 +87,7 @@ export function refineOptions<T extends z.AnyZodObject>(args: {
     return option
   }
 
-  return { options: options.map(_ => refineOptionRecursive(_)), unusedSchema: dotRecord, hiddenOptions }
+  return { options: options.map(_ => refineOptionRecursive(_)), unusedSchema: dotRecord, dotRecord: zodSchemaToDotPathRecord(schema), hiddenOptions }
 }
 
 export function collectKeysFromOptions(inputOptions: InputOption[] | readonly InputOption[]): string[] {

@@ -143,7 +143,7 @@ describe('site plugin tests', async () => {
         "generation": {
           "prompt": "create content for the "test" card ",
           "totalEstimatedTime": 0,
-          "userInputConfig": {},
+          "userPropConfig": {},
         },
         "is404": false,
         "isHome": false,
@@ -304,7 +304,7 @@ describe('site plugin tests', async () => {
         "generation": {
           "prompt": "create content for the "testAlpha" card on the "test" page",
           "totalEstimatedTime": 0,
-          "userInputConfig": {},
+          "userPropConfig": {},
         },
         "is404": false,
         "isHome": false,
@@ -336,7 +336,7 @@ describe('site plugin tests', async () => {
         "generation": {
           "prompt": "create content for the "testAlpha" card on the "test" page",
           "totalEstimatedTime": 0,
-          "userInputConfig": {},
+          "userPropConfig": {},
         },
         "is404": false,
         "isHome": false,
@@ -391,7 +391,7 @@ describe('site plugin tests', async () => {
         "generation": {
           "prompt": "create content for the "testAlpha" card on the "test" page",
           "totalEstimatedTime": 0,
-          "userInputConfig": {},
+          "userPropConfig": {},
         },
         "is404": false,
         "isHome": false,
@@ -427,7 +427,7 @@ describe('site plugin tests', async () => {
         "generation": {
           "prompt": "create content for the "testAlpha" card on the "test" page",
           "totalEstimatedTime": 0,
-          "userInputConfig": {},
+          "userPropConfig": {},
         },
         "is404": false,
         "isHome": false,
@@ -468,7 +468,7 @@ describe('site plugin tests', async () => {
         "generation": {
           "prompt": "create content for the "testAlpha" card on the "test" page",
           "totalEstimatedTime": 0,
-          "userInputConfig": {},
+          "userPropConfig": {},
         },
         "is404": false,
         "isHome": false,
@@ -520,7 +520,7 @@ describe('site plugin tests', async () => {
         "generation": {
           "prompt": "create content for the "testAlpha" card on the "test" page",
           "totalEstimatedTime": 0,
-          "userInputConfig": {},
+          "userPropConfig": {},
         },
         "is404": false,
         "isHome": false,

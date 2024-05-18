@@ -57,6 +57,21 @@ describe('schema tools', () => {
   it('rectifies options with schema', () => {
     const out = refineOptions({ options, schema })
 
+    expect(out.dotRecord).toMatchInlineSnapshot(`
+      {
+        "groupInput": "string",
+        "media": "object",
+        "media.format": "string",
+        "media.html": "string",
+        "media.url": "string",
+        "sub": "array",
+        "sub.0.author": "object",
+        "sub.0.author.name": "string",
+        "sub.0.author.title": "string",
+        "sub.0.subText": "string",
+        "text": "string",
+      }
+    `)
     expect(out.unusedSchema).toMatchInlineSnapshot(`{}`)
 
     expect(Object.keys(out?.unusedSchema || { f: '', f2: '' }).length).toBe(0)

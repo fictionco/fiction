@@ -71,6 +71,22 @@ describe('verify template settings config', () => {
             "test": "",
           },
         },
+        {
+          "hasDemo": true,
+          "isPublic": false,
+          "templateId": "capture",
+          "unusedSchema": {
+            "dismissText": "string",
+            "heading": "string, Newsletter hook header 5 words or so",
+            "media": "object",
+            "media.format": "string",
+            "media.html": "string",
+            "media.url": "string",
+            "presentationMode": "string",
+            "subHeading": "string, Specific benefits of subscribing",
+            "superHeading": "string, Social proof Metric or KPI for the newsletter, e.g. "22,300+ subscribers"",
+          },
+        },
       ]
     `)
 

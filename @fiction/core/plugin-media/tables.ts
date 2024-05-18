@@ -1,38 +1,27 @@
 import { FictionDbCol, FictionDbTable } from '../plugin-db'
-import type { CreateObjectType } from '../tbl'
+import { type CreateObjectType, standardTable } from '../tbl'
+
+export const t = {
+  ...standardTable,
+  media: 'fiction_media',
+}
 
 export type TableMediaConfig = Partial<CreateObjectType<typeof columns>>
 
 const columns = [
   new FictionDbCol({
     key: 'mediaId',
-    create: ({ schema, column, db }) => {
-      schema
-        .string(column.pgKey)
-        .primary()
-        .defaultTo(db.raw(`object_id('media')`))
-    },
+    create: ({ schema, column, db }) => schema.string(column.pgKey).primary().defaultTo(db.raw(`object_id('img')`)),
     default: () => '' as string,
   }),
   new FictionDbCol({
     key: 'userId',
-    create: ({ schema, column }) => {
-      schema
-        .string(column.pgKey, 40)
-        .references(`fiction_user.user_id`)
-        .onUpdate('CASCADE')
-    },
+    create: ({ schema, column }) => schema.string(column.pgKey, 40).references(`fiction_user.user_id`).onUpdate('CASCADE'),
     default: () => '' as string,
   }),
   new FictionDbCol({
     key: 'orgId',
-    create: ({ schema, column }) => {
-      schema
-        .string(column.pgKey, 50)
-        .references(`fiction_org.org_id`)
-        .onUpdate('CASCADE')
-        .notNullable()
-    },
+    create: ({ schema, column }) => schema.string(column.pgKey, 50).references(`fiction_org.org_id`).onUpdate('CASCADE'),
     default: () => '' as string,
   }),
   new FictionDbCol({
@@ -55,6 +44,12 @@ const columns = [
   }),
   new FictionDbCol({
     key: 'originUrl',
+    create: ({ schema, column }) => schema.string(column.pgKey),
+    default: () => '' as string,
+    isSetting: true,
+  }),
+  new FictionDbCol({
+    key: 'rasterUrl',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as string,
     isSetting: true,

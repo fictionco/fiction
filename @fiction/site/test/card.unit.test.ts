@@ -37,12 +37,16 @@ describe('card', async () => {
     expect(newCard?.settings.title).toBe('Hero')
   })
 
-  it('card computes total estimated time correctly', () => {
+  it('card computes total estimated time correctly', async () => {
+    generation.userPropConfig.value = { heading: { isEnabled: true }, subHeading: { isEnabled: true } }
+
+    await waitFor(50)
+
     // Assuming options have been set up to produce a known total time
     const totalEstimatedTime = generation.totalEstimatedTime.value
-    expect(totalEstimatedTime).toBeGreaterThan(20)
+    expect(totalEstimatedTime).toBe(8)
     // Update the expected time based on your options setup
-    expect(totalEstimatedTime).toMatchInlineSnapshot(`24`)
+    expect(totalEstimatedTime).toMatchInlineSnapshot(`8`)
   })
 
   it('card generates correct prompt for content creation', () => {
@@ -63,10 +67,12 @@ describe('card', async () => {
   })
 
   it('should compute total estimated time correctly', () => {
+    card.genUtil.userPropConfig.value = { heading: { isEnabled: true }, subHeading: { isEnabled: true } }
+
     const totalEstimatedTime = card.genUtil.totalEstimatedTime.value
 
-    expect(totalEstimatedTime).toBeGreaterThan(0)
-    expect(totalEstimatedTime).toMatchInlineSnapshot(`24`)
+    expect(totalEstimatedTime).toMatchInlineSnapshot(`8`)
+    expect(totalEstimatedTime).toBe(8)
   })
 
   it('should have correct generations settings', () => {
@@ -86,52 +92,48 @@ describe('card', async () => {
     expect(inputConfig).toMatchInlineSnapshot(`
       {
         "actions": {
-          "cumulativeTime": 24000,
+          "cumulativeTime": 8000,
           "estimatedMs": 4000,
-          "isDisabled": undefined,
           "key": "actions",
           "label": "Actions",
-          "prompt": undefined,
+          "prompt": "List of link buttons",
         },
         "heading": {
           "cumulativeTime": 4000,
           "estimatedMs": 4000,
-          "isDisabled": undefined,
+          "isEnabled": true,
           "key": "heading",
           "label": "Heading",
-          "prompt": undefined,
+          "prompt": "Primary hero headline, 3 to 13 words",
         },
         "layout": {
-          "cumulativeTime": 16000,
+          "cumulativeTime": 8000,
           "estimatedMs": 4000,
-          "isDisabled": undefined,
           "key": "layout",
           "label": "Layout",
-          "prompt": undefined,
+          "prompt": "Alignment style of text and images",
         },
         "splash": {
-          "cumulativeTime": 20000,
-          "estimatedMs": 4000,
-          "isDisabled": undefined,
+          "cumulativeTime": 8000,
+          "estimatedMs": 40000,
           "key": "splash",
-          "label": "Splash Image",
-          "prompt": undefined,
+          "label": "Splash",
+          "prompt": "Splash picture for hero",
         },
         "subHeading": {
           "cumulativeTime": 8000,
           "estimatedMs": 4000,
-          "isDisabled": undefined,
+          "isEnabled": true,
           "key": "subHeading",
           "label": "Sub Heading",
-          "prompt": undefined,
+          "prompt": "Secondary hero headline, 10 to 30 words",
         },
         "superHeading": {
-          "cumulativeTime": 12000,
+          "cumulativeTime": 8000,
           "estimatedMs": 4000,
-          "isDisabled": undefined,
           "key": "superHeading",
           "label": "Super Heading",
-          "prompt": undefined,
+          "prompt": "Shorter badge above headline, 2 to 5 words",
         },
       }
     `)
@@ -154,6 +156,7 @@ describe('cardTemplate', async () => {
         "area",
         "map",
         "magazine",
+        "capture",
         "testWrap",
       ]
     `)

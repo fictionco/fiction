@@ -50,6 +50,6 @@ describe('renders app code correctly', () => {
     expect(appNameText).toMatchInlineSnapshot(`"Fiction"`)
 
     const appEmailText = await page().locator(`#app-email`).textContent()
-    expect(appEmailText).toMatchInlineSnapshot('"hello@fiction.com"')
+    expect(appEmailText).toMatchInlineSnapshot(`"admin@fiction.com"`)
   }, 30_000)
 })

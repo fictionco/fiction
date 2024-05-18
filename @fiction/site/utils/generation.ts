@@ -1,3 +1,4 @@
+import { toLabel } from '@fiction/core'
 import type { JsonSchema7ObjectType } from 'zod-to-json-schema'
 
 export type InputOptionGeneration = {
@@ -54,7 +55,7 @@ export function generateJsonPropConfig({ jsonSchema, userPropConfig }: GenerateJ
     const estimatedMs = +meta.time || 4000
     if (userValue.isEnabled)
       cumulativeTime += estimatedMs
-    return [key, { key, label: key, prompt: description, estimatedMs, cumulativeTime, ...userValue }]
+    return [key, { key, label: toLabel(key), prompt: description, estimatedMs, cumulativeTime, ...userValue }]
   }))
 }
 

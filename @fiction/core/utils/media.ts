@@ -1,8 +1,13 @@
 import type { Buffer } from 'node:buffer'
 import path from 'node:path'
 import type sharp from 'sharp'
-
 import fs from 'fs-extra'
+import type { MediaDisplayObject } from '../types'
+
+// export async function relativeMedia(args: { mediaPath: string, storagePath: string }): Promise<MediaDisplayObject> {
+//   const { mediaPath, storagePath } = args
+//   return path.join(storagePath, mediaPath)
+// }
 
 export async function hashFile(fileInput: {
   filePath?: string
@@ -53,34 +58,71 @@ export async function createBlurHash(img: sharp.Sharp, meta: sharp.OutputInfo): 
     return blurhash
 }
 
-type ImageSizeOptions = {
+export type CropSettings = { width: number, height: number, left: number, top: number }
+
+export type ImageSizeOptions = {
   main: { width: number, height: number }
   thumbnail: { width: number, height: number }
+  crop?: CropSettings
 }
 
-export async function createImageVariants(fileSource: Buffer, options: ImageSizeOptions): Promise<{
-  mainImage: sharp.Sharp
-  thumbnailImage: sharp.Sharp
+export type ImageVariantStreams = {
+  mainImage?: sharp.Sharp
+  thumbnailImage?: sharp.Sharp
   mainBuffer: Buffer
-  thumbnailBuffer: Buffer
-  metadata: sharp.Metadata
+  thumbnailBuffer?: Buffer
+  rasterBuffer?: Buffer
+  metadata?: sharp.Metadata
   blurhash?: string
-}> {
+}
+
+export async function createImageVariants(args: { fileSource: Buffer, sizeOptions: ImageSizeOptions, fileMime: string }): Promise<ImageVariantStreams> {
+  const { fileSource, sizeOptions, fileMime } = args
+
+  const isRaster = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'].includes(fileMime)
+  const isSvg = fileMime === 'image/svg+xml'
+  const isImage = isRaster || isSvg
+
+  if (!isImage)
+    return { mainBuffer: fileSource }
+
   const { default: sharp } = await import('sharp')
-  const mainImage = sharp(fileSource).withMetadata().resize(options.main.width, options.main.height, { withoutEnlargement: true, fit: 'inside' })
-  const thumbnailImage = sharp(fileSource).withMetadata().resize(options.thumbnail.width, options.thumbnail.height, { withoutEnlargement: true, fit: 'inside' })
 
-  const [mainBuffer, thumb, metadata] = await Promise.all([
-    mainImage.toBuffer(),
-    thumbnailImage.toBuffer({ resolveWithObject: true }),
-    mainImage.metadata(),
-  ])
+  const out: ImageVariantStreams = { mainBuffer: fileSource }
+  const width = sizeOptions.main.width
+  const height = sizeOptions.main.height
+  const resizeOptions = { withoutEnlargement: true, fit: 'inside', kernel: sharp.kernel.nearest } as const
+  try {
+    if (isSvg) {
+      out.mainImage = sharp(fileSource, { density: 300 }).resize(width, height, { kernel: sharp.kernel.nearest, fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
 
-  const thumbnailBuffer = thumb.data
+      out.rasterBuffer = await out.mainImage.toBuffer()
+    }
+    else {
+      let mainImage = sharp(fileSource).withMetadata()
+      if (sizeOptions.crop)
+        mainImage = mainImage.extract(sizeOptions.crop)
 
-  const blurhash = await createBlurHash(thumbnailImage, thumb.info)
+      out.mainImage = mainImage.resize(width, height, resizeOptions)
+      out.mainBuffer = await mainImage.toBuffer()
+    }
 
-  return { mainImage, thumbnailImage, mainBuffer, thumbnailBuffer, metadata, blurhash }
+    const baseImage = out.mainImage
+    if (baseImage) {
+      out.thumbnailImage = baseImage.clone().resize(sizeOptions.thumbnail.width, sizeOptions.thumbnail.height, resizeOptions).png()
+      const thumb = await out.thumbnailImage.toBuffer({ resolveWithObject: true })
+      out.thumbnailBuffer = thumb.data
+
+      out.blurhash = thumb.info ? await createBlurHash(out.thumbnailImage, thumb.info) : ''
+    }
+
+    out.metadata = await out.mainImage.metadata()
+  }
+  catch (error) {
+    console.error('Error processing image:', error)
+  }
+
+  return out
 }
 
 const mimeTypes: { [extension: string]: string } = {

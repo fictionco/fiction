@@ -87,6 +87,7 @@ describe('user config', () => {
     expect(service.fictionApp.settings.fictionRouter.routes.value?.map(_ => _.name))
       .toMatchInlineSnapshot(`
         [
+          "email",
           "themeMinimal",
           "testEditor",
           "testInputs",

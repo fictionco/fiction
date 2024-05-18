@@ -5,8 +5,10 @@ import { Buffer } from 'node:buffer'
 import fs from 'fs-extra'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import sharp from 'sharp'
+import type { ImageSizeOptions } from '../media'
 import { createBlurHash, createImageVariants, getExtensionFromMimeType, getFileExtensionFromFetchResponse, getMimeType, hashFile } from '../media'
-import { testImgPath } from '../../test-utils'
+import { testImgPath, testSvgPath } from '../../test-utils'
+import { safeDirname } from '../utils'
 
 /**
  * BLURHASH
@@ -18,7 +20,7 @@ describe('createBlurHash', () => {
 
     const blurhash = await createBlurHash(img, imgBuffer.info)
     expect(blurhash).toBeDefined()
-    expect(blurhash).toMatchInlineSnapshot(`"U98qNkog00WBoffQayfQ00Rj~qofRjayoffR"`)
+    expect(blurhash).toMatchInlineSnapshot(`"UHFY$2-;M{?b~qt7WBt7_3-;%MM{%Mj[j[M{"`)
   })
 })
 
@@ -27,19 +29,96 @@ describe('createBlurHash', () => {
  */
 describe('createImageVariants', () => {
   it('should create main and thumbnail image variants', async () => {
+    const fileMime = getMimeType(testImgPath)
     const fileSource = fs.readFileSync(testImgPath)
-    const options = {
+    const sizeOptions = {
       main: { width: 100, height: 100 },
       thumbnail: { width: 50, height: 50 },
     }
 
-    const { mainBuffer, thumbnailBuffer, metadata, blurhash } = await createImageVariants(fileSource, options)
+    const { mainBuffer, thumbnailBuffer, metadata, blurhash } = await createImageVariants({ fileSource, sizeOptions, fileMime })
 
     expect(mainBuffer).toBeInstanceOf(Buffer)
     expect(thumbnailBuffer).toBeInstanceOf(Buffer)
     expect(metadata).toBeDefined()
     expect(blurhash).toBeDefined()
-    // You can add more assertions to check the dimensions of the images, etc.
+    // Additional assertions
+    const mainImage = sharp(mainBuffer)
+    const mainMetadata = await mainImage.metadata()
+    expect(mainMetadata.width).toBe(sizeOptions.main.width)
+    expect(mainMetadata.height).toBe(sizeOptions.main.height)
+
+    const thumbnailImage = sharp(thumbnailBuffer)
+    const thumbnailMetadata = await thumbnailImage.metadata()
+    expect(thumbnailMetadata.width).toBe(sizeOptions.thumbnail.width)
+    expect(thumbnailMetadata.height).toBe(sizeOptions.thumbnail.height)
+
+    if (thumbnailBuffer)
+      fs.writeFileSync(`${safeDirname(import.meta.url)}/img/thumbnail-test.png`, thumbnailBuffer)
+  })
+
+  it('should process SVG images correctly', async () => {
+    const fileMime = getMimeType(testSvgPath)
+    const fileSource = fs.readFileSync(testSvgPath)
+    const sizeOptions = {
+      main: { width: 100, height: 100 },
+      thumbnail: { width: 50, height: 50 },
+    }
+
+    const { mainBuffer, thumbnailBuffer, metadata, blurhash, rasterBuffer } = await createImageVariants({ fileSource, sizeOptions, fileMime })
+
+    expect(mainBuffer).toBeInstanceOf(Buffer)
+    expect(thumbnailBuffer).toBeInstanceOf(Buffer)
+    expect(blurhash).toBeDefined()
+
+    expect(metadata).toMatchInlineSnapshot(`
+      {
+        "channels": 4,
+        "density": 300,
+        "depth": "uchar",
+        "format": "svg",
+        "hasAlpha": true,
+        "hasProfile": false,
+        "height": 604,
+        "isProgressive": false,
+        "size": 742,
+        "space": "srgb",
+        "width": 588,
+      }
+    `)
+
+    const thumbnailImage = sharp(thumbnailBuffer)
+    const thumbnailMetadata = await thumbnailImage.metadata()
+    expect(thumbnailMetadata.width).toBeGreaterThanOrEqual(sizeOptions.thumbnail.width - 5)
+    expect(thumbnailMetadata.height).toBe(sizeOptions.thumbnail.height)
+
+    if (rasterBuffer)
+      fs.writeFileSync(`${safeDirname(import.meta.url)}/img/svg-to-png-test.png`, rasterBuffer)
+  })
+
+  it('should crop the image correctly', async () => {
+    const fileMime = getMimeType(testImgPath)
+    const fileSource = fs.readFileSync(testImgPath)
+    const sizeOptions: ImageSizeOptions = {
+      main: { width: 200, height: 200 },
+      thumbnail: { width: 50, height: 50 },
+      crop: { width: 300, height: 500, left: 10, top: 10 },
+    }
+
+    const { mainBuffer, thumbnailBuffer, metadata, blurhash } = await createImageVariants({ fileSource, sizeOptions, fileMime })
+
+    expect(mainBuffer).toBeInstanceOf(Buffer)
+    expect(thumbnailBuffer).toBeInstanceOf(Buffer)
+    expect(metadata).toBeDefined()
+    expect(blurhash).toBeDefined()
+
+    const mainImage = sharp(mainBuffer)
+    const mainMetadata = await mainImage.metadata()
+    expect(mainMetadata.width).toBe(120)
+    expect(mainMetadata.height).toBe(sizeOptions.main?.height)
+
+    if (thumbnailBuffer)
+      fs.writeFileSync(`${safeDirname(import.meta.url)}/img/cropped-thumbnail-test.png`, thumbnailBuffer)
   })
 })
 

@@ -33,7 +33,7 @@ export const templates = [
       subHeading: 'Specific benefits of subscribing',
       dismissText: 'No thanks',
     },
-    isPublic: true,
+    isPublic: false,
     options: [
       new InputOption({ key: 'scheme.reverse', label: 'Flip Color Scheme', description: 'Great for contrast. This will flip the mode to the opposite of the mode for the website (from dark to light or vice versa).', input: 'InputToggle' }),
 

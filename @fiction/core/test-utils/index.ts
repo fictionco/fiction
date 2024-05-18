@@ -6,7 +6,9 @@ export * from './init'
 
 const toolUtilsRoot = safeDirname(import.meta.url)
 // test special characters in path
-const testImgPath = path.join(toolUtilsRoot, 'test (#).jpg')
+const testImgPath = path.join(toolUtilsRoot, './img/test (#).jpg')
+const testSvgPath = path.join(toolUtilsRoot, './img/favicon.svg')
+const testPngPath = path.join(toolUtilsRoot, './img/favicon.png')
 const testEnvFile = path.join(toolUtilsRoot, '.env.test')
 
-export { toolUtilsRoot, testImgPath, testEnvFile }
+export { toolUtilsRoot, testImgPath, testSvgPath, testPngPath, testEnvFile }

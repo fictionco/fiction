@@ -103,7 +103,7 @@ describe('generation utils', async () => {
     expect(result).toEqual({
       heading: {
         key: 'heading',
-        label: 'heading',
+        label: 'Heading',
         prompt: '',
         estimatedMs: 4000,
         cumulativeTime: 4000,
@@ -162,7 +162,7 @@ describe('generation utils', async () => {
     expect(result).toEqual({
       heading: {
         key: 'heading',
-        label: 'heading',
+        label: 'Heading',
         prompt: 'Primary hero headline, 3 to 13 words',
         estimatedMs: 4000,
         cumulativeTime: 4000,
@@ -170,7 +170,7 @@ describe('generation utils', async () => {
       },
       subHeading: {
         key: 'subHeading',
-        label: 'subHeading',
+        label: 'Sub Heading',
         prompt: 'Secondary hero headline, 10 to 30 words',
         estimatedMs: 4000,
         cumulativeTime: 8000,
