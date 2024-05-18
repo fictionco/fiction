@@ -9,6 +9,12 @@ export * from './plugin-release'
 
 type FictionBuildSettings = FictionPluginSettings
 
+type ReplaceConfig = {
+  id: string
+  resolvedId: string
+  namedExports: Record<string, string>
+}
+
 export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
   esLexer?: typeof esLexer
   cjsLexer?: typeof cjsLexer
@@ -34,9 +40,11 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
     id?: string
     src: string
     type: 'comment' | 'map'
-    additional: string[]
+    replaceConfig?: ReplaceConfig
   }): string => {
-    const { src, id = '?', additional } = opts
+    const { src, id = '?', replaceConfig } = opts
+
+    const namedExports = replaceConfig?.namedExports || {}
 
     if (!this.esLexer || !this.cjsLexer)
       throw new Error('module parsers missing')
@@ -57,21 +65,23 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
       this.log.error(`error parsing server-only module ${id}`, { error })
     }
 
-    const modExports = fileExports.filter(_ => _ !== 'default')
+    const modExports = fileExports.filter(_ => _ !== 'default' && !namedExports[_])
 
     const mock = `{}`
 
-    const namedExports
-      = modExports.length > 0
-        ? modExports.map(_ => `export const ${_} = ${mock}`)
-        : []
+    const moduleNamedExports = modExports.map(_ => `export const ${_} = ${mock}`)
 
-    namedExports.push(...additional)
+    // construct exports from object
+    const additional = Object.entries(namedExports).map(([imp, importValue]) => {
+      return `export const ${imp} = ${importValue}`
+    })
+
+    moduleNamedExports.push(...additional)
 
     const newSource = [
       `// replaced file: ${id}`,
       `export default ${mock}`,
-      `${namedExports.join(`\n`)}`,
+      `${moduleNamedExports.join(`\n`)}`,
     ].join(`\n`)
 
     return newSource
@@ -86,19 +96,10 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
   getCustomBuildPlugins = async (): Promise<vite.Plugin[]> => {
     await this.loadingPromise
 
-    const fullServerModules = Object.entries(this.fictionEnv?.serverOnlyImports || {}).map(([id, value]) => {
-      // construct exports from object
-      const additional = typeof value === 'object'
-        ? Object.entries(value).map(([imp, importValue]) => {
-          return `export const ${imp} = ${importValue}`
-        })
-        : []
+    const fullServerModules: ReplaceConfig[] = Object.entries(this.fictionEnv?.serverOnlyImports || {}).map(([id, value]) => {
+      const namedExports = typeof value === 'boolean' ? {} : value || {}
 
-      return {
-        id,
-        resolvedId: `\0${id}`,
-        additional,
-      }
+      return { id, resolvedId: `\0${id}`, namedExports }
     })
 
     if (!this.esLexer || !this.cjsLexer)
@@ -133,7 +134,7 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
               src,
               id,
               type: 'map',
-              additional: replaceConfig?.additional || [],
+              replaceConfig,
             })
             return { code, map: null }
           }

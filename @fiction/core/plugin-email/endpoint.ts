@@ -1,6 +1,7 @@
 import type { Transporter } from 'nodemailer'
 import nodeMailer from 'nodemailer'
 import nodeMailerHtmlToText from 'nodemailer-html-to-text'
+import type { DefineConfigFunctions } from '@vue-email/compiler/index'
 import type { FictionPluginSettings } from '../plugin'
 import { Query } from '../query'
 import { safeDirname } from '../utils'
@@ -20,7 +21,7 @@ export abstract class EmailQuery extends Query<EmailQuerySettings> {
   smtpPort = this.settings.fictionEmail.settings.smtpPort || 587
   constructor(settings: EmailQuerySettings) {
     super(settings)
-    this.settings.fictionEnv.serverOnlyImports['@vue-email/compiler'] = { config: '() => {}' }
+    this.settings.fictionEnv.serverOnlyImports['@vue-email/compiler'] = true
   }
 
   getClient() {
@@ -85,16 +86,20 @@ export type EmailResponse = {
 } & TransactionalEmailConfig
 
 export class QueryTransactionalEmail extends EmailQuery {
+  renderer?: DefineConfigFunctions
   async getRenderer() {
+    if (this.renderer)
+      return this.renderer
+
     const { config } = await import('@vue-email/compiler')
-    const vueEmail = config(`${safeDirname(import.meta.url)}/templates`, {
+    this.renderer = config(`${safeDirname(import.meta.url)}/templates`, {
       verbose: false,
       options: {
         baseUrl: 'https://www.whatever.com/',
       },
     })
 
-    return vueEmail
+    return this.renderer
   }
 
   async run(params: TransactionalEmailParams, _meta: EndpointMeta): Promise<EndpointResponse<EmailResponse>> {
