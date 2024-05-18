@@ -149,8 +149,6 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
     if (!fileSource || !cleanFileName)
       throw new Error('No file provided')
 
-    const hash = args.hash || await hashFile({ filePath: sourceFilePath })
-
     const fileMime = getMimeType(cleanFileName, file?.mimetype)
     const mediaId = objectId({ prefix: 'med' })
     const basePath = `${storageGroupPath}/${mediaId}`
@@ -162,6 +160,8 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
     const r = await createImageVariants({ fileSource, sizeOptions, fileMime })
 
     const { mainBuffer, thumbnailBuffer, metadata, blurhash, rasterBuffer } = r
+
+    const hash = args.hash || await hashFile({ filePath: sourceFilePath, buffer: file?.buffer, settings: { crop } })
 
     const uploadPromises = [
       fictionAws.uploadS3({ data: mainBuffer, filePath, mime: fileMime, bucket }),
@@ -267,6 +267,7 @@ type ManageMediaParams = {
   storageKeyPath?: string
   storageGroupPath?: string
   crop?: CropSettings
+  noCache?: boolean
 }
 
 export class QueryManageMedia extends MediaQuery {
@@ -310,7 +311,8 @@ export class QueryManageMedia extends MediaQuery {
   }
 
   async handleCheckAndCreate(params: ManageMediaParams, meta: EndpointMeta): Promise<TableMediaConfig | undefined> {
-    if (params._action !== 'checkAndCreate')
+    const { _action, noCache, crop } = params
+    if (_action !== 'checkAndCreate')
       throw this.stop('Invalid action')
 
     const { fields: { filePath } } = params
@@ -318,17 +320,17 @@ export class QueryManageMedia extends MediaQuery {
     if (!filePath)
       throw this.stop('File path is required for checkAndCreate action.')
 
-    const fileHash = await hashFile({ filePath })
+    const hash = await hashFile({ filePath, settings: { crop } })
+    if (!noCache) {
+      const [existingMedia] = await this.db().select('*').from(t.media).where({ hash })
 
-    const [existingMedia] = await this.db().select('*').from(t.media).where({ hash: fileHash })
+      if (existingMedia) {
+        existingMedia.isCached = true
+        return existingMedia
+      }
+    }
 
-    if (existingMedia) {
-      existingMedia.isCached = true
-      return existingMedia
-    }
-    else {
-      return await this.createAndSaveMedia({ filePath, ...params }, meta)
-    }
+    return await this.createAndSaveMedia({ filePath, hash, ...params }, meta)
   }
 
   async handleRetrieve(params: ManageMediaParams): Promise<TableMediaConfig | undefined> {

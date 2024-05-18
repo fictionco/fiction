@@ -2,29 +2,36 @@ import type { Buffer } from 'node:buffer'
 import path from 'node:path'
 import type sharp from 'sharp'
 import fs from 'fs-extra'
+import { stringify } from './utils'
 
 export async function hashFile(fileInput: {
   filePath?: string
   buffer?: Buffer
+  settings?: object
 }): Promise<string> {
   const { createHash } = await import('node:crypto')
   return new Promise((resolve, reject) => {
     const hash = createHash('sha256')
 
-    const { filePath, buffer } = fileInput
+    const { filePath, buffer, settings } = fileInput
 
-    if (buffer) {
-      // If a buffer is provided (e.g., from a Multer file), use it directly
-      hash.update(buffer)
-      resolve(hash.digest('hex'))
+    if (settings) {
+      const settingsString = stringify(settings)
+      hash.update(settingsString)
     }
-    else if (filePath) {
+
+    if (filePath) {
       // If a file path is provided, read the file as a stream
       const stream = fs.createReadStream(filePath)
 
       stream.on('data', chunk => hash.update(chunk))
       stream.on('end', () => resolve(hash.digest('hex')))
       stream.on('error', err => reject(err))
+    }
+    else if (buffer) {
+      // If a buffer is provided (e.g., from a Multer file), use it directly
+      hash.update(buffer)
+      resolve(hash.digest('hex'))
     }
     else {
       // Handle the case where neither a buffer nor a path is provided

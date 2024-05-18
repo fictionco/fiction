@@ -70,6 +70,7 @@ describe('media upload/download tests', async () => {
         "hash",
         "url",
         "originUrl",
+        "rasterUrl",
         "thumbUrl",
         "thumbOriginUrl",
         "thumbFilePath",

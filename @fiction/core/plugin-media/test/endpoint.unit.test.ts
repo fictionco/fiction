@@ -1,9 +1,8 @@
 import path from 'node:path'
-import { afterAll, beforeEach, describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import fs from 'fs-extra'
 import type { EndpointMeta } from '@fiction/core/utils'
 import sharp from 'sharp'
-import { createImageVariants } from '@fiction/core'
 import type { TableMediaConfig } from '@fiction/core'
 import { createTestUtils } from '../../test-utils/init'
 import { FictionMedia } from '..'
@@ -72,8 +71,6 @@ describe('createAndSaveMedia', async () => {
   })
 
   it('should create and save media WITH cropping', async () => {
-    const fileSource = fs.readFileSync(testImgPath)
-    const fileName = path.basename(testImgPath)
     const fileMime = 'image/jpeg'
 
     const mediaConfig: TableMediaConfig = {
@@ -84,15 +81,12 @@ describe('createAndSaveMedia', async () => {
       mime: fileMime,
     }
 
-    const cropOptions = { width: 100, height: 100, left: 10, top: 10 }
+    const crop = { width: 100, height: 100, left: 10, top: 10 }
 
-    const result = await testUtils.fictionMedia?.queries.ManageMedia.serve({
-      _action: 'checkAndCreate',
-      fields: mediaConfig,
-      userId: testUtils.initialized?.user?.userId || '',
-      orgId: testUtils.initialized?.orgId || '',
-      crop: cropOptions,
-    }, meta)
+    const { user: { userId = '' }, orgId } = testUtils.initialized || { user: {}, orgId: '' }
+    const checkArgs = { _action: 'checkAndCreate', fields: mediaConfig, userId, orgId, crop } as const
+
+    const result = await testUtils.fictionMedia?.queries.ManageMedia.serve({ ...checkArgs, noCache: false }, meta)
 
     expect(result?.status).toBe('success')
     expect(result?.data?.url).toContain('factor-tests')
@@ -110,8 +104,8 @@ describe('createAndSaveMedia', async () => {
     // Additional assertions for crop size
     const mainImage = sharp(buffer)
     const mainMetadata = await mainImage.metadata()
-    expect(mainMetadata.width).toBe(cropOptions.width)
-    expect(mainMetadata.height).toBe(cropOptions.height)
+    expect(mainMetadata.width).toBe(crop.width)
+    expect(mainMetadata.height).toBe(crop.height)
   })
 
   it('should handle various image types', async () => {
