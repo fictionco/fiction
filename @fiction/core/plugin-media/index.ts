@@ -10,6 +10,7 @@ import { EnvVar, vars } from '../plugin-env'
 import type { EndpointResponse } from '../types'
 import { QueryManageMedia, QueryMediaIndex, QuerySaveMedia } from './queries'
 import { type TableMediaConfig, mediaTable } from './tables'
+import { relativeMedia } from './utils'
 
 export * from './utils'
 export type { TableMediaConfig }
@@ -69,5 +70,14 @@ export class FictionMedia extends FictionPlugin<FictionMediaSettings> {
     const r = await this.requests.SaveMedia.upload({ data: formData })
 
     return r
+  }
+
+  cache: Record<string, TableMediaConfig> = {}
+  async relativeMedia(args: { url: string, orgId?: string, userId?: string }): Promise<TableMediaConfig> {
+    return await relativeMedia({
+      fictionMedia: this,
+      cache: this.cache,
+      ...args,
+    })
   }
 }

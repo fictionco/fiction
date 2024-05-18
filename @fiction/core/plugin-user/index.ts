@@ -14,6 +14,7 @@ import type { FictionEmail } from '../plugin-email'
 import type { FictionRouter } from '../plugin-router'
 import { _stop, emitEvent, getCookie, hasWindow, isActualBrowser, isNode, removeCookieNakedDomain, safeDirname, setCookieNakedDomain, storeItem, vue } from '../utils'
 import * as priv from '../utils/priv'
+import { standardTable } from '../tbl'
 import type { Organization, OrganizationMember, TokenFields, User } from './types'
 import { QueryUserGoogleAuth } from './userGoogle'
 import {
@@ -232,7 +233,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
           orgEmail: 'admin@fiction.com',
           orgId: 'example',
         })
-        .into(this.tbl.org)
+        .into(standardTable.org)
         .onConflict()
         .ignore()
 

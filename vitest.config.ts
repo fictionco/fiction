@@ -1,4 +1,5 @@
 import path from 'node:path'
+import process from 'node:process'
 import { createRequire } from 'node:module'
 import { configDefaults, defineConfig } from 'vitest/config'
 import pluginVue from '@vitejs/plugin-vue'
@@ -25,6 +26,7 @@ const jsdom = {
 export default defineConfig({
   plugins: [pluginVue(), ...getMarkdownPlugins()],
   build: { sourcemap: true },
+  root: process.cwd(),
 
   test: {
     testTimeout: 40000,

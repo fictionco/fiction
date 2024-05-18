@@ -1,5 +1,5 @@
 import type { EndpointResponse, ResponseStatus, ValidationReason } from '@fiction/core'
-import { toSlug } from '@fiction/core'
+import { toSlug } from '../utils'
 import { Query } from '../query'
 import type { FictionDb } from '.'
 
@@ -13,7 +13,7 @@ type CheckUsernameParams = { table: string, columns: CheckColumnValue[] }
 
 export class CheckUsername extends Query<QuerySettings> {
   isUrlFriendly(username: string): boolean {
-    return /^[a-zA-Z0-9-_]+$/.test(username)
+    return /^[\w-]+$/.test(username)
   }
 
   async getWords(): Promise<Set<string>> {

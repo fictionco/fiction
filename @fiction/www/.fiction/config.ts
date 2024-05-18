@@ -178,6 +178,7 @@ export interface CompiledServiceConfig {
       | 'hash'
       | 'url'
       | 'originUrl'
+      | 'rasterUrl'
       | 'thumbUrl'
       | 'thumbOriginUrl'
       | 'thumbFilePath'

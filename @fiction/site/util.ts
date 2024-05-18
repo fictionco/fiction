@@ -23,9 +23,9 @@ export async function processUrlKey(args: {
   url: string
   orgId: string
   userId: string
-  storagePath?: string
+  storageGroupPath?: string
 }): Promise<string> {
-  const { fictionMedia, url, userId, orgId, storagePath } = args
+  const { fictionMedia, url, userId, orgId, storageGroupPath } = args
 
   // Check for a valid URL and if running in a Node.js environment
   if (url && typeof process !== 'undefined' && process.cwd) {
@@ -50,7 +50,7 @@ export async function processUrlKey(args: {
         orgId,
         userId,
         fields: { filePath },
-        storagePath,
+        storageGroupPath,
       }, { server: true })
 
       const media = r.data

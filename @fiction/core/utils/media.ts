@@ -2,12 +2,6 @@ import type { Buffer } from 'node:buffer'
 import path from 'node:path'
 import type sharp from 'sharp'
 import fs from 'fs-extra'
-import type { MediaDisplayObject } from '../types'
-
-// export async function relativeMedia(args: { mediaPath: string, storagePath: string }): Promise<MediaDisplayObject> {
-//   const { mediaPath, storagePath } = args
-//   return path.join(storagePath, mediaPath)
-// }
 
 export async function hashFile(fileInput: {
   filePath?: string

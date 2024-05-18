@@ -170,23 +170,23 @@ const markdownStyles = {
         <EBody :style="{ fontFamily: fontStack }" class="dark:bg-gray-900 bg-white dark:text-white text-gray-900">
           <EContainer class="py-8 px-4 max-w-[600px]">
             <ESection v-if="mediaSuper">
-              <EColumn v-if="mediaSuper.media?.url" class="w-[24px]">
-                <EImg class="rounded-md !border-2 !border-white/10 !border-solid" width="24" :src="mediaSuper.media?.url" />
+              <EColumn v-if="mediaSuper.media?.url" class="w-[22px]">
+                <EImg class="rounded-md !border-2 !border-white/10 !border-solid" width="22" :src="mediaSuper.media?.url" />
               </EColumn>
               <EColumn v-if="mediaSuper?.name" class="pl-3">
-                <EText class=" text-gray-500 dark:text-gray-300 font-medium text-[16px]">
+                <EText class="text-gray-500 dark:text-gray-300 font-normal text-[14px]">
                   {{ mediaSuper?.name }}
                 </EText>
               </EColumn>
             </ESection>
 
-            <ESection :style="{ fontSize: '24px', lineHeight: 1.33, font: fancyFontStack }">
-              <div :style="{ fontWeight: 'bold' }">
+            <ESection :style="{ font: fancyFontStack }">
+              <EText :style="{ fontWeight: 'bold', fontSize: '24px', lineHeight: 1.33 }">
                 {{ heading }}
-              </div>
-              <div :style="{ fontWeight: 'normal' }" class=" text-gray-500">
+              </EText>
+              <EText :style="{ fontWeight: 'normal', fontSize: '24px', lineHeight: 1.33 }" class=" text-gray-500">
                 <span v-html="subHeading" /> &#x2198;
-              </div>
+              </EText>
             </ESection>
 
             <EHr class="my-8 dark:border-gray-700 border-gray-200" />
@@ -215,7 +215,7 @@ const markdownStyles = {
                 </template>
               </EColumn>
               <EColumn class="w-1/2 text-right text-gray-400 align-top text-xs">
-                <ELink v-if="unsubscribeLink" :href="unsubscribeLink" class="text-gray-400">
+                <ELink v-if="unsubscribeLink" :href="unsubscribeLink" class="text-gray-300 text-normal">
                   Unsubscribe
                 </ELink>
               </EColumn>

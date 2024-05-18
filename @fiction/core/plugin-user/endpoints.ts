@@ -471,7 +471,7 @@ export async function verifyCode(args: {
       'verificationCode',
       'codeExpiresAt',
     ])
-    .from(fictionDb.tbl.user)
+    .from(standardTable.user)
     .where(where)
 
   const storedCode = r && r.length > 0 ? r[0] : undefined

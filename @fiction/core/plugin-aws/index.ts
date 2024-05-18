@@ -10,7 +10,7 @@ import type {
 import type { FictionPluginSettings } from '../plugin'
 import { FictionPlugin } from '../plugin'
 import { EnvVar, vars } from '../plugin-env'
-import { objectId } from '../utils'
+import { objectId } from '../utils/id'
 
 vars.register(() => [
   new EnvVar({ name: 'AWS_ACCESS_KEY' }),
@@ -21,6 +21,7 @@ type FictionAwsSettings = {
   awsAccessKey?: string
   awsAccessKeySecret?: string
   region?: string
+  bucket?: string
 } & FictionPluginSettings
 
 type S3FileOutput = GetObjectCommandOutput & {
@@ -40,6 +41,7 @@ export class FictionAws extends FictionPlugin<FictionAwsSettings> {
   awsAccessKey = this.settings.awsAccessKey
   awsAccessKeySecret = this.settings.awsAccessKeySecret
   region = this.settings.region || 'us-west-2'
+  bucket = this.settings.bucket
   cloudFront?: CloudFront
   s3?: S3
   constructor(settings: FictionAwsSettings) {
@@ -110,22 +112,23 @@ export class FictionAws extends FictionPlugin<FictionAwsSettings> {
     return r.Invalidation
   }
 
+  getUrlFromKey(args: { key: string, bucket?: string }): string {
+    const { key, bucket = this.bucket } = args
+    return `https://${bucket}.s3.amazonaws.com/${key}`
+  }
+
   /**
    * Upload to s3
    * @remarks
    *  - access control: https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html
    */
-  uploadS3 = async ({
-    filePath,
-    bucket,
-    mime,
-    data,
-    accessControl = 'public-read',
-  }: S3UploadOptions): Promise<{
+  uploadS3 = async (args: S3UploadOptions): Promise<{
     url: string
     result: PutObjectCommandOutput
     headObject: HeadObjectCommandOutput
   }> => {
+    const { filePath, bucket = this.bucket, mime, data, accessControl = 'public-read' } = args
+
     if (!bucket)
       throw new Error('no bucket set')
 
@@ -143,7 +146,7 @@ export class FictionAws extends FictionPlugin<FictionAwsSettings> {
       const headObject = await s3.headObject({ Bucket: bucket, Key: filePath })
 
       return {
-        url: `https://${bucket}.s3.amazonaws.com/${filePath}`,
+        url: this.getUrlFromKey({ key: filePath, bucket }),
         result,
         headObject,
       }
@@ -154,9 +157,8 @@ export class FictionAws extends FictionPlugin<FictionAwsSettings> {
     }
   }
 
-  async deleteDirectory({ directory, bucket }: { directory: string, bucket: string }): Promise<{
-    result: DeleteObjectCommandOutput
-  }> {
+  async deleteDirectory(args: { directory: string, bucket: string }): Promise<{ result: DeleteObjectCommandOutput }> {
+    const { directory, bucket = this.bucket } = args
     if (!bucket)
       throw new Error('no bucket set')
 
@@ -185,7 +187,8 @@ export class FictionAws extends FictionPlugin<FictionAwsSettings> {
     }
   }
 
-  deleteS3 = async ({ filePath, bucket }: { filePath: string, bucket: string }): Promise<{ result: DeleteObjectCommandOutput }> => {
+  deleteS3 = async (args: { filePath: string, bucket: string }): Promise<{ result: DeleteObjectCommandOutput }> => {
+    const { filePath, bucket = this.bucket } = args
     if (!bucket)
       throw new Error('no bucket set')
     const s3 = await this.getS3()
@@ -198,22 +201,16 @@ export class FictionAws extends FictionPlugin<FictionAwsSettings> {
   /**
    * Download a file from s3
    */
-  downloadS3 = async ({
-    key,
-    bucket,
-    returnString,
-  }: {
+  downloadS3 = async (args: {
     key: string
     bucket?: string
     returnString?: boolean
   }): Promise<S3FileOutput> => {
+    const { key, bucket = this.bucket, returnString } = args
     if (!bucket)
       throw new Error('no bucket set')
     const s3 = await this.getS3()
-    const result = await s3.getObject({
-      Bucket: bucket,
-      Key: key,
-    })
+    const result = await s3.getObject({ Bucket: bucket, Key: key })
 
     const kb = (result.ContentLength ?? 0) / 1000
 
@@ -234,22 +231,17 @@ export class FictionAws extends FictionPlugin<FictionAwsSettings> {
    * Request head to see if file exists
    * https://github.com/andrewrk/node-s3-client/issues/88#issuecomment-158134766
    */
-  fileExistsS3 = async ({
-    name,
-    bucket,
-  }: {
-    name: string
-    bucket: string
-  }): Promise<boolean> => {
+  fileExistsS3 = async (args: { storageKeyPath: string, bucket: string }): Promise<string | undefined> => {
+    const { storageKeyPath, bucket = this.bucket } = args
     if (!bucket)
       throw new Error('no bucket set')
     try {
       const s3 = await this.getS3()
-      await s3.headObject({ Bucket: bucket, Key: name })
-      return true
+      await s3.headObject({ Bucket: bucket, Key: storageKeyPath })
+      return this.getUrlFromKey({ key: storageKeyPath, bucket })
     }
     catch {
-      return false
+      return undefined
     }
   }
 

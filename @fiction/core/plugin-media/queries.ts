@@ -1,13 +1,16 @@
 import path from 'node:path'
 import type sharp from 'sharp'
 import fs from 'fs-extra'
-import type { C } from 'vitest/dist/reporters-yx5ZTtEV'
 import { Query } from '../query'
 import type { EndpointResponse } from '../types'
 import type { CropSettings, EndpointMeta } from '../utils'
 import type { FictionDb } from '../plugin-db'
 import type { FictionAws } from '../plugin-aws'
-import { createImageVariants, getFileExtensionFromFetchResponse, getMimeType, hashFile, isTest, objectId, prepareFields, safeDirname } from '../utils'
+import { createImageVariants, getFileExtensionFromFetchResponse, getMimeType, hashFile } from '../utils/media'
+import { isTest } from '../utils/vars'
+import { prepareFields } from '../utils/validation'
+import { safeDirname } from '../utils/utils'
+import { objectId } from '../utils/id'
 import { t } from './tables'
 import type { FictionMedia, TableMediaConfig } from '.'
 
@@ -54,9 +57,9 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
     orgId?: string
     userId?: string
     fields?: TableMediaConfig
-    storagePath?: string
+    storageGroupPath?: string
   }, meta: EndpointMeta): Promise<TableMediaConfig | undefined> {
-    const { orgId, userId, fields, storagePath } = args
+    const { orgId, userId, fields, storageGroupPath } = args
 
     const { Buffer } = await import('node:buffer')
     const { sourceImageUrl } = fields || {}
@@ -86,7 +89,7 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
         orgId,
         userId,
         fields,
-        storagePath,
+        storageGroupPath,
 
       }, meta)
 
@@ -118,15 +121,26 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
     fields?: TableMediaConfig
     orgId?: string
     userId?: string
-    storagePath?: string
+    storageKeyPath?: string
+    storageGroupPath?: string
     crop?: CropSettings
+    hash?: string
   }, meta: EndpointMeta): Promise<TableMediaConfig> {
     const cdn = this.settings.fictionMedia.cdnUrl
     const bucket = this.settings.fictionMedia.bucket
     const maxSide = this.maxSide
     const fictionAws = this.settings.fictionAws
 
-    const { file, filePath: sourceFilePath, orgId, userId, fields, storagePath = orgId, crop } = args
+    const {
+      file,
+      filePath: sourceFilePath,
+      orgId,
+      userId,
+      fields,
+      storageGroupPath = orgId,
+      storageKeyPath,
+      crop,
+    } = args
     const fileSource = file?.buffer || (sourceFilePath && fs.readFileSync(sourceFilePath))
     const fileName = file?.originalname || (sourceFilePath && path.basename(sourceFilePath))
     const cleanFileName = fileName?.replace(/[^a-z0-9-.]/gi, '')
@@ -135,10 +149,12 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
     if (!fileSource || !cleanFileName)
       throw new Error('No file provided')
 
+    const hash = args.hash || await hashFile({ filePath: sourceFilePath })
+
     const fileMime = getMimeType(cleanFileName, file?.mimetype)
     const mediaId = objectId({ prefix: 'med' })
-    const basePath = `${storagePath}/${mediaId}`
-    const filePath = `${basePath}-${cleanFileName}`
+    const basePath = `${storageGroupPath}/${mediaId}`
+    const filePath = storageKeyPath || `${basePath}-${cleanFileName}`
     const thumbFilePath = `${basePath}-thumb-${baseFileName}.png`
     const rasterFilePath = `${basePath}-raster-${baseFileName}.png`
 
@@ -146,8 +162,6 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
     const r = await createImageVariants({ fileSource, sizeOptions, fileMime })
 
     const { mainBuffer, thumbnailBuffer, metadata, blurhash, rasterBuffer } = r
-
-    const hash = await hashFile({ buffer: mainBuffer })
 
     const uploadPromises = [
       fictionAws.uploadS3({ data: mainBuffer, filePath, mime: fileMime, bucket }),
@@ -250,13 +264,13 @@ type ManageMediaParams = {
   fields: TableMediaConfig
   userId?: string
   orgId?: string
-  storagePath?: string
+  storageKeyPath?: string
+  storageGroupPath?: string
   crop?: CropSettings
 }
 
 export class QueryManageMedia extends MediaQuery {
   async run(params: ManageMediaParams, meta: EndpointMeta): Promise<EndpointResponse<TableMediaConfig | undefined>> {
-    this.validateParams(params)
     const { _action } = params
 
     let media: TableMediaConfig | undefined = undefined
@@ -278,7 +292,7 @@ export class QueryManageMedia extends MediaQuery {
         message = 'deleted successfully'
         break
       default:
-        throw this.stop('Invalid action')
+        throw this.abort('Invalid action')
     }
 
     if (!media)
@@ -287,45 +301,34 @@ export class QueryManageMedia extends MediaQuery {
     return { status: 'success', data: media, message }
   }
 
-  validateParams(params: ManageMediaParams) {
-    if (!params._action)
-      throw this.stop('Invalid action')
-
-    if (!params.orgId || !params.userId)
-      throw this.stop('userId or orgId required')
-  }
-
   async handleCreateFromUrl(params: ManageMediaParams, meta: EndpointMeta): Promise<TableMediaConfig | undefined> {
     if (params._action !== 'createFromUrl')
       throw this.stop('Invalid action')
 
-    const { orgId, userId, fields, storagePath } = params
-    return await this.createMediaFromUrl({ orgId, userId, fields, storagePath }, meta)
+    const { orgId, userId, fields, storageGroupPath } = params
+    return await this.createMediaFromUrl({ orgId, userId, fields, storageGroupPath }, meta)
   }
 
   async handleCheckAndCreate(params: ManageMediaParams, meta: EndpointMeta): Promise<TableMediaConfig | undefined> {
     if (params._action !== 'checkAndCreate')
       throw this.stop('Invalid action')
 
-    const { fields, storagePath, userId, orgId, crop } = params
-    const { filePath } = fields
+    const { fields: { filePath } } = params
 
     if (!filePath)
       throw this.stop('File path is required for checkAndCreate action.')
 
     const fileHash = await hashFile({ filePath })
 
-    const [existingMedia] = await this.db().select().from(t.media).where({ hash: fileHash })
+    const [existingMedia] = await this.db().select('*').from(t.media).where({ hash: fileHash })
 
-    let media: TableMediaConfig | undefined = undefined
-
-    if (!existingMedia)
-      media = await this.createAndSaveMedia({ filePath, userId, orgId, fields, storagePath, crop }, meta)
-
-    else
-      media = existingMedia
-
-    return media
+    if (existingMedia) {
+      existingMedia.isCached = true
+      return existingMedia
+    }
+    else {
+      return await this.createAndSaveMedia({ filePath, ...params }, meta)
+    }
   }
 
   async handleRetrieve(params: ManageMediaParams): Promise<TableMediaConfig | undefined> {

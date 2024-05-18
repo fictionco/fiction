@@ -1,5 +1,6 @@
 import type { FictionUser } from './plugin-user'
-import { omit, toSlug } from './utils'
+import { toSlug } from './utils/casing'
+import { omit } from './utils/obj'
 import type { EndpointMap, EndpointSettings } from './utils/endpoint'
 import { Endpoint } from './utils/endpoint'
 import type { LogHelper } from './plugin-log'
@@ -8,7 +9,6 @@ import type { Query } from './query'
 import type { FictionServer } from './plugin-server'
 import { abort } from './utils/error'
 import type { FictionEnv } from './plugin-env'
-import { standardTable } from './tbl'
 import type { express } from './utils/libraries'
 
 export type FictionPluginSettings = {
@@ -29,7 +29,6 @@ export abstract class FictionObject<
   stop = abort
   abort = abort
   log: LogHelper
-  tbl = standardTable
   constructor(name: string, settings: T) {
     this.name = name
     this.settings = settings
@@ -40,7 +39,7 @@ export abstract class FictionObject<
   setup(_args: PluginSetupArgs): void | Promise<void> {}
   beforeSetup(_args: PluginSetupArgs): void | Promise<void> {}
   toJSON(): Record<string, unknown> {
-    return omit(this, 'stop', 'log', 'settings', 'toJSON', 'tbl')
+    return omit(this, 'stop', 'log', 'settings', 'toJSON')
   }
 }
 
@@ -117,6 +116,6 @@ export abstract class FictionPlugin<
   }
 
   override toJSON(): Record<string, unknown> {
-    return omit(this, 'stop', 'log', 'settings', 'toJSON', 'fictionEnv', 'tbl')
+    return omit(this, 'stop', 'log', 'settings', 'toJSON', 'fictionEnv')
   }
 }

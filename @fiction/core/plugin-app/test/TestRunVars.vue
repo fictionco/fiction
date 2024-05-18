@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useService } from '@fiction/core'
+import { useService } from '../../inject'
 
 const { fictionEnv } = useService()
 

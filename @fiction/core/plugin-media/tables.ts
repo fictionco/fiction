@@ -6,7 +6,7 @@ export const t = {
   media: 'fiction_media',
 }
 
-export type TableMediaConfig = Partial<CreateObjectType<typeof columns>>
+export type TableMediaConfig = Partial<CreateObjectType<typeof columns>> & { isCached?: boolean }
 
 const columns = [
   new FictionDbCol({

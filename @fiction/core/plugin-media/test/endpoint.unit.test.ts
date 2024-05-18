@@ -33,10 +33,7 @@ describe('createAndSaveMedia', async () => {
     awsAccessKeySecret,
   })
   testUtils.fictionMedia = new FictionMedia({
-    fictionEnv: testUtils.fictionEnv,
-    fictionDb: testUtils.fictionDb,
-    fictionUser: testUtils.fictionUser,
-    fictionServer: testUtils.fictionServer,
+    ...testUtils,
     fictionAws,
     bucket: 'factor-tests',
     unsplashAccessKey,
