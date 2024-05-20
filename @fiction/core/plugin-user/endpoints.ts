@@ -1,9 +1,10 @@
 import bcrypt from 'bcrypt'
 import type { Knex } from 'knex'
 import { dayjs } from '../utils/libraries'
-import { validateEmail } from '../utils/utils'
+
 import type { EndpointResponse } from '../types'
-import { _stop } from '../utils/error'
+import { abort } from '../utils/error'
+import { createUserToken, decodeUserToken } from '../utils/jwt'
 import { getRequestIpAddress } from '../utils/network'
 import { getGeoFree } from '../utils-analytics/geo'
 import type { EndpointManageAction, EndpointMeta } from '../utils/endpoint'
@@ -13,7 +14,8 @@ import { Query } from '../query'
 import type { FictionEmail } from '../plugin-email'
 import { prepareFields } from '../utils'
 import { standardTable } from '../tbl'
-import type { MemberAccess, MemberStatus, OnboardStoredSettings, Organization, OrganizationMembership, User } from './types'
+import type { MemberAccess, MemberStatus, Organization, OrganizationMembership, User } from './types'
+import { validateNewEmail, verifyCode } from './utils/email'
 import type { FictionUser } from '.'
 
 interface UserQuerySettings {
@@ -27,9 +29,13 @@ export abstract class UserQuery extends Query<UserQuerySettings> {
   fictionEmail = this.settings.fictionEmail
   fictionDb = this.settings.fictionDb
   fictionEnv = this.settings.fictionEnv
+  db = () => this.fictionDb.client()
   constructor(settings: UserQuerySettings) {
     super(settings)
   }
+
+  getToken = (user: User) => createUserToken({ user, tokenSecret: this.fictionUser.tokenSecret })
+  decodeToken = (token: string) => decodeUserToken({ token, tokenSecret: this.fictionUser.tokenSecret })
 
   async returnUser(meta: EndpointMeta): Promise<User | undefined> {
     const userId = meta.bearer?.userId
@@ -100,7 +106,7 @@ export abstract class UserQuery extends Query<UserQuerySettings> {
     const { email, userId } = params
 
     if (!email)
-      throw this.stop('no email provided to send code to')
+      throw abort('no email provided to send code to')
 
     const code = getSixDigitRandom()
     const fields = {
@@ -149,33 +155,6 @@ async function comparePassword(password: string, hashedPassword: string): Promis
   return await bcrypt.compare(password, hashedPassword)
 }
 
-/**
- * Verify a new user email is valid and unique
- */
-export async function verifyNewEmail(params: {
-  email?: string
-  fictionUser: FictionUser
-}): Promise<true> {
-  const { email, fictionUser } = params
-  if (!email)
-    throw _stop('email is required')
-  if (!validateEmail(email))
-    throw _stop('email failed validation')
-
-  const { data: user } = await fictionUser.queries.ManageUser.serve(
-    {
-      _action: 'getPublic',
-      email: email.toLowerCase().trim(),
-    },
-    { server: true },
-  )
-
-  if (user?.userId)
-    throw _stop(`verifyEmail: email ${email} already exists`, { data: { email, user } })
-
-  return true
-}
-
 export type ManageUserParams =
   | {
     _action: 'create'
@@ -185,7 +164,8 @@ export type ManageUserParams =
       password?: string
     }
     orgName?: string
-    noVerify?: boolean
+    doVerification?: boolean
+    noValidate?: boolean
   }
   | ({
     _action: 'update'
@@ -209,8 +189,6 @@ type ManageUserResponse = EndpointResponse<User> & {
   user?: User
 }
 export class QueryManageUser extends UserQuery {
-  db = () => this.fictionDb.client()
-
   async run(params: ManageUserParams, meta: EndpointMeta): Promise<ManageUserResponse> {
     let user: User | undefined
     let isNew = false
@@ -256,8 +234,7 @@ export class QueryManageUser extends UserQuery {
       orgs = orgsResponse.data ?? []
 
       if (orgs.some(o => o.relation?.memberStatus === 'pending')) {
-        const r
-          = await this.fictionUser.queries.UpdateOrganizationMemberStatus.serve({ userId: user.userId, orgs }, meta)
+        const r = await this.fictionUser.queries.UpdateOrganizationMemberStatus.serve({ userId: user.userId, orgs }, meta)
 
         orgs = r.data ?? []
       }
@@ -278,14 +255,14 @@ export class QueryManageUser extends UserQuery {
 
   private async getUser(params: ManageUserParams): Promise<User | undefined> {
     if (params._action !== 'getPublic' && params._action !== 'getPrivate')
-      throw this.stop('Invalid action')
+      throw abort('Invalid action')
 
     const db = this.db()
     const { userId, username, email, _action } = params
     const where = userId ? { userId } : email ? { email } : { username }
 
     if (!userId && !email && !username)
-      throw this.stop('get user requires email/username/userId')
+      throw abort('get user requires email/username/userId')
 
     const keys = _action === 'getPublic' ? this.publicUserFieldKeys() : ['*']
     const q = db.select(keys).from(standardTable.user).where(where)
@@ -297,14 +274,14 @@ export class QueryManageUser extends UserQuery {
 
   private async updateUser(params: ManageUserParams, meta: EndpointMeta): Promise<User | undefined> {
     if (params._action !== 'update')
-      throw this.stop('Invalid action')
+      throw abort('Invalid action')
 
     const db = this.db()
 
     const { userId, fields, email } = params
 
     if (!fields || (!email && !userId))
-      throw this.stop('update user requires email, or user, and fields')
+      throw abort('update user requires email, or user, and fields')
 
     const ipData = await getRequestIpAddress(meta.request)
     fields.ip = ipData.ip
@@ -322,31 +299,31 @@ export class QueryManageUser extends UserQuery {
       .returning<User[]>('*')
 
     if (!user)
-      throw this.stop(`user not found (${userId || email})`, { data: where, code: 'TOKEN_ERROR' })
+      throw abort(`user not found (${userId || email})`, { data: where, code: 'TOKEN_ERROR' })
 
     return user
   }
 
   private async createUser(params: ManageUserParams, meta: EndpointMeta): Promise<{ user?: User, isNew: boolean, token?: string }> {
     if (params._action !== 'create')
-      throw this.stop('Invalid action')
+      throw abort('Invalid action')
 
     const db = this.db()
 
-    const { fields, orgName, noVerify } = params
+    const { fields, orgName, noValidate } = params
 
     if (!fields)
-      throw this.stop('fields required')
+      throw abort('fields required')
 
     if (!fields.email)
-      throw this.stop('email required')
+      throw abort('email required')
 
     fields.email = fields.email.toLowerCase().trim()
 
     const hashedPassword = await hashPassword(fields.password)
 
-    if (!fields.emailVerified && !noVerify) {
-      await verifyNewEmail({
+    if (!fields.emailVerified && !noValidate) {
+      await validateNewEmail({
         email: fields.email,
         fictionUser: this.fictionUser,
       })
@@ -381,7 +358,7 @@ export class QueryManageUser extends UserQuery {
       meta.bearer = user
     }
     else {
-      throw this.stop('couldn\'t create user', { data: { insertFields } })
+      throw abort('couldn\'t create user', { data: { insertFields } })
     }
 
     const response = await this.fictionUser.queries.ManageOrganization.serve(
@@ -398,10 +375,12 @@ export class QueryManageUser extends UserQuery {
 
     user = await this.settings.fictionEnv.runHooks('createUser', user, { params, meta })
 
+    this.fictionUser.events.emit('newUser', { user, params })
+
     return {
       user,
       isNew: true,
-      token: user ? this.fictionUser.createClientToken(user) : undefined,
+      token: user ? this.getToken(user) : undefined,
     }
   }
 }
@@ -411,12 +390,12 @@ export class QueryCurrentUser extends UserQuery {
     const { token } = params
 
     if (!token)
-      throw this.stop('token required')
+      throw abort('token required')
 
     let userId: string | undefined
 
     try {
-      const tokenResult = this.fictionUser.decodeClientToken(token)
+      const tokenResult = this.decodeToken(token)
       userId = tokenResult.userId
 
       const r = await this.fictionUser.queries.ManageUser.serve(
@@ -446,53 +425,6 @@ export class QuerySendOneTimeCode extends UserQuery {
 }
 
 /**
- * Verify if a passed code matches the stored one
- */
-export async function verifyCode(args: {
-  email?: string
-  userId?: string
-  verificationCode: string
-  fictionDb: FictionDb
-  isProd?: boolean
-}): Promise<true> {
-  const { email, verificationCode, userId, fictionDb, isProd = true } = args
-
-  if (!verificationCode)
-    throw _stop(`no code provided`)
-
-  if (!email && !userId)
-    throw _stop(`need email or userId`)
-
-  const where = userId ? { userId } : { email }
-
-  const db = fictionDb.client()
-  const r = await db
-    .select<{ verificationCode: string, codeExpiresAt: string }[]>([
-      'verificationCode',
-      'codeExpiresAt',
-    ])
-    .from(standardTable.user)
-    .where(where)
-
-  const storedCode = r && r.length > 0 ? r[0] : undefined
-
-  // allow short circuit in development
-  if (!isProd && verificationCode === 'test')
-    return true
-
-  if (!storedCode || storedCode.verificationCode !== verificationCode)
-    throw _stop(`verification code is not a match (${isProd ? 'prod' : 'dev'})`, { data: !isProd ? { storedCode, verificationCode } : {} })
-
-  else if (
-    !storedCode.codeExpiresAt
-    || dayjs().isAfter(storedCode.codeExpiresAt)
-  )
-    throw _stop(`verification code is expired`)
-
-  return true
-}
-
-/**
  * Updates the current user with new info
  * Detecting if auth fields have changed and verifying account code
  */
@@ -507,29 +439,29 @@ export class QueryUpdateCurrentUser extends UserQuery {
     meta: EndpointMeta,
   ): Promise<EndpointResponse<User> & { token?: string }> {
     if (!meta.bearer && !meta.server)
-      throw this.stop('must be logged in')
+      throw abort('must be logged in')
 
     const { fields, _action } = params
 
     const { bearer } = meta
 
     if (!bearer || !bearer.email || !bearer.userId)
-      throw this.stop('authorization required (bearer)')
+      throw abort('authorization required (bearer)')
 
     const save: Partial<User> & { password?: string }
       = prepareFields({ type: 'settings', fields, meta, fictionDb: this.fictionDb, table: standardTable.user }) || {}
 
     if (!fields)
-      throw this.stop('no fields to update')
+      throw abort('no fields to update')
 
     let message = 'settings updated'
 
     if (_action === 'updateEmail') {
       if (!fields.verificationCode)
-        throw this.stop('verification code required')
+        throw abort('verification code required')
 
       if (!fields?.password)
-        throw this.stop('password required')
+        throw abort('password required')
 
       await verifyCode({
         userId: bearer.userId,
@@ -547,7 +479,7 @@ export class QueryUpdateCurrentUser extends UserQuery {
       )
 
       if (!dbUser)
-        throw this.stop('couldn\'t find user')
+        throw abort('couldn\'t find user')
 
       const correctPassword = await comparePassword(
         fields.password,
@@ -555,10 +487,10 @@ export class QueryUpdateCurrentUser extends UserQuery {
       )
 
       if (fields.password && !correctPassword)
-        throw this.stop('incorrect password')
+        throw abort('incorrect password')
 
       if (fields.email && fields.email !== dbUser.email) {
-        await verifyNewEmail({
+        await validateNewEmail({
           email: fields.email,
           fictionUser: this.fictionUser,
         })
@@ -570,12 +502,12 @@ export class QueryUpdateCurrentUser extends UserQuery {
     }
     else if (_action === 'updatePassword') {
       if (!fields.verificationCode)
-        throw this.stop('verification code required')
+        throw abort('verification code required')
 
       if (!fields?.password)
-        throw this.stop('new password required')
+        throw abort('new password required')
       if (fields.password.length < 6)
-        throw this.stop('create a stronger password')
+        throw abort('create a stronger password')
 
       await verifyCode({
         userId: bearer.userId,
@@ -606,10 +538,10 @@ export class QueryUpdateCurrentUser extends UserQuery {
       user = response.data
 
       if (!user)
-        throw this.stop('problem updating user')
+        throw abort('problem updating user')
 
       // if email or password were changed, create new token
-      token = this.fictionUser.createClientToken(user)
+      token = this.getToken(user)
     }
 
     return {
@@ -639,9 +571,9 @@ export class QuerySetPassword extends UserQuery {
     const email = emailArg ?? meta.bearer?.email
 
     if (!email)
-      throw this.stop(`email must be verified to set new password`)
+      throw abort(`email must be verified to set new password`)
     if (!password)
-      throw this.stop(`password required`)
+      throw abort(`password required`)
 
     // code verification is needed because on password reset the user is logged out
     await verifyCode({ email, verificationCode, fictionDb: this.fictionDb, isProd: this.fictionEnv?.isProd.value })
@@ -660,7 +592,7 @@ export class QuerySetPassword extends UserQuery {
     user = r.data
 
     if (!user)
-      throw this.stop('problem updating user')
+      throw abort('problem updating user')
 
     user.hashedPassword = hashedPassword
 
@@ -670,7 +602,7 @@ export class QuerySetPassword extends UserQuery {
       status: 'success',
       data: user,
       message: 'new password created',
-      token: this.fictionUser.createClientToken(user),
+      token: this.getToken(user),
       user,
     }
   }
@@ -684,9 +616,9 @@ export class QueryVerifyAccountEmail extends UserQuery {
     const { email, verificationCode } = params
 
     if (!email)
-      throw this.stop('email is required')
+      throw abort('email is required')
     if (!verificationCode)
-      throw this.stop('confirm code is required')
+      throw abort('confirm code is required')
 
     const isProd = this.fictionEnv?.isProd.value
 
@@ -702,7 +634,7 @@ export class QueryVerifyAccountEmail extends UserQuery {
     )
 
     if (!user)
-      throw this.stop('problem updating user')
+      throw abort('problem updating user')
 
     // send it back for convenience
     user.verificationCode = verificationCode
@@ -717,7 +649,7 @@ export class QueryVerifyAccountEmail extends UserQuery {
       status: 'success',
       data: user,
       message: 'verification successful',
-      token: this.fictionUser.createClientToken(user),
+      token: this.getToken(user),
     }
   }
 }
@@ -729,7 +661,7 @@ export class QueryResetPassword extends UserQuery {
     email: string
   }): Promise<EndpointResponse<User> & { internal: string }> {
     if (!email)
-      throw this.stop('email is required')
+      throw abort('email is required')
     if (!this.fictionEmail)
       throw new Error('no fictionEmail')
 
@@ -743,41 +675,41 @@ export class QueryResetPassword extends UserQuery {
   }
 }
 
-export class QueryStartNewUser extends UserQuery {
-  async run(params: { email: string, fullName?: string }): Promise<
-    EndpointResponse<Partial<User>> & {
-      token: string
-      user: User
-    }
-  > {
-    if (!this.fictionEmail)
-      throw new Error('no fictionEmail')
+// export class QueryStartNewUser extends UserQuery {
+//   async run(params: { email: string, fullName?: string }): Promise<
+//     EndpointResponse<Partial<User>> & {
+//       token: string
+//       user: User
+//     }
+//   > {
+//     if (!this.fictionEmail)
+//       throw new Error('no fictionEmail')
 
-    const { email, fullName } = params
-    const { data: user } = await this.fictionUser.queries.ManageUser.serve(
-      {
-        _action: 'create',
-        fields: { email, fullName },
-      },
-      { server: true },
-    )
+//     const { email, fullName } = params
+//     const { data: user } = await this.fictionUser.queries.ManageUser.serve(
+//       {
+//         _action: 'create',
+//         fields: { email, fullName },
+//       },
+//       { server: true },
+//     )
 
-    if (!user || !user.userId || !user.email)
-      throw this.stop('problem starting user', { data: { email, fullName } })
+//     if (!user || !user.userId || !user.email)
+//       throw abort('problem starting user', { data: { email, fullName } })
 
-    await this.sendOneTimeCode({ email: user.email })
+//     await this.sendOneTimeCode({ email: user.email })
 
-    this.log.info(`user started ${email}:${fullName ?? '(no name)'}`)
+//     this.log.info(`user started ${email}:${fullName ?? '(no name)'}`)
 
-    return {
-      status: 'success',
-      data: { userId: user.userId, fullName: user.fullName, email: user.email },
-      message: 'verification code sent',
-      user,
-      token: this.fictionUser.createClientToken(user),
-    }
-  }
-}
+//     return {
+//       status: 'success',
+//       data: { userId: user.userId, fullName: user.fullName, email: user.email },
+//       message: 'verification code sent',
+//       user,
+//       token: this.getToken(user),
+//     }
+//   }
+// }
 
 type LoginResponse = Promise<
   EndpointResponse<User> & {
@@ -831,7 +763,7 @@ export class QueryLogin extends UserQuery {
 
     if (!user && createOnEmpty) {
       if (!password)
-        throw this.stop('password required')
+        throw abort('password required')
 
       const { data: createdUser }
         = await this.fictionUser.queries.ManageUser.serve(
@@ -839,7 +771,7 @@ export class QueryLogin extends UserQuery {
             _action: 'create',
             fields: { email, password },
             orgName,
-            noVerify: true,
+            noValidate: true,
           },
           m,
         )
@@ -849,7 +781,7 @@ export class QueryLogin extends UserQuery {
       this.log.info(`user created ${email}`)
     }
     else if (!user) {
-      throw this.stop('User does not exist. Register instead?')
+      throw abort('User does not exist. Register instead?')
     }
 
     // logging in within google
@@ -866,12 +798,12 @@ export class QueryLogin extends UserQuery {
         message = 'linked google account'
       }
       else if (user.googleId !== googleId) {
-        throw this.stop('user linked to another google account')
+        throw abort('user linked to another google account')
       }
     }
     else if (password && user) {
       if (!user.hashedPassword)
-        throw this.stop('no password exists, login another way?')
+        throw abort('no password exists, login another way?')
 
       const correctPassword = await comparePassword(
         password,
@@ -879,15 +811,15 @@ export class QueryLogin extends UserQuery {
       )
 
       if (!correctPassword)
-        throw this.stop('password is incorrect')
+        throw abort('password is incorrect')
 
       delete user.hashedPassword
     }
     else {
-      throw this.stop('no auth provided')
+      throw abort('no auth provided')
     }
 
-    const token = this.fictionUser.createClientToken(user)
+    const token = this.getToken(user)
 
     if (!message)
       message = 'successfully logged in'
@@ -954,7 +886,7 @@ export class QueryNewVerificationCode extends UserQuery {
     }
 
     if (!existingUser || !existingUser.email)
-      throw this.stop('no user')
+      throw abort('no user')
 
     await this.sendOneTimeCode({ email: existingUser.email })
 
@@ -1042,39 +974,6 @@ export abstract class QueryOrganization extends UserQuery {
   }
 }
 
-export class QueryFindOneOrganization extends QueryOrganization {
-  async run(
-    params: {
-      orgId: string
-      lastOrgId?: string
-      relationUserId?: string
-    },
-    _meta: EndpointMeta,
-  ): Promise<EndpointResponse<Organization>> {
-    const { orgId, lastOrgId, relationUserId } = params
-
-    const db = this.fictionDb.client()
-    const q = this.orgBaseQuery(db)
-
-    const r = await q
-      .where(`${standardTable.org}.org_id`, orgId)
-      .first<Organization | undefined>()
-
-    const data = r
-      ? this.refineRawOrganization(
-        {
-          org: r,
-          lastOrgId,
-          userId: relationUserId,
-        },
-        _meta,
-      )
-      : undefined
-
-    return { status: 'success', data }
-  }
-}
-
 export class QueryOrganizationsByUserId extends QueryOrganization {
   async run(
     params: {
@@ -1111,11 +1010,7 @@ export class QueryOrganizationsByUserId extends QueryOrganization {
     const data = r
       .map((org: Organization) =>
         this.refineRawOrganization(
-          {
-            org,
-            lastOrgId,
-            userId,
-          },
+          { org, lastOrgId, userId },
           _meta,
         ),
       )
@@ -1179,12 +1074,12 @@ export class QueryGenerateApiSecret extends UserQuery {
     if (!this.fictionUser)
       throw new Error('no user service')
     if (!params.orgId)
-      throw this.stop('orgId required')
+      throw abort('orgId required')
 
     const { orgId } = params
 
     if (!meta.bearer?.userId && !meta.server)
-      throw this.stop('auth required for API secret generation')
+      throw abort('auth required for API secret generation')
 
     let org: Organization | undefined = undefined
     let message: string | undefined = undefined
@@ -1209,14 +1104,10 @@ export class QueryGenerateApiSecret extends UserQuery {
     let user: User | undefined
 
     if (meta.bearer?.userId) {
-      const { data: privateUser }
-        = await this.fictionUser.queries.ManageUser.serve(
-          {
-            _action: 'getPrivate',
-            userId: meta.bearer.userId,
-          },
-          meta,
-        )
+      const { data: privateUser } = await this.fictionUser.queries.ManageUser.serve(
+        { _action: 'getPrivate', userId: meta.bearer.userId },
+        meta,
+      )
       user = privateUser
     }
 
@@ -1244,9 +1135,9 @@ export class QueryManageMemberRelation extends UserQuery {
     meta: EndpointMeta,
   ): Promise<EndpointResponse<OrganizationMembership>> {
     if (!this.fictionUser)
-      throw new Error('no user service')
+      throw abort('no user service')
     if (!meta.bearer && !meta.server)
-      throw this.stop('auth required')
+      throw abort('auth required')
     const {
       memberId,
       orgId,
@@ -1333,7 +1224,7 @@ export class QueryManageOrganization extends UserQuery {
     const { _action } = params
     const { bearer, server } = meta
     if (!bearer && !server)
-      throw this.stop('bearer required')
+      throw abort('bearer required')
 
     const db = this.fictionDb.client()
 
@@ -1343,12 +1234,12 @@ export class QueryManageOrganization extends UserQuery {
     if (_action === 'delete' || _action === 'update') {
       const { orgId } = params
       if (!orgId)
-        throw this.stop('orgId required')
+        throw abort('orgId required')
       if (
         !server
         && !bearer?.orgs?.find(o => o.orgId === orgId)
       ) {
-        throw this.stop('bearer privilege', {
+        throw abort('bearer privilege', {
           data: {
             bearerOrgs: bearer?.orgs?.map(o => o.orgId),
             orgId,
@@ -1363,7 +1254,7 @@ export class QueryManageOrganization extends UserQuery {
       const { orgName, orgEmail = email } = org
 
       if (!userId || (!server && bearer?.userId !== userId))
-        throw this.stop('bearer mismatch', { data: { meta, params } })
+        throw abort('bearer mismatch', { data: { meta, params } })
 
       const defaultName = `${orgEmail?.split('@')[0]}`
 
@@ -1455,57 +1346,5 @@ export class QueryManageOrganization extends UserQuery {
     const user = await this.returnUser(meta)
 
     return { status: 'success', message, user, data: responseOrg }
-  }
-}
-
-export class QueryManageOnboard extends UserQuery {
-  async run(
-    params: {
-      _action: 'update'
-      settings: OnboardStoredSettings
-      orgId?: string
-      userId?: string
-      mode: 'org' | 'user'
-    },
-    meta: EndpointMeta,
-  ): Promise<EndpointResponse<OnboardStoredSettings>> {
-    const { settings, orgId, userId, mode } = params
-    const db = this.fictionDb?.client()
-    if (!db)
-      throw new Error('db missing')
-    if (!settings)
-      throw new Error('settings missing')
-
-    const columnKey = 'onboard'
-    const newSettings = JSON.stringify(settings)
-
-    const tbl = mode === 'org' ? standardTable.org : standardTable.user
-    const where = mode === 'org' ? { orgId } : { userId }
-
-    const setter = db.raw(
-      `jsonb_merge_patch(${columnKey}::jsonb, ?::jsonb)`,
-      [newSettings],
-    )
-
-    if (!orgId && !userId)
-      throw new Error('orgId or userId required')
-
-    const r = await db
-      .table(tbl)
-      .update({
-        onboard: setter,
-      })
-      .where(where)
-      .returning<Organization[]>('*')
-
-    const item = r[0]
-
-    const user = await this.returnUser(meta)
-
-    return {
-      status: 'success',
-      data: item?.onboard,
-      user,
-    }
   }
 }

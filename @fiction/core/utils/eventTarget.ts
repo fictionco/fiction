@@ -1,13 +1,6 @@
-import type { CardTemplate } from './card'
-
-export interface SiteEventMap {
-  addCard: CustomEvent<{ template: CardTemplate }>
-  setActiveCard: CustomEvent<{ cardId: string } >
-}
-
 type EventDetail<T> = T extends CustomEvent<infer D> ? D : never
 
-export class TypedEventTarget<T extends SiteEventMap> extends EventTarget {
+export class TypedEventTarget<T extends Record<string, CustomEvent>> extends EventTarget {
   on<K extends keyof T>(
     type: K,
     listener: (this: TypedEventTarget<T>, ev: T[K]) => any,
@@ -24,8 +17,11 @@ export class TypedEventTarget<T extends SiteEventMap> extends EventTarget {
     super.removeEventListener(type as string, listener as EventListener, options)
   }
 
-  emit<K extends keyof T>(type: K, detail: EventDetail<T[K]>): boolean {
+  emit<K extends keyof T>(type: K, detail: EventDetail<T[K]>): CustomEvent {
     const event = new CustomEvent(type as string, { detail }) as T[K]
-    return super.dispatchEvent(event as Event)
+
+    super.dispatchEvent(event as Event)
+
+    return event
   }
 }

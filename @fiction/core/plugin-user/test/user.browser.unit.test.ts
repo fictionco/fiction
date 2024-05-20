@@ -3,6 +3,7 @@
  */
 import { createTestUtils } from '@fiction/core/test-utils/init'
 import { afterAll, describe, expect, it, vi } from 'vitest'
+import { decodeUserToken } from '@fiction/core/utils/jwt'
 import { getTestEmail, snap } from '../../test-utils'
 import type { User } from '../types'
 
@@ -22,9 +23,9 @@ describe('user tests', async () => {
     const spy = vi.spyOn(testUtils?.fictionEmail, 'sendTransactional')
 
     const { fictionUser } = testUtils ?? {}
-    const response = await fictionUser?.requests.StartNewUser.request({
-      email,
-      fullName: 'test',
+    const response = await fictionUser?.requests.ManageUser.request({
+      _action: 'create',
+      fields: { fullName: 'test', email },
     })
 
     expect(response?.data).toBeTruthy()
@@ -34,8 +35,7 @@ describe('user tests', async () => {
 
     expect(spy).toHaveBeenCalled()
 
-    // due to timeouts
-    delete user.geo
+    delete user?.geo
 
     expect(snap(user, { maskedKeys: ['cityName', 'timezone', 'ipOrganization', 'latitude', 'longitude', 'regionName'] })).toMatchInlineSnapshot(`
       {
@@ -56,7 +56,11 @@ describe('user tests', async () => {
     expect(token).toBeTruthy()
     expect(user?.verificationCode).toBeFalsy()
     expect(user?.emailVerified).toBeFalsy()
-    const fields = testUtils?.fictionUser.decodeClientToken(token)
+
+    if (!token)
+      throw new Error('token not returned')
+
+    const fields = decodeUserToken({ token, tokenSecret: testUtils?.fictionUser.settings.tokenSecret })
 
     expect(fields).toBeTruthy()
   }, 20000)

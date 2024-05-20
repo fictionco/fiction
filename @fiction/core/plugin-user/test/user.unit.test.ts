@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt'
 import { createTestUtils } from '@fiction/core/test-utils/init'
 
 import { describe, expect, it, vi } from 'vitest'
+import { decodeUserToken } from '@fiction/core/utils/jwt'
 import type { User } from '../types'
 import { getTestEmail } from '../../test-utils'
 
@@ -77,8 +78,8 @@ describe('user tests', async () => {
     expect(bcrypt.compare('test', user?.hashedPassword ?? '')).toBeTruthy()
     expect(response?.token).toBeTruthy()
 
-    const result = testUtils?.fictionUser.decodeClientToken(
-      response?.token,
+    const result = decodeUserToken(
+      { token: response?.token, tokenSecret: testUtils?.fictionUser?.settings.tokenSecret },
     )
 
     expect(result?.email).toBe(user.email)

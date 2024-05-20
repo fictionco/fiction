@@ -43,7 +43,7 @@ function setTextValue() {
 }
 
 function valueFromModelValue() {
-  const v = clean(props.modelValue || '')
+  const v = props.modelValue || ''
   const out = props.isMarkdown ? toHtml(v) : v
 
   return `${props.prefix}${out}${props.suffix}`
@@ -103,7 +103,7 @@ vue.onMounted(() => {
 function onPaste(event: ClipboardEvent) {
   event.preventDefault() // Prevent the default paste action
   const text = event.clipboardData?.getData('text/plain') || '' // Get plain text from clipboard
-  textValue.value = clean(text) // Clean and set the updated value
+  textValue.value = text // Clean and set the updated value
   updateValue.value = textValue.value // Update the value
   emit('input', getValue(updateValue.value)) // Emit input event
   emitValue() // Emit value update

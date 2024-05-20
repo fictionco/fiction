@@ -8,6 +8,7 @@ import { safeDirname } from '../utils'
 import { type EndpointMeta, isActualBrowser } from '../utils/index.js'
 import { toMarkdown } from '../utils/markdown.js'
 import type { EndpointResponse } from '../types'
+import { getFromAddress } from '../utils/email'
 import type { FictionEmail, TransactionalEmailConfig } from '.'
 
 export type EmailQuerySettings = FictionPluginSettings & {
@@ -59,13 +60,6 @@ export abstract class EmailQuery extends Query<EmailQuerySettings> {
     }
 
     return this.client
-  }
-
-  getFromAddress = (args: { name?: string, email?: string } = {}): string => {
-    const app = this.settings.fictionEnv?.meta.app || {}
-    const { name = app.name, email = app.email } = args
-
-    return `${name ?? ''} <${email}>`
   }
 }
 
@@ -152,12 +146,13 @@ export class QueryTransactionalEmail extends EmailQuery {
     const client = this.getClient()
 
     const { html, text } = template
-    const { from, to, subject } = fields
+    const { from = getFromAddress({ fictionEnv: this.settings.fictionEnv }), to, subject } = fields
 
     const theEmail: nodeMailer.SendMailOptions = { from, to, subject, html, text }
 
     let isSent = false
     if (client) {
+      console.warn('SEDNGIN EMAIL', theEmail)
       isSent = true
       await this.client?.sendMail(theEmail)
     }

@@ -51,6 +51,7 @@ export type TableCardConfig<T extends Record<string, unknown> = Record<string, u
   userConfig?: T & PageCardConfig
   cards?: TableCardConfig[]
   scope?: string
+  isSystem?: boolean
 }
 
 export type CardConfigPortable<T extends Record<string, unknown> = Record<string, unknown>> = Omit<Partial<TableCardConfig<T>>, 'cards'> & {

@@ -122,7 +122,7 @@ const filters = vue.computed<ImageFilterConfig[]>(() => props.media?.filters || 
         <div
           v-if="media.format === 'html'"
           class="h-full w-full *:w-full *:h-full"
-          v-html="clean(media.html)"
+          v-html="media.html"
         />
         <img
           v-else-if="media?.url"

@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { FictionUi } from '@fiction/ui'
 import type { ServiceConfig } from '@fiction/core'
-import { AppRoute, FictionApp, FictionAws, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionRouter, FictionServer, FictionUser, apiRoot, safeDirname } from '@fiction/core'
+import { AppRoute, FictionApp, FictionAws, FictionDb, FictionEmail, FictionEmailActions, FictionEnv, FictionMedia, FictionRouter, FictionServer, FictionUser, apiRoot, safeDirname } from '@fiction/core'
 
 import { FictionTeam } from '@fiction/core/plugin-team'
 import { FictionMonitor } from '@fiction/plugin-monitor'
@@ -9,6 +9,7 @@ import { FictionNotify } from '@fiction/plugin-notify'
 import { FictionStripe } from '@fiction/plugin-stripe'
 import { FictionDevRestart } from '@fiction/core/plugin-env/restart'
 import { FictionSites } from '@fiction/site'
+import { FictionAdmin } from '@fiction/admin'
 
 import FSite from '@fiction/cards/CardSite.vue'
 import { FictionAi } from '@fiction/plugin-ai'
@@ -106,11 +107,8 @@ const fictionUser = new FictionUser({
   tokenSecret: fictionEnv.var('TOKEN_SECRET'),
 })
 
-fictionEnv.addHook({
-  hook: 'userOnLogout',
-  callback: async () => {
-    fictionNotify.notifySuccess('You have been logged out.')
-  },
+fictionUser.events.on('logout', () => {
+  fictionNotify.notifySuccess('You have been logged out.')
 })
 
 const fictionMonitor = new FictionMonitor({
@@ -134,19 +132,18 @@ const basicService = {
 }
 
 const fictionAws = new FictionAws({
-  fictionEnv,
+  ...basicService,
   awsAccessKey: fictionEnv.var('AWS_ACCESS_KEY'),
   awsAccessKeySecret: fictionEnv.var('AWS_ACCESS_KEY_SECRET'),
 })
 
 const fictionMedia = new FictionMedia({
-  fictionEnv,
-  fictionDb,
-  fictionUser,
-  fictionServer,
+  ...basicService,
   fictionAws,
   bucket: 'factor-tests',
 })
+
+const fictionEmailActions = new FictionEmailActions({ ...basicService, fictionMedia })
 
 const fictionAi = new FictionAi({
   ...basicService,
@@ -157,6 +154,12 @@ const fictionAi = new FictionAi({
   openaiApiKey: fictionEnv.var('OPENAI_API_KEY'),
 })
 
+const fictionAdmin = new FictionAdmin({
+  ...basicService,
+  fictionEmailActions,
+  fictionMedia,
+})
+
 const pluginServices = {
   ...basicService,
   fictionAppSites,
@@ -164,6 +167,8 @@ const pluginServices = {
   fictionAws,
   fictionMedia,
   fictionAi,
+  fictionEmailActions,
+  fictionAdmin
 }
 
 const fictionStripe = new FictionStripe({

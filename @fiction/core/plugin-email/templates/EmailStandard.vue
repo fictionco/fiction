@@ -14,14 +14,13 @@ const props = defineProps({
   bodyMarkdown: { type: String, default: undefined },
   preview: { type: String, default: undefined },
   actions: { type: Array as PropType<ActionItem[]>, default: () => [] },
-  unsubscribeLink: { type: String, default: undefined },
+  unsubscribeUrl: { type: String, default: undefined },
   mediaSuper: { type: Object as PropType<MediaItem>, default: undefined },
   mediaFooter: { type: Object as PropType<MediaItem>, default: undefined },
 })
 
 const fontStack = '-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji"'
 const fancyFontStack = `'Geist', ${fontStack}`
-const fancyFontStyle = { font: fancyFontStack }
 
 const gray = {
   0: '#ffffff',
@@ -73,7 +72,7 @@ const tailwindConfig: TailwindConfig = {
 }
 
 const previewText = computed(() => {
-  return props.preview || `${props.heading} ${props.subHeading}`
+  return props.preview || (props.heading ? `${props.heading} ${props.subHeading || ''}` : '')
 })
 
 function getButtonClass(item: ActionItem): string {
@@ -164,9 +163,13 @@ const markdownStyles = {
             figcaption{font-size: 0.8rem; text-align: center; color: #666; margin-top: 0.5rem;}
             @media (prefers-color-scheme: dark) {
             }
+            a{ transition: opacity 0.2s;}
+            a:hover{opacity: 0.8;}
           </EStyle>
         </EHead>
-        <EPreview>{{ previewText }}</EPreview>
+        <EPreview v-if="previewText">
+          {{ previewText }}
+        </EPreview>
         <EBody :style="{ fontFamily: fontStack }" class="dark:bg-gray-900 bg-white dark:text-white text-gray-900">
           <EContainer class="py-8 px-4 max-w-[600px]">
             <ESection v-if="mediaSuper">
@@ -181,10 +184,10 @@ const markdownStyles = {
             </ESection>
 
             <ESection :style="{ font: fancyFontStack }">
-              <EText :style="{ fontWeight: 'bold', fontSize: '24px', lineHeight: 1.33 }">
+              <EText class="my-0" :style="{ fontWeight: 'bold', fontSize: '24px', lineHeight: 1.33 }">
                 {{ heading }}
               </EText>
-              <EText :style="{ fontWeight: 'normal', fontSize: '24px', lineHeight: 1.33 }" class=" text-gray-500">
+              <EText v-if="subHeading" class="my-0 text-gray-500" :style="{ fontWeight: 'normal', fontSize: '24px', lineHeight: 1.33 }">
                 <span v-html="subHeading" /> &#x2198;
               </EText>
             </ESection>
@@ -196,7 +199,7 @@ const markdownStyles = {
             <ESection class="mt-12 mb-8 text-left">
               <ESection class="inline-block">
                 <EColumn v-for="(item, i) in actions" :key="i" :class="i === 0 ? '' : 'pl-4'">
-                  <EButton :href="item.href" :class="getButtonClass(item)" class="hover:opacity-80 font-bold " :style="{ whiteSpace: 'nowrap' }" v-html="item.name" />
+                  <EButton :href="item.href" :class="getButtonClass(item)" class="hover:opacity-80 font-bold select-none" :style="{ whiteSpace: 'nowrap' }" v-html="item.name" />
                 </EColumn>
               </ESection>
             </ESection>
@@ -204,7 +207,7 @@ const markdownStyles = {
             <EHr class="my-12 border-gray-500 opacity-30" />
 
             <ESection class="mt-8 text-left text-gray-300 dark:text-gray-500 text-normal text-xs">
-              <EColumn class="w-1/2 align-top">
+              <EColumn class="w-[65%] align-top">
                 <template v-if="mediaFooter">
                   <EImg v-if="mediaFooter.media?.url" width="80" :src="mediaFooter.media?.url" :alt="mediaFooter.name " />
                   <EText>
@@ -214,8 +217,8 @@ const markdownStyles = {
                   </EText>
                 </template>
               </EColumn>
-              <EColumn class="w-1/2 text-right text-gray-400 align-top text-xs">
-                <ELink v-if="unsubscribeLink" :href="unsubscribeLink" class="text-gray-300 text-normal">
+              <EColumn class="w-[35%] text-right text-gray-400 align-top text-xs">
+                <ELink v-if="unsubscribeUrl" :href="unsubscribeUrl" class="text-gray-300 text-normal">
                   Unsubscribe
                 </ELink>
               </EColumn>

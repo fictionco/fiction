@@ -1,7 +1,8 @@
 import type { FictionRouter } from '@fiction/core'
 import { FictionObject, deepMerge, getColorScheme, isDarkOrLightMode, localRef, objectId, resetUi, shortId, vue, waitFor } from '@fiction/core'
+import { TypedEventTarget } from '@fiction/core/utils/eventTarget'
 import type { CardConfigPortable, PageRegion, SiteUserConfig, TableCardConfig, TableSiteConfig } from './tables'
-import type { Card } from './card'
+import type { Card, CardTemplate } from './card'
 import { flattenCards, setLayoutOrder } from './utils/layout'
 import type { LayoutOrder } from './utils/layout'
 import { SiteFrameTools } from './utils/frame'
@@ -10,7 +11,6 @@ import { addNewCard, removeCard } from './utils/region'
 import type { QueryVarHook } from './utils/site'
 import { saveSite, setSections, setupRouteWatcher, updateSite } from './utils/site'
 import type { SiteMode } from './load'
-import { TypedEventTarget } from './siteEvents'
 import type { FictionSites } from '.'
 
 export type EditorState = {
@@ -31,6 +31,11 @@ export type SiteSettings = {
   isProd?: boolean
 } & Partial<TableSiteConfig> & { themeId: string }
 
+export type SiteEventMap = {
+  addCard: CustomEvent<{ template: CardTemplate }>
+  setActiveCard: CustomEvent<{ cardId: string } >
+}
+
 export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T> {
   fictionSites = this.settings.fictionSites
   siteRouter = this.settings.siteRouter
@@ -38,7 +43,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   isEditable = vue.computed(() => this.siteMode.value === 'editable' || false)
   isEditor = vue.computed(() => this.siteMode.value === 'designer' || false)
   frame = new SiteFrameTools({ site: this, relation: this.siteMode.value === 'designer' ? 'parent' : 'child' })
-  events = new TypedEventTarget()
+  events = new TypedEventTarget<SiteEventMap>()
   constructor(settings: T) {
     super('Site', settings)
     this.watchers()
@@ -130,7 +135,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   toConfig(args: { onlyKeys?: (keyof TableSiteConfig)[] | readonly (keyof TableSiteConfig)[] } = {}): { siteId: string } & Partial<TableSiteConfig> {
     const { onlyKeys = [] } = args
     const { fictionSites: _, siteRouter: __, ...savedSettings } = this.settings
-    const pages = this.pages.value.map(p => p.toConfig())
+    const pages = this.pages.value.filter(_ => !_.isSystem.value).map(p => p.toConfig())
     const sections = Object.fromEntries(Object.entries(this.sections.value).map(([k, v]) => [k, v.toConfig()]))
 
     const baseConfig = {

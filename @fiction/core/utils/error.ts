@@ -18,37 +18,44 @@ export interface ErrorConfig {
   retryable?: boolean
 }
 
-/**
- * Aborts the process, generating a structured error response based on the provided code and message.
- * @param message The error message to display.
- * @param config Additional configuration for handling the error.
- * @returns A structured error response object.
- */
-export function abort<T = unknown>(message: string, config: ErrorConfig = {}): EndpointResponse<T> {
-  const {
-    status = 'error',
-    code = 'OPERATION_FAILED',
-    data = undefined,
-    expose = true,
-    failedField = undefined,
-    suggestedAction = undefined,
-    retryable = false,
-  } = config
+export class EndpointError extends Error {
+  status: string
+  httpStatus: number
+  code: string
+  data: any
+  expose: boolean
+  failedField?: string
+  suggestedAction?: string
+  retryable: boolean
 
-  const httpStatus = config.httpStatus || defaultHttpStatus(code)
+  constructor(message: string, config: ErrorConfig = {}) {
+    super(message)
 
-  return {
-    status,
-    httpStatus,
-    message,
-    code,
-    data: data as T,
-    expose,
-    stack: new Error(message).stack,
-    failedField,
-    suggestedAction,
-    retryable,
+    const {
+      status = 'error',
+      code = 'OPERATION_FAILED',
+      data = undefined,
+      expose = true,
+      failedField = undefined,
+      suggestedAction = undefined,
+      retryable = false,
+    } = config
+
+    const httpStatus = config.httpStatus || defaultHttpStatus(code)
+
+    this.name = 'EndpointError'
+    this.status = status
+    this.httpStatus = httpStatus
+    this.code = code
+    this.data = data
+    this.expose = expose
+    this.failedField = failedField
+    this.suggestedAction = suggestedAction
+    this.retryable = retryable
   }
+}
+export function abort(message: string, config: ErrorConfig = {}): Error {
+  return new EndpointError(message, config)
 }
 export const _stop = abort
 

@@ -7,8 +7,11 @@ import type { CardConfigPortable } from '../tables'
 const logger = log.contextLogger('sitePageUtils')
 export function setPages(args: { pages?: CardConfigPortable[], site?: Site }) {
   const { pages = [], site } = args
+  const fictionEnv = site?.fictionSites.settings.fictionEnv
 
-  return pages?.map(p => new Card({ site, regionId: 'main', templateId: 'wrap', ...p })) || []
+  const pg = fictionEnv?.runHooksSync('setPages', pages) || pages || []
+
+  return pg.map(p => new Card({ site, regionId: 'main', templateId: 'wrap', ...p })) || []
 }
 
 export function updatePages(args: { site: Site, pages: (CardConfigPortable | undefined)[] }) {

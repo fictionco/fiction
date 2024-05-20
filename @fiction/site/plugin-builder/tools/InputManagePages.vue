@@ -35,7 +35,8 @@ const actions: ActionItem[] = [
 ]
 
 const handles = vue.computed(() => {
-  return props.site.pages.value.map((pg): Handle => {
+  const pg = props.site.pages.value.filter(_ => !_.isSystem.value) || []
+  return pg.map((pg): Handle => {
     const cardId = pg.cardId
     const actions: ActionItem[] = [{
       name: 'Settings',

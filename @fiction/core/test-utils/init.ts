@@ -73,7 +73,7 @@ export async function createTestUser(fictionUser: FictionUser) {
       fields: { email, password, emailVerified: true, fullName },
       _action: 'create',
     },
-    { server: true, caller: 'initializeTestUtilsCreate' },
+    { server: true, caller: 'initializeTestUtilsCreate', returnAuthority: ['verificationCode'] },
   )
 
   return { user: r.data, token: r.token, email, password }
@@ -151,7 +151,7 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
     cwd,
     mainFilePath: mainFilePath || path.join(root, './main.ts'),
     id: 'test',
-    meta: { version, app: { name: 'Test App', email: 'arpowers@gmail.com', url: 'https://www.test.com', domain: 'test.com' } },
+    meta: { version, app: { name: 'Test Fiction App', email: 'admin@fiction.com', url: 'https://testing.fiction.com', domain: 'fiction.com' } },
   })
 
   // check env vars

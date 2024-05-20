@@ -1,8 +1,6 @@
-import type { FictionEnv } from '../plugin-env'
 import { EnvVar, vars } from '../plugin-env'
 import { FictionPlugin, type FictionPluginSettings } from '../plugin'
-import { isTest, safeDirname, vue } from '../utils'
-import type { EndpointResponse } from '../types'
+import { isTest, safeDirname } from '../utils'
 import type EmailStandard from './templates/EmailStandard.vue'
 import { QueryTransactionalEmail } from './endpoint'
 
@@ -20,7 +18,6 @@ vars.register(() => [
 
 type FictionEmailSettings = {
   smtpPort?: number
-  fictionEnv: FictionEnv
   smtpHost?: string
   smtpUser?: string
   smtpPassword?: string
@@ -44,5 +41,12 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
 
   async sendTransactional(fields: TransactionalEmailConfig) {
     return this.queries.TransactionEmail.serve({ _action: 'send', fields }, { server: true })
+  }
+
+  emailImages() {
+    return {
+      icon: new URL('img/fiction-icon.png', import.meta.url).href,
+      footer: new URL('img/fiction-email-footer.png', import.meta.url).href,
+    }
   }
 }

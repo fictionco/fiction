@@ -157,7 +157,7 @@ type BaseCreateCardArgs<
   title?: string
   isHome?: boolean
   is404?: boolean
-}
+} & CardConfigPortable
 
 export function createCard<
 T extends keyof CreateUserConfigs<U>,

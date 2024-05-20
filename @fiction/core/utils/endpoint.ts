@@ -143,7 +143,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     }
 
     if (r.token)
-      this.fictionUser?.clientToken({ action: 'set', token: r.token as string })
+      this.fictionUser?.manageUserToken({ _action: 'set', token: r.token as string })
 
     return r as Awaited<ReturnType<T['run']>>
   }
@@ -182,7 +182,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
   }
 
   get bearerHeader() {
-    const bearerToken = this.fictionUser?.clientToken({ action: 'get' })
+    const bearerToken = this.fictionUser?.manageUserToken({ _action: 'get' })
     return `Bearer ${bearerToken ?? ''}`
   }
 

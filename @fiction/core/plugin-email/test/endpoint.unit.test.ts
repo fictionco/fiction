@@ -62,7 +62,7 @@ describe('transactional email', async () => {
         name: 'Personal Marketing Tools by Fiction',
         href: 'https://www.fiction.com',
       },
-      unsubscribeLink: 'https://www.fiction.com/unsubscribe',
+      unsubscribeUrl: 'https://www.fiction.com/unsubscribe',
     }
 
     testUtils.fictionEmail.isTest = true

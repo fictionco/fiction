@@ -17,6 +17,7 @@ import type { ErrorConfig } from './error'
 import type { Endpoint } from './endpoint'
 import { getCommit, getVersion } from './vars'
 import { getAccessLevel } from './priv'
+import { decodeUserToken } from './jwt'
 
 type CustomServerHandler = (app: express.Express,) => Promise<http.Server> | http.Server
 type MiddlewareHandler = (app: express.Express) => Promise<void> | void
@@ -204,7 +205,7 @@ export class EndpointServer {
 
       request.bearerToken = token
 
-      const r = this.fictionUser.decodeClientToken(token) ?? {}
+      const r = decodeUserToken({ token, tokenSecret: this.fictionUser.settings.tokenSecret }) ?? {}
 
       userId = r.userId
     }

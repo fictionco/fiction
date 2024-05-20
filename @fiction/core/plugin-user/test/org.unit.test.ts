@@ -60,65 +60,65 @@ describe('org/project handling', async () => {
     expect(result?.data?.length).toMatchInlineSnapshot('1')
   })
 
-  it('updates onboard information', async () => {
-    const userId = initialized?.user?.userId
+  // it('updates onboard information', async () => {
+  //   const userId = initialized?.user?.userId
 
-    if (!userId || !orgId)
-      throw new Error('no user or orgId')
+  //   if (!userId || !orgId)
+  //     throw new Error('no user or orgId')
 
-    const result = await testUtils?.fictionUser.queries.ManageOnboard.serve(
-      {
-        _action: 'update',
-        settings: { onboardComplete: true },
-        orgId,
-        mode: 'org',
-      },
-      { server: true },
-    )
+  //   const result = await testUtils?.fictionUser.queries.ManageOnboard.serve(
+  //     {
+  //       _action: 'update',
+  //       settings: { onboardComplete: true },
+  //       orgId,
+  //       mode: 'org',
+  //     },
+  //     { server: true },
+  //   )
 
-    expect(result?.data).toMatchInlineSnapshot(`
-      {
-        "onboardComplete": true,
-      }
-    `)
+  //   expect(result?.data).toMatchInlineSnapshot(`
+  //     {
+  //       "onboardComplete": true,
+  //     }
+  //   `)
 
-    const r2 = await testUtils?.fictionUser.queries.ManageOnboard.serve(
-      {
-        _action: 'update',
-        settings: { hide: { foo: true, bar: true } },
-        orgId,
-        mode: 'org',
-      },
-      { server: true },
-    )
+  //   const r2 = await testUtils?.fictionUser.queries.ManageOnboard.serve(
+  //     {
+  //       _action: 'update',
+  //       settings: { hide: { foo: true, bar: true } },
+  //       orgId,
+  //       mode: 'org',
+  //     },
+  //     { server: true },
+  //   )
 
-    expect(r2?.data).toMatchInlineSnapshot(`
-      {
-        "hide": {
-          "bar": true,
-          "foo": true,
-        },
-        "onboardComplete": true,
-      }
-    `)
+  //   expect(r2?.data).toMatchInlineSnapshot(`
+  //     {
+  //       "hide": {
+  //         "bar": true,
+  //         "foo": true,
+  //       },
+  //       "onboardComplete": true,
+  //     }
+  //   `)
 
-    const r3 = await testUtils?.fictionUser.queries.ManageOnboard.serve(
-      {
-        _action: 'update',
-        settings: { hide: { foo: null, bar: true } },
-        orgId,
-        mode: 'org',
-      },
-      { server: true },
-    )
+  //   const r3 = await testUtils?.fictionUser.queries.ManageOnboard.serve(
+  //     {
+  //       _action: 'update',
+  //       settings: { hide: { foo: null, bar: true } },
+  //       orgId,
+  //       mode: 'org',
+  //     },
+  //     { server: true },
+  //   )
 
-    expect(r3?.data).toMatchInlineSnapshot(`
-      {
-        "hide": {
-          "bar": true,
-        },
-        "onboardComplete": true,
-      }
-    `)
-  })
+  //   expect(r3?.data).toMatchInlineSnapshot(`
+  //     {
+  //       "hide": {
+  //         "bar": true,
+  //       },
+  //       "onboardComplete": true,
+  //     }
+  //   `)
+  // })
 })

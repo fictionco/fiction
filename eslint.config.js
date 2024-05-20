@@ -36,6 +36,8 @@ export default antfu(
       'ts/no-unsafe-member-access': 'off',
       'ts/no-misused-promises': 'off',
       'vue/no-ref-as-operand': 'error',
+      'regexp/no-super-linear-backtracking': 'warn',
+      'regexp/no-unused-capturing-group': 'warn',
     },
   },
   { ignores: [

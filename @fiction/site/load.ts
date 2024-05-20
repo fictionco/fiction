@@ -224,7 +224,7 @@ export function getMountContext(args: {
 }
 
 function formatPath(basePath: string, path: string): string {
-  const out = `${basePath}${path}`.replace(/\/\/+/g, '/').replace(/\/+$/, '')
+  const out = `${basePath}${path}`.replace(/\/{2,}/g, '/').replace(/\/+$/, '')
   return out || '/'
 }
 

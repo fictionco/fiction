@@ -194,6 +194,7 @@ const primary = vue.computed(() => site.value?.colors.value.primary || getColorS
         :data-theme-id="site?.themeId.value ?? '[empty]'"
         :data-sub-domain="site?.subDomain.value ?? '[empty]'"
         :data-site-mode="site?.siteMode.value ?? '[empty]'"
+        :data-page-template-id="site?.currentPage.value.templateId.value ?? '[empty]'"
       >
         <div v-if="loading" class="text-theme-300 dark:text-theme-0 flex justify-center pt-32">
           <ElSpinner class="h-12 w-12" />

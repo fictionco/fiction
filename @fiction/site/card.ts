@@ -67,6 +67,7 @@ export class Card<
   cardId = this.settings.cardId || objectId({ prefix: 'crd' })
   isHome = vue.ref(this.settings.isHome)
   is404 = vue.ref(this.settings.is404)
+  isSystem = vue.ref(this.settings.isSystem)
   parentId = this.settings.parentId
   depth = vue.ref(this.settings.depth || 0)
   index = vue.ref(this.settings.index)
@@ -185,7 +186,7 @@ export class Card<
   toConfig(): CardConfigPortable<T> {
     const { site: __, ...rest } = this.settings
 
-    const cards = this.cards.value.map(c => c.toConfig())
+    const cards = this.cards.value.filter(_ => !_.isSystem.value).map(c => c.toConfig())
 
     const generation = this.genUtil.toConfig()
 

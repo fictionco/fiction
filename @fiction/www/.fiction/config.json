@@ -37,10 +37,6 @@
       "path": "/api/user/VerifyAccountEmail"
     },
     {
-      "key": "StartNewUser",
-      "path": "/api/user/StartNewUser"
-    },
-    {
       "key": "CurrentUser",
       "path": "/api/user/CurrentUser"
     },
@@ -61,20 +57,12 @@
       "path": "/api/user/GenerateApiSecret"
     },
     {
-      "key": "FindOneOrganization",
-      "path": "/api/user/FindOneOrganization"
-    },
-    {
       "key": "OrganizationsByUserId",
       "path": "/api/user/OrganizationsByUserId"
     },
     {
       "key": "UpdateOrganizationMemberStatus",
       "path": "/api/user/UpdateOrganizationMemberStatus"
-    },
-    {
-      "key": "ManageOnboard",
-      "path": "/api/user/ManageOnboard"
     },
     {
       "key": "SaveMedia",

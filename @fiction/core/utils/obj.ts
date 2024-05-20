@@ -33,7 +33,10 @@ export function removeUndefined<T>(
     return value
   }
 }
-
+/**
+ * Checks if the provided value is a plain object, i.e., not a specialized object type like Array, Date, etc.
+ * Plain objects are direct instances of Object or have a null prototype.
+ */
 export function isPlainObject(value: unknown): boolean {
   if (typeof value !== 'object' || value === null)
     return false
@@ -44,7 +47,10 @@ export function isPlainObject(value: unknown): boolean {
 interface RefineFunction<T, U> {
   (param: { value: T, key?: string | number }): U
 }
-
+/**
+ * Recursively parses an object and applies a transformation function to each value.
+ * This function can handle objects, arrays, and values of primitive types.
+ */
 export function parseObject<T, U>(args: { obj: T, onValue: RefineFunction<unknown, U> }): T {
   const parseValue = <V>(value: V, key?: string | number): any => {
     if (Array.isArray(value)) {

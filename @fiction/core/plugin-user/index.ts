@@ -12,18 +12,19 @@ import type { FictionServer } from '../plugin-server'
 import type { FictionDb } from '../plugin-db'
 import type { FictionEmail } from '../plugin-email'
 import type { FictionRouter } from '../plugin-router'
-import { _stop, emitEvent, getCookie, hasWindow, isActualBrowser, isNode, removeCookieNakedDomain, safeDirname, setCookieNakedDomain, storeItem, vue } from '../utils'
+import { _stop, emitEvent, getCookie, hasWindow, isActualBrowser, isNode, removeCookie, removeCookieNakedDomain, safeDirname, setCookie, setCookieNakedDomain, storeItem, vue } from '../utils'
 import * as priv from '../utils/priv'
 import { standardTable } from '../tbl'
+import { manageClientUserToken } from '../utils/jwt'
+import { TypedEventTarget } from '../utils/eventTarget'
 import type { Organization, OrganizationMember, TokenFields, User } from './types'
 import { QueryUserGoogleAuth } from './userGoogle'
 import {
+  type ManageUserParams,
   QueryCurrentUser,
-  QueryFindOneOrganization,
   QueryGenerateApiSecret,
   QueryLogin,
   QueryManageMemberRelation,
-  QueryManageOnboard,
   QueryManageOrganization,
   QueryManageUser,
   QueryNewVerificationCode,
@@ -31,7 +32,6 @@ import {
   QueryResetPassword,
   QuerySendOneTimeCode,
   QuerySetPassword,
-  QueryStartNewUser,
   QueryUpdateCurrentUser,
   QueryUpdateOrganizationMemberStatus,
   QueryVerifyAccountEmail,
@@ -56,16 +56,20 @@ export type UserPluginSettings = {
   tokenSecret?: string
 } & FictionPluginSettings
 
+export type UserEventMap = {
+  newUser: CustomEvent<{ user: User, params: ManageUserParams & { _action: 'create' } }>
+  logout: CustomEvent<{ user?: User }>
+  currentUser: CustomEvent<{ user?: User }>
+}
+
 export class FictionUser extends FictionPlugin<UserPluginSettings> {
   priv = priv
-
   activeUser = vue.ref<User>()
   initialized?: Promise<boolean>
   resolveUser?: (value: boolean | PromiseLike<boolean>) => void
-  // hooks = this.settings.hooks || []
+  events = new TypedEventTarget<UserEventMap>()
   tokenSecret = this.settings.tokenSecret
   activePath = vue.ref(safeDirname(import.meta.url))
-  clientTokenKey = 'FCurrentUser'
   googleClientId = this.settings.googleClientId
   googleClientSecret = this.settings.googleClientSecret
   queries = this.createQueries()
@@ -102,6 +106,9 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
       this.watchRouteUserChanges().catch(console.error)
     }
   }
+
+  userTokenKey = 'fictionUser'
+  manageUserToken = (args: { _action?: 'set' | 'get' | 'destroy', token?: string } = {}) => manageClientUserToken({ key: this.userTokenKey, ...args })
 
   activeOrganizations = vue.computed<Organization[]>({
     get: () => {
@@ -262,28 +269,22 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
       UpdateCurrentUser: new QueryUpdateCurrentUser(deps),
       SendOneTimeCode: new QuerySendOneTimeCode(deps),
       VerifyAccountEmail: new QueryVerifyAccountEmail(deps),
-      StartNewUser: new QueryStartNewUser(deps),
+      // StartNewUser: new QueryStartNewUser(deps),
       CurrentUser: new QueryCurrentUser(deps),
       ManageUser: new QueryManageUser(deps),
       ManageOrganization: new QueryManageOrganization(deps),
       ManageMemberRelation: new QueryManageMemberRelation(deps),
       GenerateApiSecret: new QueryGenerateApiSecret(deps),
-      FindOneOrganization: new QueryFindOneOrganization(deps),
+      // FindOneOrganization: new QueryFindOneOrganization(deps),
       OrganizationsByUserId: new QueryOrganizationsByUserId(deps),
       UpdateOrganizationMemberStatus: new QueryUpdateOrganizationMemberStatus(deps),
-      ManageOnboard: new QueryManageOnboard(deps),
     } as const
   }
 
   deleteCurrentUser = (): void => {
     this.log.info(`deleted current user`)
-    this.clientToken({ action: 'destroy' })
+    this.manageUserToken({ _action: 'destroy' })
     this.activeUser.value = undefined
-  }
-
-  cacheUser = ({ user }: { user: Partial<User> }): void => {
-    if (user && user.userId)
-      storeItem(user.userId, user)
   }
 
   setCurrentUser = (args: {
@@ -297,19 +298,20 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
       return this.deleteCurrentUser()
 
     if (token)
-      this.clientToken({ action: 'set', token })
+      this.manageUserToken({ _action: 'set', token })
 
     this.activeUser.value = user
-
-    this.cacheUser({ user })
   }
 
   async logout(args: { callback?: () => void, redirect?: string } = {}) {
+    const user = this.activeUser.value
+
     this.deleteCurrentUser()
     emitEvent('logout')
-    emitEvent('resetUi')
 
-    await this.settings.fictionEnv.runHooks('userOnLogout')
+    this.events.emit('logout', { user })
+
+    emitEvent('resetUi')
 
     if (args.callback)
       args.callback()
@@ -328,7 +330,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
   }
 
   requestCurrentUser = async (): Promise<User | undefined> => {
-    const token = this.clientToken({ action: 'get' })
+    const token = this.manageUserToken({ _action: 'get' })
 
     let user: User | undefined
 
@@ -345,7 +347,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
         this.setCurrentUser({ user, reason: 'currentUser' })
     }
 
-    await this.settings.fictionEnv.runHooks('requestCurrentUser', user)
+    this.events.emit('currentUser', { user })
 
     this.log.debug('user loaded', { data: { user } })
 
@@ -401,56 +403,5 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     const newUser = await cb(this.activeUser.value)
     if (newUser)
       this.setCurrentUser({ user: newUser, reason })
-  }
-
-  clientToken = (args: { action?: 'set' | 'get' | 'destroy', token?: string } = {}): string | undefined => {
-    if (typeof window === 'undefined') {
-      if (args.action === 'get')
-        return
-      this.log.warn('browser functions not available, set client token', { data: args })
-      return
-    }
-
-    const { action = 'get', token } = args
-
-    if (action === 'destroy') {
-      removeCookieNakedDomain({ name: this.clientTokenKey })
-    }
-    else if (action === 'set' && token) {
-      this.settings.fictionEnv.runHooks('onSetClientToken', token).catch(console.error)
-
-      setCookieNakedDomain({ name: this.clientTokenKey, value: token, attributes: { expires: 14, sameSite: 'Lax' } })
-    }
-    else {
-      const cookieValue = getCookie(this.clientTokenKey)
-
-      return cookieValue || ''
-    }
-  }
-
-  /**
-   * Returns a user authentication credential including token for storage in client
-   */
-  createClientToken = (user: Partial<User>): string => {
-    if (!this.tokenSecret)
-      throw _stop('tokenSecret is not set', { code: 'TOKEN_ERROR' })
-
-    const { role = '', userId, email } = user
-    return jwt.sign({ role, userId, email }, this.tokenSecret)
-  }
-
-  /**
-   * Take a JWT token and decode into the associated user _id
-   */
-  decodeClientToken = (token: string): TokenFields => {
-    if (!this.tokenSecret)
-      throw _stop('tokenSecret is not set', { code: 'TOKEN_ERROR' })
-
-    const r = jwt.verify(token, this.tokenSecret) as TokenFields
-
-    if (!r.userId || !r.email)
-      throw _stop('token missing userId or email', { code: 'TOKEN_ERROR' })
-
-    return r
   }
 }

@@ -3,7 +3,7 @@ import process from 'node:process'
 import dotenv from 'dotenv'
 import { FictionObject } from '../plugin'
 import type { HookType } from '../utils'
-import { camelToUpperSnake, getCrossVar, isApp, isDev, isNode, isTest, runHooks, toSlug, vue } from '../utils'
+import { camelToUpperSnake, getCrossVar, isApp, isDev, isNode, isTest, runHooks, runHooksSync, toSlug, vue } from '../utils'
 import { version as fictionVersion } from '../package.json'
 import type { RunVars } from '../inject'
 import { compileApplication } from './entry'
@@ -97,6 +97,10 @@ export class FictionEnv<
 
   runHooks<T extends keyof FictionEnvHookDictionary>(hook: T, ...args: FictionEnvHookDictionary[T]['args']) {
     return runHooks<FictionEnvHookDictionary, T>({ list: this.hooks, hook, args })
+  }
+
+  runHooksSync<T extends keyof FictionEnvHookDictionary>(hook: T, ...args: FictionEnvHookDictionary[T]['args']) {
+    return runHooksSync<FictionEnvHookDictionary, T>({ list: this.hooks, hook, args })
   }
 
   public addHook<T extends HookType<FictionEnvHookDictionary>>(hook: T): void {

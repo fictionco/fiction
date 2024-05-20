@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { googleOneTap } from '@fiction/core/plugin-user/google'
 import type { Card } from '@fiction/site/card'
-import type { UserConfig } from './AuthWrap.vue'
 import type { ActionItem, FictionUser,
 } from '@fiction/core'
 import { emitEvent, toLabel, useService, vue } from '@fiction/core'
@@ -9,6 +8,7 @@ import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
+import type { UserConfig } from './AuthWrap.vue'
 
 const props = defineProps({
   itemId: { type: String as vue.PropType<Modes>, required: true },

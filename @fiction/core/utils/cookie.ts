@@ -55,7 +55,7 @@ export function getCookie(name: string): string | undefined {
 }
 
 // Removes a cookie with specified attributes.
-export function removeCookie({ name, attributes }: { name: string, attributes: CookieAttributes }): void {
+export function removeCookie({ name, attributes }: { name: string, attributes?: CookieAttributes }): void {
   Cookies.remove(name, attributes)
 }
 

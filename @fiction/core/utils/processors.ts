@@ -110,7 +110,7 @@ export class Shortcodes extends FictionObject<ShortcodesConfig> {
   }
 
   public addShortcode(shortcode: string, handler: ShortcodeHandler): void {
-    if (!shortcode.match(/^[a-zA-Z0-9_\-@]+$/))
+    if (!shortcode.match(/^[\w\-@]+$/))
       throw new Error('Invalid shortcode name')
 
     this.shortcodeDictionary[shortcode] = handler
@@ -124,7 +124,7 @@ export class Shortcodes extends FictionObject<ShortcodesConfig> {
   }
 
   async parseString(input: string): Promise<string> {
-    const regex = /(?:\\)?\[\s*([a-zA-Z0-9_\-@]+)(?:\s+([^[\]]+?))?\s*\](?:((?:.|\n)*?)\[\/\1\])?/g
+    const regex = /\\?\[\s*([\w\-@]+)(?:\s+([^[\]]+?))?\s*\](?:((?:.|\n)*?)\[\/\1\])?/g
     const matches = Array.from(input.matchAll(regex))
     let result = ''
     let lastIndex = 0
@@ -171,7 +171,7 @@ export class Shortcodes extends FictionObject<ShortcodesConfig> {
   }
 
   private containsShortcode(input: string): boolean {
-    const regex = /\[\s*([a-zA-Z0-9_\-@]+)(?:\s+([^[\]]+?))?\s*\]/
+    const regex = /\[\s*([\w\-@]+)(?:\s+([^[\]]+?))?\s*\]/
     return regex.test(input)
   }
 
@@ -184,7 +184,7 @@ export class Shortcodes extends FictionObject<ShortcodesConfig> {
     // Preprocess the string to replace escaped quotes
     const preprocessedString = attrString.replace(/\\+"/g, '"').replace(/\\+'/g, '\'')
 
-    const attrRegex = /([a-zA-Z0-9_\-@]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g
+    const attrRegex = /([\w\-@]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g
     let match: RegExpExecArray | null
 
     // Use a for loop instead of while for ESLint compliance

@@ -33,11 +33,9 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
   constructor(settings: FictionMonitorSettings) {
     super('FictionMonitor', settings)
 
-    this.settings.fictionEnv.hooks.push({
-      hook: 'requestCurrentUser',
-      callback: async (user) => {
-        await this.identifyUser(user)
-      },
+    this.settings.fictionUser.events.on('currentUser', async (event) => {
+      const { user } = event.detail
+      await this.identifyUser(user)
     })
 
     this.settings.fictionEnv.hooks.push({

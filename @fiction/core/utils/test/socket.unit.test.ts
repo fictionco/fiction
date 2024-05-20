@@ -16,6 +16,7 @@ import type { TestUtils } from '../../test-utils/init'
 import { createTestUtils } from '../../test-utils/init'
 import { waitFor } from '../utils'
 import { snap } from '../../test-utils'
+import { createUserToken } from '../jwt'
 
 // Polyfill WebSocket in Node.js environment
 const isNode = typeof process === 'object'
@@ -73,9 +74,12 @@ describe('sockets', () => {
     if (!fictionUser)
       throw new Error('no fictionUser')
 
-    const token = testUtils?.fictionUser.createClientToken({
-      email: 'hello@world.com',
-      userId: 'hello',
+    const token = createUserToken({
+      user: {
+        email: 'hello@world.com',
+        userId: 'hello',
+      },
+      tokenSecret: fictionUser.settings.tokenSecret,
     })
     const clientSocket = new ClientSocket<EventMap>({
       host,

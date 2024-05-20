@@ -13,6 +13,7 @@ import { objectId, shortId } from './id'
 import { fastHash, waitFor } from './utils'
 import type { Endpoint, EndpointMeta } from './endpoint'
 import { EndpointServer } from './endpointServer'
+import { decodeUserToken, manageClientUserToken } from './jwt'
 
 export interface EventMap {
   [key: string]: { req?: unknown, res?: unknown }
@@ -94,7 +95,7 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
 
     await this.fictionUser.userInitialized({ caller: 'getToken' })
 
-    return this.fictionUser.clientToken({ action: 'get' }) ?? ''
+    return manageClientUserToken({ _action: 'get', key: this.fictionUser.userTokenKey }) ?? ''
   }
 
   private async socketUrl(): Promise<string | undefined> {
@@ -369,7 +370,7 @@ export class NodeSocketServer<T extends EventMap> extends EventEmitter {
         request.bearerToken = undefined
 
         if (token && this.fictionUser) {
-          const tokenData = this.fictionUser.decodeClientToken(token)
+          const tokenData = decodeUserToken({ token, tokenSecret: this.fictionUser.settings.tokenSecret })
           request.bearer = tokenData
           request.bearerToken = token
         }
