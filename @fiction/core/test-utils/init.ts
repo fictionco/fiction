@@ -73,7 +73,7 @@ export async function createTestUser(fictionUser: FictionUser) {
       fields: { email, password, emailVerified: true, fullName },
       _action: 'create',
     },
-    { server: true, caller: 'initializeTestUtilsCreate', returnAuthority: ['verificationCode'] },
+    { server: true, caller: 'initializeTestUtilsCreate', returnAuthority: ['verify'] },
   )
 
   return { user: r.data, token: r.token, email, password }

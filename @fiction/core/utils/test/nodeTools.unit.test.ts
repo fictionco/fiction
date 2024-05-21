@@ -54,12 +54,14 @@ describe('node utils', () => {
 
     expect(Object.keys(service).sort()).toMatchInlineSnapshot(`
       [
+        "fictionAdmin",
         "fictionAi",
         "fictionApp",
         "fictionAppSites",
         "fictionAws",
         "fictionDb",
         "fictionEmail",
+        "fictionEmailActions",
         "fictionEnv",
         "fictionExtend",
         "fictionMedia",

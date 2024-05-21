@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site'
+import El404 from '@fiction/ui/page/El404.vue'
 import { vue } from '../utils/libraries'
 import { useService } from '../inject'
-import type { EmailVars } from './action'
+import type { EmailAction, EmailVars } from './action'
 import type { FictionEmailActions } from '.'
 
 type UserConfig = {
@@ -24,7 +25,7 @@ const vars = vue.computed(() => {
   return { actionId: actionId.value, ...routeQuery } as EmailVars
 })
 
-const currentAction = vue.computed(() => {
+const currentAction = vue.computed<EmailAction | undefined>(() => {
   const allActions = fictionEmailActions.emailActions || {}
   const action = allActions[actionId.value]
 
@@ -32,8 +33,15 @@ const currentAction = vue.computed(() => {
 })
 
 vue.onMounted(async () => {
-  if (vars.value.token)
-    await fictionUser.userInitialized({ newToken: vars.value.token })
+  await fictionUser.userInitialized()
+
+
+  if (vars.value.token) {
+    fictionUser.deleteCurrentUser()
+    fictionUser.manageUserToken({ _action: 'set', token: vars.value.token })
+    await fictionUser.userInitialized()
+  }
+
 
   loading.value = false
 })
@@ -65,8 +73,9 @@ vue.onMounted(async () => {
         </svg>
       </div>
     </div>
-    <template v-else>
-      <component :is="currentAction.settings.template" v-if="currentAction.settings.template" :card="card" :action="currentAction" :vars="vars" />
+    <template v-else-if="currentAction">
+      <component :is="currentAction?.settings.template" v-if="currentAction?.settings.template" :card="card" :action="currentAction" :vars="vars" />
     </template>
+    <El404 v-else heading="Missing Action" :sub-heading="`The transaction utility (${actionId}) wasn't found.`" />
   </div>
 </template>

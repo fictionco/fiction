@@ -11,7 +11,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="grid min-h-full place-items-center  px-6 py-24 sm:py-32 lg:px-8 h-[80dvh]">
+  <div class="grid  place-items-center  px-6 py-24 sm:py-32 lg:px-8 h-[50dvh]">
     <div class="text-center">
       <p class="text-sm font-medium text-theme-400 font-sans antialiased uppercase tracking-widest">
         {{ superHeading || '404' }}

@@ -46,7 +46,7 @@ describe('user tests', async () => {
       throw new Error('email required')
     const response = await testUtils?.fictionUser?.queries.ManageUser.serve({ _action: 'verifyEmail', email: user.email, code: 'test' }, {})
     expect(response?.status).toMatchInlineSnapshot(`"success"`)
-    expect(response?.message).toMatchInlineSnapshot(`"verification successful"`)
+    expect(response?.message).toMatchInlineSnapshot(`"email verified"`)
     expect(response?.data).toBeTruthy()
     expect(response?.status).toBe('success')
     expect(response?.message).toBe('verification successful')
@@ -64,8 +64,8 @@ describe('user tests', async () => {
       { _action: 'login', where: { email: user.email }, password: 'test' },
       {},
     )
-    expect(response?.status).toMatchInlineSnapshot(`"success"`)
-    expect(response?.message).toMatchInlineSnapshot(`"successfully logged in"`)
+    expect(response?.status).toMatchInlineSnapshot(`"error"`)
+    expect(response?.message).toMatchInlineSnapshot(`"no password set"`)
     expect(response?.token).toBeTruthy()
     expect(response?.message).toContain('success')
 

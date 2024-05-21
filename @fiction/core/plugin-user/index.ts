@@ -252,11 +252,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     this.initialized = undefined
   }
 
-  setCurrentUser = (args: {
-    user: User | undefined
-    token?: string
-    reason?: string
-  }): void => {
+  setCurrentUser = (args: { user: User | undefined, token?: string, reason?: string }): void => {
     const { user, token = '' } = args
 
     if (!user)
@@ -290,6 +286,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
       // If no redirect is provided, modify the URL to remove 'logout' query param
       const url = new URL(window.location.href)
       url.searchParams.delete('logout')
+      url.searchParams.delete('token')
       window.location.href = url.toString()
     }
   }
@@ -324,19 +321,12 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
       this.resolveUser(true)
   }
 
-  userInitialized = async (
-    args?: { caller?: string, newToken?: string },
-  ): Promise<User | undefined> => {
-    const { caller = 'unknown', newToken } = args || {}
+  userInitialized = async (args?: { caller?: string }): Promise<User | undefined> => {
+    const { caller = 'unknown' } = args || {}
 
     if (!isActualBrowser()) {
       this.log.warn('user initialization called on server', { data: { caller } })
       return
-    }
-
-    if (newToken) {
-      this.deleteCurrentUser()
-      this.manageUserToken({ _action: 'set', token: newToken })
     }
 
     if (!this.initialized) {
@@ -361,9 +351,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
   }
 
   updateUser = async (
-    cb: (
-      user: User | undefined,
-    ) => User | undefined | Promise<User | undefined>,
+    cb: (user: User | undefined,) => User | undefined | Promise<User | undefined>,
     args: { reason?: string } = {},
   ): Promise<void> => {
     const { reason = 'updateUser' } = args

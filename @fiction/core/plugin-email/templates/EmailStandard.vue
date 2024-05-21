@@ -174,12 +174,14 @@ const markdownStyles = {
           <EContainer class="py-8 px-4 max-w-[600px]">
             <ESection v-if="mediaSuper">
               <EColumn v-if="mediaSuper.media?.url" class="w-[22px]">
-                <EImg class="rounded-md !border-2 !border-white/10 !border-solid" width="22" :src="mediaSuper.media?.url" />
+                <ELink :href="mediaSuper.href || '#'">
+                  <EImg class="rounded-md !border-2 !border-white/10 !border-solid" width="22" :src="mediaSuper.media?.url" />
+                </ELink>
               </EColumn>
               <EColumn v-if="mediaSuper?.name" class="pl-3">
-                <EText class="text-gray-500 dark:text-gray-300 font-normal text-[14px]">
+                <ELink :href="mediaSuper.href || '#'" class="text-gray-500 dark:text-gray-300 font-normal text-[14px]">
                   {{ mediaSuper?.name }}
-                </EText>
+                </ELink>
               </EColumn>
             </ESection>
 

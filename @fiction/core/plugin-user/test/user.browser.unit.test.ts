@@ -80,7 +80,7 @@ describe('user tests', async () => {
 
     user = response.data
 
-    expect(response.message).toMatchInlineSnapshot(`"verification successful"`)
+    expect(response.message).toMatchInlineSnapshot(`"email verified"`)
     expect(user?.emailVerified).toBeTruthy()
   })
 

@@ -5,22 +5,6 @@
       "path": "/api/utils/db/CheckUsername"
     },
     {
-      "key": "UserGoogleAuth",
-      "path": "/api/user/UserGoogleAuth"
-    },
-    {
-      "key": "Login",
-      "path": "/api/user/Login"
-    },
-    {
-      "key": "UpdateCurrentUser",
-      "path": "/api/user/UpdateCurrentUser"
-    },
-    {
-      "key": "CurrentUser",
-      "path": "/api/user/CurrentUser"
-    },
-    {
       "key": "ManageUser",
       "path": "/api/user/ManageUser"
     },
@@ -33,16 +17,8 @@
       "path": "/api/user/ManageMemberRelation"
     },
     {
-      "key": "GenerateApiSecret",
-      "path": "/api/user/GenerateApiSecret"
-    },
-    {
       "key": "OrganizationsByUserId",
       "path": "/api/user/OrganizationsByUserId"
-    },
-    {
-      "key": "UpdateOrganizationMemberStatus",
-      "path": "/api/user/UpdateOrganizationMemberStatus"
     },
     {
       "key": "SaveMedia",

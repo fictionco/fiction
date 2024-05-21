@@ -25,7 +25,13 @@ export function decodeUserToken(args: { token: string, tokenSecret?: string }): 
   if (!tokenSecret)
     throw abort('tokenSecret is not set', { code: 'TOKEN_ERROR' })
 
-  const r = jwt.verify(token, tokenSecret) as TokenFields
+  let r: TokenFields
+  try {
+    r = jwt.verify(token, tokenSecret) as TokenFields
+  }
+  catch (e) {
+    throw abort('token verification failed', { code: 'TOKEN_ERROR' })
+  }
 
   if (!r.userId || !r.email)
     throw abort('token missing userId or email', { code: 'TOKEN_ERROR' })

@@ -44,12 +44,9 @@ export interface CompiledServiceConfig {
     | 'AiCompletion'
     | 'AiImage'
     | 'CheckUsername'
-    | 'CurrentUser'
     | 'EmailAction'
-    | 'GenerateApiSecret'
     | 'GetCustomerData'
     | 'ListSubscriptions'
-    | 'Login'
     | 'ManageCert'
     | 'ManageCustomer'
     | 'ManageIndex'
@@ -69,9 +66,6 @@ export interface CompiledServiceConfig {
     | 'SaveMedia'
     | 'SeekInviteFromUser'
     | 'TeamInvite'
-    | 'UpdateCurrentUser'
-    | 'UpdateOrganizationMemberStatus'
-    | 'UserGoogleAuth'
     | 'oAuthEndpoint'
   tables: {
     fiction_user:
