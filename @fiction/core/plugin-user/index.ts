@@ -43,7 +43,6 @@ export type UserEventMap = {
   updateUser: CustomEvent<{ user: User, newEmail?: string, passwordChanged?: boolean }>
   logout: CustomEvent<{ user?: User }>
   currentUser: CustomEvent<{ user?: User }>
-  requestNewEmail: CustomEvent<{ user: User, newEmail: string }>
   resetPassword: CustomEvent<{ user: User }>
 }
 

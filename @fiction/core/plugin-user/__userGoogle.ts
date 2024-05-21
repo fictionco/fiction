@@ -1,6 +1,6 @@
 import type { OAuth2Client } from 'google-auth-library'
 
-import type { User } from '../plugin-user/types'
+import type { User } from './types'
 import type { EndpointResponse } from '../types'
 import type { EndpointMeta } from '../utils/endpoint'
 import { Query } from '../query'
@@ -94,7 +94,7 @@ export class QueryUserGoogleAuth extends Query<GoogleQuerySettings> {
         isNew = true
       }
 
-      const loginResponse = await this.settings.fictionUser.queries.Login.serve(
+      const loginResponse = await this.settings.fictionUser.queries.ManageUser.serve(
         {
           email: payload.email,
           googleId: payload.sub,

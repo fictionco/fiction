@@ -212,10 +212,7 @@ export class EndpointServer {
 
     if (userId) {
       const { data: user } = await this.fictionUser.queries.ManageUser.serve(
-        {
-          userId,
-          _action: 'getPrivate',
-        },
+        { where: { userId }, _action: 'retrieve' },
         { server: true },
       )
 

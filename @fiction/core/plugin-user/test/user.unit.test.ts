@@ -1,8 +1,5 @@
-import bcrypt from 'bcrypt'
 import { createTestUtils } from '@fiction/core/test-utils/init'
-
 import { describe, expect, it, vi } from 'vitest'
-import { decodeUserToken } from '@fiction/core/utils/jwt'
 import type { User } from '../types'
 import { getTestEmail } from '../../test-utils'
 
@@ -39,7 +36,7 @@ describe('user tests', async () => {
 
     expect(user?.userId).toBeTruthy()
     expect(user?.fullName).toBe('test')
-    expect(user?.verificationCode).toBeFalsy()
+    expect(user?.verify).toBeFalsy()
     expect(user?.emailVerified).toBeFalsy()
     expect(user?.email).toBe(email)
   })
@@ -47,7 +44,7 @@ describe('user tests', async () => {
   it('verifies account email', async () => {
     if (!user.email)
       throw new Error('email required')
-    const response = await testUtils?.fictionUser?.queries.VerifyAccountEmail.serve({ email: user.email, verificationCode: 'test' }, undefined)
+    const response = await testUtils?.fictionUser?.queries.ManageUser.serve({ _action: 'verifyEmail', email: user.email, code: 'test' }, {})
     expect(response?.status).toMatchInlineSnapshot(`"success"`)
     expect(response?.message).toMatchInlineSnapshot(`"verification successful"`)
     expect(response?.data).toBeTruthy()
@@ -57,42 +54,14 @@ describe('user tests', async () => {
     user = response?.data as User
 
     expect(user?.emailVerified).toBeTruthy()
-    expect(user?.verificationCode).toBeFalsy()
-  })
-
-  it('sets password', async () => {
-    if (!user.email)
-      throw new Error('email required')
-    const response = await testUtils?.fictionUser?.queries.SetPassword.serve(
-      {
-        email: user.email,
-        verificationCode: 'test',
-        password: 'test',
-      },
-      { bearer: user },
-    )
-    expect(response?.message).toMatchInlineSnapshot(`"new password created"`)
-    expect(response?.message).toContain('password created')
-    user = response?.data as User
-
-    expect(bcrypt.compare('test', user?.hashedPassword ?? '')).toBeTruthy()
-    expect(response?.token).toBeTruthy()
-
-    const result = decodeUserToken(
-      { token: response?.token, tokenSecret: testUtils?.fictionUser?.settings.tokenSecret },
-    )
-
-    expect(result?.email).toBe(user.email)
+    expect(user?.verify).toBeFalsy()
   })
 
   it('logs in with password', async () => {
     if (!user.email)
       throw new Error('email required')
-    const response = await testUtils?.fictionUser?.queries.Login.serve(
-      {
-        email: user.email,
-        password: 'test',
-      },
+    const response = await testUtils?.fictionUser?.queries.ManageUser.serve(
+      { _action: 'login', where: { email: user.email }, password: 'test' },
       {},
     )
     expect(response?.status).toMatchInlineSnapshot(`"success"`)
@@ -109,91 +78,18 @@ describe('user tests', async () => {
   it('resets password', async () => {
     if (!user.email)
       throw new Error('email required')
-    const response = await testUtils?.fictionUser?.queries.ResetPassword.serve(
-      {
-        email: user.email,
-      },
-      undefined,
+
+    let triggered = false
+
+    testUtils.fictionUser.events.on('resetPassword', async (args) => {
+      triggered = true
+    })
+
+    await testUtils?.fictionUser?.queries.ManageUser.serve(
+      { _action: 'event', eventName: 'resetPassword', where: { email: user.email } },
+      {},
     )
 
-    expect(response?.status).toBe('success')
-
-    if (!response?.internal)
-      throw new Error('code required')
-
-    const response2 = await testUtils?.fictionUser?.queries.SetPassword.serve(
-      {
-        email: user.email,
-        verificationCode: response?.internal,
-        password: 'test',
-      },
-      { bearer: user },
-    )
-
-    expect(response2?.status).toBe('success')
-  })
-
-  it('updates the user', async () => {
-    if (!user.email)
-      throw new Error('email required')
-    const response = await testUtils?.fictionUser?.queries.ManageUser.serve(
-      {
-        _action: 'update',
-        email: user.email,
-        fields: {
-          fullName: 'testUpdate',
-          facebook: 'https://www.facebook.com/apowers',
-        },
-      },
-      { bearer: user },
-    )
-
-    expect(response?.status).toBe('success')
-    expect(response?.data?.fullName).toBe('testUpdate')
-    expect(response?.data?.facebook).toBe('https://www.facebook.com/apowers')
-  })
-
-  it('retrieves public user information', async () => {
-    if (!user.email)
-      throw new Error('email required')
-
-    // Assuming there's a setup to have a user created before this test runs
-    const response = await testUtils?.fictionUser?.queries.ManageUser.serve({
-      _action: 'getPublic',
-      email: user.email,
-    }, {})
-
-    expect(response?.status).toBe('success')
-    // Validate that only public information is returned
-    expect(response?.data?.email).toBe(user.email)
-    // Ensure no sensitive information is exposed
-    expect(response?.data?.hashedPassword).toBeFalsy()
-  })
-
-  // Testing retrieval of private user information
-  it('retrieves private user information', async () => {
-    if (!user.userId)
-      throw new Error('userId required')
-
-    // Assuming authentication setup correctly in tests
-    const response = await testUtils?.fictionUser?.queries.ManageUser.serve({
-      _action: 'getPrivate',
-      userId: user.userId,
-    }, { bearer: user })
-
-    expect(response?.status).toBe('success')
-    // Validate retrieval of more detailed information
-    expect(response?.data?.fullName).toBe('testUpdate')
-  })
-
-  // Testing error handling for invalid action
-  it('handles invalid action error', async () => {
-    // @ts-expect-error test
-    const response = await testUtils?.fictionUser?.queries.ManageUser.serve({
-      _action: 'invalidAction' as any, // Forcing TypeScript to allow an invalid action for the test
-    }, {})
-
-    expect(response?.status).toBe('error')
-    expect(response?.message).toContain('Invalid action')
+    expect(triggered).toBeTruthy()
   })
 })

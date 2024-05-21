@@ -53,24 +53,29 @@ export type ManageUserParams =
     where: WhereUser
   }
   | {
-      _action: 'verifyEmail'
-      email: string
-      code: string
-      password?: string
-    }
-    | {
-      _action: 'getUserWithToken'
-      token: string
-    }
-    | {
-      _action: 'login'
-      where: WhereUser
-      password?: string
-    }
-    | {
-      _action: 'loginGoogle'
-      credential: string
-    }
+    _action: 'verifyEmail'
+    email: string
+    code: string
+    password?: string
+  }
+  | {
+    _action: 'getUserWithToken'
+    token: string
+  }
+  | {
+    _action: 'login'
+    where: WhereUser
+    password?: string
+  }
+  | {
+    _action: 'loginGoogle'
+    credential: string
+  }
+  | {
+    _action: 'event'
+    eventName: 'resetPassword'
+    where: WhereUser
+  }
 
   type ManageUserResponse = EndpointResponse<User> & {
     isNew: boolean
@@ -120,6 +125,9 @@ export class QueryManageUser extends UserBaseQuery {
         message = 'login successful'
         break
       }
+      case 'event':
+        user = await this.handleUserEvent(params)
+        break
       default:
         return { status: 'error', message: 'Invalid action', isNew }
     }
@@ -131,6 +139,21 @@ export class QueryManageUser extends UserBaseQuery {
       token = user ? fictionUser.getToken(user) : undefined
 
     return await this.prepareResponse({ user, isNew, token, message, params }, meta)
+  }
+
+  private async handleUserEvent(params: ManageUserParams & { _action: 'event' }): Promise<User > {
+    const { eventName, where } = params
+
+    const fictionUser = this.settings.fictionUser
+
+    const user = await this.getUser({ _action: 'retrieve', where })
+
+    if (!user)
+      throw abort('user not found', { data: where })
+
+    fictionUser.events.emit(eventName, { user })
+
+    return user
   }
 
   private async getUser(params: ManageUserParams & { _action: 'retrieve' }): Promise<User | undefined> {
