@@ -1,5 +1,6 @@
-import { EmailAction, type EmailVars, type EndpointMeta, type EndpointResponse, type User, abort, vue } from '@fiction/core'
+import { type EndpointMeta, type EndpointResponse, type User, abort, vue } from '@fiction/core'
 import { verifyCode } from '@fiction/core/plugin-user/utils'
+import { EmailAction } from '@fiction/plugin-email-actions'
 import type { FictionAdmin } from '..'
 
 export type VerifyRequestVars = {

@@ -137,7 +137,7 @@ export function activeSiteHostname(site: Site, opts: { isProd?: boolean } = {}) 
     const isProd = opts.isProd ?? site.isProd.value
     const sub = site.subDomain.value || 'NO_SUB_DOMAIN'
     const app = site.fictionSites.settings.fictionAppSites
-    const base = isProd ? app?.liveUrl.value : app?.localUrl
+    const base = isProd ? app?.liveUrl.value : app?.localUrl.value
 
     if (isProd && !base.includes('*'))
       console.error(`liveUrl must include a wildcard (*) - ${base}`)
@@ -157,7 +157,7 @@ export function activeSiteHostname(site: Site, opts: { isProd?: boolean } = {}) 
 export function activeSiteDisplayUrl(site: Site, opts: { isProd?: boolean, mode: 'display' | 'staging' }) {
   return vue.computed(() => {
     const { mode, isProd = site.isProd.value } = opts
-    const port = site.fictionSites.settings.fictionAppSites?.port
+    const port = site.fictionSites.settings.fictionAppSites?.port.value
 
     if (site.primaryCustomDomain.value && mode === 'display') {
       return `https://${site.primaryCustomDomain.value}`

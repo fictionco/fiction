@@ -24,7 +24,7 @@ describe('user tests', async () => {
     const response = await testUtils?.fictionUser?.queries.ManageUser.serve(
       {
         _action: 'create',
-        fields: { email, fullName: 'test' },
+        fields: { email, fullName: 'test', password: 'test' },
       },
       {},
     )
@@ -48,8 +48,10 @@ describe('user tests', async () => {
     expect(response?.status).toMatchInlineSnapshot(`"success"`)
     expect(response?.message).toMatchInlineSnapshot(`"email verified"`)
     expect(response?.data).toBeTruthy()
+
     expect(response?.status).toBe('success')
-    expect(response?.message).toBe('verification successful')
+
+    expect(response?.message).toMatchInlineSnapshot(`"email verified"`)
 
     user = response?.data as User
 
@@ -64,12 +66,13 @@ describe('user tests', async () => {
       { _action: 'login', where: { email: user.email }, password: 'test' },
       {},
     )
-    expect(response?.status).toMatchInlineSnapshot(`"error"`)
-    expect(response?.message).toMatchInlineSnapshot(`"no password set"`)
+
+    expect(response?.status).toMatchInlineSnapshot(`"success"`)
     expect(response?.token).toBeTruthy()
+    expect(response?.status).toBe('success')
     expect(response?.message).toContain('success')
 
-    expect(response?.message).toMatchInlineSnapshot('"successfully logged in"')
+    expect(response?.message).toMatchInlineSnapshot(`"login successful"`)
     user = response?.data as User
 
     expect(user).toBeTruthy()

@@ -7,6 +7,7 @@
     "@fiction/cards": "workspace:*",
     "@fiction/plugin-stripe": "workspace:*",
     "@fiction/site": "workspace:*",
+    "@fiction/plugin-email-actions": "workspace:*",
     "tailwindcss": "^3.4.3",
     "vue": "^3.4.27",
     "animejs": "^3.2.2",

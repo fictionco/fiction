@@ -122,6 +122,7 @@ export class QueryManageUser extends UserBaseQuery {
         break
       case 'login':
         user = await this.loginUser(params)
+        message = 'login successful'
         break
       case 'loginGoogle': {
         const r = await this.loginGoogle(params, meta)

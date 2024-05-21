@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site'
 import El404 from '@fiction/ui/page/El404.vue'
-import { vue } from '../utils/libraries'
-import { useService } from '../inject'
+import { useService, vue } from '@fiction/core'
 import type { EmailAction, EmailVars } from './action'
 import type { FictionEmailActions } from '.'
 
@@ -35,13 +34,11 @@ const currentAction = vue.computed<EmailAction | undefined>(() => {
 vue.onMounted(async () => {
   await fictionUser.userInitialized()
 
-
   if (vars.value.token) {
     fictionUser.deleteCurrentUser()
     fictionUser.manageUserToken({ _action: 'set', token: vars.value.token })
     await fictionUser.userInitialized()
   }
-
 
   loading.value = false
 })

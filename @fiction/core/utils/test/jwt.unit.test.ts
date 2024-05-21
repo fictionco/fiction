@@ -57,7 +57,7 @@ describe('jWT Functions with Expiration', () => {
 
     // Decoding the token after expiration should fail
     const action = () => decodeUserToken({ token, tokenSecret })
-    expect(action).toThrowErrorMatchingInlineSnapshot(`[TokenExpiredError: jwt expired]`)
+    expect(action).toThrowErrorMatchingInlineSnapshot(`[EndpointError: token verification failed]`)
   })
 
   it('successfully decodes a token before it expires', () => {
@@ -84,7 +84,7 @@ describe('jWT Functions with Expiration', () => {
     }
 
     // Checking if the error for expired token is thrown
-    expect(decodeExpiredToken).toThrowErrorMatchingInlineSnapshot(`[TokenExpiredError: jwt expired]`)
+    expect(decodeExpiredToken).toThrowErrorMatchingInlineSnapshot(`[EndpointError: token verification failed]`)
   })
 })
 

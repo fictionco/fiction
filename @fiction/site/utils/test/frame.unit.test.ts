@@ -27,7 +27,7 @@ describe('activeSiteDisplayUrl', async () => {
 
   it('should return HTTP URL with port for non-production site', () => {
     testUtils.fictionAppSites.liveUrl.value = 'https://*.example.com'
-    const port = testUtils.fictionAppSites.port
+    const port = testUtils.fictionAppSites.port.value
     const site = new Site({ ...common, isProd: false, subDomain: 'sub' })
 
     expect(activeSiteDisplayUrl(site, { mode: 'display' }).value).toBe(`http://sub.lan.com:${port}`)

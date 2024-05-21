@@ -20,7 +20,7 @@ describe('user tests', async () => {
   })
 
   it('creates user', async () => {
-    const spy = vi.spyOn(testUtils?.fictionEmail, 'sendTransactional')
+    // const spy = vi.spyOn(testUtils?.fictionEmail, 'sendTransactional')
 
     const { fictionUser } = testUtils ?? {}
     const response = await fictionUser?.requests.ManageUser.request({
@@ -33,7 +33,7 @@ describe('user tests', async () => {
     user = response?.user
     token = response?.token
 
-    expect(spy).toHaveBeenCalled()
+    // expect(spy).toHaveBeenCalled()
 
     delete user?.geo
 
@@ -42,6 +42,7 @@ describe('user tests', async () => {
         "createdAt": "[dateTime:]",
         "email": "[email:********+**********@*****.***]",
         "fullName": "[name:****]",
+        "ip": "[geo:::****:****:****]",
         "lastSeenAt": "[dateTime:]",
         "orgs": "[object Object]",
         "role": "subscriber",

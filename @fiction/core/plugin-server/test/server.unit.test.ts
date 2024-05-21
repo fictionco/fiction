@@ -112,7 +112,7 @@ describe('server test', () => {
     server = await fictionServer.createServer({ useLocal: true })
 
     expect(fictionUser.requests.ManageUser.getBaseUrl()).toBe(`http://localhost:${port}`)
-    expect(fictionUser.requests.ManageUser.requestUrl).toBe(`http://localhost:${port}/api/user/Login`)
+    expect(fictionUser.requests.ManageUser.requestUrl).toBe(`http://localhost:${port}/api/user/ManageUser`)
   })
 
   /**

@@ -1,12 +1,7 @@
-import { createUserToken } from '../utils/jwt'
-import { abort } from '../utils/error'
-import type { vue } from '../utils/libraries'
-import type { User } from '../plugin-user'
-import { FictionObject } from '../plugin'
-import type { TransactionalEmailConfig } from '../plugin-email'
-import { type EndpointMeta, deepMerge } from '../utils'
-import { getFromAddress } from '../utils/email'
-import type { EndpointResponse } from '../types'
+import type { EndpointMeta, EndpointResponse, TransactionalEmailConfig, User, vue } from '@fiction/core'
+import { FictionObject, abort, deepMerge } from '@fiction/core'
+import { createUserToken } from '@fiction/core/utils/jwt'
+import { getFromAddress } from '@fiction/core/utils/email'
 import type { FictionEmailActions } from '.'
 
 export type EmailVars = {

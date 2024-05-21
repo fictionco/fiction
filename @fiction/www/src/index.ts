@@ -1,8 +1,8 @@
 import path from 'node:path'
 import { FictionUi } from '@fiction/ui'
 import type { ServiceConfig } from '@fiction/core'
-import { AppRoute, FictionApp, FictionAws, FictionDb, FictionEmail, FictionEmailActions, FictionEnv, FictionMedia, FictionRouter, FictionServer, FictionUser, apiRoot, safeDirname } from '@fiction/core'
-
+import { AppRoute, FictionApp, FictionAws, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionRouter, FictionServer, FictionUser, apiRoot, safeDirname } from '@fiction/core'
+import { FictionEmailActions } from '@fiction/plugin-email-actions'
 import { FictionTeam } from '@fiction/core/plugin-team'
 import { FictionMonitor } from '@fiction/plugin-monitor'
 import { FictionNotify } from '@fiction/plugin-notify'
@@ -168,7 +168,7 @@ const pluginServices = {
   fictionMedia,
   fictionAi,
   fictionEmailActions,
-  fictionAdmin
+  fictionAdmin,
 }
 
 const fictionStripe = new FictionStripe({
@@ -282,7 +282,7 @@ export function setup(): ServiceConfig {
         }
         else if (command === 'sites') {
           const { build } = options as { build?: boolean, useLocal?: boolean }
-          const srv = await fictionServer.initServer({ useLocal: true, fictionUser, port: fictionAppSites.port })
+          const srv = await fictionServer.initServer({ useLocal: true, fictionUser, port: fictionAppSites.port.value })
           if (context === 'node') {
             if (build)
               await fictionAppSites.buildApp()

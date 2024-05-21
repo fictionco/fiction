@@ -13,7 +13,6 @@ export interface CompiledServiceConfig {
     | 'COMMAND_OPTS'
     | 'FICTION_ORG_ID'
     | 'FICTION_SITE_ID'
-    | 'FLY_API_TOKEN'
     | 'GOOGLE_CLIENT_ID'
     | 'GOOGLE_CLIENT_SECRET'
     | 'IS_TEST'

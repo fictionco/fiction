@@ -1,13 +1,17 @@
 import type { ServiceConfig } from '../plugin-env'
-import { createTestUtilServices } from './init'
+import { createTestUtils } from './init'
 
-const service = createTestUtilServices()
+export function setup(args: { envFiles?: string[], context?: 'node' | 'app' }) {
+  // so app mount can find its way back
 
-export function setup(): ServiceConfig {
+  const mainFilePath = new URL(import.meta.url).pathname
+  const service = createTestUtils({ mainFilePath, ...args })
+
   return {
+    service,
     fictionEnv: service.fictionEnv,
-
     createService: () => service,
     createMount: args => service.fictionApp.mountApp(args),
-  }
+    runCommand: async args => service.runApp(args),
+  } satisfies ServiceConfig
 }

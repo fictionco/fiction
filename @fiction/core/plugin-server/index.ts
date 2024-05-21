@@ -81,7 +81,7 @@ export class FictionServer extends FictionPlugin<FictionServerSettings> {
     if (this.settings.fictionEnv.isApp.value)
       return
 
-    if (!this.port)
+    if (!this.port.value)
       throw new Error('port not defined')
 
     let endpointServer: EndpointServer | undefined
@@ -130,6 +130,7 @@ export class FictionServer extends FictionPlugin<FictionServerSettings> {
     this.isInitialized = true
 
     const endpointServer = await this.initServer({ fictionUser, useLocal, port })
+
     this.server = await endpointServer?.runServer()
 
     return this.server

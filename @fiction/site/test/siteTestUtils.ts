@@ -6,8 +6,10 @@ import { createTestUtils } from '@fiction/core/test-utils/init'
 import { testEnvFile } from '@fiction/core/test-utils'
 import FSite from '@fiction/cards/CardSite.vue'
 import { runServicesSetup } from '@fiction/core/plugin-env/entry'
-import { createTestBrowser, performActions } from '@fiction/core/test-utils/buildTest'
+import type { performActions } from '@fiction/core/test-utils/buildTest'
+import { createTestBrowser } from '@fiction/core/test-utils/buildTest'
 import type { Browser } from 'playwright'
+import { createUiTestingKit } from '@fiction/core/test-utils/kit'
 import type { ThemeSetup } from '..'
 import { FictionSites } from '..'
 import * as testTheme from './test-theme'
@@ -98,34 +100,6 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
   return out as SiteTestUtils
 }
 
-export async function createSiteUiTestingKit(args: { headless?: boolean, setup?: MainFileSetup } = {}): Promise<{
-  port: number
-  browser: { browser: Browser }
-  close: () => Promise<void>
-  performActions: (_: Omit<Parameters<typeof performActions>[0], 'port' | 'browser'>) => Promise<void>
-
-}> {
-  const { headless = true, setup = mainFileSetup } = args
-  const serviceConfig = await setup({ context: 'node' })
-  const { service } = serviceConfig
-
-  const headlessActual = isCi() ? true : headless
-
-  if (!service)
-    throw new Error('service not found')
-
-  await serviceConfig.fictionEnv.crossRunCommand({ context: 'node', serviceConfig })
-  const port = service.fictionServer?.port.value
-
-  if (!port)
-    throw new Error('port not found')
-
-  const browser = await createTestBrowser({ headless: headlessActual })
-
-  const close = async () => {
-    await browser?.close()
-    await service.close?.()
-  }
-
-  return { port, browser, close, performActions: _ => performActions({ port, browser, ..._ }) }
+export async function createSiteUiTestingKit(args: { headless?: boolean, setup?: MainFileSetup } = {}) {
+  return createUiTestingKit({ ...args, setup: mainFileSetup })
 }

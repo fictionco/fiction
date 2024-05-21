@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site'
-import type { EmailAction, vue } from '@fiction/core'
+import type { vue } from '@fiction/core'
+import type { EmailAction } from '../action'
 
 defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },

@@ -83,6 +83,7 @@ describe('user config', () => {
           "dash",
           "engine",
           "renderTest",
+          "emailTransaction",
           "sitePreview",
         ]
       `)

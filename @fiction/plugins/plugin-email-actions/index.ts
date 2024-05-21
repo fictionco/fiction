@@ -1,16 +1,9 @@
 import { createCard } from '@fiction/site'
 
 import type { FictionMonitor } from '@fiction/plugins/plugin-monitor'
-import { FictionPlugin, type FictionPluginSettings } from '../plugin'
-import { safeDirname, vue } from '../utils'
-import type { FictionEmail } from '../plugin-email'
-import type { FictionMedia } from '../plugin-media'
-import type { FictionUser } from '../plugin-user'
-import type { FictionApp } from '../plugin-app'
-import type { FictionRouter } from '../plugin-router'
+import type { FictionApp, FictionDb, FictionEmail, FictionMedia, FictionPluginSettings, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
+import { AppRoute, FictionPlugin, safeDirname, vue } from '@fiction/core'
 
-import type { FictionServer } from '../plugin-server'
-import type { FictionDb } from '../plugin-db'
 import type { EmailAction } from './action'
 import { EndpointEmailAction } from './endpoint'
 
@@ -59,6 +52,10 @@ export class FictionEmailActions extends FictionPlugin<FictionEmailActionsSettin
         ]
       },
     })
+
+    this.settings.fictionRouter.update([
+      new AppRoute({ name: 'emailTransaction', path: '/_transaction/:itemId', component: (): Promise<any> => import('./ElEmailAction.vue') }),
+    ])
   }
 
   emailActions: Record<string, EmailAction> = {}

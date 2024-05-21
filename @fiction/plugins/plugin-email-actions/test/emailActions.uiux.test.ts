@@ -4,14 +4,17 @@ import { createTestUtils } from '@fiction/core/test-utils/init'
 import { afterAll, describe, expect, it } from 'vitest'
 import { FictionAws, FictionMedia, vue } from '@fiction/core'
 import { testEnvFile } from '@fiction/core/test-utils'
+import { createUiTestingKit } from '@fiction/core/test-utils/kit'
 import fs from 'fs-extra'
 import { EmailAction, FictionEmailActions } from '..'
+import { setup as emailActionMainFileSetup } from './mainFile'
 
 describe('email actions', async () => {
   if (!fs.existsSync(testEnvFile))
     console.warn(`missing test env file ${testEnvFile}`)
 
-  const testUtils = createTestUtils({ envFiles: [testEnvFile] })
+  const kit = await createUiTestingKit({ headless: false, envFiles: [testEnvFile], slowMo: 1000, setup: emailActionMainFileSetup })
+  const testUtils = kit.testUtils
 
   const awsAccessKey = testUtils.fictionEnv.var('AWS_ACCESS_KEY')
   const awsAccessKeySecret = testUtils.fictionEnv.var('AWS_ACCESS_KEY_SECRET')
@@ -24,39 +27,42 @@ describe('email actions', async () => {
 
   const fictionEmailActions = new FictionEmailActions({ ...testUtils, fictionMedia })
 
-  const initialized = await testUtils.init()
+  // console.log('FICTION EMAIL ACTIONS')
+  const initialized = await testUtils.initUser()
+  // console.log('2222')
+  const user = initialized.user
+
+  fictionEmailActions.settings.fictionEmail.isTest = false
+
+  const heading = 'Verify Your Email'
+  const action = new EmailAction({
+    actionId: 'test-action',
+    template: vue.defineAsyncComponent(() => import('./ElTestAction.vue')),
+    fictionEmailActions,
+    emailConfig: (vars) => {
+      return {
+        subject: `${vars.appName}: Verify Your Email`,
+        heading,
+        subHeading: 'Click the Link Below',
+        bodyMarkdown: `Verify your email using the code: **${vars.code}** or click the button below.`,
+        to: `${vars.email}`,
+        actions: [
+          {
+            name: 'Verify Email',
+            href: vars.callbackUrl,
+            btn: 'primary',
+          },
+        ],
+      }
+    },
+  })
 
   afterAll(async () => {
     await testUtils.close()
+    await kit.close()
   })
 
   it('sends email', async () => {
-    const user = initialized.user
-
-    fictionEmailActions.settings.fictionEmail.isTest = false
-
-    const heading = 'Verify Your Email'
-    const action = new EmailAction({
-      actionId: 'test-action',
-      template: vue.defineAsyncComponent(() => import('./ElTestAction.vue')),
-      fictionEmailActions,
-      emailConfig: (vars) => {
-        return {
-          subject: `${vars.appName}: Verify Your Email`,
-          heading,
-          subHeading: 'Click the Link Below',
-          bodyMarkdown: `Verify your email using the code: **${vars.code}** or click the button below.`,
-          to: `${vars.email}`,
-          actions: [
-            {
-              name: 'Verify Email',
-              href: vars.callbackUrl,
-              btn: 'primary',
-            },
-          ],
-        }
-      },
-    })
     const r = await action.send({ user, vars: { code: user.verify?.code } })
 
     const callbackUrl = action.emailVars?.callbackUrl || ''
@@ -89,5 +95,14 @@ describe('email actions', async () => {
           line-height: 1rem;"><tbody><tr><td><td data-id="__vue-email-column" role="presentation" class="w-[65%] align-top" style="width: 65%; vertical-align: top;"><img data-id="__vue-email-img" style="display:block;outline:none;border:none;text-decoration:none;" src="https://factor-tests.s3.amazonaws.com/fiction-relative-media/med664bade87610851cae6ecd1c-fiction-email-footer.png?blurhash=U2DS%5D%5D~q00_N00_4%25M4n00_N%3FcIU~q9F%25M-%3B" width="80" alt="Market Yourself with Fiction"><p data-id="__vue-email-text" style="font-size: 14px; line-height: 24px; margin: 16px 0;"><a data-id="__vue-email-link" style="color:#067df7;text-decoration:none; color: rgb(179,185,197); margin-top: 1rem;" href="https://www.fiction.com" target="_blank" class="text-normal dark:text-gray-500">Market Yourself with Fiction ↗ </a></p></img></td><td data-id="__vue-email-column" role="presentation" class="w-[35%] text-right text-gray-400 align-top text-xs" style="width: 35%; text-align: right; color: rgb(122,133,153); vertical-align: top; font-size: 0.75rem;
           line-height: 1rem;"><!--v-if--></td></td></tr></tbody></table></hr></hr></td></tr></tbody></table></body></html>"
     `)
+  })
+
+  it('loads up ui associated with action', async () => {
+    await kit.performActions({
+      path: '/_transaction/test-action',
+      actions: [
+        { type: 'visible', selector: '[data-test-id="email-login-button"]' },
+      ],
+    })
   })
 })

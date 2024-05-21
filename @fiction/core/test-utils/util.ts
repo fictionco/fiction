@@ -149,7 +149,7 @@ export function getTestEmail(): string {
 
 // regex all numbers and letters
 function rep(nm: string, val: string = '') {
-  return `[${nm}:${String(val).replaceAll(/[\dA-Za-z]/g, '*')}]`
+  return `[${nm}:${String(val).replaceAll(/[\dA-Z]/gi, '*')}]`
 }
 function snapString(value: unknown, key?: string, opts: { maskedKeys?: string[] } = {}): string {
   const maskedKeys = opts.maskedKeys ?? []

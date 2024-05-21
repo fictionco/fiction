@@ -5,7 +5,7 @@ import type { FictionMedia } from '@fiction/core/plugin-media'
 import type { FictionUser } from '@fiction/core/plugin-user'
 import type { FictionApp } from '@fiction/core/plugin-app'
 import type { FictionRouter } from '@fiction/core/plugin-router'
-import type { EmailAction, FictionEmailActions } from '@fiction/core/plugin-email-actions'
+import type { EmailAction, FictionEmailActions } from '@fiction/plugin-email-actions'
 import { getEmails } from './emails'
 
 export * from './tools/tools'

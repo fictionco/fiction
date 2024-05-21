@@ -49,15 +49,17 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   fictionBuild?: FictionBuild
   fictionRender?: FictionRender
   fictionSitemap?: FictionSitemap
-  port = this.settings.port || 3000
+  port = vue.ref(this.settings.port || 3000)
   appServer?: http.Server
   staticServer?: http.Server
   localHostname = this.settings.localHostname || `localhost`
-  localUrl = `http://${this.localHostname}:${this.port}`
-  liveUrl = vue.ref(this.settings.liveUrl || this.localUrl)
+  localUrl = vue.computed(() => `http://${this.localHostname}:${this.port.value}`)
+  prodUrl = vue.computed(() => this.settings.liveUrl || this.localUrl.value)
+  liveUrl = vue.ref(this.settings.liveUrl || this.localUrl.value)
+
   appUrl = vue.computed(() => {
     const isLive = this.settings.isLive?.value ?? false
-    return isLive ? this.liveUrl.value : this.localUrl
+    return isLive ? this.liveUrl.value : this.localUrl.value
   })
 
   srcFolder = this.settings.srcFolder || this.settings.fictionEnv.cwd
@@ -196,14 +198,14 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
 
   logReady(args: { serveMode: string }) {
     const app = this.settings.fictionEnv.meta.app || {}
-    const { port, appInstanceId, liveUrl, localUrl, settings } = this
+    const { port, appInstanceId, prodUrl, localUrl, settings } = this
     const serveMode = args.serveMode
     const isLive = this.isLive.value ?? false
-    const data: Record<string, any> = { instanceId: appInstanceId, app, port, liveUrl: liveUrl.value, localUrl, isLive, serveMode }
+    const data: Record<string, any> = { instanceId: appInstanceId, app, port: port.value, prodUrl: prodUrl.value, localUrl: localUrl.value, isLive, serveMode }
 
     if (settings.altHostnames?.length) {
       const mode = isLive ? 'prod' : 'dev'
-      const port = isLive ? '' : `:${this.port}`
+      const port = isLive ? '' : `:${this.port.value}`
       const protocol = isLive ? 'https' : 'http'
 
       data.altUrls = settings.altHostnames.map(_ => `${protocol}://${_[mode]}${port}`)
@@ -234,7 +236,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     const eApp = await this.ssrServerSetup({ isProd, expressApp })
 
     await new Promise<void>((resolve) => {
-      this.appServer = eApp?.listen(this.port, () => resolve())
+      this.appServer = eApp?.listen(this.port.value, () => resolve())
     })
 
     this.logReady({ serveMode: 'ssr' })

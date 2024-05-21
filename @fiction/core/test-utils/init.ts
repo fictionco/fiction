@@ -79,23 +79,8 @@ export async function createTestUser(fictionUser: FictionUser) {
   return { user: r.data, token: r.token, email, password }
 }
 
-/**
- * Runs services 'setup' functions
- * Creates a new user
- */
-export async function initializeTestUtils(service: TestUtilServices & { [key: string]: FictionPlugin | FictionObject }): Promise<InitializedTestUtils> {
-  await runServicesSetup(service, { context: 'test' })
-
-  const { fictionUser, fictionServer, fictionDb, fictionEmail } = service
-
-  const promises = [
-    fictionDb.init(),
-    fictionEmail.init(),
-    fictionServer.createServer({ fictionUser }),
-
-  ]
-
-  await Promise.all(promises)
+export async function initializeTestUser(args: { fictionUser: FictionUser }): Promise<InitializedTestUtils> {
+  const { fictionUser } = args
 
   const { user, token, email, password } = await createTestUser(fictionUser)
 
@@ -114,6 +99,26 @@ export async function initializeTestUtils(service: TestUtilServices & { [key: st
     throw new Error('no org created')
 
   return { user, orgId, token, email, password }
+}
+
+/**
+ * Runs services 'setup' functions
+ * Creates a new user
+ */
+export async function initializeTestUtils(service: TestUtilServices & { [key: string]: FictionPlugin | FictionObject }): Promise<InitializedTestUtils> {
+  await runServicesSetup(service, { context: 'test' })
+
+  const { fictionUser, fictionServer, fictionDb, fictionEmail } = service
+
+  const promises = [
+    fictionDb.init(),
+    fictionEmail.init(),
+    fictionServer.createServer({ fictionUser }),
+  ]
+
+  await Promise.all(promises)
+
+  return await initializeTestUser({ fictionUser })
 }
 
 export interface TestBaseCompiled {
@@ -191,10 +196,28 @@ export function createTestUtils(opts?: TestUtilSettings) {
 
   const all = {
     init: () => initializeTestUtils(service),
+    initUser: () => initializeTestUser(service),
     close: async () => {
       service.fictionServer.close()
       await service.fictionDb.close()
       await service.fictionApp.close()
+    },
+    runApp: async (args: { isProd?: boolean, context?: 'node' | 'app' } = {}) => {
+      const { fictionUser, fictionServer, fictionDb, fictionApp } = service
+      const { isProd = false } = args
+      await fictionDb.init()
+      const srv = await fictionServer.initServer({ useLocal: true, fictionUser })
+
+      const port = fictionApp.port.value = fictionServer.port.value
+
+      await fictionApp.ssrServerSetup({ expressApp: srv?.expressApp, isProd })
+
+
+      await srv?.run()
+
+      fictionApp.logReady({ serveMode: 'comboSSR' })
+
+      return { port }
     },
     ...service,
   }

@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "@fiction/admin": "workspace:*",
+    "@fiction/cards": "workspace:*",
+    "@fiction/core": "workspace:*",
+    "@fiction/plugin-editor": "workspace:*",
+    "@fiction/site": "workspace:*",
+    "@fiction/ui": "workspace:*"
+  },
+  "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
+  "license": "GPL-2.0-only",
+  "main": "index.ts",
+  "name": "@fiction/plugin-email-actions",
+  "title": "Posts",
+  "description": "A plugin for creating and managing posts.",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "version": "6.0.35"
+}
