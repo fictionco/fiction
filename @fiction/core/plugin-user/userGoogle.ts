@@ -59,10 +59,7 @@ export class QueryUserGoogleAuth extends Query<GoogleQuerySettings> {
         data: { audience: clientId, ...params },
       })
       const { credential } = params
-      const ticket = await client.verifyIdToken({
-        idToken: credential,
-        audience: clientId,
-      })
+      const ticket = await client.verifyIdToken({ idToken: credential, audience: clientId })
       const payload = ticket.getPayload()
 
       if (!payload || !payload.email)
@@ -72,10 +69,7 @@ export class QueryUserGoogleAuth extends Query<GoogleQuerySettings> {
 
       const { data: existingUser }
         = await this.settings.fictionUser.queries.ManageUser.serve(
-          {
-            _action: 'getPrivate',
-            email: payload?.email,
-          },
+          { _action: 'retrieve', where: { email: payload?.email } },
           _meta,
         )
 
@@ -105,7 +99,6 @@ export class QueryUserGoogleAuth extends Query<GoogleQuerySettings> {
           email: payload.email,
           googleId: payload.sub,
           emailVerified: payload?.email_verified,
-          returnVerificationCode: true,
         },
         { server: true, returnAuthority: ['verificationCode'] },
       )

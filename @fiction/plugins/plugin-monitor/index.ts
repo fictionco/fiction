@@ -38,22 +38,20 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
       await this.identifyUser(user)
     })
 
-    this.settings.fictionEnv.hooks.push({
-      hook: 'createUser',
-      callback: async (user, { params }) => {
-        if (!this.settings.fictionEnv?.isApp.value) {
-          const { cityName, regionName, countryCode } = user.geo || {}
-          await this.slackNotify({
-            message: `user created: ${user.email}`,
-            data: {
-              name: user.fullName || 'No Name',
-              emailVerified: user.emailVerified ? 'Yes' : 'No',
-              location: `${cityName}, ${regionName}, ${countryCode}` || 'No Location',
-              ...params,
-            },
-          })
-        }
-      },
+    this.settings.fictionUser.events.on('newUser', async (event) => {
+      const { user, params } = event.detail
+      if (!this.settings.fictionEnv?.isApp.value) {
+        const { cityName, regionName, countryCode } = user.geo || {}
+        await this.slackNotify({
+          message: `user created: ${user.email}`,
+          data: {
+            name: user.fullName || 'No Name',
+            emailVerified: user.emailVerified ? 'Yes' : 'No',
+            location: `${cityName}, ${regionName}, ${countryCode}` || 'No Location',
+            ...params,
+          },
+        })
+      }
     })
 
     this.settings.fictionEnv.hooks.push({

@@ -1,29 +1,42 @@
 import type { FictionDb } from '@fiction/core/plugin-db'
 import { standardTable } from '@fiction/core/tbl'
+import bcrypt from 'bcrypt'
 import { abort } from '../../utils/error'
 import { dayjs } from '../../utils/libraries'
 import type { FictionUser, User } from '..'
 import { validateEmail } from '../../utils/utils'
+import type { VerificationCode } from '../schema'
+import type { WhereUser } from '../endpoint'
 
-function getSixDigitRandom(): string {
+/**
+ * A random 6 digit number, ideal for verification code
+ */
+export function getCode(): string {
   return Math.random().toString().slice(2, 8)
 }
+/**
+ * Create a md5 of password
+ * @remarks
+ * 6 salt rounds - https://security.stackexchange.com/a/83382
+ */
+export async function hashPassword(password?: string): Promise<string | undefined> {
+  return password ? await bcrypt.hash(password, 6) : undefined
+}
+export async function comparePassword(password: string, hashedPassword: string): Promise<boolean> {
+  return await bcrypt.compare(password, hashedPassword)
+}
 
-export async function setUserVerificationCode(params: { fictionUser: FictionUser, email: string, userId?: string }): Promise<User | undefined> {
-  const { email, userId, fictionUser } = params
+export async function setUserVerificationCode(params: { context: string, fictionUser: FictionUser, where: WhereUser }): Promise<User | undefined> {
+  const { where, fictionUser, context } = params
 
-  if (!email)
-    throw abort('no email provided to send code to')
-
-  const code = getSixDigitRandom()
-  const fields = {
-    verificationCode: code,
-    codeExpiresAt: dayjs().add(1, 'day').toISOString(),
+  const code = getCode()
+  const verify: VerificationCode = {
+    code,
+    expiresAt: dayjs().add(1, 'day').toISOString(),
+    context,
   }
 
-  const userIdField = userId ? { userId } : { email }
-
-  const result = await fictionUser.queries.ManageUser.serve({ _action: 'update', ...userIdField, fields }, { server: true })
+  const result = await fictionUser.queries.ManageUser.serve({ _action: 'update', where, fields: { verify } }, { server: true })
 
   const user = result.data
 
@@ -52,23 +65,21 @@ export async function verifyCode(args: {
 
   const db = fictionDb.client()
   const r = await db
-    .select<{ verificationCode: string, codeExpiresAt: string }[]>([
-      'verificationCode',
-      'codeExpiresAt',
-    ])
+    .select<{ verify: VerificationCode }[]>(['verify'])
     .from(standardTable.user)
     .where(where)
 
-  const storedCode = r && r.length > 0 ? r[0] : undefined
+  const row = r && r.length > 0 ? r[0] : undefined
+  const verify = row?.verify
 
   // allow short circuit in development
   if (!isProd && verificationCode === 'test')
     return true
 
-  if (!storedCode || storedCode.verificationCode !== verificationCode)
-    throw abort(`verification code is not a match (${isProd ? 'prod' : 'dev'})`, { data: !isProd ? { storedCode, verificationCode } : {} })
+  if (!verify || verify.code !== verificationCode)
+    throw abort(`verification code is not a match (${isProd ? 'prod' : 'dev'})`, { data: !isProd ? { verify, verificationCode } : {} })
 
-  else if (!storedCode.codeExpiresAt || dayjs().isAfter(storedCode.codeExpiresAt))
+  else if (!verify.expiresAt || dayjs().isAfter(verify.expiresAt))
     throw abort(`verification code is expired`)
 
   return true
@@ -88,7 +99,7 @@ export async function validateNewEmail(params: {
     throw abort('email failed validation')
 
   const { data: user } = await fictionUser.queries.ManageUser.serve(
-    { _action: 'getPublic', email: email.toLowerCase().trim() },
+    { _action: 'retrieve', where: { email: email.toLowerCase().trim() } },
     { server: true },
   )
 

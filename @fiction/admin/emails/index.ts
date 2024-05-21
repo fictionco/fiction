@@ -1,13 +1,19 @@
-import { EmailAction, vue } from '@fiction/core'
+import { EmailAction, type EmailVars, type EndpointMeta, type EndpointResponse, type User, abort, vue } from '@fiction/core'
+import { verifyCode } from '@fiction/core/plugin-user/utils'
 import type { FictionAdmin } from '..'
+
+export type VerifyRequestVars = {
+  code: string
+  email: string
+}
 
 export function getEmails(args: { fictionAdmin: FictionAdmin }) {
   const { fictionAdmin } = args
   const fictionEmailActions = fictionAdmin.settings.fictionEmailActions
   const verifyEmailAction = new EmailAction({
-    actionId: 'verify-email',
-    template: vue.defineAsyncComponent(() => import('./EmailVerify.vue')),
     fictionEmailActions,
+    actionId: 'verify-email',
+    template: vue.defineAsyncComponent<vue.Component>(() => import('./EmailVerify.vue')), // <vue.Component> avoids circular reference
     emailConfig: (vars) => {
       return {
         subject: `${vars.appName}: Verify Your Email`,
@@ -16,13 +22,21 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
         bodyMarkdown: `Verify your email using the code: **${vars.code}** or click the button below.`,
         to: `${vars.email}`,
         actions: [
-          {
-            name: 'Verify Email',
-            href: vars.callbackUrl,
-            btn: 'primary',
-          },
+          { name: 'Verify Email', href: vars.callbackUrl, btn: 'primary' },
         ],
       }
+    },
+    serverAction: async (action, args: VerifyRequestVars, meta: EndpointMeta): Promise<EndpointResponse<User>> => {
+      const { code, email } = args
+
+      const fictionUser = action.settings.fictionEmailActions?.settings.fictionUser
+
+      if (!fictionUser)
+        throw abort('missing modules', { expose: true })
+
+      const user = await fictionUser.queries.ManageUser.serve({ _action: 'verifyEmail', code, email }, { ...meta, server: true })
+
+      return { status: 'success', data: user }
     },
   })
   return { verifyEmailAction }

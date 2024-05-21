@@ -1,5 +1,3 @@
-import jwt from 'jsonwebtoken'
-
 // importing this endpoint module is here to fix a bug in DTS generation
 // likely fixed in TS 4.8
 // https://github.com/microsoft/TypeScript/issues/48212
@@ -12,31 +10,15 @@ import type { FictionServer } from '../plugin-server'
 import type { FictionDb } from '../plugin-db'
 import type { FictionEmail } from '../plugin-email'
 import type { FictionRouter } from '../plugin-router'
-import { _stop, emitEvent, getCookie, hasWindow, isActualBrowser, isNode, removeCookie, removeCookieNakedDomain, safeDirname, setCookie, setCookieNakedDomain, storeItem, vue } from '../utils'
+import { _stop, emitEvent, hasWindow, isActualBrowser, isNode, safeDirname, vue } from '../utils'
 import * as priv from '../utils/priv'
 import { standardTable } from '../tbl'
-import { manageClientUserToken } from '../utils/jwt'
+import { createUserToken, decodeUserToken, manageClientUserToken } from '../utils/jwt'
 import { TypedEventTarget } from '../utils/eventTarget'
-import type { Organization, OrganizationMember, TokenFields, User } from './types'
-import { QueryUserGoogleAuth } from './userGoogle'
-import {
-  type ManageUserParams,
-  QueryCurrentUser,
-  QueryGenerateApiSecret,
-  QueryLogin,
-  QueryManageMemberRelation,
-  QueryManageOrganization,
-  QueryManageUser,
-  QueryNewVerificationCode,
-  QueryOrganizationsByUserId,
-  QueryResetPassword,
-  QuerySendOneTimeCode,
-  QuerySetPassword,
-  QueryUpdateCurrentUser,
-  QueryUpdateOrganizationMemberStatus,
-  QueryVerifyAccountEmail,
-} from './endpoints'
-import { getAdminTables } from './tables'
+import type { Organization, OrganizationMember, User } from './types'
+import { QueryManageMemberRelation, QueryManageOrganization, QueryOrganizationsByUserId } from './endpointOrg'
+import { type ManageUserParams, QueryManageUser } from './endpoint'
+import { getAdminTables } from './schema'
 
 export * from './types'
 
@@ -58,8 +40,11 @@ export type UserPluginSettings = {
 
 export type UserEventMap = {
   newUser: CustomEvent<{ user: User, params: ManageUserParams & { _action: 'create' } }>
+  updateUser: CustomEvent<{ user: User, newEmail?: string, passwordChanged?: boolean }>
   logout: CustomEvent<{ user?: User }>
   currentUser: CustomEvent<{ user?: User }>
+  requestNewEmail: CustomEvent<{ user: User, newEmail: string }>
+  resetPassword: CustomEvent<{ user: User }>
 }
 
 export class FictionUser extends FictionPlugin<UserPluginSettings> {
@@ -72,13 +57,22 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
   activePath = vue.ref(safeDirname(import.meta.url))
   googleClientId = this.settings.googleClientId
   googleClientSecret = this.settings.googleClientSecret
-  queries = this.createQueries()
+  queries = {
+    ManageUser: new QueryManageUser({ ...this.settings, fictionUser: this }),
+    ManageOrganization: new QueryManageOrganization({ ...this.settings, fictionUser: this }),
+    ManageMemberRelation: new QueryManageMemberRelation({ ...this.settings, fictionUser: this }),
+    OrganizationsByUserId: new QueryOrganizationsByUserId({ ...this.settings, fictionUser: this }),
+  }
+
   requests = this.createRequests({
     queries: this.queries,
     basePath: '/user',
     fictionServer: this.settings.fictionServer,
     fictionUser: this,
   })
+
+  getToken = (user: User) => createUserToken({ user, tokenSecret: this.tokenSecret })
+  decodeToken = (token: string) => decodeUserToken({ token, tokenSecret: this.tokenSecret })
 
   constructor(settings: UserPluginSettings) {
     super('user', settings)
@@ -159,12 +153,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
       return
     Object.entries(userCapabilities).forEach(([key, _value]) => {
       const k = key as keyof typeof userCapabilities
-      relation[k]
-        = !!(relation
-        && userCan({
-          capability: k,
-          memberAccess: relation.memberAccess,
-        }))
+      relation[k] = !!(relation && userCan({ capability: k, memberAccess: relation.memberAccess }))
     })
 
     relation.accessLevel = getAccessLevel(relation.memberAccess)
@@ -194,7 +183,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
        * Make sure to update user or it wont remember the active org
        */
       const r = await this?.requests.ManageUser.request(
-        { _action: 'update', userId: user.userId, fields: { lastOrgId: org.orgId } },
+        { _action: 'update', where: { userId: user.userId }, fields: { lastOrgId: org.orgId } },
         { disableNotify: true, disableUserUpdate: true },
       )
 
@@ -257,34 +246,11 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     }
   }
 
-  override createQueries() {
-    const deps = { ...this.settings, fictionUser: this as FictionUser }
-
-    return {
-      UserGoogleAuth: new QueryUserGoogleAuth({ clientId: this.googleClientId, clientSecret: this.googleClientSecret, ...deps }),
-      Login: new QueryLogin(deps),
-      NewVerificationCode: new QueryNewVerificationCode(deps),
-      SetPassword: new QuerySetPassword(deps),
-      ResetPassword: new QueryResetPassword(deps),
-      UpdateCurrentUser: new QueryUpdateCurrentUser(deps),
-      SendOneTimeCode: new QuerySendOneTimeCode(deps),
-      VerifyAccountEmail: new QueryVerifyAccountEmail(deps),
-      // StartNewUser: new QueryStartNewUser(deps),
-      CurrentUser: new QueryCurrentUser(deps),
-      ManageUser: new QueryManageUser(deps),
-      ManageOrganization: new QueryManageOrganization(deps),
-      ManageMemberRelation: new QueryManageMemberRelation(deps),
-      GenerateApiSecret: new QueryGenerateApiSecret(deps),
-      // FindOneOrganization: new QueryFindOneOrganization(deps),
-      OrganizationsByUserId: new QueryOrganizationsByUserId(deps),
-      UpdateOrganizationMemberStatus: new QueryUpdateOrganizationMemberStatus(deps),
-    } as const
-  }
-
   deleteCurrentUser = (): void => {
     this.log.info(`deleted current user`)
     this.manageUserToken({ _action: 'destroy' })
     this.activeUser.value = undefined
+    this.initialized = undefined
   }
 
   setCurrentUser = (args: {
@@ -335,7 +301,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     let user: User | undefined
 
     if (token && this.requests) {
-      const { status, data, code } = await this.requests.CurrentUser.request({ token })
+      const { status, data, code } = await this.requests.ManageUser.request({ _action: 'getUserWithToken', token })
 
       // If there is a token error, then delete it and force login
       if (status === 'error' && code === 'TOKEN_ERROR')
@@ -360,13 +326,18 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
   }
 
   userInitialized = async (
-    args?: { caller?: string, callback?: (u: User | undefined) => void },
+    args?: { caller?: string, newToken?: string },
   ): Promise<User | undefined> => {
-    const { caller = 'unknown', callback } = args || {}
+    const { caller = 'unknown', newToken } = args || {}
 
     if (!isActualBrowser()) {
       this.log.warn('user initialization called on server', { data: { caller } })
       return
+    }
+
+    if (newToken) {
+      this.deleteCurrentUser()
+      this.manageUserToken({ _action: 'set', token: newToken })
     }
 
     if (!this.initialized) {
@@ -379,9 +350,6 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     }
 
     await this.initialized
-
-    if (callback)
-      callback(this.activeUser.value)
 
     return this.activeUser.value
   }

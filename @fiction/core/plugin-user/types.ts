@@ -3,7 +3,7 @@ import type { UserRoles } from '../types/roles'
 import type { CreateObjectType } from '../tbl'
 import type { UserCapability } from '../utils/priv'
 import type { ProgressStatus } from '../types'
-import type { membersColumns, orgColumns, userColumns } from './tables'
+import type { membersColumns, orgColumns, userColumns } from './schema'
 
 export interface OrganizationConfig {
   serverTimeoutMinutes: number
@@ -113,15 +113,14 @@ export interface PublicUser {
   updatedAt?: string
   avatar?: string
   status?: string
-  lastSeenAt?: string | number | Date
   username?: string
-  fullName?: string
   firstName?: string
   lastName?: string
   emailVerified?: boolean
   role?: UserRoles
   profile?: Record<string, any>
   settings?: Record<string, any>
+  lastSeenAt?: string | number | Date
 }
 /**
  * Information regarding a user profile (e.g. birthday, cover, tags)

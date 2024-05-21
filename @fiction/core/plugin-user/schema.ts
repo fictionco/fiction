@@ -5,6 +5,12 @@ import type { MediaDisplayObject } from '../types'
 import type { GeoData } from '../utils-analytics/geo'
 import type { MemberAccess, OnboardStoredSettings, OrganizationConfig, OrganizationCustomerData, Plan, PushSubscriptionDetail, UserMeta } from './types'
 
+export type VerificationCode = {
+  code: string
+  expiresAt: string
+  context: string
+}
+
 export const userColumns = [
   new FictionDbCol({
     key: 'userId',
@@ -58,72 +64,7 @@ export const userColumns = [
     create: ({ schema, column }) => schema.string(column.pgKey).notNullable().defaultTo('active'),
     default: () => '' as string,
   }),
-  new FictionDbCol({
-    key: 'site',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    isSetting: true,
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'github',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    isSetting: true,
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'githubFollowers',
-    create: ({ schema, column }) => schema.integer(column.pgKey),
-    isPrivate: true,
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'twitter',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    isSetting: true,
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'twitterFollowers',
-    create: ({ schema, column }) => schema.integer(column.pgKey),
-    isPrivate: true,
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'facebook',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    isSetting: true,
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'linkedin',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    isSetting: true,
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'workSeniority',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    isSetting: true,
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'workRole',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    isSetting: true,
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'bio',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    isSetting: true,
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'location',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    isSetting: true,
-    default: () => '' as string,
-  }),
+
   new FictionDbCol({
     key: 'hashedPassword',
     create: ({ schema, column }) => schema.string(column.pgKey),
@@ -137,44 +78,18 @@ export const userColumns = [
     default: () => false as boolean,
   }),
   new FictionDbCol({
-    key: 'verificationCode',
-    create: ({ schema, column }) => schema.string(column.pgKey),
+    key: 'verify',
+    create: ({ schema, column }) => schema.jsonb(column.pgKey),
     isAuthority: true,
     isPrivate: true,
-    default: () => '' as string,
+    default: () => ({}) as VerificationCode,
   }),
-  new FictionDbCol({
-    key: 'codeExpiresAt',
-    create: ({ schema, column }) => schema.dateTime(column.pgKey),
-    isAuthority: true,
-    isPrivate: true,
-    default: () => '' as string,
-  }),
+
   new FictionDbCol({
     key: 'avatar',
     create: ({ schema, column }) => schema.jsonb(column.pgKey),
     isSetting: true,
     default: () => ({} as MediaDisplayObject),
-  }),
-
-  new FictionDbCol({
-    key: 'about',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    isSetting: true,
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'gender',
-    create: ({ schema, column }) => schema.enum(column.pgKey, ['male', 'female', 'other']),
-    isSetting: true,
-    default: () => '',
-  }),
-  new FictionDbCol({
-    key: 'birthday',
-    create: ({ schema, column }) => schema.date(column.pgKey),
-    isPrivate: true,
-    isSetting: true,
-    default: () => '',
   }),
   new FictionDbCol({
     key: 'phoneNumber',

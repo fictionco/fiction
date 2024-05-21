@@ -35,6 +35,7 @@ describe('email actions', async () => {
 
     fictionEmailActions.settings.fictionEmail.isTest = false
 
+    const heading = 'Verify Your Email'
     const action = new EmailAction({
       actionId: 'test-action',
       template: vue.defineAsyncComponent(() => import('./ElTestAction.vue')),
@@ -42,7 +43,7 @@ describe('email actions', async () => {
       emailConfig: (vars) => {
         return {
           subject: `${vars.appName}: Verify Your Email`,
-          heading: 'Verify Your Email',
+          heading,
           subHeading: 'Click the Link Below',
           bodyMarkdown: `Verify your email using the code: **${vars.code}** or click the button below.`,
           to: `${vars.email}`,
@@ -57,8 +58,14 @@ describe('email actions', async () => {
       },
     })
     const r = await action.send({ user, vars: { code: user.verificationCode } })
-    fictionEmailActions.settings.fictionEmail.isTest = true
+
     const callbackUrl = action.emailVars?.callbackUrl || ''
+
+    const emailHtml = r.data?.html
+
+    expect(emailHtml).toContain(user.verificationCode)
+    expect(emailHtml).toContain(callbackUrl)
+    expect(emailHtml).toContain(heading)
 
     const replaced = r.data?.html?.replaceAll(user.email || '', '[USER_EMAIL]').replaceAll(user.verificationCode || '', '[VERIFICATION_CODE]').replaceAll(callbackUrl, '[CALLBACK_URL]')
     expect(replaced).toMatchInlineSnapshot(`

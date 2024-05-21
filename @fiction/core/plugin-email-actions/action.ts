@@ -4,8 +4,9 @@ import type { vue } from '../utils/libraries'
 import type { User } from '../plugin-user'
 import { FictionObject } from '../plugin'
 import type { TransactionalEmailConfig } from '../plugin-email'
-import { deepMerge } from '../utils'
+import { type EndpointMeta, deepMerge } from '../utils'
 import { getFromAddress } from '../utils/email'
+import type { EndpointResponse } from '../types'
 import type { FictionEmailActions } from '.'
 
 export type EmailVars = {
@@ -23,12 +24,15 @@ export type EmailVars = {
   unsubscribeUrl: string
 }
 
-export type EmailActionSettings = {
+type BaseParams = Record<string, unknown>
+
+export type EmailActionSettings<T extends BaseParams = BaseParams, U extends EndpointResponse = EndpointResponse> = {
   actionId: string
   template: vue.Component
-  fictionEmailActions?: FictionEmailActions
   emailConfig: (args: EmailVars) => TransactionalEmailConfig | Promise<TransactionalEmailConfig>
   vars?: Partial<EmailVars>
+  serverAction?: (action: EmailAction, args: T, meta: EndpointMeta) => Promise<U>
+  fictionEmailActions?: FictionEmailActions
 }
 
 type SendEmailArgs = {
@@ -38,31 +42,41 @@ type SendEmailArgs = {
   vars?: Partial<EmailVars>
 }
 
-export class EmailAction extends FictionObject<EmailActionSettings> {
+export class EmailAction<T extends BaseParams = BaseParams, U extends EndpointResponse = EndpointResponse> extends FictionObject<EmailActionSettings<T, U>> {
   fictionEmailActions = this.settings.fictionEmailActions
-  fictionEmail = this.settings.fictionEmailActions?.settings.fictionEmail
-  fictionEnv = this.settings.fictionEmailActions?.settings.fictionEnv
-  fictionApp = this.settings.fictionEmailActions?.settings.fictionApp
-  constructor(params: EmailActionSettings) {
+
+  constructor(params: EmailActionSettings<T, U>) {
     super(`EmailAction:${params.actionId}`, params)
 
-    if (!this.settings.fictionEmailActions)
-      throw abort('no fictionEmailActions provided')
+    if (this.fictionEmailActions)
+      this.install(this.fictionEmailActions)
+  }
 
-    this.settings.fictionEmailActions.emailActions[this.settings.actionId] = this
+  install(fictionEmailActions: FictionEmailActions) {
+    this.fictionEmailActions = fictionEmailActions
+
+    this.fictionEmailActions.emailActions[this.settings.actionId] = this as EmailAction
+  }
+
+  async requestEndpoint(args: T) {
+    return await this.fictionEmailActions?.requests.EmailAction.request({ actionId: this.settings.actionId, ...args })
   }
 
   async defaultConfig(): Promise<TransactionalEmailConfig> {
-    const fictionMedia = this.settings.fictionEmailActions?.settings.fictionMedia
+    const fictionEmailActions = this.fictionEmailActions
+    const fictionMedia = fictionEmailActions?.settings.fictionMedia
+    const fictionEmail = fictionEmailActions?.settings.fictionEmail
+    const fictionEnv = fictionEmailActions?.settings.fictionEnv
+
     if (!fictionMedia)
       throw abort('no fictionMedia provided')
 
-    const emailImages = this.fictionEmail?.emailImages()
+    const emailImages = fictionEmail?.emailImages()
     const superImage = await fictionMedia.relativeMedia({ url: emailImages?.icon || '' })
     const footerImage = await fictionMedia.relativeMedia({ url: emailImages?.footer || '' })
 
     return {
-      from: getFromAddress({ fictionEnv: this.fictionEnv }),
+      from: getFromAddress({ fictionEnv }),
       mediaSuper: {
         media: { url: superImage.url },
         name: 'Fiction',
@@ -80,11 +94,14 @@ export class EmailAction extends FictionObject<EmailActionSettings> {
   async createEmailVars(args: SendEmailArgs) {
     const { user, query = {}, origin, vars } = args
 
-    const tokenSecret = this.settings.fictionEmailActions?.settings.fictionUser.settings.tokenSecret
+    const fictionEmailActions = this.fictionEmailActions
+    const fictionApp = fictionEmailActions?.settings.fictionApp
+    const fictionEmail = fictionEmailActions?.settings.fictionEmail
+    const tokenSecret = fictionEmailActions?.settings.fictionUser.settings.tokenSecret
     if (!tokenSecret)
       throw abort('no tokenSecret provided')
 
-    const originUrl = origin || this.fictionApp?.appUrl.value || ''
+    const originUrl = origin || fictionApp?.appUrl.value || ''
     const queryParams = new URLSearchParams(query).toString()
     const token = user ? createUserToken({ user, tokenSecret }) : ''
     const callbackBase = `${originUrl}/_action`
@@ -102,7 +119,7 @@ export class EmailAction extends FictionObject<EmailActionSettings> {
       token,
       originUrl: originUrl || '',
       unsubscribeUrl: `${callbackBase}/unsubscribe`,
-      appName: this.fictionEmail?.settings.fictionEnv.meta.app?.name || '',
+      appName: fictionEmail?.settings.fictionEnv.meta.app?.name || '',
       code: 'NOT_PROVIDED',
       ...vars,
     }
@@ -113,7 +130,8 @@ export class EmailAction extends FictionObject<EmailActionSettings> {
   }
 
   async send(args: SendEmailArgs) {
-    if (!this.fictionEmail)
+    const fictionEmail = this.fictionEmailActions?.settings.fictionEmail
+    if (!fictionEmail)
       throw abort('no fictionEmail provided')
 
     const emailVars = await this.createEmailVars(args)
@@ -122,6 +140,6 @@ export class EmailAction extends FictionObject<EmailActionSettings> {
     const defaultEmail = await this.defaultConfig()
     const finalEmail = deepMerge([defaultEmail, userEmail])
 
-    return await this.fictionEmail.sendTransactional(finalEmail)
+    return await fictionEmail.sendTransactional(finalEmail)
   }
 }

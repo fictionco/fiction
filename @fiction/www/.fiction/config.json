@@ -13,28 +13,8 @@
       "path": "/api/user/Login"
     },
     {
-      "key": "NewVerificationCode",
-      "path": "/api/user/NewVerificationCode"
-    },
-    {
-      "key": "SetPassword",
-      "path": "/api/user/SetPassword"
-    },
-    {
-      "key": "ResetPassword",
-      "path": "/api/user/ResetPassword"
-    },
-    {
       "key": "UpdateCurrentUser",
       "path": "/api/user/UpdateCurrentUser"
-    },
-    {
-      "key": "SendOneTimeCode",
-      "path": "/api/user/SendOneTimeCode"
-    },
-    {
-      "key": "VerifyAccountEmail",
-      "path": "/api/user/VerifyAccountEmail"
     },
     {
       "key": "CurrentUser",
@@ -75,6 +55,10 @@
     {
       "key": "ManageMedia",
       "path": "/api/media/ManageMedia"
+    },
+    {
+      "key": "EmailAction",
+      "path": "/api/fiction-email-actions/EmailAction"
     },
     {
       "key": "ManageVectors",

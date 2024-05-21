@@ -66,15 +66,10 @@ async function handleFormSubmit() {
       case 'register':
         await sendRegister()
         break
-      case 'verify':
-        await sendVerifyCode()
-        break
       case 'login':
         await sendLogin()
         break
-      case 'setPassword':
-        await sendNewPassword()
-        break
+
       case 'resetPassword':
         await sendResetPassword()
         break
@@ -112,28 +107,28 @@ async function sendRegister() {
   sending.value = false
 }
 
-async function sendVerifyCode(): Promise<void> {
-  sending.value = true
+// async function sendVerifyCode(): Promise<void> {
+//   sending.value = true
 
-  const { code, email } = props.form
+//   const { code, email } = props.form
 
-  if (!email) {
-    formError.value = 'please enter your email'
-    return
-  }
+//   if (!email) {
+//     formError.value = 'please enter your email'
+//     return
+//   }
 
-  if (!code) {
-    formError.value = 'no code provided'
-    return
-  }
+//   if (!code) {
+//     formError.value = 'no code provided'
+//     return
+//   }
 
-  const r = await fictionUser.requests.VerifyAccountEmail.request({ verificationCode: code, email })
+//   const r = await fictionUser.requests.VerifyAccountEmail.request({ verificationCode: code, email })
 
-  if (r.status === 'success')
-    emit('update:itemId', 'setPassword')
+//   if (r.status === 'success')
+//     emit('update:itemId', 'setPassword')
 
-  sending.value = false
-}
+//   sending.value = false
+// }
 
 async function sendLogin(): Promise<void> {
   sending.value = true
@@ -183,20 +178,20 @@ async function createVerification(): Promise<void> {
   sending.value = false
 }
 
-async function sendNewPassword(): Promise<void> {
-  if (!validateForm(['email', 'code', 'password']))
-    return
+// async function sendNewPassword(): Promise<void> {
+//   if (!validateForm(['email', 'code', 'password']))
+//     return
 
-  const { email = '', code = '', password = '' } = props.form
+//   const { email = '', code = '', password = '' } = props.form
 
-  sending.value = true
-  const r = await fictionUser.requests.SetPassword.request({ email, password, verificationCode: code, isNewUser: props.form.isNewUser }, { debug: true })
+//   sending.value = true
+//   const r = await fictionUser.requests.SetPassword.request({ email, password, verificationCode: code, isNewUser: props.form.isNewUser }, { debug: true })
 
-  if (r.status === 'success')
-    emit('signedIn', props.form)
+//   if (r.status === 'success')
+//     emit('signedIn', props.form)
 
-  sending.value = false
-}
+//   sending.value = false
+// }
 async function sendResetPassword(): Promise<void> {
   sending.value = true
 

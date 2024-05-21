@@ -49,7 +49,7 @@ export async function getRequestIpAddress(request?: express.Request, opts: { isF
   if (!request)
     return { ip: '', rawIp: '' }
 
-  const isFake = opts?.isFake || request.query.isFake === '1'
+  const isFake = opts?.isFake || request.query?.isFake === '1'
 
   let rawIp: string | undefined
   if (isFake) {

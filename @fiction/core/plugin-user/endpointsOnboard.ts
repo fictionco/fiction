@@ -1,7 +1,7 @@
 import { standardTable } from '../tbl'
 import type { EndpointResponse } from '../types'
 import type { EndpointMeta } from '../utils'
-import { UserQuery } from './endpoints'
+import { UserQuery } from './endpointOrg'
 import type { OnboardStoredSettings, Organization } from '.'
 
 type OnboardParams = {

@@ -24,7 +24,7 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
     super('FictionAdmin', { root: safeDirname(import.meta.url), ...settings })
   }
 
-  emailActions: Record<string, EmailAction> = getEmails({ fictionAdmin: this })
+  emailActions = getEmails({ fictionAdmin: this })
 
   hooks() {
     const fictionUser = this.settings.fictionUser
