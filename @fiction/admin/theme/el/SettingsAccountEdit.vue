@@ -23,7 +23,7 @@ const sent = vue.ref(false)
 async function updateUser(): Promise<void> {
   const fields = { ...form.value }
   const r = await fictionUser.requests.ManageUser.projectRequest({
-    _action: 'update',
+    _action: 'updateCurrentUser',
     fields,
   })
 

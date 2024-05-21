@@ -69,7 +69,7 @@ export class FictionTeam extends FictionPlugin<FictionTeamSettings> {
     org: Organization
   }): Promise<void> {
     const { client, user, org } = params
-    const { email, verificationCode } = client
+    const { email, verify } = client
     const { fullName: requestingName = 'A user', email: requestingEmail } = user
 
     if (!email)
@@ -79,7 +79,7 @@ export class FictionTeam extends FictionPlugin<FictionTeamSettings> {
 
     const bodyMarkdown = `Hi there!\n\n${requestingName} (${requestingEmail}) has invited you to the organization "${orgName}."`
 
-    if (!verificationCode)
+    if (!verify?.code)
       throw this.stop('A verification code is required')
 
     await this.settings.fictionEmail.sendTransactional({
@@ -89,7 +89,7 @@ export class FictionTeam extends FictionPlugin<FictionTeamSettings> {
       actions: [{
         name: 'Set Your Password',
         href: this.invitationReturnUrl({
-          code: verificationCode,
+          code: verify?.code,
           email,
           orgId: org.orgId,
           redirect: `/org/${org.orgId}`,

@@ -43,7 +43,6 @@ async function sendOneTimeCode(): Promise<void> {
     return
 
   sending.value = true
-  const r = await fictionUser.requests.SendOneTimeCode.request({ email })
 
   if (r.status === 'success')
     hasCode.value = true
@@ -69,8 +68,8 @@ async function updateUser(): Promise<void> {
     return
   }
 
-  const r = await fictionUser.requests.UpdateCurrentUser.request({
-    _action,
+  const r = await fictionUser.requests.ManageUser.request({
+    _action: 'updateCurrentUser',
     fields: f as PanelForm,
   })
 

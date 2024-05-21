@@ -94,7 +94,7 @@ async function sendRegister() {
 
   const { email = '', password = '', fullName, orgName } = props.form
 
-  const r = await fictionUser.requests.ManageUser.request({ _action: 'create', email, fields: { email, password, fullName }, orgName })
+  const r = await fictionUser.requests.ManageUser.request({ _action: 'create', fields: { email, password, fullName, orgName } })
 
   if (r.status === 'success') {
     emit('update:form', { ...props.form, isNewUser: true, flow: 'register' })
@@ -139,7 +139,7 @@ async function sendLogin(): Promise<void> {
 
   const { email = '', password = '' } = props.form
 
-  const r = await fictionUser.requests.Login.request({ email, password })
+  const r = await fictionUser.requests.ManageUser.request({ _action: 'login', where: { email }, password })
 
   if (r.status === 'success') {
     if (r.user?.emailVerified) {
@@ -157,26 +157,26 @@ async function sendLogin(): Promise<void> {
 const codeSent = vue.ref(false)
 
 const alreadyRegistered = vue.ref(false)
-async function createVerification(): Promise<void> {
-  sending.value = true
+// async function createVerification(): Promise<void> {
+//   sending.value = true
 
-  const { email, fullName, orgName } = props.form
+//   const { email, fullName, orgName } = props.form
 
-  if (email) {
-    const result = await fictionUser.requests.NewVerificationCode.request({ email, orgName, fullName })
+//   if (email) {
+//     const result = await fictionUser.requests.NewVerificationCode.request({ email, orgName, fullName })
 
-    const data = result.data
+//     const data = result.data
 
-    if (data?.exists)
-      alreadyRegistered.value = true
+//     if (data?.exists)
+//       alreadyRegistered.value = true
 
-    codeSent.value = true
-  }
-  else {
-    formError.value = 'Please enter your email'
-  }
-  sending.value = false
-}
+//     codeSent.value = true
+//   }
+//   else {
+//     formError.value = 'Please enter your email'
+//   }
+//   sending.value = false
+// }
 
 // async function sendNewPassword(): Promise<void> {
 //   if (!validateForm(['email', 'code', 'password']))
@@ -291,7 +291,7 @@ const titles = vue.computed<Title | undefined>(() => {
     </div>
 
     <div class="pb-24 md:pb-8">
-      <template v-if="itemId === 'verify'">
+      <!-- <template v-if="itemId === 'verify'">
         <div v-if="!codeSent">
           <ElInput
             key="inputEmail"
@@ -351,8 +351,8 @@ const titles = vue.computed<Title | undefined>(() => {
             </ElButton>
           </div>
         </div>
-      </template>
-      <template v-else-if="itemId === 'login'">
+      </template> -->
+      <template v-if="itemId === 'login'">
         <div class="account-services text-center">
           <div
             id="google-signin-button"

@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site/card'
-import ElPanelSettings from './ElPanelSettings.vue'
-import type { UserConfig } from './SettingsWrap.vue'
 import { useService, vue } from '@fiction/core'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
 import InputPassword from '@fiction/ui/inputs/InputPassword.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
+import type { UserConfig } from './SettingsWrap.vue'
+import ElPanelSettings from './ElPanelSettings.vue'
 
 defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
@@ -23,9 +23,7 @@ async function generateApiSecret(): Promise<void> {
   const orgId = fictionUser.activeOrganization.value?.orgId
   if (!orgId)
     return
-  const r = await fictionUser.requests.GenerateApiSecret.request({
-    orgId,
-  })
+  const r = await fictionUser.requests.ManageOrganization.request({ _action: 'generateApiSecret', orgId })
 
   if (r.status === 'success')
     showApiSecret.value = true

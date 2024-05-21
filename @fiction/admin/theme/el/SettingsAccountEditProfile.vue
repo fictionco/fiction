@@ -24,7 +24,7 @@ async function updateUser(): Promise<void> {
   const fields = { ...form.value, meta: userMeta.value }
 
   const r = await fictionUser.requests.ManageUser.projectRequest({
-    _action: 'update',
+    _action: 'updateCurrentUser',
     fields,
   })
 

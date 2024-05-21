@@ -42,7 +42,7 @@ interface GoogleOneTapSettings {
   callback?:
     | ((
       r: Awaited<
-          ReturnType<FictionUser['requests']['UserGoogleAuth']['request']>
+          ReturnType<FictionUser['requests']['ManageUser']['request']>
         >,
     ) => void)
     | undefined
@@ -55,9 +55,9 @@ async function handleGoogleCredentialResponse(response: CredentialResponse, sett
     isSending.value = true
 
   const loginResponse
-    = await settings.fictionUser.requests.UserGoogleAuth.request(
+    = await settings.fictionUser.requests.ManageUser.request(
       {
-        _action: 'loginWithCredential',
+        _action: 'loginGoogle',
         credential: response.credential,
       },
       { debug: true },

@@ -79,11 +79,6 @@ export function pages() {
               userConfig: { isNavItem: true, navIcon: 'i-heroicons-user', navIconAlt: 'i-heroicons-user-20-solid' },
             }),
             createCard({
-              slug: 'changeCredential',
-              tpl: new CardTemplate({ templateId: 'changeCredential', el: def(() => import('./el/ViewChangeCredential.vue')) }),
-              userConfig: { isNavItem: false, navIcon: 'i-heroicons-user', navIconAlt: 'i-heroicons-user-20-solid' },
-            }),
-            createCard({
               slug: 'team',
               tpl: new CardTemplate({ templateId: 'team', el: def(() => import('./el/ViewTeamIndex.vue')) }),
               userConfig: { isNavItem: true, navIcon: 'i-heroicons-user-group', navIconAlt: 'i-heroicons-user-group-20-solid' },

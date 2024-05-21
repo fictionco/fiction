@@ -10,7 +10,7 @@ import type { EndpointResponse } from '../types'
 import { getGeoFree } from '../utils-analytics'
 import type { User } from './types'
 import { comparePassword, getCode, hashPassword, validateNewEmail, verifyCode } from './utils'
-import type { FictionUser } from '.'
+import type { FictionUser, OnboardStoredSettings, Organization } from '.'
 
 interface UserQuerySettings {
   fictionUser: FictionUser
@@ -45,7 +45,6 @@ export type ManageUserParams =
   | {
     _action: 'updateCurrentUser'
     fields: Partial<User> & { password?: string }
-    where: WhereUser
   }
   | {
     _action: 'retrieve'
@@ -75,6 +74,12 @@ export type ManageUserParams =
     _action: 'event'
     eventName: 'resetPassword'
     where: WhereUser
+  }
+  | {
+    _action: 'manageOnboard'
+    settings: OnboardStoredSettings
+    orgId?: string
+    userId?: string
   }
 
   type ManageUserResponse = EndpointResponse<User> & {
@@ -125,8 +130,13 @@ export class QueryManageUser extends UserBaseQuery {
         message = 'login successful'
         break
       }
+
       case 'event':
         user = await this.handleUserEvent(params)
+        break
+
+      case 'manageOnboard':
+        user = await this.manageOnboard(params)
         break
       default:
         return { status: 'error', message: 'Invalid action', isNew }
@@ -437,5 +447,27 @@ export class QueryManageUser extends UserBaseQuery {
       response.user = user
 
     return response
+  }
+
+  private async manageOnboard(params: ManageUserParams & { _action: 'manageOnboard' }): Promise<User | undefined> {
+    const { settings, orgId, userId } = params
+    const columnKey = 'onboard'
+    const newSettings = JSON.stringify(settings)
+
+    const setter = this.db().raw(
+      `jsonb_merge_patch(${columnKey}::jsonb, ?::jsonb)`,
+      [newSettings],
+    )
+
+    if (!orgId && !userId)
+      throw new Error('orgId or userId required')
+
+    const [responseUser] = await this.db()
+      .table(t.user)
+      .update({ onboard: setter })
+      .where({ userId })
+      .returning<User[]>('*')
+
+    return responseUser
   }
 }

@@ -27,7 +27,7 @@ describe('check username', async () => {
 
     const r = await testUtils.fictionUser.queries.ManageUser.serve({
       _action: 'update',
-      userId,
+      where: { userId },
       fields: { username: validUsername },
     }, { server: true })
 
@@ -94,7 +94,7 @@ describe('check username', async () => {
     await testUtils.fictionUser.queries.ManageUser.serve({
       _action: 'update',
       fields: { fullName: 'Test User' },
-      userId,
+      where: { userId },
     }, { server: true })
 
     const response = await fictionDb.queries.CheckUsername.serve({

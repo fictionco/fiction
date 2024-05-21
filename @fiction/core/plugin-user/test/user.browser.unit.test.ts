@@ -54,7 +54,7 @@ describe('user tests', async () => {
     expect(user?.userId).toBeTruthy()
     expect(user?.fullName).toBe('test')
     expect(token).toBeTruthy()
-    expect(user?.verificationCode).toBeFalsy()
+    expect(user?.verify).toBeFalsy()
     expect(user?.emailVerified).toBeFalsy()
 
     if (!token)
@@ -67,9 +67,10 @@ describe('user tests', async () => {
 
   it('verifies with code', async () => {
     const { fictionUser } = testUtils ?? {}
-    const response = await fictionUser?.requests.VerifyAccountEmail.request({
+    const response = await fictionUser?.requests.ManageUser.request({
+      _action: 'verifyEmail',
       email,
-      verificationCode: 'test',
+      code: 'test',
     })
 
     if (!response?.data) {

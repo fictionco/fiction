@@ -86,7 +86,7 @@ export class QuerySeekInviteFromUser extends TeamQuery {
     if (!this.settings.fictionUser)
       throw new Error('no user service')
     const { email, requestingEmail, requestingName } = params
-    const { data: user } = await this.settings.fictionUser.queries.ManageUser.serve({ _action: 'getPublic', email }, meta)
+    const { data: user } = await this.settings.fictionUser.queries.ManageUser.serve({ _action: 'retrieve', where: { email } }, meta)
 
     if (!user)
       throw this.stop('request invite error')
@@ -166,7 +166,7 @@ export class QueryTeamInvite extends TeamQuery {
       let message = `Login to get access.`
       // does the user already exist
       let { data: user } = await this.settings.fictionUser.queries.ManageUser.serve(
-        { _action: 'getPrivate', email },
+        { _action: 'retrieve', where: { email } },
         { server: true, returnAuthority: ['hashedPassword'] },
       )
       if (!user?.hashedPassword) {
@@ -177,7 +177,7 @@ export class QueryTeamInvite extends TeamQuery {
           )
 
         linkUrl = this.settings.fictionTeam.invitationReturnUrl({
-          code: newUser?.verificationCode as string,
+          code: newUser?.verify?.code as string,
           email,
           orgId,
           redirect,
@@ -227,7 +227,7 @@ export class QueryTeamInvite extends TeamQuery {
     let user: User | undefined
     if (bearer?.userId) {
       const r = await this.settings.fictionUser.queries.ManageUser.serve(
-        { _action: 'getPrivate', userId: bearer.userId },
+        { _action: 'retrieve', where: { userId: bearer.userId } },
         meta,
       )
 

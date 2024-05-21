@@ -32,10 +32,10 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
     fictionUser.events.on('newUser', async (event) => {
       const { user, params } = event.detail
 
-      if (params.doVerification) {
+      if (params.isVerifyEmail) {
         await this.emailActions.verifyEmailAction.send({
           user,
-          vars: { code: user.verificationCode },
+          vars: { code: user.verify?.code },
         })
       }
     })
