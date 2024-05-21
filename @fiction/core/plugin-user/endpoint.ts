@@ -331,7 +331,7 @@ export class QueryManageUser extends UserBaseQuery {
 
     const { orgName = 'Personal' } = fields
     const response = await fictionUser.queries.ManageOrganization.serve(
-      { _action: 'create', userId: user.userId, email: user.email, org: { orgName } },
+      { _action: 'create', userId: user.userId, fields: { orgName, orgEmail: user.email } },
       { server: true, ...meta },
     )
 

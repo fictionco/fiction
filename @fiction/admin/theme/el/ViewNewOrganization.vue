@@ -36,7 +36,7 @@ async function send(): Promise<void> {
 
   const r = await fictionUser.requests.ManageOrganization.request({
     userId,
-    org: { orgName, orgEmail },
+    fields: { orgName, orgEmail },
     _action: 'create',
   })
 

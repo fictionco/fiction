@@ -146,7 +146,7 @@ export class QueryTeamInvite extends TeamQuery {
     if (!invites || invites.length === 0)
       throw this.stop('no invites were set')
 
-    const { data: org } = await this.settings.fictionUser.queries.ManageOrganization.serve({ _action: 'retrieve', orgId }, meta)
+    const { data: org } = await this.settings.fictionUser.queries.ManageOrganization.serve({ _action: 'retrieve', where: { orgId } }, meta)
 
     if (!org)
       throw this.stop(`couldn't find organization`)

@@ -23,7 +23,7 @@ async function generateApiSecret(): Promise<void> {
   const orgId = fictionUser.activeOrganization.value?.orgId
   if (!orgId)
     return
-  const r = await fictionUser.requests.ManageOrganization.request({ _action: 'generateApiSecret', orgId })
+  const r = await fictionUser.requests.ManageOrganization.request({ _action: 'generateApiSecret', where: { orgId } })
 
   if (r.status === 'success')
     showApiSecret.value = true

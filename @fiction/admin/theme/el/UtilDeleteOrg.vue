@@ -28,7 +28,7 @@ async function maybeDeleteOrganization(): Promise<void> {
     sending.value = 'delete'
     await fictionUser.requests.ManageOrganization.request({
       _action: 'delete',
-      orgId,
+      where: { orgId },
     })
 
     await props.card.goto('/org')

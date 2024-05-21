@@ -195,7 +195,6 @@ export const orgColumns = [
     create: ({ schema, column }) => schema.string(column.pgKey).notNullable().defaultTo('active'),
     default: () => 'active' as 'active' | 'inactive',
   }),
-
   new FictionDbCol({
     key: 'ownerId',
     create: ({ schema, column }) => schema.string(column.pgKey).references(`fiction_user.user_id`).onUpdate('CASCADE'),
@@ -308,12 +307,12 @@ export const membersColumns = [
   }),
   new FictionDbCol({
     key: 'orgId',
-    create: ({ schema, column }) => schema.string(column.pgKey).references(`fiction_org.org_id`).onUpdate('CASCADE').index(),
+    create: ({ schema, column }) => schema.string(column.pgKey).references(`fiction_org.org_id`).onUpdate('CASCADE').onDelete('CASCADE').index(),
     default: () => objectId(),
   }),
   new FictionDbCol({
     key: 'userId',
-    create: ({ schema, column }) => schema.string(column.pgKey).references(`fiction_user.user_id`).onUpdate('CASCADE').index(),
+    create: ({ schema, column }) => schema.string(column.pgKey).references(`fiction_user.user_id`).onUpdate('CASCADE').onDelete('CASCADE').index(),
     default: () => objectId(),
   }),
   new FictionDbCol({

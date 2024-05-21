@@ -33,7 +33,7 @@ async function saveOrganization(): Promise<void> {
   const fields = { ...form.value, meta: meta.value, config: config.value }
 
   await fictionUser.requests.ManageOrganization.request(
-    { _action: 'update', orgId: form.value.orgId, org: fields },
+    { _action: 'update', where: { orgId: form.value.orgId }, fields },
     { debug: true },
   )
 }
@@ -68,7 +68,6 @@ vue.onMounted(async () => {
     { immediate: true },
   )
 })
-
 </script>
 
 <template>

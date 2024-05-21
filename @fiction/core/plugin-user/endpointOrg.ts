@@ -1,4 +1,3 @@
-
 import type { Knex } from 'knex'
 import type { EndpointResponse } from '../types'
 import { abort } from '../utils/error'
@@ -181,12 +180,14 @@ export class QueryManageMemberRelation extends OrgQuery {
   }
 }
 
+export type WhereOrg = { orgId: string } | { username: string }
+
 export type ManageOrganizationParams =
-  | { _action: 'create', email?: string, userId: string, org: Partial<Organization> }
-  | { _action: 'update', orgId: string, org: Partial<Organization> }
-  | { _action: 'delete', orgId: string }
-  | { _action: 'retrieve', orgId: string }
-  | { _action: 'generateApiSecret', orgId: string }
+  | { _action: 'create', fields: Partial<Organization>, userId: string }
+  | { _action: 'update', where: WhereOrg, fields: Partial<Organization> }
+  | { _action: 'delete', where: WhereOrg }
+  | { _action: 'retrieve', where: WhereOrg }
+  | { _action: 'generateApiSecret', where: WhereOrg }
 
 export class QueryManageOrganization extends OrgQuery {
   async run(params: ManageOrganizationParams, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {
@@ -207,9 +208,9 @@ export class QueryManageOrganization extends OrgQuery {
   }
 
   private async generateApiSecret(params: ManageOrganizationParams & { _action: 'generateApiSecret' }, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {
-    const { orgId } = params
+    const { where } = params
 
-    this.validatePermission({ orgId }, meta)
+    this.validatePermission(where, meta)
 
     const { default: uuidAPIKey } = await import('uuid-apikey')
 
@@ -220,22 +221,25 @@ export class QueryManageOrganization extends OrgQuery {
     const [responseOrg] = await this.db()
       .table(t.org)
       .update(update)
-      .where({ orgId })
+      .where(where)
       .limit(1)
       .returning<Organization[]>('*')
+
+    if (!responseOrg)
+      throw abort('API secret generation failed')
 
     return this.prepareResponse(responseOrg, 'private API key created', meta)
   }
 
   private async createOrganization(params: ManageOrganizationParams & { _action: 'create' }, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {
-    const { userId, org } = params
-    const { orgName, orgEmail } = org
+    const { fields, userId } = params
+    const { orgName, orgEmail } = fields
     const defaultName = orgEmail?.split('@')[0] || 'Personal'
 
     const [responseOrg] = await this.db()
       .insert({
         orgName: orgName || defaultName,
-        ownerId: userId,
+        ownerId: fields.ownerId || userId,
         orgEmail,
       })
       .into(t.org)
@@ -250,11 +254,11 @@ export class QueryManageOrganization extends OrgQuery {
   }
 
   private async updateOrganization(params: ManageOrganizationParams & { _action: 'update' }, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {
-    const { orgId, org } = params
-    this.validatePermission({ orgId }, meta)
+    const { where, fields } = params
+    this.validatePermission(where, meta)
     const updatedFields = prepareFields({
       type: meta.server ? 'internal' : 'settings',
-      fields: org,
+      fields,
       meta,
       table: t.org,
       fictionDb: this.settings.fictionDb,
@@ -262,7 +266,7 @@ export class QueryManageOrganization extends OrgQuery {
 
     const [responseOrg] = await this.db()
       .update(updatedFields)
-      .where({ orgId })
+      .where(where)
       .into(t.org)
       .returning<Organization[]>('*')
 
@@ -270,30 +274,30 @@ export class QueryManageOrganization extends OrgQuery {
   }
 
   private async deleteOrganization(params: ManageOrganizationParams & { _action: 'delete' }, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {
-    const { orgId } = params
-    this.validatePermission({ orgId }, meta)
+    const { where } = params
+    this.validatePermission(where, meta)
     const [responseOrg] = await this.db()
       .delete()
       .from(t.org)
-      .where({ orgId })
+      .where(where)
       .returning<Organization[]>('*')
 
     return this.prepareResponse(responseOrg, `Deleted organization: ${responseOrg.orgName}`, meta)
   }
 
   private async retrieveOrganization(params: ManageOrganizationParams & { _action: 'retrieve' }, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {
-    const { orgId } = params
-    const [responseOrg] = await this.db().select('*').from(t.org).where({ orgId })
+    const { where } = params
+    const [responseOrg] = await this.db().select('*').from(t.org).where(where)
 
     return this.prepareResponse(responseOrg, 'Organization retrieved', meta)
   }
 
   // Additional helper functions for validation, member management, and response preparation
-  private validatePermission(args: { orgId: string }, meta: EndpointMeta) {
+  private validatePermission(args: { orgId?: string, username?: string }, meta: EndpointMeta) {
     if (meta.server)
       return
 
-    if (meta.bearer?.orgs?.find(o => o.orgId === args.orgId))
+    if (meta.bearer?.orgs?.find(o => o.orgId === args.orgId || o.username === args.username))
       return
 
     throw abort('bearer privilege')
@@ -319,125 +323,3 @@ export class QueryManageOrganization extends OrgQuery {
     return { status: 'success', message, user, data: org }
   }
 }
-
-// async run(
-//   params: ManageOrganizationParams,
-//   meta: EndpointMeta,
-// ): Promise<EndpointResponse<Organization> & { user?: User }> {
-//   if (!this.fictionUser)
-//     throw new Error('no user service')
-//   const { _action } = params
-//   const { bearer, server } = meta
-//   if (!bearer && !server)
-//     throw abort('bearer required')
-
-//   const db = this.fictionDb.client()
-
-//   let responseOrg: Organization | undefined
-//   let message: string | undefined
-
-//   if (_action === 'delete' || _action === 'update') {
-//     const { orgId } = params
-//     if (!orgId)
-//       throw abort('orgId required')
-//     if (
-//       !server
-//       && !bearer?.orgs?.find(o => o.orgId === orgId)
-//     ) {
-//       throw abort('bearer privilege', {
-//         data: {
-//           bearerOrgs: bearer?.orgs?.map(o => o.orgId),
-//           orgId,
-//         },
-//       })
-//     }
-//   }
-
-//   if (_action === 'create') {
-//     const { userId, email, org } = params
-
-//     const { orgName, orgEmail = email } = org
-
-//     if (!userId || (!server && bearer?.userId !== userId))
-//       throw abort('bearer mismatch', { data: { meta, params } })
-
-//     const defaultName = `${orgEmail?.split('@')[0]}`
-
-//     ;[responseOrg] = await db
-//       .insert({
-//         orgName: orgName || defaultName,
-//         ownerId: userId,
-//         orgEmail: orgEmail || email,
-//       })
-//       .into(t.org)
-//       .returning<Organization[]>('*')
-
-//     await this.fictionUser.queries.ManageMemberRelation.serve(
-//       {
-//         memberId: userId,
-//         orgId: responseOrg.orgId,
-//         memberAccess: 'owner',
-//         memberStatus: 'active',
-//         _action: 'create',
-//       },
-//       meta,
-//     )
-
-//     if (!responseOrg.orgId)
-//       throw new Error('orgId missing')
-
-//     message = `organization saved`
-//   }
-//   else if (_action === 'update') {
-//     const { org, orgId } = params
-
-//     const type = meta?.server ? 'internal' : 'settings'
-//     const insertFields = prepareFields({
-//       type,
-//       fields: org,
-//       meta,
-//       table: t.org,
-//       fictionDb: this.fictionDb,
-//     })
-
-//     ;[responseOrg] = await db
-//       .update(insertFields)
-//       .into(t.org)
-//       .where({ orgId })
-//       .limit(1)
-//       .returning<Organization[]>('*')
-
-//     responseOrg = await this.settings.fictionEnv.runHooks('updateOrganization', responseOrg, { params, meta })
-
-//     message = `updated organization`
-//   }
-//   else if (_action === 'delete') {
-//     const { orgId } = params
-
-//     this.log.warn(`deleting org:${orgId}`, {
-//       data: { params, meta },
-//     })
-//     ;[responseOrg] = await db
-//       .delete()
-//       .from(t.org)
-//       .where({ orgId })
-//       .limit(1)
-//       .returning<Organization[]>('*')
-
-//     // track deleted org
-//     await db
-//       .insert({ orgId, deletedType: 'org' })
-//       .table(t.deleted)
-
-//     message = `deleted "${responseOrg.orgName}" organization`
-//   }
-//   else if (_action === 'retrieve') {
-//     const { orgId } = params
-
-//     ;[responseOrg] = await db.select('*').from(t.org).where({ orgId })
-//   }
-
-//   const user = await this.returnUser(meta)
-
-//   return { status: 'success', message, user, data: responseOrg }
-// }
