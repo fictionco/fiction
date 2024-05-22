@@ -33,7 +33,6 @@ export class SSR extends FictionObject<SSRSettings> {
   startWindow(args: { pathname: string }) {
     const { pathname } = args
 
-
     // set flag used to determine if app code is running in vite
     process.env.IS_VITE = 'yes'
 
@@ -104,11 +103,11 @@ export class SSR extends FictionObject<SSRSettings> {
     return out
   }
 
-  async render(args: { pathname: string, isProd: boolean, runVars: Partial<RunVars> }): Promise<RenderedHtmlParts> {
-    const { pathname, isProd, runVars } = args
+  async render(args: { pathname: string, mode: 'dev' | 'prod' | 'test', runVars: Partial<RunVars> }): Promise<RenderedHtmlParts> {
+    const { pathname, mode, runVars } = args
     try {
       this.startWindow({ pathname })
-      if (isProd)
+      if (mode === 'prod')
         return await this.renderProd({ pathname, runVars })
       else
         return await this.renderDev({ pathname, runVars })

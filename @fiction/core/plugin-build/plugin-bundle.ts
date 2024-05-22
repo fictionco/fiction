@@ -155,16 +155,7 @@ export class FictionBundle extends FictionPlugin<FictionBundleSettings> {
     onBuilt?: BuiltCallback
     watcherEvent?: RollupWatcherEvent
   }): Promise<void> => {
-    const {
-      packageName,
-      entry,
-      distDir,
-      cwd,
-      withDts,
-      buildName,
-      onBuilt,
-      watcherEvent,
-    } = opts
+    const { packageName, entry, distDir, cwd, withDts, buildName, onBuilt, watcherEvent } = opts
     if (withDts && entry) {
       /**
        * Create type declarations
@@ -228,35 +219,19 @@ export class FictionBundle extends FictionPlugin<FictionBundleSettings> {
         const { default: config } = (await import(
           /* @vite-ignore */ configFilePath
         )) as {
-          default: (opts: {
-            buildName: string
-            fictionBuild: FictionBuild
-          }) => vite.InlineConfig
+          default: (opts: { buildName: string, fictionBuild: FictionBuild }) => vite.InlineConfig
         }
         addedConfig = config({ buildName, fictionBuild: this.fictionBuild })
       }
 
-      const vc = await this.fictionBuild.getFictionViteConfig({ root: cwd, isProd: true, isServerBuild: true })
+      const vc = await this.fictionBuild.getFictionViteConfig({ root: cwd, mode: 'prod' })
 
       // library mode if entry is defined
       const lib: vite.LibraryOptions | undefined = entry
-        ? {
-            formats: ['es'],
-            entry,
-            fileName: () => `index.js`,
-          }
+        ? { formats: ['es'], entry, fileName: () => `index.js` }
         : undefined
 
-      const merge: vite.InlineConfig[] = [
-        vc,
-        {
-          build: {
-            outDir,
-            lib,
-          },
-        },
-        addedConfig,
-      ]
+      const merge: vite.InlineConfig[] = [vc, { build: { outDir, lib } }, addedConfig]
       /**
        * Watching causes issues if it runs in CI due to the environment not having
        * the native watching libs
@@ -272,16 +247,7 @@ export class FictionBundle extends FictionPlugin<FictionBundleSettings> {
 
         watcher.on('event', async (event: RollupWatcherEvent) => {
           if (event.code === 'END') {
-            await this.doneBuilding({
-              buildName,
-              packageName,
-              entry,
-              distDir,
-              cwd,
-              withDts,
-              onBuilt,
-              watcherEvent: event,
-            })
+            await this.doneBuilding({ buildName, packageName, entry, distDir, cwd, withDts, onBuilt, watcherEvent: event })
 
             if (!watch)
               await watcher.close()

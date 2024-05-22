@@ -65,10 +65,10 @@ async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
       class="mb-4 p-3"
     >
       <RouterLink :to="card.link('/settings')" class="flex items-center gap-x-4 p-3  rounded-full hover:bg-theme-50 dark:hover:bg-theme-700">
-        <ElAvatarOrg class="size-9 rounded-full ring-2 ring-black/50 dark:ring-theme-600" />
+        <ElAvatarOrg class="size-9 rounded-full ring-2 ring-theme-100 dark:ring-theme-600" />
         <div class=" leading-snug">
           <div class="text-base font-semibold x-font-title">
-            {{ service.fictionUser.activeOrganization.value?.orgName }}
+            {{ service.fictionUser.activeOrganization.value?.orgName || 'Unnamed Org' }}
           </div>
           <div class="text-xs text-theme-300 font-medium">
             Organization

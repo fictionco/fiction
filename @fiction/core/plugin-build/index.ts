@@ -207,18 +207,18 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
   }
 
   getFictionViteConfig = async (options: {
-    isProd?: boolean
-    isServerBuild?: boolean
+    mode: 'dev' | 'prod' | 'test'
     root?: string
     mainFilePath?: string
     config?: vite.InlineConfig
   }): Promise<vite.InlineConfig> => {
-    const { isProd, root = process.cwd(), config = {} } = options
+    const { mode, root = process.cwd(), config = {} } = options
 
     const customPlugins = await this.getCustomBuildPlugins()
 
     const external: string[] = ['ngrok', 'node:crypto', 'uno.css'] // this.fictionEnv.serverOnlyModules.map((_) => _.id)
 
+    const isProd = mode === 'prod'
     const basicConfig: vite.InlineConfig = {
       mode: isProd ? 'production' : 'development',
       // root must be set to optimize output file size
@@ -238,7 +238,8 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
         // SET A CUSTOM HMR PORT
         // randomly if the same port is used, it can conflict silently
         // preventing HMR from working. Setting this way prevents it .
-        hmr: { port: randomBetween(10_000, 20_000) },
+        // In prod and test, disable to reduce problems
+        hmr: mode !== 'dev' ? false : { port: randomBetween(10_000, 20_000) },
       },
       define: {
         // https://github.com/vitejs/vite/discussions/5912

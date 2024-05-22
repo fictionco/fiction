@@ -15,7 +15,7 @@ export interface RenderConfig {
   pathname?: string
   manifest?: Record<string, any>
   template?: string
-  isProd: boolean
+  mode: 'dev' | 'prod' | 'test'
   runVars?: Partial<RunVars>
 }
 

@@ -33,12 +33,7 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
     envFiles: [testEnvFile],
     ...args,
     checkEnvVars: context === 'node'
-      ? [
-          'AWS_ACCESS_KEY',
-          'AWS_ACCESS_KEY_SECRET',
-          'FLY_API_TOKEN',
-          'OPENAI_API_KEY',
-        ]
+      ? ['AWS_ACCESS_KEY', 'AWS_ACCESS_KEY_SECRET', 'FLY_API_TOKEN', 'OPENAI_API_KEY']
       : [],
   })
   const fictionEnv = testUtils.fictionEnv

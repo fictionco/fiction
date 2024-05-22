@@ -57,7 +57,7 @@ describe('email actions', async () => {
   })
 
   it('sends email', async () => {
-    const r = await action.send({ user, vars: { code: user.verify?.code } })
+    const r = await action.send({ user, queryVars: { code: user.verify?.code } })
 
     const callbackUrl = action.emailVars?.callbackUrl || ''
 

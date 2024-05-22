@@ -215,25 +215,25 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   }
 
   async ssrServerSetup(
-    args: { isProd?: boolean, expressApp?: Express } = {},
+    args: { mode?: 'dev' | 'prod' | 'test', expressApp?: Express } = {},
   ): Promise<Express | undefined> {
     if (this.settings.fictionEnv.isApp.value || !this.fictionRender)
       return
 
-    const { isProd = false, expressApp } = args
-    const eApp = await this.fictionRender.createExpressApp({ isProd, expressApp })
+    const { mode = 'dev', expressApp } = args
+    const eApp = await this.fictionRender.createExpressApp({ mode, expressApp })
 
     return eApp
   }
 
   async ssrServerCreate(
-    args: { isProd?: boolean, expressApp?: Express } = {},
+    args: { mode?: 'dev' | 'prod' | 'test', expressApp?: Express } = {},
   ): Promise<http.Server | undefined> {
-    const { isProd = false, expressApp } = args
+    const { mode = 'dev', expressApp } = args
     if (this.settings.fictionEnv.isApp.value || !this.fictionRender)
       return
 
-    const eApp = await this.ssrServerSetup({ isProd, expressApp })
+    const eApp = await this.ssrServerSetup({ mode, expressApp })
 
     await new Promise<void>((resolve) => {
       this.appServer = eApp?.listen(this.port.value, () => resolve())

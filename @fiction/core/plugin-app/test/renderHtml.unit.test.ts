@@ -32,9 +32,9 @@ const template = `<!DOCTYPE html><html>
 const renderHtmlParams = {
   pathname: '/',
   template,
-  isProd: true,
+  mode: 'prod',
   runVars: {},
-}
+} as const
 
 describe('serverRenderHtml', () => {
   beforeAll(() => {

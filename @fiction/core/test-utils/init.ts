@@ -209,9 +209,9 @@ export function createTestUtils(opts?: TestUtilSettings) {
       await service.fictionDb.close()
       await service.fictionApp.close()
     },
-    runApp: async (args: { isProd?: boolean, context?: 'node' | 'app' }) => {
+    runApp: async (args: { mode?: 'dev' | 'prod' | 'test', context?: 'node' | 'app' }) => {
       const { fictionUser, fictionServer, fictionDb, fictionApp } = service
-      const { isProd = false, context } = args
+      const { mode = 'test', context } = args
 
       if (context === 'node') {
         await fictionDb.init()
@@ -219,7 +219,7 @@ export function createTestUtils(opts?: TestUtilSettings) {
 
         fictionApp.port.value = fictionServer.port.value
 
-        await fictionApp.ssrServerSetup({ expressApp: srv?.expressApp, isProd })
+        await fictionApp.ssrServerSetup({ expressApp: srv?.expressApp, mode })
 
         await srv?.run()
 

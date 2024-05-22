@@ -183,18 +183,20 @@ const primary = vue.computed(() => site.value?.colors.value.primary || getColorS
 </script>
 
 <template>
-  <div class="x-site bg-theme-50 dark:bg-theme-900 text-theme-900 dark:text-theme-0">
+  <div
+    :data-page-template-id="site?.currentPage.value.templateId.value ?? '-'"
+    :data-site-mode="site?.siteMode.value ?? '-'"
+    :data-pathname="site?.currentPath.value ?? '-'"
+    :data-view-id="site?.currentViewId.value ?? '-'"
+    :data-page-id="site?.activePageId.value ?? '-'"
+    :data-theme-id="site?.themeId.value ?? '-'"
+    :data-sub-domain="site?.subDomain.value ?? '-'"
+    :data-site-id="site?.siteId ?? '-'"
+    class="x-site bg-theme-50 dark:bg-theme-900 text-theme-900 dark:text-theme-0"
+  >
     <div class="x-font-body x-site-content relative z-10 bg-theme-0 dark:bg-theme-950" :class="site?.isEditable.value ? '' : ''">
       <div
         class="x-engine"
-        :data-site-id="site?.siteId ?? '[empty]'"
-        :data-pathname="site?.currentPath.value ?? '[empty]'"
-        :data-view-id="site?.currentViewId.value ?? '[empty]'"
-        :data-page-id="site?.activePageId.value ?? '[empty]'"
-        :data-theme-id="site?.themeId.value ?? '[empty]'"
-        :data-sub-domain="site?.subDomain.value ?? '[empty]'"
-        :data-site-mode="site?.siteMode.value ?? '[empty]'"
-        :data-page-template-id="site?.currentPage.value.templateId.value ?? '[empty]'"
       >
         <div v-if="loading" class="text-theme-300 dark:text-theme-0 flex justify-center pt-32">
           <ElSpinner class="h-12 w-12" />

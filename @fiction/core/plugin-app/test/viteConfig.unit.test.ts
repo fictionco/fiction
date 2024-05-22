@@ -12,9 +12,7 @@ describe('vite config', () => {
   it('gets and merges vite config', async () => {
     expect(testUtils?.fictionServer.port.value).toBe(20_220)
 
-    viteConfig = await testUtils?.fictionApp.fictionRender?.getViteConfig({
-      isProd: true,
-    })
+    viteConfig = await testUtils?.fictionApp.fictionRender?.getViteConfig({ mode: 'prod' })
 
     expect(viteConfig).toBeTruthy()
 

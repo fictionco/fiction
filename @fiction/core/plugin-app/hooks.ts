@@ -11,6 +11,6 @@ declare module '@fiction/core/plugin-env/hooks' {
     viteConfig: { args: [InlineConfig[]] }
     headTags: { args: [string, { pathname?: string }] }
     htmlBody: { args: [string, { pathname?: string }] }
-    expressApp: { args: [{ expressApp: Express, isProd: boolean }] }
+    expressApp: { args: [{ expressApp: Express, mode: 'prod' | 'dev' | 'test' }] }
   }
 }

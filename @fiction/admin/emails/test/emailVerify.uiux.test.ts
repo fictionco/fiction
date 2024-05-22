@@ -10,7 +10,7 @@ describe('email actions', async () => {
   if (!fs.existsSync(testEnvFile))
     console.warn(`missing test env file ${testEnvFile}`)
 
-  const kit = await createUiTestingKit({ headless: false, envFiles: [testEnvFile], setup, slowMo: 200 })
+  const kit = await createUiTestingKit({ headless: false, envFiles: [testEnvFile], setup, slowMo: 60006 })
   const testUtils = kit.testUtils
 
   if (!testUtils)

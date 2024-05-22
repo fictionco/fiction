@@ -65,12 +65,10 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     this.fictionBuild = new FictionBuild(this.settings)
   }
 
-  getViteServer = async (config: {
-    isProd: boolean
-  }): Promise<vite.ViteDevServer> => {
-    const { isProd } = config
+  getViteServer = async (config: { mode: 'dev' | 'prod' | 'test' }): Promise<vite.ViteDevServer> => {
+    const { mode } = config
     if (!this.viteDevServer) {
-      const viteConfig = await this.getViteConfig({ isProd })
+      const viteConfig = await this.getViteConfig({ mode })
 
       const serverConfig = deepMergeAll<vite.InlineConfig>([
         viteConfig,
@@ -156,17 +154,18 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     return out
   }
 
-  async getViteConfig(config: { isProd: boolean, isServerBuild?: boolean }): Promise<vite.InlineConfig> {
-    const { isProd, isServerBuild } = config
+  async getViteConfig(config: { mode: 'dev' | 'prod' | 'test' }): Promise<vite.InlineConfig> {
+    const { mode } = config
 
     const { default: pluginVue } = await import('@vitejs/plugin-vue')
 
     const commonVite = await this.fictionBuild?.getFictionViteConfig({
-      isProd,
+      mode,
       root: this.settings.fictionEnv.cwd,
       mainFilePath: this.settings.fictionEnv.mainFilePath,
-      isServerBuild,
     })
+
+    const isProd = mode === 'prod'
 
     const appViteConfigFile = await this.getAppViteConfigFile()
 
@@ -215,16 +214,16 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
   }
 
   serverRenderHtml = async (params: types.RenderConfig): Promise<string> => {
-    const { pathname = '/', template, isProd, runVars = {} } = params
+    const { pathname = '/', template, mode, runVars = {} } = params
 
     const ssr = new SSR({
       appUrl: this.fictionApp.appUrl.value,
       distFolderServerMountFile: this.distFolderServerMountFile,
-      viteServer: !isProd ? await this.getViteServer({ isProd }) : undefined,
+      viteServer: mode !== 'prod' ? await this.getViteServer({ mode }) : undefined,
       mountFilePath: this.mountFilePath,
     })
 
-    const parts = await ssr.render({ pathname, isProd, runVars })
+    const parts = await ssr.render({ pathname, mode, runVars })
 
     let { htmlBody, headTags, bodyTags } = parts
     const { htmlAttrs, bodyAttrs, bodyTagsOpen } = parts
@@ -235,7 +234,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     headTags = await this.settings.fictionEnv.runHooks('headTags', headTags, { pathname })
     htmlBody = await this.settings.fictionEnv.runHooks('htmlBody', htmlBody, { pathname })
 
-    const debuggingInfo = `<!--${JSON.stringify({ renderedPathname: pathname, isProd })}-->`
+    const debuggingInfo = `<!--${JSON.stringify({ renderedPathname: pathname, mode })}-->`
 
     const bodyCloseTags = `${bodyTags}\n${debuggingInfo}`
 
@@ -249,7 +248,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
       .replace(/<body([^>]*)>/i, `<body$1>\n${bodyTagsOpen}\n`)
       .replace(/<\/body>/i, `\n${bodyCloseTags}\n</body>`)
 
-    return minify(html, { continueOnParseError: true, collapseWhitespace: isProd })
+    return minify(html, { continueOnParseError: true, collapseWhitespace: mode === 'prod' })
   }
 
   async buildApp(options: {
@@ -280,8 +279,8 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     })
 
     try {
-      const viteConfigServer = await this.getViteConfig({ isProd: true, isServerBuild: true })
-      const viteConfigClient = await this.getViteConfig({ isProd: true, isServerBuild: true })
+      const viteConfigServer = await this.getViteConfig({ mode: 'prod' })
+      const viteConfigClient = await this.getViteConfig({ mode: 'prod' })
 
       fs.ensureDirSync(distFolder)
 
@@ -358,7 +357,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
   preRenderPages = async (): Promise<void> => {
     const distFolderClient = this.distFolderClient
     const distFolderStatic = this.distFolderStatic
-    const isProd = true
+    const mode = 'prod'
 
     const template = await this.indexHtml.getRenderedIndexHtml()
 
@@ -394,7 +393,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
         const html = await this.serverRenderHtml({
           template,
-          isProd,
+          mode,
           pathname,
           runVars,
         })
@@ -443,13 +442,13 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
   }
 
   createExpressApp = async (config: {
-    isProd: boolean
+    mode: 'dev' | 'prod' | 'test'
     expressApp?: Express
   }): Promise<Express | undefined> => {
     if (this.isApp.value)
       return
 
-    const { isProd } = config
+    const { mode } = config
 
     const expressApp = config.expressApp || express()
 
@@ -461,18 +460,18 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
       let viteServer: vite.ViteDevServer | undefined
 
       let template: string
-      if (isProd) {
+      if (mode === 'prod') {
         expressApp.use(compression())
         expressApp.use(serveStatic(this.distFolderClient, { index: false }))
         template = await this.indexHtml.getRenderedIndexHtml()
       }
       else {
-        viteServer = await this.getViteServer({ isProd })
+        viteServer = await this.getViteServer({ mode })
         expressApp.use(viteServer.middlewares)
         template = await this.indexHtml.getDevIndexHtml({ viteServer, pathname: '/' })
       }
 
-      await this.fictionEnv?.runHooks('expressApp', { expressApp, isProd })
+      await this.fictionEnv?.runHooks('expressApp', { expressApp, mode })
 
       // server side rendering
       expressApp.use('*', async (req, res) => {
@@ -501,7 +500,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
             return
           }
 
-          const html = await this.serverRenderHtml({ template, pathname, isProd, runVars })
+          const html = await this.serverRenderHtml({ template, pathname, mode, runVars })
 
           const outputHtml = this.addRunVarsToHtml({ html, runVars })
 

@@ -265,14 +265,12 @@ export function setup(): ServiceConfig {
               await fictionAppSites.buildApp()
             }
 
-            await fictionApp.ssrServerSetup({
-              expressApp: srv?.expressApp,
-              isProd: command !== 'dev',
-            })
+            const mode = command !== 'dev' ? 'prod' : 'dev'
+            await fictionApp.ssrServerSetup({ expressApp: srv?.expressApp, mode })
 
             await srv?.run()
 
-            await fictionAppSites.ssrServerCreate({ isProd: command !== 'dev' })
+            await fictionAppSites.ssrServerCreate({ mode })
 
             fictionApp.logReady({ serveMode: 'comboSSR' })
           }
@@ -287,10 +285,7 @@ export function setup(): ServiceConfig {
             if (build)
               await fictionAppSites.buildApp()
 
-            await fictionAppSites.ssrServerSetup({
-              expressApp: srv?.expressApp,
-              isProd: true,
-            })
+            await fictionAppSites.ssrServerSetup({ expressApp: srv?.expressApp, mode: 'prod' })
 
             await srv?.run()
 

@@ -35,7 +35,7 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
       if (params.isVerifyEmail) {
         await this.emailActions.verifyEmailAction.send({
           user,
-          vars: { code: user.verify?.code },
+          queryVars: { code: user.verify?.code, email: user.email },
         })
       }
     })
