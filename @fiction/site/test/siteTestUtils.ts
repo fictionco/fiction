@@ -22,7 +22,7 @@ export type SiteTestUtils = TestUtils & {
   fictionMedia: FictionMedia
   fictionAws: FictionAws
   fictionAi: FictionAi
-  runApp: (args: { context: 'app' | 'node', isProd?: boolean }) => Promise<{ port: number }>
+  runApp: (args: { context: 'app' | 'node', isProd?: boolean }) => Promise<void>
   close: () => Promise<void>
 }
 export async function createSiteTestUtils(args: { mainFilePath?: string, context?: 'node' | 'app', themes?: ThemeSetup[] } = {}): Promise<SiteTestUtils> {
@@ -31,6 +31,7 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
   const testUtils = createTestUtils({
     mainFilePath,
     envFiles: [testEnvFile],
+    ...args,
     checkEnvVars: context === 'node'
       ? [
           'AWS_ACCESS_KEY',
@@ -79,19 +80,23 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
 
   out.fictionEnv.log.info('sites test utils created')
 
-  out.runApp = async (args: { isProd?: boolean } = {}) => {
-    const { isProd = false } = args
-    await out.fictionDb.init()
-    const srv = await out.fictionServer.initServer({ useLocal: true, fictionUser: out.fictionUser })
+  // out.runApp = async (args: { isProd?: boolean, context?: 'app' | 'node' }) => {
+  //   const { context } = args
 
-    await out.fictionApp.ssrServerSetup({ expressApp: srv?.expressApp, isProd })
+  //   const { isProd = false } = args
+  //   await out.fictionDb.init()
+  //   const srv = await out.fictionServer.initServer({ useLocal: true, fictionUser: out.fictionUser })
 
-    await srv?.run()
+  //   const port = out.fictionApp.port.value = out.fictionServer.port.value
 
-    out.fictionApp.logReady({ serveMode: 'comboSSR' })
+  //   await out.fictionApp.ssrServerSetup({ expressApp: srv?.expressApp, isProd })
 
-    return { port: out.fictionServer.port.value }
-  }
+  //   await srv?.run()
+
+  //   out.fictionApp.logReady({ serveMode: 'comboSSR' })
+
+  //   return { port }
+  // }
 
   out.close = async () => {
     await testUtils.close()

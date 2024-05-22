@@ -23,8 +23,6 @@ export type RunVars = {
   NODE_ENV: string
   PATHNAME: string
   PROTOCOL: string
-  RUNTIME_COMMIT: string
-  RUNTIME_VERSION: string
   SERVER_PORT: string
   SUBDOMAIN: string
   ORIGINAL_HOST: string
@@ -32,6 +30,13 @@ export type RunVars = {
   ORIGIN: string
   URL: string
   ALL_HEADERS: string
+  IS_TEST: string
+  VITEST: string
+  CI: string
+  DEBUG: string
+  IS_RESTART: string
+  RUNTIME_VERSION: string
+  RUNTIME_COMMIT: string
 }
 
 export type StandardServices = {

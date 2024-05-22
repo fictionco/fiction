@@ -7,16 +7,9 @@ import { randomBetween, safeDirname } from '../utils/utils'
 import type { EnvVar } from '../plugin-env'
 import { runServicesSetup } from '../plugin-env'
 import type { User } from '../plugin-user'
-import {
-  FictionApp,
-  FictionDb,
-  FictionEmail,
-  FictionEnv,
-  FictionRouter,
-  FictionServer,
-  FictionUser,
-} from '..'
+import { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionRouter, FictionServer, FictionUser } from '..'
 import ElRoot from '../plugin-app/ElRoot.vue'
+import { crossVar } from '../utils/vars'
 import { getTestEmail } from './util'
 
 export interface TestUtilServices {
@@ -45,9 +38,11 @@ export type TestUtils = {
   ) => Promise<InitializedTestUtils>
   initialized?: InitializedTestUtils
   close: () => Promise<void>
+  initUser: () => Promise<InitializedTestUtils>
 } & TestService
 
 export interface TestUtilSettings {
+  context?: 'app' | 'node'
   serverPort?: number
   appPort?: number
   cwd?: string
@@ -131,8 +126,7 @@ export interface TestBaseCompiled {
 
 export function createTestUtilServices(opts?: TestUtilSettings) {
   const {
-    serverPort = randomBetween(10_000, 20_000),
-    appPort = randomBetween(1000, 10_000),
+    context,
     cwd = safeDirname(import.meta.url),
     mainFilePath,
     envFiles = [],
@@ -159,6 +153,21 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
     meta: { version, app: { name: 'Test Fiction App', email: 'admin@fiction.com', url: 'https://testing.fiction.com', domain: 'fiction.com' } },
   })
 
+  let appPort = opts?.appPort
+  let serverPort = opts?.serverPort
+  if (context) {
+    if (context === 'app') {
+      appPort = appPort || +fictionEnv.var('APP_PORT')
+      serverPort = serverPort || +fictionEnv.var('SERVER_PORT')
+    }
+    else {
+      appPort = appPort || randomBetween(1_000, 11_000)
+      serverPort = serverPort || randomBetween(11_000, 20_000)
+      crossVar.set('SERVER_PORT', String(serverPort))
+      crossVar.set('APP_PORT', String(appPort))
+    }
+  }
+
   // check env vars
   checkEnvVars.forEach((key) => {
     if (!fictionEnv.var(key))
@@ -172,15 +181,18 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
   const connectionUrl = fictionEnv.var('POSTGRES_URL')
   const googleClientId = fictionEnv.var('GOOGLE_CLIENT_ID')
   const googleClientSecret = fictionEnv.var('GOOGLE_CLIENT_SECRET')
+  const sp = fictionEnv.var('SERVER_PORT')
+  const ap = fictionEnv.var('APP_PORT')
 
-  const fictionServer = new FictionServer({ port: serverPort, liveUrl: 'https://server.test.com', fictionEnv })
+
+  const fictionServer = new FictionServer({ port: serverPort!, liveUrl: 'https://server.test.com', fictionEnv })
   const fictionRouter = new FictionRouter({ routerId: 'testRouter', fictionEnv, create: true })
   const fictionDb = new FictionDb({ fictionEnv, fictionServer, connectionUrl })
   const fictionEmail = new FictionEmail({ fictionEnv, smtpHost, smtpPassword, smtpUser })
 
   const base = { fictionEnv, fictionRouter, fictionServer, fictionDb, fictionEmail }
 
-  const fictionApp = new FictionApp({ ...base, port: appPort, rootComponent, isTest: true })
+  const fictionApp = new FictionApp({ ...base, port: appPort!, rootComponent, isTest: true })
 
   const fictionUser = new FictionUser({ ...base, googleClientId, googleClientSecret, tokenSecret: 'test' })
 
@@ -202,22 +214,22 @@ export function createTestUtils(opts?: TestUtilSettings) {
       await service.fictionDb.close()
       await service.fictionApp.close()
     },
-    runApp: async (args: { isProd?: boolean, context?: 'node' | 'app' } = {}) => {
+    runApp: async (args: { isProd?: boolean, context?: 'node' | 'app' }) => {
       const { fictionUser, fictionServer, fictionDb, fictionApp } = service
-      const { isProd = false } = args
-      await fictionDb.init()
-      const srv = await fictionServer.initServer({ useLocal: true, fictionUser })
+      const { isProd = false, context } = args
 
-      const port = fictionApp.port.value = fictionServer.port.value
+      if (context === 'node') {
+        await fictionDb.init()
+        const srv = await fictionServer.initServer({ useLocal: true, fictionUser })
 
-      await fictionApp.ssrServerSetup({ expressApp: srv?.expressApp, isProd })
+        fictionApp.port.value = fictionServer.port.value
 
+        await fictionApp.ssrServerSetup({ expressApp: srv?.expressApp, isProd })
 
-      await srv?.run()
+        await srv?.run()
 
-      fictionApp.logReady({ serveMode: 'comboSSR' })
-
-      return { port }
+        fictionApp.logReady({ serveMode: 'comboSSR' })
+      }
     },
     ...service,
   }

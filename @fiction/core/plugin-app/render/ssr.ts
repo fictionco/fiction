@@ -33,6 +33,7 @@ export class SSR extends FictionObject<SSRSettings> {
   startWindow(args: { pathname: string }) {
     const { pathname } = args
 
+
     // set flag used to determine if app code is running in vite
     process.env.IS_VITE = 'yes'
 

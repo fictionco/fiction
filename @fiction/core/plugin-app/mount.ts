@@ -42,7 +42,7 @@ async function runAppEntry(args: { renderRoute?: string, runVars?: Partial<RunVa
     // @ts-expect-error aliased module
     const mainFileImports = (await import('@MAIN_FILE_ALIAS')) as MainFile
 
-    const serviceConfig = await mainFileImports.setup()
+    const serviceConfig = await mainFileImports.setup({ context })
     if (!serviceConfig)
       throw new Error('No serviceConfig returned from setup')
 

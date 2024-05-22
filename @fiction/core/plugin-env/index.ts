@@ -1,13 +1,11 @@
 import path from 'node:path'
-import process from 'node:process'
 import dotenv from 'dotenv'
 import { FictionObject } from '../plugin'
 import type { HookType } from '../utils'
-import { camelToUpperSnake, getCrossVar, isApp, isDev, isNode, isTest, runHooks, runHooksSync, toSlug, vue } from '../utils'
+import { camelToUpperSnake, crossVar, isApp, isDev, isNode, isTest, runHooks, runHooksSync, toSlug, vue } from '../utils'
 import { version as fictionVersion } from '../package.json'
 import type { RunVars } from '../inject'
 import { compileApplication } from './entry'
-
 import type { CliCommand } from './commands'
 import { standardAppCommands } from './commands'
 import { done } from './utils'
@@ -71,7 +69,7 @@ export class FictionEnv<
   id = this.settings.id || toSlug(this.meta.app?.name) || 'fiction'
   inspector = this.settings.inspector || false
   mode = vue.ref<'development' | 'production' | undefined>(isDev() ? 'development' : 'production')
-  isRestart = () => process.env.IS_RESTART === '1'
+  isRestart = () => crossVar.get('IS_RESTART') === '1'
   isApp = vue.ref(this.settings.isApp)
   isSSR = vue.computed(() => !!(this.isApp.value && this.isNode))
   isTest = vue.ref(this.settings.isTest)
@@ -79,7 +77,7 @@ export class FictionEnv<
   isProd = vue.computed(() => !isDev())
   isDev = vue.ref()
   hasWindow = typeof window !== 'undefined'
-  isNode = !!(typeof process !== 'undefined' && process.versions && process.versions.node)
+  isNode = isNode()
 
   isRendering = false
   version = this.settings.version || '0.0.0'
@@ -110,12 +108,12 @@ export class FictionEnv<
   constructor(settings: FictionControlSettings) {
     super('env', settings)
 
-    const commitId = process.env.RUNTIME_COMMIT || ''
+    const commitId = crossVar.get('RUNTIME_COMMIT') || ''
     this.log.info(`[start] environment`, {
       data: {
         appName: this.meta.app?.name || 'no name',
         version: `${this.version || 'no version'} [fiction: ${fictionVersion}]`,
-        vars: Object.keys(process.env).length,
+        vars: Object.keys(crossVar.vars()).length,
         commands: this.commands.map(c => c.command).join(', '),
         isRestart: this.isRestart(),
         commit: commitId,
@@ -125,6 +123,7 @@ export class FictionEnv<
     this.envInit()
 
     this.isApp.value = isApp()
+
     this.isTest.value = isTest()
     this.isDev.value = isDev()
 
@@ -154,21 +153,16 @@ export class FictionEnv<
 
     if (!this.isApp.value) {
       this.log.info(
-        `variables (${vars.length} total / ${
-          vars.filter(_ => _.isPublic).length
-        } public)`,
-        {
-          data: this.getRenderedEnvVars(),
-          disableOnRestart: true,
-        },
+        `variables (${vars.length} total / ${vars.filter(_ => _.isPublic).length} public)`,
+        { data: this.getRenderedEnvVars(), disableOnRestart: true },
       )
     }
 
     this.verifyEnv()
   }
 
-  commandName = vue.ref(getCrossVar('COMMAND') || '')
-  commandOpts = vue.ref(JSON.parse(getCrossVar('COMMAND_OPTS') || '{}') as CliOptions)
+  commandName = vue.ref(crossVar.get('COMMAND') || '')
+  commandOpts = vue.ref(JSON.parse(crossVar.get('COMMAND_OPTS') || '{}') as CliOptions)
 
   currentCommand = vue.computed(() => {
     if (!this.commandName.value)
@@ -193,18 +187,19 @@ export class FictionEnv<
           Object.entries(fullOpts).forEach(([key, value]) => {
             if (value) {
               const processKey = camelToUpperSnake(key)
-              process.env[processKey] = String(value)
+
+              crossVar.set(processKey as keyof RunVars, String(value))
             }
           })
 
           if (fullOpts.mode) {
             this.mode.value = fullOpts.mode
 
-            process.env.NODE_ENV = fullOpts.mode
+            crossVar.set('NODE_ENV', fullOpts.mode)
           }
 
-          if (process.env.VITEST)
-            process.env.IS_TEST = 'yes'
+          if (crossVar.has('VITEST'))
+            crossVar.set('IS_TEST', 'yes')
         }
       },
       { immediate: true },
@@ -216,7 +211,7 @@ export class FictionEnv<
     const customVars = vars.list.flatMap((cb) => {
       const v = cb().map((vari) => {
         if (!vari.val.value)
-          vari.val = vue.ref(getCrossVar(vari.name) as string | undefined)
+          vari.val = vue.ref(crossVar.get(vari.name) as string | undefined)
 
         return vari
       })
@@ -230,7 +225,7 @@ export class FictionEnv<
       .filter(_ => _.port.value)
       .map((c) => {
         const name = `${c.command.toUpperCase()}_PORT`
-        const val = process.env[name]
+        const val = crossVar.get(name) as string
         return new EnvVar({ name, val: val || String(c.port.value), isPublic: true })
       })
 
@@ -243,10 +238,9 @@ export class FictionEnv<
 
   getRenderedEnvVars(): Record<string, string | Record<string, string>> {
     const rendered = Object.fromEntries(
-      this.getPublicVars()
-        .filter(_ => _.val.value)
-        .map(_ => [_.name, _.val.value]),
+      this.getPublicVars().filter(_ => _.val.value).map(_ => [_.name, _.val.value]),
     ) as Record<string, string | Record<string, string>>
+
     rendered.IS_VITE = 'yes'
 
     return rendered
@@ -274,7 +268,7 @@ export class FictionEnv<
 
     // set env vars added directly to config
     Object.entries(this.env).forEach(([key, value]) => {
-      process.env[key] = value
+      crossVar.set(key as keyof RunVars, value)
     })
   }
 

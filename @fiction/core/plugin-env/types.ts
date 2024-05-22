@@ -22,8 +22,10 @@ export interface EntryModuleExports {
   mainFile: MainFile
 }
 
+export type MainFileSetup = (args?: { context?: 'node' | 'app' }) => Promise<ServiceConfig> | ServiceConfig
+
 export interface MainFile {
-  setup: () => Promise<ServiceConfig> | ServiceConfig
+  setup: MainFileSetup
   fictionApp?: FictionApp
   fictionServer?: FictionServer
   fictionEnv?: FictionEnv
@@ -47,8 +49,6 @@ export type ServiceConfig = {
   createMount?: (args: { renderRoute?: string, runVars: Partial<RunVars>, service: ServiceList, serviceConfig: ServiceConfig }) => Promise<FictionAppEntry> | FictionAppEntry
   close?: () => Promise<void> | void
 }
-
-export type MainFileSetup = (args: { context: 'node' | 'app' }) => Promise<ServiceConfig> | ServiceConfig
 
 export interface CliOptions {
   name?: string

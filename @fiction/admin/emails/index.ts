@@ -37,7 +37,7 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
 
       const user = await fictionUser.queries.ManageUser.serve({ _action: 'verifyEmail', code, email }, { ...meta, server: true })
 
-      return { status: 'success', data: user }
+      return user
     },
   })
   return { verifyEmailAction }

@@ -39,12 +39,12 @@ vue.onMounted(async () => {
 <template>
   <div
     v-if="sending"
-    class="text-theme-300 dark:text-theme-600 absolute inset-0 flex h-full w-full flex-col items-center justify-center"
+    class="py-24 text-theme-300 dark:text-theme-600 absolute inset-0 flex h-full w-full flex-col items-center justify-center"
   >
     <ElSpinner class="h-10 w-10" />
   </div>
   <div v-else-if="response?.status === 'success'">
-    Verified
+    Verified {{ response }}
   </div>
   <div v-else>
     {{ response?.message }}

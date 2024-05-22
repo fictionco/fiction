@@ -1,36 +1,85 @@
 import process from 'node:process'
 import type { RunVars } from '../inject'
 
-/**
- * checks if environment variables from the server or client is set
- */
-export function hasCrossVar(name: string, value?: string): boolean {
-  if (typeof window !== 'undefined' && window.fictionRunVars?.[name as keyof RunVars])
-    return value ? window.fictionRunVars?.[name as keyof RunVars] === value : true
-  else if (typeof process !== 'undefined' && process.env && process.env[name])
-    return value ? process.env[name] === value : true
+export class CrossVarManager {
+  /**
+   * Determines if the window object is defined and has fictionRunVars.
+   */
+  private isWindowAvailable(): boolean {
+    return typeof window !== 'undefined' && window.fictionRunVars !== undefined
+  }
 
-  return false
+  /**
+   * Determines if the process object is defined and has env.
+   */
+  private isProcessAvailable(): boolean {
+    return typeof process !== 'undefined' && process.env !== undefined
+  }
+
+  /**
+   * Returns the available storage for environment variables.
+   */
+  vars(): Partial<RunVars> {
+    let out = {}
+    if (this.isWindowAvailable())
+      out = { ...window.fictionRunVars }
+
+    if (this.isProcessAvailable())
+      out = { ...process.env, ...out } as Partial<RunVars>
+
+    return out
+  }
+
+  /**
+   * Checks if a variable exists and optionally if it matches a specific value.
+   */
+  has<T extends keyof RunVars>(name: T, value?: RunVars[T]): boolean {
+    const storage = this.vars()
+    return storage[name] !== undefined && (value ? storage[name] === value : true)
+  }
+
+  /**
+   * Gets a cross-environment variable.
+   */
+  get<T extends keyof RunVars>(name: T | string): RunVars[T] | string | undefined {
+    const storage = this.vars()
+    return storage[name as T]
+  }
+
+  /**
+   * Sets a cross-environment variable.
+   */
+  set<T extends keyof RunVars>(name: T, value: RunVars[T]): void {
+    if (this.isWindowAvailable())
+      window.fictionRunVars[name] = value
+
+    if (this.isProcessAvailable())
+      process.env[name] = value as NodeJS.ProcessEnv[T]
+  }
+
+  /**
+   * Deletes a cross-environment variable.
+   */
+  delete<T extends keyof RunVars>(name: T): void {
+    if (this.isWindowAvailable())
+      delete window.fictionRunVars[name]
+
+    if (this.isProcessAvailable())
+      delete process.env[name]
+  }
 }
-/**
- * Gets environment variables from the server or client
- */
-export function getCrossVar<T extends keyof RunVars>(name: T | string): RunVars[T] | string | undefined {
-  if (typeof window !== 'undefined' && window.fictionRunVars?.[name as keyof RunVars])
-    return window.fictionRunVars?.[name as T]
-  else if (typeof process !== 'undefined' && process.env[name])
-    return process.env[name]
-}
+
+export const crossVar = new CrossVarManager()
 
 export const isNode = () => !!(typeof process !== 'undefined' && process.versions && process.versions.node)
 export const isActualBrowser = (): boolean => !isNode()
 export const hasWindow = (): boolean => typeof window !== 'undefined'
-export const isTest = () => hasCrossVar('IS_TEST')
-export const isApp = () => hasCrossVar('IS_VITE')
-export const isCi = () => hasCrossVar('CI')
-export const isDev = () => hasCrossVar('NODE_ENV', 'development')
+export const isTest = () => crossVar.has('IS_TEST')
+export const isApp = () => crossVar.has('IS_VITE')
+export const isCi = () => crossVar.has('CI')
+export const isDev = () => crossVar.has('NODE_ENV', 'development')
 export const isProd = () => !isDev()
-export const isDebug = () => hasCrossVar('DEBUG')
-export const isRestart = () => hasCrossVar('IS_RESTART')
-export const getVersion = () => getCrossVar('RUNTIME_VERSION')
-export const getCommit = () => getCrossVar('RUNTIME_COMMIT')
+export const isDebug = () => crossVar.has('DEBUG')
+export const isRestart = () => crossVar.has('IS_RESTART')
+export const getVersion = () => crossVar.get('RUNTIME_VERSION')
+export const getCommit = () => crossVar.get('RUNTIME_COMMIT')

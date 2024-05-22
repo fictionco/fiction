@@ -45,7 +45,7 @@ vue.onMounted(async () => {
 </script>
 
 <template>
-  <div>
+  <div :data-action-id="actionId">
     <div v-if="loading">
       <div class="text-theme-300 dark:text-theme-600 flex justify-center pt-32">
         <svg

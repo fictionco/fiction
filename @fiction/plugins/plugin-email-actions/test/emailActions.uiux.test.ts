@@ -1,42 +1,36 @@
 /* eslint-disable no-irregular-whitespace */
-import { createTestUtils } from '@fiction/core/test-utils/init'
 
 import { afterAll, describe, expect, it } from 'vitest'
-import { FictionAws, FictionMedia, vue } from '@fiction/core'
+import { vue } from '@fiction/core'
 import { testEnvFile } from '@fiction/core/test-utils'
 import { createUiTestingKit } from '@fiction/core/test-utils/kit'
 import fs from 'fs-extra'
-import { EmailAction, FictionEmailActions } from '..'
-import { setup as emailActionMainFileSetup } from './mainFile'
+import { EmailAction } from '..'
+import { setup as emailActionMainFileSetup } from './emailActions.main'
 
 describe('email actions', async () => {
   if (!fs.existsSync(testEnvFile))
     console.warn(`missing test env file ${testEnvFile}`)
 
-  const kit = await createUiTestingKit({ headless: false, envFiles: [testEnvFile], slowMo: 1000, setup: emailActionMainFileSetup })
+  const kit = await createUiTestingKit({ headless: true, envFiles: [testEnvFile], setup: emailActionMainFileSetup })
   const testUtils = kit.testUtils
 
-  const awsAccessKey = testUtils.fictionEnv.var('AWS_ACCESS_KEY')
-  const awsAccessKeySecret = testUtils.fictionEnv.var('AWS_ACCESS_KEY_SECRET')
+  if (!testUtils)
+    throw new Error('missing test utils')
 
-  if (!awsAccessKey || !awsAccessKeySecret)
-    throw new Error(`missing env vars key:${awsAccessKey?.length}, secret:${awsAccessKeySecret?.length}`)
+  const { fictionEmailActions } = testUtils
 
-  const fictionAws = new FictionAws({ ...testUtils, awsAccessKey, awsAccessKeySecret })
-  const fictionMedia = new FictionMedia({ ...testUtils, fictionAws, bucket: 'factor-tests' })
-
-  const fictionEmailActions = new FictionEmailActions({ ...testUtils, fictionMedia })
-
-  // console.log('FICTION EMAIL ACTIONS')
   const initialized = await testUtils.initUser()
+
   // console.log('2222')
   const user = initialized.user
 
-  fictionEmailActions.settings.fictionEmail.isTest = false
+  testUtils.fictionEmailActions.settings.fictionEmail.isTest = true
 
+  const actionId = 'test-action'
   const heading = 'Verify Your Email'
   const action = new EmailAction({
-    actionId: 'test-action',
+    actionId,
     template: vue.defineAsyncComponent(() => import('./ElTestAction.vue')),
     fictionEmailActions,
     emailConfig: (vars) => {
@@ -101,7 +95,7 @@ describe('email actions', async () => {
     await kit.performActions({
       path: '/_transaction/test-action',
       actions: [
-        { type: 'visible', selector: '[data-test-id="email-login-button"]' },
+        { type: 'visible', selector: `[data-action-id="${actionId}"]` },
       ],
     })
   })
