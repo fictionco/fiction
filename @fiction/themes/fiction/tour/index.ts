@@ -10,8 +10,9 @@ const topHeroCard = createCard({
     heading: `A simple step-by-step platform that helps you market yourself`,
     actions: [
       {
-        name: 'Start Now',
-        href: '/auth/login?reload=1',
+        name: 'Create Account',
+        href: '/app/login?reload=1',
+        btn: 'primary',
       },
     ],
   },

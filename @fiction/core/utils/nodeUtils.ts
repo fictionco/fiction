@@ -4,7 +4,7 @@ import * as mod from 'node:module'
 import type { Buffer } from 'node:buffer'
 import process from 'node:process'
 import fs from 'fs-extra'
-import type { ExecaChildProcess } from 'execa'
+import type { ResultPromise } from 'execa'
 import { execaCommand } from 'execa'
 import type { PackageJson } from '../types'
 import { isNode } from './vars'
@@ -20,7 +20,7 @@ export async function executeCommand(args: {
   timeout?: number
   resolveText?: string
   triggerText?: string
-  onTrigger?: (args: { stdout: string, stderr: string, text: string, close: () => void, cp: ExecaChildProcess }) => Promise<void> | void
+  onTrigger?: (args: { stdout: string, stderr: string, text: string, close: () => void, cp: ResultPromise }) => Promise<void> | void
 }) {
   const { command, envVars = {}, timeout = 10000, resolveText } = args
   const output: string[] = []
@@ -41,7 +41,7 @@ export async function executeCommand(args: {
        */
 
       const close = () => {
-        cp.kill('SIGTERM', { forceKillAfterTimeout: 5000 })
+        cp.kill('SIGTERM')
         resolve(1)
       }
 

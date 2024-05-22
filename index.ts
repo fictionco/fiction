@@ -86,7 +86,7 @@ export function setup(): ServiceConfig {
                 logger.error('Subprocess exited with error code', { data: { code } })
                 reject(new Error(`Subprocess exited with error code ${code}`))
               }
-            }).then(() => {})
+            })
 
             void cp.on('error', (err) => {
               logger.error('Error executing subprocess', { data: { err } })

@@ -39,6 +39,8 @@ vue.onMounted(() => {
       :btn="action.btn || 'default'"
       :href="action.href"
       :size="action.size || defaultSize"
+      :icon="action.icon"
+      :icon-after="action.iconAfter"
     >
       {{ action.name }}
     </CardElement>

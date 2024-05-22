@@ -2,7 +2,7 @@
 import path from 'node:path'
 import process from 'node:process'
 import fs from 'fs-extra'
-import type { ExecaError, ExecaSyncReturnValue } from 'execa'
+import type { ExecaError, ResultPromise } from 'execa'
 import enquirer from 'enquirer'
 import type { ReleaseType } from 'semver'
 import semver from 'semver'
@@ -44,14 +44,14 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     bin: string,
     args: string[],
     opts = {},
-  ): Promise<ExecaSyncReturnValue> => {
+  ): Promise<ResultPromise> => {
     const { execa } = await import('execa')
     return execa(bin, args, { stdio: 'inherit', cwd: process.cwd(), ...opts })
   }
 
   commit = async (
     ...commandArgs: [string, string[], Record<string, string>?]
-  ): Promise<void | ExecaSyncReturnValue> => {
+  ): Promise<void | ResultPromise> => {
     const [bin, args, opts] = commandArgs
     try {
       const result = await this.run(bin, args, opts)
@@ -130,7 +130,7 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     }
     catch (error: unknown) {
       const e = error as ExecaError
-      if (/previously published/.test(e.stderr))
+      if (/previously published/.test(e.stderr as string))
         this.log.info(`skipping already published: ${pkg.name}`)
       else
         throw e

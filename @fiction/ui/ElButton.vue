@@ -31,6 +31,7 @@ function onClick() {
   }
 }
 
+
 const buttonClasses = vue.computed(() => {
   return getButtonClasses({
     size: props.size,

@@ -32,9 +32,10 @@ export function page() {
               subHeading: `Tell your story &mdash; Create opportunities &mdash; Real results, guaranteed.`,
               actions: [
                 {
-                  name: 'Start Now',
+                  name: 'Create Account',
                   href: '/app?reload=1',
                   btn: 'primary',
+                  icon: 'i-tabler-user',
                 },
                 {
                   name: 'View Tour',

@@ -2,8 +2,10 @@ import path from 'node:path'
 import { Buffer } from 'node:buffer'
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { MainFile } from '@fiction/core/plugin-env'
-import type { ExecaChildProcess } from 'execa'
+
+import type { ResultPromise } from 'execa'
 import { execaCommand } from 'execa'
+import type { ExecaCommand } from 'execa/types/methods/command'
 import { executeCommand, getMainFilePath, importIfExists } from '../nodeUtils'
 
 const cwd = path.dirname(new URL('../../../www/package.json', import.meta.url).pathname)
@@ -120,7 +122,7 @@ describe('executeCommand', () => {
   it('should execute the command successfully and return stdout', async () => {
     const mockOutput = ['line 1', 'line 2']
     const cp = mockProcess(0, mockOutput, [])
-    vi.mocked(execaCommand).mockReturnValue(cp as unknown as ExecaChildProcess<Buffer>)
+    vi.mocked(execaCommand).mockReturnValue(cp as unknown as ResultPromise)
 
     const result = await executeCommand({ command: 'echo "Hello, World!"' })
     expect(result.stdout).toBe(mockOutput.join('\n'))
@@ -134,7 +136,7 @@ describe('executeCommand', () => {
   it('should handle command failure and return stderr', async () => {
     const mockErrors = ['error 1', 'error 2']
     const cp = mockProcess(1, [], mockErrors)
-    vi.mocked(execaCommand).mockReturnValue(cp as unknown as ExecaChildProcess<Buffer>)
+    vi.mocked(execaCommand).mockReturnValue(cp as unknown as ResultPromise)
 
     await expect(executeCommand({ command: 'exit 1' }))
       .rejects.toThrow(`Command failed with exit code 1\nErrors:\n${mockErrors.join('\n')}`)
@@ -147,7 +149,7 @@ describe('executeCommand', () => {
       if (event === 'error')
         handler(new Error(errorMessage))
     })
-    vi.mocked(execaCommand).mockReturnValue(cp as unknown as ExecaChildProcess<Buffer>)
+    vi.mocked(execaCommand).mockReturnValue(cp as unknown as ResultPromise)
 
     await expect(executeCommand({ command: 'echo "Hello, World!"' })).rejects.toThrow(errorMessage)
   })

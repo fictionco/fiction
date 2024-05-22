@@ -13,8 +13,8 @@
     }
   ],
   "dependencies": {
-    "@aws-sdk/client-cloudfront": "^3.581.0",
-    "@aws-sdk/client-s3": "^3.577.0",
+    "@aws-sdk/client-cloudfront": "^3.582.0",
+    "@aws-sdk/client-s3": "^3.582.0",
     "@egoist/tailwindcss-icons": "^1.8.0",
     "@faker-js/faker": "^8.4.1",
     "@iconify-json/carbon": "^1.1.33",
@@ -62,7 +62,7 @@
     "es-module-lexer": "^1.5.3",
     "esbuild": "^0.21.3",
     "events": "^3.3.0",
-    "execa": "^8.0.1",
+    "execa": "^9.1.0",
     "express": "^4.19.2",
     "extract-domain": "^5.0.2",
     "fast-safe-stringify": "^2.1.1",
@@ -118,7 +118,7 @@
     "serve-favicon": "^2.5.0",
     "serve-static": "^1.15.0",
     "sharp": "^0.33.4",
-    "sitemap": "^7.1.2",
+    "sitemap": "^8.0.0",
     "spark-md5": "^3.0.2",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",

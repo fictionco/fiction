@@ -56,6 +56,7 @@ export interface NavItem {
   name?: string
   desc?: string
   icon?: string
+  iconAfter?: string
   href?: string
   isActive?: boolean
   key?: string

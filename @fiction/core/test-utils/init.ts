@@ -155,17 +155,15 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
 
   let appPort = opts?.appPort
   let serverPort = opts?.serverPort
-  if (context) {
-    if (context === 'app') {
-      appPort = appPort || +fictionEnv.var('APP_PORT')
-      serverPort = serverPort || +fictionEnv.var('SERVER_PORT')
-    }
-    else {
-      appPort = appPort || randomBetween(1_000, 11_000)
-      serverPort = serverPort || randomBetween(11_000, 20_000)
-      crossVar.set('SERVER_PORT', String(serverPort))
-      crossVar.set('APP_PORT', String(appPort))
-    }
+  if (context === 'app') {
+    appPort = +fictionEnv.var('APP_PORT')
+    serverPort = +fictionEnv.var('SERVER_PORT')
+  }
+  else {
+    appPort = appPort || randomBetween(1_000, 11_000)
+    serverPort = serverPort || randomBetween(11_000, 20_000)
+    crossVar.set('SERVER_PORT', String(serverPort))
+    crossVar.set('APP_PORT', String(appPort))
   }
 
   // check env vars
@@ -181,18 +179,15 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
   const connectionUrl = fictionEnv.var('POSTGRES_URL')
   const googleClientId = fictionEnv.var('GOOGLE_CLIENT_ID')
   const googleClientSecret = fictionEnv.var('GOOGLE_CLIENT_SECRET')
-  const sp = fictionEnv.var('SERVER_PORT')
-  const ap = fictionEnv.var('APP_PORT')
 
-
-  const fictionServer = new FictionServer({ port: serverPort!, liveUrl: 'https://server.test.com', fictionEnv })
+  const fictionServer = new FictionServer({ port: serverPort, liveUrl: 'https://server.test.com', fictionEnv })
   const fictionRouter = new FictionRouter({ routerId: 'testRouter', fictionEnv, create: true })
   const fictionDb = new FictionDb({ fictionEnv, fictionServer, connectionUrl })
   const fictionEmail = new FictionEmail({ fictionEnv, smtpHost, smtpPassword, smtpUser })
 
   const base = { fictionEnv, fictionRouter, fictionServer, fictionDb, fictionEmail }
 
-  const fictionApp = new FictionApp({ ...base, port: appPort!, rootComponent, isTest: true })
+  const fictionApp = new FictionApp({ ...base, port: appPort, rootComponent, isTest: true })
 
   const fictionUser = new FictionUser({ ...base, googleClientId, googleClientSecret, tokenSecret: 'test' })
 

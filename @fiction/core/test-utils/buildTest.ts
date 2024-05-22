@@ -2,7 +2,7 @@ import path from 'node:path'
 import process from 'node:process'
 import type { Buffer } from 'node:buffer'
 import { describe, expect, it } from 'vitest'
-import type { ExecaChildProcess } from 'execa'
+import type { ResultPromise } from 'execa'
 import { execaCommand } from 'execa'
 import fs from 'fs-extra'
 import type { Browser, Page } from 'playwright'
@@ -21,7 +21,7 @@ async function getModuleName(cwd: string): Promise<string> {
 }
 
 export interface TestServerConfig {
-  childProcess: ExecaChildProcess
+  childProcess: ResultPromise
   commands: CliCommand[]
   destroy: () => Promise<void>
   browser: Browser
@@ -95,7 +95,7 @@ export async function createTestServer(params: {
 
   log.info('createTestServer', `Creating test server for ${moduleName}`, { data: { cwd: process.cwd(), cmd: runCmd } })
 
-  let childProcess: ExecaChildProcess | undefined
+  let childProcess: ResultPromise | undefined
   await new Promise<void>((resolve) => {
     childProcess = execaCommand(runCmd, { env: { IS_TEST: '1' } })
     childProcess.stdout?.pipe(process.stdout)
@@ -117,10 +117,9 @@ export async function createTestServer(params: {
     commands,
     ...bwsr,
     destroy: async () => {
-      if (childProcess) {
-        childProcess.cancel()
+      if (childProcess)
         childProcess.kill()
-      }
+
       await bwsr.close()
     },
   }
