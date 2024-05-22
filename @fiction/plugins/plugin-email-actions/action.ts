@@ -32,9 +32,8 @@ export type EmailActionSettings<T extends BaseParams = BaseParams, U extends End
 
 type SendEmailArgs = {
   user: Partial<User>
-  query?: Record<string, string>
   origin?: string
-  vars?: Partial<EmailVars>
+  queryVars?: Partial<EmailVars>
 }
 
 export class EmailAction<T extends BaseParams = BaseParams, U extends EndpointResponse = EndpointResponse> extends FictionObject<EmailActionSettings<T, U>> {
@@ -86,8 +85,8 @@ export class EmailAction<T extends BaseParams = BaseParams, U extends EndpointRe
   }
 
   emailVars?: EmailVars
-  async createEmailVars(args: SendEmailArgs) {
-    const { user, query = {}, origin, vars } = args
+  async createEmailVars(args: SendEmailArgs): Promise<EmailVars> {
+    const { user, origin, queryVars = {} } = args
 
     const fictionEmailActions = this.fictionEmailActions
     const fictionApp = fictionEmailActions?.settings.fictionApp
@@ -97,10 +96,13 @@ export class EmailAction<T extends BaseParams = BaseParams, U extends EndpointRe
       throw abort('no tokenSecret provided')
 
     const originUrl = origin || fictionApp?.appUrl.value || ''
-    const queryParams = new URLSearchParams(query).toString()
-    const token = user ? createUserToken({ user, tokenSecret }) : ''
+    let token = ''
+    if (user)
+      token = queryVars.token = createUserToken({ user, tokenSecret })
+
+    const queryParams = new URLSearchParams(queryVars).toString()
     const callbackBase = `${originUrl}/_action`
-    const callbackUrl = `${callbackBase}/${this.settings.actionId}/?token=${token}&${queryParams}`
+    const callbackUrl = `${callbackBase}/${this.settings.actionId}/?${queryParams}`
     const { firstName, lastName, email, userId, username } = user
 
     const emailVars: EmailVars = {
@@ -116,7 +118,7 @@ export class EmailAction<T extends BaseParams = BaseParams, U extends EndpointRe
       unsubscribeUrl: `${callbackBase}/unsubscribe`,
       appName: fictionEmail?.settings.fictionEnv.meta.app?.name || '',
       code: 'NOT_PROVIDED',
-      ...vars,
+      ...queryVars,
     }
 
     this.emailVars = emailVars

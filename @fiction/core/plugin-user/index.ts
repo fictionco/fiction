@@ -208,7 +208,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
         const { logout, orgId } = routeVars
 
         if (logout) {
-          await this?.logout()
+          await this?.logout({ caller: 'watchRouteUserChanges-logout-param' })
           return
         }
 
@@ -264,7 +264,8 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     this.activeUser.value = user
   }
 
-  async logout(args: { callback?: () => void, redirect?: string } = {}) {
+  async logout(args: { callback?: () => void, redirect?: string, caller?: string } = {}) {
+    const { caller = 'unknown', redirect, callback } = args
     const user = this.activeUser.value
 
     this.deleteCurrentUser()
@@ -274,20 +275,25 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
 
     emitEvent('resetUi')
 
-    if (args.callback)
-      args.callback()
+    if (callback)
+      callback()
 
     // reload the page to clear any state
-    if (args.redirect) {
-      window.location.href = args.redirect
+    if (redirect) {
+      this.log.warn(`redirecting due to logout redirect (${caller})`)
+      window.location.href = redirect
     }
 
     else {
-      // If no redirect is provided, modify the URL to remove 'logout' query param
       const url = new URL(window.location.href)
-      url.searchParams.delete('logout')
-      url.searchParams.delete('token')
-      window.location.href = url.toString()
+
+      // If no redirect is provided, modify the URL to remove 'logout' query param
+      if (url.searchParams.has('logout') || url.searchParams.has('token')) {
+        this.log.warn(`redirecting due to logout (${caller})`)
+        url.searchParams.delete('logout')
+        url.searchParams.delete('token')
+        window.location.href = url.toString()
+      }
     }
   }
 
@@ -301,7 +307,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
 
       // If there is a token error, then delete it and force login
       if (status === 'error' && code === 'TOKEN_ERROR')
-        await this.logout()
+        await this.logout({ caller: 'requestCurrentUser-TOKEN_ERROR' })
 
       user = data
 

@@ -13,7 +13,7 @@ import type { PackageJson } from '../types'
 import type { CliCommand } from '../plugin-env'
 import type { TestUtilSettings } from './init'
 
-const logger = log.contextLogger('BUILD TESTS')
+const logger = log.contextLogger('E2E')
 
 async function getModuleName(cwd: string): Promise<string> {
   const pkg = await import(/* @vite-ignore */`${cwd}/package.json`) as PackageJson
@@ -142,7 +142,7 @@ export async function performActions(args: {
   const { browser, path, actions, port } = args
   const page = browser.page
 
-  const url = new URL(`http://localhost:${port}${path}`).toString()
+  const url = new URL(path || '/', `http://localhost:${port}`).toString()
 
   const errorLogs: string[] = []
   page.on('console', (message) => {
@@ -154,11 +154,11 @@ export async function performActions(args: {
     errorLogs.push(err.message)
   })
 
-  logger.info('NAVIGATE_TO', { data: { url } })
+  logger.info('NAVIGATING_TO', { data: { url } })
 
   await page.goto(url, { waitUntil: 'networkidle' })
 
-  logger.info('NAVIGATED', { data: { url } })
+  logger.info('ARRIVED_AT', { data: { url } })
 
   for (const action of actions) {
     const element = page.locator(action.selector)
@@ -245,7 +245,7 @@ export async function appBuildTests(config: {
   if (!cwd)
     throw new Error('cwd is not defined')
 
-  const logger = log.contextLogger('BUILD TESTS')
+  const logger = log.contextLogger('UIUX')
   const BUILD_TIMEOUT = 180_000
 
   describe(`BUILD TESTS: ${moduleName}`, () => {

@@ -132,7 +132,7 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
           if (replaceConfig || isServerFile) {
             const code = this.getReplacedModule({
               src,
-              id,
+              id: replaceConfig?.resolvedId,
               type: 'map',
               replaceConfig,
             })

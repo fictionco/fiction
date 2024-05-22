@@ -11,10 +11,6 @@ export async function setup(args: { context?: 'node' | 'app' } = {}) {
   const { context = 'node' } = args
   const mainFilePath = new URL(import.meta.url).pathname
 
-
-
-  console.warn('SERVER_PORT', crossVar.get('SERVER_PORT'), context)
-
   const testUtils = await createSiteTestUtils({ mainFilePath, context, themes: [adminTheme.setup] })
 
   testUtils.fictionRouter.update([

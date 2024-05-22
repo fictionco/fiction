@@ -78,7 +78,7 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
 
   await runServicesSetup(out, { context: 'test' })
 
-  out.fictionEnv.log.info('sites test utils created')
+  out.fictionEnv.log.info(`Site Test Utils Created (${context})`)
 
   // out.runApp = async (args: { isProd?: boolean, context?: 'app' | 'node' }) => {
   //   const { context } = args

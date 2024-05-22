@@ -3,7 +3,6 @@ import type { MainFileSetup } from '../plugin-env'
 import { isCi } from '../utils/vars'
 import { createTestBrowser, performActions } from './buildTest'
 import { setup as mainFileSetup } from './testMainFile'
-import type { createTestUtils } from './init'
 
 export async function createUiTestingKit<T extends MainFileSetup = MainFileSetup>(args: { headless?: boolean, slowMo?: number, setup?: T, envFiles?: string[] } = {}): Promise<{
   port: number
@@ -27,8 +26,6 @@ export async function createUiTestingKit<T extends MainFileSetup = MainFileSetup
 
   await serviceConfig.fictionEnv.crossRunCommand({ context: 'node', serviceConfig })
   const port = testUtils.fictionServer?.port.value
-
-  console.warn('POST AT', port)
 
   if (!port)
     throw new Error('port not found')
