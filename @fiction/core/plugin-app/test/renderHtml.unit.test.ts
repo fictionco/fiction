@@ -60,6 +60,6 @@ describe('serverRenderHtml', () => {
     expect(html).toContain('<bodytagsopen></bodytagsopen>')
     expect(html).toContain('<bodytags></bodytags>')
     expect(html).toMatch(/<meta name="generator" content="Fiction \d+\.\d+\.\d+">/)
-    expect(html).toContain(`<!--{"renderedPathname":"/","isProd":true}-->`)
+    expect(html).toContain(`<!--{"renderedPathname":"/","mode":"prod"}-->`)
   })
 })
