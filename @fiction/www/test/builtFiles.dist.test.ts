@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import fs from 'fs-extra'
+import { execaSync } from 'execa'
 import { randomBetween, safeDirname } from '@fiction/core'
 import { appRunTest } from '@fiction/core/test-utils/buildTest'
-import { execaCommandSync } from 'execa'
 
 describe('pre check secrets', () => {
   const services = [
@@ -18,7 +18,7 @@ describe('pre check secrets', () => {
     }
 
     for (const service of services) {
-      const { stdout } = execaCommandSync(`flyctl secrets list -a ${service.appId} --access-token ${token}`)
+      const { stdout } = execaSync(`flyctl secrets list -a ${service.appId} --access-token ${token}`)
 
       const secrets = ['FLY_API_TOKEN', 'POSTGRES_URL', 'GH_TOKEN', 'TOKEN_SECRET', 'AWS_ACCESS_KEY', 'AWS_ACCESS_KEY_SECRET', 'GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET']
       for (const secret of secrets)

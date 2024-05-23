@@ -1,7 +1,7 @@
 /* server-only-file */
 import path from 'node:path'
 import fs from 'fs-extra'
-import { execaCommand } from 'execa'
+import { execa } from 'execa'
 import * as vite from 'vite'
 import type { RollupWatcher, RollupWatcherEvent } from 'rollup'
 import { deepMergeAll, getRequire, isNode, safeDirname } from '../utils'
@@ -170,10 +170,10 @@ export class FictionBundle extends FictionPlugin<FictionBundleSettings> {
       this.log.info(`creating type definitions for ${packageName}`, {
         data: command,
       })
-      await execaCommand(command, {
-        stdio: 'inherit',
-        cwd,
-      })
+
+      const c = command.split(' ')
+
+      await execa(c[0], c.slice(1), { stdio: 'inherit', cwd })
     }
 
     if (onBuilt)

@@ -12,8 +12,8 @@ import { getRequire } from '../utils'
  * Checks whether the working directory has uncommitted changes
  */
 export async function isGitDirty(): Promise<boolean> {
-  const { execaCommandSync } = await import('execa')
-  const { stdout } = execaCommandSync('git status --short')
+  const { execaSync } = await import('execa')
+  const { stdout } = execaSync('git status --short')
 
   return stdout.length > 0
 }

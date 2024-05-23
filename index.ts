@@ -2,7 +2,7 @@ import process from 'node:process'
 import type { Buffer } from 'node:buffer'
 import type { ServiceConfig } from '@fiction/core'
 import { CliCommand, FictionBundle, FictionEnv, FictionRelease, log, safeDirname } from '@fiction/core'
-import { execaCommand } from 'execa'
+import { execa } from 'execa'
 import { version } from './package.json'
 
 const logger = log.contextLogger('Root Build')
@@ -57,7 +57,9 @@ export function setup(): ServiceConfig {
 
           const cmd = `npm -w ${app} exec -- fiction run render`
           await new Promise((resolve, reject) => {
-            const cp = execaCommand(cmd, { env: { FORCE_COLOR: 'true' } })
+            const c = cmd.split(' ')
+
+            const cp = execa(c[0], c.slice(1), { env: { FORCE_COLOR: 'true' } })
             cp.stdout?.pipe(process.stdout)
             cp.stderr?.pipe(process.stderr)
             // cp.stdout?.on('data', (d: Buffer) => {

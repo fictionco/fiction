@@ -28,57 +28,52 @@ export async function executeCommand(args: {
   const commandDetails = () => ({ stdout: output.join(`\n`), stderr: errorsOutput.join(`\n`) })
   try {
     await new Promise((resolve, reject) => {
-      try {
-        const c = command.split(' ')
+      const c = command.split(' ')
 
-        const cp = execa(c[0], c.slice(1), { env: envVars, timeout, forceKillAfterTimeout: true })
+      const cp = execa(c[0], c.slice(1), { env: envVars, timeout, forceKillAfterTimeout: true })
 
-        cp.stdout?.pipe(process.stdout)
-        cp.stderr?.pipe(process.stderr)
+      cp.stdout?.pipe(process.stdout)
+      cp.stderr?.pipe(process.stderr)
 
-        /**
-         * NOTE: the order of listeners is important
-         * they trigger in order of their addition
-         */
+      /**
+       * NOTE: the order of listeners is important
+       * they trigger in order of their addition
+       */
 
-        const close = () => {
-          cp.kill()
-          resolve(1)
-        }
-
-        const onText = (text: string) => {
-          if (resolveText && text.includes(resolveText))
-            resolve(text)
-            // close()
-
-          if (args.triggerText && text.includes(args.triggerText) && args.onTrigger)
-            void args.onTrigger({ ...commandDetails(), text, close, cp })
-        }
-
-        cp.stdout?.on('data', (d: Buffer) => {
-          output.push(d.toString())
-          onText(d.toString())
-        })
-
-        cp.stderr?.on('data', async (d: Buffer) => {
-          errorsOutput.push(d.toString())
-          onText(d.toString())
-        })
-
-        void cp.on('close', (code) => {
-          if (code === 0)
-            resolve(output.join(`\n`))
-          else
-            reject(new Error(`Command failed with exit code ${code}\nErrors:\n${errorsOutput.join(`\n`)}`))
-        })
-
-        void cp.on('error', (err) => {
-          reject(err)
-        })
+      const close = () => {
+        cp.kill()
+        resolve(1)
       }
-      catch (error) {
-        console.error('error', error)
+
+      const onText = (text: string) => {
+        if (resolveText && text.includes(resolveText))
+          resolve(text)
+        // close()
+
+        if (args.triggerText && text.includes(args.triggerText) && args.onTrigger)
+          void args.onTrigger({ ...commandDetails(), text, close, cp })
       }
+
+      cp.stdout?.on('data', (d: Buffer) => {
+        output.push(d.toString())
+        onText(d.toString())
+      })
+
+      cp.stderr?.on('data', async (d: Buffer) => {
+        errorsOutput.push(d.toString())
+        onText(d.toString())
+      })
+
+      void cp.on('close', (code) => {
+        if (code === 0)
+          resolve(output.join(`\n`))
+        else
+          reject(new Error(`Command failed with exit code ${code}\nErrors:\n${errorsOutput.join(`\n`)}`))
+      })
+
+      void cp.on('error', (err) => {
+        reject(err)
+      })
     })
   }
   catch (error) {

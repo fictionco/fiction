@@ -3,7 +3,7 @@ import process from 'node:process'
 import type { Buffer } from 'node:buffer'
 import { describe, expect, it } from 'vitest'
 import type { ResultPromise } from 'execa'
-import { execaCommand } from 'execa'
+import { execa } from 'execa'
 import fs from 'fs-extra'
 import type { Browser, Page } from 'playwright'
 import { executeCommand } from '../utils/nodeUtils'
@@ -100,7 +100,8 @@ export async function createTestServer(params: {
 
   let childProcess: ResultPromise | undefined
   await new Promise<void>((resolve) => {
-    childProcess = execaCommand(runCmd, { env: { IS_TEST: '1' } })
+    const c = runCmd.split(' ')
+    childProcess = execa(c[0], c.slice(1), { env: { IS_TEST: '1' } })
     childProcess.stdout?.pipe(process.stdout)
     childProcess.stderr?.pipe(process.stderr)
 
