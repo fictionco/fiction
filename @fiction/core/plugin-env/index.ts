@@ -260,9 +260,7 @@ export class FictionEnv<
       if (parsed) {
         this.log.info(`loaded envFile: ${envFile}`, {
           data: {
-            keys: Object.entries(parsed || {})
-              .map(([key, v]) => `${key}(${v.length})`)
-              .join(', '),
+            keys: Object.entries(parsed || {}).map(([key, v]) => `${key}(${v.length})`).join(', '),
           },
         })
       }

@@ -12,8 +12,8 @@ import { getRequire } from '../utils'
  * Checks whether the working directory has uncommitted changes
  */
 export async function isGitDirty(): Promise<boolean> {
-  const { execaSync } = await import('execa')
-  const { stdout } = execaSync('git status --short')
+  const { execa } = await import('execa')
+  const { stdout } = await execa`git status --short`
 
   return stdout.length > 0
 }
@@ -71,10 +71,15 @@ export function getPackages(options: { publicOnly?: boolean } = {}): PackageJson
  * Get last commit if we are in a git repository
  */
 export async function getCommit(length = 100): Promise<string> {
-  const { execaSync } = await import('execa')
-  return fs.existsSync(`${process.cwd()}/.git`)
-    ? execaSync('git', ['rev-parse', 'HEAD']).stdout.slice(0, length)
-    : 'no-repo'
+  const { execa } = await import('execa')
+  if (fs.existsSync(`${process.cwd()}/.git`)) {
+    const { stdout } = await execa('git', ['rev-parse', 'HEAD'])
+
+    return stdout.slice(0, length)
+  }
+  else {
+    return 'no-repo'
+  }
 }
 /**
  * Get CLI args

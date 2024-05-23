@@ -1,10 +1,15 @@
 import { describe, expect, it } from 'vitest'
 import fs from 'fs-extra'
-import { execaSync } from 'execa'
-import { randomBetween, safeDirname } from '@fiction/core'
+import { execa } from 'execa'
+import { path, randomBetween, safeDirname } from '@fiction/core'
 import { appRunTest } from '@fiction/core/test-utils/buildTest'
+import dotenv from 'dotenv'
 
 describe('pre check secrets', () => {
+  // get local .env.test file if it exists
+  const p = `${path.dirname(require.resolve('@fiction/core'))}/test-utils/.env.test`
+  dotenv.config({ path: p }).parsed
+
   const services = [
     { appId: 'fiction-sites' },
     { appId: 'fiction-website' },
@@ -12,13 +17,11 @@ describe('pre check secrets', () => {
   it('has secrets', async () => {
     const token = process.env.FLY_API_TOKEN
 
-    if (!token) {
-      console.error('!!!FLY_API_TOKEN not found!!!')
-      return
-    }
+    if (!token)
+      throw new Error('!!!FLY_API_TOKEN not found!!!')
 
     for (const service of services) {
-      const { stdout } = execaSync(`flyctl secrets list -a ${service.appId} --access-token ${token}`)
+      const { stdout } = await execa`flyctl secrets list -a ${service.appId} --access-token ${token}`
 
       const secrets = ['FLY_API_TOKEN', 'POSTGRES_URL', 'GH_TOKEN', 'TOKEN_SECRET', 'AWS_ACCESS_KEY', 'AWS_ACCESS_KEY_SECRET', 'GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET']
       for (const secret of secrets)
