@@ -52,7 +52,7 @@ describe('site plugin tests', async () => {
     expect(site.title).toBe(title)
     expect(site.themeId).toBe(themeId)
 
-    expect(site.pages.length).toBe(defaultNumPages)
+    expect(site.pages.length, 'should have 2 pages in created site').toBe(defaultNumPages)
     expect(site.pages.length).toMatchInlineSnapshot(`2`)
   })
 

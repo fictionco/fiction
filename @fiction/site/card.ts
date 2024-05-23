@@ -74,7 +74,7 @@ export class Card<
   index = vue.ref(this.settings.index)
   regionId = this.settings.regionId || 'main'
   layoutId = vue.ref(this.settings.layoutId)
-  templateId = vue.ref(this.settings.templateId || (this.parentId ? 'area' : this.site?.pageTemplateHandling.value.defaultTemplateId))
+  templateId = vue.ref(this.settings.templateId || (this.parentId ? 'area' : this.site?.theme.value?.templateDefaults.value.page || 'wrap'))
   title = vue.ref(this.settings.title)
   description = vue.ref(this.settings.description)
   slug = vue.ref(this.settings.slug)

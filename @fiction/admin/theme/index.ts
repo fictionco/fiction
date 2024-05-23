@@ -133,9 +133,9 @@ export async function setup(args: { fictionEnv: FictionEnv }) {
     templates,
     isPublic: false,
     pages: () => pg,
-    pageTemplateHandling: {
-      defaultTemplateId: 'dash',
-      transactionTemplateId: 'wrap',
+    templateDefaults: {
+      page: 'dash',
+      transactional: 'wrap',
     },
     userConfig: {
       colors: { isDarkMode: true },

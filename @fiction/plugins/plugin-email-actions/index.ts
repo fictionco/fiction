@@ -37,7 +37,7 @@ export class FictionEmailActions extends FictionPlugin<FictionEmailActionsSettin
     this.settings.fictionEnv.addHook({
       hook: 'setPages',
       callback: (pages, site) => {
-        const transactionTemplateId = site?.pageTemplateHandling.value.transactionTemplateId || 'wrap'
+        const transactionTemplateId = site?.theme.value?.templateDefaults.value.transactional || 'wrap'
         return [
           ...pages,
           createCard({

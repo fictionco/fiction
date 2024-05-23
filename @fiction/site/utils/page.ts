@@ -11,7 +11,7 @@ export function setPages(args: { pages?: CardConfigPortable[], site?: Site }) {
 
   const pg = fictionEnv?.runHooksSync('setPages', pages, site) || pages || []
 
-  const templateId = site?.pageTemplateHandling.value.defaultTemplateId || 'wrap'
+  const templateId = site?.theme.value?.templateDefaults.value.page || 'wrap'
 
   return pg.map(p => new Card({ site, regionId: 'main', templateId, ...p })) || []
 }

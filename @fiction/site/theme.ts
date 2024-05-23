@@ -1,5 +1,5 @@
-import type { FictionEnv, FictionMedia, FictionPluginSettings, Processor, ServiceList, vue } from '@fiction/core'
-import { FictionPlugin, ObjectProcessor, deepMerge, isNode, log, parseObject } from '@fiction/core'
+import type { FictionEnv, FictionMedia, FictionPluginSettings, Processor, ServiceList } from '@fiction/core'
+import { FictionPlugin, ObjectProcessor, deepMerge, isNode, log, parseObject, vue } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
 import type { CreateUserConfigs, ExtractCardTemplateUserConfig, ExtractComponentUserConfig } from './card'
 import type { CardConfigPortable, PageRegion, SiteUserConfig, TableCardConfig, TableSiteConfig } from './tables'
@@ -21,9 +21,9 @@ export type ThemeSettings<T extends Record<string, unknown> = Record<string, unk
   userConfig?: Partial<SiteUserConfig> & T
   pages: () => Promise<TableCardConfig[]> | TableCardConfig[]
   sections?: () => Record<string, TableCardConfig>
-  pageTemplateHandling?: {
-    defaultTemplateId?: string
-    transactionTemplateId?: string
+  templateDefaults?: {
+    page?: string
+    transactional?: string
   }
 } & FictionPluginSettings
 
@@ -37,6 +37,8 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
   templates = this.settings.templates
   ui = { button: { el: ElButton }, ...this.settings.ui }
   pages = this.settings.pages
+  templateDefaults = vue.computed(() => ({ page: 'wrap', transactional: 'wrap', ...this.settings.templateDefaults }))
+
   constructor(settings: ThemeSettings<T>) {
     super('Theme', settings)
   }
@@ -50,7 +52,9 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
 
   async getPages(): Promise<Partial<TableCardConfig>[]> {
     const pages = (await this.pages()) || []
-    return pages
+    const pageTemplateId = this.templateDefaults.value.page
+    const pgs = pages.map(page => ({ ...page, templateId: page.templateId || pageTemplateId }))
+    return pgs
   }
 
   async toSite(): Promise<Partial<TableSiteConfig>> {

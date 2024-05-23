@@ -44,7 +44,9 @@ type PageCardConfig = {
   seoDescription?: string
 }
 
-export type TableCardConfig<T extends Record<string, unknown> = Record<string, unknown> > = Omit<CreateObjectType<typeof pageCols>, 'cards' | 'userConfig'> & st & {
+type TablePageCardConfig = Partial<CreateObjectType<typeof pageCols>>
+
+export type TableCardConfig<T extends Record<string, unknown> = Record<string, unknown> > = Omit<TablePageCardConfig, 'cards' | 'userConfig'> & st & {
   parentId?: string
   depth?: number
   index?: number
