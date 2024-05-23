@@ -451,8 +451,6 @@ export class QueryManageUser extends UserBaseQuery {
       }
     }
 
-    this.log.warn('responser', { data: { userOrgs: user?.orgs } })
-
     if (isNew && user)
       fictionUser.events.emit('newUser', { user, params: params as ManageUserParams & { _action: 'create' } })
 
