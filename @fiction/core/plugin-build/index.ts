@@ -219,6 +219,14 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
     const external: string[] = ['ngrok', 'node:crypto', 'uno.css'] // this.fictionEnv.serverOnlyModules.map((_) => _.id)
 
     const isProd = mode === 'prod'
+
+    // SET A CUSTOM HMR PORT
+    // randomly if the same port is used, it can conflict silently
+    // preventing HMR from working. Setting this way prevents it .
+    // In prod and test, disable to reduce problems
+    const port = randomBetween(10_000, 20_000)
+    const hmr = { port }
+
     const basicConfig: vite.InlineConfig = {
       mode: isProd ? 'production' : 'development',
       // root must be set to optimize output file size
@@ -228,18 +236,13 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
       },
       server: {
         fs: { strict: false },
-
+        hmr,
         watch: {
           ignored: [
             '!**/node_modules/@fiction/**',
             '!**/node_modules/**/@fiction/**',
           ],
         },
-        // SET A CUSTOM HMR PORT
-        // randomly if the same port is used, it can conflict silently
-        // preventing HMR from working. Setting this way prevents it .
-        // In prod and test, disable to reduce problems
-        hmr: mode !== 'dev' ? false : { port: randomBetween(10_000, 20_000) },
       },
       define: {
         // https://github.com/vitejs/vite/discussions/5912

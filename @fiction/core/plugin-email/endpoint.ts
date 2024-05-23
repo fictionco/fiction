@@ -146,13 +146,13 @@ export class QueryTransactionalEmail extends EmailQuery {
     const client = this.getClient()
 
     const { html, text } = template
+
     const { from = getFromAddress({ fictionEnv: this.settings.fictionEnv }), to, subject } = fields
 
     const theEmail: nodeMailer.SendMailOptions = { from, to, subject, html, text }
 
     let isSent = false
     if (client) {
-      console.warn('SEDNGIN EMAIL', theEmail)
       isSent = true
       await this.client?.sendMail(theEmail)
     }

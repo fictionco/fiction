@@ -172,7 +172,7 @@ const markdownStyles = {
         </EPreview>
         <EBody :style="{ fontFamily: fontStack }" class="dark:bg-gray-900 bg-white dark:text-white text-gray-900">
           <EContainer class="py-8 px-4 max-w-[600px]">
-            <ESection v-if="mediaSuper">
+            <ESection v-if="mediaSuper" class="mb-6">
               <EColumn v-if="mediaSuper.media?.url" class="w-[22px]">
                 <ELink :href="mediaSuper.href || '#'">
                   <EImg class="rounded-md !border-2 !border-white/10 !border-solid" width="22" :src="mediaSuper.media?.url" />

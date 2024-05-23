@@ -11,6 +11,7 @@ import { camelToKebab, randomBetween, waitFor } from '../utils'
 import { log } from '../plugin-log'
 import type { PackageJson } from '../types'
 import type { CliCommand } from '../plugin-env'
+import { isCi } from '../utils/vars'
 import type { TestUtilSettings } from './init'
 
 const logger = log.contextLogger('E2E')
@@ -31,7 +32,9 @@ export interface TestServerConfig {
 export type TestBrowser = Awaited<ReturnType<typeof createTestBrowser>>
 
 export async function createTestBrowser(args: { headless: boolean, slowMo?: number }) {
-  const { headless, slowMo } = args
+  const { headless } = args
+
+  const slowMo = isCi() ? 0 : args.slowMo
 
   const { chromium } = await import('playwright')
   const browser = await chromium.launch({ headless, slowMo })
