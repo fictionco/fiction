@@ -43,7 +43,7 @@ export async function executeCommand(args: {
        */
 
       const close = () => {
-        cp.kill()
+        cp.kill('SIGTERM', new Error('Command closed by trigger'))
         resolve(1)
       }
 
