@@ -132,6 +132,11 @@ jobs:
       - name: Create Tables
         run: npm -w @fiction/www exec -- fiction run generate
 
+      - name: BUILD tests
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
+        run: npm exec -- vitest run build -u --no-file-parallelism
+
       - name: SPOT tests
         run: npm exec -- vitest run spot -u --passWithNoTests
 
@@ -140,11 +145,6 @@ jobs:
 
       - name: UNIT tests
         run: npm exec -- vitest run unit -u
-
-      - name: BUILD tests
-        env:
-          NODE_OPTIONS: --max_old_space_size=4096
-        run: npm exec -- vitest run build -u --no-file-parallelism
 
       - name: Install Build Packages
         if: env.SHOULD_DEPLOY == 'true'

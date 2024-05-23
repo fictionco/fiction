@@ -41,7 +41,7 @@ export async function executeCommand(args: {
        */
 
       const close = () => {
-        cp.kill('SIGTERM')
+        cp.kill()
         resolve(1)
       }
 
