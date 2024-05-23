@@ -5,10 +5,10 @@ import type { HookType } from '../utils'
 import { camelToUpperSnake, crossVar, isApp, isDev, isNode, isTest, runHooks, runHooksSync, toSlug, vue } from '../utils'
 import { version as fictionVersion } from '../package.json'
 import type { RunVars } from '../inject'
+import { TypedEventTarget } from '../utils/eventTarget'
 import { compileApplication } from './entry'
 import type { CliCommand } from './commands'
 import { standardAppCommands } from './commands'
-import { done } from './utils'
 import { generateStaticConfig } from './generate'
 import { commonServerOnlyModules } from './serverOnly'
 import { EnvVar, envConfig, vars } from './onImport'
@@ -54,9 +54,14 @@ type BaseCompiled = {
   [key: string]: any
 }
 
+export type EnvEventMap = {
+  shutdown: CustomEvent<{ reason: string }>
+}
+
 export class FictionEnv<
   S extends BaseCompiled = BaseCompiled,
 > extends FictionObject<FictionControlSettings> {
+  events = new TypedEventTarget<EnvEventMap>()
   generatedConfig?: S
   commands = this.settings.commands || standardAppCommands
   hooks = this.settings.hooks || []
@@ -361,8 +366,11 @@ export class FictionEnv<
 
     await this.crossRunCommand({ context, serviceConfig, cliVars })
 
-    if (cliCommand.options.exit)
-      done(0, '--exit flag set')
+    if (cliCommand.options.exit) {
+      const reason = `--exit flag set`
+      this.log.info(`shutting down`, { data: { reason } })
+      this.events.emit('shutdown', { reason })
+    }
   }
 
   var(variable: S['vars'], opts: { fallback?: string | number } = {}): string {

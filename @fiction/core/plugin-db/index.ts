@@ -59,6 +59,8 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
 
     if (settings.connectionUrl)
       this.connectionUrl = new URL(settings.connectionUrl)
+
+    this.fictionEnv?.events.on('shutdown', () => this.close())
   }
 
   async close() {

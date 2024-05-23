@@ -49,6 +49,7 @@ describe('sockets', () => {
       serverName: 'testSocketServer',
       port,
       fictionUser: testUtils.fictionUser,
+      fictionEnv: testUtils.fictionEnv,
     })
   })
   afterAll(async () => {

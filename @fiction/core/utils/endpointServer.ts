@@ -13,6 +13,7 @@ import { log } from '../plugin-log'
 import { onEvent } from '../utils/event'
 import type { FictionUser } from '../plugin-user'
 import type { Query } from '../query'
+import type { FictionEnv } from '../plugin-env'
 import type { ErrorConfig } from './error'
 import type { Endpoint } from './endpoint'
 import { getCommit, getVersion } from './vars'
@@ -29,6 +30,7 @@ export interface EndpointServerOptions {
   customServer?: CustomServerHandler
   middleware?: MiddlewareHandler
   fictionUser?: FictionUser
+  fictionEnv: FictionEnv
   liveUrl?: string
   url?: string
 }
@@ -82,6 +84,7 @@ export function createExpressApp(opts: HelmetOptions & { noHelmet?: boolean } = 
 }
 
 export class EndpointServer {
+  fictionEnv: FictionEnv
   serverName: string
   port: number
   endpoints: Endpoint<Query>[]
@@ -101,6 +104,7 @@ export class EndpointServer {
     this.endpoints = endpoints
     this.customServer = customServer
     this.fictionUser = settings.fictionUser
+    this.fictionEnv = settings.fictionEnv
     this.url = settings.url || `http://localhost:${port}`
     this.expressApp = createExpressApp({ noHelmet: true })
   }
@@ -177,6 +181,8 @@ export class EndpointServer {
         health: `${this.url}/api/health`,
       },
     })
+
+    this.fictionEnv.events.on('shutdown', () => this.server?.close())
 
     onEvent('shutdown', () => this.server?.close())
   }

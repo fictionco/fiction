@@ -87,6 +87,7 @@ export class FictionServer extends FictionPlugin<FictionServerSettings> {
     let endpointServer: EndpointServer | undefined
     try {
       endpointServer = new EndpointServer({
+        fictionEnv: this.settings.fictionEnv,
         serverName: this.serverName,
         port: this.port.value,
         endpoints: this.endpoints,

@@ -7,6 +7,7 @@ import type * as ws from 'ws'
 import { log } from '../plugin-log'
 import type { FictionUser, User } from '../plugin-user'
 import type { FictionDb } from '../plugin-db'
+import type { FictionEnv } from '../plugin-env'
 import { emitEvent } from './event'
 import { dayjs } from './libraries'
 import { objectId, shortId } from './id'
@@ -560,6 +561,7 @@ export interface SocketServerComponents<T extends EventMap> {
 }
 
 export async function createSocketServer<T extends EventMap>(args: {
+  fictionEnv: FictionEnv
   serverName: string
   port: number
   endpoints?: Endpoint[]
@@ -576,6 +578,7 @@ export async function createSocketServer<T extends EventMap>(args: {
     welcomeObject,
     maxPayload,
     url,
+    fictionEnv,
   } = args
 
   const socketServer = new NodeSocketServer<T>({
@@ -585,6 +588,7 @@ export async function createSocketServer<T extends EventMap>(args: {
   })
 
   const endpointServer = new EndpointServer({
+    fictionEnv,
     serverName,
     port,
     endpoints,
