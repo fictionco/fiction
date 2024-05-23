@@ -66,8 +66,13 @@ describe('siteRendering Tests', async () => {
     expect(testUtils.fictionRouter.current.value?.fullPath).toMatchInlineSnapshot(`"/"`)
     expect(testUtils.fictionRouterSites.current.value?.fullPath).toMatchInlineSnapshot(`"/"`)
 
-    const el = mountEl.querySelector('.x-engine') as HTMLElement
+    const el = mountEl.querySelector('.x-site') as HTMLElement
     expect(el.dataset.subDomain, 'correct sub domain').toBe(subDomain)
+    expect(el.dataset.siteId, 'correct site id').toBe(siteObj.siteId)
+    expect(el.dataset.pathname, 'correct pathname').toBe(siteObj.currentPath.value)
+    expect(el.dataset.viewId, 'correct view id').toBe(siteObj.currentViewId.value)
+    expect(el.dataset.pageId, 'correct page id').toBe(siteObj.activePageId.value)
+    expect(el.dataset.pageTemplateId, 'correct page template id').toBe(siteObj.currentPage.value.templateId.value)
 
     expect(html).toContain(`data-site-id="${siteObj.siteId}"`)
 
