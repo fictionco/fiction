@@ -46,32 +46,3 @@ CMD npm -w @fiction/supereon exec -- fiction run app
 FROM build as andrewpowers
 EXPOSE 3000
 CMD npm -w @fiction/andrewpowers exec -- fiction run app
-
-# FROM build as pagelines-www
-# EXPOSE 3434
-# CMD npm -w @pagelines/www exec -- fiction run app
-
-# FROM build as pagelines-tag
-# EXPOSE 2222
-# CMD npm -w @pagelines/www exec -- fiction run tag
-
-# FROM build as pagelines-embed
-# EXPOSE 12321
-# CMD npm -w @pagelines/embed exec -- fiction run app
-
-# FROM build as pagelines-server
-# EXPOSE 7777
-# CMD npm -w @pagelines/www exec -- fiction run server
-
-
-# FROM build as fiction-server
-# EXPOSE 8282
-# CMD npm -w @fiction/studio exec -- fiction run server
-
-# FROM build as fiction-studio
-# EXPOSE 8181
-# CMD npm -w @fiction/studio exec -- fiction run app
-
-# FROM build as fiction-socket
-# EXPOSE 2222
-# CMD npm -w @fiction/studio exec -- fiction run socket
