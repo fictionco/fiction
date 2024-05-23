@@ -21,7 +21,7 @@ const logger = log.contextLogger('nodeUtils')
 
 export function logMemoryUsage() {
   // Repeated logging every 30 seconds
-  setInterval(() => {
+  const interval = setInterval(() => {
     const memoryUsage = v8.getHeapStatistics()
     const out = [
       'Memory /',
@@ -32,6 +32,9 @@ export function logMemoryUsage() {
 
     logger.info(out.join(' '))
   }, 60000)
+
+  // This will not prevent the process from exiting if this is the only activity left in the event loop.
+  interval.unref()
 }
 
 export async function executeCommand(args: {
