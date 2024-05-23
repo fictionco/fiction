@@ -47,10 +47,9 @@ export async function executeCommand(args: {
         }
 
         const onText = (text: string) => {
-          if (resolveText && text.includes(resolveText)) {
+          if (resolveText && text.includes(resolveText))
             resolve(text)
-            close()
-          }
+            // close()
 
           if (args.triggerText && text.includes(args.triggerText) && args.onTrigger)
             void args.onTrigger({ ...commandDetails(), text, close, cp })
