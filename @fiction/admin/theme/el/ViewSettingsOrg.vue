@@ -90,7 +90,7 @@ vue.onMounted(async () => {
           </div>
           <div>
             <div class="font-brand text-2xl font-bold">
-              {{ fictionUser.activeOrganization.value?.orgName }}
+              {{ fictionUser.activeOrganization.value?.orgName || 'Unnamed Organization' }}
             </div>
             <div class="text-theme-500 font-medium">
               organization email: {{ fictionUser.activeOrganization.value?.orgEmail }} &middot; you are an

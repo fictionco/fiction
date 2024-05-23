@@ -120,7 +120,7 @@ vue.onMounted(() => {
         </div>
         <div
           v-if="subLabel"
-          class="text-theme-500 text-xs"
+          class="text-theme-400 dark:text-theme-600 text-[.9em]"
           v-html="subLabel"
         />
       </div>

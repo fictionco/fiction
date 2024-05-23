@@ -60,11 +60,15 @@ describe('google auth', async () => {
     expect(response?.status).toBe('success')
     expect(response?.isNew).toBe(true)
     expect(response?.token).toBeTruthy()
-    expect(response?.data?.userId).toBeTruthy()
-    expect(response?.data?.email).toBe(email)
-    expect(response?.data?.googleId).toBe(googleId)
-    expect(response?.data?.fullName).toBe('test test')
-    expect(response?.user?.userId).toBeTruthy()
+
+    const user = response.data
+
+    expect(user?.userId).toBeTruthy()
+    expect(user?.email).toBe(email)
+    expect(user?.googleId).toBe(googleId)
+    expect(user?.fullName).toBe('test test')
+    expect(response?.user?.userId).toBe(user?.userId)
+    expect(user?.orgs?.length).toBe(1)
   })
 
   it('if user exists, returns login token, isNew = false', async () => {

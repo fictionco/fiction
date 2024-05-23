@@ -4,12 +4,13 @@ import type { FictionDb } from '../plugin-db'
 import type { FictionEnv } from '../plugin-env'
 import { Query } from '../query'
 import type { FictionEmail } from '../plugin-email'
-import { abort, dayjs, getRequestIpAddress, prepareFields } from '../utils'
+import { shortId } from '../utils/id'
+import { abort, dayjs, getRequestIpAddress, prepareFields, toLabel } from '../utils'
 import { standardTable as t } from '../tbl'
 import type { EndpointResponse } from '../types'
 import { getGeoFree } from '../utils-analytics'
 import type { User } from './types'
-import { comparePassword, getCode, hashPassword, validateNewEmail, verifyCode } from './utils'
+import { comparePassword, defaultOrgName, getCode, hashPassword, validateNewEmail, verifyCode } from './utils'
 import type { FictionUser, OnboardStoredSettings, Organization } from '.'
 
 interface UserQuerySettings {
@@ -27,14 +28,12 @@ export abstract class UserBaseQuery extends Query<UserQuerySettings> {
 
 export type WhereUser = { email: string } | { userId: string } | { username: string } | { googleId: string }
 
+type CreateUserFields = Partial<User> & { email: string, password?: string, orgName?: string }
+
 export type ManageUserParams =
   | {
     _action: 'create'
-    fields: Partial<User> & {
-      email: string
-      password?: string
-      orgName?: string
-    }
+    fields: CreateUserFields
     isVerifyEmail?: boolean
   }
   | {
@@ -96,7 +95,8 @@ export class QueryManageUser extends UserBaseQuery {
     let token: string | undefined
     const { fictionUser } = this.settings
 
-    switch (params._action) {
+    const { _action } = params
+    switch (_action) {
       case 'retrieve':
         user = await this.getUser(params)
         break
@@ -131,7 +131,6 @@ export class QueryManageUser extends UserBaseQuery {
         message = 'login successful'
         break
       }
-
       case 'event':
         user = await this.handleUserEvent(params)
         break
@@ -149,7 +148,7 @@ export class QueryManageUser extends UserBaseQuery {
     if (['create', 'login', 'loginGoogle'].includes(params._action))
       token = user ? fictionUser.getToken(user) : undefined
 
-    return await this.prepareResponse({ user, isNew, token, message, params }, meta)
+    return await this.prepareResponse({ _action, user, isNew, token, message, params }, meta)
   }
 
   private async handleUserEvent(params: ManageUserParams & { _action: 'event' }): Promise<User > {
@@ -278,6 +277,28 @@ export class QueryManageUser extends UserBaseQuery {
     return user
   }
 
+  private async createDefaultOrganization(fields: CreateUserFields, meta: EndpointMeta): Promise<Organization> {
+    const { fictionUser } = this.settings
+    const { userId, email } = fields
+
+    if (!userId)
+      throw abort('userId required to make default org')
+
+    const orgName = fields.orgName || defaultOrgName(email)
+
+    const response = await fictionUser.queries.ManageOrganization.serve(
+      { _action: 'create', userId, fields: { orgName, orgEmail: email } },
+      { server: true, ...meta },
+    )
+
+    const org = response.data
+
+    if (!org)
+      throw abort('problem creating default org')
+
+    return org
+  }
+
   private async updateCurrentUser(params: ManageUserParams & { _action: 'updateCurrentUser' }, meta: EndpointMeta): Promise<User | undefined> {
     const { fields } = params
 
@@ -307,7 +328,7 @@ export class QueryManageUser extends UserBaseQuery {
 
     fields.email = fields.email.toLowerCase().trim()
 
-    const hashedPassword = await hashPassword(fields.password)
+    const hashedPassword = await hashPassword(fields.password || shortId({ len: 14 }))
 
     await validateNewEmail({ email: fields.email, fictionUser })
 
@@ -329,14 +350,6 @@ export class QueryManageUser extends UserBaseQuery {
     else {
       throw abort('couldn\'t create user', { data: { insertFields } })
     }
-
-    const { orgName = 'Personal' } = fields
-    const response = await fictionUser.queries.ManageOrganization.serve(
-      { _action: 'create', userId: user.userId, fields: { orgName, orgEmail: user.email } },
-      { server: true, ...meta },
-    )
-
-    user.orgs = response.data ? [response.data] : []
 
     fictionUser.events.emit('newUser', { user, params })
 
@@ -384,8 +397,6 @@ export class QueryManageUser extends UserBaseQuery {
   private async loginGoogle(params: ManageUserParams & { _action: 'loginGoogle' }, meta: EndpointMeta): Promise<{ user?: User, isNew: boolean }> {
     const { credential } = params
 
-    const { fictionDb } = this.settings
-
     const googleClient = await this.getGoogleClient()
 
     const googleClientId = this.settings.fictionUser.googleClientId
@@ -405,30 +416,19 @@ export class QueryManageUser extends UserBaseQuery {
     if (!user) {
       isNew = true
 
-      const fields: Partial<User> = { fullName, email, emailVerified, googleId, avatar: { url: picture } }
+      const fields: CreateUserFields = { fullName, email, emailVerified, googleId, avatar: { url: picture } }
 
-      const ipData = await getRequestIpAddress()
-      fields.ip = ipData.ip
-      fields.geo = await getGeoFree(fields.ip)
-
-      const insertFields = prepareFields({ type: 'internal', fields, meta: { server: true }, fictionDb, table: t.user })
-
-      const [newUser] = await this.db().table(t.user).insert(insertFields).onConflict(['email']).merge().returning<User[]>('*')
-
-      if (!newUser)
-        throw abort('couldn\'t create user', { data: { insertFields } })
-
-      user = newUser
+      user = await this.createUser({ _action: 'create', fields }, meta)
     }
-    else if (user && !user.googleId) {
+    else if (user && !user.googleId && emailVerified) {
       await this.db().table(t.user).update({ googleId }).where({ userId: user.userId })
     }
 
     return { user, isNew }
   }
 
-  private async prepareResponse(args: { user?: User, isNew: boolean, token?: string, message?: string, params: ManageUserParams }, meta: EndpointMeta): Promise<ManageUserResponse> {
-    const { isNew, token, message } = args
+  private async prepareResponse(args: { _action: ManageUserParams['_action'], user?: User, isNew: boolean, token?: string, message?: string, params: ManageUserParams }, meta: EndpointMeta): Promise<ManageUserResponse> {
+    const { isNew, token, message, params } = args
     const user = prepareFields({ type: 'returnInfo', fields: args.user, table: t.user, meta, fictionDb: this.settings.fictionDb })
 
     const fictionUser = this.settings.fictionUser
@@ -439,7 +439,22 @@ export class QueryManageUser extends UserBaseQuery {
       )
 
       user.orgs = orgsResponse.data ?? []
+
+      // this ensures that a user has at least one org
+      if (user.orgs.length === 0) {
+        const p = params as ManageUserParams & { _action: 'create' }
+        const orgName = p.fields?.orgName
+        const r = await this.createDefaultOrganization({ email: user.email as string, ...user, orgName }, meta)
+
+        if (r)
+          user.orgs = [r]
+      }
     }
+
+    this.log.warn('responser', { data: { userOrgs: user?.orgs } })
+
+    if (isNew && user)
+      fictionUser.events.emit('newUser', { user, params: params as ManageUserParams & { _action: 'create' } })
 
     const response: ManageUserResponse = { status: 'success', data: user, isNew, token, message, user }
 

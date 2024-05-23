@@ -94,6 +94,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     },
   })
 
+  pageTemplateHandling = vue.computed(() => ({ defaultTemplateId: 'wrap', transactionTemplateId: 'wrap', ...this.theme.value?.settings.pageTemplateHandling }))
   pages = vue.shallowRef(setPages({ pages: this.settings.pages, site: this }))
 
   primaryCustomDomain = vue.computed(() => this.customDomains.value?.find(d => d.isPrimary)?.hostname ?? this.customDomains.value?.[0]?.hostname)

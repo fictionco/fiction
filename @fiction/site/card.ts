@@ -64,6 +64,7 @@ export type CardBaseConfig = Record<string, unknown> & SiteUserConfig
 export class Card<
   T extends CardBaseConfig = CardBaseConfig,
 > extends FictionObject<CardSettings<T>> {
+  site = this.settings.site
   cardId = this.settings.cardId || objectId({ prefix: 'crd' })
   isHome = vue.ref(this.settings.isHome)
   is404 = vue.ref(this.settings.is404)
@@ -73,7 +74,7 @@ export class Card<
   index = vue.ref(this.settings.index)
   regionId = this.settings.regionId || 'main'
   layoutId = vue.ref(this.settings.layoutId)
-  templateId = vue.ref(this.settings.templateId || (this.parentId ? 'area' : 'wrap'))
+  templateId = vue.ref(this.settings.templateId || (this.parentId ? 'area' : this.site?.pageTemplateHandling.value.defaultTemplateId))
   title = vue.ref(this.settings.title)
   description = vue.ref(this.settings.description)
   slug = vue.ref(this.settings.slug)
@@ -81,7 +82,7 @@ export class Card<
   userConfig = vue.ref<T>(this.settings.userConfig || {} as T)
   fullConfig = vue.computed(() => deepMerge([this.site?.fullConfig.value, this.userConfig.value as T]) as SiteUserConfig & T)
   cards = vue.shallowRef((this.settings.cards || []).map(c => this.initSubCard({ cardConfig: c })))
-  site = this.settings.site
+
   tpl = vue.computed(() => this.settings.inlineTemplate || this.site?.theme.value?.templates?.find(t => t.settings.templateId === this.templateId.value))
   genUtil = new CardGeneration({ card: this })
   isActive = vue.computed<boolean>(() => this.site?.editor.value.selectedCardId === this.settings.cardId)

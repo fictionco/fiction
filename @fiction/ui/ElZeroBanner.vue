@@ -18,7 +18,7 @@ defineProps({
     <div class="mx-auto max-w-7xl px-6 py-24 lg:flex lg:px-24">
       <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl flex flex-col justify-center lg:pt-12">
         <div class="">
-          <div class="mb-6 relative">
+          <div v-if="icon" class="mb-6 relative">
             <div class="text-7xl text-theme-500/30 lg:absolute bottom-0" :class="icon" />
           </div>
           <h1 class="mt-10 lg:mt-0 text-4xl font-bold tracking-tight dark:text-theme-0 sm:text-5xl x-font-title">

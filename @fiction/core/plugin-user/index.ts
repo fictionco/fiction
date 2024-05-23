@@ -223,22 +223,13 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     if (isNode()) {
       const db = this.settings.fictionDb.client()
       await db
-        .insert({
-          orgName: 'Example Inc.',
-          orgEmail: 'admin@fiction.com',
-          orgId: 'example',
-        })
+        .insert({ orgName: 'Example Inc.', orgEmail: 'admin@fiction.com', orgId: 'example' })
         .into(standardTable.org)
         .onConflict()
         .ignore()
 
       await db
-        .insert({
-          firstName: 'Admin',
-          lastName: 'Admin',
-          userId: 'admin',
-          email: 'admin@fiction.com',
-        })
+        .insert({ firstName: 'Admin', lastName: 'Admin', userId: 'admin', email: 'admin@fiction.com' })
         .onConflict()
         .ignore()
         .into('fiction_user')
@@ -317,7 +308,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
 
     this.events.emit('currentUser', { user })
 
-    this.log.debug('user loaded', { data: { user } })
+    this.log.info('user loaded', { data: { user } })
 
     return user
   }

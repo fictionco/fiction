@@ -21,6 +21,10 @@ export type ThemeSettings<T extends Record<string, unknown> = Record<string, unk
   userConfig?: Partial<SiteUserConfig> & T
   pages: () => Promise<TableCardConfig[]> | TableCardConfig[]
   sections?: () => Record<string, TableCardConfig>
+  pageTemplateHandling?: {
+    defaultTemplateId?: string
+    transactionTemplateId?: string
+  }
 } & FictionPluginSettings
 
 export type UiItem = { el: vue.Component }

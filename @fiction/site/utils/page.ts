@@ -9,9 +9,11 @@ export function setPages(args: { pages?: CardConfigPortable[], site?: Site }) {
   const { pages = [], site } = args
   const fictionEnv = site?.fictionSites.settings.fictionEnv
 
-  const pg = fictionEnv?.runHooksSync('setPages', pages) || pages || []
+  const pg = fictionEnv?.runHooksSync('setPages', pages, site) || pages || []
 
-  return pg.map(p => new Card({ site, regionId: 'main', templateId: 'wrap', ...p })) || []
+  const templateId = site?.pageTemplateHandling.value.defaultTemplateId || 'wrap'
+
+  return pg.map(p => new Card({ site, regionId: 'main', templateId, ...p })) || []
 }
 
 export function updatePages(args: { site: Site, pages: (CardConfigPortable | undefined)[] }) {

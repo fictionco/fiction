@@ -1,7 +1,7 @@
 import stopwordsLib from '../resource/stopwords'
 
 export function toCamel(str: string, options = { allowPeriods: false }): string {
-  const pattern = options.allowPeriods ? /[_-\s]+(.)?/g : /[_-\s.]+(.)?/g
+  const pattern = options.allowPeriods ? /[_\-\s]+(.)?/g : /[_\-\s.]+(.)?/g
   return str
     // Handle non-word characters (spaces, hyphens, underscores, optionally periods)
     .replace(pattern, (_, c) => c ? c.toUpperCase() : '')
@@ -28,11 +28,11 @@ export function toSlug(text: string | undefined, options?: { maintainCase?: bool
 
   if (replaceNumbers) {
     // Remove numbers and non-word characters (preserving spaces and hyphens)
-    text = text.replace(/[0-9]+/g, '').replace(/[^\w\s-]+/g, '')
+    text = text.replace(/\d+/g, '').replace(/[^\w\s-]+/g, '')
   }
   else {
     // Remove non-word characters except numbers (preserving spaces and hyphens)
-    text = text.replace(/[^\w\s\d-]+/g, '')
+    text = text.replace(/[^\w\s-]+/g, '')
   }
 
   // Replace spaces with a dash
@@ -82,7 +82,7 @@ export function toLabel(str?: string | number): string {
  */
 export function toPascal(text: string): string {
   // First, check if the string contains only non-alphanumeric characters
-  if (/^[^a-zA-Z0-9]+$/.test(text))
+  if (/^[^a-z0-9]+$/i.test(text))
     return ''
 
   return text

@@ -1,6 +1,7 @@
-import type { FictionDb } from '@fiction/core/plugin-db'
-import { standardTable } from '@fiction/core/tbl'
 import bcrypt from 'bcrypt'
+import type { FictionDb } from '../../plugin-db'
+import { standardTable } from '../../tbl'
+import { toLabel } from '../../utils'
 import { abort } from '../../utils/error'
 import { dayjs } from '../../utils/libraries'
 import type { FictionUser, User } from '..'
@@ -8,6 +9,18 @@ import { validateEmail } from '../../utils/utils'
 import type { VerificationCode } from '../schema'
 import type { WhereUser } from '../endpoint'
 
+export function defaultOrgName(email: string): string {
+  // Extract username from email and clean special characters
+  const username = email.substring(0, email.lastIndexOf('@')).split('+')[0]
+
+  const capitalized = toLabel(username).replace(/\W/g, '').replace(/\d+$/, '')
+  // Append possessive form correctly based on the last character
+  const possessiveUsername = capitalized + (capitalized.endsWith('s') ? '\'' : '\'s')
+
+  const orgName = `${possessiveUsername} Workspace`
+
+  return orgName
+}
 /**
  * A random 6 digit number, ideal for verification code
  */

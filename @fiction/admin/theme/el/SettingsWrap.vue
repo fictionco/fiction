@@ -47,7 +47,7 @@ const nav = vue.computed<NavItem[]>(() => {
                   ? 'active font-bold bg-theme-50 dark:bg-theme-700 dark:text-theme-0'
                   : 'inactive font-medium text-theme-600 dark:text-theme-0 hover:bg-theme-100/50 dark:hover:bg-theme-800' "
             >
-              <div v-if="v.icon" class="text-[1.4em] shrink-0" :class="v.icon" />
+              <div v-if="v.icon" class="text-[1.4em] shrink-0 opacity-80" :class="v.icon" />
               <div>{{ v.name }}</div>
             </component>
           </div>

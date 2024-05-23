@@ -15,22 +15,15 @@ export const templates = [
     templateId: 'dash',
     el: DashWrap,
     userConfig: {
-      homeIcon: {
-        format: 'html' as const,
-        html: fictionLogo,
-      },
+      homeIcon: { format: 'html' as const, html: fictionLogo },
       authRedirect: '/auth/login',
     },
-
   }),
   new CardTemplate({
     templateId: 'auth',
     el: def(() => import('./el/AuthWrap.vue')),
     userConfig: {
-      logo: {
-        format: 'html' as const,
-        html: fictionLogo,
-      },
+      logo: { format: 'html' as const, html: fictionLogo },
     },
   }),
 ] as const
@@ -140,6 +133,10 @@ export async function setup(args: { fictionEnv: FictionEnv }) {
     templates,
     isPublic: false,
     pages: () => pg,
+    pageTemplateHandling: {
+      defaultTemplateId: 'dash',
+      transactionTemplateId: 'wrap',
+    },
     userConfig: {
       colors: { isDarkMode: true },
       spacing: {
