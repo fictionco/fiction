@@ -3,15 +3,35 @@ import path from 'node:path'
 import * as mod from 'node:module'
 import type { Buffer } from 'node:buffer'
 import process from 'node:process'
+import v8 from 'node:v8'
 import fs from 'fs-extra'
 import type { ExecaError, ResultPromise } from 'execa'
 import { execa } from 'execa'
 import type { PackageJson } from '../types'
+import { log } from '../plugin-log'
 import { isNode } from './vars'
+import { formatBytes } from './number'
 
 interface WhichModule {
   moduleName?: string
   cwd?: string
+}
+
+const logger = log.contextLogger('nodeUtils')
+
+export function logMemoryUsage() {
+  // Repeated logging every 30 seconds
+  setInterval(() => {
+    const memoryUsage = v8.getHeapStatistics()
+    const out = [
+      'Memory /',
+      `Total: ${formatBytes(memoryUsage.total_heap_size)}`,
+      `Used: ${formatBytes(memoryUsage.used_heap_size)}`,
+      `Limit: ${formatBytes(memoryUsage.heap_size_limit)}`,
+    ]
+
+    logger.info(out.join(' '))
+  }, 60000)
 }
 
 export async function executeCommand(args: {

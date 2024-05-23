@@ -6,6 +6,7 @@ import { camelToUpperSnake, crossVar, isApp, isDev, isNode, isTest, runHooks, ru
 import { version as fictionVersion } from '../package.json'
 import type { RunVars } from '../inject'
 import { TypedEventTarget } from '../utils/eventTarget'
+import { logMemoryUsage } from '../utils/nodeUtils'
 import { compileApplication } from './entry'
 import type { CliCommand } from './commands'
 import { standardAppCommands } from './commands'
@@ -273,6 +274,9 @@ export class FictionEnv<
     Object.entries(this.env).forEach(([key, value]) => {
       crossVar.set(key as keyof RunVars, value)
     })
+
+    // log memory usage every 30 seconds
+    logMemoryUsage()
   }
 
   verifyEnv() {
