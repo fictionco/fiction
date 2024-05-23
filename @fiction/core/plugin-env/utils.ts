@@ -6,7 +6,7 @@ import { requireIfExists } from '../utils'
 
 export function done(code: 0 | 1, message = `exited process`): never {
   if (message)
-    log.info('CLI', `${message} (${code})`)
+    log.info('CLI(DONE)', `${message} (${code})`)
 
   process.exit(code)
 }

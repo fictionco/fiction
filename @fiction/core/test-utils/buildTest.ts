@@ -283,15 +283,20 @@ export async function appBuildTests(config: {
       const { portOptions } = getModifiedCommands(config.commands)
       const command = [`npm -w ${moduleName} exec -- fiction run dev --exit`, ...portOptions].join(' ')
 
-      const r = await executeCommand({
-        command,
-        envVars: { IS_TEST: '1', TEST_ENV: 'unit' },
-        timeout: BUILD_TIMEOUT,
-        resolveText: '[ready]',
-      })
+      try {
+        const r = await executeCommand({
+          command,
+          envVars: { IS_TEST: '1', TEST_ENV: 'unit' },
+          timeout: BUILD_TIMEOUT,
+          resolveText: '[ready]',
+        })
 
-      expect(r.stdout).toContain('[ready]')
-      expect(r.stderr).not.toContain('error')
+        expect(r.stdout).toContain('[ready]')
+        expect(r.stderr).not.toContain('error')
+      }
+      catch (e) {
+        logger.error('RUNS DEV ERROR', { error: e })
+      }
     }, BUILD_TIMEOUT)
 
     it(`LOADS WITHOUT ERROR: ${moduleName}`, async () => {

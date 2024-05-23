@@ -362,7 +362,7 @@ export class FictionEnv<
     await this.crossRunCommand({ context, serviceConfig, cliVars })
 
     if (cliCommand.options.exit)
-      done(0)
+      done(0, '--exit flag set')
   }
 
   var(variable: S['vars'], opts: { fallback?: string | number } = {}): string {

@@ -25,14 +25,13 @@ export async function executeCommand(args: {
   const { command, envVars = {}, timeout = 10000, resolveText } = args
   const output: string[] = []
   const errorsOutput: string[] = []
-
-  const c = command.split(' ')
-
-  const cp = execa(c[0], c.slice(1), { env: envVars, timeout })
-
   const commandDetails = () => ({ stdout: output.join(`\n`), stderr: errorsOutput.join(`\n`) })
 
   try {
+    const c = command.split(' ')
+
+    const cp = execa(c[0], c.slice(1), { env: envVars, timeout })
+
     await new Promise((resolve, reject) => {
       cp.stdout?.pipe(process.stdout)
       cp.stderr?.pipe(process.stderr)
