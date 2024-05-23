@@ -4,7 +4,7 @@ import * as mod from 'node:module'
 import type { Buffer } from 'node:buffer'
 import process from 'node:process'
 import fs from 'fs-extra'
-import type { ResultPromise } from 'execa'
+import type { ExecaError, ResultPromise } from 'execa'
 import { execa } from 'execa'
 import type { PackageJson } from '../types'
 import { isNode } from './vars'
@@ -26,11 +26,10 @@ export async function executeCommand(args: {
   const output: string[] = []
   const errorsOutput: string[] = []
   const commandDetails = () => ({ stdout: output.join(`\n`), stderr: errorsOutput.join(`\n`) })
-
   try {
     const c = command.split(' ')
 
-    const cp = execa(c[0], c.slice(1), { env: envVars, timeout })
+    const cp = execa(c[0], c.slice(1), { env: envVars, timeout, forceKillAfterTimeout: true })
 
     await new Promise((resolve, reject) => {
       cp.stdout?.pipe(process.stdout)
@@ -42,7 +41,7 @@ export async function executeCommand(args: {
        */
 
       const close = () => {
-        cp.kill('SIGTERM', new Error('Command closed by trigger'))
+        cp.kill()
         resolve(1)
       }
 
@@ -79,8 +78,14 @@ export async function executeCommand(args: {
     })
   }
   catch (error) {
-    console.error('The command failed:', error)
-    throw error // Rethrow the error to be handled by the caller
+    const e = error as ExecaError
+    if (e.isCanceled) {
+      console.error('Killed by Close Signal')
+    }
+    else {
+      console.error('[executeCommand] The command failed:', e)
+      throw e // Rethrow the error to be handled by the caller
+    }
   }
 
   return commandDetails()
