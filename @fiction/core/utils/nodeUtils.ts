@@ -5,7 +5,7 @@ import type { Buffer } from 'node:buffer'
 import process from 'node:process'
 import fs from 'fs-extra'
 import type { ResultPromise } from 'execa'
-import { execaCommand } from 'execa'
+import { execa } from 'execa'
 import type { PackageJson } from '../types'
 import { isNode } from './vars'
 
@@ -26,7 +26,9 @@ export async function executeCommand(args: {
   const output: string[] = []
   const errorsOutput: string[] = []
 
-  const cp = execaCommand(command, { env: envVars, timeout })
+  const c = command.split(' ')
+
+  const cp = execa(c[0], c.slice(1), { env: envVars, timeout })
 
   const commandDetails = () => ({ stdout: output.join(`\n`), stderr: errorsOutput.join(`\n`) })
 

@@ -146,6 +146,7 @@ function exitHandler(options: {
   code?: 0 | 1
 }): void | never {
   const { exit, shutdown, code = 0 } = options
+  logger.info('Exiting CLI', { exit, shutdown, code })
   if (shutdown)
     emitEvent('shutdown')
 
