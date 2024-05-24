@@ -83,11 +83,12 @@ function getButtonClass(item: ActionItem): string {
   }
 
   const sizeStyles = {
-    xs: 'py-1 px-2 rounded-sm text-[12px]',
-    sm: 'py-2 px-3 rounded-md text-[14px]',
-    md: 'py-3 px-4 rounded-md text-[16px]',
-    lg: 'py-3 px-5 rounded-lg text-[18px]',
-    xl: 'py-4 px-6 rounded-xl text-[20px]',
+    'xs': 'py-1 px-2 rounded-sm text-[12px]',
+    'sm': 'py-2 px-3 rounded-md text-[14px]',
+    'md': 'py-3 px-4 rounded-md text-[16px]',
+    'lg': 'py-3 px-5 rounded-lg text-[18px]',
+    'xl': 'py-4 px-6 rounded-xl text-[20px]',
+    '2xl': 'py-5 px-7 rounded-2xl text-[24px]',
   }
   const btn = item.btn || 'default'
   const size = item.size || 'md'

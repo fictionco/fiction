@@ -1,0 +1,52 @@
+<script lang="ts" setup>
+import type { Card } from '@fiction/site/card'
+import type { MediaDisplayObject } from '@fiction/core'
+import { vue } from '@fiction/core'
+import ElImage from '@fiction/ui/media/ElImage.vue'
+import CardEngine from '@fiction/cards/CardEngine.vue'
+import EffectShootingStar from '@fiction/ui/effect/EffectShootingStar.vue'
+
+export type UserConfig = { logo?: MediaDisplayObject, termsUrl?: string, privacyUrl?: string }
+const props = defineProps({
+  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
+})
+const site = vue.computed(() => props.card.site)
+const uc = vue.computed(() => props.card.userConfig.value)
+</script>
+
+<template>
+  <div class="auth-wrap relative flex overflow-hidden bg-white  dark:bg-theme-950 dark:text-theme-0">
+    <div
+      class="relative hidden w-[30%] overflow-hidden bg-theme-950 dark:bg-theme-800 text-theme-0 border-r border-theme-700 lg:block"
+    >
+      <div class="relative z-20 p-8">
+        <ElImage :media="uc.logo" class="h-6 inline-block" />
+      </div>
+      <EffectShootingStar class="absolute inset-0" />
+    </div>
+    <div class="relative flex min-h-screen grow flex-col items-center">
+      <div class="relative">
+        <div
+          class="relative mx-auto flex items-center justify-between px-4 py-2 text-xs md:max-w-7xl"
+        >
+          <div class="mt-2 text-center lg:hidden">
+            <ElImage :media="uc.logo" class="h-6" />
+          </div>
+        </div>
+      </div>
+      <div
+        class="relative z-20 mx-auto flex w-full grow flex-col justify-center"
+      >
+        <div class="auth-form pb-24 transition-all">
+          <div
+            class="mx-auto w-full max-w-xs rounded-lg"
+          >
+            <div class="relative px-4 py-24">
+              <CardEngine class="h-full" :card="card" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

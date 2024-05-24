@@ -71,7 +71,7 @@ export interface NavItem {
 
 export type ActionItem = NavItem & {
   btn?: 'default' | 'primary' | 'naked' | 'caution' | 'success' | 'danger'
-  size?: 'sm' | 'lg' | 'md' | 'xl'
+  size?: 'xs' | 'sm' | 'lg' | 'md' | 'xl' | '2xl'
   target?: string
   loading?: boolean
 }

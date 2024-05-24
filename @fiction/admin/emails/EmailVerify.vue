@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site'
-import { type EndpointResponse, vue } from '@fiction/core'
-import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
+import { type EndpointResponse, toLabel, vue } from '@fiction/core'
+import TransactionWrap from '../TransactionWrap.vue'
 import type { FictionAdmin } from '..'
 
 type VerifyEmailAction = FictionAdmin['emailActions']['verifyEmailAction']
@@ -17,13 +17,15 @@ const form = vue.ref({
   code: '',
 })
 
-const sending = vue.ref(true)
+const loading = vue.ref(false)
 const response = vue.ref<EndpointResponse>()
 
 async function sendRequest() {
+  loading.value = true
+
   response.value = await props.action.requestEndpoint(form.value)
 
-  sending.value = false
+  loading.value = false
 }
 
 vue.onMounted(async () => {
@@ -37,16 +39,14 @@ vue.onMounted(async () => {
 </script>
 
 <template>
-  <div
-    v-if="sending"
-    class="py-24 text-theme-300 dark:text-theme-600 absolute inset-0 flex h-full w-full flex-col items-center justify-center"
-  >
-    <ElSpinner class="h-10 w-10" />
-  </div>
-  <div v-else-if="response?.status === 'success'">
-    Verified {{ response }}
-  </div>
-  <div v-else>
-    {{ response?.message }}
-  </div>
+  <TransactionWrap
+    :loading="loading"
+    :super-heading="response?.status"
+    heading="Verify Email"
+    :sub-heading="response?.message"
+    :actions="[
+      { name: 'Home', href: card.link('/'), btn: 'default', icon: 'i-tabler-home' },
+      { name: 'Support', href: `mailto:hello@fiction.com`, target: '_blank', icon: 'i-tabler-mail' },
+    ]"
+  />
 </template>

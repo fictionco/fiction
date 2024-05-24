@@ -1,52 +1,50 @@
 <script lang="ts" setup>
-import type { Card } from '@fiction/site/card'
-import type { MediaDisplayObject } from '@fiction/core'
-import { vue } from '@fiction/core'
-import ElImage from '@fiction/ui/media/ElImage.vue'
-import CardEngine from '@fiction/cards/CardEngine.vue'
-import EffectShootingStar from '@fiction/ui/effect/EffectShootingStar.vue'
+import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
+import type { ActionItem, vue } from '@fiction/core'
+import InputActions from '@fiction/ui/inputs/InputActions.vue'
 
-export type UserConfig = { logo?: MediaDisplayObject, termsUrl?: string, privacyUrl?: string }
-const props = defineProps({
-  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
+defineProps({
+  loading: { type: Boolean, default: false },
+  sending: { type: Boolean, default: false },
+  icon: { type: String, default: '' },
+  superHeading: { type: String, default: '' },
+  heading: { type: String, default: '' },
+  subHeading: { type: String, default: '' },
+  status: { type: String as vue.PropType<'success' | 'error'>, default: '' },
+  actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
 })
-const site = vue.computed(() => props.card.site)
-const uc = vue.computed(() => props.card.userConfig.value)
 </script>
 
 <template>
-  <div class="auth-wrap relative flex overflow-hidden bg-white  dark:bg-theme-950 dark:text-theme-0">
+  <div class="relative min-h-[40dvh] my-12">
     <div
-      class="relative hidden w-[30%] overflow-hidden bg-theme-950 dark:bg-theme-800 text-theme-0 border-r border-theme-700 lg:block"
+      v-if="loading"
+      class="text-theme-300 dark:text-theme-600 absolute inset-0 flex h-full w-full flex-col items-center justify-center"
     >
-      <div class="relative z-20 p-8">
-        <ElImage :media="uc.logo" class="h-6 inline-block" />
-      </div>
-      <EffectShootingStar class="absolute inset-0" />
+      <ElSpinner class="h-10 w-10" />
     </div>
-    <div class="relative flex min-h-screen grow flex-col items-center">
-      <div class="relative">
+    <div v-else>
+      <div v-if="heading || subHeading" class="mb-8 text-left md:text-center flex flex-col gap-6 items-center">
         <div
-          class="relative mx-auto flex items-center justify-between px-4 py-2 text-xs md:max-w-7xl"
+          class="rounded-full size-16 inline-flex items-center justify-center"
+          :class="status === 'success' ? 'bg-green-300 text-green-800 dark:bg-green-800 dark:text-green-50' : 'bg-rose-300 text-rose-800 dark:bg-rose-900 dark:text-rose-100'"
         >
-          <div class="mt-2 text-center lg:hidden">
-            <ElImage :media="uc.logo" class="h-6" />
+          <div class="text-4xl" :class="status === 'success' ? 'i-tabler-check' : 'i-tabler-x'" />
+        </div>
+        <div>
+          <div v-if="superHeading" class="mb-4 font-sans text-xs text-theme-400 dark:text-theme-500 uppercase tracking-widest" v-html="superHeading" />
+          <h1 class="x-font-title text-3xl font-bold tracking-tight" v-html="heading" />
+          <div class="mt-2 text-xl font-normal x-font-title text-theme-500 capitalize">
+            <h4 v-if="subHeading" class="space-x-2" v-html="subHeading" />
           </div>
         </div>
       </div>
-      <div
-        class="relative z-20 mx-auto flex w-full grow flex-col justify-center"
-      >
-        <div class="auth-form pb-24 transition-all">
-          <div
-            class="  mx-auto w-full max-w-xs rounded-lg"
-          >
-            <div class="relative px-4 py-24">
-              <CardEngine class="h-full" :card="card" />
-            </div>
-          </div>
-        </div>
+
+      <div class="pb-24 md:pb-8 relative">
+        <slot />
       </div>
+
+      <InputActions class="justify-center" default-size="md" :actions />
     </div>
   </div>
 </template>

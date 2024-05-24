@@ -28,7 +28,7 @@ export const templates = [
   }),
   new CardTemplate({
     templateId: 'transactional',
-    el: def(() => import('../TransactionWrap.vue')),
+    el: def(() => import('../TransactionView.vue')),
     userConfig: { logo: { format: 'html' as const, html: fictionLogo } },
   }),
 ] as const

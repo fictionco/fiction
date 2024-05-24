@@ -35,11 +35,12 @@ export function page() {
                   name: 'Create Account',
                   href: '/app?reload=1',
                   btn: 'primary',
-                  icon: 'i-tabler-user',
+                  icon: 'i-tabler-user-circle',
                 },
                 {
                   name: 'View Tour',
                   href: '/tour',
+                  icon: 'i-tabler-compass',
                 },
               ],
             },

@@ -7,13 +7,13 @@ import ElTool from '@fiction/admin/tools/ElTool.vue'
 import { InputOption } from '@fiction/ui'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import type { Card } from '@fiction/site'
+import InputActions from '@fiction/ui/inputs/InputActions.vue'
 import type { Post } from '../post'
 import type { TablePostConfig } from '../schema'
 import { t } from '../schema'
 import type { FictionPosts } from '..'
 import InputTaxonomy from './InputTaxonomy.vue'
 import InputAuthors from './InputAuthors.vue'
-import InputActions from './InputActions.vue'
 
 const props = defineProps({
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
@@ -171,7 +171,7 @@ const options = vue.computed(() => {
                   const p = args.props as { post: Post }
                   const confirmed = confirm('Are you sure you want to delete this post?')
 
-                  if (confirmed){
+                  if (confirmed) {
                     p.post?.delete()
                     props.card.goto('/posts')
                   }
