@@ -95,7 +95,7 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
       appStringcase: (key: string) => string
     } = {
       client: 'pg',
-      version: '11.8',
+      version: '16.2',
       connection,
       // https://github.com/knex/knex/issues/3523#issuecomment-722574083
       pool: { min: 0, max: 4 },

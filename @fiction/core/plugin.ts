@@ -47,7 +47,7 @@ export abstract class FictionPlugin<
   T extends FictionPluginSettings = { fictionEnv: FictionEnv },
 > extends FictionObject<T> {
   basePath: string
-  fictionEnv?: FictionEnv
+  fictionEnv: FictionEnv
   constructor(name: string, settings: T) {
     super(name, settings)
     this.basePath = `/${toSlug(this.name)}`
@@ -96,6 +96,7 @@ export abstract class FictionPlugin<
           queryHandler,
           serverUrl: fictionServer?.serverUrl,
           basePath: basePath || this.basePath,
+          fictionEnv: this.settings.fictionEnv,
           fictionUser,
           middleware,
         }

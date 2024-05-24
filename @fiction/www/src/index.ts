@@ -5,7 +5,6 @@ import { AppRoute, FictionApp, FictionAws, FictionDb, FictionEmail, FictionEnv, 
 import { FictionEmailActions } from '@fiction/plugin-email-actions'
 import { FictionTeam } from '@fiction/core/plugin-team'
 import { FictionMonitor } from '@fiction/plugin-monitor'
-import { FictionNotify } from '@fiction/plugin-notify'
 import { FictionStripe } from '@fiction/plugin-stripe'
 import { FictionDevRestart } from '@fiction/core/plugin-env/restart'
 import { FictionSites } from '@fiction/site'
@@ -93,7 +92,6 @@ const fictionAppSites = new FictionApp({
 
 const fictionServer = new FictionServer({ fictionEnv, serverName: 'FictionMain', port: comboPort, liveUrl: appUrl })
 const fictionDb = new FictionDb({ fictionEnv, fictionServer, connectionUrl: fictionEnv.var('POSTGRES_URL') })
-const fictionNotify = new FictionNotify({ fictionEnv })
 const fictionEmail = new FictionEmail({ fictionEnv, smtpHost: fictionEnv.var('SMTP_HOST'), smtpPassword: fictionEnv.var('SMTP_PASSWORD'), smtpUser: fictionEnv.var('SMTP_USER') })
 
 const fictionUser = new FictionUser({
@@ -108,7 +106,7 @@ const fictionUser = new FictionUser({
 })
 
 fictionUser.events.on('logout', () => {
-  fictionNotify.notifySuccess('You have been logged out.')
+  fictionEnv.events.emit('notify', { type: 'success', message: 'You have been logged out.' })
 })
 
 const fictionMonitor = new FictionMonitor({

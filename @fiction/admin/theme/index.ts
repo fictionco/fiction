@@ -26,6 +26,11 @@ export const templates = [
       logo: { format: 'html' as const, html: fictionLogo },
     },
   }),
+  new CardTemplate({
+    templateId: 'transactional',
+    el: def(() => import('../TransactionWrap.vue')),
+    userConfig: { logo: { format: 'html' as const, html: fictionLogo } },
+  }),
 ] as const
 
 export function pages() {
@@ -135,7 +140,7 @@ export async function setup(args: { fictionEnv: FictionEnv }) {
     pages: () => pg,
     templateDefaults: {
       page: 'dash',
-      transactional: 'wrap',
+      transactional: 'transactional',
     },
     userConfig: {
       colors: { isDarkMode: true },

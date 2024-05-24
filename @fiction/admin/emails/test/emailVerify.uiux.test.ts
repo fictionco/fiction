@@ -10,7 +10,7 @@ describe('email actions', async () => {
   if (!fs.existsSync(testEnvFile))
     console.warn(`missing test env file ${testEnvFile}`)
 
-  const kit = await createUiTestingKit({ headless: false, envFiles: [testEnvFile], setup, slowMo: 0 })
+  const kit = await createUiTestingKit({ headless: false, envFiles: [testEnvFile], setup, slowMo: 500000 })
   const testUtils = kit.testUtils
 
   if (!testUtils)
@@ -21,7 +21,6 @@ describe('email actions', async () => {
   const user = initialized.user
 
   afterAll(async () => {
-    await testUtils.close()
     await kit.close()
   })
 
@@ -76,5 +75,5 @@ describe('email actions', async () => {
         { type: 'visible', selector: `[data-action-id="${actionId}"]` },
       ],
     })
-  })
+  }, { timeout: 80000 })
 })

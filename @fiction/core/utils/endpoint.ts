@@ -7,9 +7,9 @@ import type { FictionRouter } from '../plugin-router'
 import type { Query } from '../query'
 import type { LogHelper } from '../plugin-log'
 import { log } from '../plugin-log'
+import type { FictionEnv } from '../plugin-env'
 import { axios, vue } from './libraries'
 import type { express } from './libraries'
-import { notify } from './notify'
 import { waitFor } from './utils'
 import { deepMergeAll } from './obj'
 
@@ -19,6 +19,7 @@ export interface EndpointOptions {
   serverUrl: EndpointServerUrl
   basePath: string
   middleware?: () => express.RequestHandler[]
+  fictionEnv: FictionEnv
   fictionUser?: FictionUser
   fictionRouter?: FictionRouter
   unauthorized?: boolean
@@ -69,6 +70,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
   readonly serverUrl: EndpointServerUrl
   readonly basePath: string
   readonly key: string
+  fictionEnv: FictionEnv
   fictionUser?: FictionUser
   fictionRouter?: FictionRouter
   queryHandler?: T
@@ -77,8 +79,8 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
   useNaked?: boolean
   log: LogHelper
   urlPrefix = '/api'
-  constructor(options: EndpointSettings<T>) {
-    const { serverUrl, basePath, queryHandler, requestHandler, key, unauthorized, middleware, useNaked } = options
+  constructor(settings: EndpointSettings<T>) {
+    const { serverUrl, basePath, queryHandler, requestHandler, key, unauthorized, middleware, useNaked } = settings
     this.basePath = basePath
     this.useNaked = useNaked
     this.serverUrl = serverUrl
@@ -90,9 +92,10 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
     this.middleware = middleware || (() => [])
 
-    this.fictionRouter = options.fictionRouter
-    if (!unauthorized && options.fictionUser)
-      this.fictionUser = options.fictionUser
+    this.fictionEnv = settings.fictionEnv
+    this.fictionRouter = settings.fictionRouter
+    if (!unauthorized && settings.fictionUser)
+      this.fictionUser = settings.fictionUser
   }
 
   public pathname(): string {
@@ -129,7 +132,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     else { r = await rp }
 
     if (r.message && !disableNotify && r.expose !== false)
-      notify.emit(r.status as 'success' | 'error', r.message)
+      this.fictionEnv.events.emit('notify', { type: r.status as 'success' | 'error', message: r.message })
 
     const user = r.user as User | undefined
 

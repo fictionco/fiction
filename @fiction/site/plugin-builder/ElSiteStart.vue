@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { FictionRouter, StepConfig, StepItem } from '@fiction/core'
-import { getNested, notify, resetUi, setNested, useService, vue } from '@fiction/core'
+import { getNested, resetUi, setNested, useService, vue } from '@fiction/core'
 import ElModal from '@fiction/ui/ElModal.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElStepNav from '@fiction/ui/ElStepNav.vue'
@@ -21,7 +21,7 @@ const emit = defineEmits(['update:vis'])
 
 const serv = useService<{ fictionSites: FictionSites, fictionRouterSites: FictionRouter }>()
 
-const { fictionSites, fictionRouterSites } = serv
+const { fictionSites, fictionRouterSites, fictionEnv } = serv
 
 const form = vue.ref<Partial<TableSiteConfig>>({
   title: '',
@@ -31,7 +31,7 @@ const form = vue.ref<Partial<TableSiteConfig>>({
 const isLoading = vue.ref(false)
 
 function creationError(data?: unknown) {
-  notify.error('There was a problem.', { data, more: 'Developers have been notified.' })
+  fictionEnv.events.emit('notify', { type: 'error', message: 'There was a problem.' })
 
   resetUi()
 }

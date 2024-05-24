@@ -4,7 +4,7 @@ import { getColorScheme, log, toLabel, unhead, useService, vue } from '@fiction/
 import { FrameUtility } from '@fiction/ui/frame/elBrowserFrameUtil'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
-import NotifyToaster from '@fiction/plugin-notify/NotifyToaster.vue'
+import NotifyToaster from '@fiction/ui/notify/NotifyToaster.vue'
 import { getThemeFontConfig } from '@fiction/core/utils/fonts'
 import handlebars from 'handlebars'
 import type { FictionSites, Site } from '@fiction/site'

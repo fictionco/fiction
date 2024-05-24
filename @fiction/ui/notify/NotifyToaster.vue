@@ -1,12 +1,14 @@
 <script lang="ts" setup>
-import type { Notification } from '@fiction/core'
-import { log, onEvent, toSlug, vue } from '@fiction/core'
+import type { UserNotification } from '@fiction/core'
+import { log, toSlug, useService, vue } from '@fiction/core'
 
 const props = defineProps({
   dev: { type: Boolean, default: false },
 })
 
-const defaultToasts: Notification[] = props.dev
+const service = useService()
+
+const defaultToasts: UserNotification[] = props.dev
   ? [
       { type: 'success', message: 'Success!', more: 'This is a success message.', key: 'success' },
       { type: 'error', message: 'Error!', more: 'This is an error message.', key: 'error' },
@@ -14,7 +16,7 @@ const defaultToasts: Notification[] = props.dev
     ]
   : []
 
-const toasts = vue.ref<Notification[]>(defaultToasts)
+const toasts = vue.ref<UserNotification[]>(defaultToasts)
 
 const topToasts = vue.computed(() => {
   const [...t] = toasts.value
@@ -25,8 +27,8 @@ function capitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
-function showToast(config: Notification): void {
-  log.info('notifyPlugin', 'notification', { data: config })
+function showToast(config: UserNotification): void {
+  log.info('notifyPlugin', 'UserNotification', { data: config })
 
   const { type, message = '', more = '', duration = 3500 } = config
 
@@ -35,7 +37,7 @@ function showToast(config: Notification): void {
   const key = toSlug(message)
 
   /**
-   * Use key to prevent duplicate notifications
+   * Use key to prevent duplicate UserNotifications
    */
   if (!toasts.value.some(t => t.key === key)) {
     toasts.value.push({ type, message, more, shownAt, duration, key })
@@ -47,7 +49,10 @@ function showToast(config: Notification): void {
 }
 
 vue.onMounted(() => {
-  onEvent('notify', (config: Notification) => showToast(config))
+  service.fictionEnv.events.on('notify', (e) => {
+    const notifcation = e.detail
+    showToast(notifcation)
+  })
 })
 </script>
 
@@ -108,4 +113,4 @@ vue.onMounted(() => {
       </transition-group>
     </div>
   </div>
-</template>
+</template>import type { Site } from '@fiction/site';import type { Site } from '@fiction/site';

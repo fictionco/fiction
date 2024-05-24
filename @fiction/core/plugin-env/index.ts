@@ -1,7 +1,7 @@
 import path from 'node:path'
 import dotenv from 'dotenv'
 import { FictionObject } from '../plugin'
-import type { HookType } from '../utils'
+import type { HookType, UserNotification } from '../utils'
 import { camelToUpperSnake, crossVar, isApp, isDev, isNode, isTest, runHooks, runHooksSync, toSlug, vue } from '../utils'
 import { version as fictionVersion } from '../package.json'
 import type { RunVars } from '../inject'
@@ -57,6 +57,7 @@ type BaseCompiled = {
 
 export type EnvEventMap = {
   shutdown: CustomEvent<{ reason: string }>
+  notify: CustomEvent<UserNotification>
 }
 
 export class FictionEnv<
@@ -162,6 +163,9 @@ export class FictionEnv<
         `variables (${vars.length} total / ${vars.filter(_ => _.isPublic).length} public)`,
         { data: this.getRenderedEnvVars(), disableOnRestart: true },
       )
+
+      // log memory usage on interval
+      logMemoryUsage()
     }
 
     this.verifyEnv()
@@ -274,9 +278,6 @@ export class FictionEnv<
     Object.entries(this.env).forEach(([key, value]) => {
       crossVar.set(key as keyof RunVars, value)
     })
-
-    // log memory usage every 30 seconds
-    logMemoryUsage()
   }
 
   verifyEnv() {

@@ -94,6 +94,7 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
       basePath: '/stripe-checkout/:action',
       serverUrl: this.settings.fictionServer.serverUrl.value,
       fictionUser: this.settings.fictionUser,
+      fictionEnv: this.settings.fictionEnv,
       useNaked: true,
     })
 

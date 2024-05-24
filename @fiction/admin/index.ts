@@ -6,9 +6,12 @@ import type { FictionUser } from '@fiction/core/plugin-user'
 import type { FictionApp } from '@fiction/core/plugin-app'
 import type { FictionRouter } from '@fiction/core/plugin-router'
 import type { EmailAction, FictionEmailActions } from '@fiction/plugin-email-actions'
+import { envConfig } from '@fiction/core'
 import { getEmails } from './emails'
 
 export * from './tools/tools'
+
+envConfig.register({ name: 'ADMIN_UI_ROOT', onLoad: ({ fictionEnv }) => { fictionEnv.addUiRoot(safeDirname(import.meta.url)) } })
 
 type FictionAdminSettings = {
   fictionEmail: FictionEmail

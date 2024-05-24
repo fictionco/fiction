@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { FictionEnv } from '@fiction/core/plugin-env'
 import { Endpoint } from '../endpoint'
 
 const mockData = { sampleData: 123 }
@@ -18,6 +19,7 @@ describe('endpoint class', () => {
 
   beforeEach(() => {
     endpoint = new Endpoint({
+      fictionEnv: new FictionEnv({ cwd: '/' }),
       serverUrl: mockServerUrl,
       basePath: mockBasePath,
       key: mockKey,
