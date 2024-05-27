@@ -21,6 +21,7 @@ yarn-error.log*
 package-lock.json
 yarn.lock
 
+
 # Vite and Vitepress
 .vitepress/dist
 .vitepress/cache
@@ -36,6 +37,7 @@ wire.*
 .ts-node
 *.log
 chrome_debug.log
+heap*
 
 # Terraform
 **/.terraform/

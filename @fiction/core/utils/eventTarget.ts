@@ -20,7 +20,7 @@ export class TypedEventTarget<T extends Record<string, CustomEvent>> extends Eve
   emit<K extends keyof T>(type: K, detail: EventDetail<T[K]>): CustomEvent {
     const event = new CustomEvent(type as string, { detail }) as T[K]
 
-    super.dispatchEvent(event as Event)
+    super.dispatchEvent(event)
 
     return event
   }
