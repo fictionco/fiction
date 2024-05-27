@@ -5,7 +5,6 @@
     "@fiction/plugin-ai": "workspace:*",
     "@fiction/plugin-highlight-code": "workspace:*",
     "@fiction/plugin-monitor": "workspace:*",
-    "@fiction/plugin-notify": "workspace:*",
     "@fiction/plugin-stripe": "workspace:*",
     "@fiction/ui": "workspace:*",
     "@shopify/draggable": "^1.1.3",

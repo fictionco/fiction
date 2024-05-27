@@ -1,17 +1,17 @@
 {
   "dependencies": {
-    "@fiction/core": "workspace:*",
-    "@fiction/ui": "workspace:*",
-    "@types/mapbox-gl": "^3.1.0",
     "@fiction/admin": "workspace:*",
     "@fiction/cards": "workspace:*",
+    "@fiction/core": "workspace:*",
+    "@fiction/plugin-email-actions": "workspace:*",
     "@fiction/plugin-stripe": "workspace:*",
     "@fiction/site": "workspace:*",
-    "@fiction/plugin-email-actions": "workspace:*",
-    "tailwindcss": "^3.4.3",
-    "vue": "^3.4.27",
+    "@fiction/ui": "workspace:*",
+    "@types/mapbox-gl": "^3.1.0",
     "animejs": "^3.2.2",
-    "mapbox-gl": "^3.3.0"
+    "mapbox-gl": "^3.4.0",
+    "tailwindcss": "^3.4.3",
+    "vue": "^3.4.27"
   },
   "devDependencies": {
     "@types/animejs": "^3.1.12",
