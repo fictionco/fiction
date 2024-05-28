@@ -43,39 +43,4 @@ describe('signin UX', async () => {
       ],
     })
   })
-
-  // it('registers with name, email, password', async () => {
-  //   await performActions({
-  //     port,
-  //     browser,
-  //     path: '/app/auth/register',
-  //     actions: [
-  //       { type: 'type', selector: '[data-test-id="input-email"]', text: 'test@example.com' },
-  //       { type: 'click', selector: '[data-test-id="email-signin-button"]', wait: 1000 },
-  //       { type: 'visible', selector: '[data-test-id="input-verify"]' },
-  //     ],
-  //   })
-  // }, 15_000)
-
-  // it('has reset password page', async () => {
-  //   await performActions({
-  //     port,
-  //     browser,
-  //     path: '/app/auth/reset-password',
-  //     actions: [
-  //       { type: 'visible', selector: '[data-test-id="reset-password-form"]' },
-  //     ],
-  //   })
-  // })
-
-  // it('allows for password reset', async () => {
-  //   await performActions({
-  //     port,
-  //     browser,
-  //     path: '/app/auth/password-reset',
-  //     actions: [
-  //       { type: 'visible', selector: '[data-test-id="password-reset-form"]' },
-  //     ],
-  //   })
-  // })
 })

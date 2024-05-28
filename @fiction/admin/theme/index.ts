@@ -20,13 +20,6 @@ export const templates = [
     },
   }),
   new CardTemplate({
-    templateId: 'auth',
-    el: def(() => import('../auth/AuthWrap.vue')),
-    userConfig: {
-      logo: { format: 'html' as const, html: fictionLogo },
-    },
-  }),
-  new CardTemplate({
     templateId: 'transactional',
     el: def(() => import('../TransactionView.vue')),
     userConfig: { logo: { format: 'html' as const, html: fictionLogo } },

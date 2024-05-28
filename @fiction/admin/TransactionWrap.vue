@@ -1,19 +1,28 @@
 <script lang="ts" setup>
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
-import type { ActionItem, vue } from '@fiction/core'
+import type { ActionItem } from '@fiction/core'
 import InputActions from '@fiction/ui/inputs/InputActions.vue'
+import { vue } from '@fiction/core'
 
-defineProps({
+const props = defineProps({
   loading: { type: Boolean, default: false },
   sending: { type: Boolean, default: false },
   icon: { type: String, default: '' },
   superHeading: { type: String, default: '' },
   heading: { type: String, default: '' },
   subHeading: { type: String, default: '' },
-  status: { type: String as vue.PropType<'success' | 'error'>, default: '' },
+  iconTheme: { type: String as vue.PropType<'theme' | 'success' | 'error'>, default: '' },
   actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
   links: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
 })
+
+const iconThemes = {
+  theme: 'bg-theme-100 text-theme-800 dark:bg-theme-900 dark:text-theme-100',
+  success: 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-50',
+  error: 'bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-100',
+}
+
+const ico = vue.computed(() => iconThemes[props.iconTheme as keyof typeof iconThemes] || iconThemes.theme)
 </script>
 
 <template>
@@ -25,13 +34,13 @@ defineProps({
       <ElSpinner class="h-10 w-10" />
     </div>
     <div v-else>
-      <div v-if="heading || subHeading" class="mb-8 text-left md:text-center flex flex-col gap-6 items-center">
+      <div v-if="heading || subHeading" :key="heading" class="mb-8 text-left md:text-center flex flex-col gap-6 items-center">
         <div
-          v-if="status"
+          v-if="icon"
           class="rounded-full size-16 inline-flex items-center justify-center"
-          :class="status === 'success' ? 'bg-green-300 text-green-800 dark:bg-green-800 dark:text-green-50' : 'bg-rose-300 text-rose-800 dark:bg-rose-900 dark:text-rose-100'"
+          :class="ico"
         >
-          <div class="text-4xl" :class="status === 'success' ? 'i-tabler-check' : 'i-tabler-x'" />
+          <div class="text-4xl" :class="icon" />
         </div>
         <div>
           <div v-if="superHeading" class="mb-4 font-sans text-xs text-theme-400 dark:text-theme-500 uppercase tracking-widest" v-html="superHeading" />
@@ -41,10 +50,7 @@ defineProps({
           </div>
           <slot name="links" />
         </div>
-
-
       </div>
-
       <div class="pb-24 md:pb-8 relative">
         <slot />
       </div>

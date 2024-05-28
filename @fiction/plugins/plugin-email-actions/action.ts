@@ -17,6 +17,7 @@ export type EmailVars = {
   token: string
   originUrl: string
   unsubscribeUrl: string
+  redirect: string
 }
 
 type BaseParams = Record<string, unknown>
@@ -93,7 +94,7 @@ export class EmailAction<T extends BaseParams = BaseParams, U extends EndpointRe
 
   emailVars?: EmailVars
   async createEmailVars(args: SendEmailArgs): Promise<EmailVars> {
-    const { recipient, origin, queryVars = {} } = args
+    const { recipient, origin, queryVars = {}, redirect } = args
 
     const fictionEmailActions = this.fictionEmailActions
     const fictionApp = fictionEmailActions?.settings.fictionApp
@@ -107,6 +108,9 @@ export class EmailAction<T extends BaseParams = BaseParams, U extends EndpointRe
     if (recipient)
       token = queryVars.token = createUserToken({ user: recipient, tokenSecret })
 
+    if (redirect)
+      queryVars.redirect = encodeURIComponent(redirect)
+
     const queryParams = new URLSearchParams(queryVars).toString()
     const callbackBase = `${originUrl}/_action`
     const callbackUrl = `${callbackBase}/${this.settings.actionId}/?${queryParams}`
@@ -115,6 +119,7 @@ export class EmailAction<T extends BaseParams = BaseParams, U extends EndpointRe
     const emailVars: EmailVars = {
       actionId: this.settings.actionId,
       callbackUrl,
+      redirect: redirect || '',
       firstName: firstName || '',
       lastName: lastName || '',
       email: email || '',
@@ -148,6 +153,7 @@ export class EmailAction<T extends BaseParams = BaseParams, U extends EndpointRe
   }
 
   async requestSend(args: SendArgsRequest) {
-    return await this.fictionEmailActions?.requests.EmailAction.request({ _action: 'sendEmail', actionId: this.settings.actionId, ...args })
+    const origin = typeof window !== 'undefined' ? window.location.origin : ''
+    return await this.fictionEmailActions?.requests.EmailAction.request({ _action: 'sendEmail', actionId: this.settings.actionId, origin, ...args })
   }
 }

@@ -44,14 +44,14 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
   // Magic Login Email Action
   const magicLoginEmailAction = new EmailAction({
     fictionEmailActions,
+    template: vue.defineAsyncComponent<vue.Component>(() => import('./ActionMagicLogin.vue')),
     actionId: 'magic-login',
-    template: vue.defineAsyncComponent<vue.Component>(() => import('./VMagicLogin.vue')),
     emailConfig: (vars) => {
       return {
-        subject: `${vars.appName}: Magic Login Link`,
-        heading: 'Magic Login Link',
+        subject: `${vars.appName}: Magic Link`,
+        heading: 'Your magic link is ready',
         subHeading: 'Click the Link Below to Log In',
-        bodyMarkdown: `The link below will direct you to the website and automatically log you in.`,
+        bodyMarkdown: `If you didn't request this email, there's nothing to worry about — you can safely ignore it.`,
         to: `${vars.email}`,
         actions: [
           { name: 'Log In', href: vars.callbackUrl, btn: 'primary' },

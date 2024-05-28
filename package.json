@@ -59,7 +59,7 @@
     "pre-push": "npm run types:ci"
   },
   "dependencies": {
-    "@changesets/cli": "^2.27.3",
+    "@changesets/cli": "^2.27.5",
     "@esbuild-kit/esm-loader": "^2.6.5",
     "@fiction/core": "workspace:*",
     "@fiction/ui": "workspace:*",
@@ -83,13 +83,13 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.11.0",
     "typescript": "^5.4.5",
-    "vite": "^5.2.11",
+    "vite": "^5.2.12",
     "vitest": "^1.6.0",
     "vue": "^3.4.27",
     "vue-router": "^4.3.2"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.19.0",
+    "@antfu/eslint-config": "^2.19.1",
     "@codspeed/vitest-plugin": "^3.1.0",
     "@eslint/eslintrc": "^3.1.0",
     "@flydotio/dockerfile": "^0.5.7",
@@ -99,7 +99,7 @@
     "@types/node": "^20.12.12",
     "@vitest/coverage-istanbul": "^1.6.0",
     "@vue/test-utils": "^2.4.6",
-    "happy-dom": "^14.11.0",
+    "happy-dom": "^14.11.2",
     "jsdom": "^24.1.0",
     "ngrok": "5.0.0-beta.2",
     "nodemon": "3.1.0",
