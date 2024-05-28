@@ -12,6 +12,7 @@ defineProps({
   subHeading: { type: String, default: '' },
   status: { type: String as vue.PropType<'success' | 'error'>, default: '' },
   actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
+  links: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
 })
 </script>
 
@@ -26,6 +27,7 @@ defineProps({
     <div v-else>
       <div v-if="heading || subHeading" class="mb-8 text-left md:text-center flex flex-col gap-6 items-center">
         <div
+          v-if="status"
           class="rounded-full size-16 inline-flex items-center justify-center"
           :class="status === 'success' ? 'bg-green-300 text-green-800 dark:bg-green-800 dark:text-green-50' : 'bg-rose-300 text-rose-800 dark:bg-rose-900 dark:text-rose-100'"
         >
@@ -33,11 +35,14 @@ defineProps({
         </div>
         <div>
           <div v-if="superHeading" class="mb-4 font-sans text-xs text-theme-400 dark:text-theme-500 uppercase tracking-widest" v-html="superHeading" />
-          <h1 class="x-font-title text-3xl font-bold tracking-tight" v-html="heading" />
+          <h1 class="x-font-title text-3xl font-semibold tracking-tight text-balance" v-html="heading" />
           <div class="mt-2 text-xl font-normal x-font-title text-theme-500 capitalize">
             <h4 v-if="subHeading" class="space-x-2" v-html="subHeading" />
           </div>
+          <slot name="links" />
         </div>
+
+
       </div>
 
       <div class="pb-24 md:pb-8 relative">

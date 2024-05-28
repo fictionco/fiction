@@ -105,7 +105,7 @@ export function textInputClasses(args: { inputClass?: string, size?: UiElementSi
     'xs': 'px-2 py-1 text-[10px]',
     'sm': 'px-2.5 py-1 text-xs',
     'md': 'px-3 py-2 text-sm',
-    'lg': 'px-4 py-2 text-base',
+    'lg': 'px-3 py-2.5 text-base',
     'xl': 'px-6 py-2.5 text-base',
     '2xl': 'px-8 py-3 text-lg',
   }

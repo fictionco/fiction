@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { dayjs, isDarkOrLightMode, vue } from '@fiction/core'
+import type { UiElementSize } from '../utils'
 import { textInputClasses } from './theme'
 
 const props = defineProps({
@@ -7,6 +8,7 @@ const props = defineProps({
   inputClass: { type: String, default: '' },
   includeTime: { type: Boolean, default: false },
   dateMode: { type: String as vue.PropType<'future' | 'past' | 'any'>, default: 'any' },
+  size: { type: String as vue.PropType<UiElementSize>, default: 'md' },
 })
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: string): void
@@ -48,7 +50,7 @@ const maxDate = vue.computed(() => {
     :data-value="modelValue"
     :data-min-date="minDate"
     :data-max-date="maxDate"
-    :class="textInputClasses({ inputClass })"
+    :class="textInputClasses({ inputClass, size })"
     :type="includeTime ? 'datetime-local' : 'date'"
     :value="inputValue"
     :style="{ colorScheme: mode }"

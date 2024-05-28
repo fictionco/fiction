@@ -30,11 +30,18 @@ export type EmailActionSettings<T extends BaseParams = BaseParams, U extends End
   fictionEmailActions?: FictionEmailActions
 }
 
-type SendEmailArgs = {
-  user: Partial<User>
+export type SendArgsRequest = {
+  to: string
+  queryVars?: Record<string, string>
+  fields?: Record<string, unknown>
   origin?: string
-  queryVars?: Partial<EmailVars>
+  redirect?: string
 }
+
+type SendEmailArgs = {
+  recipient?: Partial<User>
+  isNew?: boolean
+} & Partial<SendArgsRequest>
 
 export class EmailAction<T extends BaseParams = BaseParams, U extends EndpointResponse = EndpointResponse> extends FictionObject<EmailActionSettings<T, U>> {
   fictionEmailActions = this.settings.fictionEmailActions
@@ -53,7 +60,7 @@ export class EmailAction<T extends BaseParams = BaseParams, U extends EndpointRe
   }
 
   async requestEndpoint(args: T) {
-    return await this.fictionEmailActions?.requests.EmailAction.request({ actionId: this.settings.actionId, ...args })
+    return await this.fictionEmailActions?.requests.EmailAction.request({ _action: 'runAction', actionId: this.settings.actionId, ...args })
   }
 
   async defaultConfig(): Promise<TransactionalEmailConfig> {
@@ -86,7 +93,7 @@ export class EmailAction<T extends BaseParams = BaseParams, U extends EndpointRe
 
   emailVars?: EmailVars
   async createEmailVars(args: SendEmailArgs): Promise<EmailVars> {
-    const { user, origin, queryVars = {} } = args
+    const { recipient, origin, queryVars = {} } = args
 
     const fictionEmailActions = this.fictionEmailActions
     const fictionApp = fictionEmailActions?.settings.fictionApp
@@ -97,13 +104,13 @@ export class EmailAction<T extends BaseParams = BaseParams, U extends EndpointRe
 
     const originUrl = origin || fictionApp?.appUrl.value || ''
     let token = ''
-    if (user)
-      token = queryVars.token = createUserToken({ user, tokenSecret })
+    if (recipient)
+      token = queryVars.token = createUserToken({ user: recipient, tokenSecret })
 
     const queryParams = new URLSearchParams(queryVars).toString()
     const callbackBase = `${originUrl}/_action`
     const callbackUrl = `${callbackBase}/${this.settings.actionId}/?${queryParams}`
-    const { firstName, lastName, email, userId, username } = user
+    const { firstName, lastName, email, userId, username } = recipient || {}
 
     const emailVars: EmailVars = {
       actionId: this.settings.actionId,
@@ -126,7 +133,7 @@ export class EmailAction<T extends BaseParams = BaseParams, U extends EndpointRe
     return emailVars
   }
 
-  async send(args: SendEmailArgs) {
+  async serveSend(args: SendEmailArgs) {
     const fictionEmail = this.fictionEmailActions?.settings.fictionEmail
     if (!fictionEmail)
       throw abort('no fictionEmail provided')
@@ -138,5 +145,9 @@ export class EmailAction<T extends BaseParams = BaseParams, U extends EndpointRe
     const finalEmail = deepMerge([defaultEmail, userEmail])
 
     return await fictionEmail.sendTransactional(finalEmail)
+  }
+
+  async requestSend(args: SendArgsRequest) {
+    return await this.fictionEmailActions?.requests.EmailAction.request({ _action: 'sendEmail', actionId: this.settings.actionId, ...args })
   }
 }

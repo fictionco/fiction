@@ -1,30 +1,16 @@
-<script lang="ts">
-</script>
-
 <script lang="ts" setup>
 import { omit, vue } from '@fiction/core'
+import type { UiElementSize } from '../utils'
 import { inputs } from '.'
 
 const props = defineProps({
-  modelValue: {
-    type: [String, Object, Array, Number, Date, Boolean],
-    default: undefined,
-  },
+  modelValue: { type: [String, Object, Array, Number, Date, Boolean], default: undefined },
   label: { type: String, default: '' },
   subLabel: { type: String, default: '' },
   description: { type: String, default: '' },
-  descriptionFormat: {
-    type: String as vue.PropType<'popover' | 'subhead'>,
-    default: 'popover',
-  },
-  input: {
-    type: [String, Object] as vue.PropType<keyof typeof inputs | vue.Component | 'title' | 'group'>,
-    default: undefined,
-  },
-  defaultValue: {
-    type: [String, Object, Array, Number, Date, Boolean],
-    default: undefined,
-  },
+  size: { type: String as vue.PropType<UiElementSize>, default: 'md' },
+  input: { type: [String, Object] as vue.PropType<keyof typeof inputs | vue.Component | 'title' | 'group'>, default: undefined },
+  defaultValue: { type: [String, Object, Array, Number, Date, Boolean], default: undefined },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -32,11 +18,7 @@ const emit = defineEmits(['update:modelValue'])
 if (props.defaultValue && props.modelValue === undefined)
   emit('update:modelValue', props.defaultValue)
 
-const attrs = vue.useAttrs() as {
-  for?: string
-  class?: string
-  required?: string
-}
+const attrs = vue.useAttrs() as { for?: string, class?: string, required?: string }
 
 const inputEl = vue.ref<vue.ComponentPublicInstance>()
 const valid = vue.ref<boolean | undefined>()
@@ -61,10 +43,7 @@ async function setValidity(): Promise<void> {
   const el = inputEl.value?.$el as HTMLElement | HTMLInputElement
 
   if (el) {
-    if (
-      (el instanceof HTMLInputElement || el instanceof HTMLSelectElement)
-      && el.checkValidity
-    ) {
+    if ((el instanceof HTMLInputElement || el instanceof HTMLSelectElement) && el.checkValidity) {
       valid.value = el.checkValidity()
     }
     else if (el.querySelector) {
@@ -89,40 +68,33 @@ vue.onMounted(() => {
     await setValidity()
   }, 300)
 })
+
+const cls = vue.computed(() => {
+  const size = props.size
+  const map = {
+    sm: { labelSize: 'text-[11px]' },
+    md: { labelSize: 'text-xs' },
+    lg: { labelSize: 'text-sm' },
+  }
+
+  return map[size as keyof typeof map] || map.md
+})
 </script>
 
 <template>
-  <div
-    :key="label"
-    class="f-el-input space-y-0.5 font-sans"
-    :class="[valid ? 'valid' : 'not-valid', attrs.class]"
-  >
-    <div
-      v-if="label || description"
-      class="text-input-label-size flex justify-between mb-1"
-    >
-      <div class="text items-center text-xs">
+  <div :key="label" class="f-el-input space-y-0.5 font-sans" :class="[valid ? 'valid' : 'not-valid', attrs.class]">
+    <div v-if="label || description" class="text-input-label-size flex justify-between mb-1.5">
+      <div class="text items-center" :class="cls.labelSize">
         <div class="flex items-center space-x-2 text-theme-700 dark:text-theme-0">
-          <label
-            v-if="label"
-            class="font-medium"
-            :for="attrs.for"
-            v-text="label"
-          />
+          <label v-if="label" class="font-medium" :for="attrs.for" v-text="label" />
           <div v-if="description" class="group relative flex items-center">
-            <div class="text-lg text-theme-500 hover:text-theme-400 i-tabler-info-circle" />
-            <div
-              class="bg-theme-0 dark:bg-theme-700 dark:border-theme-600 border dark:text-theme-0 absolute -left-4 top-full z-30 mt-2 hidden w-56 origin-top-right rounded-md p-3 text-[10px] shadow-lg ring-1 ring-black/10 focus:outline-none group-hover:block"
-            >
+            <div class="text-lg text-theme-500 hover:text-theme-400 i-tabler-info-circle group-hover:opacity-40 cursor-help" />
+            <div class="pointer-events-none bg-theme-0 dark:bg-theme-700 dark:border-theme-600 border dark:text-theme-0 absolute -left-4 top-full z-30 mt-2 opacity-0 max-h-0 w-56 origin-top-right rounded-md p-4 text-xs shadow-lg ring-1 ring-black/10 focus:outline-none group-hover:max-h-[300px] group-hover:opacity-100 transition-all">
               {{ description }}
             </div>
           </div>
         </div>
-        <div
-          v-if="subLabel"
-          class="text-theme-400 dark:text-theme-600 text-[.9em]"
-          v-html="subLabel"
-        />
+        <div v-if="subLabel" class="text-theme-400 dark:text-theme-600 text-[.9em]" v-html="subLabel" />
       </div>
       <slot name="labelRight" />
     </div>
@@ -133,6 +105,7 @@ vue.onMounted(() => {
         ref="inputEl"
         :model-value="modelValue"
         v-bind="omit(attrs, 'class')"
+        :size
         @update:model-value="updateValue($event)"
       >
         <slot />

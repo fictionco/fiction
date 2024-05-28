@@ -21,7 +21,7 @@ export const templates = [
   }),
   new CardTemplate({
     templateId: 'auth',
-    el: def(() => import('./el/AuthWrap.vue')),
+    el: def(() => import('../auth/AuthWrap.vue')),
     userConfig: {
       logo: { format: 'html' as const, html: fictionLogo },
     },
@@ -114,11 +114,17 @@ export function pages() {
     }),
     createCard({
       templates,
-      regionId: 'main',
-      templateId: 'auth',
+      templateId: 'transactional',
       slug: 'auth',
       title: 'Settings',
-
+      cards: [
+        createCard({
+          tpl: new CardTemplate({
+            templateId: 'auth',
+            el: def(() => import('../auth/AuthCard.vue')),
+          }),
+        }),
+      ],
     }),
   ]
 }

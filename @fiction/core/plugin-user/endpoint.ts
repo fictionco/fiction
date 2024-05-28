@@ -31,55 +31,17 @@ export type WhereUser = { email: string } | { userId: string } | { username: str
 type CreateUserFields = Partial<User> & { email: string, password?: string, orgName?: string }
 
 export type ManageUserParams =
-  | {
-    _action: 'create'
-    fields: CreateUserFields
-    isVerifyEmail?: boolean
-  }
-  | {
-    _action: 'update'
-    fields: Partial<User> & { password?: string }
-    where: WhereUser
-  }
-  | {
-    _action: 'updateCurrentUser'
-    fields: Partial<User> & { password?: string }
-  }
-  | {
-    _action: 'retrieve'
-    select?: (keyof User)[] | ['*']
-    where: WhereUser
-  }
-  | {
-    _action: 'verifyEmail'
-    email: string
-    code: string
-    password?: string
-  }
-  | {
-    _action: 'getUserWithToken'
-    token: string
-  }
-  | {
-    _action: 'login'
-    where: WhereUser
-    password?: string
-  }
-  | {
-    _action: 'loginGoogle'
-    credential: string
-  }
-  | {
-    _action: 'event'
-    eventName: 'resetPassword'
-    where: WhereUser
-  }
-  | {
-    _action: 'manageOnboard'
-    settings: OnboardStoredSettings
-    orgId?: string
-    userId?: string
-  }
+  | { _action: 'create', fields: CreateUserFields, isVerifyEmail?: boolean }
+  | { _action: 'update', fields: Partial<User> & { password?: string }, where: WhereUser }
+  | { _action: 'updateCurrentUser', fields: Partial<User> & { password?: string } }
+  | { _action: 'retrieve', select?: (keyof User)[] | ['*'], where: WhereUser }
+  | { _action: 'verifyEmail', email: string, code: string, password?: string }
+  | { _action: 'getUserWithToken', token: string }
+  | { _action: 'login', where: WhereUser, password?: string }
+  | { _action: 'loginGoogle', credential: string }
+  | { _action: 'event', eventName: 'resetPassword', where: WhereUser }
+  | { _action: 'manageOnboard', settings: OnboardStoredSettings, orgId?: string, userId?: string }
+  | { _action: 'getCreate', email: string, fields?: Partial<CreateUserFields> }
 
   type ManageUserResponse = EndpointResponse<User> & {
     isNew: boolean
@@ -98,8 +60,14 @@ export class QueryManageUser extends UserBaseQuery {
     const { _action } = params
     switch (_action) {
       case 'retrieve':
-        user = await this.getUser(params)
+        user = await this.getUser(params, meta)
         break
+      case 'getCreate':{
+        const r = await this.getCreateUser(params, meta)
+        user = r.user
+        isNew = r.isNew
+        break
+      }
       case 'getUserWithToken':
         user = await this.getUserWithToken(params, meta)
         break
@@ -121,7 +89,7 @@ export class QueryManageUser extends UserBaseQuery {
         message = 'email verified'
         break
       case 'login':
-        user = await this.loginUser(params)
+        user = await this.loginUser(params, meta)
         message = 'login successful'
         break
       case 'loginGoogle': {
@@ -132,11 +100,11 @@ export class QueryManageUser extends UserBaseQuery {
         break
       }
       case 'event':
-        user = await this.handleUserEvent(params)
+        user = await this.handleUserEvent(params, meta)
         break
 
       case 'manageOnboard':
-        user = await this.manageOnboard(params)
+        user = await this.manageOnboard(params, meta)
         break
       default:
         return { status: 'error', message: 'Invalid action', isNew }
@@ -151,12 +119,12 @@ export class QueryManageUser extends UserBaseQuery {
     return await this.prepareResponse({ _action, user, isNew, token, message, params }, meta)
   }
 
-  private async handleUserEvent(params: ManageUserParams & { _action: 'event' }): Promise<User > {
+  private async handleUserEvent(params: ManageUserParams & { _action: 'event' }, _meta: EndpointMeta): Promise<User > {
     const { eventName, where } = params
 
     const fictionUser = this.settings.fictionUser
 
-    const user = await this.getUser({ _action: 'retrieve', where })
+    const user = await this.getUser({ _action: 'retrieve', where }, _meta)
 
     if (!user)
       throw abort('user not found', { data: where })
@@ -166,15 +134,30 @@ export class QueryManageUser extends UserBaseQuery {
     return user
   }
 
-  private async getUser(params: ManageUserParams & { _action: 'retrieve' }): Promise<User | undefined> {
+  private async getUser(params: ManageUserParams & { _action: 'retrieve' }, _meta: EndpointMeta): Promise<User | undefined> {
     const db = this.db()
-    const { where, _action } = params
+    const { where } = params
 
     const q = db.select('*').from(t.user).where(where)
 
     const user = await q.first<User>()
 
     return user
+  }
+
+  private async getCreateUser(params: ManageUserParams & { _action: 'getCreate' }, _meta: EndpointMeta): Promise<{ user?: User, isNew: boolean }> {
+    const { email } = params
+
+    let isNew = false
+    let user = await this.getUser({ _action: 'retrieve', where: { email } }, _meta)
+
+    if (!user) {
+      const fields: CreateUserFields = { ...params.fields, email }
+      user = await this.createUser({ _action: 'create', fields }, { ..._meta, server: true })
+      isNew = true
+    }
+
+    return { user, isNew }
   }
 
   private async getUserWithToken(params: ManageUserParams & { _action: 'getUserWithToken' }, meta: EndpointMeta): Promise<User | undefined> {
@@ -236,7 +219,7 @@ export class QueryManageUser extends UserBaseQuery {
 
     const { where, fields } = params
 
-    const existingUser = await this.getUser({ _action: 'retrieve', where })
+    const existingUser = await this.getUser({ _action: 'retrieve', where }, meta)
 
     const ipData = await getRequestIpAddress(meta.request)
     fields.ip = ipData.ip
@@ -342,12 +325,7 @@ export class QueryManageUser extends UserBaseQuery {
 
     const [user] = await db.insert(insertFields).into(table).returning<User[]>('*')
 
-    if (user && user.userId) {
-      // special case, on user create set them to the bearer
-      // its needed for further actions like adding org and setting last project
-      meta.bearer = user
-    }
-    else {
+    if (!user.userId) {
       throw abort('couldn\'t create user', { data: { insertFields } })
     }
 
@@ -356,13 +334,13 @@ export class QueryManageUser extends UserBaseQuery {
     return user
   }
 
-  private async loginUser(params: ManageUserParams & { _action: 'login' }): Promise<User | undefined> {
+  private async loginUser(params: ManageUserParams & { _action: 'login' }, _meta: EndpointMeta): Promise<User | undefined> {
     const { where, password } = params
 
     if (!password)
       throw abort('password required')
 
-    const user = await this.getUser({ _action: 'retrieve', where })
+    const user = await this.getUser({ _action: 'retrieve', where }, _meta)
 
     if (!user)
       throw abort('user not found', { data: where })
@@ -411,7 +389,7 @@ export class QueryManageUser extends UserBaseQuery {
 
     const { sub: googleId, name: fullName, email_verified: emailVerified, picture } = payload
 
-    let user = await this.getUser({ _action: 'retrieve', where: { email } })
+    let user = await this.getUser({ _action: 'retrieve', where: { email } }, meta)
     let isNew = false
     if (!user) {
       isNew = true
@@ -463,7 +441,7 @@ export class QueryManageUser extends UserBaseQuery {
     return response
   }
 
-  private async manageOnboard(params: ManageUserParams & { _action: 'manageOnboard' }): Promise<User | undefined> {
+  private async manageOnboard(params: ManageUserParams & { _action: 'manageOnboard' }, _meta: EndpointMeta): Promise<User | undefined> {
     const { settings, orgId, userId } = params
     const columnKey = 'onboard'
     const newSettings = JSON.stringify(settings)

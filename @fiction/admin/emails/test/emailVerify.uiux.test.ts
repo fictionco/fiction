@@ -30,7 +30,7 @@ describe('email actions', async () => {
   const actionId = action.settings.actionId
 
   it('sends email', async () => {
-    const r = await action.send({ user, queryVars: { code: user.verify?.code, email: user.email } })
+    const r = await action.serveSend({ recipient: user, queryVars: { code: user.verify?.code || '' } })
 
     const replaced = r.data?.html || ''
     expect(emailActionSnapshot(replaced, action.emailVars)).toMatchInlineSnapshot(`

@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
+import type { UiElementSize } from '../utils'
 import { textInputClasses } from './theme'
 
 defineProps({
   modelValue: { type: [String, Number], default: '' },
   inputClass: { type: String, default: '' },
+  size: { type: String as vue.PropType<UiElementSize>, default: 'md' },
 })
 
 const emit = defineEmits<{
@@ -27,7 +29,7 @@ function handleClick(target: EventTarget | null): void {
 
 <template>
   <input
-    :class="textInputClasses({ inputClass })"
+    :class="textInputClasses({ inputClass, size })"
     type="text"
     :value="modelValue"
     spellcheck="false"

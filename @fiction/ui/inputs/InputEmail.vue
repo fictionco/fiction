@@ -1,10 +1,13 @@
 <script lang="ts" setup>
+import type { vue } from '@fiction/core'
+import type { UiElementSize } from '../utils'
 import { textInputClasses } from './theme'
 
 defineProps({
   modelValue: { type: [String], default: '' },
   placeholder: { type: [String], default: 'Type your email...' },
   inputClass: { type: String, default: '' },
+  size: { type: String as vue.PropType<UiElementSize>, default: 'md' },
 })
 
 const emit = defineEmits<{
@@ -20,7 +23,7 @@ function handleEmit(target: EventTarget | null): void {
 
 <template>
   <input
-    :class="textInputClasses({ inputClass })"
+    :class="textInputClasses({ inputClass, size })"
     type="email"
     autocomplete="email"
     :value="modelValue"

@@ -15,16 +15,16 @@ const uc = vue.computed(() => props.card.userConfig.value)
 </script>
 
 <template>
-  <div class="auth-wrap relative flex overflow-hidden bg-white  dark:bg-theme-950 dark:text-theme-0">
+  <div class="auth-wrap relative flex overflow-hidden bg-white dark:bg-theme-950 dark:text-theme-0">
     <div
-      class="relative hidden w-[30%] overflow-hidden bg-theme-950 dark:bg-theme-800 text-theme-0 border-r border-theme-700 lg:block"
+      class="relative hidden w-[38.2%] overflow-hidden bg-gradient-to-b from-theme-1000 via-theme-1000 to-theme-950  text-theme-0 border-r border-theme-700 lg:block"
     >
       <div class="relative z-20 p-8">
         <ElImage :media="uc.logo" class="h-6 inline-block" />
       </div>
       <EffectShootingStar class="absolute inset-0" />
     </div>
-    <div class="relative flex min-h-screen grow flex-col items-center">
+    <div class="relative flex min-h-screen grow flex-col items-center shrink-0">
       <div class="relative">
         <div
           class="relative mx-auto flex items-center justify-between px-4 py-2 text-xs md:max-w-7xl"

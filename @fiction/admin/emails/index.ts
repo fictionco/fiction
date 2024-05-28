@@ -14,7 +14,7 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
   const verifyEmailAction = new EmailAction({
     fictionEmailActions,
     actionId: 'verify-email',
-    template: vue.defineAsyncComponent<vue.Component>(() => import('./EmailVerify.vue')), // <vue.Component> avoids circular reference
+    template: vue.defineAsyncComponent<vue.Component>(() => import('./VEmailVerify.vue')), // <vue.Component> avoids circular reference
     emailConfig: (vars) => {
       return {
         subject: `${vars.appName}: Verify Your Email`,
@@ -40,5 +40,25 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
       return user
     },
   })
-  return { verifyEmailAction }
+
+  // Magic Login Email Action
+  const magicLoginEmailAction = new EmailAction({
+    fictionEmailActions,
+    actionId: 'magic-login',
+    template: vue.defineAsyncComponent<vue.Component>(() => import('./VMagicLogin.vue')),
+    emailConfig: (vars) => {
+      return {
+        subject: `${vars.appName}: Magic Login Link`,
+        heading: 'Magic Login Link',
+        subHeading: 'Click the Link Below to Log In',
+        bodyMarkdown: `The link below will direct you to the website and automatically log you in.`,
+        to: `${vars.email}`,
+        actions: [
+          { name: 'Log In', href: vars.callbackUrl, btn: 'primary' },
+        ],
+      }
+    },
+  })
+
+  return { verifyEmailAction, magicLoginEmailAction }
 }
