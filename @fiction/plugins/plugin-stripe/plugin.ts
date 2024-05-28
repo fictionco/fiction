@@ -105,6 +105,8 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
      */
     this.settings.fictionEnv?.addHook({
       hook: 'updateOrganization',
+      caller: 'FictionStripe',
+      context: 'server',
       callback: async (o) => {
         if (!o.orgId)
           throw new Error('updateOrganization hook missing orgId')

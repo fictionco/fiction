@@ -128,6 +128,8 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
   addSchema() {
     this.fictionEnv?.addHook({
       hook: 'staticSchema',
+      caller: 'db',
+      context: 'cli',
       callback: async (existing) => {
         const list: Record<string, typebox.TSchema> = {}
         this.tables.forEach((tbl) => {

@@ -35,7 +35,11 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
 
     this.settings.fictionDb.addTables(tables)
 
-    this.settings.fictionEnv.addHook({ hook: 'adminPages', callback: async (pages, meta) => {
+    this.settings.fictionEnv.addHook({
+      hook: 'adminPages',
+      caller: 'FictionPosts',
+      context: 'app',
+      callback: async (pages, meta) => {
       const { templates } = meta
       return [
         ...pages,

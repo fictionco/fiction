@@ -43,7 +43,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   isEditable = vue.computed(() => this.siteMode.value === 'editable' || false)
   isEditor = vue.computed(() => this.siteMode.value === 'designer' || false)
   frame = new SiteFrameTools({ site: this, relation: this.siteMode.value === 'designer' ? 'parent' : 'child' })
-  events = new TypedEventTarget<SiteEventMap>()
+  events = new TypedEventTarget<SiteEventMap>({ fictionEnv: this.fictionSites.fictionEnv })
   constructor(settings: T) {
     super('Site', settings)
     this.watchers()

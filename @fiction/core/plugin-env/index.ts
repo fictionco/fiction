@@ -63,7 +63,7 @@ export type EnvEventMap = {
 export class FictionEnv<
   S extends BaseCompiled = BaseCompiled,
 > extends FictionObject<FictionControlSettings> {
-  events = new TypedEventTarget<EnvEventMap>()
+  events = new TypedEventTarget<EnvEventMap>({ fictionEnv: this })
   generatedConfig?: S
   commands = this.settings.commands || standardAppCommands
   hooks = this.settings.hooks || []
@@ -77,8 +77,10 @@ export class FictionEnv<
   inspector = this.settings.inspector || false
   mode = vue.ref<'development' | 'production' | undefined>(isDev() ? 'development' : 'production')
   isRestart = () => crossVar.get('IS_RESTART') === '1'
+
   isApp = vue.ref(this.settings.isApp)
   isSSR = vue.computed(() => !!(this.isApp.value && this.isNode))
+  isCompiled = vue.ref(false)
   isTest = vue.ref(this.settings.isTest)
   isServer = vue.computed(() => !this.isApp.value)
   isProd = vue.computed(() => !isDev())
@@ -110,6 +112,8 @@ export class FictionEnv<
 
   public addHook<T extends HookType<FictionEnvHookDictionary>>(hook: T): void {
     this.hooks.push(hook)
+
+    this.log.info(`total hooks: ${this.hooks.length} - hook added: ${hook.hook}, caller: ${hook.caller}, context: ${hook.context}`)
   }
 
   constructor(settings: FictionControlSettings) {
@@ -141,6 +145,8 @@ export class FictionEnv<
 
     this.addHook({
       hook: 'staticSchema',
+      caller: 'envConfig',
+      context: 'cli',
       callback: async (existing) => {
         const commandKeys = this.commands?.map(_ => _.command).sort()
         const envVarKeys = this.getVars().map(_ => _.name).sort()
@@ -393,6 +399,11 @@ export class FictionEnv<
   }
 
   addUiRoot(root: string) {
+    // prevent memory leak
+    if (this.isApp.value) {
+      return
+    }
+
     const uiPaths = [
       `${root}/*.vue`,
       `${root}/**/*.vue`,

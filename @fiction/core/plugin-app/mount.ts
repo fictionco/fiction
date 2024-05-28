@@ -44,7 +44,7 @@ async function runAppEntry(args: { renderRoute?: string, runVars?: Partial<RunVa
 
     const serviceConfig = await mainFileImports.setup({ context })
     if (!serviceConfig)
-      throw new Error('No serviceConfig returned from setup')
+      throw new Error('No serviceConfig returned from mainfile setup')
 
     const service = await compileApplication({ context, serviceConfig, runVars })
     if (!service)

@@ -32,11 +32,6 @@ function setHeight(): void {
 onResetUi(() => {
   setHeight()
 })
-vue.onMounted(() => setHeight())
-vue.watch(
-  () => props.modelValue,
-  () => setHeight(),
-)
 
 vue.onMounted(() => {
   const ta = textareaElement.value
@@ -46,6 +41,11 @@ vue.onMounted(() => {
   setHeight()
 
   // ta.addEventListener("input", () => setHeight())
+
+  vue.watch(
+    () => props.modelValue,
+    () => setHeight(),
+  )
 })
 
 function send(el: EventTarget | null): void {

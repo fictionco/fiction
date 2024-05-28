@@ -47,8 +47,14 @@ export async function compileApplication(args: ServiceSetupArgs): Promise<Servic
      */
     const service: ServiceList = createService ? await createService(args) : {}
 
-    await runServicesSetup(service, args)
-
+    /**
+     * Don't run setup hooks multiple times in SSR, which creates memory leaks
+     * This is because classes are cached, but setup hooks are not
+     */
+    if (!service.fictionEnv?.isCompiled?.value) {
+      await runServicesSetup(service, args)
+      serviceConfig.fictionEnv.isCompiled.value = true
+    }
     return service
   }
   catch (error: unknown) {

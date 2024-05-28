@@ -6,6 +6,8 @@ export type HookType<
 > = {
   [K in keyof T]: {
     hook: K
+    caller?: string
+    context?: 'cli' | 'app' | 'client' | 'ssr' | 'server'
     callback: (
       ...args: T[K]['args']
     ) =>
@@ -27,9 +29,7 @@ export async function runHooks<
   const { list = [], hook, args = [] } = params
   const hookArgs = args || []
 
-  const callbacks = list
-    .filter(_ => _.hook === hook)
-    .map(_ => _.callback) as Callbacks[]
+  const callbacks = list.filter(_ => _.hook === hook).map(_ => _.callback) as Callbacks[]
 
   let result = hookArgs[0]
   if (callbacks && callbacks.length > 0) {

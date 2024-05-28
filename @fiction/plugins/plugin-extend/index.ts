@@ -16,7 +16,11 @@ export class FictionExtend<T extends PluginIndexSettings = PluginIndexSettings> 
   constructor(settings: T) {
     super('FictionExtend', { root: safeDirname(import.meta.url), ...settings })
 
-    this.settings.fictionEnv.addHook({ hook: 'adminPages', callback: async (pages, meta) => {
+    this.settings.fictionEnv.addHook({
+      hook: 'adminPages',
+      caller: 'extendConfig',
+        context: 'app',
+      callback: async (pages, meta) => {
       const { templates } = meta
       return [
         ...pages,

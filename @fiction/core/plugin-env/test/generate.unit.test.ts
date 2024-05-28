@@ -14,6 +14,8 @@ describe('test config generator', () => {
 
     testUtils.fictionEnv.addHook({
       hook: 'staticConfig',
+      caller: 'testGenerate',
+      context: 'cli',
       callback: async (schema) => {
         const test = ['test']
 

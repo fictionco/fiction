@@ -105,8 +105,9 @@ export class Card<
   })
 
   init() {
-    // update index on card change (currently unused)
-    vue.watch(this.cards, () => this.cards.value.forEach((c, index) => c.index.value = index))
+    if (this.site?.siteMode.value !== 'standard') {
+      vue.watch(this.cards, () => this.cards.value.forEach((c, index) => c.index.value = index))
+    }
   }
 
   initSubCard(args: { cardConfig: CardConfigPortable }) {

@@ -51,7 +51,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
   activeUser = vue.ref<User>()
   initialized?: Promise<boolean>
   resolveUser?: (value: boolean | PromiseLike<boolean>) => void
-  events = new TypedEventTarget<UserEventMap>()
+  events = new TypedEventTarget<UserEventMap>({ fictionEnv: this.settings.fictionEnv })
   tokenSecret = this.settings.tokenSecret
   activePath = vue.ref(safeDirname(import.meta.url))
   googleClientId = this.settings.googleClientId

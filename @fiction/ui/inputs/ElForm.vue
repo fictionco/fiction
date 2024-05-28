@@ -53,16 +53,16 @@ vue.onMounted(() => {
       els.forEach(el => el.addEventListener('blur', () => setValid()))
     }
   }, 300)
+
+  // delay due to any reactive changes in form that impact validity
+  vue.watch(
+    () => props.data,
+    () => setTimeout(() => setValid(), 50),
+    { deep: true },
+  )
+
+  onEvent('submit', () => submitForm())
 })
-
-// delay due to any reactive changes in form that impact validity
-vue.watch(
-  () => props.data,
-  () => setTimeout(() => setValid(), 50),
-  { deep: true },
-)
-
-onEvent('submit', () => submitForm())
 </script>
 
 <template>

@@ -11,7 +11,11 @@ export class FictionSiteBuilder extends FictionPlugin<FictionSiteBuilderSettings
 
     super('FictionSiteBuilder', s)
 
-    this.settings.fictionEnv.addHook({ hook: 'adminPages', callback: async (pages, meta) => {
+    this.settings.fictionEnv.addHook({
+      hook: 'adminPages',
+      caller: 'FictionSiteBuilder',
+      context: 'app',
+      callback: async (pages, meta) => {
       const { templates } = meta
       return [
         ...pages,

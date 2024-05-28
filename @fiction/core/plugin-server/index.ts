@@ -55,6 +55,8 @@ export class FictionServer extends FictionPlugin<FictionServerSettings> {
     if (this.fictionEnv) {
       this.fictionEnv.addHook({
         hook: 'staticSchema',
+        caller: 'serverConfig',
+        context: 'cli',
         callback: async (existing) => {
           return { ...existing, endpoints: { enum: this.endpoints?.map(_ => _.key).filter(Boolean).sort(), type: 'string' } }
         },
@@ -62,6 +64,8 @@ export class FictionServer extends FictionPlugin<FictionServerSettings> {
 
       this.fictionEnv.addHook({
         hook: 'staticConfig',
+        caller: 'serverConfig',
+        context: 'cli',
         callback: () => ({ endpoints: this.endpoints?.map(ep => ({ key: ep.key, path: ep.pathname() })) }),
       })
     }

@@ -8,14 +8,17 @@ const props = defineProps({
   },
 })
 const customValidityEl = vue.ref<HTMLInputElement>()
-vue.watch(
-  () => props.customValidity,
-  (v?: string | boolean) => {
-    if (typeof v === 'string' && customValidityEl.value)
-      customValidityEl.value.setCustomValidity(v)
-  },
-  { immediate: true },
-)
+
+vue.onMounted(() => {
+  vue.watch(
+    () => props.customValidity,
+    (v?: string | boolean) => {
+      if (typeof v === 'string' && customValidityEl.value)
+        customValidityEl.value.setCustomValidity(v)
+    },
+    { immediate: true },
+  )
+})
 </script>
 
 <template>

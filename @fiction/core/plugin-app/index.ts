@@ -93,6 +93,8 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     if (this.settings.fictionEnv) {
       this.settings.fictionEnv.addHook({
         hook: 'staticSchema',
+        caller: 'appConfig',
+        context: 'cli',
         callback: async (existing) => {
           const routeKeys = routes.map(_ => _.name).filter(Boolean).sort()
 
@@ -102,6 +104,8 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
 
       this.settings.fictionEnv.addHook({
         hook: 'staticConfig',
+        caller: 'appConfig',
+        context: 'cli',
         callback: (
           schema: Record<string, unknown>,
         ): Record<string, unknown> => {

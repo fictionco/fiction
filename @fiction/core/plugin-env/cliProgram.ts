@@ -163,7 +163,7 @@ process.on('uncaughtException', (error) => {
 })
 
 process.on('SIGUSR2', async () => {
-  const snapshotFile = `heap-${Date.now()}.heapsnapshot`
+  const snapshotFile = path.join(process.cwd(), `heap-${Date.now()}.heapsnapshot`)
   logger.info(`Creating heap snapshot: ${snapshotFile}`)
   const { writeHeapSnapshot } = await import('node:v8')
   try {

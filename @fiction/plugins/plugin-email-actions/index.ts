@@ -36,6 +36,8 @@ export class FictionEmailActions extends FictionPlugin<FictionEmailActionsSettin
 
     this.settings.fictionEnv.addHook({
       hook: 'setPages',
+      caller: 'emailActions',
+      context: 'app',
       callback: (pages, site) => {
         const theme = site?.theme.value
         const transactionTemplateId = theme?.templateDefaults.value.transactional || 'wrap'
