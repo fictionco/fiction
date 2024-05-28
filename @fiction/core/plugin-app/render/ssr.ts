@@ -9,6 +9,7 @@ import { populateGlobal } from '../../utils/globalUtils'
 import { FictionObject } from '../../plugin'
 import type { EntryModuleExports, RenderedHtmlParts } from '../types'
 import { log } from '../../plugin-log'
+import { vue } from '../../utils/libraries'
 
 const logger = log.contextLogger('SSR')
 
@@ -51,31 +52,40 @@ export class SSR extends FictionObject<SSRSettings> {
 
   async getParts(args: { pathname: string, runVars: Partial<RunVars>, entryModule: Record<string, any> }) {
     const { entryModule, pathname, runVars } = args
-    const { runAppEntry } = entryModule as EntryModuleExports
-
-    const fictionAppEntry = await runAppEntry({ renderRoute: pathname, runVars })
-
-    if (!fictionAppEntry)
-      throw new Error('SSR Error: rendering failed')
-
-    const { app, meta } = fictionAppEntry
-
     let out = this.init()
 
-    /**
-     * Pass context for rendering (available useSSRContext())
-     * vitejs/plugin-vue injects code in component setup() that registers the component
-     * on the context. Allowing us to orchestrate based on this.
-     */
+    // use effect scope to capture all potential memory leaks
+    // from watchers and computed to clear them after rendering
+    // https://vuejs.org/api/reactivity-advanced.html#effectscope
+    const scope = vue.effectScope()
 
-    const ctx: { modules?: string[] } = {}
-    out.htmlBody = await renderToString(app, ctx)
+    await scope.run(async () => {
+      const { runAppEntry } = entryModule as EntryModuleExports
 
-    /**
-     * Meta/Head Rendering
-     */
-    const head = await renderSSRHead(meta)
-    out = { ...out, ...head }
+      const fictionAppEntry = await runAppEntry({ renderRoute: pathname, runVars })
+
+      if (!fictionAppEntry)
+        throw new Error('SSR Error: rendering failed')
+
+      const { app, meta } = fictionAppEntry
+
+      /**
+       * Pass context for rendering (available useSSRContext())
+       * vitejs/plugin-vue injects code in component setup() that registers the component
+       * on the context. Allowing us to orchestrate based on this.
+       */
+
+      const ctx: { modules?: string[] } = {}
+      out.htmlBody = await renderToString(app, ctx)
+
+      /**
+       * Meta/Head Rendering
+       */
+      const head = await renderSSRHead(meta)
+      out = { ...out, ...head }
+    })
+
+    scope.stop()
 
     return out
   }
@@ -99,7 +109,6 @@ export class SSR extends FictionObject<SSRSettings> {
     const entryModule = await this.settings.viteServer.ssrLoadModule(this.settings.mountFilePath)
 
     const out = this.getParts({ pathname, runVars, entryModule })
-
     return out
   }
 
