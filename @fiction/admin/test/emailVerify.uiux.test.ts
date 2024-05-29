@@ -10,7 +10,7 @@ describe('email actions', async () => {
   if (!fs.existsSync(testEnvFile))
     console.warn(`missing test env file ${testEnvFile}`)
 
-  const kit = await createUiTestingKit({ headless: false, envFiles: [testEnvFile], setup, slowMo: 9000 })
+  const kit = await createUiTestingKit({ headless: false, envFiles: [testEnvFile], setup, slowMo: 10 })
   const testUtils = kit.testUtils
 
   if (!testUtils)
@@ -35,15 +35,15 @@ describe('email actions', async () => {
       {
         "actionId": "verifyEmail",
         "appName": "Test Fiction App",
-        "callbackUrl": "http://localhost:14791/_action/verify-email?code=896819&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3Vic2NyaWJlciIsInVzZXJJZCI6InVzcjY2NTZkOTc3NDE3YTAzNTQwMTY1Nzg0ZSIsImVtYWlsIjoiYXJwb3dlcnMrMzM3MjczMDIzOEBnbWFpbC5jb20iLCJpYXQiOjE3MTY5Njc3OTl9.kIheQfnymAogP78YpsSu79pRjP8dLGKjhwZfeMARRQg",
-        "code": "896819",
-        "email": "arpowers+3372730238@gmail.com",
-        "fullName": "Sir Twinkles",
-        "originUrl": "http://localhost:14791",
+        "callbackUrl": "http://localhost:14490/_action/verify-email?code=299534&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3Vic2NyaWJlciIsInVzZXJJZCI6InVzcjY2NTZlMDc2NDIzNjI4NTQ0NTgwZjUyNyIsImVtYWlsIjoiYXJwb3dlcnMrODQwODU4OTMzN0BnbWFpbC5jb20iLCJpYXQiOjE3MTY5Njk1OTB9.F_sRZQjahe4632sNXbRo0WoYH-oRabm_yQy23janh7s&email=arpowers%2B8408589337%40gmail.com",
+        "code": "299534",
+        "email": "arpowers+8408589337@gmail.com",
+        "fullName": "Doctor Waffles",
+        "originUrl": "http://localhost:14490",
         "redirect": "",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3Vic2NyaWJlciIsInVzZXJJZCI6InVzcjY2NTZkOTc3NDE3YTAzNTQwMTY1Nzg0ZSIsImVtYWlsIjoiYXJwb3dlcnMrMzM3MjczMDIzOEBnbWFpbC5jb20iLCJpYXQiOjE3MTY5Njc3OTl9.kIheQfnymAogP78YpsSu79pRjP8dLGKjhwZfeMARRQg",
-        "unsubscribeUrl": "http://localhost:14791/_action/unsubscribe",
-        "userId": "usr6656d977417a03540165784e",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3Vic2NyaWJlciIsInVzZXJJZCI6InVzcjY2NTZlMDc2NDIzNjI4NTQ0NTgwZjUyNyIsImVtYWlsIjoiYXJwb3dlcnMrODQwODU4OTMzN0BnbWFpbC5jb20iLCJpYXQiOjE3MTY5Njk1OTB9.F_sRZQjahe4632sNXbRo0WoYH-oRabm_yQy23janh7s",
+        "unsubscribeUrl": "http://localhost:14490/_action/unsubscribe",
+        "userId": "usr6656e076423628544580f527",
         "username": "",
       }
     `)
@@ -57,7 +57,7 @@ describe('email actions', async () => {
           margin-bottom: 0px; color: rgb(100,110,130);" class="my-0 text-gray-500"><span>Click the Link Below</span> ↘ </p></td></tr></tbody></table><hr data-id="__vue-email-hr" style="width:100%;border:none;border-top:1px solid #eaeaea; margin-top: 2rem;
           margin-bottom: 2rem; border-color: rgb(222,223,226);" class="dark:border-gray-700"><div data-id="__vue-email-markdown" class="body-content"><p data-id="vue-email-text" style="font-size:1.1rem;line-height:1.65;font-weight:normal">Verify your email using the code: <strong data-id="vue-email-text" style="font-weight:bold">[code]</strong> or click the button below.</p></div><table align="center" width="100%" data-id="__vue-email-section" border="0" cellpadding="0" cellspacing="0" role="presentation" class="mt-12 mb-8 text-left" style="margin-top: 3rem; margin-bottom: 2rem; text-align: left;"><tbody><tr><td><table align="center" width="100%" data-id="__vue-email-section" border="0" cellpadding="0" cellspacing="0" role="presentation" class="inline-block" style="display: inline-block;"><tbody><tr><td><td data-id="__vue-email-column" role="presentation" class=""><a data-id="__vue-email-button" style="line-height:100%;text-decoration:none;display:inline-block;max-width:100%;white-space:nowrap; background-color: rgb(37,99,235); color: rgb(255,255,255); padding-top: 0.75rem;
           padding-bottom: 0.75rem; padding-left: 1rem;
-          padding-right: 1rem; border-radius: 0.375rem; font-size: 16px; font-weight: 700; user-select: none;" href="http://localhost:[port]/_action/verify-email?code=[code]&amp;token=[token]" target="_blank" class="dark:bg-blue-600 hover:opacity-80">Verify Email</a></td></td></tr></tbody></table></td></tr></tbody></table><hr data-id="__vue-email-hr" style="width:100%;border:none;border-top:1px solid #eaeaea; margin-top: 3rem;
+          padding-right: 1rem; border-radius: 0.375rem; font-size: 16px; font-weight: 700; user-select: none;" href="http://localhost:[port]/_action/verify-email?code=[code]&amp;token=[token]&amp;email=[email]" target="_blank" class="dark:bg-blue-600 hover:opacity-80">Verify Email</a></td></td></tr></tbody></table></td></tr></tbody></table><hr data-id="__vue-email-hr" style="width:100%;border:none;border-top:1px solid #eaeaea; margin-top: 3rem;
           margin-bottom: 3rem; border-color: rgb(100,110,130); opacity: 0.3;" class="my-12 border-gray-500 opacity-30"><table align="center" width="100%" data-id="__vue-email-section" border="0" cellpadding="0" cellspacing="0" role="presentation" class="dark:text-gray-500 text-normal" style="margin-top: 2rem; text-align: left; color: rgb(179,185,197); font-size: 0.75rem;
           line-height: 1rem;"><tbody><tr><td><td data-id="__vue-email-column" role="presentation" class="w-[65%] align-top" style="width: 65%; vertical-align: top;"><img data-id="__vue-email-img" style="display:block;outline:none;border:none;text-decoration:none;" src="https://factor-tests.s3.amazonaws.com/fiction-relative-media/med664ea376d4fe0302372fc100-fiction-email-footer.png?blurhash=U2DS%5D%5D~q00_N00_4%25M4n00_N%3FcIU~q9F%25M-%3B" width="80" alt="Market Yourself with Fiction"><p data-id="__vue-email-text" style="font-size: 14px; line-height: 24px; margin: 16px 0;"><a data-id="__vue-email-link" style="color:#067df7;text-decoration:none; color: rgb(179,185,197); margin-top: 1rem;" href="https://www.fiction.com" target="_blank" class="text-normal dark:text-gray-500">Market Yourself with Fiction ↗ </a></p></img></td><td data-id="__vue-email-column" role="presentation" class="w-[35%] text-right text-gray-400 align-top text-xs" style="width: 35%; text-align: right; color: rgb(122,133,153); vertical-align: top; font-size: 0.75rem;
           line-height: 1rem;"><!--v-if--></td></td></tr></tbody></table></hr></hr></td></tr></tbody></table></body></html>"
@@ -73,10 +73,10 @@ describe('email actions', async () => {
       {
         "actionId": "verifyEmail",
         "appName": "Test Fiction App",
-        "callbackUrl": "http://localhost:[port]/_action/verify-email?code=[code]&token=[token]",
+        "callbackUrl": "http://localhost:[port]/_action/verify-email?code=[code]&token=[token]&email=[email]",
         "code": "[code]",
         "email": "[email]",
-        "fullName": "Sir Twinkles",
+        "fullName": "Doctor Waffles",
         "originUrl": "http://localhost:[port]",
         "redirect": "",
         "token": "[token]",

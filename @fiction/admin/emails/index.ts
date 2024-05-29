@@ -12,7 +12,6 @@ export type VerifyRequestVars = {
 export function getEmails(args: { fictionAdmin: FictionAdmin }) {
   const { fictionAdmin } = args
   const fictionEmailActions = fictionAdmin.settings.fictionEmailActions
-  const appName = fictionAdmin.fictionEnv.meta.app?.name
   const verifyEmailAction = new EmailAction<{ transactionArgs: VerifyRequestVars, transactionResponse: EndpointResponse<User>, send: object }>({
     fictionEmailActions,
     actionId: 'verifyEmail',

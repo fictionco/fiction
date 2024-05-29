@@ -23,7 +23,7 @@ describe('createEmailVars', async () => {
       actionId: 'actionTest',
       recipient: initialized.user,
       origin: 'https://www.example.com',
-      queryVars: { code: '123456' },
+      queryVars: { },
       redirect: 'http://example.com/redirect',
       baseRoute: '/base',
       fictionEmailActions,
@@ -39,7 +39,7 @@ describe('createEmailVars', async () => {
     expect(u.origin + u.pathname).toBe(`https://www.example.com/base/_action/action-test`)
     expect(u.searchParams.get('token')).toBe(createUserToken({ user: initialized.user, tokenSecret: testUtils.fictionUser.tokenSecret }))
     expect(u.searchParams.get('redirect')).toBe('http://example.com/redirect')
-    expect(emailVars.code).toBe('123456')
+    expect(emailVars.code).toBe(initialized.user.verify?.code)
     expect(emailVars.unsubscribeUrl).toBe('https://www.example.com/base/_action/unsubscribe')
     expect(emailVars.fullName).toBe(initialized.user.fullName)
     expect(emailVars.email).toBe(initialized.user.email)
