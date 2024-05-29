@@ -42,5 +42,7 @@ const wrapProps = vue.computed(() => {
   <TransactionWrap
     :loading="loading"
     v-bind="wrapProps"
-  />
+  >
+    {{ vars }}
+  </TransactionWrap>
 </template>

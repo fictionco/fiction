@@ -53,7 +53,7 @@ export class EndpointEmailAction extends EmailActionQuery {
   }
 
   async sendEmail(emailAction: EmailAction, params: EmailActionParams & { _action: 'sendEmail' }, meta: EndpointMeta): Promise<EndpointResponse<{ isSent: boolean }>> {
-    const { to, origin, queryVars = {}, fields } = params
+    const { to, fields } = params
 
     const fictionUser = this.settings.fictionUser
     const userResponse = await fictionUser.queries.ManageUser.serve({ _action: 'getCreate', email: to, fields }, meta)
@@ -61,7 +61,10 @@ export class EndpointEmailAction extends EmailActionQuery {
     const user = userResponse.data
     const isNew = userResponse.isNew
 
-    await emailAction.serveSend({ to, recipient: user, isNew, origin, queryVars })
+    if (!user)
+      throw abort('user not found or created', { expose: false })
+
+    await emailAction.serveSend({ recipient: user, isNew, ...params }, meta)
 
     return { status: 'success', data: { isSent: true }, expose: false }
   }

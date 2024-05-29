@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  isomorphic-dompurify: 2.10.0
+
 pnpmfileChecksum: mlmhizvmawfb4b3vdpjgfipgga
 
 importers:
@@ -6516,8 +6519,8 @@ packages:
   isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
 
-  isomorphic-dompurify@2.11.0:
-    resolution: {integrity: sha512-PNGGCbbSH7+zF45UKu4Kh+yI8hm1bWA8kIZQow4KMImnjYQtrqJA0ZmwHamYUU7+M5tQ84z7xXMWmZF/v5t5eA==}
+  isomorphic-dompurify@2.10.0:
+    resolution: {integrity: sha512-rqWVh1tZtHL4NsSn+bifrxhZ0CqNNShGEkV+m2SFLL3d4D4jcIbkSVMva5Eep50uCxiCCNJmCLGbuAWY/QoNcQ==}
     engines: {node: '>=18'}
 
   istanbul-lib-coverage@3.2.2:
@@ -15803,7 +15806,7 @@ snapshots:
 
   isexe@2.0.0: {}
 
-  isomorphic-dompurify@2.11.0:
+  isomorphic-dompurify@2.10.0:
     dependencies:
       '@types/dompurify': 3.0.5
       dompurify: 3.1.4
@@ -18833,7 +18836,7 @@ snapshots:
     dependencies:
       '@vue-email/cli': 0.0.14(typescript@5.4.5)(vue@3.4.27(typescript@5.4.5))
       '@vue-email/tailwind': 0.0.6(ts-node@10.9.2(@swc/wasm@1.5.16)(@types/node@20.12.12)(typescript@5.4.5))
-      isomorphic-dompurify: 2.11.0
+      isomorphic-dompurify: 2.10.0
       shiki: 1.0.0
       ufo: 1.5.3
       vue: 3.4.27(typescript@5.4.5)

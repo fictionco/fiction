@@ -14,7 +14,7 @@ export type QueryVarHook = {
 // This function encapsulates the watcher logic
 export function setupRouteWatcher(args: { site: Site, queryVarHooks: QueryVarHook[] }): void {
   const { site, queryVarHooks } = args
-  if (typeof window !== 'undefined' && !site.fictionSites.fictionEnv.isNode) {
+  if (typeof window !== 'undefined') {
     vue.watch(
       () => site.siteRouter.current.value,
       async (route) => {

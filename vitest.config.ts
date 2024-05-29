@@ -47,6 +47,11 @@ export default defineConfig({
         '**/*.js',
         '**/test-utils/**',
         '**/resource/**',
+        '**/dist/**',
+        '**/node_modules/**',
+        '**/coverage/**',
+        '**/test/**',
+        '**/scripts/**',
       ],
     },
     alias: [

@@ -25,13 +25,13 @@ export function logMemoryUsage() {
     const memoryUsage = v8.getHeapStatistics()
     const out = [
       'Memory /',
-      `Total: ${formatBytes(memoryUsage.total_heap_size)}`,
       `Used: ${formatBytes(memoryUsage.used_heap_size)}`,
+      `Total: ${formatBytes(memoryUsage.total_heap_size)}`,
       `Limit: ${formatBytes(memoryUsage.heap_size_limit)}`,
     ]
 
     logger.info(out.join(' '))
-  }, 60000)
+  }, 10000)
 
   // This will not prevent the process from exiting if this is the only activity left in the event loop.
   interval.unref()

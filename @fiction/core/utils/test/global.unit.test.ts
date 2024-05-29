@@ -94,6 +94,8 @@ describe('global Utils', () => {
       expect(global.originalProp).toBe('originalValue')
       // Assert that new properties added are removed
       expect(global).not.toHaveProperty('newProp')
+
+      expect(global.window).toBe(undefined)
     })
 
     it('removes properties added by populateGlobal', () => {

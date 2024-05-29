@@ -114,5 +114,10 @@
     "vite-plugin-dts": "^3.9.1",
     "vitepress": "^1.2.2",
     "vue-tsc": "^2.0.19"
+  },
+  "pnpm": {
+    "overrides": {
+      "isomorphic-dompurify": "2.10.0"
+    }
   }
 }

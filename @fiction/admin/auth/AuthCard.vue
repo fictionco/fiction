@@ -45,7 +45,7 @@ async function sendMagicLink(): Promise<void> {
   const r = await fictionAdmin.emailActions.magicLoginEmailAction.requestSend({
     to: email,
     fields: fields.value,
-    redirect: props.card.link('/'),
+    baseRoute: '/app',
   })
 
   if (r?.status === 'error') {

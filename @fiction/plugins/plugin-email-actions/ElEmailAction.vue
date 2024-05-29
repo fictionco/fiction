@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site'
 import El404 from '@fiction/ui/page/El404.vue'
-import { useService, vue } from '@fiction/core'
+import { toCamel, useService, vue } from '@fiction/core'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import type { EmailAction, EmailVars } from './action'
 import type { FictionEmailActions } from '.'
@@ -17,7 +17,7 @@ const { fictionUser, fictionEmailActions, fictionRouter } = useService<{ fiction
 
 const loading = vue.ref(true)
 const actionId = vue.computed(() => {
-  return fictionRouter.params.value.itemId as string
+  return toCamel(fictionRouter.params.value.itemId as string)
 })
 
 const vars = vue.computed(() => {

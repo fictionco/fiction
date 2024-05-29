@@ -305,13 +305,9 @@ export class FictionEnv<
   }
 
   override async afterSetup() {
-    if (
-      !this.isProd.value
-      && !this.isApp.value
-      && !this.isTest.value
-      && !this.isRestart()
-    )
+    if (!this.isProd.value && !this.isApp.value && !this.isTest.value && !this.isRestart()) {
       await this.generate()
+    }
   }
 
   async generate() {

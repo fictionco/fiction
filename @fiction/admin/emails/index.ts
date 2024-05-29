@@ -50,12 +50,10 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
     actionId: 'magic-login',
     emailConfig: (vars) => {
       return {
-        subject: `${vars.appName}: Magic Sign In Link 🪄`,
+        subject: `${vars.appName} → Magic Sign In Link 🪄`,
         heading: 'Your magic link is ready',
-        subHeading: 'Click the Link Below to Log In',
-        bodyMarkdown: `The link below will sign you in to ${vars.appName} like magic 🪄.
-
-        If you didn't request this email, there's nothing to worry about, you can safely ignore it.`,
+        subHeading: 'Click the link below to log in',
+        bodyMarkdown: `The link below will sign you in to ${vars.appName}.\n\nIf you didn't request this email, there's nothing to worry about, you can safely ignore it.`,
         to: `${vars.email}`,
         actions: [
           { name: 'Log In', href: vars.callbackUrl, btn: 'primary' },

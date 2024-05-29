@@ -10,6 +10,7 @@ import { FictionObject } from '../../plugin'
 import type { EntryModuleExports, RenderedHtmlParts } from '../types'
 import { log } from '../../plugin-log'
 import { vue } from '../../utils/libraries'
+import { crossVar } from '../../utils/vars'
 
 const logger = log.contextLogger('SSR')
 
@@ -31,22 +32,32 @@ export class SSR extends FictionObject<SSRSettings> {
     super('SSR', settings)
   }
 
-  startWindow(args: { pathname: string }) {
-    const { pathname } = args
-
+  startGlobals(args: { pathname: string, simulateWindow?: boolean }) {
     // set flag used to determine if app code is running in vite
-    process.env.IS_VITE = 'yes'
 
-    // Simulate window object using jsdom
-    const url = `${this.settings.appUrl}${pathname}`
-    const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', { url })
+    crossVar.set('IS_VITE', 'yes')
 
-    const r = populateGlobal(globalThis, dom.window, { bindFunctions: true })
+    const { pathname, simulateWindow = false } = args
 
-    this.revertGlobal = r.revert
+    /**
+     * Allow for window object during SSR. Potentially useful as libraries sometimes assume window.
+     * However, this is probably a BAD idea as dependencies use window object to control node v browser behavior
+     * and its global oriented, leading to errors with no traceable cause and effect.
+     */
+    if (simulateWindow) {
+      // Simulate window object using jsdom
+      const url = `${this.settings.appUrl}${pathname}`
+      const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', { url })
+
+      const r = populateGlobal(globalThis, dom.window, { bindFunctions: true })
+
+      this.revertGlobal = r.revert
+    }
   }
 
-  revertWindow() {
+  revertGlobals() {
+    crossVar.delete('IS_VITE')
+
     this.revertGlobal?.()
   }
 
@@ -115,7 +126,7 @@ export class SSR extends FictionObject<SSRSettings> {
   async render(args: { pathname: string, mode: 'dev' | 'prod' | 'test', runVars: Partial<RunVars> }): Promise<RenderedHtmlParts> {
     const { pathname, mode, runVars } = args
     try {
-      this.startWindow({ pathname })
+      this.startGlobals({ pathname })
       if (mode === 'prod')
         return await this.renderProd({ pathname, runVars })
       else
@@ -126,7 +137,7 @@ export class SSR extends FictionObject<SSRSettings> {
       return this.init()
     }
     finally {
-      this.revertWindow()
+      this.revertGlobals()
     }
   }
 }

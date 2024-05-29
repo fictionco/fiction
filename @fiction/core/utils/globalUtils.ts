@@ -93,12 +93,12 @@ export function populateGlobal(global: any, win: any, options: PopulateOptions =
       else
         global[key] = value
     }
+
+    global.window = undefined
+    global.self = undefined
+    global.top = undefined
+    global.parent = undefined
   }
 
-  return {
-    keys,
-    skipKeys,
-    originals,
-    revert,
-  }
+  return { keys, skipKeys, originals, revert }
 }

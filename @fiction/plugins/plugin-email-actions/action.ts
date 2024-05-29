@@ -1,7 +1,8 @@
 import type { EndpointMeta, EndpointResponse, TransactionalEmailConfig, User, vue } from '@fiction/core'
 import { FictionObject, abort, deepMerge } from '@fiction/core'
-import { createUserToken } from '@fiction/core/utils/jwt'
 import { getFromAddress } from '@fiction/core/utils/email'
+import type { EmailResponse } from '@fiction/core/plugin-email/endpoint'
+import { createEmailVars } from './utils'
 import type { FictionEmailActions } from '.'
 
 export type EmailVars = {
@@ -9,8 +10,7 @@ export type EmailVars = {
   appName: string
   code: string
   callbackUrl: string
-  firstName: string
-  lastName: string
+  fullName: string
   email: string
   userId: string
   username: string
@@ -48,10 +48,11 @@ export type SendArgsRequest<T extends SendArgsSurface = SendArgsSurface > = {
   fields?: T['fields']
   origin?: string
   redirect?: string
+  baseRoute?: string
 }
 
-type SendEmailArgs<T extends SendArgsSurface = SendArgsSurface > = {
-  recipient?: Partial<User>
+export type SendEmailArgs<T extends SendArgsSurface = SendArgsSurface > = {
+  recipient: Partial<User>
   isNew?: boolean
 } & Partial<SendArgsRequest<T>>
 
@@ -105,64 +106,20 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
     }
   }
 
-  emailVars?: EmailVars
-  async createEmailVars(args: SendEmailArgs): Promise<EmailVars> {
-    const { recipient, origin, queryVars = {}, redirect } = args
-
-    const fictionEmailActions = this.fictionEmailActions
-    const fictionApp = fictionEmailActions?.settings.fictionApp
-    const fictionEmail = fictionEmailActions?.settings.fictionEmail
-    const tokenSecret = fictionEmailActions?.settings.fictionUser.settings.tokenSecret
-    if (!tokenSecret)
-      throw abort('no tokenSecret provided')
-
-    const originUrl = origin || fictionApp?.appUrl.value || ''
-    let token = ''
-    if (recipient)
-      token = queryVars.token = createUserToken({ user: recipient, tokenSecret })
-
-    if (redirect)
-      queryVars.redirect = encodeURIComponent(redirect)
-
-    const queryParams = new URLSearchParams(queryVars).toString()
-    const callbackBase = `${originUrl}/_action`
-    const callbackUrl = `${callbackBase}/${this.settings.actionId}/?${queryParams}`
-    const { firstName, lastName, email, userId, username } = recipient || {}
-
-    const emailVars: EmailVars = {
-      actionId: this.settings.actionId,
-      callbackUrl,
-      redirect: redirect || '',
-      firstName: firstName || '',
-      lastName: lastName || '',
-      email: email || '',
-      userId: userId || '',
-      username: username || '',
-      token,
-      originUrl: originUrl || '',
-      unsubscribeUrl: `${callbackBase}/unsubscribe`,
-      appName: fictionEmail?.settings.fictionEnv.meta.app?.name || '',
-      code: 'NOT_PROVIDED',
-      ...queryVars,
-    }
-
-    this.emailVars = emailVars
-
-    return emailVars
-  }
-
-  async serveSend(args: SendEmailArgs) {
+  async serveSend(args: SendEmailArgs, _meta: EndpointMeta): Promise<EndpointResponse<EmailResponse> & { emailVars: EmailVars }> {
     const fictionEmail = this.fictionEmailActions?.settings.fictionEmail
-    if (!fictionEmail)
+    if (!fictionEmail || !this.fictionEmailActions)
       throw abort('no fictionEmail provided')
 
-    const emailVars = await this.createEmailVars(args)
+    const emailVars = await createEmailVars({ ...args, fictionEmailActions: this.fictionEmailActions, actionId: this.settings.actionId })
 
     const userEmail = await this.settings.emailConfig(emailVars)
     const defaultEmail = await this.defaultConfig()
     const finalEmail = deepMerge([defaultEmail, userEmail])
 
-    return await fictionEmail.sendTransactional(finalEmail)
+    const r = await fictionEmail.sendTransactional(finalEmail)
+
+    return { ...r, emailVars }
   }
 
   async requestSend(args: T['sendArgs']): Promise<T['sendResponse']> {
