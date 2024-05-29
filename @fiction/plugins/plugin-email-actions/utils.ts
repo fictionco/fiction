@@ -4,7 +4,7 @@ import type { EmailVars, SendEmailArgs } from './action'
 import type { FictionEmailActions } from '.'
 
 export async function createEmailVars(args: SendEmailArgs & { actionId: string, fictionEmailActions: FictionEmailActions }): Promise<EmailVars> {
-  const { actionId, recipient, origin, queryVars = {}, redirect, baseRoute = '/', fictionEmailActions } = args
+  const { actionId, recipient, origin, queryVars = {}, redirect, baseRoute = '', fictionEmailActions } = args
   const { fictionApp, fictionEmail, fictionUser } = fictionEmailActions?.settings || {}
   const tokenSecret = fictionUser?.settings.tokenSecret
 
@@ -16,7 +16,7 @@ export async function createEmailVars(args: SendEmailArgs & { actionId: string, 
 
   const originUrl = origin || fictionApp?.appUrl.value || ''
   const cleanPath = (_: string) => _.replace(/^\/|\/$/g, '')
-  const buildUrl = (...parts: string[]) => parts.filter(Boolean).map(cleanPath).join('/')
+  const buildUrl = (...parts: string[]) => parts.filter(_ => _ && _ !== '/').map(cleanPath).join('/')
 
   const callbackHref = buildUrl(originUrl, baseRoute, '_action', toSlug(actionId))
   const unsubscribeUrl = buildUrl(originUrl, baseRoute, '_action', 'unsubscribe')
@@ -24,6 +24,8 @@ export async function createEmailVars(args: SendEmailArgs & { actionId: string, 
   const v: Record<string, string> = args.queryVars || {}
   if (recipient) {
     v.token = createUserToken({ user: recipient, tokenSecret })
+    v.code = recipient.verify?.code || ''
+    v.email = recipient.email || ''
   }
 
   if (redirect) {
