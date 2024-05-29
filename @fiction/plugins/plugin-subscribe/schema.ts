@@ -12,46 +12,26 @@ const subscribeColumns = [
   new FictionDbCol({
     key: 'subscribeId',
     isComposite: true,
-    create: ({ schema }) => schema.primary(['publication_id', 'email']),
+    create: ({ schema }) => schema.primary(['org_id', 'user_id']),
     default: () => '' as string,
   }),
   new FictionDbCol({
-    key: 'email',
-    create: ({ schema, column }) => schema.string(column.pgKey, 50).notNullable().index(),
-    default: () => '' as string,
-    zodSchema: ({ z }) => z.string(),
-  }),
-  new FictionDbCol({
-    key: 'subscriberId',
-    create: ({ schema, column }) => schema.string(column.pgKey, 32).references(`fiction_user.user_id`).onUpdate('CASCADE'),
+    key: 'userId',
+    create: ({ schema, column }) => schema.string(column.pgKey, 32).references(`fiction_user.user_id`).onUpdate('CASCADE').notNullable().index(),
     default: () => '',
   }),
   new FictionDbCol({
-    key: 'publicationId',
+    key: 'orgId',
     create: ({ schema, column }) => schema.string(column.pgKey, 50).references(`${t.org}.orgId`).onUpdate('CASCADE').notNullable().index(),
     default: () => '' as string,
     zodSchema: ({ z }) => z.string(),
   }),
-  new FictionDbCol({
-    key: 'code',
-    create: ({ schema, column }) => schema.string(column.pgKey, 50),
-    default: () => '' as string,
-    zodSchema: ({ z }) => z.string(),
-  }),
-  new FictionDbCol({
-    key: 'isVerified',
-    create: ({ schema, column }) => schema.boolean(column.pgKey).defaultTo(false),
-    default: () => false as boolean,
-    zodSchema: ({ z }) => z.boolean(),
-  }),
-
   new FictionDbCol({
     key: 'level',
     create: ({ schema, column }) => schema.string(column.pgKey).defaultTo('standard'),
     default: () => '' as string,
     zodSchema: ({ z }) => z.string(),
   }),
-
   new FictionDbCol({
     key: 'status',
     create: ({ schema, column }) => schema.string(column.pgKey, 50),
@@ -61,5 +41,5 @@ const subscribeColumns = [
 ] as const
 
 export const tables = [
-  new FictionDbTable({ tableKey: t.subscribe, timestamps: true, columns: subscribeColumns }),
+  new FictionDbTable({ tableKey: t.subscribe, timestamps: true, columns: subscribeColumns, onCreate: t => t.unique(['user_id', 'org_id']) }),
 ]

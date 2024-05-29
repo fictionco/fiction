@@ -1,0 +1,273 @@
+{
+  "person": {
+    "id": "610977db13377f0001989700",
+    "first_name": "Andrew",
+    "last_name": "P",
+    "name": "Andrew P",
+    "linkedin_url": null,
+    "title": "CEO",
+    "email_status": null,
+    "photo_url": "https://media.licdn.com/dms/image/D5603AQGlf9ZK23aMDw/profile-displayphoto-shrink_200_200/0/1695958792716?e=2147483647&v=beta&t=J5WaspaUo5vBQt-SOBSUyQUqxPn8yiHh7T3mn69vD_A",
+    "twitter_url": null,
+    "github_url": null,
+    "facebook_url": null,
+    "extrapolated_email_confidence": null,
+    "headline": "CEO @ Fiction.com",
+    "email": "arpowers@gmail.com",
+    "organization_id": "639c09a1ff255100a386f1c7",
+    "employment_history": [
+      {
+        "_id": "665762573346640001bd0825",
+        "created_at": null,
+        "current": true,
+        "degree": null,
+        "description": null,
+        "emails": null,
+        "end_date": null,
+        "grade_level": null,
+        "kind": null,
+        "major": null,
+        "organization_id": "639c09a1ff255100a386f1c7",
+        "organization_name": "Fiction.com",
+        "raw_address": null,
+        "start_date": "2022-09-01",
+        "title": "CEO",
+        "updated_at": null,
+        "id": "665762573346640001bd0825",
+        "key": "665762573346640001bd0825"
+      },
+      {
+        "_id": "665762573346640001bd0826",
+        "created_at": null,
+        "current": true,
+        "degree": null,
+        "description": null,
+        "emails": null,
+        "end_date": null,
+        "grade_level": null,
+        "kind": null,
+        "major": null,
+        "organization_id": "54a1273769702d979cbc6000",
+        "organization_name": "PageLines",
+        "raw_address": null,
+        "start_date": "2009-11-01",
+        "title": "Founder / CEO",
+        "updated_at": null,
+        "id": "665762573346640001bd0826",
+        "key": "665762573346640001bd0826"
+      }
+    ],
+    "state": "California",
+    "city": "Los Angeles",
+    "country": "United States",
+    "restricted": true,
+    "organization": {
+      "id": "639c09a1ff255100a386f1c7",
+      "name": "Fiction.com",
+      "website_url": "http://www.fiction.com",
+      "blog_url": null,
+      "angellist_url": null,
+      "linkedin_url": "http://www.linkedin.com/company/fiction-com",
+      "twitter_url": null,
+      "facebook_url": null,
+      "primary_phone": {
+        "number": "+1(801) 694-3985",
+        "source": "Account",
+        "sanitized_number": "+18016943985"
+      },
+      "languages": [],
+      "alexa_ranking": null,
+      "phone": "+1(801) 694-3985",
+      "linkedin_uid": "89781838",
+      "founded_year": 2022,
+      "publicly_traded_symbol": null,
+      "publicly_traded_exchange": null,
+      "logo_url": "https://zenprospect-production.s3.amazonaws.com/uploads/pictures/6652cbd47554810001be2d23/picture",
+      "crunchbase_url": null,
+      "primary_domain": "fiction.com",
+      "sanitized_phone": "+18016943985",
+      "industry": "information technology & services",
+      "keywords": [
+        "ai",
+        "generative ai",
+        "ai media",
+        "ai video"
+      ],
+      "estimated_num_employees": 3,
+      "industries": [
+        "information technology & services"
+      ],
+      "secondary_industries": [],
+      "snippets_loaded": true,
+      "industry_tag_id": "5567cd4773696439b10b0000",
+      "industry_tag_hash": {
+        "information technology & services": "5567cd4773696439b10b0000"
+      },
+      "retail_location_count": 0,
+      "raw_address": "200 Spectrum Center Dr, Irvine, California 92618, US",
+      "street_address": "200 Spectrum Center Drive",
+      "city": "Irvine",
+      "state": "California",
+      "postal_code": "92618",
+      "country": "United States",
+      "owned_by_organization_id": null,
+      "suborganizations": [],
+      "num_suborganizations": 0,
+      "seo_description": "Professional AI generated images, videos and audio. Fiction is a platform for AI Generated Media. Install apps to create avatars, animations, models, and more.",
+      "short_description": "Create incredible content with cutting edge software and AI",
+      "total_funding": null,
+      "total_funding_printed": null,
+      "latest_funding_round_date": null,
+      "latest_funding_stage": null,
+      "funding_events": [],
+      "technology_names": [
+        "Active Campaign",
+        "Android",
+        "Basis",
+        "CloudFlare Hosting",
+        "Cloudflare DNS",
+        "Data Analytics",
+        "Flutter",
+        "Gmail",
+        "Google Apps",
+        "Google Tag Manager",
+        "Mobile Friendly",
+        "Netlify",
+        "Nginx",
+        "Python",
+        "Render",
+        "Reviews",
+        "SendInBlue",
+        "Twilio",
+        "Typekit"
+      ],
+      "current_technologies": [
+        {
+          "uid": "active_campaign",
+          "name": "Active Campaign",
+          "category": "Marketing Automation"
+        },
+        {
+          "uid": "android",
+          "name": "Android",
+          "category": "Frameworks and Programming Languages"
+        },
+        {
+          "uid": "basis",
+          "name": "Basis",
+          "category": "Advertising Networks"
+        },
+        {
+          "uid": "cloudflare_hosting",
+          "name": "CloudFlare Hosting",
+          "category": "Hosting"
+        },
+        {
+          "uid": "cloudflare_dns",
+          "name": "Cloudflare DNS",
+          "category": "Domain Name Services"
+        },
+        {
+          "uid": "data analytics",
+          "name": "Data Analytics",
+          "category": "Analytics and Tracking"
+        },
+        {
+          "uid": "flutter",
+          "name": "Flutter",
+          "category": "Frameworks and Programming Languages"
+        },
+        {
+          "uid": "gmail",
+          "name": "Gmail",
+          "category": "Email Providers"
+        },
+        {
+          "uid": "google_apps",
+          "name": "Google Apps",
+          "category": "Other"
+        },
+        {
+          "uid": "google_tag_manager",
+          "name": "Google Tag Manager",
+          "category": "Tag Management"
+        },
+        {
+          "uid": "mobile_friendly",
+          "name": "Mobile Friendly",
+          "category": "Other"
+        },
+        {
+          "uid": "netlify",
+          "name": "Netlify",
+          "category": "CMS"
+        },
+        {
+          "uid": "nginx",
+          "name": "Nginx",
+          "category": "Load Balancers"
+        },
+        {
+          "uid": "python",
+          "name": "Python",
+          "category": "Frameworks and Programming Languages"
+        },
+        {
+          "uid": "render",
+          "name": "Render",
+          "category": "Other"
+        },
+        {
+          "uid": "reviews",
+          "name": "Reviews",
+          "category": "Customer Reviews"
+        },
+        {
+          "uid": "sendinblue",
+          "name": "SendInBlue",
+          "category": "Email Marketing"
+        },
+        {
+          "uid": "twilio",
+          "name": "Twilio",
+          "category": "Other"
+        },
+        {
+          "uid": "typekit",
+          "name": "Typekit",
+          "category": "Fonts"
+        }
+      ],
+      "org_chart_root_people_ids": [
+        "610977db13377f0001989700"
+      ],
+      "org_chart_sector": "OrgChart::SectorHierarchy::Rules::IT",
+      "org_chart_removed": true,
+      "org_chart_show_department_filter": true
+    },
+    "is_likely_to_engage": false,
+    "phone_numbers": [
+      {
+        "raw_number": "+1(801) 694-3985",
+        "sanitized_number": "+18016943985",
+        "type": "work_hq",
+        "position": 0,
+        "status": "no_status",
+        "dnc_status": null,
+        "dnc_other_info": null,
+        "dialer_flags": null
+      }
+    ],
+    "intent_strength": null,
+    "show_intent": false,
+    "revealed_for_current_team": true,
+    "departments": [
+      "c_suite"
+    ],
+    "subdepartments": [
+      "executive"
+    ],
+    "functions": [],
+    "seniority": "c_suite"
+  }
+}

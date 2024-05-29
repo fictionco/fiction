@@ -1,8 +1,10 @@
 import type { FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
 import { FictionPlugin, safeDirname } from '@fiction/core'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
+import type { FictionEmailActions } from '@fiction/plugin-email-actions'
 import { tables } from './schema'
 import { ManageSubscriptionQuery } from './endpoint'
+import { getEmails } from './email'
 
 export * from './schema'
 
@@ -13,6 +15,7 @@ type FictionSubscribeSettings = {
   fictionEnv: FictionEnv
   fictionUser: FictionUser
   fictionMonitor: FictionMonitor
+  fictionEmailActions: FictionEmailActions
 } & FictionPluginSettings
 
 export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
@@ -26,16 +29,10 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
     fictionUser: this.settings.fictionUser,
   })
 
+  emailActions = getEmails({ fictionSubscribe: this })
+
   constructor(settings: FictionSubscribeSettings) {
     super('FictionSubscribe', { root: safeDirname(import.meta.url), ...settings })
     this.settings.fictionDb?.addTables(tables)
-  }
-
-  async subscribeEmail(args: { email: string, publicationId: string }) {
-    const { email, publicationId } = args
-
-    const result = await this.requests.ManageSubscription.request({ _action: 'create', email, publicationId })
-
-    return result
   }
 }

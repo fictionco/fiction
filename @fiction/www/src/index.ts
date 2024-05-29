@@ -13,6 +13,7 @@ import { FictionAdmin } from '@fiction/admin'
 import FSite from '@fiction/cards/CardSite.vue'
 import { FictionAi } from '@fiction/plugin-ai'
 import { FictionExtend } from '@fiction/plugin-extend'
+import { FictionSubscribe } from '@fiction/plugin-subscribe'
 import { version } from '../package.json'
 import { getExtensionIndex, getThemes } from './extend'
 
@@ -20,26 +21,15 @@ import { commands } from './commands'
 
 const cwd = safeDirname(import.meta.url, '..')
 
-const meta = { version, app: {
-  name: 'Fiction',
-  email: 'admin@fiction.com',
-  url: `https://www.fiction.com`,
-  domain: `fiction.com`,
-} }
+const meta = { version, app: { name: 'Fiction', email: 'admin@fiction.com', url: `https://www.fiction.com`, domain: `fiction.com` } }
 const appUrl = `https://www.${meta.app.domain}`
 const appUrlSites = `https://*.${meta.app.domain}`
 
 const envFiles = [path.join(apiRoot, './.env')]
+const mainFilePath = path.join(cwd, './src/index.ts')
 
-const fictionEnv = new FictionEnv({
-  cwd,
-  envFiles,
-  envFilesProd: envFiles,
-  mainFilePath: path.join(cwd, './src/index.ts'),
-  version,
-  commands,
-  meta,
-})
+const fictionEnv = new FictionEnv({ cwd, envFiles, envFilesProd: envFiles, mainFilePath, version, commands, meta })
+const v = (key: string) => fictionEnv.var(key)
 
 const comboPort = +fictionEnv.var('APP_PORT', { fallback: 4444 })
 
@@ -94,69 +84,23 @@ const fictionServer = new FictionServer({ fictionEnv, serverName: 'FictionMain',
 const fictionDb = new FictionDb({ fictionEnv, fictionServer, connectionUrl: fictionEnv.var('POSTGRES_URL') })
 const fictionEmail = new FictionEmail({ fictionEnv, smtpHost: fictionEnv.var('SMTP_HOST'), smtpPassword: fictionEnv.var('SMTP_PASSWORD'), smtpUser: fictionEnv.var('SMTP_USER') })
 
-const fictionUser = new FictionUser({
-  fictionEnv,
-  fictionServer,
-  fictionDb,
-  fictionEmail,
-  fictionRouter,
-  googleClientId: fictionEnv.var('GOOGLE_CLIENT_ID'),
-  googleClientSecret: fictionEnv.var('GOOGLE_CLIENT_SECRET'),
-  tokenSecret: fictionEnv.var('TOKEN_SECRET'),
-})
+const base = { fictionEnv, fictionApp, fictionServer, fictionDb, fictionEmail, fictionRouter }
+
+const fictionUser = new FictionUser({ ...base, googleClientId: v('GOOGLE_CLIENT_ID'), googleClientSecret: v('GOOGLE_CLIENT_SECRET'), tokenSecret: v('TOKEN_SECRET') })
 
 fictionUser.events.on('logout', () => {
   fictionEnv.events.emit('notify', { type: 'success', message: 'You have been logged out.' })
 })
 
-const fictionMonitor = new FictionMonitor({
-  fictionApp,
-  fictionEmail,
-  fictionEnv,
-  fictionUser,
-  slackWebhookUrl: fictionEnv.var('SLACK_WEBHOOK_URL'),
-  sentryPublicDsn: fictionEnv.var('SENTRY_PUBLIC_DSN'),
-})
+const fictionMonitor = new FictionMonitor({ ...base, fictionUser, slackWebhookUrl: v('SLACK_WEBHOOK_URL'), sentryPublicDsn: v('SENTRY_PUBLIC_DSN') })
 
-const basicService = {
-  fictionEnv,
-  fictionApp,
-  fictionRouter,
-  fictionServer,
-  fictionDb,
-  fictionUser,
-  fictionEmail,
-  fictionMonitor,
-}
+const basicService = { ...base, fictionUser, fictionMonitor }
 
-const fictionAws = new FictionAws({
-  ...basicService,
-  awsAccessKey: fictionEnv.var('AWS_ACCESS_KEY'),
-  awsAccessKeySecret: fictionEnv.var('AWS_ACCESS_KEY_SECRET'),
-})
-
-const fictionMedia = new FictionMedia({
-  ...basicService,
-  fictionAws,
-  bucket: 'factor-tests',
-})
-
+const fictionAws = new FictionAws({ ...basicService, awsAccessKey: v('AWS_ACCESS_KEY'), awsAccessKeySecret: v('AWS_ACCESS_KEY_SECRET') })
+const fictionMedia = new FictionMedia({ ...basicService, fictionAws, bucket: 'factor-tests' })
 const fictionEmailActions = new FictionEmailActions({ ...basicService, fictionMedia })
-
-const fictionAi = new FictionAi({
-  ...basicService,
-  fictionMedia,
-  pineconeApiKey: fictionEnv.var('PINECONE_API_KEY'),
-  pineconeEnvironment: fictionEnv.var('PINECONE_ENVIRONMENT'),
-  pineconeIndex: fictionEnv.var('PINECONE_INDEX'),
-  openaiApiKey: fictionEnv.var('OPENAI_API_KEY'),
-})
-
-const fictionAdmin = new FictionAdmin({
-  ...basicService,
-  fictionEmailActions,
-  fictionMedia,
-})
+const fictionAi = new FictionAi({ ...basicService, fictionMedia, pineconeApiKey: v('PINECONE_API_KEY'), pineconeEnvironment: v('PINECONE_ENVIRONMENT'), pineconeIndex: v('PINECONE_INDEX'), openaiApiKey: v('OPENAI_API_KEY') })
+const fictionAdmin = new FictionAdmin({ ...basicService, fictionEmailActions, fictionMedia })
 
 const pluginServices = {
   ...basicService,
@@ -168,6 +112,8 @@ const pluginServices = {
   fictionEmailActions,
   fictionAdmin,
 }
+
+const fictionSubscribe = new FictionSubscribe({ ...pluginServices })
 
 const fictionStripe = new FictionStripe({
   ...pluginServices,
@@ -221,7 +167,8 @@ const fictionTeam = new FictionTeam({ ...pluginServices })
 
 const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp, fictionAppSites] })
 
-export const service = { ...pluginServices, fictionSites, fictionTeam, fictionUi, fictionStripe }
+export const service = { ...pluginServices, fictionSites, fictionTeam, fictionUi, fictionStripe, fictionSubscribe }
+
 export type ServiceList = typeof service
 
 const fictionExtend = new FictionExtend({ ...service, extensionIndex: getExtensionIndex(service) })

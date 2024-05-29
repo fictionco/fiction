@@ -18,13 +18,13 @@ export async function isValid(value: string, type: ValidationTypes): Promise<boo
 }
 
 export function prepareFields<T >(args: {
-  type: 'create' | 'settings' | 'internal' | 'returnInfo'
+  type?: 'create' | 'settings' | 'internal' | 'returnInfo'
   fields: T
   table: string
   meta?: EndpointMeta
   fictionDb: FictionDb
 }): Partial<T> {
-  const { type, fields, meta, table, fictionDb } = args
+  const { type = 'settings', fields, meta, table, fictionDb } = args
 
   if (!fields || typeof fields !== 'object')
     return fields
