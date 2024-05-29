@@ -22,11 +22,10 @@ export async function createEmailVars(args: SendEmailArgs & { actionId: string, 
   const unsubscribeUrl = buildUrl(originUrl, baseRoute, '_action', 'unsubscribe')
 
   const v: Record<string, string> = args.queryVars || {}
-  if (recipient) {
-    v.token = createUserToken({ user: recipient, tokenSecret })
-    v.code = recipient.verify?.code || ''
-    v.email = recipient.email || ''
-  }
+
+  v.token = createUserToken({ user: recipient, tokenSecret })
+  v.code = recipient.verify?.code || ''
+  v.email = recipient.email || ''
 
   if (redirect) {
     v.redirect = redirect
@@ -44,11 +43,11 @@ export async function createEmailVars(args: SendEmailArgs & { actionId: string, 
     userId,
     username,
     token: v.token || '',
+    code: v.code || 'NOT_PROVIDED',
     originUrl,
     callbackUrl,
     unsubscribeUrl,
     appName: fictionEmail?.settings.fictionEnv.meta.app?.name || '',
-    code: 'NOT_PROVIDED',
     ...queryVars,
   }
 }

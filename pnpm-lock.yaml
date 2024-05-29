@@ -3675,8 +3675,8 @@ packages:
   '@types/estree@1.0.5':
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
 
-  '@types/express-serve-static-core@4.19.1':
-    resolution: {integrity: sha512-ej0phymbFLoCB26dbbq5PGScsf2JAJ4IJHjG10LalgUV36XKTmA4GdA+PVllKvRk0sEKt64X8975qFnkSi0hqA==}
+  '@types/express-serve-static-core@4.19.2':
+    resolution: {integrity: sha512-dPSEQElyVJ97BuGduAqQjpBocZWAs0GR94z+ptL7JXQJeJdHw2WBG3EWdFrK36b8Q6j8P4cXOMhgUoi0IIfIsg==}
 
   '@types/express@4.17.21':
     resolution: {integrity: sha512-ejlPM315qwLpaQlQDTjPdsUFSc6ZsP4AN6AlWnogPjQ7CVi7PYF3YVz+CY3jE2pwYf7E/7HlDAN0rV2GxTG0HQ==}
@@ -5164,8 +5164,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  electron-to-chromium@1.4.783:
-    resolution: {integrity: sha512-bT0jEz/Xz1fahQpbZ1D7LgmPYZ3iHVY39NcWWro1+hA2IvjiPeaXtfSqrQ+nXjApMvQRE2ASt1itSLRrebHMRQ==}
+  electron-to-chromium@1.4.784:
+    resolution: {integrity: sha512-9CZwh+sDrhDAeOEFh8s3PqwduzTyYIeYwZolc1b9ENAUt3ePu7R1sJSCWr/820ISssRxCJUyHI9Wb7j+0Uo1AA==}
 
   elliptic@6.5.5:
     resolution: {integrity: sha512-7EjbcmUm17NQFu4Pmgmq2olYMj8nwMnpcddByChSUjArp8F5DQWcIcpriwO4ZToLNAJig0yiyjswfyGNje/ixw==}
@@ -12487,7 +12487,7 @@ snapshots:
 
   '@types/estree@1.0.5': {}
 
-  '@types/express-serve-static-core@4.19.1':
+  '@types/express-serve-static-core@4.19.2':
     dependencies:
       '@types/node': 20.12.13
       '@types/qs': 6.9.15
@@ -12497,7 +12497,7 @@ snapshots:
   '@types/express@4.17.21':
     dependencies:
       '@types/body-parser': 1.19.5
-      '@types/express-serve-static-core': 4.19.1
+      '@types/express-serve-static-core': 4.19.2
       '@types/qs': 6.9.15
       '@types/serve-static': 1.15.7
 
@@ -13447,7 +13447,7 @@ snapshots:
   browserslist@4.23.0:
     dependencies:
       caniuse-lite: 1.0.30001625
-      electron-to-chromium: 1.4.783
+      electron-to-chromium: 1.4.784
       node-releases: 2.0.14
       update-browserslist-db: 1.0.16(browserslist@4.23.0)
 
@@ -14168,7 +14168,7 @@ snapshots:
     dependencies:
       jake: 10.9.1
 
-  electron-to-chromium@1.4.783: {}
+  electron-to-chromium@1.4.784: {}
 
   elliptic@6.5.5:
     dependencies:

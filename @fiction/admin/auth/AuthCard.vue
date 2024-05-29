@@ -98,7 +98,7 @@ const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length
           </template>
         </div>
       </template>
-      <ElForm class="space-y-7" @submit="sendMagicLink()">
+      <ElForm class="space-y-7" data-test-id="form" :data-value="JSON.stringify(fields)" @submit="sendMagicLink()">
         <EffectTransitionList>
           <template v-if="itemId === 'confirm'">
             <div class="text-balance text-center text-lg text-theme-700 dark:text-theme-100">

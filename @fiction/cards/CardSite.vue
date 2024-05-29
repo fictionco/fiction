@@ -16,7 +16,7 @@ const props = defineProps({
   siteRouter: { type: Object as vue.PropType<FictionRouter>, default: undefined },
 })
 
-const { fictionSites, runVars, fictionRouterSites } = useService<{ fictionSites: FictionSites, fictionRouterSites: FictionRouter }>()
+const { fictionSites, runVars, fictionRouterSites, fictionUser } = useService<{ fictionSites: FictionSites, fictionRouterSites: FictionRouter }>()
 
 const loading = vue.ref(false)
 const site = vue.shallowRef<Site>()
@@ -143,6 +143,10 @@ vue.onServerPrefetch(async () => {
 })
 
 vue.onMounted(async () => {
+
+})
+
+vue.onMounted(async () => {
   unhead.useHead({
     bodyAttrs: { class: () => site.value?.isDarkMode.value ? 'dark' : 'light' },
   })
@@ -192,6 +196,7 @@ const primary = vue.computed(() => site.value?.colors.value.primary || getColorS
     :data-theme-id="site?.themeId.value ?? '-'"
     :data-sub-domain="site?.subDomain.value ?? '-'"
     :data-site-id="site?.siteId ?? '-'"
+    :data-user-email="fictionUser.activeUser.value?.email ?? '-'"
     class="x-site bg-theme-50 dark:bg-theme-900 text-theme-900 dark:text-theme-0"
   >
     <div class="x-font-body x-site-content relative z-10 bg-theme-0 dark:bg-theme-950" :class="site?.isEditable.value ? '' : ''">

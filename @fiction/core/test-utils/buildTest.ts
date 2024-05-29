@@ -39,11 +39,26 @@ export async function createTestBrowser(args: { headless: boolean, slowMo?: numb
   const { chromium } = await import('playwright')
   const browser = await chromium.launch({ headless, slowMo })
 
-  const page = await browser?.newPage()
+  const context = await browser.newContext()
+  const page: Page = await context.newPage()
 
   return {
     browser,
     page,
+    reset: async () => {
+      try {
+        // clear cookies and local storage
+        await context.clearCookies()
+        await context.clearPermissions()
+        await page.evaluate(() => {
+          localStorage.clear()
+          sessionStorage.clear()
+        })
+      }
+      catch (error) {
+        console.error('Error resetting the context:', error)
+      }
+    },
     close: async () => {
       try {
         // destroy everything
@@ -130,11 +145,12 @@ export async function createTestServer(params: {
 }
 
 type TestPageAction = {
-  type: 'visible' | 'click' | 'type' | 'keyboard' | 'exists' | 'count'
+  type: 'visible' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'value'
   selector: string
   text?: string
   key?: string
   wait?: number
+  callback?: (value?: string) => void
 }
 
 export async function performActions(args: {
@@ -174,9 +190,10 @@ export async function performActions(args: {
           await element.click()
           break
         }
-        case 'type': {
-          logger.info('TYPE_TEXT', { data: { selector: action.selector, text: action.text } })
-          await element.type(action.text || '')
+        case 'fill': {
+          const exists = await element.count()
+          logger.info('FILL_TEXT', { data: { selector: action.selector, text: action.text, exists } })
+          await element.fill(action.text || '')
           break
         }
         case 'keyboard': {
@@ -200,6 +217,13 @@ export async function performActions(args: {
           const cnt = await element.count()
           logger.info('CNT', { data: { result: cnt, selector: action.selector } })
           expect(cnt, `${action.selector} count ${cnt}`).toBe(cnt)
+          break
+        }
+        case 'value': {
+          const value = await element.evaluate(el => el.dataset.value)
+          logger.info('VALUE', { data: { result: value, selector: action.selector } })
+
+          action.callback?.(value)
           break
         }
       }

@@ -20,8 +20,6 @@ export class FictionDevRestart extends FictionPlugin {
   }): Promise<void> => {
     const { command, config } = args
 
-    const { default: nodemon } = await import('nodemon')
-
     const defaultConfig = {
       verbose: true,
       ignore: [
@@ -55,6 +53,7 @@ export class FictionDevRestart extends FictionPlugin {
 
     this.log.info(`running [${runScript}]`, { data: fullConfig })
 
+    const { default: nodemon } = await import('nodemon')
     /**
      * The nodemon function takes either an object (that matches the nodemon config)
      * or can take a string that matches the arguments that would be used on the command line

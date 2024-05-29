@@ -32,6 +32,7 @@ export async function createUiTestingKit<T extends MainFileSetup = MainFileSetup
 
   const browser = await createTestBrowser({ headless: headlessActual, slowMo })
 
+
   const close = async () => {
     await browser?.close()
     await testUtils?.close?.()

@@ -17,7 +17,7 @@ function safeReplace(str: string, pattern: string | undefined, replacement: stri
 }
 
 export function emailActionSnapshot(str: string, emailVars: Partial<EmailVars> = {}): string {
-  const { token, email, code, userId, username, callbackUrl, originUrl, unsubscribeUrl } = emailVars
+  const { token, email, code, userId, username, callbackUrl, originUrl, unsubscribeUrl, fullName } = emailVars
 
   // Function to replace port numbers in URLs
   const replacePortInUrl = (url: string) => url.replace(/:(\d+)/, ':[port]')
@@ -25,9 +25,10 @@ export function emailActionSnapshot(str: string, emailVars: Partial<EmailVars> =
   // Perform replacements only if variables are defined and non-empty
   str = safeReplace(str, token, '[token]')
   str = safeReplace(str, email, '[email]')
-  str = safeReplace(str, code, '[code]')
+  str = safeReplace(str, code, `[code]`)
   str = safeReplace(str, userId, '[userId]')
   str = safeReplace(str, username, '[username]')
+  str = safeReplace(str, fullName, '[fullName]')
   str = callbackUrl ? safeReplace(str, callbackUrl, replacePortInUrl(callbackUrl)) : str
   str = originUrl ? safeReplace(str, originUrl, replacePortInUrl(originUrl)) : str
   str = unsubscribeUrl ? safeReplace(str, unsubscribeUrl, replacePortInUrl(unsubscribeUrl)) : str
