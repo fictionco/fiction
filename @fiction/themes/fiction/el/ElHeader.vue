@@ -43,18 +43,18 @@ const btnClass = `hover:bg-theme-200 dark:hover:bg-primary-950 cursor-pointer ro
 vue.onMounted(async () => {
   const user = await fictionUser.userInitialized({ caller: 'ElHeader' })
 
-  if (!user) {
-    await googleOneTap({
-      fictionUser,
-      callback: async (r) => {
-        const email = r.user?.email
-        if (r.user && r.isNew && email) {
-          // if (r.code) {
-          // }
-        }
-      },
-    })
-  }
+  // if (!user) {
+  //   await googleOneTap({
+  //     fictionUser,
+  //     callback: async (r) => {
+  //       const email = r.user?.email
+  //       if (r.user && r.isNew && email) {
+  //         // if (r.code) {
+  //         // }
+  //       }
+  //     },
+  //   })
+  // }
 })
 
 const accountMenu = vue.computed((): NavItem[] => {
@@ -126,10 +126,7 @@ const accountMenu = vue.computed((): NavItem[] => {
                 Sign Up
               </XElement>
             </template>
-            <div
-              id="google-signin-prompt"
-              class="absolute right-0 top-full"
-            />
+
             <button
 
               type="button"

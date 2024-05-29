@@ -23,7 +23,7 @@ export type ThemeSettings<T extends Record<string, unknown> = Record<string, unk
   sections?: () => Record<string, TableCardConfig>
   templateDefaults?: {
     page?: string
-    transactional?: string
+    transaction?: string
   }
 } & FictionPluginSettings
 
@@ -37,7 +37,7 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
   templates = this.settings.templates
   ui = { button: { el: ElButton }, ...this.settings.ui }
   pages = this.settings.pages
-  templateDefaults = vue.computed(() => ({ page: 'wrap', transactional: 'wrap', ...this.settings.templateDefaults }))
+  templateDefaults = vue.computed(() => ({ page: 'wrap', transaction: 'transaction', ...this.settings.templateDefaults }))
 
   constructor(settings: ThemeSettings<T>) {
     super('Theme', settings)

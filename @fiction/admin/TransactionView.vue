@@ -9,6 +9,7 @@ import EffectShootingStar from '@fiction/ui/effect/EffectShootingStar.vue'
 export type UserConfig = { logo?: MediaDisplayObject, termsUrl?: string, privacyUrl?: string }
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
+  quote: { type: Object as vue.PropType<{ text: string, author: string }>, default: () => ({ quote: '', author: '' }) },
 })
 const site = vue.computed(() => props.card.site)
 const uc = vue.computed(() => props.card.userConfig.value)
@@ -22,6 +23,18 @@ const uc = vue.computed(() => props.card.userConfig.value)
       <div class="relative z-20 p-8">
         <ElImage :media="uc.logo" class="h-6 inline-block" />
       </div>
+
+      <div class="z-40 absolute bottom-16 w-full flex justify-center">
+        <blockquote v-if="quote.text" class="mx-auto max-w-xs text-right text-balance">
+          <p class="text-lg lg:text-xl ">
+            "{{ quote.text }}"
+          </p>
+          <footer v-if="quote.author" class="text-theme-500 text-base lg:text-lg mt-2">
+            &mdash; <cite>{{ quote.author }}</cite>
+          </footer>
+        </blockquote>
+      </div>
+
       <EffectShootingStar class="absolute inset-0" />
     </div>
     <div class="relative flex min-h-screen grow flex-col items-center shrink-0">
@@ -42,7 +55,7 @@ const uc = vue.computed(() => props.card.userConfig.value)
             class="mx-auto w-full max-w-xs rounded-lg"
           >
             <div class="relative px-4 py-24">
-              <CardEngine class="h-full" :card="card" />
+              <slot />
             </div>
           </div>
         </div>

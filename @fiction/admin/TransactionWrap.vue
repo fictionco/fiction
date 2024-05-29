@@ -53,9 +53,9 @@ const ico = vue.computed(() => iconThemes[props.iconTheme as keyof typeof iconTh
       </div>
       <div class="pb-24 md:pb-8 relative">
         <slot />
-      </div>
 
-      <InputActions class="justify-center" default-size="md" :actions />
+        <InputActions class="justify-center mt-6" default-size="md" :actions />
+      </div>
     </div>
   </div>
 </template>

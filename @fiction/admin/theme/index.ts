@@ -19,11 +19,11 @@ export const templates = [
       authRedirect: '/auth/login',
     },
   }),
-  new CardTemplate({
-    templateId: 'transactional',
-    el: def(() => import('../TransactionView.vue')),
-    userConfig: { logo: { format: 'html' as const, html: fictionLogo } },
-  }),
+  // new CardTemplate({
+  //   templateId: 'transactional',
+  //   el: def(() => import('../TransactionView.vue')),
+  //   userConfig: { logo: { format: 'html' as const, html: fictionLogo } },
+  // }),
 ] as const
 
 export function pages() {
@@ -107,7 +107,7 @@ export function pages() {
     }),
     createCard({
       templates,
-      templateId: 'transactional',
+      templateId: 'transaction',
       slug: 'auth',
       title: 'Settings',
       cards: [
@@ -116,6 +116,7 @@ export function pages() {
             templateId: 'auth',
             el: def(() => import('../auth/AuthCard.vue')),
           }),
+          userConfig: { logo: { format: 'html' as const, html: fictionLogo } },
         }),
       ],
     }),
@@ -139,13 +140,16 @@ export async function setup(args: { fictionEnv: FictionEnv }) {
     pages: () => pg,
     templateDefaults: {
       page: 'dash',
-      transactional: 'transactional',
+      transaction: 'transaction',
     },
     userConfig: {
       colors: { isDarkMode: true },
       spacing: {
         contentWidthClass: 'max-w-screen-xl px-4 sm:px-4 md:px-6 xl:px-20 mx-auto',
         spacingClass: ``,
+      },
+      branding: {
+        logo: { format: 'html' as const, html: fictionLogo },
       },
     },
 

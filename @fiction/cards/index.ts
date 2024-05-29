@@ -31,6 +31,12 @@ export const standardCardTemplates = [
     schema: z.object({}),
     isPublic: false,
   }),
+  new CardTemplate({
+    templateId: 'transaction',
+    el: vue.defineAsyncComponent(() => import('./CardWrapTransaction.vue')),
+    schema: z.object({}),
+    isPublic: false,
+  }),
   ...four04.templates,
   ...quote.templates,
   ...profile.templates,

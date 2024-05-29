@@ -37,6 +37,9 @@ export type SiteUserConfig = Partial<{
     contentWidthClass?: string
     spacingClass?: string
   }
+  branding: {
+    logo: MediaDisplayObject
+  }
 }>
 
 type PageCardConfig = {

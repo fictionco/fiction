@@ -92,7 +92,7 @@ vue.onMounted(async () => {
   const user = await fictionUser.userInitialized({ caller: 'DashWrap' })
 
   if (!user && uc.value.authRedirect)
-    props.card.site?.siteRouter.push(uc.value.authRedirect, { caller: 'DashWrap' })
+    props.card.site?.siteRouter.push(props.card.link(uc.value.authRedirect), { caller: 'DashWrap' })
 
   loading.value = false
 })

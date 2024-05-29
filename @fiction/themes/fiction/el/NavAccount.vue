@@ -33,54 +33,52 @@ onResetUi(() => {
   <div class="relative flex items-center font-medium">
     <div
       v-if="fictionUser.activeUser.value"
-      class="group flex cursor-pointer items-center space-x-2 hover:opacity-90 active:opacity-80"
+      class="group flex cursor-pointer items-center space-x-2 hover:opacity-80 active:opacity-80 text-theme-500 select-none"
       @click.stop.prevent="toggle()"
     >
       <ElAvatar class="ml-3 h-7 w-7 rounded-full ring-2 ring-theme-200 dark:ring-theme-0" :email="fictionUser.activeUser?.value.email" />
+      <div class="i-tabler-chevron-down text-lg transition-all" :class="vis ? 'rotate-180' : ''" />
     </div>
 
     <transition
-      enter-from-class="transform opacity-0 scale-95"
-      enter-to-class="transform opacity-100 scale-100"
-      enter-active-class="transition ease-out duration-100"
-      leave-active-class="transition ease-in duration-75"
-      leave-from-class="transform opacity-100 scale-100"
-      leave-to-class="transform opacity-0 scale-95"
+      enter-from-class="translate-x-8 opacity-0"
+      enter-to-class="opacity-100 translate-x-0"
+      enter-active-class="transition ease-[cubic-bezier(0.25,1,0.33,1)] duration-200 origin-top-right"
+      leave-active-class="transition ease-[cubic-bezier(0.25,1,0.33,1)] duration-200 origin-top-right"
+      leave-from-class="opacity-100 translate-x-0"
+      leave-to-class="translate-x-8 opacity-0"
     >
       <div
         v-show="vis"
-        class="absolute right-0 z-30 mt-2 w-72 origin-top-right divide-y divide-slate-200 rounded-md bg-white text-left font-sans text-slate-800 shadow-lg ring-1 ring-black/10 focus:outline-none"
+        class="absolute right-0 z-30 mt-2 w-72 origin-top-right divide-y divide-theme-200 dark:divide-theme-600 rounded-md bg-white dark:bg-theme-800 text-left font-sans text-theme-800 dark:text-theme-0 shadow-lg ring-1 ring-black/10 dark:ring-theme-600 focus:outline-none"
         :style="{ top: 'calc(100% + 20px)' }"
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="menu-button"
         tabindex="-1"
       >
-        <div v-if="fictionUser.activeUser.value" class="px-4 py-3 text-sm">
-          <div class="text-xs text-slate-400">
+        <div v-if="fictionUser.activeUser.value" class="p-5 text-sm">
+          <div class="text-sm text-theme-400">
             Signed in as...
           </div>
-          <p class="truncate text-base font-bold">
-            {{
-              fictionUser.activeUser.value?.fullName
-                || fictionUser.activeUser.value?.email
-            }}
+          <p class="truncate text-lg font-bold">
+            {{ fictionUser.activeUser.value?.fullName || fictionUser.activeUser.value?.email }}
           </p>
         </div>
-        <div class="py-1" role="none">
+        <div class="p-3" role="none">
           <component
             :is="getNavComponentType(item)"
             v-for="(item, i) in accountMenu"
             :key="i"
-            class="flex space-x-3 cursor-pointer px-4 py-3 text-sm text-slate-700 hover:bg-slate-100"
-            :class=" item.isActive ? 'bg-slate-100 text-primary-500 font-semibold' : '' "
+            class="flex space-x-3 cursor-pointer p-3 text-base items-center rounded-lg"
+            :class=" item.isActive ? 'bg-theme-100 text-primary-500 font-semibold' : 'text-theme-700 dark:text-theme-0 hover:bg-theme-50 dark:hover:bg-theme-700' "
             :to="item.href"
             :href="item.href"
             role="menuitem"
             tabindex="-1"
             @click="item.onClick ? item.onClick({ event: $event }) : null"
           >
-            <div><div class="text-lg" :class="item.icon" /></div><div>{{ item.name }}</div>
+            <div class="text-xl" :class="item.icon" /> <div>{{ item.name }}</div>
           </component>
         </div>
       </div>
