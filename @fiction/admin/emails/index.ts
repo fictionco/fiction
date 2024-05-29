@@ -15,7 +15,7 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
   const appName = fictionAdmin.fictionEnv.meta.app?.name
   const verifyEmailAction = new EmailAction<{ transactionArgs: VerifyRequestVars, transactionResponse: EndpointResponse<User>, send: object }>({
     fictionEmailActions,
-    actionId: 'verify-email',
+    actionId: 'verifyEmail',
     template: vue.defineAsyncComponent<vue.Component>(() => import('./VEmailVerify.vue')), // <vue.Component> avoids circular reference
     emailConfig: (vars) => {
       return {
@@ -47,10 +47,10 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
   const magicLoginEmailAction = new EmailAction({
     fictionEmailActions,
     template: vue.defineAsyncComponent<vue.Component>(() => import('./ActionMagicLogin.vue')),
-    actionId: 'magic-login',
+    actionId: 'magicLogin',
     emailConfig: (vars) => {
       return {
-        subject: `${vars.appName} → Magic Sign In Link 🪄`,
+        subject: `${vars.appName}: Your Sign-In Link 🪄`,
         heading: 'Your magic link is ready',
         subHeading: 'Click the link below to log in',
         bodyMarkdown: `The link below will sign you in to ${vars.appName}.\n\nIf you didn't request this email, there's nothing to worry about, you can safely ignore it.`,
