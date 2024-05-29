@@ -1,5 +1,6 @@
 import { type EndpointMeta, type EndpointResponse, type User, abort, vue } from '@fiction/core'
 import { verifyCode } from '@fiction/core/plugin-user/utils'
+import type { SendArgsRequest } from '@fiction/plugin-email-actions'
 import { EmailAction } from '@fiction/plugin-email-actions'
 import type { FictionAdmin } from '..'
 
@@ -11,7 +12,8 @@ export type VerifyRequestVars = {
 export function getEmails(args: { fictionAdmin: FictionAdmin }) {
   const { fictionAdmin } = args
   const fictionEmailActions = fictionAdmin.settings.fictionEmailActions
-  const verifyEmailAction = new EmailAction({
+  const appName = fictionAdmin.fictionEnv.meta.app?.name
+  const verifyEmailAction = new EmailAction<{ transactionArgs: VerifyRequestVars, transactionResponse: EndpointResponse<User>, send: object }>({
     fictionEmailActions,
     actionId: 'verify-email',
     template: vue.defineAsyncComponent<vue.Component>(() => import('./VEmailVerify.vue')), // <vue.Component> avoids circular reference
@@ -27,7 +29,7 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
         ],
       }
     },
-    serverAction: async (action, args: VerifyRequestVars, meta: EndpointMeta): Promise<EndpointResponse<User>> => {
+    serverAction: async (action, args, meta: EndpointMeta) => {
       const { code, email } = args
 
       const fictionUser = action.settings.fictionEmailActions?.settings.fictionUser
@@ -48,16 +50,19 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
     actionId: 'magic-login',
     emailConfig: (vars) => {
       return {
-        subject: `${vars.appName}: Magic Link`,
+        subject: `${vars.appName}: Magic Sign In Link 🪄`,
         heading: 'Your magic link is ready',
         subHeading: 'Click the Link Below to Log In',
-        bodyMarkdown: `If you didn't request this email, there's nothing to worry about — you can safely ignore it.`,
+        bodyMarkdown: `The link below will sign you in to ${vars.appName} like magic 🪄.
+
+        If you didn't request this email, there's nothing to worry about, you can safely ignore it.`,
         to: `${vars.email}`,
         actions: [
           { name: 'Log In', href: vars.callbackUrl, btn: 'primary' },
         ],
       }
     },
+
   })
 
   return { verifyEmailAction, magicLoginEmailAction }

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site/card'
 import type { ActionItem, FictionUser, MediaDisplayObject } from '@fiction/core'
-import { emitEvent, toLabel, useService, vue } from '@fiction/core'
+import { emitEvent, unhead, useService, vue } from '@fiction/core'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
@@ -18,7 +18,7 @@ const props = defineProps({
 
 const uc = vue.computed(() => props.card.userConfig.value)
 
-const { fictionUser, fictionRouter, fictionAdmin } = useService<{ fictionAdmin: FictionAdmin }>()
+const { fictionRouter, fictionAdmin, fictionEnv } = useService<{ fictionAdmin: FictionAdmin }>()
 
 const itemId = vue.computed(() => fictionRouter.params.value.itemId as 'login' | 'register' | 'confirm' | undefined | '')
 const fields = vue.ref({ email: '', fullName: '', orgName: '', password: '' })
@@ -29,6 +29,12 @@ const lastItemId = vue.ref()
 async function updateItemItemId(id: string) {
   await fictionRouter.push({ path: props.card.link(`/auth/${id}`), query: fictionRouter.query.value }, { caller: 'authCard' })
 }
+
+const title = () => `Login / Register - ${fictionEnv.meta.app?.name}`
+unhead.useHead({
+  title,
+  meta: [{ name: `description`, content: title }],
+})
 
 async function sendMagicLink(): Promise<void> {
   sending.value = true
@@ -57,20 +63,12 @@ type TransactionProps = InstanceType<typeof TransactionWrap>['$props']
 
 const config = vue.computed<TransactionProps | undefined>(() => {
   const mapping: Record<string, TransactionProps> = {
-    register: {
-      heading: 'Create a New Account',
-    },
-    login: {
-      heading: 'Login',
-    },
-    confirm: {
-      heading: 'Check your inbox!',
-      icon: 'i-tabler-mail',
-      iconTheme: 'success',
-    },
+    register: { heading: 'Create a New Account' },
+    login: { heading: 'Login' },
+    confirm: { heading: 'Check your inbox!', icon: 'i-tabler-mail', iconTheme: 'success' },
   }
 
-  return mapping[itemId.value || 'login']
+  return mapping[itemId.value || 'login'] || mapping.login
 })
 </script>
 
@@ -81,7 +79,7 @@ const config = vue.computed<TransactionProps | undefined>(() => {
         <template v-if="itemId === 'register'">
           Already have an account? <a data-test-id="to-login" class="text-primary-500 dark:text-primary-400 hover:opacity-80" href="#" @click.prevent="updateItemItemId('login')">Sign in  &rarr;</a>
         </template>
-        <template v-else-if="itemId === 'login'">
+        <template v-else>
           First time here? <a data-test-id="to-register" class="text-primary-500 dark:text-primary-400 hover:opacity-80" href="#" @click.prevent="updateItemItemId('register')">Sign up for free &rarr;</a>
         </template>
       </div>

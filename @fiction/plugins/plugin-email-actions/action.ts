@@ -20,34 +20,45 @@ export type EmailVars = {
   redirect: string
 }
 
-type BaseParams = Record<string, unknown>
-
-export type EmailActionSettings<T extends BaseParams = BaseParams, U extends EndpointResponse = EndpointResponse> = {
+export type EmailActionSettings<T extends EmailActionSurface = EmailActionSurface > = {
   actionId: string
   template: vue.Component
   emailConfig: (args: EmailVars) => TransactionalEmailConfig | Promise<TransactionalEmailConfig>
   vars?: Partial<EmailVars>
-  serverAction?: (action: EmailAction, args: T, meta: EndpointMeta) => Promise<U>
+  serverAction?: (action: EmailAction, args: T['transactionArgs'], meta: EndpointMeta) => Promise< T['transactionResponse']>
+  sendAction?: (action: EmailAction, args: T['sendArgs'], meta: EndpointMeta) => Promise< T['sendResponse']>
   fictionEmailActions?: FictionEmailActions
 }
 
-export type SendArgsRequest = {
+export type EmailActionSurface = Partial<{
+  transactionArgs: Record<string, unknown>
+  transactionResponse: EndpointResponse
+  sendArgs: SendArgsRequest
+  sendResponse: EndpointResponse<{ isSent: boolean }>
+}>
+
+export type SendArgsSurface = Partial<{
+  queryVars: Record<string, string>
+  fields: Record<string, unknown>
+}>
+
+export type SendArgsRequest<T extends SendArgsSurface = SendArgsSurface > = {
   to: string
-  queryVars?: Record<string, string>
-  fields?: Record<string, unknown>
+  queryVars?: T['queryVars']
+  fields?: T['fields']
   origin?: string
   redirect?: string
 }
 
-type SendEmailArgs = {
+type SendEmailArgs<T extends SendArgsSurface = SendArgsSurface > = {
   recipient?: Partial<User>
   isNew?: boolean
-} & Partial<SendArgsRequest>
+} & Partial<SendArgsRequest<T>>
 
-export class EmailAction<T extends BaseParams = BaseParams, U extends EndpointResponse = EndpointResponse> extends FictionObject<EmailActionSettings<T, U>> {
+export class EmailAction<T extends EmailActionSurface = EmailActionSurface > extends FictionObject<EmailActionSettings<T>> {
   fictionEmailActions = this.settings.fictionEmailActions
 
-  constructor(params: EmailActionSettings<T, U>) {
+  constructor(params: EmailActionSettings<T>) {
     super(`EmailAction:${params.actionId}`, params)
 
     if (this.fictionEmailActions)
@@ -57,11 +68,13 @@ export class EmailAction<T extends BaseParams = BaseParams, U extends EndpointRe
   install(fictionEmailActions: FictionEmailActions) {
     this.fictionEmailActions = fictionEmailActions
 
-    this.fictionEmailActions.emailActions[this.settings.actionId] = this as EmailAction
+    this.fictionEmailActions.emailActions[this.settings.actionId] = this as unknown as EmailAction
   }
 
-  async requestEndpoint(args: T) {
-    return await this.fictionEmailActions?.requests.EmailAction.request({ _action: 'runAction', actionId: this.settings.actionId, ...args })
+  async requestEndpoint(args: T['transactionArgs']): Promise<T['transactionResponse']> {
+    const r = await this.fictionEmailActions?.requests.EmailAction.request({ _action: 'runAction', actionId: this.settings.actionId, ...args })
+
+    return r
   }
 
   async defaultConfig(): Promise<TransactionalEmailConfig> {
@@ -152,8 +165,15 @@ export class EmailAction<T extends BaseParams = BaseParams, U extends EndpointRe
     return await fictionEmail.sendTransactional(finalEmail)
   }
 
-  async requestSend(args: SendArgsRequest) {
+  async requestSend(args: T['sendArgs']): Promise<T['sendResponse']> {
     const origin = typeof window !== 'undefined' ? window.location.origin : ''
-    return await this.fictionEmailActions?.requests.EmailAction.request({ _action: 'sendEmail', actionId: this.settings.actionId, origin, ...args })
+    const { to } = args || {}
+
+    if (!to)
+      throw abort('no email recipient provided')
+
+    const r = await this.fictionEmailActions?.requests.EmailAction.request({ _action: 'sendEmail', actionId: this.settings.actionId, origin, to, ...args })
+
+    return r as T['sendResponse']
   }
 }

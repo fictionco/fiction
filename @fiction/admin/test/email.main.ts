@@ -5,7 +5,7 @@ import FSite from '@fiction/cards/CardSite.vue'
 import { createSiteTestUtils } from '@fiction/site/test/siteTestUtils.js'
 import { FictionEmailActions } from '@fiction/plugin-email-actions'
 import { crossVar } from '@fiction/core/utils/vars'
-import { FictionAdmin } from '../../index.js'
+import { FictionAdmin } from '../index.js'
 
 export async function setup(args: { context?: 'node' | 'app' } = {}) {
   const { context = 'node' } = args

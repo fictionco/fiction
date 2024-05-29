@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { EBody, EButton, EColumn, EContainer, EFont, EHead, EHr, EHtml, EImg, ELink, EMarkdown, EPreview, ESection, EStyle, ETailwind, EText } from 'vue-email'
+import { EBody, EButton, EColumn, EContainer, EHead, EHr, EHtml, EImg, ELink, EMarkdown, EPreview, ESection, EStyle, ETailwind, EText } from 'vue-email'
 import type { Config as TailwindConfig } from 'tailwindcss'
 import type { PropType } from 'vue'
 import { computed } from 'vue'

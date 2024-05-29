@@ -80,20 +80,14 @@ export type EmailResponse = {
 } & TransactionalEmailConfig
 
 export class QueryTransactionalEmail extends EmailQuery {
-  renderer?: DefineConfigFunctions
   async getRenderer() {
-    if (this.renderer)
-      return this.renderer
-
     const { config } = await import('@vue-email/compiler')
-    this.renderer = config(`${safeDirname(import.meta.url)}/templates`, {
+    return config(`${safeDirname(import.meta.url)}/templates`, {
       verbose: false,
       options: {
         baseUrl: 'https://www.whatever.com/',
       },
     })
-
-    return this.renderer
   }
 
   async run(params: TransactionalEmailParams, _meta: EndpointMeta): Promise<EndpointResponse<EmailResponse>> {
@@ -139,9 +133,7 @@ export class QueryTransactionalEmail extends EmailQuery {
       ] })
     }
 
-    const template = await emailRenderer.render('EmailStandard.vue', {
-      props: fields,
-    })
+    const template = await emailRenderer.render('EmailStandard.vue', { props: fields })
 
     const client = this.getClient()
 

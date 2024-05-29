@@ -112,8 +112,6 @@ export class FictionEnv<
 
   public addHook<T extends HookType<FictionEnvHookDictionary>>(hook: T): void {
     this.hooks.push(hook)
-
-    this.log.info(`total hooks: ${this.hooks.length} - hook added: ${hook.hook}, caller: ${hook.caller}, context: ${hook.context}`)
   }
 
   constructor(settings: FictionControlSettings) {

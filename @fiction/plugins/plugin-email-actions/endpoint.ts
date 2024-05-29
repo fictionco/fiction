@@ -1,6 +1,7 @@
 import type { EndpointMeta, EndpointResponse, FictionDb, FictionEmail, FictionEnv, FictionUser } from '@fiction/core'
 import { Query, abort } from '@fiction/core'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
+import type { EmailResponse } from '@fiction/core/plugin-email/endpoint'
 import type { EmailAction, FictionEmailActions, SendArgsRequest } from '.'
 
 interface EmailActionQuerySettings {
@@ -51,7 +52,7 @@ export class EndpointEmailAction extends EmailActionQuery {
     return r || { status: 'error', message: 'Nothing returned', expose: false }
   }
 
-  async sendEmail(emailAction: EmailAction, params: EmailActionParams & { _action: 'sendEmail' }, meta: EndpointMeta): Promise<EndpointResponse> {
+  async sendEmail(emailAction: EmailAction, params: EmailActionParams & { _action: 'sendEmail' }, meta: EndpointMeta): Promise<EndpointResponse<{ isSent: boolean }>> {
     const { to, origin, queryVars = {}, fields } = params
 
     const fictionUser = this.settings.fictionUser
@@ -60,8 +61,8 @@ export class EndpointEmailAction extends EmailActionQuery {
     const user = userResponse.data
     const isNew = userResponse.isNew
 
-    const r = await emailAction.serveSend({ to, recipient: user, isNew, origin, queryVars })
+    await emailAction.serveSend({ to, recipient: user, isNew, origin, queryVars })
 
-    return r
+    return { status: 'success', data: { isSent: true }, expose: false }
   }
 }

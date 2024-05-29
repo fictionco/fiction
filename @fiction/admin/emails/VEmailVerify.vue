@@ -12,18 +12,17 @@ const props = defineProps({
   vars: { type: Object as vue.PropType<Record<string, any>>, required: true },
 })
 
-const form = vue.ref({
-  email: '',
-  code: '',
-})
+const form = vue.ref({ email: '', code: '' })
 
 const loading = vue.ref(false)
-const response = vue.ref<EndpointResponse>()
+const response = vue.ref<Awaited<ReturnType<VerifyEmailAction['requestEndpoint']>>>()
 
 async function sendRequest() {
   loading.value = true
 
-  response.value = await props.action.requestEndpoint(form.value)
+  const r = await props.action.requestEndpoint(form.value)
+
+  response.value = r
 
   loading.value = false
 }
