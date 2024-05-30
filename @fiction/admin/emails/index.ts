@@ -28,7 +28,7 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
         ],
       }
     },
-    serverAction: async (action, args, meta: EndpointMeta) => {
+    serverTransaction: async (action, args, meta: EndpointMeta) => {
       const { code, email } = args
 
       const fictionUser = action.settings.fictionEmailActions?.settings.fictionUser

@@ -4,11 +4,6 @@ import type { SendArgsRequest } from '@fiction/plugin-email-actions'
 import { EmailAction } from '@fiction/plugin-email-actions'
 import type { FictionSubscribe, TableSubscribeConfig } from '..'
 
-export type VerifyRequestVars = {
-  code: string
-  email: string
-}
-
 export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
   const { fictionSubscribe } = args
   const fictionEmailActions = fictionSubscribe.settings.fictionEmailActions
@@ -18,6 +13,7 @@ export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
     transactionResponse: EndpointResponse<TableSubscribeConfig>
     queryVars: { orgId: string }
   }>({
+
     fictionEmailActions,
     actionId: 'verifyEmail',
     template: vue.defineAsyncComponent<vue.Component>(() => import('./ActionSubscribe.vue')), // <vue.Component> avoids circular reference
@@ -39,7 +35,7 @@ export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
         ],
       }
     },
-    serverAction: async (action, args, meta: EndpointMeta) => {
+    serverTransaction: async (action, args, meta: EndpointMeta) => {
       const { orgId, userId } = args
 
       const r = await fictionSubscribe.queries.ManageSubscription.serve({ _action: 'create', fields: { orgId, userId } }, { ...meta, server: true })

@@ -23,7 +23,7 @@ const response = vue.ref<EndpointResponse>()
 async function sendRequest() {
   loading.value = true
 
-  response.value = await props.action.requestEndpoint(form.value)
+  response.value = await props.action.requestTransaction(form.value)
 
   loading.value = false
 }

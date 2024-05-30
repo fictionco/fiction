@@ -15,12 +15,12 @@ const props = defineProps({
 const form = vue.ref({ email: '', code: '' })
 
 const loading = vue.ref(false)
-const response = vue.ref<Awaited<ReturnType<VerifyEmailAction['requestEndpoint']>>>()
+const response = vue.ref<Awaited<ReturnType<VerifyEmailAction['requestTransaction']>>>()
 
 async function sendRequest() {
   loading.value = true
 
-  const r = await props.action.requestEndpoint(form.value)
+  const r = await props.action.requestTransaction(form.value)
 
   response.value = r
 

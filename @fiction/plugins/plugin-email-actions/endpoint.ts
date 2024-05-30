@@ -22,7 +22,7 @@ abstract class EmailActionQuery extends Query<EmailActionQuerySettings> {
 
 export type EmailActionParams =
   { actionId: string } & (
-    ({ _action: 'runAction' } & Record<string, unknown>) |
+    ({ _action: 'serverTransaction' } & Record<string, unknown>) |
     ({ _action: 'sendEmail' } & SendArgsRequest & { queryVars?: Record<string, string> })
   )
 
@@ -39,8 +39,8 @@ export class EndpointEmailAction extends EmailActionQuery {
     let r: EndpointResponse | undefined
 
     switch (_action) {
-      case 'runAction':
-        r = await action.settings.serverAction?.(action, params, meta)
+      case 'serverTransaction':
+        r = await action.settings.serverTransaction?.(action, params, meta)
         break
       case 'sendEmail':
         r = await this.sendEmail(action, params, meta)

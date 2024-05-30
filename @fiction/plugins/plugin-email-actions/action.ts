@@ -26,7 +26,7 @@ export type EmailActionSettings<T extends EmailActionSurface = EmailActionSurfac
   template: vue.Component
   emailConfig: (args: EmailVars<T['queryVars']>) => TransactionalEmailConfig | Promise<TransactionalEmailConfig>
   vars?: Partial<EmailVars>
-  serverAction?: (action: EmailAction, args: T['transactionArgs'], meta: EndpointMeta) => Promise< T['transactionResponse']>
+  serverTransaction?: (action: EmailAction, args: T['transactionArgs'], meta: EndpointMeta) => Promise< T['transactionResponse']>
   fictionEmailActions?: FictionEmailActions
 }
 
@@ -57,6 +57,7 @@ export type SendEmailArgs = {
 
 export class EmailAction<T extends EmailActionSurface = EmailActionSurface > extends FictionObject<EmailActionSettings<T>> {
   fictionEmailActions = this.settings.fictionEmailActions
+  queryVars?: T['queryVars'] // type helper for inference in components
 
   constructor(params: EmailActionSettings<T>) {
     super(`EmailAction:${params.actionId}`, params)
@@ -71,8 +72,8 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
     this.fictionEmailActions.emailActions[this.settings.actionId] = this as unknown as EmailAction
   }
 
-  async requestEndpoint(args: T['transactionArgs']): Promise<T['transactionResponse']> {
-    const r = await this.fictionEmailActions?.requests.EmailAction.request({ _action: 'runAction', actionId: this.settings.actionId, ...args })
+  async requestTransaction(args: T['transactionArgs']): Promise<T['transactionResponse']> {
+    const r = await this.fictionEmailActions?.requests.EmailAction.request({ _action: 'serverTransaction', actionId: this.settings.actionId, ...args })
 
     return r
   }

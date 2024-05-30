@@ -21,7 +21,7 @@ const form = vue.ref({
 })
 
 async function sendRequest() {
-  await props.action.requestEndpoint(form.value)
+  await props.action.requestTransaction(form.value)
 }
 
 vue.onMounted(() => {
