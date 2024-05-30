@@ -23,7 +23,6 @@ describe('createEmailVars', async () => {
       actionId: 'actionTest',
       recipient: initialized.user,
       origin: 'https://www.example.com',
-      queryVars: { },
       redirect: 'http://example.com/redirect',
       baseRoute: '/base',
       fictionEmailActions,

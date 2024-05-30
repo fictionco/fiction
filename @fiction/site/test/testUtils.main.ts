@@ -2,7 +2,7 @@ import { AppRoute, type ServiceConfig, type ServiceList } from '@fiction/core'
 import FSite from '@fiction/cards/CardSite.vue'
 import * as fictionTheme from '@fiction/theme-fiction'
 import * as adminTheme from '@fiction/admin/theme'
-import { createSiteTestUtils } from './siteTestUtils'
+import { createSiteTestUtils } from './testUtils'
 
 export async function setup(args: { context?: 'node' | 'app' } = {}): Promise<ServiceConfig> {
   const { context = 'app' } = args

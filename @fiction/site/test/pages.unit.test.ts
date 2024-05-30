@@ -3,7 +3,7 @@
  */
 import { describe, expect, it } from 'vitest'
 import { getPathsFromSite, loadSiteFromTheme } from '../load'
-import { createSiteTestUtils } from './siteTestUtils'
+import { createSiteTestUtils } from './testUtils'
 
 describe('site plugin tests', async () => {
   const testUtils = await createSiteTestUtils()

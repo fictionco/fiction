@@ -3,7 +3,6 @@ import type { Card } from '@fiction/site/card'
 import type { MediaDisplayObject } from '@fiction/core'
 import { vue } from '@fiction/core'
 import ElImage from '@fiction/ui/media/ElImage.vue'
-import CardEngine from '@fiction/cards/CardEngine.vue'
 import EffectShootingStar from '@fiction/ui/effect/EffectShootingStar.vue'
 
 export type UserConfig = { logo?: MediaDisplayObject, termsUrl?: string, privacyUrl?: string }
@@ -11,7 +10,6 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
   quote: { type: Object as vue.PropType<{ text: string, author: string }>, default: () => ({ quote: '', author: '' }) },
 })
-const site = vue.computed(() => props.card.site)
 const uc = vue.computed(() => props.card.userConfig.value)
 </script>
 

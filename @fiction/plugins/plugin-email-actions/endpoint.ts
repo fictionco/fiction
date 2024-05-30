@@ -23,7 +23,7 @@ abstract class EmailActionQuery extends Query<EmailActionQuerySettings> {
 export type EmailActionParams =
   { actionId: string } & (
     ({ _action: 'runAction' } & Record<string, unknown>) |
-    ({ _action: 'sendEmail' } & SendArgsRequest)
+    ({ _action: 'sendEmail' } & SendArgsRequest & { queryVars?: Record<string, string> })
   )
 
 export class EndpointEmailAction extends EmailActionQuery {

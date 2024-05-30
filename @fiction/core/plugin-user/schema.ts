@@ -1,3 +1,4 @@
+import type { Schema } from 'zod'
 import { objectId, toSnakeCaseKeys } from '../utils'
 import { FictionDbCol, FictionDbTable } from '../plugin-db'
 import { standardTable } from '../tbl'
@@ -16,12 +17,14 @@ export const userColumns = [
     key: 'userId',
     create: ({ schema, column, db }) => schema.string(column.pgKey).primary().defaultTo(db.raw(`object_id('usr')`)),
     default: () => '' as string,
+    zodSchema: ({ z }) => z.string(),
   }),
   new FictionDbCol({
     key: 'email',
     create: ({ schema, column }) => schema.string(column.pgKey).notNullable().unique(),
     prepare: ({ value }) => (value).toLowerCase().trim(),
     default: () => '' as string,
+    zodSchema: ({ z }) => z.string(),
   }),
   new FictionDbCol({
     key: 'username',
@@ -29,53 +32,47 @@ export const userColumns = [
     default: () => '' as string,
     isSetting: true,
     prepare: ({ value }) => (value).replaceAll(/[^\dA-Z]+/gi, '').toLowerCase(),
+    zodSchema: ({ z }) => z.string(),
   }),
   new FictionDbCol({
     key: 'googleId',
     create: ({ schema, column }) => schema.string(column.pgKey).unique(),
     isPrivate: true,
     default: () => '' as string,
+    zodSchema: ({ z }) => z.string(),
   }),
   new FictionDbCol({
     key: 'fullName',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'firstName',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    isSetting: true,
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'lastName',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    isSetting: true,
-    default: () => '' as string,
+    zodSchema: ({ z }) => z.string(),
   }),
   new FictionDbCol({
     key: 'role',
     create: ({ schema, column }) => schema.string(column.pgKey).notNullable().defaultTo('subscriber'),
     default: () => '' as string,
+    zodSchema: ({ z }) => z.string(),
   }),
   new FictionDbCol({
     key: 'status',
     create: ({ schema, column }) => schema.string(column.pgKey).notNullable().defaultTo('active'),
     default: () => '' as string,
+    zodSchema: ({ z }) => z.string(),
   }),
-
   new FictionDbCol({
     key: 'hashedPassword',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isAuthority: true,
     isPrivate: true,
     default: () => '' as string,
+    zodSchema: ({ z }) => z.string(),
   }),
   new FictionDbCol({
     key: 'emailVerified',
     create: ({ schema, column }) => schema.boolean(column.pgKey).notNullable().defaultTo(false),
     default: () => false as boolean,
+    zodSchema: ({ z }) => z.boolean(),
   }),
   new FictionDbCol({
     key: 'verify',
@@ -83,33 +80,14 @@ export const userColumns = [
     isAuthority: true,
     isPrivate: true,
     default: () => ({}) as VerificationCode,
+    zodSchema: ({ z }) => z.object({ code: z.string(), expiresAt: z.string(), context: z.string() }),
   }),
-
   new FictionDbCol({
     key: 'avatar',
     create: ({ schema, column }) => schema.jsonb(column.pgKey),
     isSetting: true,
     default: () => ({} as MediaDisplayObject),
-  }),
-  new FictionDbCol({
-    key: 'phoneNumber',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    isPrivate: true,
-    isSetting: true,
-    default: () => '',
-  }),
-  new FictionDbCol({
-    key: 'address',
-    create: ({ schema, column }) => schema.jsonb(column.pgKey),
-    isPrivate: true,
-    default: () => '',
-  }),
-  new FictionDbCol({
-    key: 'meta',
-    create: ({ schema, column }) => schema.jsonb(column.pgKey),
-    default: () => ({} as UserMeta),
-    isSetting: true,
-    prepare: ({ value }) => JSON.stringify(toSnakeCaseKeys(value)),
+    zodSchema: ({ z }) => z.object({ url: z.string() }),
   }),
   new FictionDbCol({
     key: 'invitedById',
@@ -122,17 +100,20 @@ export const userColumns = [
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
+    zodSchema: ({ z }) => z.string(),
   }),
   new FictionDbCol({
     key: 'lastSeenAt',
     isSetting: true,
     create: ({ schema, column, db }) => schema.dateTime(column.pgKey).defaultTo(db.fn.now()),
     default: () => '' as string,
+    zodSchema: ({ z }) => z.string(),
   }),
   new FictionDbCol({
     key: 'isSuperAdmin',
     create: ({ schema, column }) => schema.boolean(column.pgKey).defaultTo(false),
     default: () => false,
+    zodSchema: ({ z }) => z.boolean(),
   }),
   new FictionDbCol({
     key: 'onboard',
@@ -141,6 +122,7 @@ export const userColumns = [
     prepare: ({ value }) => JSON.stringify(value),
     isPrivate: true,
     isSetting: true,
+    zodSchema: ({ z }) => z.record(z.string(), z.any()) as Schema<OnboardStoredSettings>,
   }),
   new FictionDbCol({
     key: 'pushSubscription',
@@ -155,6 +137,7 @@ export const userColumns = [
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
+    zodSchema: ({ z }) => z.string(),
   }),
   new FictionDbCol({
     key: 'geo',
@@ -163,13 +146,33 @@ export const userColumns = [
     prepare: ({ value }) => JSON.stringify(value),
     default: () => ({} as GeoData),
   }),
+  new FictionDbCol({
+    key: 'phone',
+    create: ({ schema, column }) => schema.string(column.pgKey),
+    isPrivate: true,
+    isSetting: true,
+    default: () => '' as string,
+  }),
+  new FictionDbCol({
+    key: 'address',
+    create: ({ schema, column }) => schema.jsonb(column.pgKey),
+    isPrivate: true,
+    default: () => ({} as object),
+  }),
+  new FictionDbCol({
+    key: 'meta',
+    create: ({ schema, column }) => schema.jsonb(column.pgKey),
+    default: () => ({} as UserMeta),
+    isSetting: true,
+    prepare: ({ value }) => JSON.stringify(toSnakeCaseKeys(value)),
+  }),
 ] as const
 
 export const orgColumns = [
   new FictionDbCol({
     key: 'orgId',
     create: ({ schema, column, db }) => schema.string(column.pgKey).primary().defaultTo(db.raw(`object_id('org')`)),
-    default: () => objectId(),
+    default: () => '' as string,
   }),
   new FictionDbCol({
     key: 'username',

@@ -13,7 +13,7 @@ type FictionEmailActionsSettings = {
   fictionEmail: FictionEmail
   fictionUser: FictionUser
   fictionServer: FictionServer
-  fictionMedia: FictionMedia
+  fictionMedia?: FictionMedia
   fictionApp: FictionApp
   fictionRouter: FictionRouter
   fictionMonitor?: FictionMonitor

@@ -4,7 +4,7 @@ import { standardCardTemplates } from '@fiction/cards'
 import { Card, CardTemplate } from '../card'
 import { Site } from '../site'
 import { CardGeneration } from '../generation'
-import { createSiteTestUtils } from './siteTestUtils'
+import { createSiteTestUtils } from './testUtils'
 
 describe('card', async () => {
   const testUtils = await createSiteTestUtils()

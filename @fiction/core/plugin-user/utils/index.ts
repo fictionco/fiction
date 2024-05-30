@@ -17,7 +17,7 @@ export function defaultOrgName(email: string): string {
   // Append possessive form correctly based on the last character
   const possessiveUsername = capitalized + (capitalized.endsWith('s') ? '\'' : '\'s')
 
-  const orgName = `${possessiveUsername} Workspace`
+  const orgName = `${possessiveUsername} Space`
 
   return orgName
 }

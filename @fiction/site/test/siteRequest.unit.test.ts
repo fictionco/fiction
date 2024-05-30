@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest'
 import type { TableSiteConfig } from '../tables'
 import type { Site } from '../site'
 import { loadSite, requestManageSite } from '../load'
-import { createSiteTestUtils } from './siteTestUtils'
+import { createSiteTestUtils } from './testUtils'
 
 let siteConfig: TableSiteConfig
 let site: Site

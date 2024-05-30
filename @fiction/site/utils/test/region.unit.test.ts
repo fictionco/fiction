@@ -4,7 +4,7 @@ import { requestManageSite } from '../../load'
 import { Card } from '../../card'
 import type { CardConfigPortable, TableCardConfig } from '../../tables'
 import { Site } from '../../site'
-import { createSiteTestUtils } from '../../test/siteTestUtils'
+import { createSiteTestUtils } from '../../test/testUtils'
 import { addNewCard, removeCard, requestManagePage, updateRegion } from '../region'
 
 describe('removeCard', async () => {

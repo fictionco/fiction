@@ -28,7 +28,7 @@ function newIp(): void {
 }
 
 async function addCurrentIp(): Promise<void> {
-  const name = fictionUser.activeUser.value?.firstName ?? 'My'
+  const name = fictionUser.activeUser.value?.fullName ?? 'My'
   const currentIp = await getNetworkIp()
   ips.value = [
     ...ips.value,

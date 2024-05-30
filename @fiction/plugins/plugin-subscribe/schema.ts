@@ -1,4 +1,4 @@
-import { type CreateObjectType, standardTable } from '@fiction/core'
+import { type CreateObjectType, type SyndicateStatus, standardTable } from '@fiction/core'
 import { FictionDbCol, FictionDbTable } from '@fiction/core/plugin-db'
 
 export const t = {
@@ -14,11 +14,13 @@ const subscribeColumns = [
     isComposite: true,
     create: ({ schema }) => schema.primary(['org_id', 'user_id']),
     default: () => '' as string,
+    zodSchema: ({ z }) => z.string(),
   }),
   new FictionDbCol({
     key: 'userId',
     create: ({ schema, column }) => schema.string(column.pgKey, 32).references(`fiction_user.user_id`).onUpdate('CASCADE').notNullable().index(),
-    default: () => '',
+    default: () => '' as string,
+    zodSchema: ({ z }) => z.string(),
   }),
   new FictionDbCol({
     key: 'orgId',
@@ -34,8 +36,8 @@ const subscribeColumns = [
   }),
   new FictionDbCol({
     key: 'status',
-    create: ({ schema, column }) => schema.string(column.pgKey, 50),
-    default: () => '' as 'active' | 'pending',
+    create: ({ schema, column }) => schema.string(column.pgKey, 50).defaultTo('active'),
+    default: () => '' as SyndicateStatus,
     zodSchema: ({ z }) => z.string(),
   }),
 ] as const

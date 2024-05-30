@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { Card } from '../card'
 import { Site } from '../site'
-import { createSiteTestUtils } from './siteTestUtils'
+import { createSiteTestUtils } from './testUtils'
 
 describe('cardCompletion', async () => {
   const testUtils = await createSiteTestUtils()

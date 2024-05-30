@@ -4,7 +4,7 @@
 
 import { describe, expect, it } from 'vitest'
 import { Site } from '../site'
-import { createSiteTestUtils } from './siteTestUtils'
+import { createSiteTestUtils } from './testUtils'
 
 describe('siteMode', async () => {
   const testUtils = await createSiteTestUtils()

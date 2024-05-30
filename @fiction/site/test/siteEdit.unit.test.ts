@@ -10,7 +10,7 @@ import { requestManageSite } from '../load'
 import { requestManagePage, updateRegion } from '../utils/region'
 import { saveSite } from '../utils/site'
 import { setup } from './test-theme'
-import { createSiteTestUtils } from './siteTestUtils'
+import { createSiteTestUtils } from './testUtils'
 
 let site: TableSiteConfig
 let siteObj: Site

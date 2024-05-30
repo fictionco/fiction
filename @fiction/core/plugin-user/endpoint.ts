@@ -267,7 +267,7 @@ export class QueryManageUser extends UserBaseQuery {
     if (!userId)
       throw abort('userId required to make default org')
 
-    const orgName = fields.orgName || defaultOrgName(email)
+    const orgName = fields.orgName || fields.fullName || defaultOrgName(email)
 
     const response = await fictionUser.queries.ManageOrganization.serve(
       { _action: 'create', userId, fields: { orgName, orgEmail: email } },

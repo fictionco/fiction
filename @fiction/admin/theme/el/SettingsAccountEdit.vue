@@ -97,7 +97,7 @@ vue.watch(
         </ElButton>
       </ElInput>
       <ElInput
-        v-model="form.phoneNumber"
+        v-model="form.phone"
         input="InputPhone"
         label="Phone Number"
         sub-label="Used for SMS notifications"

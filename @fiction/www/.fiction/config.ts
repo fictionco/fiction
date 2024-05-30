@@ -57,6 +57,7 @@ export interface CompiledServiceConfig {
     | 'ManagePost'
     | 'ManagePostIndex'
     | 'ManageSite'
+    | 'ManageSubscription'
     | 'ManageTaxonomy'
     | 'ManageUser'
     | 'ManageVectors'
@@ -170,6 +171,7 @@ export interface CompiledServiceConfig {
       | 'sourceImageUrl'
       | 'createdAt'
       | 'updatedAt'
+    fiction_subscribe: 'subscribeId' | 'userId' | 'orgId' | 'level' | 'status' | 'createdAt' | 'updatedAt'
     fiction_site:
       | 'siteId'
       | 'userId'

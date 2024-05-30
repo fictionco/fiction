@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest'
 import { loadSiteFromTheme } from '../load'
 import { setSections } from '../utils/site'
 import type { CardConfigPortable } from '../tables'
-import { createSiteTestUtils } from './siteTestUtils'
+import { createSiteTestUtils } from './testUtils'
 
 describe('setSections', async () => {
   const testUtils = await createSiteTestUtils()

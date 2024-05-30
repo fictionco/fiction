@@ -3,8 +3,8 @@
  */
 import { beforeAll, describe, expect, it } from 'vitest'
 import { snap } from '@fiction/core/test-utils'
-import type { SiteTestUtils } from './siteTestUtils'
-import { createSiteTestUtils } from './siteTestUtils'
+import type { SiteTestUtils } from './testUtils'
+import { createSiteTestUtils } from './testUtils'
 
 let testUtils: SiteTestUtils
 describe('manageCertificates', () => {

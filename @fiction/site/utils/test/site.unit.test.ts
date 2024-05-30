@@ -7,7 +7,7 @@ import { shortId } from '@fiction/core'
 import { requestManageSite } from '../../load'
 import type { EditorState } from '../../site'
 import { Site } from '../../site'
-import { createSiteTestUtils } from '../../test/siteTestUtils'
+import { createSiteTestUtils } from '../../test/testUtils'
 import { activeSiteHostname, saveSite, updateSite } from '../site'
 import { setPages, updatePages } from '../page'
 

@@ -1,13 +1,12 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site/card'
-import type { ActionItem, FictionUser, MediaDisplayObject } from '@fiction/core'
+import type { MediaDisplayObject } from '@fiction/core'
 import { emitEvent, unhead, useService, vue } from '@fiction/core'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
-import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
-import TransactionWrap from '../TransactionWrap.vue'
-import TransactionView from '../TransactionView.vue'
+import TransactionWrap from '@fiction/cards/transactions/TransactionWrap.vue'
+import TransactionView from '@fiction/cards/transactions/TransactionView.vue'
 import type { FictionAdmin } from '..'
 import EffectTransitionList from '../el/EffectTransitionList.vue'
 
@@ -47,6 +46,7 @@ async function sendMagicLink(): Promise<void> {
     to: email,
     fields: fields.value,
     baseRoute: '/app',
+    queryVars: {},
   })
 
   if (r?.status === 'error') {

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 import { vue, waitFor } from '@fiction/core'
-import { createSiteTestUtils } from '../../test/siteTestUtils'
+import { createSiteTestUtils } from '../../test/testUtils'
 import { Card } from '../../card'
 import { activePageId, getPageById, getViewMap } from '../page'
 import { Site } from '../../site'

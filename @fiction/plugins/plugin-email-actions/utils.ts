@@ -3,7 +3,7 @@ import { createUserToken } from '@fiction/core/utils/jwt'
 import type { EmailVars, SendEmailArgs } from './action'
 import type { FictionEmailActions } from '.'
 
-export async function createEmailVars(args: SendEmailArgs & { actionId: string, fictionEmailActions: FictionEmailActions }): Promise<EmailVars> {
+export async function createEmailVars(args: SendEmailArgs & { actionId: string, fictionEmailActions: FictionEmailActions, queryVars?: Record<string, string> }): Promise<EmailVars> {
   const { actionId, recipient, origin, queryVars = {}, redirect, baseRoute = '', fictionEmailActions } = args
   const { fictionApp, fictionEmail, fictionUser } = fictionEmailActions?.settings || {}
   const tokenSecret = fictionUser?.settings.tokenSecret
@@ -48,6 +48,6 @@ export async function createEmailVars(args: SendEmailArgs & { actionId: string, 
     callbackUrl,
     unsubscribeUrl,
     appName: fictionEmail?.settings.fictionEnv.meta.app?.name || '',
-    ...queryVars,
+    queryVars,
   }
 }

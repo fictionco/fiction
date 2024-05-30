@@ -8,7 +8,7 @@ import { Card } from '../../card'
 import { Site } from '../../site'
 import type { LayoutOrder } from '../layout'
 import { getOrderRecursive, getSimpleOrderSchema, layoutOrderCards, setLayoutOrder } from '../layout'
-import { createSiteTestUtils } from '../../test/siteTestUtils'
+import { createSiteTestUtils } from '../../test/testUtils'
 import type { CardConfigPortable } from '../../tables'
 
 describe('setLayoutOrder', async () => {

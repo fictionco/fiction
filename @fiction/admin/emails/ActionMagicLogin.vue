@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site'
 import { type EndpointResponse, toLabel, useService, vue } from '@fiction/core'
-import TransactionWrap from '../TransactionWrap.vue'
+import TransactionWrap from '@fiction/cards/transactions/TransactionWrap.vue'
 import type { FictionAdmin } from '..'
 
 type ActionProps = FictionAdmin['emailActions']['magicLoginEmailAction']

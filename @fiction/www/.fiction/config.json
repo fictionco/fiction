@@ -49,6 +49,10 @@
       "path": "/api/fiction-ai/AiImage"
     },
     {
+      "key": "ManageSubscription",
+      "path": "/api/fiction-subscribe/ManageSubscription"
+    },
+    {
       "key": "ManageCustomer",
       "path": "/api/stripe/ManageCustomer"
     },

@@ -7,7 +7,10 @@
   "main": "index.ts",
   "dependencies": {
     "@fiction/core": "workspace:*",
-    "@fiction/plugin-monitor": "workspace:*"
+    "@fiction/plugin-monitor": "workspace:*",
+    "@fiction/site": "workspace:*",
+    "@fiction/cards": "workspace:*",
+    "@fiction/ui": "workspace:*"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "publishConfig": {

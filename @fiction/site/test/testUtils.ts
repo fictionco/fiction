@@ -6,14 +6,12 @@ import { createTestUtils } from '@fiction/core/test-utils/init'
 import { testEnvFile } from '@fiction/core/test-utils'
 import FSite from '@fiction/cards/CardSite.vue'
 import { runServicesSetup } from '@fiction/core/plugin-env/entry'
-import type { performActions } from '@fiction/core/test-utils/buildTest'
-import { createTestBrowser } from '@fiction/core/test-utils/buildTest'
-import type { Browser } from 'playwright'
 import { createUiTestingKit } from '@fiction/core/test-utils/kit'
+import { FictionEmailActions } from '@fiction/plugin-email-actions'
 import type { ThemeSetup } from '..'
 import { FictionSites } from '..'
 import * as testTheme from './test-theme'
-import { setup as mainFileSetup } from './siteTestMainFile'
+import { setup as mainFileSetup } from './testUtils.main.js'
 
 export type SiteTestUtils = TestUtils & {
   fictionSites: FictionSites
@@ -22,6 +20,7 @@ export type SiteTestUtils = TestUtils & {
   fictionMedia: FictionMedia
   fictionAws: FictionAws
   fictionAi: FictionAi
+  fictionEmailActions: FictionEmailActions
   runApp: (args: { context: 'app' | 'node', isProd?: boolean }) => Promise<void>
   close: () => Promise<void>
 }
@@ -54,6 +53,9 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
   out.fictionAi = new FictionAi({ ...out, openaiApiKey })
   out.fictionAws = new FictionAws({ fictionEnv, awsAccessKey, awsAccessKeySecret })
   out.fictionMedia = new FictionMedia({ ...out, fictionAws: out.fictionAws, bucket: 'factor-tests' })
+
+  out.fictionEmailActions = new FictionEmailActions({ ...out })
+
   out.fictionRouterSites = new FictionRouter({ routerId: 'siteRouter', fictionEnv, baseUrl: 'https://www.test.com', routes, create: true })
   out.fictionAppSites = new FictionApp({
     port: randomBetween(1100, 50_000),
@@ -75,27 +77,7 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
 
   out.fictionEnv.log.info(`Site Test Utils Created (${context})`)
 
-  // out.runApp = async (args: { isProd?: boolean, context?: 'app' | 'node' }) => {
-  //   const { context } = args
-
-  //   const { isProd = false } = args
-  //   await out.fictionDb.init()
-  //   const srv = await out.fictionServer.initServer({ useLocal: true, fictionUser: out.fictionUser })
-
-  //   const port = out.fictionApp.port.value = out.fictionServer.port.value
-
-  //   await out.fictionApp.ssrServerSetup({ expressApp: srv?.expressApp, isProd })
-
-  //   await srv?.run()
-
-  //   out.fictionApp.logReady({ serveMode: 'comboSSR' })
-
-  //   return { port }
-  // }
-
-  out.close = async () => {
-    await testUtils.close()
-  }
+  out.close = () => testUtils.close()
 
   return out as SiteTestUtils
 }

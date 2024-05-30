@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { Site } from '../../site'
-import { createSiteTestUtils } from '../../test/siteTestUtils'
+import { createSiteTestUtils } from '../../test/testUtils'
 import { activeSiteDisplayUrl } from '../site'
 
 describe('previewUrl', async () => {

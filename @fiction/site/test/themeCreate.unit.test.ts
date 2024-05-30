@@ -5,8 +5,8 @@ import { findValueByKey } from '@fiction/core'
 import { afterAll, describe, expect, it } from 'vitest'
 import type { Theme } from '../theme'
 import { setup } from './test-theme'
-import type { SiteTestUtils } from './siteTestUtils'
-import { createSiteTestUtils } from './siteTestUtils'
+import type { SiteTestUtils } from './testUtils'
+import { createSiteTestUtils } from './testUtils'
 
 let orgId: string
 let userId: string

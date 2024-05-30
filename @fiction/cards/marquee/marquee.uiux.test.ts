@@ -1,5 +1,5 @@
 import { afterAll, describe, expect, it } from 'vitest'
-import { createSiteUiTestingKit } from '@fiction/site/test/siteTestUtils'
+import { createSiteUiTestingKit } from '@fiction/site/test/testUtils.js'
 import { collectKeysFromOptions } from '@fiction/site/utils/schema'
 import { templates } from './index.js'
 

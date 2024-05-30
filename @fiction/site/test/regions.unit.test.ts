@@ -3,8 +3,8 @@ import type { InitializedTestUtils } from '@fiction/core/test-utils'
 import { objectId } from '@fiction/core'
 import { Card } from '../card'
 import { Site } from '../site'
-import type { SiteTestUtils } from './siteTestUtils'
-import { createSiteTestUtils } from './siteTestUtils'
+import type { SiteTestUtils } from './testUtils'
+import { createSiteTestUtils } from './testUtils'
 import { setup } from './test-theme'
 
 let site: Site

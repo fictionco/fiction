@@ -17,6 +17,14 @@ export type ProgressStatus =
   | 'error'
   | 'cancelled'
 
+export type SyndicateStatus =
+  | 'active'
+  | 'unsubscribed'
+  | 'pending'
+  | 'cancelled'
+  | 'bounced'
+  | 'complained'
+
 export interface StatusDetails {
   status?: string
   message: string

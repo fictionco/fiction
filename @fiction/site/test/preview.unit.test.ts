@@ -7,7 +7,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { shortId, waitFor } from '@fiction/core'
 import { snapshotHtml } from '@fiction/core/utils/snapshot'
 import { requestManageSite } from '../load'
-import { createSiteTestUtils } from './siteTestUtils'
+import { createSiteTestUtils } from './testUtils'
 
 describe('sitePreview', async () => {
   const testUtils = await createSiteTestUtils()

@@ -5,7 +5,7 @@ import type { EmailResponse } from '@fiction/core/plugin-email/endpoint'
 import { createEmailVars } from './utils'
 import type { FictionEmailActions } from '.'
 
-export type EmailVars = {
+export type EmailVars<T extends object | undefined = object | undefined> = {
   actionId: string
   appName: string
   code: string
@@ -18,22 +18,22 @@ export type EmailVars = {
   originUrl: string
   unsubscribeUrl: string
   redirect: string
+  queryVars: T
 }
 
 export type EmailActionSettings<T extends EmailActionSurface = EmailActionSurface > = {
   actionId: string
   template: vue.Component
-  emailConfig: (args: EmailVars) => TransactionalEmailConfig | Promise<TransactionalEmailConfig>
+  emailConfig: (args: EmailVars<T['queryVars']>) => TransactionalEmailConfig | Promise<TransactionalEmailConfig>
   vars?: Partial<EmailVars>
   serverAction?: (action: EmailAction, args: T['transactionArgs'], meta: EndpointMeta) => Promise< T['transactionResponse']>
-  sendAction?: (action: EmailAction, args: T['sendArgs'], meta: EndpointMeta) => Promise< T['sendResponse']>
   fictionEmailActions?: FictionEmailActions
 }
 
 export type EmailActionSurface = Partial<{
   transactionArgs: Record<string, unknown>
   transactionResponse: EndpointResponse
-  sendArgs: SendArgsRequest
+  queryVars: Record<string, string>
   sendResponse: EndpointResponse<{ isSent: boolean }>
 }>
 
@@ -42,19 +42,18 @@ export type SendArgsSurface = Partial<{
   fields: Record<string, unknown>
 }>
 
-export type SendArgsRequest<T extends SendArgsSurface = SendArgsSurface > = {
+export type SendArgsRequest = {
   to: string
-  queryVars?: T['queryVars']
-  fields?: T['fields']
+  fields?: Partial<User>
   origin?: string
   redirect?: string
   baseRoute?: string
 }
 
-export type SendEmailArgs<T extends SendArgsSurface = SendArgsSurface > = {
+export type SendEmailArgs = {
   recipient: Partial<User>
   isNew?: boolean
-} & Partial<SendArgsRequest<T>>
+} & Partial<SendArgsRequest>
 
 export class EmailAction<T extends EmailActionSurface = EmailActionSurface > extends FictionObject<EmailActionSettings<T>> {
   fictionEmailActions = this.settings.fictionEmailActions
@@ -106,14 +105,15 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
     }
   }
 
-  async serveSend(args: SendEmailArgs, _meta: EndpointMeta): Promise<EndpointResponse<EmailResponse> & { emailVars: EmailVars }> {
+  async serveSend(args: SendEmailArgs & { queryVars?: T['queryVars'] }, _meta: EndpointMeta): Promise<EndpointResponse<EmailResponse> & { emailVars: EmailVars }> {
     const fictionEmail = this.fictionEmailActions?.settings.fictionEmail
     if (!fictionEmail || !this.fictionEmailActions)
       throw abort('no fictionEmail provided')
 
     const emailVars = await createEmailVars({ ...args, fictionEmailActions: this.fictionEmailActions, actionId: this.settings.actionId })
 
-    const userEmail = await this.settings.emailConfig(emailVars)
+    const userEmail = await this.settings.emailConfig(emailVars as EmailVars<T['queryVars']>)
+
     const defaultEmail = await this.defaultConfig()
     const finalEmail = deepMerge([defaultEmail, userEmail])
 
@@ -122,14 +122,14 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
     return { ...r, emailVars }
   }
 
-  async requestSend(args: T['sendArgs']): Promise<T['sendResponse']> {
+  async requestSend(args: SendArgsRequest & { queryVars: T['queryVars'] }): Promise<T['sendResponse']> {
     const origin = typeof window !== 'undefined' ? window.location.origin : ''
     const { to } = args || {}
 
     if (!to)
       throw abort('no email recipient provided')
 
-    const r = await this.fictionEmailActions?.requests.EmailAction.request({ _action: 'sendEmail', actionId: this.settings.actionId, origin, to, ...args })
+    const r = await this.fictionEmailActions?.requests.EmailAction.request({ ...args, _action: 'sendEmail', actionId: this.settings.actionId, origin, to })
 
     return r as T['sendResponse']
   }

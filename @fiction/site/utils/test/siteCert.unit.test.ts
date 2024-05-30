@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { shortId } from '@fiction/core'
 import { tableNames } from '../../tables'
 import { requestManageSite } from '../../load'
-import { createSiteTestUtils } from '../../test/siteTestUtils'
+import { createSiteTestUtils } from '../../test/testUtils'
 import { saveSite } from '../site'
 import { updateSiteCerts } from '../cert'
 

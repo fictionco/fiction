@@ -5,7 +5,7 @@ import type { JsonSchema7ObjectType } from 'zod-to-json-schema'
 import type { CardTemplate } from '../../card'
 import { Card } from '../../card'
 import { Site } from '../../site'
-import { createSiteTestUtils } from '../../test/siteTestUtils'
+import { createSiteTestUtils } from '../../test/testUtils'
 import { type InputOptionGeneration, calculateTotalEstimatedTimeSeconds, generateJsonPropConfig, generateOutputProps, parseDescription, simulateProgress } from '../generation'
 
 describe('generation utils', async () => {

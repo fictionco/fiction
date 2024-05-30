@@ -14,7 +14,6 @@ type FictionSubscribeSettings = {
   fictionEmail: FictionEmail
   fictionEnv: FictionEnv
   fictionUser: FictionUser
-  fictionMonitor: FictionMonitor
   fictionEmailActions: FictionEmailActions
 } & FictionPluginSettings
 

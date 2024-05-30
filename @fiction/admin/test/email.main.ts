@@ -2,7 +2,7 @@ import { AppRoute, type ServiceConfig, type ServiceList } from '@fiction/core'
 
 import * as adminTheme from '@fiction/admin/theme'
 import FSite from '@fiction/cards/CardSite.vue'
-import { createSiteTestUtils } from '@fiction/site/test/siteTestUtils.js'
+import { createSiteTestUtils } from '@fiction/site/test/testUtils.js'
 import { FictionEmailActions } from '@fiction/plugin-email-actions'
 import { crossVar } from '@fiction/core/utils/vars'
 import { FictionAdmin } from '../index.js'

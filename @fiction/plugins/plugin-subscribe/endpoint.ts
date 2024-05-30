@@ -9,7 +9,6 @@ interface SaveMediaSettings {
   fictionSubscribe: FictionSubscribe
   fictionDb: FictionDb
   fictionEnv: FictionEnv
-  fictionMonitor: FictionMonitor
   fictionEmail: FictionEmail
 }
 
@@ -20,13 +19,13 @@ abstract class SubscribeQuery extends Query<SaveMediaSettings> {
   }
 }
 
-export type WhereSubscription = Partial<TableSubscribeConfig>
+export type WhereSubscription = { subscribeId: string } | { orgId: string, userId: string }
 
 export type ManageSubscriptionParams =
   | { _action: 'create', fields: Partial<TableSubscribeConfig> & { orgId: string, userId: string } }
-  | { _action: 'list', where: WhereSubscription, limit?: number, offset?: number }
-  | { _action: 'count', where: WhereSubscription }
-  | { _action: 'update', where: WhereSubscription, updates: Partial<TableSubscribeConfig> }
+  | { _action: 'list', where: Partial<TableSubscribeConfig>, limit?: number, offset?: number }
+  | { _action: 'count', where: Partial<TableSubscribeConfig> }
+  | { _action: 'update', where: WhereSubscription, fields: Partial<TableSubscribeConfig> }
   | { _action: 'delete', where: WhereSubscription }
 
 export type ManageSubscriptionResponse = EndpointResponse<TableSubscribeConfig[]>
@@ -57,8 +56,9 @@ export class ManageSubscriptionQuery extends SubscribeQuery {
   }
 
   private async createSubscription(params: ManageSubscriptionParams & { _action: 'create' }, meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
-    const { fields } = params
+    const fields: Partial<TableSubscribeConfig> = { status: 'active', ...params.fields }
     const insertData = prepareFields({ type: 'create', fields, meta, fictionDb: this.settings.fictionDb, table: t.subscribe })
+
     const result = await this.db().table(t.subscribe).insert(insertData).onConflict(['user_id', 'org_id']).merge().returning('*')
     return { status: 'success', data: result }
   }
@@ -74,11 +74,11 @@ export class ManageSubscriptionQuery extends SubscribeQuery {
   }
 
   private async updateSubscription(params: ManageSubscriptionParams & { _action: 'update' }, _meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
-    const { where } = params
+    const { where, fields } = params
 
     const result = await this.db().table(t.subscribe)
       .where(where)
-      .update(params.updates)
+      .update(fields)
       .returning('*')
 
     return { status: 'success', data: result }
