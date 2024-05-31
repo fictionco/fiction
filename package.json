@@ -99,7 +99,7 @@
     "@types/node": "^20.12.13",
     "@vitest/coverage-istanbul": "^1.6.0",
     "@vue/test-utils": "^2.4.6",
-    "happy-dom": "^14.11.4",
+    "happy-dom": "^14.12.0",
     "jsdom": "^24.1.0",
     "ngrok": "5.0.0-beta.2",
     "nodemon": "3.1.0",

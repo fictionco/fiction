@@ -48,10 +48,10 @@ describe('node utils', () => {
 
     const serviceConfig = await mainFileImports.setup()
 
-    if (!serviceConfig?.createService)
+    if (!serviceConfig?.service)
       throw new Error('No service config found')
 
-    const service = await serviceConfig.createService({ serviceConfig, context: 'node', cliVars: {} })
+    const service = serviceConfig?.service
 
     expect(Object.keys(service).sort()).toMatchInlineSnapshot(`
       [

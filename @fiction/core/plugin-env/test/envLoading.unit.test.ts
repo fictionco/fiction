@@ -56,16 +56,16 @@ describe('env service config', () => {
   it('server run', async () => {
     runCommandMock = vi.fn(async (_args) => { })
     serviceConfig = {
-      fictionEnv: service.fictionEnv,
+      service,
+      runVars: {},
       runCommand: runCommandMock,
-      createService: async () => service,
       createMount: async (args) => {
         const mountEl = document.createElement('div')
         return await service.fictionApp.mountApp({ mountEl, ...args })
       },
     }
-    serviceConfig.fictionEnv.commandName.value = 'test'
-    await serviceConfig.fictionEnv.serverRunCurrentCommand({ serviceConfig, cliVars: {} })
+    serviceConfig.service.fictionEnv.commandName.value = 'test'
+    await serviceConfig.service.fictionEnv.serverRunCurrentCommand({ serviceConfig, cliVars: {} })
 
     expect(service.testPlugin.foo.value, 'ran setup callback').toBe('bar')
 
@@ -87,7 +87,7 @@ describe('env service config', () => {
       }
     `)
 
-    serviceConfig.fictionEnv.commandName.value = 'testDev'
+    serviceConfig.service.fictionEnv.commandName.value = 'testDev'
 
     await waitFor(50)
 
@@ -99,11 +99,8 @@ describe('env service config', () => {
     if (!serviceConfig.createMount)
       throw new Error('createMount not defined')
 
-    await serviceConfig.createMount({ service, serviceConfig, runVars: {} })
+    await serviceConfig.createMount({ serviceConfig })
     expect(runCommandMock).toHaveBeenCalled()
-    expect(runCommandMock).toHaveBeenCalledWith(expect.objectContaining({
-      command: 'testDev',
-      context: 'app',
-    }))
+    expect(runCommandMock).toHaveBeenCalledWith(expect.objectContaining({ command: 'testDev', context: 'app' }))
   })
 })

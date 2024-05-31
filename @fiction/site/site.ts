@@ -44,6 +44,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   isEditor = vue.computed(() => this.siteMode.value === 'designer' || false)
   frame = new SiteFrameTools({ site: this, relation: this.siteMode.value === 'designer' ? 'parent' : 'child' })
   events = new TypedEventTarget<SiteEventMap>({ fictionEnv: this.fictionSites.fictionEnv })
+
   constructor(settings: T) {
     super('Site', settings)
     this.watchers()
@@ -97,7 +98,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   pages = vue.shallowRef(setPages({ pages: this.settings.pages, site: this }))
 
   primaryCustomDomain = vue.computed(() => this.customDomains.value?.find(d => d.isPrimary)?.hostname ?? this.customDomains.value?.[0]?.hostname)
-  // hostname = activeSiteHostname(this)
+
   currentViewId = vue.computed(() => (this.siteRouter.params.value.viewId || '_home') as string)
   viewMap = vue.computed(() => getViewMap({ pages: this.pages.value }))
   activePageId = activePageId({ siteRouter: this.siteRouter, viewMapRef: this.viewMap })
@@ -234,9 +235,16 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
   colors = vue.computed(() => {
     const { colorPrimary = 'blue', colorTheme = 'gray' } = this.fullConfig.value.colors || {}
-    const theme = getColorScheme(colorTheme)
-    return { primary: getColorScheme(colorPrimary), theme }
+
+    return { primary: getColorScheme(colorPrimary), theme: getColorScheme(colorTheme) }
   })
 
   activeRegionKey = vue.ref<PageRegion>('main')
+
+  cleanup() {
+    this.pages.value.forEach(p => p.cleanup())
+    Object.values(this.sections.value).forEach(s => s.cleanup())
+    this.pages.value = []
+    this.sections.value = {}
+  }
 }

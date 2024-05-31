@@ -1,8 +1,6 @@
 import { createTestUtils } from '@fiction/core/test-utils'
 
-import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
-
-import type { FictionRender } from '../plugin-render'
+import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest'
 
 // Mock the SSR module before importing it
 const mockRender = vi.fn().mockResolvedValue({
@@ -22,25 +20,28 @@ vi.mock('../render/ssr', () => {
   }
 })
 
-let fictionRender: FictionRender | undefined
-
 const template = `<!DOCTYPE html><html>
 <head><!--head--></head>
 <body><div id="app"><!--app--></div></body>
 </html>`
 
-const renderHtmlParams = {
-  pathname: '/',
-  template,
-  mode: 'prod',
-  runVars: {},
-} as const
+describe('serverRenderHtml', async () => {
+  const testUtils = createTestUtils()
+  const fictionRender = testUtils.fictionApp.fictionRender
 
-describe('serverRenderHtml', () => {
-  beforeAll(() => {
-    const testUtils = createTestUtils()
-    fictionRender = testUtils.fictionApp.fictionRender
-  })
+  if (!fictionRender)
+    throw new Error('fictionRender is not defined')
+
+  afterAll(() => testUtils.close())
+
+  const ssr = await fictionRender.getSSR('test')
+  const renderHtmlParams = {
+    pathname: '/',
+    template,
+    mode: 'prod',
+    runVars: {},
+    ssr,
+  } as const
 
   beforeEach(() => {
     mockRender.mockClear()

@@ -21,16 +21,17 @@ vue.onMounted(async () => {
   loading.value = false
 })
 
+const attrs = vue.useAttrs()
+
+const showCard = vue.computed(() => {
+  return !loading.value && !isSubscribed.value && !hide.value
+})
+
 vue.watchEffect(() => {
   const mode = uc.value.presentationMode
 
   if (mode === 'onLoad' || mode === 'onScroll')
     props.card.isNotInline.value = true
-})
-const attrs = vue.useAttrs()
-
-const showCard = vue.computed(() => {
-  return !loading.value && !isSubscribed.value && !hide.value
 })
 
 vue.watchEffect(() => {

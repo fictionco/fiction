@@ -60,8 +60,9 @@ class Tooltip {
     if (
       event?.relatedTarget
       && this.tippyWrapper.parentNode?.contains(event.relatedTarget as Node)
-    )
+    ) {
       return
+    }
 
     this.hide()
   }

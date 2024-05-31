@@ -2,11 +2,12 @@ import path from 'node:path'
 import dotenv from 'dotenv'
 import { FictionObject } from '../plugin'
 import type { HookType, UserNotification } from '../utils'
-import { camelToUpperSnake, crossVar, isApp, isDev, isNode, isTest, runHooks, runHooksSync, toSlug, vue } from '../utils'
+import { camelToUpperSnake, crossVar, isApp, isDev, isNode, isTest, onResetUi, resetUi, runHooks, runHooksSync, shortId, toSlug, vue } from '../utils'
 import { version as fictionVersion } from '../package.json'
 import type { RunVars } from '../inject'
 import { TypedEventTarget } from '../utils/eventTarget'
 import { logMemoryUsage } from '../utils/nodeUtils'
+import type { CleanupCallback } from '../types'
 import { compileApplication } from './entry'
 import type { CliCommand } from './commands'
 import { standardAppCommands } from './commands'
@@ -56,13 +57,17 @@ type BaseCompiled = {
 }
 
 export type EnvEventMap = {
-  shutdown: CustomEvent<{ reason: string }>
+  resetUi: CustomEvent<{ scope: 'all' | 'inputs' | 'iframe', cause: string }>
+  shutdown: CustomEvent<{ reason: string }> // shut down services, server
   notify: CustomEvent<UserNotification>
+  cleanup: CustomEvent<{ reason: string }> // clear memory, etc.
 }
 
 export class FictionEnv<
   S extends BaseCompiled = BaseCompiled,
 > extends FictionObject<FictionControlSettings> {
+  rand = shortId()
+  cleanupCallbacks: CleanupCallback[] = []
   events = new TypedEventTarget<EnvEventMap>({ fictionEnv: this })
   generatedConfig?: S
   commands = this.settings.commands || standardAppCommands
@@ -157,6 +162,33 @@ export class FictionEnv<
     })
 
     envConfig.list.forEach(c => c.onLoad({ fictionEnv: this }))
+
+    this.handleEvents()
+  }
+
+  handleEvents() {
+    if (!this.hasWindow)
+      return
+
+    onResetUi((args) => {
+      if (args.cause.includes('env'))
+        return
+      args.cause = `${args.cause}[env]`
+      this.events.emit('resetUi', args)
+    })
+
+    this.events.on('resetUi', (event) => {
+      const args = event.detail
+      if (args.cause.includes('env'))
+        return
+      args.cause = `${args.cause}[env]`
+      resetUi(args)
+    })
+  }
+
+  cleanup(args: { reason: string }) {
+    this.events.emit('cleanup', args)
+    this.cleanupCallbacks.forEach(cb => cb && cb())
   }
 
   override setup() {
@@ -191,7 +223,7 @@ export class FictionEnv<
   })
 
   envInit() {
-    vue.watch(
+    const stopWatch = vue.watch(
       () => this.currentCommand.value,
       (cmd) => {
         const fullOpts = cmd?.options ?? {}
@@ -218,6 +250,8 @@ export class FictionEnv<
       },
       { immediate: true },
     )
+
+    this.cleanupCallbacks.push(() => stopWatch())
   }
 
   getVars() {

@@ -4,7 +4,6 @@ import * as adminTheme from '@fiction/admin/theme'
 import FSite from '@fiction/cards/CardSite.vue'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils.js'
 import { FictionEmailActions } from '@fiction/plugin-email-actions'
-import { crossVar } from '@fiction/core/utils/vars'
 import { FictionAdmin } from '../index.js'
 
 export async function setup(args: { context?: 'node' | 'app' } = {}) {
@@ -23,10 +22,9 @@ export async function setup(args: { context?: 'node' | 'app' } = {}) {
   const service = { ...testUtils, fictionEmailActions, fictionAdmin }
 
   return {
+    runVars: { },
     service,
-    fictionEnv: service.fictionEnv,
     runCommand: async args => service.runApp(args),
-    createService: async () => service as ServiceList,
     createMount: args => service.fictionApp.mountApp(args),
   } satisfies ServiceConfig
 }

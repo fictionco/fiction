@@ -31,7 +31,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
     return `${s.adminBaseRoute}/preview/site/${this.site.siteId}${this.framePath.value}`
   })
 
-  previewPath = vue.computed(() => this.site.fictionSites.getPreviewPath().value)
+  previewPath = vue.computed(() => this.site.fictionSites.getPreviewPath.value)
   frameUrl = vue.computed(() => `${this.previewPath.value}${this.framePath.value}`)
 
   displayUrlBase = activeSiteDisplayUrl(this.site, { mode: 'display' })
@@ -53,16 +53,22 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
   init(_args: { caller?: string } = {}) {
     const site = this.site
 
+    const fictionEnv = site.fictionSites.fictionEnv
+
+    if (fictionEnv.isNode)
+      return
+
     // propagate resetUi events between frames
-    onResetUi((args) => {
+    fictionEnv.events.on('resetUi', (event) => {
+      const { scope } = event.detail
       // prevent recursion
-      if (args.scope === 'iframe')
+      if (scope === 'iframe')
         return
 
       this.send({ msg: { messageType: 'resetUi', data: undefined } })
     })
 
-    vue.watch(
+    const stopWatch = vue.watch(
       () => site.currentPath.value,
       (p) => {
         if (this.relation === 'child')
@@ -73,6 +79,8 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
       },
       { immediate: true },
     )
+
+    fictionEnv.cleanupCallbacks.push(() => stopWatch())
   }
 
   updateFrameUrl(pathOrUrl: string) {

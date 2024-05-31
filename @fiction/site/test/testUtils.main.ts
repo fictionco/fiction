@@ -17,9 +17,8 @@ export async function setup(args: { context?: 'node' | 'app' } = {}): Promise<Se
 
   return {
     service,
-    fictionEnv: service.fictionEnv,
+    runVars: {},
     runCommand: async args => service.runApp(args),
-    createService: async () => service as ServiceList,
     createMount: args => service.fictionApp.mountApp(args),
   }
 }

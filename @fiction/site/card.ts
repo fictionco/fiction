@@ -2,7 +2,6 @@ import type { colorTheme, vueRouter } from '@fiction/core'
 import { FictionObject, deepMerge, objectId, setNested, toLabel, vue } from '@fiction/core'
 import type { InputOption } from '@fiction/ui'
 import type { z } from 'zod'
-import type { iconStyle } from '@fiction/admin/util'
 import { refineOptions } from './utils/schema'
 import type { CardConfigPortable, SiteUserConfig, TableCardConfig } from './tables'
 import type { Site } from './site'
@@ -91,8 +90,6 @@ export class Card<
 
   constructor(settings: CardSettings<T>) {
     super('Card', settings)
-
-    this.init()
   }
 
   classes = vue.computed(() => {
@@ -103,12 +100,6 @@ export class Card<
       spacingClass: spacing?.spacingClass,
     }
   })
-
-  init() {
-    if (this.site?.siteMode.value !== 'standard') {
-      vue.watch(this.cards, () => this.cards.value.forEach((c, index) => c.index.value = index))
-    }
-  }
 
   initSubCard(args: { cardConfig: CardConfigPortable }) {
     const { cardConfig } = args
@@ -208,6 +199,11 @@ export class Card<
       scope: this.settings.scope,
       generation,
     }
+  }
+
+  cleanup() {
+    this.cards.value.forEach(c => c.cleanup())
+    this.cards.value = []
   }
 }
 

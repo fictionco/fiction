@@ -27,7 +27,8 @@ const service = { fictionEnv, fictionRelease, fictionBundle }
 
 export function setup(): ServiceConfig {
   return {
-    fictionEnv,
+    service,
+    runVars: {},
     runCommand: async (args) => {
       const { command, options = {} } = args
 
@@ -98,6 +99,6 @@ export function setup(): ServiceConfig {
         }
       }
     },
-    createService: async () => service,
+
   }
 }

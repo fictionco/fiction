@@ -160,30 +160,37 @@ function snapString(value: unknown, key?: string, opts: { maskedKeys?: string[] 
   if (key && maskedKeys.includes(key))
     return '**MASKED**'
 
-  if (key?.endsWith('Id') && val)
+  if (key?.endsWith('Id') && val) {
     out = rep('id', val)
-  else if ((key?.endsWith('Url') || key?.endsWith('Urls')) && val)
+  }
+  else if ((key?.endsWith('Url') || key?.endsWith('Urls')) && val) {
     out = rep('url', val)
+  }
   else if (
     (key?.endsWith('At')
     || key?.endsWith('Iso')
     || key === 'duration'
     || key === 'timestamp')
     && val
-  )
+  ) {
     out = rep('dateTime')
-  else if (key?.endsWith('Name') && val)
+  }
+  else if (key?.endsWith('Name') && val) {
     out = rep('name', val)
-  else if (key?.toLowerCase().endsWith('email') && val)
+  }
+  else if (key?.toLowerCase().endsWith('email') && val) {
     out = rep('email', val)
+  }
   else if (
     val.length === 32
     || key?.endsWith('Code')
     || key?.endsWith('Token')
-  )
+  ) {
     out = rep('hash', val)
-  else if (key === 'latitude' || key === 'longitude' || key === 'ip')
+  }
+  else if (key === 'latitude' || key === 'longitude' || key === 'ip') {
     out = rep('geo', val)
+  }
 
   return out
 }

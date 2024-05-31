@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site/card'
-import { emitEvent, useService, vue, vueRouter } from '@fiction/core'
+import { useService, vue, vueRouter } from '@fiction/core'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import type { UserConfig } from './SettingsWrap.vue'
@@ -63,7 +63,6 @@ async function send(): Promise<void> {
           placeholder="My Organization"
           sub-label="You can change this later"
           required
-          @keyup.enter.stop="emitEvent('submit')"
         />
 
         <ElInput
@@ -73,7 +72,6 @@ async function send(): Promise<void> {
           sub-label="Used for notifications and billing"
           placeholder="example@org.com"
           required
-          @keyup.enter.stop="emitEvent('submit')"
         />
 
         <ElInput input="InputSubmit">

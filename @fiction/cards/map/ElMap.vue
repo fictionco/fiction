@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import mapboxgl from 'mapbox-gl'
+import type mapboxgl from 'mapbox-gl'
 import { isDarkOrLightMode, vue } from '@fiction/core'
 import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
-import { onMounted, watch } from 'vue'
+
 import 'mapbox-gl/dist/mapbox-gl.css'
 import type { MapSchemaConfig } from '.'
 
@@ -56,7 +56,12 @@ const styleUrl = vue.computed(() => {
   // Return the mapped style or default to 'dark' or 'light' based on the mode
   return styleMap[fullMapConfig.value.mapStyle as keyof typeof styleMap] || (r())
 })
-function renderMap() {
+
+const cleanups: (() => void)[] = []
+
+async function renderMap() {
+  const { default: mapboxgl } = await import('mapbox-gl')
+
   mapboxgl.accessToken = props.mapboxAccessToken || 'pk.eyJ1IjoicmF5bG9wZXphbGVtYW4iLCJhIjoiY2trcHc3ODY4MGNycTJwcGE0MW5pcDNnMSJ9.gHtN2ew2g26gY7KSMzFBpw'
 
   const c = fullMapConfig.value
@@ -102,7 +107,7 @@ function renderMap() {
 
     const markerColor = ['dark', 'night'].some(_ => styleUrl.value.includes(_)) ? { bg: '#fff', stroke: '#000' } : { bg: '#3452ff', stroke: '#FFF' }
 
-    watch(() => c.markers, (newMarkers) => {
+    const sw1 = vue.watch(() => c.markers, (newMarkers) => {
       markers.value.forEach(marker => marker.remove())
       markers.value = []
       newMarkers.forEach((marker) => {
@@ -123,7 +128,7 @@ function renderMap() {
       })
     }, { deep: true, immediate: true })
 
-    watch(() => props.mapConfig, () => {
+    const sw2 = vue.watch(() => props.mapConfig, () => {
       const v = fullMapConfig.value
       if (map.value && v) {
         map.value.setPitch(v.pitch || 0) // tilt view
@@ -132,10 +137,22 @@ function renderMap() {
         map.value.setStyle(styleUrl.value)
       }
     }, { deep: true, immediate: true })
+
+    cleanups.push(() => {
+      sw1()
+      sw2()
+    })
   })
 }
-onMounted(() => {
+
+vue.onMounted(() => {
   renderMap()
+})
+
+vue.onUnmounted(() => {
+  cleanups.forEach(c => c())
+  markers.value.forEach(marker => marker.remove())
+  map.value?.remove()
 })
 </script>
 
@@ -168,4 +185,5 @@ onMounted(() => {
     display: none;
   }
 }
-</style>
+</style>import { watch } from 'fs-extra'
+import { onMounted } from 'vue'

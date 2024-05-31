@@ -214,19 +214,15 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
   }
 
   serverRenderHtml = async (params: types.RenderConfig): Promise<string> => {
-    const { pathname = '/', template, mode, runVars = {} } = params
+    const { template, runVars = {}, ssr } = params
 
-    const ssr = new SSR({
-      appUrl: this.fictionApp.appUrl.value,
-      distFolderServerMountFile: this.distFolderServerMountFile,
-      viteServer: mode !== 'prod' ? await this.getViteServer({ mode }) : undefined,
-      mountFilePath: this.mountFilePath,
-    })
-
-    const parts = await ssr.render({ pathname, mode, runVars })
+    const parts = await ssr.render({ runVars })
 
     let { htmlBody, headTags, bodyTags } = parts
     const { htmlAttrs, bodyAttrs, bodyTagsOpen } = parts
+
+    const mode = runVars.RUN_MODE || 'prod'
+    const pathname = runVars.PATHNAME || '/'
 
     if (!template)
       throw new Error('html template required')
@@ -354,10 +350,22 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     }
   }
 
+  getSSR = async (mode: 'prod' | 'dev' | 'test'): Promise<SSR> => {
+    const ssr = new SSR({
+      appUrl: this.fictionApp.appUrl.value,
+      distFolderServerMountFile: this.distFolderServerMountFile,
+      viteServer: mode !== 'prod' ? await this.getViteServer({ mode }) : undefined,
+      mountFilePath: this.mountFilePath,
+      mainFilePath: this.settings.fictionEnv.mainFilePath,
+    })
+    return ssr
+  }
+
   preRenderPages = async (): Promise<void> => {
     const distFolderClient = this.distFolderClient
     const distFolderStatic = this.distFolderStatic
     const mode = 'prod'
+    const ssr = await this.getSSR(mode)
 
     const template = await this.indexHtml.getRenderedIndexHtml()
 
@@ -389,13 +397,13 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
         const runVars: Partial<RunVars> = {
           ...this.settings.fictionEnv.getRenderedEnvVars(),
           PATHNAME: pathname,
+          RUN_MODE: 'prod',
         }
 
         const html = await this.serverRenderHtml({
           template,
-          mode,
-          pathname,
           runVars,
+          ssr,
         })
 
         const writePath = path.join(this.distFolderStatic, filePath)
@@ -413,10 +421,11 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     this.log.info(`[done:render]`)
   }
 
-  getRunVars = (args: { request: Request }): Partial<RunVars> & Record<string, string> => {
-    const { request } = args
+  getRunVars = (args: { request: Request, mode: 'dev' | 'prod' | 'test' }): Partial<RunVars> & Record<string, string> => {
+    const { request, mode } = args
     return {
       ...this.settings.fictionEnv.getRenderedEnvVars(),
+      RUN_MODE: mode,
       APP_INSTANCE: this.fictionApp.appInstanceId,
       FICTION_ORG_ID: this.fictionApp.settings.fictionOrgId || '',
       FICTION_SITE_ID: this.fictionApp.settings.fictionSiteId || '',
@@ -435,7 +444,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
   async getStaticHtmlFile(filePath: string, request: Request): Promise<string | undefined> {
     try {
       const html = await fs.readFile(filePath)
-      const runVars = this.getRunVars({ request })
+      const runVars = this.getRunVars({ request, mode: 'prod' })
       return this.addRunVarsToHtml({ html: html.toString(), runVars })
     }
     catch { }
@@ -473,12 +482,14 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
       await this.fictionEnv?.runHooks('expressApp', { expressApp, mode })
 
+      const ssr = await this.getSSR(mode)
+
       // server side rendering
       expressApp.use('*', async (req, res) => {
         const pathname = req.originalUrl
 
         try {
-          const runVars = this.getRunVars({ request: req })
+          const runVars = this.getRunVars({ request: req, mode })
 
           if (pathname === '/sitemap.xml') {
             const sitemap = await this.fictionApp.fictionSitemap?.generateSitemap({ runVars })
@@ -500,7 +511,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
             return
           }
 
-          const html = await this.serverRenderHtml({ template, pathname, mode, runVars })
+          const html = await this.serverRenderHtml({ template, runVars, ssr })
 
           const outputHtml = this.addRunVarsToHtml({ html, runVars })
 

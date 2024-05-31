@@ -1,4 +1,4 @@
-import { vue } from '@fiction/core'
+import { type CleanupCallback, vue } from '@fiction/core'
 import type { Site, SiteSettings } from '..'
 import type { CardConfigPortable, TableSiteConfig } from '../tables'
 import { Card } from '../card'
@@ -12,32 +12,37 @@ export type QueryVarHook = {
 }
 
 // This function encapsulates the watcher logic
-export function setupRouteWatcher(args: { site: Site, queryVarHooks: QueryVarHook[] }): void {
+export function setupRouteWatcher(args: { site: Site, queryVarHooks: QueryVarHook[] }): CleanupCallback {
   const { site, queryVarHooks } = args
-  if (typeof window !== 'undefined') {
-    vue.watch(
-      () => site.siteRouter.current.value,
-      async (route) => {
-        if (!route)
-          return
+  const fictionEnv = site.fictionSites.fictionEnv
+  if (fictionEnv.isNode) {
+    return
+  }
 
-        const routeVars = { ...route.params, ...route.query } as Record<string, string | undefined>
+  const removeWatch = vue.watch(
+    () => site.siteRouter.current.value,
+    async (route) => {
+      if (!route)
+        return
 
-        for (const hook of queryVarHooks) {
-          const { key, value } = hook
-          if (routeVars[key] && value.includes(routeVars[key]!)) {
-            const result = await hook.callback({ site, value: routeVars[key]! })
-            if (result?.reload) {
-              const url = new URL(window.location.href)
-              url.searchParams.delete(key)
-              window.location.href = url.toString()
-            }
+      const routeVars = { ...route.params, ...route.query } as Record<string, string | undefined>
+
+      for (const hook of queryVarHooks) {
+        const { key, value } = hook
+        if (routeVars[key] && value.includes(routeVars[key]!)) {
+          const result = await hook.callback({ site, value: routeVars[key]! })
+          if (result?.reload) {
+            const url = new URL(window.location.href)
+            url.searchParams.delete(key)
+            window.location.href = url.toString()
           }
         }
-      },
-      { immediate: true },
-    )
-  }
+      }
+    },
+    { immediate: true },
+  )
+
+  fictionEnv.cleanupCallbacks.push(() => removeWatch())
 }
 
 export function setSections(args: { site: Site, sections?: Record<string, CardConfigPortable> }) {

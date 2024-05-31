@@ -19,34 +19,35 @@ export class FictionExtend<T extends PluginIndexSettings = PluginIndexSettings> 
     this.settings.fictionEnv.addHook({
       hook: 'adminPages',
       caller: 'extendConfig',
-        context: 'app',
+      context: 'app',
       callback: async (pages, meta) => {
-      const { templates } = meta
-      return [
-        ...pages,
-        createCard({
-          templates,
-          regionId: 'main',
-          templateId: 'dash',
-          slug: 'extend',
-          title: 'Plugins',
-          cards: [
-            createCard({
-              tpl: new CardTemplate({
-                templateId: 'extend',
-                el: vue.defineAsyncComponent(() => import('./ViewExtend.vue')),
+        const { templates } = meta
+        return [
+          ...pages,
+          createCard({
+            templates,
+            regionId: 'main',
+            templateId: 'dash',
+            slug: 'extend',
+            title: 'Plugins',
+            cards: [
+              createCard({
+                tpl: new CardTemplate({
+                  templateId: 'extend',
+                  el: vue.defineAsyncComponent(() => import('./ViewExtend.vue')),
+                }),
               }),
-            }),
-          ],
-          userConfig: {
-            isNavItem: true,
-            navIcon: 'i-tabler-plug',
-            navIconAlt: 'i-tabler-plug-x',
-            priority: 100,
-          },
-        }),
-      ]
-    } })
+            ],
+            userConfig: {
+              isNavItem: true,
+              navIcon: 'i-tabler-plug',
+              navIconAlt: 'i-tabler-plug-x',
+              priority: 100,
+            },
+          }),
+        ]
+      },
+    })
   }
 
   override async beforeSetup(args: PluginSetupArgs) {

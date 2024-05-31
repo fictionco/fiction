@@ -16,12 +16,12 @@ const props = defineProps({
   siteRouter: { type: Object as vue.PropType<FictionRouter>, default: undefined },
 })
 
-const { fictionSites, runVars, fictionRouterSites, fictionUser } = useService<{ fictionSites: FictionSites, fictionRouterSites: FictionRouter }>()
+const { fictionSites, runVars, fictionRouterSites, fictionUser, fictionEnv } = useService<{ fictionSites: FictionSites, fictionRouterSites: FictionRouter }>()
 
 const loading = vue.ref(false)
 const site = vue.shallowRef<Site>()
 const fonts = vue.computed(() => getThemeFontConfig(site?.value?.fullConfig.value?.fonts))
-
+let cleanups: (() => any)[] = []
 async function load() {
   loading.value = true
 
@@ -143,10 +143,6 @@ vue.onServerPrefetch(async () => {
 })
 
 vue.onMounted(async () => {
-
-})
-
-vue.onMounted(async () => {
   unhead.useHead({
     bodyAttrs: { class: () => site.value?.isDarkMode.value ? 'dark' : 'light' },
   })
@@ -171,7 +167,7 @@ vue.onMounted(async () => {
     // initialize resetUi and path watchers
     site?.value.frame.init({ caller: 'FSite' })
 
-    vue.watch(
+    const sw = vue.watch(
       () => site?.value,
       () => {
         if (site.value)
@@ -179,11 +175,20 @@ vue.onMounted(async () => {
       },
       { immediate: true },
     )
+
+    cleanups.push(sw)
   }
 })
 
 const theme = vue.computed(() => site.value?.colors.value.theme || getColorScheme('gray'))
 const primary = vue.computed(() => site.value?.colors.value.primary || getColorScheme('blue'))
+
+fictionEnv.events.on('cleanup', () => {
+  cleanups.forEach(c => c && c())
+  site.value?.cleanup()
+  site.value = undefined
+  cleanups = []
+})
 </script>
 
 <template>

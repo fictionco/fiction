@@ -1,5 +1,6 @@
 import type { RunVars } from '../inject'
-import type { FictionAppEntry } from '../plugin-env'
+import type { FictionAppEntry, ServiceConfig } from '../plugin-env'
+import type { SSR } from './render/ssr'
 
 export interface IndexTemplates {
   main: { location: string, html?: string }
@@ -12,11 +13,10 @@ export interface RenderOptions {
 }
 
 export interface RenderConfig {
-  pathname?: string
   manifest?: Record<string, any>
   template?: string
-  mode: 'dev' | 'prod' | 'test'
   runVars?: Partial<RunVars>
+  ssr: SSR
 }
 
 export interface HtmlBuildingBlocks {
@@ -39,6 +39,6 @@ export interface RenderedHtmlParts {
 }
 
 export interface EntryModuleExports {
-  runAppEntry: (c: { renderRoute?: string, runVars?: Partial<RunVars> }) => Promise<FictionAppEntry>
+  runAppEntry: (c: { renderRoute?: string, runVars?: Partial<RunVars>, serviceConfig: ServiceConfig }) => Promise<FictionAppEntry>
   [key: string]: unknown
 }

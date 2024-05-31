@@ -260,11 +260,9 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     const user = this.activeUser.value
 
     this.deleteCurrentUser()
-    emitEvent('logout')
 
     this.events.emit('logout', { user })
-
-    emitEvent('resetUi')
+    this.fictionEnv.events.emit('resetUi', { scope: 'all', cause: 'logout' })
 
     if (callback)
       callback()

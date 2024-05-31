@@ -1,6 +1,8 @@
 import type { FictionRouter } from '../plugin-router'
+import type { FictionEnv } from '../plugin-env'
 import { vue } from './libraries'
 import { emitEvent, onEvent } from './event'
+import { isNode } from './vars'
 
 type ResetUiScope = 'all' | 'inputs' | 'iframe'
 interface ResetUiDetail {
@@ -21,6 +23,9 @@ export function resetUi(args?: ResetUiDetail): void {
 let __listener = false
 const __callbacks: { (args: ResetUiDetail): void }[] = []
 export function onResetUi(cb: (args: ResetUiDetail) => void, _args: { location?: string } = {}): void {
+  if (typeof window === 'undefined')
+    return
+
   __callbacks.push(cb)
 
   if (!__listener) {
@@ -31,20 +36,28 @@ export function onResetUi(cb: (args: ResetUiDetail) => void, _args: { location?:
   }
 }
 
-export async function initializeResetUi(fictionRouter: FictionRouter): Promise<void> {
+export async function initializeResetUi(args: { fictionRouter: FictionRouter, fictionEnv: FictionEnv }): Promise<void> {
+  const { fictionRouter, fictionEnv } = args
+
+  const res = (_: ResetUiDetail) => {
+    resetUi(_)
+    fictionEnv.events.emit('resetUi', _)
+  }
+
   window.addEventListener('keydown', (e: KeyboardEvent) => {
     if (e.key === 'Escape' || e.key === 'Tab')
-      resetUi({ scope: 'all', cause: 'escape' })
+      res({ scope: 'all', cause: 'escape' })
   })
 
   window.addEventListener('click', () => {
-    resetUi({ scope: 'all', cause: 'windowClick' })
+    res({ scope: 'all', cause: 'windowClick' })
   })
+
   vue.watch(
     () => fictionRouter.current.value.path,
     (r, old) => {
       if (r !== old)
-        resetUi({ scope: 'all', cause: 'routeChange' })
+        res({ scope: 'all', cause: 'routeChange' })
     },
   )
 }

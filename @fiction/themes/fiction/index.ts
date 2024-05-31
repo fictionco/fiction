@@ -39,6 +39,7 @@ const socials: NavItem[] = [
 ]
 
 export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: FictionStripe }) {
+
   const { fictionEnv } = args
   const getPages = async () => {
     const r = await Promise.all([

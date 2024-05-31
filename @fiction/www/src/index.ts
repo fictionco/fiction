@@ -9,14 +9,13 @@ import { FictionStripe } from '@fiction/plugin-stripe'
 import { FictionDevRestart } from '@fiction/core/plugin-env/restart'
 import { FictionSites } from '@fiction/site'
 import { FictionAdmin } from '@fiction/admin'
-
 import FSite from '@fiction/cards/CardSite.vue'
 import { FictionAi } from '@fiction/plugin-ai'
 import { FictionExtend } from '@fiction/plugin-extend'
 import { FictionSubscribe } from '@fiction/plugin-subscribe'
+
 import { version } from '../package.json'
 import { getExtensionIndex, getThemes } from './extend'
-
 import { commands } from './commands'
 
 const cwd = safeDirname(import.meta.url, '..')
@@ -47,7 +46,6 @@ const fictionRouter = new FictionRouter({
       new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: FSite, props: { siteRouter: fictionRouter, themeId: 'fiction' } }),
     ]
   },
-
 })
 
 const fictionApp = new FictionApp({
@@ -102,16 +100,7 @@ const fictionEmailActions = new FictionEmailActions({ ...basicService, fictionMe
 const fictionAi = new FictionAi({ ...basicService, fictionMedia, pineconeApiKey: v('PINECONE_API_KEY'), pineconeEnvironment: v('PINECONE_ENVIRONMENT'), pineconeIndex: v('PINECONE_INDEX'), openaiApiKey: v('OPENAI_API_KEY') })
 const fictionAdmin = new FictionAdmin({ ...basicService, fictionEmailActions, fictionMedia })
 
-const pluginServices = {
-  ...basicService,
-  fictionAppSites,
-  fictionRouterSites,
-  fictionAws,
-  fictionMedia,
-  fictionAi,
-  fictionEmailActions,
-  fictionAdmin,
-}
+const pluginServices = { ...basicService, fictionAppSites, fictionRouterSites, fictionAws, fictionMedia, fictionAi, fictionEmailActions, fictionAdmin }
 
 const fictionSubscribe = new FictionSubscribe({ ...pluginServices })
 
@@ -167,23 +156,24 @@ const fictionTeam = new FictionTeam({ ...pluginServices })
 
 const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp, fictionAppSites] })
 
-export const service = { ...pluginServices, fictionSites, fictionTeam, fictionUi, fictionStripe, fictionSubscribe }
+const baseService = { ...pluginServices, fictionSites, fictionTeam, fictionUi, fictionStripe, fictionSubscribe }
 
-export type ServiceList = typeof service
+export type SpecificService = typeof baseService
 
-const fictionExtend = new FictionExtend({ ...service, extensionIndex: getExtensionIndex(service) })
+const fictionExtend = new FictionExtend({ ...pluginServices, extensionIndex: getExtensionIndex(baseService) })
 
-async function initializeBackingServices() {
-  await Promise.all([
-    fictionDb.init(),
-    fictionEmail.init(),
-  ])
+const service = {
+  ...baseService,
+  fictionExtend,
 }
 
 export function setup(): ServiceConfig {
+  async function initializeBackingServices() {
+    await Promise.all([fictionDb.init(), fictionEmail.init()])
+  }
   return {
-    fictionEnv,
-    createService: async () => ({ ...service, fictionExtend }),
+    service,
+    runVars: {},
     runCommand: async (args) => {
       const { command, options = {}, context } = args
 
@@ -255,7 +245,7 @@ export function setup(): ServiceConfig {
 
     createMount: async (args) => {
       // APP_INSTANCE is the APP being run
-      if (args.runVars.APP_INSTANCE === 'sites') {
+      if (args.serviceConfig.runVars?.APP_INSTANCE === 'sites') {
         return await fictionAppSites.mountApp(args)
       }
       else {

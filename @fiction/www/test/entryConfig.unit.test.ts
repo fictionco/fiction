@@ -1,9 +1,13 @@
 import { describe, expect, it } from 'vitest'
 import { compileApplication } from '@fiction/core/plugin-env/entry'
-import type { MainFile } from '@fiction/core/plugin-env/types'
-import { service } from '../src'
+import type { MainFile, ServiceList } from '@fiction/core/plugin-env/types'
+import type { FictionApp, FictionEnv } from '@fiction/core'
+import { setup } from '../src'
 
-describe('user config', () => {
+describe('user config', async () => {
+  const serviceConfig = setup()
+  const service = serviceConfig.service as { fictionApp: FictionApp, fictionEnv: FictionEnv } & ServiceList
+
   it('gets correct client-side user config', async () => {
     const mainFileImports = (await import('../src/index')) as MainFile
 
@@ -39,9 +43,9 @@ describe('user config', () => {
   })
 
   it('gets correct server user config', async () => {
-    expect(service.fictionServer.port).toBeTruthy()
+    expect(service.fictionServer?.port).toBeTruthy()
 
-    expect(service.fictionServer.endpoints?.map(_ => _.key))
+    expect(service.fictionServer?.endpoints?.map(_ => _.key))
       .toMatchInlineSnapshot(`
         [
           "CheckUsername",

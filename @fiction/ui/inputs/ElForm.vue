@@ -13,7 +13,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['submit', 'update:valid'])
-
+const cleaners: (() => void)[] = []
 const form = vue.ref<HTMLFormElement>()
 
 function submitForm(): void {
@@ -55,13 +55,17 @@ vue.onMounted(() => {
   }, 300)
 
   // delay due to any reactive changes in form that impact validity
-  vue.watch(
+  const sw = vue.watch(
     () => props.data,
     () => setTimeout(() => setValid(), 50),
     { deep: true },
   )
 
-  onEvent('submit', () => submitForm())
+  cleaners.push(sw)
+})
+
+vue.onUnmounted(() => {
+  cleaners.forEach(c => c())
 })
 </script>
 

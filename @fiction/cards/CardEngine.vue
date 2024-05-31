@@ -20,8 +20,6 @@ function handleCardClick(args: { cardId: string, event: MouseEvent }) {
     props.card?.site?.setActiveCard({ cardId })
   }
 }
-
-
 </script>
 
 <template>

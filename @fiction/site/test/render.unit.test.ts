@@ -40,8 +40,6 @@ describe('siteRendering Tests', async () => {
 
   siteObj = result?.site
 
-  testUtils.fictionSites.activeSite.value = siteObj
-
   afterAll(async () => {
     await testUtils?.fictionApp.close()
     await testUtils?.fictionAppSites.close()
@@ -53,7 +51,8 @@ describe('siteRendering Tests', async () => {
 
     const mountEl = document.createElement('div')
     const { init: _, initialized: __, close: ___, ...service } = testUtils
-    const entry = await testUtils.fictionAppSites.mountApp({ mountEl, service, runVars: { HOSTNAME: hostname } })
+    const serviceConfig = { fictionEnv: service.fictionEnv, service, runVars: { HOSTNAME: hostname } }
+    const entry = await testUtils.fictionAppSites.mountApp({ mountEl, serviceConfig })
 
     await waitFor(300)
 

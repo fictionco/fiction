@@ -5,9 +5,9 @@ const service = createTestUtilServices()
 
 export function setup(): ServiceConfig {
   return {
-    fictionEnv: service.fictionEnv,
+    service,
+    runVars: {},
     runCommand: async () => {},
-    createService: async () => service,
     createMount: async (args) => {
       return await service.fictionApp.mountApp(args)
     },

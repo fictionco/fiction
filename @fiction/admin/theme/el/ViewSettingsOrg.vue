@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site/card'
-import { emitEvent, log, useService, vue } from '@fiction/core'
+import { log, useService, vue } from '@fiction/core'
 import type { Organization, UserMeta } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
@@ -103,7 +103,6 @@ vue.onMounted(async () => {
           input="InputText"
           label="Organization Name"
           required
-          @keyup.enter.stop="emitEvent('submit')"
         />
 
         <ElInput
@@ -112,7 +111,6 @@ vue.onMounted(async () => {
           label="Organization Email"
           sub-label="Used for billing, notifications, avatar"
           placeholder="billing@example.com"
-          @keyup.enter.stop="emitEvent('submit')"
         />
 
         <ElInput

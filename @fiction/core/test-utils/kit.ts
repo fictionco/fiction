@@ -24,14 +24,13 @@ export async function createUiTestingKit<T extends MainFileSetup = MainFileSetup
   if (!testUtils)
     throw new Error('testUtils not found')
 
-  await serviceConfig.fictionEnv.crossRunCommand({ context: 'node', serviceConfig })
+  await serviceConfig.service.fictionEnv.crossRunCommand({ context: 'node', serviceConfig })
   const port = testUtils.fictionServer?.port.value
 
   if (!port)
     throw new Error('port not found')
 
   const browser = await createTestBrowser({ headless: headlessActual, slowMo })
-
 
   const close = async () => {
     await browser?.close()

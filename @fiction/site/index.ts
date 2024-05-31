@@ -84,8 +84,6 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     this.themes.value = await this.settings.themes()
   }
 
-  activeSite = vue.shallowRef<Site | undefined>(undefined)
-
   async requestIndex(
     args: { limit?: number, offset?: number, filters?: DataFilter[], imageId?: string } = {},
   ): Promise<{ items: Site[] | undefined, indexMeta?: IndexMeta }> {
@@ -105,24 +103,17 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     return { items, indexMeta: r.indexMeta }
   }
 
-  getPreviewPath() {
-    return vue.computed(() => {
-      const current = this.settings.fictionRouter.current.value
-      const { selectorType, selectorId, siteId, subDomain, themeId } = { ...current.query, ...current.params } as Record<string, string>
+  getPreviewPath = vue.computed(() => {
+    const current = this.settings.fictionRouter.current.value
+    const { selectorType, selectorId, siteId, subDomain, themeId } = { ...current.query, ...current.params } as Record<string, string>
 
-      const finalSelectorType = selectorType || (siteId ? 'site' : subDomain ? 'domain' : themeId ? 'theme' : 'none')
-      const finalSelectorId = selectorId || siteId || subDomain || themeId || 'none'
+    const finalSelectorType = selectorType || (siteId ? 'site' : subDomain ? 'domain' : themeId ? 'theme' : 'none')
+    const finalSelectorId = selectorId || siteId || subDomain || themeId || 'none'
 
-      return `${this.adminBaseRoute}/preview/${finalSelectorType}/${finalSelectorId}`
-    })
+    return `${this.adminBaseRoute}/preview/${finalSelectorType}/${finalSelectorId}`
+  })
+
+  cleanup() {
+    this.themes.value = []
   }
 }
-
-// export function setup(): PluginMain<SitesPluginSettings> {
-//   return {
-//     serviceId: 'fictionSites',
-//     title: 'Sites',
-//     description: 'Create and manage websites',
-//     createPlugin: async (_: SitesPluginSettings) => new FictionSites(_),
-//   }
-// }

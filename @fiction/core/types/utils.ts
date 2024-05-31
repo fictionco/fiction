@@ -2,6 +2,8 @@ import type { Component, ComputedRef, Ref } from 'vue'
 import type { TableMediaConfig } from '../plugin-media'
 import type { User } from '../plugin-user'
 
+export type CleanupCallback = (() => void) | undefined
+
 export type MediaDisplayObject = {
   _key?: string
   filters?: ImageFilterConfig[]

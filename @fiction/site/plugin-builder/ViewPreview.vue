@@ -6,7 +6,7 @@ import { getMountContext } from '../load'
 
 const service = useService<{ fictionAppSites: FictionApp, fictionRouterSites: FictionRouter, fictionSites: FictionSites }>()
 
-const base = service.fictionSites.getPreviewPath()
+const base = service.fictionSites.getPreviewPath
 
 /**
  * Set base for relative links using native <base> tag
@@ -39,8 +39,9 @@ async function mountApp() {
     const { selectorType, selectorId } = (service.fictionRouter.params.value || {}) as Record<string, string>
 
     const mountContext = getMountContext({ selectorType, selectorId, siteMode: 'editable' })
+    const serviceConfig = { fictionEnv: service.fictionEnv, service: s, runVars: { ...runVars, MOUNT_CONTEXT: mountContext } }
 
-    entry = await service.fictionAppSites.mountApp({ selector: '#admin-app', service: s, runVars: { ...runVars, MOUNT_CONTEXT: mountContext } })
+    entry = await service.fictionAppSites.mountApp({ selector: '#admin-app', serviceConfig })
   }
   catch (error) {
     log.error('PreviewComponent', `Error mounting preview app: ${(error as Error).message}`, { error })

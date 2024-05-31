@@ -1,16 +1,16 @@
 import path from 'node:path'
-import process from 'node:process'
 import { renderSSRHead } from '@unhead/ssr'
 import { renderToString } from '@vue/server-renderer'
 import { JSDOM } from 'jsdom'
 import type { ViteDevServer } from 'vite'
+import { type MainFile, type ServiceConfig, compileApplication } from '@fiction/core/plugin-env'
 import type { RunVars } from '../../inject'
 import { populateGlobal } from '../../utils/globalUtils'
 import { FictionObject } from '../../plugin'
-import type { EntryModuleExports, RenderedHtmlParts } from '../types'
+import type { RenderedHtmlParts } from '../types'
 import { log } from '../../plugin-log'
-import { vue } from '../../utils/libraries'
 import { crossVar } from '../../utils/vars'
+import { fastHash } from '../../utils'
 
 const logger = log.contextLogger('SSR')
 
@@ -18,6 +18,7 @@ export type SSRSettings = {
   appUrl: string
   distFolderServerMountFile: string
   mountFilePath: string
+  mainFilePath: string
   viteServer?: ViteDevServer
 }
 
@@ -32,12 +33,37 @@ export class SSR extends FictionObject<SSRSettings> {
     super('SSR', settings)
   }
 
-  startGlobals(args: { pathname: string, simulateWindow?: boolean }) {
+  serviceConfig: ServiceConfig | undefined
+  async getMainFile(mode: 'prod' | 'dev' | 'test'): Promise<MainFile> {
+    if (mode === 'prod')
+      return await import(/* @vite-ignore */ path.join(this.settings.mainFilePath)) as MainFile
+    else
+      return await this.settings.viteServer?.ssrLoadModule(this.settings.mainFilePath) as MainFile
+  }
+
+  async getServiceConfig(args: { mode?: 'prod' | 'dev' | 'test', runVars: Partial<RunVars> }): Promise<ServiceConfig> {
+    const { mode = 'dev', runVars } = args
+    if (!this.serviceConfig) {
+      const mainFile = await this.getMainFile(mode)
+      const serviceConfig = await mainFile.setup({ context: 'app' })
+
+      this.serviceConfig = serviceConfig
+    }
+
+    this.serviceConfig.runVars = runVars
+
+    await compileApplication({ context: 'app', serviceConfig: this.serviceConfig, runVars })
+
+    return this.serviceConfig
+  }
+
+  startGlobals(args: { runVars: Partial<RunVars>, simulateWindow?: boolean }) {
     // set flag used to determine if app code is running in vite
 
     crossVar.set('IS_VITE', 'yes')
 
-    const { pathname, simulateWindow = false } = args
+    const pathname = args.runVars.PATHNAME
+    const { simulateWindow = false } = args
 
     /**
      * Allow for window object during SSR. Potentially useful as libraries sometimes assume window.
@@ -61,79 +87,72 @@ export class SSR extends FictionObject<SSRSettings> {
     this.revertGlobal?.()
   }
 
-  async getParts(args: { pathname: string, runVars: Partial<RunVars>, entryModule: Record<string, any> }) {
-    const { entryModule, pathname, runVars } = args
+  cache = new Map<string, RenderedHtmlParts>()
+
+  getCacheKey(runVars: Partial<RunVars>) {
+    const { RUN_MODE, URL, RUNTIME_COMMIT } = runVars
+
+    return fastHash({ RUN_MODE, URL, RUNTIME_COMMIT })
+  }
+
+  async getParts(args: { runVars: Partial<RunVars> }) {
+    const { runVars } = args
     let out = this.init()
+    const pathname = runVars.PATHNAME
+    const mode = runVars.RUN_MODE
 
-    // use effect scope to capture all potential memory leaks
-    // from watchers and computed to clear them after rendering
-    // https://vuejs.org/api/reactivity-advanced.html#effectscope
-    const scope = vue.effectScope()
+    const cacheKey = this.getCacheKey(runVars)
 
-    await scope.run(async () => {
-      const { runAppEntry } = entryModule as EntryModuleExports
+    if (mode === 'prod') {
+      if (this.cache.has(cacheKey) && mode === 'prod') {
+        this.log.info('cache hit', { data: { URL: runVars.URL } })
+        return this.cache.get(cacheKey) as RenderedHtmlParts
+      }
+      else {
+        this.log.info('cache miss', { data: { URL: runVars.URL } })
+      }
+    }
 
-      const fictionAppEntry = await runAppEntry({ renderRoute: pathname, runVars })
+    const serviceConfig = await this.getServiceConfig({ mode, runVars })
 
-      if (!fictionAppEntry)
-        throw new Error('SSR Error: rendering failed')
+    const appEntry = await serviceConfig.createMount?.({ renderRoute: pathname, serviceConfig })
 
-      const { app, meta } = fictionAppEntry
+    if (!appEntry)
+      throw new Error('SSR Error: rendering failed')
 
-      /**
-       * Pass context for rendering (available useSSRContext())
-       * vitejs/plugin-vue injects code in component setup() that registers the component
-       * on the context. Allowing us to orchestrate based on this.
-       */
+    const { app, meta, service } = appEntry
 
-      const ctx: { modules?: string[] } = {}
-      out.htmlBody = await renderToString(app, ctx)
+    /**
+     * Pass context for rendering (available useSSRContext())
+     * vitejs/plugin-vue injects code in component setup() that registers the component
+     * on the context. Allowing us to orchestrate based on this.
+     */
 
-      /**
-       * Meta/Head Rendering
-       */
-      const head = await renderSSRHead(meta)
-      out = { ...out, ...head }
-    })
+    const ctx: { modules?: string[] } = {}
+    out.htmlBody = await renderToString(app, ctx)
 
-    scope.stop()
+    /**
+     * Meta/Head Rendering
+     */
+    const head = await renderSSRHead(meta)
+    out = { ...out, ...head }
+
+    service.fictionEnv?.cleanup({ reason: 'ssr' })
+
+    if (mode === 'prod')
+      this.cache.set(cacheKey, out)
 
     return out
   }
 
-  async renderProd(args: { pathname: string, runVars: Partial<RunVars> }): Promise<RenderedHtmlParts> {
-    const { pathname, runVars } = args
-
-    const entryModule = (await import(/* @vite-ignore */ path.join(this.settings.distFolderServerMountFile))) as Record<string, any>
-
-    const out = this.getParts({ pathname, runVars, entryModule })
-
-    return out
-  }
-
-  async renderDev(args: { pathname: string, runVars: Partial<RunVars> }): Promise<RenderedHtmlParts> {
-    const { pathname, runVars } = args
-
-    if (!this.settings.viteServer)
-      throw new Error('renderDev: ViteDevServer not found')
-
-    const entryModule = await this.settings.viteServer.ssrLoadModule(this.settings.mountFilePath)
-
-    const out = this.getParts({ pathname, runVars, entryModule })
-    return out
-  }
-
-  async render(args: { pathname: string, mode: 'dev' | 'prod' | 'test', runVars: Partial<RunVars> }): Promise<RenderedHtmlParts> {
-    const { pathname, mode, runVars } = args
+  async render(args: { runVars: Partial<RunVars> }): Promise<RenderedHtmlParts> {
+    const { runVars } = args
     try {
-      this.startGlobals({ pathname })
-      if (mode === 'prod')
-        return await this.renderProd({ pathname, runVars })
-      else
-        return await this.renderDev({ pathname, runVars })
+      this.startGlobals({ runVars })
+      return await this.getParts({ runVars })
     }
     catch (error) {
-      logger.error(`SSR Error (${args.pathname}) - ${(error as Error).message}`, { error })
+      logger.error(`SSR Error (${runVars.PATHNAME}) - ${(error as Error).message}`, { error })
       return this.init()
     }
     finally {

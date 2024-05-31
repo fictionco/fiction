@@ -1,7 +1,7 @@
 /* eslint-disable node/prefer-global/process */
 import 'tailwindcss/tailwind.css'
 import { compileApplication } from '../plugin-env/entry'
-import type { FictionAppEntry, MainFile } from '../plugin-env/types'
+import type { FictionAppEntry, MainFile, ServiceConfig } from '../plugin-env/types'
 import type { RunVars } from '../inject'
 import { isNode } from '../utils/vars'
 import { log } from '../plugin-log'
@@ -33,27 +33,35 @@ function setupGlobalRunVars<T extends keyof RunVars = keyof RunVars>() {
 
 setupGlobalRunVars()
 
-async function runAppEntry(args: { renderRoute?: string, runVars?: Partial<RunVars> } = {}): Promise<FictionAppEntry | void> {
-  const { renderRoute, runVars = window.fictionRunVars || {} } = args
+async function getServiceConfig(args: { runVars: Partial<RunVars> }): Promise<ServiceConfig> {
+  const { runVars } = args
+
+  // @ts-expect-error aliased module
+  const mainFileImports = (await import('@MAIN_FILE_ALIAS')) as MainFile
+
+  const serviceConfig = await mainFileImports.setup({ context: 'app' })
+  if (!serviceConfig)
+    throw new Error('No serviceConfig returned from mainfile setup')
+
+  await compileApplication({ context: 'app', serviceConfig, runVars })
+  serviceConfig.runVars = runVars
+
+  return serviceConfig
+}
+
+async function runAppEntry(args: { renderRoute?: string, serviceConfig: ServiceConfig }): Promise<FictionAppEntry | undefined> {
+  const { renderRoute, serviceConfig } = args
 
   const context = 'app'
 
   try {
-    // @ts-expect-error aliased module
-    const mainFileImports = (await import('@MAIN_FILE_ALIAS')) as MainFile
+    const mountArgs = { context, renderRoute, serviceConfig }
+    const appEntry = await serviceConfig.createMount?.(mountArgs)
 
-    const serviceConfig = await mainFileImports.setup({ context })
-    if (!serviceConfig)
-      throw new Error('No serviceConfig returned from mainfile setup')
+    if (!appEntry)
+      throw new Error('No appEntry returned from createMount')
 
-    const service = await compileApplication({ context, serviceConfig, runVars })
-    if (!service)
-      throw new Error('No service returned from compileApplication')
-
-    const mountArgs = { context, renderRoute, runVars, service, serviceConfig }
-    return serviceConfig.createMount
-      ? serviceConfig.createMount(mountArgs)
-      : await mainFileImports.fictionApp?.mountApp(mountArgs)
+    return appEntry
   }
   catch (error) {
     logger.error('Error in runAppEntry:', { error })
@@ -64,11 +72,18 @@ async function runAppEntry(args: { renderRoute?: string, runVars?: Partial<RunVa
 /**
  * Export entry for SSR
  */
-export { runAppEntry }
+export { runAppEntry, getServiceConfig }
+
+async function runBrowserEntry() {
+  const runVars = window.fictionRunVars || {}
+  const serviceConfig = await getServiceConfig({ runVars })
+  runAppEntry({ serviceConfig }).catch(e => console.error('Error running app entry:', e))
+}
 
 /**
  * Run automatically in browser,
  * 'runAppEntry' is called directly on server side for prerender
  */
-if (!isNode())
-  runAppEntry().catch(e => console.error('Error running app entry:', e))
+if (!isNode()) {
+  runBrowserEntry().catch(e => console.error('Error running browser entry:', e))
+}

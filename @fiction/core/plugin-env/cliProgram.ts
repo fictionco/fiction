@@ -47,7 +47,7 @@ export async function runCommand(command: string, optionsFromCli: Record<string,
 
     const serviceConfig = await mainFileImports.setup()
 
-    const fictionEnv = serviceConfig.fictionEnv
+    const fictionEnv = serviceConfig.service.fictionEnv
 
     if (fictionEnv)
       await fictionEnv.serverRunCurrentCommand({ serviceConfig, cliVars })

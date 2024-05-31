@@ -129,19 +129,15 @@ export function createSite(opts?: CreateSiteSettings): ServiceConfig {
   const service = createFictionPlatformServices(opts)
 
   const all: ServiceConfig = {
+    service,
+    runVars: {},
     close: async () => {
       service.fictionServer.close()
       await service.fictionDb.close()
       await service.fictionApp.close()
     },
-    fictionEnv: service.fictionEnv,
-    runCommand: async ({ context }) => {
-      await initializeServices({ service, context })
-    },
-    createService: async () => service,
-    createMount: async (args) => {
-      return await service.fictionApp.mountApp(args)
-    },
+    runCommand: async ({ context }) => initializeServices({ service, context }),
+    createMount:  (args) => service.fictionApp.mountApp(args),
   }
 
   return all

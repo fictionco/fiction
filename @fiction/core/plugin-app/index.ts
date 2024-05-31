@@ -145,8 +145,6 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     if (renderRoute)
       await this.settings.fictionRouter.replace({ path: renderRoute }, { caller: 'createVueApp' })
 
-    await this.settings.fictionEnv.runHooks('afterAppSetup', { service })
-
     const app: vue.App = renderRoute
       ? vue.createSSRApp(this.rootComponent)
       : vue.createApp(this.rootComponent)
@@ -169,14 +167,16 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     selector?: string
     mountEl?: Element
     renderRoute?: string
-    runVars?: Partial<RunVars>
-    service: ServiceList & Partial<StandardServices>
     serviceConfig?: ServiceConfig
   }): Promise<FictionAppEntry> {
-    const { selector = '#app', renderRoute, service, runVars, serviceConfig } = args
+    const { selector = '#app', renderRoute, serviceConfig } = args
 
+    const runVars = serviceConfig?.runVars || {}
+    const service = serviceConfig?.service || {}
+
+    const { fictionEnv, fictionRouter } = this.settings
     if (serviceConfig)
-      await this.settings.fictionEnv.crossRunCommand({ context: 'app', serviceConfig, runVars })
+      await fictionEnv.crossRunCommand({ context: 'app', serviceConfig, runVars })
 
     const entry = await this.createVueApp({ renderRoute, runVars, service })
 
@@ -188,15 +188,14 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
       if (!mountEl)
         throw new Error(`mountEl not found: ${selector}`)
 
-      initializeResetUi(this.settings.fictionRouter).catch(console.error)
+      initializeResetUi({ fictionRouter, fictionEnv }).catch(console.error)
+
       entry.app.mount(mountEl)
 
       document.documentElement.style.opacity = '1'
       document.documentElement.style.transform = 'none'
       mountEl.classList.remove('loading')
       mountEl.classList.add('loaded')
-
-      await this.settings.fictionEnv.runHooks('appMounted', entry)
     }
 
     return entry

@@ -40,12 +40,7 @@ export async function runServicesSetup(service: ServiceList, args: { context: 'a
 export async function compileApplication(args: ServiceSetupArgs): Promise<ServiceList | undefined> {
   const { serviceConfig } = args
   try {
-    const { createService } = serviceConfig
-
-    /**
-     * Create final service for app or node
-     */
-    const service: ServiceList = createService ? await createService(args) : {}
+    const { service } = serviceConfig
 
     /**
      * Don't run setup hooks multiple times in SSR, which creates memory leaks
@@ -53,7 +48,7 @@ export async function compileApplication(args: ServiceSetupArgs): Promise<Servic
      */
     if (!service.fictionEnv?.isCompiled?.value) {
       await runServicesSetup(service, args)
-      serviceConfig.fictionEnv.isCompiled.value = true
+      service.fictionEnv.isCompiled.value = true
     }
     return service
   }

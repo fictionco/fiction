@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site/card'
 import type { MediaDisplayObject } from '@fiction/core'
-import { emitEvent, unhead, useService, vue } from '@fiction/core'
+import { unhead, useService, vue } from '@fiction/core'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
@@ -123,7 +123,6 @@ const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length
               placeholder="Enter Your Email"
               size="lg"
               @input="fields.email = $event.target.value"
-              @keyup.enter.stop="emitEvent('submit')"
             />
 
             <ElInput
@@ -137,7 +136,6 @@ const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length
               size="lg"
               :value="fields.fullName"
               @input="fields.fullName = $event.target.value"
-              @keyup.enter.stop="emitEvent('submit')"
             />
 
             <ElInput
@@ -154,7 +152,6 @@ const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length
               required
               :value="fields.password"
               @input="fields.password = $event.target.value"
-              @keyup.enter.stop="emitEvent('submit')"
             />
             <div class="action">
               <ElButton

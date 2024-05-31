@@ -25,7 +25,8 @@ describe('sitePreview', async () => {
   const mountEl = document.createElement('div')
   mountEl.id = 'app'
   document.body.appendChild(mountEl)
-  const entry = await testUtils.fictionApp.mountApp({ selector: '#app', service })
+  const serviceConfig = { fictionEnv: service.fictionEnv, service, runVars: {} }
+  const entry = await testUtils.fictionApp.mountApp({ selector: '#app', serviceConfig })
 
   beforeAll(async () => { })
   afterAll(async () => {
@@ -37,7 +38,7 @@ describe('sitePreview', async () => {
       return
 
     const cur = () => r.current.value
-    const previewPath = () => testUtils.fictionSites.getPreviewPath().value
+    const previewPath = () => testUtils.fictionSites.getPreviewPath.value
 
     const orgBase = testUtils.fictionSites.adminBaseRoute
     const siteEdit = `${orgBase}/siteEdit`
