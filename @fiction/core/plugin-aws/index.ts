@@ -15,13 +15,15 @@ import { objectId } from '../utils/id'
 vars.register(() => [
   new EnvVar({ name: 'AWS_ACCESS_KEY' }),
   new EnvVar({ name: 'AWS_ACCESS_KEY_SECRET' }),
+  new EnvVar({ name: 'AWS_BUCKET_MEDIA' }),
+  new EnvVar({ name: 'AWS_REGION', isOptional: true }),
 ])
 
 type FictionAwsSettings = {
   awsAccessKey?: string
   awsAccessKeySecret?: string
-  region?: string
-  bucket?: string
+  awsRegion?: string
+  awsBucketMedia?: string
 } & FictionPluginSettings
 
 type S3FileOutput = GetObjectCommandOutput & {
@@ -40,8 +42,8 @@ interface S3UploadOptions {
 export class FictionAws extends FictionPlugin<FictionAwsSettings> {
   awsAccessKey = this.settings.awsAccessKey
   awsAccessKeySecret = this.settings.awsAccessKeySecret
-  region = this.settings.region || 'us-west-2'
-  bucket = this.settings.bucket
+  awsRegion = this.settings.awsRegion || 'us-west-2'
+  awsBucketMedia = this.settings.awsBucketMedia
   cloudFront?: CloudFront
   s3?: S3
   constructor(settings: FictionAwsSettings) {
@@ -64,7 +66,7 @@ export class FictionAws extends FictionPlugin<FictionAwsSettings> {
       const { CloudFront } = await import('@aws-sdk/client-cloudfront')
       this.cloudFront = new CloudFront({
         apiVersion: '2020-05-31',
-        region: this.region,
+        region: this.awsRegion,
         credentials: {
           accessKeyId: this.awsAccessKey,
           secretAccessKey: this.awsAccessKeySecret,
@@ -82,7 +84,7 @@ export class FictionAws extends FictionPlugin<FictionAwsSettings> {
       const { S3 } = await import('@aws-sdk/client-s3')
       this.s3 = new S3({
         apiVersion: '2006-03-01',
-        region: this.region,
+        region: this.awsRegion,
         credentials: {
           accessKeyId: this.awsAccessKey,
           secretAccessKey: this.awsAccessKeySecret,
@@ -113,7 +115,7 @@ export class FictionAws extends FictionPlugin<FictionAwsSettings> {
   }
 
   getUrlFromKey(args: { key: string, bucket?: string }): string {
-    const { key, bucket = this.bucket } = args
+    const { key, bucket = this.awsBucketMedia } = args
     return `https://${bucket}.s3.amazonaws.com/${key}`
   }
 
@@ -127,7 +129,7 @@ export class FictionAws extends FictionPlugin<FictionAwsSettings> {
     result: PutObjectCommandOutput
     headObject: HeadObjectCommandOutput
   }> => {
-    const { filePath, bucket = this.bucket, mime, data, accessControl = 'public-read' } = args
+    const { filePath, bucket = this.awsBucketMedia, mime, data, accessControl = 'public-read' } = args
 
     if (!bucket)
       throw new Error('no bucket set')
@@ -152,13 +154,13 @@ export class FictionAws extends FictionPlugin<FictionAwsSettings> {
       }
     }
     catch (e) {
-      this.log.error('uploadS3 error', { data: { filePath, bucket, mime, region: this.region } })
+      this.log.error('uploadS3 error', { data: { filePath, bucket, mime, region: this.awsRegion } })
       throw e
     }
   }
 
   async deleteDirectory(args: { directory: string, bucket: string }): Promise<{ result: DeleteObjectCommandOutput }> {
-    const { directory, bucket = this.bucket } = args
+    const { directory, bucket = this.awsBucketMedia } = args
     if (!bucket)
       throw new Error('no bucket set')
 
@@ -182,13 +184,13 @@ export class FictionAws extends FictionPlugin<FictionAwsSettings> {
       return { result }
     }
     catch (e) {
-      this.log.error('deleteDirectory error', { data: { directory, bucket, region: this.region } })
+      this.log.error('deleteDirectory error', { data: { directory, bucket, region: this.awsRegion } })
       throw e
     }
   }
 
   deleteS3 = async (args: { filePath: string, bucket: string }): Promise<{ result: DeleteObjectCommandOutput }> => {
-    const { filePath, bucket = this.bucket } = args
+    const { filePath, bucket = this.awsBucketMedia } = args
     if (!bucket)
       throw new Error('no bucket set')
     const s3 = await this.getS3()
@@ -206,7 +208,7 @@ export class FictionAws extends FictionPlugin<FictionAwsSettings> {
     bucket?: string
     returnString?: boolean
   }): Promise<S3FileOutput> => {
-    const { key, bucket = this.bucket, returnString } = args
+    const { key, bucket = this.awsBucketMedia, returnString } = args
     if (!bucket)
       throw new Error('no bucket set')
     const s3 = await this.getS3()
@@ -232,7 +234,7 @@ export class FictionAws extends FictionPlugin<FictionAwsSettings> {
    * https://github.com/andrewrk/node-s3-client/issues/88#issuecomment-158134766
    */
   fileExistsS3 = async (args: { storageKeyPath: string, bucket: string }): Promise<string | undefined> => {
-    const { storageKeyPath, bucket = this.bucket } = args
+    const { storageKeyPath, bucket = this.awsBucketMedia } = args
     if (!bucket)
       throw new Error('no bucket set')
     try {

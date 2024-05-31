@@ -1,14 +1,13 @@
 import stopwordsLib from '../resource/stopwords'
 
 export function toCamel(str: string, options = { allowPeriods: false }): string {
-  const pattern = options.allowPeriods ? /[_\-\s]+(.)?/g : /[_\-\s.]+(.)?/g
-  return str
-    // Handle non-word characters (spaces, hyphens, underscores, optionally periods)
-    .replace(pattern, (_, c) => c ? c.toUpperCase() : '')
-    // Ensure the first character is lowercase
-    .replace(/^./, c => c.toLowerCase())
-}
+  const snakeCased = toSnake(str, options) // Convert to snake_case first
 
+  const pattern = options.allowPeriods ? /[_\-\s]+(.)/g : /[_\-\s.]+(.)/g
+  return snakeCased
+    .replace(pattern, (_, c) => (c ? c.toUpperCase() : '')) // Convert delimiters to uppercase letters
+    .replace(/^./, c => c.toLowerCase()) // Ensure the first character is lowercase
+}
 /**
  * Converts regular space delimited text into a hyphenated slug
  */
@@ -94,14 +93,14 @@ export function toPascal(text: string): string {
     .replace(/(^|[^a-z0-9]+)(.)/g, (_, __, char) => char.toUpperCase())
 }
 
-export function toSnake(text: string, upper: boolean = false): string {
+export function toSnake(text: string, opts: { upper?: boolean, allowPeriods?: boolean } = {}): string {
+  const { upper = false, allowPeriods = false } = opts
   const snakeCased = text
-    // Insert an underscore before each uppercase letter and convert the whole string to lowercase
-    .replace(/([A-Z])/g, '_$1')
-    .toLowerCase()
-    // Remove leading underscore if it exists (can happen if original string started with an uppercase letter or an underscore)
-    .replace(/^_+/, '') // Use + to remove one or more leading underscores
+    .replace(/([a-z])([A-Z])/g, '$1_$2') // Insert an underscore between lowercase and uppercase letters
+    .replace(/\.+/g, allowPeriods ? '.' : '_') // Replace dots with underscores unless allowPeriods is true
+    .toLowerCase() // Convert the whole string to lowercase
+    .replace(/^_+/, '') // Remove leading underscores if they exist
+    .replace(/_+$/, '') // Remove trailing underscores if they exist
 
-  // Convert to uppercase if the upper option is true
   return upper ? snakeCased.toUpperCase() : snakeCased
 }

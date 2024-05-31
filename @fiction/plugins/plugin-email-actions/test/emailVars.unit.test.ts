@@ -1,4 +1,4 @@
-import { FictionAws, FictionMedia, abort } from '@fiction/core'
+import { FictionAws, FictionMedia, abort, getEnvVars } from '@fiction/core'
 import { createUserToken } from '@fiction/core/utils/jwt'
 import { describe, expect, it } from 'vitest'
 import { createTestUtils, testEnvFile } from '@fiction/core/test-utils'
@@ -9,11 +9,12 @@ import { createEmailVars } from '../utils'
 describe('createEmailVars', async () => {
   const testUtils = createTestUtils({ envFiles: [testEnvFile] })
 
-  const awsAccessKey = testUtils.fictionEnv.var('AWS_ACCESS_KEY')
-  const awsAccessKeySecret = testUtils.fictionEnv.var('AWS_ACCESS_KEY_SECRET')
+  const v = getEnvVars(testUtils.fictionEnv, ['AWS_ACCESS_KEY', 'AWS_ACCESS_KEY_SECRET', 'AWS_BUCKET_MEDIA'] as const)
+
+  const { awsAccessKey, awsAccessKeySecret, awsBucketMedia } = v
 
   const fictionAws = new FictionAws({ ...testUtils, awsAccessKey, awsAccessKeySecret })
-  const fictionMedia = new FictionMedia({ ...testUtils, fictionAws, bucket: 'factor-tests' })
+  const fictionMedia = new FictionMedia({ ...testUtils, fictionAws, awsBucketMedia })
 
   const fictionEmailActions = new FictionEmailActions({ ...testUtils, fictionMedia })
   const initialized = await testUtils.init()

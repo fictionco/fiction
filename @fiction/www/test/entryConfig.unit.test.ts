@@ -26,6 +26,7 @@ describe('user config', async () => {
         "fictionRouter",
         "fictionUser",
         "fictionMonitor",
+        "fictionCache",
         "fictionAppSites",
         "fictionRouterSites",
         "fictionAws",

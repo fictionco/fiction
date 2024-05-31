@@ -3,6 +3,11 @@ import { describe, expect, it } from 'vitest'
 import { stopWordLowercase, toCamel, toLabel, toPascal, toSlug, toSnake } from '../casing'
 
 describe('toCamel', () => {
+  it('converts SNAKE_CASE to camelCase', () => {
+    expect(toCamel('FOO_BAR')).toBe('fooBar')
+    expect(toCamel('HELLO__WORLD')).toBe('helloWorld')
+  })
+
   it('converts space-separated words to camelCase', () => {
     expect(toCamel('foo bar')).toBe('fooBar')
     expect(toCamel('hello world')).toBe('helloWorld')
@@ -202,16 +207,16 @@ describe('toSnake', () => {
   })
 
   it('converts camelCase to UPPER_SNAKE_CASE correctly', () => {
-    expect(toSnake('camelCaseString', true)).toBe('CAMEL_CASE_STRING')
+    expect(toSnake('camelCaseString', { upper: true })).toBe('CAMEL_CASE_STRING')
   })
 
   it('converts PascalCase to UPPER_SNAKE_CASE correctly', () => {
-    expect(toSnake('PascalCaseString', true)).toBe('PASCAL_CASE_STRING')
+    expect(toSnake('PascalCaseString', { upper: true })).toBe('PASCAL_CASE_STRING')
   })
 
   it('handles single words correctly', () => {
     expect(toSnake('Word')).toBe('word')
-    expect(toSnake('Word', true)).toBe('WORD')
+    expect(toSnake('Word', { upper: true })).toBe('WORD')
   })
 
   it('handles empty string correctly', () => {

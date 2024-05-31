@@ -32,8 +32,8 @@ export type SitesPluginSettings = {
   fictionAi?: FictionAi
   fictionAppSites: FictionApp
   fictionRouterSites: FictionRouter
-  flyIoAppId: string
-  flyIoApiToken: string
+  flyAppId: string
+  flyApiToken: string
   adminBaseRoute?: string
   themes: () => Promise<Theme[]>
 } & FictionPluginSettings

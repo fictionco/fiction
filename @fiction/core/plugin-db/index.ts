@@ -29,7 +29,7 @@ export type FictionDBTables = 'fiction_user' | 'fiction_post' | 'fiction_version
 // }
 
 export type FictionDbSettings = {
-  connectionUrl?: string
+  postgresUrl?: string
   tables?: FictionDbTable[]
   fictionEnv?: FictionEnv
   fictionServer?: FictionServer // for DB utilities like username checking
@@ -57,8 +57,8 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
     if (isActualBrowser())
       return
 
-    if (settings.connectionUrl)
-      this.connectionUrl = new URL(settings.connectionUrl)
+    if (settings.postgresUrl)
+      this.connectionUrl = new URL(settings.postgresUrl)
 
     this.fictionEnv?.events.on('shutdown', () => this.close())
   }
@@ -219,7 +219,7 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
       const printUrl = this.connectionUrl.toString().replace(this.connectionUrl.password, '--password--')
       this.log.info('connected db [ready]', {
         data: {
-          connectionUrl: `[ ${printUrl} ]`,
+          postgresUrl: `[ ${printUrl} ]`,
         },
       })
     }

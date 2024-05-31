@@ -9,6 +9,7 @@ import { FictionMedia } from '..'
 import { FictionAws } from '../../plugin-aws'
 import { testEnvFile, testImgPath } from '../../test-utils'
 import type { TestUtils } from '../../test-utils/init'
+import { getEnvVars } from '../../utils'
 
 let testUtils: TestUtils & { fictionMedia?: FictionMedia }
 let meta: EndpointMeta
@@ -19,24 +20,14 @@ describe('createAndSaveMedia', async () => {
 
   testUtils = createTestUtils({ envFiles: [testEnvFile] }) as TestUtils & { fictionMedia?: FictionMedia }
 
-  const awsAccessKey = testUtils.fictionEnv.var('AWS_ACCESS_KEY')
-  const awsAccessKeySecret = testUtils.fictionEnv.var('AWS_ACCESS_KEY_SECRET')
-  const unsplashAccessKey = testUtils.fictionEnv.var('UNSPLASH_ACCESS_KEY')
+  const v = getEnvVars(testUtils.fictionEnv, ['AWS_ACCESS_KEY', 'AWS_ACCESS_KEY_SECRET', 'UNSPLASH_ACCESS_KEY', 'AWS_BUCKET_MEDIA', 'AWS_REGION'] as const)
 
-  if (!awsAccessKey || !awsAccessKeySecret || !unsplashAccessKey)
-    throw new Error(`missing env vars key:${awsAccessKey?.length}, secret:${awsAccessKeySecret?.length}, unsplash${unsplashAccessKey?.length}`)
+  const { awsAccessKey, awsAccessKeySecret, unsplashAccessKey, awsBucketMedia, awsRegion } = v
 
-  const fictionAws = new FictionAws({
-    fictionEnv: testUtils.fictionEnv,
-    awsAccessKey,
-    awsAccessKeySecret,
-  })
-  testUtils.fictionMedia = new FictionMedia({
-    ...testUtils,
-    fictionAws,
-    bucket: 'factor-tests',
-    unsplashAccessKey,
-  })
+  const fictionEnv = testUtils.fictionEnv
+  const fictionAws = new FictionAws({ fictionEnv, awsAccessKey, awsAccessKeySecret, awsRegion })
+  console.error('BUCKET', awsBucketMedia)
+  testUtils.fictionMedia = new FictionMedia({ ...testUtils, fictionAws, awsBucketMedia, unsplashAccessKey })
   testUtils.initialized = await testUtils.init()
 
   meta = {} as EndpointMeta // Mock meta as needed
@@ -46,8 +37,8 @@ describe('createAndSaveMedia', async () => {
   })
 
   it('should create and save media WITHOUT cropping', async () => {
-    const fileSource = fs.readFileSync(testImgPath)
-    const fileName = path.basename(testImgPath)
+    // const fileSource = fs.readFileSync(testImgPath)
+    // const fileName = path.basename(testImgPath)
     const fileMime = 'image/jpeg'
 
     const mediaConfig: TableMediaConfig = {
@@ -66,7 +57,7 @@ describe('createAndSaveMedia', async () => {
     }, meta)
 
     expect(result?.status).toBe('success')
-    expect(result?.data?.url).toContain('factor-tests')
+    expect(result?.data?.url).toContain('fiction-media')
     expect(result?.data?.mime).toBe(fileMime)
   })
 
@@ -89,7 +80,7 @@ describe('createAndSaveMedia', async () => {
     const result = await testUtils.fictionMedia?.queries.ManageMedia.serve({ ...checkArgs, noCache: false }, meta)
 
     expect(result?.status).toBe('success')
-    expect(result?.data?.url).toContain('factor-tests')
+    expect(result?.data?.url).toContain('fiction-media')
     expect(result?.data?.mime).toBe(fileMime)
 
     // Download the image from the URL
@@ -127,7 +118,7 @@ describe('createAndSaveMedia', async () => {
     }, meta)
 
     expect(result?.status).toBe('success')
-    expect(result?.data?.url).toContain('factor-tests')
+    expect(result?.data?.url).toContain('fiction-media')
     expect(result?.data?.mime).toBe(fileMime)
 
     // Additional assertions for different image types can be added here

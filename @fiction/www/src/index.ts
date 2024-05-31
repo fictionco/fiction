@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { FictionUi } from '@fiction/ui'
 import type { ServiceConfig } from '@fiction/core'
-import { AppRoute, FictionApp, FictionAws, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionRouter, FictionServer, FictionUser, apiRoot, safeDirname } from '@fiction/core'
+import { AppRoute, FictionApp, FictionAws, FictionCache, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionRouter, FictionServer, FictionUser, apiRoot, safeDirname } from '@fiction/core'
 import { FictionEmailActions } from '@fiction/plugin-email-actions'
 import { FictionTeam } from '@fiction/core/plugin-team'
 import { FictionMonitor } from '@fiction/plugin-monitor'
@@ -13,7 +13,7 @@ import FSite from '@fiction/cards/CardSite.vue'
 import { FictionAi } from '@fiction/plugin-ai'
 import { FictionExtend } from '@fiction/plugin-extend'
 import { FictionSubscribe } from '@fiction/plugin-subscribe'
-
+import { getEnvVars } from '@fiction/core/utils'
 import { version } from '../package.json'
 import { getExtensionIndex, getThemes } from './extend'
 import { commands } from './commands'
@@ -28,9 +28,30 @@ const envFiles = [path.join(apiRoot, './.env')]
 const mainFilePath = path.join(cwd, './src/index.ts')
 
 const fictionEnv = new FictionEnv({ cwd, envFiles, envFilesProd: envFiles, mainFilePath, version, commands, meta })
-const v = (key: string) => fictionEnv.var(key)
 
-const comboPort = +fictionEnv.var('APP_PORT', { fallback: 4444 })
+const envVarNames = [
+  'GOOGLE_CLIENT_ID',
+  'GOOGLE_CLIENT_SECRET',
+  'TOKEN_SECRET',
+  'POSTGRES_URL',
+  'SMTP_HOST',
+  'SMTP_PASSWORD',
+  'SMTP_USER',
+  'SLACK_WEBHOOK_URL',
+  'SENTRY_PUBLIC_DSN',
+  'AWS_ACCESS_KEY',
+  'AWS_ACCESS_KEY_SECRET',
+  'AWS_BUCKET_MEDIA',
+  'AWS_REGION',
+  'FLY_API_TOKEN',
+  'OPENAI_API_KEY',
+  'REDIS_URL',
+] as const
+
+const v = getEnvVars(fictionEnv, envVarNames)
+const { flyApiToken, googleClientId, googleClientSecret, tokenSecret, postgresUrl, smtpHost, smtpPassword, smtpUser, slackWebhookUrl, sentryPublicDsn, awsAccessKey, awsBucketMedia, awsRegion, awsAccessKeySecret, openaiApiKey } = v
+
+const comboPort = +fictionEnv.var('APP_PORT')
 
 const fictionRouter = new FictionRouter({
   routerId: 'parentRouter',
@@ -70,7 +91,7 @@ const fictionAppSites = new FictionApp({
   appInstanceId: 'sites',
   fictionEnv,
   fictionRouter: fictionRouterSites,
-  port: +fictionEnv.var('SITES_PORT', { fallback: 6565 }),
+  port: +fictionEnv.var('SITES_PORT'),
   localHostname: '*.lan.com',
   liveUrl: appUrlSites,
   altHostnames: [{ prod: `theme-minimal.${fictionEnv.meta.app?.domain}`, dev: 'theme-minimal.lan.com' }],
@@ -79,28 +100,29 @@ const fictionAppSites = new FictionApp({
 })
 
 const fictionServer = new FictionServer({ fictionEnv, serverName: 'FictionMain', port: comboPort, liveUrl: appUrl })
-const fictionDb = new FictionDb({ fictionEnv, fictionServer, connectionUrl: fictionEnv.var('POSTGRES_URL') })
-const fictionEmail = new FictionEmail({ fictionEnv, smtpHost: fictionEnv.var('SMTP_HOST'), smtpPassword: fictionEnv.var('SMTP_PASSWORD'), smtpUser: fictionEnv.var('SMTP_USER') })
+const fictionDb = new FictionDb({ fictionEnv, fictionServer, postgresUrl })
+const fictionEmail = new FictionEmail({ fictionEnv, smtpHost, smtpPassword, smtpUser })
 
 const base = { fictionEnv, fictionApp, fictionServer, fictionDb, fictionEmail, fictionRouter }
 
-const fictionUser = new FictionUser({ ...base, googleClientId: v('GOOGLE_CLIENT_ID'), googleClientSecret: v('GOOGLE_CLIENT_SECRET'), tokenSecret: v('TOKEN_SECRET') })
+const fictionUser = new FictionUser({ ...base, googleClientId, googleClientSecret, tokenSecret })
 
 fictionUser.events.on('logout', () => {
   fictionEnv.events.emit('notify', { type: 'success', message: 'You have been logged out.' })
 })
 
-const fictionMonitor = new FictionMonitor({ ...base, fictionUser, slackWebhookUrl: v('SLACK_WEBHOOK_URL'), sentryPublicDsn: v('SENTRY_PUBLIC_DSN') })
+const fictionCache = new FictionCache({ ...base })
+const fictionMonitor = new FictionMonitor({ ...base, fictionUser, slackWebhookUrl, sentryPublicDsn })
 
 const basicService = { ...base, fictionUser, fictionMonitor }
 
-const fictionAws = new FictionAws({ ...basicService, awsAccessKey: v('AWS_ACCESS_KEY'), awsAccessKeySecret: v('AWS_ACCESS_KEY_SECRET') })
-const fictionMedia = new FictionMedia({ ...basicService, fictionAws, bucket: 'factor-tests' })
+const fictionAws = new FictionAws({ ...basicService, awsAccessKey, awsAccessKeySecret })
+const fictionMedia = new FictionMedia({ ...basicService, fictionAws, awsBucketMedia, cdnUrl: `https://media.fiction.com` })
 const fictionEmailActions = new FictionEmailActions({ ...basicService, fictionMedia })
-const fictionAi = new FictionAi({ ...basicService, fictionMedia, pineconeApiKey: v('PINECONE_API_KEY'), pineconeEnvironment: v('PINECONE_ENVIRONMENT'), pineconeIndex: v('PINECONE_INDEX'), openaiApiKey: v('OPENAI_API_KEY') })
+const fictionAi = new FictionAi({ ...basicService, fictionMedia, openaiApiKey })
 const fictionAdmin = new FictionAdmin({ ...basicService, fictionEmailActions, fictionMedia })
 
-const pluginServices = { ...basicService, fictionAppSites, fictionRouterSites, fictionAws, fictionMedia, fictionAi, fictionEmailActions, fictionAdmin }
+const pluginServices = { ...basicService, fictionCache, fictionAppSites, fictionRouterSites, fictionAws, fictionMedia, fictionAi, fictionEmailActions, fictionAdmin }
 
 const fictionSubscribe = new FictionSubscribe({ ...pluginServices })
 
@@ -146,8 +168,8 @@ const fictionSites = new FictionSites({
   ...pluginServices,
   fictionAppSites,
   fictionRouterSites,
-  flyIoApiToken: fictionEnv.var('FLY_API_TOKEN'),
-  flyIoAppId: 'fiction-sites',
+  flyApiToken,
+  flyAppId: 'fiction-sites',
   adminBaseRoute: '/admin',
   themes: () => getThemes({ fictionEnv, fictionStripe }),
 })

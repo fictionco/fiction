@@ -36,17 +36,17 @@ interface ManageCertParams {
 export class ManageCert extends SitesQuery {
   graphqlEndpoint = 'https://api.fly.io/graphql'
   fictionSites = this.settings.fictionSites
-  flyIoApiToken = this.fictionSites.settings.flyIoApiToken
-  flyIoAppId = this.fictionSites.settings.flyIoAppId
+  flyApiToken = this.fictionSites.settings.flyApiToken
+  flyAppId = this.fictionSites.settings.flyAppId
 
   constructor(settings: SitesQuerySettings) {
     super(settings)
 
     if (!this.settings.fictionEnv.isApp.value) {
-      if (!this.flyIoApiToken)
+      if (!this.flyApiToken)
         throw new Error('Fly.io API token is required for managing certificates.')
 
-      if (!this.flyIoAppId)
+      if (!this.flyAppId)
         throw new Error('Fly.io App ID is required for managing certificates.')
     }
   }
@@ -55,13 +55,13 @@ export class ManageCert extends SitesQuery {
     const { GraphQLClient } = await import('graphql-request')
     return new GraphQLClient(this.graphqlEndpoint, {
       headers: {
-        Authorization: `Bearer ${this.fictionSites.settings.flyIoApiToken}`,
+        Authorization: `Bearer ${this.fictionSites.settings.flyApiToken}`,
       },
     })
   }
 
   private async graphqlRequest(query: string, args: ManageCertParams): Promise<CertificateDetails> {
-    const v = { appId: this.settings.flyIoAppId, ...args }
+    const v = { appId: this.settings.flyAppId, ...args }
     const client = await this.getClient()
     const response = await client.request<{ [key: string]: { certificate: CertificateDetails } }>(query, v)
 

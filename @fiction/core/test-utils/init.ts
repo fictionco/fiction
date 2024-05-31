@@ -9,8 +9,9 @@ import { runServicesSetup } from '../plugin-env'
 import type { User } from '../plugin-user'
 import { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionRouter, FictionServer, FictionUser } from '..'
 import ElRoot from '../plugin-app/ElRoot.vue'
-import { crossVar } from '../utils/vars'
+import { crossVar, getEnvVars } from '../utils/vars'
 import { getTestEmail } from './util'
+import { testEnvFile } from '.'
 
 export interface TestUtilServices {
   fictionEnv: FictionEnv
@@ -128,9 +129,7 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
   const {
     context,
     cwd = safeDirname(import.meta.url),
-    mainFilePath,
-    envFiles = [],
-    env = {},
+
     rootComponent = ElRoot,
     version = fictionVersion,
     checkEnvVars = [],
@@ -144,14 +143,13 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
 
   const root = safeDirname(import.meta.url)
 
-  const fictionEnv = new FictionEnv({
-    envFiles,
-    env: { ...defaultEnv, ...env },
-    cwd,
-    mainFilePath: mainFilePath || path.join(root, './main.ts'),
-    id: 'test',
-    meta: { version, app: { name: 'Test Fiction App', email: 'admin@fiction.com', url: 'https://testing.fiction.com', domain: 'fiction.com' } },
-  })
+  const meta = { version, app: { name: 'Test Fiction App', email: 'admin@fiction.com', url: 'https://testing.fiction.com', domain: 'fiction.com' } }
+  const mainFilePath = opts?.mainFilePath || path.join(root, './main.ts')
+
+  const env = { ...defaultEnv, ...opts?.env }
+  const envFiles = [testEnvFile, ...(opts?.envFiles || [])]
+
+  const fictionEnv = new FictionEnv({ envFiles, env, cwd, mainFilePath, id: 'test', meta })
 
   let appPort = opts?.appPort
   let serverPort = opts?.serverPort
@@ -173,16 +171,14 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
   })
 
   // ENV VARS NEEDED
-  const smtpHost = fictionEnv.var('SMTP_HOST')
-  const smtpPassword = fictionEnv.var('SMTP_PASSWORD')
-  const smtpUser = fictionEnv.var('SMTP_USER')
-  const connectionUrl = fictionEnv.var('POSTGRES_URL')
-  const googleClientId = fictionEnv.var('GOOGLE_CLIENT_ID')
-  const googleClientSecret = fictionEnv.var('GOOGLE_CLIENT_SECRET')
+
+  const v = getEnvVars(fictionEnv, ['SMTP_HOST', 'SMTP_USER', 'SMTP_PASSWORD', 'POSTGRES_URL', 'GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET'] as const)
+
+  const { smtpHost, smtpUser, smtpPassword, googleClientId, googleClientSecret, postgresUrl } = v
 
   const fictionServer = new FictionServer({ port: serverPort, liveUrl: 'https://server.test.com', fictionEnv })
   const fictionRouter = new FictionRouter({ routerId: 'testRouter', fictionEnv, create: true })
-  const fictionDb = new FictionDb({ fictionEnv, fictionServer, connectionUrl })
+  const fictionDb = new FictionDb({ fictionEnv, fictionServer, postgresUrl })
   const fictionEmail = new FictionEmail({ fictionEnv, smtpHost, smtpPassword, smtpUser })
 
   const base = { fictionEnv, fictionRouter, fictionServer, fictionDb, fictionEmail }

@@ -33,7 +33,7 @@ describe('themeCreation', async () => {
     const r = await m.createSiteFromTheme({ _action: 'create', userId, orgId, fields: { themeId: testTheme.themeId } }, { server: true })
 
     const val = findValueByKey(r.pages, 'media')?.url
-    expect(val.length).toMatchInlineSnapshot(`137`)
+    expect(val.length).toMatchInlineSnapshot(`142`)
     expect(findValueByKey(r.pages, 'media')?.url).toContain(`https://`)
   })
 })

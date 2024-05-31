@@ -1,5 +1,6 @@
 import { FictionAws, FictionMedia, type ServiceConfig, type ServiceList, vue } from '@fiction/core'
 import { createTestUtils } from '@fiction/core/test-utils'
+import { getEnvVars } from '@fiction/core'
 import { EmailAction, FictionEmailActions } from '..'
 
 export async function setup(args: { context?: 'node' | 'app' } = {}) {
@@ -7,16 +8,12 @@ export async function setup(args: { context?: 'node' | 'app' } = {}) {
   const mainFilePath = new URL(import.meta.url).pathname
   const testUtils = createTestUtils({ mainFilePath, ...args })
 
-  const awsAccessKey = testUtils.fictionEnv.var('AWS_ACCESS_KEY')
-  const awsAccessKeySecret = testUtils.fictionEnv.var('AWS_ACCESS_KEY_SECRET')
+  const v = getEnvVars(testUtils.fictionEnv, ['AWS_ACCESS_KEY', 'AWS_ACCESS_KEY_SECRET', 'AWS_BUCKET_MEDIA'] as const)
 
-  if (context !== 'app') {
-    if (!awsAccessKey || !awsAccessKeySecret)
-      testUtils.fictionEnv.log.error(`EmailActionsSetup: missing env vars key:${awsAccessKey?.length}, secret:${awsAccessKeySecret?.length}`)
-  }
+  const { awsAccessKey, awsAccessKeySecret, awsBucketMedia } = v
 
   const fictionAws = new FictionAws({ ...testUtils, awsAccessKey, awsAccessKeySecret })
-  const fictionMedia = new FictionMedia({ ...testUtils, fictionAws, bucket: 'factor-tests' })
+  const fictionMedia = new FictionMedia({ ...testUtils, fictionAws, awsBucketMedia })
 
   const fictionEmailActions = new FictionEmailActions({ ...testUtils, fictionMedia })
 

@@ -1,5 +1,7 @@
 import process from 'node:process'
 import type { RunVars } from '../inject'
+import type { FictionEnv } from '../plugin-env'
+import { toCamel } from './casing'
 
 export class CrossVarManager {
   /**
@@ -83,3 +85,27 @@ export const isDebug = () => crossVar.has('DEBUG')
 export const isRestart = () => crossVar.has('IS_RESTART')
 export const getVersion = () => crossVar.get('RUNTIME_VERSION')
 export const getCommit = () => crossVar.get('RUNTIME_COMMIT')
+
+type Camelize<S extends string> = S extends `${infer T}_${infer U}`
+  ? `${Lowercase<T>}${Capitalize<Camelize<U>>}`
+  : Lowercase<S>
+
+type CamelizeEnvVars<T extends string> = {
+  [K in T as Camelize<K>]: string;
+}
+
+export function getEnvVars<T extends readonly string[]>(fictionEnv: FictionEnv, envVarNames: T): CamelizeEnvVars<T[number]> {
+  const envVars = {} as CamelizeEnvVars<T[number]>
+
+  envVarNames.forEach((name) => {
+    const camelCaseName = toCamel(name) as keyof CamelizeEnvVars<T[number]>
+
+    const value = fictionEnv.var(name)
+    if (!value) {
+      throw new Error(`Missing env var: ${name}`)
+    }
+    envVars[camelCaseName] = value as any
+  })
+
+  return envVars
+}

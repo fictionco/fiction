@@ -229,7 +229,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
         .ignore()
 
       await db
-        .insert({ firstName: 'Admin', lastName: 'Admin', userId: 'admin', email: 'admin@fiction.com' })
+        .insert({ fullName: 'Admin', userId: 'admin', email: 'admin@fiction.com' })
         .onConflict()
         .ignore()
         .into('fiction_user')

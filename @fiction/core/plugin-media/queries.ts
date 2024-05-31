@@ -126,8 +126,8 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
     crop?: CropSettings
     hash?: string
   }, meta: EndpointMeta): Promise<TableMediaConfig> {
-    const cdn = this.settings.fictionMedia.cdnUrl
-    const bucket = this.settings.fictionMedia.bucket
+    const cdnUrl = this.settings.fictionMedia.settings.cdnUrl
+    const bucket = this.settings.fictionMedia.settings.awsBucketMedia
     const maxSide = this.maxSide
     const fictionAws = this.settings.fictionAws
 
@@ -170,12 +170,14 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
     ]
 
     const [mainData, thumbData] = await Promise.all(uploadPromises)
-    const originUrl = mainData?.url
+    const baseUrl = mainData?.url
 
-    const encodedBlurhash = blurhash ? encodeURIComponent(blurhash) : ''
-    const url = `${cdn ? path.join(cdn, filePath) : originUrl}?blurhash=${encodedBlurhash}`
-    const thumbOriginUrl = thumbData?.url || originUrl
-    const thumbUrl = `${cdn ? path.join(cdn, thumbFilePath) : thumbOriginUrl}?blurhash=${encodedBlurhash}`
+    const searchParams = new URLSearchParams({ blurhash: blurhash || '' }).toString()
+
+    const originUrl = `${baseUrl}?${searchParams}`
+    const url = `${cdnUrl ? path.join(cdnUrl, filePath) : baseUrl}?${searchParams}`
+    const thumbOriginUrl = thumbData?.url || baseUrl
+    const thumbUrl = `${cdnUrl ? path.join(cdnUrl, thumbFilePath) : thumbOriginUrl}?${searchParams}`
 
     const { ContentLength: size, ContentType: mime = fileMime } = mainData?.headObject || {}
     const { width, height, orientation } = metadata || {}
@@ -362,7 +364,7 @@ export class QueryManageMedia extends MediaQuery {
 
     if (media && media.url) {
       const filePath = new URL(media.url).pathname.replace(/^\/+/g, '')
-      await this.settings.fictionAws.deleteS3({ filePath, bucket: this.settings.fictionMedia.bucket })
+      await this.settings.fictionAws.deleteS3({ filePath, bucket: this.settings.fictionMedia.settings.awsBucketMedia })
     }
 
     return media

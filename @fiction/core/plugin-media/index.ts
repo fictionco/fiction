@@ -24,7 +24,7 @@ type FictionMediaSettings = {
   fictionDb: FictionDb
   fictionServer: FictionServer
   fictionAws: FictionAws
-  bucket: string
+  awsBucketMedia: string
   unsplashAccessKey?: string
   cdnUrl?: string
 } & FictionPluginSettings
@@ -38,9 +38,6 @@ export interface UploadConfig {
 
 export class FictionMedia extends FictionPlugin<FictionMediaSettings> {
   imageFieldName = 'imageFile'
-  bucket = this.settings.bucket
-  unsplashAccessKey = this.settings.unsplashAccessKey
-  cdnUrl = this.settings.cdnUrl
   queries = {
     SaveMedia: new QuerySaveMedia({ fictionMedia: this, ...this.settings }),
     MediaIndex: new QueryMediaIndex({ fictionMedia: this, ...this.settings }),

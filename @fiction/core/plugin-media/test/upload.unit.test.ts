@@ -13,6 +13,7 @@ import { createTestUtils } from '../../test-utils/init'
 import { testEnvFile, testImgPath } from '../../test-utils'
 import { FictionMedia } from '..'
 import { FictionAws } from '../../plugin-aws'
+import { getEnvVars } from '../../utils'
 
 let url: string | undefined
 
@@ -22,27 +23,12 @@ describe('media upload/download tests', async () => {
 
   const testUtils = createTestUtils({ envFiles: [testEnvFile] }) as (TestUtils & { fictionMedia?: FictionMedia })
 
-  const awsAccessKey = testUtils.fictionEnv.var('AWS_ACCESS_KEY')
-  const awsAccessKeySecret = testUtils.fictionEnv.var('AWS_ACCESS_KEY_SECRET')
-  const unsplashAccessKey = testUtils.fictionEnv.var('UNSPLASH_ACCESS_KEY')
+  const v = getEnvVars(testUtils.fictionEnv, ['AWS_ACCESS_KEY', 'AWS_ACCESS_KEY_SECRET', 'UNSPLASH_ACCESS_KEY', 'AWS_BUCKET_MEDIA'] as const)
 
-  if (!awsAccessKey || !awsAccessKeySecret || !unsplashAccessKey)
-    throw new Error(`missing env vars key:${awsAccessKey?.length}, secret:${awsAccessKeySecret?.length}, unsplash${unsplashAccessKey?.length}`)
+  const { awsAccessKey, awsAccessKeySecret, unsplashAccessKey, awsBucketMedia } = v
 
-  const fictionAws = new FictionAws({
-    fictionEnv: testUtils.fictionEnv,
-    awsAccessKey,
-    awsAccessKeySecret,
-  })
-  testUtils.fictionMedia = new FictionMedia({
-    fictionEnv: testUtils.fictionEnv,
-    fictionDb: testUtils.fictionDb,
-    fictionUser: testUtils.fictionUser,
-    fictionServer: testUtils.fictionServer,
-    fictionAws,
-    bucket: 'factor-tests',
-    unsplashAccessKey,
-  })
+  const fictionAws = new FictionAws({ ...testUtils, awsAccessKey, awsAccessKeySecret })
+  testUtils.fictionMedia = new FictionMedia({ ...testUtils, fictionAws, awsBucketMedia, unsplashAccessKey })
   testUtils.initialized = await testUtils.init()
 
   it('creates media from an external URL', async () => {
@@ -58,7 +44,7 @@ describe('media upload/download tests', async () => {
 
     // Assertions to check if the media was created correctly
     expect(result?.status).toBe('success')
-    expect(result?.data?.url).toContain('factor-tests')
+    expect(result?.data?.url).toContain('fiction-media')
     expect(result?.data?.mime).toBe('image/jpeg') // or the correct mime type
 
     expect(Object.keys(result?.data || {})).toMatchInlineSnapshot(`

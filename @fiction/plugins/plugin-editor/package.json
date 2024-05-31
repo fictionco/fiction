@@ -35,7 +35,7 @@
     "ai": "^3.1.22",
     "highlight.js": "^11.9.0",
     "lowlight": "^3.1.0",
-    "lucide-vue-next": "^0.379.0",
+    "lucide-vue-next": "^0.381.0",
     "tailwindcss": "^3.4.3",
     "tippy.js": "^6.3.7",
     "tiptap-extension-auto-joiner": "^0.1.3",

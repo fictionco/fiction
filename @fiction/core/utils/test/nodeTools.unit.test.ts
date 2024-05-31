@@ -59,6 +59,7 @@ describe('node utils', () => {
         "fictionApp",
         "fictionAppSites",
         "fictionAws",
+        "fictionCache",
         "fictionDb",
         "fictionEmail",
         "fictionEmailActions",

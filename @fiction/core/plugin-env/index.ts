@@ -81,6 +81,7 @@ export class FictionEnv<
   id = this.settings.id || toSlug(this.meta.app?.name) || 'fiction'
   inspector = this.settings.inspector || false
   mode = vue.ref<'development' | 'production' | undefined>(isDev() ? 'development' : 'production')
+
   isRestart = () => crossVar.get('IS_RESTART') === '1'
 
   isApp = vue.ref(this.settings.isApp)
@@ -255,12 +256,17 @@ export class FictionEnv<
   }
 
   getVars() {
+    const isApp = this.isApp.value
     // get custom env vars from plugins, etc.
     const customVars = vars.list.flatMap((cb) => {
       const v = cb().map((vari) => {
-        if (!vari.val.value)
-          vari.val = vue.ref(crossVar.get(vari.name) as string | undefined)
-
+        if (!isApp || vari.isPublic) {
+          if (!vari.val.value)
+            vari.val.value = crossVar.get(vari.name) as string | undefined
+        }
+        else {
+          vari.val.value = ''
+        }
         return vari
       })
 
@@ -410,20 +416,25 @@ export class FictionEnv<
     }
   }
 
-  var(variable: S['vars'], opts: { fallback?: string | number } = {}): string {
-    const { fallback } = opts
+  var(variable: S['vars']): string {
+    const isApp = this.isApp.value
+
     const envVar = this.getVars().find(_ => _.name === variable)
 
     if (!envVar) {
-      this.log.error(`envVar missing: ${variable}`)
-      return ''
+      throw new Error(`variable definition not set up: ${variable}`)
     }
+
     const v = envVar.val.value
 
-    if (!v && fallback)
-      envVar.val.value = String(fallback)
+    if (v && isApp && !envVar.isPublic) {
+      throw new Error(`truthy variable is not public: ${variable}`)
+    }
+    else if (!v && !envVar.isOptional) {
+      throw new Error(`variable is not optional and not set: ${variable}`)
+    }
 
-    return envVar.val.value || ''
+    return v || ''
   }
 
   addUiRoot(root: string) {

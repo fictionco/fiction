@@ -1,5 +1,5 @@
 import fs from 'node:fs'
-import { FictionAws, FictionMedia } from '@fiction/core'
+import { FictionAws, FictionMedia, getEnvVars } from '@fiction/core'
 import { createTestUtils, testEnvFile } from '@fiction/core/test-utils'
 import { describe, expect, it } from 'vitest'
 import { z } from 'zod'
@@ -21,34 +21,15 @@ describe('ai completions', async () => {
 
   const testUtils = createTestUtils({ envFiles: [testEnvFile] })
 
-  const openaiApiKey = testUtils.fictionEnv.var('OPENAI_API_KEY')
+  const v = getEnvVars(testUtils.fictionEnv, ['AWS_ACCESS_KEY', 'AWS_ACCESS_KEY_SECRET', 'UNSPLASH_ACCESS_KEY', 'OPENAI_API_KEY', 'AWS_BUCKET_MEDIA'] as const)
 
-  const awsAccessKey = testUtils.fictionEnv.var('AWS_ACCESS_KEY')
-  const awsAccessKeySecret = testUtils.fictionEnv.var('AWS_ACCESS_KEY_SECRET')
-  const unsplashAccessKey = testUtils.fictionEnv.var('UNSPLASH_ACCESS_KEY')
-
-  if (!awsAccessKey || !awsAccessKeySecret || !unsplashAccessKey)
-    throw new Error(`missing env vars key:${awsAccessKey?.length}, secret:${awsAccessKeySecret?.length}, unsplash${unsplashAccessKey?.length}`)
-
-  // const unsplashAccessKey = testUtils.fictionEnv.var('UNSPLASH_ACCESS_KEY')
+  const { awsAccessKey, awsAccessKeySecret, unsplashAccessKey, openaiApiKey, awsBucketMedia } = v
 
   if (!openaiApiKey)
     throw new Error(`no openaiApiKey`)
 
-  const fictionAws = new FictionAws({
-    fictionEnv: testUtils.fictionEnv,
-    awsAccessKey,
-    awsAccessKeySecret,
-  })
-  const fictionMedia = new FictionMedia({
-    fictionEnv: testUtils.fictionEnv,
-    fictionDb: testUtils.fictionDb,
-    fictionUser: testUtils.fictionUser,
-    fictionServer: testUtils.fictionServer,
-    fictionAws,
-    bucket: 'factor-tests',
-    unsplashAccessKey,
-  })
+  const fictionAws = new FictionAws({ fictionEnv: testUtils.fictionEnv, awsAccessKey, awsAccessKeySecret })
+  const fictionMedia = new FictionMedia({ ...testUtils, fictionAws, awsBucketMedia, unsplashAccessKey })
 
   const initialized = await testUtils.init()
 

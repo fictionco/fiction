@@ -19,7 +19,7 @@ export interface JSendMessage {
 }
 
 type FictionCacheSettings = {
-  redisConnectionUrl?: string
+  redisUrl?: string
   fictionServer: FictionServer
   fictionAws?: FictionAws
   fictionDb?: FictionDb
@@ -62,8 +62,8 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
   constructor(settings: FictionCacheSettings) {
     super('cache', { root: safeDirname(import.meta.url), ...settings })
 
-    if (this.settings.redisConnectionUrl)
-      this.connectionUrl = new URL(this.settings.redisConnectionUrl)
+    if (this.settings.redisUrl)
+      this.connectionUrl = new URL(this.settings.redisUrl)
   }
 
   str(data: Record<string, unknown>) {
