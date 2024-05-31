@@ -13,8 +13,8 @@
     }
   ],
   "dependencies": {
-    "@aws-sdk/client-cloudfront": "^3.587.0",
-    "@aws-sdk/client-s3": "^3.587.0",
+    "@aws-sdk/client-cloudfront": "^3.588.0",
+    "@aws-sdk/client-s3": "^3.588.0",
     "@egoist/tailwindcss-icons": "^1.8.0",
     "@faker-js/faker": "^8.4.1",
     "@iconify-json/carbon": "^1.1.34",
@@ -157,7 +157,7 @@
     "@types/jsonwebtoken": "^9.0.6",
     "@types/mime-types": "^2.1.4",
     "@types/multer": "^1.4.11",
-    "@types/node": "^20.12.13",
+    "@types/node": "^20.13.0",
     "@types/nodemailer": "^6.4.15",
     "@types/nodemailer-html-to-text": "^3.1.3",
     "@types/nodemon": "^1.19.6",
