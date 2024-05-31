@@ -18,7 +18,7 @@ describe('card', async () => {
   const generation = new CardGeneration({ card })
 
   it('should have correct setup', () => {
-    expect(site.pages.value.length).toMatchInlineSnapshot(`0`)
+    expect(site.pages.value.length).toMatchInlineSnapshot(`1`)
   })
 
   it('cardTemplate initializes with correct settings', () => {
@@ -148,6 +148,7 @@ describe('cardTemplate', async () => {
     expect(site?.theme.value?.templates.map(t => t.settings.templateId)).toMatchInlineSnapshot(`
       [
         "wrap",
+        "transaction",
         "404",
         "quotes",
         "profile",

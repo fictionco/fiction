@@ -20,11 +20,11 @@ describe('user config', async () => {
       [
         "fictionEnv",
         "fictionApp",
-        "fictionRouter",
         "fictionServer",
         "fictionDb",
-        "fictionUser",
         "fictionEmail",
+        "fictionRouter",
+        "fictionUser",
         "fictionMonitor",
         "fictionAppSites",
         "fictionRouterSites",
@@ -37,6 +37,7 @@ describe('user config', async () => {
         "fictionTeam",
         "fictionUi",
         "fictionStripe",
+        "fictionSubscribe",
         "fictionExtend",
       ]
     `)
@@ -60,6 +61,7 @@ describe('user config', async () => {
           "ManageVectors",
           "AiCompletion",
           "AiImage",
+          "ManageSubscription",
           "ManageCustomer",
           "ListSubscriptions",
           "GetCustomerData",

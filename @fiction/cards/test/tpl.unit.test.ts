@@ -24,6 +24,12 @@ describe('verify template settings config', () => {
         {
           "hasDemo": false,
           "isPublic": false,
+          "templateId": "transaction",
+          "unusedSchema": {},
+        },
+        {
+          "hasDemo": false,
+          "isPublic": false,
           "templateId": "404",
           "unusedSchema": {},
         },

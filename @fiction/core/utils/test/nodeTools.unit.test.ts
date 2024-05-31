@@ -31,7 +31,6 @@ describe('node utils', () => {
     expect(Object.keys(importFile).sort()).toMatchInlineSnapshot(
       `
       [
-        "service",
         "setup",
       ]
     `,
@@ -72,6 +71,7 @@ describe('node utils', () => {
         "fictionServer",
         "fictionSites",
         "fictionStripe",
+        "fictionSubscribe",
         "fictionTeam",
         "fictionUi",
         "fictionUser",

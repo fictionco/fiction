@@ -108,23 +108,31 @@ describe('updateSite / updatePages', async () => {
     const site = new Site({ ...common, themeId: 'test' })
     // Setup initial state
     const pgs = setPages({ site, pages: [{ cardId: 'card1', title: 'Original Title', userConfig: { otherProp: 'initial' } }] })
-    site.pages.value.push(...pgs)
+
+    site.pages.value = pgs
 
     const pages = [{ cardId: 'card1', title: 'Updated Title', userConfig: { otherProp: 'Updated' } }]
 
     // Perform the update
     updatePages({ site, pages })
 
-    expect(site.pages.value.map(p => p.cardId)).toMatchInlineSnapshot(`
+    const userSitePages = site.pages.value.filter(_ => !_.isSystem.value)
+
+    expect(userSitePages.map(p => [p.cardId, p.slug.value, p.templateId.value])).toMatchInlineSnapshot(`
       [
-        "card1",
+        [
+          "card1",
+          undefined,
+          "wrap",
+        ],
       ]
     `)
-    // Assertions
-    expect(site.pages.value.length).toBe(1) // Ensure no new pages were added
-
-    expect(site.pages.value[0].title.value).toBe('Updated Title')
-    expect(site.pages.value[0].userConfig.value.otherProp).toBe('Updated')
+    expect(userSitePages.length, 'set pages should be 1').toBe(1)
+    expect(userSitePages.length).toBe(1) // Ensure no new pages were added
+    expect(userSitePages[0].cardId).toBe('card1')
+    expect(userSitePages[0].slug.value).toBe(undefined)
+    expect(userSitePages[0].title.value).toBe('Updated Title')
+    expect(userSitePages[0].userConfig.value.otherProp).toBe('Updated')
   })
 })
 

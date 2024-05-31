@@ -32,6 +32,7 @@ describe('site plugin tests', async () => {
       [
         "_home",
         "example",
+        "__transaction",
       ]
     `)
 
@@ -63,6 +64,7 @@ describe('site plugin tests', async () => {
         "/blog",
         "/blog/first-post",
         "/blog/second-post",
+        "/__transaction",
       ]
     `)
     const expectedPaths = [
@@ -71,11 +73,14 @@ describe('site plugin tests', async () => {
       '/blog',
       '/blog/first-post',
       '/blog/second-post',
+      '/__transaction',
     ]
 
     expect(paths).toEqual(expectedPaths)
 
     const paths2 = getPathsFromSite(site, '/test')
+
+    expect(paths2.some(_ => !_.startsWith('/test'))).toBe(false)
 
     expect(paths2).toMatchInlineSnapshot(`
       [
@@ -84,6 +89,7 @@ describe('site plugin tests', async () => {
         "/test/blog",
         "/test/blog/first-post",
         "/test/blog/second-post",
+        "/test/__transaction",
       ]
     `)
   })

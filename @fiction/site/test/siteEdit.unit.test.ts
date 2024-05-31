@@ -94,6 +94,7 @@ describe('site plugin tests', async () => {
     expect(Object.entries(siteObj.viewMap.value).sort().map(([k, v]) => `${k}:${v.length}`)).toMatchInlineSnapshot(`
       [
         "_:27",
+        "__transaction:13",
         "_home:27",
         "example:27",
       ]
@@ -180,7 +181,7 @@ describe('site plugin tests', async () => {
       throw new Error('missing siteObj or testUtils')
 
     expect(site.pages.length).toMatchInlineSnapshot(`2`)
-    expect(siteObj.pages.value.length).toMatchInlineSnapshot(`2`)
+    expect(siteObj.pages.value.length).toMatchInlineSnapshot(`3`)
 
     const rSite1 = await testUtils.fictionSites.requests.ManageSite.projectRequest({
       _action: 'retrieve',
@@ -202,6 +203,7 @@ describe('site plugin tests', async () => {
         "main",
         "main",
         "main",
+        "main",
       ]
     `)
 
@@ -210,6 +212,7 @@ describe('site plugin tests', async () => {
     expect(siteObj.pages.value.map(m => m.templateId.value).sort()).toMatchInlineSnapshot(`
       [
         "testWrap",
+        "transaction",
         "wrap",
         "wrap",
       ]
@@ -220,6 +223,7 @@ describe('site plugin tests', async () => {
         "main",
         "main",
         "main",
+        "main",
       ]
     `)
 
@@ -227,17 +231,13 @@ describe('site plugin tests', async () => {
 
     await waitFor(200)
 
-    expect(siteObj.pages.value.length).toMatchInlineSnapshot(`3`)
+    expect(siteObj.pages.value.length).toMatchInlineSnapshot(`4`)
 
     expect(siteObj.pages.value[0].title.value).toBe(nm)
 
     expect(siteObj.pages.value[0].cardId).toBe(r?.cardId)
 
-    const rSite2 = await testUtils.fictionSites.requests.ManageSite.projectRequest({
-      _action: 'retrieve',
-      where: { siteId: siteObj.siteId },
-
-    })
+    const rSite2 = await testUtils.fictionSites.requests.ManageSite.projectRequest({ _action: 'retrieve', where: { siteId: siteObj.siteId } })
 
     expect(rSite2?.data?.pages.filter(_ => _.regionId === 'main').length, 'default pages + 1 added page').toBe(defaultNumPages + 1)
 
@@ -245,7 +245,7 @@ describe('site plugin tests', async () => {
 
     await waitFor(200)
 
-    expect(siteObj.pages.value.filter(_ => _.regionId === 'main').length, 'default pages after adding and deleting page').toBe(defaultNumPages)
+    expect(siteObj.pages.value.filter(_ => _.regionId === 'main' && !_.isSystem.value).length, 'default pages after adding and deleting page').toBe(defaultNumPages)
 
     const rSite3 = await testUtils.fictionSites.requests.ManageSite.projectRequest({
       _action: 'retrieve',
@@ -263,6 +263,7 @@ describe('site plugin tests', async () => {
     expect(Object.keys(m).sort()).toMatchInlineSnapshot(`
       [
         "_",
+        "__transaction",
         "_home",
         "example",
         "test",
@@ -369,6 +370,8 @@ describe('site plugin tests', async () => {
         27,
         27,
         27,
+        27,
+        13,
         27,
         27,
         27,

@@ -35,11 +35,11 @@ describe('createEmailVars', async () => {
     expect(emailVars.actionId).toBe('actionTest')
     expect(emailVars.appName).toBe('Test Fiction App')
     const u = new URL(emailVars.callbackUrl)
-    expect(u.origin + u.pathname).toBe(`https://www.example.com/base/_action/action-test`)
+    expect(u.origin + u.pathname).toBe(`https://www.example.com/base/__transaction/action-test`)
     expect(u.searchParams.get('token')).toBe(createUserToken({ user: initialized.user, tokenSecret: testUtils.fictionUser.tokenSecret }))
     expect(u.searchParams.get('redirect')).toBe('http://example.com/redirect')
     expect(emailVars.code).toBe(initialized.user.verify?.code)
-    expect(emailVars.unsubscribeUrl).toBe('https://www.example.com/base/_action/unsubscribe')
+    expect(emailVars.unsubscribeUrl).toBe('https://www.example.com/base/__transaction/unsubscribe')
     expect(emailVars.fullName).toBe(initialized.user.fullName)
     expect(emailVars.email).toBe(initialized.user.email)
 
@@ -52,11 +52,12 @@ describe('createEmailVars', async () => {
         "userId",
         "username",
         "token",
+        "code",
         "originUrl",
         "callbackUrl",
         "unsubscribeUrl",
         "appName",
-        "code",
+        "queryVars",
       ]
     `)
   })

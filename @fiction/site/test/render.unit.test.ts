@@ -118,7 +118,8 @@ describe('siteRendering Tests', async () => {
 
     const s = await loadSiteFromTheme({ themeId: 'test', ...common, caller: 'renderTests' })
 
-    expect(s.pages.value.map(r => r.regionId).length).toBe(2)
+    const userPages = s.pages.value.filter(p => !p.isSystem.value)
+    expect(userPages.map(r => r.regionId).length).toBe(2)
 
     expect(s?.pages.value.map((r) => {
       return [
@@ -137,6 +138,12 @@ describe('siteRendering Tests', async () => {
         ],
         [
           "testWrap",
+          "main",
+          undefined,
+          1,
+        ],
+        [
+          "transaction",
           "main",
           undefined,
           1,

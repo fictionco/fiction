@@ -9,9 +9,14 @@ import type { FictionEnv } from '../plugin-env'
 import { EnvVar, vars } from '../plugin-env'
 import { camelKeys, safeDirname, shortId, toSnakeCaseKeys, uuid } from '../utils'
 
-// import { JSendMessage } from "./types"
-
 vars.register(() => [new EnvVar({ name: 'REDIS_URL' })])
+
+export interface JSendMessage {
+  status: 'success' | 'error' | 'event'
+  messageType: string
+  data?: any
+  message?: string
+}
 
 type FictionCacheSettings = {
   redisConnectionUrl?: string
@@ -41,13 +46,10 @@ export interface MessageData {
 
 export class FictionCache extends FictionPlugin<FictionCacheSettings> {
   connectionUrl?: URL
-  fictionServer = this.settings.fictionServer
-  fictionAws = this.settings.fictionAws
-  fictionDb = this.settings.fictionDb
   queries = this.createQueries()
   requests = this.createRequests({
     queries: this.queries,
-    fictionServer: this.fictionServer,
+    fictionServer: this.settings.fictionServer,
     fictionUser: this.settings.fictionUser,
   })
 
@@ -216,10 +218,6 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
 
     await cache.set(key, this.str(val), 'EX', ttl)
   }
-
-  // get endpoints() {
-  //   return Object.values(this.requests)
-  // }
 
   getCache(): Redis | undefined {
     if (!this.primaryCache && !this.fictionEnv?.isApp.value) {

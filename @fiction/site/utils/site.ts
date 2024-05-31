@@ -15,11 +15,11 @@ export type QueryVarHook = {
 export function setupRouteWatcher(args: { site: Site, queryVarHooks: QueryVarHook[] }): CleanupCallback {
   const { site, queryVarHooks } = args
   const fictionEnv = site.fictionSites.fictionEnv
-  if (fictionEnv.isNode) {
+  if (typeof window === 'undefined') {
     return
   }
 
-  const removeWatch = vue.watch(
+  const sw = vue.watch(
     () => site.siteRouter.current.value,
     async (route) => {
       if (!route)
@@ -42,7 +42,7 @@ export function setupRouteWatcher(args: { site: Site, queryVarHooks: QueryVarHoo
     { immediate: true },
   )
 
-  fictionEnv.cleanupCallbacks.push(() => removeWatch())
+  fictionEnv.cleanupCallbacks.push(() => sw())
 }
 
 export function setSections(args: { site: Site, sections?: Record<string, CardConfigPortable> }) {

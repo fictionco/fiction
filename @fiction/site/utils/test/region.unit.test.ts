@@ -84,7 +84,12 @@ describe('addNewCard', async () => {
   it('should add a new card to a region if addToCardId is not provided', () => {
     const site = new Site({ ...common, isProd: false, themeId: 'test' })
 
-    expect(Object.keys(site.viewMap.value)).toMatchInlineSnapshot(`[]`)
+    expect(Object.keys(site.viewMap.value)).toMatchInlineSnapshot(`
+      [
+        "__transaction",
+        "_",
+      ]
+    `)
     expect(site.activePageId.value).toBeTruthy()
     expect(site.currentPage.value.templateId.value).toBe('wrap')
     expect(Object.keys(site.layout.value)).toContain('header')

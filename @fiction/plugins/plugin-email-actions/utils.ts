@@ -18,8 +18,9 @@ export async function createEmailVars(args: SendEmailArgs & { actionId: string, 
   const cleanPath = (_: string) => _.replace(/^\/|\/$/g, '')
   const buildUrl = (...parts: string[]) => parts.filter(_ => _ && _ !== '/').map(cleanPath).join('/')
 
-  const callbackHref = buildUrl(originUrl, baseRoute, '_action', toSlug(actionId))
-  const unsubscribeUrl = buildUrl(originUrl, baseRoute, '_action', 'unsubscribe')
+  const slug = fictionEmailActions.transactionSlug
+  const callbackHref = buildUrl(originUrl, baseRoute, slug, toSlug(actionId))
+  const unsubscribeUrl = buildUrl(originUrl, baseRoute, slug, 'unsubscribe')
 
   const v: Record<string, string> = args.queryVars || {}
 

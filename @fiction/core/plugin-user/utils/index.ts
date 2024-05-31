@@ -9,15 +9,16 @@ import { validateEmail } from '../../utils/utils'
 import type { VerificationCode } from '../schema'
 import type { WhereUser } from '../endpoint'
 
-export function defaultOrgName(email: string): string {
+export function defaultOrgName(email: string, suffix: string = 'Newsletter'): string {
   // Extract username from email and clean special characters
   const username = email.substring(0, email.lastIndexOf('@')).split('+')[0]
 
   const capitalized = toLabel(username).replace(/\W/g, '').replace(/\d+$/, '')
+
   // Append possessive form correctly based on the last character
   const possessiveUsername = capitalized + (capitalized.endsWith('s') ? '\'' : '\'s')
 
-  const orgName = `${possessiveUsername} Space`
+  const orgName = [possessiveUsername, suffix].join(' ')
 
   return orgName
 }

@@ -21,6 +21,7 @@ type FictionEmailActionsSettings = {
 } & FictionPluginSettings
 
 export class FictionEmailActions extends FictionPlugin<FictionEmailActionsSettings> {
+  transactionSlug = '__transaction'
   queries = {
     EmailAction: new EndpointEmailAction({ fictionEmailActions: this, ...this.settings }),
   }
@@ -45,7 +46,8 @@ export class FictionEmailActions extends FictionPlugin<FictionEmailActionsSettin
         return [
           ...pages,
           createCard({
-            slug: '_action',
+            cardId: this.transactionSlug,
+            slug: this.transactionSlug,
             isSystem: true,
             templates: theme?.templates,
             templateId: transactionTemplateId,
@@ -61,7 +63,7 @@ export class FictionEmailActions extends FictionPlugin<FictionEmailActionsSettin
     })
 
     this.settings.fictionRouter.update([
-      new AppRoute({ name: 'emailTransaction', path: '/_transaction/:itemId', component: (): Promise<any> => import('./ElEmailAction.vue') }),
+      new AppRoute({ name: 'emailTransaction', path: '/__transaction-route/:itemId', component: (): Promise<any> => import('./ElEmailAction.vue') }),
     ])
   }
 
