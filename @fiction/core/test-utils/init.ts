@@ -176,6 +176,7 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
 
   const { smtpHost, smtpUser, smtpPassword, googleClientId, googleClientSecret, postgresUrl } = v
 
+
   const fictionServer = new FictionServer({ port: serverPort, liveUrl: 'https://server.test.com', fictionEnv })
   const fictionRouter = new FictionRouter({ routerId: 'testRouter', fictionEnv, create: true })
   const fictionDb = new FictionDb({ fictionEnv, fictionServer, postgresUrl })

@@ -27,7 +27,7 @@ export type EmailActionSettings<T extends EmailActionSurface = EmailActionSurfac
   emailConfig: (args: EmailVars<T['queryVars']>) => TransactionalEmailConfig | Promise<TransactionalEmailConfig>
   vars?: Partial<EmailVars>
   serverTransaction?: (action: EmailAction, args: T['transactionArgs'], meta: EndpointMeta) => Promise< T['transactionResponse']>
-  fictionEmailActions?: FictionEmailActions
+  fictionEmailActions: FictionEmailActions
 }
 
 export type EmailActionSurface = Partial<{
@@ -62,13 +62,10 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
   constructor(params: EmailActionSettings<T>) {
     super(`EmailAction:${params.actionId}`, params)
 
-    if (this.fictionEmailActions)
-      this.install(this.fictionEmailActions)
+    this.install()
   }
 
-  install(fictionEmailActions: FictionEmailActions) {
-    this.fictionEmailActions = fictionEmailActions
-
+  install() {
     this.fictionEmailActions.emailActions[this.settings.actionId] = this as unknown as EmailAction
   }
 

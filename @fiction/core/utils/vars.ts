@@ -101,9 +101,7 @@ export function getEnvVars<T extends readonly string[]>(fictionEnv: FictionEnv, 
     const camelCaseName = toCamel(name) as keyof CamelizeEnvVars<T[number]>
 
     const value = fictionEnv.var(name)
-    if (!value) {
-      throw new Error(`Missing env var: ${name}`)
-    }
+
     envVars[camelCaseName] = value as any
   })
 

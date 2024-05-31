@@ -28,6 +28,7 @@ describe('validate option keys', async () => {
 
     expect(keys).toMatchInlineSnapshot(`
       [
+        "purpose",
         "heading",
         "subHeading",
         "superHeading",
@@ -35,13 +36,12 @@ describe('validate option keys', async () => {
         "splash",
         "splash.url",
         "splash.format",
-        "splash.html",
         "actions",
         "actions.0.name",
         "actions.0.href",
         "actions.0.btn",
         "actions.0.size",
-        "purpose",
+        "actions.0.target",
       ]
     `)
   })

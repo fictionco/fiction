@@ -418,6 +418,7 @@ export class FictionEnv<
 
   var(variable: S['vars']): string {
     const isApp = this.isApp.value
+    const context = isApp ? 'app' : 'node'
 
     const envVar = this.getVars().find(_ => _.name === variable)
 
@@ -427,11 +428,15 @@ export class FictionEnv<
 
     const v = envVar.val.value
 
-    if (v && isApp && !envVar.isPublic) {
-      throw new Error(`truthy variable is not public: ${variable}`)
+    if (isApp) {
+      if (v && !envVar.isPublic) {
+        throw new Error(`truthy variable is not public: ${variable} [${context}]`)
+      }
     }
-    else if (!v && !envVar.isOptional) {
-      throw new Error(`variable is not optional and not set: ${variable}`)
+    else {
+      if (!v && !envVar.isOptional) {
+        throw new Error(`variable is not optional and not set: ${variable} [${context}]`)
+      }
     }
 
     return v || ''

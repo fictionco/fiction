@@ -10,5 +10,7 @@ defineProps({
 </script>
 
 <template>
-  <div>hello</div>
+  <div class="text-center p-24 text-5xl font-bold">
+    Test Transaction Landing Page
+  </div>
 </template>
