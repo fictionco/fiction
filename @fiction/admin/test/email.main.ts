@@ -16,10 +16,9 @@ export async function setup(args: { context?: 'node' | 'app' } = {}) {
     new AppRoute({ name: 'dash', path: '/:viewId?/:itemId?', component: FSite, props: { siteRouter: testUtils.fictionRouter, themeId: 'admin' } }),
   ])
 
-  const fictionEmailActions = new FictionEmailActions({ ...testUtils })
-  const fictionAdmin = new FictionAdmin({ ...testUtils, fictionEmailActions })
+  const fictionAdmin = new FictionAdmin({ ...testUtils })
 
-  const service = { ...testUtils, fictionEmailActions, fictionAdmin }
+  const service = { ...testUtils, fictionAdmin }
 
   return {
     runVars: { },

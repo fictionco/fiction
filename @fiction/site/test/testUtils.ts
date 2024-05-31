@@ -25,15 +25,13 @@ export type SiteTestUtils = TestUtils & {
   close: () => Promise<void>
 }
 export async function createSiteTestUtils(args: { mainFilePath?: string, context?: 'node' | 'app', themes?: ThemeSetup[] } = {}): Promise<SiteTestUtils> {
-  const { mainFilePath, context = 'node', themes = [] } = args
+  const { mainFilePath, context = 'node' } = args
 
   const testUtils = createTestUtils({
     mainFilePath,
     envFiles: [testEnvFile],
     ...args,
-    checkEnvVars: context === 'node'
-      ? ['AWS_ACCESS_KEY', 'AWS_ACCESS_KEY_SECRET', 'FLY_API_TOKEN', 'OPENAI_API_KEY']
-      : [],
+    checkEnvVars: context === 'node' ? ['AWS_ACCESS_KEY', 'AWS_ACCESS_KEY_SECRET', 'FLY_API_TOKEN', 'OPENAI_API_KEY'] : [],
   })
   const fictionEnv = testUtils.fictionEnv
 
@@ -44,34 +42,19 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
 
   const flyIoAppId = 'fiction-sites'
 
-  const routes = [
-    new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: FSite }),
-  ]
+  const routes = [new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: FSite })]
 
   const out = { ...testUtils } as Partial<SiteTestUtils> & TestUtils
-
+  const sitePort = randomBetween(1100, 50_000)
   out.fictionAi = new FictionAi({ ...out, openaiApiKey })
   out.fictionAws = new FictionAws({ fictionEnv, awsAccessKey, awsAccessKeySecret })
   out.fictionMedia = new FictionMedia({ ...out, fictionAws: out.fictionAws, bucket: 'factor-tests' })
-
   out.fictionEmailActions = new FictionEmailActions({ ...out })
-
   out.fictionRouterSites = new FictionRouter({ routerId: 'siteRouter', fictionEnv, baseUrl: 'https://www.test.com', routes, create: true })
-  out.fictionAppSites = new FictionApp({
-    port: randomBetween(1100, 50_000),
-    ...out,
-    fictionRouter: out.fictionRouterSites,
-    isTest: true,
-    liveUrl: 'https://*.test.com',
-    localHostname: '*.lan.com',
-  })
+  out.fictionAppSites = new FictionApp({ port: sitePort, ...out, fictionRouter: out.fictionRouterSites, isTest: true, liveUrl: 'https://*.test.com', localHostname: '*.lan.com' })
 
-  out.fictionSites = new FictionSites({
-    ...(out as SiteTestUtils),
-    flyIoApiToken,
-    flyIoAppId,
-    themes: () => Promise.all([testTheme.setup(out), ...themes.map(_ => _(out))]),
-  })
+  const themes = () => Promise.all([testTheme.setup(out), ...(args.themes || []).map(_ => _(out))])
+  out.fictionSites = new FictionSites({ ...(out as SiteTestUtils), flyIoApiToken, flyIoAppId, themes })
 
   await runServicesSetup(out, { context: 'test' })
 

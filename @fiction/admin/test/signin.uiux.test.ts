@@ -48,6 +48,7 @@ describe('signin UX', async () => {
         "email": "[email]",
         "fullName": "[fullName]",
         "originUrl": "http://localhost:[port]",
+        "queryVars": {},
         "redirect": "",
         "token": "[token]",
         "unsubscribeUrl": "http://localhost:[port]/_action/unsubscribe",

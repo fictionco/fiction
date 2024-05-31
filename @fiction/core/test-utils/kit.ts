@@ -4,13 +4,15 @@ import { isCi } from '../utils/vars'
 import { createTestBrowser, performActions } from './buildTest'
 import { setup as mainFileSetup } from './testMainFile'
 
-export async function createUiTestingKit<T extends MainFileSetup = MainFileSetup>(args: { headless?: boolean, slowMo?: number, setup?: T, envFiles?: string[] } = {}): Promise<{
+export type TestingKit<T extends MainFileSetup = MainFileSetup> = {
   port: number
   browser: { browser: Browser }
   close: () => Promise<void>
   performActions: (_: Omit<Parameters<typeof performActions>[0], 'port' | 'browser'>) => Promise<void>
   testUtils: Awaited<ReturnType<T>>['service']
-}> {
+}
+
+export async function createUiTestingKit<T extends MainFileSetup = MainFileSetup>(args: { headless?: boolean, slowMo?: number, setup?: T, envFiles?: string[] } = {}): Promise<TestingKit<T>> {
   const { headless = true, setup = mainFileSetup, slowMo, envFiles = [] } = args
   const serviceConfig = await setup({ context: 'node', envFiles })
 

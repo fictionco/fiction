@@ -34,7 +34,7 @@ export class EndpointEmailAction extends EmailActionQuery {
     const action = fictionEmailActions.emailActions[actionId]
 
     if (!action)
-      throw abort('invalid action', { expose: true })
+      throw abort(`invalid email action (${actionId})`, { expose: true, data: { available: Object.keys(fictionEmailActions.emailActions) } })
 
     let r: EndpointResponse | undefined
 
@@ -46,7 +46,7 @@ export class EndpointEmailAction extends EmailActionQuery {
         r = await this.sendEmail(action, params, meta)
         break
       default:
-        throw abort('invalid action', { expose: true })
+        throw abort(`_action ${_action as string} not valid`, { expose: true })
     }
 
     return r || { status: 'error', message: 'Nothing returned', expose: false }

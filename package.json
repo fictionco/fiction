@@ -64,7 +64,7 @@
     "@fiction/core": "workspace:*",
     "@fiction/ui": "workspace:*",
     "@fiction/www": "workspace:*",
-    "@vitejs/plugin-vue": "^5.0.4",
+    "@vitejs/plugin-vue": "^5.0.5",
     "axios": "^1.7.2",
     "commander": "^12.1.0",
     "conventional-changelog-cli": "^5.0.0",
