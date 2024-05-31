@@ -259,11 +259,7 @@ function getModifiedCommands(commands: CliCommand[]) {
   return { commands: modifiedCommands, portOptions }
 }
 
-export async function appBuildTests(config: {
-  moduleName?: string
-  cwd?: string
-  commands: CliCommand[]
-}): Promise<void> {
+export async function appBuildTests(config: { moduleName?: string, cwd?: string, commands: CliCommand[] }): Promise<void> {
   let { cwd = '', moduleName } = config
 
   cwd = cwd || path.dirname(require.resolve(`${moduleName}/package.json`))
@@ -279,19 +275,11 @@ export async function appBuildTests(config: {
   describe(`BUILD TESTS: ${moduleName}`, () => {
     it(`PRERENDERS: ${moduleName}`, async () => {
       const { portOptions } = getModifiedCommands(config.commands)
-      const command = [
-        `npm -w ${moduleName} exec -- fiction run render`,
-        ...portOptions,
-      ].join(' ')
+      const command = [`npm -w ${moduleName} exec -- fiction run render`, ...portOptions].join(' ')
 
       logger.info('RENDER START', { data: command })
 
-      const r = await executeCommand({
-        command,
-        envVars: { IS_TEST: '1', TEST_ENV: 'unit' },
-        timeout: BUILD_TIMEOUT,
-        resolveText: '[done:build]',
-      })
+      const r = await executeCommand({ command, envVars: { IS_TEST: '1', TEST_ENV: 'unit' }, timeout: BUILD_TIMEOUT, resolveText: '[done:build]' })
 
       logger.info('RENDER DONE', { data: { stderr: r.stderr } })
 

@@ -12,7 +12,7 @@ declare global {
 
 vars.register(() => [
   new EnvVar({ name: 'SLACK_WEBHOOK_URL', isPublic: false }),
-  new EnvVar({ name: 'SENTRY_PUBLIC_DSN', isPublic: true }),
+  new EnvVar({ name: 'SENTRY_PUBLIC_DSN', isPublic: true, isOptional: true }),
 ])
 
 interface FictionMonitorSettings {

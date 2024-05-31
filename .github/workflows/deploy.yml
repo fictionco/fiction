@@ -33,6 +33,9 @@ env:
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
   AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
   AWS_ACCESS_KEY_SECRET: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  AWS_BUCKET: ${{ secrets.AWS_BUCKET }}
+  REDIS_URL: ${{ secrets.REDIS_URL }}
   STRIPE_SECRET_KEY_TEST: ${{ secrets.STRIPE_SECRET_KEY_TEST }}
   TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
   GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
@@ -44,6 +47,7 @@ env:
   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
   GH_TOKEN: ${{secrets.GH_TOKEN}}
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
   SHOULD_DEPLOY: ${{ contains(github.event.head_commit.message, '-d') }}
   SHOULD_RELEASE: ${{ contains(github.event.head_commit.message, '-r') }}
 
