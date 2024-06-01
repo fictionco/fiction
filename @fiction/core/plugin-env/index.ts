@@ -2,7 +2,7 @@ import path from 'node:path'
 import dotenv from 'dotenv'
 import { FictionObject } from '../plugin'
 import type { HookType, UserNotification } from '../utils'
-import { camelToUpperSnake, crossVar, isApp, isDev, isNode, isTest, onResetUi, resetUi, runHooks, runHooksSync, shortId, toSlug, vue } from '../utils'
+import { camelToUpperSnake, crossVar, isApp, isCi, isDev, isNode, isTest, onResetUi, resetUi, runHooks, runHooksSync, shortId, toSlug, vue } from '../utils'
 import { version as fictionVersion } from '../package.json'
 import type { RunVars } from '../inject'
 import { TypedEventTarget } from '../utils/eventTarget'
@@ -91,6 +91,7 @@ export class FictionEnv<
   isServer = vue.computed(() => !this.isApp.value)
   isProd = vue.computed(() => !isDev())
   isDev = vue.ref()
+  isCi = isCi()
   hasWindow = typeof window !== 'undefined'
   isNode = isNode()
 
@@ -420,8 +421,9 @@ export class FictionEnv<
     const isApp = this.isApp.value
     const mode = this.mode.value
     const context = isApp ? 'app' : 'node'
+    const isCi = this.isCi
 
-    const info = [mode, context].join(' / ')
+    const info = [mode, context, isCi].join(' / ')
 
     const envVar = this.getVars().find(_ => _.name === variable)
 
