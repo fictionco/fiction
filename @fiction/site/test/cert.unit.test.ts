@@ -7,7 +7,7 @@ import type { SiteTestUtils } from './testUtils'
 import { createSiteTestUtils } from './testUtils'
 
 let testUtils: SiteTestUtils
-describe('manageCertificates', () => {
+describe('manageCertificates', { retry: 3 }, () => {
   const hostname = 'example.com'
   const maskedKeys = ['id', 'dnsValidationInstructions', 'dnsValidationTarget', 'issued', 'nodes']
   beforeAll(async () => {
@@ -43,7 +43,7 @@ describe('manageCertificates', () => {
         "source": "fly",
       }
     `)
-  }, { retry: 3 })
+  })
 
   it('should get certificate', async () => {
     const r1 = await testUtils.fictionSites.requests.ManageCert.request({ _action: 'retrieve', hostname })
@@ -80,7 +80,7 @@ describe('manageCertificates', () => {
         "source": "fly",
       }
     `)
-  }, { retry: 3 })
+  })
 
   it('should check certificate', async () => {
     const r1 = await testUtils.fictionSites.requests.ManageCert.request({ _action: 'check', hostname })
@@ -107,7 +107,7 @@ describe('manageCertificates', () => {
         "source": "fly",
       }
     `)
-  }, { retry: 3 })
+  })
 
   it('should delete certificate', async () => {
     const r1 = await testUtils.fictionSites.requests.ManageCert.request({ _action: 'delete', hostname })
@@ -119,5 +119,5 @@ describe('manageCertificates', () => {
         "id": "**MASKED**",
       }
     `)
-  }, { retry: 3 })
+  })
 })
