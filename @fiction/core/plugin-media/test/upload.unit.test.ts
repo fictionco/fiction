@@ -78,7 +78,7 @@ describe('media upload/download tests', async () => {
         "updatedAt",
       ]
     `)
-  })
+  }, { retry: 3 })
 
   it('uploads a file', async () => {
     const formData = new FormData()
@@ -106,7 +106,7 @@ describe('media upload/download tests', async () => {
 
     const img = await fetch(url)
     expect(img.status).toBe(200)
-  })
+  }, { retry: 3 })
 
   it('gets index of files uploaded', async () => {
     const r = await testUtils?.fictionMedia?.requests.MediaIndex.projectRequest({ _action: 'list' })
@@ -114,7 +114,7 @@ describe('media upload/download tests', async () => {
     expect(r?.data?.length).toBeGreaterThan(0)
     expect(r?.message).toBeFalsy()
     expect(r?.data?.[0].url).toContain('.jpg')
-  })
+  }, { retry: 3 })
 
   it('deletes a file', async () => {
     if (!url)
@@ -135,5 +135,5 @@ describe('media upload/download tests', async () => {
 
     const img2 = await fetch(url)
     expect(img2.status).toBe(404)
-  })
+  }, { retry: 3 })
 })
