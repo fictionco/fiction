@@ -255,8 +255,8 @@ export function setup(): ServiceConfig {
 
         else if (command === 'build' || command === 'render') {
           const { serve } = options
-          await fictionAppSites.buildApp({ serve, render: true })
-          await fictionApp.buildApp({ serve, render: true })
+          await fictionAppSites.buildApp({ serve, render: false })
+          await fictionApp.buildApp({ serve, render: false })
         }
         else if (command === 'generate') {
           await fictionDb.init()

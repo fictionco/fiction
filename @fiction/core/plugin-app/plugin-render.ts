@@ -268,10 +268,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     const templates = { main: { html } }
 
     this.log.info(`building fiction app (${this.fictionApp.appInstanceId})`, {
-      data: {
-        isNode: isNode(),
-        indexFiles: Object.values(templates).length,
-      },
+      data: { isNode: isNode(), indexFiles: Object.values(templates).length },
     })
 
     try {
@@ -332,7 +329,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
         },
       ])
 
-      this.log.info('[start:build] starting builds')
+      this.log.info(`[start:build] starting builds (${this.fictionApp.appInstanceId})`)
 
       await Promise.all([
         vite.build(clientBuildOptions),
@@ -343,6 +340,8 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
       if (render)
         await this.preRender({ serve })
+
+      this.log.info(`[done:build] done building (${this.fictionApp.appInstanceId})`)
     }
     catch (error) {
       this.log.error('[error] failed to build application', { error })
@@ -383,7 +382,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
       )
     }
 
-    this.log.info('pre-render URLS', { data: { urls } })
+    this.log.info('pre-render URLS', { data: { urls, instanceId: this.fictionApp.settings.appInstanceId } })
 
     /**
      * @important pre-render in series
@@ -392,7 +391,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     const _asyncFunctions = urls.map((pathname: string) => {
       return async (): Promise<string> => {
         const filePath = `${pathname === '/' ? '/index' : pathname}.html`
-        this.log.info(`pre-rendering [${filePath}]`)
+        this.log.info(`pre-rendering path [${filePath}]`)
 
         const runVars: Partial<RunVars> = {
           ...this.settings.fictionEnv.getRenderedEnvVars(),
@@ -410,7 +409,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
         fs.ensureDirSync(path.dirname(writePath))
         fs.writeFileSync(writePath, html)
 
-        this.log.info(`done [${filePath}]`)
+        this.log.info(`done rendering path [${filePath}]`)
         return filePath
       }
     })
@@ -588,11 +587,11 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
   preRender = async (opts?: { serve: boolean }): Promise<void> => {
     const { serve = false } = opts || {}
 
-    this.log.info('page render starting')
+    this.log.info('[render:start] page render starting')
 
     await this.preRenderPages()
 
-    this.log.info('page render complete')
+    this.log.info('[render:done] page render complete')
 
     if (serve) {
       this.log.info('serving...')
