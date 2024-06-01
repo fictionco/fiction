@@ -34,7 +34,7 @@ env:
   AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
   AWS_ACCESS_KEY_SECRET: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
   AWS_REGION: ${{ secrets.AWS_REGION }}
-  AWS_BUCKET: ${{ secrets.AWS_BUCKET }}
+  AWS_BUCKET_MEDIA: ${{ secrets.AWS_BUCKET_MEDIA }}
   REDIS_URL: ${{ secrets.REDIS_URL }}
   STRIPE_SECRET_KEY_TEST: ${{ secrets.STRIPE_SECRET_KEY_TEST }}
   TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
