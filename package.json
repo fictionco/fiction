@@ -89,7 +89,7 @@
     "vue-router": "^4.3.2"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.19.1",
+    "@antfu/eslint-config": "^2.19.2",
     "@codspeed/vitest-plugin": "^3.1.0",
     "@eslint/eslintrc": "^3.1.0",
     "@flydotio/dockerfile": "^0.5.7",
@@ -106,7 +106,7 @@
     "npm-package-json-lint": "^7.1.0",
     "playwright": "^1.44.1",
     "postcss": "^8.4.38",
-    "prettier": "^3.2.5",
+    "prettier": "^3.3.0",
     "sharp": "^0.33.4",
     "simple-git-hooks": "^2.11.1",
     "tailwindcss": "^3.4.3",

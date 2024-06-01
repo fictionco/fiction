@@ -147,6 +147,8 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
     const cleanFileName = fileName?.replace(/[^a-z0-9-.]/gi, '')
     const baseFileName = cleanFileName?.split('.').slice(0, -1).join('.') || cleanFileName
 
+
+
     if (!fileSource || !cleanFileName)
       throw new Error('No file provided')
 
@@ -156,6 +158,8 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
     const filePath = storageKeyPath || `${basePath}-${cleanFileName}`
     const thumbFilePath = `${basePath}-thumb-${baseFileName}.png`
     const rasterFilePath = `${basePath}-raster-${baseFileName}.png`
+
+    this.log.info('creating media', { data: { filePath,  bucket } })
 
     const sizeOptions = { main: { width: maxSide, height: maxSide }, thumbnail: { width: 80, height: 80 }, crop } as const
     const r = await createImageVariants({ fileSource, sizeOptions, fileMime })
