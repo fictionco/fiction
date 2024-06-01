@@ -159,7 +159,7 @@ export class FictionBundle extends FictionPlugin<FictionBundleSettings> {
     if (withDts && entry) {
       /**
        * Create type declarations
-       * https://tsup.egoist.sh/
+       * https://tsup.egoist.dev/
        * NOTES
        *  - for "rootDir" errors not containing code, the issue is using relative imports
        *    when module name imports should be used.
