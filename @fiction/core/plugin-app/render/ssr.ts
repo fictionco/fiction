@@ -125,8 +125,6 @@ export class SSR extends FictionObject<SSRSettings> {
     if (mode === 'prod')
       this.cache.set(cacheKey, out)
 
-    this.log.info('done and out')
-
     return out
   }
 

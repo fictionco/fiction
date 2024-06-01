@@ -111,7 +111,7 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
 
     const ins = { userId, orgId, ...prepped }
 
-    const [insertedMedia] = await this.db().insert(ins).table(t.media).onConflict(['hash']).merge().returning<TableMediaConfig[]>('*')
+    const [insertedMedia] = await this.db().insert(ins).table(t.media).onConflict(['hash', 'org_id']).merge().returning<TableMediaConfig[]>('*')
 
     return insertedMedia
   }

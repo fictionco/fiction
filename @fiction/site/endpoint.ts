@@ -324,8 +324,8 @@ export class ManageSite extends SitesQuery {
         .first()
 
       if (!site?.siteId) {
-        this.log.warn('Site not found', { data: { where } })
-        return { status: 'error', message: 'Site not found', meta: { where } }
+        this.log.warn('ManageSite: Site not found', { data: { where, caller } })
+        return { status: 'error', message: 'Site not found', meta: { where, caller } }
       }
 
       siteId = site.siteId

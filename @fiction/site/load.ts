@@ -44,9 +44,10 @@ export async function loadSiteById(args: {
   siteRouter: FictionRouter
   fictionSites: FictionSites
   siteMode: SiteMode
+  caller?: string
 }): Promise<Site | undefined> {
-  const { where, siteRouter, fictionSites, siteMode } = args
-  const { site } = await requestManageSite({ where, _action: 'retrieve', siteRouter, fictionSites, caller: 'loadSiteById', siteMode })
+  const { where, siteRouter, fictionSites, siteMode, caller = 'loadSiteById' } = args
+  const { site } = await requestManageSite({ where, _action: 'retrieve', siteRouter, fictionSites, caller, siteMode })
 
   return site
 }
@@ -84,7 +85,7 @@ export async function loadSite(args: {
   caller?: string
   mountContext?: MountContext
 }) {
-  const { siteRouter, fictionSites, caller = 'unknown', mountContext } = args
+  const { siteRouter, fictionSites, caller = 'loadSite', mountContext } = args
 
   const vals = { caller, ...mountContext }
 
@@ -107,14 +108,14 @@ export async function loadSite(args: {
 
     if (themeId) {
       logger.debug('Loading site from theme', { data: { themeId } })
-      site = await loadSiteFromTheme({ themeId, siteRouter, fictionSites, siteMode, caller: 'loadSite' })
+      site = await loadSiteFromTheme({ themeId, siteRouter, fictionSites, siteMode, caller })
     }
     else if (hasWhere) {
       logger.debug('Loading site with Selector', {
         data: { ...(subDomain && { subDomain }), ...(siteId && { siteId }), ...(themeId && { themeId }), vals },
       })
 
-      site = await loadSiteById({ where, siteRouter, fictionSites, siteMode })
+      site = await loadSiteById({ where, siteRouter, fictionSites, siteMode, caller })
     }
     else {
       const data = { vals, siteRouter: siteRouter.toConfig(), caller }

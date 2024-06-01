@@ -25,6 +25,8 @@ let cleanups: (() => any)[] = []
 async function load() {
   loading.value = true
 
+  const currentUrl = typeof window !== 'undefined' ? window.location.href : `ssr:${runVars?.PATHNAME}`
+
   try {
     const mountContext = getMountContext({
       queryVars: { themeId: props.themeId }, // passed in by route sometimes
@@ -35,6 +37,7 @@ async function load() {
       siteRouter: props.siteRouter || fictionRouterSites,
       fictionSites,
       mountContext,
+      caller: `CardSite(${props.themeId}):${currentUrl}`,
     })
   }
   catch (error) {
@@ -155,7 +158,7 @@ vue.onMounted(async () => {
       relation: 'child',
       onMessage: (msg) => {
         if (!site.value)
-          throw new Error('Site not found in frame')
+          throw new Error('FrameUtility: Site not found')
 
         site.value.frame.processFrameMessage({ msg: msg as FramePostMessageList, scope: 'child' })
       },
