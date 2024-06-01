@@ -4,16 +4,19 @@ import { execa } from 'execa'
 import { path, randomBetween, safeDirname } from '@fiction/core'
 import { appRunTest } from '@fiction/core/test-utils/buildTest'
 import dotenv from 'dotenv'
+import { createTestUtils } from '@fiction/core/test-utils'
 
-describe('pre check secrets', () => {
+describe('dist checks', async () => {
+  const testUtils = createTestUtils()
+
+  const envVarEntries = testUtils.fictionEnv.getPluginVars().filter(_ => !_.isSystem && !_.isOptional && _.val.value).map(v => [v.name, v.val.value])
+  const envVars = Object.fromEntries(envVarEntries)
+
   // get local .env.test file if it exists
   const p = `${path.dirname(require.resolve('@fiction/core'))}/test-utils/.env.test`
   dotenv.config({ path: p }).parsed
 
-  const services = [
-    { appId: 'fiction-sites' },
-    { appId: 'fiction-website' },
-  ]
+  const services = [{ appId: 'fiction-sites' }, { appId: 'fiction-website' }]
   it('has secrets', async () => {
     const token = process.env.FLY_API_TOKEN
 
@@ -23,17 +26,16 @@ describe('pre check secrets', () => {
     for (const service of services) {
       const { stdout } = await execa`flyctl secrets list -a ${service.appId} --access-token ${token}`
 
-      const secrets = ['FLY_API_TOKEN', 'POSTGRES_URL', 'GH_TOKEN', 'TOKEN_SECRET', 'AWS_ACCESS_KEY', 'AWS_ACCESS_KEY_SECRET', 'GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET']
+      // const secrets = ['FLY_API_TOKEN', 'POSTGRES_URL', 'GH_TOKEN', 'TOKEN_SECRET', 'AWS_ACCESS_KEY', 'AWS_ACCESS_KEY_SECRET', 'GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET']
+      const secrets = Object.keys(envVars)
       for (const secret of secrets)
         expect(stdout).toContain(secret)
     }
   })
-})
 
-describe('files built', () => {
   const dir = safeDirname(import.meta.url, '..')
   const distDir = `${dir}/dist`
-  it('has dist files', async () => {
+  it('dist files built has dist files', async () => {
     const files = await fs.readdir(distDir)
 
     const expectedDirs = ['app', 'sites']
@@ -46,20 +48,20 @@ describe('files built', () => {
       expect(dirFiles).toEqual(expect.arrayContaining(expectedFiles))
     }
 
-    const clientFiles = ['index.html', 'assets']
-    const serverFiles = ['mount.js', 'assets']
+    for (const appDir of expectedDirs) {
+      const clientDirFiles = await fs.readdir(`${distDir}/${appDir}/client`)
 
-    const clientDirFiles = await fs.readdir(`${distDir}/app/client`)
+      const clientFiles = ['index.html', 'assets', 'robots.txt']
 
-    expect(clientDirFiles).toEqual(expect.arrayContaining(clientFiles))
+      expect(clientDirFiles).toEqual(expect.arrayContaining(clientFiles))
 
-    const serverDirFiles = await fs.readdir(`${distDir}/app/server`)
+      const serverFiles = ['mount.js', 'assets']
 
-    expect(serverDirFiles).toEqual(expect.arrayContaining(serverFiles))
+      const serverDirFiles = await fs.readdir(`${distDir}/${appDir}/server`)
+      expect(serverDirFiles).toEqual(expect.arrayContaining(serverFiles))
+    }
   })
-})
 
-describe('serving built files', async () => {
   it('runs app', async () => {
     const appPort = randomBetween(1050, 60000)
     const sitesPort = randomBetween(1050, 60000)
@@ -68,6 +70,7 @@ describe('serving built files', async () => {
     await appRunTest({
       cmd: `npm exec -w @fiction/www -- fiction run app --app-port=${appPort} --sites-port=${sitesPort}`,
       port: appPort,
+      envVars,
       onTrigger: async () => {
         const response = await fetch(`http://localhost:${appPort}/`)
         html = await response.text()
@@ -86,6 +89,7 @@ describe('serving built files', async () => {
     await appRunTest({
       cmd: `npm exec -w @fiction/www -- fiction run sites --app-port=${appPort} --sites-port=${sitesPort}`,
       port: appPort,
+      envVars,
       onTrigger: async () => {
         const response = await fetch(`http://test.lan.com:${sitesPort}/`)
         html = await response.text()

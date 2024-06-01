@@ -28,6 +28,7 @@ interface EnvVarSettings<X extends string> {
   verify?: VerifyVar
   isOptional?: boolean
   isPublic?: boolean
+  isSystem?: boolean
 }
 
 export class EnvVar<X extends string> {
@@ -36,24 +37,26 @@ export class EnvVar<X extends string> {
   verify?: VerifyVar
   isOptional: boolean
   isPublic: boolean
+  isSystem: boolean
   constructor(settings: EnvVarSettings<X>) {
     this.name = settings.name
     this.val = vue.ref(settings.val)
     this.verify = settings.verify
     this.isOptional = settings.isOptional || false
     this.isPublic = settings.isPublic || false
+    this.isSystem = settings.isSystem || false
   }
 }
 
 class EnvVarList {
   list: (() => EnvVar<string>[])[] = [
     () => [
-      new EnvVar({ name: 'NODE_ENV', isPublic: true }),
-      new EnvVar({ name: 'COMMAND', isPublic: true }),
-      new EnvVar({ name: 'COMMAND_OPTS', isPublic: true }),
-      new EnvVar({ name: 'RUNTIME_VERSION', isPublic: true }),
-      new EnvVar({ name: 'RUNTIME_COMMIT', isPublic: true }),
-      new EnvVar({ name: 'IS_TEST', isPublic: true }),
+      new EnvVar({ name: 'NODE_ENV', isPublic: true, isSystem: true }),
+      new EnvVar({ name: 'COMMAND', isPublic: true, isSystem: true }),
+      new EnvVar({ name: 'COMMAND_OPTS', isPublic: true, isSystem: true }),
+      new EnvVar({ name: 'RUNTIME_VERSION', isPublic: true, isSystem: true }),
+      new EnvVar({ name: 'RUNTIME_COMMIT', isPublic: true, isSystem: true }),
+      new EnvVar({ name: 'IS_TEST', isPublic: true, isSystem: true }),
     ],
   ]
 

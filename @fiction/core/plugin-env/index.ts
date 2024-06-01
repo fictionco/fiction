@@ -256,10 +256,10 @@ export class FictionEnv<
     this.cleanupCallbacks.push(() => stopWatch())
   }
 
-  getVars() {
+  getPluginVars() {
     const isApp = this.isApp.value
     // get custom env vars from plugins, etc.
-    const customVars = vars.list.flatMap((cb) => {
+    const pluginVars = vars.list.flatMap((cb) => {
       const v = cb().map((vari) => {
         if (!isApp || vari.isPublic) {
           if (!vari.val.value)
@@ -273,6 +273,11 @@ export class FictionEnv<
 
       return v
     })
+    return pluginVars
+  }
+
+  getVars() {
+    const pluginVars = this.getPluginVars()
 
     // get service ports as env vars; this allows them to be both
     // on client/server side, to sync with other deployment config(docker), etc
@@ -284,7 +289,7 @@ export class FictionEnv<
         return new EnvVar({ name, val: val || String(c.port.value), isPublic: true })
       })
 
-    return [...customVars, ...commandVars]
+    return [...pluginVars, ...commandVars]
   }
 
   getPublicVars() {

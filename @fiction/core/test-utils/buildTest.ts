@@ -289,7 +289,7 @@ export async function appBuildTests(config: { moduleName?: string, cwd?: string,
       expect(r.stderr).not.toContain('error')
     }
     catch (e) {
-      logger.error('RUNS DEV ERROR', { error: e })
+      logger.error(`RUN CHECK ERROR in ${runCommand}`, { error: e })
     }
   }
 
@@ -367,6 +367,7 @@ export async function appRunTest(config: {
   cmd: string
   port: number
   onTrigger: () => Promise<void>
+  envVars?: Record<string, string>
 }): Promise<void> {
   const { cmd } = config
 
@@ -376,7 +377,7 @@ export async function appRunTest(config: {
 
   await executeCommand({
     command,
-    envVars: { IS_TEST: '1', TEST_ENV: 'unit' },
+    envVars: { IS_TEST: '1', TEST_ENV: 'unit', ...config.envVars },
     timeout: BUILD_TIMEOUT,
     triggerText: '[ready]',
     onTrigger: async (args) => {
