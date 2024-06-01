@@ -12,7 +12,7 @@ describe('dist checks', async () => {
   const envVarEntries = testUtils.fictionEnv.getPluginVars().filter(_ => !_.isSystem && !_.isOptional && _.val.value).map(v => [v.name, v.val.value])
   const envVars = Object.fromEntries(envVarEntries)
 
-  envVars.CI = process.env.CI
+  const CI = process.env.CI
 
   // get local .env.test file if it exists
   const p = `${path.dirname(require.resolve('@fiction/core'))}/test-utils/.env.test`
@@ -72,7 +72,7 @@ describe('dist checks', async () => {
     await appRunTest({
       cmd: `npm exec -w @fiction/www -- fiction run app --app-port=${appPort} --sites-port=${sitesPort}`,
       port: appPort,
-      envVars,
+      envVars: { ...envVars, CI },
       onTrigger: async () => {
         const response = await fetch(`http://localhost:${appPort}/`)
         html = await response.text()
@@ -91,7 +91,7 @@ describe('dist checks', async () => {
     await appRunTest({
       cmd: `npm exec -w @fiction/www -- fiction run sites --app-port=${appPort} --sites-port=${sitesPort}`,
       port: appPort,
-      envVars,
+      envVars: { ...envVars, CI },
       onTrigger: async () => {
         const response = await fetch(`http://test.lan.com:${sitesPort}/`)
         html = await response.text()

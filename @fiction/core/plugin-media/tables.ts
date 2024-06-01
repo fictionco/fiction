@@ -162,4 +162,4 @@ const columns = [
 
 ] as const
 
-export const mediaTable = new FictionDbTable({ tableKey: 'fiction_media', timestamps: true, columns })
+export const mediaTable = new FictionDbTable({ tableKey: 'fiction_media', timestamps: true, columns, onCreate: t => t.unique(['org_id', 'hash']) })
