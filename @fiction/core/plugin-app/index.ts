@@ -134,24 +134,22 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   }
 
   createVueApp = async (args: {
-    renderRoute?: string
-    runVars?: Partial<RunVars>
+    runVars: Partial<RunVars>
     service: ServiceList & Partial<StandardServices>
   }): Promise<FictionAppEntry> => {
-    const { renderRoute, service, runVars } = args
+    const { service, runVars } = args
 
     const router = this.settings.fictionRouter.create({ caller: `mountApp:${this.appInstanceId}` })
 
-    if (renderRoute)
-      await this.settings.fictionRouter.replace({ path: renderRoute }, { caller: 'createVueApp' })
+    const isSSR = this.settings.fictionEnv.isSSR.value
+    if (isSSR)
+      await this.settings.fictionRouter.replace({ path: runVars?.PATHNAME }, { caller: 'CreateSSRVueApp' })
 
-    const app: vue.App = renderRoute
-      ? vue.createSSRApp(this.rootComponent)
-      : vue.createApp(this.rootComponent)
+    const app: vue.App = isSSR ? vue.createSSRApp(this.rootComponent) : vue.createApp(this.rootComponent)
 
     this.settings.fictionEnv.service.value = { ...this.settings.fictionEnv.service.value, ...service, runVars }
-    app.provide('service', this.settings.fictionEnv.service)
 
+    app.provide('service', this.settings.fictionEnv.service)
     app.use(router)
 
     await router.isReady()
@@ -166,10 +164,9 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   async mountApp(args: {
     selector?: string
     mountEl?: Element
-    renderRoute?: string
     serviceConfig?: ServiceConfig
   }): Promise<FictionAppEntry> {
-    const { selector = '#app', renderRoute, serviceConfig } = args
+    const { selector = '#app', serviceConfig } = args
 
     const runVars = serviceConfig?.runVars || {}
     const service = serviceConfig?.service || {}
@@ -178,7 +175,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     if (serviceConfig)
       await fictionEnv.crossRunCommand({ context: 'app', serviceConfig, runVars })
 
-    const entry = await this.createVueApp({ renderRoute, runVars, service })
+    const entry = await this.createVueApp({ runVars, service })
 
     if (typeof window !== 'undefined' && !this.settings.fictionEnv.isSSR.value) {
       await this.settings.fictionEnv.runHooks('beforeAppMounted', entry)

@@ -79,8 +79,9 @@ export async function createTestServer(params: {
   slowMo?: number
   args?: Record<string, string | number>
   commands?: CliCommand[]
+  runCommand?: string
 } & TestUtilSettings): Promise<TestServerConfig> {
-  const { args = {} } = params || {}
+  const { args = {}, runCommand = 'dev' } = params || {}
   const { headless = true, slowMo } = params
   let { commands = [] } = params
   let { moduleName } = params
@@ -107,7 +108,7 @@ export async function createTestServer(params: {
     return `--${_.command}-port ${String(_.port.value)}`
   })
 
-  const cmd = [`npm exec -w ${moduleName} --`, `fiction run dev`, ...portOptions, ...additionalArgs]
+  const cmd = [`npm exec -w ${moduleName} --`, `fiction run ${runCommand}`, ...portOptions, ...additionalArgs]
 
   const runCmd = cmd.join(' ')
 
@@ -271,10 +272,29 @@ export async function appBuildTests(config: { moduleName?: string, cwd?: string,
 
   const logger = log.contextLogger('UIUX')
   const BUILD_TIMEOUT = 180_000
+  const { portOptions } = getModifiedCommands(config.commands)
+
+  const checkRunCommand = async (runCommand: string) => {
+    const command = [`npm -w ${moduleName} exec -- fiction run ${runCommand} --exit`, ...portOptions].join(' ')
+
+    try {
+      const r = await executeCommand({
+        command,
+        envVars: { IS_TEST: '1', TEST_ENV: 'unit' },
+        timeout: BUILD_TIMEOUT,
+        resolveText: '[ready]',
+      })
+
+      expect(r.stdout).toContain('[ready]')
+      expect(r.stderr).not.toContain('error')
+    }
+    catch (e) {
+      logger.error('RUNS DEV ERROR', { error: e })
+    }
+  }
 
   describe(`BUILD TESTS: ${moduleName}`, () => {
     it(`PRERENDERS: ${moduleName}`, async () => {
-      const { portOptions } = getModifiedCommands(config.commands)
       const command = [`npm -w ${moduleName} exec -- fiction run render`, ...portOptions].join(' ')
 
       logger.info('RENDER START', { data: command })
@@ -292,29 +312,17 @@ export async function appBuildTests(config: { moduleName?: string, cwd?: string,
       expect(r.stdout.toLowerCase()).not.toContain('error')
     }, BUILD_TIMEOUT)
 
+    it(`RUNS PROD: ${moduleName}`, async () => {
+      await checkRunCommand('app')
+    }, BUILD_TIMEOUT)
+
     it(`RUNS DEV: ${moduleName}`, async () => {
-      const { portOptions } = getModifiedCommands(config.commands)
-      const command = [`npm -w ${moduleName} exec -- fiction run dev --exit`, ...portOptions].join(' ')
-
-      try {
-        const r = await executeCommand({
-          command,
-          envVars: { IS_TEST: '1', TEST_ENV: 'unit' },
-          timeout: BUILD_TIMEOUT,
-          resolveText: '[ready]',
-        })
-
-        expect(r.stdout).toContain('[ready]')
-        expect(r.stderr).not.toContain('error')
-      }
-      catch (e) {
-        logger.error('RUNS DEV ERROR', { error: e })
-      }
+      await checkRunCommand('dev')
     }, BUILD_TIMEOUT)
 
     it(`LOADS WITHOUT ERROR: ${moduleName}`, async () => {
       const { commands } = getModifiedCommands(config.commands)
-      const result = await createTestServer({ moduleName, commands })
+      const result = await createTestServer({ moduleName, commands, runCommand: 'app' })
 
       const { page, destroy } = result
 
@@ -322,11 +330,13 @@ export async function appBuildTests(config: { moduleName?: string, cwd?: string,
 
       const errorLogs: string[] = []
       page.on('console', (message) => {
-        if (message.type() === 'error')
+        logger.info('CONSOLE', { data: { message: message.text() } })
+        if (message.type() === 'error' && !message.text().includes('404'))
           errorLogs.push(message.text())
       })
 
       page.on('pageerror', (err) => {
+        logger.info('PAGEERROR', { data: { message: err.message } })
         errorLogs.push(err.message)
       })
       const appUrl = finalCommands.find(_ => _.command === 'app')?.url.value

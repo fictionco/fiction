@@ -9,6 +9,7 @@ import type { FictionServer } from './plugin-server'
 
 export type RunVars = {
   RUN_MODE: 'prod' | 'dev' | 'test'
+  RUN_ENV: 'node' | 'browser' | 'ssr'
   APP_INSTANCE: string
   MOUNT_CONTEXT: Record<string, string>
   FICTION_ORG_ID: string // integrate db org with static

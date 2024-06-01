@@ -3,7 +3,6 @@ import { renderSSRHead } from '@unhead/ssr'
 import { renderToString } from '@vue/server-renderer'
 import { JSDOM } from 'jsdom'
 import type { ViteDevServer } from 'vite'
-import { type MainFile, type ServiceConfig, compileApplication } from '@fiction/core/plugin-env'
 import type { RunVars } from '../../inject'
 import { populateGlobal } from '../../utils/globalUtils'
 import { FictionObject } from '../../plugin'
@@ -11,6 +10,9 @@ import type { RenderedHtmlParts } from '../types'
 import { log } from '../../plugin-log'
 import { crossVar } from '../../utils/vars'
 import { fastHash } from '../../utils'
+import type * as mountFileExport from '../mount.js'
+
+type MountFileExports = typeof mountFileExport
 
 const logger = log.contextLogger('SSR')
 
@@ -33,28 +35,11 @@ export class SSR extends FictionObject<SSRSettings> {
     super('SSR', settings)
   }
 
-  serviceConfig: ServiceConfig | undefined
-  async getMainFile(mode: 'prod' | 'dev' | 'test'): Promise<MainFile> {
+  async getMountFile(mode: 'prod' | 'dev' | 'test'): Promise<MountFileExports> {
     if (mode === 'prod')
-      return await import(/* @vite-ignore */ path.join(this.settings.mainFilePath)) as MainFile
+      return await import(/* @vite-ignore */ path.join(this.settings.distFolderServerMountFile)) as MountFileExports
     else
-      return await this.settings.viteServer?.ssrLoadModule(this.settings.mainFilePath) as MainFile
-  }
-
-  async getServiceConfig(args: { mode?: 'prod' | 'dev' | 'test', runVars: Partial<RunVars> }): Promise<ServiceConfig> {
-    const { mode = 'dev', runVars } = args
-    if (!this.serviceConfig) {
-      const mainFile = await this.getMainFile(mode)
-      const serviceConfig = await mainFile.setup({ context: 'app' })
-
-      this.serviceConfig = serviceConfig
-    }
-
-    this.serviceConfig.runVars = runVars
-
-    await compileApplication({ context: 'app', serviceConfig: this.serviceConfig, runVars })
-
-    return this.serviceConfig
+      return await this.settings.viteServer?.ssrLoadModule(this.settings.mountFilePath) as MountFileExports
   }
 
   startGlobals(args: { runVars: Partial<RunVars>, simulateWindow?: boolean }) {
@@ -98,8 +83,7 @@ export class SSR extends FictionObject<SSRSettings> {
   async getParts(args: { runVars: Partial<RunVars> }) {
     const { runVars } = args
     let out = this.init()
-    const pathname = runVars.PATHNAME
-    const mode = runVars.RUN_MODE
+    const mode = runVars.RUN_MODE || 'prod'
 
     const cacheKey = this.getCacheKey(runVars)
 
@@ -113,10 +97,9 @@ export class SSR extends FictionObject<SSRSettings> {
       }
     }
 
-    const serviceConfig = await this.getServiceConfig({ mode, runVars })
+    const { runEntrySRR } = await this.getMountFile(mode)
 
-    const appEntry = await serviceConfig.createMount?.({ renderRoute: pathname, serviceConfig })
-
+    const appEntry = await runEntrySRR({ runVars })
     if (!appEntry)
       throw new Error('SSR Error: rendering failed')
 
@@ -141,6 +124,8 @@ export class SSR extends FictionObject<SSRSettings> {
 
     if (mode === 'prod')
       this.cache.set(cacheKey, out)
+
+    this.log.info('done and out')
 
     return out
   }

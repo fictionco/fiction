@@ -96,13 +96,6 @@ export const orgFields = ['orgId', 'orgName']
 
 export type TokenFields = Partial<User> & { userId: string, iat: number }
 
-export interface AuthenticationParameters {
-  newAccount?: boolean
-  email: string
-  password: string
-  displayName?: string
-  ipAddress?: string
-}
 /**
  * Publicly accessible user information
  */

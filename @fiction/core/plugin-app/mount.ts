@@ -33,11 +33,15 @@ function setupGlobalRunVars<T extends keyof RunVars = keyof RunVars>() {
 
 setupGlobalRunVars()
 
+async function getMainFile() {
+  // @ts-expect-error aliased module
+  return (await import('@MAIN_FILE_ALIAS')) as MainFile
+}
+
 async function getServiceConfig(args: { runVars: Partial<RunVars> }): Promise<ServiceConfig> {
   const { runVars } = args
 
-  // @ts-expect-error aliased module
-  const mainFileImports = (await import('@MAIN_FILE_ALIAS')) as MainFile
+  const mainFileImports = await getMainFile()
 
   const serviceConfig = await mainFileImports.setup({ context: 'app' })
   if (!serviceConfig)
@@ -69,21 +73,28 @@ async function runAppEntry(args: { renderRoute?: string, serviceConfig: ServiceC
   }
 }
 
-/**
- * Export entry for SSR
- */
-export { runAppEntry, getServiceConfig }
-
-async function runBrowserEntry() {
+async function runEntryBrowser() {
   const runVars = window.fictionRunVars || {}
   const serviceConfig = await getServiceConfig({ runVars })
   runAppEntry({ serviceConfig }).catch(e => console.error('Error running app entry:', e))
 }
+
+async function runEntrySRR(args: { runVars: Partial<RunVars> }) {
+  const { runVars } = args
+  const serviceConfig = await getServiceConfig({ runVars })
+
+  return runAppEntry({ serviceConfig })
+}
+
+/**
+ * Export entry for SSR
+ */
+export { runEntrySRR }
 
 /**
  * Run automatically in browser,
  * 'runAppEntry' is called directly on server side for prerender
  */
 if (!isNode()) {
-  runBrowserEntry().catch(e => console.error('Error running browser entry:', e))
+  runEntryBrowser().catch(e => console.error('Error running browser entry:', e))
 }
