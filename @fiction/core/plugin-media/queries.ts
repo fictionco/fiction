@@ -364,7 +364,9 @@ export class QueryManageMedia extends MediaQuery {
 
     if (media && media.url) {
       const filePath = new URL(media.url).pathname.replace(/^\/+/g, '')
-      await this.settings.fictionAws.deleteS3({ filePath, bucket: this.settings.fictionMedia.settings.awsBucketMedia })
+      const bucket = this.settings.fictionMedia.settings.awsBucketMedia
+      this.log.info(`deleting media file: ${filePath}`, { data: { filePath, bucket } })
+      await this.settings.fictionAws.deleteS3({ filePath, bucket })
     }
 
     return media

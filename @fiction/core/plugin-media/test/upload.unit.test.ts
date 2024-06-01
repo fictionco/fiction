@@ -96,7 +96,7 @@ describe('media upload/download tests', async () => {
 
     if (!url)
       throw new Error('no url')
-    expect(url).toContain('factor-tests')
+    expect(url).toContain('fiction-media')
     expect(url).toContain('test.jpg')
     expect(r?.data?.url).toContain('.jpg')
     expect(r?.message).toMatchInlineSnapshot('"uploaded successfully"')
