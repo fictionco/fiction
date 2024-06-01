@@ -1,3 +1,4 @@
+import type express from 'express'
 import type { FictionUser } from './plugin-user'
 import { toSlug } from './utils/casing'
 import { omit } from './utils/obj'
@@ -9,7 +10,6 @@ import type { Query } from './query'
 import type { FictionServer } from './plugin-server'
 import { abort } from './utils/error'
 import type { FictionEnv } from './plugin-env'
-import type { express } from './utils/libraries'
 
 export type FictionPluginSettings = {
   fictionEnv: FictionEnv
