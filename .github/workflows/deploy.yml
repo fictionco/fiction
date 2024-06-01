@@ -23,7 +23,7 @@ on:
   # release:
   #   types: [published]
 
-# needed for github/git auth in ci
+# needed for github/git auth
 permissions:
   contents: write
   issues: write # Only add other permissions if necessary for your workflow
