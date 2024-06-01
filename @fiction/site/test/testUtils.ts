@@ -41,9 +41,10 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
 
   const out = { ...testUtils } as Partial<SiteTestUtils> & TestUtils
   const sitePort = randomBetween(1100, 50_000)
+  const cdnUrl = 'https://media.fiction.com'
   out.fictionAi = new FictionAi({ ...out, openaiApiKey })
   out.fictionAws = new FictionAws({ fictionEnv, awsAccessKey, awsAccessKeySecret })
-  out.fictionMedia = new FictionMedia({ ...out, fictionAws: out.fictionAws, awsBucketMedia })
+  out.fictionMedia = new FictionMedia({ ...out, fictionAws: out.fictionAws, awsBucketMedia, cdnUrl })
   out.fictionEmailActions = new FictionEmailActions({ ...out })
   out.fictionRouterSites = new FictionRouter({ routerId: 'siteRouter', fictionEnv, baseUrl: 'https://www.test.com', routes, create: true })
   out.fictionAppSites = new FictionApp({ port: sitePort, ...out, fictionRouter: out.fictionRouterSites, isTest: true, liveUrl: 'https://*.test.com', localHostname: '*.lan.com' })

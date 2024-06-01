@@ -11,7 +11,7 @@ describe('signin UX', async () => {
   if (!fs.existsSync(testEnvFile))
     console.warn(`missing test env file ${testEnvFile}`)
 
-  const kit = await createUiTestingKit({ headless: false, envFiles: [testEnvFile], setup, slowMo: 0 })
+  const kit = await createUiTestingKit({ headless: true, envFiles: [testEnvFile], setup, slowMo: 0 })
   const testUtils = kit.testUtils
 
   const initialized = await testUtils.initUser()

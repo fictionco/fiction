@@ -11,6 +11,7 @@ import { isTest } from '../utils/vars'
 import { prepareFields } from '../utils/validation'
 import { safeDirname } from '../utils/utils'
 import { objectId } from '../utils/id'
+import { abort } from '../utils/error'
 import { t } from './tables'
 import type { FictionMedia, TableMediaConfig } from '.'
 
@@ -110,7 +111,7 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
 
     const ins = { userId, orgId, ...prepped }
 
-    const [insertedMedia] = await this.db().insert(ins).table(t.media).returning<TableMediaConfig[]>('*')
+    const [insertedMedia] = await this.db().insert(ins).table(t.media).onConflict(['hash']).merge().returning<TableMediaConfig[]>('*')
 
     return insertedMedia
   }
@@ -173,11 +174,12 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
     const baseUrl = mainData?.url
 
     const searchParams = new URLSearchParams({ blurhash: blurhash || '' }).toString()
+    const constructUrl = (base: string | undefined, path: string): string => `${base ? new URL(path, base).toString() : baseUrl}?${searchParams}`
 
     const originUrl = `${baseUrl}?${searchParams}`
-    const url = `${cdnUrl ? path.join(cdnUrl, filePath) : baseUrl}?${searchParams}`
-    const thumbOriginUrl = thumbData?.url || baseUrl
-    const thumbUrl = `${cdnUrl ? path.join(cdnUrl, thumbFilePath) : thumbOriginUrl}?${searchParams}`
+    const thumbOriginUrl = `${thumbData?.url || baseUrl}?${searchParams}`
+    const url = constructUrl(cdnUrl, filePath)
+    const thumbUrl = constructUrl(cdnUrl, thumbFilePath)
 
     const { ContentLength: size, ContentType: mime = fileMime } = mainData?.headObject || {}
     const { width, height, orientation } = metadata || {}
@@ -219,9 +221,9 @@ export class QuerySaveMedia extends MediaQuery {
     const orgId = meta.request?.body.orgId
 
     if (!file)
-      throw this.stop('no file provided to endpoint by request')
+      throw abort('no file provided to endpoint by request')
     if (!userId || !orgId)
-      throw this.stop('no userId or orgId')
+      throw abort('no userId or orgId')
 
     const media = await this.createAndSaveMedia({ file, userId, orgId }, meta)
 
@@ -248,9 +250,9 @@ export class QueryMediaIndex extends MediaQuery {
     const userId = params.userId || meta.bearer?.userId
 
     if (_action !== 'list')
-      throw this.stop('invalid action')
+      throw abort('invalid action')
     if (!userId)
-      throw this.stop('userId required')
+      throw abort('userId required')
 
     const r = await this.db()
       .select('*')
@@ -306,7 +308,7 @@ export class QueryManageMedia extends MediaQuery {
 
   async handleCreateFromUrl(params: ManageMediaParams, meta: EndpointMeta): Promise<TableMediaConfig | undefined> {
     if (params._action !== 'createFromUrl')
-      throw this.stop('Invalid action')
+      throw abort('Invalid action')
 
     const { orgId, userId, fields, storageGroupPath } = params
     return await this.createMediaFromUrl({ orgId, userId, fields, storageGroupPath }, meta)
@@ -315,12 +317,12 @@ export class QueryManageMedia extends MediaQuery {
   async handleCheckAndCreate(params: ManageMediaParams, meta: EndpointMeta): Promise<TableMediaConfig | undefined> {
     const { _action, noCache, crop } = params
     if (_action !== 'checkAndCreate')
-      throw this.stop('Invalid action')
+      throw abort('Invalid action')
 
     const { fields: { filePath } } = params
 
     if (!filePath)
-      throw this.stop('File path is required for checkAndCreate action.')
+      throw abort('File path is required for checkAndCreate action.', { expected: meta.expectError })
 
     const hash = await hashFile({ filePath, settings: { crop } })
     if (!noCache) {
@@ -337,7 +339,7 @@ export class QueryManageMedia extends MediaQuery {
 
   async handleRetrieve(params: ManageMediaParams): Promise<TableMediaConfig | undefined> {
     if (params._action !== 'retrieve')
-      throw this.stop('Invalid action')
+      throw abort('Invalid action')
 
     const { orgId, fields } = params
 
@@ -352,7 +354,7 @@ export class QueryManageMedia extends MediaQuery {
 
   async handleDelete(params: ManageMediaParams): Promise<TableMediaConfig | undefined> {
     if (params._action !== 'delete')
-      throw this.stop('Invalid action')
+      throw abort('Invalid action')
 
     const { orgId, fields } = params
 

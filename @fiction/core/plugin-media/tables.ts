@@ -32,7 +32,7 @@ const columns = [
   }),
   new FictionDbCol({
     key: 'hash',
-    create: ({ schema, column }) => schema.string(column.pgKey),
+    create: ({ schema, column }) => schema.string(column.pgKey).unique(),
     default: () => '' as string,
     isSetting: true,
   }),

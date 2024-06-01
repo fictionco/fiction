@@ -16,6 +16,7 @@ export interface ErrorConfig {
   failedField?: string
   suggestedAction?: string
   retryable?: boolean
+  expected?: boolean
 }
 
 export class EndpointError extends Error {
@@ -29,7 +30,7 @@ export class EndpointError extends Error {
   retryable: boolean
 
   constructor(message: string, config: ErrorConfig = {}) {
-    super(message)
+    super(config.expected ? `[EXPECTED] ${message}` : message)
 
     const {
       status = 'error',

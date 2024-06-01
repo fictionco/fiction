@@ -42,6 +42,7 @@ export interface EndpointMeta {
   caller?: string
   request?: express.Request
   response?: express.Response
+  expectError?: boolean // for testing output
 }
 
 // https://stackoverflow.com/a/57103940/1858322

@@ -52,10 +52,16 @@ export class FictionMedia extends FictionPlugin<FictionMediaSettings> {
     middleware: () => [multer().single(this.imageFieldName)],
   })
 
+  cache: Record<string, TableMediaConfig> = {}
+
   constructor(settings: FictionMediaSettings) {
     super('FictionMedia', settings)
 
     this.settings.fictionDb?.addTables([mediaTable])
+
+    this.settings.fictionEnv.cleanupCallbacks.push(() => {
+      this.cache = {}
+    })
   }
 
   async uploadFile(params: { file?: File, formData?: FormData }): Promise<EndpointResponse<TableMediaConfig>> {
@@ -69,7 +75,6 @@ export class FictionMedia extends FictionPlugin<FictionMediaSettings> {
     return r
   }
 
-  cache: Record<string, TableMediaConfig> = {}
   async relativeMedia(args: { url: string, orgId?: string, userId?: string }): Promise<TableMediaConfig> {
     return await relativeMedia({
       fictionMedia: this,

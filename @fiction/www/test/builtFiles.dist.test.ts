@@ -12,6 +12,8 @@ describe('dist checks', async () => {
   const envVarEntries = testUtils.fictionEnv.getPluginVars().filter(_ => !_.isSystem && !_.isOptional && _.val.value).map(v => [v.name, v.val.value])
   const envVars = Object.fromEntries(envVarEntries)
 
+  envVars.CI = process.env.CI
+
   // get local .env.test file if it exists
   const p = `${path.dirname(require.resolve('@fiction/core'))}/test-utils/.env.test`
   dotenv.config({ path: p }).parsed

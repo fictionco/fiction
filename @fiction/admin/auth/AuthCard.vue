@@ -105,7 +105,7 @@ const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length
               We sent a magic link to <span class="font-bold text-theme-700 dark:text-theme-0">{{ fields.email || "unknown" }}</span>. Please click the link to confirm your address.
             </div>
             <div>
-              <div class="text-theme-400 dark:text-theme-700 text-xs font-sans text-balance text-center leading-relaxed">
+              <div class="text-theme-400 dark:text-theme-200 text-xs font-sans text-balance text-center leading-relaxed">
                 Can't see the email? Please check the spam folder.
                 Wrong email? <a data-test-id="to-last" class="text-primary-500 dark:text-primary-400 hover:opacity-80" href="#" @click.prevent="updateItemItemId('login')">Try Again &rarr;</a>
               </div>

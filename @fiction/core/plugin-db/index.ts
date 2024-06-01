@@ -87,7 +87,7 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
       host: this.connectionUrl.hostname,
       password: this.connectionUrl.password,
       port: Number.parseInt(this.connectionUrl.port),
-      database: Number.parseInt(this.connectionUrl.pathname),
+      database: this.connectionUrl.pathname.replace(/\//g, ''),
     }
 
     const knexOptions: Knex.Config & {
