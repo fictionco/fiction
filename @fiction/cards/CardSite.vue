@@ -37,11 +37,11 @@ async function load() {
       siteRouter: props.siteRouter || fictionRouterSites,
       fictionSites,
       mountContext,
-      caller: `CardSite(${props.themeId}):${currentUrl}`,
+      caller: `CardSite(${props.themeId || 'na'}):${currentUrl}`,
     })
   }
   catch (error) {
-    log.error('FSite.vue', `Error loading site ${(error as Error).message}`, { error })
+    log.error('CardSite.vue', `Error loading site ${(error as Error).message}`, { error })
   }
   finally {
     loading.value = false
