@@ -2,7 +2,7 @@ import { AppRoute, type ServiceConfig } from '@fiction/core'
 import * as adminTheme from '@fiction/admin/theme'
 import CardSite from '@fiction/cards/CardSite.vue'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils.js'
-import { FictionAdmin } from '../index.js'
+import { FictionSubscribe } from '../index.js'
 
 export async function setup(args: { context?: 'node' | 'app' } = {}) {
   const { context = 'node' } = args
@@ -17,9 +17,9 @@ export async function setup(args: { context?: 'node' | 'app' } = {}) {
     new AppRoute({ name: 'dash', path: '/:viewId?/:itemId?', component, props: { siteRouter, themeId: 'admin' } }),
   ])
 
-  const fictionAdmin = new FictionAdmin({ ...testUtils })
+  const fictionSubscribe = new FictionSubscribe({ ...testUtils })
 
-  const service = { ...testUtils, fictionAdmin }
+  const service = { ...testUtils, fictionSubscribe }
 
   return {
     runVars: { },

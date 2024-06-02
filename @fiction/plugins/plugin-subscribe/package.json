@@ -3,14 +3,18 @@
   "type": "module",
   "version": "6.0.35",
   "author": "Fiction",
-  "license": "GPL-2.0-only",
+  "license": "MIT",
   "main": "index.ts",
   "dependencies": {
     "@fiction/core": "workspace:*",
     "@fiction/plugin-monitor": "workspace:*",
     "@fiction/site": "workspace:*",
     "@fiction/cards": "workspace:*",
-    "@fiction/ui": "workspace:*"
+    "@fiction/ui": "workspace:*",
+    "@fiction/admin": "workspace:*"
+  },
+  "devDependencies": {
+    "@fiction/theme-minimal": "workspace:*"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "publishConfig": {

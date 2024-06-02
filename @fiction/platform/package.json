@@ -8,7 +8,7 @@
     "@fiction/theme-minimal": "workspace:*",
     "@fiction/ui": "workspace:*"
   },
-  "license": "GPL-2.0-only",
+  "license": "MIT",
   "main": "src/index.ts",
   "name": "@fiction/platform",
   "publishConfig": {

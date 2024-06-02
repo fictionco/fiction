@@ -1,9 +1,19 @@
+import path from 'node:path'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { createApp, nextTick } from 'vue'
 import type { App, Component } from 'vue'
-import { isPlainObject, stringify, waitFor } from '../utils'
+import { isPlainObject, safeDirname, stringify, waitFor } from '../utils'
 import { vue } from '../utils/libraries.js'
 import type { ServiceList } from '../plugin-env/index.js'
+
+const toolUtilsRoot = safeDirname(import.meta.url)
+// test special characters in path
+const testImgPath = path.join(toolUtilsRoot, './img/test (#).jpg')
+const testSvgPath = path.join(toolUtilsRoot, './img/favicon.svg')
+const testPngPath = path.join(toolUtilsRoot, './img/favicon.png')
+const testEnvFile = path.join(toolUtilsRoot, '.env.test')
+
+export { toolUtilsRoot, testImgPath, testSvgPath, testPngPath, testEnvFile }
 
 type ActionType = 'select' | 'input' | 'typeText' | 'click' | 'find'
 export interface Interaction {

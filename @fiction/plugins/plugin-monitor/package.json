@@ -3,7 +3,7 @@
   "type": "module",
   "version": "6.0.35",
   "author": "Fiction",
-  "license": "GPL-2.0-only",
+  "license": "MIT",
   "main": "index.ts",
   "dependencies": {
     "@fiction/core": "workspace:*",

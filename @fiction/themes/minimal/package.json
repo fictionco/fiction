@@ -8,7 +8,7 @@
     "vue": "^3.4.27"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
-  "license": "GPL-2.0-only",
+  "license": "MIT",
   "main": "index.ts",
   "name": "@fiction/theme-minimal",
   "publishConfig": {

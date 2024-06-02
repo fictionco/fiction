@@ -64,7 +64,9 @@ export class EndpointEmailAction extends EmailActionQuery {
     if (!user)
       throw abort('user not found or created', { expose: false })
 
-    await emailAction.serveSend({ recipient: user, isNew, ...params }, meta)
+    const queryVars = params.queryVars || {}
+
+    await emailAction.serveSend({ recipient: user, isNew, queryVars, ...params }, meta)
 
     return { status: 'success', data: { isSent: true }, expose: false }
   }

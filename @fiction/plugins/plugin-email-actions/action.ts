@@ -30,13 +30,6 @@ export type EmailActionSettings<T extends EmailActionSurface = EmailActionSurfac
   fictionEmailActions: FictionEmailActions
 }
 
-export type EmailActionSurface = Partial<{
-  transactionArgs: Record<string, unknown>
-  transactionResponse: EndpointResponse
-  queryVars: Record<string, string>
-  sendResponse: EndpointResponse<{ isSent: boolean }>
-}>
-
 export type SendArgsSurface = Partial<{
   queryVars: Record<string, string>
   fields: Record<string, unknown>
@@ -54,6 +47,19 @@ export type SendEmailArgs = {
   recipient: Partial<User>
   isNew?: boolean
 } & Partial<SendArgsRequest>
+
+export type EmailActionSurface = Partial<{
+  transactionArgs: Record<string, unknown>
+  transactionResponse: EndpointResponse
+  queryVars: Record<string, string>
+  sendResponse: EndpointResponse<{ isSent: boolean }>
+}>
+
+// Utility type to merge two types
+type MergeTypes<T, U> = T & Omit<U, keyof T>
+
+// Use defaults
+type Surface<T> = MergeTypes<EmailActionSurface, T>
 
 export class EmailAction<T extends EmailActionSurface = EmailActionSurface > extends FictionObject<EmailActionSettings<T>> {
   fictionEmailActions = this.settings.fictionEmailActions
@@ -103,7 +109,7 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
     }
   }
 
-  async serveSend(args: SendEmailArgs & { queryVars?: T['queryVars'] }, _meta: EndpointMeta): Promise<EndpointResponse<EmailResponse> & { emailVars: EmailVars }> {
+  async serveSend(args: SendEmailArgs & { queryVars: T['queryVars'] }, _meta: EndpointMeta): Promise<EndpointResponse<EmailResponse> & { emailVars: EmailVars }> {
     const fictionEmail = this.fictionEmailActions?.settings.fictionEmail
     if (!fictionEmail || !this.fictionEmailActions)
       throw abort('no fictionEmail provided')
@@ -120,7 +126,7 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
     return { ...r, emailVars }
   }
 
-  async requestSend(args: SendArgsRequest & { queryVars: T['queryVars'] }): Promise<T['sendResponse']> {
+  async requestSend(args: SendArgsRequest & { queryVars: T['queryVars'] }): Promise<Surface<T>['sendResponse']> {
     const origin = typeof window !== 'undefined' ? window.location.origin : ''
     const { to } = args || {}
 

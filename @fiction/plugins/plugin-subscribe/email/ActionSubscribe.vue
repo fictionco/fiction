@@ -5,7 +5,7 @@ import TransactionWrap from '@fiction/cards/transactions/TransactionWrap.vue'
 import type { EmailVars } from '@fiction/plugins/plugin-email-actions'
 import type { FictionSubscribe } from '..'
 
-type SpecEmailAction = FictionSubscribe['emailActions']['actionSubscribe']
+type SpecEmailAction = FictionSubscribe['transactions']['subscribe']
 type QueryVarType = SpecEmailAction['queryVars']
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },

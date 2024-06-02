@@ -10,8 +10,10 @@ import type { User } from '../plugin-user'
 import { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionRouter, FictionServer, FictionUser } from '..'
 import ElRoot from '../plugin-app/ElRoot.vue'
 import { crossVar, getEnvVars } from '../utils/vars'
-import { getTestEmail } from './util'
-import { testEnvFile } from '.'
+import { log } from '../plugin-log'
+import { getTestEmail, testEnvFile } from './util'
+
+const logger = log.contextLogger('testUtils')
 
 export interface TestUtilServices {
   fictionEnv: FictionEnv
@@ -34,9 +36,7 @@ export type InitializedTestUtils = {
 export type TestService = Awaited<ReturnType<typeof createTestUtilServices>>
 
 export type TestUtils = {
-  init: (
-    services?: Record<string, FictionPlugin>,
-  ) => Promise<InitializedTestUtils>
+  init: (services?: Record<string, FictionPlugin>,) => Promise<InitializedTestUtils>
   initialized?: InitializedTestUtils
   close: () => Promise<void>
   initUser: () => Promise<InitializedTestUtils>
@@ -59,17 +59,17 @@ export interface TestUtilSettings {
 }
 
 const randomName = () => `${['Captain', 'Mister', 'Doctor', 'Professor', 'Mad', 'Sir'][Math.floor(Math.random() * 6)]} ${['Waffles', 'Pancakes', 'Spaghetti', 'Snickers', 'Twinkles', 'Moonbeam'][Math.floor(Math.random() * 6)]}`
-export async function createTestUser(fictionUser: FictionUser) {
+
+export async function createTestUser(fictionUser: FictionUser, opts: { caller?: string } = {}) {
+  const { caller = 'unknown' } = opts
+  logger.info(`creating user - ${caller}`)
   const email = getTestEmail()
   const password = 'test'
   const fullName = randomName()
 
   const r = await fictionUser.queries.ManageUser.serve(
-    {
-      fields: { email, password, emailVerified: true, fullName },
-      _action: 'create',
-    },
-    { server: true, caller: 'initializeTestUtilsCreate', returnAuthority: ['verify'] },
+    { fields: { email, password, emailVerified: true, fullName }, _action: 'create' },
+    { server: true, caller: `createTestUser-${caller}`, returnAuthority: ['verify'] },
   )
 
   return { user: r.data, token: r.token, email, password }
@@ -78,10 +78,10 @@ export async function createTestUser(fictionUser: FictionUser) {
 export async function initializeTestUser(args: { fictionUser: FictionUser }): Promise<InitializedTestUtils> {
   const { fictionUser } = args
 
-  const { user, token, email, password } = await createTestUser(fictionUser)
+  const { user, token, email, password } = await createTestUser(fictionUser, { caller: 'initializeTestUser' })
 
   if (!token)
-    throw new Error('token not returned (DB Connected?')
+    throw new Error('token not returned (DB Connected?)')
   if (!user)
     throw new Error('no user created')
 
@@ -175,7 +175,6 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
   const v = getEnvVars(fictionEnv, ['SMTP_HOST', 'SMTP_USER', 'SMTP_PASSWORD', 'POSTGRES_URL', 'GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET'] as const)
 
   const { smtpHost, smtpUser, smtpPassword, googleClientId, googleClientSecret, postgresUrl } = v
-
 
   const fictionServer = new FictionServer({ port: serverPort, liveUrl: 'https://server.test.com', fictionEnv })
   const fictionRouter = new FictionRouter({ routerId: 'testRouter', fictionEnv, create: true })

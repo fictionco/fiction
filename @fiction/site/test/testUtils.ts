@@ -11,7 +11,7 @@ import { FictionEmailActions } from '@fiction/plugin-email-actions'
 import type { ThemeSetup } from '..'
 import { FictionSites } from '..'
 import * as testTheme from './test-theme'
-import { setup as mainFileSetup } from './testUtils.main.js'
+import { setup } from './testUtils.main.js'
 
 export type SiteTestUtils = TestUtils & {
   fictionSites: FictionSites
@@ -61,6 +61,6 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
   return out as SiteTestUtils
 }
 
-export async function createSiteUiTestingKit(args: { headless?: boolean, setup?: MainFileSetup } = {}) {
-  return createUiTestingKit({ ...args, setup: mainFileSetup })
+export async function createSiteUiTestingKit(args: { headless?: boolean } = {}) {
+  return createUiTestingKit({ ...args, setup })
 }

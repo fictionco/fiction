@@ -24,7 +24,7 @@
   "devDependencies": {
     "dotenv": "^16.4.5"
   },
-  "license": "GPL-2.0-only",
+  "license": "MIT",
   "main": "src/index.ts",
   "name": "@fiction/www",
   "private": true,

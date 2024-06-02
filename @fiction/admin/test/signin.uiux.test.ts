@@ -34,7 +34,7 @@ describe('signin UX', async () => {
 
     expect(isSent).toBe(true)
 
-    const r = await action.serveSend({ recipient: user }, { server: true })
+    const r = await action.serveSend({ recipient: user, queryVars: {} }, { server: true })
     const v = JSON.parse(emailActionSnapshot(JSON.stringify(r.emailVars), r.emailVars))
 
     vars = r.emailVars

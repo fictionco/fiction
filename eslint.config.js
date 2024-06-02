@@ -12,6 +12,7 @@ export default antfu(
       },
     },
     rules: {
+      'no-irregular-whitespace': 'warn',
       'import/no-cycle': ['error', { maxDepth: 5 }],
       'max-statements-per-line': ['error', { max: 2 }],
       'eqeqeq': 'warn',

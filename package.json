@@ -4,7 +4,7 @@
   "version": "6.0.35",
   "private": true,
   "author": "Fiction",
-  "license": "GPL-2.0-only",
+  "license": "MIT",
   "main": "index.ts",
   "publishConfig": {
     "access": "restricted"

@@ -28,7 +28,7 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
     fictionUser: this.settings.fictionUser,
   })
 
-  emailActions = getEmails({ fictionSubscribe: this })
+  transactions = getEmails({ fictionSubscribe: this })
 
   constructor(settings: FictionSubscribeSettings) {
     super('FictionSubscribe', { root: safeDirname(import.meta.url), ...settings })

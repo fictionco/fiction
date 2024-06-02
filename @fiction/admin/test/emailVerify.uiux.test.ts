@@ -29,7 +29,7 @@ describe('email actions', async () => {
 
   let r: Awaited<ReturnType<typeof action['serveSend']>> | undefined
   it('sends email', async () => {
-    r = await action.serveSend({ recipient: user }, { server: true })
+    r = await action.serveSend({ recipient: user, queryVars: {} }, { server: true })
 
     expect(r.emailVars).toMatchInlineSnapshot(`
       {
