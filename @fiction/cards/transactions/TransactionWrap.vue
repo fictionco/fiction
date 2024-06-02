@@ -26,7 +26,7 @@ const ico = vue.computed(() => iconThemes[props.iconTheme as keyof typeof iconTh
 </script>
 
 <template>
-  <div class="relative min-h-[40dvh] my-12">
+  <div class="relative min-h-[40dvh] my-6 lg:my-12">
     <div
       v-if="loading"
       class="text-theme-300 dark:text-theme-600 absolute inset-0 flex h-full w-full flex-col items-center justify-center"
@@ -34,7 +34,7 @@ const ico = vue.computed(() => iconThemes[props.iconTheme as keyof typeof iconTh
       <ElSpinner class="h-10 w-10" />
     </div>
     <div v-else>
-      <div v-if="heading || subHeading" :key="heading" class="mb-8 text-left md:text-center flex flex-col gap-6 items-center">
+      <div v-if="heading || subHeading" :key="heading" class="mb-8 text-left md:text-center flex md:flex-col gap-6 items-center">
         <div
           v-if="icon"
           class="rounded-full size-16 inline-flex items-center justify-center"

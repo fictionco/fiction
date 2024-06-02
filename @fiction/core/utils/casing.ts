@@ -1,6 +1,6 @@
 import stopwordsLib from '../resource/stopwords'
 
-export function toCamel(str: string, options = { allowPeriods: false }): string {
+export function toCamel(str?: string, options = { allowPeriods: false }): string {
   const snakeCased = toSnake(str, options) // Convert to snake_case first
 
   const pattern = options.allowPeriods ? /[_\-\s]+(.)/g : /[_\-\s.]+(.)/g
@@ -11,7 +11,7 @@ export function toCamel(str: string, options = { allowPeriods: false }): string 
 /**
  * Converts regular space delimited text into a hyphenated slug
  */
-export function toSlug(text: string | undefined, options?: { maintainCase?: boolean, replaceNumbers?: boolean }): string {
+export function toSlug(text?: string | undefined, options?: { maintainCase?: boolean, replaceNumbers?: boolean }): string {
   const { maintainCase = false, replaceNumbers = false } = options || {}
 
   if (!text)
@@ -44,8 +44,8 @@ export function toSlug(text: string | undefined, options?: { maintainCase?: bool
 /**
  * Make stop words lower case in a title
  */
-export function stopWordLowercase(str: string, lib: string[] = stopwordsLib): string {
-  const words = str.split(' ')
+export function stopWordLowercase(str?: string, lib: string[] = stopwordsLib): string {
+  const words = str?.split(' ') || []
 
   return words.map((word, index) =>
     index === 0 || !lib.includes(word.toLowerCase()) ? word : word.toLowerCase(),
@@ -79,7 +79,9 @@ export function toLabel(str?: string | number): string {
 /**
  * Converts a string ToPascalCase
  */
-export function toPascal(text: string): string {
+export function toPascal(text?: string): string {
+  if (!text)
+    return ''
   // First, check if the string contains only non-alphanumeric characters
   if (/^[^a-z0-9]+$/i.test(text))
     return ''
@@ -93,8 +95,12 @@ export function toPascal(text: string): string {
     .replace(/(^|[^a-z0-9]+)(.)/g, (_, __, char) => char.toUpperCase())
 }
 
-export function toSnake(text: string, opts: { upper?: boolean, allowPeriods?: boolean } = {}): string {
+export function toSnake(text?: string, opts: { upper?: boolean, allowPeriods?: boolean } = {}): string {
   const { upper = false, allowPeriods = false } = opts
+
+  if (!text)
+    return ''
+
   const snakeCased = text
     .replace(/([a-z])([A-Z])/g, '$1_$2') // Insert an underscore between lowercase and uppercase letters
     .replace(/\.+/g, allowPeriods ? '.' : '_') // Replace dots with underscores unless allowPeriods is true

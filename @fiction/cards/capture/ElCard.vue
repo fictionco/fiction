@@ -35,6 +35,9 @@ vue.watchEffect(() => {
 })
 
 vue.watchEffect(() => {
+  if (typeof document === 'undefined')
+    return
+
   if (uc.value.presentationMode === 'onLoad') {
     const h = showCard.value
     if (h)

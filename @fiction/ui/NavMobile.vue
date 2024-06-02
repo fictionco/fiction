@@ -71,7 +71,7 @@ function getIcon(icon: string): string {
 
 <template>
   <teleport to=".x-site">
-    <div v-if="vis" class="dark z-0 fixed h-[100dvh] top-0 right-0 w-full bg-theme-900 text-theme-0" @update:vis="emit('update:vis', $event)" @click.stop>
+    <div v-if="vis" class="dark z-0 fixed h-[100dvh] top-0 right-0 w-full bg-gradient-to-br from-theme-800 to-theme-950 text-theme-0" @update:vis="emit('update:vis', $event)" @click.stop>
       <div :id="randomId" class="w-[275px] h-full float-right">
         <a class="close absolute block right-10 top-10 z-20 cursor-pointer hover:scale-110" :class="!vis ? 'out' : ''" @click="close()">
           <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60px] h-[60px]  rounded-full transition-all " />
@@ -96,7 +96,7 @@ function getIcon(icon: string): string {
                 :to="item.href"
                 :href="item.href"
                 role="menuitem"
-                class="x-action-item font-sans antialiased text-3xl font-light hover:text-theme-100"
+                class="x-action-item font-sans antialiased text-4xl font-normal hover:text-theme-100"
                 :class="item.isActive ? '' : ''"
                 @click="item.onClick ? item.onClick($event) : null"
               >

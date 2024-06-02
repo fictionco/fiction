@@ -83,7 +83,6 @@ describe('toSlug', () => {
 
   it('handles empty and undefined input', () => {
     expect(toSlug('')).toBe('')
-    // @ts-expect-error undefined input
     expect(toSlug()).toBe('')
   })
 

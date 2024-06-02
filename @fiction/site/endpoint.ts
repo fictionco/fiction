@@ -1,6 +1,7 @@
 import type { DataFilter, EndpointMeta, EndpointResponse } from '@fiction/core'
 import { Query, deepMerge, incrementSlugId, prepareFields, shortId } from '@fiction/core'
 import type { Knex } from 'knex'
+import { abort } from '@fiction/core/utils/error'
 import type { CardConfigPortable, TableCardConfig, TableDomainConfig, TableSiteConfig } from './tables'
 import { tableNames } from './tables'
 import { updateSiteCerts } from './utils/cert'
@@ -38,19 +39,14 @@ export class ManagePage extends SitesQuery {
     const fields = new Card(args.fields).toConfig()
 
     if (!siteId)
-      throw this.stop(`UPSERT: siteId field required from ${caller}`, { data: { fields } })
+      throw abort(`UPSERT: siteId field required from ${caller}`, { data: { fields, caller } })
 
-    const db = this.settings.fictionDb?.client()
+    const fictionDb = this.settings.fictionDb
+    const db = fictionDb?.client()
     if (!db)
-      throw this.stop('no db')
+      throw abort('no db')
 
-    const prepped = prepareFields({
-      type: 'create',
-      fields,
-      table: tableNames.pages,
-      meta,
-      fictionDb: this.settings.fictionDb,
-    })
+    const prepped = prepareFields({ type: 'create', fields, table: tableNames.pages, meta, fictionDb })
 
     await this.specialSlugConflicts({ slug: prepped.slug, cardId: fields.cardId, siteId, db })
 
@@ -59,7 +55,7 @@ export class ManagePage extends SitesQuery {
 
     for (const key in where) {
       if (!where[key as keyof typeof where])
-        throw this.stop(`UPSERT(where clause): '${key}' required from ${caller}`, { data: { fields } })
+        throw abort(`UPSERT(where clause): '${key}' required from ${caller}`, { data: { fields, caller } })
     }
 
     const insertFields = { ...prepped, orgId, userId, siteId }
@@ -124,7 +120,7 @@ export class ManagePage extends SitesQuery {
   ): Promise<EndpointResponse<TableCardConfig>> {
     const db = this.settings.fictionDb?.client()
     if (!db)
-      throw this.stop('no db')
+      throw abort('no db')
 
     const { _action, fields, siteId, orgId, userId, successMessage = '', caller } = params
 
@@ -138,15 +134,11 @@ export class ManagePage extends SitesQuery {
       const { cardId, slug } = fields
 
       if (!cardId && !slug)
-        throw this.stop('cardId or slug required to retrieve page')
+        throw abort('cardId or slug required to retrieve page')
 
       const where = cardId ? { orgId, cardId } : { siteId, slug }
-      this.log.info('RETREIVE', { data: { where } })
-      data = await db
-        .select()
-        .from(tableNames.pages)
-        .where(where)
-        .first()
+
+      data = await db.select().from(tableNames.pages).where(where).first()
 
       if (!data) {
         this.log.info('Page not found', { data: { where, cardId, _action, caller } })
@@ -157,12 +149,9 @@ export class ManagePage extends SitesQuery {
       const { cardId } = fields
 
       if (!cardId)
-        throw this.stop('cardId required')
+        throw abort('cardId required', { data: { caller } })
 
-      await db
-        .delete()
-        .from(tableNames.pages)
-        .where({ orgId, cardId })
+      await db.delete().from(tableNames.pages).where({ orgId, cardId })
 
       data = undefined
     }
@@ -184,12 +173,12 @@ export class ManageSite extends SitesQuery {
     const { themeId } = fields
 
     if (!userId || !orgId)
-      throw this.stop('userId and orgId required')
+      throw abort('userId and orgId required')
 
     const themes = this.settings.fictionSites.themes.value
     const theme = themes.find(t => t.themeId === themeId)
     if (!theme)
-      throw this.stop(`theme not found - themeId: ${themeId} - available: ${themes.map(t => t.themeId).join(', ')}`)
+      throw abort(`theme not found - themeId: ${themeId} - available: ${themes.map(t => t.themeId).join(', ')}`)
 
     const processedConfig = await theme.processToSite({ ...this.settings, userId, orgId })
 
@@ -237,12 +226,12 @@ export class ManageSite extends SitesQuery {
   ): Promise<EndpointResponse<TableSiteConfig>> {
     const fictionDb = this.settings.fictionDb
     if (!fictionDb)
-      throw this.stop('no fictionDb')
+      throw abort('no fictionDb')
 
     const { _action, orgId, userId, caller = 'unknown', successMessage, disableLog } = params
 
     if (!_action)
-      throw this.stop('_action required')
+      throw abort('_action required', { data: { caller } })
 
     const db = fictionDb.client()
 
@@ -253,7 +242,7 @@ export class ManageSite extends SitesQuery {
     if (_action === 'create') {
       const { fields } = params
       if (!userId || !orgId)
-        throw this.stop('orgId required')
+        throw abort('orgId required')
 
       this.log.info(`creating site: ${fields.title}`, { data: { userId, orgId, fields } })
 
@@ -282,7 +271,7 @@ export class ManageSite extends SitesQuery {
       data = site
       siteId = site.siteId
       if (!siteId)
-        throw this.stop('site not created')
+        throw abort('site not created')
 
       /**
        * Handle pages
@@ -351,7 +340,7 @@ export class ManageSite extends SitesQuery {
     else if (_action === 'update') {
       const { fields, where } = params
       if (!userId || !orgId)
-        throw this.stop('orgId required')
+        throw abort('orgId required')
 
       const selector = await this.getSiteSelector(where)
 
@@ -429,7 +418,7 @@ export class ManageIndex extends SitesQuery {
     const { _action, orgId, limit = 10, offset = 0, filters = [] } = params
 
     if (!_action)
-      throw this.stop('action required')
+      throw abort('action required')
 
     const db = this.settings.fictionDb.client()
 

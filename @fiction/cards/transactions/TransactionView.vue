@@ -52,7 +52,7 @@ const uc = vue.computed(() => props.card.userConfig.value)
           <div
             class="mx-auto w-full max-w-xs rounded-lg"
           >
-            <div class="relative px-4 py-24">
+            <div class="relative px-4 py-12 lg:py-24">
               <slot />
             </div>
           </div>
