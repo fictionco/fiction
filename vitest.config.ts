@@ -3,7 +3,6 @@ import process from 'node:process'
 import { createRequire } from 'node:module'
 import { configDefaults, defineConfig } from 'vitest/config'
 import pluginVue from '@vitejs/plugin-vue'
-import circleDependency from 'vite-plugin-circular-dependency'
 import { getMarkdownPlugins } from './@fiction/core/plugin-app/utils/vitePluginMarkdown'
 
 const require = createRequire(import.meta.url)
@@ -25,7 +24,7 @@ const jsdom = {
 }
 
 export default defineConfig({
-  plugins: [pluginVue(), ...getMarkdownPlugins(), circleDependency()],
+  plugins: [pluginVue(), ...getMarkdownPlugins()],
   build: { sourcemap: true },
   root: process.cwd(),
 

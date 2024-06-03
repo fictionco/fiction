@@ -8,7 +8,6 @@ import serveStatic from 'serve-static'
 import { minify } from 'html-minifier'
 import type { Express, Request } from 'express'
 import type tailwindcss from 'tailwindcss'
-import circleDependency from 'vite-plugin-circular-dependency'
 import { iconsPlugin } from '@egoist/tailwindcss-icons'
 import express from 'express'
 import { createExpressApp, deepMergeAll, getRequire, importIfExists, isNode, requireIfExists, safeDirname } from '../utils'
@@ -178,7 +177,6 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     const plugins = [
       pluginVue(),
       ...getMarkdownPlugins({ isProd, distClient: this.distFolderClient }),
-      circleDependency(),
     ]
 
     if (isProd) {

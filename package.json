@@ -81,7 +81,7 @@
     "source-map-support": "^0.5.21",
     "textlint": "^14.0.4",
     "ts-node": "^10.9.2",
-    "tsx": "^4.11.0",
+    "tsx": "^4.11.2",
     "typescript": "^5.4.5",
     "vite": "^5.2.12",
     "vitest": "^1.6.0",
@@ -111,7 +111,6 @@
     "simple-git-hooks": "^2.11.1",
     "tailwindcss": "^3.4.3",
     "tslib": "^2.6.2",
-    "vite-plugin-circular-dependency": "^0.4.1",
     "vite-plugin-dts": "^3.9.1",
     "vitepress": "^1.2.2",
     "vue-tsc": "^2.0.19"
