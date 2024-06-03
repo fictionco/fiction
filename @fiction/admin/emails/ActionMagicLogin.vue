@@ -9,7 +9,7 @@ type ActionProps = FictionAdmin['emailActions']['magicLoginEmailAction']
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
   action: { type: Object as vue.PropType<ActionProps>, required: true },
-  vars: { type: Object as vue.PropType<Record<string, any>>, required: true },
+  queryVars: { type: Object as vue.PropType<Record<string, any>>, required: true },
 })
 
 const { fictionUser, fictionRouter } = useService()
@@ -42,7 +42,5 @@ const wrapProps = vue.computed(() => {
   <TransactionWrap
     :loading="loading"
     v-bind="wrapProps"
-  >
-    {{ vars }}
-  </TransactionWrap>
+  />
 </template>

@@ -9,7 +9,7 @@ type VerifyEmailAction = FictionAdmin['emailActions']['verifyEmailAction']
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
   action: { type: Object as vue.PropType<VerifyEmailAction>, required: true },
-  vars: { type: Object as vue.PropType<Record<string, any>>, required: true },
+  queryVars: { type: Object as vue.PropType<Record<string, any>>, required: true },
 })
 
 const form = vue.ref({ email: '', code: '' })
@@ -29,8 +29,8 @@ async function sendRequest() {
 
 vue.onMounted(async () => {
   form.value = {
-    email: props.vars.email,
-    code: props.vars.code,
+    email: props.queryVars.email,
+    code: props.queryVars.code,
   }
 
   await sendRequest()

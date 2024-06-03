@@ -192,9 +192,7 @@ export class EndpointServer {
    *
    * @category server
    */
-  setAuthorizedUser = async (
-    request: express.Request,
-  ): Promise<express.Request> => {
+  setAuthorizedUser = async (request: express.Request): Promise<express.Request> => {
     if (!this.fictionUser) {
       this.log.error(`no fictionUser instance for endpoint authorization (${this.serverName})`)
       return request

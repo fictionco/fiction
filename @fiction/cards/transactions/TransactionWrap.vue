@@ -18,8 +18,8 @@ const props = defineProps({
 
 const iconThemes = {
   theme: 'bg-theme-100 text-theme-800 dark:bg-theme-900 dark:text-theme-100',
-  success: 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-50',
-  error: 'bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-100',
+  success: 'bg-green-100 text-green-800 dark:bg-green-800/50 dark:text-green-50',
+  error: 'bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-100',
 }
 
 const ico = vue.computed(() => iconThemes[props.iconTheme as keyof typeof iconThemes] || iconThemes.theme)
@@ -34,18 +34,18 @@ const ico = vue.computed(() => iconThemes[props.iconTheme as keyof typeof iconTh
       <ElSpinner class="h-10 w-10" />
     </div>
     <div v-else>
-      <div v-if="heading || subHeading" :key="heading" class="mb-8 text-left md:text-center flex md:flex-col gap-6 items-center">
+      <div v-if="heading || subHeading" :key="heading" class="mb-8 text-center flex flex-col gap-6 items-center justify-center">
         <div
           v-if="icon"
-          class="rounded-full size-16 inline-flex items-center justify-center"
+          class="rounded-full size-10 md:size-16 inline-flex items-center justify-center"
           :class="ico"
         >
-          <div class="text-4xl" :class="icon" />
+          <div class="text-2xl md:text-4xl" :class="icon" />
         </div>
         <div>
           <div v-if="superHeading" class="mb-4 font-sans text-xs text-theme-400 dark:text-theme-500 uppercase tracking-widest" v-html="superHeading" />
-          <h1 class="x-font-title text-3xl font-semibold tracking-tight text-balance" v-html="heading" />
-          <div class="mt-2 text-xl font-normal x-font-title text-theme-500 capitalize">
+          <h1 class="x-font-title text-2xl md:text-3xl font-semibold tracking-tight text-balance" v-html="heading" />
+          <div class="mt-2 text-lg md:text-xl font-normal x-font-title text-theme-500 capitalize">
             <h4 v-if="subHeading" class="space-x-2" v-html="subHeading" />
           </div>
           <slot name="links" />

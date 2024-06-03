@@ -277,10 +277,10 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
       const url = new URL(window.location.href)
 
       // If no redirect is provided, modify the URL to remove 'logout' query param
-      if (url.searchParams.has('logout') || url.searchParams.has('token')) {
+      // remove 'token' due to recursion that occurs if token error, triggers logout, trigger another login attempt
+      if (url.searchParams.has('logout')) {
         this.log.warn(`redirecting due to logout (${caller})`)
         url.searchParams.delete('logout')
-        url.searchParams.delete('token')
         window.location.href = url.toString()
       }
     }
@@ -326,10 +326,15 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
 
     if (!this.initialized) {
       this.log.info('initializing user', { data: { caller } })
-      this.initialized = new Promise(async (resolve) => {
+      this.initialized = new Promise(async (resolve, reject) => {
         this.resolveUser = resolve
-        await this.requestCurrentUser()
-        resolve(true)
+        try {
+          await this.requestCurrentUser()
+          resolve(true)
+        }
+        catch (err) {
+          reject(err)
+        }
       })
     }
 

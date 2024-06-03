@@ -1,10 +1,16 @@
 import { abort, toSlug } from '@fiction/core'
 import { createUserToken } from '@fiction/core/utils/jwt'
-import type { EmailVars, SendEmailArgs } from './action'
+import type { EmailVars, QueryVars, SendEmailArgs } from './action'
 import type { FictionEmailActions } from '.'
 
-export async function createEmailVars(args: SendEmailArgs & { actionId: string, fictionEmailActions: FictionEmailActions, queryVars?: Record<string, string> }): Promise<EmailVars> {
-  const { actionId, recipient, origin, queryVars = {}, redirect, baseRoute = '', fictionEmailActions } = args
+export async function createEmailVars<
+T extends Record<string, string> | undefined = Record<string, string> | undefined,
+>(args: SendEmailArgs & {
+  actionId: string
+  fictionEmailActions: FictionEmailActions
+  queryVars?: T
+}): Promise<EmailVars<T>> {
+  const { actionId, recipient, origin, baseRoute = '', fictionEmailActions } = args
   const { fictionApp, fictionEmail, fictionUser } = fictionEmailActions?.settings || {}
   const tokenSecret = fictionUser?.settings.tokenSecret
 
@@ -22,33 +28,24 @@ export async function createEmailVars(args: SendEmailArgs & { actionId: string, 
   const callbackHref = buildUrl(originUrl, baseRoute, slug, toSlug(actionId))
   const unsubscribeUrl = buildUrl(originUrl, baseRoute, slug, 'unsubscribe')
 
-  const v: Record<string, string> = args.queryVars || {}
+  const v: QueryVars = args.queryVars || {}
 
   v.token = createUserToken({ user: recipient, tokenSecret })
   v.code = recipient.verify?.code || ''
   v.email = recipient.email || ''
+  v.userId = recipient.userId || ''
 
-  if (redirect) {
-    v.redirect = redirect
+  if (args.redirect) {
+    v.redirect = args.redirect
   }
 
   const queryParams = new URLSearchParams(v).toString()
   const callbackUrl = `${callbackHref}?${queryParams}`
   const { fullName = '', email = '', userId = '', username = '' } = recipient || {}
+  const appName = fictionEmail?.settings.fictionEnv.meta.app?.name || ''
+  const code = v.code || 'NOT_PROVIDED'
+  const token = v.token || ''
+  const redirect = v.redirect || ''
 
-  return {
-    actionId,
-    redirect: redirect || '',
-    fullName,
-    email,
-    userId,
-    username,
-    token: v.token || '',
-    code: v.code || 'NOT_PROVIDED',
-    originUrl,
-    callbackUrl,
-    unsubscribeUrl,
-    appName: fictionEmail?.settings.fictionEnv.meta.app?.name || '',
-    queryVars,
-  }
+  return { queryVars: v as T, actionId, redirect, fullName, email, userId, username, token, code, originUrl, callbackUrl, unsubscribeUrl, appName }
 }

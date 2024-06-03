@@ -39,6 +39,8 @@ describe('createEmailVars', async () => {
     expect(u.origin + u.pathname).toBe(`https://www.example.com/base/__transaction/action-test`)
     expect(u.searchParams.get('token')).toBe(createUserToken({ user: initialized.user, tokenSecret: testUtils.fictionUser.tokenSecret }))
     expect(u.searchParams.get('redirect')).toBe('http://example.com/redirect')
+    expect(u.searchParams.get('userId')).toBe(initialized.user.userId)
+    expect(u.searchParams.get('code')).toBe(initialized.user.verify?.code)
     expect(emailVars.code).toBe(initialized.user.verify?.code)
     expect(emailVars.unsubscribeUrl).toBe('https://www.example.com/base/__transaction/unsubscribe')
     expect(emailVars.fullName).toBe(initialized.user.fullName)

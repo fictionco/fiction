@@ -1,19 +1,30 @@
 import { replace } from 'lodash'
 import type { EmailVars } from '../action'
 
-// Helper function to escape regex special characters
-function escapeRegExp(text: string): string {
-  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
+// Utility function to escape special characters in a regex pattern
+function escapeRegExp(string: string): string {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // $& means the whole matched string
 }
 
 // Function to safely replace text and its URL-encoded version only if it exists and is not empty
 function safeReplace(str: string, pattern: string | undefined, replacement: string): string {
   if (!pattern)
     return str
+
+  // Escape the pattern for regex
   const escapedPattern = escapeRegExp(pattern)
-  const urlEncodedPattern = encodeURIComponent(pattern)
+
+  // Encode the pattern as it would be in a query string
+  const urlSearchParams = new URLSearchParams()
+  urlSearchParams.append('key', pattern) // 'key' is arbitrary here
+  const urlEncodedPattern = urlSearchParams.toString().split('=')[1]
+
+  // Replace all occurrences of the pattern with the replacement
   str = str.replace(new RegExp(escapedPattern, 'g'), replacement)
-  return str.replace(new RegExp(escapeRegExp(urlEncodedPattern), 'g'), replacement)
+  // Replace all occurrences of the URL-encoded pattern with the replacement
+  str = str.replace(new RegExp(escapeRegExp(urlEncodedPattern), 'g'), replacement)
+
+  return str
 }
 
 export function emailActionSnapshot(str: string, emailVars: Partial<EmailVars> = {}, masks?: Record<string, string>): string {

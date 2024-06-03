@@ -5,7 +5,15 @@ import type { EmailResponse } from '@fiction/core/plugin-email/endpoint'
 import { createEmailVars } from './utils'
 import type { FictionEmailActions } from '.'
 
-export type EmailVars<T extends object | undefined = object | undefined> = {
+export type QueryVars<T extends Record<string, string> | undefined = Record<string, string> | undefined> = {
+  code?: string
+  email?: string
+  token?: string
+  userId?: string
+  redirect?: string
+} & T
+
+export type EmailVars<T extends Record<string, string> | undefined = Record<string, string> | undefined> = {
   actionId: string
   appName: string
   code: string
@@ -21,10 +29,14 @@ export type EmailVars<T extends object | undefined = object | undefined> = {
   queryVars: T
 }
 
+type EmailConfigResponse = TransactionalEmailConfig & {
+  emailVars: EmailVars
+}
+
 export type EmailActionSettings<T extends EmailActionSurface = EmailActionSurface > = {
   actionId: string
   template: vue.Component
-  emailConfig: (args: EmailVars<T['queryVars']>) => TransactionalEmailConfig | Promise<TransactionalEmailConfig>
+  emailConfig: (args: EmailVars<T['queryVars']>) => EmailConfigResponse | Promise<EmailConfigResponse>
   vars?: Partial<EmailVars>
   serverTransaction?: (action: EmailAction, args: T['transactionArgs'], meta: EndpointMeta) => Promise< T['transactionResponse']>
   fictionEmailActions: FictionEmailActions
@@ -42,6 +54,13 @@ export type SendArgsRequest = {
   redirect?: string
   baseRoute?: string
 }
+
+// export type EmailConfigArgs<T extends Record<string, string> | undefined = Record<string, string> | undefined> =
+//   SendEmailArgs & {
+//     actionId: string
+//     fictionEmailActions: FictionEmailActions
+//     queryVars?: T
+//   }
 
 export type SendEmailArgs = {
   recipient: Partial<User>
@@ -114,16 +133,16 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
     if (!fictionEmail || !this.fictionEmailActions)
       throw abort('no fictionEmail provided')
 
-    const emailVars = await createEmailVars({ ...args, fictionEmailActions: this.fictionEmailActions, actionId: this.settings.actionId })
+    const emailVars = await createEmailVars<T['queryVars']>({ ...args, fictionEmailActions: this.fictionEmailActions, actionId: this.settings.actionId })
 
-    const userEmail = await this.settings.emailConfig(emailVars as EmailVars<T['queryVars']>)
+    const emailConfig = await this.settings.emailConfig(emailVars)
 
     const defaultEmail = await this.defaultConfig()
-    const finalEmail = deepMerge([defaultEmail, userEmail])
+    const finalEmail = deepMerge([defaultEmail, emailConfig])
 
     const r = await fictionEmail.sendTransactional(finalEmail)
 
-    return { ...r, emailVars }
+    return { ...r, emailVars: emailConfig.emailVars || emailVars }
   }
 
   async requestSend(args: SendArgsRequest & { queryVars: T['queryVars'] }): Promise<Surface<T>['sendResponse']> {

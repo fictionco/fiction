@@ -6,6 +6,7 @@ import type { ResultPromise } from 'execa'
 import { execa } from 'execa'
 import fs from 'fs-extra'
 import type { Browser, Page } from 'playwright'
+import * as playwrightTest from '@playwright/test'
 import { executeCommand } from '../utils/nodeUtils'
 import { camelToKebab, randomBetween, waitFor } from '../utils'
 import { log } from '../plugin-log'
@@ -146,7 +147,7 @@ export async function createTestServer(params: {
 }
 
 type TestPageAction = {
-  type: 'visible' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'value'
+  type: 'visible' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'value' | 'hasText'
   selector: string
   text?: string
   key?: string
@@ -186,6 +187,12 @@ export async function performActions(args: {
 
     try {
       switch (action.type) {
+        case 'hasText': {
+          // const allText = await element.textContent()
+          logger.info('HAS_TEXT', { data: { selector: action.selector, text: action.text } })
+          await playwrightTest.expect(element).toContainText(action.text || '')
+          break
+        }
         case 'click': {
           logger.info('CLICK_ELEMENT', { data: { selector: action.selector } })
           await element.click()

@@ -22,21 +22,24 @@ export async function setup(args: { context?: 'node' | 'app' } = {}) {
     actionId,
     template: vue.defineAsyncComponent(() => import('./ElTestAction.vue')),
     fictionEmailActions,
-    emailConfig: (vars) => {
-      return {
-        subject: `${vars.appName}: Email Action Subject`,
+    emailConfig: async (emailVars) => {
+      const emailConfig = {
+        emailVars,
+        subject: `${emailVars.appName}: Email Action Subject`,
         heading: 'Email Action Heading',
         subHeading: 'Email Action Subheading',
         bodyMarkdown: `Email Action Body Markdown`,
-        to: `${vars.email}`,
+        to: `${emailVars.email}`,
         actions: [
           {
             name: 'Verify Email',
-            href: vars.callbackUrl,
-            btn: 'primary',
+            href: emailVars.callbackUrl,
+            btn: 'primary' as const,
           },
         ],
       }
+
+      return { emailConfig, emailVars }
     },
   })
 

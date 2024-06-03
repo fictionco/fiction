@@ -41,7 +41,7 @@ export class FictionEmailActions extends FictionPlugin<FictionEmailActionsSettin
       context: 'app',
       callback: (pages, site) => {
         const theme = site?.theme.value
-        const transactionTemplateId = theme?.templateDefaults.value.transaction || 'transaction'
+        const transactionTemplateId = theme?.templateDefaults.value.transaction || 'wrap'
 
         return [
           ...pages,

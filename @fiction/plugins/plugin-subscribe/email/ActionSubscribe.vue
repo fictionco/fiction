@@ -1,58 +1,92 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site'
-import { type EndpointResponse, toLabel, vue } from '@fiction/core'
+import { type User, useService, vue } from '@fiction/core'
 import TransactionWrap from '@fiction/cards/transactions/TransactionWrap.vue'
-import type { EmailVars } from '@fiction/plugins/plugin-email-actions'
+import type { QueryVars } from '@fiction/plugins/plugin-email-actions'
+import type { FictionEmailActions } from '@fiction/plugin-email-actions'
 import type { FictionSubscribe } from '..'
 
 type SpecEmailAction = FictionSubscribe['transactions']['subscribe']
-type QueryVarType = SpecEmailAction['queryVars']
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
   action: { type: Object as vue.PropType<SpecEmailAction>, required: true },
-  vars: { type: Object as vue.PropType<EmailVars<QueryVarType>>, required: true },
+  queryVars: { type: Object as vue.PropType<QueryVars<SpecEmailAction['queryVars']>>, required: true },
 })
-
-const form = vue.ref({ email: '', code: '' })
+const { fictionUser } = useService()
+type TransactionProps = InstanceType<typeof TransactionWrap>['$props']
 
 const loading = vue.ref(false)
 const response = vue.ref<Awaited<ReturnType<SpecEmailAction['requestTransaction']>>>()
+const errorMessage = vue.ref<string | undefined>()
 
-async function sendRequest() {
+const content = vue.computed<TransactionProps>(() => {
+  if (errorMessage.value) {
+    return {
+      superHeading: 'Error',
+      heading: 'An error occurred',
+      subHeading: errorMessage.value,
+      icon: 'i-tabler-alert-circle',
+      iconTheme: 'error',
+      actions: [
+        { name: 'Home', href: props.card.link('/'), btn: 'primary', icon: 'i-tabler-home' },
+      ],
+    }
+  }
+  else if (response.value) {
+    return {
+      superHeading: response.value.status,
+      heading: props.queryVars.orgName || 'Subscribe',
+      subHeading: response.value.message,
+      icon: response.value.status === 'success' ? 'i-tabler-check' : 'i-tabler-alert-circle',
+      iconTheme: response.value.status === 'success' ? 'success' : 'error',
+      actions: [
+        { name: 'Home', href: props.card.link('/'), btn: 'primary', icon: 'i-tabler-home' },
+      ],
+    }
+  }
+  else {
+    return {
+      loading: true,
+      heading: 'Loading...',
+    }
+  }
+})
+
+async function sendRequest(user?: User) {
   loading.value = true
 
-  const { userId, queryVars: { orgId = '' } = {} } = props.vars
+  const { userId, orgId } = props.queryVars
 
-  if (!userId || !orgId) {
-    throw new Error('Missing userId or orgId')
+  if (!user) {
+    errorMessage.value = 'Not logged in'
   }
-
-  const r = await props.action.requestTransaction({ userId, orgId })
-
-  response.value = r
+  else if (!userId) {
+    errorMessage.value = 'Missing userId'
+  }
+  else if (!orgId) {
+    errorMessage.value = 'Missing orgId'
+  }
+  else {
+    try {
+      const r = await props.action.requestTransaction({ userId, orgId })
+      response.value = r
+    }
+    catch (e) {
+      errorMessage.value = (e as Error).message
+    }
+  }
 
   loading.value = false
 }
 
 vue.onMounted(async () => {
-  form.value = {
-    email: props.vars.email,
-    code: props.vars.code,
-  }
-
-  await sendRequest()
+  const user = await fictionUser.userInitialized()
+  await sendRequest(user)
 })
 </script>
 
 <template>
   <TransactionWrap
-    :loading="loading"
-    :super-heading="response?.status"
-    heading="Verify Email"
-    :sub-heading="response?.message"
-    :actions="[
-      { name: 'Home', href: card.link('/'), btn: 'default', icon: 'i-tabler-home' },
-      { name: 'Support', href: `mailto:hello@fiction.com`, target: '_blank', icon: 'i-tabler-mail' },
-    ]"
+    v-bind="content"
   />
 </template>

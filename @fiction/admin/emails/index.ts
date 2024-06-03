@@ -12,19 +12,24 @@ export type VerifyRequestVars = {
 export function getEmails(args: { fictionAdmin: FictionAdmin }) {
   const { fictionAdmin } = args
   const fictionEmailActions = fictionAdmin.settings.fictionEmailActions
-  const verifyEmailAction = new EmailAction<{ transactionArgs: VerifyRequestVars, transactionResponse: EndpointResponse<User>, send: object }>({
+  const verifyEmailAction = new EmailAction<{
+    transactionArgs: VerifyRequestVars
+    transactionResponse: EndpointResponse<User>
+    queryVars: Record<string, string>
+  }>({
     fictionEmailActions,
     actionId: 'verifyEmail',
     template: vue.defineAsyncComponent<vue.Component>(() => import('./VEmailVerify.vue')), // <vue.Component> avoids circular reference
-    emailConfig: (vars) => {
+    emailConfig: async (emailVars) => {
       return {
-        subject: `${vars.appName}: Verify Your Email`,
+        emailVars,
+        subject: `${emailVars.appName}: Verify Your Email`,
         heading: 'Verify Your Email',
         subHeading: 'Click the Link Below',
-        bodyMarkdown: `Verify your email using the code: **${vars.code}** or click the button below.`,
-        to: `${vars.email}`,
+        bodyMarkdown: `Verify your email using the code: **${emailVars.code}** or click the button below.`,
+        to: `${emailVars.email}`,
         actions: [
-          { name: 'Verify Email', href: vars.callbackUrl, btn: 'primary' },
+          { name: 'Verify Email', href: emailVars.callbackUrl, btn: 'primary' },
         ],
       }
     },
@@ -47,15 +52,16 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
     fictionEmailActions,
     template: vue.defineAsyncComponent<vue.Component>(() => import('./ActionMagicLogin.vue')),
     actionId: 'magicLogin',
-    emailConfig: (vars) => {
+    emailConfig: async (emailVars) => {
       return {
-        subject: `${vars.appName}: Your Sign-In Link 🪄`,
+        emailVars,
+        subject: `${emailVars.appName}: Your Sign-In Link 🪄`,
         heading: 'Your magic link is ready',
         subHeading: 'Click the link below to log in',
-        bodyMarkdown: `The link below will sign you in to ${vars.appName}.\n\nIf you didn't request this email, there's nothing to worry about, you can safely ignore it.`,
-        to: `${vars.email}`,
+        bodyMarkdown: `The link below will sign you in to ${emailVars.appName}.\n\nIf you didn't request this email, there's nothing to worry about, you can safely ignore it.`,
+        to: `${emailVars.email}`,
         actions: [
-          { name: 'Log In', href: vars.callbackUrl, btn: 'primary' },
+          { name: 'Log In', href: emailVars.callbackUrl, btn: 'primary' },
         ],
       }
     },

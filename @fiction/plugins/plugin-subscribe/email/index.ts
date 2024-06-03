@@ -10,28 +10,28 @@ export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
   const subscribe = new EmailAction<{
     transactionArgs: { orgId: string, userId: string }
     transactionResponse: EndpointResponse<TableSubscribeConfig>
-    queryVars: { orgId: string }
+    queryVars: { orgId: string, orgName: string, orgEmail: string }
   }>({
-
     fictionEmailActions,
     actionId: 'subscribe',
     template: vue.defineAsyncComponent<vue.Component>(() => import('./ActionSubscribe.vue')), // <vue.Component> avoids circular reference
-    emailConfig: async (vars) => {
-      const { orgId } = vars.queryVars
+    emailConfig: async (emailVars) => {
+      const { orgId, orgName, orgEmail } = emailVars.queryVars
 
       const r = await fictionUser.queries.ManageOrganization.serve({ _action: 'retrieve', where: { orgId } }, { server: true, caller: 'subscribe' })
 
-      const fromName = r.data?.orgName || vars.fullName
-      const fromEmail = r.data?.orgEmail
+      const fromName = orgName || r.data?.orgName || emailVars.fullName
+      const fromEmail = orgEmail || r.data?.orgEmail || emailVars.email
       return {
+        emailVars,
         subject: `Confirm Your Subscription ✔`,
         heading: 'Confirm Your Subscription',
         subHeading: 'Click the Link Below',
         bodyMarkdown: `Confirm your subscription to ${fromName} by clicking the button below.`,
-        to: `${vars.email}`,
+        to: `${emailVars.email}`,
         from: `${fromName} <${fromEmail}>`,
         actions: [
-          { name: 'Confirm Subscription', href: vars.callbackUrl, btn: 'primary' },
+          { name: 'Confirm Subscription', href: emailVars.callbackUrl, btn: 'primary' },
         ],
       }
     },
@@ -42,7 +42,7 @@ export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
 
       const sub = r.data?.[0]
 
-      return { status: 'success', data: sub }
+      return { status: 'success', data: sub, message: 'You\'re now subscribed!' }
     },
   })
 

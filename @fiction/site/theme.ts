@@ -37,7 +37,7 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
   templates = this.settings.templates
   ui = { button: { el: ElButton }, ...this.settings.ui }
   pages = this.settings.pages
-  templateDefaults = vue.computed(() => ({ page: 'wrap', transaction: 'transaction', ...this.settings.templateDefaults }))
+  templateDefaults = vue.computed(() => ({ page: 'wrap', transaction: 'wrap', ...this.settings.templateDefaults }))
 
   constructor(settings: ThemeSettings<T>) {
     super('Theme', settings)

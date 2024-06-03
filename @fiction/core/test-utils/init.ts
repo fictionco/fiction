@@ -1,12 +1,13 @@
 import path from 'node:path'
 import { FictionUi } from '@fiction/ui'
+import { faker } from '@faker-js/faker'
 import { version as fictionVersion } from '../package.json'
 import type { FictionObject, FictionPlugin } from '../plugin'
 import type { vue } from '../utils'
 import { randomBetween, safeDirname } from '../utils/utils'
 import type { EnvVar } from '../plugin-env'
 import { runServicesSetup } from '../plugin-env'
-import type { User } from '../plugin-user'
+import type { Organization, User } from '../plugin-user'
 import { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionRouter, FictionServer, FictionUser } from '..'
 import ElRoot from '../plugin-app/ElRoot.vue'
 import { crossVar, getEnvVars } from '../utils/vars'
@@ -27,6 +28,7 @@ export interface TestUtilServices {
 
 export type InitializedTestUtils = {
   user: User
+  org: Organization
   orgId: string
   token: string
   email: string
@@ -58,17 +60,16 @@ export interface TestUtilSettings {
   isGlobalSetup?: boolean
 }
 
-const randomName = () => `${['Captain', 'Mister', 'Doctor', 'Professor', 'Mad', 'Sir'][Math.floor(Math.random() * 6)]} ${['Waffles', 'Pancakes', 'Spaghetti', 'Snickers', 'Twinkles', 'Moonbeam'][Math.floor(Math.random() * 6)]}`
-
 export async function createTestUser(fictionUser: FictionUser, opts: { caller?: string } = {}) {
   const { caller = 'unknown' } = opts
   logger.info(`creating user - ${caller}`)
   const email = getTestEmail()
   const password = 'test'
-  const fullName = randomName()
+  const fullName = faker.person.fullName()
+  const orgName = faker.company.name()
 
   const r = await fictionUser.queries.ManageUser.serve(
-    { fields: { email, password, emailVerified: true, fullName }, _action: 'create' },
+    { fields: { email, password, emailVerified: true, fullName, orgName }, _action: 'create' },
     { server: true, caller: `createTestUser-${caller}`, returnAuthority: ['verify'] },
   )
 
@@ -89,12 +90,13 @@ export async function initializeTestUser(args: { fictionUser: FictionUser }): Pr
 
   fictionUser.setUserInitialized()
 
-  const orgId = user.orgs?.[0].orgId
+  const org = user.orgs?.[0]
+  const orgId = org?.orgId
 
   if (!orgId)
     throw new Error('no org created')
 
-  return { user, orgId, token, email, password }
+  return { user, org, orgId, token, email, password }
 }
 
 /**
