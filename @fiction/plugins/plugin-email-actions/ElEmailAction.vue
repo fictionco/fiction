@@ -11,7 +11,7 @@ type UserConfig = {
   test: string
 }
 defineProps({
-  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
+  card: { type: Object as vue.PropType<Card<UserConfig> | undefined>, required: true },
 })
 
 const { fictionUser, fictionEmailActions, fictionRouter } = useService<{ fictionEmailActions: FictionEmailActions }>()
@@ -60,7 +60,7 @@ vue.onMounted(async () => {
 </script>
 
 <template>
-  <div :data-action-id="actionId" :class="card.classes.value.contentWidth">
+  <div :data-action-id="actionId" :class="card?.classes?.value.contentWidth">
     <div v-if="loading">
       <div class="text-theme-300 dark:text-theme-600 flex justify-center pt-32">
         <ElSpinner class="size-6" />

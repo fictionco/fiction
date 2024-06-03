@@ -39,7 +39,7 @@ export async function setup(args: { context?: 'node' | 'app' } = {}) {
         ],
       }
 
-      return { emailConfig, emailVars }
+      return emailConfig
     },
   })
 

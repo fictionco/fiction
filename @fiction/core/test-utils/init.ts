@@ -72,8 +72,18 @@ export async function createTestUser(fictionUser: FictionUser, opts: { caller?: 
     { fields: { email, password, emailVerified: true, fullName, orgName }, _action: 'create' },
     { server: true, caller: `createTestUser-${caller}`, returnAuthority: ['verify'] },
   )
+  const user = r.data
 
-  return { user: r.data, token: r.token, email, password }
+  if (!user)
+    throw new Error('no user created')
+
+  if (!r.token)
+    throw new Error('no token returned')
+
+  if (!user.verify?.code)
+    throw new Error('no code returned')
+
+  return { user, token: r.token, email, password, code: user?.verify?.code }
 }
 
 export async function initializeTestUser(args: { fictionUser: FictionUser }): Promise<InitializedTestUtils> {
