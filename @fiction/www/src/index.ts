@@ -203,6 +203,7 @@ export function setup(): ServiceConfig {
         const realCommand = command.split('-').shift()
         if (!realCommand)
           throw new Error('No command for restart')
+
         await new FictionDevRestart({ fictionEnv }).restartInitializer({
           command: realCommand,
           config: { watch: [safeDirname(import.meta.url, '../../..')] },

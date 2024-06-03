@@ -17,7 +17,7 @@ export class FictionDevRestart extends FictionPlugin {
 
   restartInitializer = async (args: {
     command: string
-    config: NodemonSettings
+    config: Partial<NodemonSettings>
   }): Promise<void> => {
     const { command, config } = args
 
@@ -39,7 +39,7 @@ export class FictionDevRestart extends FictionPlugin {
       ext: 'ts',
     }
 
-    const fullConfig: NodemonSettings = { ...defaultConfig, ...config }
+    const fullConfig: Partial<NodemonSettings> = { ...defaultConfig, ...config }
 
     const passArgs = process.argv.slice(
       process.argv.findIndex(_ => _ === 'rdev'),
@@ -58,7 +58,7 @@ export class FictionDevRestart extends FictionPlugin {
      * The nodemon function takes either an object (that matches the nodemon config)
      * or can take a string that matches the arguments that would be used on the command line
      */
-    nodemon(fullConfig)
+    nodemon(fullConfig as NodemonSettings)
 
     nodemon
       .on('log', () => {})
