@@ -19,10 +19,10 @@ min_machines_running = 1
 
 [[http_service.checks]]
 grace_period = "10s"
-interval = "30s"
+interval = "60s"
 method = "GET"
-timeout = "8s"
-path = "/"
+timeout = "5s"
+path = "/api/health"
 tls_skip_verify = false
 
 [deploy]

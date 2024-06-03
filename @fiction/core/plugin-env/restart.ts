@@ -1,5 +1,6 @@
 import process from 'node:process'
 import type nodemon from 'nodemon'
+import type { NodemonSettings } from 'nodemon'
 import type { FictionPluginSettings } from '../plugin'
 import { FictionPlugin } from '../plugin'
 import { isRestart } from '../utils'
@@ -16,7 +17,7 @@ export class FictionDevRestart extends FictionPlugin {
 
   restartInitializer = async (args: {
     command: string
-    config: nodemon.Settings
+    config: NodemonSettings
   }): Promise<void> => {
     const { command, config } = args
 
@@ -38,7 +39,7 @@ export class FictionDevRestart extends FictionPlugin {
       ext: 'ts',
     }
 
-    const fullConfig = { ...defaultConfig, ...config }
+    const fullConfig: NodemonSettings = { ...defaultConfig, ...config }
 
     const passArgs = process.argv.slice(
       process.argv.findIndex(_ => _ === 'rdev'),
@@ -49,7 +50,6 @@ export class FictionDevRestart extends FictionPlugin {
     const script = [`npm exec --`, `fiction run ${command}`, passArgs.join(' ')]
     const runScript = script.join(' ')
     fullConfig.exec = runScript
-    fullConfig.cwd = process.cwd()
 
     this.log.info(`running [${runScript}]`, { data: fullConfig })
 
@@ -70,9 +70,11 @@ export class FictionDevRestart extends FictionPlugin {
         this.log.error('nodemon crash')
       })
       .on('quit', () => done(0, 'exited nodemon'))
-      .on('restart', (files: string[]) => {
+      .on('restart', (event) => {
+        const matched = event?.matched || []
         process.env.IS_RESTART = '1'
-        this.log.info('restarted due to:', { data: { files } })
+
+        this.log.info('restarted due to:', { data: { matched } })
       })
   }
 }
