@@ -21,7 +21,6 @@ describe('signin UX', async () => {
   afterAll(() => kit?.close())
 
   const action = kit.testUtils?.fictionAdmin.emailActions.magicLoginEmailAction
-  const actionId = action.settings.actionId
 
   let vars: EmailVars | undefined
   it('sends email', async () => {
@@ -99,11 +98,9 @@ describe('signin UX', async () => {
         { type: 'fill', selector: '[data-test-id="input-password"] input', text: fields.password },
         { type: 'fill', selector: '[data-test-id="input-name"] input', text: fields.name },
         { type: 'value', selector: '[data-test-id="form"]', callback: (v) => {
-          const val = v ? JSON.parse(v) : {}
-
-          expect(val.email).toBe(fields.email)
-          expect(val.password).toBe(fields.password)
-          expect(val.fullName).toBe(fields.name)
+          expect(v?.email).toBe(fields.email)
+          expect(v?.password).toBe(fields.password)
+          expect(v?.fullName).toBe(fields.name)
         } },
 
       ],
