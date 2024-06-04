@@ -29,7 +29,7 @@ export abstract class EmailQuery extends Query<EmailQuerySettings> {
   shouldSendEmail(meta: EndpointMeta) {
     const { emailMode = 'standard' } = meta
 
-    const isTest = this.settings.fictionEnv.isTest
+    const isTest = this.settings.fictionEnv.isTest.value
     const ci = isCi()
 
     let disabledMessage = ''
@@ -163,8 +163,11 @@ export class QueryTransactionalEmail extends EmailQuery {
 
     const theEmail: nodeMailer.SendMailOptions = { from, to, subject, html, text }
 
+    const isReal = shouldSend && client
+    this.log.info(`sending email (${isReal ? 'REAL' : 'LOG_ONLY'})`, { data: { from, to, subject } })
+
     let isSent = false
-    if (shouldSend && client) {
+    if (isReal) {
       isSent = true
       await this.client?.sendMail(theEmail)
     }

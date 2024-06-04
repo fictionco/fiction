@@ -8,6 +8,7 @@ import FSite from '@fiction/cards/CardSite.vue'
 import { runServicesSetup } from '@fiction/core/plugin-env/entry'
 import { createUiTestingKit } from '@fiction/core/test-utils/kit'
 import { FictionEmailActions } from '@fiction/plugin-email-actions'
+import { FictionSubscribe } from '@fiction/plugin-subscribe'
 import type { ThemeSetup } from '..'
 import { FictionSites } from '..'
 import * as testTheme from './test-theme'
@@ -21,6 +22,7 @@ export type SiteTestUtils = TestUtils & {
   fictionAws: FictionAws
   fictionAi: FictionAi
   fictionEmailActions: FictionEmailActions
+  fictionSubscribe: FictionSubscribe
   runApp: (args: { context: 'app' | 'node', isProd?: boolean }) => Promise<void>
   close: () => Promise<void>
 }
@@ -48,6 +50,7 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
   out.fictionEmailActions = new FictionEmailActions({ ...out })
   out.fictionRouterSites = new FictionRouter({ routerId: 'siteRouter', fictionEnv, baseUrl: 'https://www.test.com', routes, create: true })
   out.fictionAppSites = new FictionApp({ port: sitePort, ...out, fictionRouter: out.fictionRouterSites, isTest: true, liveUrl: 'https://*.test.com', localHostname: '*.lan.com' })
+  out.fictionSubscribe = new FictionSubscribe({ ...(out as SiteTestUtils) })
 
   const themes = () => Promise.all([testTheme.setup(out), ...(args.themes || []).map(_ => _(out))])
   out.fictionSites = new FictionSites({ ...(out as SiteTestUtils), flyApiToken, flyAppId, themes })
@@ -61,6 +64,6 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
   return out as SiteTestUtils
 }
 
-export async function createSiteUiTestingKit(args: { headless?: boolean } = {}) {
+export async function createSiteUiTestingKit(args: { headless?: boolean, slowMo?: number } = {}) {
   return createUiTestingKit({ ...args, setup })
 }

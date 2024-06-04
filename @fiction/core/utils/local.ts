@@ -6,6 +6,7 @@ const refCache: Record<string, ReturnType<typeof ref>> = {}
 
 export function localRef<T>(opts: { key: string, def: T, lifecycle?: 'session' | 'local' | 'disable' }): Ref<T> {
   const { key, def, lifecycle = 'local' } = opts
+
   // Return the existing ref if one is already created with the same key
   if (refCache[key])
     return refCache[key] as Ref<T>
@@ -26,15 +27,17 @@ export function localRef<T>(opts: { key: string, def: T, lifecycle?: 'session' |
   const refItem = ref<T>(initialValue)
   refCache[key] = refItem // Store the ref in cache
 
-  watch(() => refItem.value, (newValue) => {
-    if (newValue === undefined) {
-      storage?.removeItem(key)
-      delete refCache[key]
-    }
-    else {
-      storage?.setItem(key, JSON.stringify(newValue))
-    }
-  }, { immediate: true, deep: true })
+  if (typeof window !== 'undefined') {
+    watch(() => refItem.value, (newValue) => {
+      if (newValue === undefined) {
+        storage?.removeItem(key)
+        delete refCache[key]
+      }
+      else {
+        storage?.setItem(key, JSON.stringify(newValue))
+      }
+    }, { immediate: true, deep: true })
+  }
 
   return refItem as Ref<T>
 }

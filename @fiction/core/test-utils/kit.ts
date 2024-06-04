@@ -6,7 +6,7 @@ import { setup as mainFileSetup } from './testMainFile'
 
 export type TestingKit<T extends MainFileSetup = MainFileSetup> = {
   port: number
-  browser: { browser: Browser }
+  browser: Awaited<ReturnType<typeof createTestBrowser>>
   close: () => Promise<void>
   performActions: (_: Omit<Parameters<typeof performActions>[0], 'port' | 'browser'>) => Promise<void>
   testUtils: Awaited<ReturnType<T>>['service']

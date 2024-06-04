@@ -73,7 +73,7 @@ vue.onMounted(() => {
         <div
           v-for="(toast, i) in topToasts"
           :key="i"
-          class="pointer-events-auto mb-4 w-full max-w-xs overflow-hidden rounded-full bg-black/80 dark:bg-theme-600 text-sm text-white dark:text-theme-0 shadow-xl border border-black dark:border-theme-500 transition-all duration-300"
+          class="pointer-events-auto mb-4 w-full max-w-xs overflow-hidden rounded-full bg-black/80 dark:bg-theme-700/90 text-sm text-white dark:text-theme-0 shadow-xl border border-black dark:border-theme-500 transition-all duration-300"
           :class="[toast.type]"
         >
           <div class="py-2 pl-2 pr-4">
@@ -113,4 +113,4 @@ vue.onMounted(() => {
       </transition-group>
     </div>
   </div>
-</template>import type { Site } from '@fiction/site';import type { Site } from '@fiction/site';
+</template>

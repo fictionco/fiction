@@ -10,7 +10,7 @@ export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
   const subscribe = new EmailAction<{
     transactionArgs: { orgId: string, userId: string }
     transactionResponse: EndpointResponse<TableSubscribeConfig>
-    queryVars: { orgId: string, orgName: string, orgEmail: string }
+    queryVars: { orgId: string, orgName?: string, orgEmail?: string }
   }>({
     fictionEmailActions,
     actionId: 'subscribe',

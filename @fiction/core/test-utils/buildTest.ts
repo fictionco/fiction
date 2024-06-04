@@ -147,12 +147,12 @@ export async function createTestServer(params: {
 }
 
 type TestPageAction = {
-  type: 'visible' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'value' | 'hasText'
-  selector: string
+  type: 'visible' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'value' | 'hasText' | 'waitFor' | 'scrollTo'
+  selector?: string
   text?: string
   key?: string
   wait?: number
-  callback?: (value?: string) => void
+  callback?: (value?: Record<string, string>) => void
 }
 
 export async function performActions(args: {
@@ -183,10 +183,20 @@ export async function performActions(args: {
   logger.info('ARRIVED_AT', { data: { url } })
 
   for (const action of actions) {
-    const element = page.locator(action.selector)
+    const element = page.locator(action.selector || 'body')
 
     try {
       switch (action.type) {
+        case 'scrollTo': {
+          logger.info('SCROLL_TO', { data: { selector: action.selector } })
+          await element.scrollIntoViewIfNeeded()
+          break
+        }
+        case 'waitFor': {
+          logger.info('WAIT_FOR', { data: { time: action.wait } })
+          await waitFor(action.wait || 1000)
+          break
+        }
         case 'hasText': {
           // const allText = await element.textContent()
           logger.info('HAS_TEXT', { data: { selector: action.selector, text: action.text } })
@@ -228,10 +238,11 @@ export async function performActions(args: {
           break
         }
         case 'value': {
+          await waitFor(300)
           const value = await element.evaluate(el => el.dataset.value)
           logger.info('VALUE', { data: { result: value, selector: action.selector } })
-
-          action.callback?.(value)
+          const v = value ? JSON.parse(value) : {}
+          action.callback?.(v)
           break
         }
       }

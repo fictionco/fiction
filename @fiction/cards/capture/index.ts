@@ -59,30 +59,18 @@ export function demo() {
       createCard({
         templateId,
         templates,
-        userConfig: {
-          presentationMode: 'inline',
-          ...demoUserConfig,
-        },
+        userConfig: { presentationMode: 'inline', ...demoUserConfig },
       }),
-      createCard({
-        el: vue.defineAsyncComponent(() => import('./DemoProse.vue')),
-      }),
-
+      createCard({ el: vue.defineAsyncComponent(() => import('./DemoProse.vue')) }),
       createCard({
         templateId,
         templates,
-        userConfig: {
-          presentationMode: 'onLoad',
-          ...demoUserConfig,
-        },
+        userConfig: { presentationMode: 'onLoad', ...demoUserConfig },
       }),
       createCard({
         templateId,
         templates,
-        userConfig: {
-          presentationMode: 'onScroll',
-          ...demoUserConfig,
-        },
+        userConfig: { presentationMode: 'onScroll', ...demoUserConfig },
       }),
     ],
   })

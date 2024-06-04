@@ -110,9 +110,13 @@ export class SSR extends FictionObject<SSRSettings> {
      * vitejs/plugin-vue injects code in component setup() that registers the component
      * on the context. Allowing us to orchestrate based on this.
      */
-
-    const ctx: { modules?: string[] } = {}
-    out.htmlBody = await renderToString(app, ctx)
+    try {
+      const ctx: { modules?: string[] } = {}
+      out.htmlBody = await renderToString(app, ctx)
+    }
+    catch (e) {
+      this.log.error('renderToString error', { data: { error: e } })
+    }
 
     /**
      * Meta/Head Rendering
@@ -135,7 +139,9 @@ export class SSR extends FictionObject<SSRSettings> {
       return await this.getParts({ runVars })
     }
     catch (error) {
-      logger.error(`SSR Error (${runVars.PATHNAME}) - ${(error as Error).message}`, { error })
+      const e = error as Error
+      const message = typeof e.message === 'string' ? e.message : '[template parsing error]'
+      logger.error(`SSR Error (${runVars.PATHNAME}) - ${message}`)
       return this.init()
     }
     finally {
