@@ -1,4 +1,4 @@
-import type { EndpointMeta, EndpointResponse, TransactionalEmailConfig, User, vue } from '@fiction/core'
+import type { EndpointMeta, EndpointResponse, RequestMeta, TransactionalEmailConfig, User, vue } from '@fiction/core'
 import { FictionObject, abort, deepMerge } from '@fiction/core'
 import { getFromAddress } from '@fiction/core/utils/email'
 import type { EmailResponse } from '@fiction/core/plugin-email/endpoint'
@@ -27,6 +27,7 @@ export type EmailVars<T extends Record<string, string> | undefined = Record<stri
   unsubscribeUrl: string
   redirect: string
   queryVars: T
+  masks?: Record<string, string | undefined>
 }
 
 type EmailConfigResponse = TransactionalEmailConfig & {
@@ -38,7 +39,7 @@ export type EmailActionSettings<T extends EmailActionSurface = EmailActionSurfac
   template: vue.Component
   emailConfig: (args: EmailVars<T['queryVars']>) => EmailConfigResponse | Promise<EmailConfigResponse>
   vars?: Partial<EmailVars>
-  serverTransaction?: (action: EmailAction, args: T['transactionArgs'], meta: EndpointMeta) => Promise< T['transactionResponse']>
+  serverTransaction?: (args: T['transactionArgs'] & { transaction: EmailAction }, meta: EndpointMeta) => Promise< T['transactionResponse']>
   fictionEmailActions: FictionEmailActions
 }
 
@@ -71,7 +72,7 @@ export type EmailActionSurface = Partial<{
   transactionArgs: Record<string, unknown>
   transactionResponse: EndpointResponse
   queryVars: Record<string, string>
-  sendResponse: EndpointResponse<{ isSent: boolean }>
+  sendResponse: EndpointResponse<{ recipient: User }>
 }>
 
 // Utility type to merge two types
@@ -94,8 +95,8 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
     this.fictionEmailActions.emailActions[this.settings.actionId] = this as unknown as EmailAction
   }
 
-  async requestTransaction(args: T['transactionArgs']): Promise<T['transactionResponse']> {
-    const r = await this.fictionEmailActions?.requests.EmailAction.request({ _action: 'serverTransaction', actionId: this.settings.actionId, ...args })
+  async requestTransaction(args: T['transactionArgs'], meta?: RequestMeta): Promise<T['transactionResponse']> {
+    const r = await this.fictionEmailActions?.requests.EmailAction.request({ _action: 'serverTransaction', actionId: this.settings.actionId, ...args }, meta)
 
     return r
   }
@@ -122,13 +123,13 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
       },
       mediaFooter: {
         media: { url: footerImage.url },
-        name: 'Market Yourself with Fiction',
+        name: 'Personal Marketing with Fiction',
         href: `https://www.fiction.com`,
       },
     }
   }
 
-  async serveSend(args: SendEmailArgs & { queryVars: T['queryVars'] }, _meta: EndpointMeta): Promise<EndpointResponse<EmailResponse> & { emailVars: EmailVars }> {
+  async serveSend(args: SendEmailArgs & { queryVars: T['queryVars'] }, meta: EndpointMeta): Promise<EndpointResponse<EmailResponse> & { emailVars: EmailVars }> {
     const fictionEmail = this.fictionEmailActions?.settings.fictionEmail
     if (!fictionEmail || !this.fictionEmailActions)
       throw abort('no fictionEmail provided')
@@ -139,7 +140,7 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
 
     const defaultEmail = await this.defaultConfig()
     const finalEmail = deepMerge([defaultEmail, emailConfig])
-    const r = await fictionEmail.sendTransactional(finalEmail)
+    const r = await fictionEmail.sendTransactional(finalEmail, meta)
 
     return { ...r, emailVars: emailConfig.emailVars || emailVars }
   }

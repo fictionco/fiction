@@ -59,6 +59,8 @@ export class ManageSubscriptionQuery extends SubscribeQuery {
     const fields: Partial<TableSubscribeConfig> = { status: 'active', ...params.fields }
     const insertData = prepareFields({ type: 'create', fields, meta, fictionDb: this.settings.fictionDb, table: t.subscribe })
 
+    this.log.info('createSubscription', { data: insertData, caller: meta.caller })
+
     const result = await this.db().table(t.subscribe).insert(insertData).onConflict(['user_id', 'org_id']).merge().returning('*')
     return { status: 'success', data: result }
   }

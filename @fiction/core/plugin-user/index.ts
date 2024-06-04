@@ -359,4 +359,11 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     if (newUser)
       this.setCurrentUser({ user: newUser, reason })
   }
+
+  userImages() {
+    return {
+      user: new URL('img/user-avatar.png', import.meta.url).href,
+      org: new URL('img/org-avatar.png', import.meta.url).href,
+    }
+  }
 }

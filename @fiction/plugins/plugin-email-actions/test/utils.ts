@@ -44,10 +44,13 @@ export function emailActionSnapshot(str: string, emailVars: Partial<EmailVars> =
   str = originUrl ? safeReplace(str, originUrl, replacePortInUrl(originUrl)) : str
   str = unsubscribeUrl ? safeReplace(str, unsubscribeUrl, replacePortInUrl(unsubscribeUrl)) : str
 
-  if (masks) {
+  const m = { ...emailVars.masks, ...masks }
+  if (m) {
     // Mask other information
-    for (const [key, value] of Object.entries(masks)) {
-      str = safeReplace(str, value, `[${key}]`)
+    for (const [key, value] of Object.entries(m)) {
+      if (value) {
+        str = safeReplace(str, value, `[${key}]`)
+      }
     }
   }
 

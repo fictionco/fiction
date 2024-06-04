@@ -95,6 +95,6 @@ export class FictionTeam extends FictionPlugin<FictionTeamSettings> {
           redirect: `/org/${org.orgId}`,
         }),
       }],
-    })
+    }, { server: true })
   }
 }

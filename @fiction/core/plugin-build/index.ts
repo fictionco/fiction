@@ -200,7 +200,6 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
         'nanoid',
         'front-matter',
         'remove-markdown',
-        'gravatar-url',
         'validator',
         'highlight.js',
       ],

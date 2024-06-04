@@ -10,7 +10,6 @@ import helmet from 'helmet'
 import cors from 'cors'
 import type { EndpointResponse } from '../types'
 import { log } from '../plugin-log'
-import { onEvent } from '../utils/event'
 import type { FictionUser } from '../plugin-user'
 import type { Query } from '../query'
 import type { FictionEnv } from '../plugin-env'
@@ -183,8 +182,6 @@ export class EndpointServer {
     })
 
     this.fictionEnv.events.on('shutdown', () => this.server?.close())
-
-    onEvent('shutdown', () => this.server?.close())
   }
 
   /**

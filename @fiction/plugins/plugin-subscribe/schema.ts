@@ -18,7 +18,7 @@ const subscribeColumns = [
   }),
   new FictionDbCol({
     key: 'userId',
-    create: ({ schema, column }) => schema.string(column.pgKey, 32).references(`fiction_user.user_id`).onUpdate('CASCADE').notNullable().index(),
+    create: ({ schema, column }) => schema.string(column.pgKey, 32).references(`${t.user}.user_id`).onUpdate('CASCADE').notNullable().index(),
     default: () => '' as string,
     zodSchema: ({ z }) => z.string(),
   }),

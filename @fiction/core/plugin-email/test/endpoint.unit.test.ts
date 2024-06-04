@@ -54,7 +54,7 @@ describe('transactional email', async () => {
 
     testUtils.fictionEmail.isTest = true
 
-    const result = await testUtils.fictionEmail.sendTransactional(confirmEmail)
+    const result = await testUtils.fictionEmail.sendTransactional(confirmEmail, { server: true, isTest: true })
 
     expect(result.data?.isSent).toBe(false)
 

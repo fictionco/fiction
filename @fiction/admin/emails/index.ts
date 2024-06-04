@@ -33,10 +33,10 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
         ],
       }
     },
-    serverTransaction: async (action, args, meta: EndpointMeta) => {
-      const { code, email } = args
+    serverTransaction: async (args, meta: EndpointMeta) => {
+      const { code, email, transaction } = args
 
-      const fictionUser = action.settings.fictionEmailActions?.settings.fictionUser
+      const fictionUser = transaction.settings.fictionEmailActions?.settings.fictionUser
 
       if (!fictionUser)
         throw abort('missing modules', { expose: true })

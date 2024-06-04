@@ -25,8 +25,7 @@ const content = vue.computed<TransactionProps>(() => {
       superHeading: 'Error',
       heading: 'An error occurred',
       subHeading: errorMessage.value,
-      icon: 'i-tabler-alert-circle',
-      iconTheme: 'error',
+      status: 'error' as const,
       actions: [
         { name: 'Home', href: props.card.link('/'), btn: 'primary', icon: 'i-tabler-home' },
       ],
@@ -37,8 +36,7 @@ const content = vue.computed<TransactionProps>(() => {
       superHeading: response.value.status,
       heading: props.queryVars.orgName || 'Subscribe',
       subHeading: response.value.message,
-      icon: response.value.status === 'success' ? 'i-tabler-check' : 'i-tabler-alert-circle',
-      iconTheme: response.value.status === 'success' ? 'success' : 'error',
+      status: response.value.status as 'success' | 'error' | 'pending',
       actions: [
         { name: 'Home', href: props.card.link('/'), btn: 'primary', icon: 'i-tabler-home' },
       ],
@@ -48,6 +46,7 @@ const content = vue.computed<TransactionProps>(() => {
     return {
       loading: true,
       heading: 'Loading...',
+      status: 'pending',
     }
   }
 })

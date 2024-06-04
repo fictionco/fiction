@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { PublicUser } from '@fiction/core'
-import { stored, vue } from '@fiction/core'
-import gravatarUrl from 'gravatar-url'
+import { gravatarUrl, stored, vue } from '@fiction/core'
 import userBlank from './user-blank.png'
 
 const props = defineProps({
@@ -10,28 +9,32 @@ const props = defineProps({
   email: { type: String, default: '' },
   imageSize: { type: Number, default: 200 },
 })
+
 const user = vue.computed<PublicUser | undefined>(() => {
   if (!props.userId)
     return undefined
   return stored(props.userId) ?? undefined
 })
 
-const src = vue.computed<string>(() => {
-  if (props.url) {
-    return props.url
-  }
-  else if (user.value && user.value.avatar) {
-    return user.value.avatar
-  }
-  else if (user.value || props.email) {
-    const email = user.value ? user.value.email : props.email
-    return (
-      gravatarUrl(email, { size: props.imageSize, default: 'identicon' }) || ''
-    )
-  }
-  else {
-    return userBlank
-  }
+const src = vue.ref('')
+
+vue.onMounted(() => {
+  vue.watchEffect(async () => {
+    if (props.url) {
+      src.value = props.url
+    }
+    else if (user.value && user.value.avatar) {
+      src.value = user.value.avatar
+    }
+    else if (user.value || props.email) {
+      const email = user.value ? user.value.email : props.email
+      const g = await gravatarUrl(email, { size: props.imageSize, default: 'identicon' })
+      src.value = !g.isDefaultImage ? g.url : userBlank
+    }
+    else {
+      src.value = userBlank
+    }
+  })
 })
 </script>
 

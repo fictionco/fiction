@@ -9,6 +9,7 @@ import { type EndpointMeta, isActualBrowser } from '../utils/index.js'
 import { toMarkdown } from '../utils/markdown.js'
 import type { EndpointResponse } from '../types'
 import { getFromAddress } from '../utils/email'
+import { isCi } from '../utils/vars'
 import type { FictionEmail, TransactionalEmailConfig } from '.'
 
 export type EmailQuerySettings = FictionPluginSettings & {
@@ -25,12 +26,29 @@ export abstract class EmailQuery extends Query<EmailQuerySettings> {
     this.settings.fictionEnv.serverOnlyImports['@vue-email/compiler'] = true
   }
 
+  shouldSendEmail(meta: EndpointMeta) {
+    const { emailMode = 'standard' } = meta
+
+    const isTest = this.settings.fictionEnv.isTest
+    const ci = isCi()
+
+    let disabledMessage = ''
+    if (emailMode === 'sendInCI' && !ci && isTest) {
+      disabledMessage = 'in test, but not in CI'
+    }
+    else if (emailMode === 'standard' && isTest) {
+      disabledMessage = 'in test'
+    }
+
+    if (disabledMessage)
+      this.log.info(`real email sending disabled ${emailMode}: ${disabledMessage}`, { data: { emailMode, ci, isTest } })
+
+    return !disabledMessage
+  }
+
   getClient() {
     if (isActualBrowser() || this.settings.fictionEnv?.isApp.value)
       return this.log.warn('email client is not available in the browser')
-
-    if (this.settings.fictionEmail.isTest)
-      return this.log.info('email client is not available in test mode')
 
     if (this.client)
       return this.client
@@ -90,14 +108,14 @@ export class QueryTransactionalEmail extends EmailQuery {
     })
   }
 
-  async run(params: TransactionalEmailParams, _meta: EndpointMeta): Promise<EndpointResponse<EmailResponse>> {
+  async run(params: TransactionalEmailParams, meta: EndpointMeta): Promise<EndpointResponse<EmailResponse>> {
     let emailResponse: EmailResponse | undefined
     const message = ''
     const { fields, _action } = params
 
     switch (_action) {
       case 'send':
-        emailResponse = await this.sendTransactional(fields)
+        emailResponse = await this.sendTransactional(fields, meta)
         break
       default:
         return { status: 'error', message: 'Invalid action' }
@@ -106,7 +124,7 @@ export class QueryTransactionalEmail extends EmailQuery {
     return { status: 'success', data: emailResponse, message }
   }
 
-  async sendTransactional(fields: TransactionalEmailConfig): Promise<EmailResponse> {
+  async sendTransactional(fields: TransactionalEmailConfig, meta: EndpointMeta): Promise<EmailResponse> {
     const emailRenderer = await this.getRenderer()
 
     if (fields.bodyHtml && !fields.bodyMarkdown) {
@@ -135,6 +153,8 @@ export class QueryTransactionalEmail extends EmailQuery {
 
     const template = await emailRenderer.render('EmailStandard.vue', { props: fields })
 
+    const shouldSend = this.shouldSendEmail(meta)
+
     const client = this.getClient()
 
     const { html, text } = template
@@ -144,7 +164,7 @@ export class QueryTransactionalEmail extends EmailQuery {
     const theEmail: nodeMailer.SendMailOptions = { from, to, subject, html, text }
 
     let isSent = false
-    if (client) {
+    if (shouldSend && client) {
       isSent = true
       await this.client?.sendMail(theEmail)
     }

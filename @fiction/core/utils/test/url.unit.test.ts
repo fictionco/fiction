@@ -1,6 +1,37 @@
 import { describe, expect, it } from 'vitest'
 
-import { displayDomain, getDomainFavicon, getUrlPath, incrementSlugId, refineRoute, safeUrl, standardizeUrlOrPath, updateUrl, urlPath, validHost } from '../url'
+import { displayDomain, getDomainFavicon, getUrlPath, gravatarUrl, incrementSlugId, refineRoute, safeUrl, standardizeUrlOrPath, updateUrl, urlPath, validHost } from '../url'
+
+describe('gravatarUrl', async () => {
+  const realEmail = 'arpowers@gmail.com'
+  const fakeEmail = 'madeupemailabc123@fake.com'
+
+  it('gravatarUrl should return correct URL and isDefaultImage for a real email', async () => {
+    const options = { size: '200', default: 'identicon' }
+    const result = await gravatarUrl(realEmail, options)
+
+    expect(result.url).toContain('https://gravatar.com/avatar/')
+    expect(result.url).toContain('size=200')
+    expect(result.url).toContain('d=identicon')
+    expect(result.isDefaultImage).toBe(false)
+  })
+
+  it('gravatarUrl should return correct URL and isDefaultImage for a fake email', async () => {
+    const options = { size: '200', default: 'identicon' }
+    const result = await gravatarUrl(fakeEmail, options)
+
+    expect(result.url).toContain('https://gravatar.com/avatar/')
+    expect(result.url).toContain('size=200')
+    expect(result.url).toContain('d=identicon')
+    expect(result.isDefaultImage).toBe(true)
+  })
+
+  it('gravatarUrl should throw an error if identifier is not provided', async () => {
+    const options = { size: '200', default: 'identicon' }
+
+    await expect(gravatarUrl('', options)).rejects.toThrow('Please specify an identifier, such as an email address')
+  })
+})
 
 describe('incrementSlugId', () => {
   it('should handle an empty viewId', () => {

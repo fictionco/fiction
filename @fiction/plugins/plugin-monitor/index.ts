@@ -92,10 +92,7 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
         }
 
         this.log.info(`slack notify: ${message}`)
-        await webhook.send({
-          text: message,
-          attachments,
-        })
+        await webhook.send({ text: message, attachments })
 
         if (notifyEmail) {
           let markdownText = ''
@@ -109,7 +106,7 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
             to: this.monitorEmail,
             subject: `Notify: ${message}`,
             bodyMarkdown: markdownText,
-          })
+          }, { server: true })
         }
       }
       else {

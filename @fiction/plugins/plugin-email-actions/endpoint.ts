@@ -1,4 +1,4 @@
-import type { EndpointMeta, EndpointResponse, FictionDb, FictionEmail, FictionEnv, FictionUser } from '@fiction/core'
+import type { EndpointMeta, EndpointResponse, FictionDb, FictionEmail, FictionEnv, FictionUser, User } from '@fiction/core'
 import { Query, abort } from '@fiction/core'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
 import type { EmailResponse } from '@fiction/core/plugin-email/endpoint'
@@ -31,19 +31,20 @@ export class EndpointEmailAction extends EmailActionQuery {
     const { actionId, _action } = params
 
     const fictionEmailActions = this.settings.fictionEmailActions
-    const action = fictionEmailActions.emailActions[actionId]
+    const transaction = fictionEmailActions.emailActions[actionId]
 
-    if (!action)
+    if (!transaction)
       throw abort(`invalid email action (${actionId})`, { expose: true, data: { available: Object.keys(fictionEmailActions.emailActions) } })
 
     let r: EndpointResponse | undefined
 
     switch (_action) {
-      case 'serverTransaction':
-        r = await action.settings.serverTransaction?.(action, params, meta)
+      case 'serverTransaction':{
+        const args = { ...params, transaction }
+        r = await transaction.settings.serverTransaction?.(args, meta)
         break
-      case 'sendEmail':
-        r = await this.sendEmail(action, params, meta)
+      } case 'sendEmail':
+        r = await this.sendEmail(transaction, params, meta)
         break
       default:
         throw abort(`_action ${_action as string} not valid`, { expose: true })
@@ -52,11 +53,11 @@ export class EndpointEmailAction extends EmailActionQuery {
     return r || { status: 'error', message: 'Nothing returned', expose: false }
   }
 
-  async sendEmail(emailAction: EmailAction, params: EmailActionParams & { _action: 'sendEmail' }, meta: EndpointMeta): Promise<EndpointResponse<{ isSent: boolean }>> {
+  async sendEmail(emailAction: EmailAction, params: EmailActionParams & { _action: 'sendEmail' }, meta: EndpointMeta): Promise<EndpointResponse<{ recipient: User }>> {
     const { to, fields } = params
 
     const fictionUser = this.settings.fictionUser
-    const userResponse = await fictionUser.queries.ManageUser.serve({ _action: 'getCreate', email: to, fields }, meta)
+    const userResponse = await fictionUser.queries.ManageUser.serve({ _action: 'getCreate', email: to, fields }, { ...meta, returnAuthority: ['verify'] })
 
     const user = userResponse.data
     const isNew = userResponse.isNew
@@ -68,6 +69,6 @@ export class EndpointEmailAction extends EmailActionQuery {
 
     await emailAction.serveSend({ recipient: user, isNew, queryVars, ...params }, meta)
 
-    return { status: 'success', data: { isSent: true }, expose: false }
+    return { status: 'success', data: { recipient: user }, expose: false }
   }
 }

@@ -1,6 +1,6 @@
 import { EnvVar, vars } from '../plugin-env'
 import { FictionPlugin, type FictionPluginSettings } from '../plugin'
-import { isTest, safeDirname } from '../utils'
+import { type EndpointMeta, isTest, safeDirname } from '../utils'
 import type EmailStandard from './templates/EmailStandard.vue'
 import { QueryTransactionalEmail } from './endpoint'
 
@@ -39,8 +39,8 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
       this.queries.TransactionEmail.getClient()
   }
 
-  async sendTransactional(fields: TransactionalEmailConfig) {
-    return this.queries.TransactionEmail.serve({ _action: 'send', fields }, { server: true })
+  async sendTransactional(fields: TransactionalEmailConfig, meta: EndpointMeta) {
+    return this.queries.TransactionEmail.serve({ _action: 'send', fields }, { server: true, ...meta })
   }
 
   emailImages() {

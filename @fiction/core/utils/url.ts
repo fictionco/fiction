@@ -1,3 +1,5 @@
+import { sha256 } from './crypto'
+
 export function incrementSlugId(slug?: string, options: { defaultSlug?: string, specialSlugRenameWord?: string } = {}): string {
   const { defaultSlug = 'view', specialSlugRenameWord = 'old' } = options
 
@@ -193,4 +195,47 @@ export function getUrlPath({ urlOrPath }: { urlOrPath?: string }) {
   }
 
   return path
+}
+
+export async function gravatarUrl(identifier: string, options: { size?: string | number, default?: '404' | 'identicon' | 'monsterid' | 'wavatar' | 'retro' | 'robohash' | 'blank' | string }) {
+  const { size = 200, default: d = 'identicon' } = options
+
+  if (!identifier) {
+    throw new Error('Please specify an identifier, such as an email address')
+  }
+
+  if (identifier.includes('@')) {
+    identifier = identifier.toLowerCase().trim()
+  }
+
+  const gravatarHash = await sha256(identifier.trim().toLowerCase())
+  const baseUrl = new URL('https://gravatar.com/avatar/')
+  baseUrl.pathname += gravatarHash
+  if (size)
+    baseUrl.searchParams.set('size', String(size))
+
+  if (d)
+    baseUrl.searchParams.set('d', d)
+
+  const gravatarUrl = baseUrl.toString()
+
+  const checkIfDefaultImage = async (url: string) => {
+    try {
+      const u = new URL(url)
+      u.searchParams.set('d', '404') // Set the default image to a 404 error image
+      const response = await fetch(u.toString(), { method: 'HEAD' })
+      return response.status !== 200
+    }
+    catch (error) {
+      console.error('Error checking Gravatar image:', error)
+      return false // Assume it's not a default image in case of error
+    }
+  }
+
+  const isDefaultImage = await checkIfDefaultImage(gravatarUrl)
+
+  return {
+    url: gravatarUrl,
+    isDefaultImage,
+  }
 }

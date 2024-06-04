@@ -51,7 +51,7 @@ vue.onMounted(async () => {
     },
     mediaFooter: {
       media: { url: FictionFooterImg },
-      name: 'Market Yourself with Fiction',
+      name: 'Personal Marketing with Fiction',
       href: 'https://www.fiction.com',
     },
   }

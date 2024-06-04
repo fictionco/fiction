@@ -24,10 +24,7 @@ export default antfu(
       'vue/no-unused-refs': 'warn',
       'vue/max-attributes-per-line': ['error', { singleline: { max: 5 }, multiline: { max: 1 } }],
       'ts/consistent-type-definitions': 'off',
-      'ts/strict-boolean-expressions': ['error', {
-        allowNullableString: true,
-        allowNullableBoolean: true,
-      }],
+      'ts/strict-boolean-expressions': 'off',
       'no-alert': 'off',
       'vue/no-v-text-v-html-on-component': 'off',
       'jsonc/sort-keys': 'off',

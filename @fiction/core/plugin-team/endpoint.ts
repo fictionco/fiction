@@ -112,11 +112,11 @@ export class QuerySeekInviteFromUser extends TeamQuery {
         name: 'Login and Invite',
         href: `${appUrl}${path}`,
       }],
-    })
+    }, { server: true })
     return {
       status: 'success',
       message: 'Invite requested',
-      more: `The user using '${email}' should get an email requesting they invite you`,
+      more: `We sent ${email} an email requesting they invite you`,
     }
   }
 }
@@ -218,8 +218,7 @@ export class QueryTeamInvite extends TeamQuery {
             btn: 'primary',
           },
         ],
-
-      })
+      }, { server: true })
     })
 
     await Promise.all(_promises)

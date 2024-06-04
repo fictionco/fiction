@@ -35,14 +35,20 @@ export interface EndpointMethodOptions<T extends Query> {
   serverUrl: EndpointServerUrl
 }
 
-export interface EndpointMeta {
+export type EndpointMeta = {
   bearer?: Partial<User> & { iat?: number }
   server?: boolean
   returnAuthority?: string[]
-  caller?: string
   request?: express.Request
   response?: express.Response
-  expectError?: boolean // for testing output
+} & RequestMeta
+
+export interface RequestMeta {
+  caller?: string
+  isTest?: boolean
+  expectError?: boolean
+  debug?: boolean
+  emailMode?: 'send' | 'sendInCI' | 'standard'
 }
 
 // https://stackoverflow.com/a/57103940/1858322
@@ -120,7 +126,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
       minTime?: number
       disableNotify?: boolean
       disableUserUpdate?: boolean
-    } = {},
+    } & RequestMeta = {},
   ): Promise<Awaited<ReturnType<T['run']>>> {
     const { disableNotify, disableUserUpdate, minTime } = options
 
@@ -141,9 +147,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
       if (!user.orgs)
         throw new Error('incomplete user returned')
 
-      await this.fictionUser?.updateUser(() => r.user as User, {
-        reason: `request:${this.key}`,
-      })
+      await this.fictionUser?.updateUser(() => r.user as User, { reason: `request:${this.key}` })
     }
 
     if (r.token)
@@ -158,7 +162,9 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     }
     else if (this.queryHandler) {
       const params = request.body as Record<string, any>
-      const meta: EndpointMeta = { bearer: request.bearer, request, response }
+      const { caller, debug, expectError, isTest } = (params.meta || {}) as RequestMeta
+      // explicitly define each as this is security basis backend calls
+      const meta: EndpointMeta = { bearer: request.bearer, request, response, caller, debug, expectError, isTest }
 
       return await this.queryHandler.serveRequest(params, meta)
     }
@@ -194,17 +200,19 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     data: Record<string, any> = {},
     options: {
       axiosRequestConfig?: axios.AxiosRequestConfig
-      debug?: boolean
-    } = {},
+
+    } & RequestMeta = {},
   ): Promise<EndpointResponse<U>> {
     const { debug, axiosRequestConfig } = options
     const url = this.pathname()
+
+    const dataWithMeta = { ...data, meta: options }
 
     // @ts-expect-error - axios types are wrong at current version
     const headers: axios.AxiosRequestHeaders = { Authorization: this.bearerHeader }
     const fullUrl = `${this.getBaseUrl()}${url}`
 
-    let conf: axios.AxiosRequestConfig = { method: 'POST', headers, baseURL: this.getBaseUrl(), url, data, timeout: 120000 }
+    let conf: axios.AxiosRequestConfig = { method: 'POST', headers, baseURL: this.getBaseUrl(), url, data: dataWithMeta, timeout: 120000 }
 
     if (axiosRequestConfig)
       conf = deepMergeAll([conf, axiosRequestConfig])
