@@ -6,7 +6,7 @@
     "@fiction/plugin-ai": "workspace:*",
     "@fiction/plugin-contact": "workspace:*",
     "@fiction/plugin-editor": "workspace:*",
-    "@fiction/plugin-email-actions": "workspace:*",
+    "@fiction/plugin-transactions": "workspace:*",
     "@fiction/plugin-extend": "workspace:*",
     "@fiction/plugin-highlight-code": "workspace:*",
     "@fiction/plugin-monitor": "workspace:*",

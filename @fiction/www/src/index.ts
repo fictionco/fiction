@@ -2,7 +2,7 @@ import path from 'node:path'
 import { FictionUi } from '@fiction/ui'
 import type { ServiceConfig } from '@fiction/core'
 import { AppRoute, FictionApp, FictionAws, FictionCache, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionRouter, FictionServer, FictionUser, apiRoot, safeDirname } from '@fiction/core'
-import { FictionEmailActions } from '@fiction/plugin-email-actions'
+import { FictionTransactions } from '@fiction/plugin-transactions'
 import { FictionTeam } from '@fiction/core/plugin-team'
 import { FictionMonitor } from '@fiction/plugin-monitor'
 import { FictionStripe } from '@fiction/plugin-stripe'
@@ -46,10 +46,11 @@ const envVarNames = [
   'FLY_API_TOKEN',
   'OPENAI_API_KEY',
   'REDIS_URL',
+  'APOLLO_API_KEY',
 ] as const
 
 const v = getEnvVars(fictionEnv, envVarNames)
-const { flyApiToken, googleClientId, googleClientSecret, tokenSecret, postgresUrl, smtpHost, smtpPassword, smtpUser, slackWebhookUrl, sentryPublicDsn, awsAccessKey, awsBucketMedia, awsRegion, awsAccessKeySecret, openaiApiKey } = v
+const { apolloApiKey, flyApiToken, googleClientId, googleClientSecret, tokenSecret, postgresUrl, smtpHost, smtpPassword, smtpUser, slackWebhookUrl, sentryPublicDsn, awsAccessKey, awsBucketMedia, awsRegion, awsAccessKeySecret, openaiApiKey } = v
 
 const comboPort = +fictionEnv.var('APP_PORT')
 
@@ -105,7 +106,7 @@ const fictionEmail = new FictionEmail({ fictionEnv, smtpHost, smtpPassword, smtp
 
 const base = { fictionEnv, fictionApp, fictionServer, fictionDb, fictionEmail, fictionRouter }
 
-const fictionUser = new FictionUser({ ...base, googleClientId, googleClientSecret, tokenSecret })
+const fictionUser = new FictionUser({ ...base, googleClientId, googleClientSecret, tokenSecret, apolloApiKey })
 
 fictionUser.events.on('logout', () => {
   fictionEnv.events.emit('notify', { type: 'success', message: 'You have been logged out.' })
@@ -118,11 +119,11 @@ const basicService = { ...base, fictionUser, fictionMonitor }
 
 const fictionAws = new FictionAws({ ...basicService, awsAccessKey, awsAccessKeySecret })
 const fictionMedia = new FictionMedia({ ...basicService, fictionAws, awsBucketMedia, cdnUrl: `https://media.fiction.com` })
-const fictionEmailActions = new FictionEmailActions({ ...basicService, fictionMedia })
+const fictionTransactions = new FictionTransactions({ ...basicService, fictionMedia })
 const fictionAi = new FictionAi({ ...basicService, fictionMedia, openaiApiKey })
-const fictionAdmin = new FictionAdmin({ ...basicService, fictionEmailActions, fictionMedia })
+const fictionAdmin = new FictionAdmin({ ...basicService, fictionTransactions, fictionMedia })
 
-const pluginServices = { ...basicService, fictionCache, fictionAppSites, fictionRouterSites, fictionAws, fictionMedia, fictionAi, fictionEmailActions, fictionAdmin }
+const pluginServices = { ...basicService, fictionCache, fictionAppSites, fictionRouterSites, fictionAws, fictionMedia, fictionAi, fictionTransactions, fictionAdmin }
 
 const fictionSubscribe = new FictionSubscribe({ ...pluginServices })
 

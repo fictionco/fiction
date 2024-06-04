@@ -1,10 +1,10 @@
 import { type EndpointMeta, type EndpointResponse, gravatarUrl, vue } from '@fiction/core'
-import { EmailAction } from '@fiction/plugin-email-actions'
+import { EmailAction } from '@fiction/plugin-transactions'
 import type { FictionSubscribe, TableSubscribeConfig } from '..'
 
 export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
   const { fictionSubscribe } = args
-  const fictionEmailActions = fictionSubscribe.settings.fictionEmailActions
+  const fictionTransactions = fictionSubscribe.settings.fictionTransactions
   const fictionUser = fictionSubscribe.settings.fictionUser
 
   const subscribe = new EmailAction<{
@@ -12,13 +12,13 @@ export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
     transactionResponse: EndpointResponse<TableSubscribeConfig>
     queryVars: { orgId: string, orgName?: string, orgEmail?: string }
   }>({
-    fictionEmailActions,
+    fictionTransactions,
     actionId: 'subscribe',
-    template: vue.defineAsyncComponent<vue.Component>(() => import('./ActionSubscribe.vue')), // <vue.Component> avoids circular reference
+    template: vue.defineAsyncComponent<vue.Component>(() => import('./TransactionSubscribe.vue')), // <vue.Component> avoids circular reference
     emailConfig: async (emailVars) => {
       const { orgId, orgName, orgEmail } = emailVars.queryVars
 
-      const fictionEmailActions = fictionSubscribe.settings.fictionEmailActions
+      const fictionTransactions = fictionSubscribe.settings.fictionTransactions
       const r = await fictionUser.queries.ManageOrganization.serve({ _action: 'retrieve', where: { orgId } }, { server: true, caller: 'subscribe' })
 
       const fromName = orgName || r.data?.orgName || emailVars.fullName
@@ -33,7 +33,7 @@ export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
         }
         else {
           const url = fictionUser.userImages().org
-          avatar = await fictionEmailActions.settings.fictionMedia?.relativeMedia({ url })
+          avatar = await fictionTransactions.settings.fictionMedia?.relativeMedia({ url })
         }
       }
       emailVars.masks = { ...emailVars.masks, avatarUrl: avatar?.url }

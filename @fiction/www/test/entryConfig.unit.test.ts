@@ -32,7 +32,7 @@ describe('user config', async () => {
         "fictionAws",
         "fictionMedia",
         "fictionAi",
-        "fictionEmailActions",
+        "fictionTransactions",
         "fictionAdmin",
         "fictionSites",
         "fictionTeam",

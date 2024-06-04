@@ -1,14 +1,14 @@
 # To connect from SSL, requires: jdbc:ch://localhost:8443/?ssl=true&sslmode=NONE
 # https://github.com/ClickHouse/clickhouse-jdbc/issues/847
 
-app = "kaption-clickhouse"
+app = "fiction-clickhouse"
 
 [build]
   image = "clickhouse/clickhouse-server@latest"
 
 [env]
-  CLICKHOUSE_DATABASE = "kaption"
-  CLICKHOUSE_USER = "kaption"
+  CLICKHOUSE_DATABASE = "fiction"
+  CLICKHOUSE_USER = "fiction"
   CLICKHOUSE_PASSWORD = "socrates-and-plato"
 
 [mount]

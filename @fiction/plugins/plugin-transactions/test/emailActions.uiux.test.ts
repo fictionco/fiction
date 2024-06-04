@@ -20,7 +20,7 @@ describe('email actions', async () => {
 
   const user = initialized.user
 
-  testUtils.fictionEmailActions.settings.fictionEmail.isTest = false
+  testUtils.fictionTransactions.settings.fictionEmail.isTest = false
 
   afterAll(async () => {
     await testUtils.close()

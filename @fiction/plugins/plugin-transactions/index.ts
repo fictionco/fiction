@@ -9,7 +9,7 @@ import { EndpointEmailAction } from './endpoint'
 
 export * from './action'
 
-type FictionEmailActionsSettings = {
+type FictionTransactionsSettings = {
   fictionEmail: FictionEmail
   fictionUser: FictionUser
   fictionServer: FictionServer
@@ -20,10 +20,10 @@ type FictionEmailActionsSettings = {
   fictionDb: FictionDb
 } & FictionPluginSettings
 
-export class FictionEmailActions extends FictionPlugin<FictionEmailActionsSettings> {
+export class FictionTransactions extends FictionPlugin<FictionTransactionsSettings> {
   transactionSlug = '__transaction'
   queries = {
-    EmailAction: new EndpointEmailAction({ fictionEmailActions: this, ...this.settings }),
+    EmailAction: new EndpointEmailAction({ fictionTransactions: this, ...this.settings }),
   }
 
   requests = this.createRequests({
@@ -32,8 +32,8 @@ export class FictionEmailActions extends FictionPlugin<FictionEmailActionsSettin
     fictionUser: this.settings.fictionUser,
   })
 
-  constructor(settings: FictionEmailActionsSettings) {
-    super('FictionEmailActions', { root: safeDirname(import.meta.url), ...settings })
+  constructor(settings: FictionTransactionsSettings) {
+    super('FictionTransactions', { root: safeDirname(import.meta.url), ...settings })
 
     this.settings.fictionEnv.addHook({
       hook: 'setPages',

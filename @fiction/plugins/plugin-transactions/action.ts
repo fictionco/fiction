@@ -3,7 +3,7 @@ import { FictionObject, abort, deepMerge } from '@fiction/core'
 import { getFromAddress } from '@fiction/core/utils/email'
 import type { EmailResponse } from '@fiction/core/plugin-email/endpoint'
 import { createEmailVars } from './utils'
-import type { FictionEmailActions } from '.'
+import type { FictionTransactions } from '.'
 
 export type QueryVars<T extends Record<string, string> | undefined = Record<string, string> | undefined> = {
   code?: string
@@ -40,7 +40,7 @@ export type EmailActionSettings<T extends EmailActionSurface = EmailActionSurfac
   emailConfig: (args: EmailVars<T['queryVars']>) => EmailConfigResponse | Promise<EmailConfigResponse>
   vars?: Partial<EmailVars>
   serverTransaction?: (args: T['transactionArgs'] & { transaction: EmailAction }, meta: EndpointMeta) => Promise< T['transactionResponse']>
-  fictionEmailActions: FictionEmailActions
+  fictionTransactions: FictionTransactions
 }
 
 export type SendArgsSurface = Partial<{
@@ -59,7 +59,7 @@ export type SendArgsRequest = {
 // export type EmailConfigArgs<T extends Record<string, string> | undefined = Record<string, string> | undefined> =
 //   SendEmailArgs & {
 //     actionId: string
-//     fictionEmailActions: FictionEmailActions
+//     fictionTransactions: FictionTransactions
 //     queryVars?: T
 //   }
 
@@ -82,7 +82,7 @@ type MergeTypes<T, U> = T & Omit<U, keyof T>
 type Surface<T> = MergeTypes<EmailActionSurface, T>
 
 export class EmailAction<T extends EmailActionSurface = EmailActionSurface > extends FictionObject<EmailActionSettings<T>> {
-  fictionEmailActions = this.settings.fictionEmailActions
+  fictionTransactions = this.settings.fictionTransactions
   queryVars?: T['queryVars'] // type helper for inference in components
 
   constructor(params: EmailActionSettings<T>) {
@@ -92,20 +92,20 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
   }
 
   install() {
-    this.fictionEmailActions.emailActions[this.settings.actionId] = this as unknown as EmailAction
+    this.fictionTransactions.emailActions[this.settings.actionId] = this as unknown as EmailAction
   }
 
   async requestTransaction(args: T['transactionArgs'], meta?: RequestMeta): Promise<T['transactionResponse']> {
-    const r = await this.fictionEmailActions?.requests.EmailAction.request({ _action: 'serverTransaction', actionId: this.settings.actionId, ...args }, meta)
+    const r = await this.fictionTransactions?.requests.EmailAction.request({ _action: 'serverTransaction', actionId: this.settings.actionId, ...args }, meta)
 
     return r
   }
 
   async defaultConfig(): Promise<TransactionalEmailConfig> {
-    const fictionEmailActions = this.fictionEmailActions
-    const fictionMedia = fictionEmailActions?.settings.fictionMedia
-    const fictionEmail = fictionEmailActions?.settings.fictionEmail
-    const fictionEnv = fictionEmailActions?.settings.fictionEnv
+    const fictionTransactions = this.fictionTransactions
+    const fictionMedia = fictionTransactions?.settings.fictionMedia
+    const fictionEmail = fictionTransactions?.settings.fictionEmail
+    const fictionEnv = fictionTransactions?.settings.fictionEnv
 
     if (!fictionMedia)
       throw abort('no fictionMedia provided')
@@ -130,11 +130,11 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
   }
 
   async serveSend(args: SendEmailArgs & { queryVars: T['queryVars'] }, meta: EndpointMeta): Promise<EndpointResponse<EmailResponse> & { emailVars: EmailVars }> {
-    const fictionEmail = this.fictionEmailActions?.settings.fictionEmail
-    if (!fictionEmail || !this.fictionEmailActions)
+    const fictionEmail = this.fictionTransactions?.settings.fictionEmail
+    if (!fictionEmail || !this.fictionTransactions)
       throw abort('no fictionEmail provided')
 
-    const emailVars = await createEmailVars<T['queryVars']>({ ...args, fictionEmailActions: this.fictionEmailActions, actionId: this.settings.actionId })
+    const emailVars = await createEmailVars<T['queryVars']>({ ...args, fictionTransactions: this.fictionTransactions, actionId: this.settings.actionId })
 
     const emailConfig = await this.settings.emailConfig(emailVars)
 
@@ -152,7 +152,7 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
     if (!to)
       throw abort('no email recipient provided')
 
-    const r = await this.fictionEmailActions?.requests.EmailAction.request({ ...args, _action: 'sendEmail', actionId: this.settings.actionId, origin, to })
+    const r = await this.fictionTransactions?.requests.EmailAction.request({ ...args, _action: 'sendEmail', actionId: this.settings.actionId, origin, to })
 
     return r as T['sendResponse']
   }

@@ -3,8 +3,8 @@ import { afterAll, describe, expect, it } from 'vitest'
 import fs from 'fs-extra'
 import { testEnvFile } from '@fiction/core/test-utils'
 import { createUiTestingKit } from '@fiction/core/test-utils/kit'
-import { emailActionSnapshot } from '@fiction/plugin-email-actions/test/utils'
-import type { EmailVars } from '@fiction/plugins/plugin-email-actions/action.js'
+import { emailActionSnapshot } from '@fiction/plugin-transactions/test/utils'
+import type { EmailVars } from '@fiction/plugins/plugin-transactions/action.js'
 import { setup } from './email.main.js'
 
 describe('signin UX', async () => {

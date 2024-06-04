@@ -7,7 +7,7 @@ import { testEnvFile } from '@fiction/core/test-utils'
 import FSite from '@fiction/cards/CardSite.vue'
 import { runServicesSetup } from '@fiction/core/plugin-env/entry'
 import { createUiTestingKit } from '@fiction/core/test-utils/kit'
-import { FictionEmailActions } from '@fiction/plugin-email-actions'
+import { FictionTransactions } from '@fiction/plugin-transactions'
 import { FictionSubscribe } from '@fiction/plugin-subscribe'
 import type { ThemeSetup } from '..'
 import { FictionSites } from '..'
@@ -21,7 +21,7 @@ export type SiteTestUtils = TestUtils & {
   fictionMedia: FictionMedia
   fictionAws: FictionAws
   fictionAi: FictionAi
-  fictionEmailActions: FictionEmailActions
+  fictionTransactions: FictionTransactions
   fictionSubscribe: FictionSubscribe
   runApp: (args: { context: 'app' | 'node', isProd?: boolean }) => Promise<void>
   close: () => Promise<void>
@@ -47,7 +47,7 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
   out.fictionAi = new FictionAi({ ...out, openaiApiKey })
   out.fictionAws = new FictionAws({ fictionEnv, awsAccessKey, awsAccessKeySecret })
   out.fictionMedia = new FictionMedia({ ...out, fictionAws: out.fictionAws, awsBucketMedia, cdnUrl })
-  out.fictionEmailActions = new FictionEmailActions({ ...out })
+  out.fictionTransactions = new FictionTransactions({ ...out })
   out.fictionRouterSites = new FictionRouter({ routerId: 'siteRouter', fictionEnv, baseUrl: 'https://www.test.com', routes, create: true })
   out.fictionAppSites = new FictionApp({ port: sitePort, ...out, fictionRouter: out.fictionRouterSites, isTest: true, liveUrl: 'https://*.test.com', localHostname: '*.lan.com' })
   out.fictionSubscribe = new FictionSubscribe({ ...(out as SiteTestUtils) })

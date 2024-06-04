@@ -1,8 +1,8 @@
 import { afterAll, describe, expect, it } from 'vitest'
 import { createUiTestingKit } from '@fiction/core/test-utils/kit.js'
-import type { EmailVars } from '@fiction/plugin-email-actions/action.js'
+import type { EmailVars } from '@fiction/plugin-transactions/action.js'
 import { createTestUser } from '@fiction/core/test-utils/init.js'
-import { emailActionSnapshot } from '@fiction/plugin-email-actions/test/utils.js'
+import { emailActionSnapshot } from '@fiction/plugin-transactions/test/utils.js'
 import { setup } from './kit.main.js'
 
 describe('subscribe uiux', async () => {

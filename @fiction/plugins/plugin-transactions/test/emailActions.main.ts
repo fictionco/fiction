@@ -1,7 +1,7 @@
 import { FictionAws, FictionMedia, type ServiceConfig, vue } from '@fiction/core'
 import { createTestUtils } from '@fiction/core/test-utils'
 import { getEnvVars } from '@fiction/core'
-import { EmailAction, FictionEmailActions } from '..'
+import { EmailAction, FictionTransactions } from '..'
 
 export async function setup(args: { context?: 'node' | 'app' } = {}) {
   const mainFilePath = new URL(import.meta.url).pathname
@@ -13,15 +13,15 @@ export async function setup(args: { context?: 'node' | 'app' } = {}) {
 
   const fictionAws = new FictionAws({ ...testUtils, awsAccessKey, awsAccessKeySecret })
   const fictionMedia = new FictionMedia({ ...testUtils, fictionAws, awsBucketMedia })
-  const fictionEmailActions = new FictionEmailActions({ ...testUtils, fictionMedia })
+  const fictionTransactions = new FictionTransactions({ ...testUtils, fictionMedia })
 
-  const service = { ...testUtils, fictionAws, fictionMedia, fictionEmailActions }
+  const service = { ...testUtils, fictionAws, fictionMedia, fictionTransactions }
   const actionId = 'testAction'
 
   service.emailAction = new EmailAction({
     actionId,
     template: vue.defineAsyncComponent(() => import('./ElTestAction.vue')),
-    fictionEmailActions,
+    fictionTransactions,
     emailConfig: async (emailVars) => {
       const emailConfig = {
         emailVars,

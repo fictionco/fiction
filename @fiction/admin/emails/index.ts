@@ -1,7 +1,7 @@
 import { type EndpointMeta, type EndpointResponse, type User, abort, vue } from '@fiction/core'
 import { verifyCode } from '@fiction/core/plugin-user/utils'
-import type { SendArgsRequest } from '@fiction/plugin-email-actions'
-import { EmailAction } from '@fiction/plugin-email-actions'
+import type { SendArgsRequest } from '@fiction/plugin-transactions'
+import { EmailAction } from '@fiction/plugin-transactions'
 import type { FictionAdmin } from '..'
 
 export type VerifyRequestVars = {
@@ -11,13 +11,13 @@ export type VerifyRequestVars = {
 
 export function getEmails(args: { fictionAdmin: FictionAdmin }) {
   const { fictionAdmin } = args
-  const fictionEmailActions = fictionAdmin.settings.fictionEmailActions
+  const fictionTransactions = fictionAdmin.settings.fictionTransactions
   const verifyEmailAction = new EmailAction<{
     transactionArgs: VerifyRequestVars
     transactionResponse: EndpointResponse<User>
     queryVars: Record<string, string>
   }>({
-    fictionEmailActions,
+    fictionTransactions,
     actionId: 'verifyEmail',
     template: vue.defineAsyncComponent<vue.Component>(() => import('./VEmailVerify.vue')), // <vue.Component> avoids circular reference
     emailConfig: async (emailVars) => {
@@ -36,7 +36,7 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
     serverTransaction: async (args, meta: EndpointMeta) => {
       const { code, email, transaction } = args
 
-      const fictionUser = transaction.settings.fictionEmailActions?.settings.fictionUser
+      const fictionUser = transaction.settings.fictionTransactions?.settings.fictionUser
 
       if (!fictionUser)
         throw abort('missing modules', { expose: true })
@@ -49,7 +49,7 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
 
   // Magic Login Email Action
   const magicLoginEmailAction = new EmailAction({
-    fictionEmailActions,
+    fictionTransactions,
     template: vue.defineAsyncComponent<vue.Component>(() => import('./ActionMagicLogin.vue')),
     actionId: 'magicLogin',
     emailConfig: async (emailVars) => {

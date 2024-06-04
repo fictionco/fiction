@@ -1,7 +1,7 @@
 import type { FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
 import { FictionPlugin, safeDirname } from '@fiction/core'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
-import type { FictionEmailActions } from '@fiction/plugin-email-actions'
+import type { FictionTransactions } from '@fiction/plugin-transactions'
 import { tables } from './schema'
 import { ManageSubscriptionQuery } from './endpoint'
 import { getEmails } from './email'
@@ -14,7 +14,7 @@ type FictionSubscribeSettings = {
   fictionEmail: FictionEmail
   fictionEnv: FictionEnv
   fictionUser: FictionUser
-  fictionEmailActions: FictionEmailActions
+  fictionTransactions: FictionTransactions
 } & FictionPluginSettings
 
 export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {

@@ -197,7 +197,7 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
 
   const fictionApp = new FictionApp({ ...base, port: appPort, rootComponent, isTest: true })
 
-  const fictionUser = new FictionUser({ ...base, googleClientId, googleClientSecret, tokenSecret: 'test' })
+  const fictionUser = new FictionUser({ ...base, googleClientId, googleClientSecret, tokenSecret: 'test', apolloApiKey: 'test' })
 
   const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp] })
 

@@ -2,10 +2,10 @@ import type { EndpointMeta, EndpointResponse, FictionDb, FictionEmail, FictionEn
 import { Query, abort } from '@fiction/core'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
 import type { EmailResponse } from '@fiction/core/plugin-email/endpoint'
-import type { EmailAction, FictionEmailActions, SendArgsRequest } from '.'
+import type { EmailAction, FictionTransactions, SendArgsRequest } from '.'
 
 interface EmailActionQuerySettings {
-  fictionEmailActions: FictionEmailActions
+  fictionTransactions: FictionTransactions
   fictionDb: FictionDb
   fictionEnv: FictionEnv
   fictionMonitor?: FictionMonitor
@@ -30,11 +30,11 @@ export class EndpointEmailAction extends EmailActionQuery {
   async run(params: EmailActionParams, meta: EndpointMeta): Promise<EndpointResponse> {
     const { actionId, _action } = params
 
-    const fictionEmailActions = this.settings.fictionEmailActions
-    const transaction = fictionEmailActions.emailActions[actionId]
+    const fictionTransactions = this.settings.fictionTransactions
+    const transaction = fictionTransactions.emailActions[actionId]
 
     if (!transaction)
-      throw abort(`invalid email action (${actionId})`, { expose: true, data: { available: Object.keys(fictionEmailActions.emailActions) } })
+      throw abort(`invalid email action (${actionId})`, { expose: true, data: { available: Object.keys(fictionTransactions.emailActions) } })
 
     let r: EndpointResponse | undefined
 

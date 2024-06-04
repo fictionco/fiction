@@ -5,7 +5,7 @@ import { toCamel, useService, vue } from '@fiction/core'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import TransactionWrap from '@fiction/cards/transactions/TransactionWrap.vue'
 import type { EmailAction, EmailVars } from './action'
-import type { FictionEmailActions } from '.'
+import type { FictionTransactions } from '.'
 
 type UserConfig = {
   test: string
@@ -14,7 +14,7 @@ defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig> | undefined>, required: true },
 })
 
-const { fictionUser, fictionEmailActions, fictionRouter } = useService<{ fictionEmailActions: FictionEmailActions }>()
+const { fictionUser, fictionTransactions, fictionRouter } = useService<{ fictionTransactions: FictionTransactions }>()
 
 const loading = vue.ref(true)
 const actionId = vue.computed(() => {
@@ -27,7 +27,7 @@ const vars = vue.computed(() => {
 })
 
 const currentAction = vue.computed<EmailAction | undefined>(() => {
-  const allActions = fictionEmailActions.emailActions || {}
+  const allActions = fictionTransactions.emailActions || {}
   const action = allActions[actionId.value]
 
   return action

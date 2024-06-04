@@ -12,7 +12,7 @@
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "license": "MIT",
   "main": "index.ts",
-  "name": "@fiction/plugin-email-actions",
+  "name": "@fiction/plugin-transactions",
   "title": "Posts",
   "description": "A plugin for creating and managing posts.",
   "publishConfig": {

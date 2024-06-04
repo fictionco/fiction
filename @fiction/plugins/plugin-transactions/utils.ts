@@ -1,17 +1,17 @@
 import { abort, toSlug } from '@fiction/core'
 import { createUserToken } from '@fiction/core/utils/jwt'
 import type { EmailVars, QueryVars, SendEmailArgs } from './action'
-import type { FictionEmailActions } from '.'
+import type { FictionTransactions } from '.'
 
 export async function createEmailVars<
 T extends Record<string, string> | undefined = Record<string, string> | undefined,
 >(args: SendEmailArgs & {
   actionId: string
-  fictionEmailActions: FictionEmailActions
+  fictionTransactions: FictionTransactions
   queryVars?: T
 }): Promise<EmailVars<T>> {
-  const { actionId, recipient, origin, baseRoute = '', fictionEmailActions } = args
-  const { fictionApp, fictionEmail, fictionUser } = fictionEmailActions?.settings || {}
+  const { actionId, recipient, origin, baseRoute = '', fictionTransactions } = args
+  const { fictionApp, fictionEmail, fictionUser } = fictionTransactions?.settings || {}
   const tokenSecret = fictionUser?.settings.tokenSecret
 
   if (!recipient)
@@ -24,7 +24,7 @@ T extends Record<string, string> | undefined = Record<string, string> | undefine
   const cleanPath = (_: string) => _.replace(/^\/|\/$/g, '')
   const buildUrl = (...parts: string[]) => parts.filter(_ => _ && _ !== '/').map(cleanPath).join('/')
 
-  const slug = fictionEmailActions.transactionSlug
+  const slug = fictionTransactions.transactionSlug
   const callbackHref = buildUrl(originUrl, baseRoute, slug, toSlug(actionId))
   const unsubscribeUrl = buildUrl(originUrl, baseRoute, slug, 'unsubscribe')
 

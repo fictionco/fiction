@@ -62,7 +62,7 @@ describe('node utils', () => {
         "fictionCache",
         "fictionDb",
         "fictionEmail",
-        "fictionEmailActions",
+        "fictionTransactions",
         "fictionEnv",
         "fictionExtend",
         "fictionMedia",

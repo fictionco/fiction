@@ -2,7 +2,7 @@ import { FictionAws, FictionMedia, abort, getEnvVars } from '@fiction/core'
 import { createUserToken } from '@fiction/core/utils/jwt'
 import { describe, expect, it } from 'vitest'
 import { createTestUtils, testEnvFile } from '@fiction/core/test-utils'
-import { FictionEmailActions } from '..'
+import { FictionTransactions } from '..'
 import type { SendEmailArgs } from '../action'
 import { createEmailVars } from '../utils'
 
@@ -16,17 +16,17 @@ describe('createEmailVars', async () => {
   const fictionAws = new FictionAws({ ...testUtils, awsAccessKey, awsAccessKeySecret })
   const fictionMedia = new FictionMedia({ ...testUtils, fictionAws, awsBucketMedia })
 
-  const fictionEmailActions = new FictionEmailActions({ ...testUtils, fictionMedia })
+  const fictionTransactions = new FictionTransactions({ ...testUtils, fictionMedia })
   const initialized = await testUtils.init()
 
-  const getDefaultArgs = (): SendEmailArgs & { actionId: string, fictionEmailActions: FictionEmailActions } => {
+  const getDefaultArgs = (): SendEmailArgs & { actionId: string, fictionTransactions: FictionTransactions } => {
     return {
       actionId: 'actionTest',
       recipient: initialized.user,
       origin: 'https://www.example.com',
       redirect: 'http://example.com/redirect',
       baseRoute: '/base',
-      fictionEmailActions,
+      fictionTransactions,
     }
   }
 

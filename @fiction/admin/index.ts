@@ -5,7 +5,7 @@ import type { FictionMedia } from '@fiction/core/plugin-media'
 import type { FictionUser } from '@fiction/core/plugin-user'
 import type { FictionApp } from '@fiction/core/plugin-app'
 import type { FictionRouter } from '@fiction/core/plugin-router'
-import type { FictionEmailActions } from '@fiction/plugin-email-actions'
+import type { FictionTransactions } from '@fiction/plugin-transactions'
 import { envConfig } from '@fiction/core'
 import { getEmails } from './emails'
 
@@ -15,7 +15,7 @@ envConfig.register({ name: 'ADMIN_UI_ROOT', onLoad: ({ fictionEnv }) => { fictio
 
 type FictionAdminSettings = {
   fictionEmail: FictionEmail
-  fictionEmailActions: FictionEmailActions
+  fictionTransactions: FictionTransactions
   fictionUser: FictionUser
   fictionMedia: FictionMedia
   fictionApp: FictionApp

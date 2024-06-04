@@ -3,7 +3,7 @@ import { afterAll, describe, expect, it } from 'vitest'
 import { testEnvFile } from '@fiction/core/test-utils'
 import { createUiTestingKit } from '@fiction/core/test-utils/kit'
 import fs from 'fs-extra'
-import { emailActionSnapshot } from '@fiction/plugin-email-actions/test/utils'
+import { emailActionSnapshot } from '@fiction/plugin-transactions/test/utils'
 import { setup } from './email.main.js'
 
 describe('email actions', async () => {
@@ -22,7 +22,7 @@ describe('email actions', async () => {
 
   afterAll(() => kit.close())
 
-  testUtils.fictionEmailActions.settings.fictionEmail.isTest = true
+  testUtils.fictionTransactions.settings.fictionEmail.isTest = true
 
   const action = testUtils.fictionAdmin.emailActions.verifyEmailAction
   const actionId = action.settings.actionId
