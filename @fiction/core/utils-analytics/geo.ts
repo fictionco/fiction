@@ -40,6 +40,10 @@ export async function getGeoFree(ip?: string): Promise<GeoData | undefined> {
       headers: { 'access-control-allow-origin': '*' },
     })
 
+    if (!fetched?.ok) {
+      return undefined
+    }
+
     const data = (await fetched.json()) as ipApiResponse
 
     const { countryCode, regionName, city, lat, lon, timezone, org } = data
@@ -120,6 +124,10 @@ export async function getGeo(ip?: string): Promise<GeoData | undefined> {
         headers: { 'access-control-allow-origin': '*' },
       },
     )
+
+    if (!fetched.ok) {
+      return undefined
+    }
 
     const data = (await fetched.json()) as dbIpResponse
 

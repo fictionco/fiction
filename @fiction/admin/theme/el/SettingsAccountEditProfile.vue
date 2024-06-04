@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site/card'
-import type { User, UserMeta } from '@fiction/core'
+import type { User } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
@@ -16,12 +16,11 @@ const user = vue.computed<Partial<User>>(
   () => fictionUser.activeUser.value || {},
 )
 const form = vue.ref<Partial<User>>(user.value)
-const userMeta = vue.ref<Partial<UserMeta>>({})
 const sending = vue.ref(false)
 const sent = vue.ref(false)
 
 async function updateUser(): Promise<void> {
-  const fields = { ...form.value, meta: userMeta.value }
+  const fields = { ...form.value }
 
   const r = await fictionUser.requests.ManageUser.projectRequest({
     _action: 'updateCurrentUser',
@@ -46,7 +45,6 @@ vue.onMounted(async () => {
     (v) => {
       if (v) {
         form.value = v
-        userMeta.value = v.meta ?? {}
       }
     },
     { immediate: true },
@@ -72,58 +70,6 @@ vue.onMounted(async () => {
           sub-label="Must be unique. Used in profile URL."
           placeholder="my-username"
           required
-        />
-
-        <ElInput
-          v-model="userMeta.location"
-          input="InputText"
-          label="Location"
-          placeholder="Location"
-        />
-
-        <ElInput
-          v-model="userMeta.bio"
-          input="InputTextarea"
-          label="Bio"
-          placeholder=""
-          :rows="6"
-        />
-      </div>
-
-      <div class="space-y-6">
-        <ElInput
-          v-model="userMeta.site"
-          input="InputUrl"
-          label="Website"
-          placeholder="https://www.example.com"
-        />
-
-        <ElInput
-          v-model="userMeta.calendarUrl"
-          input="InputUrl"
-          label="Calendar/Meeting Url (E.g. Calendly)"
-          placeholder="https://www.calendly.com/username"
-        />
-
-        <ElInput
-          v-model="userMeta.twitter"
-          input="InputUrl"
-          label="Twitter Profile"
-          placeholder="https://www.twitter.com/username"
-        />
-
-        <ElInput
-          v-model="userMeta.github"
-          input="InputUrl"
-          label="Github Profile"
-          placeholder="https://www.github.com/username"
-        />
-
-        <ElInput
-          v-model="userMeta.linkedin"
-          input="InputUrl"
-          label="LinkedIn Profile"
-          placeholder="https://www.linkedin.com/in/username"
         />
       </div>
     </div>

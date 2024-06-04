@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site/card'
 import { log, useService, vue } from '@fiction/core'
-import type { Organization, UserMeta } from '@fiction/core'
+import type { Organization } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElAvatarOrg from './ElAvatarOrg.vue'
@@ -10,6 +10,7 @@ import UtilDeleteOrg from './UtilDeleteOrg.vue'
 import UtilListOrganizations from './UtilListOrganizations.vue'
 
 import type { UserConfig } from './SettingsWrap.vue'
+
 
 defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
@@ -20,7 +21,7 @@ const { fictionUser } = useService()
 const form = vue.ref<Partial<Organization>>({})
 const defaultConfig = { disableWatermark: false, serverTimeoutMinutes: 20 }
 const config = vue.ref<{ serverTimeoutMinutes?: number, disableWatermark?: boolean }>(defaultConfig)
-const meta = vue.ref<Partial<UserMeta>>({})
+
 const sending = vue.ref<string | boolean>(false)
 const sent = vue.ref(false)
 
@@ -30,7 +31,7 @@ async function saveOrganization(): Promise<void> {
   if (!form.value.orgId)
     throw new Error('No organization id')
 
-  const fields = { ...form.value, meta: meta.value, config: config.value }
+  const fields = { ...form.value,   config: config.value }
 
   await fictionUser.requests.ManageOrganization.request(
     { _action: 'update', where: { orgId: form.value.orgId }, fields },
@@ -62,7 +63,6 @@ vue.onMounted(async () => {
     (v) => {
       if (v) {
         form.value = v
-        meta.value = v.meta ?? {}
       }
     },
     { immediate: true },

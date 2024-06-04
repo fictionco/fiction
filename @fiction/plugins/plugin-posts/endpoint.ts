@@ -1,6 +1,6 @@
-import type { DataFilter, EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser } from '@fiction/core'
+import type { DataFilter, EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser, TableTaxonomyConfig } from '@fiction/core'
 import { Query, deepMerge, incrementSlugId, objectId, prepareFields, standardTable, toLabel, toSlug } from '@fiction/core'
-import type { TablePostConfig, TableTaxonomyConfig } from './schema'
+import type { TablePostConfig } from './schema'
 import { t } from './schema'
 import type { FictionPosts } from '.'
 
@@ -122,9 +122,9 @@ export class QueryManagePost extends PostsQuery {
       post.sites = await db.select([`${t.site}.siteId`, `${t.site}.title`]).from(t.postSite).join(t.site, `${t.site}.site_id`, `=`, `${t.postSite}.site_id`).where(`${t.postSite}.post_id`, post.postId)
 
       const q = db
-        .select([`${t.taxonomies}.*`, `${t.postTaxonomies}.priority`])
+        .select([`${t.taxonomy}.*`, `${t.postTaxonomies}.priority`])
         .from(t.postTaxonomies)
-        .join(t.taxonomies, `${t.taxonomies}.taxonomy_id`, `=`, `${t.postTaxonomies}.taxonomy_id`)
+        .join(t.taxonomy, `${t.taxonomy}.taxonomy_id`, `=`, `${t.postTaxonomies}.taxonomy_id`)
         .where(`${t.postTaxonomies}.post_id`, post.postId)
         .orderBy(`${t.postTaxonomies}.priority`, 'asc')
 
@@ -206,7 +206,7 @@ export class QueryManagePost extends PostsQuery {
         return { slug, title, description, type, orgId }
       })
       // Insert new taxonomies and get their IDs
-      const r = await db(t.taxonomies)
+      const r = await db(t.taxonomy)
         .insert(insertItems)
         .onConflict(['slug', 'org_id'])
         .merge(['slug']) // return without changing anything (ignore wont return existing)
@@ -464,7 +464,7 @@ export class QueryManageTaxonomy extends PostsQuery {
       return { orgId, title: toLabel(item.slug), slug: toSlug(item.title), ...item }
     })
 
-    const results = await db(t.taxonomies).insert(refined).onConflict(['slug', 'orgId']).merge(['slug']).returning('*')
+    const results = await db(t.taxonomy).insert(refined).onConflict(['slug', 'orgId']).merge(['slug']).returning('*')
 
     return results
   }
@@ -481,7 +481,7 @@ export class QueryManageTaxonomy extends PostsQuery {
       const whereQuery = slug ? { slug, orgId } : { taxonomyId, orgId }
 
       const r = db.select(select)
-        .from(t.taxonomies)
+        .from(t.taxonomy)
         .where(whereQuery)
         .first()
 
@@ -507,13 +507,13 @@ export class QueryManageTaxonomy extends PostsQuery {
       .select('*')
       .from(
         db.select([
-          `${t.taxonomies}.*`,
+          `${t.taxonomy}.*`,
           db.raw('CAST(COUNT(DISTINCT ??) AS INTEGER) as usage_count', `${t.postTaxonomies}.post_id`),
         ])
-          .from(t.taxonomies)
-          .leftJoin(t.postTaxonomies, `${t.postTaxonomies}.taxonomy_id`, `${t.taxonomies}.taxonomy_id`)
-          .where(`${t.taxonomies}.orgId`, '=', orgId)
-          .groupBy(`${t.taxonomies}.taxonomy_id`)
+          .from(t.taxonomy)
+          .leftJoin(t.postTaxonomies, `${t.postTaxonomies}.taxonomy_id`, `${t.taxonomy}.taxonomy_id`)
+          .where(`${t.taxonomy}.orgId`, '=', orgId)
+          .groupBy(`${t.taxonomy}.taxonomy_id`)
           .as('subquery'),
       ) // The results of this are treated as a table
       .offset(offset)
@@ -549,7 +549,7 @@ export class QueryManageTaxonomy extends PostsQuery {
     const results = await Promise.all(items.map(async (item) => {
       const { slug, taxonomyId } = item
       const whereQuery = slug ? { slug } : { taxonomyId }
-      const r = await db(t.taxonomies)
+      const r = await db(t.taxonomy)
         .where({ ...whereQuery, orgId })
         .update(item).returning('*')
 
@@ -566,7 +566,7 @@ export class QueryManageTaxonomy extends PostsQuery {
     const results = await Promise.all(items.map(async (item) => {
       const { slug, taxonomyId } = item
       const whereQuery = slug ? { slug } : { taxonomyId }
-      const r = await db(t.taxonomies)
+      const r = await db(t.taxonomy)
         .where({ ...whereQuery, orgId })
         .delete()
         .returning('*')

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { PublicUser } from '@fiction/core'
+import type { User } from '@fiction/core'
 import { gravatarUrl, stored, vue } from '@fiction/core'
 import userBlank from './user-blank.png'
 
@@ -10,7 +10,7 @@ const props = defineProps({
   imageSize: { type: Number, default: 200 },
 })
 
-const user = vue.computed<PublicUser | undefined>(() => {
+const user = vue.computed<User | undefined>(() => {
   if (!props.userId)
     return undefined
   return stored(props.userId) ?? undefined
@@ -23,11 +23,11 @@ vue.onMounted(() => {
     if (props.url) {
       src.value = props.url
     }
-    else if (user.value && user.value.avatar) {
-      src.value = user.value.avatar
+    else if (user.value && user.value.avatar?.url) {
+      src.value = user.value.avatar.url
     }
-    else if (user.value || props.email) {
-      const email = user.value ? user.value.email : props.email
+    else if (user.value?.email || props.email) {
+      const email = user.value?.email ? user.value.email : props.email
       const g = await gravatarUrl(email, { size: props.imageSize, default: 'identicon' })
       src.value = !g.isDefaultImage ? g.url : userBlank
     }

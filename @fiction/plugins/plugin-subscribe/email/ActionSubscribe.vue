@@ -54,7 +54,7 @@ const content = vue.computed<TransactionProps>(() => {
 async function sendRequest(user?: User) {
   loading.value = true
 
-  const { userId, orgId } = props.queryVars
+  const { userId, orgId, code } = props.queryVars
 
   if (!user) {
     errorMessage.value = 'Not logged in'
@@ -67,7 +67,7 @@ async function sendRequest(user?: User) {
   }
   else {
     try {
-      const r = await props.action.requestTransaction({ userId, orgId })
+      const r = await props.action.requestTransaction({ userId, orgId, code })
       response.value = r
     }
     catch (e) {

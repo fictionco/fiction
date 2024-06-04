@@ -10,7 +10,7 @@ import type { FictionServer } from '../plugin-server'
 import type { FictionDb } from '../plugin-db'
 import type { FictionEmail } from '../plugin-email'
 import type { FictionRouter } from '../plugin-router'
-import { _stop, emitEvent, hasWindow, isActualBrowser, isNode, safeDirname, vue } from '../utils'
+import { _stop, hasWindow, isActualBrowser, isNode, safeDirname, vue } from '../utils'
 import * as priv from '../utils/priv'
 import { standardTable } from '../tbl'
 import { createUserToken, decodeUserToken, manageClientUserToken } from '../utils/jwt'
@@ -19,6 +19,7 @@ import type { Organization, OrganizationMember, User } from './types'
 import { QueryManageMemberRelation, QueryManageOrganization, QueryOrganizationsByUserId } from './endpointOrg'
 import { type ManageUserParams, QueryManageUser } from './endpoint'
 import { getAdminTables } from './schema'
+import { FictionUserEnrich } from './enrich/pluginEnrich'
 
 export * from './types'
 
@@ -26,6 +27,7 @@ vars.register(() => [
   new EnvVar({ name: 'GOOGLE_CLIENT_ID', isPublic: true, isOptional: true }),
   new EnvVar({ name: 'GOOGLE_CLIENT_SECRET', isOptional: true }),
   new EnvVar({ name: 'TOKEN_SECRET' }),
+  new EnvVar({ name: 'APOLLO_API_KEY' }),
 ])
 
 export type UserPluginSettings = {
@@ -36,10 +38,12 @@ export type UserPluginSettings = {
   googleClientId?: string
   googleClientSecret?: string
   tokenSecret?: string
+  apolloApiKey?: string
 } & FictionPluginSettings
 
 export type UserEventMap = {
   newUser: CustomEvent<{ user: User, params: ManageUserParams & { _action: 'create' } }>
+  newUserVerified: CustomEvent<{ user: User }>
   updateUser: CustomEvent<{ user: User, newEmail?: string, passwordChanged?: boolean }>
   logout: CustomEvent<{ user?: User }>
   currentUser: CustomEvent<{ user?: User }>
@@ -50,6 +54,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
   priv = priv
   activeUser = vue.ref<User>()
   initialized?: Promise<boolean>
+  fictionUserEnrich?: FictionUserEnrich
   resolveUser?: (value: boolean | PromiseLike<boolean>) => void
   events = new TypedEventTarget<UserEventMap>({ fictionEnv: this.settings.fictionEnv })
   tokenSecret = this.settings.tokenSecret
@@ -76,16 +81,21 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
   constructor(settings: UserPluginSettings) {
     super('user', settings)
 
-    this.settings.fictionDb.addTables(getAdminTables())
+    const { fictionEnv, fictionDb, fictionRouter, fictionServer } = settings
+
+    fictionDb.addTables(getAdminTables())
 
     // add fictionUser to server as it can't be added in constructur
     // this plugin already requires the server module
-    if (this.settings.fictionServer)
-      this.settings.fictionServer.fictionUser = this
+    if (fictionServer)
+      fictionServer.fictionUser = this
 
-    this.settings.fictionRouter?.addReplacers({ orgId: this.activeOrgId })
+    fictionRouter?.addReplacers({ orgId: this.activeOrgId })
 
-    this.settings.fictionEnv?.hooks.push({ hook: 'dbOnConnected', callback: () => this.ensureExampleOrganization() })
+    fictionEnv?.hooks.push({ hook: 'dbOnConnected', callback: () => this.ensureExampleOrganization() })
+
+    if (!fictionEnv.isApp.value)
+      this.fictionUserEnrich = new FictionUserEnrich({ ...settings, fictionUser: this })
   }
 
   /** Typically Invoked from Main File */

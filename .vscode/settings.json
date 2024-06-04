@@ -46,6 +46,7 @@
     { "rule": "*semi", "severity": "off" }
   ],
   "search.exclude": {
+    "**/.fiction/**": true,
     "**/.ref*": true,
     "*.log": true,
     "**/dist": true,

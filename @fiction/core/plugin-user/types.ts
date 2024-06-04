@@ -3,7 +3,9 @@ import type { UserRoles } from '../types/roles'
 import type { CreateObjectType } from '../tbl'
 import type { UserCapability } from '../utils/priv'
 import type { ProgressStatus } from '../types'
-import type { membersColumns, orgColumns, userColumns } from './schema'
+import type { membersColumns, orgColumns, taxonomyCols, userColumns } from './schema'
+
+export type TableTaxonomyConfig = Partial<CreateObjectType<typeof taxonomyCols>> & { isNew?: boolean, usageCount?: number }
 
 export interface OrganizationConfig {
   serverTimeoutMinutes: number
@@ -43,6 +45,46 @@ export type User = Partial<CreateObjectType<typeof userColumns>> & {
   orgs?: Organization[]
   relation?: OrganizationMember
 }
+
+export type SocialAccounts = Partial<{
+  githubUrl?: string
+  xUrl?: string
+  linkedinUrl?: string
+  facebookUrl?: string
+  crunchbaseUrl?: string
+  angellistUrl?: string
+  instagramUrl?: string
+  youtubeUrl?: string
+  pinterestUrl?: string
+  snapchatUrl?: string
+  tiktokUrl?: string
+  calendarUrl?: string
+}>
+
+export type UserCompany = Partial<{
+  name: string
+  role: string
+  seniority: string
+  websiteUrl: string
+  employeeCount: number
+  industry: string
+  location: string
+  description: string
+  keywords: string[]
+  founded: string
+  funding: string
+  revenue: string
+  accounts: SocialAccounts
+  address: StreetAddress
+}>
+
+export type StreetAddress = Partial<{
+  street: string
+  city: string
+  state: string
+  postalCode: string
+  country: string
+}>
 
 export type OrganizationMember = CreateObjectType<typeof membersColumns> & {
   fullName: string
@@ -99,45 +141,45 @@ export type TokenFields = Partial<User> & { userId: string, iat: number }
 /**
  * Publicly accessible user information
  */
-export interface PublicUser {
-  userId: string
-  email: string
-  createdAt?: string
-  updatedAt?: string
-  avatar?: string
-  status?: string
-  username?: string
-  firstName?: string
-  lastName?: string
-  emailVerified?: boolean
-  role?: UserRoles
-  profile?: Record<string, any>
-  settings?: Record<string, any>
-  lastSeenAt?: string | number | Date
-}
+// export interface PublicUser {
+//   userId: string
+//   email: string
+//   createdAt?: string
+//   updatedAt?: string
+//   avatar?: string
+//   status?: string
+//   username?: string
+//   firstName?: string
+//   lastName?: string
+//   emailVerified?: boolean
+//   role?: UserRoles
+//   profile?: Record<string, any>
+//   settings?: Record<string, any>
+//   lastSeenAt?: string | number | Date
+// }
 /**
  * Information regarding a user profile (e.g. birthday, cover, tags)
  */
-export interface UserMeta {
-  calendarUrl?: string
-  birthday?: Date | string
-  gender?: 'male' | 'female' | 'other'
-  about?: string
-  tag?: string[]
-  category?: string[]
-  site?: string
-  github?: string
-  githubFollowers?: number
-  twitter?: string
-  twitterFollowers?: number
-  linkedin?: string
-  facebook?: string
-  workName?: string
-  workSeniority?: string
-  workRole?: string
-  workRoleSub?: string
-  workTitle?: string
-  workDomain?: string
-  bio?: string
-  location?: string
-}
+// export interface UserMeta {
+//   calendarUrl?: string
+//   birthday?: Date | string
+//   gender?: 'male' | 'female' | 'other'
+//   about?: string
+//   tag?: string[]
+//   category?: string[]
+//   site?: string
+//   github?: string
+//   githubFollowers?: number
+//   twitter?: string
+//   twitterFollowers?: number
+//   linkedin?: string
+//   facebook?: string
+//   workName?: string
+//   workSeniority?: string
+//   workRole?: string
+//   workRoleSub?: string
+//   workTitle?: string
+//   workDomain?: string
+//   bio?: string
+//   location?: string
+// }

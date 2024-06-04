@@ -1,10 +1,10 @@
 import type { Schema } from 'zod'
 import { objectId, toSnakeCaseKeys } from '../utils'
 import { FictionDbCol, FictionDbTable } from '../plugin-db'
-import { standardTable } from '../tbl'
+import { standardTable as t } from '../tbl'
 import type { MediaDisplayObject } from '../types'
 import type { GeoData } from '../utils-analytics/geo'
-import type { MemberAccess, OnboardStoredSettings, OrganizationConfig, OrganizationCustomerData, Plan, PushSubscriptionDetail, UserMeta } from './types'
+import type { MemberAccess, OnboardStoredSettings, OrganizationConfig, OrganizationCustomerData, Plan, PushSubscriptionDetail, SocialAccounts, StreetAddress, UserCompany } from './types'
 
 export type VerificationCode = {
   code: string
@@ -157,14 +157,59 @@ export const userColumns = [
     key: 'address',
     create: ({ schema, column }) => schema.jsonb(column.pgKey),
     isPrivate: true,
-    default: () => ({} as object),
+    default: () => ({} as StreetAddress),
   }),
   new FictionDbCol({
-    key: 'meta',
-    create: ({ schema, column }) => schema.jsonb(column.pgKey),
-    default: () => ({} as UserMeta),
+    key: 'title',
+    create: ({ schema, column }) => schema.text(column.pgKey),
     isSetting: true,
-    prepare: ({ value }) => JSON.stringify(toSnakeCaseKeys(value)),
+    default: () => '' as string,
+    zodSchema: ({ z }) => z.string(),
+  }),
+  new FictionDbCol({
+    key: 'headline',
+    create: ({ schema, column }) => schema.text(column.pgKey),
+    isSetting: true,
+    default: () => '' as string,
+    zodSchema: ({ z }) => z.string(),
+  }),
+  // website
+  new FictionDbCol({
+    key: 'websiteUrl',
+    create: ({ schema, column }) => schema.string(column.pgKey),
+    isSetting: true,
+    default: () => '' as string,
+    zodSchema: ({ z }) => z.string(),
+  }),
+  // social accounts
+  new FictionDbCol({
+    key: 'accounts',
+    create: ({ schema, column }) => schema.jsonb(column.pgKey),
+    isSetting: true,
+    default: () => ({} as SocialAccounts),
+  }),
+  // company
+  new FictionDbCol({
+    key: 'company',
+    create: ({ schema, column }) => schema.jsonb(column.pgKey),
+    isSetting: true,
+    default: () => ({} as UserCompany),
+  }),
+  // birthday
+  new FictionDbCol({
+    key: 'birthday',
+    create: ({ schema, column }) => schema.string(column.pgKey),
+    isSetting: true,
+    default: () => '' as string,
+    zodSchema: ({ z }) => z.string(),
+  }),
+  // gender
+  new FictionDbCol({
+    key: 'gender',
+    create: ({ schema, column }) => schema.string(column.pgKey),
+    isSetting: true,
+    default: () => '' as string,
+    zodSchema: ({ z }) => z.string(),
   }),
 ] as const
 
@@ -235,14 +280,6 @@ export const orgColumns = [
     isSetting: true,
     prepare: ({ value }) => JSON.stringify(toSnakeCaseKeys(value)),
     default: () => ({} as Partial<OrganizationConfig>),
-  }),
-
-  new FictionDbCol({
-    key: 'meta',
-    create: ({ schema, column }) => schema.jsonb(column.pgKey),
-    default: () => ({} as UserMeta),
-    isSetting: true,
-    prepare: ({ value }) => JSON.stringify(toSnakeCaseKeys(value)),
   }),
   new FictionDbCol({
     key: 'onboard',
@@ -396,11 +433,75 @@ export const deletedTableColumns = [
   }),
 ] as const
 
+export const taxonomyCols = [
+  new FictionDbCol({
+    key: 'taxonomyId',
+    create: ({ schema, column, db }) => schema.string(column.pgKey).primary().defaultTo(db.raw(`object_id('tax')`)),
+    default: () => '' as string,
+    zodSchema: ({ z }) => z.string().min(1),
+  }),
+  new FictionDbCol({
+    key: 'userId',
+    create: ({ schema, column }) => schema.string(column.pgKey, 50).references(`fiction_user.user_id`).onDelete('SET NULL').onUpdate('CASCADE').index(),
+    default: () => '' as string,
+    zodSchema: ({ z }) => z.string().length(50),
+  }),
+  new FictionDbCol({
+    key: 'orgId',
+    create: ({ schema, column }) => schema.string(column.pgKey, 50).references(`fiction_org.org_id`).onUpdate('CASCADE').notNullable().index(),
+    default: () => '' as string,
+    zodSchema: ({ z }) => z.string().length(50),
+  }),
+  new FictionDbCol({
+    key: 'title',
+    create: ({ schema, column }) => schema.string(column.pgKey),
+    default: () => '' as string,
+    zodSchema: ({ z }) => z.string().min(1),
+  }),
+  new FictionDbCol({
+    key: 'slug',
+    create: ({ schema, column }) => schema.string(column.pgKey).index(),
+    default: () => '' as string,
+    zodSchema: ({ z }) => z.string().min(1),
+  }),
+  new FictionDbCol({
+    key: 'type',
+    create: ({ schema, column }) => schema.string(column.pgKey).notNullable().index(),
+    default: () => '' as 'tag' | 'category',
+    zodSchema: ({ z }) => z.enum(['tag', 'category']),
+  }),
+  new FictionDbCol({
+    key: 'context',
+    create: ({ schema, column }) => schema.string(column.pgKey).notNullable().index().defaultTo('post'),
+    default: () => '' as 'post' | 'user',
+    zodSchema: ({ z }) => z.enum(['post', 'user']),
+  }),
+  new FictionDbCol({
+    key: 'description',
+    create: ({ schema, column }) => schema.text(column.pgKey),
+    default: () => '' as string,
+    zodSchema: ({ z }) => z.string().optional(),
+  }),
+  new FictionDbCol({
+    key: 'parentId',
+    create: ({ schema, column }) => schema.string(column.pgKey).references(`${t.taxonomy}.taxonomy_id`).onDelete('SET NULL'),
+    default: () => '' as string,
+    zodSchema: ({ z }) => z.string().optional(),
+  }),
+  new FictionDbCol({
+    key: 'priority',
+    create: ({ schema, column }) => schema.integer(column.pgKey).defaultTo(0),
+    default: () => 0 as number,
+    zodSchema: ({ z }) => z.number().int().optional(),
+  }),
+] as const
+
 export const userTable = new FictionDbTable({ tableKey: 'fiction_user', timestamps: true, columns: userColumns })
 export const membersTable = new FictionDbTable({ tableKey: 'fiction_org_user', timestamps: true, columns: membersColumns })
 export const orgTable = new FictionDbTable({ tableKey: 'fiction_org', timestamps: true, columns: orgColumns })
-export const deletedTable = new FictionDbTable({ tableKey: standardTable.deleted, timestamps: true, columns: deletedTableColumns })
+export const deletedTable = new FictionDbTable({ tableKey: t.deleted, timestamps: true, columns: deletedTableColumns })
+export const taxonomyTable = new FictionDbTable({ tableKey: t.taxonomy, timestamps: true, columns: taxonomyCols, onCreate: t => t.unique(['org_id', 'slug', 'context']) })
 
 export function getAdminTables() {
-  return [userTable, orgTable, membersTable, deletedTable]
+  return [userTable, orgTable, membersTable, deletedTable, taxonomyTable]
 }

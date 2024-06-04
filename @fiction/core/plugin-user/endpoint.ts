@@ -36,7 +36,7 @@ export type ManageUserParams =
   | { _action: 'updateCurrentUser', fields: Partial<User> & { password?: string } }
   | { _action: 'retrieve', select?: (keyof User)[] | ['*'], where: WhereUser }
   | { _action: 'verifyEmail', email: string, code: string, password?: string }
-  | { _action: 'getUserWithToken', token: string }
+  | { _action: 'getUserWithToken', token: string, code?: string }
   | { _action: 'login', where: WhereUser, password?: string }
   | { _action: 'loginGoogle', credential: string }
   | { _action: 'event', eventName: 'resetPassword', where: WhereUser }
@@ -161,11 +161,17 @@ export class QueryManageUser extends UserBaseQuery {
   }
 
   private async getUserWithToken(params: ManageUserParams & { _action: 'getUserWithToken' }, meta: EndpointMeta): Promise<User | undefined> {
-    const tokenResult = this.settings.fictionUser.decodeToken(params.token)
+    const { code, token } = params
+
+    const tokenResult = this.settings.fictionUser.decodeToken(token)
 
     const { userId } = tokenResult
 
     const { data: user } = await this.settings.fictionUser.queries.ManageUser.serve({ _action: 'retrieve', where: { userId } }, { server: true, ...meta })
+
+    if (!user?.emailVerified && code && user?.email) {
+      await this.verifyEmail({ _action: 'verifyEmail', email: user.email, code }, meta)
+    }
 
     return user
   }
@@ -180,15 +186,23 @@ export class QueryManageUser extends UserBaseQuery {
 
     await verifyCode({ email, verificationCode: code, fictionDb, isProd: fictionEnv?.isProd.value })
 
+    const existingUser = await this.getUser({ _action: 'retrieve', where: { email } }, meta)
+
+    if (!existingUser)
+      throw abort('user not found', { data: { email } })
+
+    const isNewVerification = !existingUser?.emailVerified
+
     const fields: Partial<User> = { emailVerified: true }
 
     if (password)
       fields.hashedPassword = await hashPassword(password)
 
-    const { data: user } = await fictionUser.queries.ManageUser.serve(
-      { _action: 'update', where: { email }, fields },
-      { ...meta, server: true },
-    )
+    const { data: user } = await fictionUser.queries.ManageUser.serve({ _action: 'update', where: { email }, fields }, { ...meta, server: true })
+
+    if (user && isNewVerification) {
+      this.settings.fictionUser.events.emit('newUserVerified', { user })
+    }
 
     return user
   }

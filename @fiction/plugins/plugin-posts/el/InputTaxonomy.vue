@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ListItem } from '@fiction/core'
+import type { ListItem, TableTaxonomyConfig } from '@fiction/core'
 import { debounce, toLabel, useService, vue, waitFor } from '@fiction/core'
 import InputSelectCustom from '@fiction/ui/inputs/InputSelectCustom.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
@@ -7,7 +7,6 @@ import InputText from '@fiction/ui/inputs/InputText.vue'
 import ElBadge from '@fiction/ui/common/ElBadge.vue'
 import EffectDraggableSort from '@fiction/admin/el/EffectDraggableSort.vue'
 import type { FictionPosts } from '..'
-import type { TableTaxonomyConfig } from '../schema'
 
 const props = defineProps({
   modelValue: { type: Array as vue.PropType<TableTaxonomyConfig[]>, default: () => [] },
