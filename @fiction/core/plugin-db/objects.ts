@@ -65,6 +65,7 @@ export interface FictionDbTableSettings {
   columns: readonly FictionDbCol[]
   dependsOn?: string[]
   onCreate?: (t: Knex.CreateTableBuilder) => void
+  uniqueOn?: string[]
 }
 
 export class FictionDbTable {
@@ -75,6 +76,7 @@ export class FictionDbTable {
   timestamps: boolean
   dependsOn: string[]
   onCreate?: (t: Knex.CreateTableBuilder) => void
+  uniqueOn?: string[]
   constructor(params: FictionDbTableSettings) {
     this.tableKey = params.tableKey
     this.pgTableKey = toSnakeCase(params.tableKey)
@@ -83,6 +85,7 @@ export class FictionDbTable {
     this.onCreate = params.onCreate
     this.columns = this.addDefaultColumns(params.columns)
     this.dependsOn = params.dependsOn ?? []
+    this.uniqueOn = params.uniqueOn ?? []
   }
 
   addDefaultColumns(
@@ -131,6 +134,9 @@ export class FictionDbTable {
       this.log.info(`creating table: ${this.pgTableKey}`)
       await db.schema.createTable(this.pgTableKey, (t) => {
         this.columns.forEach(async col => col.createColumn(t, db))
+
+        if (this.uniqueOn && this.uniqueOn.length > 0)
+          t.unique(this.uniqueOn)
 
         if (this.onCreate)
           this.onCreate(t)

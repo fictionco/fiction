@@ -500,7 +500,7 @@ export const userTable = new FictionDbTable({ tableKey: 'fiction_user', timestam
 export const membersTable = new FictionDbTable({ tableKey: 'fiction_org_user', timestamps: true, columns: membersColumns })
 export const orgTable = new FictionDbTable({ tableKey: 'fiction_org', timestamps: true, columns: orgColumns })
 export const deletedTable = new FictionDbTable({ tableKey: t.deleted, timestamps: true, columns: deletedTableColumns })
-export const taxonomyTable = new FictionDbTable({ tableKey: t.taxonomy, timestamps: true, columns: taxonomyCols, onCreate: t => t.unique(['org_id', 'slug', 'context']) })
+export const taxonomyTable = new FictionDbTable({ tableKey: t.taxonomy, timestamps: true, columns: taxonomyCols, uniqueOn: ['org_id', 'slug', 'context'] })
 
 export function getAdminTables() {
   return [userTable, orgTable, membersTable, deletedTable, taxonomyTable]

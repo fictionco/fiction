@@ -148,6 +148,10 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
     this.tables.push(...tables)
   }
 
+  getTable(tableKey: string): FictionDbTable | undefined {
+    return this.tables.find(t => t.tableKey === tableKey)
+  }
+
   addColumns(
     tableKey: string,
     columns: FictionDbCol[] | readonly FictionDbCol[],

@@ -205,10 +205,13 @@ export class QueryManagePost extends PostsQuery {
         const { slug = toSlug(_.title), title = toLabel(_.slug), type = '', description } = _
         return { slug, title, description, type, orgId }
       })
+
+      const uniqueOn = this.settings.fictionDb.getTable(t.taxonomy)?.uniqueOn || []
+
       // Insert new taxonomies and get their IDs
       const r = await db(t.taxonomy)
         .insert(insertItems)
-        .onConflict(['slug', 'org_id'])
+        .onConflict(uniqueOn)
         .merge(['slug']) // return without changing anything (ignore wont return existing)
         .returning<{ taxonomyId: string }[]>('taxonomyId')
 
@@ -398,19 +401,9 @@ export class QueryManagePost extends PostsQuery {
 }
 
 export type ManageTaxonomyParamsRequest =
-  | {
-    _action: 'create'
-    items: TableTaxonomyConfig[] | readonly TableTaxonomyConfig[]
-  }
-  | {
-    _action: 'update'
-    items: TableTaxonomyConfig[] | readonly TableTaxonomyConfig[]
-  }
-  | {
-    _action: 'get'
-    select?: (keyof TableTaxonomyConfig)[] | ['*']
-    selectors: { taxonomyId?: string, slug?: string }[]
-  }
+  | { _action: 'create', items: TableTaxonomyConfig[] | readonly TableTaxonomyConfig[] }
+  | { _action: 'update', items: TableTaxonomyConfig[] | readonly TableTaxonomyConfig[] }
+  | { _action: 'get', select?: (keyof TableTaxonomyConfig)[] | ['*'], selectors: { taxonomyId?: string, slug?: string }[] }
   | {
     _action: 'list'
     search?: string
@@ -463,8 +456,10 @@ export class QueryManageTaxonomy extends PostsQuery {
     const refined = items.map((item) => {
       return { orgId, title: toLabel(item.slug), slug: toSlug(item.title), ...item }
     })
+    const tbl = this.settings.fictionDb.getTable(t.taxonomy)
+    const uniqueOn = tbl?.uniqueOn || []
 
-    const results = await db(t.taxonomy).insert(refined).onConflict(['slug', 'orgId']).merge(['slug']).returning('*')
+    const results = await db(t.taxonomy).insert(refined).onConflict(uniqueOn).merge(['slug']).returning('*')
 
     return results
   }

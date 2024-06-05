@@ -34,7 +34,7 @@
     },
     {
       "key": "EmailAction",
-      "path": "/api/fiction-email-actions/EmailAction"
+      "path": "/api/fiction-transactions/EmailAction"
     },
     {
       "key": "ManageVectors",
