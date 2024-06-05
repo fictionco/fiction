@@ -31,6 +31,7 @@ permissions:
 env:
   CI: true
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+  APOLLO_API_KEY: ${{ secrets.APOLLO_API_KEY }}
   AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
   AWS_ACCESS_KEY_SECRET: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
   AWS_REGION: ${{ secrets.AWS_REGION }}
