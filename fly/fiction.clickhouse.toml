@@ -12,7 +12,7 @@ app = "fiction-clickhouse"
   CLICKHOUSE_PASSWORD = "socrates-and-plato"
 
 [mount]
-source      = "40GB"
+source      = "clickhouse_data"
 destination = "/var/lib/clickhouse/"
 
 [[services]]
@@ -46,3 +46,8 @@ protocol      = "tcp"
   [[services.tcp_checks]]
   interval = 10000
   timeout  = 2000
+
+[[vm]]
+  memory = '2gb'
+  cpu_kind = 'shared'
+  cpus = 1
