@@ -5,6 +5,7 @@ import type { ApolloApiResponse, NullablePartial } from './types'
 export async function apolloResponseToUser({ data }: { data: ApolloApiResponse }): Promise<User> {
   const { person = {} } = data
   const o = person.organization || {}
+
   const user: NullablePartial<User> = {
     avatar: { url: person.photo_url || undefined },
     phone: person.phone_numbers?.[0]?.sanitized_number,
@@ -44,5 +45,7 @@ export async function apolloResponseToUser({ data }: { data: ApolloApiResponse }
 
   }
 
-  return removeUndefined(user) as User
+  const final = removeUndefined(user) as User
+
+  return final
 }

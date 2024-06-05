@@ -16,6 +16,8 @@ describe('apolloResponseToUser', () => {
     expect(user.headline).toBe(exampleResponse.person.headline || undefined)
     expect(user.websiteUrl).toBe(exampleResponse.person.organization.website_url || undefined)
     expect(user.accounts?.githubUrl).toBe(exampleResponse.person.github_url || undefined)
+
+    expect(user.accounts?.xUrl).toMatchInlineSnapshot(`"https://www.x.com/arpowers"`)
     expect(user.accounts?.xUrl).toBe(exampleResponse.person.twitter_url || undefined)
     expect(user.accounts?.linkedinUrl).toBe(exampleResponse.person.linkedin_url || undefined)
     expect(user.accounts?.facebookUrl).toBe(exampleResponse.person.facebook_url || undefined)
@@ -32,9 +34,9 @@ describe('apolloResponseToUser', () => {
     expect(user.company?.founded).toBe(exampleResponse.person.organization.founded_year.toString() || undefined)
 
     expect(user.company?.accounts?.githubUrl).toBe(exampleResponse.person.github_url || undefined)
-    expect(user.company?.accounts?.xUrl).toBe(exampleResponse.person.twitter_url || undefined)
-    expect(user.company?.accounts?.linkedinUrl).toBe(exampleResponse.person.linkedin_url || undefined)
-    expect(user.company?.accounts?.facebookUrl).toBe(exampleResponse.person.facebook_url || undefined)
+    expect(user.company?.accounts?.xUrl).toBe(exampleResponse.person.organization.twitter_url || undefined)
+    expect(user.company?.accounts?.linkedinUrl).toBe(exampleResponse.person.organization.linkedin_url || undefined)
+    expect(user.company?.accounts?.facebookUrl).toBe(exampleResponse.person.organization.facebook_url || undefined)
 
     expect(user.company?.address?.street).toBe(exampleResponse.person.organization.street_address || undefined)
     expect(user.company?.address?.city).toBe(exampleResponse.person.organization.city || undefined)
