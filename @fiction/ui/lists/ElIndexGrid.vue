@@ -43,14 +43,14 @@ const mediaClass = `size-12 border border-theme-200 bg-theme-50 dark:bg-theme-70
           class="mt-3 flex items-center justify-between pt-3"
           aria-label="Pagination"
         >
-          <div class="">
+          <div class="flex gap-4">
             <ElButton
               v-for="(act, i) in actions"
               :key="i"
               :href="act.href"
               :btn="act.btn || 'default'"
               :icon="act.icon"
-              size="md"
+              size="sm"
               @click.stop="act.onClick ? act.onClick({ event: $event, item: act }) : null"
             >
               {{ act.name }}

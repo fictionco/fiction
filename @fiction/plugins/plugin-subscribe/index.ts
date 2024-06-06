@@ -1,7 +1,7 @@
 import type { FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
-import { FictionPlugin, safeDirname } from '@fiction/core'
-import type { FictionMonitor } from '@fiction/plugin-monitor'
+import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import type { FictionTransactions } from '@fiction/plugin-transactions'
+import { CardTemplate, createCard } from '@fiction/site'
 import { tables } from './schema'
 import { ManageSubscriptionQuery } from './endpoint'
 import { getEmails } from './email'
@@ -30,8 +30,59 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
 
   transactions = getEmails({ fictionSubscribe: this })
 
+  cacheKey = vue.ref(0)
+
   constructor(settings: FictionSubscribeSettings) {
     super('FictionSubscribe', { root: safeDirname(import.meta.url), ...settings })
     this.settings.fictionDb?.addTables(tables)
+
+    this.addAdminPages()
+  }
+
+  addAdminPages() {
+    this.settings.fictionEnv.addHook({
+      hook: 'adminPages',
+      caller: 'FictionSubscribe',
+      context: 'app',
+      callback: async (pages, meta) => {
+        const { templates } = meta
+        return [
+          ...pages,
+          createCard({
+            templates,
+            templateId: 'dash',
+            slug: 'subscriber',
+            title: 'Subscribers',
+            cards: [
+              createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewIndex.vue')) }),
+            ],
+            userConfig: {
+              isNavItem: true,
+              navIcon: 'i-tabler-users',
+              navIconAlt: 'i-tabler-users-plus',
+              priority: 50,
+            },
+          }),
+          createCard({
+            templates,
+            templateId: 'dash',
+            slug: 'subscriber-view',
+            title: 'Subscriber',
+            cards: [
+              createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewSingle.vue')) }),
+            ],
+          }),
+          createCard({
+            templates,
+            templateId: 'dash',
+            slug: 'subscriber-add',
+            title: 'Add Subscribers',
+            cards: [
+              createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewAdd.vue')) }),
+            ],
+          }),
+        ]
+      },
+    })
   }
 }

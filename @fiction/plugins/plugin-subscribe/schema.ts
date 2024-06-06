@@ -1,10 +1,16 @@
 import { type CreateObjectType, type SyndicateStatus, type User, standardTable } from '@fiction/core'
 import { FictionDbCol, FictionDbTable } from '@fiction/core/plugin-db'
+import type { TableTaxonomyConfig } from '@fiction/core/plugin-user/types'
 
 export const t = {
   subscribe: 'fiction_subscribe',
   subscribeTaxonomy: 'fiction_subscribe_taxonomy',
   ...standardTable,
+}
+
+export type Subscriber = TableSubscribeConfig & {
+  tags?: TableTaxonomyConfig[]
+  user: User
 }
 
 export type TableSubscribeConfig = CreateObjectType<typeof subscribeColumns>

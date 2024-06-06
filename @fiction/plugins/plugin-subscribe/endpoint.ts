@@ -1,7 +1,7 @@
 import type { EndpointMeta, EndpointResponse, FictionDb, FictionEmail, FictionEnv } from '@fiction/core'
 import { Query, prepareFields } from '@fiction/core'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
-import type { TableSubscribeConfig } from './schema'
+import type { Subscriber, TableSubscribeConfig } from './schema'
 import { t } from './schema'
 import type { FictionSubscribe } from '.'
 
@@ -28,7 +28,7 @@ export type ManageSubscriptionParams =
   | { _action: 'update', where: WhereSubscription, fields: Partial<TableSubscribeConfig> }
   | { _action: 'delete', where: WhereSubscription }
 
-export type ManageSubscriptionResponse = EndpointResponse<TableSubscribeConfig[]>
+export type ManageSubscriptionResponse = EndpointResponse<Subscriber[]>
 
 export class ManageSubscriptionQuery extends SubscribeQuery {
   async run(params: ManageSubscriptionParams, meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
