@@ -5,11 +5,11 @@ import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
 import InputPassword from '@fiction/ui/inputs/InputPassword.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
-import type { UserConfig } from './SettingsWrap.vue'
+import type { NavCardUserConfig } from '../../index.js'
 import ElPanelSettings from './ElPanelSettings.vue'
 
 defineProps({
-  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
+  card: { type: Object as vue.PropType<Card<NavCardUserConfig>>, required: true },
 })
 
 const { fictionUser } = useService()

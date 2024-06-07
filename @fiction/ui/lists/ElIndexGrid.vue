@@ -40,7 +40,7 @@ const mediaClass = `size-12 border border-theme-200 bg-theme-50 dark:bg-theme-70
         </div>
         <nav
           v-if="actions?.length"
-          class="mt-3 flex items-center justify-between pt-3"
+          class="flex items-center justify-between"
           aria-label="Pagination"
         >
           <div class="flex gap-4">
@@ -63,7 +63,7 @@ const mediaClass = `size-12 border border-theme-200 bg-theme-50 dark:bg-theme-70
           </div>
         </nav>
       </div>
-      <ul role="list" class="space-y-8">
+      <ul role="list" class="space-y-5">
         <li
           v-for="item in list"
           :key="item.key"

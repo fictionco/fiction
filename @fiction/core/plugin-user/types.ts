@@ -12,12 +12,12 @@ export interface OrganizationConfig {
   disableWatermark: boolean
 }
 
-export type Organization = CreateObjectType<typeof orgColumns> & {
+export type Organization = Partial<CreateObjectType<typeof orgColumns>> & {
   lastOrgId?: boolean
-  members: OrganizationMember[]
-  memberCount: number
-  createdAt: string
-  updatedAt: string
+  members?: OrganizationMember[]
+  memberCount?: number
+  createdAt?: string
+  updatedAt?: string
   relation?: OrganizationMember
 }
 

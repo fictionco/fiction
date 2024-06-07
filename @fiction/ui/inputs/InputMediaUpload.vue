@@ -1,14 +1,15 @@
 <script lang="ts" setup>
 import type { MediaDisplayObject } from '@fiction/core'
 import { log, shortId, useService, vue } from '@fiction/core'
-import ElSpinner from '../loaders/ElSpinner.vue'
 import ElButton from '../ElButton.vue'
+import type { UiElementSize } from '../utils'
 import { textInputClasses } from './theme'
 
 defineProps({
   modelValue: { type: Object as vue.PropType<MediaDisplayObject>, default: () => {} },
   fileTypes: { type: Array as vue.PropType<string[]>, default: () => ['jpg', 'png', 'gif', 'svg'] },
   fileSize: { type: Number, default: 1000000 },
+  uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
 })
 
 const emit = defineEmits<{
@@ -55,6 +56,11 @@ async function handleDropFile(ev: Event) {
   const event = ev as DragEvent
   await uploadFiles(event.dataTransfer?.files)
 }
+
+function triggerFileInput() {
+  const fileInput = document.getElementById(uploadId) as HTMLInputElement
+  fileInput.click()
+}
 </script>
 
 <template>
@@ -70,13 +76,12 @@ async function handleDropFile(ev: Event) {
       @dragover="draggingOver = true"
       @dragleave="draggingOver = false"
     >
-      <span class="font-mono relative flex grow  shadow-sm  group  cursor-pointer space-x-2">
-
-        <ElButton class="shrink-0" icon="i-tabler-upload" :loading="uploading">Upload</ElButton>
+      <span class="font-mono relative flex grow shadow-sm group cursor-pointer space-x-2" @click="console.log('hi')">
+        <ElButton class="shrink-0" icon="i-tabler-upload" :loading="uploading" @click="triggerFileInput()">Upload</ElButton>
         <input
           :value="modelValue?.url"
           type="text"
-          :class="textInputClasses({ inputClass: 'grow' })"
+          :class="textInputClasses({ inputClass: 'grow', uiSize })"
           @input="updateValue({ url: ($event.target as HTMLInputElement).value })"
         >
       </span>

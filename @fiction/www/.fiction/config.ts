@@ -106,7 +106,7 @@ export interface CompiledServiceConfig {
       | 'updatedAt'
     fiction_org:
       | 'orgId'
-      | 'username'
+      | 'slug'
       | 'orgName'
       | 'orgEmail'
       | 'orgStatus'

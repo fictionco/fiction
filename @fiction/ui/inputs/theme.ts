@@ -81,8 +81,8 @@ export function selectInputClasses(args: { inputClass: string, classButton?: str
   }
 }
 
-export function textInputClasses(args: { inputClass?: string, size?: UiElementSize, isDisabled?: boolean }) {
-  const { inputClass = '', size = 'md', isDisabled = false } = args
+export function textInputClasses(args: { inputClass?: string, uiSize?: UiElementSize, isDisabled?: boolean }) {
+  const { inputClass = '', uiSize = 'md', isDisabled = false } = args
 
   const baseClasses = [
     'font-mono',
@@ -145,7 +145,7 @@ export function textInputClasses(args: { inputClass?: string, size?: UiElementSi
 
   const classes = [
     ...baseClasses,
-    sizeClasses[size],
+    sizeClasses[uiSize],
     ...bgClasses,
     ...borderClasses,
     ...textClasses,

@@ -6,7 +6,7 @@ import { textInputClasses } from './theme'
 defineProps({
   modelValue: { type: String, default: '' },
   inputClass: { type: String, default: '' },
-  size: { type: String as vue.PropType<UiElementSize>, default: 'md' },
+  uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
 })
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: string): void
@@ -21,7 +21,7 @@ function handleEmit(target: EventTarget | null): void {
 
 <template>
   <input
-    :class="textInputClasses({ inputClass, size })"
+    :class="textInputClasses({ inputClass, uiSize })"
     :value="modelValue"
     :autocomplete="attrs.autocomplete || 'current-password'"
     type="password"

@@ -7,7 +7,7 @@ defineProps({
   modelValue: { type: [String], default: '' },
   placeholder: { type: [String], default: 'Type your email...' },
   inputClass: { type: String, default: '' },
-  size: { type: String as vue.PropType<UiElementSize>, default: 'md' },
+  uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
 })
 
 const emit = defineEmits<{
@@ -23,7 +23,7 @@ function handleEmit(target: EventTarget | null): void {
 
 <template>
   <input
-    :class="textInputClasses({ inputClass, size })"
+    :class="textInputClasses({ inputClass, uiSize })"
     type="email"
     autocomplete="email"
     :value="modelValue"

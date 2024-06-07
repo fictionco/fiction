@@ -10,7 +10,7 @@ const activeAvatar = vue.computed<MediaDisplayObject | undefined>(() => {
 </script>
 
 <template>
-  <div v-if="!activeAvatar" class="flex justify-center items-center text-theme-400 dark:text-theme-600">
+  <div v-if="!activeAvatar" class="flex justify-center items-center text-theme-400 dark:text-theme-600 dark:bg-theme-600/30">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"

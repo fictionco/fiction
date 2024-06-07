@@ -2,6 +2,7 @@
 import type { ResponseStatus, ValidationReason } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
 import type { CheckColumnValue } from '@fiction/core/plugin-db/endpoint'
+import type { UiElementSize } from '../utils'
 import { textInputClasses } from './theme'
 
 const props = defineProps({
@@ -14,6 +15,7 @@ const props = defineProps({
   columns: { type: Array as vue.PropType<CheckColumnValue[]>, default: () => [] },
   maxLength: { type: Number, default: 100 },
   minLength: { type: Number, default: 3 },
+  uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
 })
 
 const emit = defineEmits<{
@@ -67,7 +69,7 @@ async function handleEmit(target: EventTarget | null) {
     status.value = 'fail'
     reason.value = 'long'
   }
-  else if (/[^a-zA-Z0-9-_]/.test(value)) {
+  else if (/[^\w-]/.test(value)) {
     status.value = 'fail'
     reason.value = 'invalid'
   }
@@ -112,7 +114,7 @@ const icon = vue.computed(() => {
 
 <template>
   <div>
-    <div class="flex items-center space-x-2 " :class="textInputClasses({ inputClass: [inputClass, 'py-0'].join(' ') })" tabindex="-1">
+    <div class="flex items-center space-x-2 " :class="textInputClasses({ inputClass: [inputClass, 'py-0'].join(' '), uiSize })" tabindex="-1">
       <div v-if="beforeInput" class="opacity-50 py-2">
         {{ beforeInput }}
       </div>

@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site/card'
-import ElPanelSettings from './ElPanelSettings.vue'
-import type { UserConfig } from './SettingsWrap.vue'
 import { useService, vue } from '@fiction/core'
 import ElZeroBanner from '@fiction/ui/ElZeroBanner.vue'
 import type { FictionStripe } from '@fiction/plugin-stripe'
+import type { NavCardUserConfig } from '../../index.js'
+import ElPanelSettings from './ElPanelSettings.vue'
 
 defineProps({
-  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
+  card: { type: Object as vue.PropType<Card<NavCardUserConfig>>, required: true },
 })
 
 const { fictionStripe } = useService<{ fictionStripe?: FictionStripe }>()

@@ -180,7 +180,7 @@ export class QueryManageMemberRelation extends OrgQuery {
   }
 }
 
-export type WhereOrg = { orgId: string } | { username: string }
+export type WhereOrg = { orgId: string } | { slug: string }
 
 export type ManageOrganizationParams =
   | { _action: 'create', fields: Partial<Organization>, userId: string }
@@ -245,6 +245,9 @@ export class QueryManageOrganization extends OrgQuery {
       .into(t.org)
       .returning<Organization[]>('*')
 
+    if (!responseOrg?.orgId)
+      throw new Error('Organization creation failed')
+
     await this.manageMemberRelation({ userId, orgId: responseOrg.orgId, accessType: 'owner' }, meta)
 
     if (!responseOrg)
@@ -293,11 +296,11 @@ export class QueryManageOrganization extends OrgQuery {
   }
 
   // Additional helper functions for validation, member management, and response preparation
-  private validatePermission(args: { orgId?: string, username?: string }, meta: EndpointMeta) {
+  private validatePermission(args: { orgId?: string, slug?: string }, meta: EndpointMeta) {
     if (meta.server)
       return
 
-    if (meta.bearer?.orgs?.find(o => o.orgId === args.orgId || o.username === args.username))
+    if (meta.bearer?.orgs?.find(o => o.orgId === args.orgId || o.slug === args.slug))
       return
 
     throw abort('bearer privilege')

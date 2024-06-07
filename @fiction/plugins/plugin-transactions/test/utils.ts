@@ -27,7 +27,7 @@ function safeReplace(str: string, pattern: string | undefined, replacement: stri
   return str
 }
 
-export function emailActionSnapshot(str: string, emailVars: Partial<EmailVars> = {}, masks?: Record<string, string>): string {
+export function emailActionSnapshot(str: string, emailVars: Partial<EmailVars> = {}, masks?: Record<string, string | undefined>): string {
   const { token, email, code, userId, username, callbackUrl, originUrl, unsubscribeUrl, fullName } = emailVars
 
   // Function to replace port numbers in URLs

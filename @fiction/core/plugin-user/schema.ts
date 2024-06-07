@@ -220,7 +220,7 @@ export const orgColumns = [
     default: () => '' as string,
   }),
   new FictionDbCol({
-    key: 'username',
+    key: 'slug',
     create: ({ schema, column }) => schema.string(column.pgKey).unique(),
     default: () => '' as string,
     isSetting: true,

@@ -1,10 +1,12 @@
 import type { ListItem } from '@fiction/core'
 import { FictionObject, removeUndefined, vue } from '@fiction/core'
 import type { z } from 'zod'
+import InputActions from './InputActions.vue'
 
 const def = vue.defineAsyncComponent
 
 export const inputs: Record<string, { el: vue.Component, shape?: string[] }> = {
+  InputActions: { el: def(() => import('./InputActions.vue')) },
   InputUsername: { el: def(() => import('./InputUsername.vue')) },
   InputImage: { el: def(() => import('./InputImage.vue')) },
   InputMarkdown: { el: def(() => import('./InputMarkdown.vue')) },
@@ -73,6 +75,8 @@ export interface InputOptionSettings<T extends string = string, U = any> {
   isHidden?: boolean
   isUtility?: boolean
   shape?: string[]
+  icon?: string
+  uiFormat?: 'standard' | 'naked'
 }
 
 export type OptArgs = (Partial<InputOptionSettings> & Record<string, unknown>) | undefined

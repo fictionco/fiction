@@ -4,16 +4,14 @@ import { log, useService, vue } from '@fiction/core'
 import type { Organization } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
+import type { NavCardUserConfig } from '../../index.js'
 import ElAvatarOrg from './ElAvatarOrg.vue'
 import ElPanelSettings from './ElPanelSettings.vue'
 import UtilDeleteOrg from './UtilDeleteOrg.vue'
 import UtilListOrganizations from './UtilListOrganizations.vue'
 
-import type { UserConfig } from './SettingsWrap.vue'
-
-
 defineProps({
-  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
+  card: { type: Object as vue.PropType<Card<NavCardUserConfig>>, required: true },
 })
 
 const { fictionUser } = useService()
@@ -31,7 +29,7 @@ async function saveOrganization(): Promise<void> {
   if (!form.value.orgId)
     throw new Error('No organization id')
 
-  const fields = { ...form.value,   config: config.value }
+  const fields = { ...form.value, config: config.value }
 
   await fictionUser.requests.ManageOrganization.request(
     { _action: 'update', where: { orgId: form.value.orgId }, fields },
@@ -114,7 +112,7 @@ vue.onMounted(async () => {
         />
 
         <ElInput
-          v-model="form.username"
+          v-model="form.slug"
           input="InputText"
           label="Username"
           placeholder="acme-inc"

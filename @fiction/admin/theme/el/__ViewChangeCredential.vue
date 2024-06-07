@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site/card'
 import ElPanelSettings from './ElPanelSettings.vue'
-import type { UserConfig } from './SettingsWrap.vue'
+import type { NavCardUserConfig } from '../../index.js'
 import { useService, vue } from '@fiction/core'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 
 const props = defineProps({
-  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
+  card: { type: Object as vue.PropType<Card<NavCardUserConfig>>, required: true },
 })
 
 const { fictionUser } = useService()
@@ -201,4 +201,8 @@ async function send(): Promise<void> {
       </ElForm>
     </div>
   </ElPanelSettings>
-</template>
+</template>import { r } from 'vitest/dist/reporters-yx5ZTtEV.js'
+import { UserConfig } from 'vite'
+import { r } from 'vitest/dist/reporters-yx5ZTtEV.js'
+import { r } from 'vitest/dist/reporters-yx5ZTtEV.js'
+

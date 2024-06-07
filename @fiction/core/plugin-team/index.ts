@@ -75,7 +75,10 @@ export class FictionTeam extends FictionPlugin<FictionTeamSettings> {
     if (!email)
       throw new Error('no client email')
 
-    const { orgName } = org
+    const { orgName, orgId } = org
+
+    if (!orgId)
+      throw new Error('no orgId')
 
     const bodyMarkdown = `Hi there!\n\n${requestingName} (${requestingEmail}) has invited you to the organization "${orgName}."`
 
@@ -84,14 +87,14 @@ export class FictionTeam extends FictionPlugin<FictionTeamSettings> {
 
     await this.settings.fictionEmail.sendTransactional({
       to: email,
-      subject: `${org.orgName}: You've been invited!`,
+      subject: `${org.orgName || 'Organization'}: You've been invited!`,
       bodyMarkdown,
       actions: [{
         name: 'Set Your Password',
         href: this.invitationReturnUrl({
           code: verify?.code,
           email,
-          orgId: org.orgId,
+          orgId,
           redirect: `/org/${org.orgId}`,
         }),
       }],

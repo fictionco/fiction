@@ -2,16 +2,16 @@
 import type { MemberAccess } from '@fiction/core/plugin-user/types'
 import type { FictionTeam } from '@fiction/core/plugin-team'
 import type { Card } from '@fiction/site/card'
-import ElPanelSettings from './ElPanelSettings.vue'
-import type { UserConfig } from './SettingsWrap.vue'
 import { onResetUi, useService, vue } from '@fiction/core'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import InputEmail from '@fiction/ui/inputs/InputEmail.vue'
 import InputSelect from '@fiction/ui/inputs/InputSelect.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
+import type { NavCardUserConfig } from '../../index.js'
+import ElPanelSettings from './ElPanelSettings.vue'
 
 defineProps({
-  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
+  card: { type: Object as vue.PropType<Card<NavCardUserConfig>>, required: true },
 })
 
 const { fictionUser, fictionTeam } = useService<{ fictionTeam: FictionTeam }>()

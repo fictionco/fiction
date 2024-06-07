@@ -6,12 +6,12 @@
     "@fiction/plugin-ai": "workspace:*",
     "@fiction/plugin-contact": "workspace:*",
     "@fiction/plugin-editor": "workspace:*",
-    "@fiction/plugin-transactions": "workspace:*",
     "@fiction/plugin-extend": "workspace:*",
     "@fiction/plugin-highlight-code": "workspace:*",
     "@fiction/plugin-monitor": "workspace:*",
     "@fiction/plugin-posts": "workspace:*",
     "@fiction/plugin-stripe": "workspace:*",
+    "@fiction/plugin-transactions": "workspace:*",
     "@fiction/site": "workspace:*",
     "@fiction/theme-fiction": "workspace:*",
     "@fiction/theme-minimal": "workspace:*",
@@ -19,7 +19,7 @@
     "@types/mapbox-gl": "^3.1.0",
     "mapbox-gl": "^3.4.0",
     "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.3"
+    "tailwindcss": "^3.4.4"
   },
   "devDependencies": {
     "dotenv": "^16.4.5"

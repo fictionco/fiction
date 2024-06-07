@@ -7,11 +7,11 @@ import ElTable from '@fiction/ui/ElTable.vue'
 import type { TableCell } from '@fiction/ui/ElTable.vue'
 import { dayjs, vue } from '@fiction/core'
 import type { OrganizationMember } from '@fiction/core'
-import type { UserConfig } from './SettingsWrap.vue'
+import type { NavCardUserConfig } from '../../index.js'
 import ElPanelSettings from './ElPanelSettings.vue'
 
 const props = defineProps({
-  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
+  card: { type: Object as vue.PropType<Card<NavCardUserConfig>>, required: true },
 })
 
 const { fictionTeam, fictionUser } = useService<{ fictionTeam: FictionTeam }>()

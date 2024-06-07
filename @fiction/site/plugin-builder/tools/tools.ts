@@ -11,26 +11,6 @@ export const tools = [
     el: vue.defineAsyncComponent(() => import('./PageToolMaster.vue')),
     isPrimary: true,
   },
-  // {
-  //   toolId: 'pages',
-  //   icon: 'i-tabler-files',
-  //   el: vue.defineAsyncComponent(() => import('./ToolPages.vue')),
-  //   isPrimary: true,
-  // },
-  // {
-  //   toolId: 'layout',
-  //   icon: 'i-tabler-layout',
-  //   el: vue.defineAsyncComponent(() => import('./LayoutTool.vue')),
-  //   isPrimary: true,
-  // },
-  // {
-  //   toolId: 'add',
-  //   title: 'Add Elements',
-  //   icon: 'i-tabler-new-section',
-  //   el: vue.defineAsyncComponent(() => import('./ToolAdd.vue')),
-  //   isPrimary: true,
-  // },
-
   {
     toolId: 'addPage',
     title: 'Add Page',

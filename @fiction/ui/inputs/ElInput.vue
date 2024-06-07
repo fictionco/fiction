@@ -8,7 +8,7 @@ const props = defineProps({
   label: { type: String, default: '' },
   subLabel: { type: String, default: '' },
   description: { type: String, default: '' },
-  size: { type: String as vue.PropType<UiElementSize>, default: 'md' },
+  uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
   input: { type: [String, Object] as vue.PropType<keyof typeof inputs | vue.Component | 'title' | 'group'>, default: undefined },
   defaultValue: { type: [String, Object, Array, Number, Date, Boolean], default: undefined },
 })
@@ -70,7 +70,7 @@ vue.onMounted(() => {
 })
 
 const cls = vue.computed(() => {
-  const size = props.size
+  const size = props.uiSize
   const map = {
     sm: { labelSize: 'text-[11px]' },
     md: { labelSize: 'text-xs' },
@@ -94,7 +94,7 @@ const cls = vue.computed(() => {
             </div>
           </div>
         </div>
-        <div v-if="subLabel" class="text-theme-400 dark:text-theme-600 text-[.9em]" v-html="subLabel" />
+        <div v-if="subLabel" class="text-theme-400 dark:text-theme-300 text-[.9em]" v-html="subLabel" />
       </div>
       <slot name="labelRight" />
     </div>
@@ -105,7 +105,7 @@ const cls = vue.computed(() => {
         ref="inputEl"
         :model-value="modelValue"
         v-bind="omit(attrs, 'class')"
-        :size
+        :ui-size="uiSize"
         @update:model-value="updateValue($event)"
       >
         <slot />

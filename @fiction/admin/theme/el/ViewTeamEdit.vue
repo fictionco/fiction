@@ -13,11 +13,11 @@ import ElButton from '@fiction/ui/ElButton.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
-import type { UserConfig } from './SettingsWrap.vue'
+import type { NavCardUserConfig } from '../../index.js'
 import ElPanelSettings from './ElPanelSettings.vue'
 
 const props = defineProps({
-  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
+  card: { type: Object as vue.PropType<Card<NavCardUserConfig>>, required: true },
 })
 
 const { fictionTeam, fictionUser } = useService<{ fictionTeam: FictionTeam }>()
@@ -211,4 +211,4 @@ async function maybeRemoveMember(): Promise<void> {
       </div>
     </div>
   </ElPanelSettings>
-</template>
+</template>import type { UserConfig } from 'vitest'
