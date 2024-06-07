@@ -5,7 +5,7 @@ import ElAvatarOrg from '@fiction/admin/theme/el/ElAvatarOrg.vue'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
-import type { ActionItem, IndexItem, Organization } from '@fiction/core'
+import type { ActionItem, IndexItem, Organization } from '@fiction/core/index.js'
 import type { InputOption } from '@fiction/ui'
 import ElModal from '@fiction/ui/ElModal.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
@@ -26,7 +26,7 @@ const list = vue.computed<IndexItem[]>(() => {
       key: org.orgId,
       name: org.orgName || 'Untitled',
       desc: org.orgEmail || 'No Email',
-      href: props.card.link(`/?orgId=${org.orgId}`),
+      href: props.card.link(`/settings?orgId=${org.orgId}`),
       media: org.avatar?.url || '',
       authors: org.members,
     } as IndexItem
@@ -60,7 +60,7 @@ async function createNewOrganization(): Promise<void> {
 
     if (r.status === 'success') {
       const orgId = r.data?.orgId
-      await props.card.goto(`/settings/team-invite?orgId=${orgId}`)
+      await props.card.goto(`/settings?orgId=${orgId}`)
     }
   }
   catch (e) {
@@ -122,17 +122,17 @@ const toolFormOptions = vue.computed<InputOption[]>(() => {
             <span class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />
           </div>
         </div>
-        <div class="pt-1.5">
+        <div class="pt-1.5 space-y-1">
           <h1 class="text-2xl font-semibold text-theme-900 dark:text-theme-0 x-font-title">
             {{ service.fictionUser.activeOrganization.value?.orgName || 'Unnamed Organization' }}
           </h1>
           <p class="text-sm font-normal text-theme-500 dark:text-theme-300">
-            {{ service.fictionUser.activeOrganization.value?.orgEmail }} &mdash; you are an <span class="">{{ service.fictionUser.activeOrganization.value?.relation?.memberAccess }}</span>
+            Organization &mdash; {{ service.fictionUser.activeOrganization.value?.orgEmail }} &mdash; you are an <span class="">{{ service.fictionUser.activeOrganization.value?.relation?.memberAccess }}</span>
           </p>
         </div>
       </div>
       <div class="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-3 sm:space-y-0 sm:space-x-reverse md:mt-0 md:flex-row md:space-x-3">
-        <ElButton btn="default" size="sm" @click="mode = 'change'">
+        <ElButton btn="default" size="md" icon="i-tabler-arrows-exchange" @click="mode = 'change'">
           Change Organization
         </ElButton>
       </div>

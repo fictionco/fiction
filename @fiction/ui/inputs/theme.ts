@@ -125,10 +125,14 @@ export function textInputClasses(args: { inputClass?: string, uiSize?: UiElement
     'focus:ring-inset',
     'ring-theme-300',
     'focus:ring-primary-700',
+    'focus-within:ring-primary-700',
+    'focus-within:ring-2',
     'dark:ring-theme-500/70',
     'dark:focus:ring-2',
+    'dark:focus-within:ring-2',
     'dark:focus:ring-inset',
-    'dark:focus:ring-primary-800',
+    'dark:focus:ring-primary-400',
+    'dark:focus-within:ring-primary-400',
   ]
 
   const textClasses = [

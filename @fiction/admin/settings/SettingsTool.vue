@@ -43,7 +43,7 @@ const nav = vue.computed<NavItem[]>(() => {
   <div :class="card.classes.value.contentWidth">
     <ElPanel class=" mx-5 rounded-md" box-class="p-0">
       <div class="flex border-theme-300/60 dark:border-theme-600/90 border rounded-md overflow-hidden">
-        <div class=" w-56 shrink-0 rounded-l-md pb-32 px-4 py-4 dark:bg-theme-700/50 border-r border-theme-600/60">
+        <div class=" w-64 shrink-0 rounded-l-md pb-32 px-4 py-4 dark:bg-theme-700/50 border-r border-theme-600/60">
           <div class="space-y-1 text-right">
             <component
               :is="getNavComponentType(v)"

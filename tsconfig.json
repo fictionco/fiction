@@ -25,14 +25,12 @@
     "types": ["node"],
     "allowJs": true,
     "strict": true,
-
     "noEmit": true,
     "outDir": "dist",
     "removeComments": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true, // vue/vetur needs this
     "skipDefaultLibCheck": true
-
   },
   "include": [
     "./**/*",

@@ -110,6 +110,20 @@ const icon = vue.computed(() => {
 
   return i[status.value]
 })
+
+const yPadding = vue.computed(() => {
+  const sizeClasses = {
+    'xxs': 'py-0.5',
+    'xs': 'py-1',
+    'sm': 'py-1',
+    'md': 'py-2',
+    'lg': 'py-2.5',
+    'xl': 'py-2.5',
+    '2xl': 'py-3',
+  }
+
+  return sizeClasses[props.uiSize]
+})
 </script>
 
 <template>
@@ -120,7 +134,8 @@ const icon = vue.computed(() => {
       </div>
       <input
         ref="validEl"
-        class="grow appearance-none border-none bg-transparent focus:outline-none focus:ring-0 focus:border-transparent px-0 py-2 leading-[1]"
+        class="grow appearance-none border-none bg-transparent focus:outline-none focus:ring-0 focus:border-transparent px-0 leading-[1]"
+        :class="yPadding"
         :style="{ fontSize: 'inherit' }"
         type="text"
         :value="modelValue"

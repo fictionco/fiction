@@ -34,11 +34,7 @@ export const tools: SettingsTool[] = [
       const { tool, service } = args
       const userIsAdmin = service.fictionUser.activeUser.value?.isSuperAdmin
       return vue.computed(() => [
-        new InputOption({
-          key: 'orgHead',
-          input: def(() => import('./ElOrganizationHead.vue')),
-          uiFormat: 'naked',
-        }),
+        new InputOption({ key: 'orgHead', input: def(() => import('./ElOrgHeader.vue')), uiFormat: 'naked' }),
         newOrgOptions({ title: 'Organization Info' }).value,
         new InputOption({
           key: 'publication',
@@ -73,6 +69,39 @@ export const tools: SettingsTool[] = [
         }),
       ] satisfies InputOption[],
       )
+    },
+  },
+  {
+    slug: 'account',
+    title: 'Account Details',
+    userConfig: { isNavItem: true, navIcon: 'i-tabler-user', navIconAlt: 'i-tabler-user-plus' },
+    options: (args) => {
+      return vue.computed(() => [
+        new InputOption({ key: 'accountHead', input: def(() => import('./ElAccountHeader.vue')), uiFormat: 'naked' }),
+        new InputOption({
+          key: 'userDetails',
+          label: 'Basic Details',
+          input: 'group',
+          options: [
+            new InputOption({ key: 'fullName', label: 'Full Name', input: 'InputText', placeholder: 'Your Full Name' }),
+            new InputOption({ key: 'avatar', label: 'Avatar', input: 'InputMediaUpload', subLabel: 'Upload a square image or it will be cropped' }),
+            new InputOption({ key: 'username', label: 'Unique Username', input: 'InputUsername', placeholder: 'my-username', props: { table: 'fiction_user', columns: ['username'] } }),
+            new InputOption({ key: 'phone', label: 'Phone Number', description: 'Include country code. Used for 2FA and notifications.', input: 'InputPhone', placeholder: '+1 555 555 5555' }),
+          ],
+        }),
+        new InputOption({
+          key: 'userProfile',
+          label: 'Profile Details',
+          input: 'group',
+          options: [
+            new InputOption({ key: 'headline', label: 'Profile Headline', input: 'InputText', placeholder: 'CEO @ MyCompany.com' }),
+            new InputOption({ key: 'websiteUrl', label: 'Website URL', input: 'InputUrl', placeholder: 'https://www.example.com' }),
+            new InputOption({ key: 'xUrl', label: 'X / Twitter URL', input: 'InputUrl', placeholder: 'https://www.x.com/username' }),
+            new InputOption({ key: 'instagramUrl', label: 'Instagram URL', input: 'InputUrl', placeholder: 'https://www.instagram.com/username' }),
+            new InputOption({ key: 'linkedinUrl', label: 'LinkedIn URL', input: 'InputUrl', placeholder: 'https://www.linkedin.com/in/username' }),
+          ],
+        }),
+      ])
     },
   },
 ]
