@@ -99,26 +99,53 @@ export async function verifyCode(args: {
   return true
 }
 
+export async function emailExists(params: { email: string, fictionUser: FictionUser }): Promise<boolean> {
+  const { fictionUser } = params
+
+  const email = params.email.toLowerCase().trim()
+
+  if (!validateEmail(email))
+    throw abort('email is not formatted correctly')
+
+  const { data: user } = await fictionUser.queries.ManageUser.serve(
+    { _action: 'retrieve', where: { email } },
+    { server: true, returnAuthority: ['verify'] },
+  )
+
+  return !!user?.userId
+}
+
 /**
  * Verify a new user email is valid and unique
  */
 export async function validateNewEmail(params: {
-  email?: string
+  newEmail?: string
+  code?: string
+  existingUser?: User
   fictionUser: FictionUser
+  onValidNewEmail: (email: string) => Promise<void> | void
 }): Promise<true> {
-  const { email, fictionUser } = params
-  if (!email)
-    throw abort('email is required')
-  if (!validateEmail(email))
-    throw abort('email failed validation')
+  const { newEmail, fictionUser, existingUser, code = '' } = params
 
-  const { data: user } = await fictionUser.queries.ManageUser.serve(
-    { _action: 'retrieve', where: { email: email.toLowerCase().trim() } },
-    { server: true },
-  )
+  const { fictionDb, fictionEnv } = fictionUser.settings
+  const email = newEmail?.toLowerCase().trim()
 
-  if (user?.userId)
-    throw abort(`verifyEmail: email ${email} already exists`, { data: { email, user } })
+  if (!email || email === existingUser?.email || !code) {
+    return true
+  }
+
+  const exists = await emailExists({ email, fictionUser })
+
+  if (exists)
+    throw abort(`verifyEmail: email ${email} already exists`, { data: { email } })
+
+  const { userId } = existingUser || {}
+
+  const isProd = fictionEnv.isProd.value
+
+  await verifyCode({ email, userId, verificationCode: code, fictionDb, isProd })
+
+  await params.onValidNewEmail(email)
 
   return true
 }

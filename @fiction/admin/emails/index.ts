@@ -68,5 +68,22 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
 
   })
 
-  return { verifyEmailAction, magicLoginEmailAction }
+  // Magic Login Email Action
+  const oneTimeCode = new EmailAction({
+    fictionTransactions,
+    actionId: 'oneTimeCode',
+    emailConfig: async (emailVars) => {
+      return {
+        emailVars,
+        subject: `${emailVars.appName}: Your One-Time-Code 🧑‍💻`,
+        heading: 'Here is your one-time code',
+        subHeading: 'Use this code to verify your email',
+        bodyMarkdown: `Use this code to verify your email: **${emailVars.code}**`,
+        to: `${emailVars.email}`,
+      }
+    },
+
+  })
+
+  return { verifyEmailAction, magicLoginEmailAction, oneTimeCode }
 }

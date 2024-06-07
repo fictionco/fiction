@@ -91,7 +91,6 @@ const cls = vue.computed(() => {
               <div :class="cls.groupPad">
                 <ToolForm
                   :ui-size="uiSize"
-                  class="max-w-sm"
                   :input-props="inputProps"
                   :options="opt.options.value || []"
                   :model-value="modelValue"

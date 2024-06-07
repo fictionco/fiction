@@ -36,7 +36,7 @@ type EmailConfigResponse = TransactionalEmailConfig & {
 
 export type EmailActionSettings<T extends EmailActionSurface = EmailActionSurface > = {
   actionId: string
-  template: vue.Component
+  template?: vue.Component
   emailConfig: (args: EmailVars<T['queryVars']>) => EmailConfigResponse | Promise<EmailConfigResponse>
   vars?: Partial<EmailVars>
   serverTransaction?: (args: T['transactionArgs'] & { transaction: EmailAction }, meta: EndpointMeta) => Promise< T['transactionResponse']>
@@ -50,6 +50,7 @@ export type SendArgsSurface = Partial<{
 
 export type SendArgsRequest = {
   to: string
+  userId?: string
   fields?: Partial<User>
   origin?: string
   redirect?: string

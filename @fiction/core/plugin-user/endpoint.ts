@@ -10,7 +10,7 @@ import { standardTable as t } from '../tbl'
 import type { EndpointResponse } from '../types'
 import { getGeoFree } from '../utils-analytics'
 import type { User } from './types'
-import { comparePassword, defaultOrgName, getCode, hashPassword, validateNewEmail, verifyCode } from './utils'
+import { comparePassword, defaultOrgName, emailExists, getCode, hashPassword, validateNewEmail, verifyCode } from './utils'
 import type { FictionUser, OnboardStoredSettings, Organization } from '.'
 
 interface UserQuerySettings {
@@ -32,16 +32,17 @@ type CreateUserFields = Partial<User> & { email: string, password?: string, orgN
 
 export type ManageUserParams =
   | { _action: 'create', fields: CreateUserFields, isVerifyEmail?: boolean }
-  | { _action: 'update', fields: Partial<User> & { password?: string }, where: WhereUser }
+  | { _action: 'update', fields: Partial<User> & { password?: string }, where: WhereUser, code?: string }
   | { _action: 'updateCurrentUser', fields: Partial<User> & { password?: string } }
   | { _action: 'retrieve', select?: (keyof User)[] | ['*'], where: WhereUser }
   | { _action: 'verifyEmail', email: string, code: string, password?: string }
+  | { _action: 'requestCode', where: WhereUser, context?: string }
   | { _action: 'getUserWithToken', token: string, code?: string }
   | { _action: 'login', where: WhereUser, password?: string }
   | { _action: 'loginGoogle', credential: string }
   | { _action: 'event', eventName: 'resetPassword', where: WhereUser }
   | { _action: 'manageOnboard', settings: OnboardStoredSettings, orgId?: string, userId?: string }
-  | { _action: 'getCreate', email: string, fields?: Partial<CreateUserFields> }
+  | { _action: 'getCreate', where: WhereUser, fields?: Partial<CreateUserFields> }
 
   type ManageUserResponse = EndpointResponse<User> & {
     isNew: boolean
@@ -88,6 +89,9 @@ export class QueryManageUser extends UserBaseQuery {
         user = await this.verifyEmail(params, meta)
         message = 'email verified'
         break
+      case 'requestCode':
+        user = await this.requestCode(params, meta)
+        break
       case 'login':
         user = await this.loginUser(params, meta)
         message = 'login successful'
@@ -102,7 +106,6 @@ export class QueryManageUser extends UserBaseQuery {
       case 'event':
         user = await this.handleUserEvent(params, meta)
         break
-
       case 'manageOnboard':
         user = await this.manageOnboard(params, meta)
         break
@@ -146,12 +149,13 @@ export class QueryManageUser extends UserBaseQuery {
   }
 
   private async getCreateUser(params: ManageUserParams & { _action: 'getCreate' }, _meta: EndpointMeta): Promise<{ user?: User, isNew: boolean }> {
-    const { email } = params
+    const { where } = params
 
     let isNew = false
-    let user = await this.getUser({ _action: 'retrieve', where: { email } }, _meta)
+    let user = await this.getUser({ _action: 'retrieve', where }, _meta)
 
-    if (!user) {
+    const { email } = where as { email?: string }
+    if (!user && email) {
       const fields: CreateUserFields = { ...params.fields, email }
       user = await this.createUser({ _action: 'create', fields }, { ..._meta, server: true })
       isNew = true
@@ -207,6 +211,16 @@ export class QueryManageUser extends UserBaseQuery {
     return user
   }
 
+  private async requestCode(params: ManageUserParams & { _action: 'requestCode' }, _meta: EndpointMeta): Promise<User | undefined> {
+    const { where, context } = params
+
+    const verify = { code: getCode(), expiresAt: dayjs().add(1, 'day').toISOString(), context }
+
+    const [user] = await this.db().update({ verify }).where(where).into(t.user).returning<User[]>('*')
+
+    return user
+  }
+
   validateBearer(where: WhereUser, meta: EndpointMeta) {
     if (meta.server)
       return
@@ -227,11 +241,10 @@ export class QueryManageUser extends UserBaseQuery {
   }
 
   private async updateUser(params: ManageUserParams & { _action: 'update' }, meta: EndpointMeta): Promise<User | undefined> {
+    const { where, fields, code } = params
     const db = this.db()
 
     this.validateBearer(params.where, meta)
-
-    const { where, fields } = params
 
     const existingUser = await this.getUser({ _action: 'retrieve', where }, meta)
 
@@ -250,17 +263,15 @@ export class QueryManageUser extends UserBaseQuery {
       passwordChanged = true
     }
 
-    let newEmail = undefined
-    const updateEmail = fields.email?.toLowerCase().trim()
-    // Check if email needs to be updated and if it's different from the current one
-    if (updateEmail && updateEmail !== existingUser?.email) {
-      insertFields.email = updateEmail
-      insertFields.emailVerified = false
-
-      await validateNewEmail({ email: insertFields.email, fictionUser: this.settings.fictionUser })
-
-      newEmail = insertFields.email
-    }
+    await validateNewEmail({
+      newEmail: fields.email,
+      code,
+      fictionUser: this.settings.fictionUser,
+      existingUser,
+      onValidNewEmail: (newEmail) => {
+        insertFields.email = newEmail
+      },
+    })
 
     this.log.info('updating user', { data: { where, insertFields, fields } })
 
@@ -269,7 +280,7 @@ export class QueryManageUser extends UserBaseQuery {
     if (!user)
       throw abort(`user not found`, { data: where })
 
-    this.settings.fictionUser.events.emit('updateUser', { user: existingUser!, newEmail, passwordChanged })
+    this.settings.fictionUser.events.emit('updateUser', { user: existingUser!, passwordChanged })
 
     return user
   }
@@ -327,7 +338,10 @@ export class QueryManageUser extends UserBaseQuery {
 
     const hashedPassword = await hashPassword(fields.password || shortId({ len: 14 }))
 
-    await validateNewEmail({ email: fields.email, fictionUser })
+    const exists = await emailExists({ email: fields.email, fictionUser })
+
+    if (exists)
+      throw abort('email already exists')
 
     const ipData = await getRequestIpAddress(meta.request)
     fields.ip = ipData.ip

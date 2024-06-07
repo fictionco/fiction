@@ -3,51 +3,44 @@ import type { Card } from '@fiction/site/card'
 import { dayjs, useService, vue } from '@fiction/core'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
-import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
-import type { ActionItem, IndexItem, Organization } from '@fiction/core/index.js'
 import ElModal from '@fiction/ui/ElModal.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import { InputOption } from '@fiction/ui'
 import ToolForm from '../tools/ToolForm.vue'
+import type { FictionAdmin } from '..'
 
-const props = defineProps({
+defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
-const service = useService()
+const service = useService<{ fictionAdmin: FictionAdmin }>()
 
 const user = vue.computed(() => service.fictionUser.activeUser.value)
 
 const mode = vue.ref<'current' | 'changeEmail'>('current')
 
+const codeSent = vue.ref(false)
 const sending = vue.ref(false)
-const newOrgForm = vue.ref<Organization>({})
-async function createNewOrganization(): Promise<void> {
+const form = vue.ref<{ code?: string, email?: string }>({})
+async function requestCode(): Promise<void> {
   sending.value = true
 
   try {
-    const { orgName, orgEmail, avatar } = newOrgForm.value
+    const { email } = form.value
 
-    const userId = service.fictionUser.activeUser.value?.userId
+    const userId = user.value?.userId
+
+    if (!email)
+      throw new Error('email is missing')
 
     if (!userId)
       throw new Error('userId is missing')
 
-    if (!orgName)
-      throw new Error('Organization name is required')
+    const r = await service.fictionAdmin.emailActions.oneTimeCode.requestSend({ to: email, userId, queryVars: {} })
 
-    if (!orgEmail)
-      throw new Error('Organization email is required')
-
-    const r = await service.fictionUser.requests.ManageOrganization.request({
-      userId,
-      fields: { orgName, orgEmail, avatar },
-      _action: 'create',
-    })
-
-    if (r.status === 'success') {
-      const orgId = r.data?.orgId
-      await props.card.goto(`/settings?orgId=${orgId}`)
+    if (r?.status === 'success') {
+      service.fictionEnv.events.emit('notify', { type: 'success', message: 'We sent you a one-time-code' })
+      codeSent.value = true
     }
   }
   catch (e) {
@@ -59,10 +52,42 @@ async function createNewOrganization(): Promise<void> {
   }
 }
 
-const codeSent = vue.ref(false)
+async function requestChangeEmail() {
+  sending.value = true
+
+  try {
+    const { email, code } = form.value
+
+    const userId = user.value?.userId
+
+    if (!email)
+      throw new Error('email is missing')
+
+    if (!userId)
+      throw new Error('userId is missing')
+
+    if (!code)
+      throw new Error('code is missing')
+
+    const r = await service.fictionUser.requests.ManageUser.projectRequest({ _action: 'update', where: { userId }, fields: { email }, code })
+
+    if (r?.status === 'success') {
+      service.fictionEnv.events.emit('notify', { type: 'success', message: 'You successfully changed your email address' })
+      mode.value = 'current'
+    }
+  }
+  catch (e) {
+    const error = e as Error
+    service.fictionEnv.events.emit('notify', { type: 'error', message: error.message })
+  }
+  finally {
+    sending.value = false
+  }
+}
+
 const toolFormOptions = vue.computed<InputOption[]>(() => {
-  const requestAction = { name: 'Request Verification Code', btn: 'primary' as const }
-  const submitAction = { name: 'Change Email', btn: 'primary' as const }
+  const requestAction = { name: 'Request Verification Code', btn: 'primary' as const, loading: sending.value }
+  const submitAction = { name: 'Change Email', btn: 'primary' as const, loading: sending.value }
 
   const actions = codeSent.value ? [submitAction] : [requestAction]
 
@@ -79,8 +104,8 @@ const toolFormOptions = vue.computed<InputOption[]>(() => {
 <template>
   <div class="p-8 dark:bg-theme-950 border-b dark:border-theme-700">
     <ElModal v-if="mode === 'changeEmail'" :vis="mode === 'changeEmail'" modal-class="max-w-lg" @update:vis="mode = 'current'">
-      <ElForm @submit="createNewOrganization()">
-        <ToolForm v-model="newOrgForm" ui-size="lg" :card :options="toolFormOptions" :disable-group-hide="true" />
+      <ElForm @submit="codeSent ? requestChangeEmail() : requestCode()">
+        <ToolForm v-model="form" ui-size="lg" :card :options="toolFormOptions" :disable-group-hide="true" />
       </ElForm>
     </ElModal>
 

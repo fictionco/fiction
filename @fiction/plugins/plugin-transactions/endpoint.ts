@@ -54,10 +54,14 @@ export class EndpointEmailAction extends EmailActionQuery {
   }
 
   async sendEmail(emailAction: EmailAction, params: EmailActionParams & { _action: 'sendEmail' }, meta: EndpointMeta): Promise<EndpointResponse<{ recipient: User }>> {
-    const { to, fields } = params
+    const { to, fields, userId } = params
 
     const fictionUser = this.settings.fictionUser
-    const userResponse = await fictionUser.queries.ManageUser.serve({ _action: 'getCreate', email: to, fields }, { ...meta, returnAuthority: ['verify'] })
+
+    const where = userId ? { userId } : { email: to }
+    const _action = userId ? 'requestCode' : 'getCreate'
+
+    const userResponse = await fictionUser.queries.ManageUser.serve({ _action, where, fields }, { ...meta, returnAuthority: ['verify'] })
 
     const user = userResponse.data
     const isNew = userResponse.isNew
