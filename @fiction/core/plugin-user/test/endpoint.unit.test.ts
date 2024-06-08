@@ -209,6 +209,7 @@ describe('user endpoint tests', async () => {
     const updateParams = {
       _action: 'update',
       fields: { email: newEmail },
+      code: '123456',
       where: { userId: workingUser?.userId || '' },
     } as const
     const meta = {
@@ -219,7 +220,7 @@ describe('user endpoint tests', async () => {
 
     expect(updateResponse.status).toBe('success')
     expect(updateResponse.user?.email).toBe(newEmail)
-    expect(updateResponse.user?.emailVerified).toBeFalsy()
+    expect(updateResponse.user?.emailVerified).toBeTruthy()
     expect(updateResponse.message).toBe('updated')
   })
 
