@@ -4,7 +4,7 @@ import { FictionDbCol, FictionDbTable } from '../plugin-db'
 import { standardTable as t } from '../tbl'
 import type { MediaDisplayObject } from '../types'
 import type { GeoData } from '../utils-analytics/geo'
-import type { MemberAccess, OnboardStoredSettings, OrganizationConfig, OrganizationCustomerData, Plan, PushSubscriptionDetail, SocialAccounts, StreetAddress, UserCompany } from './types'
+import type { MemberAccess, OnboardStoredSettings, OrganizationConfig, OrganizationCustomerData, OrganizationLegal, Plan, Publication, PushSubscriptionDetail, SocialAccounts, StreetAddress, UserCompany } from './types'
 
 export type VerificationCode = {
   code: string
@@ -335,6 +335,18 @@ export const orgColumns = [
     create: ({ schema, column }) => schema.string(column.pgKey),
     isAdmin: true,
     default: () => '' as 'vip' | 'npo',
+  }),
+  new FictionDbCol({
+    key: 'publication',
+    create: ({ schema, column }) => schema.jsonb(column.pgKey),
+    isSetting: true,
+    default: () => ({} as Publication),
+  }),
+  new FictionDbCol({
+    key: 'legal',
+    create: ({ schema, column }) => schema.jsonb(column.pgKey),
+    isSetting: true,
+    default: () => ({} as OrganizationLegal),
   }),
 ] as const
 

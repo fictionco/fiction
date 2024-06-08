@@ -125,6 +125,8 @@ export interface CompiledServiceConfig {
       | 'customerTest'
       | 'orgPlan'
       | 'specialPlan'
+      | 'publication'
+      | 'legal'
       | 'createdAt'
       | 'updatedAt'
     fiction_org_user:

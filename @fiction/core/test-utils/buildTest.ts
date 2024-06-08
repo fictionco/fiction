@@ -148,7 +148,7 @@ export async function createTestServer(params: {
 }
 
 type TestPageAction = {
-  type: 'visible' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'value' | 'hasText' | 'waitFor' | 'scrollTo'
+  type: 'visible' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'value' | 'hasText' | 'scrollTo'
   selector?: string
   text?: string
   key?: string
@@ -186,16 +186,15 @@ export async function performActions(args: {
   for (const action of actions) {
     const element = page.locator(action.selector || 'body')
 
+    if (action.wait) {
+      await waitFor(action.wait)
+    }
+
     try {
       switch (action.type) {
         case 'scrollTo': {
           logger.info('SCROLL_TO', { data: { selector: action.selector } })
           await element.scrollIntoViewIfNeeded()
-          break
-        }
-        case 'waitFor': {
-          logger.info('WAIT_FOR', { data: { time: action.wait } })
-          await waitFor(action.wait || 1000)
           break
         }
         case 'hasText': {

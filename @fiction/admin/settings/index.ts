@@ -60,10 +60,10 @@ export function getTools(args: { service: StandardServices }) {
               label: 'Publication and Syndication',
               input: 'group',
               options: [
-                new InputOption({ key: 'pubName', label: 'Publication Name', description: 'Will be used in emails, defaults to organization name', input: 'InputText', placeholder: 'Name of Publication' }),
-                new InputOption({ key: 'tagline', label: 'Publication Tagline', description: 'Used in descriptions and meta info', input: 'InputText', placeholder: 'A sentence on what you do...' }),
-                new InputOption({ key: 'pubEmail', label: 'Sender: From Email', description: 'Email will be sent from this address.', input: 'InputEmail' }),
-                new InputOption({ key: 'emailSender', label: 'Sender: From Name', description: 'If different from publication name', input: 'InputText', placeholder: 'Sender Name' }),
+                new InputOption({ key: 'publication.title', label: 'Publication Title', description: 'Will be used in emails, defaults to organization name', input: 'InputText', placeholder: 'Name of Publication' }),
+                new InputOption({ key: 'publication.tagline', label: 'Publication Tagline', description: 'Used in descriptions and meta info', input: 'InputText', placeholder: 'A sentence on what you do...' }),
+                new InputOption({ key: 'publication.email', label: 'Sender: From Email', description: 'Email will be sent from this address.', input: 'InputEmail' }),
+                new InputOption({ key: 'publication.sender', label: 'Sender: From Name', description: 'If different from publication name', input: 'InputText', placeholder: 'Sender Name' }),
               ],
             }),
             new InputOption({
@@ -71,9 +71,9 @@ export function getTools(args: { service: StandardServices }) {
               label: 'Legal',
               input: 'group',
               options: [
-                new InputOption({ key: 'termsUrl', label: 'Terms of Service URL', input: 'InputUrl' }),
-                new InputOption({ key: 'privacyUrl', label: 'Privacy Policy URL', input: 'InputUrl' }),
-                new InputOption({ key: 'copyrightText', label: 'Copyright Text', input: 'InputText', placeholder: 'Copyright Text' }),
+                new InputOption({ key: 'legal.termsUrl', label: 'Terms of Service URL', input: 'InputUrl' }),
+                new InputOption({ key: 'legal.privacyUrl', label: 'Privacy Policy URL', input: 'InputUrl' }),
+                new InputOption({ key: 'legal.copyrightText', label: 'Copyright Text', input: 'InputText', placeholder: 'Copyright Text' }),
               ],
             }),
             new InputOption({

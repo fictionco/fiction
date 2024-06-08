@@ -12,6 +12,19 @@ export interface OrganizationConfig {
   disableWatermark: boolean
 }
 
+export type Publication = {
+  title: string
+  tagline: string
+  email: string
+  sender: string
+}
+
+export type OrganizationLegal = {
+  termsUrl: string
+  privacyUrl: string
+  copyrightText: string
+}
+
 export type Organization = Partial<CreateObjectType<typeof orgColumns>> & {
   lastOrgId?: boolean
   members?: OrganizationMember[]

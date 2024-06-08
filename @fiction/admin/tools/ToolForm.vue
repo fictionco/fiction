@@ -114,7 +114,9 @@ const cls = vue.computed(() => {
           <ElInput
             v-if="opt.isHidden.value !== true"
             :ui-size="uiSize"
+            :data-key="opt.key.value"
             class="setting-input"
+            input-class="max-w-md"
             v-bind="{ ...inputProps, ...opt.outputProps.value }"
             :input="opt.input.value"
             :model-value="getNested({ path: getOptionPath(opt.key.value), data: modelValue })"
@@ -125,5 +127,6 @@ const cls = vue.computed(() => {
       </div>
     </div>
     <ElActions :actions class="mt-4 flex items-center justify-center" />
+
   </div>
 </template>

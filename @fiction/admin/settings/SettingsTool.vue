@@ -103,7 +103,7 @@ async function runSave() {
               {{ currentPanel?.title }}
             </div>
             <div>
-              <ElButton btn="primary" type="submit" icon="i-tabler-upload" :loading="sending">
+              <ElButton data-test-id="save" btn="primary" type="submit" icon="i-tabler-upload" :loading="sending">
                 Save Changes
               </ElButton>
             </div>
@@ -116,6 +116,7 @@ async function runSave() {
             :options="currentPanelOptions"
             :card
             :disable-group-hide="true"
+            :data-value="JSON.stringify(currentPanel.val.value)"
           />
         </ElForm>
       </div>
