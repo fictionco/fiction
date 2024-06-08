@@ -83,30 +83,34 @@ export async function createTestUser(fictionUser: FictionUser, opts: { caller?: 
   if (!user.verify?.code)
     throw new Error('no code returned')
 
-  return { user, token: r.token, email, password, code: user?.verify?.code }
-}
-
-export async function initializeTestUser(args: { fictionUser: FictionUser }): Promise<InitializedTestUtils> {
-  const { fictionUser } = args
-
-  const { user, token, email, password } = await createTestUser(fictionUser, { caller: 'initializeTestUser' })
-
-  if (!token)
-    throw new Error('token not returned (DB Connected?)')
-  if (!user)
-    throw new Error('no user created')
-
-  fictionUser.setCurrentUser({ user, token, reason: 'testUtils' })
-
-  fictionUser.setUserInitialized()
-
   const org = user.orgs?.[0]
   const orgId = org?.orgId
 
   if (!orgId)
     throw new Error('no org created')
 
-  return { user, org, orgId, token, email, password }
+  return { user, token: r.token, email, password, code: user?.verify?.code, org, orgId }
+}
+
+export async function initializeTestUser(args: { fictionUser: FictionUser, context?: 'node' | 'app' }): Promise<InitializedTestUtils> {
+  const { fictionUser, context } = args
+
+  const testUserDetails = await createTestUser(fictionUser, { caller: 'initializeTestUser' })
+
+  const { user, token } = testUserDetails
+
+  if (!token)
+    throw new Error('token not returned (DB Connected?)')
+  if (!user)
+    throw new Error('no user created')
+
+  if (!context || context === 'app') {
+    fictionUser.setCurrentUser({ user, token, reason: 'testUtils' })
+
+    fictionUser.setUserInitialized()
+  }
+
+  return testUserDetails
 }
 
 /**

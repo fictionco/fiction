@@ -10,7 +10,7 @@ const activeAvatar = vue.computed<MediaDisplayObject | undefined>(() => {
 </script>
 
 <template>
-  <div class="rounded-full ring-2 ring-theme-100 dark:ring-theme-0/90 overflow-hidden">
+  <div class="rounded-full ring-2 ring-theme-700 dark:ring-theme-0/90 overflow-hidden">
     <div v-if="!activeAvatar" class="flex justify-center items-center text-theme-400 dark:text-theme-600 dark:bg-theme-600/30 relative h-full w-full">
       <svg
         xmlns="http://www.w3.org/2000/svg"

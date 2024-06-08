@@ -1,7 +1,7 @@
 /* eslint-disable no-irregular-whitespace */
-import { createTestUtils, testEnvFile } from '@fiction/core/test-utils'
-
 import { afterAll, describe, expect, it } from 'vitest'
+import { createTestUtils, testEnvFile } from '../../test-utils'
+
 import { getEnvVars } from '../../utils'
 import type { TransactionalEmailConfig } from '..'
 import { sampleHtml } from '../preview/content'

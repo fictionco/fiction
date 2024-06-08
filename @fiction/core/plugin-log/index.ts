@@ -328,6 +328,8 @@ export class FictionLog {
 
     return out as LogHelper
   }
+
+
 }
 
 export const log = new FictionLog()

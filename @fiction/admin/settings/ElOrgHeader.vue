@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site/card'
 import { useService, vue } from '@fiction/core'
-import ElAvatarOrg from '@fiction/admin/theme/el/ElAvatarOrg.vue'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
@@ -9,6 +8,7 @@ import type { ActionItem, IndexItem, Organization } from '@fiction/core/index.js
 import type { InputOption } from '@fiction/ui'
 import ElModal from '@fiction/ui/ElModal.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
+import ElAvatarOrg from '../theme/el/ElAvatarOrg.vue'
 import ToolForm from '../tools/ToolForm.vue'
 import { newOrgOptions } from './index.js'
 
@@ -88,7 +88,7 @@ const toolFormOptions = vue.computed<InputOption[]>(() => {
 </script>
 
 <template>
-  <div class="p-8 dark:bg-theme-950 border-b dark:border-theme-600/70">
+  <div class="p-8 bg-theme-50 dark:bg-theme-950 border-b dark:border-theme-600/70">
     <ElModal v-if="mode === 'new'" :vis="mode === 'new'" modal-class="max-w-lg" @update:vis="mode = 'current'">
       <ElForm @submit="createNewOrganization()">
         <ToolForm v-model="newOrgForm" ui-size="lg" :card :options="toolFormOptions" :disable-group-hide="true" />

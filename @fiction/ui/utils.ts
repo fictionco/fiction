@@ -72,7 +72,7 @@ export function getButtonClasses(args: { btn: UiElementStyle | string, size: UiE
     primary: 'hover:bg-primary-600 dark:hover:bg-primary-900 hover:border-primary-600 dark:hover:border-primary-700',
     success: 'hover:bg-emerald-400 dark:hover:bg-emerald-600',
     theme: 'hover:bg-theme-400 dark:hover:bg-theme-500/60',
-    default: 'hover:bg-theme-100 dark:hover:bg-theme-900',
+    default: 'hover:bg-theme-100/50 dark:hover:bg-theme-900',
   }
 
   const staticStyles = {
@@ -82,7 +82,7 @@ export function getButtonClasses(args: { btn: UiElementStyle | string, size: UiE
     success: 'border bg-emerald-500 dark:bg-emerald-900 focus-visible:outline-emerald-500 text-emerald-50 border-emerald-500 dark:border-emerald-600',
     theme: 'border bg-theme-500 dark:bg-theme-600 focus-visible:outline-theme-500 text-theme-0 border-theme-500 dark:border-theme-500',
     naked: '',
-    default: 'border bg-theme-50/50 dark:bg-theme-700 text-theme-600 dark:text-theme-0 border-theme-300/50 dark:border-theme-600',
+    default: 'border bg-theme-50/50 dark:bg-theme-700 text-theme-600 dark:text-theme-0 border-theme-300/80 dark:border-theme-600',
   }
 
   const sizes = {

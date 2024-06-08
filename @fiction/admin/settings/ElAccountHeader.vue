@@ -102,23 +102,23 @@ const toolFormOptions = vue.computed<InputOption[]>(() => {
 </script>
 
 <template>
-  <div class="p-8 dark:bg-theme-950 border-b dark:border-theme-600/70">
+  <div class="p-8 bg-theme-50 dark:bg-theme-950 border-b border-theme-300/70 dark:border-theme-600/70">
     <ElModal v-if="mode === 'changeEmail'" :vis="mode === 'changeEmail'" modal-class="max-w-lg" @update:vis="mode = 'current'">
       <ElForm @submit="codeSent ? requestChangeEmail() : requestCode()">
         <ToolForm v-model="form" ui-size="lg" :card :options="toolFormOptions" :disable-group-hide="true" />
       </ElForm>
     </ElModal>
 
-    <div v-else class="md:flex md:items-center md:justify-between md:space-x-5 ">
+    <div v-else class="xl:flex xl:items-center xl:justify-between xl:space-x-5 space-y-4 xl:space-y-0">
       <div class="flex items-start space-x-5">
         <div class="flex-shrink-0">
           <div class="relative">
-            <ElAvatar class="size-16 rounded-full ring-2 ring-theme-300 dark:ring-theme-0" :email="user?.email" />
+            <ElAvatar class="size-16 rounded-full ring-2 ring-theme-800 dark:ring-theme-0" :email="user?.email" />
             <span class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />
           </div>
         </div>
         <div class="pt-1.5 space-y-1">
-          <h1 class="text-2xl font-semibold text-theme-900 dark:text-theme-0 x-font-title">
+          <h1 class="text-xl lg:text-2xl font-semibold text-theme-900 dark:text-theme-0 x-font-title">
             {{ user?.fullName || user?.email }}
           </h1>
           <p class="text-sm font-normal text-theme-500 dark:text-theme-400">

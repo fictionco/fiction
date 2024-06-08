@@ -46,6 +46,7 @@ export async function createTestBrowser(args: { headless: boolean, slowMo?: numb
   return {
     browser,
     page,
+    context,
     reset: async () => {
       try {
         // clear cookies and local storage

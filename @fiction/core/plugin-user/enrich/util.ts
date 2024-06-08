@@ -1,4 +1,4 @@
-import { removeUndefined } from '@fiction/core/utils'
+import { removeUndefined } from '../../utils/obj'
 import type { User } from '..'
 import type { ApolloApiResponse, NullablePartial } from './types'
 

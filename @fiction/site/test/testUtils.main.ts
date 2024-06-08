@@ -2,20 +2,25 @@ import { AppRoute, type ServiceConfig } from '@fiction/core'
 import CardSite from '@fiction/cards/CardSite.vue'
 import * as fictionTheme from '@fiction/theme-fiction'
 import * as adminTheme from '@fiction/admin/theme'
+import { FictionAdmin } from '@fiction/admin'
 import { createSiteTestUtils } from './testUtils'
 
 export async function setup(args: { context?: 'node' | 'app' } = {}) {
   const { context = 'app' } = args
   const mainFilePath = new URL(import.meta.url).pathname
 
-  const service = await createSiteTestUtils({ mainFilePath, context, themes: [fictionTheme.setup, adminTheme.setup] })
+  const testUtils = await createSiteTestUtils({ mainFilePath, context, themes: [fictionTheme.setup, adminTheme.setup] })
 
-  const siteRouter = service.fictionRouter
+  const siteRouter = testUtils.fictionRouter
   const component = CardSite
-  service.fictionRouter.update([
+  testUtils.fictionRouter.update([
     new AppRoute({ name: 'dash', path: '/app/:viewId?/:itemId?', component, props: { siteRouter, themeId: 'admin' } }),
     new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component, props: { siteRouter, themeId: 'fiction' } }),
   ])
+
+  const fictionAdmin = new FictionAdmin({ ...testUtils })
+
+  const service = { ...testUtils, fictionAdmin }
 
   return {
     runVars: { },

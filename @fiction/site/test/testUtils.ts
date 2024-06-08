@@ -64,6 +64,6 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
   return out as SiteTestUtils
 }
 
-export async function createSiteUiTestingKit(args: { headless?: boolean, slowMo?: number } = {}) {
+export async function createSiteUiTestingKit(args: { initUser?: boolean, headless?: boolean, slowMo?: number } = {}) {
   return createUiTestingKit({ ...args, setup })
 }

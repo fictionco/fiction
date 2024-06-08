@@ -76,21 +76,21 @@ async function runSave() {
 
 <template>
   <div :class="card.classes.value.contentWidth">
-    <ElPanel class=" mx-5 rounded-md" box-class="p-0">
-      <div class="flex border-theme-300/60 dark:border-theme-600/90 border rounded-md overflow-hidden">
-        <div class=" w-64 shrink-0 rounded-l-md pb-32 px-4 py-4 dark:bg-theme-700/50 border-r border-theme-600/60">
+    <ElPanel class="rounded-md" box-class="p-0">
+      <div class="flex border-theme-300/80 dark:border-theme-600/90 border rounded-md overflow-hidden">
+        <div class="md:w-48 2xl:w-64 shrink-0 rounded-l-md pb-32 px-4 py-4 dark:bg-theme-700/50 border-r dark:border-theme-600/60 border-theme-300/60">
           <div class="space-y-1 text-right">
             <component
               :is="getNavComponentType(v)"
               v-for="(v, i) in nav"
               :key="i"
-              class="flex items-center space-x-3 px-3 py-2.5 text-sm  rounded-lg transition-all duration-200"
+              class="flex items-center space-x-3 px-3 py-2.5 text-sm  rounded-lg transition-all duration-100"
               :to="v.href"
               :href="v.href"
               :class="
                 v.isActive
-                  ? 'active font-bold bg-theme-50 dark:bg-theme-600/30 dark:text-theme-0 ring-1 ring-inset ring-theme-500'
-                  : 'inactive font-medium text-theme-600 dark:text-theme-0 hover:bg-theme-100/50 dark:hover:bg-theme-800' "
+                  ? 'active font-bold bg-primary-50 text-theme-600 dark:bg-theme-600/30 dark:text-theme-0 ring-1 ring-inset ring-theme-300 dark:ring-theme-500'
+                  : 'inactive font-medium text-theme-600 dark:text-theme-0 hover:bg-theme-100/30 dark:hover:bg-theme-800' "
             >
               <div v-if="v.icon" class="text-[1.4em] shrink-0 opacity-80" :class="v.icon" />
               <div>{{ v.name }}</div>
@@ -98,7 +98,7 @@ async function runSave() {
           </div>
         </div>
         <ElForm class="grow min-w-0 bg-theme-0 dark:bg-theme-900 rounded-r-lg" @submit="runSave()">
-          <div class="header flex items-center justify-between py-3 px-4 border-b border-theme-300/50 dark:border-theme-600/70">
+          <div class="header flex items-center justify-between py-3 px-4 border-b border-theme-300/70 dark:border-theme-600/70">
             <div class="font-bold">
               {{ currentPanel?.title }}
             </div>
@@ -111,6 +111,7 @@ async function runSave() {
           <ToolForm
             v-if="currentPanel?.val"
             v-model="currentPanel.val.value"
+            :data-settings-tool="currentPanel.slug"
             ui-size="lg"
             :options="currentPanelOptions"
             :card
