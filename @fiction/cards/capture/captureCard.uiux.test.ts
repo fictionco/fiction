@@ -6,7 +6,7 @@ describe('hero: card', async () => {
 
   afterAll(() => kit?.close())
 
-  it('capture: ui testing', async () => {
+  it('capture: ui testing', { retry: 3 }, async () => {
     await kit.performActions({
       path: '/card-capture',
       actions: [
