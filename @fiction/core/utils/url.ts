@@ -235,6 +235,7 @@ export async function gravatarUrl(identifier: string, options: { size?: string |
   const isDefaultImage = await checkIfDefaultImage(gravatarUrl)
 
   return {
+    format: 'url',
     url: gravatarUrl,
     isDefaultImage,
   }

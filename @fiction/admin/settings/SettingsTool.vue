@@ -78,7 +78,7 @@ async function runSave() {
   <div :class="card.classes.value.contentWidth">
     <ElPanel class="rounded-md" box-class="p-0">
       <div class="flex border-theme-300/80 dark:border-theme-600/90 border rounded-md overflow-hidden">
-        <div class="md:w-48 2xl:w-64 shrink-0 rounded-l-md pb-32 px-4 py-4 dark:bg-theme-700/50 border-r dark:border-theme-600/60 border-theme-300/60">
+        <div class="bg-theme-0 md:w-48 2xl:w-64 shrink-0 rounded-l-md pb-32 px-4 py-4 dark:bg-theme-700/50 border-r dark:border-theme-600/60 border-theme-300/60">
           <div class="space-y-1 text-right">
             <component
               :is="getNavComponentType(v)"
@@ -89,7 +89,7 @@ async function runSave() {
               :href="v.href"
               :class="
                 v.isActive
-                  ? 'active font-bold bg-primary-50 text-theme-600 dark:bg-theme-600/30 dark:text-theme-0 ring-1 ring-inset ring-theme-300 dark:ring-theme-500'
+                  ? 'active font-bold text-theme-600 dark:bg-theme-600/50 dark:text-theme-0 bg-theme-100/60 '
                   : 'inactive font-medium text-theme-600 dark:text-theme-0 hover:bg-theme-100/30 dark:hover:bg-theme-800' "
             >
               <div v-if="v.icon" class="text-[1.4em] shrink-0 opacity-80" :class="v.icon" />

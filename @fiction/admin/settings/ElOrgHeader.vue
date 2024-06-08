@@ -4,12 +4,13 @@ import { useService, vue } from '@fiction/core'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
-import type { ActionItem, IndexItem, Organization } from '@fiction/core/index.js'
+import type { ActionItem, IndexItem, MediaDisplayObject, Organization } from '@fiction/core/index.js'
 import type { InputOption } from '@fiction/ui'
 import ElModal from '@fiction/ui/ElModal.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElAvatarOrg from '../theme/el/ElAvatarOrg.vue'
 import ToolForm from '../tools/ToolForm.vue'
+import ElHeader from './ElHeader.vue'
 import { newOrgOptions } from './index.js'
 
 const props = defineProps({
@@ -85,10 +86,14 @@ const newOrgActions = vue.computed<ActionItem[]>(() => {
 const toolFormOptions = vue.computed<InputOption[]>(() => {
   return [newOrgOptions({ title: 'New Organization', actionsRef: newOrgActions }).value]
 })
+
+const avatar = vue.computed<MediaDisplayObject | undefined>(() => {
+  return service.fictionUser.activeOrganization.value?.avatar
+})
 </script>
 
 <template>
-  <div class="p-8 bg-theme-50 dark:bg-theme-950 border-b dark:border-theme-600/70">
+  <div class="p-12 bg-theme-50/50 dark:bg-theme-950 border-b border-theme-300/70 dark:border-theme-600/70">
     <ElModal v-if="mode === 'new'" :vis="mode === 'new'" modal-class="max-w-lg" @update:vis="mode = 'current'">
       <ElForm @submit="createNewOrganization()">
         <ToolForm v-model="newOrgForm" ui-size="lg" :card :options="toolFormOptions" :disable-group-hide="true" />
@@ -114,28 +119,16 @@ const toolFormOptions = vue.computed<InputOption[]>(() => {
         </div>
       </template>
     </ElIndexGrid>
-    <div v-else class="md:flex md:items-center md:justify-between md:space-x-5 ">
-      <div class="flex items-start space-x-5">
-        <div class="flex-shrink-0">
-          <div class="relative">
-            <ElAvatarOrg class="size-16 rounded-full" />
-            <span class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />
-          </div>
-        </div>
-        <div class="pt-1.5 space-y-1">
-          <h1 class="text-2xl font-semibold text-theme-900 dark:text-theme-0 x-font-title">
-            {{ service.fictionUser.activeOrganization.value?.orgName || 'Unnamed Organization' }}
-          </h1>
-          <p class="text-sm font-normal text-theme-500 dark:text-theme-300">
-            Organization &mdash; {{ service.fictionUser.activeOrganization.value?.orgEmail }} &mdash; you are an <span class="">{{ service.fictionUser.activeOrganization.value?.relation?.memberAccess }}</span>
-          </p>
-        </div>
-      </div>
-      <div class="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-3 sm:space-y-0 sm:space-x-reverse md:mt-0 md:flex-row md:space-x-3">
-        <ElButton btn="default" size="md" icon="i-tabler-arrows-exchange" @click="mode = 'change'">
-          Change Organization
-        </ElButton>
-      </div>
-    </div>
+    <ElHeader
+      v-else
+      :heading="service.fictionUser.activeOrganization.value?.orgName || 'Unnamed Organization'"
+      :subheading="`Organization / ${service.fictionUser.activeOrganization.value?.orgEmail} / you are an ${service.fictionUser.activeOrganization.value?.relation?.memberAccess}`"
+      :avatar="avatar"
+      :actions="[{
+        name: 'Change Organization',
+        icon: 'i-tabler-arrows-exchange',
+        onClick: () => mode = 'change',
+      }]"
+    />
   </div>
 </template>

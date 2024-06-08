@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site/card'
-import { dayjs, useService, vue } from '@fiction/core'
+import { dayjs, gravatarUrl, useService, vue } from '@fiction/core'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
@@ -8,6 +8,7 @@ import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import { InputOption } from '@fiction/ui'
 import ToolForm from '../tools/ToolForm.vue'
 import type { FictionAdmin } from '..'
+import ElHeader from './ElHeader.vue'
 
 defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
@@ -99,38 +100,38 @@ const toolFormOptions = vue.computed<InputOption[]>(() => {
 
   return [new InputOption({ key: 'orgInfo', label: 'Change Email Address', input: 'group', options })]
 })
+
+const avatar = vue.ref({})
+vue.onMounted(() => {
+  vue.watchEffect(async () => {
+    if (user.value?.avatar?.url) {
+      avatar.value = user.value.avatar
+    }
+    else if (user.value?.email) {
+      avatar.value = (await gravatarUrl(user.value.email, { size: 400, default: 'identicon' }))
+    }
+  })
+})
 </script>
 
 <template>
-  <div class="p-8 bg-theme-50 dark:bg-theme-950 border-b border-theme-300/70 dark:border-theme-600/70">
+  <div class="p-12 bg-theme-50/50 dark:bg-theme-950 border-b border-theme-300/70 dark:border-theme-600/70">
     <ElModal v-if="mode === 'changeEmail'" :vis="mode === 'changeEmail'" modal-class="max-w-lg" @update:vis="mode = 'current'">
       <ElForm @submit="codeSent ? requestChangeEmail() : requestCode()">
         <ToolForm v-model="form" ui-size="lg" :card :options="toolFormOptions" :disable-group-hide="true" />
       </ElForm>
     </ElModal>
-
-    <div v-else class="xl:flex xl:items-center xl:justify-between xl:space-x-5 space-y-4 xl:space-y-0">
-      <div class="flex items-start space-x-5">
-        <div class="flex-shrink-0">
-          <div class="relative">
-            <ElAvatar class="size-16 rounded-full ring-2 ring-theme-800 dark:ring-theme-0" :email="user?.email" />
-            <span class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />
-          </div>
-        </div>
-        <div class="pt-1.5 space-y-1">
-          <h1 class="text-xl lg:text-2xl font-semibold text-theme-900 dark:text-theme-0 x-font-title">
-            {{ user?.fullName || user?.email }}
-          </h1>
-          <p class="text-sm font-normal text-theme-500 dark:text-theme-400">
-            User &mdash; {{ user?.email }} &mdash; Joined {{ dayjs(user?.createdAt).format('MMM D, YYYY') }}
-          </p>
-        </div>
-      </div>
-      <div class="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-3 sm:space-y-0 sm:space-x-reverse md:mt-0 md:flex-row md:space-x-3">
-        <ElButton btn="default" size="md" icon="i-tabler-arrows-exchange" @click.stop="mode = 'changeEmail'">
-          Change Email
-        </ElButton>
-      </div>
-    </div>
+    <!--  -->
+    <ElHeader
+      v-else
+      :heading="user?.fullName || user?.email"
+      :subheading="`User / ${user?.email} / Joined ${dayjs(user?.createdAt).format('MMM D, YYYY')}}`"
+      :avatar="avatar"
+      :actions="[{
+        name: 'Change Email',
+        icon: 'i-tabler-arrows-exchange',
+        onClick: () => mode = 'changeEmail',
+      }]"
+    />
   </div>
 </template>

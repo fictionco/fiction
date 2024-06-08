@@ -130,12 +130,13 @@ export async function validateNewEmail(params: {
   const { fictionDb, fictionEnv } = fictionUser.settings
   const email = newEmail?.toLowerCase().trim()
 
-  if (!email) {
+  // if no email or same as existing, return true
+  if (!email || email === existingUser?.email) {
     return true
   }
 
-  if (email === existingUser?.email || !code) {
-    throw abort(`code is required to change email`, { data: { email } })
+  if (!code) {
+    throw abort(`code is required to change email from ${existingUser?.email} to ${email}`, { data: { email } })
   }
 
   const exists = await emailExists({ email, fictionUser })
