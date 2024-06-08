@@ -88,7 +88,7 @@ const toolFormOptions = vue.computed<InputOption[]>(() => {
 </script>
 
 <template>
-  <div class="p-8 dark:bg-theme-950 border-b dark:border-theme-700">
+  <div class="p-8 dark:bg-theme-950 border-b dark:border-theme-600/70">
     <ElModal v-if="mode === 'new'" :vis="mode === 'new'" modal-class="max-w-lg" @update:vis="mode = 'current'">
       <ElForm @submit="createNewOrganization()">
         <ToolForm v-model="newOrgForm" ui-size="lg" :card :options="toolFormOptions" :disable-group-hide="true" />

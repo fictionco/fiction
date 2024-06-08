@@ -29,7 +29,7 @@ onResetUi(() => {
     <div @click.stop="active = !active">
       <div class="group flex cursor-pointer items-center space-x-1 hover:bg-theme-50 dark:border-theme-700 dark:bg-theme-700 dark:hover:bg-theme-700/60 px-1.5 py-1 rounded-full">
         <ElAvatar
-          class=" h-9 w-9 rounded-full ring-2 ring-black/90 dark:ring-theme-600"
+          class=" h-9 w-9 rounded-full ring-2 ring-black/90 dark:ring-theme-0"
           :class="active ? 'opacity-70' : ''"
           :email="fictionUser.activeUser.value?.email"
         />
@@ -62,7 +62,7 @@ onResetUi(() => {
         >
           <div>
             <ElAvatar
-              class="ring-theme-300 h-10 w-10 rounded-full ring-2"
+              class="ring-theme-300 dark:ring-theme-0 h-10 w-10 rounded-full ring-2"
               :email="fictionUser.activeUser.value?.email"
             />
           </div>
@@ -84,7 +84,7 @@ onResetUi(() => {
             <component
               :is="getNavComponentType(item)"
               class=" flex grow cursor-pointer items-center justify-between space-x-2 px-3 py-2 font-medium group"
-              :class="item.href || item.onClick ? 'hover:text-primary-500' : ''"
+              :class="item.href || item.onClick ? 'hover:text-primary-500 dark:hover:text-primary-300' : ''"
               :to="item.href"
               :href="item.href"
               @click="item.onClick ? item.onClick({ event: $event }) : ''"
@@ -95,7 +95,7 @@ onResetUi(() => {
                 <div
                   v-if="item.icon"
                   class="text-xl text-theme-500 dark:text-theme-100 "
-                  :class="[item.icon, item.href || item.onClick ? 'group-hover:text-primary-500 group-hover:dark:text-primary-500' : '']"
+                  :class="[item.icon, item.href || item.onClick ? 'group-hover:text-primary-500 group-hover:dark:text-primary-500 dark:group-hover:text-primary-300' : '']"
                 />
                 <div class="text-base">
                   {{ item.name }}

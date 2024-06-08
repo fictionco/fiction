@@ -67,8 +67,8 @@ const primaryNav = vue.computed<NavItem[]>(() => {
 const accountMenu: vue.ComputedRef<IndexItem[]> = vue.computed(() => {
   return [
     {
-      name: 'Settings',
-      href: props.card.link({ path: '/settings' }),
+      name: 'Account Settings',
+      href: props.card.link({ path: '/settings/account' }),
       icon: 'i-tabler-settings',
     },
     {
@@ -127,7 +127,7 @@ function toggleSidebar() {
           class="work-area relative block min-h-0 w-full overflow-hidden md:flex md:h-full md:overflow-visible"
         >
           <div
-            class="md:opacity-100 will-change-auto transition-all  duration-300 bg-theme-0 dark:bg-theme-900 border-theme-300/70 dark:border-theme-700 fixed top-0 z-30 justify-end border-r  md:static md:flex h-dvh w-60"
+            class="md:opacity-100 will-change-auto transition-all  duration-300 bg-theme-0 dark:bg-theme-900 border-theme-300/70 dark:border-theme-700 fixed top-0 z-30 justify-end border-r  md:static md:flex h-dvh w-72"
             :class="showMobileNav ? 'left-0 opacity-100' : '-left-full opacity-0'"
           >
             <DashNav :icon="card.userConfig.value.homeIcon" :nav="primaryNav" :card="card" />

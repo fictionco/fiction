@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site/card'
-import type { NavItem } from '@fiction/core'
+import type { NavItem, Organization, User } from '@fiction/core'
 import { getNavComponentType, toLabel, toSlug, useService, vue } from '@fiction/core'
 import ElPanel from '@fiction/ui/ElPanel.vue'
 import type { InputOption } from '@fiction/ui'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
+import ElButton from '@fiction/ui/ElButton.vue'
 import type { SettingsTool } from '..'
 import ToolForm from '../tools/ToolForm.vue'
 
@@ -37,11 +38,45 @@ const nav = vue.computed<NavItem[]>(() => {
       return { name: t.title || toLabel(t.slug), href: props.card.link(link), isActive, icon }
     })
 })
+
+const value = vue.computed({
+  get: () => {
+    return {
+      org: service.fictionUser.activeOrganization.value,
+      user: service.fictionUser.activeUser.value,
+    }
+  },
+  set: (v: { user?: User, org?: Organization }) => {
+    if (v.user)
+      service.fictionUser.activeUser.value = v.user
+    if (v.org)
+      service.fictionUser.activeOrganization.value = v.org
+  },
+})
+
+const sending = vue.ref(false)
+async function runSave() {
+  sending.value = true
+
+  try {
+    const tool = currentPanel.value
+    if (!tool)
+      throw new Error('No value to save')
+
+    await currentPanel.value?.save?.({ tool, service })
+  }
+  catch (e) {
+    console.error('Error saving user config', e)
+  }
+  finally {
+    sending.value = false
+  }
+}
 </script>
 
 <template>
   <div :class="card.classes.value.contentWidth">
-    <ElPanel class=" mx-5 rounded-md" box-class="p-0">
+    <ElPanel class=" mx-5 rounded-md" box-class="p-0" :title="currentPanel?.title">
       <div class="flex border-theme-300/60 dark:border-theme-600/90 border rounded-md overflow-hidden">
         <div class=" w-64 shrink-0 rounded-l-md pb-32 px-4 py-4 dark:bg-theme-700/50 border-r border-theme-600/60">
           <div class="space-y-1 text-right">
@@ -62,8 +97,25 @@ const nav = vue.computed<NavItem[]>(() => {
             </component>
           </div>
         </div>
-        <ElForm class="grow min-w-0 bg-theme-0 dark:bg-theme-900 rounded-r-lg">
-          <ToolForm ui-size="lg" :options="currentPanelOptions" :card :disable-group-hide="true" />
+        <ElForm class="grow min-w-0 bg-theme-0 dark:bg-theme-900 rounded-r-lg" @submit="runSave()">
+          <div class="header flex items-center justify-between py-3 px-4 border-b border-theme-300/50 dark:border-theme-600/70">
+            <div class="font-bold">
+              {{ currentPanel?.title }}
+            </div>
+            <div>
+              <ElButton btn="primary" type="submit" icon="i-tabler-upload" :loading="sending">
+                Save Changes
+              </ElButton>
+            </div>
+          </div>
+          <ToolForm
+            v-if="currentPanel?.val"
+            v-model="currentPanel.val.value"
+            ui-size="lg"
+            :options="currentPanelOptions"
+            :card
+            :disable-group-hide="true"
+          />
         </ElForm>
       </div>
     </ElPanel>
