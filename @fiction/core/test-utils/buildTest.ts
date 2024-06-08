@@ -238,7 +238,7 @@ export async function performActions(args: {
           break
         }
         case 'value': {
-          await waitFor(300)
+          await waitFor(500)
           const value = await element.evaluate(el => el.dataset.value)
           logger.info('VALUE', { data: { result: value, selector: action.selector } })
           const v = value ? JSON.parse(value) : {}

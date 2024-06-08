@@ -113,7 +113,7 @@ const toolFormOptions = vue.computed<InputOption[]>(() => {
       <div class="flex items-start space-x-5">
         <div class="flex-shrink-0">
           <div class="relative">
-            <ElAvatar class="size-16 rounded-full" :email="user?.email" />
+            <ElAvatar class="size-16 rounded-full ring-2 ring-theme-300 dark:ring-theme-0" :email="user?.email" />
             <span class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />
           </div>
         </div>

@@ -57,13 +57,13 @@ export function getTools(args: { service: StandardServices }) {
             newOrgOptions({ title: 'Organization Info' }).value,
             new InputOption({
               key: 'publication',
-              label: 'Publication',
+              label: 'Publication and Syndication',
               input: 'group',
               options: [
-                new InputOption({ key: 'pubName', label: 'Publication Name', description: 'Will be used in emails.', input: 'InputText', placeholder: 'Name of Publication' }),
-                new InputOption({ key: 'pubEmail', label: 'Publication Email', subLabel: 'Email will be sent from this address.', input: 'InputEmail' }),
-                new InputOption({ key: 'pubEmailFrom', label: 'Sender Name', input: 'InputText', placeholder: 'Sender Name' }),
-                new InputOption({ key: 'tagline', label: 'Tagline', input: 'InputText', placeholder: 'Value proposition or niche.' }),
+                new InputOption({ key: 'pubName', label: 'Publication Name', description: 'Will be used in emails, defaults to organization name', input: 'InputText', placeholder: 'Name of Publication' }),
+                new InputOption({ key: 'tagline', label: 'Publication Tagline', description: 'Used in descriptions and meta info', input: 'InputText', placeholder: 'A sentence on what you do...' }),
+                new InputOption({ key: 'pubEmail', label: 'Sender: From Email', description: 'Email will be sent from this address.', input: 'InputEmail' }),
+                new InputOption({ key: 'emailSender', label: 'Sender: From Name', description: 'If different from publication name', input: 'InputText', placeholder: 'Sender Name' }),
               ],
             }),
             new InputOption({

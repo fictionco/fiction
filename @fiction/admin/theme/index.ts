@@ -43,7 +43,8 @@ export function pages() {
       templates,
       templateId: 'dash',
       slug: 'settings',
-      userConfig: { isNavItem: true, navIcon: 'i-tabler-cog', navIconAlt: 'i-tabler-cog' },
+      title: 'Settings',
+      userConfig: { navIcon: 'i-tabler-settings', navIconAlt: 'i-tabler-settings-filled' },
       cards: [createCard({ el: def(() => import('../settings/SettingsMain.vue')) })],
     }),
     // createCard({
