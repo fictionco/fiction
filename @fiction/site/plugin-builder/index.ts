@@ -16,42 +16,33 @@ export class FictionSiteBuilder extends FictionPlugin<FictionSiteBuilderSettings
       caller: 'FictionSiteBuilder',
       context: 'app',
       callback: async (pages, meta) => {
-      const { templates } = meta
-      return [
-        ...pages,
-        createCard({
-          templates,
-          regionId: 'main',
-          templateId: 'dash',
-          slug: '_home',
-          title: 'Your Sites',
-          cards: [
-            createCard({
-              tpl: new CardTemplate({
-                templateId: 'sites',
-                el: vue.defineAsyncComponent(() => import('./ViewIndex.vue')),
-              }),
-            }),
-          ],
-          userConfig: { isNavItem: true, navIcon: 'i-tabler-browser', navIconAlt: 'i-tabler-browser-plus' },
-        }),
-        createCard({
-          templates,
-          regionId: 'main',
-          templateId: 'dash',
-          slug: 'edit-site',
-          title: 'Edit Site',
-          cards: [
-            createCard({
-              tpl: new CardTemplate({
-                templateId: 'siteEdit',
-                el: vue.defineAsyncComponent(() => import('./SiteEditor.vue')),
-              }),
-            }),
-          ],
-          userConfig: { isNavItem: false, layoutFormat: 'full', navIcon: 'i-tabler-home-plus' },
-        }),
-      ]
-    } })
+        const { templates } = meta
+        return [
+          ...pages,
+          createCard({
+            templates,
+            regionId: 'main',
+            templateId: 'dash',
+            slug: '_home',
+            title: 'Your Sites',
+            cards: [
+              createCard({ el: vue.defineAsyncComponent(() => import('./ViewIndex.vue')) }),
+            ],
+            userConfig: { isNavItem: true, navIcon: 'i-tabler-browser', navIconAlt: 'i-tabler-browser-plus' },
+          }),
+          createCard({
+            templates,
+            regionId: 'main',
+            templateId: 'dash',
+            slug: 'edit-site',
+            title: 'Edit Site',
+            cards: [
+              createCard({ el: vue.defineAsyncComponent(() => import('./SiteEditor.vue')) }),
+            ],
+            userConfig: { isNavItem: false, layoutFormat: 'full', navIcon: 'i-tabler-home-plus' },
+          }),
+        ]
+      },
+    })
   }
 }

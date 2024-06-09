@@ -18,6 +18,7 @@ export type UserConfig = {
   navIcon?: string
   navIconAlt?: string
   authRedirect?: string
+  parentNavItemSlug?: string
 }
 
 const props = defineProps({
@@ -47,15 +48,15 @@ const primaryNav = vue.computed<NavItem[]>(() => {
 
   const r = navItems?.map((item) => {
     const slug = item.slug.value === '_home' ? '' : item.slug.value
-    const uc = item.userConfig.value as UserConfig
-    const isActive = slug === site.siteRouter.params.value.viewId
-    const icon = isActive && uc.navIconAlt ? uc.navIconAlt : uc.navIcon
+    const itemUc = item.userConfig.value as UserConfig
+    const isActive = slug === site.siteRouter.params.value.viewId || slug === uc.value.parentNavItemSlug
+    const icon = isActive && itemUc.navIconAlt ? itemUc.navIconAlt : itemUc.navIcon
     return {
       name: item.title.value || '',
       href: item.link(`/${slug}`),
       icon,
       isActive,
-      priority: uc.priority,
+      priority: itemUc.priority,
     }
   })
 

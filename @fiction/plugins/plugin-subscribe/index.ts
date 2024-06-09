@@ -77,15 +77,23 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
             cards: [
               createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewSingle.vue')) }),
             ],
+            userConfig: {
+              navIcon: 'i-tabler-user',
+              parentNavItemSlug: 'subscriber',
+            },
           }),
           createCard({
             templates,
             templateId: 'dash',
-            slug: 'subscriber-add',
-            title: 'Add Subscribers',
+            slug: 'subscriber-manage',
+            title: 'Manage Subscribers',
             cards: [
-              createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewAdd.vue')) }),
+              createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewManage.vue')) }),
             ],
+            userConfig: {
+              navIcon: 'i-tabler-users-group',
+              parentNavItemSlug: 'subscriber',
+            },
           }),
         ]
       },

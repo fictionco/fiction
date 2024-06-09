@@ -89,7 +89,7 @@ async function runSave() {
               :href="v.href"
               :class="
                 v.isActive
-                  ? 'active font-bold text-theme-600 dark:bg-theme-600/50 dark:text-theme-0 bg-theme-100/60 '
+                  ? 'active font-bold bg-primary-100/50 text-primary-700 hover:text-primary-500 dark:bg-theme-600/50 dark:text-theme-0'
                   : 'inactive font-medium text-theme-600 dark:text-theme-0 hover:bg-theme-100/30 dark:hover:bg-theme-800' "
             >
               <div v-if="v.icon" class="text-[1.4em] shrink-0 opacity-80" :class="v.icon" />

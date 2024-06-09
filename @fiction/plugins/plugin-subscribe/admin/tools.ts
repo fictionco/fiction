@@ -9,7 +9,7 @@ export function getTools(args: { service: StandardServices }) {
   const tools = [
     {
       slug: 'import',
-      title: 'Upload CSV File',
+      title: 'Import Subscribers (.csv)',
       userConfig: { isNavItem: true, navIcon: 'i-tabler-table-share', navIconAlt: 'i-tabler-table-plus' },
       val: fictionUser.activeOrganization,
 
@@ -29,35 +29,36 @@ export function getTools(args: { service: StandardServices }) {
       },
     },
     {
-      slug: 'addSubscriber',
-      title: 'Copy and Paste',
+      slug: 'add',
+      title: 'Add Via Email',
       userConfig: { isNavItem: true, navIcon: 'i-tabler-copy-check', navIconAlt: 'i-tabler-copy-check-filled' },
       val: fictionUser.activeUser,
-      save: async (args) => {
-        const { tool, service: { fictionUser } } = args
-
-        const fields = tool.val?.value as User | undefined
-        const userId = fictionUser.activeUser.value?.userId
-
-        if (!userId)
-          throw new Error('No active user')
-
-        if (!fields)
-          throw new Error('No fields')
-
-        return await fictionUser.requests.ManageUser.projectRequest({ _action: 'update', fields, where: { userId } })
-      },
       options: () => {
         return vue.computed(() => [
           new InputOption({
             key: 'userDetails',
-            label: 'Basic Details',
+            label: 'Copy and Paste Emails',
             input: 'group',
             options: [
               new InputOption({ key: 'fullName', label: 'Full Name', input: 'InputText', placeholder: 'Your Full Name' }),
-              new InputOption({ key: 'avatar', label: 'Avatar', input: 'InputMediaUpload', subLabel: 'Upload a square image or it will be cropped' }),
-              new InputOption({ key: 'username', label: 'Unique Username', input: 'InputUsername', placeholder: 'my-username', props: { table: 'fiction_user', columns: [{ name: 'username' }] } }),
-              new InputOption({ key: 'phone', label: 'Phone Number', description: 'Include country code. Used for 2FA and notifications.', input: 'InputPhone', placeholder: '+1 555 555 5555' }),
+            ],
+          }),
+        ])
+      },
+    },
+    {
+      slug: 'export',
+      title: 'Export List',
+      userConfig: { isNavItem: true, navIcon: 'i-tabler-file-export' },
+      val: fictionUser.activeUser,
+      options: () => {
+        return vue.computed(() => [
+          new InputOption({
+            key: 'userDetails',
+            label: 'Copy and Paste Emails',
+            input: 'group',
+            options: [
+              new InputOption({ key: 'fullName', label: 'Full Name', input: 'InputText', placeholder: 'Your Full Name' }),
             ],
           }),
         ])
