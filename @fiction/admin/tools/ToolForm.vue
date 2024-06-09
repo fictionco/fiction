@@ -75,6 +75,7 @@ const cls = vue.computed(() => {
           ]"
         >
           <div
+            v-if="opt.label.value"
             class=" select-none flex justify-between cursor-pointer items-center hover:opacity-90 antialiased"
             :class="[
               cls.groupHeader,
@@ -127,6 +128,5 @@ const cls = vue.computed(() => {
       </div>
     </div>
     <ElActions :actions class="mt-4 flex items-center justify-center" />
-
   </div>
 </template>

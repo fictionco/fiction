@@ -1,0 +1,11 @@
+id,Name,Email,Tags,Description
+1,John Doe,john.doe@example.com,"tag1, tag2, tag3","A simple description."
+2,Jane Smith,JANE.SMITH@EXAMPLE.COM,"TAG4;TAG5;TAG6","Another description with different casing."
+3,Bob Johnson,bob_johnson@example.com,"Tag7|tag8|TAG9","Mixed casing in tags."
+4,Alice Brown,alice.brown@example.com,"tag10,Tag11, TAG12","Emails and tags with spaces."
+5,Charlie Davis,charlie.davis@example.com,"Tag13; tag14 ;TAG15 ","Tags with various separators."
+6,David Wilson,davidwilson@example.com," tag16 , Tag17 ,TAG18 ","Extra spaces around tags."
+7,Emily Clark,emily_clark@example.com,"tag19 tag20 tag21","Tags separated by spaces."
+8,Franklin Harris,bad email.harris@example.com,"tag22| Tag23 | TAG24 ","Tags with pipe separators."
+9,Grace Lee,grace.lee@example.com,"tag25,tag26;tag27","Mixed separators in tags."
+10,Hannah Martin,hannah.martin@example.com,"TAG28 | TAG29 ; tag30 ","All sorts of separators and casing."

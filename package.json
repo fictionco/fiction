@@ -81,7 +81,7 @@
     "source-map-support": "^0.5.21",
     "textlint": "^14.0.4",
     "ts-node": "^10.9.2",
-    "tsx": "^4.13.2",
+    "tsx": "^4.15.0",
     "typescript": "^5.4.5",
     "vite": "^5.2.13",
     "vitest": "^1.6.0",
@@ -89,7 +89,7 @@
     "vue-router": "^4.3.2"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.20.0",
+    "@antfu/eslint-config": "^2.21.0",
     "@codspeed/vitest-plugin": "^3.1.0",
     "@eslint/eslintrc": "^3.1.0",
     "@flydotio/dockerfile": "^0.5.7",
@@ -113,7 +113,7 @@
     "tslib": "^2.6.3",
     "vite-plugin-dts": "^3.9.1",
     "vitepress": "^1.2.3",
-    "vue-tsc": "^2.0.19"
+    "vue-tsc": "^2.0.21"
   },
   "pnpm": {
     "overrides": {

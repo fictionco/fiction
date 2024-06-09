@@ -6,12 +6,15 @@
   "license": "MIT",
   "main": "index.ts",
   "dependencies": {
+    "@fiction/admin": "workspace:*",
+    "@fiction/cards": "workspace:*",
     "@fiction/core": "workspace:*",
     "@fiction/plugin-monitor": "workspace:*",
     "@fiction/site": "workspace:*",
-    "@fiction/cards": "workspace:*",
     "@fiction/ui": "workspace:*",
-    "@fiction/admin": "workspace:*"
+    "fast-csv": "^5.0.1",
+    "formdata-node": "^6.0.3",
+    "multer": "1.4.5-lts.1"
   },
   "devDependencies": {
     "@fiction/theme-minimal": "workspace:*"

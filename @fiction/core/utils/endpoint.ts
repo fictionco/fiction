@@ -12,6 +12,7 @@ import type { FictionEnv } from '../plugin-env'
 import { axios, vue } from './libraries'
 import { waitFor } from './utils'
 import { deepMergeAll } from './obj'
+import { flatParse, flatStringify } from './stringify'
 
 type EndpointServerUrl = (() => string | undefined) | string | vue.ComputedRef<string> | undefined
 
@@ -161,7 +162,15 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
       return await this.requestHandler(request, response)
     }
     else if (this.queryHandler) {
-      const params = request.body as Record<string, any>
+      let params = request.body as Record<string, any>
+
+      // allow for params passed via FormData.append using special _params key
+      if (typeof params === 'object' && params._params) {
+        const p = flatParse<Record<string, any>>(params._params)
+        params = { ...p, ...params }
+        delete params._params
+      }
+
       const { caller, debug, expectError, isTest } = (params.meta || {}) as RequestMeta
       // explicitly define each as this is security basis backend calls
       const meta: EndpointMeta = { bearer: request.bearer, request, response, caller, debug, expectError, isTest }
@@ -263,9 +272,9 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
   async upload(args: {
     data: FormData
-    progress?: (progress: number) => void
+    params: DistributiveOmit<Parameters<T['run']>[0], 'orgId' | 'userId'>
   }): Promise<ReturnType<T['run']> > {
-    const { data } = args
+    const { data, params } = args
 
     const headers = { Authorization: this.bearerHeader }
 
@@ -274,12 +283,13 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     const url = this.requestUrl
 
     if (!userInfo)
-      return { status: 'error', context: 'projectReguest: no active organization or user' } as ReturnType<T['run']>
+      return { status: 'error', context: 'upload: no active organization or user' } as ReturnType<T['run']>
 
     const { orgId, userId } = userInfo
 
     data.append('orgId', orgId)
     data.append('userId', userId)
+    data.append('_params', flatStringify(params))
 
     const resp = await fetch(url, { method: 'POST', body: data, headers })
 
@@ -292,10 +302,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
    * Browser request with projectId and orgId added automatically
    */
   public projectRequest(
-    params: DistributiveOmit<
-      Parameters<this['request']>[0],
-      'orgId' | 'userId' | 'projectId'
-    >,
+    params: DistributiveOmit< Parameters<this['request']>[0], 'orgId' | 'userId'>,
     opts?: { useRouteParams?: boolean, debug?: boolean, minTime?: number, userOptional?: boolean },
   ): ReturnType<this['request']> {
     const { userOptional, useRouteParams, minTime, debug } = opts || {}

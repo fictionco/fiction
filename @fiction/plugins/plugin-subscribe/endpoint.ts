@@ -1,6 +1,8 @@
+import { Readable } from 'node:stream'
 import type { EndpointMeta, EndpointResponse, FictionDb, FictionEmail, FictionEnv } from '@fiction/core'
-import { Query, prepareFields } from '@fiction/core'
-import type { FictionMonitor } from '@fiction/plugin-monitor'
+import { Query, abort, prepareFields, validateEmail } from '@fiction/core'
+
+import fs from 'fs-extra'
 import type { Subscriber, TableSubscribeConfig } from './schema'
 import { t } from './schema'
 import type { FictionSubscribe } from '.'
@@ -12,7 +14,7 @@ interface SaveMediaSettings {
   fictionEmail: FictionEmail
 }
 
-abstract class SubscribeQuery extends Query<SaveMediaSettings> {
+abstract class SubscribeEndpoint extends Query<SaveMediaSettings> {
   db = () => this.settings.fictionDb.client()
   constructor(settings: SaveMediaSettings) {
     super(settings)
@@ -30,7 +32,7 @@ export type ManageSubscriptionParams =
 
 export type ManageSubscriptionResponse = EndpointResponse<Subscriber[]>
 
-export class ManageSubscriptionQuery extends SubscribeQuery {
+export class ManageSubscriptionQuery extends SubscribeEndpoint {
   async run(params: ManageSubscriptionParams, meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
     const { _action } = params
 
@@ -96,5 +98,82 @@ export class ManageSubscriptionQuery extends SubscribeQuery {
       .returning('*')
 
     return { status: 'success', message: 'Subscription deleted', data: result }
+  }
+}
+
+export type ManageSubscriberAdd =
+  | { _action: 'uploadCsv', orgId: string, userId: string, test: number }
+
+export class UploadCSVEndpoint extends SubscribeEndpoint {
+  async run(params: ManageSubscriberAdd, meta: EndpointMeta): Promise<EndpointResponse<any>> {
+    const { _action } = params
+
+    let r: EndpointResponse | undefined
+    switch (_action) {
+      case 'uploadCsv':
+        r = await this.uploadCsv(params, meta)
+        break
+      default:
+        r = { status: 'error', message: 'Invalid action' }
+    }
+
+    return r || { status: 'error', message: 'Invalid action' }
+  }
+
+  async uploadCsv(params: ManageSubscriberAdd & { _action: 'uploadCsv' }, meta: EndpointMeta): Promise<EndpointResponse> {
+    const file = meta.request?.file
+
+    if (!file)
+      throw abort('no file provided to endpoint by request')
+
+    const { parseStream } = await import('@fast-csv/parse')
+
+    const fileReadableStream = Readable.from(file.buffer)
+
+    type CsvRow = {
+      email: string
+      tags: string
+      [key: string]: string
+    }
+
+    const transformFunction = (data: CsvRow): CsvRow => {
+      return Object.entries(data)
+        .filter(([key, value]) => {
+          return ['email', 'tags'].includes(key) && value.trim().length > 0
+        })
+        .reduce((acc: CsvRow, [key, value]) => {
+          acc[key] = value.trim().toLowerCase()
+
+          if (key === 'tags')
+            acc[key] = value.split(/[;,|]/).map(tag => tag.trim().toLowerCase()).join(',')
+
+          return acc
+        }, {} as CsvRow)
+    }
+
+    const rows: CsvRow[] = []
+
+    const isValidEmail = (email?: string) => email ? /^[^\s@]+@[^\s@][^\s.@]*\.[^\s@]+$/.test(email) : false
+
+    let resolvePromise: (value?: unknown) => void
+
+    const myPromise = new Promise(resolve => (resolvePromise = resolve))
+
+    parseStream<CsvRow, CsvRow>(fileReadableStream, { headers: headers => headers.map(h => h?.toLowerCase()) })
+      .transform(transformFunction)
+      .validate((data: CsvRow): boolean => isValidEmail(data.email))
+      .on('error', error => console.error(error))
+      .on('data', (row: CsvRow) => { rows.push(row) })
+      .on('data-invalid', (row, rowNumber) => this.log.warn(`Invalid: rowNo(${rowNumber}) - ${JSON.stringify(row)}`))
+      .on('end', (rowCount: number) => {
+        this.log.info(`Parsed ${rowCount} rows`)
+        resolvePromise()
+      })
+
+    await myPromise
+
+    const message = 'uploaded successfully'
+
+    return { status: 'success', data: { rows }, message }
   }
 }

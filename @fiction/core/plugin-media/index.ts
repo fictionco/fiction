@@ -70,16 +70,12 @@ export class FictionMedia extends FictionPlugin<FictionMediaSettings> {
     if (file)
       formData.append(this.imageFieldName, file)
 
-    const r = await this.requests.SaveMedia.upload({ data: formData })
+    const r = await this.requests.SaveMedia.upload({ data: formData, params: {} })
 
     return r
   }
 
   async relativeMedia(args: { url: string, orgId?: string, userId?: string }): Promise<TableMediaConfig> {
-    return await relativeMedia({
-      fictionMedia: this,
-      cache: this.cache,
-      ...args,
-    })
+    return await relativeMedia({ fictionMedia: this, cache: this.cache, ...args })
   }
 }

@@ -1,4 +1,3 @@
-import type { MainFileSetup } from '@fiction/core'
 import { AppRoute, FictionApp, FictionAws, FictionMedia, FictionRouter, getEnvVars, isCi, randomBetween } from '@fiction/core'
 import { FictionAi } from '@fiction/plugin-ai'
 import type { TestUtils } from '@fiction/core/test-utils/init'

@@ -185,8 +185,7 @@ export function jsonToDbString(str: unknown): string {
 export function validateEmail(email?: string): string | undefined {
   if (!email)
     return undefined
-  const re
-    = /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}\])|(([\dA-Z-]+\.)+[A-Z]{2,}))$/i
+  const re = /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}\])|(([\dA-Z-]+\.)+[A-Z]{2,}))$/i
   return re.test(String(email).toLowerCase()) ? email : undefined
 }
 

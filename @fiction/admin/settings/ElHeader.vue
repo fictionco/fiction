@@ -16,9 +16,9 @@ defineProps({
       <div v-if="avatar?.url" class="flex-shrink-0">
         <div class="relative">
           <div
-            class="size-16 rounded-full ring-2 ring-theme-800 dark:ring-theme-0 fiction-avatar avatar bg-cover bg-center relative overflow-hidden"
+            class="bg-theme-300 dark:bg-theme-600 size-16 rounded-full ring-2 ring-theme-800 dark:ring-theme-0 fiction-avatar avatar bg-cover bg-center relative overflow-hidden"
           >
-            <img class="object-cover inset-0" :src="avatar.url">
+            <img class="object-cover inset-0 " :src="avatar.url">
           </div>
           <span class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />
         </div>

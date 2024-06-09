@@ -221,9 +221,7 @@ export class EndpointServer {
         const params = request.body as Record<string, any>
         const o = params.orgId
 
-        const relation = user.orgs?.find(
-          org => org.orgId === o,
-        )?.relation
+        const relation = user.orgs?.find(org => org.orgId === o)?.relation
 
         if (relation)
           relation.accessLevel = getAccessLevel(relation?.memberAccess)

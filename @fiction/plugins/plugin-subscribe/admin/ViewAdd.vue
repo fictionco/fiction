@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import type { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
+import { useService } from '@fiction/core'
+import SettingsTool from '@fiction/admin/settings/SettingsTool.vue'
+import { getTools } from './tools'
 
 type UserConfig = {
   isNavItem: boolean
@@ -8,11 +11,9 @@ type UserConfig = {
 defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
-const _x = true
+const service = useService()
 </script>
 
 <template>
-  <div class="py-12" :class="card.classes.value.contentWidth">
-    add
-  </div>
+  <SettingsTool base-path="/subscriber-add" :tools="getTools({ service })" :card />
 </template>
