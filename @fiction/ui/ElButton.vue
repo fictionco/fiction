@@ -41,6 +41,8 @@ const buttonClasses = vue.computed(() => {
     noHover: props.noHover,
   })
 })
+const slots = vue.useSlots()
+const hasContent = vue.computed(() => !!slots?.default)
 </script>
 
 <template>
@@ -83,9 +85,9 @@ const buttonClasses = vue.computed(() => {
       :class="[loading ? 'translate-y-[-150%] opacity-0' : '', wrapClass, format === 'spread' ? '' : 'justify-center']"
     >
       <div v-if="icon || iconAfter" class="flex space-x-1 items-center">
-        <div v-if="icon" class="text-[1.2em] -mt-[1.5px]" :class="[icon, $slots.default ? '-ml-0.5 mr-0.5' : 'mx-[-2px]']" />
-        <div v-if="$slots.default"><slot /></div>
-        <div v-if="iconAfter" class="text-[1.2em] -mt-[1px]" :class="[iconAfter, $slots.default ? '-mr-0.5' : 'mx-[-2px]']" />
+        <div v-if="icon" class="text-[1.2em] -mt-[1.5px]" :class="[icon, hasContent ? '-ml-0.5 mr-0.5' : 'mx-[-2px]']" />
+        <div v-if="hasContent"><slot /></div>
+        <div v-if="iconAfter" class="text-[1.2em] -mt-[1px]" :class="[iconAfter, hasContent ? '-mr-0.5' : 'mx-[-2px]']" />
       </div>
       <template v-else><slot /></template>
     </span>

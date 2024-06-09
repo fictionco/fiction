@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import type { ActionItem, vue } from '@fiction/core'
 import ElButton from '../ElButton.vue'
+import type { UiElementSize } from '../utils'
 
 defineProps({
   actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
+  uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
 })
 //
 </script>
@@ -15,7 +17,11 @@ defineProps({
       :key="i"
       :btn="action.btn || 'default'"
       :href="action.href"
-      :size="action.size || 'md'"
+      :size="action.size || uiSize"
+      :icon="action.icon"
+      :loading="action.loading"
+      :icon-after="action.iconAfter"
+      @click="action.onClick && action.onClick({ event: $event, item: action })"
     >
       {{ action.name }}
     </ElButton>

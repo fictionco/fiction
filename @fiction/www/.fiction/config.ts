@@ -71,6 +71,7 @@ export interface CompiledServiceConfig {
     | 'SaveMedia'
     | 'SeekInviteFromUser'
     | 'TeamInvite'
+    | 'UploadCSV'
     | 'oAuthEndpoint'
   tables: {
     fiction_user:

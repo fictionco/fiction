@@ -50,7 +50,11 @@
     },
     {
       "key": "ManageSubscription",
-      "path": "/api/fiction-subscribe/ManageSubscription"
+      "path": "/api/subscribe/ManageSubscription"
+    },
+    {
+      "key": "UploadCSV",
+      "path": "/api/subscribe/UploadCSV"
     },
     {
       "key": "ManageCustomer",

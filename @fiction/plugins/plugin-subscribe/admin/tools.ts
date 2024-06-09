@@ -12,19 +12,6 @@ export function getTools(args: { service: StandardServices }) {
       title: 'Upload CSV File',
       userConfig: { isNavItem: true, navIcon: 'i-tabler-table-share', navIconAlt: 'i-tabler-table-plus' },
       val: fictionUser.activeOrganization,
-      save: async (args) => {
-        const { tool, service: { fictionUser } } = args
-        const fields = tool.val?.value as Organization | undefined
-        const orgId = fictionUser.activeOrgId.value
-
-        if (!orgId)
-          throw new Error('No active organization')
-
-        if (!fields)
-          throw new Error('No fields')
-
-        return await fictionUser.requests.ManageOrganization.projectRequest({ _action: 'update', fields, where: { orgId } })
-      },
 
       options: (args) => {
         const { service } = args

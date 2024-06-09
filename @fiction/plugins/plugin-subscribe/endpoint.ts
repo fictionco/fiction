@@ -1,4 +1,3 @@
-import { Readable } from 'node:stream'
 import type { EndpointMeta, EndpointResponse, FictionDb, FictionEmail, FictionEnv } from '@fiction/core'
 import { Query, abort, prepareFields, validateEmail } from '@fiction/core'
 
@@ -127,6 +126,8 @@ export class UploadCSVEndpoint extends SubscribeEndpoint {
       throw abort('no file provided to endpoint by request')
 
     const { parseStream } = await import('@fast-csv/parse')
+
+    const { Readable } = await import('node:stream')
 
     const fileReadableStream = Readable.from(file.buffer)
 

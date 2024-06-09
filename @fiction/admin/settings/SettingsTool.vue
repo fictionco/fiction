@@ -102,7 +102,7 @@ async function runSave() {
             <div class="font-bold">
               {{ currentPanel?.title }}
             </div>
-            <div>
+            <div v-if="currentPanel?.save">
               <ElButton data-test-id="save" btn="primary" type="submit" icon="i-tabler-upload" :loading="sending">
                 Save Changes
               </ElButton>
