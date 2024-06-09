@@ -12,15 +12,8 @@ import type {
   TooltipOptions,
 } from 'chart.js'
 import * as ChartJS from 'chart.js'
-import { colorStandard, deepMerge, numberFormatter } from '../utils'
-
-export type ValueFormat =
-  | 'number'
-  | 'percent'
-  | 'rawPercent'
-  | 'dollar'
-  | 'duration'
-  | 'microDuration'
+import type { NumberFormats } from '@fiction/core/utils'
+import { colorStandard, deepMerge, numberFormatter } from '@fiction/core/utils'
 
 // need to load this way due to ESM / Node issue at build
 const { Chart, registerables } = ChartJS
@@ -77,9 +70,7 @@ function barColor(dataset: DataSet) {
   }
 }
 
-function tooltipDefaults<T extends ChartType>(): DeepPartial<
-  TooltipOptions<T>
-> {
+function tooltipDefaults<T extends ChartType>(): DeepPartial< TooltipOptions<T>> {
   return {
     mode: 'index',
     intersect: false,
@@ -98,11 +89,7 @@ function tooltipDefaults<T extends ChartType>(): DeepPartial<
      * Remove duplicates from tooltip
      * Tough to figure out as this runs many times.
      */
-    filter: (
-      e: TooltipItem<T>,
-      index: number,
-      array: TooltipItem<T>[],
-    ): boolean => {
+    filter: (e: TooltipItem<T>, index: number, array: TooltipItem<T>[]): boolean => {
       const labels = array
         .map((item) => {
           // @ts-expect-error  TODO
@@ -159,7 +146,7 @@ export interface CreatedChart<T extends keyof ChartTypeRegistry> {
 
 export function createLineChart(args: {
   el: HTMLCanvasElement
-  countFormat?: ValueFormat
+  countFormat?: NumberFormats
   opts?: Partial<ChartConfiguration<'line'>>
 }): CreatedChart<'line'> {
   // no canvas in tests
@@ -285,8 +272,9 @@ export function createLineChart(args: {
                   d.presentIndex !== undefined
                   && d.presentIndex > -1
                   && context.p1DataIndex >= d.presentIndex
-                )
+                ) {
                   return [5, 5]
+                }
               },
             },
           },

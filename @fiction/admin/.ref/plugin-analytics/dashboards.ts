@@ -1,0 +1,143 @@
+import { Dashboard } from '../plugin-dashboards'
+
+export function getDashboards() {
+  return [
+    new Dashboard({
+      dashboardId: 'analyticsIndex',
+      dashboardName: 'Analytics',
+      layout: [
+        { widgetKey: 'uniqueVisitors' },
+        { widgetKey: 'returningVisitors' },
+        { widgetKey: 'engageDuration' },
+        { widgetKey: 'sessionDuration' },
+        { widgetKey: 'activeUsers' },
+        { widgetKey: 'activeConversions' },
+        { widgetKey: 'topDevices' },
+        { widgetKey: 'topCountries' },
+        { widgetKey: 'topBrowsers' },
+        { widgetKey: 'topPages' },
+        { widgetKey: 'topOperatingSystems' },
+        { widgetKey: 'topReferrers' },
+        { widgetKey: 'topSources' },
+        { widgetKey: 'topCampaigns' },
+        { widgetKey: 'topMediums' },
+        { widgetKey: 'topEventLabel' },
+        { widgetKey: 'topEventCategory' },
+        { widgetKey: 'topEvent' },
+        { widgetKey: 'topEventAction' },
+        { widgetKey: 'topGoalConversions' },
+        { widgetKey: 'topConversions' },
+      ],
+      dashboardType: 'core',
+    }),
+    new Dashboard({
+      dashboardId: 'analyticsRealtime',
+      dashboardName: 'Realtime',
+      layout: [
+        { widgetKey: 'activeUsers' },
+        { widgetKey: 'activeConversions' },
+        {
+          widgetKey: 'globalVisitors',
+          params: { isRealtime: true, period: 'hour' },
+        },
+        {
+          widgetKey: 'topDevices',
+          params: { isRealtime: true, period: 'hour' },
+        },
+        { widgetKey: 'topPages', params: { isRealtime: true, period: 'hour' } },
+        {
+          widgetKey: 'topReferrers',
+          params: { isRealtime: true, period: 'hour' },
+        },
+        {
+          widgetKey: 'topSources',
+          params: { isRealtime: true, period: 'hour' },
+        },
+        {
+          widgetKey: 'topEventName',
+          params: { isRealtime: true, period: 'hour' },
+        },
+        {
+          widgetKey: 'topEventLabel',
+          params: { isRealtime: true, period: 'hour' },
+        },
+        {
+          widgetKey: 'topEventCategory',
+          params: { isRealtime: true, period: 'hour' },
+        },
+        {
+          widgetKey: 'topEventAction',
+          params: { isRealtime: true, period: 'hour' },
+        },
+        {
+          widgetKey: 'topGoalConversions',
+          params: { isRealtime: true, period: 'hour' },
+        },
+        {
+          widgetKey: 'topConversions',
+          params: { isRealtime: true, period: 'hour' },
+        },
+      ],
+      dashboardType: 'core',
+    }),
+    new Dashboard({
+      controls: ['dimension'],
+      dashboardId: 'analyticsReports',
+      dashboardName: 'Reports',
+      layout: [{ widgetKey: 'reportChart' }, { widgetKey: 'reportTable' }],
+      dashboardType: 'core',
+    }),
+    new Dashboard({
+      dashboardId: 'analyticsConversion',
+      dashboardName: 'Conversion',
+      layout: [
+        { widgetKey: 'totalConversions' },
+        { widgetKey: 'conversionRate' },
+        { widgetKey: 'totalGoalConversions' },
+        { widgetKey: 'goalConversionRate' },
+        { widgetKey: 'topConversions' },
+        { widgetKey: 'topGoalConversions' },
+        { widgetKey: 'topConvertingReferrers' },
+        { widgetKey: 'topConvertingCampaigns' },
+      ],
+      dashboardType: 'core',
+    }),
+    new Dashboard({
+      dashboardId: 'analyticsBehavior',
+      dashboardName: 'Behavior',
+      layout: [
+        { widgetKey: 'engageDuration' },
+        { widgetKey: 'totalClicks' },
+        { widgetKey: 'totalTouches' },
+        { widgetKey: 'averageScrollDepth' },
+        { widgetKey: 'totalScrolls' },
+        { widgetKey: 'averageScrolls' },
+        { widgetKey: 'averageTouches' },
+        { widgetKey: 'averageEvents' },
+        { widgetKey: 'totalEvents' },
+        { widgetKey: 'totalViews' },
+        { widgetKey: 'averageViews' },
+      ],
+      dashboardType: 'core',
+    }),
+    new Dashboard({
+      dashboardId: 'analyticsTechnical',
+      dashboardName: 'Technical',
+      layout: [
+        { widgetKey: 'errorPages' },
+        { widgetKey: 'topErrors' },
+        { widgetKey: 'averageRobot' },
+        { widgetKey: 'totalRobot' },
+        { widgetKey: 'topRobotCities' },
+        { widgetKey: 'topRobotCountries' },
+        { widgetKey: 'topRobotDevices' },
+        { widgetKey: 'topRobotIps' },
+        { widgetKey: 'topRobotReferrers' },
+        { widgetKey: 'topRobotCampaign' },
+        { widgetKey: 'topRobotSource' },
+        { widgetKey: 'topRobotMedium' },
+      ],
+      dashboardType: 'core',
+    }),
+  ]
+}
