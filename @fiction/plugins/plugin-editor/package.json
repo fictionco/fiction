@@ -32,7 +32,7 @@
     "@tiptap/starter-kit": "^2.4.0",
     "@tiptap/suggestion": "^2.4.0",
     "@tiptap/vue-3": "^2.4.0",
-    "ai": "^3.1.30",
+    "ai": "^3.1.31",
     "highlight.js": "^11.9.0",
     "lowlight": "^3.1.0",
     "lucide-vue-next": "^0.390.0",

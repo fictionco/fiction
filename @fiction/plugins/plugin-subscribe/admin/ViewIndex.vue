@@ -36,7 +36,7 @@ async function load() {
   const endpoint = service.fictionSubscribe.requests.ManageSubscription
   const orgId = service.fictionUser.activeOrgId.value
   const r = await endpoint.projectRequest({ _action: 'list', where: { orgId } })
-
+  console.log('SUBS', r)
   subscribers.value = r.data || []
   loading.value = false
 }
@@ -62,7 +62,7 @@ const actions: ActionItem[] = [
 </script>
 
 <template>
-  <div class="py-12" :class="card.classes.value.contentWidth">
+  <div :class="card.classes.value.contentWidth">
     <ElIndexGrid :list="list" :loading="loading" :actions list-title="Subscribers">
       <template #item="{ item }">
         <div class="flex -space-x-0.5">

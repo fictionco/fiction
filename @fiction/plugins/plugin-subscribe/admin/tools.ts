@@ -30,17 +30,16 @@ export function getTools(args: { service: StandardServices }) {
     },
     {
       slug: 'add',
-      title: 'Add Via Email',
+      title: 'Add By Email',
       userConfig: { isNavItem: true, navIcon: 'i-tabler-copy-check', navIconAlt: 'i-tabler-copy-check-filled' },
       val: fictionUser.activeUser,
       options: () => {
         return vue.computed(() => [
           new InputOption({
             key: 'userDetails',
-            label: 'Copy and Paste Emails',
             input: 'group',
             options: [
-              new InputOption({ key: 'fullName', label: 'Full Name', input: 'InputText', placeholder: 'Your Full Name' }),
+              new InputOption({ key: 'emailList', label: 'Email List', input: 'InputTextarea', placeholder: 'example@example.com, another@gmail.com, yet.another@example' }),
             ],
           }),
         ])

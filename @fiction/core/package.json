@@ -91,7 +91,7 @@
     "less": "^4.2.0",
     "magic-string": "^0.30.10",
     "marked": "^12.0.2",
-    "marked-gfm-heading-id": "^3.1.3",
+    "marked-gfm-heading-id": "^3.2.0",
     "mime": "^4.0.3",
     "mime-types": "^2.1.35",
     "minimist": "^1.2.8",
@@ -134,7 +134,7 @@
     "validator": "^13.12.0",
     "vite": "^5.2.13",
     "vue": "^3.4.27",
-    "vue-router": "^4.3.2",
+    "vue-router": "^4.3.3",
     "ws": "^8.17.0",
     "zod": "^3.23.8",
     "zod-to-json-schema": "^3.23.0"
