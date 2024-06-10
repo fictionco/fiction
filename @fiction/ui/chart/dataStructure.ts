@@ -1,4 +1,4 @@
-import type { dayjs } from '@fiction/core'
+import type { NumberFormats, dayjs } from '@fiction/core'
 
 export type StandardPeriod =
   | 'hour'
@@ -22,13 +22,13 @@ export type ComparePeriods =
 
 export type TimeLineInterval = 'month' | 'week' | 'day' | 'hour' | 'minute'
 
-export type ValueFormat =
-  | 'number'
-  | 'percent'
-  | 'rawPercent'
-  | 'dollar'
-  | 'duration'
-  | 'microDuration'
+// export type ValueFormat =
+//   | 'number'
+//   | 'percent'
+//   | 'rawPercent'
+//   | 'dollar'
+//   | 'duration'
+//   | 'microDuration'
 
 export type AggregationFormat =
   | 'enriched'
@@ -55,13 +55,11 @@ export interface DataColumn {
   sub?: string
   value: string | string[]
   subValue?: string | string[]
-  format?: ValueFormat
+  format?: NumberFormats
   select?: string
 }
 
 export type DataCompared<T = unknown> = {
-  title?: string
-  description?: string
   main: T[]
   compare?: T[]
   mainTotals?: T
@@ -79,7 +77,7 @@ export type DataCompared<T = unknown> = {
 
 export type QueryParamsRefined = QueryParams & {
   timeZone: string
-  projectId: string
+  orgId: string
   timeEndAt: dayjs.Dayjs
   timeStartAt: dayjs.Dayjs
   compareEndAt: dayjs.Dayjs
@@ -88,7 +86,7 @@ export type QueryParamsRefined = QueryParams & {
 }
 
 export interface WidgetRequestBase {
-  projectId?: string
+  orgId?: string
   mode?: 'initial' | 'realtime'
   queryHandlerKey?: string
 }

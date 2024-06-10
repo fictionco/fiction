@@ -3,7 +3,7 @@ import type { NumberFormats } from '@fiction/core'
 import { dayjs, formatNumber, vue } from '@fiction/core'
 import ElLoading from '../loaders/ElSpinner.vue'
 import { createLineChart } from './chart'
-import type { DataCompared, DataPointChart } from './dataStructure'
+import type { ComparePeriods, DataCompared, DataPointChart } from './dataStructure'
 import { shouldUpdateChart } from './util'
 
 const props = defineProps({
@@ -14,7 +14,7 @@ const props = defineProps({
   changeFormat: { type: String as vue.PropType<'inverse' | 'normal'>, default: 'normal' },
   dateFormat: { type: String, default: 'YYYY-MM-DD' },
   interval: { type: String, default: 'day' },
-  compare: { type: String, default: 'previous' },
+  comparePeriod: { type: String as vue.PropType<ComparePeriods>, default: 'period' },
   loading: { type: Boolean, default: false },
 })
 
@@ -45,10 +45,7 @@ const difference = vue.computed(() => {
 })
 
 const positiveChange = vue.computed(() => {
-  if (
-    (props.changeFormat === 'inverse' && difference.value <= 0)
-    || difference.value >= 0
-  ) {
+  if ((props.changeFormat === 'inverse' && difference.value <= 0) || difference.value >= 0) {
     return true
   }
   else {
@@ -57,13 +54,11 @@ const positiveChange = vue.computed(() => {
 })
 
 vue.onMounted(() => {
-  if (!chartEl.value)
+  const el = chartEl.value
+  if (!el)
     return
 
-  const chart = createLineChart({
-    el: chartEl.value,
-    countFormat: props.valueFormat,
-  })
+  const chart = createLineChart({ el, countFormat: props.valueFormat })
 
   vue.watch(
     () => props.data,
@@ -81,9 +76,7 @@ vue.onMounted(() => {
           const lStartDate = interval === 'day' || interval === 'hour' ? startDate.local() : startDate
 
           if (interval === 'week') {
-            return [lStartDate, lStartDate.add(6, 'day')]
-              .map(d => d.utc().format(f))
-              .join(' - ')
+            return [lStartDate, lStartDate.add(6, 'day')].map(d => d.utc().format(f)).join(' - ')
           }
           else {
             return lStartDate.format(f)
@@ -98,7 +91,7 @@ vue.onMounted(() => {
 
         const datasets = [
           { label: props.title || '', data, presentIndex },
-          { label: `Compare (${props.compare})`, data: compareData },
+          { label: `Compare (${props.comparePeriod})`, data: compareData },
         ]
 
         chart.setData({ labels, datasets, dataKey: props.valueKey })
@@ -157,4 +150,4 @@ vue.onMounted(() => {
       <canvas ref="chartEl" />
     </div>
   </div>
-</template>
+</template>ComparePeriods,ComparePeriods,ComparePeriods,
