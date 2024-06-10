@@ -49,6 +49,7 @@ export type ServiceList = Record<
   | Record<string, unknown>
   | unknown[]
   | vue.Ref<unknown>
+  | Function
 >
 
 export type ServiceConfig = {

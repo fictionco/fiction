@@ -4,8 +4,9 @@ import { faker } from '@faker-js/faker'
 import { version as fictionVersion } from '../package.json'
 import type { FictionObject, FictionPlugin } from '../plugin'
 import type { vue } from '../utils'
+import { toCamel } from '../utils/casing'
 import { randomBetween, safeDirname } from '../utils/utils'
-import type { EnvVar } from '../plugin-env'
+import type { EnvVar, ServiceList } from '../plugin-env'
 import { runServicesSetup } from '../plugin-env'
 import type { Organization, User } from '../plugin-user'
 import { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionRouter, FictionServer, FictionUser } from '..'
@@ -38,7 +39,7 @@ export type InitializedTestUtils = {
 export type TestService = Awaited<ReturnType<typeof createTestUtilServices>>
 
 export type TestUtils = {
-  init: (services?: Record<string, FictionPlugin>,) => Promise<InitializedTestUtils>
+  init: (services?: ServiceList) => Promise<InitializedTestUtils>
   initialized?: InitializedTestUtils
   close: () => Promise<void>
   initUser: () => Promise<InitializedTestUtils>
@@ -117,7 +118,7 @@ export async function initializeTestUser(args: { fictionUser: FictionUser, conte
  * Runs services 'setup' functions
  * Creates a new user
  */
-export async function initializeTestUtils(service: TestUtilServices & { [key: string]: FictionPlugin | FictionObject }): Promise<InitializedTestUtils> {
+export async function initializeTestUtils(service: TestUtilServices & ServiceList): Promise<InitializedTestUtils> {
   await runServicesSetup(service, { context: 'test' })
 
   const { fictionUser, fictionServer, fictionDb, fictionEmail } = service

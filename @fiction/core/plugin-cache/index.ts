@@ -1,15 +1,13 @@
 import Redis from 'ioredis'
+import type { T } from 'vitest/dist/reporters-yx5ZTtEV'
 import type { FictionPluginSettings } from '../plugin'
 import { FictionPlugin } from '../plugin'
-import type { FictionUser } from '../plugin-user'
-import type { FictionServer } from '../plugin-server'
-import type { FictionAws } from '../plugin-aws'
-import type { FictionDb } from '../plugin-db'
-import type { FictionEnv } from '../plugin-env'
 import { EnvVar, vars } from '../plugin-env'
 import { camelKeys, safeDirname, shortId, toSnakeCaseKeys, uuid } from '../utils'
 
 vars.register(() => [new EnvVar({ name: 'REDIS_URL' })])
+
+export { Redis }
 
 export interface JSendMessage {
   status: 'success' | 'error' | 'event'
@@ -20,11 +18,6 @@ export interface JSendMessage {
 
 type FictionCacheSettings = {
   redisUrl?: string
-  fictionServer: FictionServer
-  fictionAws?: FictionAws
-  fictionDb?: FictionDb
-  fictionUser?: FictionUser
-  fictionEnv: FictionEnv
 } & FictionPluginSettings
 
 interface SubscriptionMessage<U extends MessageData> {
@@ -46,13 +39,6 @@ export interface MessageData {
 
 export class FictionCache extends FictionPlugin<FictionCacheSettings> {
   connectionUrl?: URL
-  queries = this.createQueries()
-  requests = this.createRequests({
-    queries: this.queries,
-    fictionServer: this.settings.fictionServer,
-    fictionUser: this.settings.fictionUser,
-  })
-
   redisConnections: Record<string, Redis> = {}
   subCallbacks: Record<string, (p: any) => any> = {}
   private publisher?: Redis
@@ -60,7 +46,7 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
   private primaryCache?: Redis
   idd = shortId()
   constructor(settings: FictionCacheSettings) {
-    super('cache', { root: safeDirname(import.meta.url), ...settings })
+    super('FictionCache', { root: safeDirname(import.meta.url), ...settings })
 
     if (this.settings.redisUrl)
       this.connectionUrl = new URL(this.settings.redisUrl)
@@ -74,6 +60,10 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
     return str ? (camelKeys(JSON.parse(str)) as T) : undefined
   }
 
+  async close() {
+    Object.values(this.redisConnections).forEach(r => r.disconnect())
+  }
+
   init() {
     if (this.fictionEnv?.isApp.value)
       return
@@ -83,27 +73,37 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
 
     this.primaryCache = this.getRedisConnection({ id: 'primaryCache' })
 
-    this.publisher = this.getRedisConnection({ id: 'pubSubPublisher' })
-    this.subscriber = this.getRedisConnection({ id: 'pubSubSubscriber' })
-    this.subscriber?.on('message', async (key: string, message: string) => {
-      if (this.subCallbacks[key]) {
-        try {
-          const rawParsed = JSON.parse(message)
-          const parsed = camelKeys(rawParsed)
-
-          await this.subCallbacks[key](parsed)
-        }
-        catch (error) {
-          this.log.error(`pubsub subscription error @${key}`, { error })
-        }
-      }
-    })
-
     const logUrl = new URL(this.connectionUrl.toString())
     logUrl.password = this.connectionUrl.password ? '--sensitive--' : ''
-    this.log.info('creating redis cache', {
-      data: { url: logUrl.toString() },
-    })
+    this.log.info('creating redis cache', { data: { url: logUrl.toString() } })
+  }
+
+  async getVal<T extends Record<string, unknown>>(key: string): Promise<T | undefined> {
+    const cache = this.getCache()
+
+    if (!cache)
+      throw new Error('no cache')
+
+    const r = await cache.get(key)
+
+    return this.obj<T>(r)
+  }
+
+  async setVal<T extends Record<string, unknown>>(key: string, val: T, ttl = 60 * 60): Promise<void> {
+    const cache = this.getCache()
+
+    if (!cache)
+      throw new Error('no cache')
+
+    await cache.set(key, this.str(val), 'EX', ttl)
+  }
+
+  getCache(): Redis | undefined {
+    if (!this.primaryCache && !this.fictionEnv?.isApp.value) {
+      this.log.error('no primary cache - missing REDIS_URL')
+      return
+    }
+    return this.primaryCache
   }
 
   getRedisConnection = (options: { id: string }): Redis | undefined => {
@@ -150,6 +150,24 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
     return this.redisConnections[id]
   }
 
+  initPubSub() {
+    this.publisher = this.getRedisConnection({ id: 'pubSubPublisher' })
+    this.subscriber = this.getRedisConnection({ id: 'pubSubSubscriber' })
+    this.subscriber?.on('message', async (key: string, message: string) => {
+      if (this.subCallbacks[key]) {
+        try {
+          const rawParsed = JSON.parse(message)
+          const parsed = camelKeys(rawParsed)
+
+          await this.subCallbacks[key](parsed)
+        }
+        catch (error) {
+          this.log.error(`pubsub subscription error @${key}`, { error })
+        }
+      }
+    })
+  }
+
   publish<U>(args: {
     key: string
     topic: string
@@ -158,13 +176,7 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
     sentFrom: string
   }): void {
     const { key, data, orgId, sentFrom, topic } = args
-    const msg = this.str({
-      topic,
-      data,
-      pubsubId: uuid(),
-      orgId,
-      sentFrom,
-    })
+    const msg = this.str({ topic, data, pubsubId: uuid(), orgId, sentFrom })
 
     this.publisher?.publish(key, msg).catch(console.error)
   }
@@ -193,53 +205,7 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
     }
   }
 
-  async getVal<T extends Record<string, unknown>>(
-    key: string,
-  ): Promise<T | undefined> {
-    const cache = this.getCache()
-
-    if (!cache)
-      throw new Error('no cache')
-
-    const r = await cache.get(key)
-
-    return this.obj<T>(r)
-  }
-
-  async setVal<T extends Record<string, unknown>>(
-    key: string,
-    val: T,
-    ttl = 60 * 60,
-  ): Promise<void> {
-    const cache = this.getCache()
-
-    if (!cache)
-      throw new Error('no cache')
-
-    await cache.set(key, this.str(val), 'EX', ttl)
-  }
-
-  getCache(): Redis | undefined {
-    if (!this.primaryCache && !this.fictionEnv?.isApp.value) {
-      this.log.error('no primary cache - missing REDIS_URL')
-      return
-    }
-    return this.primaryCache
-  }
-
-  redisKey = (
-    type:
-      | 'session'
-      | 'page'
-      | 'project'
-      | 'org'
-      | 'expiration'
-      | 'unfurl'
-      | 'replay'
-      | 'tag',
-
-    ...args: string[]
-  ): string => {
+  redisKey = <T extends string = string>(type: T, ...args: string[]): string => {
     return `${[type, ...args].join(':')}`
   }
 }

@@ -32,6 +32,19 @@ export type AggregationFormat =
   | 'percent'
   | 'ip'
 
+export interface AggregationRow {
+  count: string | number
+  name: string
+  total: string | number
+  percent: number
+  niceName?: string
+  icon?: string
+  url?: string | string[]
+  amount?: number
+  list?: string[]
+  countryCode?: string
+}
+
 export type DataPoint = {
   [K in string | 'users' | 'count']: string | number | undefined
 }
@@ -67,17 +80,7 @@ export type DataCompared<T = unknown> = {
   sql?: string
 }
 
-export type QueryParamsRefined = QueryParams & {
-  timeZone: string
-  orgId: string
-  timeEndAt: dayjs.Dayjs
-  timeStartAt: dayjs.Dayjs
-  compareEndAt: dayjs.Dayjs
-  compareStartAt: dayjs.Dayjs
-  interval: TimeLineInterval
-}
-
-export interface WidgetRequestBase {
+export interface AnalyticsDataRequestBase {
   orgId?: string
   mode?: 'initial' | 'realtime'
   queryHandlerKey?: string
@@ -89,7 +92,7 @@ export interface RequestDataFilter<T = string> {
   operator: '=' | '!='
 }
 
-export interface WidgetRequestFilters {
+export interface AnalyticsDataRequestFilters {
   timeEndAtIso?: string
   timeStartAtIso?: string
   compare?: ComparePeriods
@@ -111,4 +114,14 @@ export interface WidgetRequestFilters {
   search?: string
 }
 
-export type QueryParams = WidgetRequestBase & Partial<WidgetRequestFilters>
+export type QueryParams = AnalyticsDataRequestBase & Partial<AnalyticsDataRequestFilters>
+
+export type QueryParamsRefined = QueryParams & {
+  timeZone: string
+  orgId: string
+  timeEndAt: dayjs.Dayjs
+  timeStartAt: dayjs.Dayjs
+  compareEndAt: dayjs.Dayjs
+  compareStartAt: dayjs.Dayjs
+  interval: TimeLineInterval
+}

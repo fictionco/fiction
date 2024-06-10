@@ -5,6 +5,7 @@ packages:
   - '@fiction/site'
   - '@fiction/admin'
   - '@fiction/cards'
+  - '@fiction/analytics'
   - '@fiction/platform'
   - '@fiction/themes/*'
   - '@fiction/plugins/*'

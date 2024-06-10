@@ -2,6 +2,7 @@ import process from 'node:process'
 import type { RunVars } from '../inject'
 import type { FictionEnv } from '../plugin-env'
 import { toCamel } from './casing'
+import { randomBetween } from './utils'
 
 export class CrossVarManager {
   /**
@@ -49,14 +50,19 @@ export class CrossVarManager {
   }
 
   /**
-   * Sets a cross-environment variable.
+   * Sets a RunVar
    */
   set<T extends keyof RunVars>(name: T, value: RunVars[T]): void {
+    this.setVar(name, value as string)
+  }
+
+  // Sets a general global var
+  setVar(name: string, value: string): void {
     if (this.isWindowAvailable())
       window.fictionRunVars[name] = value
 
     if (this.isProcessAvailable())
-      process.env[name] = value as NodeJS.ProcessEnv[T]
+      process.env[name] = value
   }
 
   /**
@@ -90,8 +96,8 @@ type Camelize<S extends string> = S extends `${infer T}_${infer U}`
   ? `${Lowercase<T>}${Capitalize<Camelize<U>>}`
   : Lowercase<S>
 
-type CamelizeEnvVars<T extends string> = {
-  [K in T as Camelize<K>]: string;
+type CamelizeEnvVars<T extends string, R = string> = {
+  [K in T as Camelize<K>]: R;
 }
 
 export function getEnvVars<T extends readonly string[]>(fictionEnv: FictionEnv, envVarNames: T): CamelizeEnvVars<T[number]> {
@@ -106,4 +112,26 @@ export function getEnvVars<T extends readonly string[]>(fictionEnv: FictionEnv, 
   })
 
   return envVars
+}
+
+export function setupTestPorts<T extends readonly string[]>(args: { opts: Record<string, any>, envVars: T, context: 'node' | 'app' }) {
+  const { opts, envVars, context } = args
+
+  const portVars = {} as CamelizeEnvVars<T[number], number>
+
+  for (const envVar of envVars) {
+    const varName = toCamel(envVar) as keyof CamelizeEnvVars<T[number], number>
+    let val = opts[varName]
+    if (context === 'app') {
+      val = +(crossVar.get(envVar) || '')
+    }
+    else {
+      val = val || randomBetween(1_000, 50_000)
+      crossVar.setVar(envVar, String(val))
+    }
+
+    portVars[varName] = (+val as any)
+  }
+
+  return portVars
 }

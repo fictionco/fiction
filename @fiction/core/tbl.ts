@@ -37,6 +37,4 @@ type TupleToObject<T extends [string, unknown]> = {
   [P in T[0]]: T extends [P, infer B] ? B : never
 }
 
-export type CreateObjectType<T extends readonly FictionDbCol[]> = TupleToObject<
-  CreateTuple<T>
-> & Timestamps
+export type CreateObjectType<T extends readonly FictionDbCol[]> = TupleToObject<CreateTuple<T>> & Timestamps

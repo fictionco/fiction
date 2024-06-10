@@ -6,10 +6,10 @@ import type { LogHelper } from '../plugin-log'
 import { log } from '../plugin-log'
 
 type CreateCol = (params: { schema: Knex.AlterTableBuilder, column: FictionDbCol, db: Knex }) => void
-type PrepareForStorage<T extends DefaultValue = DefaultValue> = (args: { value: T, key: string, db: Knex }) => unknown
-type DefaultValue = Knex.Value | undefined
+type PrepareForStorage<T extends ColDefaultValue = ColDefaultValue> = (args: { value: T, key: string, db: Knex }) => unknown
+export type ColDefaultValue = Knex.Value | undefined
 
-export interface FictionDbColSettings<U extends string = string, T extends DefaultValue = DefaultValue> {
+export interface FictionDbColSettings<U extends string = string, T extends ColDefaultValue = ColDefaultValue> {
   key: U
   default: () => T
   zodSchema?: (args: { z: typeof z }) => ZodSchema<any>
@@ -22,7 +22,7 @@ export interface FictionDbColSettings<U extends string = string, T extends Defau
   isAuthority?: boolean
   isAdmin?: boolean
 }
-export class FictionDbCol<U extends string = string, T extends DefaultValue = DefaultValue> {
+export class FictionDbCol<U extends string = string, T extends ColDefaultValue = ColDefaultValue> {
   key: U
   default: () => Knex.Value
   zodSchema?: ZodSchema<any>

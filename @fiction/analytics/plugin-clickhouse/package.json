@@ -1,0 +1,23 @@
+{
+  "name": "@fiction/plugin-clickhouse",
+  "type": "module",
+  "version": "6.0.35",
+  "author": "Fiction",
+  "license": "MIT",
+  "main": "index.ts",
+  "dependencies": {
+    "@fiction/core": "workspace:*",
+    "@fiction/ui": "workspace:*",
+    "@fiction/plugin-analytics": "workspace:*",
+    "fast-csv": "^5.0.1",
+    "formdata-node": "^6.0.3",
+    "multer": "1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "@fiction/theme-minimal": "workspace:*"
+  },
+  "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
+  "publishConfig": {
+    "access": "public"
+  }
+}

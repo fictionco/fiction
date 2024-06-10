@@ -10,7 +10,7 @@ const logger = log.contextLogger('Mount')
 
 declare global {
   interface Window {
-    fictionRunVars: Partial<RunVars>
+    fictionRunVars: Partial<RunVars> & { [key: string]: string | undefined | Record<string, string> }
   }
 }
 

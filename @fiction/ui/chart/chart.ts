@@ -1,16 +1,5 @@
 import process from 'node:process'
-import type {
-  Chart as ChartClassType,
-  ChartConfiguration,
-  ChartDataset,
-  ChartType,
-  ChartTypeRegistry,
-  ScriptableContext,
-  ScriptableLineSegmentContext,
-  TooltipItem,
-  TooltipLabelStyle,
-  TooltipOptions,
-} from 'chart.js'
+import type { Chart as ChartClassType, ChartConfiguration, ChartDataset, ChartType, ChartTypeRegistry, ScriptableContext, ScriptableLineSegmentContext, TooltipItem, TooltipLabelStyle, TooltipOptions } from 'chart.js'
 import * as ChartJS from 'chart.js'
 import type { NumberFormats } from '@fiction/core/utils'
 import { colorStandard, deepMerge, numberFormatter } from '@fiction/core/utils'

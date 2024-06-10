@@ -17,13 +17,13 @@ interface ClientRequestOptions {
   sync?: boolean
 }
 
-type KaptionResponse = EndpointResponse<TrackingEvent>
+type FictionClientResponse = EndpointResponse<TrackingEvent>
 
 export type GenType = 'internal' | 'core' | 'user'
 
 export interface FictionClientSettings {
   orgId: string
-  namespace: string
+  namespace?: string
   intervalSeconds?: number
   gen?: GenType
   beaconUrl?: string
@@ -42,7 +42,7 @@ export class FictionClient extends WriteBuffer<TrackingEvent> {
   constructor(settings: FictionClientSettings) {
     super({ limit: 5, maxSeconds: settings.intervalSeconds })
 
-    this.namespace = settings.namespace || 'FictionNamespace'
+    this.namespace = settings.namespace || 'AnalyticsClient'
     this.orgId = settings.orgId
     this.gen = settings.gen || 'user'
     this.log = log.contextLogger(this.namespace)
@@ -103,7 +103,7 @@ export class FictionClient extends WriteBuffer<TrackingEvent> {
   private async transmit(args: {
     events: TrackingEvent[]
     endpoint?: string
-  }): Promise<KaptionResponse> {
+  }): Promise<FictionClientResponse> {
     const { events } = args
 
     const baseUrl = `${this.beaconUrl}${this.trackPath}`
@@ -124,7 +124,7 @@ export class FictionClient extends WriteBuffer<TrackingEvent> {
         keepalive: true,
       })
 
-      const responseData = (await r.json()) as KaptionResponse
+      const responseData = (await r.json()) as FictionClientResponse
 
       return responseData
     }
@@ -151,7 +151,7 @@ export class FictionClient extends WriteBuffer<TrackingEvent> {
   event(
     userEvent: TrackingEventUserDefined,
     options?: ClientRequestOptions,
-  ): Promise<KaptionResponse> | KaptionResponse {
+  ): Promise<FictionClientResponse> | FictionClientResponse {
     const { sync = false } = options || {}
 
     const fullEventData = this.createTrackingEvent(userEvent)
@@ -172,17 +172,17 @@ export class FictionClient extends WriteBuffer<TrackingEvent> {
   public async identify(
     traits: Partial<IdentifyTraitsUser>,
     options?: ClientRequestOptions,
-  ): Promise<KaptionResponse>
+  ): Promise<FictionClientResponse>
   public async identify(
     userId: string,
     traits?: Partial<IdentifyTraitsUser>,
     options?: ClientRequestOptions,
-  ): Promise<KaptionResponse>
+  ): Promise<FictionClientResponse>
   public async identify(
     userId: unknown,
     traits?: unknown,
     options?: ClientRequestOptions,
-  ): Promise<KaptionResponse> {
+  ): Promise<FictionClientResponse> {
     let _userId = ''
     let _options: ClientRequestOptions = {}
     let _traits: Partial<IdentifyTraitsUser> = {}
@@ -215,7 +215,7 @@ export class FictionClient extends WriteBuffer<TrackingEvent> {
     groupId: string,
     traits?: Partial<IdentifyTraitsUser>,
     options?: ClientRequestOptions,
-  ): Promise<KaptionResponse | void> {
+  ): Promise<FictionClientResponse | void> {
     const { sync = false } = options || {}
     const r = await this.event(
       { event: 'group', type: 'group', groupId, traits },
@@ -229,7 +229,7 @@ export class FictionClient extends WriteBuffer<TrackingEvent> {
     event: string,
     properties?: Partial<TrackingProperties>,
     options?: ClientRequestOptions,
-  ): Promise<KaptionResponse | void> {
+  ): Promise<FictionClientResponse | void> {
     const { sync = true } = options || {}
     const r = await this.event({ type: 'track', event, properties }, { sync })
 
@@ -239,7 +239,7 @@ export class FictionClient extends WriteBuffer<TrackingEvent> {
   public async capture(
     userEvent: TrackingEventUserDefined,
     options?: ClientRequestOptions,
-  ): Promise<KaptionResponse | void> {
+  ): Promise<FictionClientResponse | void> {
     const { sync = true } = options || {}
     const r = await this.event(userEvent, { sync })
 
@@ -249,7 +249,7 @@ export class FictionClient extends WriteBuffer<TrackingEvent> {
   public async page(
     properties?: Partial<TrackingProperties>,
     options?: ClientRequestOptions,
-  ): Promise<KaptionResponse | void> {
+  ): Promise<FictionClientResponse | void> {
     const { sync = true } = options || {}
     const r = await this.event(
       { type: 'page', event: 'view', properties },
@@ -262,7 +262,7 @@ export class FictionClient extends WriteBuffer<TrackingEvent> {
   public async debug(
     message: string,
     properties?: Partial<TrackingProperties>,
-  ): Promise<KaptionResponse | void> {
+  ): Promise<FictionClientResponse | void> {
     const r = await this.track('debug', { message, properties })
 
     const fullEventData = this.createTrackingEvent({

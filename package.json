@@ -49,6 +49,7 @@
     "@fiction/ui",
     "@fiction/www",
     "@fiction/site",
+    "@fiction/analytics",
     "@fiction/admin",
     "@fiction/cards",
     "@fiction/platform",
