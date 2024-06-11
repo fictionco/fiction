@@ -53,10 +53,6 @@
       "path": "/api/subscribe/ManageSubscription"
     },
     {
-      "key": "UploadCSV",
-      "path": "/api/subscribe/UploadCSV"
-    },
-    {
       "key": "ManageCustomer",
       "path": "/api/stripe/ManageCustomer"
     },

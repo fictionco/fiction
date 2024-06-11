@@ -72,6 +72,30 @@ const info = vue.computed<ListItem[]>(() => {
     { name: 'Email Addresses', value: emailList.value.slice(0, 10).join(', ') || 'None' },
   ]
 })
+
+async function importSubscribers() {
+  loading.value = true
+  try {
+    const subscribers = emailList.value.map(email => ({ email }))
+    const publisherId = service.fictionUser.activeOrgId.value
+
+    if (!publisherId) {
+      logger.error(`no publisherId`)
+      return
+    }
+
+    await service.fictionSubscribe.requests.ManageSubscription.projectRequest({ _action: 'bulkCreate', subscribers, publisherId })
+
+    logger.info(`imported subscribers`, { data: emailList.value })
+    step.value = 'import'
+  }
+  catch (error) {
+    logger.error(`import error`, { error })
+  }
+  finally {
+    loading.value = false
+  }
+}
 </script>
 
 <template>
@@ -100,10 +124,17 @@ const info = vue.computed<ListItem[]>(() => {
         </ElInput>
 
         <div class="flex gap-4 justify-between">
-          <ElButton data-test-id="submit" btn="primary" type="submit" icon-after="i-tabler-upload" :loading="loading">
+          <ElButton
+            data-test-id="submit"
+            btn="primary"
+            type="submit"
+            icon-after="i-tabler-upload"
+            :loading="loading"
+            @click="importSubscribers()"
+          >
             Import Subscribers
           </ElButton>
-          <ElButton btn="default" type="submit" icon="i-tabler-x" :loading="loading" @click="step = 'import'">
+          <ElButton btn="default" type="submit" icon="i-tabler-x" @click="step = 'import'">
             Cancel
           </ElButton>
         </div>
@@ -147,29 +178,7 @@ const info = vue.computed<ListItem[]>(() => {
             @dragover="draggingOver = true"
             @dragleave="draggingOver = false"
           >
-            <div v-if="fileList?.length" class="p-12 space-y-4 text-center rounded-lg border border-dashed border-theme-300 dark:border-theme-600">
-              <div class="font-semibold text-lg bg-theme-50 inline-flex items-center gap-2 px-2 rounded-md">
-                <div class="i-tabler-file" /><div>{{ fileList?.[0].name }}</div>
-              </div>
-              <ElActions
-                class="justify-center flex gap-4"
-                ui-size="md"
-                :actions="[{
-                             icon: 'i-tabler-arrow-left',
-                             name: 'Cancel',
-                             onClick: () => { fileList = undefined },
-                             btn: 'default',
-                           },
-                           {
-                             name: 'Upload File',
-                             icon: 'i-tabler-upload',
-                             onClick: () => uploadFiles(),
-                             btn: 'primary',
-                             loading,
-                           }]"
-              />
-            </div>
-            <label v-else for="file-upload" class="cursor-pointer mt-2 flex justify-center rounded-lg border border-dashed border-theme-300 dark:border-theme-600 hover:border-theme-400 hover:bg-theme-50 px-6 py-10">
+            <label for="file-upload" class="cursor-pointer mt-2 flex justify-center rounded-lg border border-dashed border-theme-300 dark:border-theme-600 hover:border-theme-400 hover:bg-theme-50 px-6 py-10">
               <div class="text-center">
                 <div class="text-5xl i-tabler-file-type-csv text-theme-300" />
                 <div class="mt-4 flex text-sm leading-6 text-theme-600">

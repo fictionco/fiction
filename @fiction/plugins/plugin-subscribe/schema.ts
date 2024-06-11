@@ -1,4 +1,4 @@
-import { type CreateObjectType, type SyndicateStatus, type User, standardTable } from '@fiction/core'
+import { type CreateObjectType, type MediaDisplayObject, type SyndicateStatus, type User, standardTable } from '@fiction/core'
 import { FictionDbCol, FictionDbTable } from '@fiction/core/plugin-db'
 import type { TableTaxonomyConfig } from '@fiction/core/plugin-user/types'
 
@@ -10,7 +10,8 @@ export const t = {
 
 export type Subscriber = TableSubscribeConfig & {
   tags?: TableTaxonomyConfig[]
-  user: User
+  user?: User
+  avatar?: MediaDisplayObject
 }
 
 export type TableSubscribeConfig = CreateObjectType<typeof subscribeColumns>
@@ -23,8 +24,14 @@ const subscribeColumns = [
     zodSchema: ({ z }) => z.string(),
   }),
   new FictionDbCol({
-    key: 'subscriberId',
-    create: ({ schema, column }) => schema.string(column.pgKey, 32).references(`${t.user}.user_id`).onUpdate('CASCADE').notNullable().index(),
+    key: 'userId',
+    create: ({ schema, column }) => schema.string(column.pgKey).references(`${t.user}.user_id`).onUpdate('CASCADE').index(),
+    default: () => '' as string,
+    zodSchema: ({ z }) => z.string(),
+  }),
+  new FictionDbCol({
+    key: 'email',
+    create: ({ schema, column }) => schema.string(column.pgKey).index(),
     default: () => '' as string,
     zodSchema: ({ z }) => z.string(),
   }),
@@ -55,7 +62,7 @@ const subscribeColumns = [
   }),
   // publication user data overrides modifications that will be merged into subscriber user
   new FictionDbCol({
-    key: 'customUser',
+    key: 'inlineUser',
     create: ({ schema, column }) => schema.jsonb(column.pgKey),
     default: () => ({} as Partial<User>),
     zodSchema: ({ z }) => z.record(z.unknown()).optional(),
@@ -66,12 +73,12 @@ const subscribeTaxonomyCols = [
   new FictionDbCol({
     key: 'subscriptionTaxonomyId',
     isComposite: true,
-    create: ({ schema }) => schema.primary(['subscribe_id', 'taxonomy_id']),
+    create: ({ schema }) => schema.primary(['subscription_id', 'taxonomy_id']),
     default: () => '' as string,
   }),
   new FictionDbCol({
     key: 'subscriptionId',
-    create: ({ schema, column }) => schema.string(column.pgKey).references(`${t.subscribe}.subscribeId`).onDelete('CASCADE'),
+    create: ({ schema, column }) => schema.string(column.pgKey).references(`${t.subscribe}.subscriptionId`).onDelete('CASCADE'),
     default: () => '' as string,
     zodSchema: ({ z }) => z.string(),
   }),
@@ -96,6 +103,14 @@ const subscribeTaxonomyCols = [
 ] as const
 
 export const tables = [
-  new FictionDbTable({ tableKey: t.subscribe, timestamps: true, columns: subscribeColumns, onCreate: t => t.unique(['subscriber_id', 'publisher_id']) }),
+  new FictionDbTable({
+    tableKey: t.subscribe,
+    timestamps: true,
+    columns: subscribeColumns,
+    onCreate: (t) => {
+      t.unique(['user_id', 'publisher_id'])
+      t.unique(['email', 'publisher_id'])
+    },
+  }),
   new FictionDbTable({ tableKey: t.subscribeTaxonomy, timestamps: true, columns: subscribeTaxonomyCols, onCreate: t => t.unique(['subscription_id', 'taxonomy_id']) }),
 ]

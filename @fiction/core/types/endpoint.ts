@@ -8,6 +8,7 @@ export interface IndexMeta {
   limit?: number
   order?: 'asc' | 'desc'
   orderBy?: string
+  changedCount?: number
 }
 
 export type ResponseStatus = 'success' | 'error' | 'fail' | 'loading' | 'unknown'

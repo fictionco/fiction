@@ -1,5 +1,46 @@
-import type { ListItem } from '../types'
+import type { IndexMeta, ListItem } from '../types'
 import { toLabel, toSlug } from './casing'
+
+export type PaginationInfo = {
+  total: number
+  hasNext: boolean
+  hasPrev: boolean
+  currentPageNo: number
+  nextPageNo: number
+  prevPageNo: number
+  totalPages: number
+  start: number
+  end: number
+} & IndexMeta
+
+export function getPaginationInfo(indexMeta: IndexMeta): PaginationInfo {
+  const { count = 0, limit = 10, offset = 0 } = indexMeta
+
+  const totalPages = Math.ceil(count / limit) || 1
+  const currentPageNo = Math.floor(offset / limit) + 1
+  const hasNext = currentPageNo < totalPages
+  const hasPrev = currentPageNo > 1
+  const start = offset + 1
+  const end = Math.min(offset + limit, count)
+  const nextPageNo = hasNext ? currentPageNo + 1 : 0
+  const prevPageNo = hasPrev ? currentPageNo - 1 : 0
+
+  return {
+    ...indexMeta,
+    count,
+    limit,
+    offset,
+    total: count,
+    currentPageNo,
+    hasNext,
+    nextPageNo,
+    hasPrev,
+    prevPageNo,
+    totalPages,
+    start,
+    end,
+  }
+}
 
 export function normalizeList(
   list: (string | number | Partial<ListItem> | undefined)[] | readonly (string | Partial<ListItem> | undefined)[] = [],

@@ -1,6 +1,132 @@
 import { describe, expect, it } from 'vitest'
-import { normalizeList, sortPriority } from '../list'
+import type { IndexMeta } from '@fiction/core/types'
+import { ne } from '@faker-js/faker'
+import { getPaginationInfo, normalizeList, sortPriority } from '../list'
 import { toLabel, toSlug } from '../casing'
+
+describe('getPaginationInfo', () => {
+  it('calculates pagination information correctly with default values', () => {
+    const meta: IndexMeta = {}
+    const result = getPaginationInfo(meta)
+
+    expect(result).toEqual({
+      count: 0,
+      offset: 0,
+      limit: 10,
+      total: 0,
+      currentPageNo: 1,
+      hasNext: false,
+      hasPrev: false,
+      nextPageNo: 0,
+      prevPageNo: 0,
+      totalPages: 1,
+      start: 1,
+      end: 0,
+    })
+  })
+
+  it('calculates pagination information correctly with provided values', () => {
+    const meta: IndexMeta = {
+      count: 100,
+      offset: 20,
+      limit: 10,
+    }
+    const result = getPaginationInfo(meta)
+
+    expect(result).toEqual({
+      count: 100,
+      offset: 20,
+      limit: 10,
+      total: 100,
+      currentPageNo: 3,
+      nextPageNo: 4,
+      prevPageNo: 2,
+      hasNext: true,
+      hasPrev: true,
+      totalPages: 10,
+      start: 21,
+      end: 30,
+    })
+  })
+
+  it('handles edge case where count is zero', () => {
+    const meta: IndexMeta = {
+      count: 0,
+      offset: 0,
+      limit: 10,
+    }
+    const result = getPaginationInfo(meta)
+
+    expect(result).toEqual({
+      count: 0,
+      offset: 0,
+      limit: 10,
+      total: 0,
+      currentPageNo: 1,
+      nextPageNo: 0,
+      prevPageNo: 0,
+      hasNext: false,
+      hasPrev: false,
+      totalPages: 1,
+      start: 1,
+      end: 0,
+    })
+  })
+
+  it('handles edge case where offset exceeds count', () => {
+    const meta: IndexMeta = {
+      count: 50,
+      offset: 60,
+      limit: 10,
+    }
+    const result = getPaginationInfo(meta)
+
+    expect(result).toEqual({
+      count: 50,
+      offset: 60,
+      limit: 10,
+      total: 50,
+      currentPageNo: 7,
+      hasNext: false,
+      hasPrev: true,
+      nextPageNo: 0,
+      prevPageNo: 6,
+      totalPages: 5,
+      start: 61,
+      end: 50,
+    })
+  })
+
+  it('includes additional meta fields in the result', () => {
+    const meta: IndexMeta = {
+      count: 100,
+      offset: 20,
+      limit: 10,
+      order: 'asc',
+      orderBy: 'name',
+      changedCount: 5,
+    }
+    const result = getPaginationInfo(meta)
+
+    expect(result).toEqual({
+      count: 100,
+      offset: 20,
+      limit: 10,
+      order: 'asc',
+      orderBy: 'name',
+      changedCount: 5,
+      total: 100,
+      currentPageNo: 3,
+      nextPageNo: 4,
+      prevPageNo: 2,
+      hasNext: true,
+      hasPrev: true,
+      totalPages: 10,
+      start: 21,
+      end: 30,
+    })
+  })
+})
 
 describe('sortPriority', () => {
   it('should sort an array of objects based on their priority', () => {

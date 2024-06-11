@@ -1,6 +1,6 @@
-import { type EndpointMeta, type EndpointResponse, gravatarUrl, vue } from '@fiction/core'
-import { EmailAction } from '@fiction/plugin-transactions'
-import type { FictionSubscribe, TableSubscribeConfig } from '..'
+import { type EndpointMeta, type EndpointResponse, gravatarUrl, vue } from '@fiction/core/index.js'
+import { EmailAction } from '@fiction/plugin-transactions/index.js'
+import type { FictionSubscribe, TableSubscribeConfig } from '../index.js'
 
 export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
   const { fictionSubscribe } = args
@@ -61,7 +61,7 @@ export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
 
       await fictionUser.queries.ManageUser.serve({ _action: 'verifyEmail', code, email: userId }, { ...meta, server: true })
 
-      const r = await fictionSubscribe.queries.ManageSubscription.serve({ _action: 'create', publisherId: orgId, subscriberId: userId }, { ...meta, server: true })
+      const r = await fictionSubscribe.queries.ManageSubscription.serve({ _action: 'create', publisherId: orgId, userId }, { ...meta, server: true })
 
       const sub = r.data?.[0]
 

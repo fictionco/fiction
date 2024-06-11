@@ -29,7 +29,7 @@ vue.onMounted(() => {
     else if (user.value?.email || props.email) {
       const email = user.value?.email ? user.value.email : props.email
       const g = await gravatarUrl(email, { size: props.imageSize, default: 'identicon' })
-      src.value = !g.isDefaultImage ? g.url : userBlank
+      src.value = !g.isDefaultImage && g.url ? g.url : userBlank
     }
     else {
       src.value = userBlank

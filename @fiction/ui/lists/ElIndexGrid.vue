@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import type { ActionItem, IndexItem, IndexMeta } from '@fiction/core'
-import { getNavComponentType, vue } from '@fiction/core'
+import { getNavComponentType, getPaginationInfo, useService, vue } from '@fiction/core/index.js'
 import ElZeroBanner from '../ElZeroBanner.vue'
 import ElButton from '../ElButton.vue'
 import ElSpinner from '../loaders/ElSpinner.vue'
 import ElImage from '../media/ElImage.vue'
 
-defineProps({
+const props = defineProps({
   list: { type: Array as vue.PropType<IndexItem[]>, default: () => [] },
   listTitle: { type: String, default: 'Items' },
   indexMeta: { type: Object as vue.PropType<IndexMeta>, default: () => ({}) },
@@ -19,10 +19,26 @@ defineProps({
   mediaIcon: { type: String, default: 'i-tabler-photo' },
 })
 
+const emit = defineEmits<{
+  (event: 'update:offset', payload: number): void
+}>()
+
+const service = useService()
+
 const sending = vue.ref(false)
 
 const boxClass = 'dark:bg-theme-800 bg-theme-0 hover:bg-theme-50 dark:hover:bg-theme-700 px-6 border border-theme-300/70 shadow-xs dark:border-theme-600/60 rounded-xl'
-const mediaClass = `size-12 border border-theme-200 bg-theme-50 dark:bg-theme-700 dark:border-theme-600 rounded-md overflow-hidden text-theme-500/50`
+const mediaClass = `size-14 ring-2 ring-theme-200/50 bg-theme-50 dark:bg-theme-700 dark:border-theme-600 rounded-lg overflow-hidden text-theme-500/50`
+
+const pagination = vue.computed(() => getPaginationInfo(props.indexMeta))
+
+async function paginate(dir: 'prev' | 'next') {
+  const newPageNo = dir === 'prev' ? pagination.value.prevPageNo : pagination.value.nextPageNo
+  if (newPageNo && newPageNo > 0) {
+    const offset = (newPageNo - 1) * (pagination.value.limit || 20)
+    emit('update:offset', offset)
+  }
+}
 </script>
 
 <template>
@@ -36,7 +52,7 @@ const mediaClass = `size-12 border border-theme-200 bg-theme-50 dark:bg-theme-70
     <div v-else>
       <div class="mb-6 flex justify-between items-end">
         <div class="text-base font-semibold leading-4 text-theme-300 dark:text-theme-500 antialiased">
-          {{ listTitle }} ({{ list.length }})
+          {{ listTitle }} ({{ indexMeta.count }} total)
         </div>
         <nav
           v-if="actions?.length && list.length > 0"
@@ -56,11 +72,6 @@ const mediaClass = `size-12 border border-theme-200 bg-theme-50 dark:bg-theme-70
               {{ act.name }}
             </ElButton>
           </div>
-          <div v-if="indexMeta.count" class="hidden sm:block">
-            <div class="text-theme-400 mr-2">
-              {{ indexMeta.count }} total
-            </div>
-          </div>
         </nav>
       </div>
       <ul role="list" class="space-y-5">
@@ -78,10 +89,10 @@ const mediaClass = `size-12 border border-theme-200 bg-theme-50 dark:bg-theme-70
                 <ElImage v-else :class="mediaClass" :media="item.media" />
               </div>
               <div>
-                <p class="text-lg font-semibold leading-6 ">
+                <p class="text-lg font-medium leading-6 ">
                   <span class="hover:underline cursor-pointer">{{ item.name }}</span>
                 </p>
-                <div class="mt-1 flex items-center gap-x-2 text-sm leading-5 text-gray-500">
+                <div class="mt-1 flex items-center gap-x-2 text-sm leading-5 text-theme-500">
                   <p>
                     <span class="hover:underline cursor-pointer">{{ item.desc }}</span>
                   </p>
@@ -96,7 +107,7 @@ const mediaClass = `size-12 border border-theme-200 bg-theme-50 dark:bg-theme-70
                   {{ item.slug }}
                 </p>
               </div>
-              <svg class="h-5 w-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <svg class="h-5 w-5 flex-none text-theme-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
               </svg>
             </dl>
@@ -119,6 +130,27 @@ const mediaClass = `size-12 border border-theme-200 bg-theme-50 dark:bg-theme-70
           </template>
         </ElZeroBanner>
       </div>
+      <nav class="flex items-center justify-between  py-6  " aria-label="Pagination">
+        <div class="hidden sm:block">
+          <p class="text-sm">
+            Showing
+            <span class="font-medium">{{ pagination.start }}</span>
+            to
+            <span class="font-medium">{{ pagination.end }}</span>
+            of
+            <span class="font-medium">{{ pagination.total }}</span>
+            results
+          </p>
+        </div>
+        <div class="flex flex-1 justify-between sm:justify-end gap-3">
+          <ElButton :disabled="!pagination.prevPageNo" href="#" @click.prevent="paginate('prev')">
+            Prev
+          </ElButton>
+          <ElButton :disabled="!pagination.nextPageNo" href="#" @click.prevent="paginate('next')">
+            Next
+          </ElButton>
+        </div>
+      </nav>
     </div>
   </div>
 </template>

@@ -12,6 +12,7 @@ export type MediaDisplayObject = {
   text?: string
   classes?: string
   format?: 'url' | 'video' | 'iframe' | 'html' | 'audio' | 'text'
+  isDefaultImage?: boolean
 
 } & TableMediaConfig
 

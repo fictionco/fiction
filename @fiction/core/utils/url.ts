@@ -1,3 +1,4 @@
+import type { MediaDisplayObject } from '../types/utils.js'
 import { sha256 } from './crypto.js'
 
 export function incrementSlugId(slug?: string, options: { defaultSlug?: string, specialSlugRenameWord?: string } = {}): string {
@@ -197,7 +198,10 @@ export function getUrlPath({ urlOrPath }: { urlOrPath?: string }) {
   return path
 }
 
-export async function gravatarUrl(identifier: string, options: { size?: string | number, default?: '404' | 'identicon' | 'monsterid' | 'wavatar' | 'retro' | 'robohash' | 'blank' | string }) {
+export async function gravatarUrl(
+  identifier: string,
+  options: { size?: string | number, default?: '404' | 'identicon' | 'monsterid' | 'wavatar' | 'retro' | 'robohash' | 'blank' | string },
+): Promise<MediaDisplayObject> {
   const { size = 200, default: d = 'identicon' } = options
 
   if (!identifier) {

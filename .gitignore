@@ -52,7 +52,6 @@ heap*
 
 # IDEs and editors
 /.idea/
-/.vscode/
 *.sublime-workspace
 *.sublime-project
 

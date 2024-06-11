@@ -1,5 +1,5 @@
-import { AppRoute, type ServiceConfig } from '@fiction/core'
-import * as minimalTheme from '@fiction/theme-minimal'
+import { AppRoute, type ServiceConfig } from '@fiction/core/index.js'
+import * as minimalTheme from '@fiction/theme-minimal/index.js'
 import CardSite from '@fiction/cards/CardSite.vue'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils.js'
 import { FictionSubscribe } from '../index.js'
