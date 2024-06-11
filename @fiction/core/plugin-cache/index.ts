@@ -1,13 +1,11 @@
-import Redis from 'ioredis'
-import type { T } from 'vitest/dist/reporters-yx5ZTtEV'
-import type { FictionPluginSettings } from '../plugin'
-import { FictionPlugin } from '../plugin'
-import { EnvVar, vars } from '../plugin-env'
-import { camelKeys, safeDirname, shortId, toSnakeCaseKeys, uuid } from '../utils'
+import * as IORedis from 'ioredis'
+import type { FictionPluginSettings } from '../plugin.js'
+import { FictionPlugin } from '../plugin.js'
+import { EnvVar, vars } from '../plugin-env/index.js'
+import { camelKeys, safeDirname, shortId, toSnakeCaseKeys, uuid } from '../utils/index.js'
 
 vars.register(() => [new EnvVar({ name: 'REDIS_URL' })])
 
-export { Redis }
 
 export interface JSendMessage {
   status: 'success' | 'error' | 'event'
@@ -39,11 +37,11 @@ export interface MessageData {
 
 export class FictionCache extends FictionPlugin<FictionCacheSettings> {
   connectionUrl?: URL
-  redisConnections: Record<string, Redis> = {}
+  redisConnections: Record<string, IORedis.Redis> = {}
   subCallbacks: Record<string, (p: any) => any> = {}
-  private publisher?: Redis
-  private subscriber?: Redis
-  private primaryCache?: Redis
+  private publisher?: IORedis.Redis
+  private subscriber?: IORedis.Redis
+  private primaryCache?: IORedis.Redis
   idd = shortId()
   constructor(settings: FictionCacheSettings) {
     super('FictionCache', { root: safeDirname(import.meta.url), ...settings })
@@ -98,7 +96,7 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
     await cache.set(key, this.str(val), 'EX', ttl)
   }
 
-  getCache(): Redis | undefined {
+  getCache(): IORedis.Redis | undefined {
     if (!this.primaryCache && !this.fictionEnv?.isApp.value) {
       this.log.error('no primary cache - missing REDIS_URL')
       return
@@ -106,7 +104,7 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
     return this.primaryCache
   }
 
-  getRedisConnection = (options: { id: string }): Redis | undefined => {
+  getRedisConnection = (options: { id: string }): IORedis.Redis | undefined => {
     const { id } = options
 
     if (!this.redisConnections[id]) {
@@ -123,7 +121,7 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
         password: url.password,
       }
 
-      const connection = new Redis({
+      const connection = new IORedis.Redis({
         ...connectionInfo,
         connectTimeout: 12_000,
         maxRetriesPerRequest: 2,

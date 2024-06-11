@@ -1,19 +1,19 @@
 import path from 'node:path'
 import type sharp from 'sharp'
 import fs from 'fs-extra'
-import { Query } from '../query'
-import type { EndpointResponse } from '../types'
-import type { CropSettings, EndpointMeta } from '../utils'
-import type { FictionDb } from '../plugin-db'
-import type { FictionAws } from '../plugin-aws'
-import { createImageVariants, getFileExtensionFromFetchResponse, getMimeType, hashFile } from '../utils/media'
-import { isTest } from '../utils/vars'
-import { prepareFields } from '../utils/validation'
-import { safeDirname } from '../utils/utils'
-import { objectId } from '../utils/id'
-import { abort } from '../utils/error'
-import { t } from './tables'
-import type { FictionMedia, TableMediaConfig } from '.'
+import { Query } from '../query.js'
+import type { EndpointResponse } from '../types/index.js'
+import type { CropSettings, EndpointMeta } from '../utils/index.js'
+import type { FictionDb } from '../plugin-db/index.js'
+import type { FictionAws } from '../plugin-aws/index.js'
+import { createImageVariants, getFileExtensionFromFetchResponse, getMimeType, hashFile } from '../utils/media.js'
+import { isTest } from '../utils/vars.js'
+import { prepareFields } from '../utils/validation.js'
+import { safeDirname } from '../utils/utils.js'
+import { objectId } from '../utils/id.js'
+import { abort } from '../utils/error.js'
+import { t } from './tables.js'
+import type { FictionMedia, TableMediaConfig } from './index.js'
 
 interface SaveMediaSettings {
   fictionMedia: FictionMedia
@@ -147,8 +147,6 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
     const cleanFileName = fileName?.replace(/[^a-z0-9-.]/gi, '')
     const baseFileName = cleanFileName?.split('.').slice(0, -1).join('.') || cleanFileName
 
-
-
     if (!fileSource || !cleanFileName)
       throw new Error('No file provided')
 
@@ -159,7 +157,7 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
     const thumbFilePath = `${basePath}-thumb-${baseFileName}.png`
     const rasterFilePath = `${basePath}-raster-${baseFileName}.png`
 
-    this.log.info('creating media', { data: { filePath,  bucket } })
+    this.log.info('creating media', { data: { filePath, bucket } })
 
     const sizeOptions = { main: { width: maxSide, height: maxSide }, thumbnail: { width: 80, height: 80 }, crop } as const
     const r = await createImageVariants({ fileSource, sizeOptions, fileMime })

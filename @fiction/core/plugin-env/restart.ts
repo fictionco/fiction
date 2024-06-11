@@ -1,10 +1,10 @@
 import process from 'node:process'
 import type nodemon from 'nodemon'
 import type { NodemonSettings } from 'nodemon'
-import type { FictionPluginSettings } from '../plugin'
-import { FictionPlugin } from '../plugin'
-import { isRestart } from '../utils'
-import { done } from './utils'
+import type { FictionPluginSettings } from '../plugin.js'
+import { FictionPlugin } from '../plugin.js'
+import { isRestart } from '../utils/index.js'
+import { done } from './utils.js'
 
 export class FictionDevRestart extends FictionPlugin {
   constructor(settings: FictionPluginSettings) {

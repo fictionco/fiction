@@ -1,11 +1,11 @@
 import type http from 'node:http'
 import bodyParser from 'body-parser'
-import type { FictionEnv } from '../plugin-env'
-import { EndpointServer, vue } from '../utils'
-import type { Endpoint } from '../utils'
-import type { FictionPluginSettings } from '../plugin'
-import { FictionPlugin } from '../plugin'
-import type { FictionUser } from '../plugin-user'
+import type { FictionEnv } from '../plugin-env/index.js'
+import { EndpointServer, vue } from '../utils/index.js'
+import type { Endpoint } from '../utils/index.js'
+import type { FictionPluginSettings } from '../plugin.js'
+import { FictionPlugin } from '../plugin.js'
+import type { FictionUser } from '../plugin-user/index.js'
 
 export type FictionServerSettings = {
   fictionEnv?: FictionEnv

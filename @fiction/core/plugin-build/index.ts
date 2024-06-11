@@ -3,10 +3,10 @@ import type * as vite from 'vite'
 import type * as esLexer from 'es-module-lexer'
 import type * as cjsLexer from 'cjs-module-lexer'
 
-import { FictionPlugin, type FictionPluginSettings } from '../plugin'
-import { deepMergeAll, randomBetween, safeDirname } from '../utils'
+import { FictionPlugin, type FictionPluginSettings } from '../plugin.js'
+import { deepMergeAll, randomBetween, safeDirname } from '../utils/index.js'
 
-export * from './plugin-release'
+export * from './plugin-release.js'
 
 type FictionBuildSettings = FictionPluginSettings
 

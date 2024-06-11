@@ -9,7 +9,7 @@ import prettyoutput from 'prettyoutput'
 import dayjs from 'dayjs'
 import chalk from 'chalk'
 import type { Omit, Record } from '@sinclair/typebox'
-import { isDebug, isNode, isProd, isRestart } from '../utils/vars'
+import { isDebug, isNode, isProd, isRestart } from '../utils/vars.js'
 
 type Levels = 'error' | 'warn' | 'info' | 'debug' | 'trace'
 
@@ -328,8 +328,6 @@ export class FictionLog {
 
     return out as LogHelper
   }
-
-
 }
 
 export const log = new FictionLog()

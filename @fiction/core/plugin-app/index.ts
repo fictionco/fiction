@@ -9,7 +9,7 @@ import { EnvVar, type FictionAppEntry, type FictionEnv, type ServiceConfig, type
 import type { FictionPluginSettings } from '../plugin'
 import { FictionPlugin } from '../plugin'
 import type { FictionBuild } from '../plugin-build'
-import { AppRoute, type FictionRouter } from '../plugin-router'
+import { AppRoute, type FictionRouter } from '../plugin-router/index.js'
 import type { RunVars, StandardServices } from '../inject'
 import { FictionSitemap } from '../plugin-sitemap'
 import { FictionRender } from './plugin-render'

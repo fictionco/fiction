@@ -1,6 +1,6 @@
 import type { Ref } from 'vue'
 import { computed, ref } from 'vue'
-import type { CliOptions } from './types'
+import type { CliOptions } from './types.js'
 
 export class CliCommand<T extends string = string> {
   public command: T

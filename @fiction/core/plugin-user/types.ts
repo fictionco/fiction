@@ -1,9 +1,9 @@
 import type stripe from 'stripe'
-import type { UserRoles } from '../types/roles'
-import type { CreateObjectType } from '../tbl'
-import type { UserCapability } from '../utils/priv'
-import type { ProgressStatus } from '../types'
-import type { membersColumns, orgColumns, taxonomyCols, userColumns } from './schema'
+import type { UserRoles } from '../types/roles.js'
+import type { CreateObjectType } from '../tbl.js'
+import type { UserCapability } from '../utils/priv.js'
+import type { ProgressStatus } from '../types/index.js'
+import type { membersColumns, orgColumns, taxonomyCols, userColumns } from './schema.js'
 
 export type TableTaxonomyConfig = Partial<CreateObjectType<typeof taxonomyCols>> & { isNew?: boolean, usageCount?: number }
 

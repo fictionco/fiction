@@ -4,12 +4,12 @@ import fs from 'fs-extra'
 import { execa } from 'execa'
 import * as vite from 'vite'
 import type { RollupWatcher, RollupWatcherEvent } from 'rollup'
-import { deepMergeAll, getRequire, isNode, safeDirname } from '../utils'
-import { FictionPlugin, type FictionPluginSettings } from '../plugin'
-import type { CliOptions, FictionEnv } from '../plugin-env'
-import type { PackageJson } from '../types'
-import { getCommit, getPackages } from './utils'
-import { FictionBuild } from '.'
+import { deepMergeAll, getRequire, isNode, safeDirname } from '../utils/index.js'
+import { FictionPlugin, type FictionPluginSettings } from '../plugin.js'
+import type { CliOptions, FictionEnv } from '../plugin-env/index.js'
+import type { PackageJson } from '../types/index.js'
+import { getCommit, getPackages } from './utils.js'
+import { FictionBuild } from './index.js'
 
 type FictionBundleSettings = {
   fictionEnv: FictionEnv

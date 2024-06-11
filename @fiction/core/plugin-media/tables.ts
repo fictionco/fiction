@@ -1,5 +1,5 @@
-import { FictionDbCol, FictionDbTable } from '../plugin-db'
-import { type CreateObjectType, standardTable } from '../tbl'
+import { FictionDbCol, FictionDbTable } from '../plugin-db/index.js'
+import { type CreateObjectType, standardTable } from '../tbl.js'
 
 export const t = {
   ...standardTable,

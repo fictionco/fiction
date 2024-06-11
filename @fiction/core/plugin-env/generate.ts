@@ -1,9 +1,9 @@
 import path from 'node:path'
 import fs from 'fs-extra'
 import type { JSONSchema } from 'json-schema-to-typescript'
-import { log } from '../plugin-log'
-import { stringify } from '../utils/utils'
-import type { FictionEnv } from '.'
+import { log } from '../plugin-log/index.js'
+import { stringify } from '../utils/utils.js'
+import type { FictionEnv } from './index.js'
 
 export async function generateStaticConfig(fictionEnv: FictionEnv): Promise<void> {
   const context = 'generateStaticConfig'

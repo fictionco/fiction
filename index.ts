@@ -1,7 +1,7 @@
 import process from 'node:process'
 import type { Buffer } from 'node:buffer'
-import type { ServiceConfig } from '@fiction/core'
-import { CliCommand, FictionBundle, FictionEnv, FictionRelease, log, safeDirname } from '@fiction/core'
+import type { ServiceConfig } from '@fiction/core/index.js'
+import { CliCommand, FictionBundle, FictionEnv, FictionRelease, log, safeDirname } from '@fiction/core/index.js'
 import { execa } from 'execa'
 import { version } from './package.json'
 

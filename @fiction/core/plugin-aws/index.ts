@@ -7,10 +7,10 @@ import type {
   PutObjectCommandOutput,
   S3,
 } from '@aws-sdk/client-s3'
-import type { FictionPluginSettings } from '../plugin'
-import { FictionPlugin } from '../plugin'
-import { EnvVar, vars } from '../plugin-env'
-import { objectId } from '../utils/id'
+import type { FictionPluginSettings } from '../plugin.js'
+import { FictionPlugin } from '../plugin.js'
+import { EnvVar, vars } from '../plugin-env/index.js'
+import { objectId } from '../utils/id.js'
 
 vars.register(() => [
   new EnvVar({ name: 'AWS_ACCESS_KEY' }),

@@ -21,10 +21,10 @@ const subscribers = vue.shallowRef<Subscriber[]>([])
 const list = vue.computed<IndexItem[]>(() => {
   return subscribers.value.map((p) => {
     return {
-      key: p.subscribeId,
+      key: p.subscriptionId,
       name: p.user.fullName || p.user.email,
       desc: p.user.email,
-      href: props.card.link(`/subscriber-view?subscribeId=${p.subscribeId}`),
+      href: props.card.link(`/subscriber-view?subscriptionId=${p.subscriptionId}`),
       media: p.user.avatar || '',
     } as IndexItem
   })
@@ -34,27 +34,21 @@ const loading = vue.ref(true)
 async function load() {
   loading.value = true
   const endpoint = service.fictionSubscribe.requests.ManageSubscription
-  const orgId = service.fictionUser.activeOrgId.value
-  const r = await endpoint.projectRequest({ _action: 'list', where: { orgId } })
+  const publisherId = service.fictionUser.activeOrgId.value
+  const r = await endpoint.projectRequest({ _action: 'list', where: { publisherId } })
   console.log('SUBS', r)
   subscribers.value = r.data || []
   loading.value = false
 }
- 
+
 vue.onMounted(async () => {
   vue.watch(() => service.fictionSubscribe.cacheKey.value, load, { immediate: true })
 })
 
 const actions: ActionItem[] = [
   {
-    name: 'Import Subscribers',
+    name: 'Add / Import Subscribers',
     href: props.card.link('/subscriber-manage/import'),
-    btn: 'default',
-    icon: 'i-tabler-file-import',
-  },
-  {
-    name: 'Add New Subscriber',
-    href: props.card.link('/subscriber-manage/add'),
     btn: 'primary',
     icon: 'i-tabler-plus',
   },

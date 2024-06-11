@@ -1,4 +1,4 @@
-import type { FictionDbCol } from './plugin-db'
+import type { FictionDbCol } from './plugin-db/index.js'
 
 export const standardTable = {
   org: 'fiction_org',

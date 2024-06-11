@@ -1,4 +1,4 @@
-import { sha256 } from './crypto'
+import { sha256 } from './crypto.js'
 
 export function incrementSlugId(slug?: string, options: { defaultSlug?: string, specialSlugRenameWord?: string } = {}): string {
   const { defaultSlug = 'view', specialSlugRenameWord = 'old' } = options

@@ -39,7 +39,7 @@ const mediaClass = `size-12 border border-theme-200 bg-theme-50 dark:bg-theme-70
           {{ listTitle }} ({{ list.length }})
         </div>
         <nav
-          v-if="actions?.length"
+          v-if="actions?.length && list.length > 0"
           class="flex items-center justify-between"
           aria-label="Pagination"
         >
@@ -50,7 +50,7 @@ const mediaClass = `size-12 border border-theme-200 bg-theme-50 dark:bg-theme-70
               :href="act.href"
               :btn="act.btn || 'default'"
               :icon="act.icon"
-              size="sm"
+              size="md"
               @click.stop="act.onClick ? act.onClick({ event: $event, item: act }) : null"
             >
               {{ act.name }}

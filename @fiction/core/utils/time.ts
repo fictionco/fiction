@@ -1,4 +1,4 @@
-import { dayjs } from './libraries'
+import { dayjs } from './libraries.js'
 
 type DateTypes = string | number | Date | dayjs.Dayjs | undefined
 

@@ -5,17 +5,17 @@ import type { Knex } from 'knex'
 import knex from 'knex'
 import knexStringcase from 'knex-stringcase'
 import * as typebox from '@sinclair/typebox'
-import { isActualBrowser, isTest, safeDirname } from '../utils'
-import type { FictionPluginSettings } from '../plugin'
-import { FictionPlugin } from '../plugin'
-import type { FictionEnv } from '../plugin-env'
-import { EnvVar, vars } from '../plugin-env'
-import type { FictionServer } from '../plugin-server'
-import { toCamel } from '../utils/casing'
-import { CheckUsername } from './endpoint'
-import type { FictionDbCol, FictionDbTable } from './objects'
+import { isActualBrowser, isTest, safeDirname } from '../utils/index.js'
+import type { FictionPluginSettings } from '../plugin.js'
+import { FictionPlugin } from '../plugin.js'
+import type { FictionEnv } from '../plugin-env/index.js'
+import { EnvVar, vars } from '../plugin-env/index.js'
+import type { FictionServer } from '../plugin-server/index.js'
+import { toCamel } from '../utils/casing.js'
+import { CheckUsername } from './endpoint.js'
+import type { FictionDbCol, FictionDbTable } from './objects.js'
 
-export * from './objects'
+export * from './objects.js'
 
 vars.register(() => [
   new EnvVar({ name: 'POSTGRES_URL', val: process.env.POSTGRES_URL }),
@@ -206,7 +206,7 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
 
       const db = this.client()
 
-      const { extendDb } = await import('./dbExtend')
+      const { extendDb } = await import('./dbExtend.js')
 
       await extendDb(db)
 

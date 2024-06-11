@@ -1,13 +1,13 @@
 import type { MergeHead } from '@unhead/schema'
 import type { VueHeadClient } from '@unhead/vue'
 import type { Router } from 'vue-router'
-import type { vue } from '../utils'
-import type { PackageJson } from '../types'
-import type { FictionApp } from '../plugin-app'
-import type { FictionServer } from '../plugin-server'
-import type { FictionEnv } from '../plugin-env'
-import type { FictionObject, FictionPlugin } from '../plugin'
-import type { RunVars } from '../inject'
+import type { vue } from '../utils/index.js'
+import type { PackageJson } from '../types/index.js'
+import type { FictionApp } from '../plugin-app/index.js'
+import type { FictionServer } from '../plugin-server/index.js'
+import type { FictionEnv } from '../plugin-env/index.js'
+import type { FictionObject, FictionPlugin } from '../plugin.js'
+import type { RunVars } from '../inject.js'
 
 export interface FictionAppEntry<T extends ServiceList = ServiceList> {
   app: vue.App

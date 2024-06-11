@@ -7,10 +7,10 @@ import { beforeAll, describe, expect, it, vi } from 'vitest'
 import { randomBetween, safeDirname, vue, waitFor } from '@fiction/core/utils'
 import { FictionApp } from '@fiction/core/plugin-app'
 import { FictionRouter } from '@fiction/core/plugin-router'
-import type { FictionPluginSettings } from '@fiction/core/plugin'
-import { FictionPlugin } from '@fiction/core/plugin'
-import { CliCommand, FictionEnv } from '..'
-import type { ServiceConfig } from '../types'
+import type { FictionPluginSettings } from '@fiction/core/plugin.js'
+import { FictionPlugin } from '@fiction/core/plugin.js'
+import { CliCommand, FictionEnv } from '../index.js'
+import type { ServiceConfig } from '../types.js'
 
 let serviceConfig: ServiceConfig
 

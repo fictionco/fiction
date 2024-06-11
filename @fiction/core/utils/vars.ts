@@ -1,8 +1,8 @@
 import process from 'node:process'
-import type { RunVars } from '../inject'
-import type { FictionEnv } from '../plugin-env'
-import { toCamel } from './casing'
-import { randomBetween } from './utils'
+import type { RunVars } from '../inject.js'
+import type { FictionEnv } from '../plugin-env/index.js'
+import { toCamel } from './casing.js'
+import { randomBetween } from './utils.js'
 
 export class CrossVarManager {
   /**

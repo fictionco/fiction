@@ -28,19 +28,21 @@ describe('createEmailVars', async () => {
     console.warn('c1')
     const r = await fictionSubscribe.queries.ManageSubscription.serve({
       _action: 'create',
-      fields: { orgId, userId: userId2 },
+      publisherId: orgId,
+      subscriberId: userId2,
     }, { server: true })
 
     const r2 = await fictionSubscribe.queries.ManageSubscription.serve({
       _action: 'create',
-      fields: { orgId, userId: userId3 },
+      publisherId: orgId,
+      subscriberId: userId3,
     }, { server: true })
 
     expect(r.status).toBe('success')
     expect(r.data?.length).toBe(1)
 
-    expect(r.data?.[0].orgId).toBe(orgId)
-    expect(r.data?.[0].userId).toBe(userId2)
+    expect(r.data?.[0].publisherId).toBe(orgId)
+    expect(r.data?.[0].subscriberId).toBe(userId2)
     console.warn('c2')
 
     expect(r2.status).toBe('success')
@@ -49,32 +51,32 @@ describe('createEmailVars', async () => {
   it('list', async () => {
     const r = await fictionSubscribe.queries.ManageSubscription.serve({
       _action: 'list',
-      where: { orgId },
+      where: { publisherId: orgId },
     }, { server: true })
 
     expect(r.status).toBe('success')
 
     expect(r.data?.length).toBe(2)
-    expect(r.data?.map(_ => _.userId)).toStrictEqual([userId2, userId3])
+    expect(r.data?.map(_ => _.subscriberId)).toStrictEqual([userId2, userId3])
     expect(r.data?.map(_ => _.status)).toStrictEqual(['active', 'active'])
   })
 
   it('update', async () => {
     const r = await fictionSubscribe.queries.ManageSubscription.serve({
       _action: 'update',
-      where: { orgId, userId: userId2 },
+      where: { publisherId: orgId, subscriberId: userId2 },
       fields: { status: 'unsubscribed' },
     }, { server: true })
     expect(r.status).toBe('success')
     expect(r.data?.length).toBe(1)
-    expect(r.data?.map(_ => _.userId)).toStrictEqual([userId2])
+    expect(r.data?.map(_ => _.subscriberId)).toStrictEqual([userId2])
     expect(r.data?.map(_ => _.status)).toStrictEqual(['unsubscribed'])
   })
 
   it('delete', async () => {
     const r = await fictionSubscribe.queries.ManageSubscription.serve({
       _action: 'update',
-      where: { orgId, userId: userId2 },
+      where: { publisherId: orgId, subscriberId: userId2 },
       fields: { status: 'unsubscribed' },
     }, { server: true })
     expect(r.status).toBe('success')

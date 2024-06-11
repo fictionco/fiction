@@ -4,6 +4,6 @@ import process from 'node:process'
 
 process.noDeprecation = true
 
-const { execute } = await import('./cliProgram')
+const { execute } = await import('./cliProgram.js')
 
 execute().catch(console.error)

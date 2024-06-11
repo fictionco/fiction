@@ -1,9 +1,9 @@
 import path from 'node:path'
-import { createTestUtils } from '@fiction/core/test-utils/init'
+import { createTestUtils } from '@fiction/core/test-utils/init.js'
 import { beforeAll, describe, expect, it } from 'vitest'
 import fs from 'fs-extra'
 import { safeDirname } from '@fiction/core/utils'
-import { generateStaticConfig } from '@fiction/core/plugin-env/generate'
+import { generateStaticConfig } from '@fiction/core/plugin-env/generate.js'
 
 const root = new URL('.', import.meta.url).pathname
 describe('test config generator', () => {
@@ -36,6 +36,6 @@ describe('test config generator', () => {
 
   it('has hooked data', async () => {
     const config = await import('./.fiction/config.json')
-    expect(config.test[0]).toBe('test')
+    expect(config.default.test[0]).toBe('test')
   })
 })

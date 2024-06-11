@@ -1,5 +1,5 @@
 import type { JSONSchema } from 'json-schema-to-typescript'
-import type { CliOptions } from './types'
+import type { CliOptions } from './types.js'
 
 export interface FictionEnvHookDictionary {
   runCommand: {

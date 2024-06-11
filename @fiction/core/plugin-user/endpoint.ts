@@ -1,17 +1,17 @@
 import type { OAuth2Client } from 'google-auth-library'
-import type { EndpointMeta } from '../utils/endpoint'
-import type { FictionDb } from '../plugin-db'
-import type { FictionEnv } from '../plugin-env'
-import { Query } from '../query'
-import type { FictionEmail } from '../plugin-email'
-import { shortId } from '../utils/id'
-import { abort, dayjs, getRequestIpAddress, prepareFields, toLabel } from '../utils'
-import { standardTable as t } from '../tbl'
-import type { EndpointResponse } from '../types'
-import { getGeoFree } from '../utils-analytics'
-import type { User } from './types'
-import { comparePassword, defaultOrgName, emailExists, getCode, hashPassword, validateNewEmail, verifyCode } from './utils'
-import type { FictionUser, OnboardStoredSettings, Organization } from '.'
+import type { EndpointMeta } from '../utils/endpoint.js'
+import type { FictionDb } from '../plugin-db/index.js'
+import type { FictionEnv } from '../plugin-env/index.js'
+import { Query } from '../query.js'
+import type { FictionEmail } from '../plugin-email/index.js'
+import { shortId } from '../utils/id.js'
+import { abort, dayjs, getRequestIpAddress, prepareFields, toLabel } from '../utils/index.js'
+import { standardTable as t } from '../tbl.js'
+import type { EndpointResponse } from '../types/index.js'
+import { getGeoFree } from '../utils-analytics/index.js'
+import type { User } from './types.js'
+import { comparePassword, defaultOrgName, emailExists, getCode, hashPassword, validateNewEmail, verifyCode } from './utils/index.js'
+import type { FictionUser, OnboardStoredSettings, Organization } from './index.js'
 
 interface UserQuerySettings {
   fictionUser: FictionUser
@@ -31,7 +31,8 @@ export type WhereUser = { email: string } | { userId: string } | { username: str
 type CreateUserFields = Partial<User> & { email: string, password?: string, orgName?: string }
 
 export type ManageUserParams =
-  | { _action: 'create', fields: CreateUserFields, isVerifyEmail?: boolean }
+  | { _action: 'create', fields: CreateUserFields, withGeo?: boolean }
+  | { _action: 'getCreate', where: WhereUser, fields?: Partial<CreateUserFields> }
   | { _action: 'update', fields: Partial<User> & { password?: string }, where: WhereUser, code?: string }
   | { _action: 'updateCurrentUser', fields: Partial<User> & { password?: string } }
   | { _action: 'retrieve', select?: (keyof User)[] | ['*'], where: WhereUser }
@@ -42,7 +43,6 @@ export type ManageUserParams =
   | { _action: 'loginGoogle', credential: string }
   | { _action: 'event', eventName: 'resetPassword', where: WhereUser }
   | { _action: 'manageOnboard', settings: OnboardStoredSettings, orgId?: string, userId?: string }
-  | { _action: 'getCreate', where: WhereUser, fields?: Partial<CreateUserFields> }
 
   type ManageUserResponse = EndpointResponse<User> & {
     isNew: boolean
@@ -63,6 +63,11 @@ export class QueryManageUser extends UserBaseQuery {
       case 'retrieve':
         user = await this.getUser(params, meta)
         break
+      case 'create': {
+        user = await this.createUser(params, meta)
+        isNew = true
+        break
+      }
       case 'getCreate':{
         const r = await this.getCreateUser(params, meta)
         user = r.user
@@ -80,11 +85,6 @@ export class QueryManageUser extends UserBaseQuery {
         user = await this.updateCurrentUser(params, meta)
         message = 'updated'
         break
-      case 'create': {
-        user = await this.createUser(params, meta)
-        isNew = true
-        break
-      }
       case 'verifyEmail':
         user = await this.verifyEmail(params, meta)
         message = 'email verified'

@@ -1,8 +1,8 @@
 import path from 'node:path'
 import process from 'node:process'
-import type { PackageJson } from '../types'
-import { log } from '../plugin-log'
-import { requireIfExists } from '../utils'
+import type { PackageJson } from '../types/index.js'
+import { log } from '../plugin-log/index.js'
+import { requireIfExists } from '../utils/index.js'
 
 export function done(code: 0 | 1, message = `exited process`): never {
   if (message)

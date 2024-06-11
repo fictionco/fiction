@@ -1,11 +1,10 @@
-import type { EndpointResponse, FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionServer, FictionUser, TableMediaConfig } from '@fiction/core'
+import type { FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionServer, FictionUser, TableMediaConfig } from '@fiction/core'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import type { FictionTransactions } from '@fiction/plugin-transactions'
-import { CardTemplate, createCard } from '@fiction/site'
+import { createCard } from '@fiction/site'
 import multer from 'multer'
-import { FormData } from 'formdata-node'
 import { tables } from './schema'
-import { ManageSubscriptionQuery, UploadCSVEndpoint } from './endpoint'
+import { ManageSubscriptionQuery } from './endpoint'
 import { getEmails } from './email'
 
 export * from './schema'
@@ -23,7 +22,6 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
   csvFileName = 'csvFile'
   queries = {
     ManageSubscription: new ManageSubscriptionQuery({ fictionSubscribe: this, ...this.settings }),
-    UploadCSV: new UploadCSVEndpoint({ fictionSubscribe: this, ...this.settings }),
   }
 
   requests = this.createRequests({
@@ -98,16 +96,5 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
         ]
       },
     })
-  }
-
-  async uploadFile(params: { file?: File, formData?: FormData }): Promise<EndpointResponse<TableMediaConfig>> {
-    const { file, formData = new FormData() } = params
-
-    if (file)
-      formData.append(this.csvFileName, file)
-
-    const r = await this.requests.UploadCSV.upload({ data: formData, params: { _action: 'uploadCsv', test: 12 } })
-
-    return r
   }
 }

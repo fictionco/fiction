@@ -88,7 +88,7 @@ describe('subscribe uiux', async () => {
   it('has correct subscription information in DB', async () => {
     const fictionSubscribe = testUtils.fictionSubscribe
 
-    const where = { orgId, userId: user2.userId }
+    const where = { publisherId: orgId, subscriberId: user2.userId }
 
     const r = await fictionSubscribe.queries.ManageSubscription.serve({ _action: 'list', where }, { server: true })
 
@@ -98,9 +98,9 @@ describe('subscribe uiux', async () => {
 
     const sub = subs[0]
 
-    expect(sub.orgId).toBe(orgId)
+    expect(sub.publisherId).toBe(orgId)
 
-    expect(sub.userId).toBe(user2.userId)
+    expect(sub.subscriberId).toBe(user2.userId)
 
     expect(sub.status).toBe('active')
   })

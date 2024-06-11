@@ -2,9 +2,9 @@ import path from 'node:path'
 import stableStringify from 'fast-safe-stringify'
 import md5 from 'spark-md5'
 
-import { isPlainObject } from './obj'
-import { isNode } from './vars'
-import { toCamel } from './casing'
+import { isPlainObject } from './obj.js'
+import { isNode } from './vars.js'
+import { toCamel } from './casing.js'
 
 /**
  * Safely get the dirname with import.meta.url

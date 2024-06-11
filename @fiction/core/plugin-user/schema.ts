@@ -1,10 +1,10 @@
 import type { Schema } from 'zod'
-import { objectId, toSnakeCaseKeys } from '../utils'
-import { FictionDbCol, FictionDbTable } from '../plugin-db'
-import { standardTable as t } from '../tbl'
-import type { MediaDisplayObject } from '../types'
-import type { GeoData } from '../utils-analytics/geo'
-import type { MemberAccess, OnboardStoredSettings, OrganizationConfig, OrganizationCustomerData, OrganizationLegal, Plan, Publication, PushSubscriptionDetail, SocialAccounts, StreetAddress, UserCompany } from './types'
+import { objectId, toSnakeCaseKeys } from '../utils/index.js'
+import { FictionDbCol, FictionDbTable } from '../plugin-db/index.js'
+import { standardTable as t } from '../tbl.js'
+import type { MediaDisplayObject } from '../types/index.js'
+import type { GeoData } from '../utils-analytics/geo.js'
+import type { MemberAccess, OnboardStoredSettings, OrganizationConfig, OrganizationCustomerData, OrganizationLegal, Plan, Publication, PushSubscriptionDetail, SocialAccounts, StreetAddress, UserCompany } from './types.js'
 
 export type VerificationCode = {
   code: string

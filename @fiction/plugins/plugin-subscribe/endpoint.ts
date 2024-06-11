@@ -1,29 +1,29 @@
-import type { EndpointMeta, EndpointResponse, FictionDb, FictionEmail, FictionEnv } from '@fiction/core'
-import { Query, abort, prepareFields, validateEmail } from '@fiction/core'
+import type { EndpointMeta, EndpointResponse, FictionDb, FictionEmail, FictionEnv, FictionUser, User } from '@fiction/core'
+import { Query, prepareFields } from '@fiction/core'
 
-import fs from 'fs-extra'
 import type { Subscriber, TableSubscribeConfig } from './schema'
 import { t } from './schema'
 import type { FictionSubscribe } from '.'
 
-interface SaveMediaSettings {
+interface SubscriberEndpointSettings {
   fictionSubscribe: FictionSubscribe
   fictionDb: FictionDb
   fictionEnv: FictionEnv
   fictionEmail: FictionEmail
+  fictionUser: FictionUser
 }
 
-abstract class SubscribeEndpoint extends Query<SaveMediaSettings> {
+abstract class SubscribeEndpoint extends Query<SubscriberEndpointSettings> {
   db = () => this.settings.fictionDb.client()
-  constructor(settings: SaveMediaSettings) {
+  constructor(settings: SubscriberEndpointSettings) {
     super(settings)
   }
 }
 
-export type WhereSubscription = { subscribeId: string } | { orgId: string, userId: string }
+export type WhereSubscription = { subscriptionId: string } | { publisherId: string, subscriberId: string }
 
 export type ManageSubscriptionParams =
-  | { _action: 'create', fields: Partial<TableSubscribeConfig> & { orgId: string, userId: string } }
+  | { _action: 'create', publisherId: string, fields?: Partial<TableSubscribeConfig> } & ({ subscriberId: string } | { email: string })
   | { _action: 'list', where: Partial<TableSubscribeConfig>, limit?: number, offset?: number }
   | { _action: 'count', where: Partial<TableSubscribeConfig> }
   | { _action: 'update', where: WhereSubscription, fields: Partial<TableSubscribeConfig> }
@@ -38,7 +38,7 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
     let r: ManageSubscriptionResponse | undefined
     switch (_action) {
       case 'create':
-        r = await this.createSubscription(params, meta)
+        r = await this.create(params, meta)
         break
       case 'list':
         r = await this.listSubscriptions(params, meta)
@@ -56,13 +56,41 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
     return r || { status: 'error', message: 'Invalid action' }
   }
 
-  private async createSubscription(params: ManageSubscriptionParams & { _action: 'create' }, meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
-    const fields: Partial<TableSubscribeConfig> = { status: 'active', ...params.fields }
-    const insertData = prepareFields({ type: 'create', fields, meta, fictionDb: this.settings.fictionDb, table: t.subscribe })
+  private async create(params: ManageSubscriptionParams & { _action: 'create' }, meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
+    const { publisherId, fields } = params
+
+    const { fictionDb } = this.settings
+    let { email, subscriberId } = params as { email?: string, subscriberId?: string }
+
+    if (email && !subscriberId) {
+      const user = await this.db().table(t.user).where({ email }).first<User>()
+
+      if (user) {
+        subscriberId = user.userId
+      }
+      else {
+        const [newUser] = await this.db().insert({ email }).into(t.user).returning<User[]>('*')
+
+        if (!newUser.userId) {
+          return { status: 'error', message: 'Failed to create user' }
+        }
+
+        subscriberId = newUser.userId
+      }
+    }
+
+    const subscriptionFields: Partial<TableSubscribeConfig> = { publisherId, subscriberId, ...fields, status: fields?.status || 'active' }
+
+    const insertData = prepareFields({ type: 'create', fields: subscriptionFields, meta, fictionDb, table: t.subscribe })
 
     this.log.info('createSubscription', { data: insertData, caller: meta.caller })
 
-    const result = await this.db().table(t.subscribe).insert(insertData).onConflict(['user_id', 'org_id']).merge().returning('*')
+    const result = await this.db().table(t.subscribe)
+      .insert(insertData)
+      .onConflict(['subscriber_id', 'publisher_id'])
+      .merge()
+      .returning('*')
+
     return { status: 'success', data: result }
   }
 
@@ -97,84 +125,5 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
       .returning('*')
 
     return { status: 'success', message: 'Subscription deleted', data: result }
-  }
-}
-
-export type ManageSubscriberAdd =
-  | { _action: 'uploadCsv', orgId: string, userId: string, test: number }
-
-export class UploadCSVEndpoint extends SubscribeEndpoint {
-  async run(params: ManageSubscriberAdd, meta: EndpointMeta): Promise<EndpointResponse<any>> {
-    const { _action } = params
-
-    let r: EndpointResponse | undefined
-    switch (_action) {
-      case 'uploadCsv':
-        r = await this.uploadCsv(params, meta)
-        break
-      default:
-        r = { status: 'error', message: 'Invalid action' }
-    }
-
-    return r || { status: 'error', message: 'Invalid action' }
-  }
-
-  async uploadCsv(params: ManageSubscriberAdd & { _action: 'uploadCsv' }, meta: EndpointMeta): Promise<EndpointResponse> {
-    const file = meta.request?.file
-
-    if (!file)
-      throw abort('no file provided to endpoint by request')
-
-    const { parseStream } = await import('@fast-csv/parse')
-
-    const { Readable } = await import('node:stream')
-
-    const fileReadableStream = Readable.from(file.buffer)
-
-    type CsvRow = {
-      email: string
-      tags: string
-      [key: string]: string
-    }
-
-    const transformFunction = (data: CsvRow): CsvRow => {
-      return Object.entries(data)
-        .filter(([key, value]) => {
-          return ['email', 'tags'].includes(key) && value.trim().length > 0
-        })
-        .reduce((acc: CsvRow, [key, value]) => {
-          acc[key] = value.trim().toLowerCase()
-
-          if (key === 'tags')
-            acc[key] = value.split(/[;,|]/).map(tag => tag.trim().toLowerCase()).join(',')
-
-          return acc
-        }, {} as CsvRow)
-    }
-
-    const rows: CsvRow[] = []
-
-    const isValidEmail = (email?: string) => email ? /^[^\s@]+@[^\s@][^\s.@]*\.[^\s@]+$/.test(email) : false
-
-    let resolvePromise: (value?: unknown) => void
-
-    const myPromise = new Promise(resolve => (resolvePromise = resolve))
-
-    parseStream<CsvRow, CsvRow>(fileReadableStream, { headers: headers => headers.map(h => h?.toLowerCase()) })
-      .transform(transformFunction)
-      .validate((data: CsvRow): boolean => isValidEmail(data.email))
-      .on('error', error => console.error(error))
-      .on('data', (row: CsvRow) => { rows.push(row) })
-      .on('data-invalid', (row, rowNumber) => this.log.warn(`Invalid: rowNo(${rowNumber}) - ${JSON.stringify(row)}`))
-      .on('end', (rowCount: number) => {
-        this.log.info(`Parsed ${rowCount} rows`)
-        resolvePromise()
-      })
-
-    await myPromise
-
-    const message = 'uploaded successfully'
-
-    return { status: 'success', data: { rows }, message }
   }
 }

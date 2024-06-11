@@ -1,7 +1,7 @@
-import { log } from '../plugin-log'
-import type { RunVars } from '../inject'
-import type { FictionObject, FictionPlugin } from '../plugin'
-import type { CliVars, ServiceConfig, ServiceList } from './types'
+import { log } from '../plugin-log/index.js'
+import type { RunVars } from '../inject.js'
+import type { FictionObject, FictionPlugin } from '../plugin.js'
+import type { CliVars, ServiceConfig, ServiceList } from './types.js'
 
 type ServiceSetupArgs = { serviceConfig: ServiceConfig } & ({ context: 'app', runVars: Partial<RunVars> } | { context: 'node', cliVars: Partial<CliVars> })
 

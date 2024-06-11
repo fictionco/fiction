@@ -1,6 +1,6 @@
 import type express from 'express'
-import type { ErrorCode } from '../utils/error'
-import type { UserRoles } from './roles'
+import type { ErrorCode } from '../utils/error.js'
+import type { UserRoles } from './roles.js'
 
 export interface IndexMeta {
   count?: number

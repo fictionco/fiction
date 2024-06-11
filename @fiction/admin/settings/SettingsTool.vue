@@ -104,7 +104,7 @@ const actions = vue.computed(() => {
             </component>
           </div>
         </div>
-        <ElForm class="grow min-w-0 bg-theme-0 dark:bg-theme-900 rounded-r-lg" @submit="runSave()">
+        <ElForm class="grow min-w-0 bg-theme-0 dark:bg-theme-900 rounded-r-lg overflow-hidden" @submit="runSave()">
           <div class="header flex items-center justify-between py-3 px-4 border-b border-theme-300/70 dark:border-theme-600/70">
             <div class="font-bold">
               {{ currentPanel?.title }}
@@ -115,16 +115,27 @@ const actions = vue.computed(() => {
               </ElButton>
             </div>
           </div>
-          <ToolForm
-            v-if="currentPanel?.val"
-            v-model="currentPanel.val.value"
-            :data-settings-tool="currentPanel.slug"
-            ui-size="lg"
-            :options="currentPanelOptions"
-            :card
-            :disable-group-hide="true"
-            :data-value="JSON.stringify(currentPanel.val.value)"
-          />
+          <transition
+            enter-active-class="ease-out duration-300"
+            enter-from-class="opacity-0 translate-x-12"
+            enter-to-class="opacity-100 translate-x-0"
+            leave-active-class="ease-in duration-300"
+            leave-from-class="opacity-100 translate-x-0"
+            leave-to-class="opacity-0 -translate-x-12"
+            mode="out-in"
+          >
+            <ToolForm
+              v-if="currentPanel?.val"
+              :key="currentPanel.slug"
+              v-model="currentPanel.val.value"
+              :data-settings-tool="currentPanel.slug"
+              ui-size="lg"
+              :options="currentPanelOptions"
+              :card
+              :disable-group-hide="true"
+              :data-value="JSON.stringify(currentPanel.val.value)"
+            />
+          </transition>
         </ElForm>
       </div>
     </ElPanel>

@@ -6,12 +6,12 @@ import type { ExecaError, ResultPromise } from 'execa'
 import enquirer from 'enquirer'
 import type { ReleaseType } from 'semver'
 import semver from 'semver'
-import type { FictionEnv } from '../plugin-env'
-import { log } from '../plugin-log'
-import { getRequire, safeDirname } from '../utils'
-import type { PackageJson } from '../types'
-import { FictionPlugin, type FictionPluginSettings } from '../plugin'
-import { getPackages, isGitDirty } from './utils'
+import type { FictionEnv } from '../plugin-env/index.js'
+import { log } from '../plugin-log/index.js'
+import { getRequire, safeDirname } from '../utils/index.js'
+import type { PackageJson } from '../types/index.js'
+import { FictionPlugin, type FictionPluginSettings } from '../plugin.js'
+import { getPackages, isGitDirty } from './utils.js'
 
 const { prompt } = enquirer
 

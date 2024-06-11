@@ -1,8 +1,8 @@
-import { EnvVar, vars } from '../plugin-env'
-import { FictionPlugin, type FictionPluginSettings } from '../plugin'
-import { type EndpointMeta, isTest, safeDirname } from '../utils'
+import { EnvVar, vars } from '../plugin-env/index.js'
+import { FictionPlugin, type FictionPluginSettings } from '../plugin.js'
+import { type EndpointMeta, isTest, safeDirname } from '../utils/index.js'
 import type EmailStandard from './templates/EmailStandard.vue'
-import { QueryTransactionalEmail } from './endpoint'
+import { QueryTransactionalEmail } from './endpoint.js'
 
 export type TransactionalEmailConfig = InstanceType<typeof EmailStandard>['$props'] & { bodyHtml?: string }
 

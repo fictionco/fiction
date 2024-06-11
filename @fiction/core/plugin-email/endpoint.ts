@@ -1,16 +1,15 @@
 import type { Transporter } from 'nodemailer'
 import nodeMailer from 'nodemailer'
 import nodeMailerHtmlToText from 'nodemailer-html-to-text'
-import type { DefineConfigFunctions } from '@vue-email/compiler/index'
-import type { FictionPluginSettings } from '../plugin'
-import { Query } from '../query'
-import { safeDirname } from '../utils'
+import type { FictionPluginSettings } from '../plugin.js'
+import { Query } from '../query.js'
+import { safeDirname } from '../utils/index.js'
 import { type EndpointMeta, isActualBrowser } from '../utils/index.js'
 import { toMarkdown } from '../utils/markdown.js'
-import type { EndpointResponse } from '../types'
-import { getFromAddress } from '../utils/email'
-import { isCi } from '../utils/vars'
-import type { FictionEmail, TransactionalEmailConfig } from '.'
+import type { EndpointResponse } from '../types/index.js'
+import { getFromAddress } from '../utils/email.js'
+import { isCi } from '../utils/vars.js'
+import type { FictionEmail, TransactionalEmailConfig } from './index.js'
 
 export type EmailQuerySettings = FictionPluginSettings & {
   fictionEmail: FictionEmail

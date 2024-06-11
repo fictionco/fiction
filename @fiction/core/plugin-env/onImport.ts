@@ -1,5 +1,5 @@
-import { vue } from '../utils'
-import type { FictionEnv } from '.'
+import { vue } from '../utils/index.js'
+import type { FictionEnv } from './index.js'
 
 type EnvConfigCallback = { name: string, onLoad: (args: { fictionEnv: FictionEnv }) => void }
 class EnvConfigList {

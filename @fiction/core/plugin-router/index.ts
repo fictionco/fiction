@@ -1,13 +1,13 @@
 import type { NavigationGuardWithThis, NavigationHookAfter, RouteLocationNormalizedLoaded } from 'vue-router'
 
-import type { FictionPluginSettings } from '../plugin'
-import { FictionPlugin } from '../plugin'
-import { refineRoute, safeDirname, sortPriority, vue, vueRouter } from '../utils'
-import type { FictionEnv } from '../plugin-env'
-import type { AppRoute } from './appRoute'
+import type { FictionPluginSettings } from '../plugin.js'
+import { FictionPlugin } from '../plugin.js'
+import { refineRoute, safeDirname, sortPriority, vue, vueRouter } from '../utils/index.js'
+import type { FictionEnv } from '../plugin-env/index.js'
+import type { AppRoute } from './appRoute.js'
 
-export * from './types'
-export * from './appRoute'
+export * from './types.js'
+export * from './appRoute.js'
 
 type LocationValue = string | number | null | undefined
 type LinkReplace = Record<string, LocationValue | vue.Ref<LocationValue> | LocationValue[] >

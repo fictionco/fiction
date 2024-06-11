@@ -1,5 +1,5 @@
 /* eslint-disable vars-on-top, no-var */
-import { vue } from './libraries'
+import { vue } from './libraries.js'
 
 declare global {
   var fictionState: Record<string, any>

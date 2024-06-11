@@ -1,11 +1,11 @@
-import type { FictionApp, FictionPluginSettings, vue } from '@fiction/core'
-import { FictionPlugin, safeDirname } from '@fiction/core'
+import type { FictionApp, FictionPluginSettings, vue } from '@fiction/core/index.js'
+import { FictionPlugin, safeDirname } from '@fiction/core/index.js'
 import twForms from '@tailwindcss/forms'
 import twContainerQueries from '@tailwindcss/container-queries'
 import twTypography from '@tailwindcss/typography'
-import { tailwindVarColorScheme } from '@fiction/core/utils/colors'
+import { tailwindVarColorScheme } from '@fiction/core/utils/colors.js'
 import type { Config as TailwindConfig } from 'tailwindcss'
-import { inputs } from './inputs'
+import { inputs } from './inputs/index.js'
 
 type FictionUiSettings = {
   apps: FictionApp[]
@@ -14,7 +14,7 @@ type FictionUiSettings = {
   AdminWrap?: vue.Component
 } & FictionPluginSettings
 
-export * from './inputs'
+export * from './inputs/index.js'
 
 export class FictionUi extends FictionPlugin<FictionUiSettings> {
   apps: FictionApp[] = this.settings.apps || []

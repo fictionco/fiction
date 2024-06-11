@@ -5,8 +5,8 @@ import type { ParsedArgs } from 'minimist'
 import minimist from 'minimist'
 import Handlebars from 'handlebars'
 import fs from 'fs-extra'
-import type { PackageJson } from '../types'
-import { getRequire } from '../utils'
+import type { PackageJson } from '../types/index.js'
+import { getRequire } from '../utils/index.js'
 
 /**
  * Checks whether the working directory has uncommitted changes

@@ -1,5 +1,5 @@
-import type { vue } from '../utils/libraries'
-import type { ListItem } from './utils'
+import type { vue } from '../utils/libraries.js'
+import type { ListItem } from './utils.js'
 
 export interface TemplateConfig {
   name?: string

@@ -1,9 +1,9 @@
-import type { vue, vueRouter } from '../utils/libraries'
-import type { FictionPlugin } from '../plugin'
-import { FictionObject } from '../plugin'
-import { toLabel } from '../utils/casing'
-import type { RouteAuthCallback } from './types'
-import type { FictionRouter } from '.'
+import type { vue, vueRouter } from '../utils/libraries.js'
+import type { FictionPlugin } from '../plugin.js'
+import { FictionObject } from '../plugin.js'
+import { toLabel } from '../utils/casing.js'
+import type { RouteAuthCallback } from './types.js'
+import type { FictionRouter } from './index.js'
 
 type IsActiveCallback = (c: {
   route: vueRouter.RouteLocation

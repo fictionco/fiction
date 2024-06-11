@@ -1,7 +1,7 @@
 import type { EndpointResponse, ResponseStatus, ValidationReason } from '@fiction/core'
-import { toSlug } from '../utils'
-import { Query } from '../query'
-import type { FictionDb } from '.'
+import { toSlug } from '../utils/index.js'
+import { Query } from '../query.js'
+import type { FictionDb } from './index.js'
 
 type QuerySettings = { fictionDb: FictionDb }
 
@@ -17,7 +17,7 @@ export class CheckUsername extends Query<QuerySettings> {
   }
 
   async getWords(): Promise<Set<string>> {
-    const { words } = await import('../utils/lib/words')
+    const { words } = await import('../utils/lib/words.js')
     return new Set(words)
   }
 

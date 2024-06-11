@@ -1,6 +1,6 @@
 import '@fiction/core/plugin-env/hooks'
-import type { vueRouter } from '../utils'
-import type { NavigateRoute } from './types'
+import type { vueRouter } from '../utils/index.ts'
+import type { NavigateRoute } from './types.ts'
 
 type RLoc = vueRouter.RouteLocationNormalized
 declare module '@fiction/core/plugin-env/hooks' {

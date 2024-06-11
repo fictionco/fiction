@@ -1,9 +1,9 @@
 import type { Knex } from 'knex'
 import type { ZodSchema } from 'zod'
 import { ZodError, z } from 'zod'
-import { toSnakeCase } from '../utils'
-import type { LogHelper } from '../plugin-log'
-import { log } from '../plugin-log'
+import { toSnakeCase } from '../utils/index.js'
+import type { LogHelper } from '../plugin-log/index.js'
+import { log } from '../plugin-log/index.js'
 
 type CreateCol = (params: { schema: Knex.AlterTableBuilder, column: FictionDbCol, db: Knex }) => void
 type PrepareForStorage<T extends ColDefaultValue = ColDefaultValue> = (args: { value: T, key: string, db: Knex }) => unknown

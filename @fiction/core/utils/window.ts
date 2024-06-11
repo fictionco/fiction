@@ -1,8 +1,8 @@
-import type { FictionRouter } from '../plugin-router'
-import type { FictionEnv } from '../plugin-env'
-import { vue } from './libraries'
-import { emitEvent, onEvent } from './event'
-import { isNode } from './vars'
+import type { FictionRouter } from '../plugin-router/index.js'
+import type { FictionEnv } from '../plugin-env/index.js'
+import { vue } from './libraries.js'
+import { emitEvent, onEvent } from './event.js'
+import { isNode } from './vars.js'
 
 type ResetUiScope = 'all' | 'inputs' | 'iframe'
 interface ResetUiDetail {
