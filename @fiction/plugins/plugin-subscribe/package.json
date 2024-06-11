@@ -14,7 +14,8 @@
     "@fiction/ui": "workspace:*",
     "fast-csv": "^5.0.1",
     "formdata-node": "^6.0.3",
-    "multer": "1.4.5-lts.1"
+    "multer": "1.4.5-lts.1",
+    "papaparse": "^5.4.1"
   },
   "devDependencies": {
     "@fiction/theme-minimal": "workspace:*"

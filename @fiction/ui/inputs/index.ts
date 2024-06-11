@@ -76,7 +76,8 @@ export interface InputOptionSettings<T extends string = string, U = any> {
   isUtility?: boolean
   shape?: string[]
   icon?: string
-  uiFormat?: 'standard' | 'naked'
+  inputClass?: string
+  uiFormat?: 'standard' | 'naked' | 'fullWidth'
 }
 
 export type OptArgs = (Partial<InputOptionSettings> & Record<string, unknown>) | undefined

@@ -40,7 +40,7 @@ async function load() {
   subscribers.value = r.data || []
   loading.value = false
 }
-
+ 
 vue.onMounted(async () => {
   vue.watch(() => service.fictionSubscribe.cacheKey.value, load, { immediate: true })
 })

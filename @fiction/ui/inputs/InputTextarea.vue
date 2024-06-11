@@ -56,9 +56,14 @@ function send(el: EventTarget | null): void {
 }
 </script>
 
+<script lang="ts">
+export default { inheritAttrs: false }
+</script>
+
 <template>
   <div ref="textareaWrapper">
     <textarea
+      v-bind="$attrs"
       ref="textareaElement"
       spellcheck="false"
       :class="[textInputClasses({ inputClass }), modelValue ? 'set' : 'empty']"

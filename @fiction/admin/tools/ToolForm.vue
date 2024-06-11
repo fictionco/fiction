@@ -117,7 +117,7 @@ const cls = vue.computed(() => {
             :ui-size="uiSize"
             :data-key="opt.key.value"
             class="setting-input"
-            input-class="max-w-md"
+            :input-class="opt.settings.inputClass || 'max-w-md'"
             v-bind="{ ...inputProps, ...opt.outputProps.value }"
             :input="opt.input.value"
             :model-value="getNested({ path: getOptionPath(opt.key.value), data: modelValue })"

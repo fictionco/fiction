@@ -1,6 +1,7 @@
 import { InputOption } from '@fiction/ui'
 import { type Organization, type StandardServices, type User, standardTable as t, vue } from '@fiction/core'
 import type { SettingsTool } from '@fiction/admin/types'
+import type NavMobile from '@fiction/ui/NavMobile.vue'
 
 const def = vue.defineAsyncComponent
 
@@ -9,7 +10,7 @@ export function getTools(args: { service: StandardServices }) {
   const tools = [
     {
       slug: 'import',
-      title: 'Import Subscribers (.csv)',
+      title: 'Add Subscribers',
       userConfig: { isNavItem: true, navIcon: 'i-tabler-table-share', navIconAlt: 'i-tabler-table-plus' },
       val: fictionUser.activeOrganization,
 
@@ -26,41 +27,6 @@ export function getTools(args: { service: StandardServices }) {
           ] satisfies InputOption[]
         },
         )
-      },
-    },
-    {
-      slug: 'add',
-      title: 'Add By Email',
-      userConfig: { isNavItem: true, navIcon: 'i-tabler-copy-check', navIconAlt: 'i-tabler-copy-check-filled' },
-      val: fictionUser.activeUser,
-      options: () => {
-        return vue.computed(() => [
-          new InputOption({
-            key: 'userDetails',
-            input: 'group',
-            options: [
-              new InputOption({ key: 'emailList', label: 'Email List', input: 'InputTextarea', placeholder: 'example@example.com, another@gmail.com, yet.another@example' }),
-            ],
-          }),
-        ])
-      },
-    },
-    {
-      slug: 'export',
-      title: 'Export List',
-      userConfig: { isNavItem: true, navIcon: 'i-tabler-file-export' },
-      val: fictionUser.activeUser,
-      options: () => {
-        return vue.computed(() => [
-          new InputOption({
-            key: 'userDetails',
-            label: 'Copy and Paste Emails',
-            input: 'group',
-            options: [
-              new InputOption({ key: 'fullName', label: 'Full Name', input: 'InputText', placeholder: 'Your Full Name' }),
-            ],
-          }),
-        ])
       },
     },
   ] satisfies SettingsTool[]

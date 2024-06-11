@@ -14,7 +14,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="bg-theme-0 border border-theme-300/70 bg-theme-0 shadow-md dark:border-theme-700 dark:bg-theme-800/70 relative rounded-lg overflow-hidden ">
+  <div class="bg-theme-0 border border-theme-300/70 bg-theme-0  dark:border-theme-700 dark:bg-theme-800/70 relative rounded-lg overflow-hidden ">
     <div class="mx-auto max-w-7xl px-6 py-24 lg:flex lg:px-24">
       <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl flex flex-col justify-center lg:pt-12">
         <div class="">

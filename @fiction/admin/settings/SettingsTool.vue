@@ -72,6 +72,11 @@ async function runSave() {
     sending.value = false
   }
 }
+
+const actions = vue.computed(() => {
+  const tool = currentPanel.value
+  return tool?.getActions?.({ tool, service }).value || []
+})
 </script>
 
 <template>
@@ -84,7 +89,7 @@ async function runSave() {
               :is="getNavComponentType(v)"
               v-for="(v, i) in nav"
               :key="i"
-              class="flex items-center space-x-3 px-3 py-2.5 text-sm  rounded-lg transition-all duration-100"
+              class="flex items-center space-x-3 px-3 py-2.5 text-sm  rounded-lg transition-all duration-100 "
               :to="v.href"
               :href="v.href"
               :class="
@@ -93,7 +98,9 @@ async function runSave() {
                   : 'inactive font-medium text-theme-600 dark:text-theme-0 hover:bg-theme-100/30 dark:hover:bg-theme-800' "
             >
               <div v-if="v.icon" class="text-[1.4em] shrink-0 opacity-80" :class="v.icon" />
-              <div>{{ v.name }}</div>
+              <div class="min-w-0 truncate overflow-ellipsis">
+                {{ v.name }}
+              </div>
             </component>
           </div>
         </div>

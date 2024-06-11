@@ -31,7 +31,7 @@ export function selectInputClasses(args: { inputClass: string, classButton?: str
         'relative',
         'w-full',
         'cursor-pointer',
-        'rounded-input',
+        'rounded-lg',
         'border',
         'border-theme-300',
         'dark:border-theme-500',

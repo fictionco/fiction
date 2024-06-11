@@ -11,4 +11,5 @@ export type SettingsTool<T extends string = string, U extends Record<string, any
   options?: (args: { tool: SettingsTool<T, U>, service: StandardServices }) => vue.ComputedRef< InputOption[]>
   save?: (args: { tool: SettingsTool<T, U>, service: StandardServices }) => Promise<EndpointResponse>
   val?: vue.Ref<U> | vue.WritableComputedRef<U>
+  getActions?: (args: { tool: SettingsTool<T, U>, service: StandardServices }) => vue.ComputedRef<ActionItem[]>
 }
