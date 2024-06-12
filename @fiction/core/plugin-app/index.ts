@@ -67,10 +67,9 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   publicFolder = this.settings.publicFolder || path.join(this.srcFolder, 'public')
 
   appInstanceId = this.settings.appInstanceId || 'app'
-  root = safeDirname(import.meta.url)
 
   constructor(settings: FictionAppSettings) {
-    super('FictionApp', settings)
+    super('FictionApp', { root: safeDirname(import.meta.url), ...settings })
 
     /**
      * node application init

@@ -1291,6 +1291,9 @@ importers:
       '@fiction/admin':
         specifier: workspace:*
         version: link:../admin
+      '@fiction/analytics':
+        specifier: workspace:*
+        version: link:../analytics
       '@fiction/cards':
         specifier: workspace:*
         version: link:../cards

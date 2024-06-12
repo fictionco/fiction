@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { NumberFormats } from '@fiction/core'
 import { dayjs, formatNumber, vue } from '@fiction/core'
-import ElLoading from '../loaders/ElSpinner.vue'
+import ElLoading from '@fiction/ui/loaders/ElSpinner.vue'
 import { createLineChart } from './chart'
 import type { ComparePeriods, DataCompared, DataPointChart } from './dataStructure'
 import { shouldUpdateChart } from './util'

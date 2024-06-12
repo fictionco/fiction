@@ -1,7 +1,7 @@
 import type { EndpointMeta, EndpointResponse, FictionEnv } from '@fiction/core'
 import { Query, abort } from '@fiction/core'
 import type { Knex } from 'knex'
-import type { QueryParams } from '@fiction/ui/chart/dataStructure'
+import type { QueryParams } from '@fiction/analytics/chart/dataStructure.js'
 import type { AggregationRow } from '../types'
 import type { EventParams } from '../plugin-beacon'
 import { refineParams } from '../utils/refine'

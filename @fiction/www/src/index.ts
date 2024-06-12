@@ -14,6 +14,7 @@ import { FictionAi } from '@fiction/plugin-ai'
 import { FictionExtend } from '@fiction/plugin-extend'
 import { FictionSubscribe } from '@fiction/plugin-subscribe'
 import { getEnvVars } from '@fiction/core/utils'
+import { FictionAnalytics } from '@fiction/analytics'
 import { version } from '../package.json'
 import { getExtensionIndex, getThemes } from './extend'
 import { commands } from './commands'
@@ -47,10 +48,11 @@ const envVarNames = [
   'OPENAI_API_KEY',
   'REDIS_URL',
   'APOLLO_API_KEY',
+  'CLICKHOUSE_URL',
 ] as const
 
 const v = getEnvVars(fictionEnv, envVarNames)
-const { apolloApiKey, flyApiToken, googleClientId, googleClientSecret, tokenSecret, postgresUrl, smtpHost, smtpPassword, smtpUser, slackWebhookUrl, sentryPublicDsn, awsAccessKey, awsBucketMedia, awsRegion, awsAccessKeySecret, openaiApiKey } = v
+const { apolloApiKey, flyApiToken, googleClientId, googleClientSecret, tokenSecret, postgresUrl, smtpHost, smtpPassword, smtpUser, slackWebhookUrl, sentryPublicDsn, awsAccessKey, awsBucketMedia, clickhouseUrl, awsAccessKeySecret, openaiApiKey } = v
 
 const comboPort = +fictionEnv.var('APP_PORT')
 
@@ -60,7 +62,7 @@ const fictionRouter = new FictionRouter({
   baseUrl: fictionEnv.meta.app?.url,
   routes: (fictionRouter) => {
     return [
-      new AppRoute({ name: 'chartTest', path: '/test-chart', component: (): Promise<any> => import('@fiction/ui/chart/test/TestChart.vue'), noSitemap: true }),
+      new AppRoute({ name: 'chartTest', path: '/test-chart', component: (): Promise<any> => import('@fiction/analytics/chart/test/TestChart.vue'), noSitemap: true }),
       new AppRoute({ name: 'email', path: '/test-email', component: (): Promise<any> => import('@fiction/core/plugin-email/preview/EmailPreview.vue'), noSitemap: true }),
       new AppRoute({ name: 'themeMinimal', path: '/theme-minimal/:viewId?/:itemId?', component: FSite, props: { siteRouter: fictionRouter, themeId: 'minimal' }, noSitemap: true }),
       new AppRoute({ name: 'testEditor', path: '/test-editor', component: (): Promise<any> => import('@fiction/plugin-editor/test/TestEditor.vue'), noSitemap: true }),
@@ -180,16 +182,15 @@ const fictionTeam = new FictionTeam({ ...pluginServices })
 
 const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp, fictionAppSites] })
 
-const baseService = { ...pluginServices, fictionSites, fictionTeam, fictionUi, fictionStripe, fictionSubscribe }
+const fictionAnalytics = new FictionAnalytics({ clickhouseUrl, ...pluginServices })
+
+const baseService = { ...pluginServices, fictionAnalytics, fictionSites, fictionTeam, fictionUi, fictionStripe, fictionSubscribe }
 
 export type SpecificService = typeof baseService
 
 const fictionExtend = new FictionExtend({ ...pluginServices, extensionIndex: getExtensionIndex(baseService) })
 
-const service = {
-  ...baseService,
-  fictionExtend,
-}
+const service = { ...baseService, fictionExtend }
 
 export function setup(): ServiceConfig {
   async function initializeBackingServices() {
