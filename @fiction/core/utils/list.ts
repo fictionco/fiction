@@ -20,7 +20,7 @@ export function getPaginationInfo(indexMeta: IndexMeta): PaginationInfo {
   const currentPageNo = Math.floor(offset / limit) + 1
   const hasNext = currentPageNo < totalPages
   const hasPrev = currentPageNo > 1
-  const start = offset + 1
+  const start = Math.min(offset + 1, count)
   const end = Math.min(offset + limit, count)
   const nextPageNo = hasNext ? currentPageNo + 1 : 0
   const prevPageNo = hasPrev ? currentPageNo - 1 : 0

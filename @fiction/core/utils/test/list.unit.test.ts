@@ -20,7 +20,7 @@ describe('getPaginationInfo', () => {
       nextPageNo: 0,
       prevPageNo: 0,
       totalPages: 1,
-      start: 1,
+      start: 0,
       end: 0,
     })
   })
@@ -68,7 +68,7 @@ describe('getPaginationInfo', () => {
       hasNext: false,
       hasPrev: false,
       totalPages: 1,
-      start: 1,
+      start: 0,
       end: 0,
     })
   })

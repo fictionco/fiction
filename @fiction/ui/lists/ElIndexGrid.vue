@@ -50,9 +50,9 @@ async function paginate(dir: 'prev' | 'next') {
       <ElSpinner class="h-6 w-6" />
     </div>
     <div v-else>
-      <div class="mb-6 flex justify-between items-end">
+      <div v-if="list.length > 0" class="mb-6 flex justify-between items-end">
         <div class="text-base font-semibold leading-4 text-theme-300 dark:text-theme-500 antialiased">
-          {{ listTitle }} ({{ indexMeta.count }} total)
+          {{ listTitle }} <span v-if="indexMeta.count">({{ indexMeta.count }} total)</span>
         </div>
         <nav
           v-if="actions?.length && list.length > 0"
@@ -130,7 +130,7 @@ async function paginate(dir: 'prev' | 'next') {
           </template>
         </ElZeroBanner>
       </div>
-      <nav class="flex items-center justify-between  py-6  " aria-label="Pagination">
+      <nav v-if="pagination.count" class="flex items-center justify-between  py-6  " aria-label="Pagination">
         <div class="hidden sm:block">
           <p class="text-sm">
             Showing

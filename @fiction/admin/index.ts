@@ -1,5 +1,5 @@
 import { FictionPlugin, type FictionPluginSettings } from '@fiction/core/plugin.js'
-import { safeDirname } from '@fiction/core/utils'
+import { safeDirname, vue } from '@fiction/core/utils'
 import type { FictionEmail } from '@fiction/core/plugin-email'
 import type { FictionMedia } from '@fiction/core/plugin-media'
 import type { FictionUser } from '@fiction/core/plugin-user'
@@ -7,6 +7,7 @@ import type { FictionApp } from '@fiction/core/plugin-app'
 import type { FictionRouter } from '@fiction/core/plugin-router'
 import type { FictionTransactions } from '@fiction/plugin-transactions'
 import { envConfig } from '@fiction/core'
+import { createCard } from '@fiction/site/theme.js'
 import { getEmails } from './emails/index.js'
 
 export * from './tools/tools.js'
@@ -26,6 +27,8 @@ type FictionAdminSettings = {
 export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
   constructor(settings: FictionAdminSettings) {
     super('FictionAdmin', { root: safeDirname(import.meta.url), ...settings })
+
+    this.addAdminPages()
   }
 
   emailActions = getEmails({ fictionAdmin: this })
@@ -39,6 +42,36 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
       // if (params.isVerifyEmail) {
       //   await this.emailActions.verifyEmailAction.serveSend({ recipient: user, queryVars: { code: user.verify?.code || '', email: user.email || '' } }, { server: true })
       // }
+    })
+  }
+
+  addAdminPages() {
+    this.settings.fictionEnv.addHook({
+      hook: 'adminPages',
+      caller: 'FictionAdmin',
+      context: 'app',
+      callback: async (pages, meta) => {
+        const { templates } = meta
+        return [
+          ...pages,
+          createCard({
+            templates,
+            templateId: 'dash',
+            slug: 'home',
+            title: 'Home',
+            cards: [
+              createCard({ el: vue.defineAsyncComponent(() => import('./dashboard/ViewDashboard.vue')) }),
+            ],
+            userConfig: {
+              isNavItem: true,
+              navIcon: 'i-tabler-home',
+              navIconAlt: 'i-tabler-home-filled',
+              priority: 0,
+            },
+          }),
+
+        ]
+      },
     })
   }
 }
