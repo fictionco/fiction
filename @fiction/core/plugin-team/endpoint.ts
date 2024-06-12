@@ -1,13 +1,13 @@
-import { Query } from '../query'
-import type { FictionDb } from '../plugin-db'
-import type { FictionRouter } from '../plugin-router'
-import type { FictionUser, MemberAccess, OrganizationMember, User } from '../plugin-user'
-import type { EndpointMeta } from '../utils/endpoint'
-import type { EndpointResponse } from '../types'
-import type { FictionEmail } from '../plugin-email'
-import type { FictionEnv } from '../plugin-env'
-import { standardTable as t } from '../tbl'
-import type { FictionTeam } from '.'
+import { Query } from '../query.js'
+import type { FictionDb } from '../plugin-db/index.js'
+import type { FictionRouter } from '../plugin-router/index.js'
+import type { FictionUser, MemberAccess, OrganizationMember, User } from '../plugin-user/index.js'
+import type { EndpointMeta } from '../utils/endpoint.js'
+import type { EndpointResponse } from '../types/index.js'
+import type { FictionEmail } from '../plugin-email/index.js'
+import type { FictionEnv } from '../plugin-env/index.js'
+import { standardTable as t } from '../tbl.js'
+import type { FictionTeam } from './index.js'
 
 export interface TeamQuerySettings {
   fictionEnv: FictionEnv

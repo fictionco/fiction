@@ -1,13 +1,13 @@
 import type { DataFilter, EndpointMeta, EndpointResponse } from '@fiction/core'
 import { Query, deepMerge, incrementSlugId, prepareFields, shortId } from '@fiction/core'
 import type { Knex } from 'knex'
-import { abort } from '@fiction/core/utils/error'
-import type { CardConfigPortable, TableCardConfig, TableDomainConfig, TableSiteConfig } from './tables'
-import { tableNames } from './tables'
-import { updateSiteCerts } from './utils/cert'
-import { Card } from './card'
-import type { WhereSite } from './load'
-import type { FictionSites, SitesPluginSettings } from '.'
+import { abort } from '@fiction/core/utils/error.js'
+import type { CardConfigPortable, TableCardConfig, TableDomainConfig, TableSiteConfig } from './tables.js'
+import { tableNames } from './tables.js'
+import { updateSiteCerts } from './utils/cert.js'
+import { Card } from './card.js'
+import type { WhereSite } from './load.js'
+import type { FictionSites, SitesPluginSettings } from './index.js'
 
 export type SitesQuerySettings = SitesPluginSettings & {
   fictionSites: FictionSites

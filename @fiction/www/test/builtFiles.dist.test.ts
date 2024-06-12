@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import fs from 'fs-extra'
 import { execa } from 'execa'
 import { path, randomBetween, safeDirname } from '@fiction/core'
-import { appRunTest } from '@fiction/core/test-utils/buildTest'
+import { appRunTest } from '@fiction/core/test-utils/buildTest.js'
 import dotenv from 'dotenv'
 import { createTestUtils } from '@fiction/core/test-utils'
 

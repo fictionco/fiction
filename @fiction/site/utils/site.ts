@@ -1,8 +1,8 @@
 import { type CleanupCallback, vue } from '@fiction/core'
-import type { Site, SiteSettings } from '..'
-import type { CardConfigPortable, TableSiteConfig } from '../tables'
-import { Card } from '../card'
-import { setPages } from './page'
+import type { Site, SiteSettings } from '../index.js'
+import type { CardConfigPortable, TableSiteConfig } from '../tables.js'
+import { Card } from '../card.js'
+import { setPages } from './page.js'
 
 // Define a type for the hooks to ensure type safety
 export type QueryVarHook = {

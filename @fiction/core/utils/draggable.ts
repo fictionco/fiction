@@ -1,6 +1,6 @@
-import { Obj } from '../obj'
-import { onBrowserEvent } from '../utils-analytics/tracking'
-import { vue } from './libraries'
+import { Obj } from '../obj.js'
+import { onBrowserEvent } from '../utils-analytics/tracking.js'
+import { vue } from './libraries.js'
 
 export type DraggableListSettings = {
   wrapClass: string

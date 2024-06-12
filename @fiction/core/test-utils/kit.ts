@@ -1,9 +1,9 @@
-import type { MainFileSetup, ServiceList } from '../plugin-env'
-import { isCi } from '../utils/vars'
-import { log } from '../plugin-log'
-import { createTestBrowser, performActions } from './buildTest'
-import { setup as mainFileSetup } from './testMainFile'
-import type { InitializedTestUtils, TestUtils } from './init'
+import type { MainFileSetup, ServiceList } from '../plugin-env/index.js'
+import { isCi } from '../utils/vars.js'
+import { log } from '../plugin-log/index.js'
+import { createTestBrowser, performActions } from './buildTest.js'
+import { setup as mainFileSetup } from './testMainFile.js'
+import type { InitializedTestUtils, TestUtils } from './init.js'
 
 export type TestingKit<T extends MainFileSetup = MainFileSetup> = {
   port: number

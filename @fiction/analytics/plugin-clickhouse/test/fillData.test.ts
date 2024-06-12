@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { dayjs } from '@fiction/core'
-import { fillData } from '../utils'
+import { fillData } from '../utils.js'
 
 const data = [
   {

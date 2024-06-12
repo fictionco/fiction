@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { getColorScheme, vue, waitFor } from '@fiction/core'
-import type { Card } from '@fiction/site'
-import { useElementVisible } from '@fiction/ui/anim'
+import type { Card } from '@fiction/site/index.js'
+import { useElementVisible } from '@fiction/ui/anim/index.js'
 import ElEngine from '../CardEngine.vue'
-import type { UserConfig } from '.'
+import type { UserConfig } from './index.js'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
@@ -52,7 +52,6 @@ vue.onMounted(() => {
 
 <template>
   <div class="engine-container relative" :style="st" :class="[flipModeClass, loaded ? 'loaded' : '']">
-
     <ElEngine :card="card" class="text-theme-950 dark:text-theme-50" />
   </div>
 </template>

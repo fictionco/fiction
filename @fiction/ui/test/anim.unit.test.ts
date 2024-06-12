@@ -2,7 +2,7 @@
 
 import { beforeEach, describe, expect, it } from 'vitest'
 
-import { splitLetters } from '../anim'
+import { splitLetters } from '../anim/index.js'
 
 describe('splitLetters', () => {
   beforeEach(() => {

@@ -4,13 +4,13 @@ import { FictionPlugin, WriteBuffer, createExpressApp, dayjs, deepMerge, getRequ
 
 import type express from 'express'
 import type { FictionCache } from '@fiction/core/plugin-cache'
-import type { FictionEvent } from '../tracking'
-import type { FictionClickHouse } from '../plugin-clickhouse'
-import { eventsTable, sessionsTable } from '../tables'
-import type { SessionTimers } from './session'
-import { SessionManager } from './session'
+import type { FictionEvent } from '../tracking.js'
+import type { FictionClickHouse } from '../plugin-clickhouse/index.js'
+import { eventsTable, sessionsTable } from '../tables.js'
+import type { SessionTimers } from './session.js'
+import { SessionManager } from './session.js'
 
-export * from '../tables'
+export * from '../tables.js'
 
 type FictionBeaconSettings = {
   isLive?: vue.Ref<boolean>

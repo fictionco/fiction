@@ -4,12 +4,12 @@
 
 import { describe, expect, it } from 'vitest'
 import { shortId } from '@fiction/core'
-import { requestManageSite } from '../../load'
-import type { EditorState } from '../../site'
-import { Site } from '../../site'
-import { createSiteTestUtils } from '../../test/testUtils'
-import { activeSiteHostname, saveSite, updateSite } from '../site'
-import { setPages, updatePages } from '../page'
+import { requestManageSite } from '../../load.js'
+import type { EditorState } from '../../site.js'
+import { Site } from '../../site.js'
+import { createSiteTestUtils } from '../../test/testUtils.js'
+import { activeSiteHostname, saveSite, updateSite } from '../site.js'
+import { setPages, updatePages } from '../page.js'
 
 describe('query var', async () => {
   const testUtils = await createSiteTestUtils()

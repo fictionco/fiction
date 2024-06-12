@@ -1,5 +1,5 @@
-import type { ActionItem, EndpointResponse, StandardServices, vue } from '@fiction/core'
-import type { InputOption } from '@fiction/ui'
+import type { ActionItem, EndpointResponse, StandardServices, vue } from '@fiction/core/index.js'
+import type { InputOption } from '@fiction/ui/index.js'
 
 export type NavCardUserConfig = { isNavItem?: boolean, navIcon?: string, navIconAlt?: string, parentItemId?: string }
 

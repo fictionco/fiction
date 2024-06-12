@@ -1,13 +1,13 @@
 import path from 'node:path'
 import type { Buffer } from 'node:buffer'
 import fs from 'fs-extra'
-import type { FictionPluginSettings } from '../plugin'
-import { FictionPlugin } from '../plugin'
-import { safeDirname } from '../utils'
-import { dayjs } from '../utils/libraries'
-import type { RunVars } from '../inject'
-import type { FictionApp } from '../plugin-app'
-import type { FictionRouter } from '../plugin-router'
+import type { FictionPluginSettings } from '../plugin.js'
+import { FictionPlugin } from '../plugin.js'
+import { safeDirname } from '../utils/index.js'
+import { dayjs } from '../utils/libraries.js'
+import type { RunVars } from '../inject.js'
+import type { FictionApp } from '../plugin-app/index.js'
+import type { FictionRouter } from '../plugin-router/index.js'
 
 export type SitemapLoader = (args: { runVars: Partial<RunVars>, fictionRouter: FictionRouter }) => (SitemapConfig | Promise<SitemapConfig>)
 

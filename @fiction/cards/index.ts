@@ -15,10 +15,10 @@ import * as features from './features'
 import * as team from './team'
 import * as map from './map'
 import * as faq from './faq'
-import * as pricing from './pricing'
-import * as marquee from './marquee'
-import * as magazine from './magazine'
-import * as capture from './capture'
+import * as pricing from './pricing/index.js'
+import * as marquee from './marquee/index.js'
+import * as magazine from './magazine/index.js'
+import * as capture from './capture/index.js'
 /**
  * Add path for tailwindcss to scan for styles
  */

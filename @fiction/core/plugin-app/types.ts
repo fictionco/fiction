@@ -1,6 +1,6 @@
-import type { RunVars } from '../inject'
-import type { FictionAppEntry, ServiceConfig } from '../plugin-env'
-import type { SSR } from './render/ssr'
+import type { RunVars } from '../inject.js'
+import type { FictionAppEntry, ServiceConfig } from '../plugin-env/index.js'
+import type { SSR } from './render/ssr.js'
 
 export interface IndexTemplates {
   main: { location: string, html?: string }

@@ -1,8 +1,8 @@
 import type { FictionRouter, RunVars } from '@fiction/core'
 import { log } from '@fiction/core'
-import type { ManageSiteParams } from './endpoint'
-import { Site } from '.'
-import type { FictionSites } from '.'
+import type { ManageSiteParams } from './endpoint.js'
+import { Site } from './index.js'
+import type { FictionSites } from './index.js'
 
 const logger = log.contextLogger('siteLoader')
 

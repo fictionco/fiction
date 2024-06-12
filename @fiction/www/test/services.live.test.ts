@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { snap } from '@fiction/core/test-utils'
+import { snap } from '@fiction/core/test-utils/util.js'
 import { fetchWithTimeout, log } from '@fiction/core'
 
 describe('service health checks', () => {

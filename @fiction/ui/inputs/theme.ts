@@ -1,5 +1,5 @@
 import { twMerge } from 'tailwind-merge'
-import type { UiElementSize } from '../utils'
+import type { UiElementSize } from '../utils.js'
 
 // export function inputClasses(feature: 'box') {
 //   const out: string[] = []

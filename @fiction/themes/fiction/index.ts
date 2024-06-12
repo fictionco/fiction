@@ -1,16 +1,16 @@
 import type { FictionEnv, NavItem } from '@fiction/core'
-import { Theme, createCard } from '@fiction/site/theme'
+import { Theme, createCard } from '@fiction/site/theme.js'
 import { safeDirname } from '@fiction/core'
 
 import { getDemoPages } from '@fiction/cards'
-import type { FictionStripe } from '@fiction/plugins/plugin-stripe'
-import { templates } from './templates'
-import * as home from './home'
-import * as tour from './tour'
-import * as about from './about'
-import * as developer from './developer'
-import * as pricing from './pricing'
-import * as affiliate from './affiliate'
+import type { FictionStripe } from '@fiction/plugins/plugin-stripe/plugin.js'
+import { templates } from './templates.js'
+import * as home from './home/index.js'
+import * as tour from './tour/index.js'
+import * as about from './about/index.js'
+import * as developer from './developer/index.js'
+import * as pricing from './pricing/index.js'
+import * as affiliate from './affiliate/index.js'
 import favicon from './img/favicon.svg'
 import shareImage from './img/share-image.jpg'
 
@@ -39,7 +39,6 @@ const socials: NavItem[] = [
 ]
 
 export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: FictionStripe }) {
-
   const { fictionEnv } = args
   const getPages = async () => {
     const r = await Promise.all([

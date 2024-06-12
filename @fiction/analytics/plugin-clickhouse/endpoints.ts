@@ -2,10 +2,10 @@ import type { EndpointMeta, EndpointResponse, FictionEnv } from '@fiction/core'
 import { Query, abort } from '@fiction/core'
 import type { Knex } from 'knex'
 import type { QueryParams } from '@fiction/analytics/chart/dataStructure.js'
-import type { AggregationRow } from '../types'
-import type { EventParams } from '../plugin-beacon'
-import { refineParams } from '../utils/refine'
-import type { FictionClickHouse } from '.'
+import type { AggregationRow } from '../types.js'
+import type { EventParams } from '../plugin-beacon/index.js'
+import { refineParams } from '../utils/refine.js'
+import type { FictionClickHouse } from './index.js'
 
 interface SaveMediaSettings {
   fictionEnv: FictionEnv

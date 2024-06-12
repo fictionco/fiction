@@ -1,7 +1,7 @@
 import type { FictionEnv } from '@fiction/core'
 import { safeDirname } from '@fiction/core'
-import { Theme, createCard } from '@fiction/site/theme'
-import { templates } from './templates'
+import { Theme, createCard } from '@fiction/site/theme.js'
+import { templates } from './templates.js'
 
 function pages() {
   return [

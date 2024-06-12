@@ -1,4 +1,4 @@
-import { vue } from '../utils'
+import { vue } from '../utils/index.js'
 
 /**
  * Get the magnitude of a number

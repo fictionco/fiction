@@ -1,5 +1,5 @@
-import { createCard } from '@fiction/site/theme'
-import { templates } from '../templates'
+import { createCard } from '@fiction/site/theme.js'
+import { templates } from '../templates.js'
 
 const topHeroCard = createCard({
   templates,

@@ -1,9 +1,9 @@
 import { beforeAll, describe, expect, it } from 'vitest'
 import { dayjs } from '@fiction/core'
 
-import type { SessionParams } from '../plugin-beacon'
-import { getSessionQuerySelectors } from '../tables'
-import { createAnalyticsTestUtils, saveFictionEvents } from './helpers'
+import type { SessionParams } from '../plugin-beacon/index.js'
+import { getSessionQuerySelectors } from '../tables.js'
+import { createAnalyticsTestUtils, saveFictionEvents } from './helpers.js'
 
 describe('standard tables', async () => {
   const testUtils = await createAnalyticsTestUtils()

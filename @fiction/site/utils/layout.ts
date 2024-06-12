@@ -1,5 +1,5 @@
-import type { Card } from '../card'
-import type { Site } from '../site'
+import type { Card } from '../card.js'
+import type { Site } from '../site.js'
 
 export const selectors = {
   dragZone: '[data-drag-zone]',

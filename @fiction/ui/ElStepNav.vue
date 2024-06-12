@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { FictionRouter, FictionUser, StepConfig, StepItem } from '@fiction/core'
+import type { FictionRouter, FictionUser, StepConfig, StepItem } from '@fiction/core/index.js'
 import { useService, vue } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'

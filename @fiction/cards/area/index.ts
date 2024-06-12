@@ -1,6 +1,6 @@
-import { colorList, colorTheme, deepMerge, safeDirname, toLabel, vue } from '@fiction/core'
-import { CardTemplate, createCard } from '@fiction/site'
-import { InputOption } from '@fiction/ui'
+import { colorList, colorTheme, deepMerge, safeDirname, toLabel, vue } from '@fiction/core/index.js'
+import { CardTemplate, createCard } from '@fiction/site/index.js'
+import { InputOption } from '@fiction/ui/index.js'
 import { z } from 'zod'
 
 const SchemeSchema = z.object({

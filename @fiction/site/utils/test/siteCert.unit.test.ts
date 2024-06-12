@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import { shortId } from '@fiction/core'
-import { tableNames } from '../../tables'
-import { requestManageSite } from '../../load'
-import { createSiteTestUtils } from '../../test/testUtils'
-import { saveSite } from '../site'
-import { updateSiteCerts } from '../cert'
+import { tableNames } from '../../tables.js'
+import { requestManageSite } from '../../load.js'
+import { createSiteTestUtils } from '../../test/testUtils.js'
+import { saveSite } from '../site.js'
+import { updateSiteCerts } from '../cert.js'
 
 describe('updateSiteCerts', async () => {
   const testUtils = await createSiteTestUtils()

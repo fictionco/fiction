@@ -1,8 +1,8 @@
 import type { ColDefaultValue, FictionDbColSettings, FictionDbTableSettings } from '@fiction/core'
 import { FictionDbCol, FictionDbTable, dayjs } from '@fiction/core'
-import type { TimeLineInterval } from '../types'
-import type { FictionEvent } from '../tracking'
-import type { BaseChartData, ClickHouseDatatype, FictionClickHouse } from '.'
+import type { TimeLineInterval } from '../types.js'
+import type { FictionEvent } from '../tracking.js'
+import type { BaseChartData, ClickHouseDatatype, FictionClickHouse } from './index.js'
 
 type ValueCallback = (params: {
   event: FictionEvent

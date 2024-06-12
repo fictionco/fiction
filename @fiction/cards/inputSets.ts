@@ -1,5 +1,5 @@
-import type { InputOptionSettings } from '@fiction/ui'
-import { InputOption } from '@fiction/ui'
+import type { InputOptionSettings } from '@fiction/ui/index.js'
+import { InputOption } from '@fiction/ui/index.js'
 import InputAi from '@fiction/site/ai/InputAi.vue'
 
 type OptArgs<T extends string = string> = (Partial<InputOptionSettings<T>> & Record<string, unknown>) | undefined

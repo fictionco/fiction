@@ -12,6 +12,7 @@ export interface CompiledServiceConfig {
     | 'AWS_ACCESS_KEY_SECRET'
     | 'AWS_BUCKET_MEDIA'
     | 'AWS_REGION'
+    | 'CLICKHOUSE_URL'
     | 'COMMAND'
     | 'COMMAND_OPTS'
     | 'FICTION_ORG_ID'
@@ -70,6 +71,7 @@ export interface CompiledServiceConfig {
     | 'OrganizationsByUserId'
     | 'SaveMedia'
     | 'SeekInviteFromUser'
+    | 'SubscriptionAnalytics'
     | 'TeamInvite'
     | 'oAuthEndpoint'
   tables: {

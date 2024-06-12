@@ -1,8 +1,8 @@
 import { FictionObject, getUrlPath, onResetUi, resetUi, vue } from '@fiction/core'
-import type { FrameUtility } from '@fiction/ui/frame/elBrowserFrameUtil'
-import type { Site } from '..'
-import type { CardConfigPortable, TableSiteConfig } from '../tables'
-import { activeSiteDisplayUrl, updateSite } from './site'
+import type { FrameUtility } from '@fiction/ui/frame/elBrowserFrameUtil.js'
+import type { Site } from '../index.js'
+import type { CardConfigPortable, TableSiteConfig } from '../tables.js'
+import { activeSiteDisplayUrl, updateSite } from './site.js'
 
 export type FramePostMessageList =
   | { messageType: 'setSite', data: { siteConfig: Partial<TableSiteConfig>, caller?: string } }

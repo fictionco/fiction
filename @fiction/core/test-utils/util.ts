@@ -2,7 +2,7 @@ import path from 'node:path'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { createApp, nextTick } from 'vue'
 import type { App, Component } from 'vue'
-import { isPlainObject, safeDirname, stringify, waitFor } from '../utils'
+import { isPlainObject, safeDirname, stringify, waitFor } from '../utils/index.js'
 import { vue } from '../utils/libraries.js'
 import type { ServiceList } from '../plugin-env/index.js'
 

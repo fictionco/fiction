@@ -1,9 +1,9 @@
 <script lang="ts" setup generic="T extends MsgUnknown">
-import { shortId, vue } from '@fiction/core'
+import { shortId, vue } from '@fiction/core/index.js'
 import ElButton from '../ElButton.vue'
 import ElLoading from '../loaders/ElLoading.vue'
-import type { MsgUnknown } from './elBrowserFrameUtil'
-import { FrameNavigator, FrameUtility } from './elBrowserFrameUtil'
+import type { MsgUnknown } from './elBrowserFrameUtil.js'
+import { FrameNavigator, FrameUtility } from './elBrowserFrameUtil.js'
 
 const props = defineProps({
   deviceMode: {

@@ -1,8 +1,8 @@
-import { type LogHelper, log } from './plugin-log'
-import type { ErrorConfig } from './utils/error'
-import { abort } from './utils/error'
-import type { EndpointResponse } from './types'
-import type { EndpointMeta } from './utils/endpoint'
+import { type LogHelper, log } from './plugin-log/index.js'
+import type { ErrorConfig } from './utils/error.js'
+import { abort } from './utils/error.js'
+import type { EndpointResponse } from './types/index.js'
+import type { EndpointMeta } from './utils/endpoint.js'
 
 export abstract class Query<T extends object = object> {
   name: string

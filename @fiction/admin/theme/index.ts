@@ -1,8 +1,8 @@
-import { CardTemplate } from '@fiction/site/card'
-import { Theme, createCard } from '@fiction/site/theme'
-import type { FictionEnv } from '@fiction/core'
-import { safeDirname, vue } from '@fiction/core'
-import { standardCardTemplates } from '@fiction/cards'
+import { CardTemplate } from '@fiction/site/card.js'
+import { Theme, createCard } from '@fiction/site/theme.js'
+import type { FictionEnv } from '@fiction/core/index.js'
+import { safeDirname, vue } from '@fiction/core/index.js'
+import { standardCardTemplates } from '@fiction/cards/index.js'
 import DashWrap from './el/DashWrap.vue'
 
 const def = vue.defineAsyncComponent

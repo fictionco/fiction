@@ -1,6 +1,6 @@
-import type { UserGeolocation } from '../types'
-import { fetchWithTimeout, getNetworkIp, isLocalhostIp } from '../utils'
-import { log } from '../plugin-log'
+import type { UserGeolocation } from '../types/index.js'
+import { fetchWithTimeout, getNetworkIp, isLocalhostIp } from '../utils/index.js'
+import { log } from '../plugin-log/index.js'
 
 export interface GeoData {
   ip?: string

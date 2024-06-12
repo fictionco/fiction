@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { getButtonClasses } from '../utils'
+import { getButtonClasses } from '../utils.js'
 
 // Describe block for getButtonClasses
 describe('getButtonClasses', () => {

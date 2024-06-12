@@ -1,6 +1,6 @@
-import { log } from '../plugin-log'
-import { localRef, vue } from '../utils'
-import { ActivityTrigger, onBrowserEvent } from './tracking'
+import { log } from '../plugin-log/index.js'
+import { localRef, vue } from '../utils/index.js'
+import { ActivityTrigger, onBrowserEvent } from './tracking.js'
 
 abstract class PageStat {
   key: string

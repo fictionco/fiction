@@ -1,5 +1,5 @@
-import { createCard } from '@fiction/site/theme'
-import { templates } from '../templates'
+import { createCard } from '@fiction/site/theme.js'
+import { templates } from '../templates.js'
 import selena from './img/selena.jpg'
 import dean from './img/dean2.jpg'
 import rogan from './img/rogan.jpg'

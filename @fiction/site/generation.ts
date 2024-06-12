@@ -2,10 +2,10 @@ import { FictionObject, removeUndefined, setNested, toLabel, vue } from '@fictio
 import type { JsonSchema7ObjectType } from 'zod-to-json-schema'
 import zodToJsonSchema from 'zod-to-json-schema'
 
-import type { InputOptionGeneration, ProgressState } from './utils/generation'
-import { calculateTotalEstimatedTimeSeconds, generateJsonPropConfig, generateOutputProps, simulateProgress } from './utils/generation'
-import { getCardCompletion } from './utils/ai'
-import type { Card } from '.'
+import type { InputOptionGeneration, ProgressState } from './utils/generation.js'
+import { calculateTotalEstimatedTimeSeconds, generateJsonPropConfig, generateOutputProps, simulateProgress } from './utils/generation.js'
+import { getCardCompletion } from './utils/ai.js'
+import type { Card } from './index.js'
 
 type CardGenerationSettings = {
   card: Card

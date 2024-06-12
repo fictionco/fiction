@@ -1,4 +1,4 @@
-import { FictionPlugin, type FictionPluginSettings } from '@fiction/core/plugin'
+import { FictionPlugin, type FictionPluginSettings } from '@fiction/core/plugin.js'
 import { safeDirname } from '@fiction/core/utils'
 import type { FictionEmail } from '@fiction/core/plugin-email'
 import type { FictionMedia } from '@fiction/core/plugin-media'
@@ -7,10 +7,10 @@ import type { FictionApp } from '@fiction/core/plugin-app'
 import type { FictionRouter } from '@fiction/core/plugin-router'
 import type { FictionTransactions } from '@fiction/plugin-transactions'
 import { envConfig } from '@fiction/core'
-import { getEmails } from './emails'
+import { getEmails } from './emails/index.js'
 
-export * from './tools/tools'
-export * from './types'
+export * from './tools/tools.js'
+export * from './types.js'
 
 envConfig.register({ name: 'ADMIN_UI_ROOT', onLoad: ({ fictionEnv }) => { fictionEnv.addUiRoot(safeDirname(import.meta.url)) } })
 

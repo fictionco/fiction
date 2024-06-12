@@ -1,4 +1,4 @@
-import type { vue } from './libraries'
+import type { vue } from './libraries.js'
 
 export interface StepActions {
   changeStep: (dir: 'prev' | 'next') => Promise<void>

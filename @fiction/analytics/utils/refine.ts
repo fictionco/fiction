@@ -1,5 +1,5 @@
 import { dayjs } from '@fiction/core'
-import type { DataPointChart, QueryParams, QueryParamsRefined, TimeLineInterval } from '../types'
+import type { DataPointChart, QueryParams, QueryParamsRefined, TimeLineInterval } from '../types.js'
 
 export function refineTimelineData<T extends DataPointChart>(args: {
   timeZone: string
@@ -27,8 +27,6 @@ export function refineTimelineData<T extends DataPointChart>(args: {
 
   const duration = Math.abs(finishTime.diff(loopTime, 'day'))
   const dateFormat = duration < 3 ? 'ha' : duration > 180 ? 'MMM D, YYYY' : 'MMM D'
-
-
 
   const sample = data[0] ?? {}
   // create default object from sample set to zeros

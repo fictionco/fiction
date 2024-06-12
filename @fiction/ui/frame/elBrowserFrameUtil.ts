@@ -4,7 +4,7 @@ import type { Ref } from 'vue'
 import { computed, ref, watch } from 'vue'
 
 // lightweight for tag
-import { Obj } from '@fiction/core/obj'
+import { Obj } from '@fiction/core/obj.js'
 
 export interface FrameMessage<T = unknown> {
   from?: 'fiction'

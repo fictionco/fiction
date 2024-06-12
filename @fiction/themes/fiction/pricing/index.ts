@@ -1,6 +1,6 @@
-import { createCard } from '@fiction/site/theme'
-import type { FictionStripe } from '@fiction/plugins/plugin-stripe'
-import { templates } from '../templates'
+import { createCard } from '@fiction/site/theme.js'
+import type { FictionStripe } from '@fiction/plugins/plugin-stripe/plugin.js'
+import { templates } from '../templates.js'
 
 const topHeroCard = createCard({
   templates,

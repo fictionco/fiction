@@ -1,6 +1,6 @@
-import { createCard } from '@fiction/site/theme'
+import { createCard } from '@fiction/site/theme.js'
 import type { MapSchemaConfig } from '@fiction/cards/map'
-import { templates } from '../templates'
+import { templates } from '../templates.js'
 import spectrum from './spectrum.jpg'
 import ap from './ap.webp'
 import pro from './pro.webp'

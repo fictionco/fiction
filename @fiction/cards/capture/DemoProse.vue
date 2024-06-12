@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { vue } from '@fiction/core'
-import type { Card } from '@fiction/site'
+import type { vue } from '@fiction/core/index.js'
+import type { Card } from '@fiction/site/index.js'
 
 defineProps({
   card: {

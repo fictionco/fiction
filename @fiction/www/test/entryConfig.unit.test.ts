@@ -1,15 +1,15 @@
 import { describe, expect, it } from 'vitest'
-import { compileApplication } from '@fiction/core/plugin-env/entry'
-import type { MainFile, ServiceList } from '@fiction/core/plugin-env/types'
+import { compileApplication } from '@fiction/core/plugin-env/entry.js'
+import type { MainFile, ServiceList } from '@fiction/core/plugin-env/types.js'
 import type { FictionApp, FictionEnv } from '@fiction/core'
-import { setup } from '../src'
+import { setup } from '../src/index.js'
 
 describe('user config', async () => {
   const serviceConfig = setup()
   const service = serviceConfig.service as { fictionApp: FictionApp, fictionEnv: FictionEnv } & ServiceList
 
   it('gets correct client-side user config', async () => {
-    const mainFileImports = (await import('../src/index')) as MainFile
+    const mainFileImports = (await import('../src/index.js')) as MainFile
 
     const serviceConfig = await mainFileImports.setup()
     const service = await compileApplication({ serviceConfig, context: 'node', cliVars: {} })

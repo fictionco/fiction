@@ -1,7 +1,7 @@
 import { finder } from '@medv/finder'
-import { log } from '../plugin-log'
-import { fastHash } from '../utils/utils'
-import { isNode } from '../utils/vars'
+import { log } from '../plugin-log/index.js'
+import { fastHash } from '../utils/utils.js'
+import { isNode } from '../utils/vars.js'
 
 export interface ClickOffsetPosition {
   targetWidth: number

@@ -3,14 +3,14 @@ import type { Dayjs } from 'dayjs'
 import type { FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
 import { FictionPlugin, capitalize, dayjs, isJson, isNode, knex } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
-import type { QueryParamsRefined, TimeLineInterval } from '../types'
-import { eventFields } from '../plugin-beacon'
-import { getSessionQuerySelectors } from '../tables'
-import type { ClickHouseQueryResult } from './types'
-import { QueryGetClientSessions, QueryGetDimensionList, QueryGetTotalSessions } from './endpoints'
-import type { FictionAnalyticsTable } from './utils'
+import type { QueryParamsRefined, TimeLineInterval } from '../types.js'
+import { eventFields } from '../plugin-beacon/index.js'
+import { getSessionQuerySelectors } from '../tables.js'
+import type { ClickHouseQueryResult } from './types.js'
+import { QueryGetClientSessions, QueryGetDimensionList, QueryGetTotalSessions } from './endpoints.js'
+import type { FictionAnalyticsTable } from './utils.js'
 
-export * from './types'
+export * from './types.js'
 
 vars.register(() => [new EnvVar({ name: 'CLICKHOUSE_URL' })])
 

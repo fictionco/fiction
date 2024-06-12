@@ -1,6 +1,6 @@
 import path from 'node:path'
 import process from 'node:process'
-import { type FictionApp, type FictionMedia, toCamel } from '@fiction/core'
+import { type FictionApp, type FictionMedia, toCamel } from '@fiction/core/index.js'
 import fs from 'fs-extra'
 
 export function cdnUrl(args: { assetName: string, fictionApp: FictionApp }): string {

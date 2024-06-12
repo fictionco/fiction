@@ -27,8 +27,9 @@ export function isBot(): {
       '_phantom' in window,
       'phantom' in window,
     ].some(Boolean)
-  )
+  ) {
     return { result: true, failed: ['phantom'] }
+  }
 
   return { result: false, failed: [] }
 }

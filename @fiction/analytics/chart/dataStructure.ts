@@ -1,4 +1,4 @@
-import type { NumberFormats, dayjs } from '@fiction/core'
+import type { NumberFormats, dayjs } from '@fiction/core/index.js'
 
 export type StandardPeriod =
   | 'hour'

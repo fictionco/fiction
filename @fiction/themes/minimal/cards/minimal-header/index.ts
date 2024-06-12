@@ -3,7 +3,7 @@ import { InputOption } from '@fiction/ui'
 import { standardOption } from '@fiction/cards/inputSets'
 import { CardTemplate } from '@fiction/site/card'
 import { refineOptions } from '@fiction/site/utils/schema'
-import { createCard } from '@fiction/site'
+import { createCard } from '@fiction/site/index.js'
 import { z } from 'zod'
 
 const UserConfigSchema = z.object({

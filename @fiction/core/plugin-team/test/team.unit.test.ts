@@ -1,9 +1,9 @@
 import { beforeAll, describe, expect, it } from 'vitest'
-import type { TestUtils } from '@fiction/core/test-utils/init'
-import { createTestUtils } from '@fiction/core/test-utils/init'
-import type { OrganizationMember } from '@fiction/core/plugin-user/types'
-import { FictionTeam } from '..'
-import { snap } from '../../test-utils'
+import type { TestUtils } from '@fiction/core/test-utils/init.js'
+import { createTestUtils } from '@fiction/core/test-utils/init.js'
+import type { OrganizationMember } from '@fiction/core/plugin-user/types.js'
+import { FictionTeam } from '../index.js'
+import { snap } from '../../test-utils/util.js'
 
 let testUtils: (TestUtils & { fictionTeam?: FictionTeam }) | undefined
 

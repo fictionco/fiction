@@ -7,7 +7,7 @@ import type { ServiceList } from '@fiction/core'
 import type { Interaction } from '@fiction/core/test-utils'
 import { createTestUtilServices, testComponentStability } from '@fiction/core/test-utils'
 
-import { inputs } from '../inputs'
+import { inputs } from '../inputs/index.js'
 
 let service: ServiceList
 

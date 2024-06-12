@@ -1,7 +1,7 @@
-import { vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
+import { vue } from '@fiction/core/index.js'
+import { CardTemplate } from '@fiction/site/index.js'
 import { z } from 'zod'
-import { standardOption } from '../inputSets'
+import { standardOption } from '../inputSets.js'
 
 const UserConfigSchema = z.object({
   superHeading: z.string().optional(),

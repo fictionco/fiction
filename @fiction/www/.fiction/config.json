@@ -53,6 +53,10 @@
       "path": "/api/subscribe/ManageSubscription"
     },
     {
+      "key": "SubscriptionAnalytics",
+      "path": "/api/subscribe/SubscriptionAnalytics"
+    },
+    {
       "key": "ManageCustomer",
       "path": "/api/stripe/ManageCustomer"
     },

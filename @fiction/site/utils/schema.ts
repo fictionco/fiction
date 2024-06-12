@@ -1,7 +1,7 @@
 import type { JsonSchema7ObjectType, JsonSchema7Type } from 'zod-to-json-schema'
 import { zodToJsonSchema } from 'zod-to-json-schema'
 import type { z } from 'zod'
-import type { InputOption } from '@fiction/ui'
+import type { InputOption } from '@fiction/ui/index.js'
 
 type RefineOptionsResult = {
   options: InputOption[]
@@ -55,7 +55,6 @@ export function refineOptions<T extends z.AnyZodObject>(args: {
     const path = basePath ? `${basePath}.${key}` : key
 
     if (!isGroup) {
-
       const optionIsUtility = option.settings.isUtility || parent?.settings.isUtility
 
       const fieldDescription = checkRecord(path)

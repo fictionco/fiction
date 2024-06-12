@@ -3,8 +3,8 @@
  */
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { vue, waitFor } from '@fiction/core'
-import type { FrameMessage } from '../elBrowserFrameUtil'
-import { FrameNavigator, FrameUtility } from '../elBrowserFrameUtil'
+import type { FrameMessage } from '../elBrowserFrameUtil.js'
+import { FrameNavigator, FrameUtility } from '../elBrowserFrameUtil.js'
 
 declare global {
   interface Window {

@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
 
 import type { Buffer } from 'node:buffer'
-import type { User } from './plugin-user/types'
+import type { User } from './plugin-user/types.js'
 
 declare module 'express' {
   export interface Request {
