@@ -28,6 +28,11 @@ describe('inputs', async () => {
   const p = Object.entries(inputs).map(async ([name, conf]) => {
     const textInputs = ['InputText', 'InputTextarea', 'InputPassword', 'InputEmail', 'InputUrl']
 
+    const props: Record<string, any> = {}
+    if (name === 'InputUsername') {
+      props.table = 'fiction_user'
+    }
+
     const interactions: Interaction[] = textInputs.includes(name)
       ? [
           { action: 'typeText', expectedValue: 'hello', typeText: 'hello' },
@@ -35,7 +40,7 @@ describe('inputs', async () => {
         ]
       : []
 
-    await testComponentStability({ name, Component: conf.el, service, interactions })
+    await testComponentStability({ name, Component: conf.el, service, interactions, props })
   })
   await Promise.all(p)
 })

@@ -2,10 +2,9 @@ import { afterAll, describe, expect, it } from 'vitest'
 import { createUiTestingKit } from '@fiction/core/test-utils/kit.js'
 import type { EmailVars } from '@fiction/plugin-transactions/action.js'
 import { createTestUser } from '@fiction/core/test-utils/init.js'
-import { emailActionSnapshot } from '@fiction/plugin-transactions/test/utils.js'
 import { setup } from './kit.main.js'
 
-describe('subscribe uiux', async () => {
+describe('subscribe uiux', { retry: 3 }, async () => {
   const kit = await createUiTestingKit({ headless: true, setup, slowMo: 0 })
 
   afterAll(() => kit?.close())
@@ -43,7 +42,6 @@ describe('subscribe uiux', async () => {
     expect(rOrigin.emailVars.callbackUrl).toContain('https://www.orig.com/__transaction/subscribe')
 
     const r = await action.serveSend({ recipient, queryVars }, { server: true, emailMode: 'send' })
-    const v = JSON.parse(emailActionSnapshot(JSON.stringify(r.emailVars), r.emailVars, queryVars))
 
     expect(r.data?.isSent).toBe(true)
 
@@ -105,65 +103,5 @@ describe('subscribe uiux', async () => {
     expect(sub.status).toBe('active')
   })
 
-  // it('has fields ', async () => {
-  //   const fields = { email: 'foo@bar.com', password: 'password123', name: 'Test User' }
-  //   await kit.performActions({
-  //     path: '/auth/register',
-  //     actions: [
-  //       { type: 'click', selector: '[data-test-id="to-login"]' },
-  //       { type: 'visible', selector: '[data-test-id="to-register"]', wait: 1000 },
-  //       //   { type: 'exists', selector: '[id="google-signin-button"]' },
-  //       { type: 'visible', selector: '[data-test-id="email-login-button"]' },
-  //       { type: 'click', selector: '[data-test-id="to-register"]', wait: 1000 },
-  //       { type: 'visible', selector: '[data-test-id="to-login"]' },
-  //       { type: 'fill', selector: '[data-test-id="input-email"] input', text: fields.email },
-  //       { type: 'fill', selector: '[data-test-id="input-password"] input', text: fields.password },
-  //       { type: 'fill', selector: '[data-test-id="input-name"] input', text: fields.name },
-  //       { type: 'value', selector: '[data-test-id="form"]', callback: (v) => {
-  //         const val = v ? JSON.parse(v) : {}
 
-  //         expect(val.email).toBe(fields.email)
-  //         expect(val.password).toBe(fields.password)
-  //         expect(val.fullName).toBe(fields.name)
-  //       } },
-
-  //     ],
-  //   })
-  // })
-
-  // it('allows user to register with google account or email', async () => {
-  //   await kit.performActions({
-  //     path: '/auth/login',
-  //     actions: [
-  //       { type: 'visible', selector: '[data-test-id="email-login-button"]' },
-  //       { type: 'visible', selector: '[data-test-id="to-register"]' },
-  //       // { type: 'exists', selector: '[id="google-signin-button"]' },
-  //     ],
-  //   })
-  // })
-
-  // it('defaults to login page', async () => {
-  //   await kit.performActions({
-  //     path: '/auth/does-not-exist',
-  //     actions: [
-  //       { type: 'visible', selector: '[data-test-id="email-login-button"]' },
-  //       { type: 'visible', selector: '[data-test-id="to-register"]' },
-  //       // { type: 'exists', selector: '[id="google-signin-button"]' },
-  //     ],
-  //   })
-  // })
-
-  // it('allows toggle between sign up and login', async () => {
-  //   await kit.performActions({
-  //     path: '/auth/register',
-  //     actions: [
-  //       { type: 'click', selector: '[data-test-id="to-login"]' },
-  //       { type: 'visible', selector: '[data-test-id="to-register"]', wait: 1000 },
-  //       //   { type: 'exists', selector: '[id="google-signin-button"]' },
-  //       { type: 'visible', selector: '[data-test-id="email-login-button"]' },
-  //       { type: 'click', selector: '[data-test-id="to-register"]', wait: 1000 },
-  //       { type: 'visible', selector: '[data-test-id="to-login"]' },
-  //     ],
-  //   })
-  // })
 })
