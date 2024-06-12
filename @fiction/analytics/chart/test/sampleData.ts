@@ -1,5 +1,4 @@
 import { dayjs } from '@fiction/core'
-import type { DataCompared, DataPointChart } from '../dataStructure'
 import type DateChart from '../DateChart.vue'
 
 type ChartProps = InstanceType<typeof DateChart>['$props']

@@ -65,7 +65,7 @@ export interface DataColumn {
 }
 
 export type DataCompared<T = unknown> = {
-  main: T[]
+  main?: T[]
   compare?: T[]
   mainTotals?: T
   compareTotals?: T

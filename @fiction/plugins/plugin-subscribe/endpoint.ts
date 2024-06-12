@@ -1,12 +1,12 @@
 import type { EndpointMeta, EndpointResponse, FictionDb, FictionEmail, FictionEnv, FictionUser, User } from '@fiction/core'
 import { Query, dayjs, prepareFields } from '@fiction/core'
-
+import { AnalyticsQuery } from '@fiction/analytics/query'
 import type { AnalyticsDataRequestFilters, DataCompared, DataPointChart } from '@fiction/analytics/types'
 import type { Subscriber, TableSubscribeConfig } from './schema'
 import { t } from './schema'
 import type { FictionSubscribe } from '.'
 
-interface SubscriberEndpointSettings {
+export interface SubscriberEndpointSettings {
   fictionSubscribe: FictionSubscribe
   fictionDb: FictionDb
   fictionEnv: FictionEnv
@@ -199,8 +199,8 @@ export type SubscriptionAnalyticsParams = { _action: 'subscriptionAnalytics', pu
 type SubscriptionChartDataPoint = DataPointChart<'subscriptions' | 'unsubscribes' | 'cleaned'>
 export type SubscriptionAnalyticsResponse = EndpointResponse<DataCompared<SubscriptionChartDataPoint>>
 
-export class SubscriptionAnalytics extends SubscribeEndpoint {
-  async run(params: SubscriptionAnalyticsParams, meta: EndpointMeta): Promise<SubscriptionAnalyticsResponse> {
+export class SubscriptionAnalytics extends AnalyticsQuery<DataCompared<SubscriptionChartDataPoint>, SubscriberEndpointSettings> {
+  async run(params: SubscriptionAnalyticsParams, _meta: EndpointMeta): Promise<SubscriptionAnalyticsResponse> {
     const db = this.db()
     const { publisherId, timeStartAtIso, timeEndAtIso, interval = 'day' } = params
 

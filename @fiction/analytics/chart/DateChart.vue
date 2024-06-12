@@ -2,15 +2,15 @@
 import type { NumberFormats } from '@fiction/core'
 import { dayjs, formatNumber, vue } from '@fiction/core'
 import ElLoading from '@fiction/ui/loaders/ElSpinner.vue'
+import type { ComparePeriods, DataCompared, DataPointChart } from '@fiction/analytics/types'
 import { createLineChart } from './chart'
-import type { ComparePeriods, DataCompared, DataPointChart } from './dataStructure'
 import { shouldUpdateChart } from './util'
 
 const props = defineProps({
   title: { type: String, required: true },
-  data: { type: Object as vue.PropType<DataCompared<DataPointChart>>, required: true },
+  data: { type: Object as vue.PropType<DataCompared<DataPointChart> | undefined>, required: true },
   valueKey: { type: String, required: true },
-  valueFormat: { type: String as vue.PropType<NumberFormats>, required: true },
+  valueFormat: { type: String as vue.PropType<NumberFormats>, default: 'number' },
   changeFormat: { type: String as vue.PropType<'inverse' | 'normal'>, default: 'normal' },
   dateFormat: { type: String, default: 'YYYY-MM-DD' },
   interval: { type: String, default: 'day' },
@@ -81,11 +81,11 @@ vue.onMounted(() => {
           else {
             return lStartDate.format(f)
           }
-        })
+        }) || []
 
-        const data = main.map(_ => (+(_[props.valueKey] || 0)))
+        const data = main?.map(_ => (+(_[props.valueKey] || 0))) || []
 
-        const presentIndex = main.findIndex(d => d.tense === 'present')
+        const presentIndex = main?.findIndex(d => d.tense === 'present')
 
         const compareData = compare.map(_ => +(_[props.valueKey] || 0))
 
@@ -150,4 +150,4 @@ vue.onMounted(() => {
       <canvas ref="chartEl" />
     </div>
   </div>
-</template>ComparePeriods,ComparePeriods,ComparePeriods,
+</template>ComparePeriods,ComparePeriods,ComparePeriods,ComparePeriods,ComparePeriods,ComparePeriods,

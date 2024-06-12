@@ -6,6 +6,7 @@ import multer from 'multer'
 import { tables } from './schema'
 import { ManageSubscriptionQuery, SubscriptionAnalytics } from './endpoint'
 import { getEmails } from './email'
+import { getWidgets } from './admin/widgets'
 
 export * from './schema'
 
@@ -20,6 +21,7 @@ type FictionSubscribeSettings = {
 
 export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
   csvFileName = 'csvFile'
+  widgets = getWidgets({ fictionSubscribe: this, ...this.settings })
   queries = {
     ManageSubscription: new ManageSubscriptionQuery({ fictionSubscribe: this, ...this.settings }),
     SubscriptionAnalytics: new SubscriptionAnalytics({ fictionSubscribe: this, ...this.settings }),
@@ -36,6 +38,8 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
   transactions = getEmails({ fictionSubscribe: this })
 
   cacheKey = vue.ref(0)
+
+
 
   constructor(settings: FictionSubscribeSettings) {
     super('FictionSubscribe', { root: safeDirname(import.meta.url), ...settings })
