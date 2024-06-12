@@ -200,6 +200,7 @@ export interface CompiledServiceConfig {
       | 'publisherId'
       | 'level'
       | 'status'
+      | 'previousStatus'
       | 'inlineTags'
       | 'inlineUser'
       | 'createdAt'

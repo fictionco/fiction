@@ -1,5 +1,70 @@
 import { dayjs } from '@fiction/core'
-import type { QueryParams, QueryParamsRefined } from '../types'
+import type { DataPointChart, QueryParams, QueryParamsRefined, TimeLineInterval } from '../types'
+
+export function refineTimelineData<T extends DataPointChart>(args: {
+  timeZone: string
+  timeStartAt: dayjs.Dayjs
+  timeEndAt: dayjs.Dayjs
+  interval: TimeLineInterval
+  withRollup?: boolean
+  data: T[]
+  now?: dayjs.Dayjs
+}): T[] {
+  const { timeStartAt, timeEndAt, timeZone, interval, data = [], withRollup, now = dayjs() } = args
+
+  const newData: { date: string, [key: string]: any }[] = withRollup ? [{ label: 'Totals', tense: 'past', ...data[0] }] : []
+
+  // clickhouse returns different timezone handling for weeks/months/years vs days/hours
+  // appropriate timezone is returned for < weeks but always utc otherwise
+  // Handle different timezone adjustments for weeks/months/years vs days/hours
+  let loopTime = (interval === 'week' || interval === 'month')
+    ? timeStartAt.utc().startOf(interval)
+    : timeStartAt.clone().tz(timeZone)
+
+  const finishTime = (interval === 'week' || interval === 'month')
+    ? timeEndAt.utc().endOf(interval)
+    : timeEndAt.clone().tz(timeZone)
+
+  const duration = Math.abs(finishTime.diff(loopTime, 'day'))
+  const dateFormat = duration < 3 ? 'ha' : duration > 180 ? 'MMM D, YYYY' : 'MMM D'
+
+
+
+  const sample = data[0] ?? {}
+  // create default object from sample set to zeros
+  const defaultObjectIfMissing = Object.fromEntries(
+    Object.entries(sample)
+      .map(([k, v]) => {
+        return ((typeof v === 'string' && /^-?\d+$/.test(v)) || typeof v === 'number') ? [k, 0] : undefined
+      })
+      .filter(Boolean) as [string, number][],
+  )
+
+  while (loopTime.isBefore(finishTime, interval) || loopTime.isSame(finishTime, interval)) {
+    const date = loopTime.toISOString()
+    const displayDate = loopTime.tz(timeZone)
+
+    const found = data.find(_ => _.date === date) || defaultObjectIfMissing
+
+    const tense = displayDate.isSame(now, interval)
+      ? 'present'
+      : displayDate.isAfter(now, interval)
+        ? 'future'
+        : 'past'
+
+    const d: DataPointChart = {
+      ...found,
+      date,
+      label: displayDate.format(dateFormat),
+      tense,
+    }
+
+    newData.push(d)
+    loopTime = loopTime.add(1, interval).tz(timeZone)
+  }
+
+  return newData as T[]
+}
 
 /**
  * Standardize analytics query params

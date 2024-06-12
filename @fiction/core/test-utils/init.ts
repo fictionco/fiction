@@ -62,7 +62,8 @@ export interface TestUtilSettings {
 }
 
 export async function createTestUser(fictionUser: FictionUser, opts: { caller?: string } = {}) {
-  const { caller = 'unknown' } = opts
+
+  const caller = `createTestUser-${opts.caller || 'unknown'}`
   logger.info(`creating user - ${caller}`)
   const email = getTestEmail()
   const password = 'test'

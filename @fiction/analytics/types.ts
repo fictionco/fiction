@@ -45,15 +45,15 @@ export interface AggregationRow {
   countryCode?: string
 }
 
-export type DataPoint = {
-  [K in string | 'users' | 'count']: string | number | undefined
+export type DataPoint<T extends string = string> = {
+  [K in (T | 'users' | 'count')]?: string | number | undefined
 }
 
-export type DataPointChart = {
+export type DataPointChart<T extends string = string> = {
   date: string
   label?: string
   tense?: 'past' | 'present' | 'future'
-} & DataPoint
+} & DataPoint<T>
 
 export interface DataColumn {
   name?: string

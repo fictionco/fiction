@@ -4,7 +4,7 @@ import type { FictionTransactions } from '@fiction/plugin-transactions'
 import { createCard } from '@fiction/site'
 import multer from 'multer'
 import { tables } from './schema'
-import { ManageSubscriptionQuery } from './endpoint'
+import { ManageSubscriptionQuery, SubscriptionAnalytics } from './endpoint'
 import { getEmails } from './email'
 
 export * from './schema'
@@ -22,6 +22,7 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
   csvFileName = 'csvFile'
   queries = {
     ManageSubscription: new ManageSubscriptionQuery({ fictionSubscribe: this, ...this.settings }),
+    SubscriptionAnalytics: new SubscriptionAnalytics({ fictionSubscribe: this, ...this.settings }),
   }
 
   requests = this.createRequests({

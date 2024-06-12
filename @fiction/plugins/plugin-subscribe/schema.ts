@@ -53,6 +53,12 @@ const subscribeColumns = [
     default: () => '' as SyndicateStatus,
     zodSchema: ({ z }) => z.string(),
   }),
+  new FictionDbCol({
+    key: 'previousStatus',
+    create: ({ schema, column }) => schema.string(column.pgKey, 50).defaultTo('active'),
+    default: () => '' as SyndicateStatus,
+    zodSchema: ({ z }) => z.string(),
+  }),
   // jsonb array of markdown strings
   new FictionDbCol({
     key: 'inlineTags',

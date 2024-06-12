@@ -1,6 +1,7 @@
 import type { EndpointMeta, EndpointResponse, FictionDb, FictionEmail, FictionEnv, FictionUser, User } from '@fiction/core'
-import { Query, prepareFields } from '@fiction/core'
+import { Query, dayjs, prepareFields } from '@fiction/core'
 
+import type { AnalyticsDataRequestFilters, DataCompared, DataPointChart } from '@fiction/analytics/types'
 import type { Subscriber, TableSubscribeConfig } from './schema'
 import { t } from './schema'
 import type { FictionSubscribe } from '.'
@@ -164,8 +165,8 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
       if ((!userId && !email)) {
         return { status: 'error', message: 'publisherId and either userId or email must be provided' }
       }
-
-      const result = await this.db().table(t.subscribe).where({ publisherId, ...condition }).update(fields).returning('*')
+      const updatedAt = new Date().toISOString()
+      const result = await this.db().table(t.subscribe).where({ publisherId, ...condition }).update({ updatedAt, ...fields }).returning('*')
       results.push(...result)
     }
 
@@ -191,5 +192,78 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
     }
 
     return { status: 'success', message: 'Subscriptions deleted', data: results, indexMeta: { changedCount: results.length } }
+  }
+}
+
+export type SubscriptionAnalyticsParams = { _action: 'subscriptionAnalytics', publisherId: string } & AnalyticsDataRequestFilters
+type SubscriptionChartDataPoint = DataPointChart<'subscriptions' | 'unsubscribes' | 'cleaned'>
+export type SubscriptionAnalyticsResponse = EndpointResponse<DataCompared<SubscriptionChartDataPoint>>
+
+export class SubscriptionAnalytics extends SubscribeEndpoint {
+  async run(params: SubscriptionAnalyticsParams, meta: EndpointMeta): Promise<SubscriptionAnalyticsResponse> {
+    const db = this.db()
+    const { publisherId, timeStartAtIso, timeEndAtIso, interval = 'day' } = params
+
+    // Define default time ranges (one month before now to now)
+    const now = dayjs()
+    const pastMonth = now.subtract(1, 'month')
+
+    const timeStart = timeStartAtIso ? dayjs(timeStartAtIso) : pastMonth
+    const timeEnd = timeEndAtIso ? dayjs(timeEndAtIso) : now
+
+    // Query to get new subscriptions, unsubscribes, and cleaned statuses
+    const results = await db(t.subscribe)
+      .select(
+        db.raw(`DATE_TRUNC(?, updated_at) AS date`, [interval]),
+        db.raw(`SUM(CASE WHEN status = 'active' THEN 1 ELSE 0 END) AS subscriptions`),
+        db.raw(`SUM(CASE WHEN status = 'unsubscribed' AND previous_status = 'active' THEN 1 ELSE 0 END) AS unsubscribes`),
+        db.raw(`SUM(CASE WHEN status = 'bounced' AND previous_status = 'active' THEN 1 ELSE 0 END) AS cleaned`),
+      )
+      .where('publisher_id', publisherId)
+      .andWhere('updated_at', '>=', timeStart.toISOString())
+      .andWhere('updated_at', '<=', timeEnd.toISOString())
+      .groupBy('date')
+      .orderBy('date', 'asc')
+
+    // Calculate rollup totals
+    const rollupTotals = await db(t.subscribe)
+      .select(
+        db.raw(`SUM(CASE WHEN status = 'active' THEN 1 ELSE 0 END) AS subscriptions`),
+        db.raw(`SUM(CASE WHEN status = 'unsubscribed' AND previous_status = 'active' THEN 1 ELSE 0 END) AS unsubscribes`),
+        db.raw(`SUM(CASE WHEN status = 'bounced' AND previous_status = 'active' THEN 1 ELSE 0 END) AS cleaned`),
+      )
+      .where('publisher_id', publisherId)
+      .andWhere('updated_at', '>=', timeStart.toISOString())
+      .andWhere('updated_at', '<=', timeEnd.toISOString())
+      .first()
+
+    // Transform results to DataPointChart format
+    const mainData: SubscriptionChartDataPoint[] = results.map((row: any) => ({
+      date: row.date.toISOString(),
+      subscriptions: Number.parseInt(row.subscriptions),
+      unsubscribes: Number.parseInt(row.unsubscribes),
+      cleaned: Number.parseInt(row.cleaned),
+    }))
+
+    // Add rollup row as the first row
+    mainData.unshift({
+      date: 'rollup',
+      subscriptions: Number.parseInt(rollupTotals.subscriptions),
+      unsubscribes: Number.parseInt(rollupTotals.unsubscribes),
+      cleaned: Number.parseInt(rollupTotals.cleaned),
+    })
+
+    return {
+      status: 'success',
+      data: {
+        main: mainData,
+        meta: {
+          total: mainData.length,
+          start: timeStart.unix(),
+          end: timeEnd.unix(),
+          pages: Math.ceil(mainData.length / 10),
+        },
+      },
+    }
   }
 }
