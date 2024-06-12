@@ -69,7 +69,7 @@ describe('subscribe uiux', { retry: 3 }, async () => {
     expect(emailContent).not.toContain(vars.unsubscribeUrl)
   })
 
-  it('logs in when callback url is visited and redirects to base route', async () => {
+  it('logs in when callback url is visited and redirects to base route', { retry: 2 }, async () => {
     const selector = `[data-action-id="${action.settings.actionId}"]`
     await kit.performActions({
       path: vars?.callbackUrl || '',
@@ -102,6 +102,4 @@ describe('subscribe uiux', { retry: 3 }, async () => {
 
     expect(sub.status).toBe('active')
   })
-
-
 })
