@@ -168,6 +168,10 @@ export async function performActions(args: {
   const url = new URL(path || '/', `http://localhost:${port}`).toString()
 
   const errorLogs: string[] = []
+
+  page.on('request', request => logger.info('request', { data: { method: request.method(), url: request.url() } }))
+  page.on('response', response => logger.info('response', { data: { status: response.status(), url: response.url() } }))
+
   page.on('console', (message) => {
     if (message.type() === 'error')
       errorLogs.push(message.text())
@@ -179,7 +183,7 @@ export async function performActions(args: {
 
   logger.info('NAVIGATING_TO', { data: { url } })
 
-  await page.goto(url, { waitUntil: 'networkidle' })
+  await page.goto(url, { waitUntil: 'networkidle', timeout: 40000 })
 
   logger.info('ARRIVED_AT', { data: { url } })
 
