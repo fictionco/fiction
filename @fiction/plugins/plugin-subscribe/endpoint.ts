@@ -22,16 +22,16 @@ abstract class SubscribeEndpoint extends Query<SubscriberEndpointSettings> {
   }
 }
 
-export type WhereSubscription = { userId?: string, email?: string } & ({ userId: string } | { email: string })
+export type WhereSubscription = { userId?: string, email?: string, subscriptionId?: string } & ({ userId: string } | { email: string } | { subscriptionId: string })
 
 export type SubscriberCreate = { email?: string, userId?: string, fields?: Partial<TableSubscribeConfig> } & ({ userId: string } | { email: string })
 export type ManageSubscriptionParams =
-  | { _action: 'create', publisherId: string } & SubscriberCreate
-  | { _action: 'bulkCreate', publisherId: string, subscribers: SubscriberCreate[] }
-  | { _action: 'list', publisherId: string, where?: Partial<TableSubscribeConfig>, limit?: number, offset?: number, page?: number }
-  | { _action: 'count', publisherId: string, where: Partial<TableSubscribeConfig> }
-  | { _action: 'update', publisherId: string, where: WhereSubscription[], fields: Partial<TableSubscribeConfig> }
-  | { _action: 'delete', publisherId: string, where: WhereSubscription[] }
+  | { _action: 'create', orgId: string } & SubscriberCreate
+  | { _action: 'bulkCreate', orgId: string, subscribers: SubscriberCreate[] }
+  | { _action: 'list', orgId: string, where?: Partial<TableSubscribeConfig>, limit?: number, offset?: number, page?: number }
+  | { _action: 'count', orgId: string, where: Partial<TableSubscribeConfig> }
+  | { _action: 'update', orgId: string, where: WhereSubscription[], fields: Partial<TableSubscribeConfig> }
+  | { _action: 'delete', orgId: string, where: WhereSubscription[] }
 
 export type ManageSubscriptionResponse = EndpointResponse<Subscriber[]>
 
@@ -71,10 +71,10 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
   }
 
   private async addIndexMeta(params: ManageSubscriptionParams, r: ManageSubscriptionResponse, _meta?: EndpointMeta): Promise<ManageSubscriptionResponse> {
-    const { publisherId } = params
+    const { orgId } = params
     const { limit = this.limit, offset = this.offset } = params as { limit?: number, offset?: number }
 
-    const { count } = await this.db().table(t.subscribe).where({ publisherId }).count().first<{ count: string }>()
+    const { count } = await this.db().table(t.subscribe).where({ orgId }).count().first<{ count: string }>()
 
     r.indexMeta = { limit, offset, count: +count, ...r.indexMeta }
 
@@ -92,7 +92,7 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
   }
 
   private async create(params: ManageSubscriptionParams & { _action: 'create' }, meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
-    const { publisherId, fields } = params
+    const { orgId, fields } = params
 
     const { fictionDb } = this.settings
     const { email, userId } = params as { email?: string, userId?: string }
@@ -103,13 +103,13 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
 
     const resolvedUserId = userId || await this.resolveUserId(email, meta)
 
-    const subscriptionFields: Partial<TableSubscribeConfig> = { publisherId, userId: resolvedUserId, email, ...fields, status: fields?.status || 'active' }
+    const subscriptionFields: Partial<TableSubscribeConfig> = { orgId, userId: resolvedUserId, email, ...fields, status: fields?.status || 'active' }
 
     const insertData = prepareFields({ type: 'create', fields: subscriptionFields, meta, fictionDb, table: t.subscribe })
 
     this.log.info('createSubscription', { data: insertData, caller: meta.caller })
 
-    const conflictTarget = resolvedUserId ? ['user_id', 'publisher_id'] : ['email', 'publisher_id']
+    const conflictTarget = resolvedUserId ? ['user_id', 'org_id'] : ['email', 'org_id']
 
     const result = await this.db().table(t.subscribe)
       .insert(insertData)
@@ -122,12 +122,12 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
 
   // Bulk create subscriptions
   private async bulkCreate(params: ManageSubscriptionParams & { _action: 'bulkCreate' }, meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
-    const { publisherId, subscribers } = params
+    const { orgId, subscribers } = params
     const results: Subscriber[] = []
 
     // Process subscribers in batches
     for (const subscriber of subscribers) {
-      const createParams: ManageSubscriptionParams & { _action: 'create' } = { _action: 'create', publisherId, ...subscriber }
+      const createParams: ManageSubscriptionParams & { _action: 'create' } = { _action: 'create', orgId, ...subscriber }
 
       const result = await this.create(createParams, meta)
       if (result.status === 'success' && result.data) {
@@ -142,19 +142,19 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
   }
 
   private async listSubscriptions(params: ManageSubscriptionParams & { _action: 'list' }, _meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
-    const { where, publisherId } = params
+    const { where, orgId } = params
     let { limit = this.limit, offset = this.offset, page } = params
 
     if (page && page > 0) {
       offset = (page - 1) * limit
     }
 
-    const subscriptions = await this.db().select('*').from(t.subscribe).where({ publisherId, ...where }).limit(limit).offset(offset)
+    const subscriptions = await this.db().select('*').from(t.subscribe).where({ orgId, ...where }).limit(limit).offset(offset)
     return { status: 'success', data: subscriptions }
   }
 
   private async updateSubscription(params: ManageSubscriptionParams & { _action: 'update' }, _meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
-    const { where, fields, publisherId } = params
+    const { where, fields, orgId } = params
 
     if (!Array.isArray(where)) {
       return { status: 'error', message: 'where must be an array of conditions' }
@@ -162,12 +162,11 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
 
     const results: Subscriber[] = []
     for (const condition of where) {
-      const { userId, email } = condition
-      if ((!userId && !email)) {
-        return { status: 'error', message: 'publisherId and either userId or email must be provided' }
+      if (Object.values(condition).length !== 1) {
+        return { status: 'error', message: 'one and only one where condition should be set' }
       }
       const updatedAt = new Date().toISOString()
-      const result = await this.db().table(t.subscribe).where({ publisherId, ...condition }).update({ updatedAt, ...fields }).returning('*')
+      const result = await this.db().table(t.subscribe).where({ orgId, ...condition }).update({ updatedAt, ...fields }).returning('*')
       results.push(...result)
     }
 
@@ -175,7 +174,7 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
   }
 
   private async deleteSubscription(params: ManageSubscriptionParams & { _action: 'delete' }, _meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
-    const { where, publisherId } = params
+    const { where, orgId } = params
 
     if (!Array.isArray(where)) {
       return { status: 'error', message: 'where must be an array of conditions' }
@@ -185,10 +184,10 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
     for (const condition of where) {
       const { userId, email } = condition
       if ((!userId && !email)) {
-        return { status: 'error', message: 'publisherId and either userId or email must be provided' }
+        return { status: 'error', message: 'orgId and either userId or email must be provided' }
       }
 
-      const result = await this.db().table(t.subscribe).where({ publisherId, ...condition }).delete().returning('*')
+      const result = await this.db().table(t.subscribe).where({ orgId, ...condition }).delete().returning('*')
       results.push(...result)
     }
 
@@ -218,7 +217,7 @@ export class SubscriptionAnalytics extends AnalyticsQuery<ReturnData, Subscriber
         db.raw(`SUM(CASE WHEN status = 'unsubscribed' AND previous_status = 'active' THEN 1 ELSE 0 END) AS unsubscribes`),
         db.raw(`SUM(CASE WHEN status = 'bounced' AND previous_status = 'active' THEN 1 ELSE 0 END) AS cleaned`),
       )
-      .where('publisher_id', orgId)
+      .where('org_id', orgId)
       .andWhere('updated_at', '>=', timeStartAtIso)
       .andWhere('updated_at', '<=', timeEndAtIso)
       .groupBy('date')
@@ -231,7 +230,7 @@ export class SubscriptionAnalytics extends AnalyticsQuery<ReturnData, Subscriber
         db.raw(`SUM(CASE WHEN status = 'unsubscribed' AND previous_status = 'active' THEN 1 ELSE 0 END) AS unsubscribes`),
         db.raw(`SUM(CASE WHEN status = 'bounced' AND previous_status = 'active' THEN 1 ELSE 0 END) AS cleaned`),
       )
-      .where('publisher_id', orgId)
+      .where('org_id', orgId)
       .andWhere('updated_at', '>=', timeStartAtIso)
       .andWhere('updated_at', '<=', timeEndAtIso)
       .first()

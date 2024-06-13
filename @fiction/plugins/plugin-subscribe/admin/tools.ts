@@ -1,34 +1,114 @@
 import { InputOption } from '@fiction/ui'
-import {   type StandardServices,   vue } from '@fiction/core'
-import type { SettingsTool } from '@fiction/admin/types'
+import { type StandardServices, gravatarUrl, vue } from '@fiction/core'
+import { SettingsTool } from '@fiction/admin/types'
+import ElHeader from '@fiction/admin/settings/ElHeader.vue'
+import type { Subscriber } from '../schema'
+import type { FictionSubscribe } from '..'
+import ElImportFile from './ElImportFile.vue'
+import ElSubscriberList from './ElSubscriberList.vue'
 
 const def = vue.defineAsyncComponent
 
 export function getTools(args: { service: StandardServices }) {
-  const fictionUser = args.service.fictionUser
   const tools = [
-    {
+    new SettingsTool({
+      title: 'Back',
+      href: '/subscriber',
+      userConfig: { isNavItem: true, navIcon: 'i-tabler-arrow-down-left', navIconAlt: 'i-tabler-arrow-left' },
+    }),
+    new SettingsTool({
       slug: 'import',
       title: 'Add Subscribers',
       userConfig: { isNavItem: true, navIcon: 'i-tabler-table-share', navIconAlt: 'i-tabler-table-plus' },
-      val: fictionUser.activeOrganization,
-
-      options: (args) => {
-        const { service } = args
-        return vue.computed(() => {
-          return [
-            new InputOption({
-              key: 'publication',
-              input: def(() => import('./ElImportFile.vue')),
-
-            }),
-
-          ] satisfies InputOption[]
-        },
-        )
+      options: (_args) => {
+        return [new InputOption({ key: 'publication', input: ElImportFile })] satisfies InputOption[]
       },
-    },
+    }),
   ] satisfies SettingsTool[]
 
   return tools
+}
+
+export async function saveSubscriber(args: { fictionSubscribe: FictionSubscribe, subscriber: Subscriber }) {
+  const { fictionSubscribe, subscriber } = args
+  const subscriptionId = subscriber.subscriptionId
+  if (!subscriptionId)
+    throw new Error('No subscriptionId found')
+
+  await fictionSubscribe.requests.ManageSubscription.projectRequest({ _action: 'update', where: [{ subscriptionId }], fields: subscriber })
+}
+
+export function getViewSubscriberTools(args: { fictionSubscribe: FictionSubscribe, subscriber: vue.Ref<Subscriber> }) {
+  const { subscriber, fictionSubscribe } = args
+
+  const avatar = vue.ref({})
+
+  vue.watchEffect(async () => {
+    const s = subscriber.value
+    avatar.value = s.inlineUser?.avatar ? s.inlineUser?.avatar : (await gravatarUrl(s.email, { size: 400, default: 'identicon' }))
+  })
+
+  const tools = [
+    new SettingsTool({
+      title: 'Back',
+      href: '/subscriber',
+      userConfig: { isNavItem: true, navIcon: 'i-tabler-arrow-down-left', navIconAlt: 'i-tabler-arrow-left' },
+    }),
+    new SettingsTool({
+      slug: 'view',
+      title: 'View Subscriber',
+      userConfig: { isNavItem: true, navIcon: 'i-tabler-user', navIconAlt: 'i-tabler-user' },
+      val: subscriber,
+      getActions: (args) => {
+        const loading = vue.ref(false)
+        return vue.computed(() => {
+          return [{
+            name: 'Save Subscriber',
+            onClick: async () => {
+              loading.value = true
+              await saveSubscriber({ fictionSubscribe, subscriber: subscriber.value })
+              loading.value = false
+            },
+            loading: loading.value,
+            btn: 'primary',
+            iconAfter: 'i-tabler-arrow-up-right',
+          }]
+        })
+      },
+      options: (_args) => {
+        return [
+          new InputOption({
+            key: 'subscriberHeader',
+            input: ElHeader,
+            props: {
+              heading: subscriber.value.email,
+              subheading: 'Subscriber',
+              avatar: avatar.value,
+            },
+          }),
+          new InputOption({
+            key: 'userDetails',
+            label: 'Subscriber',
+            input: 'group',
+            options: [
+              new InputOption({ key: 'email', label: 'Email', input: 'InputEmail' }),
+              new InputOption({ key: 'status', label: 'Status', input: 'InputSelectCustom', list: ['active', 'unsubscribed', 'cleaned'] }),
+              new InputOption({ key: 'inlineTags', label: 'Tags', input: 'InputItems', placeholder: 'Tag, Tag, Tag' }),
+            ],
+          }),
+          new InputOption({
+            key: 'userDetails',
+            label: 'User Details',
+            input: 'group',
+            options: [
+              new InputOption({ key: 'inlineUser.fullName', label: 'Full Name', input: 'InputText', placeholder: 'Your Full Name' }),
+              new InputOption({ key: 'inlineUser.avatar', label: 'Avatar', input: 'InputMediaUpload', subLabel: 'Upload a square image or it will be cropped' }),
+              new InputOption({ key: 'inlineUser.phone', label: 'Phone Number', description: 'Include country code. Used for 2FA and notifications.', input: 'InputPhone', placeholder: '+1 555 555 5555' }),
+            ],
+          }),
+        ] satisfies InputOption[]
+      },
+    }),
+  ]
+  return tools as SettingsTool[]
 }

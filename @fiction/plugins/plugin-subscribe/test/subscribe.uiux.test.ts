@@ -88,7 +88,7 @@ describe('subscribe uiux', { retry: 3 }, async () => {
 
     const where = { userId: user2.userId }
 
-    const r = await fictionSubscribe.queries.ManageSubscription.serve({ _action: 'list', publisherId: orgId, where }, { server: true })
+    const r = await fictionSubscribe.queries.ManageSubscription.serve({ _action: 'list', orgId, where }, { server: true })
 
     const subs = r.data || []
 
@@ -96,7 +96,7 @@ describe('subscribe uiux', { retry: 3 }, async () => {
 
     const sub = subs[0]
 
-    expect(sub.publisherId).toBe(orgId)
+    expect(sub.orgId).toBe(orgId)
 
     expect(sub.userId).toBe(user2.userId)
 

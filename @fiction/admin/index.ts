@@ -77,8 +77,8 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
             ],
             userConfig: {
               isNavItem: true,
-              navIcon: 'i-tabler-home',
-              navIconAlt: 'i-tabler-home-filled',
+              navIcon: 'i-heroicons-home',
+              navIconAlt: 'i-heroicons-home-20-solid',
               priority: 0,
             },
           }),

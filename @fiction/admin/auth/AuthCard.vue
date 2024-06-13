@@ -31,10 +31,7 @@ async function updateItemItemId(id: string) {
 }
 
 const title = () => `Login / Register - ${fictionEnv.meta.app?.name}`
-unhead.useHead({
-  title,
-  meta: [{ name: `description`, content: title }],
-})
+unhead.useHead({ title, meta: [{ name: `description`, content: title }] })
 
 async function sendMagicLink(): Promise<void> {
   sending.value = true
@@ -121,7 +118,7 @@ const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length
               required
               :value="fields.email"
               placeholder="Enter Your Email"
-              size="lg"
+              ui-size="lg"
               @input="fields.email = $event.target.value"
             />
 
@@ -133,7 +130,7 @@ const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length
               required
               placeholder="Full Name"
               autocomplete="name"
-              size="lg"
+              ui-size="lg"
               :value="fields.fullName"
               @input="fields.fullName = $event.target.value"
             />
@@ -148,7 +145,7 @@ const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length
               description="Minimum 6 characters"
               autocomplete="new-password"
               placeholder="Create New Password"
-              size="lg"
+              ui-size="lg"
               required
               :value="fields.password"
               @input="fields.password = $event.target.value"

@@ -4,26 +4,11 @@ import { normalizeList, vue } from '@fiction/core'
 import InputElTab from './InputElTab.vue'
 
 const props = defineProps({
-  modelValue: {
-    type: Array as vue.PropType<(string | number)[]>,
-    default: () => [],
-  },
-  list: {
-    type: Array as vue.PropType<(ListItem | 'divider' | string | number)[]>,
-    default: () => [],
-  },
-  min: {
-    type: Number,
-    default: undefined,
-  },
-  max: {
-    type: Number,
-    default: 1,
-  },
-  selectLetters: {
-    type: String,
-    default: 'abcdefghijklmnopqrstuvwxyz',
-  },
+  modelValue: { type: Array as vue.PropType<(string | number)[]>, default: () => [] },
+  list: { type: Array as vue.PropType<(ListItem | 'divider' | string | number)[]>, default: () => [] },
+  min: { type: Number, default: undefined },
+  max: { type: Number, default: 1 },
+  selectLetters: { type: String, default: 'abcdefghijklmnopqrstuvwxyz' },
 })
 
 const emit = defineEmits<{
@@ -112,11 +97,7 @@ vue.onMounted(() => {
     tabindex="0"
     @keyup="selectByLetter($event)"
   >
-    <InputElTab
-      v-if="parsedList.length === 0"
-      prefix="-"
-      label="No options"
-    />
+    <InputElTab v-if="parsedList.length === 0" prefix="-" label="No options" />
     <template v-else>
       <InputElTab
         v-for="(item, i) in parsedList"

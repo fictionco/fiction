@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
+import { stringify, vue } from '@fiction/core'
 import XText from '../../common/XText.vue'
 import ElForm from '../ElForm.vue'
 import type { InputOption } from '..'
@@ -31,7 +31,7 @@ const isValid = vue.ref(false)
     :name="inputName"
   >
     <div :id="inputName" class="grid grid-cols-12 gap-12">
-      <div class="text-theme-700 space-7-4 text-right col-span-3">
+      <div class="text-theme-700 dark:text-theme-0 space-7-4 text-right col-span-3">
         <h3 class="grow text-sm font-semibold">
           {{ inputName }}
         </h3>
@@ -57,7 +57,7 @@ const isValid = vue.ref(false)
             <XText
               tag="div"
               class=""
-              :model-value="(val || '[empty]').toString()"
+              :model-value="stringify({ value: val || '[empty]' })"
               :is-markdown="true"
             />
           </div>

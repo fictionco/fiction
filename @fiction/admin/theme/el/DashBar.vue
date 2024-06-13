@@ -27,8 +27,8 @@ const emit = defineEmits<{
           <ElImage class="h-[21px]" :media="card.userConfig.value.homeIcon" />
         </RouterLink>
         <div class="hidden text-lg font-normal sm:block dark:text-theme-0 text-theme-700 md:flex gap-3 items-center">
-          <div v-if="card.userConfig.value.navIcon" :class="card.userConfig.value.navIcon" class="text-2xl" />
-          <div class="hidden text-xl font-medium sm:block  dark:text-theme-0  text-theme-700">
+          <div v-if="card.userConfig.value.navIcon" :class="card.userConfig.value.navIcon" class="text-2xl text-theme-500" />
+          <div class="hidden text-lg font-medium sm:block  dark:text-theme-0  text-theme-700">
             {{ card.site.currentPage.value?.title.value }}
           </div>
         </div>

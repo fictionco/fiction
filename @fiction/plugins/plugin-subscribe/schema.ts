@@ -8,7 +8,7 @@ export const t = {
   ...standardTable,
 }
 
-export type Subscriber = TableSubscribeConfig & {
+export type Subscriber = Partial<TableSubscribeConfig> & {
   tags?: TableTaxonomyConfig[]
   user?: User
   avatar?: MediaDisplayObject
@@ -36,7 +36,7 @@ const subscribeColumns = [
     zodSchema: ({ z }) => z.string(),
   }),
   new FictionDbCol({
-    key: 'publisherId',
+    key: 'orgId',
     create: ({ schema, column }) => schema.string(column.pgKey, 50).references(`${t.org}.orgId`).onUpdate('CASCADE').notNullable().index(),
     default: () => '' as string,
     zodSchema: ({ z }) => z.string(),
@@ -95,7 +95,7 @@ const subscribeTaxonomyCols = [
     zodSchema: ({ z }) => z.string(),
   }),
   new FictionDbCol({
-    key: 'publisherId',
+    key: 'orgId',
     create: ({ schema, column }) => schema.string(column.pgKey, 50).references(`${t.org}.org_id`).onUpdate('CASCADE').notNullable().index(),
     default: () => '' as string,
     zodSchema: ({ z }) => z.string(),
@@ -114,8 +114,8 @@ export const tables = [
     timestamps: true,
     columns: subscribeColumns,
     onCreate: (t) => {
-      t.unique(['user_id', 'publisher_id'])
-      t.unique(['email', 'publisher_id'])
+      t.unique(['user_id', 'org_id'])
+      t.unique(['email', 'org_id'])
     },
   }),
   new FictionDbTable({ tableKey: t.subscribeTaxonomy, timestamps: true, columns: subscribeTaxonomyCols, onCreate: t => t.unique(['subscription_id', 'taxonomy_id']) }),

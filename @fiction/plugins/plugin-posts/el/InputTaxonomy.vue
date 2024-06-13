@@ -130,7 +130,7 @@ async function sortValue(sortedTitles: string[]) {
         class="shrink-0"
         size="md"
         btn="default"
-        @click.prevent="addNew()"
+        @click.prevent="addNewVisible = false"
       />
     </div>
   </div>

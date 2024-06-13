@@ -84,7 +84,7 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
             templates,
             templateId: 'dash',
             slug: 'subscriber-view',
-            title: 'Subscriber',
+            title: 'View Subscriber',
             cards: [
               createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewSingle.vue')) }),
             ],

@@ -57,7 +57,7 @@ const mode = isDarkOrLightMode()
 const colors = vue.computed(() => {
   return mode === 'dark'
     ? { line: `rgba(var(--primary-400))`, text: 'rgba(var(--theme-200))', bg: 'rgba(var(--theme-800))', grid: 'rgba(var(--theme-600)/ .5)', tipBg: 'rgba(var(--theme-0))', tipText: 'rgba(var(--theme-700))' }
-    : { line: 'rgba(var(--primary-600))', text: 'rgba(var(--theme-500))', bg: 'rgba(var(--theme-0))', grid: 'rgba(var(--theme-200))', tipBg: 'rgba(var(--theme-800))', tipText: 'rgba(var(--theme-0))' }
+    : { line: 'rgba(var(--primary-600))', text: 'rgba(var(--theme-500))', bg: 'rgba(var(--theme-0))', grid: 'rgba(var(--theme-200)/.5)', tipBg: 'rgba(var(--theme-800))', tipText: 'rgba(var(--theme-0))' }
 })
 
 vue.onMounted(() => {

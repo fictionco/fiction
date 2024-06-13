@@ -7,7 +7,7 @@ describe('gravatarUrl', async () => {
   const fakeEmail = 'madeupemailabc123@fake.com'
 
   it('gravatarUrl should return correct URL and isDefaultImage for a real email', async () => {
-    const options = { size: '200', default: 'identicon' }
+    const options = { size: '200', default: 'identicon', checkIfDefault: true }
     const result = await gravatarUrl(realEmail, options)
 
     expect(result.url).toContain('https://gravatar.com/avatar/')
@@ -17,7 +17,7 @@ describe('gravatarUrl', async () => {
   })
 
   it('gravatarUrl should return correct URL and isDefaultImage for a fake email', async () => {
-    const options = { size: '200', default: 'identicon' }
+    const options = { size: '200', default: 'identicon', checkIfDefault: true }
     const result = await gravatarUrl(fakeEmail, options)
 
     expect(result.url).toContain('https://gravatar.com/avatar/')

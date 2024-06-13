@@ -39,7 +39,7 @@ describe('subscriptione endpoint', async () => {
 
     const r = await fictionSubscribe.queries.ManageSubscription.serve({
       _action: 'bulkCreate',
-      publisherId: orgId,
+      orgId,
       subscribers: bulkSubscribers,
     }, { server: true })
 
@@ -52,7 +52,7 @@ describe('subscriptione endpoint', async () => {
 
     await fictionSubscribe.queries.ManageSubscription.serve({
       _action: 'delete',
-      publisherId: orgId,
+      orgId,
       where: [
         { userId: bulkUser1.userId },
         { email: 'randomEmail@example.com' },
@@ -64,27 +64,27 @@ describe('subscriptione endpoint', async () => {
   it('create', async () => {
     const r = await fictionSubscribe.queries.ManageSubscription.serve({
       _action: 'create',
-      publisherId: orgId,
+      orgId,
       userId: userId2,
     }, { server: true })
 
     const r2 = await fictionSubscribe.queries.ManageSubscription.serve({
       _action: 'create',
-      publisherId: orgId,
+      orgId,
       userId: userId3,
     }, { server: true })
 
     expect(r.status).toBe('success')
     expect(r.data?.length).toBe(1)
 
-    expect(r.data?.[0].publisherId).toBe(orgId)
+    expect(r.data?.[0].orgId).toBe(orgId)
     expect(r.data?.[0].userId).toBe(userId2)
 
     expect(r2.status).toBe('success')
   })
 
   it('list', async () => {
-    const r = await fictionSubscribe.queries.ManageSubscription.serve({ _action: 'list', publisherId: orgId }, { server: true })
+    const r = await fictionSubscribe.queries.ManageSubscription.serve({ _action: 'list', orgId }, { server: true })
 
     expect(r.status).toBe('success')
 
@@ -97,7 +97,7 @@ describe('subscriptione endpoint', async () => {
   it('update', async () => {
     const r = await fictionSubscribe.queries.ManageSubscription.serve({
       _action: 'update',
-      publisherId: orgId,
+      orgId,
       where: [{ userId: userId2 }],
       fields: { status: 'unsubscribed' },
     }, { server: true })
@@ -111,7 +111,7 @@ describe('subscriptione endpoint', async () => {
   it('unsubscribe status', async () => {
     const r = await fictionSubscribe.queries.ManageSubscription.serve({
       _action: 'update',
-      publisherId: orgId,
+      orgId,
       where: [{ userId: userId2 }],
       fields: { status: 'unsubscribed' },
     }, { server: true })
@@ -124,7 +124,7 @@ describe('subscriptione endpoint', async () => {
   it('delete one', async () => {
     const r = await fictionSubscribe.queries.ManageSubscription.serve({
       _action: 'delete',
-      publisherId: orgId,
+      orgId,
       where: [{ userId: userId2 }],
     }, { server: true })
     expect(r.status).toBe('success')

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
+import { selectInputClasses } from './theme'
 
 const props = defineProps({
   label: { type: [String, Number], default: '' },
@@ -23,13 +24,15 @@ vue.watch(
     }
   },
 )
+
+const cls = selectInputClasses({ inputClass: '' })
 </script>
 
 <template>
   <div>
     <div
-      class="text-input-size hover:bg-theme-200 hover:border-theme-400 px-input-x py-input-y curr group inline-flex w-full cursor-pointer items-center justify-between rounded-md border"
       :class="[
+        cls.buttonClasses.always,
         animateSelected && animate ? 'notify-selected' : '',
         selected
           ? 'border-theme-300 dark:border-theme-500  bg-theme-200 dark:bg-theme-600 text-theme-900 dark:text-theme-0'
@@ -37,14 +40,14 @@ vue.watch(
         notSelected ? 'opacity-80' : '',
       ]"
     >
-      <div class="flex items-center">
+      <div class="flex items-center -ml-1">
         <div
           v-if="prefix"
-          class="bg-theme-200 dark:bg-theme-700 group-hover:text-theme-700 group-hover:bg-theme-400 inline-flex aspect-square w-[1.5em] shrink-0 items-center justify-center rounded-md text-right font-sans text-[max(14px,.9em)] leading-[1em]"
+          class=" inline-flex aspect-square w-[1.5em] shrink-0 items-center justify-center rounded-md text-right font-sans text-[max(14px,.9em)] leading-[1em]"
           :class="[
             selected
-              ? 'bg-theme-300 text-theme-800 dark:text-theme-400 font-bold'
-              : 'bg-theme-300 text-theme-500 dark:text-theme-400 font-semibold',
+              ? 'bg-theme-300 dark:bg-theme-600 text-theme-800 dark:text-theme-400 font-bold'
+              : 'bg-theme-300 text-theme-500 dark:text-theme-400 font-semibold bg-theme-200 dark:bg-theme-700 group-hover:text-theme-700 group-hover:bg-theme-400',
           ]"
         >
           <span v-if="selected" class="i-carbon-checkmark" />

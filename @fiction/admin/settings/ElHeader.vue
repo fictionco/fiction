@@ -11,13 +11,11 @@ defineProps({
 </script>
 
 <template>
-  <div class="md:flex md:items-center md:justify-between md:space-x-5 ">
-    <div class="flex items-start space-x-5">
+  <div class="px-4 py-12  md:flex md:items-center md:justify-between md:space-x-5 ">
+    <div class="flex items-start space-x-6">
       <div v-if="avatar?.url" class="flex-shrink-0">
         <div class="relative">
-          <div
-            class="bg-theme-300 dark:bg-theme-600 size-16 rounded-full ring-2 ring-theme-800 dark:ring-theme-0 fiction-avatar avatar bg-cover bg-center relative overflow-hidden"
-          >
+          <div class="bg-theme-300 dark:bg-theme-600 size-16 rounded-full ring-2 ring-theme-800 dark:ring-theme-0 fiction-avatar avatar bg-cover bg-center relative overflow-hidden">
             <img class="object-cover inset-0 " :src="avatar.url">
           </div>
           <span class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />

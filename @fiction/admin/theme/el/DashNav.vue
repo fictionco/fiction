@@ -49,7 +49,7 @@ async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
               :href="sub.href"
               :class="
                 sub.isActive
-                  ? 'font-bold bg-primary-100/50 text-primary-700 hover:text-primary-500 dark:bg-theme-700 dark:text-theme-0 '
+                  ? 'font-bold bg-primary-100/50 text-primary-700 hover:text-primary-500 dark:bg-primary-900/50 dark:text-primary-50/90'
                   : 'font-medium text-theme-700 dark:text-theme-300 dark:hover:bg-theme-700 hover:text-theme-900 border-theme-0'
               "
               @click="handleClick($event, sub)"

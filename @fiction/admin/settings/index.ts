@@ -1,8 +1,7 @@
 import { InputOption } from '@fiction/ui'
-import { type ActionItem, type Organization, type StandardServices, type User, standardTable as t, vue } from '@fiction/core'
-import type { UiElementStyle } from '@fiction/ui/utils'
-import type { options } from 'textlint/lib/src/options'
-import type { SettingsTool } from '../types'
+import { type ActionItem, type StandardServices, type User, standardTable as t, vue } from '@fiction/core'
+
+import { SettingsTool } from '../types'
 
 const def = vue.defineAsyncComponent
 
@@ -29,14 +28,14 @@ export function newOrgOptions(args: { title: string, actionsRef?: vue.Ref<Action
 export function getTools(args: { service: StandardServices }) {
   const fictionUser = args.service.fictionUser
   const tools = [
-    {
+    new SettingsTool({
       slug: 'project',
       title: 'Organization',
       userConfig: { isNavItem: true, navIcon: 'i-tabler-cube', navIconAlt: 'i-tabler-cube-plus' },
       val: fictionUser.activeOrganization,
       save: async (args) => {
         const { tool, service: { fictionUser } } = args
-        const fields = tool.val?.value as Organization | undefined
+        const fields = tool.val?.value
         const orgId = fictionUser.activeOrgId.value
 
         if (!orgId)
@@ -51,47 +50,44 @@ export function getTools(args: { service: StandardServices }) {
       options: (args) => {
         const { service } = args
         const userIsAdmin = service.fictionUser.activeUser.value?.isSuperAdmin
-        return vue.computed(() => {
-          return [
-            new InputOption({ key: 'orgHead', input: def(() => import('./ElOrgHeader.vue')), uiFormat: 'naked' }),
-            newOrgOptions({ title: 'Organization Info' }).value,
-            new InputOption({
-              key: 'publication',
-              label: 'Publication and Syndication',
-              input: 'group',
-              options: [
-                new InputOption({ key: 'publication.title', label: 'Publication Title', description: 'Will be used in emails, defaults to organization name', input: 'InputText', placeholder: 'Name of Publication' }),
-                new InputOption({ key: 'publication.tagline', label: 'Publication Tagline', description: 'Used in descriptions and meta info', input: 'InputText', placeholder: 'A sentence on what you do...' }),
-                new InputOption({ key: 'publication.email', label: 'Sender: From Email', description: 'Email will be sent from this address.', input: 'InputEmail' }),
-                new InputOption({ key: 'publication.sender', label: 'Sender: From Name', description: 'If different from publication name', input: 'InputText', placeholder: 'Sender Name' }),
-              ],
-            }),
-            new InputOption({
-              key: 'legal',
-              label: 'Legal',
-              input: 'group',
-              options: [
-                new InputOption({ key: 'legal.termsUrl', label: 'Terms of Service URL', input: 'InputUrl' }),
-                new InputOption({ key: 'legal.privacyUrl', label: 'Privacy Policy URL', input: 'InputUrl' }),
-                new InputOption({ key: 'legal.copyrightText', label: 'Copyright Text', input: 'InputText', placeholder: 'Copyright Text' }),
-              ],
-            }),
-            new InputOption({
-              key: 'adminOnly',
-              label: 'Admin Only',
-              input: 'group',
-              isHidden: !userIsAdmin,
-              options: [
-                new InputOption({ key: 'specialPlan', label: 'Assign a Special Pricing Plan', input: 'InputSelect', list: ['standard', 'vip', 'non-profit'] }),
-                new InputOption({ key: 'deleteOrg', label: 'Delete Organization', input: 'InputUrl' }),
-              ],
-            }),
-          ] satisfies InputOption[]
-        },
-        )
+        return [
+          new InputOption({ key: 'orgHead', input: def(() => import('./ElOrgHeader.vue')), uiFormat: 'naked' }),
+          newOrgOptions({ title: 'Organization Info' }).value,
+          new InputOption({
+            key: 'publication',
+            label: 'Publication and Syndication',
+            input: 'group',
+            options: [
+              new InputOption({ key: 'publication.title', label: 'Publication Title', description: 'Will be used in emails, defaults to organization name', input: 'InputText', placeholder: 'Name of Publication' }),
+              new InputOption({ key: 'publication.tagline', label: 'Publication Tagline', description: 'Used in descriptions and meta info', input: 'InputText', placeholder: 'A sentence on what you do...' }),
+              new InputOption({ key: 'publication.email', label: 'Sender: From Email', description: 'Email will be sent from this address.', input: 'InputEmail' }),
+              new InputOption({ key: 'publication.sender', label: 'Sender: From Name', description: 'If different from publication name', input: 'InputText', placeholder: 'Sender Name' }),
+            ],
+          }),
+          new InputOption({
+            key: 'legal',
+            label: 'Legal',
+            input: 'group',
+            options: [
+              new InputOption({ key: 'legal.termsUrl', label: 'Terms of Service URL', input: 'InputUrl' }),
+              new InputOption({ key: 'legal.privacyUrl', label: 'Privacy Policy URL', input: 'InputUrl' }),
+              new InputOption({ key: 'legal.copyrightText', label: 'Copyright Text', input: 'InputText', placeholder: 'Copyright Text' }),
+            ],
+          }),
+          new InputOption({
+            key: 'adminOnly',
+            label: 'Admin Only',
+            input: 'group',
+            isHidden: !userIsAdmin,
+            options: [
+              new InputOption({ key: 'specialPlan', label: 'Assign a Special Pricing Plan', input: 'InputSelect', list: ['standard', 'vip', 'non-profit'] }),
+              new InputOption({ key: 'deleteOrg', label: 'Delete Organization', input: 'InputUrl' }),
+            ],
+          }),
+        ] satisfies InputOption[]
       },
-    },
-    {
+    }),
+    new SettingsTool({
       slug: 'account',
       title: 'Account Details',
       userConfig: { isNavItem: true, navIcon: 'i-tabler-user', navIconAlt: 'i-tabler-user-plus' },
@@ -99,7 +95,7 @@ export function getTools(args: { service: StandardServices }) {
       save: async (args) => {
         const { tool, service: { fictionUser } } = args
 
-        const fields = tool.val?.value as User | undefined
+        const fields = tool.val?.value
         const userId = fictionUser.activeUser.value?.userId
 
         if (!userId)
@@ -111,7 +107,7 @@ export function getTools(args: { service: StandardServices }) {
         return await fictionUser.requests.ManageUser.projectRequest({ _action: 'update', fields, where: { userId } })
       },
       options: () => {
-        return vue.computed(() => [
+        return [
           new InputOption({ key: 'accountHead', input: def(() => import('./ElAccountHeader.vue')), uiFormat: 'naked' }),
           new InputOption({
             key: 'userDetails',
@@ -136,9 +132,9 @@ export function getTools(args: { service: StandardServices }) {
               new InputOption({ key: 'accounts.linkedinUrl', label: 'LinkedIn URL', input: 'InputUrl', placeholder: 'https://www.linkedin.com/in/username' }),
             ],
           }),
-        ])
+        ]
       },
-    },
+    }),
   ] satisfies SettingsTool[]
 
   return tools

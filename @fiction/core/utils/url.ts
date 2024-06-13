@@ -199,13 +199,13 @@ export function getUrlPath({ urlOrPath }: { urlOrPath?: string }) {
 }
 
 export async function gravatarUrl(
-  identifier: string,
-  options: { size?: string | number, default?: '404' | 'identicon' | 'monsterid' | 'wavatar' | 'retro' | 'robohash' | 'blank' | string },
-): Promise<MediaDisplayObject> {
-  const { size = 200, default: d = 'identicon' } = options
+  identifier?: string,
+  options: { checkIfDefault?: boolean, size?: string | number, default?: '404' | 'identicon' | 'monsterid' | 'wavatar' | 'retro' | 'robohash' | 'blank' | string } = {},
+): Promise<MediaDisplayObject > {
+  const { size = 200, default: d = 'identicon', checkIfDefault } = options
 
   if (!identifier) {
-    throw new Error('Please specify an identifier, such as an email address')
+    return { url: '', format: 'url' }
   }
 
   if (identifier.includes('@')) {
@@ -236,7 +236,7 @@ export async function gravatarUrl(
     }
   }
 
-  const isDefaultImage = await checkIfDefaultImage(gravatarUrl)
+  const isDefaultImage = checkIfDefault ? await checkIfDefaultImage(gravatarUrl) : false
 
   return {
     format: 'url',

@@ -34,11 +34,9 @@ vue.onMounted(async () => {
 </script>
 
 <template>
-  <div class="py-12" :class="card.classes.value.contentWidth">
-    <div
-      class="grid gap-4 lg:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-12"
-    >
-      <component :is="widget.settings.el" v-for="(widget, i) in widgets" :key="i" :widget class="col-span-12" />
+  <div>
+    <div class="grid gap-4 lg:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-12   grid-rows-[minmax(0,1fr)]">
+      <component :is="widget.settings.el" v-for="(widget, i) in widgets" :key="i" :widget class="col-span-6 min-w-0" />
     </div>
   </div>
 </template>

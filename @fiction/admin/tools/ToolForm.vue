@@ -63,10 +63,7 @@ const cls = vue.computed(() => {
 <template>
   <div>
     <div class="flex flex-col" :class="cls.inputGap">
-      <div
-        v-for="(opt, i) in options.filter(_ => !_.settings.isHidden)"
-        :key="i"
-      >
+      <div v-for="(opt, i) in options.filter(_ => !_.settings.isHidden)" :key="i">
         <div
           v-if="opt.input.value === 'group'"
           :class="[

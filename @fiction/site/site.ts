@@ -84,7 +84,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   fullConfig = vue.computed(() => deepMerge<SiteUserConfig>([this.theme.value?.config(), this.userConfig.value]))
 
   configDarkMode = vue.computed(() => this.fullConfig.value.isDarkMode ?? isDarkOrLightMode() === 'dark')
-  localDarkMode = localRef({ key: `isDarkMode-${this.siteId || 'noSiteId'}`, def: this.configDarkMode.value })
+  localDarkMode = localRef({ key: `fictionIsDarkMode`, def: this.configDarkMode.value })
   isDarkMode = vue.computed({
     get: () => {
       return (this.siteMode.value === 'standard') ? this.localDarkMode.value : this.configDarkMode.value

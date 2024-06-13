@@ -115,13 +115,13 @@ vue.onMounted(() => {
 </script>
 
 <template>
-  <div class="p-12 bg-theme-50 dark:bg-theme-950 border-b border-theme-300/70 dark:border-theme-600/70">
+  <div class="px-6 bg-theme-50 dark:bg-theme-950 border-b border-theme-300/70 dark:border-theme-600/70">
     <ElModal v-if="mode === 'changeEmail'" :vis="mode === 'changeEmail'" modal-class="max-w-lg" @update:vis="mode = 'current'">
       <ElForm @submit="codeSent ? requestChangeEmail() : requestCode()">
         <ToolForm v-model="form" ui-size="lg" :card :options="toolFormOptions" :disable-group-hide="true" />
       </ElForm>
     </ElModal>
-    <!--  -->
+
     <ElHeader
       v-else
       :heading="user?.fullName || user?.email"

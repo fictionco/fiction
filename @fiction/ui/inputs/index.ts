@@ -2,11 +2,13 @@ import type { ListItem } from '@fiction/core'
 import { FictionObject, removeUndefined, vue } from '@fiction/core'
 import type { z } from 'zod'
 import InputActions from './InputActions.vue'
+import InputItems from './InputItems.vue'
 
 const def = vue.defineAsyncComponent
 
 export const inputs: Record<string, { el: vue.Component, shape?: string[] }> = {
   InputActions: { el: def(() => import('./InputActions.vue')) },
+  InputItems: { el: def(() => import('./InputItems.vue')) },
   InputUsername: { el: def(() => import('./InputUsername.vue')) },
   InputImage: { el: def(() => import('./InputImage.vue')) },
   InputMarkdown: { el: def(() => import('./InputMarkdown.vue')) },

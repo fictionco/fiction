@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site/card'
-import type { NavItem, Organization, User } from '@fiction/core'
+import type { NavItem } from '@fiction/core'
 import { getNavComponentType, toLabel, toSlug, useService, vue } from '@fiction/core'
 import ElPanel from '@fiction/ui/ElPanel.vue'
 import type { InputOption } from '@fiction/ui'
@@ -19,9 +19,12 @@ const service = useService()
 
 export type UserConfig = object
 
-const routeItemId = vue.computed(() => toSlug(props.card.site?.siteRouter.params.value.itemId as string) || props.tools[0].slug)
-const currentPanel = vue.computed(() => props.tools.find(p => toSlug(p.slug) === routeItemId.value))
-const currentPanelOptions = vue.computed<InputOption[]>(() => currentPanel.value?.options?.({ tool: currentPanel.value, service }).value || [])
+const panels = vue.computed(() => props.tools.filter(t => t.slug))
+
+const routeItemId = vue.computed(() => toSlug(props.card.site?.siteRouter.params.value.itemId as string) || panels.value[0].slug)
+
+const currentPanel = vue.computed(() => panels.value.find(p => toSlug(p.slug) === routeItemId.value))
+const currentPanelOptions = vue.computed<InputOption[]>(() => currentPanel.value?.options?.({ tool: currentPanel.value, service }) || [])
 
 const nav = vue.computed<NavItem[]>(() => {
   const tools = props.tools || []
@@ -29,29 +32,14 @@ const nav = vue.computed<NavItem[]>(() => {
     .filter(t => t.userConfig?.isNavItem)
     .map((t) => {
       const tc = t.userConfig || {}
-      const itemId = props.card.site?.siteRouter.params.value.itemId || tools[0].slug
+      const itemId = props.card.site?.siteRouter.params.value.itemId || panels.value[0].slug
       const parentItemId = currentPanel.value?.userConfig?.parentItemId
       const isActive = !!(t.slug === itemId || (parentItemId && t.slug === parentItemId))
 
       const icon = isActive && tc.navIconAlt ? tc.navIconAlt : tc.navIcon ? tc.navIcon : 'i-heroicons-arrow-small-right-20-solid'
-      const link = `${props.basePath}/${t.slug}`
+      const link = t.href || `${props.basePath}/${t.slug}`
       return { name: t.title || toLabel(t.slug), href: props.card.link(link), isActive, icon }
     })
-})
-
-const value = vue.computed({
-  get: () => {
-    return {
-      org: service.fictionUser.activeOrganization.value,
-      user: service.fictionUser.activeUser.value,
-    }
-  },
-  set: (v: { user?: User, org?: Organization }) => {
-    if (v.user)
-      service.fictionUser.activeUser.value = v.user
-    if (v.org)
-      service.fictionUser.activeOrganization.value = v.org
-  },
 })
 
 const sending = vue.ref(false)
@@ -83,7 +71,7 @@ const actions = vue.computed(() => {
   <div :class="card.classes.value.contentWidth">
     <ElPanel class="rounded-md" box-class="p-0">
       <div class="flex border-theme-300/80 dark:border-theme-600/90 border rounded-md overflow-hidden">
-        <div class="bg-theme-0 md:w-48 2xl:w-64 shrink-0 rounded-l-md pb-32 px-4 py-4 dark:bg-theme-700/50 border-r dark:border-theme-600/60 border-theme-300/60">
+        <div class="bg-theme-0 md:w-48 shrink-0 rounded-l-md pb-32 p-3 dark:bg-theme-700/50 border-r dark:border-theme-600/60 border-theme-300/60">
           <div class="space-y-1 text-right">
             <component
               :is="getNavComponentType(v)"
@@ -95,7 +83,7 @@ const actions = vue.computed(() => {
               :class="
                 v.isActive
                   ? 'active font-bold bg-primary-100/50 text-primary-700 hover:text-primary-500 dark:bg-theme-600/50 dark:text-theme-0'
-                  : 'inactive font-medium text-theme-600 dark:text-theme-0 hover:bg-theme-100/30 dark:hover:bg-theme-800' "
+                  : 'inactive font-medium text-theme-600 dark:text-theme-0 hover:bg-theme-100/30 dark:hover:bg-theme-700/60' "
             >
               <div v-if="v.icon" class="text-[1.4em] shrink-0 opacity-80" :class="v.icon" />
               <div class="min-w-0 truncate overflow-ellipsis">
@@ -104,7 +92,7 @@ const actions = vue.computed(() => {
             </component>
           </div>
         </div>
-        <ElForm class="grow min-w-0 bg-theme-0 dark:bg-theme-900 rounded-r-lg overflow-hidden" @submit="runSave()">
+        <ElForm v-if="currentPanel?.val" class="grow min-w-0 bg-theme-0 dark:bg-theme-900 rounded-r-lg overflow-hidden" @submit="runSave()">
           <div class="header flex items-center justify-between py-3 px-4 border-b border-theme-300/70 dark:border-theme-600/70">
             <div class="font-bold">
               {{ currentPanel?.title }}
@@ -112,6 +100,20 @@ const actions = vue.computed(() => {
             <div v-if="currentPanel?.save">
               <ElButton data-test-id="save" btn="primary" type="submit" icon="i-tabler-upload" :loading="sending">
                 Save Changes
+              </ElButton>
+            </div>
+            <div v-if="currentPanel?.getActions">
+              <ElButton
+                v-for="(action, i) in actions"
+                :key="i"
+                :btn="action.btn"
+                :icon="action.icon"
+                :icon-after="action.iconAfter"
+                :href="action.href"
+                :size="action.size"
+                @click="action.onClick?.({ event: $event })"
+              >
+                {{ action.name }}
               </ElButton>
             </div>
           </div>
@@ -125,7 +127,7 @@ const actions = vue.computed(() => {
             mode="out-in"
           >
             <ToolForm
-              v-if="currentPanel?.val"
+
               :key="currentPanel.slug"
               v-model="currentPanel.val.value"
               :data-settings-tool="currentPanel.slug"

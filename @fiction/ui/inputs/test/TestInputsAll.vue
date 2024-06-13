@@ -41,6 +41,7 @@ function selectColor(c: ThemeColor) {
       </div>
     </div>
     <form class="input-area mx-auto my-12 max-w-screen-xl rounded-md">
+      <TestInput input-name="Add Items" :input-el="inputs.InputItems" />
       <TestInput
         input-name="Username"
         :input-el="inputs.InputUsername"

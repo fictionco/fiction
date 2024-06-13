@@ -77,14 +77,25 @@ async function importSubscribers() {
   loading.value = true
   try {
     const subscribers = emailList.value.map(email => ({ email }))
-    const publisherId = service.fictionUser.activeOrgId.value
+    const orgId = service.fictionUser.activeOrgId.value
 
-    if (!publisherId) {
-      logger.error(`no publisherId`)
+    if (!orgId) {
+      logger.error(`no orgId`)
       return
     }
 
-    await service.fictionSubscribe.requests.ManageSubscription.projectRequest({ _action: 'bulkCreate', subscribers, publisherId })
+    const r = await service.fictionSubscribe.requests.ManageSubscription.projectRequest({ _action: 'bulkCreate', subscribers })
+
+    if (r.status === 'success') {
+      const changedCount = r.indexMeta?.changedCount || 0
+      service.fictionEnv.events.emit('notify', {
+        type: 'success',
+        message: `${changedCount} Subscribers imported successfully`,
+      })
+
+      csvEmailList.value = []
+      rawTextEmailList.value = ''
+    }
 
     logger.info(`imported subscribers`, { data: emailList.value })
     step.value = 'import'
