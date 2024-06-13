@@ -15,10 +15,7 @@ export class FictionDevRestart extends FictionPlugin {
     return isRestart()
   }
 
-  restartInitializer = async (args: {
-    command: string
-    config: Partial<NodemonSettings>
-  }): Promise<void> => {
+  restartInitializer = async (args: { command: string, config: Partial<NodemonSettings> }): Promise<void> => {
     const { command, config } = args
 
     const defaultConfig = {

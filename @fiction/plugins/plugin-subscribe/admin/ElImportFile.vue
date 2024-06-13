@@ -178,11 +178,11 @@ async function importSubscribers() {
             @dragover="draggingOver = true"
             @dragleave="draggingOver = false"
           >
-            <label for="file-upload" class="cursor-pointer mt-2 flex justify-center rounded-lg border border-dashed border-theme-300 dark:border-theme-600 hover:border-theme-400 hover:bg-theme-50 px-6 py-10">
+            <label for="file-upload" class="cursor-pointer mt-2 flex justify-center rounded-lg border border-dashed border-theme-300 dark:border-theme-600 hover:border-theme-400 dark:hover:border-theme-500 hover:bg-theme-50 dark:hover:bg-theme-700 px-6 py-10">
               <div class="text-center">
                 <div class="text-5xl i-tabler-file-type-csv text-theme-300" />
                 <div class="mt-4 flex text-sm leading-6 text-theme-600">
-                  <div class="relative cursor-pointer rounded-md bg-white font-semibold text-primary-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-primary-600 focus-within:ring-offset-2 hover:text-primary-500">
+                  <div class="relative cursor-pointer rounded-md  font-semibold text-primary-500 dark:text-primary-300 focus-within:outline-none focus-within:ring-2 focus-within:ring-primary-600 focus-within:ring-offset-2 hover:text-primary-500">
                     <span>Upload a file</span>
                   </div>
                   <p class="pl-1">

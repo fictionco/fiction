@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { NumberFormats } from '@fiction/core'
-import { dayjs, formatNumber, vue } from '@fiction/core'
+import { dayjs, formatNumber, isDarkOrLightMode, vue } from '@fiction/core'
 import ElLoading from '@fiction/ui/loaders/ElSpinner.vue'
 import type { ComparePeriods, DataCompared, DataPointChart } from '@fiction/analytics/types'
 import { createLineChart } from './chart'
@@ -8,8 +8,8 @@ import { shouldUpdateChart } from './util'
 
 const props = defineProps({
   title: { type: String, required: true },
-  data: { type: Object as vue.PropType<DataCompared<DataPointChart> | undefined>, required: true },
-  valueKey: { type: String, required: true },
+  data: { type: Object as vue.PropType<DataCompared<DataPointChart> | undefined>, default: undefined },
+  valueKey: { type: String, default: 'count' },
   valueFormat: { type: String as vue.PropType<NumberFormats>, default: 'number' },
   changeFormat: { type: String as vue.PropType<'inverse' | 'normal'>, default: 'normal' },
   dateFormat: { type: String, default: 'YYYY-MM-DD' },
@@ -53,7 +53,27 @@ const positiveChange = vue.computed(() => {
   }
 })
 
+const mode = isDarkOrLightMode()
+const colors = vue.computed(() => {
+  return mode === 'dark'
+    ? { line: `rgba(var(--primary-400))`, text: 'rgba(var(--theme-200))', bg: 'rgba(var(--theme-800))', grid: 'rgba(var(--theme-600)/ .5)', tipBg: 'rgba(var(--theme-0))', tipText: 'rgba(var(--theme-700))' }
+    : { line: 'rgba(var(--primary-600))', text: 'rgba(var(--theme-500))', bg: 'rgba(var(--theme-0))', grid: 'rgba(var(--theme-200))', tipBg: 'rgba(var(--theme-800))', tipText: 'rgba(var(--theme-0))' }
+})
+
 vue.onMounted(() => {
+  vue.watchEffect(() => {
+    if (typeof document === 'undefined')
+      return
+
+    const c = colors.value
+    document.documentElement.style.setProperty('--chart-bg-color', c.bg)
+    document.documentElement.style.setProperty('--chart-grid-color', c.grid)
+    document.documentElement.style.setProperty('--chart-line-color', c.line)
+    document.documentElement.style.setProperty('--chart-text-color', c.text)
+    document.documentElement.style.setProperty('--chart-tooltip-bg-color', c.tipBg)
+    document.documentElement.style.setProperty('--chart-tooltip-text-color', c.tipText)
+  })
+
   const el = chartEl.value
   if (!el)
     return
@@ -106,29 +126,26 @@ vue.onMounted(() => {
   <div class="relative flex h-full flex-col px-3">
     <div class="flex items-center justify-between py-2">
       <div class="flex items-baseline">
-        <div class="text-lg font-bold">
+        <div class="text-xl font-bold x-font-title">
           {{ totalNice }}
         </div>
-        <div class="text-theme-400 ml-2 text-xs">
+        <div class="text-theme-400 ml-2 text-xs font-sans">
           from {{ totalCompareNice }}
         </div>
       </div>
       <div class="change">
         <div
           class="inline-flex items-center space-x-2 rounded-full text-xs font-medium md:mt-2 lg:mt-0"
-          :class="positiveChange ? 'text-emerald-500' : 'text-orange-500'"
+          :class="positiveChange ? 'text-emerald-500 dark:text-emerald-50' : 'text-orange-500'"
         >
           <div class="mr-1 text-sm font-bold">
             {{ `${difference}%` }}
           </div>
           <div
-            class="flex h-5 w-5 items-center justify-center rounded-full"
-            :class="positiveChange ? 'bg-emerald-100' : 'bg-orange-100'"
+            class="flex size-6  items-center justify-center rounded-full"
+            :class="positiveChange ? 'bg-emerald-100 dark:bg-emerald-600' : 'bg-orange-100'"
           >
-            <div
-              class="text-base"
-              :class="difference >= 0 ? ' ' : 'transform rotate-180'"
-            >
+            <div class="text-base" :class="difference >= 0 ? ' ' : 'transform rotate-180'">
               &uarr;
             </div>
           </div>
@@ -150,4 +167,13 @@ vue.onMounted(() => {
       <canvas ref="chartEl" />
     </div>
   </div>
-</template>ComparePeriods,ComparePeriods,ComparePeriods,ComparePeriods,ComparePeriods,ComparePeriods,
+</template>
+
+<style lang="less">
+:root {
+  --chart-bg-color: rgba(0,0,0, 1);
+  --chart-grid-color: rgba(100,100,100, 0.1);
+  --chart-line-color: v-bind(colors.line);
+  --chart-text-color: v-bind(colors.text);
+}
+</style>

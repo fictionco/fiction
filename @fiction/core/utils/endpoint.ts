@@ -9,6 +9,7 @@ import type { Query } from '../query'
 import type { LogHelper } from '../plugin-log'
 import { log } from '../plugin-log'
 import type { FictionEnv } from '../plugin-env'
+import type { FictionServer } from '../plugin-server'
 import { axios, vue } from './libraries'
 import { waitFor } from './utils'
 import { deepMergeAll } from './obj'
@@ -326,4 +327,44 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
     return this.request(requestParams, { debug, minTime }) as ReturnType<this['request']>
   }
+}
+
+export type CreateEndpointRequestsParams<R extends Record<string, Query> = Record<string, Query>> = {
+  queries?: R
+  basePath?: string
+  fictionServer?: FictionServer
+  fictionUser?: FictionUser
+  endpointHandler?: (options: EndpointSettings<Query>) => Endpoint
+  middleware?: () => express.RequestHandler[]
+}
+
+export function createEndpointRequests< M extends EndpointMap<R>, R extends Record<string, Query> = Record<string, Query>>(params: CreateEndpointRequestsParams<R>): M {
+  const { queries, fictionServer, fictionUser, basePath = '/no-base', endpointHandler, middleware } = params
+
+  if (!fictionServer) {
+    log.warn('createRequests', `Create Requests Err: No fictionServer found for "${basePath}"`)
+    return {} as M
+  }
+
+  if (!queries) {
+    fictionServer.log.warn(`No queries found for ${basePath}`)
+    return {} as M
+  }
+  const fictionEnv = fictionServer.settings.fictionEnv
+  const { serverUrl } = fictionServer
+  const entries = Object.entries(queries)
+    .map(([key, queryHandler]) => {
+      const opts: EndpointSettings<Query> = { key, queryHandler, serverUrl, basePath, fictionEnv, fictionUser, middleware }
+
+      const handler = endpointHandler ? endpointHandler(opts) : new Endpoint(opts)
+
+      return [key, handler]
+    })
+    .filter(Boolean) as [string, Endpoint][]
+
+  const requests = Object.fromEntries(entries)
+
+  fictionServer?.addEndpoints(Object.values(requests))
+
+  return requests as M
 }

@@ -8,6 +8,7 @@ import { runServicesSetup } from '@fiction/core/plugin-env/entry'
 import { createUiTestingKit } from '@fiction/core/test-utils/kit'
 import { FictionTransactions } from '@fiction/plugin-transactions'
 import { FictionSubscribe } from '@fiction/plugin-subscribe'
+import { FictionAdmin } from '@fiction/admin'
 import type { ThemeSetup } from '..'
 import { FictionSites } from '..'
 import * as testTheme from './test-theme'
@@ -22,6 +23,7 @@ export type SiteTestUtils = TestUtils & {
   fictionAi: FictionAi
   fictionTransactions: FictionTransactions
   fictionSubscribe: FictionSubscribe
+  fictionAdmin: FictionAdmin
   runApp: (args: { context: 'app' | 'node', isProd?: boolean }) => Promise<void>
   close: () => Promise<void>
 }
@@ -49,6 +51,7 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
   out.fictionTransactions = new FictionTransactions({ ...out })
   out.fictionRouterSites = new FictionRouter({ routerId: 'siteRouter', fictionEnv, baseUrl: 'https://www.test.com', routes, create: true })
   out.fictionAppSites = new FictionApp({ port: sitePort, ...out, fictionRouter: out.fictionRouterSites, isTest: true, liveUrl: 'https://*.test.com', localHostname: '*.lan.com' })
+  out.fictionAdmin = new FictionAdmin({ ...(out as SiteTestUtils) })
   out.fictionSubscribe = new FictionSubscribe({ ...(out as SiteTestUtils) })
 
   const themes = () => Promise.all([testTheme.setup(out), ...(args.themes || []).map(_ => _(out))])

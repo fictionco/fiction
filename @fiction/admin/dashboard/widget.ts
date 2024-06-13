@@ -1,6 +1,7 @@
-import type { DataCompared, QueryParams } from '@fiction/analytics/types'
-import type { Query, vue } from '@fiction/core'
-import { FictionObject } from '@fiction/core'
+import type { AnalyticsQuery } from '@fiction/analytics/query'
+import type { QueryParams } from '@fiction/analytics/types'
+import { FictionObject, vue } from '@fiction/core'
+import type { FictionAdmin } from '..'
 
 const layoutModes = {
   list: { colSpan: 3, rowSpan: 1 },
@@ -12,21 +13,23 @@ const layoutModes = {
   panel: { colSpan: 3, rowSpan: 1 },
 }
 
-export type WidgetConfig<T extends Query = Query> = {
+export type WidgetConfig<T extends AnalyticsQuery = AnalyticsQuery> = {
   key: string
   query?: T
+  params?: QueryParams
   el: vue.Component
-  hashId?: string
-  noCache?: boolean
   title?: string
   description?: string
   layoutHandling?: keyof typeof layoutModes
-  params?: QueryParams
-  dimension?: string
+  location?: 'primary' | 'secondary'
+  valueKey?: T['dataKeys'][number]
 }
 
-export class Widget<T extends Query = Query> extends FictionObject<WidgetConfig<T>> {
+export class Widget<T extends AnalyticsQuery = AnalyticsQuery> extends FictionObject<WidgetConfig<T>> {
   query = this.settings.query
+  errorMessage = vue.ref('')
+  loading = vue.ref(false)
+  hashId = vue.ref('')
   constructor(settings: WidgetConfig<T>) {
     super('Widget', settings)
   }

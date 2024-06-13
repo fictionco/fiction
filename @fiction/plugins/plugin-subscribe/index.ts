@@ -3,6 +3,7 @@ import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import type { FictionTransactions } from '@fiction/plugin-transactions'
 import { createCard } from '@fiction/site'
 import multer from 'multer'
+import type { FictionAdmin } from '@fiction/admin'
 import { tables } from './schema'
 import { ManageSubscriptionQuery, SubscriptionAnalytics } from './endpoint'
 import { getEmails } from './email'
@@ -17,14 +18,14 @@ type FictionSubscribeSettings = {
   fictionEnv: FictionEnv
   fictionUser: FictionUser
   fictionTransactions: FictionTransactions
+  fictionAdmin: FictionAdmin
 } & FictionPluginSettings
 
 export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
-  csvFileName = 'csvFile'
   widgets = getWidgets({ fictionSubscribe: this, ...this.settings })
   queries = {
     ManageSubscription: new ManageSubscriptionQuery({ fictionSubscribe: this, ...this.settings }),
-    SubscriptionAnalytics: new SubscriptionAnalytics({ fictionSubscribe: this, ...this.settings }),
+    SubscriptionAnalytics: new SubscriptionAnalytics({ fictionSubscribe: this, ...this.settings, key: 'subscriptionAnalytics' }),
   }
 
   requests = this.createRequests({
@@ -32,14 +33,11 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
     fictionServer: this.settings.fictionServer,
     fictionUser: this.settings.fictionUser,
     basePath: '/subscribe',
-    middleware: () => [multer().single(this.csvFileName)],
   })
 
   transactions = getEmails({ fictionSubscribe: this })
 
   cacheKey = vue.ref(0)
-
-
 
   constructor(settings: FictionSubscribeSettings) {
     super('FictionSubscribe', { root: safeDirname(import.meta.url), ...settings })
@@ -49,10 +47,20 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
   }
 
   addAdminPages() {
+    const basic = { caller: 'FictionSubscribe', context: 'app' } as const
+    this.settings.fictionEnv.addHook({
+      hook: 'widgetMap',
+      ...basic,
+      callback: (w) => {
+        const widgetList = Object.values(this.widgets)
+        w.homeMain = [...(w.homeMain || []), ...widgetList]
+        return w
+      },
+    })
+
     this.settings.fictionEnv.addHook({
       hook: 'adminPages',
-      caller: 'FictionSubscribe',
-      context: 'app',
+      ...basic,
       callback: async (pages, meta) => {
         const { templates } = meta
         return [

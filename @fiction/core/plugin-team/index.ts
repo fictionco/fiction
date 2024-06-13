@@ -6,7 +6,7 @@ import type { FictionEmail } from '../plugin-email/index.js'
 import type { FictionRouter } from '../plugin-router/index.js'
 import type { FictionDb } from '../plugin-db/index.js'
 import type { FictionApp } from '../plugin-app/index.js'
-import { safeDirname } from '../utils/index.js'
+import { abort, safeDirname } from '../utils/index.js'
 import { QueryOrgMembers, QuerySeekInviteFromUser, QueryTeamInvite } from './endpoint.js'
 
 type FictionTeamSettings = {
@@ -83,7 +83,7 @@ export class FictionTeam extends FictionPlugin<FictionTeamSettings> {
     const bodyMarkdown = `Hi there!\n\n${requestingName} (${requestingEmail}) has invited you to the organization "${orgName}."`
 
     if (!verify?.code)
-      throw this.stop('A verification code is required')
+      throw abort('A verification code is required')
 
     await this.settings.fictionEmail.sendTransactional({
       to: email,

@@ -6,7 +6,7 @@ import dayjs from 'dayjs'
 import chalk from 'chalk'
 import relativeTime from 'dayjs/plugin/relativeTime.js'
 import utc from 'dayjs/plugin/utc.js'
-import tz from 'dayjs/plugin/timezone.js'
+import timezone from 'dayjs/plugin/timezone.js'
 import updateLocale from 'dayjs/plugin/updateLocale.js'
 import weekOfYear from 'dayjs/plugin/weekOfYear.js'
 import createDOMPurify from 'dompurify'
@@ -15,7 +15,7 @@ import { twMerge } from 'tailwind-merge'
 
 dayjs.extend(relativeTime)
 dayjs.extend(utc)
-dayjs.extend(tz)
+dayjs.extend(timezone)
 dayjs.extend(updateLocale)
 dayjs.extend(weekOfYear)
 dayjs.updateLocale('en', { weekStart: 1 })

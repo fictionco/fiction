@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
+import WidgetArea from './WidgetArea.vue'
 
 type UserConfig = {
   isNavItem: boolean
@@ -8,11 +9,11 @@ type UserConfig = {
 defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
-const _x = true
+const x = 1
 </script>
 
 <template>
   <div class="py-12" :class="card.classes.value.contentWidth">
-    single
+    <div><WidgetArea location="homeMain" :card /></div>
   </div>
 </template>

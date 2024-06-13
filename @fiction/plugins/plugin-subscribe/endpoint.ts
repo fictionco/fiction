@@ -1,7 +1,8 @@
 import type { EndpointMeta, EndpointResponse, FictionDb, FictionEmail, FictionEnv, FictionUser, User } from '@fiction/core'
 import { Query, dayjs, prepareFields } from '@fiction/core'
 import { AnalyticsQuery } from '@fiction/analytics/query'
-import type { AnalyticsDataRequestFilters, DataCompared, DataPointChart } from '@fiction/analytics/types'
+import { refineTimelineData } from '@fiction/analytics/utils/refine'
+import type { DataCompared, DataPointChart, QueryParams, QueryParamsRefined } from '@fiction/analytics/types'
 import type { Subscriber, TableSubscribeConfig } from './schema'
 import { t } from './schema'
 import type { FictionSubscribe } from '.'
@@ -195,33 +196,31 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
   }
 }
 
-export type SubscriptionAnalyticsParams = { _action: 'subscriptionAnalytics', publisherId: string } & AnalyticsDataRequestFilters
-type SubscriptionChartDataPoint = DataPointChart<'subscriptions' | 'unsubscribes' | 'cleaned'>
-export type SubscriptionAnalyticsResponse = EndpointResponse<DataCompared<SubscriptionChartDataPoint>>
+const dataKeys = ['subscriptions', 'unsubscribes', 'cleaned'] as const
+type SubDataPoint = DataPointChart<typeof dataKeys[number]>
+type ReturnData = DataCompared<SubDataPoint>
+export type SubscriptionAnalyticsResponse = EndpointResponse<ReturnData>
 
-export class SubscriptionAnalytics extends AnalyticsQuery<DataCompared<SubscriptionChartDataPoint>, SubscriberEndpointSettings> {
-  async run(params: SubscriptionAnalyticsParams, _meta: EndpointMeta): Promise<SubscriptionAnalyticsResponse> {
+export class SubscriptionAnalytics extends AnalyticsQuery<ReturnData, SubscriberEndpointSettings> {
+  dataKeys = dataKeys
+  async run(params: QueryParamsRefined, _meta: EndpointMeta): Promise<SubscriptionAnalyticsResponse> {
     const db = this.db()
-    const { publisherId, timeStartAtIso, timeEndAtIso, interval = 'day' } = params
-
-    // Define default time ranges (one month before now to now)
     const now = dayjs()
-    const pastMonth = now.subtract(1, 'month')
+    const { timeZone = 'UTC', orgId, timeStartAtIso = now.subtract(1, 'month').toISOString(), timeEndAtIso = now.toISOString(), interval = 'day' } = params
 
-    const timeStart = timeStartAtIso ? dayjs(timeStartAtIso) : pastMonth
-    const timeEnd = timeEndAtIso ? dayjs(timeEndAtIso) : now
-
-    // Query to get new subscriptions, unsubscribes, and cleaned statuses
+    if (!orgId)
+      return { status: 'error', message: 'Missing orgId' }
+    // Query to get new subscriptions, unsubscribes, and cleaned statuses s
     const results = await db(t.subscribe)
       .select(
-        db.raw(`DATE_TRUNC(?, updated_at) AS date`, [interval]),
+        db.raw(`DATE_TRUNC(?, updated_at AT TIME ZONE ?) AS date`, [interval, timeZone]),
         db.raw(`SUM(CASE WHEN status = 'active' THEN 1 ELSE 0 END) AS subscriptions`),
         db.raw(`SUM(CASE WHEN status = 'unsubscribed' AND previous_status = 'active' THEN 1 ELSE 0 END) AS unsubscribes`),
         db.raw(`SUM(CASE WHEN status = 'bounced' AND previous_status = 'active' THEN 1 ELSE 0 END) AS cleaned`),
       )
-      .where('publisher_id', publisherId)
-      .andWhere('updated_at', '>=', timeStart.toISOString())
-      .andWhere('updated_at', '<=', timeEnd.toISOString())
+      .where('publisher_id', orgId)
+      .andWhere('updated_at', '>=', timeStartAtIso)
+      .andWhere('updated_at', '<=', timeEndAtIso)
       .groupBy('date')
       .orderBy('date', 'asc')
 
@@ -232,38 +231,30 @@ export class SubscriptionAnalytics extends AnalyticsQuery<DataCompared<Subscript
         db.raw(`SUM(CASE WHEN status = 'unsubscribed' AND previous_status = 'active' THEN 1 ELSE 0 END) AS unsubscribes`),
         db.raw(`SUM(CASE WHEN status = 'bounced' AND previous_status = 'active' THEN 1 ELSE 0 END) AS cleaned`),
       )
-      .where('publisher_id', publisherId)
-      .andWhere('updated_at', '>=', timeStart.toISOString())
-      .andWhere('updated_at', '<=', timeEnd.toISOString())
+      .where('publisher_id', orgId)
+      .andWhere('updated_at', '>=', timeStartAtIso)
+      .andWhere('updated_at', '<=', timeEndAtIso)
       .first()
 
     // Transform results to DataPointChart format
-    const mainData: SubscriptionChartDataPoint[] = results.map((row: any) => ({
+    const mainData: SubDataPoint[] = results.map((row: any) => ({
       date: row.date.toISOString(),
       subscriptions: Number.parseInt(row.subscriptions),
       unsubscribes: Number.parseInt(row.unsubscribes),
       cleaned: Number.parseInt(row.cleaned),
     }))
 
-    // Add rollup row as the first row
-    mainData.unshift({
-      date: 'rollup',
+    const mainTotals = {
+      date: '',
       subscriptions: Number.parseInt(rollupTotals.subscriptions),
       unsubscribes: Number.parseInt(rollupTotals.unsubscribes),
       cleaned: Number.parseInt(rollupTotals.cleaned),
-    })
-
-    return {
-      status: 'success',
-      data: {
-        main: mainData,
-        meta: {
-          total: mainData.length,
-          start: timeStart.unix(),
-          end: timeEnd.unix(),
-          pages: Math.ceil(mainData.length / 10),
-        },
-      },
     }
+
+    const main = refineTimelineData({ data: mainData, timeStartAtIso, timeEndAtIso, interval, timeZone })
+
+    const data = { main, mainTotals, params }
+
+    return { status: 'success', data }
   }
 }

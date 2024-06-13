@@ -1,5 +1,6 @@
 import type { ActionItem, EndpointResponse, StandardServices, vue } from '@fiction/core/index.js'
 import type { InputOption } from '@fiction/ui/index.js'
+import type { Widget } from './dashboard/widget'
 
 export type NavCardUserConfig = { isNavItem?: boolean, navIcon?: string, navIconAlt?: string, parentItemId?: string }
 
@@ -13,3 +14,9 @@ export type SettingsTool<T extends string = string, U extends Record<string, any
   val?: vue.Ref<U> | vue.WritableComputedRef<U>
   getActions?: (args: { tool: SettingsTool<T, U>, service: StandardServices }) => vue.ComputedRef<ActionItem[]>
 }
+
+export type WidgetLocation = 'homeMain' | 'homeSecondary'
+
+export type WidgetMap = {
+  [K in WidgetLocation]?: Widget[];
+} & Record<string, never>

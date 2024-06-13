@@ -20,6 +20,10 @@ type _DeepPartialObject<T> = { [P in keyof T]?: DeepPartial<T[P]> }
 if (registerables)
   Chart.register(...registerables)
 
+function cssVar(name: string, fallback: string) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name) || fallback
+}
+
 export interface DataSet {
   data: (number | null)[]
   label: string
@@ -42,18 +46,36 @@ export interface SetData {
 //   colorStandard({ color: "slate", level: 300 }),
 // ]
 
+function lineColor(_dataset: DataSet) {
+  return (_context: ScriptableContext<'line'>) => {
+    return cssVar('--chart-line-color', colorStandard({ color: 'primary', level: 500 }))
+  }
+}
+
+function gridColor() {
+  return cssVar('--chart-grid-color', colorStandard({ color: 'slate', level: 50 }))
+}
+
+function textColor() {
+  return cssVar('--chart-text-color', colorStandard({ color: 'slate', level: 500 }))
+}
+
+function tooltipBgColor() {
+  return cssVar('--chart-tooltip-bg-color', 'rgba(15,23, 42, .85)')
+}
+
+function tooltipTextColor() {
+  return cssVar('--chart-tooltip-text-color', 'blue')
+}
+
 function barColor(dataset: DataSet) {
   return (context: ScriptableContext<'bar'>) => {
-    const color
-      = context.datasetIndex % 2 === 0
-        ? colorStandard({ color: 'primary', level: 500 })
-        : colorStandard({ color: 'primary', level: 100 })
-    const value
-      = dataset.presentIndex !== undefined
-      && dataset.presentIndex > -1
-      && context.dataIndex > dataset.presentIndex
-        ? colorStandard({ color: 'primary', level: 50 })
-        : color
+    const presentIndex = dataset.presentIndex
+    const color = context.datasetIndex % 2 === 0 ? colorStandard({ color: 'primary', level: 500 }) : colorStandard({ color: 'primary', level: 100 })
+
+    const value = presentIndex !== undefined && presentIndex > -1 && context.dataIndex > presentIndex
+      ? colorStandard({ color: 'primary', level: 50 })
+      : color
 
     return value
   }
@@ -63,12 +85,12 @@ function tooltipDefaults<T extends ChartType>(): DeepPartial< TooltipOptions<T>>
   return {
     mode: 'index',
     intersect: false,
-    bodyColor: '#FFF',
+    bodyColor: tooltipTextColor(),
+    titleColor: tooltipTextColor(),
     // borderColor: "rgba(0, 0, 0, .1)",
     // borderWidth: 1,
-    backgroundColor: 'rgba(15,23, 42, .85)',
+    backgroundColor: tooltipBgColor(),
     titleMarginBottom: 12,
-
     bodySpacing: 12,
     footerMarginTop: 8,
     padding: 15,
@@ -94,26 +116,21 @@ function tooltipDefaults<T extends ChartType>(): DeepPartial< TooltipOptions<T>>
     // displayColors: false,
     callbacks: {
       labelPointStyle() {
-        return {
-          pointStyle: 'circle',
-          rotation: 0,
-        }
+        return { pointStyle: 'circle', rotation: 0 }
       },
       labelColor: (context: TooltipItem<T>): TooltipLabelStyle => {
         // @ts-expect-error  TODO
-        const cb = context.dataset?.borderColor as (
-          context: TooltipItem<T>,
-        ) => string
+        const cb = context.dataset?.borderColor as (context: TooltipItem<T>,) => string
         const bg = cb ? cb(context) : '#000'
         return {
-          borderColor: 'rgba(255,255,255,1)',
+          borderColor: tooltipTextColor(),
           backgroundColor: bg,
           borderWidth: 2,
           borderRadius: 3,
         }
       },
       labelTextColor: (): string => {
-        return '#FFF'
+        return tooltipTextColor()
       },
 
       label(context: TooltipItem<T>) {
@@ -147,17 +164,14 @@ export function createLineChart(args: {
   const config = deepMerge<ChartConfiguration<'line'>>([
     {
       type: 'line',
-
       options: {
         animation: { duration: 500 },
         responsive: true,
         aspectRatio: 2,
         maintainAspectRatio: false,
-
         plugins: {
           // https://www.chartjs.org/docs/latest/configuration/legend.html
           legend: { display: false },
-
           tooltip: tooltipDefaults(),
         },
         elements: {
@@ -172,19 +186,15 @@ export function createLineChart(args: {
             grid: {
               // display: false,
               // borderColor: "transparent",
-              color: colorStandard({ color: 'slate', level: 50 }),
+              color: gridColor(),
             },
 
             ticks: {
-              font: { size: 11, weight: 'bold' },
-              callback: (tickValue): string | number => {
-                return countFormat === 'percent'
-                  ? `${tickValue}%`
-                  : numberFormatter(tickValue)
-              },
-              autoSkip: true,
-              color: colorStandard({ color: 'slate', level: 500 }),
               maxTicksLimit: 5,
+              font: { size: 11, weight: 'bold' },
+              callback: (tickValue): string | number => countFormat === 'percent' ? `${tickValue}%` : numberFormatter(tickValue),
+              autoSkip: true,
+              color: textColor(),
             },
           },
           x: {
@@ -192,23 +202,20 @@ export function createLineChart(args: {
             grid: {
               display: false,
               /// borderColor: "transparent",
-              color: colorStandard({ color: 'slate', level: 50 }),
+              color: gridColor(),
             },
             ticks: {
               maxTicksLimit: 5,
               font: { size: 11, weight: 'bold' },
               autoSkip: true,
               maxRotation: 0,
-              color: colorStandard({ color: 'slate', level: 500 }),
+              color: textColor(),
             },
           },
         },
       },
 
-      data: {
-        labels: [''],
-        datasets: [],
-      },
+      data: { labels: [''], datasets: [] },
     },
     opts as ChartConfiguration<'line'>,
   ])
@@ -231,16 +238,14 @@ export function createLineChart(args: {
 
         let out: ChartDataset<'line'>[] = []
 
-        // const color = d.color || colors[i] || colorStandard()
-
-        const bg = d.bg ?? '#FFFFFF'
+        const bg = d.bg ?? cssVar('--chart-bg-color', '#FFFFFF')
 
         const config: Partial<ChartDataset<'line'>> = deepMerge([
           {
             borderWidth: 2,
-            borderColor: barColor(d),
-            pointBorderColor: barColor(d),
-            hoverBorderColor: barColor(d),
+            borderColor: lineColor(d),
+            pointBorderColor: lineColor(d),
+            hoverBorderColor: lineColor(d),
             backgroundColor: 'transparent',
             pointBackgroundColor: bg,
             pointHoverBackgroundColor: bg,
@@ -257,11 +262,7 @@ export function createLineChart(args: {
             segment: {
               borderDash: (context: ScriptableLineSegmentContext) => {
                 // p0 -> p1 for each segment span
-                if (
-                  d.presentIndex !== undefined
-                  && d.presentIndex > -1
-                  && context.p1DataIndex >= d.presentIndex
-                ) {
+                if (d.presentIndex !== undefined && d.presentIndex > -1 && context.p1DataIndex >= d.presentIndex) {
                   return [5, 5]
                 }
               },
@@ -337,18 +338,16 @@ export function createBarChart(args: {
             grid: {
               display: false,
               // borderColor: "transparent",
-              color: colorStandard({ color: 'slate', level: 50 }),
+              color: gridColor(),
             },
 
             ticks: {
               font: { size: 10 },
               callback: (tickValue): string | number => {
-                return countFormat === 'percent'
-                  ? `${tickValue}%`
-                  : numberFormatter(tickValue)
+                return countFormat === 'percent' ? `${tickValue}%` : numberFormatter(tickValue)
               },
               autoSkip: true,
-              color: colorStandard({ color: 'slate', level: 300 }),
+              color: textColor(),
               maxTicksLimit: 5,
             },
           },
@@ -358,13 +357,13 @@ export function createBarChart(args: {
             grid: {
               display: false,
               // borderColor: "transparent",
-              color: colorStandard({ color: 'slate', level: 50 }),
+              color: gridColor(),
             },
             ticks: {
               font: { size: 10 },
               autoSkip: true,
               maxRotation: 0,
-              color: colorStandard({ color: 'slate', level: 300 }),
+              color: textColor(),
             },
           },
         },

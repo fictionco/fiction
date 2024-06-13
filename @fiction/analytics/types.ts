@@ -70,12 +70,7 @@ export type DataCompared<T = unknown> = {
   mainTotals?: T
   compareTotals?: T
   columns?: DataColumn[]
-  meta?: {
-    total?: number
-    start: number
-    end: number
-    pages: number
-  }
+
   params?: QueryParamsRefined
   sql?: string
 }
@@ -118,10 +113,8 @@ export type QueryParams = AnalyticsDataRequestBase & Partial<AnalyticsDataReques
 
 export type QueryParamsRefined = QueryParams & {
   timeZone: string
-  orgId: string
-  timeEndAt: dayjs.Dayjs
-  timeStartAt: dayjs.Dayjs
-  compareEndAt: dayjs.Dayjs
-  compareStartAt: dayjs.Dayjs
+  orgId?: string
+  compareEndAtIso: string
+  compareStartAtIso: string
   interval: TimeLineInterval
 }

@@ -162,18 +162,18 @@ process.on('uncaughtException', (error) => {
   exitHandler({ exit: true, code: 1 })
 })
 
-process.on('SIGUSR2', async () => {
-  const snapshotFile = path.join(process.cwd(), `heap-${Date.now()}.heapsnapshot`)
-  logger.info(`Creating heap snapshot: ${snapshotFile}`)
-  const { writeHeapSnapshot } = await import('node:v8')
-  try {
-    writeHeapSnapshot(snapshotFile)
-    logger.info(`Heap snapshot created: ${snapshotFile}`)
-  }
-  catch (err) {
-    logger.error(`Failed to create heap snapshot: ${(err as Error).message}`)
-  }
-})
+// process.on('SIGUSR2', async () => {
+//   const snapshotFile = path.join(process.cwd(), `heap-${Date.now()}.heapsnapshot`)
+//   logger.info(`Creating heap snapshot: ${snapshotFile}`)
+//   const { writeHeapSnapshot } = await import('node:v8')
+//   try {
+//     writeHeapSnapshot(snapshotFile)
+//     logger.info(`Heap snapshot created: ${snapshotFile}`)
+//   }
+//   catch (err) {
+//     logger.error(`Failed to create heap snapshot: ${(err as Error).message}`)
+//   }
+// })
 
 // untested, but should be tried when process.on is overridden in tests
 process.on('message', (msg) => {

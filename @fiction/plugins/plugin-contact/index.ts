@@ -37,7 +37,10 @@ export class FictionContact extends FictionPlugin<FictionContactSettings> {
   fictionApp = this.settings.fictionApp
   fictionMonitor = this.settings.fictionMonitor
   fictionEmail = this.settings.fictionEmail
-  queries = this.createQueries()
+  queries = {
+    ManageSubmission: new QueryManageSubmission({ fictionContact: this, ...this.settings }),
+  }
+
   requests = this.createRequests({
     queries: this.queries,
     fictionServer: this.fictionServer,
@@ -64,11 +67,5 @@ export class FictionContact extends FictionPlugin<FictionContactSettings> {
     })
 
     return result
-  }
-
-  protected override createQueries() {
-    return {
-      ManageSubmission: new QueryManageSubmission({ fictionContact: this, ...this.settings }),
-    } as const
   }
 }

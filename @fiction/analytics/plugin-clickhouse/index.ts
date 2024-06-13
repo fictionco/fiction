@@ -206,10 +206,13 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
   clickhouseDateQuery(args: {
     params: QueryParamsRefined & { table?: string }
   }): Knex.QueryBuilder {
-    const { timeStartAt, timeEndAt, orgId, table, filters } = args.params
+    const { timeStartAtIso, timeEndAtIso, orgId, table, filters } = args.params
 
-    const clickhouseTimeEndAt = this.formatTime(timeEndAt)
-    const clickhouseTimeStartAt = this.formatTime(timeStartAt)
+    if (!orgId)
+      throw new Error('orgId is missing')
+
+    const clickhouseTimeEndAt = this.formatTime(dayjs(timeEndAtIso))
+    const clickhouseTimeStartAt = this.formatTime(dayjs(timeStartAtIso))
 
     const base = this.clickhouseBaseQuery({ orgId, table }).whereRaw(
       `toYYYYMMDDhhmmss(timestamp) BETWEEN ${clickhouseTimeStartAt} AND ${clickhouseTimeEndAt}`,

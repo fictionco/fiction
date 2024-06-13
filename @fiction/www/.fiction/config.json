@@ -111,6 +111,10 @@
     {
       "key": "ManageTaxonomy",
       "path": "/api/fiction-posts/ManageTaxonomy"
+    },
+    {
+      "key": "subscriptionAnalytics",
+      "path": "/api/widgets/subscriptionAnalytics"
     }
   ]
 }

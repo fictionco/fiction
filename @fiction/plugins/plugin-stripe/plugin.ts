@@ -1,7 +1,7 @@
 import './register'
 import type express from 'express'
 import type { FictionApp, FictionDb, FictionEnv, FictionPluginSettings, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
-import { Endpoint, FictionPlugin, dayjs, isActualBrowser, toLabel, vue } from '@fiction/core'
+import { Endpoint, FictionPlugin, abort, dayjs, isActualBrowser, toLabel, vue } from '@fiction/core'
 
 import type * as StripeJS from '@stripe/stripe-js'
 import Stripe from 'stripe'
@@ -387,11 +387,11 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
           = query as CheckoutQueryParams
 
         if (!priceId)
-          throw this.stop('no priceId')
+          throw abort('no priceId')
         if (!customerId)
-          throw this.stop('no customerId')
+          throw abort('no customerId')
         if (!orgId)
-          throw this.stop('no ordId')
+          throw abort('no ordId')
 
         const stripe = this.getServerClient()
 
@@ -433,7 +433,7 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
           response?.redirect(303, session.url)
       }
       else {
-        throw this.stop('invalid action')
+        throw abort('invalid action')
       }
     }
     catch (error) {

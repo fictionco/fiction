@@ -6,9 +6,11 @@ import type { FictionUser } from '@fiction/core/plugin-user'
 import type { FictionApp } from '@fiction/core/plugin-app'
 import type { FictionRouter } from '@fiction/core/plugin-router'
 import type { FictionTransactions } from '@fiction/plugin-transactions'
+import type { FictionServer } from '@fiction/core'
 import { envConfig } from '@fiction/core'
 import { createCard } from '@fiction/site/theme.js'
 import { getEmails } from './emails/index.js'
+import { createWidgetEndpoints } from './dashboard/util.js'
 
 export * from './tools/tools.js'
 export * from './types.js'
@@ -22,9 +24,11 @@ type FictionAdminSettings = {
   fictionMedia: FictionMedia
   fictionApp: FictionApp
   fictionRouter: FictionRouter
+  fictionServer: FictionServer
 } & FictionPluginSettings
 
 export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
+  widgetRequests?: ReturnType<typeof createWidgetEndpoints>
   constructor(settings: FictionAdminSettings) {
     super('FictionAdmin', { root: safeDirname(import.meta.url), ...settings })
 
@@ -32,6 +36,15 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
   }
 
   emailActions = getEmails({ fictionAdmin: this })
+
+  getWidgetMap() {
+    return this.fictionEnv.runHooksSync('widgetMap', {})
+  }
+
+  override async setup() {
+    const widgetMap = this.getWidgetMap()
+    this.widgetRequests = createWidgetEndpoints({ widgetMap, fictionAdmin: this })
+  }
 
   hooks() {
     const fictionUser = this.settings.fictionUser
