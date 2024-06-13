@@ -58,6 +58,7 @@ const cls = vue.computed(() => {
 
   return configs[props.uiSize as 'md' | 'lg']
 })
+
 </script>
 
 <template>
@@ -111,6 +112,7 @@ const cls = vue.computed(() => {
         <div v-else :class="opt.settings.uiFormat !== 'naked' && depth === 0 ? 'px-4' : ''" :data-depth="depth">
           <ElInput
             v-if="opt.isHidden.value !== true"
+            :card
             :ui-size="uiSize"
             :data-key="opt.key.value"
             class="setting-input"
@@ -118,7 +120,6 @@ const cls = vue.computed(() => {
             v-bind="{ ...inputProps, ...opt.outputProps.value }"
             :input="opt.input.value"
             :model-value="getNested({ path: getOptionPath(opt.key.value), data: modelValue })"
-            :card
             @update:model-value="emit('update:modelValue', setNested({ path: getOptionPath(opt.key.value), data: modelValue, value: $event }))"
           />
         </div>

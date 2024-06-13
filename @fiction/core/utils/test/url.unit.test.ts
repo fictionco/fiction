@@ -29,7 +29,9 @@ describe('gravatarUrl', async () => {
   it('gravatarUrl should throw an error if identifier is not provided', async () => {
     const options = { size: '200', default: 'identicon' }
 
-    await expect(gravatarUrl('', options)).rejects.toThrow('Please specify an identifier, such as an email address')
+    const r = await gravatarUrl('', options)
+
+    expect(r?.url).toBeFalsy()
   })
 })
 

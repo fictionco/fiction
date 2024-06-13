@@ -108,18 +108,8 @@ const options = vue.computed(() => {
       label: 'Search and SEO',
       input: 'group',
       options: [
-        new InputOption({
-          key: 'userConfig.seoTitle',
-          label: 'SEO Title',
-          input: 'InputText',
-          props: { },
-        }),
-        new InputOption({
-          key: 'userConfig.seoDescription',
-          label: 'SEO Description',
-          input: 'InputText',
-          props: { },
-        }),
+        new InputOption({ key: 'userConfig.seoTitle', label: 'SEO Title', input: 'InputText' }),
+        new InputOption({ key: 'userConfig.seoDescription', label: 'SEO Description', input: 'InputText' }),
       ],
     }),
     new InputOption({
@@ -127,29 +117,10 @@ const options = vue.computed(() => {
       label: 'Taxonomy',
       input: 'group',
       options: [
-        new InputOption({
-          key: 'tags',
-          label: 'Tags',
-          input: InputTaxonomy,
-          props: {
-            taxonomyType: 'tag',
-          },
-        }),
-        new InputOption({
-          key: 'categories',
-          label: 'Categories',
-          input: InputTaxonomy,
-          props: {
-            taxonomyType: 'category',
-          },
-        }),
+        new InputOption({ key: 'tags', label: 'Tags', input: InputTaxonomy, props: { taxonomyType: 'tag' } }),
+        new InputOption({ key: 'categories', label: 'Categories', input: InputTaxonomy, props: { taxonomyType: 'category' } }),
 
-        new InputOption({
-          key: 'authors',
-          label: 'Authors',
-          input: InputAuthors,
-          props: { },
-        }),
+        new InputOption({ key: 'authors', label: 'Authors', input: InputAuthors, props: { } }),
 
       ],
     }),
@@ -195,6 +166,7 @@ function updatePost(config: TablePostConfig) {
 
   props.post?.update(config)
 }
+
 </script>
 
 <template>

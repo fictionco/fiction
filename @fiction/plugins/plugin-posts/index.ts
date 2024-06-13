@@ -40,47 +40,42 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
       caller: 'FictionPosts',
       context: 'app',
       callback: async (pages, meta) => {
-      const { templates } = meta
-      return [
-        ...pages,
-        createCard({
-          templates,
-          regionId: 'main',
-          templateId: 'dash',
-          slug: 'posts',
-          title: 'Posts',
-          cards: [
-            createCard({
-              tpl: new CardTemplate({
-                templateId: 'postIndex',
+        const { templates } = meta
+        return [
+          ...pages,
+          createCard({
+            templates,
+            regionId: 'main',
+            templateId: 'dash',
+            slug: 'posts',
+            title: 'Posts',
+            cards: [
+              createCard({
                 el: vue.defineAsyncComponent(() => import('./el/PagePostIndex.vue')),
               }),
-            }),
-          ],
-          userConfig: {
-            isNavItem: true,
-            navIcon: 'i-tabler-pin',
-            navIconAlt: 'i-tabler-pin-filled',
-          },
-        }),
-        createCard({
-          templates,
-          regionId: 'main',
-          templateId: 'dash',
-          slug: 'post-edit',
-          title: 'Edit Post',
-          cards: [
-            createCard({
-              tpl: new CardTemplate({
-                templateId: 'postEdit',
+            ],
+            userConfig: {
+              isNavItem: true,
+              navIcon: 'i-tabler-pin',
+              navIconAlt: 'i-tabler-pin-filled',
+            },
+          }),
+          createCard({
+            templates,
+            regionId: 'main',
+            templateId: 'dash',
+            slug: 'post-edit',
+            title: 'Edit Post',
+            cards: [
+              createCard({
                 el: vue.defineAsyncComponent(() => import('./el/PagePostEdit.vue')),
               }),
-            }),
-          ],
-          userConfig: { layoutFormat: 'full' },
-        }),
-      ]
-    } })
+            ],
+            userConfig: { layoutFormat: 'full' },
+          }),
+        ]
+      },
+    })
   }
 
   override async setup() {
