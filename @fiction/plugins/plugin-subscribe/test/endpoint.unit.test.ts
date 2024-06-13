@@ -89,9 +89,13 @@ describe('subscriptione endpoint', async () => {
     expect(r.status).toBe('success')
 
     expect(r.data?.length).toBe(2)
-    expect(r.data?.map(_ => _.userId)).toStrictEqual([userId2, userId3])
+    expect(r.data?.map(_ => _.userId)).toStrictEqual([userId3, userId2])
     expect(r.data?.map(_ => _.status)).toStrictEqual(['active', 'active'])
     expect(r.indexMeta?.count).toBe(2)
+
+    const returnUser3 = r.data?.[0]
+
+    expect(returnUser3?.user?.fullName).toBe(user3.fullName)
   })
 
   it('update', async () => {

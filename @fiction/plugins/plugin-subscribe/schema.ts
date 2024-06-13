@@ -1,4 +1,4 @@
-import { type CreateObjectType, type MediaDisplayObject, type SyndicateStatus, type User, standardTable } from '@fiction/core'
+import { type CreateObjectType, type ListItem, type MediaDisplayObject, type SyndicateStatus, type User, standardTable } from '@fiction/core'
 import { FictionDbCol, FictionDbTable } from '@fiction/core/plugin-db'
 import type { TableTaxonomyConfig } from '@fiction/core/plugin-user/types'
 
@@ -46,12 +46,14 @@ const subscribeColumns = [
     create: ({ schema, column }) => schema.string(column.pgKey).defaultTo('standard'),
     default: () => '' as string,
     zodSchema: ({ z }) => z.string(),
+    isSetting: true,
   }),
   new FictionDbCol({
     key: 'status',
     create: ({ schema, column }) => schema.string(column.pgKey, 50).defaultTo('active'),
     default: () => '' as SyndicateStatus,
     zodSchema: ({ z }) => z.string(),
+    isSetting: true,
   }),
   new FictionDbCol({
     key: 'previousStatus',
@@ -63,8 +65,9 @@ const subscribeColumns = [
   new FictionDbCol({
     key: 'inlineTags',
     create: ({ schema, column }) => schema.jsonb(column.pgKey),
-    default: () => [] as string[],
+    default: () => [] as ListItem[],
     zodSchema: ({ z }) => z.array(z.string()).optional(),
+    isSetting: true,
   }),
   // publication user data overrides modifications that will be merged into subscriber user
   new FictionDbCol({
@@ -72,6 +75,7 @@ const subscribeColumns = [
     create: ({ schema, column }) => schema.jsonb(column.pgKey),
     default: () => ({} as Partial<User>),
     zodSchema: ({ z }) => z.record(z.unknown()).optional(),
+    isSetting: true,
   }),
 ] as const
 

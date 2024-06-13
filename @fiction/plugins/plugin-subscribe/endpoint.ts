@@ -1,5 +1,5 @@
 import type { EndpointMeta, EndpointResponse, FictionDb, FictionEmail, FictionEnv, FictionUser, User } from '@fiction/core'
-import { Query, dayjs, prepareFields } from '@fiction/core'
+import { Query, dayjs, deepMerge, prepareFields } from '@fiction/core'
 import { AnalyticsQuery } from '@fiction/analytics/query'
 import { refineTimelineData } from '@fiction/analytics/utils/refine'
 import type { DataCompared, DataPointChart, QueryParams, QueryParamsRefined } from '@fiction/analytics/types'
@@ -149,7 +149,20 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
       offset = (page - 1) * limit
     }
 
-    const subscriptions = await this.db().select('*').from(t.subscribe).where({ orgId, ...where }).limit(limit).offset(offset)
+    const subscriptions = await this.db().select('*').from(t.subscribe).where({ orgId, ...where }).limit(limit).offset(offset).orderBy('updated_at', 'desc')
+
+    // Create an array of promises to fetch user data concurrently
+    await Promise.all(subscriptions.map(async (subscription) => {
+      let user: User | undefined
+      if (subscription.userId) {
+        const userResponse = await this.settings.fictionUser.queries.ManageUser.serve({ _action: 'retrieve', where: { userId: subscription.userId } }, _meta)
+        if (userResponse.status === 'success' && userResponse.data) {
+          user = userResponse.data
+        }
+      }
+      subscription.user = deepMerge([user, subscription.inlineUser])
+    }))
+
     return { status: 'success', data: subscriptions }
   }
 
@@ -160,13 +173,16 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
       return { status: 'error', message: 'where must be an array of conditions' }
     }
 
+    const prepped = prepareFields({ type: 'settings', fields, meta: _meta, fictionDb: this.settings.fictionDb, table: t.subscribe })
+
     const results: Subscriber[] = []
     for (const condition of where) {
       if (Object.values(condition).length !== 1) {
         return { status: 'error', message: 'one and only one where condition should be set' }
       }
       const updatedAt = new Date().toISOString()
-      const result = await this.db().table(t.subscribe).where({ orgId, ...condition }).update({ updatedAt, ...fields }).returning('*')
+
+      const result = await this.db().table(t.subscribe).where({ orgId, ...condition }).update({ ...prepped, updatedAt }).returning('*')
       results.push(...result)
     }
 

@@ -34,7 +34,7 @@ const list = vue.computed<IndexItem[]>(() => {
       name,
       desc: desc.join(' | '),
       href: props.card.link(`/subscriber-view?subscriptionId=${p.subscriptionId}`),
-      media: p.user?.avatar || p.avatar?.url,
+      media: p.user?.avatar || p.avatar,
     } as IndexItem
   })
 })
@@ -71,6 +71,8 @@ async function load(args: { offset?: number, limit?: number } = {}) {
     const r = await endpoint.projectRequest({ _action: 'list', offset, limit })
 
     indexMeta.value = r.indexMeta
+
+    console.warn('RESUTNT', r.data)
 
     subscribers.value = await addAvatarUrl(r.data || [])
   }

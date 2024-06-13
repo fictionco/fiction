@@ -1,11 +1,11 @@
 import { InputOption } from '@fiction/ui'
-import { type StandardServices, gravatarUrl, vue } from '@fiction/core'
+import { type StandardServices, type User, deepMerge, gravatarUrl, vue } from '@fiction/core'
 import { SettingsTool } from '@fiction/admin/types'
 import ElHeader from '@fiction/admin/settings/ElHeader.vue'
+
 import type { Subscriber } from '../schema'
 import type { FictionSubscribe } from '..'
 import ElImportFile from './ElImportFile.vue'
-import ElSubscriberList from './ElSubscriberList.vue'
 
 const def = vue.defineAsyncComponent
 
@@ -35,7 +35,18 @@ export async function saveSubscriber(args: { fictionSubscribe: FictionSubscribe,
   if (!subscriptionId)
     throw new Error('No subscriptionId found')
 
-  await fictionSubscribe.requests.ManageSubscription.projectRequest({ _action: 'update', where: [{ subscriptionId }], fields: subscriber })
+  const r = await fictionSubscribe.requests.ManageSubscription.projectRequest({ _action: 'update', where: [{ subscriptionId }], fields: subscriber })
+
+  if (r.status === 'success' && r.data?.[0]) {
+    fictionSubscribe.cacheKey.value++
+
+    fictionSubscribe.fictionEnv.events.emit('notify', {
+      type: 'success',
+      message: 'Subscriber saved',
+    })
+
+    return r.data[0]
+  }
 }
 
 export function getViewSubscriberTools(args: { fictionSubscribe: FictionSubscribe, subscriber: vue.Ref<Subscriber> }) {
@@ -43,9 +54,14 @@ export function getViewSubscriberTools(args: { fictionSubscribe: FictionSubscrib
 
   const avatar = vue.ref({})
 
-  vue.watchEffect(async () => {
+  const user = vue.computed(() => {
     const s = subscriber.value
-    avatar.value = s.inlineUser?.avatar ? s.inlineUser?.avatar : (await gravatarUrl(s.email, { size: 400, default: 'identicon' }))
+    return deepMerge([s, s.user, s.inlineUser]) as User
+  })
+
+  vue.watchEffect(async () => {
+    const u = user.value
+    avatar.value = u?.avatar ? u?.avatar : (await gravatarUrl(u.email, { size: 400, default: 'identicon' }))
   })
 
   const tools = [
@@ -66,7 +82,12 @@ export function getViewSubscriberTools(args: { fictionSubscribe: FictionSubscrib
             name: 'Save Subscriber',
             onClick: async () => {
               loading.value = true
-              await saveSubscriber({ fictionSubscribe, subscriber: subscriber.value })
+              const result = await saveSubscriber({ fictionSubscribe, subscriber: subscriber.value })
+
+              if (result) {
+                subscriber.value = result
+              }
+
               loading.value = false
             },
             loading: loading.value,
@@ -81,7 +102,7 @@ export function getViewSubscriberTools(args: { fictionSubscribe: FictionSubscrib
             key: 'subscriberHeader',
             input: ElHeader,
             props: {
-              heading: subscriber.value.email,
+              heading: user.value.fullName || user.value.email,
               subheading: 'Subscriber',
               avatar: avatar.value,
             },
