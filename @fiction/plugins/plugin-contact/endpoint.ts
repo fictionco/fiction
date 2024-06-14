@@ -7,6 +7,7 @@ import type {
 } from '@fiction/core'
 import {
   Query,
+  abort,
   isTest,
   prepareFields,
 } from '@fiction/core'
@@ -46,7 +47,8 @@ export class QueryManageSubmission extends ContactQuery {
     meta: EndpointMeta,
   ): Promise<EndpointResponse<TableSubmissionConfig>> {
     if (!this.fictionDb)
-      throw this.stop('no fictionDb')
+      throw abort('no fictionDb')
+
     const { _action, submission } = params
 
     const db = this.fictionDb.client()

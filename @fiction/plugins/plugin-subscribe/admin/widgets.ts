@@ -1,10 +1,14 @@
-import { AnalyticsWidget } from '@fiction/admin/dashboard/widget'
+import { Widget } from '@fiction/admin/dashboard/widget'
 import { vue } from '@fiction/core'
+import type { AnalyticsQuery } from '@fiction/analytics/query.js'
 import { type SubscriberEndpointSettings, SubscriptionAnalytics } from '../endpoint.js'
+
+
 
 export function getWidgets(service: SubscriberEndpointSettings) {
   const query = new SubscriptionAnalytics({ ...service, key: 'subscriptionAnalytics' })
-  const subscribers = new AnalyticsWidget({
+
+  const subscribers = new Widget({
     key: 'subscribers',
     query,
     title: 'Subscribers',
@@ -14,7 +18,7 @@ export function getWidgets(service: SubscriberEndpointSettings) {
     valueKey: 'subscriptions',
   })
 
-  const unsubscribes = new AnalyticsWidget({
+  const unsubscribes = new Widget({
     key: 'unsubscribes',
     query,
     title: 'Unsubscribes',

@@ -299,7 +299,7 @@ export class QueryManageMedia extends MediaQuery {
         message = 'deleted successfully'
         break
       default:
-        throw this.abort('Invalid action')
+        throw abort('Invalid action')
     }
 
     if (!media)

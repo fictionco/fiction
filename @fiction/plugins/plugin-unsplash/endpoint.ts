@@ -2,7 +2,7 @@ import * as un from 'unsplash-js'
 import nodeFetch from 'node-fetch'
 import { Query } from '@fiction/core/query'
 import type { EndpointResponse } from '@fiction/core/types'
-import type { EndpointMeta } from '@fiction/core'
+import { type EndpointMeta, abort } from '@fiction/core'
 import type { FictionUnsplash } from '.'
 
 interface FictionUnsplashSettings {
@@ -61,7 +61,7 @@ export class QueryUnsplash extends Query<FictionUnsplashSettings> {
     }
 
     if (r?.errors)
-      throw this.stop('unsplash error', { data: r.errors })
+      throw abort('unsplash error', { data: r.errors })
 
     return { status: 'success', data: data as UnsplashPhoto[] }
   }

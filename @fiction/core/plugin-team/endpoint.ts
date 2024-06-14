@@ -1,3 +1,4 @@
+import { abort } from '../utils/error.js'
 import { Query } from '../query.js'
 import type { FictionDb } from '../plugin-db/index.js'
 import type { FictionRouter } from '../plugin-router/index.js'
@@ -89,7 +90,7 @@ export class QuerySeekInviteFromUser extends TeamQuery {
     const { data: user } = await this.settings.fictionUser.queries.ManageUser.serve({ _action: 'retrieve', where: { email } }, meta)
 
     if (!user)
-      throw this.stop('request invite error')
+      throw abort('request invite error')
 
     const { fullName } = user
 
@@ -144,12 +145,12 @@ export class QueryTeamInvite extends TeamQuery {
     const { bearer } = meta
 
     if (!invites || invites.length === 0)
-      throw this.stop('no invites were set')
+      throw abort('no invites were set')
 
     const { data: org } = await this.settings.fictionUser.queries.ManageOrganization.serve({ _action: 'retrieve', where: { orgId } }, meta)
 
     if (!org)
-      throw this.stop(`couldn't find organization`)
+      throw abort(`couldn't find organization`)
 
     const invitedById = bearer?.userId
 
@@ -188,7 +189,7 @@ export class QueryTeamInvite extends TeamQuery {
       }
 
       if (!user?.userId)
-        throw this.stop('error creating user')
+        throw abort('error creating user')
 
       await this.settings.fictionUser.queries.ManageMemberRelation.serve(
         {

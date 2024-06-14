@@ -1,4 +1,4 @@
-import { Query, standardTable } from '@fiction/core'
+import { Query, abort, standardTable } from '@fiction/core'
 import type { EndpointManageAction, EndpointMeta, EndpointResponse, FictionDb, FictionEnv, FictionUser, Organization, OrganizationCustomerData } from '@fiction/core'
 import type Stripe from 'stripe'
 import type { CustomerData } from './types'
@@ -150,7 +150,7 @@ export class QueryManageCustomer extends QueryPayments {
     }
     else if (_action === 'update') {
       if (!customer)
-        throw this.stop('no customer to update')
+        throw abort('no customer to update')
       customer = await stripe.customers.update(customer.id, { email, name })
     }
 
@@ -163,7 +163,7 @@ export class QueryListSubscriptions extends QueryPayments {
     const { orgId } = params
 
     if (!orgId)
-      throw this.stop('no orgId')
+      throw abort('no orgId')
 
     const { customer } = await this.getCustomer(orgId)
 

@@ -1,12 +1,5 @@
-import type {
-  EndpointMeta,
-  EndpointResponse,
-  FictionDb,
-  FictionUser,
-} from '@fiction/core'
-import {
-  Query,
-} from '@fiction/core'
+import type { EndpointMeta, EndpointResponse, FictionDb, FictionUser } from '@fiction/core'
+import { Query, abort } from '@fiction/core'
 import type { TableUsageConfig } from './tables'
 import { tableNames } from './tables'
 
@@ -39,9 +32,9 @@ export class QueryManageUsage extends QueryUsage {
     const { _action, orgId, userId, usageConfig } = params
 
     if (!_action)
-      throw this.stop('_action required')
+      throw abort('_action required')
     if (!_action)
-      throw this.stop('orgId required')
+      throw abort('orgId required')
 
     const db = this.fictionDb.client()
 
@@ -65,7 +58,7 @@ export class QueryManageUsage extends QueryUsage {
       const { cycleStartAtIso, cycleEndAtIso } = params
 
       if (!cycleStartAtIso || !cycleEndAtIso)
-        throw this.stop('cycle dates required')
+        throw abort('cycle dates required')
 
       const select = [`sum(credits) as credits`]
       const usage = await db

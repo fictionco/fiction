@@ -278,7 +278,7 @@ export class ManageSite extends SitesQuery {
        */
       const _promises = (themeSite.pages || []).map(async (region) => {
         if (!siteId)
-          throw this.abort('ENDPOINT: siteId missing')
+          throw abort('ENDPOINT: siteId missing')
 
         const fields = { ...region, siteId } as const
 

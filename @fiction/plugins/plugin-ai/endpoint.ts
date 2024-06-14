@@ -1,5 +1,5 @@
 import type { EndpointMeta, EndpointResponse, TableMediaConfig } from '@fiction/core'
-import { Query, Shortcodes, objectId, toLabel } from '@fiction/core'
+import { Query, Shortcodes, abort, objectId, toLabel } from '@fiction/core'
 import type { PineconeRecord, RecordMetadata } from '@pinecone-database/pinecone'
 import { Pinecone } from '@pinecone-database/pinecone'
 import OpenAI from 'openai'
@@ -42,10 +42,10 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
 
   async getPineconeIndex(namespace: string) {
     if (!this.settings.pineconeApiKey)
-      throw this.stop('pineconeApiKey required')
+      throw abort('pineconeApiKey required')
 
     if (!this.settings.pineconeIndex)
-      throw this.stop('pineconeIndex required')
+      throw abort('pineconeIndex required')
 
     const pc = new Pinecone({
       apiKey: this.settings.pineconeApiKey,
@@ -128,13 +128,13 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
     let { referenceInfo = '' } = args
 
     if (!baseInstruction)
-      throw this.stop('basePrompt required')
+      throw abort('basePrompt required')
 
     const openAi = this.getOpenAiApi()
 
     if (useSimilaritySearch) {
       if (!searchNamespace)
-        throw this.stop('searchNamespace required')
+        throw abort('searchNamespace required')
 
       const sourceDocuments = await this.similaritySearch({ runPrompt, searchNamespace })
 
@@ -275,9 +275,9 @@ export class QueryManageVectors extends QueryAi {
     const { _action, orgId, namespace } = params
 
     if (!_action)
-      throw this.stop('action required')
+      throw abort('action required')
     if (!orgId)
-      throw this.stop('userId required')
+      throw abort('userId required')
 
     const message: string | undefined = undefined
     const data: unknown = undefined
@@ -322,13 +322,13 @@ export class AiCompletion extends QueryAi {
     const { _action, runPrompt, searchNamespace } = params
 
     if (!_action)
-      throw this.stop('action required')
+      throw abort('action required')
 
     const data: AiResult = { referenceInfo: '', messages: [] }
 
     if (_action === 'similaritySearch') {
       if (!searchNamespace)
-        throw this.stop('searchNamespace required')
+        throw abort('searchNamespace required')
 
       const r = await this.similaritySearch({ runPrompt, searchNamespace })
       data.referenceInfo = r.map(d => d.pageContent).join('\n\n')
@@ -338,7 +338,7 @@ export class AiCompletion extends QueryAi {
       return await this.getChatCompletion(params)
     }
     else {
-      throw this.stop('invalid action')
+      throw abort('invalid action')
     }
   }
 }
@@ -361,10 +361,10 @@ export class AiImage extends QueryAi {
     const fictionMedia = this.settings.fictionMedia
 
     if (!fictionMedia)
-      throw this.stop('fictionMedia required')
+      throw abort('fictionMedia required')
 
     if (!_action)
-      throw this.stop('action required')
+      throw abort('action required')
 
     let data: TableMediaConfig | undefined = undefined
 
@@ -380,7 +380,7 @@ export class AiImage extends QueryAi {
       const url = response.data[0].url
 
       if (!url)
-        throw this.stop('no image url returned')
+        throw abort('no image url returned')
 
       const r = await fictionMedia.queries.ManageMedia.serve({ _action: 'createFromUrl', orgId, userId, fields: { prompt, sourceImageUrl: url } }, _meta)
 

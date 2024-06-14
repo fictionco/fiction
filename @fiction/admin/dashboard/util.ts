@@ -18,8 +18,9 @@ export async function runWidgetRequests(args: { widgets?: Widget[], fictionAdmin
   }
 
   const q = widgets.reduce((acc, widget) => {
-    if (widget.query) {
-      acc[widget.query.key] = widget.query
+    const q = widget.query as AnalyticsQuery
+    if (q.key) {
+      acc[q.key] = q
     }
     return acc
   }, {} as Record<string, AnalyticsQuery>)
@@ -49,8 +50,12 @@ function getWidgetQueries(args: { widgetMap: WidgetMap }): Record<string, Analyt
   const entries = Object.entries(widgetMap)
   return entries.reduce((acc, [_key, widgets]) => {
     widgets.forEach((widget) => {
-      if (widget.query) {
-        acc[widget.query.key] = widget.query
+      const q = widget.query as AnalyticsQuery
+      if (q.settings.key) {
+        acc[q.settings.key] = q
+      }
+      else {
+        logger.error('Widget query key not found', { widget })
       }
     })
 

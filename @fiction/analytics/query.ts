@@ -12,7 +12,6 @@ T extends DataCompared = DataCompared,
 U extends object = object,
 > extends Query<AnalyticsQuerySettings<U>> {
   db = () => this.settings.fictionDb.client()
-  key = this.settings.key
   data = vue.ref<T>()
   queryParams = vue.ref<QueryParams>({})
   abstract dataKeys: readonly string[]

@@ -4,16 +4,21 @@ import { abort } from './utils/error.js'
 import type { EndpointResponse } from './types/index.js'
 import type { EndpointMeta } from './utils/endpoint.js'
 
-export abstract class Query<T extends object = object> {
+export type QueryConfig = {
+  key?: string
+  [key: string]: any
+}
+
+export abstract class Query<T extends Record<string, any> = Record<string, any>> {
   name: string
   settings: T
-  stop = abort
-  abort = abort
   log: LogHelper
+  key?: string
   constructor(settings: T) {
     this.name = this.constructor.name
     this.settings = settings
     this.log = log.contextLogger(this.name)
+    this.key = settings.key
   }
 
   allowed(_params: Parameters<this['run']>[0], _meta: Parameters<this['run']>[1]): boolean | Promise<boolean> {
@@ -37,7 +42,7 @@ export abstract class Query<T extends object = object> {
       const allowed = await this.allowed(params, meta)
 
       if (!allowed)
-        throw this.abort('unauthorized', { code: 'PERMISSION_DENIED' })
+        throw abort('unauthorized', { code: 'PERMISSION_DENIED' })
 
       const result = await this.run(params, meta)
 

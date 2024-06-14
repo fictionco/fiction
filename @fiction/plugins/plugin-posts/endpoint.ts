@@ -1,5 +1,5 @@
 import type { DataFilter, EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser, TableTaxonomyConfig } from '@fiction/core'
-import { Query, deepMerge, incrementSlugId, objectId, prepareFields, standardTable, toLabel, toSlug } from '@fiction/core'
+import { Query, abort, deepMerge, incrementSlugId, objectId, prepareFields, standardTable, toLabel, toSlug } from '@fiction/core'
 import type { TablePostConfig } from './schema'
 import { t } from './schema'
 import type { FictionPosts } from '.'
@@ -103,10 +103,10 @@ export class QueryManagePost extends PostsQuery {
     const db = this.db()
 
     if (!orgId)
-      throw this.abort('orgId is required to get a post')
+      throw abort('orgId is required to get a post')
 
     if (!postId && !slug)
-      throw this.abort('postId or slug is required to get a post')
+      throw abort('postId or slug is required to get a post')
 
     const queryKey = slug ? { slug } : { postId }
 
@@ -115,7 +115,7 @@ export class QueryManagePost extends PostsQuery {
     let post = await query.first<TablePostConfig>()
 
     if (!post)
-      throw this.abort('Post not found')
+      throw abort('Post not found')
 
     if (post.postId) {
       post.authors = await db.select([`${t.user}.userId`, `${t.user}.email`, `${t.user}.fullName`, `${t.postAuthor}.priority`]).from(t.postAuthor).join(t.user, `${t.user}.user_id`, `=`, `${t.postAuthor}.user_id`).where(`${t.postAuthor}.post_id`, post.postId).orderBy(`${t.postAuthor}.priority`, 'asc')
@@ -142,17 +142,17 @@ export class QueryManagePost extends PostsQuery {
     const { postId, fields, orgId } = params
 
     if (!postId)
-      throw this.abort('postId is required to update a post')
+      throw abort('postId is required to update a post')
 
     if (!orgId)
-      throw this.abort('orgId is required to update a post')
+      throw abort('orgId is required to update a post')
 
     fields.updatedAt = new Date().toISOString()
 
     // Retrieve current post details
     const currentPost = await this.getPost({ postId, orgId, select: ['status', 'dateAt', 'slug'], caller: 'updatePostGetExisting' }, _meta)
     if (!currentPost)
-      throw this.abort('Post not found')
+      throw abort('Post not found')
 
     if (fields.slug && fields.slug !== currentPost.slug)
       fields.slug = await this.getSlugId({ orgId, postId, fields })
@@ -309,7 +309,7 @@ export class QueryManagePost extends PostsQuery {
     const { fields, orgId, userId } = params
 
     if (!orgId || !userId)
-      throw this.abort('userId and orgId are required to create a post')
+      throw abort('userId and orgId are required to create a post')
 
     // Ensure the slug is unique within the organization
     fields.slug = await this.getSlugId({ orgId, fields })
@@ -338,7 +338,7 @@ export class QueryManagePost extends PostsQuery {
     const { postId, orgId } = args
 
     if (!orgId)
-      throw this.abort('orgId is required to delete a post')
+      throw abort('orgId is required to delete a post')
 
     const db = this.db()
     // Ensure the post exists before deleting it, error if it doesn't
@@ -469,7 +469,7 @@ export class QueryManageTaxonomy extends PostsQuery {
     const db = this.db()
 
     if (!selectors || selectors.length === 0)
-      throw this.abort('No selectors provided')
+      throw abort('No selectors provided')
 
     const results = await Promise.all(selectors.map((s) => {
       const { slug, taxonomyId } = s
@@ -591,7 +591,7 @@ type ManageIndexResponse = EndpointResponse<TablePostConfig[]> & {
 export class ManagePostIndex extends PostsQuery {
   async run(params: ManageIndexParams, _meta: EndpointMeta): Promise<ManageIndexResponse> {
     if (!params._action)
-      throw this.abort('Action parameter is required.')
+      throw abort('Action parameter is required.')
 
     switch (params._action) {
       case 'list':
@@ -599,7 +599,7 @@ export class ManagePostIndex extends PostsQuery {
       case 'delete':
         return this.deletePosts(params.selectedIds)
       default:
-        throw this.abort(`Unsupported action '${params._action as string}'`)
+        throw abort(`Unsupported action '${params._action as string}'`)
     }
   }
 
@@ -607,7 +607,7 @@ export class ManagePostIndex extends PostsQuery {
     const { orgId, limit = 10, offset = 0, filters = [], loadDraft = false } = args
 
     if (!orgId)
-      throw this.abort('orgId is required to list posts')
+      throw abort('orgId is required to list posts')
 
     let posts = await this.fetchPosts({ orgId, limit, offset, filters })
 
@@ -667,7 +667,7 @@ export class ManagePostIndex extends PostsQuery {
 
   private async deletePosts(selectedIds?: string[]): Promise<ManageIndexResponse> {
     if (!selectedIds || selectedIds.length === 0)
-      throw this.abort('No posts selected for deletion')
+      throw abort('No posts selected for deletion')
 
     await this.db()(t.posts)
       .whereIn('post_id', selectedIds)
