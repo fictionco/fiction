@@ -7,20 +7,22 @@ import type { FictionCache } from '@fiction/core/plugin-cache'
 import type { FictionEvent } from '../tracking.js'
 import type { FictionClickHouse } from '../plugin-clickhouse/index.js'
 import { eventsTable, sessionsTable } from '../tables.js'
+import type { FictionAnalytics } from '../index.js'
 import type { SessionTimers } from './session.js'
 import { SessionManager } from './session.js'
 
 export * from '../tables.js'
 
 type FictionBeaconSettings = {
-  isLive?: vue.Ref<boolean>
-  sessionPort: number
-  sessionUrlLive?: string
   beaconPort: number
+  sessionPort?: number
+  isLive?: vue.Ref<boolean>
+  sessionUrlLive?: string
   beaconUrlLive?: string
   eventsPubSubId?: string
   fictionCache: FictionCache
   fictionClickHouse: FictionClickHouse
+  fictionAnalytics: FictionAnalytics
 } & FictionPluginSettings & SessionTimers
 
 export class FictionBeacon extends FictionPlugin<FictionBeaconSettings> {

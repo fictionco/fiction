@@ -182,7 +182,7 @@ const fictionTeam = new FictionTeam({ ...pluginServices })
 
 const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp, fictionAppSites] })
 
-const fictionAnalytics = new FictionAnalytics({ clickhouseUrl, ...pluginServices })
+const fictionAnalytics = new FictionAnalytics({ clickhouseUrl, ...pluginServices, beaconPort: +fictionEnv.var('BEACON_PORT') })
 
 const baseService = { ...pluginServices, fictionAnalytics, fictionSites, fictionTeam, fictionUi, fictionStripe, fictionSubscribe }
 

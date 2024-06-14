@@ -6,6 +6,7 @@ import { EnvVar, vars } from '@fiction/core/plugin-env'
 import type { QueryParamsRefined, TimeLineInterval } from '../types.js'
 import { eventFields } from '../plugin-beacon/index.js'
 import { getSessionQuerySelectors } from '../tables.js'
+import type { FictionAnalytics } from '../index.js'
 import type { ClickHouseQueryResult } from './types.js'
 import { QueryGetClientSessions, QueryGetDimensionList, QueryGetTotalSessions } from './endpoints.js'
 import type { FictionAnalyticsTable } from './utils.js'
@@ -18,6 +19,7 @@ type FictionClickHouseSettings = {
   clickhouseUrl?: string
   fictionServer: FictionServer
   fictionUser?: FictionUser
+  fictionAnalytics?: FictionAnalytics
   tables?: FictionAnalyticsTable[]
 } & FictionPluginSettings
 

@@ -8,15 +8,17 @@ import { testEnvFile } from '@fiction/core/test-utils'
 import { runServicesSetup } from '@fiction/core/plugin-env/entry.js'
 import { FictionClient } from '@fiction/core/tag/client.js'
 import type { FictionEvent, FictionEventUserDefined } from '../tracking.js'
-import { FictionBeacon } from '../plugin-beacon/index.js'
-import { FictionClickHouse } from '../plugin-clickhouse/index.js'
+import type { FictionBeacon } from '../plugin-beacon/index.js'
+import type { FictionClickHouse } from '../plugin-clickhouse/index.js'
+import { FictionAnalytics } from '../index.js'
 
 export type AnalyticsTestUtils = TestUtils & {
   fictionMedia: FictionMedia
   fictionAws: FictionAws
-  fictionBeacon: FictionBeacon
-  fictionClickHouse: FictionClickHouse
+  fictionAnalytics: FictionAnalytics
   fictionCache: FictionCache
+  fictionClickhouse: FictionClickHouse
+  fictionBeacon: FictionBeacon
   runApp: (args: { context: 'app' | 'node', isProd?: boolean }) => Promise<void>
   close: () => Promise<void>
   start: () => Promise<AnalyticsInitializedTestUtils>
@@ -46,16 +48,9 @@ export async function createAnalyticsTestUtils(args: { mainFilePath?: string, co
   const { beaconPort, sessionPort } = setupTestPorts({ opts: args, envVars: ['BEACON_PORT', 'SESSION_PORT'] as const, context })
 
   out.fictionCache = new FictionCache({ ...out, redisUrl: 'http://localhost:8123' })
-  out.fictionClickHouse = new FictionClickHouse({ ...out, clickhouseUrl: 'http://localhost:8123' })
-
-  out.fictionBeacon = new FictionBeacon({
-    ...(out as AnalyticsTestUtils),
-    beaconPort,
-    sessionPort,
-    sessionExpireAfterMs: 5000,
-    checkExpiredIntervalMs: 100,
-    bufferIntervalMs: 100,
-  })
+  out.fictionAnalytics = new FictionAnalytics({ ...(out as AnalyticsTestUtils), clickhouseUrl: 'http://localhost:8123', beaconPort })
+  out.fictionClickhouse = out.fictionAnalytics.fictionClickhouse
+  out.fictionBeacon = out.fictionAnalytics.fictionBeacon
 
   await runServicesSetup(out, { context: 'test' })
 
@@ -65,7 +60,7 @@ export async function createAnalyticsTestUtils(args: { mainFilePath?: string, co
 
   out.start = async (): Promise<AnalyticsInitializedTestUtils> => {
     const promises = [
-      out.fictionClickHouse?.init(),
+      out.fictionAnalytics?.fictionClickhouse?.init(),
       out.fictionCache?.init(),
     ]
 
@@ -86,8 +81,7 @@ export async function createAnalyticsTestUtils(args: { mainFilePath?: string, co
   out.close = async () => {
     await testUtils.close()
     await out.fictionBeacon?.close()
-    await out.fictionCache?.close()
-    await out.fictionClickHouse?.close()
+    await out.fictionAnalytics?.close()
   }
 
   return out as AnalyticsTestUtils

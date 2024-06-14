@@ -37,6 +37,7 @@ env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
   AWS_BUCKET_MEDIA: ${{ secrets.AWS_BUCKET_MEDIA }}
   REDIS_URL: ${{ secrets.REDIS_URL }}
+  CLICKHOUSE_URL: ${{ secrets.CLICKHOUSE_URL }}
   STRIPE_SECRET_KEY_TEST: ${{ secrets.STRIPE_SECRET_KEY_TEST }}
   TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
   GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
@@ -68,6 +69,9 @@ jobs:
 
       - name: List files in workspace
         run: ls -alh ${{ github.workspace }}
+
+      - name: List files in workspace
+        run: ls -alh /home/runner/work/_temp/_github_logs/
 
       - name: Install Vector for Better Stack
         run: |

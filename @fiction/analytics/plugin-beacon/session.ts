@@ -7,9 +7,9 @@ import { eventFields } from '../tables'
 import { ReferrerUtility, getGeo, parseUa, standardUrl } from './utils'
 
 export interface SessionTimers {
-  sessionExpireAfterMs: number
-  checkExpiredIntervalMs: number
-  bufferIntervalMs: number
+  sessionExpireAfterMs?: number
+  checkExpiredIntervalMs?: number
+  bufferIntervalMs?: number
   fictionClickHouse: FictionClickHouse
   fictionCache: FictionCache
 }

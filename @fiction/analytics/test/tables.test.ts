@@ -75,29 +75,31 @@ describe('standard tables', async () => {
   })
 
   it('runs correctly with subquery', async () => {
-    const { fictionClickHouse } = testUtils
+    const { fictionAnalytics } = testUtils
 
-    if (!fictionClickHouse)
+    const fictionClickhouse = fictionAnalytics.fictionClickhouse
+
+    if (!fictionClickhouse)
       throw new Error('no clickhouse')
 
     await saveFictionEvents(testUtils, fictionClient)
 
-    const cli = fictionClickHouse.client()
+    const cli = fictionClickhouse.client()
 
-    const base = cli.from(fictionClickHouse.tableEvents)
+    const base = cli.from(fictionClickhouse.tableEvents)
 
-    const query = fictionClickHouse
+    const query = fictionClickhouse
       .sessionTable({ base })
       .orderBy('session_endedAt', 'desc')
       .whereRaw(
-        `toYYYYMMDDhhmmss(session_timestamp) > ${fictionClickHouse.formatTime(
+        `toYYYYMMDDhhmmss(session_timestamp) > ${fictionClickhouse.formatTime(
           dayjs().subtract(8, 'hour'),
         )} `,
       )
       .andWhereRaw(`session_anonymousId = '${testUtils.anonymousId}'`)
       .limit(1)
 
-    const { data } = await fictionClickHouse.clickHouseSelect<SessionParams[]>(query)
+    const { data } = await fictionClickhouse.clickHouseSelect<SessionParams[]>(query)
 
     expect(data.length).toBeGreaterThan(0)
 
