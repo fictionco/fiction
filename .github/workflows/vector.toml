@@ -1,13 +1,11 @@
-# vector.toml
-[sources.github_actions]
+[sources.github_actions_logs]
 type = "file"
-include = ["/github/home/actions-runner/_work/_temp/_runner_file_commands/*"]
+include = ["/home/runner/work/_temp/_github_home/workflow/event.json", "/home/runner/work/_temp/_runner_file_commands/add_mask.command"]
 read_from = "beginning"
+ignore_older_secs = 60  # Ignore logs older than 60 seconds
 
-[sinks.better_stack]
+[sinks.betterstack]
 type = "http"
-inputs = ["github_actions"]
-uri = "https://in.logs.betterstack.com/"
+inputs = ["github_actions_logs"]
+uri = "https://logs.betterstack.com/${BETTER_STACK_SOURCE_TOKEN}"
 encoding.codec = "json"
-auth.strategy = "bearer"
-auth.token = "${BETTER_STACK_SOURCE_TOKEN}"

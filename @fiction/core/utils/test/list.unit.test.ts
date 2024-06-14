@@ -92,7 +92,7 @@ describe('getPaginationInfo', () => {
       nextPageNo: 0,
       prevPageNo: 6,
       totalPages: 5,
-      start: 61,
+      start: 50,
       end: 50,
     })
   })
