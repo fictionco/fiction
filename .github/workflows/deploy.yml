@@ -63,6 +63,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      - name: Get The Code
+        uses: actions/checkout@v4
+
       - name: Install Vector for Better Stack
         run: |
           curl -sSL https://logs.betterstack.com/setup-vector/ubuntu/${{ secrets.BETTER_STACK_SOURCE_TOKEN }} \
@@ -91,9 +94,6 @@ jobs:
             "branch": "${{ github.ref_name }}"
           }' > ./buildInfo.json
         shell: bash
-
-      - name: Get The Code
-        uses: actions/checkout@v4
 
       - name: Set up DNS for subdomain testing
         run: |

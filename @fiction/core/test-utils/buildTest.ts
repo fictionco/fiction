@@ -225,21 +225,21 @@ export async function performActions(args: {
           break
         }
         case 'visible': {
-          await element.waitFor({ state: 'visible', timeout: 10000 })
+          await element.first().waitFor({ state: 'visible', timeout: 10000 })
           const isVisible = await element.isVisible()
           logger.info('IS_VISIBLE', { data: { result: isVisible, selector: action.selector } })
           expect(isVisible, `${action.selector} is visible`).toBe(true)
           break
         }
         case 'exists': {
-          await element.waitFor({ state: 'attached', timeout: 10000 })
+          await element.first().waitFor({ state: 'attached', timeout: 10000 })
           const exists = await element.count()
           logger.info('EXISTS', { data: { result: exists, selector: action.selector } })
           expect(exists, `${action.selector} exists`).toBeGreaterThan(0)
           break
         }
         case 'count': {
-          await element.waitFor({ state: 'attached', timeout: 10000 })
+          await element.first().waitFor({ state: 'attached', timeout: 10000 })
           const cnt = await element.count()
           logger.info('CNT', { data: { result: cnt, selector: action.selector } })
           expect(cnt, `${action.selector} count ${cnt}`).toBe(cnt)
