@@ -51,7 +51,7 @@ env:
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
   SHOULD_DEPLOY: ${{ contains(github.event.head_commit.message, '-d') }}
   SHOULD_RELEASE: ${{ contains(github.event.head_commit.message, '-r') }}
-
+  BETTER_STACK_SOURCE_TOKEN: ${{ secrets.BETTER_STACK_SOURCE_TOKEN }}
 jobs:
   test:
     if: 'contains(github.event.head_commit.message, ''skip'') == false'
@@ -63,14 +63,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Install Vector for Better Stack
+      - name: Set up and configure Vector for Better Stack
         run: |
-          curl -sSL https://logs.betterstack.com/setup-vector/ubuntu/${{secrets.BETTER_STACK_SOURCE_TOKEN }} \
+          curl -sSL https://logs.betterstack.com/setup-vector/ubuntu/${{ secrets.BETTER_STACK_SOURCE_TOKEN }} \
             -o /tmp/setup-vector.sh && \
             bash /tmp/setup-vector.sh
 
-      - name: Configure Vector to Capture GitHub Actions Logs
-        run: |
+          # Create Vector configuration to capture GitHub Actions logs
           sudo tee /etc/vector/vector.toml <<EOF
           [sources.github_actions]
           type = "file"
@@ -83,10 +82,13 @@ jobs:
           uri = "https://in.logs.betterstack.com/"
           encoding.codec = "json"
           auth.strategy = "bearer"
-          auth.token = "$SOURCE_TOKEN"
+          auth.token = "$BETTER_STACK_SOURCE_TOKEN"
           EOF
+
+          # Restart Vector to apply the new configuration
+          sudo systemctl restart vector
         env:
-          SOURCE_TOKEN: ${{ secrets.BETTER_STACK_SOURCE_TOKEN }}
+          BETTER_STACK_SOURCE_TOKEN: ${{ secrets.BETTER_STACK_SOURCE_TOKEN }}
 
       - name: Debug Info
         run: |
