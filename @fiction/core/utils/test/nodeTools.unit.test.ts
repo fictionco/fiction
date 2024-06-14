@@ -56,13 +56,13 @@ describe('node utils', () => {
       [
         "fictionAdmin",
         "fictionAi",
+        "fictionAnalytics",
         "fictionApp",
         "fictionAppSites",
         "fictionAws",
         "fictionCache",
         "fictionDb",
         "fictionEmail",
-        "fictionTransactions",
         "fictionEnv",
         "fictionExtend",
         "fictionMedia",
@@ -74,6 +74,7 @@ describe('node utils', () => {
         "fictionStripe",
         "fictionSubscribe",
         "fictionTeam",
+        "fictionTransactions",
         "fictionUi",
         "fictionUser",
       ]

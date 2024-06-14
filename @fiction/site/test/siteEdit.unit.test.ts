@@ -212,7 +212,7 @@ describe('site plugin tests', async () => {
     expect(siteObj.pages.value.map(m => m.templateId.value).sort()).toMatchInlineSnapshot(`
       [
         "testWrap",
-        "transaction",
+        "wrap",
         "wrap",
         "wrap",
       ]

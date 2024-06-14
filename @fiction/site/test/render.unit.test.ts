@@ -143,7 +143,7 @@ describe('siteRendering Tests', async () => {
           1,
         ],
         [
-          "transaction",
+          "wrap",
           "main",
           undefined,
           1,

@@ -6,6 +6,7 @@
 export interface CompiledServiceConfig {
   commands: 'app' | 'build' | 'dev' | 'r-dev' | 'render' | 'server'
   vars:
+    | 'APOLLO_API_KEY'
     | 'APP_PORT'
     | 'AWS_ACCESS_KEY'
     | 'AWS_ACCESS_KEY_SECRET'
