@@ -1,0 +1,13 @@
+# vector.toml
+[sources.github_actions]
+type = "file"
+include = ["/github/home/actions-runner/_work/_temp/_runner_file_commands/*"]
+read_from = "beginning"
+
+[sinks.better_stack]
+type = "http"
+inputs = ["github_actions"]
+uri = "https://in.logs.betterstack.com/"
+encoding.codec = "json"
+auth.strategy = "bearer"
+auth.token = "${BETTER_STACK_SOURCE_TOKEN}"

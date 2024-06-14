@@ -63,29 +63,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Set up and configure Vector for Better Stack
+      - name: Install Vector for Better Stack
         run: |
           curl -sSL https://logs.betterstack.com/setup-vector/ubuntu/${{ secrets.BETTER_STACK_SOURCE_TOKEN }} \
             -o /tmp/setup-vector.sh && \
             bash /tmp/setup-vector.sh
 
-          # Create Vector configuration to capture GitHub Actions logs
-          sudo tee /etc/vector/vector.toml <<EOF
-          [sources.github_actions]
-          type = "file"
-          include = ["/github/home/actions-runner/_work/_temp/_runner_file_commands/*"]
-          read_from = "beginning"
-
-          [sinks.better_stack]
-          type = "http"
-          inputs = ["github_actions"]
-          uri = "https://in.logs.betterstack.com/"
-          encoding.codec = "json"
-          auth.strategy = "bearer"
-          auth.token = "$BETTER_STACK_SOURCE_TOKEN"
-          EOF
-
-          # Restart Vector to apply the new configuration
+      - name: Configure Vector with custom configuration
+        run: |
+          envsubst < vector.toml > /etc/vector/vector.toml
           sudo systemctl restart vector
         env:
           BETTER_STACK_SOURCE_TOKEN: ${{ secrets.BETTER_STACK_SOURCE_TOKEN }}
