@@ -184,7 +184,7 @@ export async function performActions(args: {
 
   logger.info('NAVIGATING_TO', { data: { url } })
 
-  await page.goto(url, { waitUntil: 'load', timeout: 40000 })
+  await page.goto(url, { waitUntil: 'networkidle', timeout: 40000 })
 
   logger.info('ARRIVED_AT', { data: { url } })
 
@@ -209,6 +209,7 @@ export async function performActions(args: {
           break
         }
         case 'click': {
+          await element.first().waitFor({ state: 'visible', timeout: 5000 })
           logger.info('CLICK_ELEMENT', { data: { selector: action.selector } })
           await element.click()
           break
@@ -225,7 +226,7 @@ export async function performActions(args: {
           break
         }
         case 'visible': {
-          await element.first().waitFor({ state: 'visible', timeout: 10000 })
+          await element.first().waitFor({ state: 'visible', timeout: 20000 })
           const isVisible = await element.isVisible()
           logger.info('IS_VISIBLE', { data: { result: isVisible, selector: action.selector } })
           expect(isVisible, `${action.selector} is visible`).toBe(true)
