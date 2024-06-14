@@ -33,9 +33,8 @@ export interface TestServerConfig {
 export type TestBrowser = Awaited<ReturnType<typeof createTestBrowser>>
 
 export async function createTestBrowser(args: { headless: boolean, slowMo?: number }) {
-  const { headless } = args
-
   const slowMo = isCi() ? 0 : args.slowMo
+  const headless = isCi() ? true : args.headless
 
   const { chromium } = await import('playwright')
   const browser = await chromium.launch({ headless, slowMo })
@@ -169,15 +168,17 @@ export async function performActions(args: {
 
   const errorLogs: string[] = []
 
-  page.on('request', request => logger.debug(`${request.method()}-->${request.url()}`))
-  page.on('response', request => logger.debug(`${request.status()}<--${request.url()}`))
+  // page.on('request', request => logger.debug(`${request.method()}-->${request.url()}`))
+  // page.on('response', request => logger.debug(`${request.status()}<--${request.url()}`))
 
   page.on('console', (message) => {
+    logger.info('CONSOLE', { data: { message: message.text() } })
     if (message.type() === 'error')
       errorLogs.push(message.text())
   })
 
   page.on('pageerror', (err) => {
+    logger.info('PAGEERROR', { data: { message: err.message } })
     errorLogs.push(err.message)
   })
 
@@ -254,8 +255,9 @@ export async function performActions(args: {
     }
     catch (error) {
       const e = error as Error
-      const errorMessage = `Error performing action ${action.type} on selector ${action.selector}: ${e.message}`
-      console.error(errorMessage)
+      const errorMessage = `ACTION_ERROR: ${action.type} on selector ${action.selector}: ${e.message}`
+
+      logger.error(errorMessage, { data: { error: e, data: { errorLogs } } })
       throw new Error(errorMessage)
     }
 

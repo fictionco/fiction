@@ -63,6 +63,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      - name: Set up Vector
+        run: |
+          curl -sSL https://logs.betterstack.com/setup-vector/ubuntu/rhVRWL5PTLFqagJb77zsaVNa -o /tmp/setup-vector.sh
+          bash /tmp/setup-vector.sh
+
       - name: Debug Info
         run: |
           echo "SHOULD_RELEASE: ${{ env.SHOULD_RELEASE }}"
@@ -141,6 +146,9 @@ jobs:
         env:
           NODE_OPTIONS: --max_old_space_size=4096
         run: npm exec -- vitest run build -u --no-file-parallelism
+
+      - name: DEBUG tests
+        run: npm exec -- vitest run debug -u --passWithNoTests
 
       - name: SPOT tests
         run: npm exec -- vitest run spot -u --passWithNoTests

@@ -82,11 +82,11 @@
     "source-map-support": "^0.5.21",
     "textlint": "^14.0.4",
     "ts-node": "^10.9.2",
-    "tsx": "^4.15.2",
+    "tsx": "^4.15.4",
     "typescript": "^5.4.5",
-    "vite": "^5.2.13",
+    "vite": "^5.3.1",
     "vitest": "^1.6.0",
-    "vue": "^3.4.27",
+    "vue": "^3.4.29",
     "vue-router": "^4.3.3"
   },
   "devDependencies": {

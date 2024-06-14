@@ -28,8 +28,6 @@ export async function createUiTestingKit<T extends MainFileSetup = MainFileSetup
 
   const testUtils = serviceConfig.service as ServiceList & TestUtils
 
-  const headlessActual = isCi() ? true : headless
-
   if (!testUtils)
     throw new Error('testUtils not found')
 
@@ -39,7 +37,7 @@ export async function createUiTestingKit<T extends MainFileSetup = MainFileSetup
   if (!port)
     throw new Error('port not found')
 
-  const browser = await createTestBrowser({ headless: headlessActual, slowMo })
+  const browser = await createTestBrowser({ headless, slowMo })
 
   // Add event listener for console messages
   browser.page.on('console', msg => log.info(`PAGE`, parseBrowserLog(msg.text())))

@@ -5,7 +5,7 @@ import type { Organization } from '@fiction/core'
 import { getTools } from '../settings'
 
 describe('settings e2e', async () => {
-  const kit = await createSiteUiTestingKit({ initUser: true, headless: false, slowMo: 0 })
+  const kit = await createSiteUiTestingKit({ initUser: true, headless: false, slowMo: 5000 })
 
   const testUtils = kit.testUtils
 
