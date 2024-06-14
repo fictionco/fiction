@@ -232,12 +232,14 @@ export async function performActions(args: {
           break
         }
         case 'exists': {
+          await element.waitFor({ state: 'attached', timeout: 10000 })
           const exists = await element.count()
           logger.info('EXISTS', { data: { result: exists, selector: action.selector } })
           expect(exists, `${action.selector} exists`).toBeGreaterThan(0)
           break
         }
         case 'count': {
+          await element.waitFor({ state: 'attached', timeout: 10000 })
           const cnt = await element.count()
           logger.info('CNT', { data: { result: cnt, selector: action.selector } })
           expect(cnt, `${action.selector} count ${cnt}`).toBe(cnt)

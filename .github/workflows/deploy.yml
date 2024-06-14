@@ -63,23 +63,36 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      - name: Install Vector for Better Stack
+        run: |
+          curl -sSL https://logs.betterstack.com/setup-vector/ubuntu/${{secrets.BETTER_STACK_SOURCE_TOKEN }} \
+            -o /tmp/setup-vector.sh && \
+            bash /tmp/setup-vector.sh
+
+      - name: Configure Vector to Capture GitHub Actions Logs
+        run: |
+          sudo tee /etc/vector/vector.toml <<EOF
+          [sources.github_actions]
+          type = "file"
+          include = ["/github/home/actions-runner/_work/_temp/_runner_file_commands/*"]
+          read_from = "beginning"
+
+          [sinks.better_stack]
+          type = "http"
+          inputs = ["github_actions"]
+          uri = "https://in.logs.betterstack.com/"
+          encoding.codec = "json"
+          auth.strategy = "bearer"
+          auth.token = "$SOURCE_TOKEN"
+          EOF
+        env:
+          SOURCE_TOKEN: ${{ secrets.BETTER_STACK_SOURCE_TOKEN }}
+
       - name: Debug Info
         run: |
           echo "SHOULD_RELEASE: ${{ env.SHOULD_RELEASE }}"
           echo "SHOULD_DEPLOY: ${{ env.SHOULD_DEPLOY }}"
           echo "Commit Message: ${{ github.event.head_commit.message }}"
-
-      - name: Set up logger to stream logs to Better Stack
-        run: |
-          echo "Setting up logging"
-          mkfifo mypipe
-          cat mypipe | while read line; do
-            curl -X POST https://api.betterstack.com/logs \
-              -H "Content-Type: application/json" \
-              -H "Authorization: Bearer ${{ secrets.BETTER_STACK_SOURCE_TOKEN }}" \
-              -d "{\"message\": \"$line\", \"project\": \"${{ github.repository }}\"}"
-          done &
-          exec > mypipe 2>&1
 
       - name: Write Build Information to a Config File
         run: |
