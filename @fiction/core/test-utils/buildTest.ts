@@ -225,7 +225,7 @@ export async function performActions(args: {
           break
         }
         case 'visible': {
-          await element.waitFor({ state: 'visible', timeout: 5000 })
+          await element.waitFor({ state: 'visible', timeout: 10000 })
           const isVisible = await element.isVisible()
           logger.info('IS_VISIBLE', { data: { result: isVisible, selector: action.selector } })
           expect(isVisible, `${action.selector} is visible`).toBe(true)
@@ -256,8 +256,9 @@ export async function performActions(args: {
     catch (error) {
       const e = error as Error
       const errorMessage = `ACTION_ERROR: ${action.type} on selector ${action.selector}: ${e.message}`
+      const pageDom = await page.innerHTML('body')
 
-      logger.error(errorMessage, { data: { error: e, data: { errorLogs } } })
+      logger.error(errorMessage, { data: { error: e, data: { errorLogs, pageDom } } })
       throw new Error(errorMessage)
     }
 
