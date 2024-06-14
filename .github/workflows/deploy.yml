@@ -79,6 +79,9 @@ jobs:
         run: |
           sudo envsubst < "${{ github.workspace }}/.github/workflows/vector.toml" | sudo tee /etc/vector/vector.toml > /dev/null
           sudo systemctl restart vector
+          echo "Configuration complete."
+          sudo systemctl restart vector
+          echo "Vector service restarted."
         env:
           BETTER_STACK_SOURCE_TOKEN: ${{ secrets.BETTER_STACK_SOURCE_TOKEN }}
 
