@@ -1,8 +1,6 @@
 [sources.github_actions_logs]
 type = "file"
-include = ["/home/runner/work/_temp/_github_home/workflow/event.json", "/home/runner/work/_temp/_runner_file_commands/add_mask.command"]
-read_from = "beginning"
-ignore_older_secs = 60  # Ignore logs older than 60 seconds
+include = ["/home/runner/work/_temp/_github_logs/**/*.log"]
 
 [sinks.betterstack]
 type = "http"

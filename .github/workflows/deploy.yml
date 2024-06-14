@@ -69,6 +69,22 @@ jobs:
       - name: List files in workspace
         run: ls -alh ${{ github.workspace }}
 
+      - name: Install Vector for Better Stack
+        run: |
+          curl -sSL https://logs.betterstack.com/setup-vector/ubuntu/${{ secrets.BETTER_STACK_SOURCE_TOKEN }} \
+            -o /tmp/setup-vector.sh && \
+            bash /tmp/setup-vector.sh
+
+      - name: Configure Vector with custom configuration
+        run: |
+          sudo envsubst < "${{ github.workspace }}/.github/workflows/vector.toml" | sudo tee /etc/vector/vector.toml > /dev/null
+          sudo systemctl restart vector
+          echo "Configuration complete."
+          sudo systemctl restart vector
+          echo "Vector service restarted."
+        env:
+          BETTER_STACK_SOURCE_TOKEN: ${{ secrets.BETTER_STACK_SOURCE_TOKEN }}
+
       - name: Debug Info
         run: |
           echo "SHOULD_RELEASE: ${{ env.SHOULD_RELEASE }}"
