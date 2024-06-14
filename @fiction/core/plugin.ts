@@ -10,8 +10,8 @@ import type { FictionEnv } from './plugin-env/index.js'
 
 export type FictionPluginSettings = {
   fictionEnv: FictionEnv
-  root?: string
-  createQueries?: () => Record<string, Query>
+  root?: string // root path for the plugin
+  key?: string // used in cases to prevent duplicate runs
 }
 
 export type PluginSetupArgs = {

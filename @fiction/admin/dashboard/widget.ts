@@ -1,5 +1,6 @@
 import type { AnalyticsQuery } from '@fiction/analytics/query'
 import type { QueryParams } from '@fiction/analytics/types'
+import type { Query } from '@fiction/core'
 import { FictionObject, vue } from '@fiction/core'
 import type { FictionAdmin } from '..'
 
@@ -13,7 +14,7 @@ const layoutModes = {
   panel: { colSpan: 3, rowSpan: 1 },
 }
 
-export type WidgetConfig<T extends AnalyticsQuery = AnalyticsQuery> = {
+export type WidgetConfig<T extends Query = Query> = {
   key: string
   query?: T
   params?: QueryParams
@@ -22,15 +23,26 @@ export type WidgetConfig<T extends AnalyticsQuery = AnalyticsQuery> = {
   description?: string
   layoutHandling?: keyof typeof layoutModes
   location?: 'primary' | 'secondary'
-  valueKey?: T['dataKeys'][number]
 }
 
-export class Widget<T extends AnalyticsQuery = AnalyticsQuery> extends FictionObject<WidgetConfig<T>> {
+export class Widget<T extends Query = Query> extends FictionObject<WidgetConfig<T>> {
   query = this.settings.query
   errorMessage = vue.ref('')
   loading = vue.ref(false)
   hashId = vue.ref('')
   constructor(settings: WidgetConfig<T>) {
     super('Widget', settings)
+  }
+}
+
+export type AnalyticsWidgetConfig<T extends AnalyticsQuery = AnalyticsQuery> = { valueKey?: T['dataKeys'][number] } & WidgetConfig<T>
+
+export class AnalyticsWidget<T extends AnalyticsQuery = AnalyticsQuery> extends FictionObject<AnalyticsWidgetConfig<T>> {
+  query = this.settings.query
+  errorMessage = vue.ref('')
+  loading = vue.ref(false)
+  hashId = vue.ref('')
+  constructor(settings: AnalyticsWidgetConfig<T>) {
+    super('AnalyticsWidget', settings)
   }
 }

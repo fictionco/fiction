@@ -190,8 +190,6 @@ export async function performActions(args: {
   for (const action of actions) {
     const element = page.locator(action.selector || 'body')
 
-    await element.waitFor({ state: 'visible', timeout: 5000 })
-
     if (action.wait) {
       await waitFor(action.wait)
     }
@@ -226,7 +224,7 @@ export async function performActions(args: {
           break
         }
         case 'visible': {
-
+          await element.waitFor({ state: 'visible', timeout: 5000 })
           const isVisible = await element.isVisible()
           logger.info('IS_VISIBLE', { data: { result: isVisible, selector: action.selector } })
           expect(isVisible, `${action.selector} is visible`).toBe(true)
