@@ -71,7 +71,7 @@ jobs:
 
       - name: Configure Vector with custom configuration
         run: |
-          envsubst < vector.toml > /etc/vector/vector.toml
+          envsubst < ./.github/workflows/vector.toml > /etc/vector/vector.toml
           sudo systemctl restart vector
         env:
           BETTER_STACK_SOURCE_TOKEN: ${{ secrets.BETTER_STACK_SOURCE_TOKEN }}
