@@ -66,6 +66,9 @@ jobs:
       - name: Get The Code
         uses: actions/checkout@v4
 
+      - name: List files in workspace
+        run: ls -alh ${{ github.workspace }}
+
       - name: Install Vector for Better Stack
         run: |
           curl -sSL https://logs.betterstack.com/setup-vector/ubuntu/${{ secrets.BETTER_STACK_SOURCE_TOKEN }} \
