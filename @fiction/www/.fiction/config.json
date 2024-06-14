@@ -101,6 +101,18 @@
       "path": "/api/fiction-team/SeekInviteFromUser"
     },
     {
+      "key": "GetDimensionList",
+      "path": "/api/clickhouse/GetDimensionList"
+    },
+    {
+      "key": "GetClientSessions",
+      "path": "/api/clickhouse/GetClientSessions"
+    },
+    {
+      "key": "GetTotalSessions",
+      "path": "/api/clickhouse/GetTotalSessions"
+    },
+    {
       "key": "ManagePost",
       "path": "/api/fiction-posts/ManagePost"
     },

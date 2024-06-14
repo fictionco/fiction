@@ -4,7 +4,7 @@
  */
 
 export interface CompiledServiceConfig {
-  commands: 'app' | 'build' | 'dev' | 'dev-r' | 'generate' | 'render' | 'server' | 'sites'
+  commands: 'app' | 'beacon' | 'build' | 'dev' | 'dev-r' | 'generate' | 'render' | 'server' | 'sites'
   vars:
     | 'APOLLO_API_KEY'
     | 'APP_PORT'
@@ -12,6 +12,7 @@ export interface CompiledServiceConfig {
     | 'AWS_ACCESS_KEY_SECRET'
     | 'AWS_BUCKET_MEDIA'
     | 'AWS_REGION'
+    | 'BEACON_PORT'
     | 'CLICKHOUSE_URL'
     | 'COMMAND'
     | 'COMMAND_OPTS'
@@ -50,7 +51,10 @@ export interface CompiledServiceConfig {
     | 'AiImage'
     | 'CheckUsername'
     | 'EmailAction'
+    | 'GetClientSessions'
     | 'GetCustomerData'
+    | 'GetDimensionList'
+    | 'GetTotalSessions'
     | 'ListSubscriptions'
     | 'ManageCert'
     | 'ManageCustomer'

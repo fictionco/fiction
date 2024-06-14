@@ -1,4 +1,6 @@
-# To connect from SSL, requires: jdbc:ch://localhost:8443/?ssl=true&sslmode=NONE
+# To connect from SSL, requires: jdbc:clickhouse://<HOST>:8123/?ssl=true&sslmode=STRICT
+# jdbc:clickhouse://fiction-clickhouse.fly.dev:8123
+# DBeaver Insructions: https://clickhouse.com/docs/en/integrations/dbeaver
 # https://github.com/ClickHouse/clickhouse-jdbc/issues/847
 
 app = "fiction-clickhouse"
@@ -30,6 +32,7 @@ protocol      = "tcp"
   [[services.ports]]
     handlers = ["tls","http"]
     port     = 443
+
 
   [[services.tcp_checks]]
     interval = 10000

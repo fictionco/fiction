@@ -1,0 +1,33 @@
+app = "fiction-beacon"
+primary_region = "lax"
+
+[build]
+dockerfile = "./Dockerfile"
+build-target = "fiction-beacon"
+
+[http_service]
+internal_port = 2121
+processes = [ 'app' ]
+force_https = true
+auto_stop_machines = true
+auto_start_machines = true
+min_machines_running = 1
+[http_service.concurrency]
+  type = "requests"
+  soft_limit = 200
+  hard_limit = 250
+
+[[http_service.checks]]
+grace_period = "10s"
+interval = "60s"
+method = "GET"
+timeout = "5s"
+path = "/api/health"
+tls_skip_verify = false
+
+[deploy]
+strategy = "bluegreen"
+
+[[vm]]
+size = "shared-cpu-2x"
+memory = "4gb"

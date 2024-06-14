@@ -196,6 +196,17 @@ type ClientTrackType =
   | 'internal'
   | 'custom'
 
+interface EmailDetails {
+  emailId: string
+  eventType: 'open' | 'click' | 'delivered' | 'bounce' | 'unsubscribe' | 'spamReport' | 'processed' | 'dropped' | 'deferred'
+  sentAt?: string
+  subject?: string
+  templateId?: string
+  clickedUrl?: string
+  openedAt?: string
+  clickedAt?: string
+}
+
 export interface FictionEventUserDefined {
   name?: string
   channel?: string
@@ -208,6 +219,7 @@ export interface FictionEventUserDefined {
   properties?: Partial<TrackingProperties>
   traits?: Partial<IdentifyTraitsUser | IdentifyTraitsGroup>
   context?: Partial<TrackingContext>
+  email?: Partial<EmailDetails>
 }
 
 /**

@@ -127,12 +127,12 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2.2.4
         with:
-          version: 9.1.2
+          version: 9.3.0
 
       - name: Set Node Version
         uses: actions/setup-node@v3
         with:
-          node-version: 22.2.0
+          node-version: 22.3.0
           cache: pnpm
 
       - name: Get pnpm store directory
@@ -200,6 +200,7 @@ jobs:
       - name: Deploy Apps
         if: env.SHOULD_DEPLOY == 'true'
         run: |
+          cross-env DOMAIN=fiction APP=beacon npm run deploy
           cross-env DOMAIN=fiction APP=www npm run deploy
           cross-env DOMAIN=fiction APP=sites npm run deploy
 

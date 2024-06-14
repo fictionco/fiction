@@ -194,7 +194,7 @@ const service = { ...baseService, fictionExtend }
 
 export function setup(): ServiceConfig {
   async function initializeBackingServices() {
-    await Promise.all([fictionDb.init(), fictionEmail.init()])
+    await Promise.all([fictionDb.init(), fictionEmail.init(), fictionAnalytics.serverInit()])
   }
   return {
     service,
@@ -255,6 +255,9 @@ export function setup(): ServiceConfig {
           else if (context === 'app') {
             fictionUser.init()
           }
+        }
+        else if (command === 'beacon') {
+          await fictionAnalytics.runBeacon()
         }
 
         else if (command === 'build' || command === 'render') {

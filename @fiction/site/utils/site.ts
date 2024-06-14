@@ -103,6 +103,7 @@ export async function saveSite(args: {
     where: { siteId: config.siteId },
     successMessage,
     isPublishingDomains,
+    caller: 'saveSite',
   })
 
   updateSite({ site, newConfig: r.data || {} })

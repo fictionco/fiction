@@ -1,22 +1,25 @@
-# Using node:22-alpine as the base image
-FROM node:22-alpine AS build
+# Using a specific version of node:22-alpine for reproducibility
+FROM node:22-alpine AS base
 
 # Set the working directory inside the container
 WORKDIR /usr/src/app
 
-# Set environment variables
+# Install system dependencies that are necessary
+RUN apk add --update --no-cache curl redis busybox-extras make g++ iputils bind-tools
+
+# Set environment variables after installing essential packages to benefit from Docker layer caching
 ENV PYTHONUNBUFFERED=1 \
     PATH="/usr/src/venv/bin:$PATH"
 
-# Install system dependencies
-# Then create a virtual environment for Python to avoid issues with the system-wide Python installation
-RUN apk add --update --no-cache curl redis busybox-extras make g++ iputils bind-tools python3 && \
+# Install Python and create a virtual environment to avoid issues with the system-wide Python installation
+RUN apk add --no-cache python3 && \
     ln -sf python3 /usr/bin/python && \
     python3 -m venv /usr/src/venv && \
+    . /usr/src/venv/bin/activate && \
     pip install --no-cache --upgrade pip setuptools
 
 # Install pnpm globally and cross-env
-RUN npm install --location=global pnpm@9.1.2 cross-env
+RUN npm install --location=global pnpm@9.3.0 cross-env
 
 # Check pnpm version for debugging purposes
 RUN pnpm -v
@@ -37,3 +40,7 @@ CMD npm -w @fiction/www exec -- fiction run sites
 FROM build as fiction-www
 EXPOSE 4444
 CMD npm -w @fiction/www exec -- fiction run app
+
+FROM build as fiction-beacon
+EXPOSE 4444
+CMD npm -w @fiction/www exec -- fiction run beacon

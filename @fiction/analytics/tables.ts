@@ -364,10 +364,7 @@ const baseFields = [
     create: ({ schema, column }) => schema.dateTime(column.pgKey),
     clickHouseType: 'DateTime',
     sessionSelector: _ => `anyIf(${_.key}, event='session') as ${_.id}`,
-    getValue: ({ event, session }) =>
-      event.event === 'session'
-        ? session.endedAt
-        : dayjs(event.timestamp).unix(),
+    getValue: ({ event, session }) => event.event === 'session' ? session.endedAt : dayjs(event.timestamp).unix(),
   }),
   new FictionAnalyticsCol({
     default: () => '' as string,
@@ -640,7 +637,67 @@ const referralFields = [
   }),
 ] as const
 
-export const eventFields = [...baseFields, ...geoFields, ...referralFields] as const
+const emailEventFields = [
+  new FictionAnalyticsCol({
+    key: 'emailId',
+    create: ({ schema, column }) => schema.string(column.pgKey),
+    clickHouseType: 'String',
+    description: 'Unique identifier for the email',
+    indexOn: true,
+    default: () => '' as string,
+    getValue: ({ event }) => event.email?.emailId,
+  }),
+  new FictionAnalyticsCol({
+    key: 'emailEventType',
+    create: ({ schema, column }) => schema.string(column.pgKey),
+    clickHouseType: 'LowCardinality(String)',
+    description: 'Type of email event (open, click, delivered, etc.)',
+    default: () => '' as string,
+    getValue: ({ event }) => event.email?.eventType,
+  }),
+  new FictionAnalyticsCol({
+    key: 'emailSubject',
+    create: ({ schema, column }) => schema.string(column.pgKey),
+    clickHouseType: 'String',
+    description: 'Subject line of the email',
+    default: () => '' as string,
+    getValue: ({ event }) => event.email?.subject,
+  }),
+  new FictionAnalyticsCol({
+    key: 'emailTemplateId',
+    create: ({ schema, column }) => schema.string(column.pgKey),
+    clickHouseType: 'String',
+    description: 'Template identifier used for the email',
+    default: () => '' as string,
+    getValue: ({ event }) => event.email?.templateId,
+  }),
+  new FictionAnalyticsCol({
+    key: 'emailClickedUrl',
+    create: ({ schema, column }) => schema.string(column.pgKey),
+    clickHouseType: 'String',
+    description: 'URL clicked within the email',
+    default: () => '' as string,
+    getValue: ({ event }) => event.email?.clickedUrl,
+  }),
+  new FictionAnalyticsCol({
+    key: 'emailOpenedAt',
+    create: ({ schema, column }) => schema.dateTime(column.pgKey),
+    clickHouseType: 'DateTime',
+    description: 'Timestamp when the email was opened',
+    getValue: ({ event }) => dayjs(event.email?.openedAt).unix(),
+    default: () => Date.now(),
+  }),
+  new FictionAnalyticsCol({
+    key: 'emailClickedAt',
+    create: ({ schema, column }) => schema.dateTime(column.pgKey),
+    clickHouseType: 'DateTime',
+    description: 'Timestamp when a link in the email was clicked',
+    getValue: ({ event }) => dayjs(event.email?.clickedAt).unix(),
+    default: () => Date.now(),
+  }),
+] as const
+
+export const eventFields = [...baseFields, ...geoFields, ...referralFields, ...emailEventFields] as const
 
 const sessionFields = [
   ...eventFields.filter(f => f.sessionSelector),
@@ -739,9 +796,7 @@ const sessionFields = [
 export function getSessionQuerySelectors(): string[] {
   return sessionFields
     .map((_) => {
-      return _.sessionSelector
-        ? _.sessionSelector({ key: _.key, id: `session_${_.key}` })
-        : undefined
+      return _.sessionSelector ? _.sessionSelector({ key: _.key, id: `session_${_.key}` }) : undefined
     })
     .filter(Boolean) as string[]
 }

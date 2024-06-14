@@ -32,4 +32,12 @@ export class FictionAnalytics extends FictionPlugin<FictionAnalyticsSettings> {
     await this.fictionClickhouse?.close()
     await this.fictionBeacon?.close()
   }
+
+  async serverInit() {
+    await this.fictionClickhouse?.init()
+  }
+
+  async runBeacon() {
+    await this.fictionBeacon?.createBeaconServer()
+  }
 }
