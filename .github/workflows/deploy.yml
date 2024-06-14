@@ -71,7 +71,7 @@ jobs:
         run: ls -alh ${{ github.workspace }}
 
       - name: List files in workspace
-        run: ls -alh /home/runner/work/_temp/_github_logs/
+        run: ls -alh /home/runner/work/_temp
 
       - name: Install Vector for Better Stack
         run: |
