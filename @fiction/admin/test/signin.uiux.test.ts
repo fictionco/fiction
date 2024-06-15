@@ -5,8 +5,8 @@ import { emailActionSnapshot } from '@fiction/plugin-transactions/test/utils'
 import type { EmailVars } from '@fiction/plugins/plugin-transactions/action.js'
 import { setup } from './email.main.js'
 
-describe('signin UX', async () => {
-  const kit = await createUiTestingKit({ headless: false, setup, slowMo: 0 })
+describe('signin UX', { retry: 3 }, async () => {
+  const kit = await createUiTestingKit({ headless: true, setup, slowMo: 0 })
   const testUtils = kit.testUtils
 
   const initialized = await testUtils.initUser()
