@@ -33,14 +33,14 @@ RUN pnpm fetch --prod
 # Install production dependencies using pnpm
 RUN cross-env INSTALL_ENV=production pnpm i --prod --offline --frozen-lockfile
 
-FROM build as fiction-sites
+FROM base as fiction-sites
 EXPOSE 6565
 CMD npm -w @fiction/www exec -- fiction run sites
 
-FROM build as fiction-www
+FROM base as fiction-www
 EXPOSE 4444
 CMD npm -w @fiction/www exec -- fiction run app
 
-FROM build as fiction-beacon
+FROM base as fiction-beacon
 EXPOSE 4444
 CMD npm -w @fiction/www exec -- fiction run beacon
