@@ -163,6 +163,9 @@ jobs:
       - name: DEBUG tests
         run: npm exec -- vitest run debug -u --passWithNoTests
 
+      - name: ENVIRONMENT tests
+        run: npm exec -- vitest run envi -u --passWithNoTests
+
       - name: BUILD tests
         env:
           NODE_OPTIONS: --max_old_space_size=4096
