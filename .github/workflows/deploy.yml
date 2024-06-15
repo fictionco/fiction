@@ -135,6 +135,9 @@ jobs:
           node-version: 22.3.0
           cache: pnpm
 
+      - name: Install FlyCtl CLI
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
@@ -191,10 +194,6 @@ jobs:
       - name: Render Apps
         if: env.SHOULD_DEPLOY == 'true'
         run: npm exec -- fiction run render
-
-      - name: Install FlyCtl
-        if: env.SHOULD_DEPLOY == 'true'
-        uses: superfly/flyctl-actions/setup-flyctl@master
 
       - name: DIST unit tests
         if: env.SHOULD_DEPLOY == 'true'
