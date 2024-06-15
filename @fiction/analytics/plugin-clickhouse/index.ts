@@ -16,7 +16,7 @@ export * from './types.js'
 vars.register(() => [new EnvVar({ name: 'CLICKHOUSE_URL' })])
 
 type FictionClickHouseSettings = {
-  clickhouseUrl?: string
+  clickhouseUrl: string
   fictionServer: FictionServer
   fictionUser?: FictionUser
   fictionAnalytics?: FictionAnalytics
@@ -54,16 +54,21 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
   constructor(settings: FictionClickHouseSettings) {
     super('clickhouse', settings)
 
-    if (settings.clickhouseUrl)
+    if (!settings.clickhouseUrl && !this.fictionEnv.isApp.value) {
+      throw new Error('no clickhouse connection url')
+    }
+    else if (settings.clickhouseUrl) {
       this.connectionUrl = new URL(settings.clickhouseUrl)
+    }
   }
 
   async close() {
     // close the connection
+    await this.db.destroy()
   }
 
   async init() {
-    if (!isNode())
+    if (this.fictionEnv.isApp.value)
       return
 
     if (!this.connectionUrl)

@@ -11,6 +11,7 @@ import type { PackageJson } from '../types'
 import { log } from '../plugin-log'
 import { isNode } from './vars'
 import { formatBytes } from './number'
+import { waitFor } from './utils.js'
 
 interface WhichModule {
   moduleName?: string
@@ -42,6 +43,7 @@ export async function executeCommand(args: {
   envVars?: { [key: string]: string }
   timeout?: number
   resolveText?: string
+  beforeResolve?: () => Promise<void>
   triggerText?: string
   onTrigger?: (args: { stdout: string, stderr: string, text: string, close: () => void, cp: ResultPromise }) => Promise<void> | void
 }) {
@@ -68,23 +70,34 @@ export async function executeCommand(args: {
         resolve(1)
       }
 
-      const onText = (text: string) => {
-        if (resolveText && text.includes(resolveText))
+      const onText = async (text: string) => {
+        if (resolveText && text.includes(resolveText)) {
+          if (args.beforeResolve) {
+            try {
+              await args.beforeResolve()
+              await waitFor(1000)
+            }
+            catch (error) {
+              reject(error)
+            }
+          }
+
           resolve(text)
+        }
         // close()
 
         if (args.triggerText && text.includes(args.triggerText) && args.onTrigger)
           void args.onTrigger({ ...commandDetails(), text, close, cp })
       }
 
-      cp.stdout?.on('data', (d: Buffer) => {
+      cp.stdout?.on('data', async (d: Buffer) => {
         output.push(d.toString())
-        onText(d.toString())
+        await onText(d.toString())
       })
 
       cp.stderr?.on('data', async (d: Buffer) => {
         errorsOutput.push(d.toString())
-        onText(d.toString())
+        await onText(d.toString())
       })
 
       void cp.on('close', (code) => {

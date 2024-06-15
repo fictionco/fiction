@@ -7,7 +7,7 @@ import { FictionBeacon } from './plugin-beacon'
 vars.register(() => [new EnvVar({ name: 'CLICKHOUSE_URL' })])
 
 type FictionAnalyticsSettings = {
-  clickhouseUrl?: string
+  clickhouseUrl: string
   fictionServer: FictionServer
   fictionUser?: FictionUser
   fictionCache: FictionCache
@@ -21,11 +21,7 @@ export class FictionAnalytics extends FictionPlugin<FictionAnalyticsSettings> {
     super('FictionAnalytics', { root: safeDirname(import.meta.url), ...settings })
 
     this.fictionClickhouse = new FictionClickHouse({ fictionAnalytics: this, ...this.settings })
-    this.fictionBeacon = new FictionBeacon({
-      fictionAnalytics: this,
-      fictionClickHouse: this.fictionClickhouse,
-      ...this.settings,
-    })
+    this.fictionBeacon = new FictionBeacon({ fictionAnalytics: this, fictionClickHouse: this.fictionClickhouse, ...this.settings })
   }
 
   async close() {

@@ -2,7 +2,7 @@ import path from 'node:path'
 import dotenv from 'dotenv'
 import { FictionObject } from '../plugin.js'
 import type { HookType, UserNotification } from '../utils/index.js'
-import { camelToUpperSnake, crossVar, isApp, isCi, isDev, isNode, isTest, onResetUi, resetUi, runHooks, runHooksSync, shortId, toSlug, vue } from '../utils/index.js'
+import { camelToUpperSnake, crossVar, isApp, isCi, isDev, isNode, isTest, onResetUi, resetUi, runHooks, runHooksSync, shortId, toSlug, vue, waitFor } from '../utils/index.js'
 import { version as fictionVersion } from '../package.json'
 import type { RunVars } from '../inject.js'
 import { TypedEventTarget } from '../utils/eventTarget.js'
@@ -417,7 +417,8 @@ export class FictionEnv<
 
     if (cliCommand.options.exit) {
       const reason = `--exit flag set`
-      this.log.info(`shutting down`, { data: { reason } })
+      this.log.warn(`shutting down`, { data: { reason } })
+      await waitFor(1000)
       this.events.emit('shutdown', { reason })
     }
   }

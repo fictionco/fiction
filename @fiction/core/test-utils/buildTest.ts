@@ -301,9 +301,10 @@ export async function appBuildTests(config: { moduleName?: string, cwd?: string,
 
   const logger = log.contextLogger('UIUX')
   const BUILD_TIMEOUT = 180_000
-  const { portOptions } = getModifiedCommands(config.commands)
+  const { portOptions, commands } = getModifiedCommands(config.commands)
 
-  const checkRunCommand = async (runCommand: string) => {
+  const checkRunCommand = async (runCommand: string, opts: { portCommand?: string } = {}) => {
+    const { portCommand = '' } = opts
     const command = [`npm -w ${moduleName} exec -- fiction run ${runCommand} --exit`, ...portOptions].join(' ')
 
     try {
@@ -312,6 +313,23 @@ export async function appBuildTests(config: { moduleName?: string, cwd?: string,
         envVars: { IS_TEST: '1', TEST_ENV: 'unit' },
         timeout: BUILD_TIMEOUT,
         resolveText: '[ready]',
+        beforeResolve: async () => {
+          const url = commands.find(_ => _.command === runCommand || (portCommand && _.command === portCommand))?.url.value
+          try {
+            logger.info(`RUN CHECK START`, { data: { command, url } })
+
+            if (!url)
+              throw new Error('no url')
+
+            await fetch(url)
+
+            logger.info('RUN CHECK DONE', { data: { url } })
+          }
+          catch (error) {
+            logger.error('FETCH PROBLEM', { error, data: { commands, runCommand, url } })
+            throw error
+          }
+        },
       })
 
       expect(r.stdout).toContain('[ready]')
@@ -346,7 +364,7 @@ export async function appBuildTests(config: { moduleName?: string, cwd?: string,
     }, BUILD_TIMEOUT)
 
     it(`RUNS DEV: ${moduleName}`, async () => {
-      await checkRunCommand('dev')
+      await checkRunCommand('dev', { portCommand: 'app' })
     }, BUILD_TIMEOUT)
 
     it(`LOADS WITHOUT ERROR: ${moduleName}`, async () => {

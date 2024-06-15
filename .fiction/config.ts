@@ -6,6 +6,7 @@
 export interface CompiledServiceConfig {
   commands: 'bundle' | 'release' | 'render'
   vars:
+    | 'APOLLO_API_KEY'
     | 'AWS_ACCESS_KEY'
     | 'AWS_ACCESS_KEY_SECRET'
     | 'AWS_BUCKET_MEDIA'
