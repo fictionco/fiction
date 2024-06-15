@@ -12,7 +12,7 @@ const props = defineProps({
 
 const service = useService<{ fictionAdmin: FictionAdmin }>()
 
-const widgets = vue.computed(() => service.fictionAdmin.getWidgetMap()[props.location])
+const widgets = vue.computed(() => service.fictionAdmin.widgetMap.value[props.location])
 const loading = vue.ref(false)
 
 async function load() {

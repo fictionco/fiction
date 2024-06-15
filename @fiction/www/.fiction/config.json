@@ -127,6 +127,10 @@
     {
       "key": "subscriptionAnalytics",
       "path": "/api/widgets/subscriptionAnalytics"
+    },
+    {
+      "key": "posts",
+      "path": "/api/widgets/posts"
     }
   ]
 }

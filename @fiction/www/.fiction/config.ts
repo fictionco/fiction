@@ -78,6 +78,7 @@ export interface CompiledServiceConfig {
     | 'SubscriptionAnalytics'
     | 'TeamInvite'
     | 'oAuthEndpoint'
+    | 'posts'
     | 'subscriptionAnalytics'
   tables: {
     fiction_user:

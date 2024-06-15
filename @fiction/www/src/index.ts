@@ -175,7 +175,7 @@ const fictionSites = new FictionSites({
   flyApiToken,
   flyAppId: 'fiction-sites',
   adminBaseRoute: '/admin',
-  themes: () => getThemes({ fictionEnv, fictionStripe }),
+  themes: () => getThemes({ ...pluginServices, fictionStripe }),
 })
 
 const fictionTeam = new FictionTeam({ ...pluginServices })

@@ -2,7 +2,6 @@ import type { FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, Fictio
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import type { FictionTransactions } from '@fiction/plugin-transactions'
 import { createCard } from '@fiction/site'
-import multer from 'multer'
 import type { FictionAdmin } from '@fiction/admin'
 import { tables } from './schema'
 import { ManageSubscriptionQuery, SubscriptionAnalytics } from './endpoint'
@@ -48,15 +47,7 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
 
   addAdminPages() {
     const basic = { caller: 'FictionSubscribe', context: 'app' } as const
-    this.settings.fictionEnv.addHook({
-      hook: 'widgetMap',
-      ...basic,
-      callback: (w) => {
-        const widgetList = Object.values(this.widgets)
-        w.homeMain = [...(w.homeMain || []), ...widgetList]
-        return w
-      },
-    })
+    this.settings.fictionAdmin.addWidgets('homeMain', Object.values(this.widgets))
 
     this.settings.fictionEnv.addHook({
       hook: 'adminPages',

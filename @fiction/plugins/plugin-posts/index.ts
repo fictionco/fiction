@@ -3,13 +3,19 @@ import type { FictionDb, FictionPluginSettings, FictionServer, FictionUser } fro
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { createCard } from '@fiction/site'
 import { FictionEditor } from '@fiction/plugin-editor'
+import type { FictionAdmin } from '@fiction/admin'
 import type { ExtensionManifest } from '../plugin-extend'
 import { tables } from './schema'
 import { ManagePostIndex, QueryManagePost, QueryManageTaxonomy } from './endpoint'
 import { Post } from './post'
 import { getWidgets } from './widgets'
 
-type FictionPostsSettings = { fictionUser: FictionUser, fictionServer: FictionServer, fictionDb: FictionDb } & FictionPluginSettings
+type FictionPostsSettings = {
+  fictionUser: FictionUser
+  fictionServer: FictionServer
+  fictionDb: FictionDb
+  fictionAdmin: FictionAdmin
+} & FictionPluginSettings
 
 export * from './schema'
 export * from './utils'
@@ -37,47 +43,28 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
 
     this.settings.fictionDb.addTables(tables)
 
-    this.settings.fictionEnv.addHook({
-      hook: 'adminPages',
-      caller: 'FictionPosts',
-      context: 'app',
-      callback: async (pages, meta) => {
-        const { templates } = meta
-        return [
-          ...pages,
-          createCard({
-            templates,
-            regionId: 'main',
-            templateId: 'dash',
-            slug: 'posts',
-            title: 'Posts',
-            cards: [
-              createCard({
-                el: vue.defineAsyncComponent(() => import('./el/PagePostIndex.vue')),
-              }),
-            ],
-            userConfig: {
-              isNavItem: true,
-              navIcon: 'i-tabler-pin',
-              navIconAlt: 'i-tabler-pin-filled',
-            },
-          }),
-          createCard({
-            templates,
-            regionId: 'main',
-            templateId: 'dash',
-            slug: 'post-edit',
-            title: 'Edit Post',
-            cards: [
-              createCard({
-                el: vue.defineAsyncComponent(() => import('./el/PagePostEdit.vue')),
-              }),
-            ],
-            userConfig: { layoutFormat: 'full' },
-          }),
-        ]
-      },
-    })
+    this.settings.fictionAdmin.addWidgets('homeMain', Object.values(this.widgets))
+
+    this.settings.fictionAdmin.addAdminPages(({ templates }) => [
+      createCard({
+        templates,
+        regionId: 'main',
+        templateId: 'dash',
+        slug: 'posts',
+        title: 'Posts',
+        cards: [createCard({ el: vue.defineAsyncComponent(() => import('./el/PagePostIndex.vue')) })],
+        userConfig: { isNavItem: true, navIcon: 'i-tabler-pin', navIconAlt: 'i-tabler-pin-filled' },
+      }),
+      createCard({
+        templates,
+        regionId: 'main',
+        templateId: 'dash',
+        slug: 'post-edit',
+        title: 'Edit Post',
+        cards: [createCard({ el: vue.defineAsyncComponent(() => import('./el/PagePostEdit.vue')) })],
+        userConfig: { layoutFormat: 'full' },
+      }),
+    ])
   }
 
   override async setup() {

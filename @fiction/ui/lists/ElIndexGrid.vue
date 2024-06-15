@@ -28,7 +28,7 @@ const service = useService()
 const sending = vue.ref(false)
 
 const boxClass = 'dark:bg-theme-800 bg-theme-0 hover:bg-theme-50 dark:hover:bg-theme-700 px-6 border border-theme-300/70 shadow-xs dark:border-theme-600/60 rounded-xl'
-const mediaClass = `size-14 ring-2 ring-theme-200/50 bg-theme-50 dark:bg-theme-700 dark:ring-theme-0 rounded-full overflow-hidden text-theme-500/50`
+const mediaClass = `size-14 ring-2 ring-theme-200/50 bg-theme-50 dark:bg-theme-400 dark:text-theme-0 dark:ring-theme-0 rounded-full overflow-hidden text-theme-500/50`
 
 const pagination = vue.computed(() => getPaginationInfo(props.indexMeta))
 

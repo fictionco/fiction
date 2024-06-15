@@ -9,8 +9,14 @@ import type { FictionTransactions } from '@fiction/plugin-transactions'
 import type { FictionServer } from '@fiction/core'
 import { envConfig } from '@fiction/core'
 import { createCard } from '@fiction/site/theme.js'
+import type { Card } from '@fiction/site/card.js'
+import type { TableCardConfig } from '@fiction/site/index.js'
 import { getEmails } from './emails/index.js'
 import { createWidgetEndpoints } from './dashboard/util.js'
+import type { Widget } from './dashboard/widget.js'
+import type { WidgetLocation, WidgetMap } from './types.js'
+import { templates } from './templates.js'
+import { pages } from './theme/index.js'
 
 export * from './tools/tools.js'
 export * from './types.js'
@@ -31,18 +37,41 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
   widgetRequests?: ReturnType<typeof createWidgetEndpoints>
   constructor(settings: FictionAdminSettings) {
     super('FictionAdmin', { root: safeDirname(import.meta.url), ...settings })
-
-    this.addAdminPages()
   }
 
   emailActions = getEmails({ fictionAdmin: this })
 
-  getWidgetMap() {
-    return this.fictionEnv.runHooksSync('widgetMap', {})
+  widgetMap = vue.shallowRef<WidgetMap>({})
+  addWidgets(widgetArea: WidgetLocation, widgets: Widget[]) {
+    this.widgetMap.value[widgetArea] = this.widgetMap.value[widgetArea] ?? []
+    this.widgetMap.value[widgetArea]?.push(...widgets)
+  }
+
+  adminPages = vue.shallowRef<TableCardConfig[]>([
+    createCard({
+      templates,
+      templateId: 'dash',
+      slug: 'home',
+      title: 'Home',
+      cards: [
+        createCard({ el: vue.defineAsyncComponent(() => import('./dashboard/ViewDashboard.vue')) }),
+      ],
+      userConfig: {
+        isNavItem: true,
+        navIcon: 'i-heroicons-home',
+        navIconAlt: 'i-heroicons-home-20-solid',
+        priority: 0,
+      },
+    }),
+  ])
+
+  addAdminPages(getPages: (args: { templates: typeof templates }) => TableCardConfig[]) {
+    const pages = getPages({ templates })
+    this.adminPages.value.push(...pages)
   }
 
   override async setup() {
-    const widgetMap = this.getWidgetMap()
+    const widgetMap = this.widgetMap.value
     this.widgetRequests = createWidgetEndpoints({ widgetMap, fictionAdmin: this })
   }
 
@@ -55,36 +84,6 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
       // if (params.isVerifyEmail) {
       //   await this.emailActions.verifyEmailAction.serveSend({ recipient: user, queryVars: { code: user.verify?.code || '', email: user.email || '' } }, { server: true })
       // }
-    })
-  }
-
-  addAdminPages() {
-    this.settings.fictionEnv.addHook({
-      hook: 'adminPages',
-      caller: 'FictionAdmin',
-      context: 'app',
-      callback: async (pages, meta) => {
-        const { templates } = meta
-        return [
-          ...pages,
-          createCard({
-            templates,
-            templateId: 'dash',
-            slug: 'home',
-            title: 'Home',
-            cards: [
-              createCard({ el: vue.defineAsyncComponent(() => import('./dashboard/ViewDashboard.vue')) }),
-            ],
-            userConfig: {
-              isNavItem: true,
-              navIcon: 'i-heroicons-home',
-              navIconAlt: 'i-heroicons-home-20-solid',
-              priority: 0,
-            },
-          }),
-
-        ]
-      },
     })
   }
 }
