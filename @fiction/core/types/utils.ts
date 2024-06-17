@@ -13,7 +13,6 @@ export type MediaDisplayObject = {
   classes?: string
   format?: 'url' | 'video' | 'iframe' | 'html' | 'audio' | 'text'
   isDefaultImage?: boolean
-
 } & TableMediaConfig
 
 export type GradientItem = { color?: string, percent?: number }
@@ -112,6 +111,7 @@ export type IndexItem = {
   figure?: Figure
   media?: MediaDisplayObject
   slug?: string
+  dateIso?: string
 } & NavItem
 
 // @deprecated

@@ -1,10 +1,12 @@
 <script lang="ts" setup>
-import { type ActionItem, dayjs, useService, vue } from '@fiction/core'
+import type { ActionItem, IndexItem } from '@fiction/core'
+import { dayjs, useService, vue } from '@fiction/core'
 import WidgetWrap from '@fiction/admin/dashboard/WidgetWrap.vue'
 import ElImage from '@fiction/ui/media/ElImage.vue'
 import type { Card } from '@fiction/site'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import ElActions from '@fiction/ui/buttons/ElActions.vue'
+import IndexItemList from '@fiction/ui/lists/IndexItemList.vue'
 import type { FictionPosts, Post } from '..'
 import { managePostIndex } from '..'
 
@@ -57,51 +59,27 @@ const actions: ActionItem[] = [
   },
 
 ]
+
+const list = vue.computed<IndexItem[]>(() => {
+  return posts.value.map((post) => {
+    return {
+      media: post.image.value,
+      icon: 'i-tabler-pin',
+      name: post.title.value,
+      desc: post.excerpt.value || post.subTitle.value,
+      href: props.card.link(`/post-edit?postId=${post.postId}`),
+      dateIso: post.publishAt.value || post.settings.updatedAt,
+    }
+  })
+})
 </script>
 
 <template>
   <WidgetWrap :widget :actions>
-    <div v-if="loading" class="p-12 flex justify-center text-theme-400 dark:text-theme-500">
-      <ElSpinner class="size-8" />
-    </div>
-    <div v-else-if="!posts || posts.length === 0">
-      <div class="p-6 text-center">
-        <p class="text-theme-400">
-          No posts found
-        </p>
-        <ElActions class="mt-4 gap-4 flex justify-center" :actions="actions" ui-size="sm" />
-      </div>
-    </div>
-    <div v-else class="p-6">
-      <RouterLink
-        v-for="(post, i) in posts"
-        :key="i"
-        class="relative isolate flex gap-6 items-center hover:opacity-90 cursor-pointer"
-        :to="card.link(`/post-edit?postId=${post.postId}`)"
-      >
-        <div>
-          <div v-if="!post.image.value?.url" class="flex items-center justify-center size-12" :class="mediaClass">
-            <div class="text-2xl i-tabler-pin" />
-          </div>
-          <ElImage v-else :class="mediaClass" :media="post.image.value" />
-        </div>
-        <div class="">
-          <div v-if="post.publishAt.value || post.settings.updatedAt" class="flex items-center text-xs">
-            <time class="text-theme-400">{{ dayjs(post.publishAt.value || post.settings.updatedAt).format('MMM DD, YYYY') }}</time>
-          </div>
-          <div class="group relative max-w-xl">
-            <h3 class="text-xl mt-1 font-semibold hover:underline">
-              <a href="#">
-                <span class="absolute inset-0" />
-                {{ post.title.value }}
-              </a>
-            </h3>
-            <p class="text-sm leading-6 dark:text-theme-100">
-              {{ post.excerpt.value || post.subTitle.value }}
-            </p>
-          </div>
-        </div>
-      </RouterLink>
-    </div>
+    <IndexItemList :list :actions>
+      <template #details="{ item }">
+        <time v-if="item.dateIso" class="text-theme-400">{{ dayjs(item.dateIso).format('MMM DD, YYYY') }}</time>
+      </template>
+    </IndexItemList>
   </WidgetWrap>
 </template>
