@@ -1,9 +1,10 @@
 [sources.github_actions_logs]
 type = "file"
-include = ["/home/runner/work/_temp/_github_logs/**/*.log"]
+include = [ "/home/runner/work/_temp/_github_logs/**/*.log" ]
 
 [sinks.betterstack]
 type = "http"
-inputs = ["github_actions_logs"]
+inputs = [ "github_actions_logs" ]
 uri = "https://logs.betterstack.com/${BETTER_STACK_SOURCE_TOKEN}"
+
 encoding.codec = "json"

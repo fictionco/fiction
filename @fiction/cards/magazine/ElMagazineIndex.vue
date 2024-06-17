@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { type IndexItem, dayjs, getNavComponentType, useService, vue } from '@fiction/core'
+import { type IndexItem, getNavComponentType, useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { FictionPosts, Post, TablePostConfig } from '@fiction/plugin-posts'
 import ClipPathAnim from '@fiction/ui/anim/AnimClipPath.vue'

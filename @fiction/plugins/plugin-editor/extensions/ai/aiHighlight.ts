@@ -31,8 +31,8 @@ declare module '@tiptap/core' {
   }
 }
 
-export const inputRegex = /(?:^|\s)((?:==)((?:[^~=]+))(?:==))$/
-export const pasteRegex = /(?:^|\s)((?:==)((?:[^~=]+))(?:==))/g
+export const inputRegex = /(?:^|\s)(==([^~=]+)==)$/
+export const pasteRegex = /(?:^|\s)(==([^~=]+)==)/g
 
 export const AIHighlight = Mark.create<AIHighlightOptions>({
   name: 'ai-highlight',

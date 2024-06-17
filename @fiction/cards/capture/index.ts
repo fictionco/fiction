@@ -1,4 +1,4 @@
-import { colorList, colorTheme, deepMerge, safeDirname, toLabel, vue } from '@fiction/core'
+import { safeDirname, vue } from '@fiction/core'
 import { CardTemplate, createCard } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'

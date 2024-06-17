@@ -143,20 +143,3 @@ export interface MenuGroup {
 }
 
 export type InArray<T extends Array<any>> = T extends (infer U)[] ? U : never
-
-// sql where operators.value
-export interface DataFilter {
-  field: string
-  value: string | number | string[] | number[] | boolean
-  operator:
-    | '='
-    | '!='
-    | '>'
-    | '<'
-    | '>='
-    | '<='
-    | 'like'
-    | 'not like'
-    | 'in'
-    | 'not in'
-}

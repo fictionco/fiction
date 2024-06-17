@@ -58,7 +58,7 @@ async function handleEmit(target: EventTarget | null) {
     status.value = 'fail'
     reason.value = 'long'
   }
-  else if (/[^a-zA-Z0-9-_]/.test(value)) {
+  else if (/[^\w-]/.test(value)) {
     status.value = 'fail'
     reason.value = 'invalid'
   }

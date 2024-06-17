@@ -1,4 +1,3 @@
-import { replace } from 'lodash'
 import type { EmailVars } from '../action'
 
 // Utility function to escape special characters in a regex pattern

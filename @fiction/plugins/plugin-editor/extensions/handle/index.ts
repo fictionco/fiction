@@ -195,8 +195,9 @@ function DragHandle(options: GlobalDragHandleOptions) {
     if (
       view.state.selection instanceof NodeSelection
       && view.state.selection.node.type.name === 'listItem'
-    )
+    ) {
       listType = node.parentElement!.tagName
+    }
 
     const slice = view.state.selection.content()
     const { dom, text } = __serializeForClipboard(view, slice)

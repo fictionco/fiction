@@ -1,6 +1,8 @@
 <script lang="ts" setup>
+import type { ActionItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
+import ElActions from '@fiction/ui/buttons/ElActions.vue'
 import type { Widget } from './widget.js'
 
 const props = defineProps({
@@ -8,7 +10,7 @@ const props = defineProps({
   loading: { type: Boolean, default: false },
   widget: { type: Object as vue.PropType<Widget>, default: undefined },
   editable: { type: Boolean, default: false },
-
+  actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
 })
 
 const widgetTitle = vue.computed(() => props.widget?.settings.title)
@@ -52,6 +54,9 @@ const widgetDescription = vue.computed(() => props.widget?.settings.description)
             {{ widgetDescription }}
           </div>
         </div>
+      </div>
+      <div>
+        <ElActions class="flex gap-2" :actions ui-size="xs" />
       </div>
     </div>
 

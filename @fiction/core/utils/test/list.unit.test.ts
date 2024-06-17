@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
 import type { IndexMeta } from '@fiction/core/types'
-import { ne } from '@faker-js/faker'
 import { getPaginationInfo, normalizeList, sortPriority } from '../list'
 import { toLabel, toSlug } from '../casing'
 

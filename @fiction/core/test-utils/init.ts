@@ -2,9 +2,7 @@ import path from 'node:path'
 import { FictionUi } from '@fiction/ui'
 import { faker } from '@faker-js/faker'
 import { version as fictionVersion } from '../package.json'
-import type { FictionObject, FictionPlugin } from '../plugin'
 import type { vue } from '../utils'
-import { toCamel } from '../utils/casing'
 import { randomBetween, safeDirname } from '../utils/utils'
 import type { EnvVar, ServiceList } from '../plugin-env'
 import { runServicesSetup } from '../plugin-env'
@@ -62,7 +60,6 @@ export interface TestUtilSettings {
 }
 
 export async function createTestUser(fictionUser: FictionUser, opts: { caller?: string } = {}) {
-
   const caller = `createTestUser-${opts.caller || 'unknown'}`
   logger.info(`creating user - ${caller}`)
   const email = getTestEmail()

@@ -8,7 +8,7 @@ export async function snapshotHtml(html: string, options: { hideTags?: string[],
   }, html)
 
   if (maskIds) {
-    const idRegex = /id="([^"]*\d+[^"]*)"/g
+    const idRegex = /id="([^\d"]*\d[^"]*)"/g
     modifiedHtml = modifiedHtml.replace(idRegex, (match, p1) => `id="${p1.replace(/\d/g, '*')}"`)
   }
 

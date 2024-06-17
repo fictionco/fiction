@@ -41,11 +41,15 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
   constructor(settings: FictionPostsSettings) {
     super('FictionPosts', { ...settings, root: safeDirname(import.meta.url) })
 
-    this.settings.fictionDb.addTables(tables)
+    const { fictionDb, fictionAdmin } = this.settings
 
-    this.settings.fictionAdmin.addWidgets('homeMain', Object.values(this.widgets))
+    fictionDb.addTables(tables)
 
-    this.settings.fictionAdmin.addAdminPages(({ templates }) => [
+    const w = Object.values(this.widgets)
+    fictionAdmin.widgetRegister.value.push(...w)
+    fictionAdmin.addToWidgetArea('homeMain', w.map(widget => widget.key))
+
+    fictionAdmin.addAdminPages(({ templates }) => [
       createCard({
         templates,
         regionId: 'main',

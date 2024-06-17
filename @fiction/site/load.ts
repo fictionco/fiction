@@ -19,7 +19,6 @@ export async function requestManageSite(args: RequestManageSiteParams) {
 
   logger.info(`request manage site:${_action}`, { data: { fields, where } })
 
-
   if (_action === 'create') {
     const { fields } = args
     const { themeId } = fields || {}

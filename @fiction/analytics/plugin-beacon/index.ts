@@ -1,6 +1,6 @@
 import type http from 'node:http'
 import type { EndpointResponse, FictionPluginSettings } from '@fiction/core'
-import { FictionPlugin, WriteBuffer, createExpressApp, dayjs, deepMerge, getRequestIpAddress, log, vue } from '@fiction/core'
+import { FictionPlugin, WriteBuffer, createExpressApp, dayjs, deepMerge, getRequestIpAddress, vue } from '@fiction/core'
 
 import type express from 'express'
 import type { FictionCache } from '@fiction/core/plugin-cache'

@@ -1,4 +1,3 @@
-import path from 'node:path'
 import { afterAll, describe, expect, it } from 'vitest'
 import fs from 'fs-extra'
 import type { EndpointMeta } from '@fiction/core/utils'

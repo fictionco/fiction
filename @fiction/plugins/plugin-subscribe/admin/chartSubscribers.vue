@@ -9,7 +9,6 @@ type SubscriberWidget = FictionSubscribe['widgets']['subscribers']
 const props = defineProps({
   widget: { type: Object as vue.PropType<SubscriberWidget>, required: true },
 })
-
 </script>
 
 <template>

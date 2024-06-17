@@ -1,7 +1,6 @@
 import type { EndpointMeta, EndpointResponse, FictionDb, FictionEmail, FictionEnv, FictionUser, User } from '@fiction/core'
 import { Query, abort } from '@fiction/core'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
-import type { EmailResponse } from '@fiction/core/plugin-email/endpoint'
 import type { EmailAction, FictionTransactions, SendArgsRequest } from '.'
 
 interface EmailActionQuerySettings {

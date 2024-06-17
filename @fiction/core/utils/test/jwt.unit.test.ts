@@ -1,7 +1,7 @@
 /**
  * @vitest-environment happy-dom
  */
-import { afterAll,  describe, expect, it, vi } from 'vitest'
+import { afterAll, describe, expect, it, vi } from 'vitest'
 import jwt from 'jsonwebtoken'
 import { createUserToken, decodeUserToken, manageClientUserToken } from '../jwt'
 
@@ -11,7 +11,6 @@ import { getCookie, getNakedDomain } from '../cookie'
 describe('user token', async () => {
   const testUtils = createTestUtils()
   await testUtils.init()
-
 
   it('saves the token in a parent domain cookie', () => {
     manageClientUserToken({ key: 'test123', _action: 'set', token: 'test' })
@@ -27,7 +26,7 @@ describe('user token', async () => {
   })
 
   it('removes the token', () => {
-    manageClientUserToken({ key: 'test123',_action: 'destroy' })
+    manageClientUserToken({ key: 'test123', _action: 'destroy' })
     const cookieToken = getCookie('test123')
 
     expect(cookieToken).toBeFalsy()

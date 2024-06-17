@@ -1,4 +1,4 @@
-import type { FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionServer, FictionUser, TableMediaConfig } from '@fiction/core'
+import type { FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import type { FictionTransactions } from '@fiction/plugin-transactions'
 import { createCard } from '@fiction/site'
@@ -47,9 +47,15 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
 
   addAdminPages() {
     const basic = { caller: 'FictionSubscribe', context: 'app' } as const
-    this.settings.fictionAdmin.addWidgets('homeMain', Object.values(this.widgets))
 
-    this.settings.fictionEnv.addHook({
+    const { fictionAdmin, fictionEnv } = this.settings
+
+    fictionAdmin.widgetRegister.value.push(...Object.values(this.widgets))
+    const widgetKeys = Object.values(this.widgets).map(widget => widget.key)
+    fictionAdmin.addToWidgetArea('homeMain', widgetKeys)
+    fictionAdmin.addToWidgetArea('subscriberIndex', widgetKeys)
+
+    fictionEnv.addHook({
       hook: 'adminPages',
       ...basic,
       callback: async (pages, meta) => {

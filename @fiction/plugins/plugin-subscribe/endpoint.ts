@@ -2,7 +2,7 @@ import type { EndpointMeta, EndpointResponse, FictionDb, FictionEmail, FictionEn
 import { Query, dayjs, deepMerge, prepareFields } from '@fiction/core'
 import { AnalyticsQuery } from '@fiction/analytics/query'
 import { refineTimelineData } from '@fiction/analytics/utils/refine'
-import type { DataCompared, DataPointChart, QueryParams, QueryParamsRefined } from '@fiction/analytics/types'
+import type { DataCompared, DataPointChart, QueryParamsRefined } from '@fiction/analytics/types'
 import type { Subscriber, TableSubscribeConfig } from './schema'
 import { t } from './schema'
 import type { FictionSubscribe } from '.'

@@ -13,8 +13,8 @@
     }
   ],
   "dependencies": {
-    "@aws-sdk/client-cloudfront": "^3.596.0",
-    "@aws-sdk/client-s3": "^3.596.0",
+    "@aws-sdk/client-cloudfront": "^3.598.0",
+    "@aws-sdk/client-s3": "^3.598.0",
     "@egoist/tailwindcss-icons": "^1.8.1",
     "@faker-js/faker": "^8.4.1",
     "@iconify-json/carbon": "^1.1.35",
@@ -24,9 +24,9 @@
     "@iconify-json/heroicons": "^1.1.21",
     "@iconify-json/logos": "^1.1.43",
     "@iconify-json/svg-spinners": "^1.1.2",
-    "@iconify-json/tabler": "^1.1.113",
+    "@iconify-json/tabler": "^1.1.114",
     "@medv/finder": "^3.2.0",
-    "@sinclair/typebox": "^0.32.32",
+    "@sinclair/typebox": "^0.32.33",
     "@slack/webhook": "^7.0.2",
     "@tailwindcss/container-queries": "^0.1.1",
     "@types/turndown": "^5.0.4",
@@ -135,9 +135,9 @@
     "vite": "^5.3.1",
     "vue": "^3.4.29",
     "vue-router": "^4.3.3",
-    "ws": "^8.17.0",
+    "ws": "^8.17.1",
     "zod": "^3.23.8",
-    "zod-to-json-schema": "^3.23.0"
+    "zod-to-json-schema": "^3.23.1"
   },
   "devDependencies": {
     "@babel/parser": "^7.24.7",
@@ -157,7 +157,7 @@
     "@types/jsonwebtoken": "^9.0.6",
     "@types/mime-types": "^2.1.4",
     "@types/multer": "^1.4.11",
-    "@types/node": "^20.14.2",
+    "@types/node": "^20.14.3",
     "@types/nodemailer": "^6.4.15",
     "@types/nodemailer-html-to-text": "^3.1.3",
     "@types/nodemon": "^1.19.6",
@@ -167,7 +167,7 @@
     "@types/semver": "^7.5.8",
     "@types/serve-favicon": "^2.5.7",
     "@types/spark-md5": "^3.0.4",
-    "@types/validator": "^13.11.10",
+    "@types/validator": "^13.12.0",
     "@types/ws": "^8.5.10",
     "@vitest/ui": "^1.6.0",
     "deep-object-diff": "^1.1.9",

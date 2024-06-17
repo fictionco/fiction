@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { omit, vue } from '@fiction/core'
-import { useAttrs } from 'vue'
 import type { UiElementSize } from '../utils'
 import { inputs } from '.'
 
@@ -80,7 +79,6 @@ const cls = vue.computed(() => {
 
   return map[size as keyof typeof map] || map.md
 })
-
 </script>
 
 <template>

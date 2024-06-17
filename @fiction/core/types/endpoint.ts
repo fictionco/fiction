@@ -2,14 +2,35 @@ import type express from 'express'
 import type { ErrorCode } from '../utils/error.js'
 import type { UserRoles } from './roles.js'
 
-export interface IndexMeta {
-  count?: number
+// sql where operators.value
+export interface DataFilter {
+  field: string
+  value: string | number | string[] | number[] | boolean
+  operator:
+    | '='
+    | '!='
+    | '>'
+    | '<'
+    | '>='
+    | '<='
+    | 'like'
+    | 'not like'
+    | 'in'
+    | 'not in'
+}
+
+export type IndexQuery = {
   offset?: number
   limit?: number
   order?: 'asc' | 'desc'
   orderBy?: string
-  changedCount?: number
+  filters?: DataFilter[]
 }
+
+export type IndexMeta = {
+  count?: number
+  changedCount?: number
+} & IndexQuery
 
 export type ResponseStatus = 'success' | 'error' | 'fail' | 'loading' | 'unknown'
 

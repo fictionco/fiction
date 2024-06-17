@@ -1,5 +1,5 @@
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
-import { CardTemplate, type FictionSites, type SitesPluginSettings, createCard } from '..'
+import { type FictionSites, type SitesPluginSettings, createCard } from '..'
 
 type FictionSiteBuilderSettings = {
   fictionSites: FictionSites
@@ -23,7 +23,7 @@ export class FictionSiteBuilder extends FictionPlugin<FictionSiteBuilderSettings
             templates,
             regionId: 'main',
             templateId: 'dash',
-            slug: '_home',
+            slug: 'sites',
             title: 'Your Sites',
             cards: [
               createCard({ el: vue.defineAsyncComponent(() => import('./ViewIndex.vue')) }),
@@ -39,7 +39,11 @@ export class FictionSiteBuilder extends FictionPlugin<FictionSiteBuilderSettings
             cards: [
               createCard({ el: vue.defineAsyncComponent(() => import('./SiteEditor.vue')) }),
             ],
-            userConfig: { isNavItem: false, layoutFormat: 'full', navIcon: 'i-tabler-home-plus' },
+            userConfig: {
+              isNavItem: false,
+              layoutFormat: 'full',
+              navIcon: 'i-tabler-home-plus',
+            },
           }),
         ]
       },

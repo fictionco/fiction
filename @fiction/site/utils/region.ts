@@ -1,5 +1,5 @@
 import { log } from '@fiction/core'
-import type { CardTemplate, Site } from '../index.js'
+import type { Site } from '../index.js'
 import { Card } from '../card.js'
 import type { CardConfigPortable, PageRegion, TableCardConfig } from '../tables.js'
 

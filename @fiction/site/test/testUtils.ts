@@ -1,4 +1,4 @@
-import { AppRoute, FictionApp, FictionAws, FictionMedia, FictionRouter, getEnvVars, isCi, randomBetween } from '@fiction/core'
+import { AppRoute, FictionApp, FictionAws, FictionMedia, FictionRouter, getEnvVars, randomBetween } from '@fiction/core'
 import { FictionAi } from '@fiction/plugin-ai'
 import type { TestUtils } from '@fiction/core/test-utils/init'
 import { createTestUtils } from '@fiction/core/test-utils/init'
@@ -54,7 +54,7 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
   out.fictionAdmin = new FictionAdmin({ ...(out as SiteTestUtils) })
   out.fictionSubscribe = new FictionSubscribe({ ...(out as SiteTestUtils) })
 
-  const themes = () => Promise.all([testTheme.setup(out), ...(args.themes || []).map(_ => _(out))])
+  const themes = () => Promise.all([testTheme.setup(out), ...(args.themes || []).map(_ => _(out as SiteTestUtils))])
   out.fictionSites = new FictionSites({ ...(out as SiteTestUtils), flyApiToken, flyAppId, themes })
 
   await runServicesSetup(out, { context: 'test' })

@@ -1,6 +1,5 @@
 import { type ActionItem, type EndpointResponse, FictionObject, type StandardServices, vue } from '@fiction/core/index.js'
 import type { InputOption } from '@fiction/ui/index.js'
-import type { Widget } from './dashboard/widget'
 
 export type NavCardUserConfig = { isNavItem?: boolean, navIcon?: string, navIconAlt?: string, parentItemId?: string }
 
@@ -31,8 +30,4 @@ export class SettingsTool<T extends string = string, U extends Record<string, an
   }
 }
 
-export type WidgetLocation = 'homeMain' | 'homeSecondary'
-
-export type WidgetMap = {
-  [K in WidgetLocation]?: Widget[];
-} & Record<string, never>
+export type WidgetLocation = 'homeMain' | 'homeSecondary' | string

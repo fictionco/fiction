@@ -1,5 +1,4 @@
 import type { MainFileSetup, ServiceList } from '../plugin-env/index.js'
-import { isCi } from '../utils/vars.js'
 import { log } from '../plugin-log/index.js'
 import { createTestBrowser, performActions } from './buildTest.js'
 import { setup as mainFileSetup } from './testMainFile.js'

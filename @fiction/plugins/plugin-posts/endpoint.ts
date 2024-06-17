@@ -1,4 +1,4 @@
-import type { DataFilter, EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser, TableTaxonomyConfig } from '@fiction/core'
+import type { DataFilter, EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser, IndexMeta, IndexQuery, TableTaxonomyConfig } from '@fiction/core'
 import { Query, abort, deepMerge, incrementSlugId, objectId, prepareFields, standardTable, toLabel, toSlug } from '@fiction/core'
 import type { TablePostConfig } from './schema'
 import { t } from './schema'
@@ -575,18 +575,13 @@ export class QueryManageTaxonomy extends PostsQuery {
 
 export type ManageIndexParamsRequest = {
   _action: 'delete' | 'list'
-  limit?: number
-  offset?: number
   selectedIds?: string[]
-  filters?: DataFilter[]
   loadDraft?: boolean
-}
+} & IndexQuery
 
 export type ManageIndexParams = ManageIndexParamsRequest & { userId?: string, orgId?: string }
 
-type ManageIndexResponse = EndpointResponse<TablePostConfig[]> & {
-  indexMeta?: { count: number, limit: number, offset: number }
-}
+type ManageIndexResponse = EndpointResponse<TablePostConfig[]> & { indexMeta?: IndexMeta }
 
 export class ManagePostIndex extends PostsQuery {
   async run(params: ManageIndexParams, _meta: EndpointMeta): Promise<ManageIndexResponse> {
@@ -633,19 +628,19 @@ export class ManagePostIndex extends PostsQuery {
     return {
       status: 'success',
       data: postsWithAuthors,
-      indexMeta: { count, limit, offset },
+      indexMeta: { ...args, count, limit, offset },
     }
   }
 
-  private async fetchPosts(args: { orgId: string, limit: number, offset: number, filters: DataFilter[] }) {
-    const { orgId, limit, offset, filters } = args
+  private async fetchPosts(args: { orgId: string } & IndexQuery) {
+    const { orgId, limit = 20, offset = 0, filters = [], orderBy = 'updatedAt', order = 'desc' } = args
     const query = this.db()
       .select<TablePostConfig[]>('*')
       .from(t.posts)
       .where('org_id', orgId)
       .limit(limit)
       .offset(offset)
-      .orderBy('updatedAt', 'desc')
+      .orderBy(orderBy, order)
 
     filters.forEach((filter) => {
       if (filter.field && filter.operator && filter.value)
@@ -669,13 +664,8 @@ export class ManagePostIndex extends PostsQuery {
     if (!selectedIds || selectedIds.length === 0)
       throw abort('No posts selected for deletion')
 
-    await this.db()(t.posts)
-      .whereIn('post_id', selectedIds)
-      .delete()
+    await this.db()(t.posts).whereIn('post_id', selectedIds).delete()
 
-    return {
-      status: 'success',
-      message: 'Deleted successfully',
-    }
+    return { status: 'success', message: 'Deleted successfully' }
   }
 }

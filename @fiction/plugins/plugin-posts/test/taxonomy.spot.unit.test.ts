@@ -1,13 +1,14 @@
-import { createTestUser, createTestUtils } from '@fiction/core/test-utils/init'
+import { createTestUser } from '@fiction/core/test-utils/init'
 
 import { afterAll, describe, expect, it } from 'vitest'
 import type { DataFilter } from '@fiction/core'
+import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import type { TablePostConfig } from '../schema'
 import { FictionPosts } from '..'
 import type { ManagePostParams, ManageTaxonomyParams } from '../endpoint'
 
 describe('taxonomy management tests', async () => {
-  const testUtils = createTestUtils()
+  const testUtils = await createSiteTestUtils()
   const { orgId, user } = await testUtils.init()
   const { userId = '' } = user
   const fictionPosts = new FictionPosts(testUtils)

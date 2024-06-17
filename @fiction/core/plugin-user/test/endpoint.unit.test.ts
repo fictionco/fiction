@@ -4,7 +4,7 @@ import { standardTable } from '@fiction/core/tbl'
 import { createTestUtils, getTestEmail } from '../../test-utils'
 import type { User } from '..'
 import { dayjs } from '../../utils/libraries'
-import { comparePassword, hashPassword } from '../utils'
+import { comparePassword } from '../utils'
 
 describe('user endpoint tests', async () => {
   const testUtils = createTestUtils()

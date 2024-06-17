@@ -1,4 +1,4 @@
-import { FictionObject, getUrlPath, onResetUi, resetUi, vue } from '@fiction/core'
+import { FictionObject, getUrlPath, resetUi, vue } from '@fiction/core'
 import type { FrameUtility } from '@fiction/ui/frame/elBrowserFrameUtil.js'
 import type { Site } from '../index.js'
 import type { CardConfigPortable, TableSiteConfig } from '../tables.js'

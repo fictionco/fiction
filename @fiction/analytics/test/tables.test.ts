@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { dayjs } from '@fiction/core'
 
 import type { SessionParams } from '../plugin-beacon/index.js'

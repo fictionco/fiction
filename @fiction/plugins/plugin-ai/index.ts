@@ -52,8 +52,9 @@ export class FictionAi extends FictionPlugin<FictionAiSettings> {
       if (
         !this.settings.fictionEnv.isApp.value
         && (!openaiApiKey || !pineconeApiKey || !pineconeEnvironment || !pineconeIndex)
-      )
+      ) {
         this.log.warn('Missing Pinecone or OpenAI API keys', { data: { openaiApiKey, pineconeApiKey, pineconeEnvironment, pineconeIndex } })
+      }
     }
   }
 }

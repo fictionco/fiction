@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { clean, onResetUi, shortId, toHtml, toMarkdown, vue } from '@fiction/core'
+import { shortId, toHtml, toMarkdown, vue } from '@fiction/core'
 
 import { animateItemEnter, splitLetters, useElementVisible } from '../anim'
 

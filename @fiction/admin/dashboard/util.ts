@@ -1,10 +1,30 @@
 import type { AnalyticsQuery } from '@fiction/analytics/query'
 import { createEndpointRequests, log } from '@fiction/core'
 import { refineParams } from '@fiction/analytics/utils/refine'
-import type { FictionAdmin, WidgetMap } from '..'
+import type { FictionAdmin } from '..'
 import type { Widget } from './widget'
 
 const logger = log.contextLogger('widgets')
+
+export function getWidgetMap(args: { fictionAdmin: FictionAdmin }): Record<string, Widget[]> {
+  const { fictionAdmin } = args
+
+  const widgetMapRaw = fictionAdmin.widgetMapRaw.value
+  const widgetRegister = fictionAdmin.widgetRegister.value
+  const widgetMap: Record<string, Widget[]> = {}
+  for (const [widgetArea, widgetKeys] of Object.entries(widgetMapRaw)) {
+    widgetMap[widgetArea] = widgetKeys.map((key) => {
+      const w = widgetRegister.find(widget => widget.key === key)
+      if (!w) {
+        fictionAdmin.log.warn(`Widget not found for key: ${key}`)
+      }
+
+      return w
+    }).filter(Boolean) as Widget[]
+  }
+
+  return widgetMap
+}
 
 export async function runWidgetRequests(args: { widgets?: Widget[], fictionAdmin: FictionAdmin }) {
   const { widgets, fictionAdmin } = args
@@ -25,7 +45,7 @@ export async function runWidgetRequests(args: { widgets?: Widget[], fictionAdmin
     return acc
   }, {} as Record<string, AnalyticsQuery>)
 
-  const promises = Object.entries(q).map(async ([key, query]) => {
+  const promises = Object.entries(q).filter(([k, q]) => q.queryParams).map(async ([key, query]) => {
     const endpoint = reqs[key]
     const params = query.queryParams.value
     const refinedParams = refineParams(params)
@@ -45,8 +65,10 @@ export async function runWidgetRequests(args: { widgets?: Widget[], fictionAdmin
   await Promise.all(promises)
 }
 
-function getWidgetQueries(args: { widgetMap: WidgetMap }): Record<string, AnalyticsQuery> {
-  const { widgetMap } = args
+function getWidgetQueries(args: { fictionAdmin: FictionAdmin }): Record<string, AnalyticsQuery> {
+  const { fictionAdmin } = args
+
+  const widgetMap = getWidgetMap({ fictionAdmin })
   const entries = Object.entries(widgetMap)
   return entries.reduce((acc, [_key, widgets]) => {
     widgets.forEach((widget) => {
@@ -63,7 +85,7 @@ function getWidgetQueries(args: { widgetMap: WidgetMap }): Record<string, Analyt
   }, {} as Record<string, AnalyticsQuery>)
 }
 
-export function createWidgetEndpoints(args: { widgetMap: WidgetMap, fictionAdmin: FictionAdmin }) {
+export function createWidgetEndpoints(args: { fictionAdmin: FictionAdmin }) {
   const queries = getWidgetQueries(args)
   const { fictionServer, fictionUser } = args.fictionAdmin.settings
   return createEndpointRequests({ queries, basePath: '/widgets', fictionServer, fictionUser })

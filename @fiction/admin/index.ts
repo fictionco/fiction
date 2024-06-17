@@ -9,14 +9,12 @@ import type { FictionTransactions } from '@fiction/plugin-transactions'
 import type { FictionServer } from '@fiction/core'
 import { envConfig } from '@fiction/core'
 import { createCard } from '@fiction/site/theme.js'
-import type { Card } from '@fiction/site/card.js'
 import type { TableCardConfig } from '@fiction/site/index.js'
 import { getEmails } from './emails/index.js'
 import { createWidgetEndpoints } from './dashboard/util.js'
 import type { Widget } from './dashboard/widget.js'
-import type { WidgetLocation, WidgetMap } from './types.js'
+import type { WidgetLocation } from './types.js'
 import { templates } from './templates.js'
-import { pages } from './theme/index.js'
 
 export * from './tools/tools.js'
 export * from './types.js'
@@ -41,10 +39,11 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
 
   emailActions = getEmails({ fictionAdmin: this })
 
-  widgetMap = vue.shallowRef<WidgetMap>({})
-  addWidgets(widgetArea: WidgetLocation, widgets: Widget[]) {
-    this.widgetMap.value[widgetArea] = this.widgetMap.value[widgetArea] ?? []
-    this.widgetMap.value[widgetArea]?.push(...widgets)
+  widgetRegister = vue.shallowRef<Widget[]>([])
+  widgetMapRaw = vue.shallowRef<Record<string, string[]>>({})
+  addToWidgetArea(widgetArea: WidgetLocation, widgetKeys: string[]) {
+    this.widgetMapRaw.value[widgetArea] = this.widgetMapRaw.value[widgetArea] ?? []
+    this.widgetMapRaw.value[widgetArea]?.push(...widgetKeys)
   }
 
   adminPages = vue.shallowRef<TableCardConfig[]>([
@@ -52,6 +51,7 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
       templates,
       templateId: 'dash',
       slug: 'home',
+      isHome: true,
       title: 'Home',
       cards: [
         createCard({ el: vue.defineAsyncComponent(() => import('./dashboard/ViewDashboard.vue')) }),
@@ -71,8 +71,7 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
   }
 
   override async setup() {
-    const widgetMap = this.widgetMap.value
-    this.widgetRequests = createWidgetEndpoints({ widgetMap, fictionAdmin: this })
+    this.widgetRequests = createWidgetEndpoints({ fictionAdmin: this })
   }
 
   hooks() {

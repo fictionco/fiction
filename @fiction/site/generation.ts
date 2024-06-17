@@ -1,4 +1,4 @@
-import { FictionObject, removeUndefined, setNested, toLabel, vue } from '@fiction/core'
+import { FictionObject, setNested, toLabel, vue } from '@fiction/core'
 import type { JsonSchema7ObjectType } from 'zod-to-json-schema'
 import zodToJsonSchema from 'zod-to-json-schema'
 

@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site/card'
 import { dayjs, gravatarUrl, useService, vue } from '@fiction/core/index.js'
-import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
-import ElButton from '@fiction/ui/ElButton.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import { InputOption } from '@fiction/ui/index.js'

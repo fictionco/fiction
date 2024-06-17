@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { ActionItem, MediaDisplayObject, NavItem } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
-import { googleOneTap } from '@fiction/core/plugin-user/google'
 import type { Card } from '@fiction/site/card'
 import ElImage from '@fiction/ui/media/ElImage.vue'
 import ElButton from '@fiction/ui/ElButton.vue'

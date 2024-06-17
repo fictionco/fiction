@@ -1,5 +1,4 @@
 import process from 'node:process'
-import type nodemon from 'nodemon'
 import type { NodemonSettings } from 'nodemon'
 import type { FictionPluginSettings } from '../plugin.js'
 import { FictionPlugin } from '../plugin.js'

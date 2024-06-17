@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
-import { getColorThemeStyles } from '@fiction/ui/utils'
 import type { Handle } from './tools'
 
 const props = defineProps({

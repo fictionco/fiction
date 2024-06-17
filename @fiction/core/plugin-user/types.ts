@@ -1,5 +1,4 @@
 import type stripe from 'stripe'
-import type { UserRoles } from '../types/roles.js'
 import type { CreateObjectType } from '../tbl.js'
 import type { UserCapability } from '../utils/priv.js'
 import type { ProgressStatus } from '../types/index.js'

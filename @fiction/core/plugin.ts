@@ -5,7 +5,6 @@ import { createEndpointRequests } from './utils/endpoint.js'
 import type { LogHelper } from './plugin-log/index.js'
 import { log } from './plugin-log/index.js'
 import type { Query } from './query.js'
-import { abort } from './utils/error.js'
 import type { FictionEnv } from './plugin-env/index.js'
 
 export type FictionPluginSettings = {

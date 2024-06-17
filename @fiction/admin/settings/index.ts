@@ -1,5 +1,5 @@
 import { InputOption } from '@fiction/ui'
-import { type ActionItem, type StandardServices, type User, standardTable as t, vue } from '@fiction/core'
+import { type ActionItem, type StandardServices, vue } from '@fiction/core'
 
 import { SettingsTool } from '../types'
 

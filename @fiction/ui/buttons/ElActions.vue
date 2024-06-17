@@ -7,7 +7,6 @@ defineProps({
   actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
   uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
 })
-//
 </script>
 
 <template>

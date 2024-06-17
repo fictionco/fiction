@@ -1,5 +1,3 @@
-import type { EndpointResponse } from '../types'
-
 export type ErrorCategory = 'error' | 'fail' | 'success'
 
 export type ErrorCode = 'OPERATION_FAILED' | 'INVALID_INPUT' | 'RESOURCE_NOT_FOUND' | 'AUTHENTICATION_FAILED' | 'PERMISSION_DENIED' | 'TOKEN_ERROR' | string

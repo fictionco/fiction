@@ -30,6 +30,7 @@ export class Widget<T extends Query = Query> extends FictionObject<WidgetConfig<
   errorMessage = vue.ref('')
   loading = vue.ref(false)
   hashId = vue.ref('')
+  key = this.settings.key
   constructor(settings: WidgetConfig<T>) {
     super('Widget', settings)
   }

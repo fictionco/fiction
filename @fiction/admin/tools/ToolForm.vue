@@ -58,7 +58,6 @@ const cls = vue.computed(() => {
 
   return configs[props.uiSize as 'md' | 'lg']
 })
-
 </script>
 
 <template>

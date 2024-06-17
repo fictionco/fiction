@@ -1,4 +1,4 @@
-import { FictionAws, FictionMedia, abort, getEnvVars } from '@fiction/core'
+import { FictionAws, FictionMedia, getEnvVars } from '@fiction/core'
 import { createUserToken } from '@fiction/core/utils/jwt'
 import { describe, expect, it } from 'vitest'
 import { createTestUtils, testEnvFile } from '@fiction/core/test-utils'

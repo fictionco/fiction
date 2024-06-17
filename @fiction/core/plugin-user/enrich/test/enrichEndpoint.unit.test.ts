@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { createTestUtils, getTestEmail } from '../../../test-utils'
+import { createTestUtils } from '../../../test-utils'
 import exampleResponse from './exampleResponse.json'
 
 const mockFetch = vi.fn()

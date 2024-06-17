@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { clean, log, vue, waitFor } from '@fiction/core'
+import { log, vue, waitFor } from '@fiction/core'
 import * as bh from 'blurhash'
 import type { ImageFilterConfig, MediaDisplayObject } from '@fiction/core'
 import ClipPathAnim from '../anim/AnimClipPath.vue'

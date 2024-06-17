@@ -1,13 +1,14 @@
 /**
  * @vitest-environment happy-dom
  */
-import { createTestUtils, snap } from '@fiction/core/test-utils'
+import { snap } from '@fiction/core/test-utils'
 import { afterAll, describe, expect, it } from 'vitest'
+import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { FictionPosts } from '..'
 import { managePost, managePostIndex } from '../utils'
 
 describe('post utils', async () => {
-  const testUtils = createTestUtils()
+  const testUtils = await createSiteTestUtils()
 
   const fictionPosts = new FictionPosts(testUtils)
   const initialized = await testUtils.init()

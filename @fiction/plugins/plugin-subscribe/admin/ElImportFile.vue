@@ -2,7 +2,6 @@
 import type { Card } from '@fiction/site/card'
 import { type ListItem, log, useService, vue } from '@fiction/core'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
-import ElActions from '@fiction/ui/buttons/ElActions.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import type { FictionSubscribe } from '..'
 import { csvToEmailList, parseAndValidateEmails } from './utils'

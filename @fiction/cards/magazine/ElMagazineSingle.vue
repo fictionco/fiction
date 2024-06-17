@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { unhead, useService, vue } from '@fiction/core'
+import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { FictionPosts, Post } from '@fiction/plugin-posts'
 import ClipPathAnim from '@fiction/ui/anim/AnimClipPath.vue'
@@ -10,14 +10,12 @@ import ElAuthor from './ElAuthor.vue'
 import type { UserConfig } from '.'
 
 const props = defineProps({
-  card: {  type: Object as vue.PropType<Card<UserConfig>>, required: true,},
+  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
   loading: { type: Boolean, default: true },
   post: { type: Object as vue.PropType<Post>, default: undefined },
 })
 
 const service = useService<{ fictionPosts: FictionPosts }>()
-
-
 
 const userIsAuthor = vue.computed(() => {
   return props.post?.settings.authors?.some(a => a.userId === service.fictionUser.activeUser.value?.userId)

@@ -6,51 +6,56 @@
 app = "fiction-clickhouse"
 
 [build]
-  image = "clickhouse/clickhouse-server@latest"
+image = "clickhouse/clickhouse-server@latest"
 
 [env]
-  CLICKHOUSE_DATABASE = "fiction"
-  CLICKHOUSE_USER = "fiction"
-  CLICKHOUSE_PASSWORD = "socrates-and-plato"
+CLICKHOUSE_DATABASE = "fiction"
+CLICKHOUSE_USER = "fiction"
+CLICKHOUSE_PASSWORD = "socrates-and-plato"
 
 [mount]
-source      = "clickhouse_data"
+source = "clickhouse_data"
 destination = "/var/lib/clickhouse/"
 
 [[services]]
 internal_port = 8123
-protocol      = "tcp"
+protocol = "tcp"
 
-  [services.concurrency]
-    hard_limit = 50
-    soft_limit = 30
+[services.concurrency]
+hard_limit = 50
+soft_limit = 30
 
-  [[services.ports]]
-    handlers = ["tls","http"]
-    port     = 8123
+[[services.ports]]
+handlers = [
+  "tls",
+  "http"
+]
+port = 8123
 
-  [[services.ports]]
-    handlers = ["tls","http"]
-    port     = 443
+[[services.ports]]
+handlers = [
+  "tls",
+  "http"
+]
+port = 443
 
-
-  [[services.tcp_checks]]
-    interval = 10000
-    timeout  = 2000
+[[services.tcp_checks]]
+interval = 10000
+timeout = 2000
 
 [[services]]
-  internal_port = 9000
-  protocol      = "tcp"
+internal_port = 9000
+protocol = "tcp"
 
-  [[services.ports]]
-  handlers = ["tls"]
-  port     = 9000
+[[services.ports]]
+handlers = [ "tls" ]
+port = 9000
 
-  [[services.tcp_checks]]
-  interval = 10000
-  timeout  = 2000
+[[services.tcp_checks]]
+interval = 10000
+timeout = 2000
 
 [[vm]]
-  memory = '2gb'
-  cpu_kind = 'shared'
-  cpus = 1
+memory = '2gb'
+cpu_kind = 'shared'
+cpus = 1

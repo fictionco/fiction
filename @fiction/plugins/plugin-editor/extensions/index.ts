@@ -16,13 +16,9 @@ import Subscript from '@tiptap/extension-subscript'
 import BubbleMenu from '@tiptap/extension-bubble-menu'
 import AutoJoiner from 'tiptap-extension-auto-joiner'
 import Focus from '@tiptap/extension-focus'
-import CodeBlockLowLight from '@tiptap/extension-code-block-lowlight'
-import { common, createLowlight } from 'lowlight'
 import { xImage } from './image'
 import DragHandle from './handle'
 import SlashCommand from './slash'
-
-export const lowlight = createLowlight(common)
 
 const PlaceholderExtension = Placeholder.configure({
   placeholder: ({ node }) => {
@@ -99,5 +95,4 @@ export const extensions = [
   SlashCommand,
   DragHandle,
   Focus,
-  CodeBlockLowLight.configure({ lowlight }),
 ]

@@ -1,6 +1,5 @@
 import { dayjs, objectId } from '@fiction/core'
 
-import type { CreateObjectType } from '@fiction/core'
 import { FictionAnalyticsCol, FictionAnalyticsTable } from './plugin-clickhouse/utils.js'
 import { standardUrl } from './plugin-beacon/utils/index.js'
 

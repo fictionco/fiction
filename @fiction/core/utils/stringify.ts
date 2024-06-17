@@ -1,4 +1,4 @@
-import { fromJSON, parse, stringify, toJSON } from 'flatted'
+import { parse, stringify } from 'flatted'
 
 export function flatStringify<T = unknown>(value: T): string {
   return stringify(value)

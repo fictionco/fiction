@@ -166,7 +166,6 @@ function updatePost(config: TablePostConfig) {
 
   props.post?.update(config)
 }
-
 </script>
 
 <template>

@@ -1,6 +1,4 @@
 import { type EndpointMeta, type EndpointResponse, type User, abort, vue } from '@fiction/core'
-import { verifyCode } from '@fiction/core/plugin-user/utils'
-import type { SendArgsRequest } from '@fiction/plugin-transactions'
 import { EmailAction } from '@fiction/plugin-transactions'
 import type { FictionAdmin } from '..'
 

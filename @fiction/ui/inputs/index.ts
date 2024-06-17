@@ -1,8 +1,6 @@
 import type { ListItem } from '@fiction/core'
 import { FictionObject, removeUndefined, vue } from '@fiction/core'
 import type { z } from 'zod'
-import InputActions from './InputActions.vue'
-import InputItems from './InputItems.vue'
 
 const def = vue.defineAsyncComponent
 

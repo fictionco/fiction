@@ -1,4 +1,3 @@
-import { dayjs } from '@fiction/core'
 import type DateChart from '../DateChart.vue'
 
 type ChartProps = InstanceType<typeof DateChart>['$props']

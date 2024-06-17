@@ -2,7 +2,7 @@
  * @vitest-environment happy-dom
  */
 import { createTestUtils } from '@fiction/core/test-utils/init'
-import { afterAll, describe, expect, it, vi } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { decodeUserToken } from '@fiction/core/utils/jwt'
 import { getTestEmail, snap } from '../../test-utils'
 import type { User } from '../types'
