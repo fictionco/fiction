@@ -32,7 +32,7 @@ type CreateUserFields = Partial<User> & { email: string, password?: string, orgN
 
 export type ManageUserParams =
   | { _action: 'create', fields: CreateUserFields, withGeo?: boolean }
-  | { _action: 'getCreate', where: WhereUser, fields?: Partial<CreateUserFields> }
+  | { _action: 'getCreate', where: WhereUser, fields?: Partial<CreateUserFields>, refreshCode?: boolean }
   | { _action: 'update', fields: Partial<User> & { password?: string }, where: WhereUser, code?: string }
   | { _action: 'updateCurrentUser', fields: Partial<User> & { password?: string } }
   | { _action: 'retrieve', select?: (keyof User)[] | ['*'], where: WhereUser }
@@ -149,7 +149,7 @@ export class QueryManageUser extends UserBaseQuery {
   }
 
   private async getCreateUser(params: ManageUserParams & { _action: 'getCreate' }, _meta: EndpointMeta): Promise<{ user?: User, isNew: boolean }> {
-    const { where } = params
+    const { where, refreshCode } = params
 
     let isNew = false
     let user = await this.getUser({ _action: 'retrieve', where }, _meta)
@@ -159,6 +159,10 @@ export class QueryManageUser extends UserBaseQuery {
       const fields: CreateUserFields = { ...params.fields, email }
       user = await this.createUser({ _action: 'create', fields }, { ..._meta, server: true })
       isNew = true
+    }
+    else if (user && refreshCode) {
+      isNew = false
+      user = await this.requestCode({ _action: 'requestCode', where, context: 'getCreate' }, _meta)
     }
 
     return { user, isNew }

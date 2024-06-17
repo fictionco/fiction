@@ -60,7 +60,7 @@ export class EndpointEmailAction extends EmailActionQuery {
     const where = userId ? { userId } : { email: to }
     const _action = userId ? 'requestCode' : 'getCreate'
 
-    const userResponse = await fictionUser.queries.ManageUser.serve({ _action, where, fields }, { ...meta, returnAuthority: ['verify'] })
+    const userResponse = await fictionUser.queries.ManageUser.serve({ _action, where, fields, refreshCode: true }, { ...meta, returnAuthority: ['verify'] })
 
     const user = userResponse.data
     const isNew = userResponse.isNew

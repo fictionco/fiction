@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import type { Request } from 'express'
 import { standardTable } from '@fiction/core/tbl'
+import { dayjs } from '../../utils/libraries'
 import { createTestUtils, getTestEmail } from '../../test-utils'
 import type { User } from '..'
-import { dayjs } from '../../utils/libraries'
 import { comparePassword } from '../utils'
+import type { ManageUserParams } from '../endpoint'
 
 describe('user endpoint tests', async () => {
   const testUtils = createTestUtils()
@@ -48,6 +49,37 @@ describe('user endpoint tests', async () => {
     expect(response.message).toMatchInlineSnapshot(`"user created"`)
     expect(response.user?.hashedPassword).toBeFalsy()
     expect(response.user?.verify?.code).toBeFalsy()
+  })
+
+  it('handles code and no create user on getCreate', async () => {
+    const fictionUser = testUtils.fictionUser
+
+    const email = workingUser?.email
+    const userId = workingUser?.userId
+
+    if (!email || !userId)
+      throw new Error('No email / userId')
+
+    const workingUserVerify = await fictionUser.queries.ManageUser.serve({ _action: 'retrieve', where: { userId } }, { server: true, isTest: true, returnAuthority: ['verify'] })
+
+    expect(workingUserVerify.status).toBe('success')
+    expect(workingUserVerify.data?.verify?.code).toBeTruthy()
+    expect(workingUserVerify.data?.verify?.expiresAt).toBeTruthy()
+
+    // Prepare the parameters for the 'create' action
+    const params: ManageUserParams & { _action: 'getCreate' } = {
+      _action: 'getCreate',
+      where: { email },
+      refreshCode: true,
+    } as const
+
+    const response = await fictionUser.queries.ManageUser.serve(params, { server: true, isTest: true, returnAuthority: ['verify'] })
+
+    expect(response.status).toBe('success')
+    expect(response.data?.email).toBe(email)
+    expect(response.data?.userId).toBe(workingUser?.userId)
+    expect(response.data?.verify?.code).not.toBe(workingUserVerify.data?.verify?.code)
+    expect(response.data?.verify?.expiresAt).not.toBe(workingUserVerify.data?.verify?.expiresAt)
   })
 
   it('updates user password', async () => {
