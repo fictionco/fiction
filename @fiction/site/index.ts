@@ -4,6 +4,7 @@ import type { DataFilter, FictionApp, FictionDb, FictionEmail, FictionEnv, Ficti
 import { EnvVar, vars } from '@fiction/core/plugin-env'
 import type { FictionAi } from '@fiction/plugin-ai'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
+import type { FictionAdmin } from '@fiction/admin/index.js'
 import { ManageIndex, ManagePage, ManageSite } from './endpoint.js'
 import { tables } from './tables.js'
 import { Site } from './site.js'
@@ -28,6 +29,7 @@ export type SitesPluginSettings = {
   fictionServer: FictionServer
   fictionApp: FictionApp
   fictionRouter: FictionRouter
+  fictionAdmin: FictionAdmin
   fictionMonitor?: FictionMonitor
   fictionAi?: FictionAi
   fictionAppSites: FictionApp

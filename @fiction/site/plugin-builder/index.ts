@@ -1,8 +1,11 @@
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
-import { type FictionSites, type SitesPluginSettings, createCard } from '..'
+import type { FictionAdmin } from '@fiction/admin'
+import type { FictionSites, SitesPluginSettings } from '..'
+import { createCard } from '..'
 
 type FictionSiteBuilderSettings = {
   fictionSites: FictionSites
+  fictionAdmin: FictionAdmin
 } & SitesPluginSettings
 
 export class FictionSiteBuilder extends FictionPlugin<FictionSiteBuilderSettings> {
@@ -11,42 +14,31 @@ export class FictionSiteBuilder extends FictionPlugin<FictionSiteBuilderSettings
 
     super('FictionSiteBuilder', s)
 
-    this.settings.fictionEnv.addHook({
-      hook: 'adminPages',
-      caller: 'FictionSiteBuilder',
-      context: 'app',
-      callback: async (pages, meta) => {
-        const { templates } = meta
-        return [
-          ...pages,
-          createCard({
-            templates,
-            regionId: 'main',
-            templateId: 'dash',
-            slug: 'sites',
-            title: 'Your Sites',
-            cards: [
-              createCard({ el: vue.defineAsyncComponent(() => import('./ViewIndex.vue')) }),
-            ],
-            userConfig: { isNavItem: true, navIcon: 'i-tabler-browser', navIconAlt: 'i-tabler-browser-plus' },
-          }),
-          createCard({
-            templates,
-            regionId: 'main',
-            templateId: 'dash',
-            slug: 'edit-site',
-            title: 'Edit Site',
-            cards: [
-              createCard({ el: vue.defineAsyncComponent(() => import('./SiteEditor.vue')) }),
-            ],
-            userConfig: {
-              isNavItem: false,
-              layoutFormat: 'full',
-              navIcon: 'i-tabler-home-plus',
-            },
-          }),
-        ]
-      },
-    })
+    this.admin()
+  }
+
+  admin() {
+    const { fictionAdmin } = this.settings
+
+    fictionAdmin.addAdminPages(({ templates }) => [
+      createCard({
+        templates,
+        regionId: 'main',
+        templateId: 'dash',
+        slug: 'sites',
+        title: 'Sites',
+        cards: [createCard({ el: vue.defineAsyncComponent(() => import('./ViewIndex.vue')) })],
+        userConfig: { isNavItem: true, navIcon: 'i-tabler-browser', navIconAlt: 'i-tabler-browser-plus' },
+      }),
+      createCard({
+        templates,
+        regionId: 'main',
+        templateId: 'dash',
+        slug: 'edit-site',
+        title: 'Edit Site',
+        cards: [createCard({ el: vue.defineAsyncComponent(() => import('./SiteEditor.vue')) })],
+        userConfig: { isNavItem: false, layoutFormat: 'full', navIcon: 'i-tabler-home-plus' },
+      }),
+    ])
   }
 }

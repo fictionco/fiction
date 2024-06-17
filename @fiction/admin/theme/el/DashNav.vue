@@ -44,7 +44,7 @@ async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
           <div class="nav-menu">
             <component
               :is="getNavComponentType(sub)"
-              class="group nav-item flex  cursor-pointer items-center py-3 px-4 space-x-3 truncate rounded-full font-sans text-base antialiased  focus:outline-none transition-all duration-100"
+              class="group nav-item flex  cursor-pointer items-center py-3 px-4 space-x-3 truncate rounded-full font-sans text-lg antialiased  focus:outline-none transition-all duration-100"
               :to="sub.href"
               :href="sub.href"
               :class="
@@ -62,10 +62,10 @@ async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
       </div>
     </div>
     <div class="mb-4 p-3">
-      <RouterLink :to="card.link('/settings')" class="flex items-center gap-x-4 p-3  rounded-2xl hover:bg-theme-50 dark:hover:bg-theme-700">
+      <RouterLink :to="card.link('/settings')" class="flex items-center gap-x-4 py-3 px-4 rounded-full hover:bg-theme-50 dark:hover:bg-theme-700">
         <ElAvatarOrg class="size-8  shrink-0 " />
         <div class=" min-w-0">
-          <div class="sm:text-sm lg:text-base font-semibold x-font-title whitespace-nowrap truncate">
+          <div class="sm:text-sm lg:text-lg font-semibold x-font-title whitespace-nowrap truncate">
             {{ service.fictionUser.activeOrganization.value?.orgName || 'Unnamed Org' }}
           </div>
           <div class="text-xs text-theme-500 dark:text-theme-300 font-normal">

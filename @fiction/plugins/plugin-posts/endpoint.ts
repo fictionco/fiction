@@ -27,32 +27,11 @@ export abstract class PostsQuery extends Query<PostsQuerySettings> {
 }
 
 export type ManagePostParamsRequest =
-  | {
-    _action: 'create'
-    fields: Partial<TablePostConfig>
-  }
-  | {
-    _action: 'update'
-    postId: string
-    fields: Partial<TablePostConfig>
-    loadDraft?: boolean
-  }
-  | {
-    _action: 'get'
-    postId?: string
-    slug?: string
-    select?: (keyof TablePostConfig)[] | ['*']
-    loadDraft?: boolean
-  }
-  | {
-    _action: 'delete'
-    postId: string
-  }
-  | {
-    _action: 'saveDraft'
-    postId: string
-    fields: Partial<TablePostConfig>
-  }
+  | { _action: 'create', fields: Partial<TablePostConfig> }
+  | { _action: 'update', postId: string, fields: Partial<TablePostConfig>, loadDraft?: boolean }
+  | { _action: 'get', postId?: string, slug?: string, select?: (keyof TablePostConfig)[] | ['*'], loadDraft?: boolean }
+  | { _action: 'delete', postId: string }
+  | { _action: 'saveDraft', postId: string, fields: Partial<TablePostConfig> }
 
 export type ManagePostParams = ManagePostParamsRequest & { userId?: string, orgId: string }
 

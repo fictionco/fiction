@@ -128,8 +128,6 @@ const fictionAdmin = new FictionAdmin({ ...basicService, fictionTransactions, fi
 
 const pluginServices = { ...basicService, fictionCache, fictionAppSites, fictionRouterSites, fictionAws, fictionMedia, fictionAi, fictionTransactions, fictionAdmin }
 
-const fictionSubscribe = new FictionSubscribe({ ...pluginServices })
-
 const fictionStripe = new FictionStripe({
   ...pluginServices,
   secretKeyLive: fictionEnv.var('STRIPE_SECRET_KEY_PROD'),
@@ -183,6 +181,8 @@ const fictionTeam = new FictionTeam({ ...pluginServices })
 const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp, fictionAppSites] })
 
 const fictionAnalytics = new FictionAnalytics({ clickhouseUrl, ...pluginServices, beaconPort: +fictionEnv.var('BEACON_PORT') })
+
+const fictionSubscribe = new FictionSubscribe({ ...pluginServices })
 
 const baseService = { ...pluginServices, fictionAnalytics, fictionSites, fictionTeam, fictionUi, fictionStripe, fictionSubscribe }
 

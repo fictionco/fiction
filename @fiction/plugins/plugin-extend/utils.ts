@@ -4,6 +4,7 @@ export type ExtensionManifest<T extends Record<string, any> = Record<string, any
   extensionId: string
   setup?: (settings: T) => Promise<FictionPlugin<T & FictionPluginSettings>>
   settings?: () => (Promise<Omit<T, keyof FictionPluginSettings>> | Omit<T, keyof FictionPluginSettings>)
+  installStatus: 'installed' | 'disabled' | 'uninstalled'
 } & IndexItem
 
 export type ExtensionLoader<T extends Record<string, any> = Record<string, any>> = {

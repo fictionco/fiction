@@ -41,10 +41,15 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
   constructor(settings: FictionPostsSettings) {
     super('FictionPosts', { ...settings, root: safeDirname(import.meta.url) })
 
-    const { fictionDb, fictionAdmin } = this.settings
+    const { fictionDb } = this.settings
 
     fictionDb.addTables(tables)
 
+    this.adminUi()
+  }
+
+  adminUi() {
+    const { fictionAdmin } = this.settings
     const w = Object.values(this.widgets)
     fictionAdmin.widgetRegister.value.push(...w)
     fictionAdmin.addToWidgetArea('homeMain', w.map(widget => widget.key))
@@ -52,6 +57,7 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
     fictionAdmin.addAdminPages(({ templates }) => [
       createCard({
         templates,
+
         regionId: 'main',
         templateId: 'dash',
         slug: 'posts',
@@ -69,10 +75,6 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
         userConfig: { layoutFormat: 'full' },
       }),
     ])
-  }
-
-  override async setup() {
-
   }
 
   async runScheduler() {
@@ -121,4 +123,5 @@ export const plugin: ExtensionManifest<FictionPostsSettings> = {
   name: 'Post and Blog System',
   desc: 'Adds posts and blog functionality to Fiction',
   setup: async settings => new FictionPosts(settings),
+  installStatus: 'installed',
 }

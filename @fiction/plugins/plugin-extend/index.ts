@@ -1,53 +1,39 @@
-import { CardTemplate, createCard } from '@fiction/site'
+import { createCard } from '@fiction/site'
 import { FictionPlugin } from '@fiction/core/plugin'
 import type { FictionUser } from '@fiction/core/plugin-user'
 import { safeDirname, vue } from '@fiction/core/utils'
 import type { FictionPluginSettings, PluginSetupArgs } from '@fiction/core/plugin'
 import { runServicesSetup } from '@fiction/core'
+import type { FictionAdmin } from '@fiction/admin'
 import type { ExtensionLoader, ExtensionManifest } from './utils'
 import { loadAndInitializeExtensions } from './utils'
 
 export * from './utils'
 
-type PluginIndexSettings = { extensionIndex: ExtensionLoader<Record<string, any>>[], fictionUser: FictionUser } & FictionPluginSettings
+type PluginIndexSettings = { extensionIndex: ExtensionLoader<Record<string, any>>[], fictionUser: FictionUser, fictionAdmin: FictionAdmin } & FictionPluginSettings
 
 export class FictionExtend<T extends PluginIndexSettings = PluginIndexSettings> extends FictionPlugin<T> {
   extensions = vue.shallowRef<ExtensionManifest[]>([])
   constructor(settings: T) {
     super('FictionExtend', { root: safeDirname(import.meta.url), ...settings })
+    // this.admin()
+  }
 
-    this.settings.fictionEnv.addHook({
-      hook: 'adminPages',
-      caller: 'extendConfig',
-      context: 'app',
-      callback: async (pages, meta) => {
-        const { templates } = meta
-        return [
-          ...pages,
-          createCard({
-            templates,
-            regionId: 'main',
-            templateId: 'dash',
-            slug: 'extend',
-            title: 'Plugins',
-            cards: [
-              createCard({
-                tpl: new CardTemplate({
-                  templateId: 'extend',
-                  el: vue.defineAsyncComponent(() => import('./ViewExtend.vue')),
-                }),
-              }),
-            ],
-            userConfig: {
-              isNavItem: true,
-              navIcon: 'i-tabler-plug',
-              navIconAlt: 'i-tabler-plug-x',
-              priority: 100,
-            },
-          }),
-        ]
-      },
-    })
+  admin() {
+    const { fictionAdmin } = this.settings
+    fictionAdmin.addAdminPages(({ templates }) => [
+      createCard({
+        templates,
+        regionId: 'main',
+        templateId: 'dash',
+        slug: 'extend',
+        title: 'Plugins',
+        cards: [
+          createCard({ el: vue.defineAsyncComponent(() => import('./ViewExtend.vue')) }),
+        ],
+        userConfig: { isNavItem: true, navIcon: 'i-tabler-plug', navIconAlt: 'i-tabler-plug-x', priority: 100 },
+      }),
+    ])
   }
 
   override async beforeSetup(args: PluginSetupArgs) {

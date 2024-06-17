@@ -42,69 +42,42 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
     super('FictionSubscribe', { root: safeDirname(import.meta.url), ...settings })
     this.settings.fictionDb?.addTables(tables)
 
-    this.addAdminPages()
+    this.admin()
   }
 
-  addAdminPages() {
-    const basic = { caller: 'FictionSubscribe', context: 'app' } as const
-
-    const { fictionAdmin, fictionEnv } = this.settings
+  admin() {
+    const { fictionAdmin } = this.settings
 
     fictionAdmin.widgetRegister.value.push(...Object.values(this.widgets))
     const widgetKeys = Object.values(this.widgets).map(widget => widget.key)
     fictionAdmin.addToWidgetArea('homeMain', widgetKeys)
     fictionAdmin.addToWidgetArea('subscriberIndex', widgetKeys)
 
-    fictionEnv.addHook({
-      hook: 'adminPages',
-      ...basic,
-      callback: async (pages, meta) => {
-        const { templates } = meta
-        return [
-          ...pages,
-          createCard({
-            templates,
-            templateId: 'dash',
-            slug: 'subscriber',
-            title: 'Subscribers',
-            cards: [
-              createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewIndex.vue')) }),
-            ],
-            userConfig: {
-              isNavItem: true,
-              navIcon: 'i-tabler-users',
-              navIconAlt: 'i-tabler-users-plus',
-              priority: 50,
-            },
-          }),
-          createCard({
-            templates,
-            templateId: 'dash',
-            slug: 'subscriber-view',
-            title: 'View Subscriber',
-            cards: [
-              createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewSingle.vue')) }),
-            ],
-            userConfig: {
-              navIcon: 'i-tabler-user',
-              parentNavItemSlug: 'subscriber',
-            },
-          }),
-          createCard({
-            templates,
-            templateId: 'dash',
-            slug: 'subscriber-manage',
-            title: 'Manage Subscribers',
-            cards: [
-              createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewManage.vue')) }),
-            ],
-            userConfig: {
-              navIcon: 'i-tabler-users-group',
-              parentNavItemSlug: 'subscriber',
-            },
-          }),
-        ]
-      },
-    })
+    fictionAdmin.addAdminPages(({ templates }) => [
+      createCard({
+        templates,
+        templateId: 'dash',
+        slug: 'subscriber',
+        title: 'Audience',
+        cards: [createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewIndex.vue')) })],
+        userConfig: { isNavItem: true, navIcon: 'i-tabler-users', navIconAlt: 'i-tabler-users-plus', priority: 50 },
+      }),
+      createCard({
+        templates,
+        templateId: 'dash',
+        slug: 'subscriber-view',
+        title: 'View Subscriber',
+        cards: [createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewSingle.vue')) })],
+        userConfig: { navIcon: 'i-tabler-user', parentNavItemSlug: 'subscriber' },
+      }),
+      createCard({
+        templates,
+        templateId: 'dash',
+        slug: 'subscriber-manage',
+        title: 'Manage Subscribers',
+        cards: [createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewManage.vue')) })],
+        userConfig: { navIcon: 'i-tabler-users-group', parentNavItemSlug: 'subscriber' },
+      }),
+    ])
   }
 }
