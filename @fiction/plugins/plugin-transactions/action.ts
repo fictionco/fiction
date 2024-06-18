@@ -37,7 +37,7 @@ type EmailConfigResponse = TransactionalEmailConfig & {
 export type EmailActionSettings<T extends EmailActionSurface = EmailActionSurface > = {
   actionId: string
   template?: vue.Component
-  emailConfig: (args: EmailVars<T['queryVars']>) => EmailConfigResponse | Promise<EmailConfigResponse>
+  emailConfig?: (args: EmailVars<T['queryVars']>) => EmailConfigResponse | Promise<EmailConfigResponse>
   vars?: Partial<EmailVars>
   serverTransaction?: (args: T['transactionArgs'] & { transaction: EmailAction }, meta: EndpointMeta) => Promise< T['transactionResponse']>
   fictionTransactions: FictionTransactions
@@ -136,6 +136,10 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
       throw abort('no fictionEmail provided')
 
     const emailVars = await createEmailVars<T['queryVars']>({ ...args, fictionTransactions: this.fictionTransactions, actionId: this.settings.actionId })
+
+    if (!this.settings.emailConfig) {
+      throw abort('no emailConfig provided')
+    }
 
     const emailConfig = await this.settings.emailConfig(emailVars)
 

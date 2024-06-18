@@ -18,15 +18,16 @@ const loading = vue.ref(false)
 const response = vue.ref<Awaited<ReturnType<SpecEmailAction['requestTransaction']>>>()
 const errorMessage = vue.ref<string | undefined>()
 
+const homeAction = { name: 'Home', href: '/', btn: 'default' as const, icon: 'i-tabler-home' }
 const content = vue.computed<TransactionProps>(() => {
   if (errorMessage.value) {
     return {
       superHeading: 'Error',
-      heading: 'An error occurred',
-      subHeading: errorMessage.value,
+      heading: 'Sorry! An error occurred',
+      subHeading: `Please let us know (${errorMessage.value})`,
       status: 'error' as const,
       actions: [
-        { name: 'Home', href: props.card.link('/'), btn: 'primary', icon: 'i-tabler-home' },
+        homeAction,
       ],
     }
   }
@@ -37,28 +38,30 @@ const content = vue.computed<TransactionProps>(() => {
       subHeading: response.value.message,
       status: response.value.status as 'success' | 'error' | 'pending',
       actions: [
-        { name: 'Home', href: props.card.link('/'), btn: 'primary', icon: 'i-tabler-home' },
+        homeAction,
       ],
     }
   }
   else {
     return {
-      loading: true,
-      heading: 'Loading...',
+      icon: 'i-tabler-mail-x',
+      heading: 'Unsubscribe',
+      subHeading: 'Are you sure you want to unsubscribe?',
       status: 'pending',
+      actions: [
+        { name: 'Yes, unsubscribe', onClick: () => sendRequest(), btn: 'default', icon: 'i-tabler-x' },
+        homeAction,
+      ],
     }
   }
 })
 
-async function sendRequest(user?: User) {
+async function sendRequest() {
   loading.value = true
 
   const { userId, orgId, code } = props.queryVars
 
-  if (!user) {
-    errorMessage.value = 'Not logged in'
-  }
-  else if (!userId) {
+  if (!userId) {
     errorMessage.value = 'Missing userId'
   }
   else if (!orgId) {
@@ -76,11 +79,6 @@ async function sendRequest(user?: User) {
 
   loading.value = false
 }
-
-vue.onMounted(async () => {
-  const user = await fictionUser.userInitialized()
-  await sendRequest(user)
-})
 </script>
 
 <template>

@@ -71,5 +71,25 @@ export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
     },
   })
 
-  return { subscribe }
+  const unsubscribe = new EmailAction<{
+    transactionArgs: { orgId: string, userId: string, code?: string }
+  }>({
+    fictionTransactions,
+    actionId: 'unsubscribe',
+    template: vue.defineAsyncComponent<vue.Component>(() => import('./TransactionUnsubscribe.vue')), // <vue.Component> avoids circular reference
+
+    serverTransaction: async (args, meta: EndpointMeta) => {
+      const { orgId, userId, code } = args
+
+      if (!code) {
+        throw new Error('Missing code')
+      }
+
+      const r = await fictionSubscribe.queries.ManageSubscription.serve({ _action: 'update', orgId, where: [{ userId }], fields: { status: 'unsubscribed' } }, { ...meta, server: true })
+
+      return { ...r, message: 'You are now unsubscribed.' }
+    },
+  })
+
+  return { subscribe, unsubscribe }
 }

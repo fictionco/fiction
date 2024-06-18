@@ -16,9 +16,9 @@ const props = defineProps({
 })
 
 const iconThemes: Record<string, { class: string, icon?: string }> = {
-  pending: { class: 'bg-theme-100/50 text-theme-500 dark:bg-theme-900 dark:text-theme-100' },
+  pending: { class: 'bg-theme-100/50 text-theme-500 dark:bg-theme-700 dark:text-theme-100', icon: 'i-tabler-stop' },
   success: { class: 'bg-green-100 text-green-800 dark:bg-green-800/50 dark:text-green-50', icon: 'i-tabler-check' },
-  error: { class: 'bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-100', icon: 'i-tabler-loader-circle' },
+  error: { class: 'bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-100', icon: 'i-tabler-x' },
 }
 
 const ico = vue.computed(() => iconThemes[props.status as keyof typeof iconThemes] || iconThemes.pending)
@@ -26,35 +26,45 @@ const ico = vue.computed(() => iconThemes[props.status as keyof typeof iconTheme
 
 <template>
   <div class="relative min-h-[40dvh] my-6 lg:my-12 ">
-    <div
-      v-if="loading"
-      class="text-theme-300 dark:text-theme-600 absolute inset-0 flex h-full w-full flex-col items-center justify-center"
+    <transition
+      enter-active-class="ease-out duration-300"
+      enter-from-class="opacity-0 translate-x-12"
+      enter-to-class="opacity-100 translate-x-0"
+      leave-active-class="ease-in duration-300"
+      leave-from-class="opacity-100 translate-x-0"
+      leave-to-class="opacity-0 -translate-x-12"
+      mode="out-in"
     >
-      <ElSpinner class="h-10 w-10" />
-    </div>
-    <div v-else :data-transaction-status="status" class="space-y-8">
-      <div v-if="heading || subHeading" :key="heading" class="mb-6 md:text-center md:flex md:flex-col space-y-4  items-center justify-center">
-        <div
-          v-if="icon || ico.icon"
-          class="rounded-full size-12 md:size-16 inline-flex items-center justify-center"
-          :class="ico.class"
-          :title="superHeading"
-        >
-          <div class="text-2xl md:text-3xl" :class="icon || ico.icon" />
-        </div>
-        <div>
-          <h1 class="x-font-title text-3xl font-semibold tracking-tight text-balance" v-html="heading" />
-          <div class="mt-2 text-lg md:text-xl font-normal x-font-title text-theme-500 capitalize">
-            <h4 v-if="subHeading" class="space-x-2" v-html="subHeading" />
+      <div
+        v-if="loading"
+        class="text-theme-300 dark:text-theme-600 absolute inset-0 flex h-full w-full flex-col items-center justify-center"
+      >
+        <ElSpinner class="h-10 w-10" />
+      </div>
+      <div v-else :key="status" :data-transaction-status="status" class="space-y-8">
+        <div v-if="heading || subHeading" :key="heading" class="mb-6 md:text-center md:flex md:flex-col space-y-4  items-center justify-center">
+          <div
+            v-if="icon || ico.icon"
+            class="rounded-full size-12 md:size-16 inline-flex items-center justify-center"
+            :class="ico.class"
+            :title="superHeading"
+          >
+            <div class="text-2xl md:text-3xl" :class="icon || ico.icon" />
           </div>
-          <slot name="links" />
+          <div>
+            <h1 class="x-font-title text-3xl font-semibold tracking-tight text-balance" v-html="heading" />
+            <div class="mt-2 text-lg md:text-xl font-normal x-font-title text-theme-500 capitalize">
+              <h4 v-if="subHeading" class="space-x-2" v-html="subHeading" />
+            </div>
+            <slot name="links" />
+          </div>
+        </div>
+        <div class="pb-24 md:pb-8 relative space-y-6">
+          <slot />
+
+          <InputActions :data-test-actions="actions.length" class="justify-center" default-size="md" :actions />
         </div>
       </div>
-      <div class="pb-24 md:pb-8 relative space-y-6">
-        <slot />
-
-        <InputActions :data-test-actions="actions.length" class="justify-center" default-size="md" :actions />
-      </div>
-    </div>
+    </transition>
   </div>
 </template>
