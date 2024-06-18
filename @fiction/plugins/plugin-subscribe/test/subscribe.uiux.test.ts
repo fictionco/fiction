@@ -1,4 +1,4 @@
-import { afterAll, describe, expect, it } from 'vitest'
+import test, { afterAll, describe, expect, it } from 'vitest'
 import { createUiTestingKit } from '@fiction/core/test-utils/kit.js'
 import type { EmailVars } from '@fiction/plugin-transactions/action.js'
 import { createTestUser } from '@fiction/core/test-utils/init.js'
@@ -46,7 +46,10 @@ describe('subscribe uiux', { retry: 3 }, async () => {
     expect(r.data?.isSent).toBe(true)
 
     vars = r.emailVars
-    expect(user2.verify?.code).toBe(r.emailVars.code)
+
+    const r2 = await testUtils.fictionUser.queries.ManageUser.serve({ _action: 'retrieve', where: { userId: user2.userId! } }, { server: true, returnAuthority: ['verify'] })
+
+    expect(r2.data?.verify?.code).toBe(r.emailVars.code)
     const u = new URL(r.emailVars.callbackUrl)
     expect(Object.keys(vars.queryVars || {})).toMatchInlineSnapshot(`
       [

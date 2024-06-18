@@ -15,7 +15,6 @@ const _x = 1
 
 <template>
   <div :class="card.classes.value.contentWidth" class="flex flex-col gap-8">
-    <WidgetArea location="subscriberIndex" :card />
     <ElSubscriberList :card />
   </div>
 </template>

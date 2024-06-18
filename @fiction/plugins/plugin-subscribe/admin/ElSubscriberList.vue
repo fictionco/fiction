@@ -6,6 +6,7 @@ import type { FictionSubscribe, Subscriber } from '@fiction/plugin-subscribe'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 import ElZeroBanner from '@fiction/ui/ElZeroBanner.vue'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
+import WidgetArea from '@fiction/admin/dashboard/WidgetArea.vue'
 
 type UserConfig = {
   isNavItem: boolean
@@ -117,6 +118,9 @@ const actions: ActionItem[] = [
             <ElAvatar class="h-6 w-6 rounded-full bg-theme-50 ring-2 ring-white" :email="member.email" />
           </dd>
         </div>
+      </template>
+      <template #sidebar>
+        <WidgetArea location="subscriberIndex" :card />
       </template>
       <template #zero>
         <ElZeroBanner

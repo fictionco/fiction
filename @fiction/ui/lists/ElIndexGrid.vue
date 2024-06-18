@@ -74,46 +74,51 @@ async function paginate(dir: 'prev' | 'next') {
           </div>
         </nav>
       </div>
-      <ul role="list" class="space-y-5">
-        <li
-          v-for="item in list"
-          :key="item.key"
-          @click.stop="onItemClick && item.key ? onItemClick(item.key) : ''"
-        >
-          <component :is="getNavComponentType(item)" :to="item.href" :href="item.href" class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap" :class="boxClass">
-            <div class="flex gap-6 items-center">
-              <div>
-                <div v-if="!item.media?.url" class="flex items-center justify-center size-12" :class="mediaClass">
-                  <div class="text-2xl" :class="mediaIcon" />
+      <div v-if="list.length" class="grid grid-cols-5 lg:gap-8 gap-4">
+        <ul role="list" class="space-y-5" :class="$slots.sidebar ? 'col-span-3' : 'col-span-5'">
+          <li
+            v-for="item in list"
+            :key="item.key"
+            @click.stop="onItemClick && item.key ? onItemClick(item.key) : ''"
+          >
+            <component :is="getNavComponentType(item)" :to="item.href" :href="item.href" class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap" :class="boxClass">
+              <div class="flex gap-6 items-center">
+                <div>
+                  <div v-if="!item.media?.url" class="flex items-center justify-center size-12" :class="mediaClass">
+                    <div class="text-2xl" :class="mediaIcon" />
+                  </div>
+                  <ElImage v-else :class="mediaClass" :media="item.media" />
                 </div>
-                <ElImage v-else :class="mediaClass" :media="item.media" />
+                <div>
+                  <p class="text-lg font-medium leading-6 ">
+                    <span class="hover:underline cursor-pointer">{{ item.name }}</span>
+                  </p>
+                  <div class="mt-1 flex items-center gap-x-2 text-sm leading-5 text-theme-500">
+                    <p>
+                      <span class="hover:underline cursor-pointer">{{ item.desc }}</span>
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div>
-                <p class="text-lg font-medium leading-6 ">
-                  <span class="hover:underline cursor-pointer">{{ item.name }}</span>
-                </p>
-                <div class="mt-1 flex items-center gap-x-2 text-sm leading-5 text-theme-500">
-                  <p>
-                    <span class="hover:underline cursor-pointer">{{ item.desc }}</span>
+              <dl class="flex w-full flex-none justify-between gap-x-8 sm:w-auto items-center">
+                <slot :item="item" name="item" />
+
+                <div class="hidden sm:flex sm:flex-col sm:items-end">
+                  <p class="text-sm leading-6  ">
+                    {{ item.slug }}
                   </p>
                 </div>
-              </div>
-            </div>
-            <dl class="flex w-full flex-none justify-between gap-x-8 sm:w-auto items-center">
-              <slot :item="item" name="item" />
-
-              <div class="hidden sm:flex sm:flex-col sm:items-end">
-                <p class="text-sm leading-6  ">
-                  {{ item.slug }}
-                </p>
-              </div>
-              <svg class="h-5 w-5 flex-none text-theme-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-              </svg>
-            </dl>
-          </component>
-        </li>
-      </ul>
+                <svg class="h-5 w-5 flex-none text-theme-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                </svg>
+              </dl>
+            </component>
+          </li>
+        </ul>
+        <div v-if="$slots.sidebar" class="col-span-2">
+          <slot name="sidebar" />
+        </div>
+      </div>
       <div v-if="list.length === 0 ">
         <template v-if="$slots.zero">
           <slot name="zero" />
@@ -130,7 +135,7 @@ async function paginate(dir: 'prev' | 'next') {
           </template>
         </ElZeroBanner>
       </div>
-      <nav v-if="pagination.count" class="flex items-center justify-between  py-6  " aria-label="Pagination">
+      <nav v-if="pagination.count && list.length" class="flex items-center justify-between  py-6  " aria-label="Pagination">
         <div class="hidden sm:block">
           <p class="text-sm">
             Showing

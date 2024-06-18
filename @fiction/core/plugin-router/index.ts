@@ -216,7 +216,7 @@ export class FictionRouter<
 
   current = vue.computed<RouteLocationNormalizedLoaded>(() => this.router.value?.currentRoute.value || this.defaultRoute)
 
-  query = vue.computed(() => this.current.value.query)
+  query = vue.computed({ get: () => this.current.value.query, set: async (val) => { await this.push({ query: val }, { caller: 'querySet' }) } })
   params = vue.computed(() => this.current.value.params)
   meta = vue.computed(() => this.current.value.meta)
   vars = vue.computed(() => ({ ...this.params.value, ...this.query.value }))

@@ -39,14 +39,14 @@ vue.onMounted(async () => {
 
 <template>
   <div>
-    <div class="grid gap-4 lg:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-12   grid-rows-[minmax(0,1fr)]">
+    <div class="grid gap-4 lg:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-12   grid-rows-[minmax(0,1fr)]">
       <component
         :is="widget.settings.el"
         v-for="(widget, i) in widgets"
         :key="i"
         :card
         :widget
-        class="col-span-6 min-w-0"
+        class="col-span-12 min-w-0"
       />
     </div>
   </div>

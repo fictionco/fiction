@@ -17,7 +17,7 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
-const { fictionSites } = useService<{ fictionSites: FictionSites, fictionAppSites: FictionApp }>()
+const { fictionSites, fictionRouter } = useService<{ fictionSites: FictionSites, fictionAppSites: FictionApp }>()
 
 const showCreateModal = vue.ref(false)
 
@@ -34,6 +34,13 @@ async function loadIndex() {
 
 vue.onMounted(async () => {
   await loadIndex()
+
+  vue.watchEffect(() => {
+    if (fictionRouter.query.value.addNew) {
+      showCreateModal.value = true
+      fictionRouter.query.value = { }
+    }
+  })
 })
 
 const list = vue.computed<IndexItem[]>(() => {

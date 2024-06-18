@@ -13,7 +13,14 @@ const x = 1
 </script>
 
 <template>
-  <div class="py-12" :class="card.classes.value.contentWidth">
-    <div><WidgetArea location="homeMain" :card /></div>
+  <div :class="card.classes.value.contentWidth">
+    <div class="grid grid-cols-5 gap-4 lg:gap-8">
+      <div class="col-span-3">
+        <WidgetArea location="homeMain" :card />
+      </div>
+      <div class="col-span-2">
+        <WidgetArea location="homeSecondary" :card />
+      </div>
+    </div>
   </div>
 </template>

@@ -50,7 +50,7 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
 
     fictionAdmin.widgetRegister.value.push(...Object.values(this.widgets))
     const widgetKeys = Object.values(this.widgets).map(widget => widget.key)
-    fictionAdmin.addToWidgetArea('homeMain', widgetKeys)
+    fictionAdmin.addToWidgetArea('homeSecondary', widgetKeys)
     fictionAdmin.addToWidgetArea('subscriberIndex', widgetKeys)
 
     fictionAdmin.addAdminPages(({ templates }) => [
