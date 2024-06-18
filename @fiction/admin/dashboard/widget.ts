@@ -1,4 +1,3 @@
-import type { AnalyticsQuery } from '@fiction/analytics/query'
 import type { QueryParams } from '@fiction/analytics/types'
 import type { Query } from '@fiction/core'
 import { FictionObject, vue } from '@fiction/core'
@@ -22,7 +21,7 @@ export type WidgetConfig<T extends Query = Query> = {
   description?: string
   layoutHandling?: keyof typeof layoutModes
   location?: 'primary' | 'secondary'
-  valueKey?: T extends AnalyticsQuery ? T['dataKeys'][number] : undefined
+  valueKey?: T['dataKeys'] extends readonly string[] ? T['dataKeys'][number] : undefined
 }
 
 export class Widget<T extends Query = Query> extends FictionObject<WidgetConfig<T>> {

@@ -53,11 +53,7 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     ManageCert: new ManageCert({ ...this.settings, fictionSites: this }),
   }
 
-  requests = this.createRequests({
-    queries: this.queries,
-    fictionServer: this.settings.fictionServer,
-    fictionUser: this.settings.fictionUser,
-  })
+  requests = this.createRequests({ queries: this.queries, fictionServer: this.settings.fictionServer, fictionUser: this.settings.fictionUser })
 
   constructor(settings: SitesPluginSettings) {
     const s = { ...settings, root: safeDirname(import.meta.url) }
@@ -86,24 +82,24 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     this.themes.value = await this.settings.themes()
   }
 
-  async requestIndex(
-    args: { limit?: number, offset?: number, filters?: DataFilter[], imageId?: string } = {},
-  ): Promise<{ items: Site[] | undefined, indexMeta?: IndexMeta }> {
-    const { limit = 4, offset = 0 } = args || {}
+  // async requestIndex(
+  //   args: { limit?: number, offset?: number, filters?: DataFilter[], imageId?: string } = {},
+  // ): Promise<{ items: Site[] | undefined, indexMeta?: IndexMeta }> {
+  //   const { limit = 4, offset = 0 } = args || {}
 
-    const r = await this.requests.ManageIndex.projectRequest({ _action: 'list', limit, offset })
+  //   const r = await this.requests.ManageIndex.projectRequest({ _action: 'list', limit, offset })
 
-    const items = r.data
-      ? r.data.map(d => new Site({
-        ...d,
-        fictionSites: this,
-        siteRouter: this.settings.fictionRouterSites || this.settings.fictionRouter,
-        isEditable: false,
-      }))
-      : undefined
+  //   const items = r.data
+  //     ? r.data.map(d => new Site({
+  //       ...d,
+  //       fictionSites: this,
+  //       siteRouter: this.settings.fictionRouterSites || this.settings.fictionRouter,
+  //       isEditable: false,
+  //     }))
+  //     : undefined
 
-    return { items, indexMeta: r.indexMeta }
-  }
+  //   return { items, indexMeta: r.indexMeta }
+  // }
 
   getPreviewPath = vue.computed(() => {
     const current = this.settings.fictionRouter.current.value

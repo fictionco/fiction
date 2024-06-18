@@ -51,7 +51,10 @@ const mediaClass = `size-14 border-2 border-theme-200/50 bg-theme-50 dark:bg-the
             <h3 class="text-xl mt-1 font-semibold hover:underline x-font-title">
               {{ item.name }}
             </h3>
-            <p class="text-sm  dark:text-theme-400 ">
+            <div v-if="$slots.subTitle" class="text-sm  dark:text-theme-400">
+              <slot name="subTitle" :item="item" />
+            </div>
+            <p v-else class="text-sm  dark:text-theme-400 ">
               {{ item.desc }}
             </p>
           </div>

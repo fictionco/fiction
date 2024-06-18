@@ -13,6 +13,6 @@ const props = defineProps({
 
 <template>
   <WidgetWrap :widget>
-    <DateChart :title="widget.settings.title || 'No Title'" :data="widget.query?.data.value" :value-key="widget.settings.valueKey" />
+    <DateChart :title="widget.settings.title || 'No Title'" :data="widget.query?.dataRef.value" :value-key="widget.settings.valueKey" />
   </WidgetWrap>
 </template>

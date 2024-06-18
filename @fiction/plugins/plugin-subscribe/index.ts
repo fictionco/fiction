@@ -24,7 +24,7 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
   widgets = getWidgets({ fictionSubscribe: this, ...this.settings })
   queries = {
     ManageSubscription: new ManageSubscriptionQuery({ fictionSubscribe: this, ...this.settings }),
-    SubscriptionAnalytics: new SubscriptionAnalytics({ fictionSubscribe: this, ...this.settings, key: 'subscriptionAnalytics' }),
+    SubscriptionAnalytics: new SubscriptionAnalytics({ fictionSubscribe: this, ...this.settings }),
   }
 
   requests = this.createRequests({

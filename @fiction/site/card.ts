@@ -7,6 +7,7 @@ import type { CardConfigPortable, SiteUserConfig, TableCardConfig } from './tabl
 import type { Site } from './site.js'
 import { CardGeneration } from './generation.js'
 import type { ComponentConstructor } from './type-utils.js'
+import { siteGoto, siteLink } from './utils/manage.js'
 
 type CardCategory = 'basic' | 'posts' | 'theme' | 'stats' | 'marketing' | 'content' | 'layout' | 'media' | 'navigation' | 'social' | 'commerce' | 'form' | 'other' | 'special'
 
@@ -154,26 +155,11 @@ export class Card<
   }
 
   link(location: vueRouter.RouteLocationRaw) {
-    const router = this.site?.siteRouter.router.value
-    if (!router)
-      return ''
-
-    const matchedRoute = router.currentRoute.value.matched[0]
-    if (!matchedRoute)
-      throw new Error('Card.link - No matched current route')
-
-    const prefix = matchedRoute.path.match(/.*?(?=\/:viewId|$)/)?.[0] || ''
-    const resolvedHref = router.resolve(location).href
-    const finalHref = (resolvedHref.startsWith(prefix) ? resolvedHref : `${prefix}${resolvedHref}`)
-      .replace(/:viewId/g, router.currentRoute.value.params.viewId as string | undefined || '')
-
-    return finalHref.replace(/([^:]\/)\/+/g, '$1')
+    return siteLink({ site: this.site, location })
   }
 
   async goto(location: vueRouter.RouteLocationRaw, options: { replace?: boolean } = { }) {
-    const method = options.replace ? 'replace' : 'push'
-
-    await this.site?.siteRouter[method](this.link(location), { caller: `card:goto:${this.title.value}` })
+    return siteGoto({ site: this.site, location, options })
   }
 
   toConfig(): CardConfigPortable<T> {

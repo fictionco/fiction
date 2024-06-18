@@ -3,10 +3,11 @@ import ElPanel from '@fiction/ui/ElPanel.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 import type { ActionItem, FictionApp, IndexItem, IndexMeta } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
-
 import type { Site } from '../site'
 import type { FictionSites } from '..'
 import type { Card } from '../card'
+import { manageSiteIndex } from '../utils/manage.js'
+import { getSiteIndexItemList } from './utils.js'
 import ElSiteStart from './ElSiteStart.vue'
 
 type UserConfig = {
@@ -16,7 +17,7 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
-const { fictionSites, fictionAppSites } = useService<{ fictionSites: FictionSites, fictionAppSites: FictionApp }>()
+const { fictionSites } = useService<{ fictionSites: FictionSites, fictionAppSites: FictionApp }>()
 
 const showCreateModal = vue.ref(false)
 
@@ -25,8 +26,8 @@ const sites = vue.shallowRef<Site[]>([])
 const indexMeta = vue.ref<IndexMeta>()
 async function loadIndex() {
   loading.value = true
-  const r = await fictionSites.requestIndex()
-  sites.value = r.items || []
+  const r = await manageSiteIndex({ fictionSites, params: { _action: 'list', limit: 10 } })
+  sites.value = r.sites || []
   indexMeta.value = r.indexMeta
   loading.value = false
 }
@@ -36,26 +37,7 @@ vue.onMounted(async () => {
 })
 
 const list = vue.computed<IndexItem[]>(() => {
-  if (!sites.value)
-    return []
-
-  const rows = sites.value.map((site) => {
-    const domain = site.primaryCustomDomain.value || fictionAppSites.liveUrl.value.replace('*', site.settings.subDomain || '')
-    const displayDomain = domain.replace('https://', '').replace('http://', '').replace('www.', '')
-    const editLink = props.card.link({ path: '/edit-site', query: { siteId: site.settings.siteId } })
-    const out: IndexItem = {
-      name: site.settings.title || 'Untitled',
-      desc: `${displayDomain}`,
-      key: site.settings.siteId,
-      href: editLink,
-      figure: { el: vue.defineAsyncComponent(() => import('./fig/FigSite.vue')), props: { site } },
-
-    }
-
-    return out
-  })
-
-  return rows
+  return getSiteIndexItemList(sites.value, props.card)
 })
 
 function getActions(location: 'top' | 'zero') {

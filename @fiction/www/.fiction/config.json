@@ -49,14 +49,6 @@
       "path": "/api/fiction-ai/AiImage"
     },
     {
-      "key": "ManageSubscription",
-      "path": "/api/subscribe/ManageSubscription"
-    },
-    {
-      "key": "SubscriptionAnalytics",
-      "path": "/api/subscribe/SubscriptionAnalytics"
-    },
-    {
       "key": "ManageCustomer",
       "path": "/api/stripe/ManageCustomer"
     },
@@ -113,6 +105,14 @@
       "path": "/api/clickhouse/GetTotalSessions"
     },
     {
+      "key": "ManageSubscription",
+      "path": "/api/subscribe/ManageSubscription"
+    },
+    {
+      "key": "SubscriptionAnalytics",
+      "path": "/api/subscribe/SubscriptionAnalytics"
+    },
+    {
       "key": "ManagePost",
       "path": "/api/fiction-posts/ManagePost"
     },
@@ -125,8 +125,8 @@
       "path": "/api/fiction-posts/ManageTaxonomy"
     },
     {
-      "key": "subscriptionAnalytics",
-      "path": "/api/widgets/subscriptionAnalytics"
+      "key": "SubscriptionAnalytics",
+      "path": "/api/widgets/SubscriptionAnalytics"
     },
     {
       "key": "posts",

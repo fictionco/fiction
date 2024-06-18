@@ -1,7 +1,6 @@
-import type { EndpointMeta, EndpointResponse, FictionDb, FictionEmail, FictionEnv, FictionUser, User } from '@fiction/core'
+import { type EndpointMeta, type EndpointResponse, type FictionDb, type FictionEmail, type FictionEnv, type FictionUser, type User, vue } from '@fiction/core'
 import { Query, dayjs, deepMerge, prepareFields } from '@fiction/core'
-import { AnalyticsQuery } from '@fiction/analytics/query'
-import { refineTimelineData } from '@fiction/analytics/utils/refine'
+import { refineParams, refineTimelineData } from '@fiction/analytics/utils/refine'
 import type { DataCompared, DataPointChart, QueryParamsRefined } from '@fiction/analytics/types'
 import type { Subscriber, TableSubscribeConfig } from './schema'
 import { t } from './schema'
@@ -216,8 +215,20 @@ type SubDataPoint = DataPointChart<typeof dataKeys[number]>
 type ReturnData = DataCompared<SubDataPoint>
 export type SubscriptionAnalyticsResponse = EndpointResponse<ReturnData>
 
-export class SubscriptionAnalytics extends AnalyticsQuery<ReturnData, SubscriberEndpointSettings> {
-  dataKeys = dataKeys
+type SubscriptionAnalyticsParams = {
+  fictionDb: FictionDb
+  fictionSubscribe: FictionSubscribe
+}
+
+export class SubscriptionAnalytics extends Query<SubscriptionAnalyticsParams> {
+  override dataKeys = dataKeys
+  override getParams = () => {
+    return refineParams({})
+  }
+
+  override dataRef = vue.ref<ReturnData>({})
+
+  db = () => this.settings.fictionDb.client()
   async run(params: QueryParamsRefined, _meta: EndpointMeta): Promise<SubscriptionAnalyticsResponse> {
     const db = this.db()
     const now = dayjs()

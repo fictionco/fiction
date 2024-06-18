@@ -3,22 +3,29 @@ import type { ErrorConfig } from './utils/error.js'
 import { abort } from './utils/error.js'
 import type { EndpointResponse } from './types/index.js'
 import type { EndpointMeta } from './utils/endpoint.js'
+import type { vue } from './utils/libraries.js'
 
 export type QueryConfig = {
   key?: string
   [key: string]: any
 }
 
-export abstract class Query<T extends Record<string, any> = Record<string, any>> {
+export abstract class Query<T extends QueryConfig = QueryConfig> {
   name: string
   settings: T
   log: LogHelper
   key?: string
+  getParams?: () => Promise<Record<string, any>> | Record<string, any>
+  dataRef?: vue.Ref<Record<string, any>>
+  dataKeys?: readonly string[]
   constructor(settings: T) {
     this.name = this.constructor.name
     this.settings = settings
     this.log = log.contextLogger(this.name)
-    this.key = settings.key
+    this.key = settings.key || this.name
+    this.getParams = settings.getParams
+    this.dataRef = settings.dataRef
+    this.dataKeys = settings.dataKeys
   }
 
   allowed(_params: Parameters<this['run']>[0], _meta: Parameters<this['run']>[1]): boolean | Promise<boolean> {
@@ -34,10 +41,7 @@ export abstract class Query<T extends Record<string, any> = Record<string, any>>
    * Wrapper to catch errors
    * -- must await the result of run or it wont catch
    */
-  async serve(
-    params: Parameters<this['run']>[0],
-    meta: Parameters<this['run']>[1],
-  ): Promise<Awaited<ReturnType<this['run']>>> {
+  async serve(params: Parameters<this['run']>[0], meta: Parameters<this['run']>[1]): Promise<Awaited<ReturnType<this['run']>>> {
     try {
       const allowed = await this.allowed(params, meta)
 

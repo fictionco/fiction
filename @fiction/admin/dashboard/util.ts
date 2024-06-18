@@ -1,6 +1,5 @@
-import type { AnalyticsQuery } from '@fiction/analytics/query'
+import type { Query } from '@fiction/core'
 import { createEndpointRequests, log } from '@fiction/core'
-import { refineParams } from '@fiction/analytics/utils/refine'
 import type { FictionAdmin } from '..'
 import type { Widget } from './widget'
 
@@ -38,18 +37,25 @@ export async function runWidgetRequests(args: { widgets?: Widget[], fictionAdmin
   }
 
   const q = widgets.reduce((acc, widget) => {
-    const q = widget.query as AnalyticsQuery
-    if (q.key) {
+    const q = widget.query as Query
+    if (q?.key) {
       acc[q.key] = q
     }
     return acc
-  }, {} as Record<string, AnalyticsQuery>)
+  }, {} as Record<string, Query>)
 
-  const promises = Object.entries(q).filter(([k, q]) => q.queryParams).map(async ([key, query]) => {
+  const promises = Object.entries(q).filter(([k, q]) => q.getParams).map(async ([key, query]) => {
     const endpoint = reqs[key]
-    const params = query.queryParams.value
-    const refinedParams = refineParams(params)
-    const r = await endpoint.projectRequest(refinedParams)
+    const params = query.getParams?.() || {}
+
+    // const refinedParams = refineParams(params)
+    const r = await endpoint.projectRequest(params)
+
+    if (!r) {
+      const message = `Failed to fetch data for widget ${key}`
+      logger.error(message)
+      throw new Error(message)
+    }
 
     const data = r.data
 
@@ -59,30 +65,28 @@ export async function runWidgetRequests(args: { widgets?: Widget[], fictionAdmin
       throw new Error(message)
     }
 
-    query.data.value = data
+    if (query.dataRef)
+      query.dataRef.value = data
   })
 
   await Promise.all(promises)
 }
 
-function getWidgetQueries(args: { fictionAdmin: FictionAdmin }): Record<string, AnalyticsQuery> {
+function getWidgetQueries(args: { fictionAdmin: FictionAdmin }): Record<string, Query> {
   const { fictionAdmin } = args
 
   const widgetMap = getWidgetMap({ fictionAdmin })
   const entries = Object.entries(widgetMap)
   return entries.reduce((acc, [_key, widgets]) => {
     widgets.forEach((widget) => {
-      const q = widget.query as AnalyticsQuery
-      if (q.settings.key) {
-        acc[q.settings.key] = q
-      }
-      else {
-        logger.error('Widget query key not found', { widget })
+      const q = widget.query
+      if (q && q?.key) {
+        acc[q.key] = q
       }
     })
 
     return acc
-  }, {} as Record<string, AnalyticsQuery>)
+  }, {} as Record<string, Query>)
 }
 
 export function createWidgetEndpoints(args: { fictionAdmin: FictionAdmin }) {

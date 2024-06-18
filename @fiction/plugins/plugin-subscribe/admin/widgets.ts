@@ -1,9 +1,10 @@
 import { Widget } from '@fiction/admin/dashboard/widget'
 import { vue } from '@fiction/core'
+import { refineParams } from '@fiction/analytics/utils/refine.js'
 import { type SubscriberEndpointSettings, SubscriptionAnalytics } from '../endpoint.js'
 
 export function getWidgets(service: SubscriberEndpointSettings) {
-  const query = new SubscriptionAnalytics({ ...service, key: 'subscriptionAnalytics' })
+  const query = new SubscriptionAnalytics({ ...service })
 
   const subscribers = new Widget({
     key: 'subscribers',

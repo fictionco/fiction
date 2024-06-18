@@ -1,9 +1,11 @@
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import type { FictionAdmin } from '@fiction/admin'
+import { Obj } from '@fiction/core/obj'
 import type { FictionSites, SitesPluginSettings } from '..'
 import { createCard } from '..'
+import { getWidgets } from './widgets/index.js'
 
-type FictionSiteBuilderSettings = {
+export type FictionSiteBuilderSettings = {
   fictionSites: FictionSites
   fictionAdmin: FictionAdmin
 } & SitesPluginSettings
@@ -19,6 +21,10 @@ export class FictionSiteBuilder extends FictionPlugin<FictionSiteBuilderSettings
 
   admin() {
     const { fictionAdmin } = this.settings
+    const widgets = getWidgets(this.settings)
+    const w = Object.values(widgets)
+    fictionAdmin.widgetRegister.value.push(...w)
+    fictionAdmin.addToWidgetArea('homeMain', w.map(widget => widget.key))
 
     fictionAdmin.addAdminPages(({ templates }) => [
       createCard({

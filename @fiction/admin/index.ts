@@ -53,15 +53,8 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
       slug: 'home',
       isHome: true,
       title: 'Home',
-      cards: [
-        createCard({ el: vue.defineAsyncComponent(() => import('./dashboard/ViewDashboard.vue')) }),
-      ],
-      userConfig: {
-        isNavItem: true,
-        navIcon: 'i-heroicons-home',
-        navIconAlt: 'i-heroicons-home-20-solid',
-        priority: 0,
-      },
+      cards: [createCard({ el: vue.defineAsyncComponent(() => import('./dashboard/ViewDashboard.vue')) })],
+      userConfig: { isNavItem: true, navIcon: 'i-heroicons-home', navIconAlt: 'i-heroicons-home-20-solid', priority: 0 },
     }),
   ])
 
