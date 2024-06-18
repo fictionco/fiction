@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { dayjs, gravatarUrl, useService, vue } from '@fiction/core'
+import { dayjs, gravatarUrlSync, useService, vue } from '@fiction/core'
 import type { ActionItem, IndexItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { FictionSubscribe, Subscriber } from '@fiction/plugin-subscribe'
@@ -50,7 +50,7 @@ async function addAvatarUrl(subscribers?: Subscriber[]) {
 
     const email = sub.user?.email || sub.email
 
-    const avatar = await gravatarUrl(email, { size: 200 })
+    const avatar = await gravatarUrlSync(email, { size: 200 })
     return { ...sub, user: { ...sub.user, avatar } }
   })
 

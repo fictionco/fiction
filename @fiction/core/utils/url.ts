@@ -1,5 +1,5 @@
+import * as jsCrypto from 'js-sha256'
 import type { MediaDisplayObject } from '../types/utils.js'
-import { sha256 } from './crypto.js'
 
 export function incrementSlugId(slug?: string, options: { defaultSlug?: string, specialSlugRenameWord?: string } = {}): string {
   const { defaultSlug = 'view', specialSlugRenameWord = 'old' } = options
@@ -198,21 +198,21 @@ export function getUrlPath({ urlOrPath }: { urlOrPath?: string }) {
   return path
 }
 
-export async function gravatarUrl(
+export function gravatarUrlSync(
   identifier?: string,
-  options: { checkIfDefault?: boolean, size?: string | number, default?: '404' | 'identicon' | 'monsterid' | 'wavatar' | 'retro' | 'robohash' | 'blank' | string } = {},
-): Promise<MediaDisplayObject > {
-  const { size = 200, default: d = 'identicon', checkIfDefault } = options
+  options: { size?: string | number, default?: '404' | 'identicon' | 'monsterid' | 'wavatar' | 'retro' | 'robohash' | 'blank' | string } = {},
+): MediaDisplayObject & { isDefaultImage: () => Promise<boolean> } {
+  const { size = 200, default: d = 'identicon' } = options
 
   if (!identifier) {
-    return { url: '', format: 'url' }
+    return { url: '', format: 'url', isDefaultImage: async () => true }
   }
 
   if (identifier.includes('@')) {
     identifier = identifier.toLowerCase().trim()
   }
 
-  const gravatarHash = await sha256(identifier.trim().toLowerCase())
+  const gravatarHash = jsCrypto.sha256(identifier.trim().toLowerCase())
   const baseUrl = new URL('https://gravatar.com/avatar/')
   baseUrl.pathname += gravatarHash
   if (size)
@@ -223,9 +223,9 @@ export async function gravatarUrl(
 
   const gravatarUrl = baseUrl.toString()
 
-  const checkIfDefaultImage = async (url: string) => {
+  const isDefaultImage = async () => {
     try {
-      const u = new URL(url)
+      const u = new URL(gravatarUrl)
       u.searchParams.set('d', '404') // Set the default image to a 404 error image
       const response = await fetch(u.toString(), { method: 'HEAD' })
       return response.status !== 200
@@ -236,11 +236,5 @@ export async function gravatarUrl(
     }
   }
 
-  const isDefaultImage = checkIfDefault ? await checkIfDefaultImage(gravatarUrl) : false
-
-  return {
-    format: 'url',
-    url: gravatarUrl,
-    isDefaultImage,
-  }
+  return { format: 'url', url: gravatarUrl, isDefaultImage }
 }

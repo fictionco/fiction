@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest'
-import { sha256 } from '../crypto'
+import { sha256 } from 'js-sha256'
 
 // Example usage and expected hash values for testing
 const testCases = [
@@ -10,12 +10,12 @@ const testCases = [
 
 it('sha256 function should generate correct SHA-256 hashes', async () => {
   for (const { input, expected } of testCases) {
-    const result = await sha256(input)
+    const result = sha256(input)
     expect(result).toBe(expected)
   }
 })
 
 it('sha256 function should handle empty string', async () => {
-  const result = await sha256('')
+  const result = sha256('')
   expect(result).toBe('e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855')
 })

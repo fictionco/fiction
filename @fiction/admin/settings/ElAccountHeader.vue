@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site/card'
-import { dayjs, gravatarUrl, useService, vue } from '@fiction/core/index.js'
+import { dayjs, gravatarUrlSync, useService, vue } from '@fiction/core/index.js'
 import ElModal from '@fiction/ui/ElModal.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import { InputOption } from '@fiction/ui/index.js'
@@ -106,7 +106,7 @@ vue.onMounted(() => {
       avatar.value = user.value.avatar
     }
     else if (user.value?.email) {
-      avatar.value = (await gravatarUrl(user.value.email, { size: 400, default: 'identicon' }))
+      avatar.value = (await gravatarUrlSync(user.value.email, { size: 400, default: 'identicon' }))
     }
   })
 })

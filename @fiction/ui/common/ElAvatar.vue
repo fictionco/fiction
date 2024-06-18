@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { User } from '@fiction/core'
-import { gravatarUrl, stored, vue } from '@fiction/core'
+import { gravatarUrlSync, stored, vue } from '@fiction/core'
 import userBlank from './user-blank.png'
 
 const props = defineProps({
@@ -28,8 +28,8 @@ vue.onMounted(() => {
     }
     else if (user.value?.email || props.email) {
       const email = user.value?.email ? user.value.email : props.email
-      const g = await gravatarUrl(email, { size: props.imageSize, default: 'blank' })
-      src.value = !g.isDefaultImage && g.url ? g.url : userBlank
+      const g = gravatarUrlSync(email, { size: props.imageSize, default: 'identicon' })
+      src.value = g.url ? g.url : userBlank
     }
     else {
       src.value = userBlank

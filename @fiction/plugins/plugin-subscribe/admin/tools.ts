@@ -1,5 +1,5 @@
 import { InputOption } from '@fiction/ui'
-import { type StandardServices, type User, deepMerge, gravatarUrl, vue } from '@fiction/core'
+import { type StandardServices, type User, deepMerge, gravatarUrlSync, vue } from '@fiction/core'
 import { SettingsTool } from '@fiction/admin/types'
 import ElHeader from '@fiction/admin/settings/ElHeader.vue'
 
@@ -61,7 +61,7 @@ export function getViewSubscriberTools(args: { fictionSubscribe: FictionSubscrib
 
   vue.watchEffect(async () => {
     const u = user.value
-    avatar.value = u?.avatar ? u?.avatar : (await gravatarUrl(u.email, { size: 400, default: 'identicon' }))
+    avatar.value = u?.avatar ? u?.avatar : (gravatarUrlSync(u.email, { size: 400, default: 'identicon' }))
   })
 
   const tools = [

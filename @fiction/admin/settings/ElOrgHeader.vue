@@ -3,10 +3,11 @@ import type { Card } from '@fiction/site/card'
 import { useService, vue } from '@fiction/core'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
-import type { ActionItem, IndexItem, MediaDisplayObject, Organization } from '@fiction/core/index.js'
+import type { ActionItem, IndexItem, Organization } from '@fiction/core/index.js'
 import type { InputOption } from '@fiction/ui'
 import ElModal from '@fiction/ui/ElModal.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
+import { gravatarUrlSync } from '@fiction/core/index.js'
 import ToolForm from '../tools/ToolForm.vue'
 import ElHeader from './ElHeader.vue'
 import { newOrgOptions } from './index.js'
@@ -85,8 +86,17 @@ const toolFormOptions = vue.computed<InputOption[]>(() => {
   return [newOrgOptions({ title: 'New Organization', actionsRef: newOrgActions }).value]
 })
 
-const avatar = vue.computed<MediaDisplayObject | undefined>(() => {
-  return service.fictionUser.activeOrganization.value?.avatar
+const avatar = vue.ref({})
+vue.onMounted(() => {
+  vue.watchEffect(async () => {
+    const activeOrg = service.fictionUser.activeOrganization.value
+    if (activeOrg?.avatar?.url) {
+      avatar.value = activeOrg?.avatar
+    }
+    else if (activeOrg?.orgEmail) {
+      avatar.value = (gravatarUrlSync(activeOrg?.orgEmail, { size: 400, default: 'identicon' }))
+    }
+  })
 })
 </script>
 
@@ -97,34 +107,35 @@ const avatar = vue.computed<MediaDisplayObject | undefined>(() => {
         <ToolForm v-model="newOrgForm" ui-size="lg" :card :options="toolFormOptions" :disable-group-hide="true" />
       </ElForm>
     </ElModal>
-    <ElIndexGrid
-      v-else-if="mode === 'change'"
-      list-title="Change Organization"
-      :list="list"
-      :actions="[
-        { name: 'Back', icon: 'i-tabler-arrow-left', btn: 'default', onClick: () => (mode = 'current') },
-        { name: 'New Organization', icon: 'i-tabler-plus', btn: 'primary', onClick: () => (mode = 'new') },
-      ]"
-    >
-      <template #item="{ item }">
-        <div class="flex -space-x-0.5">
-          <dt class="sr-only">
-            Members
-          </dt>
-          <dd v-for="(member, ii) in item.authors" :key="ii">
-            <ElAvatar class="h-6 w-6 rounded-full bg-theme-50 ring-2 ring-white" :email="member.email" />
-          </dd>
-        </div>
-      </template>
-    </ElIndexGrid>
+    <div v-else-if="mode === 'change'" class="p-12">
+      <ElIndexGrid
+        list-title="Publications You Are A Member Of"
+        :list="list"
+        :actions="[
+          { name: 'Back', icon: 'i-tabler-arrow-left', btn: 'default', onClick: () => (mode = 'current') },
+          { name: 'New', icon: 'i-tabler-plus', btn: 'primary', onClick: () => (mode = 'new') },
+        ]"
+      >
+        <template #item="{ item }">
+          <div class="flex -space-x-0.5">
+            <dt class="sr-only">
+              Members
+            </dt>
+            <dd v-for="(member, ii) in item.authors" :key="ii">
+              <ElAvatar class="h-6 w-6 rounded-full bg-theme-50 ring-2 ring-white" :email="member.email" />
+            </dd>
+          </div>
+        </template>
+      </ElIndexGrid>
+    </div>
     <ElHeader
       v-else
       :heading="service.fictionUser.activeOrganization.value?.orgName || 'Unnamed Organization'"
       :subheading="`Organization / ${service.fictionUser.activeOrganization.value?.orgEmail} / you are an ${service.fictionUser.activeOrganization.value?.relation?.memberAccess}`"
       :avatar="avatar"
       :actions="[{
-        name: 'Change Organization',
-        icon: 'i-tabler-arrows-exchange',
+        name: 'Change / Add Publication',
+        icon: 'i-tabler-plus',
         onClick: () => mode = 'change',
       }]"
     />

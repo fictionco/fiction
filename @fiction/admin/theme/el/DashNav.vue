@@ -28,7 +28,7 @@ async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
       <div class="flex items-center justify-center space-x-3 mb-5 px-3 py-2">
         <div class=" ">
           <div class=" rounded-full  flex items-center justify-center">
-            <RouterLink :to="card.link('/')" class="text-xl text-theme-700 hover:text-primary-500 dark:text-theme-0 dark:hover:text-primary-700 transition-all px-4 py-2.5 rounded-md">
+            <RouterLink :to="card.link('/')" class="text-xl text-theme-700 hover:text-primary-500 dark:text-theme-0 dark:hover:text-primary-300 transition-all px-4 py-2.5 rounded-md">
               <ElImage class="h-[21px]" :media="icon" />
             </RouterLink>
           </div>
@@ -63,13 +63,13 @@ async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
     </div>
     <div class="mb-4 p-3">
       <RouterLink :to="card.link('/settings')" class="flex items-center gap-x-4 py-3 px-4 rounded-full hover:bg-theme-50 dark:hover:bg-theme-700">
-        <ElAvatarOrg class="size-8  shrink-0 " />
+        <ElAvatarOrg class="size-8 lg:size-10  shrink-0 " />
         <div class=" min-w-0">
           <div class="sm:text-sm lg:text-lg font-semibold x-font-title whitespace-nowrap truncate">
             {{ service.fictionUser.activeOrganization.value?.orgName || 'Unnamed Org' }}
           </div>
-          <div class="text-xs text-theme-500 dark:text-theme-300 font-normal">
-            Settings
+          <div class="text-xs lg:text-sm text-theme-500 dark:text-theme-300 font-normal">
+            Publication
           </div>
         </div>
       </RouterLink>

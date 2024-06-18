@@ -1,4 +1,4 @@
-import { type EndpointMeta, type EndpointResponse, gravatarUrl, vue } from '@fiction/core/index.js'
+import { type EndpointMeta, type EndpointResponse, gravatarUrlSync, vue } from '@fiction/core/index.js'
 import { EmailAction } from '@fiction/plugin-transactions/index.js'
 import type { FictionSubscribe, Subscriber } from '../index.js'
 
@@ -26,9 +26,11 @@ export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
       let avatar = r.data?.avatar
 
       if (!avatar) {
-        const g = await gravatarUrl(fromEmail, { size: 200 })
+        const g = gravatarUrlSync(fromEmail, { size: 200 })
 
-        if (!g.isDefaultImage) {
+        const isDefault = await g.isDefaultImage()
+
+        if (!isDefault) {
           avatar = { url: g.url }
         }
         else {

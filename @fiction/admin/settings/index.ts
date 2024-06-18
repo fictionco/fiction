@@ -30,7 +30,7 @@ export function getTools(args: { service: StandardServices }) {
   const tools = [
     new SettingsTool({
       slug: 'project',
-      title: 'Organization',
+      title: 'Publication',
       userConfig: { isNavItem: true, navIcon: 'i-tabler-cube', navIconAlt: 'i-tabler-cube-plus' },
       val: fictionUser.activeOrganization,
       save: async (args) => {

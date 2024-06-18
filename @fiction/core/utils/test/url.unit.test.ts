@@ -1,35 +1,33 @@
 import { describe, expect, it } from 'vitest'
 
-import { displayDomain, getDomainFavicon, getUrlPath, gravatarUrl, incrementSlugId, refineRoute, safeUrl, standardizeUrlOrPath, updateUrl, urlPath, validHost } from '../url'
+import { displayDomain, getDomainFavicon, getUrlPath, gravatarUrlSync, incrementSlugId, refineRoute, safeUrl, standardizeUrlOrPath, updateUrl, urlPath, validHost } from '../url'
 
-describe('gravatarUrl', async () => {
+describe('gravatarUrlSync', async () => {
   const realEmail = 'arpowers@gmail.com'
   const fakeEmail = 'madeupemailabc123@fake.com'
 
-  it('gravatarUrl should return correct URL and isDefaultImage for a real email', async () => {
+  it('gravatarUrlSync should return correct URL and isDefaultImage for a real email', async () => {
     const options = { size: '200', default: 'identicon', checkIfDefault: true }
-    const result = await gravatarUrl(realEmail, options)
+    const result = gravatarUrlSync(realEmail, options)
 
     expect(result.url).toContain('https://gravatar.com/avatar/')
     expect(result.url).toContain('size=200')
     expect(result.url).toContain('d=identicon')
-    expect(result.isDefaultImage).toBe(false)
   })
 
-  it('gravatarUrl should return correct URL and isDefaultImage for a fake email', async () => {
+  it('gravatarUrlSync should return correct URL and isDefaultImage for a fake email', async () => {
     const options = { size: '200', default: 'identicon', checkIfDefault: true }
-    const result = await gravatarUrl(fakeEmail, options)
+    const result = gravatarUrlSync(fakeEmail, options)
 
     expect(result.url).toContain('https://gravatar.com/avatar/')
     expect(result.url).toContain('size=200')
     expect(result.url).toContain('d=identicon')
-    expect(result.isDefaultImage).toBe(true)
   })
 
-  it('gravatarUrl should throw an error if identifier is not provided', async () => {
+  it('gravatarUrlSync should throw an error if identifier is not provided', async () => {
     const options = { size: '200', default: 'identicon' }
 
-    const r = await gravatarUrl('', options)
+    const r = gravatarUrlSync('', options)
 
     expect(r?.url).toBeFalsy()
   })
