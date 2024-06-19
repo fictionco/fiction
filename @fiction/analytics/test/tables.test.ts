@@ -167,8 +167,7 @@ describe('standard tables', async () => {
     `)
 
     expect(+(sample.eventCount || 0)).toBeGreaterThan(0)
-    expect(sample.organizationId).toBeTruthy()
-    expect(sample.projectId).toBeTruthy()
+    expect(sample.orgId).toBeTruthy()
     expect(sample.deviceType).toBeTruthy()
   })
 })

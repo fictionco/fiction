@@ -18,6 +18,7 @@ import type { Endpoint } from './endpoint'
 import { getCommit, getVersion } from './vars'
 import { getAccessLevel } from './priv'
 import { decodeUserToken } from './jwt'
+import { addExpressHealthCheck, getServerHealth } from './serverHealth'
 
 type CustomServerHandler = (app: express.Express,) => Promise<http.Server> | http.Server
 type MiddlewareHandler = (app: express.Express) => Promise<void> | void
@@ -32,15 +33,6 @@ export interface EndpointServerOptions {
   fictionEnv: FictionEnv
   liveUrl?: string
   url?: string
-}
-
-export interface ServiceHealthCheckResult {
-  status: 'success' | 'error'
-  message: 'ok' | ''
-  version?: string
-  duration: number
-  timestamp: number
-  commit?: string
 }
 
 export function createExpressApp(opts: HelmetOptions & { noHelmet?: boolean } = {}): express.Express {
@@ -64,20 +56,7 @@ export function createExpressApp(opts: HelmetOptions & { noHelmet?: boolean } = 
   app.use(bodyParser.text({ limit: '10mb' }))
   app.use(compression())
 
-  app.use('/api/health', (request, response) => {
-    const healthData: ServiceHealthCheckResult = {
-      status: 'success',
-      message: 'ok',
-      version: getVersion(),
-      duration: process.uptime(),
-      timestamp: Date.now(),
-      commit: getCommit(),
-    }
-
-    log.info('expressApp', 'health check request', { data: healthData })
-
-    response.status(200).send(healthData).end()
-  })
+  addExpressHealthCheck({ expressApp: app, basePath: '/api/health' })
 
   return app
 }

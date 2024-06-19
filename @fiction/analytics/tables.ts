@@ -3,6 +3,11 @@ import { dayjs, objectId } from '@fiction/core'
 import { FictionAnalyticsCol, FictionAnalyticsTable } from './plugin-clickhouse/utils.js'
 import { standardUrl } from './plugin-beacon/utils/index.js'
 
+export const t = {
+  event: 'analytics_event',
+  session: 'analytics_session',
+}
+
 const baseFields = [
   new FictionAnalyticsCol({
     key: 'event',
@@ -87,24 +92,14 @@ const baseFields = [
     getValue: ({ session }) => session.userId,
   }),
   new FictionAnalyticsCol({
-    key: 'projectId',
+    key: 'orgId',
     create: ({ schema, column }) => schema.string(column.pgKey),
     clickHouseType: 'String',
     sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`,
-    description: 'the projectId associated with this event',
+    description: 'the orgId associated with this event',
     indexOn: true,
     default: () => '' as string,
-    getValue: ({ session }) => session.projectId,
-  }),
-  new FictionAnalyticsCol({
-    default: () => '' as string,
-    key: 'organizationId',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    clickHouseType: 'String',
-    sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`,
-    description: 'the organizationId associated with this event',
-    indexOn: true,
-    getValue: ({ session }) => session.organizationId,
+    getValue: ({ session }) => session.orgId,
   }),
   new FictionAnalyticsCol({
     default: () => Date.now(),
@@ -800,9 +795,9 @@ export function getSessionQuerySelectors(): string[] {
     .filter(Boolean) as string[]
 }
 
-export const eventsTable = new FictionAnalyticsTable({ tableKey: 'fiction_event', columns: eventFields })
+export const eventsTable = new FictionAnalyticsTable({ tableKey: t.event, columns: eventFields })
 
-export const sessionsTable = new FictionAnalyticsTable({ tableKey: 'fiction_session', columns: sessionFields })
+export const sessionsTable = new FictionAnalyticsTable({ tableKey: t.session, columns: sessionFields })
 
 export function isSessionField(field: keyof EventParams) {
   const found = eventFields.find(f => f.key === field)

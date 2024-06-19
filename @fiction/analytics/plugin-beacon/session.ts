@@ -1,22 +1,11 @@
-import { FictionPlugin, type FictionPluginSettings, WriteBuffer, dayjs, groupBy, objectId } from '@fiction/core'
-import type { FictionCache } from '@fiction/core/plugin-cache'
+import { FictionPlugin, WriteBuffer, dayjs, groupBy, objectId } from '@fiction/core'
 import type { FictionEvent } from '../tracking'
-import type { FictionClickHouse } from '../plugin-clickhouse'
 import type { SessionEvent, SessionStarted } from '../tables'
 import { eventFields } from '../tables'
 import { ReferrerUtility, getGeo, parseUa, standardUrl } from './utils'
+import type { FictionBeaconSettings } from './index.js'
 
-export interface SessionTimers {
-  sessionExpireAfterMs?: number
-  checkExpiredIntervalMs?: number
-  bufferIntervalMs?: number
-  fictionClickHouse: FictionClickHouse
-  fictionCache: FictionCache
-}
-
-export type SessionManagerSettings = SessionTimers & FictionPluginSettings
-
-export class SessionManager extends FictionPlugin<SessionManagerSettings> {
+export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
   checkExpiredIntervalMs = this.settings.checkExpiredIntervalMs || 5000
   sessionExpireAfterMs = this.settings.sessionExpireAfterMs || 60 * 30 * 1000
   bufferIntervalMs = this.settings.bufferIntervalMs || 1000
@@ -38,34 +27,20 @@ export class SessionManager extends FictionPlugin<SessionManagerSettings> {
     flushIntervalMs: this.bufferIntervalMs,
   })
 
-  /**
-   * Buffer events being processed by processing worker
-   */
-  processBuffer = new WriteBuffer<FictionEvent>({
-    limit: 1000,
-    flushIntervalMs: this.bufferIntervalMs,
-    flush: async (events: FictionEvent[]) => {
-      const saveEvents = await this.processRawEvents(events)
-      this.saveBuffer.batch(saveEvents)
-    },
-  })
-
-  constructor(settings: SessionManagerSettings) {
-    super('session', settings)
+  constructor(settings: FictionBeaconSettings) {
+    super('SessionManager', settings)
+    this.runExpiryCheck()
   }
 
   runExpiryCheck() {
-    this.log.info('running expiry check', {
-      data: { checkExpiredIntervalMs: this.checkExpiredIntervalMs, sessionExpireAfterMs: this.sessionExpireAfterMs },
-    })
-    setInterval(async () => {
-      await this.checkForExpiredSessions()
-    }, this.checkExpiredIntervalMs)
+    const data = { checkExpiredIntervalMs: this.checkExpiredIntervalMs, sessionExpireAfterMs: this.sessionExpireAfterMs }
+    this.log.info('running expiry check', { data })
+    const inter = setInterval(async () => (await this.checkForExpiredSessions()), this.checkExpiredIntervalMs)
+
+    inter.unref() // don't keep process alive
   }
 
-  async getOrStartSession(
-    anonymousId: string,
-  ): Promise<SessionEvent | SessionStarted> {
+  async getOrStartSession(anonymousId: string): Promise<SessionEvent | SessionStarted> {
     const memorySession = await this.cacheSession({ _action: 'get', anonymousId })
 
     if (memorySession) {
@@ -107,22 +82,13 @@ export class SessionManager extends FictionPlugin<SessionManagerSettings> {
           // this.log.info("session created", { data: { session, activeSession } })
 
           if (!session) {
-            this.log.error('no anonymousId for session', {
-              data: { events, rawEvents },
-            })
+            this.log.error('no anonymousId for session', { data: { events, rawEvents } })
             return saveEvents
           }
 
           const { properties: _unused, ...rest } = rawEvents[0]
 
-          events.push({
-            ...rest,
-            event: 'init',
-            gen: 'core',
-            type: 'internal',
-            anonymousId,
-            orgId: session.orgId,
-          })
+          events.push({ ...rest, event: 'init', gen: 'core', type: 'internal', anonymousId, orgId: session.orgId })
         }
         else {
           session = this.updateSession({ session: activeSession as SessionEvent, events })
@@ -143,10 +109,7 @@ export class SessionManager extends FictionPlugin<SessionManagerSettings> {
     return saveEvents
   }
 
-  async getSaveEvents(params: {
-    session: SessionEvent
-    events: FictionEvent[]
-  }) {
+  async getSaveEvents(params: { session: SessionEvent, events: FictionEvent[] }) {
     const { session, events } = params
     let { viewNo = 0, eventNo = 0 } = session
 
@@ -190,9 +153,7 @@ export class SessionManager extends FictionPlugin<SessionManagerSettings> {
    * manage page view events which are updated via stat events
    * stat events are NOT stored, they update cached view events
    */
-  loadEvents = async (params: {
-    rawEvents: FictionEvent[]
-  }): Promise<FictionEvent[]> => {
+  loadEvents = async (params: { rawEvents: FictionEvent[] }): Promise<FictionEvent[]> => {
     const { rawEvents } = params
     const events: FictionEvent[] = []
 
@@ -223,11 +184,7 @@ export class SessionManager extends FictionPlugin<SessionManagerSettings> {
     return events
   }
 
-  cacheSession = async (params: {
-    _action: 'get' | 'set'
-    anonymousId: string
-    session?: SessionEvent | SessionStarted
-  }): Promise<SessionEvent | undefined> => {
+  cacheSession = async (params: { _action: 'get' | 'set', anonymousId: string, session?: SessionEvent | SessionStarted }): Promise<SessionEvent | undefined> => {
     const { _action, anonymousId } = params
     const key = this.redisKey('session', anonymousId)
     if (_action === 'get') {
@@ -249,10 +206,7 @@ export class SessionManager extends FictionPlugin<SessionManagerSettings> {
     }
   }
 
-  updateSession(params: {
-    session: SessionEvent
-    events: FictionEvent[]
-  }): SessionEvent {
+  updateSession(params: { session: SessionEvent, events: FictionEvent[] }): SessionEvent {
     const { events = [], session } = params
     const { viewNo = 0, eventNo = 0, startedAt } = session
     const now = dayjs().unix()
@@ -279,10 +233,7 @@ export class SessionManager extends FictionPlugin<SessionManagerSettings> {
     return out
   }
 
-  createSession = async (
-    events: FictionEvent[],
-    sessionId: string,
-  ): Promise<SessionEvent | undefined> => {
+  createSession = async (events: FictionEvent[], sessionId: string): Promise<SessionEvent | undefined> => {
     this.log.info('create session', { data: { events, sessionId } })
 
     const event = events.find(e => e.anonymousId)
@@ -311,10 +262,7 @@ export class SessionManager extends FictionPlugin<SessionManagerSettings> {
         getGeo(rawIp),
         this.referrerUtility.getReferralParameters(referrer, url),
         this.settings.fictionClickHouse.queries.GetTotalSessions.serve(
-          {
-            anonymousId,
-            orgId,
-          },
+          { anonymousId, orgId },
           { server: true },
         ),
       ])

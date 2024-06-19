@@ -44,6 +44,8 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
   private subscriber?: Redis
   private primaryCache?: Redis
   idd = shortId()
+  initialized = false
+
   constructor(settings: FictionCacheSettings) {
     super('FictionCache', { root: safeDirname(import.meta.url), ...settings })
 
@@ -75,6 +77,7 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
     const logUrl = new URL(this.connectionUrl.toString())
     logUrl.password = this.connectionUrl.password ? '--sensitive--' : ''
     this.log.info('creating redis cache', { data: { url: logUrl.toString() } })
+    this.initialized = true
   }
 
   async getVal<T extends Record<string, unknown>>(key: string): Promise<T | undefined> {
@@ -99,7 +102,7 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
 
   getCache(): Redis | undefined {
     if (!this.primaryCache && !this.fictionEnv?.isApp.value) {
-      this.log.error('no primary cache - missing REDIS_URL')
+      this.log.error('no primary cache', { data: { initialized: this.initialized, connectionUrl: this.connectionUrl } })
       return
     }
     return this.primaryCache

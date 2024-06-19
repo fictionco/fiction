@@ -1,4 +1,4 @@
-import type { FictionCache, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
+import type { FictionCache, FictionPluginSettings, FictionServer, FictionUser, vue } from '@fiction/core'
 import { FictionPlugin, safeDirname } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
 import { FictionClickHouse } from './plugin-clickhouse'
@@ -6,12 +6,17 @@ import { FictionBeacon } from './plugin-beacon'
 
 vars.register(() => [new EnvVar({ name: 'CLICKHOUSE_URL' })])
 
-type FictionAnalyticsSettings = {
+export type FictionAnalyticsSettings = {
+  isLive?: vue.Ref<boolean>
   clickhouseUrl: string
   fictionServer: FictionServer
   fictionUser?: FictionUser
   fictionCache: FictionCache
   beaconPort: number
+  beaconUrlLive?: string
+  sessionExpireAfterMs?: number
+  checkExpiredIntervalMs?: number
+  bufferIntervalMs?: number
 } & FictionPluginSettings
 
 export class FictionAnalytics extends FictionPlugin<FictionAnalyticsSettings> {

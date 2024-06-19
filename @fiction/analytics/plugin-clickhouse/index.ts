@@ -5,7 +5,7 @@ import { FictionPlugin, capitalize, dayjs, isJson, isNode, knex } from '@fiction
 import { EnvVar, vars } from '@fiction/core/plugin-env'
 import type { QueryParamsRefined, TimeLineInterval } from '../types.js'
 import { eventFields } from '../plugin-beacon/index.js'
-import { getSessionQuerySelectors } from '../tables.js'
+import { getSessionQuerySelectors, t } from '../tables.js'
 import type { FictionAnalytics } from '../index.js'
 import type { ClickHouseQueryResult } from './types.js'
 import { QueryGetClientSessions, QueryGetDimensionList, QueryGetTotalSessions } from './endpoints.js'
@@ -30,9 +30,9 @@ export interface BaseChartData {
 }
 
 export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> {
-  dbName = 'fiction'
-  tableEvents = `fiction.fiction_event`
-  tableSessions = `fiction.fiction_session`
+  dbName = 'analytics'
+  tableEvents = `${this.dbName}.${t.event}`
+  tableSessions = `${this.dbName}.${t.session}`
   private db!: Knex
   connectionUrl!: URL
   user!: string
@@ -64,7 +64,7 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
 
   async close() {
     // close the connection
-    await this.db.destroy()
+    await this.db?.destroy()
   }
 
   async init() {
@@ -90,9 +90,7 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
      */
     this.db = knex({ client: 'pg' })
 
-    this.log.info('connected', {
-      data: { url: this.connectionUrl.hostname, port: `[ ${this.connectionUrl.port} ]` },
-    })
+    this.log.info('connected', { data: { url: this.connectionUrl.hostname, port: `[ ${this.connectionUrl.port} ]` } })
 
     if (!this.fictionEnv.isTest.value)
       await this.extend()

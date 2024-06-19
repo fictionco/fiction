@@ -36,7 +36,7 @@ export async function createAnalyticsTestUtils(args: { mainFilePath?: string, co
 
   const testUtils = createTestUtils({ mainFilePath, envFiles: [testEnvFile], ...args })
 
-  const envVarNames = ['AWS_BUCKET_MEDIA', 'AWS_ACCESS_KEY', 'AWS_ACCESS_KEY_SECRET', 'FLY_API_TOKEN', 'OPENAI_API_KEY'] as const
+  const envVarNames = ['AWS_BUCKET_MEDIA', 'AWS_ACCESS_KEY', 'AWS_ACCESS_KEY_SECRET', 'REDIS_URL', 'CLICKHOUSE_URL'] as const
   const v = getEnvVars(testUtils.fictionEnv, envVarNames)
 
   const fictionEnv = testUtils.fictionEnv
@@ -45,10 +45,10 @@ export async function createAnalyticsTestUtils(args: { mainFilePath?: string, co
   const out = { ...testUtils } as Partial<AnalyticsTestUtils> & TestUtils
   out.fictionAws = new FictionAws({ fictionEnv, awsAccessKey, awsAccessKeySecret })
 
-  const { beaconPort, sessionPort } = setupTestPorts({ opts: args, envVars: ['BEACON_PORT', 'SESSION_PORT'] as const, context })
+  const { beaconPort } = setupTestPorts({ opts: args, envVars: ['BEACON_PORT'] as const, context })
 
-  out.fictionCache = new FictionCache({ ...out, redisUrl: 'http://localhost:8123' })
-  out.fictionAnalytics = new FictionAnalytics({ ...(out as AnalyticsTestUtils), clickhouseUrl: 'http://localhost:8123', beaconPort })
+  out.fictionCache = new FictionCache({ ...out, redisUrl: v.redisUrl })
+  out.fictionAnalytics = new FictionAnalytics({ ...(out as AnalyticsTestUtils), clickhouseUrl: v.clickhouseUrl, beaconPort, sessionExpireAfterMs: 100, checkExpiredIntervalMs: 10, bufferIntervalMs: 5 })
   out.fictionClickhouse = out.fictionAnalytics.fictionClickhouse
   out.fictionBeacon = out.fictionAnalytics.fictionBeacon
 

@@ -2,10 +2,7 @@
 import { EventEmitter } from 'events'
 import { onEvent } from './event'
 
-type FlushCallback<T> = (
-  items: T[],
-  context?: FlushContext,
-) => any | Promise<any>
+type FlushCallback<T> = (items: T[], context?: FlushContext,) => any | Promise<any>
 interface FlushContext { reason?: string }
 interface BufferConfig<T = Record<string, any>> {
   name?: string
@@ -20,7 +17,7 @@ interface BufferConfig<T = Record<string, any>> {
 export class WriteBuffer<T> extends EventEmitter {
   readonly name: string
   readonly key: string
-  private items: T[]
+  public items: T[]
   private limit: number
   private limitType: 'item' | 'size' | 'time'
   private flushCallback?: FlushCallback<T>
@@ -78,9 +75,7 @@ export class WriteBuffer<T> extends EventEmitter {
     Promise.resolve(this.flush(this.items, context)).catch(console.error)
 
     if (this.flushCallback) {
-      Promise.resolve(this.flushCallback(this.items, context)).catch(
-        console.error,
-      )
+      Promise.resolve(this.flushCallback(this.items, context)).catch(console.error)
     }
 
     this.emit('flush', this.items)

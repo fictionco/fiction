@@ -1,38 +1,22 @@
 import type http from 'node:http'
-import type { EndpointResponse, FictionPluginSettings } from '@fiction/core'
+import type { EndpointResponse } from '@fiction/core'
 import { FictionPlugin, WriteBuffer, createExpressApp, dayjs, deepMerge, getRequestIpAddress, vue } from '@fiction/core'
-
 import type express from 'express'
-import type { FictionCache } from '@fiction/core/plugin-cache'
+import { addExpressHealthCheck } from '@fiction/core/utils/serverHealth.js'
 import type { FictionEvent } from '../tracking.js'
-import type { FictionClickHouse } from '../plugin-clickhouse/index.js'
 import { eventsTable, sessionsTable } from '../tables.js'
-import type { FictionAnalytics } from '../index.js'
-import type { SessionTimers } from './session.js'
+import type { FictionAnalytics, FictionAnalyticsSettings } from '../index.js'
+import type { FictionClickHouse } from '../plugin-clickhouse/index.js'
 import { SessionManager } from './session.js'
 
 export * from '../tables.js'
 
-type FictionBeaconSettings = {
-  beaconPort: number
-  sessionPort?: number
-  isLive?: vue.Ref<boolean>
-  sessionUrlLive?: string
-  beaconUrlLive?: string
-  eventsPubSubId?: string
-  fictionCache: FictionCache
-  fictionClickHouse: FictionClickHouse
+export type FictionBeaconSettings = {
   fictionAnalytics: FictionAnalytics
-} & FictionPluginSettings & SessionTimers
+  fictionClickHouse: FictionClickHouse
+} & FictionAnalyticsSettings
 
 export class FictionBeacon extends FictionPlugin<FictionBeaconSettings> {
-  sessionUrlLocal = `http://localhost:${this.settings.sessionPort}`
-  sessionUrlLive = this.settings.sessionUrlLive || this.sessionUrlLocal
-  sessionUrl = vue.computed(() => {
-    const isLive = this.settings.isLive?.value ?? false
-    return isLive ? this.sessionUrlLive : this.sessionUrlLocal
-  })
-
   beaconPort = this.settings.beaconPort
   beaconUrlLocal = `http://localhost:${this.beaconPort}`
   beaconUrlLive = this.settings.beaconUrlLive || this.beaconUrlLocal
@@ -47,14 +31,13 @@ export class FictionBeacon extends FictionPlugin<FictionBeaconSettings> {
    */
   sessionManager?: SessionManager
 
-  eventsPubSubId = this.settings.eventsPubSubId || 'events'
   /**
    * Buffer events picked up in http server
    */
   trackingBuffer = new WriteBuffer<FictionEvent>({
-    flush: (events: FictionEvent[]) => {
+    flush: async (events: FictionEvent[]) => {
       this.log.info(`events`, { data: { events: events.length } })
-      this.sessionManager?.processBuffer.batch(events)
+      await this.sessionManager?.processRawEvents(events)
     },
     maxSeconds: 1,
   })
@@ -73,27 +56,7 @@ export class FictionBeacon extends FictionPlugin<FictionBeaconSettings> {
    * Should restart servers/subs if run multiple times
    */
   async dev() {
-    await this.runSessionManager()
     await this.createBeaconServer()
-  }
-
-  /**
-   * Run the session manager which listens to process events
-   * Allow for settings so session duration, etc can be configured based
-   * on command
-   */
-  async runSessionManager() {
-    if (!this.sessionManager)
-      throw new Error('no session manager')
-
-    this.sessionManager.runExpiryCheck()
-
-    const app = createExpressApp()
-    app.use('/', (request, response) => response.status(200).send('ok').end())
-
-    this.beaconServer = app.listen(this.settings.sessionPort, () => {
-      this.log.info(`session manager @ ${this.sessionUrl.value}`, { port: this.settings.sessionPort })
-    })
   }
 
   async createBeaconServer() {
@@ -135,11 +98,21 @@ export class FictionBeacon extends FictionPlugin<FictionBeaconSettings> {
       response.status(200).end()
     })
 
+    addExpressHealthCheck({ expressApp: app })
+
     app.use('/', (request, response) => (response.status(200).send('ok').end()))
 
-    this.beaconServer = app
-      .listen(this.beaconPort, () => (this.log.info(`beacon server @ ${this.beaconUrl.value}`, { port: this.beaconPort })))
-      .on('error', error => (this.log.error('listen error', { error })))
+    this.beaconServer = await new Promise(async (resolve, reject) => {
+      const s = app.listen(this.beaconPort, () => resolve(s)).on('error', error => reject(error))
+    })
+
+    const beaconUrl = this.beaconUrl.value
+    const port = this.beaconPort
+
+    const config = { beaconUrl, port, health: `${beaconUrl}/health` }
+    this.log.info(`[start] Beacon Event Server`, { data: config })
+
+    return { ...config, server: this.beaconServer }
   }
 
   async close() {
@@ -173,9 +146,7 @@ export class FictionBeacon extends FictionPlugin<FictionBeaconSettings> {
     this.trackingBuffer.batch(events)
   }
 
-  handleRequest = async (
-    request: express.Request,
-  ): Promise<EndpointResponse<FictionEvent[]>> => {
+  handleRequest = async (request: express.Request): Promise<EndpointResponse<FictionEvent[]>> => {
     const dataParam = request.query.events as string
 
     let r: EndpointResponse<FictionEvent[]> = { status: 'error', data: undefined }
