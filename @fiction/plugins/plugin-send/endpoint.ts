@@ -15,14 +15,15 @@ abstract class SendEndpoint extends Query<SendEndpointSettings> {
   }
 }
 
-export type WhereSend = { sendId?: string }
-type StandardFields = { orgId: string, userId: string }
+export type WhereSend = { emailId?: string }
+type StandardFields = { orgId: string, userId?: string }
 
 export type ManageEmailSendParams =
-  | { _action: 'create', fields: EmailSendConfig } & StandardFields
+  | { _action: 'create', fields: EmailSendConfig[] } & StandardFields
   | { _action: 'update', where: WhereSend[], fields: Partial<EmailSendConfig> } & StandardFields
   | { _action: 'delete', where: WhereSend[] } & StandardFields
   | { _action: 'list' } & StandardFields & IndexQuery
+  | { _action: 'get', where: WhereSend } & StandardFields
 
 export type ManageSendResponse = EndpointResponse<EmailSendConfig[]>
 
@@ -39,6 +40,15 @@ export class ManageSend extends SendEndpoint {
         break
       case 'list':
         r = await this.list(params, meta)
+        break
+      case 'get':
+        r = await this.list({ ...params, _action: 'list', filters: [{ field: 'emailId', operator: '=', value: params.where.emailId || '' }] }, meta)
+        break
+      case 'update':
+        r = await this.update(params, meta)
+        break
+      case 'delete':
+        r = await this.delete(params, meta)
         break
       default:
         r = { status: 'error', message: 'Invalid action' }
@@ -81,29 +91,108 @@ export class ManageSend extends SendEndpoint {
 
     const { fictionDb } = this.settings
 
-    const sendFields: Partial<EmailSendConfig> = { orgId, ...fields }
-    const postFields = { type: 'email' as const, orgId, userId, ...fields.post }
-    const r = await this.settings.fictionPosts.queries.ManagePost.serve({ _action: 'create', orgId, userId, fields: postFields }, meta)
+    const promises = fields.map(async (f) => {
+      const sendFields: Partial<EmailSendConfig> = { orgId, ...f }
+      const postFields = { type: 'email' as const, orgId, userId, ...f.post }
+      const r = await this.settings.fictionPosts.queries.ManagePost.serve({ _action: 'create', orgId, userId, fields: postFields }, meta)
 
-    const post = r.data
+      const post = r.data
 
-    if (!post) {
-      throw new Error('Post not created')
-    }
+      if (!post?.postId) {
+        throw new Error('Post not created')
+      }
 
-    const insertFields = prepareFields({ type: 'create', fields: sendFields, meta, fictionDb, table: t.send })
-    const insertData: EmailSendConfig = { orgId, userId, postId: post?.postId, ...insertFields }
+      const insertFields = prepareFields({ type: 'create', fields: sendFields, meta, fictionDb, table: t.send })
+      const insertData: EmailSendConfig = { orgId, userId, postId: post.postId, ...insertFields }
 
-    const [row] = await this.db().table(t.send).insert(insertData).returning('*')
+      const [row] = await this.db().table(t.send).insert(insertData).returning('*')
 
-    row.post = post
+      row.post = post
 
-    return { status: 'success', data: [row], indexMeta: { changedCount: 1 } }
+      return row
+    })
+
+    const data = await Promise.all(promises)
+
+    return { status: 'success', data, indexMeta: { changedCount: fields.length } }
   }
 
   private async list(params: ManageEmailSendParams & { _action: 'list' }, _meta: EndpointMeta): Promise<ManageSendResponse> {
-    const { orgId, limit = this.limit, offset = this.offset } = params
-    const r = await this.db().select('*').from(t.send).where({ orgId }).orderBy('updatedAt', 'desc').limit(limit).offset(offset)
+    const { orgId, limit = this.limit, offset = this.offset, filters = [] } = params
+    const query = this.db().select('*').from(t.send).where({ orgId }).orderBy('updatedAt', 'desc').limit(limit).offset(offset)
+
+    filters.forEach((filter) => {
+      if (filter.field && filter.operator && filter.value)
+        void query.where(filter.field, filter.operator, filter.value)
+      else
+        throw new Error('Invalid filter')
+    })
+
+    const r = await query
+
     return { status: 'success', data: r }
+  }
+
+  private async update(params: ManageEmailSendParams & { _action: 'update' }, meta: EndpointMeta): Promise<ManageSendResponse> {
+    const { where, fields, orgId, userId } = params
+
+    if (!Array.isArray(where)) {
+      return { status: 'error', message: 'where must be an array of conditions' }
+    }
+
+    const prepped = prepareFields({ type: 'settings', fields, meta, fictionDb: this.settings.fictionDb, table: t.send })
+
+    const promises = where.map(async (w) => {
+      const result = await this.db().table(t.send).where({ orgId, ...w }).update({ ...prepped, updatedAt: new Date().toISOString() }).limit(1).returning<EmailSendConfig[]>('*')
+      const row = result[0]
+      const postId = row?.postId
+
+      if (!postId) {
+        this.log.error('No postId found for email send', { orgId, userId, emailId: row?.emailId })
+        return row
+      }
+
+      const r = await this.settings.fictionPosts.queries.ManagePost.serve({ _action: 'update', orgId, userId, postId, fields: { ...fields.post } }, meta)
+
+      row.post = r.data
+
+      return row
+    })
+
+    const data = (await Promise.all(promises)).filter(Boolean)
+
+    return { status: 'success', data, indexMeta: { changedCount: data.length } }
+  }
+
+  private async delete(params: ManageEmailSendParams & { _action: 'delete' }, _meta: EndpointMeta): Promise<ManageSendResponse> {
+    const { where, orgId } = params
+
+    if (!Array.isArray(where)) {
+      return { status: 'error', message: 'where must be an array of conditions' }
+    }
+
+    const promises = where.map(async (w) => {
+      const row = await this.db().select('*').table(t.send).where({ orgId, ...w }).first<EmailSendConfig>()
+      if (!row) {
+        return
+      }
+
+      const postId = row.postId
+
+      // foreign key constraint will delete post and email row if post is deleted
+      if (postId) {
+        const r = await this.settings.fictionPosts.queries.ManagePost.serve({ _action: 'delete', orgId, postId }, _meta)
+        row.post = r.data
+      }
+      else {
+        await this.db().table(t.send).where({ orgId, ...w }).delete()
+      }
+
+      return row
+    })
+
+    const data = (await Promise.all(promises)).filter(Boolean) as EmailSendConfig[]
+
+    return { status: 'success', message: `${data.length} items deleted`, data, indexMeta: { changedCount: data.length } }
   }
 }

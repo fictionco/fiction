@@ -57,7 +57,7 @@ export class QueryManagePost extends PostsQuery {
         message = 'Post created'
         break
       case 'delete':
-        await this.deletePost(params, _meta)
+        post = await this.deletePost(params, _meta)
         message = 'Post deleted'
         break
       case 'saveDraft':

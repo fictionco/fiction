@@ -2,7 +2,7 @@
 import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import SettingsTool from '@fiction/admin/settings/SettingsTool.vue'
-import type { SendConfig } from '../schema.js'
+import type { EmailSendConfig } from '../schema.js'
 import type { FictionSend } from '../index.js'
 import { getTools } from './tools.js'
 
@@ -13,23 +13,23 @@ const service = useService<{ fictionSend: FictionSend }>()
 
 const loading = vue.ref(true)
 
-const sendConfig = vue.ref<SendConfig>({})
+const sendConfig = vue.ref<EmailSendConfig>({})
 
 async function load() {
   loading.value = true
 
-  const sendId = service.fictionRouter.query.value.sendId as string | undefined
+  const emailId = service.fictionRouter.query.value.emailId as string | undefined
 
   try {
-    if (!sendId)
+    if (!emailId)
       return
 
-    const endpoint = service.fictionSend.requests.ManageSubscription
+    const endpoint = service.fictionSend.requests.ManageSend
     const orgId = service.fictionUser.activeOrgId.value
     if (!orgId)
       throw new Error('No orgId')
 
-    const r = await endpoint.projectRequest({ _action: 'get', where: { sendId } })
+    const r = await endpoint.projectRequest({ _action: 'get', where: { emailId } })
 
     if (!r.data)
       throw new Error('No send campaign found')

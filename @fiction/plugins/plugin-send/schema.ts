@@ -55,30 +55,35 @@ const sendColumns = [
     create: ({ schema, column }) => schema.string(column.pgKey, 50).references(`${t.posts}.postId`).onUpdate('CASCADE').onDelete('CASCADE').notNullable().index(),
     default: () => '' as string,
     zodSchema: ({ z }) => z.string(),
+    isSetting: true,
   }),
   new FictionDbCol({
     key: 'sentAt',
     create: ({ schema, column }) => schema.timestamp(column.pgKey).defaultTo(null),
-    default: () => '',
+    default: () => '' as string,
     zodSchema: ({ z }) => z.date().nullable(),
+    isSetting: true,
   }),
   new FictionDbCol({
     key: 'scheduledAt',
     create: ({ schema, column }) => schema.timestamp(column.pgKey).defaultTo(null),
-    default: () => '',
+    default: () => '' as string,
     zodSchema: ({ z }) => z.date().nullable(),
+    isSetting: true,
   }),
   new FictionDbCol({
     key: 'filters',
     create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo([]),
     default: () => ([] as DataFilter[]),
     zodSchema: ({ z }) => z.record(z.number()),
+    isSetting: true,
   }),
   new FictionDbCol({
     key: 'counts',
     create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo({}),
     default: () => ({} as EmailAnalyticsCounts),
     zodSchema: ({ z }) => z.record(z.number()),
+    isSetting: true,
   }),
 ] as const
 
