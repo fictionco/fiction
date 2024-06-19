@@ -34,7 +34,7 @@ async function load() {
     if (!r.data)
       throw new Error('No send campaign found')
 
-    sendConfig.value = r.data
+    sendConfig.value = r.data?.[0]
 
     console.warn('Loaded send', sendConfig.value)
   }
