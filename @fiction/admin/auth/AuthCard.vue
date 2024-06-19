@@ -20,7 +20,7 @@ const uc = vue.computed(() => props.card.userConfig.value)
 
 const { fictionRouter, fictionAdmin, fictionEnv } = useService<{ fictionAdmin: FictionAdmin }>()
 
-const itemId = vue.computed(() => fictionRouter.params.value.itemId as 'login' | 'register' | 'confirm' | undefined | '')
+const itemId = vue.computed(() => fictionRouter.params.value.itemId as 'login' | 'register' | 'confirm' | 'password' | undefined | '')
 const fields = vue.ref({ email: '', fullName: '', orgName: '', password: '' })
 const sending = vue.ref(false)
 const formError = vue.ref('')
@@ -133,6 +133,20 @@ const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length
               ui-size="lg"
               :value="fields.fullName"
               @input="fields.fullName = $event.target.value"
+            />
+
+            <ElInput
+              v-if="itemId === 'password'"
+              key="inputPassword"
+              data-test-id="input-password"
+              input="InputPassword"
+              label="Password"
+              autocomplete="current-password"
+              placeholder="Your Password"
+              ui-size="lg"
+              required
+              :value="fields.password"
+              @input="fields.password = $event.target.value"
             />
 
             <ElInput

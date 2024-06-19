@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import WidgetArea from '@fiction/admin/dashboard/WidgetArea.vue'
 import ElSubscriberList from './ElSubscriberList.vue'
 
 type UserConfig = {

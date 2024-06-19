@@ -1,4 +1,4 @@
-import type { DataFilter, IndexMeta, IndexQuery, colorTheme, vueRouter } from '@fiction/core'
+import type { IndexMeta, IndexQuery, vueRouter } from '@fiction/core'
 import { Site } from '../site.js'
 import type { FictionSites } from '../index.js'
 

@@ -6,12 +6,14 @@
     "@fiction/plugin-editor": "workspace:*",
     "@fiction/site": "workspace:*",
     "@fiction/ui": "workspace:*",
+    "@fiction/plugin-posts": "workspace:*",
+    "@fiction/plugin-transactions": "workspace:*",
     "cron": "^3.1.7"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "license": "MIT",
   "main": "index.ts",
-  "name": "@fiction/plugin-posts",
+  "name": "@fiction/plugin-send",
   "publishConfig": {
     "access": "public"
   },

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site'
-import { type User, useService, vue } from '@fiction/core'
+import { useService, vue } from '@fiction/core'
 import TransactionWrap from '@fiction/cards/transactions/TransactionWrap.vue'
 import type { QueryVars } from '@fiction/plugins/plugin-transactions'
 import type { FictionSubscribe } from '..'

@@ -56,7 +56,7 @@ const postCols = [
   new FictionDbCol({
     key: 'type',
     create: ({ schema, column }) => schema.string(column.pgKey).notNullable().defaultTo('post'),
-    default: () => 'post' as string,
+    default: () => 'post' as 'post' | 'email',
     isSetting: true,
     zodSchema: ({ z }) => z.string(),
   }),

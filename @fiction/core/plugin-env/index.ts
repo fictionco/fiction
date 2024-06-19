@@ -40,14 +40,17 @@ export interface FictionControlSettings {
   version?: string
   serverOnlyModules?: ServerModuleDef[]
   uiPaths?: string[]
-  meta?: { version?: string, app?: {
-    name?: string
-    email?: string
-    url?: string
-    domain?: string
-    siteId?: string
-    orgId?: string
-  } }
+  meta?: {
+    version?: string
+    app?: {
+      name?: string
+      email?: string
+      url?: string
+      domain?: string
+      siteId?: string
+      orgId?: string
+    }
+  }
 }
 
 type BaseCompiled = {

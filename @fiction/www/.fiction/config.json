@@ -125,12 +125,12 @@
       "path": "/api/fiction-posts/ManageTaxonomy"
     },
     {
-      "key": "SubscriptionAnalytics",
-      "path": "/api/widgets/SubscriptionAnalytics"
-    },
-    {
       "key": "posts",
       "path": "/api/widgets/posts"
+    },
+    {
+      "key": "SubscriptionAnalytics",
+      "path": "/api/widgets/SubscriptionAnalytics"
     }
   ]
 }

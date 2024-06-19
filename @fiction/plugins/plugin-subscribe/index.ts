@@ -57,7 +57,7 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
       createCard({
         templates,
         templateId: 'dash',
-        slug: 'subscriber',
+        slug: 'audience',
         title: 'Audience',
         cards: [createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewIndex.vue')) })],
         userConfig: { isNavItem: true, navIcon: 'i-tabler-users', navIconAlt: 'i-tabler-users-plus', priority: 50 },
@@ -73,8 +73,8 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
       createCard({
         templates,
         templateId: 'dash',
-        slug: 'subscriber-manage',
-        title: 'Manage Subscribers',
+        slug: 'audience-manage',
+        title: 'Manage Audience',
         cards: [createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewManage.vue')) })],
         userConfig: { navIcon: 'i-tabler-users-group', parentNavItemSlug: 'subscriber' },
       }),
