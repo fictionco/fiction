@@ -4,6 +4,7 @@ import type { FictionTransactions } from '@fiction/plugin-transactions'
 import { createCard } from '@fiction/site'
 import type { FictionAdmin } from '@fiction/admin'
 import type { FictionPosts } from '@fiction/plugin-posts'
+import type { ExtensionManifest } from '../plugin-extend'
 import { ManageSend } from './endpoint'
 import { tables } from './schema.js'
 
@@ -20,7 +21,7 @@ export type FictionSendSettings = {
 
 export class FictionSend extends FictionPlugin<FictionSendSettings> {
   queries = {
-    ManageSubscription: new ManageSend({ fictionSend: this, ...this.settings }),
+    ManageSend: new ManageSend({ fictionSend: this, ...this.settings }),
   }
 
   requests = this.createRequests({ queries: this.queries, fictionServer: this.settings.fictionServer, fictionUser: this.settings.fictionUser, basePath: '/send' })
@@ -40,18 +41,26 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
         templates,
         templateId: 'dash',
         slug: 'send',
-        title: 'Send',
+        title: 'Emails',
         cards: [createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewIndex.vue')) })],
-        userConfig: { isNavItem: true, navIcon: 'i-tabler-users', navIconAlt: 'i-tabler-users-plus', priority: 50 },
+        userConfig: { isNavItem: true, navTitle: 'Send', navIcon: 'i-tabler-mail', navIconAlt: 'i-tabler-mail-share', priority: 50 },
       }),
       createCard({
         templates,
         templateId: 'dash',
-        slug: 'subscriber-view',
-        title: 'View Subscriber',
+        slug: 'send-view',
+        title: 'Create Email',
         cards: [createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewSingle.vue')) })],
-        userConfig: { navIcon: 'i-tabler-user', parentNavItemSlug: 'subscriber' },
+        userConfig: { navIcon: 'i-tabler-send', parentNavItemSlug: 'subscriber' },
       }),
     ])
   }
+}
+
+export const plugin: ExtensionManifest<FictionSendSettings> = {
+  extensionId: 'fictionSend',
+  name: 'Email Send System',
+  desc: 'Create and send emails to users.',
+  setup: async settings => new FictionSend(settings),
+  installStatus: 'installed',
 }

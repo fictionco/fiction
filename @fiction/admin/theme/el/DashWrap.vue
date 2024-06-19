@@ -15,6 +15,7 @@ export type UserConfig = {
   homeIcon?: MediaDisplayObject
   isNavItem?: boolean
   priority?: number
+  navTitle?: string
   navIcon?: string
   navIconAlt?: string
   authRedirect?: string
@@ -52,7 +53,7 @@ const primaryNav = vue.computed<NavItem[]>(() => {
     const isActive = slug === site.siteRouter.params.value.viewId || slug === uc.value.parentNavItemSlug
     const icon = isActive && itemUc.navIconAlt ? itemUc.navIconAlt : itemUc.navIcon
     return {
-      name: item.title.value || '',
+      name: itemUc.navTitle || item.title.value || '',
       href: item.link(`/${slug}`),
       icon,
       isActive,
@@ -154,7 +155,17 @@ function toggleSidebar() {
                 </div>
               </div>
               <template v-else>
-                <ElEngine class="h-full" :card="card" />
+                <transition
+                  enter-active-class="ease-out duration-300"
+                  enter-from-class="opacity-0 translate-y-10"
+                  enter-to-class="opacity-100 translate-y-0"
+                  leave-active-class="ease-in duration-300"
+                  leave-from-class="opacity-100 translate-y-0"
+                  leave-to-class="opacity-0 -translate-y-10"
+                  mode="out-in"
+                >
+                  <ElEngine :key="card.cardId" class="h-full" :card />
+                </transition>
               </template>
             </div>
           </div>

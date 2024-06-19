@@ -125,6 +125,10 @@
       "path": "/api/fiction-posts/ManageTaxonomy"
     },
     {
+      "key": "ManageSubscription",
+      "path": "/api/send/ManageSubscription"
+    },
+    {
       "key": "posts",
       "path": "/api/widgets/posts"
     },

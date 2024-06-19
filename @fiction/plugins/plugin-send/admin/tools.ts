@@ -49,16 +49,6 @@ export function getTools(args: { fictionSend: FictionSend }) {
               new InputOption({ key: 'inlineTags', label: 'Tags', input: 'InputItems', placeholder: 'Tag, Tag, Tag' }),
             ],
           }),
-          new InputOption({
-            key: 'userDetails',
-            label: 'User Details',
-            input: 'group',
-            options: [
-              new InputOption({ key: 'inlineUser.fullName', label: 'Full Name', input: 'InputText', placeholder: 'Your Full Name' }),
-              new InputOption({ key: 'inlineUser.avatar', label: 'Avatar', input: 'InputMediaUpload', subLabel: 'Upload a square image or it will be cropped' }),
-              new InputOption({ key: 'inlineUser.phone', label: 'Phone Number', description: 'Include country code. Used for 2FA and notifications.', input: 'InputPhone', placeholder: '+1 555 555 5555' }),
-            ],
-          }),
         ] satisfies InputOption[]
       },
     }),

@@ -1,11 +1,13 @@
-import { type CreateObjectType, FictionDbCol, FictionDbTable, type PostStatus } from '@fiction/core'
+import { type CreateObjectType, type DataFilter, FictionDbCol, FictionDbTable, type PostStatus } from '@fiction/core'
 
 import { standardTable } from '@fiction/core'
 import type { TablePostConfig } from '@fiction/plugin-posts'
+import { t as postTableNames } from '@fiction/plugin-posts'
 
 export const t = {
   ...standardTable,
-  send: 'fiction_send',
+  ...postTableNames,
+  send: 'fiction_email',
 } as const
 
 type EmailAnalyticsCounts = Partial<{
@@ -18,14 +20,14 @@ type EmailAnalyticsCounts = Partial<{
   complaints: number
 }>
 
-export type TableSendConfig = CreateObjectType<typeof sendColumns>
+export type TableEmailSend = CreateObjectType<typeof sendColumns>
 
-export type SendConfig = Partial<TableSendConfig> & { post?: TablePostConfig }
+export type EmailSendConfig = Partial<TableEmailSend> & { post?: TablePostConfig }
 
 const sendColumns = [
   new FictionDbCol({
-    key: 'sendId',
-    create: ({ schema, column, db }) => schema.string(column.pgKey).primary().defaultTo(db.raw(`object_id('sub')`)).index(),
+    key: 'emailId',
+    create: ({ schema, column, db }) => schema.string(column.pgKey).primary().defaultTo(db.raw(`object_id('eml')`)).index(),
     default: () => '' as string,
     zodSchema: ({ z }) => z.string(),
   }),
@@ -50,7 +52,7 @@ const sendColumns = [
   }),
   new FictionDbCol({
     key: 'postId',
-    create: ({ schema, column }) => schema.string(column.pgKey, 50).references(`${t.org}.postId`).onUpdate('DELETE').notNullable().index(),
+    create: ({ schema, column }) => schema.string(column.pgKey, 50).references(`${t.posts}.postId`).onUpdate('CASCADE').onDelete('CASCADE').notNullable().index(),
     default: () => '' as string,
     zodSchema: ({ z }) => z.string(),
   }),
@@ -61,6 +63,18 @@ const sendColumns = [
     zodSchema: ({ z }) => z.date().nullable(),
   }),
   new FictionDbCol({
+    key: 'scheduledAt',
+    create: ({ schema, column }) => schema.timestamp(column.pgKey).defaultTo(null),
+    default: () => '',
+    zodSchema: ({ z }) => z.date().nullable(),
+  }),
+  new FictionDbCol({
+    key: 'filters',
+    create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo([]),
+    default: () => ([] as DataFilter[]),
+    zodSchema: ({ z }) => z.record(z.number()),
+  }),
+  new FictionDbCol({
     key: 'counts',
     create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo({}),
     default: () => ({} as EmailAnalyticsCounts),
@@ -69,9 +83,5 @@ const sendColumns = [
 ] as const
 
 export const tables = [
-  new FictionDbTable({
-    tableKey: t.send,
-    timestamps: true,
-    columns: sendColumns,
-  }),
+  new FictionDbTable({ tableKey: t.send, timestamps: true, columns: sendColumns }),
 ]

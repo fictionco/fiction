@@ -1,11 +1,12 @@
 <script lang="ts" setup>
-import type { NavItem, vue } from '@fiction/core'
+import type { NavItem } from '@fiction/core'
+import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import ElImage from '@fiction/ui/media/ElImage.vue'
 import DashBarMenu from './DashBarMenu.vue'
 import type { UserConfig } from './DashWrap.vue'
 
-defineProps({
+const props = defineProps({
   iconDashboard: { type: String, default: '' },
   accountMenu: { type: Array as vue.PropType<NavItem[]>, default: () => [] },
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
@@ -14,6 +15,8 @@ defineProps({
 const emit = defineEmits<{
   (event: 'nav', payload: boolean): void
 }>()
+
+const uc = vue.computed(() => props.card.userConfig.value)
 </script>
 
 <template>
@@ -24,10 +27,10 @@ const emit = defineEmits<{
     <div class="mx-auto flex items-center justify-between  px-4 py-2">
       <div class="flex items-center md:min-w-[150px]">
         <RouterLink :to="card.link('/')" class="active:opacity-80 sm:hidden">
-          <ElImage class="h-[21px]" :media="card.userConfig.value.homeIcon" />
+          <ElImage class="h-[21px]" :media="uc.homeIcon" />
         </RouterLink>
         <div class="hidden text-lg font-normal sm:block dark:text-theme-0 text-theme-700 md:flex gap-3 items-center">
-          <div v-if="card.userConfig.value.navIcon" :class="card.userConfig.value.navIcon" class="text-2xl text-theme-500" />
+          <div v-if="uc.navIcon || uc.navIconAlt" :class="uc.navIconAlt || uc.navIcon" class="text-2xl text-theme-500" />
           <div class="hidden text-lg font-medium sm:block  dark:text-theme-0  text-theme-700">
             {{ card.site.currentPage.value?.title.value }}
           </div>

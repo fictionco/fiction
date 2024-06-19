@@ -23,7 +23,7 @@ const list = vue.computed<IndexItem[]>(() => {
       key: p.postId,
       name: p.title.value || 'Untitled',
       desc: p.subTitle.value || 'No description',
-      href: props.card.link(`/post-edit?postId=${p.postId}`),
+      href: props.card.link(`/email-edit?emailId=${p.postId}`),
       media: p.image.value,
     } as IndexItem
   })
@@ -40,11 +40,13 @@ async function load() {
 vue.onMounted(async () => {
   vue.watch(() => service.fictionPosts.cacheKey.value, load, { immediate: true })
 })
+
+const href = props.card.link('/email-edit')
 </script>
 
 <template>
   <div :class="card.classes.value.contentWidth">
-    <ElIndexGrid :list="list" :loading="loading" :actions="[{ name: 'Start New Post', icon: 'i-tabler-plus', btn: 'primary', href: card.link('/post-edit') }]">
+    <ElIndexGrid list-title="Emails" :list="list" :loading="loading" :actions="[{ name: 'New Email', icon: 'i-tabler-plus', btn: 'primary', href }]">
       <template #item="{ item }">
         <div class="flex -space-x-0.5">
           <dt class="sr-only">
@@ -60,12 +62,7 @@ vue.onMounted(async () => {
           title="Create Your First Email Campaign"
           description="Quickly send a message to your subscribers."
           icon="i-tabler-pin"
-          :actions="[{
-            name: 'Start',
-            href: card.link('/send-edit'),
-            btn: 'primary',
-            icon: 'i-heroicons-plus',
-          }]"
+          :actions="[{ name: 'Start', href, btn: 'primary', icon: 'i-heroicons-plus' }]"
         />
       </template>
     </ElIndexGrid>

@@ -18,11 +18,7 @@ export async function getThemes(args: { fictionEnv: FictionEnv, fictionStripe: F
   return themes
 }
 
-export function getExtensionIndex(args: SpecificService) {
-  return getExtensionIndexTypeHelper([
-    {
-      load: () => import('@fiction/plugin-posts'),
-      settings: () => ({ test: true, ...args }),
-    },
-  ])
+export function getExtensionIndex(_args: SpecificService) {
+  return [
+  ]
 }

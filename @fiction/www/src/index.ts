@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { FictionUi } from '@fiction/ui/index.js'
-import type { ServiceConfig } from '@fiction/core/index.js'
+import type { FictionObject, FictionPlugin, ServiceConfig } from '@fiction/core/index.js'
 import { AppRoute, FictionApp, FictionAws, FictionCache, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionRouter, FictionServer, FictionUser, apiRoot, safeDirname } from '@fiction/core/index.js'
 import { FictionTransactions } from '@fiction/plugin-transactions'
 import { FictionTeam } from '@fiction/core/plugin-team/index.js'
@@ -15,6 +15,8 @@ import { FictionExtend } from '@fiction/plugin-extend/index.js'
 import { FictionSubscribe } from '@fiction/plugin-subscribe/index.js'
 import { getEnvVars } from '@fiction/core/utils/index.js'
 import { FictionAnalytics } from '@fiction/analytics/index.js'
+import { FictionPosts } from '@fiction/plugin-posts'
+import { FictionSend } from '@fiction/plugin-send'
 import { version } from '../package.json'
 import { getExtensionIndex, getThemes } from './extend.js'
 import { commands } from './commands.js'
@@ -126,10 +128,10 @@ const fictionTransactions = new FictionTransactions({ ...basicService, fictionMe
 const fictionAi = new FictionAi({ ...basicService, fictionMedia, openaiApiKey })
 const fictionAdmin = new FictionAdmin({ ...basicService, fictionTransactions, fictionMedia })
 
-const pluginServices = { ...basicService, fictionCache, fictionAppSites, fictionRouterSites, fictionAws, fictionMedia, fictionAi, fictionTransactions, fictionAdmin }
+const s = { ...basicService, fictionCache, fictionAppSites, fictionRouterSites, fictionAws, fictionMedia, fictionAi, fictionTransactions, fictionAdmin }
 
 const fictionStripe = new FictionStripe({
-  ...pluginServices,
+  ...s,
   secretKeyLive: fictionEnv.var('STRIPE_SECRET_KEY_PROD'),
   publicKeyLive: fictionEnv.var('STRIPE_PUBLIC_KEY_PROD'),
   secretKeyTest: fictionEnv.var('STRIPE_SECRET_KEY_TEST'),
@@ -165,30 +167,20 @@ const fictionStripe = new FictionStripe({
     },
   ],
 })
-
-const fictionSites = new FictionSites({
-  ...pluginServices,
-  fictionAppSites,
-  fictionRouterSites,
-  flyApiToken,
-  flyAppId: 'fiction-sites',
-  adminBaseRoute: '/admin',
-  themes: () => getThemes({ ...pluginServices, fictionStripe }),
-})
-
-const fictionTeam = new FictionTeam({ ...pluginServices })
-
+const themes = () => getThemes({ ...s, fictionStripe })
+const fictionSites = new FictionSites({ ...s, fictionAppSites, fictionRouterSites, flyApiToken, flyAppId: 'fiction-sites', adminBaseRoute: '/admin', themes })
+const fictionTeam = new FictionTeam({ ...s })
 const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp, fictionAppSites] })
+const fictionAnalytics = new FictionAnalytics({ clickhouseUrl, ...s, beaconPort: +fictionEnv.var('BEACON_PORT') })
+const fictionSubscribe = new FictionSubscribe(s)
+const fictionPosts = new FictionPosts(s)
+const fictionSend = new FictionSend({ fictionPosts, ...s })
 
-const fictionAnalytics = new FictionAnalytics({ clickhouseUrl, ...pluginServices, beaconPort: +fictionEnv.var('BEACON_PORT') })
-
-const fictionSubscribe = new FictionSubscribe({ ...pluginServices })
-
-const baseService = { ...pluginServices, fictionAnalytics, fictionSites, fictionTeam, fictionUi, fictionStripe, fictionSubscribe }
+const baseService = { ...s, fictionAnalytics, fictionSites, fictionTeam, fictionUi, fictionStripe, fictionSubscribe, fictionSend, fictionPosts }
 
 export type SpecificService = typeof baseService
 
-const fictionExtend = new FictionExtend({ ...pluginServices, extensionIndex: getExtensionIndex(baseService) })
+const fictionExtend = new FictionExtend({ ...s, extensionIndex: getExtensionIndex(baseService) })
 
 const service = { ...baseService, fictionExtend }
 

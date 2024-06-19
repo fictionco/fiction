@@ -292,6 +292,18 @@ export interface CompiledServiceConfig {
     fiction_post_taxonomy: 'postTaxonomyId' | 'postId' | 'taxonomyId' | 'orgId' | 'priority' | 'createdAt' | 'updatedAt'
     fiction_post_author: 'postAuthorId' | 'postId' | 'userId' | 'orgId' | 'priority' | 'createdAt' | 'updatedAt'
     fiction_post_site: 'postSiteId' | 'postId' | 'siteId' | 'orgId' | 'priority' | 'createdAt' | 'updatedAt'
+    fiction_email:
+      | 'emailId'
+      | 'userId'
+      | 'orgId'
+      | 'status'
+      | 'postId'
+      | 'sentAt'
+      | 'scheduledAt'
+      | 'filters'
+      | 'counts'
+      | 'createdAt'
+      | 'updatedAt'
     [k: string]: unknown
   }
   [k: string]: unknown

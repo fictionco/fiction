@@ -13,8 +13,8 @@ export type ExtensionLoader<T extends Record<string, any> = Record<string, any>>
 
 // Define a function that takes an array of plugins and returns it.
 // TypeScript will infer the type of T based on the provided settings.
-export function getExtensionIndexTypeHelper<T extends Record<string, any>>(extensions: ExtensionLoader<T>[]) {
-  return extensions as ExtensionLoader[]
+export function getExtensionIndexTypeHelper<T extends Record<string, any>>(extension: ExtensionLoader<T>) {
+  return extension as ExtensionLoader
 }
 
 /**
