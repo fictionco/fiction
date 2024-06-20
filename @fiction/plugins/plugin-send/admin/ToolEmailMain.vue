@@ -8,10 +8,10 @@ import { InputOption } from '@fiction/ui'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import type { Card } from '@fiction/site'
 import InputActions from '@fiction/ui/inputs/InputActions.vue'
-import InputAuthors from '@fiction/plugin-posts/el/InputAuthors.vue'
-import type { Post } from '@fiction/plugin-posts/post'
-import type { TablePostConfig } from '@fiction/plugin-posts/schema'
-import type { FictionPosts } from '@fiction/plugin-posts'
+import InputAuthors from '@fiction/posts/el/InputAuthors.vue'
+import type { Post } from '@fiction/posts/post'
+import type { TablePostConfig } from '@fiction/posts/schema'
+import type { FictionPosts } from '@fiction/posts'
 
 const props = defineProps({
   tool: { type: Object as vue.PropType<EditorTool>, required: true },

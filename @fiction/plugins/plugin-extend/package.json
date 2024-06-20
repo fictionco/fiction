@@ -3,7 +3,8 @@
     "@fiction/core": "workspace:*",
     "@fiction/cards": "workspace:*",
     "@fiction/site": "workspace:*",
-    "@fiction/ui": "workspace:*"
+    "@fiction/ui": "workspace:*",
+    "@fiction/posts": "workspace:*"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "license": "MIT",

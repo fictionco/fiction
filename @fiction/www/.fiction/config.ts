@@ -299,6 +299,7 @@ export interface CompiledServiceConfig {
       | 'orgId'
       | 'status'
       | 'postId'
+      | 'title'
       | 'sentAt'
       | 'scheduledAt'
       | 'filters'

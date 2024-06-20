@@ -1,8 +1,8 @@
 import { type CreateObjectType, type DataFilter, FictionDbCol, FictionDbTable, type PostStatus } from '@fiction/core'
 
 import { standardTable } from '@fiction/core'
-import type { TablePostConfig } from '@fiction/plugin-posts'
-import { t as postTableNames } from '@fiction/plugin-posts'
+import type { TablePostConfig } from '@fiction/posts'
+import { t as postTableNames } from '@fiction/posts'
 
 export const t = {
   ...standardTable,

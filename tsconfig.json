@@ -31,9 +31,11 @@
     "forceConsistentCasingInFileNames": true, // vue/vetur needs this
     "skipDefaultLibCheck": true
   },
+  "references": [],
   "include": [
     "./**/*",
     "./**/*.json",
+    "./**/*.vue",
     "./docs/.vitepress/**/*",
     "./docs/**/*",
     "**/.fiction/*",

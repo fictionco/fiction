@@ -2,7 +2,7 @@
 import { unhead, useService, vue } from '@fiction/core'
 
 import type { Card } from '@fiction/site'
-import type { FictionPosts, Post } from '@fiction/plugin-posts'
+import type { FictionPosts, Post } from '@fiction/posts'
 import ElMagazineIndex from './ElMagazineIndex.vue'
 import ElMagazineSingle from './ElMagazineSingle.vue'
 import type { UserConfig } from '.'

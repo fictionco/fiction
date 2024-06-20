@@ -7,5 +7,6 @@ packages:
   - '@fiction/cards'
   - '@fiction/analytics'
   - '@fiction/platform'
+  - '@fiction/posts'
   - '@fiction/themes/*'
   - '@fiction/plugins/*'

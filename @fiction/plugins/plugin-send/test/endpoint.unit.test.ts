@@ -2,7 +2,7 @@ import { abort, dayjs } from '@fiction/core'
 import { describe, expect, it } from 'vitest'
 import { createTestUser } from '@fiction/core/test-utils'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
-import { FictionPosts } from '@fiction/plugin-posts'
+import { FictionPosts } from '@fiction/posts'
 import { FictionSend } from '..'
 import type { EmailSendConfig } from '../schema'
 

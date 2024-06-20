@@ -1,6 +1,6 @@
 import { FictionObject, objectId, vue } from '@fiction/core'
-import type { FictionPosts, TablePostConfig } from '@fiction/plugin-posts'
-import { Post } from '@fiction/plugin-posts'
+import type { FictionPosts, TablePostConfig } from '@fiction/posts'
+import { Post } from '@fiction/posts'
 import type { EmailSendConfig } from './schema'
 import type { FictionSend } from '.'
 
