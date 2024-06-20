@@ -56,10 +56,10 @@ export function prepareFields<T >(args: {
       }
       else if (
         type === 'returnInfo'
-          && value
-          && (!isAuthority
-          || (meta?.returnAuthority?.includes(k)))
-          && (!isPrivate || privateAccess)
+        && value
+        && (!isAuthority
+        || (meta?.returnAuthority?.includes(k)))
+        && (!isPrivate || privateAccess)
       ) {
         out[key] = value
       }

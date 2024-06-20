@@ -19,7 +19,7 @@ export type TablePostConfig = Partial<CreateObjectType<typeof postCols>> & {
   sites?: Partial<TableSiteConfig>[]
   taxonomy?: TableTaxonomyConfig[]
   tags?: TableTaxonomyConfig[]
-  categories: TableTaxonomyConfig[]
+  categories?: TableTaxonomyConfig[]
   draftId?: string
 }
 // export type TableTaxonomyConfig = Partial<CreateObjectType<typeof taxonomyCols>> & { isNew?: boolean, usageCount?: number }

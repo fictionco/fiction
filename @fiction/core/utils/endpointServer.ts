@@ -1,6 +1,5 @@
 /** server-only-file */
 import type http from 'node:http'
-import process from 'node:process'
 import express from 'express'
 
 import bodyParser from 'body-parser'
@@ -15,10 +14,9 @@ import type { Query } from '../query'
 import type { FictionEnv } from '../plugin-env'
 import type { ErrorConfig } from './error'
 import type { Endpoint } from './endpoint'
-import { getCommit, getVersion } from './vars'
 import { getAccessLevel } from './priv'
 import { decodeUserToken } from './jwt'
-import { addExpressHealthCheck, getServerHealth } from './serverHealth'
+import { addExpressHealthCheck } from './serverHealth'
 
 type CustomServerHandler = (app: express.Express,) => Promise<http.Server> | http.Server
 type MiddlewareHandler = (app: express.Express) => Promise<void> | void

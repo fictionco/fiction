@@ -100,7 +100,7 @@ importers:
     devDependencies:
       '@antfu/eslint-config':
         specifier: ^2.21.1
-        version: 2.21.1(@vue/compiler-sfc@3.4.29)(eslint@8.57.0)(svelte@4.2.17)(typescript@5.4.5)(vitest@1.6.0(@types/node@20.14.6)(@vitest/ui@1.6.0)(happy-dom@14.12.0)(jsdom@24.1.0)(less@4.2.0))
+        version: 2.21.1(@vue/compiler-sfc@3.4.29)(eslint@8.57.0)(svelte@4.2.18)(typescript@5.4.5)(vitest@1.6.0(@types/node@20.14.6)(@vitest/ui@1.6.0)(happy-dom@14.12.0)(jsdom@24.1.0)(less@4.2.0))
       '@codspeed/vitest-plugin':
         specifier: ^3.1.0
         version: 3.1.0(vite@5.3.1(@types/node@20.14.6)(less@4.2.0))(vitest@1.6.0(@types/node@20.14.6)(@vitest/ui@1.6.0)(happy-dom@14.12.0)(jsdom@24.1.0)(less@4.2.0))
@@ -241,8 +241,8 @@ importers:
         specifier: ^0.2.61
         version: 0.2.61
       sql-formatter:
-        specifier: ^15.3.1
-        version: 15.3.1
+        specifier: ^15.3.2
+        version: 15.3.2
       ua-parser-js:
         specifier: 2.0.0-beta.3
         version: 2.0.0-beta.3
@@ -351,14 +351,14 @@ importers:
         specifier: ^5.0.4
         version: 5.0.4
       '@unhead/schema':
-        specifier: ^1.9.13
-        version: 1.9.13
+        specifier: ^1.9.14
+        version: 1.9.14
       '@unhead/ssr':
-        specifier: ^1.9.13
-        version: 1.9.13
+        specifier: ^1.9.14
+        version: 1.9.14
       '@unhead/vue':
-        specifier: ^1.9.13
-        version: 1.9.13(vue@3.4.29(typescript@5.4.5))
+        specifier: ^1.9.14
+        version: 1.9.14(vue@3.4.29(typescript@5.4.5))
       '@vitejs/plugin-vue':
         specifier: ^5.0.5
         version: 5.0.5(vite@5.3.1(@types/node@20.14.6)(less@4.2.0))(vue@3.4.29(typescript@5.4.5))
@@ -651,8 +651,8 @@ importers:
         specifier: ^5.4.5
         version: 5.4.5
       unhead:
-        specifier: ^1.9.13
-        version: 1.9.13
+        specifier: ^1.9.14
+        version: 1.9.14
       uuid-apikey:
         specifier: ^1.5.3
         version: 1.5.3
@@ -950,7 +950,7 @@ importers:
         version: 2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))(@tiptap/pm@2.4.0)(vue@3.4.29(typescript@5.4.5))
       ai:
         specifier: ^3.2.1
-        version: 3.2.1(openai@4.52.0)(react@18.3.1)(solid-js@1.8.17)(svelte@4.2.17)(vue@3.4.29(typescript@5.4.5))(zod@3.23.8)
+        version: 3.2.1(openai@4.52.0)(react@18.3.1)(solid-js@1.8.17)(svelte@4.2.18)(vue@3.4.29(typescript@5.4.5))(zod@3.23.8)
       highlight.js:
         specifier: ^11.9.0
         version: 11.9.0
@@ -3913,20 +3913,20 @@ packages:
   '@ungap/structured-clone@1.2.0':
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
 
-  '@unhead/dom@1.9.13':
-    resolution: {integrity: sha512-Fzc929W+5f88c90kn9aKs7EbgRBhphArMqBbifre134GWgrgDVR0odoadNa7i9eH4roPEDE1FIGcKVWuxOIHbg==}
+  '@unhead/dom@1.9.14':
+    resolution: {integrity: sha512-XZSZ2Wmm1Sv7k9scSFGrarbteSIl3p3I3oOUprKPDboBTvuG5q81Qz8O99NKUGKGJ8BKUkxCqE982eH3S8DKJA==}
 
-  '@unhead/schema@1.9.13':
-    resolution: {integrity: sha512-keOfTXC/tI21fURcEszBHgGvIg2AszQVQEXBG5BYgC2TQph25Bmv7Fk8W2ogFmj+DdZmFiDnSJdz/NKv3bqnTQ==}
+  '@unhead/schema@1.9.14':
+    resolution: {integrity: sha512-60NYSM6QjfK/wx4/QfaYyZ3XnNtwxS9a1oij2abEkGHPmA2/fqBOXeuHtnBo4eD42/Eg+owcS5s3mClPL8AkXw==}
 
-  '@unhead/shared@1.9.13':
-    resolution: {integrity: sha512-zNlJ2i5WonQZu/UMHJJzYMyBLhlCCxj1JxHL6lEG+Z6XiERfJDFr8mEAsQY7M2KrGAHR+WRBxNVoLw03j/kfrA==}
+  '@unhead/shared@1.9.14':
+    resolution: {integrity: sha512-7ZIC7uDV8gp3KHm5JxJ/NXMENQgkh+SCyTcsILSpOhkAGeszMHABrB6vjeZDGM4J9mRUxwyPn24KI2zG/R+XiQ==}
 
-  '@unhead/ssr@1.9.13':
-    resolution: {integrity: sha512-YjYrZ3u9uNDzrMybWMVFE0bDcMWBV6Dyqba2Sjq6x84NBRBpZfcUrc7v58iwp5m4XBNfyPs1+r5tOSV0qCiGww==}
+  '@unhead/ssr@1.9.14':
+    resolution: {integrity: sha512-OIBZu+WBiyCcDMJ4Ysu7uA6yMZ3fWXWyVrT2w0my5oQJgA0BS7lzfReRL8Sw6+ORlupn9Rn++HXfV0ixtxCxIA==}
 
-  '@unhead/vue@1.9.13':
-    resolution: {integrity: sha512-vIMNrB0kZ/3zalmE4j64eBLTkXkrcms78YbptXLvfnnQ9BLGiwsSuB3c0e+4S5Cn1dpMqUTfg5e/hCQYGDMhEA==}
+  '@unhead/vue@1.9.14':
+    resolution: {integrity: sha512-Yc7Qv0ze+iLte4urHiA+ghkF7y+svrawrT+ZrCuGXkZ/eRTF/AY2SKex+rJQJZsP+fKEQ2pGb72IsI5kHFZT3A==}
     peerDependencies:
       vue: '>=2.7 || >=3'
 
@@ -8538,8 +8538,8 @@ packages:
   sprintf-js@1.0.3:
     resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}
 
-  sql-formatter@15.3.1:
-    resolution: {integrity: sha512-L/dqan+Hrt0PpPdCbHcI9bdfOvqaQZR7v5c5SWMJ3bUGQSezK09Mm9q2I3B4iObjaq7FyoldIM+fDSmfzGRXCA==}
+  sql-formatter@15.3.2:
+    resolution: {integrity: sha512-pNxSMf5DtwhpZ8gUcOGCGZIWtCcyAUx9oLgAtlO4ag7DvlfnETL0BGqXaISc84pNrXvTWmt8Wal1FWKxdTsL3Q==}
     hasBin: true
 
   sswr@2.1.0:
@@ -8692,8 +8692,8 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  svelte@4.2.17:
-    resolution: {integrity: sha512-N7m1YnoXtRf5wya5Gyx3TWuTddI4nAyayyIWFojiWV5IayDYNV5i2mRp/7qNGol4DtxEYxljmrbgp1HM6hUbmQ==}
+  svelte@4.2.18:
+    resolution: {integrity: sha512-d0FdzYIiAePqRJEb90WlJDkjUEx42xhivxN8muUBmfZnP+tzUgz12DJ2hRJi8sIHCME7jeK1PTMgKPSfTd8JrA==}
     engines: {node: '>=16'}
 
   swr-store@0.10.6:
@@ -9042,8 +9042,8 @@ packages:
   undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
 
-  unhead@1.9.13:
-    resolution: {integrity: sha512-r7O7s5nw1vUrolueEitawh1HnrzXoekHPM1gsYMF3Tu0A2SzochDJw/1F+Nhu3e073rJ9cUGZqobZY3+RZS4Ew==}
+  unhead@1.9.14:
+    resolution: {integrity: sha512-npdYu6CfasX/IhB8OO27e3u4A1zhAY77T1FwWDIIUaJvugYTte5hjsolPX0/fG5jmjnWTFTuIkmbCSfj7bfIkg==}
 
   unicorn-magic@0.1.0:
     resolution: {integrity: sha512-lRfVq8fE8gz6QMBuDM6a+LO3IAzTi05H6gCVaUpir2E1Rwpo4ZUog45KpNXKC/Mn3Yb9UDuHumeFTo9iV/D9FQ==}
@@ -9555,13 +9555,13 @@ snapshots:
     transitivePeerDependencies:
       - zod
 
-  '@ai-sdk/svelte@0.0.4(svelte@4.2.17)(zod@3.23.8)':
+  '@ai-sdk/svelte@0.0.4(svelte@4.2.18)(zod@3.23.8)':
     dependencies:
       '@ai-sdk/provider-utils': 0.0.15(zod@3.23.8)
       '@ai-sdk/ui-utils': 0.0.4(zod@3.23.8)
-      sswr: 2.1.0(svelte@4.2.17)
+      sswr: 2.1.0(svelte@4.2.18)
     optionalDependencies:
-      svelte: 4.2.17
+      svelte: 4.2.18
     transitivePeerDependencies:
       - zod
 
@@ -9692,7 +9692,7 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@antfu/eslint-config@2.21.1(@vue/compiler-sfc@3.4.29)(eslint@8.57.0)(svelte@4.2.17)(typescript@5.4.5)(vitest@1.6.0(@types/node@20.14.6)(@vitest/ui@1.6.0)(happy-dom@14.12.0)(jsdom@24.1.0)(less@4.2.0))':
+  '@antfu/eslint-config@2.21.1(@vue/compiler-sfc@3.4.29)(eslint@8.57.0)(svelte@4.2.18)(typescript@5.4.5)(vitest@1.6.0(@types/node@20.14.6)(@vitest/ui@1.6.0)(happy-dom@14.12.0)(jsdom@24.1.0)(less@4.2.0))':
     dependencies:
       '@antfu/install-pkg': 0.3.3
       '@clack/prompts': 0.7.0
@@ -9712,7 +9712,7 @@ snapshots:
       eslint-plugin-markdown: 5.0.0(eslint@8.57.0)
       eslint-plugin-n: 17.9.0(eslint@8.57.0)
       eslint-plugin-no-only-tests: 3.1.0
-      eslint-plugin-perfectionist: 2.11.0(eslint@8.57.0)(svelte@4.2.17)(typescript@5.4.5)(vue-eslint-parser@9.4.3(eslint@8.57.0))
+      eslint-plugin-perfectionist: 2.11.0(eslint@8.57.0)(svelte@4.2.18)(typescript@5.4.5)(vue-eslint-parser@9.4.3(eslint@8.57.0))
       eslint-plugin-regexp: 2.6.0(eslint@8.57.0)
       eslint-plugin-toml: 0.11.0(eslint@8.57.0)
       eslint-plugin-unicorn: 53.0.0(eslint@8.57.0)
@@ -12884,31 +12884,31 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
-  '@unhead/dom@1.9.13':
+  '@unhead/dom@1.9.14':
     dependencies:
-      '@unhead/schema': 1.9.13
-      '@unhead/shared': 1.9.13
+      '@unhead/schema': 1.9.14
+      '@unhead/shared': 1.9.14
 
-  '@unhead/schema@1.9.13':
+  '@unhead/schema@1.9.14':
     dependencies:
       hookable: 5.5.3
       zhead: 2.2.4
 
-  '@unhead/shared@1.9.13':
+  '@unhead/shared@1.9.14':
     dependencies:
-      '@unhead/schema': 1.9.13
+      '@unhead/schema': 1.9.14
 
-  '@unhead/ssr@1.9.13':
+  '@unhead/ssr@1.9.14':
     dependencies:
-      '@unhead/schema': 1.9.13
-      '@unhead/shared': 1.9.13
+      '@unhead/schema': 1.9.14
+      '@unhead/shared': 1.9.14
 
-  '@unhead/vue@1.9.13(vue@3.4.29(typescript@5.4.5))':
+  '@unhead/vue@1.9.14(vue@3.4.29(typescript@5.4.5))':
     dependencies:
-      '@unhead/schema': 1.9.13
-      '@unhead/shared': 1.9.13
+      '@unhead/schema': 1.9.14
+      '@unhead/shared': 1.9.14
       hookable: 5.5.3
-      unhead: 1.9.13
+      unhead: 1.9.14
       vue: 3.4.29(typescript@5.4.5)
 
   '@vitejs/plugin-vue@5.0.5(vite@5.3.1(@types/node@20.14.6)(less@4.2.0))(vue@3.4.29(typescript@5.4.5))':
@@ -13214,13 +13214,13 @@ snapshots:
     dependencies:
       humanize-ms: 1.2.1
 
-  ai@3.2.1(openai@4.52.0)(react@18.3.1)(solid-js@1.8.17)(svelte@4.2.17)(vue@3.4.29(typescript@5.4.5))(zod@3.23.8):
+  ai@3.2.1(openai@4.52.0)(react@18.3.1)(solid-js@1.8.17)(svelte@4.2.18)(vue@3.4.29(typescript@5.4.5))(zod@3.23.8):
     dependencies:
       '@ai-sdk/provider': 0.0.10
       '@ai-sdk/provider-utils': 0.0.15(zod@3.23.8)
       '@ai-sdk/react': 0.0.4(react@18.3.1)(zod@3.23.8)
       '@ai-sdk/solid': 0.0.4(solid-js@1.8.17)(zod@3.23.8)
-      '@ai-sdk/svelte': 0.0.4(svelte@4.2.17)(zod@3.23.8)
+      '@ai-sdk/svelte': 0.0.4(svelte@4.2.18)(zod@3.23.8)
       '@ai-sdk/ui-utils': 0.0.4(zod@3.23.8)
       '@ai-sdk/vue': 0.0.4(vue@3.4.29(typescript@5.4.5))(zod@3.23.8)
       eventsource-parser: 1.1.2
@@ -13228,12 +13228,12 @@ snapshots:
       jsondiffpatch: 0.6.0
       nanoid: 3.3.6
       secure-json-parse: 2.7.0
-      sswr: 2.1.0(svelte@4.2.17)
+      sswr: 2.1.0(svelte@4.2.18)
       zod-to-json-schema: 3.22.5(zod@3.23.8)
     optionalDependencies:
       openai: 4.52.0(encoding@0.1.13)
       react: 18.3.1
-      svelte: 4.2.17
+      svelte: 4.2.18
       zod: 3.23.8
     transitivePeerDependencies:
       - solid-js
@@ -14672,14 +14672,14 @@ snapshots:
 
   eslint-plugin-no-only-tests@3.1.0: {}
 
-  eslint-plugin-perfectionist@2.11.0(eslint@8.57.0)(svelte@4.2.17)(typescript@5.4.5)(vue-eslint-parser@9.4.3(eslint@8.57.0)):
+  eslint-plugin-perfectionist@2.11.0(eslint@8.57.0)(svelte@4.2.18)(typescript@5.4.5)(vue-eslint-parser@9.4.3(eslint@8.57.0)):
     dependencies:
       '@typescript-eslint/utils': 7.13.1(eslint@8.57.0)(typescript@5.4.5)
       eslint: 8.57.0
       minimatch: 9.0.4
       natural-compare-lite: 1.4.0
     optionalDependencies:
-      svelte: 4.2.17
+      svelte: 4.2.18
       vue-eslint-parser: 9.4.3(eslint@8.57.0)
     transitivePeerDependencies:
       - supports-color
@@ -18127,15 +18127,15 @@ snapshots:
 
   sprintf-js@1.0.3: {}
 
-  sql-formatter@15.3.1:
+  sql-formatter@15.3.2:
     dependencies:
       argparse: 2.0.1
       get-stdin: 8.0.0
       nearley: 2.20.1
 
-  sswr@2.1.0(svelte@4.2.17):
+  sswr@2.1.0(svelte@4.2.18):
     dependencies:
-      svelte: 4.2.17
+      svelte: 4.2.18
       swrev: 4.0.0
 
   stackback@0.0.2: {}
@@ -18299,7 +18299,7 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  svelte@4.2.17:
+  svelte@4.2.18:
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@jridgewell/sourcemap-codec': 1.4.15
@@ -18700,11 +18700,11 @@ snapshots:
 
   undici-types@5.26.5: {}
 
-  unhead@1.9.13:
+  unhead@1.9.14:
     dependencies:
-      '@unhead/dom': 1.9.13
-      '@unhead/schema': 1.9.13
-      '@unhead/shared': 1.9.13
+      '@unhead/dom': 1.9.14
+      '@unhead/schema': 1.9.14
+      '@unhead/shared': 1.9.14
       hookable: 5.5.3
 
   unicorn-magic@0.1.0: {}

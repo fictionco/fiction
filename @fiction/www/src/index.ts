@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { FictionUi } from '@fiction/ui/index.js'
-import type { FictionObject, FictionPlugin, ServiceConfig } from '@fiction/core/index.js'
+import type { ServiceConfig } from '@fiction/core/index.js'
 import { AppRoute, FictionApp, FictionAws, FictionCache, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionRouter, FictionServer, FictionUser, apiRoot, safeDirname } from '@fiction/core/index.js'
 import { FictionTransactions } from '@fiction/plugin-transactions'
 import { FictionTeam } from '@fiction/core/plugin-team/index.js'

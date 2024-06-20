@@ -7,11 +7,11 @@ import XText from '@fiction/ui/common/XText.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
 import InputDate from '@fiction/ui/inputs/InputDate.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
-import type { Post } from '../post'
+import ElPostEditor from './ElPostEditor.vue'
+import type { Post } from '../post.js'
 import { managePost } from '../utils'
 import type { FictionPosts } from '..'
 import { postEditController } from './tools'
-import ElPostEditor from './ElPostEditor.vue'
 
 type UserConfig = {
   isNavItem: boolean
@@ -105,7 +105,9 @@ vue.onMounted(async () => {
         </ElButton>
       </template>
       <template #default>
-        <div><ElPostEditor :post="post" :card="card" /></div>
+        <div v-if="post">
+          <ElPostEditor :post :card="card" />
+        </div>
       </template>
     </ViewEditor>
     <ElModal v-model:vis="vis" modal-class="max-w-screen-md p-24 ">

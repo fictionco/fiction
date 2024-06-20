@@ -58,6 +58,13 @@ const sendColumns = [
     isSetting: true,
   }),
   new FictionDbCol({
+    key: 'title',
+    create: ({ schema, column }) => schema.string(column.pgKey, 50),
+    default: () => '' as string,
+    zodSchema: ({ z }) => z.string(),
+    isSetting: true,
+  }),
+  new FictionDbCol({
     key: 'sentAt',
     create: ({ schema, column }) => schema.timestamp(column.pgKey).defaultTo(null),
     default: () => '' as string,

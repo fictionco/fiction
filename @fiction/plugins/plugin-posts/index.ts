@@ -4,7 +4,6 @@ import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { createCard } from '@fiction/site'
 import { FictionEditor } from '@fiction/plugin-editor'
 import type { FictionAdmin } from '@fiction/admin'
-import type { ExtensionManifest } from '../plugin-extend'
 import { tables } from './schema'
 import { ManagePostIndex, QueryManagePost, QueryManageTaxonomy } from './endpoint'
 import { Post } from './post'
@@ -118,10 +117,3 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
   }
 }
 
-export const plugin: ExtensionManifest<FictionPostsSettings> = {
-  extensionId: 'fictionPosts',
-  name: 'Post and Blog System',
-  desc: 'Adds posts and blog functionality to Fiction',
-  setup: async settings => new FictionPosts(settings),
-  installStatus: 'installed',
-}

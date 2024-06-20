@@ -3,7 +3,7 @@ import { Theme, createCard } from '@fiction/site/theme.js'
 import { safeDirname } from '@fiction/core'
 
 import { getDemoPages } from '@fiction/cards'
-import type { FictionStripe } from '@fiction/plugins/plugin-stripe/plugin.js'
+import type { FictionStripe } from '@fiction/plugin-stripe/plugin.js'
 import { templates } from './templates.js'
 import * as home from './home/index.js'
 import * as tour from './tour/index.js'

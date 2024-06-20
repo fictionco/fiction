@@ -4,7 +4,7 @@ import ProseEditor from '@fiction/plugin-editor/ProseEditor.vue'
 import XText from '@fiction/ui/common/XText.vue'
 import ElImage from '@fiction/ui/media/ElImage.vue'
 import type { Card } from '@fiction/site'
-import type { Post } from '../post'
+import type { Post } from '../post.js'
 
 defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },

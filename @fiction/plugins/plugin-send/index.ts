@@ -5,8 +5,9 @@ import { createCard } from '@fiction/site'
 import type { FictionAdmin } from '@fiction/admin'
 import type { FictionPosts } from '@fiction/plugin-posts'
 import type { ExtensionManifest } from '../plugin-extend'
-import { ManageSend } from './endpoint'
+import { type ManageEmailSendActionParams, ManageSend } from './endpoint'
 import { tables } from './schema.js'
+import { Email } from './email'
 
 export type FictionSendSettings = {
   fictionDb: FictionDb
@@ -25,12 +26,20 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
   }
 
   requests = this.createRequests({ queries: this.queries, fictionServer: this.settings.fictionServer, fictionUser: this.settings.fictionUser, basePath: '/send' })
-
+  cacheKey = vue.ref(0)
   constructor(settings: FictionSendSettings) {
     super('FictionSend', { root: safeDirname(import.meta.url), ...settings })
 
     this.settings.fictionDb.addTables(tables)
     this.admin()
+  }
+
+  async manageEmailSend(params: ManageEmailSendActionParams) {
+    const r = await this.requests.ManageSend.projectRequest(params)
+
+    this.cacheKey.value++
+
+    return r.data?.map(emailConfig => new Email({ ...emailConfig, fictionSend: this, fictionPosts: this.settings.fictionPosts })) || []
   }
 
   admin() {
@@ -45,13 +54,14 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
         cards: [createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewIndex.vue')) })],
         userConfig: { isNavItem: true, navTitle: 'Send', navIcon: 'i-tabler-mail', navIconAlt: 'i-tabler-mail-share', priority: 50 },
       }),
+
       createCard({
         templates,
         templateId: 'dash',
-        slug: 'send-view',
-        title: 'Create Email',
+        slug: 'email-edit',
+        title: 'Edit Email',
         cards: [createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewSingle.vue')) })],
-        userConfig: { navIcon: 'i-tabler-send', parentNavItemSlug: 'subscriber' },
+        userConfig: { navIcon: 'i-tabler-send', parentNavItemSlug: 'send', layoutFormat: 'full' },
       }),
     ])
   }

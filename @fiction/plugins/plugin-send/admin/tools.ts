@@ -1,23 +1,67 @@
 import { InputOption } from '@fiction/ui'
 import { vue } from '@fiction/core'
 import { SettingsTool } from '@fiction/admin/types'
+
+import type { EditorTool } from '@fiction/admin'
+import { AdminEditorController } from '@fiction/admin'
 import type { FictionSend } from '..'
+
+export const tools = [
+  // {
+  //   toolId: 'posts',
+  //   icon: 'i-tabler-box-multiple',
+  //   el: vue.defineAsyncComponent(() => import('./ToolSettings.vue')),
+  //   location: 'primary',
+  //   isPrimary: true,
+  // },
+  // {
+  //   toolId: 'email',
+  //   icon: 'i-tabler-mail-share',
+  //   el: vue.defineAsyncComponent(() => import('./ToolSettings.vue')),
+  //   location: 'primary',
+  //   isPrimary: true,
+  // },
+  // {
+  //   toolId: 'subscriptions',
+  //   icon: 'i-tabler-user-up',
+  //   el: vue.defineAsyncComponent(() => import('./ToolSettings.vue')),
+  //   location: 'primary',
+  //   isPrimary: true,
+  // },
+  // {
+  //   toolId: 'history',
+  //   icon: 'i-tabler-history',
+  //   el: vue.defineAsyncComponent(() => import('./ToolHistory.vue')),
+  //   location: 'primary',
+  //   isPrimary: true,
+  // },
+  {
+    toolId: 'postSettings',
+    title: 'Post Settings',
+    icon: 'i-tabler-edit-circle',
+    location: 'context',
+    isDefault: true,
+    props: () => {
+      return vue.computed(() => ({}))
+    },
+    el: vue.defineAsyncComponent(() => import('./ToolEmailMain.vue')),
+  },
+] as const satisfies EditorTool[]
+
+export type ToolKeys = (typeof tools)[number]['toolId']
+
+export const postEditController = new AdminEditorController({ tools })
 
 export function getTools(args: { fictionSend: FictionSend }) {
   const { fictionSend } = args
 
-  const avatar = vue.ref({})
   const dataRef = vue.ref({})
 
   const tools = [
-    new SettingsTool({
-      title: 'Back',
-      href: '/subscriber',
-      userConfig: { isNavItem: true, navIcon: 'i-tabler-arrow-down-left', navIconAlt: 'i-tabler-arrow-left' },
-    }),
+
     new SettingsTool({
       slug: 'view',
-      title: 'View Subscriber',
+      title: 'Create Email',
       userConfig: { isNavItem: true, navIcon: 'i-tabler-user', navIconAlt: 'i-tabler-user' },
       val: dataRef,
       getActions: (args) => {

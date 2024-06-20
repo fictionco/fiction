@@ -1,7 +1,6 @@
 // eslint-disable-next-line unicorn/prefer-node-protocol
 import { EventEmitter } from 'events'
 import type { FictionEnv } from '../plugin-env'
-import { onEvent } from './event'
 
 type FlushCallback<T> = (items: T[], context?: FlushContext,) => any | Promise<any>
 interface FlushContext { reason?: string }

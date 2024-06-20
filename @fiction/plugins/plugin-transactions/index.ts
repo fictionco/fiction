@@ -1,6 +1,6 @@
 import { createCard } from '@fiction/site'
 
-import type { FictionMonitor } from '@fiction/plugins/plugin-monitor'
+import type { FictionMonitor } from '@fiction/plugin-monitor'
 import type { FictionApp, FictionDb, FictionEmail, FictionMedia, FictionPluginSettings, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 import { AppRoute, FictionPlugin, safeDirname, vue } from '@fiction/core'
 

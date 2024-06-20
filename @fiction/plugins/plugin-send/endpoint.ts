@@ -18,12 +18,14 @@ abstract class SendEndpoint extends Query<SendEndpointSettings> {
 export type WhereSend = { emailId?: string }
 type StandardFields = { orgId: string, userId?: string }
 
-export type ManageEmailSendParams =
-  | { _action: 'create', fields: EmailSendConfig[] } & StandardFields
-  | { _action: 'update', where: WhereSend[], fields: Partial<EmailSendConfig> } & StandardFields
-  | { _action: 'delete', where: WhereSend[] } & StandardFields
-  | { _action: 'list' } & StandardFields & IndexQuery
-  | { _action: 'get', where: WhereSend } & StandardFields
+export type ManageEmailSendActionParams =
+  | { _action: 'create', fields: EmailSendConfig[] }
+  | { _action: 'update', where: WhereSend[], fields: Partial<EmailSendConfig> }
+  | { _action: 'delete', where: WhereSend[] }
+  | { _action: 'list' } & IndexQuery
+  | { _action: 'get', where: WhereSend, loadDraft?: boolean }
+
+export type ManageEmailSendParams = ManageEmailSendActionParams & StandardFields
 
 export type ManageSendResponse = EndpointResponse<EmailSendConfig[]>
 

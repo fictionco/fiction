@@ -27,7 +27,7 @@ export abstract class PostsQuery extends Query<PostsQuerySettings> {
 }
 
 export type ManagePostParamsRequest =
-  | { _action: 'create', fields: Partial<TablePostConfig> }
+  | { _action: 'create', fields: Partial<TablePostConfig>, defaultTitle?: string }
   | { _action: 'update', postId: string, fields: Partial<TablePostConfig>, loadDraft?: boolean }
   | { _action: 'get', postId?: string, slug?: string, select?: (keyof TablePostConfig)[] | ['*'], loadDraft?: boolean }
   | { _action: 'delete', postId: string }
@@ -272,9 +272,9 @@ export class QueryManagePost extends PostsQuery {
   }
 
   private async getSlugId(args: { orgId: string, postId?: string, fields: Partial<TablePostConfig> }) {
-    const { orgId, postId, fields: { slug, title } } = args
+    const { orgId, postId, fields: { slug, title, type = 'post' } } = args
 
-    let currentSlug = slug || toSlug(title) || 'post'
+    let currentSlug = slug || toSlug(title) || type
 
     // Continuously check for uniqueness and adjust the slug if necessary
     while (await this.isSlugTaken(orgId, currentSlug, postId))
@@ -285,14 +285,14 @@ export class QueryManagePost extends PostsQuery {
 
   private async createPost(params: ManagePostParams & { _action: 'create' }, meta: EndpointMeta): Promise<TablePostConfig | undefined> {
     const db = this.db()
-    const { fields, orgId, userId } = params
+    const { fields, orgId, userId, defaultTitle = '' } = params
 
     if (!orgId || !userId)
       throw abort('userId and orgId are required to create a post')
 
     // Ensure the slug is unique within the organization
     fields.slug = await this.getSlugId({ orgId, fields })
-    fields.title = fields.title || `Untitled Post`
+    fields.title = fields.title || defaultTitle
 
     const prepped = prepareFields({ type: 'create', fields, table: t.posts, meta, fictionDb: this.settings.fictionDb })
 
@@ -556,6 +556,7 @@ export type ManageIndexParamsRequest = {
   _action: 'delete' | 'list'
   selectedIds?: string[]
   loadDraft?: boolean
+  type?: string
 } & IndexQuery
 
 export type ManageIndexParams = ManageIndexParamsRequest & { userId?: string, orgId?: string }
@@ -578,12 +579,12 @@ export class ManagePostIndex extends PostsQuery {
   }
 
   private async list(args: ManageIndexParams): Promise<ManageIndexResponse> {
-    const { orgId, limit = 10, offset = 0, filters = [], loadDraft = false } = args
+    const { orgId, limit = 10, offset = 0, filters = [], loadDraft = false, type = 'post' } = args
 
     if (!orgId)
       throw abort('orgId is required to list posts')
 
-    let posts = await this.fetchPosts({ orgId, limit, offset, filters })
+    let posts = await this.fetchPosts({ orgId, limit, offset, filters, type })
 
     if (loadDraft) {
       posts = posts.map((post) => {
@@ -602,7 +603,7 @@ export class ManagePostIndex extends PostsQuery {
       authors: [post.userId].filter(Boolean).map(userId => allAuthors.find(author => author.userId === userId)),
     })) as TablePostConfig[]
 
-    const count = await this.fetchCount(orgId)
+    const count = await this.fetchCount({ orgId, type })
 
     return {
       status: 'success',
@@ -611,12 +612,12 @@ export class ManagePostIndex extends PostsQuery {
     }
   }
 
-  private async fetchPosts(args: { orgId: string } & IndexQuery) {
-    const { orgId, limit = 20, offset = 0, filters = [], orderBy = 'updatedAt', order = 'desc' } = args
+  private async fetchPosts(args: { orgId: string, type: string } & IndexQuery) {
+    const { orgId, limit = 20, offset = 0, filters = [], orderBy = 'updatedAt', order = 'desc', type = 'post' } = args
     const query = this.db()
       .select<TablePostConfig[]>('*')
       .from(t.posts)
-      .where('org_id', orgId)
+      .where({ orgId, type })
       .limit(limit)
       .offset(offset)
       .orderBy(orderBy, order)
@@ -629,11 +630,12 @@ export class ManagePostIndex extends PostsQuery {
     return query
   }
 
-  private async fetchCount(orgId: string): Promise<number> {
+  private async fetchCount(args: { orgId: string, type: string }): Promise<number> {
+    const { orgId, type = 'post' } = args
     const result = await this.db()
       .count<{ count: string }>('*')
       .from(t.posts)
-      .where({ orgId })
+      .where({ orgId, type })
       .first()
 
     return Number.parseInt(result?.count || '0', 10)

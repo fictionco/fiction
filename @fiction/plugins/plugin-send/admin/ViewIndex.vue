@@ -5,23 +5,24 @@ import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 import type { Card } from '@fiction/site/card'
 import ElZeroBanner from '@fiction/ui/ElZeroBanner.vue'
-import type { FictionPosts, Post } from '@fiction/plugin-posts'
-import { managePostIndex } from '@fiction/plugin-posts'
+import type { FictionSend } from '../index.js'
+import type { Email } from '../email.js'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
-const service = useService<{ fictionPosts: FictionPosts }>()
+const service = useService<{ fictionSend: FictionSend }>()
 
-const posts = vue.shallowRef<Post[]>([])
+const emails = vue.shallowRef<Email[]>([])
 
 const list = vue.computed<IndexItem[]>(() => {
-  return posts.value.map((p) => {
+  return emails.value.map((email) => {
+    const p = email.post.value
     return {
-      ...p.toConfig(),
-      key: p.postId,
-      name: p.title.value || 'Untitled',
+      ...email.toConfig(),
+      key: email.emailId,
+      name: email.title.value || p.title.value || 'Untitled',
       desc: p.subTitle.value || 'No description',
       href: props.card.link(`/email-edit?emailId=${p.postId}`),
       media: p.image.value,
@@ -33,12 +34,12 @@ const loading = vue.ref(true)
 async function load() {
   loading.value = true
   const createParams = { _action: 'list', fields: { }, loadDraft: true } as const
-  posts.value = await managePostIndex({ fictionPosts: service.fictionPosts, params: createParams })
+  emails.value = await service.fictionSend.manageEmailSend(createParams)
   loading.value = false
 }
 
 vue.onMounted(async () => {
-  vue.watch(() => service.fictionPosts.cacheKey.value, load, { immediate: true })
+  vue.watch(() => service.fictionSend.cacheKey.value, load, { immediate: true })
 })
 
 const href = props.card.link('/email-edit')
