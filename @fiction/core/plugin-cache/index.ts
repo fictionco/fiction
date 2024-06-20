@@ -84,7 +84,7 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
     const cache = this.getCache()
 
     if (!cache)
-      throw new Error('no cache')
+      throw new Error(`no cache (getVal)`)
 
     const r = await cache.get(key)
 
@@ -95,7 +95,7 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
     const cache = this.getCache()
 
     if (!cache)
-      throw new Error('no cache')
+      throw new Error('no cache (setVal)')
 
     await cache.set(key, this.str(val), 'EX', ttl)
   }

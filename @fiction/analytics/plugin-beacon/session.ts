@@ -33,6 +33,9 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
   }
 
   runExpiryCheck() {
+    if (this.fictionEnv.isApp.value)
+      return
+
     const data = { checkExpiredIntervalMs: this.checkExpiredIntervalMs, sessionExpireAfterMs: this.sessionExpireAfterMs }
     this.log.info('running expiry check', { data })
     const inter = setInterval(async () => (await this.checkForExpiredSessions()), this.checkExpiredIntervalMs)
@@ -337,7 +340,7 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
   ): Promise<FictionEvent | undefined> => {
     const cache = this.cache()
     if (!cache)
-      throw new Error('no cache')
+      throw new Error('no cache (getFinalViewEvent)')
     const key = this.redisKey('page', anonymousId)
     const r = await cache.get(key)
     const data = r ? (JSON.parse(r) as FictionEvent) : undefined
@@ -348,7 +351,7 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
   expireSession = async (anonymousId: string): Promise<void> => {
     const cache = this.cache()
     if (!cache)
-      throw new Error('no cache')
+      throw new Error('no cache (expireSession)')
 
     const session = await this.cacheSession({ _action: 'get', anonymousId })
 
