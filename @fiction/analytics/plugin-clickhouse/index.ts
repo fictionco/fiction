@@ -52,7 +52,7 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
   })
 
   constructor(settings: FictionClickHouseSettings) {
-    super('clickhouse', settings)
+    super('FictionClickHouse', settings)
 
     if (!settings.clickhouseUrl && !this.fictionEnv.isApp.value) {
       throw new Error('no clickhouse connection url')

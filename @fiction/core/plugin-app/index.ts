@@ -246,7 +246,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   }
 
   async close() {
-    this.log.info('close app')
+    this.log.info(`close app: ${this.appInstanceId}`)
     this.appServer?.close()
     this.staticServer?.close()
     await this.fictionRender?.viteDevServer?.close()

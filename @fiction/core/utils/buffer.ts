@@ -48,7 +48,7 @@ export class WriteBuffer<T> extends EventEmitter {
     this.flushCallback = flush
 
     // Flush on process shutdown
-    config.fictionEnv?.events.on('shutdown', () => this.flushBuffer({ reason: 'shutdown' }))
+    config.fictionEnv?.events.on('cleanup', () => this.flushBuffer({ reason: 'shutdown' }))
   }
 
   /**

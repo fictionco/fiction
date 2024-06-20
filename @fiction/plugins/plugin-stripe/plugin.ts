@@ -86,7 +86,7 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
   })
 
   constructor(settings: StripePluginSettings) {
-    super('stripe', settings)
+    super('FictionStripe', settings)
 
     const checkoutEndpoint = new Endpoint({
       requestHandler: (...r) => this.checkoutEndpointHandler(...r),

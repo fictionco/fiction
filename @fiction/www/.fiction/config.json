@@ -50,15 +50,15 @@
     },
     {
       "key": "ManageCustomer",
-      "path": "/api/stripe/ManageCustomer"
+      "path": "/api/fiction-stripe/ManageCustomer"
     },
     {
       "key": "ListSubscriptions",
-      "path": "/api/stripe/ListSubscriptions"
+      "path": "/api/fiction-stripe/ListSubscriptions"
     },
     {
       "key": "GetCustomerData",
-      "path": "/api/stripe/GetCustomerData"
+      "path": "/api/fiction-stripe/GetCustomerData"
     },
     {
       "key": "oAuthEndpoint",

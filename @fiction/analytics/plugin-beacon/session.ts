@@ -42,6 +42,8 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
     const inter = setInterval(async () => (await this.checkForExpiredSessions()), this.checkExpiredIntervalMs)
 
     inter.unref() // don't keep process alive
+
+    this.fictionEnv.events.on('cleanup', () => clearInterval(inter))
   }
 
   async getOrStartSession(anonymousId: string): Promise<SessionEvent | SessionStarted> {

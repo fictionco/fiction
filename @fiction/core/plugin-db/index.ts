@@ -52,7 +52,7 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
   })
 
   constructor(settings: FictionDbSettings) {
-    super('db', { root: safeDirname(import.meta.url), ...settings })
+    super('FictionDb', { root: safeDirname(import.meta.url), ...settings })
 
     if (isActualBrowser())
       return

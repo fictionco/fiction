@@ -125,7 +125,7 @@ export class FictionEnv<
   }
 
   constructor(settings: FictionControlSettings) {
-    super('env', settings)
+    super('FictionEnv', settings)
 
     const commitId = crossVar.get('RUNTIME_COMMIT') || ''
     this.log.info(`[start] environment`, {
@@ -421,6 +421,7 @@ export class FictionEnv<
     if (cliCommand.options.exit) {
       const reason = `--exit flag set`
       this.log.warn(`shutting down`, { data: { reason } })
+      this.events.emit('cleanup', { reason })
       await waitFor(1000)
       this.events.emit('shutdown', { reason })
     }
