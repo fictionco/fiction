@@ -1,5 +1,6 @@
 // eslint-disable-next-line unicorn/prefer-node-protocol
 import { EventEmitter } from 'events'
+import type { FictionEnv } from '../plugin-env'
 import { onEvent } from './event'
 
 type FlushCallback<T> = (items: T[], context?: FlushContext,) => any | Promise<any>
@@ -12,6 +13,7 @@ interface BufferConfig<T = Record<string, any>> {
   limitType?: 'item' | 'size' | 'time'
   flush?: FlushCallback<T>
   key?: string
+  fictionEnv?: FictionEnv
 }
 
 export class WriteBuffer<T> extends EventEmitter {
@@ -42,12 +44,11 @@ export class WriteBuffer<T> extends EventEmitter {
     this.limit = limit ?? 5000
     this.limitType = limitType ?? 'item'
 
-    this.flushIntervalMs
-      = flushIntervalMs || (maxSeconds ? maxSeconds * 1000 : 1000)
+    this.flushIntervalMs = flushIntervalMs || (maxSeconds ? maxSeconds * 1000 : 1000)
     this.flushCallback = flush
 
     // Flush on process shutdown
-    onEvent('shutdown', () => this.flushBuffer({ reason: 'shutdown' }))
+    config.fictionEnv?.events.on('shutdown', () => this.flushBuffer({ reason: 'shutdown' }))
   }
 
   /**

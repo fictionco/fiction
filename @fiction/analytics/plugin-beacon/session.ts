@@ -15,6 +15,7 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
   referrerUtility = new ReferrerUtility({ fictionCache: this.settings.fictionCache })
   processedSessions = 0
   saveBuffer = new WriteBuffer<SessionEvent>({
+    fictionEnv: this.fictionEnv,
     name: 'sessionSave',
     flush: async (events) => {
       const promises = [

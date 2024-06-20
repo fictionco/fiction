@@ -303,7 +303,7 @@ export class NodeSocketServer<T extends EventMap> extends EventEmitter {
     this.maxPayload = settings.maxPayload || 10_000_000
     this.welcomeObject = settings.welcomeObject
 
-    setInterval(() => {
+    const inter = setInterval(() => {
       this.connections = this.connections.filter((cm) => {
         if (dayjs().unix() - cm.pingAliveTime > 60) {
           this.log.info('terminating connection due to timeout', {

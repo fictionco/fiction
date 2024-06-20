@@ -56,7 +56,7 @@ export async function runCommand(command: string, optionsFromCli: Record<string,
       logger.error(`no fictionEnv at [${mainFilePath}]. Can't run command ${command}`)
   }
   catch (error) {
-    log.error('CLI', `During CLI Command: [${command}] - ${(error as Error).message}`, { error })
+    logger.error(`Command: [${command}] - ${(error as Error).message}`, { error })
     exitHandler({ exit: true, code: 1 })
   }
 }

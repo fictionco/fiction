@@ -40,6 +40,7 @@ export class FictionBeacon extends FictionPlugin<FictionBeaconSettings> {
       await this.sessionManager?.processRawEvents(events)
     },
     maxSeconds: 1,
+    fictionEnv: this.fictionEnv,
   })
 
   constructor(settings: FictionBeaconSettings) {

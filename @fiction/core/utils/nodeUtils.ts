@@ -32,7 +32,7 @@ export function logMemoryUsage() {
     ]
 
     logger.info(out.join(' '))
-  }, 60000)
+  }, 120000)
 
   // This will not prevent the process from exiting if this is the only activity left in the event loop.
   interval.unref()
