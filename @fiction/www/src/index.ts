@@ -54,7 +54,7 @@ const envVarNames = [
 ] as const
 
 const v = getEnvVars(fictionEnv, envVarNames)
-const { apolloApiKey, flyApiToken, googleClientId, googleClientSecret, tokenSecret, postgresUrl, smtpHost, smtpPassword, smtpUser, slackWebhookUrl, sentryPublicDsn, awsAccessKey, awsBucketMedia, clickhouseUrl, awsAccessKeySecret, openaiApiKey } = v
+const { redisUrl, apolloApiKey, flyApiToken, googleClientId, googleClientSecret, tokenSecret, postgresUrl, smtpHost, smtpPassword, smtpUser, slackWebhookUrl, sentryPublicDsn, awsAccessKey, awsBucketMedia, clickhouseUrl, awsAccessKeySecret, openaiApiKey } = v
 
 const comboPort = +fictionEnv.var('APP_PORT')
 
@@ -108,20 +108,11 @@ const fictionAppSites = new FictionApp({
 const fictionServer = new FictionServer({ fictionEnv, serverName: 'FictionMain', port: comboPort, liveUrl: appUrl })
 const fictionDb = new FictionDb({ fictionEnv, fictionServer, postgresUrl })
 const fictionEmail = new FictionEmail({ fictionEnv, smtpHost, smtpPassword, smtpUser })
-
 const base = { fictionEnv, fictionApp, fictionServer, fictionDb, fictionEmail, fictionRouter }
-
 const fictionUser = new FictionUser({ ...base, googleClientId, googleClientSecret, tokenSecret, apolloApiKey })
-
-fictionUser.events.on('logout', () => {
-  fictionEnv.events.emit('notify', { type: 'success', message: 'You have been logged out.' })
-})
-
-const fictionCache = new FictionCache({ ...base })
+const fictionCache = new FictionCache({ ...base, redisUrl })
 const fictionMonitor = new FictionMonitor({ ...base, fictionUser, slackWebhookUrl, sentryPublicDsn })
-
 const basicService = { ...base, fictionUser, fictionMonitor }
-
 const fictionAws = new FictionAws({ ...basicService, awsAccessKey, awsAccessKeySecret })
 const fictionMedia = new FictionMedia({ ...basicService, fictionAws, awsBucketMedia, cdnUrl: `https://media.fiction.com` })
 const fictionTransactions = new FictionTransactions({ ...basicService, fictionMedia })

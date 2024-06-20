@@ -56,8 +56,8 @@ export async function runCommand(command: string, optionsFromCli: Record<string,
       logger.error(`no fictionEnv at [${mainFilePath}]. Can't run command ${command}`)
   }
   catch (error) {
-    log.error('CLI', `Error Running CLI Command [${command}]`, { error })
-    exitHandler({ exit: true })
+    log.error('CLI', `During CLI Command: [${command}] - ${(error as Error).message}`, { error })
+    exitHandler({ exit: true, code: 1 })
   }
 }
 
@@ -146,7 +146,7 @@ function exitHandler(options: {
   code?: 0 | 1
 }): void | never {
   const { exit, shutdown, code = 0 } = options
-  logger.info('Exiting CLI', { exit, shutdown, code })
+  logger.info(`Exiting CLI (${code})`, { exit, shutdown, code })
   if (shutdown)
     emitEvent('shutdown')
 

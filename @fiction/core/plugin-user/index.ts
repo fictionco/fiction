@@ -273,6 +273,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
 
     this.events.emit('logout', { user })
     this.fictionEnv.events.emit('resetUi', { scope: 'all', cause: 'logout' })
+    this.fictionEnv.events.emit('notify', { type: 'success', message: 'You have been logged out.' })
 
     if (callback)
       callback()
