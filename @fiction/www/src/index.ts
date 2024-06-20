@@ -186,7 +186,7 @@ const service = { ...baseService, fictionExtend }
 
 export function setup(): ServiceConfig {
   async function initializeBackingServices() {
-    await Promise.all([fictionDb.init(), fictionEmail.init(), fictionAnalytics.serverInit()])
+    await Promise.all([fictionDb.init(), fictionEmail.init(), fictionAnalytics.serverInit(), fictionCache.init()])
   }
   return {
     service,
