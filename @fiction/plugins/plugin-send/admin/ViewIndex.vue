@@ -5,6 +5,7 @@ import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 import type { Card } from '@fiction/site/card'
 import ElZeroBanner from '@fiction/ui/ElZeroBanner.vue'
+import e from 'express'
 import type { FictionSend } from '../index.js'
 import type { Email } from '../email.js'
 
@@ -24,7 +25,7 @@ const list = vue.computed<IndexItem[]>(() => {
       key: email.emailId,
       name: email.title.value || p.title.value || 'Untitled',
       desc: p.subTitle.value || 'No description',
-      href: props.card.link(`/email-edit?emailId=${p.postId}`),
+      href: props.card.link(`/email-edit?emailId=${email.emailId}`),
       media: p.image.value,
     } as IndexItem
   })
@@ -33,6 +34,7 @@ const list = vue.computed<IndexItem[]>(() => {
 const loading = vue.ref(true)
 async function load() {
   loading.value = true
+  console.warn('load index', service.fictionSend.cacheKey.value)
   const createParams = { _action: 'list', fields: { }, loadDraft: true } as const
   emails.value = await service.fictionSend.manageEmailSend(createParams)
   loading.value = false
@@ -47,7 +49,7 @@ const href = props.card.link('/email-edit')
 
 <template>
   <div :class="card.classes.value.contentWidth">
-    <ElIndexGrid list-title="Emails" :list="list" :loading="loading" :actions="[{ name: 'New Email', icon: 'i-tabler-plus', btn: 'primary', href }]">
+    <ElIndexGrid media-icon="i-tabler-mail" list-title="Emails" :list="list" :loading="loading" :actions="[{ name: 'New Email', icon: 'i-tabler-plus', btn: 'primary', href }]">
       <template #item="{ item }">
         <div class="flex -space-x-0.5">
           <dt class="sr-only">
@@ -62,7 +64,7 @@ const href = props.card.link('/email-edit')
         <ElZeroBanner
           title="Create Your First Email Campaign"
           description="Quickly send a message to your subscribers."
-          icon="i-tabler-pin"
+          icon="i-tabler-mail-share"
           :actions="[{ name: 'Start', href, btn: 'primary', icon: 'i-heroicons-plus' }]"
         />
       </template>

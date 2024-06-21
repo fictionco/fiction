@@ -37,8 +37,6 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
   async manageEmailSend(params: ManageEmailSendActionParams) {
     const r = await this.requests.ManageSend.projectRequest(params)
 
-    this.cacheKey.value++
-
     return r.data?.map(emailConfig => new Email({ ...emailConfig, fictionSend: this, fictionPosts: this.settings.fictionPosts })) || []
   }
 

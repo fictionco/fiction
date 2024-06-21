@@ -14,7 +14,7 @@ defineProps({
 
 <template>
   <div v-if="post">
-    <div class="py-12 md:py-32 px-8 prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl mx-auto focus:outline-none antialiased ">
+    <div class="py-12 md:py-32 px-8 prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl xl:prose-2xl mx-auto focus:outline-none">
       <div class="flex gap-6 justify-between">
         <div class=" flex-grow">
           <XText
@@ -30,7 +30,7 @@ defineProps({
             tag="h3"
             class="dark:text-theme-300"
             :is-editable="true"
-            placeholder="Enter Subtitle / Excerpt"
+            placeholder="Enter Subtitle"
             @update:model-value="post?.update({ subTitle: $event as string })"
           />
         </div>

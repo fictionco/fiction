@@ -18,7 +18,7 @@ const props = defineProps({
 
 const uc = vue.computed(() => props.card.userConfig.value)
 
-const { fictionRouter, fictionAdmin, fictionEnv } = useService<{ fictionAdmin: FictionAdmin }>()
+const { fictionRouter, fictionAdmin, fictionEnv, fictionUser } = useService<{ fictionAdmin: FictionAdmin }>()
 
 const itemId = vue.computed(() => fictionRouter.params.value.itemId as 'login' | 'register' | 'confirm' | 'password' | undefined | '')
 const fields = vue.ref({ email: '', fullName: '', orgName: '', password: '' })
@@ -32,6 +32,28 @@ async function updateItemItemId(id: string) {
 
 const title = () => `Login / Register - ${fictionEnv.meta.app?.name}`
 unhead.useHead({ title, meta: [{ name: `description`, content: title }] })
+
+async function handleFormSubmit() {
+  if (itemId.value === 'password') {
+    await passwordLogin()
+  }
+  else {
+    await sendMagicLink()
+  }
+}
+
+async function passwordLogin() {
+  const { email, password } = fields.value
+  // do pass
+  const r = await fictionUser.requests.ManageUser.request({ _action: 'login', where: { email }, password })
+
+  if (r?.status === 'error') {
+    formError.value = r.message || 'An error occurred'
+  }
+  else if (r?.status === 'success') {
+    await fictionRouter.replace(props.card.link('/'), { caller: 'password-login' })
+  }
+}
 
 async function sendMagicLink(): Promise<void> {
   sending.value = true
@@ -95,7 +117,7 @@ const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length
           </template>
         </div>
       </template>
-      <ElForm class="space-y-7" data-test-id="form" :data-value="JSON.stringify(fields)" @submit="sendMagicLink()">
+      <ElForm class="space-y-7" data-test-id="form" :data-value="JSON.stringify(fields)" @submit="handleFormSubmit()">
         <EffectTransitionList>
           <template v-if="itemId === 'confirm'">
             <div class="text-balance text-center text-lg text-theme-700 dark:text-theme-100">
@@ -166,6 +188,19 @@ const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length
             />
             <div class="action">
               <ElButton
+                v-if="itemId === 'password'"
+                data-test-id="password-login-button"
+                type="submit"
+                format="block"
+                btn="primary"
+                size="lg"
+                :loading="sending"
+                icon="i-tabler-login"
+              >
+                Login with Password
+              </ElButton>
+              <ElButton
+                v-else
                 data-test-id="email-login-button"
                 type="submit"
                 format="block"
@@ -178,12 +213,21 @@ const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length
               </ElButton>
             </div>
 
-            <div>
-              <div class="text-theme-400 dark:text-theme-500 text-xs font-sans text-balance text-center">
+            <div class="text-theme-400 dark:text-theme-500 text-xs font-sans text-balance text-center space-y-6">
+              <div>
                 You acknowledge that you read, and agree to the
                 <a class="underline text-theme-500 dark:text-theme-400" :href="uc.termsUrl" target="_blank">terms</a>
                 and
                 <a class="underline text-theme-500 dark:text-theme-400" :href="uc.privacyUrl" target="_blank">privacy policy</a>.
+              </div>
+
+              <div class="text-xs cursor-pointer hover:opacity-80">
+                <div v-if="itemId === 'login'" class="text-xs cursor-pointer hover:opacity-80" @click="updateItemItemId('password')">
+                  Login with Password
+                </div>
+                <div v-else-if="itemId === 'password'" @click="updateItemItemId('login')">
+                  Login with Email
+                </div>
               </div>
             </div>
           </template>

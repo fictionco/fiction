@@ -6,15 +6,15 @@ import { getCookie, removeCookie, setCookie } from './cookie'
 
 const logger = log.contextLogger('JWT UTILS')
 
-export function createUserToken(args: { user: Partial<User>, tokenSecret?: string, expiresIn?: string | number }): string {
-  const { user, tokenSecret, expiresIn } = args
+export function createUserToken(args: { user: Partial<User>, tokenSecret?: string, expiresIn?: string | number, verifyEmail?: boolean }): string {
+  const { user, tokenSecret, expiresIn, verifyEmail = false } = args
 
   if (!tokenSecret)
     throw abort('tokenSecret is not set', { code: 'TOKEN_ERROR' })
 
   const { role = '', userId, email } = user
   const options = expiresIn ? { expiresIn } : undefined
-  return jwt.sign({ role, userId, email }, tokenSecret, options)
+  return jwt.sign({ role, userId, email, verifyEmail }, tokenSecret, options)
 }
 
 /**

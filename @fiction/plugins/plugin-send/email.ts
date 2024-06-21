@@ -9,7 +9,7 @@ export type PostConfig = { fictionSend: FictionSend, fictionPosts: FictionPosts 
 export class Email extends FictionObject<PostConfig> {
   emailId = this.settings.emailId || objectId({ prefix: 'eml' })
   status = vue.ref(this.settings.status || 'draft')
-  title = vue.ref(this.settings.title || '')
+  title = vue.ref(this.settings.title || 'Untitled')
   scheduledAt = vue.ref(this.settings.scheduledAt)
   post = vue.shallowRef(new Post({ ...(this.settings.post || {}), fictionPosts: this.settings.fictionPosts }))
   constructor(settings: PostConfig) {

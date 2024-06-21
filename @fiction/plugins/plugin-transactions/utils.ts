@@ -30,7 +30,7 @@ T extends Record<string, string> | undefined = Record<string, string> | undefine
 
   const v: QueryVars = args.queryVars || {}
 
-  v.token = createUserToken({ user: recipient, tokenSecret })
+  v.token = createUserToken({ user: recipient, tokenSecret, verifyEmail: true, expiresIn: '1d' })
   v.code = recipient.verify?.code || ''
   v.email = recipient.email || ''
   v.userId = recipient.userId || ''

@@ -65,13 +65,14 @@ vue.onMounted(async () => {
 </script>
 
 <template>
-  <div v-if="email?.post.value">
+  <div>
     <ViewEditor :tool-props="{ card }" :controller="postEditController" :loading="loading">
       <template #headerLeft>
-        <ElButton btn="default" :href="card.link('/')" class="shrink-0">
-          <div class="i-tabler-home text-lg" />
-        </ElButton>
-        <div class="flex space-x-1 font-medium">
+        <div class="flex space-x-2 items-center">
+          <ElButton btn="default" :href="card.link('/')" class="shrink-0" icon="i-tabler-home" />
+          <ElButton btn="default" :href="card.link('/send')" class="shrink-0" icon="i-tabler-arrow-left" />
+        </div>
+        <div v-if="email" class="flex space-x-1 font-medium">
           <RouterLink
             class=" whitespace-nowrap text-theme-400 dark:text-theme-300  pr-1 hover:text-primary-500 dark:hover:text-theme-0 flex items-center gap-1"
             :to="card.link('/send')"
@@ -80,7 +81,7 @@ vue.onMounted(async () => {
             <span>Edit Email</span>
             <span class="i-tabler-slash text-xl dark:text-theme-500" />
           </RouterLink>
-          <XText v-if="email" :model-value="email.title.value" class="whitespace-nowrap" :is-editable="true" />
+          <XText :model-value="email?.title.value" class="whitespace-nowrap" :is-editable="true" @update:model-value="email && (email.title.value = $event)" />
         </div>
       </template>
       <template #headerRight>
@@ -102,7 +103,7 @@ vue.onMounted(async () => {
         </ElButton>
       </template>
       <template #default>
-        <div v-if="email.post.value">
+        <div v-if="email?.post.value">
           <ElPostEditor :post="email.post.value" :card="card" />
         </div>
       </template>

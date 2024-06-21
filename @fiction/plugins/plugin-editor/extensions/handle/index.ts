@@ -226,7 +226,12 @@ function DragHandle(options: GlobalDragHandleOptions) {
       handleContainerElement.classList.remove('opacity-0')
   }
 
+  window.addEventListener('resize', () => {
+    hideDragHandle()
+  })
+
   return new Plugin({
+
     view: (view) => {
       // Create the parent element
       handleContainerElement = document.createElement('div')
@@ -275,6 +280,7 @@ function DragHandle(options: GlobalDragHandleOptions) {
     },
     props: {
       handleDOMEvents: {
+
         mousemove: (view, event) => {
           if (!view.editable)
             return
@@ -316,6 +322,7 @@ function DragHandle(options: GlobalDragHandleOptions) {
             showDragHandle()
           }
         },
+
         keydown: () => {
           hideDragHandle()
         },

@@ -16,7 +16,7 @@ abstract class SendEndpoint extends Query<SendEndpointSettings> {
 }
 
 export type WhereSend = { emailId?: string }
-type StandardFields = { orgId: string, userId?: string }
+type StandardFields = { orgId: string, userId?: string, loadDraft?: boolean }
 
 export type ManageEmailSendActionParams =
   | { _action: 'create', fields: EmailSendConfig[] }
@@ -64,7 +64,7 @@ export class ManageSend extends SendEndpoint {
   }
 
   private async refineResponse(params: ManageEmailSendParams, r: ManageSendResponse, _meta: EndpointMeta): Promise<ManageSendResponse> {
-    const { orgId } = params
+    const { orgId, loadDraft } = params
     const { limit = this.limit, offset = this.offset } = params as { limit?: number, offset?: number }
 
     const { count } = await this.db().table(t.send).where({ orgId }).count().first<{ count: string }>()
@@ -77,7 +77,7 @@ export class ManageSend extends SendEndpoint {
           return row
         }
 
-        const post = await this.settings.fictionPosts.queries.ManagePost.serve({ _action: 'get', orgId, postId: row.postId }, _meta)
+        const post = await this.settings.fictionPosts.queries.ManagePost.serve({ _action: 'get', orgId, postId: row.postId, loadDraft }, _meta)
         row.post = post.data
         return row
       })

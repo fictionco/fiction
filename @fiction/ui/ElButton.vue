@@ -42,7 +42,7 @@ const buttonClasses = vue.computed(() => {
   })
 })
 const slots = vue.useSlots()
-const hasContent = vue.computed(() => !!slots?.default)
+const hasContent = vue.computed(() => !!slots?.default?.())
 </script>
 
 <template>
