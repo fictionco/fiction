@@ -25,7 +25,7 @@ const ico = vue.computed(() => iconThemes[props.status as keyof typeof iconTheme
 </script>
 
 <template>
-  <div class="relative min-h-[40dvh] my-6 lg:my-12 ">
+  <div class="relative min-h-[40dvh] py-6 lg:py-12 ">
     <transition
       enter-active-class="ease-out duration-300"
       enter-from-class="opacity-0 translate-x-12"

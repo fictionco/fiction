@@ -39,12 +39,12 @@ export function siteLink(args: { site?: Site, location: vueRouter.RouteLocationR
   return finalHref.replace(/([^:]\/)\/+/g, '$1')
 }
 
-export function siteGoto(args: { site?: Site, location: vueRouter.RouteLocationRaw, options: { replace?: boolean } }) {
-  const { site, location, options } = args
-  const method = options.replace ? 'replace' : 'push'
+export function siteGoto(args: { site?: Site, location: vueRouter.RouteLocationRaw, options: { replace?: boolean, caller?: string } }) {
+  const { site, location, options: { replace, caller = 'site:goto' } } = args
+  const method = replace ? 'replace' : 'push'
 
   if (!site)
     return
 
-  return site.siteRouter[method](siteLink({ site, location }), { caller: `site:goto` })
+  return site.siteRouter[method](siteLink({ site, location }), { caller })
 }

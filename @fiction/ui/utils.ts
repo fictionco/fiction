@@ -37,7 +37,7 @@ export function getColorThemeStyles(theme: ColorTheme = 'theme') {
 export function getBadgeClasses(args: { theme?: ColorTheme, size?: UiElementSize, isLink?: boolean, isActive?: boolean }) {
   const { theme = 'theme', size = 'sm', isLink = false } = args
 
-  const base = `not-prose x-font-title antialiased inline-flex gap-1 items-center rounded-md font-medium ring-1 ring-inset`
+  const base = `not-prose x-font-title antialiased inline-flex gap-1 items-center font-medium ring-1 ring-inset`
 
   const stl = getColorThemeStyles(theme)
 
@@ -45,13 +45,13 @@ export function getBadgeClasses(args: { theme?: ColorTheme, size?: UiElementSize
   const activeStyle = args.isActive ? 'bg-opacity-80' : ''
 
   const sizeStyles = {
-    'xxs': 'px-1 py-0.5 text-[10px]',
-    'xs': 'px-2 py-1 text-xs',
-    'sm': 'px-3 py-1.5 text-sm',
-    'md': 'px-2 py-1 text-xs',
-    'lg': 'px-5 py-2.5 text-base',
-    'xl': 'px-6 py-3 text-base',
-    '2xl': 'px-7 py-3.5 text-xl',
+    'xxs': 'px-1 py-0.5 text-[10px] rounded-sm',
+    'xs': 'px-2 py-1 text-xs rounded-sm',
+    'sm': 'px-3 py-1.5 text-sm rounded-md ',
+    'md': 'px-2 py-1 text-xs rounded-md ',
+    'lg': 'px-5 py-2.5 text-base rounded-lg',
+    'xl': 'px-6 py-3 text-base rounded-2xl',
+    '2xl': 'px-7 py-3.5 text-xl  rounded-2xl',
   }
 
   const sizeClasses = size ? sizeStyles[size] : ''

@@ -148,18 +148,6 @@ export interface CompiledServiceConfig {
       | 'priority'
       | 'createdAt'
       | 'updatedAt'
-    fiction_deleted:
-      | 'deletedId'
-      | 'orgId'
-      | 'userId'
-      | 'deletedType'
-      | 'modelId'
-      | 'renderId'
-      | 'imageId'
-      | 'collectionId'
-      | 'meta'
-      | 'createdAt'
-      | 'updatedAt'
     fiction_taxonomy:
       | 'taxonomyId'
       | 'userId'
@@ -293,19 +281,7 @@ export interface CompiledServiceConfig {
     fiction_post_taxonomy: 'postTaxonomyId' | 'postId' | 'taxonomyId' | 'orgId' | 'priority' | 'createdAt' | 'updatedAt'
     fiction_post_author: 'postAuthorId' | 'postId' | 'userId' | 'orgId' | 'priority' | 'createdAt' | 'updatedAt'
     fiction_post_site: 'postSiteId' | 'postId' | 'siteId' | 'orgId' | 'priority' | 'createdAt' | 'updatedAt'
-    fiction_email:
-      | 'emailId'
-      | 'userId'
-      | 'orgId'
-      | 'status'
-      | 'postId'
-      | 'title'
-      | 'sentAt'
-      | 'scheduledAt'
-      | 'filters'
-      | 'counts'
-      | 'createdAt'
-      | 'updatedAt'
+    fiction_email: 'createdAt' | 'updatedAt'
     [k: string]: unknown
   }
   [k: string]: unknown

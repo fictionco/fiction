@@ -1,8 +1,9 @@
-import { type CreateObjectType, type DataFilter, FictionDbCol, FictionDbTable, type PostStatus } from '@fiction/core'
+import { Col, type ColType, type CreateObjectType, DataFilterSchema, FictionDbCol, FictionDbTable, type MediaDisplayObject, type PostStatus, PostStatusSchema } from '@fiction/core'
 
 import { standardTable } from '@fiction/core'
 import type { TablePostConfig } from '@fiction/posts'
 import { t as postTableNames } from '@fiction/posts'
+import { z } from 'zod'
 
 export const t = {
   ...standardTable,
@@ -10,90 +11,37 @@ export const t = {
   send: 'fiction_email',
 } as const
 
-type EmailAnalyticsCounts = Partial<{
-  sent: number
-  delivered: number
-  opened: number
-  clicked: number
-  bounced: number
-  unsubscribed: number
-  complaints: number
-}>
+const EmailAnalyticsSchema = z.object({ sent: z.number(), delivered: z.number(), opened: z.number(), clicked: z.number(), bounced: z.number(), unsubscribed: z.number(), complaints: z.number() }).partial()
 
-export type TableEmailSend = CreateObjectType<typeof sendColumns>
+export type EmailAnalyticsCounts = z.infer<typeof EmailAnalyticsSchema>
+
+export const MediaDisplayObjectSchema = z.object({
+  html: z.string().optional(),
+  format: z.enum(['url', 'video', 'iframe', 'html', 'audio', 'text']).optional(),
+  url: z.string().optional(),
+}).partial()
+
+export type TableEmailSend = ColType<typeof sendColumns>
 
 export type EmailSendConfig = Partial<TableEmailSend> & { post?: TablePostConfig }
 
 const sendColumns = [
-  new FictionDbCol({
-    key: 'emailId',
-    create: ({ schema, column, db }) => schema.string(column.pgKey).primary().defaultTo(db.raw(`object_id('eml')`)).index(),
-    default: () => '' as string,
-    zodSchema: ({ z }) => z.string(),
-  }),
-  new FictionDbCol({
-    key: 'userId',
-    create: ({ schema, column }) => schema.string(column.pgKey).references(`${t.user}.user_id`).onUpdate('CASCADE').index(),
-    default: () => '' as string,
-    zodSchema: ({ z }) => z.string(),
-  }),
-  new FictionDbCol({
-    key: 'orgId',
-    create: ({ schema, column }) => schema.string(column.pgKey, 50).references(`${t.org}.orgId`).onUpdate('CASCADE').notNullable().index(),
-    default: () => '' as string,
-    zodSchema: ({ z }) => z.string(),
-  }),
-  new FictionDbCol({
-    key: 'status',
-    create: ({ schema, column }) => schema.string(column.pgKey, 50).defaultTo('active'),
-    default: () => '' as PostStatus,
-    zodSchema: ({ z }) => z.string(),
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'postId',
-    create: ({ schema, column }) => schema.string(column.pgKey, 50).references(`${t.posts}.postId`).onUpdate('CASCADE').onDelete('CASCADE').notNullable().index(),
-    default: () => '' as string,
-    zodSchema: ({ z }) => z.string(),
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'title',
-    create: ({ schema, column }) => schema.string(column.pgKey, 50),
-    default: () => '' as string,
-    zodSchema: ({ z }) => z.string(),
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'sentAt',
-    create: ({ schema, column }) => schema.timestamp(column.pgKey).defaultTo(null),
-    default: () => '' as string,
-    zodSchema: ({ z }) => z.date().nullable(),
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'scheduledAt',
-    create: ({ schema, column }) => schema.timestamp(column.pgKey).defaultTo(null),
-    default: () => '' as string,
-    zodSchema: ({ z }) => z.date().nullable(),
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'filters',
-    create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo([]),
-    default: () => ([] as DataFilter[]),
-    zodSchema: ({ z }) => z.record(z.number()),
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'counts',
-    create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo({}),
-    default: () => ({} as EmailAnalyticsCounts),
-    zodSchema: ({ z }) => z.record(z.number()),
-    isSetting: true,
-  }),
+  new Col({ key: 'emailId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('eml')`)).index() }),
+  new Col({ key: 'userId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.user}.user_id`).onUpdate('CASCADE').index() }),
+  new Col({ key: 'orgId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`${t.org}.orgId`).onUpdate('CASCADE').notNullable().index() }),
+  new Col({ key: 'postId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`${t.posts}.postId`).onUpdate('CASCADE').onDelete('CASCADE').notNullable().index() }),
+  new Col({ key: 'status', sch: () => PostStatusSchema, make: ({ s, col }) => s.string(col.k, 50).defaultTo('active') }),
+  new Col({ key: 'title', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k), sec: 'setting' }),
+  new Col({ key: 'sentAt', sch: ({ z }) => z.string(), make: ({ s, col }) => s.timestamp(col.k).defaultTo(null) }),
+  new Col({ key: 'subject', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'preview', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'from', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'avatar', sch: () => MediaDisplayObjectSchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
+  new Col({ key: 'scheduleMode', sch: ({ z }) => z.enum(['now', 'schedule']), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'scheduledAt', sch: ({ z }) => z.string(), make: ({ s, col }) => s.timestamp(col.k).defaultTo(null) }),
+  new Col({ key: 'filters', sch: ({ z }) => z.array(DataFilterSchema), make: ({ s, col }) => s.jsonb(col.k).defaultTo([]) }),
+  new Col({ key: 'counts', sch: () => EmailAnalyticsSchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
+  new Col({ key: 'draft', sch: ({ z }) => z.record(z.string(), z.any()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
 ] as const
 
-export const tables = [
-  new FictionDbTable({ tableKey: t.send, timestamps: true, columns: sendColumns }),
-]
+export const tables = [new FictionDbTable({ tableKey: t.send, timestamps: true, cols: sendColumns })]

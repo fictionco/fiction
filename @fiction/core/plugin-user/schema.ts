@@ -353,8 +353,7 @@ export const orgColumns = [
 export const membersColumns = [
   new FictionDbCol({
     key: 'memberId',
-    isComposite: true,
-    create: ({ schema }) => schema.primary(['user_id', 'org_id']),
+    create: ({ schema, column, db }) => schema.string(column.pgKey).primary().defaultTo(db.raw(`object_id()`)),
     default: () => objectId(),
   }),
   new FictionDbCol({
@@ -391,57 +390,6 @@ export const membersColumns = [
     key: 'priority',
     create: ({ schema, column }) => schema.integer(column.pgKey),
     default: () => 0 as number,
-  }),
-] as const
-
-export const deletedTableColumns = [
-  new FictionDbCol({
-    key: 'deletedId',
-    create: ({ schema, column, db }) => schema.string(column.pgKey).primary().defaultTo(db.raw(`object_id('del')`)),
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'orgId',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'userId',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'deletedType',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    isSetting: true,
-    default: () => '' as 'org' | 'render' | 'image' | 'model' | 'user' | 'other',
-  }),
-  new FictionDbCol({
-    key: 'modelId',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'renderId',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'imageId',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'collectionId',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'meta',
-    create: ({ schema, column }) => schema.jsonb(column.pgKey),
-    isSetting: true,
-    default: () => ({} as Record<string, unknown>),
-    prepare: ({ value }) => JSON.stringify(toSnakeCaseKeys(value)),
   }),
 ] as const
 
@@ -509,11 +457,10 @@ export const taxonomyCols = [
 ] as const
 
 export const userTable = new FictionDbTable({ tableKey: 'fiction_user', timestamps: true, columns: userColumns })
-export const membersTable = new FictionDbTable({ tableKey: 'fiction_org_user', timestamps: true, columns: membersColumns })
+export const membersTable = new FictionDbTable({ tableKey: 'fiction_org_user', timestamps: true, columns: membersColumns, uniqueOn: ['org_id', 'user_id'] })
 export const orgTable = new FictionDbTable({ tableKey: 'fiction_org', timestamps: true, columns: orgColumns })
-export const deletedTable = new FictionDbTable({ tableKey: t.deleted, timestamps: true, columns: deletedTableColumns })
 export const taxonomyTable = new FictionDbTable({ tableKey: t.taxonomy, timestamps: true, columns: taxonomyCols, uniqueOn: ['org_id', 'slug', 'context'] })
 
 export function getAdminTables() {
-  return [userTable, orgTable, membersTable, deletedTable, taxonomyTable]
+  return [userTable, orgTable, membersTable, taxonomyTable]
 }

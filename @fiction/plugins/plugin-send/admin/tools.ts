@@ -36,15 +36,15 @@ export const tools = [
   //   isPrimary: true,
   // },
   {
-    toolId: 'postSettings',
-    title: 'Post Settings',
-    icon: 'i-tabler-edit-circle',
+    toolId: 'emailSettings',
+    title: 'Email Settings',
+    icon: 'i-tabler-mail',
     location: 'context',
     isDefault: true,
     props: () => {
       return vue.computed(() => ({}))
     },
-    el: vue.defineAsyncComponent(() => import('./ToolEmailMain.vue')),
+    el: vue.defineAsyncComponent(() => import('./SidebarEmailEditor.vue')),
   },
 ] as const satisfies EditorTool[]
 

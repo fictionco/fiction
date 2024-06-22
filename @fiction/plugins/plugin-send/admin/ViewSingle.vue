@@ -4,29 +4,19 @@ import type { Card } from '@fiction/site'
 import ViewEditor from '@fiction/admin/ViewEditor.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import XText from '@fiction/ui/common/XText.vue'
-import ElModal from '@fiction/ui/ElModal.vue'
-import InputDate from '@fiction/ui/inputs/InputDate.vue'
-import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElPostEditor from '@fiction/posts/el/ElPostEditor.vue'
 import type { FictionSend } from '../index.js'
-import type { Email } from '../email.js'
+import { loadEmail } from '../utils.js'
 import { postEditController } from './tools'
 
-defineProps({
+const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
-type PostFromEditor = InstanceType<typeof ElPostEditor>['$props']['post']
+const { fictionSend, fictionRouter } = useService<{ fictionSend: FictionSend }>()
 
-const service = useService<{ fictionSend: FictionSend }>()
-
-const loading = vue.ref(true)
 const sending = vue.ref()
-const email = vue.shallowRef<Email | undefined>()
-const publishItemSelected = vue.ref<string | undefined>()
-
-const vis = vue.ref(false)
-
+const email = vue.computed(() => fictionSend.activeEmail.value)
 async function publish() {
   if (!email.value)
     return
@@ -38,35 +28,18 @@ async function publish() {
   await email.value.save()
 
   sending.value = ''
-  vis.value = false
-  publishItemSelected.value = undefined
-}
 
-async function load() {
-  loading.value = true
-  const rtr = service.fictionRouter
-  const emailId = rtr.query.value.emailId as string | undefined
-
-  if (!emailId) {
-    const [_email] = await service.fictionSend.manageEmailSend({ _action: 'create', fields: [{}] })
-
-    rtr.replace({ query: { emailId: _email?.emailId } })
-  }
-  else {
-    const [_email] = await service.fictionSend.manageEmailSend({ _action: 'get', where: { emailId }, loadDraft: true })
-    email.value = _email
-  }
-  loading.value = false
+  await props.card.goto({ path: '/email-manage', query: { emailId: email.value.emailId } }, { caller: 'send' })
 }
 
 vue.onMounted(async () => {
-  await load()
+  await loadEmail({ fictionSend })
 })
 </script>
 
 <template>
   <div>
-    <ViewEditor :tool-props="{ card }" :controller="postEditController" :loading="loading">
+    <ViewEditor :tool-props="{ card, email }" :controller="postEditController" :loading="fictionSend.loading.value">
       <template #headerLeft>
         <div class="flex space-x-2 items-center">
           <ElButton btn="default" :href="card.link('/')" class="shrink-0" icon="i-tabler-home" />
@@ -93,13 +66,12 @@ vue.onMounted(async () => {
         </span>
         <ElButton
           btn="primary"
-          :loading="sending === 'publish'"
           class="min-w-36"
-          icon="i-tabler-arrow-big-up-lines"
+          icon-after="i-tabler-arrow-big-right-lines"
           size="md"
           @click.stop.prevent="publish()"
         >
-          Save Changes
+          Continue
         </ElButton>
       </template>
       <template #default>
@@ -108,57 +80,5 @@ vue.onMounted(async () => {
         </div>
       </template>
     </ViewEditor>
-    <ElModal v-model:vis="vis" modal-class="max-w-screen-md p-24 ">
-      <div v-if="email" class="relative max-w-xl mx-auto">
-        <div class="text-center mb-8 ">
-          <div class="text-2xl font-bold antialiased dark:text-theme-0 mb-4 text-balance">
-            <template v-if="publishItemSelected === 'publish'">
-              Publish Now
-            </template>
-            <template v-else-if="publishItemSelected === 'schedule'">
-              Select Publication Time
-            </template>
-            <template v-else>
-              This post is in draft.
-            </template>
-          </div>
-          <div class="text-base font-medium text-theme-500 dark:text-theme-300 text-balance">
-            <template v-if="publishItemSelected === 'publish'">
-              This action will publish now the post and syndicate it to your audience (based on your settings).
-            </template>
-            <template v-else-if="publishItemSelected === 'schedule'">
-              This will schedule the post to be published at the selected time.
-            </template>
-            <template v-else>
-              Publish to go live and syndicate to your audience (based on your settings).
-            </template>
-          </div>
-        </div>
-        <div v-if="!publishItemSelected" class="space-y-6">
-          <div class="flex justify-center gap-6">
-            <ElButton size="md" icon="i-tabler-calendar-bolt" @click="publishItemSelected = 'schedule'">
-              Schedule Publication
-            </ElButton>
-            <ElButton size="md" btn="primary" icon="i-tabler-arrow-big-up-lines" :loading="sending === 'publish'" @click="publish()">
-              Publish Now
-            </ElButton>
-          </div>
-        </div>
-
-        <div v-else-if="publishItemSelected === 'schedule'" class="mx-auto max-w-sm">
-          <ElForm class=" space-y-6" @submit="publish()">
-            <InputDate v-model="email.scheduledAt.value" :include-time="true" required date-mode="future" />
-            <div class="flex justify-center gap-6">
-              <ElButton v-if="publishItemSelected" size="md" @click="publishItemSelected = ''">
-                &larr; Back
-              </ElButton>
-              <ElButton size="md" btn="primary" icon="i-tabler-calendar-bolt" type="submit" :loading="sending === 'publish'">
-                Schedule Publication
-              </ElButton>
-            </div>
-          </ElForm>
-        </div>
-      </div>
-    </ElModal>
   </div>
 </template>

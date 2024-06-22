@@ -1,23 +1,16 @@
 import type express from 'express'
+import { z } from 'zod'
 import type { ErrorCode } from '../utils/error.js'
 import type { UserRoles } from './roles.js'
 
+export const DataFilterSchema = z.object({
+  field: z.string(),
+  value: z.union([z.string(), z.number(), z.array(z.union([z.string(), z.number()]))]),
+  operator: z.enum(['=', '!=', '>', '<', '>=', '<=', 'like', 'not like', 'in', 'not in']),
+})
+
 // sql where operators.value
-export interface DataFilter {
-  field: string
-  value: string | number | string[] | number[] | boolean
-  operator:
-    | '='
-    | '!='
-    | '>'
-    | '<'
-    | '>='
-    | '<='
-    | 'like'
-    | 'not like'
-    | 'in'
-    | 'not in'
-}
+export type DataFilter = z.infer<typeof DataFilterSchema>
 
 export type IndexQuery = {
   offset?: number

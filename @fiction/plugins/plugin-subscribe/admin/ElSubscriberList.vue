@@ -92,7 +92,7 @@ vue.onMounted(async () => {
 const actions: ActionItem[] = [
   {
     name: 'Add / Import Subscribers',
-    href: props.card.link('/subscriber-manage/import'),
+    href: props.card.link('/audience-manage/import'),
     btn: 'primary',
     icon: 'i-tabler-plus',
   },

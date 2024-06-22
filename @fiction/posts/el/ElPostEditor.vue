@@ -16,11 +16,11 @@ defineProps({
   <div v-if="post">
     <div class="py-12 md:py-32 px-8 prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl xl:prose-2xl mx-auto focus:outline-none">
       <div class="flex gap-6 justify-between">
-        <div class=" flex-grow">
+        <div class="flex-grow">
           <XText
             :model-value="post.title.value"
             tag="h1"
-            class="text-balance"
+            class="text-balance my-0 py-0"
             :is-editable="true"
             placeholder="Enter Title"
             @update:model-value="post?.update({ title: $event as string })"
@@ -34,7 +34,7 @@ defineProps({
             @update:model-value="post?.update({ subTitle: $event as string })"
           />
         </div>
-        <div class="not-prose">
+        <div v-if="post.image.value?.url || post.image.value?.html" class="not-prose">
           <ElImage :media="post.image.value" class="size-32 border border-theme-200 dark:border-theme-600 rounded-md bg-theme-50 dark:bg-theme-800 overflow-hidden" />
         </div>
       </div>

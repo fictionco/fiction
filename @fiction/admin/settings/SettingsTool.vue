@@ -70,8 +70,8 @@ const actions = vue.computed(() => {
 <template>
   <div :class="card.classes.value.contentWidth">
     <ElPanel class="rounded-md" box-class="p-0">
-      <div class="flex border-theme-300/80 dark:border-theme-600/90 border rounded-md overflow-hidden">
-        <div class="bg-theme-0 md:w-48 shrink-0 rounded-l-md pb-32 p-3 dark:bg-theme-700/50 border-r dark:border-theme-600/60 border-theme-300/60">
+      <div class="flex rounded-md overflow-hidden">
+        <div class="md:w-48 shrink-0 rounded-l-md pb-32 p-3 ">
           <div class="space-y-1 text-right">
             <component
               :is="getNavComponentType(v)"
@@ -92,7 +92,7 @@ const actions = vue.computed(() => {
             </component>
           </div>
         </div>
-        <ElForm v-if="currentPanel?.val" class="grow min-w-0 bg-theme-0 dark:bg-theme-900 rounded-r-lg overflow-hidden" @submit="runSave()">
+        <ElForm v-if="currentPanel?.val" class="rounded-md  border-theme-300/80 dark:border-theme-600/90 border grow min-w-0 bg-theme-0 dark:bg-theme-900 overflow-hidden" @submit="runSave()">
           <div class="header flex items-center justify-between py-3 px-4 border-b border-theme-300/70 dark:border-theme-600/70">
             <div class="font-bold">
               {{ currentPanel?.title }}

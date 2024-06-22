@@ -96,6 +96,8 @@ export class ManageSend extends SendEndpoint {
     const promises = fields.map(async (f) => {
       const sendFields: Partial<EmailSendConfig> = { orgId, ...f }
       const postFields = { type: 'email' as const, orgId, userId, ...f.post }
+
+      this.log.info('creating email', { data: postFields })
       const r = await this.settings.fictionPosts.queries.ManagePost.serve({ _action: 'create', orgId, userId, fields: postFields }, meta)
 
       const post = r.data

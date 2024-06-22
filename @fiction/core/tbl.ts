@@ -1,4 +1,4 @@
-import type { FictionDbCol } from './plugin-db/index.js'
+import type { Col, FictionDbCol } from './plugin-db/index.js'
 
 export const standardTable = {
   org: 'fiction_org',
@@ -38,3 +38,16 @@ type TupleToObject<T extends [string, unknown]> = {
 }
 
 export type CreateObjectType<T extends readonly FictionDbCol[]> = TupleToObject<CreateTuple<T>> & Timestamps
+
+/**
+ * NEW
+ */
+type ColTuple<T extends readonly Col[]> = {
+  [P in keyof T]: T[P] extends Col<infer X, infer Q> ? [X, Q] : never
+}[number]
+
+type ColTupleToObject<T extends [string, unknown]> = {
+  [P in T[0]]: T extends [P, infer B] ? B : never
+}
+
+export type ColType<T extends readonly Col[]> = ColTupleToObject<ColTuple<T>> & Timestamps

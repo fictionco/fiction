@@ -4,10 +4,32 @@ import { ZodError, z } from 'zod'
 import { toSnakeCase } from '../utils/index.js'
 import type { LogHelper } from '../plugin-log/index.js'
 import { log } from '../plugin-log/index.js'
+import { FictionObject } from '../plugin.js'
+
+export type ColDefaultValue = Knex.Value | undefined
+type SecurityType = 'permanent' | 'setting' | 'authority' | 'admin' | 'private' | 'composite'
+
+type MakeCol = (params: { s: Knex.AlterTableBuilder, col: Col, db: Knex }) => void
+export type ColSettings<U extends string = string, T extends ColDefaultValue = ColDefaultValue> = {
+  key: U
+  make: MakeCol
+  sec?: SecurityType
+  sch: (args: { z: typeof z }) => ZodSchema<T>
+}
+export class Col<U extends string = string, T extends ColDefaultValue = ColDefaultValue> extends FictionObject<ColSettings<U, T>> {
+  k = toSnakeCase(this.settings.key)
+  sec = this.settings.sec || 'setting'
+  constructor(settings: ColSettings<U, T>) {
+    super('Col', settings)
+  }
+
+  createColumn(schema: Knex.AlterTableBuilder, db: Knex): void {
+    return this.settings.make({ s: schema, col: this, db })
+  }
+}
 
 type CreateCol = (params: { schema: Knex.AlterTableBuilder, column: FictionDbCol, db: Knex }) => void
 type PrepareForStorage<T extends ColDefaultValue = ColDefaultValue> = (args: { value: T, key: string, db: Knex }) => unknown
-export type ColDefaultValue = Knex.Value | undefined
 
 export interface FictionDbColSettings<U extends string = string, T extends ColDefaultValue = ColDefaultValue> {
   key: U
@@ -55,16 +77,16 @@ export class FictionDbCol<U extends string = string, T extends ColDefaultValue =
   }
 
   createColumn(schema: Knex.AlterTableBuilder, db: Knex): void {
-    log.info('FictionDbTable', `creating column: ${this.pgKey}`)
     return this.create({ schema, column: this, db })
   }
 }
 export interface FictionDbTableSettings {
   tableKey: string
   timestamps?: boolean
-  columns: readonly FictionDbCol[]
+  columns?: readonly FictionDbCol[]
+  cols?: readonly Col[]
   dependsOn?: string[]
-  onCreate?: (t: Knex.CreateTableBuilder) => void
+  onCreate?: (t: Knex.AlterTableBuilder) => void
   uniqueOn?: string[]
 }
 
@@ -72,10 +94,11 @@ export class FictionDbTable {
   readonly tableKey: string
   readonly pgTableKey: string
   columns: FictionDbCol[]
+  cols: Col[]
   log: LogHelper
   timestamps: boolean
   dependsOn: string[]
-  onCreate?: (t: Knex.CreateTableBuilder) => void
+  onCreate?: (t: Knex.AlterTableBuilder) => void
   uniqueOn?: string[]
   constructor(params: FictionDbTableSettings) {
     this.tableKey = params.tableKey
@@ -83,101 +106,82 @@ export class FictionDbTable {
     this.log = log.contextLogger(`FictionDbTable:${this.tableKey}`)
     this.timestamps = params.timestamps ?? false
     this.onCreate = params.onCreate
-    this.columns = this.addDefaultColumns(params.columns)
+    this.columns = this.legacyAddDefaultColumns(params.columns || [])
+    this.cols = this.addStandardCols((params.cols || []) as Col[])
     this.dependsOn = params.dependsOn ?? []
     this.uniqueOn = params.uniqueOn ?? []
   }
 
-  addDefaultColumns(
+  addStandardCols(cols: Col[] = []) {
+    const tsCols = [
+      new Col({ key: 'createdAt', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col, db }) => s.string(col.k).notNullable().defaultTo(db.fn.now()) }),
+      new Col({ key: 'updatedAt', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col, db }) => s.string(col.k).notNullable().defaultTo(db.fn.now()) }),
+    ]
+    return [...cols, ...tsCols]
+  }
+
+  legacyAddDefaultColumns(
     columns: FictionDbCol[] | readonly FictionDbCol[],
   ): FictionDbCol[] {
-    const tsCols = this.timestamps
-      ? [
-          new FictionDbCol({
-            key: 'createdAt',
-            create: ({ schema, column, db }) => schema.timestamp(column.pgKey).notNullable().defaultTo(db.fn.now()),
-            default: () => '',
-          }),
-          new FictionDbCol({
-            key: 'updatedAt',
-            create: ({ schema, column, db }) => schema.timestamp(column.pgKey).notNullable().defaultTo(db.fn.now()),
-            default: () => '',
-          }),
-        ]
-      : []
+    const tsCols = [
+      new FictionDbCol({ key: 'createdAt', create: ({ schema, column, db }) => schema.timestamp(column.pgKey).notNullable().defaultTo(db.fn.now()), default: () => '' }),
+      new FictionDbCol({ key: 'updatedAt', create: ({ schema, column, db }) => schema.timestamp(column.pgKey).notNullable().defaultTo(db.fn.now()), default: () => '' }),
+    ]
 
     return [...columns, ...tsCols]
   }
 
-  createColumns(db: Knex) {
-    let count = 0
-    this.columns
-      .filter(c => !c.isComposite)
-      .forEach(async (col) => {
+  async createColumns(db: Knex) {
+    const rows: string[] = []
+    const p = this.columns.filter(c => !c.isComposite)
+      .map(async (col) => {
         const hasColumn = await db.schema.hasColumn(this.pgTableKey, col.pgKey)
         if (!hasColumn) {
           await db.schema.table(this.pgTableKey, t => col.createColumn(t, db))
-          count++
+          rows.push(col.pgKey)
         }
       })
 
-    if (count > 0)
-      this.log.info(`DB: ${count} columns created`)
+    await Promise.all(p)
+
+    const p2 = this.cols.filter(c => c.settings.sec !== 'composite').map(async (col) => {
+      const hasColumn = await db.schema.hasColumn(this.pgTableKey, col.k)
+      if (!hasColumn) {
+        await db.schema.table(this.pgTableKey, t => col.createColumn(t, db))
+        rows.push(col.k)
+      }
+    })
+
+    await Promise.all(p2)
+
+    if (rows.length > 0)
+      this.log.info(`${this.tableKey}: ${rows.length} columns created`, { data: rows })
   }
 
   async create(db: Knex): Promise<void> {
     const tableExists = await db.schema.hasTable(this.pgTableKey)
     if (tableExists) {
-      this.createColumns(db)
+      await this.createColumns(db)
     }
     else {
       this.log.info(`creating table: ${this.pgTableKey}`)
-      await db.schema.createTable(this.pgTableKey, (t) => {
-        this.columns.forEach(async col => col.createColumn(t, db))
-
-        if (this.uniqueOn && this.uniqueOn.length > 0)
-          t.unique(this.uniqueOn)
-
-        if (this.onCreate)
-          this.onCreate(t)
+      const promise = new Promise<void>(async (resolve) => {
+        await db.schema.createTable(this.pgTableKey, async (t) => {
+          await this.createColumns(db)
+          resolve()
+        })
       })
+
+      await promise
+
+      const u = this.uniqueOn
+      if (u && u.length > 0) {
+        await db.schema.table(this.pgTableKey, t => t.unique(u))
+      }
+
+      if (this.onCreate) {
+        await db.schema.table(this.pgTableKey, t => this.onCreate?.(t))
+      }
     }
-  }
-
-  validateRow(args: { row: Record<string, any>, action: 'create' | 'update' }): Record<string, any> {
-    const { row, action } = args
-    const validationErrors: string[] = []
-    const validatedRow: Record<string, any> = {}
-
-    this.columns.forEach(({ key, zodSchema, isSetting }) => {
-      // Skip validation and inclusion for 'isSetting' columns during update action
-      if (action === 'update' && isSetting)
-        return
-
-      const value = row[key]
-
-      // If Zod schema exists, validate and parse the value
-      if (zodSchema) {
-        try {
-          validatedRow[key] = zodSchema.parse(value)
-        }
-        catch (error) {
-          const errorMessage = error instanceof ZodError
-            ? error.errors.map(e => e.message).join(', ')
-            : (error as Error).message || 'Unknown error'
-          validationErrors.push(`Validation failed for ${key}: ${errorMessage}`)
-        }
-      }
-      else {
-        // If no Zod schema, assign the value directly
-        validatedRow[key] = value
-      }
-    })
-
-    // Throw an error if any validation errors were collected
-    if (validationErrors.length > 0)
-      throw new Error(`Row validation failed: ${validationErrors.join('; ')}`)
-
-    return validatedRow
   }
 }

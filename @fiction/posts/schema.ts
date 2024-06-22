@@ -228,8 +228,8 @@ const postCols = [
 const postTaxonomyCols = [
   new FictionDbCol({
     key: 'postTaxonomyId',
-    isComposite: true,
-    create: ({ schema }) => schema.primary(['post_id', 'taxonomy_id']),
+    create: ({ schema, column, db }) => schema.string(column.pgKey).primary().defaultTo(db.raw(`object_id()`)),
+    // create: ({ schema }) => schema.primary(['post_id', 'taxonomy_id']),
     default: () => '' as string,
   }),
   new FictionDbCol({
@@ -262,8 +262,7 @@ const postTaxonomyCols = [
 const postAuthorCols = [
   new FictionDbCol({
     key: 'postAuthorId',
-    isComposite: true,
-    create: ({ schema }) => schema.primary(['post_id', 'user_id']),
+    create: ({ schema, column, db }) => schema.string(column.pgKey).primary().defaultTo(db.raw(`object_id()`)),
     default: () => '' as string,
   }),
   new FictionDbCol({
@@ -295,8 +294,7 @@ const postAuthorCols = [
 const postSiteCols = [
   new FictionDbCol({
     key: 'postSiteId',
-    isComposite: true,
-    create: ({ schema }) => schema.primary(['post_id', 'site_id']),
+    create: ({ schema, column, db }) => schema.string(column.pgKey).primary().defaultTo(db.raw(`object_id()`)),
     default: () => '' as string,
   }),
   new FictionDbCol({
@@ -326,8 +324,8 @@ const postSiteCols = [
 ] as const
 
 export const tables = [
-  new FictionDbTable({ tableKey: t.posts, timestamps: true, columns: postCols }),
-  new FictionDbTable({ tableKey: t.postTaxonomies, columns: postTaxonomyCols, timestamps: true }),
-  new FictionDbTable({ tableKey: t.postAuthor, columns: postAuthorCols, timestamps: true }),
-  new FictionDbTable({ tableKey: t.postSite, columns: postSiteCols, timestamps: true }),
+  new FictionDbTable({ tableKey: t.posts, columns: postCols }),
+  new FictionDbTable({ tableKey: t.postTaxonomies, columns: postTaxonomyCols, uniqueOn: ['post_id', 'taxonomy_id'] }),
+  new FictionDbTable({ tableKey: t.postAuthor, columns: postAuthorCols, uniqueOn: ['post_id', 'user_id'] }),
+  new FictionDbTable({ tableKey: t.postSite, columns: postSiteCols, uniqueOn: ['post_id', 'site_id'] }),
 ]

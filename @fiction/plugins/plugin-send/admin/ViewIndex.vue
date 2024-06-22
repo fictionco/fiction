@@ -5,7 +5,7 @@ import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 import type { Card } from '@fiction/site/card'
 import ElZeroBanner from '@fiction/ui/ElZeroBanner.vue'
-import e from 'express'
+import { manageEmailSend } from '../utils.js'
 import type { FictionSend } from '../index.js'
 import type { Email } from '../email.js'
 
@@ -13,7 +13,7 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
-const service = useService<{ fictionSend: FictionSend }>()
+const { fictionSend } = useService<{ fictionSend: FictionSend }>()
 
 const emails = vue.shallowRef<Email[]>([])
 
@@ -25,7 +25,7 @@ const list = vue.computed<IndexItem[]>(() => {
       key: email.emailId,
       name: email.title.value || p.title.value || 'Untitled',
       desc: p.subTitle.value || 'No description',
-      href: props.card.link(`/email-edit?emailId=${email.emailId}`),
+      href: props.card.link(`/email-manage?emailId=${email.emailId}`),
       media: p.image.value,
     } as IndexItem
   })
@@ -34,14 +34,14 @@ const list = vue.computed<IndexItem[]>(() => {
 const loading = vue.ref(true)
 async function load() {
   loading.value = true
-  console.warn('load index', service.fictionSend.cacheKey.value)
+  console.warn('load index', fictionSend.cacheKey.value)
   const createParams = { _action: 'list', fields: { }, loadDraft: true } as const
-  emails.value = await service.fictionSend.manageEmailSend(createParams)
+  emails.value = await manageEmailSend({ params: createParams, fictionSend })
   loading.value = false
 }
 
 vue.onMounted(async () => {
-  vue.watch(() => service.fictionSend.cacheKey.value, load, { immediate: true })
+  vue.watch(() => fictionSend.cacheKey.value, load, { immediate: true })
 })
 
 const href = props.card.link('/email-edit')
@@ -70,4 +70,4 @@ const href = props.card.link('/email-edit')
       </template>
     </ElIndexGrid>
   </div>
-</template>
+</template>import { manageEmailSend } from '../utils.js'import { manageEmailSend } from '../utils.js'import { manageEmailSend } from '../utils.js'

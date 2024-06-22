@@ -27,14 +27,26 @@ vue.onMounted(async () => {
 })
 
 const wrapProps = vue.computed(() => {
-  return {
+  const actions = [
+    { name: 'Home', href: props.card.link('/'), btn: 'default' as const, icon: 'i-tabler-home' },
+  ]
+  const success = {
     superHeading: 'Success!',
     heading: 'You\'re Logged In',
     subHeading: 'You\'re now logged in to your account.',
-    actions: [
-      { name: 'Home', href: props.card.link('/'), btn: 'default' as const, icon: 'i-tabler-home' },
-    ],
+    icon: 'i-tabler-check',
+    actions,
   }
+
+  const error = {
+    superHeading: 'Error!',
+    heading: 'Invalid Token',
+    subHeading: 'The token you provided is invalid. Please try again.',
+    icon: 'i-tabler-x',
+    actions,
+  }
+
+  return fictionUser.activeUser.value ? success : error
 })
 </script>
 

@@ -47,9 +47,20 @@ export class FictionAnalyticsTable extends FictionDbTable {
   override columns: FictionAnalyticsCol[]
   constructor(settings: FictionAnalyticsTableSettings) {
     super(settings)
-    this.columns = this.addDefaultColumns(settings.columns) as Writeable<
-      FictionAnalyticsCol[]
-    >
+    this.columns = this.addDefaultColumns(settings.columns) as Writeable< FictionAnalyticsCol[] >
+  }
+
+  addDefaultColumns(
+    columns: FictionDbCol[] | readonly FictionDbCol[],
+  ): FictionDbCol[] {
+    const tsCols = this.timestamps
+      ? [
+          new FictionDbCol({ key: 'createdAt', create: ({ schema, column, db }) => schema.timestamp(column.pgKey).notNullable().defaultTo(db.fn.now()), default: () => '' }),
+          new FictionDbCol({ key: 'updatedAt', create: ({ schema, column, db }) => schema.timestamp(column.pgKey).notNullable().defaultTo(db.fn.now()), default: () => '' }),
+        ]
+      : []
+
+    return [...columns, ...tsCols]
   }
 
   async createClickHouseTable(fictionClickHouse: FictionClickHouse) {

@@ -9,9 +9,13 @@ export type PostConfig = { fictionSend: FictionSend, fictionPosts: FictionPosts 
 export class Email extends FictionObject<PostConfig> {
   emailId = this.settings.emailId || objectId({ prefix: 'eml' })
   status = vue.ref(this.settings.status || 'draft')
+  scheduleMode = vue.ref(this.settings.scheduleMode || 'now')
   title = vue.ref(this.settings.title || 'Untitled')
   scheduledAt = vue.ref(this.settings.scheduledAt)
+  filters = vue.ref(this.settings.filters || [])
   post = vue.shallowRef(new Post({ ...(this.settings.post || {}), fictionPosts: this.settings.fictionPosts }))
+  subject = vue.ref(this.settings.subject || '')
+  preview = vue.ref(this.settings.preview || '')
   constructor(settings: PostConfig) {
     super('EmailSend', settings)
   }
@@ -23,6 +27,9 @@ export class Email extends FictionObject<PostConfig> {
       return
     const availableKeys = [
       'scheduledAt',
+      'scheduleMode',
+      'title',
+      'filters',
       'status',
     ]
     const entries = Object.entries(sendConfig).filter(([key]) => availableKeys.includes(key))
@@ -39,6 +46,10 @@ export class Email extends FictionObject<PostConfig> {
 
       this.settings = { ...this.settings, [key as keyof TablePostConfig]: value }
     })
+
+    if (sendConfig.post) {
+      this.post.value.update(sendConfig.post)
+    }
   }
 
   async save() {
@@ -60,8 +71,12 @@ export class Email extends FictionObject<PostConfig> {
       ...rest,
       post: this.post.value.toConfig(),
       status: this.status.value,
+      scheduleMode: this.scheduleMode.value,
       scheduledAt: this.scheduledAt.value,
+      subject: this.subject.value,
+      preview: this.preview.value,
       title: this.title.value,
+      filters: this.filters.value,
     }
   }
 }

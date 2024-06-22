@@ -77,7 +77,7 @@ const cls = vue.computed(() => {
             :class="[
               cls.groupHeader,
               !hide(opt.key.value) || depth === 0 ? 'border-b ' : '',
-              hide(opt.key.value) ? 'bg-theme-50 dark:bg-theme-700 text-theme-600 dark:text-theme-100 border-primary-200 dark:border-theme-500' : 'border-theme-300/50 dark:border-theme-700 text-theme-500 dark:text-theme-100 hover:bg-theme-50 dark:hover:bg-theme-800 active:bg-theme-100 dark:active:bg-theme-700',
+              hide(opt.key.value) ? 'bg-theme-50 dark:bg-theme-700 text-theme-600 dark:text-theme-100 border-primary-200 dark:border-theme-600' : 'border-theme-300/50 dark:border-theme-700 text-theme-500 dark:text-primary-300/50 hover:bg-theme-50 dark:hover:bg-theme-800 active:bg-theme-100 dark:active:bg-theme-700',
             ]"
             @click="hide(opt.key.value, !hide(opt.key.value))"
           >

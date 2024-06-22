@@ -107,10 +107,10 @@ function toggleSidebar() {
 <template>
   <div id="admin-page" class="app-wrap relative flex h-dvh flex-col font-sans" :data-route="card.site?.siteRouter.current.value.fullPath">
     <transition
-      enter-active-class="ease-out duration-300"
+      enter-active-class="ease-out duration-200"
       enter-from-class="opacity-0 translate-y-10"
       enter-to-class="opacity-100 translate-y-0"
-      leave-active-class="ease-in duration-300"
+      leave-active-class="ease-in duration-200"
       leave-from-class="opacity-100 translate-y-0"
       leave-to-class="opacity-0 -translate-y-10"
       mode="out-in"

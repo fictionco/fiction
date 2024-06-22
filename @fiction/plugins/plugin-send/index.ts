@@ -1,13 +1,13 @@
-import type { FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
+import type { FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import type { FictionTransactions } from '@fiction/plugin-transactions'
 import { createCard } from '@fiction/site'
 import type { FictionAdmin } from '@fiction/admin'
 import type { FictionPosts } from '@fiction/posts'
 import type { ExtensionManifest } from '../plugin-extend'
-import { type ManageEmailSendActionParams, ManageSend } from './endpoint'
+import { ManageSend } from './endpoint'
 import { tables } from './schema.js'
-import { Email } from './email'
+import type { Email } from './email'
 
 export type FictionSendSettings = {
   fictionDb: FictionDb
@@ -18,6 +18,7 @@ export type FictionSendSettings = {
   fictionTransactions: FictionTransactions
   fictionAdmin: FictionAdmin
   fictionPosts: FictionPosts
+  fictionRouter: FictionRouter
 } & FictionPluginSettings
 
 export class FictionSend extends FictionPlugin<FictionSendSettings> {
@@ -27,17 +28,13 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
 
   requests = this.createRequests({ queries: this.queries, fictionServer: this.settings.fictionServer, fictionUser: this.settings.fictionUser, basePath: '/send' })
   cacheKey = vue.ref(0)
+  activeEmail = vue.shallowRef<Email>()
+  loading = vue.ref(false)
   constructor(settings: FictionSendSettings) {
     super('FictionSend', { root: safeDirname(import.meta.url), ...settings })
 
     this.settings.fictionDb.addTables(tables)
     this.admin()
-  }
-
-  async manageEmailSend(params: ManageEmailSendActionParams) {
-    const r = await this.requests.ManageSend.projectRequest(params)
-
-    return r.data?.map(emailConfig => new Email({ ...emailConfig, fictionSend: this, fictionPosts: this.settings.fictionPosts })) || []
   }
 
   admin() {
@@ -60,6 +57,15 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
         title: 'Edit Email',
         cards: [createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewSingle.vue')) })],
         userConfig: { navIcon: 'i-tabler-send', parentNavItemSlug: 'send', layoutFormat: 'full' },
+      }),
+
+      createCard({
+        templates,
+        templateId: 'dash',
+        slug: 'email-manage',
+        title: 'Manage Email',
+        cards: [createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewManage.vue')) })],
+        userConfig: { navIcon: 'i-tabler-send', parentNavItemSlug: 'send' },
       }),
     ])
   }

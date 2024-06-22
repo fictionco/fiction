@@ -82,8 +82,7 @@ const subscribeColumns = [
 const subscribeTaxonomyCols = [
   new FictionDbCol({
     key: 'subscriptionTaxonomyId',
-    isComposite: true,
-    create: ({ schema }) => schema.primary(['subscription_id', 'taxonomy_id']),
+    create: ({ schema, column, db }) => schema.string(column.pgKey).primary().defaultTo(db.raw(`object_id()`)).index(),
     default: () => '' as string,
   }),
   new FictionDbCol({
@@ -122,5 +121,5 @@ export const tables = [
       t.unique(['email', 'org_id'])
     },
   }),
-  new FictionDbTable({ tableKey: t.subscribeTaxonomy, timestamps: true, columns: subscribeTaxonomyCols, onCreate: t => t.unique(['subscription_id', 'taxonomy_id']) }),
+  new FictionDbTable({ tableKey: t.subscribeTaxonomy, columns: subscribeTaxonomyCols, uniqueOn: ['subscription_id', 'taxonomy_id'] }),
 ]
