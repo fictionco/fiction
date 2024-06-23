@@ -1,5 +1,5 @@
 import type { EndpointMeta, EndpointResponse, IndexQuery } from '@fiction/core'
-import { Query, prepareFields } from '@fiction/core'
+import { Query } from '@fiction/core'
 import { t } from './schema'
 import type { EmailSendConfig } from './schema.js'
 import type { FictionSend, FictionSendSettings } from '.'
@@ -106,7 +106,7 @@ export class ManageSend extends SendEndpoint {
         throw new Error('Post not created')
       }
 
-      const insertFields = prepareFields({ type: 'create', fields: sendFields, meta, fictionDb, table: t.send })
+      const insertFields = fictionDb.prep({ type: 'insert', fields: sendFields, meta, table: t.send })
       const insertData: EmailSendConfig = { orgId, userId, postId: post.postId, ...insertFields }
 
       const [row] = await this.db().table(t.send).insert(insertData).returning('*')
@@ -144,7 +144,7 @@ export class ManageSend extends SendEndpoint {
       return { status: 'error', message: 'where must be an array of conditions' }
     }
 
-    const prepped = prepareFields({ type: 'settings', fields, meta, fictionDb: this.settings.fictionDb, table: t.send })
+    const prepped = this.settings.fictionDb.prep({ type: 'update', fields, meta, table: t.send })
 
     const promises = where.map(async (w) => {
       const result = await this.db().table(t.send).where({ orgId, ...w }).update({ ...prepped, updatedAt: new Date().toISOString() }).limit(1).returning<EmailSendConfig[]>('*')

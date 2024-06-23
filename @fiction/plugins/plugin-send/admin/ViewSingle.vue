@@ -7,6 +7,7 @@ import XText from '@fiction/ui/common/XText.vue'
 import ElPostEditor from '@fiction/posts/el/ElPostEditor.vue'
 import type { FictionSend } from '../index.js'
 import { loadEmail } from '../utils.js'
+import type { Email } from '../email.js'
 import { postEditController } from './tools'
 
 const props = defineProps({
@@ -15,8 +16,9 @@ const props = defineProps({
 
 const { fictionSend, fictionRouter } = useService<{ fictionSend: FictionSend }>()
 
+const loading = vue.ref(true)
 const sending = vue.ref()
-const email = vue.computed(() => fictionSend.activeEmail.value)
+const email = vue.shallowRef<Email>()
 async function publish() {
   if (!email.value)
     return
@@ -33,13 +35,14 @@ async function publish() {
 }
 
 vue.onMounted(async () => {
-  await loadEmail({ fictionSend })
+  email.value = await loadEmail({ fictionSend })
+  loading.value = false
 })
 </script>
 
 <template>
   <div>
-    <ViewEditor :tool-props="{ card, email }" :controller="postEditController" :loading="fictionSend.loading.value">
+    <ViewEditor :tool-props="{ card, email }" :controller="postEditController" :loading>
       <template #headerLeft>
         <div class="flex space-x-2 items-center">
           <ElButton btn="default" :href="card.link('/')" class="shrink-0" icon="i-tabler-home" />

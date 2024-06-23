@@ -13,7 +13,8 @@ import { EnvVar, vars } from '../plugin-env/index.js'
 import type { FictionServer } from '../plugin-server/index.js'
 import { toCamel } from '../utils/casing.js'
 import { CheckUsername } from './endpoint.js'
-import type { FictionDbCol, FictionDbTable } from './objects.js'
+import type { Col, FictionDbCol, FictionDbTable } from './objects.js'
+import { dbPrep } from './utils.js'
 
 export * from './objects.js'
 
@@ -125,6 +126,10 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
     this.addSchema()
   }
 
+  prep<T>(args: Omit<Parameters<typeof dbPrep>[0], 'fictionDb'>): Partial<T> {
+    return dbPrep({ ...args, fictionDb: this })
+  }
+
   addSchema() {
     this.fictionEnv?.addHook({
       hook: 'staticSchema',
@@ -173,6 +178,17 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
         return tables
       },
     })
+  }
+
+  getCols(tableKey: string): Col[] {
+    const tbl = this.tables.find(t => t.tableKey === tableKey)
+
+    if (!tbl) {
+      this.log.error(`could not find table ${tableKey}`, {
+        data: { tableKeys: this.tables.map(t => t.tableKey) },
+      })
+    }
+    return tbl?.cols || []
   }
 
   getColumns(tableKey: string): FictionDbCol[] | undefined {

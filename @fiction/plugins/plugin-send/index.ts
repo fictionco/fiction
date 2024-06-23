@@ -28,8 +28,6 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
 
   requests = this.createRequests({ queries: this.queries, fictionServer: this.settings.fictionServer, fictionUser: this.settings.fictionUser, basePath: '/send' })
   cacheKey = vue.ref(0)
-  activeEmail = vue.shallowRef<Email>()
-  loading = vue.ref(false)
   constructor(settings: FictionSendSettings) {
     super('FictionSend', { root: safeDirname(import.meta.url), ...settings })
 

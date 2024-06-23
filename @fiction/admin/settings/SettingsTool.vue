@@ -13,6 +13,7 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
   tools: { type: Array as vue.PropType<SettingsTool[]>, required: true },
   basePath: { type: String, required: true },
+  titlePrefix: { type: String, default: '' },
 })
 
 const service = useService()
@@ -24,7 +25,7 @@ const panels = vue.computed(() => props.tools.filter(t => t.slug))
 const routeItemId = vue.computed(() => toSlug(props.card.site?.siteRouter.params.value.itemId as string) || panels.value[0].slug)
 
 const currentPanel = vue.computed(() => panels.value.find(p => toSlug(p.slug) === routeItemId.value))
-const currentPanelOptions = vue.computed<InputOption[]>(() => currentPanel.value?.options?.({ tool: currentPanel.value, service }) || [])
+const currentPanelOptions = vue.computed<InputOption[]>(() => currentPanel.value?.options?.({ tool: currentPanel.value, service }).value || [])
 
 const nav = vue.computed<NavItem[]>(() => {
   const tools = props.tools || []
@@ -38,40 +39,31 @@ const nav = vue.computed<NavItem[]>(() => {
 
       const icon = isActive && tc.navIconAlt ? tc.navIconAlt : tc.navIcon ? tc.navIcon : 'i-heroicons-arrow-small-right-20-solid'
       const link = t.href || `${props.basePath}/${t.slug}`
-      return { name: t.title || toLabel(t.slug), href: props.card.link(link), isActive, icon }
+      return { name: t.title.value || toLabel(t.slug), href: props.card.link(link), isActive, icon }
     })
 })
-
-const sending = vue.ref(false)
-async function runSave() {
-  sending.value = true
-
-  try {
-    const tool = currentPanel.value
-    if (!tool)
-      throw new Error('No value to save')
-
-    await currentPanel.value?.save?.({ tool, service })
-  }
-  catch (e) {
-    console.error('Error saving user config', e)
-  }
-  finally {
-    sending.value = false
-  }
-}
 
 const actions = vue.computed(() => {
   const tool = currentPanel.value
   return tool?.getActions?.({ tool, service }).value || []
 })
+
+const title = vue.computed(() => {
+  return [props.titlePrefix, currentPanel.value?.title.value || ''].filter(Boolean).join(' - ')
+})
 </script>
 
 <template>
   <div :class="card.classes.value.contentWidth">
-    <ElPanel class="rounded-md" box-class="p-0">
-      <div class="flex rounded-md overflow-hidden">
-        <div class="md:w-48 shrink-0 rounded-l-md pb-32 p-3 ">
+    <ElPanel
+      class="border-theme-300/80 dark:border-theme-600/90 border rounded-md  "
+      box-class="p-0"
+      header-class="border-b dark:border-theme-600/60 border-theme-300/60"
+      :title
+      :actions="actions"
+    >
+      <div class="flex">
+        <div class=" md:w-48 shrink-0 rounded-l-md pb-32 p-3  border-r dark:border-theme-600/60 border-theme-300/60">
           <div class="space-y-1 text-right">
             <component
               :is="getNavComponentType(v)"
@@ -92,31 +84,7 @@ const actions = vue.computed(() => {
             </component>
           </div>
         </div>
-        <ElForm v-if="currentPanel?.val" class="rounded-md  border-theme-300/80 dark:border-theme-600/90 border grow min-w-0 bg-theme-0 dark:bg-theme-900 overflow-hidden" @submit="runSave()">
-          <div class="header flex items-center justify-between py-3 px-4 border-b border-theme-300/70 dark:border-theme-600/70">
-            <div class="font-bold">
-              {{ currentPanel?.title }}
-            </div>
-            <div v-if="currentPanel?.save">
-              <ElButton data-test-id="save" btn="primary" type="submit" icon="i-tabler-upload" :loading="sending">
-                Save Changes
-              </ElButton>
-            </div>
-            <div v-if="currentPanel?.getActions">
-              <ElButton
-                v-for="(action, i) in actions"
-                :key="i"
-                :btn="action.btn"
-                :icon="action.icon"
-                :icon-after="action.iconAfter"
-                :href="action.href"
-                :size="action.size"
-                @click="action.onClick?.({ event: $event })"
-              >
-                {{ action.name }}
-              </ElButton>
-            </div>
-          </div>
+        <ElForm v-if="currentPanel?.val" class="grow min-w-0 bg-theme-0 dark:bg-theme-900 rounded-r-lg overflow-hidden py-4 lg:py-8">
           <transition
             enter-active-class="ease-out duration-300"
             enter-from-class="opacity-0 translate-x-12"
@@ -127,7 +95,6 @@ const actions = vue.computed(() => {
             mode="out-in"
           >
             <ToolForm
-
               :key="currentPanel.slug"
               v-model="currentPanel.val.value"
               :data-settings-tool="currentPanel.slug"

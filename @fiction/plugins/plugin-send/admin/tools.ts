@@ -1,40 +1,19 @@
 import { InputOption } from '@fiction/ui'
-import { vue } from '@fiction/core'
+import { type ActionItem, vue } from '@fiction/core'
 import { SettingsTool } from '@fiction/admin/types'
-
+import InputAuthors from '@fiction/posts/el/InputAuthors.vue'
 import type { EditorTool } from '@fiction/admin'
 import { AdminEditorController } from '@fiction/admin'
+import type { Card } from '@fiction/site'
 import type { FictionSend } from '..'
+import type { Email } from '../email'
+import type { EmailSendConfig } from '../schema'
+import { loadEmail } from '../utils'
+import { manageEmailSend } from '../utils.js'
+import InputAudience from './InputAudience.vue'
+import InputEmailPreview from './InputEmailPreview.vue'
 
 export const tools = [
-  // {
-  //   toolId: 'posts',
-  //   icon: 'i-tabler-box-multiple',
-  //   el: vue.defineAsyncComponent(() => import('./ToolSettings.vue')),
-  //   location: 'primary',
-  //   isPrimary: true,
-  // },
-  // {
-  //   toolId: 'email',
-  //   icon: 'i-tabler-mail-share',
-  //   el: vue.defineAsyncComponent(() => import('./ToolSettings.vue')),
-  //   location: 'primary',
-  //   isPrimary: true,
-  // },
-  // {
-  //   toolId: 'subscriptions',
-  //   icon: 'i-tabler-user-up',
-  //   el: vue.defineAsyncComponent(() => import('./ToolSettings.vue')),
-  //   location: 'primary',
-  //   isPrimary: true,
-  // },
-  // {
-  //   toolId: 'history',
-  //   icon: 'i-tabler-history',
-  //   el: vue.defineAsyncComponent(() => import('./ToolHistory.vue')),
-  //   location: 'primary',
-  //   isPrimary: true,
-  // },
   {
     toolId: 'emailSettings',
     title: 'Email Settings',
@@ -52,26 +31,148 @@ export type ToolKeys = (typeof tools)[number]['toolId']
 
 export const postEditController = new AdminEditorController({ tools })
 
-export function getTools(args: { fictionSend: FictionSend }) {
-  const { fictionSend } = args
+export function getEmailManageOptions(args: { fictionSend: FictionSend, email?: Email, card: Card }) {
+  const { email, card } = args
+  return [
+    new InputOption({ key: 'title', label: 'Internal Title', input: 'InputText', isRequired: true }),
+    new InputOption({ key: 'actions', label: 'Edit', input: 'InputActions', props: {
+      actions: [{ name: 'Edit Email', btn: 'primary', href: card.link(`/email-edit?emailId=${email?.emailId}`) }],
+    } }),
+    new InputOption({
+      key: 'emailSettings',
+      label: 'Email Settings',
+      input: 'group',
+      options: [
+        new InputOption({ key: 'subject', label: 'Subject Line', input: 'InputText', isRequired: true }),
+        new InputOption({ key: 'preview', label: 'Preview Text', input: 'InputText' }),
+      ],
+    }),
+    new InputOption({
+      key: 'scheduleSettings',
+      label: 'Schedule Settings',
+      input: 'group',
+      options: [
 
-  const dataRef = vue.ref({})
+        new InputOption({
+          key: 'scheduleMode',
+          label: 'Sending Time',
+          input: 'InputSelectCustom',
+          isRequired: true,
+          list: [
+            { label: 'Send Now', value: 'now' },
+            { label: 'Schedule Send', value: 'schedule' },
+          ],
+        }),
+        new InputOption({
+          key: 'scheduledAt',
+          label: 'Scheduled Send Time',
+          input: 'InputDate',
+          isRequired: true,
+          isHidden: email?.scheduleMode.value !== 'schedule',
+          props: { includeTime: true, dateMode: 'future' },
+        }),
+        new InputOption({
+          key: 'audience',
+          label: 'Audience',
+          input: InputAudience,
+        }),
+      ],
+    }),
+
+    new InputOption({
+      key: 'emailContent',
+      label: 'Email Content',
+      input: 'group',
+      options: [
+
+        new InputOption({
+          key: 'post.title',
+          label: 'Title',
+          input: 'InputText',
+          placeholder: 'Title',
+          isRequired: true,
+        }),
+        new InputOption({
+          key: 'post.subTitle',
+          label: 'Subtitle',
+          input: 'InputText',
+        }),
+        new InputOption({ key: 'post.authors', label: 'Authors', input: InputAuthors, props: { } }),
+      ],
+    }),
+    new InputOption({
+      key: 'dangerZone',
+      label: 'Danger Zone',
+      input: 'group',
+      options: [
+        new InputOption({
+          key: 'deletePost',
+          label: 'Permanently Delete Email',
+          input: 'InputActions',
+          props: {
+            actions: [
+              {
+                name: 'Delete Email...',
+                btn: 'default',
+                onClick: async () => {
+                  const confirmed = confirm('Are you sure you want to delete this email?')
+
+                  if (confirmed) {
+                    await email?.delete()
+                    await card.goto('/send')
+                  }
+                },
+              },
+            ] as ActionItem[],
+          },
+        }),
+
+      ],
+    }),
+  ]
+}
+
+export function getTools(args: { fictionSend: FictionSend, card: Card }) {
+  const { fictionSend, card } = args
+  const fictionRouter = fictionSend.settings.fictionRouter
+  const loading = vue.ref(false)
+  const email = vue.shallowRef<Email>()
+
+  vue.watch(() => fictionRouter.query.value.emailId, async (v, old) => {
+    if (v === old)
+      return
+
+    email.value = await loadEmail({ fictionSend })
+  }, { immediate: true })
+
+  const val = vue.computed<EmailSendConfig | undefined>({
+    get: () => {
+      return email.value?.toConfig()
+    },
+    set: (v) => {
+      email.value?.update(v || {})
+    },
+  })
 
   const tools = [
-
     new SettingsTool({
       slug: 'view',
-      title: 'Create Email',
+      title: 'Settings',
       userConfig: { isNavItem: true, navIcon: 'i-tabler-user', navIconAlt: 'i-tabler-user' },
-      val: dataRef,
+      val,
       getActions: (args) => {
-        const loading = vue.ref(false)
         return vue.computed(() => {
           return [{
-            name: 'Save Subscriber',
+            name: 'Save',
             onClick: async () => {
               loading.value = true
-              //
+              const fields = val.value
+              if (!fields)
+                throw new Error('No fields')
+
+              const emailId = fields?.emailId
+
+              await manageEmailSend({ fictionSend, params: { _action: 'update', where: [{ emailId }], fields } })
 
               loading.value = false
             },
@@ -82,20 +183,27 @@ export function getTools(args: { fictionSend: FictionSend }) {
         })
       },
       options: (_args) => {
-        return [
-          new InputOption({
-            key: 'userDetails',
-            label: 'Subscriber',
-            input: 'group',
-            options: [
-              new InputOption({ key: 'email', label: 'Email', input: 'InputEmail' }),
-              new InputOption({ key: 'status', label: 'Status', input: 'InputSelectCustom', list: ['active', 'unsubscribed', 'cleaned'] }),
-              new InputOption({ key: 'inlineTags', label: 'Tags', input: 'InputItems', placeholder: 'Tag, Tag, Tag' }),
-            ],
-          }),
-        ] satisfies InputOption[]
+        return vue.computed(() => getEmailManageOptions({ fictionSend, email: email.value, card }))
+      },
+    }),
+    new SettingsTool({
+      slug: 'preview',
+      title: vue.computed(() => `Preview`),
+      userConfig: { isNavItem: true, navIcon: 'i-tabler-user', navIconAlt: 'i-tabler-user' },
+      val,
+      options: (_args) => {
+        return vue.computed(() => {
+          return [
+            new InputOption({
+              key: 'audience',
+              label: 'Audience',
+              input: InputEmailPreview,
+            }),
+          ]
+        })
       },
     }),
   ]
-  return tools as SettingsTool[]
+
+  return { tools: tools as SettingsTool[], val }
 }

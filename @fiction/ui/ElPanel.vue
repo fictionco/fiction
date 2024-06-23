@@ -8,6 +8,7 @@ defineProps({
   raw: { type: Boolean, default: false },
   boxClass: { type: String, default: '' },
   panelClass: { type: String, default: '' },
+  headerClass: { type: String, default: '' },
   actions: {
     type: Array as vue.PropType<ActionItem[]>,
     default: () => [],
@@ -16,7 +17,7 @@ defineProps({
 </script>
 
 <template>
-  <section class="el-panel">
+  <section class=" ">
     <div class="h-full">
       <div
         class="box h-full"
@@ -24,9 +25,10 @@ defineProps({
       >
         <div
           v-if="title || (actions && actions.length)"
-          class="flex items-baseline space-x-4 px-0 lg:px-6 py-2 "
+          class="flex items-center space-x-4 px-4 py-2 justify-between"
+          :class="headerClass"
         >
-          <h2 v-if="title" class="font-brand text-lg font-semibold leading-snug">
+          <h2 v-if="title" class="x-font-title text-lg font-semibold">
             {{ title }}
           </h2>
           <div
@@ -39,6 +41,8 @@ defineProps({
               :btn="action.btn || 'default'"
               :size="action.size || 'md'"
               :loading="action.loading"
+              :icon="action.icon"
+              :icon-after="action.iconAfter"
               :href="action.href"
               @click.stop="action.onClick ? action.onClick({ event: $event }) : ''"
             >

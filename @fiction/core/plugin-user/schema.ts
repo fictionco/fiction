@@ -112,7 +112,7 @@ export const userColumns = [
   new FictionDbCol({
     key: 'isSuperAdmin',
     create: ({ schema, column }) => schema.boolean(column.pgKey).defaultTo(false),
-    default: () => false,
+    default: () => false as boolean,
     zodSchema: ({ z }) => z.boolean(),
   }),
   new FictionDbCol({

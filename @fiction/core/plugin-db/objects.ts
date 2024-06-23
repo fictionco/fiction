@@ -1,24 +1,31 @@
 import type { Knex } from 'knex'
 import type { ZodSchema } from 'zod'
-import { ZodError, z } from 'zod'
+import { z } from 'zod'
 import { toSnakeCase } from '../utils/index.js'
 import type { LogHelper } from '../plugin-log/index.js'
 import { log } from '../plugin-log/index.js'
 import { FictionObject } from '../plugin.js'
 
+type PrepareForStorage<T extends ColDefaultValue = ColDefaultValue> = (args: { value: T, key: string, db?: Knex }) => unknown
+
 export type ColDefaultValue = Knex.Value | undefined
 type SecurityType = 'permanent' | 'setting' | 'authority' | 'admin' | 'private' | 'composite'
 
-type MakeCol = (params: { s: Knex.AlterTableBuilder, col: Col, db: Knex }) => void
+type MakeCol = <U extends string = string, T extends ColDefaultValue = ColDefaultValue> (params: { s: Knex.AlterTableBuilder, col: Col<U, T>, db: Knex }) => void
 export type ColSettings<U extends string = string, T extends ColDefaultValue = ColDefaultValue> = {
   key: U
   make: MakeCol
   sec?: SecurityType
   sch: (args: { z: typeof z }) => ZodSchema<T>
+  prepare?: PrepareForStorage<T>
 }
 export class Col<U extends string = string, T extends ColDefaultValue = ColDefaultValue> extends FictionObject<ColSettings<U, T>> {
+  key = this.settings.key
   k = toSnakeCase(this.settings.key)
   sec = this.settings.sec || 'setting'
+  sch = this.settings.sch
+  prepare = this.settings.prepare as PrepareForStorage
+
   constructor(settings: ColSettings<U, T>) {
     super('Col', settings)
   }
@@ -29,7 +36,6 @@ export class Col<U extends string = string, T extends ColDefaultValue = ColDefau
 }
 
 type CreateCol = (params: { schema: Knex.AlterTableBuilder, column: FictionDbCol, db: Knex }) => void
-type PrepareForStorage<T extends ColDefaultValue = ColDefaultValue> = (args: { value: T, key: string, db: Knex }) => unknown
 
 export interface FictionDbColSettings<U extends string = string, T extends ColDefaultValue = ColDefaultValue> {
   key: U
@@ -84,7 +90,7 @@ export interface FictionDbTableSettings {
   tableKey: string
   timestamps?: boolean
   columns?: readonly FictionDbCol[]
-  cols?: readonly Col[]
+  cols?: readonly Col<any, any>[]
   dependsOn?: string[]
   onCreate?: (t: Knex.AlterTableBuilder) => void
   uniqueOn?: string[]
@@ -117,7 +123,7 @@ export class FictionDbTable {
       new Col({ key: 'createdAt', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col, db }) => s.string(col.k).notNullable().defaultTo(db.fn.now()) }),
       new Col({ key: 'updatedAt', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col, db }) => s.string(col.k).notNullable().defaultTo(db.fn.now()) }),
     ]
-    return [...cols, ...tsCols]
+    return [...cols, ...tsCols] as Col[]
   }
 
   legacyAddDefaultColumns(

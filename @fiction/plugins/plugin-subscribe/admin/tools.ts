@@ -21,7 +21,7 @@ export function getTools(args: { service: StandardServices }) {
       title: 'Add Subscribers',
       userConfig: { isNavItem: true, navIcon: 'i-tabler-table-share', navIconAlt: 'i-tabler-table-plus' },
       options: (_args) => {
-        return [new InputOption({ key: 'publication', input: ElImportFile })] satisfies InputOption[]
+        return vue.computed(() => [new InputOption({ key: 'publication', input: ElImportFile })] satisfies InputOption[])
       },
     }),
   ] satisfies SettingsTool[]
@@ -97,7 +97,7 @@ export function getViewSubscriberTools(args: { fictionSubscribe: FictionSubscrib
         })
       },
       options: (_args) => {
-        return [
+        return vue.computed(() => [
           new InputOption({
             key: 'subscriberHeader',
             input: ElHeader,
@@ -127,7 +127,7 @@ export function getViewSubscriberTools(args: { fictionSubscribe: FictionSubscrib
               new InputOption({ key: 'inlineUser.phone', label: 'Phone Number', description: 'Include country code. Used for 2FA and notifications.', input: 'InputPhone', placeholder: '+1 555 555 5555' }),
             ],
           }),
-        ] satisfies InputOption[]
+        ] satisfies InputOption[])
       },
     }),
   ]

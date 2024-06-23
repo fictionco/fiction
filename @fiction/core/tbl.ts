@@ -42,7 +42,7 @@ export type CreateObjectType<T extends readonly FictionDbCol[]> = TupleToObject<
 /**
  * NEW
  */
-type ColTuple<T extends readonly Col[]> = {
+type ColTuple<T extends readonly Col<string, any>[]> = {
   [P in keyof T]: T[P] extends Col<infer X, infer Q> ? [X, Q] : never
 }[number]
 
@@ -50,4 +50,4 @@ type ColTupleToObject<T extends [string, unknown]> = {
   [P in T[0]]: T extends [P, infer B] ? B : never
 }
 
-export type ColType<T extends readonly Col[]> = ColTupleToObject<ColTuple<T>> & Timestamps
+export type ColType<T extends readonly Col<string, any>[]> = ColTupleToObject<ColTuple<T>> & Timestamps

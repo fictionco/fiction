@@ -23,20 +23,22 @@ export async function manageEmailSend(args: { fictionSend: FictionSend, params: 
 export async function loadEmail(args: { fictionSend: FictionSend }) {
   const { fictionSend } = args
   const fictionRouter = fictionSend.settings.fictionRouter
-  fictionSend.loading.value = true
 
   const emailId = fictionRouter.query.value.emailId as string | undefined
 
+  let email: Email
   if (!emailId) {
     const [_email] = await manageEmailSend({ fictionSend, params: { _action: 'create', fields: [{}] } })
 
     await fictionRouter.replace({ query: { emailId: _email?.emailId } })
 
-    fictionSend.activeEmail.value = _email
+    email = _email
   }
   else {
     const [_email] = await manageEmailSend({ fictionSend, params: { _action: 'get', where: { emailId }, loadDraft: true } })
-    fictionSend.activeEmail.value = _email
+
+    email = _email
   }
-  fictionSend.loading.value = false
+
+  return email
 }

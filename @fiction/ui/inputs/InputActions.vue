@@ -37,7 +37,7 @@ function gapSize() {
       :target="action.target"
       :icon="action.icon"
       :icon-after="action.iconAfter"
-      @click.stop="action.onClick ? action.onClick({ event: $event, props: { ...props, ...$attrs } }) : ''"
+      @click.stop.prevent="action.onClick ? action.onClick({ event: $event, props: { ...props, ...$attrs } }) : ''"
     >
       {{ action.name }}
     </ElButton>

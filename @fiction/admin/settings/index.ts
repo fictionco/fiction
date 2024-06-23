@@ -1,9 +1,9 @@
 import { InputOption } from '@fiction/ui'
-import { type ActionItem, type StandardServices, vue } from '@fiction/core'
+import { type ActionItem, type StandardServices, vue, waitFor } from '@fiction/core'
 
 import { SettingsTool } from '../types'
-
-const def = vue.defineAsyncComponent
+import ElOrgHeader from './ElOrgHeader.vue'
+import ElAccountHeader from './ElAccountHeader.vue'
 
 export function newOrgOptions(args: { title: string, actionsRef?: vue.Ref<ActionItem[]> }) {
   return vue.computed(() => {
@@ -12,9 +12,9 @@ export function newOrgOptions(args: { title: string, actionsRef?: vue.Ref<Action
     const actions = actionsRef?.value || []
 
     const options: InputOption[] = [
-      new InputOption({ key: 'orgName', label: 'Organization Name', input: 'InputText', placeholder: 'Organization Name', isRequired: true }),
+      new InputOption({ key: 'orgName', label: 'Publication Name', input: 'InputText', placeholder: 'Publication Name', isRequired: true }),
       new InputOption({ key: 'orgEmail', label: 'Contact and Billing Email', description: 'Used for billing.', input: 'InputEmail', isRequired: true }),
-      new InputOption({ key: 'avatar', label: 'Avatar', input: 'InputMediaUpload', subLabel: 'Upload a square image or it will be cropped' }),
+      new InputOption({ key: 'avatar', label: 'Publication Avatar', input: 'InputMediaUpload', subLabel: 'Upload a square image or it will be cropped' }),
     ]
 
     if (actions.length) {
@@ -27,41 +27,56 @@ export function newOrgOptions(args: { title: string, actionsRef?: vue.Ref<Action
 
 export function getTools(args: { service: StandardServices }) {
   const fictionUser = args.service.fictionUser
+  const loading = vue.ref(false)
   const tools = [
     new SettingsTool({
       slug: 'project',
       title: 'Publication',
       userConfig: { isNavItem: true, navIcon: 'i-tabler-cube', navIconAlt: 'i-tabler-cube-plus' },
       val: fictionUser.activeOrganization,
-      save: async (args) => {
-        const { tool, service: { fictionUser } } = args
-        const fields = tool.val?.value
-        const orgId = fictionUser.activeOrgId.value
 
-        if (!orgId)
-          throw new Error('No active organization')
+      getActions: (args) => {
+        const { tool } = args
+        return vue.computed(() => {
+          return [{
+            name: 'Save Publication',
+            onClick: async () => {
+              loading.value = true
 
-        if (!fields)
-          throw new Error('No fields')
+              const fields = tool.val?.value
+              const orgId = fictionUser.activeOrgId.value
 
-        return await fictionUser.requests.ManageOrganization.projectRequest({ _action: 'update', fields, where: { orgId } })
+              if (!orgId)
+                throw new Error('No active organization')
+
+              if (!fields)
+                throw new Error('No fields')
+
+              await fictionUser.requests.ManageOrganization.projectRequest({ _action: 'update', fields, where: { orgId } })
+
+              loading.value = false
+            },
+            loading: loading.value,
+            btn: 'primary',
+            iconAfter: 'i-tabler-arrow-up-right',
+          }]
+        })
       },
 
       options: (args) => {
         const { service } = args
         const userIsAdmin = service.fictionUser.activeUser.value?.isSuperAdmin
-        return [
-          new InputOption({ key: 'orgHead', input: def(() => import('./ElOrgHeader.vue')), uiFormat: 'naked' }),
+        return vue.computed(() => [
+          new InputOption({ key: 'orgHead', input: ElOrgHeader, uiFormat: 'naked' }),
           newOrgOptions({ title: 'Organization Info' }).value,
           new InputOption({
             key: 'publication',
-            label: 'Publication and Syndication',
+            label: 'Email and Syndication',
             input: 'group',
             options: [
-              new InputOption({ key: 'publication.title', label: 'Publication Title', description: 'Will be used in emails, defaults to organization name', input: 'InputText', placeholder: 'Name of Publication' }),
               new InputOption({ key: 'publication.tagline', label: 'Publication Tagline', description: 'Used in descriptions and meta info', input: 'InputText', placeholder: 'A sentence on what you do...' }),
-              new InputOption({ key: 'publication.email', label: 'Sender: From Email', description: 'Email will be sent from this address.', input: 'InputEmail' }),
-              new InputOption({ key: 'publication.sender', label: 'Sender: From Name', description: 'If different from publication name', input: 'InputText', placeholder: 'Sender Name' }),
+              new InputOption({ key: 'publication.email', label: 'Email: From Email', description: 'Email will be sent from this address.', input: 'InputEmail' }),
+              new InputOption({ key: 'publication.sender', label: 'Email: From Name', description: 'If different from publication name', input: 'InputText', placeholder: 'Sender Name' }),
             ],
           }),
           new InputOption({
@@ -84,7 +99,7 @@ export function getTools(args: { service: StandardServices }) {
               new InputOption({ key: 'deleteOrg', label: 'Delete Organization', input: 'InputUrl' }),
             ],
           }),
-        ] satisfies InputOption[]
+        ] satisfies InputOption[])
       },
     }),
     new SettingsTool({
@@ -92,23 +107,37 @@ export function getTools(args: { service: StandardServices }) {
       title: 'Account Details',
       userConfig: { isNavItem: true, navIcon: 'i-tabler-user', navIconAlt: 'i-tabler-user-plus' },
       val: fictionUser.activeUser,
-      save: async (args) => {
-        const { tool, service: { fictionUser } } = args
+      getActions: (args) => {
+        return vue.computed(() => {
+          return [{
+            name: 'Save Account',
+            onClick: async () => {
+              loading.value = true
 
-        const fields = tool.val?.value
-        const userId = fictionUser.activeUser.value?.userId
+              const { tool } = args
 
-        if (!userId)
-          throw new Error('No active user')
+              const fields = tool.val?.value
+              const userId = fictionUser.activeUser.value?.userId
 
-        if (!fields)
-          throw new Error('No fields')
+              if (!userId)
+                throw new Error('No active user')
 
-        return await fictionUser.requests.ManageUser.projectRequest({ _action: 'update', fields, where: { userId } })
+              if (!fields)
+                throw new Error('No fields')
+
+              await fictionUser.requests.ManageUser.projectRequest({ _action: 'update', fields, where: { userId } })
+
+              loading.value = false
+            },
+            loading: loading.value,
+            btn: 'primary',
+            iconAfter: 'i-tabler-arrow-up-right',
+          }]
+        })
       },
       options: () => {
-        return [
-          new InputOption({ key: 'accountHead', input: def(() => import('./ElAccountHeader.vue')), uiFormat: 'naked' }),
+        return vue.computed(() => [
+          new InputOption({ key: 'accountHead', input: ElAccountHeader, uiFormat: 'naked' }),
           new InputOption({
             key: 'userDetails',
             label: 'Basic Details',
@@ -132,7 +161,7 @@ export function getTools(args: { service: StandardServices }) {
               new InputOption({ key: 'accounts.linkedinUrl', label: 'LinkedIn URL', input: 'InputUrl', placeholder: 'https://www.linkedin.com/in/username' }),
             ],
           }),
-        ]
+        ])
       },
     }),
   ] satisfies SettingsTool[]

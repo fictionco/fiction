@@ -31,7 +31,7 @@ const uc = vue.computed(() => props.card.userConfig.value)
         </RouterLink>
         <div class="hidden text-lg font-normal sm:block dark:text-theme-0 text-theme-700 md:flex gap-3 items-center">
           <div v-if="uc.navIcon || uc.navIconAlt" :class="uc.navIconAlt || uc.navIcon" class="text-2xl text-theme-500" />
-          <div class="hidden text-lg font-medium sm:block  dark:text-theme-0  text-theme-700">
+          <div class="hidden text-lg font-medium sm:block  dark:text-theme-0  text-theme-700 ">
             {{ card.site.currentPage.value?.title.value }}
           </div>
         </div>

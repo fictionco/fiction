@@ -51,7 +51,7 @@ const cls = vue.computed(() => {
     },
     lg: {
       groupHeader: 'py-3 px-5 text-sm',
-      groupPad: 'p-8 lg:p-10',
+      groupPad: 'px-8 lg:px-10 py-6',
       inputGap: 'gap-6',
     },
   }
@@ -61,7 +61,7 @@ const cls = vue.computed(() => {
 </script>
 
 <template>
-  <div>
+  <div class="">
     <div class="flex flex-col" :class="cls.inputGap">
       <div v-for="(opt, i) in options.filter(_ => !_.settings.isHidden)" :key="i">
         <div
@@ -77,7 +77,7 @@ const cls = vue.computed(() => {
             :class="[
               cls.groupHeader,
               !hide(opt.key.value) || depth === 0 ? 'border-b ' : '',
-              hide(opt.key.value) ? 'bg-theme-50 dark:bg-theme-700 text-theme-600 dark:text-theme-100 border-primary-200 dark:border-theme-600' : 'border-theme-300/50 dark:border-theme-700 text-theme-500 dark:text-primary-300/50 hover:bg-theme-50 dark:hover:bg-theme-800 active:bg-theme-100 dark:active:bg-theme-700',
+              hide(opt.key.value) ? 'bg-theme-50 dark:bg-theme-700 text-theme-600 dark:text-theme-100 border-primary-200 dark:border-theme-600' : 'border-theme-300/50 dark:border-theme-700 text-theme-500 dark:text-theme-100 hover:bg-theme-50 dark:hover:bg-theme-800 active:bg-theme-100 dark:active:bg-theme-700',
             ]"
             @click="hide(opt.key.value, !hide(opt.key.value))"
           >
@@ -108,7 +108,7 @@ const cls = vue.computed(() => {
           class="mb-2"
           :class="i === 0 ? 'mt-0' : 'mt-8'"
         />
-        <div v-else :class="opt.settings.uiFormat !== 'naked' && depth === 0 ? 'px-4' : ''" :data-depth="depth">
+        <div v-else :class="opt.settings.uiFormat !== 'naked' && depth === 0 ? 'px-6' : ''" :data-depth="depth">
           <ElInput
             v-if="opt.isHidden.value !== true"
             :card
