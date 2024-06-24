@@ -1,43 +1,41 @@
 <script lang="ts" setup>
-import type { User } from '@fiction/core'
-import { vue } from '@fiction/core'
+import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { useRender } from 'vue-email'
 import { toMarkdown } from '@fiction/core/utils/markdown.js'
 import EmailStandard from '@fiction/core/plugin-email/templates/EmailStandard.vue'
 import type { TransactionalEmailConfig } from '@fiction/core/plugin-email/index.js'
-import { sampleHtml } from '@fiction/core/plugin-email/preview/content.js'
 import FictionFooterImg from '@fiction/core/plugin-email/img/fiction-email-footer.png'
 import FictionIconImg from '@fiction/core/plugin-email/img/fiction-icon.png'
+import type { EmailSendConfig } from '../schema.js'
 
 const props = defineProps({
-  modelValue: { type: Array as vue.PropType<User[]>, default: () => [] },
+  modelValue: { type: Object as vue.PropType<EmailSendConfig>, default: undefined },
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
 const emit = defineEmits<{
-  (event: 'update:modelValue', payload: User[]): void
+  (event: 'update:modelValue', payload: EmailSendConfig): void
 }>()
 
-const email = vue.ref('')
+const service = useService()
 
-vue.onMounted(async () => {
-  // subject: { type: String, default: undefined },
-  // heading: { type: String, default: undefined },
-  // subHeading: { type: String, default: undefined },
-  // markdown: { type: String, default: undefined },
-  // preview: { type: String, default: undefined },
-  // actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
-  // unsubscribeLink: { type: String, default: undefined },
-  // mediaSuper: { type: Object as vue.PropType<MediaItem>, default: undefined },
-  // mediaFooter: { type: Object as vue.PropType<MediaItem>, default: undefined },
+const emailHtml = vue.ref('')
+
+async function setEmail(email?: EmailSendConfig) {
+  if (!email) {
+    emailHtml.value = ''
+    return
+  }
+
+  const user = service.fictionUser.activeUser.value
+  const org = service.fictionUser.activeOrganization.value
 
   const confirmEmail: TransactionalEmailConfig = {
-    subject: 'Confirm your email address',
-    heading: 'Welcome to Fiction',
-    subHeading: 'Please confirm your email address',
-    // bodyMarkdown: 'Please confirm your email address by clicking the button below.',
-    bodyMarkdown: toMarkdown(sampleHtml),
+    subject: email.subject,
+    heading: email.post?.title || 'No Title',
+    subHeading: email.post?.subTitle || 'No Subtitle',
+    bodyMarkdown: toMarkdown(email.post?.content || 'No content'),
     actions: [
       {
         btn: 'primary',
@@ -56,24 +54,32 @@ vue.onMounted(async () => {
       },
     ],
     mediaSuper: {
-      media: { url: FictionIconImg },
-      name: 'Fiction',
+      media: { url: org?.avatar?.url || FictionIconImg },
+      name: org?.orgName,
       href: 'https://www.fiction.com',
     },
     mediaFooter: {
       media: { url: FictionFooterImg },
-      name: 'Personal Marketing with Fiction',
+      name: 'Powered by Fiction',
       href: 'https://www.fiction.com',
     },
+    unsubscribeUrl: '#',
+    darkMode: true,
   }
 
   const r = await useRender(EmailStandard, {
     props: confirmEmail,
   })
-  email.value = r.html
+  emailHtml.value = r.html
+}
+
+vue.onMounted(async () => {
+  await setEmail(props.modelValue)
+
+  vue.watch(() => props.modelValue, v => setEmail(v))
 })
 </script>
 
 <template>
-  <iframe class="h-[800px] w-full" :srcdoc="email" />
+  <iframe class="h-[800px] w-full" :srcdoc="emailHtml" />
 </template>

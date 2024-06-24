@@ -41,6 +41,6 @@ export class FictionAnalytics extends FictionPlugin<FictionAnalyticsSettings> {
   }
 
   async runBeacon() {
-    await this.fictionBeacon?.createBeaconServer()
+    await this.fictionBeacon?.init()
   }
 }

@@ -106,7 +106,7 @@ vue.onMounted(async () => {
     <div
       v-for="(item, i) in keyedModelValue"
       :key="i"
-      class="rounded-md border border-theme-300 dark:border-theme-600 mb-2 shadow-sm bg-theme-0 dark:bg-theme-700 cursor-pointer text-theme-700 dark:text-theme-100"
+      class="rounded-md border border-theme-300 dark:border-theme-600 mb-2 shadow-sm bg-theme-0 dark:bg-theme-800 cursor-pointer text-theme-700 dark:text-theme-100"
       :data-drag-id="item._key"
       :data-drag-depth="depth"
     >
@@ -129,6 +129,7 @@ vue.onMounted(async () => {
           <div class="py-4 px-2 space-y-3">
             <div v-for="(opt, ii) in options" :key="ii">
               <ElInput
+                v-if="opt.isHidden.value !== true"
                 :input-class="inputClass"
                 class="setting-input"
                 v-bind="opt.outputProps.value"

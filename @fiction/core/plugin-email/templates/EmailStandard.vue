@@ -17,6 +17,7 @@ const props = defineProps({
   unsubscribeUrl: { type: String, default: undefined },
   mediaSuper: { type: Object as PropType<MediaItem>, default: undefined },
   mediaFooter: { type: Object as PropType<MediaItem>, default: undefined },
+  darkMode: { type: Boolean, default: false },
 })
 
 const fontStack = '-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji"'
@@ -60,7 +61,7 @@ const blue = {
 
 const tailwindConfig: TailwindConfig = {
   content: [],
-  darkMode: 'class',
+  darkMode: 'media',
   plugins: [],
   theme: {
     extend: {
@@ -78,8 +79,8 @@ const previewText = computed(() => {
 function getButtonClass(item: ActionItem): string {
   const buttonStyles = {
     primary: 'dark:bg-blue-600 bg-blue-600 text-white',
-    default: 'dark:bg-gray-700 bg-gray-100 text-gray-700',
-    naked: 'bg-transparent text-gray-900 hover:text-gray-600',
+    default: 'dark:bg-gray-700 bg-gray-100 text-gray-700 dark:text-white dark:hover:text-gray-200',
+    naked: 'bg-transparent text-gray-900 dark:text-white hover:text-gray-600 dark:hover:text-gray-200',
   }
 
   const sizeStyles = {
@@ -171,7 +172,7 @@ const markdownStyles = {
         <EPreview v-if="previewText">
           {{ previewText }}
         </EPreview>
-        <EBody :style="{ fontFamily: fontStack }" class="dark:bg-gray-900 bg-white dark:text-white text-gray-900">
+        <EBody :class="darkMode ? 'dark' : ''" :style="{ fontFamily: fontStack }" class="dark:bg-gray-900 bg-white dark:text-white text-gray-900">
           <EContainer class="py-8 px-4 max-w-[600px]">
             <ESection v-if="mediaSuper" class="mb-6">
               <EColumn v-if="mediaSuper.media?.url" class="w-[22px]">
@@ -220,8 +221,8 @@ const markdownStyles = {
                   </EText>
                 </template>
               </EColumn>
-              <EColumn class="w-[35%] text-right text-gray-400 align-top text-xs">
-                <ELink v-if="unsubscribeUrl" :href="unsubscribeUrl" class="text-gray-300 text-normal">
+              <EColumn class="w-[35%] text-right text-gray-400 dark:text-gray-600 align-top text-xs">
+                <ELink v-if="unsubscribeUrl" :href="unsubscribeUrl" class="text-gray-300 dark:text-gray-500 text-normal">
                   Unsubscribe
                 </ELink>
               </EColumn>

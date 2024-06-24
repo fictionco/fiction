@@ -75,6 +75,16 @@ export type EndpointMap<T extends Record<string, Query>> = {
 export type EndpointSettings<T extends Query = Query> = EndpointOptions &
   EndpointMethodOptions<T>
 
+export type RequestOptions = {
+  useRouteParams?: boolean
+  userOptional?: boolean
+  axiosRequestConfig?: axios.AxiosRequestConfig
+  debug?: boolean
+  minTime?: number
+  disableNotify?: boolean
+  disableUserUpdate?: boolean
+} & RequestMeta
+
 export class Endpoint<T extends Query = Query, U extends string = string> {
   readonly serverUrl: EndpointServerUrl
   readonly basePath: string
@@ -304,7 +314,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
    */
   public projectRequest(
     params: DistributiveOmit< Parameters<this['request']>[0], 'orgId' | 'userId'>,
-    opts?: { useRouteParams?: boolean, debug?: boolean, minTime?: number, userOptional?: boolean },
+    opts?: RequestOptions,
   ): ReturnType<this['request']> {
     const { userOptional, useRouteParams, minTime, debug } = opts || {}
 

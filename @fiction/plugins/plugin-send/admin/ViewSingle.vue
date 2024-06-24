@@ -5,10 +5,11 @@ import ViewEditor from '@fiction/admin/ViewEditor.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import XText from '@fiction/ui/common/XText.vue'
 import ElPostEditor from '@fiction/posts/el/ElPostEditor.vue'
+import ElActions from '@fiction/ui/buttons/ElActions.vue'
 import type { FictionSend } from '../index.js'
 import { loadEmail } from '../utils.js'
 import type { Email } from '../email.js'
-import { postEditController } from './tools'
+import { emailComposeController } from './tools'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
@@ -19,6 +20,15 @@ const { fictionSend, fictionRouter } = useService<{ fictionSend: FictionSend }>(
 const loading = vue.ref(true)
 const sending = vue.ref()
 const email = vue.shallowRef<Email>()
+
+const manageLink = vue.computed(() => {
+  const emailId = email.value?.emailId
+
+  if (!emailId)
+    return props.card.link('/send')
+
+  return props.card.link({ path: '/email-manage', query: { emailId } })
+})
 async function publish() {
   if (!email.value)
     return
@@ -31,30 +41,38 @@ async function publish() {
 
   sending.value = ''
 
-  await props.card.goto({ path: '/email-manage', query: { emailId: email.value.emailId } }, { caller: 'send' })
+  // await props.card.goto(manageLink.value, { caller: 'send' })
 }
 
 vue.onMounted(async () => {
   email.value = await loadEmail({ fictionSend })
   loading.value = false
 })
+
+const actions = vue.computed(() => {
+  return email.value?.userConfig.value.actions || []
+})
 </script>
 
 <template>
   <div>
-    <ViewEditor :tool-props="{ card, email }" :controller="postEditController" :loading>
+    <ViewEditor :tool-props="{ card, email }" :controller="emailComposeController" :loading>
       <template #headerLeft>
         <div class="flex space-x-2 items-center">
-          <ElButton btn="default" :href="card.link('/')" class="shrink-0" icon="i-tabler-home" />
-          <ElButton btn="default" :href="card.link('/send')" class="shrink-0" icon="i-tabler-arrow-left" />
+          <ElButton btn="default" size="sm" :href="card.link('/')" class="shrink-0" icon="i-tabler-home">
+            Home
+          </ElButton>
+          <ElButton btn="default" size="sm" :href="manageLink" class="shrink-0" icon="i-tabler-arrow-left">
+            Manage
+          </ElButton>
         </div>
         <div v-if="email" class="flex space-x-1 font-medium">
           <RouterLink
-            class=" whitespace-nowrap text-theme-400 dark:text-theme-300  pr-1 hover:text-primary-500 dark:hover:text-theme-0 flex items-center gap-1"
+            class=" whitespace-nowrap text-theme-400 dark:text-theme-300  pr-1 hover:text-primary-500 dark:hover:text-theme-0 flex items-center gap-1.5"
             :to="card.link('/send')"
           >
-            <span class="i-tabler-pin text-xl inline-block dark:text-theme-500" />
-            <span>Edit Email</span>
+            <span class="i-tabler-mail text-xl inline-block dark:text-theme-500" />
+            <span>Compose Email</span>
             <span class="i-tabler-slash text-xl dark:text-theme-500" />
           </RouterLink>
           <XText :model-value="email?.title.value" class="whitespace-nowrap" :is-editable="true" @update:model-value="email && (email.title.value = $event)" />
@@ -70,16 +88,21 @@ vue.onMounted(async () => {
         <ElButton
           btn="primary"
           class="min-w-36"
-          icon-after="i-tabler-arrow-big-right-lines"
           size="md"
           @click.stop.prevent="publish()"
         >
-          Continue
+          Save
         </ElButton>
       </template>
       <template #default>
         <div v-if="email?.post.value">
-          <ElPostEditor :post="email.post.value" :card="card" />
+          <ElPostEditor :post="email.post.value" :card="card">
+            <template #footer>
+              <div v-if="actions.length" class="mt-12 pt-12 border-t border-theme-200 dark:border-theme-700">
+                <ElActions :actions="actions" ui-size="lg" />
+              </div>
+            </template>
+          </ElPostEditor>
         </div>
       </template>
     </ViewEditor>

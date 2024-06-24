@@ -28,8 +28,10 @@ export function siteLink(args: { site?: Site, location: vueRouter.RouteLocationR
   }
 
   const matchedRoute = router.currentRoute.value.matched[0]
-  if (!matchedRoute)
+  if (!matchedRoute) {
+    site.fictionSites.log.error('no matched current route', { data: { matched: router.currentRoute.value } })
     throw new Error('Card.link - No matched current route')
+  }
 
   const prefix = matchedRoute.path.match(/.*?(?=\/:viewId|$)/)?.[0] || ''
   const resolvedHref = router.resolve(location).href
@@ -39,12 +41,31 @@ export function siteLink(args: { site?: Site, location: vueRouter.RouteLocationR
   return finalHref.replace(/([^:]\/)\/+/g, '$1')
 }
 
-export function siteGoto(args: { site?: Site, location: vueRouter.RouteLocationRaw, options: { replace?: boolean, caller?: string } }) {
-  const { site, location, options: { replace, caller = 'site:goto' } } = args
-  const method = replace ? 'replace' : 'push'
+export async function siteGoto(args: { site?: Site, location: vueRouter.RouteLocationRaw, options: { replace?: boolean, caller?: string, retainQueryVars?: boolean } }) {
+  const { site, location, options: { replace, caller = 'site:goto', retainQueryVars = false } } = args
 
   if (!site)
     return
 
-  return site.siteRouter[method](siteLink({ site, location }), { caller })
+  const router = site.siteRouter
+  const method = replace ? 'replace' : 'push'
+
+  const currentQuery = (router.query.value || {}) as Record<string, string >
+  const targetHref = siteLink({ site, location })
+  const url = new URL(targetHref, 'http://dummybase.com')
+  const sp = url.searchParams
+
+  if (retainQueryVars) {
+    Object.keys(currentQuery).forEach((key) => {
+      if (!sp.has(key)) {
+        sp.set(key, currentQuery[key])
+      }
+    })
+  }
+
+  const finalPath = url.pathname + url.search + url.hash
+
+  const result = await site.siteRouter[method](finalPath, { caller })
+
+  return result
 }

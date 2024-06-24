@@ -6,8 +6,7 @@ import type { FictionAdmin } from '@fiction/admin'
 import type { FictionPosts } from '@fiction/posts'
 import type { ExtensionManifest } from '../plugin-extend'
 import { ManageSend } from './endpoint'
-import { tables } from './schema.js'
-import type { Email } from './email'
+import { sendTable } from './schema.js'
 
 export type FictionSendSettings = {
   fictionDb: FictionDb
@@ -31,7 +30,7 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
   constructor(settings: FictionSendSettings) {
     super('FictionSend', { root: safeDirname(import.meta.url), ...settings })
 
-    this.settings.fictionDb.addTables(tables)
+    this.settings.fictionDb.addTables([sendTable])
     this.admin()
   }
 

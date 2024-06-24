@@ -49,6 +49,7 @@ describe('email send endpoint', async () => {
     expect(p?.postId).toBeTruthy()
     expect(p?.type).toBe('email')
     expect(p?.userId).toBe(userId)
+    expect(r.message).toBeTruthy()
   })
 
   it('list/get', async () => {
@@ -84,6 +85,7 @@ describe('email send endpoint', async () => {
     expect(r.data?.length).toBe(1)
     expect(r.indexMeta?.changedCount).toBe(1)
     expect(r.data?.[0].scheduledAt).toStrictEqual(d.toDate())
+    expect(r.message).toBeTruthy()
   })
 
   it('delete', async () => {
@@ -98,5 +100,6 @@ describe('email send endpoint', async () => {
     expect(r.data?.length).toBe(1)
     expect(r.indexMeta?.changedCount).toBe(1)
     expect(r.indexMeta?.count).toBe(1)
+    expect(r.message).toBeTruthy()
   })
 })

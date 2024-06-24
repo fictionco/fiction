@@ -1,4 +1,4 @@
-import type { Component, ComputedRef, Ref } from 'vue'
+import type { vue } from '../utils/libraries.js'
 import type { TableMediaConfig } from '../plugin-media'
 import type { User } from '../plugin-user'
 
@@ -98,7 +98,7 @@ export interface NavGroup {
   items: NavItem[]
 }
 
-export type Figure = { el?: Component, props?: Record<string, any> }
+export type Figure = { el?: vue.Component, props?: Record<string, any> }
 
 export type IndexItem = {
   images?: MediaDisplayObject[]
@@ -120,13 +120,13 @@ export type MenuItem = {
   name: string
   icon?: string
   href?: string
-  link?: Ref<string>
+  link?: vue.Ref<string>
 
   // @deprecated
-  route?: Ref<string> | ComputedRef<string>
+  route?: vue.Ref<string> | vue.ComputedRef<string>
   // @deprecated
-  url?: Ref<string>
-  active?: Ref<boolean> | ComputedRef<string>
+  url?: vue.Ref<string>
+  active?: vue.Ref<boolean> | vue.ComputedRef<string>
   onClick?: (evnt?: MouseEvent, item?: MenuItem) => void | Promise<void>
   priority?: number
   btn?: string

@@ -5,10 +5,14 @@ import type { EditorTool } from '@fiction/admin'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import type { Card } from '@fiction/site'
-import type { TablePostConfig } from '@fiction/posts/schema'
+
+import { InputOption } from '@fiction/ui/index.js'
+import { standardOption } from '@fiction/cards/inputSets.js'
+import { refineOptions } from '@fiction/site/utils/schema'
 import type { Email } from '../email.js'
 import type { FictionSend } from '../index.js'
-import { getEmailManageOptions } from './tools.js'
+import type { EmailSendConfig } from '../schema.js'
+import { sendTable } from '../schema.js'
 
 const props = defineProps({
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
@@ -19,12 +23,33 @@ const props = defineProps({
 const { fictionSend } = useService<{ fictionSend: FictionSend }>()
 
 const options = vue.computed(() => {
-  const email = props.email
+  const refinedOptions = refineOptions({
+    options: [standardOption.actionItems({ key: 'userConfig.actions', label: 'Action Buttons' })],
+    schema: sendTable.tableSchema(),
+  })
 
-  return getEmailManageOptions({ email, card: props.card, fictionSend })
+  return [
+    new InputOption({
+      key: 'emailContent',
+      label: 'Email Content',
+      input: 'group',
+      options: [
+
+        new InputOption({
+          key: 'post.title',
+          label: 'Title',
+          input: 'InputText',
+          placeholder: 'Title',
+          isRequired: true,
+        }),
+        new InputOption({ key: 'post.subTitle', label: 'Subtitle', input: 'InputText' }),
+        ...refinedOptions.options,
+      ],
+    }),
+  ]
 })
 
-function updatePost(config: TablePostConfig) {
+function updatePost(config: Partial<EmailSendConfig>) {
   props.email?.update(config)
 }
 </script>
@@ -36,7 +61,7 @@ function updatePost(config: TablePostConfig) {
         :model-value="email.toConfig()"
         :options="options"
         :input-props="{ email, card }"
-        @update:model-value="updatePost($event as TablePostConfig)"
+        @update:model-value="updatePost($event as Partial<EmailSendConfig>)"
       />
     </ElForm>
   </ElTool>

@@ -26,12 +26,8 @@ export function dbPrep<T>(args: {
     const { key, sch, sec = 'setting', prepare } = c
     const value = (fields as Record<string, any>)[key]
 
-    if (value !== undefined && sch) {
-      const schema = sch({ z })
-      const parsed = schema.safeParse(value)
-      if (!parsed.success)
-        throw new Error(`Validation failed for field ${key}: ${parsed.error.message}`)
-    }
+    if (value === undefined)
+      return
 
     const includeField = (
       type === 'internal'
@@ -44,7 +40,20 @@ export function dbPrep<T>(args: {
       ))
     )
 
-    if (includeField && value !== undefined) {
+    let isValid = !sch || value === null
+    if (sch && value !== null) {
+      const schema = sch({ z })
+      const parsed = schema.safeParse(value)
+      if (!parsed.success) {
+        fictionDb.log.error(`Validation failed for field ${table}:${key} - ${parsed.error.message}`, { data: { value } })
+        isValid = false
+      }
+      else {
+        isValid = true
+      }
+    }
+
+    if (includeField && isValid) {
       (out as Record<string, any>)[key] = value !== null && prepare ? prepare({ value, key }) : value
     }
   })

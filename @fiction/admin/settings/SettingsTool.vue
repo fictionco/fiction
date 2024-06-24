@@ -51,6 +51,12 @@ const actions = vue.computed(() => {
 const title = vue.computed(() => {
   return [props.titlePrefix, currentPanel.value?.title.value || ''].filter(Boolean).join(' - ')
 })
+
+async function navigate(v: NavItem) {
+  if (v.href) {
+    await props.card.goto(v.href, { retainQueryVars: true, replace: true })
+  }
+}
 </script>
 
 <template>
@@ -76,6 +82,7 @@ const title = vue.computed(() => {
                 v.isActive
                   ? 'active font-bold bg-primary-100/50 text-primary-700 hover:text-primary-500 dark:bg-theme-600/50 dark:text-theme-0'
                   : 'inactive font-medium text-theme-600 dark:text-theme-0 hover:bg-theme-100/30 dark:hover:bg-theme-700/60' "
+              @click.prevent="navigate(v)"
             >
               <div v-if="v.icon" class="text-[1.4em] shrink-0 opacity-80" :class="v.icon" />
               <div class="min-w-0 truncate overflow-ellipsis">

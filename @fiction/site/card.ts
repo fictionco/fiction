@@ -158,7 +158,7 @@ export class Card<
     return siteLink({ site: this.site, location })
   }
 
-  async goto(location: vueRouter.RouteLocationRaw, options: { replace?: boolean, caller?: string } = { }) {
+  async goto(location: vueRouter.RouteLocationRaw, options: Partial<Parameters<typeof siteGoto>[0]['options']> = { }) {
     return siteGoto({ site: this.site, location, options })
   }
 

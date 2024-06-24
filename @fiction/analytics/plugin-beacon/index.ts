@@ -56,7 +56,8 @@ export class FictionBeacon extends FictionPlugin<FictionBeaconSettings> {
    * Run both endpoint and event stream manager
    * Should restart servers/subs if run multiple times
    */
-  async dev() {
+  async init() {
+    this.sessionManager?.init()
     await this.createBeaconServer()
   }
 

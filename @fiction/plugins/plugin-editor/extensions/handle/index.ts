@@ -230,6 +230,10 @@ function DragHandle(options: GlobalDragHandleOptions) {
     hideDragHandle()
   })
 
+  window.addEventListener('scroll', () => {
+    hideDragHandle()
+  })
+
   return new Plugin({
 
     view: (view) => {

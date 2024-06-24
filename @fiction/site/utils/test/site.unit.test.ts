@@ -3,13 +3,56 @@
  */
 
 import { describe, expect, it } from 'vitest'
-import { shortId } from '@fiction/core'
+import { AppRoute, shortId } from '@fiction/core'
+import FSite from '@fiction/cards/CardSite.vue'
 import { requestManageSite } from '../../load.js'
 import type { EditorState } from '../../site.js'
 import { Site } from '../../site.js'
 import { createSiteTestUtils } from '../../test/testUtils.js'
 import { activeSiteHostname, saveSite, updateSite } from '../site.js'
 import { setPages, updatePages } from '../page.js'
+import { siteGoto, siteLink } from '../manage.js'
+
+describe('siteLink / siteGoto', async () => {
+  const testUtils = await createSiteTestUtils()
+  const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
+
+  testUtils.fictionRouterSites.update([new AppRoute({ name: 'tester', path: '/test/:viewId?/:itemId?', component: FSite })])
+
+  it('returns correct link when site and router are provided', async () => {
+    await testUtils.fictionRouterSites.push({ path: '/test/whatever' }, { caller: 'test' })
+    const site = new Site({ ...common, themeId: 'test' })
+    const location = { path: '/somepath' }
+    const result = siteLink({ site, location })
+    expect(result).toBe('/test/somepath')
+  })
+
+  it('calls push with merged query variables when retainQueryVars is changed', async () => {
+    await testUtils.fictionRouterSites.push({ path: '/test/whatever', query: { init: 1 } }, { caller: 'test' })
+    const site = new Site({ ...common, themeId: 'test' })
+    const location = { path: '/some-path', query: { additional: 'info' } }
+
+    await siteGoto({ site, location, options: { retainQueryVars: true } })
+
+    const cur = () => testUtils.fictionRouterSites.current.value
+
+    expect(cur().path).toBe('/test/some-path')
+
+    expect(cur().query).toMatchObject({ init: '1', additional: 'info' })
+
+    await siteGoto({ site, location: { path: '/another', query: { solo: 1 } }, options: { retainQueryVars: false } })
+
+    expect(cur().path).toBe('/test/another')
+
+    expect(cur().query).toMatchObject({ solo: '1' })
+
+    await siteGoto({ site, location: '/yet-another?test=42', options: { retainQueryVars: true } })
+
+    expect(cur().path).toBe('/test/yet-another')
+
+    expect(cur().query).toMatchObject({ solo: '1', test: '42' })
+  })
+})
 
 describe('query var', async () => {
   const testUtils = await createSiteTestUtils()

@@ -13,8 +13,9 @@ export function newOrgOptions(args: { title: string, actionsRef?: vue.Ref<Action
 
     const options: InputOption[] = [
       new InputOption({ key: 'orgName', label: 'Publication Name', input: 'InputText', placeholder: 'Publication Name', isRequired: true }),
-      new InputOption({ key: 'orgEmail', label: 'Contact and Billing Email', description: 'Used for billing.', input: 'InputEmail', isRequired: true }),
+      new InputOption({ key: 'orgEmail', label: 'Contact Email', description: 'Used for billing.', input: 'InputEmail', isRequired: true }),
       new InputOption({ key: 'avatar', label: 'Publication Avatar', input: 'InputMediaUpload', subLabel: 'Upload a square image or it will be cropped' }),
+      new InputOption({ key: 'url', label: 'Primary URL', input: 'InputUrl' }),
     ]
 
     if (actions.length) {

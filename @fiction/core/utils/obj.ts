@@ -83,7 +83,7 @@ export function setNested<T extends Record<string, any> = Record<string, any>>(a
 }): T {
   const { data = {}, path, value, isMerge } = args
 
-  if (!path)
+  if (!path || path === '*')
     return (value ?? data) as T
 
   const clone = JSON.parse(JSON.stringify(data)) as Record<string, any>
@@ -116,7 +116,7 @@ export function getNested<T = unknown>(args: {
 }): T {
   const { data = {}, path } = args
 
-  if (!path)
+  if (!path || path === '*')
     return data as T
 
   const clone = JSON.parse(JSON.stringify(data)) as Record<string, any>

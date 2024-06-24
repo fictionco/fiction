@@ -103,9 +103,19 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
   }
 
   getCache(): Redis | undefined {
-    if (!this.primaryCache && !this.fictionEnv?.isApp.value) {
-      this.log.error('no primary cache', { data: { initialized: this.initialized, connectionUrl: this.connectionUrl } })
+    if (this.fictionEnv?.isApp.value) {
+      this.log.error('dont use cache in app')
       return
+    }
+
+    if (!this.primaryCache) {
+      if (!this.initialized) {
+        this.init()
+      }
+      else {
+        this.log.error('no primary cache', { data: { initialized: this.initialized, connectionUrl: this.connectionUrl } })
+        return
+      }
     }
     return this.primaryCache
   }

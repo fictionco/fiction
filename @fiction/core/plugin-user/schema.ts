@@ -239,6 +239,12 @@ export const orgColumns = [
     default: () => '' as string,
   }),
   new FictionDbCol({
+    key: 'url',
+    create: ({ schema, column }) => schema.string(column.pgKey),
+    isSetting: true,
+    default: () => '' as string,
+  }),
+  new FictionDbCol({
     key: 'orgStatus',
     create: ({ schema, column }) => schema.string(column.pgKey).notNullable().defaultTo('active'),
     default: () => 'active' as 'active' | 'inactive',

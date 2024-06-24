@@ -41,13 +41,17 @@ function addFromId(userId: string) {
   if (!user)
     return
 
+  if (props.modelValue.find(t => t.userId === user.userId))
+    return
+
   emit('update:modelValue', [...props.modelValue, user])
 }
 
 const renderList = vue.computed(() => {
+  const v = props.modelValue
   // Normalize the search text by converting to lower case and removing all whitespace
   const s = search.value?.toLowerCase().replace(/\s+/g, '')
-  const li = list.value
+  const li = list.value.filter(l => !v.find(t => t.userId === l.value))
   return !s
     ? li
     : li.filter((item) => {
@@ -85,7 +89,7 @@ vue.onMounted(async () => {
     />
     <div class="flex justify-start gap-2">
       <ElButton class="shrink-0" size="xs" btn="default" :href="card.link('/team')">
-        Add New
+        Add to Team &rarr;
       </ElButton>
     </div>
   </div>

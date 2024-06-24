@@ -118,7 +118,7 @@ export class ManageSend extends SendEndpoint {
 
     const data = await Promise.all(promises)
 
-    return { status: 'success', data, indexMeta: { changedCount: fields.length } }
+    return { status: 'success', message: 'created successfully', data, indexMeta: { changedCount: fields.length } }
   }
 
   private async list(params: ManageEmailSendParams & { _action: 'list' }, _meta: EndpointMeta): Promise<ManageSendResponse> {
@@ -146,6 +146,8 @@ export class ManageSend extends SendEndpoint {
 
     const prepped = this.settings.fictionDb.prep({ type: 'update', fields, meta, table: t.send })
 
+    this.log.info('updating email', { data: { fields, prepped } })
+
     const promises = where.map(async (w) => {
       const result = await this.db().table(t.send).where({ orgId, ...w }).update({ ...prepped, updatedAt: new Date().toISOString() }).limit(1).returning<EmailSendConfig[]>('*')
       const row = result[0]
@@ -165,7 +167,7 @@ export class ManageSend extends SendEndpoint {
 
     const data = (await Promise.all(promises)).filter(Boolean)
 
-    return { status: 'success', data, indexMeta: { changedCount: data.length } }
+    return { status: 'success', data, indexMeta: { changedCount: data.length }, message: 'Updated Successfully' }
   }
 
   private async delete(params: ManageEmailSendParams & { _action: 'delete' }, _meta: EndpointMeta): Promise<ManageSendResponse> {

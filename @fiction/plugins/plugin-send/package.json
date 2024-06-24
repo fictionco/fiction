@@ -8,7 +8,8 @@
     "@fiction/plugin-editor": "workspace:*",
     "@fiction/posts": "workspace:*",
     "@fiction/plugin-transactions": "workspace:*",
-    "cron": "^3.1.7"
+    "cron": "^3.1.7",
+    "vue": "^3.4.29"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "license": "MIT",

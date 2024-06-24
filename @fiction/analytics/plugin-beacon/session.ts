@@ -30,10 +30,9 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
 
   constructor(settings: FictionBeaconSettings) {
     super('SessionManager', settings)
-    this.runExpiryCheck()
   }
 
-  runExpiryCheck() {
+  init() {
     if (this.fictionEnv.isApp.value)
       return
 
@@ -312,6 +311,9 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
   }
 
   checkForExpiredSessions = async (): Promise<string[]> => {
+    if (this.fictionEnv.isApp.value)
+      return []
+
     const cache = this.cache()
     if (!cache)
       throw new Error('no cache')

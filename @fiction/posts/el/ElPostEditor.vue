@@ -44,6 +44,9 @@ defineProps({
         class="font-serif"
         @update:model-value="post?.update({ content: $event as string })"
       />
+      <div v-if="$slots.footer" class="not-prose">
+        <slot name="footer" />
+      </div>
     </div>
   </div>
 </template>

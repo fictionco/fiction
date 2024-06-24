@@ -1,10 +1,12 @@
 import type { Knex } from 'knex'
 import type { ZodSchema } from 'zod'
 import { z } from 'zod'
+import { vue } from '../utils/libraries.js'
 import { toSnakeCase } from '../utils/index.js'
 import type { LogHelper } from '../plugin-log/index.js'
 import { log } from '../plugin-log/index.js'
 import { FictionObject } from '../plugin.js'
+import { Obj } from '../obj.js'
 
 type PrepareForStorage<T extends ColDefaultValue = ColDefaultValue> = (args: { value: T, key: string, db?: Knex }) => unknown
 
@@ -116,6 +118,15 @@ export class FictionDbTable {
     this.cols = this.addStandardCols((params.cols || []) as Col[])
     this.dependsOn = params.dependsOn ?? []
     this.uniqueOn = params.uniqueOn ?? []
+  }
+
+  settingsKeys() {
+    return [...this.cols.filter(c => c.sec === 'setting').map(c => c.key), 'updatedAt']
+  }
+
+  tableSchema() {
+    const o = Object.fromEntries(this.cols.map(c => [c.key, c.sch({ z })]))
+    return z.object(o).partial()
   }
 
   addStandardCols(cols: Col[] = []) {

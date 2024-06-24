@@ -1,4 +1,4 @@
-import type { vue } from '@fiction/core'
+import type { RequestOptions } from '@fiction/core'
 import type { ManageEmailSendActionParams, ManageEmailSendParams } from './endpoint'
 import type { EmailSendConfig } from './schema.js'
 import { Email } from './email'
@@ -11,11 +11,11 @@ export async function manageEmails(args: { fictionSend: FictionSend, params: Man
   return r.data || []
 }
 
-export async function manageEmailSend(args: { fictionSend: FictionSend, params: ManageEmailSendActionParams }) {
-  const { fictionSend, params } = args
+export async function manageEmailSend(args: { fictionSend: FictionSend, params: ManageEmailSendActionParams, options?: RequestOptions }) {
+  const { fictionSend, params, options = {} } = args
   const fictionPosts = fictionSend.settings.fictionPosts
 
-  const r = await fictionSend.requests.ManageSend.projectRequest(params)
+  const r = await fictionSend.requests.ManageSend.projectRequest(params, options)
 
   return r.data?.map(emailConfig => new Email({ ...emailConfig, fictionSend, fictionPosts })) || []
 }

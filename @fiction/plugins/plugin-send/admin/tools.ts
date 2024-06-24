@@ -15,8 +15,16 @@ import InputEmailPreview from './InputEmailPreview.vue'
 
 export const tools = [
   {
+    toolId: 'emailPreview',
+    title: 'Compose Email',
+    icon: 'i-tabler-eye',
+    location: 'primary',
+    isPrimary: true,
+    el: vue.defineAsyncComponent(() => import('./SidebarEmailEditor.vue')),
+  },
+  {
     toolId: 'emailSettings',
-    title: 'Email Settings',
+    title: 'Compose Email',
     icon: 'i-tabler-mail',
     location: 'context',
     isDefault: true,
@@ -29,7 +37,7 @@ export const tools = [
 
 export type ToolKeys = (typeof tools)[number]['toolId']
 
-export const postEditController = new AdminEditorController({ tools })
+export const emailComposeController = new AdminEditorController({ tools })
 
 export function getEmailManageOptions(args: { fictionSend: FictionSend, email?: Email, card: Card }) {
   const { email, card } = args
@@ -158,7 +166,7 @@ export function getTools(args: { fictionSend: FictionSend, card: Card }) {
     new SettingsTool({
       slug: 'view',
       title: 'Settings',
-      userConfig: { isNavItem: true, navIcon: 'i-tabler-user', navIconAlt: 'i-tabler-user' },
+      userConfig: { isNavItem: true, navIcon: 'i-tabler-mail-cog', navIconAlt: 'i-tabler-mail-cog' },
       val,
       getActions: (args) => {
         return vue.computed(() => {
@@ -172,7 +180,7 @@ export function getTools(args: { fictionSend: FictionSend, card: Card }) {
 
               const emailId = fields?.emailId
 
-              await manageEmailSend({ fictionSend, params: { _action: 'update', where: [{ emailId }], fields } })
+              await manageEmailSend({ fictionSend, params: { _action: 'update', where: [{ emailId }], fields }, options: { minTime: 1000 } })
 
               loading.value = false
             },
@@ -189,16 +197,12 @@ export function getTools(args: { fictionSend: FictionSend, card: Card }) {
     new SettingsTool({
       slug: 'preview',
       title: vue.computed(() => `Preview`),
-      userConfig: { isNavItem: true, navIcon: 'i-tabler-user', navIconAlt: 'i-tabler-user' },
+      userConfig: { isNavItem: true, navIcon: 'i-tabler-eye', navIconAlt: 'i-tabler-eye' },
       val,
       options: (_args) => {
         return vue.computed(() => {
           return [
-            new InputOption({
-              key: 'audience',
-              label: 'Audience',
-              input: InputEmailPreview,
-            }),
+            new InputOption({ key: '*', label: 'Email Preview', input: InputEmailPreview }),
           ]
         })
       },
