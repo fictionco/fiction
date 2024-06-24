@@ -12,7 +12,7 @@ export const standardOption = {
   href: (_: OptArgs = {}) => new InputOption({ key: 'href', label: 'Link / Route', input: 'InputText', ..._ }),
   target: (_: OptArgs = {}) => new InputOption({ key: 'target', label: 'Target', input: 'InputSelect', list: [{ name: 'Normal', value: '_self' }, { name: 'New Window', value: '_blank' }], ..._ }),
   size: (_: OptArgs = {}) => new InputOption({ key: 'size', label: 'Size', input: 'InputSelect', list: ['default', '2xl', 'xl', 'lg', 'md', 'sm', 'xs'], ..._ }),
-  btn: (_: OptArgs = {}) => new InputOption({ key: 'btn', label: 'Type', input: 'InputSelect', list: ['primary', 'default', 'theme', 'danger', 'caution', 'success', 'naked'], ..._ }),
+  btn: (_: OptArgs = {}) => new InputOption({ key: 'btn', label: 'Type', input: 'InputSelect', list: ['primary', 'default', 'naked'], ..._ }),
   heading: (_: OptArgs = {}) => new InputOption({
     key: 'heading',
     label: 'Heading',

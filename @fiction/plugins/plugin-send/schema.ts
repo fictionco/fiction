@@ -26,7 +26,7 @@ export type TableEmailSend = ColType<typeof sendColumns>
 export type EmailSendConfig = Partial<TableEmailSend> & { post?: TablePostConfig }
 
 const EmailUserConfigSchema = z.object({
-  actions: z.array(z.object({ name: z.string(), href: z.string(), btn: z.string() })).optional() as z.Schema<ActionItem[] | undefined>,
+  actions: z.array(z.object({ name: z.string().optional(), href: z.string().optional(), btn: z.string() as z.Schema<'default' | 'primary'> })).optional(),
 })
 
 export const sendColumns = [

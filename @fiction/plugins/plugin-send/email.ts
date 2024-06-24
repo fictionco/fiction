@@ -52,12 +52,12 @@ export class Email extends FictionObject<PostConfig> {
   async save() {
     const fields = this.toConfig()
 
-    await this.settings.fictionSend.requests.ManageSend.projectRequest({ _action: 'update', fields, where: [{ emailId: this.emailId }] })
+    await this.settings.fictionSend.requests.ManageSend.projectRequest({ _action: 'update', fields, where: [{ emailId: this.emailId }] }, { minTime: 500 })
   }
 
   async delete() {
     this.log.info('Deleting Send')
-    await this.settings.fictionSend.requests.ManageSend.projectRequest({ _action: 'delete', where: [{ emailId: this.emailId }] })
+    await this.settings.fictionSend.requests.ManageSend.projectRequest({ _action: 'delete', where: [{ emailId: this.emailId }] }, { minTime: 500 })
     this.settings.fictionSend.cacheKey.value++
   }
 

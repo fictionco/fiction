@@ -1059,6 +1059,9 @@ importers:
       cron:
         specifier: ^3.1.7
         version: 3.1.7
+      vue:
+        specifier: ^3.4.29
+        version: 3.4.29(typescript@5.5.2)
 
   '@fiction/plugins/plugin-stripe':
     dependencies:

@@ -34,9 +34,6 @@ async function publish() {
     return
   sending.value = 'publish'
 
-  // min 1 second for UX reasons
-  await waitFor(500)
-
   await email.value.save()
 
   sending.value = ''
@@ -89,6 +86,7 @@ const actions = vue.computed(() => {
           btn="primary"
           class="min-w-36"
           size="md"
+          :loading="!!sending"
           @click.stop.prevent="publish()"
         >
           Save
@@ -99,7 +97,7 @@ const actions = vue.computed(() => {
           <ElPostEditor :post="email.post.value" :card="card">
             <template #footer>
               <div v-if="actions.length" class="mt-12 pt-12 border-t border-theme-200 dark:border-theme-700">
-                <ElActions :actions="actions" ui-size="lg" />
+                <ElActions :actions="actions" ui-size="lg" class="flex gap-4" />
               </div>
             </template>
           </ElPostEditor>

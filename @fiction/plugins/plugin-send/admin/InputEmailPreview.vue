@@ -36,32 +36,21 @@ async function setEmail(email?: EmailSendConfig) {
     heading: email.post?.title || 'No Title',
     subHeading: email.post?.subTitle || 'No Subtitle',
     bodyMarkdown: toMarkdown(email.post?.content || 'No content'),
-    actions: [
-      {
-        btn: 'primary',
-        name: `Confirm email address &#x2192;`,
-        href: '#',
-      },
-      {
-        btn: 'default',
-        name: `test`,
-        href: '#',
-      },
-      {
-        btn: 'naked',
-        name: `Test`,
-        href: '#',
-      },
-    ],
+    actions: email.userConfig?.actions || [],
     mediaSuper: {
       media: { url: org?.avatar?.url || FictionIconImg },
       name: org?.orgName,
-      href: 'https://www.fiction.com',
+      href: org?.url,
     },
     mediaFooter: {
       media: { url: FictionFooterImg },
       name: 'Powered by Fiction',
       href: 'https://www.fiction.com',
+    },
+    legal: {
+      name: org?.orgName,
+      href: org?.url,
+      desc: org?.address || '',
     },
     unsubscribeUrl: '#',
     darkMode: true,

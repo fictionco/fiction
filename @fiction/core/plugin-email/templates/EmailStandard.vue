@@ -17,6 +17,7 @@ const props = defineProps({
   unsubscribeUrl: { type: String, default: undefined },
   mediaSuper: { type: Object as PropType<MediaItem>, default: undefined },
   mediaFooter: { type: Object as PropType<MediaItem>, default: undefined },
+  legal: { type: Object as PropType<MediaItem>, default: undefined },
   darkMode: { type: Boolean, default: false },
 })
 
@@ -93,7 +94,7 @@ function getButtonClass(item: ActionItem): string {
   }
   const btn = item.btn || 'default'
   const size = item.size || 'md'
-  const typeClass = buttonStyles[btn as keyof typeof buttonStyles] || ''
+  const typeClass = buttonStyles[btn as keyof typeof buttonStyles] || buttonStyles.default
   const sizeClass = sizeStyles[size] || ''
   return `${typeClass} ${sizeClass}`.trim()
 }
@@ -172,7 +173,7 @@ const markdownStyles = {
         <EPreview v-if="previewText">
           {{ previewText }}
         </EPreview>
-        <EBody :class="darkMode ? 'dark' : ''" :style="{ fontFamily: fontStack }" class="dark:bg-gray-900 bg-white dark:text-white text-gray-900">
+        <EBody :style="{ fontFamily: fontStack }" class="dark:bg-gray-900 bg-white dark:text-white text-gray-900">
           <EContainer class="py-8 px-4 max-w-[600px]">
             <ESection v-if="mediaSuper" class="mb-6">
               <EColumn v-if="mediaSuper.media?.url" class="w-[22px]">
@@ -215,14 +216,22 @@ const markdownStyles = {
                 <template v-if="mediaFooter">
                   <EImg v-if="mediaFooter.media?.url" width="80" :src="mediaFooter.media?.url" :alt="mediaFooter.name " />
                   <EText>
-                    <ELink v-if="mediaFooter.name" class="text-normal text-gray-300 dark:text-gray-500 mt-4" :href="mediaFooter.href || '#'">
+                    <ELink v-if="mediaFooter.name" class="text-normal text-gray-300 dark:text-gray-600 mt-4" :href="mediaFooter.href || '#'">
                       {{ mediaFooter.name }} &#x2197;
                     </ELink>
                   </EText>
                 </template>
               </EColumn>
-              <EColumn class="w-[35%] text-right text-gray-400 dark:text-gray-600 align-top text-xs">
-                <ELink v-if="unsubscribeUrl" :href="unsubscribeUrl" class="text-gray-300 dark:text-gray-500 text-normal">
+              <EColumn class="w-[35%] text-right  align-top text-xs">
+                <div v-if="legal" class="text-xs mb-4 mt-0">
+                  <ELink v-if="legal.name" class="font-bold mb-1 text-gray-500 dark:text-gray-400" :href="legal.href || '#'">
+                    {{ legal?.name }}
+                  </ELink>
+                  <div v-if="legal?.desc" class="text-gray-400 dark:text-gray-600">
+                    {{ legal?.desc }}
+                  </div>
+                </div>
+                <ELink v-if="unsubscribeUrl" :href="unsubscribeUrl" class="text-gray-300 dark:text-gray-600 text-normal">
                   Unsubscribe
                 </ELink>
               </EColumn>

@@ -52,6 +52,7 @@ const hasContent = vue.computed(() => !!slots?.default?.())
     class="overflow-hidden"
     :class="[buttonClasses, animateSelected && animate ? 'animate-selected' : '']"
     :href="href"
+    :data-loading="loading"
     @click="onClick()"
   >
     <div
