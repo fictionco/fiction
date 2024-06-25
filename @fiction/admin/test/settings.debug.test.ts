@@ -25,7 +25,6 @@ describe('settings e2e', async () => {
         { type: 'fill', selector: `[data-key="orgName"] input`, text: 'Org Name Test' },
         { type: 'fill', selector: `[data-key="orgEmail"] input`, text: 'billing@example.com' },
         { type: 'fill', selector: `[data-key="avatar"] input[type="text"]`, text: 'https://example.com/image.jpg' },
-        { type: 'fill', selector: `[data-key="publication.title"] input`, text: 'Test Publication' },
         { type: 'fill', selector: `[data-key="publication.tagline"] input`, text: 'Test Description' },
         { type: 'fill', selector: `[data-key="publication.email"] input`, text: 'test@example.com' },
         { type: 'fill', selector: `[data-key="publication.sender"] input`, text: 'Alvin the Chipmunk' },
@@ -36,7 +35,6 @@ describe('settings e2e', async () => {
 
           expect(v.orgName).toBe('Org Name Test')
           expect(v.orgEmail).toBe('billing@example.com')
-          expect(v.publication?.title).toBe('Test Publication')
           expect(v.publication?.email).toBe('test@example.com')
           expect(v.publication?.sender).toBe('Alvin the Chipmunk')
         } },

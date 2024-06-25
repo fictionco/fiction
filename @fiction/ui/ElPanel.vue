@@ -28,7 +28,7 @@ defineProps({
           class="flex items-center space-x-4 px-4 py-2 justify-between"
           :class="headerClass"
         >
-          <h2 v-if="title" class="x-font-title text-lg font-semibold" v-html="title" />
+          <div><h2 v-if="title" class="x-font-title text-lg font-semibold" v-html="title" /></div>
           <div
             v-if="actions && actions.length"
             class="flex shrink-0 items-end justify-end space-x-4"
@@ -42,6 +42,7 @@ defineProps({
               :icon="action.icon"
               :icon-after="action.iconAfter"
               :href="action.href"
+              :data-test-id="action.testId"
               @click.stop="action.onClick ? action.onClick({ event: $event }) : ''"
             >
               {{ action.name }}

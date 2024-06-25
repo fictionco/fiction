@@ -101,7 +101,7 @@ vue.onMounted(() => {
 </script>
 
 <template>
-  <div class="px-6 bg-theme-50/50 dark:bg-theme-950 border-b border-theme-300/70 dark:border-theme-600/70">
+  <div class="px-6">
     <ElModal v-if="mode === 'new'" :vis="mode === 'new'" modal-class="max-w-lg" @update:vis="mode = 'current'">
       <ElForm @submit="createNewOrganization()">
         <ToolForm v-model="newOrgForm" ui-size="lg" :card :options="toolFormOptions" :disable-group-hide="true" />

@@ -20,6 +20,12 @@ async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
     await item.onClick({ event, item })
   }
 }
+
+const cls = {
+  active: 'font-bold bg-primary-100/50 text-primary-700 hover:text-primary-500 dark:bg-primary-900/50 dark:text-primary-50/90',
+  inactive: 'font-medium text-theme-700 dark:text-theme-300 dark:hover:bg-theme-700 hover:text-theme-900 border-theme-0',
+
+}
 </script>
 
 <template>
@@ -47,11 +53,7 @@ async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
               class="group nav-item flex  cursor-pointer items-center py-3 px-4 space-x-3 truncate rounded-full font-sans text-lg antialiased  focus:outline-none transition-all duration-100"
               :to="sub.href"
               :href="sub.href"
-              :class="
-                sub.isActive
-                  ? 'font-bold bg-primary-100/50 text-primary-700 hover:text-primary-500 dark:bg-primary-900/50 dark:text-primary-50/90'
-                  : 'font-medium text-theme-700 dark:text-theme-300 dark:hover:bg-theme-700 hover:text-theme-900 border-theme-0'
-              "
+              :class=" sub.isActive ? cls.active : cls.inactive "
               @click="handleClick($event, sub)"
             >
               <div v-if="sub.icon" class="text-2xl" :class="sub.icon" />
@@ -62,14 +64,11 @@ async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
       </div>
     </div>
     <div class="mb-4 p-3">
-      <RouterLink :to="card.link('/settings')" class="flex items-center gap-x-4 py-3 px-4 rounded-full hover:bg-theme-50 dark:hover:bg-theme-700">
-        <ElAvatarOrg class="size-8 lg:size-10  shrink-0 " />
+      <RouterLink :to="card.link('/settings')" class="flex items-center gap-x-4 p-3 rounded-full" :class="card.site?.siteRouter.params.value.viewId === 'settings' ? cls.active : cls.inactive">
+        <ElAvatarOrg class="size-8  shrink-0 " />
         <div class=" min-w-0">
-          <div class="sm:text-sm lg:text-lg font-semibold x-font-title whitespace-nowrap truncate">
+          <div class="sm:text-sm lg:text-lg whitespace-nowrap truncate">
             {{ service.fictionUser.activeOrganization.value?.orgName || 'Unnamed Org' }}
-          </div>
-          <div class="text-xs lg:text-sm text-theme-500 dark:text-theme-300 font-normal">
-            Publication
           </div>
         </div>
       </RouterLink>

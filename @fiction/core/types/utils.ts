@@ -54,6 +54,7 @@ export interface ListItem {
 export type ClickHandler = (args: { event?: MouseEvent, item?: NavItem, props?: Record<string, any> }) => any | Promise<any>
 
 export interface NavItem {
+  testId?: string
   name?: string
   desc?: string
   icon?: string

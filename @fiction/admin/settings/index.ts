@@ -40,6 +40,7 @@ export function getTools(args: { service: StandardServices }) {
         const { tool } = args
         return vue.computed(() => {
           return [{
+            testId: 'save',
             name: 'Save Publication',
             onClick: async () => {
               loading.value = true
@@ -111,6 +112,7 @@ export function getTools(args: { service: StandardServices }) {
       getActions: (args) => {
         return vue.computed(() => {
           return [{
+            testId: 'save',
             name: 'Save Account',
             onClick: async () => {
               loading.value = true
