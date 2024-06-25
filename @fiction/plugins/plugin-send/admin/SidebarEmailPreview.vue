@@ -7,13 +7,13 @@ import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import type { Card } from '@fiction/site'
 
 import { InputOption } from '@fiction/ui/index.js'
-import type { Email } from '../email.js'
-import type { EmailSendConfig } from '../schema.js'
+import type { EmailCampaign } from '../campaign.js'
+import type { EmailCampaignConfig } from '../schema.js'
 import InputEmailPreview from './InputEmailPreview.vue'
 
 const props = defineProps({
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
-  email: { type: Object as vue.PropType<Email>, default: undefined },
+  email: { type: Object as vue.PropType<EmailCampaign>, default: undefined },
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
@@ -23,7 +23,7 @@ const options = vue.computed(() => {
   ]
 })
 
-function updatePost(config: Partial<EmailSendConfig>) {
+function updatePost(config: Partial<EmailCampaignConfig>) {
   props.email?.update(config)
 }
 </script>
@@ -35,7 +35,7 @@ function updatePost(config: Partial<EmailSendConfig>) {
         :model-value="email.toConfig()"
         :options="options"
         :input-props="{ email, card }"
-        @update:model-value="updatePost($event as Partial<EmailSendConfig>)"
+        @update:model-value="updatePost($event as Partial<EmailCampaignConfig>)"
       />
     </ElForm>
   </ElTool>

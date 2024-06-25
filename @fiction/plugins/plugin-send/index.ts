@@ -6,7 +6,7 @@ import type { FictionAdmin } from '@fiction/admin'
 import type { FictionPosts } from '@fiction/posts'
 import type { FictionSubscribe } from '@fiction/plugin-subscribe'
 import type { ExtensionManifest } from '../plugin-extend'
-import { ManageSend } from './endpoint'
+import { ManageCampaign } from './endpoint'
 import { sendTable } from './schema.js'
 
 export type FictionSendSettings = {
@@ -24,7 +24,7 @@ export type FictionSendSettings = {
 
 export class FictionSend extends FictionPlugin<FictionSendSettings> {
   queries = {
-    ManageSend: new ManageSend({ fictionSend: this, ...this.settings }),
+    ManageCampaign: new ManageCampaign({ fictionSend: this, ...this.settings }),
   }
 
   requests = this.createRequests({ queries: this.queries, fictionServer: this.settings.fictionServer, fictionUser: this.settings.fictionUser, basePath: '/send' })
@@ -52,7 +52,7 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
       createCard({
         templates,
         templateId: 'dash',
-        slug: 'email-edit',
+        slug: 'campaign-edit',
         title: 'Edit Email',
         cards: [createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewSingle.vue')) })],
         userConfig: { navIcon: 'i-tabler-send', parentNavItemSlug: 'send', layoutFormat: 'full' },
@@ -61,7 +61,7 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
       createCard({
         templates,
         templateId: 'dash',
-        slug: 'email-manage',
+        slug: 'campaign-manage',
         title: 'Manage Email',
         cards: [createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewManage.vue')) })],
         userConfig: { navIcon: 'i-tabler-send', parentNavItemSlug: 'send' },

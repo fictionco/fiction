@@ -1,31 +1,23 @@
 import type { RequestOptions } from '@fiction/core'
-import type { ManageEmailSendActionParams, ManageEmailSendParams } from './endpoint'
-import type { EmailSendConfig } from './schema.js'
-import { Email } from './email'
+import type { ManageCampaignRequestParams } from './endpoint.js'
+import { EmailCampaign } from './campaign.js'
 import type { FictionSend } from './index.js'
 
-export async function manageEmails(args: { fictionSend: FictionSend, params: ManageEmailSendParams }): Promise<EmailSendConfig[]> {
-  const { fictionSend, params } = args
-  const r = await fictionSend.requests.ManageSend.projectRequest(params)
-
-  return r.data || []
-}
-
-export async function manageEmailSend(args: { fictionSend: FictionSend, params: ManageEmailSendActionParams, options?: RequestOptions }) {
+export async function manageEmailCampaign(args: { fictionSend: FictionSend, params: ManageCampaignRequestParams, options?: RequestOptions }) {
   const { fictionSend, params, options = {} } = args
 
-  const r = await fictionSend.requests.ManageSend.projectRequest(params, options)
+  const r = await fictionSend.requests.ManageCampaign.projectRequest(params, options)
 
-  return r.data?.map(emailConfig => new Email({ ...emailConfig, fictionSend })) || []
+  return r.data?.map(emailConfig => new EmailCampaign({ ...emailConfig, fictionSend })) || []
 }
 
-export async function loadEmail(args: { fictionSend: FictionSend, emailId: string }) {
-  const { fictionSend, emailId } = args
+export async function loadEmail(args: { fictionSend: FictionSend, campaignId: string }) {
+  const { fictionSend, campaignId } = args
 
-  if (!emailId)
-    throw new Error('No emailId')
+  if (!campaignId)
+    throw new Error('No campaignId')
 
-  const [_email] = await manageEmailSend({ fictionSend, params: { _action: 'get', where: { emailId }, loadDraft: true } })
+  const [_email] = await manageEmailCampaign({ fictionSend, params: { _action: 'get', where: { campaignId }, loadDraft: true } })
 
   const email = _email
 

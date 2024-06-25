@@ -9,7 +9,7 @@ describe('dbPrep', () => {
   const fictionDb = testUtils.fictionDb
 
   const cols = [
-    new Col({ key: 'emailId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('eml')`)).index() }),
+    new Col({ key: 'campaignId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('eml')`)).index() }),
     new Col({ key: 'userId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.user}.user_id`).onUpdate('CASCADE').index() }),
     new Col({ key: 'orgId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`${t.org}.orgId`).onUpdate('CASCADE').notNullable().index() }),
     new Col({ key: 'postId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`${t.posts}.postId`).onUpdate('CASCADE').onDelete('CASCADE').notNullable().index() }),
@@ -48,7 +48,7 @@ describe('dbPrep', () => {
 
   it('should validate and prepare fields correctly for insert type', () => {
     const fields = {
-      emailId: 'test@example.com',
+      campaignId: 'test@example.com',
       userId: 'user123',
       title: 'Test Title',
       createdAt: new Date().toISOString(),
@@ -60,7 +60,7 @@ describe('dbPrep', () => {
       fictionDb,
     })
     expect(result).toStrictEqual(expect.objectContaining({
-      emailId: 'test@example.com',
+      campaignId: 'test@example.com',
       userId: 'user123',
       title: 'Test Title',
       createdAt: expect.any(String),
@@ -70,7 +70,7 @@ describe('dbPrep', () => {
 
   it('should validate and prepare fields correctly for update type', () => {
     const fields = {
-      emailId: 'test@example.com',
+      campaignId: 'test@example.com',
       userId: 'user123',
       title: 'Updated Title',
       createdAt: new Date().toISOString(),
@@ -83,7 +83,7 @@ describe('dbPrep', () => {
       fictionDb,
     })
 
-    expect(result.emailId).toBeFalsy()
+    expect(result.campaignId).toBeFalsy()
 
     expect(result).toEqual(expect.objectContaining({
       title: 'Updated Title',
@@ -93,7 +93,7 @@ describe('dbPrep', () => {
 
   it('should throw an error if validation fails', () => {
     const fields = {
-      emailId: 12345, // Invalid type
+      campaignId: 12345, // Invalid type
       userId: 'user123',
     }
     expect(() => {
@@ -103,12 +103,12 @@ describe('dbPrep', () => {
         table: 'fiction_test_schema',
         fictionDb,
       })
-    }).toThrowError(/Validation failed for field emailId/)
+    }).toThrowError(/Validation failed for field campaignId/)
   })
 
   it('should handle return type correctly', () => {
     const fields = {
-      emailId: 'test@example.com',
+      campaignId: 'test@example.com',
       userId: 'user123',
       title: 'Active Title',
       code: '12345',
@@ -122,7 +122,7 @@ describe('dbPrep', () => {
     })
     expect(result.code).toBeFalsy()
     expect(result).toEqual(expect.objectContaining({
-      emailId: 'test@example.com',
+      campaignId: 'test@example.com',
       userId: 'user123',
       title: 'Active Title',
     }))
@@ -135,7 +135,7 @@ describe('dbPrep', () => {
       fictionDb,
     })
     expect(result2).toEqual(expect.objectContaining({
-      emailId: 'test@example.com',
+      campaignId: 'test@example.com',
       userId: 'user123',
       title: 'Active Title',
       code: '12345',

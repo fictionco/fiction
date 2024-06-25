@@ -4,7 +4,7 @@ import { createTestUser } from '@fiction/core/test-utils'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { FictionPosts } from '@fiction/posts'
 import { FictionSend } from '..'
-import type { EmailSendConfig } from '../schema'
+import type { EmailCampaignConfig } from '../schema'
 
 describe('email send endpoint', async () => {
   const testUtils = await createSiteTestUtils()
@@ -26,10 +26,10 @@ describe('email send endpoint', async () => {
     throw abort('missing orgId or userId')
   }
 
-  let workingEmails: EmailSendConfig[] = []
+  let workingCampaigns: EmailCampaignConfig[] = []
 
   it('create', async () => {
-    const r = await fictionSend.queries.ManageSend.serve({
+    const r = await fictionSend.queries.ManageCampaign.serve({
       _action: 'create',
       orgId,
       userId,
@@ -39,7 +39,7 @@ describe('email send endpoint', async () => {
     expect(r.status).toBe('success')
     expect(r.data?.length).toBe(2)
 
-    workingEmails = r.data as EmailSendConfig[]
+    workingCampaigns = r.data as EmailCampaignConfig[]
 
     const p = r.data?.[0].post
     expect(r.data?.[0].orgId, 'orgId').toBe(orgId)
@@ -53,7 +53,7 @@ describe('email send endpoint', async () => {
   })
 
   it('list/get', async () => {
-    const r = await fictionSend.queries.ManageSend.serve({ _action: 'list', orgId, userId }, { server: true })
+    const r = await fictionSend.queries.ManageCampaign.serve({ _action: 'list', orgId, userId }, { server: true })
 
     expect(r.status).toBe('success')
 
@@ -63,21 +63,21 @@ describe('email send endpoint', async () => {
     expect(p?.postId).toBeTruthy()
     expect(r.indexMeta?.count).toBe(2)
 
-    const r2 = await fictionSend.queries.ManageSend.serve({ _action: 'get', orgId, userId, where: { emailId: email?.emailId } }, { server: true })
+    const r2 = await fictionSend.queries.ManageCampaign.serve({ _action: 'get', orgId, userId, where: { campaignId: email?.campaignId } }, { server: true })
 
     expect(r2.status).toBe('success')
     expect(r2.data?.length).toBe(1)
-    expect(r2.data?.[0].emailId).toBe(email?.emailId)
+    expect(r2.data?.[0].campaignId).toBe(email?.campaignId)
   })
 
   it('update', async () => {
-    const em = workingEmails[0]
+    const em = workingCampaigns[0]
     const d = dayjs('2025-06-07T23:59:59Z')
-    const r = await fictionSend.queries.ManageSend.serve({
+    const r = await fictionSend.queries.ManageCampaign.serve({
       _action: 'update',
       orgId,
       userId,
-      where: [{ emailId: em.emailId }],
+      where: [{ campaignId: em.campaignId }],
       fields: { scheduledAt: d.toISOString() },
     }, { server: true })
 
@@ -88,13 +88,32 @@ describe('email send endpoint', async () => {
     expect(r.message).toBeTruthy()
   })
 
+  it('sends', async () => {
+    const em = workingCampaigns[0]
+    const r = await fictionSend.queries.ManageCampaign.serve({ _action: 'send', orgId, userId, where: { campaignId: em.campaignId } }, { server: true })
+
+    expect(r.status).toBe('success')
+    expect(r.data?.length).toBe(1)
+    expect(r.data?.[0].campaignId).toBe(workingCampaigns[0].campaignId)
+    expect(r.message).toMatchInlineSnapshot(`"Email scheduled Jun 07, 2025 at 11:59 PM UTC"`)
+    const em2 = workingCampaigns[1]
+    await fictionSend.queries.ManageCampaign.serve({ _action: 'update', orgId, userId, where: [{ campaignId: em2.campaignId }], fields: { scheduleMode: 'now' } }, { server: true })
+
+    const r3 = await fictionSend.queries.ManageCampaign.serve({ _action: 'send', orgId, userId, where: { campaignId: em2.campaignId } }, { server: true })
+
+    expect(r3.status).toBe('success')
+    expect(r3.data?.length).toBe(1)
+    expect(r3.data?.[0].campaignId).toBe(workingCampaigns[1].campaignId)
+    expect(r3.message).toMatchInlineSnapshot(`"Email is being sent, check back soon."`)
+  })
+
   it('delete', async () => {
-    const em = workingEmails[0]
-    const r = await fictionSend.queries.ManageSend.serve({
+    const em = workingCampaigns[0]
+    const r = await fictionSend.queries.ManageCampaign.serve({
       _action: 'delete',
       orgId,
       userId,
-      where: [{ emailId: em.emailId }],
+      where: [{ campaignId: em.campaignId }],
     }, { server: true })
     expect(r.status).toBe('success')
     expect(r.data?.length).toBe(1)

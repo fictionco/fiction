@@ -43,6 +43,7 @@ export type EndpointMeta = {
   returnAuthority?: string[]
   request?: express.Request
   response?: express.Response
+  timeZone?: string
 } & RequestMeta
 
 export interface RequestMeta {
@@ -182,9 +183,12 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
         delete params._params
       }
 
+      // Extract the time zone from the request headers
+      const timeZone = request.headers['x-timezone'] as string | undefined
+
       const { caller, debug, expectError, isTest } = (params.meta || {}) as RequestMeta
       // explicitly define each as this is security basis backend calls
-      const meta: EndpointMeta = { bearer: request.bearer, request, response, caller, debug, expectError, isTest }
+      const meta: EndpointMeta = { bearer: request.bearer, request, response, caller, debug, expectError, isTest, timeZone }
 
       return await this.queryHandler.serveRequest(params, meta)
     }
@@ -228,8 +232,10 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
     const dataWithMeta = { ...data, meta: options }
 
-    // @ts-expect-error - axios types are wrong at current version
-    const headers: axios.AxiosRequestHeaders = { Authorization: this.bearerHeader }
+    // Get client's time zone
+    const clientTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+
+    const headers = { 'Authorization': this.bearerHeader, 'X-Timezone': clientTimeZone }
     const fullUrl = `${this.getBaseUrl()}${url}`
 
     let conf: axios.AxiosRequestConfig = { method: 'POST', headers, baseURL: this.getBaseUrl(), url, data: dataWithMeta, timeout: 120000 }

@@ -642,6 +642,15 @@ const emailEventFields = [
     getValue: ({ event }) => event.email?.emailId,
   }),
   new FictionAnalyticsCol({
+    key: 'campaignId',
+    create: ({ schema, column }) => schema.string(column.pgKey),
+    clickHouseType: 'String',
+    description: 'Unique identifier for the campaign',
+    indexOn: true,
+    default: () => '' as string,
+    getValue: ({ event }) => event.email?.campaignId,
+  }),
+  new FictionAnalyticsCol({
     key: 'emailEventType',
     create: ({ schema, column }) => schema.string(column.pgKey),
     clickHouseType: 'LowCardinality(String)',

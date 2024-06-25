@@ -16,5 +16,5 @@ const { tools, val } = getTools({ fictionSend, card: props.card })
 </script>
 
 <template>
-  <SettingsTool base-path="/email-manage" :tools :card :loading :title="val?.title" />
+  <SettingsTool base-path="/campaign-manage" :tools :card :loading :title="val?.title" />
 </template>

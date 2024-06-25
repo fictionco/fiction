@@ -6,8 +6,8 @@ import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElStepNav from '@fiction/ui/ElStepNav.vue'
 import type { Card } from '@fiction/site/card'
 import type { FictionSend } from '..'
-import type { EmailSendConfig } from '../schema'
-import { manageEmailSend } from '../utils'
+import type { EmailCampaignConfig } from '../schema'
+import { manageEmailCampaign } from '../utils'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
@@ -18,7 +18,7 @@ const emit = defineEmits(['update:vis'])
 
 const { fictionSend, fictionRouter } = useService<{ fictionSend: FictionSend }>()
 
-const form = vue.ref<Partial<EmailSendConfig>>({
+const form = vue.ref<Partial<EmailCampaignConfig>>({
   title: '',
 })
 const isLoading = vue.ref(false)
@@ -27,8 +27,8 @@ async function start() {
   isLoading.value = true
   try {
     const fields = form.value
-    const [_email] = await manageEmailSend({ fictionSend, params: { _action: 'create', fields: [fields] } })
-    await props.card.goto(`/email-manage?emailId=${_email?.emailId}`)
+    const [_email] = await manageEmailCampaign({ fictionSend, params: { _action: 'create', fields: [fields] } })
+    await props.card.goto(`/campaign-manage?campaignId=${_email?.campaignId}`)
   }
   catch (error) {
     console.error(error)

@@ -5,9 +5,9 @@ import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 import type { Card } from '@fiction/site/card'
 import ElZeroBanner from '@fiction/ui/ElZeroBanner.vue'
-import { manageEmailSend } from '../utils.js'
+import { manageEmailCampaign } from '../utils.js'
 import type { FictionSend } from '../index.js'
-import type { Email } from '../email.js'
+import type { EmailCampaign } from '../campaign.js'
 import ElStart from './ElStart.vue'
 
 const props = defineProps({
@@ -16,17 +16,17 @@ const props = defineProps({
 
 const { fictionSend, fictionRouter } = useService<{ fictionSend: FictionSend }>()
 
-const emails = vue.shallowRef<Email[]>([])
+const campaigns = vue.shallowRef<EmailCampaign[]>([])
 
 const list = vue.computed<IndexItem[]>(() => {
-  return emails.value.map((email) => {
-    const p = email.post.value
+  return campaigns.value.map((campaign) => {
+    const p = campaign.post.value
     return {
-      ...email.toConfig(),
-      key: email.emailId,
-      name: email.title.value || p.title.value || 'Untitled',
+      ...campaign.toConfig(),
+      key: campaign.campaignId,
+      name: campaign.title.value || p.title.value || 'Untitled',
       desc: p.subTitle.value || 'No description',
-      href: props.card.link(`/email-manage?emailId=${email.emailId}`),
+      href: props.card.link(`/campaign-manage?campaignId=${campaign.campaignId}`),
       media: p.image.value,
     } as IndexItem
   })
@@ -37,7 +37,7 @@ async function load() {
   loading.value = true
   console.warn('load index', fictionSend.cacheKey.value)
   const createParams = { _action: 'list', fields: { }, loadDraft: true } as const
-  emails.value = await manageEmailSend({ params: createParams, fictionSend })
+  campaigns.value = await manageEmailCampaign({ params: createParams, fictionSend })
   loading.value = false
 }
 const showStartModal = vue.ref(false)
@@ -52,8 +52,6 @@ vue.onMounted(async () => {
     }
   })
 })
-
-const href = props.card.link('/email-edit')
 </script>
 
 <template>
@@ -71,8 +69,8 @@ const href = props.card.link('/email-edit')
       </template>
       <template #zero>
         <ElZeroBanner
-          title="Send Your First Email"
-          description="Quickly send a message to your subscribers."
+          title="Email Your Subscribers"
+          description="Quickly emails and send them to your subscribers in a few clicks."
           icon="i-tabler-mail-share"
           :actions="[{ name: 'Start', onClick: () => { showStartModal = true }, btn: 'primary', icon: 'i-heroicons-plus' }]"
         />

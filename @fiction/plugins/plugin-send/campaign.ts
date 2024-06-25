@@ -1,17 +1,17 @@
 import { FictionObject, objectId, vue } from '@fiction/core'
-import type { FictionPosts, TablePostConfig } from '@fiction/posts'
+import type { TablePostConfig } from '@fiction/posts'
 import { Post } from '@fiction/posts'
-import type { EmailSendConfig } from './schema'
+import type { EmailCampaignConfig } from './schema'
 import { settingsKeys } from './schema'
 import type { FictionSend } from '.'
 
-export type EmailConfig = { fictionSend: FictionSend } & EmailSendConfig
+export type EmailConfig = { fictionSend: FictionSend } & EmailCampaignConfig
 
-export class Email extends FictionObject<EmailConfig> {
+export class EmailCampaign extends FictionObject<EmailConfig> {
   fictionPosts = this.settings.fictionSend.settings.fictionPosts
   fictionUser = this.settings.fictionSend.settings.fictionUser
-  emailId = this.settings.emailId || objectId({ prefix: 'eml' })
-  status = vue.ref(this.settings.status || 'draft')
+  campaignId = this.settings.campaignId || objectId({ prefix: 'eml' })
+  status = vue.ref(this.settings.status || 'pending')
   scheduleMode = vue.ref(this.settings.scheduleMode || 'now')
   title = vue.ref(this.settings.title || 'Untitled')
   scheduledAt = vue.ref(this.settings.scheduledAt)
@@ -24,7 +24,7 @@ export class Email extends FictionObject<EmailConfig> {
     super('EmailSend', settings)
   }
 
-  update(sendConfig: Partial<EmailSendConfig>, options: { noSave?: boolean } = {}) {
+  update(sendConfig: Partial<EmailCampaignConfig>, options: { noSave?: boolean } = {}) {
     const { noSave = false } = options
 
     if (!sendConfig)
@@ -54,16 +54,16 @@ export class Email extends FictionObject<EmailConfig> {
   async save() {
     const fields = this.toConfig()
 
-    await this.settings.fictionSend.requests.ManageSend.projectRequest({ _action: 'update', fields, where: [{ emailId: this.emailId }] }, { minTime: 500 })
+    await this.settings.fictionSend.requests.ManageCampaign.projectRequest({ _action: 'update', fields, where: [{ campaignId: this.campaignId }] }, { minTime: 500 })
   }
 
   async delete() {
     this.log.info('Deleting Send')
-    await this.settings.fictionSend.requests.ManageSend.projectRequest({ _action: 'delete', where: [{ emailId: this.emailId }] }, { minTime: 500 })
+    await this.settings.fictionSend.requests.ManageCampaign.projectRequest({ _action: 'delete', where: [{ campaignId: this.campaignId }] }, { minTime: 500 })
     this.settings.fictionSend.cacheKey.value++
   }
 
-  toConfig(): EmailSendConfig {
+  toConfig(): EmailCampaignConfig {
     const { fictionSend, ...rest } = this.settings
 
     return {

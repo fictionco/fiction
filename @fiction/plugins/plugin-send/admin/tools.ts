@@ -6,10 +6,10 @@ import type { EditorTool } from '@fiction/admin'
 import { AdminEditorController } from '@fiction/admin'
 import type { Card } from '@fiction/site'
 import type { FictionSend } from '..'
-import type { Email } from '../email'
-import type { EmailSendConfig } from '../schema'
+import type { EmailCampaign } from '../campaign'
+import type { EmailCampaignConfig } from '../schema'
 import { loadEmail } from '../utils'
-import { manageEmailSend } from '../utils.js'
+import { manageEmailCampaign } from '../utils.js'
 import InputAudience from './InputAudience.vue'
 import InputEmailPreview from './InputEmailPreview.vue'
 import InputOverview from './InputOverview.vue'
@@ -41,17 +41,17 @@ export type ToolKeys = (typeof tools)[number]['toolId']
 
 export const emailComposeController = new AdminEditorController({ tools })
 
-export function getEmailManageOptions(args: { fictionSend: FictionSend, email?: Email, card: Card }) {
+export function getEmailManageOptions(args: { fictionSend: FictionSend, email?: EmailCampaign, card: Card }) {
   const { email, card } = args
   return [
-    new InputOption({ key: 'title', label: 'Internal Title', input: 'InputText', isRequired: true }),
+    new InputOption({ key: 'title', label: 'Internal Title', input: 'InputText', isRequired: true, placeholder: 'Only used to help you manage this campaign.' }),
     new InputOption({
       key: 'emailSettings',
       label: 'Email Settings',
       input: 'group',
       options: [
-        new InputOption({ key: 'subject', label: 'Subject Line', input: 'InputText', isRequired: true }),
-        new InputOption({ key: 'preview', label: 'Preview Text', input: 'InputText' }),
+        new InputOption({ key: 'subject', label: 'Subject Line', input: 'InputText', isRequired: true, placeholder: 'Subject Line', description: 'This is the subject line that appears in the recipient\'s inbox.' }),
+        new InputOption({ key: 'preview', label: 'Preview Text', input: 'InputText', placeholder: 'Preview Text', description: 'This is the text that appears in the inbox preview of your email.' }),
       ],
     }),
     new InputOption({
@@ -88,17 +88,10 @@ export function getEmailManageOptions(args: { fictionSend: FictionSend, email?: 
       input: 'group',
       options: [
 
-        new InputOption({
-          key: 'post.title',
-          label: 'Title',
-          input: 'InputText',
-          placeholder: 'Title',
-          isRequired: true,
-        }),
-        new InputOption({ key: 'post.subTitle', label: 'Subtitle', input: 'InputText' }),
-
+        new InputOption({ key: 'post.title', label: 'Title', input: 'InputText', placeholder: 'Add a Catchy Title', isRequired: true, description: 'The text header that appears at the top of the email.' }),
+        new InputOption({ key: 'post.subTitle', label: 'Subtitle', input: 'InputText', placeholder: 'Add some context with a subtitle', description: 'The text that appears below the title.' }),
         new InputOption({ key: 'actions', label: 'Email Body Content', input: 'InputActions', props: {
-          actions: [{ name: 'Edit Email Content', btn: 'primary', href: card.link(`/email-edit?emailId=${email?.emailId}`) }],
+          actions: [{ name: 'Edit Email Content', btn: 'primary', href: card.link(`/campaign-edit?campaignId=${email?.campaignId}`) }],
           uiSize: 'md',
         } }),
       ],
@@ -139,23 +132,23 @@ export function getTools(args: { fictionSend: FictionSend, card: Card }) {
   const { fictionSend, card } = args
   const fictionRouter = fictionSend.settings.fictionRouter
   const loading = vue.ref(false)
-  const email = vue.shallowRef<Email>()
+  const email = vue.shallowRef<EmailCampaign>()
 
-  vue.watch(() => fictionRouter.query.value.emailId, async (v, old) => {
+  vue.watch(() => fictionRouter.query.value.campaignId, async (v, old) => {
     if (!v || v === old)
       return
 
-    email.value = await loadEmail({ fictionSend, emailId: v as string })
+    email.value = await loadEmail({ fictionSend, campaignId: v as string })
   }, { immediate: true })
 
-  const val = vue.computed<EmailSendConfig | undefined>({
+  const val = vue.computed<EmailCampaignConfig | undefined>({
     get: () => email.value?.toConfig(),
     set: v => (email.value?.update(v || {})),
   })
 
   const editEmailAction = (btn: 'default' | 'primary' = 'default') => ({
     name: 'Compose',
-    href: card.link(`/email-edit?emailId=${email.value?.emailId}`),
+    href: card.link(`/campaign-edit?campaignId=${email.value?.campaignId}`),
     btn,
     icon: 'i-tabler-edit',
   })
@@ -176,9 +169,9 @@ export function getTools(args: { fictionSend: FictionSend, card: Card }) {
         if (!fields)
           throw new Error('No fields')
 
-        const emailId = fields?.emailId
+        const campaignId = fields?.campaignId
 
-        await manageEmailSend({ fictionSend, params: { _action: 'update', where: [{ emailId }], fields }, options: { minTime: 1000 } })
+        await manageEmailCampaign({ fictionSend, params: { _action: 'update', where: [{ campaignId }], fields }, options: { minTime: 1000 } })
 
         loading.value = false
       },

@@ -197,7 +197,8 @@ type ClientTrackType =
   | 'custom'
 
 interface EmailDetails {
-  emailId: string
+  emailId?: string
+  campaignId?: string
   eventType: 'open' | 'click' | 'delivered' | 'bounce' | 'unsubscribe' | 'spamReport' | 'processed' | 'dropped' | 'deferred'
   sentAt?: string
   subject?: string

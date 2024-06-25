@@ -1,7 +1,10 @@
 import type { EndpointMeta, EndpointResponse, IndexQuery } from '@fiction/core'
-import { Query } from '@fiction/core'
+import { Query, dayjs } from '@fiction/core'
+import type { ManageSubscriptionParams } from '@fiction/plugin-subscribe/endpoint'
+import { CronJob } from 'cron'
+import type { Subscriber } from '@fiction/plugin-subscribe'
 import { t } from './schema'
-import type { EmailSendConfig } from './schema.js'
+import type { EmailCampaignConfig } from './schema.js'
 import type { FictionSend, FictionSendSettings } from '.'
 
 export type SendEndpointSettings = {
@@ -15,27 +18,28 @@ abstract class SendEndpoint extends Query<SendEndpointSettings> {
   }
 }
 
-export type WhereSend = { emailId?: string }
+export type WhereSend = { campaignId?: string }
 type StandardFields = { orgId: string, userId?: string, loadDraft?: boolean }
 
-export type ManageEmailSendActionParams =
-  | { _action: 'create', fields: EmailSendConfig[] }
-  | { _action: 'update', where: WhereSend[], fields: Partial<EmailSendConfig> }
+export type ManageCampaignRequestParams =
+  | { _action: 'create', fields: EmailCampaignConfig[] }
+  | { _action: 'update', where: WhereSend[], fields: Partial<EmailCampaignConfig> }
   | { _action: 'delete', where: WhereSend[] }
   | { _action: 'list' } & IndexQuery
   | { _action: 'get', where: WhereSend, loadDraft?: boolean }
+  | { _action: 'send', where: WhereSend }
 
-export type ManageEmailSendParams = ManageEmailSendActionParams & StandardFields
+export type ManageCampaignParams = ManageCampaignRequestParams & StandardFields
 
-export type ManageSendResponse = EndpointResponse<EmailSendConfig[]>
+export type ManageCampaignResponse = EndpointResponse<EmailCampaignConfig[]>
 
-export class ManageSend extends SendEndpoint {
+export class ManageCampaign extends SendEndpoint {
   limit = 10
   offset = 0
-  async run(params: ManageEmailSendParams, meta: EndpointMeta): Promise<ManageSendResponse> {
+  async run(params: ManageCampaignParams, meta: EndpointMeta): Promise<ManageCampaignResponse> {
     const { _action } = params
 
-    let r: ManageSendResponse | undefined
+    let r: ManageCampaignResponse | undefined
     switch (_action) {
       case 'create':
         r = await this.create(params, meta)
@@ -52,6 +56,10 @@ export class ManageSend extends SendEndpoint {
       case 'delete':
         r = await this.delete(params, meta)
         break
+      case 'send':
+        r = await this.send(params, meta)
+        break
+
       default:
         r = { status: 'error', message: 'Invalid action' }
     }
@@ -63,7 +71,7 @@ export class ManageSend extends SendEndpoint {
     return await this.refineResponse(params, r, meta)
   }
 
-  private async refineResponse(params: ManageEmailSendParams, r: ManageSendResponse, _meta: EndpointMeta): Promise<ManageSendResponse> {
+  private async refineResponse(params: ManageCampaignParams, r: ManageCampaignResponse, _meta: EndpointMeta): Promise<ManageCampaignResponse> {
     const { orgId, loadDraft } = params
     const { limit = this.limit, offset = this.offset } = params as { limit?: number, offset?: number }
 
@@ -88,13 +96,42 @@ export class ManageSend extends SendEndpoint {
     return r
   }
 
-  private async create(params: ManageEmailSendParams & { _action: 'create' }, meta: EndpointMeta): Promise<ManageSendResponse> {
+  private async send(params: ManageCampaignParams & { _action: 'send' }, meta: EndpointMeta): Promise<ManageCampaignResponse> {
+    const { orgId, where, userId } = params
+    const { timeZone = 'UTC' } = meta
+
+    const r = await this.get({ _action: 'get', orgId, where, userId, loadDraft: true }, meta)
+
+    const campaign = r.data?.[0]
+
+    if (!campaign) {
+      throw new Error('Campaign not found')
+    }
+
+    const now = dayjs().toISOString()
+    const scheduledAt = campaign.scheduleMode === 'now' ? now : campaign.scheduledAt
+
+    if (!scheduledAt) {
+      throw new Error('No scheduled date available')
+    }
+    else if (dayjs(scheduledAt).add(1, 'hour').isBefore(now)) {
+      throw new Error('Scheduled date is in the past')
+    }
+
+    const r2 = await this.update({ _action: 'update', orgId, userId, where: [where], fields: { status: 'requested', scheduledAt } }, meta)
+
+    const message = campaign.scheduleMode === 'now' ? `Email is being sent, check back soon.` : `Email scheduled ${dayjs(scheduledAt).tz(timeZone).format(`MMM DD, YYYY [at] h:mm A [${timeZone}]`)}`
+
+    return { status: 'success', message, data: r2.data }
+  }
+
+  private async create(params: ManageCampaignParams & { _action: 'create' }, meta: EndpointMeta): Promise<ManageCampaignResponse> {
     const { orgId, fields, userId } = params
 
     const { fictionDb } = this.settings
 
     const promises = fields.map(async (f) => {
-      const sendFields: Partial<EmailSendConfig> = { orgId, ...f }
+      const sendFields: Partial<EmailCampaignConfig> = { orgId, ...f }
       const postFields = { type: 'email' as const, orgId, userId, ...f.post }
 
       this.log.info('creating email', { data: postFields })
@@ -107,19 +144,19 @@ export class ManageSend extends SendEndpoint {
       }
 
       const insertFields = fictionDb.prep({ type: 'insert', fields: sendFields, meta, table: t.send })
-      const insertData: EmailSendConfig = { orgId, userId, postId: post.postId, ...insertFields }
+      const insertData: EmailCampaignConfig = { orgId, userId, postId: post.postId, ...insertFields }
 
       const [row] = await this.db().table(t.send).insert(insertData).returning('*')
 
-      const r2 = await this.get({ _action: 'get', orgId, where: { emailId: row.emailId } }, meta)
+      const r2 = await this.get({ _action: 'get', orgId, where: { campaignId: row.campaignId } }, meta)
 
-      const email = r2.data?.[0]
+      const campaign = r2.data?.[0]
 
-      if (!email) {
-        throw new Error('Email not created')
+      if (!campaign) {
+        throw new Error('Campaign not created')
       }
 
-      return email
+      return campaign
     })
 
     const data = await Promise.all(promises)
@@ -127,8 +164,8 @@ export class ManageSend extends SendEndpoint {
     return { status: 'success', message: 'created successfully', data, indexMeta: { changedCount: fields.length } }
   }
 
-  private async get(params: ManageEmailSendParams & { _action: 'get' }, meta: EndpointMeta): Promise<ManageSendResponse> {
-    const r = await this.list({ ...params, _action: 'list', filters: [{ field: 'emailId', operator: '=', value: params.where.emailId || '' }] }, meta)
+  private async get(params: ManageCampaignParams & { _action: 'get' }, meta: EndpointMeta): Promise<ManageCampaignResponse> {
+    const r = await this.list({ ...params, _action: 'list', filters: [{ field: 'campaignId', operator: '=', value: params.where.campaignId || '' }] }, meta)
 
     const ManageSubscription = this.settings.fictionSubscribe.queries.ManageSubscription
     const sub = await ManageSubscription.serve({ _action: 'count', orgId: params.orgId }, meta)
@@ -140,7 +177,7 @@ export class ManageSend extends SendEndpoint {
     return r
   }
 
-  private async list(params: ManageEmailSendParams & { _action: 'list' }, _meta: EndpointMeta): Promise<ManageSendResponse> {
+  private async list(params: ManageCampaignParams & { _action: 'list' }, _meta: EndpointMeta): Promise<ManageCampaignResponse> {
     const { orgId, limit = this.limit, offset = this.offset, filters = [] } = params
     const query = this.db().select('*').from(t.send).where({ orgId }).orderBy('updatedAt', 'desc').limit(limit).offset(offset)
 
@@ -156,7 +193,7 @@ export class ManageSend extends SendEndpoint {
     return { status: 'success', data: r }
   }
 
-  private async update(params: ManageEmailSendParams & { _action: 'update' }, meta: EndpointMeta): Promise<ManageSendResponse> {
+  private async update(params: ManageCampaignParams & { _action: 'update' }, meta: EndpointMeta): Promise<ManageCampaignResponse> {
     const { where, fields, orgId, userId } = params
 
     if (!Array.isArray(where)) {
@@ -168,12 +205,12 @@ export class ManageSend extends SendEndpoint {
     this.log.info('updating email', { data: { fields, prepped } })
 
     const promises = where.map(async (w) => {
-      const result = await this.db().table(t.send).where({ orgId, ...w }).update({ ...prepped, updatedAt: new Date().toISOString() }).limit(1).returning<EmailSendConfig[]>('*')
+      const result = await this.db().table(t.send).where({ orgId, ...w }).update({ ...prepped, updatedAt: new Date().toISOString() }).limit(1).returning<EmailCampaignConfig[]>('*')
       const row = result[0]
       const postId = row?.postId
 
       if (!postId) {
-        this.log.error('No postId found for email send', { orgId, userId, emailId: row?.emailId })
+        this.log.error('No postId found for email send', { orgId, userId, campaignId: row?.campaignId })
         return row
       }
 
@@ -189,7 +226,7 @@ export class ManageSend extends SendEndpoint {
     return { status: 'success', data, indexMeta: { changedCount: data.length }, message: 'Updated Successfully' }
   }
 
-  private async delete(params: ManageEmailSendParams & { _action: 'delete' }, _meta: EndpointMeta): Promise<ManageSendResponse> {
+  private async delete(params: ManageCampaignParams & { _action: 'delete' }, _meta: EndpointMeta): Promise<ManageCampaignResponse> {
     const { where, orgId } = params
 
     if (!Array.isArray(where)) {
@@ -197,7 +234,7 @@ export class ManageSend extends SendEndpoint {
     }
 
     const promises = where.map(async (w) => {
-      const row = await this.db().select('*').table(t.send).where({ orgId, ...w }).first<EmailSendConfig>()
+      const row = await this.db().select('*').table(t.send).where({ orgId, ...w }).first<EmailCampaignConfig>()
       if (!row) {
         return
       }
@@ -216,8 +253,121 @@ export class ManageSend extends SendEndpoint {
       return row
     })
 
-    const data = (await Promise.all(promises)).filter(Boolean) as EmailSendConfig[]
+    const data = (await Promise.all(promises)).filter(Boolean) as EmailCampaignConfig[]
 
     return { status: 'success', message: `${data.length} items deleted`, data, indexMeta: { changedCount: data.length } }
+  }
+}
+
+export class ManageXXX extends SendEndpoint {
+  crontab = '*/2 * * * *'
+  limit = 10
+  offset = 0
+  emailBatchSize = 10
+  init() {
+    this.startCronJob()
+  }
+
+  async run(_params: ManageCampaignParams, _meta: EndpointMeta): Promise<EndpointResponse> {
+    return { status: 'success' }
+  }
+
+  // Method to scan and send scheduled emails
+  private async scanAndSendrequestedCampaigns(): Promise<void> {
+    const now = dayjs().toISOString()
+
+    // Find emails with status 'scheduled' and scheduledAt in the past
+    const requestedCampaigns = await this.db()
+      .table(t.send)
+      .where('status', 'requested')
+      .where('scheduledAt', '<=', now)
+      .select<EmailCampaignConfig[]>('*')
+
+    await Promise.all(requestedCampaigns.map(campaign => this.processCampaign(campaign)))
+  }
+
+  // Method to process each email
+  private async processCampaign(campaign: EmailCampaignConfig): Promise<void> {
+    try {
+      const { orgId, campaignId, userId } = campaign
+
+      if (!orgId || !campaignId) {
+        throw new Error('Invalid campaign')
+      }
+
+      const ManageCampaign = this.settings.fictionSend.queries.ManageCampaign
+      // Update email status to 'processing'
+      await ManageCampaign.serve({ _action: 'update', where: [{ campaignId }], orgId, fields: { status: 'processing' } }, { server: true })
+
+      // Process subscribers in batches to prevent blocking
+      const subscriberBatchSize = 100 // Define subscriber batch size
+      let offset = 0
+      let hasMoreSubscribers = true
+
+      while (hasMoreSubscribers) {
+        const subscribers = await this.getSubscribers(orgId, subscriberBatchSize, offset)
+
+        if (subscribers.length < subscriberBatchSize) {
+          hasMoreSubscribers = false
+        }
+
+        await Promise.all(subscribers.map(subscriber => this.sendEmailToSubscriber(campaign, subscriber)))
+        offset += subscriberBatchSize
+      }
+
+      // Update email status to 'ready'
+      await ManageCampaign.serve({ _action: 'update', orgId, userId, where: [{ campaignId: campaign.campaignId }], fields: { status: 'ready' } }, { server: true })
+    }
+    catch (error) {
+      // Handle errors and retries
+      this.log.error(`Error processing campaign ${campaign.campaignId}:`, { error })
+      // Optionally update status to 'failed' or handle retries
+    }
+  }
+
+  // Method to get subscribers with limit and offset
+  private async getSubscribers(orgId: string, limit: number, offset: number): Promise<Subscriber[]> {
+    const params: ManageSubscriptionParams = { _action: 'list', orgId, limit, offset }
+    const result = await this.settings.fictionSubscribe.queries.ManageSubscription.run(params, {})
+    return result.data || []
+  }
+
+  private async sendEmailToSubscriber(campaign: EmailCampaignConfig, subscriber: Subscriber): Promise<void> {
+    const email = subscriber.email
+
+    if (!email) {
+      throw new Error('Invalid email')
+    }
+
+    // Run spam check and verify score (assumed methods, adjust as necessary)
+    const isSpamFree = await this.runSpamCheck(email)
+    const isScoreValid = await this.verifyScore(email)
+
+    if (isSpamFree && isScoreValid) {
+      await this.sendEmail(campaign, subscriber)
+    }
+  }
+
+  private async runSpamCheck(email: string): Promise<boolean> {
+    // Replace with actual implementation
+    return true
+  }
+
+  private async verifyScore(email: string): Promise<boolean> {
+    // Replace with actual implementation
+    return true
+  }
+
+  private async sendEmail(campaign: EmailCampaignConfig, subscriber: Subscriber): Promise<void> {
+    // Replace with actual implementation
+  }
+
+  // Method to start the cron job
+  private startCronJob() {
+    const job = new CronJob(this.crontab, () => {
+      this.scanAndSendrequestedCampaigns().catch(console.error)
+    })
+
+    job.start()
   }
 }

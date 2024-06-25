@@ -4,16 +4,16 @@ import { dayjs, getNavComponentType, useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import ElActions from '@fiction/ui/buttons/ElActions.vue'
 import ElModalConfirm from '@fiction/ui/ElModalConfirm.vue'
-import type { EmailSendConfig } from '../schema.js'
+import type { EmailCampaignConfig } from '../schema.js'
 
 const props = defineProps({
-  modelValue: { type: Object as vue.PropType<EmailSendConfig>, default: undefined },
+  modelValue: { type: Object as vue.PropType<EmailCampaignConfig>, default: undefined },
   card: { type: Object as vue.PropType<Card>, required: true },
   actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
 })
 
 const emit = defineEmits<{
-  (event: 'update:modelValue', payload: EmailSendConfig): void
+  (event: 'update:modelValue', payload: EmailCampaignConfig): void
 }>()
 
 const service = useService()
@@ -40,8 +40,8 @@ function getWordCountFromHTML(html?: string) {
 const items = vue.computed<NavItem[]>(() => {
   const em = email.value
   const wordCount = getWordCountFromHTML(em?.post?.content || '')
-  const settings = props.card.link(`/email-manage/settings?emailId=${em?.emailId}`)
-  const edit = props.card.link(`/email-edit?emailId=${em?.emailId}`)
+  const settings = props.card.link(`/campaign-manage/settings?campaignId=${em?.campaignId}`)
+  const edit = props.card.link(`/campaign-edit?campaignId=${em?.campaignId}`)
   const pub = props.card.link(`/settings/project`)
   const hasSubject = !!em?.subject
   const hasTitle = !!em?.post?.title
@@ -72,9 +72,9 @@ const readyAction = vue.computed<ActionItem>(() => {
   const isReady = items.value.every(item => item.isActive)
   const scheduledTime = em?.scheduledAt ? dayjs(em.scheduledAt).format('MMM D, YYYY h:mm A') : ''
   const readyText = em?.scheduleMode === 'now' ? 'Send Now...' : `Schedule (${scheduledTime})...`
-  if (em?.status === 'draft' && isReady)
+  if (em?.status === 'pending' && isReady)
     return { name: readyText, btn: 'primary', onClick: () => { showSendModal.value = true } }
-  else if (em?.status === 'draft')
+  else if (em?.status === 'pending')
     return { name: 'Waiting for Setup', btn: 'default', isDisabled: true }
   else
     return { name: em?.status, btn: 'default' }
@@ -105,9 +105,9 @@ const modalText = vue.computed(() => {
 async function sendOrSchedule() {
   const em = email.value
   // if (sendNow.value)
-  //   await service.fictionSend.sendEmailNow(em?.emailId)
+  //   await service.fictionSend.sendEmailNow(em?.campaignId)
   // else
-  //   await service.fictionSend.scheduleEmail(em?.emailId)
+  //   await service.fictionSend.scheduleEmail(em?.campaignId)
   showSendModal.value = false
 }
 </script>

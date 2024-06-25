@@ -6,17 +6,16 @@ import { toMarkdown } from '@fiction/core/utils/markdown.js'
 import EmailStandard from '@fiction/core/plugin-email/templates/EmailStandard.vue'
 import type { TransactionalEmailConfig } from '@fiction/core/plugin-email/index.js'
 import FictionFooterImg from '@fiction/core/plugin-email/img/fiction-email-footer.png'
-import FictionIconImg from '@fiction/core/plugin-email/img/fiction-icon.png'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
-import type { EmailSendConfig } from '../schema.js'
+import type { EmailCampaignConfig } from '../schema.js'
 
 const props = defineProps({
-  modelValue: { type: Object as vue.PropType<EmailSendConfig>, default: undefined },
+  modelValue: { type: Object as vue.PropType<EmailCampaignConfig>, default: undefined },
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
 const emit = defineEmits<{
-  (event: 'update:modelValue', payload: EmailSendConfig): void
+  (event: 'update:modelValue', payload: EmailCampaignConfig): void
 }>()
 
 const service = useService()
@@ -55,7 +54,7 @@ const emailConfig = vue.computed<TransactionalEmailConfig>(() => {
   return confirmEmail
 })
 
-async function setEmail(email?: EmailSendConfig) {
+async function setEmail(email?: EmailCampaignConfig) {
   if (!email) {
     emailHtml.value = ''
     return
