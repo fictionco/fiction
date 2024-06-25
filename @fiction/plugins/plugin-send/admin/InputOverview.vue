@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import type { ActionItem, NavItem } from '@fiction/core'
-import { getNavComponentType, useService, vue } from '@fiction/core'
+import { dayjs, getNavComponentType, useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import ElActions from '@fiction/ui/buttons/ElActions.vue'
+import ElModalConfirm from '@fiction/ui/ElModalConfirm.vue'
 import type { EmailSendConfig } from '../schema.js'
 
 const props = defineProps({
@@ -19,6 +20,8 @@ const service = useService()
 const email = vue.computed(() => {
   return props.modelValue
 })
+
+const showSendModal = vue.ref(false)
 
 const from = vue.computed(() => {
   const org = service.fictionUser.activeOrganization.value
@@ -48,6 +51,7 @@ const items = vue.computed<NavItem[]>(() => {
 
   const subs = em?.subscriberCount ? `${em?.subscriberCount} Subscribers` : 'No Subscribers'
   const hasSubs = !!(em?.subscriberCount && em?.subscriberCount > 0)
+
   return [
     { name: 'Schedule Send', desc: scheduleDisplay, isActive: true, href: settings },
     { name: 'Subject', desc: em?.subject || 'Not Set', isActive: hasSubject, href: settings },
@@ -58,10 +62,18 @@ const items = vue.computed<NavItem[]>(() => {
   ]
 })
 
+const sendNow = vue.computed(() => {
+  const em = email.value
+  return em?.scheduleMode === 'now' || !em?.scheduledAt || dayjs(em.scheduledAt).isBefore(dayjs())
+})
+
 const readyAction = vue.computed<ActionItem>(() => {
   const em = email.value
-  if (em?.status === 'draft' && !items.value.some(item => !item.isActive))
-    return { name: 'Ready to Publish', btn: 'primary' }
+  const isReady = items.value.every(item => item.isActive)
+  const scheduledTime = em?.scheduledAt ? dayjs(em.scheduledAt).format('MMM D, YYYY h:mm A') : ''
+  const readyText = em?.scheduleMode === 'now' ? 'Send Now...' : `Schedule (${scheduledTime})...`
+  if (em?.status === 'draft' && isReady)
+    return { name: readyText, btn: 'primary', onClick: () => { showSendModal.value = true } }
   else if (em?.status === 'draft')
     return { name: 'Waiting for Setup', btn: 'default', isDisabled: true }
   else
@@ -75,6 +87,29 @@ const allActions = vue.computed<ActionItem[]>(() => {
     ...propActions,
   ]
 })
+
+const modalText = vue.computed(() => {
+  const em = email.value
+  const scheduledTime = em?.scheduledAt ? dayjs(em.scheduledAt).format('MMM D, YYYY h:mm A') : ''
+  return sendNow.value
+    ? {
+        title: `Send email now?`,
+        sub: 'This will send the email you have composed as soon as resources are available.',
+      }
+    : {
+        title: `Schedule email for ${scheduledTime}?`,
+        sub: 'This will schedule the email to be sent at the specified time. You will need to cancel the schedule if you want to change settings.',
+      }
+})
+
+async function sendOrSchedule() {
+  const em = email.value
+  // if (sendNow.value)
+  //   await service.fictionSend.sendEmailNow(em?.emailId)
+  // else
+  //   await service.fictionSend.scheduleEmail(em?.emailId)
+  showSendModal.value = false
+}
 </script>
 
 <template>
@@ -110,5 +145,10 @@ const allActions = vue.computed<ActionItem[]>(() => {
         </div>
       </fieldset>
     </div>
+    <ElModalConfirm
+      v-model:vis="showSendModal"
+      v-bind="modalText"
+      @confirmed="sendOrSchedule()"
+    />
   </div>
 </template>

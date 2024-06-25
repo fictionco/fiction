@@ -21,7 +21,7 @@ defineProps({
       :loading="action.loading"
       :icon-after="action.iconAfter"
       :disabled="action.isDisabled"
-      @click="action.onClick && action.onClick({ event: $event, item: action })"
+      @click.stop="action.onClick && action.onClick({ event: $event, item: action })"
     >
       {{ action.name }}
     </ElButton>

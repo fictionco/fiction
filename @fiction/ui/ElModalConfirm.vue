@@ -28,16 +28,16 @@ export default {
 </script>
 
 <template>
-  <ElModal v-bind="$attrs" :vis="vis" @update:vis="emit('update:vis', $event)">
-    <div class="mb-6">
-      <div class="text-base font-bold">
+  <ElModal v-bind="$attrs" :vis="vis" modal-class="max-w-screen-sm p-8 lg:p-16" @update:vis="emit('update:vis', $event)">
+    <div class="mb-6 text-center">
+      <div class="text-lg font-bold text-balance">
         {{ title }}
       </div>
-      <div v-if="sub" class="text-xs text-theme-500 dark:text-theme-200 mt-2">
+      <div v-if="sub" class="text-base text-theme-500 dark:text-theme-200 mt-2 text-balance">
         {{ sub }}
       </div>
     </div>
-    <div class="flex justify-between">
+    <div class="flex justify-center gap-4">
       <ElButton class="" btn="default" icon="i-tabler-x" @click="emit('update:vis', false)">
         Cancel
       </ElButton>

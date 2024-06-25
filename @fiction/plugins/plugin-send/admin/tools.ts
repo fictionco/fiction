@@ -153,21 +153,21 @@ export function getTools(args: { fictionSend: FictionSend, card: Card }) {
     set: v => (email.value?.update(v || {})),
   })
 
-  const editEmailAction = () => ({
+  const editEmailAction = (btn: 'default' | 'primary' = 'default') => ({
     name: 'Compose',
     href: card.link(`/email-edit?emailId=${email.value?.emailId}`),
-    btn: 'primary' as const,
+    btn,
     icon: 'i-tabler-edit',
   })
 
-  const pubAction = () => ({
+  const pubAction = (btn: 'default' | 'primary' = 'default') => ({
     name: 'Publication Setup',
     href: card.link(`/settings/project`),
-    btn: 'default' as const,
+    btn,
     icon: 'i-tabler-news',
   })
 
-  const saveAction = () => {
+  const saveAction = (btn: 'default' | 'primary' = 'default') => {
     return {
       name: 'Save',
       onClick: async () => {
@@ -183,7 +183,7 @@ export function getTools(args: { fictionSend: FictionSend, card: Card }) {
         loading.value = false
       },
       loading: loading.value,
-      btn: 'primary' as const,
+      btn,
       icon: 'i-tabler-upload',
     }
   }
