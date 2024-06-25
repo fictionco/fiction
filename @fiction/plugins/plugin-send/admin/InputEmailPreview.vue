@@ -7,6 +7,7 @@ import EmailStandard from '@fiction/core/plugin-email/templates/EmailStandard.vu
 import type { TransactionalEmailConfig } from '@fiction/core/plugin-email/index.js'
 import FictionFooterImg from '@fiction/core/plugin-email/img/fiction-email-footer.png'
 import FictionIconImg from '@fiction/core/plugin-email/img/fiction-icon.png'
+import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import type { EmailSendConfig } from '../schema.js'
 
 const props = defineProps({
@@ -22,13 +23,8 @@ const service = useService()
 
 const emailHtml = vue.ref('')
 
-async function setEmail(email?: EmailSendConfig) {
-  if (!email) {
-    emailHtml.value = ''
-    return
-  }
-
-  const user = service.fictionUser.activeUser.value
+const emailConfig = vue.computed<TransactionalEmailConfig>(() => {
+  const email = props.modelValue || {}
   const org = service.fictionUser.activeOrganization.value
 
   const confirmEmail: TransactionalEmailConfig = {
@@ -56,11 +52,50 @@ async function setEmail(email?: EmailSendConfig) {
     darkMode: true,
   }
 
+  return confirmEmail
+})
+
+async function setEmail(email?: EmailSendConfig) {
+  if (!email) {
+    emailHtml.value = ''
+    return
+  }
+
+  // const user = service.fictionUser.activeUser.value
+  // const org = service.fictionUser.activeOrganization.value
+
+  // const confirmEmail: TransactionalEmailConfig = {
+  //   subject: email.subject,
+  //   heading: email.post?.title || 'No Title',
+  //   subHeading: email.post?.subTitle || 'No Subtitle',
+  //   bodyMarkdown: toMarkdown(email.post?.content || 'No content'),
+  //   actions: email.userConfig?.actions || [],
+  //   mediaSuper: {
+  //     media: { url: org?.avatar?.url || FictionIconImg },
+  //     name: org?.orgName,
+  //     href: org?.url,
+  //   },
+  //   mediaFooter: {
+  //     media: { url: FictionFooterImg },
+  //     name: 'Powered by Fiction',
+  //     href: 'https://www.fiction.com',
+  //   },
+  //   legal: {
+  //     name: org?.orgName,
+  //     href: org?.url,
+  //     desc: org?.address || '',
+  //   },
+  //   unsubscribeUrl: '#',
+  //   darkMode: true,
+  // }
+
   const r = await useRender(EmailStandard, {
-    props: confirmEmail,
+    props: emailConfig.value,
   })
   emailHtml.value = r.html
 }
+
+const org = vue.computed(() => service.fictionUser.activeOrganization.value)
 
 vue.onMounted(async () => {
   await setEmail(props.modelValue)
@@ -70,5 +105,28 @@ vue.onMounted(async () => {
 </script>
 
 <template>
-  <iframe class="h-[800px] w-full" :srcdoc="emailHtml" />
+  <div class="py-6  ">
+    <div class="border-b border-theme-200 dark:border-theme-700/70 mb-8 pb-8">
+      <div class=" mb-6">
+        <div class="text-3xl font-medium">
+          {{ emailConfig.subject }}
+        </div>
+        <div class="text-sm text-theme-500 dark:text-theme-400">
+          {{ emailConfig.subject }}
+        </div>
+      </div>
+      <div class="flex gap-4">
+        <div><ElAvatar class="size-12 rounded-full" :url="org?.avatar?.url" /></div>
+        <div>
+          <div class="font-medium">
+            {{ org?.orgName || "No Publication Name" }}
+          </div>
+          <div class="text-sm text-theme-500 dark:text-theme-400">
+            {{ org?.orgEmail }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <iframe class="h-[800px] w-full" :srcdoc="emailHtml" />
+  </div>
 </template>

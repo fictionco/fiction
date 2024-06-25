@@ -118,6 +118,7 @@ export interface CompiledServiceConfig {
       | 'orgName'
       | 'orgEmail'
       | 'url'
+      | 'address'
       | 'orgStatus'
       | 'ownerId'
       | 'avatar'

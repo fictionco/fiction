@@ -12,15 +12,17 @@ import { loadEmail } from '../utils'
 import { manageEmailSend } from '../utils.js'
 import InputAudience from './InputAudience.vue'
 import InputEmailPreview from './InputEmailPreview.vue'
+import InputOverview from './InputOverview.vue'
 
 export const tools = [
   {
     toolId: 'emailPreview',
-    title: 'Compose Email',
+    title: 'Email Preview',
     icon: 'i-tabler-eye',
     location: 'primary',
     isPrimary: true,
-    el: vue.defineAsyncComponent(() => import('./SidebarEmailEditor.vue')),
+    el: vue.defineAsyncComponent(() => import('./SidebarEmailPreview.vue')),
+    widthClasses: 'w-[400px] lg:w-[700px]',
   },
   {
     toolId: 'emailSettings',
@@ -67,8 +69,8 @@ export function getEmailManageOptions(args: { fictionSend: FictionSend, email?: 
           input: 'InputSelectCustom',
           isRequired: true,
           list: [
-            { label: 'Send Now', value: 'now' },
-            { label: 'Schedule Send', value: 'schedule' },
+            { name: 'Send Immediately', value: 'now' },
+            { name: 'Schedule Send', value: 'schedule' },
           ],
         }),
         new InputOption({
@@ -162,34 +164,60 @@ export function getTools(args: { fictionSend: FictionSend, card: Card }) {
     },
   })
 
+  const editEmailAction = () => ({
+    name: 'Compose Email',
+    href: card.link(`/email-edit?emailId=${email.value?.emailId}`),
+    btn: 'default' as const,
+    icon: 'i-tabler-edit',
+  })
+
+  const pubAction = () => ({
+    name: 'Edit Publication',
+    href: card.link(`/settings/project`),
+    btn: 'default' as const,
+    icon: 'i-tabler-news',
+  })
+
+  const saveAction = () => {
+    return {
+      name: 'Save',
+      onClick: async () => {
+        loading.value = true
+        const fields = val.value
+        if (!fields)
+          throw new Error('No fields')
+
+        const emailId = fields?.emailId
+
+        await manageEmailSend({ fictionSend, params: { _action: 'update', where: [{ emailId }], fields }, options: { minTime: 1000 } })
+
+        loading.value = false
+      },
+      loading: loading.value,
+      btn: 'primary' as const,
+      icon: 'i-tabler-upload',
+    }
+  }
+
   const tools = [
     new SettingsTool({
-      slug: 'view',
-      title: 'Settings',
-      userConfig: { isNavItem: true, navIcon: 'i-tabler-mail-cog', navIconAlt: 'i-tabler-mail-cog' },
+      slug: 'overview',
+      title: 'Overview',
+      userConfig: { isNavItem: true, navIcon: 'i-tabler-mail', navIconAlt: 'i-tabler-mail' },
       val,
-      getActions: (args) => {
+      getActions: () => vue.computed(() => [pubAction()]),
+      options: (_args) => {
         return vue.computed(() => {
-          return [{
-            name: 'Save',
-            onClick: async () => {
-              loading.value = true
-              const fields = val.value
-              if (!fields)
-                throw new Error('No fields')
-
-              const emailId = fields?.emailId
-
-              await manageEmailSend({ fictionSend, params: { _action: 'update', where: [{ emailId }], fields }, options: { minTime: 1000 } })
-
-              loading.value = false
-            },
-            loading: loading.value,
-            btn: 'primary',
-            iconAfter: 'i-tabler-arrow-up-right',
-          }]
+          return [new InputOption({ key: '*', input: InputOverview, props: { actions: [editEmailAction()] } })]
         })
       },
+    }),
+    new SettingsTool({
+      slug: 'settings',
+      title: 'Settings',
+      userConfig: { isNavItem: true, navIcon: 'i-tabler-settings', navIconAlt: 'i-tabler-settings-filled' },
+      val,
+      getActions: () => vue.computed(() => [editEmailAction(), saveAction()]),
       options: (_args) => {
         return vue.computed(() => getEmailManageOptions({ fictionSend, email: email.value, card }))
       },
@@ -199,11 +227,10 @@ export function getTools(args: { fictionSend: FictionSend, card: Card }) {
       title: vue.computed(() => `Preview`),
       userConfig: { isNavItem: true, navIcon: 'i-tabler-eye', navIconAlt: 'i-tabler-eye' },
       val,
+      getActions: () => vue.computed(() => [pubAction(), editEmailAction()]),
       options: (_args) => {
         return vue.computed(() => {
-          return [
-            new InputOption({ key: '*', label: 'Email Preview', input: InputEmailPreview }),
-          ]
+          return [new InputOption({ key: '*', label: 'Email Preview', input: InputEmailPreview })]
         })
       },
     }),

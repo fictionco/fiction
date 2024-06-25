@@ -53,6 +53,7 @@ const hasContent = vue.computed(() => !!slots?.default?.())
     :class="[buttonClasses, animateSelected && animate ? 'animate-selected' : '']"
     :href="href"
     :data-loading="loading"
+    :data-btn="btn"
     @click="onClick()"
   >
     <div
