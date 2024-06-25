@@ -28,20 +28,6 @@ function getItemClass(args: { item: NavItem, i: number, items: NavItem[], noHove
   ]
 }
 
-const refinedItems = vue.computed(() => {
-  return props.items.map((item) => {
-    if (item.items) {
-      item.isActive = activeSubMenu.value === item.name
-
-      if (!item.onClick) {
-        item.onClick = () => {
-          activeSubMenu.value = activeSubMenu.value === item.name ? undefined : item.name
-        }
-      }
-    }
-    return item
-  })
-})
 const attrs = vue.useAttrs()
 const passProps = vue.computed(() => {
   const { class: _, ...rest } = attrs
@@ -52,7 +38,7 @@ const passProps = vue.computed(() => {
 <template>
   <div class="flex" @click.stop>
     <div
-      v-for="(item, i) in refinedItems"
+      v-for="(item, i) in items"
       :key="i"
       class="relative"
     >

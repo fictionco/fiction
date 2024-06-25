@@ -73,8 +73,6 @@ async function load(args: { offset?: number, limit?: number } = {}) {
 
     indexMeta.value = r.indexMeta
 
-    console.warn('RESUTNT', r.data)
-
     subscribers.value = await addAvatarUrl(r.data || [])
   }
   catch (error) {

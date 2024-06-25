@@ -39,11 +39,11 @@ function shouldShow(args: ShouldShowArgs) {
 <template>
   <BubbleMenu
     :should-show="shouldShow"
-    :editor="editor"
+    :editor
     :tippy-options="{ duration: 100 }"
     class="isolate inline-flex rounded-md shadow-sm"
     @click.stop
   >
-    <ButtonMenu :items="items" :editor="editor" />
+    <ButtonMenu :items :editor />
   </BubbleMenu>
 </template>

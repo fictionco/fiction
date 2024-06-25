@@ -85,7 +85,9 @@ export class BubbleMenuTools {
       name: 'heading',
       isActive: this.subMenu.value === 'heading',
       icon: 'i-tabler-heading',
-      onClick: ({ item }) => this.subMenu.value = item?.name,
+      onClick: ({ item }) => {
+        this.subMenu.value = item?.name
+      },
       items: [
         {
           name: 'heading-h1',

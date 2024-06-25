@@ -27,9 +27,9 @@ export function page() {
             templates,
             templateId: 'hero',
             userConfig: {
-              superHeading: 'The #1 Platform for Personal Marketing',
-              heading: `Build Your Personal Brand`,
-              subHeading: `Tell your story &mdash; Create opportunities &mdash; Real results, guaranteed.`,
+              superHeading: 'The #1 Platform for Personal Branding',
+              heading: `The Personal Marketing Platform`,
+              subHeading: `Create a beautiful personal brand, capture email addresses, and measure results.`,
               actions: [
                 {
                   name: 'Create Account',

@@ -134,7 +134,7 @@ async function sendOrSchedule() {
               <div class="text-3xl" :class="!item.isActive ? 'i-tabler-x' : 'i-tabler-check'" />
             </div>
             <div class="text-sm">
-              <div class="font-medium text-theme-500 dark:text-theme-400 hover:text-theme-300 dark:hover:text-theme-0 cursor-pointer">
+              <div class=" font-medium text-theme-500 dark:text-theme-400 hover:text-theme-300 dark:hover:text-theme-0 cursor-pointer">
                 {{ item.name }}
               </div>
               <p id="comments-description" class="text-base">
