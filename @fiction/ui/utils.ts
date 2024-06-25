@@ -48,10 +48,10 @@ export function getBadgeClasses(args: { theme?: ColorTheme, size?: UiElementSize
     'xxs': 'px-1 py-0.5 text-[10px] rounded-sm',
     'xs': 'px-2 py-1 text-xs rounded-sm',
     'sm': 'px-3 py-1.5 text-sm rounded-md ',
-    'md': 'px-2 py-1 text-xs rounded-md ',
-    'lg': 'px-5 py-2.5 text-base rounded-lg',
-    'xl': 'px-6 py-3 text-base rounded-2xl',
-    '2xl': 'px-7 py-3.5 text-xl  rounded-2xl',
+    'md': 'px-4 py-2 text-sm rounded-full',
+    'lg': 'px-5 py-2.5 text-base rounded-full',
+    'xl': 'px-6 py-3 text-base rounded-full',
+    '2xl': 'px-7 py-3.5 text-xl  rounded-full',
   }
 
   const sizeClasses = size ? sizeStyles[size] : ''

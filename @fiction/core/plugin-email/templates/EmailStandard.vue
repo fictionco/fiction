@@ -181,7 +181,7 @@ const markdownStyles = {
                   <EImg class="rounded-md !border-2 !border-white/10 !border-solid" width="22" :src="mediaSuper.media?.url" />
                 </ELink>
               </EColumn>
-              <EColumn v-if="mediaSuper?.name" class="pl-3">
+              <EColumn v-if="mediaSuper?.name" :class="mediaSuper.media?.url ? `pl-3` : ''">
                 <ELink :href="mediaSuper.href || '#'" class="text-gray-500 dark:text-gray-300 font-normal text-[14px]">
                   {{ mediaSuper?.name }}
                 </ELink>

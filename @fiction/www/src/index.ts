@@ -165,7 +165,7 @@ const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp, fictionAppSites
 const fictionAnalytics = new FictionAnalytics({ clickhouseUrl, ...s, beaconPort: +fictionEnv.var('BEACON_PORT') })
 const fictionSubscribe = new FictionSubscribe(s)
 const fictionPosts = new FictionPosts(s)
-const fictionSend = new FictionSend({ fictionPosts, ...s })
+const fictionSend = new FictionSend({ fictionPosts, fictionSubscribe, ...s })
 
 const baseService = { ...s, fictionAnalytics, fictionSites, fictionTeam, fictionUi, fictionStripe, fictionSubscribe, fictionSend, fictionPosts }
 

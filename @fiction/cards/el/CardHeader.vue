@@ -86,6 +86,6 @@ const layout = vue.computed(() => {
         />
       </div>
     </div>
-    <CardActions :card="card" :justify="['justify', 'left', 'right'].includes(layout) ? 'left' : 'center'" :default-size="layout === 'justify' ? 'lg' : 'xl'" />
+    <CardActions :card="card" :justify="['justify', 'left', 'right'].includes(layout) ? 'left' : 'center'" :ui-size="layout === 'justify' ? 'lg' : 'xl'" />
   </div>
 </template>

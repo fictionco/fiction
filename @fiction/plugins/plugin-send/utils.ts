@@ -13,32 +13,21 @@ export async function manageEmails(args: { fictionSend: FictionSend, params: Man
 
 export async function manageEmailSend(args: { fictionSend: FictionSend, params: ManageEmailSendActionParams, options?: RequestOptions }) {
   const { fictionSend, params, options = {} } = args
-  const fictionPosts = fictionSend.settings.fictionPosts
 
   const r = await fictionSend.requests.ManageSend.projectRequest(params, options)
 
-  return r.data?.map(emailConfig => new Email({ ...emailConfig, fictionSend, fictionPosts })) || []
+  return r.data?.map(emailConfig => new Email({ ...emailConfig, fictionSend })) || []
 }
 
-export async function loadEmail(args: { fictionSend: FictionSend }) {
-  const { fictionSend } = args
-  const fictionRouter = fictionSend.settings.fictionRouter
+export async function loadEmail(args: { fictionSend: FictionSend, emailId: string }) {
+  const { fictionSend, emailId } = args
 
-  const emailId = fictionRouter.query.value.emailId as string | undefined
+  if (!emailId)
+    throw new Error('No emailId')
 
-  let email: Email
-  if (!emailId) {
-    const [_email] = await manageEmailSend({ fictionSend, params: { _action: 'create', fields: [{}] } })
+  const [_email] = await manageEmailSend({ fictionSend, params: { _action: 'get', where: { emailId }, loadDraft: true } })
 
-    await fictionRouter.replace({ query: { emailId: _email?.emailId } })
-
-    email = _email
-  }
-  else {
-    const [_email] = await manageEmailSend({ fictionSend, params: { _action: 'get', where: { emailId }, loadDraft: true } })
-
-    email = _email
-  }
+  const email = _email
 
   return email
 }

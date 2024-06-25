@@ -20,6 +20,11 @@ const email = vue.computed(() => {
   return props.modelValue
 })
 
+const from = vue.computed(() => {
+  const org = service.fictionUser.activeOrganization.value
+  return `${org?.orgName || org?.orgEmail} <${org?.orgEmail}>`
+})
+
 function getWordCountFromHTML(html?: string) {
   if (!html)
     return 0
@@ -35,20 +40,38 @@ const items = vue.computed<NavItem[]>(() => {
   const settings = props.card.link(`/email-manage/settings?emailId=${em?.emailId}`)
   const edit = props.card.link(`/email-edit?emailId=${em?.emailId}`)
   const pub = props.card.link(`/settings/project`)
+  const hasSubject = !!em?.subject
+  const hasTitle = !!em?.post?.title
+  const hasContent = !!em?.post?.content
+
+  const scheduleDisplay = em?.scheduledAt && em?.scheduleMode !== 'now' ? 'Scheduled' : 'Send on Publish'
+
+  const subs = em?.subscriberCount ? `${em?.subscriberCount} Subscribers` : 'No Subscribers'
+  const hasSubs = !!(em?.subscriberCount && em?.subscriberCount > 0)
   return [
-    { name: 'Schedule Send', desc: 'Send on Publish', isActive: false, href: settings },
-    { name: 'Subject', desc: em?.subject, isActive: true, href: settings },
-    { name: 'Sending From', desc: 'not set', isActive: true, href: pub },
-    { name: 'Sending To', desc: '240 Subscribers', isActive: true, href: settings },
-    { name: 'Title', desc: em?.post?.title, href: edit },
-    { name: 'Email Content', desc: `Approx. ${wordCount} Words`, href: edit },
+    { name: 'Schedule Send', desc: scheduleDisplay, isActive: true, href: settings },
+    { name: 'Subject', desc: em?.subject || 'Not Set', isActive: hasSubject, href: settings },
+    { name: 'Sending From', desc: from.value, isActive: !!from.value, href: pub },
+    { name: 'Sending To', desc: subs, isActive: hasSubs, href: settings },
+    { name: 'Title', desc: em?.post?.title || 'Not Set', href: edit, isActive: hasTitle },
+    { name: 'Email Content', desc: wordCount ? `Approx. ${wordCount} Words` : 'Not Set', href: edit, isActive: hasContent },
   ]
+})
+
+const readyAction = vue.computed<ActionItem>(() => {
+  const em = email.value
+  if (em?.status === 'draft' && !items.value.some(item => !item.isActive))
+    return { name: 'Ready to Publish', btn: 'primary' }
+  else if (em?.status === 'draft')
+    return { name: 'Waiting for Setup', btn: 'default', isDisabled: true }
+  else
+    return { name: em?.status, btn: 'default' }
 })
 
 const allActions = vue.computed<ActionItem[]>(() => {
   const propActions = props.actions || []
   return [
-    { name: 'Publish Email', btn: 'primary' },
+    readyAction.value,
     ...propActions,
   ]
 })
@@ -70,20 +93,20 @@ const allActions = vue.computed<ActionItem[]>(() => {
         <ElActions class="flex gap-4 mt-6" ui-size="lg" :actions="allActions" />
       </div>
       <fieldset class="my-12">
-        <div class="space-y-5">
-          <div v-for="(item, i) in items" :key="i" class="relative flex gap-4">
-            <div class="size-8 rounded-lg flex justify-center items-center " :class="item.isActive ? 'bg-primary-500 dark:bg-primary-800 text-white' : 'bg-theme-50 dark:bg-theme-700'">
-              <div class="text-xl" :class="!item.isActive ? 'i-tabler-x' : 'i-tabler-check'" />
+        <div class=" grid grid-cols-1 gap-4">
+          <component :is="getNavComponentType(item)" v-for="(item, i) in items" :key="i" :to="item.href" class="relative flex gap-5 border border-theme-200 dark:border-theme-600/80 dark:hover:border-theme-600 bg-theme-50 dark:bg-theme-700/30 rounded-xl p-4">
+            <div class="size-12 rounded-xl flex justify-center items-center " :class="item.isActive ? 'bg-green-500 dark:bg-green-600 text-white' : 'bg-theme-50 dark:bg-theme-700'">
+              <div class="text-3xl" :class="!item.isActive ? 'i-tabler-x' : 'i-tabler-check'" />
             </div>
-            <div class=" text-sm">
-              <component :is="getNavComponentType(item)" :to="item.href" class="font-medium text-theme-500 dark:text-theme-400 hover:text-theme-300 dark:hover:text-theme-0 cursor-pointer">
+            <div class="text-sm">
+              <div class="font-medium text-theme-500 dark:text-theme-400 hover:text-theme-300 dark:hover:text-theme-0 cursor-pointer">
                 {{ item.name }}
-              </component>
-              <p id="comments-description" class="text-lg">
+              </div>
+              <p id="comments-description" class="text-base">
                 {{ item?.desc }}
               </p>
             </div>
-          </div>
+          </component>
         </div>
       </fieldset>
     </div>

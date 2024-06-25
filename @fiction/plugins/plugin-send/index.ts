@@ -4,6 +4,7 @@ import type { FictionTransactions } from '@fiction/plugin-transactions'
 import { createCard } from '@fiction/site'
 import type { FictionAdmin } from '@fiction/admin'
 import type { FictionPosts } from '@fiction/posts'
+import type { FictionSubscribe } from '@fiction/plugin-subscribe'
 import type { ExtensionManifest } from '../plugin-extend'
 import { ManageSend } from './endpoint'
 import { sendTable } from './schema.js'
@@ -18,6 +19,7 @@ export type FictionSendSettings = {
   fictionAdmin: FictionAdmin
   fictionPosts: FictionPosts
   fictionRouter: FictionRouter
+  fictionSubscribe: FictionSubscribe
 } & FictionPluginSettings
 
 export class FictionSend extends FictionPlugin<FictionSendSettings> {

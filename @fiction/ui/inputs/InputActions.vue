@@ -4,11 +4,11 @@ import ElButton from '../ElButton.vue'
 
 const props = defineProps({
   actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
-  defaultSize: { type: String as vue.PropType<ActionItem['size']>, default: 'sm' },
+  uiSize: { type: String as vue.PropType<ActionItem['size']>, default: 'sm' },
 })
 
 function gapSize() {
-  switch (props.defaultSize) {
+  switch (props.uiSize) {
     case 'xs':
       return 'gap-2'
     case 'sm':
@@ -31,7 +31,7 @@ function gapSize() {
       v-for="(action, i) in actions"
       :key="i"
       :btn="action.btn || 'default'"
-      :size="action.size || defaultSize"
+      :size="action.size || uiSize"
       :loading="action.loading"
       :href="action.href"
       :target="action.target"

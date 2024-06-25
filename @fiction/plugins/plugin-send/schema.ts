@@ -23,7 +23,7 @@ export const MediaDisplayObjectSchema = z.object({
 
 export type TableEmailSend = ColType<typeof sendColumns>
 
-export type EmailSendConfig = Partial<TableEmailSend> & { post?: TablePostConfig }
+export type EmailSendConfig = Partial<TableEmailSend> & { post?: TablePostConfig, subscriberCount?: number }
 
 const EmailUserConfigSchema = z.object({
   actions: z.array(z.object({ name: z.string().optional(), href: z.string().optional(), btn: z.string() as z.Schema<'default' | 'primary'> })).optional(),
@@ -36,13 +36,13 @@ export const sendColumns = [
   new Col({ key: 'postId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`${t.posts}.postId`).onUpdate('CASCADE').onDelete('CASCADE').notNullable().index() }),
   new Col({ key: 'status', sch: () => PostStatusSchema, make: ({ s, col }) => s.string(col.k, 50).defaultTo('draft') }),
   new Col({ key: 'title', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k), sec: 'setting' }),
-  new Col({ key: 'sentAt', sch: ({ z }) => z.string().nullable(), make: ({ s, col }) => s.timestamp(col.k).defaultTo(null) }),
+  new Col({ key: 'sentAt', sch: ({ z }) => z.string(), make: ({ s, col }) => s.timestamp(col.k).defaultTo(null) }),
   new Col({ key: 'subject', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'preview', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
-  new Col({ key: 'from', sch: ({ z }) => z.string().nullable(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'from', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'avatar', sch: () => MediaDisplayObjectSchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
   new Col({ key: 'scheduleMode', sch: ({ z }) => z.enum(['now', 'schedule']), make: ({ s, col }) => s.string(col.k) }),
-  new Col({ key: 'scheduledAt', sch: ({ z }) => z.string().nullable(), make: ({ s, col }) => s.timestamp(col.k).defaultTo(null) }),
+  new Col({ key: 'scheduledAt', sch: ({ z }) => z.string(), make: ({ s, col }) => s.timestamp(col.k).defaultTo(null) }),
   new Col({ key: 'filters', sch: ({ z }) => z.array(DataFilterSchema), make: ({ s, col }) => s.jsonb(col.k).defaultTo([]) }),
   new Col({ key: 'counts', sch: () => EmailAnalyticsSchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
   new Col({ key: 'draft', sch: ({ z }) => z.record(z.string(), z.any()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),

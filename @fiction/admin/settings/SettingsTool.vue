@@ -13,7 +13,7 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
   tools: { type: Array as vue.PropType<SettingsTool[]>, required: true },
   basePath: { type: String, required: true },
-  titlePrefix: { type: String, default: '' },
+  title: { type: String, default: '' },
 })
 
 const service = useService()
@@ -46,10 +46,6 @@ const nav = vue.computed<NavItem[]>(() => {
 const actions = vue.computed(() => {
   const tool = currentPanel.value
   return tool?.getActions?.({ tool, service }).value || []
-})
-
-const title = vue.computed(() => {
-  return [props.titlePrefix, currentPanel.value?.title.value || ''].filter(Boolean).join(' - ')
 })
 
 async function navigate(v: NavItem) {
@@ -91,7 +87,7 @@ async function navigate(v: NavItem) {
             </component>
           </div>
         </div>
-        <ElForm v-if="currentPanel?.val" class="grow min-w-0 bg-theme-0 dark:bg-theme-900 rounded-r-lg overflow-hidden py-4 lg:py-8">
+        <ElForm v-if="currentPanel?.val" class="grow min-w-0 bg-theme-0 dark:bg-theme-900 rounded-r-lg overflow-hidden ">
           <transition
             enter-active-class="ease-out duration-300"
             enter-from-class="opacity-0 translate-x-12"
@@ -101,16 +97,20 @@ async function navigate(v: NavItem) {
             leave-to-class="opacity-0 -translate-x-12"
             mode="out-in"
           >
-            <ToolForm
-              :key="currentPanel.slug"
-              v-model="currentPanel.val.value"
-              :data-settings-tool="currentPanel.slug"
-              ui-size="lg"
-              :options="currentPanelOptions"
-              :card
-              :disable-group-hide="true"
-              :data-value="JSON.stringify(currentPanel.val.value)"
-            />
+            <div :key="currentPanel.slug">
+              <div class="px-6 py-4 mb-6 font-semibold text-lg dark:text-theme-600 text-theme-300">
+                {{ currentPanel.title.value }}
+              </div>
+              <ToolForm
+                v-model="currentPanel.val.value"
+                :data-settings-tool="currentPanel.slug"
+                ui-size="lg"
+                :options="currentPanelOptions"
+                :card
+                :disable-group-hide="true"
+                :data-value="JSON.stringify(currentPanel.val.value)"
+              />
+            </div>
           </transition>
         </ElForm>
       </div>

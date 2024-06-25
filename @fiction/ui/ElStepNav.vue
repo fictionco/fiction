@@ -120,7 +120,7 @@ async function next(currentStep: StepItem) {
         </div>
       </div>
     </ElStep>
-    <div class="nav mt-12 flex w-full justify-center space-x-3 pointer-events-auto">
+    <div v-if="steps.length > 1" class="nav mt-12 flex w-full justify-center space-x-3 pointer-events-auto">
       <div
         v-for="(s, i) in steps"
         :key="i"

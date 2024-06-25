@@ -75,6 +75,7 @@ export type ActionItem = NavItem & {
   size?: 'xs' | 'sm' | 'lg' | 'md' | 'xl' | '2xl'
   target?: string
   loading?: boolean
+  isDisabled?: boolean
 }
 
 export type MediaItem = {

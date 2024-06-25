@@ -28,9 +28,7 @@ defineProps({
           class="flex items-center space-x-4 px-4 py-2 justify-between"
           :class="headerClass"
         >
-          <h2 v-if="title" class="x-font-title text-lg font-semibold">
-            {{ title }}
-          </h2>
+          <h2 v-if="title" class="x-font-title text-lg font-semibold" v-html="title" />
           <div
             v-if="actions && actions.length"
             class="flex shrink-0 items-end justify-end space-x-4"

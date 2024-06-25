@@ -1,4 +1,4 @@
-import { type EndpointMeta, type EndpointResponse, type FictionDb, type FictionEmail, type FictionEnv, type FictionUser, type User, vue } from '@fiction/core'
+import { type DataFilter, type EndpointMeta, type EndpointResponse, type FictionDb, type FictionEmail, type FictionEnv, type FictionUser, type IndexQuery, type User, vue } from '@fiction/core'
 import { Query, dayjs, deepMerge, prepareFields } from '@fiction/core'
 import { refineParams, refineTimelineData } from '@fiction/analytics/utils/refine'
 import type { DataCompared, DataPointChart, QueryParamsRefined } from '@fiction/analytics/types'
@@ -24,13 +24,15 @@ abstract class SubscribeEndpoint extends Query<SubscriberEndpointSettings> {
 export type WhereSubscription = { userId?: string, email?: string, subscriptionId?: string } & ({ userId: string } | { email: string } | { subscriptionId: string })
 
 export type SubscriberCreate = { email?: string, userId?: string, fields?: Partial<TableSubscribeConfig> } & ({ userId: string } | { email: string })
-export type ManageSubscriptionParams =
+export type ManageSubscriptionRequest =
   | { _action: 'create', orgId: string } & SubscriberCreate
   | { _action: 'bulkCreate', orgId: string, subscribers: SubscriberCreate[] }
   | { _action: 'list', orgId: string, where?: Partial<TableSubscribeConfig>, limit?: number, offset?: number, page?: number }
-  | { _action: 'count', orgId: string, where: Partial<TableSubscribeConfig> }
+  | { _action: 'count', orgId: string, filters?: DataFilter[] }
   | { _action: 'update', orgId: string, where: WhereSubscription[], fields: Partial<TableSubscribeConfig> }
   | { _action: 'delete', orgId: string, where: WhereSubscription[] }
+
+export type ManageSubscriptionParams = ManageSubscriptionRequest & IndexQuery
 
 export type ManageSubscriptionResponse = EndpointResponse<Subscriber[]>
 
@@ -55,6 +57,9 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
       case 'update':
         r = await this.updateSubscription(params, meta)
         break
+      case 'count':
+        r = { status: 'success', data: [] } // added in indexMeta
+        break
       case 'delete':
         r = await this.deleteSubscription(params, meta)
         break
@@ -71,9 +76,17 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
 
   private async addIndexMeta(params: ManageSubscriptionParams, r: ManageSubscriptionResponse, _meta?: EndpointMeta): Promise<ManageSubscriptionResponse> {
     const { orgId } = params
-    const { limit = this.limit, offset = this.offset } = params as { limit?: number, offset?: number }
+    const { limit = this.limit, offset = this.offset, filters = [] } = params
 
-    const { count } = await this.db().table(t.subscribe).where({ orgId }).count().first<{ count: string }>()
+    const q = this.db().table(t.subscribe).where({ orgId }).count().first<{ count: string }>()
+
+    if (filters.length) {
+      filters.forEach((filter) => {
+        void q.andWhere(filter.field, filter.operator, filter.value)
+      })
+    }
+
+    const { count } = await q
 
     r.indexMeta = { limit, offset, count: +count, ...r.indexMeta }
 

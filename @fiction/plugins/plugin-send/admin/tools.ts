@@ -45,9 +45,6 @@ export function getEmailManageOptions(args: { fictionSend: FictionSend, email?: 
   const { email, card } = args
   return [
     new InputOption({ key: 'title', label: 'Internal Title', input: 'InputText', isRequired: true }),
-    new InputOption({ key: 'actions', label: 'Edit', input: 'InputActions', props: {
-      actions: [{ name: 'Edit Email', btn: 'primary', href: card.link(`/email-edit?emailId=${email?.emailId}`) }],
-    } }),
     new InputOption({
       key: 'emailSettings',
       label: 'Email Settings',
@@ -81,11 +78,7 @@ export function getEmailManageOptions(args: { fictionSend: FictionSend, email?: 
           isHidden: email?.scheduleMode.value !== 'schedule',
           props: { includeTime: true, dateMode: 'future' },
         }),
-        new InputOption({
-          key: 'audience',
-          label: 'Audience',
-          input: InputAudience,
-        }),
+        new InputOption({ key: 'audience', label: 'Audience', input: InputAudience }),
       ],
     }),
 
@@ -102,12 +95,12 @@ export function getEmailManageOptions(args: { fictionSend: FictionSend, email?: 
           placeholder: 'Title',
           isRequired: true,
         }),
-        new InputOption({
-          key: 'post.subTitle',
-          label: 'Subtitle',
-          input: 'InputText',
-        }),
-        new InputOption({ key: 'post.authors', label: 'Authors', input: InputAuthors, props: { } }),
+        new InputOption({ key: 'post.subTitle', label: 'Subtitle', input: 'InputText' }),
+
+        new InputOption({ key: 'actions', label: 'Email Body Content', input: 'InputActions', props: {
+          actions: [{ name: 'Edit Email Content', btn: 'primary', href: card.link(`/email-edit?emailId=${email?.emailId}`) }],
+          uiSize: 'md',
+        } }),
       ],
     }),
     new InputOption({
@@ -149,30 +142,26 @@ export function getTools(args: { fictionSend: FictionSend, card: Card }) {
   const email = vue.shallowRef<Email>()
 
   vue.watch(() => fictionRouter.query.value.emailId, async (v, old) => {
-    if (v === old)
+    if (!v || v === old)
       return
 
-    email.value = await loadEmail({ fictionSend })
+    email.value = await loadEmail({ fictionSend, emailId: v as string })
   }, { immediate: true })
 
   const val = vue.computed<EmailSendConfig | undefined>({
-    get: () => {
-      return email.value?.toConfig()
-    },
-    set: (v) => {
-      email.value?.update(v || {})
-    },
+    get: () => email.value?.toConfig(),
+    set: v => (email.value?.update(v || {})),
   })
 
   const editEmailAction = () => ({
-    name: 'Compose Email',
+    name: 'Compose',
     href: card.link(`/email-edit?emailId=${email.value?.emailId}`),
-    btn: 'default' as const,
+    btn: 'primary' as const,
     icon: 'i-tabler-edit',
   })
 
   const pubAction = () => ({
-    name: 'Edit Publication',
+    name: 'Publication Setup',
     href: card.link(`/settings/project`),
     btn: 'default' as const,
     icon: 'i-tabler-news',

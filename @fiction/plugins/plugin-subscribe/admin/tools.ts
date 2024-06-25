@@ -13,7 +13,7 @@ export function getTools(args: { service: StandardServices }) {
   const tools = [
     new SettingsTool({
       title: 'Back',
-      href: '/subscriber',
+      href: '/audience',
       userConfig: { isNavItem: true, navIcon: 'i-tabler-arrow-down-left', navIconAlt: 'i-tabler-arrow-left' },
     }),
     new SettingsTool({

@@ -44,7 +44,7 @@ export class ManageSend extends SendEndpoint {
         r = await this.list(params, meta)
         break
       case 'get':
-        r = await this.list({ ...params, _action: 'list', filters: [{ field: 'emailId', operator: '=', value: params.where.emailId || '' }] }, meta)
+        r = await this.get(params, meta)
         break
       case 'update':
         r = await this.update(params, meta)
@@ -111,14 +111,33 @@ export class ManageSend extends SendEndpoint {
 
       const [row] = await this.db().table(t.send).insert(insertData).returning('*')
 
-      row.post = post
+      const r2 = await this.get({ _action: 'get', orgId, where: { emailId: row.emailId } }, meta)
 
-      return row
+      const email = r2.data?.[0]
+
+      if (!email) {
+        throw new Error('Email not created')
+      }
+
+      return email
     })
 
     const data = await Promise.all(promises)
 
     return { status: 'success', message: 'created successfully', data, indexMeta: { changedCount: fields.length } }
+  }
+
+  private async get(params: ManageEmailSendParams & { _action: 'get' }, meta: EndpointMeta): Promise<ManageSendResponse> {
+    const r = await this.list({ ...params, _action: 'list', filters: [{ field: 'emailId', operator: '=', value: params.where.emailId || '' }] }, meta)
+
+    const ManageSubscription = this.settings.fictionSubscribe.queries.ManageSubscription
+    const sub = await ManageSubscription.serve({ _action: 'count', orgId: params.orgId }, meta)
+
+    if (r.data?.[0]) {
+      r.data[0].subscriberCount = sub.indexMeta?.count || 0
+    }
+
+    return r
   }
 
   private async list(params: ManageEmailSendParams & { _action: 'list' }, _meta: EndpointMeta): Promise<ManageSendResponse> {

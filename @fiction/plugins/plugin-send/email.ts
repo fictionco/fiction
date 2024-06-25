@@ -5,20 +5,22 @@ import type { EmailSendConfig } from './schema'
 import { settingsKeys } from './schema'
 import type { FictionSend } from '.'
 
-export type PostConfig = { fictionSend: FictionSend, fictionPosts: FictionPosts } & EmailSendConfig
+export type EmailConfig = { fictionSend: FictionSend } & EmailSendConfig
 
-export class Email extends FictionObject<PostConfig> {
+export class Email extends FictionObject<EmailConfig> {
+  fictionPosts = this.settings.fictionSend.settings.fictionPosts
+  fictionUser = this.settings.fictionSend.settings.fictionUser
   emailId = this.settings.emailId || objectId({ prefix: 'eml' })
   status = vue.ref(this.settings.status || 'draft')
   scheduleMode = vue.ref(this.settings.scheduleMode || 'now')
   title = vue.ref(this.settings.title || 'Untitled')
   scheduledAt = vue.ref(this.settings.scheduledAt)
   filters = vue.ref(this.settings.filters || [])
-  post = vue.shallowRef(new Post({ ...(this.settings.post || {}), fictionPosts: this.settings.fictionPosts }))
+  post = vue.shallowRef(new Post({ ...(this.settings.post || {}), fictionPosts: this.fictionPosts }))
   subject = vue.ref(this.settings.subject || '')
   preview = vue.ref(this.settings.preview || '')
   userConfig = vue.ref(this.settings.userConfig || {})
-  constructor(settings: PostConfig) {
+  constructor(settings: EmailConfig) {
     super('EmailSend', settings)
   }
 
@@ -62,7 +64,7 @@ export class Email extends FictionObject<PostConfig> {
   }
 
   toConfig(): EmailSendConfig {
-    const { fictionSend, fictionPosts, ...rest } = this.settings
+    const { fictionSend, ...rest } = this.settings
 
     return {
       ...rest,

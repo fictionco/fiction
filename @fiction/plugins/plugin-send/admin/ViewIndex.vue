@@ -8,12 +8,13 @@ import ElZeroBanner from '@fiction/ui/ElZeroBanner.vue'
 import { manageEmailSend } from '../utils.js'
 import type { FictionSend } from '../index.js'
 import type { Email } from '../email.js'
+import ElStart from './ElStart.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
-const { fictionSend } = useService<{ fictionSend: FictionSend }>()
+const { fictionSend, fictionRouter } = useService<{ fictionSend: FictionSend }>()
 
 const emails = vue.shallowRef<Email[]>([])
 
@@ -39,9 +40,17 @@ async function load() {
   emails.value = await manageEmailSend({ params: createParams, fictionSend })
   loading.value = false
 }
+const showStartModal = vue.ref(false)
 
 vue.onMounted(async () => {
   vue.watch(() => fictionSend.cacheKey.value, load, { immediate: true })
+
+  vue.watchEffect(() => {
+    if (fictionRouter.query.value.addEmail) {
+      showStartModal.value = true
+      fictionRouter.query.value = { }
+    }
+  })
 })
 
 const href = props.card.link('/email-edit')
@@ -49,7 +58,7 @@ const href = props.card.link('/email-edit')
 
 <template>
   <div :class="card.classes.value.contentWidth">
-    <ElIndexGrid media-icon="i-tabler-mail" list-title="Emails" :list="list" :loading="loading" :actions="[{ name: 'New Email', icon: 'i-tabler-plus', btn: 'primary', href }]">
+    <ElIndexGrid media-icon="i-tabler-mail" list-title="Emails" :list="list" :loading="loading" :actions="[{ name: 'New Email', icon: 'i-tabler-plus', btn: 'primary', onClick: () => { showStartModal = true } }]">
       <template #item="{ item }">
         <div class="flex -space-x-0.5">
           <dt class="sr-only">
@@ -62,12 +71,13 @@ const href = props.card.link('/email-edit')
       </template>
       <template #zero>
         <ElZeroBanner
-          title="Create Your First Email Campaign"
+          title="Send Your First Email"
           description="Quickly send a message to your subscribers."
           icon="i-tabler-mail-share"
-          :actions="[{ name: 'Start', href, btn: 'primary', icon: 'i-heroicons-plus' }]"
+          :actions="[{ name: 'Start', onClick: () => { showStartModal = true }, btn: 'primary', icon: 'i-heroicons-plus' }]"
         />
       </template>
     </ElIndexGrid>
+    <ElStart v-model:vis="showStartModal" :card="card" />
   </div>
-</template>import { manageEmailSend } from '../utils.js'import { manageEmailSend } from '../utils.js'import { manageEmailSend } from '../utils.js'
+</template>

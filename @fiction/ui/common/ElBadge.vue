@@ -14,7 +14,14 @@ const badgeClasses = vue.computed(() => getBadgeClasses({ theme: props.theme, si
 </script>
 
 <template>
-  <component :is="getNavComponentType({ href }, 'span')" :href="href" :to="href" :class="badgeClasses" class="">
+  <component
+    :is="getNavComponentType({ href }, 'span')"
+    :href="href"
+    :to="href"
+    :class="badgeClasses"
+    :data-size="size"
+    :data-theme="theme"
+  >
     <span v-if="icon" :class="icon" class="text-[1.2em] my-[2px]" /><slot />
   </component>
 </template>

@@ -34,7 +34,7 @@ const emailConfig = vue.computed<TransactionalEmailConfig>(() => {
     bodyMarkdown: toMarkdown(email.post?.content || 'No content'),
     actions: email.userConfig?.actions || [],
     mediaSuper: {
-      media: { url: org?.avatar?.url || FictionIconImg },
+      media: { url: org?.avatar?.url },
       name: org?.orgName,
       href: org?.url,
     },
@@ -60,34 +60,6 @@ async function setEmail(email?: EmailSendConfig) {
     emailHtml.value = ''
     return
   }
-
-  // const user = service.fictionUser.activeUser.value
-  // const org = service.fictionUser.activeOrganization.value
-
-  // const confirmEmail: TransactionalEmailConfig = {
-  //   subject: email.subject,
-  //   heading: email.post?.title || 'No Title',
-  //   subHeading: email.post?.subTitle || 'No Subtitle',
-  //   bodyMarkdown: toMarkdown(email.post?.content || 'No content'),
-  //   actions: email.userConfig?.actions || [],
-  //   mediaSuper: {
-  //     media: { url: org?.avatar?.url || FictionIconImg },
-  //     name: org?.orgName,
-  //     href: org?.url,
-  //   },
-  //   mediaFooter: {
-  //     media: { url: FictionFooterImg },
-  //     name: 'Powered by Fiction',
-  //     href: 'https://www.fiction.com',
-  //   },
-  //   legal: {
-  //     name: org?.orgName,
-  //     href: org?.url,
-  //     desc: org?.address || '',
-  //   },
-  //   unsubscribeUrl: '#',
-  //   darkMode: true,
-  // }
 
   const r = await useRender(EmailStandard, {
     props: emailConfig.value,

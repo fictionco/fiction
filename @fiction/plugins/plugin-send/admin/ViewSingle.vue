@@ -42,8 +42,16 @@ async function publish() {
 }
 
 vue.onMounted(async () => {
-  email.value = await loadEmail({ fictionSend })
-  loading.value = false
+  vue.watch(() => fictionRouter.query.value.emailId, async (v, old) => {
+    if (!v || v === old)
+      return
+
+    loading.value = true
+
+    email.value = await loadEmail({ fictionSend, emailId: v as string })
+
+    loading.value = false
+  }, { immediate: true })
 })
 
 const actions = vue.computed(() => {

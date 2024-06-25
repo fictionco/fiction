@@ -62,7 +62,7 @@ const ico = vue.computed(() => iconThemes[props.status as keyof typeof iconTheme
         <div class="pb-24 md:pb-8 relative space-y-6">
           <slot />
 
-          <InputActions :data-test-actions="actions.length" class="justify-center" default-size="md" :actions />
+          <InputActions :data-test-actions="actions.length" class="justify-center" ui-size="md" :actions />
         </div>
       </div>
     </transition>

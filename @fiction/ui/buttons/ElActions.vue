@@ -20,6 +20,7 @@ defineProps({
       :icon="action.icon"
       :loading="action.loading"
       :icon-after="action.iconAfter"
+      :disabled="action.isDisabled"
       @click="action.onClick && action.onClick({ event: $event, item: action })"
     >
       {{ action.name }}
