@@ -19,6 +19,7 @@ import * as pricing from './pricing/index.js'
 import * as marquee from './marquee/index.js'
 import * as magazine from './magazine/index.js'
 import * as capture from './capture/index.js'
+import * as showcase from './showcase/index.js'
 /**
  * Add path for tailwindcss to scan for styles
  */
@@ -46,6 +47,7 @@ export const standardCardTemplates = [
   ...map.templates,
   ...magazine.templates,
   ...capture.templates,
+  ...showcase.templates,
 ] as const
 
 export const marketingCardTemplates = [
@@ -69,5 +71,6 @@ export function getDemoPages() {
     area.demo(),
     magazine.demo(),
     capture.demo(),
+    showcase.demo(),
   ]
 }
