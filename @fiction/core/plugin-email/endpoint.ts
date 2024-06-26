@@ -37,7 +37,7 @@ export abstract class EmailQuery extends Query<EmailQuerySettings> {
     else if (emailMode === 'standard' && isTest) {
       disabledMessage = 'in test'
     }
-    else if ((emailMode === 'sendInProd' && !isProd) || isTest) {
+    else if (emailMode === 'sendInProd' && (!isProd || isTest)) {
       disabledMessage = 'in dev or test'
     }
 

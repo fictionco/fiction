@@ -5,7 +5,7 @@ import { createTestUser } from '@fiction/core/test-utils/init.js'
 import { setup } from './kit.main.js'
 
 describe('subscribe uiux', { retry: 3 }, async () => {
-  const kit = await createUiTestingKit({ headless: true, setup, slowMo: 0 })
+  const kit = await createUiTestingKit({ headless: false, setup, slowMo: 4000 })
 
   afterAll(() => kit?.close())
   const testUtils = kit.testUtils
@@ -43,7 +43,7 @@ describe('subscribe uiux', { retry: 3 }, async () => {
 
     const r = await action.serveSend({ recipient, queryVars }, { server: true, emailMode: 'send' })
 
-    expect(r.data?.isSent).toBe(true)
+    expect(r.data?.isSent, 'email is sent').toBe(true)
 
     vars = r.emailVars
 
