@@ -129,6 +129,10 @@
       "path": "/api/send/ManageCampaign"
     },
     {
+      "key": "ManageSend",
+      "path": "/api/send/ManageSend"
+    },
+    {
       "key": "posts",
       "path": "/api/widgets/posts"
     },

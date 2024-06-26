@@ -12,7 +12,7 @@
     "monaco-editor": "^0.50.0",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.4",
-    "vue": "^3.4.29",
+    "vue": "^3.4.30",
     "zod": "^3.23.8",
     "zod-to-json-schema": "^3.23.1"
   },

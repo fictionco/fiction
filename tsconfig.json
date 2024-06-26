@@ -29,7 +29,8 @@
     "removeComments": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true, // vue/vetur needs this
-    "skipDefaultLibCheck": true
+    "skipDefaultLibCheck": true,
+    "noErrorTruncation": true // prevent cutoff error messages
   },
   "references": [],
   "include": [
