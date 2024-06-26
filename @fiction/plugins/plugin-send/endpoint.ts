@@ -118,6 +118,9 @@ export class ManageCampaign extends SendEndpoint {
     else if (dayjs(scheduledAt).add(1, 'hour').isBefore(now)) {
       throw new Error('Scheduled date is in the past')
     }
+    else {
+      this.log.info('Sending email', { data: { campaignId: campaign.campaignId, scheduledAt } })
+    }
 
     const r2 = await this.update({ _action: 'update', orgId, userId, where: [where], fields: { status: 'requested', scheduledAt } }, meta)
 
@@ -262,9 +265,9 @@ export class ManageCampaign extends SendEndpoint {
 
 export class ManageSend extends SendEndpoint {
   job?: CronJob
-  init(args: { crontab?: string } = {}) {
+  async init(args: { crontab?: string } = {}) {
     const { crontab = '*/2 * * * *' } = args
-    this.startCronJob({ crontab })
+    await this.startCronJob({ crontab })
   }
 
   async run(_params: ManageCampaignParams, _meta: EndpointMeta): Promise<EndpointResponse> {
@@ -286,7 +289,7 @@ export class ManageSend extends SendEndpoint {
   }
 
   // Method to process each email
-  private async processCampaign(c: { campaignId: string, orgId: string }): Promise<void> {
+  async processCampaign(c: { campaignId?: string, orgId?: string }): Promise<ManageCampaignResponse & { emailsSent?: number }> {
     const fictionUser = this.settings.fictionUser
     const fictionSend = this.settings.fictionSend
     const ManageCampaign = fictionSend.queries.ManageCampaign
@@ -294,6 +297,8 @@ export class ManageSend extends SendEndpoint {
     if (!orgId || !campaignId) {
       throw new Error('Invalid campaign')
     }
+
+    let emailsSent = 0
     try {
       // Update email status to 'processing'
       const r = await ManageCampaign.serve({ _action: 'update', where: [{ campaignId }], orgId, fields: { status: 'processing' } }, { server: true })
@@ -335,20 +340,26 @@ export class ManageSend extends SendEndpoint {
           }
 
           await this.sendEmailToSubscriber({ email, emailConfig })
+
+          emailsSent++
         }))
         offset += limit
       }
 
       // Update email status to 'ready'
 
-      await ManageCampaign.serve({ _action: 'update', orgId, where: [{ campaignId }], fields: { status: 'ready' } }, { server: true })
+      const r3 = await ManageCampaign.serve({ _action: 'update', orgId, where: [{ campaignId }], fields: { status: 'ready' } }, { server: true })
+
+      return { ...r3, emailsSent }
     }
     catch (error) {
       // Handle errors and retries
       this.log.error(`Error processing campaign ${campaignId}:`, { error })
       // Optionally update status to 'failed' or handle retries
 
-      await ManageCampaign.serve({ _action: 'update', where: [{ campaignId }], orgId, fields: { status: 'error' } }, { server: true })
+      const r4 = await ManageCampaign.serve({ _action: 'update', where: [{ campaignId }], orgId, fields: { status: 'error' } }, { server: true })
+
+      return { ...r4, emailsSent }
     }
   }
 
@@ -360,19 +371,23 @@ export class ManageSend extends SendEndpoint {
     return result.data || []
   }
 
-  private async sendEmailToSubscriber(args: { email: string, emailConfig: TransactionalEmailConfig }): Promise<void> {
+  async sendEmailToSubscriber(args: { email: string, emailConfig: TransactionalEmailConfig }): Promise<void> {
     const { email, emailConfig } = args
     const fictionEmail = this.settings.fictionEmail
 
-    await fictionEmail.sendTransactional({ ...emailConfig, to: email }, { server: true, emailMode: 'sendInProd' })
+    await fictionEmail.sendEmail({ ...emailConfig, to: email }, { server: true, emailMode: 'sendInProd' })
   }
 
   // Method to start the cron job
-  private startCronJob(args: { crontab: string }) {
+  private async startCronJob(args: { crontab: string }) {
     const { crontab } = args
     this.job = new CronJob(crontab, () => {
       this.scanAndSendrequestedCampaigns().catch(console.error)
     })
+
+    const { default: cronstrue } = await import('cronstrue')
+
+    this.log.info(`CRON: running send loop: ${cronstrue.toString(crontab)}`)
 
     this.job.start()
   }

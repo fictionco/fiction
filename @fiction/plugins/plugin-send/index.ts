@@ -6,7 +6,7 @@ import type { FictionAdmin } from '@fiction/admin'
 import type { FictionPosts } from '@fiction/posts'
 import type { FictionSubscribe } from '@fiction/plugin-subscribe'
 import type { ExtensionManifest } from '../plugin-extend'
-import { ManageCampaign } from './endpoint'
+import { ManageCampaign, ManageSend } from './endpoint'
 import { sendTable } from './schema.js'
 
 export type FictionSendSettings = {
@@ -26,6 +26,7 @@ export type FictionSendSettings = {
 export class FictionSend extends FictionPlugin<FictionSendSettings> {
   queries = {
     ManageCampaign: new ManageCampaign({ fictionSend: this, ...this.settings }),
+    ManageSend: new ManageSend({ fictionSend: this, ...this.settings }),
   }
 
   requests = this.createRequests({ queries: this.queries, fictionServer: this.settings.fictionServer, fictionUser: this.settings.fictionUser, basePath: '/send' })
@@ -35,6 +36,14 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
 
     this.settings.fictionDb.addTables([sendTable])
     this.admin()
+  }
+
+  async initEmailSendLoop(args: { crontab?: string } = {}) {
+    await this.queries.ManageSend.init(args)
+  }
+
+  close() {
+    this.queries.ManageSend.close()
   }
 
   admin() {

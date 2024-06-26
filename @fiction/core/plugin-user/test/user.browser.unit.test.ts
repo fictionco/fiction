@@ -18,8 +18,6 @@ describe('user tests', async () => {
   afterAll(() => testUtils.close())
 
   it('creates user', async () => {
-    // const spy = vi.spyOn(testUtils?.fictionEmail, 'sendTransactional')
-
     const { fictionUser } = testUtils ?? {}
     const response = await fictionUser?.requests.ManageUser.request({
       _action: 'create',

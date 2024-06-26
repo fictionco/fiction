@@ -6,7 +6,7 @@ import { computed } from 'vue'
 import type { ActionItem, MediaItem } from '../../types'
 
 const props = defineProps({
-  to: { type: String, default: undefined },
+
   fromName: { type: String, default: undefined },
   fromEmail: { type: String, default: undefined },
   avatarUrl: { type: String, default: undefined },
@@ -21,6 +21,10 @@ const props = defineProps({
   mediaFooter: { type: Object as PropType<MediaItem>, default: undefined },
   legal: { type: Object as PropType<MediaItem>, default: undefined },
   darkMode: { type: Boolean, default: false },
+  // set later
+  to: { type: String, default: undefined },
+  bodyHtml: { type: String, default: undefined },
+  bodyText: { type: String, default: undefined },
 })
 
 const fontStack = '-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji"'

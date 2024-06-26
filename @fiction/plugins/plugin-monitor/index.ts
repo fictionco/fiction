@@ -102,11 +102,11 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
               markdownText += `* **${field.title}**: ${field.value}\n`
             })
           }
-          await this.settings.fictionEmail.sendTransactional({
+          await this.settings.fictionEmail.sendEmail({
             to: this.monitorEmail,
             subject: `Notify: ${message}`,
             bodyMarkdown: markdownText,
-          }, { server: true })
+          }, { server: true, needsRender: true })
         }
       }
       else {

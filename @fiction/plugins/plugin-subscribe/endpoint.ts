@@ -1,4 +1,4 @@
-import { type DataFilter, type EndpointMeta, type EndpointResponse, type FictionDb, type FictionEmail, type FictionEnv, type FictionUser, type IndexQuery, type User, vue } from '@fiction/core'
+import { type DataFilter, type EndpointMeta, type EndpointResponse, type FictionDb, type FictionEmail, type FictionEnv, type FictionUser, type IndexQuery, type User, abort, vue } from '@fiction/core'
 import { Query, dayjs, deepMerge, prepareFields } from '@fiction/core'
 import { refineParams, refineTimelineData } from '@fiction/analytics/utils/refine'
 import type { DataCompared, DataPointChart, QueryParamsRefined } from '@fiction/analytics/types'
@@ -110,7 +110,10 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
     const { email, userId } = params as { email?: string, userId?: string }
 
     if (!email && !userId) {
-      return { status: 'error', message: 'Missing both email and userId' }
+      throw abort('Missing both email and userId')
+    }
+    else if (email && userId) {
+      throw abort('Provide either email or userId, not both')
     }
 
     const resolvedUserId = userId || await this.resolveUserId(email, meta)
@@ -123,11 +126,7 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
 
     const conflictTarget = resolvedUserId ? ['user_id', 'org_id'] : ['email', 'org_id']
 
-    const result = await this.db().table(t.subscribe)
-      .insert(insertData)
-      .onConflict(conflictTarget)
-      .merge()
-      .returning('*')
+    const result = await this.db().table(t.subscribe).insert(insertData).onConflict(conflictTarget).merge().returning('*')
 
     return { status: 'success', data: result, indexMeta: { changedCount: 1 } }
   }

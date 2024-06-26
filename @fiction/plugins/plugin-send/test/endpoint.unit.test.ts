@@ -1,10 +1,12 @@
-import { abort, dayjs } from '@fiction/core'
-import { describe, expect, it } from 'vitest'
-import { createTestUser } from '@fiction/core/test-utils'
+import { abort, dayjs, waitFor } from '@fiction/core'
+import { afterAll, describe, expect, it, vi } from 'vitest'
+import { createTestUser, getTestEmail } from '@fiction/core/test-utils'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { FictionPosts } from '@fiction/posts'
+import { Obj } from '@fiction/core/obj'
 import { FictionSend } from '..'
 import type { EmailCampaignConfig } from '../schema'
+import { ManageSend } from '../endpoint.js'
 
 describe('email send endpoint', async () => {
   const testUtils = await createSiteTestUtils()
@@ -13,14 +15,27 @@ describe('email send endpoint', async () => {
 
   const initialized = await testUtils.init()
 
+  const manageSend = new ManageSend({ ...testUtils, fictionPosts, fictionSend })
+
+  await manageSend.init({ crontab: '* * * * * *' })
+
+  afterAll(async () => {
+    await testUtils.close()
+    manageSend.close()
+  })
+
   const orgId = initialized.orgId
   const userId = initialized.user.userId
 
   const { user: user2 } = await createTestUser(testUtils.fictionUser)
   const userId2 = user2?.userId
 
-  const { user: user3 } = await createTestUser(testUtils.fictionUser)
+  const { user: user3, orgId: orgId3 } = await createTestUser(testUtils.fictionUser)
   const userId3 = user3?.userId
+
+  const subscriberEmail = getTestEmail()
+
+  await testUtils.fictionSubscribe.queries.ManageSubscription.serve({ _action: 'create', orgId, email: subscriberEmail }, { server: true })
 
   if (!orgId || !userId || !userId2 || !userId3) {
     throw abort('missing orgId or userId')
@@ -78,7 +93,7 @@ describe('email send endpoint', async () => {
       orgId,
       userId,
       where: [{ campaignId: em.campaignId }],
-      fields: { scheduledAt: d.toISOString() },
+      fields: { scheduledAt: d.toISOString(), subject: 'Hello World', preview: 'Preview text' },
     }, { server: true })
 
     expect(r.status).toBe('success')
@@ -97,14 +112,41 @@ describe('email send endpoint', async () => {
     expect(r.data?.[0].campaignId).toBe(workingCampaigns[0].campaignId)
     expect(r.message).toMatchInlineSnapshot(`"Email scheduled Jun 07, 2025 at 11:59 PM UTC"`)
     const em2 = workingCampaigns[1]
-    await fictionSend.queries.ManageCampaign.serve({ _action: 'update', orgId, userId, where: [{ campaignId: em2.campaignId }], fields: { scheduleMode: 'now' } }, { server: true })
+
+    await fictionSend.queries.ManageCampaign.serve({ _action: 'update', orgId, userId, where: [{ campaignId: em2.campaignId }], fields: { scheduleMode: 'now', title: 'internal', subject: 'HELLO', preview: 'WORLD', post: { title: 'YO', content: 'LOREM' } } }, { server: true })
 
     const r3 = await fictionSend.queries.ManageCampaign.serve({ _action: 'send', orgId, userId, where: { campaignId: em2.campaignId } }, { server: true })
+
+    if (!r3.data?.[0])
+      throw new Error('missing data')
 
     expect(r3.status).toBe('success')
     expect(r3.data?.length).toBe(1)
     expect(r3.data?.[0].campaignId).toBe(workingCampaigns[1].campaignId)
     expect(r3.message).toMatchInlineSnapshot(`"Email is being sent, check back soon."`)
+
+    workingCampaigns[1] = r3.data?.[0]
+
+    const sendEmailToSubscriberSpy = vi.spyOn(manageSend, 'sendEmailToSubscriber')
+
+    const result = await manageSend.processCampaign(workingCampaigns[1])
+
+    workingCampaigns[1] = result.data![0]
+
+    expect(workingCampaigns[1].status).toBe('ready')
+    expect(workingCampaigns[1].title).toMatchInlineSnapshot(`"internal"`)
+
+    expect(sendEmailToSubscriberSpy).toHaveBeenCalledWith(expect.objectContaining({
+      email: subscriberEmail,
+      emailConfig: expect.objectContaining({
+        subject: expect.any(String),
+        bodyHtml: expect.any(String),
+        fromName: expect.any(String),
+        fromEmail: expect.any(String),
+      }),
+    }))
+
+    expect(result.emailsSent).toBe(1)
   })
 
   it('delete', async () => {

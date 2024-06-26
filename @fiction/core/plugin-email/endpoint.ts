@@ -1,9 +1,10 @@
 import type { Transporter } from 'nodemailer'
 import nodeMailer from 'nodemailer'
 import nodeMailerHtmlToText from 'nodemailer-html-to-text'
+import { template } from 'handlebars'
 import type { FictionPluginSettings } from '../plugin.js'
 import { Query } from '../query.js'
-import { safeDirname } from '../utils/index.js'
+import { abort, safeDirname } from '../utils/index.js'
 import { type EndpointMeta, isActualBrowser } from '../utils/index.js'
 import { toMarkdown } from '../utils/markdown.js'
 import type { EndpointResponse } from '../types/index.js'
@@ -94,22 +95,12 @@ export type TransactionalEmailParams =
   }
 
 export type EmailResponse = {
+  isSent: boolean
   html: string
   text: string
-  isSent: boolean
 } & TransactionalEmailConfig
 
 export class QueryTransactionalEmail extends EmailQuery {
-  async getRenderer() {
-    const { config } = await import('@vue-email/compiler')
-    return config(`${safeDirname(import.meta.url)}/templates`, {
-      verbose: false,
-      options: {
-        baseUrl: 'https://www.whatever.com/',
-      },
-    })
-  }
-
   async run(params: TransactionalEmailParams, meta: EndpointMeta): Promise<EndpointResponse<EmailResponse>> {
     let emailResponse: EmailResponse | undefined
     const message = ''
@@ -117,7 +108,7 @@ export class QueryTransactionalEmail extends EmailQuery {
 
     switch (_action) {
       case 'send':
-        emailResponse = await this.sendTransactional(fields, meta)
+        emailResponse = await this.sendSmtp(fields, meta)
         break
       default:
         return { status: 'error', message: 'Invalid action' }
@@ -126,29 +117,25 @@ export class QueryTransactionalEmail extends EmailQuery {
     return { status: 'success', data: emailResponse, message }
   }
 
-  async sendTransactional(fields: TransactionalEmailConfig, meta: EndpointMeta): Promise<EmailResponse> {
-    const emailRenderer = await this.getRenderer()
-
-    if (fields.bodyHtml && !fields.bodyMarkdown) {
-      fields.bodyMarkdown = toMarkdown(fields.bodyHtml, { keep: ['figure', 'figcaption', 'sup', 'sub', 'ins', 'del', 'mark', 'abbr', 'dfn', 'var', 'samp', 'kbd', 'q', 'cite', 'time', 'address', 'dl', 'dt', 'dd'] })
-    }
-
-    const template = await emailRenderer.render('EmailStandard.vue', { props: fields })
-
+  async sendSmtp(fields: TransactionalEmailConfig, meta: EndpointMeta): Promise<EmailResponse> {
     const shouldSend = this.shouldSendEmail(meta)
 
-    const client = this.getClient()
+    const html = fields.bodyHtml || ''
+    const text = fields.bodyMarkdown || ''
 
-    const { html, text } = template
+    if (!html && !text)
+      throw abort('missing bodyHtml or bodyMarkdown')
 
     const { fromName, fromEmail, to, subject } = fields
 
     const from = fromName ? `${fromName} <${fromEmail}>` : fromEmail
 
-    const theEmail: nodeMailer.SendMailOptions = { from, to, subject, html, text }
+    const theEmail = { from, to, subject, html, text }
+
+    const client = this.getClient()
 
     const isReal = shouldSend && client
-    this.log.info(`sending email (${isReal ? 'REAL' : 'LOG_ONLY'})`, { data: { from, to, subject } })
+    this.log.info(`sending email (${isReal ? 'REAL' : 'LOG_ONLY'})`, { data: { from, to, subject, htmlChars: html.length } })
 
     let isSent = false
     if (isReal) {
@@ -156,6 +143,6 @@ export class QueryTransactionalEmail extends EmailQuery {
       await this.client?.sendMail(theEmail)
     }
 
-    return { ...template, ...fields, isSent }
+    return { ...fields, ...theEmail, isSent }
   }
 }

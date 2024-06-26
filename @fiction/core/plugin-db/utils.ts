@@ -24,10 +24,15 @@ export function dbPrep<T>(args: {
 
   columns?.forEach((c) => {
     const { key, sch, sec = 'setting', prepare } = c
-    const value = (fields as Record<string, any>)[key]
+    let value = (fields as Record<string, any>)[key]
 
     if (value === undefined)
       return
+
+    // normalize to string (db returns Date, strings are easier to work with)
+    if (value instanceof Date) {
+      value = value.toISOString()
+    }
 
     const includeField = (
       type === 'internal'
@@ -43,9 +48,10 @@ export function dbPrep<T>(args: {
     let isValid = !sch || value === null
     if (sch && value !== null) {
       const schema = sch({ z })
+
       const parsed = schema.safeParse(value)
       if (!parsed.success) {
-        fictionDb.log.error(`Validation failed for field ${table}:${key} - ${parsed.error.message}`, { data: { value } })
+        fictionDb.log.error(`Validation failed for field ${table}:${key} - ${parsed.error.message}`, { data: { value, fields } })
         isValid = false
       }
       else {

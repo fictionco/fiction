@@ -1059,6 +1059,9 @@ importers:
       cron:
         specifier: ^3.1.7
         version: 3.1.7
+      cronstrue:
+        specifier: ^2.50.0
+        version: 2.50.0
       vue:
         specifier: ^3.4.29
         version: 3.4.29(typescript@5.5.2)
@@ -4851,6 +4854,10 @@ packages:
 
   cron@3.1.7:
     resolution: {integrity: sha512-tlBg7ARsAMQLzgwqVxy8AZl/qlTc5nibqYwtNGoCrd+cV+ugI+tvZC1oT/8dFH8W455YrywGykx/KMmAqOr7Jw==}
+
+  cronstrue@2.50.0:
+    resolution: {integrity: sha512-ULYhWIonJzlScCCQrPUG5uMXzXxSixty4djud9SS37DoNxDdkeRocxzHuAo4ImRBUK+mAuU5X9TSwEDccnnuPg==}
+    hasBin: true
 
   cross-env@7.0.3:
     resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
@@ -14014,6 +14021,8 @@ snapshots:
     dependencies:
       '@types/luxon': 3.4.2
       luxon: 3.4.4
+
+  cronstrue@2.50.0: {}
 
   cross-env@7.0.3:
     dependencies:

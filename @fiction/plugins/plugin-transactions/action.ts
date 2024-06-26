@@ -145,7 +145,7 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
 
     const defaultEmail = await this.defaultConfig()
     const finalEmail = deepMerge([defaultEmail, emailConfig])
-    const r = await fictionEmail.sendTransactional(finalEmail, meta)
+    const r = await fictionEmail.sendEmail(finalEmail, { ...meta, needsRender: true })
 
     return { ...r, emailVars: emailConfig.emailVars || emailVars }
   }

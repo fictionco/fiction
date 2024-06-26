@@ -1,6 +1,7 @@
 import { EnvVar, vars } from '../plugin-env/index.js'
 import { FictionPlugin, type FictionPluginSettings } from '../plugin.js'
 import { type EndpointMeta, isTest, safeDirname } from '../utils/index.js'
+import { toMarkdown } from '../utils/markdown.js'
 import type EmailStandard from './templates/EmailStandard.vue'
 import { QueryTransactionalEmail } from './endpoint.js'
 
@@ -39,7 +40,35 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
       this.queries.TransactionEmail.getClient()
   }
 
-  async sendTransactional(fields: TransactionalEmailConfig, meta: EndpointMeta) {
+  async getRenderer() {
+    const { config } = await import('@vue-email/compiler')
+    return config(`${safeDirname(import.meta.url)}/templates`, {
+      verbose: false,
+      options: {
+        baseUrl: 'https://www.fiction.com/', // unused
+      },
+    })
+  }
+
+  async renderEmailTemplate(fields: TransactionalEmailConfig) {
+    const emailRenderer = await this.getRenderer()
+
+    if (fields.bodyHtml && !fields.bodyMarkdown) {
+      fields.bodyMarkdown = toMarkdown(fields.bodyHtml, { keep: ['figure', 'figcaption', 'sup', 'sub', 'ins', 'del', 'mark', 'abbr', 'dfn', 'var', 'samp', 'kbd', 'q', 'cite', 'time', 'address', 'dl', 'dt', 'dd'] })
+    }
+
+    const template = await emailRenderer.render('EmailStandard.vue', { props: fields })
+
+    const bodyHtml = template.html
+    const bodyText = template.text
+
+    return { ...fields, bodyHtml, bodyText }
+  }
+
+  async sendEmail(fields: TransactionalEmailConfig, meta: EndpointMeta & { needsRender?: boolean }) {
+    if (meta.needsRender)
+      fields = await this.renderEmailTemplate(fields)
+
     return this.queries.TransactionEmail.serve({ _action: 'send', fields }, { server: true, ...meta })
   }
 
