@@ -1,4 +1,4 @@
-import type { FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
+import type { FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionPluginSettings, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import type { FictionTransactions } from '@fiction/plugin-transactions'
 import { createCard } from '@fiction/site'
@@ -20,6 +20,7 @@ export type FictionSendSettings = {
   fictionPosts: FictionPosts
   fictionRouter: FictionRouter
   fictionSubscribe: FictionSubscribe
+  fictionMedia: FictionMedia
 } & FictionPluginSettings
 
 export class FictionSend extends FictionPlugin<FictionSendSettings> {

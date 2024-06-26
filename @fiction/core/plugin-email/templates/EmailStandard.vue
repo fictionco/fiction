@@ -7,7 +7,9 @@ import type { ActionItem, MediaItem } from '../../types'
 
 const props = defineProps({
   to: { type: String, default: undefined },
-  from: { type: String, default: undefined },
+  fromName: { type: String, default: undefined },
+  fromEmail: { type: String, default: undefined },
+  avatarUrl: { type: String, default: undefined },
   subject: { type: String, default: undefined },
   heading: { type: String, default: undefined },
   subHeading: { type: String, default: undefined },

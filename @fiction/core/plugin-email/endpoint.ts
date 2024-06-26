@@ -7,7 +7,6 @@ import { safeDirname } from '../utils/index.js'
 import { type EndpointMeta, isActualBrowser } from '../utils/index.js'
 import { toMarkdown } from '../utils/markdown.js'
 import type { EndpointResponse } from '../types/index.js'
-import { getFromAddress } from '../utils/email.js'
 import { isCi } from '../utils/vars.js'
 import type { FictionEmail, TransactionalEmailConfig } from './index.js'
 
@@ -28,6 +27,7 @@ export abstract class EmailQuery extends Query<EmailQuerySettings> {
   shouldSendEmail(meta: EndpointMeta) {
     const { emailMode = 'standard' } = meta
 
+    const isProd = this.settings.fictionEnv.isProd.value
     const isTest = this.settings.fictionEnv.isTest.value
     const ci = isCi()
 
@@ -37,6 +37,9 @@ export abstract class EmailQuery extends Query<EmailQuerySettings> {
     }
     else if (emailMode === 'standard' && isTest) {
       disabledMessage = 'in test'
+    }
+    else if ((emailMode === 'sendInProd' && !isProd) || isTest) {
+      disabledMessage = 'in dev or test'
     }
 
     if (disabledMessage)
@@ -127,27 +130,7 @@ export class QueryTransactionalEmail extends EmailQuery {
     const emailRenderer = await this.getRenderer()
 
     if (fields.bodyHtml && !fields.bodyMarkdown) {
-      fields.bodyMarkdown = toMarkdown(fields.bodyHtml, { keep: [
-        'figure',
-        'figcaption',
-        'sup',
-        'sub',
-        'ins',
-        'del',
-        'mark',
-        'abbr',
-        'dfn',
-        'var',
-        'samp',
-        'kbd',
-        'q',
-        'cite',
-        'time',
-        'address',
-        'dl',
-        'dt',
-        'dd',
-      ] })
+      fields.bodyMarkdown = toMarkdown(fields.bodyHtml, { keep: ['figure', 'figcaption', 'sup', 'sub', 'ins', 'del', 'mark', 'abbr', 'dfn', 'var', 'samp', 'kbd', 'q', 'cite', 'time', 'address', 'dl', 'dt', 'dd'] })
     }
 
     const template = await emailRenderer.render('EmailStandard.vue', { props: fields })
@@ -158,7 +141,9 @@ export class QueryTransactionalEmail extends EmailQuery {
 
     const { html, text } = template
 
-    const { from = getFromAddress({ fictionEnv: this.settings.fictionEnv }), to, subject } = fields
+    const { fromName, fromEmail, to, subject } = fields
+
+    const from = fromName ? `${fromName} <${fromEmail}>` : fromEmail
 
     const theEmail: nodeMailer.SendMailOptions = { from, to, subject, html, text }
 

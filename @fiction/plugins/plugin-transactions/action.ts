@@ -1,6 +1,5 @@
 import type { EndpointMeta, EndpointResponse, RequestMeta, TransactionalEmailConfig, User, vue } from '@fiction/core'
 import { FictionObject, abort, deepMerge } from '@fiction/core'
-import { getFromAddress } from '@fiction/core/utils/email'
 import type { EmailResponse } from '@fiction/core/plugin-email/endpoint'
 import { createEmailVars } from './utils'
 import type { FictionTransactions } from '.'
@@ -114,9 +113,10 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
     const emailImages = fictionEmail?.emailImages()
     const superImage = await fictionMedia.relativeMedia({ url: emailImages?.icon || '' })
     const footerImage = await fictionMedia.relativeMedia({ url: emailImages?.footer || '' })
-
+    const app = fictionEnv?.meta.app || {}
     return {
-      from: getFromAddress({ fictionEnv }),
+      fromName: app.name || '',
+      fromEmail: app.email || '',
       mediaSuper: {
         media: { url: superImage.url },
         name: 'Fiction',
@@ -124,7 +124,7 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
       },
       mediaFooter: {
         media: { url: footerImage.url },
-        name: 'Personal Marketing with Fiction',
+        name: 'Personal Marketing Platform',
         href: `https://www.fiction.com`,
       },
     }

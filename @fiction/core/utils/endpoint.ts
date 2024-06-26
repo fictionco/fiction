@@ -51,7 +51,7 @@ export interface RequestMeta {
   isTest?: boolean
   expectError?: boolean
   debug?: boolean
-  emailMode?: 'send' | 'sendInCI' | 'standard'
+  emailMode?: 'send' | 'sendInCI' | 'standard' | 'sendInProd'
 }
 
 // https://stackoverflow.com/a/57103940/1858322

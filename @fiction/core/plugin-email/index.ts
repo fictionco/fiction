@@ -4,7 +4,7 @@ import { type EndpointMeta, isTest, safeDirname } from '../utils/index.js'
 import type EmailStandard from './templates/EmailStandard.vue'
 import { QueryTransactionalEmail } from './endpoint.js'
 
-export type TransactionalEmailConfig = InstanceType<typeof EmailStandard>['$props'] & { bodyHtml?: string }
+export type TransactionalEmailConfig = InstanceType<typeof EmailStandard>['$props'] & { bodyHtml?: string, bodyText?: string }
 
 const verify: EnvVar<string>['verify'] = ({ fictionEnv, value }) => {
   return !(!value && fictionEnv.isProd.value && !fictionEnv.isApp.value)

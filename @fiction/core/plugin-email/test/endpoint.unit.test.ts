@@ -27,7 +27,8 @@ describe('transactional email', async () => {
     const footerImage = await fictionMedia.relativeMedia({ url: new URL('../img/fiction-email-footer.png', import.meta.url).href })
     const confirmEmail: TransactionalEmailConfig = {
       to: 'arpowers@gmail.com',
-      from: 'Fiction.com <admin@fiction.com>',
+      fromName: 'Fiction.com',
+      fromEmail: 'admin@fiction.com',
       subject: 'Test Space (test email 🧪🧪🧪)',
       heading: 'Welcome to Space 🚀',
       subHeading: 'This is a test email to test formatting of various elements.🧪',

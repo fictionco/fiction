@@ -2,98 +2,76 @@
 import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { useRender } from 'vue-email'
-import { toMarkdown } from '@fiction/core/utils/markdown.js'
 import EmailStandard from '@fiction/core/plugin-email/templates/EmailStandard.vue'
 import type { TransactionalEmailConfig } from '@fiction/core/plugin-email/index.js'
-import FictionFooterImg from '@fiction/core/plugin-email/img/fiction-email-footer.png'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
+import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import type { EmailCampaignConfig } from '../schema.js'
+import { getEmailForCampaign } from '../utils.js'
+import type { FictionSend } from '../index.js'
 
 const props = defineProps({
   modelValue: { type: Object as vue.PropType<EmailCampaignConfig>, default: undefined },
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
-const emit = defineEmits<{
+const _emit = defineEmits<{
   (event: 'update:modelValue', payload: EmailCampaignConfig): void
 }>()
 
-const service = useService()
+const { fictionSend, fictionUser } = useService<{ fictionSend: FictionSend }>()
 
 const emailHtml = vue.ref('')
+const emailConfig = vue.ref<TransactionalEmailConfig>()
+const loading = vue.ref(true)
 
-const emailConfig = vue.computed<TransactionalEmailConfig>(() => {
-  const email = props.modelValue || {}
-  const org = service.fictionUser.activeOrganization.value
+async function setEmail(campaignConfig?: EmailCampaignConfig) {
+  const org = fictionUser.activeOrganization.value
 
-  const confirmEmail: TransactionalEmailConfig = {
-    subject: email.subject,
-    heading: email.post?.title || 'No Title',
-    subHeading: email.post?.subTitle || 'No Subtitle',
-    bodyMarkdown: toMarkdown(email.post?.content || 'No content'),
-    actions: email.userConfig?.actions || [],
-    mediaSuper: {
-      media: { url: org?.avatar?.url },
-      name: org?.orgName,
-      href: org?.url,
-    },
-    mediaFooter: {
-      media: { url: FictionFooterImg },
-      name: 'Powered by Fiction',
-      href: 'https://www.fiction.com',
-    },
-    legal: {
-      name: org?.orgName,
-      href: org?.url,
-      desc: org?.address || '',
-    },
-    unsubscribeUrl: '#',
-    darkMode: true,
-  }
-
-  return confirmEmail
-})
-
-async function setEmail(email?: EmailCampaignConfig) {
-  if (!email) {
+  if (!campaignConfig || !org) {
     emailHtml.value = ''
     return
   }
 
-  const r = await useRender(EmailStandard, {
-    props: emailConfig.value,
-  })
-  emailHtml.value = r.html
+  const conf = await getEmailForCampaign({ campaignConfig, fictionSend, org, withDefaults: true })
+
+  const r = await useRender(EmailStandard, { props: emailConfig })
+  conf.bodyHtml = r.html
+
+  emailConfig.value = conf
+
+  loading.value = false
 }
 
-const org = vue.computed(() => service.fictionUser.activeOrganization.value)
-
 vue.onMounted(async () => {
-  await setEmail(props.modelValue)
+  await fictionUser.userInitialized()
 
-  vue.watch(() => props.modelValue, v => setEmail(v))
+  vue.watch(() => props.modelValue, v => setEmail(v), { immediate: true })
 })
 </script>
 
 <template>
-  <div class="py-6  ">
-    <div class="border-b border-theme-200 dark:border-theme-700/70 mb-8 pb-8">
+  <div class="py-6">
+    <div v-if="loading" class="p-12 flex justify-center">
+      <ElSpinner class="size-8" />
+    </div>
+    <div v-else-if="emailConfig" class="border-b border-theme-200 dark:border-theme-700/70 mb-8 pb-8">
       <div class=" mb-6">
         <div class="text-3xl font-medium">
           {{ emailConfig.subject }}
         </div>
         <div class="text-sm text-theme-500 dark:text-theme-400">
-          {{ emailConfig.subject }}
+          {{ emailConfig.preview }}
         </div>
       </div>
       <div class="flex gap-4">
-        <div><ElAvatar class="size-12 rounded-full" :url="org?.avatar?.url" /></div>
+        <div><ElAvatar class="size-12 rounded-full" :url="emailConfig.avatarUrl" /></div>
         <div>
           <div class="font-medium">
-            {{ org?.orgName || "No Publication Name" }}
+            {{ emailConfig.fromName }}
           </div>
           <div class="text-sm text-theme-500 dark:text-theme-400">
-            {{ org?.orgEmail }}
+            {{ emailConfig.fromEmail }}
           </div>
         </div>
       </div>

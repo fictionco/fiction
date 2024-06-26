@@ -1,10 +1,11 @@
-import type { EndpointMeta, EndpointResponse, IndexQuery } from '@fiction/core'
+import type { EndpointMeta, EndpointResponse, IndexQuery, TransactionalEmailConfig } from '@fiction/core'
 import { Query, dayjs } from '@fiction/core'
 import type { ManageSubscriptionParams } from '@fiction/plugin-subscribe/endpoint'
 import { CronJob } from 'cron'
 import type { Subscriber } from '@fiction/plugin-subscribe'
 import { t } from './schema'
 import type { EmailCampaignConfig } from './schema.js'
+import { getEmailForCampaign } from './utils'
 import type { FictionSend, FictionSendSettings } from '.'
 
 export type SendEndpointSettings = {
@@ -259,13 +260,11 @@ export class ManageCampaign extends SendEndpoint {
   }
 }
 
-export class ManageXXX extends SendEndpoint {
-  crontab = '*/2 * * * *'
-  limit = 10
-  offset = 0
-  emailBatchSize = 10
-  init() {
-    this.startCronJob()
+export class ManageSend extends SendEndpoint {
+  job?: CronJob
+  init(args: { crontab?: string } = {}) {
+    const { crontab = '*/2 * * * *' } = args
+    this.startCronJob({ crontab })
   }
 
   async run(_params: ManageCampaignParams, _meta: EndpointMeta): Promise<EndpointResponse> {
@@ -281,93 +280,104 @@ export class ManageXXX extends SendEndpoint {
       .table(t.send)
       .where('status', 'requested')
       .where('scheduledAt', '<=', now)
-      .select<EmailCampaignConfig[]>('*')
+      .select<{ campaignId: string, orgId: string }[]>('*')
 
-    await Promise.all(requestedCampaigns.map(campaign => this.processCampaign(campaign)))
+    await Promise.all(requestedCampaigns.map(c => this.processCampaign(c)))
   }
 
   // Method to process each email
-  private async processCampaign(campaign: EmailCampaignConfig): Promise<void> {
+  private async processCampaign(c: { campaignId: string, orgId: string }): Promise<void> {
+    const fictionUser = this.settings.fictionUser
+    const fictionSend = this.settings.fictionSend
+    const ManageCampaign = fictionSend.queries.ManageCampaign
+    const { orgId, campaignId } = c
+    if (!orgId || !campaignId) {
+      throw new Error('Invalid campaign')
+    }
     try {
-      const { orgId, campaignId, userId } = campaign
+      // Update email status to 'processing'
+      const r = await ManageCampaign.serve({ _action: 'update', where: [{ campaignId }], orgId, fields: { status: 'processing' } }, { server: true })
 
-      if (!orgId || !campaignId) {
-        throw new Error('Invalid campaign')
+      const campaignConfig = r.data?.[0]
+
+      if (!campaignConfig) {
+        throw new Error('Campaign not found')
       }
 
-      const ManageCampaign = this.settings.fictionSend.queries.ManageCampaign
-      // Update email status to 'processing'
-      await ManageCampaign.serve({ _action: 'update', where: [{ campaignId }], orgId, fields: { status: 'processing' } }, { server: true })
+      const r2 = await fictionUser.queries.ManageOrganization.serve({ _action: 'retrieve', where: { orgId } }, { server: true })
+
+      const org = r2.data
+
+      if (!org) {
+        throw new Error('Organization not found')
+      }
 
       // Process subscribers in batches to prevent blocking
-      const subscriberBatchSize = 100 // Define subscriber batch size
+      const limit = 100 // Define subscriber batch size
       let offset = 0
       let hasMoreSubscribers = true
 
-      while (hasMoreSubscribers) {
-        const subscribers = await this.getSubscribers(orgId, subscriberBatchSize, offset)
+      const emailConfig = await getEmailForCampaign({ org, campaignConfig, fictionSend, withDefaults: false })
 
-        if (subscribers.length < subscriberBatchSize) {
+      while (hasMoreSubscribers) {
+        const subscribers = await this.getSubscribers({ orgId, limit, offset })
+
+        if (subscribers.length < limit) {
           hasMoreSubscribers = false
         }
 
-        await Promise.all(subscribers.map(subscriber => this.sendEmailToSubscriber(campaign, subscriber)))
-        offset += subscriberBatchSize
+        await Promise.all(subscribers.map(async (subscriber) => {
+          const email = subscriber.email
+
+          if (!email) {
+            this.log.error('Subscriber has no email', { subscriber })
+            return
+          }
+
+          await this.sendEmailToSubscriber({ email, emailConfig })
+        }))
+        offset += limit
       }
 
       // Update email status to 'ready'
-      await ManageCampaign.serve({ _action: 'update', orgId, userId, where: [{ campaignId: campaign.campaignId }], fields: { status: 'ready' } }, { server: true })
+
+      await ManageCampaign.serve({ _action: 'update', orgId, where: [{ campaignId }], fields: { status: 'ready' } }, { server: true })
     }
     catch (error) {
       // Handle errors and retries
-      this.log.error(`Error processing campaign ${campaign.campaignId}:`, { error })
+      this.log.error(`Error processing campaign ${campaignId}:`, { error })
       // Optionally update status to 'failed' or handle retries
+
+      await ManageCampaign.serve({ _action: 'update', where: [{ campaignId }], orgId, fields: { status: 'error' } }, { server: true })
     }
   }
 
   // Method to get subscribers with limit and offset
-  private async getSubscribers(orgId: string, limit: number, offset: number): Promise<Subscriber[]> {
-    const params: ManageSubscriptionParams = { _action: 'list', orgId, limit, offset }
-    const result = await this.settings.fictionSubscribe.queries.ManageSubscription.run(params, {})
+  private async getSubscribers(args: { orgId: string, limit: number, offset: number }): Promise<Subscriber[]> {
+    const { orgId, limit, offset } = args
+    const params: ManageSubscriptionParams = { _action: 'list', orgId, limit, offset, where: { status: 'active' } }
+    const result = await this.settings.fictionSubscribe.queries.ManageSubscription.run(params, { server: true })
     return result.data || []
   }
 
-  private async sendEmailToSubscriber(campaign: EmailCampaignConfig, subscriber: Subscriber): Promise<void> {
-    const email = subscriber.email
+  private async sendEmailToSubscriber(args: { email: string, emailConfig: TransactionalEmailConfig }): Promise<void> {
+    const { email, emailConfig } = args
+    const fictionEmail = this.settings.fictionEmail
 
-    if (!email) {
-      throw new Error('Invalid email')
-    }
-
-    // Run spam check and verify score (assumed methods, adjust as necessary)
-    const isSpamFree = await this.runSpamCheck(email)
-    const isScoreValid = await this.verifyScore(email)
-
-    if (isSpamFree && isScoreValid) {
-      await this.sendEmail(campaign, subscriber)
-    }
-  }
-
-  private async runSpamCheck(email: string): Promise<boolean> {
-    // Replace with actual implementation
-    return true
-  }
-
-  private async verifyScore(email: string): Promise<boolean> {
-    // Replace with actual implementation
-    return true
-  }
-
-  private async sendEmail(campaign: EmailCampaignConfig, subscriber: Subscriber): Promise<void> {
-    // Replace with actual implementation
+    await fictionEmail.sendTransactional({ ...emailConfig, to: email }, { server: true, emailMode: 'sendInProd' })
   }
 
   // Method to start the cron job
-  private startCronJob() {
-    const job = new CronJob(this.crontab, () => {
+  private startCronJob(args: { crontab: string }) {
+    const { crontab } = args
+    this.job = new CronJob(crontab, () => {
       this.scanAndSendrequestedCampaigns().catch(console.error)
     })
 
-    job.start()
+    this.job.start()
+  }
+
+  close() {
+    this.job?.stop()
   }
 }
