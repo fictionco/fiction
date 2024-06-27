@@ -58,7 +58,7 @@ export function normalizeList(
       return { value: item, name: label }
     }
 
-    const { name = '', value = '' } = item as Partial<ListItem>
+    const { name = '', value = '' } = item
 
     const formattedName = name || (value ? toLabel(value) : '')
     const formattedValue = value || (name ? toSlug(name, { replaceNumbers: false }) : '')

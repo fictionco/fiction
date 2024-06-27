@@ -638,7 +638,7 @@ export function colorStandard(params: {
   }
 
   if (typeof colorMap[color] === 'string')
-    return `rgba(${colorMap[color] as string}, ${opacity})`
+    return `rgba(${colorMap[color]}, ${opacity})`
   else
     return `rgba(${colorMap[color][level]}, ${opacity})`
 }

@@ -7,10 +7,10 @@ import XText from '@fiction/ui/common/XText.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
 import InputDate from '@fiction/ui/inputs/InputDate.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
-import ElPostEditor from './ElPostEditor.vue'
 import type { Post } from '../post.js'
 import { managePost } from '../utils'
 import type { FictionPosts } from '..'
+import ElPostEditor from './ElPostEditor.vue'
 import { postEditController } from './tools'
 
 type UserConfig = {

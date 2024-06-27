@@ -39,7 +39,7 @@ export type StripePluginSettings = {
 } & FictionPluginSettings
 
 export class FictionStripe extends FictionPlugin<StripePluginSettings> {
-  apiVersion = '2024-04-10' as const
+  apiVersion = '2024-06-20' as const
 
   queries = {
     ManageCustomer: new QueryManageCustomer({ fictionStripe: this, ...this.settings }),

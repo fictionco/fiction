@@ -47,20 +47,6 @@ export function hashEqual(a?: HashObject, b?: HashObject): boolean {
 }
 
 /**
- * Detect if visitor is actually a search bot
- */
-export function isSearchBot(): boolean {
-  if (typeof window === 'undefined' || !window.navigator)
-    return false
-
-  const result
-    = /bot|google|baidu|bing|msn|duckduckbot|teoma|slurp|yandex/i.test(
-      window.navigator.userAgent,
-    )
-
-  return result
-}
-/**
  * Wait for specific amount of time
  * @param ms - milliseconds
  */
@@ -85,114 +71,6 @@ export function splitDisplayName(fullName?: string): { firstName: string, lastNa
   }
 
   return { firstName, lastName }
-}
-
-export function camelToUpperSnake(string: string): string {
-  return string
-    .replaceAll(/\w([A-Z])/g, (m) => {
-      return `${m[0]}_${m[1]}`
-    })
-    .toUpperCase()
-}
-/**
- * Turns a PascaleCase or camelCase into snake_case
- */
-export function toSnakeCase(text: string): string {
-  return text.replaceAll(/([A-Z])/g, '_$1').toLowerCase()
-}
-
-/**
- * Convert camel-case to kebab-case
- * @param string - string to manipulate
- */
-export function camelToKebab(string: string): string {
-  return string
-    ? string.replaceAll(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
-    : string
-}
-
-// /**
-//  * Turn a string into camelCase @todo .. doesn't work on snake_case
-//  */
-// export function toCamel(str?: string): string {
-//   if (!str)
-//     return ''
-
-//   return str
-//     // Replace first letter of each word (after a space, underscore, or hyphen) and the first letter of the string
-//     .replace(/(?:^\w|[A-Z]|[\s_-]+\w)/g, (word, index) => {
-//       // Convert to lowercase if it's the first character, otherwise to uppercase
-//       return index === 0 ? word.toLowerCase() : word.slice(-1).toUpperCase()
-//     })
-//     // Remove all spaces, underscores, and hyphens
-//     .replace(/[\s_-]/g, '')
-// }
-/**
- * Camelize keys in an object
- */
-export const camelKeys = function <T>(obj: T): T {
-  if (isPlainObject(obj) && !Array.isArray(obj)) {
-    const n: Record<string, unknown> = {}
-    const o = obj as Record<string, unknown>
-    Object.keys(o).forEach((k) => {
-      n[toCamel(k)] = camelKeys(o[k])
-    })
-
-    return n as T
-  }
-  else if (Array.isArray(obj)) {
-    const o = obj as unknown[]
-    return o.map((i) => {
-      return camelKeys(i)
-    }) as T
-  }
-
-  return obj
-}
-
-/**
- * Returns object keys in snake_case
- */
-export function toSnakeCaseKeys<T>(obj: T): T {
-  if (isPlainObject(obj) && !Array.isArray(obj)) {
-    const n: Record<string, unknown> = {}
-    const o = obj as Record<string, unknown>
-    Object.keys(o).forEach((k) => {
-      n[toSnakeCase(k)] = toSnakeCaseKeys(o[k])
-    })
-
-    return n as T
-  }
-  else if (Array.isArray(obj)) {
-    const o = obj as unknown[]
-    return o.map((i) => {
-      return toSnakeCaseKeys(i)
-    }) as T
-  }
-
-  return obj
-}
-
-export function jsonToDbString(str: unknown): string {
-  return JSON.stringify(toSnakeCaseKeys(str))
-}
-
-/**
- * Validate an email address
- * @reference
- * https://stackoverflow.com/a/46181/1858322
- */
-export function validateEmail(email?: string): string | undefined {
-  if (!email)
-    return undefined
-  const re = /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}\])|(([\dA-Z-]+\.)+[A-Z]{2,}))$/i
-  return re.test(String(email).toLowerCase()) ? email : undefined
-}
-
-export function capitalize(s?: string): string {
-  if (typeof s !== 'string')
-    return ''
-  return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
 export function isJson<T = unknown>(str?: string): false | undefined | T {

@@ -1,5 +1,5 @@
 import { InputOption } from '@fiction/ui'
-import { type ActionItem, type StandardServices, vue, waitFor } from '@fiction/core'
+import { type ActionItem, type StandardServices, vue } from '@fiction/core'
 
 import { SettingsTool } from '../types'
 import ElOrgHeader from './ElOrgHeader.vue'

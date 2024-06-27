@@ -25,6 +25,6 @@ export type RouteAuthCallback = (args: {
 }) =>
 | Promise<
   { navigate: NavigateRoute, id: string, reason?: string } | undefined
-    >
-    | { navigate: NavigateRoute, id: string, reason?: string }
-    | undefined
+>
+| { navigate: NavigateRoute, id: string, reason?: string }
+| undefined

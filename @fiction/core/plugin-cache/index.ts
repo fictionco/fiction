@@ -2,7 +2,7 @@ import { Redis } from 'ioredis'
 import type { FictionPluginSettings } from '../plugin.js'
 import { FictionPlugin } from '../plugin.js'
 import { EnvVar, vars } from '../plugin-env/index.js'
-import { camelKeys, safeDirname, shortId, toSnakeCaseKeys, uuid } from '../utils/index.js'
+import { convertKeyCase, safeDirname, shortId, uuid } from '../utils/index.js'
 
 export { Redis }
 
@@ -56,11 +56,11 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
   }
 
   str(data: Record<string, unknown>) {
-    return JSON.stringify(toSnakeCaseKeys(data))
+    return JSON.stringify(convertKeyCase(data, { mode: 'snake' }))
   }
 
   obj<T = unknown>(str?: string | null) {
-    return str ? (camelKeys(JSON.parse(str)) as T) : undefined
+    return str ? (convertKeyCase(JSON.parse(str), { mode: 'camel' }) as T) : undefined
   }
 
   async close() {
@@ -171,7 +171,7 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
       if (this.subCallbacks[key]) {
         try {
           const rawParsed = JSON.parse(message)
-          const parsed = camelKeys(rawParsed)
+          const parsed = convertKeyCase(rawParsed, { mode: 'camel' })
 
           await this.subCallbacks[key](parsed)
         }

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useService, vue } from '@fiction/core'
+import { vue } from '@fiction/core'
 import ToolForm from '@fiction/admin/tools/ToolForm.vue'
 import type { EditorTool } from '@fiction/admin'
 import ElTool from '@fiction/admin/tools/ElTool.vue'

@@ -1,4 +1,5 @@
 import stopwordsLib from '../resource/stopwords'
+import { isPlainObject } from './obj.js'
 
 export function toCamel(str?: string, options = { allowPeriods: false }): string {
   const snakeCased = toSnake(str, options) // Convert to snake_case first
@@ -109,4 +110,46 @@ export function toSnake(text?: string, opts: { upper?: boolean, allowPeriods?: b
     .replace(/_+$/, '') // Remove trailing underscores if they exist
 
   return upper ? snakeCased.toUpperCase() : snakeCased
+}
+
+/**
+ * Convert camel-case to kebab-case
+ * @param string - string to manipulate
+ */
+export function toKebab(string?: string): string {
+  const snk = toSnake(string)
+
+  return snk.replace(/_/g, '-')
+}
+
+export function capitalize(s?: string): string {
+  if (typeof s !== 'string')
+    return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
+/**
+ * Returns object keys in snake_case
+ */
+export function convertKeyCase<T>(obj: T, options: { mode: 'snake' | 'camel' }): T {
+  const { mode } = options
+
+  if (isPlainObject(obj) && !Array.isArray(obj)) {
+    const newObj: Record<string, unknown> = {}
+    const originalObj = obj as Record<string, unknown>
+    Object.keys(originalObj).forEach((key) => {
+      const newKey = mode === 'snake' ? toSnake(key) : toCamel(key)
+      newObj[newKey] = convertKeyCase(originalObj[key], options)
+    })
+
+    return newObj as T
+  }
+  else if (Array.isArray(obj)) {
+    const originalArray = obj as unknown[]
+    return originalArray.map((item) => {
+      return convertKeyCase(item, options)
+    }) as T
+  }
+
+  return obj
 }

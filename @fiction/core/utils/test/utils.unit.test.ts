@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { camelKeys, groupBy, isJson, stringify } from '../utils'
+import { groupBy, isJson, stringify } from '../utils'
 
 describe('utils', () => {
   it('isJson', async () => {
@@ -39,53 +39,6 @@ describe('utils', () => {
             "animal": "giraffe",
           },
         ],
-      }
-    `)
-  })
-
-  it('camelKeys', () => {
-    const o = {
-      status: 'active',
-      ok: true,
-      app_id: '11111',
-      authed_user: { id: '33333' },
-      scope: 'incoming-webhook,commands,chat:write',
-      token_type: 'bot',
-      access_token: '123123',
-      bot_user_id: 'U01CVPCBKT6',
-      team: { id: 'T016E9TAQA3', name: 'Kaption' },
-      enterprise: null,
-      is_enterprise_install: false,
-      incoming_webhook: {
-        channel: 'notify',
-        channel_id: 'GgGgGgGgGg',
-      },
-    }
-
-    const r = camelKeys(o)
-
-    expect(r).toMatchInlineSnapshot(`
-      {
-        "accessToken": "123123",
-        "appId": "11111",
-        "authedUser": {
-          "id": "33333",
-        },
-        "botUserId": "U01CVPCBKT6",
-        "enterprise": null,
-        "incomingWebhook": {
-          "channel": "notify",
-          "channelId": "GgGgGgGgGg",
-        },
-        "isEnterpriseInstall": false,
-        "ok": true,
-        "scope": "incoming-webhook,commands,chat:write",
-        "status": "active",
-        "team": {
-          "id": "T016E9TAQA3",
-          "name": "Kaption",
-        },
-        "tokenType": "bot",
       }
     `)
   })

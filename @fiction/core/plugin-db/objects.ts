@@ -1,12 +1,10 @@
 import type { Knex } from 'knex'
 import type { ZodSchema } from 'zod'
 import { z } from 'zod'
-import { vue } from '../utils/libraries.js'
-import { toSnakeCase } from '../utils/index.js'
+import { toSnake } from '../utils/index.js'
 import type { LogHelper } from '../plugin-log/index.js'
 import { log } from '../plugin-log/index.js'
 import { FictionObject } from '../plugin.js'
-import { Obj } from '../obj.js'
 
 type PrepareForStorage<T extends ColDefaultValue = ColDefaultValue> = (args: { value: T, key: string, db?: Knex }) => unknown
 
@@ -23,7 +21,7 @@ export type ColSettings<U extends string = string, T extends ColDefaultValue = C
 }
 export class Col<U extends string = string, T extends ColDefaultValue = ColDefaultValue> extends FictionObject<ColSettings<U, T>> {
   key = this.settings.key
-  k = toSnakeCase(this.settings.key)
+  k = toSnake(this.settings.key)
   sec = this.settings.sec || 'setting'
   sch = this.settings.sch
   prepare = this.settings.prepare as PrepareForStorage
@@ -69,7 +67,7 @@ export class FictionDbCol<U extends string = string, T extends ColDefaultValue =
     const { description } = settings || {}
     this.description = description
     this.key = settings.key
-    this.pgKey = toSnakeCase(settings.key)
+    this.pgKey = toSnake(settings.key)
     this.create = settings.create
     this.prepare = settings.prepare as PrepareForStorage // dont use generic as it overspecifies the class interface
     this.isComposite = settings.isComposite
@@ -110,7 +108,7 @@ export class FictionDbTable {
   uniqueOn?: string[]
   constructor(params: FictionDbTableSettings) {
     this.tableKey = params.tableKey
-    this.pgTableKey = toSnakeCase(params.tableKey)
+    this.pgTableKey = toSnake(params.tableKey)
     this.log = log.contextLogger(`FictionDbTable:${this.tableKey}`)
     this.timestamps = params.timestamps ?? false
     this.onCreate = params.onCreate

@@ -116,4 +116,3 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
     return r.data?.length ? r.data.map(p => new Post({ fictionPosts: this, ...p })) : []
   }
 }
-

@@ -2,7 +2,7 @@ import path from 'node:path'
 import dotenv from 'dotenv'
 import { FictionObject } from '../plugin.js'
 import type { HookType, UserNotification } from '../utils/index.js'
-import { camelToUpperSnake, crossVar, isApp, isCi, isDev, isNode, isTest, onResetUi, resetUi, runHooks, runHooksSync, shortId, toSlug, vue, waitFor } from '../utils/index.js'
+import { crossVar, isApp, isCi, isDev, isNode, isTest, onResetUi, resetUi, runHooks, runHooksSync, shortId, toSlug, toSnake, vue, waitFor } from '../utils/index.js'
 import { version as fictionVersion } from '../package.json'
 import type { RunVars } from '../inject.js'
 import { TypedEventTarget } from '../utils/eventTarget.js'
@@ -237,7 +237,7 @@ export class FictionEnv<
           // converts cli args --service-port to SERVICE_PORT env var
           Object.entries(fullOpts).forEach(([key, value]) => {
             if (value) {
-              const processKey = camelToUpperSnake(key)
+              const processKey = toSnake(key, { upper: true })
 
               crossVar.set(processKey as keyof RunVars, String(value))
             }

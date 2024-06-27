@@ -1,6 +1,5 @@
-import { z } from 'zod'
 import type { FictionDb } from '../plugin-db/index.js'
-import type { Endpoint, EndpointMeta } from './endpoint.js'
+import type { EndpointMeta } from './endpoint.js'
 
 type ValidationTypes = 'email' | 'domain' | 'url'
 

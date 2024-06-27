@@ -1,7 +1,6 @@
 import type { MediaItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import { CardTemplate, createCard } from '@fiction/site'
-import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 import { standardOption } from '../inputSets'
 import { createDemoPage } from '../utils/demo'

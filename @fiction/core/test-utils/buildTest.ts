@@ -8,7 +8,7 @@ import fs from 'fs-extra'
 import type { Browser, Page } from 'playwright'
 import * as playwrightTest from '@playwright/test'
 import { executeCommand } from '../utils/nodeUtils.js'
-import { camelToKebab, randomBetween, waitFor } from '../utils/index.js'
+import { randomBetween, toKebab, waitFor } from '../utils/index.js'
 import { log } from '../plugin-log/index.js'
 import type { PackageJson } from '../types/index.js'
 import type { CliCommand } from '../plugin-env/index.js'
@@ -94,7 +94,7 @@ export async function createTestServer(params: {
   const additionalArgs = Object.entries({
     'postgres-url': 'postgres://test:test@localhost:5432',
     ...args,
-  }).map(([key, val]) => `--${camelToKebab(key)} ${val}`)
+  }).map(([key, val]) => `--${toKebab(key)} ${val}`)
 
   // randomize the ports on commands
   commands = commands.map((command) => {

@@ -1,11 +1,10 @@
 import bcrypt from 'bcrypt'
 import type { FictionDb } from '../../plugin-db'
 import { standardTable } from '../../tbl'
-import { toLabel } from '../../utils'
+import { isValid, toLabel } from '../../utils'
 import { abort } from '../../utils/error'
 import { dayjs } from '../../utils/libraries'
 import type { FictionUser, User } from '..'
-import { validateEmail } from '../../utils/utils'
 import type { VerificationCode } from '../schema'
 import type { WhereUser } from '../endpoint'
 
@@ -104,7 +103,7 @@ export async function emailExists(params: { email: string, fictionUser: FictionU
 
   const email = params.email.toLowerCase().trim()
 
-  if (!validateEmail(email))
+  if (!isValid(email, 'email'))
     throw abort('email is not formatted correctly')
 
   const { data: user } = await fictionUser.queries.ManageUser.serve(

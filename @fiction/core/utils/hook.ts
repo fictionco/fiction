@@ -45,7 +45,7 @@ export async function runHooks<
 }
 
 export function runHooksSync<
-S extends { [K in keyof S]: { args: unknown[] } },
+  S extends { [K in keyof S]: { args: unknown[] } },
   T extends keyof S = keyof S,
 >(params: {
   list: HookType<S, keyof S>[]

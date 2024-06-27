@@ -4,7 +4,7 @@ import type { EmailVars, QueryVars, SendEmailArgs } from './action'
 import type { FictionTransactions } from '.'
 
 export async function createEmailVars<
-T extends Record<string, string> | undefined = Record<string, string> | undefined,
+  T extends Record<string, string> | undefined = Record<string, string> | undefined,
 >(args: SendEmailArgs & {
   actionId: string
   fictionTransactions: FictionTransactions

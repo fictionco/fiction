@@ -1,5 +1,5 @@
 import type { Schema } from 'zod'
-import { objectId, toSnakeCaseKeys } from '../utils/index.js'
+import { convertKeyCase, objectId } from '../utils/index.js'
 import { FictionDbCol, FictionDbTable } from '../plugin-db/index.js'
 import { standardTable as t } from '../tbl.js'
 import type { MediaDisplayObject } from '../types/index.js'
@@ -290,7 +290,7 @@ export const orgColumns = [
     key: 'config',
     create: ({ schema, column }) => schema.jsonb(column.pgKey),
     isSetting: true,
-    prepare: ({ value }) => JSON.stringify(toSnakeCaseKeys(value)),
+    prepare: ({ value }) => JSON.stringify(convertKeyCase(value, { mode: 'snake' })),
     default: () => ({} as Partial<OrganizationConfig>),
   }),
   new FictionDbCol({
@@ -305,7 +305,7 @@ export const orgColumns = [
     key: 'extend',
     create: ({ schema, column }) => schema.jsonb(column.pgKey),
     isSetting: true,
-    prepare: ({ value }) => JSON.stringify(toSnakeCaseKeys(value)),
+    prepare: ({ value }) => JSON.stringify(convertKeyCase(value, { mode: 'snake' })),
     default: () => ({} as Partial<Record<string, { extensionId: string, isActive: boolean }>>),
   }),
 

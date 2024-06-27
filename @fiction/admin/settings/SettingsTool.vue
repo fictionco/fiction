@@ -5,7 +5,6 @@ import { getNavComponentType, toLabel, toSlug, useService, vue } from '@fiction/
 import ElPanel from '@fiction/ui/ElPanel.vue'
 import type { InputOption } from '@fiction/ui'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
-import ElButton from '@fiction/ui/ElButton.vue'
 import type { SettingsTool } from '..'
 import ToolForm from '../tools/ToolForm.vue'
 

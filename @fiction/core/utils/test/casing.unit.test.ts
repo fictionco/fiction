@@ -1,6 +1,6 @@
 // toCamel.test.ts
 import { describe, expect, it } from 'vitest'
-import { stopWordLowercase, toCamel, toLabel, toPascal, toSlug, toSnake } from '../casing'
+import { capitalize, convertKeyCase, stopWordLowercase, toCamel, toKebab, toLabel, toPascal, toSlug, toSnake } from '../casing'
 
 describe('toCamel', () => {
   it('converts SNAKE_CASE to camelCase', () => {
@@ -224,5 +224,136 @@ describe('toSnake', () => {
 
   it('removes leading underscores', () => {
     expect(toSnake('_LeadingUnderscore')).toBe('leading_underscore')
+  })
+})
+
+describe('convertKeyCase', () => {
+  const exampleObj = {
+    firstName: 'John',
+    lastName: 'Doe',
+    address: {
+      streetName: 'Main Street',
+      city: 'Anytown',
+    },
+  }
+
+  const exampleArray = [
+    {
+      firstName: 'John',
+      lastName: 'Doe',
+    },
+    {
+      firstName: 'Jane',
+      lastName: 'Smith',
+    },
+  ]
+
+  it('should convert object keys to snake case', () => {
+    const result = convertKeyCase(exampleObj, { mode: 'snake' })
+    expect(result).toEqual({
+      first_name: 'John',
+      last_name: 'Doe',
+      address: {
+        street_name: 'Main Street',
+        city: 'Anytown',
+      },
+    })
+  })
+
+  it('should convert object keys to camel case', () => {
+    const result = convertKeyCase({
+      first_name: 'John',
+      last_name: 'Doe',
+      address: {
+        street_name: 'Main Street',
+        city: 'Anytown',
+      },
+    }, { mode: 'camel' })
+
+    expect(result).toEqual({
+      firstName: 'John',
+      lastName: 'Doe',
+      address: {
+        streetName: 'Main Street',
+        city: 'Anytown',
+      },
+    })
+  })
+
+  it('should convert array of objects keys to snake case', () => {
+    const result = convertKeyCase(exampleArray, { mode: 'snake' })
+    expect(result).toEqual([
+      {
+        first_name: 'John',
+        last_name: 'Doe',
+      },
+      {
+        first_name: 'Jane',
+        last_name: 'Smith',
+      },
+    ])
+  })
+
+  it('should convert array of objects keys to camel case', () => {
+    const result = convertKeyCase([
+      {
+        first_name: 'John',
+        last_name: 'Doe',
+      },
+      {
+        first_name: 'Jane',
+        last_name: 'Smith',
+      },
+    ], { mode: 'camel' })
+
+    expect(result).toEqual([
+      {
+        firstName: 'John',
+        lastName: 'Doe',
+      },
+      {
+        firstName: 'Jane',
+        lastName: 'Smith',
+      },
+    ])
+  })
+
+  it('should handle empty objects', () => {
+    const result = convertKeyCase({}, { mode: 'snake' })
+    expect(result).toEqual({})
+  })
+
+  it('should handle empty arrays', () => {
+    const result = convertKeyCase([], { mode: 'snake' })
+    expect(result).toEqual([])
+  })
+
+  it('should handle non-object and non-array values', () => {
+    const result = convertKeyCase('test', { mode: 'snake' })
+    expect(result).toBe('test')
+  })
+})
+
+describe('toKebab', () => {
+  it('should convert camelCase to kebab-case', () => {
+    const result = toKebab('camelCaseString')
+    expect(result).toBe('camel-case-string')
+  })
+
+  it('should handle empty string', () => {
+    const result = toKebab('')
+    expect(result).toBe('')
+  })
+})
+
+describe('capitalize', () => {
+  it('should capitalize the first letter of a string', () => {
+    const result = capitalize('hello')
+    expect(result).toBe('Hello')
+  })
+
+  it('should return an empty string if input is not a string', () => {
+    const result = capitalize(null as any)
+    expect(result).toBe('')
   })
 })

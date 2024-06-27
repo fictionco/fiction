@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useService, vue, waitFor } from '@fiction/core'
+import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import ViewEditor from '@fiction/admin/ViewEditor.vue'
 import ElButton from '@fiction/ui/ElButton.vue'

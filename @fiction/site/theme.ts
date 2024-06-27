@@ -169,11 +169,11 @@ type BaseCreateCardArgs<
 } & CardConfigPortable
 
 export function createCard<
-T extends keyof CreateUserConfigs<U>,
-U extends readonly CardTemplate[],
-V extends PageRegion,
-W extends CardTemplate | undefined,
-X extends ComponentConstructor | undefined,
+  T extends keyof CreateUserConfigs<U>,
+  U extends readonly CardTemplate[],
+  V extends PageRegion,
+  W extends CardTemplate | undefined,
+  X extends ComponentConstructor | undefined,
 >(args: BaseCreateCardArgs<T, U, V, W, X>) {
   const { templates, templateId = 'area', tpl, el } = args
 

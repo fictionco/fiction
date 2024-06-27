@@ -29,8 +29,8 @@ export function setupRouteWatcher(args: { site: Site, queryVarHooks: QueryVarHoo
 
       for (const hook of queryVarHooks) {
         const { key, value } = hook
-        if (routeVars[key] && value.includes(routeVars[key]!)) {
-          const result = await hook.callback({ site, value: routeVars[key]! })
+        if (routeVars[key] && value.includes(routeVars[key])) {
+          const result = await hook.callback({ site, value: routeVars[key] })
           if (result?.reload) {
             const url = new URL(window.location.href)
             url.searchParams.delete(key)

@@ -6,7 +6,6 @@ import type { FictionPosts } from '.'
 export type PostConfig = { fictionPosts: FictionPosts } & TablePostConfig
 
 export class Post extends FictionObject<PostConfig> {
-
   postId = this.settings.postId || objectId({ prefix: 'pst' })
   status = vue.ref(this.settings.status || 'draft')
   title = vue.ref(this.settings.title || '')

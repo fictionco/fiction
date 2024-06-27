@@ -1,7 +1,6 @@
 import { InputOption } from '@fiction/ui'
 import { type ActionItem, vue } from '@fiction/core'
 import { SettingsTool } from '@fiction/admin/types'
-import InputAuthors from '@fiction/posts/el/InputAuthors.vue'
 import type { EditorTool } from '@fiction/admin'
 import { AdminEditorController } from '@fiction/admin'
 import type { Card } from '@fiction/site'

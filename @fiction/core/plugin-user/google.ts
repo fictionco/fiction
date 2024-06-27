@@ -42,8 +42,8 @@ interface GoogleOneTapSettings {
   callback?:
     | ((
       r: Awaited<
-          ReturnType<FictionUser['requests']['ManageUser']['request']>
-        >,
+        ReturnType<FictionUser['requests']['ManageUser']['request']>
+      >,
     ) => void)
     | undefined
 }

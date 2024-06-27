@@ -117,7 +117,7 @@ export class QueryManageCustomer extends QueryPayments {
       customerId?: string
       customerData?: CustomerData
     }
-  > {
+    > {
     const stripe = this.settings.fictionStripe.getServerClient()
 
     const { _action, email = '', name = '', orgId } = params
