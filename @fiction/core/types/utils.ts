@@ -86,6 +86,12 @@ export type MediaItem = {
   actions?: ActionItem[]
 } & NavItem
 
+export type PostItem = {
+  content?: string
+  title?: string
+  subTitle?: string
+} & MediaItem
+
 export interface NavItemGroup {
   title?: string
   key?: string

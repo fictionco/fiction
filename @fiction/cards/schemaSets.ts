@@ -1,4 +1,4 @@
-import type { MediaItem } from '@fiction/core'
+import type { MediaItem, PostItem } from '@fiction/core'
 import { z } from 'zod'
 
 export const mediaSchema = z.object({
@@ -16,3 +16,9 @@ export const MediaItemSchema = z.object({
     html: z.string().optional(),
   }),
 }) as z.Schema<MediaItem>
+
+export const PostItemSchema = z.object({
+  content: z.string().optional(),
+  title: z.string().optional(),
+  subTitle: z.string().optional(),
+}).merge(MediaItemSchema as z.AnyZodObject) as z.Schema<PostItem>

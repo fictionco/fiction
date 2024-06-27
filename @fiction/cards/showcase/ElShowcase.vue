@@ -3,7 +3,7 @@ import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import ElImage from '@fiction/ui/media/ElImage.vue'
-import { defaultMediaItems } from './index.js'
+import ElModal from '@fiction/ui/ElModal.vue'
 
 import type { UserConfig } from '.'
 
@@ -23,13 +23,19 @@ vue.onMounted(() => {
     },
   })
 })
+
+const activeitemId = vue.ref('')
+const activeItem = vue.computed(() => uc.value.items?.find(i => i.name === activeitemId.value))
 </script>
 
 <template>
   <div class="relative px-6 md:px-12">
     <div class="grid  xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 md:gap-12 gap-6">
-      <div v-for="(item, i) in uc.items" :key="i" class="showcase-item x-action-item transition-all duration-300 space-y-2">
-        <ElImage :media="item.media" class="aspect-[4/3] rounded-lg overflow-hidden" />
+      <div v-for="(item, i) in uc.items" :key="i" class="group showcase-item x-action-item transition-all duration-300 space-y-2 relative cursor-pointer" @click.stop="activeitemId = item.name || ''">
+        <div class="relative rounded-lg overflow-hidden">
+          <ElImage :media="item.media" class="aspect-[5/3] " />
+          <div class="overlay absolute w-full h-full z-10 inset-0 group-hover:opacity-100 opacity-0 transition-opacity" />
+        </div>
         <div class="flex justify-between gap-4 p-1">
           <div class=" text-base font-medium min-w-0">
             {{ item.name }}
@@ -37,14 +43,23 @@ vue.onMounted(() => {
           <div class="flex items-center gap-1">
             <div :class="i % 2 === 0 ? `i-tabler-heart` : 'i-tabler-heart-filled text-rose-500'" />
             <div class="font-sans text-sm">
-              123
+              {{ i * 13 }}
             </div>
           </div>
         </div>
       </div>
     </div>
+    <ElModal :vis="!!activeitemId" @update:vis="activeitemId = ''">
+      <div class="prose">
+        123
+        <div v-html="activeItem?.content" />
+      </div>
+    </ElModal>
   </div>
 </template>
 
-<style lang="less">
+<style lang="less" scoped>
+.overlay {
+  background: radial-gradient(circle at 50% 100%,rgba(0,0,0,1) 0,transparent 70%);
+}
 </style>

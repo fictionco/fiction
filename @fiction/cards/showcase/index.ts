@@ -4,12 +4,12 @@ import { CardTemplate, createCard } from '@fiction/site'
 import { z } from 'zod'
 import { standardOption } from '../inputSets'
 import { createDemoPage } from '../utils/demo'
-import { MediaItemSchema } from '../schemaSets'
+import { PostItemSchema } from '../schemaSets'
 
 const el = vue.defineAsyncComponent(() => import('./ElShowcase.vue'))
 
 const UserConfigSchema = z.object({
-  items: z.array(MediaItemSchema).optional(),
+  items: z.array(PostItemSchema).optional(),
 })
 
 export type UserConfig = z.infer<typeof UserConfigSchema>

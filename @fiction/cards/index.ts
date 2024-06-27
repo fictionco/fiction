@@ -64,7 +64,7 @@ export const marketingCardTemplates = [
   ...faq.templates,
 ] as const
 
-export function getDemoPages(args: { templates: CardTemplate[] | readonly CardTemplate[], fictionEnv: FictionEnv }) {
+export function getDemoPages(args: { templates: CardTemplate[] | readonly CardTemplate[], fictionEnv?: FictionEnv }) {
   const { templates } = args
 
   const inlineDemos = templates.filter(t => t.settings.demoPage).map((t) => {

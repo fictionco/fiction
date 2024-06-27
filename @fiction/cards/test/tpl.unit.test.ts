@@ -3,7 +3,7 @@ import { getDemoPages, standardCardTemplates } from '..'
 
 describe('verify template settings config', () => {
   it('has template options set correctly', () => {
-    const demoPages = getDemoPages()
+    const demoPages = getDemoPages({ templates: standardCardTemplates })
     const templatesOptionConfig = standardCardTemplates.map((_) => {
       return {
         templateId: _.settings.templateId,
