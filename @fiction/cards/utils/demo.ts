@@ -2,10 +2,11 @@ import type { CardConfigPortable, CardTemplate } from '@fiction/site'
 import { createCard } from '@fiction/site'
 import { standardCardTemplates } from '../index.js'
 
-export function createDemoPage(args: { templateId: string, template: CardTemplate, cards: CardConfigPortable[] }) {
+export function createDemoPage(args: { templateId: string, template: CardTemplate, cards: CardConfigPortable[], slug?: string }) {
   const { templateId, template, cards = [] } = args
+  const slug = args.slug || `demo-${templateId}`
   return createCard({
-    slug: `demo-${templateId}`,
+    slug,
     cards: [
       createCard({ templateId: 'hero', templates: standardCardTemplates, userConfig: {
         superHeading: template.settings.category?.join(', '),

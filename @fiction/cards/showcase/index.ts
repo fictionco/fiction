@@ -39,23 +39,9 @@ const template = new CardTemplate({
   ],
   userConfig: { items: defaultMediaItems },
   schema: UserConfigSchema,
+  demoPage: () => {
+    return [{ templateId, userConfig: { items: defaultMediaItems } }]
+  },
 })
 
 export const templates = [template] as const
-
-export function demo() {
-  // const testItem = {
-  //   name: 'Test',
-  //   desc: 'lorem ipsum',
-  //   href: '/testing',
-  //   media: { format: 'url', url: 'https://images.unsplash.com/photo-1508184964240-ee96bb9677a7?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjJ8fHByb2ZpbGV8ZW58MHwxfDB8fHww' } as const,
-  // }
-  // const duplicatedProfiles = Array.from({ length: 4 }, () => testItem)
-  return createDemoPage({
-    templateId,
-    template,
-    cards: [
-      createCard({ templateId, templates, userConfig: { } }),
-    ],
-  })
-}

@@ -48,7 +48,7 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
       developer.page(),
       pricing.page(args),
       affiliate.page(),
-      ...getDemoPages(),
+      ...getDemoPages({ templates, fictionEnv }),
     ])
 
     return r

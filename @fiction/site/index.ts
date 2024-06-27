@@ -81,31 +81,13 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     this.themes.value = await this.settings.themes()
   }
 
-  // async requestIndex(
-  //   args: { limit?: number, offset?: number, filters?: DataFilter[], imageId?: string } = {},
-  // ): Promise<{ items: Site[] | undefined, indexMeta?: IndexMeta }> {
-  //   const { limit = 4, offset = 0 } = args || {}
-
-  //   const r = await this.requests.ManageIndex.projectRequest({ _action: 'list', limit, offset })
-
-  //   const items = r.data
-  //     ? r.data.map(d => new Site({
-  //       ...d,
-  //       fictionSites: this,
-  //       siteRouter: this.settings.fictionRouterSites || this.settings.fictionRouter,
-  //       isEditable: false,
-  //     }))
-  //     : undefined
-
-  //   return { items, indexMeta: r.indexMeta }
-  // }
-
   getPreviewPath = vue.computed(() => {
     const current = this.settings.fictionRouter.current.value
-    const { selectorType, selectorId, siteId, subDomain, themeId } = { ...current.query, ...current.params } as Record<string, string>
+    const q = { ...current.query, ...current.params } as Record<string, string>
+    const { selectorType, selectorId, siteId, subDomain, themeId = q.theme, cardId = q.card } = q
 
-    const finalSelectorType = selectorType || (siteId ? 'site' : subDomain ? 'domain' : themeId ? 'theme' : 'none')
-    const finalSelectorId = selectorId || siteId || subDomain || themeId || 'none'
+    const finalSelectorType = selectorType || (siteId ? 'site' : subDomain ? 'domain' : themeId ? 'theme' : cardId ? 'card' : 'none')
+    const finalSelectorId = selectorId || siteId || subDomain || themeId || cardId || 'none'
 
     return `${this.adminBaseRoute}/preview/${finalSelectorType}/${finalSelectorId}`
   })

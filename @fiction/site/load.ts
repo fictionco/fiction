@@ -1,14 +1,15 @@
 import type { FictionRouter, RunVars } from '@fiction/core'
 import { log } from '@fiction/core'
 import type { ManageSiteParams } from './endpoint.js'
-import { Site } from './index.js'
-import type { FictionSites } from './index.js'
+import { localSiteConfig } from './utils/site.js'
+import { Site, createCard } from './index.js'
+import type { FictionSites, TableSiteConfig } from './index.js'
 
 const logger = log.contextLogger('siteLoader')
 
-export type SiteMode = 'designer' | 'editable' | 'standard'
-export type WhereSite = { siteId?: string, subDomain?: string, hostname?: string, themeId?: string, internal?: string }
-  & ({ siteId: string } | { subDomain: string } | { hostname: string } | { themeId: string } | { internal: string })
+export type SiteMode = 'designer' | 'editable' | 'standard' | 'coding'
+export type WhereSite = { siteId?: string, subDomain?: string, hostname?: string, themeId?: string, internal?: string, cardId?: string }
+  & ({ siteId: string } | { subDomain: string } | { hostname: string } | { themeId: string } | { internal: string } | { cardId: string })
 
 type MountContext = { siteMode?: SiteMode, fictionOrgId?: string, fictionSiteId?: string } & WhereSite
 type RequestManageSiteParams = Omit<ManageSiteParams, 'orgId' | 'siteId'> & { siteRouter: FictionRouter, fictionSites: FictionSites, siteMode: SiteMode }
@@ -39,13 +40,7 @@ export async function requestManageSite(args: RequestManageSiteParams) {
   return { site, response: r }
 }
 
-export async function loadSiteById(args: {
-  where: WhereSite
-  siteRouter: FictionRouter
-  fictionSites: FictionSites
-  siteMode: SiteMode
-  caller?: string
-}): Promise<Site | undefined> {
+export async function loadSiteById(args: { where: WhereSite, siteRouter: FictionRouter, fictionSites: FictionSites, siteMode: SiteMode, caller?: string }): Promise<Site | undefined> {
   const { where, siteRouter, fictionSites, siteMode, caller = 'loadSiteById' } = args
   const { site } = await requestManageSite({ where, _action: 'retrieve', siteRouter, fictionSites, caller, siteMode })
 
@@ -53,11 +48,13 @@ export async function loadSiteById(args: {
 }
 
 export async function loadSiteFromTheme(args: {
+  siteId?: string
   themeId: string
   siteRouter: FictionRouter
   fictionSites: FictionSites
   siteMode: SiteMode
   caller?: string
+  siteConfig?: Partial<TableSiteConfig>
 }): Promise<Site> {
   const { themeId, siteRouter, fictionSites, siteMode, caller } = args
   const availableThemes = fictionSites.themes.value
@@ -65,7 +62,7 @@ export async function loadSiteFromTheme(args: {
 
   const appSettings = fictionSites.settings.fictionApp.settings
   const orgId = appSettings.fictionOrgId || `org-${themeId}`
-  const siteId = appSettings.fictionSiteId || `site-${themeId}`
+  const siteId = args.siteId || appSettings.fictionSiteId || `theme-${themeId}`
   const subDomain = `theme-${themeId}`
 
   if (!theme) {
@@ -75,30 +72,63 @@ export async function loadSiteFromTheme(args: {
   }
   const themeConfig = await theme.toSite()
 
-  const site = new Site({ fictionSites, subDomain, ...themeConfig, siteId, orgId, siteRouter, siteMode, themeId })
+  const site = new Site({ fictionSites, subDomain, ...themeConfig, siteId, orgId, siteRouter, siteMode, themeId, isStatic: true })
 
   return site
 }
 
-export async function loadSite(args: {
-  fictionSites: FictionSites
-  siteRouter: FictionRouter
-  caller?: string
-  mountContext?: MountContext
-}) {
+export async function loadSiteFromCard(args: { cardId: string, siteRouter: FictionRouter, fictionSites: FictionSites, siteMode: SiteMode, caller?: string }): Promise<Site> {
+  const { cardId } = args
+  const siteId = `card-${cardId}`
+  const site = await loadSiteFromTheme({ ...args, themeId: 'minimal', siteId: `card-${cardId}` })
+
+  const templates = site.theme.value?.templates || []
+
+  const tpl = templates.find(t => t.settings.templateId === cardId)
+
+  if (!tpl)
+    throw new Error(`no template found for card ${cardId}`)
+
+  const cards = tpl.settings.demoPage?.() || []
+
+  // local stored config, useful for development
+  const staticConfig = await localSiteConfig({ siteId })
+
+  console.warn('loadSiteFromCard', { staticConfig })
+
+  site.update({ pages: [
+    createCard({
+      slug: '_home',
+      cards: [
+        createCard({ templateId: 'hero', userConfig: {
+          superHeading: tpl.settings.category?.join(', '),
+          heading: tpl.settings.title,
+          subHeading: tpl.settings.description,
+          actions: [],
+        } }),
+        ...cards,
+      ],
+
+    }),
+  ], ...staticConfig })
+
+  return site
+}
+
+export async function loadSite(args: { fictionSites: FictionSites, siteRouter: FictionRouter, caller?: string, mountContext?: MountContext }) {
   const { siteRouter, fictionSites, caller = 'loadSite', mountContext } = args
 
   const vals = { caller, ...mountContext }
 
   let site: Site | undefined = undefined
   try {
-    const { siteId, subDomain, hostname, themeId, siteMode = 'standard', internal } = mountContext || {}
+    const { siteId, subDomain, hostname, themeId, cardId, siteMode = 'standard', internal } = mountContext || {}
 
     const where = { siteId, subDomain, hostname, themeId } as WhereSite
 
     const hasWhere = Object.values(where).filter(Boolean).length > 0
 
-    const selectors = [siteId, subDomain, themeId].filter(Boolean)
+    const selectors = [siteId, subDomain, themeId, cardId].filter(Boolean)
 
     if (selectors.length > 1)
       logger.error('Multiple selectors used to load site', { data: { selectors } })
@@ -110,6 +140,10 @@ export async function loadSite(args: {
     if (themeId) {
       logger.debug('Loading site from theme', { data: { themeId } })
       site = await loadSiteFromTheme({ themeId, siteRouter, fictionSites, siteMode, caller })
+    }
+    else if (cardId) {
+      logger.debug('Loading site from card template', { data: { cardId } })
+      site = await loadSiteFromCard({ cardId, siteRouter, fictionSites, siteMode, caller })
     }
     else if (hasWhere) {
       logger.debug('Loading site with Selector', {
@@ -179,6 +213,7 @@ export function getMountContext(args: {
   if (mountContext) {
     const mc = mountContext as MountContext
     selector = {
+      cardId: mc.cardId,
       siteId: mc.siteId,
       themeId: mc.themeId,
       subDomain: mc.subDomain,
@@ -191,6 +226,7 @@ export function getMountContext(args: {
     // loaded using route params /:selectorType/:selectorId
     if (selectorType) {
       selector = {
+        cardId: selectorType === 'card' ? selectorId : undefined,
         siteId: selectorType === 'site' ? selectorId : undefined,
         themeId: selectorType === 'theme' ? selectorId : undefined,
         subDomain: selectorType === 'domain' ? selectorId : undefined,
@@ -201,6 +237,7 @@ export function getMountContext(args: {
     // loaded using query params ?siteId=123, or manual record passed
     else if (queryVars && Object.values(queryVars).filter(Boolean).length > 0) {
       selector = {
+        cardId: queryVars.cardId || undefined,
         siteId: queryVars.siteId || undefined,
         themeId: queryVars.themeId || undefined,
         subDomain: queryVars.subDomain || undefined,

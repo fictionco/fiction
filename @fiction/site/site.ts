@@ -29,6 +29,7 @@ export type SiteSettings = {
   isEditable?: boolean
   siteMode?: SiteMode
   isProd?: boolean
+  isStatic?: boolean
 } & Partial<TableSiteConfig> & { themeId: string }
 
 export type SiteEventMap = {
@@ -41,8 +42,8 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   siteRouter = this.settings.siteRouter
   siteMode = vue.ref(this.settings.siteMode || 'standard')
   isEditable = vue.computed(() => this.siteMode.value === 'editable' || false)
-  isEditor = vue.computed(() => this.siteMode.value === 'designer' || false)
-  frame = new SiteFrameTools({ site: this, relation: this.siteMode.value === 'designer' ? 'parent' : 'child' })
+  isDesigner = vue.computed(() => ['designer', 'coding'].includes(this.siteMode.value) || false)
+  frame = new SiteFrameTools({ site: this, relation: this.isDesigner.value ? 'parent' : 'child' })
   events = new TypedEventTarget<SiteEventMap>({ fictionEnv: this.fictionSites.fictionEnv })
 
   constructor(settings: T) {
@@ -159,7 +160,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   }
 
   update = (newConfig: Partial<TableSiteConfig>) => updateSite({ site: this, newConfig })
-  save = () => saveSite({ site: this, successMessage: 'Site Saved' })
+  save = (args: { minTime?: number } = {}) => saveSite({ site: this, successMessage: 'Site Saved', ...args })
 
   activeCard = vue.computed(() => this.availableCards.value.find(c => c.cardId === this.editor.value.selectedCardId))
   activeCardConfig = vue.computed({

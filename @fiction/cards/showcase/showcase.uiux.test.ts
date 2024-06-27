@@ -5,24 +5,24 @@ import { templates } from './index.js'
 
 const headless = true
 
-describe('marquee card', async () => {
+describe('showcase card', async () => {
   const kit = await createSiteUiTestingKit({ headless })
 
   afterAll(() => kit?.close())
 
-  it('marquee: displays correctly', async () => {
+  it('showcase: displays correctly', async () => {
     await kit.performActions({
-      path: '/card-marquee',
+      path: '/demo-showcase',
       actions: [
         { type: 'exists', selector: 'a[href$="/testing"]' },
-        { type: 'exists', selector: '.marquee-track.reverse' },
+        { type: 'exists', selector: '.showcase-track.reverse' },
       ],
     })
   })
 })
 
 describe('validate option keys', async () => {
-  it('marquee: validate option keys', async () => {
+  it('showcase: validate option keys', async () => {
     const template = templates[0]
     const optionKeys = template.settings.options || []
     const keys = collectKeysFromOptions(optionKeys)
@@ -51,8 +51,6 @@ describe('validate option keys', async () => {
       'items.0.name',
       'items.0.desc',
       'items.0.href',
-      'direction',
-      'stagger',
     ]
 
     expect(new Set(keys)).toEqual(new Set(expectedKeys))

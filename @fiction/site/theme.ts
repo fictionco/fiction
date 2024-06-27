@@ -158,7 +158,7 @@ type BaseCreateCardArgs<
     ? ExtractCardTemplateUserConfig<W>
     : X extends ComponentConstructor
       ? ExtractComponentUserConfig<X>
-      : CardUserConfig<U>[T]
+      : U extends CardTemplate[] ? CardUserConfig<U>[T] : Record<string, unknown>
   regionId?: V
   layoutId?: string
   cards?: CardConfigPortable[]

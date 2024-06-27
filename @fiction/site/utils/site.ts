@@ -1,4 +1,5 @@
-import { type CleanupCallback, vue } from '@fiction/core'
+import { type CleanupCallback, vue, waitFor } from '@fiction/core'
+import { data } from '@fiction/analytics/chart/test/sampleData.js'
 import type { Site, SiteSettings } from '../index.js'
 import type { CardConfigPortable, TableSiteConfig } from '../tables.js'
 import { Card } from '../card.js'
@@ -73,14 +74,24 @@ export function setSections(args: { site: Site, sections?: Record<string, CardCo
   }, {} as Record<string, Card>)
 }
 
-export async function saveSite(args: {
-  site: Site
-  onlyKeys?: (keyof TableSiteConfig)[]
-  delayUntilSaveConfig?: Partial<TableSiteConfig>
-  successMessage: string
-  isPublishingDomains?: boolean
-}) {
-  const { site, onlyKeys, delayUntilSaveConfig, successMessage, isPublishingDomains } = args
+export async function localSiteConfig(args: { siteId: string, fields?: Partial<TableSiteConfig> }) {
+  const { siteId, fields } = args
+  if (typeof localStorage === 'undefined')
+    return {}
+
+  const k = `static-${siteId}`
+  let conf = JSON.parse(localStorage.getItem(k) || '{}')
+
+  if (fields) {
+    conf = { ...conf, ...fields }
+    localStorage.setItem(k, JSON.stringify(conf))
+  }
+
+  return conf
+}
+
+export async function saveSite(args: { site: Site, onlyKeys?: (keyof TableSiteConfig)[], delayUntilSaveConfig?: Partial<TableSiteConfig>, successMessage: string, isPublishingDomains?: boolean, minTime?: number }) {
+  const { site, onlyKeys, delayUntilSaveConfig, successMessage, isPublishingDomains, minTime } = args
 
   const config = site.toConfig()
 
@@ -97,6 +108,12 @@ export async function saveSite(args: {
   if (delayUntilSaveConfig)
     fields = { ...fields, ...delayUntilSaveConfig }
 
+  // save locally if coding as site doesn't exist
+  if (site.settings.isStatic) {
+    await waitFor(500)
+    return localSiteConfig({ siteId: config.siteId, fields })
+  }
+
   const r = await site.settings.fictionSites.requests.ManageSite.projectRequest({
     _action: 'update',
     fields,
@@ -104,7 +121,7 @@ export async function saveSite(args: {
     successMessage,
     isPublishingDomains,
     caller: 'saveSite',
-  })
+  }, { minTime })
 
   updateSite({ site, newConfig: r.data || {} })
 

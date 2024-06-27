@@ -1,6 +1,8 @@
+import type { FictionEnv } from '@fiction/core'
 import { envConfig, safeDirname, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site/card'
 import { z } from 'zod'
+import type { CardConfigPortable } from '@fiction/site'
 import * as four04 from './404'
 import * as quote from './quote'
 import { templates as templatesLogos } from './logos'
@@ -20,6 +22,7 @@ import * as marquee from './marquee/index.js'
 import * as magazine from './magazine/index.js'
 import * as capture from './capture/index.js'
 import * as showcase from './showcase/index.js'
+import { createDemoPage } from './utils/demo'
 /**
  * Add path for tailwindcss to scan for styles
  */
@@ -61,7 +64,14 @@ export const marketingCardTemplates = [
   ...faq.templates,
 ] as const
 
-export function getDemoPages() {
+export function getDemoPages(args: { templates: CardTemplate[] | readonly CardTemplate[], fictionEnv: FictionEnv }) {
+  const { templates } = args
+
+  const inlineDemos = templates.filter(t => t.settings.demoPage).map((t) => {
+    const cards = t.settings.demoPage?.() as CardConfigPortable[]
+    return createDemoPage({ templateId: t.settings.templateId, template: t, cards })
+  })
+
   return [
     marquee.demo(),
     hero.demo(),
@@ -71,6 +81,6 @@ export function getDemoPages() {
     area.demo(),
     magazine.demo(),
     capture.demo(),
-    showcase.demo(),
+    ...inlineDemos,
   ]
 }

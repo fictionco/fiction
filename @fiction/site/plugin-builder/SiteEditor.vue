@@ -34,14 +34,15 @@ async function load() {
   loading.value = true
 
   try {
-    const { siteId, themeId } = fictionRouter.query.value as Record<string, string>
+    const q = fictionRouter.query.value as Record<string, string>
+    const { siteId = q.site, themeId = q.theme, cardId = q.card } = q
 
-    if (!siteId && !themeId)
-      throw new Error('No siteId')
+    if (!siteId && !themeId && !cardId)
+      throw new Error('No site, theme, or card id provided')
 
     await fictionRouterSites.create({ noBrowserNav: true, caller: 'SiteEditor' })
 
-    const mountContext = getMountContext({ queryVars: { siteId, themeId }, siteMode: 'designer' })
+    const mountContext = getMountContext({ queryVars: { siteId, themeId, cardId }, siteMode: 'designer' })
 
     site.value = await loadSite({
       fictionSites,
@@ -73,13 +74,10 @@ async function save() {
 
   sending.value = 'save'
 
-  // min time for UX reasons
-  await waitFor(500)
-
   // make sure any blur events are triggered
   resetUi({ scope: 'all', cause: 'saveSite' })
 
-  await site.value.save()
+  await site.value.save({ minTime: 500 })
   sending.value = ''
 }
 </script>
@@ -98,7 +96,7 @@ async function save() {
         <ElSpinner class="h-12 w-12" />
       </div>
     </div>
-    <El404 v-else-if="!site && !loading" heading="Site Not Found" sub-heading="No site was found here." />
+
     <template v-else>
       <ViewEditor :tool-props="{ site }" :controller="createSiteEditingController(site)">
         <template #headerLeft>
@@ -140,7 +138,8 @@ async function save() {
           </ElButton>
         </template>
         <template #default>
-          <SiteEditorFrame :site="site" />
+          <El404 v-if="!site && !loading" heading="Site Not Found" sub-heading="No site was found here." />
+          <SiteEditorFrame v-else :site="site" />
         </template>
       </ViewEditor>
     </template>

@@ -28,10 +28,10 @@ vue.onMounted(() => {
 <template>
   <div class="relative px-6 md:px-12">
     <div class="grid  xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 md:gap-12 gap-6">
-      <div v-for="(item, i) in defaultMediaItems" :key="i" class="showcase-item x-action-item transition-all duration-300 space-y-2">
+      <div v-for="(item, i) in uc.items" :key="i" class="showcase-item x-action-item transition-all duration-300 space-y-2">
         <ElImage :media="item.media" class="aspect-[4/3] rounded-lg overflow-hidden" />
         <div class="flex justify-between gap-4 p-1">
-          <div class=" text-base font-medium">
+          <div class=" text-base font-medium min-w-0">
             {{ item.name }}
           </div>
           <div class="flex items-center gap-1">
