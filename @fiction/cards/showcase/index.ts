@@ -32,7 +32,7 @@ const template = new CardTemplate({
   description: 'a showcase grid of items with popup details',
   icon: 'i-tabler-carousel-horizontal',
   colorTheme: 'pink',
-  isPublic: true,
+  isPublic: false,
   el,
   options: [
     standardOption.mediaItems({ key: 'items', label: 'Media Items' }),

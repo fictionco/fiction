@@ -1,7 +1,7 @@
 import type { EndpointMeta, EndpointResponse, IndexQuery, TransactionalEmailConfig } from '@fiction/core'
 import { Query, dayjs } from '@fiction/core'
 import type { ManageSubscriptionParams } from '@fiction/plugin-subscribe/endpoint'
-import { CronJob } from 'cron'
+import { CronTool } from '@fiction/core/utils/cron'
 import type { Subscriber } from '@fiction/plugin-subscribe'
 import { t } from './schema'
 import type { EmailCampaignConfig } from './schema.js'
@@ -264,7 +264,7 @@ export class ManageCampaign extends SendEndpoint {
 }
 
 export class ManageSend extends SendEndpoint {
-  job?: CronJob
+  cronTool?: CronTool
   async init(args: { crontab?: string } = {}) {
     const { crontab = '*/2 * * * *' } = args
     await this.startCronJob({ crontab })
@@ -381,18 +381,12 @@ export class ManageSend extends SendEndpoint {
   // Method to start the cron job
   private async startCronJob(args: { crontab: string }) {
     const { crontab } = args
-    this.job = new CronJob(crontab, () => {
+    this.cronTool = new CronTool(crontab, () => {
       this.scanAndSendrequestedCampaigns().catch(console.error)
     })
-
-    const { default: cronstrue } = await import('cronstrue')
-
-    this.log.info(`CRON: running send loop: ${cronstrue.toString(crontab)}`)
-
-    this.job.start()
   }
 
   close() {
-    this.job?.stop()
+    this.cronTool?.close()
   }
 }

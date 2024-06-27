@@ -13,6 +13,8 @@
     }
   ],
   "dependencies": {
+    "cron": "^3.1.7",
+    "cronstrue": "^2.50.0",
     "@aws-sdk/client-cloudfront": "^3.600.0",
     "@aws-sdk/client-s3": "^3.600.0",
     "@egoist/tailwindcss-icons": "^1.8.1",
