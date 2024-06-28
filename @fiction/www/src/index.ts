@@ -67,7 +67,7 @@ const fictionRouter = new FictionRouter({
       new AppRoute({ name: 'chartTest', path: '/test-chart', component: (): Promise<any> => import('@fiction/analytics/chart/test/TestChart.vue'), noSitemap: true }),
       new AppRoute({ name: 'email', path: '/test-email', component: (): Promise<any> => import('@fiction/core/plugin-email/preview/EmailPreview.vue'), noSitemap: true }),
       new AppRoute({ name: 'themeMinimal', path: '/theme-minimal/:viewId?/:itemId?', component: FSite, props: { siteRouter: fictionRouter, themeId: 'minimal' }, noSitemap: true }),
-      new AppRoute({ name: 'testEditor', path: '/test-editor', component: (): Promise<any> => import('@fiction/plugin-editor/test/TestEditor.vue'), noSitemap: true }),
+      new AppRoute({ name: 'testEditor', path: '/test-editor', component: (): Promise<any> => import('@fiction/ui/prose/editor/test/TestEditor.vue'), noSitemap: true }),
       new AppRoute({ name: 'testInputs', path: '/inputs', component: (): Promise<any> => import('@fiction/ui/inputs/test/TestInputsAll.vue'), noSitemap: true }),
       new AppRoute({ name: 'dash', path: '/app/:viewId?/:itemId?', component: FSite, props: { siteRouter: fictionRouter, themeId: 'admin' }, noSitemap: true }),
       new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: FSite, props: { siteRouter: fictionRouter, themeId: 'fiction' } }),

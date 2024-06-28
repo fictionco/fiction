@@ -2,7 +2,6 @@
 import { EditorContent, useEditor } from '@tiptap/vue-3'
 import { isDarkOrLightMode, vue } from '@fiction/core'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
-import './utils/hljs.css'
 import { extensions } from './extensions/index'
 import BubbleMenuEngine from './el/BubbleMenuEngine.vue'
 

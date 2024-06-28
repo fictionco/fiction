@@ -109,6 +109,17 @@ export const standardOption = {
     const s = standardOption
     return s.inputList({ label: 'Media Items', key: 'mediaItems', ..._, options: [s.media(), s.name(), s.desc(), s.href()], generation: { estimatedMs: 40000 } })
   },
+  postItems: (_: OptArgs = {}) => {
+    const s = standardOption
+    return s.inputList({ label: 'Post Items', key: 'postItems', ..._, options: [
+      s.media(),
+      s.href(),
+      new InputOption({ key: 'title', label: 'Title', input: 'InputText', placeholder: 'Title' }),
+      new InputOption({ key: 'subTitle', label: 'Subtitle', input: 'InputText', placeholder: 'Sub title' }),
+      new InputOption({ key: 'content', label: 'Content', input: 'InputProse', placeholder: 'Content' }),
+
+    ], generation: { estimatedMs: 40000 } })
+  },
   socials: (_: OptArgs = {}) => {
     const s = standardOption
     const __ = { label: 'Socials', key: 'socials', ..._ }

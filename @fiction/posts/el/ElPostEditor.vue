@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { vue } from '@fiction/core'
-import ProseEditor from '@fiction/plugin-editor/ProseEditor.vue'
+import ProseEditor from '@fiction/ui/prose/editor/ProseEditor.vue'
 import XText from '@fiction/ui/common/XText.vue'
 import ElImage from '@fiction/ui/media/ElImage.vue'
 import type { Card } from '@fiction/site'

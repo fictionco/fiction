@@ -2,7 +2,6 @@ import type { FictionDb, FictionPluginSettings, FictionServer, FictionUser } fro
 
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { createCard } from '@fiction/site'
-import { FictionEditor } from '@fiction/plugin-editor'
 import type { FictionAdmin } from '@fiction/admin'
 import { tables } from './schema'
 import { ManagePostIndex, QueryManagePost, QueryManageTaxonomy } from './endpoint'
@@ -21,7 +20,6 @@ export * from './utils'
 export * from './post'
 
 export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
-  editor = new FictionEditor(this.settings)
   widgets = getWidgets({ fictionPosts: this, ...this.settings })
   queries = {
     ManagePost: new QueryManagePost({ fictionPosts: this, ...this.settings }),
