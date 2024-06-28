@@ -3,7 +3,6 @@ import { vue } from '@fiction/core'
 import { CardTemplate, createCard } from '@fiction/site'
 import { z } from 'zod'
 import { standardOption } from '../inputSets'
-import { createDemoPage } from '../utils/demo'
 import { PostItemSchema } from '../schemaSets'
 
 const el = vue.defineAsyncComponent(() => import('./ElShowcase.vue'))

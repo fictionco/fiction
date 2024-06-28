@@ -4,6 +4,7 @@ import type { Card } from '@fiction/site'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import ElImage from '@fiction/ui/media/ElImage.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
+import { sampleHtml } from '@fiction/core/plugin-email/preview/content'
 
 import type { UserConfig } from '.'
 
@@ -26,6 +27,7 @@ vue.onMounted(() => {
 
 const activeitemId = vue.ref('')
 const activeItem = vue.computed(() => uc.value.items?.find(i => i.name === activeitemId.value))
+const proseClass = `prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl mx-auto focus:outline-none `
 </script>
 
 <template>
@@ -49,9 +51,9 @@ const activeItem = vue.computed(() => uc.value.items?.find(i => i.name === activ
         </div>
       </div>
     </div>
-    <ElModal :vis="!!activeitemId" @update:vis="activeitemId = ''">
-      <div class="prose">
-        123
+    <ElModal :vis="!!activeitemId" modal-class="w-[80dvw] min-h-[80dvh] p-12" @update:vis="activeitemId = ''">
+      <div :class="proseClass">
+        <div v-html="sampleHtml" />
         <div v-html="activeItem?.content" />
       </div>
     </ElModal>
