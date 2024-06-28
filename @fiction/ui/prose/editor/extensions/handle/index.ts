@@ -297,7 +297,7 @@ function DragHandle(options: GlobalDragHandleOptions) {
 
           const compStyle = window.getComputedStyle(node)
           const lineHeight = Number.parseInt(compStyle.lineHeight, 10)
-          const gutter = 8
+          const gutter = 5
           const paddingTop = Number.parseInt(compStyle.paddingTop, 10)
           const nodeRect = absoluteRect(node)
           const handleHeight = handleContainerElement.offsetHeight
@@ -392,7 +392,7 @@ const GlobalDragHandle = Extension.create({
   name: 'globalDragHandle',
 
   addOptions() {
-    return { dragHandleWidth: 20, scrollTreshold: 100 }
+    return { dragHandleWidth: 5, scrollTreshold: 100 }
   },
 
   addProseMirrorPlugins() {

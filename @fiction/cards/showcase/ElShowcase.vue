@@ -5,6 +5,7 @@ import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import ElImage from '@fiction/ui/media/ElImage.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
 import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
+import CardText from '../CardText.vue'
 import type { UserConfig } from '.'
 
 const props = defineProps({
@@ -24,8 +25,8 @@ vue.onMounted(() => {
   })
 })
 
-const activeitemId = vue.ref('')
-const activeItem = vue.computed(() => uc.value.items?.find((item, i) => `item-${i}` === activeitemId.value))
+const activeitemIndex = vue.ref(-1)
+const activeItem = vue.computed(() => uc.value.items?.find((item, i) => i === activeitemIndex.value))
 const proseClass = `prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl mx-auto focus:outline-none `
 function imageAspect(media: MediaDisplayObject) {
   const img = media
@@ -42,7 +43,7 @@ function imageAspect(media: MediaDisplayObject) {
 <template>
   <div class="relative px-6 md:px-12">
     <div class="grid  xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 md:gap-12 gap-6">
-      <div v-for="(item, i) in uc.items" :key="i" class="group showcase-item x-action-item transition-all duration-300 space-y-2 relative cursor-pointer" @click.stop="activeitemId = `item-${i}` || ''">
+      <div v-for="(item, i) in uc.items" :key="i" class="group showcase-item x-action-item transition-all duration-300 space-y-2 relative cursor-pointer" @click.stop="activeitemIndex = i">
         <div class="relative rounded-lg overflow-hidden">
           <ElImage :media="item.media" class="aspect-[4/3] " />
           <div class="overlay absolute w-full h-full z-10 inset-0 group-hover:opacity-100 opacity-0 transition-opacity" />
@@ -60,10 +61,10 @@ function imageAspect(media: MediaDisplayObject) {
         </div>
       </div>
     </div>
-    <ElModal :vis="!!activeitemId" modal-class="w-[80dvw] min-h-[80dvh] " @update:vis="activeitemId = ''">
+    <ElModal :vis="activeitemIndex >= 0" modal-class="lg:max-w-[80dvw] min-h-[80dvh] " @update:vis="activeitemIndex = -1">
       <div class="close">
         <div class="absolute top-0 right-0 p-4">
-          <div class="cursor-pointer text-theme-400 dark:text-theme-500 opacity-70 hover:opacity-100" @click="activeitemId = ''">
+          <div class="cursor-pointer text-theme-400 dark:text-theme-500 opacity-70 hover:opacity-100" @click="activeitemIndex = -1">
             <div class="i-tabler-x text-5xl" />
           </div>
         </div>
@@ -72,12 +73,20 @@ function imageAspect(media: MediaDisplayObject) {
         <div :class="proseClass">
           <div class="not-prose">
             <div class="mb-8 not-prose space-y-4">
-              <h1 class="mb-0 text-5xl font-semibold x-font-title">
-                {{ activeItem?.title }}
-              </h1>
-              <h3 class="my-0 text-theme-500 dark:text-theme-400 text-3xl">
-                {{ activeItem?.subTitle }}
-              </h3>
+              <CardText
+                tag="h1"
+                :card="card"
+                class="mb-0 text-5xl font-semibold x-font-title"
+                :path="`items.${activeitemIndex}.title`"
+                animate="fade"
+              />
+              <CardText
+                tag="h3"
+                :card="card"
+                class="my-0 text-theme-500 dark:text-theme-400 text-3xl"
+                :path="`items.${activeitemIndex}.subTitle`"
+                animate="fade"
+              />
             </div>
 
             <AnimClipPath :enabled="true" class="my-[min(max(35px,_5vw),_30px)] -mx-16">
@@ -88,7 +97,13 @@ function imageAspect(media: MediaDisplayObject) {
             </AnimClipPath>
           </div>
 
-          <div class="my-12" v-html="activeItem?.content" />
+          <CardText
+            tag="div"
+            :card="card"
+            class="my-12"
+            :path="`items.${activeitemIndex}.content`"
+            animate="fade"
+          />
         </div>
       </div>
     </ElModal>

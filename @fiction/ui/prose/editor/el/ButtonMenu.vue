@@ -43,8 +43,8 @@ const passProps = vue.computed(() => {
       class="relative"
     >
       <button
-
         type="button"
+        class="whitespace-nowrap "
         :class="getItemClass({ item, i, items })"
         @click="item.onClick ? item.onClick({ event: $event, item }) : ''"
       >

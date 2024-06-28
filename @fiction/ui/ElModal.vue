@@ -55,6 +55,7 @@ vue.onMounted(() => {
         el.style.transform = 'scale(.95)'
         el.style.transition = 'transform .75s cubic-bezier(0.25, 1, 0.33, 1)'
         el.style.overflow = 'hidden'
+        el.style.height = '100dvh'
 
         setTimeout(() => (afterVisible.value = true), 300)
       }

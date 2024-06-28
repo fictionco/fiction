@@ -19,6 +19,7 @@ const editor = useEditor({
   editorProps: {
     attributes: {
       class: 'ml-[-4em] mr-[-4em] pl-[4em] pr-[4em] focus:outline-none',
+
     },
   },
   onUpdate: ({ editor }) => {
