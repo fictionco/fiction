@@ -74,9 +74,6 @@ vue.onMounted(() => {
       opacity: 0.2;
     }
   }
-  .suggestion{
-    opacity: 0;
-  }
 
   .ProseMirror p.is-editor-empty:first-child::before,
   .ProseMirror p.is-empty::before {

@@ -42,23 +42,34 @@ function getSuggestionItems({ query }: { query: string }) {
     //   },
     // },
     {
-      title: 'Text',
-      description: 'Just start typing with plain text.',
-      searchTerms: ['p', 'paragraph'],
-      icon: Text,
-      command: ({ editor, range }: CProps) => {
-        editor.chain().focus().deleteRange(range).toggleNode('paragraph', 'paragraph').run()
+      title: 'Image',
+      description: 'Upload an image from your computer.',
+      searchTerms: ['photo', 'picture', 'media'],
+      icon: Image,
+      command: ({ editor, range, props }: CProps) => {
+        editor.chain().focus().deleteRange(range).insertContent({
+          type: 'xImage',
+          attrs: { /* attributes if any */ },
+        }).run()
       },
     },
     {
-      title: 'To-do List',
-      description: 'Track tasks with a to-do list.',
-      searchTerms: ['todo', 'task', 'list', 'check', 'checkbox'],
-      icon: CheckSquare,
-      command: ({ editor, range }: CProps) => {
-        editor.chain().focus().deleteRange(range).toggleTaskList().run()
-      },
+      title: 'Quote',
+      description: 'Capture a quote.',
+      searchTerms: ['blockquote'],
+      icon: TextQuote,
+      command: ({ editor, range }: CProps) =>
+        editor.chain().focus().deleteRange(range).toggleNode('paragraph', 'paragraph').toggleBlockquote().run(),
     },
+    {
+      title: 'Code',
+      description: 'Capture a code snippet.',
+      searchTerms: ['codeblock'],
+      icon: Code,
+      command: ({ editor, range }: CProps) =>
+        editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
+    },
+
     {
       title: 'Heading 1',
       description: 'Big section heading.',
@@ -105,31 +116,22 @@ function getSuggestionItems({ query }: { query: string }) {
       },
     },
     {
-      title: 'Quote',
-      description: 'Capture a quote.',
-      searchTerms: ['blockquote'],
-      icon: TextQuote,
-      command: ({ editor, range }: CProps) =>
-        editor.chain().focus().deleteRange(range).toggleNode('paragraph', 'paragraph').toggleBlockquote().run(),
+      title: 'Text',
+      description: 'Just start typing with plain text.',
+      searchTerms: ['p', 'paragraph'],
+      icon: Text,
+      command: ({ editor, range }: CProps) => {
+        editor.chain().focus().deleteRange(range).toggleNode('paragraph', 'paragraph').run()
+      },
     },
+
     {
-      title: 'Code',
-      description: 'Capture a code snippet.',
-      searchTerms: ['codeblock'],
-      icon: Code,
-      command: ({ editor, range }: CProps) =>
-        editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
-    },
-    {
-      title: 'Image',
-      description: 'Upload an image from your computer.',
-      searchTerms: ['photo', 'picture', 'media'],
-      icon: Image,
-      command: ({ editor, range, props }: CProps) => {
-        editor.chain().focus().deleteRange(range).insertContent({
-          type: 'xImage',
-          attrs: { /* attributes if any */ },
-        }).run()
+      title: 'To-do List',
+      description: 'Track tasks with a to-do list.',
+      searchTerms: ['todo', 'task', 'list', 'check', 'checkbox'],
+      icon: CheckSquare,
+      command: ({ editor, range }: CProps) => {
+        editor.chain().focus().deleteRange(range).toggleTaskList().run()
       },
     },
   ].filter((item) => {

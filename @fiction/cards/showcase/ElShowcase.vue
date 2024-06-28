@@ -1,11 +1,10 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
+import { type MediaDisplayObject, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import ElImage from '@fiction/ui/media/ElImage.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
-import { sampleHtml } from '@fiction/core/plugin-email/preview/content'
-
+import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
 import type { UserConfig } from '.'
 
 const props = defineProps({
@@ -28,6 +27,16 @@ vue.onMounted(() => {
 const activeitemId = vue.ref('')
 const activeItem = vue.computed(() => uc.value.items?.find((item, i) => `item-${i}` === activeitemId.value))
 const proseClass = `prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl mx-auto focus:outline-none `
+function imageAspect(media: MediaDisplayObject) {
+  const img = media
+  const h = img?.height
+  const w = img?.width
+
+  if (!img || !w || !h)
+    return 'aspect-[3/4]'
+
+  return w > h ? 'aspect-square max-h-[70dvh]' : 'aspect-[4/3]'
+}
 </script>
 
 <template>
@@ -52,17 +61,34 @@ const proseClass = `prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl mx-
       </div>
     </div>
     <ElModal :vis="!!activeitemId" modal-class="w-[80dvw] min-h-[80dvh] " @update:vis="activeitemId = ''">
+      <div class="close">
+        <div class="absolute top-0 right-0 p-4">
+          <div class="cursor-pointer text-theme-400 dark:text-theme-500 opacity-70 hover:opacity-100" @click="activeitemId = ''">
+            <div class="i-tabler-x text-5xl" />
+          </div>
+        </div>
+      </div>
       <div class="py-24">
         <div :class="proseClass">
-          <div class="mb-8">
-            <h1 class="mb-0">
-              {{ activeItem?.title }}
-            </h1>
-            <h3 class="my-0">
-              {{ activeItem?.subTitle }}
-            </h3>
+          <div class="not-prose">
+            <div class="mb-8 not-prose space-y-4">
+              <h1 class="mb-0 text-5xl font-semibold x-font-title">
+                {{ activeItem?.title }}
+              </h1>
+              <h3 class="my-0 text-theme-500 dark:text-theme-400 text-3xl">
+                {{ activeItem?.subTitle }}
+              </h3>
+            </div>
+
+            <AnimClipPath :enabled="true" class="my-[min(max(35px,_5vw),_30px)] -mx-16">
+              <div v-if="activeItem?.media?.url" class=" mx-auto relative overflow-hidden rounded-xl" :class="imageAspect(activeItem.media)">
+                <!-- Optionally display media -->
+                <img :src="activeItem?.media?.url" alt="Post media" class="absolute h-full w-full object-cover object-center">
+              </div>
+            </AnimClipPath>
           </div>
-          <div v-html="activeItem?.content" />
+
+          <div class="my-12" v-html="activeItem?.content" />
         </div>
       </div>
     </ElModal>

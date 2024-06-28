@@ -2,7 +2,7 @@
 import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { FictionPosts, Post } from '@fiction/posts'
-import ClipPathAnim from '@fiction/ui/anim/AnimClipPath.vue'
+import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
 import ElBadge from '@fiction/ui/common/ElBadge.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
@@ -65,12 +65,12 @@ const imageAspect = vue.computed(() => {
           <ElAuthor v-for="(author, i) in post.authors.value" :key="i" :user="author" :date-at="post.dateAt.value" />
         </div>
       </div>
-      <ClipPathAnim :enabled="true" class="my-[min(max(35px,_5vw),_60px)]">
+      <AnimClipPath :enabled="true" class="my-[min(max(35px,_5vw),_60px)]">
         <div v-if="post.image.value?.url" class=" mx-auto relative overflow-hidden rounded-lg" :class="imageAspect">
           <!-- Optionally display media -->
           <img :src="post.image.value?.url" alt="Post media" class="absolute h-full w-full object-cover object-center">
         </div>
-      </ClipPathAnim>
+      </AnimClipPath>
       <div class="content-container px-4" :class="proseClass" v-html="post.content.value" />
 
       <div v-if="post.tags.value?.length" class="tags flex gap-4 mt-12 mb-8 items-center px-4 justify-center" :class="proseClass">

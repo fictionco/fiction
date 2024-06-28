@@ -7,8 +7,8 @@ import type { EditorView } from '@tiptap/pm/view'
 // @ts-expect-error not exported publicly
 import { __serializeForClipboard } from '@tiptap/pm/view'
 
-const plus = `<svg class="size-[1.5em]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+const plus = `<svg  class="size-[1.4em]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
 </svg>`
 
 const updown = `<svg class="size-[1.5em]" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -39,11 +39,7 @@ function absoluteRect(node: Element) {
       width: data.width,
     }
   }
-  return {
-    top: data.top,
-    left: data.left,
-    width: data.width,
-  }
+  return { top: data.top, left: data.left, width: data.width }
 }
 
 function nodeDOMAtCoords(coords: { x: number, y: number }) {
@@ -135,10 +131,7 @@ function DragHandle(options: GlobalDragHandleOptions) {
     if (!event.dataTransfer)
       return
 
-    const node = nodeDOMAtCoords({
-      x: event.clientX + 50 + options.dragHandleWidth,
-      y: event.clientY,
-    })
+    const node = nodeDOMAtCoords({ x: event.clientX + 50 + options.dragHandleWidth, y: event.clientY })
 
     if (!(node instanceof Element))
       return
@@ -239,10 +232,10 @@ function DragHandle(options: GlobalDragHandleOptions) {
     view: (view) => {
       // Create the parent element
       handleContainerElement = document.createElement('div')
-      handleContainerElement.classList.add('handle-container', 'flex', 'fixed', 'transition-opacity', 'w-[2.5em]', 'h-[1.5em]', 'text-theme-300', 'dark:text-theme-600')
+      handleContainerElement.classList.add('handle-container', 'flex', 'items-center', 'fixed', 'transition-opacity', 'size-[1.5em]', 'text-theme-300', 'dark:text-theme-600')
 
       // Create the add button
-      const btnClass = ['add-button', 'cursor-pointer', 'hover:text-primary-500', 'dark:hover:text-theme-0', 'hover:bg-theme-100', 'dark:hover:bg-theme-800', 'rounded-md', 'transition-colors', 'duration-200']
+      const btnClass = ['add-button', 'cursor-pointer', 'hover:text-primary-500', 'dark:hover:text-theme-0', 'hover:bg-theme-100', 'dark:hover:bg-theme-700', 'rounded-lg', 'transition-colors', 'duration-200']
       addItemElement = document.createElement('div')
       addItemElement.classList.add('add-button', 'cursor-pointer', ...btnClass)
       addItemElement.innerHTML = plus
@@ -251,10 +244,10 @@ function DragHandle(options: GlobalDragHandleOptions) {
       })
 
       // Create the drag handle
-      dragHandleElement = document.createElement('div')
-      dragHandleElement.classList.add('drag-handle', 'cursor-grab', ...btnClass)
+      dragHandleElement = addItemElement // document.createElement('div')
+      dragHandleElement.classList.add('drag-handle', ...btnClass)
       dragHandleElement.setAttribute('draggable', 'true')
-      dragHandleElement.innerHTML = updown
+      dragHandleElement.innerHTML = plus // updown
       dragHandleElement.addEventListener('dragstart', e => handleDragStart(e, view))
 
       // Append children to the container
@@ -302,9 +295,9 @@ function DragHandle(options: GlobalDragHandleOptions) {
             return
           }
 
-          const gutter = 20
           const compStyle = window.getComputedStyle(node)
           const lineHeight = Number.parseInt(compStyle.lineHeight, 10)
+          const gutter = 8
           const paddingTop = Number.parseInt(compStyle.paddingTop, 10)
           const nodeRect = absoluteRect(node)
           const handleHeight = handleContainerElement.offsetHeight
