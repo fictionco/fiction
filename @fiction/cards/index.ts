@@ -22,6 +22,7 @@ import * as marquee from './marquee/index.js'
 import * as magazine from './magazine/index.js'
 import * as capture from './capture/index.js'
 import * as showcase from './showcase/index.js'
+import * as header from './header/index.js'
 import { createDemoPage } from './utils/demo'
 /**
  * Add path for tailwindcss to scan for styles
@@ -42,6 +43,7 @@ export const standardCardTemplates = [
     isPublic: false,
   }),
   ...four04.templates,
+  ...header.templates,
   ...quote.templates,
   ...profile.templates,
   ...hero.templates,

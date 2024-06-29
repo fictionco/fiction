@@ -1,6 +1,7 @@
 /**
  * @vitest-environment happy-dom
  */
+import { verify } from 'node:crypto'
 import { afterAll, describe, expect, it, vi } from 'vitest'
 import jwt from 'jsonwebtoken'
 import { createUserToken, decodeUserToken, manageClientUserToken } from '../jwt'
@@ -69,6 +70,7 @@ describe('jWT Functions with Expiration', () => {
       role: user.role,
       iat: expect.any(Number),
       exp: expect.any(Number),
+      verifyEmail: false,
     })
   })
 
@@ -105,6 +107,7 @@ describe('jwt Functions', () => {
       email: user.email,
       role: user.role,
       iat: expect.any(Number),
+      verifyEmail: false,
     })
   })
 

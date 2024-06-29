@@ -35,7 +35,7 @@ const footer = [
 
 <template>
   <div class="z-10" :class="card.classes.value.contentWidth">
-    <div class="mx-auto max-w-7xl px-4 lg:px-0">
+    <div class=" px-4 lg:px-0">
       <div class="">
         <div class="flex flex-col justify-between sm:flex-row">
           <div class="w-32 md:w-60 py-6 text-left sm:mx-auto md:py-1 mb-4">
