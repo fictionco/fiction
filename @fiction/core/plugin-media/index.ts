@@ -76,6 +76,6 @@ export class FictionMedia extends FictionPlugin<FictionMediaSettings> {
   }
 
   async relativeMedia(args: { url: string, orgId?: string, userId?: string }): Promise<TableMediaConfig> {
-    return await relativeMedia({ fictionMedia: this, cache: this.cache, ...args })
+    return relativeMedia({ fictionMedia: this, cache: this.cache, ...args })
   }
 }

@@ -72,7 +72,7 @@ export const templates = [
     description: 'A quote card with author and organization information',
     icon: 'i-tabler-quote',
     colorTheme: 'green',
-    el: vue.defineAsyncComponent(() => import('./ElQuote.vue')),
+    el: vue.defineAsyncComponent(async () => import('./ElQuote.vue')),
     isPublic: true,
     options: [
       standardOption.ai(),

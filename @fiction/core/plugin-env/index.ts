@@ -112,7 +112,7 @@ export class FictionEnv<
   // the services are then accessed via useService provide
   service = vue.shallowRef<{ runVars?: Partial<RunVars>, [key: string]: unknown }>({})
 
-  runHooks<T extends keyof FictionEnvHookDictionary>(hook: T, ...args: FictionEnvHookDictionary[T]['args']) {
+  async runHooks<T extends keyof FictionEnvHookDictionary>(hook: T, ...args: FictionEnvHookDictionary[T]['args']) {
     return runHooks<FictionEnvHookDictionary, T>({ list: this.hooks, hook, args })
   }
 

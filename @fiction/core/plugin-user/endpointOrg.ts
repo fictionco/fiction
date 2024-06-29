@@ -193,15 +193,15 @@ export class QueryManageOrganization extends OrgQuery {
   async run(params: ManageOrganizationParams, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {
     switch (params._action) {
       case 'create':
-        return await this.createOrganization(params, meta)
+        return this.createOrganization(params, meta)
       case 'update':
-        return await this.updateOrganization(params, meta)
+        return this.updateOrganization(params, meta)
       case 'delete':
-        return await this.deleteOrganization(params, meta)
+        return this.deleteOrganization(params, meta)
       case 'retrieve':
-        return await this.retrieveOrganization(params, meta)
+        return this.retrieveOrganization(params, meta)
       case 'generateApiSecret':
-        return await this.generateApiSecret(params, meta)
+        return this.generateApiSecret(params, meta)
       default:
         throw abort('Invalid action')
     }
@@ -308,7 +308,7 @@ export class QueryManageOrganization extends OrgQuery {
 
   private async manageMemberRelation(args: { userId: string, orgId: string, accessType?: MemberAccess }, meta: EndpointMeta) {
     const { userId, orgId, accessType = 'owner' } = args
-    return await this.settings.fictionUser.queries.ManageMemberRelation.serve(
+    return this.settings.fictionUser.queries.ManageMemberRelation.serve(
       {
         memberId: userId,
         orgId,

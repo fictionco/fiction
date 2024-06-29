@@ -8,7 +8,7 @@ const headless = true
 describe('marquee card', async () => {
   const kit = await createSiteUiTestingKit({ headless })
 
-  afterAll(() => kit?.close())
+  afterAll(async () => kit?.close())
 
   it('marquee: displays correctly', async () => {
     await kit.performActions({

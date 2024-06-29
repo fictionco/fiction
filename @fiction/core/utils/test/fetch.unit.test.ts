@@ -30,7 +30,7 @@ describe('fetchWithTimeout', () => {
   it('should abort the fetch operation after the timeout', async () => {
     // Mock a fetch implementation that will not resolve or reject within the test timeout,
     // simulating a long-running request that will be aborted.
-    fetchMock.mockImplementationOnce(() => new Promise(() => {}))
+    fetchMock.mockImplementationOnce(async () => new Promise(() => {}))
 
     const fetchPromise = fetchWithTimeout('https://jsonplaceholder.typicode.com/posts/1', { timeout: 1000 })
 

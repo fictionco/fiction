@@ -111,7 +111,7 @@ export class ManagePage extends SitesQuery {
       }
     }
 
-    return await updateExistingSlug(slug)
+    return updateExistingSlug(slug)
   }
 
   async run(
@@ -282,7 +282,7 @@ export class ManageSite extends SitesQuery {
 
         const fields = { ...region, siteId } as const
 
-        return await this.settings.fictionSites.queries.ManagePage.serve({
+        return this.settings.fictionSites.queries.ManagePage.serve({
           siteId,
           _action: 'upsert',
           fields,
@@ -365,7 +365,7 @@ export class ManageSite extends SitesQuery {
           if (!siteId)
             return
 
-          return await this.settings.fictionSites.queries.ManagePage.serve({
+          return this.settings.fictionSites.queries.ManagePage.serve({
             siteId,
             _action: 'upsert',
             fields: { siteId, ...page },

@@ -2,7 +2,7 @@ import { vue } from '@fiction/core'
 import { CardTemplate, createCard } from '@fiction/site'
 import { standardOption } from '../inputSets'
 
-const el = vue.defineAsyncComponent(() => import('./ElCard.vue'))
+const el = vue.defineAsyncComponent(async () => import('./ElCard.vue'))
 
 export const templates = [
   new CardTemplate({

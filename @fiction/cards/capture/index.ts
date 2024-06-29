@@ -26,7 +26,7 @@ export const templates = [
     description: 'Convert visitors into subscribers with a simple email capture form.',
     icon: 'i-tabler-mail',
     colorTheme: 'blue',
-    el: vue.defineAsyncComponent(() => import('./ElCard.vue')),
+    el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
     userConfig: {
       superHeading: 'Add social proof (4000+ subscribers)',
       heading: 'Name of Newsletter',
@@ -61,7 +61,7 @@ export function demo() {
         templates,
         userConfig: { presentationMode: 'inline', ...demoUserConfig },
       }),
-      createCard({ el: vue.defineAsyncComponent(() => import('./DemoProse.vue')) }),
+      createCard({ el: vue.defineAsyncComponent(async () => import('./DemoProse.vue')) }),
       createCard({
         templateId,
         templates,

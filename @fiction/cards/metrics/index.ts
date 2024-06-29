@@ -8,7 +8,7 @@ export const templates = [
     description: 'display stats/metrics',
     icon: 'i-tabler-number',
     colorTheme: 'sky',
-    el: vue.defineAsyncComponent(() => import('./ElMetrics.vue')),
+    el: vue.defineAsyncComponent(async () => import('./ElMetrics.vue')),
     options: [
     ],
   }),

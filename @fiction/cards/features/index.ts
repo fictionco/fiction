@@ -9,7 +9,7 @@ export const templates = [
     description: 'grid of text elements',
     icon: 'i-tabler-discount-check',
     colorTheme: 'indigo',
-    el: vue.defineAsyncComponent(() => import('./ElFeatures.vue')),
+    el: vue.defineAsyncComponent(async () => import('./ElFeatures.vue')),
     options: [
       standardOption.headers(),
       standardOption.mediaItems(),

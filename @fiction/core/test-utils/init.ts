@@ -129,7 +129,7 @@ export async function initializeTestUtils(service: TestUtilServices & ServiceLis
 
   await Promise.all(promises)
 
-  return await initializeTestUser({ fictionUser })
+  return initializeTestUser({ fictionUser })
 }
 
 export interface TestBaseCompiled {
@@ -213,8 +213,8 @@ export function createTestUtils(opts?: TestUtilSettings) {
   const service = createTestUtilServices(opts)
 
   const all = {
-    init: () => initializeTestUtils(service),
-    initUser: () => initializeTestUser(service),
+    init: async () => initializeTestUtils(service),
+    initUser: async () => initializeTestUser(service),
     close: async () => {
       service.fictionServer.close()
       await service.fictionDb.close()

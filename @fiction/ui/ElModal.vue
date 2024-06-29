@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onResetUi, resetUi, vue } from '@fiction/core'
+import { resetUi, vue } from '@fiction/core'
 
 const props = defineProps({
   vis: { type: Boolean, default: false },

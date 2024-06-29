@@ -4,7 +4,7 @@ import { waitFor } from '@fiction/core/utils'
 import { AppRoute } from '../appRoute'
 import { FictionRouter } from '..'
 
-const component = () => import('./ElTest.vue')
+const component = async () => import('./ElTest.vue')
 const routes = [
   new AppRoute({ name: 'home', path: '/', component }),
   new AppRoute({ name: 'notFound404', path: '/:pathMatch(.*)*', priority: 1000, component }),

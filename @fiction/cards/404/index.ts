@@ -19,7 +19,7 @@ export const templates = [
     description: 'Shown when a page is not found',
     icon: 'i-tabler-error-404',
     colorTheme: 'red',
-    el: vue.defineAsyncComponent(() => import('./El404.vue')),
+    el: vue.defineAsyncComponent(async () => import('./El404.vue')),
     isPublic: false,
     options: [
       standardOption.headers(),

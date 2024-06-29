@@ -14,7 +14,7 @@ export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
   }>({
     fictionTransactions,
     actionId: 'subscribe',
-    template: vue.defineAsyncComponent<vue.Component>(() => import('./TransactionSubscribe.vue')), // <vue.Component> avoids circular reference
+    template: vue.defineAsyncComponent<vue.Component>(async () => import('./TransactionSubscribe.vue')), // <vue.Component> avoids circular reference
     emailConfig: async (emailVars) => {
       const { orgId, orgName, orgEmail } = emailVars.queryVars
 
@@ -76,7 +76,7 @@ export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
   }>({
     fictionTransactions,
     actionId: 'unsubscribe',
-    template: vue.defineAsyncComponent<vue.Component>(() => import('./TransactionUnsubscribe.vue')), // <vue.Component> avoids circular reference
+    template: vue.defineAsyncComponent<vue.Component>(async () => import('./TransactionUnsubscribe.vue')), // <vue.Component> avoids circular reference
 
     serverTransaction: async (args, meta: EndpointMeta) => {
       const { orgId, userId, code } = args

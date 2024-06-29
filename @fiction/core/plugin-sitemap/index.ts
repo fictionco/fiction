@@ -77,7 +77,7 @@ export class FictionSitemap extends FictionPlugin<FictionSitemapSettings> {
 
   getSitemapPaths = async (args: { runVars: Partial<RunVars> }): Promise<string[]> => {
     const fictionRouter = this.settings.fictionApp.settings.fictionRouter
-    const sitemaps = await Promise.all(this.sitemapLoaders.map(loader => loader({ ...args, fictionRouter })))
+    const sitemaps = await Promise.all(this.sitemapLoaders.map(async loader => loader({ ...args, fictionRouter })))
 
     const out = sitemaps.flatMap(({ paths }) => [...paths])
 

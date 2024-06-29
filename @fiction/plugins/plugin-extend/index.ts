@@ -29,7 +29,7 @@ export class FictionExtend<T extends PluginIndexSettings = PluginIndexSettings> 
         slug: 'extend',
         title: 'Plugins',
         cards: [
-          createCard({ el: vue.defineAsyncComponent(() => import('./ViewExtend.vue')) }),
+          createCard({ el: vue.defineAsyncComponent(async () => import('./ViewExtend.vue')) }),
         ],
         userConfig: { isNavItem: true, navIcon: 'i-tabler-plug', navIconAlt: 'i-tabler-plug-x', priority: 100 },
       }),

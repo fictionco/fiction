@@ -13,7 +13,7 @@ describe('signin UX', { retry: 3 }, async () => {
 
   const user = initialized.user
 
-  afterAll(() => kit?.close())
+  afterAll(async () => kit?.close())
 
   const action = kit.testUtils?.fictionAdmin.emailActions.magicLoginEmailAction
 

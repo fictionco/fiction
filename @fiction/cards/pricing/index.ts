@@ -8,7 +8,7 @@ export const templates = [
     description: 'Pricing table',
     icon: 'i-tabler-layout-bottombar-collapse-filled',
     colorTheme: 'orange',
-    el: vue.defineAsyncComponent(() => import('./ElCard.vue')),
+    el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
     options: [
     ],
     userConfig: {},

@@ -56,7 +56,7 @@ export async function createAnalyticsTestUtils(args: { mainFilePath?: string, co
 
   out.fictionEnv.log.info(`Analytics Test Utils Created (${context})`)
 
-  out.close = () => testUtils.close()
+  out.close = async () => testUtils.close()
 
   out.start = async (): Promise<AnalyticsInitializedTestUtils> => {
     const promises = [

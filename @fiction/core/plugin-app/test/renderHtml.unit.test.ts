@@ -32,7 +32,7 @@ describe('serverRenderHtml', async () => {
   if (!fictionRender)
     throw new Error('fictionRender is not defined')
 
-  afterAll(() => testUtils.close())
+  afterAll(async () => testUtils.close())
 
   const ssr = await fictionRender.getSSR('test')
   const renderHtmlParams = {

@@ -89,7 +89,7 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
     super('FictionStripe', settings)
 
     const checkoutEndpoint = new Endpoint({
-      requestHandler: (...r) => this.checkoutEndpointHandler(...r),
+      requestHandler: async (...r) => this.checkoutEndpointHandler(...r),
       key: 'oAuthEndpoint',
       basePath: '/stripe-checkout/:action',
       serverUrl: this.settings.fictionServer.serverUrl.value,

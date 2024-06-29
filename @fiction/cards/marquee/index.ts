@@ -5,7 +5,7 @@ import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 import { standardOption } from '../inputSets'
 
-const el = vue.defineAsyncComponent(() => import('./ElMarquee.vue'))
+const el = vue.defineAsyncComponent(async () => import('./ElMarquee.vue'))
 
 const UserConfigSchema = z.object({
   items: z.array(z.object({

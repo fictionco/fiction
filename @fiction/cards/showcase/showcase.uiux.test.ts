@@ -8,7 +8,7 @@ const headless = true
 describe('showcase card', async () => {
   const kit = await createSiteUiTestingKit({ headless })
 
-  afterAll(() => kit?.close())
+  afterAll(async () => kit?.close())
 
   it('showcase: displays correctly', async () => {
     await kit.performActions({

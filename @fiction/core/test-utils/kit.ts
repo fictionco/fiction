@@ -61,5 +61,5 @@ export async function createUiTestingKit<T extends MainFileSetup = MainFileSetup
     await testUtils?.close?.()
   }
 
-  return { initialized, testUtils, port, browser, close, performActions: _ => performActions({ port, browser, ..._ }) }
+  return { initialized, testUtils, port, browser, close, performActions: async _ => performActions({ port, browser, ..._ }) }
 }

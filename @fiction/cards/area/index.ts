@@ -47,7 +47,7 @@ export const templates = [
     description: 'container for other elements',
     icon: 'i-tabler-box-padding',
     colorTheme: 'blue',
-    el: vue.defineAsyncComponent(() => import('./ElArea.vue')),
+    el: vue.defineAsyncComponent(async () => import('./ElArea.vue')),
     isContainer: true, // ui drawer
     userConfig: {
       spacing: { spacingClass: '' },

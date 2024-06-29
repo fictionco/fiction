@@ -17,7 +17,7 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
   }>({
     fictionTransactions,
     actionId: 'verifyEmail',
-    template: vue.defineAsyncComponent<vue.Component>(() => import('./VEmailVerify.vue')), // <vue.Component> avoids circular reference
+    template: vue.defineAsyncComponent<vue.Component>(async () => import('./VEmailVerify.vue')), // <vue.Component> avoids circular reference
     emailConfig: async (emailVars) => {
       return {
         emailVars,
@@ -48,7 +48,7 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
   // Magic Login Email Action
   const magicLoginEmailAction = new EmailAction({
     fictionTransactions,
-    template: vue.defineAsyncComponent<vue.Component>(() => import('./ActionMagicLogin.vue')),
+    template: vue.defineAsyncComponent<vue.Component>(async () => import('./ActionMagicLogin.vue')),
     actionId: 'magicLogin',
     emailConfig: async (emailVars) => {
       return {

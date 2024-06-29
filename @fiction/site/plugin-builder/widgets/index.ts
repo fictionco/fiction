@@ -7,7 +7,7 @@ export function getWidgets(_service: FictionSiteBuilderSettings) {
     key: 'sites',
     title: 'Sites',
     description: 'Your websites and their status',
-    el: vue.defineAsyncComponent<vue.Component>(() => import('./WidgetSites.vue')),
+    el: vue.defineAsyncComponent<vue.Component>(async () => import('./WidgetSites.vue')),
     layoutHandling: 'chart',
   })
 

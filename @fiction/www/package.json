@@ -7,7 +7,6 @@
     "@fiction/analytics": "workspace:*",
     "@fiction/plugin-ai": "workspace:*",
     "@fiction/plugin-contact": "workspace:*",
-    "@fiction/plugin-editor": "workspace:*",
     "@fiction/plugin-extend": "workspace:*",
     "@fiction/plugin-highlight-code": "workspace:*",
     "@fiction/plugin-monitor": "workspace:*",

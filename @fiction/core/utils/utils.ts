@@ -48,7 +48,7 @@ export function hashEqual(a?: HashObject, b?: HashObject): boolean {
  * Wait for specific amount of time
  * @param ms - milliseconds
  */
-export function waitFor(ms: number): Promise<void> {
+export async function waitFor(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms || 0))
 }
 /**

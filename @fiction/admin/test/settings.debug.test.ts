@@ -12,7 +12,7 @@ describe('settings e2e', async () => {
   if (!testUtils)
     throw new Error('missing test utils')
 
-  afterAll(() => kit.close())
+  afterAll(async () => kit.close())
 
   const tools = getTools({ service: testUtils })
 

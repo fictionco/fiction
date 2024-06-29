@@ -88,7 +88,7 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
           }
         },
         action: async (url) => {
-          return await processUrlKey({ fictionMedia, url, userId, orgId, storageGroupPath: this.themeId })
+          return processUrlKey({ fictionMedia, url, userId, orgId, storageGroupPath: this.themeId })
         },
       },
     ]

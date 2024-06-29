@@ -10,7 +10,7 @@ export const templates = [
     icon: 'i-tabler-box-align-bottom',
     colorTheme: 'blue',
 
-    el: vue.defineAsyncComponent(() => import('./XTemplate.vue')),
+    el: vue.defineAsyncComponent(async () => import('./XTemplate.vue')),
     userConfig: {
       nav: [{ name: 'Home', href: '/', target: '_self' }],
       spacing: {

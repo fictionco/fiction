@@ -54,14 +54,14 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
   out.fictionAdmin = new FictionAdmin({ ...(out as SiteTestUtils) })
   out.fictionSubscribe = new FictionSubscribe({ ...(out as SiteTestUtils) })
 
-  const themes = () => Promise.all([testTheme.setup(out), ...(args.themes || []).map(_ => _(out as SiteTestUtils))])
+  const themes = async () => Promise.all([testTheme.setup(out), ...(args.themes || []).map(async _ => _(out as SiteTestUtils))])
   out.fictionSites = new FictionSites({ ...(out as SiteTestUtils), flyApiToken, flyAppId, themes })
 
   await runServicesSetup(out, { context: 'test' })
 
   out.fictionEnv.log.info(`Site Test Utils Created (${context})`)
 
-  out.close = () => testUtils.close()
+  out.close = async () => testUtils.close()
 
   return out as SiteTestUtils
 }

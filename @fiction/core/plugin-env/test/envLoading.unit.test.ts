@@ -61,7 +61,7 @@ describe('env service config', () => {
       runCommand: runCommandMock,
       createMount: async (args) => {
         const mountEl = document.createElement('div')
-        return await service.fictionApp.mountApp({ mountEl, ...args })
+        return service.fictionApp.mountApp({ mountEl, ...args })
       },
     }
     serviceConfig.service.fictionEnv.commandName.value = 'test'

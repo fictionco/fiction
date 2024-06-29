@@ -10,7 +10,7 @@ export function getWidgets(service: PostsQuerySettings) {
     query,
     title: 'Recent Posts',
     description: 'Your latest posts',
-    el: vue.defineAsyncComponent<vue.Component>(() => import('./WidgetPosts.vue')),
+    el: vue.defineAsyncComponent<vue.Component>(async () => import('./WidgetPosts.vue')),
     layoutHandling: 'chart',
   })
 

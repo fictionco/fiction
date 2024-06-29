@@ -9,7 +9,7 @@ export const templates = [
   ...standardCardTemplates,
   new CardTemplate({
     templateId: 'testWrap',
-    el: def(() => import('./TemplateWrap.vue')),
+    el: def(async () => import('./TemplateWrap.vue')),
     sections: {
       test: createCard({ templates: standardCardTemplates, cards: [] }),
     },

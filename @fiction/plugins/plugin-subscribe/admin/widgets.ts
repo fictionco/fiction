@@ -10,7 +10,7 @@ export function getWidgets(service: SubscriberEndpointSettings) {
     query,
     title: 'Subscribers',
     description: 'New subscribers',
-    el: vue.defineAsyncComponent<vue.Component>(() => import('./chartSubscribers.vue')),
+    el: vue.defineAsyncComponent<vue.Component>(async () => import('./chartSubscribers.vue')),
     layoutHandling: 'chart',
     valueKey: 'subscriptions',
   })
@@ -20,7 +20,7 @@ export function getWidgets(service: SubscriberEndpointSettings) {
     query,
     title: 'Unsubscribes',
     description: 'People who have unsubscribed',
-    el: vue.defineAsyncComponent<vue.Component>(() => import('./chartSubscribers.vue')),
+    el: vue.defineAsyncComponent<vue.Component>(async () => import('./chartSubscribers.vue')),
     layoutHandling: 'chart',
     valueKey: 'unsubscribes',
   })

@@ -20,7 +20,7 @@ describe('createAndSaveMedia', async () => {
   testUtils.fictionMedia = new FictionMedia({ ...testUtils, fictionAws, awsBucketMedia })
   testUtils.initialized = await testUtils.init()
 
-  afterAll(() => testUtils.close())
+  afterAll(async () => testUtils.close())
 
   it('converts a local filepath image to aws link', async () => {
     expect(1).toBe(1)

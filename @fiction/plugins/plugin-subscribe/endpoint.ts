@@ -71,7 +71,7 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
       return { status: 'error', message: 'Invalid action' }
     }
 
-    return await this.addIndexMeta(params, r, meta)
+    return this.addIndexMeta(params, r, meta)
   }
 
   private async addIndexMeta(params: ManageSubscriptionParams, r: ManageSubscriptionResponse, _meta?: EndpointMeta): Promise<ManageSubscriptionResponse> {

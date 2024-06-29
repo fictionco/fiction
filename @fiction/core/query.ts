@@ -76,6 +76,6 @@ export abstract class Query<T extends QueryConfig = QueryConfig> {
     params: Parameters<this['run']>[0],
     meta: Parameters<this['run']>[1],
   ): Promise<Awaited<ReturnType<this['run']>>> {
-    return await this.serve(params, meta)
+    return this.serve(params, meta)
   }
 }

@@ -7,7 +7,7 @@ const def = vue.defineAsyncComponent
 export const templates = [
   new CardTemplate({
     templateId: 'fictionHeader',
-    el: def(() => import('./el/ElHeader.vue')),
+    el: def(async () => import('./el/ElHeader.vue')),
 
     options: [],
     userConfig: {
@@ -16,7 +16,7 @@ export const templates = [
   }),
   new CardTemplate({
     templateId: 'fictionFooter',
-    el: def(() => import('./el/ElFooter.vue')),
+    el: def(async () => import('./el/ElFooter.vue')),
     options: [],
   }),
   ...standardCardTemplates,

@@ -313,7 +313,7 @@ export class QueryManageMedia extends MediaQuery {
       throw abort('Invalid action')
 
     const { orgId, userId, fields, storageGroupPath } = params
-    return await this.createMediaFromUrl({ orgId, userId, fields, storageGroupPath }, meta)
+    return this.createMediaFromUrl({ orgId, userId, fields, storageGroupPath }, meta)
   }
 
   async handleCheckAndCreate(params: ManageMediaParams, meta: EndpointMeta): Promise<TableMediaConfig | undefined> {
@@ -336,7 +336,7 @@ export class QueryManageMedia extends MediaQuery {
       }
     }
 
-    return await this.createAndSaveMedia({ filePath, hash, ...params }, meta)
+    return this.createAndSaveMedia({ filePath, hash, ...params }, meta)
   }
 
   async handleRetrieve(params: ManageMediaParams): Promise<TableMediaConfig | undefined> {

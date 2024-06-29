@@ -95,7 +95,7 @@ const minimalProfile = new CardTemplate({
   description: 'A minimal profile card with a splash image, headline, subheading, and contact details.',
   icon: 'i-tabler-user',
   colorTheme: 'blue',
-  el: vue.defineAsyncComponent(() => import('./ElCard.vue')),
+  el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
   userConfig: defaultContent,
   isPublic: true,
   options,

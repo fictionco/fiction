@@ -15,7 +15,7 @@ describe('user tests', async () => {
   const testUtils = createTestUtils()
   await testUtils.init()
 
-  afterAll(() => testUtils.close())
+  afterAll(async () => testUtils.close())
 
   it('creates user', async () => {
     const { fictionUser } = testUtils ?? {}

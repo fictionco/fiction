@@ -55,7 +55,7 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
         templateId: 'dash',
         slug: 'send',
         title: 'Emails',
-        cards: [createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewIndex.vue')) })],
+        cards: [createCard({ el: vue.defineAsyncComponent(async () => import('./admin/ViewIndex.vue')) })],
         userConfig: { isNavItem: true, navTitle: 'Send', navIcon: 'i-tabler-mail', navIconAlt: 'i-tabler-mail-share', priority: 50 },
       }),
 
@@ -64,7 +64,7 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
         templateId: 'dash',
         slug: 'campaign-edit',
         title: 'Edit Email',
-        cards: [createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewSingle.vue')) })],
+        cards: [createCard({ el: vue.defineAsyncComponent(async () => import('./admin/ViewSingle.vue')) })],
         userConfig: { navIcon: 'i-tabler-send', parentNavItemSlug: 'send', layoutFormat: 'full' },
       }),
 
@@ -73,7 +73,7 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
         templateId: 'dash',
         slug: 'campaign-manage',
         title: 'Manage Email',
-        cards: [createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewManage.vue')) })],
+        cards: [createCard({ el: vue.defineAsyncComponent(async () => import('./admin/ViewManage.vue')) })],
         userConfig: { navIcon: 'i-tabler-send', parentNavItemSlug: 'send' },
       }),
     ])

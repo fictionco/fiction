@@ -87,7 +87,7 @@ export class FrameUtility<T extends MsgUnknown = FrameMessage> extends Obj<Frame
   parentInit() {
     this.src.value ||= this.frameEl?.getAttribute('src') ?? ''
     watch(() => this.src.value, v => this.parentReloadFrame(v), { immediate: true })
-    this.frameEl?.addEventListener('load', () => this.handleFrameLoad())
+    this.frameEl?.addEventListener('load', async () => this.handleFrameLoad())
   }
 
   parentReloadFrame(src: string) {

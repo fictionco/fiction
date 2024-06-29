@@ -144,7 +144,7 @@ export function getMarkdownPlugins(args: {
     {
       name: 'fiction-vite-markdown',
       enforce: 'pre',
-      transform(code, id) {
+      async transform(code, id) {
         return parseHandler.transformMarkdownFiles({ code, id })
       },
       closeBundle() {

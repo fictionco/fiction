@@ -80,11 +80,11 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     }
 
     // add testing routes
-    this.settings.fictionRouter.update([new AppRoute({ name: 'renderTest', path: '/render-test', component: (): Promise<any> => import('./test/TestRunVars.vue') })])
+    this.settings.fictionRouter.update([new AppRoute({ name: 'renderTest', path: '/render-test', component: async (): Promise<any> => import('./test/TestRunVars.vue') })])
 
     this.addSchema()
 
-    this.fictionEnv?.events.on('shutdown', () => this.close())
+    this.fictionEnv?.events.on('shutdown', async () => this.close())
   }
 
   addSchema() {

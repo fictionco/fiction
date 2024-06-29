@@ -57,7 +57,7 @@ export const templates = [
     icon: 'i-tabler-map',
     colorTheme: 'amber',
     isPublic: true,
-    el: vue.defineAsyncComponent(() => import('./ElCard.vue')),
+    el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
     options: [
 
       standardOption.inputList({ label: 'Maps', key: 'maps', options: [

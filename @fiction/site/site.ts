@@ -111,7 +111,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   availableCards = vue.computed(() => flattenCards([...this.pages.value, ...Object.values(this.sections.value)]))
   currentPath = vue.computed({
     get: () => this.siteRouter.current.value.path,
-    set: v => this.siteRouter.push(v, { caller: 'currentPath' }),
+    set: async v => this.siteRouter.push(v, { caller: 'currentPath' }),
   })
 
   editor = vue.ref<EditorState>({
@@ -160,7 +160,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   }
 
   update = (newConfig: Partial<TableSiteConfig>) => updateSite({ site: this, newConfig })
-  save = (args: { minTime?: number } = {}) => saveSite({ site: this, successMessage: 'Site Saved', ...args })
+  save = async (args: { minTime?: number } = {}) => saveSite({ site: this, successMessage: 'Site Saved', ...args })
 
   activeCard = vue.computed(() => this.availableCards.value.find(c => c.cardId === this.editor.value.selectedCardId))
   activeCardConfig = vue.computed({

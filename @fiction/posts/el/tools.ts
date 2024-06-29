@@ -27,7 +27,7 @@ export const tools = [
   {
     toolId: 'history',
     icon: 'i-tabler-history',
-    el: vue.defineAsyncComponent(() => import('./ToolHistory.vue')),
+    el: vue.defineAsyncComponent(async () => import('./ToolHistory.vue')),
     location: 'primary',
     isPrimary: true,
   },
@@ -40,7 +40,7 @@ export const tools = [
     props: () => {
       return vue.computed(() => ({}))
     },
-    el: vue.defineAsyncComponent(() => import('./ToolPostMain.vue')),
+    el: vue.defineAsyncComponent(async () => import('./ToolPostMain.vue')),
   },
 ] as const satisfies EditorTool[]
 

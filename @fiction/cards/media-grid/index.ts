@@ -8,7 +8,7 @@ export const templates = [
     description: 'grid of text elements',
     icon: 'i-tabler-layout-grid',
     colorTheme: 'red',
-    el: vue.defineAsyncComponent(() => import('./ElMediaGrid.vue')),
+    el: vue.defineAsyncComponent(async () => import('./ElMediaGrid.vue')),
     options: [
     ],
   }),

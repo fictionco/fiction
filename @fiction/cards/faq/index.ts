@@ -9,7 +9,7 @@ export const templates = [
     description: 'A list element great for FAQs, values, etc. ',
     icon: 'i-tabler-map',
     colorTheme: 'emerald',
-    el: vue.defineAsyncComponent(() => import('./ElCard.vue')),
+    el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
     options: [
       standardOption.headers(),
       standardOption.actionItems(),

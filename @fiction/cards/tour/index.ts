@@ -8,7 +8,7 @@ export const templates = [
     description: 'list of tour hero elements',
     icon: 'i-tabler-compass',
     colorTheme: 'green',
-    el: vue.defineAsyncComponent(() => import('./ElTour.vue')),
+    el: vue.defineAsyncComponent(async () => import('./ElTour.vue')),
     options: [
     ],
   }),

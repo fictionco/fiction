@@ -10,7 +10,7 @@ export function setup(args: { envFiles?: string[], context?: 'node' | 'app' }) {
   return {
     service,
     runVars: {},
-    createMount: args => service.fictionApp.mountApp(args),
+    createMount: async args => service.fictionApp.mountApp(args),
     runCommand: async args => service.runApp(args),
   } satisfies ServiceConfig
 }

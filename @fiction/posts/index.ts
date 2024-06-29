@@ -59,7 +59,7 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
         templateId: 'dash',
         slug: 'posts',
         title: 'Posts',
-        cards: [createCard({ el: vue.defineAsyncComponent(() => import('./el/PagePostIndex.vue')) })],
+        cards: [createCard({ el: vue.defineAsyncComponent(async () => import('./el/PagePostIndex.vue')) })],
         userConfig: { isNavItem: true, navIcon: 'i-tabler-pin', navIconAlt: 'i-tabler-pin-filled' },
       }),
       createCard({
@@ -68,7 +68,7 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
         templateId: 'dash',
         slug: 'post-edit',
         title: 'Edit Post',
-        cards: [createCard({ el: vue.defineAsyncComponent(() => import('./el/PagePostEdit.vue')) })],
+        cards: [createCard({ el: vue.defineAsyncComponent(async () => import('./el/PagePostEdit.vue')) })],
         userConfig: { layoutFormat: 'full' },
       }),
     ])

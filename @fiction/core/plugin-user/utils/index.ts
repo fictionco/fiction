@@ -33,10 +33,10 @@ export function getCode(): string {
  * 6 salt rounds - https://security.stackexchange.com/a/83382
  */
 export async function hashPassword(password?: string): Promise<string | undefined> {
-  return password ? await bcrypt.hash(password, 6) : undefined
+  return password ? bcrypt.hash(password, 6) : undefined
 }
 export async function comparePassword(password: string, hashedPassword: string): Promise<boolean> {
-  return await bcrypt.compare(password, hashedPassword)
+  return bcrypt.compare(password, hashedPassword)
 }
 
 export async function setUserVerificationCode(params: { context: string, fictionUser: FictionUser, where: WhereUser }): Promise<User | undefined> {

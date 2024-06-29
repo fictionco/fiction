@@ -52,7 +52,7 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
     if (this.settings.redisUrl)
       this.connectionUrl = new URL(this.settings.redisUrl)
 
-    this.fictionEnv.events.on('shutdown', () => this.close())
+    this.fictionEnv.events.on('shutdown', async () => this.close())
   }
 
   str(data: Record<string, unknown>) {

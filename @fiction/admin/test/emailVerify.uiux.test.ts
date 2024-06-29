@@ -20,7 +20,7 @@ describe('email actions', async () => {
 
   const user = initialized.user
 
-  afterAll(() => kit.close())
+  afterAll(async () => kit.close())
 
   testUtils.fictionTransactions.settings.fictionEmail.isTest = true
 

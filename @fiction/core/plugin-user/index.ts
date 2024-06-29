@@ -92,7 +92,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
 
     fictionRouter?.addReplacers({ orgId: this.activeOrgId })
 
-    fictionEnv?.hooks.push({ hook: 'dbOnConnected', callback: () => this.ensureExampleOrganization() })
+    fictionEnv?.hooks.push({ hook: 'dbOnConnected', callback: async () => this.ensureExampleOrganization() })
 
     if (!fictionEnv.isApp.value)
       this.fictionUserEnrich = new FictionUserEnrich({ ...settings, fictionUser: this })

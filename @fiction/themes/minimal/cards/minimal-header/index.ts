@@ -20,7 +20,7 @@ const o = [
 
 const { options } = refineOptions({ options: o, schema: UserConfigSchema })
 
-const el = vue.defineAsyncComponent(() => import('./XHeader.vue'))
+const el = vue.defineAsyncComponent(async () => import('./XHeader.vue'))
 export const templates = [
   new CardTemplate({
     templateId: 'minimalHeader',

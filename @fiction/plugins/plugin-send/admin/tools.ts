@@ -20,7 +20,7 @@ export const tools = [
     icon: 'i-tabler-eye',
     location: 'primary',
     isPrimary: true,
-    el: vue.defineAsyncComponent(() => import('./SidebarEmailPreview.vue')),
+    el: vue.defineAsyncComponent(async () => import('./SidebarEmailPreview.vue')),
     widthClasses: 'w-[400px] lg:w-[700px]',
   },
   {
@@ -32,7 +32,7 @@ export const tools = [
     props: () => {
       return vue.computed(() => ({}))
     },
-    el: vue.defineAsyncComponent(() => import('./SidebarEmailEditor.vue')),
+    el: vue.defineAsyncComponent(async () => import('./SidebarEmailEditor.vue')),
   },
 ] as const satisfies EditorTool[]
 

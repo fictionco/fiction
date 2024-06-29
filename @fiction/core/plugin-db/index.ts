@@ -61,7 +61,7 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
     if (settings.postgresUrl)
       this.connectionUrl = new URL(settings.postgresUrl)
 
-    this.fictionEnv?.events.on('shutdown', () => this.close())
+    this.fictionEnv?.events.on('shutdown', async () => this.close())
   }
 
   async close() {

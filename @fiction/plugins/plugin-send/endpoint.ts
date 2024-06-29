@@ -69,7 +69,7 @@ export class ManageCampaign extends SendEndpoint {
       return { status: 'error', message: 'Invalid action' }
     }
 
-    return await this.refineResponse(params, r, meta)
+    return this.refineResponse(params, r, meta)
   }
 
   private async refineResponse(params: ManageCampaignParams, r: ManageCampaignResponse, _meta: EndpointMeta): Promise<ManageCampaignResponse> {
@@ -285,7 +285,7 @@ export class ManageSend extends SendEndpoint {
       .where('scheduledAt', '<=', now)
       .select<{ campaignId: string, orgId: string }[]>('*')
 
-    await Promise.all(requestedCampaigns.map(c => this.processCampaign(c)))
+    await Promise.all(requestedCampaigns.map(async c => this.processCampaign(c)))
   }
 
   // Method to process each email

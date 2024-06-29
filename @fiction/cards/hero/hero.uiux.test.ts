@@ -8,7 +8,7 @@ const headless = true
 describe('hero: card', async () => {
   const kit = await createSiteUiTestingKit({ headless })
 
-  afterAll(() => kit?.close())
+  afterAll(async () => kit?.close())
 
   it('hero: displays correctly', async () => {
     await kit.performActions({

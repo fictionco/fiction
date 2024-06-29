@@ -335,7 +335,7 @@ export class AiCompletion extends QueryAi {
       return { status: 'success', data, params }
     }
     else if (_action === 'completion') {
-      return await this.getChatCompletion(params)
+      return this.getChatCompletion(params)
     }
     else {
       throw abort('invalid action')

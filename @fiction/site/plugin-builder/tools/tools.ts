@@ -8,21 +8,21 @@ export const tools = [
     toolId: 'pageMaster',
     icon: 'i-tabler-drag-drop-2',
     title: 'Pages',
-    el: vue.defineAsyncComponent(() => import('./PageToolMaster.vue')),
+    el: vue.defineAsyncComponent(async () => import('./PageToolMaster.vue')),
     isPrimary: true,
   },
   {
     toolId: 'addPage',
     title: 'Add Page',
     icon: 'i-tabler-file-plus',
-    el: vue.defineAsyncComponent(() => import('./ToolPageAdd.vue')),
+    el: vue.defineAsyncComponent(async () => import('./ToolPageAdd.vue')),
   },
   {
     toolId: 'editPage',
     title: 'Edit Page',
     icon: 'i-tabler-files',
     widthClasses: 'w-[430px]',
-    el: vue.defineAsyncComponent(() => import('./ToolPageEdit.vue')),
+    el: vue.defineAsyncComponent(async () => import('./ToolPageEdit.vue')),
   },
   {
     toolId: 'ai',
@@ -30,7 +30,7 @@ export const tools = [
     icon: 'i-tabler-sparkles',
     isPrimary: true,
     widthClasses: 'w-[500px]',
-    el: vue.defineAsyncComponent(() => import('./ToolPageAi.vue')),
+    el: vue.defineAsyncComponent(async () => import('./ToolPageAi.vue')),
   },
   {
     toolId: 'global',
@@ -38,7 +38,7 @@ export const tools = [
     icon: 'i-tabler-browser',
     isPrimary: true,
     widthClasses: 'w-[500px]',
-    el: vue.defineAsyncComponent(() => import('./ToolPageGlobal.vue')),
+    el: vue.defineAsyncComponent(async () => import('./ToolPageGlobal.vue')),
   },
   {
     toolId: 'publish',
@@ -46,7 +46,7 @@ export const tools = [
     icon: 'i-tabler-world-upload',
     isPrimary: true,
     widthClasses: 'w-[600px]',
-    el: vue.defineAsyncComponent(() => import('./ToolPagePublish.vue')),
+    el: vue.defineAsyncComponent(async () => import('./ToolPagePublish.vue')),
   },
   {
     toolId: 'editCard',
@@ -65,7 +65,7 @@ export const tools = [
         return { title, icon, colorTheme }
       })
     },
-    el: vue.defineAsyncComponent(() => import('./ToolCardEdit.vue')),
+    el: vue.defineAsyncComponent(async () => import('./ToolCardEdit.vue')),
   },
 ] as const satisfies EditorTool[]
 

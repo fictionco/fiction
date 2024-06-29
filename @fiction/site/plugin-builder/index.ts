@@ -32,7 +32,7 @@ export class FictionSiteBuilder extends FictionPlugin<FictionSiteBuilderSettings
         templateId: 'dash',
         slug: 'sites',
         title: 'Sites',
-        cards: [createCard({ el: vue.defineAsyncComponent(() => import('./ViewIndex.vue')) })],
+        cards: [createCard({ el: vue.defineAsyncComponent(async () => import('./ViewIndex.vue')) })],
         userConfig: { isNavItem: true, navIcon: 'i-tabler-browser', navIconAlt: 'i-tabler-browser-plus' },
       }),
       createCard({
@@ -41,7 +41,7 @@ export class FictionSiteBuilder extends FictionPlugin<FictionSiteBuilderSettings
         templateId: 'dash',
         slug: 'edit-site',
         title: 'Edit Site',
-        cards: [createCard({ el: vue.defineAsyncComponent(() => import('./SiteEditor.vue')) })],
+        cards: [createCard({ el: vue.defineAsyncComponent(async () => import('./SiteEditor.vue')) })],
         userConfig: { isNavItem: false, layoutFormat: 'full', navIcon: 'i-tabler-home-plus' },
       }),
     ])

@@ -119,7 +119,7 @@ export class QueryManageUser extends UserBaseQuery {
     if (['create', 'login', 'loginGoogle'].includes(params._action))
       token = user ? fictionUser.getToken(user) : undefined
 
-    return await this.prepareResponse({ _action, user, isNew, token, message, params }, meta)
+    return this.prepareResponse({ _action, user, isNew, token, message, params }, meta)
   }
 
   private async handleUserEvent(params: ManageUserParams & { _action: 'event' }, _meta: EndpointMeta): Promise<User > {

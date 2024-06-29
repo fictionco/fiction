@@ -9,7 +9,7 @@ export function setup(): ServiceConfig {
     runVars: {},
     runCommand: async () => {},
     createMount: async (args) => {
-      return await service.fictionApp.mountApp(args)
+      return service.fictionApp.mountApp(args)
     },
   }
 }

@@ -10,7 +10,7 @@ export const templates = [
     description: 'image/logo grid',
     icon: 'i-tabler-input-check',
     colorTheme: 'cyan',
-    el: vue.defineAsyncComponent(() => import('./ElLogos.vue')),
+    el: vue.defineAsyncComponent(async () => import('./ElLogos.vue')),
     options: [
       new InputOption({ key: 'userConfig.label', label: 'Label', input: 'InputText' }),
       standardOption.mediaItems(),

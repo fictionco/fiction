@@ -31,13 +31,13 @@ envConfig.register({ name: 'CARD_UI_ROOT', onLoad: ({ fictionEnv }) => { fiction
 export const standardCardTemplates = [
   new CardTemplate({
     templateId: 'wrap',
-    el: vue.defineAsyncComponent(() => import('./CardWrap.vue')),
+    el: vue.defineAsyncComponent(async () => import('./CardWrap.vue')),
     schema: z.object({}),
     isPublic: false,
   }),
   new CardTemplate({
     templateId: 'transaction',
-    el: vue.defineAsyncComponent(() => import('./CardWrapTransaction.vue')),
+    el: vue.defineAsyncComponent(async () => import('./CardWrapTransaction.vue')),
     schema: z.object({}),
     isPublic: false,
   }),

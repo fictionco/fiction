@@ -4,7 +4,7 @@ import { createSiteUiTestingKit } from '@fiction/site/test/testUtils.js'
 describe('hero: card', async () => {
   const kit = await createSiteUiTestingKit({ headless: false, slowMo: 0 })
 
-  afterAll(() => kit?.close())
+  afterAll(async () => kit?.close())
 
   it('capture: ui testing', { retry: 3 }, async () => {
     await kit.performActions({

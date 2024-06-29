@@ -20,7 +20,7 @@ describe('transactional email', async () => {
 
   await testUtils.init()
 
-  afterAll(() => testUtils.close())
+  afterAll(async () => testUtils.close())
 
   it('sends a transactional email', async () => {
     const superImage = await fictionMedia.relativeMedia({ url: new URL('../img/fiction-icon.png', import.meta.url).href })

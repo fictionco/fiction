@@ -1,5 +1,4 @@
 import { type CleanupCallback, vue, waitFor } from '@fiction/core'
-import { data } from '@fiction/analytics/chart/test/sampleData.js'
 import type { Site, SiteSettings } from '../index.js'
 import type { CardConfigPortable, TableSiteConfig } from '../tables.js'
 import { Card } from '../card.js'

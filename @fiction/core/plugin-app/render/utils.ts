@@ -26,7 +26,7 @@ export class IndexHtml extends FictionObject<IndexHtmlSettings> {
   private async indexHtmlAddDevTransform(args: { pathname?: string, template: string, viteServer: ViteDevServer }): Promise<string> {
     const { pathname = '/', template, viteServer } = args
 
-    return await viteServer.transformIndexHtml(pathname, template)
+    return viteServer.transformIndexHtml(pathname, template)
   }
 
   async getRenderedIndexHtml(): Promise<string> {

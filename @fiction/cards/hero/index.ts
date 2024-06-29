@@ -38,7 +38,7 @@ export const templates = [
     description: 'standard hero section',
     icon: 'i-tabler-layout-bottombar-collapse-filled',
     colorTheme: 'orange',
-    el: vue.defineAsyncComponent(() => import('./ElHero.vue')),
+    el: vue.defineAsyncComponent(async () => import('./ElHero.vue')),
     options: [
       standardOption.ai(),
       standardOption.headers({}),

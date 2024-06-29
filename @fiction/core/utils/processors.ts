@@ -32,7 +32,7 @@ export class ObjectProcessor {
 
   public async parseObject(obj: any, parentKey: string = ''): Promise<any> {
     if (Array.isArray(obj)) {
-      return Promise.all(obj.map(item => this.parseValue(item, parentKey)))
+      return Promise.all(obj.map(async item => this.parseValue(item, parentKey)))
     }
     else if (isPlainObject(obj)) {
       const processedEntries = await Promise.all(

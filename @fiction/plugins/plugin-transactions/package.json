@@ -3,7 +3,6 @@
     "@fiction/admin": "workspace:*",
     "@fiction/cards": "workspace:*",
     "@fiction/core": "workspace:*",
-    "@fiction/plugin-editor": "workspace:*",
     "@fiction/site": "workspace:*",
     "@fiction/ui": "workspace:*",
     "@fiction/plugin-monitor": "workspace:*"

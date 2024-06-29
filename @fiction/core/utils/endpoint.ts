@@ -171,7 +171,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
   public async serveRequest(request: express.Request, response: express.Response): Promise<EndpointResponse | void> {
     if (this.requestHandler) {
-      return await this.requestHandler(request, response)
+      return this.requestHandler(request, response)
     }
     else if (this.queryHandler) {
       let params = request.body as Record<string, any>
@@ -190,7 +190,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
       // explicitly define each as this is security basis backend calls
       const meta: EndpointMeta = { bearer: request.bearer, request, response, caller, debug, expectError, isTest, timeZone }
 
-      return await this.queryHandler.serveRequest(params, meta)
+      return this.queryHandler.serveRequest(params, meta)
     }
     else {
       return { status: 'error', more: 'no query or request handler' }

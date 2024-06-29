@@ -88,10 +88,10 @@ class Tooltip {
       trigger: 'manual',
       placement: 'bottom',
       hideOnClick: true,
-      onClickOutside: (instance, event) => {
+      onClickOutside: (_instance, _event) => {
         this.hide()
       },
-      onAfterUpdate: (instance, partialProps) => {
+      onAfterUpdate: (_instance, _partialProps) => {
         this.show()
       },
     })

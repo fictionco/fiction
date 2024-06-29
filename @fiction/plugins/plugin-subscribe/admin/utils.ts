@@ -1,4 +1,4 @@
-export function csvToJson(file: File): Promise<any[]> {
+export async function csvToJson(file: File): Promise<any[]> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
 
@@ -33,7 +33,7 @@ function cleanEmails(emails?: (string | undefined)[]): string[] {
   return e.map(email => email.trim().toLowerCase()).filter(isValidEmail)
 }
 
-export function csvToEmailList(file: File): Promise<string[]> {
+export async function csvToEmailList(file: File): Promise<string[]> {
   return csvToJson(file).then((json) => {
     if (json.length === 0)
       return []

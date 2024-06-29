@@ -54,7 +54,7 @@ export class FictionTransactions extends FictionPlugin<FictionTransactionsSettin
             cards: [
               createCard({
                 templateId: 'emailAction',
-                el: vue.defineAsyncComponent(() => import('./ElEmailAction.vue')),
+                el: vue.defineAsyncComponent(async () => import('./ElEmailAction.vue')),
               }),
             ],
           }),
@@ -63,7 +63,7 @@ export class FictionTransactions extends FictionPlugin<FictionTransactionsSettin
     })
 
     this.settings.fictionRouter.update([
-      new AppRoute({ name: 'emailTransaction', path: '/__transaction-route/:itemId', component: (): Promise<any> => import('./ElEmailAction.vue') }),
+      new AppRoute({ name: 'emailTransaction', path: '/__transaction-route/:itemId', component: async (): Promise<any> => import('./ElEmailAction.vue') }),
     ])
   }
 

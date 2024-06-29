@@ -18,7 +18,7 @@ export const templates = [
     description: 'A magazine cards for displaying posts in a grid layout.',
     icon: 'i-tabler-box-padding',
     colorTheme: 'blue',
-    el: vue.defineAsyncComponent(() => import('./ElMagazine.vue')),
+    el: vue.defineAsyncComponent(async () => import('./ElMagazine.vue')),
     userConfig: {
       spacing: { spacingClass: '' },
     },

@@ -1,12 +1,12 @@
-import type { MediaItem, PostItem } from '@fiction/core'
+import type { PostItem } from '@fiction/core'
 import { vue } from '@fiction/core'
-import { CardTemplate, createCard } from '@fiction/site'
+import { CardTemplate } from '@fiction/site'
 import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
 import { standardOption } from '../inputSets'
 import { PostItemSchema } from '../schemaSets'
 
-const el = vue.defineAsyncComponent(() => import('./ElShowcase.vue'))
+const el = vue.defineAsyncComponent(async () => import('./ElShowcase.vue'))
 const aspects = ['square', 'tall', 'wide', 'golden', 'portrait', 'landscape', 'cinema'] as const
 const gridCols = ['1', '2', '3', '4', '5'] as const
 const UserConfigSchema = z.object({

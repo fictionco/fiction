@@ -59,7 +59,7 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
         templateId: 'dash',
         slug: 'audience',
         title: 'Audience',
-        cards: [createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewIndex.vue')) })],
+        cards: [createCard({ el: vue.defineAsyncComponent(async () => import('./admin/ViewIndex.vue')) })],
         userConfig: { isNavItem: true, navIcon: 'i-tabler-users', navIconAlt: 'i-tabler-users-plus', priority: 50 },
       }),
       createCard({
@@ -67,7 +67,7 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
         templateId: 'dash',
         slug: 'subscriber-view',
         title: 'View Subscriber',
-        cards: [createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewSingle.vue')) })],
+        cards: [createCard({ el: vue.defineAsyncComponent(async () => import('./admin/ViewSingle.vue')) })],
         userConfig: { navIcon: 'i-tabler-user', parentNavItemSlug: 'subscriber' },
       }),
       createCard({
@@ -75,7 +75,7 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
         templateId: 'dash',
         slug: 'audience-manage',
         title: 'Manage Audience',
-        cards: [createCard({ el: vue.defineAsyncComponent(() => import('./admin/ViewManage.vue')) })],
+        cards: [createCard({ el: vue.defineAsyncComponent(async () => import('./admin/ViewManage.vue')) })],
         userConfig: { navIcon: 'i-tabler-users-group', parentNavItemSlug: 'subscriber' },
       }),
     ])

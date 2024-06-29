@@ -28,7 +28,7 @@ export class FictionAnalytics extends FictionPlugin<FictionAnalyticsSettings> {
     this.fictionClickhouse = new FictionClickHouse({ fictionAnalytics: this, ...this.settings })
     this.fictionBeacon = new FictionBeacon({ fictionAnalytics: this, fictionClickHouse: this.fictionClickhouse, ...this.settings })
 
-    this.fictionEnv.events.on('shutdown', () => this.close())
+    this.fictionEnv.events.on('shutdown', async () => this.close())
   }
 
   async close() {

@@ -20,7 +20,7 @@ export async function setup(args: { context?: 'node' | 'app' } = {}) {
 
   service.emailAction = new EmailAction({
     actionId,
-    template: vue.defineAsyncComponent(() => import('./ElTestAction.vue')),
+    template: vue.defineAsyncComponent(async () => import('./ElTestAction.vue')),
     fictionTransactions,
     emailConfig: async (emailVars) => {
       const emailConfig = {
@@ -47,6 +47,6 @@ export async function setup(args: { context?: 'node' | 'app' } = {}) {
     service,
     runVars: {},
     runCommand: async args => service.runApp(args),
-    createMount: args => service.fictionApp.mountApp(args),
+    createMount: async args => service.fictionApp.mountApp(args),
   } satisfies ServiceConfig
 }

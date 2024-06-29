@@ -29,7 +29,7 @@ describe('geo functions', () => {
       }
 
       vi.mocked(fetchWithTimeout).mockResolvedValueOnce({
-        json: () => Promise.resolve(mockApiResponse),
+        json: async () => Promise.resolve(mockApiResponse),
         ok: true,
       } as Response)
 
@@ -70,7 +70,7 @@ describe('geo functions', () => {
 
       vi.mocked(fetchWithTimeout).mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockApiResponse),
+        json: async () => Promise.resolve(mockApiResponse),
       } as Response)
 
       const expectedGeoData = {
@@ -110,7 +110,7 @@ describe('geo functions', () => {
       }
 
       globalThis.fetch = vi.fn().mockResolvedValueOnce({
-        json: () => Promise.resolve(mockApiResponse),
+        json: async () => Promise.resolve(mockApiResponse),
         ok: true,
       })
 

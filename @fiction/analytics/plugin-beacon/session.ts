@@ -38,7 +38,7 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
 
     const data = { checkExpiredIntervalMs: this.checkExpiredIntervalMs, sessionExpireAfterMs: this.sessionExpireAfterMs }
     this.log.info('running expiry check', { data })
-    const inter = setInterval(async () => (await this.checkForExpiredSessions()), this.checkExpiredIntervalMs)
+    const inter = setInterval(async () => (this.checkForExpiredSessions()), this.checkExpiredIntervalMs)
 
     inter.unref() // don't keep process alive
 
@@ -332,7 +332,7 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
     const [expiredAnonIds] = results as [string[], number]
 
     if (expiredAnonIds.length > 0)
-      expiredAnonIds.forEach(anonymousId => this.expireSession(anonymousId))
+      expiredAnonIds.forEach(async anonymousId => this.expireSession(anonymousId))
 
     return expiredAnonIds
   }

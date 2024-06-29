@@ -5,7 +5,7 @@ import { Endpoint } from '../endpoint'
 const mockData = { sampleData: 123 }
 const mockAxiosResponse = { data: { status: 'success', data: mockData } }
 vi.mock('axios', () => ({
-  request: vi.fn(() => Promise.resolve({ data: mockAxiosResponse })),
+  request: vi.fn(async () => Promise.resolve({ data: mockAxiosResponse })),
 }))
 vi.mock('express')
 

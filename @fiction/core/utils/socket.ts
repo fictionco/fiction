@@ -237,11 +237,11 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
       this.socket = await this.socketPromise
     }
     catch {
-      return await this.retrySocketInSeconds(5, 'not found')
+      return this.retrySocketInSeconds(5, 'not found')
     }
 
     if (this.isClosed(this.socket))
-      return await this.retrySocketInSeconds(2, 'closed')
+      return this.retrySocketInSeconds(2, 'closed')
 
     return this.socket
   }
@@ -592,7 +592,7 @@ export async function createSocketServer<T extends EventMap>(args: {
     serverName,
     port,
     endpoints,
-    customServer: app => socketServer.createServer({ app }),
+    customServer: async app => socketServer.createServer({ app }),
     fictionUser,
     url,
   })

@@ -25,7 +25,7 @@ export function pages() {
       slug: 'settings',
       title: 'Settings',
       userConfig: { navIcon: 'i-tabler-settings', navIconAlt: 'i-tabler-settings-filled' },
-      cards: [createCard({ el: def(() => import('../settings/SettingsMain.vue')) })],
+      cards: [createCard({ el: def(async () => import('../settings/SettingsMain.vue')) })],
     }),
     createCard({
       templates,
@@ -36,7 +36,7 @@ export function pages() {
         createCard({
           tpl: new CardTemplate({
             templateId: 'auth',
-            el: def(() => import('../auth/AuthCard.vue')),
+            el: def(async () => import('../auth/AuthCard.vue')),
           }),
           userConfig: { logo: { format: 'html' as const, html: fictionLogo } },
         }),
@@ -59,7 +59,7 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionAdmin: Fictio
     version: '1.0.0',
     templates,
     isPublic: false,
-    pages: () => pg,
+    pages: async () => pg,
     templateDefaults: { page: 'dash', transaction: 'transaction' },
     userConfig: {
       colors: { isDarkMode: true },

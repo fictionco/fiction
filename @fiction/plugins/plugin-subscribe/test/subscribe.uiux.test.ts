@@ -7,7 +7,7 @@ import { setup } from './kit.main.js'
 describe('subscribe uiux', { retry: 3 }, async () => {
   const kit = await createUiTestingKit({ headless: false, setup, slowMo: 4000 })
 
-  afterAll(() => kit?.close())
+  afterAll(async () => kit?.close())
   const testUtils = kit.testUtils
   const initialized = await testUtils.initUser()
 
