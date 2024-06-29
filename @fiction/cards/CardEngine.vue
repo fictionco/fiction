@@ -50,19 +50,18 @@ function handleCardClick(args: { cardId: string, event: MouseEvent }) {
           subCard.isActive.value && isEditable ? 'outline-2 outline-dashed outline-theme-300 dark:outline-theme-600' : '',
           isEditable ? 'hover:outline-2 hover:outline-dashed hover:outline-blue-300 dark:hover:outline-blue-600 cursor-pointer  transition-all' : '',
         ]"
+        @click="handleCardClick({ cardId: subCard.cardId, event: $event })"
       >
         <component
           :is="subCard.tpl.value?.settings.el"
           :id="subCard.cardId"
           :data-card-type="subCard.templateId.value"
           :card="subCard"
-          @click="handleCardClick({ cardId: subCard.cardId, event: $event })"
         />
         <div
           v-if="isEditable"
           class="opacity-0 group-hover/engine:opacity-100 transition-all bg-black/40 hover:bg-black/80 hover:z-20 cursor-pointer py-0.5 px-1.5 text-cyan-50 font-sans text-[10px] absolute top-1 flex gap-0.5 items-center justify-center rounded-md "
           :class="subCard.tpl.value?.settings.isContainer ? 'left-1' : 'right-1'"
-          @click="handleCardClick({ cardId: subCard.cardId, event: $event })"
         >
           <div :class="subCard.tpl.value?.settings.icon" />
           <div>{{ subCard.tpl.value?.settings.title }}</div>

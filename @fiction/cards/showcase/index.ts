@@ -2,13 +2,18 @@ import type { MediaItem, PostItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import { CardTemplate, createCard } from '@fiction/site'
 import { z } from 'zod'
+import { InputOption } from '@fiction/ui'
 import { standardOption } from '../inputSets'
 import { PostItemSchema } from '../schemaSets'
 
 const el = vue.defineAsyncComponent(() => import('./ElShowcase.vue'))
-
+const aspects = ['square', 'tall', 'wide', 'golden', 'portrait', 'landscape', 'cinema'] as const
+const gridCols = ['1', '2', '3', '4', '5'] as const
 const UserConfigSchema = z.object({
   items: z.array(PostItemSchema).optional(),
+  aspect: z.enum(aspects).optional().describe('Image aspect ratio'),
+  gridColsMax: z.enum(gridCols).optional().describe('Max number of columns in the grid on large screen'),
+  gridColsMin: z.enum(['1', '2']).optional().describe('Min number of columns in the grid on small screen'),
 })
 
 export type UserConfig = z.infer<typeof UserConfigSchema>
@@ -35,8 +40,11 @@ const template = new CardTemplate({
   el,
   options: [
     standardOption.postItems({ key: 'items', label: 'Showcase Items' }),
+    new InputOption({ key: 'aspect', label: 'Image Aspect', input: 'InputSelect', list: aspects, default: () => 'golden' }),
+    new InputOption({ key: 'gridColsMax', label: 'Max Grid Columns', input: 'InputSelect', list: gridCols, default: () => '4' }),
+    new InputOption({ key: 'gridColsMin', label: 'Min Grid Columns', input: 'InputSelect', list: ['1', '2'], default: () => '1' }),
   ],
-  userConfig: { items: defaultMediaItems },
+  userConfig: { items: defaultMediaItems, aspect: 'golden', gridColsMax: '4' },
   schema: UserConfigSchema,
   demoPage: () => {
     return [{ templateId, userConfig: { items: defaultMediaItems } }]

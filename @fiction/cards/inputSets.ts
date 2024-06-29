@@ -116,6 +116,7 @@ export const standardOption = {
       s.href(),
       new InputOption({ key: 'title', label: 'Title', input: 'InputText', placeholder: 'Title' }),
       new InputOption({ key: 'subTitle', label: 'Subtitle', input: 'InputText', placeholder: 'Sub title' }),
+      new InputOption({ key: 'superTitle', label: 'Super Title', input: 'InputText', placeholder: 'Super Title' }),
       new InputOption({ key: 'content', label: 'Content', input: 'InputProse', placeholder: 'Content' }),
 
     ], generation: { estimatedMs: 40000 } })

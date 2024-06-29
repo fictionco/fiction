@@ -18,10 +18,6 @@ function close(args: { reason: 'escape' | 'reset' }): void {
   if (reason === 'escape')
     emit('escape', true)
 }
-onResetUi(({ scope }) => {
-  if (scope !== 'inputs' && props.vis)
-    close({ reason: 'reset' })
-})
 
 const cls = props.modalClass ? [props.modalClass] : ['p-12', 'sm:max-w-sm']
 const styleClass = props.styleClass ? [props.styleClass] : ['bg-white text-theme-900 dark:bg-theme-900 dark:text-theme-0', 'shadow-xl']
@@ -69,6 +65,11 @@ vue.onMounted(() => {
     { immediate: true },
 
   )
+
+  // onResetUi(({ scope }) => {
+  //   if (scope !== 'inputs' && props.vis)
+  //     close({ reason: 'reset' })
+  // })
 })
 </script>
 

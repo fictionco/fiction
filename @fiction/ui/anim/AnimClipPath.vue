@@ -24,7 +24,7 @@ const wrapClass = vue.computed(() => {
   if (!props.animate)
     return ''
 
-  const out = ['clip-path-anim']
+  const out = ['clip-path-anim', 'transition-all']
   const styleKey = typeof props.animate === 'string' ? props.animate : 'expand'
   const stl = animateStyle[styleKey]
 

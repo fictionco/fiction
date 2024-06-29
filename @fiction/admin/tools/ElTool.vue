@@ -32,9 +32,7 @@ const ico = iconStyle[props.iconTheme]
           <div
             class="rounded-md p-1 size-7 border flex items-center justify-center"
             :data-theme="iconTheme"
-            :class="[
-              ico.color, ico.bg, ico.border,
-            ]"
+            :class="[ico.color, ico.bg, ico.border]"
           >
             <div :class="icon || tool.icon" />
           </div>

@@ -31,6 +31,15 @@ function onInput(v: string) {
 const value = vue.computed(() => {
   return getNested({ path: props.path, data: data.value }) as string
 })
+
+const isEditable = vue.computed(() => props.card.site?.isEditable.value)
+
+//
+function shouldStopProp(event: MouseEvent) {
+  if (isEditable.value) {
+    event.stopPropagation()
+  }
+}
 </script>
 
 <template>
@@ -38,9 +47,10 @@ const value = vue.computed(() => {
     :data-key="path"
     v-bind="attrs"
     :tag="tag"
-    :is-editable="card.site?.isEditable.value"
+    :is-editable="isEditable"
     :model-value="value"
     :placeholder="placeholder"
+    @click="shouldStopProp($event)"
     @update:model-value="onValue($event)"
     @input="onInput($event)"
   />

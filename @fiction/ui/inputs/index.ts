@@ -69,7 +69,7 @@ export interface InputOptionSettings<T extends string = string, U = any> {
   isRequired?: boolean
   props?: Record<string, unknown>
   options?: InputOption[]
-  list?: (ListItem | string)[]
+  list?: (ListItem | string)[] | readonly (ListItem | string)[]
   default?: () => U
   schema?: SchemaCallback
   generation?: InputOptionGeneration
