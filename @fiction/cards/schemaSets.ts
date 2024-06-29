@@ -16,9 +16,3 @@ export const MediaItemSchema = z.object({
     html: z.string().optional(),
   }),
 }) as z.Schema<MediaItem>
-
-export const PostItemSchema = z.object({
-  content: z.string().optional(),
-  title: z.string().optional(),
-  subTitle: z.string().optional(),
-}).merge(MediaItemSchema as z.AnyZodObject) as z.Schema<PostItem>

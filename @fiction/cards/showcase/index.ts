@@ -4,13 +4,22 @@ import { CardTemplate } from '@fiction/site'
 import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
 import { standardOption } from '../inputSets'
-import { PostItemSchema } from '../schemaSets'
 
 const el = vue.defineAsyncComponent(async () => import('./ElShowcase.vue'))
 const aspects = ['square', 'tall', 'wide', 'golden', 'portrait', 'landscape', 'cinema'] as const
 const gridCols = ['1', '2', '3', '4', '5'] as const
 const UserConfigSchema = z.object({
-  items: z.array(PostItemSchema).optional(),
+  items: z.array(z.object({
+    content: z.string().optional(),
+    title: z.string().optional(),
+    subTitle: z.string().optional(),
+    superTitle: z.string().optional(),
+    media: z.object({
+      format: z.enum(['url', 'html']).optional(),
+      url: z.string().optional(),
+      html: z.string().optional(),
+    }),
+  }) as z.Schema<PostItem>).optional(),
   aspect: z.enum(aspects).optional().describe('Image aspect ratio'),
   gridColsMax: z.enum(gridCols).optional().describe('Max number of columns in the grid on large screen'),
   gridColsMin: z.enum(['1', '2']).optional().describe('Min number of columns in the grid on small screen'),

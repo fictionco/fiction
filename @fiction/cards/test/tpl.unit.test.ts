@@ -9,11 +9,11 @@ describe('verify template settings config', () => {
         templateId: _.settings.templateId,
         unusedSchema: _.optionConfig.unusedSchema,
         isPublic: _.settings.isPublic,
-        hasDemo: demoPages.some(d => d.slug === `card-${_.settings.templateId}`),
+        hasDemo: _.settings.demoPage || demoPages.some(d => d.slug === `card-${_.settings.templateId}`),
       }
     })
 
-    expect(templatesOptionConfig).toMatchInlineSnapshot(`
+    expect(templatesOptionConfig, 'snapshot').toMatchInlineSnapshot(`
       [
         {
           "hasDemo": false,
@@ -32,6 +32,14 @@ describe('verify template settings config', () => {
           "isPublic": false,
           "templateId": "404",
           "unusedSchema": {},
+        },
+        {
+          "hasDemo": [Function],
+          "isPublic": false,
+          "templateId": "header",
+          "unusedSchema": {
+            "logo": "",
+          },
         },
         {
           "hasDemo": true,
@@ -93,16 +101,22 @@ describe('verify template settings config', () => {
             "superHeading": "string, Social proof Metric or KPI for the newsletter, e.g. "22,300+ subscribers"",
           },
         },
+        {
+          "hasDemo": [Function],
+          "isPublic": true,
+          "templateId": "showcase",
+          "unusedSchema": {},
+        },
       ]
     `)
 
     const incompleteSchema = templatesOptionConfig.some(_ => typeof _.unusedSchema === 'undefined' || (Object.keys(_.unusedSchema).length > 0 && _.isPublic))
 
-    expect(incompleteSchema).toBe(false)
+    expect(incompleteSchema, 'unused schema is empty').toBe(false)
 
     const incompletePublic = templatesOptionConfig.map(_ => typeof _.isPublic === 'undefined' || (_.isPublic === true && _.hasDemo === false ? _.templateId : undefined)).filter(Boolean)
 
-    expect(incompletePublic).toMatchInlineSnapshot(`[]`)
+    expect(incompletePublic, 'incomplete public cards').toMatchInlineSnapshot(`[]`)
     expect(incompletePublic.length).toBe(0)
   })
 })

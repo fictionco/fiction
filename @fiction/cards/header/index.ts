@@ -2,10 +2,9 @@ import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import { standardOption } from '@fiction/cards/inputSets'
 import { CardTemplate } from '@fiction/site/card'
-import { refineOptions } from '@fiction/site/utils/schema'
 import { z } from 'zod'
 
-const UserConfigSchema = z.object({
+const schema = z.object({
   logo: z.union([z.string(), z.object({ url: z.string() })]).optional(),
   nav: z.array(z.object({
     name: z.string(),
@@ -14,14 +13,12 @@ const UserConfigSchema = z.object({
   })).optional(),
 })
 
-export type UserConfig = z.infer<typeof UserConfigSchema>
+export type UserConfig = z.infer<typeof schema>
 
-const o = [
+const options = [
   new InputOption({ key: 'logo', label: 'Logo', input: 'InputMediaDisplay' }),
   standardOption.navItems({ key: 'nav' }),
 ]
-
-const { options } = refineOptions({ options: o, schema: UserConfigSchema })
 
 const el = vue.defineAsyncComponent(async () => import('./ElHeader.vue'))
 const templateId = 'header'
@@ -32,6 +29,7 @@ export const templates = [
     icon: 'i-tabler-box-align-top',
     colorTheme: 'blue',
     description: 'A header with a logo and navigation links',
+    isPublic: false,
     el,
     userConfig: {
       logo: { format: 'html', html: 'Your Name' },
@@ -41,6 +39,7 @@ export const templates = [
       ],
       spacing: { spacingClass: 'py-0 lg:py-2' },
     },
+    schema,
     options,
     demoPage: () => {
       return [
