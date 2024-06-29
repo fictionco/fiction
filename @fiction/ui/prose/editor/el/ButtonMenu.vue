@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type NavItem, onResetUi, vue } from '@fiction/core'
 
-const props = defineProps({
+defineProps({
   items: { type: Array as vue.PropType<NavItem[]>, required: true },
 })
 

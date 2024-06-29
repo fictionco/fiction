@@ -1,4 +1,4 @@
-import type { MediaItem, PostItem } from '@fiction/core'
+import type { MediaItem } from '@fiction/core'
 import { z } from 'zod'
 
 export const mediaSchema = z.object({

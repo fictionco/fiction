@@ -4,7 +4,7 @@ import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import NavMobile from '@fiction/ui/NavMobile.vue'
 import XNav from './XNav.vue'
-import XSiteLogo from './XSiteLogo.vue'
+import ElBrand from './ElBrand.vue'
 
 export type UserConfig = {
   nav?: NavItem[]
@@ -39,7 +39,7 @@ const vis = vue.ref(false)
         aria-label="Global"
       >
         <div class="flex lg:flex-1">
-          <XSiteLogo :logo="uc.logo" />
+          <ElBrand :logo="uc.logo" :card />
         </div>
         <div class="flex lg:hidden">
           <div class="text-3xl z-30 relative" :class="vis ? 'text-white' : ''" @click.stop="vis = !vis">

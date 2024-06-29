@@ -5,7 +5,7 @@ import ElImage from '@fiction/ui/media/ElImage.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import ElActions from '@fiction/ui/buttons/ElActions.vue'
 
-const props = defineProps({
+defineProps({
   list: { type: Array as vue.PropType<IndexItem[]>, required: true },
   loading: { type: Boolean, default: false },
   zeroText: { type: String, default: 'No items found' },

@@ -46,7 +46,7 @@ function getSuggestionItems({ query }: { query: string }) {
       description: 'Upload an image from your computer.',
       searchTerms: ['photo', 'picture', 'media'],
       icon: Image,
-      command: ({ editor, range, props }: CProps) => {
+      command: ({ editor, range }: CProps) => {
         editor.chain().focus().deleteRange(range).insertContent({
           type: 'xImage',
           attrs: { /* attributes if any */ },
@@ -195,7 +195,7 @@ const SlashCommand = Extension.create({
 
               return component?.ref?.onKeyDown(props.event)
             },
-            onExit: (props: SuggestionProps) => {
+            onExit: (_props: SuggestionProps) => {
               popup?.[0].destroy()
               component?.destroy()
             },
