@@ -14,8 +14,7 @@ describe('showcase card', async () => {
     await kit.performActions({
       path: '/demo-showcase',
       actions: [
-        { type: 'exists', selector: 'a[href$="/testing"]' },
-        { type: 'exists', selector: '.showcase-track.reverse' },
+        { type: 'exists', selector: '[data-test-id="showcase"]' },
       ],
     })
   })
@@ -34,11 +33,14 @@ describe('validate option keys', async () => {
         "items.0.media.url",
         "items.0.media.format",
         "items.0.media.html",
-        "items.0.name",
-        "items.0.desc",
         "items.0.href",
-        "direction",
-        "stagger",
+        "items.0.title",
+        "items.0.subTitle",
+        "items.0.superTitle",
+        "items.0.content",
+        "aspect",
+        "gridColsMax",
+        "gridColsMin",
       ]
     `)
 
@@ -48,9 +50,14 @@ describe('validate option keys', async () => {
       'items.0.media.url',
       'items.0.media.format',
       'items.0.media.html',
-      'items.0.name',
-      'items.0.desc',
       'items.0.href',
+      'items.0.title',
+      'items.0.subTitle',
+      'items.0.superTitle',
+      'items.0.content',
+      'aspect',
+      'gridColsMax',
+      'gridColsMin',
     ]
 
     expect(new Set(keys)).toEqual(new Set(expectedKeys))

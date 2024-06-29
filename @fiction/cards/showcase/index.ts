@@ -36,7 +36,7 @@ const template = new CardTemplate({
   description: 'a showcase grid of items with popup details',
   icon: 'i-tabler-carousel-horizontal',
   colorTheme: 'pink',
-  isPublic: false,
+  isPublic: true,
   el,
   options: [
     standardOption.postItems({ key: 'items', label: 'Showcase Items' }),

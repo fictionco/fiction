@@ -81,8 +81,8 @@ function gridCols() {
 </script>
 
 <template>
-  <div class="relative px-6 md:px-12">
-    <div class="grid  md:gap-12 gap-6" :class="gridCols()">
+  <div class="relative px-6 md:px-12" data-test-id="showcase">
+    <div class="grid md:gap-12 gap-6" :class="gridCols()" :data-aspect="uc.aspect" :data-grid-cols-max="uc.gridColsMax">
       <div v-for="(item, i) in uc.items" :key="i" class="[perspective:1000px] group showcase-item x-action-item transition-all duration-300 space-y-2 relative cursor-pointer" @click="activeitemIndex = i">
         <EffectGlare> <ElImage :media="item.media" :class="gridImageAspect()" /></EffectGlare>
         <div class="@[17.5rem]:flex justify-between gap-4 p-1 @container">
@@ -106,33 +106,33 @@ function gridCols() {
     </div>
     <ElModal :vis="activeitemIndex >= 0" modal-class="lg:max-w-[80dvw] min-h-[80dvh] " @update:vis="activeitemIndex = -1">
       <div class="close">
-        <div class="absolute top-0 right-0 p-4">
+        <div class="absolute top-0 right-0 p-2 md:p-4">
           <div class="cursor-pointer text-theme-400 dark:text-theme-500 opacity-70 hover:opacity-100" @click="activeitemIndex = -1">
             <div class="i-tabler-x text-5xl" />
           </div>
         </div>
       </div>
-      <div class="py-24">
+      <div class="py-12 md:py-24 px-4">
         <div :class="proseClass">
           <div class="not-prose">
             <div class="mb-8 not-prose space-y-4">
               <CardText
                 tag="h1"
                 :card="card"
-                class="mb-0 text-5xl font-semibold x-font-title"
+                class="mb-0 text-3xl md:text-5xl font-semibold x-font-title"
                 :path="`items.${activeitemIndex}.title`"
                 animate="fade"
               />
               <CardText
                 tag="h3"
                 :card="card"
-                class="my-0 text-theme-500 dark:text-theme-400 text-3xl"
+                class="my-0 text-theme-500 dark:text-theme-400 text-lg md:text-3xl"
                 :path="`items.${activeitemIndex}.subTitle`"
                 animate="fade"
               />
             </div>
 
-            <AnimClipPath animate="expand" class="my-[min(max(35px,_5vw),_30px)] -mx-16">
+            <AnimClipPath animate="expand" class="my-[min(max(35px,_5vw),_30px)] md:-mx-16">
               <div v-if="activeItem?.media?.url" class=" mx-auto relative overflow-hidden rounded-xl" :class="featuredImageAspect(activeItem.media)">
                 <!-- Optionally display media -->
                 <img :src="activeItem?.media?.url" alt="Post media" class="absolute h-full w-full object-cover object-center">
