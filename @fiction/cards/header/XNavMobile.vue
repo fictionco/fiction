@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { getNavComponentType, onBrowserEvent, onResetUi, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
-import XSiteLogo from '../ui/XSiteLogo.vue'
-import type { UserConfig } from './XHeader.vue'
+import XSiteLogo from './XSiteLogo.vue'
+import type { UserConfig } from './ElHeader.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
