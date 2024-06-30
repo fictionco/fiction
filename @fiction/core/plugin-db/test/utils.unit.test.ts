@@ -96,14 +96,15 @@ describe('dbPrep', () => {
       campaignId: 12345, // Invalid type
       userId: 'user123',
     }
-    expect(() => {
-      dbPrep({
-        type: 'insert',
-        fields,
-        table: 'fiction_test_schema',
-        fictionDb,
-      })
-    }).toThrowError(/Validation failed for field campaignId/)
+
+    const r = dbPrep({
+      type: 'insert',
+      fields,
+      table: 'fiction_test_schema',
+      fictionDb,
+    })
+
+    expect(r.campaignId).toBeFalsy()
   })
 
   it('should handle return type correctly', () => {

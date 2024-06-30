@@ -11,7 +11,7 @@ import type { UiElementSize } from '../utils.js'
 // }
 
 export function selectInputClasses(args: { inputClass: string, classButton?: string }) {
-  const { inputClass = '', classButton } = args
+  const { classButton } = args
   return {
 
     wrapClass: 'text-theme-700 dark:text-theme-0 relative max-w-input font-mono',

@@ -23,8 +23,6 @@ const emit = defineEmits<{
   (event: 'update:offset', payload: number): void
 }>()
 
-const service = useService()
-
 const sending = vue.ref(false)
 
 const boxClass = 'dark:bg-theme-800 bg-theme-0 hover:bg-theme-50 dark:hover:bg-theme-700 px-6 border border-theme-300/70 shadow-xs dark:border-theme-600/60 rounded-xl'

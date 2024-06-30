@@ -84,9 +84,7 @@ const mega = vue.computed(() => {
             />
           </div>
           <div class="flex lg:hidden">
-            <div class="text-3xl z-30 relative" :class="vis ? 'text-white' : ''" @click.stop="vis = !vis">
-              <div class="i-tabler-menu" />
-            </div>
+            <div class="text-3xl z-30 relative i-tabler-menu" :class="vis ? 'text-white' : ''" @click.stop="vis = !vis" />
             <NavMobile v-model:vis="vis" :nav="nav" />
           </div>
         </nav>
