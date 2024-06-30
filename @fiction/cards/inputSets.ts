@@ -99,7 +99,8 @@ export const standardOption = {
     const s = standardOption
     return s.inputList({ label: 'Actions', key: 'actions', ..._, options: [s.name(), s.href(), s.btn(), s.size(), s.target()] })
   },
-  navItems: (_: OptArgs = {}) => {
+  navItems: (_: OptArgs & { maxDepth?: number } = {}) => {
+    const { maxDepth = 0 } = _
     const s = standardOption
     const __ = { label: 'Nav Items', key: 'navItems', ..._ }
     const opts = (depth: number) => {
@@ -111,7 +112,7 @@ export const standardOption = {
         s.target(),
       ]
 
-      if (depth < 2) {
+      if (depth < maxDepth) {
         out.push(
           s.groupTitle({ key: 'itemsTitle', label: 'Sub Items' }),
           s.inputList({ key: 'items', options: opts(depth + 1) }),

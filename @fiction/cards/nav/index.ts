@@ -38,8 +38,8 @@ export type UserConfig = z.infer<typeof schema>
 
 const options = [
   new InputOption({ key: 'logo', label: 'Logo', input: 'InputMediaDisplay' }),
-  standardOption.navItems({ key: 'navA' }),
-  standardOption.navItems({ key: 'navB' }),
+  standardOption.navItems({ key: 'navA', maxDepth: 2 }),
+  standardOption.navItems({ key: 'navB', maxDepth: 2 }),
 ]
 
 // Example default configuration for a movie actor or director's personal website

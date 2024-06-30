@@ -19,7 +19,7 @@ describe('refine options with schema', () => {
 
     const { options, unusedSchema } = refineOptions({ options: [
       standardOption.headers(),
-      standardOption.navItems({ label: 'Details', key: 'details' }),
+      standardOption.navItems({ label: 'Details', key: 'details', maxDepth: 0 }),
     ], schema })
 
     expect(unusedSchema).toMatchInlineSnapshot(`{}`)
