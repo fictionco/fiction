@@ -24,9 +24,9 @@ const v = vue.computed(() => props.modelValue || {})
 const formatList = vue.computed(() => {
   const list = []
   if (props.formats.url)
-    list.push('url')
+    list.push({ value: 'url', name: 'Image URL' })
   if (props.formats.html)
-    list.push('html')
+    list.push({ value: 'html', name: 'Inline HTML / SVG' })
   return list
 })
 
@@ -42,12 +42,15 @@ const format = vue.computed(() => {
 
 <template>
   <div class="space-y-3">
-    <ElDropDown
-      v-if="formatList.length > 1"
-      :model-value="format"
-      :list="formatList"
-      @update:model-value="updateValue({ format: $event as MediaDisplayObject['format'] })"
-    />
+    <div class="flex items-center gap-4">
+      <ElDropDown
+        v-if="formatList.length > 1"
+        :model-value="format"
+        :list="formatList"
+        @update:model-value="updateValue({ format: $event as MediaDisplayObject['format'] })"
+      />
+      <span class="text-xs font-sans text-theme-400 dark:text-theme-500">&larr; Format</span>
+    </div>
     <div v-if="format === 'html'">
       <ElInput
         class="html-textarea"

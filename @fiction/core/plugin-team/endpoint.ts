@@ -105,7 +105,7 @@ export class QuerySeekInviteFromUser extends TeamQuery {
 
     const path = this.settings.fictionRouter?.rawPath('teamInvite')
 
-    await this.settings.fictionEmail.sendEmail({
+    await this.settings.fictionEmail.renderAndSendEmail({
       to: email,
       subject: `${requestingName || requestingEmail}: Request for Access`,
       bodyMarkdown,
@@ -115,7 +115,7 @@ export class QuerySeekInviteFromUser extends TeamQuery {
         name: 'Login and Invite',
         href: `${appUrl}${path}`,
       }],
-    }, { server: true, needsRender: true })
+    }, { server: true })
     return {
       status: 'success',
       message: 'Invite requested',
@@ -210,7 +210,7 @@ export class QueryTeamInvite extends TeamQuery {
         org.orgName
       }" organization.\n\n${message}`
 
-      await this.settings.fictionEmail?.sendEmail({
+      await this.settings.fictionEmail?.renderAndSendEmail({
         to: email,
         subject: `${org.orgName}: You've been invited!`,
         heading: `Your Invitation`,
@@ -223,7 +223,7 @@ export class QueryTeamInvite extends TeamQuery {
             btn: 'primary',
           },
         ],
-      }, { server: true, needsRender: true })
+      }, { server: true })
     })
 
     await Promise.all(_promises)

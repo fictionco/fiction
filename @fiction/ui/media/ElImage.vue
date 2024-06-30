@@ -102,7 +102,6 @@ const filters = vue.computed<ImageFilterConfig[]>(() => props.media?.filters || 
       <transition
         enter-active-class="transition ease duration-500"
         enter-from-class="opacity-0"
-
         enter-to-class="opacity-100"
         leave-active-class="transition ease duration-500"
         leave-from-class="opacity-100 "

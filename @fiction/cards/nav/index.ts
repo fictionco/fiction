@@ -6,17 +6,19 @@ import { z } from 'zod'
 import { mediaSchema } from '../schemaSets'
 
 const navItemSchema = z.object({
-  name: z.string(),
-  href: z.string(),
+  name: z.string().optional(),
+  href: z.string().optional(),
   itemStyle: z.enum(['button', 'user', 'standard']).optional(),
   subStyle: z.enum(['mega', 'standard']).optional(),
+  itemsTitle: z.string().optional(),
   items: z.array(z.object({
-    name: z.string(),
-    href: z.string(),
+    name: z.string().optional(),
+    href: z.string().optional(),
     target: z.string().optional(),
+    itemsTitle: z.string().optional(),
     items: z.array(z.object({
-      name: z.string(),
-      href: z.string(),
+      name: z.string().optional(),
+      href: z.string().optional(),
       target: z.string().optional(),
     })).optional(),
   })).optional(),
@@ -36,7 +38,8 @@ export type UserConfig = z.infer<typeof schema>
 
 const options = [
   new InputOption({ key: 'logo', label: 'Logo', input: 'InputMediaDisplay' }),
-  standardOption.navItems({ key: 'nav' }),
+  standardOption.navItems({ key: 'navA' }),
+  standardOption.navItems({ key: 'navB' }),
 ]
 
 // Example default configuration for a movie actor or director's personal website
@@ -69,7 +72,7 @@ const defaultConfig: UserConfig = {
 }
 
 const el = vue.defineAsyncComponent(async () => import('./ElHeader.vue'))
-const templateId = 'header'
+const templateId = 'nav'
 export const templates = [
   new CardTemplate({
     templateId,
@@ -82,6 +85,7 @@ export const templates = [
     userConfig: { ...defaultConfig, spacing: { spacingClass: 'py-0 lg:py-2' } },
     schema,
     options,
+    title: 'Primary Nav',
     demoPage: () => {
       return [
         { templateId, userConfig: { spacing: { spacingClass: 'py-20' }, ...defaultConfig } },

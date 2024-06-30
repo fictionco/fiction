@@ -102,7 +102,24 @@ export const standardOption = {
   navItems: (_: OptArgs = {}) => {
     const s = standardOption
     const __ = { label: 'Nav Items', key: 'navItems', ..._ }
-    const g = s.group({ ...__, options: [s.groupTitle(__), s.inputList({ ...__, options: [s.name(), s.desc(), s.icon(), s.href(), s.target()] })] })
+    const opts = (depth: number) => {
+      const out = [
+        s.name(),
+        s.desc(),
+        s.icon(),
+        s.href(),
+        s.target(),
+      ]
+
+      if (depth < 2) {
+        out.push(
+          s.groupTitle({ key: 'itemsTitle', label: 'Sub Items' }),
+          s.inputList({ key: 'items', options: opts(depth + 1) }),
+        )
+      }
+      return out
+    }
+    const g = s.group({ ...__, options: [s.groupTitle(__), s.inputList({ ...__, options: opts(0) })] })
     return g
   },
   mediaItems: (_: OptArgs = {}) => {

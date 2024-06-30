@@ -60,7 +60,7 @@ function handleCardClick(args: { cardId: string, event: MouseEvent }) {
         />
         <div
           v-if="isEditable"
-          class="opacity-0 group-hover/engine:opacity-100 transition-all bg-blue-600/50 hover:bg-blue-600/80 hover:z-20 cursor-pointer py-[1px] px-1.5 text-blue-100 font-sans text-[10px] absolute top-2 right-2 flex gap-0.5 items-center justify-center rounded-full "
+          class="opacity-0 group-hover/engine:opacity-100 transition-all bg-blue-600/50 hover:bg-blue-600/80 hover:z-20 cursor-pointer py-[1px] px-1.5 text-blue-100 font-sans text-[10px] absolute top-0 right-0 flex gap-0.5 items-center justify-center"
           :class="subCard.tpl.value?.settings.isContainer ? 'left-1' : 'right-1'"
         >
           <div :class="subCard.tpl.value?.settings.icon" />

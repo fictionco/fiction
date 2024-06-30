@@ -65,10 +65,13 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
     return { ...fields, bodyHtml, bodyText }
   }
 
-  async sendEmail(fields: TransactionalEmailConfig, meta: EndpointMeta & { needsRender?: boolean }) {
-    if (meta.needsRender)
-      fields = await this.renderEmailTemplate(fields)
+  async renderAndSendEmail(fields: TransactionalEmailConfig, meta: EndpointMeta) {
+    fields = await this.renderEmailTemplate(fields)
 
+    return this.sendEmail(fields, meta)
+  }
+
+  async sendEmail(fields: TransactionalEmailConfig, meta: EndpointMeta) {
     return this.queries.TransactionEmail.serve({ _action: 'send', fields }, { server: true, ...meta })
   }
 

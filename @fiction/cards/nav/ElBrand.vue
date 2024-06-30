@@ -15,6 +15,6 @@ defineProps({
   >
     <img v-if="logo?.format === 'url' && logo?.url || (!logo?.format && logo?.url)" :src="logo.url" alt="Logo" class="h-9">
     <span v-else-if="logo?.format === 'html' || (!logo?.format && logo?.html)" v-html="logo.html" />
-    <span v-else>{{ logo?.html }}</span>
+    <span v-else v-html="logo?.html" />
   </RouterLink>
 </template>

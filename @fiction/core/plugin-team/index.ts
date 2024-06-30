@@ -85,7 +85,7 @@ export class FictionTeam extends FictionPlugin<FictionTeamSettings> {
     if (!verify?.code)
       throw abort('A verification code is required')
 
-    await this.settings.fictionEmail.sendEmail({
+    await this.settings.fictionEmail.renderAndSendEmail({
       to: email,
       subject: `${org.orgName || 'Organization'}: You've been invited!`,
       heading: 'Your Invitation',
@@ -100,6 +100,6 @@ export class FictionTeam extends FictionPlugin<FictionTeamSettings> {
           redirect: `/org/${org.orgId}`,
         }),
       }],
-    }, { server: true, needsRender: true })
+    }, { server: true })
   }
 }
