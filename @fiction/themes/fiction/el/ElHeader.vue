@@ -140,7 +140,7 @@ const accountMenu = vue.computed((): NavItem[] => {
       </div>
     </div>
     <!-- Mobile Nav -->
-    <NavMobile v-model:vis="vis" :nav="nav" :account-menu="accountMenu">
+    <NavMobile v-model:vis="vis" :nav="{ a: nav }" :account-menu="accountMenu">
       <template #foot>
         <div class="px-12">
           <ElButton btn="default" format="block" size="lg" href="/app?reload">

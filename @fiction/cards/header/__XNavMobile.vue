@@ -2,7 +2,7 @@
 import { getNavComponentType, onBrowserEvent, onResetUi, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import ElBrand from './ElBrand.vue'
-import type { UserConfig } from './ElHeader.vue'
+import type { UserConfig } from './index.js'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },

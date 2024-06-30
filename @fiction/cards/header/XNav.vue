@@ -3,6 +3,7 @@ import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import ElNavLink from '@fiction/ui/ElNavLink.vue'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
+import EffectHoverUnderline from './EffectHoverUnderline.vue'
 import type { SchemaNavItem, UserConfig } from './index.js'
 
 const props = defineProps({
@@ -33,9 +34,7 @@ function setActiveHover(item: SchemaNavItem | undefined) {
       @mouseover="setActiveHover(item)"
       @mouseleave="setActiveHover(undefined)"
     >
-      <ElNavLink :item="item" class="cursor-pointer" :class="itemClass">
-        <span class="menu-text relative after:border-t-2 after:border-primary-500 dark:after:border-primary-400 after:rounded-lg" :class="item.isActive ? 'active' : ''" v-html="item.name" />
-      </ElNavLink>
+      <EffectHoverUnderline :item class="cursor-pointer" :class="itemClass" :depth="0" />
       <TransitionSlide>
         <div
           v-if="activeItem?.items?.length && (!activeItem.subStyle || activeItem?.subStyle === 'standard') && activeItem.href === item.href"

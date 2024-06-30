@@ -4,6 +4,7 @@ import { getNavComponentType } from '@fiction/core'
 
 defineProps({
   item: { type: Object as vue.PropType<NavItem>, required: true },
+  depth: { type: Number, default: -1 },
 })
 </script>
 
@@ -21,6 +22,10 @@ defineProps({
       <span v-if="item.target === '_blank'" class="block opacity-30 group-hover:translate-x-[1px] group-hover:-translate-y-[1px] transition-all">
         <span class="block i-heroicons-arrow-up-right-20-solid" />
       </span>
+      <span v-else-if="item.items?.length && depth === 0" class="block opacity-30 group-hover:opacity-60 transition-all">
+        <span class="block i-tabler-chevron-down" />
+      </span>
+
     </span>
   </component>
 </template>

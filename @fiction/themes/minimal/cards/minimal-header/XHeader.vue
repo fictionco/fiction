@@ -45,7 +45,7 @@ const vis = vue.ref(false)
           <div class="text-3xl z-30 relative" :class="vis ? 'text-white' : ''" @click.stop="vis = !vis">
             <div class="i-tabler-menu" />
           </div>
-          <NavMobile v-model:vis="vis" :nav="nav" />
+          <NavMobile v-model:vis="vis" :nav="{ a: nav }" />
         </div>
         <XNav
           class="hidden lg:flex lg:justify-center lg:gap-x-4 items-center"

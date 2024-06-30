@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { MediaDisplayObject, NavItem } from '@fiction/core'
-import { shortId, useService, vue } from '@fiction/core'
+import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import NavMobile from '@fiction/ui/NavMobile.vue'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
 import XNav from './XNav.vue'
 import ElBrand from './ElBrand.vue'
+import EffectHoverUnderline from './EffectHoverUnderline.vue'
 import type { SchemaNavItem, UserConfig } from './index.js'
 
 const props = defineProps({
@@ -94,26 +94,18 @@ const mega = vue.computed(() => {
           <nav v-if="activeItem?.subStyle === 'mega' && activeItem.items?.length" class="min-h-[300px] overflow-hidden absolute z-30 top-[calc(100%+.5rem)] w-full bg-theme-0 dark:bg-theme-800 rounded-xl flex" @mouseover="setActiveHover(activeItem)" @mouseleave="setActiveHover(undefined)">
             <div class="bg-theme-950/70 text-white w-[33%]">
               <div class="p-6 space-y-2 max-w-[350px]">
-                <h2 class="x-font-title text-3xl font-medium dark:text-theme-100">
-                  Mega Menu Title
-                </h2>
-                <p class="text-xl text-theme-500 dark:text-theme-400 font-sans">
-                  Mega Menu Sub
-                </p>
+                <h2 class="x-font-title text-3xl font-semibold dark:text-theme-100" v-html="activeItem.name" />
+                <p class="text-xl text-theme-500 dark:text-theme-400 font-sans font-normal" v-html="activeItem.desc" />
               </div>
             </div>
             <div class="grow">
               <div class="p-12 grid grid-cols-3">
                 <div v-for="(subItem, ii) in activeItem.items" :key="ii">
-                  <ElNavLink :item="subItem" class="px-4 py-2 block dark:hover:bg-theme-700 font-normal">
-                    {{ subItem.name }}
-                  </ElNavLink>
+                  <EffectHoverUnderline :item="subItem" class="px-4 py-2 block font-normal x-font-title" :depth="1" />
 
                   <div v-if="subItem?.items?.length">
                     <template v-for="(subSubItem, iii) in subItem.items" :key="iii">
-                      <ElNavLink :item="subSubItem" class="pl-7 pr-4 py-1.5 block dark:hover:bg-theme-700 font-normal text-[.9em]">
-                        {{ subSubItem.name }}
-                      </ElNavLink>
+                      <EffectHoverUnderline :item="subSubItem" class="font-sans pl-7 pr-4 py-1.5 block font-normal text-[.9em]" :depth="2" />
                     </template>
                   </div>
                 </div>

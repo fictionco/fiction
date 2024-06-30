@@ -6,7 +6,7 @@ import { animateItemEnter, useElementVisible } from './anim'
 const props = defineProps({
   vis: { type: Boolean, default: false },
   accountMenu: { type: Array as vue.PropType<NavItem[]>, default: () => [] },
-  nav: { type: Object as vue.PropType<{ a: NavItem[], b: NavItem[] }>, required: true },
+  nav: { type: Object as vue.PropType<Record<string, NavItem[]>>, required: true },
 })
 
 const emit = defineEmits(['update:vis'])

@@ -8,7 +8,6 @@ import { mediaSchema } from '../schemaSets'
 const navItemSchema = z.object({
   name: z.string(),
   href: z.string(),
-
   itemStyle: z.enum(['button', 'user', 'standard']).optional(),
   subStyle: z.enum(['mega', 'standard']).optional(),
   items: z.array(z.object({
@@ -25,7 +24,7 @@ const navItemSchema = z.object({
   target: z.string().optional(),
 })
 
-export type SchemaNavItem = z.infer<typeof navItemSchema>
+export type SchemaNavItem = z.infer<typeof navItemSchema> & { isActive?: boolean }
 
 const schema = z.object({
   logo: mediaSchema.optional(),
@@ -53,7 +52,7 @@ const defaultConfig: UserConfig = {
       { name: 'FAQ', href: '/about/faq' },
 
     ] },
-    { name: 'Filmography', desc: 'Various works in the last 20 years.', href: '/filmography', itemStyle: 'button', subStyle: 'mega', items: [
+    { name: 'Filmography', desc: `Some of our work...`, href: '/filmography', itemStyle: 'button', subStyle: 'mega', items: [
       { name: 'Movies', href: '/filmography/movies', items: [{ name: 'Classic Movies', href: '/filmography/movies/classic' }, { name: 'Recent Movies', href: '/filmography/movies/recent' }] },
       { name: 'TV Shows', href: '/filmography/tv-shows', items: [{ name: 'Popular Shows', href: '/filmography/tv-shows/popular' }, { name: 'Latest Shows', href: '/filmography/tv-shows/latest' }] },
       { name: 'Directorial Works', href: '/filmography/directorial-works', items: [{ name: 'Feature Films', href: '/filmography/directorial-works/feature-films' }, { name: 'Short Films', href: '/filmography/directorial-works/short-films' }] },
