@@ -37,7 +37,7 @@
     "blurhash": "^2.0.5",
     "lucide-vue-next": "latest",
     "monaco-editor": "^0.50.0",
-    "postcss": "^8.4.38",
+    "postcss": "^8.4.39",
     "tailwindcss": "^3.4.4",
     "tippy.js": "^6.3.7",
     "tiptap-extension-auto-joiner": "^0.1.3",

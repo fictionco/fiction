@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { getNavComponentType, onBrowserEvent, onResetUi, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
-import XSiteLogo from './XSiteLogo.vue'
+import ElBrand from './ElBrand.vue'
 import type { UserConfig } from './ElHeader.vue'
 
 const props = defineProps({
@@ -66,7 +66,7 @@ onResetUi(() => close())
         >
           <div class="h-full overflow-y-scroll p-5 1 pt-8 w-52 mx-auto">
             <div v-if="uc.logo" class="text-center mb-6">
-              <XSiteLogo :logo="uc.logo" />
+              <ElBrand :logo="uc.logo" :card />
             </div>
             <div class="pt-6 space-y-2">
               <template v-for="(item, i) in uc.nav" :key="i">

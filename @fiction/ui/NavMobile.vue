@@ -6,7 +6,7 @@ import { animateItemEnter, useElementVisible } from './anim'
 const props = defineProps({
   vis: { type: Boolean, default: false },
   accountMenu: { type: Array as vue.PropType<NavItem[]>, default: () => [] },
-  nav: { type: Array as vue.PropType<NavItem[]>, required: true },
+  nav: { type: Object as vue.PropType<{ a: NavItem[], b: NavItem[] }>, required: true },
 })
 
 const emit = defineEmits(['update:vis'])
@@ -82,7 +82,7 @@ function getIcon(icon: string): string {
         </a>
 
         <div class="h-full py-20 flex flex-col justify-between relative z-10">
-          <div class="h-full overflow-y-scroll p-6 flex flex-col justify-center">
+          <div v-for="(n, i) in nav" :key="i" class="h-full overflow-y-scroll p-6 flex flex-col justify-center">
             <div
               class="flex flex-col gap-6"
               role="menu"
@@ -91,7 +91,7 @@ function getIcon(icon: string): string {
             >
               <component
                 :is="getNavComponentType(item)"
-                v-for="(item, i) in nav"
+                v-for="(item, i) in n"
                 :key="i"
                 :to="item.href"
                 :href="item.href"

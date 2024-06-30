@@ -70,7 +70,8 @@ export class ObjectProcessor {
     for (const processor of this.processors) {
       if (await processor.condition({ key, value })) {
         try {
-          return await processor.action(value)
+          const r = await processor.action(value)
+          return r
         }
         catch (error) {
           logger.error(`Error in processor for key: ${key}`, { error })

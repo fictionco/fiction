@@ -107,7 +107,7 @@
     "nodemon": "^3.1.4",
     "npm-package-json-lint": "^8.0.0",
     "playwright": "^1.45.0",
-    "postcss": "^8.4.38",
+    "postcss": "^8.4.39",
     "prettier": "^3.3.2",
     "sharp": "^0.33.4",
     "simple-git-hooks": "^2.11.1",
