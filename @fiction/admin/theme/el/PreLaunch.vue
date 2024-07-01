@@ -125,7 +125,7 @@ const hasAccessCode = vue.ref(false)
           </div>
         </div>
         <div class="p-8 text-xs font-sans antialiased font-medium">
-          <a class="text-theme-300 dark:text-theme-300  hover:opacity-80" href="https://www.fiction.com?reload=1">Back to homepage &rarr;</a>
+          <a class="text-theme-300 dark:text-theme-300  hover:opacity-80" href="https://www.fiction.com?_reload=1">Back to homepage &rarr;</a>
         </div>
       </div>
     </div>

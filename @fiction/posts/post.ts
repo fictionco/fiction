@@ -21,7 +21,7 @@ export class Post extends FictionObject<PostConfig> {
   dateAt = vue.ref(this.settings.dateAt || new Date().toISOString())
   userConfig = vue.ref(this.settings.userConfig || {})
   isDirty = vue.ref(false)
-  editLink = vue.computed(() => `/app/post-edit?postId=${this.postId}&reload=1`)
+  editLink = vue.computed(() => `/app/post-edit?postId=${this.postId}&_reload=1`)
   hasChanges = vue.ref(this.settings.hasChanges || false)
   publishAt = vue.ref(this.settings.publishAt)
   saveTimeout: ReturnType<typeof setTimeout> | null = null // Store timeout reference

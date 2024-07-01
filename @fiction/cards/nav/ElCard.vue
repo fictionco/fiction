@@ -6,7 +6,6 @@ import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
 import CardNavLink from '@fiction/cards/CardNavLink.vue'
 import XNav from './XNav.vue'
 import ElBrand from './ElBrand.vue'
-import EffectHoverUnderline from './EffectHoverUnderline.vue'
 import type { SchemaNavItem, UserConfig } from './index.js'
 
 const props = defineProps({

@@ -63,7 +63,7 @@ const accountMenu = vue.computed((): NavItem[] => {
     {
       name: user ? 'Dashboard' : 'Sign In',
       icon: 'i-tabler-user',
-      href: props.card.link('/app?reload=1'),
+      href: props.card.link('/app?_reload=1=1'),
     },
   ]
 
@@ -113,7 +113,7 @@ const accountMenu = vue.computed((): NavItem[] => {
                 :card="card"
                 theme-el="button"
                 btn="default"
-                href="/app/auth/login?reload=1"
+                href="/app/auth/login?_reload=1=1"
               >
                 Login
               </XElement>
@@ -121,7 +121,7 @@ const accountMenu = vue.computed((): NavItem[] => {
                 :card="card"
                 theme-el="button"
                 btn="primary"
-                href="/app/auth/register?reload=1"
+                href="/app/auth/register?_reload=1=1"
               >
                 Sign Up
               </XElement>
@@ -144,7 +144,7 @@ const accountMenu = vue.computed((): NavItem[] => {
     <NavMobile v-model:vis="vis" :nav="{ a: nav }" :account-menu="accountMenu">
       <template #foot>
         <div class="px-12">
-          <ElButton btn="default" format="block" size="lg" href="/app?reload">
+          <ElButton btn="default" format="block" size="lg" href="/app?_reload=1">
             View Dashboard
           </ElButton>
         </div>

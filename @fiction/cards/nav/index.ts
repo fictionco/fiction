@@ -86,7 +86,7 @@ export const templates = [
     description: 'A header with a logo and navigation links',
     isPublic: false,
     el,
-    userConfig: { ...defaultConfig, spacing: { spacingClass: 'py-0 lg:py-2' } },
+    userConfig: { ...defaultConfig, spacing: { spacingClass: 'py-4' } },
     schema,
     options,
     title: 'Primary Nav',

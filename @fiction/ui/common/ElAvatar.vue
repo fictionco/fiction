@@ -41,5 +41,5 @@ const media = vue.computed<MediaDisplayObject>(() => {
 </script>
 
 <template>
-  <ElImage class="rounded-full overflow-hidden" :media />
+  <ElImage class="rounded-full overflow-hidden dark:bg-theme-0/10" :media />
 </template>

@@ -8,7 +8,6 @@ export const templates = [
   new CardTemplate({
     templateId: 'fictionHeader',
     el: def(async () => import('./el/ElHeader.vue')),
-
     options: [],
     userConfig: {
       spacing: { spacingClass: 'py-0' },

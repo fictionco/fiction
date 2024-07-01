@@ -48,7 +48,7 @@ const styles = vue.computed(() => {
     class="group"
   >
     <span class="inline-flex items-center space-x-1 relative whitespace-nowrap">
-      <ElAvatar v-if="item.itemStyle === 'user'" class=" size-[1.4em] mr-1 rounded-full ring-2 ring-theme-200 dark:ring-theme-0" :email="service.fictionUser.activeUser?.value?.email" />
+      <ElAvatar v-if="item.itemStyle === 'user' && service.fictionUser.activeUser.value" class=" size-[1.4em] mr-1.5 rounded-full ring-2 ring-theme-200 dark:ring-theme-0" :email="service.fictionUser.activeUser?.value?.email" />
 
       <CardText
         v-if="item.basePath"
@@ -56,7 +56,10 @@ const styles = vue.computed(() => {
         :path="`${item.basePath}.name`"
         tag="span"
         class="block relative"
-        :class="styles.hoverEffect === 'underline' ? 'menu-text after:border-t-2 after:border-primary-500 dark:after:border-primary-400 after:rounded-lg' : ''"
+        :class="[
+          styles.hoverEffect === 'underline' ? 'menu-text after:border-t-2 after:border-primary-500 dark:after:border-primary-400 after:rounded-lg' : '',
+          item.isActive ? 'active' : '',
+        ]"
       />
       <span v-else-if="$slots.default" class="block"><slot /></span>
       <span v-else class="block" v-html="item.name" />
@@ -82,11 +85,12 @@ const styles = vue.computed(() => {
   padding-bottom: inherit;
 }
 
-.menu-text:hover:after{
-  transform: scaleX(1);
-}
+.menu-text{
+  &:hover, &.active{
+    &:after{
+      transform: scaleX(1);
+    }
 
-.menu-text.active:after{
-  transform: scaleX(1);
+  }
 }
 </style>

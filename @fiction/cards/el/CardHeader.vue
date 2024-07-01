@@ -55,7 +55,7 @@ const layout = vue.computed(() => {
       data-key="layout"
       :data-layout="layout"
     >
-      <div :class="layout === 'justify' ? 'lg:min-w-[50%]' : ''">
+      <div class="max-w-screen-lg" :class="layout === 'justify' ? 'lg:min-w-[50%]' : 'mx-auto'">
         <CardText
           tag="h3"
           :card="card"
@@ -67,14 +67,14 @@ const layout = vue.computed(() => {
         <CardText
           tag="h1"
           :card="card"
-          class="x-font-title dark:text-theme-0 text-theme-900 text-4xl sm:text-5xl lg:text-7xl lg:tracking-tight font-bold text-balance"
+          class="x-font-title dark:text-theme-0 text-theme-900 text-4xl sm:text-5xl lg:text-[5rem] lg:tracking-tight font-bold text-balance"
           :class="layout === 'justify' || layout === 'left' ? 'mt-3' : 'my-7'"
           path="heading"
           placeholder="Heading"
           animate="fade"
         />
       </div>
-      <div :class="layout === 'justify' ? 'lg:max-w-[50%]' : ''">
+      <div class="max-w-screen-lg" :class="layout === 'justify' ? 'lg:max-w-[50%]' : 'mx-auto'">
         <CardText
           tag="div"
           :card="card"

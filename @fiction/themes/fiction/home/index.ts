@@ -33,7 +33,7 @@ export function page() {
               actions: [
                 {
                   name: 'Create Account',
-                  href: '/app?reload=1',
+                  href: '/app?_reload=1',
                   btn: 'primary',
                   icon: 'i-tabler-user-circle',
                 },

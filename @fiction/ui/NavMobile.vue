@@ -81,8 +81,8 @@ function getIcon(icon: string): string {
           </span>
         </a>
 
-        <div class="h-full py-20 flex flex-col justify-between relative z-10">
-          <div v-for="(n, i) in nav" :key="i" class="h-full overflow-y-scroll p-6 flex flex-col justify-center">
+        <div class="h-full py-20 flex flex-col justify-start gap-6 relative z-10 overflow-y-scroll">
+          <div v-for="(n, i) in nav" :key="i" class="  p-6 flex flex-col justify-center">
             <div
               class="flex flex-col gap-6"
               role="menu"

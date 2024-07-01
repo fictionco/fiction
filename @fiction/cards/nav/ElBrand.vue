@@ -11,10 +11,10 @@ defineProps({
 <template>
   <RouterLink
     :to="card.link('/')"
-    class="hover:text-primary-600 dark:hover:text-primary-400 x-font-title block text-2xl font-medium transition-all"
+    class="flex hover:text-primary-600 dark:hover:text-primary-400 x-font-title text-2xl font-medium transition-all"
   >
     <img v-if="logo?.format === 'url' && logo?.url || (!logo?.format && logo?.url)" :src="logo.url" alt="Logo" class="h-9">
-    <span v-else-if="logo?.format === 'html' || (!logo?.format && logo?.html)" v-html="logo.html" />
-    <span v-else v-html="logo?.html" />
+    <span v-else-if="logo?.format === 'html' || (!logo?.format && logo?.html)" class="inline-block min-w-24" v-html="logo.html" />
+    <span v-else class="inline-block" v-html="logo?.html" />
   </RouterLink>
 </template>
