@@ -100,12 +100,15 @@ export async function loadSiteFromCard(args: { cardId: string, siteRouter: Ficti
     createCard({
       slug: '_home',
       cards: [
-        createCard({ templateId: 'hero', userConfig: {
-          superHeading: tpl.settings.category?.join(', '),
-          heading: tpl.settings.title,
-          subHeading: tpl.settings.description,
-          actions: [],
-        } }),
+        {
+          templateId: 'hero',
+          userConfig: {
+            superHeading: tpl.settings.category?.join(', '),
+            heading: tpl.settings.title,
+            subHeading: tpl.settings.description,
+            actions: [],
+          },
+        },
         ...cards,
       ],
 
