@@ -10,7 +10,7 @@ defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
-const volumeTier = vue.ref(0)
+const volumeTier = vue.ref(7)
 
 const referralAccounts = vue.computed(() => {
   const base = [
@@ -42,11 +42,7 @@ const referralAccounts = vue.computed(() => {
 
     const accounts = Intl.NumberFormat('en-US').format(+_.referrals)
 
-    return {
-      accounts,
-      earnings,
-      yearlyEarnings,
-    }
+    return { accounts, earnings, yearlyEarnings }
   })
 })
 </script>

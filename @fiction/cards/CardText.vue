@@ -38,6 +38,7 @@ const isEditable = vue.computed(() => props.card.site?.isEditable.value)
 function shouldStopProp(event: MouseEvent) {
   if (isEditable.value) {
     event.stopPropagation()
+    event.preventDefault()
   }
 }
 </script>

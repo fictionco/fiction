@@ -2,7 +2,7 @@
 import type { NavItem } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import ElNavLink from '@fiction/ui/ElNavLink.vue'
+import CardNavLink from '@fiction/cards/CardNavLink.vue'
 
 const props = defineProps({
   nav: { type: Array as vue.PropType<NavItem[]>, required: true },
@@ -15,15 +15,16 @@ const nav = vue.computed(() => (props.nav || []).map(item => ({ ...item, isActiv
 
 <template>
   <div>
-    <ElNavLink
+    <CardNavLink
       v-for="(item, i) in nav"
       :key="i"
+      :card
       :item="item"
       class="cursor-pointer"
       :class="[itemClass]"
     >
       <span class="menu-text relative after:border-t-2 after:border-primary-500 after:rounded-lg" :class="item.isActive ? 'active' : ''" v-html="item.name" />
-    </ElNavLink>
+    </CardNavLink>
   </div>
 </template>
 

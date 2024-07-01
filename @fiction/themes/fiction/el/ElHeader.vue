@@ -5,7 +5,7 @@ import type { Card } from '@fiction/site/card'
 import ElImage from '@fiction/ui/media/ElImage.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import XElement from '@fiction/cards/CardElement.vue'
-import ElNavLink from '@fiction/ui/ElNavLink.vue'
+import CardNavLink from '@fiction/cards/CardNavLink.vue'
 import NavMobile from '@fiction/ui/NavMobile.vue'
 import NavAccount from './NavAccount.vue'
 
@@ -96,9 +96,10 @@ const accountMenu = vue.computed((): NavItem[] => {
             </RouterLink>
           </div>
           <div class="hidden lg:block space-x-2">
-            <ElNavLink
+            <CardNavLink
               v-for="item in nav"
               :key="item.href"
+              :card
               :item="item"
               :class="[btnClass, item.isActive ? 'bg-theme-200 dark:bg-primary-950' : '']"
             />

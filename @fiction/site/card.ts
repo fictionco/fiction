@@ -154,7 +154,9 @@ export class Card<
     this.site.frame.syncCard({ caller: `card:syncCard:${args.caller}`, cardConfig })
   }
 
-  link(location: vueRouter.RouteLocationRaw) {
+  link(location?: vueRouter.RouteLocationRaw) {
+    if (!location)
+      return
     return siteLink({ site: this.site, location })
   }
 

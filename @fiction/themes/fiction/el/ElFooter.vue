@@ -4,7 +4,7 @@ import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import ElImage from '@fiction/ui/media/ElImage.vue'
 import CardSocials from '@fiction/cards/el/CardSocials.vue'
-import ElNavLink from '@fiction/ui/ElNavLink.vue'
+import CardNavLink from '@fiction/cards/CardNavLink.vue'
 
 export type UserConfig = {
   icon?: MediaDisplayObject
@@ -59,7 +59,8 @@ const footer = [
                   :key="ii"
                   class="text-left"
                 >
-                  <ElNavLink
+                  <CardNavLink
+                    :card
                     :item="item"
                     class="hover:text-primary-500 text-theme-800 dark:text-theme-50 dark:hover:text-theme-300 font-sans text-sm font-semibold"
                   />

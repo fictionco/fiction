@@ -109,15 +109,19 @@ export const standardOption = {
         s.desc(),
         s.icon(),
         s.href(),
-        s.target(),
+        new InputOption({ key: 'itemStyle', label: 'Style', input: 'InputSelect', list: ['default', 'button', 'user'] }),
       ]
 
       if (depth < maxDepth) {
         out.push(
           s.groupTitle({ key: 'itemsTitle', label: 'Sub Items' }),
-          s.inputList({ key: 'items', options: opts(depth + 1) }),
+          s.inputList({ key: 'items', label: 'Sub Items', options: opts(depth + 1) }),
+          new InputOption({ key: 'subStyle', label: 'Submenu Style', input: 'InputSelect', list: ['drop', 'mega'] }),
         )
       }
+
+      out.push(s.target())
+
       return out
     }
     const g = s.group({ ...__, options: [s.groupTitle(__), s.inputList({ ...__, options: opts(0) })] })

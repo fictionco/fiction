@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import ElNavLink from '@fiction/ui/ElNavLink.vue'
+import CardNavLink from '@fiction/cards/CardNavLink.vue'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
-import EffectHoverUnderline from './EffectHoverUnderline.vue'
+
 import type { SchemaNavItem, UserConfig } from './index.js'
 
 const props = defineProps({
@@ -31,27 +31,30 @@ function setActiveHover(item: SchemaNavItem | undefined) {
       v-for="(item, i) in nav"
       :key="i"
       class="group relative"
+      :class="item.isHidden ? 'hidden' : ''"
       @mouseover="setActiveHover(item)"
       @mouseleave="setActiveHover(undefined)"
     >
-      <EffectHoverUnderline :item class="cursor-pointer" :class="itemClass" :depth="0" />
+      <CardNavLink
+        :card
+        :item
+        :class="itemClass"
+        :depth="0"
+        hover-effect="underline"
+      />
       <TransitionSlide>
         <div
-          v-if="activeItem?.items?.length && (!activeItem.subStyle || activeItem?.subStyle === 'standard') && activeItem.href === item.href"
+          v-if="activeItem?.items?.length && (!activeItem.subStyle || activeItem?.subStyle === 'default') && activeItem.href === item.href"
           class="z-30 font-sans absolute top-[calc(100%+.5rem)] dropdown block group-hover:block bg-theme-0 dark:bg-theme-800 border dark:border-theme-600/90 rounded-lg w-56 space-y-1 "
-          :class="i === nav.length - 1 ? 'right-0' : 'left-1/2 -translate-x-1/2'"
+          :class="i === nav.length - 1 ? 'right-0' : i === 0 ? 'left-0' : 'left-1/2 -translate-x-1/2'"
         >
           <div class="py-1">
-            <template v-for="(subItem, ii) in item.items" :key="ii">
-              <ElNavLink :item="subItem" class="px-4 py-2 block dark:hover:bg-theme-700 font-normal">
-                {{ subItem.name }}
-              </ElNavLink>
+            <template v-for="(subItem, ii) in activeItem.items" :key="ii">
+              <CardNavLink :card :item="subItem" class="px-4 py-2  dark:hover:bg-theme-700 font-normal" :class="subItem.isHidden ? 'hidden' : 'block'" />
 
               <div v-if="subItem?.items?.length">
                 <template v-for="(subSubItem, iii) in subItem.items" :key="iii">
-                  <ElNavLink :item="subSubItem" class="pl-7 pr-4 py-1.5 block dark:hover:bg-theme-700 font-normal text-[.9em]">
-                    {{ subSubItem.name }}
-                  </ElNavLink>
+                  <CardNavLink :card :item="subSubItem" class="pl-7 pr-4 py-1.5  dark:hover:bg-theme-700 font-normal text-[.9em]" :class="subSubItem.isHidden ? 'hidden' : 'block'" />
                 </template>
               </div>
             </template>

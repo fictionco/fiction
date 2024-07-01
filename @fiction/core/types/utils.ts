@@ -61,14 +61,17 @@ export interface NavItem {
   iconAfter?: string
   href?: string
   isActive?: boolean
+  isHidden?: boolean
   key?: string
   onClick?: ClickHandler
   priority?: number
   class?: string
   target?: string
+  itemsTitle?: string
   items?: NavItem[]
   figure?: Figure
   count?: number
+  basePath?: string
 }
 
 export type ActionItem = NavItem & {

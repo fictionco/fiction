@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import type { User } from '@fiction/core'
+import type { MediaDisplayObject, User } from '@fiction/core'
 import { gravatarUrlSync, stored, vue } from '@fiction/core'
+import ElImage from '../media/ElImage.vue'
 import userBlank from './user-blank.png'
 
 const props = defineProps({
@@ -16,32 +17,29 @@ const user = vue.computed<User | undefined>(() => {
   return stored(props.userId) ?? undefined
 })
 
-const src = vue.ref('')
+const media = vue.computed<MediaDisplayObject>(() => {
+  let url: string | undefined
+  if (props.url) {
+    url = props.url
+  }
+  else if (user.value && user.value.avatar?.url) {
+    url = user.value.avatar.url
+  }
+  else if (user.value?.email || props.email) {
+    const email = user.value?.email ? user.value.email : props.email
+    const g = gravatarUrlSync(email, { size: props.imageSize, default: 'identicon' })
+    url = g.url
+  }
 
-vue.onMounted(() => {
-  vue.watchEffect(async () => {
-    if (props.url) {
-      src.value = props.url
-    }
-    else if (user.value && user.value.avatar?.url) {
-      src.value = user.value.avatar.url
-    }
-    else if (user.value?.email || props.email) {
-      const email = user.value?.email ? user.value.email : props.email
-      const g = gravatarUrlSync(email, { size: props.imageSize, default: 'identicon' })
-      src.value = g.url ? g.url : userBlank
-    }
-    else {
-      src.value = userBlank
-    }
-  })
+  if (url) {
+    return { format: 'url', url }
+  }
+  else {
+    return { format: 'url', url: userBlank }
+  }
 })
 </script>
 
 <template>
-  <div
-    class="fiction-avatar avatar bg-cover bg-center relative overflow-hidden"
-  >
-    <img class="object-cover inset-0" :src="src">
-  </div>
+  <ElImage class="rounded-full overflow-hidden" :media />
 </template>

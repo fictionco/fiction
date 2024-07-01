@@ -5,31 +5,36 @@ import { CardTemplate } from '@fiction/site/card'
 import { z } from 'zod'
 import { mediaSchema } from '../schemaSets'
 
+const authStateSchema = z.enum(['loggedIn', 'loggedOut', 'default']).optional()
 const navItemSchema = z.object({
   name: z.string().optional(),
   href: z.string().optional(),
-  itemStyle: z.enum(['button', 'user', 'standard']).optional(),
-  subStyle: z.enum(['mega', 'standard']).optional(),
+  itemStyle: z.enum(['buttonPrimary', 'buttonStandard', 'user', 'default']).optional(),
+  subStyle: z.enum(['mega', 'default']).optional(),
+  authState: authStateSchema,
   itemsTitle: z.string().optional(),
   items: z.array(z.object({
     name: z.string().optional(),
     href: z.string().optional(),
     target: z.string().optional(),
+    authState: authStateSchema,
     itemsTitle: z.string().optional(),
     items: z.array(z.object({
       name: z.string().optional(),
       href: z.string().optional(),
       target: z.string().optional(),
+      authState: authStateSchema,
     })).optional(),
   })).optional(),
   desc: z.string().optional(),
   target: z.string().optional(),
 })
 
-export type SchemaNavItem = z.infer<typeof navItemSchema> & { isActive?: boolean }
+export type SchemaNavItem = z.infer<typeof navItemSchema> & { isActive?: boolean, isHidden?: boolean, basePath?: string, items?: SchemaNavItem[] }
 
 const schema = z.object({
   logo: mediaSchema.optional(),
+  layout: z.enum(['navCenter', 'logoCenter', 'justified']).optional(),
   navA: z.array(navItemSchema).optional(),
   navB: z.array(navItemSchema).optional(),
 })
@@ -38,16 +43,14 @@ export type UserConfig = z.infer<typeof schema>
 
 const options = [
   new InputOption({ key: 'logo', label: 'Logo', input: 'InputMediaDisplay' }),
+  new InputOption({ key: 'layout', label: 'Layout', input: 'InputSelect', list: ['navCenter', 'logoCenter', 'justified'] }),
   standardOption.navItems({ key: 'navA', maxDepth: 2 }),
   standardOption.navItems({ key: 'navB', maxDepth: 2 }),
 ]
 
 // Example default configuration for a movie actor or director's personal website
 const defaultConfig: UserConfig = {
-  logo: { html: `<div class="flex gap-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
-  <path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" />
-</svg> <span>Logo</span></div>
-` },
+  logo: { html: `Logo` },
   navA: [
     { name: 'About', href: '/about', items: [
       { name: 'Biography', href: '/about/biography' },
@@ -55,23 +58,24 @@ const defaultConfig: UserConfig = {
       { name: 'FAQ', href: '/about/faq' },
 
     ] },
-    { name: 'Filmography', desc: `Some of our work...`, href: '/filmography', itemStyle: 'button', subStyle: 'mega', items: [
+    { name: 'Filmography', desc: `Some of our work...`, href: '/filmography', subStyle: 'mega', items: [
       { name: 'Movies', href: '/filmography/movies', items: [{ name: 'Classic Movies', href: '/filmography/movies/classic' }, { name: 'Recent Movies', href: '/filmography/movies/recent' }] },
       { name: 'TV Shows', href: '/filmography/tv-shows', items: [{ name: 'Popular Shows', href: '/filmography/tv-shows/popular' }, { name: 'Latest Shows', href: '/filmography/tv-shows/latest' }] },
       { name: 'Directorial Works', href: '/filmography/directorial-works', items: [{ name: 'Feature Films', href: '/filmography/directorial-works/feature-films' }, { name: 'Short Films', href: '/filmography/directorial-works/short-films' }] },
     ] },
     { name: 'Awards', href: '/awards' },
-    { name: 'Gallery', href: '/gallery', itemStyle: 'button' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Contact', href: '/contact', itemStyle: 'button' },
+    { name: 'Contact', href: '/contact', itemStyle: 'buttonStandard' },
   ],
   navB: [
-    { name: 'Clients', href: '/clients', itemStyle: 'user', items: [{ name: 'Project Inquiries', href: '/clients/project-inquiries' }, { name: 'Testimonials', href: '/clients/testimonials' }, { name: 'Client Portal', href: '/clients/portal' }] },
-    { name: 'Account', href: '/account', itemStyle: 'user', items: [{ name: 'Login', href: '/account/login' }, { name: 'Register', href: '/account/register' }, { name: 'Profile', href: '/account/profile' }] },
+    { name: 'Clients', href: '/clients', items: [{ name: 'Project Inquiries', href: '/clients/project-inquiries' }, { name: 'Testimonials', href: '/clients/testimonials' }, { name: 'Client Portal', href: '/clients/portal' }] },
+    { name: 'Account', href: '/account', itemStyle: 'user', items: [
+      { name: 'Sign In', href: '/account/login', authState: 'loggedOut' },
+      { name: 'Dashboard', href: '/account/profile', authState: 'loggedIn' },
+    ] },
   ],
 }
 
-const el = vue.defineAsyncComponent(async () => import('./ElHeader.vue'))
+const el = vue.defineAsyncComponent(async () => import('./ElCard.vue'))
 const templateId = 'nav'
 export const templates = [
   new CardTemplate({
@@ -89,6 +93,8 @@ export const templates = [
     demoPage: () => {
       return [
         { templateId, userConfig: { spacing: { spacingClass: 'py-20' }, ...defaultConfig } },
+        { templateId, userConfig: { spacing: { spacingClass: 'py-20' }, ...defaultConfig, layout: 'logoCenter' as const } },
+        { templateId, userConfig: { spacing: { spacingClass: 'py-20' }, ...defaultConfig, layout: 'navCenter' as const } },
         {
           templateId,
           userConfig: {
