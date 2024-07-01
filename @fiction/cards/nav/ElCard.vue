@@ -64,10 +64,10 @@ const layoutClass = vue.computed(() => {
   const layout = uc.value.layout || 'justified'
 
   if (layout === 'navCenter') {
-    return { brand: 'grow basis-1/3', navA: 'grow basis-1/3 justify-center', navB: 'grow  basis-1/3' }
+    return { brand: 'lg:grow lg:basis-1/3', navA: 'grow basis-1/3 justify-center', navB: 'grow  basis-1/3' }
   }
   else if (layout === 'logoCenter') {
-    return { brand: 'lg:order-2 justify-center basis-1/3', navA: 'lg:order-1 justify-start basis-1/3', navB: 'lg:order-3 basis-1/3' }
+    return { brand: 'lg:order-2 lg:justify-center lg:basis-1/3', navA: 'lg:order-1 justify-start basis-1/3', navB: 'lg:order-3 basis-1/3' }
   }
   else {
     return { brand: 'grow-0', navA: 'grow', navB: '' }

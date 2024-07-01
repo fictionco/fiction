@@ -156,7 +156,7 @@ export class Card<
 
   link(location?: vueRouter.RouteLocationRaw) {
     if (!location)
-      return
+      return ''
     return siteLink({ site: this.site, location })
   }
 
