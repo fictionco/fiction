@@ -76,7 +76,6 @@ export function getDemoPages(args: { templates: CardTemplate[] | readonly CardTe
 
   return [
     marquee.demo(),
-    hero.demo(),
     profile.demo(),
     map.demo(),
     quote.demo(),

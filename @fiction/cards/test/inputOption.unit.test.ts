@@ -17,9 +17,10 @@ describe('refine options with schema', () => {
       })).optional().describe('List of details with contact details, location, etc.'),
     })
 
+    const navItemOptions = standardOption.navItems({ label: 'Details', key: 'details', maxDepth: 0 })
     const { options, unusedSchema } = refineOptions({ options: [
       standardOption.headers(),
-      standardOption.navItems({ label: 'Details', key: 'details', maxDepth: 0 }),
+      navItemOptions,
     ], schema })
 
     expect(unusedSchema).toMatchInlineSnapshot(`{}`)
@@ -43,7 +44,18 @@ describe('refine options with schema', () => {
 
     const detailsOptions = option2.options.value[1].options.value
 
-    expect(detailsOptions.length).toBe(5)
+    expect(detailsOptions.map(i => i.key.value)).toMatchInlineSnapshot(`
+      [
+        "name",
+        "desc",
+        "icon",
+        "href",
+        "itemStyle",
+        "target",
+      ]
+    `)
+
+    expect(detailsOptions.length).toBe(navItemOptions.options.value[1].options.value.length)
   })
 })
 

@@ -21,6 +21,11 @@ export async function manageSiteIndex(args: { fictionSites: FictionSites, params
 
 export function siteLink(args: { site?: Site, location: vueRouter.RouteLocationRaw }) {
   const { site, location } = args
+
+  if (typeof location === 'string' && location.includes('http')) {
+    return location
+  }
+
   const router = site?.siteRouter.router.value
   if (!router) {
     console.error('siteLink - No router')
@@ -35,6 +40,7 @@ export function siteLink(args: { site?: Site, location: vueRouter.RouteLocationR
 
   const prefix = matchedRoute.path.match(/.*?(?=\/:viewId|$)/)?.[0] || ''
   const resolvedHref = router.resolve(location).href
+
   const finalHref = (resolvedHref.startsWith(prefix) ? resolvedHref : `${prefix}${resolvedHref}`)
     .replace(/:viewId/g, router.currentRoute.value.params.viewId as string | undefined || '')
 
