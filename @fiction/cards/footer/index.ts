@@ -66,7 +66,7 @@ const options = [
   new InputOption({ key: 'badges', label: 'Badges', input: 'group', options: [
     new InputOption({ key: 'starline', label: 'Starline', input: 'InputText', description: 'Show 5 stars and add information about satisfaction or reviews.' }),
 
-    new InputOption({ key: 'badges', label: 'Badges', input: 'InputList', props: { itemName: 'Badge' }, options: [
+    new InputOption({ key: 'badges', label: 'Badges', description: 'Add certifications or other graphics to build your authority', input: 'InputList', props: { itemName: 'Badge' }, options: [
       new InputOption({ key: 'name', label: 'Name', input: 'InputText' }),
       new InputOption({ key: 'href', label: 'URL', input: 'InputText' }),
       new InputOption({ key: 'media', label: 'Media', input: 'InputMediaDisplay' }),

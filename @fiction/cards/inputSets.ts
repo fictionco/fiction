@@ -145,7 +145,7 @@ export const standardOption = {
   socials: (_: OptArgs = {}) => {
     const s = standardOption
     const __ = { label: 'Socials', key: 'socials', ..._ }
-    return s.group({ ...__, options: [s.groupTitle(__), s.inputList({ ...__, options: [s.name(), s.desc(), s.socialIcon(), s.href(), s.target()] })] })
+    return s.group({ ...__, options: [s.groupTitle(__), s.inputList({ ...__, props: { itemName: 'Account' }, options: [s.name(), s.desc(), s.socialIcon(), s.href(), s.target()] })] })
   },
   quotes: (_: OptArgs = {}) => {
     const { mode } = _ || {}
