@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
+import { vue, waitFor } from '@fiction/core'
 
 const modalVisible = vue.ref(false)
 const backdropOpacity = vue.ref(0)
@@ -48,7 +48,8 @@ function handleScroll() {
 
 const modalFixed = vue.computed(() => backdropOpacity.value === 1)
 
-vue.onMounted(() => {
+vue.onMounted(async () => {
+  await waitFor(2000)
   window.addEventListener('scroll', handleScroll)
   updateModalHeight()
   handleScroll() // Initialize modal visibility on mount
@@ -61,9 +62,8 @@ vue.onUnmounted(() => {
 
 <template>
   <teleport to=".x-site">
-    <div>
+    <div v-if="modalVisible">
       <div
-        v-if="modalVisible"
         class="fixed inset-0 z-30 bg-theme-800/80 dark:bg-theme-400/50 will-change-scroll "
         :style="{ opacity: backdropOpacity }"
       />

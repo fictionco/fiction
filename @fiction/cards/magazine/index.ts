@@ -27,16 +27,10 @@ export const templates = [
       new InputOption({ key: 'scheme.reverse', label: 'Reverse Color Scheme', input: 'InputCheckbox' }),
     ],
     schema: UserConfigSchema,
+    demoPage: () => {
+      return [
+        { templateId, userConfig: { } },
+      ]
+    },
   }),
 ] as const
-
-export function demo() {
-  const base = {
-  } as const
-  return createCard({
-    slug: `card-${templateId}`,
-    cards: [
-      createCard({ templateId, templates, userConfig: base }),
-    ],
-  })
-}

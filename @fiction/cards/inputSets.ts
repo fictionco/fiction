@@ -108,7 +108,7 @@ export const standardOption = {
         s.name(),
         s.icon(),
         s.href(),
-        new InputOption({ key: 'itemStyle', label: 'Style', input: 'InputSelect', list: ['default', 'button', 'user'] }),
+
       ]
 
       if (depth < maxDepth) {
@@ -119,7 +119,12 @@ export const standardOption = {
         )
       }
 
-      out.push(s.desc(), s.target())
+      out.push(...[
+        s.desc(),
+        s.target(),
+        new InputOption({ key: 'itemStyle', label: 'Style', input: 'InputSelect', list: ['default', 'button', 'user'] }),
+        new InputOption({ key: 'authState', label: 'Auth State', input: 'InputSelect', list: ['default', 'loggedIn', 'loggedOut'] }),
+      ])
 
       return out
     }

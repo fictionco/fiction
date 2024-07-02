@@ -35,11 +35,15 @@ describe('verify template settings config', () => {
         },
         {
           "hasDemo": [Function],
-          "isPublic": false,
-          "templateId": "header",
-          "unusedSchema": {
-            "logo": "",
-          },
+          "isPublic": true,
+          "templateId": "nav",
+          "unusedSchema": {},
+        },
+        {
+          "hasDemo": [Function],
+          "isPublic": true,
+          "templateId": "footer",
+          "unusedSchema": {},
         },
         {
           "hasDemo": true,
@@ -54,7 +58,7 @@ describe('verify template settings config', () => {
           "unusedSchema": {},
         },
         {
-          "hasDemo": true,
+          "hasDemo": [Function],
           "isPublic": true,
           "templateId": "hero",
           "unusedSchema": {},
@@ -78,7 +82,7 @@ describe('verify template settings config', () => {
           "unusedSchema": {},
         },
         {
-          "hasDemo": true,
+          "hasDemo": [Function],
           "isPublic": false,
           "templateId": "magazine",
           "unusedSchema": {
@@ -86,7 +90,7 @@ describe('verify template settings config', () => {
           },
         },
         {
-          "hasDemo": true,
+          "hasDemo": [Function],
           "isPublic": false,
           "templateId": "capture",
           "unusedSchema": {

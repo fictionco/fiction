@@ -82,8 +82,6 @@ export function getDemoPages(args: { templates: CardTemplate[] | readonly CardTe
     map.demo(),
     quote.demo(),
     area.demo(),
-    magazine.demo(),
-    capture.demo(),
     ...inlineDemos,
   ]
 }

@@ -8,7 +8,7 @@ describe('hero: card', async () => {
 
   it('capture: ui testing', { retry: 3 }, async () => {
     await kit.performActions({
-      path: '/card-capture',
+      path: '/demo-capture',
       actions: [
         { type: 'exists', selector: '[data-mode="onLoad"] form' },
         { type: 'fill', selector: '[data-mode="onLoad"] form [data-test-id="email"]', text: 'arpowers+test@gmail.com' },

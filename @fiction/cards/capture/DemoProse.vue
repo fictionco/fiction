@@ -3,10 +3,7 @@ import type { vue } from '@fiction/core/index.js'
 import type { Card } from '@fiction/site/index.js'
 
 defineProps({
-  card: {
-    type: Object as vue.PropType<Card>,
-    required: true,
-  },
+  card: { type: Object as vue.PropType<Card>, required: true },
 })
 </script>
 
