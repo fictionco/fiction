@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { ActionItem, IndexItem, IndexMeta } from '@fiction/core'
-import { getNavComponentType, getPaginationInfo, useService, vue } from '@fiction/core/index.js'
+import { getNavComponentType, getPaginationInfo, vue } from '@fiction/core/index.js'
 import ElZeroBanner from '../ElZeroBanner.vue'
 import ElButton from '../ElButton.vue'
 import ElSpinner from '../loaders/ElSpinner.vue'
