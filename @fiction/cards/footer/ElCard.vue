@@ -1,9 +1,12 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
+import { dayjs, useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import ElImage from '@fiction/ui/media/ElImage.vue'
+import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import CardSocials from '../el/CardSocials.vue'
 import CardNavLink from '../CardNavLink.vue'
+import CardText from '../CardText.vue'
+import { processNavItems } from '../utils/nav'
 import type { UserConfig } from './index.js'
 
 const props = defineProps({
@@ -11,13 +14,14 @@ const props = defineProps({
 })
 
 const uc = vue.computed(() => props.card.userConfig.value || {})
-const nav = vue.computed(() => uc.value.nav || [])
 
-const footer = [
-  `&copy; ${uc.value.legal?.copyrightText}`,
-  `<a class="dark:hover:text-theme-100" href="${uc.value.legal?.termsOfService}">Terms of Service</a>`,
-  `<a class="dark:hover:text-theme-100" href="${uc.value.legal?.privacyPolicy}">Privacy Policy</a>`,
-].filter(Boolean).join(' <span class="opacity-70 mx-1 i-tabler-slash"></span> ')
+const { fictionUser, fictionRouter } = useService()
+
+const nav = vue.computed(() => {
+  const n = uc.value.nav || []
+
+  return processNavItems({ items: n, fictionUser, fictionRouter, basePathPrefix: 'nav' })
+})
 
 const layoutClasses = vue.computed(() => {
   const l = uc.value.layout || 'centered'
@@ -25,8 +29,8 @@ const layoutClasses = vue.computed(() => {
   if (l === 'centered') {
     return {
       wrapClass: 'flex flex-col items-center gap-12',
-      logoClass: 'order-3 ',
-      navClass: 'order-1 flex flex-col lg:flex-row items-center lg:items-start justify-center gap-x-8 md:gap-x-20 xl:gap-x-48 gap-y-12 ',
+      logoClass: 'order-3 flex flex-col items-center gap-4 text-center',
+      navClass: 'order-1 flex flex-col lg:flex-row items-center lg:items-start justify-center gap-x-8 md:gap-x-20 xl:gap-x-36 gap-y-12 ',
       badgeClass: 'order-2',
       badgeWrap: `items-center`,
       socials: `justify-center md:justify-center`,
@@ -35,13 +39,24 @@ const layoutClasses = vue.computed(() => {
   else {
     return {
       wrapClass: 'flex flex-col items-center  lg:items-start lg:flex-row gap-6',
-      logoClass: 'w-60 lg:basis-[250px] flex justify-center lg:justify-start ',
-      navClass: `flex flex-col lg:flex-row items-center lg:items-start my-8 lg:my-0 justify-center gap-x-8 md:gap-x-20 xl:gap-x-48 gap-y-12 basis-[80%] grow`,
+      logoClass: 'w-60 lg:basis-[250px] flex flex-col items-center lg:items-start gap-4 text-center lg:text-left',
+      navClass: `flex flex-col lg:flex-row items-center lg:items-start my-8 lg:my-0 justify-center gap-x-8 md:gap-x-20 xl:gap-x-36 gap-y-12 basis-[80%] grow`,
       badgeClass: `text-sm lg:flex-row lg:items-center lg:justify-between lg:basis-[250px]`,
       badgeWrap: `items-center lg:items-end`,
       socials: `justify-center lg:justify-end`,
     }
   }
+})
+
+const loaded = vue.ref(false)
+vue.onMounted(() => {
+  useElementVisible({
+    selector: `#${props.card.cardId}`,
+    onVisible: async () => {
+      await animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'fade', config: { overallDelay: 200 } })
+      loaded.value = true
+    },
+  })
 })
 </script>
 
@@ -50,19 +65,27 @@ const layoutClasses = vue.computed(() => {
     <div class=" px-4 lg:px-0">
       <div :class="layoutClasses.wrapClass">
         <div :class="layoutClasses.logoClass" class="text-primary-500 dark:text-theme-0">
-          <a href="/" class="block size-8 md:size-12"><ElImage :media="uc.logo" /></a>
+          <a href="/" class="block size-12"><ElImage :media="uc.logo" /></a>
+          <CardText
+            class="text-base text-theme-400 dark:text-theme-600 x-font-title leading-tight text-balance"
+            :card
+            tag="h2"
+            path="tagline"
+            animate="rise"
+          />
         </div>
         <div :class="layoutClasses.navClass">
           <div
             v-for="(col, i) in nav"
             :key="i"
           >
-            <h3
-              v-if="col.itemsTitle"
+            <CardText
               class="mb-3 md:mb-6 text-left font-sans text-xs text-theme-500 dark:text-theme-500 font-medium uppercase tracking-widest"
-            >
-              {{ col.itemsTitle }}
-            </h3>
+              :card
+              tag="h3"
+              :path="`nav.${i}.itemsTitle`"
+              animate="fade"
+            />
             <ul v-if="col.items" class="space-y-3">
               <li
                 v-for="(item, ii) in col.items"
@@ -71,8 +94,9 @@ const layoutClasses = vue.computed(() => {
               >
                 <CardNavLink
                   :card
-                  :item="item"
+                  :item
                   class="hover:text-primary-500 text-theme-800 dark:text-theme-50 dark:hover:text-theme-300 font-sans text-sm font-semibold"
+                  animate="fade"
                 />
               </li>
             </ul>
@@ -82,7 +106,7 @@ const layoutClasses = vue.computed(() => {
           <CardSocials v-if="uc.socials" :class="layoutClasses.socials" :socials="uc.socials" />
 
           <div :class="layoutClasses.badgeWrap" class="text-theme-700 dark:text-theme-50 mt-5 text-right text-xs flex flex-col items-center  d gap-4  ">
-            <div v-for="(badge, i) in uc.badges" :key="i">
+            <div v-for="(badge, i) in uc.badges" :key="i" class="x-action-item">
               <a :href="card.link(badge.href)" :title="badge.name" class="inline-block">
                 <ElImage :media="badge.media" />
               </a>
@@ -94,13 +118,25 @@ const layoutClasses = vue.computed(() => {
       <div class="mt-20">
         <div class="flex flex-col gap-2 mb-4 justify-center items-center">
           <div class="flex gap-1 justify-center items-center">
-            <div v-for="(s) in 5" :key="s" class="text-xl i-tabler-star-filled text-yellow-500 dark:text-yellow-800/80 hover:text-yellow-600 transition-all" />
+            <div v-for="(s) in 5" :key="s" class="x-action-item text-xl i-tabler-star-filled text-yellow-500 dark:text-yellow-800/80 hover:text-yellow-600 transition-all" />
           </div>
           <div class="text-xs font-sans text-theme-400 dark:text-theme-600">
             Satisfaction Guaranteed
           </div>
         </div>
-        <div class="text-theme-300 dark:text-theme-500 my-6 text-center text-xs font-sans flex items-center justify-center" v-html="footer" />
+        <div class="text-theme-300 dark:text-theme-600 my-6 text-center text-xs font-sans flex items-center justify-center">
+          <span class="inline-flex gap-1">
+            <span class="">&copy; {{ dayjs().format('YYYY') }}</span> <CardText :card tag="span" path="legal.copyrightText" />
+          </span>
+          <template v-if="uc.legal?.termsOfService">
+            <span class="opacity-70 mx-1 i-tabler-slash" />
+            <a class="dark:hover:text-theme-100" :href="uc.legal?.termsOfService">Terms of Service</a>
+          </template>
+          <template v-if="uc.legal?.privacyPolicy">
+            <span class="opacity-70 mx-1 i-tabler-slash" />
+            <a class="dark:hover:text-theme-100" :href="uc.legal?.privacyPolicy">Privacy Policy</a>
+          </template>
+        </div>
       </div>
       <div class="text-center">
         <a href="https://www.fiction.com" title="Powered by Fiction.com" class="text-theme-300/80 dark:text-theme-600/80 dark:hover:text-primary-400 hover:text-primary-500">
@@ -109,4 +145,4 @@ const layoutClasses = vue.computed(() => {
       </div>
     </div>
   </div>
-</template>
+</template>import { useElementVisible, animateItemEnter } from '@fiction/ui/anim'import { useElementVisible, animateItemEnter } from '@fiction/ui/anim'import { useElementVisible, animateItemEnter } from '@fiction/ui/anim'

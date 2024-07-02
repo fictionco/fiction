@@ -17,6 +17,7 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
   path: { type: String, default: undefined },
   hoverEffect: { type: String as vue.PropType<'underline'>, default: undefined },
+  animate: { type: String as vue.PropType<'rise' | 'fade'>, default: undefined },
 })
 
 const service = useService()
@@ -60,6 +61,7 @@ const styles = vue.computed(() => {
           styles.hoverEffect === 'underline' ? 'menu-text after:border-t-2 after:border-primary-500 dark:after:border-primary-400 after:rounded-lg' : '',
           item.isActive ? 'active' : '',
         ]"
+        :animate
       />
       <span v-else-if="$slots.default" class="block"><slot /></span>
       <span v-else class="block" v-html="item.name" />

@@ -39,6 +39,8 @@ function shouldStopProp(event: MouseEvent) {
   if (isEditable.value) {
     event.stopPropagation()
     event.preventDefault()
+    const cardId = props.card.cardId
+    props.card?.site?.setActiveCard({ cardId })
   }
 }
 </script>

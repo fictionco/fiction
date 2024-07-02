@@ -72,6 +72,7 @@ export interface NavItem {
   figure?: Figure
   count?: number
   basePath?: string
+  authState?: 'loggedIn' | 'loggedOut' | 'default'
 }
 
 export type ActionItem = NavItem & {

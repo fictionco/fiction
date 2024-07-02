@@ -4,6 +4,7 @@ import type { Card } from '@fiction/site/card'
 import NavMobile from '@fiction/ui/NavMobile.vue'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
 import CardNavLink from '@fiction/cards/CardNavLink.vue'
+import { processNavItems } from '../utils/nav'
 import XNav from './XNav.vue'
 import ElBrand from './ElBrand.vue'
 import type { SchemaNavItem, UserConfig } from './index.js'
@@ -15,27 +16,10 @@ const { fictionRouter, fictionUser } = useService()
 
 const uc = vue.computed(() => props.card.userConfig.value || {})
 
-function processItems(items: SchemaNavItem[], currentRoute: string, basePathPrefix: string): SchemaNavItem[] {
-  const loggedIn = fictionUser.activeUser.value !== undefined
-
-  return items.map((item, index) => {
-    const isHidden = !!(item.authState === 'loggedIn' && !loggedIn || item.authState === 'loggedOut' && loggedIn)
-    return {
-      ...item,
-      isActive: item.href === currentRoute,
-      isHidden,
-      basePath: `${basePathPrefix}.${index}`,
-      items: item.items ? processItems(item.items, currentRoute, `${basePathPrefix}.${index}.items`) : undefined,
-    }
-  })
-}
-
 const nav = vue.computed(() => {
-  const currentRoute = fictionRouter.current.value.path
-
   const n = {
-    navA: processItems(uc.value.navA || [], currentRoute, 'navA'),
-    navB: processItems(uc.value.navB || [], currentRoute, 'navB'),
+    navA: processNavItems({ items: uc.value.navA || [], basePathPrefix: 'navA', fictionRouter, fictionUser }),
+    navB: processNavItems({ items: uc.value.navB || [], fictionRouter, basePathPrefix: 'navB', fictionRouter, fictionUser }),
   }
 
   return n
