@@ -23,6 +23,7 @@ import * as magazine from './magazine/index.js'
 import * as capture from './capture/index.js'
 import * as showcase from './showcase/index.js'
 import * as nav from './nav/index.js'
+import * as footer from './footer/index.js'
 import { createDemoPage } from './utils/demo'
 /**
  * Add path for tailwindcss to scan for styles
@@ -44,6 +45,7 @@ export const standardCardTemplates = [
   }),
   ...four04.templates,
   ...nav.templates,
+  ...footer.templates,
   ...quote.templates,
   ...profile.templates,
   ...hero.templates,

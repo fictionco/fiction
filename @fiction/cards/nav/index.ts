@@ -56,7 +56,6 @@ const defaultConfig: UserConfig = {
       { name: 'Biography', href: '/about/biography' },
       { name: 'Press', href: '/about/press', items: [{ name: 'News', href: '/about/press/news' }, { name: 'Interviews', href: '/about/press/interviews' }] },
       { name: 'FAQ', href: '/about/faq' },
-
     ] },
     { name: 'Filmography', desc: `Some of our work...`, href: '/filmography', subStyle: 'mega', items: [
       { name: 'Movies', href: '/filmography/movies', items: [{ name: 'Classic Movies', href: '/filmography/movies/classic' }, { name: 'Recent Movies', href: '/filmography/movies/recent' }] },

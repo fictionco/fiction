@@ -1,30 +1,23 @@
 <script lang="ts" setup>
-import type { MediaDisplayObject, NavItem, NavItemGroup } from '@fiction/core'
 import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import ElImage from '@fiction/ui/media/ElImage.vue'
-import CardSocials from '@fiction/cards/el/CardSocials.vue'
-import CardNavLink from '@fiction/cards/CardNavLink.vue'
-
-export type UserConfig = {
-  icon?: MediaDisplayObject
-  menus?: NavItemGroup[]
-  socials?: NavItem[]
-  footerText?: string
-  privacyPolicy?: string
-  termsOfService?: string
-}
+import CardSocials from '../el/CardSocials.vue'
+import CardNavLink from '../CardNavLink.vue'
+import type { UserConfig } from './index.js'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
-const uc = vue.computed(() => props.card.userConfig.value || {})
+const uc = vue.computed(() => {
+  return props.card.userConfig.value || {}
+})
 
 const footer = [
-  uc.value.footerText,
-    `<a href="${uc.value.termsOfService}">Terms of Service</a>`,
-    `<a href="${uc.value.privacyPolicy}">Privacy Policy</a>`,
+  `&copy; ${uc.value.legal?.copyrightText}`,
+  `<a href="${uc.value.legal?.termsOfService}">Terms of Service</a>`,
+  `<a href="${uc.value.legal?.privacyPolicy}">Privacy Policy</a>`,
 ].filter(Boolean).join(' <span class="opacity-50 mx-1">&mdash;</span> ')
 </script>
 
@@ -34,21 +27,21 @@ const footer = [
       <div class="">
         <div class="flex flex-col justify-between sm:flex-row">
           <div class="w-32 md:w-60 py-6 text-left sm:mx-auto md:py-1 mb-4">
-            <a href="/" class="block size-8 md:size-12"><ElImage :media="uc.icon" /></a>
+            <a href="/" class="block size-8 md:size-12"><ElImage :media="uc.logo" /></a>
           </div>
           <div class="grid grow grid-cols-12 gap-x-8 gap-y-12">
             <div
-              v-for="(col, i) in uc.menus"
+              v-for="(col, i) in uc.nav"
               :key="i"
               class="col-span-12 sm:col-span-3"
             >
               <h3
-                v-if="col.title"
+                v-if="col.itemsTitle"
                 class="mb-3 md:mb-6 text-left font-sans text-xs text-theme-500 dark:text-theme-500 font-medium uppercase tracking-widest"
               >
-                {{ col.title }}
+                {{ col.itemsTitle }}
               </h3>
-              <ul v-if="col.items" :class="col.class ? col.class : 'space-y-3'">
+              <ul v-if="col.items" class="space-y-3">
                 <li
                   v-for="(item, ii) in col.items"
                   :key="ii"

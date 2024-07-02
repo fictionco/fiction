@@ -1,10 +1,8 @@
 import type { FictionEnv, NavItem } from '@fiction/core'
 import { Theme, createCard } from '@fiction/site/theme.js'
 import { safeDirname } from '@fiction/core'
-
 import { getDemoPages } from '@fiction/cards'
 import type { FictionStripe } from '@fiction/plugin-stripe/plugin.js'
-import type { CardTemplate } from '@fiction/site/index.js'
 import { templates } from './templates.js'
 import * as home from './home/index.js'
 import * as tour from './tour/index.js'
@@ -38,8 +36,6 @@ const socials: NavItem[] = [
     icon: 'x',
   },
 ]
-
-type Tester = typeof templates extends CardTemplate[] ? true : false
 
 export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: FictionStripe }) {
   const { fictionEnv } = args
@@ -118,15 +114,15 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
           cards: [
             createCard({
               templates,
-              templateId: 'fictionFooter',
+              templateId: 'footer',
               userConfig: {
-                icon: {
+                logo: {
                   format: 'html',
                   html: `<svg preserveAspectRatio="xMidYMid meet" viewBox="0 0 42 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M34.5005 41H17.187C16.0637 41 15.0057 40.5523 14.211 39.7352L1.01935 26.2084C0.0221016 25.1882 -0.272797 23.6627 0.265224 22.3287C0.805496 20.9924 2.06388 20.1269 3.47534 20.1269H19.6407V3.55352C19.6407 2.11105 20.4827 0.820906 21.7838 0.266998C23.0647 -0.279986 24.591 0.0315868 25.5702 1.03554L38.7686 14.5671C39.5633 15.3864 40 16.4688 40 17.6182V35.364C39.9977 38.4728 37.5328 41 34.5005 41ZM17.9119 34.9024H34.0525V18.3544L25.5882 9.67651V26.2245H9.4476L17.9119 34.9024Z" fill="currentColor" /></svg>`,
                 },
-                menus: [
+                nav: [
                   {
-                    title: 'Pages',
+                    itemsTitle: 'Pages',
                     items: [
                       { href: '/tour', name: 'Tour' },
                       { href: '/pricing', name: 'Pricing' },
@@ -135,23 +131,25 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
                     ],
                   },
                   {
-                    title: 'Company',
+                    itemsTitle: 'Company',
                     items: [
                       { href: '/about', name: 'About' },
                       { href: `https://docs.${domain}/resources/support.html`, name: 'Support', target: '_blank' },
                     ],
                   },
                   {
-                    title: 'Resources',
+                    itemsTitle: 'Resources',
                     items: [
                       { href: `https://docs.${domain}`, name: 'Docs', target: '_blank' },
                       { href: '/app', name: 'Dashboard' },
                     ],
                   },
                 ],
-                privacyPolicy: `https://docs.${domain}/resources/privacy.html`,
-                termsOfService: `https://docs.${domain}/resources/terms.html`,
-                footerText: `© Fiction, Inc.`,
+                legal: {
+                  privacyPolicy: `https://docs.${domain}/resources/privacy.html`,
+                  termsOfService: `https://docs.${domain}/resources/terms.html`,
+                  copyrightText: `Fiction, Inc.`,
+                },
                 socials,
               },
             }),

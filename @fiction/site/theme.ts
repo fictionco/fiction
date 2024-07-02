@@ -162,11 +162,13 @@ type BaseCreateCardArgs<
   regionId?: V
   layoutId?: string
   cards?: CardConfigPortable[]
+  cardId?: string
+  isSystem?: boolean
   slug?: string
   title?: string
   isHome?: boolean
   is404?: boolean
-} & CardConfigPortable
+}
 
 export function createCard<
   T extends keyof CreateUserConfigs<U>,
