@@ -12,7 +12,7 @@ describe('hero: card', async () => {
 
   it('hero: displays correctly', async () => {
     await kit.performActions({
-      path: '/card-hero',
+      path: '/demo-hero',
       actions: [
         { type: 'count', selector: '[data-card-type="hero"]' },
       ],
