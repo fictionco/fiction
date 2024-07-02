@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { dayjs, useService, vue } from '@fiction/core'
+import { dayjs, useService, vue, waitFor } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import ElImage from '@fiction/ui/media/ElImage.vue'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
@@ -24,12 +24,12 @@ const nav = vue.computed(() => {
 })
 
 const layoutClasses = vue.computed(() => {
-  const l = uc.value.layout || 'centered'
+  const l = uc.value.layout || 'columns'
 
   if (l === 'centered') {
     return {
       wrapClass: 'flex flex-col items-center gap-12',
-      logoClass: 'order-3 flex flex-col items-center gap-4 text-center',
+      logoClass: 'order-3 flex flex-col items-center gap-4 lg:gap-6 text-center',
       navClass: 'order-1 flex flex-col lg:flex-row items-center lg:items-start justify-center gap-x-8 md:gap-x-20 xl:gap-x-36 gap-y-12 ',
       badgeClass: 'order-2',
       badgeWrap: `items-center`,
@@ -39,7 +39,7 @@ const layoutClasses = vue.computed(() => {
   else {
     return {
       wrapClass: 'flex flex-col items-center  lg:items-start lg:flex-row gap-6',
-      logoClass: 'w-60 lg:basis-[250px] flex flex-col items-center lg:items-start gap-4 text-center lg:text-left',
+      logoClass: 'w-60 lg:basis-[250px] flex flex-col items-center lg:items-start gap-4 lg:gap-6 text-center lg:text-left',
       navClass: `flex flex-col lg:flex-row items-center lg:items-start my-8 lg:my-0 justify-center gap-x-8 md:gap-x-20 xl:gap-x-36 gap-y-12 basis-[80%] grow`,
       badgeClass: `text-sm lg:flex-row lg:items-center lg:justify-between lg:basis-[250px]`,
       badgeWrap: `items-center lg:items-end`,
@@ -49,12 +49,32 @@ const layoutClasses = vue.computed(() => {
 })
 
 const loaded = vue.ref(false)
+
+const highlightStar = vue.ref(-1)
+
+function startHighlightStar() {
+  let dur = 225
+
+  if (highlightStar.value > 5) {
+    highlightStar.value = -1
+    dur = 30000
+  }
+
+  setTimeout(() => {
+    highlightStar.value = highlightStar.value + 1
+    startHighlightStar()
+  }, dur)
+}
+
 vue.onMounted(() => {
   useElementVisible({
     selector: `#${props.card.cardId}`,
     onVisible: async () => {
-      await animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'fade', config: { overallDelay: 200 } })
+      await animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'pop', config: { overallDelay: 200 } })
       loaded.value = true
+
+      await waitFor(1000)
+      startHighlightStar()
     },
   })
 })
@@ -65,7 +85,7 @@ vue.onMounted(() => {
     <div class=" px-4 lg:px-0">
       <div :class="layoutClasses.wrapClass">
         <div :class="layoutClasses.logoClass" class="text-primary-500 dark:text-theme-0">
-          <a href="/" class="block size-12"><ElImage :media="uc.logo" /></a>
+          <a href="/" class="block size-12 x-font-title text-2xl font-semibold"><ElImage :media="uc.logo" /></a>
           <CardText
             class="text-base text-theme-400 dark:text-theme-600 x-font-title leading-tight text-balance"
             :card
@@ -80,7 +100,7 @@ vue.onMounted(() => {
             :key="i"
           >
             <CardText
-              class="mb-3 md:mb-6 text-left font-sans text-xs text-theme-500 dark:text-theme-500 font-medium uppercase tracking-widest"
+              class="mb-3 md:mb-4 text-left font-sans text-xs text-theme-400 dark:text-theme-600 font-medium uppercase tracking-widest"
               :card
               tag="h3"
               :path="`nav.${i}.itemsTitle`"
@@ -105,7 +125,7 @@ vue.onMounted(() => {
         <div :class="layoutClasses.badgeClass">
           <CardSocials v-if="uc.socials" :class="layoutClasses.socials" :socials="uc.socials" />
 
-          <div :class="layoutClasses.badgeWrap" class="text-theme-700 dark:text-theme-50 mt-5 text-right text-xs flex flex-col items-center  d gap-4  ">
+          <div :class="layoutClasses.badgeWrap" class="text-theme-700 dark:text-theme-50 mt-5 text-right text-xs flex flex-col items-center gap-4  ">
             <div v-for="(badge, i) in uc.badges" :key="i" class="x-action-item">
               <a :href="card.link(badge.href)" :title="badge.name" class="inline-block">
                 <ElImage :media="badge.media" />
@@ -116,13 +136,20 @@ vue.onMounted(() => {
       </div>
 
       <div class="mt-20">
-        <div class="flex flex-col gap-2 mb-4 justify-center items-center">
+        <div v-if="uc.starline" class="flex flex-col gap-2 mb-4 justify-center items-center">
           <div class="flex gap-1 justify-center items-center">
-            <div v-for="(s) in 5" :key="s" class="x-action-item text-xl i-tabler-star-filled text-yellow-500 dark:text-yellow-800/80 hover:text-yellow-600 transition-all" />
+            <div v-for="(s) in 5" :key="s" class="x-action-item">
+              <div :class="highlightStar === s ? 'scale-150 dark:text-yellow-500 text-yellow-600' : 'dark:text-yellow-800/80 dark:hover:text-yellow-500 text-yellow-500'" class="text-xl i-tabler-star-filled hover:scale-125 transition-all" />
+            </div>
           </div>
-          <div class="text-xs font-sans text-theme-400 dark:text-theme-600">
-            Satisfaction Guaranteed
-          </div>
+
+          <CardText
+            class="text-xs font-sans text-theme-400 dark:text-theme-600"
+            :card
+            tag="div"
+            path="starline"
+            animate="rise"
+          />
         </div>
         <div class="text-theme-300 dark:text-theme-600 my-6 text-center text-xs font-sans flex items-center justify-center">
           <span class="inline-flex gap-1">
@@ -145,4 +172,4 @@ vue.onMounted(() => {
       </div>
     </div>
   </div>
-</template>import { useElementVisible, animateItemEnter } from '@fiction/ui/anim'import { useElementVisible, animateItemEnter } from '@fiction/ui/anim'import { useElementVisible, animateItemEnter } from '@fiction/ui/anim'
+</template>
