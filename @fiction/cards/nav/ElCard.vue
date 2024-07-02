@@ -5,8 +5,8 @@ import NavMobile from '@fiction/ui/NavMobile.vue'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
 import CardNavLink from '@fiction/cards/CardNavLink.vue'
 import { processNavItems } from '../utils/nav'
+import ElBrand from '../el/ElBrand.vue'
 import XNav from './XNav.vue'
-import ElBrand from './ElBrand.vue'
 import type { SchemaNavItem, UserConfig } from './index.js'
 
 const props = defineProps({

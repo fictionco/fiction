@@ -95,7 +95,7 @@ vue.onMounted(async () => {
               </div>
             </div>
 
-            <CardSocials :socials="uc.socials || []" class="flex space-x-6 text-2xl justify-center md:justify-start" />
+            <CardSocials :card :socials="uc.socials || []" class="flex space-x-6 text-2xl justify-center md:justify-start" />
           </div>
         </div>
       </div>

@@ -11,6 +11,7 @@ const props = defineProps({
   media: { type: Object as vue.PropType<MediaDisplayObject>, default: undefined },
   imageClass: { type: String as vue.PropType<string>, default: '' },
   animate: { type: [Boolean, String] as vue.PropType<'swipe' | 'expand' | '' | boolean>, default: false },
+  inlineImage: { type: Boolean, default: false },
 })
 
 const logger = log.contextLogger('ElImage')
@@ -125,8 +126,8 @@ const filters = vue.computed<ImageFilterConfig[]>(() => props.media?.filters || 
         />
         <img
           v-else-if="media?.url"
-          class="absolute inset-0 object-cover h-full w-full z-0"
-          :class="imageClass"
+          class="inset-0 object-cover z-0"
+          :class="[imageClass, inlineImage ? 'block' : 'absolute h-full w-full']"
           :src="media?.url || ''"
           :style="{ filter: filters?.map((_) => _.value).join(' ') }"
         >

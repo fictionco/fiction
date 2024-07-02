@@ -10,6 +10,7 @@ const props = defineProps({
   options: { type: Array as vue.PropType<InputOption[]>, default: () => [] },
   depth: { type: Number, default: 0 },
   inputClass: { type: String, default: '' },
+  itemName: { type: String, default: 'Item' },
 })
 
 const emit = defineEmits<{
@@ -119,7 +120,7 @@ vue.onMounted(async () => {
         <div class="flex gap-1 items-center cursor-move">
           <div class="text-lg text-theme-300 dark:text-theme-500 i-tabler-grip-vertical" />
           <div class="text-theme-500 dark:text-theme-50">
-            Item {{ i + 1 }}
+            {{ itemName }} {{ i + 1 }}
           </div>
         </div>
         <div class="text-lg text-theme-300 i-tabler-chevron-down transition-all" :class="openItem === item._key ? 'rotate-180' : ''" />

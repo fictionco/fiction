@@ -99,14 +99,13 @@ export const standardOption = {
     const s = standardOption
     return s.inputList({ label: 'Actions', key: 'actions', ..._, options: [s.name(), s.href(), s.btn(), s.size(), s.target()] })
   },
-  navItems: (_: OptArgs & { maxDepth?: number } = {}) => {
-    const { maxDepth = 0 } = _
+  navItems: (_: OptArgs & { maxDepth?: number, itemNames?: string[] } = {}) => {
+    const { maxDepth = 0, itemNames = ['Nav Item'] } = _
     const s = standardOption
     const __ = { label: 'Nav Items', key: 'navItems', ..._ }
     const opts = (depth: number) => {
       const out = [
         s.name(),
-        s.desc(),
         s.icon(),
         s.href(),
         new InputOption({ key: 'itemStyle', label: 'Style', input: 'InputSelect', list: ['default', 'button', 'user'] }),
@@ -114,17 +113,17 @@ export const standardOption = {
 
       if (depth < maxDepth) {
         out.push(
-          s.groupTitle({ key: 'itemsTitle', label: 'Sub Items' }),
-          s.inputList({ key: 'items', label: 'Sub Items', options: opts(depth + 1) }),
+          s.groupTitle({ key: 'items', label: 'Sub Items' }),
+          s.inputList({ key: 'items', label: 'Sub Items', props: { itemName: itemNames[depth + 1] || itemNames.pop() }, options: opts(depth + 1) }),
           new InputOption({ key: 'subStyle', label: 'Submenu Style', input: 'InputSelect', list: ['drop', 'mega'] }),
         )
       }
 
-      out.push(s.target())
+      out.push(s.desc(), s.target())
 
       return out
     }
-    const g = s.group({ ...__, options: [s.groupTitle(__), s.inputList({ ...__, options: opts(0) })] })
+    const g = s.group({ ...__, options: [s.groupTitle(__), s.inputList({ ...__, props: { itemName: itemNames[0] }, options: opts(0) })] })
     return g
   },
   mediaItems: (_: OptArgs = {}) => {

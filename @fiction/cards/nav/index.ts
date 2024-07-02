@@ -83,7 +83,7 @@ export const templates = [
     icon: 'i-tabler-box-align-top',
     colorTheme: 'blue',
     description: 'A header with a logo and navigation links',
-    isPublic: false,
+    isPublic: true,
     el,
     userConfig: { ...defaultConfig, spacing: { spacingClass: 'py-4' } },
     schema,

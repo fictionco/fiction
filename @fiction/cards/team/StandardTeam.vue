@@ -39,7 +39,7 @@ const uc = vue.computed(() => {
         <p class="mt-4 text-base leading-7">
           {{ profile.desc }}
         </p>
-        <CardSocials v-if="profile.social" class="mt-6 justify-center md:justify-center" :socials="profile.social" />
+        <CardSocials v-if="profile.social" :card class="mt-6 justify-center md:justify-center" :socials="profile.social" />
       </div>
     </li>
   </ul>

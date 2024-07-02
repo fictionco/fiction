@@ -7,6 +7,7 @@ import CardSocials from '../el/CardSocials.vue'
 import CardNavLink from '../CardNavLink.vue'
 import CardText from '../CardText.vue'
 import { processNavItems } from '../utils/nav'
+import ElBrand from '../el/ElBrand.vue'
 import type { UserConfig } from './index.js'
 
 const props = defineProps({
@@ -85,7 +86,7 @@ vue.onMounted(() => {
     <div class=" px-4 lg:px-0">
       <div :class="layoutClasses.wrapClass">
         <div :class="layoutClasses.logoClass" class="text-primary-500 dark:text-theme-0">
-          <a href="/" class="block size-12 x-font-title text-2xl font-semibold"><ElImage :media="uc.logo" /></a>
+          <ElBrand :logo="uc.logo" :card />
           <CardText
             class="text-base text-theme-400 dark:text-theme-600 x-font-title leading-tight text-balance"
             :card
@@ -102,9 +103,11 @@ vue.onMounted(() => {
             <CardText
               class="mb-3 md:mb-4 text-left font-sans text-xs text-theme-400 dark:text-theme-600 font-medium uppercase tracking-widest"
               :card
-              tag="h3"
-              :path="`nav.${i}.itemsTitle`"
+              :tag="col.href ? 'a' : 'h3'"
+              :path="`nav.${i}.name`"
               animate="fade"
+              :href="col.href"
+              :title="col.desc"
             />
             <ul v-if="col.items" class="space-y-3">
               <li
@@ -123,7 +126,7 @@ vue.onMounted(() => {
           </div>
         </div>
         <div :class="layoutClasses.badgeClass">
-          <CardSocials v-if="uc.socials" :class="layoutClasses.socials" :socials="uc.socials" />
+          <CardSocials v-if="uc.socials" :card :class="layoutClasses.socials" :socials="uc.socials" />
 
           <div :class="layoutClasses.badgeWrap" class="text-theme-700 dark:text-theme-50 mt-5 text-right text-xs flex flex-col items-center gap-4  ">
             <div v-for="(badge, i) in uc.badges" :key="i" class="x-action-item">
@@ -155,13 +158,13 @@ vue.onMounted(() => {
           <span class="inline-flex gap-1">
             <span class="">&copy; {{ dayjs().format('YYYY') }}</span> <CardText :card tag="span" path="legal.copyrightText" />
           </span>
-          <template v-if="uc.legal?.termsOfService">
+          <template v-if="uc.legal?.termsOfServiceUrl">
             <span class="opacity-70 mx-1 i-tabler-slash" />
-            <a class="dark:hover:text-theme-100" :href="uc.legal?.termsOfService">Terms of Service</a>
+            <a class="dark:hover:text-theme-100" :href="uc.legal?.termsOfServiceUrl">Terms of Service</a>
           </template>
-          <template v-if="uc.legal?.privacyPolicy">
+          <template v-if="uc.legal?.privacyPolicyUrl">
             <span class="opacity-70 mx-1 i-tabler-slash" />
-            <a class="dark:hover:text-theme-100" :href="uc.legal?.privacyPolicy">Privacy Policy</a>
+            <a class="dark:hover:text-theme-100" :href="uc.legal?.privacyPolicyUrl">Privacy Policy</a>
           </template>
         </div>
       </div>

@@ -5,24 +5,17 @@ import { CardTemplate } from '@fiction/site/card'
 import { z } from 'zod'
 import { mediaSchema } from '../schemaSets'
 
-const authStateSchema = z.enum(['loggedIn', 'loggedOut', 'default']).optional()
 const navItemSchema = z.object({
   name: z.string().optional(),
   href: z.string().optional(),
-  itemStyle: z.enum(['buttonPrimary', 'buttonStandard', 'user', 'default']).optional(),
-  authState: authStateSchema,
-  itemsTitle: z.string().optional(),
   items: z.array(z.object({
     name: z.string().optional(),
     href: z.string().optional(),
     target: z.string().optional(),
-    authState: authStateSchema,
-    itemsTitle: z.string().optional(),
     items: z.array(z.object({
       name: z.string().optional(),
       href: z.string().optional(),
       target: z.string().optional(),
-      authState: authStateSchema,
     })).optional(),
   })).optional(),
   desc: z.string().optional(),
@@ -39,19 +32,17 @@ const schema = z.object({
   layout: z.enum(layoutKeys).optional(),
   nav: z.array(navItemSchema).optional(),
   legal: z.object({
-    privacyPolicy: z.string().optional(),
-    termsOfService: z.string().optional(),
+    privacyPolicyUrl: z.string().optional(),
+    termsOfServiceUrl: z.string().optional(),
     copyrightText: z.string().optional(),
   }).optional(),
   socials: z.array(z.object({
-    key: z.string().optional(),
     href: z.string().optional(),
     target: z.string().optional(),
     name: z.string().optional(),
     icon: z.string().optional(),
   })).optional(),
   badges: z.array(z.object({
-    key: z.string().optional(),
     href: z.string().optional(),
     target: z.string().optional(),
     name: z.string().optional(),
@@ -64,8 +55,24 @@ export type UserConfig = z.infer<typeof schema>
 const options = [
   new InputOption({ key: 'logo', label: 'Logo', input: 'InputMediaDisplay' }),
   new InputOption({ key: 'layout', label: 'Layout', input: 'InputSelect', list: layoutKeys }),
-  standardOption.navItems({ key: 'navA', maxDepth: 2 }),
-  standardOption.navItems({ key: 'navB', maxDepth: 2 }),
+  new InputOption({ key: 'tagline', label: 'Tagline', input: 'InputText', description: 'A catchy phrase or description of what you do.' }),
+  standardOption.navItems({ key: 'nav', maxDepth: 2, itemNames: ['Column', 'Nav Item', 'Sub Nav Item'] }),
+  new InputOption({ key: 'legal', label: 'Legal', input: 'group', options: [
+    new InputOption({ key: 'legal.privacyPolicyUrl', label: 'Privacy Policy URL', input: 'InputText' }),
+    new InputOption({ key: 'legal.termsOfServiceUrl', label: 'Terms of Service URL', input: 'InputText' }),
+    new InputOption({ key: 'legal.copyrightText', label: 'Copyright Text', input: 'InputText' }),
+  ] }),
+  standardOption.socials(),
+  new InputOption({ key: 'badges', label: 'Badges', input: 'group', options: [
+    new InputOption({ key: 'starline', label: 'Starline', input: 'InputText', description: 'Show 5 stars and add information about satisfaction or reviews.' }),
+
+    new InputOption({ key: 'badges', label: 'Badges', input: 'InputList', props: { itemName: 'Badge' }, options: [
+      new InputOption({ key: 'name', label: 'Name', input: 'InputText' }),
+      new InputOption({ key: 'href', label: 'URL', input: 'InputText' }),
+      new InputOption({ key: 'media', label: 'Media', input: 'InputMediaDisplay' }),
+      new InputOption({ key: 'target', label: 'Target', input: 'InputSelect', list: ['_blank', '_self'] }),
+    ] }),
+  ] }),
 ]
 
 // Example default configuration for a movie actor or director's personal website
@@ -78,7 +85,7 @@ const defaultConfig: UserConfig = {
   starline: 'Catchy Starline Here',
   nav: [
     {
-      itemsTitle: 'Explore',
+      name: 'Explore',
       items: [
         { href: '/about', name: 'About' },
         { href: '/projects', name: 'Projects' },
@@ -87,14 +94,14 @@ const defaultConfig: UserConfig = {
       ],
     },
     {
-      itemsTitle: 'About Me',
+      name: 'About Me',
       items: [
         { href: '/contact', name: 'Contact' },
         { href: `/speaking`, name: 'Talks', target: '_blank' },
       ],
     },
     {
-      itemsTitle: 'More',
+      name: 'More',
       items: [
         { href: `#`, name: 'Hire Me', target: '_blank' },
         { href: '/app', name: 'Free Course' },
@@ -103,27 +110,24 @@ const defaultConfig: UserConfig = {
     },
   ],
   legal: {
-    privacyPolicy: `#`,
-    termsOfService: `#`,
-    copyrightText: `Fiction, Inc.`,
+    privacyPolicyUrl: `#`,
+    termsOfServiceUrl: `#`,
+    copyrightText: `Your Company or Name, Inc.`,
   },
   socials: [
     {
-      key: 'linkedin',
       href: 'https://www.linkedin.com/company/fictionco',
       target: '_blank',
       name: 'LinkedIn',
       icon: `linkedin`,
     },
     {
-      key: 'github',
       href: 'https://github.com/fictionco',
       target: '_blank',
       name: 'Github',
       icon: `github`,
     },
     {
-      key: 'x',
       href: 'https://www.twitter.com/fictionco',
       target: '_blank',
       name: 'X',
@@ -144,7 +148,7 @@ export const templates = [
     icon: 'i-tabler-box-align-bottom',
     colorTheme: 'green',
     description: 'A professional footer for your website',
-    isPublic: false,
+    isPublic: true,
     el,
     userConfig: { ...defaultConfig },
     schema,
