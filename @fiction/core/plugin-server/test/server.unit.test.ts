@@ -55,6 +55,12 @@ describe('server test', () => {
         "message",
         "duration",
         "timestamp",
+        "memoryUsage",
+        "cpuUsage",
+        "loadAverage",
+        "environment",
+        "requestCount",
+        "activeConnections",
       ]
     `)
   })

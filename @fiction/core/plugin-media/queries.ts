@@ -104,10 +104,10 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
     }
   }
 
-  async saveReferenceToDb(mediaConfig: TableMediaConfig, meta: EndpointMeta) {
+  async saveReferenceToDb(mediaConfig: Partial<TableMediaConfig>, meta: EndpointMeta) {
     const { userId, orgId } = mediaConfig
 
-    const prepped = prepareFields({ type: 'create', fields: mediaConfig, table: t.media, meta, fictionDb: this.settings.fictionDb })
+    const prepped = this.settings.fictionDb.prep({ type: 'insert', fields: mediaConfig, table: t.media, meta })
 
     const ins = { userId, orgId, ...prepped }
 
@@ -186,7 +186,7 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
     const { ContentLength: size, ContentType: mime = fileMime } = mainData?.headObject || {}
     const { width, height, orientation } = metadata || {}
 
-    const mediaConfig: TableMediaConfig = {
+    const mediaConfig: Partial<TableMediaConfig> = {
       ...fields,
       orgId,
       userId,

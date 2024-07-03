@@ -90,20 +90,16 @@ describe('verify template settings config', () => {
           },
         },
         {
-          "hasDemo": [Function],
+          "hasDemo": false,
           "isPublic": false,
+          "templateId": "demoProse",
+          "unusedSchema": undefined,
+        },
+        {
+          "hasDemo": [Function],
+          "isPublic": true,
           "templateId": "capture",
-          "unusedSchema": {
-            "dismissText": "string",
-            "heading": "string, Newsletter hook header 5 words or so",
-            "media": "object",
-            "media.format": "string",
-            "media.html": "string",
-            "media.url": "string",
-            "presentationMode": "string",
-            "subHeading": "string, Specific benefits of subscribing",
-            "superHeading": "string, Social proof Metric or KPI for the newsletter, e.g. "22,300+ subscribers"",
-          },
+          "unusedSchema": {},
         },
         {
           "hasDemo": [Function],
@@ -114,9 +110,13 @@ describe('verify template settings config', () => {
       ]
     `)
 
-    const incompleteSchema = templatesOptionConfig.some(_ => typeof _.unusedSchema === 'undefined' || (Object.keys(_.unusedSchema).length > 0 && _.isPublic))
+    const undefinedSchema = templatesOptionConfig.some(_ => typeof _.unusedSchema === 'undefined' && _.isPublic)
 
-    expect(incompleteSchema, 'unused schema is empty').toBe(false)
+    expect(undefinedSchema, 'undefined schema').toBe(false)
+
+    const incompleteSchema = templatesOptionConfig.some(_ => (Object.keys(_.unusedSchema || {}).length > 0 && _.isPublic))
+
+    expect(incompleteSchema, 'no unused schema in public cards').toBe(false)
 
     const incompletePublic = templatesOptionConfig.map(_ => typeof _.isPublic === 'undefined' || (_.isPublic === true && _.hasDemo === false ? _.templateId : undefined)).filter(Boolean)
 

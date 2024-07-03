@@ -27,9 +27,15 @@ describe('refine options with schema', () => {
 
     const option = options[0]
 
-    expect(option.options.value.map(k => k.key.value)).toEqual(['heading', 'subHeading', 'superHeading'])
+    expect(option.options.value.map(k => k.key.value)).toEqual([
+      'heading',
+      'subHeading',
+      'superHeading',
+      'superColor',
+      'superIcon',
+    ])
 
-    expect(option.options.value.length, 'nav items should be title and inputList').toBe(3)
+    expect(option.options.value.length, 'nav items should be title and inputList').toBe(5)
     expect(option.options.value[0].key.value).toBe('heading')
     expect(option.options.value[1].key.value).toBe('subHeading')
 
@@ -44,13 +50,14 @@ describe('refine options with schema', () => {
 
     const detailsOptions = option2.options.value[1].options.value
 
-    expect(detailsOptions.map(i => i.key.value)).toMatchInlineSnapshot(`
+    expect(detailsOptions.map(i => i.key.value).sort()).toMatchInlineSnapshot(`
       [
-        "name",
+        "authState",
         "desc",
-        "icon",
         "href",
+        "icon",
         "itemStyle",
+        "name",
         "target",
       ]
     `)
@@ -76,7 +83,7 @@ describe('headerOptionSet', () => {
   it('initializes correctly and returns all input options', () => {
     const option = standardOption.headers()
     const subOptions = option.options.value || []
-    expect(option.options.value.length).toBe(3)
+    expect(option.options.value.length).toBe(5)
     expect(subOptions[0].key.value).toBe('heading')
     expect(subOptions[1].key.value).toBe('subHeading')
     expect(subOptions[2].key.value).toBe('superHeading')

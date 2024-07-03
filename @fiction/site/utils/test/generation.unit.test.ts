@@ -31,6 +31,8 @@ describe('generation utils', async () => {
         "heading",
         "subHeading",
         "superHeading",
+        "superIcon",
+        "superColor",
         "layout",
         "splash",
         "actions",

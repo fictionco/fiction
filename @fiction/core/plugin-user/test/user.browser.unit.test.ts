@@ -38,7 +38,7 @@ describe('user tests', async () => {
         "createdAt": "[dateTime:]",
         "email": "[email:********+**********@*****.***]",
         "fullName": "[name:****]",
-        "ip": "[geo:::****:****:****]",
+        "ip": "[geo:::****:****:***]",
         "lastSeenAt": "[dateTime:]",
         "orgs": "[object Object]",
         "role": "subscriber",

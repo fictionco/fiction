@@ -128,12 +128,26 @@ describe('card', async () => {
           "label": "Sub Heading",
           "prompt": "Secondary hero headline, 10 to 30 words",
         },
+        "superColor": {
+          "cumulativeTime": 8000,
+          "estimatedMs": 4000,
+          "key": "superColor",
+          "label": "Super Color",
+          "prompt": "change color of super heading",
+        },
         "superHeading": {
           "cumulativeTime": 8000,
           "estimatedMs": 4000,
           "key": "superHeading",
           "label": "Super Heading",
           "prompt": "Shorter badge above headline, 2 to 5 words",
+        },
+        "superIcon": {
+          "cumulativeTime": 8000,
+          "estimatedMs": 4000,
+          "key": "superIcon",
+          "label": "Super Icon",
+          "prompt": "Icon for the super heading",
         },
       }
     `)
@@ -150,6 +164,8 @@ describe('cardTemplate', async () => {
         "wrap",
         "transaction",
         "404",
+        "nav",
+        "footer",
         "quotes",
         "profile",
         "hero",
@@ -157,7 +173,9 @@ describe('cardTemplate', async () => {
         "area",
         "map",
         "magazine",
+        "demoProse",
         "capture",
+        "showcase",
         "testWrap",
       ]
     `)

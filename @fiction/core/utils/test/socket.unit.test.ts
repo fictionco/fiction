@@ -113,6 +113,7 @@ describe('sockets', () => {
               "iat": "888",
               "role": "",
               "userId": "[id:*****]",
+              "verifyEmail": false,
             },
             "bearerToken": "**MASKED**",
             "channels": "hello",

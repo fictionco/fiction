@@ -63,7 +63,7 @@ describe('subscriptione endpoint', async () => {
           "main": [
             {
               "cleaned": 0,
-              "date": "2024-05-10T07:00:00.000Z",
+              "date": "2024-05-10T06:00:00.000Z",
               "label": "May 10",
               "subscriptions": 0,
               "tense": "past",
@@ -71,7 +71,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-05-11T07:00:00.000Z",
+              "date": "2024-05-11T06:00:00.000Z",
               "label": "May 11",
               "subscriptions": 0,
               "tense": "past",
@@ -79,7 +79,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-05-12T07:00:00.000Z",
+              "date": "2024-05-12T06:00:00.000Z",
               "label": "May 12",
               "subscriptions": 0,
               "tense": "past",
@@ -87,7 +87,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-05-13T07:00:00.000Z",
+              "date": "2024-05-13T06:00:00.000Z",
               "label": "May 13",
               "subscriptions": 0,
               "tense": "past",
@@ -95,7 +95,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-05-14T07:00:00.000Z",
+              "date": "2024-05-14T06:00:00.000Z",
               "label": "May 14",
               "subscriptions": 0,
               "tense": "past",
@@ -103,7 +103,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-05-15T07:00:00.000Z",
+              "date": "2024-05-15T06:00:00.000Z",
               "label": "May 15",
               "subscriptions": 0,
               "tense": "past",
@@ -111,7 +111,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-05-16T07:00:00.000Z",
+              "date": "2024-05-16T06:00:00.000Z",
               "label": "May 16",
               "subscriptions": 0,
               "tense": "past",
@@ -119,7 +119,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-05-17T07:00:00.000Z",
+              "date": "2024-05-17T06:00:00.000Z",
               "label": "May 17",
               "subscriptions": 0,
               "tense": "past",
@@ -127,7 +127,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-05-18T07:00:00.000Z",
+              "date": "2024-05-18T06:00:00.000Z",
               "label": "May 18",
               "subscriptions": 0,
               "tense": "past",
@@ -135,7 +135,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-05-19T07:00:00.000Z",
+              "date": "2024-05-19T06:00:00.000Z",
               "label": "May 19",
               "subscriptions": 0,
               "tense": "past",
@@ -143,7 +143,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-05-20T07:00:00.000Z",
+              "date": "2024-05-20T06:00:00.000Z",
               "label": "May 20",
               "subscriptions": 0,
               "tense": "past",
@@ -151,7 +151,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-05-21T07:00:00.000Z",
+              "date": "2024-05-21T06:00:00.000Z",
               "label": "May 21",
               "subscriptions": 0,
               "tense": "past",
@@ -159,7 +159,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-05-22T07:00:00.000Z",
+              "date": "2024-05-22T06:00:00.000Z",
               "label": "May 22",
               "subscriptions": 0,
               "tense": "past",
@@ -167,7 +167,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-05-23T07:00:00.000Z",
+              "date": "2024-05-23T06:00:00.000Z",
               "label": "May 23",
               "subscriptions": 0,
               "tense": "past",
@@ -175,7 +175,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-05-24T07:00:00.000Z",
+              "date": "2024-05-24T06:00:00.000Z",
               "label": "May 24",
               "subscriptions": 0,
               "tense": "past",
@@ -183,7 +183,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-05-25T07:00:00.000Z",
+              "date": "2024-05-25T06:00:00.000Z",
               "label": "May 25",
               "subscriptions": 0,
               "tense": "past",
@@ -191,7 +191,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-05-26T07:00:00.000Z",
+              "date": "2024-05-26T06:00:00.000Z",
               "label": "May 26",
               "subscriptions": 0,
               "tense": "past",
@@ -199,7 +199,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-05-27T07:00:00.000Z",
+              "date": "2024-05-27T06:00:00.000Z",
               "label": "May 27",
               "subscriptions": 0,
               "tense": "past",
@@ -207,7 +207,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-05-28T07:00:00.000Z",
+              "date": "2024-05-28T06:00:00.000Z",
               "label": "May 28",
               "subscriptions": 0,
               "tense": "past",
@@ -215,7 +215,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-05-29T07:00:00.000Z",
+              "date": "2024-05-29T06:00:00.000Z",
               "label": "May 29",
               "subscriptions": 0,
               "tense": "past",
@@ -223,7 +223,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-05-30T07:00:00.000Z",
+              "date": "2024-05-30T06:00:00.000Z",
               "label": "May 30",
               "subscriptions": 0,
               "tense": "past",
@@ -231,7 +231,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-05-31T07:00:00.000Z",
+              "date": "2024-05-31T06:00:00.000Z",
               "label": "May 31",
               "subscriptions": 0,
               "tense": "past",
@@ -239,7 +239,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-06-01T07:00:00.000Z",
+              "date": "2024-06-01T06:00:00.000Z",
               "label": "Jun 1",
               "subscriptions": 0,
               "tense": "past",
@@ -247,7 +247,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-06-02T07:00:00.000Z",
+              "date": "2024-06-02T06:00:00.000Z",
               "label": "Jun 2",
               "subscriptions": 0,
               "tense": "past",
@@ -255,7 +255,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-06-03T07:00:00.000Z",
+              "date": "2024-06-03T06:00:00.000Z",
               "label": "Jun 3",
               "subscriptions": 0,
               "tense": "past",
@@ -263,7 +263,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-06-04T07:00:00.000Z",
+              "date": "2024-06-04T06:00:00.000Z",
               "label": "Jun 4",
               "subscriptions": 0,
               "tense": "past",
@@ -271,7 +271,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-06-05T07:00:00.000Z",
+              "date": "2024-06-05T06:00:00.000Z",
               "label": "Jun 5",
               "subscriptions": 0,
               "tense": "past",
@@ -279,7 +279,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-06-06T07:00:00.000Z",
+              "date": "2024-06-06T06:00:00.000Z",
               "label": "Jun 6",
               "subscriptions": 1,
               "tense": "past",
@@ -287,7 +287,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 1,
-              "date": "2024-06-07T07:00:00.000Z",
+              "date": "2024-06-07T06:00:00.000Z",
               "label": "Jun 7",
               "subscriptions": 0,
               "tense": "past",
@@ -295,7 +295,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-06-08T07:00:00.000Z",
+              "date": "2024-06-08T06:00:00.000Z",
               "label": "Jun 8",
               "subscriptions": 0,
               "tense": "past",
@@ -303,7 +303,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-06-09T07:00:00.000Z",
+              "date": "2024-06-09T06:00:00.000Z",
               "label": "Jun 9",
               "subscriptions": 1,
               "tense": "past",
@@ -311,7 +311,7 @@ describe('subscriptione endpoint', async () => {
             },
             {
               "cleaned": 0,
-              "date": "2024-06-10T07:00:00.000Z",
+              "date": "2024-06-10T06:00:00.000Z",
               "label": "Jun 10",
               "subscriptions": 1,
               "tense": "past",
@@ -332,7 +332,7 @@ describe('subscriptione endpoint', async () => {
             "orgId": "ORG_ID",
             "timeEndAtIso": "2024-06-11T04:40:00.000Z",
             "timeStartAtIso": "2024-05-11T04:40:00.000Z",
-            "timeZone": "America/Los_Angeles",
+            "timeZone": "America/Denver",
           },
         },
         "status": "success",

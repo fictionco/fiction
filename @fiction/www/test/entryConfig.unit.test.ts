@@ -34,11 +34,14 @@ describe('user config', async () => {
         "fictionAi",
         "fictionTransactions",
         "fictionAdmin",
+        "fictionAnalytics",
         "fictionSites",
         "fictionTeam",
         "fictionUi",
         "fictionStripe",
         "fictionSubscribe",
+        "fictionSend",
+        "fictionPosts",
         "fictionExtend",
       ]
     `)
@@ -62,7 +65,6 @@ describe('user config', async () => {
           "ManageVectors",
           "AiCompletion",
           "AiImage",
-          "ManageSubscription",
           "ManageCustomer",
           "ListSubscriptions",
           "GetCustomerData",
@@ -74,15 +76,25 @@ describe('user config', async () => {
           "OrgMembers",
           "TeamInvite",
           "SeekInviteFromUser",
+          "GetDimensionList",
+          "GetClientSessions",
+          "GetTotalSessions",
+          "ManageSubscription",
+          "SubscriptionAnalytics",
           "ManagePost",
           "ManagePostIndex",
           "ManageTaxonomy",
+          "ManageCampaign",
+          "ManageSend",
+          "posts",
+          "SubscriptionAnalytics",
         ]
       `)
 
     expect(service.fictionApp.settings.fictionRouter.routes.value?.map(_ => _.name))
       .toMatchInlineSnapshot(`
         [
+          "chartTest",
           "email",
           "themeMinimal",
           "testEditor",

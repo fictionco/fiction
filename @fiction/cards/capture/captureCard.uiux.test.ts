@@ -20,7 +20,7 @@ describe('hero: card', async () => {
     await kit.browser.reset()
 
     await kit.performActions({
-      path: '/card-capture',
+      path: '/demo-capture',
       actions: [
         { type: 'exists', selector: '[data-mode="onLoad"] form' },
         { type: 'click', selector: '[data-mode="onLoad"] [data-test-id="dismiss"]' },

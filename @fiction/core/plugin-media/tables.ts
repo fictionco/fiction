@@ -1,165 +1,42 @@
-import { FictionDbCol, FictionDbTable } from '../plugin-db/index.js'
-import { type CreateObjectType, standardTable } from '../tbl.js'
+import { Col, FictionDbTable } from '../plugin-db/index.js'
+import type { ColType } from '../tbl.js'
+import { standardTable } from '../tbl.js'
 
-export const t = {
-  ...standardTable,
-  media: 'fiction_media',
-}
+export const t = { ...standardTable, media: 'fiction_media' }
 
-export type TableMediaConfig = Partial<CreateObjectType<typeof columns>> & { isCached?: boolean }
+export type TableMediaConfig = Partial<ColType<typeof mediaColumns>> & { isCached?: boolean }
 
-const columns = [
-  new FictionDbCol({
-    key: 'mediaId',
-    create: ({ schema, column, db }) => schema.string(column.pgKey).primary().defaultTo(db.raw(`object_id('img')`)),
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'userId',
-    create: ({ schema, column }) => schema.string(column.pgKey, 40).references(`fiction_user.user_id`).onUpdate('CASCADE'),
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'orgId',
-    create: ({ schema, column }) => schema.string(column.pgKey, 50).references(`fiction_org.org_id`).onUpdate('CASCADE'),
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'caption',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'hash',
-    create: ({ schema, column }) => schema.string(column.pgKey).unique(),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'url',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'originUrl',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'rasterUrl',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'thumbUrl',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'thumbOriginUrl',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'thumbFilePath',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-
-  new FictionDbCol({
-    key: 'blurhash',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'preview',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'filePath',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'mime',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'width',
-    create: ({ schema, column }) => schema.integer(column.pgKey),
-    default: () => 0 as number,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'height',
-    create: ({ schema, column }) => schema.integer(column.pgKey),
-    default: () => 0 as number,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'orientation',
-    create: ({ schema, column }) => schema.integer(column.pgKey),
-    default: () => 0 as number,
-    isSetting: true,
-  }),
-
-  new FictionDbCol({
-    key: 'alt',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-
-  new FictionDbCol({
-    key: 'contentEncoding',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'etag',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'bucket',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'size',
-    create: ({ schema, column }) => schema.integer(column.pgKey),
-    default: () => 0 as number,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'prompt',
-    create: ({ schema, column }) => schema.text(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'sourceImageUrl',
-    create: ({ schema, column }) => schema.text(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-
+export const mediaColumns = [
+  new Col({ key: 'mediaId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('img')`)).index() }),
+  new Col({ key: 'userId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k, 40).references(`fiction_user.user_id`).onUpdate('CASCADE').index() }),
+  new Col({ key: 'orgId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`fiction_org.org_id`).onUpdate('CASCADE').index() }),
+  new Col({ key: 'caption', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'hash', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'url', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'originUrl', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'rasterUrl', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'thumbUrl', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'thumbOriginUrl', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'thumbFilePath', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'blurhash', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'preview', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'filePath', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'mime', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'width', sec: 'setting', sch: ({ z }) => z.number(), make: ({ s, col }) => s.integer(col.k) }),
+  new Col({ key: 'height', sec: 'setting', sch: ({ z }) => z.number(), make: ({ s, col }) => s.integer(col.k) }),
+  new Col({ key: 'orientation', sec: 'setting', sch: ({ z }) => z.number(), make: ({ s, col }) => s.integer(col.k) }),
+  new Col({ key: 'alt', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'contentEncoding', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'etag', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'bucket', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'size', sec: 'setting', sch: ({ z }) => z.number(), make: ({ s, col }) => s.integer(col.k) }),
+  new Col({ key: 'prompt', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.text(col.k) }),
+  new Col({ key: 'sourceImageUrl', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.text(col.k) }),
 ] as const
 
-export const mediaTable = new FictionDbTable({ tableKey: 'fiction_media', timestamps: true, columns, onCreate: t => t.unique(['org_id', 'hash']) })
+export const mediaTable = new FictionDbTable({
+  tableKey: t.media,
+  timestamps: true,
+  cols: mediaColumns,
+  onCreate: t => t.unique(['org_id', 'hash']),
+})

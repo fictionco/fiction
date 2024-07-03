@@ -63,7 +63,7 @@
     "enquirer": "^2.4.1",
     "es-module-lexer": "^1.5.4",
     "events": "^3.3.0",
-    "execa": "^9.3.0",
+    "execa": "^9.4.0",
     "express": "^4.19.2",
     "extract-domain": "^5.0.2",
     "fast-safe-stringify": "^2.1.1",

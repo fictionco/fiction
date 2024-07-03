@@ -141,7 +141,7 @@ vue.onMounted(() => {
       <div class="mt-20">
         <div v-if="uc.starline" class="flex flex-col gap-2 mb-4 justify-center items-center">
           <div class="flex gap-1 justify-center items-center">
-            <div v-for="(s) in 5" :key="s" class="x-action-item">
+            <div v-for="(s) in 5" :key="s" class="">
               <div :class="highlightStar === s ? 'scale-150 dark:text-yellow-500 text-yellow-600' : 'dark:text-yellow-800/80 dark:hover:text-yellow-500 text-yellow-500'" class="text-xl i-tabler-star-filled hover:scale-125 transition-all" />
             </div>
           </div>
