@@ -10,7 +10,7 @@ export function processNavItems<T extends NavItem = NavItem>(args: {
   const loggedIn = fictionUser.activeUser.value !== undefined
   const currentPath = fictionRouter.current.value.path
   return items.map((item, index) => {
-    const isHidden = !!(item.authState === 'loggedIn' && !loggedIn || item.authState === 'loggedOut' && loggedIn)
+    const isHidden = !!((item.authState === 'loggedIn' && !loggedIn) || (item.authState === 'loggedOut' && loggedIn))
     return {
       ...item,
       isActive: item.href === currentPath,

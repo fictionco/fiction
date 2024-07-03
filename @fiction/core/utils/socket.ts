@@ -297,13 +297,14 @@ export class NodeSocketServer<T extends EventMap> extends EventEmitter {
   maxPayload: number
   welcomeObject?: WelcomeObjectCallback
   connections: ConnectionMeta[] = []
+  checkConnectionInterval?: NodeJS.Timeout
   constructor(settings: NodeSocketServerSettings) {
     super()
     this.fictionUser = settings.fictionUser
     this.maxPayload = settings.maxPayload || 10_000_000
     this.welcomeObject = settings.welcomeObject
 
-    const inter = setInterval(() => {
+    this.checkConnectionInterval = setInterval(() => {
       this.connections = this.connections.filter((cm) => {
         if (dayjs().unix() - cm.pingAliveTime > 60) {
           this.log.info('terminating connection due to timeout', {
@@ -321,6 +322,10 @@ export class NodeSocketServer<T extends EventMap> extends EventEmitter {
         }
       })
     }, 30_000)
+  }
+
+  close() {
+    clearInterval(this.checkConnectionInterval)
   }
 
   async sendWelcome(

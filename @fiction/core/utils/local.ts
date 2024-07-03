@@ -13,7 +13,7 @@ export function localRef<T>(opts: { key: string, def: T, lifecycle?: 'session' |
     return refCache[key] as Ref<T>
 
   const storage = typeof localStorage !== 'undefined' && lifecycle !== 'disable' ? (lifecycle === 'session' ? sessionStorage : localStorage) : null
-  const cookieValue = getCookie(key)
+
   // Try to deserialize the value from storage or use default
   let initialValue: T
   const storedValue = storage?.getItem(key)

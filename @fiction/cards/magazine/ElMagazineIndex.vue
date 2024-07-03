@@ -74,7 +74,7 @@ function getItemClasses(index: number): string {
               <h2 class="text-3xl font-bold x-font-title text-balance max-w-[75%]">
                 {{ item.name }}
               </h2>
-              <ElAuthor v-for="(author, i) in item.authors || []" :key="i" :user="author" :date-at="item.dateAt" />
+              <ElAuthor v-for="(author, ii) in item.authors || []" :key="ii" :user="author" :date-at="item.dateAt" />
             </div>
           </div>
         </ClipPathAnim>

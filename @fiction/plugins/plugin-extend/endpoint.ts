@@ -19,7 +19,7 @@ export type ManageExtend =
 export type ManagePostParams = ManageExtend & { userId?: string, orgId: string }
 
 export class QueryManageExtend extends ExtendQuery {
-  async run(params: ManagePostParams, _meta: EndpointMeta): Promise<EndpointResponse> {
+  async run(_params: ManagePostParams, _meta: EndpointMeta): Promise<EndpointResponse> {
     return { status: 'success', data: true }
   }
 }

@@ -118,7 +118,7 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
     const { session, events } = params
     let { viewNo = 0, eventNo = 0 } = session
 
-    const x = session.anonymousId
+    const _x = session.anonymousId
     const newViews = events.filter(_ => _.event === 'view').length
     viewNo = Math.max(viewNo - newViews, 0)
     eventNo = Math.max(eventNo - events.length, 0)
