@@ -3,6 +3,7 @@ import { CardTemplate, createCard } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 import { mediaSchema } from '../schemaSets'
+import { standardOption } from '../inputSets.js'
 
 const UserConfigSchema = z.object({
   superHeading: z.string().describe('Social proof Metric or KPI for the newsletter, e.g. "22,300+ subscribers"').optional(),
@@ -29,14 +30,23 @@ const demoUserConfig = {
 } as const
 
 const options = [
-  new InputOption({ key: 'scheme.reverse', label: 'Flip Color Scheme', description: 'Great for contrast. This will flip the mode to the opposite of the mode for the website (from dark to light or vice versa).', input: 'InputToggle' }),
+  standardOption.headers(),
+  new InputOption({ key: 'media', label: 'Image', input: 'InputMediaDisplay' }),
+  new InputOption({ key: 'dismissText', label: 'Dismiss Text', input: 'InputText', placeholder: 'No thanks', description: 'Dismisses modal in load and modal modes' }),
+  new InputOption({ key: 'presentationMode', label: 'Presentation Mode', input: 'InputSelect', list: ['inline', 'onScroll', 'onLoad'] }),
 ]
 
 export const templates = [
   new CardTemplate({
     root: safeDirname(import.meta.url),
+    templateId: 'demoProse',
+    el: vue.defineAsyncComponent(async () => import('./DemoProse.vue')),
+    isPublic: false,
+  }),
+  new CardTemplate({
+    root: safeDirname(import.meta.url),
     templateId,
-    title: 'Subscriber Email Capture',
+    title: 'Capture',
     category: ['marketing'],
     description: 'Convert visitors into subscribers with a simple email capture form.',
     icon: 'i-tabler-mail',
@@ -48,13 +58,13 @@ export const templates = [
       subHeading: 'Specific benefits of subscribing',
       dismissText: 'No thanks',
     },
-    isPublic: false,
+    isPublic: true,
     options,
     schema: UserConfigSchema,
     demoPage: () => {
       return [
         { templateId, userConfig: { presentationMode: 'inline' as const, ...demoUserConfig } },
-        createCard({ el: vue.defineAsyncComponent(async () => import('./DemoProse.vue')) }),
+        { templateId: 'demoProse' },
         { templateId, userConfig: { presentationMode: 'onLoad' as const, ...demoUserConfig } },
         { templateId, userConfig: { presentationMode: 'onScroll' as const, ...demoUserConfig } },
       ]

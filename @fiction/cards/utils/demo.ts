@@ -13,6 +13,8 @@ export function createDemoPage(args: { templateId: string, template: CardTemplat
         heading: template.settings.title,
         subHeading: template.settings.description,
         actions: [],
+        superColor: template.settings.colorTheme,
+        superIcon: template.settings.icon,
       } }),
       ...cards,
     ],

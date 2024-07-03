@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import type { ActionItem } from '@fiction/core'
+import type { ActionItem, colorTheme } from '@fiction/core'
 import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
+import { getColorThemeStyles } from '@fiction/ui/utils'
 import CardText from '../CardText.vue'
 import CardActions from './CardActions.vue'
 
@@ -9,8 +10,11 @@ export type UserConfig = {
   heading?: string
   subHeading?: string
   superHeading?: string
+  superIcon?: string
+  superColor?: typeof colorTheme[number]
   actions?: ActionItem[]
   layout?: 'center' | 'justify' | 'right' | 'left'
+
 }
 
 const props = defineProps({
@@ -22,6 +26,22 @@ const props = defineProps({
 
 const uc = vue.computed(() => {
   return props.card.userConfig.value || {}
+})
+
+const colorStyle = vue.computed(() => {
+  const color = uc.value.superColor
+  if (!color) {
+    return {
+      icon: 'text-primary-500 dark:text-theme-100 bg-primary-100/80 dark:bg-theme-700/80',
+      text: 'text-theme-500 dark:text-theme-300/50',
+    }
+  }
+
+  const r = getColorThemeStyles(uc.value.superColor || 'theme')
+  return {
+    icon: [r.bg, r.text, r.border].join(' '),
+    text: r.text,
+  }
 })
 
 const textWrapClass = vue.computed(() => {
@@ -56,14 +76,19 @@ const layout = vue.computed(() => {
       :data-layout="layout"
     >
       <div class="max-w-screen-lg" :class="layout === 'justify' ? 'lg:min-w-[50%]' : 'mx-auto'">
-        <CardText
-          tag="h3"
-          :card="card"
-          class="text-theme-500 dark:text-primary-300/50 font-sans text-sm lg:text-lg font-medium antialiased"
-          path="superHeading"
-          placeholder="Super Heading"
-          animate="fade"
-        />
+        <div v-if="uc.superHeading || uc.superIcon" class="flex gap-3 items-center mb-6" :class="[colorStyle.text, layout === 'center' ? 'justify-center' : '']">
+          <div v-if="uc.superIcon" :class="colorStyle.icon" class="size-10 rounded-full flex items-center justify-center">
+            <div :class="uc.superIcon" class="text-2xl" />
+          </div>
+          <CardText
+            tag="h3"
+            :card="card"
+            class=" font-sans text-sm lg:text-lg font-medium antialiased"
+            path="superHeading"
+            placeholder="Super Heading"
+            animate="fade"
+          />
+        </div>
         <CardText
           tag="h1"
           :card="card"

@@ -7,10 +7,7 @@ import CardHeader from '../el/CardHeader.vue'
 import type { UserConfig } from '.'
 
 const props = defineProps({
-  card: {
-    type: Object as vue.PropType<Card<UserConfig>>,
-    required: true,
-  },
+  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
 const uc = vue.computed(() => {
@@ -70,7 +67,7 @@ const mediaClass = vue.computed(() => {
       :class="wrapperClass"
     >
       <div :class="textWrapClass">
-        <CardHeader :card="card" />
+        <CardHeader :card />
       </div>
 
       <div

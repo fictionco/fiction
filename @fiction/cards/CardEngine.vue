@@ -20,30 +20,18 @@ function handleCardClick(args: { cardId: string, event: MouseEvent }) {
     props.card?.site?.setActiveCard({ cardId })
   }
 }
+
+const cards = vue.computed(() => {
+  const c = props.card?.cards.value || []
+
+  return c.filter(c => c.tpl.value?.settings)
+})
 </script>
 
 <template>
-  <component :is="tag" v-if="card?.cards.value.length" class="card-engine">
-    <template v-for="(subCard, i) in card?.cards.value" :key="i">
-      <div v-if="subCard.isNotInline.value">
-        <div v-if="isEditable" class="p-4">
-          <div class="p-3 cursor-pointer hover:opacity-80 dark:text-theme-600 text-theme-400 max-w-md mx-auto rounded-lg font-sans text-xs bg-theme-50 dark:bg-theme-800 text-balance text-center" @click="handleCardClick({ cardId: subCard.cardId, event: $event })">
-            <div class="font-bold text-theme-700 dark:text-theme-300 mb-2">
-              {{ toLabel(subCard.templateId.value) }} Element Placeholder
-            </div>
-            <div>This element is set to out-of-flow presentation, such as a popup or modal.</div>
-          </div>
-        </div>
-        <component
-          :is="subCard.tpl.value?.settings.el"
-          :id="subCard.cardId"
-          :data-card-type="subCard.templateId.value"
-          :card="subCard"
-          @click="handleCardClick({ cardId: subCard.cardId, event: $event })"
-        />
-      </div>
+  <component :is="tag" v-if="cards.length" class="card-engine">
+    <template v-for="(subCard, i) in cards" :key="i">
       <div
-        v-else
         class="relative group/engine"
         :class="[
           subCard.classes.value.spacingClass,
@@ -52,8 +40,17 @@ function handleCardClick(args: { cardId: string, event: MouseEvent }) {
         ]"
         @click="handleCardClick({ cardId: subCard.cardId, event: $event })"
       >
+        <div v-if="subCard.isNotInline.value && isEditable">
+          <div class="p-4">
+            <div class="p-3 cursor-pointer hover:opacity-80 dark:text-theme-600 text-theme-400 max-w-md mx-auto rounded-lg font-sans text-sm bg-theme-50 dark:bg-theme-800/50 text-balance text-center" @click="handleCardClick({ cardId: subCard.cardId, event: $event })">
+              <div class="font-normal text-theme-700 dark:text-theme-300">
+                This is a placeholder for the "{{ toLabel(subCard.templateId.value) }}" Card. It's set to an non-inline mode.
+              </div>
+            </div>
+          </div>
+        </div>
         <component
-          :is="subCard.tpl.value?.settings.el"
+          :is="subCard.tpl.value?.settings?.el"
           :id="subCard.cardId"
           :data-card-type="subCard.templateId.value"
           :card="subCard"

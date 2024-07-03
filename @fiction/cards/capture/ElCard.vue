@@ -21,7 +21,7 @@ const dismissedScroll = localRef({ key: `capture-dismissed-scroll`, def: false, 
 vue.onMounted(async () => {
   await Promise.all([
     service.fictionUser.userInitialized(),
-    waitFor(800),
+
   ])
   loading.value = false
 })
@@ -60,7 +60,7 @@ export default {
 </script>
 
 <template>
-  <div v-if="!loading || uc.presentationMode === 'inline'" :data-value="JSON.stringify({ subscribed })" :data-wrap-mode="uc.presentationMode">
+  <div :data-value="JSON.stringify({ subscribed })" :data-wrap-mode="uc.presentationMode">
     <template v-if="uc.presentationMode !== 'inline'">
       <teleport v-if="uc.presentationMode === 'onLoad'" to=".x-site">
         <div v-if="showCard && !dismissedLoad" :data-mode="uc.presentationMode" class=" pointer-events-none z-[45] text-theme-800 dark:text-theme-0 fixed left-0 top-0 flex h-[100dvh] w-[100dvw] items-center justify-center bg-theme-0 dark:bg-theme-900">

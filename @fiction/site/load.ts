@@ -94,8 +94,6 @@ export async function loadSiteFromCard(args: { cardId: string, siteRouter: Ficti
   // local stored config, useful for development
   const staticConfig = await localSiteConfig({ siteId })
 
-  console.warn('loadSiteFromCard', { staticConfig })
-
   site.update({ pages: [
     createCard({
       slug: '_home',
@@ -107,6 +105,8 @@ export async function loadSiteFromCard(args: { cardId: string, siteRouter: Ficti
             heading: tpl.settings.title,
             subHeading: tpl.settings.description,
             actions: [],
+            superColor: tpl.settings.colorTheme,
+            superIcon: tpl.settings.icon,
           },
         },
         ...cards,

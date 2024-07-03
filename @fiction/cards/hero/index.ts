@@ -1,7 +1,8 @@
 import type { ActionItem } from '@fiction/core'
-import { vue } from '@fiction/core'
+import { colorTheme, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { z } from 'zod'
+import { InputOption } from '@fiction/ui'
 import { standardOption } from '../inputSets'
 
 const templateId = 'hero'
@@ -10,6 +11,8 @@ const defaultContent: UserConfig = {
   heading: 'Short Catchy Heading',
   subHeading: 'Description of the heading. Typically a sentence or two.',
   superHeading: 'Category or Tagline',
+  superColor: 'orange',
+  superIcon: 'i-tabler-check',
   actions: [{ name: 'Primary', href: '/', btn: 'primary' }, { name: 'Secondary', href: '/learn-more', btn: 'default' }],
 }
 
@@ -17,6 +20,8 @@ const UserConfigSchema = z.object({
   heading: z.string().optional().describe('Primary hero headline, 3 to 13 words'),
   subHeading: z.string().optional().describe('Secondary hero headline, 10 to 30 words'),
   superHeading: z.string().optional().describe('Shorter badge above headline, 2 to 5 words'),
+  superIcon: z.string().optional().describe('Icon for the super heading'),
+  superColor: z.enum(colorTheme).optional().describe('change color of super heading'),
   layout: z.enum(['justify', 'center', 'left', 'right']).optional().describe('Alignment style of text and images'),
   splash: z.object({ url: z.string(), format: z.enum(['url', 'html']).optional() }).optional().describe('Splash picture for hero;time:40000').refine(_ => true, { params: { time: 40 } }),
   actions: z.array(z.object({
@@ -26,6 +31,7 @@ const UserConfigSchema = z.object({
     size: z.enum(['default', '2xl', 'xl', 'lg', 'md', 'sm', 'xs']).optional(),
     target: z.enum(['_self', '_blank']).optional(),
   })).optional().describe('List of link buttons') as z.Schema<ActionItem[] | undefined>,
+
 })
 
 export type UserConfig = z.infer<typeof UserConfigSchema>
@@ -45,6 +51,7 @@ export const templates = [
       standardOption.layout(),
       standardOption.media({ key: 'splash', label: 'Splash Image' }),
       standardOption.actionItems(),
+
     ],
     userConfig: defaultContent,
     schema: UserConfigSchema,
@@ -53,23 +60,11 @@ export const templates = [
       const subHeading = 'lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
 
       return [
-        { templateId, userConfig: { } },
-        { templateId, userConfig: { ...defaultContent, layout: 'justify' as const, splash } },
-        { templateId, userConfig: { ...defaultContent, layout: 'right' as const, splash, subHeading } },
-        { templateId, userConfig: { ...defaultContent, layout: 'left' as const, splash, subHeading } },
+        { templateId, userConfig: { ...defaultContent, justify: 'center' as const } },
+        { templateId, userConfig: { ...defaultContent, layout: 'justify' as const, splash, superColor: 'purple' as const } },
+        { templateId, userConfig: { ...defaultContent, layout: 'right' as const, splash, subHeading, superColor: 'red' as const } },
+        { templateId, userConfig: { ...defaultContent, layout: 'left' as const, splash, subHeading, superColor: 'indigo' as const } },
       ]
     },
   }),
 ] as const
-
-// export function demo() {
-//   return createCard({
-//     slug: 'card-hero',
-//     cards: [
-//       createCard({ templateId, templates, userConfig: { } }),
-//       createCard({ templateId, templates, userConfig: { ...defaultContent, layout: 'justify', splash } }),
-//       createCard({ templateId, templates, userConfig: { ...defaultContent, layout: 'right', splash, subHeading } }),
-//       createCard({ templateId, templates, userConfig: { ...defaultContent, layout: 'left', splash, subHeading } }),
-//     ],
-//   })
-// }

@@ -1,6 +1,7 @@
 import type { InputOptionSettings } from '@fiction/ui/index.js'
 import { InputOption } from '@fiction/ui/index.js'
 import InputAi from '@fiction/site/ai/InputAi.vue'
+import { colorTheme } from '@fiction/core'
 
 type OptArgs<T extends string = string> = (Partial<InputOptionSettings<T>> & Record<string, unknown>) | undefined
 
@@ -93,7 +94,13 @@ export const standardOption = {
   }),
   headers: (_: OptArgs = {}) => {
     const s = standardOption
-    return s.group({ label: 'Headers', key: 'headers', ..._, options: [s.heading(), s.subHeading(), s.superHeading()] })
+    return s.group({ label: 'Headers', key: 'headers', ..._, options: [
+      s.heading(),
+      s.subHeading(),
+      s.superHeading(),
+      new InputOption({ key: 'superColor', input: 'InputSelect', label: 'Color of Super Header', list: colorTheme }),
+      new InputOption({ key: 'superIcon', input: 'InputText', label: 'Super Header Icon', placeholder: 'i-tabler-check', description: 'Any tabler icon in the format i-tabler-[icon]' }),
+    ] })
   },
   actionItems: (_: OptArgs = {}) => {
     const s = standardOption
