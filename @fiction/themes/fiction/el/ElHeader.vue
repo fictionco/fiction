@@ -39,22 +39,22 @@ const vis = vue.ref(false)
 
 const btnClass = `hover:bg-theme-200 dark:hover:bg-primary-950 cursor-pointer rounded-full px-4 py-1.5 text-sm font-sans font-semibold `
 
-vue.onMounted(async () => {
-  const user = await fictionUser.userInitialized({ caller: 'ElHeader' })
+// vue.onMounted(async () => {
+//   const user = await fictionUser.userInitialized({ caller: 'ElHeader' })
 
-  // if (!user) {
-  //   await googleOneTap({
-  //     fictionUser,
-  //     callback: async (r) => {
-  //       const email = r.user?.email
-  //       if (r.user && r.isNew && email) {
-  //         // if (r.code) {
-  //         // }
-  //       }
-  //     },
-  //   })
-  // }
-})
+//   if (!user) {
+//     await googleOneTap({
+//       fictionUser,
+//       callback: async (r) => {
+//         const email = r.user?.email
+//         if (r.user && r.isNew && email) {
+//           // if (r.code) {
+//           // }
+//         }
+//       },
+//     })
+//   }
+// })
 
 const accountMenu = vue.computed((): NavItem[] => {
   const p = fictionRouter.current.value.path

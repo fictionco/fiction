@@ -30,12 +30,6 @@ const form = vue.ref<Partial<TableSiteConfig>>({
 })
 const isLoading = vue.ref(false)
 
-function creationError(data?: unknown) {
-  fictionEnv.events.emit('notify', { type: 'error', message: 'There was a problem.' })
-
-  resetUi()
-}
-
 async function requestCreateSite() {
   isLoading.value = true
   try {
@@ -44,7 +38,10 @@ async function requestCreateSite() {
     await props.card.goto({ path: '/edit-site', query: { siteId: site?.siteId } })
   }
   catch (error) {
-    creationError(error)
+    fictionEnv.events.emit('notify', { type: 'error', message: 'There was a problem.' })
+
+    resetUi()
+    console.error(error)
   }
 
   isLoading.value = false

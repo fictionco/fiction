@@ -27,6 +27,8 @@ export function page() {
             templates,
             templateId: 'hero',
             userConfig: {
+              superColor: 'orange',
+              superIcon: 'i-tabler-award',
               superHeading: 'The #1 Platform for Personal Branding',
               heading: `The Personal Marketing Platform`,
               subHeading: `Create a beautiful personal brand, capture email addresses, and measure results.`,

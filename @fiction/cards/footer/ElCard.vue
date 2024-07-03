@@ -41,7 +41,7 @@ const layoutClasses = vue.computed(() => {
     return {
       wrapClass: 'flex flex-col items-center  lg:items-start lg:flex-row gap-6',
       logoClass: 'w-60 lg:basis-[250px] flex flex-col items-center lg:items-start gap-4 lg:gap-6 text-center lg:text-left',
-      navClass: `flex flex-col lg:flex-row items-center lg:items-start my-8 lg:my-0 justify-center gap-x-8 md:gap-x-20 xl:gap-x-36 gap-y-12 basis-[80%] grow`,
+      navClass: `flex flex-col lg:flex-row items-start my-8 lg:my-0 justify-center gap-x-8 md:gap-x-20 xl:gap-x-36 gap-y-12 basis-[80%] grow`,
       badgeClass: `text-sm lg:flex-row lg:items-center lg:justify-between lg:basis-[250px]`,
       badgeWrap: `items-center lg:items-end`,
       socials: `justify-center lg:justify-end`,
