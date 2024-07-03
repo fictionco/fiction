@@ -44,7 +44,7 @@ const cards = vue.computed(() => {
           <div class="p-4">
             <div class="p-3 cursor-pointer hover:opacity-80 dark:text-theme-600 text-theme-400 max-w-md mx-auto rounded-lg font-sans text-sm bg-theme-50 dark:bg-theme-800/50 text-balance text-center" @click="handleCardClick({ cardId: subCard.cardId, event: $event })">
               <div class="font-normal text-theme-700 dark:text-theme-300">
-                This is a placeholder for the "{{ toLabel(subCard.templateId.value) }}" Card. It's set to an non-inline mode.
+                Placeholder for the popup "{{ toLabel(subCard.templateId.value) }}" Card.  (This won't appear on the live site.)
               </div>
             </div>
           </div>

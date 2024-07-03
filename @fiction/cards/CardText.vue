@@ -8,6 +8,7 @@ const props = defineProps({
   tag: { type: String as vue.PropType<'h1' | 'h2' | 'h3' | 'div' | 'span' | 'p' | 'a'>, default: 'div' },
   path: { type: String, required: true },
   placeholder: { type: String, default: 'Placeholder' },
+  fallback: { type: String, default: '' },
 })
 
 const attrs = vue.useAttrs()
@@ -53,6 +54,7 @@ function shouldStopProp(event: MouseEvent) {
     :is-editable="isEditable"
     :model-value="value"
     :placeholder="placeholder"
+    :fallback
     @click="shouldStopProp($event)"
     @update:model-value="onValue($event)"
     @input="onInput($event)"

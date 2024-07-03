@@ -4,10 +4,7 @@ import { shortId, toHtml, toMarkdown, vue } from '@fiction/core'
 import { animateItemEnter, splitLetters, useElementVisible } from '../anim'
 
 const props = defineProps({
-  tag: {
-    type: String as vue.PropType<'h1' | 'h2' | 'h3' | 'div' | 'span' | 'p' | 'a'>,
-    default: 'div',
-  },
+  tag: { type: String as vue.PropType<'h1' | 'h2' | 'h3' | 'div' | 'span' | 'p' | 'a'>, default: 'div' },
   placeholder: { type: String, default: '' },
   isEditable: { type: Boolean, default: false },
   modelValue: { type: String, default: '' },
@@ -15,6 +12,7 @@ const props = defineProps({
   animate: { type: [String, Boolean] as vue.PropType<'rise' | 'fade' | boolean>, default: undefined },
   prefix: { type: String, default: '' },
   suffix: { type: String, default: '' },
+  fallback: { type: String, default: '' },
 })
 
 const emit = defineEmits<{
@@ -113,7 +111,7 @@ function onPaste(event: ClipboardEvent) {
 <template>
   <component
     :is="tag"
-    v-if="(isEditable && placeholder) || textValue"
+    v-if="(isEditable && placeholder) || textValue || fallback"
     :id="randomId"
     class="focus:outline-none xtext"
     :class="loaded ? '' : 'invisible'"
@@ -125,7 +123,7 @@ function onPaste(event: ClipboardEvent) {
     @click="isEditing = 'click'"
     @focus="isEditing = 'focus'"
     @blur="handleBlur()"
-    v-html="textValue"
+    v-html="textValue || fallback"
   />
 </template>
 

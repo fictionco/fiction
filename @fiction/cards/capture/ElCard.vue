@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { localRef, useService, vue, waitFor } from '@fiction/core'
 import type { Card } from '@fiction/site'
+import CardText from '../CardText.vue'
 import EmailForm from './EmailForm.vue'
 import EffectScrollModal from './EffectScrollModal.vue'
 import type { UserConfig } from '.'
@@ -97,10 +98,8 @@ export default {
     <div v-else-if="!subscribed" v-bind="attrs" :class="card.classes.value.contentWidth" :data-mode="uc.presentationMode">
       <EmailForm :animate="true" :card="card" :subscribed @update:subscribed="subscribed = $event" />
     </div>
-    <div v-else class="p-4 text-center bg-theme-50 dark:bg-theme-700/60 dark:text-theme-500 max-w-sm mx-auto rounded-lg">
-      <h2 class="font-semibold x-font-title">
-        Thanks for subscribing!
-      </h2>
+    <div v-else class="p-4 text-center bg-theme-50 dark:bg-theme-700/60 dark:text-theme-500 max-w-sm mx-auto rounded-full">
+      <CardText tag="h2" class="font-normal x-font-title text-balance" :card path="thanksText" fallback="Thanks for subscribing! Please confirm via email." />
     </div>
   </div>
 </template>

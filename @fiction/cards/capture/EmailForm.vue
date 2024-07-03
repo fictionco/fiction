@@ -83,7 +83,7 @@ async function createSubscription() {
       <ElForm class="flex gap-2 mx-auto max-w-xs md:max-w-sm" @submit="createSubscription()">
         <ElEmail v-model="email" data-test-id="email" />
         <ElButton data-test-id="submit" btn="primary" class="shrink-0" type="submit" :loading="loading">
-          Subscribe
+          {{ uc.buttonText || 'Subscribe' }}
         </ElButton>
       </ElForm>
 
