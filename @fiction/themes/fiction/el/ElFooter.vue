@@ -65,7 +65,7 @@ const footer = [
             <div
               class="col-span-12 text-sm sm:col-span-3 lg:flex-row lg:items-center lg:justify-between"
             >
-              <CardSocials :card v-if="uc.socials" justify="right" :socials="uc.socials" />
+              <CardSocials v-if="uc.socials" :card justify="right" :socials="uc.socials" />
 
               <div class="hidden md:block text-theme-700 dark:text-theme-50 mt-5 text-right text-xs">
                 <svg

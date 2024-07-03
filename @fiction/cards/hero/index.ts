@@ -2,7 +2,6 @@ import type { ActionItem } from '@fiction/core'
 import { colorTheme, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { z } from 'zod'
-import { InputOption } from '@fiction/ui'
 import { standardOption } from '../inputSets'
 
 const templateId = 'hero'

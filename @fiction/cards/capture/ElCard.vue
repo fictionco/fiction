@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { localRef, useService, vue, waitFor } from '@fiction/core'
+import { localRef, useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
 import EmailForm from './EmailForm.vue'
