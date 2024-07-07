@@ -13,9 +13,6 @@ export const templates = [
     el: vue.defineAsyncComponent(async () => import('./XTemplate.vue')),
     userConfig: {
       nav: [{ name: 'Home', href: '/', target: '_self' }],
-      spacing: {
-        spacingClass: 'py-0 lg:py-6',
-      },
     },
     options: [
       new InputOption({ key: 'userConfig.logo', label: 'Logo', input: 'InputMediaDisplay' }),

@@ -64,8 +64,8 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionAdmin: Fictio
     userConfig: {
       colors: { isDarkMode: true },
       spacing: {
-        contentWidthClass: 'max-w-screen-xl px-6 xl:px-20 mx-auto',
-        spacingClass: ``,
+        contentWidthSize: 'sm',
+        spacingSize: `none`,
       },
       branding: {
         logo: { format: 'html' as const, html: fictionLogo },

@@ -51,8 +51,8 @@ async function load() {
 const page = vue.computed(() => site.value?.currentPage.value)
 
 function getTitleTag() {
-  if (page.value?.userConfig.value.seoTitle) {
-    return page.value?.userConfig.value.seoTitle
+  if (page.value?.userConfig.value.seo?.title) {
+    return page.value?.userConfig.value.seo.title
   }
 
   else {
@@ -110,7 +110,7 @@ unhead.useHead({
   meta: [
     { charset: 'UTF-8' },
     { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
-    { name: `description`, content: () => (page.value?.userConfig.value.seoDescription || page.value?.description.value || '') },
+    { name: `description`, content: () => (page.value?.userConfig.value.seo?.description || page.value?.description.value || '') },
     { name: 'robots', content: () => (site.value?.userConfig.value.robotsTxt || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1') },
     { property: 'og:site_name', content: () => site.value?.title.value || '' },
     { property: 'og:locale', content: () => site.value?.userConfig.value.locale || 'en_US' },
@@ -280,37 +280,6 @@ body,
   .x-font-sans {
     font-family: var(--font-family-sans);
   }
-
-  // --theme-0: v-bind("theme[0]");
-  // --theme-25: v-bind("theme[25]");
-  // --theme-50: v-bind("theme[50]");
-  // --theme-100: v-bind("theme[100]");
-  // --theme-200: v-bind("theme[200]");
-  // --theme-300: v-bind("theme[300]");
-  // --theme-400: v-bind("theme[400]");
-  // --theme-500: v-bind("theme[500]");
-  // --theme-600: v-bind("theme[600]");
-  // --theme-700: v-bind("theme[700]");
-  // --theme-800: v-bind("theme[800]");
-  // --theme-900: v-bind("theme[900]");
-  // --theme-950: v-bind("theme[950]");
-  // --theme-975: v-bind("theme[975]");
-  // --theme-1000: v-bind("theme[1000]");
-  // --primary-0: v-bind("primary?.[0]");
-  // --primary-25: v-bind("primary?.[25]");
-  // --primary-50: v-bind("primary?.[50]");
-  // --primary-100: v-bind("primary?.[100]");
-  // --primary-200: v-bind("primary?.[200]");
-  // --primary-300: v-bind("primary?.[300]");
-  // --primary-400: v-bind("primary?.[400]");
-  // --primary-500: v-bind("primary?.[500]");
-  // --primary-600: v-bind("primary?.[600]");
-  // --primary-700: v-bind("primary?.[700]");
-  // --primary-800: v-bind("primary?.[800]");
-  // --primary-900: v-bind("primary?.[900]");
-  // --primary-950: v-bind("primary?.[950]");
-  // --primary-975: v-bind("primary?.[975]");
-  // --primary-1000: v-bind("primary?.[1000]");
 
 }
 

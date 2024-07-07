@@ -5,7 +5,7 @@ import type { Card } from '@fiction/site'
 import type { FictionPosts, Post } from '@fiction/posts'
 import ElMagazineIndex from './ElMagazineIndex.vue'
 import ElMagazineSingle from './ElMagazineSingle.vue'
-import type { UserConfig } from '.'
+import type { UserConfig } from './index.js'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
@@ -47,8 +47,8 @@ const head = vue.computed(() => {
   const uc = singlePost.value?.userConfig.value
   const single = singlePost.value
   return {
-    title: uc?.seoTitle || single?.title.value || 'Untitled Post',
-    description: uc?.seoDescription || single?.subTitle.value || 'No description',
+    title: uc?.seo?.title || single?.title.value || 'Untitled Post',
+    description: uc?.seo?.description || single?.subTitle.value || 'No description',
   }
 })
 

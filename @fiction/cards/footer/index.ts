@@ -155,11 +155,10 @@ export const templates = [
     options,
     title: 'Footer Pro',
     demoPage: () => {
-      return [
-        { templateId, userConfig: { spacing: { spacingClass: 'py-20' }, ...defaultConfig, layout: 'columns' as const } },
-        { templateId, userConfig: { spacing: { spacingClass: 'py-20' }, ...defaultConfig, layout: 'centered' as const } },
-
-      ]
+      return { cards: [
+        { templateId, userConfig: { ...defaultConfig, layout: 'columns' as const } },
+        { templateId, userConfig: { ...defaultConfig, layout: 'centered' as const } },
+      ] }
     },
   }),
 ] as const

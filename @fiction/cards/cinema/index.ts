@@ -73,7 +73,7 @@ export const templates = [
     icon: 'i-tabler-movie',
     colorTheme: 'rose',
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
-    isPublic: true,
+    isPublic: false,
     options: [
       standardOption.ai(),
       new InputOption({
@@ -87,7 +87,7 @@ export const templates = [
     schema: UserConfigSchema,
     userConfig: { items: defaultItem },
     demoPage: () => {
-      return [{ templateId, userConfig: { items: defaultItem } }]
+      return { cards: [{ templateId, userConfig: { items: defaultItem } }] }
     },
   }),
 ] as const

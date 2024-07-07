@@ -27,13 +27,12 @@ interface CardTemplateSettings<U extends string = string, T extends ComponentCon
   el: T
   isContainer?: boolean // ui drawer
   isRegion?: boolean
-  spacingClass?: string
   options?: InputOption[]
   schema?: z.AnyZodObject
   userConfig?: CardTemplateUserConfig<T> & SiteUserConfig
   sections?: Record<string, CardConfigPortable>
   root?: string
-  demoPage?: () => CardConfigPortable< CardTemplateUserConfig<T> & SiteUserConfig>[]
+  demoPage?: () => CardConfigPortable< CardTemplateUserConfig<T> & SiteUserConfig>
 }
 
 export class CardTemplate<U extends string = string, T extends ComponentConstructor = ComponentConstructor> extends FictionObject<
@@ -95,10 +94,10 @@ export class Card<
 
   classes = vue.computed(() => {
     const spacing = this.fullConfig.value?.spacing
-
+    const contentWidthSize = spacing?.contentWidthSize || 'md'
+    const contentWidthClass = this.site?.theme.value?.getContentWidthClass(contentWidthSize)
     return {
-      contentWidth: spacing?.contentWidthClass,
-      spacingClass: spacing?.spacingClass,
+      contentWidth: contentWidthClass,
     }
   })
 
@@ -203,7 +202,7 @@ type CreateTuple<T extends readonly CardTemplate[]> = {
 }[number]
 
 type TupleToObject<T extends [string, unknown]> = {
-  [P in T[0]]: T extends [P, Card<infer B>] ? B : never
+  [P in T[0]]: T extends [P, Card<infer B>] ? B & SiteUserConfig : never
 }
 
 export type CreateUserConfigs<T extends readonly CardTemplate[]> = TupleToObject<CreateTuple<T>>

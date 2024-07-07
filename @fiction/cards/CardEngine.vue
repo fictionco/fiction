@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { resetUi, toLabel, vue } from '@fiction/core'
+import { hexToRgb, resetUi, toLabel, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 
 const props = defineProps({
@@ -26,6 +26,49 @@ const cards = vue.computed(() => {
 
   return c.filter(c => c.tpl.value?.settings)
 })
+
+function backgroundStyle(subCard: Card) {
+  const uc = subCard?.userConfig.value || {}
+
+  if (!uc.bg)
+    return {}
+
+  return {
+    backgroundColor: uc.bg?.color || undefined,
+    backgroundImage: uc.bg?.url ? `url(${uc.bg?.url})` : undefined,
+    backgroundSize: uc.bg?.size || 'cover',
+    backgroundPosition: uc.bg?.position || 'center',
+  }
+}
+
+function overlayStyle(subCard: Card) {
+  const uc = subCard?.userConfig.value || {}
+
+  if (!uc.bg?.overlay)
+    return {}
+
+  const rgb = hexToRgb(uc.bg?.overlay.color || '#000000') || undefined
+  const opacity = uc.bg?.overlay.opacity || 0.4
+
+  return {
+    backgroundColor: `rgba(${rgb} / ${opacity})`,
+  }
+}
+
+function getSpacingClass(subCard: Card) {
+  const uc = subCard?.userConfig.value || {}
+
+  if (uc.spacing?.spacingClass) {
+    return uc.spacing?.spacingClass
+  }
+
+  const theme = subCard.site?.theme.value
+
+  const topSize = uc.spacing?.spacingSize || 'md'
+  const bottomSize = uc.spacing?.spacingSizeBottom || uc.spacing?.spacingSize || 'md'
+
+  return [theme?.getSpacingClass(topSize), theme?.getSpacingClass(bottomSize)].join(' ')
+}
 </script>
 
 <template>
@@ -34,12 +77,14 @@ const cards = vue.computed(() => {
       <div
         class="relative group/engine"
         :class="[
-          subCard.classes.value.spacingClass,
+          getSpacingClass(subCard),
           subCard.isActive.value && isEditable ? 'outline-2 outline-dashed outline-theme-300 dark:outline-theme-600' : '',
           isEditable ? 'hover:outline-2 hover:outline-dashed hover:outline-blue-300 dark:hover:outline-blue-600 cursor-pointer  transition-all' : '',
         ]"
+        :style="backgroundStyle(subCard)"
         @click="handleCardClick({ cardId: subCard.cardId, event: $event })"
       >
+        <div v-if="subCard?.userConfig.value.bg?.overlay" class="absolute pointer-events-none inset-0" :style="overlayStyle(subCard)" />
         <div v-if="subCard.isNotInline.value && isEditable">
           <div class="p-4">
             <div class="p-3 cursor-pointer hover:opacity-80 dark:text-theme-600 text-theme-400 max-w-md mx-auto rounded-lg font-sans text-sm bg-theme-50 dark:bg-theme-800/50 text-balance text-center" @click="handleCardClick({ cardId: subCard.cardId, event: $event })">

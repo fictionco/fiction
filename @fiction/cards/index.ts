@@ -25,6 +25,7 @@ import * as showcase from './showcase/index.js'
 import * as nav from './nav/index.js'
 import * as footer from './footer/index.js'
 import * as cinema from './cinema/index.js'
+import * as wrap from './wrap/index.js'
 import { createDemoPage } from './utils/demo'
 /**
  * Add path for tailwindcss to scan for styles
@@ -32,12 +33,7 @@ import { createDemoPage } from './utils/demo'
 envConfig.register({ name: 'CARD_UI_ROOT', onLoad: ({ fictionEnv }) => { fictionEnv.addUiRoot(safeDirname(import.meta.url)) } })
 
 export const standardCardTemplates = [
-  new CardTemplate({
-    templateId: 'wrap',
-    el: vue.defineAsyncComponent(async () => import('./CardWrap.vue')),
-    schema: z.object({}),
-    isPublic: false,
-  }),
+  ...wrap.templates,
   new CardTemplate({
     templateId: 'transaction',
     el: vue.defineAsyncComponent(async () => import('./CardWrapTransaction.vue')),
@@ -74,8 +70,8 @@ export function getDemoPages(args: { templates: CardTemplate[] | readonly CardTe
   const { templates } = args
 
   const inlineDemos = templates.filter(t => t.settings.demoPage).map((t) => {
-    const cards = t.settings.demoPage?.() as CardConfigPortable[]
-    return createDemoPage({ templateId: t.settings.templateId, template: t, cards })
+    const card = t.settings.demoPage?.() as CardConfigPortable
+    return createDemoPage({ templateId: t.settings.templateId, template: t, card })
   })
 
   return [

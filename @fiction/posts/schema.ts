@@ -1,7 +1,7 @@
 import type { CreateObjectType, MediaDisplayObject, PostStatus, TableTaxonomyConfig, User } from '@fiction/core'
 import { standardTable, toSlug } from '@fiction/core'
 import { FictionDbCol, FictionDbTable } from '@fiction/core/plugin-db'
-import type { TableSiteConfig } from '@fiction/site'
+import type { SiteUserConfig, TableSiteConfig } from '@fiction/site'
 
 export const t = {
   posts: 'fiction_post',
@@ -11,9 +11,6 @@ export const t = {
   ...standardTable,
 }
 
-type PostUserConfig = Partial<{ seoTitle: string, seoDescription: string, seoKeywords: string }>
-type PostMeta = { seoTitle: string, seoDescription: string, seoKeywords: string }
-
 export type TablePostConfig = Partial<CreateObjectType<typeof postCols>> & {
   authors?: User[]
   sites?: Partial<TableSiteConfig>[]
@@ -22,9 +19,8 @@ export type TablePostConfig = Partial<CreateObjectType<typeof postCols>> & {
   categories?: TableTaxonomyConfig[]
   draftId?: string
 }
-// export type TableTaxonomyConfig = Partial<CreateObjectType<typeof taxonomyCols>> & { isNew?: boolean, usageCount?: number }
 
-export type PostDraft = Partial<{ draftId: string, title: string, content: string, userConfig: PostUserConfig, createdAt: string, updatedAt: string }>
+export type PostDraft = Partial<{ draftId: string, title: string, content: string, userConfig: SiteUserConfig, createdAt: string, updatedAt: string }>
 
 const postCols = [
   new FictionDbCol({
@@ -108,7 +104,7 @@ const postCols = [
     create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo(column.default()),
     // prepare: ({ value }) => JSON.stringify(value),
     isSetting: true,
-    default: () => ({} as PostUserConfig),
+    default: () => ({} as SiteUserConfig),
     zodSchema: ({ z }) => z.record(z.unknown()),
   }),
   new FictionDbCol({
@@ -156,14 +152,6 @@ const postCols = [
     create: ({ schema, column }) => schema.timestamp(column.pgKey),
     default: () => '' as string,
     isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'meta',
-    create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo(column.default()),
-    // prepare: ({ value }) => JSON.stringify(value),
-    isSetting: true,
-    default: () => ({} as PostMeta),
-    zodSchema: ({ z }) => z.record(z.unknown()),
   }),
 ] as const
 

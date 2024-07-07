@@ -1,7 +1,8 @@
 import { validHost } from '@fiction/core'
-import type { ColorScheme, CreateObjectType, MediaDisplayObject, ProgressStatus } from '@fiction/core'
+import type { BackgroundDisplayObject, ColorScheme, CreateObjectType, MediaDisplayObject, ProgressStatus } from '@fiction/core'
 import { FictionDbCol, FictionDbTable } from '@fiction/core/plugin-db'
 import type { FontConfig } from '@fiction/core/utils/fonts.js'
+import type { UiElementSize } from '@fiction/ui/utils.js'
 import type { CardGenerationConfig } from './generation.js'
 import type { EditorState } from './site.js'
 
@@ -13,6 +14,8 @@ export const pageRegionIds = ['header', 'main', 'footer', 'aside', 'article', 's
 export type PageRegion = typeof pageRegionIds[number] | string
 
 export type TableSiteConfig = CreateObjectType<typeof siteCols> & st & { pages: CardConfigPortable[] }
+
+export type ThemeUiSize = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl'
 
 export type SiteUserConfig = Partial<{
   favicon: MediaDisplayObject
@@ -36,16 +39,20 @@ export type SiteUserConfig = Partial<{
   spacing: {
     contentWidthClass?: string
     spacingClass?: string
+    contentWidthSize?: ThemeUiSize
+    spacingSize?: ThemeUiSize
+    spacingSizeBottom?: ThemeUiSize
   }
   branding: {
     logo: MediaDisplayObject
   }
+  seo: {
+    title?: string
+    description?: string
+    keywords?: string
+  }
+  bg: BackgroundDisplayObject
 }>
-
-type PageCardConfig = {
-  seoTitle?: string
-  seoDescription?: string
-}
 
 type TablePageCardConfig = Partial<CreateObjectType<typeof pageCols>>
 
@@ -53,7 +60,7 @@ export type TableCardConfig<T extends Record<string, unknown> = Record<string, u
   parentId?: string
   depth?: number
   index?: number
-  userConfig?: T & PageCardConfig
+  userConfig?: T & SiteUserConfig
   cards?: TableCardConfig[]
   scope?: string
   isSystem?: boolean

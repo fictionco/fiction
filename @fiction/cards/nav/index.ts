@@ -85,24 +85,23 @@ export const templates = [
     description: 'A header with a logo and navigation links',
     isPublic: true,
     el,
-    userConfig: { ...defaultConfig, spacing: { spacingClass: 'py-4' } },
+    userConfig: { ...defaultConfig, spacing: { spacingSize: 'xs' } },
     schema,
     options,
     title: 'Primary Nav',
     demoPage: () => {
-      return [
-        { templateId, userConfig: { spacing: { spacingClass: 'py-20' }, ...defaultConfig } },
-        { templateId, userConfig: { spacing: { spacingClass: 'py-20' }, ...defaultConfig, layout: 'logoCenter' as const } },
-        { templateId, userConfig: { spacing: { spacingClass: 'py-20' }, ...defaultConfig, layout: 'navCenter' as const } },
+      return { cards: [
+        { templateId, userConfig: { ...defaultConfig } },
+        { templateId, userConfig: { ...defaultConfig, layout: 'logoCenter' as const } },
+        { templateId, userConfig: { ...defaultConfig, layout: 'navCenter' as const } },
         {
           templateId,
           userConfig: {
-            spacing: { spacingClass: 'py-12' },
             logo: { url: 'https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2830&q=80&sat=-100' },
             navA: [{ name: 'Lorem Ipsum Lorem Ipsum', href: '/bar' }, { name: 'Long Name', href: '/bar' }, { name: 'Foo', href: '/bar' }, { name: 'Foo', href: '/bar' }],
           },
         },
-      ]
+      ] }
     },
   }),
 ] as const

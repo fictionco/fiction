@@ -56,7 +56,7 @@ const template = new CardTemplate({
   userConfig: { items: defaultMediaItems, aspect: 'golden', gridColsMax: '4' },
   schema: UserConfigSchema,
   demoPage: () => {
-    return [{ templateId, userConfig: { items: defaultMediaItems } }]
+    return { cards: [{ templateId, userConfig: { items: defaultMediaItems } }] }
   },
 })
 

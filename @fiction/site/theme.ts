@@ -3,7 +3,7 @@ import { FictionPlugin, ObjectProcessor, deepMerge, isNode, log, parseObject, vu
 import ElButton from '@fiction/ui/ElButton.vue'
 import type { FictionAdmin } from '@fiction/admin/index.js'
 import type { CreateUserConfigs, ExtractCardTemplateUserConfig, ExtractComponentUserConfig } from './card.js'
-import type { CardConfigPortable, PageRegion, SiteUserConfig, TableCardConfig, TableSiteConfig } from './tables.js'
+import type { CardConfigPortable, PageRegion, SiteUserConfig, TableCardConfig, TableSiteConfig, ThemeUiSize } from './tables.js'
 import { Card, CardTemplate } from './card.js'
 import { imageStyle, processUrlKey } from './util.js'
 import type { ComponentConstructor } from './type-utils.js'
@@ -101,6 +101,53 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
     return site
   }
 
+  getSpacingClass(size: ThemeUiSize, direction: 'top' | 'bottom' | 'both' = 'both') {
+    const spacingClassesTop = {
+      'none': 'pt-0',
+      'xs': 'pt-[calc(0.25rem+1vw)]',
+      'sm': 'pt-[calc(0.5rem+2vw)]',
+      'md': 'pt-[calc(1.5rem+4vw)]',
+      'lg': 'pt-[calc(2.5rem+6vw)]',
+      'xl': 'pt-[calc(4rem+8vw)]',
+      '2xl': 'pt-[calc(6rem+10vw)]',
+      '3xl': 'pt-[calc(8rem+12vw)]',
+    }
+    const spacingClassesBottom = {
+      'none': 'pb-0',
+      'xs': 'pb-[calc(0.25rem+1vw)]',
+      'sm': 'pb-[calc(0.5rem+2vw)]',
+      'md': 'pb-[calc(1.5rem+4vw)]',
+      'lg': 'pb-[calc(2.5rem+6vw)]',
+      'xl': 'pb-[calc(4rem+8vw)]',
+      '2xl': 'pb-[calc(6rem+10vw)]',
+      '3xl': 'pb-[calc(8rem+12vw)]',
+    }
+
+    const parts = []
+
+    if (direction === 'top' || direction === 'both')
+      parts.push(spacingClassesTop[size])
+
+    if (direction === 'bottom' || direction === 'both')
+      parts.push(spacingClassesBottom[size])
+
+    return parts.join(' ')
+  }
+
+  getContentWidthClass(size: ThemeUiSize) {
+    const contentWidthClasses = {
+      'none': 'mx-auto',
+      'xs': 'max-w-screen-sm px-4 sm:px-6 lg:px-8 mx-auto',
+      'sm': 'max-w-screen-md px-4 sm:px-6 lg:px-12 mx-auto',
+      'md': 'max-w-screen-lg px-4 sm:px-6 lg:px-16 mx-auto',
+      'lg': 'max-w-screen-xl px-4 sm:px-6 lg:px-20 mx-auto',
+      'xl': 'max-w-screen-2xl px-4 sm:px-6 lg:px-20 mx-auto', // Default as provided
+      '2xl': 'max-w-screen-3xl px-4 sm:px-6 lg:px-20 mx-auto',
+      '3xl': 'max-w-screen-4xl px-4 sm:px-6 lg:px-20 mx-auto',
+    }
+    return contentWidthClasses[size] || contentWidthClasses.md
+  }
+
   config(): SiteUserConfig {
     return deepMerge([
       {
@@ -113,8 +160,8 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
           serif: { stack: 'serif' },
         },
         spacing: {
-          contentWidthClass: 'max-w-screen-2xl px-4 sm:px-6 lg:px-20 mx-auto',
-          spacingClass: `py-[calc(1.5rem+4vw)]`,
+          contentWidthSize: 'md',
+          spacingSize: `md`,
         },
         ai: {
           baseInstruction: `You are a world-expert copywriter and web designer, create website content designed to subtly persuade using reference info and objectives. Your content should:

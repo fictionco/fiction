@@ -94,7 +94,7 @@ export const templates = [
     schema: UserConfigSchema,
     userConfig: { quotes: defaultQuote },
     demoPage: () => {
-      return [{ templateId, userConfig: { } }]
+      return { cards: [{ templateId, userConfig: { } }] }
     },
   }),
 ] as const

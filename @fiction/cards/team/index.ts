@@ -41,7 +41,7 @@ export function page() {
   }
 
   const duplicatedProfiles = Array.from({ length: 4 }, () => originalProfiles)
-  return [
+  return { cards: [
     createCard({
       el,
       templateId: 'team',
@@ -62,5 +62,5 @@ export function page() {
       },
 
     }),
-  ]
+  ] }
 }

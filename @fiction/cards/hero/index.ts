@@ -56,12 +56,14 @@ export const templates = [
       const splash = { url: 'https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?q=80&w=3864&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }
       const subHeading = 'lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
 
-      return [
-        { templateId, userConfig: { ...defaultContent, justify: 'center' as const } },
-        { templateId, userConfig: { ...defaultContent, layout: 'justify' as const, splash, superColor: 'purple' as const } },
-        { templateId, userConfig: { ...defaultContent, layout: 'right' as const, splash, subHeading, superColor: 'red' as const } },
-        { templateId, userConfig: { ...defaultContent, layout: 'left' as const, splash, subHeading, superColor: 'indigo' as const } },
-      ]
+      return {
+        cards: [
+          { templateId, userConfig: { ...defaultContent, justify: 'center' as const } },
+          { templateId, userConfig: { ...defaultContent, layout: 'justify' as const, splash, superColor: 'purple' as const } },
+          { templateId, userConfig: { ...defaultContent, layout: 'right' as const, splash, subHeading, superColor: 'red' as const } },
+          { templateId, userConfig: { ...defaultContent, layout: 'left' as const, splash, subHeading, superColor: 'indigo' as const } },
+        ],
+      }
     },
   }),
 ] as const

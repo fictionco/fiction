@@ -75,12 +75,14 @@ export const templates = [
     options,
     schema: UserConfigSchema,
     demoPage: () => {
-      return [
-        { templateId, userConfig: { presentationMode: 'inline' as const, ...demoUserConfig } },
-        { templateId: 'demoProse' },
-        { templateId, userConfig: { presentationMode: 'onLoad' as const, ...demoUserConfig } },
-        { templateId, userConfig: { presentationMode: 'onScroll' as const, ...demoUserConfig } },
-      ]
+      return {
+        cards: [
+          { templateId, userConfig: { presentationMode: 'inline' as const, ...demoUserConfig } },
+          { templateId: 'demoProse' },
+          { templateId, userConfig: { presentationMode: 'onLoad' as const, ...demoUserConfig } },
+          { templateId, userConfig: { presentationMode: 'onScroll' as const, ...demoUserConfig } },
+        ],
+      }
     },
   }),
 ] as const

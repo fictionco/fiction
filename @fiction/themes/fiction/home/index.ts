@@ -14,8 +14,10 @@ export function page() {
     slug: '_home',
     title: 'Home',
     userConfig: {
-      seoTitle: 'Fiction - Personal Marketing Platform',
-      seoDescription: 'A platform to build your personal brand, powered by AI.',
+      seo: {
+        title: 'Fiction - Personal Marketing Platform',
+        description: 'A platform to build your personal brand, powered by AI.',
+      },
     },
     cards: [
       createCard({

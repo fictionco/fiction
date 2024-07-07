@@ -108,8 +108,8 @@ const options = vue.computed(() => {
       label: 'Search and SEO',
       input: 'group',
       options: [
-        new InputOption({ key: 'userConfig.seoTitle', label: 'SEO Title', input: 'InputText' }),
-        new InputOption({ key: 'userConfig.seoDescription', label: 'SEO Description', input: 'InputText' }),
+        new InputOption({ key: 'userConfig.seo.title', label: 'SEO Title', input: 'InputText' }),
+        new InputOption({ key: 'userConfig.seo.description', label: 'SEO Description', input: 'InputText' }),
       ],
     }),
     new InputOption({

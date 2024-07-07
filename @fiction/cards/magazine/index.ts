@@ -20,7 +20,7 @@ export const templates = [
     colorTheme: 'blue',
     el: vue.defineAsyncComponent(async () => import('./ElMagazine.vue')),
     userConfig: {
-      spacing: { spacingClass: '' },
+      spacing: { spacingSize: 'none' },
     },
     isPublic: false,
     options: [
@@ -28,9 +28,9 @@ export const templates = [
     ],
     schema: UserConfigSchema,
     demoPage: () => {
-      return [
+      return { cards: [
         { templateId, userConfig: { } },
-      ]
+      ] }
     },
   }),
 ] as const

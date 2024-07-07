@@ -73,7 +73,7 @@ export const templates = [
         ] }),
       ] }),
     ],
-    userConfig: { spacing: { spacingClass: 'py-8' }, maps: [mapBase] },
+    userConfig: { spacing: { spacingSize: 'sm' }, maps: [mapBase] },
     schema: UserConfigSchema,
   }),
 ] as const

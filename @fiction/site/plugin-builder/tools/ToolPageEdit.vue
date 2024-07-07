@@ -36,8 +36,8 @@ const options = vue.computed(() => {
       label: 'SEO / Meta Tags',
       input: 'group',
       options: [
-        new InputOption({ key: 'userConfig.seoTitle', label: 'Title', input: 'InputText' }),
-        new InputOption({ key: 'userConfig.seoDescription', label: 'Description', input: 'InputTextarea', props: { rows: 5 } }),
+        new InputOption({ key: 'userConfig.seo.title', label: 'Title', input: 'InputText' }),
+        new InputOption({ key: 'userConfig.seo.description', label: 'Description', input: 'InputTextarea', props: { rows: 5 } }),
       ],
     }),
   ]

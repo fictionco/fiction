@@ -1,11 +1,8 @@
 import { vue } from '@fiction/core'
-import { CardTemplate, createCard } from '@fiction/site'
+import { CardTemplate } from '@fiction/site'
 import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
 import { standardOption } from '../inputSets'
-import { mediaSchema } from '../schemaSets'
-import franklin from './franklin.jpg'
-import socrates from './socrates.jpg'
 
 const TickerSchema = z.object({
   text: z.string(),
@@ -31,7 +28,7 @@ export const templates = [
     icon: 'i-tabler-quote',
     colorTheme: 'green',
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
-    isPublic: true,
+    isPublic: false,
     options: [
       standardOption.ai(),
       new InputOption({
@@ -45,7 +42,7 @@ export const templates = [
     schema: UserConfigSchema,
     userConfig: { items: defaultQuote },
     demoPage: () => {
-      return [{ templateId, userConfig: { } }]
+      return { cards: [{ templateId, userConfig: { } }] }
     },
   }),
 ] as const
