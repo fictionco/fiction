@@ -24,6 +24,7 @@ import * as capture from './capture/index.js'
 import * as showcase from './showcase/index.js'
 import * as nav from './nav/index.js'
 import * as footer from './footer/index.js'
+import * as cinema from './cinema/index.js'
 import { createDemoPage } from './utils/demo'
 /**
  * Add path for tailwindcss to scan for styles
@@ -55,6 +56,7 @@ export const standardCardTemplates = [
   ...magazine.templates,
   ...capture.templates,
   ...showcase.templates,
+  ...cinema.templates,
 ] as const
 
 export const marketingCardTemplates = [
@@ -80,7 +82,6 @@ export function getDemoPages(args: { templates: CardTemplate[] | readonly CardTe
     marquee.demo(),
     profile.demo(),
     map.demo(),
-    quote.demo(),
     area.demo(),
     ...inlineDemos,
   ]

@@ -25,8 +25,8 @@ const fullMapConfig = vue.computed(() => {
   }
 })
 
-const map = vue.ref<mapboxgl.Map>()
-const markers = vue.ref<mapboxgl.Marker[]>([])
+const map = vue.shallowRef<mapboxgl.Map>()
+const markers = vue.shallowRef<mapboxgl.Marker[]>([])
 
 const mode = vue.computed(() => {
   if (!props.container || typeof document === 'undefined')

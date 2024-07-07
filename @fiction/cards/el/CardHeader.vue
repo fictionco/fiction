@@ -76,7 +76,7 @@ const layout = vue.computed(() => {
       :data-layout="layout"
     >
       <div class="max-w-screen-lg" :class="layout === 'justify' ? 'lg:min-w-[50%]' : 'mx-auto'">
-        <div v-if="uc.superHeading || uc.superIcon" class="flex gap-3 items-center mb-6" :class="[colorStyle.text, layout === 'center' ? 'justify-center' : '']">
+        <div v-if="uc.superHeading || uc.superIcon" class="flex gap-3 items-center mb-6" :class="[colorStyle.text, layout === 'center' ? 'md:justify-center' : '']">
           <div v-if="uc.superIcon" :class="colorStyle.icon" class="size-10 rounded-full flex items-center justify-center">
             <div :class="uc.superIcon" class="text-2xl" />
           </div>

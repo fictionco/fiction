@@ -5,6 +5,7 @@ const props = defineProps({
   items: { type: Array, required: true },
   containerId: { type: String, required: true },
   activeItem: { type: Number, default: 0 },
+  itemClass: { type: String, default: 'scroll-placer' },
 })
 
 const emit = defineEmits<{
@@ -14,13 +15,13 @@ const emit = defineEmits<{
 async function setActiveItem(index: number) {
   emit('update:activeItem', index)
   await waitFor(50)
-  scrollToActiveQuote()
+  scrollToActive()
 }
 
-async function scrollToActiveQuote() {
-  const element = document.querySelector(`#${props.containerId} .nav-item-active`)
+async function scrollToActive() {
+  const element = document.querySelector(`#${props.containerId} .${props.itemClass}-active`)
   if (element)
-    element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' })
+    element.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
 }
 
 const observer = vue.ref<IntersectionObserver>()
@@ -40,7 +41,19 @@ vue.onMounted(() => {
   createObserver()
 
   vue.watch(() => props.items, () => {
-    const elements = document.querySelectorAll(`#${props.containerId} .nav-item`)
+    const slides = document.querySelectorAll(`#${props.containerId} [data-index]`)
+
+    slides.forEach((slide) => {
+      const sizer = slide.querySelector(`.${props.itemClass}`)
+
+      if (!sizer) {
+        const newSizer = document.createElement('div')
+        newSizer.className = `absolute w-1 h-1 left-1/2 top-1/2 ${props.itemClass} pointer-events-none opacity-0`
+        slide.appendChild(newSizer)
+      }
+    })
+
+    const elements = document.querySelectorAll(`#${props.containerId} .${props.itemClass}`)
 
     elements.forEach((el, i) => {
       if (observer.value) {
@@ -51,13 +64,13 @@ vue.onMounted(() => {
   }, { immediate: true })
 
   vue.watch(() => props.activeItem, () => {
-    const elements = document.querySelectorAll(`#${props.containerId} .nav-item`)
+    const elements = document.querySelectorAll(`#${props.containerId} .${props.itemClass}`)
 
     elements.forEach((el, i) => {
       if (i === props.activeItem)
-        el.classList.add('nav-item-active')
+        el.classList.add(`${props.itemClass}-active`)
       else
-        el.classList.remove('nav-item-active')
+        el.classList.remove(`${props.itemClass}-active`)
     })
   })
 })
@@ -72,8 +85,8 @@ vue.onMounted(() => {
       :class="i === activeItem ? 'is-active' : 'cursor-pointer' "
       @click="setActiveItem(i)"
     >
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full size-1.5 bg-theme-0 group-active:opacity-50 transition-opacity duration-1000" :class="i === activeItem ? 'opacity-40' : 'opacity-100' " />
-      <svg class="size-5 text-theme-0" viewBox="0 0 66 66" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full size-2 bg-theme-0 group-active:opacity-50 transition-opacity duration-600" :class="i === activeItem ? 'opacity-0' : 'opacity-100' " />
+      <svg class="size-6 text-theme-0" viewBox="0 0 66 66" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
         <circle
           class="time"
           stroke-width="5"

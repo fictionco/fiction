@@ -6,7 +6,7 @@ import type { getWidgets } from './index.js'
 
 type WidgetConfig = ReturnType<typeof getWidgets>['sites']
 
-const props = defineProps({
+defineProps({
   widget: { type: Object as vue.PropType<WidgetConfig>, required: true },
   card: { type: Object as vue.PropType<Card>, required: true },
 })

@@ -76,7 +76,7 @@
     "execa": "^9.3.0",
     "fake-indexeddb": "^6.0.0",
     "fs-extra": "^11.2.0",
-    "glob": "^10.4.2",
+    "glob": "^10.4.3",
     "lodash": "^4.17.21",
     "minimist": "^1.2.8",
     "node-fetch": "^3.3.2",
@@ -91,14 +91,14 @@
     "vue-router": "^4.4.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.21.2",
+    "@antfu/eslint-config": "^2.21.3",
     "@codspeed/vitest-plugin": "^3.1.0",
     "@eslint/eslintrc": "^3.1.0",
     "@flydotio/dockerfile": "^0.5.7",
     "@playwright/test": "^1.45.1",
     "@types/eslint__eslintrc": "^2.1.1",
     "@types/express": "^4.17.21",
-    "@types/node": "^20.14.9",
+    "@types/node": "^20.14.10",
     "@vitest/coverage-istanbul": "^1.6.0",
     "@vue/test-utils": "^2.4.6",
     "happy-dom": "^14.12.3",
@@ -115,7 +115,7 @@
     "tslib": "^2.6.3",
     "vite-plugin-dts": "^3.9.1",
     "vitepress": "^1.2.3",
-    "vue-tsc": "^2.0.24"
+    "vue-tsc": "^2.0.26"
   },
   "pnpm": {
     "overrides": {

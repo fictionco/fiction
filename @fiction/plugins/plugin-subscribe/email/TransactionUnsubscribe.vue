@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site'
-import { useService, vue } from '@fiction/core'
+import { vue } from '@fiction/core'
 import TransactionWrap from '@fiction/cards/transactions/TransactionWrap.vue'
 import type { QueryVars } from '@fiction/plugin-transactions'
 import type { FictionSubscribe } from '..'
@@ -11,7 +11,7 @@ const props = defineProps({
   action: { type: Object as vue.PropType<SpecEmailAction>, required: true },
   queryVars: { type: Object as vue.PropType<QueryVars<SpecEmailAction['queryVars']>>, required: true },
 })
-const { fictionUser } = useService()
+
 type TransactionProps = InstanceType<typeof TransactionWrap>['$props']
 
 const loading = vue.ref(false)

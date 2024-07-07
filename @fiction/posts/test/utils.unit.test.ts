@@ -11,7 +11,7 @@ describe('post utils', async () => {
   const testUtils = await createSiteTestUtils()
 
   const fictionPosts = new FictionPosts(testUtils)
-  const initialized = await testUtils.init()
+  await testUtils.init()
   afterAll(async () => {
     await testUtils.close()
   })

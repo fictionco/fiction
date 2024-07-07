@@ -1,6 +1,7 @@
 import type { vue } from '../utils/libraries.js'
 import type { TableMediaConfig } from '../plugin-media'
 import type { User } from '../plugin-user'
+import type { ColorScheme } from '../utils/colors.js'
 
 export type CleanupCallback = (() => void) | undefined
 
@@ -16,7 +17,7 @@ export type MediaDisplayObject = {
 
 export type GradientItem = { color?: string, percent?: number }
 export type GradientSetting = { angle?: number, stops?: GradientItem[], css?: string }
-export type OverlaySetting = { gradient?: GradientSetting, opacity?: number, blendMode?: string }
+export type OverlaySetting = { gradient?: GradientSetting, opacity?: number, blendMode?: string, color?: ColorScheme }
 
 export type BackgroundStyle = {
   color?: string
