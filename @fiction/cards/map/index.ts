@@ -75,20 +75,24 @@ export const templates = [
     ],
     userConfig: { spacing: { spacingSize: 'sm' }, maps: [mapBase] },
     schema: UserConfigSchema,
+    demoPage: () => {
+      return {
+        cards: [
+          { templateId, userConfig: { maps: [
+            mapBase,
+            mapBase,
+            { ...mapBase, zoom: 10, pitch: 60 },
+            { ...mapBase, zoom: 15, pitch: 70, mapStyle: 'mode' as const },
+            { ...mapBase, zoom: 15, pitch: 70, mapStyle: 'navigation-night' as const },
+          ] } },
+          { templateId, userConfig: { maps: [{ ...mapBase, mapStyle: 'dark' as const }] } },
+          { templateId, userConfig: { maps: [{ ...mapBase, mapStyle: 'outdoors' as const }] } },
+          { templateId, userConfig: { maps: [{ ...mapBase, mapStyle: 'mode' as const, markers: [
+            { lat: 33.652199, lng: -117.747719, label: 'Some longer text goes here, what do you think' },
+            { lat: 33.632199, lng: -117.747719, label: 'more text goes here, what do you think about all that' },
+          ] }] } },
+        ],
+      }
+    },
   }),
 ] as const
-
-export function demo() {
-  return createCard({
-    slug: 'card-map',
-    cards: [
-      createCard({ templateId, templates, userConfig: { maps: [mapBase, mapBase, { ...mapBase, zoom: 10, pitch: 60 }, { ...mapBase, zoom: 15, pitch: 70, mapStyle: 'mode' }, { ...mapBase, zoom: 15, pitch: 70, mapStyle: 'navigation-night' }] } }),
-      createCard({ templateId, templates, userConfig: { maps: [{ ...mapBase, mapStyle: 'dark' }] } }),
-      createCard({ templateId, templates, userConfig: { maps: [{ ...mapBase, mapStyle: 'outdoors' }] } }),
-      createCard({ templateId, templates, userConfig: { maps: [{ ...mapBase, mapStyle: 'mode', markers: [
-        { lat: 33.652199, lng: -117.747719, label: 'Some longer text goes here, what do you think' },
-        { lat: 33.632199, lng: -117.747719, label: 'more text goes here, what do you think about all that' },
-      ] }] } }),
-    ],
-  })
-}

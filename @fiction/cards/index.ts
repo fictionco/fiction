@@ -74,11 +74,5 @@ export function getDemoPages(args: { templates: CardTemplate[] | readonly CardTe
     return createDemoPage({ templateId: t.settings.templateId, template: t, card })
   })
 
-  return [
-    marquee.demo(),
-    profile.demo(),
-    map.demo(),
-    area.demo(),
-    ...inlineDemos,
-  ]
+  return inlineDemos
 }

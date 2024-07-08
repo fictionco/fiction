@@ -52,7 +52,7 @@ function setActiveItem(index: number) {
 <template>
   <div class="relative h-screen w-full">
     <div class="absolute inset-0 flex overflow-x-auto no-scrollbar snap-mandatory snap-x">
-      <div v-for="(item, i) in mediaItems" :key="i" :data-index="i" class=" relative flex-shrink-0 snap-center w-full h-full">
+      <div v-for="(item, i) in mediaItems" :key="i" class="slide relative flex-shrink-0 snap-center w-full h-full">
         <div class="absolute inset-0 bg-opacity-50 bg-black/50 z-10" />
         <template v-if="item.media">
           <template v-if="item.media.format === 'video'">

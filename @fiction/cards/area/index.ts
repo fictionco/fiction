@@ -1,5 +1,5 @@
 import { colorTheme, deepMerge, safeDirname, toLabel, vue } from '@fiction/core/index.js'
-import { CardTemplate, createCard } from '@fiction/site/index.js'
+import { CardTemplate } from '@fiction/site/index.js'
 import { InputOption } from '@fiction/ui/index.js'
 import { z } from 'zod'
 
@@ -59,34 +59,33 @@ export const templates = [
       modeOptions('dark'),
     ],
     schema: UserConfigSchema,
+    demoPage: () => {
+      const heroCard = (reverse?: boolean) => {
+        return {
+          templateId: 'hero',
+          userConfig: {
+            heading: `Area ${reverse ? '(Reversed)' : ''}`,
+            subHeading: 'Container for other elements',
+            mediaItems: [{
+              media: { format: 'url', url: 'https://via.placeholder.com/800x400' },
+            }],
+          },
+        }
+      }
+      const base = {
+        scheme: {
+          reverse: false,
+          light: { bg: { color: '#bfdbfe' }, theme: 'blue' },
+          dark: { bg: { color: '#1e3a8a' }, theme: 'blue' },
+        },
+      } as const
+
+      return {
+        cards: [
+          { templateId, userConfig: base, cards: [heroCard()] },
+          { templateId, userConfig: deepMerge([base, { scheme: { reverse: true } }]), cards: [heroCard(true)] },
+        ],
+      }
+    },
   }),
 ] as const
-
-export function demo() {
-  const heroCard = (reverse?: boolean) => {
-    return {
-      templateId: 'hero',
-      userConfig: {
-        heading: `Area ${reverse ? '(Reversed)' : ''}`,
-        subHeading: 'Container for other elements',
-        mediaItems: [{
-          media: { format: 'url', url: 'https://via.placeholder.com/800x400' },
-        }],
-      },
-    }
-  }
-  const base = {
-    scheme: {
-      reverse: false,
-      light: { bg: { color: '#bfdbfe' }, theme: 'blue' },
-      dark: { bg: { color: '#1e3a8a' }, theme: 'blue' },
-    },
-  } as const
-  return createCard({
-    slug: `card-${templateId}`,
-    cards: [
-      createCard({ templateId, templates, userConfig: base, cards: [heroCard()] }),
-      createCard({ templateId, templates, userConfig: deepMerge([base, { scheme: { reverse: true } }]), cards: [heroCard(true)] }),
-    ],
-  })
-}

@@ -11,11 +11,11 @@ describe('splitLetters', () => {
 
   it('wraps each character of plain text in a span with class fx', () => {
     const element = document.getElementById('test')
-    element!.textContent = 'Hello'
+    element!.textContent = 'Hello, World'
     splitLetters('#test')
 
     expect(element!.innerHTML).toBe(
-      `<span class="word"><span class="fx">H</span><span class="fx">e</span><span class="fx">l</span><span class="fx">l</span><span class="fx">o</span></span>`,
+      `<span class="word"><span class="fx">H</span><span class="fx">e</span><span class="fx">l</span><span class="fx">l</span><span class="fx">o</span><span class="fx">,</span></span> <span class="word"><span class="fx">W</span><span class="fx">o</span><span class="fx">r</span><span class="fx">l</span><span class="fx">d</span></span>`,
     )
   })
 

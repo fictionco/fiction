@@ -100,16 +100,12 @@ const minimalProfile = new CardTemplate({
   isPublic: true,
   options,
   schema: UserConfigSchema,
+  demoPage: () => {
+    return { cards: [
+      { templateId, userConfig: { ...defaultContent } },
+      { templateId, userConfig: { ...defaultContent, layout: 'left' as const } },
+    ] }
+  },
 })
 
 export const templates = [minimalProfile] as const
-
-export function demo() {
-  return createCard({
-    slug: 'card-profile',
-    cards: [
-      createCard({ templateId, templates, userConfig: { } }),
-      createCard({ templateId, templates, userConfig: { layout: 'left' } }),
-    ],
-  })
-}

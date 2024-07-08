@@ -5,7 +5,7 @@ const props = defineProps({
   items: { type: Array, required: true },
   containerId: { type: String, required: true },
   activeItem: { type: Number, default: 0 },
-  itemClass: { type: String, default: 'scroll-placer' },
+  itemClass: { type: String, default: 'slide' },
 })
 
 const emit = defineEmits<{
@@ -22,7 +22,7 @@ async function setActiveItem(index: number, withScroll: boolean) {
 }
 
 async function scrollToActive() {
-  const element = document.querySelector(`#${props.containerId} .${props.itemClass}-active`)
+  const element = document.querySelector(`#${props.containerId} .scroll-placer-active`)
   if (element)
     element.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
 }
@@ -46,19 +46,24 @@ vue.onMounted(() => {
   createObserver()
 
   vue.watch(() => props.items, () => {
-    const slides = document.querySelectorAll(`#${props.containerId} [data-index]`)
+    const slides = document.querySelectorAll(`#${props.containerId} .${props.itemClass}`)
 
     slides.forEach((slide) => {
-      const sizer = slide.querySelector(`.${props.itemClass}`)
+      const computedStyle = window.getComputedStyle(slide)
+      if (computedStyle.position !== 'relative' && computedStyle.position !== 'absolute') {
+        (slide as HTMLElement).style.position = 'relative'
+      }
+
+      const sizer = slide.querySelector(`.scroll-placer`)
 
       if (!sizer) {
         const newSizer = document.createElement('div')
-        newSizer.className = `absolute w-1 h-1 left-1/2 top-1/2 ${props.itemClass} pointer-events-none opacity-0`
+        newSizer.className = `absolute w-1 h-1 left-1/2 top-1/2 scroll-placer pointer-events-none opacity-0`
         slide.appendChild(newSizer)
       }
     })
 
-    const elements = document.querySelectorAll(`#${props.containerId} .${props.itemClass}`)
+    const elements = document.querySelectorAll(`#${props.containerId} .scroll-placer`)
 
     elements.forEach((el, i) => {
       if (observer.value) {
@@ -69,13 +74,13 @@ vue.onMounted(() => {
   }, { immediate: true })
 
   vue.watch(() => props.activeItem, async () => {
-    const elements = document.querySelectorAll(`#${props.containerId} .${props.itemClass}`)
+    const elements = document.querySelectorAll(`#${props.containerId} .scroll-placer`)
 
     elements.forEach((el, i) => {
       if (i === props.activeItem)
-        el.classList.add(`${props.itemClass}-active`)
+        el.classList.add(`scroll-placer-active`)
       else
-        el.classList.remove(`${props.itemClass}-active`)
+        el.classList.remove(`scroll-placer-active`)
     })
   })
 })

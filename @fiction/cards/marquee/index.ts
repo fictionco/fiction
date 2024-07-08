@@ -48,23 +48,19 @@ export const templates = [
       ],
     },
     schema: UserConfigSchema,
+    demoPage: () => {
+      const testItem = {
+        name: 'Test',
+        desc: 'lorem ipsum',
+        href: '/testing',
+        media: { format: 'url', url: 'https://images.unsplash.com/photo-1508184964240-ee96bb9677a7?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjJ8fHByb2ZpbGV8ZW58MHwxfDB8fHww' } as const,
+      }
+      const duplicatedProfiles = Array.from({ length: 4 }, () => testItem)
+      return { cards: [
+        { templateId, userConfig: { } },
+        { templateId, userConfig: { items: duplicatedProfiles, direction: 'right' as const } },
+        { templateId, userConfig: { items: duplicatedProfiles, stagger: true } },
+      ] }
+    },
   }),
 ] as const
-
-export function demo() {
-  const testItem = {
-    name: 'Test',
-    desc: 'lorem ipsum',
-    href: '/testing',
-    media: { format: 'url', url: 'https://images.unsplash.com/photo-1508184964240-ee96bb9677a7?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjJ8fHByb2ZpbGV8ZW58MHwxfDB8fHww' } as const,
-  }
-  const duplicatedProfiles = Array.from({ length: 4 }, () => testItem)
-  return createCard({
-    slug: 'card-marquee',
-    cards: [
-      createCard({ templateId, templates, userConfig: { } }),
-      createCard({ templateId, templates, userConfig: { items: duplicatedProfiles, direction: 'right' } }),
-      createCard({ templateId, templates, userConfig: { items: duplicatedProfiles, stagger: true } }),
-    ],
-  })
-}

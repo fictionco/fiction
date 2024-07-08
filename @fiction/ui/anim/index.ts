@@ -120,7 +120,7 @@ export function splitLetters(selector: string): void {
   if (textWrapper) {
     const processTextNode = (node: ChildNode): void => {
       const content = node.nodeValue ?? ''
-      const newContent = content.replace(/(&[a-z]+;|<[^>]*>|\b\w+\b|\S)/gi, (match) => {
+      const newContent = content.replace(/&[a-z]+;|<[^>]*>|\b\w\S*|\S/gi, (match) => {
         if (match.startsWith('<') && match.endsWith('>'))
           return match
         else if (match.startsWith('&') && match.endsWith(';'))

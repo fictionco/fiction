@@ -3,6 +3,7 @@ import { vue } from '@fiction/core'
 import ElImage from '@fiction/ui/media/ElImage.vue'
 import type { Card } from '@fiction/site'
 import { useElementVisible } from '@fiction/ui/anim'
+import EffectGlare from '@fiction/ui/effect/EffectGlare.vue'
 import CardText from '../CardText.vue'
 import CardSocials from '../el/CardSocials.vue'
 import NavDots from '../el/NavDots.vue'
@@ -36,9 +37,11 @@ vue.onMounted(async () => {
       <div class="md:flex -mx-2 items-center" :class="uc.layout === 'left' ? 'md:flex-row-reverse' : ''">
         <div class="w-full md:w-[50%] px-2 ">
           <div class="relative">
-            <div class="aspect-[5/7] relative w-full overflow-x-auto snap-mandatory snap-x flex no-scrollbar clip-path-anim" :class="isVisible ? '[clip-path:inset(0_round_20px)] opacity-100' : '[clip-path:inset(30%)] opacity-50'">
-              <ElImage v-for="(item, i) in mediaItems" :key="i" :data-index="i" :media="item.media" class="nav-item  w-full h-full snap-center shrink-0" />
-            </div>
+            <EffectGlare>
+              <div class="aspect-[5/7] relative w-full overflow-x-auto snap-mandatory snap-x flex no-scrollbar clip-path-anim" :class="isVisible ? '[clip-path:inset(0_round_20px)] opacity-100' : '[clip-path:inset(30%)] opacity-50'">
+                <ElImage v-for="(item, i) in mediaItems" :key="i" :media="item.media" class="relative slide w-full h-full snap-center shrink-0" />
+              </div>
+            </EffectGlare>
             <NavDots v-model:active-item="activeItem" :items="mediaItems || []" :container-id="card.cardId" class="absolute bottom-4 z-20" />
           </div>
         </div>
