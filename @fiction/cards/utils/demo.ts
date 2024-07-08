@@ -18,7 +18,7 @@ export function createDemoPage(args: { templateId: string, template: CardTemplat
         templateId: 'hero',
         templates: standardCardTemplates,
         userConfig: {
-          superHeading: template.settings.category?.join(', '),
+          superHeading: template.settings.category?.join(', ').toUpperCase(),
           heading: template.settings.title,
           subHeading: template.settings.description,
           actions: [],
