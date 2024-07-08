@@ -12,7 +12,7 @@ describe('marquee card', async () => {
 
   it('marquee: displays correctly', async () => {
     await kit.performActions({
-      path: '/card-marquee',
+      path: '/demo-marquee',
       actions: [
         { type: 'exists', selector: 'a[href$="/testing"]' },
         { type: 'exists', selector: '.marquee-track.reverse' },

@@ -10,7 +10,7 @@ const defaultContent: UserConfig = {
   heading: 'Short Catchy Heading',
   subHeading: 'Description of the heading. Typically a sentence or two.',
   superHeading: 'Category or Tagline',
-  actions: [{ name: 'Primary', href: '/', btn: 'primary' }, { name: 'Secondary', href: '/learn-more', btn: 'default' }],
+  actions: [],
 }
 
 const UserConfigSchema = z.object({
