@@ -52,7 +52,7 @@ const glareStyle = vue.computed(() => ({
 
 <template>
   <div
-    class="relative rounded-lg overflow-hidden hover flipcard group"
+    class="  rounded-lg overflow-hidden hover flipcard group"
     :style="cardStyle"
     @mousemove="handleMouseMove"
     @mouseleave="handleMouseLeave"

@@ -8,7 +8,7 @@ import InputMediaUpload from './InputMediaUpload.vue'
 
 const props = defineProps({
   modelValue: { type: Object as vue.PropType<MediaDisplayObject>, default: () => undefined },
-  formats: { type: Object as vue.PropType<{ url?: boolean, html?: boolean }>, default: () => ({ url: true, html: true }) },
+  formats: { type: Object as vue.PropType<{ url?: boolean, html?: boolean, video?: boolean }>, default: () => ({ url: true, html: true }) },
 })
 
 const emit = defineEmits<{

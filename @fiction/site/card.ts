@@ -32,7 +32,7 @@ interface CardTemplateSettings<U extends string = string, T extends ComponentCon
   userConfig?: CardTemplateUserConfig<T> & SiteUserConfig
   sections?: Record<string, CardConfigPortable>
   root?: string
-  demoPage?: () => CardConfigPortable< CardTemplateUserConfig<T> & SiteUserConfig>
+  demoPage?: () => { cards: CardConfigPortable< CardTemplateUserConfig<T> & SiteUserConfig>[] }
 }
 
 export class CardTemplate<U extends string = string, T extends ComponentConstructor = ComponentConstructor> extends FictionObject<

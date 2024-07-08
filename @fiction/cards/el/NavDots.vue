@@ -12,10 +12,13 @@ const emit = defineEmits<{
   (event: 'update:activeItem', payload: number): void
 }>()
 
-async function setActiveItem(index: number) {
+async function setActiveItem(index: number, withScroll: boolean) {
   emit('update:activeItem', index)
-  await waitFor(50)
-  scrollToActive()
+
+  if (withScroll) {
+    await waitFor(50) // wait for class and dom to update
+    scrollToActive()
+  }
 }
 
 async function scrollToActive() {
@@ -31,8 +34,10 @@ function createObserver() {
   observer.value = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       const e = entry.target as HTMLElement
-      if (entry.isIntersecting)
-        emit('update:activeItem', Number.parseInt(e.dataset.index || '0'))
+      if (entry.isIntersecting) {
+        const activeItem = Number.parseInt(e.dataset.index || '0')
+        setActiveItem(activeItem, false)
+      }
     })
   }, options)
 }
@@ -63,7 +68,7 @@ vue.onMounted(() => {
     })
   }, { immediate: true })
 
-  vue.watch(() => props.activeItem, () => {
+  vue.watch(() => props.activeItem, async () => {
     const elements = document.querySelectorAll(`#${props.containerId} .${props.itemClass}`)
 
     elements.forEach((el, i) => {
@@ -83,9 +88,9 @@ vue.onMounted(() => {
       :key="i"
       class="group dots-nav flex justify-center items-center rounded-full transition-all text-theme-400 dark:text-theme-0 shadow-lg relative"
       :class="i === activeItem ? 'is-active' : 'cursor-pointer' "
-      @click="setActiveItem(i)"
+      @click="setActiveItem(i, true)"
     >
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full size-2 bg-theme-0 group-active:opacity-50 transition-opacity duration-600" :class="i === activeItem ? 'opacity-0' : 'opacity-100' " />
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full  bg-theme-0 group-active:opacity-50 transition-all duration-1000" :class="i === activeItem ? 'opacity-0 size-5' : 'opacity-100 size-2' " />
       <svg class="size-6 text-theme-0" viewBox="0 0 66 66" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
         <circle
           class="time"
@@ -97,7 +102,8 @@ vue.onMounted(() => {
           cx="33"
           cy="33"
           r="28"
-        /></svg>
+        />
+      </svg>
     </div>
   </div>
 </template>

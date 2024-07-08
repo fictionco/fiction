@@ -1,17 +1,19 @@
-import type { MediaDisplayObject } from '@fiction/core'
+import type { ActionItem, MediaDisplayObject } from '@fiction/core'
 import { vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
 import { standardOption } from '../inputSets'
-import night from './night.mp4'
-import columns from './columns.mp4'
-import kings from './kings.mp4'
-import tower from './tower.jpg'
+import nightPhoto from './night-photo.mp4'
+import mountainPhoto from './mountain-photo.mp4'
+import desertPhoto from './desert-photo.mp4'
+import wildlifePhoto from './wildlife-photo.mp4'
+import cityPhoto from './city-photo.jpg'
 
 const CinemaItemSchema = z.object({
-  header: z.string().optional(),
-  subHeader: z.string().optional(),
+  header: z.string().optional().describe('Header text for slide'),
+  subHeader: z.string().optional().describe('Subheader text for slide'),
+  superHeader: z.string().optional().describe('Superheader text for slid (2 to 5 words) above header'),
   media: z.object({
     format: z.enum(['image', 'video']),
     url: z.string(),
@@ -19,49 +21,103 @@ const CinemaItemSchema = z.object({
   actions: z.array(z.object({
     name: z.string(),
     href: z.string(),
-  })).optional(),
+    btn: z.enum(['outline', 'minimal']),
+    icon: z.string().optional(),
+    iconAfter: z.string().optional(),
+  }) as z.Schema<ActionItem>).optional(),
 })
 
 export type CinemaItem = z.infer<typeof CinemaItemSchema>
 const defaultItem: CinemaItem[] = [
   {
-    header: 'London Museums',
-    subHeader: 'Experience the allure of the world\'s best museums',
+    superHeader: 'Portfolio',
+    header: 'Mountain Expeditions',
+    subHeader: 'Capturing the Majestic Peaks',
     media: {
       format: 'video',
-      url: columns,
-      overlay: { color: 'blue' },
+      url: mountainPhoto,
     },
+    actions: [
+      { name: 'View Gallery', href: '#', btn: 'outline', icon: 'i-tabler-camera' },
+    ],
   },
   {
-    header: 'King\'s Road',
-    subHeader: 'Stroll through the chic streets of King\'s Road',
+    superHeader: 'Services',
+    header: 'Desert Photography',
+    subHeader: 'Professional Shoots in Stunning Deserts',
     media: {
       format: 'video',
-      url: kings,
+      url: desertPhoto,
     },
+    actions: [
+      { name: 'Book Now', href: '#', btn: 'outline' },
+      { name: 'Learn More', href: '#', btn: 'minimal', iconAfter: 'i-tabler-chevron-right' },
+    ],
   },
   {
-    header: 'Tower Bridge',
-    subHeader: 'Walk across the iconic Tower Bridge',
+    superHeader: 'Projects',
+    header: 'Wildlife Photography',
+    subHeader: 'Capturing Nature\'s Wonders',
+    media: {
+      format: 'video',
+      url: wildlifePhoto,
+    },
+    actions: [
+      { name: 'Explore Projects', href: '#', btn: 'outline' },
+    ],
+  },
+  {
+    superHeader: 'Blog',
+    header: 'Urban Exploration',
+    subHeader: 'Adventures in City Life',
     media: {
       format: 'url',
-      url: tower,
+      url: cityPhoto,
     },
+    actions: [
+      { name: 'Read Blog', href: '#', btn: 'outline' },
+    ],
   },
   {
-    header: 'Thames River Nights',
-    subHeader: 'Enjoy the serene beauty of the Thames at night',
+    superHeader: 'Portfolio',
+    header: 'Night Photography',
+    subHeader: 'Capturing the Magic of the Night',
     media: {
       format: 'video',
-      url: night,
+      url: nightPhoto,
     },
+    actions: [
+      { name: 'View Portfolio', href: '#', btn: 'outline' },
+    ],
   },
 ]
 
 const UserConfigSchema = z.object({
   items: z.array(CinemaItemSchema).optional(),
+  autoSlide: z.boolean().optional(),
 })
+
+const options = [
+  standardOption.ai(),
+  new InputOption({
+    input: 'InputList',
+    key: `items`,
+    options: [
+      new InputOption({ key: 'header', label: 'Header', input: 'InputText' }),
+      new InputOption({ key: 'subHeader', label: 'Sub Header', input: 'InputText' }),
+      new InputOption({ key: 'superHeader', label: 'Super Header', input: 'InputText' }),
+      new InputOption({ key: 'media', label: 'Media', input: 'InputMediaDisplay', props: { formats: { url: true, video: true } } }),
+      new InputOption({ key: 'actions', label: 'Actions', input: 'InputList', options: [
+        new InputOption({ key: 'name', label: 'Name', input: 'InputText' }),
+        new InputOption({ key: 'href', label: 'Href', input: 'InputText' }),
+        new InputOption({ key: 'btn', label: 'Button', input: 'InputSelect', props: { options: ['outline', 'minimal'] } }),
+        new InputOption({ key: 'icon', label: 'Icon (Left)', input: 'InputText', description: 'Use format i-tabler-[icon], check docs for info' }),
+        new InputOption({ key: 'iconAfter', label: 'Icon (Right)', input: 'InputText', description: 'Use format i-tabler-[icon], check docs for info' }),
+      ] }),
+    ],
+  }),
+  new InputOption({ key: 'autoSlide', label: 'Auto Change Slide (12 Seconds)', input: 'InputToggle' }),
+]
 
 export type UserConfig = z.infer<typeof UserConfigSchema>
 const templateId = 'cinema'
@@ -73,21 +129,12 @@ export const templates = [
     icon: 'i-tabler-movie',
     colorTheme: 'rose',
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
-    isPublic: false,
-    options: [
-      standardOption.ai(),
-      new InputOption({
-        input: 'InputList',
-        key: `items`,
-        options: [
-          new InputOption({ key: 'text', label: 'Header', input: 'InputText' }),
-        ],
-      }),
-    ],
+    isPublic: true,
+    options,
     schema: UserConfigSchema,
     userConfig: { items: defaultItem },
     demoPage: () => {
-      return { cards: [{ templateId, userConfig: { items: defaultItem } }] }
+      return { cards: [{ templateId, userConfig: { items: defaultItem, autoSlide: true } }] }
     },
   }),
 ] as const

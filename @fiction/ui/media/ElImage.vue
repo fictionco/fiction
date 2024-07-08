@@ -99,7 +99,7 @@ const filters = vue.computed<ImageFilterConfig[]>(() => props.media?.filters || 
 
 <template>
   <ClipPathAnim :animate="animate">
-    <div v-if="media" :class="cls" class="h-full w-full">
+    <div v-if="media" :class="[!inlineImage ? `h-full w-full` : '', cls]">
       <transition
         enter-active-class="transition ease duration-500"
         enter-from-class="opacity-0"
@@ -121,7 +121,7 @@ const filters = vue.computed<ImageFilterConfig[]>(() => props.media?.filters || 
       <template v-if="!loading">
         <div
           v-if="media.format === 'html'"
-          class="h-full w-full *:w-full *:h-full"
+          :class="inlineImage ? '' : 'h-full w-full *:w-full *:h-full'"
           v-html="media.html"
         />
         <img

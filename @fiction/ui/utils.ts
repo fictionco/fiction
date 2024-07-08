@@ -1,7 +1,7 @@
 import type { colorTheme } from '@fiction/core'
 
 export type UiElementSize = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
-export type UiElementStyle = 'danger' | 'caution' | 'success' | 'primary' | 'default' | 'theme' | 'naked'
+export type UiElementStyle = 'danger' | 'caution' | 'success' | 'primary' | 'default' | 'theme' | 'naked' | 'minimal' | 'outline'
 export type UiElementFormat = 'block' | 'spread' | 'inline'
 
 export type ColorTheme = typeof colorTheme[number] | 'theme' | 'overlay' | 'naked'
@@ -72,6 +72,8 @@ export function getButtonClasses(args: { btn: UiElementStyle | string, size: UiE
     success: 'hover:bg-emerald-400 dark:hover:bg-emerald-600',
     theme: 'hover:bg-theme-400 dark:hover:bg-theme-500/60',
     default: 'hover:bg-theme-50 dark:hover:bg-theme-900',
+    outline: 'hover:opacity-80',
+    minimal: 'hover:opacity-80',
   }
 
   const staticStyles = {
@@ -81,6 +83,8 @@ export function getButtonClasses(args: { btn: UiElementStyle | string, size: UiE
     success: 'border bg-emerald-500 dark:bg-emerald-900 focus-visible:outline-emerald-500 text-emerald-50 border-emerald-500 dark:border-emerald-600',
     theme: 'border bg-theme-500 dark:bg-theme-600 focus-visible:outline-theme-500 text-theme-0 border-theme-500 dark:border-theme-500',
     naked: 'naked',
+    minimal: 'minimal',
+    outline: 'border border-current',
     default: 'border bg-theme-0 dark:bg-theme-700 text-theme-600 dark:text-theme-0 border-theme-300/80 dark:border-theme-600',
   }
 

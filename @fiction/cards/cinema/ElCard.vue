@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { vue, waitFor } from '@fiction/core'
+import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import fitty from 'fitty'
+import ElActions from '@fiction/ui/buttons/ElActions.vue'
 import NavDots from '../el/NavDots.vue'
+import CardText from '../CardText.vue'
 
 import type { UserConfig } from '.'
 
@@ -12,10 +13,40 @@ const props = defineProps({
 
 const uc = vue.computed(() => props.card.userConfig.value || {})
 const mediaItems = vue.computed(() => {
-  return uc.value.items
+  return uc.value.items || []
 })
 
 const activeItem = vue.ref(0)
+let timer: NodeJS.Timeout | undefined = undefined
+function autoSlideTimer() {
+  const isActive = uc.value.autoSlide
+
+  if (!isActive)
+    return
+
+  if (timer)
+    clearTimeout(timer)
+
+  timer = setTimeout(() => {
+    activeItem.value = activeItem.value + 1
+
+    if (activeItem.value >= mediaItems.value.length) {
+      activeItem.value = 0
+    }
+
+    autoSlideTimer()
+  }, 10000)
+}
+
+vue.onMounted(() => {
+  autoSlideTimer()
+})
+
+function setActiveItem(index: number) {
+  activeItem.value = index
+
+  autoSlideTimer()
+}
 </script>
 
 <template>
@@ -35,17 +66,17 @@ const activeItem = vue.ref(0)
           </template>
         </template>
         <div class="absolute inset-0 flex flex-col justify-center items-center text-center text-white p-4 z-20">
-          <div class="max-w-screen-lg space-y-8 p-6">
-            <h1 class="  text-6xl lg:text-[calc(20px+6vw)] font-bold x-font-title text-balance">
-              {{ item.header }}
-            </h1>
-            <p class="mt-2 text-3xl lg:text-[calc(16px+3vw)] text-balance leading-none">
-              {{ item.subHeader }}
-            </p>
+          <div class="max-w-screen-lg  p-6">
+            <CardText :card tag="h3" :path="`items.${i}.superHeader`" animate="fade" class="mb-5 opacity-60 lg:text-[calc(10px+1vw)] font-normal font-sans text-balance" />
+            <div class="space-y-8">
+              <CardText :card tag="h1" :path="`items.${i}.header`" animate="fade" class="text-6xl lg:text-[calc(20px+5vw)] font-bold x-font-title text-balance" />
+              <CardText :card tag="p" :path="`items.${i}.subHeader`" animate="fade" class="mt-2 text-3xl lg:text-[calc(16px+2.5vw)] text-balance leading-none" />
+            </div>
+            <ElActions class="mt-12 flex gap-4 justify-center" :actions="item.actions" ui-size="xl" animate="rise" />
           </div>
         </div>
       </div>
     </div>
-    <NavDots v-model:active-item="activeItem" :items="mediaItems || []" :container-id="card.cardId" class="absolute bottom-4 z-20" />
+    <NavDots :active-item="activeItem" :items="mediaItems || []" :container-id="card.cardId" class="absolute bottom-4 z-20" @update:active-item="setActiveItem($event)" />
   </div>
 </template>

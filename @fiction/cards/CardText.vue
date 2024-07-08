@@ -9,6 +9,7 @@ const props = defineProps({
   path: { type: String, required: true },
   placeholder: { type: String, default: 'Placeholder' },
   fallback: { type: String, default: '' },
+  animate: { type: [String, Boolean] as vue.PropType<'rise' | 'fade' | boolean>, default: undefined },
 })
 
 const attrs = vue.useAttrs()
@@ -50,10 +51,11 @@ function shouldStopProp(event: MouseEvent) {
   <XText
     :data-key="path"
     v-bind="attrs"
-    :tag="tag"
+    :animate
+    :tag
     :is-editable="isEditable"
     :model-value="value"
-    :placeholder="placeholder"
+    :placeholder
     :fallback
     @click="shouldStopProp($event)"
     @update:model-value="onValue($event)"

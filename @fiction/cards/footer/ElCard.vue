@@ -41,7 +41,7 @@ const layoutClasses = vue.computed(() => {
     return {
       wrapClass: 'flex flex-col items-center  lg:items-start lg:flex-row gap-6',
       logoClass: 'w-60 lg:basis-[250px] flex flex-col items-center lg:items-start gap-4 lg:gap-6 text-center lg:text-left',
-      navClass: `flex flex-col lg:flex-row items-start my-8 lg:my-0 justify-center gap-x-8 md:gap-x-20 xl:gap-x-36 gap-y-12 basis-[80%] grow`,
+      navClass: `flex flex-col sm:flex-row items-start my-8 lg:my-0 justify-center gap-x-8 md:gap-x-20 xl:gap-x-36 gap-y-12 basis-[80%] grow`,
       badgeClass: `text-sm lg:flex-row lg:items-center lg:justify-between lg:basis-[250px]`,
       badgeWrap: `items-center lg:items-end`,
       socials: `justify-center lg:justify-end`,
@@ -58,7 +58,7 @@ function startHighlightStar() {
 
   if (highlightStar.value > 5) {
     highlightStar.value = -1
-    dur = 30000
+    dur = 15000
   }
 
   setTimeout(() => {
@@ -129,11 +129,11 @@ vue.onMounted(() => {
           <CardSocials v-if="uc.socials" :card :class="layoutClasses.socials" :socials="uc.socials" />
 
           <div :class="layoutClasses.badgeWrap" class="text-theme-700 dark:text-theme-50 mt-5 text-right text-xs flex flex-col items-center gap-4  ">
-            <div v-for="(badge, i) in uc.badges" :key="i" class="x-action-item">
+            <template v-for="(badge, i) in uc.badges" :key="i">
               <a :href="card.link(badge.href)" :title="badge.name" class="inline-block">
-                <ElImage :media="badge.media" />
+                <ElImage :media="badge.media" :inline-image="true" />
               </a>
-            </div>
+            </template>
           </div>
         </div>
       </div>

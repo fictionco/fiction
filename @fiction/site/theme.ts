@@ -135,15 +135,16 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
   }
 
   getContentWidthClass(size: ThemeUiSize) {
+    const max = 'max-w-none px-4 sm:px-6 lg:px-20 mx-auto'
     const contentWidthClasses = {
       'none': 'mx-auto',
-      'xs': 'max-w-screen-sm px-4 sm:px-6 lg:px-8 mx-auto',
-      'sm': 'max-w-screen-md px-4 sm:px-6 lg:px-12 mx-auto',
-      'md': 'max-w-screen-lg px-4 sm:px-6 lg:px-16 mx-auto',
-      'lg': 'max-w-screen-xl px-4 sm:px-6 lg:px-20 mx-auto',
-      'xl': 'max-w-screen-2xl px-4 sm:px-6 lg:px-20 mx-auto', // Default as provided
-      '2xl': 'max-w-screen-3xl px-4 sm:px-6 lg:px-20 mx-auto',
-      '3xl': 'max-w-screen-4xl px-4 sm:px-6 lg:px-20 mx-auto',
+      'xs': 'max-w-screen-xs px-4 sm:px-6 lg:px-16 mx-auto',
+      'sm': 'max-w-screen-sm px-4 sm:px-6 lg:px-20 mx-auto',
+      'md': 'max-w-screen-xl px-4 sm:px-6 lg:px-20 mx-auto',
+      'lg': 'max-w-screen-2xl px-4 sm:px-6 lg:px-20 mx-auto',
+      'xl': 'max-w-screen-2xl px-4 sm:px-6 lg:px-10 mx-auto',
+      '2xl': 'max-w-[1700px] px-4 sm:px-6 lg:px-20 mx-auto',
+      '3xl': max,
     }
     return contentWidthClasses[size] || contentWidthClasses.md
   }

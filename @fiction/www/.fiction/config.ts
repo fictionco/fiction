@@ -251,7 +251,6 @@ export interface CompiledServiceConfig {
       | 'draft'
       | 'draftHistory'
       | 'archiveAt'
-      | 'meta'
       | 'createdAt'
       | 'updatedAt'
     fiction_post_taxonomy: 'postTaxonomyId' | 'postId' | 'taxonomyId' | 'orgId' | 'priority' | 'createdAt' | 'updatedAt'

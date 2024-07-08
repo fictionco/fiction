@@ -14,6 +14,7 @@ type AnimationThemeConfig = Partial<{
 }>
 
 const themes = {
+  none: {},
   rise: {
     translateY: [30, 0],
     translateZ: 0,
@@ -57,6 +58,9 @@ const themes = {
 
 export function animateItemEnter(args: { targets: string, themeId?: keyof typeof themes, config?: AnimationThemeConfig }) {
   const { targets, themeId = 'rise', config } = args
+
+  if (themeId === 'none')
+    return
 
   const theme = { ...themes[themeId] || themes.rise, ...config }
 

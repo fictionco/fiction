@@ -9,7 +9,6 @@
     "@fiction/ui": "workspace:*",
     "@types/mapbox-gl": "^3.1.0",
     "animejs": "^3.2.2",
-    "fitty": "^2.4.2",
     "mapbox-gl": "^3.5.1",
     "tailwindcss": "^3.4.4",
     "vue": "^3.4.31"

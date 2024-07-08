@@ -89,12 +89,12 @@ export async function loadSiteFromCard(args: { cardId: string, siteRouter: Ficti
   if (!tpl)
     throw new Error(`no template found for card ${cardId}`)
 
-  const card = tpl.settings.demoPage?.() || {}
+  const card = tpl.settings.demoPage?.()
 
   // local stored config, useful for development
   const staticConfig = await localSiteConfig({ siteId })
 
-  const cards = card.cards || []
+  const cards = card?.cards || []
 
   site.update({ pages: [
     createCard({
