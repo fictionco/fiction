@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { getNavComponentType, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import EffectGlare from '@fiction/ui/effect/EffectGlare.vue'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import type { UserConfig } from '.'
 

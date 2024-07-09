@@ -9,7 +9,7 @@ import { CardGeneration } from './generation.js'
 import type { ComponentConstructor } from './type-utils.js'
 import { siteGoto, siteLink } from './utils/manage.js'
 
-type CardCategory = 'basic' | 'posts' | 'theme' | 'stats' | 'marketing' | 'content' | 'layout' | 'media' | 'navigation' | 'social' | 'commerce' | 'form' | 'other' | 'special' | 'portfolio'
+type CardCategory = 'basic' | 'posts' | 'theme' | 'stats' | 'marketing' | 'content' | 'layout' | 'media' | 'navigation' | 'social' | 'commerce' | 'form' | 'other' | 'special' | 'portfolio' | 'advanced'
 
 export const categoryOrder: CardCategory[] = ['basic', 'theme', 'marketing', 'content', 'stats', 'layout', 'media', 'navigation', 'social', 'commerce', 'form', 'other', 'special']
 

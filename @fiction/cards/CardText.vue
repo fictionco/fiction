@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { getNested, setNested, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
+import type { InputModes } from '@fiction/ui/common/XText.vue'
 import XText from '@fiction/ui/common/XText.vue'
 
 const props = defineProps({
@@ -10,6 +11,7 @@ const props = defineProps({
   placeholder: { type: String, default: 'Placeholder' },
   fallback: { type: String, default: '' },
   animate: { type: [String, Boolean] as vue.PropType<'rise' | 'fade' | boolean>, default: undefined },
+  mode: { type: String as vue.PropType<InputModes>, default: 'text' },
 })
 
 const attrs = vue.useAttrs()

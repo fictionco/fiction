@@ -3,6 +3,8 @@ import { shortId, toHtml, toMarkdown, vue } from '@fiction/core'
 
 import { animateItemEnter, splitLetters, useElementVisible } from '../anim'
 
+export type InputModes = 'text' | 'markdown' | 'html' | 'number' | 'email' | 'url' | 'password' | 'phone' | 'date'
+
 const props = defineProps({
   tag: { type: String as vue.PropType<'h1' | 'h2' | 'h3' | 'div' | 'span' | 'p' | 'a'>, default: 'div' },
   placeholder: { type: String, default: '' },
@@ -13,6 +15,7 @@ const props = defineProps({
   prefix: { type: String, default: '' },
   suffix: { type: String, default: '' },
   fallback: { type: String, default: '' },
+  mode: { type: String as vue.PropType<InputModes>, default: 'text' },
 })
 
 const emit = defineEmits<{
@@ -53,8 +56,25 @@ function handleBlur() {
   setTextValue()
 }
 
+function inputValidations(inputValue: string) {
+  switch (props.mode) {
+    case 'number':
+      inputValue = inputValue.replace(/[^0-9.]/g, '')
+      break
+    case 'phone':
+      inputValue = inputValue.replace(/\D/g, '')
+      break
+    // Handle basic input filtering for other modes if necessary
+  }
+
+  return inputValue
+}
+
 function onInput(ev: Event) {
-  updateValue.value = (ev.target as HTMLElement).innerHTML
+  const inputValue = (ev.target as HTMLElement).innerHTML
+
+  updateValue.value = inputValidations(inputValue)
+
   emit('input', getValue(updateValue.value))
   emitValue()
 }

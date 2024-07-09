@@ -51,15 +51,17 @@ const glareStyle = vue.computed(() => ({
 </script>
 
 <template>
-  <div
-    class="  rounded-lg overflow-hidden hover flipcard group"
-    :style="cardStyle"
-    @mousemove="handleMouseMove"
-    @mouseleave="handleMouseLeave"
-    @mouseenter="handleMouseEnter"
-  >
-    <slot />
-    <div class="opacity-0 group-hover:opacity-100 card-glare absolute top-0 left-0 w-full h-full pointer-events-none transition-all" :style="glareStyle" />
+  <div class="[perspective:1000px]">
+    <div
+      class="rounded-lg overflow-hidden hover flipcard group"
+      :style="cardStyle"
+      @mousemove="handleMouseMove"
+      @mouseleave="handleMouseLeave"
+      @mouseenter="handleMouseEnter"
+    >
+      <slot />
+      <div class="opacity-0 group-hover:opacity-100 card-glare absolute top-0 left-0 w-full h-full pointer-events-none transition-all" :style="glareStyle" />
+    </div>
   </div>
 </template>
 
