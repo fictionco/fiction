@@ -29,7 +29,7 @@ describe('setLayoutOrder', async () => {
 
     const pages = [page1, page2, page3].map(c => c.toConfig())
     const sections: Record<string, CardConfigPortable> = { header: cardHeader, footer: cardFooter }
-    const site = new Site({ pages, sections, ...common })
+    const site = await Site.create({ pages, sections, ...common })
 
     const order = [
       { itemId: 'page2', items: [{ itemId: 'cardB' }, { itemId: 'cardC' }] },

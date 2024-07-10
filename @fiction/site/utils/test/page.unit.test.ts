@@ -157,7 +157,7 @@ describe('getActivePage', async () => {
     new Card({ cardId: 'id2', title: 'Second Page', slug: 'second-page' }),
   ].map(_ => _.toConfig())
 
-  const site = new Site({ pages, ...common })
+  const site = await Site.create({ pages, ...common })
 
   it('should return the correct Card for a valid pageId', () => {
     const pageId = 'id1'

@@ -4,7 +4,7 @@ import { getDemoPages, standardCardTemplates } from '..'
 
 describe('verify template settings config', async () => {
   const testUtils = await createSiteTestUtils()
-  const site = testUtils.createSite()
+  const site = await testUtils.createSite()
 
   it('has template options set correctly', async () => {
     const demoPages = await getDemoPages({ templates: standardCardTemplates, site })
@@ -67,9 +67,7 @@ describe('verify template settings config', async () => {
           "hasDemo": [Function],
           "isPublic": true,
           "templateId": "hero",
-          "unusedSchema": {
-            "overlays.0.media.url": "string",
-          },
+          "unusedSchema": {},
         },
         {
           "hasDemo": [Function],
@@ -124,13 +122,13 @@ describe('verify template settings config', async () => {
       ]
     `)
 
-    const undefinedSchema = templatesOptionConfig.some(_ => typeof _.unusedSchema === 'undefined' && _.isPublic)
+    const undefinedSchema = templatesOptionConfig.filter(_ => typeof _.unusedSchema === 'undefined' && _.isPublic).map(_ => _.templateId)
 
-    expect(undefinedSchema, 'undefined schema').toBe(false)
+    expect(undefinedSchema, 'undefined schema').toStrictEqual([])
 
-    const incompleteSchema = templatesOptionConfig.some(_ => (Object.keys(_.unusedSchema || {}).length > 0 && _.isPublic))
+    const incompleteSchema = templatesOptionConfig.filter(_ => (Object.keys(_.unusedSchema || {}).length > 0 && _.isPublic)).map(_ => _.templateId)
 
-    expect(incompleteSchema, 'no unused schema in public cards').toBe(false)
+    expect(incompleteSchema, 'no unused schema in public cards').toStrictEqual([])
 
     const incompletePublic = templatesOptionConfig.map(_ => typeof _.isPublic === 'undefined' || (_.isPublic === true && _.hasDemo === false ? _.templateId : undefined)).filter(Boolean)
 

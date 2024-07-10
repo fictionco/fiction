@@ -16,8 +16,8 @@ describe('siteMode', async () => {
     themeId: 'test',
   } as const
 
-  it('should activable isEditing if set to editable', () => {
-    const site = new Site({ ...common, siteMode: 'editable' })
+  it('should activable isEditing if set to editable', async () => {
+    const site = await Site.create({ ...common, siteMode: 'editable' })
     expect(site.isEditable.value).toBe(true)
   })
 })
@@ -32,14 +32,14 @@ describe('siteInit', async () => {
     themeId: 'test',
   } as const
 
-  it('should initialize the siteRouter', () => {
-    const site = new Site({ ...common, siteMode: 'editable' })
+  it('should initialize the siteRouter', async () => {
+    const site = await Site.create({ ...common, siteMode: 'editable' })
     expect(site.siteRouter).toBeDefined()
     expect(site.siteRouter.router.value).toBeDefined()
   })
 
-  it('should initialize the siteRouter with the correct history', () => {
-    const site = new Site({ ...common, siteMode: 'designer' })
+  it('should initialize the siteRouter with the correct history', async () => {
+    const site = await Site.create({ ...common, siteMode: 'designer' })
     expect(site.siteRouter.noBrowserNav).toBeTruthy()
   })
 })
@@ -53,8 +53,8 @@ describe('siteConfig', async () => {
     themeId: 'test',
   } as const
 
-  it('should have correct config', () => {
-    const site = new Site({ ...common, siteMode: 'editable' })
+  it('should have correct config', async () => {
+    const site = await Site.create({ ...common, siteMode: 'editable' })
     expect(Object.keys(site.toConfig())).to.include.members(['siteId', 'siteMode', 'subDomain', 'customDomains', 'themeId', 'status', 'title', 'userConfig', 'pages', 'sections'])
 
     const onlyKeys = ['title', 'themeId', 'userConfig'] as const

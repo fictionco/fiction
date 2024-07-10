@@ -21,7 +21,7 @@ describe('siteLink / siteGoto', async () => {
 
   it('returns correct link when site and router are provided', async () => {
     await testUtils.fictionRouterSites.push({ path: '/test/whatever' }, { caller: 'test' })
-    const site = new Site({ ...common, themeId: 'test' })
+    const site = await Site.create({ ...common, themeId: 'test' })
     const location = { path: '/somepath' }
     const result = siteLink({ site, location })
     expect(result).toBe('/test/somepath')
@@ -29,7 +29,7 @@ describe('siteLink / siteGoto', async () => {
 
   it('calls push with merged query variables when retainQueryVars is changed', async () => {
     await testUtils.fictionRouterSites.push({ path: '/test/whatever', query: { init: 1 } }, { caller: 'test' })
-    const site = new Site({ ...common, themeId: 'test' })
+    const site = await Site.create({ ...common, themeId: 'test' })
     const location = { path: '/some-path', query: { additional: 'info' } }
 
     await siteGoto({ site, location, options: { retainQueryVars: true } })
@@ -59,7 +59,7 @@ describe('query var', async () => {
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
 
   it('changes scheme', async () => {
-    const site = new Site({ ...common, themeId: 'test' })
+    const site = await Site.create({ ...common, themeId: 'test' })
 
     await site.siteRouter.push({ query: { _scheme: 'dark' } }, { caller: 'test' })
 
@@ -121,7 +121,7 @@ describe('updateSite / updatePages', async () => {
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
 
   it('updates site with valid keys', async () => {
-    const site = new Site({ ...common, themeId: 'test' })
+    const site = await Site.create({ ...common, themeId: 'test' })
 
     updateSite({ site, newConfig: { title: 'New Title', userConfig: { locale: 'es' }, subDomain: 'newSub', customDomains: [{ hostname: 'new.com' }] } })
 
@@ -132,7 +132,7 @@ describe('updateSite / updatePages', async () => {
   })
 
   it('updates and initializes new partial regions', async () => {
-    const site = new Site({ ...common, themeId: 'test' })
+    const site = await Site.create({ ...common, themeId: 'test' })
 
     updateSite({ site, newConfig: { pages: [{ templateId: 'area', cardId: 'card1' }] } })
 
@@ -140,7 +140,7 @@ describe('updateSite / updatePages', async () => {
   })
 
   it('merge updates editor', async () => {
-    const site = new Site({ ...common, themeId: 'test', editor: { selectedCardId: 'test123' } as EditorState })
+    const site = await Site.create({ ...common, themeId: 'test', editor: { selectedCardId: 'test123' } as EditorState })
 
     updateSite({ site, newConfig: { editor: { selectedRegionId: 'header' } as EditorState } })
 
@@ -148,7 +148,7 @@ describe('updateSite / updatePages', async () => {
   })
 
   it('updates pages', async () => {
-    const site = new Site({ ...common, themeId: 'test' })
+    const site = await Site.create({ ...common, themeId: 'test' })
     // Setup initial state
     const pgs = setPages({ site, pages: [{ cardId: 'card1', title: 'Original Title', userConfig: { otherProp: 'initial' } }] })
 
@@ -183,10 +183,10 @@ describe('activeSiteHostname', async () => {
   const testUtils = await createSiteTestUtils()
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
 
-  it('should return the hostname from a full URL', () => {
+  it('should return the hostname from a full URL', async () => {
     testUtils.fictionAppSites.liveUrl.value = 'https://*.example.com'
 
-    const site = new Site({ ...common, subDomain: 'subdomain', isProd: false })
+    const site = await Site.create({ ...common, subDomain: 'subdomain', isProd: false })
 
     expect(activeSiteHostname(site).value).toBe('subdomain.lan.com')
 
@@ -195,9 +195,9 @@ describe('activeSiteHostname', async () => {
     expect(activeSiteHostname(site).value).toBe('subdomain.example.com')
   })
 
-  it('should return empty string for invalid URL', () => {
+  it('should return empty string for invalid URL', async () => {
     testUtils.fictionAppSites.liveUrl.value = 'invalid-url'
-    const site = new Site({ ...common, subDomain: 'subdomain', isProd: true })
+    const site = await Site.create({ ...common, subDomain: 'subdomain', isProd: true })
     expect(activeSiteHostname(site).value).toBe('')
   })
 })

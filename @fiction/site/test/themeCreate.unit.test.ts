@@ -8,7 +8,7 @@ import { createSiteTestUtils } from './testUtils'
 
 describe('themeCreation', async () => {
   const testUtils = await createSiteTestUtils()
-  const site = testUtils.createSite()
+  const site = await testUtils.createSite()
   const testTheme = setup(testUtils)
   const r = await testUtils.init()
   const userId = r?.user?.userId ?? ''

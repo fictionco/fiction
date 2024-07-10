@@ -12,7 +12,7 @@ describe('removeCard', async () => {
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
 
   it('should successfully remove a card from a region', async () => {
-    const site = new Site({ ...common, isProd: false, themeId: 'test' })
+    const site = await Site.create({ ...common, isProd: false, themeId: 'test' })
 
     // First, add a card to ensure there's something to remove
     const cardId = 'cardToRemove'
@@ -29,7 +29,7 @@ describe('removeCard', async () => {
   })
 
   it('should successfully remove a nested card', async () => {
-    const site = new Site({ ...common, isProd: false, themeId: 'test' })
+    const site = await Site.create({ ...common, isProd: false, themeId: 'test' })
 
     // Add a parent and a nested card
     const parentCardId = 'parentCard'
@@ -48,8 +48,8 @@ describe('removeCard', async () => {
     expect(parentCard?.cards?.value.some(c => c.cardId === nestedCardId)).toBe(false)
   })
 
-  it('should throw an error if attempting to remove a card that does not exist', () => {
-    const site = new Site({ ...common, isProd: false, themeId: 'test' })
+  it('should throw an error if attempting to remove a card that does not exist', async () => {
+    const site = await Site.create({ ...common, isProd: false, themeId: 'test' })
 
     // Attempt to remove a non-existent card
     const nonExistentCardId = 'nonExistentCard'
@@ -57,7 +57,7 @@ describe('removeCard', async () => {
   })
 
   it('should call onRemove callback when a card is successfully removed', async () => {
-    const site = new Site({ ...common, isProd: false, themeId: 'test' })
+    const site = await Site.create({ ...common, isProd: false, themeId: 'test' })
     const cardId = 'cardWithCallback'
     await addNewCard({ site, templateId: 'area', addToRegion: 'main', cardId })
 
@@ -76,18 +76,22 @@ describe('addNewCard', async () => {
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
 
   it('should throw an error if template is not found', async () => {
-    const site = new Site({ ...common, isProd: false, themeId: 'test' })
+    const site = await Site.create({ ...common, isProd: false, themeId: 'test' })
 
     await expect(addNewCard({ site, templateId: 'noExist' })).rejects.toThrow(`Could not find template with key noExist`)
   })
 
   it('should add a new card to a region if addToCardId is not provided', async () => {
-    const site = new Site({ ...common, isProd: false, themeId: 'test' })
+    const site = await Site.create({ ...common, isProd: false, themeId: 'test' }, { loadThemePages: true })
 
+    expect(site.viewMap.value.example).toBeTruthy()
+    expect(site.viewMap.value._home).toBeTruthy()
     expect(Object.keys(site.viewMap.value)).toMatchInlineSnapshot(`
       [
-        "__transaction",
+        "_home",
         "_",
+        "example",
+        "__transaction",
       ]
     `)
     expect(site.activePageId.value).toBeTruthy()
@@ -107,7 +111,7 @@ describe('addNewCard', async () => {
   })
 
   it('should add a new card to an existing card if addToCardId is provided', async () => {
-    const site = new Site({ ...common, isProd: false, themeId: 'test' })
+    const site = await Site.create({ ...common, isProd: false, themeId: 'test' })
 
     await addNewCard({ site, templateId: 'area', addToRegion: 'footer', cardId: 'firstCard' })
     await addNewCard({ site, templateId: 'area', addToCardId: 'firstCard', cardId: 'nestedCard' })
@@ -117,7 +121,7 @@ describe('addNewCard', async () => {
   })
 
   it('should delay the addCard action if delay is provided and greater than 0', async () => {
-    const site = new Site({ ...common, isProd: false, themeId: 'test' })
+    const site = await Site.create({ ...common, isProd: false, themeId: 'test' })
 
     const delay = 100
     let r1: CardConfigPortable | undefined
@@ -135,8 +139,8 @@ describe('updateRegion', async () => {
   const testUtils = await createSiteTestUtils()
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
   const cardCommon = { regionId: 'main', templateId: 'area' } as const
-  it('should add a new card if it does not exist', () => {
-    const site = new Site({ ...common, isProd: false })
+  it('should add a new card if it does not exist', async () => {
+    const site = await Site.create({ ...common, isProd: false })
     const cardConfig: Partial<TableCardConfig> = { cardId: 'card1', ...cardCommon }
     const initialLength = site.pages.value.length
 
@@ -146,8 +150,8 @@ describe('updateRegion', async () => {
     expect(site.pages.value[0]).toBeInstanceOf(Card)
   })
 
-  it('should update the existing card if it already exists', () => {
-    const site = new Site({ ...common, isProd: false })
+  it('should update the existing card if it already exists', async () => {
+    const site = await Site.create({ ...common, isProd: false })
 
     const id = 'existingCard'
     site.pages.value.push(new Card({ cardId: id, userConfig: { val: 'bravo' }, site }))

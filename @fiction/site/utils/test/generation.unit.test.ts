@@ -10,7 +10,7 @@ import { type InputOptionGeneration, calculateTotalEstimatedTimeSeconds, generat
 
 describe('generation utils', async () => {
   const testUtils = await createSiteTestUtils()
-  const site = new Site({ fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
+  const site = await Site.create({ fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
   const card = new Card({
     site,
     inlineTemplate: standardCardTemplates.find(t => t.settings.templateId === 'hero') as CardTemplate,
@@ -35,6 +35,7 @@ describe('generation utils', async () => {
         "superIcon",
         "superColor",
         "splash",
+        "caption",
         "actions",
         "overlays",
       ]

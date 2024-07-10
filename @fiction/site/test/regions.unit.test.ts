@@ -33,7 +33,7 @@ async function getDbSite(testUtils: SiteTestUtils, r: InitializedTestUtils) {
   const siteConfig = r2.data
   expect(siteConfig?.siteId).toBeTruthy()
 
-  site = new Site({ ...siteConfig, fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
+  site = await Site.create({ ...siteConfig, fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
 
   return site
 }
@@ -123,7 +123,7 @@ describe('upsert action', async () => {
   const siteConfig = r2.data
   expect(siteConfig?.siteId).toBeTruthy()
 
-  site = new Site({ ...siteConfig, fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
+  site = await Site.create({ ...siteConfig, fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
   siteId = site.siteId
 
   it('should upsert a region', async () => {

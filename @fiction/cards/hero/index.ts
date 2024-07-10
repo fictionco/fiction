@@ -50,7 +50,7 @@ export const options = [
   standardOption.media({ key: 'splash', label: 'Splash Image' }),
   new InputOption({ key: 'caption', input: 'InputText', label: 'Splash Caption' }),
   new InputOption({ key: 'overlays', input: 'InputList', label: 'Overlays', options: [
-    new InputOption({ key: 'media', label: 'Image', input: 'InputMedia' }),
+    new InputOption({ key: 'media', label: 'Image', input: 'InputMediaDisplay', props: { formats: { url: true } } }),
     new InputOption({ key: 'opacity', label: 'Opacity', input: 'InputNumber' }),
     new InputOption({ key: 'position', label: 'Position', input: 'InputSelect', list: ['top', 'bottom', 'left', 'right', 'center', 'bottomRight', 'topRight', 'bottomLeft', 'topLeft'] as const }),
     new InputOption({ key: 'widthPercent', label: 'Width Percent', input: 'InputRange', props: { min: 10, max: 100 } }),

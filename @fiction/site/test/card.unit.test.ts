@@ -8,7 +8,7 @@ import { createSiteTestUtils } from './testUtils'
 
 describe('card', async () => {
   const testUtils = await createSiteTestUtils()
-  const site = new Site({ fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
+  const site = await Site.create({ fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
   const card = new Card({
     site,
     inlineTemplate: standardCardTemplates.find(t => t.settings.templateId === 'hero') as CardTemplate,
@@ -98,6 +98,13 @@ describe('card', async () => {
           "label": "Actions",
           "prompt": "List of link buttons",
         },
+        "caption": {
+          "cumulativeTime": 8000,
+          "estimatedMs": 4000,
+          "key": "caption",
+          "label": "Caption",
+          "prompt": "Caption for the splash image",
+        },
         "heading": {
           "cumulativeTime": 4000,
           "estimatedMs": 4000,
@@ -164,7 +171,7 @@ describe('card', async () => {
 describe('cardTemplate', async () => {
   const _testUtils = await createSiteTestUtils()
   it('initializes correctly with default settings', async () => {
-    const site = new Site({ fictionSites: _testUtils.fictionSites, siteRouter: _testUtils.fictionRouterSites, themeId: 'test' })
+    const site = await Site.create({ fictionSites: _testUtils.fictionSites, siteRouter: _testUtils.fictionRouterSites, themeId: 'test' })
 
     expect(site?.theme.value?.templates.map(t => t.settings.templateId)).toMatchInlineSnapshot(`
       [

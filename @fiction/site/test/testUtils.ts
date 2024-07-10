@@ -27,7 +27,7 @@ export type SiteTestUtils = TestUtils & {
   fictionAdmin: FictionAdmin
   runApp: (args: { context: 'app' | 'node', isProd?: boolean }) => Promise<void>
   close: () => Promise<void>
-  createSite: (args?: { themeId?: string }) => Site
+  createSite: (args?: { themeId?: string }) => Promise<Site>
 }
 export async function createSiteTestUtils(args: { mainFilePath?: string, context?: 'node' | 'app', themes?: ThemeSetup[] } = {}): Promise<SiteTestUtils> {
   const { mainFilePath, context = 'node' } = args
@@ -65,12 +65,12 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
 
   out.close = async () => testUtils.close()
 
-  out.createSite = (args: { themeId?: string } = {}) => {
+  out.createSite = async (args: { themeId?: string } = {}) => {
     const { themeId = 'test' } = args
     const service = out as SiteTestUtils
     const siteRouter = service.fictionRouterSites
     const fictionSites = service.fictionSites
-    return new Site({ siteRouter, fictionSites, themeId, isProd: false })
+    return Site.create({ siteRouter, fictionSites, themeId, isProd: false })
   }
 
   return out as SiteTestUtils

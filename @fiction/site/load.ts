@@ -35,7 +35,7 @@ export async function requestManageSite(args: RequestManageSiteParams) {
 
   let site: Site | undefined = undefined
   if (r.data?.siteId)
-    site = new Site({ ...r.data, fictionSites, siteRouter, siteMode })
+    site = await Site.create({ ...r.data, fictionSites, siteRouter, siteMode })
 
   return { site, response: r }
 }

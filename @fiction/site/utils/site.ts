@@ -45,8 +45,8 @@ export function setupRouteWatcher(args: { site: Site, queryVarHooks: QueryVarHoo
   fictionEnv.cleanupCallbacks.push(() => sw())
 }
 
-export function setSections(args: { site: Site, sections?: Record<string, CardConfigPortable> }) {
-  const { site, sections = {} } = args
+export function setSections(args: { site: Site, sections?: Record<string, CardConfigPortable>, themeSections?: Record<string, CardConfigPortable> }) {
+  const { site, sections = {}, themeSections = {} } = args
 
   // get existing section config, note that on first time its setting sections to site.sections is missing
   const existingSections: Record<string, CardConfigPortable> = Object.fromEntries(Object.entries(site.sections?.value || {}).map(([k, v]) => [k, v.toConfig()]))
@@ -60,14 +60,14 @@ export function setSections(args: { site: Site, sections?: Record<string, CardCo
 
   // Unified all section IDs including page template sections
   const allSectionIds = [...new Set(
-    [existingSections, sections, pageTemplateSections].flatMap(Object.keys),
+    [existingSections, sections, themeSections, pageTemplateSections].flatMap(Object.keys),
   )]
 
   return allSectionIds.reduce((acc, sectionId) => {
     // scope is set by the original source of the section
     const scope = pageTemplateSections[sectionId] ? 'template' : 'site'
 
-    const config = sections[sectionId] || existingSections[sectionId] || pageTemplateSections[sectionId] || {}
+    const config = sections[sectionId] || existingSections[sectionId] || themeSections[sectionId] || pageTemplateSections[sectionId] || {}
 
     acc[sectionId] = new Card({ ...config, regionId: sectionId, site, scope })
     return acc

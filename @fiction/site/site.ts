@@ -51,6 +51,13 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     this.watchers()
   }
 
+  static async create<U extends SiteSettings>(settings: U, options: { loadThemePages?: boolean } = {}): Promise<Site<U>> {
+    const site = new Site<U>(settings)
+    await site.loadTheme(options)
+
+    return site
+  }
+
   watchers() {
     const queryVarHooks: QueryVarHook[] = [{
       key: '_scheme',
@@ -80,6 +87,24 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   isAnimationDisabled = vue.ref(false)
   themeId = vue.ref(this.settings.themeId)
   theme = vue.computed(() => this.fictionSites.themes.value.find(t => t.themeId === this.themeId.value))
+
+  async loadTheme(options: { loadThemePages?: boolean } = {}) {
+    const { loadThemePages = false } = options
+    const theme = this.theme.value
+
+    if (!theme)
+      throw new Error(`Theme with ID ${this.themeId.value} not found`)
+
+    if (loadThemePages) {
+      const themePages = await theme.getPages({ site: this })
+      this.update({ pages: themePages })
+    }
+
+    const themeSections = await theme.getSections({ site: this })
+    this.sections.value = setSections({ site: this, themeSections })
+
+    return this
+  }
 
   userConfig = vue.ref(this.settings.userConfig || {})
   fullConfig = vue.computed(() => deepMerge<SiteUserConfig>([this.theme.value?.config(), this.userConfig.value]))

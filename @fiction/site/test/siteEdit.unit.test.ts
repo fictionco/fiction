@@ -13,7 +13,7 @@ import { createSiteTestUtils } from './testUtils'
 
 describe('site plugin tests', async () => {
   const testUtils = await createSiteTestUtils()
-  let site = testUtils.createSite()
+  let site = await testUtils.createSite()
 
   const testTheme = setup(testUtils)
   const r = await testUtils.init()
@@ -551,7 +551,7 @@ describe('site plugin tests', async () => {
 
     expect(responseSiteConfig?.siteId).toBeTruthy()
 
-    const responseSite = new Site({ ...responseSiteConfig, fictionSites: testUtils?.fictionSites, siteRouter: testUtils?.fictionRouterSites })
+    const responseSite = await Site.create({ ...responseSiteConfig, fictionSites: testUtils?.fictionSites, siteRouter: testUtils?.fictionRouterSites })
 
     expect(responseSite.pages.value.length).toBe(site.pages.value.length)
   })
