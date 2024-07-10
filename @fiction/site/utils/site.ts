@@ -1,4 +1,4 @@
-import { type CleanupCallback, vue, waitFor } from '@fiction/core'
+import { type CleanupCallback, toCamel, vue, waitFor } from '@fiction/core'
 import type { Site, SiteSettings } from '../index.js'
 import type { CardConfigPortable, TableSiteConfig } from '../tables.js'
 import { Card } from '../card.js'
@@ -190,4 +190,32 @@ export function activeSiteDisplayUrl(site: Site, opts: { isProd?: boolean, mode:
       return baseUrl
     }
   })
+}
+
+export function staticFileUrl(args: { site: Site, filename: string }) {
+  const { site, filename } = args
+  const siteUrl = activeSiteDisplayUrl(site, { mode: 'staging' }).value
+  return [siteUrl, '__static', filename].join('/')
+}
+
+type Camelize<S extends string> = S extends `${infer T}-${infer U}`
+  ? `${Lowercase<T>}${Capitalize<Camelize<U>>}`
+  : Lowercase<S>
+
+type CamelizeFileNames<T extends readonly string[]> = {
+  [K in T[number] as Camelize<K extends `${infer Base}.${string}` ? Base : K>]: string;
+}
+
+export function staticFileUrls<T extends readonly string[]>(args: { site: Site, filenames: T }): CamelizeFileNames<T> {
+  const { site, filenames } = args
+  const siteUrl = activeSiteDisplayUrl(site, { mode: 'staging' }).value
+  const result = {} as CamelizeFileNames<T>
+
+  filenames.forEach((filename) => {
+    const baseFilename = filename.replace(/\.[^/.]+$/, '') // Remove the file extension
+    const camelCaseName = toCamel(baseFilename) as keyof CamelizeFileNames<T>
+    result[camelCaseName] = `${siteUrl}/__static/${filename}` as CamelizeFileNames<T>[typeof camelCaseName]
+  })
+
+  return result
 }

@@ -1,7 +1,8 @@
 import { type FictionEnv, safeDirname, vue } from '@fiction/core'
 import { standardCardTemplates } from '@fiction/cards'
-import { CardTemplate } from '../../card'
-import { Theme, createCard } from '../../theme'
+import { staticFileUrl } from '../../utils/site.js'
+import { CardTemplate } from '../../card.js'
+import { Theme, createCard } from '../../theme.js'
 
 const def = vue.defineAsyncComponent
 
@@ -30,8 +31,7 @@ export function setup(args: { fictionEnv: FictionEnv }) {
     templates,
     pages: async (args) => {
       const { site } = args
-      const fictionMedia = site.fictionSites.settings.fictionMedia
-      const relativeImage = await fictionMedia.relativeMedia({ url: new URL('./img/screenshot.jpg', import.meta.url).href })
+      const obama = staticFileUrl({ site, filename: 'obama.webp' })
       const mediaGridCard = createCard({
         templates,
         templateId: 'marquee',
@@ -41,9 +41,7 @@ export function setup(args: { fictionEnv: FictionEnv }) {
               name: 'Barack Obama',
               desc: 'Personal Site',
               tags: ['Politics'],
-              media: {
-                url: relativeImage.url,
-              },
+              media: { url: obama },
             },
           ],
         },

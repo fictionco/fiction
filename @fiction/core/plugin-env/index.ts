@@ -40,6 +40,7 @@ export interface FictionControlSettings {
   version?: string
   serverOnlyModules?: ServerModuleDef[]
   uiPaths?: string[]
+  staticPaths?: string[]
   meta?: {
     version?: string
     app?: {
@@ -62,6 +63,7 @@ type BaseCompiled = {
 export type EnvEventMap = {
   resetUi: CustomEvent<{ scope: 'all' | 'inputs' | 'iframe', cause: string }>
   shutdown: CustomEvent<{ reason: string }> // shut down services, server
+  restartServers: CustomEvent<{ reason: string }> // restart services, server
   notify: CustomEvent<UserNotification>
   cleanup: CustomEvent<{ reason: string }> // clear memory, etc.
 }
@@ -102,6 +104,7 @@ export class FictionEnv<
   version = this.settings.version || '0.0.0'
   fictionVersion = fictionVersion
   uiPaths = new Set(this.settings.uiPaths)
+  staticPaths = new Set(this.settings.staticPaths)
 
   serverOnlyImports: Record<string, true | Record<string, string>> = commonServerOnlyModules()
 
@@ -476,5 +479,12 @@ export class FictionEnv<
       `!${root}/dist/**`, // Exclude dist
     ]
     uiPaths.forEach(uiPath => this.uiPaths.add(uiPath))
+
+    const staticPaths = [
+      `${root}/static`,
+      `${root}/**/static`,
+    ]
+
+    staticPaths.forEach(staticPath => this.staticPaths.add(staticPath))
   }
 }

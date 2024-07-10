@@ -30,7 +30,7 @@ interface CardTemplateSettings<U extends string = string, T extends ComponentCon
   options?: InputOption[]
   schema?: z.AnyZodObject
   userConfig?: CardTemplateUserConfig<T> & SiteUserConfig
-  getUserConfig?: (site: Site) => Promise<CardTemplateUserConfig<T> & SiteUserConfig>
+  getUserConfig?: (args: { site: Site }) => Promise<CardTemplateUserConfig<T> & SiteUserConfig>
   sections?: Record<string, CardConfigPortable>
   root?: string
   demoPage?: (args: { site: Site }) => Promise<{ cards: CardConfigPortable< CardTemplateUserConfig<T> & SiteUserConfig>[] }>
@@ -48,7 +48,7 @@ export class CardTemplate<U extends string = string, T extends ComponentConstruc
   async toCard(args: { cardId?: string, site: Site }) {
     const { cardId, site } = args
     const { userConfig = {}, getUserConfig = () => {} } = this.settings
-    const asyncUserConfig = await getUserConfig(site)
+    const asyncUserConfig = await getUserConfig({ site })
 
     const cardUserConfig = { ...userConfig, ...asyncUserConfig }
 

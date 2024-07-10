@@ -234,13 +234,30 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     if (this.settings.fictionEnv.isApp.value || !this.fictionRender)
       return
 
-    const eApp = await this.ssrServerSetup({ mode, expressApp })
+    if (this.appServer) {
+      this.appServer.close()
+    }
+
+    const setupExpressApp = await this.ssrServerSetup({ mode, expressApp })
+
+    return this.restartableAppServer({ expressApp: setupExpressApp })
+  }
+
+  async restartableAppServer(args: { expressApp?: Express, isRestart?: boolean } = {}) {
+    const { expressApp, isRestart } = args
+    if (this.appServer) {
+      this.appServer.close()
+    }
 
     await new Promise<void>((resolve) => {
-      this.appServer = eApp?.listen(this.port.value, () => resolve())
+      this.appServer = expressApp?.listen(this.port.value, () => resolve())
     })
 
     this.logReady({ serveMode: 'ssr' })
+
+    if (!isRestart) {
+      this.fictionEnv.events.on('restartServers', async () => this.restartableAppServer({ ...args, isRestart: true }))
+    }
 
     return this.appServer
   }

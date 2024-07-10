@@ -10,7 +10,9 @@ import type { Express, Request } from 'express'
 import type tailwindcss from 'tailwindcss'
 import { iconsPlugin } from '@egoist/tailwindcss-icons'
 import express from 'express'
-import { createExpressApp, deepMergeAll, getRequire, importIfExists, isNode, requireIfExists, safeDirname } from '../utils/index.js'
+import { glob } from 'glob'
+import chokidar from 'chokidar'
+import { createExpressApp, debounce, deepMergeAll, getRequire, importIfExists, isNode, requireIfExists, safeDirname } from '../utils/index.js'
 import type { FictionEnv } from '../plugin-env/index.js'
 import type { FictionRouter } from '../plugin-router/index.js'
 import { FictionBuild } from '../plugin-build/index.js'
@@ -450,6 +452,20 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     catch { }
   }
 
+  getAndWatchStaticFolders(): string[] {
+    const patterns = Array.from(this.fictionEnv.staticPaths)
+    const folders = patterns.flatMap(pattern => glob.sync(pattern))
+
+    const onChange = () => this.fictionEnv.events.emit('restartServers', { reason: 'staticFile' })
+    const throttledOnChange = debounce(onChange, 500)
+
+    const watcher = chokidar.watch(folders, { ignoreInitial: true })
+    watcher.on('add', throttledOnChange)
+    watcher.on('unlink', throttledOnChange)
+
+    return folders
+  }
+
   createExpressApp = async (config: {
     mode: 'dev' | 'prod' | 'test'
     expressApp?: Express
@@ -479,6 +495,8 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
         expressApp.use(viteServer.middlewares)
         template = await this.indexHtml.getDevIndexHtml({ viteServer, pathname: '/' })
       }
+      const staticFolders = this.getAndWatchStaticFolders()
+      staticFolders.forEach(folder => expressApp.use('/__static', serveStatic(folder, { index: false })))
 
       await this.fictionEnv?.runHooks('expressApp', { expressApp, mode })
 

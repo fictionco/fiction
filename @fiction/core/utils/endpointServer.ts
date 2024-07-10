@@ -121,8 +121,12 @@ export class EndpointServer {
     this.expressApp.use('/api/ok', (req, res) => res.status(200).send('ok').end())
   }
 
-  async run(args: { port?: number } = {}) {
-    const { port = this.port } = args
+  async run(args: { port?: number, isRestart?: boolean } = {}) {
+    const { port = this.port, isRestart = false } = args
+
+    if (this.server) {
+      this.server.close()
+    }
 
     this.server = await new Promise(async (resolve) => {
       let s: http.Server
@@ -158,7 +162,10 @@ export class EndpointServer {
       },
     })
 
-    this.fictionEnv.events.on('shutdown', () => this.server?.close())
+    if (!isRestart) {
+      this.fictionEnv.events.on('restartServers', async () => this.run({ ...args, isRestart: true }))
+      this.fictionEnv.events.on('shutdown', () => this.server?.close())
+    }
   }
 
   /**

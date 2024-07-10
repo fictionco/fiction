@@ -1,17 +1,10 @@
-import { type ActionItem, colorTheme, vue } from '@fiction/core'
+import { type ActionItem, vue } from '@fiction/core'
+import type { Site } from '@fiction/site'
 import { CardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
+import { staticFileUrls } from '@fiction/site/utils/site'
 import { options as heroOptions, schema as heroSchema } from '../hero/index'
-import dogs from './img/dogs.jpg'
-import dogs2 from './img/dogs2.jpg'
-import dogs3 from './img/dogs3.jpg'
-import fish from './img/fish.jpg'
-import clownfish from './img/clownfish.jpg'
-import farm from './img/farm.jpg'
-import savannah from './img/savannah.jpg'
-import asian from './img/asian.jpg'
-import ukraine from './img/ukraine.jpg'
 
 const templateId = 'tour'
 
@@ -25,45 +18,63 @@ const options: InputOption[] = [
   new InputOption({ key: 'items', label: 'Tour Items', input: 'InputList', options: heroOptions }),
 ]
 
-const defaultConfig: UserConfig = {
-  items: [
-    {
-      heading: 'The Life of Dogs',
-      subHeading: 'Perfect for pet lovers looking to add a touch of canine charm to their space.',
-      splash: { url: dogs },
-      layout: 'left',
-      overlays: [{ media: { url: dogs2 }, position: 'bottomLeft' }, { media: { url: dogs3 }, position: 'topRight' }],
-      actions: [
-        { name: 'View Dog Gallery', href: '#', btn: 'primary' },
-        { name: 'Contact Me', href: '#', btn: 'naked' as const },
-      ],
-    },
-    {
-      heading: 'Under the Sea',
-      subHeading: 'Illustrations to take you underneath the waves.',
-      splash: { url: fish },
-      layout: 'right',
-      overlays: [{ media: { url: clownfish }, position: 'bottomLeft' }],
-      actions: [
-        { name: 'View Dog Gallery', href: '#', btn: 'primary' },
-        { name: 'Contact Me', href: '#', btn: 'naked' as const },
-      ],
-    },
-    {
-      heading: 'Landscape Illustrations',
-      subHeading: 'Ideal for adding serene and picturesque views to your decor.',
-      splash: { url: savannah },
-      overlays: [
-        { media: { url: farm } },
-        { media: { url: asian }, position: 'bottomLeft' },
-        { media: { url: ukraine }, position: 'topRight', widthPercent: 15 },
-      ],
-      actions: [
-        { name: 'View Landscapes', href: '#', btn: 'primary' },
-        { name: 'Contact Me', href: '#', btn: 'naked' as const },
-      ],
-    },
-  ],
+async function defaultConfig(args: { site: Site }): Promise<UserConfig> {
+  const { site } = args
+
+  const filenames = [
+    'tour-clownfish.jpg',
+    'tour-ukraine.jpg',
+    'tour-farm.jpg',
+    'tour-dogs.jpg',
+    'tour-dogs2.jpg',
+    'tour-dogs3.jpg',
+    'tour-fish.jpg',
+    'tour-savannah.jpg',
+    'tour-asian.jpg',
+  ] as const
+
+  const urls = staticFileUrls({ site, filenames })
+
+  return {
+    items: [
+      {
+        heading: 'The Life of Dogs',
+        subHeading: 'Perfect for pet lovers looking to add a touch of canine charm to their space.',
+        splash: { url: urls.tourDogs },
+        layout: 'left' as const,
+        overlays: [{ media: { url: urls.tourDogs2 }, position: 'bottomLeft' }, { media: { url: urls.tourDogs3 }, position: 'topRight' }],
+        actions: [
+          { name: 'View Dog Gallery', href: '#', btn: 'primary' },
+          { name: 'Contact Me', href: '#', btn: 'naked' as const },
+        ],
+      },
+      {
+        heading: 'Under the Sea',
+        subHeading: 'Illustrations to take you underneath the waves.',
+        splash: { url: urls.tourFish },
+        layout: 'right' as const,
+        overlays: [{ media: { url: urls.tourClownfish }, position: 'bottomLeft' }],
+        actions: [
+          { name: 'View Dog Gallery', href: '#', btn: 'primary' },
+          { name: 'Contact Me', href: '#', btn: 'naked' as const },
+        ],
+      },
+      {
+        heading: 'Landscape Illustrations',
+        subHeading: 'Ideal for adding serene and picturesque views to your decor.',
+        splash: { url: urls.tourAsian },
+        overlays: [
+          { media: { url: urls.tourFarm } },
+          { media: { url: urls.tourSavannah }, position: 'bottomLeft' },
+          { media: { url: urls.tourUkraine }, position: 'topRight', widthPercent: 15 },
+        ],
+        actions: [
+          { name: 'View Landscapes', href: '#', btn: 'primary' },
+          { name: 'Contact Me', href: '#', btn: 'naked' as const },
+        ],
+      },
+    ],
+  }
 }
 
 export const templates = [
@@ -75,11 +86,12 @@ export const templates = [
     colorTheme: 'green',
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
     options,
-    userConfig: { ...defaultConfig },
-    demoPage: async () => {
+    getUserConfig: async args => defaultConfig(args),
+    demoPage: async (args) => {
+      const userConfig = await defaultConfig(args)
       return {
         cards: [
-          { templateId, userConfig: { ...defaultConfig } },
+          { templateId, userConfig },
         ],
       }
     },
