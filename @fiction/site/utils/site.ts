@@ -48,25 +48,26 @@ export function setupRouteWatcher(args: { site: Site, queryVarHooks: QueryVarHoo
 export function setSections(args: { site: Site, sections?: Record<string, CardConfigPortable> }) {
   const { site, sections = {} } = args
 
+  // get existing section config, note that on first time its setting sections to site.sections is missing
+  const existingSections: Record<string, CardConfigPortable> = Object.fromEntries(Object.entries(site.sections?.value || {}).map(([k, v]) => [k, v.toConfig()]))
+
   // Access theme and page template sections
-  const themeSections = site.theme.value?.settings.sections?.() || {}
+
   const pageTemplateSections = site.pages.value.reduce((acc, page) => {
     const pageSections = page.tpl.value?.settings.sections || {}
     return { ...acc, ...pageSections }
   }, {} as Record<string, CardConfigPortable>)
 
   // Unified all section IDs including page template sections
-  const allSectionIds = [...new Set([
-    ...Object.keys(themeSections),
-    ...Object.keys(sections),
-    ...Object.keys(pageTemplateSections),
-  ])]
+  const allSectionIds = [...new Set(
+    [existingSections, sections, pageTemplateSections].flatMap(Object.keys),
+  )]
 
   return allSectionIds.reduce((acc, sectionId) => {
     // scope is set by the original source of the section
     const scope = pageTemplateSections[sectionId] ? 'template' : 'site'
 
-    const config = sections[sectionId] || themeSections[sectionId] || pageTemplateSections[sectionId] || {}
+    const config = sections[sectionId] || existingSections[sectionId] || pageTemplateSections[sectionId] || {}
 
     acc[sectionId] = new Card({ ...config, regionId: sectionId, site, scope })
     return acc
@@ -145,8 +146,10 @@ export function updateSite(args: { site: Site, newConfig: Partial<SiteSettings> 
   if (editor)
     site.editor.value = { ...site.editor.value, ...editor }
 
-  if (pages)
+  if (pages) {
     site.pages.value = setPages({ site, pages })
+    site.sections.value = setSections({ site })
+  }
 
   if (sections)
     site.sections.value = setSections({ site, sections })

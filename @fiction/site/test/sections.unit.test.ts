@@ -48,6 +48,7 @@ describe('section handling defaults', async () => {
     expect(site.currentPage.value.templateId.value).toMatchInlineSnapshot(`"wrap"`)
     expect(Object.keys(site.sections.value)).toMatchInlineSnapshot(`
       [
+        "test",
         "header",
         "footer",
       ]

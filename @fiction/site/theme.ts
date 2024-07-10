@@ -22,7 +22,7 @@ export type ThemeSettings<T extends Record<string, unknown> = Record<string, unk
   isDarkMode?: boolean
   userConfig?: Partial<SiteUserConfig> & T
   pages: (args: { site: Site }) => Promise<TableCardConfig[]> | TableCardConfig[]
-  sections?: () => Record<string, TableCardConfig>
+  sections?: (args: { site: Site }) => Promise<Record<string, TableCardConfig>> | Record<string, TableCardConfig>
   templateDefaults?: {
     page?: string
     transaction?: string
@@ -39,6 +39,7 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
   templates = this.settings.templates
   ui = { button: { el: ElButton }, ...this.settings.ui }
   pages = this.settings.pages
+  sections = this.settings.sections
   templateDefaults = vue.computed(() => ({ page: 'wrap', transaction: 'wrap', ...this.settings.templateDefaults }))
 
   constructor(settings: ThemeSettings<T>) {
@@ -59,12 +60,21 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
     return pgs
   }
 
+  async getSections(args: { site: Site }): Promise<Record<string, TableCardConfig>> {
+    const sections = this.sections ? await this.sections(args) : {}
+
+    return sections
+  }
+
   async toSite(settings: Omit<SiteSettings, 'themeId'>): Promise<Site> {
-    const site = new Site({ ...settings, themeId: this.themeId, pages: [] })
+    const site = new Site({ ...settings, themeId: this.themeId, pages: [], sections: {} })
 
-    const pages = await this.getPages({ site })
+    const [pages, sections] = await Promise.all([
+      this.getPages({ site }),
+      this.getSections({ site }),
+    ])
 
-    site.update({ pages })
+    site.update({ pages, sections })
 
     return site
   }

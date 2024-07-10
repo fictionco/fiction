@@ -29,6 +29,7 @@ export const schema = z.object({
   superIcon: z.string().optional().describe('Icon for the super heading'),
   superColor: z.enum(colorTheme).optional().describe('change color of super heading'),
   splash: z.object({ url: z.string(), format: z.enum(['url', 'html']).optional() }).optional().describe('Splash picture for hero;time:40000').refine(_ => true, { params: { time: 40 } }),
+  caption: z.string().optional().describe('Caption for the splash image'),
   actions: z.array(z.object({
     name: z.string().optional(),
     href: z.string().optional(),
@@ -45,8 +46,9 @@ export type OverlayConfig = z.infer<typeof overlaySchema>
 export const options = [
   standardOption.headers({}),
   standardOption.layout(),
-  standardOption.media({ key: 'splash', label: 'Splash Image' }),
   standardOption.actionItems(),
+  standardOption.media({ key: 'splash', label: 'Splash Image' }),
+  new InputOption({ key: 'caption', input: 'InputText', label: 'Splash Caption' }),
   new InputOption({ key: 'overlays', input: 'InputList', label: 'Overlays', options: [
     new InputOption({ key: 'media', label: 'Image', input: 'InputMedia' }),
     new InputOption({ key: 'opacity', label: 'Opacity', input: 'InputNumber' }),
