@@ -30,9 +30,10 @@ interface CardTemplateSettings<U extends string = string, T extends ComponentCon
   options?: InputOption[]
   schema?: z.AnyZodObject
   userConfig?: CardTemplateUserConfig<T> & SiteUserConfig
+  getUserConfig?: (site: Site) => Promise<CardTemplateUserConfig<T> & SiteUserConfig>
   sections?: Record<string, CardConfigPortable>
   root?: string
-  demoPage?: () => { cards: CardConfigPortable< CardTemplateUserConfig<T> & SiteUserConfig>[] }
+  demoPage?: (args: { site: Site }) => Promise<{ cards: CardConfigPortable< CardTemplateUserConfig<T> & SiteUserConfig>[] }>
 }
 
 export class CardTemplate<U extends string = string, T extends ComponentConstructor = ComponentConstructor> extends FictionObject<
@@ -44,20 +45,24 @@ export class CardTemplate<U extends string = string, T extends ComponentConstruc
 
   optionConfig = refineOptions({ options: this.settings.options || [], schema: this.settings.schema })
 
-  toCard(args: { cardId?: string, site?: Site }) {
-    const { cardId } = args
-    const userConfig = this.settings.userConfig || {}
+  async toCard(args: { cardId?: string, site: Site }) {
+    const { cardId, site } = args
+    const { userConfig = {}, getUserConfig = () => {} } = this.settings
+    const asyncUserConfig = await getUserConfig(site)
+
+    const cardUserConfig = { ...userConfig, ...asyncUserConfig }
+
     return new Card({
       cardId: cardId || objectId({ prefix: 'crd' }),
       templateId: this.settings.templateId,
       title: this.settings.title,
-      userConfig,
+      userConfig: cardUserConfig,
       ...args,
     })
   }
 }
 
-export type CardSettings<T extends Record<string, unknown> = Record<string, unknown> > = CardConfigPortable<T> & { site?: Site, inlineTemplate?: CardTemplate }
+export type CardSettings<T extends Record<string, unknown> = Record<string, unknown> > = CardConfigPortable<T> & { site?: Site, inlineTemplate?: CardTemplate, onSync?: (card: Card) => void }
 export type CardBaseConfig = Record<string, unknown> & SiteUserConfig
 
 export class Card<
@@ -136,12 +141,15 @@ export class Card<
     if (cardConfig.cards)
       this.cards.value = cardConfig.cards.map(c => this.initSubCard({ cardConfig: c }))
 
-    this.syncCard({ caller: 'getCompletion', cardConfig })
+    this.syncCard({ caller: `updateCard:${this.templateId.value}`, cardConfig })
   }
 
   updateUserConfig(args: { path: string, value: unknown }) {
     const { path, value } = args
+
     this.userConfig.value = setNested({ data: this.userConfig.value, path, value })
+
+    this.syncCard({ caller: `updateUserConfig:${this.templateId.value}`, cardConfig: { userConfig: this.userConfig.value } })
   }
 
   syncCard(args: { caller: string, cardConfig?: CardConfigPortable }) {
@@ -151,6 +159,11 @@ export class Card<
     const cardConfig = args.cardConfig ? { ...args.cardConfig, cardId: this.cardId } : this.toConfig()
 
     this.site.frame.syncCard({ caller: `card:syncCard:${args.caller}`, cardConfig })
+
+    // allow for parent cards and inherited type functionality
+    if (this.settings.onSync) {
+      this.settings.onSync(this)
+    }
   }
 
   link(location?: vueRouter.RouteLocationRaw) {

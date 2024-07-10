@@ -133,7 +133,7 @@ export const templates = [
     options,
     schema: UserConfigSchema,
     userConfig: { items: defaultItem },
-    demoPage: () => {
+    demoPage: async () => {
       return { cards: [{ templateId, userConfig: { items: defaultItem, autoSlide: true } }] }
     },
   }),

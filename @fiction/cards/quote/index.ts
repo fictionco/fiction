@@ -93,7 +93,7 @@ export const templates = [
     ],
     schema: UserConfigSchema,
     userConfig: { quotes: defaultQuote },
-    demoPage: () => {
+    demoPage: async () => {
       return { cards: [{ templateId, userConfig: { } }] }
     },
   }),

@@ -23,12 +23,22 @@ const UserConfigSchema = z.object({
 
 export type UserConfig = z.infer<typeof UserConfigSchema>
 
+const defaultUserConfig: UserConfig = {
+  items: [
+    { name: 'Title', desc: 'lorem ipsum', media: { format: 'url', url: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=3265&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' } },
+    { name: 'Title', desc: 'lorem ipsum', media: { format: 'url', url: 'https://images.unsplash.com/photo-1614283233556-f35b0c801ef1?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHByb2ZpbGV8ZW58MHwxfDB8fHww' } },
+    { name: 'Title', desc: 'lorem ipsum', media: { format: 'url', url: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=3988&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' } },
+    { name: 'Title', desc: 'lorem ipsum', media: { format: 'url', url: 'https://plus.unsplash.com/premium_photo-1675034393381-7e246fc40755?q=80&w=3712&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' } },
+    { name: 'Title', desc: 'lorem ipsum', media: { format: 'url', url: 'https://images.unsplash.com/photo-1577565177023-d0f29c354b69?q=80&w=2943&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' } },
+  ],
+}
+
 const templateId = 'marquee'
 export const templates = [
   new CardTemplate({
     templateId,
     category: ['marketing'],
-    description: 'animated image marquee',
+    description: 'A marquee of media items that slide in and out',
     icon: 'i-tabler-carousel-horizontal',
     colorTheme: 'pink',
     isPublic: true,
@@ -38,17 +48,9 @@ export const templates = [
       new InputOption({ key: 'direction', label: 'Animation Direction', input: 'InputSelect', list: ['left', 'right'], default: () => 'left' }),
       new InputOption({ key: 'stagger', label: 'Stagger Items', input: 'InputCheckbox', default: () => false }),
     ],
-    userConfig: {
-      items: [
-        { name: 'Title', desc: 'lorem ipsum', media: { format: 'url', url: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=3265&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' } },
-        { name: 'Title', desc: 'lorem ipsum', media: { format: 'url', url: 'https://images.unsplash.com/photo-1614283233556-f35b0c801ef1?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHByb2ZpbGV8ZW58MHwxfDB8fHww' } },
-        { name: 'Title', desc: 'lorem ipsum', media: { format: 'url', url: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=3988&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' } },
-        { name: 'Title', desc: 'lorem ipsum', media: { format: 'url', url: 'https://plus.unsplash.com/premium_photo-1675034393381-7e246fc40755?q=80&w=3712&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' } },
-        { name: 'Title', desc: 'lorem ipsum', media: { format: 'url', url: 'https://images.unsplash.com/photo-1577565177023-d0f29c354b69?q=80&w=2943&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' } },
-      ],
-    },
+    userConfig: defaultUserConfig,
     schema: UserConfigSchema,
-    demoPage: () => {
+    demoPage: async () => {
       const testItem = {
         name: 'Test',
         desc: 'lorem ipsum',
@@ -57,7 +59,7 @@ export const templates = [
       }
       const duplicatedProfiles = Array.from({ length: 4 }, () => testItem)
       return { cards: [
-        { templateId, userConfig: { } },
+        { templateId, userConfig: { ...defaultUserConfig } },
         { templateId, userConfig: { items: duplicatedProfiles, direction: 'right' as const } },
         { templateId, userConfig: { items: duplicatedProfiles, stagger: true } },
       ] }

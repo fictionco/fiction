@@ -59,7 +59,7 @@ export const templates = [
       modeOptions('dark'),
     ],
     schema: UserConfigSchema,
-    demoPage: () => {
+    demoPage: async () => {
       const heroCard = (reverse?: boolean) => {
         return {
           templateId: 'hero',

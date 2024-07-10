@@ -74,7 +74,7 @@ export const templates = [
     isPublic: true,
     options,
     schema: UserConfigSchema,
-    demoPage: () => {
+    demoPage: async () => {
       return {
         cards: [
           { templateId, userConfig: { presentationMode: 'inline' as const, ...demoUserConfig } },

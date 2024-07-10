@@ -52,7 +52,7 @@ describe('setLayoutOrder', async () => {
 
     setLayoutOrder({ site, order: order2 })
 
-    site.addCard({ cardId: 'cardD', templateId: 'hero', addToCardId: 'page3', location: 'top' })
+    await site.addCard({ cardId: 'cardD', templateId: 'hero', addToCardId: 'page3', location: 'top' })
 
     expect(site.pages.value.find(p => p.cardId === 'page2')?.cards.value.map(c => c.cardId)).toEqual(['cardC', 'cardA'])
     expect(site.pages.value.find(p => p.cardId === 'page3')?.cards.value.map(c => c.cardId)).toEqual(['cardD', 'cardA', 'cardB'])

@@ -225,7 +225,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     })
   }
 
-  addCard(args: { templateId: string, addToCardId?: string, delay?: number, cardId?: string, location?: 'top' | 'bottom' }) {
+  async addCard(args: { templateId: string, addToCardId?: string, delay?: number, cardId?: string, location?: 'top' | 'bottom' }) {
     return addNewCard({
       site: this,
       ...args,

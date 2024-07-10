@@ -100,7 +100,7 @@ const minimalProfile = new CardTemplate({
   isPublic: true,
   options,
   schema: UserConfigSchema,
-  demoPage: () => {
+  demoPage: async () => {
     return { cards: [
       { templateId, userConfig: { ...defaultContent } },
       { templateId, userConfig: { ...defaultContent, layout: 'left' as const } },

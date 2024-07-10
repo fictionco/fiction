@@ -1,5 +1,5 @@
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
-import type { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
+import type { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionPluginSettings, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 
 import { EnvVar, vars } from '@fiction/core/plugin-env'
 import type { FictionAi } from '@fiction/plugin-ai'
@@ -31,6 +31,7 @@ export type SitesPluginSettings = {
   fictionAdmin: FictionAdmin
   fictionMonitor?: FictionMonitor
   fictionAi?: FictionAi
+  fictionMedia: FictionMedia
   fictionAppSites: FictionApp
   fictionRouterSites: FictionRouter
   flyAppId: string

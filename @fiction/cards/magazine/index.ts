@@ -27,7 +27,7 @@ export const templates = [
       new InputOption({ key: 'scheme.reverse', label: 'Reverse Color Scheme', input: 'InputCheckbox' }),
     ],
     schema: UserConfigSchema,
-    demoPage: () => {
+    demoPage: async () => {
       return { cards: [
         { templateId, userConfig: { } },
       ] }

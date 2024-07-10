@@ -1,6 +1,7 @@
 import type { FictionEnv } from '@fiction/core'
 import { envConfig, safeDirname, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site/card'
+import type { Site } from '@fiction/site/site.js'
 import { z } from 'zod'
 import type { CardConfigPortable } from '@fiction/site'
 import * as four04 from './404'
@@ -66,13 +67,15 @@ export const marketingCardTemplates = [
   ...faq.templates,
 ] as const
 
-export function getDemoPages(args: { templates: CardTemplate[] | readonly CardTemplate[], fictionEnv?: FictionEnv }) {
+export async function getDemoPages(args: { site: Site, templates: CardTemplate[] | readonly CardTemplate[], fictionEnv?: FictionEnv }) {
   const { templates } = args
 
-  const inlineDemos = templates.filter(t => t.settings.demoPage).map((t) => {
-    const card = t.settings.demoPage?.() as CardConfigPortable
+  const promises = templates.filter(t => t.settings.demoPage).map(async (t) => {
+    const card = await t.settings.demoPage?.(args) as CardConfigPortable
     return createDemoPage({ templateId: t.settings.templateId, template: t, card })
   })
+
+  const inlineDemos = await Promise.all(promises)
 
   return inlineDemos
 }

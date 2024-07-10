@@ -1,9 +1,13 @@
 import { describe, expect, it } from 'vitest'
+import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { getDemoPages, standardCardTemplates } from '..'
 
-describe('verify template settings config', () => {
-  it('has template options set correctly', () => {
-    const demoPages = getDemoPages({ templates: standardCardTemplates })
+describe('verify template settings config', async () => {
+  const testUtils = await createSiteTestUtils()
+  const site = testUtils.createSite()
+
+  it('has template options set correctly', async () => {
+    const demoPages = await getDemoPages({ templates: standardCardTemplates, site })
     const templatesOptionConfig = standardCardTemplates.map((_) => {
       return {
         templateId: _.settings.templateId,
@@ -19,7 +23,9 @@ describe('verify template settings config', () => {
           "hasDemo": false,
           "isPublic": false,
           "templateId": "wrap",
-          "unusedSchema": {},
+          "unusedSchema": {
+            "fixedHeader": "boolean",
+          },
         },
         {
           "hasDemo": false,
@@ -46,13 +52,13 @@ describe('verify template settings config', () => {
           "unusedSchema": {},
         },
         {
-          "hasDemo": true,
+          "hasDemo": [Function],
           "isPublic": true,
           "templateId": "quotes",
           "unusedSchema": {},
         },
         {
-          "hasDemo": true,
+          "hasDemo": [Function],
           "isPublic": true,
           "templateId": "profile",
           "unusedSchema": {},
@@ -61,22 +67,24 @@ describe('verify template settings config', () => {
           "hasDemo": [Function],
           "isPublic": true,
           "templateId": "hero",
-          "unusedSchema": {},
+          "unusedSchema": {
+            "overlays.0.media.url": "string",
+          },
         },
         {
-          "hasDemo": true,
+          "hasDemo": [Function],
           "isPublic": true,
           "templateId": "marquee",
           "unusedSchema": {},
         },
         {
-          "hasDemo": true,
+          "hasDemo": [Function],
           "isPublic": true,
           "templateId": "area",
           "unusedSchema": {},
         },
         {
-          "hasDemo": true,
+          "hasDemo": [Function],
           "isPublic": true,
           "templateId": "map",
           "unusedSchema": {},
@@ -105,6 +113,12 @@ describe('verify template settings config', () => {
           "hasDemo": [Function],
           "isPublic": true,
           "templateId": "showcase",
+          "unusedSchema": {},
+        },
+        {
+          "hasDemo": [Function],
+          "isPublic": true,
+          "templateId": "cinema",
           "unusedSchema": {},
         },
       ]

@@ -139,7 +139,7 @@ export const templates = [
     schema,
     userConfig: { ...defaultConfig },
     isPublic: true,
-    demoPage: () => {
+    demoPage: async () => {
       return {
         cards: [
           { templateId: 'pricing', userConfig: { ...defaultConfig } },

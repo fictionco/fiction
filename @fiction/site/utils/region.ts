@@ -81,7 +81,7 @@ export async function requestManagePage(args: {
 /**
  * Add a card to another card, if addToCardId is provided, otherwise add to region
  */
-export function addNewCard(args: {
+export async function addNewCard(args: {
   site: Site
   templateId: string
   addToRegion?: PageRegion
@@ -99,7 +99,8 @@ export function addNewCard(args: {
   if (!tpl)
     throw new Error(`Could not find template with key ${templateId}`)
 
-  const cardConfig = tpl?.toCard({ cardId, site }).toConfig() as TableCardConfig & { cardId: string }
+  const tplCard = await tpl?.toCard({ cardId, site })
+  const cardConfig = tplCard.toConfig() as TableCardConfig & { cardId: string }
 
   const addCardAction = () => {
     if (addToCardId) {

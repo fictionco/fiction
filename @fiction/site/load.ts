@@ -70,9 +70,7 @@ export async function loadSiteFromTheme(args: {
     logger.error(msg, { data: { availableThemes: availableThemes.map(t => t.themeId) } })
     throw new Error(msg)
   }
-  const themeConfig = await theme.toSite()
-
-  const site = new Site({ fictionSites, subDomain, ...themeConfig, siteId, orgId, siteRouter, siteMode, themeId, isStatic: true })
+  const site = await theme.toSite({ fictionSites, subDomain, siteId, orgId, siteRouter, siteMode, isStatic: true })
 
   return site
 }
@@ -89,7 +87,7 @@ export async function loadSiteFromCard(args: { cardId: string, siteRouter: Ficti
   if (!tpl)
     throw new Error(`no template found for card ${cardId}`)
 
-  const card = tpl.settings.demoPage?.()
+  const card = await tpl.settings.demoPage?.({ site })
 
   // local stored config, useful for development
   const staticConfig = await localSiteConfig({ siteId })

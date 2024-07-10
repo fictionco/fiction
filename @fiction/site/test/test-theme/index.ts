@@ -18,22 +18,7 @@ export const templates = [
 
 export function setup(args: { fictionEnv: FictionEnv }) {
   const { fictionEnv } = args
-  const mediaGridCard = createCard({
-    templates,
-    templateId: 'marquee',
-    userConfig: {
-      items: [
-        {
-          name: 'Barack Obama',
-          desc: 'Personal Site',
-          tags: ['Politics'],
-          media: {
-            url: new URL('img/screenshot.jpg', import.meta.url).href,
-          },
-        },
-      ],
-    },
-  })
+
   return new Theme({
     root: safeDirname(import.meta.url),
     fictionEnv,
@@ -43,22 +28,43 @@ export function setup(args: { fictionEnv: FictionEnv }) {
     screenshot: new URL('./img/screenshot.jpg', import.meta.url).href,
     version: '1.0.0',
     templates,
-    pages: () => [
-      createCard({
+    pages: async (args) => {
+      const { site } = args
+      const fictionMedia = site.fictionSites.settings.fictionMedia
+      const relativeImage = await fictionMedia.relativeMedia({ url: new URL('./img/screenshot.jpg', import.meta.url).href })
+      const mediaGridCard = createCard({
         templates,
-        slug: '_home',
-        title: 'Default Page',
-        isHome: true,
-        cards: [mediaGridCard, { templateId: 'hero' }, { templateId: 'area', cards: [{ templateId: 'hero' }] }, { templateId: 'hero' }],
-      }),
-      createCard({
-        templates,
-        slug: 'example',
-        title: 'Example Page',
-        templateId: 'testWrap',
-        cards: [{ templateId: 'area', cards: [{ templateId: 'hero' }] }],
-      }),
-    ],
+        templateId: 'marquee',
+        userConfig: {
+          items: [
+            {
+              name: 'Barack Obama',
+              desc: 'Personal Site',
+              tags: ['Politics'],
+              media: {
+                url: relativeImage.url,
+              },
+            },
+          ],
+        },
+      })
+      return [
+        createCard({
+          templates,
+          slug: '_home',
+          title: 'Default Page',
+          isHome: true,
+          cards: [mediaGridCard, { templateId: 'hero' }, { templateId: 'area', cards: [{ templateId: 'hero' }] }, { templateId: 'hero' }],
+        }),
+        createCard({
+          templates,
+          slug: 'example',
+          title: 'Example Page',
+          templateId: 'testWrap',
+          cards: [{ templateId: 'area', cards: [{ templateId: 'hero' }] }],
+        }),
+      ]
+    },
     sections: () => {
       return {
         header: createCard({ templates, cards: [] }),

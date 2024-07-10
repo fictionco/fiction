@@ -18,7 +18,7 @@ export const templates = [
       standardOption.actionItems(),
     ],
     userConfig: {},
-    demoPage: () => page(),
+    demoPage: async () => page(),
   }),
 ] as const
 

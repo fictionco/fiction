@@ -36,9 +36,9 @@ const groupTemplates = vue.computed(() => {
   }, {} as Record<string, CardTemplate[]>))
 })
 
-function addCard(args: { templateId: string }) {
+async function addCard(args: { templateId: string }) {
   const { templateId = 'page' } = args
-  props.site.addCard({ templateId, delay: 400 })
+  await props.site.addCard({ templateId, delay: 400 })
 }
 </script>
 

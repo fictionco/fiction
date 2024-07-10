@@ -37,7 +37,7 @@ export const templates = [
       spacing: { spacingSize: 'none' },
     },
     options,
-    demoPage: () => {
+    demoPage: async () => {
       return { cards: [
         createCard({
           templateId: 'minimalHeader',

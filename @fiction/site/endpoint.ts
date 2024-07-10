@@ -175,14 +175,16 @@ export class ManageSite extends SitesQuery {
     if (!userId || !orgId)
       throw abort('userId and orgId required')
 
-    const themes = this.settings.fictionSites.themes.value
+    const fictionSites = this.settings.fictionSites
+    const siteRouter = this.settings.fictionRouterSites
+    const themes = fictionSites.themes.value
     const theme = themes.find(t => t.themeId === themeId)
     if (!theme)
       throw abort(`theme not found - themeId: ${themeId} - available: ${themes.map(t => t.themeId).join(', ')}`)
 
-    const processedConfig = await theme.processToSite({ ...this.settings, userId, orgId })
+    const site = await theme.toSite({ siteRouter, fictionSites, userId, orgId })
 
-    return processedConfig
+    return site.toConfig()
   }
 
   async getSiteSelector(where: WhereSite) {

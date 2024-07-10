@@ -7,6 +7,7 @@ import type { CardConfigPortable, PageRegion, SiteUserConfig, TableCardConfig, T
 import { Card, CardTemplate } from './card.js'
 import { imageStyle, processUrlKey } from './util.js'
 import type { ComponentConstructor } from './type-utils.js'
+import { Site, type SiteSettings } from './site.js'
 
 export type ThemeSettings<T extends Record<string, unknown> = Record<string, unknown>> = {
   root: string
@@ -20,7 +21,7 @@ export type ThemeSettings<T extends Record<string, unknown> = Record<string, unk
   isPublic?: boolean
   isDarkMode?: boolean
   userConfig?: Partial<SiteUserConfig> & T
-  pages: () => Promise<TableCardConfig[]> | TableCardConfig[]
+  pages: (args: { site: Site }) => Promise<TableCardConfig[]> | TableCardConfig[]
   sections?: () => Record<string, TableCardConfig>
   templateDefaults?: {
     page?: string
@@ -51,55 +52,65 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
     return out
   }
 
-  async getPages(): Promise<Partial<TableCardConfig>[]> {
-    const pages = (await this.pages()) || []
+  async getPages(args: { site: Site }): Promise<Partial<TableCardConfig>[]> {
+    const pages = (await this.pages(args)) || []
     const pageTemplateId = this.templateDefaults.value.page
     const pgs = pages.map(page => ({ ...page, templateId: page.templateId || pageTemplateId }))
     return pgs
   }
 
-  async toSite(): Promise<Partial<TableSiteConfig>> {
-    const pages = await this.getPages()
-    return { title: this.settings.title, themeId: this.themeId, pages, userConfig: this.config() }
-  }
+  async toSite(settings: Omit<SiteSettings, 'themeId'>): Promise<Site> {
+    const site = new Site({ ...settings, themeId: this.themeId, pages: [] })
 
-  async processToSite(args: {
-    orgId: string
-    userId: string
-    fictionMedia?: FictionMedia
-  }): Promise<Partial<TableSiteConfig>> {
-    const { orgId, userId, fictionMedia } = args
-    if (!fictionMedia)
-      throw new Error('fictionMedia required')
+    const pages = await this.getPages({ site })
 
-    const processors: Processor<string>[] = [
-      {
-        condition: async ({ value }) => {
-          if (typeof value !== 'string')
-            return false
-
-          try {
-            // handle case where url is in a test that contains 'window' and browser-like import.meta.url
-            const url = new URL(value, 'http://dummybase') // Handle relative URLs
-            return url.protocol === 'file:' || url.toString().includes('@fs') || (isNode() && url.toString().includes('localhost'))
-          }
-          catch {
-            return false // Return false for invalid URLs
-          }
-        },
-        action: async (url) => {
-          return processUrlKey({ fictionMedia, url, userId, orgId, storageGroupPath: this.themeId })
-        },
-      },
-    ]
-    const configProcessor = new ObjectProcessor(processors)
-
-    const siteRaw = await this.toSite()
-
-    const site = await configProcessor.parseObject(siteRaw)
+    site.update({ pages })
 
     return site
   }
+
+  // async toSiteConfig(): Promise<Partial<TableSiteConfig>> {
+  //   const pages = await this.getPages()
+  //   return { title: this.settings.title, themeId: this.themeId, pages, userConfig: this.config() }
+  // }
+
+  // async processToSiteConfig(args: {
+  //   orgId: string
+  //   userId: string
+  //   fictionMedia?: FictionMedia
+  // }): Promise<Partial<TableSiteConfig>> {
+  //   const { orgId, userId, fictionMedia } = args
+  //   if (!fictionMedia)
+  //     throw new Error('fictionMedia required')
+
+  //   const processors: Processor<string>[] = [
+  //     {
+  //       condition: async ({ value }) => {
+  //         if (typeof value !== 'string')
+  //           return false
+
+  //         try {
+  //           // handle case where url is in a test that contains 'window' and browser-like import.meta.url
+  //           const url = new URL(value, 'http://dummybase') // Handle relative URLs
+  //           return url.protocol === 'file:' || url.toString().includes('@fs') || (isNode() && url.toString().includes('localhost'))
+  //         }
+  //         catch {
+  //           return false // Return false for invalid URLs
+  //         }
+  //       },
+  //       action: async (url) => {
+  //         return processUrlKey({ fictionMedia, url, userId, orgId, storageGroupPath: this.themeId })
+  //       },
+  //     },
+  //   ]
+  //   const configProcessor = new ObjectProcessor(processors)
+
+  //   const siteRaw = await this.toSiteConfig()
+
+  //   const site = await configProcessor.parseObject(siteRaw)
+
+  //   return site
+  // }
 
   getSpacingClass(size: ThemeUiSize, direction: 'top' | 'bottom' | 'both' = 'both') {
     const spacingClassesTop = {
@@ -159,6 +170,7 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
           sans: { fontKey: 'Plus+Jakarta+Sans', stack: 'sans' },
           body: { stack: 'serif' },
           serif: { stack: 'serif' },
+          highlight: { fontKey: 'Caveat', stack: 'sans' },
         },
         spacing: {
           contentWidthSize: 'md',

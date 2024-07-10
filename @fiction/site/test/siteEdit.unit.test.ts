@@ -4,7 +4,6 @@
 import { shortId, waitFor } from '@fiction/core'
 import { snap } from '@fiction/core/test-utils'
 import { describe, expect, it } from 'vitest'
-import type { TableSiteConfig } from '../tables'
 import { Site } from '../site'
 import { requestManageSite } from '../load'
 import { requestManagePage, updateRegion } from '../utils/region'
@@ -12,10 +11,10 @@ import { saveSite } from '../utils/site'
 import { setup } from './test-theme'
 import { createSiteTestUtils } from './testUtils'
 
-let site: TableSiteConfig
-let siteObj: Site
 describe('site plugin tests', async () => {
   const testUtils = await createSiteTestUtils()
+  let site = testUtils.createSite()
+
   const testTheme = setup(testUtils)
   const r = await testUtils.init()
   const userId = r?.user?.userId ?? ''
@@ -26,7 +25,7 @@ describe('site plugin tests', async () => {
     fictionSites: testUtils.fictionSites,
     siteMode: 'standard',
   } as const
-  const pg = await testTheme.pages()
+  const pg = await testTheme.pages({ site })
   const defaultNumPages = pg.filter(_ => _.regionId === 'main').length
 
   it('creates site', async (ctx) => {
@@ -43,17 +42,17 @@ describe('site plugin tests', async () => {
     if (!result.site || !r?.data)
       throw new Error('problem creating site')
 
-    site = r.data
-    siteObj = result.site
+    const siteConfig = r.data
+    site = result.site
     expect(r.status).toMatchInlineSnapshot(`"success"`)
     expect(r.message).toMatchInlineSnapshot(`"site created"`)
-    expect(site).toBeTruthy()
-    expect(site.subDomain).toBe(subDomain)
-    expect(site.title).toBe(title)
-    expect(site.themeId).toBe(themeId)
+    expect(siteConfig).toBeTruthy()
+    expect(siteConfig.subDomain).toBe(subDomain)
+    expect(siteConfig.title).toBe(title)
+    expect(siteConfig.themeId).toBe(themeId)
 
-    expect(site.pages.length, 'should have 2 pages in created site').toBe(defaultNumPages)
-    expect(site.pages.length).toMatchInlineSnapshot(`2`)
+    expect(siteConfig.pages.length, 'should have 2 pages in created site').toBe(defaultNumPages)
+    expect(siteConfig.pages.length).toMatchInlineSnapshot(`2`)
   })
 
   it('updates site', async () => {
@@ -79,19 +78,19 @@ describe('site plugin tests', async () => {
     expect(r?.status).toMatchInlineSnapshot(`"success"`)
     expect(r?.message).toMatchInlineSnapshot(`"site saved"`)
 
-    site = r?.data
+    const siteConfig = r?.data
 
-    expect(site).toBeTruthy()
-    expect(site?.title).toBe(title)
-    expect(site.pages.filter(_ => _.regionId === 'main').length).toBe(defaultNumPages)
-    expect(site.pages.filter(_ => _.regionId === 'main').length).toMatchInlineSnapshot(`2`)
+    expect(siteConfig).toBeTruthy()
+    expect(siteConfig?.title).toBe(title)
+    expect(siteConfig.pages.filter(_ => _.regionId === 'main').length).toBe(defaultNumPages)
+    expect(siteConfig.pages.filter(_ => _.regionId === 'main').length).toMatchInlineSnapshot(`2`)
   })
 
   it('sets routes, paths, pages', async () => {
-    if (!siteObj || !testUtils?.fictionSites)
-      throw new Error('missing siteObj or testUtils')
+    if (!site || !testUtils?.fictionSites)
+      throw new Error('missing site or testUtils')
 
-    expect(Object.entries(siteObj.viewMap.value).sort().map(([k, v]) => `${k}:${v.length}`)).toMatchInlineSnapshot(`
+    expect(Object.entries(site.viewMap.value).sort().map(([k, v]) => `${k}:${v.length}`)).toMatchInlineSnapshot(`
       [
         "_:27",
         "__transaction:13",
@@ -100,10 +99,10 @@ describe('site plugin tests', async () => {
       ]
     `)
 
-    expect(siteObj.currentPath.value).toMatchInlineSnapshot(`"/"`)
-    expect(siteObj.currentViewId.value).toMatchInlineSnapshot(`"_home"`)
-    expect(siteObj.activePageId.value, 'sets page id').toBeTruthy()
-    expect(siteObj.pages.value.some(p => p.cardId === siteObj.activePageId.value)).toBeTruthy()
+    expect(site.currentPath.value).toMatchInlineSnapshot(`"/"`)
+    expect(site.currentViewId.value).toMatchInlineSnapshot(`"_home"`)
+    expect(site.activePageId.value, 'sets page id').toBeTruthy()
+    expect(site.pages.value.some(p => p.cardId === site.activePageId.value)).toBeTruthy()
   })
 
   it('creates region', async () => {
@@ -177,15 +176,15 @@ describe('site plugin tests', async () => {
   })
 
   it('updates pages from form', async () => {
-    if (!siteObj || !testUtils?.fictionSites)
-      throw new Error('missing siteObj or testUtils')
+    if (!site || !testUtils?.fictionSites)
+      throw new Error('missing site or testUtils')
 
-    expect(site.pages.length).toMatchInlineSnapshot(`2`)
-    expect(siteObj.pages.value.length).toMatchInlineSnapshot(`3`)
+    expect(site.toConfig().pages?.length).toMatchInlineSnapshot(`2`)
+    expect(site.pages.value.length).toMatchInlineSnapshot(`3`)
 
     const rSite1 = await testUtils.fictionSites.requests.ManageSite.projectRequest({
       _action: 'retrieve',
-      where: { siteId: siteObj.siteId },
+      where: { siteId: site.siteId },
     })
 
     expect(rSite1?.data?.pages.length).toMatchInlineSnapshot(`2`)
@@ -193,12 +192,12 @@ describe('site plugin tests', async () => {
     const nm = 'test'
     const regionCard = { title: nm, slug: nm }
 
-    const { cardConfig: r } = await requestManagePage({ site: siteObj, _action: 'upsert', regionCard, delay: 0 })
+    const { cardConfig: r } = await requestManagePage({ site, _action: 'upsert', regionCard, delay: 0 })
 
     expect(r?.title).toBe(nm)
     expect(r?.cardId).toBeTruthy()
 
-    expect(siteObj.pages.value.map(_ => _.regionId).sort()).toMatchInlineSnapshot(`
+    expect(site.pages.value.map(_ => _.regionId).sort()).toMatchInlineSnapshot(`
       [
         "main",
         "main",
@@ -209,7 +208,7 @@ describe('site plugin tests', async () => {
 
     await waitFor(200)
 
-    expect(siteObj.pages.value.map(m => m.templateId.value).sort()).toMatchInlineSnapshot(`
+    expect(site.pages.value.map(m => m.templateId.value).sort()).toMatchInlineSnapshot(`
       [
         "testWrap",
         "wrap",
@@ -218,7 +217,7 @@ describe('site plugin tests', async () => {
       ]
     `)
 
-    expect(siteObj.pages.value.map(_ => _.regionId).sort()).toMatchInlineSnapshot(`
+    expect(site.pages.value.map(_ => _.regionId).sort()).toMatchInlineSnapshot(`
       [
         "main",
         "main",
@@ -227,39 +226,39 @@ describe('site plugin tests', async () => {
       ]
     `)
 
-    expect(siteObj.pages.value.some(_ => !_.regionId), 'region key always set').toBeFalsy()
+    expect(site.pages.value.some(_ => !_.regionId), 'region key always set').toBeFalsy()
 
     await waitFor(200)
 
-    expect(siteObj.pages.value.length).toMatchInlineSnapshot(`4`)
+    expect(site.pages.value.length).toMatchInlineSnapshot(`4`)
 
-    expect(siteObj.pages.value[0].title.value).toBe(nm)
+    expect(site.pages.value[0].title.value).toBe(nm)
 
-    expect(siteObj.pages.value[0].cardId).toBe(r?.cardId)
+    expect(site.pages.value[0].cardId).toBe(r?.cardId)
 
-    const rSite2 = await testUtils.fictionSites.requests.ManageSite.projectRequest({ _action: 'retrieve', where: { siteId: siteObj.siteId } })
+    const rSite2 = await testUtils.fictionSites.requests.ManageSite.projectRequest({ _action: 'retrieve', where: { siteId: site.siteId } })
 
     expect(rSite2?.data?.pages.filter(_ => _.regionId === 'main').length, 'default pages + 1 added page').toBe(defaultNumPages + 1)
 
-    await requestManagePage({ site: siteObj, _action: 'delete', regionCard: { cardId: r?.cardId }, delay: 0 })
+    await requestManagePage({ site, _action: 'delete', regionCard: { cardId: r?.cardId }, delay: 0 })
 
     await waitFor(200)
 
-    expect(siteObj.pages.value.filter(_ => _.regionId === 'main' && !_.isSystem.value).length, 'default pages after adding and deleting page').toBe(defaultNumPages)
+    expect(site.pages.value.filter(_ => _.regionId === 'main' && !_.isSystem.value).length, 'default pages after adding and deleting page').toBe(defaultNumPages)
 
     const rSite3 = await testUtils.fictionSites.requests.ManageSite.projectRequest({
       _action: 'retrieve',
-      where: { siteId: siteObj.siteId },
+      where: { siteId: site.siteId },
     })
 
     expect(rSite3?.data?.pages.filter(_ => _.regionId === 'main').length).toBe(defaultNumPages)
   })
 
   it('handles active page', async () => {
-    if (!siteObj || !testUtils?.fictionSites)
-      throw new Error('missing siteObj or testUtils')
+    if (!site || !testUtils?.fictionSites)
+      throw new Error('missing site or testUtils')
 
-    const m = siteObj.viewMap.value
+    const m = site.viewMap.value
     expect(Object.keys(m).sort()).toMatchInlineSnapshot(`
       [
         "_",
@@ -272,30 +271,30 @@ describe('site plugin tests', async () => {
 
     expect(m['']).toBe(m.home)
 
-    expect(siteObj.currentViewId.value).toMatchInlineSnapshot(`"test"`)
-    expect(siteObj.currentPage.value?.settings.isHome).toMatchInlineSnapshot(`false`)
-    expect(siteObj.activePageId.value).toBeTruthy()
+    expect(site.currentViewId.value).toMatchInlineSnapshot(`"test"`)
+    expect(site.currentPage.value?.settings.isHome).toMatchInlineSnapshot(`false`)
+    expect(site.activePageId.value).toBeTruthy()
 
     const nm = 'testAlpha'
     const regionCard = { title: nm, slug: nm }
 
-    const { cardConfig: created } = await requestManagePage({ site: siteObj, _action: 'upsert', regionCard, delay: 0 })
+    const { cardConfig: created } = await requestManagePage({ site, _action: 'upsert', regionCard, delay: 0 })
 
     await waitFor(200)
 
-    expect(siteObj.activePageId.value).toBeTruthy()
+    expect(site.activePageId.value).toBeTruthy()
     expect(created?.cardId).toBeTruthy()
 
-    expect(siteObj.activePageId.value, 'created page to be active').toBe(created?.cardId)
+    expect(site.activePageId.value, 'created page to be active').toBe(created?.cardId)
 
-    const cards = siteObj.currentPage.value?.cards
+    const cards = site.currentPage.value?.cards
 
     const testId = 'testId_77'
     const testId2 = 'testId_88'
 
     const cardNumInitial = cards?.value?.length ?? 0
 
-    expect(snap(siteObj.currentPage.value?.toConfig())).toMatchInlineSnapshot(`
+    expect(snap(site.currentPage.value?.toConfig())).toMatchInlineSnapshot(`
       {
         "cardId": "[id:***************************]",
         "cards": "",
@@ -322,12 +321,12 @@ describe('site plugin tests', async () => {
       }
     `)
 
-    siteObj.addCard({ templateId: 'area', cardId: testId })
-    siteObj.addCard({ templateId: 'hero', cardId: testId2 })
+    await site.addCard({ templateId: 'area', cardId: testId })
+    await site.addCard({ templateId: 'hero', cardId: testId2 })
 
     await waitFor(200)
 
-    expect(snap(siteObj.currentPage.value?.toConfig())).toMatchInlineSnapshot(`
+    expect(snap(site.currentPage.value?.toConfig())).toMatchInlineSnapshot(`
       {
         "cardId": "[id:***************************]",
         "cards": "[object Object],[object Object]",
@@ -357,7 +356,7 @@ describe('site plugin tests', async () => {
     expect(cards?.value?.length).toBe(cardNumInitial + 2)
     expect(cards?.value?.map(c => c.cardId).filter(_ => _).length).toBe(cardNumInitial + 2)
 
-    expect(siteObj.availableCards.value.map(c => c?.cardId.length)).toMatchInlineSnapshot(`
+    expect(site.availableCards.value.map(c => c?.cardId.length)).toMatchInlineSnapshot(`
       [
         27,
         9,
@@ -379,12 +378,12 @@ describe('site plugin tests', async () => {
       ]
     `)
 
-    siteObj.addCard({ templateId: 'area', addToCardId: testId })
-    siteObj.addCard({ templateId: 'hero' })
+    await site.addCard({ templateId: 'area', addToCardId: testId })
+    await site.addCard({ templateId: 'hero' })
 
-    expect(siteObj.currentPage.value?.cards?.value.find(_ => _.cardId === testId)?.cards.value[0]?.templateId.value).toBe('area')
+    expect(site.currentPage.value?.cards?.value.find(_ => _.cardId === testId)?.cards.value[0]?.templateId.value).toBe('area')
 
-    expect(snap(siteObj.currentPage.value?.toConfig(), { maskedKeys: [''] })).toMatchInlineSnapshot(`
+    expect(snap(site.currentPage.value?.toConfig(), { maskedKeys: [''] })).toMatchInlineSnapshot(`
       {
         "cardId": "[id:***************************]",
         "cards": "[object Object],[object Object],[object Object]",
@@ -411,16 +410,16 @@ describe('site plugin tests', async () => {
       }
     `)
 
-    const firstCardCards = siteObj.currentPage.value?.cards.value.find(c => c.cardId === testId)?.cards.value ?? []
+    const firstCardCards = site.currentPage.value?.cards.value.find(c => c.cardId === testId)?.cards.value ?? []
 
     expect(firstCardCards.length).toBe(1)
   })
 
   it('sets correct layout', async () => {
-    if (!siteObj || !testUtils?.fictionSites)
-      throw new Error('missing siteObj or testUtils')
+    if (!site || !testUtils?.fictionSites)
+      throw new Error('missing site or testUtils')
 
-    expect(snap(siteObj.currentPage.value?.toConfig(), { maskedKeys: [''] })).toMatchInlineSnapshot(`
+    expect(snap(site.currentPage.value?.toConfig(), { maskedKeys: [''] })).toMatchInlineSnapshot(`
       {
         "cardId": "[id:***************************]",
         "cards": "[object Object],[object Object],[object Object]",
@@ -447,7 +446,7 @@ describe('site plugin tests', async () => {
       }
     `)
 
-    expect(Object.entries(siteObj.layout.value).map(([key, comp]) => `${key}-${comp?.cards.value.length}`).sort()).toMatchInlineSnapshot(`
+    expect(Object.entries(site.layout.value).map(([key, comp]) => `${key}-${comp?.cards.value.length}`).sort()).toMatchInlineSnapshot(`
       [
         "footer-0",
         "header-0",
@@ -458,10 +457,10 @@ describe('site plugin tests', async () => {
   })
 
   it('handles cards correctly', async () => {
-    if (!siteObj || !testUtils?.fictionSites)
-      throw new Error('missing siteObj or testUtils')
+    if (!site || !testUtils?.fictionSites)
+      throw new Error('missing site or testUtils')
 
-    expect(snap(siteObj.currentPage.value?.toConfig(), { maskedKeys: [''] })).toMatchInlineSnapshot(`
+    expect(snap(site.currentPage.value?.toConfig(), { maskedKeys: [''] })).toMatchInlineSnapshot(`
       {
         "cardId": "[id:***************************]",
         "cards": "[object Object],[object Object],[object Object]",
@@ -488,32 +487,32 @@ describe('site plugin tests', async () => {
       }
     `)
 
-    siteObj.addCard({ templateId: 'marquee', cardId: 'testId_1' })
-    siteObj.addCard({ templateId: 'hero', cardId: 'testId_2' })
+    await site.addCard({ templateId: 'marquee', cardId: 'testId_1' })
+    await site.addCard({ templateId: 'hero', cardId: 'testId_2' })
 
-    expect(siteObj.editor.value.selectedCardId, 'selectedCardId should be set').toBe('testId_2')
-    expect(siteObj.activeCard.value?.cardId, 'activeCard should be set to latest').toBe('testId_2')
+    expect(site.editor.value.selectedCardId, 'selectedCardId should be set').toBe('testId_2')
+    expect(site.activeCard.value?.cardId, 'activeCard should be set to latest').toBe('testId_2')
 
-    siteObj.activeCard.value?.update({ userConfig: { hello: 'world' } })
+    site.activeCard.value?.update({ userConfig: { hello: 'world' } })
 
-    expect(siteObj.activeCard.value?.userConfig.value).toMatchInlineSnapshot(`
+    expect(site.activeCard.value?.userConfig.value).toMatchInlineSnapshot(`
       {
         "hello": "world",
       }
     `)
 
-    expect(siteObj.activeCard.value?.userConfig.value.hello).toBe('world')
+    expect(site.activeCard.value?.userConfig.value.hello).toBe('world')
 
     // make sure region changes don't affect the settings
-    updateRegion({ site: siteObj, cardConfig: { title: 'test', regionId: 'main' } })
-    siteObj.addCard({ templateId: 'hero', cardId: 'testId_3' })
-    siteObj.activeCard.value?.update({ userConfig: { hello: 'world' } })
+    updateRegion({ site, cardConfig: { title: 'test', regionId: 'main' } })
+    await site.addCard({ templateId: 'hero', cardId: 'testId_3' })
+    site.activeCard.value?.update({ userConfig: { hello: 'world' } })
 
-    siteObj.addCard({ templateId: 'hero', addToCardId: 'testId_2', cardId: 'nestedTestId1' })
-    siteObj.activeCard.value?.update({ userConfig: { foo: 'bar' } })
-    expect(siteObj.activeCard.value?.userConfig.value.foo).toBe('bar')
+    await site.addCard({ templateId: 'hero', addToCardId: 'testId_2', cardId: 'nestedTestId1' })
+    site.activeCard.value?.update({ userConfig: { foo: 'bar' } })
+    expect(site.activeCard.value?.userConfig.value.foo).toBe('bar')
 
-    expect(snap(siteObj.currentPage.value?.toConfig(), { maskedKeys: [''] })).toMatchInlineSnapshot(`
+    expect(snap(site.currentPage.value?.toConfig(), { maskedKeys: [''] })).toMatchInlineSnapshot(`
       {
         "cardId": "[id:***************************]",
         "cards": "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]",
@@ -542,10 +541,10 @@ describe('site plugin tests', async () => {
   })
 
   it('saves the site', async () => {
-    if (!siteObj || !testUtils?.fictionSites)
-      throw new Error('missing siteObj or testUtils')
+    if (!site || !testUtils?.fictionSites)
+      throw new Error('missing site or testUtils')
 
-    const responseSiteConfig = await saveSite({ site: siteObj, successMessage: 'Test Success' })
+    const responseSiteConfig = await saveSite({ site, successMessage: 'Test Success' })
 
     if (!responseSiteConfig?.themeId)
       throw new Error('no themeId')
@@ -554,7 +553,7 @@ describe('site plugin tests', async () => {
 
     const responseSite = new Site({ ...responseSiteConfig, fictionSites: testUtils?.fictionSites, siteRouter: testUtils?.fictionRouterSites })
 
-    expect(responseSite.pages.value.length).toBe(siteObj.pages.value.length)
+    expect(responseSite.pages.value.length).toBe(site.pages.value.length)
   })
 
   it('deletes the site', async () => {})

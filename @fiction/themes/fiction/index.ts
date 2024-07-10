@@ -38,22 +38,7 @@ const socials: NavItem[] = [
 ]
 
 export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: FictionStripe }) {
-  const { fictionEnv } = args
-  const getPages = async () => {
-    const r = await Promise.all([
-      home.page(),
-      tour.page(),
-      about.page(),
-      developer.page(),
-      pricing.page(args),
-      affiliate.page(),
-      ...getDemoPages({ templates, fictionEnv }),
-    ])
-
-    return r
-  }
-
-  const pages = await getPages()
+  const { fictionEnv, fictionStripe } = args
 
   const domain = fictionEnv.meta.app?.domain || 'fiction.com'
   return new Theme({
@@ -66,7 +51,21 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
     version: '1.0.0',
     templates,
     isPublic: false,
-    pages: () => pages,
+    pages: async (args) => {
+      const { site } = args
+      const demoPages = await getDemoPages({ templates, fictionEnv, site })
+      const r = await Promise.all([
+        home.page(),
+        tour.page(),
+        about.page(),
+        developer.page(),
+        pricing.page({ fictionStripe }),
+        affiliate.page(),
+        ...demoPages,
+      ])
+
+      return r
+    },
 
     userConfig: {
       shareImage: { url: shareImage },

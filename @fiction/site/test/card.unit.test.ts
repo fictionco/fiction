@@ -31,8 +31,8 @@ describe('card', async () => {
     expect(card.site).toBe(site)
   })
 
-  it('cardTemplate toCard method generates a card with expected properties', () => {
-    const newCard = standardCardTemplates.find(t => t.settings.templateId === 'hero')?.toCard({})
+  it('cardTemplate toCard method generates a card with expected properties', async () => {
+    const newCard = await standardCardTemplates.find(t => t.settings.templateId === 'hero')?.toCard({ site })
     expect(newCard?.settings.templateId).toBe('hero')
     expect(newCard?.settings.title).toBe('Hero')
   })
@@ -107,11 +107,18 @@ describe('card', async () => {
           "prompt": "Primary hero headline, 3 to 13 words",
         },
         "layout": {
-          "cumulativeTime": 8000,
+          "cumulativeTime": 0,
           "estimatedMs": 4000,
           "key": "layout",
           "label": "Layout",
           "prompt": "Alignment style of text and images",
+        },
+        "overlays": {
+          "cumulativeTime": 8000,
+          "estimatedMs": 4000,
+          "key": "overlays",
+          "label": "Overlays",
+          "prompt": "Overlays to be placed on top of the splash image",
         },
         "splash": {
           "cumulativeTime": 8000,
@@ -176,6 +183,7 @@ describe('cardTemplate', async () => {
         "demoProse",
         "capture",
         "showcase",
+        "cinema",
         "testWrap",
       ]
     `)

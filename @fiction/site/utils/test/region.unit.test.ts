@@ -11,12 +11,12 @@ describe('removeCard', async () => {
   const testUtils = await createSiteTestUtils()
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
 
-  it('should successfully remove a card from a region', () => {
+  it('should successfully remove a card from a region', async () => {
     const site = new Site({ ...common, isProd: false, themeId: 'test' })
 
     // First, add a card to ensure there's something to remove
     const cardId = 'cardToRemove'
-    addNewCard({ site, templateId: 'area', addToRegion: 'header', cardId })
+    await addNewCard({ site, templateId: 'area', addToRegion: 'header', cardId })
 
     // Ensure the card was added
     expect(site.availableCards.value.some(c => c.cardId === cardId)).toBe(true)
@@ -28,14 +28,14 @@ describe('removeCard', async () => {
     expect(site.availableCards.value.some(c => c.cardId === cardId)).toBe(false)
   })
 
-  it('should successfully remove a nested card', () => {
+  it('should successfully remove a nested card', async () => {
     const site = new Site({ ...common, isProd: false, themeId: 'test' })
 
     // Add a parent and a nested card
     const parentCardId = 'parentCard'
     const nestedCardId = 'nestedCard'
-    addNewCard({ site, templateId: 'area', addToRegion: 'footer', cardId: parentCardId })
-    addNewCard({ site, templateId: 'area', addToCardId: parentCardId, cardId: nestedCardId })
+    await addNewCard({ site, templateId: 'area', addToRegion: 'footer', cardId: parentCardId })
+    await addNewCard({ site, templateId: 'area', addToCardId: parentCardId, cardId: nestedCardId })
 
     // Ensure the nested card was added
     const parentCard = site.availableCards.value.find(c => c.cardId === parentCardId)
@@ -56,10 +56,10 @@ describe('removeCard', async () => {
     expect(() => removeCard({ site, cardId: nonExistentCardId })).toThrow(`Card with ID ${nonExistentCardId} not found.`)
   })
 
-  it('should call onRemove callback when a card is successfully removed', () => {
+  it('should call onRemove callback when a card is successfully removed', async () => {
     const site = new Site({ ...common, isProd: false, themeId: 'test' })
     const cardId = 'cardWithCallback'
-    addNewCard({ site, templateId: 'area', addToRegion: 'main', cardId })
+    await addNewCard({ site, templateId: 'area', addToRegion: 'main', cardId })
 
     let callbackCalled = false
     removeCard({ site, cardId, onRemove: (removedCardId) => {
@@ -75,13 +75,13 @@ describe('addNewCard', async () => {
   const testUtils = await createSiteTestUtils()
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
 
-  it('should throw an error if template is not found', () => {
+  it('should throw an error if template is not found', async () => {
     const site = new Site({ ...common, isProd: false, themeId: 'test' })
 
-    expect(() => addNewCard({ site, templateId: 'noExist' })).toThrow(`Could not find template with key noExist`)
+    await expect(addNewCard({ site, templateId: 'noExist' })).rejects.toThrow(`Could not find template with key noExist`)
   })
 
-  it('should add a new card to a region if addToCardId is not provided', () => {
+  it('should add a new card to a region if addToCardId is not provided', async () => {
     const site = new Site({ ...common, isProd: false, themeId: 'test' })
 
     expect(Object.keys(site.viewMap.value)).toMatchInlineSnapshot(`
@@ -96,7 +96,7 @@ describe('addNewCard', async () => {
 
     const cardId = 'card1'
     let r1: CardConfigPortable | undefined
-    const r2 = addNewCard({ site, templateId: 'area', addToRegion: 'header', cardId, onAdd: (config) => { r1 = config } })
+    const r2 = await addNewCard({ site, templateId: 'area', addToRegion: 'header', cardId, onAdd: (config) => { r1 = config } })
 
     expect(r1?.cardId, 'callback is correct').toBe(cardId)
     expect(r2?.cardId, 'return is correct when not delayed').toBe(cardId)
@@ -106,11 +106,11 @@ describe('addNewCard', async () => {
     expect(site.availableCards.value.find(_ => _.cardId === cardId)?.regionId).toBe('header')
   })
 
-  it('should add a new card to an existing card if addToCardId is provided', () => {
+  it('should add a new card to an existing card if addToCardId is provided', async () => {
     const site = new Site({ ...common, isProd: false, themeId: 'test' })
 
-    addNewCard({ site, templateId: 'area', addToRegion: 'footer', cardId: 'firstCard' })
-    addNewCard({ site, templateId: 'area', addToCardId: 'firstCard', cardId: 'nestedCard' })
+    await addNewCard({ site, templateId: 'area', addToRegion: 'footer', cardId: 'firstCard' })
+    await addNewCard({ site, templateId: 'area', addToCardId: 'firstCard', cardId: 'nestedCard' })
 
     const setCard = site.availableCards.value.find(c => c.cardId === 'firstCard')?.cards.value[0]
     expect(setCard?.cardId).toBe('nestedCard')
@@ -121,7 +121,7 @@ describe('addNewCard', async () => {
 
     const delay = 100
     let r1: CardConfigPortable | undefined
-    addNewCard({ site, templateId: 'area', addToRegion: 'footer', cardId: 'firstCard', delay, onAdd: (config) => { r1 = config } })
+    await addNewCard({ site, templateId: 'area', addToRegion: 'footer', cardId: 'firstCard', delay, onAdd: (config) => { r1 = config } })
 
     expect(r1).toBeUndefined()
 

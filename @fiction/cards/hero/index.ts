@@ -2,6 +2,7 @@ import type { ActionItem } from '@fiction/core'
 import { colorTheme, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { z } from 'zod'
+import { InputOption } from '@fiction/ui'
 import { standardOption } from '../inputSets'
 
 const templateId = 'hero'
@@ -13,13 +14,20 @@ const defaultContent: UserConfig = {
   actions: [],
 }
 
-const UserConfigSchema = z.object({
+const overlaySchema = z.object({
+  media: z.object({ url: z.string().optional() }).optional(),
+  opacity: z.number().optional(),
+  position: z.enum(['top', 'bottom', 'left', 'right', 'center', 'bottomRight', 'topRight', 'bottomLeft', 'topLeft']).optional(),
+  widthPercent: z.number().optional(),
+})
+
+export const schema = z.object({
+  layout: z.enum(['justify', 'center', 'left', 'right']).optional().describe('Alignment style of text and images'),
   heading: z.string().optional().describe('Primary hero headline, 3 to 13 words'),
   subHeading: z.string().optional().describe('Secondary hero headline, 10 to 30 words'),
   superHeading: z.string().optional().describe('Shorter badge above headline, 2 to 5 words'),
   superIcon: z.string().optional().describe('Icon for the super heading'),
   superColor: z.enum(colorTheme).optional().describe('change color of super heading'),
-  layout: z.enum(['justify', 'center', 'left', 'right']).optional().describe('Alignment style of text and images'),
   splash: z.object({ url: z.string(), format: z.enum(['url', 'html']).optional() }).optional().describe('Splash picture for hero;time:40000').refine(_ => true, { params: { time: 40 } }),
   actions: z.array(z.object({
     name: z.string().optional(),
@@ -28,10 +36,24 @@ const UserConfigSchema = z.object({
     size: z.enum(['default', '2xl', 'xl', 'lg', 'md', 'sm', 'xs']).optional(),
     target: z.enum(['_self', '_blank']).optional(),
   })).optional().describe('List of link buttons') as z.Schema<ActionItem[] | undefined>,
-
+  overlays: z.array(overlaySchema).optional().describe('Overlays to be placed on top of the splash image'),
 })
 
-export type UserConfig = z.infer<typeof UserConfigSchema>
+export type UserConfig = z.infer<typeof schema>
+export type OverlayConfig = z.infer<typeof overlaySchema>
+
+export const options = [
+  standardOption.headers({}),
+  standardOption.layout(),
+  standardOption.media({ key: 'splash', label: 'Splash Image' }),
+  standardOption.actionItems(),
+  new InputOption({ key: 'overlays', input: 'InputList', label: 'Overlays', options: [
+    new InputOption({ key: 'media', label: 'Image', input: 'InputMedia' }),
+    new InputOption({ key: 'opacity', label: 'Opacity', input: 'InputNumber' }),
+    new InputOption({ key: 'position', label: 'Position', input: 'InputSelect', list: ['top', 'bottom', 'left', 'right', 'center', 'bottomRight', 'topRight', 'bottomLeft', 'topLeft'] as const }),
+    new InputOption({ key: 'widthPercent', label: 'Width Percent', input: 'InputRange', props: { min: 10, max: 100 } }),
+  ] }),
+]
 
 export const templates = [
   new CardTemplate({
@@ -44,15 +66,11 @@ export const templates = [
     el: vue.defineAsyncComponent(async () => import('./ElHero.vue')),
     options: [
       standardOption.ai(),
-      standardOption.headers({}),
-      standardOption.layout(),
-      standardOption.media({ key: 'splash', label: 'Splash Image' }),
-      standardOption.actionItems(),
-
+      ...options,
     ],
     userConfig: defaultContent,
-    schema: UserConfigSchema,
-    demoPage: () => {
+    schema,
+    demoPage: async () => {
       const splash = { url: 'https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?q=80&w=3864&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }
       const subHeading = 'lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
 

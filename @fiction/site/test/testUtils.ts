@@ -11,6 +11,7 @@ import { FictionSubscribe } from '@fiction/plugin-subscribe'
 import { FictionAdmin } from '@fiction/admin'
 import type { ThemeSetup } from '..'
 import { FictionSites } from '..'
+import { Site } from '../site.js'
 import * as testTheme from './test-theme'
 import { setup } from './testUtils.main.js'
 
@@ -26,6 +27,7 @@ export type SiteTestUtils = TestUtils & {
   fictionAdmin: FictionAdmin
   runApp: (args: { context: 'app' | 'node', isProd?: boolean }) => Promise<void>
   close: () => Promise<void>
+  createSite: (args?: { themeId?: string }) => Site
 }
 export async function createSiteTestUtils(args: { mainFilePath?: string, context?: 'node' | 'app', themes?: ThemeSetup[] } = {}): Promise<SiteTestUtils> {
   const { mainFilePath, context = 'node' } = args
@@ -62,6 +64,14 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
   out.fictionEnv.log.info(`Site Test Utils Created (${context})`)
 
   out.close = async () => testUtils.close()
+
+  out.createSite = (args: { themeId?: string } = {}) => {
+    const { themeId = 'test' } = args
+    const service = out as SiteTestUtils
+    const siteRouter = service.fictionRouterSites
+    const fictionSites = service.fictionSites
+    return new Site({ siteRouter, fictionSites, themeId, isProd: false })
+  }
 
   return out as SiteTestUtils
 }

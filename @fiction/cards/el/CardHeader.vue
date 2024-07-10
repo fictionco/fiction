@@ -18,10 +18,7 @@ export type UserConfig = {
 }
 
 const props = defineProps({
-  card: {
-    type: Object as vue.PropType<Card<UserConfig>>,
-    required: true,
-  },
+  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
 const uc = vue.computed(() => {
@@ -91,9 +88,11 @@ const layout = vue.computed(() => {
         </div>
         <CardText
           tag="h1"
-          :card="card"
-          class="x-font-title dark:text-theme-0 text-theme-900 text-4xl sm:text-5xl lg:text-[5rem] lg:tracking-tight font-bold text-balance"
-          :class="layout === 'justify' || layout === 'left' ? 'mt-3' : 'my-7'"
+          :card
+          class="x-font-title dark:text-theme-0 text-theme-900  lg:tracking-tight font-bold text-balance text-4xl sm:text-5xl"
+          :class="[
+            layout === 'justify' || layout === 'left' ? 'mt-3' : 'my-7',
+            !['left', 'right'].includes(layout) ? 'lg:text-[5rem]' : 'lg:text-6xl']"
           path="heading"
           placeholder="Heading"
           animate="fade"

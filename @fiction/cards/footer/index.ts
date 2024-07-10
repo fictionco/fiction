@@ -154,7 +154,7 @@ export const templates = [
     schema,
     options,
     title: 'Footer Pro',
-    demoPage: () => {
+    demoPage: async () => {
       return { cards: [
         { templateId, userConfig: { ...defaultConfig, layout: 'columns' as const } },
         { templateId, userConfig: { ...defaultConfig, layout: 'centered' as const } },

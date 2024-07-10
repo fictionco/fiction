@@ -75,7 +75,7 @@ export const templates = [
     ],
     userConfig: { spacing: { spacingSize: 'sm' }, maps: [mapBase] },
     schema: UserConfigSchema,
-    demoPage: () => {
+    demoPage: async () => {
       return {
         cards: [
           { templateId, userConfig: { maps: [

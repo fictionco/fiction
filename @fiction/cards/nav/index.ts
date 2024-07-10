@@ -89,7 +89,7 @@ export const templates = [
     schema,
     options,
     title: 'Primary Nav',
-    demoPage: () => {
+    demoPage: async () => {
       return { cards: [
         { templateId, userConfig: { ...defaultConfig } },
         { templateId, userConfig: { ...defaultConfig, layout: 'logoCenter' as const } },

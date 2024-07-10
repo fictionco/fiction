@@ -41,7 +41,7 @@ export const templates = [
     ],
     schema: UserConfigSchema,
     userConfig: { items: defaultQuote },
-    demoPage: () => {
+    demoPage: async () => {
       return { cards: [{ templateId, userConfig: { } }] }
     },
   }),

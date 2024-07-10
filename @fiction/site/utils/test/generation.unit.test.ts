@@ -28,14 +28,15 @@ describe('generation utils', async () => {
 
     expect(Object.keys(inputConfig)).toMatchInlineSnapshot(`
       [
+        "layout",
         "heading",
         "subHeading",
         "superHeading",
         "superIcon",
         "superColor",
-        "layout",
         "splash",
         "actions",
+        "overlays",
       ]
     `)
 
