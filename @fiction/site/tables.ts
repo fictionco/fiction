@@ -1,8 +1,7 @@
 import { validHost } from '@fiction/core'
 import type { BackgroundDisplayObject, ColorScheme, CreateObjectType, MediaDisplayObject, ProgressStatus } from '@fiction/core'
 import { FictionDbCol, FictionDbTable } from '@fiction/core/plugin-db'
-import type { FontConfig } from '@fiction/core/utils/fonts.js'
-import type { UiElementSize } from '@fiction/ui/utils.js'
+import type { FontConfig } from './utils/fonts.js'
 import type { CardGenerationConfig } from './generation.js'
 import type { EditorState } from './site.js'
 

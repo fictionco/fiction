@@ -11,6 +11,7 @@ import { addNewCard, removeCard } from './utils/region.js'
 import type { QueryVarHook } from './utils/site.js'
 import { saveSite, setSections, setupRouteWatcher, updateSite } from './utils/site.js'
 import type { SiteMode } from './load.js'
+import { type FontConfigVal, activeSiteFont } from './utils/fonts.js'
 import type { FictionSites } from './index.js'
 
 export type EditorState = {
@@ -108,7 +109,8 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
   userConfig = vue.ref(this.settings.userConfig || {})
   fullConfig = vue.computed(() => deepMerge<SiteUserConfig>([this.theme.value?.config(), this.userConfig.value]))
-
+  userFonts = vue.ref<Record<string, FontConfigVal>>({})
+  siteFonts = activeSiteFont(this)
   configDarkMode = vue.computed(() => this.fullConfig.value.isDarkMode ?? isDarkOrLightMode() === 'dark')
   localDarkMode = localRef({ key: `fictionIsDarkMode`, def: this.configDarkMode.value })
   isDarkMode = vue.computed({

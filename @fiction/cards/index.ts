@@ -26,6 +26,8 @@ import * as showcase from './showcase/index.js'
 import * as nav from './nav/index.js'
 import * as footer from './footer/index.js'
 import * as cinema from './cinema/index.js'
+import * as story from './story/index.js'
+import * as ticker from './ticker/index.js'
 import * as wrap from './wrap/index.js'
 import { createDemoPage } from './utils/demo'
 /**
@@ -54,9 +56,8 @@ export const standardCardTemplates = [
   ...capture.templates,
   ...showcase.templates,
   ...cinema.templates,
-] as const
-
-export const marketingCardTemplates = [
+  ...story.templates,
+  ...ticker.templates,
   ...team.templates,
   ...pricing.templates,
   ...templatesLogos,

@@ -1,24 +1,24 @@
 import { describe, expect, it } from 'vitest'
-import { colorList, getColorScheme, hexToRgb, tailwindVarColorScheme } from '../colors'
+import { colorList, getColorScheme, hexToRgbString, tailwindVarColorScheme } from '../colors'
 
-describe('hexToRgb', () => {
+describe('hexToRgbString', () => {
   it('converts hex to RGB correctly', () => {
-    expect(hexToRgb('#ffffff')).toBe('255 255 255')
-    expect(hexToRgb('000000')).toBe('0 0 0')
-    expect(hexToRgb('#FF0000')).toBe('255 0 0')
+    expect(hexToRgbString('#ffffff')).toBe('255 255 255')
+    expect(hexToRgbString('000000')).toBe('0 0 0')
+    expect(hexToRgbString('#FF0000')).toBe('255 0 0')
   })
 
   it('returns undefined for invalid hex', () => {
-    expect(hexToRgb('G12345')).toBeUndefined()
-    expect(hexToRgb('#1234567')).toBeUndefined() // Too long
-    expect(hexToRgb('#12G')).toBeUndefined() // Not a valid hex character
+    expect(hexToRgbString('G12345')).toBeUndefined()
+    expect(hexToRgbString('#1234567')).toBeUndefined() // Too long
+    expect(hexToRgbString('#12G')).toBeUndefined() // Not a valid hex character
   })
 })
 
 describe('getColorScheme', () => {
   it('returns the color scheme in RGB format by default', () => {
     const scheme = getColorScheme('orange')
-    expect(scheme[50]).toBe('255 247 237') // Adjust based on actual hexToRgb output
+    expect(scheme[50]).toBe('255 247 237') // Adjust based on actual hexToRgbString output
     expect(scheme[500]).toBe('249 115 22')
   })
 
@@ -31,8 +31,8 @@ describe('getColorScheme', () => {
   it('inverts the color scheme for dark mode', () => {
     const scheme = getColorScheme('slate', { isDarkMode: true })
     // Assuming inversion swaps the scheme end to end
-    expect(scheme[50]).toBe(hexToRgb(colorList.slate[950])) // Use actual hexToRgb logic
-    expect(scheme[950]).toBe(hexToRgb(colorList.slate[50]))
+    expect(scheme[50]).toBe(hexToRgbString(colorList.slate[950])) // Use actual hexToRgbString logic
+    expect(scheme[950]).toBe(hexToRgbString(colorList.slate[50]))
   })
 })
 

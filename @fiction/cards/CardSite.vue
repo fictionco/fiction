@@ -5,11 +5,11 @@ import { FrameUtility } from '@fiction/ui/frame/elBrowserFrameUtil'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import NotifyToaster from '@fiction/ui/notify/NotifyToaster.vue'
-import { getThemeFontConfig } from '@fiction/core/utils/fonts'
 import handlebars from 'handlebars'
 import type { FictionSites, Site } from '@fiction/site'
 import { getMountContext, loadSite } from '@fiction/site/load'
 import type { FramePostMessageList } from '@fiction/site/utils/frame'
+import { activeSiteFont } from '@fiction/site/utils/fonts'
 
 const props = defineProps({
   themeId: { type: String, default: undefined },
@@ -20,7 +20,7 @@ const { fictionSites, runVars, fictionRouterSites, fictionUser, fictionEnv } = u
 
 const loading = vue.ref(false)
 const site = vue.shallowRef<Site>()
-const fonts = vue.computed(() => getThemeFontConfig(site?.value?.fullConfig.value?.fonts))
+const fonts = vue.computed(() => site.value?.siteFonts.value)
 let cleanups: (() => any)[] = []
 async function load() {
   loading.value = true
@@ -207,12 +207,18 @@ vue.onMounted(() => {
     Object.entries(prm).forEach(([k, v]) => {
       document.documentElement.style.setProperty(`--primary-${k}`, v)
     })
-    document.documentElement.style.setProperty('--font-family-mono', fn?.mono)
-    document.documentElement.style.setProperty('--font-family-input', fn?.input)
-    document.documentElement.style.setProperty('--font-family-sans', fn?.sans)
-    document.documentElement.style.setProperty('--font-family-serif', fn?.serif)
-    document.documentElement.style.setProperty('--font-family-title', fn?.title)
-    document.documentElement.style.setProperty('--font-family-body', fn?.body)
+
+    const stacks = fn?.stacks || {}
+    const fontsUrl = fn?.fontsUrl || ''
+    for (const stack in stacks) {
+      document.documentElement.style.setProperty(`--font-family-${stack}`, stacks[stack])
+    }
+
+    // Update Google Fonts link
+    const fontLink = document.getElementById('font-link') as HTMLLinkElement
+    if (fontLink && fontsUrl) {
+      fontLink.href = fontsUrl
+    }
   })
 })
 </script>

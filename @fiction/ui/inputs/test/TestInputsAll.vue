@@ -41,6 +41,7 @@ function selectColor(c: ThemeColor) {
       </div>
     </div>
     <form class="input-area mx-auto my-12 max-w-screen-xl rounded-md">
+      <TestInput input-name="Font" :input-el="inputs.InputFont" />
       <TestInput input-name="Add Items" :input-el="inputs.InputItems" />
       <TestInput
         input-name="Username"
@@ -67,7 +68,7 @@ function selectColor(c: ThemeColor) {
       <TestInput input-name="DropDown" :input-el="inputs.InputDropDown" :list="['apple', 'orange', 'pear']" />
       <TestInput input-name="Range" :input-el="inputs.InputRange" />
       <TestInput input-name="Color Scheme" :input-el="inputs.InputColorScheme" />
-      <TestInput input-name="Font" :input-el="inputs.InputFont" />
+
       <TestInput input-name="Color Picker" :input-el="inputs.InputColor" />
       <TestInput input-name="Date" :input-el="inputs.InputDate" />
       <TestInput input-name="Yes / No" :input-el="inputs.InputMultipleChoice" :list="['yes', 'no']" max-select="1" select-letters="yn" />

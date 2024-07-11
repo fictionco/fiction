@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { ListItem } from '@fiction/core'
-import { normalizeList, onResetUi, resetUi, vue } from '@fiction/core'
+import { normalizeList, onResetUi, resetUi, shortId, vue } from '@fiction/core'
 import type { RouteLocationRaw } from 'vue-router'
 import { selectInputClasses } from './theme'
 
@@ -26,6 +26,8 @@ const emit = defineEmits<{
   (event: 'update:search', payload: string | undefined): void
   (event: 'update:focused', payload: boolean): void
 }>()
+
+const randomId = shortId()
 
 const active = vue.ref(false)
 const hovered = vue.ref(-1)
@@ -92,6 +94,15 @@ const defaultItem = vue.computed(() => li.value.find(item => item.value === prop
 const selectedItem = vue.computed<ListItem | undefined>(() => li.value.find(item => item.value === props.modelValue) || defaultItem.value)
 const selectedIndex = vue.computed<number>(() => li.value.findIndex(_ => _.value === props.modelValue))
 
+function scrollToSelected() {
+  vue.nextTick(() => {
+    const selectedElement = document.querySelector(`#${randomId} [data-value="${props.modelValue}"]`) as HTMLElement | null
+    const dropdownContainer = document.querySelector(`#${randomId} .dropdown-container`) as HTMLElement | null
+    if (selectedElement && dropdownContainer) {
+      dropdownContainer.scrollTop = selectedElement.offsetTop - dropdownContainer.offsetTop
+    }
+  })
+}
 function toggle(): void {
   if (props.disabled)
     return
@@ -99,6 +110,8 @@ function toggle(): void {
   resetUi({ scope: 'inputs', cause: 'startDropdown' })
   hovered.value = selectedIndex.value
   active.value = true
+
+  scrollToSelected()
 }
 
 async function selectByIndex(index: number): Promise<void> {
@@ -135,7 +148,7 @@ function handleKeydown(event: KeyboardEvent) {
 </script>
 
 <template>
-  <div @keydown.stop @click.stop>
+  <div :id="randomId" @keydown.stop @click.stop>
     <div :class="themeClasses.wrapClass">
       <div
         class="relative"
@@ -173,7 +186,7 @@ function handleKeydown(event: KeyboardEvent) {
         leave-from-class="opacity-100"
         leave-to-class="opacity-0"
       >
-        <div v-if="active" :class="themeClasses.dropdownClasses">
+        <div v-if="active" :class="themeClasses.dropdownClasses" class="dropdown-container">
           <ul
             role="listbox"
             aria-labelledby="listbox-label"
@@ -203,6 +216,8 @@ function handleKeydown(event: KeyboardEvent) {
                 :id="`listbox-item-${i}`"
                 role="option"
                 :class="listItemClass(item, i)"
+                :data-index="i"
+                :data-value="item.value"
                 @click="selectValue(item)"
               >
                 <div class="min-w-0 grow">

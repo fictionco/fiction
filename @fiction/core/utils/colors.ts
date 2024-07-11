@@ -444,15 +444,30 @@ type ColorRecord = {
 
 export type ColorScheme = keyof typeof colorList
 
-export function hexToRgb(hex: string) {
-  const result = /^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i.exec(hex.toLowerCase())
-  return result
-    ? [
-        Number.parseInt(result[1], 16),
-        Number.parseInt(result[2], 16),
-        Number.parseInt(result[3], 16),
-      ].join(' ')
-    : undefined
+export function hexToRgbString(hex: string) {
+  const result = hexToRgb(hex)
+
+  return `${result.r} ${result.g} ${result.b}`
+}
+
+/**
+ * Convert hex color to RGB.
+ * @param hex Hex color string
+ * @returns RGB components
+ */
+function hexToRgb(hex: string): { r: number, g: number, b: number } {
+  let normalizedHex = hex.replace('#', '')
+
+  if (normalizedHex.length === 3) {
+    normalizedHex = normalizedHex.split('').map(h => h + h).join('')
+  }
+
+  const bigint = Number.parseInt(normalizedHex, 16)
+  const r = (bigint >> 16) & 255
+  const g = (bigint >> 8) & 255
+  const b = bigint & 255
+
+  return { r, g, b }
 }
 
 export function tailwindVarColorScheme(args: {
@@ -484,9 +499,36 @@ export function getColorScheme(schemeId: ColorScheme | string, options: { isDark
 
   return Object.entries(scheme).reduce((acc, [key, value]) => {
     const colorValue = options.isDarkMode ? scheme[1000 - Number(key) as ColorScale] || value : value
-    acc[Number(key) as ColorScale] = format === 'rgb' ? hexToRgb(colorValue) : colorValue
+    acc[Number(key) as ColorScale] = format === 'rgb' ? hexToRgbString(colorValue) : colorValue
     return acc
   }, {} as ColorRecord)
+}
+/**
+ * Calculate the luminance of a color.
+ * @param r Red component (0-255)
+ * @param g Green component (0-255)
+ * @param b Blue component (0-255)
+ * @returns Luminance value
+ */
+function luminance(r: number, g: number, b: number): number {
+  const a = [r, g, b].map((v) => {
+    v /= 255
+    return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4
+  })
+  return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722
+}
+
+/**
+ * Get the appropriate text color (black or white) based on the background color.
+ * @param backgroundColor Hex color string for the background
+ * @returns Hex color string for the text color
+ */
+export function getTextColorBasedOnBackground(backgroundColor: string): string {
+  const { r, g, b } = hexToRgb(backgroundColor)
+  const bgLuminance = luminance(r, g, b)
+
+  // Prefer white text color most of the time
+  return bgLuminance > 0.2 ? '#000000' : '#FFFFFF'
 }
 
 export function colorStandard(params: {

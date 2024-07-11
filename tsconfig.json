@@ -7,7 +7,6 @@
     "useDefineForClassFields": true,
     "experimentalDecorators": true,
     "allowUnusedLabels": false,
-    // "noUncheckedIndexedAccess": true,
 
     "allowUnreachableCode": false,
     "noFallthroughCasesInSwitch": true,
@@ -30,6 +29,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true, // vue/vetur needs this
     "skipDefaultLibCheck": true
+    // "noUncheckedIndexedAccess": true,
     // "noErrorTruncation": true // prevent cutoff error messages
   },
   "references": [],

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { hexToRgb, resetUi, toLabel, vue } from '@fiction/core'
+import { hexToRgbString, resetUi, toLabel, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 
 const props = defineProps({
@@ -47,7 +47,7 @@ function overlayStyle(subCard: Card) {
   if (!uc.bg?.overlay)
     return {}
 
-  const rgb = hexToRgb(uc.bg?.overlay.color || '#000000') || undefined
+  const rgb = hexToRgbString(uc.bg?.overlay.color || '#000000') || undefined
   const opacity = uc.bg?.overlay.opacity || 0.4
 
   return {

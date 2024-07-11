@@ -1,19 +1,15 @@
 <script lang="ts" setup>
 import type { ColorScheme } from '@fiction/core'
 import { getColorScheme, isDarkOrLightMode, vue } from '@fiction/core'
-import type { FontConfig } from '@fiction/core/utils/fonts'
-import { getThemeFontConfig } from '@fiction/core/utils/fonts'
 
 const props = defineProps({
   theme: { type: String as vue.PropType<ColorScheme>, default: 'gray' },
   primary: { type: String as vue.PropType<ColorScheme>, default: 'blue' },
-  fontConfig: { type: Object as vue.PropType<FontConfig>, default: undefined },
   mode: { type: String as vue.PropType<'light' | 'dark'>, default: 'light' },
 })
 
 const theme = vue.computed(() => getColorScheme(props.theme || 'gray'))
 const primary = vue.computed(() => getColorScheme(props.primary || 'blue'))
-const fonts = vue.computed(() => getThemeFontConfig(props.fontConfig))
 
 const themeWrapEl = vue.ref<HTMLElement>()
 const modeClass = vue.ref<string>(props.mode)
@@ -42,12 +38,12 @@ vue.onMounted(() => {
     min-height: 100dvh;
   }
 
-  --font-family-mono: v-bind(fonts?.mono);
-  --font-family-input: v-bind(fonts?.input);
-  --font-family-sans: v-bind(fonts?.sans);
-  --font-family-serif: v-bind(fonts?.serif);
-  --font-family-title: v-bind(fonts?.title);
-  --font-family-body: v-bind(fonts?.body);
+  // --font-family-mono: v-bind(fonts?.mono);
+  // --font-family-input: v-bind(fonts?.input);
+  // --font-family-sans: v-bind(fonts?.sans);
+  // --font-family-serif: v-bind(fonts?.serif);
+  // --font-family-title: v-bind(fonts?.title);
+  // --font-family-body: v-bind(fonts?.body);
   .x-font-title {
     font-family: var(--font-family-title);
     -webkit-font-smoothing: antialiased;

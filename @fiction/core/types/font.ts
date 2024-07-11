@@ -1,5 +1,7 @@
 export interface UserFont {
-  font: string
+  family: string
+  category: string
+  variants: string[]
   link?: string
   type: 'google' | 'basic'
 }

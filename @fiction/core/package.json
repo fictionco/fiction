@@ -13,8 +13,8 @@
     }
   ],
   "dependencies": {
-    "@aws-sdk/client-cloudfront": "^3.609.0",
-    "@aws-sdk/client-s3": "^3.609.0",
+    "@aws-sdk/client-cloudfront": "^3.614.0",
+    "@aws-sdk/client-s3": "^3.614.0",
     "@egoist/tailwindcss-icons": "^1.8.1",
     "@faker-js/faker": "^8.4.1",
     "@iconify-json/carbon": "^1.1.36",
@@ -24,7 +24,7 @@
     "@iconify-json/heroicons": "^1.1.21",
     "@iconify-json/logos": "^1.1.43",
     "@iconify-json/svg-spinners": "^1.1.2",
-    "@iconify-json/tabler": "^1.1.116",
+    "@iconify-json/tabler": "^1.1.117",
     "@medv/finder": "^3.2.0",
     "@sinclair/typebox": "^0.32.34",
     "@slack/webhook": "^7.0.2",
@@ -71,7 +71,7 @@
     "formdata-node": "^6.0.3",
     "front-matter": "^4.0.2",
     "fs-extra": "^11.2.0",
-    "glob": "^10.4.3",
+    "glob": "^10.4.5",
     "google-auth-library": "^9.11.0",
     "google-one-tap": "^1.0.6",
     "handlebars": "^4.7.8",
@@ -141,7 +141,7 @@
     "zod-to-json-schema": "^3.23.1"
   },
   "devDependencies": {
-    "@babel/parser": "^7.24.7",
+    "@babel/parser": "^7.24.8",
     "@playwright/test": "^1.45.1",
     "@tailwindcss/forms": "^0.5.7",
     "@types/bcrypt": "^5.0.2",

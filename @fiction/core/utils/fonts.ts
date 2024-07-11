@@ -1,58 +1,11 @@
 import { toCamel } from './casing'
 import { fonts } from './lib/fonts'
-import { deepMerge } from './obj'
 
-type ConfigVal = { fontKey?: string, fontKey2?: string, stack: 'monospace' | 'sans' | 'serif' }
-export type FontConfig = {
-  mono?: ConfigVal
-  input?: ConfigVal
-  title?: ConfigVal
-  sans?: ConfigVal
-  body?: ConfigVal
-  serif?: ConfigVal
-}
-export function getThemeFontConfig(fontConfig?: FontConfig) {
-  fontConfig = fontConfig || {
-    mono: { fontKey: 'DM Mono', stack: 'monospace' },
-    input: { fontKey: 'DM Mono', stack: 'sans' },
-    title: { fontKey: 'Poppins', stack: 'sans' },
-    sans: { stack: 'sans' },
-    body: { stack: 'serif' },
-    serif: { stack: 'serif' },
-  }
-
-  const stacks = {
-    monospace: `'Nimbus Mono PS', 'Courier New', monospace`,
-    serif: `Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif`,
-    sans: `Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif`,
-  }
-
-  const config = deepMerge<FontConfig>([{
-    mono: { stack: 'monospace', fontKey2: 'DM Mono' },
-    body: { stack: 'serif' },
-    sans: { stack: 'sans', fontKey2: 'Roboto' },
-    input: { stack: 'sans', fontKey2: 'Roboto' },
-    title: { stack: 'sans', fontKey2: 'Roboto' },
-  }, fontConfig])
-
-  const configStacks = Object.fromEntries(Object.entries(config).map(([key, value]) => {
-    const fontList = [stacks[value.stack || '']]
-
-    if (value.fontKey2)
-      fontList.unshift(`'${value.fontKey2}'`)
-
-    if (value.fontKey)
-      fontList.unshift(`'${value.fontKey}'`)
-
-    const deduped = [...new Set(fontList)]
-    return [key, deduped.join(', ')]
-  })) as Record<keyof FontConfig, string>
-
-  const fontKeys = Object.values(config).flatMap(_ => [_.fontKey, _.fontKey2]).filter(Boolean) as string[]
-
-  const fontsUrl = createGoogleFontsLink({ fontKeys })
-
-  return { ...configStacks, fontsUrl }
+export const safeStacks = {
+  monospace: `'Nimbus Mono PS', 'Courier New', monospace`,
+  serif: `Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif`,
+  sans: `Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif`,
+  system: `-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"`,
 }
 
 export type FontEntry = {
