@@ -94,6 +94,7 @@ const defaultConfig: UserConfig = {
 }
 
 const altConfig: UserConfig = {
+  hasAnnual: true,
   annualDiscountPercent: 40,
   prices: [
     {

@@ -17,14 +17,14 @@ const prices = vue.computed(() => uc.value.prices || [])
 function cls(price: UserConfigPrice) {
   if (price.isHighlighted) {
     return {
-      col: 'bg-primary-600 text-theme-0 dark:bg-theme-0 text-theme-900',
-      btn: 'bg-primary-300 text-primary-0 dark:bg-primary-600 dark:text-primary-0',
+      col: 'bg-primary-600 text-theme-0 dark:bg-primary-600/70 dark:text-theme-0',
+      btn: 'bg-primary-300 text-primary-0 dark:bg-primary-200 dark:text-primary-800',
       badge: 'bg-primary-500 text-primary-0',
     }
   }
   else {
     return {
-      col: 'bg-theme-50 dark:bg-theme-800',
+      col: 'bg-theme-100/60 dark:bg-theme-800',
       btn: 'bg-primary-500 text-theme-0 dark:bg-theme-600',
       badge: 'bg-primary-100 text-primary-600 dark:bg-theme-600 dark:text-primary-50',
     }
@@ -39,13 +39,26 @@ vue.onMounted(() => {
     },
   })
 })
+
+const priceDuration = vue.ref<'year' | 'month'>('month')
 </script>
 
 <template>
   <div :class="card.classes.value.contentWidth">
+    <div v-if="uc.hasAnnual" class="flex justify-center mb-8">
+      <div class="relative grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-sans font-semibold leading-5 ring-1 ring-inset ring-theme-300 dark:ring-theme-600">
+        <label :class="priceDuration === 'month' ? 'text-theme-0' : 'text-theme-500 dark:text-theme-200'" class="z-10 relative cursor-pointer rounded-full px-4 py-0.5 transition-all" @click="priceDuration = 'month'">
+          <span>Monthly</span>
+        </label>
+        <label :class="priceDuration === 'year' ? ' text-theme-0' : 'text-theme-500 dark:text-theme-200'" class="z-10 relative cursor-pointer rounded-full px-4 py-0.5 transition-all" @click="priceDuration = 'year'">
+          <span>Annually</span>
+        </label>
+        <div class="bg-theme-500 text-theme-0 rounded-full marker w-50 absolute h-full w-[50%] transition-all ease-[cubic-bezier(0.25,1,0.33,1)] duration-500" :class="priceDuration === 'month' ? 'left-0' : 'left-1/2'" />
+      </div>
+    </div>
     <div class="grid grid-cols-1 gap-6" :class="prices.length > 2 ? 'lg:grid-cols-3' : 'lg:grid-cols-2'">
       <div v-for="(price, i) in uc.prices" :key="i" class="rounded-xl x-action-item" :class="cls(price).col">
-        <div class="p-4 lg:p-8">
+        <div class="px-6 py-8 lg:px-8">
           <div class="flex justify-between">
             <div class="space-x-4 flex items-center">
               <CardText :card tag="h3" :path="`prices.${i}.name`" class="text-3xl font-normal  x-font-title" />

@@ -89,7 +89,7 @@ const layout = vue.computed(() => {
         <CardText
           tag="h1"
           :card
-          class="x-font-title dark:text-theme-0 text-theme-900  lg:tracking-tight font-bold text-balance text-4xl sm:text-5xl"
+          class="x-font-title dark:text-theme-0 text-theme-900  lg:tracking-tight font-bold md:text-balance text-4xl sm:text-5xl"
           :class="[
             layout === 'justify' || layout === 'left' ? 'mt-3' : 'my-7',
             !['left', 'right'].includes(layout) ? 'lg:text-[5rem]' : 'lg:text-6xl']"
@@ -102,7 +102,7 @@ const layout = vue.computed(() => {
         <CardText
           tag="div"
           :card="card"
-          class="mt-8 text-xl lg:text-3xl lg:leading-snug text-balance"
+          class="mt-8 text-xl lg:text-3xl lg:leading-snug md:text-balance"
           :class="layout === 'justify' ? 'lg:text-right' : ''"
           path="subHeading"
           placeholder="Sub Heading"
