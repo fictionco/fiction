@@ -1,13 +1,8 @@
 <script lang="ts" setup>
-import type { ListItem, NumberFormats } from '@fiction/core'
 import { formatNumber, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
-
-export type UserConfig = {
-  title?: string
-  subTitle?: string
-  items?: (ListItem & { format?: NumberFormats })[]
-}
+import CardText from '../CardText.vue'
+import type { UserConfig } from './index.js'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
@@ -24,19 +19,13 @@ const uc = vue.computed(() => props.card.userConfig.value)
         :key="i"
       >
         <div class="text-center">
-          <h3
-            class="x-font-title text-xl font-medium lg:text-2xl"
-            v-html="feat.name"
-          />
+          <CardText :card tag="h3" :path="`items.${i}.name`" class="x-font-title text-xl font-medium lg:text-2xl" />
 
           <div class="mt-4 text-6xl md:text-8xl font-semibold tracking-tight">
             {{ formatNumber(feat.value, feat.format || "abbreviated") }}
           </div>
-          <p
-            v-if="feat.desc"
-            class="text-theme-300 mt-3 font-sans text-sm font-semibold uppercase tracking-wide"
-            v-html="feat.desc"
-          />
+
+          <CardText :card tag="p" :path="`items.${i}.desc`" class="text-theme-300 mt-3 font-sans text-sm font-semibold uppercase tracking-wide" />
         </div>
       </div>
     </div>

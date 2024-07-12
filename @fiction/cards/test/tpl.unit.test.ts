@@ -121,7 +121,7 @@ describe('verify template settings config', async () => {
         },
         {
           "hasDemo": true,
-          "isPublic": undefined,
+          "isPublic": false,
           "templateId": "story",
           "unusedSchema": undefined,
         },
@@ -133,7 +133,7 @@ describe('verify template settings config', async () => {
         },
         {
           "hasDemo": true,
-          "isPublic": undefined,
+          "isPublic": true,
           "templateId": "people",
           "unusedSchema": {},
         },
@@ -144,10 +144,10 @@ describe('verify template settings config', async () => {
           "unusedSchema": {},
         },
         {
-          "hasDemo": false,
-          "isPublic": undefined,
+          "hasDemo": true,
+          "isPublic": true,
           "templateId": "logos",
-          "unusedSchema": undefined,
+          "unusedSchema": {},
         },
         {
           "hasDemo": true,
@@ -157,7 +157,7 @@ describe('verify template settings config', async () => {
         },
         {
           "hasDemo": false,
-          "isPublic": undefined,
+          "isPublic": false,
           "templateId": "mediaGrid",
           "unusedSchema": undefined,
         },
@@ -169,9 +169,9 @@ describe('verify template settings config', async () => {
         },
         {
           "hasDemo": false,
-          "isPublic": undefined,
+          "isPublic": false,
           "templateId": "metrics",
-          "unusedSchema": undefined,
+          "unusedSchema": {},
         },
         {
           "hasDemo": true,
@@ -198,15 +198,7 @@ describe('verify template settings config', async () => {
 
     const incompletePublic = templatesOptionConfig.filter(_ => typeof _.isPublic === 'undefined' || (_.isPublic === true && _.hasDemo === false ? _.templateId : undefined)).map(_ => _.templateId)
 
-    expect(incompletePublic, 'incomplete public cards').toMatchInlineSnapshot(`
-      [
-        "story",
-        "people",
-        "logos",
-        "mediaGrid",
-        "metrics",
-      ]
-    `)
-    expect(incompletePublic.length).toBe(0)
+    expect(incompletePublic, 'incomplete public cards').toMatchInlineSnapshot(`[]`)
+    expect(incompletePublic).toStrictEqual([])
   })
 })

@@ -53,16 +53,16 @@ const colorStyle = vue.computed(() => {
           animate="fade"
         />
       </div>
-      <CardText :card path="heading" class="x-font-title max-w-full text-4xl font-bold tracking-tighter  text-balance" v-html="uc.heading" />
-      <CardText :card path="subHeading" class="text-xl lg:text-2xl lg:leading-snug w-full text-balance mt-4 lg:max-w-sm " v-html="uc.subHeading" />
+      <CardText animate="fade" :card path="heading" class="x-font-title max-w-full text-4xl font-bold tracking-tighter  text-balance" v-html="uc.heading" />
+      <CardText animate="fade" :card path="subHeading" class="text-xl lg:text-2xl lg:leading-snug w-full text-balance mt-4 lg:max-w-sm " v-html="uc.subHeading" />
     </div>
     <div class=" md:grid-cols-3 gap-8 md:gap-16 text-center md:text-left hidden md:grid ">
       <div v-for="(item, i) in uc.items" :key="i">
         <div v-if="item.icon" :class="getColorStyle(item.color).icon" class="mb-3 size-14 rounded-full flex items-center justify-center">
           <div class="text-4xl" :class="[item.icon]" />
         </div>
-        <CardText :card class="text-3xl font-bold x-font-title" :path="`items.${i}.name`" />
-        <CardText :card class="mt-4 text-xl text-theme-500 dark:text-theme-200" :path="`items.${i}.desc`" />
+        <CardText animate="fade" :card class="text-3xl font-bold x-font-title" :path="`items.${i}.name`" />
+        <CardText animate="fade" :card class="mt-4 text-xl text-theme-500 dark:text-theme-200" :path="`items.${i}.desc`" />
       </div>
     </div>
   </div>

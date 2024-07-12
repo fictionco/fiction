@@ -79,20 +79,9 @@ const demoCard2: UserConfig = {
     {
       text: 'Non nobis solum nati sumus.',
       direction: 'right',
-      font: 'sans',
-      bgColor: '#dc2626',
-    },
-    {
-      text: 'Non nobis solum nati sumus.',
-      direction: 'left',
-      font: 'Dancing Script',
-      bgColor: '#2563eb',
-    },
-    {
-      text: 'Non nobis solum nati sumus.',
-      direction: 'right',
       font: 'highlight',
-      outline: true,
+      bgColor: '#586cb2',
+      bgColorDark: '#1e2f69',
     },
   ],
 }

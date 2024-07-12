@@ -7,7 +7,7 @@ import type { Card } from '@fiction/site'
 export type UserConfig = {
   items?: MediaItem[]
   label?: string
-  format?: 'inline' | 'stacked'
+  layout?: 'inline' | 'stacked'
 }
 
 const props = defineProps({
@@ -17,9 +17,22 @@ const props = defineProps({
   },
 })
 
-const uc = vue.computed(() => {
-  return props.card.userConfig.value || {}
-})
+const uc = vue.computed(() => props.card.userConfig.value || {})
+
+function getInlineLogoCols() {
+  const items = uc.value.items || []
+  const noItems = items.length
+  if (noItems === 1)
+    return 'md:grid-cols-1'
+  else if (noItems === 2)
+    return 'md:grid-cols-2'
+  if (noItems === 3)
+    return 'md:grid-cols-3'
+  if (noItems === 4)
+    return 'md:grid-cols-4'
+  else
+    return 'grid-cols-5'
+}
 </script>
 
 <template>
@@ -27,14 +40,14 @@ const uc = vue.computed(() => {
     <div class="content-standard p-4 text-center md:p-0">
       <div
         class="items-center"
-        :class="uc.format === 'stacked' ? 'block' : 'md:inline-flex md:space-x-14'"
+        :class="uc.layout === 'stacked' ? 'block' : 'md:inline-flex md:space-x-14'"
       >
         <div
-          class="x-font-title text-theme-400 dark:text-theme-600"
+          class="x-font-title text-theme-400 dark:text-theme-600 text-balance"
           :class="
-            uc.format === 'stacked'
+            uc.layout === 'stacked'
               ? 'text-xl mb-16 font-medium'
-              : 'text-sm font-semibold'
+              : 'text-sm font-semibold max-w-40 text-right'
           "
         >
           {{ uc.label }}
@@ -42,17 +55,18 @@ const uc = vue.computed(() => {
         <div
           class="items-center gap-y-10 text-center md:gap-x-12"
           :class="
-            uc.format === 'stacked'
+            uc.layout === 'stacked'
               ? `flex justify-center flex-wrap`
-              : 'flex-col md:flex-row flex align-middle justify-center md:inline-flex'
+              : `grid grid-cols-1 ${getInlineLogoCols()}`
           "
         >
           <a
             v-for="(logo, i) in uc.items"
             :key="i"
             :href="logo.href"
-            class="hover:text-theme-500 logo-link  flex items-center justify-center h-[80px] w-full max-w-[200px] relative"
-            :class="uc.format === 'stacked' ? `w-[17%]` : ''"
+            class=" logo-link  flex items-center justify-center h-[80px] w-full max-w-[200px] relative"
+            :class="[uc.layout === 'stacked' ? `w-[17%]` : '', logo.href ? 'cursor-pointer hover:scale-125 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.33,1)]' : '']"
+
             target="_blank"
           >
             <ElImage :media="logo.media" class="aspect-[2/1] min-h-0 h-full" />

@@ -74,15 +74,9 @@ export function isNumeric(n: number | string | undefined): boolean {
   return !Number.isNaN(Number.parseFloat(n.toString())) && Number.isFinite(+n)
 }
 
-export type NumberFormats =
-  | 'number'
-  | 'abbreviated'
-  | 'abbreviatedDollar'
-  | 'percent'
-  | 'dollar'
-  | 'duration'
-  | 'rawPercent'
-  | 'microDuration'
+export const numberFormats = ['number', 'abbreviated', 'abbreviatedDollar', 'percent', 'dollar', 'duration', 'rawPercent', 'microDuration'] as const
+
+export type NumberFormats = typeof numberFormats[number]
 /**
  * Fancy number formatter supporting various formats
  */

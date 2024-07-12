@@ -55,7 +55,7 @@ export const templates = [
   new CardTemplate({
     templateId,
     category: ['marketing'],
-    description: 'grid of text elements',
+    description: 'Discuss the features of your product or service.',
     icon: 'i-tabler-discount-check',
     colorTheme: 'indigo',
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
