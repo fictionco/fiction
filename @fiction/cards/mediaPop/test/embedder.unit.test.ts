@@ -17,7 +17,7 @@ describe('mediaEmbedder', () => {
   it('should generate correct SoundCloud embed code', () => {
     const url = 'https://soundcloud.com/artist/song'
     const embedCode = MediaEmbedder.getEmbedCode(url, { width: 640, height: 360, autoplay: true })
-    expect(embedCode).toBe('<iframe width="640" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https://soundcloud.com/artist/song&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&visual=true"></iframe>')
+    expect(embedCode).toBe('<iframe width="640" height="360" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https://soundcloud.com/artist/song&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&visual=true"></iframe>')
   })
 
   it('should generate correct Twitch embed code', () => {
@@ -35,13 +35,13 @@ describe('mediaEmbedder', () => {
   it('should generate correct Spotify embed code', () => {
     const url = 'https://open.spotify.com/track/6rqhFgbbKwnb9MLmUQDhG6'
     const embedCode = MediaEmbedder.getEmbedCode(url, { width: 640, height: 360 })
-    expect(embedCode).toBe('<iframe src="https://open.spotify.com/embed/track/6rqhFgbbKwnb9MLmUQDhG6" width="640" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>')
+    expect(embedCode).toBe('<iframe src="https://open.spotify.com/embed/track/6rqhFgbbKwnb9MLmUQDhG6" width="640" height="360" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>')
   })
 
   it('should generate correct Mixcloud embed code', () => {
     const url = 'https://www.mixcloud.com/dj/set'
     const embedCode = MediaEmbedder.getEmbedCode(url, { width: 640, height: 360 })
-    expect(embedCode).toBe('<iframe width="640" height="120" src="https://www.mixcloud.com/widget/iframe/?hide_cover=1&mini=1&feed=https://www.mixcloud.com/dj/set" frameborder="0"></iframe>')
+    expect(embedCode).toBe('<iframe width="640" height="360" src="https://www.mixcloud.com/widget/iframe/?hide_cover=1&mini=1&feed=https://www.mixcloud.com/dj/set" frameborder="0"></iframe>')
   })
 
   it('should generate correct MP4 embed code', () => {

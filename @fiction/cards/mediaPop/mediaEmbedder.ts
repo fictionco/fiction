@@ -19,7 +19,7 @@ export class MediaEmbedder {
         embedCode = `<iframe frameborder="0" width="${width}" height="${height}" src="https://www.dailymotion.com/embed/video/${this.extractDailymotionId(url)}?autoplay=${autoplay}" allowfullscreen allow="autoplay"></iframe>`
         break
       case url.includes('spotify.com'):
-        embedCode = `<iframe src="https://open.spotify.com/embed/track/${this.extractSpotifyId(url)}" width="${width}" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
+        embedCode = `<iframe src="https://open.spotify.com/embed/track/${this.extractSpotifyId(url)}" width="${width}" height="${height}" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
         break
       case url.includes('mixcloud.com'):
         embedCode = `<iframe width="${width}" height="${height}" src="https://www.mixcloud.com/widget/iframe/?hide_cover=1&mini=1&feed=${url}" frameborder="0"></iframe>`
