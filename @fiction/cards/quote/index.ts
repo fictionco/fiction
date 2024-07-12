@@ -1,11 +1,13 @@
 import { vue } from '@fiction/core'
-import { CardTemplate, createCard } from '@fiction/site'
+import { CardTemplate } from '@fiction/site'
 import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
 import { standardOption } from '../inputSets'
 import { mediaSchema } from '../schemaSets'
 import franklin from './franklin.jpg'
 import socrates from './socrates.jpg'
+
+const templateId = 'quotes'
 
 const QuoteSchema = z.object({
   text: z.string(),
@@ -64,7 +66,7 @@ const UserConfigSchema = z.object({
 })
 
 export type UserConfig = z.infer<typeof UserConfigSchema>
-const templateId = 'quotes'
+
 export const templates = [
   new CardTemplate({
     templateId,
@@ -94,7 +96,7 @@ export const templates = [
     schema: UserConfigSchema,
     userConfig: { quotes: defaultQuote },
     demoPage: async () => {
-      return { cards: [{ templateId, userConfig: { } }] }
+      return { cards: [{ templateId, userConfig: { quotes: defaultQuote } }] }
     },
   }),
 ] as const

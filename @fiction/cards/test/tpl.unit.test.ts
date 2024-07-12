@@ -162,10 +162,10 @@ describe('verify template settings config', async () => {
           "unusedSchema": undefined,
         },
         {
-          "hasDemo": false,
+          "hasDemo": [Function],
           "isPublic": undefined,
           "templateId": "features",
-          "unusedSchema": undefined,
+          "unusedSchema": {},
         },
         {
           "hasDemo": false,
@@ -174,15 +174,15 @@ describe('verify template settings config', async () => {
           "unusedSchema": undefined,
         },
         {
-          "hasDemo": false,
-          "isPublic": undefined,
+          "hasDemo": [Function],
+          "isPublic": true,
           "templateId": "faq",
-          "unusedSchema": undefined,
+          "unusedSchema": {},
         },
         {
           "hasDemo": false,
           "isPublic": false,
-          "templateId": "mediaPopup",
+          "templateId": "mediaPop",
           "unusedSchema": undefined,
         },
       ]
@@ -196,18 +196,17 @@ describe('verify template settings config', async () => {
 
     expect(incompleteSchema, 'no unused schema in public cards').toStrictEqual([])
 
-    const incompletePublic = templatesOptionConfig.map(_ => typeof _.isPublic === 'undefined' || (_.isPublic === true && _.hasDemo === false ? _.templateId : undefined)).filter(Boolean)
+    const incompletePublic = templatesOptionConfig.filter(_ => typeof _.isPublic === 'undefined' || (_.isPublic === true && _.hasDemo === false ? _.templateId : undefined)).map(_ => _.templateId)
 
     expect(incompletePublic, 'incomplete public cards').toMatchInlineSnapshot(`
       [
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
+        "story",
+        "team",
+        "logos",
+        "tour",
+        "mediaGrid",
+        "features",
+        "metrics",
       ]
     `)
     expect(incompletePublic.length).toBe(0)

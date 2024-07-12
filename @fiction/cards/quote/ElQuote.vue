@@ -23,7 +23,7 @@ const activeItem = vue.ref(0)
 <template>
   <div class="mx-auto max-w-5xl px-6 lg:px-8">
     <div class="flex overflow-x-auto no-scrollbar snap-mandatory snap-x">
-      <div v-for="(quote, i) in quotes" :key="i" class="nav-item shrink-0 w-full snap-center">
+      <div v-for="(quote, i) in quotes" :key="i" class="slide shrink-0 w-full snap-center">
         <div v-if="hasOrgImage(quote) && quote?.org" class="org mb-6 md:text-center">
           <div data-test-id="org-image" class="relative inline-block dark:text-theme-0">
             <ElImage

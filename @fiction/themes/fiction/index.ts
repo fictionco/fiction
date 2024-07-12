@@ -98,6 +98,44 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
                 navA: [
                   { name: 'Tour', href: '/tour' },
                   { name: 'About', href: '/about' },
+                  {
+                    name: 'Elements',
+                    desc: 'Website elements you can use on your personal brand sites.',
+                    subStyle: 'mega',
+                    items: [
+                      {
+                        name: 'Content',
+                        items: [
+
+                          { name: 'Tour', href: '/demo-tour' },
+                          { name: 'Quotes', href: '/demo-quotes' },
+                          { name: 'Hero', href: '/demo-hero' },
+                          { name: 'Features', href: '/demo-features' },
+                          { name: 'Ticker', href: '/demo-ticker' },
+                          { name: 'FAQ / List', href: '/demo-faq' },
+                        ],
+                      },
+                      {
+                        name: 'Portfolio',
+                        items: [
+                          { name: 'Showcase', href: '/demo-showcase' },
+                          { name: 'Cinema', href: '/demo-cinema' },
+                          { name: 'Marquee', href: '/demo-marquee' },
+                          { name: 'Profile', href: '/demo-profile' },
+                        ],
+                      },
+                      {
+                        name: 'Site',
+                        items: [
+                          { name: 'Nav', href: '/demo-nav' },
+                          { name: 'Footer', href: '/demo-footer' },
+                          { name: 'Pricing', href: '/demo-pricing' },
+                          { name: 'Capture', href: '/demo-capture' },
+                        ],
+                      },
+
+                    ],
+                  },
                 ],
                 navB: [
                   { name: 'Account', href: '/app?_reload=1', itemStyle: 'user', items: [

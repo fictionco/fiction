@@ -56,6 +56,10 @@ const layoutClass = vue.computed(() => {
     return { brand: 'grow-0', navA: 'grow', navB: '' }
   }
 })
+
+function close() {
+  activeItem.value = undefined
+}
 </script>
 
 <template>
@@ -105,9 +109,10 @@ const layoutClass = vue.computed(() => {
                     hover-effect="underline"
                     :card
                     :item="subItem"
-                    class="px-4 py-2  font-normal x-font-title"
+                    class="px-4 py-2  font-normal x-font-title text-theme-500 dark:text-theme-400"
                     :depth="1"
                     :class="subItem.isHidden ? 'hidden' : 'block'"
+                    @click="close()"
                   />
 
                   <div v-if="subItem?.items?.length">
@@ -119,6 +124,7 @@ const layoutClass = vue.computed(() => {
                         class="font-sans pl-7 pr-4 py-1.5 block font-normal text-[.9em]"
                         :depth="2"
                         :class="subSubItem.isHidden ? 'hidden' : 'block'"
+                        @click="close()"
                       />
                     </template>
                   </div>

@@ -94,7 +94,7 @@
     "@antfu/eslint-config": "^2.22.0",
     "@codspeed/vitest-plugin": "^3.1.0",
     "@eslint/eslintrc": "^3.1.0",
-    "@flydotio/dockerfile": "^0.5.7",
+    "@flydotio/dockerfile": "^0.5.8",
     "@playwright/test": "^1.45.1",
     "@types/eslint__eslintrc": "^2.1.1",
     "@types/express": "^4.17.21",

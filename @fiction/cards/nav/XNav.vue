@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useService, vue } from '@fiction/core'
+import { resetUi, useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import CardNavLink from '@fiction/cards/CardNavLink.vue'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
@@ -23,6 +23,10 @@ const nav = vue.computed(() => (props.nav || []).map(item => ({ ...item, isActiv
 function setActiveHover(item: SchemaNavItem | undefined) {
   emit('update:activeItem', item)
 }
+
+function close() {
+  emit('update:activeItem', undefined)
+}
 </script>
 
 <template>
@@ -41,6 +45,7 @@ function setActiveHover(item: SchemaNavItem | undefined) {
         :class="itemClass"
         :depth="0"
         hover-effect="underline"
+        @click="close()"
       />
       <TransitionSlide>
         <div
@@ -50,11 +55,11 @@ function setActiveHover(item: SchemaNavItem | undefined) {
         >
           <div class="py-1">
             <template v-for="(subItem, ii) in activeItem.items" :key="ii">
-              <CardNavLink :card :item="subItem" class="px-4 py-2 hover:bg-theme-100/50 dark:hover:bg-theme-700 font-normal" :class="subItem.isHidden ? 'hidden' : 'block'" />
+              <CardNavLink :card :item="subItem" class="px-4 py-2 hover:bg-theme-100/50 dark:hover:bg-theme-700 font-normal" :class="subItem.isHidden ? 'hidden' : 'block'" @click="close()" />
 
               <div v-if="subItem?.items?.length">
                 <template v-for="(subSubItem, iii) in subItem.items" :key="iii">
-                  <CardNavLink :card :item="subSubItem" class="pl-7 pr-4 py-1.5  dark:hover:bg-theme-700 font-normal text-[.9em]" :class="subSubItem.isHidden ? 'hidden' : 'block'" />
+                  <CardNavLink :card :item="subSubItem" class="pl-7 pr-4 py-1.5  dark:hover:bg-theme-700 font-normal text-[.9em]" :class="subSubItem.isHidden ? 'hidden' : 'block'" @click="close()" />
                 </template>
               </div>
             </template>

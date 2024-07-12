@@ -108,8 +108,8 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
       '@flydotio/dockerfile':
-        specifier: ^0.5.7
-        version: 0.5.7
+        specifier: ^0.5.8
+        version: 0.5.8
       '@playwright/test':
         specifier: ^1.45.1
         version: 1.45.1
@@ -324,8 +324,8 @@ importers:
         specifier: ^1.1.53
         version: 1.1.53
       '@iconify-json/heroicons':
-        specifier: ^1.1.21
-        version: 1.1.21
+        specifier: ^1.1.22
+        version: 1.1.22
       '@iconify-json/logos':
         specifier: ^1.1.43
         version: 1.1.43
@@ -1247,7 +1247,7 @@ importers:
         version: 2.0.5
       lucide-vue-next:
         specifier: latest
-        version: 0.407.0(vue@3.4.31(typescript@5.5.3))
+        version: 0.408.0(vue@3.4.31(typescript@5.5.3))
       monaco-editor:
         specifier: ^0.50.0
         version: 0.50.0
@@ -2279,8 +2279,8 @@ packages:
   '@fast-csv/parse@5.0.0':
     resolution: {integrity: sha512-ecF8tCm3jVxeRjEB6VPzmA+1wGaJ5JgaUX2uesOXdXD6qQp0B3EdshOIed4yT1Xlj/F2f8v4zHSo0Oi31L697g==}
 
-  '@flydotio/dockerfile@0.5.7':
-    resolution: {integrity: sha512-BVkXM2K/jLLYBFos1gT/bYv0YPJue8L4j0dkIsskJI4JRn6rPA9bZjT4sJzkzhdubZuwRGG9cgxj4Cfgt4lHlw==}
+  '@flydotio/dockerfile@0.5.8':
+    resolution: {integrity: sha512-119l9s4xUEATRWTQPddE0f+jZjVBhpnJiGA/aHzDiOUet2L7SD3G5jbSGvOXJm1Ks3kGmxUcPdt3BpLQRef+ow==}
     engines: {node: '>=16.0.0'}
     hasBin: true
 
@@ -2318,8 +2318,8 @@ packages:
   '@iconify-json/flag@1.1.53':
     resolution: {integrity: sha512-TdnS0AAmPnbwg3WdKavUQeyjUJZCp/0O6HsvdnBlpQ7DwcJD36ENvo0FE7BLdte/6haAKOKqnU6H+gvxCdrONQ==}
 
-  '@iconify-json/heroicons@1.1.21':
-    resolution: {integrity: sha512-A+3L4KN+TjH3V8fQ2N2dkOOnLLxMgMBzO8RDT0P9YL+YzvLMIbe/lkDLSB8NB8x0DKWmkvTimoo1l4DKMwi7Zg==}
+  '@iconify-json/heroicons@1.1.22':
+    resolution: {integrity: sha512-UNfSBdD/JBYBvFFhce6e3FsmeqshGz8u964R36npJvIzuORhIHUXrFerulBWFmbG0V1xvMqLZVZc4bPyjP5p7A==}
 
   '@iconify-json/logos@1.1.43':
     resolution: {integrity: sha512-UtvL1yDHUr9dl1Tqihh6K9m5dmbYKOYyLf3i9aKhymSW76QjOCGjpgQc0PQ4GJCAdU1cAMu+WO61TgPxdonrlg==}
@@ -5069,8 +5069,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  electron-to-chromium@1.4.825:
-    resolution: {integrity: sha512-OCcF+LwdgFGcsYPYC5keEEFC2XT0gBhrYbeGzHCx7i9qRFbzO/AqTmc/C/1xNhJj+JA7rzlN7mpBuStshh96Cg==}
+  electron-to-chromium@1.4.827:
+    resolution: {integrity: sha512-VY+J0e4SFcNfQy19MEoMdaIcZLmDCprqvBtkii1WTCTQHpRvf5N8+3kTYCgL/PcntvwQvmMJWTuDPsq+IlhWKQ==}
 
   elliptic@6.5.5:
     resolution: {integrity: sha512-7EjbcmUm17NQFu4Pmgmq2olYMj8nwMnpcddByChSUjArp8F5DQWcIcpriwO4ZToLNAJig0yiyjswfyGNje/ixw==}
@@ -5368,8 +5368,8 @@ packages:
     peerDependencies:
       eslint: '>=6.0.0'
 
-  eslint-plugin-markdown@5.0.0:
-    resolution: {integrity: sha512-kY2u9yDhzvfZ0kmRTsvgm3mTnvZgTSGIIPeHg3yesSx4R5CTCnITUjCPhzCD1MUhNcqHU5Tr6lzx+02EclVPbw==}
+  eslint-plugin-markdown@5.1.0:
+    resolution: {integrity: sha512-SJeyKko1K6GwI0AN6xeCDToXDkfKZfXcexA6B+O2Wr2btUS9GrC+YgwSyVli5DJnctUHjFXcQ2cqTaAmVoLi2A==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: '>=8'
@@ -6821,8 +6821,8 @@ packages:
   lru-queue@0.1.0:
     resolution: {integrity: sha512-BpdYkt9EvGl8OfWHDQPISVpcl5xZthb+XPsbELj5AQXxIC8IriDZIQYjBJPEm5rS420sjZ0TLEzRcq5KdBhYrQ==}
 
-  lucide-vue-next@0.407.0:
-    resolution: {integrity: sha512-BvwHA9u/t80S8VEO3I/OqY8xdW0tprGtEnMtz29MbnsQvjUXzzuw9Hgi7vyFt1b5PlQo4Ub1F3UbGkAB7bKrew==}
+  lucide-vue-next@0.408.0:
+    resolution: {integrity: sha512-X2w4IDKs6O/R+vPdyMl5VvXS0mhuTqXtw6/NQOOIfCHvMz6vWa1Q2XvYT3oQGzyU94uVZw16jcdC1LwI5XbOdg==}
     peerDependencies:
       vue: '>=3.0.1'
 
@@ -7736,8 +7736,8 @@ packages:
     resolution: {integrity: sha512-IQ7TZdoaqbT+LCpShg46jnZVlhWD2w6iQYAcYXfHARZ7X1t/UGhhceQDs5X0cGqKvYlHNOuv7Oa1xmb0oQuA3w==}
     engines: {node: '>=4'}
 
-  postcss-selector-parser@6.1.0:
-    resolution: {integrity: sha512-UMz42UD0UY0EApS0ZL9o1XnLhSTtvvvLe5Dc2H2O56fvRZi+KulDyf5ctDhhtYJBGKStV2FL1fy6253cmLgqVQ==}
+  postcss-selector-parser@6.1.1:
+    resolution: {integrity: sha512-b4dlw/9V8A71rLIDsSwVmak9z2DuBUB7CA1/wSdelNEzqsjoSPeADTWNO09lpH49Diy3/JIZ2bSPB1dI3LJCHg==}
     engines: {node: '>=4'}
 
   postcss-value-parser@4.2.0:
@@ -9610,7 +9610,7 @@ snapshots:
       eslint-plugin-import-x: 0.5.3(eslint@8.57.0)(typescript@5.5.3)
       eslint-plugin-jsdoc: 48.7.0(eslint@8.57.0)
       eslint-plugin-jsonc: 2.16.0(eslint@8.57.0)
-      eslint-plugin-markdown: 5.0.0(eslint@8.57.0)
+      eslint-plugin-markdown: 5.1.0(eslint@8.57.0)
       eslint-plugin-n: 17.9.0(eslint@8.57.0)
       eslint-plugin-no-only-tests: 3.1.0
       eslint-plugin-perfectionist: 2.11.0(eslint@8.57.0)(svelte@4.2.18)(typescript@5.5.3)(vue-eslint-parser@9.4.3(eslint@8.57.0))
@@ -10800,7 +10800,7 @@ snapshots:
       lodash.isundefined: 3.0.1
       lodash.uniq: 4.5.0
 
-  '@flydotio/dockerfile@0.5.7':
+  '@flydotio/dockerfile@0.5.8':
     dependencies:
       chalk: 5.3.0
       diff: 5.2.0
@@ -10842,7 +10842,7 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/heroicons@1.1.21':
+  '@iconify-json/heroicons@1.1.22':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -13418,7 +13418,7 @@ snapshots:
   browserslist@4.23.2:
     dependencies:
       caniuse-lite: 1.0.30001641
-      electron-to-chromium: 1.4.825
+      electron-to-chromium: 1.4.827
       node-releases: 2.0.14
       update-browserslist-db: 1.1.0(browserslist@4.23.2)
 
@@ -14124,7 +14124,7 @@ snapshots:
     dependencies:
       jake: 10.9.1
 
-  electron-to-chromium@1.4.825: {}
+  electron-to-chromium@1.4.827: {}
 
   elliptic@6.5.5:
     dependencies:
@@ -14511,7 +14511,7 @@ snapshots:
       natural-compare: 1.4.0
       synckit: 0.6.2
 
-  eslint-plugin-markdown@5.0.0(eslint@8.57.0):
+  eslint-plugin-markdown@5.1.0(eslint@8.57.0):
     dependencies:
       eslint: 8.57.0
       mdast-util-from-markdown: 0.8.5
@@ -14613,7 +14613,7 @@ snapshots:
       globals: 13.24.0
       natural-compare: 1.4.0
       nth-check: 2.1.1
-      postcss-selector-parser: 6.1.0
+      postcss-selector-parser: 6.1.1
       semver: 7.6.2
       vue-eslint-parser: 9.4.3(eslint@8.57.0)
       xml-name-validator: 4.0.0
@@ -16138,7 +16138,7 @@ snapshots:
     dependencies:
       es5-ext: 0.10.64
 
-  lucide-vue-next@0.407.0(vue@3.4.31(typescript@5.5.3)):
+  lucide-vue-next@0.408.0(vue@3.4.31(typescript@5.5.3)):
     dependencies:
       vue: 3.4.31(typescript@5.5.3)
 
@@ -17121,14 +17121,14 @@ snapshots:
   postcss-nested@6.0.1(postcss@8.4.39):
     dependencies:
       postcss: 8.4.39
-      postcss-selector-parser: 6.1.0
+      postcss-selector-parser: 6.1.1
 
   postcss-selector-parser@6.0.10:
     dependencies:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
 
-  postcss-selector-parser@6.1.0:
+  postcss-selector-parser@6.1.1:
     dependencies:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
@@ -18190,7 +18190,7 @@ snapshots:
       postcss-js: 4.0.1(postcss@8.4.39)
       postcss-load-config: 4.0.2(postcss@8.4.39)(ts-node@10.9.2(@swc/wasm@1.6.7)(@types/node@20.14.10)(typescript@5.5.3))
       postcss-nested: 6.0.1(postcss@8.4.39)
-      postcss-selector-parser: 6.1.0
+      postcss-selector-parser: 6.1.1
       resolve: 1.22.8
       sucrase: 3.35.0
     transitivePeerDependencies:
