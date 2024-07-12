@@ -1,8 +1,10 @@
 import { vue } from '@fiction/core'
-import { CardTemplate, createCard } from '@fiction/site'
+import { CardTemplate } from '@fiction/site'
 import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
 import { standardOption } from '../inputSets'
+
+const templateId = 'maps'
 
 // Define schema for the markers within the maps array
 const markerSchema = z.object({
@@ -48,11 +50,10 @@ const mapBase = {
   mapStyle: 'streets' as const,
 }
 
-const templateId = 'map'
 export const templates = [
   new CardTemplate({
     templateId,
-    category: ['other'],
+    category: ['advanced'],
     description: 'map with markers, powered by Mapbox',
     icon: 'i-tabler-map',
     colorTheme: 'amber',
@@ -80,10 +81,10 @@ export const templates = [
         cards: [
           { templateId, userConfig: { maps: [
             mapBase,
-            mapBase,
+            { ...mapBase, zoom: 15, pitch: 70, mapStyle: 'navigation-night' as const },
             { ...mapBase, zoom: 10, pitch: 60 },
             { ...mapBase, zoom: 15, pitch: 70, mapStyle: 'mode' as const },
-            { ...mapBase, zoom: 15, pitch: 70, mapStyle: 'navigation-night' as const },
+
           ] } },
           { templateId, userConfig: { maps: [{ ...mapBase, mapStyle: 'dark' as const }] } },
           { templateId, userConfig: { maps: [{ ...mapBase, mapStyle: 'outdoors' as const }] } },

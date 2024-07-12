@@ -21,6 +21,7 @@ export const templates = [
     icon: 'i-tabler-compass',
     colorTheme: 'green',
     isPublic: false,
+    schema,
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
     options,
 

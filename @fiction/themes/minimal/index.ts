@@ -23,7 +23,7 @@ function pages() {
       slug: 'contact',
       title: 'Contact',
       cards: [
-        createCard({ templates, templateId: 'map', userConfig: { } }),
+        createCard({ templates, templateId: 'maps', userConfig: { } }),
       ],
     }),
   ]

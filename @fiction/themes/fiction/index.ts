@@ -113,6 +113,7 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
                           { name: 'Features', href: '/demo-features' },
                           { name: 'Ticker', href: '/demo-ticker' },
                           { name: 'FAQ / List', href: '/demo-faq' },
+                          { name: 'People', href: '/demo-people' },
                         ],
                       },
                       {
@@ -131,6 +132,7 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
                           { name: 'Footer', href: '/demo-footer' },
                           { name: 'Pricing', href: '/demo-pricing' },
                           { name: 'Capture', href: '/demo-capture' },
+                          { name: 'Maps', href: '/demo-maps' },
                         ],
                       },
 

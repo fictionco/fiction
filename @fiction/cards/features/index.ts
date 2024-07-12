@@ -62,6 +62,7 @@ export const templates = [
     schema,
     options,
     userConfig: defaultConfig,
+    isPublic: true,
     demoPage: async () => {
       return {
         cards: [

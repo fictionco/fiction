@@ -85,7 +85,9 @@ export const templates = [
     icon: 'i-tabler-compass',
     colorTheme: 'green',
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
+    schema,
     options,
+    isPublic: true,
     getUserConfig: async args => defaultConfig(args),
     demoPage: async (args) => {
       const userConfig = await defaultConfig(args)

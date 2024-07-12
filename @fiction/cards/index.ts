@@ -15,7 +15,7 @@ import * as profile from './profile'
 import { templates as templatesMediaGrid } from './media-grid'
 import * as metrics from './metrics'
 import * as features from './features'
-import * as team from './team'
+import * as people from './people'
 import * as map from './map'
 import * as faq from './faq'
 import * as pricing from './pricing/index.js'
@@ -58,7 +58,7 @@ export const standardCardTemplates = [
   ...cinema.templates,
   ...story.templates,
   ...ticker.templates,
-  ...team.templates,
+  ...people.templates,
   ...pricing.templates,
   ...templatesLogos,
   ...tour.templates,

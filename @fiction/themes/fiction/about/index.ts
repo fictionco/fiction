@@ -47,7 +47,7 @@ const missionHeroCard2 = createCard({
 
 const teamCard = createCard({
   templates,
-  templateId: 'team',
+  templateId: 'people',
   userConfig: {
     subHeading: `People helping build your story`,
     heading: `Team`,
@@ -82,7 +82,7 @@ const mapSaltLake: MapSchemaConfig = {
 
 const mapCard = createCard({
   templates,
-  templateId: 'map',
+  templateId: 'maps',
   userConfig: {
     maps: [mapIrvine, mapSaltLake],
   },

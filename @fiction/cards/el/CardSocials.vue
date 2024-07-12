@@ -3,28 +3,13 @@ import type { NavItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import type { Card } from '@fiction/site/card'
+import { socialIcons } from './util.js'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
   socials: { type: Array as vue.PropType<NavItem[]>, required: true },
   justify: { type: String as vue.PropType<'left' | 'right' | 'center' | 'justify'>, default: '' },
 })
-
-const socialIcons = [
-  { value: 'x', icon: 'i-tabler-brand-x' },
-  { value: 'linkedin', icon: 'i-tabler-brand-linkedin' },
-  { value: 'facebook', icon: 'i-tabler-brand-facebook' },
-  { value: 'instagram', icon: 'i-tabler-brand-instagram' },
-  { value: 'youtube', icon: 'i-tabler-brand-youtube' },
-  { value: 'github', icon: 'i-tabler-brand-github' },
-  { value: 'email', icon: 'i-tabler-mail' },
-  { value: 'phone', icon: 'i-tabler-phone' },
-  { value: 'pinterest', icon: 'i-tabler-brand-pinterest' },
-  { value: 'snapchat', icon: 'i-tabler-brand-snapchat' },
-  { value: 'spotify', icon: 'i-tabler-brand-spotify' },
-  { value: 'discord', icon: 'i-tabler-brand-discord' },
-  { value: 'slack', icon: 'i-tabler-brand-slack' },
-]
 
 function getIcon(value?: string) {
   if (!value)
@@ -38,7 +23,7 @@ vue.onMounted(() => {
   useElementVisible({
     selector: `#${props.card.cardId}`,
     onVisible: async () => {
-      await animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'fade', config: { overallDelay: 200 } })
+      await animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'fade', config: { overallDelay: 600 } })
     },
   })
 })
@@ -50,4 +35,4 @@ vue.onMounted(() => {
       <div :class="getIcon(item.icon)" class="" :title="item.name" />
     </a>
   </div>
-</template>, waitFor
+</template>

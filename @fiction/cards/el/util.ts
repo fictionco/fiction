@@ -1,0 +1,15 @@
+export const socialIcons = [
+  { value: 'x', icon: 'i-tabler-brand-x' },
+  { value: 'linkedin', icon: 'i-tabler-brand-linkedin' },
+  { value: 'facebook', icon: 'i-tabler-brand-facebook' },
+  { value: 'instagram', icon: 'i-tabler-brand-instagram' },
+  { value: 'youtube', icon: 'i-tabler-brand-youtube' },
+  { value: 'github', icon: 'i-tabler-brand-github' },
+  { value: 'email', icon: 'i-tabler-mail' },
+  { value: 'phone', icon: 'i-tabler-phone' },
+  { value: 'pinterest', icon: 'i-tabler-brand-pinterest' },
+  { value: 'snapchat', icon: 'i-tabler-brand-snapchat' },
+  { value: 'spotify', icon: 'i-tabler-brand-spotify' },
+  { value: 'discord', icon: 'i-tabler-brand-discord' },
+  { value: 'slack', icon: 'i-tabler-brand-slack' },
+]

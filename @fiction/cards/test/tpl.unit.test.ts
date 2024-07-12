@@ -13,7 +13,7 @@ describe('verify template settings config', async () => {
         templateId: _.settings.templateId,
         unusedSchema: _.optionConfig.unusedSchema,
         isPublic: _.settings.isPublic,
-        hasDemo: _.settings.demoPage || demoPages.some(d => d.slug === `card-${_.settings.templateId}`),
+        hasDemo: !!(_.settings.demoPage || demoPages.some(d => d.slug === `card-${_.settings.templateId}`)),
       }
     })
 
@@ -40,55 +40,55 @@ describe('verify template settings config', async () => {
           "unusedSchema": {},
         },
         {
-          "hasDemo": [Function],
+          "hasDemo": true,
           "isPublic": true,
           "templateId": "nav",
           "unusedSchema": {},
         },
         {
-          "hasDemo": [Function],
+          "hasDemo": true,
           "isPublic": true,
           "templateId": "footer",
           "unusedSchema": {},
         },
         {
-          "hasDemo": [Function],
+          "hasDemo": true,
           "isPublic": true,
           "templateId": "quotes",
           "unusedSchema": {},
         },
         {
-          "hasDemo": [Function],
+          "hasDemo": true,
           "isPublic": true,
           "templateId": "profile",
           "unusedSchema": {},
         },
         {
-          "hasDemo": [Function],
+          "hasDemo": true,
           "isPublic": true,
           "templateId": "hero",
           "unusedSchema": {},
         },
         {
-          "hasDemo": [Function],
+          "hasDemo": true,
           "isPublic": true,
           "templateId": "marquee",
           "unusedSchema": {},
         },
         {
-          "hasDemo": [Function],
+          "hasDemo": true,
           "isPublic": true,
           "templateId": "area",
           "unusedSchema": {},
         },
         {
-          "hasDemo": [Function],
+          "hasDemo": true,
           "isPublic": true,
-          "templateId": "map",
+          "templateId": "maps",
           "unusedSchema": {},
         },
         {
-          "hasDemo": [Function],
+          "hasDemo": true,
           "isPublic": false,
           "templateId": "magazine",
           "unusedSchema": {
@@ -102,43 +102,46 @@ describe('verify template settings config', async () => {
           "unusedSchema": undefined,
         },
         {
-          "hasDemo": [Function],
+          "hasDemo": true,
           "isPublic": true,
           "templateId": "capture",
           "unusedSchema": {},
         },
         {
-          "hasDemo": [Function],
+          "hasDemo": true,
           "isPublic": true,
           "templateId": "showcase",
           "unusedSchema": {},
         },
         {
-          "hasDemo": [Function],
+          "hasDemo": true,
           "isPublic": true,
           "templateId": "cinema",
           "unusedSchema": {},
         },
         {
-          "hasDemo": [Function],
+          "hasDemo": true,
           "isPublic": undefined,
           "templateId": "story",
           "unusedSchema": undefined,
         },
         {
-          "hasDemo": [Function],
+          "hasDemo": true,
           "isPublic": true,
           "templateId": "ticker",
           "unusedSchema": {},
         },
         {
-          "hasDemo": [Function],
+          "hasDemo": true,
           "isPublic": undefined,
-          "templateId": "team",
-          "unusedSchema": undefined,
+          "templateId": "people",
+          "unusedSchema": {
+            "profiles.0.media.format": "string",
+            "profiles.0.media.url": "string",
+          },
         },
         {
-          "hasDemo": [Function],
+          "hasDemo": true,
           "isPublic": true,
           "templateId": "pricing",
           "unusedSchema": {},
@@ -150,10 +153,10 @@ describe('verify template settings config', async () => {
           "unusedSchema": undefined,
         },
         {
-          "hasDemo": [Function],
-          "isPublic": undefined,
+          "hasDemo": true,
+          "isPublic": true,
           "templateId": "tour",
-          "unusedSchema": undefined,
+          "unusedSchema": {},
         },
         {
           "hasDemo": false,
@@ -162,8 +165,8 @@ describe('verify template settings config', async () => {
           "unusedSchema": undefined,
         },
         {
-          "hasDemo": [Function],
-          "isPublic": undefined,
+          "hasDemo": true,
+          "isPublic": true,
           "templateId": "features",
           "unusedSchema": {},
         },
@@ -174,7 +177,7 @@ describe('verify template settings config', async () => {
           "unusedSchema": undefined,
         },
         {
-          "hasDemo": [Function],
+          "hasDemo": true,
           "isPublic": true,
           "templateId": "faq",
           "unusedSchema": {},
@@ -183,7 +186,7 @@ describe('verify template settings config', async () => {
           "hasDemo": false,
           "isPublic": false,
           "templateId": "mediaPop",
-          "unusedSchema": undefined,
+          "unusedSchema": {},
         },
       ]
     `)
@@ -201,11 +204,9 @@ describe('verify template settings config', async () => {
     expect(incompletePublic, 'incomplete public cards').toMatchInlineSnapshot(`
       [
         "story",
-        "team",
+        "people",
         "logos",
-        "tour",
         "mediaGrid",
-        "features",
         "metrics",
       ]
     `)
