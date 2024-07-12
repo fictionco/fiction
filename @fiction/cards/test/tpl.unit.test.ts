@@ -135,10 +135,7 @@ describe('verify template settings config', async () => {
           "hasDemo": true,
           "isPublic": undefined,
           "templateId": "people",
-          "unusedSchema": {
-            "profiles.0.media.format": "string",
-            "profiles.0.media.url": "string",
-          },
+          "unusedSchema": {},
         },
         {
           "hasDemo": true,

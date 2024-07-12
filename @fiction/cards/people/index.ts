@@ -17,7 +17,7 @@ const schema = z.object({
     desc: z.string().optional(),
     title: z.string().optional(),
     media: z.object({
-      format: z.literal('url'),
+      format: z.enum(['url']),
       url: z.string(),
     }).optional(),
     social: z.array(z.object({
@@ -39,7 +39,7 @@ const options: InputOption[] = [
     new InputOption({ key: 'name', input: 'InputText', label: 'Name' }),
     new InputOption({ key: 'title', input: 'InputText', label: 'Title' }),
     new InputOption({ key: 'desc', input: 'InputText', label: 'Description' }),
-    new InputOption({ key: 'media', input: 'InputMedia', label: 'Media' }),
+    new InputOption({ key: 'media', input: 'InputMediaDisplay', label: 'Media', props: { formats: { url: true } } }),
     new InputOption({ key: 'social', input: 'InputList', label: 'Social', options: [
       new InputOption({ key: 'name', input: 'InputText', label: 'Name' }),
       new InputOption({ key: 'href', input: 'InputText', label: 'Link' }),
@@ -139,6 +139,7 @@ export const templates = [
     el,
     options,
     schema,
+    isPublic: true,
     getUserConfig: defaultConfig,
     demoPage: async (args) => {
       const userConfig = await defaultConfig(args)

@@ -14,7 +14,7 @@ export const UserConfigSchema = z.object({
   detailsTitle: z.string().optional().describe('Title for list of details'),
   mediaItems: z.array(z.object({
     media: z.object({
-      format: z.enum(['url', 'html']).optional(),
+      format: z.enum(['url']).optional(),
       url: z.string().optional(),
       html: z.string().optional(),
     }),
