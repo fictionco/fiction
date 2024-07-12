@@ -100,7 +100,7 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
                   { name: 'About', href: '/about' },
                   {
                     name: 'Elements',
-                    desc: 'Website elements you can use on your personal brand sites.',
+                    desc: 'Professional components for your website',
                     subStyle: 'mega',
                     items: [
                       {
@@ -125,6 +125,7 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
                           { name: 'Marquee', href: '/demo-marquee' },
                           { name: 'Profile', href: '/demo-profile' },
                           { name: 'Logos', href: '/demo-logos' },
+                          { name: 'Metrics', href: '/demo-metrics' },
                         ],
                       },
                       {

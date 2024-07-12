@@ -32,16 +32,82 @@ const options: InputOption[] = [
   ] }),
 ]
 
+async function getDefaultConfig(): Promise<UserConfig> {
+  return {
+    heading: 'The numbers speak for themselves',
+    subHeading: 'Check out these key metrics from my career',
+    items: [
+      {
+        name: 'Movies Directed',
+        desc: 'Total number of movies directed',
+        value: 15,
+        format: 'number',
+        icon: 'i-tabler-film',
+        color: '#ff5733',
+      },
+      {
+        name: 'Box Office Revenue',
+        desc: 'Total box office revenue generated',
+        value: 520500000,
+        format: 'abbreviatedDollar',
+        icon: 'i-tabler-currency-dollar',
+        color: '#33ff57',
+      },
+      {
+        name: 'Awards Won',
+        desc: 'Total number of awards won',
+        value: 25,
+        format: 'number',
+        icon: 'i-tabler-trophy',
+        color: '#ffd700',
+      },
+      {
+        name: 'Scenes Cut',
+        desc: 'Number of scenes cut during editing',
+        value: 453,
+        format: 'number',
+        icon: 'i-tabler-scissors',
+        color: '#ff33a8',
+      },
+      {
+        name: 'Days on Set',
+        desc: 'Total number of days spent on set',
+        value: 1200,
+        format: 'number',
+        icon: 'i-tabler-clock',
+        color: '#3399ff',
+      },
+      {
+        name: 'Coffee Cups',
+        desc: 'Total number of coffee cups consumed',
+        value: 5500,
+        format: 'number',
+        icon: 'i-tabler-coffee',
+        color: '#ff9933',
+      },
+    ],
+  }
+}
+
 export const templates = [
   new CardTemplate({
     templateId,
     category: ['stats'],
-    description: 'display stats/metrics',
+    description: 'Display key metrics in a visually appealing way',
     icon: 'i-tabler-number',
     colorTheme: 'sky',
-    isPublic: false,
+    isPublic: true,
     schema,
     el: vue.defineAsyncComponent(async () => import('./ElMetrics.vue')),
     options,
+    getUserConfig: async () => getDefaultConfig(),
+    demoPage: async () => {
+      const userConfig = await getDefaultConfig()
+      return {
+        cards: [
+          { templateId, userConfig },
+        ],
+      }
+    },
   }),
 ] as const

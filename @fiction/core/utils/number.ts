@@ -2,23 +2,28 @@ const THOUSAND = 1000
 const HUNDRED_THOUSAND = 100_000
 const MILLION = 1_000_000
 const HUNDRED_MILLION = 100_000_000
+const BILLION = 1_000_000_000
+const HUNDRED_BILLION = 100_000_000_000
+const TRILLION = 1_000_000_000_000
 
-/**
- * Concise number abbreviation format
- */
 export function numberFormatter(num: number | string): string | number {
-  num = typeof num === 'string' ? Number.parseInt(num) : num
-  if (num >= THOUSAND && num < MILLION) {
-    const thousands = num / THOUSAND
-    return thousands === Math.floor(thousands) || num >= HUNDRED_THOUSAND
-      ? `${Math.floor(thousands)}k`
-      : `${Math.floor(thousands * 10) / 10}k`
+  num = typeof num === 'string' ? Number.parseFloat(num) : num
+
+  if (num >= TRILLION) {
+    const trillions = num / TRILLION
+    return trillions === Math.floor(trillions) ? `${Math.floor(trillions)}t` : `${Math.floor(trillions * 10) / 10}t`
   }
-  else if (num >= MILLION && num < HUNDRED_MILLION) {
+  else if (num >= BILLION) {
+    const billions = num / BILLION
+    return billions === Math.floor(billions) || num >= HUNDRED_BILLION ? `${Math.floor(billions)}b` : `${Math.floor(billions * 10) / 10}b`
+  }
+  else if (num >= MILLION) {
     const millions = num / MILLION
-    return millions === Math.floor(millions)
-      ? `${Math.floor(millions)}m`
-      : `${Math.floor(millions * 10) / 10}m`
+    return millions === Math.floor(millions) || num >= HUNDRED_MILLION ? `${Math.floor(millions)}m` : `${Math.floor(millions * 10) / 10}m`
+  }
+  else if (num >= THOUSAND) {
+    const thousands = num / THOUSAND
+    return thousands === Math.floor(thousands) || num >= HUNDRED_THOUSAND ? `${Math.floor(thousands)}k` : `${Math.floor(thousands * 10) / 10}k`
   }
   else {
     return num

@@ -1,3 +1,4 @@
+import { type NumberFormats, formatNumber } from '@fiction/core'
 import anime from 'animejs'
 
 type AnimationThemeConfig = Partial<{
@@ -150,4 +151,26 @@ export function splitLetters(selector: string): void {
 
     walkNodes(textWrapper)
   }
+}
+
+export function animateNumber(element: HTMLElement, finalValue: number | string, format?: NumberFormats) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        anime({
+          targets: element,
+          innerHTML: [0, finalValue],
+          easing: 'easeOutQuad',
+          round: 1,
+          duration: 2000,
+          update(anim) {
+            element.innerHTML = formatNumber(anim.animations[0].currentValue, format) as string
+          },
+        })
+        observer.unobserve(element)
+      }
+    })
+  })
+
+  observer.observe(element)
 }

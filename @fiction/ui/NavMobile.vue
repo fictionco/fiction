@@ -14,12 +14,14 @@ const emit = defineEmits(['update:vis'])
 const randomId = shortId()
 const afterVisible = vue.ref(false)
 const scrolled = vue.ref(false)
+const activeSubNav = vue.ref<string>()
 
 onBrowserEvent('scroll', () => {
   scrolled.value = window.pageYOffset > 50
 })
 
 function close(): void {
+  activeSubNav.value = ''
   emit('update:vis', false)
 }
 
@@ -67,6 +69,25 @@ vue.onMounted(() => {
 function getIcon(icon: string): string {
   return ``
 }
+
+function handleItemClick(args: { item: NavItem, event: MouseEvent }): void {
+  const { item, event } = args
+
+  if (item.items) {
+    event?.preventDefault()
+
+    if (activeSubNav.value === item.href) {
+      activeSubNav.value = ''
+    }
+    else {
+      activeSubNav.value = item.name
+    }
+  }
+
+  else if (item.onClick) {
+    item.onClick(args)
+  }
+}
 </script>
 
 <template>
@@ -89,23 +110,61 @@ function getIcon(icon: string): string {
               aria-orientation="vertical"
               aria-labelledby="main-menu"
             >
-              <component
-                :is="getNavComponentType(item)"
-                v-for="(item, i) in n"
-                :key="i"
-                :to="item.href"
-                :href="item.href"
-                role="menuitem"
-                class="x-action-item font-sans antialiased text-4xl font-normal hover:text-theme-100"
-                :class="item.isActive ? '' : ''"
-                @click="item.onClick ? item.onClick($event) : null"
-              >
-                <span class="relative group inline-flex gap-x-2 items-center">
-                  <span v-if="item.icon" :class="getIcon(item.icon)" />
-                  <span v-html="item.name" />
-                  <span class=" origin-left scale-x-0 group-hover:scale-x-100 transition-all border-b-2 border-theme-0 w-full absolute bottom-0 left-0" />
-                </span>
-              </component>
+              <template v-for="(item, i) in n" :key="i">
+                <component
+                  :is="getNavComponentType(item)"
+                  :to="item.href"
+                  :href="item.href"
+                  role="menuitem"
+                  class="x-action-item font-sans text-4xl font-medium "
+                  :class="item.isActive ? 'dark:text-primary-400 text-primary-500' : ' hover:text-theme-100'"
+                  @click="handleItemClick({ item, event: $event })"
+                >
+                  <span class="relative group inline-flex gap-x-2 items-center">
+                    <span v-if="item.icon" :class="getIcon(item.icon)" />
+                    <span v-html="item.name" />
+                    <span class=" origin-left scale-x-0 group-hover:scale-x-100 transition-all border-b-2 border-theme-0 w-full absolute bottom-0 left-0" />
+                  </span>
+                </component>
+                <div v-if="item.items && item.name === activeSubNav" class="space-y-6">
+                  <div v-for="(subItem, ii) in item.items" :key="ii" class="flex flex-col gap-2 pl-4">
+                    <component
+                      :is="getNavComponentType(subItem)"
+                      :to="subItem.href"
+                      :href="subItem.href"
+                      role="menuitem"
+                      class="x-action-item font-sans text-xl font-medium text-theme-500 dark:text-theme-400"
+                      :class="item.isActive ? 'dark:text-primary-400 text-primary-500' : ' hover:text-theme-100'"
+                      @click="subItem.onClick ? subItem.onClick($event) : null"
+                    >
+                      <span class="relative group inline-flex gap-x-2 items-center">
+                        <span v-if="subItem.icon" :class="getIcon(subItem.icon)" />
+                        <span v-html="subItem.name" />
+                        <span class=" origin-left scale-x-0 group-hover:scale-x-100 transition-all border-b-2 border-theme-0 w-full absolute bottom-0 left-0" />
+                      </span>
+                    </component>
+                    <div v-if="subItem.items" class="space-y-1">
+                      <div v-for="(subSubItem, iii) in subItem.items" :key="iii" class="pl-4">
+                        <component
+                          :is="getNavComponentType(subSubItem)"
+                          :to="subSubItem.href"
+                          :href="subSubItem.href"
+                          role="menuitem"
+                          class="x-action-item font-sans text-base font-medium  hover:text-theme-100"
+                          :class="item.isActive ? 'dark:text-primary-400 text-primary-500' : ' hover:text-theme-100'"
+                          @click="subSubItem.onClick ? subSubItem.onClick($event) : null"
+                        >
+                          <span class="relative group inline-flex gap-x-2 items-center">
+                            <span v-if="subSubItem.icon" :class="getIcon(subSubItem.icon)" />
+                            <span v-html="subSubItem.name" />
+                            <span class=" origin-left scale-x-0 group-hover:scale-x-100 transition-all border-b-2 border-theme-0 w-full absolute bottom-0 left-0" />
+                          </span>
+                        </component>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </template>
             </div>
           </div>
           <slot name="foot" />

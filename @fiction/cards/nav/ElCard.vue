@@ -95,9 +95,9 @@ function close() {
           </div>
         </nav>
         <TransitionSlide>
-          <nav v-if="activeItem?.subStyle === 'mega' && activeItem.items?.length" class="min-h-[300px] overflow-hidden absolute z-30 top-[calc(100%+.5rem)] w-full bg-theme-0 dark:bg-theme-800 dark:border-2 dark:border-theme-500/20 rounded-xl flex" @mouseover="setActiveHover(activeItem)" @mouseleave="setActiveHover(undefined)">
-            <div class="bg-theme-950/70 text-white w-[33%]">
-              <div class="p-6 space-y-2 max-w-[350px]">
+          <nav v-if="activeItem?.subStyle === 'mega' && activeItem.items?.length" class="overflow-hidden absolute z-30 top-[calc(100%+.5rem)] w-full bg-theme-0 dark:bg-theme-800 dark:border-2 dark:border-theme-500/20 rounded-xl flex" @mouseover="setActiveHover(activeItem)" @mouseleave="setActiveHover(undefined)">
+            <div class="bg-theme-950/70 text-white w-[33%] min-h-[200px]">
+              <div class="p-8 space-y-2 max-w-[350px]">
                 <h2 class="x-font-title text-3xl font-semibold dark:text-theme-100" v-html="activeItem.name" />
                 <p class="text-xl text-theme-500 dark:text-theme-400 font-sans font-normal" v-html="activeItem.desc" />
               </div>
