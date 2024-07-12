@@ -7,7 +7,6 @@ import { setPages } from './page.js'
 // Define a type for the hooks to ensure type safety
 export type QueryVarHook = {
   key: string
-  value: string[]
   callback: (args: { site: Site, value: string }) => Promise<void | { reload?: boolean }> | void | { reload?: boolean }
 }
 
@@ -28,13 +27,19 @@ export function setupRouteWatcher(args: { site: Site, queryVarHooks: QueryVarHoo
       const routeVars = { ...route.params, ...route.query } as Record<string, string | undefined>
 
       for (const hook of queryVarHooks) {
-        const { key, value } = hook
-        if (routeVars[key] && value.includes(routeVars[key])) {
+        const { key } = hook
+        if (routeVars[key]) {
           const result = await hook.callback({ site, value: routeVars[key] })
           if (result?.reload) {
             const url = new URL(window.location.href)
             url.searchParams.delete(key)
             window.location.href = url.toString()
+          }
+          else {
+            // remove from query params
+            const url = new URL(window.location.href)
+            url.searchParams.delete(key)
+            window.history.replaceState({}, '', url.toString())
           }
         }
       }

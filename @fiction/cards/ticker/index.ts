@@ -30,7 +30,7 @@ export type UserConfig = z.infer<typeof UserConfigSchema>
 const options: InputOption[] = [
   standardOption.ai(),
   new InputOption({ key: 'fontSize', label: 'Font Size', input: 'InputRange', props: { min: 5, max: 15 } }),
-  new InputOption({ key: 'speed', label: 'Speed', input: 'InputRange', props: { min: -10, max: 10 } }),
+
   new InputOption({
     input: 'InputList',
     key: `items`,
@@ -41,6 +41,7 @@ const options: InputOption[] = [
       new InputOption({ key: 'bgColor', label: 'Background Color', input: 'InputColor' }),
       new InputOption({ key: 'bgColorDark', label: 'Background Color (Dark Mode)', input: 'InputColor' }),
       new InputOption({ key: 'outline', label: 'Outline', input: 'InputToggle' }),
+      new InputOption({ key: 'speed', label: 'Speed', input: 'InputRange', props: { min: -10, max: 10 } }),
       new InputOption({ key: 'rotateX', label: 'Rotate X', input: 'InputRange', props: { min: -10, max: 10 } }),
       new InputOption({ key: 'rotateY', label: 'Rotate Y', input: 'InputRange', props: { min: -10, max: 10 } }),
       new InputOption({ key: 'rotateZ', label: 'Rotate Z', input: 'InputRange', props: { min: -10, max: 10 } }),

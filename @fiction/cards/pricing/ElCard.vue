@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type { ListItem, NavItem } from '@fiction/core'
 import { formatNumber, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import ElButton from '@fiction/ui/ElButton.vue'
@@ -41,6 +40,26 @@ vue.onMounted(() => {
 })
 
 const priceDuration = vue.ref<'year' | 'month'>('month')
+
+function getLink(price: UserConfigPrice) {
+  if (priceDuration.value === 'year' && price.hrefAnnual) {
+    return price.hrefAnnual
+  }
+  return price.href
+}
+
+function getPrice(price?: UserConfigPrice) {
+  if (!price?.price) {
+    return 0
+  }
+
+  if (priceDuration.value === 'year' && uc.value.annualDiscountPercent) {
+    return formatNumber(price.price * 12 * (1 - uc.value.annualDiscountPercent / 100))
+  }
+  else {
+    return formatNumber(price.price)
+  }
+}
 </script>
 
 <template>
@@ -68,10 +87,10 @@ const priceDuration = vue.ref<'year' | 'month'>('month')
           </div>
           <p class="mt-6 flex items-baseline gap-x-1 x-font-title">
             <span class="text-7xl font-semibold x-font-title">
-              <span v-if="!price.price">Free</span>
+              <span v-if="!getPrice(price)">Free</span>
               <span v-else>
                 <span class="align-super text-[.5em] mr-1 font-normal">$</span>
-                <span>{{ formatNumber(price.price) }}</span>
+                <span>{{ getPrice(price) }}</span>
               </span>
             </span>
             <span v-if="price.price" class="text-base font-normal font-sans flex gap-0.5 items-center">
@@ -80,12 +99,12 @@ const priceDuration = vue.ref<'year' | 'month'>('month')
             </span>
           </p>
 
-          <div v-if="price.href" class="my-6">
+          <div v-if="getLink(price)" class="my-6">
             <ElButton
               format="block"
               size="xl"
               btn="naked"
-              :href="price.href"
+              :href="getLink(price)"
               class="hover:opacity-80 transition-opacity duration-300 shadow-sm"
               :class="cls(price).btn"
             >

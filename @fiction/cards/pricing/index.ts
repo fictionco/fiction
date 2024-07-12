@@ -10,6 +10,7 @@ const priceSchema = z.object({
   price: z.number().optional().describe('monthly price of plan'),
   desc: z.string().optional().describe('description of plan, compared to other plans (all of free plan, plus...)'),
   href: z.string().optional().describe('link to purchase plan'),
+  hrefAnnual: z.string().optional().describe('link to purchase annual plan'),
   features: z.array(z.object({ name: z.string().optional().describe('feature text') })).optional().describe('list of features on plan'),
   isHighlighted: z.boolean().optional().describe('highlight this plan'),
   icon: z.string().optional().describe('icon to show on plan (format i-tabler-<icon>)'),
@@ -33,7 +34,8 @@ const options: InputOption[] = [
     new InputOption({ key: 'name', label: 'Name', input: 'InputText' }),
     new InputOption({ key: 'price', label: 'Price', input: 'InputNumber' }),
     new InputOption({ key: 'desc', label: 'Description', input: 'InputText' }),
-    new InputOption({ key: 'href', label: 'Link', input: 'InputText' }),
+    new InputOption({ key: 'href', label: 'Purchase Link', input: 'InputText' }),
+    new InputOption({ key: 'hrefAnnual', label: 'Annual Purchase Link', input: 'InputText' }),
     new InputOption({ key: 'features', label: 'Features', input: 'InputList', options: [
       new InputOption({ key: 'name', label: 'Text', input: 'InputText' }),
     ] }),

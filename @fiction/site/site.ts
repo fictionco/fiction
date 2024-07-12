@@ -62,7 +62,6 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   watchers() {
     const queryVarHooks: QueryVarHook[] = [{
       key: '_scheme',
-      value: ['dark', 'light', 'toggle'],
       callback: (args: { site: Site, value: string }) => {
         const { value } = args
         if (value === 'toggle')

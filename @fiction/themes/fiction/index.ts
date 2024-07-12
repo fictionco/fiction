@@ -77,6 +77,12 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
     },
     sections: () => {
       return {
+        hidden: createCard({
+          templates,
+          cards: [
+            createCard({ templates, templateId: 'mediaPop', userConfig: { } }),
+          ],
+        }),
         header: createCard({
           templates,
           cards: [

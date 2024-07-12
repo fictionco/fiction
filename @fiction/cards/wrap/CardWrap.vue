@@ -28,5 +28,6 @@ vue.onMounted(async () => {
     />
     <ElEngine tag="main" :card="card" />
     <ElEngine class="transition-all duration-700" :class="!showDelayed ? 'opacity-0 translate-y-0' : '-translate-y-8'" tag="footer" :card="card.site.sections.value.footer" />
+    <ElEngine class="invisible" :card="card.site.sections.value.hidden" />
   </div>
 </template>

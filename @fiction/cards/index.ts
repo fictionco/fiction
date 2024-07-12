@@ -8,7 +8,7 @@ import * as four04 from './404'
 import * as quote from './quote'
 import { templates as templatesLogos } from './logos'
 import * as hero from './hero'
-
+import * as mediaPop from './mediaPop'
 import * as area from './area'
 import * as tour from './tour'
 import * as profile from './profile'
@@ -66,6 +66,7 @@ export const standardCardTemplates = [
   ...features.templates,
   ...metrics.templates,
   ...faq.templates,
+  ...mediaPop.templates,
 ] as const
 
 export async function getDemoPages(args: { site: Site, templates: CardTemplate[] | readonly CardTemplate[], fictionEnv?: FictionEnv }) {

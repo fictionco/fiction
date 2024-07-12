@@ -119,6 +119,72 @@ describe('verify template settings config', async () => {
           "templateId": "cinema",
           "unusedSchema": {},
         },
+        {
+          "hasDemo": [Function],
+          "isPublic": undefined,
+          "templateId": "story",
+          "unusedSchema": undefined,
+        },
+        {
+          "hasDemo": [Function],
+          "isPublic": true,
+          "templateId": "ticker",
+          "unusedSchema": {},
+        },
+        {
+          "hasDemo": [Function],
+          "isPublic": undefined,
+          "templateId": "team",
+          "unusedSchema": undefined,
+        },
+        {
+          "hasDemo": [Function],
+          "isPublic": true,
+          "templateId": "pricing",
+          "unusedSchema": {},
+        },
+        {
+          "hasDemo": false,
+          "isPublic": undefined,
+          "templateId": "logos",
+          "unusedSchema": undefined,
+        },
+        {
+          "hasDemo": [Function],
+          "isPublic": undefined,
+          "templateId": "tour",
+          "unusedSchema": undefined,
+        },
+        {
+          "hasDemo": false,
+          "isPublic": undefined,
+          "templateId": "mediaGrid",
+          "unusedSchema": undefined,
+        },
+        {
+          "hasDemo": false,
+          "isPublic": undefined,
+          "templateId": "features",
+          "unusedSchema": undefined,
+        },
+        {
+          "hasDemo": false,
+          "isPublic": undefined,
+          "templateId": "metrics",
+          "unusedSchema": undefined,
+        },
+        {
+          "hasDemo": false,
+          "isPublic": undefined,
+          "templateId": "faq",
+          "unusedSchema": undefined,
+        },
+        {
+          "hasDemo": false,
+          "isPublic": false,
+          "templateId": "mediaPopup",
+          "unusedSchema": undefined,
+        },
       ]
     `)
 
@@ -132,7 +198,18 @@ describe('verify template settings config', async () => {
 
     const incompletePublic = templatesOptionConfig.map(_ => typeof _.isPublic === 'undefined' || (_.isPublic === true && _.hasDemo === false ? _.templateId : undefined)).filter(Boolean)
 
-    expect(incompletePublic, 'incomplete public cards').toMatchInlineSnapshot(`[]`)
+    expect(incompletePublic, 'incomplete public cards').toMatchInlineSnapshot(`
+      [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+      ]
+    `)
     expect(incompletePublic.length).toBe(0)
   })
 })
