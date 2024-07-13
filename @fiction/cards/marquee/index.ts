@@ -39,11 +39,11 @@ async function getDefaultUserConfig(args: { site: Site }): Promise<UserConfig> {
   const urls = staticFileUrls({ site, filenames })
   return {
     items: [
-      { href: '#', name: 'Title', desc: 'Description', media: { format: 'url', url: urls.marqueeMin1 } },
-      { href: '#', name: 'Title', desc: 'Description', media: { format: 'url', url: urls.marqueeMin2 } },
-      { href: '#', name: 'Title', desc: 'Description', media: { format: 'url', url: urls.marqueeMin3 } },
-      { href: '#', name: 'Title', desc: 'Description', media: { format: 'url', url: urls.marqueeMin4 } },
-      { href: '#', name: 'Title', desc: 'Description', media: { format: 'url', url: urls.marqueeMin5 } },
+      { href: '/test', name: 'Title', desc: 'Description', media: { format: 'url', url: urls.marqueeMin1 } },
+      { href: '/test', name: 'Title', desc: 'Description', media: { format: 'url', url: urls.marqueeMin2 } },
+      { href: '/test', name: 'Title', desc: 'Description', media: { format: 'url', url: urls.marqueeMin3 } },
+      { href: '/test', name: 'Title', desc: 'Description', media: { format: 'url', url: urls.marqueeMin4 } },
+      { href: '/test', name: 'Title', desc: 'Description', media: { format: 'url', url: urls.marqueeMin5 } },
     ],
   }
 }
