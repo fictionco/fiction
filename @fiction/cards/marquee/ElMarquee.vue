@@ -43,7 +43,7 @@ vue.onMounted(() => {
   useElementVisible({
     selector: `#${props.card.cardId}`,
     onVisible: async () => {
-      await animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'fade', config: { overallDelay: 400, isRandom: true } })
+      await animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'fade', config: { overallDelay: 100, isRandom: true } })
       loaded.value = true
     },
   })
@@ -51,7 +51,7 @@ vue.onMounted(() => {
 </script>
 
 <template>
-  <div class="marquee relative z-10 mx-auto overflow-hidden" :class="loaded ? '' : 'invisible'">
+  <div class="marquee relative z-10 mx-auto " :class="loaded ? '' : 'invisible'">
     <div class="marquee-track" :class="uc.direction === 'right' ? 'reverse' : ''">
       <div class="marquee-grid grid">
         <component
@@ -60,24 +60,26 @@ vue.onMounted(() => {
           :key="i"
           :to="item.href"
           :href="item.href"
-          class="x-action-item marquee-item relative overflow-hidden transition-all duration-300 opacity-0"
-          :class="[getStagger(i), item.href ? 'hover:-translate-y-1' : '']"
+          class=" marquee-item relative overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,1,0.33,1)]"
+          :class="[getStagger(i), item.href ? 'hover:-translate-y-1 hover:scale-105' : '']"
           :data-display-items="temp.length"
           :data-display-direction="uc.direction || 'left'"
         >
-          <div v-if="item.media" class="item-media absolute inset-0">
-            <img
-              :src="item.media.url"
-              class="absolute inset-0 h-full w-full object-cover object-center"
-            >
-            <div class="grad absolute inset-0" />
-          </div>
-          <div class="absolute bottom-0 p-6 text-white">
-            <h2 class="font-bold">
-              {{ item.name }}
-            </h2>
-            <div class="opacity-60">
-              {{ item.desc }}
+          <div class=" x-action-item absolute inset-0 transition-all duration-1000  opacity-0">
+            <div v-if="item.media" class="item-media absolute inset-0 bg-white">
+              <img
+                :src="item.media.url"
+                class="absolute inset-0 h-full w-full object-cover object-center"
+              >
+              <div class="grad absolute inset-0 transition-all show-on-hover" />
+            </div>
+            <div class="absolute bottom-0 p-6 text-white show-on-hover">
+              <h2 class="font-semibold text-xl x-font-title">
+                {{ item.name }}
+              </h2>
+              <div class="opacity-70 font-medium ">
+                {{ item.desc }}
+              </div>
             </div>
           </div>
         </component>
@@ -115,11 +117,16 @@ vue.onMounted(() => {
     height: var(--card-media-height);
     clip-path: inset(0 round 30px);
     .grad {
-      background: radial-gradient(
-        circle at left bottom,
-        rgba(0, 0, 0, 0.85) 0,
-        transparent 60%
-      );
+      background: radial-gradient( circle at left bottom,  rgba(0, 0, 0, 0.55) 0,  transparent 70%  );
+
+    }
+
+    .show-on-hover{
+      opacity: 1;
+      transition: opacity 0.3s;
+    }
+    &:hover .show-on-hover{
+      opacity: 1;
     }
   }
 }

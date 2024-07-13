@@ -76,7 +76,7 @@ function handleItemClick(args: { item: NavItem, event: MouseEvent }): void {
   if (item.items) {
     event?.preventDefault()
 
-    if (activeSubNav.value === item.href) {
+    if (activeSubNav.value === item.name) {
       activeSubNav.value = ''
     }
     else {
@@ -116,14 +116,15 @@ function handleItemClick(args: { item: NavItem, event: MouseEvent }): void {
                   :to="item.href"
                   :href="item.href"
                   role="menuitem"
-                  class="x-action-item font-sans text-4xl font-medium "
+                  class="x-action-item font-sans text-3xl font-medium "
                   :class="item.isActive ? 'dark:text-primary-400 text-primary-500' : ' hover:text-theme-100'"
                   @click="handleItemClick({ item, event: $event })"
                 >
                   <span class="relative group inline-flex gap-x-2 items-center">
                     <span v-if="item.icon" :class="getIcon(item.icon)" />
                     <span v-html="item.name" />
-                    <span class=" origin-left scale-x-0 group-hover:scale-x-100 transition-all border-b-2 border-theme-0 w-full absolute bottom-0 left-0" />
+                    <span v-if="item.items" class="i-tabler-chevron-down opacity-50 transition-all" :class="item.name === activeSubNav ? 'rotate-180' : ''" />
+                    <span v-else class="origin-left scale-x-0 group-hover:scale-x-100 transition-all border-b-2 dark:border-theme-600 w-full absolute bottom-0 left-0" />
                   </span>
                 </component>
                 <div v-if="item.items && item.name === activeSubNav" class="space-y-6">
@@ -170,74 +171,6 @@ function handleItemClick(args: { item: NavItem, event: MouseEvent }): void {
           <slot name="foot" />
         </div>
       </div>
-      <svg class="h-full text-theme-800 absolute inset-0 pointer-events-none" viewBox="0 0 8000 8000">
-        <defs><pattern id="bg_pattern" width="100" height="100" patternUnits="userSpaceOnUse">
-          <line
-            x1="0"
-            y1="0"
-            x2="10"
-            y2="10"
-            stroke="currentColor"
-            stroke-width="6"
-            stroke-linecap="round"
-          />
-          <line
-            x1="90"
-            y1="90"
-            x2="100"
-            y2="100"
-            stroke="currentColor"
-            stroke-width="6"
-            stroke-linecap="round"
-          />
-          <line
-            x1="10"
-            y1="90"
-            x2="0"
-            y2="100"
-            stroke="currentColor"
-            stroke-width="6"
-            stroke-linecap="round"
-          />
-          <line
-            x1="90"
-            y1="10"
-            x2="100"
-            y2="0"
-            stroke="currentColor"
-            stroke-width="6"
-            stroke-linecap="round"
-          />
-          <line
-            x1="40"
-            y1="40"
-            x2="60"
-            y2="60"
-            stroke="currentColor"
-            stroke-width="6"
-            stroke-linecap="round"
-          />
-          <line
-            x1="60"
-            y1="40"
-            x2="40"
-            y2="60"
-            stroke="currentColor"
-            stroke-width="6"
-            stroke-linecap="round"
-          />
-        </pattern>
-        </defs>
-
-        <rect
-          x="0"
-          y="0"
-          width="100%"
-          height="100%"
-          fill="url(#bg_pattern)"
-          opacity="1"
-        />
-      </svg>
     </div>
   </teleport>
 </template>

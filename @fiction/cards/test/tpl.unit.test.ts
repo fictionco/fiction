@@ -168,8 +168,8 @@ describe('verify template settings config', async () => {
           "unusedSchema": {},
         },
         {
-          "hasDemo": false,
-          "isPublic": false,
+          "hasDemo": true,
+          "isPublic": true,
           "templateId": "metrics",
           "unusedSchema": {},
         },

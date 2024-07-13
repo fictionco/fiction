@@ -1,8 +1,10 @@
 import type { MediaItem } from '@fiction/core'
 import { vue } from '@fiction/core'
-import { CardTemplate, createCard } from '@fiction/site'
+import type { Site } from '@fiction/site'
+import { CardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
+import { staticFileUrls } from '@fiction/site/utils/site'
 import { standardOption } from '../inputSets'
 
 const el = vue.defineAsyncComponent(async () => import('./ElMarquee.vue'))
@@ -11,6 +13,7 @@ const UserConfigSchema = z.object({
   items: z.array(z.object({
     name: z.string().optional(),
     desc: z.string().optional(),
+    href: z.string().optional(),
     media: z.object({
       format: z.enum(['url', 'html']).optional(),
       url: z.string().optional(),
@@ -23,14 +26,26 @@ const UserConfigSchema = z.object({
 
 export type UserConfig = z.infer<typeof UserConfigSchema>
 
-const defaultUserConfig: UserConfig = {
-  items: [
-    { name: 'Title', desc: 'lorem ipsum', media: { format: 'url', url: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=3265&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' } },
-    { name: 'Title', desc: 'lorem ipsum', media: { format: 'url', url: 'https://images.unsplash.com/photo-1614283233556-f35b0c801ef1?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHByb2ZpbGV8ZW58MHwxfDB8fHww' } },
-    { name: 'Title', desc: 'lorem ipsum', media: { format: 'url', url: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=3988&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' } },
-    { name: 'Title', desc: 'lorem ipsum', media: { format: 'url', url: 'https://plus.unsplash.com/premium_photo-1675034393381-7e246fc40755?q=80&w=3712&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' } },
-    { name: 'Title', desc: 'lorem ipsum', media: { format: 'url', url: 'https://images.unsplash.com/photo-1577565177023-d0f29c354b69?q=80&w=2943&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' } },
-  ],
+async function getDefaultUserConfig(args: { site: Site }): Promise<UserConfig> {
+  const { site } = args
+  const filenames = [
+    'marquee-min-1.png',
+    'marquee-min-2.png',
+    'marquee-min-3.png',
+    'marquee-min-4.png',
+    'marquee-min-5.png',
+  ] as const
+
+  const urls = staticFileUrls({ site, filenames })
+  return {
+    items: [
+      { href: '#', name: 'Title', desc: 'Description', media: { format: 'url', url: urls.marqueeMin1 } },
+      { href: '#', name: 'Title', desc: 'Description', media: { format: 'url', url: urls.marqueeMin2 } },
+      { href: '#', name: 'Title', desc: 'Description', media: { format: 'url', url: urls.marqueeMin3 } },
+      { href: '#', name: 'Title', desc: 'Description', media: { format: 'url', url: urls.marqueeMin4 } },
+      { href: '#', name: 'Title', desc: 'Description', media: { format: 'url', url: urls.marqueeMin5 } },
+    ],
+  }
 }
 
 const templateId = 'marquee'
@@ -48,20 +63,14 @@ export const templates = [
       new InputOption({ key: 'direction', label: 'Animation Direction', input: 'InputSelect', list: ['left', 'right'], default: () => 'left' }),
       new InputOption({ key: 'stagger', label: 'Stagger Items', input: 'InputCheckbox', default: () => false }),
     ],
-    userConfig: defaultUserConfig,
+    getUserConfig: _ => getDefaultUserConfig(_),
     schema: UserConfigSchema,
-    demoPage: async () => {
-      const testItem = {
-        name: 'Test',
-        desc: 'lorem ipsum',
-        href: '/testing',
-        media: { format: 'url', url: 'https://images.unsplash.com/photo-1508184964240-ee96bb9677a7?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjJ8fHByb2ZpbGV8ZW58MHwxfDB8fHww' } as const,
-      }
-      const duplicatedProfiles = Array.from({ length: 4 }, () => testItem)
+    demoPage: async (args) => {
+      const userConfig = await getDefaultUserConfig(args)
       return { cards: [
-        { templateId, userConfig: { ...defaultUserConfig } },
-        { templateId, userConfig: { items: duplicatedProfiles, direction: 'right' as const } },
-        { templateId, userConfig: { items: duplicatedProfiles, stagger: true } },
+        { templateId, userConfig },
+        { templateId, userConfig: { ...userConfig, direction: 'right' as const } },
+        { templateId, userConfig: { ...userConfig, stagger: true } },
       ] }
     },
   }),
