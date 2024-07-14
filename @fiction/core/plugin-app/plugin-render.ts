@@ -459,9 +459,13 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     const onChange = () => this.fictionEnv.events.emit('restartServers', { reason: 'staticFile' })
     const throttledOnChange = debounce(onChange, 500)
 
-    const watcher = chokidar.watch(folders, { ignoreInitial: true })
-    watcher.on('add', throttledOnChange)
-    watcher.on('unlink', throttledOnChange)
+    if (!this.fictionEnv.isTest.value && !this.fictionEnv.isProd.value) {
+      const watcher = chokidar.watch(folders, { ignoreInitial: true })
+      watcher.on('add', throttledOnChange)
+      watcher.on('unlink', throttledOnChange)
+
+      this.fictionEnv.events.on('shutdown', () => watcher.close())
+    }
 
     return folders
   }
@@ -537,7 +541,9 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
         }
         catch (error: unknown) {
           const e = error as Error
-          viteServer && viteServer.ssrFixStacktrace(e)
+
+          if (viteServer)
+            viteServer.ssrFixStacktrace(e)
 
           this.log.error('ssr error', { error })
           res.status(500).end(e.stack)

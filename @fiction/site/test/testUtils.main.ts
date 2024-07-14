@@ -27,5 +27,6 @@ export async function setup(args: { context?: 'node' | 'app' } = {}) {
     service,
     runCommand: async args => service.runApp(args),
     createMount: async args => service.fictionApp.mountApp(args),
+    close: async () => service.close(),
   } satisfies ServiceConfig
 }

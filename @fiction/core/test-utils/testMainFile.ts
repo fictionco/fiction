@@ -12,5 +12,6 @@ export function setup(args: { envFiles?: string[], context?: 'node' | 'app' }) {
     runVars: {},
     createMount: async args => service.fictionApp.mountApp(args),
     runCommand: async args => service.runApp(args),
+    close: async () => service.close(),
   } satisfies ServiceConfig
 }
