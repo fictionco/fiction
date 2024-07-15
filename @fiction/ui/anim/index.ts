@@ -115,8 +115,13 @@ export async function useElementVisible(args: { selector: string, onVisible: () 
   intervalId = setInterval(checkAndObserve, 50) // Check every 50 ms
 }
 
-export function splitLetters(selector: string): void {
-  const textWrapper = document.querySelector(selector)
+export function splitLetters(args: { selector?: string, el?: HTMLElement }): void {
+  const { selector, el } = args
+  const textWrapper = el || (selector ? document.querySelector(selector) : null)
+
+  // check if wrapper is already split
+  if (textWrapper?.querySelector('.word > .fx'))
+    return
 
   if (textWrapper) {
     const processTextNode = (node: ChildNode): void => {

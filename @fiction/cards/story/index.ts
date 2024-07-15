@@ -8,10 +8,13 @@ import { staticFileUrls } from '@fiction/site/utils/site'
 const templateId = 'story'
 
 const schema = z.object({
-  content: z.string().optional(),
-  mediaItems: z.array(z.object({
-    name: z.string().optional(),
-  })).optional(),
+  items: z.array(z.object({
+    title: z.string().optional(),
+    content: z.string().optional(),
+    mediaItems: z.array(z.object({
+      name: z.string().optional(),
+    })).optional(),
+  })),
 })
 
 export type UserConfig = z.infer<typeof schema>
@@ -28,14 +31,25 @@ async function defaultConfig(args: { site: Site }): Promise<UserConfig> {
   const urls = staticFileUrls({ site, filenames })
 
   return {
-    content: `<h2>Get the Real Deal in Espionage</h2>
-<p>Looking for top-tier espionage services? Look no further. Here's the deal: I'm James Bond. Yes, <em>the</em> James Bond. I've spent decades saving the world, but now I'm available for your smaller, yet equally thrilling, spy needs. Whether it's gathering dirt on your business rival or finding out if your spouse is cheating, I bring the same level of skill, secrecy, and style that you've seen on the big screen.</p>
-
-<h2>No Job Too Small, No Fee Too Large</h2>
-<p>Ever wanted to hire someone who can infiltrate a high-security facility without breaking a sweat? Maybe you just need someone to discreetly monitor a situation without drawing any attention. From thwarting global threats to simply bugging your boss's office, I handle it all. Just keep in mind, my services don't come cheap. After all, you're not hiring a run-of-the-mill private investigator. You're hiring James Bond.</p>
-
-<h2>Ready to Make Your Move?</h2>
-<p>So, if you're ready to take your espionage game to the next level, reach out. Whether it's tracking down a secret, delivering a confidential message, or just making sure your competition stays one step behind, I'm your man. Because in the world of espionage, you don't just need a spy. You need James Bond.</p>`,
+    items: [
+      {
+        title: 'The Unexpected Call',
+        content: `In my final year at Oxford, a government agent approached me with an offer I couldn't refuse. My skills in languages, physical fitness, and problem-solving had caught their attention. Little did I know, this was the beginning of my journey into the world of espionage.
+        In my final year at Oxford, a government agent approached me with an offer I couldn't refuse. My skills in languages, physical fitness, and problem-solving had caught their attention. Little did I know, this was the beginning of my journey into the world of espionage.`,
+      },
+      {
+        title: 'The Rigorous Training',
+        content: `I was taken to a top-secret facility where I underwent intense training. Hand-to-hand combat, marksmanship, advanced driving, and psychological conditioning were just the beginning. The training was grueling, but it transformed me into a highly skilled operative.`,
+      },
+      {
+        title: 'Mastering the Craft',
+        content: `Beyond the physical training, I learned to handle sophisticated gadgets, conduct covert surveillance, and execute cyber-operations. My ability to blend in and adapt to different cultures was refined through numerous field exercises, making me ready for any mission.`,
+      },
+      {
+        title: 'The First Mission',
+        content: `My first mission was to infiltrate a high-profile event and gather intelligence on a potential threat. With nerves of steel and skills honed to perfection, I successfully completed the mission, proving that I was ready for the challenges that lay ahead.`,
+      },
+    ],
   }
 }
 

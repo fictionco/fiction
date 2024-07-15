@@ -97,6 +97,8 @@ export class Card<
     super('Card', settings)
   }
 
+  getContentWidth = (size: 'sm' | 'md' | 'lg' | 'xl' | 'none' = 'md') => this.site?.theme.value?.getContentWidthClass(size)
+
   classes = vue.computed(() => {
     const spacing = this.fullConfig.value?.spacing
     const contentWidthSize = spacing?.contentWidthSize || 'md'

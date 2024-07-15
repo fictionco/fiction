@@ -98,7 +98,7 @@ vue.watchEffect(() => {
 const hasAnimation = vue.computed(() => props.animate && !isEditing.value)
 
 function loadAnimation() {
-  splitLetters(`#${randomId}`)
+  splitLetters({ selector: `#${randomId}` })
 
   const themeId = typeof props.animate == 'string' ? props.animate : 'rise'
 

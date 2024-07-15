@@ -18,7 +18,7 @@ const SchemeSchema = z.object({
   primary: z.enum(colorTheme).optional(),
 })
 
-const UserConfigSchema = z.object({
+const schema = z.object({
   scheme: z.object({
     reverse: z.boolean().optional(),
     light: SchemeSchema.optional(),
@@ -26,18 +26,29 @@ const UserConfigSchema = z.object({
   }).optional(),
 })
 
-export type UserConfig = z.infer<typeof UserConfigSchema>
+export type UserConfig = z.infer<typeof schema>
 
 const templateId = 'area'
 
 function modeOptions(mode: 'light' | 'dark'): InputOption {
-  return new InputOption({ key: `scheme.${mode}`, label: `${toLabel(mode)} Mode`, input: 'group', options: [
-    new InputOption({ key: `scheme.${mode}.bg.color`, label: 'Background Color', input: 'InputColor' }),
-    new InputOption({ key: `scheme.${mode}.theme`, label: 'Text and Element Color', input: 'InputSelect', props: { list: colorTheme } }),
-    new InputOption({ key: `scheme.${mode}.primary`, label: 'Primary Color', input: 'InputSelect', props: { list: colorTheme } }),
-    new InputOption({ key: `scheme.${mode}.bg.gradient`, label: 'Background Gradient', input: 'InputGradient' }),
-  ] })
+  return new InputOption({
+    key: `scheme.${mode}`,
+    label: `${toLabel(mode)} Mode`,
+    input: 'group',
+    options: [
+      new InputOption({ key: `scheme.${mode}.bg.color`, label: 'Background Color', input: 'InputColor' }),
+      new InputOption({ key: `scheme.${mode}.theme`, label: 'Text and Element Color', input: 'InputSelect', props: { list: colorTheme } }),
+      new InputOption({ key: `scheme.${mode}.primary`, label: 'Primary Color', input: 'InputSelect', props: { list: colorTheme } }),
+      new InputOption({ key: `scheme.${mode}.bg.gradient`, label: 'Background Gradient', input: 'InputGradient' }),
+    ],
+  })
 }
+
+const options = [
+  new InputOption({ key: 'scheme.reverse', label: 'Flip Color Scheme', description: 'Great for contrast. This will flip the mode to the opposite of the mode for the website (from dark to light or vice versa).', input: 'InputToggle' }),
+  modeOptions('light'),
+  modeOptions('dark'),
+]
 
 export const templates = [
   new CardTemplate({
@@ -53,12 +64,8 @@ export const templates = [
       spacing: { spacingSize: 'none' },
     },
     isPublic: true,
-    options: [
-      new InputOption({ key: 'scheme.reverse', label: 'Flip Color Scheme', description: 'Great for contrast. This will flip the mode to the opposite of the mode for the website (from dark to light or vice versa).', input: 'InputToggle' }),
-      modeOptions('light'),
-      modeOptions('dark'),
-    ],
-    schema: UserConfigSchema,
+    options,
+    schema,
     demoPage: async () => {
       const heroCard = (reverse?: boolean) => {
         return {
