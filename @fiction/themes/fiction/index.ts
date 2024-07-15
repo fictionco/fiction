@@ -55,7 +55,7 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
       const { site } = args
       const demoPages = await getDemoPages({ templates, fictionEnv, site })
       const r = await Promise.all([
-        home.page(),
+        home.page(args),
         tour.page(),
         about.page(),
         developer.page(),

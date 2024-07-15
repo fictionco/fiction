@@ -1,4 +1,6 @@
 import { createCard } from '@fiction/site/theme.js'
+import { staticFileUrls } from '@fiction/site/utils/site.js'
+import type { Site } from '@fiction/site/site.js'
 import { templates } from '../templates.js'
 import selena from './img/selena.jpg'
 import dean from './img/dean2.jpg'
@@ -6,7 +8,26 @@ import rogan from './img/rogan.jpg'
 import obama from './img/obama.webp'
 import andrew from './img/andrew.jpg'
 
-export function page() {
+export function page(args: { site: Site }) {
+  const { site } = args
+  const filenames = [
+    'profile-man-1.png',
+    'profile-man-2.png',
+    'profile-man-3.png',
+    'profile-man-4.png',
+    'profile-man-5.png',
+    'profile-man-6.png',
+    'profile-man-7.png',
+    'profile-man-8.png',
+    'profile-woman-1.png',
+    'profile-woman-2.png',
+    'profile-woman-3.png',
+    'profile-woman-4.png',
+    'profile-woman-5.png',
+    'profile-woman-7.png',
+  ] as const
+
+  const urls = staticFileUrls({ site, filenames })
   return createCard({
     templates,
     regionId: 'main',
@@ -65,12 +86,58 @@ export function page() {
                 },
 
                 {
+                  name: 'Hugo Rebora',
+                  desc: 'Business Site',
+                  tags: ['Professional'],
+                  media: {
+                    url: urls.profileMan7,
+                  },
+                  href: '#',
+                },
+                {
                   name: 'Selena Gomez',
                   desc: 'Personal Site',
                   tags: ['Music'],
                   media: {
                     url: selena,
                   },
+                },
+
+                {
+                  name: 'Olivia Alani',
+                  desc: 'Personal Site',
+                  tags: ['Music'],
+                  media: {
+                    url: urls.profileWoman5,
+                  },
+                  href: '#',
+                },
+                {
+                  name: 'Gabriel Torres',
+                  desc: 'Personal Site',
+                  tags: ['Speaker'],
+                  media: {
+                    url: urls.profileMan6,
+                  },
+                  href: '#',
+                },
+
+                {
+                  name: 'Barack Obama',
+                  desc: 'Personal Site',
+                  tags: ['Politics'],
+                  media: {
+                    url: obama,
+                  },
+                },
+                {
+                  name: 'Sarah Bands',
+                  desc: 'Personal Site',
+                  tags: ['Professional'],
+                  media: {
+                    url: urls.profileWoman7,
+                  },
+                  href: '#',
                 },
                 {
                   name: 'Dean Stoecker',
@@ -86,14 +153,6 @@ export function page() {
                   tags: ['Politics'],
                   media: {
                     url: rogan,
-                  },
-                },
-                {
-                  name: 'Barack Obama',
-                  desc: 'Personal Site',
-                  tags: ['Politics'],
-                  media: {
-                    url: obama,
                   },
                 },
               ],

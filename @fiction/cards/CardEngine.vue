@@ -61,11 +61,12 @@ function getSpacingClass(subCard: Card) {
   if (uc.spacing?.spacingClass) {
     return uc.spacing?.spacingClass
   }
-
+  const siteSpacing = subCard.site?.fullConfig.value.spacing?.spacingSize
+  const siteSpacingBottom = subCard.site?.fullConfig.value.spacing?.spacingSizeBottom
   const theme = subCard.site?.theme.value
 
-  const topSize = uc.spacing?.spacingSize || 'md'
-  const bottomSize = uc.spacing?.spacingSizeBottom || uc.spacing?.spacingSize || 'md'
+  const topSize = uc.spacing?.spacingSize || siteSpacing || 'md'
+  const bottomSize = uc.spacing?.spacingSizeBottom || siteSpacingBottom || topSize
 
   return [theme?.getSpacingClass(topSize), theme?.getSpacingClass(bottomSize)].join(' ')
 }
@@ -82,6 +83,7 @@ function getSpacingClass(subCard: Card) {
           isEditable ? 'hover:outline-2 hover:outline-dashed hover:outline-blue-300 dark:hover:outline-blue-600 cursor-pointer  transition-all' : '',
         ]"
         :style="backgroundStyle(subCard)"
+        :data-spacing-size="subCard.userConfig.value.spacing?.spacingSize || '(not set)'"
         @click="handleCardClick({ cardId: subCard.cardId, event: $event })"
       >
         <div v-if="subCard?.userConfig.value.bg?.overlay" class="absolute pointer-events-none inset-0" :style="overlayStyle(subCard)" />
