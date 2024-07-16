@@ -11,9 +11,11 @@ const schema = z.object({
   items: z.array(z.object({
     title: z.string().optional(),
     content: z.string().optional(),
-    mediaItems: z.array(z.object({
-      name: z.string().optional(),
-    })).optional(),
+    media: z.object({
+      url: z.string().optional(),
+      html: z.string().optional(),
+      format: z.enum(['url', 'video', 'html']).optional(),
+    }).optional(),
   })),
 })
 
@@ -26,28 +28,27 @@ const options: InputOption[] = [
 async function defaultConfig(args: { site: Site }): Promise<UserConfig> {
   const { site } = args
 
-  const filenames = ['bond1.png', 'bond2.jpg'] as const
+  const filenames = ['bond1.png', 'bond2.jpg', 'bond3.jpg', 'bond4.png'] as const
 
   const urls = staticFileUrls({ site, filenames })
 
   return {
     items: [
       {
-        title: 'The Unexpected Call',
-        content: `In my final year at Oxford, a government agent approached me with an offer I couldn't refuse. My skills in languages, physical fitness, and problem-solving had caught their attention. Little did I know, this was the beginning of my journey into the world of espionage.
-        In my final year at Oxford, a government agent approached me with an offer I couldn't refuse. My skills in languages, physical fitness, and problem-solving had caught their attention. Little did I know, this was the beginning of my journey into the world of espionage.`,
+        content: `In my final year at the Academy, I was approached by a mysterious envoy bearing a proposal I could not dismiss. My prowess in rhetoric, physical discipline, and strategic thinking had not gone unnoticed. This encounter marked the inception of my odyssey into the realm of political intrigue.`,
+        media: { url: urls.bond1, format: 'url' },
       },
       {
-        title: 'The Rigorous Training',
-        content: `I was taken to a top-secret facility where I underwent intense training. Hand-to-hand combat, marksmanship, advanced driving, and psychological conditioning were just the beginning. The training was grueling, but it transformed me into a highly skilled operative.`,
+        content: `I was whisked away to a clandestine location where I endured rigorous training. Mastery of oratory, the art of persuasion, defensive strategies, and mental fortitude were merely the beginning. The strenuous regimen refined me into a formidable advocate of the Republic.`,
+        media: { url: urls.bond2, format: 'url' },
       },
       {
-        title: 'Mastering the Craft',
-        content: `Beyond the physical training, I learned to handle sophisticated gadgets, conduct covert surveillance, and execute cyber-operations. My ability to blend in and adapt to different cultures was refined through numerous field exercises, making me ready for any mission.`,
+        content: `Beyond the corporeal drills, I honed my skills in utilizing sophisticated communication tools, conducting discreet observations, and orchestrating clandestine operations. My ability to navigate and integrate into various cultural milieus was sharpened through extensive exercises, preparing me for any diplomatic endeavor.`,
+        media: { url: urls.bond3, format: 'url' },
       },
       {
-        title: 'The First Mission',
-        content: `My first mission was to infiltrate a high-profile event and gather intelligence on a potential threat. With nerves of steel and skills honed to perfection, I successfully completed the mission, proving that I was ready for the challenges that lay ahead.`,
+        content: `My inaugural mission was to penetrate a prestigious assembly and gather intelligence on a looming conspiracy. With unwavering resolve and meticulously honed abilities, I accomplished the mission, affirming my readiness for the intricate challenges that lay ahead in the service of England.`,
+        media: { url: urls.bond4, format: 'url' },
       },
     ],
   }

@@ -59,7 +59,7 @@ vue.onMounted(() => {
         afterVisible.value = false
         el.style.transform = 'none'
         el.style.height = 'auto'
-        el.style.overflow = 'auto'
+        el.style.overflow = ''
       }
     },
     { immediate: true },

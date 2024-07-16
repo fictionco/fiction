@@ -154,7 +154,7 @@ vue.onMounted(() => {
             animate="rise"
           />
         </div>
-        <div class="text-theme-300 dark:text-theme-600 my-6 text-center text-xs font-sans flex items-center justify-center">
+        <div class="text-theme-300 dark:text-theme-600 my-6 text-center text-xs font-sans flex flex-wrap leading-relaxed items-center justify-center">
           <span class="inline-flex gap-1">
             <span class="">&copy; {{ dayjs().format('YYYY') }}</span> <CardText :card tag="span" path="legal.copyrightText" />
           </span>

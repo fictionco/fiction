@@ -54,10 +54,9 @@ function getInlineLogoCols() {
         </div>
         <div
           class="items-center gap-y-10 text-center md:gap-x-12"
-          :class="
-            uc.layout === 'stacked'
-              ? `flex justify-center flex-wrap`
-              : `grid grid-cols-1 ${getInlineLogoCols()}`
+          :class=" uc.layout === 'stacked'
+            ? `flex justify-center flex-wrap`
+            : `grid grid-cols-1 ${getInlineLogoCols()}`
           "
         >
           <a

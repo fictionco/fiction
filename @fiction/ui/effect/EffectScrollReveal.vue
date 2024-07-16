@@ -24,13 +24,13 @@ function loadRevealText() {
   gsap.from(bits, {
     scrollTrigger: {
       trigger: el,
-      start: () => 'top 97%',
-      end: () => `top+=${elHeight} 90%`,
+      start: () => 'top 95%',
+      end: () => `top+=${elHeight} 85%`,
       scrub: 0,
     },
     x: 0,
     y: 0,
-    opacity: 0.2,
+    opacity: 0.3,
     duration: 3,
     stagger: 1,
   })
