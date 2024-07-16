@@ -114,7 +114,8 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
                           { name: 'Ticker', href: '/demo-ticker' },
                           { name: 'FAQ / List', href: '/demo-faq' },
                           { name: 'People', href: '/demo-people' },
-
+                          { name: 'Trek', href: '/demo-trek' },
+                          { name: 'Story', href: '/demo-story' },
                         ],
                       },
                       {

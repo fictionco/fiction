@@ -9,6 +9,7 @@ const props = defineProps({
   actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
   uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
   animate: { type: String as vue.PropType<'fade' | 'slide' | 'pop' | 'rise' | 'none'>, default: 'none' },
+  isOverlay: { type: Boolean, default: false },
 })
 
 const randomId = shortId()
@@ -23,6 +24,15 @@ vue.onMounted(() => {
     })
   }
 })
+
+function getButtonType(action: ActionItem) {
+  if (props.isOverlay) {
+    return 'outline'
+  }
+  else {
+    return action.btn || 'default'
+  }
+}
 </script>
 
 <template>
@@ -31,7 +41,7 @@ vue.onMounted(() => {
       v-for="(action, i) in actions"
       :key="i"
       class="x-action-item"
-      :btn="action.btn || 'default'"
+      :btn="getButtonType(action)"
       :href="action.href"
       :size="action.size || uiSize"
       :icon="action.icon"

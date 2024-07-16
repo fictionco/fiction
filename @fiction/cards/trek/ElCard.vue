@@ -1,0 +1,54 @@
+<script lang="ts" setup>
+import { vue } from '@fiction/core'
+import type { Card } from '@fiction/site'
+import ElActions from '@fiction/ui/buttons/ElActions.vue'
+import EffectParallaxBackground from '@fiction/ui/effect/EffectParallaxBackground.vue'
+import CardText from '../CardText.vue'
+import CardContent from './CardContent.vue'
+import type { UserConfig } from '.'
+
+const props = defineProps({
+  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
+})
+
+const uc = vue.computed(() => props.card.userConfig.value || {})
+
+const activeItemIndex = vue.ref(0)
+
+vue.onMounted(() => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        activeItemIndex.value = Number(entry.target.getAttribute('data-index'))
+      }
+    })
+  }, { threshold: 0.5 })
+
+  const items = document.querySelectorAll('.trek-item')
+  items.forEach((item, index) => {
+    item.setAttribute('data-index', index.toString())
+    observer.observe(item)
+  })
+
+  vue.onUnmounted(() => observer.disconnect())
+})
+const activeItem = vue.computed(() => uc.value.items[activeItemIndex.value])
+</script>
+
+<template>
+  <div class="flex gap-12 p-4 md:p-0">
+    <div class="w-[45dvw] pl-[8%] hidden md:block">
+      <div class="sticky top-[calc(50%-3rem)] flex">
+        <CardContent :card class="content max-w-md " :item-index="activeItemIndex" />
+      </div>
+    </div>
+    <div class="w-full md:w-[55dvw] space-y-6">
+      <div v-for="(item, i) in uc.items" :key="i" class="h-[60dvh] md:h-[90dvh] relative trek-item">
+        <EffectParallaxBackground v-if="item.media" class="h-full w-full parallax-wrap" :media="item.media" />
+        <div class="absolute bottom-0 w-full bg-black/50 md:hidden">
+          <CardContent :card :item-index="i" class="px-4 py-6" mode="overlay" />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

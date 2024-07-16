@@ -16,6 +16,10 @@ const schema = z.object({
       html: z.string().optional(),
       format: z.enum(['url', 'video', 'html']).optional(),
     }).optional(),
+    actions: z.array(z.object({
+      name: z.string().optional(),
+      href: z.string().optional(),
+    })).optional(),
   })),
 })
 
@@ -37,6 +41,7 @@ async function defaultConfig(args: { site: Site }): Promise<UserConfig> {
       {
         content: `In my final year at the Academy, I was approached by a mysterious envoy bearing a proposal I could not dismiss. My prowess in rhetoric, physical discipline, and strategic thinking had not gone unnoticed. This encounter marked the inception of my odyssey into the realm of political intrigue.`,
         media: { url: urls.bond1, format: 'url' },
+        actions: [{ name: 'Read More', href: 'https://en.wikipedia.org/wiki/James_Bond' }],
       },
       {
         content: `I was whisked away to a clandestine location where I endured rigorous training. Mastery of oratory, the art of persuasion, defensive strategies, and mental fortitude were merely the beginning. The strenuous regimen refined me into a formidable advocate of the Republic.`,
