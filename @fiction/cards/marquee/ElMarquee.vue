@@ -51,38 +51,40 @@ vue.onMounted(() => {
 </script>
 
 <template>
-  <div class="marquee relative z-10 mx-auto " :class="loaded ? '' : 'invisible'">
-    <div class="marquee-track" :class="uc.direction === 'right' ? 'reverse' : ''">
-      <div class="marquee-grid grid">
-        <component
-          :is="getNavComponentType(item)"
-          v-for="(item, i) in temp"
-          :key="i"
-          :to="item.href"
-          :href="item.href"
-          class=" marquee-item relative overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,1,0.33,1)]"
-          :class="[getStagger(i), item.href ? 'hover:-translate-y-1 hover:scale-105' : '']"
-          :data-display-items="temp.length"
-          :data-display-direction="uc.direction || 'left'"
-        >
-          <div class=" x-action-item absolute inset-0 transition-all duration-1000  opacity-0">
-            <div v-if="item.media" class="item-media absolute inset-0 bg-white">
-              <img
-                :src="item.media.url"
-                class="absolute inset-0 h-full w-full object-cover object-center"
-              >
-              <div class="grad absolute inset-0 transition-all show-on-hover" />
-            </div>
-            <div class="absolute bottom-0 p-6 text-white show-on-hover">
-              <h2 class="font-semibold text-xl x-font-title">
-                {{ item.name }}
-              </h2>
-              <div class="opacity-70 font-medium ">
-                {{ item.desc }}
+  <div class=" overflow-x-hidden py-4 relative">
+    <div class="marquee relative z-10 mx-auto" :class="loaded ? '' : 'invisible'">
+      <div class="marquee-track" :class="uc.direction === 'right' ? 'reverse' : ''">
+        <div class="marquee-grid grid gap-4 lg:gap-8">
+          <component
+            :is="getNavComponentType(item)"
+            v-for="(item, i) in temp"
+            :key="i"
+            :to="item.href"
+            :href="item.href"
+            class=" marquee-item relative overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,1,0.33,1)]"
+            :class="[getStagger(i), item.href ? 'hover:-translate-y-1 hover:scale-105' : '']"
+            :data-display-items="temp.length"
+            :data-display-direction="uc.direction || 'left'"
+          >
+            <div class=" x-action-item absolute inset-0 transition-all duration-1000  opacity-0">
+              <div v-if="item.media" class="item-media absolute inset-0 bg-white">
+                <img
+                  :src="item.media.url"
+                  class="absolute inset-0 h-full w-full object-cover object-center"
+                >
+                <div class="grad absolute inset-0 transition-all show-on-hover" />
+              </div>
+              <div class="absolute bottom-0 p-3 lg:p-6 text-white show-on-hover">
+                <h2 class="font-semibold text-base lg:text-xl x-font-title">
+                  {{ item.name }}
+                </h2>
+                <div class="opacity-70 font-medium text-sm lg:text-base">
+                  {{ item.desc }}
+                </div>
               </div>
             </div>
-          </div>
-        </component>
+          </component>
+        </div>
       </div>
     </div>
   </div>
@@ -109,12 +111,16 @@ vue.onMounted(() => {
     grid-auto-columns: min-content;
     grid-auto-flow: column;
     width: fit-content;
-    gap: var(--grid-gap);
   }
 
   .marquee-item {
     width: var(--card-media-width);
     height: var(--card-media-height);
+
+    @media (max-width: 1024px) {
+      width: calc(var(--card-media-width) * 0.6);
+      height: calc(var(--card-media-height) * 0.6);
+    }
     clip-path: inset(0 round 30px);
     .grad {
       background: radial-gradient( circle at left bottom,  rgba(0, 0, 0, 0.55) 0,  transparent 70%  );

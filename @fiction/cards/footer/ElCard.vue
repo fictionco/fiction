@@ -41,7 +41,7 @@ const layoutClasses = vue.computed(() => {
     return {
       wrapClass: 'flex flex-col items-center  lg:items-start lg:flex-row gap-6',
       logoClass: 'w-60 lg:basis-[250px] flex flex-col items-center lg:items-start gap-4 lg:gap-6 text-center lg:text-left',
-      navClass: `flex flex-col sm:flex-row items-start my-8 lg:my-0 justify-center gap-x-8 md:gap-x-20 xl:gap-x-36 gap-y-12 basis-[80%] grow`,
+      navClass: `grid grid-cols-2 md:flex flex-row items-start my-8 lg:my-0 justify-center gap-x-8 md:gap-x-20 xl:gap-x-36 gap-y-12 basis-[80%] grow`,
       badgeClass: `text-sm lg:flex-row lg:items-center lg:justify-between lg:basis-[250px]`,
       badgeWrap: `items-center lg:items-end`,
       socials: `justify-center lg:justify-end`,
@@ -88,7 +88,7 @@ vue.onMounted(() => {
         <div :class="layoutClasses.logoClass" class="text-primary-500 dark:text-theme-0">
           <ElBrand :logo="uc.logo" :card />
           <CardText
-            class="text-base text-theme-400 dark:text-theme-600 x-font-title leading-tight text-balance"
+            class="text-base text-theme-400 dark:text-theme-5 00 x-font-title leading-tight text-balance font-medium"
             :card
             tag="h2"
             path="tagline"

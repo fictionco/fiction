@@ -40,7 +40,7 @@ function getInlineLogoCols() {
     <div class="content-standard p-4 text-center md:p-0">
       <div
         class="items-center"
-        :class="uc.layout === 'stacked' ? 'block' : 'md:inline-flex md:space-x-14'"
+        :class="uc.layout === 'stacked' ? 'block' : 'inline-flex flex-col md:flex-row md:space-x-14'"
       >
         <div
           class="x-font-title text-theme-400 dark:text-theme-600 text-balance"
@@ -64,7 +64,7 @@ function getInlineLogoCols() {
             v-for="(logo, i) in uc.items"
             :key="i"
             :href="logo.href"
-            class=" logo-link  flex items-center justify-center h-[80px] w-full max-w-[200px] relative"
+            class=" logo-link inline-flex items-center justify-center h-[80px] w-full max-w-[200px] relative"
             :class="[uc.layout === 'stacked' ? `w-[17%]` : '', logo.href ? 'cursor-pointer hover:scale-125 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.33,1)]' : '']"
 
             target="_blank"

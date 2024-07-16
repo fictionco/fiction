@@ -34,7 +34,7 @@
     "@tiptap/suggestion": "^2.5.1",
     "@tiptap/vue-3": "^2.5.1",
     "add": "^2.0.6",
-    "ai": "^3.2.23",
+    "ai": "^3.2.24",
     "blurhash": "^2.0.5",
     "gsap": "^3.12.5",
     "lucide-vue-next": "latest",

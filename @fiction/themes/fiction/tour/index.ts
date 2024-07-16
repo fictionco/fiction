@@ -109,7 +109,7 @@ const tourCard = createCard({
         actions: [],
       },
       {
-        heading: 'Capture Emails and Own Your Audience',
+        heading: 'Own Your Network and Build An Audience',
         subHeading: 'Fiction helps you build your own email list, and a captive audience that you can easily manage.',
         splash: { url: new URL('img/fig-subscribe-screen.svg', import.meta.url).href,
         },
