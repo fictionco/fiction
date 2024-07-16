@@ -52,7 +52,7 @@ async function defaultConfig(args: { site: Site }): Promise<UserConfig> {
       {
         header: `Space Station`,
         subHeader: `Experience the daily life of an astronaut.`,
-        media: { url: 'https://cdn.pixabay.com/video/2023/11/17/189457-885804464_large.mp4', format: 'video' },
+        media: { url: 'https://cdn.pixabay.com/video/2024/05/06/210886_large.mp4', format: 'video' },
         actions: [{ name: 'Learn More', href: 'https://en.wikipedia.org/wiki/Star_Trek' }],
       },
       {

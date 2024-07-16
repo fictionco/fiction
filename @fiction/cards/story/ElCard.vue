@@ -18,8 +18,8 @@ const uc = vue.computed(() => props.card.userConfig.value || {})
     <div v-for="(item, i) in uc.items" :key="i" class="py-[10vw] px-4">
       <div class="flex gap-8 md:gap-16 relative">
         <div class="col-span-1 w-[30%] py-4  ">
-          <div class="sticky top-6 flex justify-end">
-            <ElImage :animate="true" :media="item.media" class="aspect-square size-[clamp(100px,40%,400px)]" />
+          <div class=" top-6 flex justify-end">
+            <ElImage :animate="true" :media="item.media" class="aspect-square size-[clamp(100px,60%,400px)]" />
           </div>
         </div>
         <div class="max-w-[850px] col-span-3 w-[70%]">
