@@ -22,15 +22,18 @@ async function defaultConfig(args: { site: Site }): Promise<UserConfig> {
   const { site } = args
 
   const filenames = [
-    'tour-clownfish.jpg',
-    'tour-ukraine.jpg',
-    'tour-farm.jpg',
-    'tour-dogs.jpg',
-    'tour-dogs2.jpg',
-    'tour-dogs3.jpg',
-    'tour-fish.jpg',
-    'tour-savannah.jpg',
-    'tour-asian.jpg',
+    'showcase-adidas.png',
+    'showcase-apple.png',
+    'showcase-cocacola.png',
+    'showcase-disney.png',
+    'showcase-google.png',
+    'showcase-microsoft.png',
+    'showcase-netflix.png',
+    'showcase-nike.png',
+    'showcase-spotify.png',
+    'showcase-starbucks.png',
+    'showcase-tesla.png',
+    'showcase-amazon.png',
   ] as const
 
   const urls = staticFileUrls({ site, filenames })
@@ -38,40 +41,46 @@ async function defaultConfig(args: { site: Site }): Promise<UserConfig> {
   return {
     items: [
       {
-        heading: 'The Life of Dogs',
-        subHeading: 'Perfect for pet lovers looking to add a touch of canine charm to their space.',
-        splash: { url: urls.tourDogs },
+        heading: 'Brand Revitalization',
+        subHeading: 'Breathing new life into established global brands.',
+        splash: { url: urls.showcaseDisney },
         layout: 'left' as const,
-        overlays: [{ media: { url: urls.tourDogs2 }, position: 'bottomLeft' }, { media: { url: urls.tourDogs3 }, position: 'topRight' }],
-        actions: [
-          { name: 'View Dog Gallery', href: '#', btn: 'primary' },
-          { name: 'Contact Me', href: '#', btn: 'naked' as const },
-        ],
-      },
-      {
-        heading: 'Under the Sea',
-        subHeading: 'Illustrations to take you underneath the waves.',
-        splash: { url: urls.tourFish },
-        layout: 'right' as const,
-        overlays: [{ media: { url: urls.tourClownfish }, position: 'bottomLeft' }],
-        actions: [
-          { name: 'View Dog Gallery', href: '#', btn: 'primary' },
-          { name: 'Contact Me', href: '#', btn: 'naked' as const },
-        ],
-      },
-      {
-        heading: 'Landscape Illustrations',
-        subHeading: 'Ideal for adding serene and picturesque views to your decor.',
-        splash: { url: urls.tourAsian },
         overlays: [
-          { media: { url: urls.tourFarm } },
-          { media: { url: urls.tourSavannah }, position: 'bottomLeft' },
-          { media: { url: urls.tourUkraine }, position: 'topRight', widthPercent: 15 },
+          { media: { url: urls.showcaseCocacola }, position: 'bottomLeft' },
+          { media: { url: urls.showcaseSpotify }, position: 'topRight' },
         ],
         actions: [
-          { name: 'View Landscapes', href: '#', btn: 'primary' },
-          { name: 'Contact Me', href: '#', btn: 'naked' as const },
+          { name: 'View Projects', href: '#', btn: 'primary' },
+          { name: 'Case Studies', href: '#', btn: 'naked' as const },
         ],
+        // content: 'Led brand refresh initiatives for Coca-Cola, Nintendo, and Burberry. These projects involved modernizing visual identities while preserving brand heritage, resulting in average engagement increases of 28% across campaigns.'
+      },
+      {
+        heading: 'Digital Experience Design',
+        subHeading: 'Crafting intuitive and engaging digital interfaces for tech giants.',
+        splash: { url: urls.showcaseAmazon },
+        layout: 'right' as const,
+        overlays: [{ media: { url: urls.showcaseGoogle }, position: 'bottomLeft' }],
+        actions: [
+          { name: 'Explore Work', href: '#', btn: 'primary' },
+          { name: 'UX Insights', href: '#', btn: 'naked' as const },
+        ],
+        // content: 'Spearheaded UX/UI redesigns for Google, Spotify, and Amazon. Projects focused on enhancing user engagement, simplifying complex processes, and improving accessibility. Achieved an average 22% increase in user satisfaction scores.'
+      },
+      {
+        heading: 'Integrated Marketing Campaigns',
+        subHeading: 'Developing cohesive, multi-channel campaigns for global brands.',
+        splash: { url: urls.showcaseMicrosoft },
+        overlays: [
+          { media: { url: urls.showcaseNike } },
+          { media: { url: urls.showcaseApple }, position: 'bottomLeft' },
+          { media: { url: urls.showcaseTesla }, position: 'topRight', widthPercent: 15 },
+        ],
+        actions: [
+          { name: 'View Campaigns', href: '#', btn: 'primary' },
+          { name: 'Results & Metrics', href: '#', btn: 'naked' as const },
+        ],
+      //  content: 'Created and executed integrated marketing campaigns for Nike, Apple, and Starbucks. These campaigns spanned digital, print, and experiential mediums, driving brand awareness and sales. Notable achievements include a 45% boost in social media engagement for Nike and a 30% increase in product launch sales for Apple.'
       },
     ],
   }

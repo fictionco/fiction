@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { type MediaDisplayObject, vue } from '@fiction/core'
+import { type MediaDisplayObject, vue, waitFor } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import ElImage from '@fiction/ui/media/ElImage.vue'
@@ -16,14 +16,16 @@ const props = defineProps({
 const loaded = vue.ref(false)
 const uc = vue.computed(() => props.card.userConfig.value)
 
-vue.onMounted(() => {
-  useElementVisible({
-    selector: `#${props.card.cardId}`,
-    onVisible: async () => {
-      loaded.value = true
-      await animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'fade', config: { overallDelay: 400 } })
-    },
-  })
+vue.onMounted(async () => {
+  await waitFor(100)
+  loaded.value = true
+  // useElementVisible({
+  //   selector: `#${props.card.cardId}`,
+  //   onVisible: async () => {
+
+  //     await animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'fade', config: { overallDelay: 400 } })
+  //   },
+  // })
 })
 
 const activeitemIndex = vue.ref(-1)
@@ -81,7 +83,7 @@ function gridCols() {
 </script>
 
 <template>
-  <div class="relative px-6 md:px-12 transition-opacity" data-test-id="showcase" :class="!loaded ? 'opacity-0' : ''">
+  <div class="relative px-6 md:px-12 transition-opacity duration-700" data-test-id="showcase" :class="!loaded ? 'opacity-0' : ''">
     <div class="grid md:gap-8 gap-4" :class="gridCols()" :data-aspect="uc.aspect" :data-grid-cols-max="uc.gridColsMax">
       <div v-for="(item, i) in uc.items" :key="i" class="[perspective:1000px] group showcase-item x-action-item transition-all duration-300 space-y-2 relative cursor-pointer" @click="activeitemIndex = i">
         <EffectGlare wrap-class="rounded-[20px]">
