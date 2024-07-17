@@ -47,7 +47,7 @@ export const defaultMediaItems: PostItem[] = [
   {
     title: 'Dunkirk',
     subTitle: 'Survival is victory',
-    media: { format: 'url', url: 'https://images.unsplash.com/photo-1523539693385-e5e891eb4465?q=80&w=3270&auto=format&fit=crop' },
+    media: { format: 'url', url: 'https://images.unsplash.com/photo-1563804951831-49844db19644?q=80&w=2895&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
   },
   {
     title: 'Memento',
@@ -67,7 +67,7 @@ export const defaultMediaItems: PostItem[] = [
   {
     title: 'Oppenheimer',
     subTitle: 'The man who moved the Earth',
-    media: { format: 'url', url: 'https://images.unsplash.com/photo-1562813733-b31f71025d54?q=80&w=3269&auto=format&fit=crop' },
+    media: { format: 'url', url: 'https://cdn.pixabay.com/photo/2017/08/10/10/51/atomic-bomb-2621291_1280.jpg' },
   },
   {
     title: 'Insomnia',
@@ -75,19 +75,19 @@ export const defaultMediaItems: PostItem[] = [
     media: { format: 'url', url: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=3270&auto=format&fit=crop' },
   },
   {
+    title: 'Batman Begins',
+    subTitle: 'Fear becomes your enemy',
+    media: { format: 'url', url: 'https://images.unsplash.com/photo-1531259683007-016a7b628fc3?q=80&w=3270&auto=format&fit=crop' },
+  },
+  {
+    title: 'The Dark Knight Rises',
+    subTitle: 'The legend ends',
+    media: { format: 'url', url: 'https://cdn.pixabay.com/photo/2020/05/18/08/05/new-york-5185104_1280.jpg' },
+  },
+  {
     title: 'Following',
     subTitle: 'Where it all began',
-    media: { format: 'url', url: 'https://images.unsplash.com/photo-1504272017915-32d1bd315a59?q=80&w=3270&auto=format&fit=crop' },
-  },
-  {
-    title: 'IMAX Innovation',
-    subTitle: 'Pushing the boundaries of cinema',
-    media: { format: 'url', url: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=3270&auto=format&fit=crop' },
-  },
-  {
-    title: 'Collaborative Process',
-    subTitle: 'Working with Hans Zimmer',
-    media: { format: 'url', url: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=3270&auto=format&fit=crop' },
+    media: { format: 'url', url: 'https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=3274&auto=format&fit=crop' },
   },
 ]
 const templateId = 'showcase'

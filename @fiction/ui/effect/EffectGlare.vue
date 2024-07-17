@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
 
+const props = defineProps({
+  wrapClass: { type: String, default: '' },
+})
+
 const isHovered = vue.ref(false)
 
 const state = vue.reactive({
@@ -14,8 +18,8 @@ function handleMouseMove(event: MouseEvent) {
   const x = ((clientX - rect.left) / rect.width) * 100
   const y = ((clientY - rect.top) / rect.height) * 100
 
-  state.rotation.x = (y - 50) / 2
-  state.rotation.y = -(x - 50) / 2
+  state.rotation.x = Math.min(10, (y - 50) / 2)
+  state.rotation.y = Math.min(10 - (x - 50) / 2)
   state.glare.x = x
   state.glare.y = y
 }
@@ -51,9 +55,10 @@ const glareStyle = vue.computed(() => ({
 </script>
 
 <template>
-  <div class="[perspective:1000px]">
+  <div class="[perspective:1000px] ">
     <div
       class="rounded-lg overflow-hidden hover flipcard group"
+      :class="wrapClass"
       :style="cardStyle"
       @mousemove="handleMouseMove"
       @mouseleave="handleMouseLeave"
