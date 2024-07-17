@@ -84,8 +84,8 @@ function gridCols() {
   <div class="relative px-6 md:px-12" data-test-id="showcase">
     <div class="grid md:gap-12 gap-6" :class="gridCols()" :data-aspect="uc.aspect" :data-grid-cols-max="uc.gridColsMax">
       <div v-for="(item, i) in uc.items" :key="i" class="[perspective:1000px] group showcase-item x-action-item transition-all duration-300 space-y-2 relative cursor-pointer" @click="activeitemIndex = i">
-        <EffectGlare> <ElImage :media="item.media" :class="gridImageAspect()" /></EffectGlare>
-        <div class="@[17.5rem]:flex justify-between gap-4 p-1 @container">
+        <EffectGlare> <ElImage :animate="true" :media="item.media" :class="gridImageAspect()" /></EffectGlare>
+        <div class="p-2 @container">
           <CardText
             tag="div"
             :card="card"
@@ -97,8 +97,8 @@ function gridCols() {
           <CardText
             tag="div"
             :card="card"
-            class="flex items-center gap-1 font-sans text-xs text-theme-400 dark:text-theme-500"
-            :path="`items.${i}.superTItle`"
+            class="flex items-center gap-1 text-sm text-theme-400 dark:text-theme-500"
+            :path="`items.${i}.subTitle`"
             animate="fade"
           />
         </div>

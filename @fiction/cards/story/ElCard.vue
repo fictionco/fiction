@@ -16,13 +16,13 @@ const uc = vue.computed(() => props.card.userConfig.value || {})
 <template>
   <div>
     <div v-for="(item, i) in uc.items" :key="i" class="py-[10vw] px-4">
-      <div class="flex gap-8 md:gap-16 relative">
-        <div class="col-span-1 w-[30%] py-4  ">
-          <div class=" top-6 flex justify-end">
+      <div class="md:flex gap-8 md:gap-16 relative">
+        <div class="md:w-[30%] pt-4 pb-6">
+          <div class="top-6 flex md:justify-end">
             <ElImage :animate="true" :media="item.media" class="aspect-square size-[clamp(100px,60%,400px)]" />
           </div>
         </div>
-        <div class="max-w-[850px] col-span-3 w-[70%]">
+        <div class="max-w-[850px] md:w-[70%]">
           <EffectScrollReveal class="space-y-6 ">
             <CardText tag="div" :card :path="`items.${i}.content`" class="text-balance text-2xl sm:text-3xl md:text-5xl md:leading-relaxed" />
           </EffectScrollReveal>

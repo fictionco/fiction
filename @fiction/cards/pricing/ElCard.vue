@@ -54,7 +54,7 @@ function getPrice(price?: UserConfigPrice) {
   }
 
   if (priceDuration.value === 'year' && uc.value.annualDiscountPercent) {
-    return formatNumber(price.price * 12 * (1 - uc.value.annualDiscountPercent / 100))
+    return formatNumber(Math.ceil(price.price * 12 * (1 - uc.value.annualDiscountPercent / 100)))
   }
   else {
     return formatNumber(price.price)
@@ -95,7 +95,7 @@ function getPrice(price?: UserConfigPrice) {
             </span>
             <span v-if="price.price" class="text-base font-normal font-sans flex gap-0.5 items-center">
               <span class="i-tabler-slash" />
-              <span>month</span>
+              <span>{{ priceDuration }}</span>
             </span>
           </p>
 
