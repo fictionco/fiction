@@ -1,8 +1,10 @@
 import type { PostItem } from '@fiction/core'
 import { vue } from '@fiction/core'
+import type { Site } from '@fiction/site'
 import { CardTemplate } from '@fiction/site'
 import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
+import { staticFileUrls } from '@fiction/site/utils/site'
 import { standardOption } from '../inputSets'
 
 const el = vue.defineAsyncComponent(async () => import('./ElShowcase.vue'))
@@ -27,69 +29,104 @@ const UserConfigSchema = z.object({
 
 export type UserConfig = z.infer<typeof UserConfigSchema>
 
-export const defaultMediaItems: PostItem[] = [
-  {
-    title: 'Inception',
-    subTitle: 'Dream within a dream',
-    content: 'A mind-bending heist film exploring the depths of the subconscious.',
-    media: { format: 'url', url: 'https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?q=80&w=3270&auto=format&fit=crop' },
-  },
-  {
-    title: 'The Dark Knight Trilogy',
-    subTitle: 'Redefining superhero cinema',
-    media: { format: 'url', url: 'https://images.unsplash.com/photo-1509347528160-9a9e33742cdb?q=80&w=3270&auto=format&fit=crop' },
-  },
-  {
-    title: 'Interstellar',
-    subTitle: 'Love transcends time and space',
-    media: { format: 'url', url: 'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?q=80&w=3213&auto=format&fit=crop' },
-  },
-  {
-    title: 'Dunkirk',
-    subTitle: 'Survival is victory',
-    media: { format: 'url', url: 'https://images.unsplash.com/photo-1563804951831-49844db19644?q=80&w=2895&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
-  },
-  {
-    title: 'Memento',
-    subTitle: 'The beginning is the end',
-    media: { format: 'url', url: 'https://images.unsplash.com/photo-1527600478564-488952effedb?q=80&w=3270&auto=format&fit=crop' },
-  },
-  {
-    title: 'Tenet',
-    subTitle: 'Time inversion thriller',
-    media: { format: 'url', url: 'https://images.unsplash.com/photo-1501139083538-0139583c060f?q=80&w=3270&auto=format&fit=crop' },
-  },
-  {
-    title: 'The Prestige',
-    subTitle: 'Are you watching closely?',
-    media: { format: 'url', url: 'https://images.unsplash.com/photo-1503095396549-807759245b35?q=80&w=3271&auto=format&fit=crop' },
-  },
-  {
-    title: 'Oppenheimer',
-    subTitle: 'The man who moved the Earth',
-    media: { format: 'url', url: 'https://cdn.pixabay.com/photo/2017/08/10/10/51/atomic-bomb-2621291_1280.jpg' },
-  },
-  {
-    title: 'Insomnia',
-    subTitle: 'A waking nightmare',
-    media: { format: 'url', url: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=3270&auto=format&fit=crop' },
-  },
-  {
-    title: 'Batman Begins',
-    subTitle: 'Fear becomes your enemy',
-    media: { format: 'url', url: 'https://images.unsplash.com/photo-1531259683007-016a7b628fc3?q=80&w=3270&auto=format&fit=crop' },
-  },
-  {
-    title: 'The Dark Knight Rises',
-    subTitle: 'The legend ends',
-    media: { format: 'url', url: 'https://cdn.pixabay.com/photo/2020/05/18/08/05/new-york-5185104_1280.jpg' },
-  },
-  {
-    title: 'Following',
-    subTitle: 'Where it all began',
-    media: { format: 'url', url: 'https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=3274&auto=format&fit=crop' },
-  },
-]
+export async function getDefaultConfig(args: { site: Site }): Promise<UserConfig> {
+  const { site } = args
+  const filenames = [
+    'showcase-adidas.png',
+    'showcase-apple.png',
+    'showcase-cocacola.png',
+    'showcase-disney.png',
+    'showcase-google.png',
+    'showcase-microsoft.png',
+    'showcase-netflix.png',
+    'showcase-nike.png',
+    'showcase-spotify.png',
+    'showcase-starbucks.png',
+    'showcase-tesla.png',
+    'showcase-amazon.png',
+  ] as const
+  const urls = staticFileUrls({ site, filenames })
+
+  return {
+    aspect: 'portrait',
+    gridColsMax: '4',
+    items: [
+      {
+        title: 'Coca-Cola',
+        subTitle: 'Refreshing brand refresh',
+        content: 'Led the summer campaign design, increasing engagement by 25%. Created a series of vibrant, eco-friendly packaging designs that resonated with younger demographics while maintaining brand recognition.',
+        media: { format: 'url', url: urls.showcaseCocacola },
+      },
+      {
+        title: 'Google',
+        subTitle: 'Reimagining the search experience',
+        content: 'Collaborated on redesigning Google\'s search results page, focusing on improved readability and accessibility. Implemented a new system of micro-interactions that enhanced user engagement by 15%.',
+        media: { format: 'url', url: urls.showcaseGoogle },
+      },
+      {
+        title: 'Nike',
+        subTitle: 'Just Do It - 2024 Edition',
+        content: 'Spearheaded the visual direction for Nike\'s 2024 "Just Do It" campaign. Developed a series of dynamic, inclusive visuals that increased social media engagement by 40% and contributed to a 10% boost in online sales.',
+        media: { format: 'url', url: urls.showcaseNike },
+      },
+      {
+        title: 'Apple',
+        subTitle: 'Simplicity in innovation',
+        content: 'Assisted in designing the user interface for a new product line, emphasizing Apple\'s core principle of intuitive design. The resulting UI scored 95% in user satisfaction tests.',
+        media: { format: 'url', url: urls.showcaseApple },
+      },
+      {
+        title: 'Starbucks',
+        subTitle: 'Brewing a new visual identity',
+        content: 'Redesigned Starbucks\' in-store visual elements, creating a cohesive, modern aesthetic that enhanced brand perception. The new design was implemented in over 5,000 stores worldwide.',
+        media: { format: 'url', url: urls.showcaseStarbucks },
+      },
+      {
+        title: 'Amazon',
+        subTitle: 'Redefining the online shopping experience',
+        content: 'Contributed to the redesign of Amazon\'s mobile app, focusing on streamlining the checkout process. The new design reduced cart abandonment rates by 18% and improved overall user satisfaction.',
+        media: { format: 'url', url: urls.showcaseAmazon },
+      },
+      {
+        title: 'Tesla',
+        subTitle: 'Electrifying the future of transport',
+        content: 'Developed the visual concept for Tesla\'s sustainability report, effectively communicating complex data through intuitive infographics. The report garnered significant positive press and strengthened Tesla\'s position as an industry leader in sustainability.',
+        media: { format: 'url', url: urls.showcaseTesla },
+      },
+      {
+        title: 'Disney',
+        subTitle: 'Bringing magic to life',
+        content: 'Created promotional materials for Disney\'s new streaming content, blending classic characters with contemporary design elements. The campaign contributed to a 30% increase in new subscriptions during its run.',
+        media: { format: 'url', url: urls.showcaseDisney },
+      },
+      {
+        title: 'Spotify',
+        subTitle: 'Visualizing the sound of a generation',
+        content: 'Designed a series of dynamic, music-responsive visuals for Spotify\'s annual wrapped campaign. The designs increased social media shares of Wrapped results by 50% compared to the previous year.',
+        media: { format: 'url', url: urls.showcaseSpotify },
+      },
+      {
+        title: 'Microsoft',
+        subTitle: 'Windows to the future',
+        content: 'Contributed to the design of key UI elements for Windows 11, focusing on creating a more intuitive and visually appealing user experience. The new design elements received positive feedback in beta testing, with a 92% approval rating.',
+        media: { format: 'url', url: urls.showcaseMicrosoft },
+      },
+      {
+        title: 'Adidas',
+        subTitle: 'Stripes of excellence',
+        content: 'Led the design for Adidas\' eco-friendly product line, creating packaging and promotional materials that highlighted the company\'s commitment to sustainability. The campaign contributed to a 20% increase in sales for the new product line.',
+        media: { format: 'url', url: urls.showcaseAdidas },
+      },
+      {
+        title: 'Netflix',
+        subTitle: 'Streaming success',
+        content: 'Redesigned Netflix\'s content recommendation UI, improving personalization and discoverability. The new design increased viewer engagement time by an average of 12 minutes per session and boosted content diversity in user watchlists.',
+        media: { format: 'url', url: urls.showcaseNetflix },
+      },
+    ],
+  }
+}
+
 const templateId = 'showcase'
 const template = new CardTemplate({
   templateId,
@@ -105,10 +142,11 @@ const template = new CardTemplate({
     new InputOption({ key: 'gridColsMax', label: 'Max Grid Columns', input: 'InputSelect', list: gridCols, default: () => '4' }),
     new InputOption({ key: 'gridColsMin', label: 'Min Grid Columns', input: 'InputSelect', list: ['1', '2'], default: () => '1' }),
   ],
-  userConfig: { items: defaultMediaItems, aspect: 'golden', gridColsMax: '4' },
+  getUserConfig: args => getDefaultConfig(args),
   schema: UserConfigSchema,
-  demoPage: async () => {
-    return { cards: [{ templateId, userConfig: { items: defaultMediaItems } }] }
+  demoPage: async (args) => {
+    const userConfig = await getDefaultConfig(args)
+    return { cards: [{ templateId, userConfig }] }
   },
 })
 

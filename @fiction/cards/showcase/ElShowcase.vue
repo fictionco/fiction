@@ -36,7 +36,7 @@ function featuredImageAspect(media: MediaDisplayObject) {
   const w = img?.width
 
   if (!img || !w || !h)
-    return 'aspect-[3/4]'
+    return 'aspect-[4/3]'
 
   return w > h ? 'aspect-square max-h-[70dvh]' : 'aspect-[4/3]'
 }
