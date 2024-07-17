@@ -99,12 +99,7 @@ export async function getDefaultConfig(args: { site: Site }): Promise<UserConfig
         content: 'Created promotional materials for Disney\'s new streaming content, blending classic characters with contemporary design elements. The campaign contributed to a 30% increase in new subscriptions during its run.',
         media: { format: 'url', url: urls.showcaseDisney },
       },
-      {
-        title: 'Spotify',
-        subTitle: 'Visualizing the sound of a generation',
-        content: 'Designed a series of dynamic, music-responsive visuals for Spotify\'s annual wrapped campaign. The designs increased social media shares of Wrapped results by 50% compared to the previous year.',
-        media: { format: 'url', url: urls.showcaseSpotify },
-      },
+
       {
         title: 'Microsoft',
         subTitle: 'Windows to the future',
@@ -116,6 +111,12 @@ export async function getDefaultConfig(args: { site: Site }): Promise<UserConfig
         subTitle: 'Stripes of excellence',
         content: 'Led the design for Adidas\' eco-friendly product line, creating packaging and promotional materials that highlighted the company\'s commitment to sustainability. The campaign contributed to a 20% increase in sales for the new product line.',
         media: { format: 'url', url: urls.showcaseAdidas },
+      },
+      {
+        title: 'Spotify',
+        subTitle: 'Visualizing the sound of a generation',
+        content: 'Designed a series of dynamic, music-responsive visuals for Spotify\'s annual wrapped campaign. The designs increased social media shares of Wrapped results by 50% compared to the previous year.',
+        media: { format: 'url', url: urls.showcaseSpotify },
       },
       {
         title: 'Netflix',
