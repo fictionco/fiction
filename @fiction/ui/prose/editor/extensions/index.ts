@@ -68,7 +68,6 @@ export const extensions = [
   PlaceholderExtension,
   Horizontal,
   TiptapLink.configure({
-    // @ts-expect-error - whenNotEditable is allowed but type is boolean
     openOnClick: 'whenNotEditable',
     HTMLAttributes: { class: 'cursor-pointer' },
   }),

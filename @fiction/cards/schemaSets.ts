@@ -16,3 +16,15 @@ export const MediaItemSchema = z.object({
     html: z.string().optional(),
   }),
 }) as z.Schema<MediaItem>
+
+export const PostSchema = z.object({
+  title: z.string().optional(),
+  subTitle: z.string().optional(),
+  content: z.string().optional(),
+  image: mediaSchema,
+  slug: z.string().optional(),
+  actions: z.array(z.object({
+    name: z.string().optional(),
+    href: z.string().optional(),
+  })).optional(),
+})

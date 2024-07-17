@@ -5,6 +5,7 @@ import ElToolBanner from '@fiction/admin/tools/ElToolBanner.vue'
 import ELToolHandle from '@fiction/admin/tools/ElToolHandle.vue'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
 import type { Post } from '../post'
+import type { PostDraft } from '../schema'
 
 const props = defineProps({
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
@@ -12,7 +13,7 @@ const props = defineProps({
 })
 
 const handles = vue.computed<Handle[]>(() => {
-  const history = props.post.settings.draftHistory || []
+  const history = (props.post.settings.draftHistory || []) as PostDraft[]
 
   if (!Array.isArray(history))
     return []

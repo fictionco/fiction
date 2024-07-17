@@ -1,5 +1,5 @@
 import type { DataFilter, EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser, IndexMeta, IndexQuery, TableTaxonomyConfig } from '@fiction/core'
-import { Query, abort, deepMerge, incrementSlugId, objectId, prepareFields, standardTable, toLabel, toSlug } from '@fiction/core'
+import { Query, abort, deepMerge, incrementSlugId, objectId, standardTable, toLabel, toSlug } from '@fiction/core'
 import type { TablePostConfig } from './schema'
 import { t } from './schema'
 import type { FictionPosts } from '.'
@@ -116,7 +116,7 @@ export class QueryManagePost extends PostsQuery {
     return post
   }
 
-  private async updatePost(params: ManagePostParams & { _action: 'update' }, _meta: EndpointMeta): Promise<TablePostConfig | undefined> {
+  private async updatePost(params: ManagePostParams & { _action: 'update' }, meta: EndpointMeta): Promise<TablePostConfig | undefined> {
     const db = this.db()
     const { postId, fields, orgId } = params
 
@@ -129,20 +129,21 @@ export class QueryManagePost extends PostsQuery {
     fields.updatedAt = new Date().toISOString()
 
     // Retrieve current post details
-    const currentPost = await this.getPost({ postId, orgId, select: ['status', 'dateAt', 'slug'], caller: 'updatePostGetExisting' }, _meta)
+    const currentPost = await this.getPost({ postId, orgId, select: ['status', 'dateAt', 'slug'], caller: 'updatePostGetExisting' }, meta)
     if (!currentPost)
       throw abort('Post not found')
 
     if (fields.slug && fields.slug !== currentPost.slug)
       fields.slug = await this.getSlugId({ orgId, postId, fields })
 
-    const prepped = prepareFields({
-      type: 'settings',
-      fields,
-      table: t.posts,
-      meta: _meta,
-      fictionDb: this.settings.fictionDb,
-    })
+    const prepped = this.settings.fictionDb.prep({ type: 'insert', fields, meta, table: t.posts })
+    // const prepped = prepareFields({
+    //   type: 'settings',
+    //   fields,
+    //   table: t.posts,
+    //   meta: _meta,
+    //   fictionDb: this.settings.fictionDb,
+    // })
 
     // Set date to current time if status changes and date is still empty
     if (!prepped.dateAt && prepped.status && prepped.status !== 'draft' && currentPost.status === 'draft' && !currentPost.dateAt)
@@ -169,7 +170,7 @@ export class QueryManagePost extends PostsQuery {
       this.updateAssociations('sites', params),
     ])
 
-    return this.getPost({ ...params, caller: 'updatePostEnd' }, _meta)
+    return this.getPost({ ...params, caller: 'updatePostEnd' }, meta)
   }
 
   private async insertNewTaxonomies(args: { taxonomy: TableTaxonomyConfig[], orgId: string }) {
@@ -294,7 +295,8 @@ export class QueryManagePost extends PostsQuery {
     fields.slug = await this.getSlugId({ orgId, fields })
     fields.title = fields.title || defaultTitle
 
-    const prepped = prepareFields({ type: 'create', fields, table: t.posts, meta, fictionDb: this.settings.fictionDb })
+    const prepped = this.settings.fictionDb.prep({ type: 'insert', fields, meta, table: t.posts })
+    // const _prepped = prepareFields({ type: 'create', fields, table: t.posts, meta, fictionDb: this.settings.fictionDb })
 
     const fieldsWithOrg = { type: 'post', status: 'draft', ...prepped, orgId, userId } as const
     const [{ postId }] = await db(t.posts).insert(fieldsWithOrg).returning('postId')
@@ -327,7 +329,7 @@ export class QueryManagePost extends PostsQuery {
     return post
   }
 
-  private async saveDraft(params: ManagePostParams & { _action: 'saveDraft' }, _meta: EndpointMeta): Promise<TablePostConfig | undefined> {
+  private async saveDraft(params: ManagePostParams & { _action: 'saveDraft' }, meta: EndpointMeta): Promise<TablePostConfig | undefined> {
     const db = this.db()
     const { postId, fields, orgId } = params
 
@@ -349,7 +351,7 @@ export class QueryManagePost extends PostsQuery {
       draftHistory.push({ ...draft, archiveAt: now.toISOString() }) // Archive the current draft
       draft.createdAt = now.toISOString() // Reset creation time for a new draft
     }
-    const prepped = prepareFields({ type: 'settings', fields, table: t.posts, meta: _meta, fictionDb: this.settings.fictionDb })
+    const prepped = this.settings.fictionDb.prep({ type: 'update', fields, meta, table: t.posts })
 
     const keysToRemove = ['draft', 'draftHistory', 'postId', 'userId', 'orgId']
 
@@ -366,16 +368,13 @@ export class QueryManagePost extends PostsQuery {
     // Persist the updated draft and history
     await db(t.posts)
       .where({ postId })
-      .update({
-        draft: newDraft,
-        draft_history: draftHistory,
-      })
+      .update({ draft: newDraft, draft_history: draftHistory })
 
     // save any new taxonomies that are not already in the database
     if (fields.taxonomy?.length)
       await this.insertNewTaxonomies({ orgId, taxonomy: fields.taxonomy })
 
-    return this.getPost({ postId, orgId, loadDraft: true, caller: 'saveDraft' }, _meta)
+    return this.getPost({ postId, orgId, loadDraft: true, caller: 'saveDraft' }, meta)
   }
 }
 

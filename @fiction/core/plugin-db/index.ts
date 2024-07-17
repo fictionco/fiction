@@ -126,8 +126,8 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
     this.addSchema()
   }
 
-  prep<T>(args: Omit<Parameters<typeof dbPrep>[0], 'fictionDb'>): Partial<T> {
-    return dbPrep({ ...args, fictionDb: this })
+  prep<T>(args: Omit<Parameters<typeof dbPrep<T>>[0], 'fictionDb'>): Partial<T> {
+    return dbPrep<T>({ ...args, fictionDb: this })
   }
 
   addSchema() {

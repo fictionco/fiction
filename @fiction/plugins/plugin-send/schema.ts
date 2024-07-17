@@ -1,5 +1,5 @@
 import type { ColType } from '@fiction/core'
-import { Col, DataFilterSchema, FictionDbTable, ProgressStatusSchema, standardTable } from '@fiction/core'
+import { Col, DataFilterSchema, FictionDbTable, MediaSchema, ProgressStatusSchema, standardTable } from '@fiction/core'
 
 import type { TablePostConfig } from '@fiction/posts'
 import { t as postTableNames } from '@fiction/posts'
@@ -14,12 +14,6 @@ export const t = {
 const EmailAnalyticsSchema = z.object({ sent: z.number(), delivered: z.number(), opened: z.number(), clicked: z.number(), bounced: z.number(), unsubscribed: z.number(), complaints: z.number() }).partial()
 
 export type EmailAnalyticsCounts = z.infer<typeof EmailAnalyticsSchema>
-
-export const MediaDisplayObjectSchema = z.object({
-  html: z.string().optional(),
-  format: z.enum(['url', 'video', 'iframe', 'html', 'audio', 'text']).optional(),
-  url: z.string().optional(),
-}).partial()
 
 export type TableEmailCampaign = ColType<typeof sendColumns>
 
@@ -40,7 +34,7 @@ export const sendColumns = [
   new Col({ key: 'subject', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'preview', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'from', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
-  new Col({ key: 'avatar', sch: () => MediaDisplayObjectSchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
+  new Col({ key: 'avatar', sch: () => MediaSchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
   new Col({ key: 'scheduleMode', sch: ({ z }) => z.enum(['now', 'schedule']), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'scheduledAt', sch: ({ z }) => z.string(), make: ({ s, col }) => s.timestamp(col.k).defaultTo(null) }),
   new Col({ key: 'filters', sch: ({ z }) => z.array(DataFilterSchema), make: ({ s, col }) => s.jsonb(col.k).defaultTo([]) }),

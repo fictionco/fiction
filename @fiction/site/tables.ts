@@ -19,6 +19,10 @@ export type ThemeUiSize = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3
 export type SiteUserConfig = Partial<{
   favicon: MediaDisplayObject
   shareImage: MediaDisplayObject
+  branding: {
+    logo: MediaDisplayObject
+  }
+  bg: BackgroundDisplayObject
   robotsTxt: string
   locale: string
   titleTemplate: string
@@ -42,15 +46,11 @@ export type SiteUserConfig = Partial<{
     spacingSize?: ThemeUiSize
     spacingSizeBottom?: ThemeUiSize
   }
-  branding: {
-    logo: MediaDisplayObject
-  }
   seo: {
     title?: string
     description?: string
     keywords?: string
   }
-  bg: BackgroundDisplayObject
 }>
 
 type TablePageCardConfig = Partial<CreateObjectType<typeof pageCols>>

@@ -1,7 +1,6 @@
 import type { vue } from '../utils/libraries.js'
 import type { TableMediaConfig } from '../plugin-media'
 import type { User } from '../plugin-user'
-import type { ColorScheme } from '../utils/colors.js'
 
 export type CleanupCallback = (() => void) | undefined
 
