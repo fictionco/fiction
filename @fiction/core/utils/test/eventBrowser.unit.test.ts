@@ -4,7 +4,7 @@
 
 import type { Mock } from 'vitest'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { BrowserEvent, onBrowserEvent } from '../eventBrowser'
+import { onBrowserEvent } from '../eventBrowser'
 
 describe('onBrowserEvent', () => {
   let callback: Mock

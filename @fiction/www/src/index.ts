@@ -159,10 +159,12 @@ const fictionStripe = new FictionStripe({
   ],
 })
 const themes = async () => getThemes({ ...s, fictionStripe })
-const fictionSites = new FictionSites({ ...s, fictionAppSites, fictionRouterSites, flyApiToken, flyAppId: 'fiction-sites', adminBaseRoute: '/admin', themes })
+const fictionAnalytics = new FictionAnalytics({ clickhouseUrl, ...s, beaconPort: +fictionEnv.var('BEACON_PORT') })
+
+const fictionSites = new FictionSites({ ...s, fictionAnalytics, fictionAppSites, fictionRouterSites, flyApiToken, flyAppId: 'fiction-sites', adminBaseRoute: '/admin', themes })
 const fictionTeam = new FictionTeam({ ...s })
 const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp, fictionAppSites] })
-const fictionAnalytics = new FictionAnalytics({ clickhouseUrl, ...s, beaconPort: +fictionEnv.var('BEACON_PORT') })
+
 const fictionSubscribe = new FictionSubscribe(s)
 const fictionPosts = new FictionPosts(s)
 const fictionSend = new FictionSend({ fictionPosts, fictionSubscribe, ...s })
