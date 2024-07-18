@@ -5,6 +5,7 @@ import type { FictionPosts, Post, TablePostConfig } from '@fiction/posts'
 import ClipPathAnim from '@fiction/ui/anim/AnimClipPath.vue'
 import ElBadge from '@fiction/ui/common/ElBadge.vue'
 import El404 from '@fiction/ui/page/El404.vue'
+import { postLink, taxonomyLink } from '@fiction/posts'
 import ElAuthor from './ElAuthor.vue'
 import type { UserConfig } from '.'
 
@@ -18,15 +19,17 @@ const service = useService<{ fictionPosts: FictionPosts }>()
 // const posts = vue.shallowRef<Post[]>([])
 
 const list = vue.computed<(IndexItem & TablePostConfig)[]>(() => {
-  const viewId = service.fictionRouter.params.value.viewId || '_'
   return props.postIndex.map((p) => {
     return {
       ...p.toConfig(),
       key: p.postId,
       name: p.title.value || 'Untitled',
       desc: p.subTitle.value || 'No description',
-      href: props.card.link(`/${viewId}/${p.slug.value}`),
+      href: postLink({ card: props.card, slug: p.slug.value }),
       media: p.image.value,
+      categories: p.categories.value,
+      tags: p.tags.value,
+      slug: p.slug.value,
     } as IndexItem & TablePostConfig
   })
 })
@@ -44,7 +47,7 @@ function getItemClasses(index: number): string {
 </script>
 
 <template>
-  <div class="p-8" :class="card.classes.value.contentWidth">
+  <div :class="card.classes.value.contentWidth">
     <!-- Grid Container -->
     <div v-if="list.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
       <!-- Loop through posts -->
@@ -52,26 +55,31 @@ function getItemClasses(index: number): string {
         :is="getNavComponentType(item)"
         v-for="(item, i) in list"
         :key="item.slug"
-        :to="item.href ? card.link(item.href) : ''"
-        :href="item.href ? card.link(item.href) : ''"
+        :to="item.href"
+        :href="item.href"
         :class="[getItemClasses(i)]"
       >
-        <ClipPathAnim :enabled="true" class="w-full h-full">
+        <ClipPathAnim :animate="true" class="w-full h-full overflow-hidden">
           <div
-            class="h-full w-full relative group cursor-pointer block "
+            class="h-full w-full relative group cursor-pointer block hover:scale-105 duration-1000 ease-[cubic-bezier(0.25,1,0.33,1)] transition-all"
             :class="i === 0 ? '' : 'aspect-[4/3]'"
             :style="item.media?.url ? { backgroundImage: `url(${item.media.url})` } : {}"
           >
-            <div :data-bg="item.media?.url" class="group-hover:scale-110 duration-1000 ease-[cubic-bezier(0.25,1,0.33,1)] absolute z-0 inset-0 bg-cover  bg-gradient-to-br from-theme-50 dark:from-theme-600 to-theme-100 dark:to-theme-700 rounded-lg overflow-hidden bg-center" :style="item.media?.url ? { backgroundImage: `url(${item.media.url})` } : {}" />
+            <div :data-bg="item.media?.url" class="absolute z-0 inset-0 bg-cover  bg-gradient-to-br from-theme-50 dark:from-theme-600 to-theme-100 dark:to-theme-700 rounded-lg overflow-hidden bg-center" :style="item.media?.url ? { backgroundImage: `url(${item.media.url})` } : {}" />
             <div v-if="i === 0" class="overlay absolute w-full h-full z-10 pointer-events-none inset-0" />
             <div v-if="!item.media" class="w-full h-60 sm:h-full" />
             <div v-if="i === 0" class="p-[min(max(35px,_3.5vw),_50px)] text-theme-0 z-20 relative ">
-              <div class="mb-4">
-                <ElBadge theme="overlay">
-                  About
-                </ElBadge>
+              <div class="mb-4 space-x-2">
+                <ElBadge
+                  v-for="(cat, ii) in item.categories?.slice(0, 2)"
+                  :key="ii"
+                  theme="overlay"
+                  ui-size="sm"
+                  :text="cat.title"
+                  :href="taxonomyLink({ card, taxonomy: 'category', term: cat.slug })"
+                />
               </div>
-              <h2 class="text-3xl font-bold x-font-title text-balance max-w-[75%]">
+              <h2 class="text-2xl md:text-3xl font-semibold x-font-title text-balance max-w-[80%]">
                 {{ item.name }}
               </h2>
               <ElAuthor v-for="(author, ii) in item.authors || []" :key="ii" :user="author" :date-at="item.dateAt" />
@@ -79,18 +87,16 @@ function getItemClasses(index: number): string {
           </div>
         </ClipPathAnim>
         <div v-if="i !== 0" class="pt-4">
-          <h2 class="text-xl font-bold x-font-title text-balance">
+          <h2 class="text-xl font-semibold x-font-title text-balance">
             {{ item.name }}
           </h2>
-          <div class="mt-2">
-            <ElBadge theme="rose">
-              About
-            </ElBadge>
+          <div class="mt-2 space-x-2">
+            <ElBadge v-for="(cat, ii) in item.categories?.slice(0, 2)" :key="ii" :text="cat.title" ui-size="sm" :href="taxonomyLink({ card, taxonomy: 'category', term: cat.slug })" />
           </div>
         </div>
       </component>
     </div>
-    <El404 v-else super-heading="Blog" heading="No Posts Found" sub-heading="No posts were available to show here." :actions="[{ name: 'Go to Home', href: '/' }]" />
+    <El404 v-else super-heading="Index" heading="No Posts Found" sub-heading="Nothing to show here." :actions="[{ name: 'Go to Home', href: '/' }]" />
   </div>
 </template>
 

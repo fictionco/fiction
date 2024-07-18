@@ -6,6 +6,7 @@ import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
 import ElBadge from '@fiction/ui/common/ElBadge.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
+import { allPostsLink, postEditLink, postLink, taxonomyLink } from '@fiction/posts'
 import ElAuthor from './ElAuthor.vue'
 import type { UserConfig } from '.'
 
@@ -13,6 +14,7 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
   loading: { type: Boolean, default: true },
   post: { type: Object as vue.PropType<Post>, default: undefined },
+  nextPost: { type: Object as vue.PropType<Post>, default: undefined },
 })
 
 const service = useService<{ fictionPosts: FictionPosts }>()
@@ -45,14 +47,12 @@ const imageAspect = vue.computed(() => {
     <article v-if="post" class="p-8 pb-44" :class="card.classes.value.contentWidth">
       <div class="space-y-8 my-[min(max(35px,_5vw),_60px)] prose:max-w-none text-center max-w-screen-lg mx-auto" :class="proseClass">
         <div class="tags space-x-3">
-          <ElBadge theme="naked" :href="card.link('/:viewId')">
+          <ElBadge theme="naked" :href="allPostsLink({ card })">
             &larr; All Posts
           </ElBadge>
-          <ElBadge v-for="(categories, i) in post.categories.value" :key="i" theme="theme">
-            {{ categories.title }}
-          </ElBadge>
-          <ElBadge v-if="userIsAuthor" theme="theme" :href="post.editLink.value">
-            Edit Post <span class="ml-1 i-heroicons-arrow-up-right-20-solid" />
+          <ElBadge v-for="(cat, i) in post.categories.value" :key="i" :text="cat.title" :href="taxonomyLink({ card, taxonomy: 'category', term: cat.slug })" />
+          <ElBadge v-if="userIsAuthor" :href="postEditLink({ post })" class="flex items-center">
+            Edit Post
           </ElBadge>
         </div>
         <h1 class="text-6xl font-bold x-font-title text-balance">
@@ -65,23 +65,40 @@ const imageAspect = vue.computed(() => {
           <ElAuthor v-for="(author, i) in post.authors.value" :key="i" :user="author" :date-at="post.dateAt.value" />
         </div>
       </div>
-      <AnimClipPath :enabled="true" class="my-[min(max(35px,_5vw),_60px)]">
+      <AnimClipPath :animate="true" class="my-[min(max(35px,_5vw),_60px)]">
         <div v-if="post.image.value?.url" class=" mx-auto relative overflow-hidden rounded-lg" :class="imageAspect">
           <!-- Optionally display media -->
           <img :src="post.image.value?.url" alt="Post media" class="absolute h-full w-full object-cover object-center">
         </div>
       </AnimClipPath>
-      <div class="content-container px-4" :class="proseClass" v-html="post.content.value" />
+      <div :class="proseClass">
+        <div class="content-container" v-html="post.content.value" />
 
-      <div v-if="post.tags.value?.length" class="tags flex gap-4 mt-12 mb-8 items-center px-4 justify-center" :class="proseClass">
-        <div class="text-xs italic text-theme-500">
-          tagged with &rarr;
+        <div v-if="post.tags.value?.length" class="not-prose tags flex gap-4 my-8 items-center px-4 justify-center" :class="proseClass">
+          <div class="text-xs italic text-theme-500">
+            tagged with &rarr;
+          </div>
+          <div class="gap-3 flex">
+            <ElBadge v-for="(tag, i) in post.tags.value" :key="i" :text="tag.title" :href="taxonomyLink({ card, taxonomy: 'tag', term: tag.slug })" />
+          </div>
         </div>
-        <div class="gap-3 flex">
-          <ElBadge v-for="(tags, i) in post.tags.value" :key="i" theme="theme">
-            {{ tags.title }}
-          </ElBadge>
-        </div>
+
+        <RouterLink v-if="nextPost" :to="postLink({ card, slug: nextPost.slug.value })" class="mt-16 next-post flex not-prose gap-8 items-center border rounded-lg bg-theme-50/50 hover:bg-theme-50 dark:bg-theme-800/50 dark:hover:bg-theme-800 border-theme-200 dark:border-theme-700 p-6">
+          <div>
+            <div v-if="nextPost.image.value?.url" class="rounded-lg ring-2 ring-theme-200 dark:ring-theme-700 size-32 relative overflow-hidden" :class="imageAspect">
+              <img :src="nextPost.image.value?.url" alt="Post media" class="absolute h-full w-full object-cover object-center">
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div v-if="nextPost" class="font-sans text-xs">
+              Next Post &rarr;
+            </div>
+            <h1 class="text-2xl font-bold x-font-title text-balance">
+              {{ nextPost.title.value }}
+            </h1>
+          </div>
+        </RouterLink>
       </div>
     </article>
     <El404 v-else heading="Post Not Found" :actions="[{ name: 'All Posts', href: card.link('/:viewId') }]" />

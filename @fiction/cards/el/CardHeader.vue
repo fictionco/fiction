@@ -72,7 +72,7 @@ const layout = vue.computed(() => {
       data-key="layout"
       :data-layout="layout"
     >
-      <div class="max-w-screen-lg" :class="layout === 'justify' ? 'lg:min-w-[50%]' : 'mx-auto'">
+      <div class="max-w-screen-md" :class="layout === 'justify' ? 'lg:min-w-[50%]' : 'mx-auto'">
         <div v-if="uc.superHeading || uc.superIcon" class="flex gap-3 items-center mb-6" :class="[colorStyle.text, layout === 'center' ? 'md:justify-center' : '']">
           <div v-if="uc.superIcon" :class="colorStyle.icon" class="size-10 rounded-full flex items-center justify-center">
             <div :class="uc.superIcon" class="text-2xl" />
@@ -80,7 +80,7 @@ const layout = vue.computed(() => {
           <CardText
             tag="h3"
             :card="card"
-            class=" font-sans text-sm lg:text-lg font-medium antialiased"
+            class=" font-sans text-sm lg:text-lg font-medium"
             path="superHeading"
             placeholder="Super Heading"
             animate="fade"
@@ -92,13 +92,13 @@ const layout = vue.computed(() => {
           class="x-font-title dark:text-theme-0 text-theme-900  lg:tracking-tight font-bold md:text-balance text-4xl sm:text-5xl"
           :class="[
             layout === 'justify' || layout === 'left' ? 'mt-3' : 'my-7',
-            !['left', 'right'].includes(layout) ? 'lg:text-[5rem]' : 'lg:text-6xl']"
+            !['left', 'right'].includes(layout) ? 'lg:text-7xl' : 'lg:text-6xl']"
           path="heading"
           placeholder="Heading"
           animate="fade"
         />
       </div>
-      <div class="max-w-screen-lg" :class="layout === 'justify' ? 'lg:max-w-[50%]' : 'mx-auto'">
+      <div class="max-w-screen-md" :class="layout === 'justify' ? 'lg:max-w-[50%]' : 'mx-auto'">
         <CardText
           tag="div"
           :card="card"

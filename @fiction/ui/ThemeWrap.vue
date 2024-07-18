@@ -46,7 +46,6 @@ vue.onMounted(() => {
   // --font-family-body: v-bind(fonts?.body);
   .x-font-title {
     font-family: var(--font-family-title);
-    -webkit-font-smoothing: antialiased;
   }
   .x-font-body {
     font-family: var(--font-family-body);
@@ -59,7 +58,6 @@ vue.onMounted(() => {
   }
   .x-font-sans {
     font-family: var(--font-family-sans);
-    -webkit-font-smoothing: antialiased;
   }
 
   --theme-0: v-bind("theme[0]");

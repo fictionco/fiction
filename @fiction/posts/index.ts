@@ -16,7 +16,8 @@ type FictionPostsSettings = {
 } & FictionPluginSettings
 
 export * from './schema'
-export * from './utils'
+export * from './utils/links.js'
+export * from './utils/index.js'
 export * from './post'
 
 export class FictionPosts extends FictionPlugin<FictionPostsSettings> {

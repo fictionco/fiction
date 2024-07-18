@@ -13,10 +13,16 @@ const props = defineProps({
 
 function getIcon(value?: string) {
   if (!value)
-    return ''
+    return {}
 
   const icon = socialIcons.find(i => i.value === value)
-  return icon ? icon.icon : ''
+  const iconClasses = icon ? icon.icon : ''
+  const text = icon ? icon.textClasses : ''
+  const bg = icon ? icon.bgClasses : ''
+  return {
+    icon: iconClasses,
+    bg: `${bg} ${text}`,
+  }
 }
 
 vue.onMounted(() => {
@@ -30,9 +36,16 @@ vue.onMounted(() => {
 </script>
 
 <template>
-  <div class="socials flex space-x-6 text-2xl">
-    <a v-for="(item, i) in socials" :key="i" :href="item.href" target="_blank" class="x-action-items text-center flex items-center flex-col justify-end hover:text-primary-500 dark:hover:text-primary-400">
-      <div :class="getIcon(item.icon)" class="" :title="item.name" />
+  <div class="socials flex gap-3">
+    <a
+      v-for="(item, i) in socials"
+      :key="i"
+      :href="item.href"
+      target="_blank"
+      :class="getIcon(item.icon).bg"
+      class="x-action-items text-center flex items-center justify-center size-10 text-2xl rounded-full"
+    >
+      <div :class="getIcon(item.icon).icon" class="" :title="item.name" />
     </a>
   </div>
 </template>

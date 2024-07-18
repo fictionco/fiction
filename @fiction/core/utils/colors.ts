@@ -15,7 +15,8 @@ export function isDarkOrLightMode(element?: HTMLElement | null | undefined): 'li
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }
 
-export const colorTheme = ['slate', 'gray', 'zinc', 'neutral', 'stone', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'] as const
+export const brightTheme = ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'] as const
+export const colorTheme = ['slate', 'gray', 'zinc', 'neutral', 'stone', ...brightTheme] as const
 
 export type ColorScale = 0 | 25 | 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950 | 975 | 1000
 
@@ -47,6 +48,26 @@ export const colorList = {
 export const colors = Object.keys(colorList)
 
 export type ThemeColor = (typeof colors)[number]
+
+export type UiColorTheme = ThemeColor | 'theme' | 'overlay' | 'naked'
+
+export function getTextColorTheme(text: string): ThemeColor {
+  // Simple hash function
+  let hash = 0
+  for (let i = 0; i < text.length; i++) {
+    const char = text.charCodeAt(i)
+    hash = ((hash << 5) - hash) + char
+    hash = hash & hash // Convert to 32-bit integer
+  }
+
+  // Use the absolute value of the hash to ensure it's positive
+  const positiveHash = Math.abs(hash)
+
+  // Use modulo to get an index within the range of the colorTheme array
+  const colorIndex = positiveHash % brightTheme.length
+
+  return brightTheme[colorIndex]
+}
 
 type ColorRecord = {
   [P in ColorScale]?: string

@@ -160,7 +160,7 @@ vue.onUnmounted(() => {
   <AnimClipPath :enabled="animate" class="w-full h-full outline-none focus:outline-none focus:ring-0 ">
     <div
       :id="container"
-      class="h-full cursor-auto text-black font-bold font-sans antialiased text-xs"
+      class="h-full cursor-auto text-black font-bold font-sans text-xs"
     />
   </AnimClipPath>
 </template>

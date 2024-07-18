@@ -1,5 +1,6 @@
 import type { DataFilter, EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser, IndexMeta, IndexQuery, TableTaxonomyConfig } from '@fiction/core'
 import { Query, abort, deepMerge, incrementSlugId, objectId, standardTable, toLabel, toSlug } from '@fiction/core'
+import { data } from '@fiction/analytics/chart/test/sampleData'
 import type { TablePostConfig } from './schema'
 import { t } from './schema'
 import type { FictionPosts } from '.'
@@ -26,6 +27,117 @@ export abstract class PostsQuery extends Query<PostsQuerySettings> {
   }
 }
 
+export type ManageIndexParamsRequest = {
+  _action: 'delete' | 'list'
+  selectedIds?: string[]
+  loadDraft?: boolean
+  type?: string
+} & IndexQuery
+
+export type ManageIndexParams = ManageIndexParamsRequest & { userId?: string, orgId?: string }
+
+type ManageIndexResponse = EndpointResponse<TablePostConfig[]> & { indexMeta?: IndexMeta }
+
+export class ManagePostIndex extends PostsQuery {
+  async run(params: ManageIndexParams, _meta: EndpointMeta): Promise<ManageIndexResponse> {
+    if (!params._action)
+      throw abort('Action parameter is required.')
+
+    switch (params._action) {
+      case 'list':
+        return this.list(params)
+      case 'delete':
+        return this.deletePosts(params.selectedIds)
+      default:
+        throw abort(`Unsupported action '${params._action as string}'`)
+    }
+  }
+
+  private async list(args: ManageIndexParams): Promise<ManageIndexResponse> {
+    const { orgId, limit = 10, offset = 0, filters = [], loadDraft = false, type = 'post' } = args
+
+    if (!orgId)
+      throw abort('orgId is required to list posts')
+
+    let posts = await this.fetchPosts({ orgId, limit, offset, filters, type })
+
+    if (loadDraft) {
+      posts = posts.map((post) => {
+        if (post.draft)
+          return { ...post, ...post.draft }
+
+        return post
+      })
+    }
+
+    const allAuthorIds = posts.map(post => post.userId).filter(Boolean) as string[]
+    const allAuthors = await this.fetchAuthors(allAuthorIds)
+
+    const postsWithAuthors = posts.map(post => ({
+      ...post,
+      authors: [post.userId].filter(Boolean).map(userId => allAuthors.find(author => author.userId === userId)),
+    })) as TablePostConfig[]
+
+    const count = await this.fetchCount({ orgId, type })
+
+    return {
+      status: 'success',
+      data: postsWithAuthors,
+      indexMeta: { ...args, count, limit, offset },
+    }
+  }
+
+  private async fetchPosts(args: { orgId: string, type: string } & IndexQuery) {
+    const { orgId, limit = 20, offset = 0, filters = [], orderBy = 'updatedAt', order = 'desc', type = 'post', taxonomy } = args
+    const query = this.db()
+      .select<TablePostConfig[]>('*')
+      .from(t.posts)
+      .where({ orgId, type })
+      .limit(limit)
+      .offset(offset)
+      .orderBy(orderBy, order)
+
+    filters.forEach((filter) => {
+      if (filter.field && filter.operator && filter.value)
+        void query.where(filter.field, filter.operator, filter.value)
+    })
+
+    if (taxonomy) {
+      query.join(t.taxonomy, `${t.taxonomy}.taxonomyId`, '=', `${t.posts}.taxonomyId`)
+
+      if ('taxonomyId' in taxonomy) {
+        query.where(`${t.taxonomy}.taxonomyId`, taxonomy.taxonomyId)
+      }
+      else if ('type' in taxonomy && 'slug' in taxonomy) {
+        query.where(`${t.taxonomy}.type`, taxonomy.type)
+          .where(`${t.taxonomy}.slug`, taxonomy.slug)
+      }
+    }
+
+    return query
+  }
+
+  private async fetchCount(args: { orgId: string, type: string }): Promise<number> {
+    const { orgId, type = 'post' } = args
+    const result = await this.db()
+      .count<{ count: string }>('*')
+      .from(t.posts)
+      .where({ orgId, type })
+      .first()
+
+    return Number.parseInt(result?.count || '0', 10)
+  }
+
+  private async deletePosts(selectedIds?: string[]): Promise<ManageIndexResponse> {
+    if (!selectedIds || selectedIds.length === 0)
+      throw abort('No posts selected for deletion')
+
+    await this.db()(t.posts).whereIn('post_id', selectedIds).delete()
+
+    return { status: 'success', message: 'Deleted successfully' }
+  }
+}
+
 export type ManagePostParamsRequest =
   | { _action: 'create', fields: Partial<TablePostConfig>, defaultTitle?: string }
   | { _action: 'update', postId: string, fields: Partial<TablePostConfig>, loadDraft?: boolean }
@@ -40,34 +152,30 @@ type ManagePostResponse = EndpointResponse<TablePostConfig> & {
 }
 
 export class QueryManagePost extends PostsQuery {
-  async run(params: ManagePostParams, _meta: EndpointMeta): Promise<ManagePostResponse> {
-    let post: TablePostConfig | undefined
-    let message = ''
+  async run(params: ManagePostParams, meta: EndpointMeta): Promise<ManagePostResponse> {
+    let r: EndpointResponse<TablePostConfig >
 
     switch (params._action) {
       case 'get':
-        post = await this.getPost({ caller: 'switch', ...params }, _meta)
+        r = await this.getPost({ caller: 'switch', ...params }, meta)
         break
       case 'update':
-        post = await this.updatePost(params, _meta)
-        message = 'Post updated'
+        r = await this.updatePost(params, meta)
         break
       case 'create':
-        post = await this.createPost(params, _meta)
-        message = 'Post created'
+        r = await this.createPost(params, meta)
         break
       case 'delete':
-        post = await this.deletePost(params, _meta)
-        message = 'Post deleted'
+        r = await this.deletePost(params, meta)
         break
       case 'saveDraft':
-        post = await this.saveDraft(params, _meta)
+        r = await this.saveDraft(params, meta)
         break
       default:
         return { status: 'error', message: 'Invalid action' }
     }
 
-    return { status: 'success', data: post, message }
+    return r
   }
 
   private async getPost(options: {
@@ -77,7 +185,7 @@ export class QueryManagePost extends PostsQuery {
     loadDraft?: boolean
     select?: (keyof TablePostConfig)[] | ['*']
     caller?: string
-  }, _meta: EndpointMeta): Promise<TablePostConfig | undefined> {
+  }, _meta: EndpointMeta): Promise<EndpointResponse<TablePostConfig>> {
     const { postId, slug, select = ['*'], loadDraft = false, orgId, caller = 'unknown' } = options
     const db = this.db()
 
@@ -94,7 +202,7 @@ export class QueryManagePost extends PostsQuery {
     let post = await query.first<TablePostConfig>()
 
     if (!post)
-      throw abort('Post not found')
+      return { status: 'error', data: undefined }
 
     if (post.postId) {
       post.authors = await db.select([`${t.user}.userId`, `${t.user}.email`, `${t.user}.fullName`, `${t.postAuthor}.priority`]).from(t.postAuthor).join(t.user, `${t.user}.user_id`, `=`, `${t.postAuthor}.user_id`).where(`${t.postAuthor}.post_id`, post.postId).orderBy(`${t.postAuthor}.priority`, 'asc')
@@ -113,10 +221,10 @@ export class QueryManagePost extends PostsQuery {
     if (loadDraft && post.draft)
       post = deepMerge([post, post.draft as TablePostConfig])
 
-    return post
+    return { status: 'success', data: post }
   }
 
-  private async updatePost(params: ManagePostParams & { _action: 'update' }, meta: EndpointMeta): Promise<TablePostConfig | undefined> {
+  private async updatePost(params: ManagePostParams & { _action: 'update' }, meta: EndpointMeta): Promise<EndpointResponse<TablePostConfig>> {
     const db = this.db()
     const { postId, fields, orgId } = params
 
@@ -129,7 +237,7 @@ export class QueryManagePost extends PostsQuery {
     fields.updatedAt = new Date().toISOString()
 
     // Retrieve current post details
-    const currentPost = await this.getPost({ postId, orgId, select: ['status', 'dateAt', 'slug'], caller: 'updatePostGetExisting' }, meta)
+    const { data: currentPost } = await this.getPost({ postId, orgId, select: ['status', 'dateAt', 'slug'], caller: 'updatePostGetExisting' }, meta)
     if (!currentPost)
       throw abort('Post not found')
 
@@ -137,13 +245,6 @@ export class QueryManagePost extends PostsQuery {
       fields.slug = await this.getSlugId({ orgId, postId, fields })
 
     const prepped = this.settings.fictionDb.prep({ type: 'insert', fields, meta, table: t.posts })
-    // const prepped = prepareFields({
-    //   type: 'settings',
-    //   fields,
-    //   table: t.posts,
-    //   meta: _meta,
-    //   fictionDb: this.settings.fictionDb,
-    // })
 
     // Set date to current time if status changes and date is still empty
     if (!prepped.dateAt && prepped.status && prepped.status !== 'draft' && currentPost.status === 'draft' && !currentPost.dateAt)
@@ -170,7 +271,9 @@ export class QueryManagePost extends PostsQuery {
       this.updateAssociations('sites', params),
     ])
 
-    return this.getPost({ ...params, caller: 'updatePostEnd' }, meta)
+    const { data: post } = await this.getPost({ ...params, caller: 'updatePostEnd' }, meta)
+
+    return { status: 'success', data: post, message: 'Post updated' }
   }
 
   private async insertNewTaxonomies(args: { taxonomy: TableTaxonomyConfig[], orgId: string }) {
@@ -284,7 +387,7 @@ export class QueryManagePost extends PostsQuery {
     return currentSlug
   }
 
-  private async createPost(params: ManagePostParams & { _action: 'create' }, meta: EndpointMeta): Promise<TablePostConfig | undefined> {
+  private async createPost(params: ManagePostParams & { _action: 'create' }, meta: EndpointMeta): Promise<EndpointResponse<TablePostConfig>> {
     const db = this.db()
     const { fields, orgId, userId, defaultTitle = '' } = params
 
@@ -312,10 +415,12 @@ export class QueryManagePost extends PostsQuery {
       this.updateAssociations('sites', associationParams),
     ])
 
-    return this.getPost({ postId, orgId, caller: 'createPost' }, meta)
+    const { data: post } = await this.getPost({ postId, orgId, caller: 'createPost' }, meta)
+
+    return { status: 'success', data: post, message: 'Post created', isNew: true }
   }
 
-  private async deletePost(args: { postId: string, orgId?: string }, _meta: EndpointMeta): Promise<TablePostConfig | undefined> {
+  private async deletePost(args: { postId: string, orgId?: string }, _meta: EndpointMeta): Promise<EndpointResponse<TablePostConfig>> {
     const { postId, orgId } = args
 
     if (!orgId)
@@ -323,13 +428,17 @@ export class QueryManagePost extends PostsQuery {
 
     const db = this.db()
     // Ensure the post exists before deleting it, error if it doesn't
-    const post = await this.getPost({ postId, orgId, caller: 'deletePost' }, _meta)
+    const { data: post } = await this.getPost({ postId, orgId, caller: 'deletePost' }, _meta)
+
+    if (!post)
+      throw abort('Post not found')
+
     await db(t.posts).where({ postId, orgId }).delete()
 
-    return post
+    return { status: 'success', data: post, message: 'Post deleted' }
   }
 
-  private async saveDraft(params: ManagePostParams & { _action: 'saveDraft' }, meta: EndpointMeta): Promise<TablePostConfig | undefined> {
+  private async saveDraft(params: ManagePostParams & { _action: 'saveDraft' }, meta: EndpointMeta): Promise<EndpointResponse<TablePostConfig>> {
     const db = this.db()
     const { postId, fields, orgId } = params
 
@@ -374,7 +483,9 @@ export class QueryManagePost extends PostsQuery {
     if (fields.taxonomy?.length)
       await this.insertNewTaxonomies({ orgId, taxonomy: fields.taxonomy })
 
-    return this.getPost({ postId, orgId, loadDraft: true, caller: 'saveDraft' }, meta)
+    const { data: post } = await this.getPost({ postId, orgId, loadDraft: true, caller: 'saveDraft' }, meta)
+
+    return { status: 'success', data: post }
   }
 }
 
@@ -548,104 +659,5 @@ export class QueryManageTaxonomy extends PostsQuery {
     }))
 
     return results
-  }
-}
-
-export type ManageIndexParamsRequest = {
-  _action: 'delete' | 'list'
-  selectedIds?: string[]
-  loadDraft?: boolean
-  type?: string
-} & IndexQuery
-
-export type ManageIndexParams = ManageIndexParamsRequest & { userId?: string, orgId?: string }
-
-type ManageIndexResponse = EndpointResponse<TablePostConfig[]> & { indexMeta?: IndexMeta }
-
-export class ManagePostIndex extends PostsQuery {
-  async run(params: ManageIndexParams, _meta: EndpointMeta): Promise<ManageIndexResponse> {
-    if (!params._action)
-      throw abort('Action parameter is required.')
-
-    switch (params._action) {
-      case 'list':
-        return this.list(params)
-      case 'delete':
-        return this.deletePosts(params.selectedIds)
-      default:
-        throw abort(`Unsupported action '${params._action as string}'`)
-    }
-  }
-
-  private async list(args: ManageIndexParams): Promise<ManageIndexResponse> {
-    const { orgId, limit = 10, offset = 0, filters = [], loadDraft = false, type = 'post' } = args
-
-    if (!orgId)
-      throw abort('orgId is required to list posts')
-
-    let posts = await this.fetchPosts({ orgId, limit, offset, filters, type })
-
-    if (loadDraft) {
-      posts = posts.map((post) => {
-        if (post.draft)
-          return { ...post, ...post.draft }
-
-        return post
-      })
-    }
-
-    const allAuthorIds = posts.map(post => post.userId).filter(Boolean) as string[]
-    const allAuthors = await this.fetchAuthors(allAuthorIds)
-
-    const postsWithAuthors = posts.map(post => ({
-      ...post,
-      authors: [post.userId].filter(Boolean).map(userId => allAuthors.find(author => author.userId === userId)),
-    })) as TablePostConfig[]
-
-    const count = await this.fetchCount({ orgId, type })
-
-    return {
-      status: 'success',
-      data: postsWithAuthors,
-      indexMeta: { ...args, count, limit, offset },
-    }
-  }
-
-  private async fetchPosts(args: { orgId: string, type: string } & IndexQuery) {
-    const { orgId, limit = 20, offset = 0, filters = [], orderBy = 'updatedAt', order = 'desc', type = 'post' } = args
-    const query = this.db()
-      .select<TablePostConfig[]>('*')
-      .from(t.posts)
-      .where({ orgId, type })
-      .limit(limit)
-      .offset(offset)
-      .orderBy(orderBy, order)
-
-    filters.forEach((filter) => {
-      if (filter.field && filter.operator && filter.value)
-        void query.where(filter.field, filter.operator, filter.value)
-    })
-
-    return query
-  }
-
-  private async fetchCount(args: { orgId: string, type: string }): Promise<number> {
-    const { orgId, type = 'post' } = args
-    const result = await this.db()
-      .count<{ count: string }>('*')
-      .from(t.posts)
-      .where({ orgId, type })
-      .first()
-
-    return Number.parseInt(result?.count || '0', 10)
-  }
-
-  private async deletePosts(selectedIds?: string[]): Promise<ManageIndexResponse> {
-    if (!selectedIds || selectedIds.length === 0)
-      throw abort('No posts selected for deletion')
-
-    await this.db()(t.posts).whereIn('post_id', selectedIds).delete()
-
-    return { status: 'success', message: 'Deleted successfully' }
   }
 }

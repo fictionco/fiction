@@ -22,13 +22,35 @@ export const MediaSchema = z.object({
 
 export type MediaObject = z.infer<typeof MediaSchema>
 
+export const TaxonomySchema = z.object({
+  title: z.string().optional(),
+  slug: z.string().optional(),
+  type: z.enum(['category', 'tag']).optional(),
+})
+
+export const UserSchema = z.object({
+  fullName: z.string().optional(),
+  email: z.string().optional(),
+  avatar: MediaSchema.optional(),
+})
+
 export const PostSchema = z.object({
   title: z.string().optional(),
   subTitle: z.string().optional(),
   content: z.string().optional(),
-  status: PostStatusSchema,
-  image: MediaSchema,
+  status: PostStatusSchema.optional(),
+  image: MediaSchema.optional(),
   slug: z.string().optional(),
+  taxonomy: z.array(TaxonomySchema).optional(),
+  tags: z.array(TaxonomySchema).optional(),
+  categories: z.array(TaxonomySchema).optional(),
+  authors: z.array(UserSchema).optional(),
+})
+
+export const PostHandlingSchema = z.object({
+  mode: z.enum(['global', 'inline']).optional(),
+  limit: z.number().optional(),
+  items: z.array(PostSchema).optional(),
 })
 
 export type PostObject = z.infer<typeof PostSchema>

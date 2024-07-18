@@ -46,7 +46,7 @@ vue.onMounted(async () => {
           </div>
         </div>
         <div class="md:w-[50%] mt-6 md:mt-0 px-2 flex items-center">
-          <div class="p-6 md:p-12 xl:p-20 flex flex-col justify-center gap-20 clip-path-anim" :class="isVisible ? 'translate-y-0' : 'translate-y-[100px]'">
+          <div class="p-6 md:p-12 xl:p-20 flex flex-col justify-center gap-10 2xl:gap-16 clip-path-anim" :class="isVisible ? 'translate-y-0' : 'translate-y-[100px]'">
             <div class="details">
               <CardText
                 tag="h3"
@@ -65,7 +65,7 @@ vue.onMounted(async () => {
               <CardText
                 tag="div"
                 :card="card"
-                class="sub-heading mt-6 text-lg  font-medium entry text-balance"
+                class="sub-heading mt-6 text-lg font-medium entry text-balance"
                 path="subHeading"
                 :is-markdown="true"
                 animate="rise"
@@ -98,7 +98,7 @@ vue.onMounted(async () => {
               </div>
             </div>
 
-            <CardSocials :card :socials="uc.socials || []" class="flex space-x-6 text-2xl justify-center md:justify-start" />
+            <CardSocials :card :socials="uc.socials || []" class="flex gap-2 text-2xl justify-center md:justify-start" />
           </div>
         </div>
       </div>

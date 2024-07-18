@@ -106,7 +106,6 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
                       {
                         name: 'Content',
                         items: [
-
                           { name: 'Tour', href: '/demo-tour' },
                           { name: 'Quotes', href: '/demo-quotes' },
                           { name: 'Hero', href: '/demo-hero' },
@@ -116,6 +115,7 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
                           { name: 'People', href: '/demo-people' },
                           { name: 'Trek', href: '/demo-trek' },
                           { name: 'Story', href: '/demo-story' },
+                          { name: 'Magazine', href: '/demo-magazine' },
                         ],
                       },
                       {
@@ -139,7 +139,6 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
                           { name: 'Maps', href: '/demo-maps' },
                         ],
                       },
-
                     ],
                   },
                 ],

@@ -19,6 +19,7 @@ export type ColSettings<U extends string = string, T extends ColDefaultValue = C
   sch: (args: { z: typeof z }) => ZodSchema<T>
   prepare?: PrepareForStorage<T>
 }
+
 export class Col<U extends string = string, T extends ColDefaultValue = ColDefaultValue> extends FictionObject<ColSettings<U, T>> {
   key = this.settings.key
   k = toSnake(this.settings.key)

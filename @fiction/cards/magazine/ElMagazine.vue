@@ -2,7 +2,8 @@
 import { unhead, useService, vue } from '@fiction/core'
 
 import type { Card } from '@fiction/site'
-import type { FictionPosts, Post } from '@fiction/posts'
+import type { FictionPosts } from '@fiction/posts'
+import { Post } from '@fiction/posts'
 import ElMagazineIndex from './ElMagazineIndex.vue'
 import ElMagazineSingle from './ElMagazineSingle.vue'
 import type { UserConfig } from './index.js'
@@ -11,26 +12,63 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
-const service = useService<{ fictionPosts: FictionPosts }>()
+const { fictionPosts, fictionRouter } = useService<{ fictionPosts: FictionPosts }>()
 
+const uc = vue.computed(() => props.card.userConfig.value || {})
 const postIndex = vue.shallowRef<Post[]>([])
 const singlePost = vue.shallowRef<Post | undefined>()
+const nextPost = vue.shallowRef<Post | undefined>()
 const loading = vue.ref(false)
-const routeSlug = vue.computed(() => service.fictionRouter.params.value.itemId as string | undefined)
+const routeSlug = vue.computed(() => fictionRouter.params.value.itemId as string | undefined)
 
-async function load() {
+function getNextPost(args: { single?: Post, posts?: Post[] }) {
+  const { single, posts = [] } = args
+  if (!single)
+    return undefined
+
+  const index = posts.findIndex(p => p.slug.value === single.slug.value)
+  if (index === -1)
+    return undefined
+
+  return posts[index + 1] || posts[index - 1] || undefined
+}
+
+async function loadGlobal() {
   loading.value = true
   const orgId = props.card.site?.settings.orgId
 
   if (!orgId)
     throw new Error('No fiction orgId found')
 
-  if (routeSlug.value)
-    singlePost.value = await service.fictionPosts.getPost({ slug: routeSlug.value, orgId })
-  else
-    postIndex.value = await service.fictionPosts.getPostIndex({ limit: 5, orgId })
+  if (routeSlug.value) {
+    singlePost.value = await fictionPosts.getPost({ slug: routeSlug.value, orgId })
+    nextPost.value = getNextPost({ single: singlePost.value, posts: postIndex.value })
+  }
+  else {
+    postIndex.value = await fictionPosts.getPostIndex({ limit: 5, orgId })
+  }
 
   loading.value = false
+}
+
+async function loadInline() {
+  const ps = uc.value.posts?.items || []
+  postIndex.value = ps.map(p => new Post({ fictionPosts, ...p }))
+
+  if (routeSlug.value) {
+    const p = ps.find(p => p.slug === routeSlug.value)
+    singlePost.value = new Post({ fictionPosts, ...p })
+    nextPost.value = getNextPost({ single: singlePost.value, posts: ps.map(p => new Post({ fictionPosts, ...p })) })
+  }
+}
+
+async function load() {
+  if (uc.value.posts?.mode === 'inline') {
+    await loadInline()
+  }
+  else {
+    await loadGlobal()
+  }
 }
 
 vue.onServerPrefetch(async () => {
@@ -63,7 +101,17 @@ if (routeSlug.value) {
 
 <template>
   <div>
-    <ElMagazineSingle v-if="routeSlug" :card="card" :loading="loading" :post="singlePost" />
-    <ElMagazineIndex v-else :card="card" :loading="loading" :post-index="postIndex" />
+    <transition
+      enter-active-class="ease-out duration-200"
+      enter-from-class="opacity-0 translate-y-10"
+      enter-to-class="opacity-100 translate-y-0"
+      leave-active-class="ease-in duration-200"
+      leave-from-class="opacity-100 translate-y-0"
+      leave-to-class="opacity-0 -translate-y-10"
+      mode="out-in"
+    >
+      <ElMagazineSingle v-if="routeSlug" :card="card" :loading="loading" :post="singlePost" :next-post="nextPost" />
+      <ElMagazineIndex v-else :card="card" :loading="loading" :post-index="postIndex" />
+    </transition>
   </div>
 </template>

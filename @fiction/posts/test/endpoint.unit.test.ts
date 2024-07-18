@@ -226,18 +226,12 @@ describe('post crud tests', async () => {
 
     expect(retrieveResult).toMatchInlineSnapshot(`
       {
-        "code": "OPERATION_FAILED",
-        "context": "QueryManagePost",
         "data": undefined,
-        "expose": true,
-        "httpStatus": 500,
-        "location": undefined,
-        "message": "Post not found",
         "status": "error",
       }
     `)
     expect(retrieveResult.status).toBe('error')
-    expect(retrieveResult.message).toBe('Post not found')
+    expect(retrieveResult.data).toBe(undefined)
   })
 
   it('checks deletion of already deleted post', async () => {

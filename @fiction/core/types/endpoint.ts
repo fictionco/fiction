@@ -18,6 +18,7 @@ export type IndexQuery = {
   order?: 'asc' | 'desc'
   orderBy?: string
   filters?: DataFilter[]
+  taxonomy?: { taxonomyId: string } | { type: 'tag' | 'category', slug: string }
 }
 
 export type IndexMeta = {

@@ -1,7 +1,8 @@
 <script lang="ts" setup>
+import type { UiColorTheme } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import { type ColorTheme, getColorThemeStyles } from '@fiction/ui/utils.js'
+import { getColorThemeStyles } from '@fiction/ui/utils.js'
 import ElButton from '@fiction/ui/ElButton.vue'
 import type { FictionExtend } from '.'
 
@@ -18,7 +19,7 @@ const list = vue.computed(() => {
   return service.fictionExtend.extensions.value.map(ext => ({ ...ext, key: ext.extensionId }))
 })
 
-function getStyle(theme: ColorTheme) {
+function getStyle(theme: UiColorTheme) {
   const s = getColorThemeStyles(theme)
 
   return [s.bg, s.text, s.ring, 'ring-1'].join(' ')

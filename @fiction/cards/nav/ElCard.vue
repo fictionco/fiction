@@ -95,16 +95,16 @@ function close() {
           </div>
         </nav>
         <TransitionSlide>
-          <nav v-if="activeItem?.subStyle === 'mega' && activeItem.items?.length" class="overflow-hidden absolute z-30 top-[calc(100%+.5rem)] w-full bg-theme-0 dark:bg-theme-800 dark:border-2 dark:border-theme-500/20 rounded-xl flex" @mouseover="setActiveHover(activeItem)" @mouseleave="setActiveHover(undefined)">
-            <div class="bg-theme-950/70 text-white w-[33%] min-h-[200px]">
+          <nav v-if="activeItem?.subStyle === 'mega' && activeItem.items?.length" class="overflow-hidden absolute z-30 top-[calc(100%+.5rem)] w-full bg-theme-0 dark:bg-theme-800 border border-theme-200 dark:border-theme-500/20 rounded-xl flex shadow-[0px_8px_5px_-8px_rgba(var(--theme-300,.7))]" @mouseover="setActiveHover(activeItem)" @mouseleave="setActiveHover(undefined)">
+            <div class="dark:bg-theme-950/70 dark:text-white w-[33%] min-h-[200px]">
               <div class="p-8 space-y-2 max-w-[350px]">
                 <h2 class="x-font-title text-3xl font-semibold dark:text-theme-100" v-html="activeItem.name" />
                 <p class="text-xl text-theme-500 dark:text-theme-400 font-sans font-normal" v-html="activeItem.desc" />
               </div>
             </div>
             <div class="grow">
-              <div class="p-12 grid grid-cols-3">
-                <div v-for="(subItem, ii) in activeItem.items" :key="ii">
+              <div class="p-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 auto-cols-fr  grid-flow-dense">
+                <div v-for="(subItem, ii) in activeItem.items" :key="ii" class="break-inside-avoid">
                   <CardNavLink
                     hover-effect="underline"
                     :card

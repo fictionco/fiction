@@ -88,7 +88,7 @@ vue.onMounted(() => {
         <div :class="layoutClasses.logoClass" class="text-primary-500 dark:text-theme-0">
           <ElBrand :logo="uc.logo" :card />
           <CardText
-            class="text-base text-theme-400 dark:text-theme-5 00 x-font-title leading-tight text-balance font-medium"
+            class="text-base text-theme-700 dark:text-theme-500 x-font-title leading-tight text-balance font-medium"
             :card
             tag="h2"
             path="tagline"
@@ -101,7 +101,7 @@ vue.onMounted(() => {
             :key="i"
           >
             <CardText
-              class="mb-3 md:mb-4 text-left font-sans text-xs text-theme-400 dark:text-theme-600 font-medium uppercase tracking-widest"
+              class="mb-3 md:mb-4 text-left font-sans text-xs text-theme-300 dark:text-theme-600 font-semibold uppercase tracking-widest"
               :card
               :tag="col.href ? 'a' : 'h3'"
               :path="`nav.${i}.name`"
@@ -128,7 +128,7 @@ vue.onMounted(() => {
         <div :class="layoutClasses.badgeClass">
           <CardSocials v-if="uc.socials" :card :class="layoutClasses.socials" :socials="uc.socials" />
 
-          <div :class="layoutClasses.badgeWrap" class="text-theme-700 dark:text-theme-50 mt-5 text-right text-xs flex flex-col items-center gap-4  ">
+          <div :class="layoutClasses.badgeWrap" class="text-theme-400 dark:text-theme-50 mt-5 text-right text-xs flex flex-col items-center gap-4  ">
             <template v-for="(badge, i) in uc.badges" :key="i">
               <a :href="card.link(badge.href)" :title="badge.name" class="inline-block">
                 <ElImage :media="badge.media" :inline-image="true" />
