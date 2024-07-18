@@ -5,6 +5,7 @@ import { EnvVar, vars } from '@fiction/core/plugin-env'
 import type { FictionAi } from '@fiction/plugin-ai'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
 import type { FictionAdmin } from '@fiction/admin/index.js'
+import type { FictionAnalytics } from '@fiction/analytics/index.js'
 import { ManageIndex, ManagePage, ManageSite } from './endpoint.js'
 import { tables } from './tables.js'
 import { ManageCert } from './endpoint-certs.js'
@@ -31,6 +32,7 @@ export type SitesPluginSettings = {
   fictionAdmin: FictionAdmin
   fictionMonitor?: FictionMonitor
   fictionAi?: FictionAi
+  fictionAnalytics: FictionAnalytics
   fictionMedia: FictionMedia
   fictionAppSites: FictionApp
   fictionRouterSites: FictionRouter
