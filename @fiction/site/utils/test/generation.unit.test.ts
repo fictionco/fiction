@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { standardCardTemplates } from '@fiction/cards'
 import zodToJsonSchema from 'zod-to-json-schema'
 import type { JsonSchema7ObjectType } from 'zod-to-json-schema'
+import { shortId } from '@fiction/core'
 import type { CardTemplate } from '../../card'
 import { Card } from '../../card'
 import { Site } from '../../site'
@@ -10,7 +11,7 @@ import { type InputOptionGeneration, calculateTotalEstimatedTimeSeconds, generat
 
 describe('generation utils', async () => {
   const testUtils = await createSiteTestUtils()
-  const site = await Site.create({ fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
+  const site = await Site.create({ fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteId: `test-${shortId()}` })
   const card = new Card({
     site,
     inlineTemplate: standardCardTemplates.find(t => t.settings.templateId === 'hero') as CardTemplate,

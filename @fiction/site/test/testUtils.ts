@@ -1,4 +1,4 @@
-import { AppRoute, FictionApp, FictionAws, FictionMedia, FictionRouter, getEnvVars, randomBetween } from '@fiction/core'
+import { AppRoute, FictionApp, FictionAws, FictionMedia, FictionRouter, getEnvVars, randomBetween, shortId } from '@fiction/core'
 import { FictionAi } from '@fiction/plugin-ai'
 import type { TestUtils } from '@fiction/core/test-utils/init'
 import { createTestUtils } from '@fiction/core/test-utils/init'
@@ -70,7 +70,7 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
     const service = out as SiteTestUtils
     const siteRouter = service.fictionRouterSites
     const fictionSites = service.fictionSites
-    return Site.create({ siteRouter, fictionSites, themeId, isProd: false })
+    return Site.create({ siteRouter, fictionSites, themeId, isProd: false, siteId: `test-${shortId()}` })
   }
 
   return out as SiteTestUtils

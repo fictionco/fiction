@@ -4,6 +4,7 @@
 
 import { beforeAll, describe, expect, it } from 'vitest'
 import { JSDOM } from 'jsdom'
+import { shortId } from '@fiction/core'
 import { Card } from '../../card'
 import { Site } from '../../site'
 import type { LayoutOrder } from '../layout'
@@ -18,6 +19,7 @@ describe('setLayoutOrder', async () => {
     siteRouter: testUtils.fictionRouterSites,
     siteMode: 'standard',
     themeId: 'test',
+    siteId: `test-${shortId()}`,
   } as const
   it('should reorder regions and nested cards based on provided order', async () => {
     // Mock data setup

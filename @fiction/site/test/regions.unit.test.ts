@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { InitializedTestUtils } from '@fiction/core/test-utils'
-import { objectId } from '@fiction/core'
+import { objectId, shortId } from '@fiction/core'
+import { s } from 'node_modules/vite/dist/node/types.d-aGj9QkWt'
 import { Card } from '../card'
 import { Site } from '../site'
 import type { SiteTestUtils } from './testUtils'
@@ -33,7 +34,7 @@ async function getDbSite(testUtils: SiteTestUtils, r: InitializedTestUtils) {
   const siteConfig = r2.data
   expect(siteConfig?.siteId).toBeTruthy()
 
-  site = await Site.create({ ...siteConfig, fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
+  site = await Site.create({ ...siteConfig, fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteId: `test-${shortId()}` })
 
   return site
 }
@@ -123,7 +124,7 @@ describe('upsert action', async () => {
   const siteConfig = r2.data
   expect(siteConfig?.siteId).toBeTruthy()
 
-  site = await Site.create({ ...siteConfig, fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
+  site = await Site.create({ ...siteConfig, fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteId: `test-${shortId()}` })
   siteId = site.siteId
 
   it('should upsert a region', async () => {

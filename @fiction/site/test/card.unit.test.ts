@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { waitFor } from '@fiction/core'
+import { shortId, waitFor } from '@fiction/core'
 import { standardCardTemplates } from '@fiction/cards'
 import { Card, CardTemplate } from '../card'
 import { Site } from '../site'
@@ -8,7 +8,7 @@ import { createSiteTestUtils } from './testUtils'
 
 describe('card', async () => {
   const testUtils = await createSiteTestUtils()
-  const site = await Site.create({ fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
+  const site = await Site.create({ fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteId: `test-${shortId()}` })
   const card = new Card({
     site,
     inlineTemplate: standardCardTemplates.find(t => t.settings.templateId === 'hero') as CardTemplate,
@@ -171,7 +171,7 @@ describe('card', async () => {
 describe('cardTemplate', async () => {
   const _testUtils = await createSiteTestUtils()
   it('initializes correctly with default settings', async () => {
-    const site = await Site.create({ fictionSites: _testUtils.fictionSites, siteRouter: _testUtils.fictionRouterSites, themeId: 'test' })
+    const site = await Site.create({ fictionSites: _testUtils.fictionSites, siteRouter: _testUtils.fictionRouterSites, themeId: 'test', siteId: `test-${shortId()}` })
 
     expect(site?.theme.value?.templates.map(t => t.settings.templateId)).toMatchInlineSnapshot(`
       [

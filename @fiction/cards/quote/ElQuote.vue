@@ -33,8 +33,8 @@ const activeItem = vue.ref(0)
             />
           </div>
         </div>
-        <div class="flex-col justify-center text-balance">
-          <div class="min-w-0 text-left md:text-center text-3xl sm:text-4xl lg:text-7xl">
+        <div class="flex-col justify-center sm:text-balance">
+          <div class="min-w-0 text-left sm:text-center  text-4xl lg:text-7xl">
             <CardText
               tag="span"
               :card="card"
@@ -45,7 +45,7 @@ const activeItem = vue.ref(0)
             />
           </div>
         </div>
-        <div v-if="quote?.author?.name" class="mt-4 md:mt-8 flex items-center justify-start md:justify-center gap-4 md:gap-8">
+        <div v-if="quote?.author?.name" class="mt-4 md:mt-8 flex items-center justify-start sm:justify-center gap-4 md:gap-8">
           <div
             v-if="hasAuthorImage(quote)"
             class="relative aspect-square h-10 md:h-14 overflow-hidden rounded-full dark:ring-2 dark:ring-theme-0 m-1"

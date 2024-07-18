@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { shortId } from '@fiction/core'
 import { Card } from '../card'
 import { Site } from '../site'
 import { createSiteTestUtils } from './testUtils'
@@ -6,7 +7,7 @@ import { createSiteTestUtils } from './testUtils'
 describe('cardCompletion', async () => {
   const testUtils = await createSiteTestUtils()
   await testUtils.init()
-  const site = await Site.create({ fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
+  const site = await Site.create({ fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteId: `test-${shortId()}` })
   it('generates the content for the card', async () => {
     const card = new Card({ templateId: 'hero', site })
 

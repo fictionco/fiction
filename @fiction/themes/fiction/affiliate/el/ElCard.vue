@@ -84,7 +84,7 @@ const referralAccounts = vue.computed(() => {
                     </ElButton>
                   </div>
                   <div
-                    class="text-dark-400 mt-8 text-xs font-sans antialiased"
+                    class="text-dark-400 mt-8 text-xs font-sans"
                   >
                     Affiliates are subject to approval.
                   </div>

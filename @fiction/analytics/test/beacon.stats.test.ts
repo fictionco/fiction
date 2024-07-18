@@ -1,6 +1,6 @@
 import { afterAll, describe, expect, it } from 'vitest'
 import { objectId, waitFor } from '@fiction/core'
-import type { FictionEvent } from '../tracking'
+import type { FictionEvent } from '../typesTracking'
 import { createAnalyticsTestUtils } from './helpers'
 
 describe('fictionBeacon', async () => {

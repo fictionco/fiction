@@ -1,5 +1,5 @@
 import type { DataFilter, EndpointMeta, EndpointResponse } from '@fiction/core'
-import { Query, deepMerge, incrementSlugId, prepareFields, shortId } from '@fiction/core'
+import { Query, deepMerge, incrementSlugId, objectId, prepareFields, shortId } from '@fiction/core'
 import type { Knex } from 'knex'
 import { abort } from '@fiction/core/utils/error.js'
 import type { CardConfigPortable, TableCardConfig, TableDomainConfig, TableSiteConfig } from './tables.js'
@@ -182,7 +182,7 @@ export class ManageSite extends SitesQuery {
     if (!theme)
       throw abort(`theme not found - themeId: ${themeId} - available: ${themes.map(t => t.themeId).join(', ')}`)
 
-    const site = await theme.toSite({ siteRouter, fictionSites, userId, orgId })
+    const site = await theme.toSite({ siteRouter, fictionSites, userId, orgId, siteId: objectId({ prefix: 'sit' }) })
 
     return site.toConfig()
   }

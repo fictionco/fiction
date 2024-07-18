@@ -50,7 +50,7 @@ const cls = {
           <div class="nav-menu">
             <component
               :is="getNavComponentType(sub)"
-              class="group nav-item flex  cursor-pointer items-center py-3 px-4 space-x-3 truncate rounded-full font-sans text-lg antialiased  focus:outline-none transition-all duration-100"
+              class="group nav-item flex  cursor-pointer items-center py-3 px-4 space-x-3 truncate rounded-full font-sans text-lg  focus:outline-none transition-all duration-100"
               :to="sub.href"
               :href="sub.href"
               :class=" sub.isActive ? cls.active : cls.inactive "

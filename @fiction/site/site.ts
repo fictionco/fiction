@@ -31,7 +31,7 @@ export type SiteSettings = {
   siteMode?: SiteMode
   isProd?: boolean
   isStatic?: boolean
-} & Partial<TableSiteConfig> & { themeId: string }
+} & Partial<TableSiteConfig> & { themeId: string, siteId: string }
 
 export type SiteEventMap = {
   addCard: CustomEvent<{ template: CardTemplate }>
@@ -60,6 +60,10 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   }
 
   watchers() {
+    if (typeof window === 'undefined') {
+      return
+    }
+
     const queryVarHooks: QueryVarHook[] = [{
       key: '_scheme',
       callback: (args: { site: Site, value: string }) => {

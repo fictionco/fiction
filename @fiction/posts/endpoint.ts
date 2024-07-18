@@ -1,6 +1,5 @@
 import type { DataFilter, EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser, IndexMeta, IndexQuery, TableTaxonomyConfig } from '@fiction/core'
 import { Query, abort, deepMerge, incrementSlugId, objectId, standardTable, toLabel, toSlug } from '@fiction/core'
-import { data } from '@fiction/analytics/chart/test/sampleData'
 import type { TablePostConfig } from './schema'
 import { t } from './schema'
 import type { FictionPosts } from '.'

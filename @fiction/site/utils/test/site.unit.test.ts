@@ -21,7 +21,7 @@ describe('siteLink / siteGoto', async () => {
 
   it('returns correct link when site and router are provided', async () => {
     await testUtils.fictionRouterSites.push({ path: '/test/whatever' }, { caller: 'test' })
-    const site = await Site.create({ ...common, themeId: 'test' })
+    const site = await Site.create({ ...common, themeId: 'test', siteId: `test-${shortId()}` })
     const location = { path: '/somepath' }
     const result = siteLink({ site, location })
     expect(result).toBe('/test/somepath')
@@ -29,7 +29,7 @@ describe('siteLink / siteGoto', async () => {
 
   it('calls push with merged query variables when retainQueryVars is changed', async () => {
     await testUtils.fictionRouterSites.push({ path: '/test/whatever', query: { init: 1 } }, { caller: 'test' })
-    const site = await Site.create({ ...common, themeId: 'test' })
+    const site = await Site.create({ ...common, themeId: 'test', siteId: `test-${shortId()}` })
     const location = { path: '/some-path', query: { additional: 'info' } }
 
     await siteGoto({ site, location, options: { retainQueryVars: true } })
@@ -59,7 +59,7 @@ describe('query var', async () => {
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
 
   it('changes scheme', async () => {
-    const site = await Site.create({ ...common, themeId: 'test' })
+    const site = await Site.create({ ...common, themeId: 'test', siteId: `test-${shortId()}` })
 
     await site.siteRouter.push({ query: { _scheme: 'dark' } }, { caller: 'test' })
 
@@ -118,7 +118,7 @@ describe('saveSite', async () => {
 
 describe('updateSite / updatePages', async () => {
   const testUtils = await createSiteTestUtils()
-  const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
+  const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteId: `test-${shortId()}` }
 
   it('updates site with valid keys', async () => {
     const site = await Site.create({ ...common, themeId: 'test' })
@@ -148,7 +148,7 @@ describe('updateSite / updatePages', async () => {
   })
 
   it('updates pages', async () => {
-    const site = await Site.create({ ...common, themeId: 'test' })
+    const site = await Site.create({ ...common, themeId: 'test', siteId: `test-${shortId()}` })
     // Setup initial state
     const pgs = setPages({ site, pages: [{ cardId: 'card1', title: 'Original Title', userConfig: { otherProp: 'initial' } }] })
 
@@ -181,7 +181,7 @@ describe('updateSite / updatePages', async () => {
 
 describe('activeSiteHostname', async () => {
   const testUtils = await createSiteTestUtils()
-  const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
+  const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteId: `test-${shortId()}` }
 
   it('should return the hostname from a full URL', async () => {
     testUtils.fictionAppSites.liveUrl.value = 'https://*.example.com'

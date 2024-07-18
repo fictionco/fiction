@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { getNavComponentType, onBrowserEvent, onResetUi, vue } from '@fiction/core'
+import { getNavComponentType, onResetUi, vue } from '@fiction/core'
+import { onBrowserEvent } from '@fiction/core/utils/eventBrowser'
 import type { Card } from '@fiction/site/card'
 import XSiteLogo from '../ui/XSiteLogo.vue'
 import type { UserConfig } from './XHeader.vue'

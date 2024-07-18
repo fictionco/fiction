@@ -1,5 +1,5 @@
 import { FictionPlugin, WriteBuffer, dayjs, groupBy, objectId } from '@fiction/core'
-import type { FictionEvent } from '../tracking'
+import type { FictionEvent } from '../typesTracking'
 import type { SessionEvent, SessionStarted } from '../tables'
 import { eventFields } from '../tables'
 import { ReferrerUtility, getGeo, parseUa, standardUrl } from './utils'

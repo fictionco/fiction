@@ -1,5 +1,5 @@
 import { Obj } from '../obj.js'
-import { onBrowserEvent } from '../utils-analytics/tracking.js'
+import { onBrowserEvent } from './eventBrowser.js'
 import { vue } from './libraries.js'
 
 export type DraggableListSettings = {

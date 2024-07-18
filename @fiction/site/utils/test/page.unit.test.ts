@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { vue, waitFor } from '@fiction/core'
+import { shortId, vue, waitFor } from '@fiction/core'
 import { createSiteTestUtils } from '../../test/testUtils'
 import { Card } from '../../card'
 import { activePageId, getPageById, getViewMap } from '../page'
@@ -149,7 +149,7 @@ describe('activePageId', async () => {
 
 describe('getActivePage', async () => {
   const testUtils = await createSiteTestUtils()
-  const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
+  const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteId: `test-${shortId()}` }
 
   // Mock Cards
   const pages = [

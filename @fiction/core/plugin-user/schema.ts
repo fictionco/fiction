@@ -3,7 +3,7 @@ import { convertKeyCase, objectId } from '../utils/index.js'
 import { FictionDbCol, FictionDbTable } from '../plugin-db/index.js'
 import { standardTable as t } from '../tbl.js'
 import type { MediaDisplayObject } from '../types/index.js'
-import type { GeoData } from '../utils-analytics/geo.js'
+import type { GeoData } from '../utils/geo.js'
 import type { MemberAccess, OnboardStoredSettings, OrganizationConfig, OrganizationCustomerData, OrganizationLegal, Plan, Publication, PushSubscriptionDetail, SocialAccounts, StreetAddress, UserCompany } from './types.js'
 
 export type VerificationCode = {
