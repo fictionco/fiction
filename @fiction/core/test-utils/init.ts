@@ -141,8 +141,13 @@ export interface TestBaseCompiled {
   [key: string]: any
 }
 
-export function getTestPortVar(args: { key: string, optVal?: number, context?: 'app' | 'node' }) {
-  const { key, optVal, context } = args
+export function getTestPortVar(args: {
+  fictionEnv: FictionEnv
+  key: string
+  optVal?: number
+  context?: 'app' | 'node'
+}) {
+  const { fictionEnv, key, optVal, context } = args
 
   let port = optVal
 
@@ -150,7 +155,7 @@ export function getTestPortVar(args: { key: string, optVal?: number, context?: '
     port = +fictionEnv.var(key)
   }
   else {
-    port = port || randomBetween(1_000, 11_000)
+    port = port || randomBetween(1_000, 31_000)
     crossVar.set(key as keyof RunVars, String(port))
   }
 
@@ -183,21 +188,8 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
 
   const fictionEnv = new FictionEnv({ envFiles, env, cwd, mainFilePath, id: 'test', meta })
 
-  const appPort = getTestPortVar({ optVal: opts?.appPort, key: 'APP_PORT', context })
-  const serverPort = getTestPortVar({ optVal: opts?.serverPort, key: 'SERVER_PORT', context })
-
-  // let appPort = opts?.appPort
-  // let serverPort = opts?.serverPort
-  // if (context === 'app') {
-  //   appPort = +fictionEnv.var('APP_PORT')
-  //   serverPort = +fictionEnv.var('SERVER_PORT')
-  // }
-  // else {
-  //   appPort = appPort || randomBetween(1_000, 11_000)
-  //   serverPort = serverPort || randomBetween(11_000, 20_000)
-  //   crossVar.set('SERVER_PORT', String(serverPort))
-  //   crossVar.set('APP_PORT', String(appPort))
-  // }
+  const appPort = getTestPortVar({ fictionEnv, optVal: opts?.appPort, key: 'APP_PORT', context })
+  const serverPort = getTestPortVar({ fictionEnv, optVal: opts?.serverPort, key: 'SERVER_PORT', context })
 
   // check env vars
   checkEnvVars.forEach((key) => {

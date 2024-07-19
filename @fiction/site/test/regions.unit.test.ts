@@ -134,8 +134,12 @@ describe('upsert action', async () => {
   const siteConfig = r2.data
   expect(siteConfig?.siteId).toBeTruthy()
 
-  site = await Site.create({ ...siteConfig, fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteId: `test-${shortId()}` })
-  siteId = site.siteId
+  const siteId = siteConfig?.siteId
+
+  if (!siteId)
+    throw new Error('siteId not found')
+
+  site = await Site.create({ ...siteConfig, fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
 
   it('should upsert a region', async () => {
     const response = await testUtils.fictionSites.queries.ManagePage.run(
