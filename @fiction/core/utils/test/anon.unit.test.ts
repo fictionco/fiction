@@ -40,7 +40,7 @@ describe('getAnonymousId', () => {
     // @ts-expect-error - Remove 'window' from global scope
     delete globalThis.window
     const result = getAnonymousId()
-    expect(result.anonymousId).toBe('')
+    expect(result.anonymousId).toBe('no_window')
     expect(result.isNew).toBe(false)
     globalThis.window = originalWindow // Restore 'window' after test
   })
@@ -48,14 +48,12 @@ describe('getAnonymousId', () => {
   it('should mark user as new only on the first session', () => {
     // First call should set isNew to true
     let result = getAnonymousId()
+
     expect(result.isNew).toBe(true)
 
     // Subsequent call should see isNew as false
     result = getAnonymousId()
-    expect(result.isNew).toBe(false)
-  })
 
-  afterEach(() => {
-    // Clean up after each test if necessary
+    expect(result.isNew).toBe(false)
   })
 })

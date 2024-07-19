@@ -6,7 +6,7 @@ import { getGeo, getGeoFree, setUserGeolocation } from '@fiction/core/utils/geo'
 import { fetchWithTimeout } from '@fiction/core/utils'
 
 // Mock the utilities used in the geo functions
-vi.mock('../../utils', () => ({
+vi.mock('@fiction/core/utils', () => ({
   fetchWithTimeout: vi.fn(),
   isLocalhostIp: vi.fn(),
 }))

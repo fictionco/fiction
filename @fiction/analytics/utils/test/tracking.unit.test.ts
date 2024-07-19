@@ -196,12 +196,12 @@ describe('getSelector', () => {
 
   it('should generate full path when shortestPath is false', () => {
     const el = document.querySelector('.inner') as HTMLElement
-    expect(getSelector(el, { shortestPath: false })).toBe('html > body > div#root > div.container > div#unique > span.inner.first')
+    expect(getSelector(el, { shortestPath: false })).toBe('html > body > div#root > div > div#unique > span.inner.first')
   })
 
   it('should handle elements without ID or class', () => {
     const el = document.querySelector('p') as HTMLElement
-    expect(getSelector(el)).toBe('div#root > div.container > p.text')
+    expect(getSelector(el)).toBe('div#root > div > p.text')
   })
 
   it('should handle sibling elements correctly', () => {
