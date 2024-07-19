@@ -57,6 +57,7 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
   out.fictionSubscribe = new FictionSubscribe({ ...(out as SiteTestUtils) })
 
   const themes = async () => Promise.all([testTheme.setup(out), ...(args.themes || []).map(async _ => _(out as SiteTestUtils))])
+
   out.fictionSites = new FictionSites({ ...(out as SiteTestUtils), flyApiToken, flyAppId, themes })
 
   await runServicesSetup(out, { context: 'test' })

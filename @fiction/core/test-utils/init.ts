@@ -1,13 +1,14 @@
 import path from 'node:path'
 import { FictionUi } from '@fiction/ui'
 import { faker } from '@faker-js/faker'
+import { fictionEnv } from 'index'
 import { version as fictionVersion } from '../package.json'
 import type { vue } from '../utils'
 import { randomBetween, safeDirname } from '../utils/utils'
 import type { EnvVar, ServiceList } from '../plugin-env'
 import { runServicesSetup } from '../plugin-env'
 import type { Organization, User } from '../plugin-user'
-import { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionRouter, FictionServer, FictionUser } from '..'
+import { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionRouter, FictionServer, FictionUser, type RunVars, toCamel } from '..'
 import ElRoot from '../plugin-app/ElRoot.vue'
 import { crossVar, getEnvVars } from '../utils/vars'
 import { log } from '../plugin-log'
@@ -140,6 +141,23 @@ export interface TestBaseCompiled {
   [key: string]: any
 }
 
+export function getTestPortVar(args: { key: string, opts?: TestUtilSettings, context?: 'app' | 'node' }) {
+  const { key, opts, context } = args
+  const camelKey = toCamel(key)
+
+  let port = opts?.[camelKey as keyof TestUtilSettings] as number
+
+  if (context === 'app') {
+    port = +fictionEnv.var(key)
+  }
+  else {
+    port = port || randomBetween(1_000, 11_000)
+    crossVar.set(key as keyof RunVars, String(port))
+  }
+
+  return port
+}
+
 export function createTestUtilServices(opts?: TestUtilSettings) {
   const {
     context,
@@ -165,6 +183,9 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
   const envFiles = [testEnvFile, ...(opts?.envFiles || [])]
 
   const fictionEnv = new FictionEnv({ envFiles, env, cwd, mainFilePath, id: 'test', meta })
+
+  // const appPort = getTestPortVar({ opts, key: 'APP_PORT', context })
+  // const serverPort = getTestPortVar({ opts, key: 'SERVER_PORT', context })
 
   let appPort = opts?.appPort
   let serverPort = opts?.serverPort

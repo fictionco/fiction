@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { InitializedTestUtils } from '@fiction/core/test-utils'
 import { objectId, shortId } from '@fiction/core'
-import { s } from 'node_modules/vite/dist/node/types.d-aGj9QkWt'
 import { Card } from '../card'
 import { Site } from '../site'
 import type { SiteTestUtils } from './testUtils'
@@ -34,12 +33,23 @@ async function getDbSite(testUtils: SiteTestUtils, r: InitializedTestUtils) {
   const siteConfig = r2.data
   expect(siteConfig?.siteId).toBeTruthy()
 
-  site = await Site.create({ ...siteConfig, fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteId: `test-${shortId()}` })
+  const siteId = siteConfig?.siteId
+
+  if (!siteId)
+    throw new Error('siteId not found')
+
+  site = await Site.create({
+    ...siteConfig,
+    fictionSites: testUtils.fictionSites,
+    siteRouter: testUtils.fictionRouterSites,
+    themeId: 'test',
+    siteId,
+  })
 
   return site
 }
 
-describe('special slug handling for _home', async () => {
+describe.only('special slug handling for _home', async () => {
   const testUtils = await createSiteTestUtils()
   const r = await testUtils.init()
   const userId = r?.user?.userId ?? ''

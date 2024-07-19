@@ -105,13 +105,14 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     const { fictionAnalytics } = this.settings
     const beaconUrl = fictionAnalytics?.fictionBeacon?.beaconUrl.value
 
+    if (!fictionAnalytics)
+      return this.log.warn('Analytics not enabled')
+
     if (!site)
       throw new Error('Site not found')
 
     const { siteId, settings: { orgId } } = site
 
-    if (!fictionAnalytics)
-      throw new Error('FictionAnalytics not found')
     if (!beaconUrl)
       throw new Error('Beacon URL not found')
     if (!orgId)
