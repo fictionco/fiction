@@ -2,7 +2,7 @@
  * @vitest-environment happy-dom
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { OffloadEvent, UnloadHandler } from '../tracking'
+import { UnloadHandler } from '../tracking'
 
 describe('unloadHandler', () => {
   let handler: UnloadHandler

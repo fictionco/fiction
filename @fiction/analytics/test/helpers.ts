@@ -56,6 +56,8 @@ export async function createAnalyticsTestUtils(args: { mainFilePath?: string, co
 
   out.fictionEnv.log.info(`Analytics Test Utils Created (${context})`)
 
+  out.anonymousId = objectId()
+
   out.close = async () => testUtils.close()
 
   out.start = async (): Promise<AnalyticsInitializedTestUtils> => {
@@ -76,13 +78,15 @@ export async function createAnalyticsTestUtils(args: { mainFilePath?: string, co
 
     const initialized: AnalyticsInitializedTestUtils = {
       ...created,
-      fictionClient: new FictionClient({ orgId: created.orgId, beaconUrl }),
+      fictionClient: new FictionClient({
+        orgId: created.orgId,
+        beaconUrl,
+        anonymousId: out.anonymousId as string,
+      }),
     }
 
     return initialized
   }
-
-  out.anonymousId = objectId()
 
   out.close = async () => {
     await testUtils.close()
