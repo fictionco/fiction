@@ -25,7 +25,8 @@ export class AnalyticsTag extends ClientTag<AnalyticsTagSettings> {
   constructor(settings: AnalyticsTagSettings) {
     super('analytics', { gen: 'core', ...settings })
 
-    this.client = new FictionClient({ orgId: this.org.orgId, siteId: this.settings.siteId })
+    const { orgId, siteId, beaconUrl, anonymousId } = this.settings
+    this.client = new FictionClient({ orgId, siteId, beaconUrl, anonymousId })
   }
 
   async init() {

@@ -9,6 +9,8 @@ describe('fictionBeacon', async () => {
   const beaconServerConfig = await testUtils.fictionBeacon?.createBeaconServer()
   const sessionManager = testUtils.fictionBeacon?.sessionManager
 
+  sessionManager?.init()
+
   const orgId = objectId()
   const anonymousId = objectId()
 
@@ -48,7 +50,7 @@ describe('fictionBeacon', async () => {
         event: 'view',
         anonymousId,
         properties: { key: 'value' },
-        context: { ip: '127.0.0.1', userAgent: 'test-agent' },
+        context: { ip: '127.0.0.1', userAgent: 'test-agent-t2' },
         timestamp: '2024-06-19T12:00:00Z',
         orgId,
       },
@@ -56,7 +58,7 @@ describe('fictionBeacon', async () => {
         event: 'stat',
         anonymousId,
         properties: { key: 'value' },
-        context: { ip: '127.0.0.1', userAgent: 'test-agent' },
+        context: { ip: '127.0.0.1', userAgent: 'test-agent-t2x' },
         timestamp: '2024-06-19T12:03:00Z',
         orgId,
       },
@@ -80,7 +82,7 @@ describe('fictionBeacon', async () => {
         event: 'click',
         anonymousId,
         properties: { key: 'value' },
-        context: { ip: '127.0.0.1', userAgent: 'test-agent' },
+        context: { ip: '127.0.0.1', userAgent: 'test-agent-test-3' },
         timestamp: '2024-06-19T12:00:00Z',
         orgId,
       },
@@ -95,7 +97,9 @@ describe('fictionBeacon', async () => {
       .where({ anonymousId })
       .groupBy('anonymousId')
 
-    const { data } = await ch.clickHouseSelect<{ total: number }[]>(query)
+    const r = await ch.clickHouseSelect<{ total: number }[]>(query)
+
+    const data = r.data
 
     expect(+data[0].total).toBe(2)
   })

@@ -9,14 +9,18 @@ import handlebars from 'handlebars'
 import type { FictionSites, Site } from '@fiction/site'
 import { getMountContext, loadSite } from '@fiction/site/load'
 import type { FramePostMessageList } from '@fiction/site/utils/frame'
-import { activeSiteFont } from '@fiction/site/utils/fonts'
+import type { FictionAnalytics } from '@fiction/analytics'
 
 const props = defineProps({
   themeId: { type: String, default: undefined },
   siteRouter: { type: Object as vue.PropType<FictionRouter>, default: undefined },
 })
 
-const { fictionSites, runVars, fictionRouterSites, fictionUser, fictionEnv } = useService<{ fictionSites: FictionSites, fictionRouterSites: FictionRouter }>()
+const { fictionSites, runVars, fictionRouterSites, fictionUser, fictionEnv } = useService<{
+  fictionSites: FictionSites
+  fictionRouterSites: FictionRouter
+  fictionAnalytics: FictionAnalytics
+}>()
 
 const loading = vue.ref(false)
 const site = vue.shallowRef<Site>()

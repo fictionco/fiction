@@ -1,11 +1,11 @@
 import { log } from '@fiction/core/plugin-log/index.js'
-import { localRef, vue } from '@fiction/core/utils/index.js'
+import { debounce, localRef, throttle, vue } from '@fiction/core/utils/index.js'
 import { onBrowserEvent } from '@fiction/core/utils/eventBrowser.js'
 import { ActivityTrigger } from './tracking.js'
 
 abstract class PageStat {
   key: string
-  protected resolutionMs = 1000
+  resolutionMs = 1000
   protected clear: (() => void)[] = []
   log = log.contextLogger(this.constructor.name)
   constructor(settings: PageStatSettings) {
@@ -13,14 +13,19 @@ abstract class PageStat {
   }
 
   public start(lifecycle: 'page' | 'session' = 'page'): void {
-    this.clear.forEach(cb => cb())
-    this.clear = []
-    this.reset()
+    this.close()
+
     if (lifecycle === 'session') {
       this.log.info('reset persistent data', { data: { lifecycle } })
       this.resetPersistent()
     }
     this.watch()
+  }
+
+  public close(): void {
+    this.clear.forEach(cb => cb())
+    this.clear = []
+    this.reset()
   }
 
   protected abstract reset(): void
@@ -78,18 +83,20 @@ class KeyPressHandler extends PageStat {
   }
 }
 
-class ScrollHandler extends PageStat {
+export class ScrollHandler extends PageStat {
   scrollDepth = 0
   totalScrolls = 0
-  trackNewScroll = true
-  trackPageDepth = true
+  private updateScrollDepthDebounced: () => void
+  private updateTotalScrollsThrottled: () => void
+
   constructor(settings: PageStatSettings) {
     super(settings)
+    this.updateScrollDepthDebounced = debounce(this.updateScrollDepth.bind(this), 300)
+    this.updateTotalScrollsThrottled = throttle(this.updateTotalScrolls.bind(this), this.resolutionMs)
   }
 
   getScrollDepth(): number {
-    const winScroll
-      = document.body.scrollTop || document.documentElement.scrollTop
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop
     const scrollHeight = document.documentElement.scrollHeight
     const viewportHeight = document.documentElement.clientHeight
 
@@ -97,8 +104,18 @@ class ScrollHandler extends PageStat {
       return 0
 
     const scrolled = ((viewportHeight + winScroll) / scrollHeight) * 100
-
     return Math.min(Math.round(scrolled), 100)
+  }
+
+  private updateScrollDepth(): void {
+    const currentDepth = this.getScrollDepth()
+    if (currentDepth > this.scrollDepth) {
+      this.scrollDepth = currentDepth
+    }
+  }
+
+  private updateTotalScrolls(): void {
+    this.totalScrolls += 1
   }
 
   override reset(): void {
@@ -107,86 +124,83 @@ class ScrollHandler extends PageStat {
   }
 
   watch(): void {
-    // if no page height, wait a bit
     if (this.scrollDepth === 0) {
       setTimeout(() => this.start(), 500)
     }
     else {
-      this.trackNewScroll = true
-      this.trackPageDepth = true
+      const handleScroll = () => {
+        this.updateScrollDepthDebounced()
+        this.updateTotalScrollsThrottled()
+      }
 
-      const r = onBrowserEvent('scroll', () => {
-        if (this.trackPageDepth) {
-          this.trackPageDepth = false
-
-          setTimeout(() => {
-            this.trackPageDepth = true
-
-            const currentDepth = this.getScrollDepth()
-
-            if (currentDepth > this.scrollDepth)
-              this.scrollDepth = currentDepth
-          }, 300)
-        }
-
-        if (this.trackNewScroll) {
-          this.trackNewScroll = false
-          this.totalScrolls += 1
-          setTimeout(() => {
-            this.trackNewScroll = true
-          }, this.resolutionMs)
-        }
-      })
-      this.clear = [r]
+      const removeListener = onBrowserEvent('scroll', handleScroll)
+      this.clear = [removeListener]
     }
   }
 }
 
-class ClickHandler extends PageStat {
+export class ClickHandler extends PageStat {
   public clickTotal = 0
   public touchTotal = 0
   public lastClick?: MouseEvent
   public lastTouch?: TouchEvent
   public lastClickTime?: number
   public lastTouchTime?: number
-  private keyCpl = `KTotalClk-${this.key}`
-  private compiledTotalClicks = localRef<number>({ key: this.keyCpl, def: 0, lifecycle: 'session' })
+  private readonly keyCpl: string
+  compiledTotalClicks: ReturnType<typeof localRef<number>>
 
-  protected reset(): void {
+  constructor(settings: PageStatSettings) {
+    super(settings)
+    this.keyCpl = `KTotalClk-${this.key}`
+    this.compiledTotalClicks = localRef<number>({ key: this.keyCpl, def: 0, lifecycle: 'session' })
+  }
+
+  reset(): void {
     this.clickTotal = 0
     this.touchTotal = 0
     this.lastClick = undefined
     this.lastClickTime = undefined
     this.lastTouch = undefined
     this.lastTouchTime = undefined
-    this.compiledTotalClicks.value = 0 // Reset the persisted total clicks
+    this.compiledTotalClicks.value = 0
   }
 
-  constructor(settings: PageStatSettings) {
-    super(settings)
-  }
-
-  private addToTotalSessionClicks(amount: number): void {
+  private addToTotalSessionClicks = debounce((amount: number): void => {
     this.compiledTotalClicks.value += amount
-  }
+  }, 300)
 
   protected watch(): void {
-    const r = onBrowserEvent('click', (event: MouseEvent) => {
-      this.clickTotal += 1
-      this.lastClick = event
-      this.lastClickTime = Date.now()
-      this.addToTotalSessionClicks(1)
-    })
-    const r2 = onBrowserEvent('touchstart', (event: TouchEvent) => {
-      this.touchTotal += 1
-      this.lastTouch = event
-      this.lastTouchTime = Date.now()
-      this.addToTotalSessionClicks(1)
-    })
+    const handleClick = (event: MouseEvent): void => {
+      try {
+        this.clickTotal += 1
+        this.lastClick = event
+        this.lastClickTime = Date.now()
+        this.addToTotalSessionClicks(1)
+      }
+      catch (error) {
+        this.log.error('Error handling click event', { error })
+      }
+    }
 
-    this.clear = [r, r2]
+    const handleTouch = (event: TouchEvent): void => {
+      try {
+        this.touchTotal += 1
+        this.lastTouch = event
+        this.lastTouchTime = Date.now()
+        this.addToTotalSessionClicks(1)
+      }
+      catch (error) {
+        this.log.error('Error handling touch event', { error })
+      }
+    }
+
+    const removeClickListener = onBrowserEvent('click', handleClick)
+    const removeTouchListener = onBrowserEvent('touchstart', handleTouch)
+
+    this.clear = [removeClickListener, removeTouchListener]
   }
 }
+
 class DurationHandler extends PageStat {
   lastInteraction = +Date.now()
   pageSeconds = vue.ref(0)

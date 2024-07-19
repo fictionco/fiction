@@ -56,9 +56,9 @@ export class ReferrerUtility {
   fictionCache?: FictionCache
   constructor(settings: { fictionCache?: FictionCache } = {}) {
     this.fictionCache = settings.fictionCache
-    const dirname = new URL('.', import.meta.url).pathname
-    const dataFile = fs.readFileSync(path.join(dirname, '/referrer-list.yml'))
-    const data = dataFile.toString()
+    const dirname = path.dirname(new URL(import.meta.url).pathname)
+    const dataFile = path.join(dirname, 'referrer-list.yml')
+    const data = fs.readFileSync(dataFile, 'utf8')
     const referrerList = yaml.load(data) as ReferrerSource
 
     this.dictionary = this.loadReferrerDictionary(referrerList)

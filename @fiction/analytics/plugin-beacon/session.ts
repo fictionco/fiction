@@ -266,10 +266,7 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
       = await Promise.all([
         getGeo(rawIp),
         this.referrerUtility.getReferralParameters(referrer, url),
-        this.settings.fictionClickHouse.queries.GetTotalSessions.serve(
-          { anonymousId, orgId },
-          { server: true },
-        ),
+        this.settings.fictionClickHouse.queries.GetTotalSessions.serve({ anonymousId, orgId }, { server: true }),
       ])
 
     const pathname = standardUrl({ url, part: 'pathname' })
@@ -331,8 +328,10 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
 
     const [expiredAnonIds] = results as [string[], number]
 
-    if (expiredAnonIds.length > 0)
+    if (expiredAnonIds.length > 0) {
+      this.log.info('expired sessions', { data: { expiredAnonIds } })
       expiredAnonIds.forEach(async anonymousId => this.expireSession(anonymousId))
+    }
 
     return expiredAnonIds
   }

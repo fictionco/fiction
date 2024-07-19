@@ -7,9 +7,10 @@ export function baseBrowserEvent(args: {
   library: string
   orgId: string
   siteId?: string
+  anonymousId: string
   version?: string
 }): TrackingEventBrowser {
-  const { library = 'client', orgId, version = 'unknown', siteId } = args
+  const { library = 'client', orgId, version = 'unknown', siteId, anonymousId } = args
 
   let browserContext: Partial<TrackingContext> = {}
 
@@ -33,8 +34,6 @@ export function baseBrowserEvent(args: {
       isFake: window.fictionIsFake || false,
     }
   }
-
-  const { anonymousId } = getAnonymousId()
 
   const config: TrackingEventBrowser = {
     anonymousId,

@@ -2,7 +2,7 @@ import { log } from '@fiction/core/plugin-log'
 import { shouldTrack } from '../utils/tracking.js'
 import type { TagEntryPoint, TagSettings } from './types.js'
 
-export async function initialize(tagSettings: TagSettings): Promise<void> {
+export async function initializeClient(tagSettings: TagSettings): Promise<void> {
   try {
     if (!shouldTrack())
       return

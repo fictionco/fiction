@@ -68,9 +68,15 @@ export async function createAnalyticsTestUtils(args: { mainFilePath?: string, co
 
     const created = await initializeTestUtils(out)
 
+    const beaconUrl = out.fictionBeacon?.beaconUrl.value
+
+    if (!beaconUrl) {
+      throw new Error('Beacon URL not found')
+    }
+
     const initialized: AnalyticsInitializedTestUtils = {
       ...created,
-      fictionClient: new FictionClient({ orgId: created.orgId }),
+      fictionClient: new FictionClient({ orgId: created.orgId, beaconUrl }),
     }
 
     return initialized

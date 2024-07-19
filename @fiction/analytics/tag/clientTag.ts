@@ -1,10 +1,8 @@
 import { log } from '@fiction/core/plugin-log/index.js'
-import type { Organization } from '@fiction/core/plugin-user/types.js'
-import { getAnonymousId } from '@fiction/core/utils/anon.js'
 import type { TagSettings } from './types'
 
 export abstract class ClientTag<T extends TagSettings = TagSettings> {
-  org: Partial<Organization> & { orgId: string }
+  orgId: string
   siteId: string
   anonymousId: string
   storedData: Record<string, string> = {}
@@ -25,13 +23,11 @@ export abstract class ClientTag<T extends TagSettings = TagSettings> {
 
     this.statSeconds = settings.statSeconds || 7
 
-    this.org = settings.org
+    this.orgId = settings.orgId
 
     this.siteId = settings.siteId
 
-    const { anonymousId } = getAnonymousId()
-
-    this.anonymousId = anonymousId
+    this.anonymousId = settings.anonymousId
   }
 
   abstract init(): Promise<void> | void

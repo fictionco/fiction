@@ -61,8 +61,8 @@ export async function loadSiteFromTheme(args: {
   const theme = availableThemes.find(t => t.themeId === themeId)
 
   const appSettings = fictionSites.settings.fictionApp.settings
-  const orgId = appSettings.fictionOrgId || `org-${themeId}`
-  const siteId = args.siteId || appSettings.fictionSiteId || `theme-${themeId}`
+  const orgId = appSettings.fictionOrgId || `no-orgId-${themeId}`
+  const siteId = args.siteId || appSettings.fictionSiteId || `no-siteId-${themeId}`
   const subDomain = `theme-${themeId}`
 
   if (!theme) {

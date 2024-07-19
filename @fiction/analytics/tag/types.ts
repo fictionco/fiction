@@ -1,15 +1,15 @@
-import type { Organization } from '@fiction/core/plugin-user'
 import type { ClientTag } from './clientTag'
 
 type AvailableTags = 'analytics' | 'events' | 'replays'
 
 export interface TagSettings {
-  org: Partial<Organization> & { orgId: string }
+  orgId: string
   siteId: string
+  beaconUrl: string
+  anonymousId: string
   gen?: GenType
   ip?: string
   onlyTags?: AvailableTags[]
-  beaconUrl?: string
   intervalSeconds?: number
   statSeconds?: number
   isLive?: boolean
@@ -17,9 +17,7 @@ export interface TagSettings {
   [key: string]: unknown
 }
 
-export type TagEntryPoint<T extends TagSettings> = (
-  tagSettings: T,
-) => Promise<ClientTag>
+export type TagEntryPoint<T extends TagSettings> = (tagSettings: T) => Promise<ClientTag>
 
 interface TrackingReferrerCampaign {
   name: string

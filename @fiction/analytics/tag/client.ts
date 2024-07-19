@@ -6,7 +6,6 @@ import { deepMerge } from '@fiction/core/utils/obj'
 import { WriteBuffer } from '@fiction/core/utils/buffer'
 import type { LogHelper } from '@fiction/core/plugin-log'
 import { log } from '@fiction/core/plugin-log'
-import { getAnonymousId } from '@fiction/core/utils/anon'
 import { UnloadUtility } from '../utils/tracking'
 import { baseBrowserEvent } from './utils'
 import type { IdentifyTraitsUser, TrackingEvent, TrackingEventUserDefined, TrackingProperties } from './types'
@@ -24,17 +23,18 @@ export type GenType = 'internal' | 'core' | 'user'
 export interface FictionClientSettings {
   orgId: string
   siteId?: string
+  anonymousId: string
+  beaconUrl: string
   namespace?: string
   intervalSeconds?: number
   gen?: GenType
-  beaconUrl?: string
 }
 
 export class FictionClient extends WriteBuffer<TrackingEvent> {
   orgId: string
   siteId?: string
-  anonymousId = getAnonymousId().anonymousId
-  beaconUrl?: string
+  anonymousId: string
+  beaconUrl: string
   pixelPath = '/pixel'
   trackPath = '/events'
   namespace: string
@@ -47,6 +47,7 @@ export class FictionClient extends WriteBuffer<TrackingEvent> {
     this.namespace = settings.namespace || 'AnalyticsClient'
     this.orgId = settings.orgId
     this.siteId = settings.siteId
+    this.anonymousId = settings.anonymousId
     this.gen = settings.gen || 'user'
     this.log = log.contextLogger(this.namespace)
 
@@ -132,7 +133,12 @@ export class FictionClient extends WriteBuffer<TrackingEvent> {
 
   createTrackingEvent(eventData: TrackingEventUserDefined): TrackingEvent {
     const fullEventData = deepMerge([
-      baseBrowserEvent({ library: 'client', orgId: this.orgId, siteId: this.siteId }),
+      baseBrowserEvent({
+        library: 'client',
+        orgId: this.orgId,
+        siteId: this.siteId,
+        anonymousId: this.anonymousId,
+      }),
       eventData,
       { sentAt: dayjs().toISOString(), messageId: objectId(), gen: this.gen },
     ]) as TrackingEvent
@@ -140,10 +146,7 @@ export class FictionClient extends WriteBuffer<TrackingEvent> {
     return fullEventData
   }
 
-  event(
-    userEvent: TrackingEventUserDefined,
-    options?: ClientRequestOptions,
-  ): Promise<FictionClientResponse> | FictionClientResponse {
+  event(userEvent: TrackingEventUserDefined, options?: ClientRequestOptions): Promise<FictionClientResponse> | FictionClientResponse {
     const { sync = false } = options || {}
 
     const fullEventData = this.createTrackingEvent(userEvent)
@@ -209,10 +212,7 @@ export class FictionClient extends WriteBuffer<TrackingEvent> {
     options?: ClientRequestOptions,
   ): Promise<FictionClientResponse | void> {
     const { sync = false } = options || {}
-    const r = await this.event(
-      { event: 'group', type: 'group', groupId, traits },
-      { sync },
-    )
+    const r = await this.event({ event: 'group', type: 'group', groupId, traits }, { sync })
 
     return r
   }
@@ -267,13 +267,4 @@ export class FictionClient extends WriteBuffer<TrackingEvent> {
 
     return r
   }
-}
-
-export function createClient(args: {
-  orgId: string
-  siteId: string
-  namespace: string
-}): FictionClient {
-  const { orgId, siteId } = args
-  return new FictionClient({ orgId, siteId })
 }

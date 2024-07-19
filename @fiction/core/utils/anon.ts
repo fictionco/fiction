@@ -9,7 +9,7 @@ export function getAnonymousId(): {
   isNew: boolean
 } {
   if (typeof window === 'undefined')
-    return { anonymousId: '', isNew: false }
+    return { anonymousId: 'no_window', isNew: false }
 
   // Retrieve the anonymous ID from cookie or local storage
   const savedCookie = getCookie(ANON_ID_KEY)

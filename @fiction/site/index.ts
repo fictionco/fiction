@@ -32,7 +32,7 @@ export type SitesPluginSettings = {
   fictionAdmin: FictionAdmin
   fictionMonitor?: FictionMonitor
   fictionAi?: FictionAi
-  fictionAnalytics: FictionAnalytics
+  fictionAnalytics?: FictionAnalytics
   fictionMedia: FictionMedia
   fictionAppSites: FictionApp
   fictionRouterSites: FictionRouter

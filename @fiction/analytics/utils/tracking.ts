@@ -1,4 +1,3 @@
-import { finder } from '@medv/finder'
 import { log } from '@fiction/core/plugin-log/index.js'
 import { fastHash, inIFrame } from '@fiction/core/utils/utils.js'
 import { isNode } from '@fiction/core/utils/vars.js'
@@ -20,116 +19,72 @@ export function shouldTrack(): boolean | void {
   return true
 }
 
-export interface ClickOffsetPosition {
-  targetWidth: number
-  targetHeight: number
-  offsetX: number
-  offsetY: number
-  xPercent: number
-  yPercent: number
-}
-
 /**
  * Watches browser activity and calls functions based on
  * changes of state or idle time (no interactions)
  */
 export class ActivityTrigger {
-  private onIdle: (t: number) => void
-  private onActive: (ev: BrowserEvent) => void
-  private onEngage: (ev: BrowserEvent) => void
-  private idleSeconds: number
-  private timer: NodeJS.Timeout | undefined = undefined
-  private lastEngage: number
-  private activeStart: number
+  private timer?: NodeJS.Timeout
   private isIdle = false
   private clear: (() => void)[] = []
-  constructor({
-    onIdle = (): void => {},
-    onActive = (): void => {},
-    onEngage = (): void => {},
-    idleSeconds = 5,
-  }: {
+  private lastEngage: number
+  private activeStart: number
+
+  constructor(private config: {
     onIdle?: (t: number) => void
     onActive?: (b: BrowserEvent) => void
     onEngage?: (b: BrowserEvent) => void
     idleSeconds?: number
+    idleCheckMs?: number
+    idleGraceSec?: number
   }) {
-    this.onIdle = onIdle
-    this.onActive = onActive
-    this.onEngage = onEngage
-    this.idleSeconds = idleSeconds
-    this.activeStart = +Date.now()
-    this.lastEngage = +Date.now()
+    this.lastEngage = this.activeStart = Date.now()
     this.watch()
   }
 
-  public reset(): void {
-    if (this.clear.length > 0)
-      this.clear.forEach(cb => cb())
-  }
-
-  private timeWindow(): number {
-    return this.idleSeconds * 1000
+  reset(): void {
+    this.clear.forEach(cb => cb())
   }
 
   private setIdle(timeIdle = 0): void {
     this.isIdle = true
-    this.onIdle(timeIdle)
+    this.config.onIdle?.(timeIdle)
   }
 
-  private setActive(browserEvent: BrowserEvent): void {
-    this.activeStart = +Date.now()
+  private setActive(event: BrowserEvent): void {
+    this.activeStart = Date.now()
     this.isIdle = false
-    this.onActive(browserEvent)
+    this.config.onActive?.(event)
   }
 
-  private setEngage(browserEvent: BrowserEvent): void {
-    this.lastEngage = +Date.now()
+  private setEngage(event: BrowserEvent): void {
+    this.lastEngage = Date.now()
     if (this.isIdle)
-      this.setActive(browserEvent)
-
-    this.onEngage(browserEvent)
+      this.setActive(event)
+    this.config.onEngage?.(event)
   }
 
   private watch(): void {
     this.setEngage('init')
 
-    const clearWatchers = [
-      onBrowserEvent('load', () => this.setEngage('load')),
-      onBrowserEvent('mousemove', () => this.setEngage('mousemove')),
-      onBrowserEvent('mousedown', () => this.setEngage('mousedown')),
-      onBrowserEvent('touchstart', () => this.setEngage('touchstart')),
-      onBrowserEvent('click', () => this.setEngage('click')),
-      onBrowserEvent('keypress', () => this.setEngage('keypress')),
-      onBrowserEvent('scroll', () => this.setEngage('scroll')),
-    ]
+    const events = ['load', 'mousemove', 'mousedown', 'touchstart', 'click', 'keypress', 'scroll'] as const
+    this.clear = events.map(event => onBrowserEvent(event, () => this.setEngage(event as BrowserEvent)))
 
     this.timer = setInterval(() => {
-      if (!this.isIdle) {
-        const now = +Date.now()
-        if (now > this.lastEngage + this.timeWindow()) {
-          const secondsActive = Math.round(
-            (this.lastEngage - this.activeStart) / 1000,
-          )
-          this.setIdle(secondsActive + 5) // 5 seconds grace period
-        }
+      if (!this.isIdle && Date.now() > this.lastEngage + (this.config.idleSeconds || 5) * 1000) {
+        const secondsActive = Math.round((this.lastEngage - this.activeStart) / 1000)
+        this.setIdle(secondsActive + (this.config.idleGraceSec || 5))
       }
-    }, 1000)
+    }, this.config.idleCheckMs || 1000)
 
-    this.clear = [
-      () => {
-        if (this.timer)
-          clearInterval(this.timer)
-      },
-      ...clearWatchers,
-    ]
+    this.clear.push(() => clearInterval(this.timer))
   }
 }
 /**
  * Gets the URL if set by <link ref="canonical"> tag
  */
 export function canonicalUrlFromTag(): string | undefined {
-  if (isNode())
+  if (typeof document === 'undefined')
     return
 
   const tags = document.querySelectorAll('link')
@@ -165,12 +120,7 @@ interface ClickTime {
   time: Date
 }
 
-export function detectMultiClick({
-  count,
-  interval,
-  clicks,
-  radius,
-}: {
+export function detectMultiClick({ count, interval, clicks, radius }: {
   count: number
   interval: number
   clicks: ClickTime[]
@@ -238,65 +188,134 @@ export function onRageClick(cb: (event: MouseEvent) => void): void {
   )
 }
 
-/**
- * Get the selector of an element from its DOM element
- * https://github.com/antonmedv/finder
- */
-export function cssPath(el?: HTMLElement | null): string {
-  if (!el)
+interface SelectorOptions {
+  idOnly?: boolean
+  maxDepth?: number
+  includeClasses?: boolean
+  shortestPath?: boolean
+  ignoreTailwindClasses?: boolean
+}
+
+export function getSelector(element: HTMLElement | null, options: SelectorOptions = {}): string {
+  if (!element)
     return ''
 
-  return finder(el, {
-    idName: () => true,
-    tagName: () => true,
+  const {
+    idOnly = false,
+    maxDepth = Infinity,
+    includeClasses = true,
+    shortestPath = true,
+    ignoreTailwindClasses = true,
+  } = options
 
-    seedMinLength: 3,
-  })
+  const path: string[] = []
+  let depth = 0
+
+  while (element && element.nodeType === Node.ELEMENT_NODE && depth < maxDepth) {
+    let selector = element.nodeName.toLowerCase()
+
+    if (element.id) {
+      selector = `${selector}#${element.id}`
+    }
+    else if (includeClasses && element.className) {
+      const classes = element.className.trim().split(/\s+/)
+      const filteredClasses = ignoreTailwindClasses
+        ? classes.filter(cls => !isTailwindClass(cls))
+        : classes
+
+      if (filteredClasses.length > 0) {
+        selector += `.${filteredClasses.join('.')}`
+      }
+    }
+
+    if (!shortestPath || (!element.id && element !== document.body && element !== document.documentElement)) {
+      let sibling = element
+      let siblingIndex = 1
+      while (sibling.previousElementSibling) {
+        sibling = sibling.previousElementSibling as HTMLElement
+        if (sibling.nodeName.toLowerCase() === selector.split(/[#.]/)[0]) {
+          siblingIndex++
+        }
+      }
+      if (siblingIndex > 1) {
+        selector += `:nth-of-type(${siblingIndex})`
+      }
+    }
+
+    path.unshift(selector)
+
+    if (element.id && (idOnly || shortestPath) && element !== document.body && element !== document.documentElement) {
+      break
+    }
+
+    element = element.parentElement
+    depth++
+  }
+
+  if (path.length === 1 && path[0] === 'body') {
+    return 'body'
+  }
+
+  return path.join(' > ')
 }
-/**
- * Get identifying information from an HTMLElement
- */
+
+function isTailwindClass(className: string): boolean {
+  const tailwindPrefixes = ['sm:', 'md:', 'lg:', 'xl:', '2xl:', 'hover:', 'focus:', 'active:', 'group-hover:', 'dark:']
+  const utilityPatterns = [
+    /^(m|p)([trblxy])?-/, // margins and paddings
+    /^(w|h)-/, // widths and heights
+    /^(min|max)-(w|h)-/, // min/max widths and heights
+    /^(text|bg|border)-/, // text, background, and border colors
+    /^flex(-.*)?$/, // flex utilities
+    /^grid(-.*)?$/, // grid utilities
+    /^(rounded|shadow)-/, // border radius and shadows
+    /^(items|justify)-/, // flexbox alignment
+    /^font-/, // font utilities
+    /^(container|mx-auto)$/, // container and auto margin
+    /^[a-z]+-\[.+\]$/, // arbitrary values
+    /^group$/, // group class
+  ]
+
+  return tailwindPrefixes.some(prefix => className.startsWith(prefix))
+    || utilityPatterns.some(pattern => pattern.test(className))
+}
+
+interface ClickOffsetPosition {
+  targetWidth: number
+  targetHeight: number
+  offsetX: number
+  offsetY: number
+  xPercent: number
+  yPercent: number
+}
+
 export function elementId(el: HTMLElement): { selector: string, hash: string } {
-  const selector = el.dataset.selector || cssPath(el)
-  const pathname = location.pathname
+  const selector = el.dataset.selector || getSelector(el)
+  const pathname = window.location.pathname
+  const innerText = el.textContent?.trim().substring(0, 50) // Use trimmed innerText instead of innerHTML
   return {
     selector,
-    hash: el.dataset.hash || fastHash([pathname, selector, el.innerHTML]),
+    hash: el.dataset.hash || fastHash([pathname, selector, innerText]),
   }
 }
-/**
- * Get analytics information for click events
- */
+
 export function clickId(event: MouseEvent): {
   selector: string
   hash: string
   position: ClickOffsetPosition
+  elementType: string
+  elementContent: string
 } {
   const target = event.target as HTMLElement
   const { hash, selector } = elementId(target)
 
-  // left/top are relative to viewport
-  const {
-    width: targetWidth,
-    height: targetHeight,
-    left,
-    top,
-  } = target.getBoundingClientRect()
+  const { width: targetWidth, height: targetHeight, left, top } = target.getBoundingClientRect()
 
-  // clientX, clientY are relative to viewport
+  const offsetX = event.clientX - left
+  const offsetY = event.clientY - top
 
-  const clientX = event.clientX
-  const clientY = event.clientY
-
-  // offset within the target
-  const offsetX = clientX - left
-  const offsetY = clientY - top
-
-  const xPercentFloat = offsetX / targetWidth
-  const xPercent = Math.round(xPercentFloat * 10_000) / 10_000
-
-  const yPercentFloat = offsetY / targetHeight
-  const yPercent = Math.round(yPercentFloat * 10_000) / 10_000
+  const xPercent = Number((offsetX / targetWidth).toFixed(4))
+  const yPercent = Number((offsetY / targetHeight).toFixed(4))
 
   const position: ClickOffsetPosition = {
     targetWidth,
@@ -307,9 +326,11 @@ export function clickId(event: MouseEvent): {
     yPercent,
   }
 
-  return { hash, selector, position }
-}
+  const elementType = target.tagName.toLowerCase()
+  const elementContent = target.textContent?.trim().substring(0, 50) || '' // Limit content to 50 characters
 
+  return { hash, selector, position, elementType, elementContent }
+}
 export function getDeviceType(width: number): 'mobile' | 'tablet' | 'laptop' | 'desktop' {
   if (width < 600)
     return 'mobile'
@@ -319,7 +340,6 @@ export function getDeviceType(width: number): 'mobile' | 'tablet' | 'laptop' | '
     return 'laptop'
   else return 'desktop'
 }
-
 export type OffloadEvent =
   | 'pagehide'
   | 'unload'
@@ -331,65 +351,92 @@ export type OffloadEvent =
 
 type EventCallback = (offloadType: OffloadEvent) => void
 
-class UnloadHandler {
+export class UnloadHandler {
   private unloadCallbacks: EventCallback[] = []
   private unloadWatchers: (() => void)[] = []
   public unloaded = false
-  focused = true
-  private timer: NodeJS.Timeout | undefined = undefined
+  public focused = true
+  private timer: NodeJS.Timeout | null = null
+  private isClient: boolean
+
+  constructor(private win?: Window, private doc?: Document) {
+    this.isClient = typeof window !== 'undefined'
+    this.win = this.isClient ? (win || window) : undefined
+    this.doc = this.isClient ? (doc || document) : undefined
+  }
 
   public clear(): void {
     this.unloadWatchers.forEach(clearWatcher => clearWatcher())
     this.unloadWatchers = []
     this.unloadCallbacks = []
+    if (this.timer) {
+      clearTimeout(this.timer)
+      this.timer = null
+    }
+    this.unloaded = false
+    this.focused = true
   }
 
-  private unload(offloadType: OffloadEvent): void {
-    log.info('unload', `maybe unload: ${this.unloaded}`)
+  public unload(offloadType: OffloadEvent): void {
     if (!this.unloaded) {
       this.unloadCallbacks.forEach(cb => cb(offloadType))
       this.unloaded = true
     }
   }
 
-  private timedUnload(args: { reason: OffloadEvent, wait?: number }): void {
+  public timedUnload(args: { reason: OffloadEvent, wait?: number }): void {
     const { reason, wait = 30_000 } = args
-    if (this.timer)
+    if (this.timer) {
       clearTimeout(this.timer)
+    }
 
-    this.focused = true
+    this.focused = false
     this.timer = setTimeout(() => {
-      if (!this.focused)
+      if (!this.focused) {
         this.unload(reason)
-    }, wait)
+      }
+    }, wait) as unknown as NodeJS.Timeout
   }
 
   public onUnload(cb: EventCallback): void {
     this.unloadCallbacks.push(cb)
-    if (typeof window !== 'undefined' && this.unloadWatchers.length === 0) {
-      this.unloadWatchers = [
-        onBrowserEvent('pagehide', () => this.unload('pagehide')),
-        onBrowserEvent('beforeunload', () => this.unload('unload')),
-        onBrowserEvent(
-          'visibilitychange',
-          () => {
-            const v = document.visibilityState
-            if (v === 'hidden')
-              this.timedUnload({ reason: 'visibilitychange' })
-            else if (v === 'visible')
-              this.focused = true
-          },
-          document,
-        ),
-        // blur events should only trigger exit if the window isn't
-        // refocused within 60s
-        onBrowserEvent('blur', () => {
-          this.timedUnload({ reason: 'windowBlur', wait: 120_000 })
-        }),
-        onBrowserEvent('focus', () => (this.focused = true)),
-        onBrowserEvent('mousemove', () => (this.focused = true)),
-      ]
+    if (this.isClient && this.unloadWatchers.length === 0) {
+      this.setupEventListeners()
     }
+  }
+
+  private setupEventListeners(): void {
+    if (!this.win || !this.doc)
+      return
+
+    const events: Array<[string, EventListenerOrEventListenerObject]> = [
+      ['pagehide', () => this.unload('pagehide')],
+      ['beforeunload', () => this.unload('unload')],
+      ['visibilitychange', this.handleVisibilityChange.bind(this)],
+      ['blur', () => this.timedUnload({ reason: 'windowBlur', wait: 120_000 })],
+      ['focus', () => this.setFocused(true)],
+      ['mousemove', () => this.setFocused(true)],
+    ]
+
+    events.forEach(([event, listener]) => {
+      this.win!.addEventListener(event, listener)
+      this.unloadWatchers.push(() => this.win!.removeEventListener(event, listener))
+    })
+  }
+
+  public handleVisibilityChange(): void {
+    if (!this.doc)
+      return
+    if (this.doc.visibilityState === 'hidden') {
+      this.timedUnload({ reason: 'visibilitychange' })
+    }
+    else if (this.doc.visibilityState === 'visible') {
+      this.setFocused(true)
+    }
+  }
+
+  public setFocused(value: boolean): void {
+    this.focused = value
   }
 }
 
