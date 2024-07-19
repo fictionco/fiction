@@ -57,6 +57,12 @@ export class FictionBeacon extends FictionPlugin<FictionBeaconSettings> {
    * Should restart servers/subs if run multiple times
    */
   async init() {
+    if (this.settings.isLive?.value) {
+      if (!this.beaconUrl.value.includes('https')) {
+        throw new Error(`Beacon server should be running on https in live mode (${this.beaconUrl.value})`)
+      }
+    }
+
     this.sessionManager?.init()
     await this.createBeaconServer()
   }

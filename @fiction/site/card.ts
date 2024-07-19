@@ -1,4 +1,4 @@
-import type { colorTheme, vueRouter } from '@fiction/core'
+import type { EndpointMap, Query, colorTheme, vueRouter } from '@fiction/core'
 import { FictionObject, deepMerge, objectId, setNested, toLabel, vue } from '@fiction/core'
 import type { InputOption } from '@fiction/ui'
 import type { z } from 'zod'
@@ -15,7 +15,11 @@ export const categoryOrder: CardCategory[] = ['basic', 'theme', 'marketing', 'co
 
 type CardTemplateUserConfig<T extends ComponentConstructor> = InstanceType<T> extends { $props: { card: { userConfig: { value: infer V } } } } ? V : undefined
 
-interface CardTemplateSettings<U extends string = string, T extends ComponentConstructor = ComponentConstructor> {
+interface CardTemplateSettings<
+  U extends string = string,
+  T extends ComponentConstructor = ComponentConstructor,
+  X extends Record<string, Query> = Record<string, Query>,
+> {
   templateId: U
   title?: string
   description?: string
@@ -34,6 +38,8 @@ interface CardTemplateSettings<U extends string = string, T extends ComponentCon
   sections?: Record<string, CardConfigPortable>
   root?: string
   demoPage?: (args: { site: Site }) => Promise<{ cards: CardConfigPortable< CardTemplateUserConfig<T> & SiteUserConfig>[] }>
+  getQueries?: () => X
+  getRequests?: () => EndpointMap<X>
 }
 
 export class CardTemplate<U extends string = string, T extends ComponentConstructor = ComponentConstructor> extends FictionObject<

@@ -25,6 +25,7 @@ const cwd = safeDirname(import.meta.url, '..')
 
 const meta = { version, app: { name: 'Fiction', email: 'admin@fiction.com', url: `https://www.fiction.com`, domain: `fiction.com` } }
 const appUrl = `https://www.${meta.app.domain}`
+const beaconUrlLive = `https://beacon.${meta.app.domain}`
 const appUrlSites = `https://*.${meta.app.domain}`
 
 const envFiles = [path.join(apiRoot, './.env')]
@@ -159,7 +160,12 @@ const fictionStripe = new FictionStripe({
   ],
 })
 const themes = async () => getThemes({ ...s, fictionStripe })
-const fictionAnalytics = new FictionAnalytics({ clickhouseUrl, ...s, beaconPort: +fictionEnv.var('BEACON_PORT') })
+const fictionAnalytics = new FictionAnalytics({
+  clickhouseUrl,
+  ...s,
+  beaconPort: +fictionEnv.var('BEACON_PORT'),
+  beaconUrlLive,
+})
 
 const fictionSites = new FictionSites({ ...s, fictionAnalytics, fictionAppSites, fictionRouterSites, flyApiToken, flyAppId: 'fiction-sites', adminBaseRoute: '/admin', themes })
 const fictionTeam = new FictionTeam({ ...s })
