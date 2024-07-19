@@ -202,15 +202,17 @@ export function getMountContext(args: {
   queryVars?: Record<string, string | undefined>
   siteMode?: SiteMode
   runVars?: Partial<RunVars>
+  siteId?: string
+  orgId?: string
 }): MountContext {
-  const { selectorType, selectorId, queryVars = {}, runVars } = args
+  const { selectorType, selectorId, queryVars = {}, runVars, siteId, orgId } = args
 
   const mountContext = runVars?.MOUNT_CONTEXT
 
   let selector: Partial<MountContext> = {}
   let siteMode = args.siteMode || 'standard'
-  const fictionOrgId = runVars?.FICTION_ORG_ID
-  const fictionSiteId = runVars?.FICTION_SITE_ID
+  const fictionOrgId = siteId || runVars?.FICTION_ORG_ID
+  const fictionSiteId = orgId || runVars?.FICTION_SITE_ID
 
   // Premade mount context as passed in mount, used in preview and editing
   if (mountContext) {

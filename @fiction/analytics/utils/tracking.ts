@@ -7,7 +7,7 @@ import { type BrowserEvent, onBrowserEvent } from '@fiction/core/utils/eventBrow
  * Establish if we should be tracking this browser
  */
 export function shouldTrack(): boolean | void {
-  if (typeof window !== 'undefined' || isNode())
+  if (typeof window === 'undefined' || isNode())
     return log.error('shouldTrack', 'not browser')
 
   if (inIFrame())

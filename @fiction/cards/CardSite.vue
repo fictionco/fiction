@@ -13,6 +13,8 @@ import type { FictionAnalytics } from '@fiction/analytics'
 
 const props = defineProps({
   themeId: { type: String, default: undefined },
+  siteId: { type: String, default: undefined },
+  orgId: { type: String, default: undefined },
   siteRouter: { type: Object as vue.PropType<FictionRouter>, default: undefined },
 })
 
@@ -35,6 +37,8 @@ async function load() {
     const mountContext = getMountContext({
       queryVars: { themeId: props.themeId }, // passed in by route sometimes
       runVars,
+      siteId: props.siteId,
+      orgId: props.orgId,
     })
 
     site.value = await loadSite({
@@ -156,6 +160,8 @@ vue.onMounted(async () => {
 
   if (!site.value)
     await load()
+
+  fictionSites.trackWebsiteEvents({ site: site.value })
 
   if (site.value && site.value.isEditable.value) {
     const util = new FrameUtility<FramePostMessageList>({

@@ -1,4 +1,4 @@
-import { FictionPlugin, safeDirname, vue } from '@fiction/core'
+import { FictionPlugin, getAnonymousId, safeDirname, vue } from '@fiction/core'
 import type { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionPluginSettings, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 
 import { EnvVar, vars } from '@fiction/core/plugin-env'
@@ -6,6 +6,7 @@ import type { FictionAi } from '@fiction/plugin-ai'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
 import type { FictionAdmin } from '@fiction/admin/index.js'
 import type { FictionAnalytics } from '@fiction/analytics/index.js'
+import { initializeClientTag } from '@fiction/analytics/tag/entry.js'
 import { ManageIndex, ManagePage, ManageSite } from './endpoint.js'
 import { tables } from './tables.js'
 import { ManageCert } from './endpoint-certs.js'
@@ -13,6 +14,7 @@ import { getRoutes } from './routes.js'
 import type { Theme } from './theme.js'
 import { FictionSiteBuilder } from './plugin-builder/index.js'
 import { loadSitemap } from './load.js'
+import type { Site } from './site.js'
 
 export * from './site.js'
 export * from './card.js'
@@ -97,5 +99,25 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
 
   cleanup() {
     this.themes.value = []
+  }
+
+  async trackWebsiteEvents({ site }: { site?: Site }) {
+    const { fictionAnalytics } = this.settings
+    const beaconUrl = fictionAnalytics?.fictionBeacon?.beaconUrl.value
+
+    if (!site)
+      throw new Error('Site not found')
+
+    const { siteId, settings: { orgId } } = site
+
+    if (!fictionAnalytics)
+      throw new Error('FictionAnalytics not found')
+    if (!beaconUrl)
+      throw new Error('Beacon URL not found')
+    if (!orgId)
+      throw new Error('Org ID not found')
+
+    const { anonymousId } = getAnonymousId()
+    await initializeClientTag({ siteId, orgId, beaconUrl, anonymousId })
   }
 }

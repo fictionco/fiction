@@ -3,7 +3,6 @@ import { FictionPlugin, getAnonymousId, safeDirname } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
 import { FictionClickHouse } from './plugin-clickhouse'
 import { FictionBeacon } from './plugin-beacon'
-import { initializeClient } from './tag/entry.js'
 
 vars.register(() => [new EnvVar({ name: 'CLICKHOUSE_URL' })])
 
@@ -43,16 +42,5 @@ export class FictionAnalytics extends FictionPlugin<FictionAnalyticsSettings> {
 
   async runBeacon() {
     await this.fictionBeacon?.init()
-  }
-
-  async trackWebsiteEvents(args: { siteId: string, orgId: string }) {
-    const beaconUrl = this.fictionBeacon?.beaconUrl.value
-
-    if (!beaconUrl)
-      throw new Error('Beacon URL not found')
-
-    const { anonymousId } = getAnonymousId()
-
-    initializeClient({ ...args, beaconUrl, anonymousId })
   }
 }
