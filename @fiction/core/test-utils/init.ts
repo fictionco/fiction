@@ -1,7 +1,6 @@
 import path from 'node:path'
 import { FictionUi } from '@fiction/ui'
 import { faker } from '@faker-js/faker'
-import { fictionEnv } from 'index'
 import { version as fictionVersion } from '../package.json'
 import type { vue } from '../utils'
 import { randomBetween, safeDirname } from '../utils/utils'
