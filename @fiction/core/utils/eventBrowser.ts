@@ -39,6 +39,11 @@ export function onBrowserEvent<T extends BrowserEvent>(type: T, fn: (e: BrowserE
   target = target || defaultTarget
 
   const options = { capture: true, passive: true }
+
+  if (!target.addEventListener) {
+    throw new Error(`${type}: target does not have addEventListener method`)
+  }
+
   target.addEventListener(type, fn as EventListenerOrEventListenerObject, options)
   return (): void => {
     return target?.removeEventListener(type, fn as EventListenerOrEventListenerObject, options)

@@ -2,20 +2,11 @@
  * @vitest-environment happy-dom
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { onBrowserEvent } from '@fiction/core/utils/eventBrowser'
 import { AnalyticsTag } from '../tagAnalytics' // Replace with the actual file name
 import { FictionPageStats } from '../../utils/pageStats'
 import { UnloadUtility } from '../../utils/tracking'
 import { historyUtil } from '../../utils/history'
-import { isBot } from '../../utils/bot'
 import { FictionClient } from '../client'
-
-// Minimal mocks for browser environment
-globalThis.window = {
-  navigator: {},
-  location: { pathname: '/test', search: '?query=1' },
-} as any
-globalThis.document = {} as any
 
 describe('analyticsTag', () => {
   let analyticsTag: AnalyticsTag
@@ -63,6 +54,8 @@ describe('analyticsTag', () => {
     const trackBotSpy = vi.spyOn(analyticsTag, 'trackBot')
     const trackClicksSpy = vi.spyOn(analyticsTag, 'trackClicks')
     const statLoopSpy = vi.spyOn(analyticsTag, 'statLoop')
+    const historyChangeSpy = vi.spyOn(historyUtil, 'onHistoryChange')
+    const unloadSpy = vi.spyOn(UnloadUtility, 'onUnload')
 
     await analyticsTag.init()
 
@@ -72,25 +65,15 @@ describe('analyticsTag', () => {
     expect(trackBotSpy).toHaveBeenCalled()
     expect(trackClicksSpy).toHaveBeenCalled()
     expect(statLoopSpy).toHaveBeenCalled()
-    expect(historyUtil.onHistoryChange).toHaveBeenCalled()
-    expect(UnloadUtility.onUnload).toHaveBeenCalled()
+
+    expect(historyChangeSpy).toHaveBeenCalled()
+    expect(unloadSpy).toHaveBeenCalled()
   })
 
   it('should get correct page', () => {
+    window.location.href = `${window.location.href}test?query=1`
     expect(analyticsTag.getPage()).toBe('/test?query=1')
   })
-
-  // it('should track bot visits', async () => {
-  //   vi.spyOn(isBot, 'isBot').mockReturnValue({ result: true, failed: ['test'] })
-  //   analyticsTag.stored = vi.fn().mockReturnValue(false)
-
-  //   await analyticsTag.trackBot()
-
-  //   expect(analyticsTag.client.track).toHaveBeenCalledWith('bot', {
-  //     label: 'Bot(test)',
-  //   })
-  //   expect(analyticsTag.storeItem).toHaveBeenCalledWith('botChecked', 'yes')
-  // })
 
   it('should handle pageView', async () => {
     await analyticsTag.pageView()
@@ -131,23 +114,4 @@ describe('analyticsTag', () => {
       properties: { reason: 'test' },
     })
   })
-
-  // it('should track clicks with throttling', async () => {
-  //   const mockEvent = new MouseEvent('click')
-  //   vi.spyOn(global, 'setTimeout')
-
-  //   analyticsTag.trackClicks()
-
-  //   // Simulate click event
-  //   await onBrowserEvent('click', mockEvent)
-
-  //   expect(analyticsTag.client.track).toHaveBeenCalledWith('click', expect.any(Object))
-  //   expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), analyticsTag.throttleMs)
-
-  //   // Simulate another click immediately (should be throttled)
-  //   await onBrowserEvent('click', mockEvent)
-  //   expect(analyticsTag.client.track).toHaveBeenCalledTimes(1)
-  // })
-
-  // Add more tests for other methods like trackRageClick, trackErrors, etc.
 })
