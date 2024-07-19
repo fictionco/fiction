@@ -8,9 +8,9 @@
   "dependencies": {
     "@fiction/core": "workspace:*",
     "@mailchimp/mailchimp_marketing": "^3.0.80",
-    "@sentry/browser": "^8.18.0",
-    "@sentry/node": "^8.18.0",
-    "@sentry/vue": "^8.18.0",
+    "@sentry/browser": "^8.19.0",
+    "@sentry/node": "^8.19.0",
+    "@sentry/vue": "^8.19.0",
     "@slack/webhook": "^7.0.2",
     "@types/mailchimp__mailchimp_marketing": "^3.0.20"
   },

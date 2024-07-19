@@ -5,7 +5,7 @@
     "@fiction/site": "workspace:*",
     "@fiction/ui": "workspace:*",
     "tailwindcss": "^3.4.6",
-    "vue": "^3.4.32"
+    "vue": "^3.4.33"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "license": "MIT",

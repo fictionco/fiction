@@ -87,7 +87,7 @@
     "typescript": "^5.5.3",
     "vite": "^5.3.4",
     "vitest": "^1.6.0",
-    "vue": "^3.4.32",
+    "vue": "^3.4.33",
     "vue-router": "^4.4.0"
   },
   "devDependencies": {

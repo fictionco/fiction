@@ -18,7 +18,7 @@
     "@fiction/theme-minimal": "workspace:*",
     "@fiction/ui": "workspace:*",
     "@types/mapbox-gl": "^3.1.0",
-    "mapbox-gl": "^3.5.1",
+    "mapbox-gl": "^3.5.2",
     "postcss": "^8.4.39",
     "tailwindcss": "^3.4.6"
   },
