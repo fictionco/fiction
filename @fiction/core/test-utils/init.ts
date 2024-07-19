@@ -141,11 +141,10 @@ export interface TestBaseCompiled {
   [key: string]: any
 }
 
-export function getTestPortVar(args: { key: string, opts?: TestUtilSettings, context?: 'app' | 'node' }) {
-  const { key, opts, context } = args
-  const camelKey = toCamel(key)
+export function getTestPortVar(args: { key: string, optVal?: number, context?: 'app' | 'node' }) {
+  const { key, optVal, context } = args
 
-  let port = opts?.[camelKey as keyof TestUtilSettings] as number
+  let port = optVal
 
   if (context === 'app') {
     port = +fictionEnv.var(key)
@@ -184,21 +183,21 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
 
   const fictionEnv = new FictionEnv({ envFiles, env, cwd, mainFilePath, id: 'test', meta })
 
-  // const appPort = getTestPortVar({ opts, key: 'APP_PORT', context })
-  // const serverPort = getTestPortVar({ opts, key: 'SERVER_PORT', context })
+  const appPort = getTestPortVar({ optVal: opts?.appPort, key: 'APP_PORT', context })
+  const serverPort = getTestPortVar({ optVal: opts?.serverPort, key: 'SERVER_PORT', context })
 
-  let appPort = opts?.appPort
-  let serverPort = opts?.serverPort
-  if (context === 'app') {
-    appPort = +fictionEnv.var('APP_PORT')
-    serverPort = +fictionEnv.var('SERVER_PORT')
-  }
-  else {
-    appPort = appPort || randomBetween(1_000, 11_000)
-    serverPort = serverPort || randomBetween(11_000, 20_000)
-    crossVar.set('SERVER_PORT', String(serverPort))
-    crossVar.set('APP_PORT', String(appPort))
-  }
+  // let appPort = opts?.appPort
+  // let serverPort = opts?.serverPort
+  // if (context === 'app') {
+  //   appPort = +fictionEnv.var('APP_PORT')
+  //   serverPort = +fictionEnv.var('SERVER_PORT')
+  // }
+  // else {
+  //   appPort = appPort || randomBetween(1_000, 11_000)
+  //   serverPort = serverPort || randomBetween(11_000, 20_000)
+  //   crossVar.set('SERVER_PORT', String(serverPort))
+  //   crossVar.set('APP_PORT', String(appPort))
+  // }
 
   // check env vars
   checkEnvVars.forEach((key) => {

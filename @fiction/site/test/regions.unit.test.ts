@@ -49,7 +49,7 @@ async function getDbSite(testUtils: SiteTestUtils, r: InitializedTestUtils) {
   return site
 }
 
-describe.only('special slug handling for _home', async () => {
+describe('special slug handling for _home', async () => {
   const testUtils = await createSiteTestUtils()
   const r = await testUtils.init()
   const userId = r?.user?.userId ?? ''
