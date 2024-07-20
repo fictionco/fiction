@@ -10,7 +10,7 @@ describe('service health checks', () => {
     { url: 'https://theme-minimal.fiction.com' },
     { url: 'https://andrewpowers.fiction.com' },
     { url: 'https://www.andrewpowers.com' },
-    { url: 'https://beacon.fiction.com' },
+    { url: 'https://beacon.fiction.com', isEndpoint: true },
   ]
 
   it('services health endpoint works and logs response time', async () => {
@@ -90,11 +90,17 @@ describe('service health checks', () => {
 
       const html = await response.text()
 
-      expect(html, `html: ${service.url}`).toContain(service.checkForText || '<main')
-      // Example: Log instead of asserting specific content
-      console.warn(`Content check for ${service.url}:`, html.includes('footer') ? 'Contains footer' : 'Missing footer')
+      if (service.isEndpoint) {
+        expect(html, `html: ${service.url}`).toBe('ok')
+        continue
+      }
+      else {
+        expect(html, `html: ${service.url}`).toContain(service.checkForText || '<main')
+        // Example: Log instead of asserting specific content
+        console.warn(`Content check for ${service.url}:`, html.includes('footer') ? 'Contains footer' : 'Missing footer')
 
-      logger.info('response html', { data: { html } })
+        logger.info('response html', { data: { html } })
+      }
     }
   }, 60000)
 })
