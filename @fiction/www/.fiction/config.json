@@ -77,6 +77,10 @@
       "path": "/api/clickhouse/GetTotalSessions"
     },
     {
+      "key": "CardQuery",
+      "path": "/api/fiction-sites/CardQuery"
+    },
+    {
       "key": "ManageSite",
       "path": "/api/fiction-sites/ManageSite"
     },

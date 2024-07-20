@@ -1,5 +1,5 @@
 import type { DataFilter, EndpointMeta, EndpointResponse } from '@fiction/core'
-import { Query, deepMerge, incrementSlugId, objectId, prepareFields, shortId } from '@fiction/core'
+import { Query, deepMerge, incrementSlugId, objectId, shortId } from '@fiction/core'
 import type { Knex } from 'knex'
 import { abort } from '@fiction/core/utils/error.js'
 import type { CardConfigPortable, TableCardConfig, TableDomainConfig, TableSiteConfig } from './tables.js'
@@ -7,7 +7,7 @@ import { tableNames } from './tables.js'
 import { updateSiteCerts } from './utils/cert.js'
 import { Card } from './card.js'
 import type { WhereSite } from './load.js'
-import type { FictionSites, SitesPluginSettings } from './index.js'
+import type { FictionSites, Site, SitesPluginSettings } from './index.js'
 
 export type SitesQuerySettings = SitesPluginSettings & {
   fictionSites: FictionSites
@@ -16,15 +16,34 @@ export abstract class SitesQuery extends Query<SitesQuerySettings> {
   constructor(settings: SitesQuerySettings) {
     super(settings)
   }
-}
 
-export class CardQuery extends SitesQuery {
-  async run(params: { siteId: string, templateId: string, args: Record<string, any> }, meta: EndpointMeta): Promise<EndpointResponse> {
-    const { siteId } = params
-    const { ManageSite } = this.settings.fictionSites.queries
-    const site = ManageSite.serve({ _action: 'retrieve', where: { siteId } }, { ...meta, caller: 'CardQuery' })
+  getThemeById(themeId?: string) {
+    if (!themeId)
+      throw abort('themeId required')
 
-    return { status: 'success', data: 'CardQuery' }
+    const themes = this.settings.fictionSites.themes.value
+    const theme = themes.find(t => t.themeId === themeId)
+
+    if (!theme)
+      throw abort(`theme not found - themeId: ${themeId} - available: ${themes.map(t => t.themeId).join(', ')}`)
+
+    return theme
+  }
+
+  async siteFromConfig(params: { fields: Partial<TableSiteConfig> }, _meta: EndpointMeta): Promise<Site> {
+    const { fields } = params
+    const { themeId, siteId = objectId({ prefix: 'sit' }), orgId } = fields
+
+    const { fictionSites, fictionRouterSites: siteRouter } = this.settings
+
+    if (!orgId)
+      throw abort('orgId required')
+
+    const theme = this.getThemeById(themeId)
+
+    const site = await theme.toSite({ siteRouter, fictionSites, ...fields, siteId })
+
+    return site
   }
 }
 
@@ -56,7 +75,7 @@ export class ManagePage extends SitesQuery {
     if (!db)
       throw abort('no db')
 
-    const prepped = prepareFields({ type: 'create', fields, table: tableNames.pages, meta, fictionDb })
+    const prepped = fictionDb.prep({ type: 'insert', fields, table: tableNames.pages, meta })
 
     await this.specialSlugConflicts({ slug: prepped.slug, cardId: fields.cardId, siteId, db })
 
@@ -187,10 +206,8 @@ export class ManageSite extends SitesQuery {
 
     const fictionSites = this.settings.fictionSites
     const siteRouter = this.settings.fictionRouterSites
-    const themes = fictionSites.themes.value
-    const theme = themes.find(t => t.themeId === themeId)
-    if (!theme)
-      throw abort(`theme not found - themeId: ${themeId} - available: ${themes.map(t => t.themeId).join(', ')}`)
+
+    const theme = this.getThemeById(themeId)
 
     const site = await theme.toSite({ siteRouter, fictionSites, userId, orgId, siteId: objectId({ prefix: 'sit' }) })
 
@@ -264,13 +281,7 @@ export class ManageSite extends SitesQuery {
 
       const f = deepMerge([themeSite, { subDomain: `${defaultSubDomain}-${shortId({ len: 4 })}` }, fields])
 
-      const prepped = prepareFields({
-        type: 'settings',
-        fields: f,
-        table: tableNames.sites,
-        meta,
-        fictionDb,
-      })
+      const prepped = fictionDb.prep({ type: 'update', fields: f, table: tableNames.sites, meta })
 
       /**
        * save the site
@@ -356,13 +367,7 @@ export class ManageSite extends SitesQuery {
 
       const selector = await this.getSiteSelector(where)
 
-      const prepped = prepareFields({
-        type: 'settings',
-        fields,
-        table: tableNames.sites,
-        meta,
-        fictionDb,
-      })
+      const prepped = fictionDb.prep({ type: 'update', fields, table: tableNames.sites, meta })
 
       ;[data] = await db
         .update({ orgId, userId, ...prepped })

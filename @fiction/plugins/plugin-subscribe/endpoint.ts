@@ -1,5 +1,5 @@
 import { type DataFilter, type EndpointMeta, type EndpointResponse, type FictionDb, type FictionEmail, type FictionEnv, type FictionUser, type IndexQuery, type User, abort, vue } from '@fiction/core'
-import { Query, dayjs, deepMerge, prepareFields } from '@fiction/core'
+import { Query, dayjs, deepMerge } from '@fiction/core'
 import { refineParams, refineTimelineData } from '@fiction/analytics/utils/refine'
 import type { DataCompared, DataPointChart, QueryParamsRefined } from '@fiction/analytics/types'
 import type { Subscriber, TableSubscribeConfig } from './schema'
@@ -120,7 +120,7 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
 
     const subscriptionFields: Partial<TableSubscribeConfig> = { orgId, userId: resolvedUserId, email, ...fields, status: fields?.status || 'active' }
 
-    const insertData = prepareFields({ type: 'create', fields: subscriptionFields, meta, fictionDb, table: t.subscribe })
+    const insertData = fictionDb.prep({ type: 'insert', fields: subscriptionFields, meta, table: t.subscribe })
 
     this.log.info('createSubscription', { data: insertData, caller: meta.caller })
 
@@ -184,7 +184,7 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
       return { status: 'error', message: 'where must be an array of conditions' }
     }
 
-    const prepped = prepareFields({ type: 'settings', fields, meta: _meta, fictionDb: this.settings.fictionDb, table: t.subscribe })
+    const prepped = this.settings.fictionDb.prep({ type: 'update', fields, meta: _meta, table: t.subscribe })
 
     const results: Subscriber[] = []
     for (const condition of where) {

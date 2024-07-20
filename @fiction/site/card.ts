@@ -8,6 +8,7 @@ import type { Site } from './site.js'
 import { CardGeneration } from './generation.js'
 import type { ComponentConstructor } from './type-utils.js'
 import { siteGoto, siteLink } from './utils/manage.js'
+import type { CardQuerySettings } from './cardQuery.js'
 
 type CardCategory = 'basic' | 'posts' | 'theme' | 'stats' | 'marketing' | 'content' | 'layout' | 'media' | 'navigation' | 'social' | 'commerce' | 'form' | 'other' | 'special' | 'portfolio' | 'advanced'
 
@@ -38,8 +39,7 @@ interface CardTemplateSettings<
   sections?: Record<string, CardConfigPortable>
   root?: string
   demoPage?: (args: { site: Site }) => Promise<{ cards: CardConfigPortable< CardTemplateUserConfig<T> & SiteUserConfig>[] }>
-  getQueries?: (args: { site: Site }) => X
-  getRequests?: (args: { site: Site }) => EndpointMap<X>
+  getQueries?: (args: CardQuerySettings) => X
 }
 
 export class CardTemplate<U extends string = string, T extends ComponentConstructor = ComponentConstructor> extends FictionObject<

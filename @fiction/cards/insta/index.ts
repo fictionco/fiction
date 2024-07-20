@@ -1,6 +1,6 @@
-import { type EndpointMeta, type EndpointResponse, Query, vue } from '@fiction/core'
-import type { SendEndpointSettings } from '@fiction/plugins/plugin-send/endpoint'
+import { type EndpointMeta, type EndpointResponse, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
+import { CardQuery } from '@fiction/site/cardQuery'
 import type { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 
@@ -13,13 +13,9 @@ export type UserConfig = z.infer<typeof schema>
 const options: InputOption[] = [
 ]
 
-class InstagramQuery extends Query {
-  constructor(settings: SendEndpointSettings) {
-    super(settings)
-  }
-
-  async run(_params: any, _meta: EndpointMeta): Promise<EndpointResponse> {
-    return { status: 'success', data: [] }
+class InstagramQuery extends CardQuery {
+  async run(_params: { test: boolean }, _meta: EndpointMeta): Promise<EndpointResponse> {
+    return { status: 'success', data: _params }
   }
 }
 
@@ -34,5 +30,8 @@ export const templates = [
     schema,
     options,
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
+    getQueries: args => ({
+      instagram: new InstagramQuery(args),
+    }),
   }),
 ] as const

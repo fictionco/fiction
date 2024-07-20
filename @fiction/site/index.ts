@@ -6,7 +6,8 @@ import type { FictionMonitor } from '@fiction/plugin-monitor'
 import type { FictionAdmin } from '@fiction/admin/index.js'
 import type { FictionAnalytics } from '@fiction/analytics/index.js'
 import { initializeClientTag } from '@fiction/analytics/tag/entry.js'
-import { CardQuery, ManageIndex, ManagePage, ManageSite } from './endpoint.js'
+import { ManageIndex, ManagePage, ManageSite } from './endpoint.js'
+import { CardQueryHandler } from './cardQuery.js'
 import { tables } from './tables.js'
 import { ManageCert } from './endpoint-certs.js'
 import { getRoutes } from './routes.js'
@@ -50,7 +51,7 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
   builder = new FictionSiteBuilder({ ...this.settings, fictionSites: this })
 
   queries = {
-    CardQuery: new CardQuery({ ...this.settings, fictionSites: this }),
+    CardQuery: new CardQueryHandler({ ...this.settings, fictionSites: this }),
     ManageSite: new ManageSite({ ...this.settings, fictionSites: this }),
     ManageIndex: new ManageIndex({ ...this.settings, fictionSites: this }),
     ManagePage: new ManagePage({ ...this.settings, fictionSites: this }),

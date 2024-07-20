@@ -1,16 +1,5 @@
-import type {
-  EndpointMeta,
-  EndpointResponse,
-  FictionDb,
-  FictionEmail,
-  FictionEnv,
-} from '@fiction/core'
-import {
-  Query,
-  abort,
-  isTest,
-  prepareFields,
-} from '@fiction/core'
+import type { EndpointMeta, EndpointResponse, FictionDb, FictionEmail, FictionEnv } from '@fiction/core'
+import { Query, abort, isTest } from '@fiction/core'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
 import type { TableSubmissionConfig } from './tables'
 import { tableName } from './tables'
@@ -56,13 +45,7 @@ export class QueryManageSubmission extends ContactQuery {
     let message = ''
     let resultSubmission: TableSubmissionConfig | undefined
     if (_action === 'create') {
-      const prepped = prepareFields({
-        type: 'settings',
-        fields: submission,
-        table: tableName,
-        meta,
-        fictionDb: this.fictionDb,
-      })
+      const prepped = this.fictionDb.prep({ type: 'insert', fields: submission, table: tableName, meta })
 
       ;[resultSubmission] = await db
         .insert(prepped)

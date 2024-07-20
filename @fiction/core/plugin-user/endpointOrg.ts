@@ -6,7 +6,6 @@ import type { FictionDb } from '../plugin-db/index.js'
 import type { FictionEnv } from '../plugin-env/index.js'
 import { Query } from '../query.js'
 import type { FictionEmail } from '../plugin-email/index.js'
-import { prepareFields } from '../utils/index.js'
 import { standardTable as t } from '../tbl.js'
 import type { MemberAccess, MemberStatus, Organization, OrganizationMembership, User } from './types.js'
 import type { FictionUser } from './index.js'
@@ -259,12 +258,11 @@ export class QueryManageOrganization extends OrgQuery {
   private async updateOrganization(params: ManageOrganizationParams & { _action: 'update' }, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {
     const { where, fields } = params
     this.validatePermission(where, meta)
-    const updatedFields = prepareFields({
-      type: meta.server ? 'internal' : 'settings',
+    const updatedFields = this.settings.fictionDb.prep({
+      type: meta.server ? 'internal' : 'update',
       fields,
       meta,
       table: t.org,
-      fictionDb: this.settings.fictionDb,
     })
 
     const [responseOrg] = await this.db()

@@ -1,113 +1,30 @@
-import type { CreateObjectType } from '@fiction/core'
-import { FictionDbCol, FictionDbTable } from '@fiction/core/plugin-db'
+import type { ColType } from '@fiction/core'
+import { Col, FictionDbTable } from '@fiction/core/plugin-db'
+import { z } from 'zod'
 
 export const tableName = 'fiction_submission'
 
-export type TableSubmissionConfig = CreateObjectType<typeof submissionColumns>
-
-const submissionColumns = [
-  new FictionDbCol({
-    key: 'submissionId',
-    create: ({ schema, column, db }) => {
-      schema
-        .string(column.pgKey)
-        .primary()
-        .defaultTo(db.raw(`object_id('sbmt')`))
-    },
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'userId',
-    create: ({ schema, column }) => {
-      schema
-        .string(column.pgKey, 32)
-        .references(`fiction_user.user_id`)
-        .onUpdate('CASCADE')
-    },
-    default: () => '' as string,
-  }),
-  new FictionDbCol({
-    key: 'notificationEmail',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'appName',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'appUrl',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'name',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'email',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'orgName',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'orgUrl',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'orgTitle',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'message',
-    create: ({ schema, column }) => schema.string(column.pgKey, 2000),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'phone',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'twitter',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'github',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
-  new FictionDbCol({
-    key: 'linkedIn',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    default: () => '' as string,
-    isSetting: true,
-  }),
+export type TableSubmissionConfig = ColType<typeof submissionColumns>
+export const submissionColumns = [
+  new Col({ key: 'submissionId', sec: 'permanent', sch: () => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('sbmt')`)) }),
+  new Col({ key: 'userId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k, 32).references(`fiction_user.user_id`).onUpdate('CASCADE') }),
+  new Col({ key: 'notificationEmail', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'appName', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'appUrl', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'name', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'email', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'orgName', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'orgUrl', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'orgTitle', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'message', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k, 2000) }),
+  new Col({ key: 'phone', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'twitter', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'github', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'linkedIn', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
 ] as const
 
 export const table = new FictionDbTable({
   tableKey: tableName,
   timestamps: true,
-  columns: submissionColumns,
+  cols: submissionColumns,
 })

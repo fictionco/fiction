@@ -16,7 +16,7 @@ export function dbPrep<T>(args: {
   if (!fields || typeof fields !== 'object')
     return fields
 
-  const privateAccess = true
+  const hasPrivateAuthority = true
   const bearerIsAdmin = meta?.bearer?.isSuperAdmin
 
   const columns = fictionDb.getCols(table)
@@ -25,6 +25,8 @@ export function dbPrep<T>(args: {
   columns?.forEach((c) => {
     const { key, sch, sec = 'setting', prepare } = c
     let value = (fields as Record<string, any>)[key]
+
+    const hasReturnAuthority = meta?.returnAuthority?.includes(key)
 
     if (value === undefined)
       return
@@ -40,8 +42,8 @@ export function dbPrep<T>(args: {
       || (type === 'insert' && sec !== 'authority')
       || (type === 'return' && (
         !['authority', 'private'].includes(sec)
-        || (sec === 'authority' && meta?.returnAuthority?.includes(key))
-        || (sec === 'private' && privateAccess)
+        || (sec === 'authority' && hasReturnAuthority)
+        || (sec === 'private' && (hasPrivateAuthority || hasReturnAuthority))
       ))
     )
 

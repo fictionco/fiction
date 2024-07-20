@@ -5,7 +5,7 @@ import type { FictionEnv } from '../plugin-env/index.js'
 import { Query } from '../query.js'
 import type { FictionEmail } from '../plugin-email/index.js'
 import { shortId } from '../utils/id.js'
-import { abort, dayjs, getRequestIpAddress, prepareFields } from '../utils/index.js'
+import { abort, dayjs, getRequestIpAddress } from '../utils/index.js'
 import { standardTable as t } from '../tbl.js'
 import type { EndpointResponse } from '../types/index.js'
 import { getGeoFree } from '../utils/geo.js'
@@ -256,8 +256,8 @@ export class QueryManageUser extends UserBaseQuery {
     fields.ip = ipData.ip
     fields.geo = await getGeoFree(fields.ip)
 
-    const updateType = meta?.server ? 'internal' : 'settings'
-    const insertFields = prepareFields({ type: updateType, fields, meta, fictionDb: this.settings.fictionDb, table: t.user })
+    const updateType = meta?.server ? 'internal' : 'update'
+    const insertFields = this.settings.fictionDb.prep({ type: updateType, fields, meta, table: t.user })
 
     let passwordChanged = false
     // Handle password updates with hashing
@@ -353,7 +353,7 @@ export class QueryManageUser extends UserBaseQuery {
 
     const table = t.user
     const verify = { code: getCode(), expiresAt: dayjs().add(1, 'day').toISOString(), context: 'create' }
-    const insertFields = prepareFields({ type: 'internal', fields: { ...fields, hashedPassword, verify }, meta: { server: true }, fictionDb, table })
+    const insertFields = fictionDb.prep({ type: 'internal', fields: { ...fields, hashedPassword, verify }, meta: { server: true }, table })
 
     const [user] = await db.insert(insertFields).into(table).returning<User[]>('*')
 
@@ -439,7 +439,7 @@ export class QueryManageUser extends UserBaseQuery {
 
   private async prepareResponse(args: { _action: ManageUserParams['_action'], user?: User, isNew: boolean, token?: string, message?: string, params: ManageUserParams }, meta: EndpointMeta): Promise<ManageUserResponse> {
     const { isNew, token, message, params } = args
-    const user = prepareFields({ type: 'returnInfo', fields: args.user, table: t.user, meta, fictionDb: this.settings.fictionDb })
+    const user = this.settings.fictionDb.prep({ type: 'return', fields: args.user, table: t.user, meta })
 
     const fictionUser = this.settings.fictionUser
     if (user?.userId) {

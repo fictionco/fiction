@@ -10,6 +10,7 @@ describe('service health checks', () => {
     { url: 'https://theme-minimal.fiction.com' },
     { url: 'https://andrewpowers.fiction.com' },
     { url: 'https://www.andrewpowers.com' },
+    { url: 'https://beacon.fiction.com' },
   ]
 
   it('services health endpoint works and logs response time', async () => {

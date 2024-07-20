@@ -1,10 +1,10 @@
 import type stripe from 'stripe'
-import type { CreateObjectType } from '../tbl.js'
+import type { ColType } from '../tbl.js'
 import type { UserCapability } from '../utils/priv.js'
 import type { ProgressStatus } from '../types/index.js'
 import type { membersColumns, orgColumns, taxonomyCols, userColumns } from './schema.js'
 
-export type TableTaxonomyConfig = Partial<CreateObjectType<typeof taxonomyCols>> & { isNew?: boolean, usageCount?: number }
+export type TableTaxonomyConfig = Partial<ColType<typeof taxonomyCols>> & { isNew?: boolean, usageCount?: number }
 
 export interface OrganizationConfig {
   serverTimeoutMinutes: number
@@ -24,7 +24,7 @@ export type OrganizationLegal = {
   copyrightText: string
 }
 
-export type Organization = Partial<CreateObjectType<typeof orgColumns>> & {
+export type Organization = Partial<ColType<typeof orgColumns>> & {
   lastOrgId?: boolean
   members?: OrganizationMember[]
   memberCount?: number
@@ -53,7 +53,7 @@ type UserCapabilities = {
   [K in UserCapability]: boolean
 }
 
-export type User = Partial<CreateObjectType<typeof userColumns>> & {
+export type User = Partial<ColType<typeof userColumns>> & {
   orgs?: Organization[]
   relation?: OrganizationMember
 }
@@ -98,7 +98,7 @@ export type StreetAddress = Partial<{
   country: string
 }>
 
-export type OrganizationMember = CreateObjectType<typeof membersColumns> & {
+export type OrganizationMember = ColType<typeof membersColumns> & {
   fullName: string
   email: string
   userId: string

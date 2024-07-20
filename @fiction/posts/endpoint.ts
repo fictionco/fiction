@@ -398,7 +398,6 @@ export class QueryManagePost extends PostsQuery {
     fields.title = fields.title || defaultTitle
 
     const prepped = this.settings.fictionDb.prep({ type: 'insert', fields, meta, table: t.posts })
-    // const _prepped = prepareFields({ type: 'create', fields, table: t.posts, meta, fictionDb: this.settings.fictionDb })
 
     const fieldsWithOrg = { type: 'post', status: 'draft', ...prepped, orgId, userId } as const
     const [{ postId }] = await db(t.posts).insert(fieldsWithOrg).returning('postId')

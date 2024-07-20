@@ -67,7 +67,7 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
   }
 
   async toSite(settings: Omit<SiteSettings, 'themeId'>): Promise<Site> {
-    const site = await Site.create({ ...settings, themeId: this.themeId, pages: [], sections: {} }, { loadThemePages: true })
+    const site = await Site.create({ themeId: this.themeId, pages: [], sections: {}, ...settings }, { loadThemePages: true })
 
     return site
   }

@@ -17,58 +17,59 @@ export async function isValid(value: string, type: ValidationTypes): Promise<boo
   }
 }
 
-export function prepareFields<T >(args: {
-  type?: 'create' | 'settings' | 'internal' | 'returnInfo'
-  fields: T
-  table: string
-  meta?: EndpointMeta
-  fictionDb: FictionDb
-}): Partial<T> {
-  const { type = 'settings', fields, meta, table, fictionDb } = args
+// export function prepareFields<T >(args: {
+//   type?: 'create' | 'settings' | 'internal' | 'returnInfo'
+//   fields: T
+//   table: string
+//   meta?: EndpointMeta
+//   fictionDb: FictionDb
+// }): Partial<T> {
+//   const { type = 'settings', fields, meta, table, fictionDb } = args
 
-  if (!fields || typeof fields !== 'object')
-    return fields
+//   if (!fields || typeof fields !== 'object')
+//     return fields
 
-  const privateAccess = true
-  const bearerIsAdmin = meta?.bearer?.isSuperAdmin
+//   const hasPrivateAuthority = true
+//   const bearerIsAdmin = meta?.bearer?.isSuperAdmin
 
-  const out: Record<string, any> = {}
+//   const out: Record<string, any> = {}
 
-  const db = fictionDb.client()
+//   const db = fictionDb.client()
 
-  const cols = fictionDb.getColumns(table)
+//   const cols = fictionDb.getColumns(table)
 
-  cols?.forEach(
-    ({ key, isSetting, isPrivate, isAuthority, isAdmin, prepare }) => {
-      const k = key
-      const f = fields as Record<string, any>
-      const value = f[k]
+//   cols?.forEach(
+//     ({ key, isSetting, isPrivate, isAuthority, isAdmin, prepare }) => {
+//       const k = key
+//       const f = fields as Record<string, any>
+//       const value = f[k]
 
-      if (
-        value !== undefined
-        && (type === 'internal'
-        || (type === 'settings' && isSetting)
-        || (type === 'create' && !isAuthority)
-        || (type === 'settings' && isAdmin && bearerIsAdmin))
-      ) {
-        out[key]
-          = value !== null && prepare ? prepare({ value, key, db }) : value
-      }
-      else if (
-        type === 'returnInfo'
-        && value
-        && (!isAuthority
-        || (meta?.returnAuthority?.includes(k)))
-        && (!isPrivate || privateAccess)
-      ) {
-        out[key] = value
-      }
-    },
-  )
+//       const hasReturnAuthority = meta?.returnAuthority?.includes(k)
 
-  // add updated time
-  if (cols?.find(c => c.key === 'updatedAt'))
-    out.updatedAt = new Date()
+//       if (
+//         value !== undefined
+//         && (type === 'internal'
+//         || (type === 'settings' && isSetting)
+//         || (type === 'create' && !isAuthority)
+//         || (type === 'settings' && isAdmin && bearerIsAdmin))
+//       ) {
+//         out[key]
+//           = value !== null && prepare ? prepare({ value, key, db }) : value
+//       }
+//       else if (
+//         type === 'returnInfo'
+//         && value
+//         && (!isAuthority || hasReturnAuthority)
+//         && (!isPrivate || (hasPrivateAuthority || hasReturnAuthority))
+//       ) {
+//         out[key] = value
+//       }
+//     },
+//   )
 
-  return out as T
-}
+//   // add updated time
+//   if (cols?.find(c => c.key === 'updatedAt'))
+//     out.updatedAt = new Date()
+
+//   return out as T
+// }

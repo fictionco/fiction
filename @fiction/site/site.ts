@@ -18,7 +18,7 @@ export type EditorState = {
   selectedCardId: string
   selectedPageId: string
   tempPage: CardConfigPortable
-  tempSite: Partial<TableSiteConfig>
+  tempSite: Record<string, any>
   selectedRegionId: PageRegion | undefined
   savedCardOrder: Record<string, string[]>
 }

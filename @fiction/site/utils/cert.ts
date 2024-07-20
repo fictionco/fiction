@@ -1,4 +1,4 @@
-import { type EndpointMeta, type FictionDb, _stop, prepareFields, validHost } from '@fiction/core'
+import { type EndpointMeta, type FictionDb, _stop, validHost } from '@fiction/core'
 import type { TableDomainConfig } from '../tables'
 import { tableNames } from '../tables'
 import type { FictionSites } from '..'
@@ -35,7 +35,7 @@ export async function updateSiteCerts(args: { siteId: string, customDomains?: Pa
     const result = await fictionSites.queries.ManageCert.serve({ _action: 'create', hostname, siteId }, { caller: 'updateSiteCerts' })
 
     if (result.status === 'success' && result.data) {
-      const prepped = prepareFields({ type: 'internal', fields: { ...domain, ...result.data }, table: tableNames.domains, meta, fictionDb })
+      const prepped = fictionDb.prep({ type: 'internal', fields: { ...domain, ...result.data }, table: tableNames.domains, meta })
       return (await db(tableNames.domains)
         .insert({ siteId, hostname: domain.hostname, ...prepped })
         .onConflict(['hostname', 'site_id'])
