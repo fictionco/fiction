@@ -36,61 +36,9 @@ export class Col<U extends string = string, T extends ColDefaultValue = ColDefau
   }
 }
 
-type CreateCol = (params: { schema: Knex.AlterTableBuilder, column: FictionDbCol, db: Knex }) => void
-
-export interface FictionDbColSettings<U extends string = string, T extends ColDefaultValue = ColDefaultValue> {
-  key: U
-  default: () => T
-  zodSchema?: (args: { z: typeof z }) => ZodSchema<any>
-  description?: string
-  isComposite?: boolean // for composite keys
-  create: CreateCol
-  prepare?: PrepareForStorage<T>
-  isPrivate?: boolean
-  isSetting?: boolean
-  isAuthority?: boolean
-  isAdmin?: boolean
-}
-export class FictionDbCol<U extends string = string, T extends ColDefaultValue = ColDefaultValue> {
-  key: U
-  default: () => Knex.Value
-  zodSchema?: ZodSchema<any>
-  readonly pgKey: string
-  readonly description?: string
-  isComposite?: boolean
-  create: CreateCol
-  isPrivate: boolean
-  isSetting: boolean
-  isAuthority: boolean
-  isAdmin: boolean
-  prepare?: PrepareForStorage
-  constructor(settings: FictionDbColSettings<U, T>) {
-    const { description } = settings || {}
-    this.description = description
-    this.key = settings.key
-    this.pgKey = toSnake(settings.key)
-    this.create = settings.create
-    this.prepare = settings.prepare as PrepareForStorage // dont use generic as it overspecifies the class interface
-    this.isComposite = settings.isComposite
-    this.isPrivate = settings.isPrivate ?? false
-    this.isSetting = settings.isSetting ?? false
-    this.isAuthority = settings.isAuthority ?? false
-    this.isAdmin = settings.isAdmin ?? false
-
-    // Make sure undefined gets converted to null per knex standards
-    this.default = () => (settings.default() || null)
-
-    this.zodSchema = settings.zodSchema?.({ z })
-  }
-
-  createColumn(schema: Knex.AlterTableBuilder, db: Knex): void {
-    return this.create({ schema, column: this, db })
-  }
-}
 export interface FictionDbTableSettings {
   tableKey: string
   timestamps?: boolean
-  columns?: readonly FictionDbCol[]
   cols?: readonly Col<any, any>[]
   dependsOn?: string[]
   onCreate?: (t: Knex.AlterTableBuilder) => void
@@ -100,7 +48,6 @@ export interface FictionDbTableSettings {
 export class FictionDbTable {
   readonly tableKey: string
   readonly pgTableKey: string
-  columns: FictionDbCol[]
   cols: Col[]
   log: LogHelper
   timestamps: boolean
@@ -113,7 +60,6 @@ export class FictionDbTable {
     this.log = log.contextLogger(`FictionDbTable:${this.tableKey}`)
     this.timestamps = params.timestamps ?? false
     this.onCreate = params.onCreate
-    this.columns = this.legacyAddDefaultColumns(params.columns || [])
     this.cols = this.addStandardCols((params.cols || []) as Col[])
     this.dependsOn = params.dependsOn ?? []
     this.uniqueOn = params.uniqueOn ?? []
@@ -136,29 +82,8 @@ export class FictionDbTable {
     return [...cols, ...tsCols] as Col[]
   }
 
-  legacyAddDefaultColumns(
-    columns: FictionDbCol[] | readonly FictionDbCol[],
-  ): FictionDbCol[] {
-    const tsCols = [
-      new FictionDbCol({ key: 'createdAt', create: ({ schema, column, db }) => schema.timestamp(column.pgKey).notNullable().defaultTo(db.fn.now()), default: () => '' }),
-      new FictionDbCol({ key: 'updatedAt', create: ({ schema, column, db }) => schema.timestamp(column.pgKey).notNullable().defaultTo(db.fn.now()), default: () => '' }),
-    ]
-
-    return [...columns, ...tsCols]
-  }
-
   async createColumns(db: Knex) {
     const rows: string[] = []
-    const p = this.columns.filter(c => !c.isComposite)
-      .map(async (col) => {
-        const hasColumn = await db.schema.hasColumn(this.pgTableKey, col.pgKey)
-        if (!hasColumn) {
-          await db.schema.table(this.pgTableKey, t => col.createColumn(t, db))
-          rows.push(col.pgKey)
-        }
-      })
-
-    await Promise.all(p)
 
     const p2 = this.cols.filter(c => c.settings.sec !== 'composite').map(async (col) => {
       const hasColumn = await db.schema.hasColumn(this.pgTableKey, col.k)

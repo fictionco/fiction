@@ -1,5 +1,5 @@
-import type { ColDefaultValue, ColSettings, FictionDbColSettings, FictionDbTableSettings } from '@fiction/core'
-import { Col, FictionDbCol, FictionDbTable, dayjs } from '@fiction/core'
+import type { ColDefaultValue, ColSettings, FictionDbTableSettings } from '@fiction/core'
+import { Col, FictionDbTable, dayjs } from '@fiction/core'
 import { z } from 'zod'
 import type { TimeLineInterval } from '../types.js'
 import type { FictionEvent } from '../typesTracking.js'

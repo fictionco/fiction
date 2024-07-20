@@ -13,7 +13,7 @@ import { EnvVar, vars } from '../plugin-env/index.js'
 import type { FictionServer } from '../plugin-server/index.js'
 import { toCamel } from '../utils/casing.js'
 import { CheckUsername } from './endpoint.js'
-import type { Col, FictionDbCol, FictionDbTable } from './objects.js'
+import type { Col, FictionDbTable } from './objects.js'
 import { dbPrep } from './utils.js'
 
 export * from './objects.js'
@@ -138,7 +138,7 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
       callback: async (existing) => {
         const list: Record<string, typebox.TSchema> = {}
         this.tables.forEach((tbl) => {
-          const colKeys = tbl.columns.map(c => typebox.Type.Literal(c.key))
+          const colKeys = tbl.cols.map(c => typebox.Type.Literal(c.key))
           list[tbl.tableKey] = typebox.Type.Union(colKeys)
         })
 
@@ -159,7 +159,7 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
 
   addColumns(
     tableKey: string,
-    columns: FictionDbCol[] | readonly FictionDbCol[],
+    columns: Col[] | readonly Col[],
   ) {
     this.settings.fictionEnv.hooks.push({
       hook: 'dbOnTables',
@@ -167,7 +167,7 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
         const tbl = tables.find(t => t.tableKey === tableKey)
 
         if (tbl) {
-          tbl.columns.push(...columns)
+          tbl.cols.push(...columns)
         }
         else {
           this.log.error(`could not find table ${tableKey}`, {
@@ -191,7 +191,7 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
     return tbl?.cols || []
   }
 
-  getColumns(tableKey: string): FictionDbCol[] | undefined {
+  getColumns(tableKey: string): Col[] | undefined {
     const tbl = this.tables.find(t => t.tableKey === tableKey)
 
     if (!tbl) {
@@ -199,7 +199,7 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
         data: { tableKeys: this.tables.map(t => t.tableKey) },
       })
     }
-    return tbl?.columns
+    return tbl?.cols
   }
 
   client(): Knex {
