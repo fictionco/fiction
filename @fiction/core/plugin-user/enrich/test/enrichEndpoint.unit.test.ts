@@ -33,7 +33,7 @@ describe('user enrichment', async () => {
     expect(enrichedUser?.userId).toBe(user.userId)
     expect(enrichedUser?.hashedPassword).toBeFalsy()
     expect(enrichedUser?.verify?.code).toBeFalsy()
-    expect(enrichedUser?.headline).toBe(exampleResponse.person.headline)
+    expect(enrichedUser?.headline, 'HEADLINE').toBe(exampleResponse.person.headline)
     expect(enrichedUser?.title).toBe(exampleResponse.person.title)
     expect(enrichedUser?.accounts?.xUrl).toBe(exampleResponse.person.twitter_url)
     expect(enrichedUser?.company?.employeeCount).toBe(exampleResponse.person.organization.estimated_num_employees)

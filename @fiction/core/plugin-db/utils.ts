@@ -61,7 +61,7 @@ export function dbPrep<T>(args: {
       }
     }
 
-    if (includeField && isValid) {
+    if (includeField && isValid && value) {
       (out as Record<string, any>)[key] = value !== null && prepare ? prepare({ value, key }) : value
     }
   })

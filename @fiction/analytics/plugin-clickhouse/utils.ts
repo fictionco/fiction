@@ -1,27 +1,27 @@
-import type { ColDefaultValue, FictionDbColSettings, FictionDbTableSettings } from '@fiction/core'
-import { FictionDbCol, FictionDbTable, dayjs } from '@fiction/core'
+import type { ColDefaultValue, ColSettings, FictionDbColSettings, FictionDbTableSettings } from '@fiction/core'
+import { Col, FictionDbCol, FictionDbTable, dayjs } from '@fiction/core'
+import { z } from 'zod'
 import type { TimeLineInterval } from '../types.js'
 import type { FictionEvent } from '../typesTracking.js'
 import type { BaseChartData, ClickHouseDatatype, FictionClickHouse } from './index.js'
 
 type ValueCallback = (params: {
   event: FictionEvent
-  session: Record<string, string | number | boolean>
+  session: Record<string, string | number | boolean | Record<string, string>>
   key: string
-}) => string | number | boolean | undefined
+}) => string | number | boolean | undefined | Record<string, string>
 
 type SessionSelector = (args: { id: string, key: string }) => string
 
 type FictionAnalyticsColSettings<U extends string = string, T extends ColDefaultValue = ColDefaultValue> = {
-  key: U
-  default: () => T
   clickHouseType?: ClickHouseDatatype
   sessionSelector?: SessionSelector
   indexOn?: boolean
   getValue?: ValueCallback
-} & FictionDbColSettings<U, T>
+  description?: string
+} & ColSettings<U, T>
 
-export class FictionAnalyticsCol< U extends string = string, T extends ColDefaultValue = ColDefaultValue> extends FictionDbCol<U, T> {
+export class FictionAnalyticsCol< U extends string = string, T extends ColDefaultValue = ColDefaultValue> extends Col<U, T> {
   clickHouseType: ClickHouseDatatype
   indexOn: boolean
   getValue?: ValueCallback
@@ -37,39 +37,39 @@ export class FictionAnalyticsCol< U extends string = string, T extends ColDefaul
 }
 
 type FictionAnalyticsTableSettings = FictionDbTableSettings & {
-  columns: readonly FictionAnalyticsCol[]
+  cols: readonly FictionAnalyticsCol<string, any>[]
 }
 
 // readonly is just for types
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
 export class FictionAnalyticsTable extends FictionDbTable {
-  override columns: FictionAnalyticsCol[]
+  override cols: FictionAnalyticsCol[]
   constructor(settings: FictionAnalyticsTableSettings) {
     super(settings)
-    this.columns = this.addDefaultColumns(settings.columns) as Writeable< FictionAnalyticsCol[] >
+    this.cols = this.addDefaultColumns(settings.cols || []) as Writeable< FictionAnalyticsCol[] >
   }
 
   addDefaultColumns(
-    columns: FictionDbCol[] | readonly FictionDbCol[],
-  ): FictionDbCol[] {
+    cols: Col[] | readonly Col[],
+  ): Col[] {
     const tsCols = this.timestamps
       ? [
-          new FictionDbCol({ key: 'createdAt', create: ({ schema, column, db }) => schema.timestamp(column.pgKey).notNullable().defaultTo(db.fn.now()), default: () => '' }),
-          new FictionDbCol({ key: 'updatedAt', create: ({ schema, column, db }) => schema.timestamp(column.pgKey).notNullable().defaultTo(db.fn.now()), default: () => '' }),
+          new Col({ key: 'createdAt', sec: 'setting', make: ({ s, col, db }) => s.timestamp(col.k).notNullable().defaultTo(db.fn.now()), sch: () => z.string() }),
+          new Col({ key: 'updatedAt', sec: 'setting', make: ({ s, col, db }) => s.timestamp(col.k).notNullable().defaultTo(db.fn.now()), sch: () => z.string() }),
         ]
       : []
 
-    return [...columns, ...tsCols]
+    return [...cols, ...tsCols] as Col[]
   }
 
   async createClickHouseTable(fictionClickHouse: FictionClickHouse) {
     const dbName = fictionClickHouse.dbName
-    const fieldsInQuery = this.columns
+    const fieldsInQuery = this.cols
       .map(col => `${col.key} ${col.clickHouseType}`)
       .join(`,\n`)
 
-    const orderBy = this.columns
+    const orderBy = this.cols
       .filter(c => c.indexOn)
       .map(c => c.key)
       .join(', ')
@@ -85,7 +85,7 @@ export class FictionAnalyticsTable extends FictionDbTable {
 
     await fictionClickHouse.clickHouseQuery({ query })
 
-    const addColumnQuery = `ALTER TABLE ${tableName} ${this.columns
+    const addColumnQuery = `ALTER TABLE ${tableName} ${this.cols
       .map((col) => {
         return `ADD COLUMN IF NOT EXISTS ${col.key} ${col.clickHouseType}`
       })

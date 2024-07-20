@@ -139,7 +139,7 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
         const key = f.key
 
         const v = f.getValue
-          ? f.getValue({ event, session: session as Record<string, string | number | boolean>, key })
+          ? f.getValue({ event, session: session as Record<string, string | number | boolean | Record<string, string>>, key })
           : f.sessionSelector
             ? session[key]
             : undefined
@@ -226,7 +226,7 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
       ...session,
       timestamp,
       endedAt: timestamp,
-      duration: startedAt ? d().diff(d.unix(startedAt), 'second') : 0,
+      duration: startedAt ? d().diff(d.unix(startedAt as number), 'second') : 0,
       viewNo: Math.max(newViewNo, 0), // prevent negative
       eventNo: Math.max(newEventNo, 0), // prevent negative
     }
