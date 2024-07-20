@@ -1,18 +1,10 @@
-import type {
-  User,
-} from '@fiction/core'
-import {
-  FictionDbCol,
-  FictionDbTable,
-
-} from '@fiction/core'
-import type { CreateObjectType } from '@fiction/core/tbl'
+import type { User } from '@fiction/core'
+import { Col, FictionDbTable } from '@fiction/core'
+import type { ColType } from '@fiction/core/tbl'
 import { standardTable } from '@fiction/core/tbl'
+import { z } from 'zod'
 
-export type TableSourceConfig = CreateObjectType<typeof sourceTableColumns> &
-  {
-    author?: User
-  }
+export type TableSourceConfig = ColType<typeof sourceTableColumns> & { author?: User }
 
 export type SourceItemMetaData = {
   type?: 'url' | 'file' | 'text' | 'sitemap'
@@ -34,82 +26,19 @@ export interface SourceItem {
 }
 
 export const sourceTableColumns = [
-  new FictionDbCol({
-    key: 'sourceId',
-    create: ({ schema, column, db }) => {
-      schema
-        .string(column.pgKey)
-        .primary()
-        .defaultTo(db.raw(`object_id('so')`))
-    },
-    default: () => '',
-  }),
-  new FictionDbCol({
-    key: 'orgId',
-    create: ({ schema, column }) => {
-      schema
-        .string(column.pgKey, 32)
-        .references(`${standardTable.org}.org_id`)
-        .onUpdate('CASCADE')
-    },
-    default: () => '',
-  }),
-  new FictionDbCol({
-    key: 'userId',
-    create: ({ schema, column }) => {
-      schema.string(column.pgKey, 32).references(`fiction_user.user_id`)
-    },
-    default: () => '',
-  }),
-  new FictionDbCol({
-    key: 'agentId',
-    create: ({ schema, column }) => {
-      schema
-        .string(column.pgKey, 32)
-        .references(`${standardTable.agent}.agent_id`)
-        .onUpdate('CASCADE')
-    },
-    default: () => '',
-  }),
-  new FictionDbCol({
-    key: 'sourceName',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    isSetting: true,
-    default: () => '',
-  }),
-  new FictionDbCol({
-    key: 'sourceContent',
-    create: ({ schema, column }) => schema.text(column.pgKey),
-    isSetting: true,
-    default: () => '',
-  }),
-  new FictionDbCol({
-    key: 'sourceUrls',
-    create: ({ schema, column }) => schema.jsonb(column.pgKey),
-    isSetting: true,
-    prepare: ({ value }) => JSON.stringify(value),
-    default: () => ({} as { url: string, length: number }[]),
-  }),
-  new FictionDbCol({
-    key: 'description',
-    create: ({ schema, column }) => schema.string(column.pgKey, 10_000),
-    isSetting: true,
-    default: () => '',
-  }),
-  new FictionDbCol({
-    key: 'sourceType',
-    create: ({ schema, column }) => schema.string(column.pgKey),
-    isSetting: true,
-    default: () => '' as 'url' | 'file' | 'text' | 'sitemap',
-  }),
+  new Col({ key: 'sourceId', sec: 'permanent', sch: () => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('so')`)) }),
+  new Col({ key: 'orgId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k, 32).references(`${standardTable.org}.org_id`).onUpdate('CASCADE') }),
+  new Col({ key: 'userId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k, 32).references(`fiction_user.user_id`) }),
+  new Col({ key: 'agentId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k, 32).references(`${standardTable.agent}.agent_id`).onUpdate('CASCADE') }),
+  new Col({ key: 'sourceName', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'sourceContent', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k) }),
+  new Col({ key: 'sourceUrls', sec: 'setting', sch: () => z.array(z.object({ url: z.string(), length: z.number() })), make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(value) }),
+  new Col({ key: 'description', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k, 10_000) }),
+  new Col({ key: 'sourceType', sec: 'setting', sch: () => z.enum(['url', 'file', 'text', 'sitemap']), make: ({ s, col }) => s.string(col.k) }),
 ] as const
 
 export const tables = [
 
-  new FictionDbTable({
-    tableKey: standardTable.source,
-    timestamps: true,
-    columns: sourceTableColumns,
-  }),
+  new FictionDbTable({ tableKey: standardTable.source, timestamps: true, cols: sourceTableColumns }),
 
 ]

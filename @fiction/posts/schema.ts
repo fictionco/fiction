@@ -1,7 +1,7 @@
 import type { ColType, TableTaxonomyConfig, User } from '@fiction/core'
 import { z } from 'zod'
 import { MediaSchema, PostStatusSchema, standardTable, toSlug } from '@fiction/core'
-import { Col, FictionDbCol, FictionDbTable } from '@fiction/core/plugin-db'
+import { Col, FictionDbTable } from '@fiction/core/plugin-db'
 import type { SiteUserConfig, TableSiteConfig } from '@fiction/site'
 
 export const t = {
