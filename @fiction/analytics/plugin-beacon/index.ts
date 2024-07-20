@@ -21,7 +21,7 @@ export class FictionBeacon extends FictionPlugin<FictionBeaconSettings> {
   beaconUrlLocal = `http://localhost:${this.beaconPort}`
   beaconUrlLive = this.settings.beaconUrlLive || this.beaconUrlLocal
   beaconUrl = vue.computed(() => {
-    const isLive = this.settings.isLive?.value ?? false
+    const isLive = this.settings.fictionEnv.isProd?.value ?? false
     return isLive ? this.beaconUrlLive : this.beaconUrlLocal
   })
 
@@ -57,7 +57,7 @@ export class FictionBeacon extends FictionPlugin<FictionBeaconSettings> {
    * Should restart servers/subs if run multiple times
    */
   async init() {
-    if (this.settings.isLive?.value) {
+    if (this.fictionEnv.isProd?.value) {
       if (!this.beaconUrl.value.includes('https')) {
         throw new Error(`Beacon server should be running on https in live mode (${this.beaconUrl.value})`)
       }

@@ -38,8 +38,8 @@ interface CardTemplateSettings<
   sections?: Record<string, CardConfigPortable>
   root?: string
   demoPage?: (args: { site: Site }) => Promise<{ cards: CardConfigPortable< CardTemplateUserConfig<T> & SiteUserConfig>[] }>
-  getQueries?: () => X
-  getRequests?: () => EndpointMap<X>
+  getQueries?: (args: { site: Site }) => X
+  getRequests?: (args: { site: Site }) => EndpointMap<X>
 }
 
 export class CardTemplate<U extends string = string, T extends ComponentConstructor = ComponentConstructor> extends FictionObject<

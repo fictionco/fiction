@@ -63,10 +63,7 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionAdmin: Fictio
     templateDefaults: { page: 'dash', transaction: 'transaction' },
     userConfig: {
       colors: { isDarkMode: true },
-      spacing: {
-        contentWidthSize: 'sm',
-        spacingSize: `none`,
-      },
+      spacing: { contentWidthSize: 'sm', spacingSize: `none` },
       branding: {
         logo: { format: 'html' as const, html: fictionLogo },
       },

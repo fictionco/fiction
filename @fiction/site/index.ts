@@ -1,13 +1,12 @@
 import { FictionPlugin, getAnonymousId, safeDirname, vue } from '@fiction/core'
 import type { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionPluginSettings, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
-
 import { EnvVar, vars } from '@fiction/core/plugin-env'
 import type { FictionAi } from '@fiction/plugin-ai'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
 import type { FictionAdmin } from '@fiction/admin/index.js'
 import type { FictionAnalytics } from '@fiction/analytics/index.js'
 import { initializeClientTag } from '@fiction/analytics/tag/entry.js'
-import { ManageIndex, ManagePage, ManageSite } from './endpoint.js'
+import { CardQuery, ManageIndex, ManagePage, ManageSite } from './endpoint.js'
 import { tables } from './tables.js'
 import { ManageCert } from './endpoint-certs.js'
 import { getRoutes } from './routes.js'
@@ -51,6 +50,7 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
   builder = new FictionSiteBuilder({ ...this.settings, fictionSites: this })
 
   queries = {
+    CardQuery: new CardQuery({ ...this.settings, fictionSites: this }),
     ManageSite: new ManageSite({ ...this.settings, fictionSites: this }),
     ManageIndex: new ManageIndex({ ...this.settings, fictionSites: this }),
     ManagePage: new ManagePage({ ...this.settings, fictionSites: this }),

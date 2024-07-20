@@ -7,7 +7,11 @@ import type { FictionStripe } from '@fiction/plugin-stripe/plugin.js'
 import type { FictionAdmin } from '@fiction/admin/index.js'
 import type { SpecificService } from './index.js'
 
-export async function getThemes(args: { fictionEnv: FictionEnv, fictionStripe: FictionStripe, fictionAdmin: FictionAdmin }): Promise<Theme[]> {
+export async function getThemes(args: {
+  fictionEnv: FictionEnv
+  fictionStripe: FictionStripe
+  fictionAdmin: FictionAdmin
+}): Promise<Theme[]> {
   const themes = Promise.all([
     themeFiction.setup(args),
     themeMinimal.setup(args),

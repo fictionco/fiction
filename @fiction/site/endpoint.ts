@@ -18,6 +18,16 @@ export abstract class SitesQuery extends Query<SitesQuerySettings> {
   }
 }
 
+export class CardQuery extends SitesQuery {
+  async run(params: { siteId: string, templateId: string, args: Record<string, any> }, meta: EndpointMeta): Promise<EndpointResponse> {
+    const { siteId } = params
+    const { ManageSite } = this.settings.fictionSites.queries
+    const site = ManageSite.serve({ _action: 'retrieve', where: { siteId } }, { ...meta, caller: 'CardQuery' })
+
+    return { status: 'success', data: 'CardQuery' }
+  }
+}
+
 type ManagePageParams = {
   siteId: string
   userId: string
