@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { useRender } from 'vue-email'
 import { vue } from '../../utils/libraries.js'
 import { toMarkdown } from '../../utils/markdown.js'
 import EmailStandard from '../templates/EmailStandard.vue'
@@ -11,6 +10,7 @@ import { sampleHtml } from './content.js'
 const email = vue.ref('')
 
 vue.onMounted(async () => {
+  const { useRender } = await import('vue-email')
   // subject: { type: String, default: undefined },
   // heading: { type: String, default: undefined },
   // subHeading: { type: String, default: undefined },

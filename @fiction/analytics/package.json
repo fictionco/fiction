@@ -26,7 +26,7 @@
   "buildOptions": [
     {
       "buildName": "FictionTag",
-      "entryFile": "client-tag/index.ts",
+      "entryFile": "tag/entry.ts",
       "outputDir": "dist/clientTag",
       "prod": {
         "main": "dist/clientTag/index.js",

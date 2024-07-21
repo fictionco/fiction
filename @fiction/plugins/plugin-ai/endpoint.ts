@@ -2,7 +2,7 @@ import type { EndpointMeta, EndpointResponse, TableMediaConfig } from '@fiction/
 import { Query, Shortcodes, abort, objectId, toLabel } from '@fiction/core'
 import type { PineconeRecord, RecordMetadata } from '@pinecone-database/pinecone'
 import { Pinecone } from '@pinecone-database/pinecone'
-import OpenAI from 'openai'
+
 import type { SourceItem } from './tables'
 import { Document, TextSplitter } from './splitter'
 import type { FictionAi, FictionAiSettings } from '.'
@@ -54,7 +54,8 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
     return pc.index(this.settings.pineconeIndex).namespace(namespace)
   }
 
-  getOpenAiApi() {
+  async getOpenAiApi() {
+    const { default: OpenAI } = await import('openai')
     // we don't actually run in browser, but is needed as it just checks for window
     return new OpenAI({ apiKey: this.settings.openaiApiKey, dangerouslyAllowBrowser: true })
   }
@@ -86,7 +87,7 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
   }
 
   async getEmbeddings(documents: Document[]): Promise<PineconeRecord[]> {
-    const openAi = this.getOpenAiApi()
+    const openAi = await this.getOpenAiApi()
     const p = documents.map(async (doc) => {
       const text = doc.pageContent
       const embeddings = await openAi.embeddings.create({
@@ -130,7 +131,7 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
     if (!baseInstruction)
       throw abort('basePrompt required')
 
-    const openAi = this.getOpenAiApi()
+    const openAi = await this.getOpenAiApi()
 
     if (useSimilaritySearch) {
       if (!searchNamespace)
@@ -368,7 +369,7 @@ export class AiImage extends QueryAi {
 
     let data: TableMediaConfig | undefined = undefined
 
-    const openAi = this.getOpenAiApi()
+    const openAi = await this.getOpenAiApi()
 
     const sizes = { landscape: '1792x1024', portrait: '1024x1792', squarish: '1024x1024' } as const
 

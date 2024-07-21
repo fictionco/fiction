@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import { useRender } from 'vue-email'
+
 import EmailStandard from '@fiction/core/plugin-email/templates/EmailStandard.vue'
 import type { TransactionalEmailConfig } from '@fiction/core/plugin-email/index.js'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
@@ -34,6 +34,8 @@ async function setEmail(campaignConfig?: EmailCampaignConfig) {
   }
 
   const conf = await getEmailForCampaign({ campaignConfig, fictionSend, org, withDefaults: true })
+
+  const { useRender } = await import('vue-email')
 
   const r = await useRender(EmailStandard, { props: emailConfig })
   conf.bodyHtml = r.html
