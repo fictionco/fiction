@@ -20,15 +20,15 @@ export async function isGitDirty(): Promise<boolean> {
 /**
  * Create a parsed file from  it's template path and tracker config
  */
-export function createFile(templatePath: string, settings: Record<string, string> = {}): string {
-  /**
-   * Register a helper to print raw JS objects
-   */
-  Handlebars.registerHelper('json', context => JSON.stringify(context, null, 4))
-  const html = fs.readFileSync(templatePath, 'utf8')
-  const template = Handlebars.compile(html)
-  return template(settings)
-}
+// export function createFile(templatePath: string, settings: Record<string, string> = {}): string {
+//   /**
+//    * Register a helper to print raw JS objects
+//    */
+//   Handlebars.registerHelper('json', context => JSON.stringify(context, null, 4))
+//   const html = fs.readFileSync(templatePath, 'utf8')
+//   const template = Handlebars.compile(html)
+//   return template(settings)
+// }
 /**
  * Get all workspace package names
  * Cache results to avoid unnecessary filesystem reads

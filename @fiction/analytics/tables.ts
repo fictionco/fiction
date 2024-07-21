@@ -1,4 +1,4 @@
-import { type ColDefaultValue, dayjs, objectId } from '@fiction/core'
+import { dayjs } from '@fiction/core'
 import { z } from 'zod'
 import { FictionAnalyticsCol, FictionAnalyticsTable } from './plugin-clickhouse/utils.js'
 import { standardUrl } from './plugin-beacon/utils/index.js'

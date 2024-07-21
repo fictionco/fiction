@@ -23,15 +23,8 @@ export function getServerHealth(expressApp: express.Express) {
       heapUsed: memoryUsage.heapUsed,
       external: memoryUsage.external,
     },
-    cpuUsage: {
-      user: cpuUsage.user,
-      system: cpuUsage.system,
-    },
-    loadAverage: {
-      '1m': loadAverage[0],
-      '5m': loadAverage[1],
-      '15m': loadAverage[2],
-    },
+    cpuUsage: { user: cpuUsage.user, system: cpuUsage.system },
+    loadAverage: { '1m': loadAverage[0], '5m': loadAverage[1], '15m': loadAverage[2] },
     environment: process.env.NODE_ENV || 'development',
     requestCount: expressApp.get('requestCount'),
     activeConnections: 0, // You will need to implement logic to get active connections

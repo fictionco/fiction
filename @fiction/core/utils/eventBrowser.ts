@@ -1,31 +1,24 @@
-export type BrowserEvent =
-  | 'load'
-  | 'mousemove'
-  | 'mousedown'
-  | 'touchstart'
-  | 'click'
-  | 'keypress'
-  | 'scroll'
-  | 'init'
-  | 'blur'
-  | 'focus'
-  | 'pagehide'
-  | 'beforeunload'
-  | 'visibilitychange'
-  | 'dragstart'
-  | 'error'
+  type BrowserEventMap = {
+    load: Event
+    mousemove: MouseEvent
+    mousedown: MouseEvent
+    touchstart: TouchEvent
+    click: MouseEvent
+    keypress: KeyboardEvent
+    scroll: Event
+    init: Event // Note: 'init' is not a standard DOM event, so using Event as a fallback
+    blur: FocusEvent
+    focus: FocusEvent
+    pagehide: PageTransitionEvent
+    beforeunload: BeforeUnloadEvent
+    visibilitychange: Event
+    dragstart: DragEvent
+    error: ErrorEvent
+  }
 
-type BrowserEventObject<T> = T extends 'mousemove' | 'mousedown' | 'click'
-  ? MouseEvent
-  : T extends 'touchstart'
-    ? TouchEvent
-    : T extends 'keypress'
-      ? KeyboardEvent
-      : T extends 'dragstart'
-        ? DragEvent
-        : T extends 'error'
-          ? ErrorEvent
-          : Event
+export type BrowserEvent = keyof BrowserEventMap
+
+export type BrowserEventObject<T extends BrowserEvent> = BrowserEventMap[T]
 
 /**
  * Helper that adds a remover callback and sets options for listeners

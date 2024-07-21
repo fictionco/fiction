@@ -1,4 +1,4 @@
-import { optional, z } from 'zod'
+import { z } from 'zod'
 import type { MediaDisplayObject } from '../types'
 
 export const PostStatusSchema = z.enum(['draft', 'scheduled', 'published', 'hidden', 'protected', 'deleted', 'archived', 'trashed', 'spam'])

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { resetUi, useService, vue } from '@fiction/core'
+import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import CardNavLink from '@fiction/cards/CardNavLink.vue'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'

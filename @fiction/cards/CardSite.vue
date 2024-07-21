@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import type { FictionRouter } from '@fiction/core'
-import { getColorScheme, log, toLabel, unhead, useService, vue } from '@fiction/core'
+import { getColorScheme, log, simpleHandlebarsParser, toLabel, unhead, useService, vue } from '@fiction/core'
 import { FrameUtility } from '@fiction/ui/frame/elBrowserFrameUtil'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import NotifyToaster from '@fiction/ui/notify/NotifyToaster.vue'
-import handlebars from 'handlebars'
 import type { FictionSites, Site } from '@fiction/site'
 import { getMountContext, loadSite } from '@fiction/site/load'
 import type { FramePostMessageList } from '@fiction/site/utils/frame'
@@ -69,7 +68,7 @@ function getTitleTag() {
     const siteTitle = site.value?.title?.value || 'Untitled Site'
 
     // Create the title by replacing placeholders with actual values
-    const title = handlebars.compile(titleTemplate)({ pageTitle, siteTitle })
+    const title: string = simpleHandlebarsParser(titleTemplate, { pageTitle, siteTitle })
 
     return title
   }

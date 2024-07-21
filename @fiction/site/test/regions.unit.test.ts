@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { InitializedTestUtils } from '@fiction/core/test-utils'
-import { objectId, shortId } from '@fiction/core'
+import { objectId } from '@fiction/core'
 import { Card } from '../card'
 import { Site } from '../site'
 import type { SiteTestUtils } from './testUtils'

@@ -1,5 +1,6 @@
 export function commonServerOnlyModules(): Record<string, true | Record<string, string>> {
   return {
+    'js-yaml': true,
     'cron': true,
     'node:inspector': true,
     'playwright': true,

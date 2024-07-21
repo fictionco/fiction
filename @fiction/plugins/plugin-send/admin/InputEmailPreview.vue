@@ -2,7 +2,6 @@
 import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 
-import EmailStandard from '@fiction/core/plugin-email/templates/EmailStandard.vue'
 import type { TransactionalEmailConfig } from '@fiction/core/plugin-email/index.js'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
@@ -36,6 +35,7 @@ async function setEmail(campaignConfig?: EmailCampaignConfig) {
   const conf = await getEmailForCampaign({ campaignConfig, fictionSend, org, withDefaults: true })
 
   const { useRender } = await import('vue-email')
+  const EmailStandard = vue.defineAsyncComponent(() => import('@fiction/core/plugin-email/templates/EmailStandard.vue'))
 
   const r = await useRender(EmailStandard, { props: emailConfig })
   conf.bodyHtml = r.html

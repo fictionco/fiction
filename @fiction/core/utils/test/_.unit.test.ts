@@ -1,5 +1,35 @@
 import { describe, expect, it, vi } from 'vitest'
-import { debounce, throttle } from '../_'
+import { debounce, simpleHandlebarsParser, throttle } from '../_'
+
+describe('simpleHandlebarsParser', () => {
+  it('replaces placeholders with context values', () => {
+    const template = 'Hello, {{name}}! Welcome to {{place}}.'
+    const context = { name: 'Alice', place: 'Wonderland' }
+    const result = simpleHandlebarsParser(template, context)
+    expect(result).toBe('Hello, Alice! Welcome to Wonderland.')
+  })
+
+  it('leaves unmatched placeholders unchanged', () => {
+    const template = '{{greeting}}, {{name}}! {{farewell}}'
+    const context = { name: 'Bob' }
+    const result = simpleHandlebarsParser(template, context)
+    expect(result).toBe('{{greeting}}, Bob! {{farewell}}')
+  })
+
+  it('handles an empty template', () => {
+    const template = ''
+    const context = { key: 'value' }
+    const result = simpleHandlebarsParser(template, context)
+    expect(result).toBe('')
+  })
+
+  it('handles an empty context', () => {
+    const template = 'Hello, {{name}}!'
+    const context = {}
+    const result = simpleHandlebarsParser(template, context)
+    expect(result).toBe('Hello, {{name}}!')
+  })
+})
 
 describe('throttle', () => {
   it('should call the function immediately on first trigger', () => {

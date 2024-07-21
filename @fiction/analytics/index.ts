@@ -1,5 +1,5 @@
 import type { FictionCache, FictionPluginSettings, FictionServer, FictionUser, vue } from '@fiction/core'
-import { FictionPlugin, getAnonymousId, safeDirname } from '@fiction/core'
+import { FictionPlugin, safeDirname } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
 import { FictionClickHouse } from './plugin-clickhouse'
 import { FictionBeacon } from './plugin-beacon'

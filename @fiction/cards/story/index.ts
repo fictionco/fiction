@@ -1,4 +1,4 @@
-import { type ActionItem, vue } from '@fiction/core'
+import { vue } from '@fiction/core'
 import type { Site } from '@fiction/site'
 import { CardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'

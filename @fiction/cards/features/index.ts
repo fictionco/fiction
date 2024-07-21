@@ -1,4 +1,4 @@
-import { type User, colorTheme, vue } from '@fiction/core'
+import { colorTheme, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { z } from 'zod'
 import { InputOption } from '@fiction/ui'

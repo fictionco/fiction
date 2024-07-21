@@ -2,7 +2,7 @@
   "dependencies": {
     "@fiction/core": "workspace:*",
     "@fiction/plugin-unsplash": "workspace:*",
-    "@pinecone-database/pinecone": "^2.2.2",
+    "@pinecone-database/pinecone": "^3.0.0",
     "openai": "^4.52.7",
     "tailwindcss": "^3.4.6",
     "vue": "^3.4.33"

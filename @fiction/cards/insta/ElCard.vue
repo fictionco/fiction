@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import ElModal from '@fiction/ui/ElModal.vue'
 import type { UserConfig } from '.'
 
 const props = defineProps({

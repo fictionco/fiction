@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { formatNumber, vue } from '@fiction/core'
+import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import XNumber from '@fiction/ui/common/XNumber.vue'
 import CardText from '../CardText.vue'

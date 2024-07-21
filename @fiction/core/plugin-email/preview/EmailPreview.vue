@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { vue } from '../../utils/libraries.js'
 import { toMarkdown } from '../../utils/markdown.js'
-import EmailStandard from '../templates/EmailStandard.vue'
 import type { TransactionalEmailConfig } from '../index.js'
 import FictionFooterImg from '../img/fiction-email-footer.png'
 import FictionIconImg from '../img/fiction-icon.png'
@@ -55,7 +54,7 @@ vue.onMounted(async () => {
       href: 'https://www.fiction.com',
     },
   }
-
+  const EmailStandard = vue.defineAsyncComponent(() => import('@fiction/core/plugin-email/templates/EmailStandard.vue'))
   const r = await useRender(EmailStandard, {
     props: confirmEmail,
   })

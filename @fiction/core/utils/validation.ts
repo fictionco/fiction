@@ -1,6 +1,3 @@
-import type { FictionDb } from '../plugin-db/index.js'
-import type { EndpointMeta } from './endpoint.js'
-
 type ValidationTypes = 'email' | 'domain' | 'url'
 
 export async function isValid(value: string, type: ValidationTypes): Promise<boolean> {

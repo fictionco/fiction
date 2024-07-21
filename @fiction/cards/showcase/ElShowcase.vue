@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { type MediaDisplayObject, vue, waitFor } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import ElImage from '@fiction/ui/media/ElImage.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
 import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'

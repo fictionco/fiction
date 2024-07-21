@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { onBrowserEvent } from '@fiction/core/utils/eventBrowser'
+import { type BrowserEvent, type BrowserEventObject, onBrowserEvent } from '@fiction/core/utils/eventBrowser'
 import { ClickHandler, ScrollHandler } from '../pageStats'
 
 describe('scrollHandler', () => {
@@ -60,12 +60,14 @@ describe('scrollHandler', () => {
   })
 
   it('should update scroll depth and total scrolls on scroll event', () => {
-    vi.spyOn({ onBrowserEvent }, 'onBrowserEvent').mockImplementation((event, callback) => {
-      if (event === 'scroll') {
-        callback(new Event('scroll'))
-      }
-      return vi.fn()
-    })
+    vi.spyOn({ onBrowserEvent }, 'onBrowserEvent').mockImplementation(
+      <T extends BrowserEvent>(event: T, callback: (e: BrowserEventObject<T>) => void) => {
+        if (event === 'scroll') {
+          callback(new Event('scroll') as BrowserEventObject<T>)
+        }
+        return vi.fn()
+      },
+    )
 
     scrollHandler.scrollDepth = 50
     scrollHandler.watch()
@@ -85,12 +87,14 @@ describe('scrollHandler', () => {
   })
 
   it('should not update scroll depth if new depth is lower', () => {
-    vi.spyOn({ onBrowserEvent }, 'onBrowserEvent').mockImplementation((event, callback) => {
-      if (event === 'scroll') {
-        callback(new Event('scroll'))
-      }
-      return vi.fn()
-    })
+    vi.spyOn({ onBrowserEvent }, 'onBrowserEvent').mockImplementation(
+      <T extends BrowserEvent>(event: T, callback: (e: BrowserEventObject<T>) => void) => {
+        if (event === 'scroll') {
+          callback(new Event('scroll') as BrowserEventObject<T>)
+        }
+        return vi.fn()
+      },
+    )
 
     scrollHandler.scrollDepth = 75
     scrollHandler.watch()
@@ -103,12 +107,14 @@ describe('scrollHandler', () => {
   })
 
   it('should throttle scroll depth updates and total scrolls', () => {
-    vi.spyOn({ onBrowserEvent }, 'onBrowserEvent').mockImplementation((event, callback) => {
-      if (event === 'scroll') {
-        callback(new Event('scroll'))
-      }
-      return vi.fn()
-    })
+    vi.spyOn({ onBrowserEvent }, 'onBrowserEvent').mockImplementation(
+      <T extends BrowserEvent>(event: T, callback: (e: BrowserEventObject<T>) => void) => {
+        if (event === 'scroll') {
+          callback(new Event('scroll') as BrowserEventObject<T>)
+        }
+        return vi.fn()
+      },
+    )
 
     scrollHandler.watch()
 

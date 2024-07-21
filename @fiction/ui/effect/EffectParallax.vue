@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { shortId, vue } from '@fiction/core'
-import { animateItemEnter, useElementVisible } from '../anim/index.js'
+import { vue } from '@fiction/core'
 import ClipPathAnim from '../anim/AnimClipPath.vue'
 
 const props = defineProps({

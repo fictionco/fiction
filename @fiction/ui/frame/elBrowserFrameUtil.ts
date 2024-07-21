@@ -80,7 +80,9 @@ export class FrameUtility<T extends MsgUnknown = FrameMessage> extends Obj<Frame
       this.sendReadySignal()
 
     watch(() => this.isFrameReady.value, v => v && this.flushBuffer())
-    this.hasKeyBoardEvents && this.setupKeyboardEvents()
+    if (this.hasKeyBoardEvents) {
+      this.setupKeyboardEvents()
+    }
     this.listenForMessages()
   }
 

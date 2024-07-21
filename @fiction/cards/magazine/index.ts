@@ -1,4 +1,3 @@
-import type { title } from 'node:process'
 import { PostHandlingSchema, safeDirname, vue } from '@fiction/core'
 import type { Site, SiteUserConfig } from '@fiction/site'
 import { CardTemplate } from '@fiction/site'

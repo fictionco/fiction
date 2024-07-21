@@ -1,4 +1,4 @@
-import type { EndpointMap, Query, colorTheme, vueRouter } from '@fiction/core'
+import type { Query, colorTheme, vueRouter } from '@fiction/core'
 import { FictionObject, deepMerge, objectId, setNested, toLabel, vue } from '@fiction/core'
 import type { InputOption } from '@fiction/ui'
 import type { z } from 'zod'
