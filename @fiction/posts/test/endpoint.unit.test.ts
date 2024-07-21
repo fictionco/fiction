@@ -1,5 +1,5 @@
 import { afterAll, describe, expect, it } from 'vitest'
-import type { DataFilter } from '@fiction/core'
+import { type DataFilter, dayjs } from '@fiction/core'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { FictionPosts } from '..'
 import type { TablePostConfig } from '../schema'
@@ -169,7 +169,7 @@ describe('post crud tests', async () => {
     expect(updateResult.message).toBe('Post updated')
     expect(updateResult.data?.status).toBe('published')
     expect(updateResult.data?.postId).toBe(update.postId)
-    expect(updateResult.data?.dateAt).toStrictEqual(updateResult.data?.updatedAt)
+    expect(dayjs(updateResult.data?.dateAt).toISOString()).toStrictEqual(dayjs(updateResult.data?.updatedAt).toISOString())
   })
 
   it('retrieves a post', async () => {
