@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { Buffer } from 'node:buffer'
-import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import type { MainFile } from '@fiction/core/plugin-env'
 
 import type { ResultPromise } from 'execa'
@@ -9,14 +9,6 @@ import { executeCommand, getMainFilePath, importIfExists } from '../nodeUtils'
 
 const cwd = path.dirname(new URL('../../../www/package.json', import.meta.url).pathname)
 describe('node utils', () => {
-  beforeAll(() => {
-
-  })
-
-  it('hashes files correct', async () => {
-
-  })
-
   it('has right cwd', async () => {
     expect(cwd).toMatchInlineSnapshot(`"/Users/arpowers/dev/fiction/@fiction/www"`)
   })

@@ -203,6 +203,7 @@ describe('cardTemplate', async () => {
         "faq",
         "mediaPop",
         "trek",
+        "fitText",
         "testWrap",
       ]
     `)

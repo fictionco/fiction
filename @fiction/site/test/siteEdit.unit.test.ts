@@ -45,7 +45,7 @@ describe('site plugin tests', async () => {
     const siteConfig = r.data
     site = result.site
     expect(r.status).toMatchInlineSnapshot(`"success"`)
-    expect(r.message).toMatchInlineSnapshot(`"site created"`)
+    expect(r.message).toMatchInlineSnapshot(`undefined`)
     expect(siteConfig).toBeTruthy()
     expect(siteConfig.subDomain).toBe(subDomain)
     expect(siteConfig.title).toBe(title)
@@ -76,7 +76,7 @@ describe('site plugin tests', async () => {
       throw new Error('problem updating site')
 
     expect(r?.status).toMatchInlineSnapshot(`"success"`)
-    expect(r?.message).toMatchInlineSnapshot(`"site saved"`)
+    expect(r?.message).toMatchInlineSnapshot(`undefined`)
 
     const siteConfig = r?.data
 
@@ -138,7 +138,7 @@ describe('site plugin tests', async () => {
         "cardId": "[id:***************************]",
         "cards": "",
         "createdAt": "[dateTime:]",
-        "description": null,
+        "description": "",
         "editor": {},
         "generation": {
           "prompt": "create content for the "test" card ",
@@ -299,7 +299,7 @@ describe('site plugin tests', async () => {
         "cardId": "[id:***************************]",
         "cards": "",
         "createdAt": "[dateTime:]",
-        "description": null,
+        "description": "",
         "editor": {},
         "generation": {
           "prompt": "create content for the "testAlpha" card on the "test" page",
@@ -331,7 +331,7 @@ describe('site plugin tests', async () => {
         "cardId": "[id:***************************]",
         "cards": "[object Object],[object Object]",
         "createdAt": "[dateTime:]",
-        "description": null,
+        "description": "",
         "editor": {},
         "generation": {
           "prompt": "create content for the "testAlpha" card on the "test" page",
@@ -388,7 +388,7 @@ describe('site plugin tests', async () => {
         "cardId": "[id:***************************]",
         "cards": "[object Object],[object Object],[object Object]",
         "createdAt": "[dateTime:]",
-        "description": null,
+        "description": "",
         "editor": {},
         "generation": {
           "prompt": "create content for the "testAlpha" card on the "test" page",
@@ -424,7 +424,7 @@ describe('site plugin tests', async () => {
         "cardId": "[id:***************************]",
         "cards": "[object Object],[object Object],[object Object]",
         "createdAt": "[dateTime:]",
-        "description": null,
+        "description": "",
         "editor": {},
         "generation": {
           "prompt": "create content for the "testAlpha" card on the "test" page",
@@ -465,7 +465,7 @@ describe('site plugin tests', async () => {
         "cardId": "[id:***************************]",
         "cards": "[object Object],[object Object],[object Object]",
         "createdAt": "[dateTime:]",
-        "description": null,
+        "description": "",
         "editor": {},
         "generation": {
           "prompt": "create content for the "testAlpha" card on the "test" page",
@@ -517,7 +517,7 @@ describe('site plugin tests', async () => {
         "cardId": "[id:***************************]",
         "cards": "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]",
         "createdAt": "[dateTime:]",
-        "description": null,
+        "description": "",
         "editor": {},
         "generation": {
           "prompt": "create content for the "testAlpha" card on the "test" page",

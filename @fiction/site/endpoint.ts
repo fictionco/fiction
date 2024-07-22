@@ -189,15 +189,217 @@ export class ManagePage extends SitesQuery {
   }
 }
 
-type CreateManageSiteParams = { _action: 'create', fields: Partial<TableSiteConfig>, userId: string, orgId: string, isPublishingDomains?: boolean }
-type EditManageSiteParams = { _action: 'update' | 'delete', isPublishingDomains?: boolean, fields: Partial<TableSiteConfig>, where: WhereSite, userId: string, orgId: string }
-type GetManageSiteParams = { _action: 'retrieve', where: WhereSite, userId?: string, orgId?: string }
-type BaseManageSite = { fields?: Partial<TableSiteConfig>, where?: WhereSite, caller?: string, successMessage?: string, disableLog?: boolean, isPublishingDomains?: boolean }
+type StandardFields = {
+  orgId?: string
+  userId?: string
+  isPublishingDomains?: boolean
+  caller?: string
+  successMessage?: string
+  disableLog?: boolean
+  fields?: Partial<TableSiteConfig>
+  where?: WhereSite
+}
 
-export type ManageSiteParams = (CreateManageSiteParams | EditManageSiteParams | GetManageSiteParams) & BaseManageSite
+export type ManageSiteRequestParams =
+  | { _action: 'create', fields: Partial<TableSiteConfig> }
+  | { _action: 'update', where: WhereSite, fields: Partial<TableSiteConfig> }
+  | { _action: 'delete', where: WhereSite }
+  | { _action: 'retrieve', where: WhereSite }
+
+export type ManageSiteParams = ManageSiteRequestParams & StandardFields
 
 export class ManageSite extends SitesQuery {
-  async createSiteFromTheme(params: CreateManageSiteParams, _meta: EndpointMeta): Promise<Partial<TableSiteConfig>> {
+  async run(params: ManageSiteParams, meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
+    const { _action, caller = 'unknown', successMessage } = params
+
+    if (!_action)
+      throw abort('_action required', { data: { caller } })
+
+    let result: EndpointResponse<TableSiteConfig>
+
+    switch (_action) {
+      case 'create':
+        result = await this.createSite(params as ManageSiteParams & { _action: 'create' }, meta)
+        break
+      case 'retrieve':
+        result = await this.retrieveSite(params as ManageSiteParams & { _action: 'retrieve' }, meta)
+        break
+      case 'update':
+        result = await this.updateSite(params as ManageSiteParams & { _action: 'update' }, meta)
+        break
+      case 'delete':
+        result = await this.deleteSite(params as ManageSiteParams & { _action: 'delete' }, meta)
+        break
+      default:
+        throw abort('Invalid action')
+    }
+
+    if ((_action === 'update' || _action === 'create') && result.data?.siteId) {
+      result = await this.finalizeSiteAction(params, result, meta)
+    }
+
+    return { ...result, message: successMessage ?? result.message }
+  }
+
+  private async createSite(params: ManageSiteParams & { _action: 'create' }, meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
+    const { fields, userId, orgId } = params
+    if (!userId || !orgId)
+      throw abort('userId and orgId required')
+
+    this.log.info(`creating site: ${fields.title}`, { data: { userId, orgId, fields } })
+
+    const themeSite = await this.createSiteFromTheme(params, meta)
+    const defaultSubDomain = meta.bearer?.email?.split('@')[0] || 'site'
+    const mergedFields = deepMerge([themeSite, { subDomain: `${defaultSubDomain}-${shortId({ len: 4 })}` }, fields])
+
+    const prepped = this.settings.fictionDb.prep({ type: 'update', fields: mergedFields, table: tableNames.sites, meta })
+    const [site] = await this.settings.fictionDb.client()
+      .insert({ orgId, userId, ...prepped })
+      .into(tableNames.sites)
+      .returning<TableSiteConfig[]>('*')
+
+    if (!site?.siteId)
+      throw abort('site not created')
+
+    await this.createSitePages({ siteId: site.siteId, pages: themeSite.pages, userId, orgId }, meta)
+    await this.settings.fictionMonitor?.slackNotify({ message: '*New Site Created*', data: site })
+
+    return { status: 'success', data: site, message: 'site created' }
+  }
+
+  private async retrieveSite(params: ManageSiteParams & { _action: 'retrieve' }, meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
+    const { where, disableLog } = params
+    const selector = await this.getSiteSelector(where)
+
+    if (!disableLog)
+      this.log.info('retrieving site', { data: { selector, caller: `retrieve:${params.caller}` } })
+
+    const site = await this.fetchSiteWithDetails(selector)
+
+    if (!site?.siteId) {
+      this.log.warn('ManageSite: Site not found', { data: { where, caller: params.caller } })
+      return { status: 'error', message: 'Site not found', meta: { where, caller: params.caller } }
+    }
+
+    return { status: 'success', data: site }
+  }
+
+  private async updateSite(params: ManageSiteParams & { _action: 'update' }, meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
+    const { fields, where, userId, orgId } = params
+    if (!userId || !orgId)
+      throw abort('orgId required')
+
+    const selector = await this.getSiteSelector(where)
+    const prepped = this.settings.fictionDb.prep({ type: 'update', fields, table: tableNames.sites, meta })
+
+    const [updatedSite] = await this.settings.fictionDb.client()
+      .update({ orgId, userId, ...prepped })
+      .where({ orgId, ...selector })
+      .into(tableNames.sites)
+      .returning<TableSiteConfig[]>('*')
+
+    if (fields.pages && fields.pages.length) {
+      await this.updateSitePages(updatedSite.siteId, fields.pages, userId, orgId, meta)
+    }
+
+    return { status: 'success', data: updatedSite, message: 'site saved' }
+  }
+
+  private async deleteSite(params: ManageSiteParams & { _action: 'delete' }, meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
+    // Implement delete logic here
+    throw new Error('Delete action not implemented')
+  }
+
+  private async finalizeSiteAction(params: ManageSiteParams, result: EndpointResponse<TableSiteConfig>, meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
+    const { isPublishingDomains, fields } = params as ManageSiteParams & ({ _action: 'update' } | { _action: 'create' })
+    const { siteId } = result.data!
+
+    if (isPublishingDomains) {
+      await updateSiteCerts({ siteId, customDomains: fields.customDomains, fictionSites: this.settings.fictionSites, fictionDb: this.settings.fictionDb }, meta)
+    }
+
+    const updatedResult = await this.run({ _action: 'retrieve', where: { siteId }, userId: params.userId, orgId: params.orgId, disableLog: true }, { ...meta, caller: 'endManageSite' })
+
+    if (params._action === 'create') {
+      this.log.info('SITE CREATED', { data: params })
+    }
+
+    return updatedResult
+  }
+
+  private async createSitePages(args: { siteId: string, pages?: CardConfigPortable[], userId: string, orgId: string }, meta: EndpointMeta): Promise<void> {
+    const { siteId, pages = [], userId, orgId } = args
+
+    const promises = (pages || []).map(async (page) => {
+      if (!siteId)
+        throw abort('ENDPOINT: siteId missing')
+
+      const fields = { ...page, siteId } as const
+
+      return this.settings.fictionSites.queries.ManagePage.serve({
+        siteId,
+        _action: 'upsert',
+        fields,
+        userId,
+        orgId,
+        caller: 'createSite',
+      }, meta)
+    })
+
+    await Promise.all(promises)
+  }
+
+  private async fetchSiteWithDetails(selector: WhereSite): Promise<TableSiteConfig | undefined> {
+    const db = this.settings.fictionDb.client()
+
+    const site = await db
+      .select<TableSiteConfig>('*')
+      .from(tableNames.sites)
+      .where(selector)
+      .first()
+
+    if (!site?.siteId) {
+      return undefined
+    }
+
+    // Retrieve all pages associated with the siteId
+    const pages = await db
+      .select()
+      .from(tableNames.pages)
+      .where({ siteId: site.siteId })
+
+    // Assign the pages to the site object
+    site.pages = pages
+
+    const domains = await db
+      .select()
+      .from(tableNames.domains)
+      .where({ siteId: site.siteId })
+
+    site.customDomains = domains
+
+    return site
+  }
+
+  private async updateSitePages(siteId: string, pages: any[], userId: string, orgId: string, meta: EndpointMeta): Promise<void> {
+    const upsertPromises = pages.map(async (page) => {
+      if (!siteId)
+        return
+
+      return this.settings.fictionSites.queries.ManagePage.serve({
+        siteId,
+        _action: 'upsert',
+        fields: { siteId, ...page },
+        userId,
+        orgId,
+        caller: 'updateSite',
+      }, meta)
+    })
+
+    await Promise.all(upsertPromises)
+  }
+
+  async createSiteFromTheme(params: ManageSiteParams & { _action: 'create' }, _meta: EndpointMeta): Promise<Partial<TableSiteConfig>> {
     const { fields, userId, orgId } = params
     const { themeId } = fields
 
@@ -247,174 +449,6 @@ export class ManageSite extends SitesQuery {
     }
 
     return out as WhereSite
-  }
-
-  async run(
-    params: ManageSiteParams,
-    meta: EndpointMeta,
-  ): Promise<EndpointResponse<TableSiteConfig>> {
-    const fictionDb = this.settings.fictionDb
-    if (!fictionDb)
-      throw abort('no fictionDb')
-
-    const { _action, orgId, userId, caller = 'unknown', successMessage, disableLog } = params
-
-    if (!_action)
-      throw abort('_action required', { data: { caller } })
-
-    const db = fictionDb.client()
-
-    let message = ''
-    let data: TableSiteConfig | undefined
-    let siteId: string | undefined = undefined
-
-    if (_action === 'create') {
-      const { fields } = params
-      if (!userId || !orgId)
-        throw abort('orgId required')
-
-      this.log.info(`creating site: ${fields.title}`, { data: { userId, orgId, fields } })
-
-      const themeSite = await this.createSiteFromTheme(params, meta)
-
-      const defaultSubDomain = meta.bearer?.email?.split('@')[0] || 'site'
-
-      const f = deepMerge([themeSite, { subDomain: `${defaultSubDomain}-${shortId({ len: 4 })}` }, fields])
-
-      const prepped = fictionDb.prep({ type: 'update', fields: f, table: tableNames.sites, meta })
-
-      /**
-       * save the site
-       */
-      const [site] = await db
-        .insert({ orgId, userId, ...prepped })
-        .into(tableNames.sites)
-        .returning<TableSiteConfig[]>('*')
-
-      data = site
-      siteId = site.siteId
-      if (!siteId)
-        throw abort('site not created')
-
-      /**
-       * Handle pages
-       */
-      const _promises = (themeSite.pages || []).map(async (region) => {
-        if (!siteId)
-          throw abort('ENDPOINT: siteId missing')
-
-        const fields = { ...region, siteId } as const
-
-        return this.settings.fictionSites.queries.ManagePage.serve({
-          siteId,
-          _action: 'upsert',
-          fields,
-          userId,
-          orgId,
-          caller: 'createSite',
-        }, meta)
-      })
-
-      await Promise.all(_promises)
-
-      message = 'site created'
-
-      await this.settings.fictionMonitor?.slackNotify({ message: '*New Site Created*', data })
-    }
-    else if (_action === 'retrieve') {
-      const { where } = params
-
-      const selector = await this.getSiteSelector(where)
-
-      if (!disableLog)
-        this.log.info('retrieving site', { data: { selector, caller: `${_action}:${caller}` } })
-
-      const site = await db
-        .select<TableSiteConfig>('*')
-        .from(tableNames.sites)
-        .where(selector)
-        .first()
-
-      if (!site?.siteId) {
-        this.log.warn('ManageSite: Site not found', { data: { where, caller } })
-        return { status: 'error', message: 'Site not found', meta: { where, caller } }
-      }
-
-      siteId = site.siteId
-
-      // Retrieve all pages associated with the siteId
-      const pages = await db
-        .select()
-        .from(tableNames.pages)
-        .where({ siteId })
-
-      // Assign the pages to the site object
-      site.pages = pages
-
-      const domains = await db
-        .select()
-        .from(tableNames.domains)
-        .where({ siteId })
-
-      site.customDomains = domains
-
-      data = site
-    }
-    else if (_action === 'update') {
-      const { fields, where } = params
-      if (!userId || !orgId)
-        throw abort('orgId required')
-
-      const selector = await this.getSiteSelector(where)
-
-      const prepped = fictionDb.prep({ type: 'update', fields, table: tableNames.sites, meta })
-
-      ;[data] = await db
-        .update({ orgId, userId, ...prepped })
-        .where({ orgId, ...selector })
-        .into(tableNames.sites)
-        .returning<TableSiteConfig[]>('*')
-
-      siteId = data.siteId
-
-      if (fields.pages && fields.pages.length) {
-        const upsertPromises = fields.pages.map(async (page) => {
-          if (!siteId)
-            return
-
-          return this.settings.fictionSites.queries.ManagePage.serve({
-            siteId,
-            _action: 'upsert',
-            fields: { siteId, ...page },
-            userId,
-            orgId,
-            caller: 'updateSite',
-          }, meta)
-        })
-
-        await Promise.all(upsertPromises)
-      }
-
-      message = 'site saved'
-    }
-
-    /**
-     * Return full site via action when creating or updating
-     */
-
-    if ((_action === 'update' || _action === 'create') && siteId) {
-      if (params.isPublishingDomains)
-        await updateSiteCerts({ siteId, customDomains: params.fields.customDomains, fictionSites: this.settings.fictionSites, fictionDb }, meta)
-
-      const r = await this.run({ _action: 'retrieve', where: { siteId }, userId, orgId, disableLog: true }, { ...meta, caller: 'endManageSite' })
-
-      data = r.data
-
-      if (_action === 'create')
-        this.log.info('SITE CREATED', { data: params })
-    }
-
-    return { status: 'success', data, message: successMessage ?? message }
   }
 }
 

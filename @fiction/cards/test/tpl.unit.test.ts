@@ -244,6 +244,18 @@ describe('verify template settings config', async () => {
             "items.0.media.video": "string",
           },
         },
+        {
+          "hasDemo": true,
+          "isPublic": false,
+          "templateId": "fitText",
+          "unusedSchema": {
+            "font": "string",
+            "lines": "number",
+            "maxFontSize": "number",
+            "minFontSize": "number",
+            "text": "string",
+          },
+        },
       ]
     `)
 

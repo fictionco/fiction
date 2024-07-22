@@ -1,5 +1,5 @@
 import { type EndpointMeta, type EndpointResponse, vue } from '@fiction/core'
-import { Card, CardTemplate } from '@fiction/site'
+import { CardTemplate } from '@fiction/site'
 import { CardQuery, type CardQuerySettings } from '@fiction/site/cardQuery'
 import type { InputOption } from '@fiction/ui'
 import { z } from 'zod'

@@ -12,10 +12,10 @@ export type WhereSite = { siteId?: string, subDomain?: string, hostname?: string
   & ({ siteId: string } | { subDomain: string } | { hostname: string } | { themeId: string } | { internal: string } | { cardId: string })
 
 type MountContext = { siteMode?: SiteMode, fictionOrgId?: string, fictionSiteId?: string } & WhereSite
-type RequestManageSiteParams = Omit<ManageSiteParams, 'orgId' | 'siteId'> & { siteRouter: FictionRouter, fictionSites: FictionSites, siteMode: SiteMode }
+type RequestManageSiteParams = ManageSiteParams & { siteRouter: FictionRouter, fictionSites: FictionSites, siteMode: SiteMode, orgId?: string, siteId?: string }
 
 export async function requestManageSite(args: RequestManageSiteParams) {
-  const { _action, fields, where, siteMode, caller } = args
+  const { _action, siteMode, caller, fields, where } = args
   const { fictionSites, siteRouter, ...pass } = args
 
   logger.info(`request manage site:${_action}`, { data: { fields, where } })
@@ -26,9 +26,12 @@ export async function requestManageSite(args: RequestManageSiteParams) {
     if (!themeId)
       throw new Error('no themeId')
   }
-  else if (['update', 'delete', 'retrieve'].includes(_action) && (!where || !Object.keys(where).length)) {
-    logger.error(`REQUEST SITE WHERE -> no siteId or subDomain ${_action}`)
-    return {}
+  else if (['update', 'delete', 'retrieve'].includes(_action)) {
+    const { _action, where } = args
+    if (!where || !Object.keys(where).length) {
+      logger.error(`REQUEST SITE WHERE -> no siteId or subDomain ${_action}`)
+      return {}
+    }
   }
 
   const r = await fictionSites.requests.ManageSite.projectRequest({ ...pass, caller, _action, fields: fields || {}, where: where as WhereSite }, { userOptional: _action === 'retrieve' })

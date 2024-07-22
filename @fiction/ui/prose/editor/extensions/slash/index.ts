@@ -170,11 +170,15 @@ const SlashCommand = Extension.create({
               const domRect = props.clientRect?.()
               if (!domRect)
                 return
+              const content = component.element
+
+              if (!content)
+                throw new Error('No content element')
 
               popup = tippy('body', {
                 getReferenceClientRect: () => domRect,
                 appendTo: () => document.body,
-                content: component.element,
+                content,
                 showOnCreate: true,
                 interactive: true,
                 trigger: 'manual',
@@ -183,8 +187,9 @@ const SlashCommand = Extension.create({
             },
             onUpdate: (props: SuggestionProps) => {
               component?.updateProps(props)
-
-              popup && popup[0].setProps({ getReferenceClientRect: props.clientRect })
+              if (popup) {
+                popup[0].setProps({ getReferenceClientRect: props.clientRect })
+              }
             },
             onKeyDown: (props: SuggestionKeyDownProps) => {
               if (props.event.key === 'Escape') {

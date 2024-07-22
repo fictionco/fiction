@@ -72,6 +72,7 @@ describe('user config', async () => {
           "GetDimensionList",
           "GetClientSessions",
           "GetTotalSessions",
+          "CardQuery",
           "ManageSite",
           "ManageIndex",
           "ManagePage",
