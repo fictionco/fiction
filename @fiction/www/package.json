@@ -12,6 +12,7 @@
     "@fiction/plugin-send": "workspace:*",
     "@fiction/plugin-stripe": "workspace:*",
     "@fiction/plugin-transactions": "workspace:*",
+    "@fiction/plugin-forms": "workspace:*",
     "@fiction/posts": "workspace:*",
     "@fiction/site": "workspace:*",
     "@fiction/theme-fiction": "workspace:*",

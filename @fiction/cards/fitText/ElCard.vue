@@ -18,7 +18,7 @@ const opts = vue.computed(() => ({
   lines: uc.value.lines,
 }))
 
-vue.watchEffect(() => {
+vue.watch(() => uc.value.font, () => {
   const f = uc.value.font
 
   const site = props.card.site

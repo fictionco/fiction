@@ -9,6 +9,7 @@ import { FictionStripe } from '@fiction/plugin-stripe/plugin.js'
 import { FictionDevRestart } from '@fiction/core/plugin-env/restart'
 import { FictionSites } from '@fiction/site/index.js'
 import { FictionAdmin } from '@fiction/admin/index.js'
+import { FictionForms } from '@fiction/plugin-forms'
 import FSite from '@fiction/cards/CardSite.vue'
 import { FictionAi } from '@fiction/plugin-ai'
 import { FictionExtend } from '@fiction/plugin-extend/index.js'
@@ -16,6 +17,7 @@ import { FictionSubscribe } from '@fiction/plugin-subscribe/index.js'
 import { getEnvVars } from '@fiction/core/utils/index.js'
 import { FictionAnalytics } from '@fiction/analytics/index.js'
 import { FictionPosts } from '@fiction/posts'
+
 import { FictionSend } from '@fiction/plugin-send'
 import { version } from '../package.json'
 import { getExtensionIndex, getThemes } from './extend.js'
@@ -169,13 +171,14 @@ const fictionAnalytics = new FictionAnalytics({
 
 const fictionSites = new FictionSites({ ...s, fictionAnalytics, fictionAppSites, fictionRouterSites, flyApiToken, flyAppId: 'fiction-sites', adminBaseRoute: '/admin', themes })
 const fictionTeam = new FictionTeam({ ...s })
+const fictionForms = new FictionForms({ ...s })
 const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp, fictionAppSites] })
 
 const fictionSubscribe = new FictionSubscribe(s)
 const fictionPosts = new FictionPosts(s)
 const fictionSend = new FictionSend({ fictionPosts, fictionSubscribe, ...s })
 
-const baseService = { ...s, fictionAnalytics, fictionSites, fictionTeam, fictionUi, fictionStripe, fictionSubscribe, fictionSend, fictionPosts }
+const baseService = { ...s, fictionForms, fictionAnalytics, fictionSites, fictionTeam, fictionUi, fictionStripe, fictionSubscribe, fictionSend, fictionPosts }
 
 export type SpecificService = typeof baseService
 
