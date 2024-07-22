@@ -50,13 +50,65 @@ export async function setup(args: { fictionEnv: FictionEnv }) {
           templates,
           regionId: 'header',
           templateId: 'area',
-          cards: [createCard({ templates, templateId: 'minimalHeader' })],
+          cards: [createCard({ templates, templateId: 'nav', userConfig: {
+            logo: { html: `Minimal Theme` },
+            navA: [
+              { name: 'About', href: '/about' },
+
+            ],
+            navB: [
+              { name: 'Contact', href: '/contact', itemStyle: 'buttonStandard' },
+            ],
+          } })],
         }),
         footer: createCard({
           templates,
           regionId: 'footer',
           templateId: 'area',
-          cards: [createCard({ templates, templateId: 'minimalFooter' })],
+          cards: [createCard({ templates, templateId: 'footer', userConfig: {
+            logo: {
+              format: 'html',
+              html: `Minimal Theme`,
+            },
+            nav: [
+              {
+                name: 'About',
+                href: '/about',
+              },
+              {
+                name: 'Contact',
+                href: '/contact',
+              },
+            ],
+            legal: {
+              privacyPolicyUrl: `#`,
+              termsOfServiceUrl: `#`,
+              copyrightText: `Your Company or Name, Inc.`,
+            },
+            socials: [
+              {
+                href: 'https://www.linkedin.com/company/fictionco',
+                target: '_blank',
+                name: 'LinkedIn',
+                icon: `linkedin`,
+              },
+              {
+                href: 'https://github.com/fictionco',
+                target: '_blank',
+                name: 'Github',
+                icon: `github`,
+              },
+              {
+                href: 'https://www.twitter.com/fictionco',
+                target: '_blank',
+                name: 'X',
+                icon: 'x',
+              },
+
+            ],
+
+            badges: [],
+          } })],
         }),
       }
     },

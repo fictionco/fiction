@@ -1,6 +1,6 @@
 import { type EndpointMeta, type EndpointResponse, vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
-import { CardQuery } from '@fiction/site/cardQuery'
+import { Card, CardTemplate } from '@fiction/site'
+import { CardQuery, type CardQuerySettings } from '@fiction/site/cardQuery'
 import type { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 
@@ -14,10 +14,24 @@ const options: InputOption[] = [
 ]
 
 class InstagramQuery extends CardQuery {
-  async run(_params: { test: boolean }, _meta: EndpointMeta): Promise<EndpointResponse> {
+  async run(_params: { test: boolean }, _meta: EndpointMeta): Promise<EndpointResponse<{ test: boolean }>> {
     return { status: 'success', data: _params }
   }
 }
+
+function getQueries(args: CardQuerySettings) {
+  return {
+    instagram: new InstagramQuery(args),
+  }
+}
+
+type ExtractCardRequests<T> = {
+  [K in keyof T]: T[K] extends { run: (params: infer P, meta: any) => Promise<infer R> }
+    ? { params: P, result: R }
+    : never
+}
+
+export type CardRequests = ExtractCardRequests<Awaited<ReturnType<typeof getQueries>>>
 
 export const templates = [
   new CardTemplate({
@@ -30,8 +44,6 @@ export const templates = [
     schema,
     options,
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
-    getQueries: args => ({
-      instagram: new InstagramQuery(args),
-    }),
+    getQueries,
   }),
 ] as const

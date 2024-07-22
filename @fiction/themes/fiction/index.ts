@@ -110,12 +110,10 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
                           { name: 'Quotes', href: '/demo-quotes' },
                           { name: 'Hero', href: '/demo-hero' },
                           { name: 'Features', href: '/demo-features' },
-                          { name: 'Ticker', href: '/demo-ticker' },
                           { name: 'FAQ / List', href: '/demo-faq' },
                           { name: 'People', href: '/demo-people' },
                           { name: 'Trek', href: '/demo-trek' },
                           { name: 'Story', href: '/demo-story' },
-                          { name: 'Magazine', href: '/demo-magazine' },
                         ],
                       },
                       {
@@ -137,6 +135,19 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
                           { name: 'Pricing', href: '/demo-pricing' },
                           { name: 'Capture', href: '/demo-capture' },
                           { name: 'Maps', href: '/demo-maps' },
+                        ],
+                      },
+                      {
+                        name: 'Typography',
+                        items: [
+                          { name: 'Ticker', href: '/demo-ticker' },
+                          { name: 'Fit Text', href: '/demo-fitText' },
+                        ],
+                      },
+                      {
+                        name: 'Posts',
+                        items: [
+                          { name: 'Magazine', href: '/demo-magazine' },
                         ],
                       },
                     ],

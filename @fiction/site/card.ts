@@ -2,6 +2,8 @@ import type { Query, colorTheme, vueRouter } from '@fiction/core'
 import { FictionObject, deepMerge, objectId, setNested, toLabel, vue } from '@fiction/core'
 import type { InputOption } from '@fiction/ui'
 import type { z } from 'zod'
+import type { K, X, Y } from 'vitest/dist/reporters-BECoY4-b.js'
+import { query } from 'express'
 import { refineOptions } from './utils/schema.js'
 import type { CardConfigPortable, SiteUserConfig, TableCardConfig } from './tables.js'
 import type { Site } from './site.js'
@@ -9,6 +11,7 @@ import { CardGeneration } from './generation.js'
 import type { ComponentConstructor } from './type-utils.js'
 import { siteGoto, siteLink } from './utils/manage.js'
 import type { CardQuerySettings } from './cardQuery.js'
+import type { FictionSites } from './index.js'
 
 type CardCategory = 'basic' | 'posts' | 'theme' | 'stats' | 'marketing' | 'content' | 'layout' | 'media' | 'navigation' | 'social' | 'commerce' | 'form' | 'other' | 'special' | 'portfolio' | 'advanced'
 
@@ -42,9 +45,12 @@ interface CardTemplateSettings<
   getQueries?: (args: CardQuerySettings) => X
 }
 
-export class CardTemplate<U extends string = string, T extends ComponentConstructor = ComponentConstructor> extends FictionObject<
-  CardTemplateSettings<U, T>
-> {
+export class CardTemplate<
+  U extends string = string,
+  T extends ComponentConstructor = ComponentConstructor,
+> extends FictionObject<
+    CardTemplateSettings<U, T>
+  > {
   constructor(settings: CardTemplateSettings<U, T>) {
     super('CardTemplate', { title: toLabel(settings.templateId), ...settings })
   }
@@ -71,8 +77,21 @@ export class CardTemplate<U extends string = string, T extends ComponentConstruc
 export type CardSettings<T extends Record<string, unknown> = Record<string, unknown> > = CardConfigPortable<T> & { site?: Site, inlineTemplate?: CardTemplate, onSync?: (card: Card) => void }
 export type CardBaseConfig = Record<string, unknown> & SiteUserConfig
 
+export type CardSurface = {
+  requests: {
+    [key: string]: { params: unknown, result: unknown }
+  }
+}
+
+// Utility type to merge two types
+type MergeTypes<T, U> = T & Omit<U, keyof T>
+
+// Use defaults
+type Surface<T> = MergeTypes<T, CardSurface>
+
 export class Card<
   T extends CardBaseConfig = CardBaseConfig,
+  U extends CardSurface = CardSurface,
 > extends FictionObject<CardSettings<T>> {
   site = this.settings.site
   cardId = this.settings.cardId || objectId({ prefix: 'crd' })
@@ -212,6 +231,30 @@ export class Card<
   cleanup() {
     this.cards.value.forEach(c => c.cleanup())
     this.cards.value = []
+  }
+
+  async request<K extends keyof Surface<U>['requests'] = keyof Surface<U>['requests']>(
+    key: K,
+    params: Surface<U>['requests'][K]['params'],
+  ): Promise<Surface<U>['requests'][K]['result']> {
+    const site = this.site
+    if (!site) {
+      throw new Error('Site not found')
+    }
+    const templateId = this.tpl.value?.settings.templateId
+    if (!templateId) {
+      throw new Error('Template not found')
+    }
+    const fictionSites = site.fictionSites
+    const themeId = site.theme.value?.themeId
+
+    return await fictionSites.requests.CardQuery.request({
+      templateId,
+      themeId,
+      siteId: site.siteId,
+      args: params as Record<string, any>,
+      queryId: key as string,
+    })
   }
 }
 

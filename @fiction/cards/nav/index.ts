@@ -5,6 +5,8 @@ import { CardTemplate } from '@fiction/site/card'
 import { z } from 'zod'
 import { mediaSchema } from '../schemaSets'
 
+const templateId = 'nav'
+
 const authStateSchema = z.enum(['loggedIn', 'loggedOut', 'default']).optional()
 const navItemSchema = z.object({
   name: z.string().optional(),
@@ -75,7 +77,7 @@ const defaultConfig: UserConfig = {
 }
 
 const el = vue.defineAsyncComponent(async () => import('./ElCard.vue'))
-const templateId = 'nav'
+
 export const templates = [
   new CardTemplate({
     templateId,

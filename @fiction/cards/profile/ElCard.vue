@@ -35,9 +35,9 @@ vue.onMounted(async () => {
   <div class="minimal-profile">
     <div :class="card.classes.value.contentWidth">
       <div class="md:flex -mx-2 items-center" :class="uc.layout === 'left' ? 'md:flex-row-reverse' : ''">
-        <div class="w-full md:w-[50%] px-2 ">
+        <div class="w-full md:w-[45%] px-2 ">
           <div class="relative">
-            <EffectGlare>
+            <EffectGlare wrap-class="rounded-[20px]">
               <div class="aspect-[5/7] relative w-full overflow-x-auto snap-mandatory snap-x flex no-scrollbar clip-path-anim" :class="isVisible ? '[clip-path:inset(0_round_20px)] opacity-100' : '[clip-path:inset(30%)] opacity-50'">
                 <ElImage v-for="(item, i) in mediaItems" :key="i" :media="item.media" class="relative slide w-full h-full snap-center shrink-0" />
               </div>
@@ -45,8 +45,8 @@ vue.onMounted(async () => {
             <NavDots v-model:active-item="activeItem" :items="mediaItems || []" :container-id="card.cardId" class="absolute bottom-4 z-20" />
           </div>
         </div>
-        <div class="md:w-[50%] mt-6 md:mt-0 px-2 flex items-center">
-          <div class="p-6 md:p-12 xl:p-20 flex flex-col justify-center gap-10 2xl:gap-16 clip-path-anim" :class="isVisible ? 'translate-y-0' : 'translate-y-[100px]'">
+        <div class="md:w-[55%] mt-6 md:mt-0 px-2 flex items-center">
+          <div class="p-6 md:p-12 flex flex-col justify-center gap-10 2xl:gap-16 " :class="isVisible ? 'translate-y-0' : 'translate-y-[100px]'">
             <div class="details">
               <CardText
                 tag="h3"

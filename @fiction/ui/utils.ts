@@ -89,7 +89,7 @@ export function getButtonClasses(args: { btn: UiElementStyle | string, size: UiE
     naked: 'naked',
     minimal: 'minimal',
     outline: 'border border-current',
-    default: 'border bg-theme-0 dark:bg-theme-700 text-theme-600 dark:text-theme-0 border-theme-300/80 dark:border-theme-600',
+    default: 'border bg-theme-0 dark:bg-theme-700/50 text-theme-600 dark:text-theme-0 border-theme-300/80 dark:border-theme-600',
   }
 
   const sizes = {

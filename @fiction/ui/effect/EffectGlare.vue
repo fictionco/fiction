@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
+import { vue, waitFor } from '@fiction/core'
+import { twMerge } from 'tailwind-merge'
 
 const props = defineProps({
   wrapClass: { type: String, default: '' },
@@ -18,8 +19,8 @@ function handleMouseMove(event: MouseEvent) {
   const x = ((clientX - rect.left) / rect.width) * 100
   const y = ((clientY - rect.top) / rect.height) * 100
 
-  state.rotation.x = Math.min(10, (y - 50) / 2)
-  state.rotation.y = Math.min(10 - (x - 50) / 2)
+  state.rotation.x = Math.max(-10, Math.min(10, (y - 50) / 5))
+  state.rotation.y = Math.max(-10, Math.min(10, -(x - 50) / 5))
   state.glare.x = x
   state.glare.y = y
 }
@@ -52,20 +53,28 @@ const cardStyle = vue.computed(() => {
 const glareStyle = vue.computed(() => ({
   background: `radial-gradient(circle at ${state.glare.x}% ${state.glare.y}%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 70%)`,
 }))
+
+const cls = vue.computed(() => twMerge('rounded-lg', props.wrapClass))
+
+const loaded = vue.ref(false)
+vue.onMounted(async () => {
+  await waitFor(2000)
+  loaded.value = true
+})
 </script>
 
 <template>
   <div class="[perspective:1000px] ">
     <div
-      class="rounded-lg overflow-hidden hover flipcard group"
-      :class="wrapClass"
+      class="overflow-hidden hover flipcard group"
+      :class="cls"
       :style="cardStyle"
       @mousemove="handleMouseMove"
       @mouseleave="handleMouseLeave"
       @mouseenter="handleMouseEnter"
     >
       <slot />
-      <div class="opacity-0 group-hover:opacity-100 card-glare absolute top-0 left-0 w-full h-full pointer-events-none transition-all" :style="glareStyle" />
+      <div :class="loaded ? 'group-hover:opacity-100' : ''" class="opacity-0  card-glare absolute top-0 left-0 w-full h-full pointer-events-none transition-all" :style="glareStyle" />
     </div>
   </div>
 </template>

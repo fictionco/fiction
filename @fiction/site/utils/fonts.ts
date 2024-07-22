@@ -25,12 +25,13 @@ const defaultSiteFonts: FontConfig = {
   highlight: { fontKey: 'Caveat', stack: 'sans' },
 }
 
-export function fontFamilyByKey(key: string) {
-  if (defaultSiteFonts[key]) {
-    return `var(--font-family-${key})`
+export function fontFamilyByKey(key?: string) {
+  const k = key || 'body'
+  if (defaultSiteFonts[k]) {
+    return `var(--font-family-${k})`
   }
   else {
-    return key
+    return k
   }
 }
 

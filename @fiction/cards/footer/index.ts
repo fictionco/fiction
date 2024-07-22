@@ -5,6 +5,8 @@ import { CardTemplate } from '@fiction/site/card'
 import { z } from 'zod'
 import { mediaSchema } from '../schemaSets'
 
+const templateId = 'footer'
+
 const navItemSchema = z.object({
   name: z.string().optional(),
   href: z.string().optional(),
@@ -81,15 +83,11 @@ const defaultConfig: UserConfig = {
     format: 'html',
     html: `Logo`,
   },
-  tagline: 'Catchy Tagline Here',
-  starline: 'Catchy Starline Here',
   nav: [
     {
       name: 'Explore',
       items: [
-        { href: '/about', name: 'About' },
         { href: '/projects', name: 'Projects' },
-        { href: '/media', name: 'Media' },
         { href: '/awards', name: 'Awards' },
       ],
     },
@@ -104,7 +102,6 @@ const defaultConfig: UserConfig = {
       name: 'More',
       items: [
         { href: `#`, name: 'Hire Me', target: '_blank' },
-        { href: '/app', name: 'Free Course' },
         { href: '/blog', name: 'Blog' },
       ],
     },
@@ -140,7 +137,7 @@ const defaultConfig: UserConfig = {
 }
 
 const el = vue.defineAsyncComponent(async () => import('./ElCard.vue'))
-const templateId = 'footer'
+
 export const templates = [
   new CardTemplate({
     templateId,

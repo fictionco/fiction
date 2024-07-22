@@ -27,11 +27,15 @@ const nav = vue.computed(() => {
 const layoutClasses = vue.computed(() => {
   const l = uc.value.layout || 'columns'
 
+  const hasSubnav = nav.value.some(n => n.items?.length)
+
+  const gapClasses = hasSubnav ? 'md:gap-x-20 xl:gap-x-36 pt-2 gap-y-12' : 'pt-2 gap-y-4'
+
   if (l === 'centered') {
     return {
       wrapClass: 'flex flex-col items-center gap-12',
       logoClass: 'order-3 flex flex-col items-center gap-4 lg:gap-6 text-center',
-      navClass: 'order-1 flex flex-col lg:flex-row items-center lg:items-start justify-center gap-x-8 md:gap-x-20 xl:gap-x-36 gap-y-12 ',
+      navClass: `order-1 flex flex-col lg:flex-row flex-wrap items-center lg:items-start justify-center gap-x-8 ${gapClasses} `,
       badgeClass: 'order-2',
       badgeWrap: `items-center`,
       socials: `justify-center md:justify-center`,
@@ -39,9 +43,9 @@ const layoutClasses = vue.computed(() => {
   }
   else {
     return {
-      wrapClass: 'flex flex-col items-center  lg:items-start lg:flex-row gap-6',
-      logoClass: 'w-60 lg:basis-[250px] flex flex-col items-center lg:items-start gap-4 lg:gap-6 text-center lg:text-left',
-      navClass: `grid grid-cols-2 md:flex flex-row items-start my-8 lg:my-0 justify-center gap-x-8 md:gap-x-20 xl:gap-x-36 gap-y-12 basis-[80%] grow`,
+      wrapClass: 'flex flex-col items-center  lg:items-start lg:flex-row gap-12',
+      logoClass: 'w-60 lg:basis-[270px] flex flex-col items-center lg:items-start gap-4 lg:gap-6 text-center lg:text-left',
+      navClass: `grid grid-cols-2 md:flex flex-row flex-wrap items-start my-8 lg:my-0 justify-center gap-x-8 ${gapClasses}  basis-[80%] grow`,
       badgeClass: `text-sm lg:flex-row lg:items-center lg:justify-between lg:basis-[250px]`,
       badgeWrap: `items-center lg:items-end`,
       socials: `justify-center lg:justify-end`,
@@ -102,9 +106,11 @@ vue.onMounted(() => {
           >
             <CardText
               class="mb-3 md:mb-4 text-left font-sans text-xs text-theme-300 dark:text-theme-600 font-semibold uppercase tracking-widest"
+              :class="col.href ? 'hover:text-primary-500 dark:hover:text-primary-400' : ''"
               :card
               :tag="col.href ? 'a' : 'h3'"
               :path="`nav.${i}.name`"
+
               animate="fade"
               :href="col.href"
               :title="col.desc"
@@ -128,7 +134,7 @@ vue.onMounted(() => {
         <div :class="layoutClasses.badgeClass">
           <CardSocials v-if="uc.socials" :card :class="layoutClasses.socials" :socials="uc.socials" />
 
-          <div :class="layoutClasses.badgeWrap" class="text-theme-400 dark:text-theme-50 mt-5 text-right text-xs flex flex-col items-center gap-4  ">
+          <div v-if="uc.badges?.length" :class="layoutClasses.badgeWrap" class="text-theme-400 dark:text-theme-50 mt-5 text-right text-xs flex flex-col items-center gap-4  ">
             <template v-for="(badge, i) in uc.badges" :key="i">
               <a :href="card.link(badge.href)" :title="badge.name" class="inline-block">
                 <ElImage :media="badge.media" :inline-image="true" />

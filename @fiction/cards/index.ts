@@ -30,6 +30,7 @@ import * as story from './story/index.js'
 import * as ticker from './ticker/index.js'
 import * as wrap from './wrap/index.js'
 import * as trek from './trek/index.js'
+import * as fitText from './fitText/index.js'
 import { createDemoPage } from './utils/demo'
 /**
  * Add path for tailwindcss to scan for styles
@@ -69,6 +70,7 @@ export const standardCardTemplates = [
   ...faq.templates,
   ...mediaPop.templates,
   ...trek.templates,
+  ...fitText.templates,
 ] as const
 
 export async function getDemoPages(args: { site: Site, templates: CardTemplate[] | readonly CardTemplate[], fictionEnv?: FictionEnv }) {
