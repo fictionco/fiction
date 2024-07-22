@@ -1,9 +1,22 @@
 import type { FictionEnv } from '@fiction/core'
 import { safeDirname } from '@fiction/core'
 import { Theme, createCard } from '@fiction/site/theme.js'
-import { templates } from './templates.js'
+import { getCardTemplates } from '@fiction/cards/index.js'
+import { templates as templatesMinimalHeader } from './cards/minimal-header/index.js'
+import { templates as templatesMinimalFooter } from './cards/minimal-footer/index.js'
 
-function pages() {
+async function getTemplates() {
+  const t = await getCardTemplates()
+  const templates = [
+    ...t,
+    ...templatesMinimalHeader,
+    ...templatesMinimalFooter,
+  ] as const
+
+  return templates
+}
+function pages(args: { templates: Awaited<ReturnType<typeof getTemplates>> }) {
+  const { templates } = args
   return [
     createCard({
       templates,
@@ -31,6 +44,9 @@ function pages() {
 
 export async function setup(args: { fictionEnv: FictionEnv }) {
   const { fictionEnv } = args
+
+  const templates = await getTemplates()
+
   return new Theme({
     fictionEnv,
     root: safeDirname(import.meta.url),
@@ -41,7 +57,7 @@ export async function setup(args: { fictionEnv: FictionEnv }) {
     version: '1.0.0',
     templates,
     isPublic: true,
-    pages: () => pages(),
+    pages: () => pages({ templates }),
     userConfig: { },
 
     sections: () => {

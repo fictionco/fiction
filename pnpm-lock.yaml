@@ -108,8 +108,8 @@ importers:
         specifier: ^0.5.8
         version: 0.5.8
       '@playwright/test':
-        specifier: ^1.45.2
-        version: 1.45.2
+        specifier: ^1.45.3
+        version: 1.45.3
       '@types/eslint__eslintrc':
         specifier: ^2.1.2
         version: 2.1.2
@@ -141,8 +141,8 @@ importers:
         specifier: ^8.0.0
         version: 8.0.0(typescript@5.5.3)
       playwright:
-        specifier: ^1.45.2
-        version: 1.45.2
+        specifier: ^1.45.3
+        version: 1.45.3
       postcss:
         specifier: ^8.4.39
         version: 8.4.39
@@ -336,8 +336,8 @@ importers:
         specifier: ^3.2.0
         version: 3.2.0
       '@sinclair/typebox':
-        specifier: ^0.32.34
-        version: 0.32.34
+        specifier: ^0.32.35
+        version: 0.32.35
       '@slack/webhook':
         specifier: ^7.0.2
         version: 7.0.2
@@ -679,8 +679,8 @@ importers:
         specifier: ^7.24.8
         version: 7.24.8
       '@playwright/test':
-        specifier: ^1.45.2
-        version: 1.45.2
+        specifier: ^1.45.3
+        version: 1.45.3
       '@tailwindcss/forms':
         specifier: ^0.5.7
         version: 0.5.7(tailwindcss@3.4.6(ts-node@10.9.2(@swc/wasm@1.7.0)(@types/node@20.14.11)(typescript@5.5.3)))
@@ -775,8 +775,8 @@ importers:
         specifier: 5.0.0-beta.2
         version: 5.0.0-beta.2
       playwright:
-        specifier: ^1.45.2
-        version: 1.45.2
+        specifier: ^1.45.3
+        version: 1.45.3
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
@@ -1114,8 +1114,8 @@ importers:
         specifier: workspace:*
         version: link:../themes/fiction
       playwright:
-        specifier: ^1.45.2
-        version: 1.45.2
+        specifier: ^1.45.3
+        version: 1.45.3
 
   '@fiction/themes/fiction':
     dependencies:
@@ -1329,6 +1329,9 @@ importers:
       '@fiction/plugin-extend':
         specifier: workspace:*
         version: link:../plugins/plugin-extend
+      '@fiction/plugin-forms':
+        specifier: workspace:*
+        version: link:../plugins/plugin-forms
       '@fiction/plugin-highlight-code':
         specifier: workspace:*
         version: link:../plugins/plugin-highlight-code
@@ -2913,8 +2916,8 @@ packages:
     resolution: {integrity: sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
-  '@playwright/test@1.45.2':
-    resolution: {integrity: sha512-JxG9eq92ET75EbVi3s+4sYbcG7q72ECeZNbdBlaMkGcNbiDQ4cAi8U2QP5oKkOx+1gpaiL1LDStmzCaEM1Z6fQ==}
+  '@playwright/test@1.45.3':
+    resolution: {integrity: sha512-UKF4XsBfy+u3MFWEH44hva1Q8Da28G6RFtR2+5saw+jgAFQV5yYnB1fu68Mz7fO+5GJF3wgwAIs0UelU8TxFrA==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -3108,8 +3111,8 @@ packages:
   '@sinclair/typebox@0.29.6':
     resolution: {integrity: sha512-aX5IFYWlMa7tQ8xZr3b2gtVReCvg7f3LEhjir/JAjX2bJCMVJA5tIPv30wTD4KDfcwMd7DDYY3hFDeGmOgtrZQ==}
 
-  '@sinclair/typebox@0.32.34':
-    resolution: {integrity: sha512-a3Z3ytYl6R/+7ldxx04PO1semkwWlX/8pTqxsPw4quIcIXDFPZhOc1Wx8azWmkU26ccK3mHwcWenn0avNgAKQg==}
+  '@sinclair/typebox@0.32.35':
+    resolution: {integrity: sha512-Ul3YyOTU++to8cgNkttakC0dWvpERr6RYoHO2W47DLbFvrwBDJUY31B1sImH6JZSYc4Kt4PyHtoPNu+vL2r2dA==}
 
   '@sindresorhus/is@4.6.0':
     resolution: {integrity: sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==}
@@ -7851,13 +7854,13 @@ packages:
   pkg-types@1.1.3:
     resolution: {integrity: sha512-+JrgthZG6m3ckicaOB74TwQ+tBWsFl3qVQg7mN8ulwSOElJ7gBhKzj2VkCPnZ4NlF6kEquYU+RIYNVAvzd54UA==}
 
-  playwright-core@1.45.2:
-    resolution: {integrity: sha512-ha175tAWb0dTK0X4orvBIqi3jGEt701SMxMhyujxNrgd8K0Uy5wMSwwcQHtyB4om7INUkfndx02XnQ2p6dvLDw==}
+  playwright-core@1.45.3:
+    resolution: {integrity: sha512-+ym0jNbcjikaOwwSZycFbwkWgfruWvYlJfThKYAlImbxUgdWFO2oW70ojPm4OpE4t6TAo2FY/smM+hpVTtkhDA==}
     engines: {node: '>=18'}
     hasBin: true
 
-  playwright@1.45.2:
-    resolution: {integrity: sha512-ReywF2t/0teRvNBpfIgh5e4wnrI/8Su8ssdo5XsQKpjxJj+jspm00jSoz9BTg91TT0c9HRjXO7LBNVrgYj9X0g==}
+  playwright@1.45.3:
+    resolution: {integrity: sha512-QhVaS+lpluxCaioejDZ95l4Y4jSFCsBvl2UZkpeXlzxmqS+aABr5c82YmfMHrL6x27nvrvykJAFpkzT2eWdJww==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -11609,9 +11612,9 @@ snapshots:
 
   '@pkgr/core@0.1.1': {}
 
-  '@playwright/test@1.45.2':
+  '@playwright/test@1.45.3':
     dependencies:
-      playwright: 1.45.2
+      playwright: 1.45.3
 
   '@polka/url@1.0.0-next.25': {}
 
@@ -11834,7 +11837,7 @@ snapshots:
 
   '@sinclair/typebox@0.29.6': {}
 
-  '@sinclair/typebox@0.32.34': {}
+  '@sinclair/typebox@0.32.35': {}
 
   '@sindresorhus/is@4.6.0': {}
 
@@ -17370,11 +17373,11 @@ snapshots:
       mlly: 1.7.1
       pathe: 1.1.2
 
-  playwright-core@1.45.2: {}
+  playwright-core@1.45.3: {}
 
-  playwright@1.45.2:
+  playwright@1.45.3:
     dependencies:
-      playwright-core: 1.45.2
+      playwright-core: 1.45.3
     optionalDependencies:
       fsevents: 2.3.2
 

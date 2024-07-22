@@ -31,6 +31,7 @@ import * as ticker from './ticker/index.js'
 import * as wrap from './wrap/index.js'
 import * as trek from './trek/index.js'
 import * as fitText from './fitText/index.js'
+import * as layerSlide from './layerSlide/index.js'
 import { createDemoPage } from './utils/demo'
 /**
  * Add path for tailwindcss to scan for styles
@@ -71,14 +72,21 @@ export const standardCardTemplates = [
   ...mediaPop.templates,
   ...trek.templates,
   ...fitText.templates,
+  ...layerSlide.templates,
 ] as const
+
+export async function getCardTemplates() {
+  return standardCardTemplates
+}
 
 export async function getDemoPages(args: { site: Site, templates: CardTemplate[] | readonly CardTemplate[], fictionEnv?: FictionEnv }) {
   const { templates } = args
 
   const promises = templates.filter(t => t.settings.demoPage).map(async (t) => {
     const card = await t.settings.demoPage?.(args) as CardConfigPortable
-    return createDemoPage({ templateId: t.settings.templateId, template: t, card })
+    const pg = await createDemoPage({ templateId: t.settings.templateId, template: t, card })
+
+    return pg
   })
 
   const inlineDemos = await Promise.all(promises)

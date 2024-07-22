@@ -1,22 +1,25 @@
 import type { CardConfigPortable, CardTemplate } from '@fiction/site'
 import { createCard } from '@fiction/site'
-import { standardCardTemplates } from '../index.js'
+import { getCardTemplates } from '../index.js'
 
-export function createDemoPage(args: { templateId: string, template: CardTemplate, card: CardConfigPortable }) {
+export async function createDemoPage(args: { templateId: string, template: CardTemplate, card: CardConfigPortable }) {
   const { templateId, template, card = {} } = args
   const slug = card.slug || `demo-${templateId}`
   const cards = card.cards || []
+
+  const templates = await getCardTemplates()
+
   return createCard({
     slug,
     templateId: 'wrap',
-    templates: standardCardTemplates,
+    templates,
     userConfig: {
       // fixedHeader: true,
     },
     cards: [
       createCard({
         templateId: 'hero',
-        templates: standardCardTemplates,
+        templates,
         userConfig: {
           superHeading: template.settings.category?.join(', ').toUpperCase(),
           heading: template.settings.title,
