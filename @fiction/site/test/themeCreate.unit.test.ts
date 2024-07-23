@@ -13,8 +13,8 @@ describe('themeCreation', async () => {
   const r = await testUtils.init()
   const userId = r?.user?.userId ?? ''
   const orgId = r?.user?.orgs?.[0]?.orgId ?? ''
-  const pg = await testTheme.pages({ site })
-  const _homeNumPages = pg.filter(_ => _.regionId === 'main').length
+  const config = await testTheme.getConfig({ site })
+  const _homeNumPages = config.pages.filter(_ => _.regionId === 'main').length
 
   testUtils.fictionSites.themes.value = [...testUtils.fictionSites.themes.value, testTheme]
 

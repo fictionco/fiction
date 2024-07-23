@@ -21,8 +21,11 @@ export type ThemeSettings<T extends Record<string, unknown> = Record<string, unk
   isPublic?: boolean
   isDarkMode?: boolean
   userConfig?: Partial<SiteUserConfig> & T
-  pages: (args: { site: Site }) => Promise<TableCardConfig[]> | TableCardConfig[]
-  sections?: (args: { site: Site }) => Promise<Record<string, TableCardConfig>> | Record<string, TableCardConfig>
+  getConfig: (args: { site: Site }) => Promise<{
+    userConfig: Partial<SiteUserConfig>
+    pages: TableCardConfig[]
+    sections: Record<string, TableCardConfig>
+  }>
   templateDefaults?: {
     page?: string
     transaction?: string
@@ -38,8 +41,7 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
   themeId = this.settings.themeId
   templates = this.settings.templates
   ui = { button: { el: ElButton }, ...this.settings.ui }
-  pages = this.settings.pages
-  sections = this.settings.sections
+
   templateDefaults = vue.computed(() => ({ page: 'wrap', transaction: 'wrap', ...this.settings.templateDefaults }))
 
   constructor(settings: ThemeSettings<T>) {
@@ -53,17 +55,14 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
     return out
   }
 
-  async getPages(args: { site: Site }): Promise<Partial<TableCardConfig>[]> {
-    const pages = (await this.pages(args)) || []
-    const pageTemplateId = this.templateDefaults.value.page
-    const pgs = pages.map(page => ({ ...page, templateId: page.templateId || pageTemplateId }))
-    return pgs
-  }
+  async getConfig(args: { site: Site }) {
+    const config = await this.settings.getConfig(args)
 
-  async getSections(args: { site: Site }): Promise<Record<string, TableCardConfig>> {
-    const sections = this.sections ? await this.sections(args) : {}
+    const pages = config.pages.map(page => ({ ...page, templateId: page.templateId || this.templateDefaults.value.page }))
 
-    return sections
+    const userConfig = deepMerge([this.defaultConfig(), this.settings.userConfig, config.userConfig])
+
+    return { userConfig, pages, sections: config.sections || {} }
   }
 
   async toSite(settings: Omit<SiteSettings, 'themeId'>): Promise<Site> {
@@ -72,48 +71,40 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
     return site
   }
 
-  // async toSiteConfig(): Promise<Partial<TableSiteConfig>> {
-  //   const pages = await this.getPages()
-  //   return { title: this.settings.title, themeId: this.themeId, pages, userConfig: this.config() }
-  // }
-
-  // async processToSiteConfig(args: {
-  //   orgId: string
-  //   userId: string
-  //   fictionMedia?: FictionMedia
-  // }): Promise<Partial<TableSiteConfig>> {
-  //   const { orgId, userId, fictionMedia } = args
-  //   if (!fictionMedia)
-  //     throw new Error('fictionMedia required')
-
-  //   const processors: Processor<string>[] = [
-  //     {
-  //       condition: async ({ value }) => {
-  //         if (typeof value !== 'string')
-  //           return false
-
-  //         try {
-  //           // handle case where url is in a test that contains 'window' and browser-like import.meta.url
-  //           const url = new URL(value, 'http://dummybase') // Handle relative URLs
-  //           return url.protocol === 'file:' || url.toString().includes('@fs') || (isNode() && url.toString().includes('localhost'))
-  //         }
-  //         catch {
-  //           return false // Return false for invalid URLs
-  //         }
-  //       },
-  //       action: async (url) => {
-  //         return processUrlKey({ fictionMedia, url, userId, orgId, storageGroupPath: this.themeId })
-  //       },
-  //     },
-  //   ]
-  //   const configProcessor = new ObjectProcessor(processors)
-
-  //   const siteRaw = await this.toSiteConfig()
-
-  //   const site = await configProcessor.parseObject(siteRaw)
-
-  //   return site
-  // }
+  defaultConfig(): SiteUserConfig {
+    return {
+      fonts: {
+        mono: { fontKey: 'DM Mono', stack: 'monospace' },
+        input: { fontKey: 'DM Mono', stack: 'sans' },
+        title: { fontKey: 'Poppins', stack: 'sans' },
+        sans: { fontKey: 'Plus+Jakarta+Sans', stack: 'sans' },
+        body: { stack: 'serif' },
+        serif: { stack: 'serif' },
+        highlight: { fontKey: 'Caveat', stack: 'sans' },
+      },
+      spacing: {
+        contentWidthSize: 'md',
+        spacingSize: `md`,
+      },
+      isDarkMode: true,
+      ai: {
+        baseInstruction: `You are a world-expert copywriter and web designer, create website content designed to subtly persuade using reference info and objectives. Your content should:
+  - Be elegant and concise, avoiding redundancy and excessive exclamations. Not cheesy, not cliche. Be creative. Don't be pushy.
+  - Don't reuse the name of the site subject in the content, as it's provided elsewhere.
+  - Focus on the PROBLEMS of the target customer, in likely context they can be solved by the provider.
+  - Use an SEO-friendly approach without compromising the natural flow of information.`,
+        objectives: {
+          about: 'This is a portfolio website for James Bond, a secret agent working for MI6.',
+          targetCustomer: 'The target customers government intelligence agencies, and similar agencies hiring secret agents',
+          imageStyle: imageStyle.find(i => i.name === 'Grayscale')?.value || '',
+        },
+      },
+      colors: {
+        colorPrimary: 'blue',
+        colorTheme: 'gray',
+      },
+    }
+  }
 
   getSpacingClass(size: ThemeUiSize, direction: 'top' | 'bottom' | 'both' = 'both') {
     const spacingClassesTop = {
@@ -163,75 +154,93 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
     return contentWidthClasses[size] || contentWidthClasses.md
   }
 
-  config(): SiteUserConfig {
-    return deepMerge([
-      {
-        fonts: {
-          mono: { fontKey: 'DM Mono', stack: 'monospace' },
-          input: { fontKey: 'DM Mono', stack: 'sans' },
-          title: { fontKey: 'Poppins', stack: 'sans' },
-          sans: { fontKey: 'Plus+Jakarta+Sans', stack: 'sans' },
-          body: { stack: 'serif' },
-          serif: { stack: 'serif' },
-          highlight: { fontKey: 'Caveat', stack: 'sans' },
-        },
-        spacing: {
-          contentWidthSize: 'md',
-          spacingSize: `md`,
-        },
-        ai: {
-          baseInstruction: `You are a world-expert copywriter and web designer, create website content designed to subtly persuade using reference info and objectives. Your content should:
-    - Be elegant and concise, avoiding redundancy and excessive exclamations. Not cheesy, not cliche. Be creative. Don't be pushy.
-    - Don't reuse the name of the site subject in the content, as it's provided elsewhere.
-    - Focus on the PROBLEMS of the target customer, in likely context they can be solved by the provider.
-    - Use an SEO-friendly approach without compromising the natural flow of information.`,
-          objectives: {
-            about: 'This is a portfolio website for James Bond, a secret agent working for MI6.',
-            targetCustomer: 'The target customers government intelligence agencies, and similar agencies hiring secret agents',
-            imageStyle: imageStyle.find(i => i.name === 'Grayscale')?.value || '',
-          },
-        },
-        colors: {
-          colorPrimary: 'blue',
-          colorTheme: 'gray',
-          isDarkMode: false,
-        },
-      },
-      this.settings.userConfig || {},
-    ])
-  }
+  // async getPages(args: { site: Site }): Promise<Partial<TableCardConfig>[]> {
+  //   const pages = (await this.settings.getPages(args)) || []
+  //   const pageTemplateId = this.templateDefaults.value.page
+  //   const pgs = pages.map(page => ({ ...page, templateId: page.templateId || pageTemplateId }))
+  //   return pgs
+  // }
+
+  // async getSections(args: { site: Site }): Promise<Record<string, TableCardConfig>> {
+  //   const sections = this.sections ? await this.sections(args) : {}
+
+  //   return sections
+  // }
+
+  // async toSiteConfig(): Promise<Partial<TableSiteConfig>> {
+  //   const pages = await this.getPages()
+  //   return { title: this.settings.title, themeId: this.themeId, pages, userConfig: this.config() }
+  // }
+
+  // async processToSiteConfig(args: {
+  //   orgId: string
+  //   userId: string
+  //   fictionMedia?: FictionMedia
+  // }): Promise<Partial<TableSiteConfig>> {
+  //   const { orgId, userId, fictionMedia } = args
+  //   if (!fictionMedia)
+  //     throw new Error('fictionMedia required')
+
+  //   const processors: Processor<string>[] = [
+  //     {
+  //       condition: async ({ value }) => {
+  //         if (typeof value !== 'string')
+  //           return false
+
+  //         try {
+  //           // handle case where url is in a test that contains 'window' and browser-like import.meta.url
+  //           const url = new URL(value, 'http://dummybase') // Handle relative URLs
+  //           return url.protocol === 'file:' || url.toString().includes('@fs') || (isNode() && url.toString().includes('localhost'))
+  //         }
+  //         catch {
+  //           return false // Return false for invalid URLs
+  //         }
+  //       },
+  //       action: async (url) => {
+  //         return processUrlKey({ fictionMedia, url, userId, orgId, storageGroupPath: this.themeId })
+  //       },
+  //     },
+  //   ]
+  //   const configProcessor = new ObjectProcessor(processors)
+
+  //   const siteRaw = await this.toSiteConfig()
+
+  //   const site = await configProcessor.parseObject(siteRaw)
+
+  //   return site
+  // }
 }
 
 type CardUserConfig<U extends readonly CardTemplate[]> = CreateUserConfigs<U>
 
 // Base interface without slug
-type BaseCreateCardArgs<
-  T extends keyof CardUserConfig<U>,
-  U extends readonly CardTemplate[],
-  V extends PageRegion,
-  W extends CardTemplate | undefined,
-  X extends ComponentConstructor | undefined,
-> = {
-  templates?: U
-  tpl?: W
-  templateId?: T | 'wrap'
-  el?: X
-  userConfig?:
-  W extends CardTemplate
-    ? ExtractCardTemplateUserConfig<W>
-    : X extends ComponentConstructor
-      ? ExtractComponentUserConfig<X>
-      : U extends readonly CardTemplate[] ? CardUserConfig<U>[T] : Record<string, unknown>
-  regionId?: V
-  layoutId?: string
-  cards?: CardConfigPortable[]
-  cardId?: string
-  isSystem?: boolean
-  slug?: string
-  title?: string
-  isHome?: boolean
-  is404?: boolean
-}
+  type BaseCreateCardArgs<
+    T extends keyof CardUserConfig<U>,
+    U extends readonly CardTemplate[],
+    V extends PageRegion,
+    W extends CardTemplate | undefined,
+    X extends ComponentConstructor | undefined,
+  > = {
+    templates?: U
+    tpl?: W
+    templateId?: T | 'wrap'
+    el?: X
+    userConfig?:
+    W extends CardTemplate
+      ? ExtractCardTemplateUserConfig<W>
+      : X extends ComponentConstructor
+        ? ExtractComponentUserConfig<X>
+        : U extends readonly CardTemplate[] ? CardUserConfig<U>[T] : Record<string, unknown>
+    regionId?: V
+    layoutId?: string
+    cards?: CardConfigPortable[]
+    cardId?: string
+    isSystem?: boolean
+    slug?: string
+    title?: string
+    isHome?: boolean
+    is404?: boolean
+  }
 
 export function createCard<
   T extends keyof CreateUserConfigs<U>,

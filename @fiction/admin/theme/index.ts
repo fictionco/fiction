@@ -59,7 +59,14 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionAdmin: Fictio
     version: '1.0.0',
     templates,
     isPublic: false,
-    pages: async () => pg,
+    getConfig: async ({ site }) => {
+      const pages = await pg
+      return {
+        pages,
+        sections: {},
+        userConfig: {},
+      }
+    },
     templateDefaults: { page: 'dash', transaction: 'transaction' },
     userConfig: {
       colors: { isDarkMode: true },

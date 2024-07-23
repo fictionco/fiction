@@ -29,7 +29,7 @@ export function setup(args: { fictionEnv: FictionEnv }) {
     screenshot: new URL('./img/screenshot.jpg', import.meta.url).href,
     version: '1.0.0',
     templates,
-    pages: async (args) => {
+    getConfig: async (args) => {
       const { site } = args
       const obama = staticFileUrl({ site, filename: 'obama.webp' })
       const mediaGridCard = createCard({
@@ -46,28 +46,30 @@ export function setup(args: { fictionEnv: FictionEnv }) {
           ],
         },
       })
-      return [
-        createCard({
-          templates,
-          slug: '_home',
-          title: 'Default Page',
-          isHome: true,
-          cards: [mediaGridCard, { templateId: 'hero' }, { templateId: 'area', cards: [{ templateId: 'hero' }] }, { templateId: 'hero' }],
-        }),
-        createCard({
-          templates,
-          slug: 'example',
-          title: 'Example Page',
-          templateId: 'testWrap',
-          cards: [{ templateId: 'area', cards: [{ templateId: 'hero' }] }],
-        }),
-      ]
-    },
-    sections: () => {
       return {
-        header: createCard({ templates, cards: [] }),
-        footer: createCard({ templates, cards: [] }),
+        userConfig: {},
+        sections: {
+          header: createCard({ templates, cards: [] }),
+          footer: createCard({ templates, cards: [] }),
+        },
+        pages: [
+          createCard({
+            templates,
+            slug: '_home',
+            title: 'Default Page',
+            isHome: true,
+            cards: [mediaGridCard, { templateId: 'hero' }, { templateId: 'area', cards: [{ templateId: 'hero' }] }, { templateId: 'hero' }],
+          }),
+          createCard({
+            templates,
+            slug: 'example',
+            title: 'Example Page',
+            templateId: 'testWrap',
+            cards: [{ templateId: 'area', cards: [{ templateId: 'hero' }] }],
+          }),
+        ],
       }
     },
+
   })
 }

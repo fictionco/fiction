@@ -55,6 +55,10 @@ async function load() {
   }
 }
 
+vue.onServerPrefetch(async () => {
+  await load()
+})
+
 const page = vue.computed(() => site.value?.currentPage.value)
 
 function getTitleTag() {
@@ -146,10 +150,6 @@ unhead.useHead({
     },
   ],
   noscript: () => getScript({ noscript: true }),
-})
-
-vue.onServerPrefetch(async () => {
-  await load()
 })
 
 vue.onMounted(async () => {

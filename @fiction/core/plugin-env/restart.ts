@@ -35,7 +35,7 @@ export class FictionDevRestart extends FictionPlugin {
       ext: 'ts',
     }
 
-    const fullConfig: Partial<NodemonSettings> = { ...defaultConfig, ...config }
+    const nmConfig: Partial<NodemonSettings> = { ...defaultConfig, ...config }
 
     const passArgs = process.argv.slice(
       process.argv.findIndex(_ => _ === 'rdev'),
@@ -45,16 +45,16 @@ export class FictionDevRestart extends FictionPlugin {
 
     const script = [`npm exec --`, `fiction run ${command}`, passArgs.join(' ')]
     const runScript = script.join(' ')
-    fullConfig.exec = runScript
+    nmConfig.exec = runScript
 
-    this.log.info(`running [${runScript}]`, { data: fullConfig })
+    this.log.info(`running [${runScript}]`, { data: nmConfig })
 
     const { default: nodemon } = await import('nodemon')
     /**
      * The nodemon function takes either an object (that matches the nodemon config)
      * or can take a string that matches the arguments that would be used on the command line
      */
-    nodemon(fullConfig as NodemonSettings)
+    nodemon(nmConfig as NodemonSettings)
 
     nodemon
       .on('log', () => {})

@@ -91,7 +91,8 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   isAnimationDisabled = vue.ref(false)
   themeId = vue.ref(this.settings.themeId)
   theme = vue.computed(() => this.fictionSites.themes.value.find(t => t.themeId === this.themeId.value))
-
+  userConfig = vue.ref(this.settings.userConfig || {})
+  fullConfig = vue.ref(this.settings.userConfig || {})
   async loadTheme(options: { loadThemePages?: boolean } = {}) {
     const { loadThemePages = false } = options
     const theme = this.theme.value
@@ -99,19 +100,19 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     if (!theme)
       throw new Error(`Theme with ID ${this.themeId.value} not found`)
 
+    const config = await theme.getConfig({ site: this })
+
     if (loadThemePages) {
-      const themePages = await theme.getPages({ site: this })
-      this.update({ pages: themePages })
+      this.update({ pages: config.pages })
     }
 
-    const themeSections = await theme.getSections({ site: this })
-    this.sections.value = setSections({ site: this, themeSections })
+    this.sections.value = setSections({ site: this, themeSections: config.sections })
+
+    this.fullConfig.value = deepMerge([config.userConfig, this.userConfig.value])
 
     return this
   }
 
-  userConfig = vue.ref(this.settings.userConfig || {})
-  fullConfig = vue.computed(() => deepMerge<SiteUserConfig>([this.theme.value?.config(), this.userConfig.value]))
   userFonts = vue.ref<Record<string, FontConfigVal>>({})
   siteFonts = activeSiteFont(this)
   configDarkMode = vue.computed(() => this.fullConfig.value.isDarkMode ?? isDarkOrLightMode() === 'dark')

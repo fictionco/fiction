@@ -83,7 +83,7 @@ function gridCols() {
 
 <template>
   <div class="relative px-6 md:px-12 transition-opacity duration-700" data-test-id="showcase" :class="!loaded ? 'opacity-0' : ''">
-    <div class="grid md:gap-8 gap-4" :class="gridCols()" :data-aspect="uc.aspect" :data-grid-cols-max="uc.gridColsMax">
+    <div class="grid md:gap-8 gap-4" :data-items-count="uc.items?.length || 0" :class="gridCols()" :data-aspect="uc.aspect" :data-grid-cols-max="uc.gridColsMax">
       <div v-for="(item, i) in uc.items" :key="i" class="[perspective:1000px] group showcase-item x-action-item transition-all duration-300 space-y-2 relative cursor-pointer" @click="activeitemIndex = i">
         <EffectGlare wrap-class="rounded-[20px]">
           <ElImage :animate="true" :media="item.media" :class="gridImageAspect()" />
