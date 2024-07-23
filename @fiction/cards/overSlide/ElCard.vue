@@ -68,7 +68,7 @@ function setActiveItem(index: number) {
             <EffectFitText
               :lines="3"
               :content="currentItem?.title || ''"
-              class="  x-font-title z-20 font-semibold w-[160%]"
+              class="  x-font-title z-20 font-semibold w-[140%]"
             >
               <CardText :card tag="span" :path="`items.${currentItemIndex}.title`" />
             </EffectFitText>
@@ -76,7 +76,7 @@ function setActiveItem(index: number) {
               v-if="currentItem?.subTitle"
               :lines="1"
               :content="currentItem?.subTitle || ''"
-              class="x-font-title z-20 font-semibold w-[160%] mt-4"
+              class="x-font-title z-20 font-semibold w-[140%] mt-4"
             >
               <CardText animate="fade" :card tag="span" :path="`items.${currentItemIndex}.subTitle`" />
             </EffectFitText>
@@ -93,7 +93,7 @@ function setActiveItem(index: number) {
           leave-to-class="opacity-0 translate-x-24"
           mode="out-in"
         >
-          <ElImage :key="currentItemIndex" :media="currentItem?.media" class="absolute top-[10%] h-[80%] aspect-[3/4]  md:aspect-[4.5/3]  z-10 -ml-[50%]" />
+          <ElImage :key="currentItemIndex" :media="currentItem?.media" class="absolute top-[10%] h-[80%] aspect-[3/4] md:aspect-[4.5/3] xl:aspect-[5.5/3] z-10 -ml-[50%]" />
         </transition>
       </div>
       <div class="relative h-full basis-[30%]">
@@ -106,7 +106,7 @@ function setActiveItem(index: number) {
           leave-to-class="opacity-0 -translate-x-16"
           mode="out-in"
         >
-          <ElImage :key="currentItemIndex" :media="currentItem?.mediaBackground" class="absolute -right-[20%] h-full w-[100%]" />
+          <ElImage :key="currentItemIndex" :media="currentItem?.mediaBackground" class="transition-all absolute -right-[20%] xl:right-0 h-full w-[100%]" />
         </transition>
       </div>
     </div>

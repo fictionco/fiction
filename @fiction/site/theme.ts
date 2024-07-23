@@ -145,7 +145,7 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
       'none': 'mx-auto',
       'xs': 'max-w-screen-md px-4 sm:px-6 lg:px-12 mx-auto',
       'sm': 'max-w-screen-lg px-4 sm:px-6 lg:px-16 mx-auto',
-      'md': 'max-w-screen-xl px-4 sm:px-6 lg:px-20 mx-auto',
+      'md': 'max-w-screen-2xl px-4 sm:px-6 lg:px-20 mx-auto',
       'lg': 'max-w-screen-2xl px-4 sm:px-6 lg:px-20 mx-auto',
       'xl': 'max-w-screen-2xl px-4 sm:px-6 lg:px-10 mx-auto',
       '2xl': 'max-w-[1700px] px-4 sm:px-6 lg:px-20 mx-auto',
@@ -153,62 +153,6 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
     }
     return contentWidthClasses[size] || contentWidthClasses.md
   }
-
-  // async getPages(args: { site: Site }): Promise<Partial<TableCardConfig>[]> {
-  //   const pages = (await this.settings.getPages(args)) || []
-  //   const pageTemplateId = this.templateDefaults.value.page
-  //   const pgs = pages.map(page => ({ ...page, templateId: page.templateId || pageTemplateId }))
-  //   return pgs
-  // }
-
-  // async getSections(args: { site: Site }): Promise<Record<string, TableCardConfig>> {
-  //   const sections = this.sections ? await this.sections(args) : {}
-
-  //   return sections
-  // }
-
-  // async toSiteConfig(): Promise<Partial<TableSiteConfig>> {
-  //   const pages = await this.getPages()
-  //   return { title: this.settings.title, themeId: this.themeId, pages, userConfig: this.config() }
-  // }
-
-  // async processToSiteConfig(args: {
-  //   orgId: string
-  //   userId: string
-  //   fictionMedia?: FictionMedia
-  // }): Promise<Partial<TableSiteConfig>> {
-  //   const { orgId, userId, fictionMedia } = args
-  //   if (!fictionMedia)
-  //     throw new Error('fictionMedia required')
-
-  //   const processors: Processor<string>[] = [
-  //     {
-  //       condition: async ({ value }) => {
-  //         if (typeof value !== 'string')
-  //           return false
-
-  //         try {
-  //           // handle case where url is in a test that contains 'window' and browser-like import.meta.url
-  //           const url = new URL(value, 'http://dummybase') // Handle relative URLs
-  //           return url.protocol === 'file:' || url.toString().includes('@fs') || (isNode() && url.toString().includes('localhost'))
-  //         }
-  //         catch {
-  //           return false // Return false for invalid URLs
-  //         }
-  //       },
-  //       action: async (url) => {
-  //         return processUrlKey({ fictionMedia, url, userId, orgId, storageGroupPath: this.themeId })
-  //       },
-  //     },
-  //   ]
-  //   const configProcessor = new ObjectProcessor(processors)
-
-  //   const siteRaw = await this.toSiteConfig()
-
-  //   const site = await configProcessor.parseObject(siteRaw)
-
-  //   return site
-  // }
 }
 
 type CardUserConfig<U extends readonly CardTemplate[]> = CreateUserConfigs<U>

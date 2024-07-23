@@ -86,8 +86,9 @@ export class CardFactory<U extends readonly CardTemplate[]> extends FictionObjec
     }
 
     const templateUserConfig = template?.settings.userConfig ? template?.settings.userConfig as CardUserConfig<U>[T] : {}
+    const asyncUserConfig = template?.settings.getUserConfig ? await template.settings.getUserConfig({ site: this.settings.site }) : {}
 
-    const obj = deepMerge([templateUserConfig, args.userConfig])
+    const obj = deepMerge([templateUserConfig, asyncUserConfig, args.userConfig])
 
     const userConfig = parseObject({ obj, onValue: ({ value }) => typeof value === 'string' ? value.replace('file://', '/@fs') : value })
 

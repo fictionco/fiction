@@ -3,6 +3,7 @@ import { safeDirname } from '@fiction/core'
 import { Theme, createCard } from '@fiction/site/theme.js'
 import { getCardTemplates } from '@fiction/cards/index.js'
 import type { Site } from '@fiction/site/site.js'
+import { CardFactory } from '@fiction/site/cardFactory.js'
 import { templates as templatesMinimalHeader } from './cards/minimal-header/index.js'
 import { templates as templatesMinimalFooter } from './cards/minimal-footer/index.js'
 
@@ -16,17 +17,15 @@ async function getTemplates() {
 
   return templates
 }
-async function getPages(args: { templates: Awaited<ReturnType<typeof getTemplates>>, site: Site }) {
-  const { templates } = args
+async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof getTemplates>>>, site: Site }) {
+  const { factory } = args
   return [
-    createCard({
-      templates,
+    await factory.create({
       slug: '_home',
       title: 'Home',
       isHome: true,
       cards: [
-        createCard({
-          templates,
+        await factory.create({
           templateId: 'overSlide',
           userConfig: {
             items: [
@@ -45,28 +44,25 @@ async function getPages(args: { templates: Awaited<ReturnType<typeof getTemplate
             ],
           },
         }),
-        createCard({
-          templates,
+        await factory.create({
           templateId: 'showcase',
         }),
       ],
     }),
-    createCard({
-      templates,
+    await factory.create({
       slug: 'about',
       title: 'About',
       cards: [
-        createCard({ templates, templateId: 'profile', userConfig: { } }),
+        await factory.create({ templateId: 'profile', userConfig: { } }),
       ],
     }),
-    createCard({
-      templates,
+    await factory.create({
       regionId: 'main',
       templateId: 'wrap',
       slug: 'contact',
       title: 'Contact',
       cards: [
-        createCard({ templates, templateId: 'maps', userConfig: { } }),
+        await factory.create({ templateId: 'maps', userConfig: { } }),
       ],
     }),
   ]
@@ -88,72 +84,74 @@ export async function setup(args: { fictionEnv: FictionEnv }) {
     templates,
     isPublic: true,
     getConfig: async ({ site }) => {
+      const factory = new CardFactory({ templates, site })
       return {
-        pages: await getPages({ templates, site }),
+        pages: await getPages({ factory, site }),
         sections: {
-          header: createCard({
-            templates,
+          header: await factory.create({
             regionId: 'header',
             templateId: 'area',
-            cards: [createCard({ templates, templateId: 'nav', userConfig: {
-              logo: { html: `Minimal Theme` },
-              navA: [
-                { name: 'About', href: '/about' },
-
-              ],
-              navB: [
-                { name: 'Contact', href: '/contact', itemStyle: 'buttonStandard' },
-              ],
-            } })],
+            cards: [
+              await factory.create({ templateId: 'nav', userConfig: {
+                logo: { html: `Minimal Theme` },
+                navA: [
+                  { name: 'About', href: '/about' },
+                ],
+                navB: [
+                  { name: 'Contact', href: '/contact', itemStyle: 'buttonStandard' },
+                ],
+              } }),
+            ],
           }),
-          footer: createCard({
-            templates,
+          footer: await factory.create({
             regionId: 'footer',
             templateId: 'area',
-            cards: [createCard({ templates, templateId: 'footer', userConfig: {
-              logo: {
-                format: 'html',
-                html: `Minimal Theme`,
-              },
-              nav: [
-                {
-                  name: 'About',
-                  href: '/about',
+            cards: [
+              await factory.create({ templateId: 'footer', userConfig: {
+                logo: {
+                  format: 'html',
+                  html: `Minimal Theme`,
                 },
-                {
-                  name: 'Contact',
-                  href: '/contact',
+                nav: [
+                  {
+                    name: 'About',
+                    href: '/about',
+                  },
+                  {
+                    name: 'Contact',
+                    href: '/contact',
+                  },
+                ],
+                legal: {
+                  privacyPolicyUrl: `#`,
+                  termsOfServiceUrl: `#`,
+                  copyrightText: `Your Company or Name, Inc.`,
                 },
-              ],
-              legal: {
-                privacyPolicyUrl: `#`,
-                termsOfServiceUrl: `#`,
-                copyrightText: `Your Company or Name, Inc.`,
-              },
-              socials: [
-                {
-                  href: 'https://www.linkedin.com/company/fictionco',
-                  target: '_blank',
-                  name: 'LinkedIn',
-                  icon: `linkedin`,
-                },
-                {
-                  href: 'https://github.com/fictionco',
-                  target: '_blank',
-                  name: 'Github',
-                  icon: `github`,
-                },
-                {
-                  href: 'https://www.twitter.com/fictionco',
-                  target: '_blank',
-                  name: 'X',
-                  icon: 'x',
-                },
+                socials: [
+                  {
+                    href: 'https://www.linkedin.com/company/fictionco',
+                    target: '_blank',
+                    name: 'LinkedIn',
+                    icon: `linkedin`,
+                  },
+                  {
+                    href: 'https://github.com/fictionco',
+                    target: '_blank',
+                    name: 'Github',
+                    icon: `github`,
+                  },
+                  {
+                    href: 'https://www.twitter.com/fictionco',
+                    target: '_blank',
+                    name: 'X',
+                    icon: 'x',
+                  },
 
-              ],
+                ],
 
-              badges: [],
-            } })],
+                badges: [],
+              } }),
+            ],
           }),
         },
         userConfig: {},
