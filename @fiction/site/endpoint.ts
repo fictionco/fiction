@@ -193,7 +193,7 @@ type StandardFields = {
   orgId?: string
   userId?: string
   isPublishingDomains?: boolean
-  caller?: string
+  caller: string
   successMessage?: string
   disableLog?: boolean
   fields?: Partial<TableSiteConfig>
@@ -278,7 +278,7 @@ export class ManageSite extends SitesQuery {
 
     if (!site?.siteId) {
       this.log.warn('ManageSite: Site not found', { data: { where, caller: params.caller } })
-      return { status: 'error', message: 'Site not found', meta: { where, caller: params.caller } }
+      return { status: 'error', message: 'Site not found', meta: { where, caller: params.caller }, expose: false }
     }
 
     return { status: 'success', data: site }
@@ -318,7 +318,14 @@ export class ManageSite extends SitesQuery {
       await updateSiteCerts({ siteId, customDomains: fields.customDomains, fictionSites: this.settings.fictionSites, fictionDb: this.settings.fictionDb }, meta)
     }
 
-    const updatedResult = await this.run({ _action: 'retrieve', where: { siteId }, userId: params.userId, orgId: params.orgId, disableLog: true }, { ...meta, caller: 'endManageSite' })
+    const updatedResult = await this.run({
+      _action: 'retrieve',
+      where: { siteId },
+      userId: params.userId,
+      orgId: params.orgId,
+      disableLog: true,
+      caller: 'finalizeSiteAction',
+    }, { ...meta, caller: 'endManageSite' })
 
     if (params._action === 'create') {
       this.log.info('SITE CREATED', { data: params })

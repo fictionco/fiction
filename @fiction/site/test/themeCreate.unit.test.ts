@@ -24,7 +24,13 @@ describe('themeCreation', async () => {
 
   it('processes theme media correct', async () => {
     const m = testUtils.fictionSites.queries.ManageSite
-    const r = await m.createSiteFromTheme({ _action: 'create', userId, orgId, fields: { themeId: testTheme.themeId } }, { server: true })
+    const r = await m.createSiteFromTheme({
+      _action: 'create',
+      userId,
+      orgId,
+      fields: { themeId: testTheme.themeId },
+      caller: 'themeCreate.unit.test.ts',
+    }, { server: true })
 
     const val = findValueByKey(r.pages, 'media')?.url
 

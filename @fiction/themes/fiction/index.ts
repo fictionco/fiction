@@ -107,13 +107,11 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
                         name: 'Content',
                         items: [
                           { name: 'Tour', href: '/demo-tour' },
-                          { name: 'Quotes', href: '/demo-quotes' },
+
                           { name: 'Hero', href: '/demo-hero' },
                           { name: 'Features', href: '/demo-features' },
                           { name: 'FAQ / List', href: '/demo-faq' },
-                          { name: 'People', href: '/demo-people' },
                           { name: 'Trek', href: '/demo-trek' },
-                          { name: 'Story', href: '/demo-story' },
                         ],
                       },
                       {
@@ -122,19 +120,18 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
                           { name: 'Showcase', href: '/demo-showcase' },
                           { name: 'Cinema', href: '/demo-cinema' },
                           { name: 'Marquee', href: '/demo-marquee' },
-                          { name: 'Profile', href: '/demo-profile' },
                           { name: 'Logos', href: '/demo-logos' },
                           { name: 'Metrics', href: '/demo-metrics' },
                         ],
                       },
                       {
-                        name: 'Site',
+                        name: 'Structure',
                         items: [
                           { name: 'Nav', href: '/demo-nav' },
                           { name: 'Footer', href: '/demo-footer' },
-                          { name: 'Pricing', href: '/demo-pricing' },
-                          { name: 'Capture', href: '/demo-capture' },
+
                           { name: 'Maps', href: '/demo-maps' },
+                          { name: 'Area', href: '/demo-area' },
                         ],
                       },
                       {
@@ -142,12 +139,29 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
                         items: [
                           { name: 'Ticker', href: '/demo-ticker' },
                           { name: 'Fit Text', href: '/demo-fitText' },
+                          { name: 'Quotes', href: '/demo-quotes' },
                         ],
                       },
                       {
                         name: 'Posts',
                         items: [
                           { name: 'Magazine', href: '/demo-magazine' },
+                        ],
+                      },
+                      {
+                        name: 'Profile',
+                        items: [
+                          { name: 'Over Slide', href: '/demo-overSlide' },
+                          { name: 'Profile', href: '/demo-profile' },
+                          { name: 'Story', href: '/demo-story' },
+                        ],
+                      },
+                      {
+                        name: 'More',
+                        items: [
+                          { name: 'Capture', href: '/demo-capture' },
+                          { name: 'Pricing', href: '/demo-pricing' },
+                          { name: 'People', href: '/demo-people' },
                         ],
                       },
                     ],

@@ -28,6 +28,7 @@ async function getDbSite(testUtils: SiteTestUtils, r: InitializedTestUtils) {
     userId,
     orgId,
     fields: { themeId: 'test' },
+    caller: 'regions.unit.test.ts',
   }, { server: true })
 
   const siteConfig = r2.data
@@ -129,6 +130,7 @@ describe('upsert action', async () => {
     userId,
     orgId,
     fields: { themeId: testTheme.themeId },
+    caller: 'regions.unit.test.ts',
   }, { server: true })
 
   const siteConfig = r2.data

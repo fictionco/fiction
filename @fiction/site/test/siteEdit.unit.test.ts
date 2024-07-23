@@ -68,6 +68,7 @@ describe('site plugin tests', async () => {
         where: { siteId: site?.siteId },
         userId,
         orgId,
+        caller: 'siteUpdateTest',
       },
       { server: true },
     )
@@ -185,6 +186,7 @@ describe('site plugin tests', async () => {
     const rSite1 = await testUtils.fictionSites.requests.ManageSite.projectRequest({
       _action: 'retrieve',
       where: { siteId: site.siteId },
+      caller: 'updates pages from form',
     })
 
     expect(rSite1?.data?.pages.length).toMatchInlineSnapshot(`2`)
@@ -236,7 +238,7 @@ describe('site plugin tests', async () => {
 
     expect(site.pages.value[0].cardId).toBe(r?.cardId)
 
-    const rSite2 = await testUtils.fictionSites.requests.ManageSite.projectRequest({ _action: 'retrieve', where: { siteId: site.siteId } })
+    const rSite2 = await testUtils.fictionSites.requests.ManageSite.projectRequest({ _action: 'retrieve', where: { siteId: site.siteId }, caller: 'update page test' })
 
     expect(rSite2?.data?.pages.filter(_ => _.regionId === 'main').length, 'default pages + 1 added page').toBe(defaultNumPages + 1)
 
@@ -249,6 +251,7 @@ describe('site plugin tests', async () => {
     const rSite3 = await testUtils.fictionSites.requests.ManageSite.projectRequest({
       _action: 'retrieve',
       where: { siteId: site.siteId },
+      caller: 'testRegionCreationNo3',
     })
 
     expect(rSite3?.data?.pages.filter(_ => _.regionId === 'main').length).toBe(defaultNumPages)

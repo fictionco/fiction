@@ -47,7 +47,7 @@ vue.watch(
   { deep: true },
 )
 
-const cls = vue.computed(() => twMerge('overflow-hidden', props.wrapClass))
+const cls = vue.computed(() => twMerge(props.wrapClass))
 </script>
 
 <template>

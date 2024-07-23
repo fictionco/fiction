@@ -31,7 +31,7 @@ import * as ticker from './ticker/index.js'
 import * as wrap from './wrap/index.js'
 import * as trek from './trek/index.js'
 import * as fitText from './fitText/index.js'
-import * as layerSlide from './layerSlide/index.js'
+import * as overSlide from './overSlide/index.js'
 import { createDemoPage } from './utils/demo'
 /**
  * Add path for tailwindcss to scan for styles
@@ -72,7 +72,7 @@ export const standardCardTemplates = [
   ...mediaPop.templates,
   ...trek.templates,
   ...fitText.templates,
-  ...layerSlide.templates,
+  ...overSlide.templates,
 ] as const
 
 export async function getCardTemplates() {

@@ -124,6 +124,17 @@ const filters = vue.computed<ImageFilterConfig[]>(() => props.media?.filters || 
           :class="inlineImage ? '' : 'h-full w-full *:w-full *:h-full'"
           v-html="media.html"
         />
+        <video
+          v-else-if="media.format === 'video'"
+          class="absolute h-full w-full object-cover z-0 dark:bg-theme-800/30 bg-theme-50/50"
+          :class="[imageClass, inlineImage ? 'block' : '']"
+          :src="media?.url || ''"
+          :style="{ filter: filters?.map((_) => _.value).join(' ') }"
+          autoplay
+          loop
+          muted
+          playsinline
+        />
         <img
           v-else-if="media?.url"
           class="inset-0 object-cover z-0"

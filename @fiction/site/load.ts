@@ -15,7 +15,7 @@ type MountContext = { siteMode?: SiteMode, fictionOrgId?: string, fictionSiteId?
 type RequestManageSiteParams = ManageSiteParams & { siteRouter: FictionRouter, fictionSites: FictionSites, siteMode: SiteMode, orgId?: string, siteId?: string }
 
 export async function requestManageSite(args: RequestManageSiteParams) {
-  const { _action, siteMode, caller, fields, where } = args
+  const { _action, siteMode, caller = 'requestManageSite', fields, where } = args
   const { fictionSites, siteRouter, ...pass } = args
 
   logger.info(`request manage site:${_action}`, { data: { fields, where } })
@@ -64,8 +64,8 @@ export async function loadSiteFromTheme(args: {
   const theme = availableThemes.find(t => t.themeId === themeId)
 
   const appSettings = fictionSites.settings.fictionApp.settings
-  const orgId = appSettings.fictionOrgId || `no-orgId-${themeId}`
-  const siteId = args.siteId || appSettings.fictionSiteId || `no-siteId-${themeId}`
+  const orgId = appSettings.fictionOrgId || `static-orgId-${themeId}`
+  const siteId = args.siteId || appSettings.fictionSiteId || `static-siteId-${themeId}`
   const subDomain = `theme-${themeId}`
 
   if (!theme) {

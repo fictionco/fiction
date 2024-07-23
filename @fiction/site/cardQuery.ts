@@ -17,9 +17,9 @@ export class CardQueryHandler extends SitesQuery {
     const { siteId, themeId, queryId } = params
 
     let site: Site | undefined = undefined
-    if (siteId) {
+    if (siteId && !siteId.includes('static')) {
       const { ManageSite } = this.settings.fictionSites.queries
-      const r = await ManageSite.serve({ _action: 'retrieve', where: { siteId } }, { ...meta, caller: 'CardQuery' })
+      const r = await ManageSite.serve({ _action: 'retrieve', where: { siteId }, caller: 'CardQuery' }, { ...meta })
 
       if (!r.data)
         throw abort('site not found', { data: { siteId } })
