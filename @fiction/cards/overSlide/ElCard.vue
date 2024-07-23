@@ -3,7 +3,6 @@ import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import EffectFitText from '@fiction/ui/effect/EffectFitText.vue'
 import ElImage from '@fiction/ui/media/ElImage.vue'
-import ElButton from '@fiction/ui/ElButton.vue'
 import CardText from '../CardText.vue'
 import NavDots from '../el/NavDots.vue'
 import type { UserConfig } from '.'
@@ -64,7 +63,7 @@ function setActiveItem(index: number) {
           leave-to-class="opacity-0 -translate-x-44"
           mode="out-in"
         >
-          <div :key="currentItemIndex" class="w-full absolute top-1/2 -translate-y-1/2 z-20 " :class="currentItem?.textBlend === 'difference' ? 'mix-blend-difference' : '[text-shadow: 0 0 10px rgba(0,0,0,0.5);]'">
+          <div :key="currentItemIndex" class="w-full absolute top-1/2 -translate-y-1/2 z-20 " :class="currentItem?.textBlend === 'difference' ? 'mix-blend-difference' : '[text-shadow:_1px_1px_2px_rgba(0,0,0,0.1)]'">
             <EffectFitText
               :lines="3"
               :content="currentItem?.title || ''"
@@ -93,10 +92,10 @@ function setActiveItem(index: number) {
           leave-to-class="opacity-0 translate-x-24"
           mode="out-in"
         >
-          <ElImage :key="currentItemIndex" :media="currentItem?.media" class="absolute top-[10%] h-[80%] aspect-[3/4] md:aspect-[4.5/3] xl:aspect-[5.5/3] z-10 -ml-[50%]" />
+          <ElImage :key="currentItemIndex" :media="currentItem?.media" class="absolute top-[10%] h-[80%] aspect-[3/4] md:aspect-[4.5/3] z-10 -ml-[40%] shadow-lg" />
         </transition>
       </div>
-      <div class="relative h-full basis-[30%]">
+      <div class="relative h-full basis-[27%]">
         <transition
           enter-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-500 delay-100"
           enter-from-class="opacity-0 translate-x-16"

@@ -1,7 +1,7 @@
 import type { FictionRouter } from '@fiction/core'
 import { FictionObject, deepMerge, getColorScheme, isDarkOrLightMode, localRef, objectId, resetUi, shortId, vue, waitFor } from '@fiction/core'
 import { TypedEventTarget } from '@fiction/core/utils/eventTarget.js'
-import type { CardConfigPortable, PageRegion, SiteUserConfig, TableCardConfig, TableSiteConfig } from './tables.js'
+import type { CardConfigPortable, PageRegion, TableCardConfig, TableSiteConfig } from './tables.js'
 import type { Card, CardTemplate } from './card.js'
 import { flattenCards, setLayoutOrder } from './utils/layout.js'
 import type { LayoutOrder } from './utils/layout.js'

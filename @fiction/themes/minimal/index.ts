@@ -1,6 +1,6 @@
 import type { FictionEnv } from '@fiction/core'
 import { safeDirname } from '@fiction/core'
-import { Theme, createCard } from '@fiction/site/theme.js'
+import { Theme } from '@fiction/site/theme.js'
 import { getCardTemplates } from '@fiction/cards/index.js'
 import type { Site } from '@fiction/site/site.js'
 import { CardFactory } from '@fiction/site/cardFactory.js'
@@ -30,17 +30,39 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
           userConfig: {
             items: [
               {
-                title: 'Minimal Theme',
-                subTitle: 'A minimal personal branding theme',
+                title: 'Your Name',
+                subTitle: 'A quick tagline or description',
+                // textBlend: 'difference',
                 media: {
                   format: 'url',
-                  url: 'https://images.unsplash.com/photo-1680702785292-b1bcf398fa12?q=80&w=3276&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                  url: 'https://images.unsplash.com/photo-1554774853-719586f82d77?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                 },
                 mediaBackground: {
                   format: 'url',
-                  url: 'https://images.unsplash.com/photo-1693409268199-1d17cfe33d5e?q=80&w=3174&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                  url: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=3174&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                 },
               },
+              {
+                title: 'Another Slide',
+                subTitle: 'A bit more information',
+                // textBlend: 'difference',
+                media: {
+                  format: 'url',
+                  url: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=3174&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                },
+                mediaBackground: {
+                  format: 'url',
+                  url: 'https://images.unsplash.com/photo-1555421689-3f034debb7a6?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                },
+              },
+            ],
+          },
+        }),
+        await factory.create({
+          templateId: 'ticker',
+          userConfig: {
+            items: [
+              { text: 'Your Name', outline: true, rotateX: 3, rotateY: 3, rotateZ: -3 },
             ],
           },
         }),
