@@ -8,7 +8,7 @@ const templateId = 'ticker'
 
 const TickerSchema = z.object({
   text: z.string().describe('The text to display in the ticker'),
-  speed: z.number().min(1).max(10).optional().describe('The speed of the scrolling text'),
+  speed: z.number().min(0).max(10).optional().describe('The speed of the scrolling text'),
   direction: z.enum(['left', 'right']).optional().describe('The direction of the ticker scroll'),
   font: z.string().optional().describe('The font family of the text'),
   bgColor: z.string().optional().describe('The color background of the ticker'),
@@ -22,6 +22,7 @@ const TickerSchema = z.object({
 export const UserConfigSchema = z.object({
   items: z.array(TickerSchema).describe('Array of ticker items').optional(),
   fontSize: z.number().min(5).max(15).optional().describe('The font size of the text'),
+  speed: z.number().min(0).max(10).optional().describe('The speed of the scrolling text'),
 })
 
 export type Ticker = z.infer<typeof TickerSchema>
@@ -41,10 +42,10 @@ const options: InputOption[] = [
       new InputOption({ key: 'bgColor', label: 'Background Color', input: 'InputColor' }),
       new InputOption({ key: 'bgColorDark', label: 'Background Color (Dark Mode)', input: 'InputColor' }),
       new InputOption({ key: 'outline', label: 'Outline', input: 'InputToggle' }),
-      new InputOption({ key: 'speed', label: 'Speed', input: 'InputRange', props: { min: -10, max: 10 } }),
-      new InputOption({ key: 'rotateX', label: 'Rotate X', input: 'InputRange', props: { min: -10, max: 10 } }),
-      new InputOption({ key: 'rotateY', label: 'Rotate Y', input: 'InputRange', props: { min: -10, max: 10 } }),
-      new InputOption({ key: 'rotateZ', label: 'Rotate Z', input: 'InputRange', props: { min: -10, max: 10 } }),
+      new InputOption({ key: 'speed', label: 'Speed', input: 'InputRange', props: { min: 0, max: 100 } }),
+      new InputOption({ key: 'rotateX', label: 'Rotate X', input: 'InputRange', props: { min: -30, max: 30 } }),
+      new InputOption({ key: 'rotateY', label: 'Rotate Y', input: 'InputRange', props: { min: -30, max: 30 } }),
+      new InputOption({ key: 'rotateZ', label: 'Rotate Z', input: 'InputRange', props: { min: -30, max: 30 } }),
     ],
   }),
 ]
@@ -55,7 +56,7 @@ const defaultConfig: UserConfig = {
     rotateX: 5,
     rotateY: 5,
     rotateZ: -2,
-    speed: -2,
+    speed: 30,
   }, {
     text: 'Non nobis solum nati sumus.',
     rotateX: 5,
@@ -63,7 +64,7 @@ const defaultConfig: UserConfig = {
     rotateZ: 2,
     direction: 'right',
     outline: true,
-    speed: 2,
+    speed: 50,
   }],
 }
 

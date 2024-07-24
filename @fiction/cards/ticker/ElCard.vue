@@ -34,7 +34,7 @@ const items = vue.computed(() => {
     font: 'inherit',
     fontSize: `${conf.fontSize || '8'}vw`,
     direction: 'left',
-    speed: 0,
+    speed: 50,
     rotateX: 0,
     rotateY: 0,
     rotateZ: 0,
@@ -69,15 +69,19 @@ function getColorStyle(ticker: Ticker) {
 
 function getAnimationDuration(speed?: number): string {
   if (speed === undefined) {
-    return '180s'
+    speed = 50
   }
-  // Ensure speed is within the range of -10 to 10
-  if (speed < -10)
-    speed = -10
-  if (speed > 10)
-    speed = 10
 
-  const duration = 60 + ((-1 * speed + 10) * 12)
+  if (speed === 0) {
+    return '100000s'
+  }
+
+  if (speed < 0)
+    speed = 0
+  if (speed > 100)
+    speed = 100
+
+  const duration = 330 - speed * 3
 
   return `${duration}s`
 }

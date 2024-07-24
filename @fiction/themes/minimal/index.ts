@@ -79,8 +79,8 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
               spacingSize: 'sm',
             },
             items: [
-              { text: 'Printer', outline: true, rotateX: 3, rotateY: 3, rotateZ: 3 },
-              { text: 'Inventor', rotateX: 3, rotateY: 3, rotateZ: 3, direction: 'right', bgColor: '#4f46e5', bgColorDark: '#818cf8' },
+              { text: 'Printer', outline: true, rotateZ: 2 },
+              { text: 'Inventor', rotateZ: 2, bgColor: '#000000', bgColorDark: '#ffffff' },
             ],
           },
         }),

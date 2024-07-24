@@ -30,7 +30,7 @@ vue.onMounted(async () => {
 
 const activeitemIndex = vue.ref(-1)
 const activeItem = vue.computed(() => uc.value.items?.find((item, i) => i === activeitemIndex.value))
-const proseClass = `prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl mx-auto focus:outline-none `
+const proseClass = `prose dark:prose-invert prose-sm md:prose-lg lg:prose-2xl max-w-[45ch] mx-auto focus:outline-none `
 
 function featuredImageAspect(media: MediaDisplayObject) {
   const img = media
@@ -108,7 +108,7 @@ function gridCols() {
         </div>
       </div>
     </div>
-    <ElModal :vis="activeitemIndex >= 0" modal-class="lg:max-w-[80dvw] min-h-[80dvh] " @update:vis="activeitemIndex = -1">
+    <ElModal :vis="activeitemIndex >= 0" modal-class="lg:max-w-[80dvw] min-h-[80dvh] x-font-body " @update:vis="activeitemIndex = -1">
       <div class="close">
         <div class="absolute top-0 right-0 p-2 md:p-4">
           <div class="cursor-pointer text-theme-400 dark:text-theme-500 opacity-70 hover:opacity-100" @click="activeitemIndex = -1">
@@ -119,18 +119,18 @@ function gridCols() {
       <div class="py-12 md:py-24 px-4">
         <div :class="proseClass">
           <div class="not-prose">
-            <div class="mb-8 not-prose space-y-4">
+            <div class="mb-8 not-prose space-y-4 text-center">
               <CardText
                 tag="h1"
                 :card="card"
-                class="mb-0 text-3xl md:text-5xl font-semibold x-font-title text-pretty"
+                class="mb-0 text-3xl md:text-5xl font-semibold x-font-title "
                 :path="`items.${activeitemIndex}.title`"
                 animate="fade"
               />
               <CardText
                 tag="h3"
                 :card="card"
-                class="my-0 text-theme-500 dark:text-theme-400 text-lg md:text-3xl text-pretty"
+                class="my-0 text-theme-500 dark:text-theme-400 text-lg md:text-3xl"
                 :path="`items.${activeitemIndex}.subTitle`"
                 animate="fade"
               />
