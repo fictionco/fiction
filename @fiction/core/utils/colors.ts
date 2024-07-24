@@ -165,7 +165,7 @@ export function getTextColorBasedOnBackground(backgroundColor: string): string {
   const bgLuminance = luminance(r, g, b)
 
   // Prefer white text color most of the time
-  return bgLuminance > 0.2 ? '#000000' : '#FFFFFF'
+  return bgLuminance > 0.35 ? '#000000' : '#FFFFFF'
 }
 
 export function colorStandard(params: {

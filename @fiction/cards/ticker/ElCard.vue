@@ -77,35 +77,38 @@ function getAnimationDuration(speed?: number): string {
   if (speed > 10)
     speed = 10
 
-  const duration = 40 + ((-1 * speed + 10) * 12)
+  const duration = 60 + ((-1 * speed + 10) * 12)
 
   return `${duration}s`
 }
 </script>
 
 <template>
-  <div ref="tickerWrap" class="x-font-title font-bold [perspective:1000px] " :style="{ perspective: '1000px' }">
-    <div
-      v-for="(item, index) in items"
-      :key="index"
-      :style="{
-        'fontFamily': fontFamilyByKey(item.font),
-        'fontSize': item.fontSize,
-        'transform': `rotateX(${item.rotateX}deg) rotateY(${item.rotateY}deg) rotateZ(${item.rotateZ}deg)`,
-        '-webkit-text-stroke-width': item.outline ? '1px' : '',
-        '-webkit-text-stroke-color': item.outline ? 'inherit' : '',
-        '-webkit-text-fill-color': item.outline ? 'transparent' : '',
-
-      }"
-    >
+  <div class=" overflow-x-clip">
+    <div ref="tickerWrap" class="x-font-title font-bold [perspective:1000px] " :style="{ perspective: '1000px' }">
       <div
-        class="flex whitespace-nowrap"
-        :class="`animate-scroll-${item.direction}`"
-        :style="{ animationDuration: getAnimationDuration(item.speed) }"
+        v-for="(item, index) in items"
+        :key="index"
+        :style="{
+          'fontFamily': fontFamilyByKey(item.font),
+          'fontSize': item.fontSize,
+          'transform': `rotateX(${item.rotateX}deg) rotateY(${item.rotateY}deg) rotateZ(${item.rotateZ}deg)`,
+          '-webkit-text-stroke-width': item.outline ? '1px' : '',
+          '-webkit-text-stroke-color': item.outline ? 'inherit' : '',
+          '-webkit-text-fill-color': item.outline ? 'transparent' : '',
+          'line-height': '1.2',
+        }"
+        class=""
       >
-        <div :style="{ ...getColorStyle(item as Ticker) }">
-          <span class="font-bold">{{ item.text }}&nbsp;</span>
-          <span v-for="i in 30" :key="i" class="font-bold">{{ item.text }}&nbsp;</span>
+        <div
+          class="flex whitespace-nowrap"
+          :class="`animate-scroll-${item.direction}`"
+          :style="{ animationDuration: getAnimationDuration(item.speed) }"
+        >
+          <div :style="{ ...getColorStyle(item as Ticker) }">
+            <span class="font-bold">{{ item.text }}&nbsp;</span>
+            <span v-for="i in 30" :key="i" class="font-bold">{{ item.text }}&nbsp;</span>
+          </div>
         </div>
       </div>
     </div>

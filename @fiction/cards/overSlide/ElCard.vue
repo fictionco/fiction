@@ -51,64 +51,66 @@ function setActiveItem(index: number) {
 </script>
 
 <template>
-  <div :class="card.classes.value.contentWidth" class="overflow-hidden py-4">
-    <div class="flex items-center justify-between h-[65dvh] ">
-      <div class="relative h-full basis-[30%]">
-        <transition
-          enter-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-500"
-          enter-from-class="opacity-0 translate-x-44"
-          enter-to-class="opacity-100 translate-x-0"
-          leave-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-500"
-          leave-from-class="opacity-100 translate-x-0"
-          leave-to-class="opacity-0 -translate-x-44"
-          mode="out-in"
-        >
-          <div :key="currentItemIndex" class="w-full absolute top-1/2 -translate-y-1/2 z-20 " :class="currentItem?.textBlend === 'difference' ? 'mix-blend-difference' : '[text-shadow:_1px_1px_2px_rgba(0,0,0,0.1)]'">
-            <EffectFitText
-              :lines="3"
-              :content="currentItem?.title || ''"
-              class="  x-font-title z-20 font-semibold w-[140%]"
-            >
-              <CardText :card tag="span" :path="`items.${currentItemIndex}.title`" />
-            </EffectFitText>
-            <EffectFitText
-              v-if="currentItem?.subTitle"
-              :lines="1"
-              :content="currentItem?.subTitle || ''"
-              class="x-font-title z-20 font-semibold w-[140%] mt-4"
-            >
-              <CardText animate="fade" :card tag="span" :path="`items.${currentItemIndex}.subTitle`" />
-            </EffectFitText>
-          </div>
-        </transition>
+  <div class="overflow-x-clip">
+    <div :class="card.classes.value.contentWidth" class="y-4">
+      <div class="flex items-center justify-between h-[65dvh] ">
+        <div class="relative h-full basis-[30%]">
+          <transition
+            enter-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-500"
+            enter-from-class="opacity-0 translate-x-44"
+            enter-to-class="opacity-100 translate-x-0"
+            leave-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-500"
+            leave-from-class="opacity-100 translate-x-0"
+            leave-to-class="opacity-0 -translate-x-44"
+            mode="out-in"
+          >
+            <div :key="currentItemIndex" class="text-theme-900 dark:text-theme-0 w-full absolute top-1/2 -translate-y-1/2 z-20 space-y-8" :class="currentItem?.textBlend === 'difference' ? 'mix-blend-difference text-white dark:text-black' : '[text-shadow:_1px_1px_2px_rgba(0,0,0,0.1)]'">
+              <EffectFitText
+                :lines="3"
+                :content="currentItem?.title || ''"
+                class="x-font-title z-20 font-bold w-[160%]"
+              >
+                <CardText :card tag="span" :path="`items.${currentItemIndex}.title`" />
+              </EffectFitText>
+              <EffectFitText
+                v-if="currentItem?.subTitle"
+                :lines="1"
+                :content="currentItem?.subTitle || ''"
+                class="x-font-title z-20 font-semibold w-[140%] mt-4"
+              >
+                <CardText animate="fade" :card tag="span" :path="`items.${currentItemIndex}.subTitle`" />
+              </EffectFitText>
+            </div>
+          </transition>
+        </div>
+        <div class="relative h-full basis-[30%]">
+          <transition
+            enter-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-500"
+            enter-from-class="opacity-0 -translate-x-24"
+            enter-to-class="opacity-100 translate-x-0"
+            leave-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-500 delay-100"
+            leave-from-class="opacity-100 translate-x-0"
+            leave-to-class="opacity-0 translate-x-24"
+            mode="out-in"
+          >
+            <ElImage :key="currentItemIndex" :media="currentItem?.media" class="absolute top-[10%] h-[80%] aspect-[3/4.5] md:aspect-[4.5/3] z-10 -ml-[40%] shadow-xl" />
+          </transition>
+        </div>
+        <div class="relative h-full basis-[27%]">
+          <transition
+            enter-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-500 delay-100"
+            enter-from-class="opacity-0 translate-x-16"
+            enter-to-class="opacity-100 translate-x-0"
+            leave-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-500 "
+            leave-from-class="opacity-100 translate-x-0"
+            leave-to-class="opacity-0 -translate-x-16"
+            mode="out-in"
+          >
+            <ElImage :key="currentItemIndex" :media="currentItem?.mediaBackground" class="transition-all absolute -right-[60%]  h-full w-[140%]" />
+          </transition>
+        </div>
       </div>
-      <div class="relative h-full basis-[30%]">
-        <transition
-          enter-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-500"
-          enter-from-class="opacity-0 -translate-x-24"
-          enter-to-class="opacity-100 translate-x-0"
-          leave-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-500 delay-100"
-          leave-from-class="opacity-100 translate-x-0"
-          leave-to-class="opacity-0 translate-x-24"
-          mode="out-in"
-        >
-          <ElImage :key="currentItemIndex" :media="currentItem?.media" class="absolute top-[10%] h-[80%] aspect-[3/4] md:aspect-[4.5/3] z-10 -ml-[40%] shadow-lg" />
-        </transition>
-      </div>
-      <div class="relative h-full basis-[27%]">
-        <transition
-          enter-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-500 delay-100"
-          enter-from-class="opacity-0 translate-x-16"
-          enter-to-class="opacity-100 translate-x-0"
-          leave-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-500 "
-          leave-from-class="opacity-100 translate-x-0"
-          leave-to-class="opacity-0 -translate-x-16"
-          mode="out-in"
-        >
-          <ElImage :key="currentItemIndex" :media="currentItem?.mediaBackground" class="transition-all absolute -right-[20%] xl:right-0 h-full w-[100%]" />
-        </transition>
-      </div>
+      <NavDots :active-item="currentItemIndex" :items="uc.items || []" :container-id="card.cardId" @update:active-item="setActiveItem($event)" />
     </div>
-    <NavDots :active-item="currentItemIndex" :items="uc.items || []" :container-id="card.cardId" @update:active-item="setActiveItem($event)" />
   </div>
 </template>

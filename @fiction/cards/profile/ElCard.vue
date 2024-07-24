@@ -35,7 +35,7 @@ vue.onMounted(async () => {
   <div class="minimal-profile">
     <div :class="card.classes.value.contentWidth">
       <div class="md:flex -mx-2 items-center" :class="uc.layout === 'left' ? 'md:flex-row-reverse' : ''">
-        <div class="w-full md:w-[45%] px-2 ">
+        <div class="w-full md:w-[50%] px-2 ">
           <div class="relative">
             <EffectGlare wrap-class="rounded-[20px]">
               <div class="aspect-[5/7] relative w-full overflow-x-auto snap-mandatory snap-x flex no-scrollbar clip-path-anim" :class="isVisible ? '[clip-path:inset(0_round_20px)] opacity-100' : '[clip-path:inset(30%)] opacity-50'">
@@ -45,27 +45,27 @@ vue.onMounted(async () => {
             <NavDots v-model:active-item="activeItem" :items="mediaItems || []" :container-id="card.cardId" class="absolute bottom-4 z-20" />
           </div>
         </div>
-        <div class="md:w-[55%] mt-6 md:mt-0 px-2 flex items-center">
+        <div class="md:w-[50%] mt-6 md:mt-0 px-2 flex items-center">
           <div class="p-6 md:p-12 flex flex-col justify-center gap-10 2xl:gap-16 " :class="isVisible ? 'translate-y-0' : 'translate-y-[100px]'">
             <div class="details">
               <CardText
                 tag="h3"
                 :card="card"
-                class="text-theme-300 mb-4 text-base lg:text-base x-font-sans font-semibold"
+                class="text-theme-300 dark:text-theme-600 mb-4 text-base lg:text-base font-sans font-medium"
                 path="superHeading"
                 animate="rise"
               />
               <CardText
                 tag="h1"
                 :card="card"
-                class="heading text-3xl font-bold md:text-4xl lg:text-5xl x-font-title tracking-tight lg:leading-[1.1] text-balance"
+                class="heading text-4xl font-semibold md:text-4xl lg:text-5xl x-font-title tracking-tight lg:leading-[1.1] text-balance"
                 path="heading"
                 animate="rise"
               />
               <CardText
                 tag="div"
                 :card="card"
-                class="sub-heading mt-6 text-lg font-medium entry text-balance"
+                class="sub-heading mt-6 text-xl font-medium prose dark:prose-invert text-balance"
                 path="subHeading"
                 :is-markdown="true"
                 animate="rise"

@@ -218,7 +218,8 @@ export function getSelector(element: HTMLElement | null, options: SelectorOption
       selector = `${selector}#${element.id}`
     }
     else if (includeClasses && element.className) {
-      const classes = element.className.trim().split(/\s+/)
+      const classNameStr = typeof element.className === 'string' ? element.className : ''
+      const classes = classNameStr.trim().split(/\s+/)
       const filteredClasses = ignoreTailwindClasses
         ? classes.filter(cls => !isTailwindClass(cls))
         : classes
