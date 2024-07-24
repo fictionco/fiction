@@ -1,7 +1,6 @@
 import path from 'node:path'
 import stableStringify from 'fast-safe-stringify'
 import md5 from 'spark-md5'
-
 import { isNode } from './vars.js'
 
 /**
@@ -127,7 +126,8 @@ export async function base64(args: {
 }): Promise<string> {
   const { action, str } = args
   if (typeof window === 'undefined') {
-    const { Buffer } = await import('node:buffer')
+    const { getNodeBuffer } = await import('./nodeUtils.js')
+    const Buffer = getNodeBuffer()
     if (action === 'encode')
       return Buffer.from(str).toString('base64')
     else

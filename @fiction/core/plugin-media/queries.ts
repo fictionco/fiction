@@ -11,6 +11,7 @@ import { isTest } from '../utils/vars.js'
 import { safeDirname } from '../utils/utils.js'
 import { objectId } from '../utils/id.js'
 import { abort } from '../utils/error.js'
+import { getNodeBuffer } from '../utils/nodeUtils.js'
 import { t } from './tables.js'
 import type { FictionMedia, TableMediaConfig } from './index.js'
 
@@ -61,7 +62,7 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
   }, meta: EndpointMeta): Promise<TableMediaConfig | undefined> {
     const { orgId, userId, fields, storageGroupPath } = args
 
-    const { Buffer } = await import('node:buffer')
+    const Buffer = getNodeBuffer()
     const { sourceImageUrl } = fields || {}
 
     if (!sourceImageUrl)

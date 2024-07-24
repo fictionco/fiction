@@ -1,12 +1,13 @@
 import process from 'node:process'
-import os from 'node:os'
 import type express from 'express'
 import { log } from '../plugin-log'
 import { getCommit, getVersion } from './vars'
+import { getNodeOs } from './nodeUtils.js'
 
 export function getServerHealth(expressApp: express.Express) {
   const memoryUsage = process.memoryUsage()
   const cpuUsage = process.cpuUsage()
+  const os = getNodeOs()
   const loadAverage = os.loadavg()
   const uptime = process.uptime()
 

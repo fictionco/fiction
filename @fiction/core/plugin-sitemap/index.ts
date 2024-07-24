@@ -43,14 +43,15 @@ export class FictionSitemap extends FictionPlugin<FictionSitemapSettings> {
       })
 
       const sitemap = await import(/* @vite-ignore */ 'sitemap')
-      const { Readable } = await import(/* @vite-ignore */ 'node:stream')
+      const { getNodeStream } = await import('../utils/nodeUtils.js')
+      const nodeStream = getNodeStream()
 
       const xslUrl = [requestUrl, 'sitemap.xsl'].join('')
       const stream = new sitemap.SitemapStream({ hostname: requestUrl.toString(), xslUrl })
 
       // Return a promise that resolves with your XML string
       const sitemapXmlData = await sitemap.streamToPromise(
-        Readable.from(sourceData).pipe(stream),
+        nodeStream.Readable.from(sourceData).pipe(stream),
       )
 
       const dirname = safeDirname(import.meta.url)

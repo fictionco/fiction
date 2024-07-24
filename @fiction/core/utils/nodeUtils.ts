@@ -1,8 +1,10 @@
 /* server-only-file */
 import path from 'node:path'
 import * as mod from 'node:module'
-import type { Buffer } from 'node:buffer'
+import { Buffer } from 'node:buffer'
+import os from 'node:os'
 import process from 'node:process'
+import stream from 'node:stream'
 import v8 from 'node:v8'
 import fs from 'fs-extra'
 import type { ExecaError, ResultPromise } from 'execa'
@@ -19,6 +21,27 @@ interface WhichModule {
 }
 
 const logger = log.contextLogger('nodeUtils')
+
+export function getNodeBuffer(): typeof Buffer {
+  if (!isNode())
+    throw new Error('getNodeBuffer: not a node environment')
+
+  return Buffer
+}
+
+export function getNodeOs(): typeof os {
+  if (!isNode())
+    throw new Error('getNodeOs: not a node environment')
+
+  return os
+}
+
+export function getNodeStream(): typeof stream {
+  if (!isNode())
+    throw new Error('getNodeStream: not a node environment')
+
+  return stream
+}
 
 export function logMemoryUsage() {
   // Repeated logging every 30 seconds
@@ -212,7 +235,7 @@ export async function streamToString(stream?: NodeJS.ReadableStream): Promise<st
   if (!stream)
     return ''
   const chunks: Uint8Array[] = []
-  const { Buffer } = await import('node:buffer')
+  const Buffer = getNodeBuffer()
   return new Promise((resolve, reject) => {
     stream.on('data', (chunk: Uint8Array) => chunks.push(Buffer.from(chunk)))
     stream.on('error', (err: Error) => reject(err))
