@@ -245,7 +245,7 @@ export function page() {
                 },
               },
             },
-            dark: {
+            base: {
               theme: 'gray',
               bg: {
                 color: '#333333', // dark gray
