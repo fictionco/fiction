@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { MediaDisplayObject, vue } from '@fiction/core'
+import type { MediaObject, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 
 defineProps({
-  logo: { type: Object as vue.PropType<MediaDisplayObject>, default: undefined },
+  logo: { type: Object as vue.PropType<MediaObject>, default: undefined },
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 </script>

@@ -25,7 +25,7 @@ const userIsAuthor = vue.computed(() => {
 const proseClass = `prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl mx-auto focus:outline-none `
 
 const imageAspect = vue.computed(() => {
-  const img = props.post?.image.value
+  const img = props.post?.media.value
   const h = img?.height
   const w = img?.width
 
@@ -66,9 +66,9 @@ const imageAspect = vue.computed(() => {
         </div>
       </div>
       <AnimClipPath :animate="true" class="my-[min(max(35px,_5vw),_60px)]">
-        <div v-if="post.image.value?.url" class=" mx-auto relative overflow-hidden rounded-lg" :class="imageAspect">
+        <div v-if="post.media.value?.url" class=" mx-auto relative overflow-hidden rounded-lg" :class="imageAspect">
           <!-- Optionally display media -->
-          <img :src="post.image.value?.url" alt="Post media" class="absolute h-full w-full object-cover object-center">
+          <img :src="post.media.value?.url" alt="Post media" class="absolute h-full w-full object-cover object-center">
         </div>
       </AnimClipPath>
       <div :class="proseClass">
@@ -85,8 +85,8 @@ const imageAspect = vue.computed(() => {
 
         <RouterLink v-if="nextPost" :to="postLink({ card, slug: nextPost.slug.value })" class="mt-16 next-post flex not-prose gap-8 items-center border rounded-lg bg-theme-50/50 hover:bg-theme-50 dark:bg-theme-800/50 dark:hover:bg-theme-800 border-theme-200 dark:border-theme-700 p-6">
           <div>
-            <div v-if="nextPost.image.value?.url" class="rounded-lg ring-2 ring-theme-200 dark:ring-theme-700 size-32 relative overflow-hidden" :class="imageAspect">
-              <img :src="nextPost.image.value?.url" alt="Post media" class="absolute h-full w-full object-cover object-center">
+            <div v-if="nextPost.media.value?.url" class="rounded-lg ring-2 ring-theme-200 dark:ring-theme-700 size-32 relative overflow-hidden" :class="imageAspect">
+              <img :src="nextPost.media.value?.url" alt="Post media" class="absolute h-full w-full object-cover object-center">
             </div>
           </div>
 

@@ -1,22 +1,22 @@
 <script lang="ts" setup>
 import { log, shortId, useService, vue } from '@fiction/core'
-import type { MediaDisplayObject } from '@fiction/core'
+import type { MediaObject } from '@fiction/core'
 import ElButton from '../ElButton.vue'
 import ElSpinner from '../loaders/ElSpinner.vue'
 import InputText from './InputText.vue'
 
 const props = defineProps({
-  modelValue: { type: Object as vue.PropType<MediaDisplayObject>, default: () => undefined },
+  modelValue: { type: Object as vue.PropType<MediaObject>, default: () => undefined },
   formats: { type: Object as vue.PropType<{ url?: boolean, html?: boolean }>, default: () => ({ url: true, html: true }) },
 })
 
 const emit = defineEmits<{
-  (event: 'update:modelValue', payload: MediaDisplayObject): void
+  (event: 'update:modelValue', payload: MediaObject): void
 }>()
 
 const logger = log.contextLogger('InputImage')
 
-async function updateValue(value: MediaDisplayObject): Promise<void> {
+async function updateValue(value: MediaObject): Promise<void> {
   emit('update:modelValue', { ...props.modelValue, ...value })
 }
 

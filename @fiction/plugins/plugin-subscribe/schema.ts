@@ -1,4 +1,4 @@
-import { type ColType, type ListItem, type MediaDisplayObject, type SyndicateStatus, type User, standardTable } from '@fiction/core'
+import { type ColType, type ListItem, type MediaObject, type SyndicateStatus, type User, standardTable } from '@fiction/core'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
 import type { TableTaxonomyConfig } from '@fiction/core/plugin-user/types'
 import { z } from 'zod'
@@ -12,7 +12,7 @@ export const t = {
 export type Subscriber = Partial<TableSubscribeConfig> & {
   tags?: TableTaxonomyConfig[]
   user?: User
-  avatar?: MediaDisplayObject
+  avatar?: MediaObject
 }
 
 export type TableSubscribeConfig = ColType<typeof subscribeColumns>

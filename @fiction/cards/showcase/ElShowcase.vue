@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { type MediaDisplayObject, vue, waitFor } from '@fiction/core'
+import { type MediaObject, vue, waitFor } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import ElImage from '@fiction/ui/media/ElImage.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
@@ -31,7 +31,7 @@ const activeitemIndex = vue.ref(-1)
 const activeItem = vue.computed(() => uc.value.items?.find((item, i) => i === activeitemIndex.value))
 const proseClass = `prose dark:prose-invert prose-sm md:prose-lg lg:prose-2xl max-w-[45ch] mx-auto focus:outline-none `
 
-function featuredImageAspect(media: MediaDisplayObject) {
+function featuredImageAspect(media: MediaObject) {
   const img = media
   const h = img?.height
   const w = img?.width

@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site/card'
-import type { MediaDisplayObject, NavItem, vue } from '@fiction/core'
+import type { MediaObject, NavItem, vue } from '@fiction/core'
 import { getNavComponentType, toLabel, useService } from '@fiction/core'
 import ElImage from '@fiction/ui/media/ElImage.vue'
 import ElAvatarOrg from './ElAvatarOrg.vue'
 
 defineProps({
-  icon: { type: Object as vue.PropType<MediaDisplayObject>, default: undefined },
+  icon: { type: Object as vue.PropType<MediaObject>, default: undefined },
   nav: { type: Array as vue.PropType<NavItem[]>, default: () => [] },
   card: { type: Object as vue.PropType<Card>, required: true },
 })

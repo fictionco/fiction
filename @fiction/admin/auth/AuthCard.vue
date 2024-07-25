@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site/card'
-import type { MediaDisplayObject } from '@fiction/core'
+import type { MediaObject } from '@fiction/core'
 import { unhead, useService, vue } from '@fiction/core'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
@@ -10,7 +10,7 @@ import TransactionView from '@fiction/cards/transactions/TransactionView.vue'
 import type { FictionAdmin } from '..'
 import EffectTransitionList from '../el/EffectTransitionList.vue'
 
-export type UserConfig = { logo?: MediaDisplayObject, termsUrl?: string, privacyUrl?: string }
+export type UserConfig = { logo?: MediaObject, termsUrl?: string, privacyUrl?: string }
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },

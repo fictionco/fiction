@@ -69,8 +69,8 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
       return {
         userConfig: {
           branding: {
-            shareImage: { url: shareImage },
-            favicon: { url: favicon },
+            shareImage: { url: shareImage, format: 'url' },
+            favicon: { url: favicon, format: 'url' },
           },
           seo: {
             titleTemplate: `{{pageTitle}} - Fiction`,

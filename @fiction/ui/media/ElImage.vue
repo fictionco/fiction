@@ -1,14 +1,14 @@
 <script lang="ts" setup>
+import type { MediaObject } from '@fiction/core'
 import { log, vue, waitFor } from '@fiction/core'
 import * as bh from 'blurhash'
-import type { ImageFilterConfig, MediaDisplayObject } from '@fiction/core'
 import ClipPathAnim from '../anim/AnimClipPath.vue'
 import ElOverlay from './ElOverlay.vue'
 
 defineOptions({ name: 'ElImage' })
 
 const props = defineProps({
-  media: { type: Object as vue.PropType<MediaDisplayObject >, default: undefined },
+  media: { type: Object as vue.PropType<MediaObject >, default: undefined },
   imageClass: { type: String as vue.PropType<string>, default: '' },
   animate: { type: [Boolean, String] as vue.PropType<'swipe' | 'expand' | '' | boolean>, default: false },
   inlineImage: { type: Boolean, default: false },
@@ -94,7 +94,7 @@ const cls = vue.computed(() => {
   return c.includes('absolute') ? '' : 'relative'
 })
 
-const filters = vue.computed<ImageFilterConfig[]>(() => props.media?.filters || [])
+const filters = vue.computed(() => props.media?.filters || [])
 </script>
 
 <template>

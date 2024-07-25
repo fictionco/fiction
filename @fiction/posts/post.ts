@@ -13,7 +13,7 @@ export class Post extends FictionObject<PostConfig> {
   excerpt = vue.ref(this.settings.excerpt || '')
   content = vue.ref(this.settings.content || '')
   slug = vue.ref(this.settings.slug || '')
-  image = vue.ref(this.settings.image || {})
+  media = vue.ref(this.settings.media || {})
   tags = vue.ref(this.settings.taxonomy?.filter(_ => _.type === 'tag') || [])
   categories = vue.ref(this.settings.taxonomy?.filter(_ => _.type === 'category') || [])
   authors = vue.ref(this.settings.authors || [])
@@ -40,7 +40,7 @@ export class Post extends FictionObject<PostConfig> {
       'content',
       'slug',
       'userConfig',
-      'image',
+      'media',
       'excerpt',
       'dateAt',
       'publishAt',
@@ -125,7 +125,7 @@ export class Post extends FictionObject<PostConfig> {
       excerpt: this.excerpt.value,
       content: this.content.value,
       userConfig: this.userConfig.value,
-      image: this.image.value,
+      media: this.media.value,
       dateAt: this.dateAt.value,
       hasChanges: this.hasChanges.value,
       publishAt: this.publishAt.value,

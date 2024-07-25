@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import type { ActionItem, MediaDisplayObject, vue } from '@fiction/core'
+import type { ActionItem, MediaObject, vue } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
 
 defineProps({
   heading: { type: String, default: 'Settings' },
   subheading: { type: String, default: '' },
   actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
-  avatar: { type: Object as vue.PropType<MediaDisplayObject>, default: undefined },
+  avatar: { type: Object as vue.PropType<MediaObject>, default: undefined },
 })
 </script>
 

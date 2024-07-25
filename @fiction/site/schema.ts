@@ -1,35 +1,7 @@
 import { z } from 'zod'
-import { colorTheme } from '@fiction/core'
+import { ColorThemeSchema, FontConfigValSchema, FontStyleSchema, HeaderLayoutSchema, MediaDisplaySchema, SizeBasicSchema } from '@fiction/core'
 
-// Enums
-const colorThemeSchema = z.enum(colorTheme)
-const imageFilters = z.enum(['brightness', 'opacity', 'contrast', 'blur', 'grayscale', 'sepia', 'saturate', 'invert', 'hue-rotate'])
-const sizeBasic = z.enum(['none', 'full', 'xs', 'sm', 'md', 'lg'])
-const fontWeights = z.enum(['400', '500', '600', '700', '800'])
-const backgroundRepeat = z.enum(['repeat', 'no-repeat', 'repeat-x', 'repeat-y'])
-const backgroundPosition = z.enum(['center', 'top', 'bottom', 'left', 'right'])
-const backgroundSize = z.enum(['cover', 'contain', 'auto'])
-const blendModes = z.enum(['normal', 'multiply', 'screen', 'overlay', 'darken', 'lighten', 'color-dodge', 'color-burn', 'hard-light', 'soft-light', 'difference', 'exclusion', 'hue', 'saturation', 'color', 'luminosity'])
-const headerLayout = z.enum(['left', 'right', 'center', 'justify'])
-
-export type SizeBasic = z.infer<typeof sizeBasic>
-
-const MediaSchema = z.object({
-  format: z.enum(['url', 'video', 'iframe', 'html']).optional(),
-  url: z.string().optional(),
-  html: z.string().optional(),
-  alt: z.string().optional(),
-})
-
-const FontConfigValSchema = z.object({
-  fontKey: z.string().optional(),
-  stack: z.enum(['monospace', 'sans', 'serif']),
-})
-
-const FontStyleSchema = z.object({
-  family: z.string().optional(),
-  weight: fontWeights.optional(),
-})
+export type SizeBasic = z.infer<typeof SizeBasicSchema>
 
 const KnownFontKeys = ['mono', 'input', 'title', 'sans', 'body', 'serif', 'highlight'] as const
 
@@ -40,51 +12,10 @@ const BaseFontsSchema = z.object(
 // .catchall(). This method allows the schema to accept any additional properties of the specified type.
 const FontsSchema = BaseFontsSchema.catchall(FontConfigValSchema)
 
-// Reusable schemas
-const GradientItem = z.object({
-  color: z.string().optional(),
-  percent: z.number().min(0).max(100).optional(),
-})
-
-const GradientSetting = z.object({
-  angle: z.number().min(0).max(360).optional(),
-  stops: z.array(GradientItem).optional(),
-  css: z.string().optional(),
-})
-
-const OverlaySetting = z.object({
-  gradient: GradientSetting.optional(),
-  opacity: z.number().min(0).max(1).optional(),
-  blendMode: blendModes.optional(),
-  color: z.string().optional(),
-})
-
-const ImageFilterConfig = z.object({
-  filter: imageFilters.optional(),
-  percent: z.number().min(0).max(100).optional(),
-  value: z.string().optional(),
-})
-
-const BackgroundDisplay = z.object({
-  color: z.string().optional(),
-  gradient: GradientSetting.optional(),
-  repeat: backgroundRepeat.optional(),
-  position: backgroundPosition.optional(),
-  size: backgroundSize.optional(),
-  filters: z.array(ImageFilterConfig).optional(),
-  overlay: OverlaySetting.optional(),
-  html: z.string().optional(),
-  format: z.enum(['url', 'video', 'iframe', 'html']).optional(),
-})
-
 const Scheme = z.object({
-  bg: z.object({
-    color: z.string().optional(),
-    gradient: GradientSetting.optional(),
-    media: BackgroundDisplay.optional(),
-  }).optional(),
-  theme: colorThemeSchema.optional(),
-  primary: colorThemeSchema.optional(),
+  bg: MediaDisplaySchema.optional(),
+  theme: ColorThemeSchema.optional(),
+  primary: ColorThemeSchema.optional(),
 })
 
 // Main schema
@@ -103,13 +34,13 @@ export const CardStandardSchema = z.object({
   }).optional(),
 
   spacing: z.object({
-    contentWidth: sizeBasic.optional(),
-    verticalSpacing: sizeBasic.optional(),
+    contentWidth: SizeBasicSchema.optional(),
+    verticalSpacing: SizeBasicSchema.optional(),
   }).optional(),
 
   headers: z.object({
-    layout: headerLayout.optional(),
-    size: sizeBasic.optional(),
+    layout: HeaderLayoutSchema.optional(),
+    size: SizeBasicSchema.optional(),
     superHeader: z.string().optional(),
     superIcon: z.string().optional(),
     superColor: z.string().optional(),
@@ -128,9 +59,9 @@ export type CardOptionsWithStandard = z.infer<typeof CardOptionsWithStandardSche
 
 export const SiteUserConfigSchema = z.object({
   branding: z.object({
-    favicon: MediaSchema.optional(),
-    shareImage: MediaSchema.optional(),
-    logo: MediaSchema.optional(),
+    favicon: MediaDisplaySchema.optional(),
+    shareImage: MediaDisplaySchema.optional(),
+    logo: MediaDisplaySchema.optional(),
   }).optional(),
   seo: z.object({
     title: z.string().optional(),

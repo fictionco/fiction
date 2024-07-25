@@ -1,19 +1,19 @@
 <script lang="ts" setup>
-import type { MediaDisplayObject } from '@fiction/core'
+import type { MediaObject } from '@fiction/core'
 import { log, shortId, useService, vue } from '@fiction/core'
 import ElButton from '../ElButton.vue'
 import type { UiElementSize } from '../utils'
 import { textInputClasses } from './theme'
 
 defineProps({
-  modelValue: { type: Object as vue.PropType<MediaDisplayObject>, default: () => {} },
+  modelValue: { type: Object as vue.PropType<MediaObject>, default: () => {} },
   fileTypes: { type: Array as vue.PropType<string[]>, default: () => ['jpg', 'png', 'gif', 'svg'] },
   fileSize: { type: Number, default: 1000000 },
   uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
 })
 
 const emit = defineEmits<{
-  (event: 'update:modelValue', payload: MediaDisplayObject): void
+  (event: 'update:modelValue', payload: MediaObject): void
 }>()
 
 const { fictionMedia } = useService()
@@ -23,7 +23,7 @@ const uploadId = `file-upload-${shortId()}`
 const draggingOver = vue.ref()
 const uploading = vue.ref(false)
 
-async function updateValue(value: MediaDisplayObject): Promise<void> {
+async function updateValue(value: MediaObject): Promise<void> {
   emit('update:modelValue', value)
 }
 

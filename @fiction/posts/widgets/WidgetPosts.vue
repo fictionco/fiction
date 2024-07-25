@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActionItem, IndexItem, MediaDisplayObject } from '@fiction/core'
+import type { ActionItem, IndexItem, MediaObject } from '@fiction/core'
 import { dayjs, useService, vue } from '@fiction/core'
 import WidgetWrap from '@fiction/admin/dashboard/WidgetWrap.vue'
 import type { Card } from '@fiction/site'
@@ -59,7 +59,7 @@ const actions: ActionItem[] = [
 
 const list = vue.computed<IndexItem[]>(() => {
   return posts.value.map((post) => {
-    const media = post.image.value as MediaDisplayObject
+    const media = post.media.value as MediaObject
     return {
       media,
       icon: 'i-tabler-pin',

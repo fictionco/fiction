@@ -1,5 +1,5 @@
-import type { ActionItem, MediaDisplayObject } from '@fiction/core'
-import { vue } from '@fiction/core'
+import type { ActionItem } from '@fiction/core'
+import { MediaDisplaySchema, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
@@ -14,10 +14,7 @@ const CinemaItemSchema = z.object({
   header: z.string().optional().describe('Header text for slide'),
   subHeader: z.string().optional().describe('Subheader text for slide'),
   superHeader: z.string().optional().describe('Superheader text for slid (2 to 5 words) above header'),
-  media: z.object({
-    format: z.enum(['image', 'video']),
-    url: z.string(),
-  }).optional() as z.Schema<MediaDisplayObject>,
+  media: MediaDisplaySchema.optional(),
   actions: z.array(z.object({
     name: z.string(),
     href: z.string(),

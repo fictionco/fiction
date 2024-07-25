@@ -32,7 +32,7 @@ async function defaultConfig(args: { site: Site }): Promise<UserConfig> {
         subTitle: 'The Academy',
         authors: [{ fullName: 'Andrew Powers', email: 'arpowers@gmail.com' }],
         content: `In my final year at the Academy, I was approached by a mysterious envoy bearing a proposal I could not dismiss. My prowess in rhetoric, physical discipline, and strategic thinking had not gone unnoticed. This encounter marked the inception of my odyssey into the realm of political intrigue.`,
-        image: { url: urls.bond1, format: 'url' },
+        media: { url: urls.bond1, format: 'url' },
       },
     ],
   }

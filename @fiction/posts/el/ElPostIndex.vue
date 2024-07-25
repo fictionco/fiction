@@ -25,7 +25,7 @@ const list = vue.computed<IndexItem[]>(() => {
       name: p.title.value || 'Untitled',
       desc: p.subTitle.value || 'No description',
       href: props.card.link(`/post-edit?postId=${p.postId}`),
-      media: p.image.value,
+      media: p.media.value,
     } as IndexItem
   })
 })

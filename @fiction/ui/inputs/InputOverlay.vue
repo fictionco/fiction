@@ -1,16 +1,16 @@
 <script lang="ts" setup>
-import type { OverlaySetting, vue } from '@fiction/core'
+import type { MediaObject, vue } from '@fiction/core'
 import ElInput from './ElInput.vue'
 
 const props = defineProps({
   modelValue: {
-    type: Object as vue.PropType<OverlaySetting>,
+    type: Object as vue.PropType<MediaObject['overlay']>,
     default: undefined,
   },
 })
 
 const emit = defineEmits<{
-  (event: 'update:modelValue', payload: OverlaySetting): void
+  (event: 'update:modelValue', payload: MediaObject['overlay']): void
 }>()
 
 const blendModes = [
@@ -32,7 +32,7 @@ const blendModes = [
   'luminosity',
 ]
 
-async function updateValue(value: OverlaySetting): Promise<void> {
+async function updateValue(value: MediaObject['overlay']): Promise<void> {
   emit('update:modelValue', value)
 }
 

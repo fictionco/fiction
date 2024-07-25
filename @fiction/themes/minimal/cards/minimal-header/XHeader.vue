@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { MediaDisplayObject, NavItem } from '@fiction/core'
+import type { MediaObject, NavItem } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import NavMobile from '@fiction/ui/NavMobile.vue'
@@ -8,7 +8,7 @@ import XSiteLogo from '../ui/XSiteLogo.vue'
 
 export type UserConfig = {
   nav?: NavItem[]
-  logo?: MediaDisplayObject
+  logo?: MediaObject
 }
 
 const props = defineProps({

@@ -34,8 +34,8 @@ defineProps({
             @update:model-value="post?.update({ subTitle: $event as string })"
           />
         </div>
-        <div v-if="post.image.value?.url || post.image.value?.html" class="not-prose">
-          <ElImage :media="post.image.value" class="size-32 border border-theme-200 dark:border-theme-600 rounded-md bg-theme-50 dark:bg-theme-800 overflow-hidden" />
+        <div v-if="post.media.value?.url || post.media.value?.html" class="not-prose">
+          <ElImage :media="post.media.value" class="size-32 border border-theme-200 dark:border-theme-600 rounded-md bg-theme-50 dark:bg-theme-800 overflow-hidden" />
         </div>
       </div>
       <div class="border-b border-theme-200 dark:border-theme-700 my-12" />

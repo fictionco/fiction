@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { DraggableList, getGradientCss, vue } from '@fiction/core'
-import type { GradientItem, GradientSetting } from '@fiction/core'
+import type { GradientPoint, GradientSetting } from '@fiction/core'
 import InputColor from './InputColor.vue'
 import InputRange from './InputRange.vue'
 
@@ -41,7 +41,7 @@ async function updateField(field: string, value: unknown): Promise<void> {
   await updateValue(newValue)
 }
 
-const colorList = vue.computed<GradientItem[]>(() => {
+const colorList = vue.computed<GradientPoint[]>(() => {
   return props.modelValue?.stops || [{}, {}]
 })
 
@@ -74,7 +74,7 @@ vue.onMounted(async () => {
   const wrap = colorEl.value
   const ddUpdate = async () => {
     const v = props.modelValue || {}
-    const newStops: GradientItem[] = []
+    const newStops: GradientPoint[] = []
 
     wrap?.querySelectorAll('.color-item[data-color]').forEach((el) => {
       const element = el as HTMLElement

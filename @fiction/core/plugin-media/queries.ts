@@ -96,7 +96,7 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
 
       return result
     }
-    catch (e) {
+    catch (_e) {
       return undefined
     }
     finally {

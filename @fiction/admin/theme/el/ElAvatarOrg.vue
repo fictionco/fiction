@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import ElImage from '@fiction/ui/media/ElImage.vue'
-import { type MediaDisplayObject, useService, vue } from '@fiction/core'
+import { type MediaObject, useService, vue } from '@fiction/core'
 
 const { fictionUser } = useService()
 
-const activeAvatar = vue.computed<MediaDisplayObject | undefined>(() => {
+const activeAvatar = vue.computed<MediaObject | undefined>(() => {
   return fictionUser.activeOrganization.value?.avatar
 })
 </script>

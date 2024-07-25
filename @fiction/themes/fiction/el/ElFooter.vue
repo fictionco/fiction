@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { MediaDisplayObject, NavItem, NavItemGroup } from '@fiction/core'
+import type { MediaObject, NavItem, NavItemGroup } from '@fiction/core'
 import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import ElImage from '@fiction/ui/media/ElImage.vue'
@@ -7,7 +7,7 @@ import CardSocials from '@fiction/cards/el/CardSocials.vue'
 import CardNavLink from '@fiction/cards/CardNavLink.vue'
 
 export type UserConfig = {
-  icon?: MediaDisplayObject
+  icon?: MediaObject
   menus?: NavItemGroup[]
   socials?: NavItem[]
   footerText?: string

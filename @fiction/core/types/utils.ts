@@ -1,40 +1,38 @@
 import type { vue } from '../utils/libraries.js'
-import type { TableMediaConfig } from '../plugin-media'
 import type { User } from '../plugin-user'
+import type { MediaObject } from '../schemas/schemas.js'
 
 export type CleanupCallback = (() => void) | undefined
 
-export type MediaDisplayObject = {
-  _key?: string
-  filters?: ImageFilterConfig[]
-  overlay?: OverlaySetting
-  html?: string
-  text?: string
-  classes?: string
-  format?: 'url' | 'video' | 'iframe' | 'html' | 'audio' | 'text'
-} & TableMediaConfig
+// export type MediaDisplayObject = {
+//   _key?: string
+//   html?: string
+//   text?: string
+//   classes?: string
+//   format?: 'url' | 'video' | 'iframe' | 'html' | 'audio' | 'text'
+// } & TableMediaConfig
 
-export type GradientItem = { color?: string, percent?: number }
-export type GradientSetting = { angle?: number, stops?: GradientItem[], css?: string }
-export type OverlaySetting = { gradient?: GradientSetting, opacity?: number, blendMode?: string, color?: string }
+// export type GradientItem = { color?: string, percent?: number }
+// export type GradientSetting = { angle?: number, stops?: GradientItem[], css?: string }
+// export type OverlaySetting = { gradient?: GradientSetting, opacity?: number, blendMode?: string, color?: string }
 
-export type BackgroundDisplayObject = {
-  color?: string
-  gradient?: GradientSetting
-  repeat?: 'repeat' | 'no-repeat' | 'repeat-x' | 'repeat-y'
-  position?: 'center' | 'top' | 'bottom' | 'left' | 'right'
-  size?: 'cover' | 'contain' | 'auto'
-} & MediaDisplayObject
+// export type BackgroundDisplayObject = {
+//   color?: string
+//   gradient?: GradientSetting
+//   repeat?: 'repeat' | 'no-repeat' | 'repeat-x' | 'repeat-y'
+//   position?: 'center' | 'top' | 'bottom' | 'left' | 'right'
+//   size?: 'cover' | 'contain' | 'auto'
+// } & MediaDisplayObject
 
-export const imageFilters = ['brightness', 'opacity', 'contrast', 'blur', 'grayscale', 'sepia', 'saturate', 'invert', 'hue-rotate'] as const
+// export const imageFilters = ['brightness', 'opacity', 'contrast', 'blur', 'grayscale', 'sepia', 'saturate', 'invert', 'hue-rotate'] as const
 
-export type ImageFilter = typeof imageFilters[number]
+// export type ImageFilter = typeof imageFilters[number]
 
-export interface ImageFilterConfig {
-  filter: ImageFilter
-  percent?: number
-  value?: string
-}
+// export interface ImageFilterConfig {
+//   filter: ImageFilter
+//   percent?: number
+//   value?: string
+// }
 
 export interface ListItem {
   name?: string
@@ -83,8 +81,8 @@ export type ActionItem = NavItem & {
 }
 
 export type MediaItem = {
-  media?: MediaDisplayObject
-  overlays?: MediaDisplayObject[]
+  media?: MediaObject
+  overlays?: MediaObject[]
   tags?: string[]
   actions?: ActionItem[]
 } & NavItem
@@ -112,14 +110,14 @@ export interface NavGroup {
 export type Figure = { el?: vue.Component, props?: Record<string, any> }
 
 export type IndexItem = {
-  images?: MediaDisplayObject[]
+  images?: MediaObject[]
   links?: ActionItem[]
   actions?: ActionItem[]
   category?: ActionItem[]
   tags?: ActionItem[]
   authors?: User[]
   figure?: Figure
-  media?: MediaDisplayObject
+  media?: MediaObject
   slug?: string
   dateIso?: string
 } & NavItem

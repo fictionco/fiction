@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActionItem, MediaDisplayObject, NavItem } from '@fiction/core'
+import type { ActionItem, MediaObject, NavItem } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import ElImage from '@fiction/ui/media/ElImage.vue'
@@ -12,7 +12,7 @@ import NavAccount from './NavAccount.vue'
 export type UserConfig = {
   icon?: string
   nav?: NavItem[]
-  logo?: MediaDisplayObject
+  logo?: MediaObject
   actions?: ActionItem[]
 }
 

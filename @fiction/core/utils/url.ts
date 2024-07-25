@@ -1,5 +1,5 @@
 import * as jsCrypto from 'js-sha256'
-import type { MediaDisplayObject } from '../types/utils.js'
+import type { MediaObject } from '../schemas/schemas.js'
 
 export function incrementSlugId(slug?: string, options: { defaultSlug?: string, specialSlugRenameWord?: string } = {}): string {
   const { defaultSlug = 'view', specialSlugRenameWord = 'old' } = options
@@ -201,7 +201,7 @@ export function getUrlPath({ urlOrPath }: { urlOrPath?: string }) {
 export function gravatarUrlSync(
   identifier?: string,
   options: { size?: string | number, default?: '404' | 'identicon' | 'monsterid' | 'wavatar' | 'retro' | 'robohash' | 'blank' | string } = {},
-): MediaDisplayObject & { isDefaultImage: () => Promise<boolean> } {
+): MediaObject & { isDefaultImage: () => Promise<boolean> } {
   const { size = 200, default: d = 'identicon' } = options
 
   if (!identifier) {

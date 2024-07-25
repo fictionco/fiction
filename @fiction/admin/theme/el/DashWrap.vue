@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site/card'
-import type { IndexItem, MediaDisplayObject, MemberAccess, NavItem } from '@fiction/core'
+import type { IndexItem, MediaObject, MemberAccess, NavItem } from '@fiction/core'
 import { getAccessLevel, onResetUi, sortPriority, useService, vue } from '@fiction/core'
 import El404 from '@fiction/ui/page/El404.vue'
 import ElEngine from '@fiction/cards/CardEngine.vue'
@@ -12,7 +12,7 @@ import DashNav from './DashNav.vue'
 
 export type UserConfig = {
   layoutFormat?: 'container' | 'full'
-  homeIcon?: MediaDisplayObject
+  homeIcon?: MediaObject
   isNavItem?: boolean
   priority?: number
   navTitle?: string

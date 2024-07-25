@@ -1,7 +1,7 @@
 import path from 'node:path'
 import process from 'node:process'
 import fs from 'fs-extra'
-import type { GradientSetting, ImageFilter } from '../types/index.js'
+import type { GradientSetting, ImageFilter } from '../schemas/schemas.js'
 import type { FictionMedia, TableMediaConfig } from './index.js'
 
 type RelativeMediaArgs = {

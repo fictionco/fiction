@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { convertKeyCase } from '../utils/index.js'
 import { Col, FictionDbTable } from '../plugin-db/index.js'
 import { standardTable as t } from '../tbl.js'
-import type { MediaDisplayObject } from '../types/index.js'
+import { MediaDisplaySchema } from '../schemas/schemas.js'
 import type { GeoData } from '../utils/geo.js'
 import type { MemberAccess, OnboardStoredSettings, OrganizationConfig, OrganizationCustomerData, OrganizationLegal, Plan, Publication, PushSubscriptionDetail, SocialAccounts, StreetAddress, UserCompany } from './types.js'
 
@@ -23,7 +23,7 @@ export const userColumns = [
   new Col({ key: 'hashedPassword', sec: 'authority', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'emailVerified', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).notNullable().defaultTo(false) }),
   new Col({ key: 'verify', sec: 'authority', sch: () => z.object({ code: z.string(), expiresAt: z.string(), context: z.string() }) as z.Schema<VerificationCode>, make: ({ s, col }) => s.jsonb(col.k) }),
-  new Col({ key: 'avatar', sec: 'setting', sch: () => z.object({ url: z.string() }) as z.Schema<MediaDisplayObject>, make: ({ s, col }) => s.jsonb(col.k) }),
+  new Col({ key: 'avatar', sec: 'setting', sch: () => MediaDisplaySchema, make: ({ s, col }) => s.jsonb(col.k) }),
   new Col({ key: 'invitedById', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).references(`fiction_user.user_id`) }),
   new Col({ key: 'lastOrgId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'lastSeenAt', sec: 'setting', sch: () => z.string(), make: ({ s, col, db }) => s.dateTime(col.k).defaultTo(db.fn.now()) }),
@@ -52,7 +52,7 @@ export const orgColumns = [
   new Col({ key: 'address', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'orgStatus', sec: 'setting', sch: () => z.enum(['active', 'inactive']), make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('active') }),
   new Col({ key: 'ownerId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).references(`fiction_user.user_id`).onUpdate('CASCADE') }),
-  new Col({ key: 'avatar', sec: 'setting', sch: () => z.any() as z.Schema<MediaDisplayObject>, make: ({ s, col }) => s.jsonb(col.k) }),
+  new Col({ key: 'avatar', sec: 'setting', sch: () => MediaDisplaySchema, make: ({ s, col }) => s.jsonb(col.k) }),
   new Col({ key: 'lastSeenAt', sec: 'setting', sch: () => z.string(), make: ({ s, col, db }) => s.dateTime(col.k).defaultTo(db.fn.now()) }),
   new Col({ key: 'apiSecret', sec: 'private', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'timezone', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),

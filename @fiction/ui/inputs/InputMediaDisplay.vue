@@ -1,21 +1,21 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
-import type { MediaDisplayObject } from '@fiction/core'
+import type { MediaObject } from '@fiction/core'
 import ElImage from '../media/ElImage.vue'
 import ElInput from './ElInput.vue'
 import ElDropDown from './InputDropDown.vue'
 import InputMediaUpload from './InputMediaUpload.vue'
 
 const props = defineProps({
-  modelValue: { type: Object as vue.PropType<MediaDisplayObject>, default: () => undefined },
+  modelValue: { type: Object as vue.PropType<MediaObject>, default: () => undefined },
   formats: { type: Object as vue.PropType<{ url?: boolean, html?: boolean, video?: boolean }>, default: () => ({ url: true, html: true }) },
 })
 
 const emit = defineEmits<{
-  (event: 'update:modelValue', payload: MediaDisplayObject): void
+  (event: 'update:modelValue', payload: MediaObject): void
 }>()
 
-async function updateValue(value: MediaDisplayObject): Promise<void> {
+async function updateValue(value: MediaObject): Promise<void> {
   emit('update:modelValue', { ...props.modelValue, ...value })
 }
 
@@ -47,7 +47,7 @@ const format = vue.computed(() => {
         v-if="formatList.length > 1"
         :model-value="format"
         :list="formatList"
-        @update:model-value="updateValue({ format: $event as MediaDisplayObject['format'] })"
+        @update:model-value="updateValue({ format: $event as MediaObject['format'] })"
       />
       <span class="text-xs font-sans text-theme-400 dark:text-theme-500">&larr; Format</span>
     </div>
@@ -61,14 +61,14 @@ const format = vue.computed(() => {
         @update:model-value="updateValue({ html: $event })"
       />
     </div>
-    <div v-else-if="format === 'text'">
+    <!-- <div v-else-if="format === 'text'">
       <ElInput
         label="Text"
         :model-value="v.html"
         input="InputText"
         @update:model-value="updateValue({ html: $event })"
       />
-    </div>
+    </div> -->
     <div v-else>
       <InputMediaUpload :model-value="v" @update:model-value="updateValue($event)" />
 

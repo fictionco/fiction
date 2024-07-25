@@ -27,7 +27,7 @@ const list = vue.computed<IndexItem[]>(() => {
       name: campaign.title.value || p.title.value || 'Untitled',
       desc: p.subTitle.value || 'No description',
       href: props.card.link(`/campaign-manage?campaignId=${campaign.campaignId}`),
-      media: p.image.value,
+      media: p.media.value,
     } as IndexItem
   })
 })

@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { getGradientCss, vue } from '@fiction/core'
-import type { OverlaySetting } from '@fiction/core'
+import type { MediaObject } from '@fiction/core'
 
 const props = defineProps({
   overlay: {
-    type: Object as vue.PropType<OverlaySetting>,
+    type: Object as vue.PropType<MediaObject['overlay']>,
     default: undefined,
   },
 })

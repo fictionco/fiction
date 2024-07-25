@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { MediaDisplayObject } from '@fiction/core'
+import type { MediaObject } from '@fiction/core'
 import { vue } from '@fiction/core'
 
 const props = defineProps({
-  media: { type: Object as vue.PropType<MediaDisplayObject>, required: true },
+  media: { type: Object as vue.PropType<MediaObject>, required: true },
   parallaxStrength: { type: Number, default: 0.2 }, // Adjust this value to control the parallax intensity
 })
 
@@ -18,10 +18,6 @@ const mediaComponent = vue.computed(() => {
       return 'iframe'
     case 'html':
       return 'div'
-    case 'audio':
-      return 'audio'
-    case 'text':
-      return 'div'
     default:
       return 'img'
   }
@@ -29,7 +25,6 @@ const mediaComponent = vue.computed(() => {
 
 const mediaProps = vue.computed(() => {
   const commonProps = {
-    class: props.media.classes,
     style: props.media.filters ? { filter: props.media.filters.join(' ') } : {},
   }
   switch (props.media.format) {
@@ -39,10 +34,6 @@ const mediaProps = vue.computed(() => {
       return { ...commonProps, src: props.media.url, frameborder: 0 }
     case 'html':
       return { ...commonProps, innerHTML: props.media.html }
-    case 'audio':
-      return { ...commonProps, src: props.media.url, controls: true }
-    case 'text':
-      return { ...commonProps, innerHTML: props.media.text }
     default:
       return { ...commonProps, src: props.media.url }
   }

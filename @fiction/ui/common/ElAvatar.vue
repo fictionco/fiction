@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { MediaDisplayObject, User } from '@fiction/core'
+import type { MediaObject, User } from '@fiction/core'
 import { gravatarUrlSync, stored, vue } from '@fiction/core'
 import ElImage from '../media/ElImage.vue'
 import userBlank from './user-blank.png'
@@ -17,7 +17,7 @@ const user = vue.computed<User | undefined>(() => {
   return stored(props.userId) ?? undefined
 })
 
-const media = vue.computed<MediaDisplayObject>(() => {
+const media = vue.computed<MediaObject>(() => {
   let url: string | undefined
   if (props.url) {
     url = props.url
