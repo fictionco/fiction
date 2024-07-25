@@ -12,12 +12,17 @@ const props = defineProps({
 
 const cardWrap = vue.ref<HTMLElement | null>(null)
 const loaded = vue.ref(false)
-const uc = vue.computed(() => props.card.userConfig.value || {})
+const config = vue.computed(() => props.card.config.value || {})
 const siteUc = vue.computed(() => props.card.site?.fullConfig.value || {})
-const standardUc = vue.computed(() => uc.value.standard)
-const isLightMode = vue.computed(() => props.card.site?.isLightMode.value)
+const standardUc = vue.computed(() => config.value.standard)
 const isReversed = vue.computed(() => standardUc.value?.scheme?.reverse)
-const schemeKey = vue.computed(() => (isLightMode.value && !isReversed.value) || (isReversed.value && !isLightMode.value) ? 'base' : 'light')
+const isLightMode = vue.computed(() => {
+  const siteLightMode = props.card.site?.isLightMode.value
+  return (siteLightMode && !isReversed.value) || (!siteLightMode && isReversed.value)
+})
+
+const schemeKey = vue.computed(() => isLightMode.value ? 'light' : 'dark')
+
 const colorScheme = vue.computed(() => {
   const parts = [siteUc.value?.standard?.scheme?.base, standardUc.value?.scheme?.base]
 
@@ -46,21 +51,24 @@ const containerStyle = vue.computed(() => {
   // Set font variables
   if (fonts.title?.family) {
     style['--title-font-family'] = fonts.title.family
-    style['--title-font-weight'] = fonts.title.weight || '500'
   }
   if (fonts.body?.family) {
     style['--body-font-family'] = fonts.body.family
-    style['--body-font-weight'] = fonts.body.weight || '500'
   }
 
   return style
 })
 
-const spacing = vue.computed(() => {
-  const uc = props.card?.userConfig.value || {}
-  const verticalSpacing = uc.standard?.spacing?.verticalSpacing || siteUc.value?.standard?.spacing?.verticalSpacing || 'md'
+const spacingSize = vue.computed(() => {
+  const conf = config.value
+  const verticalSpacing = conf.standard?.spacing?.verticalSpacing || siteUc.value?.standard?.spacing?.verticalSpacing || 'md'
 
-  return [getSpacingClass({ size: verticalSpacing, direction: 'both' })].join(' ')
+  return verticalSpacing
+})
+
+const spacing = vue.computed(() => {
+  const size = spacingSize.value
+  return [getSpacingClass({ size, direction: 'both' })].join(' ')
 })
 </script>
 
@@ -70,24 +78,14 @@ const spacing = vue.computed(() => {
     :key="card.cardId"
     class="relative card-wrap"
     :style="containerStyle"
-    :class="[spacing, isReversed ? schemeKey : '', loaded ? 'loaded' : '']"
+    :class="[spacing, isReversed ? (isLightMode ? 'light' : 'dark') : '', loaded ? 'loaded' : '']"
+    :data-font-title="standardUc?.fontStyle?.title?.family"
+    :data-font-body="standardUc?.fontStyle?.body?.family"
+    :data-spacing-size="spacingSize"
   >
-    <div class="z-10">
+    <div class="z-10 relative text-theme-950 dark:text-theme-50">
       <slot />
     </div>
-    <ElImage class="object-cover w-full h-full absolute inset-0 pointer-events-none z-0" :media="colorScheme?.bg" />
+    <ElImage v-if="colorScheme?.bg" class="object-cover w-full h-full absolute inset-0 pointer-events-none z-0" :media="colorScheme?.bg" />
   </div>
 </template>
-
-<style lang="less" scoped>
-.engine-container {
-  font-family: var(--body-font-family, inherit);
-  font-weight: var(--body-font-weight, normal);
-
-  :deep(.engine-content) {
-    max-width: var(--content-width, 100%);
-    padding-top: var(--vertical-spacing, 0);
-    padding-bottom: var(--vertical-spacing, 0);
-  }
-}
-</style>

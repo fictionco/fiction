@@ -11,9 +11,9 @@ export const templates = [
     colorTheme: 'blue',
 
     el: vue.defineAsyncComponent(async () => import('./XTemplate.vue')),
-    userConfig: {
+    getUserConfig: () => ({
       nav: [{ name: 'Home', href: '/', target: '_self' }],
-    },
+    }),
     options: [
       new InputOption({ key: 'userConfig.logo', label: 'Logo', input: 'InputMediaDisplay' }),
       standardOption.navItems(),

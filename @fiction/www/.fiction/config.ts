@@ -298,7 +298,7 @@ export interface CompiledServiceConfig {
       | 'subTitle'
       | 'excerpt'
       | 'content'
-      | 'image'
+      | 'media'
       | 'status'
       | 'userConfig'
       | 'isSyndicated'

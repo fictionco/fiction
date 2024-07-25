@@ -94,7 +94,7 @@ export const templates = [
       }),
     ],
     schema: UserConfigSchema,
-    userConfig: { quotes: defaultQuote },
+    getUserConfig: () => ({ quotes: defaultQuote }),
     demoPage: async () => {
       return { cards: [{ templateId, userConfig: { quotes: defaultQuote } }] }
     },

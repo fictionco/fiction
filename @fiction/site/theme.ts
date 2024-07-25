@@ -161,7 +161,7 @@ export function createCard<
     throw new Error(`createCard: Template not found: "${templateId}"`)
   }
 
-  const templateUserConfig = template?.settings.userConfig ? template?.settings.userConfig as CardUserConfig<U>[T] : {}
+  const templateUserConfig = template?.settings.getBaseConfig ? template?.settings.getBaseConfig({}) as CardUserConfig<U>[T] : {}
 
   const obj = deepMerge([templateUserConfig, args.userConfig])
 

@@ -17,6 +17,14 @@ export function isDarkOrLightMode(element?: HTMLElement | null | undefined): 'li
 
 export const brightTheme = ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'] as const
 export const colorTheme = ['slate', 'gray', 'zinc', 'neutral', 'stone', ...brightTheme] as const
+type InvertedColor = `${(typeof colorTheme)[number]}Inverted`
+// Create a union type that includes both regular and inverted colors
+export type ColorThemeWithInvert = (typeof colorTheme)[number] | InvertedColor
+
+export const colorThemeWithInvert = [
+  ...colorTheme,
+  ...colorTheme.map(c => `${c}Inverted` as const),
+] as const
 
 export type ColorScale = 0 | 25 | 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950 | 975 | 1000
 
@@ -128,12 +136,16 @@ export function tailwindVarColorScheme(args: {
   return out
 }
 
-export function getColorScheme(schemeId: ColorScheme | string, options: { invert?: boolean, outputFormat?: 'rgb' | 'hex' } = {}): ColorRecord {
-  const scheme = colorList[schemeId as ColorScheme] || colorList.slate // Default to 'slate' if schemeId not found
+export function getColorScheme(schemeIdWithInvert: ColorThemeWithInvert, options: { invert?: boolean, outputFormat?: 'rgb' | 'hex' } = {}): ColorRecord {
+  const schemeId = schemeIdWithInvert.replace('Inverted', '') as ColorScheme
+
+  const scheme = colorList[schemeId as ColorScheme] || colorList.gray
   const format = options.outputFormat || 'rgb'
 
+  const invert = options.invert || schemeIdWithInvert.endsWith('Inverted')
+
   return Object.entries(scheme).reduce((acc, [key, value]) => {
-    const colorValue = options.invert ? scheme[1000 - Number(key) as ColorScale] || value : value
+    const colorValue = invert ? scheme[1000 - Number(key) as ColorScale] || value : value
     acc[Number(key) as ColorScale] = format === 'rgb' ? hexToRgbString(colorValue) : colorValue
     return acc
   }, {} as ColorRecord)

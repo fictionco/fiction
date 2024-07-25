@@ -95,7 +95,7 @@ const minimalProfile = new CardTemplate({
   icon: 'i-tabler-user',
   colorTheme: 'blue',
   el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
-  userConfig: defaultContent,
+  getUserConfig: () => defaultContent,
   isPublic: true,
   options,
   schema: UserConfigSchema,

@@ -9,9 +9,9 @@ export const templates = [
   new CardTemplate({
     templateId: 'dash',
     el: DashWrap,
-    userConfig: {
+    getUserConfig: () => ({
       homeIcon: { format: 'html' as const, html: fictionLogo },
       authRedirect: '/auth/login',
-    },
+    }),
   }),
 ] as const

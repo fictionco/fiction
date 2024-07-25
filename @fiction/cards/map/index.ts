@@ -74,7 +74,8 @@ export const templates = [
         ] }),
       ] }),
     ],
-    userConfig: { standard: { spacing: { verticalSpacing: 'sm' } }, maps: [mapBase] },
+    getBaseConfig: () => ({ standard: { spacing: { verticalSpacing: 'sm' } } }),
+    getUserConfig: () => ({ maps: [mapBase] }),
     schema: UserConfigSchema,
     demoPage: async () => {
       return {

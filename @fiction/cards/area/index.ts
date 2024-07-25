@@ -1,5 +1,6 @@
 import { colorTheme, deepMerge, safeDirname, toLabel, vue } from '@fiction/core/index.js'
 import { CardTemplate } from '@fiction/site/index.js'
+import type { SiteUserConfig } from '@fiction/site/schema'
 import { InputOption } from '@fiction/ui/index.js'
 import { z } from 'zod'
 
@@ -22,7 +23,7 @@ const schema = z.object({
   scheme: z.object({
     reverse: z.boolean().optional(),
     light: SchemeSchema.optional(),
-    dark: SchemeSchema.optional(),
+    base: SchemeSchema.optional(),
   }).optional(),
 })
 
@@ -60,37 +61,61 @@ export const templates = [
     colorTheme: 'blue',
     el: vue.defineAsyncComponent(async () => import('./ElArea.vue')),
     isContainer: true, // ui drawer
-    userConfig: {
+    getBaseConfig: () => ({
       standard: { spacing: { verticalSpacing: 'none' } },
-    },
+    }),
     isPublic: true,
     options,
     schema,
     demoPage: async () => {
-      const heroCard = (reverse?: boolean) => {
+      const heroCard = (type: string) => {
         return {
           templateId: 'hero',
           userConfig: {
-            heading: `Area ${reverse ? '(Reversed)' : ''}`,
+            heading: `${type} Area`.toUpperCase(),
             subHeading: 'Container for other elements',
-            mediaItems: [{
-              media: { format: 'url', url: 'https://via.placeholder.com/800x400' },
-            }],
+
           },
         }
       }
-      const base = {
-        scheme: {
-          reverse: false,
-          light: { bg: { color: '#bfdbfe' }, theme: 'blue' },
-          dark: { bg: { color: '#1e3a8a' }, theme: 'blue' },
+      const base: SiteUserConfig = {
+        standard: {
+          scheme: {
+            base: { bg: { bgColor: '#000' }, theme: 'gray', primary: 'blue' },
+            light: { bg: { bgColor: '#ffffff' }, theme: 'gray', primary: 'green' },
+          },
         },
       } as const
 
       return {
         cards: [
-          { templateId, userConfig: base, cards: [heroCard()] },
-          { templateId, userConfig: deepMerge([base, { scheme: { reverse: true } }]), cards: [heroCard(true)] },
+          { templateId, userConfig: base, cards: [heroCard('default')] },
+          { templateId, userConfig: { standard: { scheme: { base: { bg: { bgColor: '#e5f4cc' }, theme: 'blueInverted' as const } } } }, cards: [heroCard('theme invert')] },
+          { templateId, userConfig: deepMerge([base, { standard: { scheme: { base: {
+            bg: {
+              format: 'video' as const,
+              url: 'https://videos.pexels.com/video-files/3121459/3121459-uhd_2560_1440_24fps.mp4',
+              overlay: { color: 'rgba(0,0,0,.7)' },
+            },
+          } } } }]), cards: [heroCard('video')] },
+          { templateId, userConfig: deepMerge([base, { standard: { scheme: { base: {
+            bg: {
+              format: 'url' as const,
+              url: 'https://images.unsplash.com/photo-1508624217470-5ef0f947d8be?q=80&w=3870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+              overlay: { color: 'paleturquoise', blendMode: 'difference' as const },
+            },
+          } } } }]), cards: [heroCard('image')] },
+          { templateId, userConfig: deepMerge([base, { standard: { scheme: { reverse: true } } }]), cards: [heroCard('reversed')] },
+          { templateId, userConfig: deepMerge([base, { standard: { scheme: { base: { bg: { bgColor: 'rgb(26 46 5 / .3)' } } } } }]), cards: [heroCard('bgColor')] },
+          { templateId, userConfig: deepMerge([base, {
+            standard: {
+              scheme: {
+                base: {
+                  bg: { bgGradient: { angle: 45, stops: [{ color: '#dc2626', percent: 0 }, { color: '#2563eb', percent: 100 }] } },
+                },
+              },
+            },
+          }]), cards: [heroCard('gradient')] },
         ],
       }
     },

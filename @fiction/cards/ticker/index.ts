@@ -98,7 +98,7 @@ export const templates = [
     isPublic: true,
     options,
     schema: UserConfigSchema,
-    userConfig: defaultConfig,
+    getUserConfig: () => defaultConfig,
     demoPage: async () => {
       return { cards: [
         { templateId, userConfig: { ...defaultConfig } },

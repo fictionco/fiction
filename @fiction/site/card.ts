@@ -36,8 +36,8 @@ interface CardTemplateSettings<
   isRegion?: boolean
   options?: InputOption[]
   schema?: z.AnyZodObject
-  userConfig?: CardTemplateUserConfig<T> & SiteUserConfig
-  getUserConfig?: (args: { site: Site }) => Promise<CardTemplateUserConfig<T> & SiteUserConfig>
+  getBaseConfig?: (args: { site?: Site }) => CardTemplateUserConfig<T> & SiteUserConfig
+  getUserConfig?: (args: { site: Site }) => Promise<CardTemplateUserConfig<T> & SiteUserConfig> | (CardTemplateUserConfig<T> & SiteUserConfig)
   sections?: Record<string, CardConfigPortable>
   root?: string
   demoPage?: (args: { site: Site }) => Promise<{ cards: CardConfigPortable< CardTemplateUserConfig<T> & SiteUserConfig>[] }>
@@ -55,13 +55,15 @@ export class CardTemplate<
   }
 
   optionConfig = refineOptions({ options: this.settings.options || [], schema: this.settings.schema })
-
+  getBaseConfig = this.settings.getBaseConfig || (() => ({}))
   async toCard(args: { cardId?: string, site: Site }) {
     const { cardId, site } = args
-    const { userConfig = {}, getUserConfig = () => {} } = this.settings
-    const asyncUserConfig = await getUserConfig({ site })
+    const { getUserConfig = () => {} } = this.settings
+    const asyncUserConfig = (await getUserConfig({ site })) || {}
 
-    const cardUserConfig = { ...userConfig, ...asyncUserConfig }
+    const mergedConfig = this.getBaseConfig({ site })
+
+    const cardUserConfig = deepMerge([mergedConfig, asyncUserConfig])
 
     return new Card({
       cardId: cardId || objectId({ prefix: 'crd' }),
@@ -108,7 +110,17 @@ export class Card<
   slug = vue.ref(this.settings.slug)
   displayTitle = vue.computed(() => this.title.value || toLabel(this.slug.value))
   userConfig = vue.ref<T>(this.settings.userConfig || {} as T)
-  fullConfig = vue.computed(() => deepMerge([this.site?.fullConfig.value, this.userConfig.value as T]) as SiteUserConfig & T)
+  fullConfig = vue.computed(() => (deepMerge([
+    this.site?.fullConfig.value,
+    this.tpl.value?.getBaseConfig({ site: this.site }) || {},
+    this.userConfig.value as SiteUserConfig & T,
+  ]) as SiteUserConfig & T))
+
+  config = vue.computed({
+    get: () => this.fullConfig.value as T,
+    set: (value: T) => (this.userConfig.value = vue.ref(value).value),
+  })
+
   cards = vue.shallowRef((this.settings.cards || []).map(c => this.initSubCard({ cardConfig: c })))
 
   tpl = vue.computed(() => this.settings.inlineTemplate || this.site?.theme.value?.templates?.find(t => t.settings.templateId === this.templateId.value))

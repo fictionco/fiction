@@ -129,7 +129,7 @@ export const templates = [
     isPublic: true,
     options,
     schema: UserConfigSchema,
-    userConfig: { items: defaultItem },
+    getUserConfig: () => ({ items: defaultItem }),
     demoPage: async () => {
       return { cards: [{ templateId, userConfig: { items: defaultItem, autoSlide: true } }] }
     },

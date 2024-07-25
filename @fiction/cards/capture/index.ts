@@ -65,12 +65,12 @@ export const templates = [
     icon: 'i-tabler-mail',
     colorTheme: 'blue',
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
-    userConfig: {
+    getUserConfig: () => ({
       superHeading: 'Metric or Social Proof Here',
       heading: 'Get a [Free Resource]', // email magnet
       subHeading: 'Add benefits of subscribing here, free resources, etc. Avoid cliches like "stay up to date"',
       dismissText: 'No thanks',
-    },
+    }),
     isPublic: true,
     options,
     schema: UserConfigSchema,

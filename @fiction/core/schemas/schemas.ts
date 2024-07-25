@@ -1,10 +1,10 @@
 import { z } from 'zod'
-import { colorTheme } from '../utils/colors.js'
+import { colorThemeWithInvert } from '../utils/colors.js'
 
 export const PostStatusSchema = z.enum(['draft', 'scheduled', 'published', 'hidden', 'protected', 'deleted', 'archived', 'trashed', 'spam'])
 export const ProgressStatusSchema = z.enum(['pending', 'requested', 'processing', 'ready', 'error', 'cancelled'])
 export const SyndicateStatusSchema = z.enum(['active', 'unsubscribed', 'pending', 'cancelled', 'bounced', 'complained'])
-export const ColorThemeSchema = z.enum(colorTheme)
+export const ColorThemeSchema = z.enum(colorThemeWithInvert)
 export const ImageFiltersSchema = z.enum(['brightness', 'opacity', 'contrast', 'blur', 'grayscale', 'sepia', 'saturate', 'invert', 'hue-rotate'])
 export type ImageFilter = z.infer<typeof ImageFiltersSchema>
 export const SizeBasicSchema = z.enum(['none', 'full', 'xs', 'sm', 'md', 'lg'])
@@ -39,18 +39,19 @@ export const OverlaySettingSchema = z.object({
   blendMode: BlendModesSchema.optional(),
   color: z.string().optional(),
 })
-export const ImageFilterConfig = z.object({
+export const ImageFilterConfigSchema = z.object({
   filter: ImageFiltersSchema.optional(),
   percent: z.number().min(0).max(100).optional(),
   value: z.string().optional(),
 })
+export type ImageFilterConfig = z.infer<typeof ImageFilterConfigSchema>
 export const MediaDisplaySchema = z.object({
   bgColor: z.string().optional(),
   bgGradient: GradientSettingSchema.optional(),
   bgRepeat: BackgroundRepeatSchema.optional(),
   bgPosition: BackgroundPositionSchema.optional(),
   bgSize: BackgroundSizeSchema.optional(),
-  filters: z.array(ImageFilterConfig).optional(),
+  filters: z.array(ImageFilterConfigSchema).optional(),
   overlay: OverlaySettingSchema.optional(),
   html: z.string().optional(),
   url: z.string().optional(),

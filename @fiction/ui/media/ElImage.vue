@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { MediaObject } from '@fiction/core'
+import type { GradientSetting, ImageFilterConfig, MediaObject } from '@fiction/core'
 import { log, vue, waitFor } from '@fiction/core'
 import * as bh from 'blurhash'
 import ClipPathAnim from '../anim/AnimClipPath.vue'
@@ -95,11 +95,58 @@ const cls = vue.computed(() => {
 })
 
 const filters = vue.computed(() => props.media?.filters || [])
+
+function createGradientString(gradient: GradientSetting): string {
+  if (gradient.css)
+    return gradient.css
+
+  const angle = gradient.angle ?? 0
+  const stops = gradient.stops?.map(stop =>
+    `${stop.color} ${stop.percent != null ? `${stop.percent}%` : ''}`,
+  ).join(', ') ?? ''
+
+  return `linear-gradient(${angle}deg, ${stops})`
+}
+
+const bgStyle = vue.computed(() => {
+  const media = props.media
+  if (!media)
+    return {}
+
+  return {
+    backgroundColor: media.bgColor,
+    backgroundImage: media.bgGradient ? createGradientString(media.bgGradient) : undefined,
+    backgroundRepeat: media.bgRepeat,
+    backgroundPosition: media.bgPosition,
+    backgroundSize: media.bgSize,
+  }
+})
+
+const overlayStyle = vue.computed(() => {
+  const overlay = props.media?.overlay
+  if (!overlay)
+    return {}
+
+  return {
+    background: overlay.gradient ? createGradientString(overlay.gradient) : overlay.color,
+    opacity: overlay.opacity,
+    mixBlendMode: overlay.blendMode,
+  }
+})
+
+const filterStyle = vue.computed(() => {
+  const filterString = filters.value
+    .map((filter: ImageFilterConfig) =>
+      `${filter.filter}(${filter.value ?? `${filter.percent}%`})`,
+    )
+    .join(' ')
+  return { filter: filterString }
+})
 </script>
 
 <template>
   <ClipPathAnim :animate="animate">
-    <div v-if="media" :class="[!inlineImage ? `h-full w-full` : '', cls]">
+    <div v-if="media" class=" " :class="[!inlineImage ? `h-full w-full` : '', cls]" :style="bgStyle">
       <transition
         enter-active-class="transition ease duration-500"
         enter-from-class="opacity-0"
@@ -142,9 +189,21 @@ const filters = vue.computed(() => props.media?.filters || [])
           :src="media?.url || ''"
           :style="{ filter: filters?.map((_) => _.value).join(' ') }"
         >
+        <iframe
+          v-else-if="media.format === 'iframe'"
+          class="absolute inset-0 h-full w-full z-0"
+          :src="media?.url || ''"
+          frameborder="0"
+          allowfullscreen
+        />
       </template>
-      <ElOverlay :overlay="media.overlay" />
+
       <slot />
     </div>
+    <div
+      v-if="media?.overlay"
+      class="absolute inset-0 z-10"
+      :style="overlayStyle"
+    />
   </ClipPathAnim>
 </template>

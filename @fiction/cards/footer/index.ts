@@ -147,7 +147,7 @@ export const templates = [
     description: 'A professional footer for your website',
     isPublic: true,
     el,
-    userConfig: { ...defaultConfig },
+    getUserConfig: () => defaultConfig,
     schema,
     options,
     title: 'Footer Pro',

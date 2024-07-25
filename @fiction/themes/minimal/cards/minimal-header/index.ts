@@ -28,15 +28,24 @@ export const templates = [
     icon: 'i-tabler-box-align-top',
     colorTheme: 'blue',
     el,
-    userConfig: {
-      logo: { format: 'html', html: 'Your Name' },
-      nav: [
-        { name: 'Home', href: '/' },
-        { name: 'LinkedIn', href: '#', target: '_blank' },
-      ],
-      standard: {
-        spacing: { verticalSpacing: 'none' },
-      },
+    getBaseConfig: () => {
+      return {
+        standard: {
+          spacing: { verticalSpacing: 'none' },
+        },
+      }
+    },
+    getUserConfig: () => {
+      return {
+        logo: { format: 'html' as const, html: 'Your Name' },
+        nav: [
+          { name: 'Home', href: '/' },
+          { name: 'LinkedIn', href: '#', target: '_blank' },
+        ],
+        standard: {
+          spacing: { verticalSpacing: 'none' },
+        },
+      }
     },
     options,
     demoPage: async () => {

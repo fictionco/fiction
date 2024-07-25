@@ -140,7 +140,7 @@ export const templates = [
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
     options,
     schema,
-    userConfig: { ...defaultConfig },
+    getUserConfig: () => defaultConfig,
     isPublic: true,
     demoPage: async () => {
       return {
