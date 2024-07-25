@@ -36,8 +36,8 @@ describe('analyticsTag', () => {
 
   afterEach(() => {
     vi.clearAllMocks()
-    if (analyticsTag.statLoopTimer) {
-      clearInterval(analyticsTag.statLoopTimer)
+    if (analyticsTag) {
+      analyticsTag.close()
     }
   })
 

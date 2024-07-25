@@ -109,10 +109,15 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
         await factory.create({
           templateId: 'showcase',
           userConfig: {
-            // standard: {
-            //   heading: 'Featured Works',
-            //   subHeading: 'A selection of my most notable achievements',
-            // },
+            standard: {
+              headers: {
+                layout: 'left',
+                size: 'md',
+                superTitle: 'Showcase',
+                title: 'Featured Works',
+                subTitle: 'A selection of my most notable achievements',
+              },
+            },
 
             items: [
               {

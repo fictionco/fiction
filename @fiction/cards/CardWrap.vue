@@ -5,7 +5,7 @@ import { fontFamilyByKey } from '@fiction/site/utils/fonts'
 import type { CardOptionsWithStandard, SizeBasic } from '@fiction/site/schema'
 import ElImage from '@fiction/ui/media/ElImage.vue'
 import { getContentWidthClass, getSpacingClass } from '@fiction/site/styling'
-import CardHeader from './el/CardHeader.vue'
+import StandardHeader from './el/StandardHeader.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<CardOptionsWithStandard>>, required: true },
@@ -135,6 +135,7 @@ vue.watch(() => standardUc.value?.fontStyle, (fontStyle) => {
   >
     <div class="w-full relative text-theme-950 dark:text-theme-50 x-font-body ">
       <div :class="contentWidthClass">
+        <StandardHeader v-if="standardUc?.headers?.title" :card class="mb-8 lg:mb-16" />
         <slot />
       </div>
     </div>

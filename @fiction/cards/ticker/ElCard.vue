@@ -88,7 +88,7 @@ function getAnimationDuration(speed?: number): string {
 </script>
 
 <template>
-  <div class=" overflow-x-clip">
+  <div class="">
     <div ref="tickerWrap" class="x-font-title font-bold [perspective:1000px] " :style="{ perspective: '1000px' }">
       <div
         v-for="(item, index) in items"

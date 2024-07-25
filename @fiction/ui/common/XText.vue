@@ -6,7 +6,7 @@ import { animateItemEnter, splitLetters, useElementVisible } from '../anim'
 export type InputModes = 'text' | 'markdown' | 'html' | 'number' | 'email' | 'url' | 'password' | 'phone' | 'date'
 
 const props = defineProps({
-  tag: { type: String as vue.PropType<'h1' | 'h2' | 'h3' | 'div' | 'span' | 'p' | 'a'>, default: 'div' },
+  tag: { type: String as vue.PropType<'h1' | 'h2' | 'h3' | 'h4' | 'div' | 'span' | 'p' | 'a'>, default: 'div' },
   placeholder: { type: String, default: '' },
   isEditable: { type: Boolean, default: false },
   modelValue: { type: String, default: '' },

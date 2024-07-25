@@ -51,7 +51,7 @@ function setActiveItem(index: number) {
 </script>
 
 <template>
-  <div class="overflow-x-clip">
+  <div class="">
     <div class="y-4">
       <div class="flex items-center justify-between h-[65dvh] ">
         <div class="relative h-full basis-[30%]">

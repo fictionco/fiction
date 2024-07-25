@@ -56,6 +56,11 @@ export class AnalyticsTag extends ClientTag<AnalyticsTagSettings> {
     this.statLoop()
   }
 
+  close(): void {
+    if (this.statLoopTimer)
+      clearInterval(this.statLoopTimer)
+  }
+
   getPage(): string {
     const { pathname: page, search: query } = location
     return `${page}${query}`
@@ -79,6 +84,8 @@ export class AnalyticsTag extends ClientTag<AnalyticsTagSettings> {
       }
       this.statLoopCount++
     }, this.statSeconds * 1000)
+
+    this.statLoopTimer.unref()
   }
 
   trackBot(): void {

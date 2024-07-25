@@ -42,11 +42,11 @@ export const CardStandardSchema = z.object({
   headers: z.object({
     layout: HeaderLayoutSchema.optional(),
     size: SizeBasicSchema.optional(),
-    superHeader: z.string().optional(),
+    superTitle: z.string().optional(),
     superIcon: z.string().optional(),
     superColor: z.string().optional(),
-    header: z.string().optional(),
-    subHeader: z.string().optional(),
+    title: z.string().optional(),
+    subTitle: z.string().optional(),
   }).optional(),
 })
 
