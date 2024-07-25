@@ -98,14 +98,14 @@ const referralAccounts = vue.computed(() => {
 
     <div class="mx-auto max-w-7xl px-4 py-12 md:px-20 lg:px-8 lg:py-12">
       <div class="my-20 items-center lg:flex-row">
-        <div class="mt-8 text-lg text-white md:text-2xl md:leading-relaxed">
+        <div class="mt-8 text-lg dark:text-white md:text-2xl md:leading-relaxed">
           <div class="font-brand grid grid-cols-12 2xl:gap-32">
             <div class="col-span-12 2xl:col-span-6">
               <h2
                 class="x-font-title mb-6 max-w-4xl text-3xl font-bold tracking-tight lg:pr-7 lg:text-6xl"
               >
                 <span
-                  class="from-primary-200 to-primary-300 mb-2 block bg-gradient-to-br box-decoration-clone bg-clip-text text-transparent"
+                  class="from-primary-500 to-primary-700 dark:from-primary-200 dark:to-primary-300 mb-2 block bg-gradient-to-br box-decoration-clone bg-clip-text text-transparent"
                 >Paid Monthly</span>
                 Earn 30% Recurring Income
               </h2>
@@ -126,7 +126,7 @@ const referralAccounts = vue.computed(() => {
                 <h2
                   class="x-font-title m-auto text-2xl font-bold tracking-tight lg:text-3xl"
                 >
-                  <span class="bg-gradient-to-br from-primary-200 to-primary-300 bg-clip-text text-transparent">
+                  <span class="bg-gradient-to-br from-primary-500 to-primary-700 dark:from-primary-200 dark:to-primary-300 bg-clip-text text-transparent">
                     Refer
                     <span class="mx-2">{{ referralAccounts[volumeTier]?.accounts }}</span>
                   </span>
@@ -182,17 +182,17 @@ input[type="range"] {
   @apply rounded-sm appearance-none;
 
   &::-webkit-slider-thumb {
-    @apply h-9 w-9 bg-white cursor-pointer rounded-full appearance-none border-4 border-primary-500;
+    @apply h-9 w-9 bg-primary-500 dark:bg-white cursor-pointer rounded-full appearance-none border-4 border-primary-500;
     -webkit-appearance: none;
   }
   &::-moz-range-thumb {
-    @apply h-9 w-9 bg-white cursor-pointer rounded-full appearance-none border-4 border-primary-500;
+    @apply h-9 w-9 bg-primary-500 dark:bg-white cursor-pointer rounded-full appearance-none border-4 border-primary-500;
   }
   &::-ms-thumb {
-    @apply h-9 w-9 bg-white cursor-pointer rounded-full appearance-none border-4 border-primary-500;
+    @apply h-9 w-9 bg-primary-500 dark:bg-white cursor-pointer rounded-full appearance-none border-4 border-primary-500;
   }
   &::-moz-focus-outer {
     border: 0;
   }
 }
-</style>import { Card } from '@fiction/site';import { Card } from '@fiction/site';
+</style>

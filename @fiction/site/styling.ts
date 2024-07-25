@@ -5,10 +5,10 @@ type Direction = 'top' | 'bottom' | 'both'
 const spacingClasses = {
   none: { top: 'pt-0', bottom: 'pb-0' },
   full: { top: 'min-h-full', bottom: 'min-h-full' },
-  xs: { top: 'pt-[calc(0.25rem+1vw)]', bottom: 'pt-[calc(0.25rem+1vw)]' },
-  sm: { top: 'pt-[calc(0.5rem+2vw)]', bottom: 'pt-[calc(0.5rem+2vw)]' },
-  md: { top: 'pt-[calc(1.5rem+4vw)]', bottom: 'pt-[calc(1.5rem+4vw)]' },
-  lg: { top: 'pt-[calc(2.5rem+6vw)]', bottom: 'pt-[calc(2.5rem+6vw)]' },
+  xs: { top: 'pt-[calc(0.25rem+1vw)]', bottom: 'pb-[calc(0.25rem+1vw)]' },
+  sm: { top: 'pt-[calc(0.5rem+2vw)]', bottom: 'pb-[calc(0.5rem+2vw)]' },
+  md: { top: 'pt-[calc(1.5rem+4vw)]', bottom: 'pb-[calc(1.5rem+4vw)]' },
+  lg: { top: 'pt-[calc(2.5rem+6vw)]', bottom: 'pb-[calc(2.5rem+6vw)]' },
 }
 
 const contentWidthClasses = {

@@ -43,7 +43,7 @@ vue.onMounted(() => {
   useElementVisible({
     selector: `#${props.card.cardId}`,
     onVisible: async () => {
-      await animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'fade', config: { overallDelay: 100, isRandom: true } })
+      await animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'fade', config: { overallDelay: 0, isRandom: true } })
       loaded.value = true
     },
   })

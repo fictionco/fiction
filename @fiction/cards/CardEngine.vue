@@ -77,6 +77,7 @@ const cards = vue.computed(() => {
   <component :is="tag" v-if="cards.length" class="card-engine">
     <template v-for="(subCard, i) in cards" :key="i">
       <CardWrap
+        data-card-wrap=""
         :card="subCard"
         class="relative group/engine"
         :class="[

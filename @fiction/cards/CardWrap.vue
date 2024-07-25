@@ -3,6 +3,7 @@ import { deepMerge, getColorScheme, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/index.js'
 import type { CardOptionsWithStandard } from '@fiction/site/schema'
 import ElImage from '@fiction/ui/media/ElImage.vue'
+import { getSpacingClass } from '@fiction/site/styling'
 import CardHeader from './el/CardHeader.vue'
 
 const props = defineProps({
@@ -18,10 +19,7 @@ const isLightMode = vue.computed(() => props.card.site?.isLightMode.value)
 const isReversed = vue.computed(() => standardUc.value?.scheme?.reverse)
 const schemeKey = vue.computed(() => (isLightMode.value && !isReversed.value) || (isReversed.value && !isLightMode.value) ? 'base' : 'light')
 const colorScheme = vue.computed(() => {
-  const parts = [
-    siteUc.value?.standard?.scheme?.base,
-    standardUc.value?.scheme?.base,
-  ]
+  const parts = [siteUc.value?.standard?.scheme?.base, standardUc.value?.scheme?.base]
 
   if (isLightMode.value)
     parts.push(...[siteUc.value?.standard?.scheme?.light, standardUc.value?.scheme?.light])
@@ -30,66 +28,51 @@ const colorScheme = vue.computed(() => {
 })
 
 const containerStyle = vue.computed(() => {
-  const bg = colorScheme.value?.bg
-  const theme = getColorScheme(colorScheme.value?.theme || 'gray')
-  const primary = getColorScheme(colorScheme.value?.primary || 'blue')
-
   const fonts = standardUc.value?.fontStyle || {}
 
   const style: Record<string, string> = {}
 
   // Set theme and primary color variables
-  Object.entries(theme).forEach(([k, v]) => style[`--theme-${k}`] = v)
-  Object.entries(primary).forEach(([k, v]) => style[`--primary-${k}`] = v)
+  if (colorScheme.value?.theme) {
+    const theme = getColorScheme(colorScheme.value?.theme || 'gray')
+    Object.entries(theme).forEach(([k, v]) => style[`--theme-${k}`] = v)
+  }
+
+  if (colorScheme.value?.primary) {
+    const primary = getColorScheme(colorScheme.value?.primary || 'blue')
+    Object.entries(primary).forEach(([k, v]) => style[`--primary-${k}`] = v)
+  }
 
   // Set font variables
-  if (fonts.title) {
-    style['--title-font-family'] = fonts.title.family || 'inherit'
-    style['--title-font-weight'] = fonts.title.weight || 'bold'
+  if (fonts.title?.family) {
+    style['--title-font-family'] = fonts.title.family
+    style['--title-font-weight'] = fonts.title.weight || '500'
   }
-  if (fonts.body) {
-    style['--body-font-family'] = fonts.body.family || 'inherit'
-    style['--body-font-weight'] = fonts.body.weight || 'normal'
+  if (fonts.body?.family) {
+    style['--body-font-family'] = fonts.body.family
+    style['--body-font-weight'] = fonts.body.weight || '500'
   }
-
-  // // Set background styles
-  // if (bg) {
-  //   if (bg.color)
-  //     style.backgroundColor = bg.color
-
-  //   if (bg.gradient) {
-  //     const stops = bg.gradient.stops || []
-  //     if (stops.length === 1)
-  //       stops.push({ color: bg.color || 'transparent' })
-  //     style.backgroundImage = `linear-gradient(${bg.gradient.angle || 90}deg, ${stops.map(stop => `${stop.color || 'transparent'} ${stop.percent || ''}%`).join(', ')})`
-  //     style.backgroundSize = '150% 150%'
-  //   }
-
-  //   if (bg.media?.format === 'url') {
-  //     style.backgroundImage = `url(${bg.media.html})`
-  //     style.backgroundRepeat = bg.media.repeat || 'no-repeat'
-  //     style.backgroundPosition = bg.media.position || 'center'
-  //     style.backgroundSize = bg.media.size || 'cover'
-  //   }
-
-  //   if (bg.media?.filters?.length) {
-  //     style.filter = bg.media.filters.map(f => `${f.filter}(${f.percent}%)`).join(' ')
-  //   }
-  // }
 
   return style
+})
+
+const spacing = vue.computed(() => {
+  const uc = props.card?.userConfig.value || {}
+  const verticalSpacing = uc.standard?.spacing?.verticalSpacing || siteUc.value?.standard?.spacing?.verticalSpacing || 'md'
+
+  return [getSpacingClass({ size: verticalSpacing, direction: 'both' })].join(' ')
 })
 </script>
 
 <template>
   <div
     ref="cardWrap"
+    :key="card.cardId"
     class="relative card-wrap"
     :style="containerStyle"
-    :class="[isReversed ? schemeKey : '', loaded ? 'loaded' : '']"
+    :class="[spacing, isReversed ? schemeKey : '', loaded ? 'loaded' : '']"
   >
     <div class="z-10">
-      <CardHeader :card="card" />
       <slot />
     </div>
     <ElImage class="object-cover w-full h-full absolute inset-0 pointer-events-none z-0" :media="colorScheme?.bg" />
