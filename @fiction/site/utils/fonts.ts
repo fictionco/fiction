@@ -31,7 +31,7 @@ export function fontFamilyByKey(key?: string) {
     return `var(--font-family-${k})`
   }
   else {
-    return k
+    return k.replace(/\+/g, ' ')
   }
 }
 

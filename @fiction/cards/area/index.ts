@@ -91,6 +91,7 @@ export const templates = [
         cards: [
           { templateId, userConfig: base, cards: [heroCard('default')] },
           { templateId, userConfig: { standard: { scheme: { base: { bg: { bgColor: '#e5f4cc' }, theme: 'blueInverted' as const } } } }, cards: [heroCard('theme invert')] },
+          { templateId, userConfig: { standard: { fontStyle: { title: { fontKey: 'Playfair+Display', weight: '400' as const }, body: { fontKey: 'Oswald' } } } }, cards: [heroCard('change font')] },
           { templateId, userConfig: deepMerge([base, { standard: { scheme: { base: {
             bg: {
               format: 'video' as const,

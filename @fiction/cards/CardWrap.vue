@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { deepMerge, getColorScheme, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/index.js'
+import { fontFamilyByKey } from '@fiction/site/utils/fonts'
 import type { CardOptionsWithStandard } from '@fiction/site/schema'
 import ElImage from '@fiction/ui/media/ElImage.vue'
 import { getSpacingClass } from '@fiction/site/styling'
@@ -20,8 +21,6 @@ const isLightMode = vue.computed(() => {
   const siteLightMode = props.card.site?.isLightMode.value
   return (siteLightMode && !isReversed.value) || (!siteLightMode && isReversed.value)
 })
-
-const schemeKey = vue.computed(() => isLightMode.value ? 'light' : 'dark')
 
 const colorScheme = vue.computed(() => {
   const parts = [siteUc.value?.standard?.scheme?.base, standardUc.value?.scheme?.base]
@@ -49,11 +48,17 @@ const containerStyle = vue.computed(() => {
   }
 
   // Set font variables
-  if (fonts.title?.family) {
-    style['--title-font-family'] = fonts.title.family
+  if (fonts.title?.fontKey) {
+    style['--font-family-title'] = fontFamilyByKey(fonts.title?.fontKey)
   }
-  if (fonts.body?.family) {
-    style['--body-font-family'] = fonts.body.family
+  if (fonts.title?.weight) {
+    style['--font-weight-title'] = fonts.title.weight
+  }
+  if (fonts.body?.fontKey) {
+    style['--font-family-body'] = fontFamilyByKey(fonts.body?.fontKey)
+  }
+  if (fonts.body?.weight) {
+    style['--font-weight-body'] = fonts.body.weight
   }
 
   return style
@@ -70,6 +75,24 @@ const spacing = vue.computed(() => {
   const size = spacingSize.value
   return [getSpacingClass({ size, direction: 'both' })].join(' ')
 })
+
+vue.watch(() => standardUc.value?.fontStyle, (fontStyle) => {
+  let addFonts = {}
+
+  const site = props.card.site
+  Object.entries(fontStyle || {}).forEach(([_key, f]) => {
+    const fontKey = f?.fontKey
+
+    if (fontKey && site && !site.userFonts.value[fontKey]) {
+      const fontObject = { [fontKey]: { fontKey, stack: 'sans' as const } }
+      addFonts = { ...addFonts, ...fontObject }
+    }
+  })
+
+  if (site) {
+    site.userFonts.value = { ...site.userFonts.value, ...addFonts }
+  }
+}, { immediate: true })
 </script>
 
 <template>
@@ -79,11 +102,11 @@ const spacing = vue.computed(() => {
     class="relative card-wrap"
     :style="containerStyle"
     :class="[spacing, isReversed ? (isLightMode ? 'light' : 'dark') : '', loaded ? 'loaded' : '']"
-    :data-font-title="standardUc?.fontStyle?.title?.family"
-    :data-font-body="standardUc?.fontStyle?.body?.family"
+    :data-font-title="standardUc?.fontStyle?.title?.fontKey"
+    :data-font-body="standardUc?.fontStyle?.body?.fontKey"
     :data-spacing-size="spacingSize"
   >
-    <div class="z-10 relative text-theme-950 dark:text-theme-50">
+    <div class="z-10 relative text-theme-950 dark:text-theme-50 x-font-body">
       <slot />
     </div>
     <ElImage v-if="colorScheme?.bg" class="object-cover w-full h-full absolute inset-0 pointer-events-none z-0" :media="colorScheme?.bg" />

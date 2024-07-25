@@ -278,22 +278,36 @@ body,
 
 // can't be on root do to variables
 .x-site{
-
   .x-font-title {
-    font-family: var(--font-family-title);
-    letter-spacing: -0.02em;
+    font-family: var(--font-family-title, unset);
+    &.font-semibold {
+      font-weight: var(--font-weight-title, 600);
+    }
+    &.font-bold {
+      font-weight: var(--font-weight-title, 700);
+    }
+    &.font-light {
+      font-weight: var(--font-weight-title, 300);
+    }
+    &.font-normal {
+      font-weight: var(--font-weight-title, 400);
+    }
+    &.font-medium {
+      font-weight: var(--font-weight-title, 500);
+    }
   }
+
   .x-font-body {
-    font-family: var(--font-family-body);
+    font-family: var(--font-family-body, unset);
   }
   .x-font-input {
-    font-family: var(--font-family-input);
+    font-family: var(--font-family-input, unset);
   }
   .x-font-mono {
-    font-family: var(--font-family-mono);
+    font-family: var(--font-family-mono, unset);
   }
   .x-font-sans {
-    font-family: var(--font-family-sans);
+    font-family: var(--font-family-sans, unset);
   }
 
 }

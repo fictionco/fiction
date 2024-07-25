@@ -1,6 +1,3 @@
-import { toCamel } from './casing'
-import { fonts } from './lib/fonts'
-
 export const safeStacks = {
   monospace: `'Nimbus Mono PS', 'Courier New', monospace`,
   serif: `Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif`,
@@ -35,26 +32,40 @@ export function variantToGoogleFontsFormat(variant: string): string {
   return `${isItalic ? '1' : '0'},${weight}`
 }
 
-export function createGoogleFontsLink(args: { fontKeys: string[], fonts?: FontEntry[] }) {
+export function createGoogleFontsLink(args: { fontKeys: string[] }) {
   const deduped = [...new Set(args.fontKeys || [])]
-  const fontEntries = args.fonts || fonts
 
   const fontParams = deduped.map((fontKey) => {
-    const normalizedFontKey = toCamel(fontKey)
-
-    const font = fontEntries.find(f => toCamel(f.family) === normalizedFontKey)
-    if (!font)
-      return ''
-
-    // Process each variant and convert to the correct format
-    const variants = font.variants
-      .map(variantToGoogleFontsFormat)
-      .sort()
-      .join(';')
-
-    const family = font.family.replace(/ /g, '+')
-    return `${family}:ital,wght@${variants}`
+    const family = fontKey.replace(/ /g, '+')
+    // Load all variants by using the generic format
+    return `${family}:ital,wght@0,400;0,700;1,400;1,700`
   }).filter(Boolean).join('&family=')
 
   return fontParams ? `https://fonts.googleapis.com/css2?family=${fontParams}&display=swap` : ''
 }
+
+// export function createGoogleFontsLink(args: { fontKeys: string[], fonts?: FontEntry[] }) {
+//   const deduped = [...new Set(args.fontKeys || [])]
+//   const fontEntries = args.fonts || fonts
+
+//   const fontParams = deduped.map((fontKey) => {
+//     const normalizedFontKey = toCamel(fontKey)
+
+//     const font = fontEntries.find(f => toCamel(f.family) === normalizedFontKey)
+//     if (!font) {
+//       console.error(`Font family not found: ${fontKey}`)
+//       return ''
+//     }
+
+//     // Process each variant and convert to the correct format
+//     const variants = font.variants
+//       .map(variantToGoogleFontsFormat)
+//       .sort()
+//       .join(';')
+
+//     const family = font.family.replace(/ /g, '+')
+//     return `${family}:ital,wght@${variants}`
+//   }).filter(Boolean).join('&family=')
+
+//   return fontParams ? `https://fonts.googleapis.com/css2?family=${fontParams}&display=swap` : ''
+// }

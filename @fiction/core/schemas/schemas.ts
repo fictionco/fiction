@@ -19,7 +19,7 @@ export const FontConfigValSchema = z.object({
   stack: z.enum(['monospace', 'sans', 'serif']),
 })
 export const FontStyleSchema = z.object({
-  family: z.string().optional(),
+  fontKey: z.string().optional(),
   weight: FontWeightsSchema.optional(),
 })
 export const GradientPointSchema = z.object({
