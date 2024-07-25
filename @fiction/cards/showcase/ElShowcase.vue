@@ -5,7 +5,6 @@ import ElImage from '@fiction/ui/media/ElImage.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
 import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
 import EffectGlare from '@fiction/ui/effect/EffectGlare.vue'
-import EffectFitText from '@fiction/ui/effect/EffectFitText.vue'
 import CardText from '../CardText.vue'
 import type { UserConfig } from '.'
 

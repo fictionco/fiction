@@ -19,7 +19,7 @@ RUN apk add --no-cache python3 && \
     pip install --no-cache --upgrade pip setuptools
 
 # Install pnpm globally and cross-env
-RUN npm install --location=global pnpm@9.4.0 cross-env
+RUN npm install --location=global pnpm@9.6.0 cross-env
 
 # Check pnpm version for debugging purposes
 RUN pnpm -v
