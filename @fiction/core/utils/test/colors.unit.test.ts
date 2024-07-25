@@ -29,7 +29,7 @@ describe('getColorScheme', () => {
   })
 
   it('inverts the color scheme for dark mode', () => {
-    const scheme = getColorScheme('slate', { isDarkMode: true })
+    const scheme = getColorScheme('slate', { invert: true })
     // Assuming inversion swaps the scheme end to end
     expect(scheme[50]).toBe(hexToRgbString(colorList.slate[950])) // Use actual hexToRgbString logic
     expect(scheme[950]).toBe(hexToRgbString(colorList.slate[50]))

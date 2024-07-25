@@ -34,7 +34,9 @@ export const templates = [
         { name: 'Home', href: '/' },
         { name: 'LinkedIn', href: '#', target: '_blank' },
       ],
-      spacing: { spacingSize: 'none' },
+      standard: {
+        spacing: { verticalSpacing: 'none' },
+      },
     },
     options,
     demoPage: async () => {

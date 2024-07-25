@@ -1,6 +1,7 @@
 import type { FictionRouter } from '@fiction/core'
-import { FictionObject, deepMerge, getColorScheme, isDarkOrLightMode, localRef, objectId, resetUi, shortId, vue, waitFor } from '@fiction/core'
+import { FictionObject, deepMerge, getColorScheme, isDarkOrLightMode, localRef, objectId, resetUi, setNested, shortId, vue, waitFor } from '@fiction/core'
 import { TypedEventTarget } from '@fiction/core/utils/eventTarget.js'
+import type { pages } from '@fiction/admin/theme/index.js'
 import type { CardConfigPortable, PageRegion, TableCardConfig, TableSiteConfig } from './tables.js'
 import type { Card, CardTemplate } from './card.js'
 import { flattenCards, setLayoutOrder } from './utils/layout.js'
@@ -69,9 +70,9 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       callback: (args: { site: Site, value: string }) => {
         const { value } = args
         if (value === 'toggle')
-          this.isDarkMode.value = !this.isDarkMode.value
+          this.isLightMode.value = !this.isLightMode.value
         else if (value)
-          this.isDarkMode.value = value === 'dark'
+          this.isLightMode.value = value === 'light'
 
         return { reload: true }
       },
@@ -115,14 +116,14 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
   userFonts = vue.ref<Record<string, FontConfigVal>>({})
   siteFonts = activeSiteFont(this)
-  configDarkMode = vue.computed(() => this.fullConfig.value.isDarkMode ?? isDarkOrLightMode() === 'dark')
+  configDarkMode = vue.computed(() => this.fullConfig.value.styling?.isLightMode ?? isDarkOrLightMode() === 'light')
   localDarkMode = localRef({ key: `fictionIsDarkMode`, def: this.configDarkMode.value })
-  isDarkMode = vue.computed({
+  isLightMode = vue.computed({
     get: () => {
       return (this.siteMode.value === 'standard') ? this.localDarkMode.value : this.configDarkMode.value
     },
     set: (v) => {
-      this.userConfig.value = { ...this.userConfig.value, isDarkMode: v }
+      this.userConfig.value = setNested({ data: this.userConfig.value, path: 'styling.isLightMode', value: v })
       this.localDarkMode.value = v
     },
   })
@@ -266,9 +267,9 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   }
 
   colors = vue.computed(() => {
-    const { colorPrimary = 'blue', colorTheme = 'gray' } = this.fullConfig.value.colors || {}
+    const { primary = 'blue', theme = 'gray' } = this.fullConfig.value.standard?.scheme?.base || {}
 
-    return { primary: getColorScheme(colorPrimary), theme: getColorScheme(colorTheme) }
+    return { primary: getColorScheme(primary), theme: getColorScheme(theme) }
   })
 
   activeRegionKey = vue.ref<PageRegion>('main')

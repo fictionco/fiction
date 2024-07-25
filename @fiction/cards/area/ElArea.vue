@@ -10,9 +10,9 @@ const props = defineProps({
 })
 const loaded = vue.ref(false)
 const uc = vue.computed(() => props.card.userConfig.value || {})
-const isDarkMode = vue.computed(() => props.card.site?.isDarkMode.value)
+const isLightMode = vue.computed(() => props.card.site?.isLightMode.value)
 const isReversed = vue.computed(() => uc.value?.scheme?.reverse)
-const schemeKey = vue.computed(() => (isDarkMode.value && !isReversed.value) || (isReversed.value && !isDarkMode.value) ? 'dark' : 'light')
+const schemeKey = vue.computed(() => (isLightMode.value && !isReversed.value) || (isReversed.value && !isLightMode.value) ? 'light' : 'dark')
 
 const flipModeClass = vue.computed(() => isReversed ? schemeKey.value : '')
 const colorScheme = vue.computed(() => uc.value.scheme?.[schemeKey.value])

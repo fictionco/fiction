@@ -63,11 +63,11 @@ describe('query var', async () => {
 
     await site.siteRouter.push({ query: { _scheme: 'dark' } }, { caller: 'test' })
 
-    expect(site.isDarkMode.value).toBe(true)
+    expect(site.isLightMode.value).toBe(false)
 
     await site.siteRouter.push({ query: { _scheme: 'light' } }, { caller: 'test' })
 
-    expect(site.isDarkMode.value).toBe(false)
+    expect(site.isLightMode.value).toBe(true)
   })
 })
 
@@ -123,10 +123,10 @@ describe('updateSite / updatePages', async () => {
   it('updates site with valid keys', async () => {
     const site = await Site.create({ ...common, themeId: 'test' })
 
-    updateSite({ site, newConfig: { title: 'New Title', userConfig: { locale: 'es' }, subDomain: 'newSub', customDomains: [{ hostname: 'new.com' }] } })
+    updateSite({ site, newConfig: { title: 'New Title', userConfig: { seo: { locale: 'es' } }, subDomain: 'newSub', customDomains: [{ hostname: 'new.com' }] } })
 
     expect(site.title.value).toBe('New Title')
-    expect(site.userConfig.value.locale).toBe('es')
+    expect(site.userConfig.value.seo?.locale).toBe('es')
     expect(site.subDomain.value).toBe('newSub')
     expect(site.customDomains.value[0].hostname).toBe('new.com')
   })

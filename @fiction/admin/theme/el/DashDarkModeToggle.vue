@@ -9,5 +9,5 @@ defineProps({
 </script>
 
 <template>
-  <InputToggle v-model="site.isDarkMode.value" />
+  <InputToggle v-model="site.isLightMode.value" />
 </template>

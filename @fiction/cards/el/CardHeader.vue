@@ -1,32 +1,21 @@
 <script lang="ts" setup>
-import type { ActionItem, colorTheme } from '@fiction/core'
 import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { getColorThemeStyles } from '@fiction/ui/utils'
 import CardText from '../CardText.vue'
 import CardActions from './CardActions.vue'
 
-export type UserConfig = {
-  heading?: string
-  subHeading?: string
-  superHeading?: string
-  superIcon?: string
-  superColor?: typeof colorTheme[number]
-  actions?: ActionItem[]
-  layout?: 'center' | 'justify' | 'right' | 'left'
-
-}
-
 const props = defineProps({
-  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
+  card: { type: Object as vue.PropType<Card>, required: true },
+  withActions: { type: Boolean, default: true },
 })
 
-const uc = vue.computed(() => {
-  return props.card.userConfig.value || {}
-})
+const uc = vue.computed(() => props.card.userConfig.value || {})
+const standardUc = vue.computed(() => uc.value.standard || {})
+const headerUc = vue.computed(() => standardUc.value.headers || {})
 
 const colorStyle = vue.computed(() => {
-  const color = uc.value.superColor
+  const color = headerUc.value.superColor
   if (!color) {
     return {
       icon: 'text-primary-500 dark:text-theme-100 bg-primary-100/80 dark:bg-theme-700/80',
@@ -34,7 +23,7 @@ const colorStyle = vue.computed(() => {
     }
   }
 
-  const r = getColorThemeStyles(uc.value.superColor || 'theme')
+  const r = getColorThemeStyles(headerUc.value.superColor || 'theme')
   return {
     icon: [r.bg, r.text, r.border].join(' '),
     text: r.text,
@@ -43,7 +32,7 @@ const colorStyle = vue.computed(() => {
 
 const textWrapClass = vue.computed(() => {
   const out = []
-  const layout = uc.value.layout || ''
+  const layout = headerUc.value.layout || ''
 
   if (layout === 'justify')
     out.push('lg:flex justify-between text-left items-end gap-8')
@@ -61,7 +50,7 @@ const textWrapClass = vue.computed(() => {
 })
 
 const layout = vue.computed(() => {
-  return uc.value.layout || 'center'
+  return headerUc.value.layout || 'center'
 })
 </script>
 
@@ -110,6 +99,6 @@ const layout = vue.computed(() => {
         />
       </div>
     </div>
-    <CardActions :card="card" :justify="['justify', 'left', 'right'].includes(layout) ? 'left' : 'center'" :ui-size="layout === 'justify' ? 'lg' : 'xl'" />
+    <CardActions v-if="withActions" :card :justify="['justify', 'left', 'right'].includes(layout) ? 'left' : 'center'" :ui-size="layout === 'justify' ? 'lg' : 'xl'" />
   </div>
 </template>

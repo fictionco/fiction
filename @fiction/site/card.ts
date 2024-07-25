@@ -3,12 +3,14 @@ import { FictionObject, deepMerge, objectId, setNested, toLabel, vue } from '@fi
 import type { InputOption } from '@fiction/ui'
 import type { z } from 'zod'
 import { refineOptions } from './utils/schema.js'
-import type { CardConfigPortable, SiteUserConfig, TableCardConfig } from './tables.js'
+import type { CardConfigPortable, TableCardConfig } from './tables.js'
 import type { Site } from './site.js'
 import { CardGeneration } from './generation.js'
 import type { ComponentConstructor } from './type-utils.js'
 import { siteGoto, siteLink } from './utils/manage.js'
 import type { CardQuerySettings } from './cardQuery.js'
+import { getContentWidthClass } from './styling.js'
+import type { CardOptionsWithStandard, SiteUserConfig } from './schema.js'
 
 type CardCategory = 'basic' | 'posts' | 'theme' | 'stats' | 'marketing' | 'content' | 'layout' | 'media' | 'navigation' | 'social' | 'commerce' | 'form' | 'other' | 'special' | 'portfolio' | 'advanced'
 
@@ -72,7 +74,7 @@ export class CardTemplate<
 }
 
 export type CardSettings<T extends Record<string, unknown> = Record<string, unknown> > = CardConfigPortable<T> & { site?: Site, inlineTemplate?: CardTemplate, onSync?: (card: Card) => void }
-export type CardBaseConfig = Record<string, unknown> & SiteUserConfig
+export type CardBaseConfig = CardOptionsWithStandard & SiteUserConfig & Record<string, unknown>
 
 export type CardSurface = {
   requests: {
@@ -119,12 +121,10 @@ export class Card<
     super('Card', settings)
   }
 
-  getContentWidth = (size: 'sm' | 'md' | 'lg' | 'xl' | 'none' = 'md') => this.site?.theme.value?.getContentWidthClass(size)
-
   classes = vue.computed(() => {
-    const spacing = this.fullConfig.value?.spacing
-    const contentWidthSize = spacing?.contentWidthSize || 'md'
-    const contentWidthClass = this.site?.theme.value?.getContentWidthClass(contentWidthSize)
+    const spacing = this.fullConfig.value?.standard?.spacing
+    const contentWidthSize = spacing?.contentWidth || 'md'
+    const contentWidthClass = getContentWidthClass({ size: contentWidthSize })
     return {
       contentWidth: contentWidthClass,
     }

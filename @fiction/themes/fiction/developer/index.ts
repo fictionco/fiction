@@ -5,7 +5,9 @@ import { templates } from '../templates'
 export function page() {
   const homeCard = createCard({
     el: vue.defineAsyncComponent(async () => import('./el/ElCard.vue')),
-    userConfig: { spacing: { spacingSize: 'none' } },
+    userConfig: {
+      standard: { spacing: { verticalSpacing: 'none' } },
+    },
   })
 
   return createCard({

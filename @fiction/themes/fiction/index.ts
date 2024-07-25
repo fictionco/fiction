@@ -68,10 +68,13 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
 
       return {
         userConfig: {
-          shareImage: { url: shareImage },
-          favicon: { url: favicon },
-          isDarkMode: true,
-          titleTemplate: `{{pageTitle}} - Fiction`,
+          branding: {
+            shareImage: { url: shareImage },
+            favicon: { url: favicon },
+          },
+          seo: {
+            titleTemplate: `{{pageTitle}} - Fiction`,
+          },
           customCode: { gtmContainerId: `GTM-5LQBZDJ` },
         },
         pages,

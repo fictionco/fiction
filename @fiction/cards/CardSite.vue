@@ -67,7 +67,7 @@ function getTitleTag() {
   }
 
   else {
-    const titleTemplate = site.value?.userConfig.value?.titleTemplate || '{{pageTitle}}'
+    const titleTemplate = site.value?.userConfig.value?.seo?.titleTemplate || '{{pageTitle}}'
     const pageTitle = page.value?.title?.value || toLabel(page.value?.slug?.value) || 'Home'
     const siteTitle = site.value?.title?.value || 'Untitled Site'
 
@@ -110,7 +110,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 }
 
 function faviconUrl() {
-  const f = site.value?.userConfig.value.favicon?.url || '/favicon.svg'
+  const f = site.value?.userConfig.value.branding?.favicon?.url || '/favicon.svg'
 
   return f
 }
@@ -122,10 +122,10 @@ unhead.useHead({
     { charset: 'UTF-8' },
     { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
     { name: `description`, content: () => (page.value?.userConfig.value.seo?.description || page.value?.description.value || '') },
-    { name: 'robots', content: () => (site.value?.userConfig.value.robotsTxt || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1') },
+    { name: 'robots', content: () => (site.value?.userConfig.value.seo?.robotsTxt || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1') },
     { property: 'og:site_name', content: () => site.value?.title.value || '' },
-    { property: 'og:locale', content: () => site.value?.userConfig.value.locale || 'en_US' },
-    { property: 'og:image', content: () => site.value?.userConfig.value.shareImage?.url || '/favicon.png' },
+    { property: 'og:locale', content: () => site.value?.userConfig.value.seo?.locale || 'en_US' },
+    { property: 'og:image', content: () => site.value?.userConfig.value.branding?.shareImage?.url || '/favicon.png' },
     { property: 'og:type', content: 'website' },
     { property: 'og:title', content: () => getTitleTag() },
     { property: 'og:url', content: () => site.value?.frame.displayUrl.value },
@@ -154,7 +154,7 @@ unhead.useHead({
 
 vue.onMounted(async () => {
   unhead.useHead({
-    bodyAttrs: { class: () => site.value?.isDarkMode.value ? 'dark' : 'light' },
+    bodyAttrs: { class: () => !site.value?.isLightMode.value ? 'dark' : 'light' },
   })
 
   if (!site.value)

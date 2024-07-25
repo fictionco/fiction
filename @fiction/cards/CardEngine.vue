@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { hexToRgbString, resetUi, toLabel, vue } from '@fiction/core'
+import { resetUi, toLabel, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
+import CardWrap from './CardWrap.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, default: undefined },
@@ -27,66 +28,63 @@ const cards = vue.computed(() => {
   return c.filter(c => c.tpl.value?.settings)
 })
 
-function backgroundStyle(subCard: Card) {
-  const uc = subCard?.userConfig.value || {}
+// function backgroundStyle(subCard: Card) {
+//   const uc = subCard?.userConfig.value || {}
 
-  if (!uc.bg)
-    return {}
+//   if (!uc.bg)
+//     return {}
 
-  return {
-    backgroundColor: uc.bg?.color || undefined,
-    backgroundImage: uc.bg?.url ? `url(${uc.bg?.url})` : undefined,
-    backgroundSize: uc.bg?.size || 'cover',
-    backgroundPosition: uc.bg?.position || 'center',
-  }
-}
+//   return {
+//     backgroundColor: uc.bg?.color || undefined,
+//     backgroundImage: uc.bg?.url ? `url(${uc.bg?.url})` : undefined,
+//     backgroundSize: uc.bg?.size || 'cover',
+//     backgroundPosition: uc.bg?.position || 'center',
+//   }
+// }
 
-function overlayStyle(subCard: Card) {
-  const uc = subCard?.userConfig.value || {}
+// function overlayStyle(subCard: Card) {
+//   const uc = subCard?.userConfig.value || {}
 
-  if (!uc.bg?.overlay)
-    return {}
+//   if (!uc.bg?.overlay)
+//     return {}
 
-  const rgb = hexToRgbString(uc.bg?.overlay.color || '#000000') || undefined
-  const opacity = uc.bg?.overlay.opacity || 0.4
+//   const rgb = hexToRgbString(uc.bg?.overlay.color || '#000000') || undefined
+//   const opacity = uc.bg?.overlay.opacity || 0.4
 
-  return {
-    backgroundColor: `rgba(${rgb} / ${opacity})`,
-  }
-}
+//   return {
+//     backgroundColor: `rgba(${rgb} / ${opacity})`,
+//   }
+// }
 
-function getSpacingClass(subCard: Card) {
-  const uc = subCard?.userConfig.value || {}
+// function getSpacingClass(subCard: Card) {
+//   const uc = subCard?.userConfig.value || {}
 
-  if (uc.spacing?.spacingClass) {
-    return uc.spacing?.spacingClass
-  }
-  const siteSpacing = subCard.site?.fullConfig.value.spacing?.spacingSize
-  const siteSpacingBottom = subCard.site?.fullConfig.value.spacing?.spacingSizeBottom
-  const theme = subCard.site?.theme.value
+//   if (uc.spacing?.spacingClass) {
+//     return uc.spacing?.spacingClass
+//   }
+//   const siteSpacing = subCard.site?.fullConfig.value.spacing?.spacingSize
+//   const siteSpacingBottom = subCard.site?.fullConfig.value.spacing?.spacingSizeBottom
+//   const theme = subCard.site?.theme.value
 
-  const topSize = uc.spacing?.spacingSize || siteSpacing || 'md'
-  const bottomSize = uc.spacing?.spacingSizeBottom || siteSpacingBottom || topSize
+//   const topSize = uc.spacing?.spacingSize || siteSpacing || 'md'
+//   const bottomSize = uc.spacing?.spacingSizeBottom || siteSpacingBottom || topSize
 
-  return [theme?.getSpacingClass(topSize), theme?.getSpacingClass(bottomSize)].join(' ')
-}
+//   return [theme?.getSpacingClass(topSize), theme?.getSpacingClass(bottomSize)].join(' ')
+// }
 </script>
 
 <template>
   <component :is="tag" v-if="cards.length" class="card-engine">
     <template v-for="(subCard, i) in cards" :key="i">
-      <div
+      <CardWrap
+        :card="subCard"
         class="relative group/engine"
         :class="[
-          getSpacingClass(subCard),
           subCard.isActive.value && isEditable ? 'outline-2 outline-dashed outline-theme-300 dark:outline-theme-600' : '',
           isEditable ? 'hover:outline-2 hover:outline-dashed hover:outline-blue-300 dark:hover:outline-blue-600 cursor-pointer  transition-all' : '',
         ]"
-        :style="backgroundStyle(subCard)"
-        :data-spacing-size="subCard.userConfig.value.spacing?.spacingSize || '(not set)'"
         @click="handleCardClick({ cardId: subCard.cardId, event: $event })"
       >
-        <div v-if="subCard?.userConfig.value.bg?.overlay" class="absolute pointer-events-none inset-0" :style="overlayStyle(subCard)" />
         <div v-if="subCard.isNotInline.value && isEditable">
           <div class="p-4">
             <div class="p-3 cursor-pointer hover:opacity-80 dark:text-theme-600 text-theme-400 max-w-md mx-auto rounded-lg font-sans text-sm bg-theme-50 dark:bg-theme-800/50 text-balance text-center" @click="handleCardClick({ cardId: subCard.cardId, event: $event })">
@@ -110,7 +108,7 @@ function getSpacingClass(subCard: Card) {
           <div :class="subCard.tpl.value?.settings.icon" />
           <div>{{ subCard.tpl.value?.settings.title }}</div>
         </div>
-      </div>
+      </CardWrap>
     </template>
   </component>
 </template>

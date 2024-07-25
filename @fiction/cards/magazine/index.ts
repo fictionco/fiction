@@ -1,6 +1,7 @@
 import { PostHandlingSchema, safeDirname, vue } from '@fiction/core'
-import type { Site, SiteUserConfig } from '@fiction/site'
+import type { Site } from '@fiction/site'
 import { CardTemplate } from '@fiction/site'
+import type { SiteUserConfig } from '@fiction/site/schema'
 import { staticFileUrls } from '@fiction/site/utils/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
@@ -19,7 +20,7 @@ const options = [
 
 async function getDefaultUserConfig(_args: { site: Site }): Promise<UserConfig> {
   return {
-    spacing: { spacingSize: 'none' },
+    standard: { spacing: { verticalSpacing: 'none' } },
     posts: { mode: 'global', limit: 12 },
   }
 }
@@ -44,7 +45,7 @@ async function getDemoUserConfig(args: { site: Site }): Promise<UserConfig> {
   const urls = staticFileUrls({ site, filenames })
 
   const c: UserConfig = {
-    spacing: { spacingSize: 'none' },
+    standard: { spacing: { verticalSpacing: 'sm' } },
     posts: {
       mode: 'inline',
       items: [

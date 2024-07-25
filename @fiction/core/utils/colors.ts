@@ -128,12 +128,12 @@ export function tailwindVarColorScheme(args: {
   return out
 }
 
-export function getColorScheme(schemeId: ColorScheme | string, options: { isDarkMode?: boolean, outputFormat?: 'rgb' | 'hex' } = {}): ColorRecord {
+export function getColorScheme(schemeId: ColorScheme | string, options: { invert?: boolean, outputFormat?: 'rgb' | 'hex' } = {}): ColorRecord {
   const scheme = colorList[schemeId as ColorScheme] || colorList.slate // Default to 'slate' if schemeId not found
   const format = options.outputFormat || 'rgb'
 
   return Object.entries(scheme).reduce((acc, [key, value]) => {
-    const colorValue = options.isDarkMode ? scheme[1000 - Number(key) as ColorScale] || value : value
+    const colorValue = options.invert ? scheme[1000 - Number(key) as ColorScale] || value : value
     acc[Number(key) as ColorScale] = format === 'rgb' ? hexToRgbString(colorValue) : colorValue
     return acc
   }, {} as ColorRecord)

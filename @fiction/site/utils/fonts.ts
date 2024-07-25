@@ -38,7 +38,7 @@ export function fontFamilyByKey(key?: string) {
 export function activeSiteFont(site?: Site) {
   return vue.computed(() => {
     const userFonts = site?.userFonts.value || {}
-    const themeFonts = site?.fullConfig.value?.fonts || {}
+    const themeFonts = site?.fullConfig.value?.styling?.fonts || {}
 
     const config = deepMerge<FontConfig>([defaultSiteFonts, themeFonts])
 

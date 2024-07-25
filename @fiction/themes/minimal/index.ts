@@ -75,8 +75,10 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
         await factory.create({
           templateId: 'ticker',
           userConfig: {
-            spacing: {
-              spacingSize: 'sm',
+            standard: {
+              spacing: {
+                verticalSpacing: 'sm',
+              },
             },
             items: [
               { text: 'Printer', outline: true, rotateZ: 2 },

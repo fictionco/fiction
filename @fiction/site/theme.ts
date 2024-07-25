@@ -3,11 +3,12 @@ import { FictionPlugin, deepMerge, log, parseObject, vue } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
 import type { FictionAdmin } from '@fiction/admin/index.js'
 import type { CreateUserConfigs, ExtractCardTemplateUserConfig, ExtractComponentUserConfig } from './card.js'
-import type { CardConfigPortable, PageRegion, SiteUserConfig, TableCardConfig, ThemeUiSize } from './tables.js'
+import type { CardConfigPortable, PageRegion, TableCardConfig } from './tables.js'
 import { Card, CardTemplate } from './card.js'
 import { imageStyle } from './util.js'
 import type { ComponentConstructor } from './type-utils.js'
 import { Site, type SiteSettings } from './site.js'
+import type { SiteUserConfig } from './schema.js'
 
 export type ThemeSettings<T extends Record<string, unknown> = Record<string, unknown>> = {
   root: string
@@ -19,7 +20,6 @@ export type ThemeSettings<T extends Record<string, unknown> = Record<string, unk
   templates: readonly CardTemplate[] | CardTemplate[]
   ui?: UiConfig
   isPublic?: boolean
-  isDarkMode?: boolean
   userConfig?: Partial<SiteUserConfig> & T
   getConfig: (args: { site: Site }) => Promise<{
     userConfig: Partial<SiteUserConfig>
@@ -73,85 +73,38 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
 
   defaultConfig(): SiteUserConfig {
     return {
-      fonts: {
-        mono: { fontKey: 'DM Mono', stack: 'monospace' },
-        input: { fontKey: 'DM Mono', stack: 'sans' },
-        title: { fontKey: 'Poppins', stack: 'sans' },
-        sans: { fontKey: 'Plus+Jakarta+Sans', stack: 'sans' },
-        body: { stack: 'serif' },
-        serif: { stack: 'serif' },
-        highlight: { fontKey: 'Caveat', stack: 'sans' },
+      styling: {
+        fonts: {
+          mono: { fontKey: 'DM Mono', stack: 'monospace' },
+          input: { fontKey: 'DM Mono', stack: 'sans' },
+          title: { fontKey: 'Poppins', stack: 'sans' },
+          sans: { fontKey: 'Plus+Jakarta+Sans', stack: 'sans' },
+          body: { stack: 'serif' },
+          serif: { stack: 'serif' },
+          highlight: { fontKey: 'Caveat', stack: 'sans' },
+        },
+
+        isLightMode: false,
       },
-      spacing: {
-        contentWidthSize: 'md',
-        spacingSize: `md`,
-      },
-      isDarkMode: true,
+
       ai: {
-        baseInstruction: `You are a world-expert copywriter and web designer, create website content designed to subtly persuade using reference info and objectives. Your content should:
-  - Be elegant and concise, avoiding redundancy and excessive exclamations. Not cheesy, not cliche. Be creative. Don't be pushy.
-  - Don't reuse the name of the site subject in the content, as it's provided elsewhere.
-  - Focus on the PROBLEMS of the target customer, in likely context they can be solved by the provider.
-  - Use an SEO-friendly approach without compromising the natural flow of information.`,
+        baseInstruction: `As an expert copywriter and web designer, create compelling website content that effectively showcases the subject's expertise and value proposition. Your content should:
+
+  - Be clear, concise, and engaging, avoiding unnecessary jargon or clichés.
+  - Adapt the tone and style to suit the subject's industry and target audience.
+  - Focus on addressing the key problems and needs of the target customers.
+  - Highlight unique selling points and differentiators effectively.
+  - Incorporate SEO best practices naturally without compromising readability.
+  - Use persuasive language that encourages desired user actions.
+  - Ensure content is skimmable with clear headings, bullet points, and short paragraphs.
+  - Balance professionalism with approachability as appropriate for the brand.`,
         objectives: {
-          about: 'This is a portfolio website for James Bond, a secret agent working for MI6.',
-          targetCustomer: 'The target customers government intelligence agencies, and similar agencies hiring secret agents',
+          about: 'Create a compelling narrative about the subject, highlighting key strengths and values.',
+          targetCustomer: 'Identify and address the primary audience, their needs, and pain points.',
           imageStyle: imageStyle.find(i => i.name === 'Grayscale')?.value || '',
         },
       },
-      colors: {
-        colorPrimary: 'blue',
-        colorTheme: 'gray',
-      },
     }
-  }
-
-  getSpacingClass(size: ThemeUiSize, direction: 'top' | 'bottom' | 'both' = 'both') {
-    const spacingClassesTop = {
-      'none': 'pt-0',
-      'xs': 'pt-[calc(0.25rem+1vw)]',
-      'sm': 'pt-[calc(0.5rem+2vw)]',
-      'md': 'pt-[calc(1.5rem+4vw)]',
-      'lg': 'pt-[calc(2.5rem+6vw)]',
-      'xl': 'pt-[calc(4rem+8vw)]',
-      '2xl': 'pt-[calc(6rem+10vw)]',
-      '3xl': 'pt-[calc(8rem+12vw)]',
-    }
-    const spacingClassesBottom = {
-      'none': 'pb-0',
-      'xs': 'pb-[calc(0.25rem+1vw)]',
-      'sm': 'pb-[calc(0.5rem+2vw)]',
-      'md': 'pb-[calc(1.5rem+4vw)]',
-      'lg': 'pb-[calc(2.5rem+6vw)]',
-      'xl': 'pb-[calc(4rem+8vw)]',
-      '2xl': 'pb-[calc(6rem+10vw)]',
-      '3xl': 'pb-[calc(8rem+12vw)]',
-    }
-
-    const parts = []
-
-    if (direction === 'top' || direction === 'both')
-      parts.push(spacingClassesTop[size])
-
-    if (direction === 'bottom' || direction === 'both')
-      parts.push(spacingClassesBottom[size])
-
-    return parts.join(' ')
-  }
-
-  getContentWidthClass(size: ThemeUiSize) {
-    const max = 'max-w-none px-4 sm:px-6 lg:px-20 mx-auto'
-    const contentWidthClasses = {
-      'none': 'mx-auto',
-      'xs': 'max-w-screen-md px-5 sm:px-6 lg:px-12 mx-auto',
-      'sm': 'max-w-screen-lg px-5 sm:px-6 lg:px-16 mx-auto',
-      'md': 'max-w-screen-2xl px-5 sm:px-6 lg:px-20 mx-auto',
-      'lg': 'max-w-screen-2xl px-5 sm:px-6 lg:px-20 mx-auto',
-      'xl': 'max-w-screen-2xl px-5 sm:px-6 lg:px-10 mx-auto',
-      '2xl': 'max-w-[1700px] px-5 sm:px-6 lg:px-20 mx-auto',
-      '3xl': max,
-    }
-    return contentWidthClasses[size] || contentWidthClasses.md
   }
 }
 

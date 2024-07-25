@@ -3,6 +3,7 @@ import type { BackgroundDisplayObject, ColType, ColorScheme, MediaDisplayObject 
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
 import { z } from 'zod'
 import type { FontConfig } from './utils/fonts.js'
+import type { SiteUserConfig } from './schema.js'
 import type { CardGenerationConfig } from './generation.js'
 import type { EditorState } from './site.js'
 
@@ -14,45 +15,6 @@ export const pageRegionIds = ['header', 'main', 'footer', 'aside', 'article', 's
 export type PageRegion = typeof pageRegionIds[number] | string
 
 export type TableSiteConfig = ColType<typeof siteCols> & st & { pages: CardConfigPortable[] }
-
-export type ThemeUiSize = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl'
-
-export type SiteUserConfig = Partial<{
-  favicon: MediaDisplayObject
-  shareImage: MediaDisplayObject
-  branding: {
-    logo: MediaDisplayObject
-  }
-  bg: BackgroundDisplayObject
-  robotsTxt: string
-  locale: string
-  titleTemplate: string
-  customCode: {
-    gtmContainerId: string
-  }
-  ai: {
-    baseInstruction?: string
-    objectives?: { about?: string, targetCustomer?: string, imageStyle?: string }
-  }
-  isDarkMode?: boolean
-  colors: {
-    colorPrimary?: ColorScheme
-    colorTheme?: ColorScheme
-  }
-  fonts: FontConfig
-  spacing: {
-    contentWidthClass?: string
-    spacingClass?: string
-    contentWidthSize?: ThemeUiSize
-    spacingSize?: ThemeUiSize
-    spacingSizeBottom?: ThemeUiSize
-  }
-  seo: {
-    title?: string
-    description?: string
-    keywords?: string
-  }
-}>
 
 type TablePageCardConfig = Partial<ColType<typeof pageCols>>
 

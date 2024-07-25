@@ -61,7 +61,7 @@ export const templates = [
     el: vue.defineAsyncComponent(async () => import('./ElArea.vue')),
     isContainer: true, // ui drawer
     userConfig: {
-      spacing: { spacingSize: 'none' },
+      standard: { spacing: { verticalSpacing: 'none' } },
     },
     isPublic: true,
     options,
