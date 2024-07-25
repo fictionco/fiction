@@ -33,7 +33,7 @@ vue.onMounted(async () => {
 
 <template>
   <div class="minimal-profile">
-    <div :class="card.classes.value.contentWidth">
+    <div>
       <div class="md:flex -mx-2 items-center" :class="uc.layout === 'left' ? 'md:flex-row-reverse' : ''">
         <div class="w-full md:w-[50%] px-2 ">
           <div class="relative">

@@ -52,7 +52,7 @@ function setActiveItem(index: number) {
 
 <template>
   <div class="overflow-x-clip">
-    <div :class="card.classes.value.contentWidth" class="y-4">
+    <div class="y-4">
       <div class="flex items-center justify-between h-[65dvh] ">
         <div class="relative h-full basis-[30%]">
           <transition

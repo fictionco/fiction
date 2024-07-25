@@ -63,7 +63,7 @@ function getPrice(price?: UserConfigPrice) {
 </script>
 
 <template>
-  <div :class="card.classes.value.contentWidth">
+  <div>
     <div v-if="uc.hasAnnual" class="flex justify-center mb-8">
       <div class="relative grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-sans font-semibold leading-5 ring-1 ring-inset ring-theme-300 dark:ring-theme-600">
         <label :class="priceDuration === 'month' ? 'text-theme-0' : 'text-theme-500 dark:text-theme-200'" class="z-10 relative cursor-pointer rounded-full px-4 py-0.5 transition-all" @click="priceDuration = 'month'">

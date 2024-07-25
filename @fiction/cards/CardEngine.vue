@@ -27,50 +27,6 @@ const cards = vue.computed(() => {
 
   return c.filter(c => c.tpl.value?.settings)
 })
-
-// function backgroundStyle(subCard: Card) {
-//   const uc = subCard?.userConfig.value || {}
-
-//   if (!uc.bg)
-//     return {}
-
-//   return {
-//     backgroundColor: uc.bg?.color || undefined,
-//     backgroundImage: uc.bg?.url ? `url(${uc.bg?.url})` : undefined,
-//     backgroundSize: uc.bg?.size || 'cover',
-//     backgroundPosition: uc.bg?.position || 'center',
-//   }
-// }
-
-// function overlayStyle(subCard: Card) {
-//   const uc = subCard?.userConfig.value || {}
-
-//   if (!uc.bg?.overlay)
-//     return {}
-
-//   const rgb = hexToRgbString(uc.bg?.overlay.color || '#000000') || undefined
-//   const opacity = uc.bg?.overlay.opacity || 0.4
-
-//   return {
-//     backgroundColor: `rgba(${rgb} / ${opacity})`,
-//   }
-// }
-
-// function getSpacingClass(subCard: Card) {
-//   const uc = subCard?.userConfig.value || {}
-
-//   if (uc.spacing?.spacingClass) {
-//     return uc.spacing?.spacingClass
-//   }
-//   const siteSpacing = subCard.site?.fullConfig.value.spacing?.spacingSize
-//   const siteSpacingBottom = subCard.site?.fullConfig.value.spacing?.spacingSizeBottom
-//   const theme = subCard.site?.theme.value
-
-//   const topSize = uc.spacing?.spacingSize || siteSpacing || 'md'
-//   const bottomSize = uc.spacing?.spacingSizeBottom || siteSpacingBottom || topSize
-
-//   return [theme?.getSpacingClass(topSize), theme?.getSpacingClass(bottomSize)].join(' ')
-// }
 </script>
 
 <template>

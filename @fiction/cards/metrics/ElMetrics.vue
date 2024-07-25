@@ -13,7 +13,7 @@ const uc = vue.computed(() => props.card.userConfig.value)
 </script>
 
 <template>
-  <div :card="card.classes.value.contentWidth">
+  <div>
     <div class="mx-auto grid max-w-6xl  md:grid-cols-3 px-6 lg:px-8 gap-8 gap-y-12 md:gap-24">
       <div
         v-for="(feat, i) in uc.items"

@@ -48,7 +48,7 @@ const referralAccounts = vue.computed(() => {
 </script>
 
 <template>
-  <div class="overflow-x-hidden">
+  <div class=" ">
     <div class="bg-dark-800 sm:pt-16 lg:overflow-hidden lg:pb-14 lg:pt-8">
       <div class="mx-auto max-w-7xl lg:px-8">
         <div class="lg:grid lg:grid-cols-12 lg:gap-8">

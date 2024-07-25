@@ -12,7 +12,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div :class="card.classes.value.contentWidth">
+  <div>
     <ElIndex :card="card" />
   </div>
 </template>

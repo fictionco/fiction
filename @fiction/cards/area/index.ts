@@ -117,6 +117,21 @@ export const templates = [
               },
             },
           }]), cards: [heroCard('gradient')] },
+          { templateId, userConfig: deepMerge([base, { standard: { scheme: { base: {
+            bg: {
+              format: 'video' as const,
+              url: 'https://videos.pexels.com/video-files/2762211/2762211-uhd_2560_1440_25fps.mp4',
+              overlay: { color: 'rgba(0,0,0,.7)' },
+            },
+          } }, spacing: { verticalSpacing: 'full' as const } } }]), cards: [
+            heroCard('sizing'),
+            { templateId: 'faq', userConfig: {
+              heading: 'Treasure Hunting Services',
+              items: [
+                { name: 'Expedition Planning', desc: 'Comprehensive planning and logistics for successful treasure hunting expeditions.' },
+              ],
+            } },
+          ] },
         ],
       }
     },

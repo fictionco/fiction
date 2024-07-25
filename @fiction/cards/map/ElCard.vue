@@ -22,7 +22,7 @@ const mapCols = vue.computed(() => {
 </script>
 
 <template>
-  <div class="relative" :class="card.classes.value.contentWidth">
+  <div class="relative">
     <div class="grid grid-cols-1 gap-4 md:gap-6 lg:gap-10" :class="[mapCols]">
       <ElMap
         v-for="(map, i) in uc.maps"

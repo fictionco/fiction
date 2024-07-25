@@ -51,7 +51,7 @@ vue.onMounted(() => {
 </script>
 
 <template>
-  <div class=" overflow-x-hidden py-4 relative">
+  <div class="py-4 relative">
     <div class="marquee relative z-10 mx-auto" :class="loaded ? '' : 'invisible'">
       <div class="marquee-track" :class="uc.direction === 'right' ? 'reverse' : ''">
         <div class="marquee-grid grid gap-4 lg:gap-8">

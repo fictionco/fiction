@@ -21,8 +21,8 @@ const link = 'https://docs.fiction.com'
 </script>
 
 <template>
-  <div class="view-home overflow-hidden">
-    <div class="relative isolate overflow-hidden">
+  <div class="view-home">
+    <div class="relative  ">
       <svg class="-skew-x-6 absolute inset-0 -z-10 h-full w-full stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]" aria-hidden="true">
         <defs>
           <pattern
@@ -42,7 +42,7 @@ const link = 'https://docs.fiction.com'
         <rect width="100%" height="100%" stroke-width="0" fill="url(#983e3e4c-de6d-4c3f-8d64-b9761d1534cc)" />
       </svg>
 
-      <div class="pb-24 pt-10 sm:pb-40 lg:flex lg:pt-40" :class="card.classes.value.contentWidth">
+      <div class="pb-24 pt-10 sm:pb-40 lg:flex lg:pt-40">
         <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
           <img class="h-11" :src="favicon" alt="Your Company">
           <div class="mt-24 sm:mt-32 lg:mt-16">

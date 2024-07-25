@@ -17,7 +17,7 @@ const uc = vue.computed(() => {
 </script>
 
 <template>
-  <div :class="card.classes.value.contentWidth">
+  <div>
     <div class="grid grid-cols-1 gap-x-6 lg:gap-x-16 gap-y-20 lg:grid-cols-3">
       <div v-if="uc.heading" class="mx-auto max-w-2xl lg:mx-0 text-center lg:text-right space-y-3 lg:space-y-6">
         <h2 class="text-3xl font-bold tracking-tight sm:text-5xl md:text-balance x-font-title">

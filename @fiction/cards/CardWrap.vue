@@ -2,13 +2,15 @@
 import { deepMerge, getColorScheme, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/index.js'
 import { fontFamilyByKey } from '@fiction/site/utils/fonts'
-import type { CardOptionsWithStandard } from '@fiction/site/schema'
+import type { CardOptionsWithStandard, SizeBasic } from '@fiction/site/schema'
 import ElImage from '@fiction/ui/media/ElImage.vue'
-import { getSpacingClass } from '@fiction/site/styling'
+import { getContentWidthClass, getSpacingClass } from '@fiction/site/styling'
 import CardHeader from './el/CardHeader.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<CardOptionsWithStandard>>, required: true },
+  baseSpacing: { type: String as vue.PropType<SizeBasic>, default: undefined },
+  baseContentWidth: { type: String as vue.PropType<SizeBasic>, default: undefined },
 })
 
 const cardWrap = vue.ref<HTMLElement | null>(null)
@@ -66,7 +68,7 @@ const containerStyle = vue.computed(() => {
 
 const spacingSize = vue.computed(() => {
   const conf = config.value
-  const verticalSpacing = conf.standard?.spacing?.verticalSpacing || siteUc.value?.standard?.spacing?.verticalSpacing || 'md'
+  const verticalSpacing = conf.standard?.spacing?.verticalSpacing || props.baseSpacing || siteUc.value?.standard?.spacing?.verticalSpacing || 'md'
 
   return verticalSpacing
 })
@@ -74,6 +76,23 @@ const spacingSize = vue.computed(() => {
 const spacing = vue.computed(() => {
   const size = spacingSize.value
   return [getSpacingClass({ size, direction: 'both' })].join(' ')
+})
+
+const contentWidthSize = vue.computed(() => {
+  const conf = config.value
+  const contentWidthSize = conf.standard?.spacing?.contentWidth || props.baseSpacing || siteUc.value?.standard?.spacing?.contentWidth || 'md'
+
+  return contentWidthSize
+})
+
+const padSize = vue.computed(() => {
+  return config.value.standard?.spacing?.contentPad || (props.card.depth.value <= 1 ? 'md' : 'none')
+})
+
+const contentWidthClass = vue.computed(() => {
+  const size = contentWidthSize.value
+  const padSize = config.value.standard?.spacing?.contentPad || (props.card.depth.value <= 1 ? 'md' : 'none')
+  return getContentWidthClass({ size, padSize })
 })
 
 vue.watch(() => standardUc.value?.fontStyle, (fontStyle) => {
@@ -99,16 +118,26 @@ vue.watch(() => standardUc.value?.fontStyle, (fontStyle) => {
   <div
     ref="cardWrap"
     :key="card.cardId"
-    class="relative card-wrap"
+    class="relative card-wrap "
     :style="containerStyle"
-    :class="[spacing, isReversed ? (isLightMode ? 'light' : 'dark') : '', loaded ? 'loaded' : '']"
+    :class="[
+      spacing,
+      isReversed ? (isLightMode ? 'light' : 'dark') : '',
+      loaded ? 'loaded' : '',
+      card.depth.value <= 1 ? `overflow-x-clip` : '',
+    ]"
     :data-font-title="standardUc?.fontStyle?.title?.fontKey"
     :data-font-body="standardUc?.fontStyle?.body?.fontKey"
     :data-spacing-size="spacingSize"
+    :data-card-depth="card.depth.value"
+    :data-content-width-size="contentWidthSize"
+    :data-pad-size="padSize"
   >
-    <div class="z-10 relative text-theme-950 dark:text-theme-50 x-font-body">
-      <slot />
+    <div class="w-full relative text-theme-950 dark:text-theme-50 x-font-body ">
+      <div :class="contentWidthClass">
+        <slot />
+      </div>
     </div>
-    <ElImage v-if="colorScheme?.bg" class="object-cover w-full h-full absolute inset-0 pointer-events-none z-0" :media="colorScheme?.bg" />
+    <ElImage v-if="colorScheme?.bg" class="object-cover w-full h-full absolute inset-0 pointer-events-none -z-10" :media="colorScheme?.bg" />
   </div>
 </template>

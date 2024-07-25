@@ -33,7 +33,7 @@ const vis = vue.ref(false)
 
 <template>
   <div class="relative z-20">
-    <div class="relative py-4" :class="card.classes.value.contentWidth">
+    <div class="relative py-4">
       <nav
         class="relative flex items-center justify-between"
         aria-label="Global"

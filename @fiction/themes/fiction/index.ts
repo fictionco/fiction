@@ -101,7 +101,7 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
                     { name: 'Tour', href: '/tour' },
                     { name: 'About', href: '/about' },
                     {
-                      name: 'Elements',
+                      name: 'Web Elements',
                       desc: 'Professional components for your website',
                       subStyle: 'mega',
                       items: [

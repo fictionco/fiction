@@ -47,6 +47,7 @@ const styles = vue.computed(() => {
     :to="card.link(item.href)"
     :target="item.target ? item.target : '_self'"
     class="group"
+    :class="!item.href ? 'cursor-s-resize' : ''"
   >
     <span class="inline-flex items-center space-x-1 relative whitespace-nowrap">
       <ElAvatar v-if="item.itemStyle === 'user' && service.fictionUser.activeUser.value" class=" size-[1.4em] mr-1.5 rounded-full ring-2 ring-theme-200 dark:ring-theme-0" :email="service.fictionUser.activeUser?.value?.email" />

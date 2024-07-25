@@ -15,7 +15,7 @@ const uc = vue.computed(() => props.card.userConfig.value || {})
 
 <template>
   <div>
-    <div v-for="(item, i) in uc.items" :key="i" class="py-[10vw] px-4">
+    <div v-for="(item, i) in uc.items" :key="i" class="py-[4vw] px-4">
       <div class="md:flex gap-8 md:gap-16 relative" :class="card.classes.value.contentWidth">
         <div class="md:w-[30%] pt-4 pb-6">
           <div class="top-6 flex justify-center md:justify-end">

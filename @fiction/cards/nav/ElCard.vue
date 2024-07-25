@@ -64,7 +64,7 @@ function close() {
 
 <template>
   <div class="z-20">
-    <div class="x-header-container" :class="card.classes.value.contentWidth">
+    <div class="x-header-container">
       <div class="relative">
         <nav class="relative flex items-center justify-between gap-12" aria-label="Global">
           <div class="flex" :class="layoutClass.brand">
@@ -95,7 +95,7 @@ function close() {
           </div>
         </nav>
         <TransitionSlide>
-          <nav v-if="activeItem?.subStyle === 'mega' && activeItem.items?.length" class="overflow-hidden absolute z-30 top-[calc(100%+.5rem)] w-full bg-theme-0 dark:bg-theme-800 border border-theme-200 dark:border-theme-500/20 rounded-xl flex shadow-[0px_8px_5px_-8px_rgba(var(--theme-300,.7))]" @mouseover="setActiveHover(activeItem)" @mouseleave="setActiveHover(undefined)">
+          <nav v-if="activeItem?.subStyle === 'mega' && activeItem.items?.length" class="overflow-hidden absolute z-40 top-[calc(100%+.5rem)] w-full bg-theme-0 dark:bg-theme-800 border border-theme-200 dark:border-theme-500/20 rounded-xl flex shadow-[0px_8px_5px_-8px_rgba(var(--theme-300,.7))] dark:shadow-lg dark:shadow-primary-700/30" @mouseover="setActiveHover(activeItem)" @mouseleave="setActiveHover(undefined)">
             <div class="dark:bg-theme-950/70 dark:text-white w-[33%] min-h-[200px]">
               <div class="p-8 space-y-2 max-w-[350px]">
                 <h2 class="x-font-title text-3xl font-semibold dark:text-theme-100" v-html="activeItem.name" />

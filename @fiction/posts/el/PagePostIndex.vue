@@ -14,7 +14,7 @@ const _x = true
 </script>
 
 <template>
-  <div class="py-12" :class="card.classes.value.contentWidth">
+  <div class="py-12">
     <ElPostIndex :card="card" />
   </div>
 </template>

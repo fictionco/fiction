@@ -44,7 +44,7 @@ const imageAspect = vue.computed(() => {
     >
       <ElSpinner class="h-12 w-12" />
     </div>
-    <article v-if="post" class="p-8 pb-44" :class="card.classes.value.contentWidth">
+    <article v-if="post" class="p-8 pb-44">
       <div class="space-y-8 my-[min(max(35px,_5vw),_60px)] prose:max-w-none text-center max-w-screen-lg mx-auto" :class="proseClass">
         <div class="tags space-x-3">
           <ElBadge theme="naked" :href="allPostsLink({ card })">

@@ -35,7 +35,7 @@ function isVideo(url?: string) {
 </script>
 
 <template>
-  <div class="media-grid relative z-10 mx-auto overflow-hidden">
+  <div class="media-grid relative z-10 mx-auto">
     <div class="media-grid-track">
       <div class="media-grid-grid grid">
         <div
@@ -91,7 +91,6 @@ function isVideo(url?: string) {
   justify-content: center;
   width: 100%;
   margin-top: 48px;
-  overflow: hidden;
   justify-items: center;
   gap: var(--grid-gap);
   .media-grid-track {

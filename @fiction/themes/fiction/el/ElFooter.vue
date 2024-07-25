@@ -29,7 +29,7 @@ const footer = [
 </script>
 
 <template>
-  <div class="z-10" :class="card.classes.value.contentWidth">
+  <div class="z-10">
     <div class=" px-4 lg:px-0">
       <div class="">
         <div class="flex flex-col justify-between sm:flex-row">

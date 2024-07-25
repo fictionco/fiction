@@ -35,6 +35,7 @@ export const CardStandardSchema = z.object({
 
   spacing: z.object({
     contentWidth: SizeBasicSchema.optional(),
+    contentPad: SizeBasicSchema.optional(),
     verticalSpacing: SizeBasicSchema.optional(),
   }).optional(),
 
