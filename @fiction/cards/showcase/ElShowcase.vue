@@ -86,25 +86,28 @@ function gridCols() {
     <div class="grid md:gap-8 gap-6" :data-items-count="uc.items?.length || 0" :class="gridCols()" :data-aspect="uc.aspect" :data-grid-cols-max="uc.gridColsMax">
       <div v-for="(item, i) in uc.items" :key="i" class="[perspective:1000px] group showcase-item x-action-item transition-all duration-300 space-y-2 relative cursor-pointer" @click="activeitemIndex = i">
         <EffectGlare wrap-class="rounded-[20px]">
-          <ElImage :animate="true" :media="item.media" :class="gridImageAspect()" />
-        </EffectGlare>
-        <div class="py-2 px-4 space-y-1">
-          <CardText
-            tag="div"
-            :card="card"
-            class="text-xl font-semibold min-w-0 x-font-title text-pretty"
-            :path="`items.${i}.title`"
-            animate="fade"
-          />
+          <div class="relative">
+            <ElImage :animate="true" :media="item.media" :class="gridImageAspect()" />
+            <div class="py-2 px-4 space-y-1 absolute bottom-0 z-10">
+              <CardText
+                tag="div"
+                :card="card"
+                class="text-lg font-semibold min-w-0 x-font-title text-pretty leading-tight line-clamp-2"
+                :path="`items.${i}.title`"
+                animate="fade"
+              />
 
-          <CardText
-            tag="div"
-            :card="card"
-            class=" text-base text-theme-400 dark:text-theme-500 text-pretty"
-            :path="`items.${i}.subTitle`"
-            animate="fade"
-          />
-        </div>
+              <CardText
+                tag="div"
+                :card="card"
+                class=" text-base text-white/80 text-pretty line-clamp-1 font-medium"
+                :path="`items.${i}.subTitle`"
+                animate="fade"
+              />
+            </div>
+            <div class="overlay absolute w-full h-full z-0 pointer-events-none inset-0 bg-[radial-gradient(circle_at_0%_100%,rgba(0,0,0,.5)_0,rgba(0,0,0,.3)_40%,transparent_70%)]" />
+          </div>
+        </EffectGlare>
       </div>
     </div>
     <ElModal :vis="activeitemIndex >= 0" modal-class="lg:max-w-[80dvw] min-h-[80dvh] x-font-body " @update:vis="activeitemIndex = -1">
@@ -155,9 +158,3 @@ function gridCols() {
     </ElModal>
   </div>
 </template>
-
-<style lang="less" scoped>
-.overlay {
-  background: radial-gradient(circle at 50% 100%,rgba(0,0,0,1) 0,transparent 70%);
-}
-</style>

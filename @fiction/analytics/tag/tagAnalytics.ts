@@ -84,8 +84,6 @@ export class AnalyticsTag extends ClientTag<AnalyticsTagSettings> {
       }
       this.statLoopCount++
     }, this.statSeconds * 1000)
-
-    this.statLoopTimer.unref()
   }
 
   trackBot(): void {

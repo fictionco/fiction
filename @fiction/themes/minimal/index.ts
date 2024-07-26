@@ -36,7 +36,7 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
                 textBlend: 'difference',
                 media: {
                   format: 'url',
-                  url: 'https://cdn.midjourney.com/d17b5ba8-7e8d-4f31-bf01-50903033de62/0_1.png',
+                  url: 'https://cdn.midjourney.com/75cc3bec-1a20-4932-8c29-8eda29f1a6fd/0_3.png',
                 },
                 mediaBackground: {
                   format: 'url',
@@ -49,7 +49,7 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
                 textBlend: 'difference',
                 media: {
                   format: 'url',
-                  url: 'https://cdn.midjourney.com/e6752783-ab12-483b-935a-6df3754409a7/0_0.png',
+                  url: 'https://cdn.midjourney.com/e6b9a9c0-5f51-49fe-a408-4902614380ec/0_0.png',
                 },
                 mediaBackground: {
                   format: 'url',

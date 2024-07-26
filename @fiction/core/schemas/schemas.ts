@@ -46,6 +46,9 @@ export const ImageFilterConfigSchema = z.object({
 })
 export type ImageFilterConfig = z.infer<typeof ImageFilterConfigSchema>
 export const MediaDisplaySchema = z.object({
+  html: z.string().optional(),
+  url: z.string().optional(),
+  format: z.enum(['url', 'video', 'iframe', 'html']).optional(),
   bgColor: z.string().optional(),
   bgGradient: GradientSettingSchema.optional(),
   bgRepeat: BackgroundRepeatSchema.optional(),
@@ -53,9 +56,6 @@ export const MediaDisplaySchema = z.object({
   bgSize: BackgroundSizeSchema.optional(),
   filters: z.array(ImageFilterConfigSchema).optional(),
   overlay: OverlaySettingSchema.optional(),
-  html: z.string().optional(),
-  url: z.string().optional(),
-  format: z.enum(['url', 'video', 'iframe', 'html']).optional(),
   width: z.number().optional(),
   height: z.number().optional(),
   caption: z.string().optional(),

@@ -4,6 +4,10 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { splitLetters } from '../anim/index.js'
 
+const props = defineProps({
+  fromTop: { type: Number, default: 80 },
+})
+
 // Register ScrollTrigger plugin with GSAP
 gsap.registerPlugin(ScrollTrigger)
 
@@ -24,8 +28,8 @@ function loadRevealText() {
   gsap.from(bits, {
     scrollTrigger: {
       trigger: el,
-      start: () => 'top 95%',
-      end: () => `top+=${elHeight} 85%`,
+      start: () => `top ${props.fromTop + 10}%`,
+      end: () => `top+=${elHeight} ${props.fromTop}%`,
       scrub: 0,
     },
     x: 0,
