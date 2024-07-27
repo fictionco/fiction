@@ -6,6 +6,7 @@ const props = defineProps({
   containerId: { type: String, required: true },
   activeItem: { type: Number, default: 0 },
   itemClass: { type: String, default: 'slide' },
+  mode: { type: String as vue.PropType<'dots' | 'lines'>, default: 'dots' },
 })
 
 const emit = defineEmits<{
@@ -87,28 +88,30 @@ vue.onMounted(() => {
 </script>
 
 <template>
-  <div v-if="items?.length && items.length > 1" class="h-5 nav flex items-center w-full justify-center space-x-3 ">
-    <div
-      v-for="(s, i) in items"
-      :key="i"
-      class="group dots-nav flex justify-center items-center rounded-full transition-all text-theme-400 dark:text-theme-0 relative"
-      :class="i === activeItem ? 'is-active' : 'cursor-pointer' "
-      @click="setActiveItem(i, true)"
-    >
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-theme-800 dark:bg-theme-0 group-active:opacity-50 transition-all duration-1000" :class="i === activeItem ? 'opacity-0 size-5' : 'opacity-100 size-2' " />
-      <svg class="size-6 text-theme-800 dark:text-theme-0" viewBox="0 0 66 66" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-        <circle
-          class="time"
-          stroke-width="5"
-          fill="none"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-dashoffset="0"
-          cx="33"
-          cy="33"
-          r="28"
-        />
-      </svg>
+  <div>
+    <div v-if="items?.length && items.length > 1" class="h-5 nav flex items-center justify-center space-x-3 ">
+      <div
+        v-for="(s, i) in items"
+        :key="i"
+        class="group dots-nav flex justify-center items-center rounded-full transition-all text-theme-400 dark:text-theme-0 relative"
+        :class="i === activeItem ? 'is-active' : 'cursor-pointer' "
+        @click="setActiveItem(i, true)"
+      >
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-theme-800 dark:bg-theme-0 group-active:opacity-50 transition-all duration-1000" :class="i === activeItem ? 'opacity-0 size-5' : 'opacity-100 size-2' " />
+        <svg class="size-6 text-theme-800 dark:text-theme-0" viewBox="0 0 66 66" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+          <circle
+            class="time"
+            stroke-width="5"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-dashoffset="0"
+            cx="33"
+            cy="33"
+            r="28"
+          />
+        </svg>
+      </div>
     </div>
   </div>
 </template>

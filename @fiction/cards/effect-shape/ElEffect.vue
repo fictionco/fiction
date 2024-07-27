@@ -62,8 +62,7 @@ function getShapeColor(shape: Shape): string {
   const mode = isDarkOrLightMode(wrapperRef.value)
   const defaultColor = mode === 'dark' ? '#ffffff' : '#000000'
   const color = shape.color || defaultColor
-  const opacity = (shape.opacity || 10) / 100 // Divide by 1000 to get 0.1 from 10
-
+  const opacity = shape.opacity || 1
   return normalizeColor({ color, opacity })
 }
 </script>

@@ -30,7 +30,7 @@ async function getEffects(args: { site: Site }): Promise<TableCardConfig[]> {
   const factory = new CardFactory({ templates, site })
   const shapeEffect = await factory.create({ templateId: 'effectShape', userConfig: {
     shapes: [
-      { shape: 'circle', position: { origin: 'topRight', offsetX: -14, offsetY: -4 }, scale: 3, color: 'blue' },
+      { shape: 'circle', position: { origin: 'topLeft', offsetX: 23, offsetY: 0 }, scale: 3, opacity: 0.05 },
     ],
   } })
 
@@ -41,20 +41,29 @@ async function getUserConfig(_args: { site: Site }): Promise<UserConfig & SiteUs
   return {
     items: [
       {
-        title: 'Are you struggling to market yourself amidst the noise?',
-        content: `Most people are. That's why you need to create a personal brand and learn to market yourself. That's where we come in.  `,
-        actions: [{ name: 'Add To Network', href: '#', theme: 'primary' }],
+        title: 'Struggling to Stand Out?',
+        content: `Many people find it challenging to market themselves in today's noisy world. Building a personal brand is essential. We're here to help you shine.`,
+        actions: [{ name: 'Join Our Network', href: '#', theme: 'outline' }],
       },
-
+      {
+        title: 'Need a Unique Voice?',
+        content: `Finding your unique voice can be tough. Developing a personal brand is the key to distinguishing yourself. Let us guide you through the process.`,
+        actions: [{ name: 'Join Our Network', href: '#', theme: 'outline' }],
+      },
+      {
+        title: 'Overwhelmed by Self-Doubt?',
+        content: `Overcoming self-doubt is crucial to effective self-marketing. Our expertise in personal branding can help you build confidence and attract opportunities.`,
+        actions: [{ name: 'Join Our Network', href: '#', theme: 'outline' }],
+      },
     ],
     standard: {
       scheme: {
         base: {
           bg: {
             format: 'video',
-            url: 'https://videos.pexels.com/video-files/2421545/2421545-uhd_2560_1440_30fps.mp4',
+            url: 'https://videos.pexels.com/video-files/4179289/4179289-uhd_2560_1440_30fps.mp4',
             overlay: {
-              opacity: 0.75,
+              opacity: 0.80,
               color: 'black',
             },
           },
@@ -88,7 +97,7 @@ export const templates = [
     isPublic: false,
     options,
     schema: UserConfigSchema,
-    getBaseConfig: () => ({ standard: { spacing: { verticalSpacing: 'xl' } } }),
+    getBaseConfig: () => ({ standard: { spacing: { verticalSpacing: 'xl', contentWidth: 'none' } } }),
     getUserConfig: _ => getUserConfig(_),
     getEffects: async _ => getEffects(_),
     demoPage: async (_) => {

@@ -16,7 +16,7 @@ export const BackgroundPositionSchema = z.enum(['center', 'top', 'bottom', 'left
 export const BackgroundSizeSchema = z.enum(['cover', 'contain', 'auto'])
 export const BlendModesSchema = z.enum(['normal', 'multiply', 'screen', 'overlay', 'darken', 'lighten', 'color-dodge', 'color-burn', 'hard-light', 'soft-light', 'difference', 'exclusion', 'hue', 'saturation', 'color', 'luminosity'])
 export const HeaderLayoutSchema = z.enum(['left', 'right', 'center', 'justify'])
-export const ButtonColorSchema = z.enum(['primary', 'theme'])
+export const ButtonColorSchema = z.enum(['primary', 'theme', 'outline'])
 export const ButtonStyleShema = z.enum(['outline', 'minimal', 'solid'])
 export const FontConfigValSchema = z.object({
   fontKey: z.string().optional(),

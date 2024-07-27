@@ -1260,6 +1260,9 @@ importers:
       '@tiptap/vue-3':
         specifier: ^2.5.6
         version: 2.5.6(@tiptap/core@2.5.6(@tiptap/pm@2.5.6))(@tiptap/pm@2.5.6)(vue@3.4.34(typescript@5.5.4))
+      '@types/flickity':
+        specifier: ^2.2.11
+        version: 2.2.11
       add:
         specifier: ^2.0.6
         version: 2.0.6
@@ -1269,12 +1272,15 @@ importers:
       blurhash:
         specifier: ^2.0.5
         version: 2.0.5
+      flickity:
+        specifier: ^3.0.0
+        version: 3.0.0
       gsap:
         specifier: ^3.12.5
         version: 3.12.5
       lucide-vue-next:
         specifier: latest
-        version: 0.414.0(vue@3.4.34(typescript@5.5.4))
+        version: 0.416.0(vue@3.4.34(typescript@5.5.4))
       monaco-editor:
         specifier: ^0.50.0
         version: 0.50.0
@@ -3703,6 +3709,9 @@ packages:
   '@types/express@4.17.21':
     resolution: {integrity: sha512-ejlPM315qwLpaQlQDTjPdsUFSc6ZsP4AN6AlWnogPjQ7CVi7PYF3YVz+CY3jE2pwYf7E/7HlDAN0rV2GxTG0HQ==}
 
+  '@types/flickity@2.2.11':
+    resolution: {integrity: sha512-Bnx/+lDEG/Oq9hcyD3gU0/ET5lCAxsoJ+fHVJk8bZil1a1aT6V8m3BaR0aDEBv7Pzm55xmGzRd+i4PQp7glVjg==}
+
   '@types/fs-extra@11.0.4':
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
 
@@ -5680,6 +5689,9 @@ packages:
     resolution: {integrity: sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==}
     engines: {node: '>= 0.6'}
 
+  ev-emitter@2.1.2:
+    resolution: {integrity: sha512-jQ5Ql18hdCQ4qS+RCrbLfz1n+Pags27q5TwMKvZyhp5hh2UULUYZUy1keqj6k6SYsdqIYjnmz7xyyEY0V67B8Q==}
+
   event-emitter@0.3.5:
     resolution: {integrity: sha512-D9rRn9y7kLPnJ+hMq7S/nhvoKwwvVJahBi2BPmx3bvbsEdK3W9ii8cBSGjP+72/LnM4n6fo3+dkCX5FeTQruXA==}
 
@@ -5833,6 +5845,9 @@ packages:
   find-yarn-workspace-root2@1.2.16:
     resolution: {integrity: sha512-hr6hb1w8ePMpPVUK39S4RlwJzi+xPLuVuG8XlwXU3KD5Yn3qgBWVfy3AzNlDhWvE1EORCE65/Qm26rFQt3VLVA==}
 
+  fizzy-ui-utils@3.0.0:
+    resolution: {integrity: sha512-uJj38QFQiJ/KCio5tiZhwAjIbTXSIgzBCKdKVbaYfLS053F6z23Nb0o1ZoO9gnxOQWN7BCc35jsvrCtAq3gY9g==}
+
   flat-cache@2.0.1:
     resolution: {integrity: sha512-LoQe6yDuUMDzQAEH8sgmh4Md6oZnc/7PjtwjNFSzveXqSHt6ka9fPBuso7IGf9Rz4uqnSnWiFH2B/zj24a5ReA==}
     engines: {node: '>=4'}
@@ -5846,6 +5861,9 @@ packages:
 
   flatted@3.3.1:
     resolution: {integrity: sha512-X8cqMLLie7KsNUDSdzeN8FYK9rEt4Dt67OsG/DNGnYTSDBG4uFAJFBnUeiV+zCVAvwFy56IjM9sH51jVaEhNxw==}
+
+  flickity@3.0.0:
+    resolution: {integrity: sha512-Xw4znhglA2LVSmka0yKmzb4+fLwXm13TuKmdG1HbUoZZL95J1ZMr4hAA3w69s+Z6q/c6CyBDM25JVwMqgF3rOg==}
 
   focus-trap@7.5.4:
     resolution: {integrity: sha512-N7kHdlgsO/v+iD/dMoJKtsSqs5Dz/dXZVebRgJw23LDk+jMi/974zyiOYDziY2JPp8xivq9BmUGwIJMiuSBi7w==}
@@ -5984,6 +6002,9 @@ packages:
   get-package-type@0.1.0:
     resolution: {integrity: sha512-pjzuKtY64GYfWizNAJ0fr9VqttZkNiK2iS430LtIHzjBEr6bX8Am2zm4sW4Ro5wjWW5cAlRL1qAMTcXbjNAO2Q==}
     engines: {node: '>=8.0.0'}
+
+  get-size@3.0.0:
+    resolution: {integrity: sha512-Y8aiXLq4leR7807UY0yuKEwif5s3kbVp1nTv+i4jBeoUzByTLKkLWu/HorS6/pB+7gsB0o7OTogC8AoOOeT0Hw==}
 
   get-stdin@5.0.1:
     resolution: {integrity: sha512-jZV7n6jGE3Gt7fgSTJoz91Ak5MuTLwMwkoYdjxuJ/AmjIsE1UC03y/IWkZCQGEvVNS9qoRNwy5BCqxImv0FVeA==}
@@ -6312,6 +6333,9 @@ packages:
     resolution: {integrity: sha512-6TDAlDPZxUFCv+fuOkIoXT/V/f3Qbq8e37p+YOiYrUv3v9cc3/6x78VdfPgFVaB9dZYeLUfKgHRebpkm/oP2VQ==}
     engines: {node: '>=0.10.0'}
     hasBin: true
+
+  imagesloaded@5.0.0:
+    resolution: {integrity: sha512-/0JGSubc1MTCoDKVmonLHgbifBWHdyLkun+R/151E1c5n79hiSxcd7cB7mPXFgojYu8xnRZv7GYxzKoxW8BetQ==}
 
   import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
@@ -6984,8 +7008,8 @@ packages:
   lru-queue@0.1.0:
     resolution: {integrity: sha512-BpdYkt9EvGl8OfWHDQPISVpcl5xZthb+XPsbELj5AQXxIC8IriDZIQYjBJPEm5rS420sjZ0TLEzRcq5KdBhYrQ==}
 
-  lucide-vue-next@0.414.0:
-    resolution: {integrity: sha512-qKZ1YXZRnxKliuQZJA0btTS24Ab0ZftGYi83nwjbZZtTGwe+RAnZhidJqtbC96a9/YtNjwJzqCjTUURL7+Ly4g==}
+  lucide-vue-next@0.416.0:
+    resolution: {integrity: sha512-oNjClUpOTRhLGN0UDvtjGAWBJzYj+rJPr3DxR5aXd2eD6tIuEuF7iaofkvT220VGXAVoXKCqmgk826OJ1M6T6A==}
     peerDependencies:
       vue: '>=3.0.1'
 
@@ -9132,6 +9156,9 @@ packages:
   unicorn-magic@0.1.0:
     resolution: {integrity: sha512-lRfVq8fE8gz6QMBuDM6a+LO3IAzTi05H6gCVaUpir2E1Rwpo4ZUog45KpNXKC/Mn3Yb9UDuHumeFTo9iV/D9FQ==}
     engines: {node: '>=18'}
+
+  unidragger@3.0.1:
+    resolution: {integrity: sha512-RngbGSwBFmqGBWjkaH+yB677uzR95blSQyxq6hYbrQCejH3Mx1nm8DVOuh3M9k2fQyTstWUG5qlgCnNqV/9jVw==}
 
   unified@9.2.2:
     resolution: {integrity: sha512-Sg7j110mtefBD+qunSLO1lqOEKdrwBFBrR6Qd8f4uwkhWNlbkaqwHse6e7QvD3AP/MNoJdEDLaf8OxYyoWgorQ==}
@@ -12627,6 +12654,8 @@ snapshots:
       '@types/qs': 6.9.15
       '@types/serve-static': 1.15.7
 
+  '@types/flickity@2.2.11': {}
+
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
@@ -14954,6 +14983,8 @@ snapshots:
 
   etag@1.8.1: {}
 
+  ev-emitter@2.1.2: {}
+
   event-emitter@0.3.5:
     dependencies:
       d: 1.0.2
@@ -15181,6 +15212,8 @@ snapshots:
       micromatch: 4.0.7
       pkg-dir: 4.2.0
 
+  fizzy-ui-utils@3.0.0: {}
+
   flat-cache@2.0.1:
     dependencies:
       flatted: 2.0.2
@@ -15195,6 +15228,14 @@ snapshots:
   flatted@2.0.2: {}
 
   flatted@3.3.1: {}
+
+  flickity@3.0.0:
+    dependencies:
+      ev-emitter: 2.1.2
+      fizzy-ui-utils: 3.0.0
+      get-size: 3.0.0
+      imagesloaded: 5.0.0
+      unidragger: 3.0.1
 
   focus-trap@7.5.4:
     dependencies:
@@ -15339,6 +15380,8 @@ snapshots:
       hasown: 2.0.2
 
   get-package-type@0.1.0: {}
+
+  get-size@3.0.0: {}
 
   get-stdin@5.0.1: {}
 
@@ -15707,6 +15750,10 @@ snapshots:
 
   image-size@0.5.5:
     optional: true
+
+  imagesloaded@5.0.0:
+    dependencies:
+      ev-emitter: 2.1.2
 
   import-fresh@3.3.0:
     dependencies:
@@ -16374,7 +16421,7 @@ snapshots:
     dependencies:
       es5-ext: 0.10.64
 
-  lucide-vue-next@0.414.0(vue@3.4.34(typescript@5.5.4)):
+  lucide-vue-next@0.416.0(vue@3.4.34(typescript@5.5.4)):
     dependencies:
       vue: 3.4.34(typescript@5.5.4)
 
@@ -18764,6 +18811,10 @@ snapshots:
       hookable: 5.5.3
 
   unicorn-magic@0.1.0: {}
+
+  unidragger@3.0.1:
+    dependencies:
+      ev-emitter: 2.1.2
 
   unified@9.2.2:
     dependencies:
