@@ -7,13 +7,14 @@ import { colorStandard, deepMerge, numberFormatter } from '@fiction/core/utils/i
 // need to load this way due to ESM / Node issue at build
 const { Chart, registerables } = ChartJS
 
-export type DeepPartial<T> = T extends Function
+export type DeepPartial<T> = T extends (...args: any[]) => any
   ? T
   : T extends Array<infer U>
     ? _DeepPartialArray<U>
     : T extends Record<any, any>
       ? _DeepPartialObject<T>
       : T | undefined
+
 type _DeepPartialArray<T> = Array<DeepPartial<T>>
 type _DeepPartialObject<T> = { [P in keyof T]?: DeepPartial<T[P]> }
 
@@ -48,7 +49,7 @@ export interface SetData {
 
 function lineColor(_dataset: DataSet) {
   return (_context: ScriptableContext<'line'>) => {
-    return cssVar('--chart-line-color', colorStandard({ color: 'primary', level: 500 }))
+    return cssVar('--chart-line-color', colorStandard({ color: 'blue', level: 500 }))
   }
 }
 
@@ -71,10 +72,10 @@ function tooltipTextColor() {
 function barColor(dataset: DataSet) {
   return (context: ScriptableContext<'bar'>) => {
     const presentIndex = dataset.presentIndex
-    const color = context.datasetIndex % 2 === 0 ? colorStandard({ color: 'primary', level: 500 }) : colorStandard({ color: 'primary', level: 100 })
+    const color = context.datasetIndex % 2 === 0 ? colorStandard({ color: 'blue', level: 500 }) : colorStandard({ color: 'blue', level: 100 })
 
     const value = presentIndex !== undefined && presentIndex > -1 && context.dataIndex > presentIndex
-      ? colorStandard({ color: 'primary', level: 50 })
+      ? colorStandard({ color: 'blue', level: 50 })
       : color
 
     return value

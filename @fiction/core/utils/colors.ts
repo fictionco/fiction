@@ -1,25 +1,12 @@
-export function isDarkOrLightMode(element?: HTMLElement | null | undefined): 'light' | 'dark' {
-  if (typeof document === 'undefined' || typeof window === 'undefined' || !window?.matchMedia)
-    return 'light'
-
-  if (!element)
-    element = document.querySelector('body')
-
-  while (element) {
-    if (element.classList.contains('dark'))
-      return 'dark'
-    if (element.classList.contains('light'))
-      return 'light'
-    element = element.parentElement
-  }
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-}
-
-export const brightTheme = ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'] as const
-export const colorTheme = ['slate', 'gray', 'zinc', 'neutral', 'stone', ...brightTheme] as const
+export const colorThemeBright = ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'] as const
+export const colorTheme = ['slate', 'gray', 'zinc', 'neutral', 'stone', ...colorThemeBright] as const
+export const colorThemeUser = ['theme', 'primary', 'secondary', ...colorTheme] as const
 type InvertedColor = `${(typeof colorTheme)[number]}Inverted`
 // Create a union type that includes both regular and inverted colors
-export type ColorThemeWithInvert = (typeof colorTheme)[number] | InvertedColor
+export type ColorThemeBright = (typeof colorThemeBright)[number]
+export type ColorTheme = (typeof colorTheme)[number]
+export type ColorThemeWithInvert = ColorTheme | InvertedColor
+export type ColorThemeUser = (typeof colorThemeUser)[number]
 
 export const colorThemeWithInvert = [
   ...colorTheme,
@@ -28,7 +15,11 @@ export const colorThemeWithInvert = [
 
 export type ColorScale = 0 | 25 | 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950 | 975 | 1000
 
-export const colorList = {
+type ColorRecord = {
+  [P in ColorScale]: string
+}
+
+export const colorList: Record<ColorTheme, ColorRecord> = {
   slate: { 0: '#ffffff', 25: '#f7fafc', 50: '#f3f6f9', 100: '#e2e6ef', 200: '#c5cad4', 300: '#a6adb9', 400: '#7e899e', 500: '#5e6e85', 600: '#3c4a5f', 700: '#2d3748', 800: '#202838', 900: '#161d2f', 950: '#0d1424', 975: '#0a0f1d', 1000: '#000000' },
   gray: { 0: '#ffffff', 25: '#fbfdff', 50: '#F8F9FD', 100: '#e6e9f1', 200: '#DEDFE2', 300: '#b3b9c5', 400: '#7A8599', 500: '#646E82', 600: '#394151', 700: '#1e2026', 800: '#131519', 900: '#0e0f11', 950: '#0A0B0D', 975: '#08090A', 1000: '#000000' },
   zinc: { 0: '#ffffff', 25: '#fcfcfc', 50: '#fafafa', 100: '#f4f4f5', 200: '#e4e4e7', 300: '#d4d4d8', 400: '#a1a1aa', 500: '#71717a', 600: '#52525b', 700: '#3f3f46', 800: '#27272a', 900: '#18181b', 950: '#09090b', 975: '#020204', 1000: '#000000' },
@@ -53,13 +44,10 @@ export const colorList = {
   rose: { 0: '#ffffff', 25: '#fff0f2', 50: '#fff1f2', 100: '#ffe4e6', 200: '#fecdd3', 300: '#fda4af', 400: '#fb7185', 500: '#f43f5e', 600: '#e11d48', 700: '#be123c', 800: '#9f1239', 900: '#881337', 950: '#4c0519', 975: '#470516', 1000: '#000000' },
 } as const
 
-export const colors = Object.keys(colorList)
+// @deprecated use ColorTheme
+// export type ThemeColor = (typeof colors)[number]
 
-export type ThemeColor = (typeof colors)[number]
-
-export type UiColorTheme = ThemeColor | 'theme' | 'overlay' | 'naked'
-
-export function getTextColorTheme(text: string): ThemeColor {
+export function getTextColorTheme(text: string): ColorTheme {
   // Simple hash function
   let hash = 0
   for (let i = 0; i < text.length; i++) {
@@ -72,21 +60,15 @@ export function getTextColorTheme(text: string): ThemeColor {
   const positiveHash = Math.abs(hash)
 
   // Use modulo to get an index within the range of the colorTheme array
-  const colorIndex = positiveHash % brightTheme.length
+  const colorIndex = positiveHash % colorThemeBright.length
 
-  return brightTheme[colorIndex]
+  return colorThemeBright[colorIndex]
 }
-
-type ColorRecord = {
-  [P in ColorScale]?: string
-}
-
-export type ColorScheme = keyof typeof colorList
 
 export function hexToRgbString(hex: string) {
   const result = hexToRgb(hex)
   if (!result)
-    return undefined
+    return `0 0 0`
 
   return `${result.r} ${result.g} ${result.b}`
 }
@@ -113,10 +95,25 @@ function hexToRgb(hex: string): { r: number, g: number, b: number } | undefined 
 
   return { r, g, b }
 }
+/**
+ * Calculate the luminance of a color.
+ * @param r Red component (0-255)
+ * @param g Green component (0-255)
+ * @param b Blue component (0-255)
+ * @returns Luminance value
+ */
+function luminance(r: number, g: number, b: number): number {
+  const a = [r, g, b].map((v) => {
+    v /= 255
+    return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4
+  })
+  return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722
+}
+
 export function tailwindVarColorScheme(args: {
   variable?: string
-  color?: ColorScheme
-  scheme?: ColorRecord
+  color?: ColorTheme
+  scheme?: Partial<ColorRecord>
 }): Record<ColorScale | 'DEFAULT', string> {
   const { variable, color } = args
   let { scheme } = args
@@ -136,10 +133,27 @@ export function tailwindVarColorScheme(args: {
   return out
 }
 
-export function getColorScheme(schemeIdWithInvert: ColorThemeWithInvert, options: { invert?: boolean, outputFormat?: 'rgb' | 'hex' } = {}): ColorRecord {
-  const schemeId = schemeIdWithInvert.replace('Inverted', '') as ColorScheme
+export function isDarkOrLightMode(element?: HTMLElement | null | undefined): 'light' | 'dark' {
+  if (typeof document === 'undefined' || typeof window === 'undefined' || !window?.matchMedia)
+    return 'light'
 
-  const scheme = colorList[schemeId as ColorScheme] || colorList.gray
+  if (!element)
+    element = document.querySelector('body')
+
+  while (element) {
+    if (element.classList.contains('dark'))
+      return 'dark'
+    if (element.classList.contains('light'))
+      return 'light'
+    element = element.parentElement
+  }
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+}
+
+export function getColorScheme(schemeIdWithInvert: ColorThemeWithInvert, options: { invert?: boolean, outputFormat?: 'rgb' | 'hex' } = {}): ColorRecord {
+  const schemeId = schemeIdWithInvert.replace('Inverted', '') as ColorTheme
+
+  const scheme = colorList[schemeId as ColorTheme] || colorList.gray
   const format = options.outputFormat || 'rgb'
 
   const invert = options.invert || schemeIdWithInvert.endsWith('Inverted')
@@ -149,20 +163,6 @@ export function getColorScheme(schemeIdWithInvert: ColorThemeWithInvert, options
     acc[Number(key) as ColorScale] = format === 'rgb' ? hexToRgbString(colorValue) : colorValue
     return acc
   }, {} as ColorRecord)
-}
-/**
- * Calculate the luminance of a color.
- * @param r Red component (0-255)
- * @param g Green component (0-255)
- * @param b Blue component (0-255)
- * @returns Luminance value
- */
-function luminance(r: number, g: number, b: number): number {
-  const a = [r, g, b].map((v) => {
-    v /= 255
-    return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4
-  })
-  return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722
 }
 
 /**
@@ -178,50 +178,6 @@ export function getTextColorBasedOnBackground(backgroundColor: string): string {
 
   // Prefer white text color most of the time
   return bgLuminance > 0.35 ? '#000000' : '#FFFFFF'
-}
-
-export function colorStandard(params: {
-  color?: ThemeColor
-  level?: ColorScale
-  opacity?: number
-} = {}): string {
-  const { color = 'primary', level = 500, opacity = 1 } = params
-
-  const colorMap: Record<ThemeColor, ColorRecord | string> = {
-    black: '0,0,0',
-    white: '255,255,255',
-    primary: { 0: '255,255,255', 50: '239, 246, 255', 100: '219, 234, 254', 200: '191, 219, 254', 300: '147, 197, 253', 400: '96, 165, 250', 500: '59, 130, 246', 600: '37, 99, 235', 700: '29, 78, 216', 800: '30, 64, 175', 900: '30, 58, 138', 950: '23, 37, 84', 1000: '0, 0, 0' },
-    cyan: { 0: '255,255,255', 50: '236, 254, 255', 100: '207, 250, 254', 200: '165, 243, 252', 300: '103, 232, 249', 400: '34, 211, 238', 500: '6, 182, 212', 600: '8, 145, 178', 700: '14, 116, 144', 800: '21, 94, 117', 900: '22, 78, 99', 950: '8, 51, 68', 1000: '0, 0, 0' },
-    blue: { 0: '255,255,255', 50: '239, 246, 255', 100: '219, 234, 254', 200: '191, 219, 254', 300: '147, 197, 253', 400: '96, 165, 250', 500: '59, 130, 246', 600: '37, 99, 235', 700: '29, 78, 216', 800: '30, 64, 175', 900: '30, 58, 138', 950: '23, 37, 84', 1000: '0, 0, 0' },
-    amber: { 0: '255,255,255', 50: '254,243,199', 100: '253,230,138', 200: '252,211,77', 300: '251,191,36', 400: '245,158,11', 500: '245,158,11', 600: '217,119,6', 700: '180,83,9', 800: '146,64,14', 900: '120,53,15', 950: '69, 26, 3', 1000: '0, 0, 0' },
-    pink: { 0: '255,255,255', 50: '253,242,248', 100: '252,231,243', 200: '251,207,232', 300: '249,168,212', 400: '244,114,182', 500: '236,72,153', 600: '219,39,119', 700: '190,24,93', 800: '157,23,77', 900: '131,24,67', 950: '80, 7, 36', 1000: '0, 0, 0' },
-    sky: { 0: '255,255,255', 50: '240,249,255', 100: '224,242,254', 200: '186,230,253', 300: '125,211,252', 400: '56,189,248', 500: '14,165,233', 600: '2,132,199', 700: '3,105,161', 800: '7,89,133', 900: '12,74,110', 950: '8, 47, 73', 1000: '0, 0, 0' },
-    emerald: { 0: '255,255,255', 50: '236,253,245', 100: '209,250,229', 200: '167,243,208', 300: '110,231,183', 400: '52,211,153', 500: '16,185,129', 600: '5,150,105', 700: '4,120,87', 800: '6,95,70', 900: '6,78,59', 950: '2, 44, 34', 1000: '0, 0, 0' },
-    slate: { 0: '255,255,255', 50: '248,250,252', 100: '241,245,249', 200: '226,232,240', 300: '203,213,225', 400: '148,163,184', 500: '100,116,139', 600: '71,85,105', 700: '51,65,85', 800: '30,41,59', 900: '15,23,42', 950: '2, 6, 23', 1000: '10,15,28' },
-    gray: { 0: '249,250,251', 50: '243,244,246', 100: '229,231,235', 200: '209,213,219', 300: '203,213,225', 400: '156,163,175', 500: '107,114,128', 600: '75,85,99', 700: '55,65,81', 800: '31,41,55', 900: '17,24,39', 950: '3,7,18', 1000: '0,0,0' },
-  }
-
-  if (typeof colorMap[color] === 'string')
-    return `rgba(${colorMap[color]}, ${opacity})`
-  else
-    return `rgba(${colorMap[color][level]}, ${opacity})`
-}
-
-export function colorMulti(): string[] {
-  return [
-    colorStandard(),
-    colorStandard({ color: 'slate', level: 300 }),
-    colorStandard({ color: 'pink' }),
-    colorStandard({ color: 'sky' }),
-    colorStandard({ color: 'amber' }),
-    colorStandard({ color: 'emerald' }),
-    colorStandard({ color: 'amber', level: 300 }),
-    colorStandard({ color: 'primary', level: 700 }),
-    colorStandard({ color: 'emerald', level: 300 }),
-    colorStandard({ color: 'sky', level: 300 }),
-    colorStandard({ color: 'pink', level: 600 }),
-    colorStandard({ color: 'amber', level: 600 }),
-  ]
 }
 
 type ColorInput = {
@@ -264,4 +220,29 @@ export function normalizeColor({ color, opacity }: ColorInput): string {
   a = clamp(a, 0, 1)
 
   return `rgba(${r} ${g} ${b} / ${a.toFixed(2)})`
+}
+
+export function colorStandard(params: { color?: ColorTheme, level?: ColorScale, opacity?: number } = {}): string {
+  const { color = 'blue', level = 500, opacity = 1 } = params
+
+  const sch = getColorScheme(color, { outputFormat: 'rgb' })
+
+  return `rgba(${sch[level]}, ${opacity})`
+}
+
+export function colorMulti(): string[] {
+  return [
+    colorStandard(),
+    colorStandard({ color: 'slate', level: 300 }),
+    colorStandard({ color: 'pink' }),
+    colorStandard({ color: 'sky' }),
+    colorStandard({ color: 'amber' }),
+    colorStandard({ color: 'emerald' }),
+    colorStandard({ color: 'amber', level: 300 }),
+    colorStandard({ color: 'blue', level: 700 }),
+    colorStandard({ color: 'emerald', level: 300 }),
+    colorStandard({ color: 'sky', level: 300 }),
+    colorStandard({ color: 'pink', level: 600 }),
+    colorStandard({ color: 'amber', level: 600 }),
+  ]
 }

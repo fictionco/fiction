@@ -1,10 +1,10 @@
-import type { UiColorTheme } from '@fiction/core'
+import type { ColorThemeUser } from '@fiction/core'
 
 export type UiElementSize = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
 export type UiElementStyle = 'danger' | 'caution' | 'success' | 'primary' | 'default' | 'theme' | 'naked' | 'minimal' | 'outline'
 export type UiElementFormat = 'block' | 'spread' | 'inline'
 
-export function getColorThemeStyles(theme: UiColorTheme = 'theme') {
+export function getColorThemeStyles(theme: ColorThemeUser = 'theme') {
   const cls = {
     naked: { text: 'text-theme-500', bg: '', ring: 'ring-transparent', border: 'border-transparent', hover: '', active: '' },
     overlay: { text: 'text-white/90', bg: '', ring: 'ring-white/50', border: 'border-white/50', hover: 'hover:bg-white/20', active: 'active:bg-white/30' },
@@ -33,7 +33,7 @@ export function getColorThemeStyles(theme: UiColorTheme = 'theme') {
   return cls[theme as keyof typeof cls]
 }
 
-export function getBadgeClasses(args: { theme?: UiColorTheme, uiSize?: UiElementSize, isLink?: boolean, isActive?: boolean }) {
+export function getBadgeClasses(args: { theme?: ColorThemeUser, uiSize?: UiElementSize, isLink?: boolean, isActive?: boolean }) {
   const { theme = 'theme', uiSize = 'sm', isLink = false } = args
 
   const base = `not-prose x-font-title antialiased inline-flex gap-1 items-center font-medium ring-1 ring-inset`

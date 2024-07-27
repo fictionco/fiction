@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ColorScheme } from '@fiction/core'
+import type { ColorTheme } from '@fiction/core'
 import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { getColorThemeStyles } from '@fiction/ui/utils'
@@ -14,7 +14,7 @@ const uc = vue.computed(() => {
   return props.card.userConfig.value || {}
 })
 
-function getColorStyle(color?: ColorScheme) {
+function getColorStyle(color?: ColorTheme) {
   if (!color) {
     return {
       icon: ' ',

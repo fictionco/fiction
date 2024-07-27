@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import type { UiColorTheme } from '@fiction/core'
+import type { ColorThemeUser } from '@fiction/core'
 import { getNavComponentType, getTextColorTheme, vue } from '@fiction/core'
 import type { UiElementSize } from '../utils'
 import { getBadgeClasses } from '../utils'
 
 const props = defineProps({
-  theme: { type: String as vue.PropType<UiColorTheme>, default: undefined },
+  theme: { type: String as vue.PropType<ColorThemeUser>, default: undefined },
   uiSize: { type: String as vue.PropType<UiElementSize>, default: 'sm' },
   href: { type: String, default: null },
   icon: { type: String, default: undefined },
   text: { type: String, default: '' },
 })
 
-const theme = vue.computed<UiColorTheme>(() => {
+const theme = vue.computed<ColorThemeUser>(() => {
   return props.theme ? props.theme : props.text ? getTextColorTheme(props.text) : 'theme'
 })
 

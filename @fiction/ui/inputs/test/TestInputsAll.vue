@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { ThemeColor } from '@fiction/core'
-import { colors, useService, vue } from '@fiction/core'
+import type { ColorTheme } from '@fiction/core'
+import { colorTheme, useService, vue } from '@fiction/core'
 import { InputOption, inputs } from '..'
 import TestInput from './TestInput.vue'
 
@@ -12,9 +12,9 @@ function selectSize(c: typeof inputSizes[number]) {
   inputSizing.value = c
 }
 
-const themeColor = vue.ref<ThemeColor>('slate')
+const themeColor = vue.ref<ColorTheme>('slate')
 
-function selectColor(c: ThemeColor) {
+function selectColor(c: ColorTheme) {
   themeColor.value = c
 }
 </script>
@@ -24,7 +24,7 @@ function selectColor(c: ThemeColor) {
     <div class="space-y-2">
       <div class="flex justify-center space-x-4 text-xs">
         <a
-          v-for="(c, i) in colors"
+          v-for="(c, i) in colorTheme"
           :key="i"
           class="cursor-pointer hover:opacity-60"
           @click.prevent="selectColor(c)"
