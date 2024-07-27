@@ -31,7 +31,7 @@ export type UserConfig = z.infer<typeof schema>
 
 const templateId = 'area'
 
-function modeOptions(mode: 'light' | 'dark'): InputOption {
+function modeOptions(mode: 'light' | 'base'): InputOption {
   return new InputOption({
     key: `scheme.${mode}`,
     label: `${toLabel(mode)} Mode`,
@@ -48,7 +48,7 @@ function modeOptions(mode: 'light' | 'dark'): InputOption {
 const options = [
   new InputOption({ key: 'scheme.reverse', label: 'Flip Color Scheme', description: 'Great for contrast. This will flip the mode to the opposite of the mode for the website (from dark to light or vice versa).', input: 'InputToggle' }),
   modeOptions('light'),
-  modeOptions('dark'),
+  modeOptions('base'),
 ]
 
 export const templates = [

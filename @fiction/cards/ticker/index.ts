@@ -22,7 +22,6 @@ const TickerSchema = z.object({
 export const UserConfigSchema = z.object({
   items: z.array(TickerSchema).describe('Array of ticker items').optional(),
   fontSize: z.number().min(5).max(15).optional().describe('The font size of the text'),
-  speed: z.number().min(0).max(10).optional().describe('The speed of the scrolling text'),
 })
 
 export type Ticker = z.infer<typeof TickerSchema>

@@ -49,10 +49,25 @@ export const ImageFilterConfigSchema = z.object({
   value: z.string().optional(),
 })
 export type ImageFilterConfig = z.infer<typeof ImageFilterConfigSchema>
-export const MediaDisplaySchema = z.object({
+
+// MediaBasic schema
+export const MediaBasicSchema = z.object({
   html: z.string().optional(),
   url: z.string().optional(),
   format: z.enum(['url', 'video', 'iframe', 'html']).optional(),
+})
+
+// MediaContent schema (includes MediaBasic)
+export const MediaContentSchema = MediaBasicSchema.extend({
+  alt: z.string().optional(),
+  caption: z.string().optional(),
+  mime: z.string().optional(),
+  blurhash: z.string().optional(),
+  thumbUrl: z.string().optional(),
+})
+
+// MediaDisplaySchema (extends MediaContent with display properties)
+export const MediaDisplaySchema = MediaContentSchema.extend({
   bgColor: z.string().optional(),
   bgGradient: GradientSettingSchema.optional(),
   bgRepeat: BackgroundRepeatSchema.optional(),
@@ -62,11 +77,6 @@ export const MediaDisplaySchema = z.object({
   overlay: OverlaySettingSchema.optional(),
   width: z.number().optional(),
   height: z.number().optional(),
-  caption: z.string().optional(),
-  blurhash: z.string().optional(),
-  alt: z.string().optional(),
-  thumbUrl: z.string().optional(),
-  mime: z.string().optional(),
 })
 
 export type MediaObject = z.infer<typeof MediaDisplaySchema>

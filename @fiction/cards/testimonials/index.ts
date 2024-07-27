@@ -1,20 +1,19 @@
-import { MediaDisplaySchema, vue } from '@fiction/core'
+import { MediaBasicSchema, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
-import { h } from 'vue'
 import { standardOption } from '../inputSets'
 
-const templateId = 'ticker'
+const templateId = 'testimonials'
 
 const TestimonialSchema = z.object({
   title: z.string().optional().describe('The title of the testimonial'),
   content: z.string().optional().describe('The content of the testimonial'),
-  media: MediaDisplaySchema.optional().describe('The image associated with the testimonial'),
+  media: MediaBasicSchema.optional().describe('The image associated with the testimonial'),
   author: z.object({
     fullName: z.string().optional().describe('The name of the author'),
     title: z.string().optional().describe('The title of the author'),
-    avatar: MediaDisplaySchema.optional().describe('The image of the author'),
+    avatar: MediaBasicSchema.optional().describe('The image of the author'),
     href: z.string().optional().describe('The link to the author\'s website'),
   }).optional().describe('The author of the testimonial'),
   stars: z.number().min(0).max(5).optional().describe('The number of stars for the testimonial'),
@@ -55,7 +54,7 @@ export const templates = [
     icon: 'i-tabler-quote',
     colorTheme: 'green',
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
-    isPublic: true,
+    isPublic: false,
     options,
     schema: UserConfigSchema,
     getUserConfig: () => defaultConfig,
