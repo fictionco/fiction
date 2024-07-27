@@ -81,7 +81,7 @@ function getAnimationDuration(speed?: number): string {
   if (speed > 100)
     speed = 100
 
-  const duration = 330 - speed * 3
+  const duration = 1000 * Math.exp(-0.0462 * speed)
 
   return `${duration}s`
 }

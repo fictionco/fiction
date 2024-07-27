@@ -32,6 +32,10 @@ import * as wrap from './wrap/index.js'
 import * as trek from './trek/index.js'
 import * as fitText from './fitText/index.js'
 import * as overSlide from './overSlide/index.js'
+import * as statement from './statement/index.js'
+import * as testimonials from './testimonials/index.js'
+import * as effectShape from './effect-shape/index.js'
+
 import { createDemoPage } from './utils/demo'
 /**
  * Add path for tailwindcss to scan for styles
@@ -73,6 +77,9 @@ export const standardCardTemplates = [
   ...trek.templates,
   ...fitText.templates,
   ...overSlide.templates,
+  ...statement.templates,
+  ...testimonials.templates,
+  ...effectShape.templates,
 ] as const
 
 export async function getCardTemplates() {
@@ -80,11 +87,11 @@ export async function getCardTemplates() {
 }
 
 export async function getDemoPages(args: { site: Site, templates: CardTemplate[] | readonly CardTemplate[], fictionEnv?: FictionEnv }) {
-  const { templates } = args
+  const { templates, site } = args
 
   const promises = templates.filter(t => t.settings.demoPage).map(async (t) => {
     const card = await t.settings.demoPage?.(args) as CardConfigPortable
-    const pg = await createDemoPage({ templateId: t.settings.templateId, template: t, card })
+    const pg = await createDemoPage({ site, templateId: t.settings.templateId, template: t, card })
 
     return pg
   })

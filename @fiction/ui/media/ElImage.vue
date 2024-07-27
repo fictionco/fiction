@@ -202,7 +202,7 @@ const filterStyle = vue.computed(() => {
     </div>
     <div
       v-if="media?.overlay"
-      class="absolute inset-0 z-10"
+      class="absolute inset-[-1px] z-10"
       :style="overlayStyle"
     />
   </ClipPathAnim>

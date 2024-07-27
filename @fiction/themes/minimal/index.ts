@@ -36,7 +36,7 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
                 textBlend: 'difference',
                 media: {
                   format: 'url',
-                  url: 'https://cdn.midjourney.com/75cc3bec-1a20-4932-8c29-8eda29f1a6fd/0_3.png',
+                  url: 'https://images.pexels.com/photos/432059/pexels-photo-432059.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
                 },
                 mediaBackground: {
                   format: 'url',
@@ -73,6 +73,36 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
           },
         }),
         await factory.create({
+          templateId: 'features',
+          baseConfig: {
+            standard: {
+              spacing: {
+                verticalSpacing: 'sm',
+              },
+            },
+          },
+          userConfig: {
+            standard: {
+              spacing: {
+                verticalSpacing: 'sm',
+              },
+            },
+            superColor: 'indigo',
+            superIcon: 'i-tabler-palette',
+            superHeading: 'Featured Artist at NY Gallery 2024',
+            heading: `Expressions in Color and Form`,
+            subHeading: `Exploring the boundaries of contemporary art through vibrant compositions and innovative techniques.`,
+            items: [
+              { name: 'Abstract Paintings', desc: 'Bold, expressive abstract works that challenge perception and evoke emotion.', icon: 'i-tabler-brush', color: 'indigo' },
+              { name: 'Sculptures', desc: 'Dynamic sculptures that blend form and space, crafted from diverse materials.', icon: 'i-tabler-3d-cube-sphere', color: 'indigo' },
+              { name: 'Digital Art', desc: 'Cutting-edge digital creations that merge technology with artistic vision.', icon: 'i-tabler-device-laptop', color: 'indigo' },
+              { name: 'Workshops', desc: 'Immersive art workshops where I share my techniques and creative process.', icon: 'i-tabler-prism-light', color: 'indigo' },
+              { name: 'Commissions', desc: 'Bespoke artworks created in collaboration with clients for unique spaces.', icon: 'i-tabler-affiliate', color: 'indigo' },
+              { name: 'Exhibitions', desc: 'Upcoming and past exhibitions showcasing my latest collections and installations.', icon: 'i-tabler-building-arch', color: 'indigo' },
+            ],
+          },
+        }),
+        await factory.create({
           templateId: 'ticker',
           userConfig: {
             standard: {
@@ -81,8 +111,7 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
               },
             },
             items: [
-              { text: 'Printer', outline: true, rotateZ: 2 },
-              { text: 'Inventor', rotateZ: 2, bgColor: '#000000', bgColorDark: '#ffffff' },
+              { text: 'Printer', outline: true, speed: 20 },
             ],
           },
         }),

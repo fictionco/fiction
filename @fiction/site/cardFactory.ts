@@ -1,6 +1,7 @@
 import type { vue } from '@fiction/core'
 import { FictionObject, deepMerge, log, parseObject } from '@fiction/core'
-import { Card, CardTemplate } from './card.js'
+import type { Card } from './card.js'
+import { CardTemplate } from './card.js'
 import type { ComponentConstructor } from './type-utils.js'
 import type { SiteUserConfig } from './schema.js'
 import type { CardConfigPortable, PageRegion, Site, TableCardConfig } from './index.js'
@@ -24,6 +25,17 @@ export type ExtractCardTemplateUserConfig<T extends CardTemplate<any, any>> =
 
 type CardUserConfig<U extends readonly CardTemplate[]> = CreateUserConfigs<U>
 
+type UserConfigType<
+  T extends keyof CardUserConfig<U>,
+  U extends readonly CardTemplate[],
+  W extends CardTemplate | undefined,
+  X extends ComponentConstructor | undefined,
+> = W extends CardTemplate
+  ? ExtractCardTemplateUserConfig<W>
+  : X extends ComponentConstructor
+    ? ExtractComponentUserConfig<X>
+    : U extends readonly CardTemplate[] ? CardUserConfig<U>[T] : Record<string, unknown>
+
 type CreateCardArgs<
   T extends keyof CardUserConfig<U>,
   U extends readonly CardTemplate[],
@@ -33,12 +45,8 @@ type CreateCardArgs<
   tpl?: W
   templateId?: T | 'wrap'
   el?: X
-  userConfig?:
-  W extends CardTemplate
-    ? ExtractCardTemplateUserConfig<W>
-    : X extends ComponentConstructor
-      ? ExtractComponentUserConfig<X>
-      : U extends readonly CardTemplate[] ? CardUserConfig<U>[T] : Record<string, unknown>
+  userConfig?: UserConfigType<T, U, W, X>
+  baseConfig?: UserConfigType<T, U, W, X>
   regionId?: PageRegion
   layoutId?: string
   cards?: CardConfigPortable[]
@@ -71,7 +79,7 @@ export class CardFactory<U extends readonly CardTemplate[]> extends FictionObjec
   >(
     args: CreateCardArgs<T, U, W, X>,
   ): Promise<TableCardConfig> {
-    const { templateId = 'area', tpl, el } = args
+    const { templateId = 'area', tpl, el, userConfig, baseConfig } = args
 
     if (!templateId && !tpl)
       throw new Error('createCard: templateId or tpl required')
@@ -81,20 +89,13 @@ export class CardFactory<U extends readonly CardTemplate[]> extends FictionObjec
     const template = inlineTemplate || this.templates?.find(template => template.settings.templateId === templateId)
 
     // Ensure that 'templates' contains 'templateId'
-    if (!template && this.templates) {
+    if (!template) {
       log.error('createCard', `Template with key "${templateId}" not found in provided templates.`)
       throw new Error(`createCard: Template not found: "${templateId}"`)
     }
 
-    const templateBaseConfig = template?.getBaseConfig({ site: this.settings.site }) as CardUserConfig<U>[T]
-    const asyncUserConfig = template?.settings.getUserConfig ? await template.settings.getUserConfig({ site: this.settings.site }) : {}
+    const createdCard = await template.toCard({ ...args, site: this.settings.site, userConfig, baseConfig })
 
-    const obj = deepMerge([templateBaseConfig, asyncUserConfig, args.userConfig])
-
-    const userConfig = parseObject({ obj, onValue: ({ value }) => typeof value === 'string' ? value.replace('file://', '/@fs') : value })
-
-    const { ...rest } = args
-
-    return new Card({ ...rest, inlineTemplate, userConfig }).toConfig() as TableCardConfig
+    return createdCard.toConfig() as TableCardConfig
   }
 }

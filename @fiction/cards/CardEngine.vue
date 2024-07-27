@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { resetUi, toLabel, vue } from '@fiction/core'
+import { UiOriginSchema, resetUi, toLabel, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import CardWrap from './CardWrap.vue'
 
@@ -65,6 +65,12 @@ const cards = vue.computed(() => {
           <div :class="subCard.tpl.value?.settings.icon" />
           <div>{{ subCard.tpl.value?.settings.title }}</div>
         </div>
+        <component
+          :is="effectCard.tpl.value?.settings?.el"
+          v-for="(effectCard, ii) in subCard.effects.value"
+          :key="ii"
+          :card="effectCard"
+        />
       </CardWrap>
     </template>
   </component>

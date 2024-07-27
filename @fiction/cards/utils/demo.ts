@@ -1,25 +1,30 @@
-import type { CardConfigPortable, CardTemplate } from '@fiction/site'
+import type { CardConfigPortable, CardTemplate, Site } from '@fiction/site'
 import { createCard } from '@fiction/site'
+import { CardFactory } from '@fiction/site/cardFactory.js'
 import { getCardTemplates } from '../index.js'
 
-export async function createDemoPage(args: { templateId: string, template: CardTemplate, card: CardConfigPortable }) {
-  const { templateId, template, card = {} } = args
+export async function createDemoPage(args: { site: Site, templateId: string, template: CardTemplate, card: CardConfigPortable }) {
+  const { templateId, template, card = {}, site } = args
   const slug = card.slug || `demo-${templateId}`
   const cards = card.cards || []
 
   const templates = await getCardTemplates()
+  const factory = new CardFactory({ templates, site })
 
-  return createCard({
+  const pg = await factory.create({
     slug,
     templateId: 'wrap',
-    templates,
+    baseConfig: {
+      seo: {
+        title: `${template.settings.title} - Web Element Demo`,
+      },
+    },
     userConfig: {
       // fixedHeader: true,
     },
     cards: [
-      createCard({
+      await factory.create({
         templateId: 'hero',
-        templates,
         userConfig: {
           superHeading: template.settings.category?.join(', ').toUpperCase(),
           heading: template.settings.title,
@@ -27,15 +32,11 @@ export async function createDemoPage(args: { templateId: string, template: CardT
           actions: [],
           superColor: template.settings.colorTheme,
           superIcon: template.settings.icon,
-          // spacing: { spacingSize: '2xl' },
-          // bg: {
-          //   format: 'url',
-          //   url: 'https://images.unsplash.com/photo-1488554378835-f7acf46e6c98?q=80&w=3542&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-          //   overlay: { color: '#000000', opacity: 0.5 },
-          // },
         },
       }),
       ...cards,
     ],
   })
+
+  return pg
 }

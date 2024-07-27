@@ -7,13 +7,17 @@ export const SyndicateStatusSchema = z.enum(['active', 'unsubscribed', 'pending'
 export const ColorThemeSchema = z.enum(colorThemeWithInvert)
 export const ImageFiltersSchema = z.enum(['brightness', 'opacity', 'contrast', 'blur', 'grayscale', 'sepia', 'saturate', 'invert', 'hue-rotate'])
 export type ImageFilter = z.infer<typeof ImageFiltersSchema>
-export const SizeBasicSchema = z.enum(['none', 'full', 'xs', 'sm', 'md', 'lg'])
+export const SizeBasicSchema = z.enum(['none', 'full', 'xs', 'sm', 'md', 'lg', 'xl'])
+export const SizeSchema = z.enum(['xxs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl'])
+export const UiOriginSchema = z.enum(['topLeft', 'topCenter', 'topRight', 'middleLeft', 'middleCenter', 'middleRight', 'bottomLeft', 'bottomCenter', 'bottomRight'])
 export const FontWeightsSchema = z.enum(['400', '500', '600', '700', '800'])
 export const BackgroundRepeatSchema = z.enum(['repeat', 'no-repeat', 'repeat-x', 'repeat-y'])
 export const BackgroundPositionSchema = z.enum(['center', 'top', 'bottom', 'left', 'right'])
 export const BackgroundSizeSchema = z.enum(['cover', 'contain', 'auto'])
 export const BlendModesSchema = z.enum(['normal', 'multiply', 'screen', 'overlay', 'darken', 'lighten', 'color-dodge', 'color-burn', 'hard-light', 'soft-light', 'difference', 'exclusion', 'hue', 'saturation', 'color', 'luminosity'])
 export const HeaderLayoutSchema = z.enum(['left', 'right', 'center', 'justify'])
+export const ButtonColorSchema = z.enum(['primary', 'theme'])
+export const ButtonStyleShema = z.enum(['outline', 'minimal', 'solid'])
 export const FontConfigValSchema = z.object({
   fontKey: z.string().optional(),
   stack: z.enum(['monospace', 'sans', 'serif']),
@@ -99,3 +103,28 @@ export const PostHandlingSchema = z.object({
 })
 
 export type PostObject = z.infer<typeof PostSchema>
+
+const ClickHandlerSchema = z.function()
+  .args(
+    z.object({
+      event: z.instanceof(MouseEvent).optional(),
+      item: z.record(z.any()).optional(),
+      props: z.record(z.string(), z.any()).optional(),
+    }),
+  )
+  .returns(z.any())
+
+export const ActionButtonSchema = z.object({
+  name: z.string(),
+  href: z.string(),
+  size: SizeSchema.optional(),
+  theme: ButtonColorSchema.optional(),
+  style: ButtonStyleShema.optional(),
+  icon: z.string().optional(),
+  iconAfter: z.string().optional(),
+  loading: z.boolean().optional(),
+  isDisabled: z.boolean().optional(),
+  onClick: ClickHandlerSchema.optional(),
+})
+
+export type ActionButton = z.infer<typeof ActionButtonSchema>

@@ -23,13 +23,20 @@ export type TableCardConfig<T extends Record<string, unknown> = Record<string, u
   index?: number
   userConfig?: T & SiteUserConfig
   cards?: TableCardConfig[]
+  effects?: TableCardConfig[]
   scope?: string
   isSystem?: boolean
 }
 
-export type CardConfigPortable<T extends Record<string, unknown> = Record<string, unknown>> = Omit<Partial<TableCardConfig<T>>, 'cards'> & {
+export type CardConfigPortable<T extends Record<string, unknown> = Record<string, unknown>> = Omit<Partial<TableCardConfig<T>>, 'cards' | 'effects'> & {
   cards?: CardConfigPortable[]
+  effects?: CardConfigPortable[]
 }
+
+export const EffectPortableSchema = z.object({
+  templateId: z.string(),
+  userConfig: z.record(z.unknown()),
+})
 
 export type TableDomainConfig = Partial<ColType<typeof domainCols>> & { hostname: string }
 
@@ -60,6 +67,7 @@ export const pageCols = [
   new Col({ key: 'title', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).defaultTo('') }),
   new Col({ key: 'description', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k).defaultTo('') }),
   new Col({ key: 'cards', sec: 'setting', sch: () => z.array(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo([]), prepare: ({ value }) => JSON.stringify(value) }),
+  new Col({ key: 'effects', sec: 'setting', sch: () => z.array(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo([]), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'userConfig', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'isHome', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
   new Col({ key: 'is404', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),

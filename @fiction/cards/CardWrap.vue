@@ -86,13 +86,13 @@ const contentWidthSize = vue.computed(() => {
 })
 
 const padSize = vue.computed(() => {
-  return config.value.standard?.spacing?.contentPad || (props.card.depth.value <= 1 ? 'md' : 'none')
+  const size = contentWidthSize.value
+  return config.value.standard?.spacing?.contentPad || (size === 'none' ? 'none' : (props.card.depth.value <= 1 ? 'md' : 'none'))
 })
 
 const contentWidthClass = vue.computed(() => {
   const size = contentWidthSize.value
-  const padSize = config.value.standard?.spacing?.contentPad || (props.card.depth.value <= 1 ? 'md' : 'none')
-  return getContentWidthClass({ size, padSize })
+  return getContentWidthClass({ size, padSize: padSize.value })
 })
 
 vue.watch(() => standardUc.value?.fontStyle, (fontStyle) => {
@@ -135,9 +135,12 @@ vue.watch(() => standardUc.value?.fontStyle, (fontStyle) => {
   >
     <div class="w-full relative text-theme-950 dark:text-theme-50 x-font-body ">
       <div :class="contentWidthClass">
-        <StandardHeader v-if="standardUc?.headers?.title" :card class="mb-8 lg:mb-16" />
-        <slot />
+        <div class="relative">
+          <StandardHeader v-if="standardUc?.headers?.title" :card class="mb-8 lg:mb-16" />
+          <slot />
+        </div>
       </div>
+      <slot name="wrap" />
     </div>
     <ElImage v-if="colorScheme?.bg" class="object-cover w-full h-full absolute inset-0 pointer-events-none -z-10" :media="colorScheme?.bg" />
   </div>

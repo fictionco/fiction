@@ -12,11 +12,13 @@ import type { CardQuerySettings } from './cardQuery.js'
 import { getContentWidthClass } from './styling.js'
 import type { CardOptionsWithStandard, SiteUserConfig } from './schema.js'
 
-type CardCategory = 'basic' | 'posts' | 'theme' | 'stats' | 'marketing' | 'content' | 'layout' | 'media' | 'navigation' | 'social' | 'commerce' | 'form' | 'other' | 'special' | 'portfolio' | 'advanced'
+type CardCategory = 'basic' | 'posts' | 'theme' | 'stats' | 'marketing' | 'content' | 'layout' | 'media' | 'navigation' | 'social' | 'commerce' | 'form' | 'other' | 'special' | 'portfolio' | 'advanced' | 'effect'
 
 export const categoryOrder: CardCategory[] = ['basic', 'theme', 'marketing', 'content', 'stats', 'layout', 'media', 'navigation', 'social', 'commerce', 'form', 'other', 'special']
 
-type CardTemplateUserConfig<T extends ComponentConstructor> = InstanceType<T> extends { $props: { card: { userConfig: { value: infer V } } } } ? V : undefined
+type CardTemplateUserConfig<T extends ComponentConstructor> = InstanceType<T> extends { $props: { card: { userConfig: { value: infer V } } } } ? V : SiteUserConfig
+
+type FullTemplateUserConfig<T extends ComponentConstructor> = SiteUserConfig & CardTemplateUserConfig<T>
 
 interface CardTemplateSettings<
   U extends string = string,
@@ -31,46 +33,50 @@ interface CardTemplateSettings<
   colorTheme?: typeof colorTheme[number]
   thumb?: string
   isPublic?: boolean
+  isEffect?: boolean
   el: T
   isContainer?: boolean // ui drawer
   isRegion?: boolean
   options?: InputOption[]
   schema?: z.AnyZodObject
-  getBaseConfig?: (args: { site?: Site }) => CardTemplateUserConfig<T> & SiteUserConfig
-  getUserConfig?: (args: { site: Site }) => Promise<CardTemplateUserConfig<T> & SiteUserConfig> | (CardTemplateUserConfig<T> & SiteUserConfig)
+  getBaseConfig?: (args: { site?: Site }) => FullTemplateUserConfig<T>
+  getUserConfig?: (args: { site: Site }) => Promise<FullTemplateUserConfig<T>> | (FullTemplateUserConfig<T>)
+  getEffects?: (args: { site: Site }) => Promise<TableCardConfig[]>
   sections?: Record<string, CardConfigPortable>
   root?: string
-  demoPage?: (args: { site: Site }) => Promise<{ cards: CardConfigPortable< CardTemplateUserConfig<T> & SiteUserConfig>[] }>
+  demoPage?: (args: { site: Site }) => Promise<{ cards: CardConfigPortable< FullTemplateUserConfig<T>>[] }>
   getQueries?: (args: CardQuerySettings) => X
 }
 
 export class CardTemplate<
   U extends string = string,
   T extends ComponentConstructor = ComponentConstructor,
-> extends FictionObject<
-    CardTemplateSettings<U, T>
-  > {
+> extends FictionObject< CardTemplateSettings<U, T> > {
   constructor(settings: CardTemplateSettings<U, T>) {
     super('CardTemplate', { title: toLabel(settings.templateId), ...settings })
   }
 
   optionConfig = refineOptions({ options: this.settings.options || [], schema: this.settings.schema })
   getBaseConfig = this.settings.getBaseConfig || (() => ({}))
-  async toCard(args: { cardId?: string, site: Site }) {
-    const { cardId, site } = args
-    const { getUserConfig = () => {} } = this.settings
+
+  async toCard(args: { cardId?: string, site: Site, userConfig?: FullTemplateUserConfig<T>, baseConfig?: FullTemplateUserConfig<T> } & CardSettings) {
+    const { cardId, site, baseConfig = {}, userConfig } = args
+    const { getUserConfig = () => {}, getEffects = () => [] } = this.settings
+
+    const templateBaseConfig = this.getBaseConfig({ site })
     const asyncUserConfig = (await getUserConfig({ site })) || {}
+    const initialUserConfig = userConfig || asyncUserConfig
+    const effects = (await getEffects({ site })) || []
 
-    const mergedConfig = this.getBaseConfig({ site })
-
-    const cardUserConfig = deepMerge([mergedConfig, asyncUserConfig])
+    const finalUserConfig = deepMerge([templateBaseConfig, baseConfig, initialUserConfig])
 
     return new Card({
       cardId: cardId || objectId({ prefix: 'crd' }),
       templateId: this.settings.templateId,
       title: this.settings.title,
-      userConfig: cardUserConfig,
       ...args,
+      userConfig: finalUserConfig,
+      effects,
     })
   }
 }
@@ -122,6 +128,7 @@ export class Card<
   })
 
   cards = vue.shallowRef((this.settings.cards || []).map(c => this.initSubCard({ cardConfig: c })))
+  effects = vue.shallowRef((this.settings.effects || []).map(c => this.initSubCard({ cardConfig: c })))
 
   tpl = vue.computed(() => this.settings.inlineTemplate || this.site?.theme.value?.templates?.find(t => t.settings.templateId === this.templateId.value))
   genUtil = new CardGeneration({ card: this })
@@ -216,6 +223,7 @@ export class Card<
     const { site: __, ...rest } = this.settings
 
     const cards = this.cards.value.filter(_ => !_.isSystem.value).map(c => c.toConfig())
+    const effects = this.effects.value.filter(_ => !_.isSystem.value).map(c => c.toConfig())
 
     const generation = this.genUtil.toConfig()
 
@@ -232,6 +240,7 @@ export class Card<
       slug: this.slug.value,
       userConfig: this.userConfig.value as T,
       cards,
+      effects,
       scope: this.settings.scope,
       generation,
     }

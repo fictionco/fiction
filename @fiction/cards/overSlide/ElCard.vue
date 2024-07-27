@@ -106,7 +106,7 @@ function setActiveItem(index: number) {
             leave-to-class="opacity-0 -translate-x-16"
             mode="out-in"
           >
-            <ElImage :key="currentItemIndex" :media="currentItem?.mediaBackground" class="transition-all absolute -right-[60%]  h-full w-[140%]" />
+            <ElImage :key="currentItemIndex" :media="currentItem?.mediaBackground" class="transition-all absolute -right-[40%]  h-full w-[140%]" />
           </transition>
         </div>
       </div>

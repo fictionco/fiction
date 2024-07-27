@@ -8,7 +8,8 @@ const spacingClasses = {
   xs: { top: 'pt-[calc(0.25rem+1vw)]', bottom: 'pb-[calc(0.25rem+1vw)]' },
   sm: { top: 'pt-[calc(0.5rem+2vw)]', bottom: 'pb-[calc(0.5rem+2vw)]' },
   md: { top: 'pt-[calc(1.5rem+4vw)]', bottom: 'pb-[calc(1.5rem+4vw)]' },
-  lg: { top: 'pt-[calc(2.5rem+6vw)]', bottom: 'pb-[calc(2.5rem+6vw)]' },
+  lg: { top: 'pt-[calc(3.5rem+8vw)]', bottom: 'pb-[calc(3.5rem+8vw)]' },
+  xl: { top: 'pt-[calc(5rem+12vw)]', bottom: 'pb-[calc(5rem+12vw)]' },
 }
 
 export function getSpacingClass(args: { size: SizeBasic, direction: Direction }): string {
@@ -30,15 +31,17 @@ const baseContentWidthClasses: Record<SizeBasic, string> = {
   sm: 'mx-auto max-w-screen-lg',
   md: 'mx-auto max-w-screen-2xl',
   lg: 'mx-auto max-w-screen-3xl',
+  xl: 'mx-auto max-w-screen-4xl',
 }
 
 const padClasses: Record<SizeBasic, string> = {
   none: '',
   full: 'px-4 sm:px-6 lg:px-8',
-  xs: 'px-4 sm:px-5',
-  sm: 'px-4 sm:px-6',
-  md: 'px-5 sm:px-6 lg:px-20', // Updated to match your specification
-  lg: 'px-5 sm:px-6 lg:px-20',
+  xs: 'px-6 sm:px-14',
+  sm: 'px-6 sm:px-14',
+  md: 'px-6 sm:px-14 lg:px-20', // Updated to match your specification
+  lg: 'px-6 sm:px-14 lg:px-20',
+  xl: 'px-6 sm:px-14 lg:px-20',
 }
 
 export function getContentWidthClass(args: { size: SizeBasic, padSize?: SizeBasic | boolean }): string {
@@ -49,7 +52,7 @@ export function getContentWidthClass(args: { size: SizeBasic, padSize?: SizeBasi
   let padClass = ''
   if (padSize === true) {
     // If padSize is true, use the same size as the content width
-    padClass = padClasses[size]
+    padClass = padClasses.md
   }
   else if (padSize && padSize !== 'none') {
     // If padSize is specified and not 'none', use that size

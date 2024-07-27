@@ -223,3 +223,45 @@ export function colorMulti(): string[] {
     colorStandard({ color: 'amber', level: 600 }),
   ]
 }
+
+type ColorInput = {
+  color: string
+  opacity?: number
+}
+
+export function normalizeColor({ color, opacity }: ColorInput): string {
+  const parseRgb = (rgb: string): number[] => rgb.match(/-?\d+(\.\d+)?/g)?.map(Number) || []
+
+  const clamp = (num: number, min: number, max: number) => Math.min(max, Math.max(min, num))
+
+  color = color.trim().toLowerCase()
+
+  let [r, g, b, a] = [0, 0, 0, opacity ?? 1]
+
+  if (color.startsWith('#')) {
+    const rgb = hexToRgb(color)
+    if (rgb)
+      [r, g, b] = [rgb.r, rgb.g, rgb.b]
+  }
+  else if (color.startsWith('rgb')) {
+    const values = parseRgb(color);
+    [r, g, b] = values
+    if (values[3] !== undefined && opacity === undefined) {
+      a = values[3]
+    }
+  }
+  else {
+    const namedColors: { [key: string]: number[] } = {
+      red: [255, 0, 0],
+      green: [0, 128, 0],
+      blue: [0, 0, 255],
+      // Add more as needed
+    };
+    [r, g, b] = namedColors[color] || [0, 0, 0]
+  }
+
+  [r, g, b] = [r, g, b].map(v => clamp(Math.round(v), 0, 255))
+  a = clamp(a, 0, 1)
+
+  return `rgba(${r} ${g} ${b} / ${a.toFixed(2)})`
+}

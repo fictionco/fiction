@@ -1,5 +1,6 @@
 import { z } from 'zod'
-import { ColorThemeSchema, FontConfigValSchema, FontStyleSchema, HeaderLayoutSchema, MediaDisplaySchema, SizeBasicSchema } from '@fiction/core'
+import { ColorThemeSchema, FontConfigValSchema, FontStyleSchema, HeaderLayoutSchema, MediaDisplaySchema, SizeBasicSchema, UiOriginSchema } from '@fiction/core'
+import type { TableCardConfig } from '.'
 
 export type SizeBasic = z.infer<typeof SizeBasicSchema>
 
@@ -47,6 +48,12 @@ export const CardStandardSchema = z.object({
     superColor: z.string().optional(),
     title: z.string().optional(),
     subTitle: z.string().optional(),
+  }).optional(),
+
+  effect: z.object({
+    origin: UiOriginSchema.optional(),
+    size: SizeBasicSchema.optional(),
+    rotation: z.number().min(0).max(360).optional(),
   }).optional(),
 })
 

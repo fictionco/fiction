@@ -220,6 +220,7 @@ export interface CompiledServiceConfig {
       | 'title'
       | 'description'
       | 'cards'
+      | 'effects'
       | 'userConfig'
       | 'isHome'
       | 'is404'

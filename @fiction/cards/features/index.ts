@@ -45,7 +45,7 @@ const defaultConfig: UserConfig = {
     { name: 'Custom Cakes', desc: 'Award-winning custom cakes crafted for every special occasion, made to your exact specifications.', icon: 'i-tabler-cake', color: 'rose' },
     { name: 'Gourmet Pastries', desc: 'Indulge in an array of gourmet pastries, freshly baked and perfect for any time of the day.', icon: 'i-tabler-brand-cakephp', color: 'emerald' },
     { name: 'Artisan Bread', desc: 'Experience the taste of artisanal bread, made from the finest ingredients and baked to perfection.', icon: 'i-tabler-bread', color: 'orange' },
-    { name: 'Baking Classes', desc: 'Join exclusive baking classes and learn the secrets behind the chef’s world-renowned creations.', icon: 'i-tabler-school', color: 'blue' },
+    { name: 'Baking Classes', desc: 'Join exclusive baking classes and learn the secrets behind the chef\'s world-renowned creations.', icon: 'i-tabler-school', color: 'blue' },
     { name: 'Decadent Cookies', desc: 'Savor our selection of freshly baked cookies, perfect for any occasion or just a sweet treat.', icon: 'i-tabler-cookie', color: 'yellow' },
     { name: 'Nationwide Delivery', desc: 'Enjoy our baked goods from anywhere with our reliable and fast nationwide delivery service.', icon: 'i-tabler-truck', color: 'purple' },
   ],

@@ -1,5 +1,54 @@
 import { describe, expect, it } from 'vitest'
-import { colorList, getColorScheme, hexToRgbString, tailwindVarColorScheme } from '../colors'
+import { colorList, getColorScheme, hexToRgbString, normalizeColor, tailwindVarColorScheme } from '../colors'
+
+describe('normalizeColor', () => {
+  it('handles hex colors', () => {
+    expect(normalizeColor({ color: '#FF0000' })).toBe('rgba(255 0 0 / 1.00)')
+    expect(normalizeColor({ color: '#00FF00' })).toBe('rgba(0 255 0 / 1.00)')
+    expect(normalizeColor({ color: '#0000FF' })).toBe('rgba(0 0 255 / 1.00)')
+    expect(normalizeColor({ color: '#123' })).toBe('rgba(17 34 51 / 1.00)')
+  })
+
+  it('handles rgb colors', () => {
+    expect(normalizeColor({ color: 'rgb(255, 0, 0)' })).toBe('rgba(255 0 0 / 1.00)')
+    expect(normalizeColor({ color: 'rgb(0, 255, 0)' })).toBe('rgba(0 255 0 / 1.00)')
+    expect(normalizeColor({ color: 'rgb(0, 0, 255)' })).toBe('rgba(0 0 255 / 1.00)')
+  })
+
+  it('handles rgba colors', () => {
+    expect(normalizeColor({ color: 'rgba(255, 0, 0, 0.5)' })).toBe('rgba(255 0 0 / 0.50)')
+    expect(normalizeColor({ color: 'rgba(0, 255, 0, 0.3)' })).toBe('rgba(0 255 0 / 0.30)')
+    expect(normalizeColor({ color: 'rgba(0, 0, 255, 0.7)' })).toBe('rgba(0 0 255 / 0.70)')
+  })
+
+  it('handles named colors', () => {
+    expect(normalizeColor({ color: 'red' })).toBe('rgba(255 0 0 / 1.00)')
+    expect(normalizeColor({ color: 'green' })).toBe('rgba(0 128 0 / 1.00)')
+    expect(normalizeColor({ color: 'blue' })).toBe('rgba(0 0 255 / 1.00)')
+  })
+
+  it('handles custom opacity', () => {
+    expect(normalizeColor({ color: '#FF0000', opacity: 0.5 })).toBe('rgba(255 0 0 / 0.50)')
+    expect(normalizeColor({ color: 'rgb(0, 255, 0)', opacity: 0.3 })).toBe('rgba(0 255 0 / 0.30)')
+    expect(normalizeColor({ color: 'blue', opacity: 0.7 })).toBe('rgba(0 0 255 / 0.70)')
+  })
+
+  it('clamps values to valid ranges', () => {
+    expect(normalizeColor({ color: 'rgb(300, -50, 1000)' })).toBe('rgba(255 0 255 / 1.00)')
+    expect(normalizeColor({ color: 'rgba(100, 100, 100, 1.5)' })).toBe('rgba(100 100 100 / 1.00)')
+    expect(normalizeColor({ color: 'rgb(100, 100, 100)', opacity: 1.5 })).toBe('rgba(100 100 100 / 1.00)')
+  })
+
+  it('handles whitespace and capitalization', () => {
+    expect(normalizeColor({ color: ' #FF0000 ' })).toBe('rgba(255 0 0 / 1.00)')
+    expect(normalizeColor({ color: 'RGB(0, 255, 0)' })).toBe('rgba(0 255 0 / 1.00)')
+    expect(normalizeColor({ color: '  Red  ' })).toBe('rgba(255 0 0 / 1.00)')
+  })
+
+  it('defaults to black for unknown colors', () => {
+    expect(normalizeColor({ color: 'notacolor' })).toBe('rgba(0 0 0 / 1.00)')
+  })
+})
 
 describe('hexToRgbString', () => {
   it('converts hex to RGB correctly', () => {
