@@ -29,7 +29,13 @@ export default defineConfig({
   root: process.cwd(),
 
   test: {
+    // browser: {
+    //   provider: 'playwright',
+    //   enabled: true,
+    //   name: 'chromium',
+    // },
     testTimeout: 40000,
+    hookTimeout: 20000,
     env: {
       NODE_ENV: 'development',
     },

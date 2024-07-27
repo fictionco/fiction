@@ -204,6 +204,10 @@ describe('cardTemplate', async () => {
         "mediaPop",
         "trek",
         "fitText",
+        "overSlide",
+        "statement",
+        "testimonials",
+        "effectShape",
         "testWrap",
       ]
     `)
