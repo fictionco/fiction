@@ -104,10 +104,13 @@ export const PostHandlingSchema = z.object({
 
 export type PostObject = z.infer<typeof PostSchema>
 
+// So it works in node
+const MouseEventType = typeof MouseEvent !== 'undefined' ? MouseEvent : class {}
+
 const ClickHandlerSchema = z.function()
   .args(
     z.object({
-      event: z.instanceof(MouseEvent).optional(),
+      event: z.instanceof(MouseEventType).optional(),
       item: z.record(z.any()).optional(),
       props: z.record(z.string(), z.any()).optional(),
     }),

@@ -37,8 +37,8 @@ export function createGoogleFontsLink(args: { fontKeys: string[] }) {
 
   const fontParams = deduped.map((fontKey) => {
     const family = fontKey.replace(/ /g, '+')
-    // Load all variants by using the generic format
-    return `${family}:ital,wght@0,400;0,700;1,400;1,700`
+    // Use variable font syntax to include all weights and styles
+    return `${family}:ital,wght@0,1..1000;1,1..1000`
   }).filter(Boolean).join('&family=')
 
   return fontParams ? `https://fonts.googleapis.com/css2?family=${fontParams}&display=swap` : ''

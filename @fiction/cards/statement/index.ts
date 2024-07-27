@@ -103,7 +103,18 @@ export const templates = [
     demoPage: async (_) => {
       const userConfig = await getUserConfig(_)
       const effects = await getEffects(_)
-      return { cards: [{ templateId, userConfig, effects }] }
+      return { cards: [
+        { templateId, userConfig, effects },
+        { templateId, userConfig: {
+          items: [
+            {
+              title: 'Build Your Personal Brand',
+              content: 'Take control of your online presence with our platform. Create a stunning website, capture email subscribers, and engage with your audience effortlessly. Elevate your personal brand and stand out in your industry.',
+              actions: [{ name: 'Get Started', href: '#', theme: 'primary' as const }],
+            },
+          ],
+        } },
+      ] }
     },
   }),
 ] as const

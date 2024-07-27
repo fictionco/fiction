@@ -1,6 +1,5 @@
 <script setup lang="ts" generic="T">
 import { vue, waitFor } from '@fiction/core'
-import Flickity from 'flickity'
 import 'flickity/css/flickity.css'
 
 const props = defineProps<{
@@ -16,7 +15,12 @@ const emit = defineEmits<{
 const carouselRef = vue.ref<HTMLElement | null>(null)
 let flkty: Flickity | null = null
 
-function initFlickity() {
+async function initFlickity() {
+  if (typeof window === 'undefined')
+    return
+
+  const { default: Flickity } = await import('flickity')
+
   if (carouselRef.value) {
     flkty = new Flickity(carouselRef.value, {
       selectedAttraction: 0.03, // Default is 0.025
@@ -53,7 +57,7 @@ function initFlickity() {
 
 vue.onMounted(async () => {
   await waitFor(200) // attempt better height calculation
-  initFlickity()
+  await initFlickity()
 })
 
 vue.onBeforeUnmount(() => {
@@ -66,8 +70,8 @@ vue.watch(() => props.slides, () => {
   if (flkty) {
     flkty.destroy()
   }
-  vue.nextTick(() => {
-    initFlickity()
+  vue.nextTick(async () => {
+    await initFlickity()
   })
 }, { deep: true })
 
