@@ -46,7 +46,7 @@ const cards = vue.computed(() => {
           <div class="p-4">
             <div class="p-3 cursor-pointer hover:opacity-80 dark:text-theme-600 text-theme-400 max-w-md mx-auto rounded-lg font-sans text-sm bg-theme-50 dark:bg-theme-800/50 text-balance text-center" @click="handleCardClick({ cardId: subCard.cardId, event: $event })">
               <div class="font-normal text-theme-700 dark:text-theme-300">
-                Placeholder for the popup "{{ toLabel(subCard.templateId.value) }}" Card.  (This won't appear on the live site.)
+                Placeholder for the non-inline "{{ toLabel(subCard.templateId.value) }}" Card.  (Won't appear on the live site.)
               </div>
             </div>
           </div>
@@ -65,12 +65,6 @@ const cards = vue.computed(() => {
           <div :class="subCard.tpl.value?.settings.icon" />
           <div>{{ subCard.tpl.value?.settings.title }}</div>
         </div>
-        <component
-          :is="effectCard.tpl.value?.settings?.el"
-          v-for="(effectCard, ii) in subCard.effects.value"
-          :key="ii"
-          :card="effectCard"
-        />
       </CardWrap>
     </template>
   </component>

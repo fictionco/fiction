@@ -138,9 +138,15 @@ vue.watch(() => standardUc.value?.fontStyle, (fontStyle) => {
         <div class="relative">
           <StandardHeader v-if="standardUc?.headers?.title" :card class="mb-8 lg:mb-16" />
           <slot />
+
+          <component
+            :is="effectCard.tpl.value?.settings?.el"
+            v-for="(effectCard, ii) in card.effects.value"
+            :key="ii"
+            :card="effectCard"
+          />
         </div>
       </div>
-      <slot name="wrap" />
     </div>
     <ElImage v-if="colorScheme?.bg" class="object-cover w-full h-full absolute inset-0 pointer-events-none -z-10" :media="colorScheme?.bg" />
   </div>

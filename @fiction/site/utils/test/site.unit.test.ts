@@ -69,6 +69,16 @@ describe('query var', async () => {
 
     expect(site.isLightMode.value).toBe(true)
   })
+
+  it('defaults to correct mode based on config', async () => {
+    const site = await Site.create({ ...common, themeId: 'test', siteId: `test-${shortId()}`, userConfig: { styling: { isLightMode: true } } })
+
+    expect(site.isLightMode.value).toBe(true)
+
+    site.isLightMode.value = false
+
+    expect(site.isLightMode.value).toBe(false)
+  })
 })
 
 describe('saveSite', async () => {

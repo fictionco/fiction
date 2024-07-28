@@ -38,7 +38,7 @@ function toggleDarkLightMode() {
 
   props.site.isLightMode.value = !props.site.isLightMode.value
 
-  props.site.frame.syncSite({ caller: 'updateDarkMode' })
+  props.site.frame.syncSite({ caller: 'updateDarkLightMode' })
 }
 </script>
 

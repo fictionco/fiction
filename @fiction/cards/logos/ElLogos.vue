@@ -40,14 +40,14 @@ function getInlineLogoCols() {
     <div class="content-standard p-4 text-center md:p-0">
       <div
         class="items-center"
-        :class="uc.layout === 'stacked' ? 'block' : 'inline-flex flex-col md:flex-row md:space-x-14'"
+        :class="uc.layout === 'stacked' ? 'block' : 'md:inline-flex flex-col md:flex-row md:space-x-14'"
       >
         <div
           class="x-font-title text-theme-400 dark:text-theme-600 text-balance"
           :class="
             uc.layout === 'stacked'
               ? 'text-xl mb-16 font-medium'
-              : 'text-sm font-semibold max-w-40 text-right'
+              : 'text-sm font-semibold text-center md:max-w-40 md:text-right'
           "
         >
           {{ uc.label }}
@@ -56,7 +56,7 @@ function getInlineLogoCols() {
           class="items-center gap-y-10 text-center md:gap-x-12"
           :class=" uc.layout === 'stacked'
             ? `flex justify-center flex-wrap`
-            : `grid grid-cols-1 ${getInlineLogoCols()}`
+            : `space-y-4 md:space-y-0 md:grid grid-cols-1 ${getInlineLogoCols()}`
           "
         >
           <a

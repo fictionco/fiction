@@ -74,8 +74,8 @@ const accountMenu: vue.ComputedRef<IndexItem[]> = vue.computed(() => {
       icon: 'i-tabler-settings',
     },
     {
-      name: 'Dark Mode',
-      icon: 'i-tabler-moon-stars',
+      name: 'Dark/Light Mode',
+      icon: props.card.site?.isLightMode ? 'i-tabler-sun' : 'i-tabler-moon-stars',
       figure: { el: DashDarkModeToggle },
     },
     {

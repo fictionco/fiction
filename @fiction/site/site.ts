@@ -116,15 +116,15 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
   userFonts = vue.ref<Record<string, FontConfigVal>>({})
   siteFonts = activeSiteFont(this)
-  configDarkMode = vue.computed(() => this.fullConfig.value.styling?.isLightMode ?? isDarkOrLightMode() === 'light')
-  localDarkMode = localRef({ key: `fictionIsDarkMode`, def: this.configDarkMode.value })
+  configLightMode = vue.computed(() => this.fullConfig.value.styling?.isLightMode ?? isDarkOrLightMode() === 'light')
+  localLightMode = localRef({ key: `fictionIsLightMode`, def: this.configLightMode.value })
   isLightMode = vue.computed({
     get: () => {
-      return (this.siteMode.value === 'standard') ? this.localDarkMode.value : this.configDarkMode.value
+      return (this.siteMode.value === 'standard') ? this.localLightMode.value : this.configLightMode.value
     },
     set: (v) => {
       this.userConfig.value = setNested({ data: this.userConfig.value, path: 'styling.isLightMode', value: v })
-      this.localDarkMode.value = v
+      this.localLightMode.value = v
     },
   })
 
