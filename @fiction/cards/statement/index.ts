@@ -43,17 +43,17 @@ async function getUserConfig(_args: { site: Site }): Promise<UserConfig & SiteUs
       {
         title: 'Struggling to Stand Out?',
         content: `Many people find it challenging to market themselves in today's noisy world. Building a personal brand is essential. We're here to help you shine.`,
-        actions: [{ name: 'Join Our Network', href: '#', theme: 'outline' }],
+        actions: [{ name: 'Join Our Network', href: '#', theme: 'overlay', design: 'outline' }],
       },
       {
         title: 'Need a Unique Voice?',
         content: `Finding your unique voice can be tough. Developing a personal brand is the key to distinguishing yourself. Let us guide you through the process.`,
-        actions: [{ name: 'Join Our Network', href: '#', theme: 'outline' }],
+        actions: [{ name: 'Join Our Network', href: '#', theme: 'overlay', design: 'outline' }],
       },
       {
         title: 'Overwhelmed by Self-Doubt?',
         content: `Overcoming self-doubt is crucial to effective self-marketing. Our expertise in personal branding can help you build confidence and attract opportunities.`,
-        actions: [{ name: 'Join Our Network', href: '#', theme: 'outline' }],
+        actions: [{ name: 'Join Our Network', href: '#', theme: 'overlay', design: 'outline' }],
       },
     ],
     standard: {

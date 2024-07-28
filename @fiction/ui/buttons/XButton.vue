@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import type { ColorThemeUser, StandardSize } from '@fiction/core'
+import type { ButtonDesign, ButtonFontWeight, ButtonFormat, ButtonHover, ButtonRounding, ButtonShadow, ColorThemeUser, StandardSize } from '@fiction/core'
 import { getNavComponentType, shortId, vue } from '@fiction/core'
 import { animateItemEnter, splitLetters } from '../anim'
-import type { ButtonDesign, ButtonFontWeight, ButtonFormat, ButtonHover, ButtonRounding, ButtonShadow } from './util'
 import { getButtonClasses } from './util'
 
 defineOptions({ name: 'ElButton' })

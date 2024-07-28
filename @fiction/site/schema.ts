@@ -1,6 +1,5 @@
 import { z } from 'zod'
-import { ColorThemeSchema, FontConfigValSchema, FontStyleSchema, HeaderLayoutSchema, MediaDisplaySchema, SizeBasicSchema, UiOriginSchema, colorThemeUser } from '@fiction/core'
-import { ButtonDesignSchema, ButtonHoverSchema, ButtonRoundingSchema } from '@fiction/ui'
+import { ButtonDesignSchema, ButtonHoverSchema, ButtonRoundingSchema, ColorThemeSchema, FontConfigValSchema, FontStyleSchema, HeaderLayoutSchema, MediaDisplaySchema, SizeBasicSchema, UiOriginSchema, colorThemeUser } from '@fiction/core'
 
 export type SizeBasic = z.infer<typeof SizeBasicSchema>
 

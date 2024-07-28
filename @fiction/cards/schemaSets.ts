@@ -1,6 +1,5 @@
 import type { MediaItem } from '@fiction/core'
-import { SizeSchema, colorThemeUser } from '@fiction/core'
-import { ButtonDesignSchema } from '@fiction/ui'
+import { ButtonDesignSchema, SizeSchema, colorThemeUser } from '@fiction/core'
 import { z } from 'zod'
 
 export const mediaSchema = z.object({

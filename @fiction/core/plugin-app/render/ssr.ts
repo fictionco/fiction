@@ -114,8 +114,8 @@ export class SSR extends FictionObject<SSRSettings> {
       const ctx: { modules?: string[] } = {}
       out.htmlBody = await renderToString(app, ctx)
     }
-    catch (e) {
-      this.log.error('renderToString error', { data: { error: e } })
+    catch (error) {
+      this.log.error('renderToString error', { data: { runVars }, error })
     }
 
     /**

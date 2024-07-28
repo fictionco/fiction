@@ -1,23 +1,6 @@
-import type { ColorThemeUser, StandardSize } from '@fiction/core'
+import type { ButtonBorder, ButtonDesign, ButtonFontWeight, ButtonFormat, ButtonHover, ButtonRounding, ButtonShadow, ColorThemeUser, StandardSize } from '@fiction/core'
 import { z } from 'zod'
 import { themes } from './themes'
-
-export const ButtonFormatSchema = z.enum(['block', 'spread', 'default'])
-export const ButtonDesignSchema = z.enum(['solid', 'ghost', 'outline', 'textOnly'])
-export const ButtonRoundingSchema = z.enum(['none', 'md', 'full'])
-export const ButtonHoverSchema = z.enum(['none', 'basic', 'rise', 'fade', 'slide', 'pop'])
-export const ButtonShadowSchema = z.enum(['none', 'sm', 'md', 'lg'])
-export const ButtonFontWeightSchema = z.enum(['normal', 'medium', 'semibold', 'bold'])
-export const ButtonBorderSchema = z.enum(['none', 'normal', 'thick'])
-
-// Inferred types
-export type ButtonFormat = z.infer<typeof ButtonFormatSchema>
-export type ButtonDesign = z.infer<typeof ButtonDesignSchema>
-export type ButtonRounding = z.infer<typeof ButtonRoundingSchema>
-export type ButtonHover = z.infer<typeof ButtonHoverSchema>
-export type ButtonShadow = z.infer<typeof ButtonShadowSchema>
-export type ButtonFontWeight = z.infer<typeof ButtonFontWeightSchema>
-export type ButtonBorder = z.infer<typeof ButtonBorderSchema>
 
 export function getButtonClasses(args: {
   theme?: ColorThemeUser

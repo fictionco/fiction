@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
-import ElImage from '@fiction/ui/media/ElImage.vue'
 import type { Card } from '@fiction/site'
 import ActionButtons from '@fiction/ui/buttons/ActionButtons.vue'
 import EffectCarousel from '@fiction/ui/effect/EffectCarousel.vue'
@@ -43,7 +42,7 @@ function onSlideChange(index: number) {
 
               <CardText
                 tag="div"
-                class="text-2xl !leading-[1.8] sm:text-3xl  text-theme-500 dark:text-theme-300/90"
+                class="text-2xl !leading-[1.8] sm:text-3xl  text-theme-600 dark:text-theme-300/90"
                 :card="card"
                 :path="`items.${index}.content`"
                 animate="fade"

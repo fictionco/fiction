@@ -1,6 +1,4 @@
-import type { ColorThemeUser } from '@fiction/core'
-
-import type { ButtonDesign } from './util'
+import type { ButtonDesign, ColorThemeUser } from '@fiction/core'
 
 export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string, border?: string, hover?: string, icon?: string }>> = {
   naked: {

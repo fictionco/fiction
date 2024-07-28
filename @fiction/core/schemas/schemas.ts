@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { colorThemeWithInvert } from '../utils/colors.js'
+import { colorThemeUser, colorThemeWithInvert } from '../utils/colors.js'
 
 export const PostStatusSchema = z.enum(['draft', 'scheduled', 'published', 'hidden', 'protected', 'deleted', 'archived', 'trashed', 'spam'])
 export const ProgressStatusSchema = z.enum(['pending', 'requested', 'processing', 'ready', 'error', 'cancelled'])
@@ -17,8 +17,52 @@ export const BackgroundPositionSchema = z.enum(['center', 'top', 'bottom', 'left
 export const BackgroundSizeSchema = z.enum(['cover', 'contain', 'auto'])
 export const BlendModesSchema = z.enum(['normal', 'multiply', 'screen', 'overlay', 'darken', 'lighten', 'color-dodge', 'color-burn', 'hard-light', 'soft-light', 'difference', 'exclusion', 'hue', 'saturation', 'color', 'luminosity'])
 export const HeaderLayoutSchema = z.enum(['left', 'right', 'center', 'justify'])
-export const ButtonColorSchema = z.enum(['primary', 'theme', 'outline'])
-export const ButtonStyleShema = z.enum(['outline', 'minimal', 'solid'])
+export const ButtonColorThemeSchema = z.enum(colorThemeUser)
+export const ButtonFormatSchema = z.enum(['block', 'spread', 'default'])
+export const ButtonDesignSchema = z.enum(['solid', 'ghost', 'outline', 'textOnly'])
+export const ButtonRoundingSchema = z.enum(['none', 'md', 'full'])
+export const ButtonHoverSchema = z.enum(['none', 'basic', 'rise', 'fade', 'slide', 'pop'])
+export const ButtonShadowSchema = z.enum(['none', 'sm', 'md', 'lg'])
+export const ButtonFontWeightSchema = z.enum(['normal', 'medium', 'semibold', 'bold'])
+export const ButtonBorderSchema = z.enum(['none', 'normal', 'thick'])
+
+// Inferred types
+export type ButtonFormat = z.infer<typeof ButtonFormatSchema>
+export type ButtonDesign = z.infer<typeof ButtonDesignSchema>
+export type ButtonRounding = z.infer<typeof ButtonRoundingSchema>
+export type ButtonHover = z.infer<typeof ButtonHoverSchema>
+export type ButtonShadow = z.infer<typeof ButtonShadowSchema>
+export type ButtonFontWeight = z.infer<typeof ButtonFontWeightSchema>
+export type ButtonBorder = z.infer<typeof ButtonBorderSchema>
+
+// So it works in node
+const MouseEventType = typeof MouseEvent !== 'undefined' ? MouseEvent : class {}
+
+const ClickHandlerSchema = z.function()
+  .args(
+    z.object({
+      event: z.instanceof(MouseEventType).optional(),
+      item: z.record(z.any()).optional(),
+      props: z.record(z.string(), z.any()).optional(),
+    }),
+  )
+  .returns(z.any())
+
+export const ActionButtonSchema = z.object({
+  name: z.string(),
+  href: z.string(),
+  size: SizeSchema.optional(),
+  theme: ButtonColorThemeSchema.optional(),
+  design: ButtonDesignSchema.optional(),
+  format: ButtonFormatSchema.optional(),
+  icon: z.string().optional(),
+  iconAfter: z.string().optional(),
+  loading: z.boolean().optional(),
+  disabled: z.boolean().optional(),
+  onClick: ClickHandlerSchema.optional(),
+})
+
+export type ActionButton = z.infer<typeof ActionButtonSchema>
 
 export const FontConfigValSchema = z.object({
   fontKey: z.string().optional(),
@@ -115,31 +159,3 @@ export const PostHandlingSchema = z.object({
 })
 
 export type PostObject = z.infer<typeof PostSchema>
-
-// So it works in node
-const MouseEventType = typeof MouseEvent !== 'undefined' ? MouseEvent : class {}
-
-const ClickHandlerSchema = z.function()
-  .args(
-    z.object({
-      event: z.instanceof(MouseEventType).optional(),
-      item: z.record(z.any()).optional(),
-      props: z.record(z.string(), z.any()).optional(),
-    }),
-  )
-  .returns(z.any())
-
-export const ActionButtonSchema = z.object({
-  name: z.string(),
-  href: z.string(),
-  size: SizeSchema.optional(),
-  theme: ButtonColorSchema.optional(),
-  style: ButtonStyleShema.optional(),
-  icon: z.string().optional(),
-  iconAfter: z.string().optional(),
-  loading: z.boolean().optional(),
-  isDisabled: z.boolean().optional(),
-  onClick: ClickHandlerSchema.optional(),
-})
-
-export type ActionButton = z.infer<typeof ActionButtonSchema>

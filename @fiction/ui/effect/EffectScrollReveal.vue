@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 import { vue, waitFor } from '@fiction/core'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { splitLetters } from '../anim/index.js'
 
 const props = defineProps({
@@ -9,16 +7,32 @@ const props = defineProps({
 })
 
 // Register ScrollTrigger plugin with GSAP
-gsap.registerPlugin(ScrollTrigger)
 
 const revealText = vue.ref<HTMLElement | null>(null)
 
-function loadRevealText() {
+// Load GSAP and ScrollTrigger in client only as problems in node
+async function getGsap() {
+  const { gsap } = await import('gsap')
+
+  const { ScrollTrigger } = await import('gsap/ScrollTrigger')
+
+  gsap.registerPlugin(ScrollTrigger)
+
+  vue.onUnmounted(() => {
+    ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+  })
+
+  return gsap
+}
+
+async function loadRevealText() {
   const el = revealText.value
 
   if (!el) {
     throw new Error('Element not found for scroll reveal effect')
   }
+
+  const gsap = await getGsap()
 
   splitLetters({ el })
 
@@ -42,11 +56,7 @@ function loadRevealText() {
 
 vue.onMounted(async () => {
   await waitFor(50)
-  loadRevealText()
-})
-
-vue.onUnmounted(() => {
-  ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+  await loadRevealText()
 })
 </script>
 
