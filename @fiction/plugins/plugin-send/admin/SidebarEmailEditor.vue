@@ -24,7 +24,7 @@ const { fictionSend } = useService<{ fictionSend: FictionSend }>()
 
 const options = vue.computed(() => {
   const refinedOptions = refineOptions({
-    options: [standardOption.actionItems({ key: 'userConfig.actions', label: 'Action Buttons' })],
+    options: [standardOption.buttons({ key: 'userConfig.actions', label: 'Action Buttons' })],
     schema: sendTable.tableSchema(),
   })
 
