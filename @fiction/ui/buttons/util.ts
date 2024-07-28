@@ -1,5 +1,4 @@
 import type { ButtonBorder, ButtonDesign, ButtonFontWeight, ButtonFormat, ButtonHover, ButtonRounding, ButtonShadow, ColorThemeUser, StandardSize } from '@fiction/core'
-import { z } from 'zod'
 import { themes } from './themes'
 
 export function getButtonClasses(args: {

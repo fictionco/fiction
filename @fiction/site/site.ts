@@ -1,7 +1,6 @@
 import type { FictionRouter } from '@fiction/core'
 import { FictionObject, deepMerge, getColorScheme, isDarkOrLightMode, localRef, objectId, resetUi, setNested, shortId, vue, waitFor } from '@fiction/core'
 import { TypedEventTarget } from '@fiction/core/utils/eventTarget.js'
-import type { pages } from '@fiction/admin/theme/index.js'
 import type { CardConfigPortable, PageRegion, TableCardConfig, TableSiteConfig } from './tables.js'
 import type { Card, CardTemplate } from './card.js'
 import { flattenCards, setLayoutOrder } from './utils/layout.js'
@@ -116,8 +115,8 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
   userFonts = vue.ref<Record<string, FontConfigVal>>({})
   siteFonts = activeSiteFont(this)
-  configLightMode = vue.computed(() => this.fullConfig.value.styling?.isLightMode ?? isDarkOrLightMode() === 'light')
-  localLightMode = localRef({ key: `fictionIsLightMode`, def: this.configLightMode.value })
+  configLightMode = vue.computed(() => this.fullConfig.value.styling?.isLightMode ?? false)
+  localLightMode = localRef({ key: `fictionIsLightMode`, def: this.configLightMode.value, lifecycle: 'session' })
   isLightMode = vue.computed({
     get: () => {
       return (this.siteMode.value === 'standard') ? this.localLightMode.value : this.configLightMode.value

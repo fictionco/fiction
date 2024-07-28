@@ -3,7 +3,6 @@ import type { Site } from '@fiction/site'
 import { CardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
-import { staticFileUrls } from '@fiction/site/utils/site'
 import { options as heroOptions, schema as heroSchema } from '../hero/index'
 
 const templateId = 'tour'

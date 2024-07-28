@@ -1,5 +1,4 @@
 import type { CardConfigPortable, CardTemplate, Site } from '@fiction/site'
-import { createCard } from '@fiction/site'
 import { CardFactory } from '@fiction/site/cardFactory.js'
 import { getCardTemplates } from '../index.js'
 

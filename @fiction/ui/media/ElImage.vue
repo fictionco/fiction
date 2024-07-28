@@ -3,7 +3,6 @@ import type { GradientSetting, ImageFilterConfig, MediaObject } from '@fiction/c
 import { log, vue, waitFor } from '@fiction/core'
 import * as bh from 'blurhash'
 import ClipPathAnim from '../anim/AnimClipPath.vue'
-import ElOverlay from './ElOverlay.vue'
 
 defineOptions({ name: 'ElImage' })
 

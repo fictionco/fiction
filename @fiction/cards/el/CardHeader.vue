@@ -102,7 +102,7 @@ const layout = vue.computed(() => {
         <CardText
           tag="div"
           :card="card"
-          class="mt-8 text-xl lg:text-2xl lg:leading-snug md:text-balance text-theme-600 dark:text-theme-300/90"
+          class="mt-8 text-xl lg:text-2xl lg:leading-snug md:text-balance text-theme-700 dark:text-theme-300/90"
           :class="layout === 'justify' ? 'lg:text-right' : ''"
           path="subHeading"
           placeholder="Sub Heading"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { UiOriginSchema, resetUi, toLabel, vue } from '@fiction/core'
+import { resetUi, toLabel, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import CardWrap from './CardWrap.vue'
 

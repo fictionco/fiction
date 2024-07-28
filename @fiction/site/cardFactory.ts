@@ -1,5 +1,5 @@
 import type { vue } from '@fiction/core'
-import { FictionObject, deepMerge, log, parseObject } from '@fiction/core'
+import { FictionObject, log } from '@fiction/core'
 import type { Card } from './card.js'
 import { CardTemplate } from './card.js'
 import type { ComponentConstructor } from './type-utils.js'

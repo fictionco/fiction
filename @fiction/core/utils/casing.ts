@@ -105,6 +105,7 @@ export function toSnake(text?: string, opts: { upper?: boolean, allowPeriods?: b
   const snakeCased = text
     .replace(/([a-z])([A-Z])/g, '$1_$2') // Insert an underscore between lowercase and uppercase letters
     .replace(/\.+/g, allowPeriods ? '.' : '_') // Replace dots with underscores unless allowPeriods is true
+    .replace(/\+/g, '_') // Replace plus signs with underscores
     .toLowerCase() // Convert the whole string to lowercase
     .replace(/^_+/, '') // Remove leading underscores if they exist
     .replace(/_+$/, '') // Remove trailing underscores if they exist
