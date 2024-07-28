@@ -30,7 +30,6 @@ vue.onMounted(() => {
 
   vue.onUnmounted(() => observer.disconnect())
 })
-const activeItem = vue.computed(() => uc.value.items[activeItemIndex.value])
 </script>
 
 <template>

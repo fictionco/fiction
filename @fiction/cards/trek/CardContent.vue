@@ -11,7 +11,7 @@ const props = defineProps({
   mode: { type: String as vue.PropType<'normal' | 'overlay'>, default: 'normal' },
 })
 const uc = vue.computed(() => props.card.userConfig.value || {})
-const activeItem = vue.computed(() => uc.value.items[props.itemIndex])
+const activeItem = vue.computed(() => uc.value.items?.[props.itemIndex] || {})
 
 const actions = vue.computed(() => {
   return activeItem.value.actions
@@ -21,7 +21,7 @@ const actions = vue.computed(() => {
 <template>
   <div class="space-y-4">
     <div class="flex items-center font-sans " :class="mode === 'overlay' ? '' : 'text-theme-500 dark:text-theme-200'">
-      {{ itemIndex + 1 }} <span class="i-tabler-slash" /> {{ uc.items.length }}
+      {{ itemIndex + 1 }} <span class="i-tabler-slash" /> {{ uc.items?.length }}
     </div>
     <transition
       enter-active-class="ease-out duration-200"

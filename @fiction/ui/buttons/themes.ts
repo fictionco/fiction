@@ -11,13 +11,13 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
   },
   overlay: {
     solid: {
-      base: 'bg-white/30 text-white',
+      base: 'bg-white/10 text-white',
       border: 'border-white',
       hover: 'hover:bg-white/20 ',
       icon: 'text-white',
     },
     ghost: {
-      base: 'bg-white/20 text-white-900 ',
+      base: 'bg-white/10 text-white-900 ',
       border: 'border-white/40',
       hover: 'hover:bg-white/40',
       icon: 'text-white-900/80 ',

@@ -21,7 +21,7 @@ const schema = z.object({
       href: z.string().optional(),
       btn: z.enum(['primary', 'default', 'minimal']).optional(),
     })).optional(),
-  })),
+  })).optional(),
 })
 
 export type UserConfig = z.infer<typeof schema>
@@ -82,6 +82,9 @@ export const templates = [
     options,
     schema,
     isPublic: false,
+    getBaseConfig: () => {
+      return { standard: { spacing: { contentWidth: 'none' } } }
+    },
     getUserConfig: async args => defaultConfig(args),
     demoPage: async (args) => {
       const userConfig = await defaultConfig(args)

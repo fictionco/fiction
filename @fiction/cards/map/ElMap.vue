@@ -2,6 +2,7 @@
 import type mapboxgl from 'mapbox-gl'
 import { isDarkOrLightMode, vue } from '@fiction/core'
 import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
+import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
 import type { MapSchemaConfig } from '.'
@@ -25,6 +26,7 @@ const fullMapConfig = vue.computed(() => {
   }
 })
 
+const loading = vue.ref(true)
 const map = vue.shallowRef<mapboxgl.Map>()
 const markers = vue.shallowRef<mapboxgl.Marker[]>([])
 
@@ -91,6 +93,8 @@ async function renderMap() {
   }
 
   map.value.on('load', () => {
+    loading.value = false
+
     const m = map.value
 
     if (!m)
@@ -157,12 +161,20 @@ vue.onUnmounted(() => {
 </script>
 
 <template>
-  <AnimClipPath :enabled="animate" class="w-full h-full outline-none focus:outline-none focus:ring-0 ">
+  <div>
     <div
-      :id="container"
-      class="h-full cursor-auto text-black font-bold font-sans text-xs"
-    />
-  </AnimClipPath>
+      v-if="loading"
+      class="absolute inset-0 flex p-6 justify-center   text-theme-300 dark:text-theme-700"
+    >
+      <ElSpinner class="h-12 w-12" />
+    </div>
+    <AnimClipPath :enabled="animate" class="w-full h-full outline-none focus:outline-none focus:ring-0 ">
+      <div
+        :id="container"
+        class="h-full cursor-auto text-black font-bold font-sans text-xs"
+      />
+    </AnimClipPath>
+  </div>
 </template>
 
 <style :lang="less">
