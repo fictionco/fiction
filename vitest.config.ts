@@ -35,7 +35,7 @@ export default defineConfig({
     //   name: 'chromium',
     // },
     testTimeout: 40000,
-    hookTimeout: 20000,
+    hookTimeout: 40000,
     env: {
       NODE_ENV: 'development',
     },

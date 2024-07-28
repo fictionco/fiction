@@ -3,7 +3,7 @@ import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { FictionPosts, Post } from '@fiction/posts'
 import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
-import ElBadge from '@fiction/ui/common/ElBadge.vue'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import { allPostsLink, postEditLink, postLink, taxonomyLink } from '@fiction/posts'
@@ -47,9 +47,9 @@ const imageAspect = vue.computed(() => {
     <article v-if="post" class="p-8 pb-44">
       <div class="space-y-8 my-[min(max(35px,_5vw),_60px)] prose:max-w-none text-center max-w-screen-lg mx-auto" :class="proseClass">
         <div class="tags space-x-3">
-          <ElBadge theme="naked" :href="allPostsLink({ card })">
+          <XButton design="textOnly" :href="allPostsLink({ card })">
             &larr; All Posts
-          </ElBadge>
+          </XButton>
           <ElBadge v-for="(cat, i) in post.categories.value" :key="i" :text="cat.title" :href="taxonomyLink({ card, taxonomy: 'category', term: cat.slug })" />
           <ElBadge v-if="userIsAuthor" :href="postEditLink({ post })" class="flex items-center">
             Edit Post

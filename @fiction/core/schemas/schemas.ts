@@ -9,6 +9,7 @@ export const ImageFiltersSchema = z.enum(['brightness', 'opacity', 'contrast', '
 export type ImageFilter = z.infer<typeof ImageFiltersSchema>
 export const SizeBasicSchema = z.enum(['none', 'full', 'xs', 'sm', 'md', 'lg', 'xl'])
 export const SizeSchema = z.enum(['xxs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl'])
+export type StandardSize = z.infer<typeof SizeSchema>
 export const UiOriginSchema = z.enum(['topLeft', 'topCenter', 'topRight', 'middleLeft', 'middleCenter', 'middleRight', 'bottomLeft', 'bottomCenter', 'bottomRight'])
 export const FontWeightsSchema = z.enum(['400', '500', '600', '700', '800'])
 export const BackgroundRepeatSchema = z.enum(['repeat', 'no-repeat', 'repeat-x', 'repeat-y'])
@@ -18,6 +19,7 @@ export const BlendModesSchema = z.enum(['normal', 'multiply', 'screen', 'overlay
 export const HeaderLayoutSchema = z.enum(['left', 'right', 'center', 'justify'])
 export const ButtonColorSchema = z.enum(['primary', 'theme', 'outline'])
 export const ButtonStyleShema = z.enum(['outline', 'minimal', 'solid'])
+
 export const FontConfigValSchema = z.object({
   fontKey: z.string().optional(),
   stack: z.enum(['monospace', 'sans', 'serif']),

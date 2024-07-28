@@ -1,6 +1,6 @@
 export const colorThemeBright = ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'] as const
-export const colorTheme = ['slate', 'gray', 'zinc', 'neutral', 'stone', ...colorThemeBright] as const
-export const colorThemeUser = ['theme', 'primary', 'secondary', ...colorTheme] as const
+export const colorTheme = ['slate', 'gray', 'zinc', 'neutral', 'stone', 'black', 'white', ...colorThemeBright] as const
+export const colorThemeUser = ['theme', 'primary', 'default', 'overlay', ...colorTheme] as const
 type InvertedColor = `${(typeof colorTheme)[number]}Inverted`
 // Create a union type that includes both regular and inverted colors
 export type ColorThemeBright = (typeof colorThemeBright)[number]
@@ -20,6 +20,8 @@ type ColorRecord = {
 }
 
 export const colorList: Record<ColorTheme, ColorRecord> = {
+  black: { 0: '#ffffff', 25: '#404040', 50: '#333333', 100: '#262626', 200: '#1a1a1a', 300: '#0d0d0d', 400: '#080808', 500: '#000000', 600: '#000000', 700: '#000000', 800: '#000000', 900: '#000000', 950: '#000000', 975: '#000000', 1000: '#000000' },
+  white: { 0: '#ffffff', 25: '#ffffff', 50: '#ffffff', 100: '#ffffff', 200: '#ffffff', 300: '#fafafa', 400: '#f5f5f5', 500: '#f0f0f0', 600: '#dedede', 700: '#cccccc', 800: '#bfbfbf', 900: '#b3b3b3', 950: '#a6a6a6', 975: '#999999', 1000: '#000000' },
   slate: { 0: '#ffffff', 25: '#f7fafc', 50: '#f3f6f9', 100: '#e2e6ef', 200: '#c5cad4', 300: '#a6adb9', 400: '#7e899e', 500: '#5e6e85', 600: '#3c4a5f', 700: '#2d3748', 800: '#202838', 900: '#161d2f', 950: '#0d1424', 975: '#0a0f1d', 1000: '#000000' },
   gray: { 0: '#ffffff', 25: '#fbfdff', 50: '#F8F9FD', 100: '#e6e9f1', 200: '#DEDFE2', 300: '#b3b9c5', 400: '#7A8599', 500: '#646E82', 600: '#394151', 700: '#1e2026', 800: '#131519', 900: '#0e0f11', 950: '#0A0B0D', 975: '#08090A', 1000: '#000000' },
   zinc: { 0: '#ffffff', 25: '#fcfcfc', 50: '#fafafa', 100: '#f4f4f5', 200: '#e4e4e7', 300: '#d4d4d8', 400: '#a1a1aa', 500: '#71717a', 600: '#52525b', 700: '#3f3f46', 800: '#27272a', 900: '#18181b', 950: '#09090b', 975: '#020204', 1000: '#000000' },

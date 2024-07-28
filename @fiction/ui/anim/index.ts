@@ -2,8 +2,8 @@ import { type NumberFormats, formatNumber } from '@fiction/core'
 import anime from 'animejs'
 
 type AnimationThemeConfig = Partial<{
-  translateX: number[]
-  translateY: number[]
+  translateX: number[] | number
+  translateY: number[] | number
   translateZ: number
   opacity: number[]
   easing: string
@@ -12,9 +12,10 @@ type AnimationThemeConfig = Partial<{
   totalAnimationTime: number
   scale: number[]
   isRandom?: boolean
+  delay?: number | ReturnType<typeof anime.stagger>
 }>
 
-const themes = {
+const themes: Record<string, AnimationThemeConfig> = {
   none: {},
   rise: {
     translateY: [30, 0],
@@ -32,7 +33,7 @@ const themes = {
     easing: 'easeInOutCubic',
     duration: 1000,
     overallDelay: 200,
-    totalAnimationTime: 2200,
+    totalAnimationTime: 1200,
   },
   slide: {
     translateX: [100, 0],
@@ -55,17 +56,20 @@ const themes = {
     totalAnimationTime: 1000,
     scale: [0.4, 1],
   },
-} satisfies Record<string, AnimationThemeConfig>
+}
 
-export function animateItemEnter(args: { targets: string, themeId?: keyof typeof themes, config?: AnimationThemeConfig }) {
+export function animateItemEnter(args: { targets: string, themeId?: keyof typeof themes, config?: anime.AnimeAnimParams }) {
   const { targets, themeId = 'rise', config } = args
 
   if (themeId === 'none')
     return
 
-  const theme = { ...themes[themeId] || themes.rise, ...config }
+  const theme: anime.AnimeAnimParams = { ...themes[themeId] || themes.rise, ...config }
 
   function calculateDelay(el: HTMLElement, i: number, length: number) {
+    if (typeof theme.duration !== 'number')
+      return
+
     if (theme.isRandom)
       return Math.random() * theme.totalAnimationTime // Random delay between 0 and totalAnimationTime
 
@@ -77,8 +81,8 @@ export function animateItemEnter(args: { targets: string, themeId?: keyof typeof
 
   anime.timeline({ loop: false }).add({
     targets,
-    ...theme,
     delay: calculateDelay,
+    ...theme,
     easing: 'cubicBezier(0.25, 1, 0.33, 1)',
   })
 }

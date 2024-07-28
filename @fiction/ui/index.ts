@@ -35,6 +35,7 @@ export class FictionUi extends FictionPlugin<FictionUiSettings> {
       darkMode: ['variant', ['&:not(.light *)', '.light .dark &']],
       content: [`${this.settings.root}/*.vue`, `${this.settings.root}/*.ts`],
       plugins: [twForms, twContainerQueries, twTypography],
+
       theme: {
         extend: {
           fontFamily: {

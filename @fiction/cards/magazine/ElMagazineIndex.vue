@@ -6,6 +6,7 @@ import ClipPathAnim from '@fiction/ui/anim/AnimClipPath.vue'
 import ElBadge from '@fiction/ui/common/ElBadge.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import { postLink, taxonomyLink } from '@fiction/posts'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElAuthor from './ElAuthor.vue'
 import type { UserConfig } from '.'
 
@@ -70,11 +71,12 @@ function getItemClasses(index: number): string {
             <div v-if="!item.media" class="w-full h-60 sm:h-full" />
             <div v-if="i === 0" class="p-[min(max(35px,_3.5vw),_50px)] text-theme-0 z-20 relative ">
               <div class="mb-4 space-x-2">
-                <ElBadge
+                <XButton
                   v-for="(cat, ii) in item.categories?.slice(0, 2)"
                   :key="ii"
                   theme="overlay"
-                  ui-size="sm"
+                  rounding="full"
+                  size="sm"
                   :text="cat.title"
                   :href="taxonomyLink({ card, taxonomy: 'category', term: cat.slug })"
                 />

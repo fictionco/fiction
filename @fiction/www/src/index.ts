@@ -67,6 +67,7 @@ const fictionRouter = new FictionRouter({
   baseUrl: fictionEnv.meta.app?.url,
   routes: (fictionRouter) => {
     return [
+      new AppRoute({ name: 'buttonsDemo', path: '/demo-buttons', component: async (): Promise<any> => import('@fiction/ui/buttons/test/TestButtonsAll.vue'), noSitemap: true }),
       new AppRoute({ name: 'chartTest', path: '/test-chart', component: async (): Promise<any> => import('@fiction/analytics/chart/test/TestChart.vue'), noSitemap: true }),
       new AppRoute({ name: 'email', path: '/test-email', component: async (): Promise<any> => import('@fiction/core/plugin-email/preview/EmailPreview.vue'), noSitemap: true }),
       new AppRoute({ name: 'themeMinimal', path: '/theme-minimal/:viewId?/:itemId?', component: FSite, props: { siteRouter: fictionRouter, themeId: 'minimal' }, noSitemap: true }),
