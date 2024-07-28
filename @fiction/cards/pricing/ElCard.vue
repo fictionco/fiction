@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { formatNumber, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import ElButton from '@fiction/ui/ElButton.vue'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim/index.js'
 import CardText from '../CardText.vue'
 import type { UserConfig, UserConfigPrice } from './index.js'
@@ -100,16 +100,16 @@ function getPrice(price?: UserConfigPrice) {
           </p>
 
           <div v-if="getLink(price)" class="my-6">
-            <ElButton
+            <XButton
               format="block"
               size="xl"
-              btn="naked"
+              theme="naked"
               :href="getLink(price)"
               class="hover:opacity-80 transition-opacity duration-300 shadow-sm"
               :class="cls(price).btn"
             >
               <CardText :card tag="span" :path="`prices.${i}.buttonText`" fallback="Get Started" />
-            </ElButton>
+            </XButton>
           </div>
           <div class="text-xl font-medium  ">
             <CardText :card tag="p" :path="`prices.${i}.desc`" class="mt-10 font-semibold" />

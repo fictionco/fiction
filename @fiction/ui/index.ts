@@ -7,6 +7,8 @@ import { tailwindVarColorScheme } from '@fiction/core/utils/colors.js'
 import type { Config as TailwindConfig } from 'tailwindcss'
 import { inputs } from './inputs/index.js'
 
+export * from './buttons/util.js'
+
 type FictionUiSettings = {
   apps: FictionApp[]
   Logo?: vue.Component

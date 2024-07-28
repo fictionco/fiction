@@ -86,7 +86,7 @@ const overlays = vue.computed(() => uc.value.overlays || [])
   <div>
     <div :class="wrapperClass">
       <div :class="textWrapClass">
-        <CardHeader :card />
+        <CardHeader :card :actions="uc.actions" />
       </div>
 
       <div

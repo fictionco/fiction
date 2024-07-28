@@ -6,16 +6,14 @@ type AnimationThemeConfig = Partial<{
   translateY: number[] | number
   translateZ: number
   opacity: number[]
-  easing: string
-  duration: number
   overallDelay: number
   totalAnimationTime: number
   scale: number[]
   isRandom?: boolean
   delay?: number | ReturnType<typeof anime.stagger>
-}>
+}> & anime.AnimeAnimParams
 
-const themes: Record<string, AnimationThemeConfig> = {
+const themes: Record<string, AnimationThemeConfig > = {
   none: {},
   rise: {
     translateY: [30, 0],
@@ -58,31 +56,46 @@ const themes: Record<string, AnimationThemeConfig> = {
   },
 }
 
-export function animateItemEnter(args: { targets: string, themeId?: keyof typeof themes, config?: anime.AnimeAnimParams }) {
-  const { targets, themeId = 'rise', config } = args
+function scaleTime(time: number | undefined, factor: number): number | undefined {
+  return typeof time === 'number' ? time * factor : undefined
+}
+
+export function animateItemEnter(args: { targets: string, themeId?: keyof typeof themes, config?: AnimationThemeConfig, totalTime?: number }) {
+  const { targets, themeId = 'rise', config, totalTime } = args
 
   if (themeId === 'none')
     return
 
-  const theme: anime.AnimeAnimParams = { ...themes[themeId] || themes.rise, ...config }
+  const theme: AnimationThemeConfig = { ...themes[themeId] || themes.rise, ...config }
+  const { duration, totalAnimationTime = 1000 } = theme
+  const scaleFactor = totalTime ? totalTime / totalAnimationTime : 1
+
+  const scaledTheme = {
+    ...theme,
+    duration: typeof duration === 'number' ? scaleTime(duration, scaleFactor) : duration,
+    overallDelay: scaleTime(theme.overallDelay, scaleFactor) || 0,
+    totalAnimationTime: totalAnimationTime * scaleFactor,
+  }
 
   function calculateDelay(el: HTMLElement, i: number, length: number) {
-    if (typeof theme.duration !== 'number')
-      return
+    if (typeof scaledTheme.duration !== 'number')
+      return 0
 
-    if (theme.isRandom)
-      return Math.random() * theme.totalAnimationTime // Random delay between 0 and totalAnimationTime
+    if (scaledTheme.isRandom) {
+      return Math.random() * scaledTheme.totalAnimationTime
+    }
 
-    else if (length <= 4)
-      return theme.overallDelay + 200 * i // Fixed delay increment if not enough words
-    else
-      return theme.overallDelay + (theme.totalAnimationTime - theme.duration) * i / (length - 1) // Dynamic delay for longer texts
+    if (length <= 4) {
+      return scaledTheme.overallDelay + 200 * scaleFactor * i
+    }
+
+    return scaledTheme.overallDelay + (scaledTheme.totalAnimationTime - scaledTheme.duration) * i / (length - 1)
   }
 
   anime.timeline({ loop: false }).add({
     targets,
     delay: calculateDelay,
-    ...theme,
+    ...scaledTheme,
     easing: 'cubicBezier(0.25, 1, 0.33, 1)',
   })
 }

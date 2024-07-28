@@ -59,7 +59,7 @@ export function page(args: { site: Site }) {
                 {
                   name: 'Create Account',
                   href: '/app?_reload=1',
-                  btn: 'primary',
+                  theme: 'primary',
                   icon: 'i-tabler-user-circle',
                 },
                 {

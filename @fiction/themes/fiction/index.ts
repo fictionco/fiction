@@ -76,6 +76,13 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
             titleTemplate: `{{pageTitle}} - Fiction`,
           },
           customCode: { gtmContainerId: `GTM-5LQBZDJ` },
+          styling: {
+            buttons: {
+              design: 'ghost',
+              rounding: 'full',
+              hover: 'pop',
+            },
+          },
         },
         pages,
         sections: {

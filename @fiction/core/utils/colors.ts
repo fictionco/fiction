@@ -1,6 +1,7 @@
 export const colorThemeBright = ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'] as const
 export const colorTheme = ['slate', 'gray', 'zinc', 'neutral', 'stone', 'black', 'white', ...colorThemeBright] as const
-export const colorThemeUser = ['theme', 'primary', 'default', 'overlay', ...colorTheme] as const
+export const colorThemeUser = ['theme', 'primary', 'default', 'overlay', 'naked', ...colorTheme] as const
+
 type InvertedColor = `${(typeof colorTheme)[number]}Inverted`
 // Create a union type that includes both regular and inverted colors
 export type ColorThemeBright = (typeof colorThemeBright)[number]

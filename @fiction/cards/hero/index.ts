@@ -3,6 +3,7 @@ import { colorTheme, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
+import { XButtonSchema } from '../schemaSets.js'
 import { standardOption } from '../inputSets'
 
 const templateId = 'hero'
@@ -30,13 +31,7 @@ export const schema = z.object({
   superColor: z.enum(colorTheme).optional().describe('change color of super heading'),
   splash: z.object({ url: z.string(), format: z.enum(['url', 'html']).optional() }).optional().describe('Splash picture for hero;time:40000').refine(_ => true, { params: { time: 40 } }),
   caption: z.string().optional().describe('Caption for the splash image'),
-  actions: z.array(z.object({
-    name: z.string().optional(),
-    href: z.string().optional(),
-    btn: z.enum(['primary', 'default', 'theme', 'danger', 'caution', 'success', 'naked']).optional(),
-    size: z.enum(['default', '2xl', 'xl', 'lg', 'md', 'sm', 'xs']).optional(),
-    target: z.enum(['_self', '_blank']).optional(),
-  })).optional().describe('List of link buttons') as z.Schema<ActionItem[] | undefined>,
+  actions: z.array(XButtonSchema).optional().describe('List of link buttons'),
   overlays: z.array(overlaySchema).optional().describe('Overlays to be placed on top of the splash image'),
 })
 

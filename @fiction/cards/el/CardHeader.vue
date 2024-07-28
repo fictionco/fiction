@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import type { ActionItem, colorTheme } from '@fiction/core'
+import type { colorTheme } from '@fiction/core'
 import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { getColorThemeStyles } from '@fiction/ui/utils'
 import CardText from '../CardText.vue'
+import type { XButtonProps } from '../schemaSets'
 import CardActions from './CardActions.vue'
 
 export type UserConfig = {
@@ -12,12 +13,13 @@ export type UserConfig = {
   superHeading?: string
   superIcon?: string
   superColor?: typeof colorTheme[number]
-  actions?: ActionItem[]
+  actions?: XButtonProps[]
   layout?: 'center' | 'justify' | 'right' | 'left'
 }
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
+  actions: { type: Array as vue.PropType<XButtonProps[]>, default: () => [] },
   withActions: { type: Boolean, default: true },
 })
 
@@ -110,6 +112,6 @@ const layout = vue.computed(() => {
         />
       </div>
     </div>
-    <CardActions v-if="withActions" :card :justify="['justify', 'left', 'right'].includes(layout) ? 'left' : 'center'" :ui-size="layout === 'justify' ? 'lg' : 'xl'" />
+    <CardActions v-if="withActions" :card :actions :justify="['justify', 'left', 'right'].includes(layout) ? 'left' : 'center'" :ui-size="layout === 'justify' ? 'lg' : 'xl'" />
   </div>
 </template>

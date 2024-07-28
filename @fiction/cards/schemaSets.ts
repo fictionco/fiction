@@ -1,4 +1,6 @@
 import type { MediaItem } from '@fiction/core'
+import { SizeSchema, colorThemeUser } from '@fiction/core'
+import { ButtonDesignSchema } from '@fiction/ui'
 import { z } from 'zod'
 
 export const mediaSchema = z.object({
@@ -28,3 +30,16 @@ export const PostSchema = z.object({
     href: z.string().optional(),
   })).optional(),
 })
+
+export const XButtonSchema = z.object({
+  name: z.string().optional(),
+  href: z.string().optional(),
+  design: ButtonDesignSchema.optional(),
+  theme: z.enum(colorThemeUser).optional(),
+  size: SizeSchema.optional(),
+  icon: z.string().optional(),
+  iconAfter: z.string().optional(),
+  target: z.enum(['_blank', '_self']).optional(),
+})
+
+export type XButtonProps = z.infer<typeof XButtonSchema>

@@ -1,38 +1,9 @@
 import type { vue } from '../utils/libraries.js'
 import type { User } from '../plugin-user'
 import type { MediaObject } from '../schemas/schemas.js'
+import type { ColorThemeUser } from '../utils/colors.js'
 
 export type CleanupCallback = (() => void) | undefined
-
-// export type MediaDisplayObject = {
-//   _key?: string
-//   html?: string
-//   text?: string
-//   classes?: string
-//   format?: 'url' | 'video' | 'iframe' | 'html' | 'audio' | 'text'
-// } & TableMediaConfig
-
-// export type GradientItem = { color?: string, percent?: number }
-// export type GradientSetting = { angle?: number, stops?: GradientItem[], css?: string }
-// export type OverlaySetting = { gradient?: GradientSetting, opacity?: number, blendMode?: string, color?: string }
-
-// export type BackgroundDisplayObject = {
-//   color?: string
-//   gradient?: GradientSetting
-//   repeat?: 'repeat' | 'no-repeat' | 'repeat-x' | 'repeat-y'
-//   position?: 'center' | 'top' | 'bottom' | 'left' | 'right'
-//   size?: 'cover' | 'contain' | 'auto'
-// } & MediaDisplayObject
-
-// export const imageFilters = ['brightness', 'opacity', 'contrast', 'blur', 'grayscale', 'sepia', 'saturate', 'invert', 'hue-rotate'] as const
-
-// export type ImageFilter = typeof imageFilters[number]
-
-// export interface ImageFilterConfig {
-//   filter: ImageFilter
-//   percent?: number
-//   value?: string
-// }
 
 export interface ListItem {
   name?: string
@@ -73,6 +44,7 @@ export interface NavItem {
 }
 
 export type ActionItem = NavItem & {
+  theme?: ColorThemeUser
   btn?: 'default' | 'primary' | 'naked' | 'caution' | 'success' | 'danger' | 'outline' | 'minimal'
   size?: 'xs' | 'sm' | 'lg' | 'md' | 'xl' | '2xl'
   target?: string

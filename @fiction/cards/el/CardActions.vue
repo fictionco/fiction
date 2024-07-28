@@ -1,22 +1,16 @@
 <script lang="ts" setup>
-import type { ActionItem } from '@fiction/core'
+import type { StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { animateItemEnter } from '@fiction/ui/anim'
-import CardElement from '../CardElement.vue'
-
-type UserConfig = {
-  actions?: ActionItem[]
-} & Record<string, unknown>
+import CardButton from '../CardButton.vue'
+import type { XButtonProps } from '../schemaSets'
 
 const props = defineProps({
-  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
-  defaultSize: { type: String, default: 'xl' },
+  card: { type: Object as vue.PropType<Card>, required: true },
+  actions: { type: Array as vue.PropType<XButtonProps[]>, default: () => [] },
+  defaultSize: { type: String as vue.PropType<StandardSize>, default: 'xl' },
   justify: { type: String as vue.PropType<'center' | 'left' | 'right'>, default: 'center' },
-})
-
-const uc = vue.computed(() => {
-  return props.card.userConfig.value || {}
 })
 
 vue.onMounted(() => {
@@ -26,23 +20,22 @@ vue.onMounted(() => {
 
 <template>
   <div
-    v-if="uc.actions?.length"
+    v-if="actions?.length"
     class="mt-10 flex items-center gap-x-6"
     :class="justify === 'left' ? 'justify-start' : (justify === 'right' ? 'justify-end' : 'justify-start md:justify-center')"
   >
-    <CardElement
-      v-for="(action, i) in uc.actions"
+    <CardButton
+      v-for="(action, i) in actions"
       :key="i"
       class="x-action-item"
-      :card="card"
-      theme-el="button"
-      :btn="action.btn || 'default'"
+      :card
+      :theme="action.theme || 'default'"
       :href="action.href"
       :size="action.size || defaultSize"
       :icon="action.icon"
       :icon-after="action.iconAfter"
     >
       {{ action.name }}
-    </CardElement>
+    </CardButton>
   </div>
 </template>

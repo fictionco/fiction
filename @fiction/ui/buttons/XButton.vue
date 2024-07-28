@@ -8,7 +8,8 @@ import { getButtonClasses } from './util'
 defineOptions({ name: 'ElButton' })
 
 const props = defineProps<{
-  loading?: boolean | string
+  icon?: string
+  iconAfter?: string
   href?: string
   disabled?: boolean
   design?: ButtonDesign
@@ -16,13 +17,14 @@ const props = defineProps<{
   format?: ButtonFormat
   theme?: ColorThemeUser
   size?: StandardSize
-  wrapClass?: string
-  icon?: string
-  iconAfter?: string
-  animate?: boolean
+
   rounding?: ButtonRounding
   shadow?: ButtonShadow
   fontWeight?: ButtonFontWeight
+
+  loading?: boolean | string
+  wrapClass?: string
+  animate?: boolean
   tag?: 'button' | 'div'
   isEditing?: boolean
 }>()
@@ -46,13 +48,13 @@ const hasContent = vue.computed(() => !!slots?.default?.())
 const iconAdjust = vue.computed(() => {
   const size = props.size || 'md'
   const sizeAdjustments: Record<StandardSize, { mt: string, mxBefore: string, mxAfter: string }> = {
-    'xxs': { mt: ' ', mxBefore: '-ml-[1px]', mxAfter: '-mr-[1px]' },
-    'xs': { mt: ' ', mxBefore: '-ml-[1px]', mxAfter: '-mr-[1px]' },
-    'sm': { mt: ' ', mxBefore: '-ml-[1px]', mxAfter: '-mr-[1px]' },
-    'md': { mt: ' ', mxBefore: '-ml-[1px]', mxAfter: '-mr-[1px]' },
-    'lg': { mt: ' ', mxBefore: '-ml-1', mxAfter: '-mr-1' },
-    'xl': { mt: ' ', mxBefore: '-ml-1.5', mxAfter: '-mr-1.5' },
-    '2xl': { mt: '', mxBefore: '-ml-2', mxAfter: '-mr-2' },
+    'xxs': { mt: ' ', mxBefore: '-ml-[1px] mr-[1px]', mxAfter: '-mr-[1px] ml-[1px]' },
+    'xs': { mt: ' ', mxBefore: '-ml-[1px] mr-[1px]', mxAfter: '-mr-[1px] ml-[1px]' },
+    'sm': { mt: ' ', mxBefore: '-ml-[1px] mr-[1px]', mxAfter: '-mr-[1px] ml-[1px]' },
+    'md': { mt: ' ', mxBefore: '-ml-[1px] mr-[1px]', mxAfter: '-mr-[1px] ml-[1px]' },
+    'lg': { mt: ' ', mxBefore: '-ml-1.5 mr-1.5', mxAfter: '-mr-1 ml-1' },
+    'xl': { mt: ' ', mxBefore: '-ml-1.5 mr-1.5', mxAfter: '-mr-1.5 ml-1.5' },
+    '2xl': { mt: '', mxBefore: '-ml-2 mr-2', mxAfter: '-mr-2 ml-2' },
   }
 
   const { mt, mxBefore, mxAfter } = sizeAdjustments[size]
@@ -69,7 +71,7 @@ function doHoverAnimation() {
   if (!hasAnimation.value)
     return
 
-  animateItemEnter({ targets: `#${randomId} .fx`, themeId: props.hover || 'fade' })
+  animateItemEnter({ targets: `#${randomId} .fx`, themeId: props.hover || 'fade', totalTime: 600 })
 }
 
 vue.onMounted(() => {
@@ -92,6 +94,7 @@ vue.onMounted(() => {
     :href
     :data-loading="loading"
     :data-theme="theme"
+    :data-size="size"
     @click="onClick()"
     @mouseenter="doHoverAnimation()"
   >

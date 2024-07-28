@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { ColorThemeSchema, FontConfigValSchema, FontStyleSchema, HeaderLayoutSchema, MediaDisplaySchema, SizeBasicSchema, UiOriginSchema, colorThemeUser } from '@fiction/core'
+import { ButtonDesignSchema, ButtonHoverSchema, ButtonRoundingSchema } from '@fiction/ui'
 
 export type SizeBasic = z.infer<typeof SizeBasicSchema>
 
@@ -92,6 +93,11 @@ export const SiteUserConfigSchema = z.object({
   styling: z.object({
     isLightMode: z.boolean().optional(),
     fonts: FontsSchema.optional(),
+    buttons: z.object({
+      rounding: ButtonRoundingSchema.optional(),
+      design: ButtonDesignSchema.optional(),
+      hover: ButtonHoverSchema.optional(),
+    }).optional(),
   }).optional(),
   standard: CardStandardSchema.optional(),
 })

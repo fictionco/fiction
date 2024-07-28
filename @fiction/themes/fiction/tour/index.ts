@@ -12,7 +12,7 @@ const topHeroCard = createCard({
       {
         name: 'Create Account',
         href: '/app/login?_reload=1',
-        btn: 'primary',
+        theme: 'primary',
       },
     ],
   },
@@ -197,7 +197,7 @@ const heroCard = createCard({
       {
         name: 'Start Today',
         href: '/auth/login?_reload=1',
-        btn: 'primary',
+        theme: 'primary',
       },
     ],
   },
