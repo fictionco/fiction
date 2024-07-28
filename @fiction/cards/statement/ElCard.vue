@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import ActionButtons from '@fiction/ui/buttons/ActionButtons.vue'
 import EffectCarousel from '@fiction/ui/effect/EffectCarousel.vue'
+import CardButtons from '../el/CardButtons.vue'
 import CardText from '../CardText.vue'
 import NavDots from '../el/NavDots.vue'
 
@@ -49,7 +49,7 @@ function onSlideChange(index: number) {
               />
             </div>
 
-            <ActionButtons class="mt-12" :actions="(slide as Statement).actions" ui-size="2xl" animate="rise" />
+            <CardButtons :card class="mt-12" :actions="(slide as Statement).actions" ui-size="2xl" animate="rise" />
           </div>
         </div>
       </template>

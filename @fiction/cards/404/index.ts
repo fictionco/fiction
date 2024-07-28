@@ -23,7 +23,7 @@ export const templates = [
     isPublic: false,
     options: [
       standardOption.headers(),
-      standardOption.actionItems(),
+      standardOption.buttons(),
     ],
     schema: UserConfigSchema,
   }),

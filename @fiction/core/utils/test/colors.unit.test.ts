@@ -57,10 +57,10 @@ describe('hexToRgbString', () => {
     expect(hexToRgbString('#FF0000')).toBe('255 0 0')
   })
 
-  it('returns undefined for invalid hex', () => {
-    expect(hexToRgbString('G12345')).toBeUndefined()
-    expect(hexToRgbString('#1234567')).toBeUndefined() // Too long
-    expect(hexToRgbString('#12G')).toBeUndefined() // Not a valid hex character
+  it('returns 0 0 0 for invalid hex', () => {
+    expect(hexToRgbString('G12345')).toBe('0 0 0')
+    expect(hexToRgbString('#1234567')).toBe('0 0 0') // Too long
+    expect(hexToRgbString('#12G')).toBe('0 0 0') // Not a valid hex character
   })
 })
 

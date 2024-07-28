@@ -94,6 +94,7 @@ vue.onMounted(() => {
     :data-loading="loading"
     :data-theme="theme"
     :data-size="size"
+    :data-hover="hover"
     @click="onClick()"
     @mouseenter="doHoverAnimation()"
   >
@@ -127,12 +128,11 @@ vue.onMounted(() => {
       class="flex w-full min-w-0 items-center whitespace-nowrap transition-all duration-500 ease-[cubic-bezier(0.25,1,0.33,1)]"
       :class="[loading ? 'translate-y-[-150%] opacity-0' : '', wrapClass, format === 'spread' ? '' : 'justify-center']"
     >
-      <div v-if="icon || iconAfter" class="flex space-x-1 items-center">
+      <div class="flex space-x-1 items-center">
         <div v-if="icon" class="" :class="[cls.iconClasses, icon, iconAdjust.both, iconAdjust.before]" />
         <div v-if="hasContent" class="txt"><slot /></div>
         <div v-if="iconAfter" class="" :class="[cls.iconClasses, iconAfter, iconAdjust.both, iconAdjust.after]" />
       </div>
-      <template v-else><slot /></template>
     </span>
   </component>
 </template>

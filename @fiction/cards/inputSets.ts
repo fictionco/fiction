@@ -1,7 +1,7 @@
 import type { InputOptionSettings } from '@fiction/ui/index.js'
 import { InputOption } from '@fiction/ui/index.js'
 import InputAi from '@fiction/site/ai/InputAi.vue'
-import { colorTheme } from '@fiction/core'
+import { ButtonDesignSchema, SizeSchema, colorTheme, colorThemeUser } from '@fiction/core'
 
 type OptArgs<T extends string = string> = (Partial<InputOptionSettings<T>> & Record<string, unknown>) | undefined
 
@@ -12,8 +12,9 @@ export const standardOption = {
   icon: (_: OptArgs = {}) => new InputOption({ key: 'icon', label: 'Icon', input: 'InputSelect', ..._ }),
   href: (_: OptArgs = {}) => new InputOption({ key: 'href', label: 'Link / Route', input: 'InputText', ..._ }),
   target: (_: OptArgs = {}) => new InputOption({ key: 'target', label: 'Target', input: 'InputSelect', list: [{ name: 'Normal', value: '_self' }, { name: 'New Window', value: '_blank' }], ..._ }),
-  size: (_: OptArgs = {}) => new InputOption({ key: 'size', label: 'Size', input: 'InputSelect', list: ['default', '2xl', 'xl', 'lg', 'md', 'sm', 'xs'], ..._ }),
-  btn: (_: OptArgs = {}) => new InputOption({ key: 'btn', label: 'Type', input: 'InputSelect', list: ['primary', 'default', 'naked'], ..._ }),
+  size: (_: OptArgs = {}) => new InputOption({ key: 'size', label: 'Size', input: 'InputSelect', list: ['default', ...SizeSchema.options], ..._ }),
+  colorThemeUser: (_: OptArgs = {}) => new InputOption({ key: 'theme', label: 'Type', input: 'InputSelect', list: colorThemeUser, ..._ }),
+  buttonDesign: (_: OptArgs = {}) => new InputOption({ key: 'design', label: 'Type', input: 'InputSelect', list: ['default', ...ButtonDesignSchema.options], ..._ }),
   heading: (_: OptArgs = {}) => new InputOption({
     key: 'heading',
     label: 'Heading',
@@ -102,9 +103,19 @@ export const standardOption = {
       new InputOption({ key: 'superIcon', input: 'InputText', label: 'Super Header Icon', placeholder: 'i-tabler-check', description: 'Any tabler icon in the format i-tabler-[icon]' }),
     ] })
   },
-  actionItems: (_: OptArgs = {}) => {
+  buttons: (_: OptArgs = {}) => {
     const s = standardOption
-    return s.inputList({ label: 'Actions', key: 'actions', ..._, options: [s.name(), s.href(), s.btn(), s.size(), s.target()] })
+    return s.inputList({ label: 'Actions', key: 'actions', ..._, options: [
+      s.name(),
+      s.href(),
+      s.colorThemeUser(),
+      s.size(),
+      s.buttonDesign(),
+      s.target(),
+      new InputOption({ key: 'icon', input: 'InputText', label: 'Icon', placeholder: 'i-tabler-check', description: 'Any tabler icon in the format i-tabler-[icon]' }),
+      new InputOption({ key: 'iconAfter', input: 'InputText', label: 'Icon After', placeholder: 'i-tabler-check', description: 'Any tabler icon in the format i-tabler-[icon]' }),
+
+    ] })
   },
   navItems: (_: OptArgs & { maxDepth?: number, itemNames?: string[] } = {}) => {
     const { maxDepth = 0, itemNames = ['Nav Item'] } = _

@@ -63,15 +63,15 @@ function getOverlayStyle(overlay: OverlayConfig) {
   const defaultOffset = '-5%'
   const defaultOffsetIn = '8%'
   const overlayStyles = {
-    top: { top: defaultOffsetIn, left: '50%', transform: 'translateX(-50%)' },
-    bottom: { bottom: defaultOffset, left: '50%', transform: 'translateX(-50%)' },
-    left: { left: defaultOffset, top: '50%', transform: 'translateY(-50%)' },
-    right: { right: defaultOffset, top: '50%', transform: 'translateY(-50%)' },
-    center: { left: '50%', top: '50%', transform: 'translate(-50%, -50%)' },
-    bottomRight: { right: defaultOffset, bottom: defaultOffset, transform: 'translate(0, 0)' },
-    topRight: { right: defaultOffset, top: defaultOffsetIn, transform: 'translate(0, 0)' },
-    bottomLeft: { left: defaultOffset, bottom: defaultOffsetIn, transform: 'translate(0, 0)' },
-    topLeft: { left: defaultOffset, top: defaultOffsetIn, transform: 'translate(0, 0)' },
+    top: { top: defaultOffsetIn, left: '50%', transform: 'translateX(-50%)', transformOrigin: 'center bottom' },
+    bottom: { bottom: defaultOffset, left: '50%', transform: 'translateX(-50%)', transformOrigin: 'center top' },
+    left: { left: defaultOffset, top: '50%', transform: 'translateY(-50%)', transformOrigin: 'right center' },
+    right: { right: defaultOffset, top: '50%', transform: 'translateY(-50%)', transformOrigin: 'left center' },
+    center: { left: '50%', top: '50%', transform: 'translate(-50%, -50%)', transformOrigin: 'center center' },
+    bottomRight: { right: defaultOffset, bottom: defaultOffset, transform: 'translate(0, 0)', transformOrigin: 'left top' },
+    topRight: { right: defaultOffset, top: defaultOffsetIn, transform: 'translate(10%, 0)', transformOrigin: 'left bottom' },
+    bottomLeft: { left: defaultOffset, bottom: defaultOffsetIn, transform: 'translate(0, 0)', transformOrigin: 'right top' },
+    topLeft: { left: defaultOffset, top: defaultOffsetIn, transform: 'translate(0, 0)', transformOrigin: 'right bottom' },
   } as const
 
   const width = overlay.widthPercent || 30

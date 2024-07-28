@@ -37,7 +37,9 @@ describe('verify template settings config', async () => {
           "hasDemo": false,
           "isPublic": false,
           "templateId": "404",
-          "unusedSchema": {},
+          "unusedSchema": {
+            "actions.0.btn": "string",
+          },
         },
         {
           "hasDemo": true,
@@ -331,14 +333,15 @@ describe('verify template settings config', async () => {
           "templateId": "statement",
           "unusedSchema": {
             "items.0.actions": "array",
+            "items.0.actions.0.design": "string",
+            "items.0.actions.0.disabled": "boolean",
+            "items.0.actions.0.format": "string",
             "items.0.actions.0.href": "string",
             "items.0.actions.0.icon": "string",
             "items.0.actions.0.iconAfter": "string",
-            "items.0.actions.0.isDisabled": "boolean",
             "items.0.actions.0.loading": "boolean",
             "items.0.actions.0.name": "string",
             "items.0.actions.0.size": "string",
-            "items.0.actions.0.style": "string",
             "items.0.actions.0.theme": "string",
             "items.0.title": "string",
           },

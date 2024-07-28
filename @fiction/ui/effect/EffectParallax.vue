@@ -3,7 +3,7 @@ import { vue } from '@fiction/core'
 import ClipPathAnim from '../anim/AnimClipPath.vue'
 
 const props = defineProps({
-  intensity: { type: Number, default: 25 },
+  intensity: { type: Number, default: 125 },
   direction: { type: String as vue.PropType<'normal' | 'reverse'>, default: 'normal' },
   animate: { type: Boolean, default: true },
 })
@@ -19,9 +19,16 @@ const state = vue.reactive({
 })
 
 function updateParallax() {
-  const progress = (state.scrollY + state.viewportHeight - state.offsetTop) / (state.viewportHeight + state.cardHeight)
+  // Calculate the position where the element enters the viewport
+  const entryPosition = state.offsetTop - state.viewportHeight
+
+  // Calculate progress based on the entry position
+  const progress = (state.scrollY - entryPosition) / (state.viewportHeight + state.cardHeight)
+
   const multiplier = props.direction === 'reverse' ? 1 : -1
-  state.parallaxY = progress * props.intensity * multiplier - (props.intensity / 2 * multiplier)
+
+  // Adjust the parallax calculation to start at -50%
+  state.parallaxY = (progress - 0.7) * props.intensity * multiplier
 }
 
 function handleScroll() {
@@ -31,21 +38,29 @@ function handleScroll() {
 
 vue.onMounted(() => {
   window.addEventListener('scroll', handleScroll)
-  const cardElement = document.querySelector('.parallax-card') as HTMLElement
-  if (cardElement) {
-    state.cardHeight = cardElement.offsetHeight
-    state.offsetTop = cardElement.offsetTop
-  }
+  window.addEventListener('resize', updateDimensions)
+  updateDimensions()
   updateParallax()
 })
 
 vue.onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
+  window.removeEventListener('resize', updateDimensions)
 })
+
+function updateDimensions() {
+  state.viewportHeight = getWindow().innerHeight
+  const cardElement = document.querySelector('.parallax-card') as HTMLElement
+  if (cardElement) {
+    state.cardHeight = cardElement.offsetHeight
+    state.offsetTop = cardElement.getBoundingClientRect().top + getWindow().scrollY
+  }
+  updateParallax()
+}
 
 const cardStyle = vue.computed(() => ({
   transform: `translateY(${state.parallaxY}px)`,
-  transition: 'transform 0.1s ease-out', // Smoother transition
+  transition: 'transform 0.1s ease-out',
 }))
 </script>
 

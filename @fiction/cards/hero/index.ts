@@ -1,4 +1,3 @@
-import type { ActionItem } from '@fiction/core'
 import { colorTheme, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { z } from 'zod'
@@ -41,7 +40,7 @@ export type OverlayConfig = z.infer<typeof overlaySchema>
 export const options = [
   standardOption.headers({}),
   standardOption.layout(),
-  standardOption.actionItems(),
+  standardOption.buttons(),
   standardOption.media({ key: 'splash', label: 'Splash Image' }),
   new InputOption({ key: 'caption', input: 'InputText', label: 'Splash Caption' }),
   new InputOption({ key: 'overlays', input: 'InputList', label: 'Overlays', options: [

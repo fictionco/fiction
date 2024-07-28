@@ -19,35 +19,16 @@ const options: InputOption[] = [
 ]
 
 async function defaultConfig(args: { site: Site }): Promise<UserConfig> {
-  const { site } = args
-
-  const filenames = [
-    'showcase-adidas.png',
-    'showcase-apple.png',
-    'showcase-cocacola.png',
-    'showcase-disney.png',
-    'showcase-google.png',
-    'showcase-microsoft.png',
-    'showcase-netflix.png',
-    'showcase-nike.png',
-    'showcase-spotify.png',
-    'showcase-starbucks.png',
-    'showcase-tesla.png',
-    'showcase-amazon.png',
-  ] as const
-
-  const urls = staticFileUrls({ site, filenames })
-
   return {
     items: [
       {
         heading: 'Brand Revitalization',
         subHeading: 'Breathing new life into established global brands.',
-        splash: { url: urls.showcaseDisney },
+        splash: { url: 'https://images.unsplash.com/photo-1504548840739-580b10ae7715?q=80&w=3000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
         layout: 'left' as const,
         overlays: [
-          { media: { url: urls.showcaseCocacola }, position: 'bottomLeft' },
-          { media: { url: urls.showcaseSpotify }, position: 'topRight' },
+          { media: { url: 'https://images.unsplash.com/photo-1525498128493-380d1990a112?q=80&w=3024&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }, position: 'bottomLeft' },
+          { media: { url: 'https://images.unsplash.com/photo-1483959651481-dc75b89291f1?q=80&w=2470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }, position: 'topRight' },
         ],
         actions: [
           { name: 'View Projects', href: '#', theme: 'primary' },
@@ -58,9 +39,9 @@ async function defaultConfig(args: { site: Site }): Promise<UserConfig> {
       {
         heading: 'Digital Experience Design',
         subHeading: 'Crafting intuitive and engaging digital interfaces for tech giants.',
-        splash: { url: urls.showcaseAmazon },
+        splash: { url: 'https://images.unsplash.com/flagged/photo-1574885173944-c23db8159846?q=80&w=3024&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
         layout: 'right' as const,
-        overlays: [{ media: { url: urls.showcaseGoogle }, position: 'bottomLeft' }],
+        overlays: [{ media: { url: 'https://images.unsplash.com/photo-1536338701933-9fb6ce505c48?q=80&w=3024&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }, position: 'bottomLeft' }],
         actions: [
           { name: 'Explore Work', href: '#', theme: 'primary' },
           { name: 'UX Insights', href: '#', theme: 'naked' as const },
@@ -70,11 +51,11 @@ async function defaultConfig(args: { site: Site }): Promise<UserConfig> {
       {
         heading: 'Integrated Marketing Campaigns',
         subHeading: 'Developing cohesive, multi-channel campaigns for global brands.',
-        splash: { url: urls.showcaseMicrosoft },
+        splash: { url: 'https://images.unsplash.com/photo-1533134486753-c833f0ed4866?q=80&w=4140&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
         overlays: [
-          { media: { url: urls.showcaseNike } },
-          { media: { url: urls.showcaseApple }, position: 'bottomLeft' },
-          { media: { url: urls.showcaseTesla }, position: 'topRight', widthPercent: 15 },
+          { media: { url: 'https://images.unsplash.com/photo-1529776166548-315929571406?q=80&w=2755&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' } },
+          { media: { url: 'https://images.unsplash.com/photo-1536338701933-9fb6ce505c48?q=80&w=3024&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }, position: 'bottomLeft' },
+          { media: { url: 'https://images.unsplash.com/photo-1525498128493-380d1990a112?q=80&w=3024&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }, position: 'topRight', widthPercent: 15 },
         ],
         actions: [
           { name: 'View Campaigns', href: '#', theme: 'primary' },

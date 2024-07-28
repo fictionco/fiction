@@ -15,7 +15,6 @@ const siteStyling = vue.computed(() => props.card.site?.fullConfig.value?.stylin
 <template>
   <XButton
     v-bind="attrs"
-    :card
     :rounding="siteStyling?.rounding"
     :design="siteStyling?.design"
     :hover="siteStyling?.hover"
