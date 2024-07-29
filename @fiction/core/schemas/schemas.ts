@@ -137,6 +137,8 @@ export const UserSchema = z.object({
   fullName: z.string().optional(),
   email: z.string().optional(),
   avatar: MediaDisplaySchema.optional(),
+  title: z.string().optional(),
+  websiteUrl: z.string().optional(),
 })
 
 export const PostSchema = z.object({

@@ -91,5 +91,6 @@ vue.watch(() => props.activeIndex, (newIndex) => {
 <style lang="less">
 .flickity-viewport {
   transition: height 0.2s;
+  overflow: visible !important;
 }
 </style>

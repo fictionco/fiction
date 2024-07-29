@@ -97,8 +97,8 @@ vue.onMounted(() => {
         :class="i === activeItem ? 'is-active' : 'cursor-pointer' "
         @click="setActiveItem(i, true)"
       >
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-theme-800 dark:bg-theme-0 group-active:opacity-50 transition-all duration-1000" :class="i === activeItem ? 'opacity-0 size-5' : 'opacity-100 size-2' " />
-        <svg class="size-6 text-theme-800 dark:text-theme-0" viewBox="0 0 66 66" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-theme-600/50 dark:bg-theme-0 group-active:opacity-50 transition-all duration-1000" :class="i === activeItem ? 'opacity-0 size-5' : 'opacity-100 size-2' " />
+        <svg class="size-6 text-theme-600/50 dark:text-theme-0" viewBox="0 0 66 66" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
           <circle
             class="time"
             stroke-width="5"

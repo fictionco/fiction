@@ -68,7 +68,7 @@ function getShapeColor(shape: Shape): string {
 </script>
 
 <template>
-  <div v-for="(shape, i) in shapes" :key="i" :style="getShapeStyle(shape)" class="absolute z-[-4] size-[5vw]">
+  <div v-for="(shape, i) in shapes" :key="i" :style="getShapeStyle(shape)" class="absolute z-[-4] size-[15vw] md:size-[10vw] xl:size-[5vw]">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
       <path :d="SHAPE_PATHS[shape.shape || 'circle']" :fill="getShapeColor(shape)" />
     </svg>
