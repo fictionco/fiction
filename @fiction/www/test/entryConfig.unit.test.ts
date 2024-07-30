@@ -34,6 +34,7 @@ describe('user config', async () => {
         "fictionAi",
         "fictionTransactions",
         "fictionAdmin",
+        "fictionForms",
         "fictionAnalytics",
         "fictionSites",
         "fictionTeam",
@@ -95,6 +96,7 @@ describe('user config', async () => {
     expect(service.fictionApp.settings.fictionRouter.routes.value?.map(_ => _.name))
       .toMatchInlineSnapshot(`
         [
+          "buttonsDemo",
           "chartTest",
           "email",
           "themeMinimal",

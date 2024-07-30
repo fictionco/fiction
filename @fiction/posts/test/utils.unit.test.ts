@@ -36,6 +36,7 @@ describe('post utils', async () => {
         "hasChanges": false,
         "image": {},
         "isSyndicated": false,
+        "media": {},
         "orgId": "[id:***************************]",
         "postId": "[id:***************************]",
         "publishAt": null,

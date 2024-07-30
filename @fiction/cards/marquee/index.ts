@@ -63,6 +63,7 @@ export const templates = [
       new InputOption({ key: 'direction', label: 'Animation Direction', input: 'InputSelect', list: ['left', 'right'], default: () => 'left' }),
       new InputOption({ key: 'stagger', label: 'Stagger Items', input: 'InputCheckbox', default: () => false }),
     ],
+    getBaseConfig: () => ({ standard: { spacing: { contentWidth: 'none' } } }),
     getUserConfig: _ => getDefaultUserConfig(_),
     schema: UserConfigSchema,
     demoPage: async (args) => {

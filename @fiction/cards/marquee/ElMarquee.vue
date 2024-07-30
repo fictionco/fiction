@@ -99,6 +99,7 @@ vue.onMounted(() => {
   .marquee-track {
     width: fit-content;
     animation: marqueeDesktop calc(var(--card-speed, 7s) * var(--card-count, 20)) linear infinite;
+
     &.reverse {
       animation-direction: reverse; // Reverses the animation direction
     }
@@ -138,7 +139,7 @@ vue.onMounted(() => {
 }
 @keyframes marqueeDesktop {
   0% {
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(-10%, 0, 0);
   }
 
   100% {

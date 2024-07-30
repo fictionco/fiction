@@ -141,6 +141,7 @@ describe('site plugin tests', async () => {
         "createdAt": "[dateTime:]",
         "description": "",
         "editor": {},
+        "effects": "",
         "generation": {
           "prompt": "create content for the "test" card ",
           "totalEstimatedTime": 0,
@@ -304,6 +305,7 @@ describe('site plugin tests', async () => {
         "createdAt": "[dateTime:]",
         "description": "",
         "editor": {},
+        "effects": "",
         "generation": {
           "prompt": "create content for the "testAlpha" card on the "test" page",
           "totalEstimatedTime": 0,
@@ -336,6 +338,7 @@ describe('site plugin tests', async () => {
         "createdAt": "[dateTime:]",
         "description": "",
         "editor": {},
+        "effects": "",
         "generation": {
           "prompt": "create content for the "testAlpha" card on the "test" page",
           "totalEstimatedTime": 0,
@@ -393,6 +396,7 @@ describe('site plugin tests', async () => {
         "createdAt": "[dateTime:]",
         "description": "",
         "editor": {},
+        "effects": "",
         "generation": {
           "prompt": "create content for the "testAlpha" card on the "test" page",
           "totalEstimatedTime": 0,
@@ -429,6 +433,7 @@ describe('site plugin tests', async () => {
         "createdAt": "[dateTime:]",
         "description": "",
         "editor": {},
+        "effects": "",
         "generation": {
           "prompt": "create content for the "testAlpha" card on the "test" page",
           "totalEstimatedTime": 0,
@@ -470,6 +475,7 @@ describe('site plugin tests', async () => {
         "createdAt": "[dateTime:]",
         "description": "",
         "editor": {},
+        "effects": "",
         "generation": {
           "prompt": "create content for the "testAlpha" card on the "test" page",
           "totalEstimatedTime": 0,
@@ -522,6 +528,7 @@ describe('site plugin tests', async () => {
         "createdAt": "[dateTime:]",
         "description": "",
         "editor": {},
+        "effects": "",
         "generation": {
           "prompt": "create content for the "testAlpha" card on the "test" page",
           "totalEstimatedTime": 0,

@@ -32,6 +32,9 @@ describe('schema tools', () => {
       url: z.string().optional(),
       format: z.string().optional(),
       html: z.string().optional(),
+      modify: z.object({
+        flip: z.boolean().optional(),
+      }),
     }).optional(),
   })
 
@@ -63,6 +66,8 @@ describe('schema tools', () => {
         "media": "object",
         "media.format": "string",
         "media.html": "string",
+        "media.modify": "object",
+        "media.modify.flip": "boolean",
         "media.url": "string",
         "sub": "array",
         "sub.0.author": "object",
@@ -155,6 +160,8 @@ describe('schema tools', () => {
         "media.url",
         "media.format",
         "media.html",
+        "media.modify",
+        "media.modify.flip",
       ]
     `)
   })

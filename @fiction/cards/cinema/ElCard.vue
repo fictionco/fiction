@@ -77,6 +77,6 @@ function setActiveItem(index: number) {
         </div>
       </div>
     </div>
-    <NavDots :active-item="activeItem" :items="mediaItems || []" :container-id="card.cardId" class="absolute bottom-4 z-20" @update:active-item="setActiveItem($event)" />
+    <NavDots :active-item="activeItem" :items="mediaItems || []" :container-id="card.cardId" class="absolute bottom-4 z-20 left-1/2 -translate-x-1/2" @update:active-item="setActiveItem($event)" />
   </div>
 </template>
