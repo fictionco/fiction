@@ -6,7 +6,7 @@ import ElImage from '@fiction/ui/media/ElImage.vue'
 import CardText from '../CardText.vue'
 import NavDots from '../el/NavDots.vue'
 
-import type { Testimonial, UserConfig } from './index.js'
+import type { UserConfig } from './index.js'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
@@ -25,7 +25,7 @@ function onSlideChange(index: number) {
 }
 
 function getBgClass(index: number) {
-  return index === activeIndex.value ? 'text-primary-700/80 bg-primary-100 border-primary-300 dark:bg-primary-800 dark:border-primary-500' : 'bg-theme-50 border-theme-200 dark:bg-theme-700/70 dark:border-theme-700'
+  return index === activeIndex.value ? 'text-primary-700/80 bg-primary-100 border-primary-300 dark:text-primary-50 dark:bg-primary-950 dark:border-primary-600' : 'bg-theme-50 border-theme-200 dark:bg-theme-700/70 dark:border-theme-700'
 }
 </script>
 
@@ -33,7 +33,7 @@ function getBgClass(index: number) {
   <div class="">
     <EffectCarousel v-model:activeIndex="activeIndex" :slides="items" :options="carouselOptions" @slide-change="onSlideChange">
       <template #default="{ slide, index }">
-        <blockquote class="carousel-cell w-[55%] lg:w-[40%] mr-16 ">
+        <blockquote class="carousel-cell w-[55%] lg:w-[33%] mr-16 lg:mr-64">
           <div class="transition-all duration-500" :class="index === activeIndex ? 'scale-110' : ''">
             <div class=" rounded-2xl  relative border" :class="getBgClass(index)">
               <div class="p-8">
@@ -55,7 +55,7 @@ function getBgClass(index: number) {
 
               <span
                 :class="getBgClass(index)"
-                class=" border-r border-b bg-bottom-arrow absolute w-7 h-7 block rounded overflow-hidden top-full left-1/2 -mt-[14px] -translate-x-1/2 transition-all duration-200 ease-in-out "
+                class=" border-r border-b bg-bottom-arrow absolute w-7 h-7 block rounded-br-lg overflow-hidden top-full left-1/2 -mt-[14px] -translate-x-1/2 transition-all duration-200 ease-in-out "
                 :style="{ transform: `translateX(-50%) rotateX(30deg) rotateZ(45deg)` }"
               />
             </div>

@@ -11,14 +11,16 @@ const props = defineProps({
   justify: { type: String as vue.PropType<'left' | 'right' | 'center' | 'justify'>, default: '' },
 })
 
+const clr = { textClasses: 'text-primary-500 dark:text-primary-200', bgClasses: 'bg-primary-50 hover:bg-primary-100 dark:bg-primary-900/30 dark:hover:bg-primary-900/50' }
+
 function getIcon(value?: string) {
   if (!value)
     return {}
 
   const icon = socialIcons.find(i => i.value === value)
   const iconClasses = icon ? icon.icon : ''
-  const text = icon ? icon.textClasses : ''
-  const bg = icon ? icon.bgClasses : ''
+  const text = icon ? clr.textClasses : ''
+  const bg = icon ? clr.bgClasses : ''
   return {
     icon: iconClasses,
     bg: `${bg} ${text}`,

@@ -18,12 +18,13 @@ async function getGsap() {
 
   gsap.registerPlugin(ScrollTrigger)
 
-  vue.onUnmounted(() => {
-    ScrollTrigger.getAll().forEach(trigger => trigger.kill())
-  })
-
-  return gsap
+  return { gsap }
 }
+
+vue.onUnmounted(async () => {
+  const { ScrollTrigger } = await import('gsap/ScrollTrigger')
+  ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+})
 
 async function loadRevealText() {
   const el = revealText.value
@@ -32,7 +33,7 @@ async function loadRevealText() {
     throw new Error('Element not found for scroll reveal effect')
   }
 
-  const gsap = await getGsap()
+  const { gsap } = await getGsap()
 
   splitLetters({ el })
 

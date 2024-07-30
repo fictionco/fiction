@@ -11,6 +11,7 @@ export const templates = [
   new CardTemplate({
     templateId: 'testWrap',
     el: def(async () => import('./TemplateWrap.vue')),
+    isPageCard: true,
     sections: {
       test: createCard({ templates: standardCardTemplates, cards: [] }),
     },

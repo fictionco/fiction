@@ -13,7 +13,16 @@ export function setPages(args: { pages?: CardConfigPortable[], site?: Site }) {
 
   const templateId = site?.theme.value?.templateDefaults.value.page || 'wrap'
 
-  return pg.map(p => new Card({ site, regionId: 'main', templateId, ...p })) || []
+  const pageCards = pg.map(p => new Card({ site, regionId: 'main', templateId, ...p })) || []
+
+  // validate all are page wrap cards
+  const notPageCards = pageCards.filter(p => !p.tpl.value?.settings.isPageCard).map(p => ({ slug: p.slug.value, tpl: p.tpl.value?.settings.templateId }))
+  if (notPageCards.length) {
+    logger.error('Page cards must have isPageCard set to true', { data: { notPageCards } })
+    throw new Error('Page cards must have isPageCard set to true')
+  }
+
+  return pageCards
 }
 
 export function updatePages(args: { site: Site, pages: (CardConfigPortable | undefined)[] }) {

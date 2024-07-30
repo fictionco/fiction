@@ -25,27 +25,30 @@ interface CardTemplateSettings<
   T extends ComponentConstructor = ComponentConstructor,
   X extends Record<string, Query> = Record<string, Query>,
 > {
+  root?: string
   templateId: U
+  el: T
+
+  isPublic?: boolean
+  isEffect?: boolean
+  isPageCard?: boolean // full page wrap
+  isContainer?: boolean // ui drawer
+  isRegion?: boolean
+  options?: InputOption[]
+  schema?: z.AnyZodObject
+  sections?: Record<string, CardConfigPortable>
+  getBaseConfig?: (args: { site?: Site }) => FullTemplateUserConfig<T>
+  getUserConfig?: (args: { site: Site }) => Promise<FullTemplateUserConfig<T>> | (FullTemplateUserConfig<T>)
+  getEffects?: (args: { site: Site }) => Promise<TableCardConfig[]>
+  demoPage?: (args: { site: Site }) => Promise<{ cards: CardConfigPortable< FullTemplateUserConfig<T>>[] }>
+  getQueries?: (args: CardQuerySettings) => X
   title?: string
   description?: string
   category?: CardCategory[]
   icon?: string
   colorTheme?: typeof colorTheme[number]
   thumb?: string
-  isPublic?: boolean
-  isEffect?: boolean
-  el: T
-  isContainer?: boolean // ui drawer
-  isRegion?: boolean
-  options?: InputOption[]
-  schema?: z.AnyZodObject
-  getBaseConfig?: (args: { site?: Site }) => FullTemplateUserConfig<T>
-  getUserConfig?: (args: { site: Site }) => Promise<FullTemplateUserConfig<T>> | (FullTemplateUserConfig<T>)
-  getEffects?: (args: { site: Site }) => Promise<TableCardConfig[]>
-  sections?: Record<string, CardConfigPortable>
-  root?: string
-  demoPage?: (args: { site: Site }) => Promise<{ cards: CardConfigPortable< FullTemplateUserConfig<T>>[] }>
-  getQueries?: (args: CardQuerySettings) => X
+
 }
 
 export class CardTemplate<

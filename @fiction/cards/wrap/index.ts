@@ -14,5 +14,6 @@ export const templates = [
     el: vue.defineAsyncComponent(async () => import('./CardWrap.vue')),
     schema: UserConfigSchema,
     isPublic: false,
+    isPageCard: true,
   }),
 ]

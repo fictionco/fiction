@@ -123,6 +123,9 @@ export const MediaDisplaySchema = MediaContentSchema.extend({
   overlay: OverlaySettingSchema.optional(),
   width: z.number().optional(),
   height: z.number().optional(),
+  modify: z.object({
+    flip: z.enum(['horizontal', 'vertical']).optional(),
+  }).optional(),
 })
 
 export type MediaObject = z.infer<typeof MediaDisplaySchema>

@@ -33,7 +33,7 @@ function getBlurHash() {
 
   const urlObj = new URL(props.media?.url || '', 'http://dummybase.com')
   const params = new URLSearchParams(urlObj.search) // this automatically decodes
-  return params.get('blurhash') || undefined
+  return params.get('blurhash') || ''
 }
 
 const blurhash = vue.ref<string | undefined>()
@@ -133,25 +133,33 @@ const overlayStyle = vue.computed(() => {
   }
 })
 
-const filterStyle = vue.computed(() => {
-  const filterString = filters.value
-    .map((filter: ImageFilterConfig) =>
-      `${filter.filter}(${filter.value ?? `${filter.percent}%`})`,
-    )
-    .join(' ')
-  return { filter: filterString }
+const flipClass = vue.computed(() => {
+  const flip = props.media?.modify?.flip
+  if (!flip)
+    return ''
+
+  return flip === 'horizontal' ? 'scale-x-[-1]' : flip === 'vertical' ? 'scale-y-[-1]' : ''
 })
+
+// const filterStyle = vue.computed(() => {
+//   const filterString = filters.value
+//     .map((filter: ImageFilterConfig) =>
+//       `${filter.filter}(${filter.value ?? `${filter.percent}%`})`,
+//     )
+//     .join(' ')
+//   return { filter: filterString }
+// })
 </script>
 
 <template>
   <ClipPathAnim :animate="animate">
-    <div v-if="media" class=" " :class="[!inlineImage ? `h-full w-full` : '', cls]" :style="bgStyle">
+    <div v-if="media" class=" " :class="[!inlineImage ? `h-full w-full` : '', cls, flipClass]" :style="bgStyle">
       <transition
-        enter-active-class="transition ease duration-500"
+        enter-active-class="transition ease duration-300"
         enter-from-class="opacity-0"
-        enter-to-class="opacity-100"
-        leave-active-class="transition ease duration-500"
-        leave-from-class="opacity-100 "
+        enter-to-class="opacity-50"
+        leave-active-class="transition ease duration-300"
+        leave-from-class="opacity-50 "
         leave-to-class="opacity-0"
       >
         <canvas

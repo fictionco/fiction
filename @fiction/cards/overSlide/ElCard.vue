@@ -3,6 +3,7 @@ import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import EffectFitText from '@fiction/ui/effect/EffectFitText.vue'
 import ElImage from '@fiction/ui/media/ElImage.vue'
+import { gsap } from 'gsap'
 import CardText from '../CardText.vue'
 import NavDots from '../el/NavDots.vue'
 import type { UserConfig } from '.'
@@ -15,8 +16,24 @@ const uc = vue.computed(() => props.card.userConfig.value)
 
 const currentItemIndex = vue.ref(0)
 
+const items = vue.computed(() => uc.value.items || [])
+
+const circularItems = vue.computed(() => {
+  const originalItems = items.value
+  if (originalItems.length === 0)
+    return []
+
+  const startIndex = currentItemIndex.value
+  return [
+    ...originalItems.slice(startIndex),
+    ...originalItems.slice(0, startIndex),
+  ]
+})
+
+const currentItem = vue.computed(() => circularItems.value[0])
+
 const slideTime = 15000
-const currentItem = vue.computed(() => uc.value.items?.[currentItemIndex.value])
+
 let timer: NodeJS.Timeout | undefined = undefined
 function autoSlideTimer() {
   const isActive = uc.value.autoSlide
@@ -47,6 +64,43 @@ function setActiveItem(index: number) {
   currentItemIndex.value = index
 
   autoSlideTimer()
+}
+
+function setActiveItemByTitle(title?: string) {
+  const index = items.value.findIndex(item => item.title === title)
+  if (index !== -1 && title) {
+    setActiveItem(index)
+  }
+}
+
+function beforeEnter(el: Element) {
+  gsap.set(el, {
+    opacity: 0,
+    scale: 0.75,
+    x: -24,
+  })
+}
+
+function enter(el: Element, done: () => void) {
+  gsap.to(el, {
+    opacity: 1,
+    scale: 1,
+    x: 0,
+    duration: 0.5,
+    ease: 'cubic-bezier(0.25,1,0.33,1)',
+    onComplete: done,
+  })
+}
+
+function leave(el: Element, done: () => void) {
+  gsap.to(el, {
+    opacity: 0,
+    scale: 1.5,
+    x: 24,
+    duration: 0.5,
+    ease: 'cubic-bezier(0.25,1,0.33,1)',
+    onComplete: done,
+  })
 }
 </script>
 
@@ -83,34 +137,38 @@ function setActiveItem(index: number) {
             </div>
           </transition>
         </div>
-        <div class="relative h-full basis-[30%]">
-          <transition
-            enter-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-500"
-            enter-from-class="opacity-0 -translate-x-24"
-            enter-to-class="opacity-100 translate-x-0"
-            leave-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-500 delay-100"
-            leave-from-class="opacity-100 translate-x-0"
-            leave-to-class="opacity-0 translate-x-24"
-            mode="out-in"
+        <div class="relative h-full basis-[30%] [perspective:1000px] z-10">
+          <TransitionGroup
+            :css="false"
+            @before-enter="beforeEnter"
+            @enter="enter"
+            @leave="leave"
           >
-            <ElImage :key="currentItemIndex" :media="currentItem?.media" class="absolute top-[10%] h-[80%] aspect-[3/4.5] md:aspect-[4.5/3] z-10 -ml-[40%] shadow-xl" />
-          </transition>
+            <div
+              v-for="(item, i) in circularItems.slice(0, 5)"
+              :key="item.title"
+              class="absolute left-[-40%] top-[10%] h-[80%] aspect-[3/4.5] md:aspect-[4.5/3] transition-all duration-500 shadow-[10px_-10px_10px_-8px_rgba(0_0_0/0.3)]"
+              :class="[`stack-item-${i}`]"
+              @click="setActiveItemByTitle(item.title)"
+            >
+              <ElImage
+                :media="item.media"
+                class="w-full h-full object-cover rounded-[20px] overflow-hidden"
+              />
+            </div>
+          </TransitionGroup>
         </div>
-        <div class="relative h-full basis-[27%]">
-          <transition
-            enter-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-500 delay-100"
-            enter-from-class="opacity-0 translate-x-16"
-            enter-to-class="opacity-100 translate-x-0"
-            leave-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-500 "
-            leave-from-class="opacity-100 translate-x-0"
-            leave-to-class="opacity-0 -translate-x-16"
-            mode="out-in"
-          >
-            <ElImage :key="currentItemIndex" :media="currentItem?.mediaBackground" class="transition-all absolute -right-[40%]  h-full w-[140%]" />
-          </transition>
-        </div>
+        <div class="relative h-full basis-[27%]" />
       </div>
       <NavDots :active-item="currentItemIndex" :items="uc.items || []" :container-id="card.cardId" @update:active-item="setActiveItem($event)" />
     </div>
   </div>
 </template>
+
+<style lang="less">
+.stack-item-0 { z-index: 10; left: -40%;  }
+.stack-item-1 { z-index: 9; left: -30%; transform: translateX(10px) rotateY(-7deg) scale(0.9);  }
+.stack-item-2 { z-index: 8; left: -20%; transform: translateX(20px) rotateY(-14deg) scale(0.8);  }
+.stack-item-3 { z-index: 7; left: -10%; transform: translateX(30px) rotateY(-21deg) scale(0.7);   }
+.stack-item-4 { z-index: 6; left: 0%; transform: translateX(40px) rotateY(-28deg) scale(0.6);  }
+</style>

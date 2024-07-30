@@ -2,19 +2,23 @@ import type { UserGeolocation } from '@fiction/core/types/index.js'
 import { fetchWithTimeout, getNetworkIp, isLocalhostIp } from '@fiction/core/utils/index.js'
 import { log } from '@fiction/core/plugin-log/index.js'
 
-export interface GeoData {
-  ip?: string
-  countryCode?: string
-  cityName?: string
-  latitude?: number
-  longitude?: number
-  timezone?: string
-  regionName?: string
-  ipOrganization?: string
-  ipIsCrawler?: boolean
-  ipIsProxy?: boolean
-  ipThreatLevel?: string
-}
+import { z } from 'zod'
+
+export const GeoDataSchema = z.object({
+  ip: z.string().optional(),
+  countryCode: z.string().optional(),
+  cityName: z.string().optional(),
+  latitude: z.number().optional(),
+  longitude: z.number().optional(),
+  timezone: z.string().optional(),
+  regionName: z.string().optional(),
+  ipOrganization: z.string().optional(),
+  ipIsCrawler: z.boolean().optional(),
+  ipIsProxy: z.boolean().optional(),
+  ipThreatLevel: z.string().optional(),
+})
+
+export type GeoData = z.infer<typeof GeoDataSchema>
 
 interface ipApiResponse {
   query: string

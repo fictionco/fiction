@@ -34,7 +34,7 @@ vue.onMounted(async () => {
 <template>
   <div class="minimal-profile">
     <div>
-      <div class="md:flex -mx-2 items-center" :class="uc.layout === 'left' ? 'md:flex-row-reverse' : ''">
+      <div class="md:flex gap-16 " :class="uc.layout === 'left' ? 'md:flex-row-reverse' : ''">
         <div class="w-full md:w-[50%] px-2 ">
           <div class="relative">
             <EffectGlare wrap-class="rounded-[20px]">
@@ -42,16 +42,16 @@ vue.onMounted(async () => {
                 <ElImage v-for="(item, i) in mediaItems" :key="i" :media="item.media" class="relative slide w-full h-full snap-center shrink-0" />
               </div>
             </EffectGlare>
-            <NavDots v-model:active-item="activeItem" :items="mediaItems || []" :container-id="card.cardId" class="absolute bottom-4 z-20" />
+            <NavDots v-model:active-item="activeItem" :items="mediaItems || []" :container-id="card.cardId" class="absolute bottom-4 z-20 justify-center w-full" />
           </div>
         </div>
-        <div class="md:w-[50%] mt-6 md:mt-0 px-2 flex items-center">
-          <div class="p-6 md:p-12 flex flex-col justify-center gap-10 2xl:gap-16 " :class="isVisible ? 'translate-y-0' : 'translate-y-[100px]'">
+        <div class="md:w-[50%] mt-6 md:mt-0 flex items-center">
+          <div class="p-6 md:py-12 flex flex-col justify-center gap-10 2xl:gap-16 " :class="isVisible ? 'translate-y-0' : 'translate-y-[100px]'">
             <div class="details">
               <CardText
                 tag="h3"
                 :card="card"
-                class="text-theme-300 dark:text-theme-600 mb-4 text-base lg:text-base font-sans font-medium"
+                class="text-primary-300 dark:text-primary-600 mb-4 text-base lg:text-lg font-sans font-medium"
                 path="superHeading"
                 animate="rise"
               />
@@ -65,7 +65,7 @@ vue.onMounted(async () => {
               <CardText
                 tag="div"
                 :card="card"
-                class="sub-heading mt-6 text-xl font-medium prose dark:prose-invert text-balance"
+                class="sub-heading mt-6 prose md:prose-xl leading-normal dark:prose-invert  prose"
                 path="subHeading"
                 :is-markdown="true"
                 animate="rise"
@@ -90,7 +90,7 @@ vue.onMounted(async () => {
                   <CardText
                     tag="a"
                     :card="card"
-                    :class="item.href ? 'hover:text-primary-500 text-primary-600 dark:text-primary-400' : 'text-theme-500 dark:text-theme-400'"
+                    :class="item.href ? 'hover:text-primary-200 text-primary-600 dark:text-primary-400' : 'text-theme-500 dark:text-theme-400'"
                     :path="`details.${i}.desc`"
                     :href="item.href"
                   />

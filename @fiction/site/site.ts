@@ -1,5 +1,5 @@
 import type { FictionRouter } from '@fiction/core'
-import { FictionObject, deepMerge, getColorScheme, isDarkOrLightMode, localRef, objectId, resetUi, setNested, shortId, vue, waitFor } from '@fiction/core'
+import { FictionObject, deepMerge, getColorScheme, localRef, objectId, resetUi, setNested, shortId, vue, waitFor } from '@fiction/core'
 import { TypedEventTarget } from '@fiction/core/utils/eventTarget.js'
 import type { CardConfigPortable, PageRegion, TableCardConfig, TableSiteConfig } from './tables.js'
 import type { Card, CardTemplate } from './card.js'
@@ -264,12 +264,6 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       onAdd: config => config.cardId && (this.editor.value.selectedCardId = config.cardId),
     })
   }
-
-  colors = vue.computed(() => {
-    const { primary = 'blue', theme = 'gray' } = this.fullConfig.value.standard?.scheme?.base || {}
-
-    return { primary: getColorScheme(primary), theme: getColorScheme(theme) }
-  })
 
   activeRegionKey = vue.ref<PageRegion>('main')
 

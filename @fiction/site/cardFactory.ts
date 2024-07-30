@@ -79,7 +79,9 @@ export class CardFactory<U extends readonly CardTemplate[]> extends FictionObjec
   >(
     args: CreateCardArgs<T, U, W, X>,
   ): Promise<TableCardConfig> {
-    const { templateId = 'area', tpl, el, userConfig, baseConfig } = args
+    const { tpl, el, userConfig, baseConfig } = args
+
+    const templateId = args.templateId || (args.slug ? 'wrap' : 'area')
 
     if (!templateId && !tpl)
       throw new Error('createCard: templateId or tpl required')

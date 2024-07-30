@@ -6,6 +6,9 @@ export const mediaSchema = z.object({
   url: z.string().optional(),
   html: z.string().optional(),
   format: z.enum(['html', 'url', 'video']).optional(),
+  modify: z.object({
+    flip: z.enum(['horizontal', 'vertical']).optional(),
+  }).optional(),
 }).optional()
 
 export const MediaItemSchema = z.object({

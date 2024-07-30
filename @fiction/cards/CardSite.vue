@@ -192,8 +192,13 @@ vue.onMounted(async () => {
   }
 })
 
-const theme = vue.computed(() => site.value?.colors.value.theme || getColorScheme('gray'))
-const primary = vue.computed(() => site.value?.colors.value.primary || getColorScheme('blue'))
+const colors = vue.computed(() => {
+  const config = site.value?.fullConfig.value || {}
+
+  const { primary = 'blue', theme = 'gray' } = config.standard?.scheme?.base || {}
+
+  return { primary: getColorScheme(primary), theme: getColorScheme(theme) }
+})
 
 fictionEnv.events.on('cleanup', () => {
   cleanups.forEach(c => c && c())
@@ -207,8 +212,9 @@ vue.onMounted(() => {
     if (typeof document === 'undefined')
       return
 
-    const th = theme.value
-    const prm = primary.value
+    const clr = colors.value
+    const th = clr.theme
+    const prm = clr.primary
     const fn = fonts.value
     Object.entries(th).forEach(([k, v]) => {
       document.documentElement.style.setProperty(`--theme-${k}`, v)

@@ -52,11 +52,11 @@ export function createGoogleFontsLink(args: { fontKeys: string[], fonts?: FontEn
   const fontEntries = args.fonts || fonts
 
   const fontParams = deduped.map((fontKey) => {
-    const normalizedFontKey = toCamel(fontKey.replace(/ /g, ''))
+    const normalizedFontKey = toCamel(fontKey)
 
     const font = fontEntries.find(f => toCamel(f.family) === normalizedFontKey)
     if (!font) {
-      console.error(`Font family not found: ${fontKey}`)
+      console.error(`Font family not found: ${fontKey} (${normalizedFontKey})`)
       return ''
     }
 

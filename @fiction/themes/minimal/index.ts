@@ -31,42 +31,45 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
             autoSlide: false,
             items: [
               {
-                title: 'Benjamin Franklin',
-                subTitle: 'Inventor. Statesman. Visionary.',
+                title: 'Alison Groves',
+                subTitle: 'Author and Speaker',
                 textBlend: 'difference',
                 media: {
                   format: 'url',
-                  url: 'https://images.pexels.com/photos/432059/pexels-photo-432059.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-                },
-                mediaBackground: {
-                  format: 'url',
-                  url: 'https://cdn.midjourney.com/6b9e1810-039c-41e9-8b96-b8d27cb282ed/0_1.png',
+                  url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/127b8426-2dd5-44a2-c8d2-8a8108f5be00/public',
                 },
               },
               {
-                title: 'Illuminate Your Legacy',
-                subTitle: 'Wisdom for the modern age',
+                title: 'Illuminate Your Insight',
+                subTitle: 'Get My Latest Book',
                 textBlend: 'difference',
                 media: {
                   format: 'url',
-                  url: 'https://cdn.midjourney.com/e6b9a9c0-5f51-49fe-a408-4902614380ec/0_0.png',
+                  url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/93a8b4f1-9308-49f2-ffe4-70ddc5d6be00/public',
                 },
                 mediaBackground: {
                   format: 'url',
-                  url: 'https://cdn.midjourney.com/1bf86864-968e-40a2-87a7-c8f17ea94401/0_1.png',
+                  url: 'https://images.unsplash.com/photo-1527219002998-9e1b7ebedcb5?q=80&w=4140&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                 },
               },
               {
                 title: 'Upcoming Event',
-                subTitle: 'Speaking at the Library of Congress',
+                subTitle: 'Speaking at Global Leadership Summit',
                 textBlend: 'difference',
                 media: {
                   format: 'url',
-                  url: 'https://cdn.midjourney.com/b1d5ffb0-c9a8-4228-9108-51098099c896/0_1.png',
+                  url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/c947ab53-e0b2-43fb-5fbd-8c5a970eba00/public',
+                  modify: { flip: 'horizontal' },
                 },
-                mediaBackground: {
+              },
+              {
+                title: 'Design Your Future',
+                subTitle: 'Join My Coaching Program',
+                textBlend: 'difference',
+                media: {
                   format: 'url',
-                  url: 'https://cdn.midjourney.com/1bf86864-968e-40a2-87a7-c8f17ea94401/0_1.png',
+                  url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/720a3e2b-605b-4a1c-1623-2ff55eaff300/public',
+
                 },
               },
             ],
@@ -86,19 +89,20 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
               spacing: {
                 verticalSpacing: 'sm',
               },
+
             },
-            superColor: 'indigo',
-            superIcon: 'i-tabler-palette',
-            superHeading: 'Featured Artist at NY Gallery 2024',
-            heading: `Expressions in Color and Form`,
-            subHeading: `Exploring the boundaries of contemporary art through vibrant compositions and innovative techniques.`,
+            superColor: 'primary',
+            superIcon: 'i-tabler-bulb',
+            superHeading: 'Empowering Leaders to Thrive',
+            heading: 'Unlock Your Leadership Potential',
+            subHeading: 'Transform your career and organization with personalized coaching that drives real results.',
             items: [
-              { name: 'Abstract Paintings', desc: 'Bold, expressive abstract works that challenge perception and evoke emotion.', icon: 'i-tabler-brush', color: 'indigo' },
-              { name: 'Sculptures', desc: 'Dynamic sculptures that blend form and space, crafted from diverse materials.', icon: 'i-tabler-3d-cube-sphere', color: 'indigo' },
-              { name: 'Digital Art', desc: 'Cutting-edge digital creations that merge technology with artistic vision.', icon: 'i-tabler-device-laptop', color: 'indigo' },
-              { name: 'Workshops', desc: 'Immersive art workshops where I share my techniques and creative process.', icon: 'i-tabler-prism-light', color: 'indigo' },
-              { name: 'Commissions', desc: 'Bespoke artworks created in collaboration with clients for unique spaces.', icon: 'i-tabler-affiliate', color: 'indigo' },
-              { name: 'Exhibitions', desc: 'Upcoming and past exhibitions showcasing my latest collections and installations.', icon: 'i-tabler-building-arch', color: 'indigo' },
+              { name: 'Executive Coaching', desc: 'One-on-one sessions to enhance your leadership skills and overcome challenges.', icon: 'i-tabler-user-circle', color: 'primary' },
+              { name: 'Team Development', desc: 'Build high-performing teams through targeted workshops and ongoing support.', icon: 'i-tabler-users', color: 'primary' },
+              { name: 'Career Transitions', desc: 'Navigate career changes confidently with strategic guidance and actionable plans.', icon: 'i-tabler-route', color: 'primary' },
+              { name: 'Leadership Assessments', desc: 'Gain insights into your strengths and growth areas with comprehensive evaluations.', icon: 'i-tabler-chart-dots', color: 'primary' },
+              { name: 'Speaking Engagements', desc: 'Inspire and educate your organization with tailored keynotes and workshops.', icon: 'i-tabler-presentation', color: 'primary' },
+              { name: 'Leadership Resources', desc: 'Access a curated library of tools and articles to support your ongoing development.', icon: 'i-tabler-book', color: 'primary' },
             ],
           },
         }),
@@ -111,7 +115,7 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
               },
             },
             items: [
-              { text: 'Printer', outline: true, speed: 20 },
+              { text: 'Turn vision into reality', outline: true, speed: 20 },
             ],
           },
         }),
@@ -120,16 +124,16 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
           userConfig: {
             items: [
               {
-                title: 'Introduction from Benjamin Franklin',
+                title: 'Welcome from Alison Groves, Your Leadership Coach',
                 content: `
-                  <p>My name is Benjamin Franklin. I am a printer, inventor, and statesman.</p>
-                  <p>Welcome to my website, a place where I share my adventures and wisdom.</p>
-                  <p>I believe in hard work and clever wit. "An investment in knowledge pays the best interest," I always say.</p>
-                  <p>Enjoy your stay and remember: "Well done is better than well said."</p>
+  <p>I'm Alison Groves, a dedicated leadership coach committed to your professional growth.</p>
+  <p>Welcome to my website, where transformation meets actionable strategy.</p>
+  <p>I believe in unlocking potential through personalized coaching. "Leadership is not about being in charge. It's about taking care of those in your charge," as I often remind my clients.</p>
+  <p>Explore how we can work together to elevate your leadership skills and drive meaningful change in your organization.</p>
                 `,
                 media: {
                   format: 'url',
-                  url: 'https://cdn.midjourney.com/fd305840-eeea-4382-921d-94f75f128814/0_0.png',
+                  url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/427b9144-ab8a-4b83-1454-f21a2ef50f00/public',
                 },
               },
             ],
@@ -142,47 +146,47 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
               headers: {
                 layout: 'left',
                 size: 'md',
-                superTitle: 'Showcase',
-                title: 'Featured Works',
-                subTitle: 'A selection of my most notable achievements',
+                superTitle: 'Client Success Stories',
+                title: 'Transformative Results',
+                subTitle: 'Real-world impact from our coaching partnerships',
               },
             },
-
+            aspect: 'tall',
             items: [
               {
-                title: 'Invention of the Lightning Rod',
-                subTitle: 'Saving Lives and Buildings',
-                content: '<p>My invention of the lightning rod has saved countless lives and buildings from the destructive power of lightning. By providing a safe pathway for lightning to travel to the ground, the lightning rod prevents fires and structural damage, ensuring the safety of homes, barns, and other structures.</p><p>This simple yet effective device has transformed how we protect our buildings, demonstrating the profound impact of innovative thinking on public safety. The adoption of the lightning rod worldwide has drastically reduced the number of lightning-related incidents, proving its vital role in modern infrastructure.</p>',
+                title: 'Executive Breakthrough',
+                subTitle: 'From Overwhelmed to Empowered',
+                content: '<p>Working with Sarah, a C-suite executive facing burnout, we developed strategies to enhance work-life balance and improve team delegation. Within six months, Sarah reported a 40% increase in productivity and a significant boost in job satisfaction.</p><p>This transformation not only revitalized Sarah\'s career but also positively impacted her entire organization, demonstrating the far-reaching effects of effective leadership coaching.</p>',
                 media: {
                   format: 'url',
-                  url: 'https://cdn.midjourney.com/3972ddd4-2409-4e9e-a565-d0ad4388ec51/0_0.png',
+                  url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/d4024c64-e35e-4e50-7b21-7b46c6ee4200/public',
                 },
               },
               {
-                title: 'Author of the Poor Richard\'s Almanack',
-                subTitle: 'Timeless Advice and Wisdom',
-                content: '<p>My almanac is a bestseller and contains timeless advice and wisdom for everyday life. Published annually, Poor Richard\'s Almanack includes weather forecasts, household tips, puzzles, and other useful information. Its witty aphorisms and practical guidance have made it a staple in American homes for decades.</p><p>The almanac\'s enduring popularity is a testament to its valuable content, which has provided generations with essential knowledge and entertainment. Its influence extends beyond mere practicality, reflecting the cultural and intellectual currents of its time.</p>',
+                title: 'Team Alignment Mastery',
+                subTitle: 'Turning Conflict into Collaboration',
+                content: '<p>A tech startup\'s leadership team was struggling with communication and alignment. Through targeted workshops and individual coaching, we transformed their dynamics. The result? A 50% reduction in project delays and a culture of open, constructive dialogue.</p><p>This success story highlights how addressing team dynamics can lead to tangible business outcomes, showcasing the power of cohesive leadership.</p>',
                 media: {
                   format: 'url',
-                  url: 'https://cdn.midjourney.com/bb1dcfe4-93c4-4c3a-a1c0-eb47c9977bc1/0_1.png',
+                  url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/b04367ad-89a6-453e-24ce-ab18d496d000/public',
                 },
               },
               {
-                title: 'Founding Father of the United States',
-                subTitle: 'Drafted the Declaration of Independence and the Constitution',
-                content: '<p>As a Founding Father, I played a key role in the drafting of the Declaration of Independence and the United States Constitution. My contributions helped lay the foundation for a new nation built on the principles of liberty, democracy, and justice.</p><p>My involvement in these foundational documents reflects my deep commitment to the ideals of independence and freedom. The principles enshrined in these texts continue to guide the nation, underscoring the enduring relevance of our founding ideals.</p>',
+                title: 'Career Transition Triumph',
+                subTitle: 'Navigating Change with Confidence',
+                content: '<p>John, a mid-career professional, sought guidance in transitioning to a leadership role in a new industry. Our coaching partnership focused on transferable skills and strategic networking. Within three months, John secured a senior position, confidently leading a team in his desired field.</p><p>This case demonstrates the impact of targeted coaching in navigating significant career shifts, empowering professionals to embrace new challenges.</p>',
                 media: {
                   format: 'url',
-                  url: 'https://cdn.midjourney.com/620efc5a-55aa-491a-9b40-34190dd0a68b/0_0.png',
+                  url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/03388d7c-762b-4593-e32e-ccec53b39400/public',
                 },
               },
               {
-                title: 'Franklin Ovens',
-                subTitle: 'Revolutionary Cooking',
-                content: '<p>My invention of the Franklin Stove revolutionized home heating and cooking. This innovative design improved fuel efficiency and safety, providing a more effective way to heat homes and cook food. It became an essential household item, greatly enhancing domestic life.</p><p>The Franklin Stove not only brought warmth and convenience to countless homes but also set new standards for household appliances. Its impact on daily life and energy consumption remains a testament to the power of practical innovation.</p>',
+                title: 'Organizational Culture Shift',
+                subTitle: 'From Stagnation to Innovation',
+                content: '<p>A large corporation was struggling with an outdated, hierarchical culture. Through a comprehensive leadership development program, we empowered managers at all levels to foster innovation and employee engagement. The result was a 30% increase in employee satisfaction and a surge in innovative projects.</p><p>This transformation illustrates how leadership coaching can catalyze organization-wide change, driving both employee satisfaction and business innovation.</p>',
                 media: {
                   format: 'url',
-                  url: 'https://cdn.midjourney.com/6c857f45-07a8-4511-afe1-150ff14b2caf/0_1.png',
+                  url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/ec9cdb82-e611-4299-9e8e-1784b308aa00/public',
                 },
               },
             ],
@@ -197,23 +201,34 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
         await factory.create({
           templateId: 'profile',
           userConfig: {
-            superHeading: 'About Me',
-            heading: 'Benjamin Franklin',
-            subHeading: `<p>I am a printer, inventor, and statesman. I am known for my wit and wisdom, and I am one of the Founding Fathers of the United States. I am also the author of the Poor Richard's Almanack.</p>
-            <p>I was born in Boston in 1706 and died in Philadelphia in 1790. I am known for my experiments with electricity and my invention of the lightning rod. I also helped draft the Declaration of Independence and the United States Constitution.</p>`,
+            superHeading: 'Alison Groves',
+            heading: 'I Solve Leadership Challenges for People and Organizations',
+            subHeading: `<p>I am a leadership coach, organizational consultant, and keynote speaker. With over 15 years of experience in corporate leadership and executive coaching, I specialize in empowering leaders to unlock their full potential and drive organizational success.</p>
+<p>Based in New York, I've had the privilege of working with Fortune 500 executives, startup founders, and non-profit leaders across diverse industries. My approach combines evidence-based strategies with personalized insights to create transformative leadership experiences. I hold certifications in [relevant certifications, e.g., ICF PCC, CPCC] and am a frequent contributor to leading business publications on leadership development.</p>`,
             mediaItems: [
               {
                 media: {
                   format: 'url',
-                  url: 'https://cdn.midjourney.com/662d2d1a-df34-4a9a-9854-f83c2c9cf2b3/0_0.png',
+                  url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/2a9591f6-8529-4ba1-3ebb-7323e12e9b00/public',
                 },
               },
               {
                 media: {
                   format: 'url',
-                  url: 'https://cdn.midjourney.com/2a670199-65b5-4882-b465-4665e3878be0/0_1.png',
+                  url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/4f5fbd75-ce12-4135-94c6-d18473410500/public',
                 },
               },
+            ],
+            detailsTitle: 'Let\'s Connect',
+            details: [
+              { name: 'Location', desc: 'Somewhere, USA' },
+              { name: 'Email', desc: 'hello@mywebsite.com', href: 'mailto:hello@example.com' },
+              { name: 'Phone', desc: '123-456-7890' },
+            ],
+            socials: [
+              { name: '@handle on facebook', href: '#', icon: 'facebook' },
+              { name: '@handle on x', href: '#', icon: 'x' },
+              { name: '@handle on linkedin', href: '#', icon: 'linkedin' },
             ],
           },
         }),
@@ -256,7 +271,7 @@ export async function setup(args: { fictionEnv: FictionEnv }) {
             templateId: 'area',
             cards: [
               await factory.create({ templateId: 'nav', userConfig: {
-                logo: { html: `Benjamin Franklin`, format: 'html' },
+                logo: { html: `Alison Groves`, format: 'html' },
                 navA: [
                   { name: 'About', href: '/about' },
                 ],
@@ -314,7 +329,11 @@ export async function setup(args: { fictionEnv: FictionEnv }) {
             ],
           }),
         },
-        userConfig: {},
+        userConfig: {
+          standard: {
+            scheme: { base: { primary: 'yellow' } },
+          },
+        },
       }
     },
 

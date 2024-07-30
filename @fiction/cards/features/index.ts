@@ -1,4 +1,4 @@
-import { colorTheme, vue } from '@fiction/core'
+import { colorThemeUser, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
@@ -10,12 +10,12 @@ const schema = z.object({
   subHeading: z.string().optional(),
   superHeading: z.string().optional(),
   superIcon: z.string().optional().describe('Icon for the super heading'),
-  superColor: z.enum(colorTheme).optional().describe('change color of super heading'),
+  superColor: z.enum(colorThemeUser).optional().describe('change color of super heading'),
   items: z.array(z.object({
     name: z.string().optional(),
     desc: z.string().optional(),
     icon: z.string().optional(),
-    color: z.enum(colorTheme).optional(),
+    color: z.enum(colorThemeUser).optional(),
   })).optional(),
 })
 
@@ -25,18 +25,18 @@ const options: InputOption[] = [
   new InputOption({ key: 'heading', label: 'Heading', input: 'InputText' }),
   new InputOption({ key: 'subHeading', label: 'Sub Heading', input: 'InputText' }),
   new InputOption({ key: 'superHeading', label: 'Super Heading', input: 'InputText' }),
-  new InputOption({ key: 'superColor', input: 'InputSelect', label: 'Color of Super Header', list: colorTheme }),
+  new InputOption({ key: 'superColor', input: 'InputSelect', label: 'Color of Super Header', list: colorThemeUser }),
   new InputOption({ key: 'superIcon', input: 'InputText', label: 'Super Header Icon', placeholder: 'i-tabler-check', description: 'Any tabler icon in the format i-tabler-[icon]' }),
   new InputOption({ key: 'items', label: 'Items', input: 'InputList', options: [
     new InputOption({ key: 'name', label: 'Name', input: 'InputText' }),
     new InputOption({ key: 'desc', label: 'Description', input: 'InputText' }),
     new InputOption({ key: 'icon', label: 'Icon', input: 'InputIcon' }),
-    new InputOption({ key: 'color', input: 'InputSelect', label: 'Color', list: colorTheme }),
+    new InputOption({ key: 'color', input: 'InputSelect', label: 'Color', list: colorThemeUser }),
   ] }),
 ]
 
 const defaultConfig: UserConfig = {
-  superColor: 'indigo',
+  superColor: 'primary',
   superIcon: 'i-tabler-chef-hat',
   superHeading: 'Voted Best Bakery 2024',
   heading: `Excellence in Baking`,

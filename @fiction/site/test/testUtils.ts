@@ -29,6 +29,15 @@ export type SiteTestUtils = TestUtils & {
   close: () => Promise<void>
   createSite: (args?: { themeId?: string }) => Promise<Site>
 }
+
+// export type IRunServicesSetup = (params: any) => Promise<void>
+// export type ICreateSiteTestUtils = ReturnType<typeof createSiteTestUtils2>
+// export function createSiteTestUtils2(runServicesSetup: IRunServicesSetup) {
+//   return async (params: {id2: number}) => {
+//     await runServicesSetup(params as any)
+//   }
+// }
+
 export async function createSiteTestUtils(args: { mainFilePath?: string, context?: 'node' | 'app', themes?: ThemeSetup[] } = {}): Promise<SiteTestUtils> {
   const { mainFilePath, context = 'node' } = args
 

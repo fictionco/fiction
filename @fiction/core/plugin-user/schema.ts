@@ -3,7 +3,7 @@ import { convertKeyCase } from '../utils/index.js'
 import { Col, FictionDbTable } from '../plugin-db/index.js'
 import { standardTable as t } from '../tbl.js'
 import { MediaDisplaySchema } from '../schemas/schemas.js'
-import type { GeoData } from '../utils/geo.js'
+import { GeoDataSchema } from '../utils/geo.js'
 import type { MemberAccess, OnboardStoredSettings, OrganizationConfig, OrganizationCustomerData, OrganizationLegal, Plan, Publication, PushSubscriptionDetail, SocialAccounts, StreetAddress, UserCompany } from './types.js'
 
 export type VerificationCode = {
@@ -31,7 +31,7 @@ export const userColumns = [
   new Col({ key: 'onboard', sec: 'setting', sch: () => z.record(z.string(), z.any()) as z.Schema<OnboardStoredSettings>, make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'pushSubscription', sec: 'setting', sch: () => z.any() as z.Schema<PushSubscriptionDetail>, make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'ip', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
-  new Col({ key: 'geo', sec: 'setting', sch: () => z.any() as z.Schema<GeoData>, make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(value) }),
+  new Col({ key: 'geo', sec: 'setting', sch: () => GeoDataSchema, make: ({ s, col }) => s.jsonb(col.k) }),
   new Col({ key: 'phone', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'address', sec: 'private', sch: () => z.any() as z.Schema<StreetAddress>, make: ({ s, col }) => s.jsonb(col.k) }),
   new Col({ key: 'title', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k) }),
