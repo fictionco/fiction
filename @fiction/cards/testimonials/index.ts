@@ -127,9 +127,9 @@ export const templates = [
       const userConfig = await getUserConfig(_)
       return {
         cards: [
-          { templateId, userConfig: { ...userConfig, layout: 'mega' as const } },
-          { templateId, userConfig: { ...userConfig, layout: 'masonry' as const } },
-          { templateId, userConfig },
+          { templateId, userConfig: { ...userConfig, layout: 'mega' as const, standard: { headers: { title: 'Mega Layout' } } } },
+          { templateId, userConfig: { ...userConfig, layout: 'masonry' as const, standard: { headers: { title: 'Masonry Layout' } } } },
+          { templateId, userConfig: { ...userConfig, standard: { headers: { title: 'Slider Layout' } } } },
         ],
       }
     },
