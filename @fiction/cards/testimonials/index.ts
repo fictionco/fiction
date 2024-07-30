@@ -43,34 +43,34 @@ async function getUserConfig(_args: { site: Site }): Promise<UserConfig & SiteUs
   return {
     items: [
       {
-        title: 'From Unknown to Influencer',
-        content: `This platform revolutionized my online presence. It handles all the heavy lifting so I can focus on my content.`,
-        media: { url: `https://images.unsplash.com/photo-1465080298426-c19339a41ddf?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D` },
+        title: 'Agent to the Stars',
+        content: `This platform revolutionized my online presence. Through my site and newsletter I've radically changed my business.`,
+        media: { url: `https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/1ef69a86-f589-4394-b8a0-1418b1633700/public` },
         user: {
-          fullName: 'Sarah Johnson',
-          avatar: { url: `https://images.unsplash.com/photo-1542596594-649edbc13630?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D` },
-          title: 'Influencer',
+          fullName: 'Amida Cheng',
+          avatar: { url: `https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/7775964a-21c4-4920-6011-f01335cd4e00/public` },
+          title: 'Celebrity Agent',
         },
       },
       {
-        title: `Featured in Forbes "30 Under 30"`,
-        content: `I've tripled my client base since using this tool.`,
-        media: { url: `https://images.pexels.com/photos/926390/pexels-photo-926390.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2` },
+        title: `Winner Best Director '22`,
+        content: `Fiction helps me stay connected with my audience like no other tool. It does the work of an entire PR agency, but better.`,
+        media: { url: `https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/409fc2dd-c35a-4712-d25b-2a4926dc8200/public` },
 
         user: {
-          fullName: 'David Chase',
-          avatar: { url: `https://images.unsplash.com/photo-1597651711127-600d0c2e78b0?q=80&w=3314&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D` },
-          title: 'Entrepreneur',
+          fullName: 'Xavier Williams',
+          avatar: { url: `https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/377bd836-bd44-46fc-66df-4d602ee5fd00/public` },
+          title: 'Director',
         },
       },
       {
         title: '10k+ followers gained in 3 months',
-        content: `Easy to use and incredibly effective. A must-have!`,
-        media: { url: `https://images.pexels.com/photos/842548/pexels-photo-842548.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2` },
+        content: `I used to struggle with all the tools needed to market myself. I haven't had a problem since using Fiction.`,
+        media: { url: `https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/4348dcd3-8229-4fbe-8c26-3a5ab89b9500/public` },
         user: {
-          fullName: 'Max Cambell',
-          avatar: { url: `https://images.unsplash.com/photo-1624224971170-2f84fed5eb5e?q=80&w=3398&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D` },
-          title: 'Author / Speaker',
+          fullName: 'Darius Ahmadi',
+          avatar: { url: `https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/411b7e75-6fa4-412e-5632-7d85e8c4fa00/public` },
+          title: 'Author / Coach',
         },
 
       },

@@ -36,19 +36,19 @@ function getBgClass(args: { slide: Testimonial, index: number }) {
   <div class="">
     <EffectCarousel v-model:activeIndex="activeIndex" :slides="items" :options="carouselOptions" @slide-change="onSlideChange">
       <template #default="{ slide, index }">
-        <blockquote class="carousel-cell w-[55%] lg:w-[30%] max-w-[600px] mr-16 lg:mr-64">
+        <blockquote class="carousel-cell w-[80%] md:w-[55%] lg:w-[30%] max-w-[600px] mr-6 md:mr-16 lg:mr-64">
           <div class="transition-all duration-500" :class="index === activeIndex ? 'scale-110' : ''">
             <div class="relative speech-bubble">
               <div class=" rounded-2xl  relative border [perspective:1000px]" :class="getBgClass({ slide, index })">
-                <div class="p-8">
-                  <div class="flex gap-5">
+                <div class="p-4 md:p-8">
+                  <div class="flex gap-2 lg:gap-5 flex-col lg:flex-row">
                     <div class="relative pt-1 opacity-20">
-                      <svg class="size-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M13 14.725c0-5.141 3.892-10.519 10-11.725l.984 2.126c-2.215.835-4.163 3.742-4.38 5.746 2.491.392 4.396 2.547 4.396 5.149 0 3.182-2.584 4.979-5.199 4.979-3.015 0-5.801-2.305-5.801-6.275zm-13 0c0-5.141 3.892-10.519 10-11.725l.984 2.126c-2.215.835-4.163 3.742-4.38 5.746 2.491.392 4.396 2.547 4.396 5.149 0 3.182-2.584 4.979-5.199 4.979-3.015 0-5.801-2.305-5.801-6.275z" /></svg>
+                      <svg class="size-6 md:size-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M13 14.725c0-5.141 3.892-10.519 10-11.725l.984 2.126c-2.215.835-4.163 3.742-4.38 5.746 2.491.392 4.396 2.547 4.396 5.149 0 3.182-2.584 4.979-5.199 4.979-3.015 0-5.801-2.305-5.801-6.275zm-13 0c0-5.141 3.892-10.519 10-11.725l.984 2.126c-2.215.835-4.163 3.742-4.38 5.746 2.491.392 4.396 2.547 4.396 5.149 0 3.182-2.584 4.979-5.199 4.979-3.015 0-5.801-2.305-5.801-6.275z" /></svg>
                     </div>
-                    <div class="space-y-[2vw]">
+                    <div class="space-y-[2vw] w-fit">
                       <CardText
                         tag="div"
-                        class="text-2xl md:text-3xl leading-snug"
+                        class="text-xl md:text-3xl leading-snug w-fit"
                         :card="card"
                         :path="`items.${index}.content`"
                         animate="fade"
@@ -69,14 +69,14 @@ function getBgClass(args: { slide: Testimonial, index: number }) {
               <div class="text-center">
                 <CardText
                   tag="div"
-                  class="text-sm font-sans dark:text-theme-200"
+                  class="text-sm md:text-lg x-font-title dark:text-theme-200 font-medium  truncate whitespace-nowrap"
                   :card
                   :path="`items.${index}.user.fullName`"
                   animate="fade"
                 />
                 <CardText
                   tag="div"
-                  class="text-sm font-sans dark:text-theme-400 text-theme-500"
+                  class="text-xs md:text-sm font-sans dark:text-theme-400 text-theme-500 "
                   :card
                   :path="`items.${index}.user.title`"
                   animate="fade"
