@@ -112,6 +112,12 @@ vue.watch(() => standardUc.value?.fontStyle, (fontStyle) => {
     site.userFonts.value = { ...site.userFonts.value, ...addFonts }
   }
 }, { immediate: true })
+
+const autoSetDark = vue.computed(() => {
+  const baseBg = standardUc.value?.scheme?.base?.bg
+  const lightBg = standardUc.value?.scheme?.light?.bg
+  return baseBg && !lightBg
+})
 </script>
 
 <template>
@@ -123,6 +129,7 @@ vue.watch(() => standardUc.value?.fontStyle, (fontStyle) => {
     :class="[
       spacing,
       isReversed ? (isLightMode ? 'light' : 'dark') : '',
+      autoSetDark ? 'dark' : '',
       loaded ? 'loaded' : '',
       card.depth.value <= 1 ? `overflow-x-clip` : '',
     ]"
@@ -134,9 +141,11 @@ vue.watch(() => standardUc.value?.fontStyle, (fontStyle) => {
     :data-pad-size="padSize"
   >
     <div class="w-full relative text-theme-950 dark:text-theme-50 x-font-body ">
-      <div :class="contentWidthClass">
+      <div>
         <div class="relative">
-          <StandardHeader v-if="standardUc?.headers?.title" :card class="mb-8 lg:mb-16" />
+          <div :class="contentWidthClass">
+            <StandardHeader v-if="standardUc?.headers?.title" :card class="mb-8 lg:mb-16" />
+          </div>
           <slot />
 
           <component

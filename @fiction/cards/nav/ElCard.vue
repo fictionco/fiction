@@ -63,7 +63,7 @@ function close() {
 </script>
 
 <template>
-  <div class="z-20">
+  <div class="z-20" :class="card.classes.value.contentWidth">
     <div class="x-header-container">
       <div class="relative">
         <nav class="relative flex items-center justify-between gap-12" aria-label="Global">

@@ -86,7 +86,7 @@ vue.onMounted(() => {
 </script>
 
 <template>
-  <div class="z-10">
+  <div class="z-10" :class="card.classes.value.contentWidth">
     <div class=" px-4 lg:px-0">
       <div :class="layoutClasses.wrapClass">
         <div :class="layoutClasses.logoClass" class="text-primary-500 dark:text-theme-0">

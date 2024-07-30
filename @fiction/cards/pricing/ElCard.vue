@@ -23,7 +23,7 @@ function cls(price: UserConfigPrice) {
   }
   else {
     return {
-      col: 'bg-theme-100/60 dark:bg-theme-800',
+      col: 'bg-white shadow dark:bg-theme-800',
       btn: 'bg-primary-500 text-theme-0 dark:bg-theme-600',
       badge: 'bg-primary-100 text-primary-600 dark:bg-theme-600 dark:text-primary-50',
     }
@@ -63,7 +63,7 @@ function getPrice(price?: UserConfigPrice) {
 </script>
 
 <template>
-  <div>
+  <div :class="card.classes.value.contentWidth">
     <div v-if="uc.hasAnnual" class="flex justify-center mb-8">
       <div class="relative grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-sans font-semibold leading-5 ring-1 ring-inset ring-theme-300 dark:ring-theme-600">
         <label :class="priceDuration === 'month' ? 'text-theme-0' : 'text-theme-500 dark:text-theme-200'" class="z-10 relative cursor-pointer rounded-full px-4 py-0.5 transition-all" @click="priceDuration = 'month'">

@@ -82,79 +82,81 @@ function gridCols() {
 </script>
 
 <template>
-  <div :class="[!loaded ? 'opacity-0' : '']" class="relative transition-opacity duration-700" data-test-id="showcase">
-    <div class="grid md:gap-8 gap-6" :data-items-count="uc.items?.length || 0" :class="gridCols()" :data-aspect="uc.aspect" :data-grid-cols-max="uc.gridColsMax">
-      <div v-for="(item, i) in uc.items" :key="i" class="[perspective:1000px] group showcase-item x-action-item transition-all duration-300 space-y-2 relative cursor-pointer" @click="activeitemIndex = i">
-        <EffectGlare wrap-class="rounded-[20px]">
-          <div class="relative">
-            <ElImage :animate="true" :media="item.media" :class="gridImageAspect()" />
-            <div class="py-2 px-4 space-y-1 absolute bottom-0 z-10">
-              <CardText
-                tag="div"
-                :card="card"
-                class="text-lg font-semibold min-w-0 x-font-title text-pretty leading-tight line-clamp-2"
-                :path="`items.${i}.title`"
-                animate="fade"
-              />
+  <div :class="card.classes.value.contentWidth">
+    <div :class="[!loaded ? 'opacity-0' : '']" class="relative transition-opacity duration-700" data-test-id="showcase">
+      <div class="grid md:gap-8 gap-6" :data-items-count="uc.items?.length || 0" :class="gridCols()" :data-aspect="uc.aspect" :data-grid-cols-max="uc.gridColsMax">
+        <div v-for="(item, i) in uc.items" :key="i" class="[perspective:1000px] group showcase-item x-action-item transition-all duration-300 space-y-2 relative cursor-pointer" @click="activeitemIndex = i">
+          <EffectGlare wrap-class="rounded-[20px]">
+            <div class="relative">
+              <ElImage :animate="true" :media="item.media" :class="gridImageAspect()" />
+              <div class="py-4 px-5 space-y-0 absolute bottom-0 z-10">
+                <CardText
+                  tag="div"
+                  :card="card"
+                  class="text-lg font-semibold min-w-0 x-font-title text-pretty leading-tight line-clamp-2 text-white"
+                  :path="`items.${i}.title`"
+                  animate="fade"
+                />
 
-              <CardText
-                tag="div"
-                :card="card"
-                class=" text-base text-white/80 text-pretty line-clamp-1 font-medium"
-                :path="`items.${i}.subTitle`"
-                animate="fade"
-              />
-            </div>
-            <div class="overlay absolute w-full h-full z-0 pointer-events-none inset-0 bg-[radial-gradient(circle_at_0%_100%,rgba(0,0,0,.5)_0,rgba(0,0,0,.3)_40%,transparent_70%)]" />
-          </div>
-        </EffectGlare>
-      </div>
-    </div>
-    <ElModal :vis="activeitemIndex >= 0" modal-class="lg:max-w-[80dvw] min-h-[80dvh] x-font-body " @update:vis="activeitemIndex = -1">
-      <div class="close">
-        <div class="absolute top-0 right-0 p-2 md:p-4">
-          <div class="cursor-pointer text-theme-400 dark:text-theme-500 opacity-70 hover:opacity-100" @click="activeitemIndex = -1">
-            <div class="i-tabler-x text-5xl" />
-          </div>
-        </div>
-      </div>
-      <div class="py-12 md:py-24 px-4">
-        <div :class="proseClass">
-          <div class="not-prose">
-            <div class="mb-8 not-prose space-y-4 text-center">
-              <CardText
-                tag="h1"
-                :card="card"
-                class="mb-0 text-3xl md:text-5xl font-semibold x-font-title "
-                :path="`items.${activeitemIndex}.title`"
-                animate="fade"
-              />
-              <CardText
-                tag="h3"
-                :card="card"
-                class="my-0 text-theme-500 dark:text-theme-400 text-lg md:text-3xl"
-                :path="`items.${activeitemIndex}.subTitle`"
-                animate="fade"
-              />
-            </div>
-
-            <AnimClipPath animate="expand" class="my-[min(max(35px,_5vw),_30px)] md:-mx-16">
-              <div v-if="activeItem?.media?.url" class=" mx-auto relative overflow-hidden rounded-xl" :class="featuredImageAspect(activeItem.media)">
-                <!-- Optionally display media -->
-                <img :src="activeItem?.media?.url" alt="Post media" class="absolute h-full w-full object-cover object-center">
+                <CardText
+                  tag="div"
+                  :card="card"
+                  class=" text-base text-white/80 text-pretty line-clamp-1 font-medium"
+                  :path="`items.${i}.subTitle`"
+                  animate="fade"
+                />
               </div>
-            </AnimClipPath>
-          </div>
-
-          <CardText
-            tag="div"
-            :card="card"
-            class="my-12 font-serif"
-            :path="`items.${activeitemIndex}.content`"
-            animate="fade"
-          />
+              <div class="overlay absolute w-full h-full z-0 pointer-events-none inset-0 bg-[radial-gradient(circle_at_0%_100%,rgba(0,0,0,.5)_0,rgba(0,0,0,.3)_40%,transparent_70%)]" />
+            </div>
+          </EffectGlare>
         </div>
       </div>
-    </ElModal>
+      <ElModal :vis="activeitemIndex >= 0" modal-class="lg:max-w-[80dvw] min-h-[80dvh] x-font-body " @update:vis="activeitemIndex = -1">
+        <div class="close">
+          <div class="absolute top-0 right-0 p-2 md:p-4">
+            <div class="cursor-pointer text-theme-400 dark:text-theme-500 opacity-70 hover:opacity-100" @click="activeitemIndex = -1">
+              <div class="i-tabler-x text-5xl" />
+            </div>
+          </div>
+        </div>
+        <div class="py-12 md:py-24 px-4">
+          <div :class="proseClass">
+            <div class="not-prose">
+              <div class="mb-8 not-prose space-y-4 text-center">
+                <CardText
+                  tag="h1"
+                  :card="card"
+                  class="mb-0 text-3xl md:text-5xl font-semibold x-font-title "
+                  :path="`items.${activeitemIndex}.title`"
+                  animate="fade"
+                />
+                <CardText
+                  tag="h3"
+                  :card="card"
+                  class="my-0 text-theme-500 dark:text-theme-400 text-lg md:text-3xl"
+                  :path="`items.${activeitemIndex}.subTitle`"
+                  animate="fade"
+                />
+              </div>
+
+              <AnimClipPath animate="expand" class="my-[min(max(35px,_5vw),_30px)] md:-mx-16">
+                <div v-if="activeItem?.media?.url" class=" mx-auto relative overflow-hidden rounded-xl" :class="featuredImageAspect(activeItem.media)">
+                  <!-- Optionally display media -->
+                  <img :src="activeItem?.media?.url" alt="Post media" class="absolute h-full w-full object-cover object-center">
+                </div>
+              </AnimClipPath>
+            </div>
+
+            <CardText
+              tag="div"
+              :card="card"
+              class="my-12 font-serif"
+              :path="`items.${activeitemIndex}.content`"
+              animate="fade"
+            />
+          </div>
+        </div>
+      </ElModal>
+    </div>
   </div>
 </template>

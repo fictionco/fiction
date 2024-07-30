@@ -83,7 +83,7 @@ const overlays = vue.computed(() => uc.value.overlays || [])
 </script>
 
 <template>
-  <div>
+  <div :class="card.classes.value.contentWidth">
     <div :class="wrapperClass">
       <div :class="textWrapClass">
         <CardHeader :card :actions="uc.actions" />

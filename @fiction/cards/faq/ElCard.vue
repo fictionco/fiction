@@ -16,7 +16,7 @@ const uc = vue.computed(() => {
 </script>
 
 <template>
-  <div class="space-y-12">
+  <div :class="card.classes.value.contentWidth" class="space-y-12">
     <div class="space-y-6 text-left md:text-balance max-w-md text-theme-500 dark:text-theme-200/50">
       <CardText animate="fade" :card path="heading" class="text-4xl x-font-title font-semibold" />
       <CardText v-if="uc.subHeading" animate="fade" :card path="subHeading" class="text-2xl " />

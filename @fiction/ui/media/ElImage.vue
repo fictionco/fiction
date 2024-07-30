@@ -153,7 +153,7 @@ const flipClass = vue.computed(() => {
 
 <template>
   <ClipPathAnim :animate="animate">
-    <div v-if="media" class=" " :class="[!inlineImage ? `h-full w-full` : '', cls, flipClass]" :style="bgStyle">
+    <div v-if="media" class=" " :class="[!inlineImage ? `h-full w-full` : '', cls, flipClass]" :style="[bgStyle]">
       <transition
         enter-active-class="transition ease duration-300"
         enter-from-class="opacity-0"

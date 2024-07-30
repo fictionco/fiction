@@ -146,7 +146,7 @@ export class Card<
   classes = vue.computed(() => {
     const spacing = this.fullConfig.value?.standard?.spacing
     const contentWidthSize = spacing?.contentWidth || 'md'
-    const contentWidthClass = getContentWidthClass({ size: contentWidthSize })
+    const contentWidthClass = getContentWidthClass({ size: contentWidthSize, padSize: true })
     return {
       contentWidth: contentWidthClass,
     }
