@@ -25,7 +25,7 @@ function onSlideChange(index: number) {
 }
 
 function getBgClass(index: number) {
-  return index === activeIndex.value ? 'text-primary-700/80 bg-primary-100 border-primary-300 dark:text-primary-50 dark:bg-primary-950 dark:border-primary-600' : 'bg-theme-50 border-theme-200 dark:bg-theme-700/70 dark:border-theme-700'
+  return index === activeIndex.value ? 'text-theme-700/80 bg-theme-0 border-theme-200 dark:text-primary-50 dark:bg-primary-950 dark:border-primary-600' : 'bg-theme-50 border-theme-200 dark:bg-theme-700/70 dark:border-theme-700'
 }
 </script>
 
@@ -33,18 +33,18 @@ function getBgClass(index: number) {
   <div class="">
     <EffectCarousel v-model:activeIndex="activeIndex" :slides="items" :options="carouselOptions" @slide-change="onSlideChange">
       <template #default="{ slide, index }">
-        <blockquote class="carousel-cell w-[55%] lg:w-[33%] mr-16 lg:mr-64">
+        <blockquote class="carousel-cell w-[55%] lg:w-[33%] max-w-[650px] mr-16 lg:mr-64">
           <div class="transition-all duration-500" :class="index === activeIndex ? 'scale-110' : ''">
             <div class=" rounded-2xl  relative border" :class="getBgClass(index)">
               <div class="p-8">
                 <div class="flex gap-5">
-                  <div class="relative pt-1" :class="index === activeIndex ? 'text-primary-500/40 dark:text-primary-500' : 'dark:text-theme-0/50'">
+                  <div class="relative pt-1 opacity-30">
                     <svg class="size-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M13 14.725c0-5.141 3.892-10.519 10-11.725l.984 2.126c-2.215.835-4.163 3.742-4.38 5.746 2.491.392 4.396 2.547 4.396 5.149 0 3.182-2.584 4.979-5.199 4.979-3.015 0-5.801-2.305-5.801-6.275zm-13 0c0-5.141 3.892-10.519 10-11.725l.984 2.126c-2.215.835-4.163 3.742-4.38 5.746 2.491.392 4.396 2.547 4.396 5.149 0 3.182-2.584 4.979-5.199 4.979-3.015 0-5.801-2.305-5.801-6.275z" /></svg>
                   </div>
                   <div class="space-y-[2vw]">
                     <CardText
                       tag="div"
-                      class="text-2xl lg:text-3xl xl:text-4xl leading-snug"
+                      class="text-2xl lg:text-3xl  leading-snug"
                       :card="card"
                       :path="`items.${index}.content`"
                       animate="fade"
