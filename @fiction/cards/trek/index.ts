@@ -44,28 +44,29 @@ async function defaultConfig(args: { site: Site }): Promise<UserConfig> {
   return {
     items: [
       {
-        header: `Gearing Up`,
-        subHeader: `Get ready to embark on an interstellar journey.`,
-        media: { url: 'https://cdn.pixabay.com/video/2023/08/09/175331-853193735_large.mp4', format: 'video' },
-        actions: [{ name: 'Learn More', href: 'https://en.wikipedia.org/wiki/Star_Trek' }],
+        header: `Meet Tom`,
+        subHeader: `Visionary Creative Director shaping brand narratives.`,
+        media: { url: 'https://videos.pexels.com/video-files/7251409/7251409-uhd_1440_2560_25fps.mp4', format: 'video' },
+        actions: [{ name: 'Learn More', href: '#' }],
       },
       {
-        header: `Space Station`,
-        subHeader: `Experience the daily life of an astronaut.`,
-        media: { url: 'https://cdn.pixabay.com/video/2024/05/06/210886_large.mp4', format: 'video' },
-        actions: [{ name: 'Learn More', href: 'https://en.wikipedia.org/wiki/Star_Trek' }],
+        header: `NYC Creative Director`,
+        subHeader: `Tom's work has been featured in the New York Times.`,
+        media: { url: `https://videos.pexels.com/video-files/5828488/5828488-uhd_1440_2560_24fps.mp4`, format: 'video' },
+
+        actions: [{ name: 'Learn More', href: '#' }],
       },
       {
-        header: `Uncharted Worlds`,
-        subHeader: `Set foot on planets beyond our solar system.`,
-        media: { url: 'https://cdn.pixabay.com/video/2024/06/09/216034_large.mp4', format: 'video' },
+        header: 'The Williams Exhibit',
+        subHeader: 'Check out Tom\'s latest exhibit at the Williams Gallery.',
+        media: { url: 'https://videos.pexels.com/video-files/1713836/1713836-hd_1080_1920_30fps.mp4', format: 'video' },
 
       },
       {
-        header: `Galactic Discoveries`,
-        subHeader: `Share your experiences and newfound knowledge with the world.`,
-        media: { url: urls.trek4, format: 'url' },
-        actions: [{ name: 'Learn More', href: 'https://en.wikipedia.org/wiki/Star_Trek' }],
+        header: `Let's Connect`,
+        subHeader: `Tom is always looking for new collaborators. Reach out to him today.`,
+        media: { url: 'https://videos.pexels.com/video-files/1884287/1884287-hd_720_1280_30fps.mp4', format: 'video' },
+        actions: [{ name: 'Learn More', href: '#' }],
       },
     ],
   }

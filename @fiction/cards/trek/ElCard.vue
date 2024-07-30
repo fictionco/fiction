@@ -35,8 +35,8 @@ vue.onMounted(() => {
 <template>
   <div class="flex gap-12 p-4 md:p-0">
     <div class="w-[45dvw] pl-[8%] hidden md:block">
-      <div class="sticky top-[calc(50%-3rem)] flex">
-        <CardContent :card class="content max-w-md " :item-index="activeItemIndex" />
+      <div class="sticky top-[calc(50%-3rem)] flex w-full">
+        <CardContent :card class="content " :item-index="activeItemIndex" />
       </div>
     </div>
     <div class="w-full md:w-[55dvw] space-y-6">
