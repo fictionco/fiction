@@ -33,7 +33,7 @@ const TestimonialSchema = z.object({
 export type Testimonial = z.infer<typeof TestimonialSchema>
 
 const UserConfigSchema = z.object({
-  layout: z.enum(['slider', 'mega']).optional(),
+  layout: z.enum(['slider', 'mega', 'masonry']).optional(),
   items: z.array(TestimonialSchema).optional(),
 })
 
@@ -74,6 +74,26 @@ async function getUserConfig(_args: { site: Site }): Promise<UserConfig & SiteUs
         },
 
       },
+      {
+        title: '',
+        content: `I'm not a tech person, but Fiction made it easy for me to create a beautiful online presence that I can manage myself.`,
+        media: { url: `https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/a7fd5370-2a94-4460-91b5-c6a0f6298900/public` },
+        user: {
+          fullName: 'Forest MontClair',
+          avatar: { url: `https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/8a255e32-a4d5-4dff-130c-6e055460a700/public` },
+          title: 'Influencer',
+        },
+      },
+      {
+        title: '',
+        content: `I didn't know what I was missing until I started using Fiction. It's like having a personal assistant for my online presence.`,
+        media: { url: `https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/e5a68a49-f5d9-4e66-84a9-b52050aacc00/public` },
+        user: {
+          fullName: 'Casey Moreau',
+          avatar: { url: `https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/cc352de7-2786-4cfc-68a5-c537f3f12000/public` },
+          title: 'Fashion Designer',
+        },
+      },
     ],
 
   }
@@ -108,6 +128,7 @@ export const templates = [
       return {
         cards: [
           { templateId, userConfig: { ...userConfig, layout: 'mega' as const } },
+          { templateId, userConfig: { ...userConfig, layout: 'masonry' as const } },
           { templateId, userConfig },
         ],
       }

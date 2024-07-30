@@ -1,41 +1,45 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T">
 import { vue, waitFor } from '@fiction/core'
-import type Packery from 'packery'
-import type ImagesLoaded from 'imagesloaded'
+import type { PackeryOptions, Packery as PackeryType } from 'packery'
 
-type EffectOptions = Partial<Packery.PackeryOptions> & {
+type EffectOptions = Partial<PackeryOptions> & {
   resize?: boolean
   initLayout?: boolean
+  defaultCols?: number
 }
+
 const props = defineProps<{
-  items: any[]
+  items: T[]
   options?: EffectOptions
+  gap?: string
 }>()
 
-const gridRef = vue.ref<HTMLElement | null>(null)
-let pckry: Packery.Packery | null = null
+const containerRef = vue.ref<HTMLElement | null>(null)
+let pckry: PackeryType | null = null
 
 async function initPackery() {
   if (typeof window === 'undefined')
     return
 
-  const { Packery } = await import('packery')
+  const PackeryModule = await import('packery')
+  const Packery = PackeryModule.default || PackeryModule
   const { default: imagesLoaded } = await import('imagesloaded')
 
-  if (gridRef.value) {
-    const defaultOptions: EffectOptions = {
-      itemSelector: '.grid-item',
-      gutter: 10,
+  if (containerRef.value) {
+    const defaultOptions = {
+      itemSelector: '.masonry-grid-item',
+      gutter: 40,
       percentPosition: true,
       transitionDuration: '0.4s',
       resize: true,
       initLayout: true,
+
     }
 
-    pckry = new Packery(gridRef.value, { ...defaultOptions, ...props.options })
+    pckry = new (Packery as any)(containerRef.value, { ...defaultOptions, ...props.options })
 
     if (props.options?.initLayout !== false) {
-      imagesLoaded(gridRef.value).on('progress', () => {
+      imagesLoaded(containerRef.value).on('progress', () => {
         pckry?.layout()
       })
     }
@@ -67,33 +71,34 @@ defineExpose({ packery: pckry })
 </script>
 
 <template>
-  <div ref="gridRef" class="grid">
-    <div v-for="(item, index) in items" :key="index" class="grid-item" :class="item.class">
-      <slot :name="item" :item="item" :index="index">
-        <!-- Default content if no slot is provided -->
-        <img :src="item.src" :alt="item.alt">
-      </slot>
+  <div>
+    <div ref="containerRef" class="masonry-grid clear-both">
+      <div v-for="(item, index) in items" :key="index" class="masonry-grid-item float-left">
+        <slot :item :index />
+      </div>
+      <div class="gutter-sizer" />
     </div>
   </div>
 </template>
 
 <style lang="less">
-.grid {
+.masonry-grid {
   width: 100%;
+
 }
 
-.grid-item {
-  float: left;
-  width: 20%; // Default width, adjust as needed
-  background: #e6e5e4;
-  border: 2px solid #b6b5b4;
+.gutter-sizer{
+    width: 6%;
+  }
 
-  img {
-    display: block;
-    max-width: 100%;
+.masonry-grid-item {
+  width: 48%;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+
   }
 }
 
-.grid-item--width2 { width: 40%; }
-.grid-item--height2 { height: auto; } // Height will be determined by content
+.masonry-grid-item--width2 { width: 40%; }
+.masonry-grid-item--height2 { height: auto; } // Height will be determined by content
 </style>

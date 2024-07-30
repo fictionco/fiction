@@ -56,7 +56,7 @@ function setActiveItem(index: number) {
             </div>
           </div>
         </div>
-        <div class="flex gap-3 lg:gap-6 overflow-x-scroll no-scrollbar justify-center py-3">
+        <div class="flex gap-3 lg:gap-6  no-scrollbar justify-center py-3">
           <div v-for="(item, i) in items" :key="i" class="basis-1/3 lg:basis-auto transition-opacity duration-500 cursor-pointer" :class="activeIndex === i ? 'opacity-100' : 'opacity-40 hover:opacity-100'" @click="setActiveItem(i)">
             <div class="flex justify-center flex-col items-center gap-2">
               <div><ElImage :media="item.user?.avatar" class="size-12 md:size-16 rounded-full overflow-clip ring-2 ring-white" /></div>
