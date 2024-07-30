@@ -18,8 +18,9 @@ export function setPages(args: { pages?: CardConfigPortable[], site?: Site }) {
   // validate all are page wrap cards
   const notPageCards = pageCards.filter(p => !p.tpl.value?.settings.isPageCard).map(p => ({ slug: p.slug.value, tpl: p.tpl.value?.settings.templateId }))
   if (notPageCards.length) {
-    logger.error('Page cards must have isPageCard set to true', { data: { notPageCards } })
-    throw new Error('Page cards must have isPageCard set to true')
+    const slugs = notPageCards.map(p => `slug: ${p.slug}, tpl: ${p.tpl}`).join(', ')
+    logger.error(`Page cards must have isPageCard set to true ${slugs}`, { data: { notPageCards } })
+    throw new Error(`Page cards must have isPageCard set to true ${slugs}`)
   }
 
   return pageCards

@@ -9,6 +9,7 @@ export const templates = [
   new CardTemplate({
     templateId: 'dash',
     el: DashWrap,
+    isPageCard: true,
     getUserConfig: () => ({
       homeIcon: { format: 'html' as const, html: fictionLogo },
       authRedirect: '/auth/login',

@@ -47,7 +47,7 @@ export class FictionTransactions extends FictionPlugin<FictionTransactionsSettin
           ...pages,
           createCard({
             isSystem: true, // prevent saving
-            cardId: this.transactionSlug, // prevent saving
+            cardId: this.transactionSlug,
             slug: this.transactionSlug,
             templates: theme?.templates,
             templateId: transactionTemplateId,

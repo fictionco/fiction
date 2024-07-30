@@ -49,6 +49,7 @@ export const standardCardTemplates = [
     el: vue.defineAsyncComponent(async () => import('./CardWrapTransaction.vue')),
     schema: z.object({}),
     isPublic: false,
+    isPageCard: true,
   }),
   ...four04.templates,
   ...nav.templates,
