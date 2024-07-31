@@ -10,7 +10,7 @@ const props = defineProps({
   media: { type: Object as vue.PropType<MediaObject >, default: undefined },
   imageClass: { type: String as vue.PropType<string>, default: '' },
   animate: { type: [Boolean, String] as vue.PropType<'swipe' | 'expand' | '' | boolean>, default: false },
-  inlineImage: { type: Boolean, default: false },
+  imageMode: { type: String as vue.PropType<'inline' | 'cover' | 'contain'>, default: 'cover' },
 })
 
 const logger = log.contextLogger('ElImage')
@@ -149,6 +149,11 @@ const flipClass = vue.computed(() => {
 //     .join(' ')
 //   return { filter: filterString }
 // })
+const inlineImage = vue.computed(() => props.imageMode === 'inline')
+const imageModeClass = vue.computed(() => {
+  const c = props.imageMode === 'contain' ? 'object-contain' : 'object-cover'
+  return c
+})
 </script>
 
 <template>
@@ -180,8 +185,8 @@ const flipClass = vue.computed(() => {
         />
         <video
           v-else-if="media.format === 'video'"
-          class="absolute h-full w-full object-cover z-0 dark:bg-theme-800/30 bg-theme-50/50"
-          :class="[imageClass, inlineImage ? 'block' : '']"
+          class="absolute h-full w-full z-0 dark:bg-theme-800/30 bg-theme-50/50"
+          :class="[imageClass, imageModeClass, inlineImage ? 'block' : '']"
           :src="media?.url || ''"
           :style="{ filter: filters?.map((_) => _.value).join(' ') }"
           autoplay
@@ -191,8 +196,8 @@ const flipClass = vue.computed(() => {
         />
         <img
           v-else-if="media?.url"
-          class="inset-0 object-cover z-0"
-          :class="[imageClass, inlineImage ? 'block' : 'absolute h-full w-full']"
+          class="inset-0 z-0"
+          :class="[imageClass, imageModeClass, inlineImage ? 'block' : 'absolute h-full w-full']"
           :src="media?.url || ''"
           :style="{ filter: filters?.map((_) => _.value).join(' ') }"
         >

@@ -118,8 +118,7 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
                             { name: 'Statement', href: '/demo-statement' },
                             { name: 'Tour', href: '/demo-tour' },
                             { name: 'Hero', href: '/demo-hero' },
-                            { name: 'Features', href: '/demo-features' },
-                            { name: 'FAQ / List', href: '/demo-faq' },
+
                             { name: 'Trek', href: '/demo-trek' },
                             { name: 'Testimonials', href: '/demo-testimonials' },
                           ],
@@ -127,6 +126,7 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
                         {
                           name: 'Portfolio',
                           items: [
+                            { name: 'Gallery', href: '/demo-mason' },
                             { name: 'Showcase', href: '/demo-showcase' },
                             { name: 'Cinema', href: '/demo-cinema' },
                             { name: 'Marquee', href: '/demo-marquee' },
@@ -149,6 +149,7 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
                             { name: 'Ticker', href: '/demo-ticker' },
                             { name: 'Fit Text', href: '/demo-fitText' },
                             { name: 'Quotes', href: '/demo-quotes' },
+
                           ],
                         },
                         {
@@ -171,6 +172,8 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
                             { name: 'Capture', href: '/demo-capture' },
                             { name: 'Pricing', href: '/demo-pricing' },
                             { name: 'People', href: '/demo-people' },
+                            { name: 'Features', href: '/demo-features' },
+                            { name: 'FAQ / List', href: '/demo-faq' },
                           ],
                         },
                       ],

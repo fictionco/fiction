@@ -137,7 +137,7 @@ vue.onMounted(() => {
           <div v-if="uc.badges?.length" :class="layoutClasses.badgeWrap" class="text-theme-400 dark:text-theme-50 mt-5 text-right text-xs flex flex-col items-center gap-4  ">
             <template v-for="(badge, i) in uc.badges" :key="i">
               <a :href="card.link(badge.href)" :title="badge.name" class="inline-block">
-                <ElImage :media="badge.media" :inline-image="true" />
+                <ElImage :media="badge.media" image-mode="inline" />
               </a>
             </template>
           </div>

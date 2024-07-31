@@ -127,7 +127,6 @@ export const MediaDisplaySchema = MediaContentSchema.extend({
     flip: z.enum(['horizontal', 'vertical']).optional(),
   }).optional(),
 })
-
 export type MediaObject = z.infer<typeof MediaDisplaySchema>
 
 export const TaxonomySchema = z.object({
