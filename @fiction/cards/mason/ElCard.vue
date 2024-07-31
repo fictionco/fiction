@@ -17,7 +17,7 @@ const items = vue.computed(() => uc.value.items || [])
 
 const masonryOptions = {
   percentPosition: true,
-  gutter: '.gutter-sizer',
+  gutter: 30,
 }
 
 const currentLightboxIndex = vue.ref(-1)
@@ -70,7 +70,7 @@ function showLightbox(index: number) {
           </div>
         </div>
       </div>
-      <div class="gutter-sizer w-[4dvw] md:w-[2dvw]" />
+      <div class="gutter-sizer w-[2%]" />
     </MasonryEffect>
 
     <ElLightbox v-model:activeIndex="currentLightboxIndex" :items />

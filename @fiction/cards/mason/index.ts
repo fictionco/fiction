@@ -42,6 +42,7 @@ async function getUserConfig(_args: { site: Site }): Promise<UserConfig & SiteUs
         content: 'Went to Paris, did the whole Eiffel Tower thing. Pro tip: champagne tastes better at 984 feet. Tried to shop like a local on the Champs-Élysées, ended up eating my weight in cheese instead. No regrets.',
         media: { format: 'url', url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/262acd7b-9d46-454d-e972-2f5693eddf00/public' },
         columns: '2',
+        rows: '1',
       },
       {
         title: 'Bali Bliss Retreat',
@@ -94,6 +95,20 @@ async function getUserConfig(_args: { site: Site }): Promise<UserConfig & SiteUs
         content: 'Sailed the Amalfi Coast on a \'private\' yacht. By private, I mean shared with 20 strangers who became my best friends after a few limoncellos. Tried to look glam in Positano, but mostly just looked sweaty. Note to self: cobblestone streets and heels don\'t mix.',
         media: { format: 'url', url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/ef71a188-0ab7-4aec-ac26-55a90adce600/public' },
         columns: '2',
+      },
+      {
+        title: 'Burning Man: Desert Dust and Dubious Decisions',
+        content: 'Ventured to Black Rock City for Burning Man. Packed my most outrageous outfits, ended up wearing mostly dust. Saw art installations that made me question reality (or was that the dehydration?). Joined a 3 AM dance party led by a DJ in a giant rubber duck costume. Still finding playa dust in unexpected places weeks later.',
+        media: { format: 'url', url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/a7fd5370-2a94-4460-91b5-c6a0f6298900/public' },
+        columns: '2',
+        rows: '2',
+      },
+      {
+        title: 'Rio Carnival: Feathers, Fever, and Forgetting',
+        content: 'Dived into Rio\'s Carnival madness. Attempted to samba, looked more like a startled chicken. Joined a street party that lasted longer than some of my relationships. Lost my voice, my dignity, and almost my wallet. Found them all again (except the dignity) at a late-night churrascaria. Brazilian coffee is a lifesaver.',
+        media: { format: 'url', url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/295e1e27-b08c-4fa2-a83e-1e4dd1efa300/public' },
+        columns: '1',
+        rows: '3',
       },
     ],
 
