@@ -23,7 +23,7 @@ const masonryOptions = {
 <template>
   <div :class="card.classes.value.contentWidth">
     <MasonryEffect :items="items" :options="masonryOptions" gap="2vw">
-      <template #default="{ item, index }">
+      <div v-for="(item, index) in items" :key="index" class="masonry-grid-item float-left w-full md:w-[48%]">
         <div class="relative rounded-2xl overflow-hidden shadow-lg bg-theme-600 dark:bg-theme-700 transition-all duration-300 hover:shadow-xl">
           <ElImage class="absolute inset-0 object-cover" :media="item?.media || item?.user?.avatar" />
           <div class="flex flex-col justify-between">
@@ -66,7 +66,7 @@ const masonryOptions = {
             </div>
           </div>
         </div>
-      </template>
+      </div>
     </MasonryEffect>
   </div>
 </template>

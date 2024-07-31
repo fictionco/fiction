@@ -26,14 +26,13 @@ async function initPackery() {
   const { default: imagesLoaded } = await import('imagesloaded')
 
   if (containerRef.value) {
-    const defaultOptions = {
+    const defaultOptions: EffectOptions = {
       itemSelector: '.masonry-grid-item',
       gutter: 40,
       percentPosition: true,
       transitionDuration: '0.4s',
       resize: true,
       initLayout: true,
-
     }
 
     pckry = new (Packery as any)(containerRef.value, { ...defaultOptions, ...props.options })
@@ -72,33 +71,8 @@ defineExpose({ packery: pckry })
 
 <template>
   <div>
-    <div ref="containerRef" class="masonry-grid clear-both">
-      <div v-for="(item, index) in items" :key="index" class="masonry-grid-item float-left">
-        <slot :item :index />
-      </div>
-      <div class="gutter-sizer" />
+    <div ref="containerRef" class="masonry-grid clear-both w-full">
+      <slot />
     </div>
   </div>
 </template>
-
-<style lang="less">
-.masonry-grid {
-  width: 100%;
-
-}
-
-.gutter-sizer{
-    width: 6%;
-  }
-
-.masonry-grid-item {
-  width: 48%;
-  @media screen and (max-width: 768px) {
-    width: 100%;
-
-  }
-}
-
-.masonry-grid-item--width2 { width: 40%; }
-.masonry-grid-item--height2 { height: auto; } // Height will be determined by content
-</style>

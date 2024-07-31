@@ -37,7 +37,7 @@ const imageAspect = vue.computed(() => {
 </script>
 
 <template>
-  <div>
+  <div :class="card.classes.value.contentWidth">
     <div
       v-if="loading"
       class="flex py-24 justify-center h-[90dvh] text-theme-300 dark:text-theme-700"

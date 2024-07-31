@@ -35,6 +35,7 @@ import * as overSlide from './overSlide/index.js'
 import * as statement from './statement/index.js'
 import * as testimonials from './testimonials/index.js'
 import * as effectShape from './effect-shape/index.js'
+import * as mason from './mason/index.js'
 
 import { createDemoPage } from './utils/demo'
 /**
@@ -81,6 +82,7 @@ export const standardCardTemplates = [
   ...statement.templates,
   ...testimonials.templates,
   ...effectShape.templates,
+  ...mason.templates,
 ] as const
 
 export async function getCardTemplates() {

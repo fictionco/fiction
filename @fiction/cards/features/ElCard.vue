@@ -37,7 +37,7 @@ const colorStyle = vue.computed(() => {
 </script>
 
 <template>
-  <div class="space-y-6 lg:space-y-12">
+  <div class="space-y-6 lg:space-y-12" :class="card.classes.value.contentWidth">
     <div class=" space-y-4 items-start">
       <div v-if="uc.superHeading || uc.superIcon" class="flex gap-3 items-center mb-6" :class="[colorStyle.text]">
         <div v-if="uc.superIcon" :class="colorStyle.icon" class="size-10 rounded-full flex items-center justify-center">

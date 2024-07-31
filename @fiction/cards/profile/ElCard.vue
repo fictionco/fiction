@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { shortId, vue } from '@fiction/core'
+import { vue } from '@fiction/core'
 import ElImage from '@fiction/ui/media/ElImage.vue'
 import type { Card } from '@fiction/site'
 import { useElementVisible } from '@fiction/ui/anim'
@@ -23,16 +23,15 @@ const uc = vue.computed(() => {
 const mediaItems = vue.computed(() => {
   return uc.value.mediaItems?.filter(_ => _.media?.url)
 })
-const randomId = shortId()
 const activeItem = vue.ref(0)
 const isVisible = vue.ref(false)
 vue.onMounted(async () => {
-  await useElementVisible({ selector: `#${randomId}`, onVisible: () => isVisible.value = true })
+  await useElementVisible({ selector: `.minimal-profile`, onVisible: () => isVisible.value = true })
 })
 </script>
 
 <template>
-  <div :id="randomId" :class="card.classes.value.contentWidth">
+  <div class="minimal-profile" :class="card.classes.value.contentWidth">
     <div>
       <div class="md:flex gap-16 " :class="uc.layout === 'left' ? 'md:flex-row-reverse' : ''">
         <div class="w-full md:w-[50%] px-2 ">

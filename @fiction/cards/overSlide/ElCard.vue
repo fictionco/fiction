@@ -24,6 +24,7 @@ const circularItems = vue.computed(() => {
     return []
 
   const startIndex = currentItemIndex.value
+
   return [
     ...originalItems.slice(startIndex),
     ...originalItems.slice(0, startIndex),
@@ -55,6 +56,11 @@ function autoSlideTimer() {
     autoSlideTimer()
   }, slideTime)
 }
+
+vue.onBeforeUnmount(() => {
+  if (timer)
+    clearTimeout(timer)
+})
 
 vue.onMounted(() => {
   autoSlideTimer()
@@ -105,7 +111,7 @@ function leave(el: Element, done: () => void) {
 </script>
 
 <template>
-  <div class="">
+  <div :class="card.classes.value.contentWidth">
     <div class="y-4">
       <div class="flex items-center justify-between h-[65dvh] ">
         <div class="relative h-full basis-[30%]">
