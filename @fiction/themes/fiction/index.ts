@@ -126,7 +126,7 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
                         {
                           name: 'Portfolio',
                           items: [
-                            { name: 'Gallery', href: '/demo-mason' },
+                            { name: 'Gallery', href: '/demo-gallery' },
                             { name: 'Showcase', href: '/demo-showcase' },
                             { name: 'Cinema', href: '/demo-cinema' },
                             { name: 'Marquee', href: '/demo-marquee' },

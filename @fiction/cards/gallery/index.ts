@@ -6,7 +6,7 @@ import { InputOption } from '@fiction/ui'
 import type { SiteUserConfig } from '@fiction/site/schema'
 import { standardOption } from '../inputSets'
 
-const templateId = 'mason'
+const templateId = 'gallery'
 
 const MediaItemSchema = z.object({
   title: z.string().optional(),
@@ -33,22 +33,24 @@ async function getUserConfig(_args: { site: Site }): Promise<UserConfig & SiteUs
     items: [
       {
         title: 'Luxurious Nights in Dubai',
-        content: 'So, I stayed at the Burj Al Arab. It\'s as over-the-top as you\'d imagine. Gold everywhere, an underwater restaurant, and staff that probably outnumber the guests. I half expected to bump into a sheikh in the elevator.',
+        content: 'So, I stayed at the Burj Al Arab. It\'s as over-the-top as you\'d imagine. Gold everywhere, an underwater restaurant, and staff that probably outnumber the guests. I half expected to bump into a sheikh in the elevator. We also got lost in the desert, but that\'s a story for another time. Would I recommend Dubai? Absolutely.',
         media: { format: 'url', url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/f60914f7-b308-493d-0f99-5f32ec2c8a00/public' },
         columns: '1',
+        rows: '2',
       },
       {
         title: 'Parisian Chic Weekend',
         content: 'Went to Paris, did the whole Eiffel Tower thing. Pro tip: champagne tastes better at 984 feet. Tried to shop like a local on the Champs-Élysées, ended up eating my weight in cheese instead. No regrets.',
         media: { format: 'url', url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/262acd7b-9d46-454d-e972-2f5693eddf00/public' },
         columns: '2',
-        rows: '1',
+        rows: '2',
       },
       {
         title: 'Bali Bliss Retreat',
         content: 'Found myself in Ubud. Tried yoga at sunrise, realized I\'m about as flexible as a wooden board. Redeemed myself at the infinity pool bar. Turns out I\'m great at sunset cocktails.',
         media: { format: 'url', url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/8be8d86e-7161-44d2-4568-db389b9fde00/public' },
         columns: '1',
+        rows: '2',
       },
       {
         title: 'Santorini Sunsets',
@@ -129,9 +131,9 @@ const options = [
 export const templates = [
   new CardTemplate({
     templateId,
-    title: 'Mason Gallery',
+    title: 'Gallery',
     category: ['media'],
-    description: 'A masonry layout for a gallery of images or videos with captions.',
+    description: 'A gallery of images or videos with captions.',
     icon: 'i-tabler-message-bolt',
     colorTheme: 'emerald',
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
@@ -144,7 +146,7 @@ export const templates = [
       const userConfig = await getUserConfig(_)
       return {
         cards: [
-          { templateId, userConfig: { ...userConfig, standard: { headers: { title: 'Standard Layout' } } } },
+          { templateId, userConfig: { ...userConfig, standard: { headers: { title: 'Masonry Layout' } } } },
         ],
       }
     },

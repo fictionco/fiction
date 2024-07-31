@@ -34,10 +34,10 @@ function getWidthClass(item: MediaItem) {
   }
 
   const r = {
-    4: 'h-[100dvh]',
-    3: 'h-[75dvh]',
-    2: 'h-[50dvh]',
-    1: 'h-[25dvh]',
+    4: 'h-[100vh]',
+    3: 'h-[75vh]',
+    2: 'h-[50vh]',
+    1: 'h-[25vh]',
   }
 
   return [w[cols], r[ar]].join(' ')
@@ -50,7 +50,7 @@ function showLightbox(index: number) {
 
 <template>
   <div :class="card.classes.value.contentWidth">
-    <MasonryEffect :items="items" :options="masonryOptions" gap="2vw">
+    <MasonryEffect :items="items" :options="masonryOptions">
       <div
         v-for="(item, index) in items"
         :key="index"
@@ -59,18 +59,17 @@ function showLightbox(index: number) {
         @click.stop="showLightbox(index)"
       >
         <ElImage class="absolute inset-0 object-cover" :media="item?.media" :animate="true" />
-        <div class="rounded-[20px] absolute inset-0 bg-black/50 backdrop-blur-sm opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+        <div class="rounded-[20px] absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
           <div class="text-white text-left p-6 max-w-md absolute bottom-0 right-0 space-y-2">
-            <h3 class="text-xl font-semibold x-font-title">
+            <h3 class="text-2xl font-semibold x-font-title">
               {{ item.title }}
             </h3>
-            <p class="line-clamp-3 opacity-75 text-lg">
+            <p class="line-clamp-3 opacity-80 text-lg">
               {{ item.content }}
             </p>
           </div>
         </div>
       </div>
-      <div class="gutter-sizer w-[2%]" />
     </MasonryEffect>
 
     <ElLightbox v-model:activeIndex="currentLightboxIndex" :items />

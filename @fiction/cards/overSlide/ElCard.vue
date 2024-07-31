@@ -113,7 +113,7 @@ function leave(el: Element, done: () => void) {
 <template>
   <div :class="card.classes.value.contentWidth">
     <div class="y-4">
-      <div class="flex items-center justify-between h-[65dvh] ">
+      <div class="md:flex items-center justify-between md:h-[65vh] ">
         <div class="relative h-full basis-[30%]">
           <transition
             enter-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-500"
@@ -124,11 +124,11 @@ function leave(el: Element, done: () => void) {
             leave-to-class="opacity-0 -translate-x-44"
             mode="out-in"
           >
-            <div :key="currentItemIndex" class="text-theme-900 dark:text-theme-0 w-full absolute top-1/2 -translate-y-1/2 z-20 space-y-8" :class="currentItem?.textBlend === 'difference' ? 'mix-blend-difference text-white dark:text-black' : '[text-shadow:_1px_1px_2px_rgba(0,0,0,0.1)]'">
+            <div :key="currentItemIndex" class="text-theme-900 dark:text-theme-0 w-full md:absolute top-1/2 md:-translate-y-1/2 z-20 space-y-8" :class="currentItem?.textBlend === 'difference' ? 'mix-blend-difference text-white dark:text-black' : '[text-shadow:_1px_1px_2px_rgba(0,0,0,0.1)]'">
               <EffectFitText
                 :lines="3"
                 :content="currentItem?.title || ''"
-                class="x-font-title z-20 font-bold w-[160%]"
+                class="x-font-title z-20 font-bold md:w-[160%]"
               >
                 <CardText :card tag="span" :path="`items.${currentItemIndex}.title`" />
               </EffectFitText>
@@ -136,33 +136,35 @@ function leave(el: Element, done: () => void) {
                 v-if="currentItem?.subTitle"
                 :lines="1"
                 :content="currentItem?.subTitle || ''"
-                class="x-font-title z-20 font-semibold w-[140%] mt-4"
+                class="x-font-title z-20 font-semibold  md:w-[140%] mt-4 !leading-[1.4]"
               >
                 <CardText animate="fade" :card tag="span" :path="`items.${currentItemIndex}.subTitle`" />
               </EffectFitText>
             </div>
           </transition>
         </div>
-        <div class="relative h-full basis-[30%] [perspective:1000px] z-10">
-          <TransitionGroup
-            :css="false"
-            @before-enter="beforeEnter"
-            @enter="enter"
-            @leave="leave"
-          >
-            <div
-              v-for="(item, i) in circularItems.slice(0, 5)"
-              :key="item.title"
-              class="absolute left-[-40%] top-[10%] h-[80%] aspect-[3/4.5] md:aspect-[4.5/3] transition-all duration-500 shadow-[10px_-10px_10px_-8px_rgba(0_0_0/0.3)]"
-              :class="[`stack-item-${i}`]"
-              @click="setActiveItemByTitle(item.title)"
+        <div class="h-[45vh] md:h-full relative basis-[30%] [perspective:1000px] z-10">
+          <div class="absolute md:relative left-[40%] w-full h-full ">
+            <TransitionGroup
+              :css="false"
+              @before-enter="beforeEnter"
+              @enter="enter"
+              @leave="leave"
             >
-              <ElImage
-                :media="item.media"
-                class="w-full h-full object-cover rounded-[20px] overflow-hidden"
-              />
-            </div>
-          </TransitionGroup>
+              <div
+                v-for="(item, i) in circularItems.slice(0, 5)"
+                :key="item.title"
+                class="absolute  top-[10%] w-[80%] md:w-auto md:h-[80%] aspect-[4/3] md:aspect-[4.5/3] transition-all duration-500 shadow-[10px_-10px_10px_-8px_rgba(0_0_0/0.3)]"
+                :class="[`stack-item-${i}`]"
+                @click="setActiveItemByTitle(item.title)"
+              >
+                <ElImage
+                  :media="item.media"
+                  class="w-full h-full object-cover rounded-[20px] overflow-hidden"
+                />
+              </div>
+            </TransitionGroup>
+          </div>
         </div>
         <div class="relative h-full basis-[27%]" />
       </div>

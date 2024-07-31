@@ -100,25 +100,37 @@ export function animateItemEnter(args: { targets: string, themeId?: keyof typeof
   })
 }
 
-export async function useElementVisible(args: { selector: string, onVisible: () => void }): Promise<void> {
-  const { selector, onVisible } = args
+export async function useElementVisible(args: { selector: string, onVisible: () => void, onHidden?: () => void }): Promise<{ close: () => void }> {
+  const { selector, onVisible, onHidden } = args
 
   if (typeof IntersectionObserver === 'undefined') {
     console.warn('IntersectionObserver is not supported in this environment.')
-    return
+    return { close: () => {} }
   }
 
   let intervalId: NodeJS.Timeout
+  let isVisible = false
   const observer = new IntersectionObserver((entries, observer) => {
     const [entry] = entries
-    if (entry.isIntersecting) {
+    if (entry.isIntersecting && !isVisible) {
+      isVisible = true
       onVisible()
-      observer.disconnect() // Disconnect after the element becomes visible
+
+      if (!onHidden) {
+        observer.disconnect()
+      }
+    }
+    else if (!entry.isIntersecting && isVisible) {
+      isVisible = false
+      if (onHidden) {
+        onHidden()
+      }
     }
   }, {
     threshold: 0.05, // Customize the threshold as needed
   })
 
+  let count = 0
   // Function to check for element and start observing
   const checkAndObserve = () => {
     const element = document.querySelector(selector)
@@ -126,10 +138,24 @@ export async function useElementVisible(args: { selector: string, onVisible: () 
       observer.observe(element)
       clearInterval(intervalId) // Clear the interval once the element is found and observed
     }
+    else {
+      count++
+      if (count > 100) {
+        console.warn(`Element with selector "${selector}" not found after 5 seconds.`)
+        clearInterval(intervalId)
+      }
+    }
   }
 
   // Interval to check for the element periodically until it is available
   intervalId = setInterval(checkAndObserve, 50) // Check every 50 ms
+
+  return {
+    close: () => {
+      observer.disconnect()
+      clearInterval(intervalId)
+    },
+  }
 }
 
 export function splitLetters(args: { selector?: string, el?: HTMLElement }): void {

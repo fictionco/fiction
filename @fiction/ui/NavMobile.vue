@@ -47,8 +47,8 @@ vue.onMounted(() => {
       }
       else {
         afterVisible.value = false
-        el.style.transform = 'none'
-        el.style.height = 'auto'
+        el.style.transform = ''
+        el.style.height = ''
         el.style.overflow = ''
       }
     },
@@ -177,25 +177,22 @@ function handleItemClick(args: { item: NavItem, event: MouseEvent }): void {
 </template>
 
 <style lang="less">
-  .close{
-
-.close-line{
-  animation-duration: .4s;
-  animation-timing-function: cubic-bezier(.52,.01,.16,1);
-  animation-fill-mode: forwards;
-}
-
-.close-line1{
-  transform: translateY(30px) translateX(-30px) rotate(45deg);
-  animation-name: crossRight;
-  animation-delay: .15s;
-}
-.close-line2{
-  transform: translateY(-30px) translateX(-30px) rotate(-45deg);
-  animation-name: crossLeft;
-  animation-delay: .45s;
-}
-
+.close{
+  .close-line{
+    animation-duration: .4s;
+    animation-timing-function: cubic-bezier(.52,.01,.16,1);
+    animation-fill-mode: forwards;
+  }
+  .close-line1{
+    transform: translateY(30px) translateX(-30px) rotate(45deg);
+    animation-name: crossRight;
+    animation-delay: .15s;
+  }
+  .close-line2{
+    transform: translateY(-30px) translateX(-30px) rotate(-45deg);
+    animation-name: crossLeft;
+    animation-delay: .45s;
+  }
 }
 @keyframes crossRight {
   100% {
