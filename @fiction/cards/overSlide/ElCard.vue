@@ -134,7 +134,7 @@ function leave(el: Element, done: () => void) {
               </EffectFitText>
               <EffectFitText
                 v-if="currentItem?.subTitle"
-                :lines="1"
+                :lines="2"
                 :content="currentItem?.subTitle || ''"
                 class="x-font-title z-20 font-semibold  md:w-[140%] mt-4 !leading-[1.4]"
               >

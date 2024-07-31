@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
+import { vue, waitFor } from '@fiction/core'
 import { twMerge } from 'tailwind-merge'
 import { Fitty } from './utilFitText.js'
 
@@ -16,7 +16,8 @@ const props = defineProps({
 const fittyRef = vue.ref<HTMLElement | null>(null)
 const fitty = vue.ref<Fitty | null>(null)
 
-vue.onMounted(() => {
+vue.onMounted(async () => {
+  await waitFor(50)
   if (fittyRef.value) {
     fitty.value = new Fitty()
     fitty.value.fit(fittyRef.value, {

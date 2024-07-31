@@ -4,6 +4,7 @@ type FittyOptions = {
   multiLine: boolean
   observeMutations: false | MutationObserverInit
   lines?: number
+  maxCharsPerLine?: number // New option
 }
 
 type FittyInstance = {
@@ -30,6 +31,7 @@ type FittyInstance = {
   display: string
   preStyleTestCompleted: boolean
   observer?: MutationObserver
+  maxCharsPerLine: number
 }
 
 export class Fitty {
@@ -51,6 +53,7 @@ export class Fitty {
     minSize: 16,
     maxSize: 512,
     multiLine: true,
+    maxCharsPerLine: 40, // Default value for maxCharsPerLine
     observeMutations: typeof window !== 'undefined' && 'MutationObserver' in window
       ? {
           subtree: true,
@@ -102,6 +105,7 @@ export class Fitty {
       whiteSpace: '',
       display: '',
       preStyleTestCompleted: false,
+      maxCharsPerLine: options.maxCharsPerLine || Fitty.defaultOptions.maxCharsPerLine || 40,
     }
 
     this.initFitty(f)
@@ -216,13 +220,21 @@ export class Fitty {
     while (low <= high) {
       const mid = Math.floor((low + high) / 2)
       f.element.style.fontSize = `${mid}px`
-      f.element.style.lineHeight = '1' // Set line height to 1
+
+      // Calculate line height based on font size
+      const lineHeight = this.calculateLineHeight(mid)
+      f.element.style.lineHeight = lineHeight.toString()
+
       f.element.style.whiteSpace = f.multiLine || f.lines ? 'normal' : 'nowrap'
 
-      const lineHeight = Number.parseFloat(getComputedStyle(f.element).lineHeight)
-      const textHeight = targetLines ? targetLines * lineHeight : availableHeight
+      const computedLineHeight = Number.parseFloat(getComputedStyle(f.element).lineHeight)
+      const textHeight = targetLines ? targetLines * computedLineHeight : availableHeight
 
-      if (f.element.scrollHeight <= textHeight && f.element.scrollWidth <= f.availableWidth) {
+      // Check if the text fits within the available width and respects maxCharsPerLine
+      const fitsWidth = f.element.scrollWidth <= f.availableWidth
+      const fitsMaxChars = this.respectsMaxCharsPerLine(f.element, f.maxCharsPerLine)
+
+      if (f.element.scrollHeight <= textHeight && fitsWidth && fitsMaxChars) {
         if (f.element.scrollHeight < textHeight * 0.9) { // Allow some tolerance
           low = mid + 1
         }
@@ -238,17 +250,42 @@ export class Fitty {
     f.currentFontSize = Math.min(high, f.maxSize)
     f.element.style.fontSize = `${f.currentFontSize}px`
 
-    // Adjust line height if needed, but keep it close to 1
-    if (targetLines) {
-      const calculatedLineHeight = availableHeight / (targetLines * f.currentFontSize)
-      const finalLineHeight = Math.min(Math.max(1, calculatedLineHeight), 1.2) // Keep line height between 1 and 1.2
-      f.element.style.lineHeight = finalLineHeight.toString()
-    }
-    else {
-      f.element.style.lineHeight = '1' // Default to 1 if no specific line count is targeted
-    }
+    // Set final line height
+    const finalLineHeight = this.calculateLineHeight(f.currentFontSize)
+    f.element.style.lineHeight = finalLineHeight.toString()
 
     f.whiteSpace = f.multiLine || f.lines ? 'normal' : 'nowrap'
+  }
+
+  private calculateLineHeight(fontSize: number): number {
+    if (fontSize > 50) {
+      return 1
+    }
+    else {
+      // Linear interpolation between 1.4 (at 16px) and 1.2 (at 50px)
+      return 1.4 - (0.2 * (fontSize - 16) / (50 - 16))
+    }
+  }
+
+  private respectsMaxCharsPerLine(element: HTMLElement, maxChars: number): boolean {
+    const words = element.textContent?.split(/\s+/) || []
+    let currentLineLength = 0
+
+    for (const word of words) {
+      if (currentLineLength + word.length > maxChars) {
+        if (currentLineLength === 0) {
+          // If a single word is longer than maxChars, we can't fit it
+          return false
+        }
+        // Start a new line
+        currentLineLength = word.length
+      }
+      else {
+        currentLineLength += (currentLineLength > 0 ? 1 : 0) + word.length
+      }
+    }
+
+    return true
   }
 
   private applyStyle(f: FittyInstance): void {

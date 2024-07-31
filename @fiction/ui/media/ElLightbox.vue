@@ -28,8 +28,9 @@ function close() {
 }
 
 const afterVisible = vue.ref(false)
+const cleanups = [] as (() => void)[]
 vue.onMounted(async () => {
-  vue.watch(
+  const c = vue.watch(
     () => activeItem.value,
     (vis) => {
       if (vis) {
@@ -46,8 +47,14 @@ vue.onMounted(async () => {
 
   )
 
+  cleanups.push(c)
+
   await waitFor(50)
   onResetUi(() => close())
+})
+
+vue.onUnmounted(() => {
+  cleanups.forEach(c => c())
 })
 
 function nextItem() {

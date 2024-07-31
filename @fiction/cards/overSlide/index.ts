@@ -27,29 +27,20 @@ const options: InputOption[] = [
 ]
 
 async function getDefaultConfig(args: { site: Site }): Promise<UserConfig> {
-  // const { site } = args
-  // const filenames = [
-  //   'profile-man-landscape.png',
-  //   'profile-man-computer-landscape.png',
-  // ] as const
-
-  // const urls = staticFileUrls({ site, filenames })
   return {
     autoSlide: true,
     items: [
       {
-        title: 'Sean Smith',
-        subTitle: 'Author and Speaker',
+        title: 'Forest MontClair',
+        subTitle: 'Elite Travel Curator & Lifestyle Architect',
         textBlend: 'difference',
-        media: { format: 'url', url: 'https://plus.unsplash.com/premium_photo-1661367915642-12ed8cc242bb?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
-        mediaBackground: { format: 'url', url: 'https://images.unsplash.com/photo-1482053450283-3e0b78b09a70?q=80&w=3174&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+        media: { format: 'url', url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/7028f33c-75f6-477b-2180-27676397c400/public' },
       },
       {
-        title: 'Grow Your Business',
-        subTitle: `I have helped thousands, are you next?`,
+        title: 'Ultra-Luxury Experience Designer',
+        subTitle: `Crafting extraordinary experiences for discerning travelers. Let's design your next unforgettable adventure.`,
         textBlend: 'difference',
-        media: { format: 'video', url: 'https://videos.pexels.com/video-files/7414128/7414128-hd_1920_1080_24fps.mp4' },
-        mediaBackground: { format: 'url', url: 'https://images.unsplash.com/photo-1604334532792-04708f86e69e?q=80&w=2052&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+        media: { format: 'video', url: 'https://videos.pexels.com/video-files/6051210/6051210-uhd_2560_1440_25fps.mp4' },
       },
     ],
   }

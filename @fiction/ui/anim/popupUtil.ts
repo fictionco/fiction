@@ -6,6 +6,7 @@ export class PopupUtility {
   private originalBodyOverflow: string
   private originalScrollPosition: number
   private siteContentElement?: HTMLElement | null
+  isActivated = false
 
   constructor(siteContentSelector: string = '.x-site-content') {
     this.originalBodyPosition = ''
@@ -15,13 +16,13 @@ export class PopupUtility {
     this.originalBodyOverflow = ''
     this.originalScrollPosition = 0
 
-    if(typeof document !== 'undefined') {
+    if (typeof document !== 'undefined') {
       this.siteContentElement = document.querySelector(siteContentSelector)
     }
-
   }
 
   activate() {
+    this.isActivated = true
     // Store original body styles and scroll position
     this.originalBodyPosition = document.body.style.position
     this.originalBodyTop = document.body.style.top
@@ -47,6 +48,11 @@ export class PopupUtility {
   }
 
   deactivate() {
+    if (!this.isActivated)
+      return
+
+    this.isActivated = false
+
     // Restore original body styles
     document.body.style.position = ''
     document.body.style.top = ''
