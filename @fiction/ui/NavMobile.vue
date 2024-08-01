@@ -66,11 +66,6 @@ vue.onMounted(() => {
   })
 })
 
-// TODO
-function getIcon(icon: string): string {
-  return ``
-}
-
 function handleItemClick(args: { item: NavItem, event: MouseEvent }): void {
   const { item, event } = args
 
@@ -111,7 +106,7 @@ function handleItemClick(args: { item: NavItem, event: MouseEvent }): void {
               aria-orientation="vertical"
               aria-labelledby="main-menu"
             >
-              <template v-for="(item, i) in n" :key="i">
+              <template v-for="(item, ii) in n" :key="ii">
                 <component
                   :is="getNavComponentType(item)"
                   :to="item.href"
@@ -122,14 +117,14 @@ function handleItemClick(args: { item: NavItem, event: MouseEvent }): void {
                   @click="handleItemClick({ item, event: $event })"
                 >
                   <span class="relative group inline-flex gap-x-2 items-center">
-                    <span v-if="item.icon" :class="getIcon(item.icon)" />
+                    <span v-if="item.icon" :class="item.icon" />
                     <span v-html="item.name" />
                     <span v-if="item.items" class="i-tabler-chevron-down opacity-50 transition-all" :class="item.name === activeSubNav ? 'rotate-180' : ''" />
                     <span v-else class="origin-left scale-x-0 group-hover:scale-x-100 transition-all border-b-2 dark:border-theme-600 w-full absolute bottom-0 left-0" />
                   </span>
                 </component>
                 <div v-if="item.items && item.name === activeSubNav" class="space-y-6">
-                  <div v-for="(subItem, ii) in item.items" :key="ii" class="flex flex-col gap-2 pl-4">
+                  <div v-for="(subItem, iii) in item.items" :key="iii" class="flex flex-col gap-2 pl-4">
                     <component
                       :is="getNavComponentType(subItem)"
                       :to="subItem.href"
@@ -140,7 +135,7 @@ function handleItemClick(args: { item: NavItem, event: MouseEvent }): void {
                       @click="subItem.onClick ? subItem.onClick($event) : null"
                     >
                       <span class="relative group inline-flex gap-x-2 items-center">
-                        <span v-if="subItem.icon" :class="getIcon(subItem.icon)" />
+                        <span v-if="subItem.icon" :class="subItem.icon" />
                         <span v-html="subItem.name" />
                         <span class=" origin-left scale-x-0 group-hover:scale-x-100 transition-all border-b-2 border-theme-0 w-full absolute bottom-0 left-0" />
                       </span>
@@ -157,7 +152,7 @@ function handleItemClick(args: { item: NavItem, event: MouseEvent }): void {
                           @click="subSubItem.onClick ? subSubItem.onClick($event) : null"
                         >
                           <span class="relative group inline-flex gap-x-2 items-center">
-                            <span v-if="subSubItem.icon" :class="getIcon(subSubItem.icon)" />
+                            <span v-if="subSubItem.icon" :class="subSubItem.icon" />
                             <span v-html="subSubItem.name" />
                             <span class=" origin-left scale-x-0 group-hover:scale-x-100 transition-all border-b-2 border-theme-0 w-full absolute bottom-0 left-0" />
                           </span>

@@ -1,13 +1,12 @@
 <script lang="ts" setup>
-import ElImage from '@fiction/ui/media/ElImage.vue'
 import { vue } from '@fiction/core'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import type { Card } from '@fiction/site'
 import CardText from '@fiction/cards/CardText.vue'
+import CardButton from '@fiction/cards/CardButton.vue'
 import { inputs } from '@fiction/ui/inputs'
 import type { Form } from '../form'
 import type { InputUserConfig } from '../templates.js'
-import FormButton from './FormButton.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<InputUserConfig>>, required: true },
@@ -83,13 +82,14 @@ function clickSubmit() {
         />
       </div>
       <div class="mt-8">
-        <FormButton
+        <CardButton
+          :card
           class="submit-button"
           btn="action"
           type="submit"
         >
           Next
-        </FormButton>
+        </CardButton>
       </div>
     </ElForm>
   </div>

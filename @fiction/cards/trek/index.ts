@@ -30,7 +30,7 @@ const options: InputOption[] = [
   new InputOption({ key: 'items', label: 'Tour Items', input: 'InputList', options: [
     new InputOption({ key: 'header', label: 'Header', input: 'InputText' }),
     new InputOption({ key: 'subHeader', label: 'Sub Header', input: 'InputText' }),
-    new InputOption({ key: 'media', label: 'Media', input: 'InputMediaDispay' }),
+    new InputOption({ key: 'media', label: 'Media', input: 'InputMediaDisplay' }),
   ] }),
 ]
 

@@ -6,12 +6,13 @@ import type { FormConfig, FormTableConfig } from './schema'
 export class Form extends FictionObject<FormConfig> {
   site = this.settings.site
   cards = vue.computed(() => this.site.pages.value || [])
-
+  formMode = vue.ref(this.settings.formMode || 'standard')
+  slideTransition = vue.ref<'prev' | 'next'>('next')
   constructor(settings: FormConfig) {
     super('Form', settings)
   }
 
-  static async load(args: { formId: string, site: Site }): Promise<Form> {
+  static async load(args: { formId?: string, formTemplateId?: string, site: Site }): Promise<Form> {
     const { formId, site } = args
     const form = new Form({ formId, site })
 
@@ -23,6 +24,11 @@ export class Form extends FictionObject<FormConfig> {
     const siteRouter = site?.siteRouter
     const routeCardId = siteRouter?.current.value.params.viewId || this.cards.value[0].cardId
     return routeCardId
+  })
+
+  activeCard = vue.computed(() => {
+    const cardId = this.activeCardId.value
+    return this.cards.value.find(c => c.cardId === cardId)
   })
 
   percentComplete = vue.computed(() => {
@@ -38,9 +44,6 @@ export class Form extends FictionObject<FormConfig> {
 
   toConfig(): FormTableConfig {
     const siteConfig = this.settings.site.toConfig()
-    return {
-      formId: this.settings.formId,
-      cards: siteConfig.pages,
-    }
+    return { formId: this.settings.formId, cards: siteConfig.pages }
   }
 }

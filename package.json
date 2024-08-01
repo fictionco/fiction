@@ -66,9 +66,9 @@
     "@fiction/core": "workspace:*",
     "@fiction/ui": "workspace:*",
     "@fiction/www": "workspace:*",
-    "@vitejs/plugin-vue": "^5.1.1",
+    "@vitejs/plugin-vue": "^5.1.2",
     "@vitest/browser": "^2.0.5",
-    "axios": "^1.7.2",
+    "axios": "^1.7.3",
     "commander": "^12.1.0",
     "conventional-changelog-cli": "^5.0.0",
     "cross-env": "^7.0.3",
@@ -83,12 +83,12 @@
     "node-fetch": "^3.3.2",
     "textlint": "^14.0.4",
     "ts-node": "^10.9.2",
-    "tsx": "^4.16.4",
+    "tsx": "^4.16.5",
     "typescript": "^5.5.4",
     "vite": "^5.3.5",
     "vitest": "^2.0.5",
     "vue": "^3.4.35",
-    "vue-router": "^4.4.1"
+    "vue-router": "^4.4.2"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.24.1",

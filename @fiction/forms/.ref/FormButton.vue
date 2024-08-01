@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
-import ElSpinner from '@fiction/ui/ElSpinner.vue'
+import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 
 const props = defineProps({
   loading: { type: [Boolean], default: false },

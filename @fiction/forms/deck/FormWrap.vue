@@ -1,32 +1,41 @@
 <script lang="ts" setup>
 import { vue, waitFor } from '@fiction/core'
 import type { Card } from '@fiction/site'
+import { Form } from '../form'
 import FormProgressBar from './FormProgressBar.vue'
 import FormLoading from './FormLoading.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
-const cards = vue.computed(() => props.card.cards.value)
-const activeCard = vue.computed(() => {
-  const site = props.card.site
-  const siteRouter = site?.siteRouter
-  const slug = siteRouter?.current.value.params.viewId
-  const card = cards.value.find(c => c.slug.value === slug)
-  return card
-})
 
 const loading = vue.ref(true)
-
+const form = vue.shallowRef<Form>()
 vue.onMounted(async () => {
   await waitFor(500)
 
+  const site = props.card.site
+
+  if (!site) {
+    loading.value = false
+    return
+  }
+  // TEMPLATE /forms/org/:orgId/:templateId
+  // FORM_ID /forms/id/:formId
+
+  form.value = await Form.load({ site, formId: '' })
+
   loading.value = false
+})
+
+const activeCard = vue.computed(() => {
+  return form.value?.activeCard.value
 })
 </script>
 
 <template>
   <div
+    v-if="form"
     class="card-deck-theme theme-wrap theme-font overflow-hidden bg-cover"
   >
     <FormProgressBar :progress="form.percentComplete.value" />
@@ -54,10 +63,9 @@ vue.onMounted(async () => {
       >
         <transition :name="form?.slideTransition.value" mode="out-in">
           <component
-            :is="activeCard.component"
-            :key="form.activeCard.value?.cardId"
-            :form="form"
-            v-bind="activeCard.props"
+            :is="activeCard.tpl.value?.settings?.el"
+            :key="activeCard?.cardId"
+            :form
             :card="form.activeCard.value"
           />
         </transition>

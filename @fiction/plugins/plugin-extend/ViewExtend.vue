@@ -6,7 +6,7 @@ import ElIndex from './ElIndex.vue'
 type UserConfig = {
   isNavItem: boolean
 }
-const props = defineProps({
+const _props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 </script>

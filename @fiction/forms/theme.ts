@@ -16,7 +16,7 @@ export async function setup(args: { fictionEnv: FictionEnv }) {
     root: safeDirname(import.meta.url),
     themeId: 'forms',
     title: 'Forms',
-    screenshot: new URL('./img/screenshot.jpg', import.meta.url).href,
+    screenshot: '#',
     version: '1.0.0',
     isPublic: false,
     getConfig: async ({ site }) => {
@@ -28,7 +28,7 @@ export async function setup(args: { fictionEnv: FictionEnv }) {
         templates: [],
       }
     },
-    templateDefaults: { page: 'dash', transaction: 'transaction' },
+    templateDefaults: { page: 'formWrap' },
 
   })
 }

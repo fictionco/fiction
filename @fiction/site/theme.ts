@@ -1,6 +1,5 @@
 import type { FictionEnv, FictionPluginSettings, ServiceList } from '@fiction/core'
 import { FictionPlugin, deepMerge, log, parseObject, vue } from '@fiction/core'
-import ElButton from '@fiction/ui/ElButton.vue'
 import type { FictionAdmin } from '@fiction/admin/index.js'
 import type { CreateUserConfigs, ExtractCardTemplateUserConfig, ExtractComponentUserConfig } from './card.js'
 import type { CardConfigPortable, PageRegion, TableCardConfig } from './tables.js'

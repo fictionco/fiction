@@ -1,17 +1,16 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
+import type { vue } from '@fiction/core'
+import CardText from '@fiction/cards/CardText.vue'
 import type { Card } from '@fiction/site'
-import EditableText from './EditableText.vue'
+import type { Form } from '../form'
+import type { CardAlignmentMode } from '../schema.js'
 import CardWrap from './CardWrap.vue'
 import FormButton from './FormButton.vue'
-import type { CardAlignmentMode } from './theme'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
   form: { type: Object as vue.PropType<Form>, required: true },
 })
-
-const c = vue.computed(() => props.card.userConfig.value)
 
 function textAlignment(alignment: CardAlignmentMode = 'center') {
   if (alignment === 'left')
@@ -31,31 +30,27 @@ function textAlignment(alignment: CardAlignmentMode = 'center') {
     default-alignment="center"
   >
     <div :class="textAlignment(alignment)">
-      <div>
-        <EditableText
-          class="text-theme-900 text-[1.5em]"
+      <div class="text-input-size mb-12">
+        <CardText
+          class="text-theme-900 text-[1.25em]"
           tag="h1"
           :card="card"
-          field="heading"
+          path="title"
+          placeholder="Add Title"
         />
-        <EditableText
-          class="text-theme-500 text-[1.4em]"
+        <CardText
+          class="text-theme-500 mt-2 text-[.85em]"
           tag="h3"
           :card="card"
-          field="description"
+          path="subTitle"
+          placeholder="Add Sub Title"
         />
       </div>
-
-      <div v-if="c.buttonLink" class="mt-12">
-        <FormButton
-          btn="action"
-          :href="c.buttonLink || 'https://www.fiction.com'"
-        >
-          {{ c.buttonText || "Finish" }}
-        </FormButton>
-      </div>
+      <FormButton btn="action" @click="form.navigate({ _action: 'next' })">
+        {{
+          card.userConfig.value.buttonText || "Start"
+        }}
+      </FormButton>
     </div>
   </CardWrap>
-</template>import type { Card } from '@fiction/site'
-import type { Form } from '../form'import type { Form } from '../form'
-
+</template>

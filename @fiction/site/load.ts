@@ -7,6 +7,13 @@ import type { FictionSites, TableSiteConfig } from './index.js'
 
 const logger = log.contextLogger('siteLoader')
 
+/**
+ * SiteMode establishes the context in which the site is being loaded.
+ * - designer: the site is being loaded in the parent designer frame, editing another site in iframe
+ * - editable: the site is in iframe and editable by the user
+ * - standard: the site is being loaded in a standard context, not editable
+ * - coding: the site is being loaded manually, and coded to run directly
+ */
 export type SiteMode = 'designer' | 'editable' | 'standard' | 'coding'
 export type WhereSite = { siteId?: string, subDomain?: string, hostname?: string, themeId?: string, internal?: string, cardId?: string }
   & ({ siteId: string } | { subDomain: string } | { hostname: string } | { themeId: string } | { internal: string } | { cardId: string })

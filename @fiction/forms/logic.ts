@@ -1,5 +1,5 @@
 import type { ListItem } from '@fiction/core'
-import type { FormInputValue, FormInputValueFormat } from './types'
+import type { FormInputValue, FormInputValueFormat } from './schema.js'
 
 export type LogicOperator =
   | '#'

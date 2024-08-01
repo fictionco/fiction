@@ -4,6 +4,29 @@ import { z } from 'zod'
 
 export const t = { ...standardTable, form: 'fiction_form', submission: 'fiction_form_submission' }
 
+export type FormInputValue = string | number | boolean | string[] | undefined
+
+export type FormInputValueFormat = 'text' | 'number' | 'none' | 'select' | 'ranking' | 'date'
+
+export interface SubmissionValue {
+  cardId: string
+  heading: string
+  data: string | number | boolean | string[]
+  timeToAnswer: number
+  revised: boolean
+  failedValidation: number
+}
+
+export type SubmissionData = Record<string, SubmissionValue>
+
+export const CardAlignmentSchema = z.enum(['left', 'center', 'right'])
+export type CardAlignmentMode = z.infer<typeof CardAlignmentSchema>
+export const CardLayoutSchema = z.enum(['background', 'left', 'right', 'hero', 'heroLeft', 'heroRight'])
+export type CardLayoutMode = z.infer<typeof CardLayoutSchema>
+
+export const FormModeSchema = z.enum(['standard', 'designer', 'editable', 'coding'])
+export type FormMode = z.infer<typeof FormModeSchema>
+
 // Define schema for individual form field configuration
 const FormFieldConfig = z.object({
   key: z.string(),
@@ -25,7 +48,7 @@ const FormLayout = z.array(z.object({
 
 export type FormTableConfig = Partial<ColType<typeof formConfigCols>>
 
-export type FormConfig = FormTableConfig & { site: Site }
+export type FormConfig = FormTableConfig & { site: Site, formMode?: FormMode }
 
 export const formConfigCols = [
   new Col({ key: 'formId', sec: 'permanent', sch: () => z.string().min(1), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('form')`)).index() }),

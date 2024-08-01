@@ -16,7 +16,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:vis'])
 
-const { fictionSend, fictionRouter } = useService<{ fictionSend: FictionSend }>()
+const { fictionSend } = useService<{ fictionSend: FictionSend }>()
 
 const form = vue.ref<Partial<EmailCampaignConfig>>({
   title: '',

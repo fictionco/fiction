@@ -27,7 +27,7 @@ const options: InputOption[] = [
     new InputOption({ key: 'desc', label: 'Description', input: 'InputText' }),
     new InputOption({ key: 'value', label: 'Value', input: 'InputNumber' }),
     new InputOption({ key: 'format', label: 'Format', input: 'InputSelect', list: numberFormats }),
-    new InputOption({ key: 'icon', label: 'Icon', input: 'InputIcon' }),
+    new InputOption({ key: 'icon', label: 'Icon', input: 'InputText' }),
     new InputOption({ key: 'color', label: 'Color', input: 'InputColor' }),
   ] }),
 ]

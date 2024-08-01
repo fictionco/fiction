@@ -125,6 +125,7 @@ export class Shortcodes extends FictionObject<ShortcodesConfig> {
   }
 
   async parseString(input: string): Promise<string> {
+    // eslint-disable-next-line regexp/no-super-linear-backtracking
     const regex = /\\?\[\s*([\w\-@]+)(?:\s+([^[\]]+?))?\s*\](?:((?:.|\n)*?)\[\/\1\])?/g
     const matches = Array.from(input.matchAll(regex))
     let result = ''
@@ -172,7 +173,8 @@ export class Shortcodes extends FictionObject<ShortcodesConfig> {
   }
 
   private containsShortcode(input: string): boolean {
-    const regex = /\[\s*([\w\-@]+)(?:\s+([^[\]]+?))?\s*\]/
+    // eslint-disable-next-line regexp/no-unused-capturing-group, regexp/no-super-linear-backtracking
+    const regex = /\[\s*([\w\-@]+)(?:\s[^[\]]+?)?\s*\]/
     return regex.test(input)
   }
 

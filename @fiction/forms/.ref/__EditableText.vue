@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/no-v-text-v-html-on-component -->
 <script lang="ts" setup>
 import { clean, onResetUi, resetUi, vue } from '@fiction/core'
-import type { Card } from '../../card'
+import type { Card } from '@fiction/site'
 
 const props = defineProps({
   card: {

@@ -8,7 +8,7 @@ const props = defineProps({
   animate: { type: Boolean, default: true },
 })
 
-const getWindow = () => typeof window !== 'undefined' && window || { innerHeight: 0, scrollY: 0 }
+const getWindow = () => (typeof window !== 'undefined' && window) ? window : { innerHeight: 0, scrollY: 0 }
 
 const state = vue.reactive({
   scrollY: 0,

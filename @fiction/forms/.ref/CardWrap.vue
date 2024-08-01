@@ -1,26 +1,17 @@
 <script lang="ts" setup>
-import type { MediaDisplayObject } from '@fiction/ui/utils'
-import ElRichImage from '@fiction/ui/ElRichImage.vue'
+import type { MediaObject } from '@fiction/core'
 import { vue } from '@fiction/core'
-import type { Card } from '../../card'
-import type { Form } from '../../form'
-import type { CardAlignmentMode, CardLayoutMode } from './theme'
+import type { Card } from '@fiction/site'
+import type { Form } from '../form'
+import type { CardAlignmentMode, CardLayoutMode } from '../schema.js'
 
 const props = defineProps({
-  card: {
-    type: Object as vue.PropType<Card>,
-    required: true,
-  },
-  form: {
-    type: Object as vue.PropType<Form>,
-    required: true,
-  },
-  defaultAlignment: {
-    type: String as vue.PropType<'left' | 'center' | 'right'>,
-    default: 'left',
-  },
+  card: { type: Object as vue.PropType<Card>, required: true },
+  form: { type: Object as vue.PropType<Form>, required: true },
+  defaultAlignment: { type: String as vue.PropType<'left' | 'center' | 'right'>, default: 'left' },
 })
-const childCard = vue.computed(() => props.form.activeChildCard.value)
+
+const childCard = vue.computed(() => props.form.activeCard.value)
 
 vue.watch(
   () => childCard.value?.cardId,
@@ -51,23 +42,16 @@ const alignment = vue.computed<CardAlignmentMode | undefined>(() => {
   return conf || props.defaultAlignment
 })
 
-const media = vue.computed<MediaDisplayObject | undefined>(() => {
+const media = vue.computed<MediaObject | undefined>(() => {
   const m = props.card.fullConfig.value.media as
-    | MediaDisplayObject[]
+    | MediaObject[]
     | undefined
 
   return m?.[0]
 })
 
 const contentClasses = vue.computed(() => {
-  const out: string[] = [
-    // "flex",
-    // "flex-col",
-    // "justify-center",
-    // "h-full",
-    // "w-full",
-    // "min-h-0",
-  ]
+  const out: string[] = []
 
   if (layout.value === 'background')
     out.push('col-span-2 row-span-2')
@@ -125,7 +109,7 @@ const classes = vue.computed(() => {
         :class="
           ['heroLeft', 'heroRight'].includes(layout) ? 'inset-[10%]' : 'inset-0'
         "
-        :media="media"
+        :media
         fit="cover"
       />
     </div>
@@ -140,16 +124,10 @@ const classes = vue.computed(() => {
           class="no-scrollbar overflow-y-auto"
         >
           <div class="mx-auto w-full max-w-4xl px-[4em] py-12 lg:py-[15vh]">
-            <slot
-              :alignment="alignment"
-              :layout="layout"
-              :media="media"
-            />
+            <slot :alignment :layout :media />
           </div>
         </div>
       </transition>
     </div>
   </div>
 </template>
-
-<style lang="less"></style>
