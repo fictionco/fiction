@@ -17,7 +17,7 @@ const props = defineProps({
   siteRouter: { type: Object as vue.PropType<FictionRouter>, default: undefined },
 })
 
-const { fictionSites, runVars, fictionRouterSites, fictionUser, fictionEnv } = useService<{
+const { fictionSites, fictionRouter, runVars, fictionRouterSites, fictionUser, fictionEnv } = useService<{
   fictionSites: FictionSites
   fictionRouterSites: FictionRouter
   fictionAnalytics: FictionAnalytics
@@ -32,13 +32,10 @@ async function load() {
 
   const currentUrl = typeof window !== 'undefined' ? window.location.href : `ssr:${runVars?.PATHNAME}`
 
+  const { orgId = props.orgId, siteId = props.siteId, themeId = props.themeId } = fictionRouter.params.value as Record<string, string>
+
   try {
-    const mountContext = getMountContext({
-      queryVars: { themeId: props.themeId }, // passed in by route sometimes
-      runVars,
-      siteId: props.siteId,
-      orgId: props.orgId,
-    })
+    const mountContext = getMountContext({ queryVars: { themeId }, runVars, siteId, orgId })
 
     site.value = await loadSite({
       siteRouter: props.siteRouter || fictionRouterSites,
@@ -260,7 +257,12 @@ vue.onMounted(() => {
         </div>
 
         <template v-else-if="site">
-          <component :is="site.currentPage.value.tpl.value?.settings.el" class="wrap" :card="site.currentPage.value" />
+          <component
+            :is="site.currentPage.value.tpl.value?.settings.el"
+            class="x-site-card"
+            :card="site.currentPage.value"
+            :params="fictionRouter.params.value"
+          />
         </template>
         <template v-else>
           <div class="h-dvh w-full grid min-h-full place-items-center bg-theme-900 text-white px-6 py-24 sm:py-32 lg:px-8">

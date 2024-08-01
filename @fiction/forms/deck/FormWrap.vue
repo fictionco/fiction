@@ -1,12 +1,14 @@
 <script lang="ts" setup>
 import { vue, waitFor } from '@fiction/core'
 import type { Card } from '@fiction/site'
+import El404 from '@fiction/ui/page/El404.vue'
 import { Form } from '../form'
 import FormProgressBar from './FormProgressBar.vue'
 import FormLoading from './FormLoading.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
+  params: { type: Object as vue.PropType<Record<string, string>>, required: true },
 })
 
 const loading = vue.ref(true)
@@ -14,18 +16,29 @@ const form = vue.shallowRef<Form>()
 vue.onMounted(async () => {
   await waitFor(500)
 
-  const site = props.card.site
+  try {
+    const card = props.card
 
-  if (!site) {
-    loading.value = false
-    return
+    if (!card) {
+      throw new Error('Card not found')
+    }
+    // TEMPLATE /forms/org/:orgId/:formTemplateId
+    // FORM_ID /forms/id/:formId
+
+    const { formTemplateId, formId } = props.params
+
+    if (!formTemplateId && !formId) {
+      throw new Error('formTemplateId or formId not found')
+    }
+
+    form.value = await Form.load({ card, formTemplateId })
   }
-  // TEMPLATE /forms/org/:orgId/:templateId
-  // FORM_ID /forms/id/:formId
-
-  form.value = await Form.load({ site, formId: '' })
-
-  loading.value = false
+  catch (e) {
+    console.error(e)
+  }
+  finally {
+    loading.value = false
+  }
 })
 
 const activeCard = vue.computed(() => {
@@ -49,13 +62,14 @@ const activeCard = vue.computed(() => {
       mode="out-in"
     >
       <FormLoading v-if="loading" key="loading" />
-      <div
+      <El404
         v-else-if="!activeCard"
         key="2"
-        class="text-theme-300 absolute inset-0 flex h-full w-full items-center justify-center text-sm uppercase"
-      >
-        Nothing found
-      </div>
+        class="text-theme-300 absolute inset-0 flex h-full w-full items-center justify-center "
+        super-heading="404"
+        heading="Nothing found"
+        sub-heading="This form does not exist or has moved."
+      />
       <div
         v-else
         key="another"

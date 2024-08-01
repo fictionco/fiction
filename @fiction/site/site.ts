@@ -12,6 +12,7 @@ import type { QueryVarHook } from './utils/site.js'
 import { saveSite, setSections, setupRouteWatcher, updateSite } from './utils/site.js'
 import type { SiteMode } from './load.js'
 import { type FontConfigVal, activeSiteFont } from './utils/fonts.js'
+import { CardFactory } from './cardFactory.js'
 import type { FictionSites } from './index.js'
 
 export type EditorState = {
@@ -91,6 +92,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   isAnimationDisabled = vue.ref(false)
   themeId = vue.ref(this.settings.themeId)
   theme = vue.computed(() => this.fictionSites.themes.value.find(t => t.themeId === this.themeId.value))
+
   userConfig = vue.ref(this.settings.userConfig || {})
   fullConfig = vue.ref(this.settings.userConfig || {})
   async loadTheme(options: { loadThemePages?: boolean } = {}) {

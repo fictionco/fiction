@@ -58,7 +58,8 @@ export async function loadSiteById(args: { where: WhereSite, siteRouter: Fiction
 }
 
 export async function loadSiteFromTheme(args: {
-  siteId?: string
+  fictionSiteId?: string
+  fictionOrgId?: string
   themeId: string
   siteRouter: FictionRouter
   fictionSites: FictionSites
@@ -71,8 +72,8 @@ export async function loadSiteFromTheme(args: {
   const theme = availableThemes.find(t => t.themeId === themeId)
 
   const appSettings = fictionSites.settings.fictionApp.settings
-  const orgId = appSettings.fictionOrgId || `static-orgId-${themeId}`
-  const siteId = args.siteId || appSettings.fictionSiteId || `static-siteId-${themeId}`
+  const orgId = args.fictionOrgId || appSettings.fictionOrgId || `static-orgId-${themeId}`
+  const siteId = args.fictionSiteId || appSettings.fictionSiteId || `static-siteId-${themeId}`
   const subDomain = `theme-${themeId}`
 
   if (!theme) {
@@ -88,7 +89,7 @@ export async function loadSiteFromTheme(args: {
 export async function loadSiteFromCard(args: { cardId: string, siteRouter: FictionRouter, fictionSites: FictionSites, siteMode: SiteMode, caller?: string }): Promise<Site> {
   const { cardId } = args
   const siteId = `card-${cardId}`
-  const site = await loadSiteFromTheme({ ...args, themeId: 'minimal', siteId: `card-${cardId}` })
+  const site = await loadSiteFromTheme({ ...args, themeId: 'minimal', fictionSiteId: `card-${cardId}` })
 
   const templates = site.theme.value?.templates || []
 
@@ -135,7 +136,7 @@ export async function loadSite(args: { fictionSites: FictionSites, siteRouter: F
 
   let site: Site | undefined = undefined
   try {
-    const { siteId, subDomain, hostname, themeId, cardId, siteMode = 'standard', internal } = mountContext || {}
+    const { fictionOrgId, fictionSiteId, siteId, subDomain, hostname, themeId, cardId, siteMode = 'standard', internal } = mountContext || {}
 
     const where = { siteId, subDomain, hostname, themeId } as WhereSite
 
@@ -151,7 +152,7 @@ export async function loadSite(args: { fictionSites: FictionSites, siteRouter: F
       return
 
     if (themeId) {
-      site = await loadSiteFromTheme({ themeId, siteRouter, fictionSites, siteMode, caller })
+      site = await loadSiteFromTheme({ fictionOrgId, fictionSiteId, themeId, siteRouter, fictionSites, siteMode, caller })
       logger.debug('Loading site from theme', { data: { themeId, site } })
     }
     else if (cardId) {
@@ -221,8 +222,8 @@ export function getMountContext(args: {
 
   let selector: Partial<MountContext> = {}
   let siteMode = args.siteMode || 'standard'
-  const fictionOrgId = siteId || runVars?.FICTION_ORG_ID
-  const fictionSiteId = orgId || runVars?.FICTION_SITE_ID
+  const fictionOrgId = orgId || runVars?.FICTION_ORG_ID
+  const fictionSiteId = siteId || runVars?.FICTION_SITE_ID
 
   // Premade mount context as passed in mount, used in preview and editing
   if (mountContext) {

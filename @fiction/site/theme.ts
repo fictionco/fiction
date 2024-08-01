@@ -147,7 +147,7 @@ export function createCard<
 
   // Ensure that 'templates' contains 'templateId'
   if (!template && templates) {
-    log.error('createCard', `Template with key "${templateId}" not found in provided templates.`)
+    log.error('createCard', `Template with key "${templateId}" not found in provided templates.`, { data: { templates } })
     throw new Error(`createCard: Template not found: "${templateId}"`)
   }
 

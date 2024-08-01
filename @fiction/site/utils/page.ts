@@ -59,6 +59,7 @@ export function getViewMap(args: { pages: Card[] }) {
     if (card.is404.value)
       cardMap._404 = card.cardId
 
+    // use simple underscore for itemId on home page /_/:itemId
     cardMap._ = cardMap._home
   })
 
