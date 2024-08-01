@@ -6,13 +6,13 @@ import { z } from 'zod'
 import type { CardConfigPortable } from '@fiction/site'
 import * as four04 from './404'
 import * as quote from './quote'
-import { templates as templatesLogos } from './logos'
+import * as logos from './logos'
 import * as hero from './hero'
 import * as mediaPop from './mediaPop'
 import * as area from './area'
 import * as tour from './tour'
 import * as profile from './profile'
-import { templates as templatesMediaGrid } from './media-grid'
+import * as mediaGrid from './media-grid'
 import * as metrics from './metrics'
 import * as features from './features'
 import * as people from './people'
@@ -35,7 +35,8 @@ import * as overSlide from './overSlide/index.js'
 import * as statement from './statement/index.js'
 import * as testimonials from './testimonials/index.js'
 import * as effectShape from './effect-shape/index.js'
-import * as mason from './gallery/index.js'
+import * as gallery from './gallery/index.js'
+import * as contact from './contact/index.js'
 
 import { createDemoPage } from './utils/demo'
 /**
@@ -69,9 +70,9 @@ export const standardCardTemplates = [
   ...ticker.templates,
   ...people.templates,
   ...pricing.templates,
-  ...templatesLogos,
+  ...logos.templates,
+  ...mediaGrid.templates,
   ...tour.templates,
-  ...templatesMediaGrid,
   ...features.templates,
   ...metrics.templates,
   ...faq.templates,
@@ -82,7 +83,8 @@ export const standardCardTemplates = [
   ...statement.templates,
   ...testimonials.templates,
   ...effectShape.templates,
-  ...mason.templates,
+  ...gallery.templates,
+  ...contact.templates,
 ] as const
 
 export async function getCardTemplates() {

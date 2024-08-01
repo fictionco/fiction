@@ -1,21 +1,14 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
-import type { Card } from '../../card'
-import type { Form } from '../../form'
+import type { Card } from '@fiction/site'
 import EditableText from './EditableText.vue'
 import CardWrap from './CardWrap.vue'
 import FormButton from './FormButton.vue'
 import type { CardAlignmentMode } from './theme'
 
 const props = defineProps({
-  card: {
-    type: Object as vue.PropType<Card>,
-    required: true,
-  },
-  form: {
-    type: Object as vue.PropType<Form>,
-    required: true,
-  },
+  card: { type: Object as vue.PropType<Card>, required: true },
+  form: { type: Object as vue.PropType<Form>, required: true },
 })
 
 const c = vue.computed(() => props.card.userConfig.value)
@@ -56,11 +49,13 @@ function textAlignment(alignment: CardAlignmentMode = 'center') {
       <div v-if="c.buttonLink" class="mt-12">
         <FormButton
           btn="action"
-          :href="c.buttonLink || 'https://www.kaption.co'"
+          :href="c.buttonLink || 'https://www.fiction.com'"
         >
           {{ c.buttonText || "Finish" }}
         </FormButton>
       </div>
     </div>
   </CardWrap>
-</template>
+</template>import type { Card } from '@fiction/site'
+import type { Form } from '../form'import type { Form } from '../form'
+

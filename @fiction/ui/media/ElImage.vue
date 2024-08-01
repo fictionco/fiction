@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { GradientSetting, ImageFilterConfig, MediaObject } from '@fiction/core'
+import type { GradientSetting, MediaObject } from '@fiction/core'
 import { log, vue, waitFor } from '@fiction/core'
 import * as bh from 'blurhash'
 import ClipPathAnim from '../anim/AnimClipPath.vue'

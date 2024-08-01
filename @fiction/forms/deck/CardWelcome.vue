@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
+import type { vue } from '@fiction/core'
 import type { Card } from '../../card'
 import type { Form } from '../../form'
 import EditableText from './EditableText.vue'
@@ -17,8 +17,6 @@ const props = defineProps({
     required: true,
   },
 })
-
-const c = vue.computed(() => props.card.userConfig.value)
 
 function textAlignment(alignment: CardAlignmentMode = 'center') {
   if (alignment === 'left')
@@ -38,29 +36,27 @@ function textAlignment(alignment: CardAlignmentMode = 'center') {
     default-alignment="center"
   >
     <div :class="textAlignment(alignment)">
-      <div>
+      <div class="text-input-size mb-12">
         <EditableText
-          class="text-theme-900 text-[1.5em]"
+          class="text-theme-900 text-[1.25em]"
           tag="h1"
           :card="card"
           field="heading"
+          placeholder="Add Heading"
         />
         <EditableText
-          class="text-theme-500 text-[1.4em]"
+          class="text-theme-500 mt-2 text-[.85em]"
           tag="h3"
           :card="card"
           field="description"
+          placeholder="Add Subheading"
         />
       </div>
-
-      <div v-if="c.buttonLink" class="mt-12">
-        <FormButton
-          btn="action"
-          :href="c.buttonLink || 'https://www.kaption.co'"
-        >
-          {{ c.buttonText || "Finish" }}
-        </FormButton>
-      </div>
+      <FormButton btn="action" @click="card.next()">
+        {{
+          card.userConfig.value.buttonText || "Start"
+        }}
+      </FormButton>
     </div>
   </CardWrap>
 </template>

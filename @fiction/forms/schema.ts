@@ -1,4 +1,5 @@
-import { Col, FictionDbTable, standardTable } from '@fiction/core'
+import { Col, type ColType, FictionDbTable, standardTable } from '@fiction/core'
+import type { Site } from '@fiction/site'
 import { z } from 'zod'
 
 export const t = { ...standardTable, form: 'fiction_form', submission: 'fiction_form_submission' }
@@ -22,14 +23,17 @@ const FormLayout = z.array(z.object({
   fields: z.array(z.string()), // Array of field keys
 }))
 
+export type FormTableConfig = Partial<ColType<typeof formConfigCols>>
+
+export type FormConfig = FormTableConfig & { site: Site }
+
 export const formConfigCols = [
   new Col({ key: 'formId', sec: 'permanent', sch: () => z.string().min(1), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('form')`)).index() }),
-  new Col({ key: 'projectId', sec: 'permanent', sch: () => z.string().min(1), make: ({ s, col }) => s.string(col.k).notNullable().index() }),
-  new Col({ key: 'createdByUserId', sec: 'permanent', sch: () => z.string().min(1), make: ({ s, col }) => s.string(col.k).notNullable() }),
-  new Col({ key: 'templateId', sec: 'setting', sch: () => z.string().nullable(), make: ({ s, col }) => s.string(col.k).nullable() }),
+  new Col({ key: 'orgId', sec: 'permanent', sch: () => z.string().min(1), make: ({ s, col }) => s.string(col.k).notNullable().index() }),
+  new Col({ key: 'ownerId', sec: 'permanent', sch: () => z.string().min(1), make: ({ s, col }) => s.string(col.k).notNullable() }),
   new Col({ key: 'title', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).notNullable() }),
   new Col({ key: 'description', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k).defaultTo('') }),
-  new Col({ key: 'fields', sec: 'setting', sch: () => z.array(FormFieldConfig), make: ({ s, col }) => s.jsonb(col.k).notNullable(), prepare: ({ value }) => JSON.stringify(value) }),
+  new Col({ key: 'cards', sec: 'setting', sch: () => z.array(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo([]), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'layout', sec: 'setting', sch: () => FormLayout, make: ({ s, col }) => s.jsonb(col.k).notNullable(), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'settings', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'status', sec: 'setting', sch: () => z.enum(['draft', 'published', 'archived']), make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('draft') }),

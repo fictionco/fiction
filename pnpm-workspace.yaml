@@ -8,5 +8,6 @@ packages:
   - '@fiction/analytics'
   - '@fiction/platform'
   - '@fiction/posts'
+  - '@fiction/forms'
   - '@fiction/themes/*'
   - '@fiction/plugins/*'

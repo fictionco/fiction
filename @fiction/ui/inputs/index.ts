@@ -4,7 +4,9 @@ import type { z } from 'zod'
 
 const def = vue.defineAsyncComponent
 
-export const inputs: Record<string, { el: vue.Component, shape?: string[] }> = {
+type InputEntry = { el: vue.Component, shape?: string[] }
+
+export const inputs = {
   InputProse: { el: def(async () => import('./InputProse.vue')) },
   InputActions: { el: def(async () => import('./InputActions.vue')) },
   InputItems: { el: def(async () => import('./InputItems.vue')) },
@@ -45,7 +47,7 @@ export const inputs: Record<string, { el: vue.Component, shape?: string[] }> = {
   InputDropDown: { el: def(async () => import('./InputDropDown.vue')) },
   InputOverlay: { el: def(async () => import('./InputOverlay.vue')) },
   InputGradient: { el: def(async () => import('./InputGradient.vue')), shape: ['angle', 'stops', 'stops.0.color', 'stops.0.percent', 'css'] },
-}
+} as const satisfies Record<string, InputEntry>
 
 type SchemaCallback = (args: { z: typeof z, subSchema: z.AnyZodObject }) => z.Schema
 
@@ -89,7 +91,7 @@ export class InputOption<T extends string = string, U = any> extends FictionObje
   key = vue.ref(this.settings.key)
   aliasKey = vue.ref(this.settings.aliasKey || this.key)
   input = vue.shallowRef(this.settings.input)
-  shape = vue.ref(typeof this.input.value === 'string' ? inputs[this.input.value]?.shape || [] : [])
+  shape = vue.ref(typeof this.input.value === 'string' ? (inputs as Record<string, InputEntry>)[this.input.value]?.shape || [] : [])
   label = vue.ref(this.settings.label)
   subLabel = vue.ref(this.settings.subLabel)
   placeholder = vue.ref(this.settings.placeholder)

@@ -17,7 +17,7 @@ export type ThemeSettings<T extends Record<string, unknown> = Record<string, unk
   version?: string
   description?: string
   screenshot: string
-  templates: readonly CardTemplate[] | CardTemplate[]
+  templates?: readonly CardTemplate[] | CardTemplate[]
   ui?: UiConfig
   isPublic?: boolean
   userConfig?: Partial<SiteUserConfig> & T
@@ -39,20 +39,11 @@ export type ThemeSetup = (args: ServiceList & { fictionEnv: FictionEnv, fictionA
 
 export class Theme<T extends Record<string, unknown> = Record<string, unknown>> extends FictionPlugin<ThemeSettings<T>> {
   themeId = this.settings.themeId
-  templates = this.settings.templates
-  ui = { button: { el: ElButton }, ...this.settings.ui }
-
+  templates = this.settings.templates || []
   templateDefaults = vue.computed(() => ({ page: 'wrap', transaction: 'wrap', ...this.settings.templateDefaults }))
 
   constructor(settings: ThemeSettings<T>) {
     super('Theme', settings)
-  }
-
-  getUi(args: { elementId: keyof UiConfig }): UiItem {
-    const { elementId } = args
-    const out = this.ui?.[elementId]
-
-    return out
   }
 
   async getConfig(args: { site: Site }) {

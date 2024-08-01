@@ -1,5 +1,5 @@
 import type { FictionRouter } from '@fiction/core'
-import { FictionObject, deepMerge, getColorScheme, localRef, objectId, resetUi, setNested, shortId, vue, waitFor } from '@fiction/core'
+import { FictionObject, deepMerge, localRef, objectId, resetUi, setNested, shortId, vue, waitFor } from '@fiction/core'
 import { TypedEventTarget } from '@fiction/core/utils/eventTarget.js'
 import type { CardConfigPortable, PageRegion, TableCardConfig, TableSiteConfig } from './tables.js'
 import type { Card, CardTemplate } from './card.js'

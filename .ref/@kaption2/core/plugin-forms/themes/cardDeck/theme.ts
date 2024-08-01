@@ -1,12 +1,11 @@
-// // @unocss-include
-import type { ColorScheme, UserFont } from '@factor/api'
-import { vue } from '@factor/api'
-import type { GradientSetting, MediaDisplayObject } from '@factor/ui/utils'
+
+import type { ColorTheme, GradientSetting, UserFont } from '@fiction/core'
+import { vue } from '@fiction/core'
 import type { Card } from '../../card'
 import { FormTheme } from '../../card'
 
 import type { Form } from '../../form'
-import { InputOption } from '../../../utils/inputOption'
+import { InputOption } from '@fiction/ui'
 import { standardCardOptions } from '../../cardOptions'
 import { CardType, standardCardTypes } from '../../cardTypes'
 import CardStandard from './CardStandard.vue'
@@ -30,7 +29,7 @@ export type CardLayoutMode = typeof cardLayoutMode[number]
 
 export interface EntryProps {
   actionColor?: string
-  elementScheme?: ColorScheme
+  elementScheme?: ColorTheme
   bgColor: string
   bgImage?: MediaDisplayObject[]
   bgGradient?: GradientSetting

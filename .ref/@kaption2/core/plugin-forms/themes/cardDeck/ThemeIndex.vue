@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { getColorScheme, vue, windowSize } from '@factor/api'
+import { getColorScheme, vue, windowSize } from '@fiction/core'
 import chroma from 'chroma-js'
-import ElRichImage from '@factor/ui/ElRichImage.vue'
-import ElOverlay from '@factor/ui/ElOverlay.vue'
+import ElRichImage from '@fiction/ui/media/ElImage.vue'
+import ElOverlay from '@fiction/ui/ElOverlay.vue'
 import type { Form } from '../../form'
 import FormProgressBar from './FormProgressBar.vue'
 import type { EntryProps } from './theme'
