@@ -36,27 +36,30 @@ export class Form extends FictionObject<FormConfig> {
     return new Form({ formId: formId || `static-${formTemplateId}`, card })
   }
 
-  activeCardId = vue.computed({
-    get: () => (this.settings.card.site?.siteRouter?.params.value.itemId as string) || this.cards.value[0]?.cardId,
-    set: async (val: string) => {
-      if (this.settings.card.site?.siteRouter?.params.value.itemId !== val)
-        await this.settings.card.site?.siteRouter?.push({ params: { itemId: val } }, { caller: 'Form.activeCardId' })
+  activeCardIndex = vue.computed({
+    get: () => {
+      const itemId = this.settings.card.site?.siteRouter?.params.value.itemId as string
+
+      return itemId && itemId.includes('item-') ? Number.parseInt(itemId.replace('item-', '')) : 0
+    },
+    set: (val: number) => {
+      const itemId = `item-${val}`
+      this.settings.card.site?.siteRouter?.push({ params: { viewId: '_', itemId } }, { caller: 'Form.activeCardIndex' })
     },
   })
 
-  activeIdIndex = vue.computed(() => this.cards.value.findIndex(c => c.cardId === this.activeCardId.value))
-  activeCard = vue.computed(() => this.cards.value.find(c => c.cardId === this.activeCardId.value))
+  activeCard = vue.computed(() => this.cards.value[this.activeCardIndex.value])
 
   percentComplete = vue.computed(() => {
     const cards = this.cards.value
-    const current = cards.findIndex(c => c.cardId === this.activeCardId.value)
+    const current = this.activeCardIndex.value
 
     return current > -1 ? Math.round(((current + 1) / cards.length) * 100) : 0
   })
 
   async nextCard() {
     this.slideTransition.value = 'next'
-    const ind = this.cards.value.findIndex(i => i.cardId === this.activeCardId.value)
+    const ind = this.activeCardIndex.value
 
     const nextCard = this.cards.value[ind + 1]
 
@@ -73,11 +76,11 @@ export class Form extends FictionObject<FormConfig> {
 
     const newIndex = this.cards.value.findIndex(c => c.cardId === cardId)
 
-    this.slideTransition.value = newIndex < this.activeIdIndex.value ? 'prev' : 'next'
+    this.slideTransition.value = newIndex < this.activeCardIndex.value ? 'prev' : 'next'
 
-    const isNewCard = this.activeCardId.value !== cardId
+    const isNewCard = this.activeCard.value?.cardId !== cardId
 
-    this.activeCardId.value = cardId
+    this.activeCardIndex.value = newIndex
 
     // this.setActiveDrawer({ cardId, mode: drawer, isNewCard })
 

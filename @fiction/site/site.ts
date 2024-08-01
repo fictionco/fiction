@@ -12,7 +12,6 @@ import type { QueryVarHook } from './utils/site.js'
 import { saveSite, setSections, setupRouteWatcher, updateSite } from './utils/site.js'
 import type { SiteMode } from './load.js'
 import { type FontConfigVal, activeSiteFont } from './utils/fonts.js'
-import { CardFactory } from './cardFactory.js'
 import type { FictionSites } from './index.js'
 
 export type EditorState = {

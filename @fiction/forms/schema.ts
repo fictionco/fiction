@@ -1,5 +1,5 @@
 import { Col, type ColType, FictionDbTable, standardTable } from '@fiction/core'
-import type { Card, Site } from '@fiction/site'
+import type { Card } from '@fiction/site'
 import { z } from 'zod'
 
 export const t = { ...standardTable, form: 'fiction_form', submission: 'fiction_form_submission' }

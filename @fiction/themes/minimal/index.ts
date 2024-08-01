@@ -4,16 +4,10 @@ import { Theme } from '@fiction/site/theme.js'
 import { getCardTemplates } from '@fiction/cards/index.js'
 import type { Site } from '@fiction/site/site.js'
 import { CardFactory } from '@fiction/site/cardFactory.js'
-import { templates as templatesMinimalHeader } from './cards/minimal-header/index.js'
-import { templates as templatesMinimalFooter } from './cards/minimal-footer/index.js'
 
 async function getTemplates() {
   const t = await getCardTemplates()
-  const templates = [
-    ...t,
-    ...templatesMinimalHeader,
-    ...templatesMinimalFooter,
-  ] as const
+  const templates = [...t] as const
 
   return templates
 }

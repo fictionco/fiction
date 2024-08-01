@@ -123,8 +123,8 @@ const classes = vue.computed(() => {
     >
       <transition :name="form?.slideTransition.value" mode="out-in">
         <div
-          :id="form.activeCardId.value"
-          :key="form.activeCardId.value"
+          :id="form.activeCard.value?.cardId"
+          :key="form.activeCard.value?.cardId"
           class="no-scrollbar overflow-y-auto"
         >
           <div class="mx-auto w-full max-w-4xl px-[4em] py-12 lg:py-[15vh]">

@@ -5,7 +5,6 @@ import * as wrap from '@fiction/cards/wrap/index.js'
 import * as four04 from '@fiction/cards/404/index.js'
 import FormWrap from './deck/FormWrap.vue'
 import InputWrap from './deck/InputWrap.vue'
-import { Form } from './form'
 import { CardAlignmentSchema, CardLayoutSchema } from './schema'
 
 const inputSchema = z.object({

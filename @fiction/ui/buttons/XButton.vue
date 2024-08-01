@@ -85,7 +85,7 @@ vue.onMounted(() => {
 
 <template>
   <component
-    :is="getNavComponentType({ name: 'btn', href }, props.hover === 'none' ? 'div' : tag)"
+    :is="getNavComponentType({ name: 'btn', href }, props.hover === 'none' ? 'div' : tag || 'button')"
     :id="randomId"
     :to="href"
     class="xbutton group/button"

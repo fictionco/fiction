@@ -104,7 +104,7 @@ const activeCard = vue.computed(() => {
 .next-leave-active,
 .prev-enter-active,
 .prev-leave-active {
-  transition: 0.3s ease;
+  transition: 0.3s cubic-bezier(0.25, 1, 0.33, 1);
   transition-property: opacity, transform;
 }
 
@@ -112,5 +112,6 @@ const activeCard = vue.computed(() => {
 .prev-enter-from {
   opacity: 0;
   transform: translateY(-50vh);
+
 }
 </style>
