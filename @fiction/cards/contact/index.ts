@@ -67,7 +67,7 @@ export const templates = [
     colorTheme: 'blue',
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
     getUserConfig: () => defaultContent,
-    isPublic: true,
+    isPublic: false,
     options,
     schema: UserConfigSchema,
     demoPage: async () => {
