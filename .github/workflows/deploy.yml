@@ -166,7 +166,7 @@ jobs:
         run: npx playwright install
 
       - name: Run Docker Compose (DB)
-        run: docker-compose -f ./docker/docker-compose.yml pull && docker-compose -f ./docker/docker-compose.yml up --build -d
+        run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d
 
       - name: Create Tables
         run: npm -w @fiction/www exec -- fiction run generate
