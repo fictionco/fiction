@@ -48,7 +48,7 @@ env:
   UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-  GH_TOKEN: ${{secrets.GH_TOKEN}}
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
   SHOULD_DEPLOY: ${{ contains(github.event.head_commit.message, '-d') }}
   SHOULD_RELEASE: ${{ contains(github.event.head_commit.message, '-r') }}
