@@ -1,9 +1,7 @@
 import { CardTemplate } from '@fiction/site'
 import { z } from 'zod'
 import type { inputs } from '@fiction/ui/inputs/index.js'
-import * as wrap from '@fiction/cards/wrap/index.js'
-import * as four04 from '@fiction/cards/404/index.js'
-import FormWrap from './deck/FormWrap.vue'
+import CardForm from './deck/CardForm.vue'
 import InputWrap from './deck/InputWrap.vue'
 import { CardAlignmentSchema, CardLayoutSchema } from './schema'
 
@@ -25,12 +23,11 @@ const inputSchema = z.object({
 
 export type InputUserConfig = z.infer<typeof inputSchema>
 
-export async function getTemplates() {
+export async function getCardTemplates() {
   return [
-    ...wrap.templates,
-    ...four04.templates,
-    new CardTemplate({ templateId: 'formWrap', el: FormWrap, isPageCard: true }),
+    new CardTemplate({ templateId: 'formWrap', el: CardForm, isPageCard: true }),
     new CardTemplate({ templateId: 'inputTextShort', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ inputType: 'InputText' as const }) }),
+    new CardTemplate({ templateId: 'inputTextLong', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ inputType: 'InputTextarea' as const }) }),
   ] as const
 }
 

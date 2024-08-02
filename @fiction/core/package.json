@@ -114,7 +114,7 @@
     "querystring-browser": "^1.0.4",
     "querystring-es3": "^0.2.1",
     "react": "^18.3.1",
-    "remove-markdown": "^0.5.0",
+    "remove-markdown": "^0.5.2",
     "request-ip": "^3.3.0",
     "semver": "^7.6.3",
     "serve-favicon": "^2.5.0",

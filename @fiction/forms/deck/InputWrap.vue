@@ -91,8 +91,8 @@ const classes = vue.computed(() => {
     'card-wrap',
     'theme-font',
     'relative',
-    'h-[100vh]',
-    'w-[100vw]',
+    'h-full',
+    'w-full',
     'overflow-scroll',
     'grid',
     'grid-cols-1',
@@ -136,14 +136,14 @@ const classes = vue.computed(() => {
                 <div class="relative">
                   <div class="text-input-size grow">
                     <CardText
-                      class="text-4xl x-font-title font-medium"
+                      class="text-3xl x-font-title font-medium"
                       tag="h2"
                       :card
                       path="title"
                       placeholder="Your question here..."
                     />
                     <CardText
-                      class="text-theme-500 mt-2 text-xl font-sans"
+                      class="text-theme-500 mt-2 text-lg font-sans"
                       tag="p"
                       :card
                       path="subTitle"
@@ -184,12 +184,12 @@ const classes = vue.computed(() => {
                   <CardButton
                     :card
                     class="submit-button"
-                    btn="action"
+                    theme="primary"
                     type="submit"
                     size="2xl"
                     rounding="full"
                   >
-                    Next
+                    {{ uc.buttonText || 'Submit' }}
                   </CardButton>
                 </div>
               </ElForm>

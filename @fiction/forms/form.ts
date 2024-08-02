@@ -1,9 +1,10 @@
 import { FictionObject, vue } from '@fiction/core'
 
-import type { Card, CardConfigPortable, Site } from '@fiction/site'
+import type { CardConfigPortable, Site } from '@fiction/site'
+import { Card } from '@fiction/site'
 import { CardFactory } from '@fiction/site/cardFactory'
 import type { FormConfig, FormTableConfig } from './schema'
-import { getTemplates } from './templates'
+import { getCardTemplates } from './templates'
 
 export class Form extends FictionObject<FormConfig> {
   cards = vue.computed(() => this.settings.card.cards.value || [])
@@ -13,25 +14,22 @@ export class Form extends FictionObject<FormConfig> {
     super('Form', settings)
   }
 
-  static async load(args: { formId?: string, formTemplateId?: string, card: Card }): Promise<Form> {
-    const { formId, formTemplateId, card } = args
+  static async load(args: { formId?: string, formTemplateId?: string, site: Site }): Promise<Form> {
+    const { formId, formTemplateId, site } = args
 
+    let cardConfig: CardConfigPortable = { }
+    const templates = await getCardTemplates()
     if (formTemplateId) {
-      const templates = await getFormTemplates({ card })
-      const template = templates.find(t => t.settings.formTemplateId === formTemplateId)
+      const formTemplates = await getFormTemplates({ site })
+      const formTemplate = formTemplates.find(t => t.settings.formTemplateId === formTemplateId)
 
-      if (!template)
+      if (!formTemplate)
         throw new Error(`Form template not found: ${formTemplateId}`)
 
-      const site = card.site
-
-      if (!site)
-        throw new Error('Card must have a site to create form')
-
-      const cardConfig = await template.settings.getCardConfig({ site })
-
-      card.update(cardConfig)
+      cardConfig = await formTemplate.settings.getCardConfig({ site })
     }
+
+    const card = new Card({ site, templates, title: 'FormCard', templateId: 'formWrap', ...cardConfig })
 
     return new Form({ formId: formId || `static-${formTemplateId}`, card })
   }
@@ -114,15 +112,13 @@ export class FormTemplate extends FictionObject<FormTemplateConfig> {
   }
 }
 
-export async function getFormTemplates(args: { card: Card }) {
-  const { card } = args
-
-  const site = card.site
+export async function getFormTemplates(args: { site: Site }) {
+  const { site } = args
 
   if (!site)
     throw new Error('Card must have a site to get form templates')
 
-  const factory = new CardFactory({ site, templates: await getTemplates() })
+  const factory = new CardFactory({ site, templates: await getCardTemplates() })
   return [
     new FormTemplate({
       formTemplateId: 'contact',
@@ -133,7 +129,7 @@ export async function getFormTemplates(args: { card: Card }) {
             await factory.create({
               templateId: 'inputTextShort',
               userConfig: {
-                title: 'Get in Touch',
+                title: 'Contact Form',
                 subTitle: 'Need to reach us? Just fill out the form below.',
                 buttonText: 'Start',
               },

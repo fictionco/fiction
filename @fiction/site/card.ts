@@ -84,7 +84,12 @@ export class CardTemplate<
   }
 }
 
-export type CardSettings<T extends Record<string, unknown> = Record<string, unknown> > = CardConfigPortable<T> & { site?: Site, inlineTemplate?: CardTemplate, onSync?: (card: Card) => void }
+export type CardSettings<T extends Record<string, unknown> = Record<string, unknown> > = CardConfigPortable<T> & {
+  site?: Site
+  inlineTemplate?: CardTemplate
+  templates?: CardTemplate[] | readonly CardTemplate[]
+  onSync?: (card: Card) => void
+}
 export type CardBaseConfig = CardOptionsWithStandard & SiteUserConfig & Record<string, unknown>
 
 export type CardSurface = {
@@ -133,7 +138,13 @@ export class Card<
   cards = vue.shallowRef((this.settings.cards || []).map(c => this.initSubCard({ cardConfig: c })))
   effects = vue.shallowRef((this.settings.effects || []).map(c => this.initSubCard({ cardConfig: c })))
 
-  tpl = vue.computed(() => this.settings.inlineTemplate || this.site?.theme.value?.templates?.find(t => t.settings.templateId === this.templateId.value))
+  tpl = vue.computed(() => {
+    const templates = [...(this.settings.templates || []), ...(this.site?.theme.value?.templates || [])]
+    const foundTemplate = templates.find(t => t.settings.templateId === this.templateId.value)
+
+    return this.settings.inlineTemplate || foundTemplate
+  })
+
   genUtil = new CardGeneration({ card: this })
   isActive = vue.computed<boolean>(() => this.site?.editor.value.selectedCardId === this.settings.cardId)
   options: vue.ComputedRef<InputOption[]> = vue.computed(() => this.tpl.value?.optionConfig.options || [])
@@ -160,6 +171,7 @@ export class Card<
       depth: this.depth.value + 1,
       site: this.settings.site,
       regionId: this.regionId,
+      templates: this.settings.templates,
     })
     return card
   }

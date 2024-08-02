@@ -256,6 +256,9 @@ importers:
       '@fiction/core':
         specifier: workspace:*
         version: link:../core
+      '@fiction/forms':
+        specifier: workspace:*
+        version: link:../forms
       '@fiction/plugin-ai':
         specifier: workspace:*
         version: link:../plugins/plugin-ai
@@ -603,8 +606,8 @@ importers:
         specifier: ^18.3.1
         version: 18.3.1
       remove-markdown:
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: ^0.5.2
+        version: 0.5.2
       request-ip:
         specifier: ^3.3.0
         version: 3.3.0
@@ -801,6 +804,9 @@ importers:
       '@fiction/admin':
         specifier: workspace:*
         version: link:../admin
+      '@fiction/analytics':
+        specifier: workspace:*
+        version: link:../analytics
       '@fiction/cards':
         specifier: workspace:*
         version: link:../cards
@@ -819,6 +825,12 @@ importers:
       '@fiction/ui':
         specifier: workspace:*
         version: link:../ui
+      '@types/chroma-js':
+        specifier: ^2.4.4
+        version: 2.4.4
+      chroma-js:
+        specifier: ^2.6.0
+        version: 2.6.0
 
   '@fiction/platform':
     dependencies:
@@ -3708,6 +3720,9 @@ packages:
   '@types/cacheable-request@6.0.3':
     resolution: {integrity: sha512-IQ3EbTzGxIigb1I3qPZc1rWJnH0BmSKv5QYTalEwweFvyBDLSAe24zP0le/hyi7ecGfZVlIVAg4BZqb8WBwKqw==}
 
+  '@types/chroma-js@2.4.4':
+    resolution: {integrity: sha512-/DTccpHTaKomqussrn+ciEvfW4k6NAHzNzs/sts1TCqg333qNxOhy8TNIoQCmbGG3Tl8KdEhkGAssb1n3mTXiQ==}
+
   '@types/clean-css@4.2.11':
     resolution: {integrity: sha512-Y8n81lQVTAfP2TOdtJJEsCoYl1AnOkqDqMvXb9/7pfgZZ7r8YrEyurrAvAoAjHOGXKRybay+5CsExqIH6liccw==}
 
@@ -4708,6 +4723,9 @@ packages:
   chownr@2.0.0:
     resolution: {integrity: sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==}
     engines: {node: '>=10'}
+
+  chroma-js@2.6.0:
+    resolution: {integrity: sha512-BLHvCB9s8Z1EV4ethr6xnkl/P2YRFOGqfgvuMG/MyCbZPrTA+NeiByY6XvgF0zP4/2deU2CXnWyMa3zu1LqQ3A==}
 
   ci-info@3.9.0:
     resolution: {integrity: sha512-NIxF55hv4nSqQswkAeiOi1r83xy8JldOFDTWiug55KBu9Jnblncd2U6ViHmYgHf01TPZS77NJBhBMKdWj9HQMQ==}
@@ -8310,8 +8328,8 @@ packages:
   remeda@1.61.0:
     resolution: {integrity: sha512-caKfSz9rDeSKBQQnlJnVW3mbVdFgxgGWQKq1XlFokqjf+hQD5gxutLGTTY2A/x24UxVyJe9gH5fAkFI63ULw4A==}
 
-  remove-markdown@0.5.0:
-    resolution: {integrity: sha512-x917M80K97K5IN1L8lUvFehsfhR8cYjGQ/yAMRI9E7JIKivtl5Emo5iD13DhMr+VojzMCiYk8V2byNPwT/oapg==}
+  remove-markdown@0.5.2:
+    resolution: {integrity: sha512-/VOt3snBKnK66TIiomtmCptc8V0aSVDBHtihWrL1ZVrVoCtvQx7Chs4yfP37JaxZTxE3SEmJTIN8pzrO/+XPlg==}
 
   repeat-string@1.6.1:
     resolution: {integrity: sha512-PV0dzCYDNfRi1jCDbJzpW7jNNDRuCOG/jI5ctQcGKt/clZD+YcPS3yIlWuTJMmESC8aevCFmWJy5wjAFgNqN6w==}
@@ -12671,6 +12689,8 @@ snapshots:
       '@types/node': 22.0.2
       '@types/responselike': 1.0.3
 
+  '@types/chroma-js@2.4.4': {}
+
   '@types/clean-css@4.2.11':
     dependencies:
       '@types/node': 22.0.2
@@ -13863,6 +13883,8 @@ snapshots:
       fsevents: 2.3.3
 
   chownr@2.0.0: {}
+
+  chroma-js@2.6.0: {}
 
   ci-info@3.9.0: {}
 
@@ -17918,7 +17940,7 @@ snapshots:
 
   remeda@1.61.0: {}
 
-  remove-markdown@0.5.0: {}
+  remove-markdown@0.5.2: {}
 
   repeat-string@1.6.1: {}
 

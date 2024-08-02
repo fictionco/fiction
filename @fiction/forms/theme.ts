@@ -2,9 +2,9 @@ import { Theme } from '@fiction/site/theme.js'
 import type { FictionEnv } from '@fiction/core/index.js'
 import { safeDirname } from '@fiction/core/index.js'
 import { CardFactory } from '@fiction/site/cardFactory'
-import { getTemplates } from './templates'
+import { getCardTemplates } from './templates'
 
-async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof getTemplates>>> }) {
+async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof getCardTemplates>>> }) {
   const { factory } = args
   return [
     await factory.create({ slug: '_home', title: 'Form', templateId: 'formWrap' }),
@@ -14,7 +14,7 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
 export async function setup(args: { fictionEnv: FictionEnv }) {
   const { fictionEnv } = args
 
-  const templates = await getTemplates()
+  const templates = await getCardTemplates()
 
   return new Theme({
     fictionEnv,

@@ -1,12 +1,15 @@
 {
   "dependencies": {
     "@fiction/admin": "workspace:*",
+    "@fiction/analytics": "workspace:*",
     "@fiction/cards": "workspace:*",
     "@fiction/core": "workspace:*",
     "@fiction/plugin-transactions": "workspace:*",
     "@fiction/posts": "workspace:*",
     "@fiction/site": "workspace:*",
-    "@fiction/ui": "workspace:*"
+    "@fiction/ui": "workspace:*",
+    "@types/chroma-js": "^2.4.4",
+    "chroma-js": "^2.6.0"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "license": "MIT",

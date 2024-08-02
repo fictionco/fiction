@@ -8,7 +8,8 @@ import FormLoading from './FormLoading.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
-  params: { type: Object as vue.PropType<Record<string, string>>, required: true },
+  formTemplateId: { type: String, default: '' },
+  formId: { type: String, default: '' },
 })
 
 const loading = vue.ref(true)
@@ -17,21 +18,19 @@ vue.onMounted(async () => {
   await waitFor(500)
 
   try {
-    const card = props.card
+    const site = props.card.site
 
-    if (!card) {
-      throw new Error('Card not found')
+    if (!site) {
+      throw new Error('site not found')
     }
-    // TEMPLATE /forms/org/:orgId/:formTemplateId
-    // FORM_ID /forms/id/:formId
 
-    const { formTemplateId, formId } = props.params
+    const { formTemplateId, formId } = props
 
     if (!formTemplateId && !formId) {
       throw new Error('formTemplateId or formId not found')
     }
 
-    form.value = await Form.load({ card, formTemplateId })
+    form.value = await Form.load({ site, formTemplateId })
   }
   catch (e) {
     console.error(e)
@@ -47,10 +46,7 @@ const activeCard = vue.computed(() => {
 </script>
 
 <template>
-  <div
-    v-if="form"
-    class="card-deck-theme theme-wrap theme-font overflow-hidden bg-cover"
-  >
+  <div v-if="form" class="card-deck-theme theme-wrap theme-font overflow-hidden bg-cover">
     <FormProgressBar :progress="form.percentComplete.value" />
     <transition
       enter-active-class="transition ease-out duration-300"

@@ -2,6 +2,7 @@
 import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { useElementVisible } from '@fiction/ui/anim'
+import CardForm from '@fiction/forms/deck/CardForm.vue'
 import CardText from '../CardText.vue'
 import CardSocials from '../el/CardSocials.vue'
 import type { UserConfig } from '.'
@@ -38,8 +39,8 @@ vue.onMounted(() => {
     <div>
       <div class="md:flex gap-16 " :class="uc.layout === 'left' ? 'md:flex-row-reverse' : ''">
         <div class="w-full md:w-[50%] px-2">
-          <div class="relative border border-theme-200 dark:border-theme-700 rounded-xl h-full bg-theme-50 dark:bg-theme-700/50">
-            <div data-tf-live="01J462G1SZ6TQ1HE9210GYRXPD" />
+          <div class="overflow-hidden relative border border-theme-200 dark:border-theme-700 rounded-xl h-full bg-theme-50 dark:bg-theme-700/50">
+            <CardForm :card form-template-id="contact" class="h-full w-full" />
           </div>
         </div>
         <div class="md:w-[50%] mt-6 md:mt-0 flex items-center">
