@@ -95,14 +95,18 @@ const ResultsSchema = z.array(FormFieldResult)
 export const formSubmissionCols = [
   new Col({ key: 'submissionId', sec: 'permanent', sch: () => z.string().min(1), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('submission')`)).index() }),
   new Col({ key: 'formId', sec: 'permanent', sch: () => z.string().min(1), make: ({ s, col }) => s.string(col.k).notNullable().index() }),
-  new Col({ key: 'userId', sec: 'permanent', sch: () => z.string().nullable(), make: ({ s, col }) => s.string(col.k).nullable() }),
-  new Col({ key: 'submittedAt', sec: 'permanent', sch: () => z.date(), make: ({ s, col, db }) => s.timestamp(col.k).defaultTo(db.fn.now()).notNullable() }),
+  new Col({ key: 'formTemplateId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).notNullable().index() }),
+  new Col({ key: 'userId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`fiction_user.user_id`).onDelete('SET NULL').onUpdate('CASCADE').index() }),
+  new Col({ key: 'orgId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`fiction_org.org_id`).onUpdate('CASCADE').notNullable().index() }),
   new Col({ key: 'ipAddress', sec: 'permanent', sch: () => z.string().ip().nullable(), make: ({ s, col }) => s.string(col.k).nullable() }),
   new Col({ key: 'results', sec: 'setting', sch: () => ResultsSchema, make: ({ s, col }) => s.jsonb(col.k).notNullable(), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'metadata', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'status', sec: 'setting', sch: () => z.enum(['pending', 'processed', 'error']), make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('pending') }),
-  new Col({ key: 'completedAt', sec: 'setting', sch: () => z.date().nullable(), make: ({ s, col }) => s.timestamp(col.k).nullable() }),
+  new Col({ key: 'submittedAt', sec: 'permanent', sch: () => z.string(), make: ({ s, col, db }) => s.string(col.k).defaultTo(db.fn.now()).notNullable() }),
+  new Col({ key: 'completedAt', sec: 'setting', sch: () => z.string().nullable(), make: ({ s, col }) => s.string(col.k).nullable() }),
 ] as const
+
+export type FormSubmissionConfig = Partial<ColType<typeof formSubmissionCols>>
 
 export const tables = [
   new FictionDbTable({ tableKey: t.form, timestamps: true, cols: formConfigCols }),

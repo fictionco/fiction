@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   # https://hub.docker.com/_/redis
   redis:

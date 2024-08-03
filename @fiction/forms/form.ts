@@ -1,15 +1,33 @@
-import { FictionObject, vue } from '@fiction/core'
+import { FictionObject, getNested, path, setNested, vue } from '@fiction/core'
 
 import type { CardConfigPortable, Site } from '@fiction/site'
 import { Card } from '@fiction/site'
 import { CardFactory } from '@fiction/site/cardFactory'
 import type { FormConfig, FormTableConfig } from './schema'
-import { getCardTemplates } from './templates'
+import { type InputUserConfig, getCardTemplates } from './templates'
 
 export class Form extends FictionObject<FormConfig> {
-  cards = vue.computed(() => this.settings.card.cards.value || [])
+  cards = vue.computed(() => (this.settings.card.cards.value || []) as Card<InputUserConfig>[])
+  inputCards = vue.computed(() => this.cards.value.filter(c => c.userConfig.value.cardType === 'input' || !c.userConfig.value.cardType))
+  endCards = vue.computed(() => this.cards.value.filter(c => c.userConfig.value.cardType === 'end'))
   formMode = vue.ref(this.settings.formMode || 'standard')
   slideTransition = vue.ref<'prev' | 'next'>('next')
+  formValues = vue.ref({})
+  isSubmitted = vue.computed(() => this.endCards.value.find(c => c.cardId === this.activeCardId.value))
+  activeCardIdControl = vue.ref()
+  activeCardId = vue.computed({
+    get: () => this.activeCardIdControl.value || this.inputCards.value[0]?.cardId,
+    set: val => (this.activeCardIdControl.value = val),
+  })
+
+  activeCardIndex = vue.computed({
+    get: () => this.cards.value.findIndex(c => c.cardId === this.activeCardId.value),
+    set: val => (this.activeCardId.value = this.cards.value[val]?.cardId),
+  })
+
+  isLastCard = vue.computed(() => this.activeCardId.value === this.cards.value[this.cards.value.length - 1]?.cardId)
+  isSubmitCard = vue.computed(() => this.activeCardId.value === this.inputCards.value[this.inputCards.value.length - 1]?.cardId)
+
   constructor(settings: FormConfig) {
     super('Form', settings)
   }
@@ -34,25 +52,20 @@ export class Form extends FictionObject<FormConfig> {
     return new Form({ formId: formId || `static-${formTemplateId}`, card })
   }
 
-  activeCardIndex = vue.computed({
-    get: () => {
-      const itemId = this.settings.card.site?.siteRouter?.params.value.itemId as string
-
-      return itemId && itemId.includes('item-') ? Number.parseInt(itemId.replace('item-', '')) : 0
-    },
-    set: (val: number) => {
-      const itemId = `item-${val}`
-      this.settings.card.site?.siteRouter?.push({ params: { viewId: '_', itemId } }, { caller: 'Form.activeCardIndex' })
-    },
-  })
-
-  activeCard = vue.computed(() => this.cards.value[this.activeCardIndex.value])
+  activeCard = vue.computed(() => this.cards.value.find(c => c.cardId === this.activeCardId.value))
 
   percentComplete = vue.computed(() => {
-    const cards = this.cards.value
-    const current = this.activeCardIndex.value
+    if (this.isSubmitted.value)
+      return 100
 
-    return current > -1 ? Math.round(((current + 1) / cards.length) * 100) : 0
+    const currentCardId = this.activeCardId.value
+    const totalInputCards = this.inputCards.value.length
+    const current = this.inputCards.value.findIndex(c => c.cardId === currentCardId)
+
+    if (current === -1 || totalInputCards === 0)
+      return 0
+
+    return Math.min(100, Math.round(((current + 1) / totalInputCards) * 100))
   })
 
   async nextCard() {
@@ -94,6 +107,34 @@ export class Form extends FictionObject<FormConfig> {
     }
   }
 
+  setFormValue(args: { path?: string, value?: any }) {
+    const { path, value } = args
+    if (!path)
+      return
+
+    this.formValues.value = setNested({ data: this.formValues.value, path, value })
+  }
+
+  getFormValue(args: { path?: string }) {
+    const { path } = args
+    if (!path)
+      return undefined
+
+    return getNested({ data: this.formValues.value, path })
+  }
+
+  clearFormValue(path: string) {
+    this.formValues.value = setNested({ data: this.formValues.value, path, value: undefined })
+  }
+
+  getAllFormValues(): Record<string, any> {
+    return JSON.parse(JSON.stringify(this.formValues.value))
+  }
+
+  clearAllFormValues() {
+    this.formValues.value = {}
+  }
+
   toConfig(): FormTableConfig {
     const cardConfig = this.settings.card.toConfig()
     return { formId: this.settings.formId, cardConfig }
@@ -127,7 +168,7 @@ export async function getFormTemplates(args: { site: Site }) {
         return {
           cards: [
             await factory.create({
-              templateId: 'inputTextShort',
+              templateId: 'formStart',
               userConfig: {
                 title: 'Contact Form',
                 subTitle: 'Need to reach us? Just fill out the form below.',
@@ -137,9 +178,38 @@ export async function getFormTemplates(args: { site: Site }) {
             await factory.create({
               templateId: 'inputTextShort',
               userConfig: {
+                path: 'name',
                 title: `What's your name?`,
                 subTitle: 'What should we call you?',
                 placeholder: 'Name',
+                isRequired: true,
+              },
+            }),
+            await factory.create({
+              templateId: 'inputEmail',
+              userConfig: {
+                path: 'email',
+                title: 'What\'s your email address?',
+                subTitle: 'We\'ll use this to get back to you.',
+                placeholder: 'email@example.com',
+                isRequired: true,
+              },
+            }),
+            await factory.create({
+              templateId: 'inputTextLong',
+              userConfig: {
+                path: 'message',
+                title: 'How can we help you?',
+                subTitle: 'Please provide details about your inquiry.',
+                placeholder: 'Type your message here...',
+                isRequired: true,
+              },
+            }),
+            await factory.create({
+              templateId: 'formEnd',
+              userConfig: {
+                title: 'Thank you!',
+                subTitle: 'We\'ve received your message and will get back to you soon.',
               },
             }),
           ],

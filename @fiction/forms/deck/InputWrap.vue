@@ -18,9 +18,7 @@ const props = defineProps({
 })
 
 const uc = vue.computed(() => props.card.userConfig.value)
-const inputComponent = vue.computed(() => {
-  return uc.value.inputType ? inputs[uc.value.inputType] : inputs.InputText
-})
+const inputComponent = vue.computed(() => uc.value.inputType ? inputs[uc.value.inputType] : undefined)
 
 const inputEl = vue.ref<HTMLElement>()
 const submitEl = vue.ref<HTMLElement>()
@@ -39,9 +37,7 @@ const layout = vue.computed<CardLayoutMode>(() => {
 })
 
 const alignment = vue.computed<CardAlignmentMode | undefined>(() => {
-  const conf = props.card.userConfig.value.alignment as
-    | CardAlignmentMode
-    | undefined
+  const conf = props.card.userConfig.value.alignment
 
   return conf || 'left'
 })
@@ -67,6 +63,13 @@ const contentClasses = vue.computed(() => {
     out.push('col-start-1')
   else
     out.push(' ')
+
+  if (alignment.value === 'center')
+    out.push('text-center')
+  else if (alignment.value === 'right')
+    out.push('text-right')
+  else
+    out.push('text-left')
 
   return out
 })
@@ -103,10 +106,18 @@ const classes = vue.computed(() => {
 
   return out
 })
+
+// if is last card, default to 'submit', else 'next'
+const buttonText = vue.computed(() => {
+  if (props.form.isLastCard.value)
+    return
+
+  return uc.value.buttonText || (props.form.isSubmitCard.value ? 'Submit' : 'Next')
+})
 </script>
 
 <template>
-  <div class="grid-flow-dense" :class="classes">
+  <div class="grid-flow-dense @container" :class="classes">
     <div v-if="layout !== 'hero'" :class="mediaClasses">
       <ElImage
         class="absolute"
@@ -122,80 +133,79 @@ const classes = vue.computed(() => {
       :class="contentClasses"
     >
       <transition :name="form?.slideTransition.value" mode="out-in">
-        <div
+        <ElForm
           :id="form.activeCard.value?.cardId"
           :key="form.activeCard.value?.cardId"
           class="no-scrollbar overflow-y-auto"
+          @submit="form.nextCard()"
         >
-          <div class="mx-auto w-full max-w-4xl px-[4em] py-12 lg:py-[15vh]">
-            <div
-              class="header-font relative"
-              :data-card-id="card.cardId"
-            >
-              <ElForm @submit="form.nextCard()">
-                <div class="relative">
-                  <div class="text-input-size grow">
-                    <CardText
-                      class="text-3xl x-font-title font-medium"
-                      tag="h2"
-                      :card
-                      path="title"
-                      placeholder="Your question here..."
-                    />
-                    <CardText
-                      class="text-theme-500 mt-2 text-lg font-sans"
-                      tag="p"
-                      :card
-                      path="subTitle"
-                      placeholder="Description (optional)"
-                    />
-                  </div>
-                  <div class="absolute right-0 top-0">
-                    <span
-                      v-if="card.userConfig.value.isRequired"
-                      className="inline-flex items-center rounded-full px-2.5 py-0.5 text-base font-medium text-theme-400"
-                    >
-                      <div class="i-carbon-asterisk" />
-                    </span>
-                  </div>
-                </div>
-
-                <div v-if="layout === 'hero' && media" class="hero my-10">
-                  <ElImage
-                    image-class="max-h-[40vh]"
-                    :media
-                    fit="inline"
+          <div class="mx-auto w-full h-full max-w-4xl px-8 @md:px-[4em] py-12 @lg:py-[15vh]">
+            <div class="relative" :data-card-id="card.cardId">
+              <div class="relative">
+                <div class="text-input-size grow">
+                  <CardText
+                    class="text-3xl x-font-title font-medium"
+                    tag="h2"
+                    :card
+                    path="title"
+                    placeholder="Your question here..."
+                  />
+                  <CardText
+                    class="text-theme-500 mt-2 text-lg font-sans"
+                    tag="p"
+                    :card
+                    path="subTitle"
+                    placeholder="Description (optional)"
                   />
                 </div>
-
-                <div
-                  v-if="inputComponent.el"
-                  ref="inputEl"
-                  class="relative mt-8 mb-4"
-                >
-                  <component
-                    :is="inputComponent.el"
-                    :card
-                    :form
-                    v-bind="{ uiSize: '2xl', uc }"
-                  />
-                </div>
-                <div class="mt-8">
-                  <CardButton
-                    :card
-                    class="submit-button"
-                    theme="primary"
-                    type="submit"
-                    size="2xl"
-                    rounding="full"
+                <div class="absolute right-0 top-0">
+                  <span
+                    v-if="card.userConfig.value.isRequired"
+                    className="inline-flex items-center rounded-full px-2.5 py-0.5 text-base font-medium text-theme-400"
                   >
-                    {{ uc.buttonText || 'Submit' }}
-                  </CardButton>
+                    <div class="i-carbon-asterisk" />
+                  </span>
                 </div>
-              </ElForm>
+              </div>
+
+              <div v-if="layout === 'hero' && media" class="hero my-10">
+                <ElImage
+                  image-class="max-h-[40vh]"
+                  :media
+                  fit="inline"
+                />
+              </div>
+
+              <div
+                v-if="inputComponent?.el"
+                ref="inputEl"
+                class="relative mt-8 mb-4"
+              >
+                <component
+                  :is="inputComponent.el"
+                  :card
+                  :form
+                  v-bind="{ uiSize: '2xl', uc }"
+                  :model-value="form.getFormValue({ path: uc.path })"
+                  @update:model-value="form.setFormValue({ path: uc.path, value: $event })"
+                />
+              </div>
+              <div v-if="buttonText" class="mt-8">
+                <CardButton
+                  :card
+                  class="submit-button"
+                  theme="primary"
+                  design="solid"
+                  type="submit"
+                  size="2xl"
+                  rounding="full"
+                >
+                  {{ buttonText }}
+                </CardButton>
+              </div>
             </div>
           </div>
-        </div>
+        </ElForm>
       </transition>
     </div>
   </div>

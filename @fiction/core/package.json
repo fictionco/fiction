@@ -13,8 +13,8 @@
     }
   ],
   "dependencies": {
-    "@aws-sdk/client-cloudfront": "^3.622.0",
-    "@aws-sdk/client-s3": "^3.622.0",
+    "@aws-sdk/client-cloudfront": "^3.623.0",
+    "@aws-sdk/client-s3": "^3.623.0",
     "@egoist/tailwindcss-icons": "^1.8.1",
     "@faker-js/faker": "^8.4.1",
     "@iconify-json/carbon": "^1.1.36",
@@ -37,7 +37,7 @@
     "@vue-email/compiler": "^0.8.14",
     "@vue/compiler-sfc": "^3.4.35",
     "@vue/server-renderer": "^3.4.35",
-    "autoprefixer": "^10.4.19",
+    "autoprefixer": "^10.4.20",
     "axios": "^1.7.3",
     "bcrypt": "^5.1.1",
     "blurhash": "^2.0.5",
@@ -176,7 +176,7 @@
     "ngrok": "5.0.0-beta.2",
     "playwright": "^1.45.3",
     "react-dom": "^18.3.1",
-    "rollup": "^4.19.2",
+    "rollup": "^4.20.0",
     "rollup-plugin-visualizer": "^5.12.0",
     "util": "^0.12.5",
     "websocket-polyfill": "^1.0.0"

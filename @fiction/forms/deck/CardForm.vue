@@ -69,7 +69,7 @@ const activeCard = vue.computed(() => {
       <div
         v-else
         key="another"
-        class="relative z-20"
+        class="relative z-20 h-full w-full overflow-scroll"
       >
         <transition :name="form?.slideTransition.value" mode="out-in">
           <component
