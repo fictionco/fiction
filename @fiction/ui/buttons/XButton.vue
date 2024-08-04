@@ -47,18 +47,18 @@ const hasContent = vue.computed(() => !!slots?.default?.())
 const iconAdjust = vue.computed(() => {
   const size = props.size || 'md'
   const sizeAdjustments: Record<StandardSize, { mt: string, mxBefore: string, mxAfter: string }> = {
-    'xxs': { mt: ' ', mxBefore: '-ml-[1px] mr-[1px]', mxAfter: '-mr-[1px] ml-[1px]' },
-    'xs': { mt: ' ', mxBefore: '-ml-[1px] mr-[1px]', mxAfter: '-mr-[1px] ml-[1px]' },
-    'sm': { mt: ' ', mxBefore: '-ml-[1px] mr-[1px]', mxAfter: '-mr-[1px] ml-[1px]' },
-    'md': { mt: ' ', mxBefore: '-ml-[1px] mr-[1px]', mxAfter: '-mr-[1px] ml-[1px]' },
-    'lg': { mt: ' ', mxBefore: '-ml-1.5 mr-1.5', mxAfter: '-mr-1 ml-1' },
-    'xl': { mt: ' ', mxBefore: '-ml-1.5 mr-1.5', mxAfter: '-mr-1.5 ml-1.5' },
+    'xxs': { mt: '', mxBefore: '-ml-[1px] mr-[1px]', mxAfter: '-mr-[1px] ml-[1px]' },
+    'xs': { mt: '', mxBefore: '-ml-[1px] mr-[1px]', mxAfter: '-mr-[1px] ml-[1px]' },
+    'sm': { mt: '', mxBefore: '-ml-[1px] mr-[1px]', mxAfter: '-mr-[1px] ml-[1px]' },
+    'md': { mt: '', mxBefore: '-ml-[1px] mr-[1px]', mxAfter: '-mr-[1px] ml-[1px]' },
+    'lg': { mt: '', mxBefore: '-ml-1.5 mr-1.5', mxAfter: '-mr-1 ml-1' },
+    'xl': { mt: '', mxBefore: '-ml-1.5 mr-1.5', mxAfter: '-mr-1.5 ml-1.5' },
     '2xl': { mt: '', mxBefore: '-ml-2 mr-2', mxAfter: '-mr-2 ml-2' },
   }
 
   const { mt, mxBefore, mxAfter } = sizeAdjustments[size]
 
-  return { before: hasContent ? mxBefore : 'mx-[-2px]', after: hasContent ? mxAfter : 'mx-[-2px]', both: `group-hover/button:opacity-50 transition-opacity text-[1.2em] ${mt}` }
+  return { before: hasContent ? mxBefore : 'mx-[-2px]', after: hasContent ? mxAfter : 'mx-[-2px]', both: `text-[1.2em] ${mt}` }
 })
 const hasAnimation = vue.computed(() => !['none', 'basic', ''].includes(props.hover || '') && !props.disabled)
 

@@ -96,7 +96,7 @@ export class CardFactory<U extends readonly CardTemplate[]> extends FictionObjec
       throw new Error(`createCard: Template not found: "${templateId}"`)
     }
 
-    const createdCard = await template.toCard({ ...args, site: this.settings.site, userConfig, baseConfig })
+    const createdCard = await template.toCard({ ...args, inlineTemplate, site: this.settings.site, userConfig, baseConfig })
 
     return createdCard.toConfig() as TableCardConfig
   }

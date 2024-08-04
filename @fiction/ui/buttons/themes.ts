@@ -7,29 +7,55 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
     outline: { },
     textOnly: { },
   },
+  default: {
+    solid: {
+      base: 'bg-theme-0 dark:bg-theme-700/40 text-theme-600 dark:text-theme-50',
+      border: 'border-theme-200 dark:border-theme-600',
+      hover: 'hover:border-theme-300 dark:hover:border-theme-500',
+      icon: 'text-theme-600 dark:text-theme-50',
+    },
+    ghost: {
+      base: 'bg-theme-100 dark:bg-theme-600/30 text-theme-700 dark:text-theme-50',
+      border: 'border-theme-100 dark:border-theme-800/20',
+      hover: 'hover:bg-theme-200 dark:hover:bg-theme-600/50',
+      icon: 'text-theme-500 dark:text-theme-500',
+    },
+    outline: {
+      base: 'bg-transparent text-theme-700 dark:text-theme-50',
+      border: 'border-theme-500 dark:border-theme-600',
+      hover: 'hover:opacity-70',
+      icon: 'text-theme-700 dark:text-theme-400',
+    },
+    textOnly: {
+      base: 'bg-transparent text-theme-600 dark:text-theme-50',
+      border: 'border-transparent',
+      hover: 'hover:opacity-70',
+      icon: 'text-theme-600 dark:text-theme-400',
+    },
+  },
   overlay: {
     solid: {
-      base: 'bg-white/10 text-white',
-      border: 'border-white',
-      hover: 'hover:bg-white/20 ',
+      base: 'bg-white/20 text-white',
+      border: 'border-white/50',
+      hover: 'hover:bg-white/30 ',
       icon: 'text-white',
     },
     ghost: {
-      base: 'bg-white/10 text-white-900 ',
+      base: 'bg-white/20 text-white',
       border: 'border-white/40',
       hover: 'hover:bg-white/40',
       icon: 'text-white-900/80 ',
     },
     outline: {
-      base: 'bg-white/10 text-white',
+      base: 'bg-white/20 text-white',
       border: 'border-white',
-      hover: 'hover:border-white/80',
+      hover: 'hover:border-white/80 bg-white/30',
       icon: 'text-white',
     },
     textOnly: {
       base: 'bg-transparent text-white',
       border: 'border-transparent',
-      hover: 'hover:text-white/70',
+      hover: 'hover:opacity-70',
       icon: 'text-white',
     },
   },
@@ -48,14 +74,14 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
     },
     outline: {
       base: 'bg-transparent text-primary-700 dark:text-primary-50',
-      border: 'border-primary-500 dark:border-primary-600',
+      border: 'border-primary-500 dark:border-primary-500',
       hover: 'hover:bg-primary-500/10 dark:hover:bg-primary-400/10',
       icon: 'text-primary-700 dark:text-primary-0',
     },
     textOnly: {
       base: 'bg-transparent text-primary-600 dark:text-primary-400',
       border: 'border-transparent',
-      hover: 'hover:text-primary-700 dark:hover:text-primary-300',
+      hover: 'hover:opacity-70',
       icon: 'text-primary-600 dark:text-primary-400',
     },
   },
@@ -81,36 +107,11 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
     textOnly: {
       base: 'bg-transparent text-theme-600 dark:text-theme-400',
       border: 'border-transparent',
-      hover: 'hover:text-theme-700 dark:hover:text-theme-300',
+      hover: 'hover:opacity-70',
       icon: 'text-theme-600 dark:text-theme-400',
     },
   },
-  default: {
-    solid: {
-      base: 'bg-theme-500 dark:bg-theme-700/40 text-theme-50 dark:text-theme-50',
-      border: 'border-theme-500 dark:border-theme-600',
-      hover: 'hover:bg-theme-600 dark:hover:bg-theme-700/80',
-      icon: 'text-theme-50 dark:text-theme-50',
-    },
-    ghost: {
-      base: 'bg-theme-100 dark:bg-theme-600/30 text-theme-700 dark:text-theme-50',
-      border: 'border-theme-100 dark:border-theme-800/20',
-      hover: 'hover:bg-theme-200 dark:hover:bg-theme-600/50',
-      icon: 'text-theme-500 dark:text-theme-500',
-    },
-    outline: {
-      base: 'bg-transparent text-theme-700 dark:text-theme-50',
-      border: 'border-theme-500 dark:border-theme-600',
-      hover: 'hover:bg-theme-500/10 dark:hover:bg-theme-400/10',
-      icon: 'text-theme-700 dark:text-theme-400',
-    },
-    textOnly: {
-      base: 'bg-transparent text-theme-600 dark:text-theme-400',
-      border: 'border-transparent',
-      hover: 'hover:text-theme-700 dark:hover:text-theme-300',
-      icon: 'text-theme-600 dark:text-theme-400',
-    },
-  },
+
   green: {
     solid: {
       base: 'bg-green-600 dark:bg-green-700/70 text-green-50 dark:text-green-50',
@@ -133,7 +134,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
     textOnly: {
       base: 'bg-transparent text-green-600 dark:text-green-400',
       border: 'border-transparent',
-      hover: 'hover:text-green-700 dark:hover:text-green-300',
+      hover: 'hover:opacity-70',
       icon: 'text-green-600 dark:text-green-400',
     },
   },
@@ -159,7 +160,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
     textOnly: {
       base: 'bg-transparent text-orange-600 dark:text-orange-400',
       border: 'border-transparent',
-      hover: 'hover:text-orange-700 dark:hover:text-orange-300',
+      hover: 'hover:opacity-70',
       icon: 'text-orange-600 dark:text-orange-400',
     },
   },
@@ -185,7 +186,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
     textOnly: {
       base: 'bg-transparent text-rose-600 dark:text-rose-400',
       border: 'border-transparent',
-      hover: 'hover:text-rose-700 dark:hover:text-rose-300',
+      hover: 'hover:opacity-70',
       icon: 'text-rose-600 dark:text-rose-400',
     },
   },
@@ -237,7 +238,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
     textOnly: {
       base: 'bg-transparent text-sky-600 dark:text-sky-400',
       border: 'border-transparent',
-      hover: 'hover:text-sky-700 dark:hover:text-sky-300',
+      hover: 'hover:opacity-70',
       icon: 'text-sky-600 dark:text-sky-400',
     },
   },
@@ -263,7 +264,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
     textOnly: {
       base: 'bg-transparent text-teal-600 dark:text-teal-400',
       border: 'border-transparent',
-      hover: 'hover:text-teal-700 dark:hover:text-teal-300',
+      hover: 'hover:opacity-70',
       icon: 'text-teal-600 dark:text-teal-400',
     },
   },
@@ -289,7 +290,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
     textOnly: {
       base: 'bg-transparent text-blue-600 dark:text-blue-400',
       border: 'border-transparent',
-      hover: 'hover:text-blue-700 dark:hover:text-blue-300',
+      hover: 'hover:opacity-70',
       icon: 'text-blue-600 dark:text-blue-400',
     },
   },
@@ -315,7 +316,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
     textOnly: {
       base: 'bg-transparent text-purple-600 dark:text-purple-400',
       border: 'border-transparent',
-      hover: 'hover:text-purple-700 dark:hover:text-purple-300',
+      hover: 'hover:opacity-70',
       icon: 'text-purple-600 dark:text-purple-400',
     },
   },
@@ -341,7 +342,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
     textOnly: {
       base: 'bg-transparent text-yellow-600 dark:text-yellow-400',
       border: 'border-transparent',
-      hover: 'hover:text-yellow-700 dark:hover:text-yellow-300',
+      hover: 'hover:opacity-70',
       icon: 'text-yellow-600 dark:text-yellow-400',
     },
   },

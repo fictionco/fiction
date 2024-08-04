@@ -14,14 +14,7 @@ export function page() {
     templateId: 'wrap',
     slug: 'affiliate',
     cards: [
-      createCard({
-        templates,
-        templateId: 'area',
-        cards: [
-          homeCard,
-        ],
-      }),
-
+      createCard({ templates, templateId: 'area', cards: [homeCard] }),
     ],
   })
 }

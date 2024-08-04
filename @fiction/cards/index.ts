@@ -94,9 +94,27 @@ export async function getCardTemplates() {
 export async function getDemoPages(args: { site: Site, templates: CardTemplate[] | readonly CardTemplate[], fictionEnv?: FictionEnv }) {
   const { templates, site } = args
 
-  const promises = templates.filter(t => t.settings.demoPage).map(async (t) => {
+  const buttonsTemplate = new CardTemplate({
+    templateId: 'xbutton',
+    title: 'Buttons',
+    description: 'Standard button styles',
+    icon: 'i-tabler-square-rounded-chevron-right-filled',
+    category: ['basic'],
+    el: vue.defineAsyncComponent(async () => import('@fiction/ui/buttons/test/TestButtonsAll.vue')),
+    schema: z.object({}),
+    isPublic: false,
+    demoPage: async () => {
+      return {
+        cards: [{ templateId: 'xbutton' }],
+      }
+    },
+  })
+
+  const tpls = [buttonsTemplate, ...templates]
+
+  const promises = tpls.filter(t => t.settings.demoPage).map(async (t) => {
     const card = await t.settings.demoPage?.(args) as CardConfigPortable
-    const pg = await createDemoPage({ site, templateId: t.settings.templateId, template: t, card })
+    const pg = await createDemoPage({ site, template: t, card })
 
     return pg
   })

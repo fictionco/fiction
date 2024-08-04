@@ -23,8 +23,8 @@ const overlayBg = vue.computed(() => {
 </script>
 
 <template>
-  <div id="test-buttons" class="wrap bg-theme-0 dark:bg-theme-950 text-theme-800 dark:text-theme-0 min-h-[100dvh] relative pb-36">
-    <div class="mb-4 sticky top-0 p-4 bg-theme-0 dark:bg-theme-900 z-10">
+  <div id="test-buttons" class="wrap min-h-[100dvh] relative pb-36">
+    <div class="mb-4 sticky top-0 p-4 bg-theme-0 dark:bg-theme-900 z-10 border-b border-theme-200 dark:border-theme-700">
       <div class="max-w-screen-2xl mx-auto flex gap-4">
         <XButton @click="toggleDarkMode">
           Toggle Dark Mode
@@ -40,21 +40,21 @@ const overlayBg = vue.computed(() => {
 
     <div class=" max-w-screen-2xl mx-auto relative space-y-12">
       <div v-for="theme in colorThemeUser" :key="theme" class="p-4" :style="theme === 'overlay' ? overlayBg : {}">
-        <h2 class="text-4xl text-center font-bold mt-24 mb-4">
+        <h2 class="text-4xl text-center font-medium mt-24 mb-4 x-font-title">
           Theme: {{ theme }}
         </h2>
         <div class="space-y-8">
           <div v-for="design in designs" :key="design" class="border border-theme-200/70 dark:border-theme-600/70 rounded-md p-4">
-            <h3 class="text-xl font-semibold mb-4">
+            <h3 class="text-xl font-semibold x-font-title mb-4">
               Design: {{ design }}
             </h3>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div v-for="rounding in roundings" :key="rounding" class="space-y-4">
-                <h4 class="font-medium">
+                <h4 class="font-medium x-font-title">
                   Rounding: {{ rounding }}
                 </h4>
                 <div v-for="size in sizes" :key="size" class="flex items-center space-x-2">
-                  <span class="w-16 text-sm">{{ size }}:</span>
+                  <span class="w-16 text-sm font-sans">{{ size }}:</span>
                   <XButton
                     :theme
                     :design

@@ -28,7 +28,6 @@ interface CardTemplateSettings<
   root?: string
   templateId: U
   el: T
-
   isPublic?: boolean
   isEffect?: boolean
   isPageCard?: boolean // full page wrap

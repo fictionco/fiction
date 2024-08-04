@@ -29,7 +29,7 @@ export class CardGeneration extends FictionObject<CardGenerationSettings> {
   tpl = vue.computed(() => this.card.tpl.value)
   site = this.card.site
   jsonSchema = vue.computed(() => {
-    if (!this.tpl.value?.settings.schema)
+    if (!this.tpl.value?.settings?.schema)
       return undefined
 
     const schema = this.tpl.value.settings.schema

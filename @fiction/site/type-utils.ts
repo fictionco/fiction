@@ -5,7 +5,7 @@ import type { Card } from './card.js'
 
 // this constructor that vue doesn't export (but uses)
 export interface ComponentConstructor {
-  new (...args: any[]): vue.ComponentPublicInstance<{ card?: Card }>
+  new (...args: any[]): vue.ComponentPublicInstance<Record<string, any>>
 }
 
 export type ComponentCardUserConfig<T extends ComponentConstructor = ComponentConstructor> = InstanceType<T> extends { $props: { card: { userConfig: { value: infer V } } } } ? V : undefined
