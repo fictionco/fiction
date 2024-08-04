@@ -99,7 +99,7 @@ export async function createTestServer(params: {
   // randomize the ports on commands
   commands = commands.map((command) => {
     if (command.port.value)
-      command.port.value = randomBetween(1000, 30000)
+      command.port.value = randomBetween(2000, 30000)
 
     return command
   })
@@ -277,7 +277,7 @@ export async function performActions(args: {
 function getModifiedCommands(commands: CliCommand[]) {
   const modifiedCommands = commands.map((command) => {
     if (command.port.value)
-      command.port.value = randomBetween(1000, 30000)
+      command.port.value = randomBetween(2000, 30000)
 
     return command
   })

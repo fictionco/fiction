@@ -154,7 +154,7 @@ export function getTestPortVar(args: {
     port = +fictionEnv.var(key)
   }
   else {
-    port = port || randomBetween(1_000, 31_000)
+    port = port || randomBetween(2_000, 31_000)
     crossVar.set(key as keyof RunVars, String(port))
   }
 
@@ -165,7 +165,6 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
   const {
     context,
     cwd = safeDirname(import.meta.url),
-
     rootComponent = ElRoot,
     version = fictionVersion,
     checkEnvVars = [],

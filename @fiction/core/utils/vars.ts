@@ -126,7 +126,7 @@ export function setupTestPorts<T extends readonly string[]>(args: { opts: Record
       val = +(crossVar.get(envVar) || '')
     }
     else {
-      val = val || randomBetween(1_000, 50_000)
+      val = val || randomBetween(2_000, 50_000)
       crossVar.setVar(envVar, String(val))
     }
 
