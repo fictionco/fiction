@@ -81,9 +81,9 @@ const fontFamily = vue.computed(() => {
 
 const previewFontSize = vue.computed(() => {
   const sizes = {
-    'xxs': 'text-xs',
-    'xs': 'text-sm',
-    'sm': 'text-base',
+    'xxs': 'text-xs p-2',
+    'xs': 'text-sm p-2',
+    'sm': 'text-base p-2',
     'md': 'text-lg py-2 px-8',
     'lg': 'text-xl py-2.5 px-8',
     'xl': 'text-2xl py-3 px-8',

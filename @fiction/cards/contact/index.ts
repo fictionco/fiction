@@ -38,13 +38,14 @@ const defaultContent: UserConfig = {
   subTitle: `Send me a message and I'll respond within 24 hours.`,
   items: [
     {
-      title: 'Chat with Me',
+      title: 'Chat / Email',
       items: [
         { title: 'Send me an email', content: 'test@example.com', href: 'mailto:test@example.com', icon: 'i-tabler-mail' },
+        { title: 'Discord Community', content: 'Join', href: '#', icon: 'i-tabler-brand-discord' },
       ],
     },
     {
-      title: 'Call Me',
+      title: 'Phone',
       items: [
         { title: '+1(888) 888-8888', content: '', href: '#', icon: 'i-tabler-phone' },
       ],

@@ -49,21 +49,20 @@ vue.onMounted(() => {
               <CardText
                 tag="h3"
                 :card
-                class="sub-heading dark:text-theme-200 x-font-title text-lg font-medium mb-4"
+                class="sub-heading text-theme-400 dark:text-theme-500 x-font-title text-lg font-medium mb-4"
                 :path="`items.${i}.title`"
                 placeholder="List Title"
               />
               <div class="flex gap-[10%] gap-y-4 flex-wrap  text-base  ">
-                <div v-for="(subItem, ii) in item.items" :key="ii" class="flex gap-4 items-center text-primary-500 dark:text-primary-400">
+                <a v-for="(subItem, ii) in item.items" :key="ii" :href="subItem.href" class="flex gap-4 items-center hover:text-primary-500 dark:hover:text-primary-400">
                   <div class="text-3xl" :class="subItem.icon" />
                   <CardText
                     :card
-                    tag="a"
-                    class="text-base "
+                    tag="span"
+                    class="text-base font-sans"
                     :path="`items.${i}.items.${ii}.title`"
-                    :href="subItem.href"
                   />
-                </div>
+                </a>
               </div>
             </div>
 

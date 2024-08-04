@@ -56,7 +56,7 @@ async function loadRevealText() {
 }
 
 vue.onMounted(async () => {
-  await waitFor(50)
+  await waitFor(200)
   await loadRevealText()
 })
 </script>
