@@ -11,8 +11,9 @@ export async function createDemoPage(args: { site: Site, template: CardTemplate,
 
   const factory = new CardFactory({ templates, site })
 
+  // replace the template with the inline template to allow for templates not in main list
   const crds = cards.map((c) => {
-    return { inlineTemplate: template, ...c }
+    return (c.templateId === template.settings.templateId) ? { inlineTemplate: template, ...c } : c
   })
 
   const pg = await factory.create({
