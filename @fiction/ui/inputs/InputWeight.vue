@@ -1,10 +1,13 @@
 <script lang="ts" setup>
+import type { StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
+import { twMerge } from 'tailwind-merge'
 
 const props = defineProps({
   min: { type: [String, Number], default: '1' },
   max: { type: [String, Number], default: '10' },
   modelValue: { type: [String, Number], default: '' },
+  uiSize: { type: String as vue.PropType<StandardSize>, default: 'md' },
 })
 
 const emit = defineEmits<{
@@ -20,46 +23,71 @@ const range = vue.computed(() => {
 
   return out
 })
+
+function getClasses(uiSize: StandardSize) {
+  const baseClasses = {
+    container: 'relative z-0 inline-flex rounded-md shadow-sm',
+    button: [
+      'relative',
+      'inline-flex',
+      'items-center',
+      'border',
+      'focus:z-10',
+      'focus:outline-none',
+      'focus:border-primary',
+    ],
+    buttonActive: 'bg-primary-400 dark:bg-primary-600 border-primary-600 dark:border-primary-500 text-theme-0 z-20',
+    buttonInactive: 'bg-theme-100 dark:bg-theme-800 text-theme-700 dark:text-theme-100 border-theme-300 dark:border-theme-600 hover:bg-theme-200 dark:hover:bg-theme-600 hover:border-theme-400 hover:z-20',
+  }
+
+  const sizeClasses = {
+    'xxs': { button: 'px-1 py-0.5 text-xs' },
+    'xs': { button: 'px-1.5 py-1 text-sm' },
+    'sm': { button: 'px-2 py-1 text-base' },
+    'md': { button: 'px-2.5 py-1.5 text-lg' },
+    'lg': { button: 'px-3 py-2 text-xl' },
+    'xl': { button: 'px-3.5 py-2.5 text-2xl' },
+    '2xl': { button: 'px-4 py-3 text-3xl' },
+  }
+
+  return {
+    container: baseClasses.container,
+    button: twMerge(baseClasses.button, sizeClasses[uiSize].button),
+    buttonActive: baseClasses.buttonActive,
+    buttonInactive: baseClasses.buttonInactive,
+  }
+}
+
+const cls = vue.computed(() => getClasses(props.uiSize))
+
 function buttonClass(v: number, i: number): string {
-  const out: string[] = [
-    'relative',
-    'inline-flex',
-    'items-center',
-    'border',
-    'px-[.6em]',
-    'py-input-y',
-    'text-input-size',
-    'focus:z-10',
-    'focus:outline-none',
-    'focus:border-primary',
-  ]
+  const classes = [cls.value.button]
 
   if (i === 0)
-    out.push('rounded-l-input')
+    classes.push('rounded-l-md')
   else if (i === range.value.length - 1)
-    out.push('rounded-r-input')
+    classes.push('rounded-r-md')
 
   if (i !== 0)
-    out.push('-ml-px')
+    classes.push('-ml-px')
 
   if (props.modelValue === v) {
-    out.push('bg-theme-400 dark:bg-theme-600 border-theme-600 dark:border-theme-500 text-theme-0 z-20')
+    classes.push(cls.value.buttonActive)
   }
   else {
-    out.push(
-      'bg-theme-100 dark:bg-theme-800 text-theme-700 dark:text-theme-100 border-theme-300 dark:border-theme-600 hover:bg-theme-200 dark:hover:bg-theme-600 hover:border-theme-400 hover:z-20',
-    )
+    classes.push(cls.value.buttonInactive)
   }
 
-  return out.join(' ')
+  return twMerge(classes)
 }
+
 function select(v: number): void {
   emit('update:modelValue', v)
 }
 </script>
 
 <template>
-  <span class="relative z-0 inline-flex rounded-md shadow-sm">
+  <span :class="cls.container">
     <button
       v-for="(r, i) in range"
       :key="i"

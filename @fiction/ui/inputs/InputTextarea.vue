@@ -1,11 +1,12 @@
 <script lang="ts" setup>
-import { onResetUi, vue } from '@fiction/core'
+import { type StandardSize, onResetUi, vue } from '@fiction/core'
 import { textInputClasses } from './theme'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
-  rows: { type: Number, default: 2 },
+  rows: { type: Number, default: undefined },
   inputClass: { type: String, default: '' },
+  uiSize: { type: String as vue.PropType<StandardSize>, default: 'md' },
   maxHeight: { type: Number, default: 500 }, // New prop for max height
 })
 
@@ -29,9 +30,7 @@ function setHeight(): void {
   ta.style.height = `${newHeight}px`
   tw.style.height = 'auto'
 }
-onResetUi(() => {
-  setHeight()
-})
+onResetUi(() => setHeight())
 
 vue.onMounted(() => {
   const ta = textareaElement.value
@@ -66,9 +65,9 @@ export default { inheritAttrs: false }
       v-bind="$attrs"
       ref="textareaElement"
       spellcheck="false"
-      :class="[textInputClasses({ inputClass }), modelValue ? 'set' : 'empty']"
+      :class="[textInputClasses({ inputClass, uiSize }), modelValue ? 'set' : 'empty']"
       :value="modelValue"
-      :rows="rows"
+      :rows="rows || 3"
       @input="send($event.target)"
     />
   </div>

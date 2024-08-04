@@ -1,17 +1,15 @@
 <script lang="ts" setup>
-import type { ListItem } from '@fiction/core'
+import type { ListItem, StandardSize } from '@fiction/core'
 import { normalizeList, vue } from '@fiction/core'
 import { textInputClasses } from './theme'
 
 const props = defineProps({
   defaultValue: { type: [Number, String, Boolean], default: '' },
   modelValue: { type: [Number, String, Boolean], default: '' },
-  list: {
-    type: Array as vue.PropType<(ListItem | 'divider' | string)[]>,
-    default: () => [],
-  },
+  list: { type: Array as vue.PropType<(ListItem | 'divider' | string)[]>, default: () => [] },
   suffix: { type: String, default: '' },
   inputClass: { type: String, default: '' },
+  uiSize: { type: String as vue.PropType<StandardSize>, default: 'md' },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -33,7 +31,8 @@ const parsedList = vue.computed<ListItem[]>(() => {
   <div>
     <select
       :value="modelValue"
-      :class="textInputClasses({ inputClass })"
+      :class="textInputClasses({ inputClass, uiSize })"
+      :data-size="uiSize"
       @input="emit('update:modelValue', ($event.target as HTMLSelectElement).value)"
     >
       <option disabled value>

@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
 
 const props = defineProps({
@@ -7,6 +8,7 @@ const props = defineProps({
   prefix: { type: [String, Number], default: '' },
   selected: { type: Boolean, default: false },
   notSelected: { type: Boolean, default: false },
+  uiSize: { type: String as vue.PropType<StandardSize>, default: 'md' },
 })
 const animateSelected = vue.ref()
 
@@ -21,19 +23,83 @@ vue.watch(
     }
   },
 )
+
+function getClasses(uiSize: StandardSize) {
+  const baseClasses = {
+    container: 'text-theme-400 hover:text-theme-500 grow cursor-pointer select-none',
+    iconContainer: 'hover:bg-theme-200 hover:border-theme-400 flex items-center justify-center rounded-md border p-1 aspect-square',
+    icon: '',
+    label: 'font-bold',
+    labelContainer: 'mt-1 text-center',
+  }
+
+  const sizeClasses = {
+    'xxs': { container: '', iconContainer: '', icon: '', label: '', labelContainer: '' },
+    'xs': {
+      container: 'max-w-[2.5em] text-xs',
+      iconContainer: '',
+      icon: 'text-[1.2em]',
+      label: 'text-[0.9em]',
+      labelContainer: 'text-[0.7em]',
+    },
+    'sm': {
+      container: 'max-w-[3em] text-sm',
+      iconContainer: '',
+      icon: 'text-[1.5em]',
+      label: 'text-[1.1em]',
+      labelContainer: 'text-[0.8em]',
+    },
+    'md': {
+      container: 'max-w-[4em] text-base',
+      iconContainer: '',
+      icon: 'text-[1.8em]',
+      label: 'text-[1.3em]',
+      labelContainer: 'text-[0.9em]',
+    },
+    'lg': {
+      container: 'max-w-[4.5em] text-lg',
+      iconContainer: '',
+      icon: 'text-[2.1em]',
+      label: 'text-[1.5em]',
+      labelContainer: 'text-[1em]',
+    },
+    'xl': {
+      container: 'max-w-[5em] text-xl',
+      iconContainer: '',
+      icon: 'text-[2.4em]',
+      label: 'text-[1.7em]',
+      labelContainer: 'text-[1.1em]',
+    },
+    '2xl': {
+      container: 'max-w-[5.5em] text-2xl',
+      iconContainer: '',
+      icon: 'text-[2.7em]',
+      label: 'text-[1.9em]',
+      labelContainer: 'text-[1.2em]',
+    },
+  }
+
+  return {
+    container: `${baseClasses.container} ${sizeClasses[uiSize].container}`,
+    iconContainer: `${baseClasses.iconContainer} ${sizeClasses[uiSize].iconContainer}`,
+    icon: `${baseClasses.icon} ${sizeClasses[uiSize].icon}`,
+    label: `${baseClasses.label} ${sizeClasses[uiSize].label}`,
+    labelContainer: `${baseClasses.labelContainer} ${sizeClasses[uiSize].labelContainer}`,
+    selected: 'dark:border-primary-500 border-primary-400 bg-primary-200 dark:bg-primary-700 text-primary-600 dark:text-primary-0',
+    notSelected: 'dark:border-theme-600 border-theme-300 bg-theme-100 dark:bg-theme-800 text-theme-500 dark:text-theme-300',
+  }
+}
+
+const cls = vue.computed(() => getClasses(props.uiSize))
 </script>
 
 <template>
-  <div
-    class="text-theme-400 hover:text-theme-500 text-input-size max-w-[5em] grow cursor-pointer select-none"
-  >
+  <div :class="cls.container">
     <div
-      class="hover:bg-theme-200 hover:border-theme-400 flex aspect-square items-center justify-center rounded-md border p-1"
       :class="[
+        cls.iconContainer,
         animateSelected ? 'notify-selected' : '',
-        selected
-          ? 'dark:border-theme-500 border-theme-400 bg-theme-200 dark:bg-theme-700 text-theme-600 dark:text-theme-0'
-          : 'dark:border-theme-600 border-theme-300 bg-theme-100 dark:bg-theme-800 text-theme-500 dark:text-theme-300',
+        selected ? cls.selected : cls.notSelected,
         notSelected ? 'opacity-60' : '',
       ]"
     >
@@ -43,10 +109,9 @@ vue.watch(
         >
           <div
             v-if="icon"
-            class="text-[1.8em]"
-            :class="icon"
+            :class="[cls.icon, icon]"
           />
-          <div v-else class="text-[1.3em] font-bold">
+          <div v-else :class="cls.label">
             {{ label }}
           </div>
         </div>
@@ -54,8 +119,8 @@ vue.watch(
     </div>
     <div
       v-if="icon"
-      class="mt-1 text-center text-[.9em]"
-      :class="selected ? 'text-theme-500' : ' '"
+      class="font-sans"
+      :class="[cls.labelContainer, selected ? 'text-theme-500' : '']"
     >
       {{ String(label) || "No Label" }}
     </div>
@@ -68,20 +133,10 @@ vue.watch(
 }
 
 @keyframes fadeInOut {
-  0% {
-    opacity: 0;
-  }
-  25% {
-    opacity: 0.2;
-  }
-  50% {
-    opacity: 1;
-  }
-  75% {
-    opacity: 0.2;
-  }
-  100% {
-    opacity: 1;
-  }
+  0% { opacity: 0; }
+  25% { opacity: 0.2; }
+  50% { opacity: 1; }
+  75% { opacity: 0.2; }
+  100% { opacity: 1; }
 }
 </style>

@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
 import { textInputClasses } from './theme'
 
@@ -8,6 +9,7 @@ const props = defineProps({
   max: { type: [String, Number], default: undefined },
   step: { type: [String, Number], default: 1 },
   inputClass: { type: String, default: '' },
+  uiSize: { type: String as vue.PropType<StandardSize>, default: 'md' },
 })
 const emit = defineEmits<{
   (event: 'update:modelValue', payload?: number): void
@@ -36,7 +38,7 @@ async function handleEmit(target: EventTarget | null): Promise<void> {
 
 <template>
   <input
-    :class="textInputClasses({ inputClass })"
+    :class="textInputClasses({ inputClass, uiSize })"
     type="number"
     :value="modelValue"
     :min="min"
@@ -44,4 +46,4 @@ async function handleEmit(target: EventTarget | null): Promise<void> {
     :step="step"
     @input="handleEmit($event.target)"
   >
-</template>
+</template>, type StandardSize

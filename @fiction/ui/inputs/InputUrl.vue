@@ -1,10 +1,12 @@
 <script lang="ts" setup>
+import type { StandardSize, vue } from '@fiction/core'
 import { textInputClasses } from './theme'
 
 defineProps({
   modelValue: { type: [String], default: '' },
   placeholder: { type: [String], default: 'https://' },
   inputClass: { type: String, default: '' },
+  uiSize: { type: String as vue.PropType<StandardSize>, default: 'md' },
 })
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: string): void
@@ -19,7 +21,7 @@ function handleEmit(target: EventTarget | null): void {
 
 <template>
   <input
-    :class="textInputClasses({ inputClass })"
+    :class="textInputClasses({ inputClass, uiSize })"
     type="url"
     :value="modelValue"
     autocomplete="on"

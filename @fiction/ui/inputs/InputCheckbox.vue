@@ -1,11 +1,14 @@
 <script lang="ts" setup>
+import type { StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
 import { twMerge } from 'tailwind-merge'
+import { getCheckboxClasses } from './theme'
 
 const props = defineProps({
   modelValue: { type: Boolean, default: false },
   text: { type: String, default: '' },
   inputClass: { type: String, default: '' },
+  uiSize: { type: String as vue.PropType<StandardSize>, default: 'md' },
 })
 
 const emit = defineEmits<{
@@ -19,26 +22,14 @@ function handleEmit(target: EventTarget | null): void {
   emit('update:modelValue', el.checked)
 }
 
-const classes = [
-  'cursor-pointer',
-  'mr-[.8em]',
-  'h-[1.4em]',
-  'w-[1.4em]',
-  'appearance-none',
-  'rounded-[.25em]',
-  'focus:outline-none',
-  'focus:ring-0',
-  'focus:ring-offset-0',
-  'bg-theme-100 focus:bg-theme-200 hover:bg-primary-500 dark:bg-theme-800',
-  'active:bg-primary-500 selected:bg-primary-500',
-]
-
 function inputClasses() {
   return vue.computed(() => {
     const sel = props.modelValue ? 'bg-primary-500 dark:bg-primary-700' : ''
-    return twMerge(classes, props.inputClass, sel)
+    return twMerge(cls.value.input, props.inputClass, sel)
   })
 }
+
+const cls = vue.computed(() => getCheckboxClasses(props.uiSize))
 </script>
 
 <script lang="ts">
@@ -48,7 +39,7 @@ export default {
 </script>
 
 <template>
-  <label class="flex cursor-pointer items-center">
+  <label :class="cls.label">
     <input
       v-bind="attrs"
       type="checkbox"
@@ -57,7 +48,7 @@ export default {
       @input="handleEmit($event.target)"
     >
 
-    <span v-if=" text" class="checkbox-label text-theme-700 dark:text-theme-50 dark:hover:text-theme-0 hover:text-theme-500 font-sans">
+    <span v-if="text" :class="cls.text">
       {{ text }}
     </span>
   </label>

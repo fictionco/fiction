@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ListItem } from '@fiction/core'
+import type { ListItem, StandardSize } from '@fiction/core'
 import { normalizeList, vue } from '@fiction/core'
 import InputElTab from './InputElTab.vue'
 
@@ -9,6 +9,7 @@ const props = defineProps({
   min: { type: Number, default: undefined },
   max: { type: Number, default: 1 },
   selectLetters: { type: String, default: 'abcdefghijklmnopqrstuvwxyz' },
+  uiSize: { type: String as vue.PropType<StandardSize>, default: 'md' },
 })
 
 const emit = defineEmits<{
@@ -97,7 +98,7 @@ vue.onMounted(() => {
     tabindex="0"
     @keyup="selectByLetter($event)"
   >
-    <InputElTab v-if="parsedList.length === 0" prefix="-" label="No options" />
+    <InputElTab v-if="parsedList.length === 0" prefix="-" label="No options" :ui-size="uiSize" />
     <template v-else>
       <InputElTab
         v-for="(item, i) in parsedList"
@@ -107,6 +108,7 @@ vue.onMounted(() => {
         :not-selected="!isSelected(item) && modelValue.length >= max"
         :prefix="choiceLetter(i)"
         :label="item.name"
+        :ui-size="uiSize"
         @click="selectItem(item.value ?? '')"
       />
 

@@ -109,8 +109,23 @@ export async function getDemoPages(args: { site: Site, templates: CardTemplate[]
       }
     },
   })
+  const inputsTemplate = new CardTemplate({
+    templateId: 'xinput',
+    title: 'Inputs',
+    description: 'Standard input styles',
+    icon: 'i-tabler-input-check',
+    category: ['basic'],
+    el: vue.defineAsyncComponent(async () => import('@fiction/ui/inputs/test/TestInputsAll.vue')),
+    schema: z.object({}),
+    isPublic: false,
+    demoPage: async () => {
+      return {
+        cards: [{ templateId: 'xinput' }],
+      }
+    },
+  })
 
-  const tpls = [buttonsTemplate, ...templates]
+  const tpls = [buttonsTemplate, inputsTemplate, ...templates]
 
   const promises = tpls.filter(t => t.settings.demoPage).map(async (t) => {
     const card = await t.settings.demoPage?.(args) as CardConfigPortable

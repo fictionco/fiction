@@ -9,7 +9,15 @@ const roundings = ButtonRoundingSchema.options
 const sizes = SizeSchema.options
 
 function toggleDarkMode() {
-  document.documentElement.classList.toggle('light')
+  const body = document.body
+  if (body.classList.contains('dark')) {
+    body.classList.remove('dark')
+    body.classList.add('light')
+  }
+  else {
+    body.classList.remove('light')
+    body.classList.add('dark')
+  }
 }
 
 const loading = vue.ref(false)

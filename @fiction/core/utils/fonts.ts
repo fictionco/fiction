@@ -1,5 +1,5 @@
 import { toCamel } from './casing'
-import { fonts } from './lib/fonts'
+import { fonts } from './lib/fontList.js'
 
 export const safeStacks = {
   monospace: `'Nimbus Mono PS', 'Courier New', monospace`,

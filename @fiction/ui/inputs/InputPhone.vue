@@ -28,6 +28,7 @@ function handleEmit(target: EventTarget | null): void {
     type="tel"
     :value="modelValue"
     :autocomplete="attrs.autocomplete || 'tel'"
+    placeholder="+1 (555) 555-5555"
     @input="handleEmit($event.target)"
   >
 </template>

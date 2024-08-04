@@ -1,29 +1,17 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
+import { type StandardSize, vue } from '@fiction/core'
 import InputElBox from './InputElBox.vue'
 
 const props = defineProps({
   modelValue: { type: [Number], default: undefined },
-  countStart: {
-    type: [Number, String],
-    default: 0,
-  },
-  countEnd: {
-    type: [Number, String],
-    default: 5,
-  },
-  icon: {
-    type: String,
-    default: undefined,
-  },
+  countStart: { type: [Number, String], default: 0 },
+  countEnd: { type: [Number, String], default: 5 },
+  icon: { type: String, default: undefined },
   labels: {
-    type: Object as vue.PropType<{
-      low?: string
-      middle?: string
-      high?: string
-    }>,
+    type: Object as vue.PropType<{ low?: string, middle?: string, high?: string }>,
     default: undefined,
   },
+  uiSize: { type: String as vue.PropType<StandardSize>, default: 'md' },
 })
 
 const emit = defineEmits<{
@@ -99,10 +87,11 @@ vue.onMounted(() => {
         :prefix="item"
         :label="item"
         :icon="icon"
+        :ui-size="uiSize"
         @click="selectItem(item)"
       />
     </div>
-    <div v-if="labels" class="text-theme-600 mt-2 grid grid-cols-3 text-xs">
+    <div v-if="labels" class="text-theme-600 mt-2 grid grid-cols-3 text-xs font-sans">
       <div>{{ labels.low }}</div>
       <div class="text-center">
         {{ labels.middle }}

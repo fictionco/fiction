@@ -1,12 +1,12 @@
 <script lang="ts" setup>
+import type { StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
-import type { UiElementSize } from '../utils'
 import { textInputClasses } from './theme'
 
 defineProps({
   modelValue: { type: String, default: '' },
   inputClass: { type: String, default: '' },
-  uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
+  uiSize: { type: String as vue.PropType<StandardSize>, default: 'md' },
 })
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: string): void

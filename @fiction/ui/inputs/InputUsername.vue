@@ -3,7 +3,7 @@ import type { ResponseStatus, ValidationReason } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
 import type { CheckColumnValue } from '@fiction/core/plugin-db/endpoint'
 import type { UiElementSize } from '../utils'
-import { textInputClasses } from './theme'
+import { inputClasses, textInputClasses } from './theme'
 
 const props = defineProps({
   modelValue: { type: [String], default: '' },
@@ -111,31 +111,19 @@ const icon = vue.computed(() => {
   return i[status.value]
 })
 
-const yPadding = vue.computed(() => {
-  const sizeClasses = {
-    'xxs': 'py-0.5',
-    'xs': 'py-1',
-    'sm': 'py-1',
-    'md': 'py-2',
-    'lg': 'py-2.5',
-    'xl': 'py-2.5',
-    '2xl': 'py-3',
-  }
-
-  return sizeClasses[props.uiSize]
-})
+const cls = vue.computed(() => inputClasses({ uiSize: props.uiSize }))
 </script>
 
 <template>
-  <div>
-    <div class="flex items-center space-x-2 " :class="textInputClasses({ inputClass: [inputClass, 'py-0'].join(' '), uiSize })" tabindex="-1">
-      <div v-if="beforeInput" class="opacity-50 py-2">
+  <div :class="[cls.textSize]">
+    <div class="flex items-center space-x-2" :class="[cls.base, cls.border, cls.focus, cls.padX, cls.bg]" tabindex="-1">
+      <div v-if="beforeInput" class="text-theme-400 dark:text-theme-600" :class="cls.padY">
         {{ beforeInput }}
       </div>
       <input
         ref="validEl"
-        class="grow appearance-none border-none bg-transparent focus:outline-none focus:ring-0 focus:border-transparent px-0 leading-[1]"
-        :class="yPadding"
+        class="grow px-0 leading-[1] min-w-0 w-full"
+        :class="[cls.padY, cls.reset]"
         :style="{ fontSize: 'inherit' }"
         type="text"
         :value="modelValue"
@@ -144,12 +132,12 @@ const yPadding = vue.computed(() => {
         :data-is-valid="isValid"
         @input="handleEmit($event.target)"
       >
-      <div v-if="afterInput" class="opacity-50 py-2">
+      <div v-if="afterInput" class="text-theme-400 dark:text-theme-600" :class="cls.padY">
         {{ afterInput }}
       </div>
-      <div class="text-lg" :class="[icon.color, icon.icon]" />
+      <div class="text-[1.2em] shrink-0" :class="[icon.color, icon.icon]" />
     </div>
-    <div v-if="reasonText || reason" class="mt-2 text-[10px] font-sans text-theme-400">
+    <div v-if="reasonText || reason" class="mt-1.5 text-[.7em] font-sans text-theme-400">
       {{ reasonText || reason }}
     </div>
   </div>

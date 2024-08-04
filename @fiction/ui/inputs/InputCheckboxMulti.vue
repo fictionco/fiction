@@ -1,20 +1,22 @@
 <script lang="ts" setup>
-import type { ListItem } from '@fiction/core'
+import type { ListItem, StandardSize } from '@fiction/core'
 import { normalizeList, vue } from '@fiction/core'
 import { twMerge } from 'tailwind-merge'
+import { getCheckboxClasses } from './theme.js'
 
 const props = defineProps({
   modelValue: { type: [Array, String], default: () => [] },
   list: { type: Array as vue.PropType<ListItem[]>, default: () => {} },
   inputClass: { type: String, default: '' },
+  uiSize: { type: String as vue.PropType<StandardSize>, default: 'md' },
 })
+
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: (string | number)[]): void
 }>()
+
 const attrs = vue.useAttrs()
-const li = vue.computed(() => {
-  return normalizeList(props.list ?? [])
-})
+const li = vue.computed(() => normalizeList(props.list ?? []))
 
 const val = vue.computed<(string | number)[]>(() => {
   return typeof props.modelValue === 'string'
@@ -23,12 +25,8 @@ const val = vue.computed<(string | number)[]>(() => {
 })
 
 const selected = vue.computed<(string | number)[]>({
-  get: () => {
-    return val.value ?? []
-  },
-  set: (v) => {
-    emit('update:modelValue', v)
-  },
+  get: () => val.value ?? [],
+  set: v => emit('update:modelValue', v),
 })
 
 function isSelected(value?: string | number): boolean {
@@ -45,39 +43,25 @@ function removeValue(value: string | number): void {
 
 function selectValue(item: ListItem): void {
   const value = item.value
-
   if (!value)
     return
-
   if (selected.value.includes(value))
     removeValue(value)
-  else
-    selected.value = [...selected.value, value]
+  else selected.value = [...selected.value, value]
 }
 
-const classes = [
-  'cursor-pointer',
-  'mr-[.8em]',
-  'h-[1.4em]',
-  'w-[1.4em]',
-  'appearance-none',
-  'rounded-[.25em]',
-  'focus:outline-none',
-  'focus:ring-0',
-  'focus:ring-offset-0',
-  'bg-theme-100 focus:bg-theme-200 hover:bg-primary-500 dark:bg-theme-800',
-  'active:bg-primary-500 selected:bg-primary-500',
-]
+const cls = vue.computed(() => getCheckboxClasses(props.uiSize))
+
 function inputClasses(item: ListItem) {
   return vue.computed(() => {
     const sel = isSelected(item.value) ? 'bg-primary-500 dark:bg-primary-700' : ''
-    return twMerge(classes, props.inputClass, sel)
+    return twMerge(cls.value.input, props.inputClass, sel)
   })
 }
 </script>
 
 <template>
-  <div class="my-4">
+  <div :class="cls.container">
     <div v-if="li.length === 0" class="text-input-placeholder">
       No Items
     </div>
@@ -85,9 +69,9 @@ function inputClasses(item: ListItem) {
       v-for="(item, i) of li"
       v-else
       :key="i"
-      class="my-2"
+      :class="cls.item"
     >
-      <label class="inline-flex cursor-pointer items-center">
+      <label :class="cls.label">
         <input
           v-bind="attrs"
           type="checkbox"
@@ -95,7 +79,7 @@ function inputClasses(item: ListItem) {
           :checked="isSelected(item.value)"
           @input="selectValue(item)"
         >
-        <span v-if="item.name" class="checkbox-label text-theme-700 dark:text-theme-50 dark:hover:text-theme-0 hover:text-theme-500 font-sans">
+        <span v-if="item.name" :class="cls.text">
           {{ item.name }}
         </span>
       </label>

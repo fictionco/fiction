@@ -1,11 +1,13 @@
 <script lang="ts" setup>
+import type { StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
 import type { FontEntry } from '@fiction/core/utils/fonts'
 import { safeStacks } from '@fiction/core/utils/fonts'
-import InputSelect from './InputSelectCustom.vue'
+import InputSelectCustom from './InputSelectCustom.vue'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
+  uiSize: { type: String as vue.PropType<StandardSize>, default: 'md' },
 })
 
 const emit = defineEmits<{
@@ -36,25 +38,20 @@ const list = vue.computed(() => {
   const fonts = fontsList.value || []
   const glist = fonts.map(
     ({ family, variants, category }: FontItem) => {
-      return {
-        name: `${family} `,
-        desc: category,
-        value: family,
-        isGoogleFont: true,
-      }
+      return { name: `${family} (${category})`, value: family, isGoogleFont: true }
     },
   )
 
   return [
-    { format: 'title', name: 'Defaults' },
-    ...safeStackItems,
     { format: 'title', name: 'Google Fonts' },
     ...glist.sort((a, b) => a.name.localeCompare(b.name)),
+    { format: 'title', name: 'Defaults' },
+    ...safeStackItems,
   ]
 })
 
 vue.onMounted(async () => {
-  const { fonts } = await import('@fiction/core/utils/lib/fonts')
+  const { fonts } = await import('@fiction/core/utils/lib/fontList')
 
   fontsList.value = fonts as FontEntry[]
 })
@@ -81,6 +78,19 @@ const fontFamily = vue.computed(() => {
   const selectedFont = props.modelValue || ''
   return safeStacks[selectedFont as keyof typeof safeStacks] || selectedFont
 })
+
+const previewFontSize = vue.computed(() => {
+  const sizes = {
+    'xxs': 'text-xs',
+    'xs': 'text-sm',
+    'sm': 'text-base',
+    'md': 'text-lg py-2 px-8',
+    'lg': 'text-xl py-2.5 px-8',
+    'xl': 'text-2xl py-3 px-8',
+    '2xl': 'text-3xl py-3.5 px-8',
+  }
+  return sizes[props.uiSize as keyof typeof sizes] || 'text-base py-2 px-8'
+})
 </script>
 
 <script lang="ts">
@@ -94,12 +104,13 @@ export default {
     <div v-if="fontFamily">
       <div
         contenteditable="true"
-        class="font-preview text-sm py-2 px-8 inline-block bg-theme-50 dark:bg-theme-700/70 rounded-md focus:outline-none focus:ring-0 text-theme-500 dark:text-theme-300"
+        class="font-preview inline-block border border-dashed border-theme-200 dark:border-theme-600/60 rounded-md focus:outline-none focus:ring-0  hover:opacity-80"
+        :class="previewFontSize"
         :style="{ fontFamily }"
       >
-        <span>Editable Font Preview</span>
+        <span>Editable Font Preview </span>
       </div>
     </div>
-    <InputSelect v-bind="{ ...$attrs, list }" :model-value="modelValue" class="grow" @update:model-value="emit('update:modelValue', $event as string)" />
+    <InputSelectCustom v-bind="{ ...$attrs, list }" :ui-size="uiSize" :model-value="modelValue" class="grow" @update:model-value="emit('update:modelValue', $event as string)" />
   </div>
 </template>

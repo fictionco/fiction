@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ListItem } from '@fiction/core'
+import type { ListItem, StandardSize } from '@fiction/core'
 import { normalizeList, onResetUi, resetUi, shortId, vue } from '@fiction/core'
 import type { RouteLocationRaw } from 'vue-router'
 import { selectInputClasses } from './theme'
@@ -19,6 +19,7 @@ const props = defineProps({
   classOption: { type: String, default: undefined },
   disabled: { type: Boolean, default: false },
   inputClass: { type: String, default: undefined },
+  uiSize: { type: String as vue.PropType<StandardSize>, default: 'md' },
 })
 
 const emit = defineEmits<{
@@ -70,7 +71,8 @@ onResetUi(() => {
 function isSelected(value?: string | number): boolean {
   return !!(value && props.modelValue === value)
 }
-const themeClasses = selectInputClasses({ inputClass: props.inputClass || '' })
+const themeClasses = selectInputClasses({ uiSize: props.uiSize, inputClass: props.inputClass || '' })
+
 function listItemClass(item: ListItem, i: number): string {
   const o = themeClasses.optionClasses
   const out: string[] = [o.always]
