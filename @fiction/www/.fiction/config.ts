@@ -266,7 +266,6 @@ export interface CompiledServiceConfig {
       | 'ipAddress'
       | 'results'
       | 'metadata'
-      | 'status'
       | 'submittedAt'
       | 'completedAt'
       | 'createdAt'

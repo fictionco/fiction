@@ -4,6 +4,7 @@ import type { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionPluginSett
 import type { FictionMonitor } from '@fiction/plugin-monitor'
 import type { FictionAdmin } from '@fiction/admin/index.js'
 import { tables } from './schema.js'
+import { QueryManageForm, QueryManageSubmission } from './endpoint.js'
 
 export type FormPluginSettings = {
   fictionEnv: FictionEnv
@@ -21,5 +22,10 @@ export class FictionForms extends FictionPlugin<FormPluginSettings> {
   constructor(settings: FormPluginSettings) {
     super('FictionForms', { root: safeDirname(import.meta.url), ...settings })
     this.settings.fictionDb.addTables(tables)
+  }
+
+  queries = {
+    ManageForm: new QueryManageForm({ fictionForms: this, ...this.settings }),
+    ManageSubmission: new QueryManageSubmission({ fictionForms: this, ...this.settings }),
   }
 }
