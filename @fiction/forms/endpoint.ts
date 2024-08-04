@@ -97,7 +97,6 @@ export class QueryManageSubmission extends FormQuery {
     const submissionFields: Partial<FormSubmissionConfig> = {
       orgId,
       ...fields,
-      status: fields.status || 'pending',
       submittedAt: new Date().toISOString(),
     }
 
