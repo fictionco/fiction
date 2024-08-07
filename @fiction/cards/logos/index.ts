@@ -1,6 +1,5 @@
 import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
-import type { Site } from '@fiction/site'
 import { CardTemplate } from '@fiction/site'
 import { z } from 'zod'
 
@@ -32,7 +31,7 @@ const options: InputOption[] = [
   ] }),
 ]
 
-const getUserConfig: (args: { site: Site, layout?: 'stacked' | 'inline', noItems?: number }) => UserConfig = (args) => {
+const getUserConfig: (args: { layout?: 'stacked' | 'inline', noItems?: number }) => UserConfig = (args) => {
   const { layout = 'stacked' } = args
   return {
     layout,
@@ -85,13 +84,12 @@ export const templates = [
     schema,
     options,
     isPublic: true,
-    getUserConfig: async ({ site }) => getUserConfig({ site, layout: 'stacked' }),
-    demoPage: async (args) => {
-      const { site } = args
+    getUserConfig: async () => getUserConfig({ layout: 'stacked' }),
+    demoPage: async () => {
       return {
         cards: [
-          { templateId, userConfig: getUserConfig({ site, layout: 'stacked' }) },
-          { templateId, userConfig: getUserConfig({ site, layout: 'inline' }) },
+          { templateId, userConfig: getUserConfig({ layout: 'stacked' }) },
+          { templateId, userConfig: getUserConfig({ layout: 'inline' }) },
         ],
       }
     },

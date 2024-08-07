@@ -3,6 +3,7 @@ import type { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionPluginSett
 
 import type { FictionMonitor } from '@fiction/plugin-monitor'
 import type { FictionAdmin } from '@fiction/admin/index.js'
+import type { FictionSites } from '@fiction/site/index.js'
 import { tables } from './schema.js'
 import { QueryManageForm, QueryManageSubmission } from './endpoint.js'
 
@@ -16,6 +17,7 @@ export type FormPluginSettings = {
   fictionRouter: FictionRouter
   fictionAdmin: FictionAdmin
   fictionMonitor?: FictionMonitor
+  fictionSites: FictionSites
 } & FictionPluginSettings
 
 export class FictionForms extends FictionPlugin<FormPluginSettings> {

@@ -244,11 +244,10 @@ export interface CompiledServiceConfig {
     fiction_form:
       | 'formId'
       | 'orgId'
-      | 'ownerId'
       | 'title'
       | 'description'
       | 'userConfig'
-      | 'cardConfig'
+      | 'card'
       | 'layout'
       | 'settings'
       | 'status'
@@ -268,6 +267,8 @@ export interface CompiledServiceConfig {
       | 'metadata'
       | 'submittedAt'
       | 'completedAt'
+      | 'title'
+      | 'card'
       | 'createdAt'
       | 'updatedAt'
     fiction_subscribe:

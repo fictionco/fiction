@@ -172,7 +172,7 @@ const fictionAnalytics = new FictionAnalytics({
 
 const fictionSites = new FictionSites({ ...s, fictionAnalytics, fictionAppSites, fictionRouterSites, flyApiToken, flyAppId: 'fiction-sites', adminBaseRoute: '/admin', themes })
 const fictionTeam = new FictionTeam({ ...s })
-const fictionForms = new FictionForms({ ...s })
+const fictionForms = new FictionForms({ ...s, fictionSites })
 const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp, fictionAppSites] })
 
 const fictionSubscribe = new FictionSubscribe(s)

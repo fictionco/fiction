@@ -1,17 +1,12 @@
-import type { DataFilter, EndpointMeta, EndpointResponse, FictionDb, FictionEmail, FictionEnv, IndexQuery } from '@fiction/core'
+import type { DataFilter, EndpointMeta, EndpointResponse, IndexQuery } from '@fiction/core'
 import { Query } from '@fiction/core'
-import type { FictionMonitor } from '@fiction/plugin-monitor'
-import type { FormConfig, FormSubmissionConfig } from './schema.js'
+import type { FormConfigPortable, FormSubmissionConfig } from './schema.js'
 import { t } from './schema.js'
-import type { FictionForms } from './index.js'
+import type { FictionForms, FormPluginSettings } from './index.js'
 
-interface FormSubmissionSettings {
+type FormSubmissionSettings = {
   fictionForms: FictionForms
-  fictionDb: FictionDb
-  fictionEnv: FictionEnv
-  fictionMonitor?: FictionMonitor
-  fictionEmail: FictionEmail
-}
+} & FormPluginSettings
 
 abstract class FormQuery extends Query<FormSubmissionSettings> {
   db = () => this.settings.fictionDb.client()
@@ -94,11 +89,13 @@ export class QueryManageSubmission extends FormQuery {
 
     const { fictionDb } = this.settings
 
-    const submissionFields: Partial<FormSubmissionConfig> = {
-      orgId,
-      ...fields,
-      submittedAt: new Date().toISOString(),
+    const { formId, formTemplateId } = fields
+
+    if (!formId && !formTemplateId) {
+      return { status: 'error', message: 'formId or formTemplateId are required' }
     }
+
+    const submissionFields: Partial<FormSubmissionConfig> = { orgId, ...fields, submittedAt: new Date().toISOString() }
 
     const insertData = fictionDb.prep({ type: 'insert', fields: submissionFields, meta, table: t.submission })
 
@@ -166,18 +163,18 @@ export class QueryManageSubmission extends FormQuery {
 
 export type WhereForm = { formId?: string, orgId?: string } & ({ orgId: string } | { formId: string })
 
-export type FormCreate = { fields: Partial<FormConfig> }
+export type FormCreate = { fields: Partial<FormConfigPortable> }
 
 export type ManageFormRequest =
   | { _action: 'create', orgId: string } & FormCreate
-  | { _action: 'list', orgId: string, where?: Partial<FormConfig>, limit?: number, offset?: number, page?: number }
+  | { _action: 'list', orgId: string, where?: Partial<FormConfigPortable>, limit?: number, offset?: number, page?: number }
   | { _action: 'count', orgId: string, filters?: DataFilter[] }
-  | { _action: 'update', orgId: string, where: WhereForm[], fields: Partial<FormConfig> }
+  | { _action: 'update', orgId: string, where: WhereForm[], fields: Partial<FormConfigPortable> }
   | { _action: 'delete', orgId: string, where: WhereForm[] }
 
 export type FormParams = ManageFormRequest & IndexQuery
 
-export type ManageFormResponse = EndpointResponse<FormConfig[]>
+export type ManageFormResponse = EndpointResponse<FormConfigPortable[]>
 
 export class QueryManageForm extends FormQuery {
   limit = 40
@@ -238,7 +235,7 @@ export class QueryManageForm extends FormQuery {
 
     const { fictionDb } = this.settings
 
-    const formFields: Partial<FormConfig> = {
+    const formFields: Partial<FormConfigPortable> = {
       orgId,
       ...fields,
       status: fields.status || 'draft',
@@ -279,7 +276,7 @@ export class QueryManageForm extends FormQuery {
 
     const prepped = this.settings.fictionDb.prep({ type: 'update', fields, meta: _meta, table: t.form })
 
-    const results: FormConfig[] = []
+    const results: FormConfigPortable[] = []
     for (const condition of where) {
       if (Object.values(condition).length !== 1) {
         return { status: 'error', message: 'one and only one where condition should be set' }
@@ -300,7 +297,7 @@ export class QueryManageForm extends FormQuery {
       return { status: 'error', message: 'where must be an array of conditions' }
     }
 
-    const results: FormConfig[] = []
+    const results: FormConfigPortable[] = []
     for (const condition of where) {
       const result = await this.db().table(t.form).where({ orgId, ...condition }).delete().returning('*')
       results.push(...result)

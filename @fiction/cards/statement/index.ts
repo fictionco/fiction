@@ -24,7 +24,7 @@ const UserConfigSchema = z.object({
 
 export type UserConfig = z.infer<typeof UserConfigSchema>
 
-async function getEffects(args: { site: Site }): Promise<TableCardConfig[]> {
+async function getEffects(args: { site?: Site }): Promise<TableCardConfig[]> {
   const { site } = args
   const templates = await getCardTemplates()
   const factory = new CardFactory({ templates, site })
@@ -37,7 +37,7 @@ async function getEffects(args: { site: Site }): Promise<TableCardConfig[]> {
   return [shapeEffect]
 }
 
-async function getUserConfig(_args: { site: Site }): Promise<UserConfig & SiteUserConfig> {
+async function getUserConfig(): Promise<UserConfig & SiteUserConfig> {
   return {
     items: [
       {
@@ -99,10 +99,10 @@ export const templates = [
     options,
     schema: UserConfigSchema,
     getBaseConfig: () => ({ standard: { spacing: { verticalSpacing: 'xl', contentWidth: 'none' } } }),
-    getUserConfig: _ => getUserConfig(_),
+    getUserConfig: () => getUserConfig(),
     getEffects: async _ => getEffects(_),
     demoPage: async (_) => {
-      const userConfig = await getUserConfig(_)
+      const userConfig = await getUserConfig()
       const effects = await getEffects(_)
       return { cards: [
         { templateId, userConfig, effects },

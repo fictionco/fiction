@@ -29,8 +29,13 @@ const UserConfigSchema = z.object({
 
 export type UserConfig = z.infer<typeof UserConfigSchema>
 
-export async function getDefaultConfig(args: { site: Site }): Promise<UserConfig> {
+export async function getDefaultConfig(args: { site?: Site }): Promise<UserConfig> {
   const { site } = args
+
+  if (!site) {
+    throw new Error('Card must have a site to get form templates')
+  }
+
   const filenames = [
     'showcase-adidas.png',
     'showcase-apple.png',

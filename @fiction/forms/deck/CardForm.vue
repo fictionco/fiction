@@ -1,8 +1,10 @@
 <script lang="ts" setup>
-import { vue, waitFor } from '@fiction/core'
+import { useService, vue, waitFor } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import El404 from '@fiction/ui/page/El404.vue'
-import { Form } from '../form'
+import type { Form } from '../form'
+import { loadForm } from '../utils/load.js'
+import type { FictionForms } from '..'
 import FormProgressBar from './FormProgressBar.vue'
 import FormLoading from './FormLoading.vue'
 
@@ -11,6 +13,8 @@ const props = defineProps({
   formTemplateId: { type: String, default: '' },
   formId: { type: String, default: '' },
 })
+
+const { fictionForms } = useService<{ fictionForms: FictionForms }>()
 
 const loading = vue.ref(true)
 const form = vue.shallowRef<Form>()
@@ -30,7 +34,7 @@ vue.onMounted(async () => {
       throw new Error('formTemplateId or formId not found')
     }
 
-    form.value = await Form.load({ site, formTemplateId })
+    form.value = await loadForm({ site, formTemplateId, fictionForms })
   }
   catch (e) {
     console.error(e)

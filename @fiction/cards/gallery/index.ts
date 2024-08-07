@@ -28,7 +28,7 @@ const UserConfigSchema = z.object({
 
 export type UserConfig = z.infer<typeof UserConfigSchema>
 
-async function getUserConfig(_args: { site: Site }): Promise<UserConfig & SiteUserConfig> {
+async function getUserConfig(): Promise<UserConfig & SiteUserConfig> {
   return {
     items: [
       {
@@ -141,9 +141,9 @@ export const templates = [
     options,
     schema: UserConfigSchema,
     getBaseConfig: () => ({ standard: { } }),
-    getUserConfig: _ => getUserConfig(_),
-    demoPage: async (_) => {
-      const userConfig = await getUserConfig(_)
+    getUserConfig: () => getUserConfig(),
+    demoPage: async () => {
+      const userConfig = await getUserConfig()
       return {
         cards: [
           { templateId, userConfig: { ...userConfig, standard: { headers: { title: 'Masonry Layout' } } } },

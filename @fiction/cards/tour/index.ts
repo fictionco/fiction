@@ -17,7 +17,7 @@ const options: InputOption[] = [
   new InputOption({ key: 'items', label: 'Tour Items', input: 'InputList', options: heroOptions }),
 ]
 
-async function defaultConfig(args: { site: Site }): Promise<UserConfig> {
+async function defaultConfig(): Promise<UserConfig> {
   return {
     items: [
       {
@@ -77,9 +77,9 @@ export const templates = [
     schema,
     options,
     isPublic: true,
-    getUserConfig: async args => defaultConfig(args),
-    demoPage: async (args) => {
-      const userConfig = await defaultConfig(args)
+    getUserConfig: async () => defaultConfig(),
+    demoPage: async () => {
+      const userConfig = await defaultConfig()
       return {
         cards: [
           { templateId, userConfig },

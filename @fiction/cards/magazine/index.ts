@@ -18,15 +18,19 @@ const options = [
   new InputOption({ key: 'scheme.reverse', label: 'Reverse Color Scheme', input: 'InputCheckbox' }),
 ]
 
-async function getDefaultUserConfig(_args: { site: Site }): Promise<UserConfig> {
+async function getDefaultUserConfig(): Promise<UserConfig> {
   return {
     standard: { spacing: { verticalSpacing: 'none' } },
     posts: { mode: 'global', limit: 12 },
   }
 }
 
-async function getDemoUserConfig(args: { site: Site }): Promise<UserConfig> {
+async function getDemoUserConfig(args: { site?: Site }): Promise<UserConfig> {
   const { site } = args
+
+  if (!site) {
+    throw new Error('Missing site')
+  }
 
   const filenames = [
     'showcase-adidas.png',
@@ -133,13 +137,13 @@ export const templates = [
     icon: 'i-tabler-box-padding',
     colorTheme: 'blue',
     el: vue.defineAsyncComponent(async () => import('./ElMagazine.vue')),
-    getUserConfig: args => getDefaultUserConfig(args),
+    getUserConfig: () => getDefaultUserConfig(),
     isPublic: false,
     options,
     schema,
     demoPage: async (args) => {
       const demoUserConfig = await getDemoUserConfig(args)
-      const defaultUserConfig = await getDefaultUserConfig(args)
+      const defaultUserConfig = await getDefaultUserConfig()
       return {
         cards: [
           { templateId, userConfig: demoUserConfig },

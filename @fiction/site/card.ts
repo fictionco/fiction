@@ -37,8 +37,8 @@ interface CardTemplateSettings<
   schema?: z.AnyZodObject
   sections?: Record<string, CardConfigPortable>
   getBaseConfig?: (args: { site?: Site }) => FullTemplateUserConfig<T>
-  getUserConfig?: (args: { site: Site }) => Promise<FullTemplateUserConfig<T>> | (FullTemplateUserConfig<T>)
-  getEffects?: (args: { site: Site }) => Promise<TableCardConfig[]>
+  getUserConfig?: (args: { site?: Site }) => Promise<FullTemplateUserConfig<T>> | (FullTemplateUserConfig<T>)
+  getEffects?: (args: { site?: Site }) => Promise<TableCardConfig[]>
   demoPage?: (args: { site: Site }) => Promise<{ cards: CardConfigPortable< FullTemplateUserConfig<T>>[] }>
   getQueries?: (args: CardQuerySettings) => X
   title?: string
@@ -61,7 +61,7 @@ export class CardTemplate<
   optionConfig = refineOptions({ options: this.settings.options || [], schema: this.settings.schema })
   getBaseConfig = this.settings.getBaseConfig || (() => ({}))
 
-  async toCard(args: { cardId?: string, site: Site, userConfig?: FullTemplateUserConfig<T>, baseConfig?: FullTemplateUserConfig<T> } & CardSettings) {
+  async toCard(args: { cardId?: string, site?: Site, userConfig?: FullTemplateUserConfig<T>, baseConfig?: FullTemplateUserConfig<T> } & CardSettings) {
     const { cardId, site, baseConfig = {}, userConfig } = args
     const { getUserConfig = () => {}, getEffects = () => [] } = this.settings
 

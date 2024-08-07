@@ -29,8 +29,12 @@ const options: InputOption[] = [
   new InputOption({ key: 'items', label: 'Tour Items', input: 'InputList', options: [] }),
 ]
 
-async function defaultConfig(args: { site: Site }): Promise<UserConfig> {
+async function defaultConfig(args: { site?: Site }): Promise<UserConfig> {
   const { site } = args
+
+  if (!site) {
+    throw new Error('Card must have a site to get form templates')
+  }
 
   const filenames = ['bond1.png', 'bond2.jpg', 'bond3.jpg', 'bond4.png'] as const
 

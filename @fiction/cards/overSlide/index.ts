@@ -26,7 +26,7 @@ export type UserConfig = z.infer<typeof schema>
 const options: InputOption[] = [
 ]
 
-async function getDefaultConfig(args: { site: Site }): Promise<UserConfig> {
+async function getDefaultConfig(): Promise<UserConfig> {
   return {
     autoSlide: true,
     items: [
@@ -57,9 +57,9 @@ export const templates = [
     schema,
     options,
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
-    getUserConfig: getDefaultConfig,
-    demoPage: async (args) => {
-      const userConfig = await getDefaultConfig(args)
+    getUserConfig: () => getDefaultConfig(),
+    demoPage: async () => {
+      const userConfig = await getDefaultConfig()
       return {
         cards: [
           { templateId, userConfig },

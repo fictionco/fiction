@@ -1,13 +1,24 @@
-import { FictionObject, getNested, path, setNested, vue } from '@fiction/core'
+import { FictionObject, getNested, setNested, vue } from '@fiction/core'
 
-import type { CardConfigPortable, Site } from '@fiction/site'
+import type { CardTemplate, Site } from '@fiction/site'
 import { Card } from '@fiction/site'
-import { CardFactory } from '@fiction/site/cardFactory'
-import type { FormConfig, FormTableConfig } from './schema'
-import { type InputUserConfig, getCardTemplates } from './templates'
+import type { FormConfigPortable } from './schema'
+import type { InputUserConfig } from './templates'
+import type { FictionForms } from '.'
 
-export class Form extends FictionObject<FormConfig> {
-  cards = vue.computed(() => (this.settings.card.cards.value || []) as Card<InputUserConfig>[])
+export type FormSettings = FormConfigPortable & {
+  site?: Site
+  templates?: CardTemplate[] | readonly CardTemplate[]
+  formMode?: 'standard' | 'designer' | 'editable' | 'coding'
+  fictionForms: FictionForms
+}
+export class Form extends FictionObject<FormSettings> {
+  card = vue.computed(() => {
+    const { site, templates, card } = this.settings
+    return new Card({ site, templates, title: 'FormCard', templateId: 'formWrap', ...card })
+  })
+
+  cards = vue.computed(() => (this.card.value.cards.value || []) as Card<InputUserConfig>[])
   inputCards = vue.computed(() => this.cards.value.filter(c => c.userConfig.value.cardType === 'input' || !c.userConfig.value.cardType))
   endCards = vue.computed(() => this.cards.value.filter(c => c.userConfig.value.cardType === 'end'))
   formMode = vue.ref(this.settings.formMode || 'standard')
@@ -28,28 +39,8 @@ export class Form extends FictionObject<FormConfig> {
   isLastCard = vue.computed(() => this.activeCardId.value === this.cards.value[this.cards.value.length - 1]?.cardId)
   isSubmitCard = vue.computed(() => this.activeCardId.value === this.inputCards.value[this.inputCards.value.length - 1]?.cardId)
 
-  constructor(settings: FormConfig) {
+  constructor(settings: FormSettings) {
     super('Form', settings)
-  }
-
-  static async load(args: { formId?: string, formTemplateId?: string, site: Site }): Promise<Form> {
-    const { formId, formTemplateId, site } = args
-
-    let cardConfig: CardConfigPortable = { }
-    const templates = await getCardTemplates()
-    if (formTemplateId) {
-      const formTemplates = await getFormTemplates({ site })
-      const formTemplate = formTemplates.find(t => t.settings.formTemplateId === formTemplateId)
-
-      if (!formTemplate)
-        throw new Error(`Form template not found: ${formTemplateId}`)
-
-      cardConfig = await formTemplate.settings.getCardConfig({ site })
-    }
-
-    const card = new Card({ site, templates, title: 'FormCard', templateId: 'formWrap', ...cardConfig })
-
-    return new Form({ formId: formId || `static-${formTemplateId}`, card })
   }
 
   activeCard = vue.computed(() => this.cards.value.find(c => c.cardId === this.activeCardId.value))
@@ -135,86 +126,8 @@ export class Form extends FictionObject<FormConfig> {
     this.formValues.value = {}
   }
 
-  toConfig(): FormTableConfig {
-    const cardConfig = this.settings.card.toConfig()
-    return { formId: this.settings.formId, cardConfig }
+  toConfig(): FormConfigPortable {
+    const card = this.card.value.toConfig()
+    return { formId: this.settings.formId, card }
   }
-}
-
-type FormTemplateConfig = FormTableConfig & {
-  formTemplateId: string
-  getCardConfig: (args: { site: Site }) => Promise<CardConfigPortable>
-
-}
-
-export class FormTemplate extends FictionObject<FormTemplateConfig> {
-  constructor(settings: FormTemplateConfig) {
-    super('FormTemplate', settings)
-  }
-}
-
-export async function getFormTemplates(args: { site: Site }) {
-  const { site } = args
-
-  if (!site)
-    throw new Error('Card must have a site to get form templates')
-
-  const factory = new CardFactory({ site, templates: await getCardTemplates() })
-  return [
-    new FormTemplate({
-      formTemplateId: 'contact',
-      title: 'Contact Form',
-      getCardConfig: async () => {
-        return {
-          cards: [
-            await factory.create({
-              templateId: 'formStart',
-              userConfig: {
-                title: 'Contact Form',
-                subTitle: 'Need to reach us? Just fill out the form below.',
-                buttonText: 'Start',
-              },
-            }),
-            await factory.create({
-              templateId: 'inputTextShort',
-              userConfig: {
-                path: 'name',
-                title: `What's your name?`,
-                subTitle: 'What should we call you?',
-                placeholder: 'Name',
-                isRequired: true,
-              },
-            }),
-            await factory.create({
-              templateId: 'inputEmail',
-              userConfig: {
-                path: 'email',
-                title: 'What\'s your email address?',
-                subTitle: 'We\'ll use this to get back to you.',
-                placeholder: 'email@example.com',
-                isRequired: true,
-              },
-            }),
-            await factory.create({
-              templateId: 'inputTextLong',
-              userConfig: {
-                path: 'message',
-                title: 'How can we help you?',
-                subTitle: 'Please provide details about your inquiry.',
-                placeholder: 'Type your message here...',
-                isRequired: true,
-              },
-            }),
-            await factory.create({
-              templateId: 'formEnd',
-              userConfig: {
-                title: 'Thank you!',
-                subTitle: 'We\'ve received your message and will get back to you soon.',
-              },
-            }),
-          ],
-        }
-      },
-    }),
-  ]
 }

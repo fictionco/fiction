@@ -50,8 +50,12 @@ const options: InputOption[] = [
 
 const el = vue.defineAsyncComponent(async () => import('./ElCard.vue'))
 
-async function defaultConfig(args: { site: Site }): Promise<UserConfig> {
+async function defaultConfig(args: { site?: Site }): Promise<UserConfig> {
   const { site } = args
+
+  if (!site) {
+    throw new Error('Card must have a site to get form templates')
+  }
 
   const filenames = [
     'people-tony.png',
@@ -69,10 +73,7 @@ async function defaultConfig(args: { site: Site }): Promise<UserConfig> {
       name: 'Tony Stark',
       title: 'Iron Man',
       desc: 'Genius, billionaire, playboy, philanthropist. Known for his high-tech suits and saving the world.',
-      media: {
-        format: 'url' as const,
-        url: urls.peopleTony,
-      },
+      media: { format: 'url' as const, url: urls.peopleTony },
       social: [{
         icon: 'i-tabler-brand-linkedin',
         href: 'https://www.linkedin.com/in/[username]',
@@ -84,10 +85,7 @@ async function defaultConfig(args: { site: Site }): Promise<UserConfig> {
       name: 'Natasha Romanoff',
       title: 'Black Widow',
       desc: 'Master spy and expert in hand-to-hand combat. A critical member of the Avengers team.',
-      media: {
-        format: 'url' as const,
-        url: urls.peopleNatasha,
-      },
+      media: { format: 'url' as const, url: urls.peopleNatasha },
       social: [{
         icon: 'i-tabler-brand-linkedin',
         href: 'https://www.linkedin.com/in/[username]',
@@ -99,10 +97,7 @@ async function defaultConfig(args: { site: Site }): Promise<UserConfig> {
       name: 'Thor Odinson',
       title: 'God of Thunder',
       desc: 'Asgardian prince with the power to control lightning and wield Mjölnir, his magical hammer.',
-      media: {
-        format: 'url' as const,
-        url: urls.peopleThor,
-      },
+      media: { format: 'url' as const, url: urls.peopleThor },
       social: [{
         icon: 'i-tabler-brand-linkedin',
         href: 'https://www.linkedin.com/in/[username]',
@@ -114,10 +109,7 @@ async function defaultConfig(args: { site: Site }): Promise<UserConfig> {
       name: 'Steve Rogers',
       title: 'Captain America',
       desc: 'The First Avenger. Known for his unwavering moral compass, super strength, and indestructible shield.',
-      media: {
-        format: 'url' as const,
-        url: urls.peopleSteve,
-      },
+      media: { format: 'url' as const, url: urls.peopleSteve },
       social: [{
         icon: 'i-tabler-brand-linkedin',
         href: 'https://www.linkedin.com/in/[username]',
@@ -140,7 +132,7 @@ export const templates = [
     options,
     schema,
     isPublic: true,
-    getUserConfig: defaultConfig,
+    getUserConfig: _ => defaultConfig(_),
     demoPage: async (args) => {
       const userConfig = await defaultConfig(args)
       return {

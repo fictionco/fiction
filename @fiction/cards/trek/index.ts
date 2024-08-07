@@ -34,13 +34,7 @@ const options: InputOption[] = [
   ] }),
 ]
 
-async function defaultConfig(args: { site: Site }): Promise<UserConfig> {
-  const { site } = args
-
-  const filenames = ['trek-1.png', 'trek-2.png', 'trek-3.png', 'trek-4.png'] as const
-
-  const urls = staticFileUrls({ site, filenames })
-
+async function defaultConfig(): Promise<UserConfig> {
   return {
     items: [
       {
@@ -86,9 +80,9 @@ export const templates = [
     getBaseConfig: () => {
       return { standard: { spacing: { contentWidth: 'none' } } }
     },
-    getUserConfig: async args => defaultConfig(args),
-    demoPage: async (args) => {
-      const userConfig = await defaultConfig(args)
+    getUserConfig: async () => defaultConfig(),
+    demoPage: async () => {
+      const userConfig = await defaultConfig()
       return {
         cards: [
           { templateId, userConfig },

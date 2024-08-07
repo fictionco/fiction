@@ -60,7 +60,7 @@ type CreateCardArgs<
 
 type CardFactorSettings<U extends readonly CardTemplate[]> = {
   templates: U
-  site: Site
+  site?: Site
 }
 
 export class CardFactory<U extends readonly CardTemplate[]> extends FictionObject<CardFactorSettings<U>> {
