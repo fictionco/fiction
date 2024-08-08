@@ -37,9 +37,9 @@ vue.onMounted(() => {
 <template>
   <div class="minimal-profile" :class="card.classes.value.contentWidth">
     <div class="text-center">
-      <div class="md:inline-flex gap-16 justify-center" :class="uc.layout === 'left' ? 'md:flex-row-reverse' : ''">
+      <div class="md:inline-flex gap-6 lg:gap-16 justify-center" :class="uc.layout === 'left' ? 'md:flex-row-reverse' : ''">
         <div class="w-full md:w-[40vw] px-2">
-          <div class="overflow-hidden relative border border-theme-200 dark:border-theme-700 rounded-xl h-full bg-theme-50 dark:bg-theme-700/50">
+          <div class="overflow-hidden relative border border-theme-200 dark:border-theme-700 rounded-xl h-full bg-theme-50 dark:bg-theme-800/50">
             <CardForm :card form-template-id="contact" class="h-full w-full" />
           </div>
         </div>

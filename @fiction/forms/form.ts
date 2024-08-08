@@ -1,4 +1,4 @@
-import { FictionObject, getNested, setNested, vue } from '@fiction/core'
+import { FictionObject, getNested, path, setNested, vue } from '@fiction/core'
 
 import type { CardTemplate, Site } from '@fiction/site'
 import { Card } from '@fiction/site'
@@ -7,15 +7,17 @@ import type { InputUserConfig } from './templates'
 import type { FictionForms } from '.'
 
 export type FormSettings = FormConfigPortable & {
-  site?: Site
   templates?: CardTemplate[] | readonly CardTemplate[]
   formMode?: 'standard' | 'designer' | 'editable' | 'coding'
+  site?: Site
   fictionForms: FictionForms
+  formTemplateId?: string
+  orgId: string
 }
 export class Form extends FictionObject<FormSettings> {
   card = vue.computed(() => {
-    const { site, templates, card } = this.settings
-    return new Card({ site, templates, title: 'FormCard', templateId: 'formWrap', ...card })
+    const { site, templates, card, title } = this.settings
+    return new Card({ site, templates, title, templateId: 'formWrap', ...card })
   })
 
   cards = vue.computed(() => (this.card.value.cards.value || []) as Card<InputUserConfig>[])
@@ -23,8 +25,7 @@ export class Form extends FictionObject<FormSettings> {
   endCards = vue.computed(() => this.cards.value.filter(c => c.userConfig.value.cardType === 'end'))
   formMode = vue.ref(this.settings.formMode || 'standard')
   slideTransition = vue.ref<'prev' | 'next'>('next')
-  formValues = vue.ref({})
-  isSubmitted = vue.computed(() => this.endCards.value.find(c => c.cardId === this.activeCardId.value))
+  submittedData = vue.ref()
   activeCardIdControl = vue.ref()
   activeCardId = vue.computed({
     get: () => this.activeCardIdControl.value || this.inputCards.value[0]?.cardId,
@@ -36,6 +37,7 @@ export class Form extends FictionObject<FormSettings> {
     set: val => (this.activeCardId.value = this.cards.value[val]?.cardId),
   })
 
+  isLoading = vue.ref(false)
   isLastCard = vue.computed(() => this.activeCardId.value === this.cards.value[this.cards.value.length - 1]?.cardId)
   isSubmitCard = vue.computed(() => this.activeCardId.value === this.inputCards.value[this.inputCards.value.length - 1]?.cardId)
 
@@ -46,7 +48,7 @@ export class Form extends FictionObject<FormSettings> {
   activeCard = vue.computed(() => this.cards.value.find(c => c.cardId === this.activeCardId.value))
 
   percentComplete = vue.computed(() => {
-    if (this.isSubmitted.value)
+    if (this.submittedData.value)
       return 100
 
     const currentCardId = this.activeCardId.value
@@ -65,6 +67,10 @@ export class Form extends FictionObject<FormSettings> {
 
     const nextCard = this.cards.value[ind + 1]
 
+    if (this.isSubmitCard.value) {
+      await this.submitForm()
+    }
+
     if (nextCard?.cardId)
       this.setActiveId({ cardId: nextCard?.cardId, drawer: 'toggle' })
   }
@@ -74,17 +80,13 @@ export class Form extends FictionObject<FormSettings> {
     drawer: 'toggle' | 'closeAll' | 'closeIfNewOrToggle'
     scrollIntoView?: boolean
   }) {
-    const { cardId, drawer, scrollIntoView } = args
+    const { cardId, scrollIntoView } = args
 
     const newIndex = this.cards.value.findIndex(c => c.cardId === cardId)
 
     this.slideTransition.value = newIndex < this.activeCardIndex.value ? 'prev' : 'next'
 
-    const isNewCard = this.activeCard.value?.cardId !== cardId
-
     this.activeCardIndex.value = newIndex
-
-    // this.setActiveDrawer({ cardId, mode: drawer, isNewCard })
 
     if (scrollIntoView) {
       // wait for render in DOM
@@ -98,36 +100,87 @@ export class Form extends FictionObject<FormSettings> {
     }
   }
 
-  setFormValue(args: { path?: string, value?: any }) {
-    const { path, value } = args
-    if (!path)
-      return
+  setUserValue(args: { value?: any, cardId?: string }) {
+    const { value, cardId } = args
 
-    this.formValues.value = setNested({ data: this.formValues.value, path, value })
+    const c = this.cards.value.find(c => c.cardId === cardId) || this.activeCard.value
+
+    if (!c) {
+      throw new Error(`setUserValue: card not found`)
+    }
+
+    c.updateUserConfig({ path: 'userValue', value })
   }
 
-  getFormValue(args: { path?: string }) {
-    const { path } = args
-    if (!path)
-      return undefined
+  getUserValue(args: { cardId?: string }) {
+    const { cardId } = args
 
-    return getNested({ data: this.formValues.value, path })
+    const c = this.cards.value.find(c => c.cardId === cardId) || this.activeCard.value
+
+    if (!c) {
+      throw new Error(`getUserValue: card not found`)
+    }
+
+    return getNested({ data: c.userConfig.value, path: 'userValue' })
   }
 
-  clearFormValue(path: string) {
-    this.formValues.value = setNested({ data: this.formValues.value, path, value: undefined })
+  clearFormValue(cardId?: string) {
+    this.setUserValue({ value: undefined, cardId })
   }
 
-  getAllFormValues(): Record<string, any> {
-    return JSON.parse(JSON.stringify(this.formValues.value))
-  }
+  formValues = vue.computed(() => {
+    return Object.fromEntries(this.cards.value.map((c) => {
+      const key = c.userConfig.value.key || c.title.value
+      const value = getNested({ data: c.userConfig.value, path: 'userValue' })
+
+      return [key, value]
+    }))
+  })
 
   clearAllFormValues() {
-    this.formValues.value = {}
+    this.cards.value.forEach((c) => {
+      c.updateUserConfig({ path: 'userValue', value: undefined })
+    })
   }
 
   toConfig(): FormConfigPortable {
     const card = this.card.value.toConfig()
     return { formId: this.settings.formId, card }
+  }
+
+  async submitForm() {
+    this.isLoading.value = true
+
+    try {
+      const orgId = this.settings.orgId
+
+      if (!orgId) {
+        throw new Error('submitForm: orgId is required')
+      }
+      const { formId, formTemplateId } = this.settings
+      const r = await this.settings.fictionForms.requests.ManageSubmission.request({
+        _action: 'create',
+        orgId,
+        fields: {
+          formId,
+          formTemplateId,
+          card: this.card.value.toConfig(),
+          userValues: this.formValues.value,
+        },
+      })
+
+      if (r.status === 'success') {
+        this.submittedData.value = r.data?.[0]
+      }
+
+      return r
+    }
+    catch (err) {
+      console.error('submitForm error', err)
+      throw err
+    }
+    finally {
+      this.isLoading.value = false
+    }
   }
 }

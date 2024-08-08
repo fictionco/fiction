@@ -21,7 +21,7 @@ export type SubmissionCreate = { fields: Partial<FormSubmissionConfig> }
 
 export type ManageSubmissionRequest =
   | { _action: 'create', orgId: string } & SubmissionCreate
-  | { _action: 'list', orgId: string, where?: Partial<FormSubmissionConfig>, limit?: number, offset?: number, page?: number }
+  | { _action: 'list', orgId: string, where?: FormSubmissionConfig, limit?: number, offset?: number, page?: number }
   | { _action: 'count', orgId: string, filters?: DataFilter[] }
   | { _action: 'update', orgId: string, where: WhereSubmission[], fields: Partial<FormSubmissionConfig> }
   | { _action: 'delete', orgId: string, where: WhereSubmission[] }
@@ -99,11 +99,17 @@ export class QueryManageSubmission extends FormQuery {
 
     const insertData = fictionDb.prep({ type: 'insert', fields: submissionFields, meta, table: t.submission })
 
+    if (!insertData.userValues && insertData.card?.cards) {
+      insertData.userValues = Object.fromEntries(insertData.card.cards.map(c => [c.userConfig?.key, c.userConfig?.userValue]))
+    }
+
     this.log.info('createSubmission', { data: insertData, caller: meta.caller })
 
     const result = await this.db().table(t.submission).insert(insertData).returning('*')
 
     await this.settings.fictionMonitor?.slackNotify({ message: '*New Form Submission*', data: result[0] })
+
+    await this.sendUserEmailNotification(params, meta)
 
     return { status: 'success', data: result, indexMeta: { changedCount: 1 } }
   }
@@ -158,6 +164,56 @@ export class QueryManageSubmission extends FormQuery {
     }
 
     return { status: 'success', message: 'Submissions deleted', data: results, indexMeta: { changedCount: results.length } }
+  }
+
+  private async sendUserEmailNotification(params: SubmissionParams & { _action: 'create' }, meta: EndpointMeta): Promise<void> {
+    const { orgId, fields } = params
+    try {
+      const { title, card } = fields
+      // Retrieve organization details
+      const r = await this.settings.fictionUser?.queries.ManageOrganization.serve({
+        _action: 'retrieve',
+        where: { orgId },
+      }, { ...meta, server: true })
+
+      if (r?.status !== 'success' || !r.data) {
+        throw new Error('Failed to retrieve organization details')
+      }
+
+      const org = r.data
+
+      const { orgName, orgEmail } = org
+
+      const heading = `${orgName}: New ${title || 'Form'} Submission`
+
+      const cards = card?.cards || []
+
+      const formattedDetails = cards.map((c) => {
+        const uc = c.userConfig || {}
+        return `**${uc.title}**: ${uc.userValue}`
+      },
+      ).join('\n')
+
+      const bodyMarkdown = `${heading}:\n\n${formattedDetails}`
+
+      if (!this.settings.fictionEmail) {
+        throw new Error('No email service available')
+      }
+
+      await this.settings.fictionEmail.renderAndSendEmail({
+        to: orgEmail, // Assuming the organization has an email field
+        subject: 'New Form Submission',
+        bodyMarkdown,
+        heading,
+        subHeading: `Details are below`,
+        actions: [{ name: 'Fiction Dashboard', href: `${this.settings.fictionEnv.meta.app?.url}/app` }],
+      }, { server: true })
+
+      this.log.info('Email notification sent for new form submission', { data: params })
+    }
+    catch (error) {
+      this.log.error('Failed to send email notification for new form submission', { error, data: params })
+    }
   }
 }
 
@@ -239,8 +295,6 @@ export class QueryManageForm extends FormQuery {
       orgId,
       ...fields,
       status: fields.status || 'draft',
-      version: 1,
-      submissionCount: 0,
     }
 
     const insertData = fictionDb.prep({ type: 'insert', fields: formFields, meta, table: t.form })

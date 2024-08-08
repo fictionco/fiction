@@ -109,6 +109,14 @@
       "path": "/api/fiction-team/SeekInviteFromUser"
     },
     {
+      "key": "ManageForm",
+      "path": "/api/forms/ManageForm"
+    },
+    {
+      "key": "ManageSubmission",
+      "path": "/api/forms/ManageSubmission"
+    },
+    {
       "key": "ManageSubscription",
       "path": "/api/subscribe/ManageSubscription"
     },

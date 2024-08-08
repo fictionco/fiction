@@ -116,11 +116,8 @@ export class QuerySeekInviteFromUser extends TeamQuery {
         href: `${appUrl}${path}`,
       }],
     }, { server: true })
-    return {
-      status: 'success',
-      message: 'Invite requested',
-      more: `We sent ${email} an email requesting they invite you`,
-    }
+
+    return { status: 'success', message: 'Invite requested', more: `We sent them ${email} an email.` }
   }
 }
 

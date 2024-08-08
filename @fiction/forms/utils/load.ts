@@ -8,6 +8,11 @@ import type { FictionForms } from '..'
 export async function loadForm(args: { formId?: string, formTemplateId?: string, site: Site, fictionForms: FictionForms }): Promise<Form> {
   const { formId, formTemplateId, site, fictionForms } = args
 
+  const orgId = site.settings.orgId
+
+  if (!orgId)
+    throw new Error('missing orgId for form')
+
   let f: FormConfigPortable | undefined = undefined
   if (formTemplateId) {
     const formTemplates = await getFormTemplates({ site })
@@ -26,5 +31,5 @@ export async function loadForm(args: { formId?: string, formTemplateId?: string,
   const formConfig = { formId: formId || `static-${formTemplateId}`, ...f }
 
   const templates = await getCardTemplates()
-  return new Form({ fictionForms, templates, site, ...formConfig })
+  return new Form({ fictionForms, orgId, templates, site, ...formConfig })
 }

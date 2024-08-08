@@ -2,9 +2,7 @@
  * @vitest-environment happy-dom
  */
 
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { Card } from '@fiction/site'
-import { FictionObject } from '@fiction/core'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import type { FormSettings } from '../form'
 import { Form } from '../form'
@@ -13,19 +11,64 @@ import { FictionForms } from '..'
 describe('form', async () => {
   let formSettings: FormSettings
   let form: Form
-
   const testUtils = await createSiteTestUtils()
 
   const fictionForms = new FictionForms(testUtils)
 
+  const initialized = await testUtils.init()
+
+  const orgId = initialized.orgId
+
+  const createFormResponse = await fictionForms.queries.ManageForm.serve({
+    _action: 'create',
+    orgId,
+    fields: {
+      title: 'Test Form',
+      description: 'A test form for submissions',
+      status: 'published',
+      card: {
+        cards: [
+          {
+            cardId: 'card1',
+            userConfig: {
+              cardType: 'input',
+              key: 'name',
+              title: 'What is your name?',
+              inputType: 'text',
+            },
+          },
+          {
+            cardId: 'card2',
+            userConfig: {
+              cardType: 'input',
+              key: 'email',
+              title: 'What is your email?',
+              inputType: 'email',
+            },
+          },
+          {
+            cardId: 'card3',
+            userConfig: { cardType: 'end' },
+          },
+        ],
+      },
+    },
+  }, { server: true })
+
+  const createdForm = createFormResponse.data?.[0]
+  if (!createdForm?.formId) {
+    throw new Error('Failed to create test form')
+  }
+
   beforeEach(() => {
     formSettings = {
       fictionForms,
-      formId: 'test-form',
+      formId: createdForm?.formId,
+      orgId,
       card: {
         cards: [
-          { cardId: 'card1', userConfig: { cardType: 'input', path: 'name' } },
-          { cardId: 'card2', userConfig: { cardType: 'input', path: 'email' } },
+          { cardId: 'card1', userConfig: { cardType: 'input', key: 'name', title: 'Name' } },
+          { cardId: 'card2', userConfig: { cardType: 'input', key: 'email', title: 'Email' } },
           { cardId: 'card3', userConfig: { cardType: 'end' } },
         ],
       },
@@ -66,24 +109,31 @@ describe('form', async () => {
   })
 
   it('should set and get form values', () => {
-    form.setFormValue({ path: 'name', value: 'John Doe' })
-    expect(form.getFormValue({ path: 'name' })).toBe('John Doe')
+    form.setUserValue({ value: 'John Doe', cardId: 'card1' })
+    expect(form.getUserValue({ cardId: 'card1' })).toBe('John Doe')
 
-    form.setFormValue({ path: 'email', value: 'john@example.com' })
-    expect(form.getAllFormValues()).toEqual({
+    form.setUserValue({ value: 'john@example.com', cardId: 'card2' })
+    expect(form.getUserValue({ cardId: 'card2' })).toBe('john@example.com')
+
+    expect(form.formValues.value).toEqual({
       name: 'John Doe',
       email: 'john@example.com',
     })
   })
 
   it('should clear form values', () => {
-    form.setFormValue({ path: 'name', value: 'John Doe' })
-    form.clearFormValue('name')
-    expect(form.getFormValue({ path: 'name' })).toBeUndefined()
+    form.setUserValue({ value: 'John Doe', cardId: 'card1' })
+    form.setUserValue({ value: 'john@example.com', cardId: 'card2' })
 
-    form.setFormValue({ path: 'email', value: 'john@example.com' })
+    form.clearFormValue('card1')
+    expect(form.getUserValue({ cardId: 'card1' })).toBeUndefined()
+    expect(form.getUserValue({ cardId: 'card2' })).toBe('john@example.com')
+
     form.clearAllFormValues()
-    expect(form.getAllFormValues()).toEqual({})
+    expect(form.formValues.value).toEqual({
+      name: undefined,
+      email: undefined,
+    })
   })
 
   it('should compute isLastCard correctly', () => {
@@ -100,7 +150,44 @@ describe('form', async () => {
 
   it('should generate correct form config', () => {
     const config = form.toConfig()
-    expect(config.formId).toBe('test-form')
+    expect(config.formId).toBe(createdForm?.formId)
     expect(config.card).toBeDefined()
+  })
+
+  it('should submit form successfully', async () => {
+    form.setUserValue({ value: 'John Doe', cardId: 'card1' })
+    form.setUserValue({ value: 'john@example.com', cardId: 'card2' })
+
+    const result = await form.submitForm()
+
+    expect(result.status).toBe('success')
+
+    const createdSub = result.data?.[0]
+
+    expect(createdSub?.orgId).toBe(orgId)
+
+    const submissionId = createdSub?.submissionId
+
+    if (!submissionId) {
+      throw new Error('Submission ID not found')
+    }
+
+    // Retrieve the submitted record
+    const listResponse = await fictionForms.queries.ManageSubmission.serve({
+      _action: 'list',
+      orgId,
+      where: { submissionId },
+    }, { server: true })
+
+    expect(listResponse.status).toBe('success')
+    expect(listResponse.data).toBeDefined()
+    expect(listResponse.data?.length).toBe(1)
+
+    const submission = listResponse.data?.[0]
+    expect(submission?.formId).toBe(form.settings.formId)
+    expect(submission?.userValues).toEqual({
+      name: 'John Doe',
+      email: 'john@example.com',
+    })
   })
 })

@@ -11,10 +11,9 @@ describe('submission endpoint', async () => {
   const initialized = await testUtils.init()
 
   const orgId = initialized.orgId
-  const userId = initialized.user.userId
 
-  if (!orgId || !userId) {
-    throw abort('missing orgId or userId')
+  if (!orgId) {
+    throw abort('missing orgId ')
   }
 
   let formId: string
@@ -35,7 +34,7 @@ describe('submission endpoint', async () => {
                 cardType: 'input',
                 layout: 'left',
                 alignment: 'left',
-                path: 'name',
+                key: 'name',
                 title: 'What is your name?',
                 placeholder: 'Enter your full name',
                 isRequired: true,
@@ -48,7 +47,7 @@ describe('submission endpoint', async () => {
                 cardType: 'input',
                 layout: 'right',
                 alignment: 'center',
-                path: 'email',
+                key: 'email',
                 title: 'What is your email?',
                 placeholder: 'Enter your email address',
                 isRequired: true,
@@ -73,8 +72,8 @@ describe('submission endpoint', async () => {
 
     expect(createdForm.card).toBeDefined()
     expect(createdForm.card?.cards?.length).toBe(2)
-    expect(createdForm.card?.cards?.[0].userConfig?.path).toBe('name')
-    expect(createdForm.card?.cards?.[1].userConfig?.path).toBe('email')
+    expect(createdForm.card?.cards?.[0].userConfig?.key).toBe('name')
+    expect(createdForm.card?.cards?.[1].userConfig?.key).toBe('email')
   })
 
   it('create submission', async () => {
@@ -83,7 +82,6 @@ describe('submission endpoint', async () => {
       orgId,
       fields: {
         formId,
-        userId,
         title: 'Test Form for Submissions submission',
         card: {
           cards: [
@@ -91,25 +89,23 @@ describe('submission endpoint', async () => {
               cardId: 'card1',
               userConfig: {
                 cardType: 'input',
-                path: 'name',
+                key: 'name',
                 title: 'What is your name?',
                 inputType: 'text',
+                userValue: 'John Doe',
               },
             },
             {
               cardId: 'card2',
               userConfig: {
                 cardType: 'input',
-                path: 'email',
+                key: 'email',
                 title: 'What is your email?',
                 inputType: 'email',
+                userValue: 'john@example.com',
               },
             },
           ],
-        },
-        results: {
-          name: 'John Doe',
-          email: 'john@example.com',
         },
       },
     }, { server: true })
@@ -120,8 +116,7 @@ describe('submission endpoint', async () => {
     const submission = r.data?.[0]
     expect(submission?.orgId).toBe(orgId)
     expect(submission?.formId).toBe(formId)
-    expect(submission?.userId).toBe(userId)
-    expect(submission?.results).toEqual({
+    expect(submission?.userValues).toEqual({
       name: 'John Doe',
       email: 'john@example.com',
     })
@@ -160,7 +155,7 @@ describe('submission endpoint', async () => {
       orgId,
       where: [{ submissionId }],
       fields: {
-        results: {
+        userValues: {
           name: 'Jane Doe',
           email: 'jane@example.com',
         },
@@ -172,7 +167,7 @@ describe('submission endpoint', async () => {
     expect(r.data?.length).toBe(1)
     const updatedSubmission = r.data?.[0]
     expect(updatedSubmission?.submissionId).toBe(submissionId)
-    expect(updatedSubmission?.results).toEqual({
+    expect(updatedSubmission?.userValues).toEqual({
       name: 'Jane Doe',
       email: 'jane@example.com',
     })
@@ -185,8 +180,7 @@ describe('submission endpoint', async () => {
       orgId,
       fields: {
         formId,
-        userId,
-        results: {
+        userValues: {
           name: 'Alice Smith',
           email: 'alice@example.com',
         },
@@ -199,7 +193,7 @@ describe('submission endpoint', async () => {
     expect(r.status).toBe('success')
     expect(r.data).toBeDefined()
     expect(r.data?.length).toBe(1)
-    expect(r.data?.[0]?.results).toEqual({
+    expect(r.data?.[0]?.userValues).toEqual({
       name: 'Alice Smith',
       email: 'alice@example.com',
     })
@@ -214,7 +208,7 @@ describe('submission endpoint', async () => {
     expect(r.status).toBe('success')
     expect(r.data).toBeDefined()
     expect(r.data?.length).toBe(2)
-    const names = r.data?.map(submission => submission.results?.name)
+    const names = r.data?.map(submission => submission.userValues?.name)
     expect(names).toContain('Jane Doe')
     expect(names).toContain('Alice Smith')
     expect(r.indexMeta?.count).toBe(2)

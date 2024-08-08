@@ -10,7 +10,7 @@ import ElImage from '@fiction/ui/media/ElImage.vue'
 import type { Form } from '../form'
 import type { InputUserConfig } from '../templates.js'
 
-import type { CardAlignmentMode, CardLayoutMode } from '../schema.js'
+import { type CardAlignmentMode, type CardLayoutMode, formConfigCols } from '../schema.js'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<InputUserConfig>>, required: true },
@@ -24,9 +24,13 @@ const inputEl = vue.ref<HTMLElement>()
 const submitEl = vue.ref<HTMLElement>()
 
 function clickSubmit() {
-  const el = document.querySelector('.submit-button') as HTMLElement | undefined
+  const el = submitEl.value
 
   el?.click()
+}
+
+function submitCard() {
+  props.form.nextCard()
 }
 
 const layout = vue.computed<CardLayoutMode>(() => {
@@ -114,6 +118,8 @@ const buttonText = vue.computed(() => {
 
   return uc.value.buttonText || (props.form.isSubmitCard.value ? 'Submit' : 'Next')
 })
+
+const ic = vue.computed(() => props.form?.activeCard.value)
 </script>
 
 <template>
@@ -134,24 +140,24 @@ const buttonText = vue.computed(() => {
     >
       <transition :name="form?.slideTransition.value" mode="out-in">
         <ElForm
-          :id="form.activeCard.value?.cardId"
-          :key="form.activeCard.value?.cardId"
+          :id="ic?.cardId"
+          :key="ic?.cardId"
           class="no-scrollbar overflow-y-auto"
-          @submit="form.nextCard()"
+          @submit="submitCard()"
         >
           <div class="mx-auto w-full h-full max-w-4xl px-8 @md:px-[4em] py-12 @lg:py-[15vh]">
             <div class="relative" :data-card-id="card.cardId">
               <div class="relative">
                 <div class="text-input-size grow">
                   <CardText
-                    class="text-3xl x-font-title font-medium"
+                    class="text-2xl @lg:text-3xl x-font-title font-medium"
                     tag="h2"
                     :card
                     path="title"
                     placeholder="Your question here..."
                   />
                   <CardText
-                    class="text-theme-500 mt-2 text-lg font-sans"
+                    class="text-theme-500 mt-2 text-base @lg:text-lg font-sans"
                     tag="p"
                     :card
                     path="subTitle"
@@ -160,7 +166,7 @@ const buttonText = vue.computed(() => {
                 </div>
                 <div class="absolute right-0 top-0">
                   <span
-                    v-if="card.userConfig.value.isRequired"
+                    v-if="card.userConfig.value.required"
                     className="inline-flex items-center rounded-full px-2.5 py-0.5 text-base font-medium text-theme-400"
                   >
                     <div class="i-carbon-asterisk" />
@@ -185,13 +191,16 @@ const buttonText = vue.computed(() => {
                   :is="inputComponent.el"
                   :card
                   :form
-                  v-bind="{ uiSize: '2xl', uc }"
-                  :model-value="form.getFormValue({ path: uc.path })"
-                  @update:model-value="form.setFormValue({ path: uc.path, value: $event })"
+                  ui-size="2xl"
+                  :placeholder="uc.placeholder"
+                  :required="uc.required ? '1' : ''"
+                  :model-value="form.getUserValue({ cardId: ic?.cardId })"
+                  @update:model-value="form.setUserValue({ value: $event, cardId: ic?.cardId })"
                 />
               </div>
               <div v-if="buttonText" class="mt-8">
                 <CardButton
+                  ref="submitEl"
                   :card
                   class="submit-button"
                   theme="primary"
@@ -199,6 +208,7 @@ const buttonText = vue.computed(() => {
                   type="submit"
                   size="2xl"
                   rounding="full"
+                  :loading="form.isLoading.value"
                 >
                   {{ buttonText }}
                 </CardButton>

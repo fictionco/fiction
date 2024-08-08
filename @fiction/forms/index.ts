@@ -30,4 +30,11 @@ export class FictionForms extends FictionPlugin<FormPluginSettings> {
     ManageForm: new QueryManageForm({ fictionForms: this, ...this.settings }),
     ManageSubmission: new QueryManageSubmission({ fictionForms: this, ...this.settings }),
   }
+
+  requests = this.createRequests({
+    queries: this.queries,
+    fictionServer: this.settings.fictionServer,
+    fictionUser: this.settings.fictionUser,
+    basePath: '/forms',
+  })
 }

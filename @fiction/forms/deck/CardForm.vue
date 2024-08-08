@@ -50,7 +50,12 @@ const activeCard = vue.computed(() => {
 </script>
 
 <template>
-  <div v-if="form" class="card-deck-theme theme-wrap theme-font overflow-hidden bg-cover">
+  <div
+    v-if="form"
+    class="card-deck-theme theme-wrap theme-font overflow-hidden bg-cover"
+    :data-value="JSON.stringify(form.formValues.value || {})"
+    :data-submitted="JSON.stringify(form.submittedData.value || {})"
+  >
     <FormProgressBar :progress="form.percentComplete.value" />
     <transition
       enter-active-class="transition ease-out duration-300"

@@ -46,31 +46,31 @@ export async function getFormTemplates(args: { site?: Site }) {
             await factory.create({
               templateId: 'inputTextShort',
               userConfig: {
-                path: 'name',
+                key: 'name',
                 title: `What's your name?`,
                 subTitle: 'What should we call you?',
                 placeholder: 'Name',
-                isRequired: true,
+                required: true,
               },
             }),
             await factory.create({
               templateId: 'inputEmail',
               userConfig: {
-                path: 'email',
+                key: 'email',
                 title: 'What\'s your email address?',
                 subTitle: 'We\'ll use this to get back to you.',
                 placeholder: 'email@example.com',
-                isRequired: true,
+                required: true,
               },
             }),
             await factory.create({
               templateId: 'inputTextLong',
               userConfig: {
-                path: 'message',
+                key: 'message',
                 title: 'How can we help you?',
                 subTitle: 'Please provide details about your inquiry.',
                 placeholder: 'Type your message here...',
-                isRequired: true,
+                required: true,
               },
             }),
             await factory.create({

@@ -55,4 +55,9 @@ export const fonts: Font[] = [
     category: 'sans-serif',
     variants: ['300', '400', '500', '600', '700', '800', '300italic', '400italic', '500italic', '600italic', '700italic', '800italic'],
   },
+  {
+    family: 'Caveat',
+    category: 'handwriting',
+    variants: ['regular', '500', '600', '700'],
+  },
 ]
