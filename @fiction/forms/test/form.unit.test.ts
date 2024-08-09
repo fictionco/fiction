@@ -103,9 +103,9 @@ describe('form', async () => {
   })
 
   it('should compute percent complete correctly', () => {
-    expect(form.percentComplete.value).toBe(50) // 1 out of 2 input cards
+    expect(form.percentComplete.value).toBe(0) // 1 out of 2 input cards
     form.setActiveId({ cardId: 'card2', drawer: 'toggle' })
-    expect(form.percentComplete.value).toBe(100) // 2 out of 2 input cards
+    expect(form.percentComplete.value).toBe(50) // 2 out of 2 input cards
   })
 
   it('should set and get form values', () => {

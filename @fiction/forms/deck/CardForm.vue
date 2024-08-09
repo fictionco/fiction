@@ -2,6 +2,7 @@
 import { useService, vue, waitFor } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import El404 from '@fiction/ui/page/El404.vue'
+import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
 import type { Form } from '../form'
 import { loadForm } from '../utils/load.js'
 import type { FictionForms } from '..'
@@ -47,12 +48,14 @@ vue.onMounted(async () => {
 const activeCard = vue.computed(() => {
   return form.value?.activeCard.value
 })
+
+const showNavigation = vue.computed(() => !form.value?.submittedData.value)
 </script>
 
 <template>
   <div
     v-if="form"
-    class="card-deck-theme theme-wrap theme-font overflow-hidden bg-cover"
+    class="card-deck-theme theme-wrap theme-font overflow-hidden bg-cover relative"
     :data-value="JSON.stringify(form.formValues.value || {})"
     :data-submitted="JSON.stringify(form.submittedData.value || {})"
   >
@@ -90,6 +93,26 @@ const activeCard = vue.computed(() => {
         </transition>
       </div>
     </transition>
+
+    <div v-if="form && showNavigation" class="gap-2 navigation absolute right-4 bottom-4 flex  justify-center items-center z-30">
+      <button
+        :disabled="!form.isPrevAvailable"
+        class=" disabled:opacity-50 text-theme-300 dark:text-theme-600 flex"
+        @click="form?.prevCard()"
+      >
+        <span class="sr-only">Previous</span>
+        <span class="i-tabler-arrow-up text-xl" />
+      </button>
+
+      <button
+        :disabled="!form.isNextAvailable"
+        class="disabled:opacity-50 text-theme-300 dark:text-theme-400 flex"
+        @click="form?.nextCard()"
+      >
+        <span class="sr-only">Next</span>
+        <span class="i-tabler-arrow-down text-xl" />
+      </button>
+    </div>
   </div>
 </template>
 

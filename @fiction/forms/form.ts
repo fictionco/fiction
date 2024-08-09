@@ -26,6 +26,7 @@ export class Form extends FictionObject<FormSettings> {
   formMode = vue.ref(this.settings.formMode || 'standard')
   slideTransition = vue.ref<'prev' | 'next'>('next')
   submittedData = vue.ref()
+  currentCardValid = vue.ref(false)
   activeCardIdControl = vue.ref()
   activeCardId = vue.computed({
     get: () => this.activeCardIdControl.value || this.inputCards.value[0]?.cardId,
@@ -58,8 +59,30 @@ export class Form extends FictionObject<FormSettings> {
     if (current === -1 || totalInputCards === 0)
       return 0
 
-    return Math.min(100, Math.round(((current + 1) / totalInputCards) * 100))
+    return Math.min(100, Math.round(((current) / totalInputCards) * 100))
   })
+
+  isNextAvailable = vue.computed(() => {
+    const currentIndex = this.activeCardIndex.value
+    const nextCard = this.inputCards.value[currentIndex + 1]
+    return !!nextCard && this.currentCardValid.value
+  })
+
+  isPrevAvailable = vue.computed(() => {
+    return this.activeCardIndex.value > 0
+  })
+
+  setCurrentCardValid(valid: boolean) {
+    this.currentCardValid.value = valid
+  }
+
+  prevCard() {
+    if (this.isPrevAvailable.value) {
+      this.slideTransition.value = 'prev'
+      const prevIndex = this.activeCardIndex.value - 1
+      this.activeCardIndex.value = prevIndex
+    }
+  }
 
   async nextCard() {
     this.slideTransition.value = 'next'

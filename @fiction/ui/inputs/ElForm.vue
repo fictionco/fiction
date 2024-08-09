@@ -9,64 +9,71 @@ const props = defineProps({
   data: { type: [Object, Array, String, Boolean, Number], default: undefined },
   notify: { type: String, default: '' },
   loading: { type: Boolean, default: false },
-
 })
 
 const emit = defineEmits(['submit', 'update:valid'])
-const cleaners: (() => void)[] = []
 const form = vue.ref<HTMLFormElement>()
 
 function submitForm(): void {
-  const el = form.value
-
-  if (el) {
-    const valid = el.reportValidity()
-
-    if (valid)
-      emit('submit')
+  if (form.value && validateForm(true)) {
+    emit('submit')
   }
 }
 
+function validateForm(reportValidity = false): boolean {
+  if (!form.value)
+    return false
+
+  const inputs = form.value.querySelectorAll('input, select, textarea')
+  let isValid = true
+
+  inputs.forEach((input) => {
+    const inputElement = input as HTMLInputElement
+    const isInputValid = inputElement.checkValidity()
+
+    inputElement.setAttribute('data-is-valid', isInputValid.toString())
+
+    if (!isInputValid) {
+      isValid = false
+      if (reportValidity) {
+        inputElement.reportValidity()
+      }
+    }
+  })
+
+  return isValid
+}
+
 function setValid(): void {
-  const el = form.value
-
-  if (!el)
+  if (!form.value)
     return
-
-  const valid = el.checkValidity()
-
-  emit('update:valid', valid)
+  const isValid = validateForm()
+  emit('update:valid', isValid)
 }
 
 vue.onMounted(() => {
-  setTimeout(() => {
+  vue.nextTick(() => {
     setValid()
-
-    /**
-     * Listen for blur events and validate
-     */
-    const el = form.value
-    if (el) {
-      const els = el.querySelectorAll(
-        'input, select, checkbox, .f-input, textarea',
-      )
-      els.forEach(el => el.addEventListener('blur', () => setValid()))
-    }
-  }, 300)
-
-  // delay due to any reactive changes in form that impact validity
-  const sw = vue.watch(
-    () => props.data,
-    () => setTimeout(() => setValid(), 50),
-    { deep: true },
-  )
-
-  cleaners.push(sw)
+    setupValidationListeners()
+  })
 })
 
-vue.onUnmounted(() => {
-  cleaners.forEach(c => c())
-})
+function setupValidationListeners() {
+  if (!form.value)
+    return
+
+  const observer = new MutationObserver(() => {
+    setValid()
+  })
+
+  observer.observe(form.value, { childList: true, subtree: true })
+
+  vue.onUnmounted(() => {
+    observer.disconnect()
+  })
+}
+
+vue.watch(() => props.data, () => vue.nextTick(setValid), { deep: true })
 </script>
 
 <template>
@@ -79,7 +86,7 @@ vue.onUnmounted(() => {
   >
     <div
       v-if="loading"
-      class="flex items-center justify-center p-12 text-slate-300"
+      class="flex items-center justify-center p-12 text-theme-300 dark:text-theme-600"
     >
       <ElSpinner class="h-6 w-6" />
     </div>
@@ -111,11 +118,7 @@ vue.onUnmounted(() => {
       </div>
       <slot />
 
-      <input
-        class="submit hidden"
-        type="submit"
-        value=""
-      >
+      <input class="submit hidden" type="submit" value="">
     </template>
   </form>
 </template>

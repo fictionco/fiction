@@ -27,11 +27,11 @@ function resetMaxHeight(el: HTMLElement) {
 <template>
   <transition
     name="height-animation"
-    @before-enter="(el) => beforeEnter(el as HTMLElement)"
-    @enter="(el) => enter(el as HTMLElement)"
-    @after-enter="(el) => resetMaxHeight(el as HTMLElement)"
-    @leave="(el) => leave(el as HTMLElement)"
-    @after-leave="(el) => resetMaxHeight(el as HTMLElement)"
+    @before-enter="(el: Element) => beforeEnter(el as HTMLElement)"
+    @enter="(el: Element) => enter(el as HTMLElement)"
+    @after-enter="(el: Element) => resetMaxHeight(el as HTMLElement)"
+    @leave="(el: Element) => leave(el as HTMLElement)"
+    @after-leave="(el: Element) => resetMaxHeight(el as HTMLElement)"
   >
     <slot />
   </transition>

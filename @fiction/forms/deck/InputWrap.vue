@@ -23,12 +23,6 @@ const inputComponent = vue.computed(() => uc.value.inputType ? inputs[uc.value.i
 const inputEl = vue.ref<HTMLElement>()
 const submitEl = vue.ref<HTMLElement>()
 
-function clickSubmit() {
-  const el = submitEl.value
-
-  el?.click()
-}
-
 function submitCard() {
   props.form.nextCard()
 }
@@ -120,6 +114,10 @@ const buttonText = vue.computed(() => {
 })
 
 const ic = vue.computed(() => props.form?.activeCard.value)
+
+function handleValidChange(valid: boolean) {
+  props.form.setCurrentCardValid(valid)
+}
 </script>
 
 <template>
@@ -143,7 +141,9 @@ const ic = vue.computed(() => props.form?.activeCard.value)
           :id="ic?.cardId"
           :key="ic?.cardId"
           class="no-scrollbar overflow-y-auto"
+          :data="form.formValues.value"
           @submit="submitCard()"
+          @update:valid="handleValidChange"
         >
           <div class="mx-auto w-full h-full max-w-4xl px-8 @md:px-[4em] py-12 @lg:py-[15vh]">
             <div class="relative" :data-card-id="card.cardId">
@@ -189,11 +189,7 @@ const ic = vue.computed(() => props.form?.activeCard.value)
               >
                 <component
                   :is="inputComponent.el"
-                  :card
-                  :form
-                  ui-size="2xl"
-                  :placeholder="uc.placeholder"
-                  :required="uc.required ? '1' : ''"
+                  v-bind="{ uiSize: '2xl', ...uc }"
                   :model-value="form.getUserValue({ cardId: ic?.cardId })"
                   @update:model-value="form.setUserValue({ value: $event, cardId: ic?.cardId })"
                 />
