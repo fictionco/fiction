@@ -402,11 +402,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
           RUN_MODE: 'prod',
         }
 
-        const html = await this.serverRenderHtml({
-          template,
-          runVars,
-          ssr,
-        })
+        const html = await this.serverRenderHtml({ template, runVars, ssr })
 
         const writePath = path.join(this.distFolderStatic, filePath)
         fs.ensureDirSync(path.dirname(writePath))

@@ -58,20 +58,16 @@ vue.onMounted(() => {
   })
 })
 
+let observer: MutationObserver | undefined
 function setupValidationListeners() {
   if (!form.value)
     return
 
-  const observer = new MutationObserver(() => {
-    setValid()
-  })
+  observer = new MutationObserver(() => setValid())
 
   observer.observe(form.value, { childList: true, subtree: true })
-
-  vue.onUnmounted(() => {
-    observer.disconnect()
-  })
 }
+vue.onUnmounted(() => observer?.disconnect())
 
 vue.watch(() => props.data, () => vue.nextTick(setValid), { deep: true })
 </script>

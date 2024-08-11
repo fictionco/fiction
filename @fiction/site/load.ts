@@ -70,10 +70,15 @@ export async function loadSiteFromTheme(args: {
   const { themeId, siteRouter, fictionSites, siteMode, caller } = args
   const availableThemes = fictionSites.themes.value
   const theme = availableThemes.find(t => t.themeId === themeId)
+  const { fictionEnv } = fictionSites.settings
+  const appMeta = fictionEnv.meta.app || {}
+  const orgId = args.fictionOrgId || appMeta.orgId
+  const siteId = args.fictionSiteId || appMeta.siteId || `static-siteId-${themeId}`
 
-  const appSettings = fictionSites.settings.fictionApp.settings
-  const orgId = args.fictionOrgId || appSettings.fictionOrgId || `static-orgId-${themeId}`
-  const siteId = args.fictionSiteId || appSettings.fictionSiteId || `static-siteId-${themeId}`
+  if (!orgId) {
+    throw new Error('loadSiteFromTheme: orgId required')
+  }
+
   const subDomain = `theme-${themeId}`
 
   if (!theme) {

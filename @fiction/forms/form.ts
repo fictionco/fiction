@@ -15,6 +15,8 @@ export type FormSettings = FormConfigPortable & {
   orgId: string
 }
 export class Form extends FictionObject<FormSettings> {
+  formMode = vue.ref(this.settings.formMode || 'standard')
+  slideTransition = vue.ref<'prev' | 'next'>('next')
   card = vue.computed(() => {
     const { site, templates, card, title } = this.settings
     return new Card({ site, templates, title, templateId: 'formWrap', ...card })
@@ -23,9 +25,8 @@ export class Form extends FictionObject<FormSettings> {
   cards = vue.computed(() => (this.card.value.cards.value || []) as Card<InputUserConfig>[])
   inputCards = vue.computed(() => this.cards.value.filter(c => c.userConfig.value.cardType === 'input' || !c.userConfig.value.cardType))
   endCards = vue.computed(() => this.cards.value.filter(c => c.userConfig.value.cardType === 'end'))
-  formMode = vue.ref(this.settings.formMode || 'standard')
-  slideTransition = vue.ref<'prev' | 'next'>('next')
   submittedData = vue.ref()
+  availableCards = vue.computed(() => this.submittedData.value ? this.endCards.value : this.inputCards.value)
   currentCardValid = vue.ref(false)
   activeCardIdControl = vue.ref()
   activeCardId = vue.computed({
@@ -88,14 +89,20 @@ export class Form extends FictionObject<FormSettings> {
     this.slideTransition.value = 'next'
     const ind = this.activeCardIndex.value
 
-    const nextCard = this.cards.value[ind + 1]
-
+    let nextCardId: string
     if (this.isSubmitCard.value) {
       await this.submitForm()
+
+      const nextCard = this.endCards.value[0] || this.inputCards.value[0]
+      nextCardId = nextCard?.cardId
+    }
+    else {
+      const nextCard = this.cards.value[ind + 1]
+      nextCardId = nextCard?.cardId
     }
 
-    if (nextCard?.cardId)
-      this.setActiveId({ cardId: nextCard?.cardId, drawer: 'toggle' })
+    if (nextCardId)
+      this.setActiveId({ cardId: nextCardId, drawer: 'toggle' })
   }
 
   async setActiveId(args: {
@@ -194,6 +201,10 @@ export class Form extends FictionObject<FormSettings> {
 
       if (r.status === 'success') {
         this.submittedData.value = r.data?.[0]
+      }
+      else {
+        this.log.error('submitForm error', { data: r })
+        throw new Error(`submitForm: ${r.message}`)
       }
 
       return r

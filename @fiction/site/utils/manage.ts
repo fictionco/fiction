@@ -11,7 +11,7 @@ export type ManageIndexParamsRequest = {
 export async function manageSiteIndex(args: { fictionSites: FictionSites, params: ManageIndexParamsRequest }): Promise<{ sites: Site[], indexMeta?: IndexMeta }> {
   const { fictionSites, params } = args
 
-  const r = await fictionSites.requests.ManageIndex.projectRequest(params)
+  const r = await fictionSites.requests.ManageSites.projectRequest(params)
 
   const siteRouter = fictionSites.settings.fictionRouterSites || fictionSites.settings.fictionRouter
   const sitePromises = r.data ? r.data.map(async d => Site.create({ ...d, fictionSites, siteRouter, isEditable: false })) : []

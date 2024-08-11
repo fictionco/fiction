@@ -1,17 +1,17 @@
-import { FictionPlugin, getAnonymousId, safeDirname, vue } from '@fiction/core'
-import type { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionPluginSettings, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
+import { FictionPlugin, getAnonymousId, isNode, safeDirname, vue } from '@fiction/core'
+import type { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionPluginSettings, FictionRouter, FictionServer, FictionUser, Organization } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
 import type { FictionAi } from '@fiction/plugin-ai'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
 import type { FictionAdmin } from '@fiction/admin/index.js'
 import type { FictionAnalytics } from '@fiction/analytics/index.js'
 import { initializeClientTag } from '@fiction/analytics/tag/entry.js'
-import { ManageIndex, ManagePage, ManageSite } from './endpoint.js'
+import { ManagePage, ManageSite, ManageSites } from './endpoint.js'
 import { CardQueryHandler } from './cardQuery.js'
-import { tables } from './tables.js'
+import { type TableSiteConfig, tables } from './tables.js'
 import { ManageCert } from './endpoint-certs.js'
 import { getRoutes } from './routes.js'
-import type { Theme } from './theme.js'
+import { Theme } from './theme.js'
 import { FictionSiteBuilder } from './plugin-builder/index.js'
 import { loadSitemap } from './load.js'
 import type { Site } from './site.js'
@@ -53,7 +53,7 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
   queries = {
     CardQuery: new CardQueryHandler({ ...this.settings, fictionSites: this }),
     ManageSite: new ManageSite({ ...this.settings, fictionSites: this }),
-    ManageIndex: new ManageIndex({ ...this.settings, fictionSites: this }),
+    ManageSites: new ManageSites({ ...this.settings, fictionSites: this }),
     ManagePage: new ManagePage({ ...this.settings, fictionSites: this }),
     ManageCert: new ManageCert({ ...this.settings, fictionSites: this }),
   }
@@ -84,7 +84,16 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
   }
 
   override async afterSetup() {
-    this.themes.value = await this.settings.themes()
+    const defaultTheme = new Theme({
+      themeId: 'empty',
+      root: import.meta.url,
+      getConfig: async () => ({ userConfig: {}, pages: [], sections: {} }),
+      fictionEnv: this.settings.fictionEnv,
+    })
+
+    const addedThemes = await this.settings.themes()
+
+    this.themes.value = [defaultTheme, ...addedThemes]
   }
 
   getPreviewPath = vue.computed(() => {
@@ -121,5 +130,33 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
 
     const { anonymousId } = getAnonymousId()
     await initializeClientTag({ siteId, orgId, beaconUrl, anonymousId })
+  }
+
+  async ensureSiteForOrg({ org }: { org: Organization }) {
+    if (!isNode()) {
+      throw new Error('ensureSiteForOrg is only available on the server')
+    }
+
+    const { orgId, orgName } = org
+
+    if (!orgId)
+      throw new Error('Org ID not found')
+
+    const r = await this.queries.ManageSites.serve({ _action: 'list', orgId }, { server: true })
+
+    let site: TableSiteConfig
+    if (!r.data?.length) {
+      const r2 = await this.queries.ManageSite.serve({ _action: 'create', orgId, fields: { title: orgName, themeId: 'empty' }, caller: 'ensure' }, { server: true })
+
+      if (!r2.data)
+        throw new Error('Site not created')
+
+      site = r2.data
+    }
+    else {
+      site = r.data[0]
+    }
+
+    return site
   }
 }

@@ -85,8 +85,8 @@
       "path": "/api/fiction-sites/ManageSite"
     },
     {
-      "key": "ManageIndex",
-      "path": "/api/fiction-sites/ManageIndex"
+      "key": "ManageSites",
+      "path": "/api/fiction-sites/ManageSites"
     },
     {
       "key": "ManagePage",

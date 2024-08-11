@@ -92,7 +92,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
 
     fictionRouter?.addReplacers({ orgId: this.activeOrgId })
 
-    fictionEnv?.hooks.push({ hook: 'dbOnConnected', callback: async () => this.ensureExampleOrganization() })
+    // fictionEnv?.hooks.push({ hook: 'dbOnConnected', callback: async () => this.ensureExampleOrganization() })
 
     if (!fictionEnv.isApp.value)
       this.fictionUserEnrich = new FictionUserEnrich({ ...settings, fictionUser: this })
@@ -229,21 +229,30 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     )
   }
 
-  async ensureExampleOrganization() {
-    if (isNode()) {
-      const db = this.settings.fictionDb.client()
-      await db
-        .insert({ orgName: 'Example Inc.', orgEmail: 'admin@fiction.com', orgId: 'example' })
-        .into(standardTable.org)
-        .onConflict()
-        .ignore()
+  async ensureUserAndOrganization(args: { email: string, orgName: string }) {
+    if (!isNode())
+      throw new Error('ensureUserAndOrganization only available on server')
 
-      await db
-        .insert({ fullName: 'Admin', userId: 'admin', email: 'admin@fiction.com' })
-        .onConflict()
-        .ignore()
-        .into('fiction_user')
+    const { email, orgName } = args
+
+    if (!email) {
+      throw new Error('no app email in app meta')
     }
+    const r = await this.queries.ManageUser.serve({ _action: 'getCreate', where: { email }, fields: { orgName } }, { server: true })
+
+    const user = r.data
+
+    if (!user) {
+      throw new Error('no user found')
+    }
+
+    const org = user.orgs?.[0]
+
+    if (!org) {
+      throw new Error('no org found')
+    }
+
+    return { user, org }
   }
 
   deleteCurrentUser = (): void => {

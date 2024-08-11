@@ -49,7 +49,7 @@ export abstract class SitesQuery extends Query<SitesQuerySettings> {
 
 type ManagePageParams = {
   siteId: string
-  userId: string
+  userId?: string
   orgId: string
   successMessage?: string
   caller: string
@@ -60,7 +60,7 @@ export class ManagePage extends SitesQuery {
     fields: CardConfigPortable
     siteId: string
     orgId: string
-    userId: string
+    userId?: string
     caller: string
   }, meta: EndpointMeta): Promise<TableCardConfig> {
     const { siteId, orgId, userId, caller } = args
@@ -87,7 +87,7 @@ export class ManagePage extends SitesQuery {
         throw abort(`UPSERT(where clause): '${key}' required from ${caller}`, { data: { fields, caller } })
     }
 
-    const insertFields = { ...prepped, orgId, userId, siteId }
+    const insertFields = { ...prepped, orgId, siteId }
 
     // Check if the combination of slug, regionId, and siteId already exists
     const query = db
@@ -243,10 +243,10 @@ export class ManageSite extends SitesQuery {
 
   private async createSite(params: ManageSiteParams & { _action: 'create' }, meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
     const { fields, userId, orgId } = params
-    if (!userId || !orgId)
-      throw abort('userId and orgId required')
+    if (!orgId)
+      throw abort('orgId required')
 
-    this.log.info(`creating site: ${fields.title}`, { data: { userId, orgId, fields } })
+    this.log.info(`creating site: ${fields.title}`, { data: { orgId, fields } })
 
     const themeSite = await this.createSiteFromTheme(params, meta)
     const defaultSubDomain = meta.bearer?.email?.split('@')[0] || 'site'
@@ -334,7 +334,7 @@ export class ManageSite extends SitesQuery {
     return updatedResult
   }
 
-  private async createSitePages(args: { siteId: string, pages?: CardConfigPortable[], userId: string, orgId: string }, meta: EndpointMeta): Promise<void> {
+  private async createSitePages(args: { siteId: string, pages?: CardConfigPortable[], userId?: string, orgId: string }, meta: EndpointMeta): Promise<void> {
     const { siteId, pages = [], userId, orgId } = args
 
     const promises = (pages || []).map(async (page) => {
@@ -410,8 +410,8 @@ export class ManageSite extends SitesQuery {
     const { fields, userId, orgId } = params
     const { themeId } = fields
 
-    if (!userId || !orgId)
-      throw abort('userId and orgId required')
+    if (!orgId)
+      throw abort('orgId required')
 
     const fictionSites = this.settings.fictionSites
     const siteRouter = this.settings.fictionRouterSites
@@ -459,7 +459,7 @@ export class ManageSite extends SitesQuery {
   }
 }
 
-interface ManageIndexParams {
+interface ManageSitesParams {
   _action: 'delete' | 'list'
   userId?: string
   orgId: string
@@ -468,9 +468,9 @@ interface ManageIndexParams {
   selectedIds?: string[]
   filters?: DataFilter[]
 }
-export class ManageIndex extends SitesQuery {
+export class ManageSites extends SitesQuery {
   async run(
-    params: ManageIndexParams,
+    params: ManageSitesParams,
     _meta: EndpointMeta,
   ): Promise<EndpointResponse<TableSiteConfig[]>> {
     const { _action, orgId, limit = 10, offset = 0, filters = [] } = params
@@ -516,8 +516,6 @@ export class ManageIndex extends SitesQuery {
 
       count = +(r?.count || 0)
     }
-
-    this.log.info('running query', { data: { params, data, count } })
 
     return {
       status: 'success',

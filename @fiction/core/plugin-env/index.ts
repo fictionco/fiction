@@ -48,8 +48,9 @@ export interface FictionControlSettings {
       email?: string
       url?: string
       domain?: string
-      siteId?: string
-      orgId?: string
+      siteId?: string // set dynamically
+      orgId?: string // set dynamically
+      userId?: string // set dynamically
     }
   }
 }

@@ -15,7 +15,7 @@ export type ThemeSettings<T extends Record<string, unknown> = Record<string, unk
   title?: string
   version?: string
   description?: string
-  screenshot: string
+  screenshot?: string
   templates?: readonly CardTemplate[] | CardTemplate[]
   ui?: UiConfig
   isPublic?: boolean

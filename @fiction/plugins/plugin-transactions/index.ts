@@ -43,6 +43,9 @@ export class FictionTransactions extends FictionPlugin<FictionTransactionsSettin
         const theme = site?.theme.value
         const transactionTemplateId = theme?.templateDefaults.value.transaction || 'wrap'
 
+        if (!theme?.templates || !theme.templates.find(_ => _.settings.templateId === transactionTemplateId))
+          return pages
+
         return [
           ...pages,
           createCard({
