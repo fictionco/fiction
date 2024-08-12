@@ -34,7 +34,7 @@ const activeItem = vue.ref(0)
           </div>
         </div>
         <div class="flex-col justify-center sm:text-balance">
-          <div class="min-w-0 text-left sm:text-center  text-4xl lg:text-7xl">
+          <div class="min-w-0 text-left sm:text-center text-4xl lg:text-6xl !leading-[1.2]">
             <CardText
               tag="span"
               :card="card"
@@ -62,6 +62,6 @@ const activeItem = vue.ref(0)
         </div>
       </div>
     </div>
-    <NavDots v-model:active-item="activeItem" :container-id="card.cardId" :items="quotes" class="mt-12 z-20" />
+    <NavDots v-model:active-item="activeItem" :container-id="card.cardId" :items="quotes" class="mt-12 z-20 mb-6" />
   </div>
 </template>

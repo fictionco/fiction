@@ -1,8 +1,9 @@
 import type { FictionEnv, NavItem } from '@fiction/core'
 import { Theme, createCard } from '@fiction/site/theme.js'
 import { safeDirname } from '@fiction/core'
-import { getDemoPages } from '@fiction/cards'
+import { getCardTemplates, getDemoPages } from '@fiction/cards'
 import type { FictionStripe } from '@fiction/plugin-stripe/plugin.js'
+import { CardFactory } from '@fiction/site/cardFactory.js'
 import { templates } from './templates.js'
 import * as home from './home/index.js'
 import * as tour from './tour/index.js'
@@ -37,6 +38,11 @@ const socials: NavItem[] = [
   },
 ]
 
+export async function getFactory() {
+  const templates = await getCardTemplates()
+  return new CardFactory({ templates })
+}
+
 export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: FictionStripe }) {
   const { fictionEnv, fictionStripe } = args
 
@@ -56,9 +62,12 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
       const { site } = args
 
       const demoPages = await getDemoPages({ templates, fictionEnv, site })
+
+      const factory = await getFactory()
+      const tourPage = await tour.getPage({ factory })
       const pages = await Promise.all([
         home.page(args),
-        tour.page(),
+        tourPage,
         about.page(),
         developer.page(),
         pricing.page({ fictionStripe }),

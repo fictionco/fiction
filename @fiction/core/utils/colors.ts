@@ -1,3 +1,5 @@
+import { z } from 'zod'
+
 export const colorThemeBright = ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'] as const
 export const colorTheme = ['slate', 'gray', 'zinc', 'neutral', 'stone', 'black', 'white', ...colorThemeBright] as const
 export const colorThemeUser = ['theme', 'primary', 'default', 'overlay', 'naked', ...colorTheme] as const
@@ -6,15 +8,17 @@ type InvertedColor = `${(typeof colorTheme)[number]}Inverted`
 // Create a union type that includes both regular and inverted colors
 export type ColorThemeBright = (typeof colorThemeBright)[number]
 export type ColorTheme = (typeof colorTheme)[number]
-export type ColorThemeWithInvert = ColorTheme | InvertedColor
 export type ColorThemeUser = (typeof colorThemeUser)[number]
 
 export const colorThemeWithInvert = [
-  ...colorTheme,
-  ...colorTheme.map(c => `${c}Inverted` as const),
+  ...colorThemeUser,
+  ...colorThemeUser.map(c => `${c}Inverted` as const),
 ] as const
 
-export type ColorScale = 0 | 25 | 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950 | 975 | 1000
+export type ColorThemeWithInvert = (typeof colorThemeWithInvert)[number]
+
+export const ColorScaleSchema = z.union([z.literal(0), z.literal(25), z.literal(50), z.literal(100), z.literal(200), z.literal(300), z.literal(400), z.literal(500), z.literal(600), z.literal(700), z.literal(800), z.literal(900), z.literal(950), z.literal(975), z.literal(1000)])
+export type ColorScale = z.infer<typeof ColorScaleSchema>
 
 type ColorRecord = {
   [P in ColorScale]: string

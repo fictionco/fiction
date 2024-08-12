@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { colorThemeUser, colorThemeWithInvert } from '../utils/colors.js'
+import { ColorScaleSchema, colorThemeUser, colorThemeWithInvert } from '../utils/colors.js'
 
 export const PostStatusSchema = z.enum(['draft', 'scheduled', 'published', 'hidden', 'protected', 'deleted', 'archived', 'trashed', 'spam'])
 export const ProgressStatusSchema = z.enum(['pending', 'requested', 'processing', 'ready', 'error', 'cancelled'])
@@ -75,6 +75,9 @@ export const FontStyleSchema = z.object({
 export const GradientPointSchema = z.object({
   color: z.string().optional(),
   percent: z.number().min(0).max(100).optional(),
+  theme: ColorThemeSchema.optional(),
+  scale: ColorScaleSchema.optional(),
+  opacity: z.number().min(0).max(1).optional(),
 })
 export type GradientPoint = z.infer<typeof GradientPointSchema>
 export const GradientSettingSchema = z.object({

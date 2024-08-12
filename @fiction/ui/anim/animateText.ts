@@ -19,7 +19,7 @@ export function animateUnderline({
   animationDuration = 2000,
   opacity = 0.7,
 }: AnimateUnderlineArgs = {}) {
-  const elements = el.querySelectorAll('[data-text-effect="underline"]')
+  const elements = el.querySelectorAll('[data-text-effect]')
 
   elements.forEach((elem) => {
     const element = elem as HTMLElement

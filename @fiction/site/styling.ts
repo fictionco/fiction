@@ -5,11 +5,11 @@ type Direction = 'top' | 'bottom' | 'both'
 const spacingClasses = {
   none: { top: 'pt-0', bottom: 'pb-0' },
   full: { top: 'min-h-[100dvh] flex items-center', bottom: 'min-h-[100dvh]' },
-  xs: { top: 'pt-[calc(0.25rem+1vw)]', bottom: 'pb-[calc(0.25rem+1vw)]' },
-  sm: { top: 'pt-[calc(0.5rem+2vw)]', bottom: 'pb-[calc(0.5rem+2vw)]' },
-  md: { top: 'pt-[calc(1.5rem+4vw)]', bottom: 'pb-[calc(1.5rem+4vw)]' },
-  lg: { top: 'pt-[calc(3.5rem+8vw)]', bottom: 'pb-[calc(3.5rem+8vw)]' },
-  xl: { top: 'pt-[calc(5rem+12vw)]', bottom: 'pb-[calc(5rem+12vw)]' },
+  xs: { top: 'pt-[calc(0.5rem+1vw)]', bottom: 'pb-[calc(0.5+1vw)]' },
+  sm: { top: 'pt-[calc(1rem+2vw)]', bottom: 'pb-[calc(1rem+2vw)]' },
+  md: { top: 'pt-[calc(2rem+4vw)]', bottom: 'pb-[calc(2rem+4vw)]' },
+  lg: { top: 'pt-[calc(4rem+6vw)]', bottom: 'pb-[calc(4rem+6vw)]' },
+  xl: { top: 'pt-[calc(6rem+10vw)]', bottom: 'pb-[calc(6rem+10vw)]' },
 }
 
 export function getSpacingClass(args: { size: SizeBasic, direction: Direction }): string {

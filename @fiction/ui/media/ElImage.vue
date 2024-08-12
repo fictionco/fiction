@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { GradientSetting, MediaObject } from '@fiction/core'
-import { log, vue, waitFor } from '@fiction/core'
+import type { GradientPoint, GradientSetting, MediaObject } from '@fiction/core'
+import { getColorScheme, log, vue, waitFor } from '@fiction/core'
 import * as bh from 'blurhash'
 import ClipPathAnim from '../anim/AnimClipPath.vue'
 
@@ -95,14 +95,38 @@ const cls = vue.computed(() => {
 
 const filters = vue.computed(() => props.media?.filters || [])
 
+function generateColorString(point: GradientPoint): string {
+  if (point.color) {
+    return point.opacity !== undefined
+      ? `${point.color}${Math.round(point.opacity * 255).toString(16).padStart(2, '0')}`
+      : point.color
+  }
+
+  if (['primary', 'theme'].includes(point.theme || '')) {
+    const scale = point.scale || 500
+    const themeVar = point.theme === 'theme' ? 'theme' : 'primary'
+    const rgbVar = `var(--${themeVar}-${scale})`
+    return `rgba(${rgbVar} / ${point.opacity || 1})`
+  }
+  else if (point.theme) {
+    const v = getColorScheme(point.theme)[point.scale || 500]
+
+    return `rgba(${v} / ${point.opacity || 1})`
+  }
+
+  return ''
+}
+
 function createGradientString(gradient: GradientSetting): string {
-  if (gradient.css)
+  if (gradient.css) {
     return gradient.css
+  }
 
   const angle = gradient.angle ?? 0
-  const stops = gradient.stops?.map(stop =>
-    `${stop.color} ${stop.percent != null ? `${stop.percent}%` : ''}`,
-  ).join(', ') ?? ''
+  const stops = gradient.stops?.map((stop) => {
+    const colorString = generateColorString(stop)
+    return `${colorString} ${stop.percent != null ? `${stop.percent}%` : ''}`
+  }).join(', ') ?? ''
 
   return `linear-gradient(${angle}deg, ${stops})`
 }
