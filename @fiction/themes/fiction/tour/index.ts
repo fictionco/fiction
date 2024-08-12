@@ -5,14 +5,18 @@ const topHeroCard = createCard({
   templates,
   templateId: 'hero',
   userConfig: {
-    superHeading: 'Tour',
-    subHeading: `Tools to Build Your Professional Reputation`,
-    heading: `A simple step-by-step platform that helps you market yourself`,
+    superColor: 'green',
+    superIcon: 'i-tabler-arrow-up-right',
+    superHeading: 'Why Fiction',
+    subHeading: `Fiction is the easiest way to market yourself online.`,
+    heading: `Are you ready to be seen and to <span data-text-effect="underline" data-effect-type="squiggle" data-effect-color="primary">make your impact?</span>`,
     actions: [
       {
-        name: 'Create Account',
+        name: 'I Am Ready',
         href: '/app/login?_reload=1',
         theme: 'primary',
+        design: 'solid',
+        iconAfter: 'i-tabler-arrow-big-right-lines',
       },
     ],
   },
@@ -22,6 +26,10 @@ const mediaGridCard = createCard({
   templates,
   templateId: 'mediaGrid',
   userConfig: {
+    standard: {
+      headers: {
+      },
+    },
     items: [
       {
         name: 'Andrew Powers',
@@ -102,6 +110,7 @@ const tourCard = createCard({
   userConfig: {
     items: [
       {
+        layout: 'right',
         heading: 'A Website Designed To Build Authority and Influence',
         subHeading: 'Fiction provides you a website and all the tools you\'ll need to communicate and build authority.',
         splash: { url: new URL('img/fig-website-screen.svg', import.meta.url).href },
@@ -109,6 +118,7 @@ const tourCard = createCard({
         actions: [],
       },
       {
+        layout: 'left',
         heading: 'Own Your Network and Build An Audience',
         subHeading: 'Fiction helps you build your own email list, and a captive audience that you can easily manage.',
         splash: { url: new URL('img/fig-subscribe-screen.svg', import.meta.url).href,
@@ -117,6 +127,7 @@ const tourCard = createCard({
         actions: [],
       },
       {
+        layout: 'right',
         heading: 'Email Personal Updates &amp; Your Newsletter',
         subHeading: 'Fiction helps you build your own email list, and a captive audience that you can easily manage.',
         splash: { url: new URL('img/fig-email-screen.svg', import.meta.url).href },
@@ -124,6 +135,7 @@ const tourCard = createCard({
         actions: [],
       },
       {
+        layout: 'left',
         heading: 'Create Passive Income, Achieve Your Goals',
         subHeading: 'Use your personal brand as a way to build influence and reach your goals. Sell memberships and more to earn.',
         splash: { url: new URL('img/fig-money-screen.svg', import.meta.url).href },
@@ -131,6 +143,7 @@ const tourCard = createCard({
         actions: [],
       },
       {
+        layout: 'right',
         heading: 'Resume 2.0 &mdash; Automate Your Personal Branding',
         subHeading: 'Fiction also provides brand assets and strategy based on your persona and goals.',
         splash: { url: new URL('img/fig-contact-screen.svg', import.meta.url).href },

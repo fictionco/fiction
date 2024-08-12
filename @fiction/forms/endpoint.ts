@@ -167,10 +167,12 @@ export class QueryManageSubmission extends FormQuery {
     return { status: 'success', message: 'Submissions deleted', data: results, indexMeta: { changedCount: results.length } }
   }
 
-  private async sendUserEmailNotification(params: SubmissionParams & { _action: 'create' }, meta: EndpointMeta): Promise<EndpointResponse<EmailResponse>> {
+  private async sendUserEmailNotification(params: SubmissionParams & { _action: 'create' }, meta: EndpointMeta): Promise<EndpointResponse<EmailResponse[]>> {
     const { orgId, fields } = params
     try {
       const { title, card } = fields
+
+      const { notifyEmails } = fields.card?.userConfig || {}
       // Retrieve organization details
       const r = await this.settings.fictionUser?.queries.ManageOrganization.serve({
         _action: 'retrieve',
@@ -202,18 +204,23 @@ export class QueryManageSubmission extends FormQuery {
         throw new Error('No email service available')
       }
 
-      const email = await this.settings.fictionEmail.renderAndSendEmail({
-        to: orgEmail, // Assuming the organization has an email field
-        subject: 'New Form Submission',
+      // limit to 5 emails
+      const emailList = notifyEmails?.slice(0, 5) || [orgEmail]
+
+      const emailPromises = emailList.map(to => this.settings.fictionEmail.renderAndSendEmail({
+        to,
+        subject: heading,
         bodyMarkdown,
         heading,
         subHeading: `Details are below`,
         actions: [{ name: 'Fiction Dashboard', href: `${this.settings.fictionEnv.meta.app?.url}/app` }],
-      }, { server: true })
+      }, { server: true }))
+
+      const emails = await Promise.all(emailPromises)
 
       this.log.info('Email sent for new form submission', { data: { heading, bodyMarkdown } })
 
-      return email
+      return { status: 'success', data: emails.map(e => e.data).filter(Boolean) as EmailResponse[] }
     }
     catch (error) {
       this.log.error('Failed to send email notification for new form submission', { error, data: params })

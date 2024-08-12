@@ -1,6 +1,7 @@
 import { vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site/card'
 import { z } from 'zod'
+import { FormUserConfigSchema } from '@fiction/forms'
 import { standardOption } from '../inputSets'
 
 const templateId = 'contact'
@@ -24,6 +25,7 @@ export const UserConfigSchema = z.object({
     href: z.string().optional().describe('Full link for href'),
     icon: z.string().optional().describe('icon reference associated with the social media platform (x, youtube, facebook, etc)'),
   })).optional().describe('List of social media links'),
+  form: FormUserConfigSchema.optional(),
 })
 
 export type UserConfig = z.infer<typeof UserConfigSchema>
@@ -57,6 +59,10 @@ const defaultContent: UserConfig = {
     { name: '@handle on x', href: '#', icon: 'x' },
     { name: '@handle on linkedin', href: '#', icon: 'linkedin' },
   ],
+
+  form: {
+    notifyEmails: ['arpowers@gmail.com', 'andrew@fiction.com'],
+  },
 }
 
 export const templates = [

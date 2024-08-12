@@ -30,6 +30,7 @@ vue.onMounted(() => {
       class="x-action-item"
       :card
       :theme="action.theme || 'default'"
+      :design="action.design"
       :href="action.href"
       :size="action.size || defaultSize"
       :icon="action.icon"

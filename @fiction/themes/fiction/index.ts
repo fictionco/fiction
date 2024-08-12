@@ -90,6 +90,7 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
             templates,
             cards: [
               createCard({ templates, templateId: 'mediaPop', userConfig: { } }),
+              createCard({ templates, templateId: 'textEffects', userConfig: { } }),
             ],
           }),
           header: createCard({

@@ -9,6 +9,7 @@ import * as quote from './quote'
 import * as logos from './logos'
 import * as hero from './hero'
 import * as mediaPop from './mediaPop'
+import * as textEffects from './textEffects'
 import * as area from './area'
 import * as tour from './tour'
 import * as profile from './profile'
@@ -77,6 +78,7 @@ export const standardCardTemplates = [
   ...metrics.templates,
   ...faq.templates,
   ...mediaPop.templates,
+  ...textEffects.templates,
   ...trek.templates,
   ...fitText.templates,
   ...overSlide.templates,

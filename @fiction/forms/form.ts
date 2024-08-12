@@ -1,4 +1,4 @@
-import { FictionObject, getNested, path, setNested, vue } from '@fiction/core'
+import { FictionObject, getNested, vue } from '@fiction/core'
 
 import type { CardTemplate, Site } from '@fiction/site'
 import { Card } from '@fiction/site'
