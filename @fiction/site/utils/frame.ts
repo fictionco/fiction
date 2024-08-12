@@ -120,7 +120,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
     const { msg } = args
 
     if (!this.util)
-      this.log.warn('No frame utility found')
+      this.log.warn('No frame utility found to send message', { data: msg })
 
     this.util?.sendMessage({ message: msg })
   }

@@ -210,7 +210,7 @@ export class Card<
   }
 
   syncCard(args: { caller: string, cardConfig?: CardConfigPortable }) {
-    if (!this.site)
+    if (!this.site || this.site.siteMode.value === 'standard')
       return
 
     const cardConfig = args.cardConfig ? { ...args.cardConfig, cardId: this.cardId } : this.toConfig()

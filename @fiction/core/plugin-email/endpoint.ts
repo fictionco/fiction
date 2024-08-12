@@ -115,6 +115,16 @@ export class QueryTransactionalEmail extends EmailQuery {
     return { status: 'success', data: emailResponse, message }
   }
 
+  fromAppEmail() {
+    const appMeta = this.settings.fictionEnv.meta.app || {}
+
+    const { name, email } = appMeta
+
+    const from = name ? `${name} <${email}>` : email
+
+    return from
+  }
+
   async sendSmtp(fields: TransactionalEmailConfig, meta: EndpointMeta): Promise<EmailResponse> {
     const shouldSend = this.shouldSendEmail(meta)
 
@@ -126,7 +136,7 @@ export class QueryTransactionalEmail extends EmailQuery {
 
     const { fromName, fromEmail, to, subject } = fields
 
-    const from = fromName ? `${fromName} <${fromEmail}>` : fromEmail
+    const from = (fromName ? `${fromName} <${fromEmail}>` : fromEmail) || this.fromAppEmail()
 
     const theEmail = { from, to, subject, html, text }
 

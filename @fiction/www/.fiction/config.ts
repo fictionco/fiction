@@ -258,6 +258,7 @@ export interface CompiledServiceConfig {
       | 'orgId'
       | 'formId'
       | 'formTemplateId'
+      | 'status'
       | 'title'
       | 'card'
       | 'userValues'

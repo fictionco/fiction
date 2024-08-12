@@ -1,5 +1,6 @@
 import type { DataFilter, EndpointMeta, EndpointResponse, IndexQuery } from '@fiction/core'
 import { Query } from '@fiction/core'
+import type { EmailResponse } from '@fiction/core/plugin-email/endpoint.js'
 import type { FormConfigPortable, FormSubmissionConfig } from './schema.js'
 import { t } from './schema.js'
 import type { FictionForms, FormPluginSettings } from './index.js'
@@ -166,7 +167,7 @@ export class QueryManageSubmission extends FormQuery {
     return { status: 'success', message: 'Submissions deleted', data: results, indexMeta: { changedCount: results.length } }
   }
 
-  private async sendUserEmailNotification(params: SubmissionParams & { _action: 'create' }, meta: EndpointMeta): Promise<void> {
+  private async sendUserEmailNotification(params: SubmissionParams & { _action: 'create' }, meta: EndpointMeta): Promise<EndpointResponse<EmailResponse>> {
     const { orgId, fields } = params
     try {
       const { title, card } = fields
@@ -188,9 +189,10 @@ export class QueryManageSubmission extends FormQuery {
 
       const cards = card?.cards || []
 
-      const formattedDetails = cards.map((c) => {
+      const formattedDetails = cards.filter(c => c.userConfig?.userValue).map((c) => {
         const uc = c.userConfig || {}
-        return `**${uc.title}**: ${uc.userValue}`
+
+        return `- **${uc.title}**: ${uc.userValue}`
       },
       ).join('\n')
 
@@ -200,7 +202,7 @@ export class QueryManageSubmission extends FormQuery {
         throw new Error('No email service available')
       }
 
-      await this.settings.fictionEmail.renderAndSendEmail({
+      const email = await this.settings.fictionEmail.renderAndSendEmail({
         to: orgEmail, // Assuming the organization has an email field
         subject: 'New Form Submission',
         bodyMarkdown,
@@ -209,10 +211,13 @@ export class QueryManageSubmission extends FormQuery {
         actions: [{ name: 'Fiction Dashboard', href: `${this.settings.fictionEnv.meta.app?.url}/app` }],
       }, { server: true })
 
-      this.log.info('Email notification sent for new form submission', { data: params })
+      this.log.info('Email sent for new form submission', { data: { heading, bodyMarkdown } })
+
+      return email
     }
     catch (error) {
       this.log.error('Failed to send email notification for new form submission', { error, data: params })
+      return { status: 'error', message: 'Failed to send email notification' }
     }
   }
 }

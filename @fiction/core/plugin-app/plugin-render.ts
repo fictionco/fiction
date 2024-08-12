@@ -421,14 +421,14 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
   getRunVars = (args: { request: Request, mode: 'dev' | 'prod' | 'test' }): Partial<RunVars> & Record<string, string> => {
     const { request, mode } = args
-    return {
+    const runVars = {
       ...this.settings.fictionEnv.getRenderedEnvVars(),
       RUN_MODE: mode,
       APP_INSTANCE: this.fictionApp.appInstanceId,
-      FICTION_ORG_ID: this.fictionApp.settings.fictionOrgId || '',
-      FICTION_SITE_ID: this.fictionApp.settings.fictionSiteId || '',
       ...getRequestVars({ request }),
     }
+
+    return runVars
   }
 
   addRunVarsToHtml(args: { html: string, runVars?: Record<string, string> }): string {

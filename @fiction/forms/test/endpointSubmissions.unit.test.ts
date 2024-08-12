@@ -139,6 +139,25 @@ describe('submission endpoint', async () => {
     expect(r.indexMeta?.count).toBe(1)
   })
 
+  it('should create a submission with minimal fields', async () => {
+    const r = await fictionForms.queries.ManageSubmission.serve({
+      _action: 'create',
+      orgId,
+      fields: {
+        formId,
+        userValues: {
+          name: 'John Minimal',
+        },
+      },
+    }, { server: true })
+
+    expect(r.status).toBe('success')
+    expect(r.data).toBeDefined()
+    expect(r.data?.length).toBe(1)
+    expect(r.data?.[0]?.userValues?.name).toBe('John Minimal')
+    expect(r.data?.[0]?.userValues?.email).toBeUndefined()
+  })
+
   it('update submission', async () => {
     const listResponse = await fictionForms.queries.ManageSubmission.serve({
       _action: 'list',
@@ -207,11 +226,11 @@ describe('submission endpoint', async () => {
 
     expect(r.status).toBe('success')
     expect(r.data).toBeDefined()
-    expect(r.data?.length).toBe(2)
+    expect(r.data?.length).toBe(3)
     const names = r.data?.map(submission => submission.userValues?.name)
     expect(names).toContain('Jane Doe')
     expect(names).toContain('Alice Smith')
-    expect(r.indexMeta?.count).toBe(2)
+    expect(r.indexMeta?.count).toBe(3)
   })
 
   it('delete one submission', async () => {
@@ -243,7 +262,31 @@ describe('submission endpoint', async () => {
     }, { server: true })
 
     expect(finalListResponse.data).toBeDefined()
-    expect(finalListResponse.data?.length).toBe(1)
-    expect(finalListResponse.indexMeta?.count).toBe(1)
+    expect(finalListResponse.data?.length).toBe(2)
+    expect(finalListResponse.indexMeta?.count).toBe(2)
+  })
+
+  it('should count submissions with filters', async () => {
+    const r = await fictionForms.queries.ManageSubmission.serve({
+      _action: 'count',
+      orgId,
+      filters: [
+        { field: 'status', operator: '=', value: 'reviewed' },
+      ],
+    }, { server: true })
+
+    expect(r.status).toBe('success')
+    expect(r.indexMeta?.count).toBe(0)
+  })
+
+  it('should handle invalid action gracefully', async () => {
+    const r = await fictionForms.queries.ManageSubmission.serve({
+      // @ts-expect-error Testing invalid action
+      _action: 'invalidAction',
+      orgId,
+    }, { server: true })
+
+    expect(r.status).toBe('error')
+    expect(r.message).toBe('Invalid action')
   })
 })

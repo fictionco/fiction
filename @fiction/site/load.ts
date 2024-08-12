@@ -76,7 +76,7 @@ export async function loadSiteFromTheme(args: {
   const siteId = args.fictionSiteId || appMeta.siteId || `static-siteId-${themeId}`
 
   if (!orgId) {
-    throw new Error('loadSiteFromTheme: orgId required')
+    throw new Error(`loadSiteFromTheme: orgId required (caller:${caller})`)
   }
 
   const subDomain = `theme-${themeId}`
@@ -227,6 +227,7 @@ export function getMountContext(args: {
 
   let selector: Partial<MountContext> = {}
   let siteMode = args.siteMode || 'standard'
+
   const fictionOrgId = orgId || runVars?.FICTION_ORG_ID
   const fictionSiteId = siteId || runVars?.FICTION_SITE_ID
 
@@ -318,7 +319,7 @@ export async function loadSitemap(args: { mode: 'static' | 'dynamic', runVars?: 
     })
 
     const themeSites = await Promise.all(routesWithThemeId.map(async ({ basePath, themeId }) => {
-      const site = await loadSiteFromTheme({ themeId, siteRouter: fictionRouter, fictionSites, siteMode: 'designer' })
+      const site = await loadSiteFromTheme({ themeId, siteRouter: fictionRouter, fictionSites, siteMode: 'designer', caller: 'loadSitemap' })
       return { site, basePath }
     }))
 

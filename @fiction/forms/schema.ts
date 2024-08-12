@@ -48,6 +48,7 @@ export const formSubmissionCols = [
   new Col({ key: 'orgId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`fiction_org.org_id`).onUpdate('CASCADE').notNullable().index() }),
   new Col({ key: 'formId', sec: 'permanent', sch: () => z.string().min(1), make: ({ s, col }) => s.string(col.k).index() }),
   new Col({ key: 'formTemplateId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).index() }),
+  new Col({ key: 'status', sec: 'setting', sch: () => z.enum(['unread', 'reviewed', 'archived']), make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('draft') }),
   new Col({ key: 'title', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'card', sec: 'setting', sch: () => z.record(z.unknown()) as z.Schema<CardConfigPortable>, make: ({ s, col }) => s.jsonb(col.k).defaultTo([]) }),
   new Col({ key: 'userValues', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),

@@ -2,7 +2,7 @@ import { Theme } from '@fiction/site/theme.js'
 import type { FictionEnv } from '@fiction/core/index.js'
 import { safeDirname } from '@fiction/core/index.js'
 import { CardFactory } from '@fiction/site/cardFactory'
-import { getCardTemplates } from './templates'
+import { getCardTemplates } from '../templates'
 
 async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof getCardTemplates>>> }) {
   const { factory } = args
