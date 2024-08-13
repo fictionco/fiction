@@ -72,8 +72,8 @@ export async function loadSiteFromTheme(args: {
   const theme = availableThemes.find(t => t.themeId === themeId)
   const { fictionEnv } = fictionSites.settings
   const appMeta = fictionEnv.meta.app || {}
-  const orgId = args.fictionOrgId || appMeta.orgId
-  const siteId = args.fictionSiteId || appMeta.siteId || `static-siteId-${themeId}`
+  const orgId = args.fictionOrgId || appMeta.orgId || fictionEnv.var('FICTION_ORG_ID')
+  const siteId = args.fictionSiteId || appMeta.siteId || fictionEnv.var('FICTION_SITE_ID')
 
   if (!orgId) {
     throw new Error(`loadSiteFromTheme: orgId required (caller:${caller})`)

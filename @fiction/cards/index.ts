@@ -38,6 +38,7 @@ import * as testimonials from './testimonials/index.js'
 import * as effectShape from './effect-shape/index.js'
 import * as gallery from './gallery/index.js'
 import * as contact from './contact/index.js'
+import * as hitlist from './hitlist/index.js'
 
 import { createDemoPage } from './utils/demo'
 /**
@@ -87,6 +88,7 @@ export const standardCardTemplates = [
   ...effectShape.templates,
   ...gallery.templates,
   ...contact.templates,
+  ...hitlist.templates,
 ] as const
 
 export async function getCardTemplates() {

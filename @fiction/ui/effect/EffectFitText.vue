@@ -8,7 +8,7 @@ const props = defineProps({
   minSize: { type: Number, default: 16 },
   maxSize: { type: Number, default: 512 },
   multiLine: { type: Boolean, default: true },
-  lines: { type: Number, default: undefined },
+  lines: { type: Number, default: 1 },
   observeMutations: { type: [Boolean, Object], default: true },
   content: { type: String, required: true },
 })
