@@ -252,10 +252,12 @@ export class ManageSite extends SitesQuery {
     const defaultSubDomain = meta.bearer?.email?.split('@')[0] || 'site'
     const mergedFields = deepMerge([themeSite, { subDomain: `${defaultSubDomain}-${shortId({ len: 4 })}` }, fields])
 
-    const prepped = this.settings.fictionDb.prep({ type: 'update', fields: mergedFields, table: tableNames.sites, meta })
+    const prepped = this.settings.fictionDb.prep({ type: 'insert', fields: mergedFields, table: tableNames.sites, meta })
     const [site] = await this.settings.fictionDb.client()
       .insert({ orgId, userId, ...prepped })
       .into(tableNames.sites)
+      .onConflict('site_id')
+      .ignore()
       .returning<TableSiteConfig[]>('*')
 
     if (!site?.siteId)

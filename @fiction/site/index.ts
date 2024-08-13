@@ -1,4 +1,4 @@
-import { FictionPlugin, getAnonymousId, isNode, safeDirname, vue } from '@fiction/core'
+import { FictionPlugin, crossVar, getAnonymousId, isNode, safeDirname, vue } from '@fiction/core'
 import type { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionPluginSettings, FictionRouter, FictionServer, FictionUser, Organization } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
 import type { FictionAi } from '@fiction/plugin-ai'
@@ -132,7 +132,7 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     await initializeClientTag({ siteId, orgId, beaconUrl, anonymousId })
   }
 
-  async ensureSiteForOrg({ org }: { org: Organization }) {
+  async ensureSiteForOrg({ org, siteId }: { org: Organization, siteId: string }) {
     if (!isNode()) {
       throw new Error('ensureSiteForOrg is only available on the server')
     }
@@ -146,7 +146,7 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
 
     let site: TableSiteConfig
     if (!r.data?.length) {
-      const r2 = await this.queries.ManageSite.serve({ _action: 'create', orgId, fields: { title: orgName, themeId: 'empty' }, caller: 'ensure' }, { server: true })
+      const r2 = await this.queries.ManageSite.serve({ _action: 'create', orgId, fields: { title: orgName, themeId: 'empty', siteId }, caller: 'ensure' }, { server: true })
 
       if (!r2.data)
         throw new Error('Site not created')
@@ -158,5 +158,36 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     }
 
     return site
+  }
+
+  async ensureDefaults(args: { context?: 'node' | 'app', defaultId?: string }) {
+    const { context = 'node', defaultId = 'admin' } = args
+
+    if (context === 'node') {
+      const { fictionUser, fictionEnv } = this.settings
+      const { email, name } = fictionEnv.meta.app || {}
+
+      if (!email || !name)
+        throw new Error('No email or name for app')
+
+      if (!fictionUser)
+        throw new Error('No fictionUser')
+
+      const { org } = await fictionUser?.ensureUserAndOrganization({ orgName: name, email, orgId: defaultId })
+
+      if (!org.orgId)
+        throw new Error('No orgId')
+
+      const site = await this.ensureSiteForOrg({ org, siteId: defaultId })
+
+      if (!crossVar.has('FICTION_ORG_ID')) {
+        crossVar.set('FICTION_ORG_ID', org.orgId)
+      }
+      fictionEnv.log.info(`Setting app FICTION_ORG_ID to '${org.orgId}'`)
+      if (!crossVar.has('FICTION_SITE_ID')) {
+        crossVar.set('FICTION_SITE_ID', site.siteId)
+      }
+      fictionEnv.log.info(`Setting app FICTION_SITE_ID to '${site.siteId}'`)
+    }
   }
 }

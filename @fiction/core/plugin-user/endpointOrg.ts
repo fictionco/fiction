@@ -7,6 +7,7 @@ import type { FictionEnv } from '../plugin-env/index.js'
 import { Query } from '../query.js'
 import type { FictionEmail } from '../plugin-email/index.js'
 import { standardTable as t } from '../tbl.js'
+import { objectId } from '../utils/id.js'
 import type { MemberAccess, MemberStatus, Organization, OrganizationMembership, User } from './types.js'
 import type { FictionUser } from './index.js'
 
@@ -232,16 +233,19 @@ export class QueryManageOrganization extends OrgQuery {
 
   private async createOrganization(params: ManageOrganizationParams & { _action: 'create' }, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {
     const { fields, userId } = params
-    const { orgName, orgEmail } = fields
+    const { orgName, orgEmail, orgId } = fields
     const defaultName = orgEmail?.split('@')[0] || 'Personal'
 
     const [responseOrg] = await this.db()
       .insert({
+        orgId: orgId || objectId({ prefix: 'org' }),
         orgName: orgName || defaultName,
         ownerId: fields.ownerId || userId,
         orgEmail,
       })
       .into(t.org)
+      .onConflict('org_id')
+      .ignore()
       .returning<Organization[]>('*')
 
     if (!responseOrg?.orgId)

@@ -1,6 +1,3 @@
-import { createCard } from '@fiction/site/theme.js'
-
-import { templates } from '../templates.js'
 import type { getFactory } from '../index.js'
 
 export async function getPage(args: { factory: Awaited<ReturnType<typeof getFactory>> }) {
@@ -81,8 +78,8 @@ export async function getPage(args: { factory: Awaited<ReturnType<typeof getFact
               items: [
                 {
                   layout: 'right',
-                  heading: 'A Website Designed To Build Authority and Influence',
-                  subHeading: 'Fiction provides you a website and all the tools you\'ll need to communicate and build authority.',
+                  heading: 'A Seamless Personal Branding Experience',
+                  subHeading: 'All the best practices in one place. Create a brand guide, site, blog, newsletter, email list, all in one place.',
                   splash: { url: new URL('img/fig-website-screen.svg', import.meta.url).href },
                   overlays: [{ media: { url: new URL('img/fig-website-alt-1.svg', import.meta.url).href } }],
                   actions: [],
@@ -199,7 +196,7 @@ export async function getPage(args: { factory: Awaited<ReturnType<typeof getFact
                 theme: 'blue',
                 bg: {
                   bgGradient: { angle: 45, stops: [
-                    { theme: 'blue', scale: 950, opacity: 0.2, percent: 0 },
+                    { theme: 'blue', scale: 950, opacity: 0, percent: 50 },
                     { theme: 'blue', scale: 950, opacity: 0.8, percent: 100 },
                   ] },
                 },

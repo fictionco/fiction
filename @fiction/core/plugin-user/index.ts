@@ -229,16 +229,16 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     )
   }
 
-  async ensureUserAndOrganization(args: { email: string, orgName: string }) {
+  async ensureUserAndOrganization(args: { email: string, orgName: string, orgId?: string }): Promise<{ user: User, org: Organization }> {
     if (!isNode())
       throw new Error('ensureUserAndOrganization only available on server')
 
-    const { email, orgName } = args
+    const { email, orgName, orgId } = args
 
     if (!email) {
       throw new Error('no app email in app meta')
     }
-    const r = await this.queries.ManageUser.serve({ _action: 'getCreate', where: { email }, fields: { orgName } }, { server: true })
+    const r = await this.queries.ManageUser.serve({ _action: 'getCreate', where: { email }, fields: { orgId, orgName, email } }, { server: true })
 
     const user = r.data
 

@@ -106,12 +106,12 @@ function generateColorString(point: GradientPoint): string {
     const scale = point.scale || 500
     const themeVar = point.theme === 'theme' ? 'theme' : 'primary'
     const rgbVar = `var(--${themeVar}-${scale})`
-    return `rgba(${rgbVar} / ${point.opacity || 1})`
+    return `rgba(${rgbVar} / ${point.opacity ?? 1})`
   }
   else if (point.theme) {
-    const v = getColorScheme(point.theme)[point.scale || 500]
+    const v = getColorScheme(point.theme)[point.scale ?? 500]
 
-    return `rgba(${v} / ${point.opacity || 1})`
+    return `rgba(${v} / ${point.opacity ?? 1})`
   }
 
   return ''

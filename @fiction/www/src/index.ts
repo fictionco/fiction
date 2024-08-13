@@ -192,28 +192,7 @@ export function setup(): ServiceConfig {
     fictionCache.init()
     await Promise.all([fictionDb.init(), fictionEmail.init(), fictionAnalytics.serverInit(), fictionCache.init()])
   }
-  async function ensureDefaults(args: { context: 'node' | 'app' }) {
-    const { context } = args
 
-    if (context === 'node') {
-      const { email, name } = meta.app
-      const { org } = await fictionUser.ensureUserAndOrganization({ orgName: name, email })
-
-      if (!org.orgId)
-        throw new Error('No orgId')
-
-      const site = await fictionSites.ensureSiteForOrg({ org })
-
-      if (!crossVar.has('FICTION_ORG_ID')) {
-        fictionEnv.log.info(`Setting FICTION_ORG_ID to ${org.orgId}`)
-        crossVar.set('FICTION_ORG_ID', org.orgId)
-      }
-      if (!crossVar.has('FICTION_SITE_ID')) {
-        fictionEnv.log.info(`Setting FICTION_SITE_ID to ${site.siteId}`)
-        crossVar.set('FICTION_SITE_ID', site.siteId)
-      }
-    }
-  }
   return {
     service,
     runVars: {},
@@ -232,7 +211,7 @@ export function setup(): ServiceConfig {
       }
       else {
         await initializeBackingServices(args)
-        await ensureDefaults(args)
+        await fictionSites.ensureDefaults({ context })
 
         if (command === 'app' || command === 'dev') {
           const { build } = options as { build?: boolean, useLocal?: boolean }
