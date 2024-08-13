@@ -3,6 +3,7 @@ import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import EffectFitText from '@fiction/ui/effect/EffectFitText.vue'
 import CardText from '@fiction/cards/CardText.vue'
+import ElImage from '@fiction/ui/media/ElImage.vue'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim/index.js'
 import type { UserConfig } from './index.js'
 
@@ -11,6 +12,9 @@ const props = defineProps({
 })
 
 const uc = vue.computed(() => props.card.userConfig.value || {})
+const layout = vue.computed(() => uc.value.layout || 'default')
+
+const isDefaultLayout = vue.computed(() => !uc.value.layout || uc.value.layout === 'default')
 
 vue.onMounted(() => {
   useElementVisible({
@@ -24,28 +28,65 @@ vue.onMounted(() => {
 
 <template>
   <div :class="card.classes.value.contentWidth">
-    <div class="mx-auto max-w-screen-lg">
-      <EffectFitText :content="uc.title || ''" class="max-w-screen-md mx-auto text-center mb-16 x-font-title" :lines="1">
-        <CardText :card tag="span" path="title" animate="rise" />
-      </EffectFitText>
-      <div class="grid grid-cols-[1fr_1fr] gap-16">
+    <div
+      class="mx-auto"
+      :class="[
+        !isDefaultLayout ? 'max-w-screen-xl' : 'max-w-screen-lg',
+      ]"
+    >
+      <div
+        class="flex flex-col lg:gap-12 xl:gap-32 justify-center"
+        :class="[
+          uc.layout === 'left' ? 'lg:flex-row-reverse' : '',
+          uc.layout === 'right' ? 'lg:flex-row' : '',
+        ]"
+      >
         <div
-          v-for="(item, i) in uc.items"
-          :key="i"
-          class="flex items-start gap-6 x-action-item"
+          v-if="uc.media"
+          class="w-full relative "
           :class="[
-            i % 2 === 0 ? 'col-start-1' : 'col-start-2',
-            i % 2 === 0 ? 'row-span-2' : 'row-start-[calc(var(--row)*2)]',
+            !isDefaultLayout ? 'lg:w-[45%] lg:mb-0 hidden lg:flex  items-center justify-center  mb-16 py-12 ' : 'hidden',
           ]"
-          :style="{ '--row': Math.floor(i / 2) + 1 }"
         >
-          <div class="flex-shrink-0 size-16 bg-primary-200/20 dark:bg-primary-700/30 text-primary-400 dark:text-primary-500 rounded-full flex items-center justify-center">
-            <span class="text-4xl font-semibold font-sans">{{ i + 1 }}</span>
+          <div class="relative h-full max-h-[800px]" :class="[layout === 'right' ? 'right-0' : '', !isDefaultLayout ? 'w-full' : 'w-full']">
+            <ElImage :animate="true" :media="uc.media" class="w-full h-full object-cover rounded-lg overflow-hidden" />
           </div>
-          <div>
-            <p class="text-2xl x-font-title leading-relaxed">
-              {{ item.title }}
-            </p>
+        </div>
+        <div
+          class="w-full"
+          :class="[
+            !isDefaultLayout ? 'lg:w-[55%]' : '',
+          ]"
+        >
+          <EffectFitText :content="uc.title || ''" class="max-w-screen-md mx-auto text-center mb-16 x-font-title" :lines="1">
+            <CardText :card tag="span" path="title" animate="rise" />
+          </EffectFitText>
+          <div
+            :class="[
+              isDefaultLayout ? 'grid grid-cols-[1fr_1fr] gap-16' : 'space-y-16',
+            ]"
+          >
+            <div
+              v-for="(item, i) in uc.items"
+              :key="i"
+              class="flex items-start gap-6 x-action-item"
+              :class="[
+                isDefaultLayout ? [
+                  i % 2 === 0 ? 'col-start-1' : 'col-start-2',
+                  i % 2 === 0 ? 'row-span-2' : 'row-start-[calc(var(--row)*2)]',
+                ] : '',
+              ]"
+              :style="isDefaultLayout ? { '--row': Math.floor(i / 2) + 1 } : {}"
+            >
+              <div class="flex-shrink-0 size-16 bg-primary-200/20 dark:bg-primary-700/30 text-primary-400 dark:text-primary-500 rounded-full flex items-center justify-center">
+                <span class="text-4xl font-semibold font-sans">{{ i + 1 }}</span>
+              </div>
+              <div>
+                <p class="text-2xl x-font-title leading-relaxed">
+                  {{ item.title }}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

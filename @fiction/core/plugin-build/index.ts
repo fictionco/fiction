@@ -68,12 +68,20 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
 
     const modExports = fileExports.filter(_ => _ !== 'default' && !namedExports[_])
 
-    const mock = `{}`
-
-    const moduleNamedExports = modExports.map(_ => `export const ${_} = ${mock}`)
+    const moduleNamedExports = modExports.map((_) => {
+      // Check if the export is likely a class (starts with uppercase letter)
+      if (/^[A-Z]/.test(_)) {
+        return `export class ${_} {}`
+      }
+      return `export const ${_} = {}`
+    })
 
     // construct exports from object
     const additional = Object.entries(namedExports).map(([imp, importValue]) => {
+      // Check if the export is likely a class (starts with uppercase letter)
+      if (/^[A-Z]/.test(imp)) {
+        return `export class ${imp} {}`
+      }
       return `export const ${imp} = ${importValue}`
     })
 
@@ -81,7 +89,7 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
 
     const newSource = [
       `// replaced file: ${id}`,
-      `export default ${mock}`,
+      `export default {}`,
       `${moduleNamedExports.join(`\n`)}`,
     ].join(`\n`)
 
