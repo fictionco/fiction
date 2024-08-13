@@ -89,6 +89,12 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
     return r
   }
 
+  out.runApp = async (args) => {
+    const r = await testUtils.runApp(args)
+    await out.fictionSites?.ensureDefaults({ context: args.context, defaultId: 'test' })
+    return r
+  }
+
   return out as SiteTestUtils
 }
 
