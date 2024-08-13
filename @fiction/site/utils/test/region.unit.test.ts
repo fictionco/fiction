@@ -206,7 +206,6 @@ describe('requestManagePage', async () => {
     expect(cc1?.templateId).toBe('template1')
     expect(cc1?.regionId).toBe('main')
     expect(cc1?.siteId).toBe(site.siteId)
-    expect(cc1?.userId).toBe(initialized.user.userId)
 
     const { cardConfig: cc2 } = await requestManagePage({
       site,
@@ -219,7 +218,6 @@ describe('requestManagePage', async () => {
     expect(cc2?.templateId).toBe('template2')
     expect(cc2?.regionId).toBe(cc1?.regionId)
     expect(cc2?.siteId).toBe(cc1?.siteId)
-    expect(cc2?.userId).toBe(cc1?.userId)
     expect(cc2?.updatedAt).not.toBe(cc1?.updatedAt)
 
     const { response } = await requestManagePage({

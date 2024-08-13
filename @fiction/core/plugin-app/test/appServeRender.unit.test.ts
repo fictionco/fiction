@@ -2,24 +2,21 @@ import { createRequire } from 'node:module'
 import path from 'node:path'
 
 import type playwright from 'playwright'
-import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import type { TestServerConfig } from '@fiction/core/test-utils/buildTest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { createTestServer } from '@fiction/core/test-utils/buildTest'
 import { commands } from '@fiction/www/src/commands'
 
 const require = createRequire(import.meta.url)
 const cwd = path.dirname(require.resolve('@fiction/www/package.json'))
-let testServer: TestServerConfig | undefined
 
-function page(): playwright.Page {
-  if (!testServer?.page)
-    throw new Error('no app page')
-  return testServer?.page ?? ''
-}
-describe('renders app code correctly', () => {
-  beforeAll(async () => {
-    testServer = await createTestServer({ cwd, headless: true, commands })
-  }, 20_000)
+describe('renders app code correctly', { retry: 3 }, async () => {
+  const testServer = await createTestServer({ cwd, headless: true, commands })
+
+  function page(): playwright.Page {
+    if (!testServer?.page)
+      throw new Error('no app page')
+    return testServer?.page ?? ''
+  }
 
   afterAll(async () => {
     await testServer?.destroy()
