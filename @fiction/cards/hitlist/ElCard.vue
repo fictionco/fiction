@@ -58,22 +58,22 @@ vue.onMounted(() => {
             !isDefaultLayout ? 'lg:w-[55%]' : '',
           ]"
         >
-          <EffectFitText :content="uc.title || ''" class="max-w-screen-md mx-auto text-center mb-16 x-font-title" :lines="1">
+          <EffectFitText :content="uc.title || ''" class="max-w-screen-md mx-auto text-center mb-16 x-font-title font-medium" :lines="1">
             <CardText :card tag="span" path="title" animate="rise" />
           </EffectFitText>
           <div
             :class="[
-              isDefaultLayout ? 'grid grid-cols-[1fr_1fr] gap-16' : 'space-y-16',
+              isDefaultLayout ? 'grid lg:grid-cols-[1fr_1fr] gap-16' : 'space-y-16',
             ]"
           >
             <div
               v-for="(item, i) in uc.items"
               :key="i"
-              class="flex items-start gap-6 x-action-item"
+              class="flex flex-col md:flex-row items-start gap-6 x-action-item"
               :class="[
                 isDefaultLayout ? [
-                  i % 2 === 0 ? 'col-start-1' : 'col-start-2',
-                  i % 2 === 0 ? 'row-span-2' : 'row-start-[calc(var(--row)*2)]',
+                  i % 2 === 0 ? 'lg:col-start-1' : 'lg:col-start-2',
+                  i % 2 === 0 ? 'lg:row-span-2' : 'lg:row-start-[calc(var(--row)*2)]',
                 ] : '',
               ]"
               :style="isDefaultLayout ? { '--row': Math.floor(i / 2) + 1 } : {}"

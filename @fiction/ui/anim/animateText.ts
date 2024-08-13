@@ -40,6 +40,7 @@ export function animateUnderline({
     wrapper.style.position = 'relative'
     wrapper.style.zIndex = '1'
     wrapper.style.display = 'inline-block'
+    wrapper.style.whiteSpace = 'nowrap'
     while (element.firstChild) {
       wrapper.appendChild(element.firstChild)
     }
