@@ -44,6 +44,9 @@ export function getNodeStream(): typeof stream {
 }
 
 export function logMemoryUsage() {
+  if (!isNode()) {
+    return
+  }
   // Repeated logging every 30 seconds
   const interval = setInterval(() => {
     const memoryUsage = v8.getHeapStatistics()
