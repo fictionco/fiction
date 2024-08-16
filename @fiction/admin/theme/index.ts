@@ -38,7 +38,7 @@ export function pages() {
             templateId: 'auth',
             el: def(async () => import('../auth/AuthCard.vue')),
           }),
-          userConfig: { logo: { format: 'html' as const, html: fictionLogo } },
+          userConfig: { logo: { format: 'html' as const, html: fictionLogo }, standard: { spacing: { verticalSpacing: 'none' } } },
         }),
       ],
     }),

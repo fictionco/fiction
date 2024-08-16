@@ -36,7 +36,7 @@ export function page(args: { site: Site }) {
     title: 'Home',
     userConfig: {
       seo: {
-        title: 'Fiction - Personal Marketing Platform',
+        title: 'Fiction - Market Yourself Online',
         description: 'A platform to build your personal brand, powered by AI.',
       },
     },
@@ -63,7 +63,7 @@ export function page(args: { site: Site }) {
                   icon: 'i-tabler-user-circle',
                 },
                 {
-                  name: 'View Tour',
+                  name: 'Why Fiction',
                   href: '/tour',
                   icon: 'i-tabler-compass',
                 },

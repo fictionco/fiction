@@ -10,6 +10,6 @@ defineProps({
 
 <template>
   <div v-if="card.site">
-    <ElEngine tag="main" :card="card" />
+    <ElEngine tag="main" :card />
   </div>
 </template>

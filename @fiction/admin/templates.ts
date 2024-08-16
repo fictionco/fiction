@@ -13,6 +13,7 @@ export const templates = [
     getUserConfig: () => ({
       homeIcon: { format: 'html' as const, html: fictionLogo },
       authRedirect: '/auth/login',
+      standard: { spacing: { verticalSpacing: 'none' } },
     }),
   }),
 ] as const

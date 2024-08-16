@@ -15,5 +15,10 @@ export const templates = [
     schema: UserConfigSchema,
     isPublic: false,
     isPageCard: true,
+    getBaseConfig: () => {
+      return {
+        standard: { spacing: { verticalSpacing: 'none' } },
+      }
+    },
   }),
 ]

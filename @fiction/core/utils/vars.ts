@@ -84,6 +84,7 @@ export const isActualBrowser = (): boolean => !isNode()
 export const hasWindow = (): boolean => typeof window !== 'undefined'
 export const isTest = () => crossVar.has('IS_TEST')
 export const isApp = () => crossVar.has('IS_VITE')
+export const isSSR = () => import.meta.env.SSR
 export const isCi = () => crossVar.has('CI')
 export const isDev = () => crossVar.has('NODE_ENV', 'development')
 export const isProd = () => !isDev()

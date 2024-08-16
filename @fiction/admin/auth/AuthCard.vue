@@ -112,7 +112,7 @@ const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length
           <template v-if="itemId === 'register'">
             Already have an account? <a data-test-id="to-login" class="text-primary-500 dark:text-primary-400 hover:opacity-80" href="#" @click.prevent="updateItemItemId('login')">Sign in  &rarr;</a>
           </template>
-          <template v-else>
+          <template v-else-if="itemId === 'login'">
             First time here? <a data-test-id="to-register" class="text-primary-500 dark:text-primary-400 hover:opacity-80" href="#" @click.prevent="updateItemItemId('register')">Sign up for free &rarr;</a>
           </template>
         </div>

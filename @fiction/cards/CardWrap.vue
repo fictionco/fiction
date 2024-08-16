@@ -9,8 +9,6 @@ import StandardHeader from './el/StandardHeader.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<CardOptionsWithStandard>>, required: true },
-  baseSpacing: { type: String as vue.PropType<SizeBasic>, default: undefined },
-  baseContentWidth: { type: String as vue.PropType<SizeBasic>, default: undefined },
 })
 
 const cardWrap = vue.ref<HTMLElement | null>(null)
@@ -66,21 +64,21 @@ const containerStyle = vue.computed(() => {
   return style
 })
 
-const spacingSize = vue.computed(() => {
-  const conf = config.value
-  const verticalSpacing = conf.standard?.spacing?.verticalSpacing || props.baseSpacing || siteUc.value?.standard?.spacing?.verticalSpacing || 'md'
+// const spacingSize = vue.computed(() => {
+//   const conf = config.value
+//   const verticalSpacing = conf.standard?.spacing?.verticalSpacing || siteUc.value?.standard?.spacing?.verticalSpacing || 'md'
+//   console.log('verticalSpacing', conf.standard?.spacing?.verticalSpacing, siteUc.value?.standard?.spacing?.verticalSpacing)
+//   return verticalSpacing
+// })
 
-  return verticalSpacing
-})
-
-const spacing = vue.computed(() => {
-  const size = spacingSize.value
-  return [getSpacingClass({ size, direction: 'both' })].join(' ')
-})
+// const spacing = vue.computed(() => {
+//   const size = spacingSize.value
+//   return [getSpacingClass({ size, direction: 'both' })].join(' ')
+// })
 
 const contentWidthSize = vue.computed(() => {
   const conf = config.value
-  const contentWidthSize = conf.standard?.spacing?.contentWidth || props.baseSpacing || siteUc.value?.standard?.spacing?.contentWidth || 'md'
+  const contentWidthSize = conf.standard?.spacing?.contentWidth || siteUc.value?.standard?.spacing?.contentWidth || 'md'
 
   return contentWidthSize
 })
@@ -127,18 +125,17 @@ const autoSetDark = vue.computed(() => {
     class="relative card-wrap "
     :style="containerStyle"
     :class="[
-      spacing,
+      card.classes.value.verticalSpacing,
       isReversed ? (isLightMode ? 'light' : 'dark') : '',
       autoSetDark ? 'dark' : '',
       loaded ? 'loaded' : '',
       card.depth.value <= 1 ? `overflow-x-clip` : '',
     ]"
+    :data-card-template-id="card.templateId.value"
     :data-font-title="standardUc?.fontStyle?.title?.fontKey"
     :data-font-body="standardUc?.fontStyle?.body?.fontKey"
-    :data-spacing-size="spacingSize"
     :data-card-depth="card.depth.value"
     :data-content-width-size="contentWidthSize"
-    :data-pad-size="padSize"
   >
     <div class="w-full relative text-theme-950 dark:text-theme-50 x-font-body ">
       <div>

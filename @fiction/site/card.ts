@@ -9,7 +9,7 @@ import { CardGeneration } from './generation.js'
 import type { ComponentConstructor } from './type-utils.js'
 import { siteGoto, siteLink } from './utils/manage.js'
 import type { CardQuerySettings } from './cardQuery.js'
-import { getContentWidthClass } from './styling.js'
+import { getContentWidthClass, getSpacingClass } from './styling.js'
 import type { CardOptionsWithStandard, SiteUserConfig } from './schema.js'
 
 type CardCategory = 'basic' | 'posts' | 'theme' | 'stats' | 'marketing' | 'content' | 'layout' | 'media' | 'navigation' | 'social' | 'commerce' | 'form' | 'other' | 'special' | 'portfolio' | 'advanced' | 'effect'
@@ -59,7 +59,7 @@ export class CardTemplate<
   }
 
   optionConfig = refineOptions({ options: this.settings.options || [], schema: this.settings.schema })
-  getBaseConfig = this.settings.getBaseConfig || (() => ({}))
+  getBaseConfig = this.settings.getBaseConfig || (() => ({ xxx: '123' }))
 
   async toCard(args: { cardId?: string, site?: Site, userConfig?: FullTemplateUserConfig<T>, baseConfig?: FullTemplateUserConfig<T> } & CardSettings) {
     const { cardId, site, baseConfig = {}, userConfig } = args
@@ -103,6 +103,11 @@ type MergeTypes<T, U> = T & Omit<U, keyof T>
 // Use defaults
 type Surface<T> = MergeTypes<T, CardSurface>
 
+function getDetaultTemplateId(card: Card): string {
+  const inlineTemplateId = card.settings.inlineTemplate ? card.settings.inlineTemplate.settings.templateId : undefined
+  return inlineTemplateId || card.settings.templateId || (card.parentId ? 'area' : card.site?.theme.value?.templateDefaults.value.page || 'wrap')
+}
+
 export class Card<
   T extends CardBaseConfig = CardBaseConfig,
   U extends CardSurface = CardSurface,
@@ -117,7 +122,7 @@ export class Card<
   index = vue.ref(this.settings.index)
   regionId = this.settings.regionId || 'main'
   layoutId = vue.ref(this.settings.layoutId)
-  templateId = vue.ref(this.settings.templateId || (this.parentId ? 'area' : this.site?.theme.value?.templateDefaults.value.page || 'wrap'))
+  templateId = vue.ref(getDetaultTemplateId(this))
   title = vue.ref(this.settings.title)
   description = vue.ref(this.settings.description)
   slug = vue.ref(this.settings.slug)
@@ -155,10 +160,15 @@ export class Card<
 
   classes = vue.computed(() => {
     const spacing = this.fullConfig.value?.standard?.spacing
+
     const contentWidthSize = spacing?.contentWidth || 'md'
+    const verticalSpacing = spacing?.verticalSpacing || this.site?.userConfig.value.standard?.spacing?.verticalSpacing || 'md'
+
     const contentWidthClass = getContentWidthClass({ size: contentWidthSize, padSize: true })
+    const verticalSpacingClass = [getSpacingClass({ size: verticalSpacing, direction: 'both' })].join(' ')
     return {
       contentWidth: contentWidthClass,
+      verticalSpacing: verticalSpacingClass,
     }
   })
 
