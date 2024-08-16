@@ -251,7 +251,7 @@ export class SubscriptionAnalytics extends Query<SubscriptionAnalyticsParams> {
     // Query to get new subscriptions, unsubscribes, and cleaned statuses s
     const results = await db(t.subscribe)
       .select(
-        db.raw(`DATE_TRUNC(?, updated_at AT TIME ZONE ?) AS date`, [interval, timeZone]),
+        db.raw(`DATE_TRUNC(?, to_date(updated_at::TEXT, 'YYYY-MM-DD') AT TIME ZONE ?) AS date`, [interval, timeZone]),
         db.raw(`SUM(CASE WHEN status = 'active' THEN 1 ELSE 0 END) AS subscriptions`),
         db.raw(`SUM(CASE WHEN status = 'unsubscribed' AND previous_status = 'active' THEN 1 ELSE 0 END) AS unsubscribes`),
         db.raw(`SUM(CASE WHEN status = 'bounced' AND previous_status = 'active' THEN 1 ELSE 0 END) AS cleaned`),
