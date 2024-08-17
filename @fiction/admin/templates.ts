@@ -10,7 +10,7 @@ export const templates = [
     templateId: 'dash',
     el: DashWrap,
     isPageCard: true,
-    getUserConfig: () => ({
+    getBaseConfig: () => ({
       homeIcon: { format: 'html' as const, html: fictionLogo },
       authRedirect: '/auth/login',
       standard: { spacing: { verticalSpacing: 'none' } },

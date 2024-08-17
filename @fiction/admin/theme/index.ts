@@ -64,7 +64,14 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionAdmin: Fictio
       return {
         pages,
         sections: {},
-        userConfig: {},
+        userConfig: {
+          styling: {
+            fonts: {
+              body: { fontKey: 'Inter', stack: 'sans' },
+              sans: { fontKey: 'Inter', stack: 'sans' },
+            },
+          },
+        },
       }
     },
     templateDefaults: { page: 'dash', transaction: 'transaction' },
