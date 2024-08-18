@@ -27,8 +27,8 @@ export function getSpacingClass(args: { size: SizeBasic, direction: Direction })
 const baseContentWidthClasses: Record<SizeBasic, string> = {
   none: 'mx-auto',
   full: 'mx-auto w-full',
-  xs: 'mx-auto max-w-screen-md',
-  sm: 'mx-auto max-w-screen-lg',
+  xs: 'mx-auto max-w-screen-lg',
+  sm: 'mx-auto max-w-screen-xl',
   md: 'mx-auto max-w-screen-2xl',
   lg: 'mx-auto max-w-screen-3xl',
   xl: 'mx-auto max-w-screen-4xl',

@@ -55,7 +55,7 @@ vue.onMounted(async () => {
 </script>
 
 <template>
-  <div>
+  <div :class="card.classes.value.contentWidth">
     <ElIndexGrid media-icon="i-tabler-mail" list-title="Emails" :list="list" :loading="loading" :actions="[{ name: 'New Email', icon: 'i-tabler-plus', btn: 'primary', onClick: () => { showStartModal = true } }]">
       <template #item="{ item }">
         <div class="flex -space-x-0.5">

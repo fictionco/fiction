@@ -121,7 +121,7 @@ const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length
         <EffectTransitionList>
           <template v-if="itemId === 'confirm'">
             <div class="text-balance text-center text-lg text-theme-700 dark:text-theme-100">
-              We sent a magic link to <span class="font-bold text-theme-700 dark:text-theme-0">{{ fields.email || "unknown" }}</span>. Please click the link to confirm your address.
+              We sent a magic link to <span class="font-bold text-theme-700 dark:text-theme-0">{{ fields.email || "unknown" }}</span>. Please click the link to login.
             </div>
             <div>
               <div class="text-theme-400 dark:text-theme-200 text-xs font-sans text-balance text-center leading-relaxed">

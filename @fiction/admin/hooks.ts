@@ -5,7 +5,6 @@ import type { Widget } from './dashboard/widget.js'
 
 declare module '@fiction/core/plugin-env/hooks.js' {
   interface FictionEnvHookDictionary {
-    adminPages: { args: [TableCardConfig[], { templates: typeof templates }] }
     widgetMap: { args: [Record<string, Widget[]>] }
   }
 }

@@ -13,7 +13,7 @@ const _x = 1
 </script>
 
 <template>
-  <div class="flex flex-col gap-8">
+  <div class="flex flex-col gap-8" :class="card.classes.value.contentWidth">
     <ElSubscriberList :card />
   </div>
 </template>

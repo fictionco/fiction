@@ -7,7 +7,7 @@ import type { FictionAdmin } from '../index.js'
 
 const def = vue.defineAsyncComponent
 
-export function pages() {
+export async function getPages() {
   return [
     createCard({
       templates,
@@ -48,8 +48,6 @@ export function pages() {
 export async function setup(args: { fictionEnv: FictionEnv, fictionAdmin: FictionAdmin }) {
   const { fictionEnv, fictionAdmin } = args
 
-  const pg = fictionEnv.runHooks('adminPages', [...pages(), ...fictionAdmin.adminPages.value], { templates })
-
   return new Theme({
     fictionEnv,
     root: safeDirname(import.meta.url),
@@ -59,8 +57,10 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionAdmin: Fictio
     version: '1.0.0',
     templates,
     isPublic: false,
-    getConfig: async ({ site }) => {
-      const pages = await pg
+    getConfig: async () => {
+      const pg = await getPages()
+      const adminPages = await fictionAdmin.getAdminPages()
+      const pages = [...pg, ...adminPages]
       return {
         pages,
         sections: {},
@@ -70,6 +70,10 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionAdmin: Fictio
               body: { fontKey: 'Inter', stack: 'sans' },
               sans: { fontKey: 'Inter', stack: 'sans' },
             },
+            buttons: { design: 'solid', rounding: 'full', hover: 'fade' },
+          },
+          standard: {
+            spacing: { contentWidth: 'sm', verticalSpacing: `sm` },
           },
         },
       }

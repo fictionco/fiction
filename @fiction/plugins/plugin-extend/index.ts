@@ -21,15 +21,14 @@ export class FictionExtend<T extends PluginIndexSettings = PluginIndexSettings> 
 
   admin() {
     const { fictionAdmin } = this.settings
-    fictionAdmin.addAdminPages(({ templates }) => [
-      createCard({
-        templates,
+    fictionAdmin.addAdminPages(async ({ factory }) => [
+      await factory.create({
         regionId: 'main',
         templateId: 'dash',
         slug: 'extend',
         title: 'Plugins',
         cards: [
-          createCard({ el: vue.defineAsyncComponent(async () => import('./ViewExtend.vue')) }),
+          await factory.create({ el: vue.defineAsyncComponent(async () => import('./ViewExtend.vue')) }),
         ],
         userConfig: { isNavItem: true, navIcon: 'i-tabler-plug', navIconAlt: 'i-tabler-plug-x', priority: 100 },
       }),

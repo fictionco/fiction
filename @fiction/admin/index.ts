@@ -10,6 +10,7 @@ import type { FictionServer } from '@fiction/core'
 import { envConfig } from '@fiction/core'
 import { createCard } from '@fiction/site/theme.js'
 import type { TableCardConfig } from '@fiction/site/index.js'
+import { CardFactory } from '@fiction/site/cardFactory.js'
 import { getEmails } from './emails/index.js'
 import { createWidgetEndpoints } from './dashboard/util.js'
 import type { Widget } from './dashboard/widget.js'
@@ -31,6 +32,9 @@ type FictionAdminSettings = {
   fictionServer: FictionServer
 } & FictionPluginSettings
 
+const factory = new CardFactory({ templates })
+type PageLoader = (args: { factory: typeof factory }) => (Promise<TableCardConfig[]> | TableCardConfig[])
+
 export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
   widgetRequests?: ReturnType<typeof createWidgetEndpoints>
   constructor(settings: FictionAdminSettings) {
@@ -46,21 +50,24 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
     this.widgetMapRaw.value[widgetArea]?.push(...widgetKeys)
   }
 
-  adminPages = vue.shallowRef<TableCardConfig[]>([
-    createCard({
-      templates,
+  adminPageLoaders = vue.shallowRef<PageLoader[]>([async ({ factory }) => [
+    await factory.create({
       templateId: 'dash',
       slug: 'home',
       isHome: true,
       title: 'Home',
-      cards: [createCard({ el: vue.defineAsyncComponent(async () => import('./dashboard/ViewDashboard.vue')) })],
+      cards: [await factory.create({ el: vue.defineAsyncComponent(async () => import('./dashboard/ViewDashboard.vue')) })],
       userConfig: { isNavItem: true, navIcon: 'i-heroicons-home', navIconAlt: 'i-heroicons-home-20-solid', priority: 0 },
     }),
-  ])
+  ]])
 
-  addAdminPages(getPages: (args: { templates: typeof templates }) => TableCardConfig[]) {
-    const pages = getPages({ templates })
-    this.adminPages.value.push(...pages)
+  async getAdminPages(): Promise<TableCardConfig[]> {
+    const pages = await Promise.all(this.adminPageLoaders.value.map(loader => loader({ factory })))
+    return pages.flat()
+  }
+
+  addAdminPages(getPages: PageLoader) {
+    this.adminPageLoaders.value.push(getPages)
   }
 
   override async setup() {

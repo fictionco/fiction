@@ -54,7 +54,7 @@ function getActions(location: 'top' | 'zero') {
 </script>
 
 <template>
-  <ElPanel>
+  <ElPanel :class="card.classes.value.contentWidth">
     <div class="pt-8  ">
       <ElIndexGrid
         :loading="loading"

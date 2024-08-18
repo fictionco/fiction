@@ -182,7 +182,7 @@ function toggleSidebar() {
         </div>
       </div>
     </transition>
-    <PreLaunch :card="card" />
+    <PreLaunch :card />
   </div>
 </template>
 

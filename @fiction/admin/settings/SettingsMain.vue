@@ -12,5 +12,5 @@ const service = useService()
 </script>
 
 <template>
-  <SettingsTool base-path="/settings" :tools="getTools({ service })" :card title="Settings" />
+  <SettingsTool :class="card.classes.value.contentWidth" base-path="/settings" :tools="getTools({ service })" :card title="Settings" />
 </template>

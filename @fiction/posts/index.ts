@@ -52,25 +52,26 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
     fictionAdmin.widgetRegister.value.push(...w)
     fictionAdmin.addToWidgetArea('homeMain', w.map(widget => widget.key))
 
-    fictionAdmin.addAdminPages(({ templates }) => [
-      createCard({
-        templates,
-
+    fictionAdmin.addAdminPages(async ({ factory }) => [
+      await factory.create({
         regionId: 'main',
         templateId: 'dash',
         slug: 'posts',
         title: 'Posts',
-        cards: [createCard({ el: vue.defineAsyncComponent(async () => import('./el/PagePostIndex.vue')) })],
+        cards: [await factory.create({ el: vue.defineAsyncComponent(async () => import('./el/PagePostIndex.vue')) })],
         userConfig: { isNavItem: true, navIcon: 'i-tabler-pin', navIconAlt: 'i-tabler-pin-filled' },
       }),
-      createCard({
-        templates,
+      await factory.create({
         regionId: 'main',
         templateId: 'dash',
         slug: 'post-edit',
         title: 'Edit Post',
-        cards: [createCard({ el: vue.defineAsyncComponent(async () => import('./el/PagePostEdit.vue')) })],
+        cards: [await factory.create({
+          el: vue.defineAsyncComponent(async () => import('./el/PagePostEdit.vue')),
+          userConfig: { standard: { spacing: { verticalSpacing: 'none' } }, isNavItem: false },
+        })],
         userConfig: { layoutFormat: 'full' },
+
       }),
     ])
   }

@@ -25,23 +25,21 @@ export class FictionSiteBuilder extends FictionPlugin<FictionSiteBuilderSettings
     fictionAdmin.widgetRegister.value.push(...w)
     fictionAdmin.addToWidgetArea('homeMain', w.map(widget => widget.key))
 
-    fictionAdmin.addAdminPages(({ templates }) => [
-      createCard({
-        templates,
+    fictionAdmin.addAdminPages(async ({ factory }) => [
+      await factory.create({
         regionId: 'main',
         templateId: 'dash',
         slug: 'sites',
         title: 'Sites',
-        cards: [createCard({ el: vue.defineAsyncComponent(async () => import('./ViewIndex.vue')) })],
+        cards: [await factory.create({ el: vue.defineAsyncComponent(async () => import('./ViewIndex.vue')) })],
         userConfig: { isNavItem: true, navIcon: 'i-tabler-browser', navIconAlt: 'i-tabler-browser-plus' },
       }),
-      createCard({
-        templates,
+      await factory.create({
         regionId: 'main',
         templateId: 'dash',
         slug: 'edit-site',
         title: 'Edit Site',
-        cards: [createCard({ el: vue.defineAsyncComponent(async () => import('./SiteEditor.vue')) })],
+        cards: [await factory.create({ el: vue.defineAsyncComponent(async () => import('./SiteEditor.vue')) })],
         userConfig: { isNavItem: false, layoutFormat: 'full', navIcon: 'i-tabler-home-plus' },
       }),
     ])

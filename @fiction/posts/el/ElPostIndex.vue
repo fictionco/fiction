@@ -44,29 +44,31 @@ vue.onMounted(async () => {
 </script>
 
 <template>
-  <ElIndexGrid :list="list" :loading="loading" :actions="[{ name: 'Start New Post', icon: 'i-tabler-plus', btn: 'primary', href: card.link('/post-edit') }]">
-    <template #item="{ item }">
-      <div class="flex -space-x-0.5">
-        <dt class="sr-only">
-          Authors
-        </dt>
-        <dd v-for="(member, ii) in item.authors" :key="ii">
-          <ElAvatar class="h-6 w-6 rounded-full bg-theme-50 ring-2 ring-white" :email="member.email" />
-        </dd>
-      </div>
-    </template>
-    <template #zero>
-      <ElZeroBanner
-        title="Create your first post"
-        description="Posts are the building blocks of your marketing efforts. Use them for newsletters, social media clips, and more."
-        icon="i-tabler-pin"
-        :actions="[{
-          name: 'Start Writing',
-          href: card.link('/post-edit'),
-          btn: 'primary',
-          icon: 'i-heroicons-plus',
-        }]"
-      />
-    </template>
-  </ElIndexGrid>
+  <div :class="card.classes.value.contentWidth">
+    <ElIndexGrid :list="list" :loading="loading" :actions="[{ name: 'Start New Post', icon: 'i-tabler-plus', btn: 'primary', href: card.link('/post-edit') }]">
+      <template #item="{ item }">
+        <div class="flex -space-x-0.5">
+          <dt class="sr-only">
+            Authors
+          </dt>
+          <dd v-for="(member, ii) in item.authors" :key="ii">
+            <ElAvatar class="h-6 w-6 rounded-full bg-theme-50 ring-2 ring-white" :email="member.email" />
+          </dd>
+        </div>
+      </template>
+      <template #zero>
+        <ElZeroBanner
+          title="Create your first post"
+          description="Posts are the building blocks of your marketing efforts. Use them for newsletters, social media clips, and more."
+          icon="i-tabler-pin"
+          :actions="[{
+            name: 'Start Writing',
+            href: card.link('/post-edit'),
+            btn: 'primary',
+            icon: 'i-heroicons-plus',
+          }]"
+        />
+      </template>
+    </ElIndexGrid>
+  </div>
 </template>

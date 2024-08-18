@@ -2,9 +2,8 @@
 import { deepMerge, getColorScheme, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/index.js'
 import { fontFamilyByKey } from '@fiction/site/utils/fonts'
-import type { CardOptionsWithStandard, SizeBasic } from '@fiction/site/schema'
+import type { CardOptionsWithStandard } from '@fiction/site/schema'
 import ElImage from '@fiction/ui/media/ElImage.vue'
-import { getContentWidthClass, getSpacingClass } from '@fiction/site/styling'
 import StandardHeader from './el/StandardHeader.vue'
 
 const props = defineProps({
@@ -64,35 +63,6 @@ const containerStyle = vue.computed(() => {
   return style
 })
 
-// const spacingSize = vue.computed(() => {
-//   const conf = config.value
-//   const verticalSpacing = conf.standard?.spacing?.verticalSpacing || siteUc.value?.standard?.spacing?.verticalSpacing || 'md'
-//   console.log('verticalSpacing', conf.standard?.spacing?.verticalSpacing, siteUc.value?.standard?.spacing?.verticalSpacing)
-//   return verticalSpacing
-// })
-
-// const spacing = vue.computed(() => {
-//   const size = spacingSize.value
-//   return [getSpacingClass({ size, direction: 'both' })].join(' ')
-// })
-
-const contentWidthSize = vue.computed(() => {
-  const conf = config.value
-  const contentWidthSize = conf.standard?.spacing?.contentWidth || siteUc.value?.standard?.spacing?.contentWidth || 'md'
-
-  return contentWidthSize
-})
-
-const padSize = vue.computed(() => {
-  const size = contentWidthSize.value
-  return config.value.standard?.spacing?.contentPad || (size === 'none' ? 'none' : (props.card.depth.value <= 1 ? 'md' : 'none'))
-})
-
-const contentWidthClass = vue.computed(() => {
-  const size = contentWidthSize.value
-  return getContentWidthClass({ size, padSize: padSize.value })
-})
-
 vue.watch(() => standardUc.value?.fontStyle, (fontStyle) => {
   let addFonts = {}
 
@@ -135,12 +105,11 @@ const autoSetDark = vue.computed(() => {
     :data-font-title="standardUc?.fontStyle?.title?.fontKey"
     :data-font-body="standardUc?.fontStyle?.body?.fontKey"
     :data-card-depth="card.depth.value"
-    :data-content-width-size="contentWidthSize"
   >
     <div class="w-full relative text-theme-950 dark:text-theme-50 x-font-body ">
       <div>
         <div class="relative">
-          <div :class="contentWidthClass">
+          <div :class="card.classes.value.contentWidth">
             <StandardHeader v-if="standardUc?.headers?.title" :card class="mb-8 lg:mb-16" />
           </div>
           <slot />
