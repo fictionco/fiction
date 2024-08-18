@@ -112,8 +112,8 @@ function leave(el: Element, done: () => void) {
 
 <template>
   <div :class="card.classes.value.contentWidth">
-    <div class="y-4">
-      <div class="md:flex items-center justify-between md:h-[700px] ">
+    <div class="py-24 md:py-4">
+      <div class="md:flex items-center justify-between md:h-[680px]">
         <div class="relative h-full basis-[30%]">
           <transition
             enter-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-500"
@@ -128,7 +128,7 @@ function leave(el: Element, done: () => void) {
               <EffectFitText
                 :lines="3"
                 :content="currentItem?.title || ''"
-                class="x-font-title z-20 font-bold md:w-[140%]"
+                class="x-font-title z-20 font-bold md:w-[160%]"
               >
                 <CardText :card tag="span" :path="`items.${currentItemIndex}.title`" />
               </EffectFitText>
@@ -136,15 +136,15 @@ function leave(el: Element, done: () => void) {
                 v-if="currentItem?.subTitle"
                 :lines="2"
                 :content="currentItem?.subTitle || ''"
-                class="x-font-title z-20 font-medium  md:w-[140%] mt-4 !leading-[1.4]"
+                class="x-font-title z-20 font-medium  md:w-[160%] mt-4 !leading-[1.4]"
               >
                 <CardText animate="fade" :card tag="span" :path="`items.${currentItemIndex}.subTitle`" />
               </EffectFitText>
             </div>
           </transition>
         </div>
-        <div class="h-[400px] md:h-full relative basis-[30%] [perspective:1000px] z-10">
-          <div class="absolute md:relative left-[40%] w-full h-full ">
+        <div class="h-[400px] md:h-full relative basis-[70%] [perspective:1000px] z-10">
+          <div class="absolute md:relative w-full h-full ">
             <TransitionGroup
               :css="false"
               @before-enter="beforeEnter"
@@ -154,7 +154,7 @@ function leave(el: Element, done: () => void) {
               <div
                 v-for="(item, i) in circularItems.slice(0, 5)"
                 :key="item.title"
-                class="absolute  top-[10%] w-[80%] md:w-auto md:h-[80%] aspect-[4/3] md:aspect-[4.5/3] transition-all duration-500 shadow-[10px_-10px_10px_-8px_rgba(0_0_0/0.3)]"
+                class="absolute  top-[10%] w-full md:w-[80%] md:h-[80%] aspect-[5/3] md:aspect-[4.5/3] transition-all duration-500 shadow-[10px_-10px_10px_-8px_rgba(0_0_0/0.3)]"
                 :class="[`stack-item-${i}`]"
                 @click="setActiveItemByTitle(item.title)"
               >
@@ -166,17 +166,16 @@ function leave(el: Element, done: () => void) {
             </TransitionGroup>
           </div>
         </div>
-        <div class="relative h-full basis-[27%]" />
       </div>
-      <NavDots :active-item="currentItemIndex" :items="uc.items || []" :container-id="card.cardId" @update:active-item="setActiveItem($event)" />
+      <NavDots class="mt-6 md:mt-0" :active-item="currentItemIndex" :items="uc.items || []" :container-id="card.cardId" @update:active-item="setActiveItem($event)" />
     </div>
   </div>
 </template>
 
 <style lang="less">
-.stack-item-0 { z-index: 10; left: -40%;  }
-.stack-item-1 { z-index: 9; left: -30%; transform: translateX(10px) rotateY(-7deg) scale(0.9);  }
-.stack-item-2 { z-index: 8; left: -20%; transform: translateX(20px) rotateY(-14deg) scale(0.8);  }
-.stack-item-3 { z-index: 7; left: -10%; transform: translateX(30px) rotateY(-21deg) scale(0.7);   }
-.stack-item-4 { z-index: 6; left: 0%; transform: translateX(40px) rotateY(-28deg) scale(0.6);  }
+.stack-item-0 { z-index: 10; right: 0%;  }
+.stack-item-1 { z-index: 9; right: -7%; transform: translateX(10px) rotateY(-7deg) scale(0.9);  }
+.stack-item-2 { z-index: 8; right: -14%; transform: translateX(20px) rotateY(-14deg) scale(0.8);  }
+.stack-item-3 { z-index: 7; right: -21%; transform: translateX(30px) rotateY(-21deg) scale(0.7);   }
+.stack-item-4 { z-index: 6; right: -28%; transform: translateX(40px) rotateY(-28deg) scale(0.6);  }
 </style>

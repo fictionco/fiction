@@ -37,8 +37,8 @@ const cards = vue.computed(() => {
         :card="subCard"
         class="relative group/engine"
         :class="[
-          subCard.isActive.value && isEditable ? 'outline-2 outline-dashed outline-theme-300 dark:outline-theme-600' : '',
-          isEditable ? 'hover:outline-2 hover:outline-dashed hover:outline-blue-300 dark:hover:outline-blue-600 cursor-pointer  transition-all' : '',
+          subCard.isActive.value && isEditable ? '' : '',
+          isEditable ? ' cursor-pointer  transition-all' : '',
         ]"
         @click="handleCardClick({ cardId: subCard.cardId, event: $event })"
       >
@@ -57,14 +57,6 @@ const cards = vue.computed(() => {
           :data-card-type="subCard.templateId.value"
           :card="subCard"
         />
-        <div
-          v-if="isEditable"
-          class="opacity-0 group-hover/engine:opacity-100 transition-all bg-blue-600/50 hover:bg-blue-600/80 hover:z-20 cursor-pointer py-[1px] px-1.5 text-blue-100 font-sans text-[10px] absolute top-0 right-0 flex gap-0.5 items-center justify-center"
-          :class="subCard.tpl.value?.settings.isContainer ? 'left-1' : 'right-1'"
-        >
-          <div :class="subCard.tpl.value?.settings.icon" />
-          <div>{{ subCard.tpl.value?.settings.title }}</div>
-        </div>
       </CardWrap>
     </template>
   </component>

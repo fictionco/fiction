@@ -65,6 +65,7 @@ export class FrameUtility<T extends MsgUnknown = FrameMessage> extends Obj<Frame
   eventOrigins = ['localhost', 'fiction']
   onFrameLoad = this.settings.onFrameLoad ?? (() => {})
   messageCallbacks = new Set<MessageListener<T>>([this.settings.onMessage ?? (() => {})])
+  debug = false
 
   init() {
     if (typeof this.getWindow() === 'undefined') {
@@ -129,7 +130,8 @@ export class FrameUtility<T extends MsgUnknown = FrameMessage> extends Obj<Frame
   onMessageReceived(event: MessageEvent) {
     const msg = event.data as FrameMessage
 
-    this.log.debug(`postMessage received (${this.relation} -> ${msg.messageType})`, { data: { msg } })
+    if (this.debug)
+      this.log.debug(`postMessage received (${this.relation} -> ${msg.messageType})`, { data: { msg } })
 
     if (!msg || typeof msg !== 'object' || msg.from !== 'fiction')
       return
@@ -179,7 +181,8 @@ export class FrameUtility<T extends MsgUnknown = FrameMessage> extends Obj<Frame
       return
 
     this.messageBuffer.forEach(async (msg) => {
-      this.log.debug(`postMessage send (${this.relation} -> ${msg.messageType})`, { data: { msg } })
+      if (this.debug)
+        this.log.debug(`postMessage send (${this.relation} -> ${msg.messageType})`, { data: { msg } })
       msg.from = this.from
 
       const isProtected = this.recursionProtection('get', msg.messageType)

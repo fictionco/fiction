@@ -41,6 +41,7 @@ export class FictionClient extends WriteBuffer<TrackingEvent> {
   intervalSeconds: number
   log: LogHelper
   gen: GenType
+  logToConsole = false
   constructor(settings: FictionClientSettings) {
     super({ limit: 5, maxSeconds: settings.intervalSeconds })
 
@@ -100,7 +101,8 @@ export class FictionClient extends WriteBuffer<TrackingEvent> {
       const msg = `beacon(sync): ${events.length} events`
       const url = `${baseUrl}?${this.getQueryArgs({ events })}`
       img.src = url
-      this.log.info(msg, { data: { url, events, baseUrl } })
+      if (this.logToConsole)
+        this.log.info(msg, { data: { url, events, baseUrl } })
     }
   }
 

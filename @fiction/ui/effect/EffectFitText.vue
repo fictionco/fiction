@@ -45,7 +45,7 @@ vue.watch(
       fitty.value?.fitAll()
     })
   },
-  { deep: true },
+  { deep: true, immediate: true },
 )
 
 const cls = vue.computed(() => twMerge(props.wrapClass))
