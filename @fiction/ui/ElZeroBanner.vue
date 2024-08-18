@@ -33,6 +33,7 @@ defineProps({
               :key="i"
               :href="item.href"
               :theme="item.theme"
+              :rounding="item.rounding || 'full'"
               :icon="item.icon"
               size="lg"
               @click.stop="item.onClick && item.onClick({ event: $event })"

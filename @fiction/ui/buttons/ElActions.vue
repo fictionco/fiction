@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ActionItem } from '@fiction/core'
 import { shortId, vue } from '@fiction/core'
-import ElButton from '../ElButton.vue'
+import XButton from '../buttons/XButton.vue'
 import type { UiElementSize } from '../utils'
 import { animateItemEnter, useElementVisible } from '../anim'
 
@@ -27,23 +27,24 @@ vue.onMounted(() => {
 
 function getButtonType(action: ActionItem) {
   if (props.isOverlay) {
-    return 'outline'
+    return 'overlay'
   }
   else {
-    return action.btn || 'default'
+    return action.theme || 'default'
   }
 }
 </script>
 
 <template>
   <div v-if="actions?.length" :id="randomId">
-    <ElButton
+    <XButton
       v-for="(action, i) in actions"
       :key="i"
       class="x-action-item"
-      :btn="getButtonType(action)"
+      :theme="getButtonType(action)"
       :href="action.href"
       :size="action.size || uiSize"
+      :rounding="action.rounding || 'full'"
       :icon="action.icon"
       :loading="action.loading"
       :icon-after="action.iconAfter"
@@ -51,6 +52,6 @@ function getButtonType(action: ActionItem) {
       @click.stop="action.onClick && action.onClick({ event: $event, item: action })"
     >
       {{ action.name }}
-    </ElButton>
+    </XButton>
   </div>
 </template>

@@ -24,12 +24,12 @@ const widgetDescription = vue.computed(() => props.widget?.settings.description)
     :wid="widget?.hashId.value"
   >
     <div
-      class="border-theme-200 dark:border-theme-600 text-theme-600 dark:text-theme-50 flex items-baseline justify-between border-b p-2 text-sm"
+      class="border-theme-200 dark:border-theme-600 text-theme-600 dark:text-theme-50 flex items-center justify-between border-b p-2 text-sm"
       :class="editable ? 'cursor-move ' : ''"
       :data-hash="widget?.hashId.value"
     >
       <div class="relative flex items-center px-2">
-        <div class="font-bold">
+        <div class="font-semibold">
           {{ widgetTitle }}
         </div>
 
@@ -56,7 +56,7 @@ const widgetDescription = vue.computed(() => props.widget?.settings.description)
         </div>
       </div>
       <div>
-        <ElActions class="flex gap-2" :actions ui-size="xs" />
+        <ElActions class="flex gap-2 items-center" :actions ui-size="sm" />
       </div>
     </div>
 

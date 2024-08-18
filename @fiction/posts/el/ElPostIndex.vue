@@ -45,7 +45,17 @@ vue.onMounted(async () => {
 
 <template>
   <div :class="card.classes.value.contentWidth">
-    <ElIndexGrid :list="list" :loading="loading" :actions="[{ name: 'Start New Post', icon: 'i-tabler-plus', btn: 'primary', href: card.link('/post-edit') }]">
+    <ElIndexGrid
+      :list="list"
+      :loading="loading"
+      :actions="[{
+        name: 'Start New Post',
+        icon: 'i-tabler-plus',
+        btn: 'primary',
+        href: card.link('/post-edit'),
+        rounding: 'full',
+      }]"
+    >
       <template #item="{ item }">
         <div class="flex -space-x-0.5">
           <dt class="sr-only">

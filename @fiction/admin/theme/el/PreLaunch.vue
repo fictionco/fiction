@@ -76,7 +76,7 @@ const hasAccessCode = vue.ref(false)
                 id="modal-title"
                 class="x-font-title text-3xl font-bold text-balance tracking-tight"
               >
-                Publicly Available Summer 2024
+                Publicly Available Fall 2024
               </h3>
               <div class="mt-4">
                 <p class="text-theme-500 text-sm text-balance">

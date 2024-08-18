@@ -39,7 +39,12 @@ export class FictionSiteBuilder extends FictionPlugin<FictionSiteBuilderSettings
         templateId: 'dash',
         slug: 'edit-site',
         title: 'Edit Site',
-        cards: [await factory.create({ el: vue.defineAsyncComponent(async () => import('./SiteEditor.vue')) })],
+        cards: [
+          await factory.create({
+            el: vue.defineAsyncComponent(async () => import('./SiteEditor.vue')),
+            userConfig: { isNavItem: false, standard: { spacing: { verticalSpacing: 'none' as const } } },
+          }),
+        ],
         userConfig: { isNavItem: false, layoutFormat: 'full', navIcon: 'i-tabler-home-plus' },
       }),
     ])

@@ -2,7 +2,7 @@
 import type { ActionItem, IndexItem, IndexMeta } from '@fiction/core'
 import { getNavComponentType, getPaginationInfo, vue } from '@fiction/core/index.js'
 import ElZeroBanner from '../ElZeroBanner.vue'
-import ElButton from '../ElButton.vue'
+import XButton from '../buttons/XButton.vue'
 import ElSpinner from '../loaders/ElSpinner.vue'
 import ElImage from '../media/ElImage.vue'
 
@@ -58,17 +58,18 @@ async function paginate(dir: 'prev' | 'next') {
           aria-label="Pagination"
         >
           <div class="flex gap-4">
-            <ElButton
+            <XButton
               v-for="(act, i) in actions"
               :key="i"
               :href="act.href"
-              :btn="act.btn || 'default'"
+              :theme="act.theme || 'default'"
+              :rounding="act.rounding || 'full'"
               :icon="act.icon"
               size="md"
               @click.stop="act.onClick ? act.onClick({ event: $event, item: act }) : null"
             >
               {{ act.name }}
-            </ElButton>
+            </XButton>
           </div>
         </nav>
       </div>
@@ -146,12 +147,12 @@ async function paginate(dir: 'prev' | 'next') {
           </p>
         </div>
         <div class="flex flex-1 justify-between sm:justify-end gap-3">
-          <ElButton :disabled="!pagination.prevPageNo" href="#" @click.prevent="paginate('prev')">
+          <XButton :disabled="!pagination.prevPageNo" href="#" @click.prevent="paginate('prev')">
             Prev
-          </ElButton>
-          <ElButton :disabled="!pagination.nextPageNo" href="#" @click.prevent="paginate('next')">
+          </XButton>
+          <XButton :disabled="!pagination.nextPageNo" href="#" @click.prevent="paginate('next')">
             Next
-          </ElButton>
+          </XButton>
         </div>
       </nav>
     </div>
