@@ -176,8 +176,8 @@ function leave(el: Element, done: () => void) {
 
 <style lang="less">
 .stack-item-0 { z-index: 10; right: 0%;  }
-.stack-item-1 { z-index: 9; right: -7%; transform: translateX(10px) rotateY(-7deg) scale(0.9);  }
-.stack-item-2 { z-index: 8; right: -14%; transform: translateX(20px) rotateY(-14deg) scale(0.8);  }
-.stack-item-3 { z-index: 7; right: -21%; transform: translateX(30px) rotateY(-21deg) scale(0.7);   }
-.stack-item-4 { z-index: 6; right: -28%; transform: translateX(40px) rotateY(-28deg) scale(0.6);  }
+.stack-item-1 { z-index: 9; right: -5%; transform: translateX(10px) rotateY(-7deg) scale(0.9);  }
+.stack-item-2 { z-index: 8; right: -10%; transform: translateX(20px) rotateY(-14deg) scale(0.8);  }
+.stack-item-3 { z-index: 7; right: -15%; transform: translateX(30px) rotateY(-21deg) scale(0.7);   }
+.stack-item-4 { z-index: 6; right: -20%; transform: translateX(40px) rotateY(-28deg) scale(0.6);  }
 </style>

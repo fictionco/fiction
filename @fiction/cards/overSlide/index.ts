@@ -57,7 +57,7 @@ export const templates = [
     schema,
     options,
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
-    getBaseConfig: () => ({ standard: { spacing: { verticalSpacing: 'xs' } } }),
+    getBaseConfig: () => ({ standard: { spacing: { verticalSpacing: 'sm' } } }),
     getUserConfig: () => getDefaultConfig(),
     demoPage: async () => {
       const userConfig = await getDefaultConfig()

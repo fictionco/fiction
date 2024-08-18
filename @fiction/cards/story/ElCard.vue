@@ -24,7 +24,7 @@ const uc = vue.computed(() => props.card.userConfig.value || {})
         </div>
         <div class=" md:w-[70%] grow">
           <EffectScrollReveal class="space-y-6 ">
-            <CardText tag="div" :card :path="`items.${i}.content`" class="prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl text-pretty text-xl sm:text-3xl md:text-5xl md:leading-relaxed" />
+            <CardText tag="div" :card :path="`items.${i}.content`" class="prose dark:prose-invert prose-sm md:prose-md lg:prose-lg text-pretty text-xl sm:text-3xl  md:leading-relaxed" />
           </EffectScrollReveal>
         </div>
       </div>
