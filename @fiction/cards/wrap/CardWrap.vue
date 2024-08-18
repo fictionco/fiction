@@ -12,10 +12,10 @@ defineProps({
  * Delay the footer to show after a short delay.
  * This is to prevent the footer from showing before the main content.
  */
-const showDelayed = vue.ref(false)
+const showDelayed = vue.ref(true)
 vue.onMounted(async () => {
   await waitFor(1500)
-  showDelayed.value = true
+  showDelayed.value = false
 })
 </script>
 
@@ -27,7 +27,7 @@ vue.onMounted(async () => {
       :class="card.userConfig.value.fixedHeader ? 'fixed w-full top-0 z-10' : ''"
     />
     <ElEngine tag="main" :card="card" />
-    <ElEngine class="transition-all duration-700" :class="!showDelayed ? 'opacity-0 translate-y-0' : '-translate-y-8'" tag="footer" :card="card.site.sections.value.footer" />
+    <ElEngine class="transition-all duration-700" :class="showDelayed ? 'opacity-0 -translate-y-8' : 'opacity-100 translate-y-0'" tag="footer" :card="card.site.sections.value.footer" />
     <ElEngine class="hidden" :card="card.site.sections.value.hidden" />
   </div>
 </template>

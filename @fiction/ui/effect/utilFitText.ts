@@ -259,6 +259,12 @@ export class Fitty {
     f.element.style.fontSize = `${f.currentFontSize}px`
     const lineHeight = this.calculateLineHeight(f.currentFontSize)
     f.element.style.lineHeight = `${lineHeight}`
+
+    // Apply word-wrap: normal to the first child element
+    const firstChild = f.element.firstElementChild as HTMLElement
+    if (firstChild) {
+      firstChild.style.wordWrap = 'normal'
+    }
   }
 
   private dispatchFitEvent(f: FittyInstance): void {

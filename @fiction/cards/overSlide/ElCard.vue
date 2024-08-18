@@ -129,12 +129,14 @@ function leave(el: Element, done: () => void) {
                 :lines="3"
                 :content="currentItem?.title || ''"
                 class="x-font-title z-20 font-bold md:w-[160%]"
+                :min-size="40"
               >
                 <CardText :card tag="span" :path="`items.${currentItemIndex}.title`" />
               </EffectFitText>
               <EffectFitText
                 v-if="currentItem?.subTitle"
                 :lines="2"
+                :min-size="28"
                 :content="currentItem?.subTitle || ''"
                 class="x-font-title z-20 font-medium  md:w-[160%] mt-4 !leading-[1.4]"
               >
@@ -154,7 +156,7 @@ function leave(el: Element, done: () => void) {
               <div
                 v-for="(item, i) in circularItems.slice(0, 5)"
                 :key="item.title"
-                class="absolute  top-[10%] w-full md:w-[80%] md:h-[80%] aspect-[5/3] md:aspect-[4.5/3] transition-all duration-500 shadow-[10px_-10px_10px_-8px_rgba(0_0_0/0.3)]"
+                class="absolute  top-[10%] w-full md:w-[90%] md:h-[80%] aspect-[5/3] md:aspect-[4.5/3] transition-all duration-500 shadow-[10px_-10px_10px_-8px_rgba(0_0_0/0.3)]"
                 :class="[`stack-item-${i}`]"
                 @click="setActiveItemByTitle(item.title)"
               >
