@@ -8,13 +8,13 @@ import { type BrowserEvent, onBrowserEvent } from '@fiction/core/utils/eventBrow
  */
 export function shouldTrack(): boolean | void {
   if (typeof window === 'undefined' || isNode())
-    return log.error('shouldTrack', 'not browser')
+    return log.warn('shouldTrack', 'not browser')
 
   if (inIFrame())
-    return log.error('shouldTrack', 'in iFrame')
+    return log.warn('shouldTrack', 'in iFrame')
 
   if (navigator.doNotTrack === '1')
-    return log.error('shouldTrack', 'doNotTrack is 1')
+    return log.warn('shouldTrack', 'doNotTrack is 1')
 
   return true
 }

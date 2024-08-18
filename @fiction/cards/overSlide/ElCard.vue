@@ -113,7 +113,7 @@ function leave(el: Element, done: () => void) {
 <template>
   <div :class="card.classes.value.contentWidth">
     <div class="y-4">
-      <div class="md:flex items-center justify-between md:h-[65vh] ">
+      <div class="md:flex items-center justify-between md:h-[700px] ">
         <div class="relative h-full basis-[30%]">
           <transition
             enter-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-500"
@@ -128,7 +128,7 @@ function leave(el: Element, done: () => void) {
               <EffectFitText
                 :lines="3"
                 :content="currentItem?.title || ''"
-                class="x-font-title z-20 font-bold md:w-[160%]"
+                class="x-font-title z-20 font-bold md:w-[140%]"
               >
                 <CardText :card tag="span" :path="`items.${currentItemIndex}.title`" />
               </EffectFitText>
@@ -136,14 +136,14 @@ function leave(el: Element, done: () => void) {
                 v-if="currentItem?.subTitle"
                 :lines="2"
                 :content="currentItem?.subTitle || ''"
-                class="x-font-title z-20 font-semibold  md:w-[140%] mt-4 !leading-[1.4]"
+                class="x-font-title z-20 font-medium  md:w-[140%] mt-4 !leading-[1.4]"
               >
                 <CardText animate="fade" :card tag="span" :path="`items.${currentItemIndex}.subTitle`" />
               </EffectFitText>
             </div>
           </transition>
         </div>
-        <div class="h-[45vh] md:h-full relative basis-[30%] [perspective:1000px] z-10">
+        <div class="h-[400px] md:h-full relative basis-[30%] [perspective:1000px] z-10">
           <div class="absolute md:relative left-[40%] w-full h-full ">
             <TransitionGroup
               :css="false"

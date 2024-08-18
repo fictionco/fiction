@@ -116,7 +116,7 @@ export class QueryManageUser extends UserBaseQuery {
     if (isNew)
       message = 'user created'
 
-    if (['create', 'login', 'loginGoogle'].includes(params._action))
+    if (['create', 'login', 'loginGoogle', 'getUserWithToken'].includes(params._action))
       token = user ? fictionUser.getToken(user) : undefined
 
     return this.prepareResponse({ _action, user, isNew, token, message, params }, meta)

@@ -30,7 +30,8 @@ export function decodeUserToken(args: { token: string, tokenSecret?: string }): 
     r = jwt.verify(token, tokenSecret) as TokenFields
   }
   catch (e) {
-    throw abort('token verification failed', { code: 'TOKEN_ERROR' })
+    const err = e as Error
+    throw abort(`token verification failed (${err.message})`, { code: 'TOKEN_ERROR' })
   }
 
   if (!r.userId || !r.email)

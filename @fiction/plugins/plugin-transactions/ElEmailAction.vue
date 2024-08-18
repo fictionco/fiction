@@ -39,9 +39,9 @@ vue.onMounted(async () => {
     await fictionUser.userInitialized()
 
     if (vars.value.token) {
-      const token = vars.value.token
+      const queryToken = vars.value.token
       const code = vars.value.code
-      const { status, data, message } = await fictionUser.requests.ManageUser.request({ _action: 'getUserWithToken', token, code })
+      const { status, data, message, token } = await fictionUser.requests.ManageUser.request({ _action: 'getUserWithToken', token: queryToken, code })
 
       if (status === 'success') {
         fictionUser.setCurrentUser({ user: data, token, reason: 'transactionToken' })
