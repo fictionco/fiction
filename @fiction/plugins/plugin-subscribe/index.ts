@@ -1,7 +1,6 @@
 import type { FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import type { FictionTransactions } from '@fiction/plugin-transactions'
-import { createCard } from '@fiction/site'
 import type { FictionAdmin } from '@fiction/admin'
 import { tables } from './schema'
 import { ManageSubscriptionQuery, SubscriptionAnalytics } from './endpoint'

@@ -1,4 +1,3 @@
-import { createCard } from '@fiction/site'
 import { FictionPlugin } from '@fiction/core/plugin'
 import type { FictionUser } from '@fiction/core/plugin-user'
 import { safeDirname, vue } from '@fiction/core/utils'

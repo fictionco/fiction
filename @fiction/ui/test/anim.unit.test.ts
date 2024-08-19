@@ -55,7 +55,7 @@ describe('splitLetters', () => {
     splitLetters({ selector: '#test' })
 
     expect(element!.innerHTML).toBe(
-    `<span><span class="word"><span class="fx">H</span><span class="fx">e</span><span class="fx">l</span><span class="fx">l</span><span class="fx">o</span></span> <strong><span class="word"><span class="fx">w</span><span class="fx">o</span><span class="fx">r</span><span class="fx">l</span><span class="fx">d</span></span></strong></span>`,
+      `<span><span class="word"><span class="fx">H</span><span class="fx">e</span><span class="fx">l</span><span class="fx">l</span><span class="fx">o</span></span> <strong><span class="word"><span class="fx">w</span><span class="fx">o</span><span class="fx">r</span><span class="fx">l</span><span class="fx">d</span></span></strong></span>`,
     )
   })
 

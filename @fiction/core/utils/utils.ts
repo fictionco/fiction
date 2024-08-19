@@ -185,10 +185,10 @@ export function regExpEscape(s: string): string {
 export function wildcardToRegExp(s: string): RegExp {
   return new RegExp(
     `^${
-    s
+      s
         .split(/\*+/)
         .map(_ => regExpEscape(_))
         .join('.*')
-       }$`,
+    }$`,
   )
 }

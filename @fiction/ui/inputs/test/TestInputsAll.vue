@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { SizeSchema, useService, vue } from '@fiction/core'
+import { useService } from '@fiction/core'
 import { InputOption, inputs } from '..'
 import XButton from '../../buttons/XButton.vue'
 import TestInput from './TestInput.vue'

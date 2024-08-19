@@ -1,7 +1,6 @@
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import type { FictionAdmin } from '@fiction/admin'
 import type { FictionSites, SitesPluginSettings } from '..'
-import { createCard } from '..'
 import { getWidgets } from './widgets/index.js'
 
 export type FictionSiteBuilderSettings = {

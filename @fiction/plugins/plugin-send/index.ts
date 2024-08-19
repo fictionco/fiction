@@ -1,7 +1,6 @@
 import type { FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionPluginSettings, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import type { FictionTransactions } from '@fiction/plugin-transactions'
-import { createCard } from '@fiction/site'
 import type { FictionAdmin } from '@fiction/admin'
 import type { FictionPosts } from '@fiction/posts'
 import type { FictionSubscribe } from '@fiction/plugin-subscribe'

@@ -2,7 +2,7 @@ import type { QueryParams } from '@fiction/analytics/types'
 import type { Query } from '@fiction/core'
 import { FictionObject, vue } from '@fiction/core'
 
-const layoutModes = {
+export const layoutModes = {
   list: { colSpan: 3, rowSpan: 1 },
   chart: { colSpan: 6, rowSpan: 1 },
   theater: { colSpan: 9, rowSpan: 2 },

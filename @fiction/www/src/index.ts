@@ -14,7 +14,7 @@ import FSite from '@fiction/cards/CardSite.vue'
 import { FictionAi } from '@fiction/plugin-ai'
 import { FictionExtend } from '@fiction/plugin-extend/index.js'
 import { FictionSubscribe } from '@fiction/plugin-subscribe/index.js'
-import { crossVar, getEnvVars } from '@fiction/core/utils/index.js'
+import { getEnvVars } from '@fiction/core/utils/index.js'
 import { FictionAnalytics } from '@fiction/analytics/index.js'
 import { FictionPosts } from '@fiction/posts'
 

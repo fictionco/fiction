@@ -10,7 +10,7 @@ import ElImage from '@fiction/ui/media/ElImage.vue'
 import type { Form } from '../form'
 import type { InputUserConfig } from '../templates.js'
 
-import { type CardAlignmentMode, type CardLayoutMode, formConfigCols } from '../schema.js'
+import type { CardAlignmentMode, CardLayoutMode } from '../schema.js'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<InputUserConfig>>, required: true },

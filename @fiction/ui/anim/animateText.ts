@@ -1,6 +1,6 @@
 import anime from 'animejs'
 import type { ColorTheme, ColorThemeUser } from '@fiction/core'
-import { colorThemeUser, getColorScheme } from '@fiction/core'
+import { getColorScheme } from '@fiction/core'
 
 type UnderlineShape = 'line' | 'squiggle' | 'circle' | 'scribble'
 

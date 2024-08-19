@@ -1,10 +1,8 @@
 import type { MediaItem } from '@fiction/core'
 import { vue } from '@fiction/core'
-import type { Site } from '@fiction/site'
 import { CardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
-import { staticFileUrls } from '@fiction/site/utils/site'
 import { standardOption } from '../inputSets'
 
 const el = vue.defineAsyncComponent(async () => import('./ElMarquee.vue'))

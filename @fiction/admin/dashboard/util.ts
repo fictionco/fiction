@@ -44,7 +44,7 @@ export async function runWidgetRequests(args: { widgets?: Widget[], fictionAdmin
     return acc
   }, {} as Record<string, Query>)
 
-  const promises = Object.entries(q).filter(([k, q]) => q.getParams).map(async ([key, query]) => {
+  const promises = Object.entries(q).filter(([_k, q]) => q.getParams).map(async ([key, query]) => {
     const endpoint = reqs[key]
     const params = query.getParams?.() || {}
 

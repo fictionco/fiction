@@ -3,7 +3,7 @@ import type { ResponseStatus, ValidationReason } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
 import type { CheckColumnValue } from '@fiction/core/plugin-db/endpoint'
 import type { UiElementSize } from '../utils'
-import { inputClasses, textInputClasses } from './theme'
+import { inputClasses } from './theme'
 
 const props = defineProps({
   modelValue: { type: [String], default: '' },

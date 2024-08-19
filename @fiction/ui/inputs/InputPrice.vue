@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
-import { inputClasses, textInputClasses } from './theme'
+import { inputClasses } from './theme'
 
 const props = defineProps({
   modelValue: { type: [String, Number], default: '' },

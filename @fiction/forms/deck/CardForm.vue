@@ -2,7 +2,6 @@
 import { useService, vue, waitFor } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import El404 from '@fiction/ui/page/El404.vue'
-import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
 import type { Form } from '../form'
 import { loadForm } from '../utils/load.js'
 import type { FictionForms } from '..'

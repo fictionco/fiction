@@ -1,7 +1,6 @@
 import type { FictionDb, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
 
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
-import { createCard } from '@fiction/site'
 import type { FictionAdmin } from '@fiction/admin'
 import { tables } from './schema'
 import { ManagePostIndex, QueryManagePost, QueryManageTaxonomy } from './endpoint'
