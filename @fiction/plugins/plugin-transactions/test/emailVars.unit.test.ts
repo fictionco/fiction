@@ -37,7 +37,12 @@ describe('createEmailVars', async () => {
     expect(emailVars.appName).toBe('Test Fiction App')
     const u = new URL(emailVars.callbackUrl)
     expect(u.origin + u.pathname).toBe(`https://www.example.com/base/__transaction/action-test`)
-    expect(u.searchParams.get('token'), 'tokens match').toBe(createUserToken({ user: initialized.user, tokenSecret: testUtils.fictionUser.tokenSecret, verifyEmail: true, expiresIn: '1d' }))
+    expect(u.searchParams.get('token'), 'tokens match').toBe(createUserToken({
+      user: initialized.user,
+      tokenSecret: testUtils.fictionUser.tokenSecret,
+      verifyEmail: true,
+      expiresIn: '2d',
+    }))
 
     expect(u.searchParams.get('redirect')).toBe('http://example.com/redirect')
     expect(u.searchParams.get('userId')).toBe(initialized.user.userId)
