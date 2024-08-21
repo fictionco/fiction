@@ -177,7 +177,7 @@ export function activeSiteHostname(site: Site, opts: { isProd?: boolean } = {}) 
       return full ? new URL(full).hostname : ''
     }
     catch (e) {
-      console.error(`Invalid URL encountered in getSiteHostname: ${full}`)
+      console.error(`Invalid URL encountered in getSiteHostname: ${full} - ${(e as Error).message}`)
 
       return ''
     }

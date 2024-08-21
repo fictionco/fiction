@@ -35,8 +35,8 @@ vue.watch(
 function toggleDarkLightMode() {
   if (!props.site)
     return
-
-  props.site.isLightMode.value = !props.site.isLightMode.value
+  const v = !props.site.isLightMode.value
+  props.site.isLightMode.value = v
 
   props.site.frame.syncSite({ caller: 'updateDarkLightMode' })
 }

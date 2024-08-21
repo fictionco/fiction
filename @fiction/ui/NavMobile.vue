@@ -141,7 +141,7 @@ function handleItemClick(args: { item: NavItem, event: MouseEvent }): void {
                       </span>
                     </component>
                     <div v-if="subItem.items" class="space-y-1">
-                      <div v-for="(subSubItem, iii) in subItem.items" :key="iii" class="pl-4">
+                      <div v-for="(subSubItem, iiii) in subItem.items" :key="iiii" class="pl-4">
                         <component
                           :is="getNavComponentType(subSubItem)"
                           :to="subSubItem.href"

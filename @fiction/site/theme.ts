@@ -9,6 +9,12 @@ import type { ComponentConstructor } from './type-utils.js'
 import { Site, type SiteSettings } from './site.js'
 import type { SiteUserConfig } from './schema.js'
 
+export type ThemeConfig = {
+  userConfig: SiteUserConfig
+  pages: TableCardConfig[]
+  sections: Record<string, TableCardConfig>
+}
+
 export type ThemeSettings<T extends Record<string, unknown> = Record<string, unknown>> = {
   root: string
   themeId: string
@@ -20,11 +26,7 @@ export type ThemeSettings<T extends Record<string, unknown> = Record<string, unk
   ui?: UiConfig
   isPublic?: boolean
   userConfig?: Partial<SiteUserConfig> & T
-  getConfig: (args: { site: Site }) => Promise<{
-    userConfig: Partial<SiteUserConfig>
-    pages: TableCardConfig[]
-    sections: Record<string, TableCardConfig>
-  }>
+  getConfig: (args: { site: Site }) => Promise<ThemeConfig>
   templateDefaults?: {
     page?: string
     transaction?: string

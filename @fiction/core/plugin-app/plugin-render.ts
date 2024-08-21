@@ -8,7 +8,7 @@ import serveStatic from 'serve-static'
 import { minify } from 'html-minifier'
 import type { Express, Request } from 'express'
 import type tailwindcss from 'tailwindcss'
-import { iconsPlugin } from '@egoist/tailwindcss-icons'
+import { dynamicIconsPlugin, iconsPlugin } from '@egoist/tailwindcss-icons'
 import express from 'express'
 import { glob } from 'glob'
 import chokidar from 'chokidar'
@@ -115,7 +115,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
         mode: 'jit',
         content: fullUiPaths,
         safelist: ['italic', 'lowercase', 'font-bold'],
-        plugins: [iconsPlugin()],
+        plugins: [iconsPlugin(), dynamicIconsPlugin()],
       },
       ...this.fictionApp.tailwindConfig,
     ]

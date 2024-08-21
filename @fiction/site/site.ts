@@ -12,7 +12,7 @@ import type { QueryVarHook } from './utils/site.js'
 import { saveSite, setSections, setupRouteWatcher, updateSite } from './utils/site.js'
 import type { SiteMode } from './load.js'
 import { type FontConfigVal, activeSiteFont } from './utils/fonts.js'
-import type { FictionSites } from './index.js'
+import type { FictionSites, ThemeConfig } from './index.js'
 
 export type EditorState = {
   selectedCardId: string
@@ -89,7 +89,8 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   themeId = vue.ref(this.settings.themeId)
   theme = vue.computed(() => this.fictionSites.themes.value.find(t => t.themeId === this.themeId.value))
   userConfig = vue.ref(this.settings.userConfig || {})
-  fullConfig = vue.ref(this.settings.userConfig || {})
+  themeConfig = vue.ref<ThemeConfig>()
+  fullConfig = vue.computed(() => deepMerge([this.themeConfig.value?.userConfig, this.userConfig.value]))
   async loadTheme(options: { loadThemePages?: boolean } = {}) {
     const { loadThemePages = false } = options
     const theme = this.theme.value
@@ -97,15 +98,15 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     if (!theme)
       throw new Error(`Theme with ID ${this.themeId.value} not found`)
 
-    const config = await theme.getConfig({ site: this })
+    const c = await theme.getConfig({ site: this })
+
+    this.themeConfig.value = c
 
     if (loadThemePages) {
-      this.update({ pages: config.pages })
+      this.update({ pages: c.pages })
     }
 
-    this.sections.value = setSections({ site: this, themeSections: config.sections })
-
-    this.fullConfig.value = deepMerge([config.userConfig, this.userConfig.value])
+    this.sections.value = setSections({ site: this, themeSections: c.sections })
 
     return this
   }

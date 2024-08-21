@@ -1,4 +1,3 @@
-/* eslint-disable max-statements-per-line */
 // util.ts
 
 export function mix(v1: number, v2: number, a: number): number {
@@ -110,14 +109,56 @@ export class SimplexNoise {
     let i1: number, j1: number, k1: number
     let i2: number, j2: number, k2: number
     if (x0 >= y0) {
-      if (y0 >= z0) { i1 = 1; j1 = 0; k1 = 0; i2 = 1; j2 = 1; k2 = 0 }
-      else if (x0 >= z0) { i1 = 1; j1 = 0; k1 = 0; i2 = 1; j2 = 0; k2 = 1 }
-      else { i1 = 0; j1 = 0; k1 = 1; i2 = 1; j2 = 0; k2 = 1 }
+      if (y0 >= z0) {
+        i1 = 1
+        j1 = 0
+        k1 = 0
+        i2 = 1
+        j2 = 1
+        k2 = 0
+      }
+      else if (x0 >= z0) {
+        i1 = 1
+        j1 = 0
+        k1 = 0
+        i2 = 1
+        j2 = 0
+        k2 = 1
+      }
+      else {
+        i1 = 0
+        j1 = 0
+        k1 = 1
+        i2 = 1
+        j2 = 0
+        k2 = 1
+      }
     }
     else {
-      if (y0 < z0) { i1 = 0; j1 = 0; k1 = 1; i2 = 0; j2 = 1; k2 = 1 }
-      else if (x0 < z0) { i1 = 0; j1 = 1; k1 = 0; i2 = 0; j2 = 1; k2 = 1 }
-      else { i1 = 0; j1 = 1; k1 = 0; i2 = 1; j2 = 1; k2 = 0 }
+      if (y0 < z0) {
+        i1 = 0
+        j1 = 0
+        k1 = 1
+        i2 = 0
+        j2 = 1
+        k2 = 1
+      }
+      else if (x0 < z0) {
+        i1 = 0
+        j1 = 1
+        k1 = 0
+        i2 = 0
+        j2 = 1
+        k2 = 1
+      }
+      else {
+        i1 = 0
+        j1 = 1
+        k1 = 0
+        i2 = 1
+        j2 = 1
+        k2 = 0
+      }
     }
 
     const x1: number = x0 - i1 + G3

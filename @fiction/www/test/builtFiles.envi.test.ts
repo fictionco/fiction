@@ -12,7 +12,7 @@ describe('environment checks', async () => {
 
   // get local .env.test file if it exists
   const p = `${path.dirname(require.resolve('@fiction/core'))}/test-utils/.env.test`
-  dotenv.config({ path: p }).parsed
+  dotenv.config({ path: p })
 
   const services = [{ appId: 'fiction-sites' }, { appId: 'fiction-website' }, { appId: 'fiction-beacon' }]
   it('has secrets', async () => {
