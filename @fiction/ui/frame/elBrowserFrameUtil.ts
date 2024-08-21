@@ -243,22 +243,20 @@ type FrameNavigatorSettings = {
 }
 
 export class FrameNavigator extends FictionObject<FrameNavigatorSettings> {
-  typedPath = vue.ref()
+  typedPath = vue.ref<string>('')
   displayUrl = this.settings.displayUrl
+  history: string[] = []
+  currentIndex = -1
 
   constructor(settings: FrameNavigatorSettings) {
     super('FrameNavigator', settings)
-
     this.init()
   }
 
   displayUrlObject = vue.computed(() => {
     const url = this.settings.displayUrl?.value
     const originalDisplayUrl = new URL(url || '/', 'http://dummybase.com')
-    const typedPath = this.typedPath.value
-
-    originalDisplayUrl.pathname = typedPath
-
+    originalDisplayUrl.pathname = this.typedPath.value || ''
     return originalDisplayUrl
   })
 
@@ -267,15 +265,11 @@ export class FrameNavigator extends FictionObject<FrameNavigatorSettings> {
       () => this.displayUrl.value,
       (v) => {
         const displayUrlPath = new URL(v, 'http://dummybase.com').pathname
-        this.typedPath.value = displayUrlPath
+        this.setNewPath({ fullPath: displayUrlPath, updateHistory: true })
       },
       { immediate: true },
     )
   }
-
-  // pointer for back/forward array. Resets on manual nav (not back/forward)
-  navPointer = vue.ref(0)
-  activeHistory = vue.ref<{ paths: string[], pointer: number }>({ paths: [], pointer: 0 })
 
   pathname = vue.computed(() => {
     const urlOrPath = this.settings.urlOrPath.value
@@ -284,41 +278,60 @@ export class FrameNavigator extends FictionObject<FrameNavigatorSettings> {
 
   update(newValue: string) {
     const u = updateUrl({ newUrlOrPath: newValue, url: this.pathname.value })
-
     this.settings.updateCallback(u)
   }
 
-  async setNewPath({ usingHistory, fullPath }: { usingHistory?: boolean, fullPath: string }): Promise<void> {
+  setNewPath({ fullPath, updateHistory = true }: { fullPath: string, updateHistory?: boolean }): void {
     const np = standardizeUrlOrPath({ urlOrPath: fullPath })
 
     if (np !== this.pathname.value) {
       this.typedPath.value = np
       this.update(np)
 
-      if (!usingHistory) {
-        const navigations = this.activeHistory.value
-
-        const paths = navigations?.paths ?? []
-        const pointer = navigations?.pointer ?? 0
-        const newPaths = paths.slice(pointer)
-
-        newPaths.unshift(np)
-        this.activeHistory.value = { paths: newPaths, pointer: 0 }
+      if (updateHistory) {
+        // Clear forward history if we're not at the end
+        if (this.currentIndex < this.history.length - 1) {
+          this.history = this.history.slice(0, this.currentIndex + 1)
+        }
+        this.history.push(np)
+        this.currentIndex = this.history.length - 1
       }
     }
   }
 
   async navigateFrame(dir: 'forward' | 'backward'): Promise<void> {
-    const navs = this.activeHistory.value
-    if (!navs)
+    if (dir === 'forward' && this.canGoForward()) {
+      this.currentIndex++
+    }
+    else if (dir === 'backward' && this.canGoBack()) {
+      this.currentIndex--
+    }
+    else {
       return
+    }
 
-    let newPointer = navs.pointer
-    if (dir === 'forward' && navs.pointer > 0)
-      newPointer = navs.pointer - 1
-    else if (navs.pointer < navs.paths.length - 1)
-      newPointer = navs.pointer + 1
+    const newPath = this.history[this.currentIndex]
+    this.setNewPath({ fullPath: newPath, updateHistory: false })
+  }
 
-    await this.setNewPath({ usingHistory: true, fullPath: navs.paths[newPointer] || '' })
+  canGoBack(): boolean {
+    return this.currentIndex > 0
+  }
+
+  canGoForward(): boolean {
+    return this.currentIndex < this.history.length - 1
+  }
+
+  getCurrentPath(): string {
+    return this.history[this.currentIndex] || ''
+  }
+
+  getHistory(): string[] {
+    return [...this.history]
+  }
+
+  clearHistory(): void {
+    this.history = [this.getCurrentPath()]
+    this.currentIndex = 0
   }
 }

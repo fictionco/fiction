@@ -52,7 +52,7 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
   adminPageLoaders = vue.shallowRef<PageLoader[]>([async ({ factory }) => [
     await factory.create({
       templateId: 'dash',
-      slug: 'home',
+      slug: '_home',
       isHome: true,
       title: 'Home',
       cards: [await factory.create({ el: vue.defineAsyncComponent(async () => import('./dashboard/ViewDashboard.vue')) })],

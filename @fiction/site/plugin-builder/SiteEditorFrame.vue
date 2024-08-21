@@ -43,45 +43,40 @@ function toggleDarkLightMode() {
 </script>
 
 <template>
-  <div v-if="site" class="min-h-0 p-4">
+  <div v-if="site" class="min-h-0 p-4 h-full relative mx-auto pt-4 pb-10 flex flex-col" :class="deviceModeConfig?.wrapClass">
     <div
-      class="relative mx-auto pt-4 pb-20"
-      :class="deviceModeConfig?.wrapClass"
+      class="mb-4 flex justify-center space-x-2 "
     >
       <div
-        class="mb-4 flex justify-center space-x-2 "
+        v-for="(mode, i) in deviceModes"
+        :key="i"
+        class="inline-flex cursor-pointer select-none items-center rounded px-2 py-1  font-sans antialiased space-x-1  transition-all hover:opacity-80"
+        :class="activeDeviceMode === mode.name
+          ? 'text-theme-600 bg-theme-100 font-semibold dark:bg-theme-600  dark:text-theme-0 dark:text-theme-0'
+          : 'text-theme-500 font-medium dark:text-theme-100  border-transparent dark:bg-theme-700  '
+        "
+        @click.stop="activeDeviceMode = mode.name"
       >
-        <div
-          v-for="(mode, i) in deviceModes"
-          :key="i"
-          class="inline-flex cursor-pointer select-none items-center rounded px-2 py-1  font-sans antialiased space-x-1  transition-all hover:opacity-80"
-          :class="activeDeviceMode === mode.name
-            ? 'text-theme-600 bg-theme-100 font-semibold dark:bg-theme-600  dark:text-theme-0 dark:text-theme-0'
-            : 'text-theme-500 font-medium dark:text-theme-100  border-transparent dark:bg-theme-700  '
-          "
-          @click.stop="activeDeviceMode = mode.name"
-        >
-          <div class="text-base" :class="mode.icon" />
-          <div class="capitalize tracking-tight text-[10px]">
-            {{ mode.name }}
-          </div>
-        </div>
-
-        <div class="dark px-2 py-1 text-theme-500 hover:opacity-80 dark:text-theme-100 cursor-pointer flex items-center" @click="toggleDarkLightMode()">
-          <div :class="site.isLightMode.value ? 'i-tabler-moon' : 'i-tabler-sun'" class="text-lg" />
+        <div class="text-base" :class="mode.icon" />
+        <div class="capitalize tracking-tight text-[10px]">
+          {{ mode.name }}
         </div>
       </div>
-      <ElBrowserFrameDevice
-        ref="frameRef"
-        :device-mode="activeDeviceMode"
-        class="rounded-md shadow-lg border border-theme-200"
-        :url="site.frame.frameUrl.value"
-        frame-id="site-builder-iframe"
-        :display-url="site.frame.displayUrl.value"
-        :browser-bar="true"
-        @update:url="site?.frame.updateFrameUrl($event)"
-        @message="site?.frame.processFrameMessage({ scope: 'parent', msg: $event as FramePostMessageList })"
-      />
+
+      <div class="dark px-2 py-1 text-theme-500 hover:opacity-80 dark:text-theme-100 cursor-pointer flex items-center" @click="toggleDarkLightMode()">
+        <div :class="site.isLightMode.value ? 'i-tabler-moon' : 'i-tabler-sun'" class="text-lg" />
+      </div>
     </div>
+    <ElBrowserFrameDevice
+      ref="frameRef"
+      :device-mode="activeDeviceMode"
+      class="rounded-md shadow-lg border border-theme-200"
+      :url="site.frame.frameUrl.value"
+      frame-id="site-builder-iframe"
+      :display-url="site.frame.displayUrl.value"
+      :browser-bar="true"
+      @update:url="site?.frame.updateFrameUrl($event)"
+      @message="site?.frame.processFrameMessage({ scope: 'parent', msg: $event as FramePostMessageList })"
+    />
   </div>
 </template>

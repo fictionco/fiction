@@ -25,7 +25,7 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
             autoSlide: false,
             items: [
               {
-                title: 'Alison Groves',
+                title: 'Your Name',
                 subTitle: 'Author and Speaker',
                 textBlend: 'difference',
                 media: {
@@ -34,8 +34,8 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
                 },
               },
               {
-                title: 'Illuminate Your Insight',
-                subTitle: 'Get My Latest Book',
+                title: 'Clever Headline',
+                subTitle: 'Clever Headline Subtitle',
                 textBlend: 'difference',
                 media: {
                   format: 'url',

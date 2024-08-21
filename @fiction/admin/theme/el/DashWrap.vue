@@ -48,9 +48,10 @@ const primaryNav = vue.computed<NavItem[]>(() => {
   const navItems = pages.filter(v => v.userConfig.value.isNavItem)
 
   const r = navItems?.map((item) => {
+    const currentViewId = site.siteRouter.params.value.viewId
     const slug = item.slug.value === '_home' ? '' : item.slug.value
     const itemUc = item.userConfig.value as UserConfig
-    const isActive = slug === site.siteRouter.params.value.viewId || slug === uc.value.parentNavItemSlug
+    const isActive = slug === currentViewId || slug === uc.value.parentNavItemSlug || (!currentViewId && (!slug || slug === '_home'))
     const icon = isActive && itemUc.navIconAlt ? itemUc.navIconAlt : itemUc.navIcon
     return {
       name: itemUc.navTitle || item.title.value || '',

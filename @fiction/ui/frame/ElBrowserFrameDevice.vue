@@ -1,6 +1,6 @@
 <script lang="ts" setup generic="T extends MsgUnknown">
 import { shortId, vue } from '@fiction/core/index.js'
-import ElButton from '../ElButton.vue'
+import XButton from '../buttons/XButton.vue'
 import ElLoading from '../loaders/ElLoading.vue'
 import type { MsgUnknown } from './elBrowserFrameUtil.js'
 import { FrameNavigator, FrameUtility } from './elBrowserFrameUtil.js'
@@ -144,29 +144,25 @@ const navigator = new FrameNavigator({
 
 <template>
   <div class="bg-theme-0 dark:bg-theme-800 @container border border-theme-200 dark:border-theme-500/50 overflow-hidden">
-    <div v-if="browserBar" class="flex items-center justify-between px-2 py-2 border-b border-theme-200 dark:border-theme-700">
+    <div v-if="browserBar" class="flex items-center justify-between px-2 py-2 border-b border-theme-200 dark:border-theme-600">
       <div class="w-full items-center justify-center lg:flex lg:space-x-2">
-        <div class="space-x-1 hidden">
-          <div
-            class="hover:bg-theme-200 size-6 text-base cursor-pointer items-center justify-center rounded-md flex"
-            :class="
-              navigator.navPointer.value === navigator.activeHistory.value.paths.length
-                ? 'cursor-not-allowed opacity-50'
-                : ''
-            "
+        <div class="space-x-1 flex">
+          <button
+            class="dark:bg-theme-600/60  size-6 text-base  items-center justify-center rounded-md flex"
+            :class="!navigator.canGoBack() ? 'cursor-not-allowed opacity-20' : 'cursor-pointer hover:opacity-70'"
+            :disabled="!navigator.canGoBack()"
             @click="navigator.navigateFrame('backward')"
           >
             <div class="i-tabler-arrow-left" />
-          </div>
-          <div
-            class="hover:bg-theme-200  size-6 text-base cursor-pointer items-center justify-center rounded-md flex"
-            :class="
-              navigator.activeHistory.value.pointer === 0 ? 'cursor-not-allowed opacity-50' : ''
-            "
+          </button>
+          <button
+            class="dark:bg-theme-600/60  size-6 text-base  items-center justify-center rounded-md flex"
+            :class="!navigator.canGoForward() ? 'cursor-not-allowed opacity-20' : 'cursor-pointer hover:opacity-70'"
+            :disabled="!navigator.canGoForward()"
             @click="navigator.navigateFrame('forward')"
           >
             <div class="i-tabler-arrow-right" />
-          </div>
+          </button>
         </div>
         <label for="urlBar" class="relative flex grow rounded-md shadow-sm  group border border-theme-200 dark:border-theme-600 focus-within:border-theme-200 overflow-hidden">
           <span
@@ -185,20 +181,20 @@ const navigator = new FrameNavigator({
         </label>
       </div>
       <div class="ml-4 hidden shrink-0 md:block">
-        <ElButton
-          btn="default"
-          class="uppercase"
-          size="md"
+        <XButton
+          theme="emerald"
+          size="sm"
+          rounding="full"
           @click="navigator.setNewPath({ fullPath: navigator.typedPath.value })"
         >
           Go &rarr;
-        </ElButton>
+        </XButton>
       </div>
       <slot name="browserBar" />
     </div>
     <div
       :id="`${frameId}-wrap`"
-      class="relative max-h-[100%] overflow-hidden "
+      class="relative max-h-[100%] overflow-hidden w-full"
       :class="dimensions.aspectClass"
     >
       <iframe
