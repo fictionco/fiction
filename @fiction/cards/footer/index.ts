@@ -141,7 +141,7 @@ const el = vue.defineAsyncComponent(async () => import('./ElCard.vue'))
 export const templates = [
   new CardTemplate({
     templateId,
-    category: ['navigation', 'basic'],
+    category: ['navigation'],
     icon: 'i-tabler-box-align-bottom',
     colorTheme: 'green',
     description: 'A professional footer for your website',

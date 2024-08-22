@@ -11,6 +11,7 @@ export type FramePostMessageList =
   | { messageType: 'setActiveCard', data: { cardId: string, caller?: string } }
   | { messageType: 'navigate', data: { urlOrPath: string, siteId: string } }
   | { messageType: 'frameReady', data: undefined }
+  | { messageType: 'keypress', data: { key: string, direction: 'up' | 'down' } }
 
 export type SiteFrameUtilityParams = {
   site: Site
@@ -191,6 +192,12 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
       case 'resetUi': {
         resetUi({ scope: 'iframe', cause: 'iframeSiteRender' })
         this.site.fictionSites.fictionEnv.events.emit('resetUi', { scope: 'iframe', cause: 'iframeSiteRender' })
+        break
+      }
+
+      case 'keypress': {
+        const { key, direction } = msg.data
+        this.site.fictionSites.fictionEnv.events.emit('keypress', { key, direction })
         break
       }
 

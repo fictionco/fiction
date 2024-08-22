@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getNested, setNested, vue } from '@fiction/core'
+import { getNested, setNested, useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import type { InputModes } from '@fiction/ui/common/XText.vue'
 import XText from '@fiction/ui/common/XText.vue'
@@ -12,9 +12,13 @@ const props = defineProps({
   fallback: { type: String, default: '' },
   animate: { type: [String, Boolean] as vue.PropType<'rise' | 'fade' | boolean>, default: undefined },
   mode: { type: String as vue.PropType<InputModes>, default: 'text' },
+  editKey: { type: [Boolean, String], default: true },
 })
 
+const { fictionEnv } = useService()
+
 const attrs = vue.useAttrs()
+const textEl = vue.ref<HTMLElement>()
 
 const data = vue.computed(() => props.card.userConfig.value)
 
@@ -36,29 +40,49 @@ const value = vue.computed(() => {
   return getNested({ path: props.path, data: data.value }) as string
 })
 
-const isEditable = vue.computed(() => props.card.site?.isEditable.value)
+// const isEditable = vue.computed(() => {
+//   const isEditable = props.card.site?.isEditable.value
+//   const requiredKey = props.editKey === true ? 'meta' : props.editKey
 
-//
+//   if (isEditable && requiredKey && fictionEnv?.heldKeys.value[requiredKey]) {
+//     return true
+//   }
+//   else if (!requiredKey) {
+//     return isEditable
+//   }
+// })
+
+const isContentEditable = vue.ref(false)
+
 function shouldStopProp(event: MouseEvent) {
-  if (isEditable.value) {
+  if (isContentEditable.value) {
     event.stopPropagation()
-    // event.preventDefault()
+    event.preventDefault()
     const cardId = props.card.cardId
     props.card?.site?.setActiveCard({ cardId })
   }
 }
+
+vue.onMounted(() => {
+  vue.watch(() => isContentEditable.value, () => {
+    console.log('isEditable', isContentEditable.value)
+  })
+})
 </script>
 
 <template>
   <XText
+    ref="textEl"
     :data-key="path"
     v-bind="attrs"
     :animate
     :tag
-    :is-editable="isEditable"
+    :is-editable="props.card.site?.isEditable.value"
+    :edit-key="editKey"
     :model-value="value"
     :placeholder
     :fallback
+    @on-editable="isContentEditable = $event"
     @click="shouldStopProp($event)"
     @update:model-value="onValue($event)"
     @input="onInput($event)"

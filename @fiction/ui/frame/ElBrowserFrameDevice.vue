@@ -200,7 +200,7 @@ const navigator = new FrameNavigator({
       <iframe
         :id="frameId"
         ref="frame"
-        class="absolute inset-0 h-full w-full origin-top-left bg-theme-50"
+        class="absolute inset-0 h-full w-full origin-top-left bg-theme-50 dark:bg-theme-900"
         :class="dimensions.aspectClass"
         frameborder="0"
         :style="{

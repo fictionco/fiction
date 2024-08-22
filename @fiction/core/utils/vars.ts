@@ -5,6 +5,7 @@ import { toCamel } from './casing.js'
 import { randomBetween } from './utils.js'
 
 export class CrossVarManager {
+  private managedKeys: Set<string> = new Set()
   /**
    * Determines if the window object is defined and has fictionRunVars.
    */
@@ -53,7 +54,17 @@ export class CrossVarManager {
    * Sets a RunVar
    */
   set<T extends keyof RunVars>(name: T, value: RunVars[T]): void {
-    this.setVar(name, value as string)
+    this.setAny(name, value as string)
+  }
+
+  setAny(name: string, value: string): void {
+    if (this.isWindowAvailable())
+      window.fictionRunVars[name] = value
+
+    if (this.isProcessAvailable())
+      process.env[name] = value
+
+    this.managedKeys.add(name)
   }
 
   // Sets a general global var
@@ -63,6 +74,8 @@ export class CrossVarManager {
 
     if (this.isProcessAvailable())
       process.env[name] = value
+
+    this.managedKeys.add(name)
   }
 
   /**
@@ -74,6 +87,22 @@ export class CrossVarManager {
 
     if (this.isProcessAvailable())
       delete process.env[name]
+
+    this.managedKeys.delete(name as string)
+  }
+
+  /**
+   * Clears all variables set by this CrossVarManager instance
+   */
+  clear(): void {
+    for (const key of this.managedKeys) {
+      if (this.isWindowAvailable())
+        delete window.fictionRunVars[key]
+
+      if (this.isProcessAvailable())
+        delete process.env[key]
+    }
+    this.managedKeys.clear()
   }
 }
 

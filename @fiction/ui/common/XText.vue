@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { shortId, toHtml, toMarkdown, vue } from '@fiction/core'
+import { shortId, toHtml, toMarkdown, useService, vue } from '@fiction/core'
 
+import { defineEmits } from 'vue'
 import { animateItemEnter, splitLetters, useElementVisible } from '../anim'
 
 export type InputModes = 'text' | 'markdown' | 'html' | 'number' | 'email' | 'url' | 'password' | 'phone' | 'date'
@@ -16,13 +17,17 @@ const props = defineProps({
   suffix: { type: String, default: '' },
   fallback: { type: String, default: '' },
   mode: { type: String as vue.PropType<InputModes>, default: 'text' },
+  editKey: { type: [Boolean, String], default: false },
 })
 
 const emit = defineEmits<{
   (event: 'input', payload: string): void
   (event: 'reset', payload: string): void
   (event: 'update:modelValue', payload: string): void
+  (event: 'onEditable', payload: boolean): void
 }>()
+
+const { fictionEnv } = useService()
 
 const randomId = shortId()
 
@@ -36,6 +41,20 @@ function getValue(rawValue: string) {
 
   return v
 }
+
+const canClickToEdit = vue.computed(() => {
+  const requiredKey = props.editKey === true ? 'meta' : props.editKey
+
+  return !!((!requiredKey || (requiredKey && fictionEnv?.heldKeys.value[requiredKey])))
+})
+
+const isContentEditable = vue.computed(() => {
+  return (props.isEditable && canClickToEdit.value) || isEditing.value
+})
+
+vue.watch(() => isContentEditable.value, (v) => {
+  emit('onEditable', !!v)
+}, { immediate: true })
 
 // set the displayed text, only do this when not editing
 // as any reactive change bounces the cursor to the start
@@ -126,22 +145,28 @@ function onPaste(event: ClipboardEvent) {
   emit('input', getValue(updateValue.value)) // Emit input event
   emitValue() // Emit value update
 }
+
+function setIsEditing(type: 'click' | 'focus') {
+  if (isContentEditable.value) {
+    isEditing.value = type
+  }
+}
 </script>
 
 <template>
   <component
     :is="tag"
-    v-if="(isEditable && placeholder) || textValue || fallback"
+    v-if="(isContentEditable && placeholder) || textValue || fallback"
     :id="randomId"
     class="focus:outline-none xtext"
     :class="loaded ? '' : 'invisible'"
-    :contenteditable="isEditable ? 'true' : 'false'"
+    :contenteditable="isContentEditable ? 'true' : 'false'"
     spellcheck="false"
     :placeholder="placeholder"
     @input="onInput($event)"
     @paste="onPaste($event)"
-    @click="isEditing = 'click'"
-    @focus="isEditing = 'focus'"
+    @click="setIsEditing('click')"
+    @focus="setIsEditing('focus')"
     @blur="handleBlur()"
     v-html="textValue || fallback"
   />

@@ -5,6 +5,8 @@
     touchstart: TouchEvent
     click: MouseEvent
     keypress: KeyboardEvent
+    keydown: KeyboardEvent
+    keyup: KeyboardEvent
     scroll: Event
     init: Event // Note: 'init' is not a standard DOM event, so using Event as a fallback
     blur: FocusEvent

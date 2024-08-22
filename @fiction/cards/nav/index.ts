@@ -81,7 +81,7 @@ const el = vue.defineAsyncComponent(async () => import('./ElCard.vue'))
 export const templates = [
   new CardTemplate({
     templateId,
-    category: ['navigation', 'basic'],
+    category: ['navigation'],
     icon: 'i-tabler-box-align-top',
     colorTheme: 'blue',
     description: 'A header with a logo and navigation links',

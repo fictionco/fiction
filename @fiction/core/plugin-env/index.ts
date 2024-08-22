@@ -8,6 +8,7 @@ import type { RunVars } from '../inject.js'
 import { TypedEventTarget } from '../utils/eventTarget.js'
 import { logMemoryUsage } from '../utils/nodeUtils.js'
 import type { CleanupCallback } from '../types/index.js'
+import { type BrowserEventObject, onBrowserEvent } from '../utils/eventBrowser.js'
 import { compileApplication } from './entry.js'
 import type { CliCommand } from './commands.js'
 import { standardAppCommands } from './commands.js'
@@ -63,6 +64,7 @@ type BaseCompiled = {
 
 export type EnvEventMap = {
   resetUi: CustomEvent<{ scope: 'all' | 'inputs' | 'iframe', cause: string }>
+  keypress: CustomEvent<{ key: string, direction: 'up' | 'down' }>
   shutdown: CustomEvent<{ reason: string }> // shut down services, server
   restartServers: CustomEvent<{ reason: string }> // restart services, server
   notify: CustomEvent<UserNotification>
@@ -110,6 +112,8 @@ export class FictionEnv<
   serverOnlyImports: Record<string, true | Record<string, string>> = commonServerOnlyModules()
 
   distFolder = this.settings.distFolder || path.join(this.cwd, 'dist')
+
+  heldKeys = vue.ref<Record<string, boolean>>({})
 
   // allows service passed to app to be modified
   // plugins that add services need to edit this
@@ -173,6 +177,7 @@ export class FictionEnv<
     envConfig.list.forEach(c => c.onLoad({ fictionEnv: this }))
 
     this.handleEvents()
+    this.setupKeyTracking()
   }
 
   handleEvents() {
@@ -192,6 +197,41 @@ export class FictionEnv<
         return
       args.cause = `${args.cause}[env]`
       resetUi(args)
+    })
+  }
+
+  setupKeyTracking(): void {
+    // Watch for keypress events
+    this.events.on('keypress', (event) => {
+      const heldKeys = this.heldKeys.value
+      const { key, direction } = event.detail
+      if (direction === 'down') {
+        heldKeys[key] = true
+      }
+      else if (heldKeys[key]) {
+        delete heldKeys[key]
+      }
+      this.heldKeys.value = { ...heldKeys }
+    })
+
+    // Setup window event listeners if window is available
+    if (this.hasWindow) {
+      this.setupWindowKeyListeners()
+    }
+  }
+
+  setupWindowKeyListeners(): void {
+    const emitKeypress = (event: BrowserEventObject<'keydown' | 'keyup'>): void => {
+      const direction = event.type === 'keydown' ? 'down' : 'up'
+      this.events.emit('keypress', { key: event.key.toLowerCase(), direction })
+    }
+
+    const removeKeydown = onBrowserEvent('keydown', emitKeypress)
+    const removeKeyup = onBrowserEvent('keyup', emitKeypress)
+
+    this.cleanupCallbacks.push(() => {
+      removeKeydown()
+      removeKeyup()
     })
   }
 

@@ -63,7 +63,7 @@ const list = vue.computed<IndexItem[]>(() => {
     return {
       media,
       icon: 'i-tabler-pin',
-      name: post.title.value,
+      name: post.title.value || 'Untitled',
       desc: post.excerpt.value || post.subTitle.value,
       href: props.card.link(`/post-edit?postId=${post.postId}`),
       dateIso: post.publishAt.value || post.settings.updatedAt,

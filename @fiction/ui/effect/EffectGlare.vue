@@ -7,6 +7,7 @@ const props = defineProps({
 })
 
 const isHovered = vue.ref(false)
+const trackingEl = vue.ref<HTMLElement | null>(null)
 
 const state = vue.reactive({
   rotation: { x: 0, y: 0 },
@@ -14,41 +15,45 @@ const state = vue.reactive({
 })
 
 function handleMouseMove(event: MouseEvent) {
-  const { clientX, clientY, target } = event
-  const rect = (target as HTMLElement).getBoundingClientRect()
-  const x = ((clientX - rect.left) / rect.width) * 100
-  const y = ((clientY - rect.top) / rect.height) * 100
+  if (!trackingEl.value)
+    return
+  const rect = trackingEl.value.getBoundingClientRect()
+  const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2
+  const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2
 
-  state.rotation.x = Math.max(-7, Math.min(7, (y - 50) / 5))
-  state.rotation.y = Math.max(-7, Math.min(7, -(x - 50) / 5))
-  state.glare.x = x
-  state.glare.y = y
+  const maxTilt = 10
+  const tiltMagnitude = Math.min(Math.sqrt(x * x + y * y), 1)
+  const tiltAngle = Math.atan2(y, x)
+
+  state.rotation.x = Math.sin(tiltAngle) * maxTilt * tiltMagnitude
+  state.rotation.y = -Math.cos(tiltAngle) * maxTilt * tiltMagnitude
+  state.glare.x = (x + 1) * 50
+  state.glare.y = (y + 1) * 50
 }
 
 function handleMouseEnter() {
+  if (typeof document === 'undefined')
+    return
+
   isHovered.value = true
+  document.addEventListener('mousemove', handleMouseMove)
 }
 
 function handleMouseLeave() {
+  if (typeof document === 'undefined')
+    return
+
   isHovered.value = false
+  document.removeEventListener('mousemove', handleMouseMove)
   state.rotation.x = 0
   state.rotation.y = 0
   state.glare.x = 50
   state.glare.y = 50
 }
 
-const cardStyle = vue.computed(() => {
-  const parts = [
-    `rotateX(${state.rotation.x}deg)`,
-    `rotateY(${state.rotation.y}deg)`,
-  ]
-  if (isHovered.value) {
-    parts.push('translateZ(10px)')
-  }
-  return {
-    transform: parts.join(' '),
-  }
-})
+const cardStyle = vue.computed(() => ({
+  transform: `rotateX(${state.rotation.x}deg) rotateY(${state.rotation.y}deg) ${isHovered.value ? 'translateZ(10px)' : ''}`,
+}))
 
 const glareStyle = vue.computed(() => ({
   background: `radial-gradient(circle at ${state.glare.x}% ${state.glare.y}%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 70%)`,
@@ -64,24 +69,27 @@ vue.onMounted(async () => {
 </script>
 
 <template>
-  <div class="[perspective:1000px] ">
+  <div ref="trackingEl" class="[perspective:1000px]">
     <div
       class="overflow-hidden hover flipcard group"
       :class="cls"
       :style="cardStyle"
-      @mousemove="handleMouseMove"
-      @mouseleave="handleMouseLeave"
       @mouseenter="handleMouseEnter"
+      @mouseleave="handleMouseLeave"
     >
       <slot />
-      <div :class="loaded ? 'group-hover:opacity-100' : ''" class="opacity-0  card-glare absolute top-0 left-0 w-full h-full pointer-events-none transition-all" :style="glareStyle" />
+      <div
+        :class="loaded ? 'group-hover:opacity-100' : ''"
+        class="opacity-0 card-glare absolute top-0 left-0 w-full h-full pointer-events-none transition-all"
+        :style="glareStyle"
+      />
     </div>
   </div>
 </template>
 
 <style lang="less">
 .flipcard {
-  transition: transform 0.5s;
+  transition: transform 0.3s;
   transform-style: preserve-3d;
   perspective: 1000px;
   backface-visibility: hidden;
