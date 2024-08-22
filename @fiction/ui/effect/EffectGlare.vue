@@ -19,8 +19,8 @@ function handleMouseMove(event: MouseEvent) {
   const x = ((clientX - rect.left) / rect.width) * 100
   const y = ((clientY - rect.top) / rect.height) * 100
 
-  state.rotation.x = Math.max(-10, Math.min(10, (y - 50) / 5))
-  state.rotation.y = Math.max(-10, Math.min(10, -(x - 50) / 5))
+  state.rotation.x = Math.max(-7, Math.min(7, (y - 50) / 5))
+  state.rotation.y = Math.max(-7, Math.min(7, -(x - 50) / 5))
   state.glare.x = x
   state.glare.y = y
 }

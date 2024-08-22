@@ -2,7 +2,8 @@
 import type { FictionApp, FictionRouter } from '@fiction/core'
 import { onResetUi, resetUi, useService, vue } from '@fiction/core'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
-import ElButton from '@fiction/ui/ElButton.vue'
+import CardButton from '@fiction/cards/CardButton.vue'
+import CardLink from '@fiction/cards/el/CardLink.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import XText from '@fiction/ui/common/XText.vue'
 import ViewEditor from '@fiction/admin/ViewEditor.vue'
@@ -100,42 +101,44 @@ async function save() {
     <template v-else>
       <ViewEditor :tool-props="{ site }" :controller="createSiteEditingController(site)">
         <template #headerLeft>
-          <ElButton btn="default" :href="card.link('/')">
-            <div class="i-tabler-home text-lg" />
-          </ElButton>
+          <div>
+            <CardButton :card theme="default" href="/" icon="i-tabler-home" />
+          </div>
           <div class="flex space-x-1 font-medium">
-            <RouterLink
+            <CardLink
+              :card
               class=" whitespace-nowrap text-theme-400 dark:text-theme-300  pr-1 hover:text-primary-500 dark:hover:text-theme-0 flex items-center gap-1"
-              :to="card.link('/')"
+              href="/"
             >
               <span class="i-tabler-browser-plus text-xl inline-block dark:text-theme-500" />
               <span>Site Designer</span>
               <span class="i-tabler-slash text-xl dark:text-theme-500" />
-            </RouterLink>
+            </CardLink>
 
             <XText v-if="site" v-model="site.title.value" :is-editable="true" class="hover:bg-theme-100 whitespace-nowrap" />
           </div>
         </template>
         <template v-if="site" #headerRight>
-          <ElButton
-            btn="default"
+          <CardButton
+            :card
+            theme="default"
             :href="activeSiteDisplayUrl(site, { mode: 'staging' }).value"
             target="_blank"
             size="md"
             icon="i-tabler-arrow-up-right"
           >
             View
-          </ElButton>
-          <ElButton
-            btn="primary"
+          </CardButton>
+          <CardButton
+            :card
+            theme="primary"
             :loading="sending === 'save'"
-            class=" min-w-36"
             icon="i-tabler-arrow-big-up-lines"
             size="md"
             @click.prevent="save()"
           >
             Save Site
-          </ElButton>
+          </CardButton>
         </template>
         <template #default>
           <El404 v-if="!site && !loading" heading="Site Not Found" sub-heading="No site was found here." />

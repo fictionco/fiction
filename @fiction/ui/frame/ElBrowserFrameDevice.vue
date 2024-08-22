@@ -146,7 +146,7 @@ const navigator = new FrameNavigator({
   <div class="bg-theme-0 dark:bg-theme-800 @container border border-theme-200 dark:border-theme-500/50 overflow-hidden">
     <div v-if="browserBar" class="flex items-center justify-between px-2 py-2 border-b border-theme-200 dark:border-theme-600">
       <div class="w-full items-center justify-center lg:flex lg:space-x-2">
-        <div class="space-x-1 flex">
+        <div class="space-x-1 hidden lg:flex">
           <button
             class="dark:bg-theme-600/60  size-6 text-base  items-center justify-center rounded-md flex"
             :class="!navigator.canGoBack() ? 'cursor-not-allowed opacity-20' : 'cursor-pointer hover:opacity-70'"
@@ -164,12 +164,12 @@ const navigator = new FrameNavigator({
             <div class="i-tabler-arrow-right" />
           </button>
         </div>
-        <label for="urlBar" class="relative flex grow rounded-md shadow-sm  group border border-theme-200 dark:border-theme-600 focus-within:border-theme-200 overflow-hidden">
+        <label for="urlBar" class="relative flex grow rounded-md shadow-sm gap-0.5 group border border-theme-200 dark:bg-theme-700 dark:border-theme-600 focus-within:border-theme-200 overflow-hidden">
           <span
-            class="bg-theme-0 dark:bg-theme-600/60 hidden text-theme-300 dark:text-theme-400 @xl:inline-flex select-none items-center rounded-l-md pl-2.5 pr-2 font-medium text-xs"
+            class="group/url bg-theme-0 dark:bg-theme-600/40 hidden text-theme-300 dark:text-theme-400 @xl:inline-flex select-none items-center rounded-l-md pl-2 pr-2 font-medium text-xs"
             :title="navigator.displayUrlObject.value.origin"
           >
-            {{ navigator.displayUrlObject.value.origin }}
+            <span class="i-tabler-link text-lg" :title="navigator.displayUrlObject.value.origin" />
           </span>
           <input
             id="urlBar"

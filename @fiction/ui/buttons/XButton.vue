@@ -42,7 +42,7 @@ const cls = vue.computed(() => {
   return getButtonClasses(props)
 })
 const slots = vue.useSlots()
-const hasContent = vue.computed(() => !!slots?.default?.())
+const hasContent = vue.computed(() => !!slots?.default?.()?.[0]?.children?.length)
 
 const iconAdjust = vue.computed(() => {
   const size = props.size || 'md'
@@ -131,7 +131,7 @@ const linkProps = vue.computed(() => props.href?.startsWith('http') ? { href: pr
     >
       <div class="flex space-x-1 items-center">
         <div v-if="icon" class="" :class="[cls.iconClasses, icon, iconAdjust.both, iconAdjust.before]" />
-        <div v-if="hasContent" class="txt"><slot /></div>
+        <div v-if="hasContent" class="txt" :data-content="slots?.default?.()"><slot /></div>
         <div v-if="iconAfter" class="" :class="[cls.iconClasses, iconAfter, iconAdjust.both, iconAdjust.after]" />
       </div>
     </span>
