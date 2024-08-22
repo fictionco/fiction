@@ -19,6 +19,59 @@ describe('siteLink / siteGoto', async () => {
 
   testUtils.fictionRouterSites.update([new AppRoute({ name: 'tester', path: '/test/:viewId?/:itemId?', component: FSite })])
 
+  it('handles child routes correctly', async () => {
+    testUtils.fictionRouterSites.update([new AppRoute({ name: 'app', path: '/app/:viewId?/:itemId?', component: FSite })])
+    await testUtils.fictionRouterSites.push({ path: '/app/dashboard' }, { caller: 'test' })
+    const site = await Site.create({ ...common, themeId: 'test', siteId: `test-${shortId()}` })
+
+    const result = siteLink({ site, location: { path: '/settings' } })
+    expect(result).toBe('/app/settings')
+
+    const result2 = siteLink({ site, location: { path: '/profile/123' } })
+    expect(result2).toBe('/app/profile/123')
+  })
+
+  it('handles preview sites with alternate base', async () => {
+    const previewRouter = testUtils.fictionRouterSites.clone({
+      routeBasePath: '/preview/test-site',
+      routes: [new AppRoute({ name: 'preview', path: '/:viewId?/:itemId?', component: FSite })],
+    })
+
+    // Ensure the router is created
+    previewRouter.create({ caller: 'test' })
+
+    await previewRouter.push({ path: '/dashboard' }, { caller: 'test' })
+
+    const site = await Site.create({
+      ...common,
+      themeId: 'test',
+      siteId: `test-${shortId()}`,
+      siteRouter: previewRouter,
+    })
+
+    const result = siteLink({ site, location: { path: '/settings' } })
+    expect(result).toBe('/settings')
+
+    const result2 = siteLink({ site, location: { path: '/profile/123' } })
+    expect(result2).toBe('/profile/123')
+  })
+
+  it('handles absolute URLs correctly', async () => {
+    const site = await Site.create({ ...common, themeId: 'test', siteId: `test-${shortId()}` })
+
+    const result = siteLink({ site, location: 'https://example.com' })
+    expect(result).toBe('https://example.com')
+  })
+
+  it('handles empty viewId correctly', async () => {
+    testUtils.fictionRouterSites.update([new AppRoute({ name: 'root', path: '/:viewId?/:itemId?', component: FSite })])
+    await testUtils.fictionRouterSites.push({ path: '/' }, { caller: 'test' })
+    const site = await Site.create({ ...common, themeId: 'test', siteId: `test-${shortId()}` })
+
+    const result = siteLink({ site, location: { path: '/about' } })
+    expect(result).toBe('/about')
+  })
+
   it('returns correct link when site and router are provided', async () => {
     await testUtils.fictionRouterSites.push({ path: '/test/whatever' }, { caller: 'test' })
     const site = await Site.create({ ...common, themeId: 'test', siteId: `test-${shortId()}` })

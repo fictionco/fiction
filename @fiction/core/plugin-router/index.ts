@@ -93,7 +93,7 @@ export class FictionRouter<
 
     const ar = this.routes.value.find(r => r.name === to.name)
 
-    let navigate: ReturnType<vueRouter.NavigationGuard> = result.navigate || true
+    let navigate: ReturnType<vueRouter.NavigationGuard> = result.navigate ?? true
     if (ar && ar.before)
       navigate = await ar.before({ fictionRouter: this, isSSR: this.fictionEnv?.isSSR.value || false, to, from, navigate })
 
@@ -236,29 +236,6 @@ export class FictionRouter<
     })
   }
 
-  public link(
-    key: S['routes'],
-    replace: LinkReplace = {},
-    query?: Record<string, any> | undefined,
-  ): vue.Ref<string> {
-    return vue.computed(() => {
-      const params = new URLSearchParams(query).toString()
-      const searchParams = params ? `?${params}` : ''
-
-      const route = this.routeRef(key, replace).value
-
-      return `${route}${searchParams}`
-    })
-  }
-
-  public url(
-    key: S['routes'],
-    replace: LinkReplace = {},
-    query?: Record<string, any> | undefined,
-  ): vue.Ref<string> {
-    return vue.computed(() => `${this.baseUrl}${this.link(key, replace, query).value}`)
-  }
-
   public async push(
     location: vueRouter.RouteLocationRaw,
     options: { caller: string, navMode?: 'push' | 'replace' },
@@ -276,20 +253,6 @@ export class FictionRouter<
       await this.router.value.replace(location)
     else
       await this.router.value.push(location)
-  }
-
-  public async setQueryVar(
-    queryVar: string,
-    value: string | number | undefined,
-  ) {
-    const query = this.query.value
-    const current = query[queryVar]
-
-    if (current !== value) {
-      const newQuery = { ...query, [queryVar]: value ?? null }
-
-      await this.replace({ query: newQuery } as vueRouter.RouteLocationRaw)
-    }
   }
 
   public async replace(
@@ -316,19 +279,6 @@ export class FictionRouter<
     await this.router.value.replace(location)
   }
 
-  public async goto(
-    key: S['routes'],
-    replace: LinkReplace = {},
-    query: LinkReplace = {},
-    options: { navMode?: 'push' | 'replace', caller?: string } = {},
-  ): Promise<void> {
-    const { navMode = 'push', caller = `goto:${key}` } = options || {}
-
-    const path = this.link(key, replace, query).value
-
-    await this.push(path, { caller, navMode })
-  }
-
   toConfig() {
     return {
       routerId: this.settings.routerId,
@@ -337,5 +287,27 @@ export class FictionRouter<
       baseUrl: this.baseUrl,
       routeBasePath: this.routeBasePath,
     }
+  }
+
+  public clone(overrides: Partial<FictionRouterSettings> = {}): FictionRouter<S> {
+    const clonedSettings: FictionRouterSettings = {
+      ...this.settings,
+      routes: [...this.routes.value],
+      replacers: { ...this.replacers },
+      ...overrides,
+      routerId: overrides.routerId || `${this.routerId}_clone`,
+    }
+
+    const clonedRouter = new FictionRouter(clonedSettings)
+
+    // If a new routeBasePath is provided, create the router immediately
+    if (overrides.routeBasePath) {
+      clonedRouter.create({
+        noBrowserNav: this.noBrowserNav.value,
+        caller: 'clone',
+      })
+    }
+
+    return clonedRouter
   }
 }
