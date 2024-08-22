@@ -61,7 +61,12 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
         templateId: 'dash',
         slug: 'campaign-edit',
         title: 'Edit Email',
-        cards: [await factory.create({ el: vue.defineAsyncComponent(async () => import('./admin/ViewSingle.vue')) })],
+        cards: [
+          await factory.create({
+            el: vue.defineAsyncComponent(async () => import('./admin/ViewSingle.vue')),
+            userConfig: { standard: { spacing: { verticalSpacing: 'none' } } },
+          }),
+        ],
         userConfig: { navIcon: 'i-tabler-send', parentNavItemSlug: 'send', layoutFormat: 'full' },
       }),
 
@@ -69,7 +74,9 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
         templateId: 'dash',
         slug: 'campaign-manage',
         title: 'Manage Email',
-        cards: [await factory.create({ el: vue.defineAsyncComponent(async () => import('./admin/ViewManage.vue')) })],
+        cards: [await factory.create({
+          el: vue.defineAsyncComponent(async () => import('./admin/ViewManage.vue')),
+        })],
         userConfig: { navIcon: 'i-tabler-send', parentNavItemSlug: 'send' },
       }),
     ])

@@ -2,10 +2,11 @@
 import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import ViewEditor from '@fiction/admin/ViewEditor.vue'
-import ElButton from '@fiction/ui/ElButton.vue'
 import XText from '@fiction/ui/common/XText.vue'
 import ElPostEditor from '@fiction/posts/el/ElPostEditor.vue'
 import ElActions from '@fiction/ui/buttons/ElActions.vue'
+import CardLink from '@fiction/cards/el/CardLink.vue'
+import CardButton from '@fiction/cards/CardButton.vue'
 import type { FictionSend } from '../index.js'
 import { loadEmail } from '../utils.js'
 import type { EmailCampaign } from '../campaign.js'
@@ -25,9 +26,9 @@ const manageLink = vue.computed(() => {
   const campaignId = campaign.value?.campaignId
 
   if (!campaignId)
-    return props.card.link('/send')
+    return '/send'
 
-  return props.card.link({ path: '/campaign-manage', query: { campaignId } })
+  return `/campaign-manage?campaignId=${campaignId}`
 })
 async function publish() {
   if (!campaign.value)
@@ -64,22 +65,37 @@ const actions = vue.computed(() => {
     <ViewEditor :tool-props="{ card, campaign }" :controller="emailComposeController" :loading>
       <template #headerLeft>
         <div class="flex space-x-2 items-center">
-          <ElButton btn="default" size="sm" :href="card.link('/')" class="shrink-0" icon="i-tabler-home">
+          <CardButton
+            :card
+            theme="default"
+            size="sm"
+            href="/"
+            class="shrink-0"
+            icon="i-tabler-home"
+          >
             Home
-          </ElButton>
-          <ElButton btn="default" size="sm" :href="manageLink" class="shrink-0" icon="i-tabler-arrow-left">
+          </CardButton>
+          <CardButton
+            :card
+            theme="default"
+            size="sm"
+            :href="manageLink"
+            class="shrink-0"
+            icon="i-tabler-arrow-left"
+          >
             Manage
-          </ElButton>
+          </CardButton>
         </div>
         <div v-if="campaign" class="flex space-x-1 font-medium">
-          <RouterLink
+          <CardLink
+            :card
             class=" whitespace-nowrap text-theme-400 dark:text-theme-300  pr-1 hover:text-primary-500 dark:hover:text-theme-0 flex items-center gap-1.5"
-            :to="card.link('/send')"
+            href="/send"
           >
             <span class="i-tabler-mail text-xl inline-block dark:text-theme-500" />
             <span>Compose Email</span>
             <span class="i-tabler-slash text-xl dark:text-theme-500" />
-          </RouterLink>
+          </CardLink>
           <XText :model-value="campaign?.title.value" class="whitespace-nowrap" :is-editable="true" @update:model-value="campaign && (campaign.title.value = $event)" />
         </div>
       </template>
@@ -90,15 +106,16 @@ const actions = vue.computed(() => {
           </svg>
           {{ campaign?.post.value?.isDirty.value ? 'Syncing' : 'Draft Saved' }}
         </span>
-        <ElButton
-          btn="primary"
+        <CardButton
+          :card
+          theme="primary"
           class="min-w-36"
           size="md"
           :loading="!!sending"
           @click.stop.prevent="publish()"
         >
           Save
-        </ElButton>
+        </CardButton>
       </template>
       <template #default>
         <div v-if="campaign?.post.value">
