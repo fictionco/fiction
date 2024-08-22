@@ -6,14 +6,14 @@ import { getMountContext } from '../load'
 
 const service = useService<{ fictionAppSites: FictionApp, fictionRouterSites: FictionRouter, fictionSites: FictionSites }>()
 
-const base = service.fictionSites.getPreviewPath
+const base = service.fictionSites.getQueryItemPreviewPath
 
 /**
  * Set base for relative links using native <base> tag
  */
 unhead.useHead({
   base: {
-    href: base.value,
+    href: () => base.value,
   },
 })
 

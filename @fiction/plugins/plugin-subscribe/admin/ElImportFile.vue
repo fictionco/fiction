@@ -2,7 +2,7 @@
 import type { Card } from '@fiction/site/card'
 import { type ListItem, log, useService, vue } from '@fiction/core'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
-import ElButton from '@fiction/ui/ElButton.vue'
+import CardButton from '@fiction/cards/CardButton.vue'
 import type { FictionSubscribe } from '..'
 import { csvToEmailList, parseAndValidateEmails } from './utils'
 
@@ -134,19 +134,20 @@ async function importSubscribers() {
         </ElInput>
 
         <div class="flex gap-4 justify-between">
-          <ElButton
+          <CardButton
+            :card
             data-test-id="submit"
-            btn="primary"
+            theme="primary"
             type="submit"
             icon-after="i-tabler-upload"
             :loading="loading"
             @click="importSubscribers()"
           >
             Import Subscribers
-          </ElButton>
-          <ElButton btn="default" type="submit" icon="i-tabler-x" @click="step = 'import'">
+          </CardButton>
+          <CardButton :card theme="default" type="submit" icon="i-tabler-x" @click="step = 'import'">
             Cancel
-          </ElButton>
+          </CardButton>
         </div>
       </div>
       <div v-else class="space-y-6" @dragover.prevent @drop.prevent>
@@ -215,17 +216,18 @@ async function importSubscribers() {
           </ElInput>
         </transition>
         <div>
-          <ElButton
+          <CardButton
+            :card
             :disabled="!emailList.length"
             data-test-id="save"
-            btn="primary"
+            theme="primary"
             type="submit"
             icon-after="i-tabler-arrow-right"
             :loading="loading"
             @click.prevent="prepareSubmit()"
           >
             Next
-          </ElButton>
+          </CardButton>
         </div>
       </div>
     </transition>

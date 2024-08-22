@@ -40,6 +40,7 @@ export class FictionRouter<
 
   loadingRoute = vue.ref(true)
   baseUrl = this.settings.baseUrl || this.fictionEnv?.meta.app?.url || ''
+  // prepended to every route (vue-router base)
   routeBasePath = this.settings.routeBasePath || '/'
   noBrowserNav = vue.ref(!!this.fictionEnv?.isNode)
   constructor(settings: FictionRouterSettings) {

@@ -54,5 +54,5 @@ const tools = getViewSubscriberTools({ fictionSubscribe: service.fictionSubscrib
 </script>
 
 <template>
-  <SettingsTool base-path="/subscriber-view" :tools :card :loading />
+  <SettingsTool base-path="/subscriber-view" :tools :card :loading :class="card.classes.value.contentWidth" />
 </template>

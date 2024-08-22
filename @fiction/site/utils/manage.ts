@@ -21,7 +21,7 @@ export async function manageSiteIndex(args: { fictionSites: FictionSites, params
   return { sites, indexMeta: r.indexMeta }
 }
 
-export function siteLink(args: { site?: Site, location: vueRouter.RouteLocationRaw }) {
+export function siteLink(args: { site?: Site, location: vueRouter.RouteLocationRaw, caller?: string }) {
   const { site, location } = args
 
   if (typeof location === 'string' && location.includes('http')) {
@@ -33,20 +33,25 @@ export function siteLink(args: { site?: Site, location: vueRouter.RouteLocationR
     console.error('siteLink - No router')
     return ''
   }
-
-  const matchedRoute = router.currentRoute.value.matched[0]
+  const base = router.options.history.base
+  const matched = router.currentRoute.value.matched
+  const matchedRoute = matched[0]
+  const matchedPath = matchedRoute.path
   if (!matchedRoute) {
     site.fictionSites.log.error('no matched current route', { data: { matched: router.currentRoute.value } })
     throw new Error('Card.link - No matched current route')
   }
 
-  const prefix = matchedRoute.path.match(/.*?(?=\/:viewId|$)/)?.[0] || ''
+  const viewId = router.currentRoute.value.params.viewId as string | undefined || ''
+  const prefix = matchedPath.match(/.*?(?=\/:viewId|$)/)?.[0] || ''
   const resolvedHref = router.resolve(location).href
+  const locationPath = resolvedHref.replace(base, '')
 
-  const finalHref = (resolvedHref.startsWith(prefix) ? resolvedHref : `${prefix}${resolvedHref}`)
-    .replace(/:viewId/g, router.currentRoute.value.params.viewId as string | undefined || '')
+  const resolvedPath = locationPath.startsWith(prefix) ? locationPath : `${prefix}${locationPath}`
 
-  return finalHref.replace(/([^:]\/)\/+/g, '$1')
+  const finalHref = resolvedPath.replace(/:viewId/g, viewId).replace(/([^:]\/)\/+/g, '$1')
+
+  return finalHref
 }
 
 export async function siteGoto(args: { site?: Site, location: vueRouter.RouteLocationRaw, options: { replace?: boolean, caller?: string, retainQueryVars?: boolean } }) {

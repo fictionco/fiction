@@ -7,9 +7,7 @@ import type { Subscriber } from '../schema'
 import type { FictionSubscribe } from '..'
 import ElImportFile from './ElImportFile.vue'
 
-const def = vue.defineAsyncComponent
-
-export function getTools(args: { service: StandardServices }) {
+export function getTools(_args: { service: StandardServices }) {
   const tools = [
     new SettingsTool({
       title: 'Back',

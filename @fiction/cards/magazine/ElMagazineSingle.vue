@@ -7,8 +7,9 @@ import XButton from '@fiction/ui/buttons/XButton.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import { allPostsLink, postEditLink, postLink, taxonomyLink } from '@fiction/posts'
+import CardLink from '@fiction/cards/el/CardLink.vue'
 import ElAuthor from './ElAuthor.vue'
-import type { UserConfig } from '.'
+import type { UserConfig } from './index.js'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
@@ -83,7 +84,7 @@ const imageAspect = vue.computed(() => {
           </div>
         </div>
 
-        <RouterLink v-if="nextPost" :to="postLink({ card, slug: nextPost.slug.value })" class="mt-16 next-post flex not-prose gap-8 items-center border rounded-lg bg-theme-50/50 hover:bg-theme-50 dark:bg-theme-800/50 dark:hover:bg-theme-800 border-theme-200 dark:border-theme-700 p-6">
+        <CardLink v-if="nextPost" :card :href="postLink({ card, slug: nextPost.slug.value })" class="mt-16 next-post flex not-prose gap-8 items-center border rounded-lg bg-theme-50/50 hover:bg-theme-50 dark:bg-theme-800/50 dark:hover:bg-theme-800 border-theme-200 dark:border-theme-700 p-6">
           <div>
             <div v-if="nextPost.media.value?.url" class="rounded-lg ring-2 ring-theme-200 dark:ring-theme-700 size-32 relative overflow-hidden" :class="imageAspect">
               <img :src="nextPost.media.value?.url" alt="Post media" class="absolute h-full w-full object-cover object-center">
@@ -98,7 +99,7 @@ const imageAspect = vue.computed(() => {
               {{ nextPost.title.value }}
             </h1>
           </div>
-        </RouterLink>
+        </CardLink>
       </div>
     </article>
     <El404 v-else heading="Post Not Found" :actions="[{ name: 'All Posts', href: card.link('/:viewId') }]" />

@@ -81,16 +81,17 @@ vue.onMounted(() => {
       loaded.value = true
   }, { immediate: true })
 })
+
+const linkProps = vue.computed(() => props.href?.startsWith('http') ? { href: props.href } : { to: props.href })
 </script>
 
 <template>
   <component
     :is="getNavComponentType({ name: 'btn', href }, props.hover === 'none' ? 'div' : tag || 'button')"
     :id="randomId"
-    :to="href"
+    v-bind="linkProps"
     class="xbutton group/button"
     :class="[cls.buttonClasses, animateSelected && animate ? 'animate-selected' : '']"
-    :href
     :data-loading="loading"
     :data-theme="theme"
     :data-size="size"

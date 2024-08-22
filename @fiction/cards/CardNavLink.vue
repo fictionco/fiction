@@ -2,9 +2,10 @@
 import type { NavItem } from '@fiction/core'
 import { getNavComponentType, useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import ElButton from '@fiction/ui/ElButton.vue'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
+import CardButton from './CardButton.vue'
 import CardText from './CardText.vue'
+import CardLink from './el/CardLink.vue'
 
 type NavLinkItem = {
   itemStyle?: 'buttonPrimary' | 'buttonStandard' | 'user' | 'default'
@@ -27,27 +28,24 @@ const styles = vue.computed(() => {
 
   const isButton = item.itemStyle?.includes('button')
 
-  const componentType = isButton ? ElButton : getNavComponentType(item)
+  const componentType = isButton ? CardButton : CardLink
   const hoverEffect = isButton ? undefined : props.hoverEffect
   const buttonStyle = isButton ? item.itemStyle === 'buttonPrimary' ? 'primary' : 'default' : undefined
 
-  return {
-    componentType,
-    hoverEffect,
-    buttonStyle,
-  }
+  return { componentType, hoverEffect, buttonStyle }
 })
 </script>
 
 <template>
   <component
     :is="styles.componentType"
-    :btn="styles.buttonStyle"
-    :href="card.link(item.href)"
-    :to="card.link(item.href)"
+    :card
+    :theme="styles.buttonStyle"
+    :href="item.href"
     :target="item.target ? item.target : '_self'"
     class="group"
     :class="!item.href ? 'cursor-s-resize' : ''"
+    :data-el-type="styles.componentType"
   >
     <span class="inline-flex items-center space-x-1 relative whitespace-nowrap">
       <ElAvatar v-if="item.itemStyle === 'user' && service.fictionUser.activeUser.value" class=" size-[1.4em] mr-1.5 rounded-full ring-2 ring-theme-200 dark:ring-theme-0" :email="service.fictionUser.activeUser?.value?.email" />

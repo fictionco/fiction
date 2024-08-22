@@ -96,7 +96,7 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     this.themes.value = [defaultTheme, ...addedThemes]
   }
 
-  getPreviewPath = vue.computed(() => {
+  getQueryItemPreviewPath = vue.computed(() => {
     const current = this.settings.fictionRouter.current.value
     const q = { ...current.query, ...current.params } as Record<string, string>
     const { selectorType, selectorId, siteId, subDomain, themeId = q.theme, cardId = q.card } = q

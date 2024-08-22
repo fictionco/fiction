@@ -3,6 +3,7 @@ import type { Card } from '@fiction/site/card.js'
 import type { NavItem } from '@fiction/core/index.js'
 import { getNavComponentType, toLabel, toSlug, vue } from '@fiction/core/index.js'
 import ElPanel from '@fiction/ui/ElPanel.vue'
+import CardLink from '@fiction/cards/el/CardLink.vue'
 import type { NavCardUserConfig } from '../index.js'
 
 export type UserConfig = NavCardUserConfig
@@ -36,12 +37,11 @@ const nav = vue.computed<NavItem[]>(() => {
       <div class="flex border-theme-300/60 dark:border-theme-600/90 border rounded-md">
         <div class=" w-56 shrink-0 rounded-l-md pb-32 px-4 py-4 dark:bg-theme-700/50 border-r border-theme-600/60">
           <div class="space-y-1 text-right">
-            <component
-              :is="getNavComponentType(v)"
+            <CardLink
               v-for="(v, i) in nav"
               :key="i"
+              :card
               class="flex items-center space-x-3 px-3 py-2.5 text-sm  rounded-lg transition-all duration-200"
-              :to="v.href"
               :href="v.href"
               :class="
                 v.isActive
@@ -50,7 +50,7 @@ const nav = vue.computed<NavItem[]>(() => {
             >
               <div v-if="v.icon" class="text-[1.4em] shrink-0 opacity-80" :class="v.icon" />
               <div>{{ v.name }}</div>
-            </component>
+            </CardLink>
           </div>
         </div>
         <div class="grow min-w-0 bg-theme-0 dark:bg-theme-900 rounded-r-lg">

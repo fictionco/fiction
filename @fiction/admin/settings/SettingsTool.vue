@@ -55,7 +55,7 @@ async function navigate(v: NavItem) {
 </script>
 
 <template>
-  <div>
+  <div :class="card.classes.value.contentWidth">
     <ElPanel
       class="border-theme-300/80 dark:border-theme-600/90 border rounded-md  "
       box-class="p-0"

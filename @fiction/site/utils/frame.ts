@@ -26,12 +26,13 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
     super('SiteFrameUtility', args)
   }
 
-  previewFrameUrl = vue.computed(() => {
+  // gets url for the frametools site
+  currentSiteFrameUrl = vue.computed(() => {
     const s = this.site.fictionSites
     return `${s.adminBaseRoute}/preview/site/${this.site.siteId}${this.framePath.value}`
   })
 
-  previewPath = vue.computed(() => this.site.fictionSites.getPreviewPath.value)
+  previewPath = vue.computed(() => this.site.fictionSites.getQueryItemPreviewPath.value)
   frameUrl = vue.computed(() => `${this.previewPath.value}${this.framePath.value}`)
 
   displayUrlBase = activeSiteDisplayUrl(this.site, { mode: 'display' })

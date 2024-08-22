@@ -145,10 +145,10 @@ export function getTools(args: { fictionSend: FictionSend, card: Card }) {
     set: v => (email.value?.update(v || {})),
   })
 
-  const editEmailAction = (btn: 'default' | 'primary' = 'default') => ({
+  const editEmailAction = (theme: 'default' | 'primary' = 'default') => ({
     name: 'Compose',
     href: card.link(`/campaign-edit?campaignId=${email.value?.campaignId}`),
-    btn,
+    theme,
     icon: 'i-tabler-edit',
   })
 

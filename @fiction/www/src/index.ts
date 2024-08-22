@@ -94,7 +94,9 @@ const fictionRouterSites = new FictionRouter({
   routerId: 'siteRouter',
   fictionEnv,
   baseUrl: appUrlSites,
-  routes: [new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: FSite })],
+  routes: [
+    new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: FSite }),
+  ],
 })
 
 const fictionAppSites = new FictionApp({

@@ -233,10 +233,10 @@ export class Card<
     }
   }
 
-  link(location?: vueRouter.RouteLocationRaw) {
+  link(location?: vueRouter.RouteLocationRaw, opts?: { caller?: string }) {
     if (!location)
       return ''
-    return siteLink({ site: this.site, location })
+    return siteLink({ site: this.site, location, ...opts })
   }
 
   async goto(location: vueRouter.RouteLocationRaw, options: Partial<Parameters<typeof siteGoto>[0]['options']> = { }) {

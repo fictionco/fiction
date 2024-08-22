@@ -38,7 +38,7 @@ describe('sitePreview', async () => {
       return
 
     const cur = () => r.current.value
-    const previewPath = () => testUtils.fictionSites.getPreviewPath.value
+    const previewPath = () => testUtils.fictionSites.getQueryItemPreviewPath.value
 
     const orgBase = testUtils.fictionSites.adminBaseRoute
     const siteEdit = `${orgBase}/siteEdit`

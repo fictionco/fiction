@@ -100,8 +100,8 @@ const actions: ActionItem[] = [
 <template>
   <div>
     <ElIndexGrid
-      :list="list"
-      :loading="loading"
+      :list
+      :loading
       :actions
       list-title="Subscribers"
       :index-meta="indexMeta"

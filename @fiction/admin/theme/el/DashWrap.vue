@@ -55,7 +55,7 @@ const primaryNav = vue.computed<NavItem[]>(() => {
     const icon = isActive && itemUc.navIconAlt ? itemUc.navIconAlt : itemUc.navIcon
     return {
       name: itemUc.navTitle || item.title.value || '',
-      href: item.link(`/${slug}`),
+      href: `/${slug}`,
       icon,
       isActive,
       priority: itemUc.priority,
