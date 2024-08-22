@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site/card.js'
 import type { NavItem } from '@fiction/core/index.js'
-import { getNavComponentType, toLabel, toSlug, vue } from '@fiction/core/index.js'
+import { toLabel, toSlug, vue } from '@fiction/core/index.js'
 import ElPanel from '@fiction/ui/ElPanel.vue'
 import CardLink from '@fiction/cards/el/CardLink.vue'
 import type { NavCardUserConfig } from '../index.js'

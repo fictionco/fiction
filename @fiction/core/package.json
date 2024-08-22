@@ -75,7 +75,7 @@
     "google-auth-library": "^9.14.0",
     "google-one-tap": "^1.0.6",
     "handlebars": "^4.7.8",
-    "happy-dom": "^14.12.3",
+    "happy-dom": "^15.0.0",
     "helmet": "^7.1.0",
     "html-minifier": "^4.0.0",
     "html-to-text": "^9.0.5",
@@ -141,7 +141,7 @@
     "zod-to-json-schema": "^3.23.2"
   },
   "devDependencies": {
-    "@babel/parser": "^7.25.3",
+    "@babel/parser": "^7.25.4",
     "@playwright/test": "^1.46.1",
     "@tailwindcss/forms": "^0.5.7",
     "@types/bcrypt": "^5.0.2",

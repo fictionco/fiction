@@ -173,9 +173,6 @@ vue.onMounted(async () => {
     // initialize frame message handling
     util.init()
 
-    // initialize resetUi and path watchers
-    site?.value.frame.init({ caller: 'FSite' })
-
     const sw = vue.watch(
       () => site?.value,
       () => {
@@ -184,6 +181,9 @@ vue.onMounted(async () => {
       },
       { immediate: true },
     )
+
+    // initialize resetUi and path watchers
+    site?.value.frame.init({ caller: 'FSite' })
 
     cleanups.push(sw)
   }

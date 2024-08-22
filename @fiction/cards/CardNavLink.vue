@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { NavItem } from '@fiction/core'
-import { getNavComponentType, useService, vue } from '@fiction/core'
+import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import CardButton from './CardButton.vue'

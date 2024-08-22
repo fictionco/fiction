@@ -20,7 +20,8 @@ export type SiteFrameUtilityParams = {
 export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
   site = this.settings.site
   util: FrameUtility<FramePostMessageList> | undefined
-  relation = this.settings.relation
+  relation = vue.ref(this.settings.relation)
+  private stopWatchCurrentPath?: () => void
 
   constructor(args: SiteFrameUtilityParams) {
     super('SiteFrameUtility', args)
@@ -45,44 +46,101 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
   setUtil(util: FrameUtility<FramePostMessageList>) {
     this.util = util
 
+    // Initialize the frame after setting the utility
+    this.init({ caller: 'setUtil' })
+
     // sync site on initial load
     // this will make all cardIds the same in cases where they aren't (theme)
-    if (this.relation === 'parent')
+    if (this.relation.value === 'parent')
       this.syncSite({ caller: 'frameInit' })
   }
 
-  init(_args: { caller?: string } = {}) {
-    const site = this.site
+  init(args: { caller?: string } = {}) {
+    if (typeof window === 'undefined' || !this.util) {
+      return
+    }
 
-    const fictionEnv = site.fictionSites.fictionEnv
+    // Clear existing listeners
+    this.clearListeners()
 
-    if (fictionEnv.isNode)
+    // Add new listeners
+    this.addListeners()
+  }
+
+  private clearListeners() {
+    if (this.stopWatchCurrentPath) {
+      this.stopWatchCurrentPath()
+      this.stopWatchCurrentPath = undefined
+    }
+
+    this.site.fictionSites.fictionEnv.events.remove('resetUi', this.handleResetUi)
+  }
+
+  private handleResetUi = (event: CustomEvent<{ scope: string }>) => {
+    const { scope } = event.detail
+    // prevent recursion
+    if (scope === 'iframe')
       return
 
-    // propagate resetUi events between frames
-    fictionEnv.events.on('resetUi', (event) => {
-      const { scope } = event.detail
-      // prevent recursion
-      if (scope === 'iframe')
-        return
+    this.send({ msg: { messageType: 'resetUi', data: undefined } })
+  }
 
-      this.send({ msg: { messageType: 'resetUi', data: undefined } })
-    })
+  private addListeners() {
+    const site = this.site
+    const fictionEnv = site.fictionSites.fictionEnv
+    // Add resetUi event listener
+    fictionEnv.events.on('resetUi', this.handleResetUi)
 
-    const stopWatch = vue.watch(
+    // Add currentPath watcher
+    this.stopWatchCurrentPath = vue.watch(
       () => site.currentPath.value,
       (p) => {
-        if (this.relation === 'child')
+        if (this.relation.value === 'child')
           this.send({ msg: { messageType: 'navigate', data: { urlOrPath: p, siteId: this.site.siteId } } })
-
         else
           this.framePath.value = p
       },
       { immediate: true },
     )
 
-    fictionEnv.cleanupCallbacks.push(() => stopWatch())
+    // Add cleanup callback
+    fictionEnv.cleanupCallbacks.push(() => this.clearListeners())
   }
+
+  // init(_args: { caller?: string } = {}) {
+  //   const site = this.site
+
+  //   const fictionEnv = site.fictionSites.fictionEnv
+
+  //   if (fictionEnv.isNode)
+  //     return
+
+  //   this.log.info('INITIALIZE')
+
+  //   // propagate resetUi events between frames
+  //   fictionEnv.events.on('resetUi', (event) => {
+  //     const { scope } = event.detail
+  //     // prevent recursion
+  //     if (scope === 'iframe')
+  //       return
+
+  //     this.send({ msg: { messageType: 'resetUi', data: undefined } })
+  //   })
+
+  //   const stopWatch = vue.watch(
+  //     () => site.currentPath.value,
+  //     (p) => {
+  //       if (this.relation === 'child')
+  //         this.send({ msg: { messageType: 'navigate', data: { urlOrPath: p, siteId: this.site.siteId } } })
+
+  //       else
+  //         this.framePath.value = p
+  //     },
+  //     { immediate: true },
+  //   )
+
+  //   fictionEnv.cleanupCallbacks.push(() => stopWatch())
+  // }
 
   updateFrameUrl(pathOrUrl: string) {
     const newPath = new URL(pathOrUrl, 'http://dummybase.com').pathname
@@ -121,7 +179,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
     const { msg } = args
 
     if (!this.util)
-      this.log.warn('No frame utility found to send message', { data: msg })
+      this.log.warn(`${this.relation}: no frame utility found to send message: "${msg.messageType}"`, { data: msg })
 
     this.util?.sendMessage({ message: msg })
   }
@@ -132,6 +190,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
     switch (msg.messageType) {
       case 'resetUi': {
         resetUi({ scope: 'iframe', cause: 'iframeSiteRender' })
+        this.site.fictionSites.fictionEnv.events.emit('resetUi', { scope: 'iframe', cause: 'iframeSiteRender' })
         break
       }
 
