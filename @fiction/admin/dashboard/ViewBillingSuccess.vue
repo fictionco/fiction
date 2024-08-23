@@ -3,7 +3,7 @@ import type { Card } from '@fiction/site/card'
 import { useService, vue } from '@fiction/core'
 import ElZeroBanner from '@fiction/ui/ElZeroBanner.vue'
 import type { FictionStripe } from '@fiction/plugin-stripe'
-import type { NavCardUserConfig } from '../../index.js'
+import type { NavCardUserConfig } from '../index.js'
 import ElPanelSettings from './ElPanelSettings.vue'
 
 defineProps({

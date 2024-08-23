@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { formatNumber, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import XButton from '@fiction/ui/buttons/XButton.vue'
+import CardButton from '@fiction/cards/CardButton.vue'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim/index.js'
 import CardText from '../CardText.vue'
 import type { UserConfig, UserConfigPrice } from './index.js'
@@ -16,14 +16,14 @@ const prices = vue.computed(() => uc.value.prices || [])
 function cls(price: UserConfigPrice) {
   if (price.isHighlighted) {
     return {
-      col: 'bg-primary-600 text-theme-0 dark:bg-primary-600/70 dark:text-theme-0',
+      col: 'bg-primary-600 text-theme-0 dark:bg-primary-600/40 ring-1 ring-primary-700 dark:ring-primary-600 dark:text-theme-0',
       btn: 'bg-primary-300 text-primary-0 dark:bg-primary-200 dark:text-primary-800',
-      badge: 'bg-primary-500 text-primary-0',
+      badge: 'bg-primary-500 dark:bg-primary-200 dark:text-primary-900 text-primary-0',
     }
   }
   else {
     return {
-      col: 'bg-white shadow dark:bg-theme-800',
+      col: 'bg-white shadow dark:bg-theme-800 ring-1 ring-theme-300 dark:ring-theme-600',
       btn: 'bg-primary-500 text-theme-0 dark:bg-theme-600',
       badge: 'bg-primary-100 text-primary-600 dark:bg-theme-600 dark:text-primary-50',
     }
@@ -72,7 +72,7 @@ function getPrice(price?: UserConfigPrice) {
         <label :class="priceDuration === 'year' ? ' text-theme-0' : 'text-theme-500 dark:text-theme-200'" class="z-10 relative cursor-pointer rounded-full px-4 py-0.5 transition-all" @click="priceDuration = 'year'">
           <span>Annually</span>
         </label>
-        <div class="bg-theme-500 text-theme-0 rounded-full marker w-50 absolute h-full w-[50%] transition-all ease-[cubic-bezier(0.25,1,0.33,1)] duration-500" :class="priceDuration === 'month' ? 'left-0' : 'left-1/2'" />
+        <div class="bg-theme-500 dark:bg-theme-600 text-theme-0 rounded-full marker w-50 absolute h-full w-[50%] transition-all ease-[cubic-bezier(0.25,1,0.33,1)] duration-500" :class="priceDuration === 'month' ? 'left-0' : 'left-1/2'" />
       </div>
     </div>
     <div class="grid grid-cols-1 gap-6" :class="prices.length > 2 ? 'lg:grid-cols-3' : 'lg:grid-cols-2'">
@@ -100,7 +100,8 @@ function getPrice(price?: UserConfigPrice) {
           </p>
 
           <div v-if="getLink(price)" class="my-6">
-            <XButton
+            <CardButton
+              :card
               format="block"
               size="xl"
               theme="naked"
@@ -109,7 +110,7 @@ function getPrice(price?: UserConfigPrice) {
               :class="cls(price).btn"
             >
               <CardText :card tag="span" :path="`prices.${i}.buttonText`" fallback="Get Started" />
-            </XButton>
+            </CardButton>
           </div>
           <div class="text-xl font-medium  ">
             <CardText :card tag="p" :path="`prices.${i}.desc`" class="mt-10 font-semibold" />

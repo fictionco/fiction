@@ -13,7 +13,7 @@ import ElButton from '@fiction/ui/ElButton.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
-import type { NavCardUserConfig } from '../../index.js'
+import type { NavCardUserConfig } from '../index.js'
 import ElPanelSettings from './ElPanelSettings.vue'
 
 const props = defineProps({

@@ -2,7 +2,7 @@
 import type { FictionApp } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
-import ElButton from '@fiction/ui/ElButton.vue'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElModalConfirm from '@fiction/ui/ElModalConfirm.vue'
 import type { EditorTool } from '@fiction/admin'
@@ -86,12 +86,18 @@ const showConfirm = vue.ref(false)
       <ToolForm v-model="v" :options="options" :input-props="{ site }" />
 
       <div class="text-right px-4 py-2 border-t border-theme-200 dark:border-theme-600 pt-4 space-x-4 flex justify-between">
-        <ElButton btn="default" @click="reset()">
+        <XButton theme="default" @click="reset()">
           Reset
-        </ElButton>
-        <ElButton :loading="loading" type="submit" btn="primary" :disabled="Object.keys(props.site.editor.value.tempSite).length === 0">
+        </XButton>
+        <XButton
+          :loading="loading"
+          type="submit"
+          theme="primary"
+          :disabled="Object.keys(props.site.editor.value.tempSite).length === 0"
+          :title="Object.keys(props.site.editor.value.tempSite).length === 0 ? 'No changes to publish' : 'Publish'"
+        >
           Publish Domain Changes
-        </ElButton>
+        </XButton>
       </div>
     </ElForm>
     <ElModalConfirm

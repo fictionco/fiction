@@ -2,7 +2,7 @@
 import type { IndexItem, ListItem } from '@fiction/core'
 import { getNavComponentType, onResetUi, useService, vue } from '@fiction/core'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
-import type { Site } from '../../../site'
+import type { Site } from '../../site'
 
 defineProps({
   list: { type: Array as vue.PropType<ListItem[]>, default: () => [] },

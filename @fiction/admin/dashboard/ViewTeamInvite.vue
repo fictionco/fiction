@@ -7,7 +7,7 @@ import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import InputEmail from '@fiction/ui/inputs/InputEmail.vue'
 import InputSelect from '@fiction/ui/inputs/InputSelect.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
-import type { NavCardUserConfig } from '../../index.js'
+import type { NavCardUserConfig } from '../index.js'
 import ElPanelSettings from './ElPanelSettings.vue'
 
 defineProps({

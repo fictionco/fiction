@@ -7,7 +7,7 @@ import ElTable from '@fiction/ui/ElTable.vue'
 import type { TableCell } from '@fiction/ui/ElTable.vue'
 import { dayjs, vue } from '@fiction/core'
 import type { OrganizationMember } from '@fiction/core'
-import type { NavCardUserConfig } from '../../index.js'
+import type { NavCardUserConfig } from '../index.js'
 import ElPanelSettings from './ElPanelSettings.vue'
 
 const props = defineProps({

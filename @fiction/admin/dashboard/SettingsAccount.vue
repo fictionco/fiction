@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site/card'
 import type { vue } from '@fiction/core'
-import type { NavCardUserConfig } from '../../index.js'
+import type { NavCardUserConfig } from '../index.js'
 import AccountWrap from './AccountWrap.vue'
 import SettingsAccountEdit from './SettingsAccountEdit.vue'
 import SettingsAccountEditProfile from './SettingsAccountEditProfile.vue'

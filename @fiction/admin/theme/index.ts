@@ -53,7 +53,7 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionAdmin: Fictio
     root: safeDirname(import.meta.url),
     themeId: 'admin',
     title: 'Admin',
-    screenshot: new URL('./img/screenshot.jpg', import.meta.url).href,
+    screenshot: '#',
     version: '1.0.0',
     templates,
     isPublic: false,
@@ -73,7 +73,7 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionAdmin: Fictio
             buttons: { design: 'solid', rounding: 'full', hover: 'fade' },
           },
           standard: {
-            spacing: { contentWidth: 'sm', verticalSpacing: `sm` },
+            spacing: { contentWidth: 'sm', verticalSpacing: `none` },
           },
         },
       }

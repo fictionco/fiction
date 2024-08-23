@@ -27,7 +27,7 @@ export const tools = [
   {
     toolId: 'ai',
     title: 'AI Generation',
-    icon: 'i-tabler-sparkles',
+    icon: 'i-tabler-input-ai',
     isPrimary: true,
     widthClasses: 'w-[500px]',
     el: vue.defineAsyncComponent(async () => import('./ToolPageAi.vue')),
@@ -35,7 +35,7 @@ export const tools = [
   {
     toolId: 'global',
     title: 'Site Settings',
-    icon: 'i-tabler-browser',
+    icon: 'i-tabler-adjustments',
     isPrimary: true,
     widthClasses: 'w-[500px]',
     el: vue.defineAsyncComponent(async () => import('./ToolPageGlobal.vue')),
@@ -43,7 +43,7 @@ export const tools = [
   {
     toolId: 'publish',
     title: 'Domain',
-    icon: 'i-tabler-world-upload',
+    icon: 'i-tabler-link',
     isPrimary: true,
     widthClasses: 'w-[600px]',
     el: vue.defineAsyncComponent(async () => import('./ToolPagePublish.vue')),
