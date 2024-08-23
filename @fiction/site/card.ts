@@ -58,7 +58,7 @@ export class CardTemplate<
     super('CardTemplate', { title: toLabel(settings.templateId), ...settings })
   }
 
-  optionConfig = refineOptions({ options: this.settings.options || [], schema: this.settings.schema })
+  optionConfig = refineOptions({ options: this.settings.options || [], schema: this.settings.schema, templateId: this.settings.templateId })
   getBaseConfig = this.settings.getBaseConfig || (() => ({ xxx: '123' }))
 
   async toCard(args: { cardId?: string, site?: Site, userConfig?: FullTemplateUserConfig<T>, baseConfig?: FullTemplateUserConfig<T> } & CardSettings) {

@@ -35,6 +35,9 @@ describe('schema tools', () => {
       modify: z.object({
         flip: z.boolean().optional(),
       }),
+      el: z.custom((val) => {
+        return typeof val === 'function' || val instanceof Promise
+      }, { message: 'Must be an async component or Promise' }).optional(),
     }).optional(),
   })
 
@@ -64,6 +67,7 @@ describe('schema tools', () => {
       {
         "groupInput": "string",
         "media": "object",
+        "media.el": "unknown",
         "media.format": "string",
         "media.html": "string",
         "media.modify": "object",
@@ -160,6 +164,7 @@ describe('schema tools', () => {
         "media.url",
         "media.format",
         "media.html",
+        "media.el",
         "media.modify",
         "media.modify.flip",
       ]
@@ -185,6 +190,7 @@ describe('schema tools', () => {
         format: z.string().optional(),
         html: z.string().optional(),
       }).optional(),
+
     })
 
     const simple = zodToSimpleSchema(schema)

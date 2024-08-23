@@ -47,7 +47,7 @@
   ],
   "search.exclude": {
     "**/.fiction/**": true,
-    // "**/.ref*": true,
+    "**/.ref*": true,
     "*.log": true,
     "**/dist": true,
     "node_modules": true,

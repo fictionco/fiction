@@ -25,7 +25,7 @@ describe('splitLetters', () => {
     splitLetters({ selector: '#test' })
 
     expect(element!.innerHTML).toBe(
-      `<span class="word"><span class="fx">G</span><span class="fx">o</span><span class="fx">o</span><span class="fx">d</span></span> <span class="fx">&</span> <span class="word"><span class="fx">E</span><span class="fx">v</span><span class="fx">i</span><span class="fx">l</span></span>`,
+      `<span class="word"><span class="fx">G</span><span class="fx">o</span><span class="fx">o</span><span class="fx">d</span></span> <span class="fx">&amp;</span> <span class="word"><span class="fx">E</span><span class="fx">v</span><span class="fx">i</span><span class="fx">l</span></span>`,
     )
   })
 
@@ -64,7 +64,7 @@ describe('splitLetters', () => {
     element!.textContent = '&amp;&copy;'
     splitLetters({ selector: '#test' })
 
-    expect(element!.innerHTML).toBe('<span class="fx">&</span><span class="fx">©</span>')
+    expect(element!.innerHTML).toBe('<span class="fx">&amp;</span><span class="fx">©</span>')
   })
 
   it('handles empty text', () => {

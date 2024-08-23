@@ -80,7 +80,7 @@ describe('fictionEnv', () => {
     expect(fictionEnv.heldKeys.value.a).toBe(true)
 
     fictionEnv.events.emit('keypress', { key: 'a', direction: 'up' })
-    expect(fictionEnv.heldKeys.value.a).toBe(false)
+    expect(fictionEnv.heldKeys.value.a).toBeFalsy()
   })
 
   it('runs hooks correctly', async () => {

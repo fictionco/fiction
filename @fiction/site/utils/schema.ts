@@ -12,8 +12,9 @@ type RefineOptionsResult = {
 export function refineOptions<T extends z.AnyZodObject>(args: {
   options: InputOption[]
   schema?: T
+  templateId?: string
 }): RefineOptionsResult {
-  const { options, schema } = args
+  const { options, schema, templateId = 'unknown' } = args
 
   // Return early if no schema is available
   if (!schema)
@@ -24,7 +25,7 @@ export function refineOptions<T extends z.AnyZodObject>(args: {
   const hiddenOptions: string[] = []
 
   const checkRecord = (path: string) => {
-    if (dotRecord[path]) {
+    if (typeof dotRecord[path] !== 'undefined') {
       const prompt = dotRecord[path]
       delete dotRecord[path]
       return prompt
@@ -41,6 +42,7 @@ export function refineOptions<T extends z.AnyZodObject>(args: {
     const subPath = parts.slice(0, parts.length - 1).join('.')
 
     const path = basePath ? `${basePath}.${subPath}` : subPath
+
     if (dotRecord[path])
       delete dotRecord[path]
 
@@ -75,8 +77,10 @@ export function refineOptions<T extends z.AnyZodObject>(args: {
     }
     else if (option.shape.value.length > 0) {
       const newShape: string[] = []
+
       option.shape.value.forEach((k) => {
         const shapePath = `${path}.${k}`
+
         if (checkRecord(shapePath))
           newShape.push(k)
       })
@@ -149,7 +153,7 @@ function flattenSchema(schema: SimpleSchema | SimpleSchema[], prefix: string = '
     if (typeof value === 'object' && value !== null)
       Object.assign(result, flattenSchema(value, fullPath))
     else
-      result[fullPath.replace(/^_|(?<=\.)_/g, '')] = value
+      result[fullPath.replace(/^_|(?<=\.)_/g, '')] = value || 'unknown'
   })
 
   return result

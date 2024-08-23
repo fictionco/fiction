@@ -103,7 +103,7 @@ const options = [
       new InputOption({ key: 'header', label: 'Header', input: 'InputText' }),
       new InputOption({ key: 'subHeader', label: 'Sub Header', input: 'InputText' }),
       new InputOption({ key: 'superHeader', label: 'Super Header', input: 'InputText' }),
-      new InputOption({ key: 'media', label: 'Media', input: 'InputMediaDisplay', props: { formats: { url: true, video: true } } }),
+      new InputOption({ key: 'media', label: 'Media', input: 'InputMediaDisplay', props: { formats: { url: true, image: true, video: true } } }),
       new InputOption({ key: 'actions', label: 'Actions', input: 'InputList', options: [
         new InputOption({ key: 'name', label: 'Name', input: 'InputText' }),
         new InputOption({ key: 'href', label: 'Href', input: 'InputText' }),
