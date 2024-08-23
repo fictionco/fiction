@@ -7,55 +7,47 @@ import ClipPathAnim from '../anim/AnimClipPath.vue'
 defineOptions({ name: 'ElImage' })
 
 const props = defineProps({
-  media: { type: Object as vue.PropType<MediaObject >, default: undefined },
-  imageClass: { type: String as vue.PropType<string>, default: '' },
-  animate: { type: [Boolean, String] as vue.PropType<'swipe' | 'expand' | '' | boolean>, default: false },
-  imageMode: { type: String as vue.PropType<'inline' | 'cover' | 'contain'>, default: 'cover' },
+  media: { type: Object as vue.PropType<MediaObject>, default: undefined },
+  imageClass: { type: String, default: '' },
+  animate: { type: [Boolean, String] as vue.PropType<AnimateType>, default: false },
+  imageMode: { type: String as vue.PropType<ImageMode>, default: 'cover' },
 })
+type ImageMode = 'inline' | 'cover' | 'contain'
+type AnimateType = 'swipe' | 'expand' | '' | boolean
 
 const logger = log.contextLogger('ElImage')
 
 const loading = vue.ref(true)
 const blurCanvas = vue.ref<HTMLCanvasElement>()
 
-async function loadImage(src: string) {
+async function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image()
     img.addEventListener('load', () => resolve(img))
-    img.addEventListener('error', (...args) => reject(args))
+    img.addEventListener('error', error => reject(error))
     img.src = src
   })
 }
 
-function getBlurHash() {
+const blurhash = vue.computed(() => {
   if (props.media?.blurhash)
-    return props.media?.blurhash
+    return props.media.blurhash
 
   const urlObj = new URL(props.media?.url || '', 'http://dummybase.com')
-  const params = new URLSearchParams(urlObj.search) // this automatically decodes
+  const params = new URLSearchParams(urlObj.search)
   return params.get('blurhash') || ''
-}
-
-const blurhash = vue.ref<string | undefined>()
+})
 
 async function setBlurHash() {
-  blurhash.value = getBlurHash()
-
   if (blurhash.value) {
     const pixels = bh.decode(blurhash.value, 64, 64)
-
     await waitFor(15)
-
-    const blurCanvasEl = blurCanvas.value
-
-    if (!blurCanvasEl?.getContext)
-      return
-
-    const ctx = blurCanvasEl?.getContext('2d')
-    const imageData = ctx?.createImageData(64, 64)
-    imageData?.data.set(pixels)
-    if (imageData && ctx)
+    const ctx = blurCanvas.value?.getContext('2d')
+    if (ctx) {
+      const imageData = ctx.createImageData(64, 64)
+      imageData.data.set(pixels)
       ctx.putImageData(imageData, 0, 0)
+    }
   }
 }
 
@@ -64,9 +56,7 @@ vue.onMounted(() => {
     () => props.media?.url,
     async (url) => {
       loading.value = true
-
       setBlurHash()
-
       if (url) {
         try {
           await loadImage(url)
@@ -96,11 +86,8 @@ const cls = vue.computed(() => {
 const filters = vue.computed(() => props.media?.filters || [])
 
 function generateColorString(point: GradientPoint): string {
-  if (point.color) {
-    return point.opacity !== undefined
-      ? `${point.color}${Math.round(point.opacity * 255).toString(16).padStart(2, '0')}`
-      : point.color
-  }
+  if (point.color)
+    return point.opacity !== undefined ? `${point.color}${Math.round(point.opacity * 255).toString(16).padStart(2, '0')}` : point.color
 
   if (['primary', 'theme'].includes(point.theme || '')) {
     const scale = point.scale || 500
@@ -110,7 +97,6 @@ function generateColorString(point: GradientPoint): string {
   }
   else if (point.theme) {
     const v = getColorScheme(point.theme)[point.scale ?? 500]
-
     return `rgba(${v} / ${point.opacity ?? 1})`
   }
 
@@ -118,9 +104,8 @@ function generateColorString(point: GradientPoint): string {
 }
 
 function createGradientString(gradient: GradientSetting): string {
-  if (gradient.css) {
+  if (gradient.css)
     return gradient.css
-  }
 
   const angle = gradient.angle ?? 0
   const stops = gradient.stops?.map((stop) => {
@@ -131,19 +116,13 @@ function createGradientString(gradient: GradientSetting): string {
   return `linear-gradient(${angle}deg, ${stops})`
 }
 
-const bgStyle = vue.computed(() => {
-  const media = props.media
-  if (!media)
-    return {}
-
-  return {
-    backgroundColor: media.bgColor,
-    backgroundImage: media.bgGradient ? createGradientString(media.bgGradient) : undefined,
-    backgroundRepeat: media.bgRepeat,
-    backgroundPosition: media.bgPosition,
-    backgroundSize: media.bgSize,
-  }
-})
+const bgStyle = vue.computed(() => ({
+  backgroundColor: props.media?.bgColor,
+  backgroundImage: props.media?.bgGradient ? createGradientString(props.media.bgGradient) : undefined,
+  backgroundRepeat: props.media?.bgRepeat,
+  backgroundPosition: props.media?.bgPosition,
+  backgroundSize: props.media?.bgSize,
+}))
 
 const overlayStyle = vue.computed(() => {
   const overlay = props.media?.overlay
@@ -165,30 +144,29 @@ const flipClass = vue.computed(() => {
   return flip === 'horizontal' ? 'scale-x-[-1]' : flip === 'vertical' ? 'scale-y-[-1]' : ''
 })
 
-// const filterStyle = vue.computed(() => {
-//   const filterString = filters.value
-//     .map((filter: ImageFilterConfig) =>
-//       `${filter.filter}(${filter.value ?? `${filter.percent}%`})`,
-//     )
-//     .join(' ')
-//   return { filter: filterString }
-// })
+const filterStyle = vue.computed(() => ({
+  filter: filters.value.map(filter => `${filter.filter}(${filter.value ?? `${filter.percent}%`})`).join(' '),
+}))
+
 const inlineImage = vue.computed(() => props.imageMode === 'inline')
-const imageModeClass = vue.computed(() => {
-  const c = props.imageMode === 'contain' ? 'object-contain' : 'object-cover'
-  return c
-})
+const imageModeClass = vue.computed(() => props.imageMode === 'contain' ? 'object-contain' : 'object-cover')
+
+const isImageFormat = vue.computed(() => ['url', 'image'].includes(props.media?.format || ''))
 </script>
 
 <template>
   <ClipPathAnim :animate="animate">
-    <div v-if="media" class=" " :class="[!inlineImage ? `h-full w-full` : '', cls, flipClass]" :style="[bgStyle]">
+    <div
+      v-if="media"
+      :class="[!inlineImage ? 'h-full w-full' : '', cls, flipClass]"
+      :style="[bgStyle]"
+    >
       <transition
         enter-active-class="transition ease duration-300"
         enter-from-class="opacity-0"
         enter-to-class="opacity-50"
         leave-active-class="transition ease duration-300"
-        leave-from-class="opacity-50 "
+        leave-from-class="opacity-50"
         leave-to-class="opacity-0"
       >
         <canvas
@@ -202,33 +180,38 @@ const imageModeClass = vue.computed(() => {
         />
       </transition>
       <template v-if="!loading">
+        <component
+          :is="media.el"
+          v-if="media.format === 'component'"
+          :class="[imageClass, inlineImage ? '' : 'h-full w-full']"
+        />
         <div
-          v-if="media.format === 'html'"
-          :class="inlineImage ? '' : 'h-full w-full *:w-full *:h-full'"
+          v-else-if="media.format === 'html'"
+          :class="[imageClass, inlineImage ? '' : 'h-full w-full *:w-full *:h-full']"
           v-html="media.html"
         />
         <video
           v-else-if="media.format === 'video'"
           class="absolute h-full w-full z-0 dark:bg-theme-800/30 bg-theme-50/50"
           :class="[imageClass, imageModeClass, inlineImage ? 'block' : '']"
-          :src="media?.url || ''"
-          :style="{ filter: filters?.map((_) => _.value).join(' ') }"
+          :src="media.url"
+          :style="filterStyle"
           autoplay
           loop
           muted
           playsinline
         />
         <img
-          v-else-if="media?.url"
+          v-else-if="isImageFormat && media.url"
           class="inset-0 z-0"
           :class="[imageClass, imageModeClass, inlineImage ? 'block' : 'absolute h-full w-full']"
-          :src="media?.url || ''"
-          :style="{ filter: filters?.map((_) => _.value).join(' ') }"
+          :src="media.url"
+          :style="filterStyle"
         >
         <iframe
           v-else-if="media.format === 'iframe'"
           class="absolute inset-0 h-full w-full z-0"
-          :src="media?.url || ''"
+          :src="media.url"
           frameborder="0"
           allowfullscreen
         />

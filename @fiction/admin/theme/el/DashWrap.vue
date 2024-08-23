@@ -45,9 +45,9 @@ const primaryNav = vue.computed<NavItem[]>(() => {
   if (!site)
     return []
   const pages = site?.pages.value as Card<UserConfig>[]
-  const navItems = pages.filter(v => v.userConfig.value.isNavItem)
+  const navCards = pages.filter(v => v.userConfig.value.isNavItem)
 
-  const r = navItems?.map((item) => {
+  const r = navCards?.map((item) => {
     const currentViewId = site.siteRouter.params.value.viewId
     const slug = item.slug.value === '_home' ? '' : item.slug.value
     const itemUc = item.userConfig.value as UserConfig
@@ -65,6 +65,22 @@ const primaryNav = vue.computed<NavItem[]>(() => {
   const resultSorted = sortPriority(r)
 
   return resultSorted || []
+})
+
+const bottomNav = vue.computed<NavItem[]>(() => {
+  const site = props.card.site
+  if (!site)
+    return []
+  const currentViewId = site.siteRouter.params.value.viewId
+
+  return [
+    {
+      name: 'Settings',
+      href: `/settings`,
+      icon: 'i-tabler-adjustments',
+      isActive: currentViewId === 'settings',
+    },
+  ]
 })
 
 const accountMenu: vue.ComputedRef<IndexItem[]> = vue.computed(() => {
@@ -142,7 +158,7 @@ function toggleSidebar() {
               class="md:opacity-100 will-change-auto transition-all  duration-300 bg-theme-0 dark:bg-theme-900 border-theme-300/70 dark:border-theme-700 fixed top-0 z-30 justify-end border-r  md:static md:flex h-dvh w-52 lg:w-64"
               :class="showMobileNav ? 'left-0 opacity-100' : '-left-full opacity-0'"
             >
-              <DashNav :icon="card.userConfig.value.homeIcon" :nav="primaryNav" :card />
+              <DashNav :icon="card.userConfig.value.homeIcon" :nav="primaryNav" :nav-bottom="bottomNav" :card />
               <div class="i-tabler-x text-3xl absolute -right-12 top-4 text-theme-400 hover:text-theme-500 active:text-theme-600 block md:hidden" @click="toggleSidebar()" />
             </div>
             <Transition name="backdrop">

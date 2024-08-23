@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import type { vue } from '../utils/libraries.js'
 import { ColorScaleSchema, colorThemeUser, colorThemeWithInvert } from '../utils/colors.js'
 
 export const PostStatusSchema = z.enum(['draft', 'scheduled', 'published', 'hidden', 'protected', 'deleted', 'archived', 'trashed', 'spam'])
@@ -103,7 +104,10 @@ export type ImageFilterConfig = z.infer<typeof ImageFilterConfigSchema>
 export const MediaBasicSchema = z.object({
   html: z.string().optional(),
   url: z.string().optional(),
-  format: z.enum(['url', 'video', 'iframe', 'html']).optional(),
+  format: z.enum(['url', 'image', 'video', 'iframe', 'html', 'component']).optional(),
+  el: z.custom<vue.AsyncComponentLoader>((val) => {
+    return typeof val === 'function' || val instanceof Promise
+  }, { message: 'Must be an async component or Promise' }).optional(),
 })
 
 // MediaContent schema (includes MediaBasic)

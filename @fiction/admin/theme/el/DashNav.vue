@@ -9,6 +9,7 @@ import ElAvatarOrg from './ElAvatarOrg.vue'
 defineProps({
   icon: { type: Object as vue.PropType<MediaObject>, default: undefined },
   nav: { type: Array as vue.PropType<NavItem[]>, default: () => [] },
+  navBottom: { type: Array as vue.PropType<NavItem[]>, default: () => [] },
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
@@ -23,7 +24,7 @@ async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
 }
 
 const cls = {
-  active: 'font-semibold bg-primary-100/50 text-primary-800 hover:text-primary-500 dark:bg-primary-600/50 ring-1 dark:ring-primary-600 dark:text-primary-0',
+  active: 'font-semibold bg-primary-100/50 text-primary-600 hover:text-primary-500 dark:bg-primary-600/50 ring-1 ring-primary-400/60 dark:ring-primary-600 dark:text-primary-0',
   inactive: 'font-medium text-theme-700 dark:text-theme-200 dark:hover:bg-theme-700 hover:text-theme-900 border-theme-0',
 
 }
@@ -51,7 +52,7 @@ const cls = {
           <div class="nav-menu">
             <CardLink
               :card
-              class="antialiased group nav-item flex cursor-pointer items-center py-3 px-4 space-x-3 truncate rounded-full font-sans text-base  focus:outline-none transition-all duration-100"
+              class="group nav-item flex cursor-pointer items-center py-3 px-4 space-x-3 truncate rounded-full font-sans text-base  focus:outline-none transition-all duration-100"
               :href="sub.href"
               :class=" sub.isActive ? cls.active : cls.inactive "
               @click="handleClick($event, sub)"
@@ -64,17 +65,24 @@ const cls = {
       </div>
     </div>
     <div class="mb-4 p-3">
-      <CardLink :card href="/settings" class="flex items-center gap-x-4 p-3 rounded-full" :class="card.site?.siteRouter.params.value.viewId === 'settings' ? cls.active : cls.inactive">
-        <ElAvatarOrg class="size-8  shrink-0 " />
-        <div class=" min-w-0">
-          <div class="sm:text-xs lg:text-sm whitespace-nowrap truncate">
-            {{ service.fictionUser.activeOrganization.value?.orgName || 'Unnamed Org' }}
-          </div>
-          <div class="text-xs opacity-50">
-            Settings
-          </div>
+      <div
+        v-for="(sub, i) in navBottom"
+        :key="i"
+        class="menu-group"
+      >
+        <div class="nav-menu">
+          <CardLink
+            :card
+            class="group nav-item flex cursor-pointer items-center py-3 px-4 space-x-3 truncate rounded-full font-sans text-base  focus:outline-none transition-all duration-100"
+            :href="sub.href"
+            :class=" sub.isActive ? cls.active : cls.inactive "
+            @click="handleClick($event, sub)"
+          >
+            <div v-if="sub.icon" class="text-2xl" :class="sub.icon" />
+            <div class="pt-0.5" v-html="toLabel(sub.name)" />
+          </CardLink>
         </div>
-      </CardLink>
+      </div>
     </div>
   </div>
 </template>

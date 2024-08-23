@@ -146,7 +146,7 @@ const navigator = new FrameNavigator({
   <div class="bg-theme-0 dark:bg-theme-800 @container border border-theme-200 dark:border-theme-500/50 overflow-hidden">
     <div v-if="browserBar" class="flex items-center justify-between px-2 py-2 border-b border-theme-200 dark:border-theme-600">
       <div class="w-full items-center justify-center lg:flex lg:space-x-2">
-        <div class="space-x-1 hidden lg:flex">
+        <div class="space-x-1 hidden lg:flex" :data-nav-index="navigator.currentIndex">
           <button
             class="dark:bg-theme-600/60  size-6 text-base  items-center justify-center rounded-md flex"
             :class="!navigator.canGoBack() ? 'cursor-not-allowed opacity-20' : 'cursor-pointer hover:opacity-70'"
@@ -182,7 +182,9 @@ const navigator = new FrameNavigator({
       </div>
       <div class="ml-4 hidden shrink-0 md:block">
         <XButton
-          theme="emerald"
+          :data-set-path="navigator.setPath.value"
+          :data-typed-path="navigator.typedPath.value"
+          :theme="navigator.typedPath.value !== navigator.setPath.value ? 'emerald' : 'default'"
           size="sm"
           rounding="full"
           @click="navigator.setNewPath({ fullPath: navigator.typedPath.value })"

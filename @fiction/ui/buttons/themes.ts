@@ -10,7 +10,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
   default: {
     solid: {
       base: 'bg-theme-0 dark:bg-theme-700/40 text-theme-600 dark:text-theme-50',
-      border: 'border-theme-200 dark:border-theme-600',
+      border: 'border-theme-300/80 dark:border-theme-600',
       hover: 'hover:border-theme-300 dark:hover:border-theme-500',
       icon: 'text-theme-600 dark:text-theme-50',
     },
@@ -62,7 +62,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
   primary: {
     solid: {
       base: 'bg-primary-500 dark:bg-primary-700/70 text-primary-0 dark:text-primary-50',
-      border: 'border-primary-500 dark:border-primary-600',
+      border: 'border-primary-600/80 dark:border-primary-600',
       hover: 'hover:bg-primary-600 dark:hover:bg-primary-800',
       icon: 'text-primary-0 dark:text-primary-50',
     },
@@ -88,7 +88,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
   theme: {
     solid: {
       base: 'bg-theme-500 dark:bg-theme-600/70 text-theme-50 dark:text-theme-50',
-      border: 'border-theme-500 dark:border-theme-600',
+      border: 'border-theme-600/80 dark:border-theme-600',
       hover: 'hover:bg-theme-600 dark:hover:bg-theme-800',
       icon: 'text-theme-50 dark:text-theme-50',
     },
@@ -114,8 +114,8 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
 
   green: {
     solid: {
-      base: 'bg-green-600 dark:bg-green-700/70 text-green-50 dark:text-green-50',
-      border: 'border-green-500 dark:border-green-600',
+      base: 'bg-green-500 dark:bg-green-700/70 text-green-50 dark:text-green-50',
+      border: 'border-green-600/80 dark:border-green-600',
       hover: 'hover:bg-green-600 dark:hover:bg-green-800',
       icon: 'text-green-50 dark:text-green-50',
     },
@@ -141,7 +141,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
   orange: {
     solid: {
       base: 'bg-orange-500 dark:bg-orange-700/70 text-orange-50 dark:text-orange-50',
-      border: 'border-orange-500 dark:border-orange-600',
+      border: 'border-orange-600/80 dark:border-orange-600',
       hover: 'hover:bg-orange-600 dark:hover:bg-orange-800',
       icon: 'text-orange-50 dark:text-orange-50',
     },
@@ -167,7 +167,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
   rose: {
     solid: {
       base: 'bg-rose-500 dark:bg-rose-700/70 text-rose-50 dark:text-rose-50',
-      border: 'border-rose-500 dark:border-rose-600',
+      border: 'border-rose-600/80 dark:border-rose-600',
       hover: 'hover:bg-rose-600 dark:hover:bg-rose-800',
       icon: 'text-rose-50 dark:text-rose-50',
     },
@@ -193,7 +193,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
   indigo: {
     solid: {
       base: 'bg-indigo-500 dark:bg-indigo-700/70 text-indigo-50 dark:text-indigo-50',
-      border: 'border-indigo-500 dark:border-indigo-600',
+      border: 'border-indigo-600/80 dark:border-indigo-600',
       hover: 'hover:bg-indigo-600 dark:hover:bg-indigo-800',
       icon: 'text-indigo-50 dark:text-indigo-50',
     },
@@ -219,7 +219,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
   sky: {
     solid: {
       base: 'bg-sky-500 dark:bg-sky-700/70 text-sky-50 dark:text-sky-50',
-      border: 'border-sky-500 dark:border-sky-600',
+      border: 'border-sky-600/80 dark:border-sky-600',
       hover: 'hover:bg-sky-600 dark:hover:bg-sky-800',
       icon: 'text-sky-50 dark:text-sky-50',
     },
@@ -245,7 +245,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
   teal: {
     solid: {
       base: 'bg-teal-500 dark:bg-teal-700/70 text-teal-50 dark:text-teal-50',
-      border: 'border-teal-500 dark:border-teal-600',
+      border: 'border-teal-600/80 dark:border-teal-600',
       hover: 'hover:bg-teal-600 dark:hover:bg-teal-800',
       icon: 'text-teal-50 dark:text-teal-50',
     },
@@ -271,7 +271,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
   blue: {
     solid: {
       base: 'bg-blue-500 dark:bg-blue-700/70 text-blue-50 dark:text-blue-50',
-      border: 'border-blue-500 dark:border-blue-600',
+      border: 'border-blue-600/80 dark:border-blue-600',
       hover: 'hover:bg-blue-600 dark:hover:bg-blue-800',
       icon: 'text-blue-50 dark:text-blue-50',
     },
@@ -297,7 +297,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
   purple: {
     solid: {
       base: 'bg-purple-500 dark:bg-purple-700/70 text-purple-50 dark:text-purple-50',
-      border: 'border-purple-500 dark:border-purple-600',
+      border: 'border-purple-600/80 dark:border-purple-600',
       hover: 'hover:bg-purple-600 dark:hover:bg-purple-800',
       icon: 'text-purple-50 dark:text-purple-50',
     },
@@ -323,7 +323,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
   yellow: {
     solid: {
       base: 'bg-yellow-500 dark:bg-yellow-700/70 text-yellow-50 dark:text-yellow-50',
-      border: 'border-yellow-500 dark:border-yellow-600',
+      border: 'border-yellow-600/80 dark:border-yellow-600',
       hover: 'hover:bg-yellow-600 dark:hover:bg-yellow-800',
       icon: 'text-yellow-50 dark:text-yellow-50',
     },
@@ -349,7 +349,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
   amber: {
     solid: {
       base: 'bg-amber-500 dark:bg-amber-700/70 text-amber-50 dark:text-amber-50',
-      border: 'border-amber-500 dark:border-amber-600',
+      border: 'border-amber-600/80 dark:border-amber-600',
       hover: 'hover:bg-amber-600 dark:hover:bg-amber-800',
       icon: 'text-amber-50 dark:text-amber-50',
     },
@@ -375,7 +375,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
   fuchsia: {
     solid: {
       base: 'bg-fuchsia-500 dark:bg-fuchsia-700/70 text-fuchsia-50 dark:text-fuchsia-50',
-      border: 'border-fuchsia-500 dark:border-fuchsia-600',
+      border: 'border-fuchsia-600/80 dark:border-fuchsia-600',
       hover: 'hover:bg-fuchsia-600 dark:hover:bg-fuchsia-800',
       icon: 'text-fuchsia-50 dark:text-fuchsia-50',
     },
@@ -584,7 +584,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
   red: {
     solid: {
       base: 'bg-red-500 dark:bg-red-700/70 text-red-50 dark:text-red-50',
-      border: 'border-red-500 dark:border-red-600',
+      border: 'border-red-600/80 dark:border-red-600',
       hover: 'hover:bg-red-600 dark:hover:bg-red-800',
       icon: 'text-red-50 dark:text-red-50',
     },
@@ -610,7 +610,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
   lime: {
     solid: {
       base: 'bg-lime-500 dark:bg-lime-700/70 text-lime-50 dark:text-lime-50',
-      border: 'border-lime-500 dark:border-lime-600',
+      border: 'border-lime-600/80 dark:border-lime-600',
       hover: 'hover:bg-lime-600 dark:hover:bg-lime-800',
       icon: 'text-lime-50 dark:text-lime-50',
     },
@@ -636,7 +636,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
   emerald: {
     solid: {
       base: 'bg-emerald-500 dark:bg-emerald-700/70 text-emerald-50 dark:text-emerald-50',
-      border: 'border-emerald-500 dark:border-emerald-600',
+      border: 'border-emerald-600/80 dark:border-emerald-600',
       hover: 'hover:bg-emerald-600 dark:hover:bg-emerald-800',
       icon: 'text-emerald-50 dark:text-emerald-50',
     },
@@ -662,7 +662,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
   cyan: {
     solid: {
       base: 'bg-cyan-500 dark:bg-cyan-700/70 text-cyan-50 dark:text-cyan-50',
-      border: 'border-cyan-500 dark:border-cyan-600',
+      border: 'border-cyan-600/80 dark:border-cyan-600',
       hover: 'hover:bg-cyan-600 dark:hover:bg-cyan-800',
       icon: 'text-cyan-50 dark:text-cyan-50',
     },
@@ -688,7 +688,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
   violet: {
     solid: {
       base: 'bg-violet-500 dark:bg-violet-700/70 text-violet-50 dark:text-violet-50',
-      border: 'border-violet-500 dark:border-violet-600',
+      border: 'border-violet-600/80 dark:border-violet-600',
       hover: 'hover:bg-violet-600 dark:hover:bg-violet-800',
       icon: 'text-violet-50 dark:text-violet-50',
     },
@@ -714,7 +714,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
   pink: {
     solid: {
       base: 'bg-pink-500 dark:bg-pink-700/70 text-pink-50 dark:text-pink-50',
-      border: 'border-pink-500 dark:border-pink-600',
+      border: 'border-pink-600/80 dark:border-pink-600',
       hover: 'hover:bg-pink-600 dark:hover:bg-pink-800',
       icon: 'text-pink-50 dark:text-pink-50',
     },

@@ -244,6 +244,7 @@ type FrameNavigatorSettings = {
 
 export class FrameNavigator extends FictionObject<FrameNavigatorSettings> {
   typedPath = vue.ref<string>('')
+  setPath = vue.ref<string>('')
   displayUrl = this.settings.displayUrl
   history: string[] = []
   currentIndex = -1
@@ -286,15 +287,19 @@ export class FrameNavigator extends FictionObject<FrameNavigatorSettings> {
 
     if (np !== this.pathname.value) {
       this.typedPath.value = np
+      this.setPath.value = np
       this.update(np)
 
       if (updateHistory) {
-        // Clear forward history if we're not at the end
-        if (this.currentIndex < this.history.length - 1) {
-          this.history = this.history.slice(0, this.currentIndex + 1)
+        // Don't add duplicate entries to history
+        if (this.history.length === 0 || np !== this.history[this.currentIndex]) {
+          // Clear forward history if we're not at the end
+          if (this.currentIndex < this.history.length - 1) {
+            this.history = this.history.slice(0, this.currentIndex + 1)
+          }
+          this.history.push(np)
+          this.currentIndex = this.history.length - 1
         }
-        this.history.push(np)
-        this.currentIndex = this.history.length - 1
       }
     }
   }
