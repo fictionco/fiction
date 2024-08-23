@@ -56,6 +56,7 @@ async function addCard(args: { templateId: string }) {
                 v-for="(item, ii) in tplGroup"
                 :key="ii"
                 :theme="item.settings.colorTheme || 'theme'"
+                class="cursor-pointer hover:opacity-80"
                 href="#"
                 :icon="item.settings.icon"
                 @click.prevent="addCard({ templateId: item.settings.templateId })"
