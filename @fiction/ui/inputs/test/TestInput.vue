@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { SizeSchema, stringify, vue } from '@fiction/core'
+import { stringify, vue } from '@fiction/core'
 import XText from '../../common/XText.vue'
 import ElForm from '../ElForm.vue'
 import type { InputOption } from '..'

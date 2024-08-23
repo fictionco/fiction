@@ -62,7 +62,7 @@ async function save() {
   <ElTool
     :actions="[]"
     v-bind="props"
-    :back="{ name: 'All Pages', onClick: () => controller.useTool({ toolId: 'pages' }) }"
+    :back="{ name: 'All Pages', onClick: () => controller.useTool({ toolId: 'pageMaster' }) }"
     title="Edit Page"
   >
     <ElForm @submit="save()">

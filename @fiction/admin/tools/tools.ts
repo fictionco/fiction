@@ -32,7 +32,17 @@ type AdminEditorControllerSettings = {
   tools: readonly EditorTool[]
 }
 
-export class AdminEditorController extends FictionObject<AdminEditorControllerSettings> {
+ type CardSurface = {
+   toolIds: string
+ }
+
+// Utility type to merge two types
+type MergeTypes<T, U> = T & Omit<U, keyof T>
+
+// Use defaults
+type Surface<T> = MergeTypes<T, CardSurface>
+
+export class AdminEditorController<T extends CardSurface = CardSurface> extends FictionObject<AdminEditorControllerSettings> {
   tools = this.settings.tools
 
   constructor(settings: AdminEditorControllerSettings) {
@@ -63,7 +73,7 @@ export class AdminEditorController extends FictionObject<AdminEditorControllerSe
     return locations.some(l => this.activeToolId[l].value === toolId)
   }
 
-  useTool(args: { toolId: string }) {
+  useTool(args: { toolId: Surface<T>['toolIds'] }) {
     const { toolId } = args
     const t = this.settings.tools.find(t => t.toolId === toolId)
     const location = t?.location || 'primary'

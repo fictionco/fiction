@@ -18,8 +18,8 @@ const props = defineProps({
 function useEditPage(args: { cardId?: string } = {}) {
   const { cardId } = args
 
-  if (cardId)
-    props.site.activePageId.value = cardId
+  // if (cardId)
+  //   props.site.activePageId.value = cardId
 
   props.site.editor.value.selectedPageId = cardId || ''
 

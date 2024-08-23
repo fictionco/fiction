@@ -72,7 +72,7 @@ export const tools = [
 export type ToolKeys = (typeof tools)[number]['toolId']
 
 export function createSiteEditingController(site?: Site) {
-  const controller = new AdminEditorController({ tools })
+  const controller = new AdminEditorController<{ toolIds: (typeof tools)[number]['toolId'] }>({ tools })
 
   site?.events.on('setActiveCard', () => {
     controller.useTool({ toolId: 'editCard' })
