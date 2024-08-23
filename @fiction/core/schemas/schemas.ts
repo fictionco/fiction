@@ -105,7 +105,7 @@ export const MediaBasicSchema = z.object({
   html: z.string().optional(),
   url: z.string().optional(),
   format: z.enum(['url', 'image', 'video', 'iframe', 'html', 'component']).optional(),
-  el: z.custom<vue.AsyncComponentLoader>((val) => {
+  el: z.custom<vue.AsyncComponentLoader | vue.Component>((val) => {
     return typeof val === 'function' || val instanceof Promise
   }, { message: 'Must be an async component or Promise' }).optional(),
 })

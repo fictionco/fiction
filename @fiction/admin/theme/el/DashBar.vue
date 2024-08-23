@@ -30,9 +30,9 @@ const uc = vue.computed(() => props.card.userConfig.value)
         <CardLink :card href="/" class="active:opacity-80 sm:hidden">
           <ElImage class="h-[21px]" :media="uc.homeIcon" />
         </CardLink>
-        <div class="hidden text-lg font-normal sm:block dark:text-theme-0 text-theme-700 md:flex gap-3 items-center">
-          <div v-if="uc.navIcon || uc.navIconAlt" :class="uc.navIconAlt || uc.navIcon" class="text-2xl text-theme-500" />
-          <div class="hidden text-lg font-medium sm:block  dark:text-theme-0  text-theme-700 ">
+        <div class="hidden sm:block dark:text-theme-0 text-theme-700 md:flex gap-2 items-center">
+          <div v-if="uc.navIcon || uc.navIconAlt" :class="uc.navIconAlt || uc.navIcon" class="text-xl" />
+          <div class="hidden text-base font-semibold sm:block  dark:text-theme-0  text-theme-700 ">
             {{ card.site.currentPage.value?.title.value }}
           </div>
         </div>
