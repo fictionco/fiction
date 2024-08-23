@@ -51,14 +51,14 @@ const draggableMode = vue.ref<number>(-1)
           :key="ii"
           class="flex items-center p-1"
           :class="[
-            action.onClick ? 'hover:text-primary-500 hover:scale-110 transition-all dark:hover:bg-theme-600' : '',
+            action.onClick ? 'hover:text-primary-500 dark:hover:text-primary-400 hover:scale-125 transition-all  ' : '',
             action.onClick ? 'cursor-pointer' : ' ',
           ]"
+          @click.stop.prevent="action.onClick?.({ event: $event, item: action })"
         >
           <div
             class="text-sm"
             :class="action.icon"
-            @click.stop="action.onClick?.({ event: $event, item: action })"
           />
         </div>
       </div>

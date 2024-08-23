@@ -14,7 +14,7 @@ export function refineOptions<T extends z.AnyZodObject>(args: {
   schema?: T
   templateId?: string
 }): RefineOptionsResult {
-  const { options, schema, templateId = 'unknown' } = args
+  const { options, schema } = args
 
   // Return early if no schema is available
   if (!schema)

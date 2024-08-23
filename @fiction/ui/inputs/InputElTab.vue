@@ -15,7 +15,7 @@ const props = defineProps({
 
 const animateSelected = ref(false)
 
-watch(() => props.selected, (newValue, oldValue) => {
+watch(() => props.selected, (newValue) => {
   if (props.animate && newValue) {
     animateSelected.value = true
     setTimeout(() => {

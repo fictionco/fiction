@@ -56,7 +56,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
       this.syncSite({ caller: 'frameInit' })
   }
 
-  init(args: { caller?: string } = {}) {
+  init(_args: { caller?: string } = {}) {
     if (typeof window === 'undefined' || !this.util) {
       return
     }

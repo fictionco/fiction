@@ -167,7 +167,7 @@ describe('updateRegion', async () => {
 
 describe('requestManagePage', async () => {
   const testUtils = await createSiteTestUtils()
-  const initialized = await testUtils.init()
+  await testUtils.init()
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteMode: 'standard' } as const
   const result = await requestManageSite(
     {

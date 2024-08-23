@@ -190,7 +190,7 @@ const fictionExtend = new FictionExtend({ ...s, extensionIndex: getExtensionInde
 const service = { ...baseService, fictionExtend }
 
 export function setup(): ServiceConfig {
-  async function initializeBackingServices(args: { context: 'node' | 'app' }) {
+  async function initializeBackingServices(_args: { context: 'node' | 'app' }) {
     fictionCache.init()
     await Promise.all([fictionDb.init(), fictionEmail.init(), fictionAnalytics.serverInit(), fictionCache.init()])
   }

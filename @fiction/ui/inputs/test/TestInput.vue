@@ -12,7 +12,6 @@ const props = defineProps({
   uiSize: { type: String, default: 'base' },
 })
 
-const sizes = SizeSchema.options
 const val = vue.ref(props.modelValue)
 const attrs = vue.useAttrs()
 const inputForm = vue.ref<typeof ElForm>()

@@ -129,7 +129,7 @@ export const templates = [
     isPublic: true,
     options,
     schema: UserConfigSchema,
-    getBaseConfig: () => ({ standard: { spacing: { contentWidth: 'none' } } }),
+    getBaseConfig: () => ({ standard: { spacing: { contentWidth: 'none', verticalSpacing: 'none' } } }),
     getUserConfig: () => ({ items: defaultItem }),
     demoPage: async () => {
       return { cards: [{ templateId, userConfig: { items: defaultItem, autoSlide: true } }] }

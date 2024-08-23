@@ -91,4 +91,4 @@ async function handleSorted(sorted: string[]) {
       </div>
     </template>
   </div>
-</template>AdminEditorController,
+</template>

@@ -24,6 +24,6 @@ export async function getCardCompletion<T extends Record<string, unknown> = Reco
       fictionEnv.events.emit('notify', { type: 'error', message: 'Error getting AI completion' })
   }
   catch (e) {
-    fictionEnv.events.emit('notify', { type: 'error', message: 'Error getting AI completion' })
+    fictionEnv.events.emit('notify', { type: 'error', message: `Error getting AI completion (${(e as Error).message})` })
   }
 }

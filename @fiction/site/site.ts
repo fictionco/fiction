@@ -1,6 +1,7 @@
 import type { FictionRouter } from '@fiction/core'
 import { FictionObject, deepMerge, localRef, objectId, resetUi, setNested, shortId, vue, waitFor } from '@fiction/core'
 import { TypedEventTarget } from '@fiction/core/utils/eventTarget.js'
+
 import type { CardConfigPortable, PageRegion, TableCardConfig, TableSiteConfig } from './tables.js'
 import type { Card, CardTemplate } from './card.js'
 import { flattenCards, setLayoutOrder } from './utils/layout.js'
@@ -13,6 +14,7 @@ import { saveSite, setSections, setupRouteWatcher, updateSite } from './utils/si
 import type { SiteMode } from './load.js'
 import { type FontConfigVal, activeSiteFont } from './utils/fonts.js'
 import type { FictionSites, ThemeConfig } from './index.js'
+import '@vue/shared' // for non-portable types (?)
 
 export type EditorState = {
   selectedCardId: string

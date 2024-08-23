@@ -68,7 +68,7 @@
     "@fiction/www": "workspace:*",
     "@vitejs/plugin-vue": "^5.1.2",
     "@vitest/browser": "^2.0.5",
-    "axios": "^1.7.4",
+    "axios": "^1.7.5",
     "commander": "^12.1.0",
     "conventional-changelog-cli": "^5.0.0",
     "cross-env": "^7.0.3",
@@ -91,7 +91,7 @@
     "vue-router": "^4.4.3"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.27.0",
+    "@antfu/eslint-config": "^2.27.1",
     "@codspeed/vitest-plugin": "^3.1.1",
     "@eslint/eslintrc": "^3.1.0",
     "@flydotio/dockerfile": "^0.5.8",

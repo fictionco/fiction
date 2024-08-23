@@ -8,7 +8,6 @@ import { createSiteTestUtils } from './testUtils'
 import { setup } from './test-theme'
 
 let site: Site
-let siteId: string
 
 const fields = new Card({
   regionId: 'main',

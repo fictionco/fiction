@@ -4,7 +4,6 @@ import type { MediaObject, NavItem, vue } from '@fiction/core'
 import { toLabel, useService } from '@fiction/core'
 import ElImage from '@fiction/ui/media/ElImage.vue'
 import CardLink from '@fiction/cards/el/CardLink.vue'
-import ElAvatarOrg from './ElAvatarOrg.vue'
 
 defineProps({
   icon: { type: Object as vue.PropType<MediaObject>, default: undefined },
