@@ -4,6 +4,7 @@ import { Theme } from '@fiction/site/theme.js'
 import { getCardTemplates } from '@fiction/cards/index.js'
 import type { Site } from '@fiction/site/site.js'
 import { CardFactory } from '@fiction/site/cardFactory.js'
+import { stockMediaHandler } from '@fiction/cards/stock/index.js'
 
 async function getTemplates() {
   const t = await getCardTemplates()
@@ -13,6 +14,34 @@ async function getTemplates() {
 }
 async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof getTemplates>>>, site: Site }) {
   const { factory } = args
+
+  const items = [
+    {
+      title: 'First and Last Name',
+      subTitle: 'Author and Speaker',
+      textBlend: 'difference' as const,
+      media: stockMediaHandler.getRandomByTags(['person', 'aspect:landscape']),
+    },
+    {
+      title: 'Clever Headline',
+      subTitle: 'Clever Headline Subtitle',
+      textBlend: 'difference' as const,
+      media: stockMediaHandler.getRandomByTags(['person', 'aspect:landscape', 'video']),
+    },
+    {
+      title: 'Upcoming Event',
+      subTitle: 'Speaking at Global Leadership Summit',
+      textBlend: 'difference' as const,
+      media: stockMediaHandler.getRandomByTags(['aspect:landscape']),
+    },
+    {
+      title: 'Design Your Future',
+      subTitle: 'Join My Coaching Program',
+      textBlend: 'difference' as const,
+      media: stockMediaHandler.getRandomByTags(['aspect:landscape']),
+    },
+  ]
+
   return [
     await factory.create({
       slug: '_home',
@@ -23,50 +52,7 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
           templateId: 'overSlide',
           userConfig: {
             autoSlide: false,
-            items: [
-              {
-                title: 'Your Name',
-                subTitle: 'Author and Speaker',
-                textBlend: 'difference',
-                media: {
-                  format: 'url',
-                  url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/127b8426-2dd5-44a2-c8d2-8a8108f5be00/public',
-                },
-              },
-              {
-                title: 'Clever Headline',
-                subTitle: 'Clever Headline Subtitle',
-                textBlend: 'difference',
-                media: {
-                  format: 'url',
-                  url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/93a8b4f1-9308-49f2-ffe4-70ddc5d6be00/public',
-                },
-                mediaBackground: {
-                  format: 'url',
-                  url: 'https://images.unsplash.com/photo-1527219002998-9e1b7ebedcb5?q=80&w=4140&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                },
-              },
-              {
-                title: 'Upcoming Event',
-                subTitle: 'Speaking at Global Leadership Summit',
-                textBlend: 'difference',
-                media: {
-                  format: 'url',
-                  url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/c947ab53-e0b2-43fb-5fbd-8c5a970eba00/public',
-                  modify: { flip: 'horizontal' },
-                },
-              },
-              {
-                title: 'Design Your Future',
-                subTitle: 'Join My Coaching Program',
-                textBlend: 'difference',
-                media: {
-                  format: 'url',
-                  url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/720a3e2b-605b-4a1c-1623-2ff55eaff300/public',
-
-                },
-              },
-            ],
+            items,
           },
         }),
         await factory.create({

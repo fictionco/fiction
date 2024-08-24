@@ -5,7 +5,7 @@ import { z } from 'zod'
 export const mediaSchema = z.object({
   url: z.string().optional(),
   html: z.string().optional(),
-  format: z.enum(['html', 'url', 'video']).optional(),
+  format: z.enum(['html', 'url', 'video', 'image']).optional(),
   modify: z.object({
     flip: z.enum(['horizontal', 'vertical']).optional(),
   }).optional(),

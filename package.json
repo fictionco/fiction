@@ -67,6 +67,7 @@
     "@fiction/core": "workspace:*",
     "@fiction/ui": "workspace:*",
     "@fiction/www": "workspace:*",
+    "@google-cloud/vision": "^4.3.2",
     "@vitejs/plugin-vue": "^5.1.2",
     "@vitest/browser": "^2.0.5",
     "axios": "^1.7.5",

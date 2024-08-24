@@ -1,41 +1,27 @@
-type MediaFormat = 'image' | 'video'
-type AspectRatio = 'landscape' | 'portrait' | 'square' | 'wide' | 'tall'
-type ColorTone = 'multi' | 'cold' | 'warm' | 'neutral' | 'vibrant' | 'blackWhite'
-type Category = 'silhouette' | 'person' | 'landscape' | 'abstract' | 'object'
-type Tags = 'man' | 'woman' | 'trees' | 'mountain' | 'lake' | 'city' | 'building' | 'sky' | 'minimal' | 'colorful' | 'midShot' | 'wideShot' | 'closeUp' | 'farAway' | 'yellow' | 'blue' | 'orange' | 'green'
+import media from './mediaItems.json'
+import type { tagSet } from './tags'
 
-const media: MediaCollection = [
-  {
-    format: 'image',
-    aspect: 'landscape',
-    url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/4880097a-27b0-444f-ba79-e2a017bc0400/public',
-    tags: ['man', 'minimal', 'midShot'],
-    category: 'silhouette',
-    colorTone: 'blackWhite',
-  },
-]
+type TagCategory = keyof typeof tagSet
+type Tag = typeof tagSet[TagCategory][number]
+
+type MediaFormat = 'image' | 'video'
 
 type MediaItem = {
   format: MediaFormat
-  aspect: AspectRatio
   url: string
-  tags: Tags[]
-  category: Category
-  colorTone: ColorTone
+  tags: Tag[]
 }
 
 type MediaCollection = MediaItem[]
 
 type GetMediaArgs = {
   format?: MediaFormat
-  aspect?: AspectRatio
-  tags?: Tags[]
-  category?: Category
-  colorTone?: ColorTone
+  tags?: Tag[]
 }
 
 export class StockMedia {
   private media: MediaCollection
+  private usedMedia: Set<string> = new Set()
 
   constructor(media: MediaCollection) {
     this.media = media
@@ -43,42 +29,55 @@ export class StockMedia {
 
   private filterMedia(args: GetMediaArgs): MediaItem[] {
     return this.media.filter((item) => {
+      if (this.usedMedia.has(item.url))
+        return false
       if (args.format && item.format !== args.format)
         return false
-      if (args.aspect && item.aspect !== args.aspect)
-        return false
       if (args.tags && !args.tags.every(tag => item.tags.includes(tag)))
-        return false
-      if (args.category && item.category !== args.category)
-        return false
-      if (args.colorTone && item.colorTone !== args.colorTone)
         return false
       return true
     })
   }
 
-  getRandomMedia(args: GetMediaArgs = {}): MediaItem | null {
-    const filteredMedia = this.filterMedia(args)
-    return filteredMedia.length ? filteredMedia[Math.floor(Math.random() * filteredMedia.length)] : null
+  private markAsUsed(item: MediaItem): void {
+    this.usedMedia.add(item.url)
+  }
+
+  getRandomMedia(args: GetMediaArgs = {}): MediaItem {
+    let filteredMedia = this.filterMedia(args)
+
+    if (filteredMedia.length === 0 && this.usedMedia.size > 0) {
+      this.resetUsedMedia()
+      filteredMedia = this.filterMedia(args)
+    }
+
+    else if (filteredMedia.length === 0) {
+      return this.media[0] // Fallback to the first item in the entire media collection if no filtered media is available
+    }
+
+    const rand = Math.random()
+    const randomIndex = Math.floor(rand * filteredMedia.length)
+    const selectedItem = filteredMedia[randomIndex]
+
+    this.markAsUsed(selectedItem)
+    return selectedItem
   }
 
   getAllMedia(args: GetMediaArgs = {}): MediaItem[] {
     return this.filterMedia(args)
   }
 
-  getRandomByCategory(category: Category, args: Omit<GetMediaArgs, 'category'> = {}): MediaItem | null {
-    return this.getRandomMedia({ ...args, category })
-  }
-
-  getRandomByTags(tags: Tags[], args: Omit<GetMediaArgs, 'tags'> = {}): MediaItem | null {
+  getRandomByTags(tags: Tag[], args: Omit<GetMediaArgs, 'tags'> = {}): MediaItem {
     return this.getRandomMedia({ ...args, tags })
   }
 
-  getRandomProfilePicture(args: Omit<GetMediaArgs, 'format' | 'category'> = {}): MediaItem | null {
-    return this.getRandomMedia({ ...args, format: 'image', category: 'person' })
+  getRandomByAspectRatio(aspectRatio: Extract<Tag, `aspect${string}`>, args: Omit<GetMediaArgs, 'tags'> = {}): MediaItem {
+    return this.getRandomMedia({ ...args, tags: [aspectRatio] })
   }
 
-  getRandomLandscape(args: Omit<GetMediaArgs, 'format' | 'category'> = {}): MediaItem | null {
-    return this.getRandomMedia({ ...args, format: 'image', category: 'landscape' })
+  resetUsedMedia(): void {
+    this.usedMedia.clear()
   }
 }
+
+export const stockMediaHandler = new StockMedia(media as MediaItem[])
