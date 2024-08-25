@@ -24,6 +24,7 @@ export const tagSet = {
     'person',
     'man',
     'woman',
+    'background',
     'people',
     'nature',
     'urban',

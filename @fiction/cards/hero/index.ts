@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
 import { XButtonSchema } from '../schemaSets.js'
 import { standardOption } from '../inputSets'
+import { stockMediaHandler } from '../stock/index.js'
 
 const templateId = 'hero'
 
@@ -28,7 +29,7 @@ export const schema = z.object({
   superHeading: z.string().optional().describe('Shorter badge above headline, 2 to 5 words'),
   superIcon: z.string().optional().describe('Icon for the super heading'),
   superColor: z.enum(colorTheme).optional().describe('change color of super heading'),
-  splash: z.object({ url: z.string(), format: z.enum(['url', 'html']).optional() }).optional().describe('Splash picture for hero;time:40000').refine(_ => true, { params: { time: 40 } }),
+  splash: z.object({ url: z.string(), format: z.enum(['url', 'html', 'image', 'video']).optional() }).optional().describe('Splash picture for hero;time:40000').refine(_ => true, { params: { time: 40 } }),
   caption: z.string().optional().describe('Caption for the splash image'),
   actions: z.array(XButtonSchema).optional().describe('List of link buttons'),
   overlays: z.array(overlaySchema).optional().describe('Overlays to be placed on top of the splash image'),
@@ -67,15 +68,15 @@ export const templates = [
     getUserConfig: () => defaultContent,
     schema,
     demoPage: async () => {
-      const splash = { url: 'https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?q=80&w=3864&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }
+      const splash = () => stockMediaHandler.getRandomByTags(['object', 'aspect:square'])
       const subHeading = 'lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
 
       return {
         cards: [
           { templateId, userConfig: { ...defaultContent, justify: 'center' as const } },
-          { templateId, userConfig: { ...defaultContent, layout: 'justify' as const, splash, superColor: 'purple' as const } },
-          { templateId, userConfig: { ...defaultContent, layout: 'right' as const, splash, subHeading, superColor: 'red' as const } },
-          { templateId, userConfig: { ...defaultContent, layout: 'left' as const, splash, subHeading, superColor: 'indigo' as const } },
+          { templateId, userConfig: { ...defaultContent, layout: 'justify' as const, splash: splash(), superColor: 'purple' as const } },
+          { templateId, userConfig: { ...defaultContent, layout: 'right' as const, splash: splash(), subHeading, superColor: 'red' as const } },
+          { templateId, userConfig: { ...defaultContent, layout: 'left' as const, splash: splash(), subHeading, superColor: 'indigo' as const } },
         ],
       }
     },

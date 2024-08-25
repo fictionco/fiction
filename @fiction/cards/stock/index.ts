@@ -1,5 +1,8 @@
+import { log } from '@fiction/core'
 import media from './mediaItems.json'
 import type { tagSet } from './tags'
+
+const logger = log.contextLogger('stockMedia')
 
 type TagCategory = keyof typeof tagSet
 type Tag = typeof tagSet[TagCategory][number]
@@ -40,6 +43,11 @@ export class StockMedia {
   }
 
   private markAsUsed(item: MediaItem): void {
+    if (!item.url) {
+      logger.error('No url on media item', { data: { item } })
+      throw new Error('No url on media item')
+    }
+
     this.usedMedia.add(item.url)
   }
 
@@ -58,6 +66,11 @@ export class StockMedia {
     const rand = Math.random()
     const randomIndex = Math.floor(rand * filteredMedia.length)
     const selectedItem = filteredMedia[randomIndex]
+
+    if (!selectedItem) {
+      logger.error('No media items available', { data: { args, filteredMedia } })
+      throw new Error('No media items available')
+    }
 
     this.markAsUsed(selectedItem)
     return selectedItem

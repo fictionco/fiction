@@ -7,6 +7,7 @@ import type { SiteUserConfig } from '@fiction/site/schema'
 import { CardFactory } from '@fiction/site/cardFactory'
 import { standardOption } from '../inputSets'
 import { getCardTemplates } from '../index.js'
+import { stockMediaHandler } from '../stock/index.js'
 
 const templateId = 'statement'
 
@@ -41,27 +42,26 @@ async function getUserConfig(): Promise<UserConfig & SiteUserConfig> {
   return {
     items: [
       {
-        title: 'Struggling to Stand Out?',
-        content: `Many people find it challenging to market themselves in today's noisy world. Building a personal brand is essential. We're here to help you shine.`,
-        actions: [{ name: 'Join Our Network', href: '#', theme: 'overlay', design: 'outline' }],
+        title: 'Title Goes Here',
+        content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet feugiat orci. Many people struggle to make themselves heard in a crowded marketplace. A strong personal brand can be the difference between blending in and standing out. Donec vel dui vitae lorem efficitur tincidunt.`,
+        actions: [{ name: 'Call to Action', href: '#', theme: 'overlay', design: 'outline' }],
       },
       {
-        title: 'Need a Unique Voice?',
-        content: `Finding your unique voice can be tough. Developing a personal brand is the key to distinguishing yourself. Let us guide you through the process.`,
-        actions: [{ name: 'Join Our Network', href: '#', theme: 'overlay', design: 'outline' }],
+        title: 'Another Title Here',
+        content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent at nisi nec nulla pharetra dictum. Developing a unique voice is challenging but vital for personal branding. Ut facilisis nibh nec ligula varius, a efficitur ante vestibulum. We can help you find your voice and stand out.`,
+        actions: [{ name: 'Call to Action', href: '#', theme: 'overlay', design: 'outline' }],
       },
       {
-        title: 'Overwhelmed by Self-Doubt?',
-        content: `Overcoming self-doubt is crucial to effective self-marketing. Our expertise in personal branding can help you build confidence and attract opportunities.`,
-        actions: [{ name: 'Join Our Network', href: '#', theme: 'overlay', design: 'outline' }],
+        title: 'Yet Another Title',
+        content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vestibulum lacus non lorem aliquet, id hendrerit lectus fringilla. Self-doubt can be a major barrier to effective self-promotion. Curabitur auctor neque vel sapien gravida, vel vehicula odio efficitur. Our services will help you gain confidence and attract the opportunities you deserve.`,
+        actions: [{ name: 'Call to Action', href: '#', theme: 'overlay', design: 'outline' }],
       },
     ],
     standard: {
       scheme: {
         base: {
           bg: {
-            format: 'video',
-            url: 'https://videos.pexels.com/video-files/4179289/4179289-uhd_2560_1440_30fps.mp4',
+            ...stockMediaHandler.getRandomByTags(['aspect:landscape', 'video', 'background']),
             overlay: {
               opacity: 0.80,
               color: 'black',

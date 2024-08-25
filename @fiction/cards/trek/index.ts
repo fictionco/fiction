@@ -2,6 +2,7 @@ import { vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
+import { stockMediaHandler } from '../stock/index.js'
 
 const templateId = 'trek'
 
@@ -12,12 +13,12 @@ const schema = z.object({
     media: z.object({
       url: z.string().optional(),
       video: z.string().optional(),
-      format: z.enum(['url', 'video']).optional(),
+      format: z.enum(['url', 'video', 'image']).optional(),
     }).optional(),
     actions: z.array(z.object({
       name: z.string().optional(),
       href: z.string().optional(),
-      btn: z.enum(['primary', 'default', 'minimal']).optional(),
+      theme: z.enum(['primary', 'default', 'minimal']).optional(),
     })).optional(),
   })).optional(),
 })
@@ -36,29 +37,27 @@ async function defaultConfig(): Promise<UserConfig> {
   return {
     items: [
       {
-        header: `Meet Tom`,
-        subHeader: `Visionary Creative Director shaping brand narratives.`,
-        media: { url: 'https://videos.pexels.com/video-files/7251409/7251409-uhd_1440_2560_25fps.mp4', format: 'video' },
-        actions: [{ name: 'Learn More', href: '#' }],
+        header: `Title Goes Here`,
+        subHeader: `Subtitle or tagline goes here.`,
+        media: stockMediaHandler.getRandomByTags(['background', 'video']),
+        actions: [{ name: 'Button Label', href: '#' }],
       },
       {
-        header: `NYC Creative Director`,
-        subHeader: `Tom's work has been featured in the New York Times.`,
-        media: { url: `https://videos.pexels.com/video-files/5828488/5828488-uhd_1440_2560_24fps.mp4`, format: 'video' },
-
-        actions: [{ name: 'Learn More', href: '#' }],
+        header: `Another Title`,
+        subHeader: `Secondary subtitle or brief description.`,
+        media: stockMediaHandler.getRandomByTags(['background', 'video']),
+        actions: [{ name: 'Button Label', href: '#' }],
       },
       {
-        header: 'The Williams Exhibit',
-        subHeader: 'Check out Tom\'s latest exhibit at the Williams Gallery.',
-        media: { url: 'https://videos.pexels.com/video-files/1713836/1713836-hd_1080_1920_30fps.mp4', format: 'video' },
-
+        header: 'Exhibit Title Here',
+        subHeader: 'Brief description of the exhibit or event.',
+        media: stockMediaHandler.getRandomByTags(['background', 'video']),
       },
       {
-        header: `Let's Connect`,
-        subHeader: `Tom is always looking for new collaborators. Reach out to him today.`,
-        media: { url: 'https://videos.pexels.com/video-files/1884287/1884287-hd_720_1280_30fps.mp4', format: 'video' },
-        actions: [{ name: 'Learn More', href: '#' }],
+        header: `Call to Action Title`,
+        subHeader: `Encouraging statement or invitation to connect.`,
+        media: stockMediaHandler.getRandomByTags(['background', 'video']),
+        actions: [{ name: 'Button Label', href: '#' }],
       },
     ],
   }
