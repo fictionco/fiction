@@ -3,7 +3,7 @@ import type { Site } from '@fiction/site'
 import { CardTemplate } from '@fiction/site'
 import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
-import { staticFileUrls } from '@fiction/site/utils/site'
+import { stockMediaHandler } from '../stock/index.js'
 
 const templateId = 'people'
 
@@ -17,7 +17,7 @@ const schema = z.object({
     desc: z.string().optional(),
     title: z.string().optional(),
     media: z.object({
-      format: z.enum(['url']),
+      format: z.enum(['url', 'image', 'video']).optional(),
       url: z.string(),
     }).optional(),
     social: z.array(z.object({
@@ -50,22 +50,7 @@ const options: InputOption[] = [
 
 const el = vue.defineAsyncComponent(async () => import('./ElCard.vue'))
 
-async function defaultConfig(args: { site?: Site }): Promise<UserConfig> {
-  const { site } = args
-
-  if (!site) {
-    throw new Error('Card must have a site to get form templates')
-  }
-
-  const filenames = [
-    'people-tony.png',
-    'people-natasha.png',
-    'people-thor.png',
-    'people-steve.png',
-  ] as const
-
-  const urls = staticFileUrls({ site, filenames })
-
+async function defaultConfig(): Promise<UserConfig> {
   return {
     heading: 'Advisors',
     subHeading: 'When the world needs saving, these are the people you want on your side.',
@@ -73,7 +58,7 @@ async function defaultConfig(args: { site?: Site }): Promise<UserConfig> {
       name: 'Tony Stark',
       title: 'Iron Man',
       desc: 'Genius, billionaire, playboy, philanthropist. Known for his high-tech suits and saving the world.',
-      media: { format: 'url' as const, url: urls.peopleTony },
+      media: stockMediaHandler.getRandomByTags(['person', 'aspect:landscape', 'man']),
       social: [{
         icon: 'i-tabler-brand-linkedin',
         href: 'https://www.linkedin.com/in/[username]',
@@ -85,7 +70,7 @@ async function defaultConfig(args: { site?: Site }): Promise<UserConfig> {
       name: 'Natasha Romanoff',
       title: 'Black Widow',
       desc: 'Master spy and expert in hand-to-hand combat. A critical member of the Avengers team.',
-      media: { format: 'url' as const, url: urls.peopleNatasha },
+      media: stockMediaHandler.getRandomByTags(['person', 'aspect:landscape', 'woman']),
       social: [{
         icon: 'i-tabler-brand-linkedin',
         href: 'https://www.linkedin.com/in/[username]',
@@ -97,7 +82,7 @@ async function defaultConfig(args: { site?: Site }): Promise<UserConfig> {
       name: 'Thor Odinson',
       title: 'God of Thunder',
       desc: 'Asgardian prince with the power to control lightning and wield Mjölnir, his magical hammer.',
-      media: { format: 'url' as const, url: urls.peopleThor },
+      media: stockMediaHandler.getRandomByTags(['person', 'aspect:landscape', 'man']),
       social: [{
         icon: 'i-tabler-brand-linkedin',
         href: 'https://www.linkedin.com/in/[username]',
@@ -109,7 +94,7 @@ async function defaultConfig(args: { site?: Site }): Promise<UserConfig> {
       name: 'Steve Rogers',
       title: 'Captain America',
       desc: 'The First Avenger. Known for his unwavering moral compass, super strength, and indestructible shield.',
-      media: { format: 'url' as const, url: urls.peopleSteve },
+      media: stockMediaHandler.getRandomByTags(['person', 'aspect:landscape', 'man']),
       social: [{
         icon: 'i-tabler-brand-linkedin',
         href: 'https://www.linkedin.com/in/[username]',
@@ -132,9 +117,9 @@ export const templates = [
     options,
     schema,
     isPublic: true,
-    getUserConfig: _ => defaultConfig(_),
+    getUserConfig: () => defaultConfig(),
     demoPage: async (args) => {
-      const userConfig = await defaultConfig(args)
+      const userConfig = await defaultConfig()
       return {
         cards: [
           { templateId, userConfig },

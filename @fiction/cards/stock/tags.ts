@@ -22,6 +22,8 @@ export const tagSet = {
   // Subject
   subject: [
     'person',
+    'man',
+    'woman',
     'people',
     'nature',
     'urban',

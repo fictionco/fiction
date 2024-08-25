@@ -3,6 +3,7 @@ import { CardTemplate } from '@fiction/site'
 import type { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 import { mediaSchema } from '../schemaSets.js'
+import { stockMediaHandler } from '../stock/index.js'
 
 const templateId = 'overSlide'
 
@@ -30,16 +31,28 @@ async function getDefaultConfig(): Promise<UserConfig> {
     autoSlide: true,
     items: [
       {
-        title: 'Forest MontClair',
-        subTitle: 'Elite Travel Curator & Lifestyle Architect',
-        textBlend: 'difference',
-        media: { format: 'url', url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/7028f33c-75f6-477b-2180-27676397c400/public' },
+        title: 'First and Last Name',
+        subTitle: 'Author and Speaker',
+        textBlend: 'difference' as const,
+        media: stockMediaHandler.getRandomByTags(['person', 'aspect:landscape']),
       },
       {
-        title: 'Ultra-Luxury Experience Designer',
-        subTitle: `Crafting extraordinary experiences for discerning travelers. Let's design your next unforgettable adventure.`,
-        textBlend: 'difference',
-        media: { format: 'video', url: 'https://videos.pexels.com/video-files/6051210/6051210-uhd_2560_1440_25fps.mp4' },
+        title: 'Clever Headline',
+        subTitle: 'Clever Headline Subtitle',
+        textBlend: 'difference' as const,
+        media: stockMediaHandler.getRandomByTags(['person', 'aspect:landscape', 'video']),
+      },
+      {
+        title: 'Upcoming Event',
+        subTitle: 'Speaking at Global Leadership Summit',
+        textBlend: 'difference' as const,
+        media: stockMediaHandler.getRandomByTags(['aspect:landscape']),
+      },
+      {
+        title: 'Design Your Future',
+        subTitle: 'Join My Coaching Program',
+        textBlend: 'difference' as const,
+        media: stockMediaHandler.getRandomByTags(['aspect:landscape']),
       },
     ],
   }

@@ -67,10 +67,9 @@ export class CardTemplate<
 
     const templateBaseConfig = this.getBaseConfig({ site })
     const asyncUserConfig = (await getUserConfig({ site })) || {}
-    const initialUserConfig = userConfig || asyncUserConfig
     const effects = (await getEffects({ site })) || []
 
-    const finalUserConfig = deepMerge([templateBaseConfig, baseConfig, initialUserConfig])
+    const finalUserConfig = deepMerge([templateBaseConfig, baseConfig, asyncUserConfig, userConfig])
 
     return new Card({
       cardId: cardId || objectId({ prefix: 'crd' }),
