@@ -32,7 +32,7 @@ const navItemSchema = z.object({
   target: z.string().optional(),
 })
 
-export type SchemaNavItem = z.infer<typeof navItemSchema> & { isActive?: boolean, isHidden?: boolean, basePath?: string, items?: SchemaNavItem[] }
+export type SchemaNavItem = z.infer<typeof navItemSchema> & { isActive?: boolean, isHidden?: boolean, basePath?: string, items?: SchemaNavItem[], id?: string }
 
 const schema = z.object({
   logo: mediaSchema.optional(),

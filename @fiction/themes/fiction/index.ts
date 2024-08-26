@@ -12,7 +12,8 @@ import * as developer from './developer/index.js'
 import * as pricing from './pricing/index.js'
 import * as affiliate from './affiliate/index.js'
 import favicon from './img/favicon.svg'
-import shareImage from './img/share-image.jpg'
+import icon from './img/icon.png'
+import shareImage from './img/shareImage.png'
 
 const socials: NavItem[] = [
   {
@@ -78,8 +79,9 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
       return {
         userConfig: {
           branding: {
-            shareImage: { url: shareImage, format: 'url' },
-            favicon: { url: favicon, format: 'url' },
+            shareImage: { url: shareImage, format: 'image' },
+            favicon: { url: favicon, format: 'image' },
+            icon: { url: icon, format: 'image' },
           },
           seo: {
             titleTemplate: `{{pageTitle}} - Fiction`,

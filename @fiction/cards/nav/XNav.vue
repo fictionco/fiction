@@ -27,6 +27,11 @@ function setActiveHover(item: SchemaNavItem | undefined) {
 function close() {
   emit('update:activeItem', undefined)
 }
+
+function isDropdownActive(item: SchemaNavItem) {
+  const activeItem = props.activeItem
+  return activeItem?.items?.length && (!activeItem.subStyle || activeItem?.subStyle === 'default') && activeItem.id === item.id
+}
 </script>
 
 <template>
@@ -49,7 +54,7 @@ function close() {
       />
       <TransitionSlide>
         <div
-          v-if="activeItem?.items?.length && (!activeItem.subStyle || activeItem?.subStyle === 'default') && activeItem.href === item.href"
+          v-if="isDropdownActive(item) && activeItem"
           class="z-40 font-sans absolute top-[calc(100%+.5rem)] dropdown block group-hover:block bg-theme-0 dark:bg-theme-800 border border-theme-200 shadow dark:border-theme-600/90 rounded-lg w-56 space-y-1 "
           :class="i === nav.length - 1 ? 'right-0' : i === 0 ? 'left-0' : 'left-1/2 -translate-x-1/2'"
         >

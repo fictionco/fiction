@@ -59,20 +59,15 @@ vue.onServerPrefetch(async () => {
 const page = vue.computed(() => site.value?.currentPage.value)
 
 function getTitleTag() {
-  if (page.value?.userConfig.value.seo?.title) {
-    return page.value?.userConfig.value.seo.title
-  }
+  const seoConfig = page.value?.userConfig.value.seo
+  if (seoConfig?.title)
+    return seoConfig.title
 
-  else {
-    const titleTemplate = site.value?.userConfig.value?.seo?.titleTemplate || '{{pageTitle}}'
-    const pageTitle = page.value?.title?.value || toLabel(page.value?.slug?.value) || 'Home'
-    const siteTitle = site.value?.title?.value || 'Untitled Site'
+  const titleTemplate = site.value?.fullConfig.value?.seo?.titleTemplate || '{{pageTitle}}'
+  const pageTitle = page.value?.title?.value || toLabel(page.value?.slug?.value) || 'Home'
+  const siteTitle = site.value?.title?.value || 'Untitled Site'
 
-    // Create the title by replacing placeholders with actual values
-    const title: string = simpleHandlebarsParser(titleTemplate, { pageTitle, siteTitle })
-
-    return title
-  }
+  return simpleHandlebarsParser(titleTemplate, { pageTitle, siteTitle })
 }
 
 function getScript(args: { noscript?: boolean } = {}) {
@@ -106,11 +101,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 }
 
-function faviconUrl() {
-  const f = site.value?.userConfig.value.branding?.favicon?.url || '/favicon.svg'
+const iconUrls = vue.computed(() => {
+  const config = site.value?.fullConfig.value.branding || {}
+  const faviconUrl = config.favicon?.url || ''
+  const iconUrl = config.icon?.url || ''
+  const faviconType = faviconUrl.split('.').pop()?.toLowerCase()
 
-  return f
-}
+  return {
+    faviconUrl,
+    appleTouchIconUrl: iconUrl || faviconUrl,
+    msTileIconUrl: iconUrl || faviconUrl,
+    faviconType,
+  }
+})
 
 unhead.useHead({
   htmlAttrs: { lang: 'en', dir: 'ltr' },
@@ -121,8 +124,8 @@ unhead.useHead({
     { name: `description`, content: () => (page.value?.userConfig.value.seo?.description || page.value?.description.value || '') },
     { name: 'robots', content: () => (site.value?.userConfig.value.seo?.robotsTxt || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1') },
     { property: 'og:site_name', content: () => site.value?.title.value || '' },
-    { property: 'og:locale', content: () => site.value?.userConfig.value.seo?.locale || 'en_US' },
-    { property: 'og:image', content: () => site.value?.userConfig.value.branding?.shareImage?.url || '/favicon.png' },
+    { property: 'og:locale', content: () => site.value?.fullConfig.value.seo?.locale || 'en_US' },
+    { property: 'og:image', content: () => site.value?.fullConfig.value.branding?.shareImage?.url || '' },
     { property: 'og:type', content: 'website' },
     { property: 'og:title', content: () => getTitleTag() },
     { property: 'og:url', content: () => site.value?.frame.displayUrl.value },
@@ -131,10 +134,13 @@ unhead.useHead({
   link: [
     {
       rel: 'shortcut icon',
-      href: () => faviconUrl(),
-      type: () => faviconUrl().includes('svg') ? 'image/svg+xml' : '',
-      sizes: () => faviconUrl().includes('svg') ? 'any' : '',
+      href: () => iconUrls.value.faviconUrl,
+      type: () => ({ svg: 'image/svg+xml', png: 'image/png', ico: 'image/x-icon' }[iconUrls.value.faviconType || ''] || ''),
+      sizes: () => iconUrls.value.faviconType === 'svg' ? 'any' : '',
     },
+    { rel: 'apple-touch-icon', sizes: '180x180', href: () => iconUrls.value.appleTouchIconUrl },
+    { rel: 'icon', sizes: '32x32', href: () => iconUrls.value.appleTouchIconUrl },
+    { rel: 'icon', sizes: '16x16', href: () => iconUrls.value.appleTouchIconUrl },
     { rel: 'canonical', href: () => site.value?.frame.displayUrl.value },
     { key: 'font-pre', rel: 'preconnect ', href: 'https://fonts.googleapis.com' },
     { key: 'font-static', rel: 'preconnect ', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },

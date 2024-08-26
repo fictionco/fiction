@@ -18,8 +18,8 @@ const uc = vue.computed(() => props.card.userConfig.value || {})
 
 const nav = vue.computed(() => {
   const n = {
-    navA: processNavItems({ items: uc.value.navA || [], basePathPrefix: 'navA', fictionRouter, fictionUser }),
-    navB: processNavItems({ items: uc.value.navB || [], fictionRouter, basePathPrefix: 'navB', fictionUser }),
+    navA: processNavItems<SchemaNavItem>({ items: uc.value.navA || [], basePathPrefix: 'navA', fictionRouter, fictionUser }),
+    navB: processNavItems<SchemaNavItem>({ items: uc.value.navB || [], fictionRouter, basePathPrefix: 'navB', fictionUser }),
   }
 
   return n

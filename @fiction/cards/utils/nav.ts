@@ -1,4 +1,5 @@
 import type { FictionRouter, FictionUser, NavItem } from '@fiction/core'
+import { shortId } from '@fiction/core'
 
 export function processNavItems<T extends NavItem = NavItem>(args: {
   fictionUser: FictionUser
@@ -16,6 +17,7 @@ export function processNavItems<T extends NavItem = NavItem>(args: {
       isActive: item.href === currentPath,
       isHidden,
       basePath: `${basePathPrefix}.${index}`,
+      id: shortId(),
       items: item.items
         ? processNavItems({
           fictionUser,

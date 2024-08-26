@@ -67,6 +67,7 @@ export type CardOptionsWithStandard = z.infer<typeof CardOptionsWithStandardSche
 export const SiteUserConfigSchema = z.object({
   branding: z.object({
     favicon: MediaDisplaySchema.optional(),
+    icon: MediaDisplaySchema.optional(),
     shareImage: MediaDisplaySchema.optional(),
     logo: MediaDisplaySchema.optional(),
   }).optional(),
