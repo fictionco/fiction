@@ -18,7 +18,7 @@ const schema = z.object({
     actions: z.array(z.object({
       name: z.string().optional(),
       href: z.string().optional(),
-      theme: z.enum(['primary', 'default', 'minimal']).optional(),
+      theme: z.enum(['primary', 'default']).optional(),
     })).optional(),
   })).optional(),
 })
