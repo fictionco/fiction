@@ -1,11 +1,29 @@
 [
   {
     "format": "video",
+    "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724640270/replicate-prediction-zh0pg61bmsrj40chhj5skkhe4m_fftcwx.mp4",
+    "tags": [
+      "object",
+      "video",
+      "aspect:landscape"
+    ]
+  },
+  {
+    "format": "video",
     "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724634796/replicate-prediction-w4vs3te2y5rj40chhgvvcq7zyg_yxolfz.mp4",
     "tags": [
-      "video",
-      "city",
+      "aspect:landscape",
       "background",
+      "video"
+    ]
+  },
+  {
+    "format": "video",
+    "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724640529/replicate-prediction-sy5xxeb90xrj00chhj9vb5qzt0_ck4oi4.mp4",
+    "tags": [
+      "person",
+      "video",
+      "woman",
       "aspect:landscape"
     ]
   },
@@ -13,9 +31,18 @@
     "format": "video",
     "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724635923/replicate-prediction-s1z8ac38bdrj00chhh1v3grmjc_kddubs.mp4",
     "tags": [
-      "video",
+      "aspect:landscape",
       "person",
-      "woman",
+      "video",
+      "woman"
+    ]
+  },
+  {
+    "format": "video",
+    "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724640872/replicate-prediction-qqjb0pdhqsrj40chhjc9zb270r_o3pnc9.mp4",
+    "tags": [
+      "object",
+      "video",
       "aspect:landscape"
     ]
   },
@@ -23,136 +50,129 @@
     "format": "video",
     "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724635925/replicate-prediction-knsgvczvanrj60chhh19y04ca0_lnzqcg.mp4",
     "tags": [
-      "video",
-      "city",
+      "aspect:landscape",
       "background",
-      "aspect:landscape"
+      "video"
     ]
   },
   {
     "format": "video",
     "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724638588/replicate-prediction-jevb9nw2tdrj20chhhtbkat29g_ucxc1y.mp4",
     "tags": [
+      "aspect:landscape",
       "object",
-      "video",
-      "aspect:landscape"
+      "video"
     ]
   },
   {
     "format": "video",
     "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724634905/replicate-prediction-jch406tws9rj40chhgya0y8tc8_ykfz5l.mp4",
     "tags": [
-      "video",
-      "city",
+      "aspect:landscape",
       "background",
-      "aspect:landscape"
+      "video"
     ]
   },
   {
     "format": "video",
     "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724638415/replicate-prediction-hq8z0ksahnrj40chhhsam57g6m_isxqr1.mp4",
     "tags": [
+      "aspect:landscape",
       "object",
-      "video",
-      "aspect:landscape"
+      "video"
     ]
   },
   {
     "format": "video",
     "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724634798/replicate-prediction-fxwj2q8gedrj60chhgwbdst1qm_dulqpf.mp4",
     "tags": [
-      "video",
-      "city",
+      "aspect:landscape",
       "background",
-      "aspect:landscape"
+      "video"
     ]
   },
   {
     "format": "video",
     "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724637812/replicate-prediction-e42s7rjkp1rj00chhhks5benkc_npfs6e.mp4",
     "tags": [
-      "video",
+      "aspect:landscape",
       "person",
-      "woman",
-      "aspect:landscape"
+      "video",
+      "woman"
     ]
   },
   {
     "format": "video",
     "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724638265/replicate-prediction-dvsj342gbhrj60chhhpajeqwa0_mwsqxd.mp4",
     "tags": [
-      "video",
+      "aspect:landscape",
       "man",
       "person",
-      "aspect:landscape"
-    ]
-  },
-  {
-    "format": "video",
-    "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724636733/replicate-prediction-an30z18kj5rj00chhgqvc4022w_z5agbn.mp4",
-    "tags": [
-      "video",
-      "city",
-      "background",
-      "aspect:landscape"
+      "video"
     ]
   },
   {
     "format": "video",
     "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724634797/replicate-prediction-an30z18kj5rj00chhgqvc4022w_1_amsepx.mp4",
     "tags": [
-      "video",
-      "city",
+      "aspect:landscape",
       "background",
-      "aspect:landscape"
+      "video"
     ]
   },
   {
     "format": "video",
     "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724636734/replicate-prediction-98p779gk79rj00chhgpb1q8emg_zoreh0.mp4",
     "tags": [
-      "video",
-      "city",
+      "aspect:landscape",
       "background",
-      "aspect:landscape"
+      "video"
     ]
   },
   {
     "format": "video",
     "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724636660/replicate-prediction-8wx45kv5bdrj40chhh7r523pym_co9n3y.mp4",
     "tags": [
-      "video",
-      "city",
+      "aspect:landscape",
       "background",
-      "aspect:landscape"
+      "video"
     ]
   },
   {
     "format": "video",
     "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724634795/replicate-prediction-72wpc12x35rj00chhgqregjfn8_szl5ln.mp4",
     "tags": [
-      "video",
-      "city",
+      "aspect:landscape",
       "background",
-      "aspect:landscape"
+      "video"
     ]
   },
   {
     "format": "video",
     "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724637814/replicate-prediction-722gmphkzhrj00chhhkvjd46hg_pmxb3i.mp4",
     "tags": [
-      "video",
+      "aspect:landscape",
       "man",
       "person",
-      "aspect:landscape"
+      "video"
     ]
   },
   {
     "format": "video",
     "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724637812/replicate-prediction-6e219ad5n5rj40chhhkr82vfkc_eqyc4l.mp4",
     "tags": [
-      "video",
+      "aspect:landscape",
       "object",
+      "video"
+    ]
+  },
+  {
+    "format": "video",
+    "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724640264/replicate-prediction-5t67ctedz9rj00chhj5b6xt79c_nmrixq.mp4",
+    "tags": [
+      "man",
+      "person",
+      "video",
       "aspect:landscape"
     ]
   },
@@ -160,6 +180,20 @@
     "format": "video",
     "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724638587/replicate-prediction-5a4gnbbdnnrj00chhhsazfmkpg_yihi0g.mp4",
     "tags": [
+      "aspect:landscape",
+      "video",
+      "person",
+      "man"
+    ]
+  },
+  {
+    "format": "video",
+    "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724639820/replicate-prediction-559jvxt0y9rj40chhhxsrfm6er_zrb9u3.mp4",
+    "tags": [
+      "abstract",
+      "person",
+      "video",
+      "woman",
       "aspect:landscape"
     ]
   },
@@ -167,9 +201,19 @@
     "format": "video",
     "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724636730/replicate-prediction-3wpk2r7bysrj40chhgkvt8zcr0_vxo6ss.mp4",
     "tags": [
-      "video",
-      "city",
+      "aspect:landscape",
       "background",
+      "video"
+    ]
+  },
+  {
+    "format": "video",
+    "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724639769/replicate-prediction-219495bpydrj00chhhxr130rdc_qgfa91.mp4",
+    "tags": [
+      "abstract",
+      "person",
+      "video",
+      "woman",
       "aspect:landscape"
     ]
   },
@@ -177,294 +221,282 @@
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556197/arpowers_minimal_wideshot_photo_of_object_light_and_shadows_anc_6ac8046d-d5da-4b49-a050-21a22e220176_whdppw.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556440/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_ff30877e-aa01-46ab-b6cd-a427a7850490_yjnv6p.png",
     "tags": [
+      "annotated",
       "aspect:wide",
-      "building",
       "color:cool",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556494/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_fee8427e-5c76-4af3-9524-4f068caf4194_mvtypu.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556445/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_fa5deba3-358d-4d98-9bd2-798d155aee7a_ddlyns.png",
     "tags": [
+      "annotated",
       "aspect:square",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556477/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_c03cbb8a-90c0-42ee-ba70-fbd127e445a4_nwguvx.png",
     "tags": [
+      "annotated",
       "aspect:tall",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556419/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_b5557989-a67c-4dad-85a8-c21f2c0dedae_vbwpdu.png",
     "tags": [
+      "annotated",
       "aspect:wide",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556045/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_b4c10313-a64c-41f8-bd40-d93b5f028515_vbxtm4.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556449/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_ab26cfca-1bda-41cc-851f-5ebf4e60fe29_tvavol.png",
     "tags": [
+      "annotated",
       "aspect:tall",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556427/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_aa60f070-db66-40ff-9c0b-68f0b8dfaa12_rmtfzi.png",
     "tags": [
+      "annotated",
       "aspect:tall",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556436/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_a6fabcca-96f3-4b23-811a-9a913c63ce55_ny2rnj.png",
     "tags": [
+      "annotated",
       "aspect:tall",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556481/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_9f27056f-238e-4e4b-a760-7347e0ad5877_pqtxij.png",
     "tags": [
+      "annotated",
       "aspect:wide",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "man",
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556409/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_987cdbab-8c09-4024-8c47-a07f7e02525b_xnvddt.png",
     "tags": [
+      "annotated",
       "aspect:square",
-      "building",
       "color:cool",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556472/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_870a26eb-11e8-4fbe-8218-e8c85f10aa72_bwghxc.png",
     "tags": [
+      "annotated",
       "aspect:tall",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556454/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_849475d1-33f6-48f0-bed2-676c390b6c71_qtgr2y.png",
     "tags": [
+      "annotated",
       "aspect:wide",
-      "building",
-      "object",
-      "annotated"
+      "color:cool",
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556458/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_7ef4b834-a13a-4b7d-a3b8-1a5018444fd7_dtpcns.png",
     "tags": [
+      "annotated",
       "aspect:tall",
-      "building",
-      "object",
-      "annotated"
+      "color:cool",
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556463/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_7919e58f-099d-4c04-99f9-717bd1f752b9_yx3gvm.png",
     "tags": [
+      "annotated",
       "aspect:wide",
-      "building",
-      "object",
-      "annotated"
+      "color:warm",
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556054/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_513c012c-bb86-41e0-8cc3-e035954b4ec9_juosks.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:cool",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556468/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_4d1cfb56-61be-4c49-bc18-9c3c60df0be9_sfprm8.png",
     "tags": [
+      "annotated",
       "aspect:tall",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556503/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_47d32e8b-3593-4402-adec-8314db0bce48_hpig5h.png",
     "tags": [
+      "annotated",
       "aspect:tall",
-      "building",
       "color:cool",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556491/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_4204a6c6-a682-4414-9774-45f24245030c_sauqhy.png",
     "tags": [
+      "annotated",
       "aspect:tall",
       "color:warm",
-      "object",
-      "annotated"
+      "man",
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556063/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_348bf598-94a8-48c4-9ea9-4f86a358c440_llv1ug.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556485/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_339820fd-46be-4114-a6f2-a59e713fee99_kzvcor.png",
     "tags": [
+      "annotated",
       "aspect:wide",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556050/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_2b2d7ef8-4024-48f9-b947-ec71a360ebbf_xu34zn.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:cool",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556422/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_198efc44-5a6f-4e44-8086-198356fe7544_kle0os.png",
     "tags": [
+      "annotated",
       "aspect:square",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556499/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_1361d2ff-ef40-4af2-a3d2-a8ef4880a55d_pgbcea.png",
     "tags": [
+      "annotated",
       "aspect:tall",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556413/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_03472686-63d4-4669-b4f1-8ebb5a56fb6a_zlysqy.png",
     "tags": [
+      "annotated",
       "aspect:square",
-      "building",
       "color:cool",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556041/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gr_a5b0b102-c7c9-4df5-925a-f0495048518f_0_t445xo.png",
     "tags": [
+      "annotated",
       "aspect:square",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556431/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gr_73a93aad-b34c-4328-8ef9-6a90f4ac55bd_3_cgpasf.png",
     "tags": [
+      "annotated",
       "aspect:tall",
-      "building",
-      "object",
-      "annotated"
+      "color:warm",
+      "object"
     ]
   },
   {
@@ -473,19 +505,10 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "beauty",
-      "cloud",
       "color:warm",
-      "flash-photography",
-      "morning",
+      "person",
       "silhouette",
-      "sky",
-      "temple",
-      "tints-and-shades",
-      "warm",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -494,18 +517,7 @@
     "tags": [
       "annotated",
       "aspect:portrait",
-      "aspectTall",
-      "black-hair",
-      "blazer",
       "color:warm",
-      "dress",
-      "fashion-design",
-      "flash-photography",
-      "formal-wear",
-      "grey",
-      "hairstyle",
-      "sky",
-      "sleeve",
       "person"
     ]
   },
@@ -515,18 +527,9 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "blazer",
       "color:warm",
-      "font",
-      "formal-wear",
-      "gesture",
-      "human-leg",
-      "knee",
-      "leg",
       "man",
       "midshot",
-      "suit",
       "person"
     ]
   },
@@ -536,23 +539,11 @@
     "tags": [
       "annotated",
       "aspect:portrait",
-      "aspectTall",
-      "audio-equipment",
-      "blackAndWhite",
-      "blazer",
       "color:warm",
-      "flash-photography",
-      "font",
-      "formal-wear",
-      "gesture",
       "man",
       "midshot",
-      "neck",
-      "outerwear",
-      "silhouette",
-      "sleeve",
-      "white-collar-worker",
-      "person"
+      "person",
+      "silhouette"
     ]
   },
   {
@@ -561,22 +552,10 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "bun",
       "color:warm",
-      "ear",
-      "eyelash",
-      "eyewear",
-      "flash-photography",
-      "gesture",
-      "neck",
-      "ponytail",
-      "shoulder",
+      "person",
       "silhouette",
-      "sleeve",
-      "warm",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -585,21 +564,9 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "automotive-design",
-      "blackAndWhite",
-      "blazer",
-      "collar",
       "color:warm",
-      "dress-shirt",
-      "flash-photography",
-      "gesture",
       "man",
       "midshot",
-      "music",
-      "musician",
-      "pianist",
-      "tie",
       "person"
     ]
   },
@@ -609,23 +576,12 @@
     "tags": [
       "annotated",
       "aspect:portrait",
-      "aspectTall",
       "color:warm",
-      "ear",
-      "eyebrow",
-      "eyelash",
-      "forehead",
-      "hair",
       "headshot",
-      "human-body",
-      "lip",
-      "neck",
-      "nose",
-      "shoulder",
+      "man",
+      "person",
       "silhouette",
-      "warm",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -634,24 +590,12 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
       "color:warm",
-      "dusk",
-      "flash-photography",
-      "gesture",
-      "hair",
-      "happy",
-      "horizon",
       "nature",
       "people",
-      "people-in-nature",
+      "person",
       "silhouette",
-      "sky",
-      "sunrise",
-      "sunset",
-      "warm",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -660,19 +604,10 @@
     "tags": [
       "annotated",
       "aspect:portrait",
-      "aspectTall",
-      "blue",
       "color:cool",
-      "electric-blue",
-      "fashion-design",
-      "formal-wear",
-      "hat",
-      "one-piece-garment",
-      "shoulder",
+      "person",
       "silhouette",
-      "sleeve",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -681,12 +616,10 @@
     "tags": [
       "annotated",
       "aspect:square",
-      "aspectSquare",
-      "blackAndWhite",
       "color:warm",
+      "person",
       "silhouette",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -694,21 +627,11 @@
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724441001/arpowers_minimal_stock_background_for_profile_photo_professiona_909d4236-58a0-4a68-993a-acee3d331dc8_vxwpyq.png",
     "tags": [
       "annotated",
-      "art",
       "aspect:landscape",
-      "aspectLandscape",
       "color:warm",
-      "colorful",
-      "electric-blue",
-      "flash-photography",
-      "font",
-      "hair",
-      "magenta",
-      "painting",
+      "person",
       "silhouette",
-      "tints-and-shades",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -716,22 +639,12 @@
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724441018/arpowers_minimal_stock_background_for_profile_photo_professiona_8f8842a3-efb2-4ece-8b37-a52d99f2fb2b_rl7atx.png",
     "tags": [
       "annotated",
-      "art",
       "aspect:landscape",
-      "aspectLandscape",
-      "azure",
       "color:cool",
-      "darkness",
-      "electric-blue",
-      "flash-photography",
-      "grey",
+      "person",
       "silhouette",
-      "sky",
-      "symmetry",
-      "tints-and-shades",
       "wideshot",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -740,11 +653,10 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
       "color:cool",
+      "person",
       "silhouette",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -753,8 +665,6 @@
     "tags": [
       "annotated",
       "aspect:portrait",
-      "aspectTall",
-      "blackAndWhite",
       "color:neutral",
       "man",
       "person"
@@ -765,23 +675,11 @@
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724441628/arpowers_minimal_stock_background_for_profile_photo_professiona_8a53bfc2-2716-4349-99f4-3828415cd280_b7jbeg.png",
     "tags": [
       "annotated",
-      "art",
       "aspect:landscape",
-      "aspectLandscape",
       "color:warm",
-      "elbow",
-      "fashion-design",
-      "flash-photography",
-      "gesture",
       "midshot",
-      "shoulder",
-      "sleeve",
-      "trunk",
-      "waist",
-      "warm",
-      "woman",
-      "wrist",
-      "person"
+      "person",
+      "woman"
     ]
   },
   {
@@ -790,21 +688,9 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "blackAndWhite",
       "color:neutral",
-      "comfort",
-      "eyewear",
-      "flash-photography",
-      "furniture",
-      "gesture",
-      "glasses",
-      "human-body",
-      "leg",
       "man",
       "midshot",
-      "neck",
-      "vision-care",
       "person"
     ]
   },
@@ -814,13 +700,11 @@
     "tags": [
       "annotated",
       "aspect:portrait",
-      "aspectTall",
       "color:warm",
       "man",
+      "person",
       "silhouette",
-      "warm",
-      "wideshot",
-      "person"
+      "wideshot"
     ]
   },
   {
@@ -829,22 +713,11 @@
     "tags": [
       "annotated",
       "aspect:portrait",
-      "aspectTall",
-      "bun",
       "color:warm",
-      "ear",
-      "eyebrow",
-      "eyelash",
-      "flash-photography",
-      "forehead",
-      "hairstyle",
       "headshot",
-      "jaw",
-      "lip",
-      "neck",
+      "person",
       "silhouette",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -852,22 +725,10 @@
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724440966/arpowers_minimal_stock_background_for_profile_photo_professiona_62a15087-100b-4880-8932-1bf4f2375052_sio7al.png",
     "tags": [
       "annotated",
-      "art",
       "aspect:portrait",
-      "aspectTall",
-      "blackAndWhite",
-      "blazer",
-      "coat",
       "color:warm",
-      "comfort",
-      "font",
-      "formal-wear",
-      "leg",
       "man",
       "midshot",
-      "suit",
-      "tints-and-shades",
-      "white-collar-worker",
       "person"
     ]
   },
@@ -877,21 +738,10 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
       "color:cool",
-      "eyebrow",
-      "eyelash",
-      "eyewear",
-      "face",
-      "flash-photography",
-      "forehead",
       "headshot",
-      "jaw",
-      "lip",
-      "neck",
-      "nose",
-      "woman",
-      "person"
+      "person",
+      "woman"
     ]
   },
   {
@@ -899,20 +749,11 @@
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724441633/arpowers_minimal_stock_background_for_profile_photo_professiona_5f1b25ee-d128-4c8e-8097-9628d186d288_ocelul.png",
     "tags": [
       "annotated",
-      "art",
       "aspect:landscape",
-      "aspectLandscape",
-      "azure",
       "color:cool",
-      "electric-blue",
-      "gesture",
       "man",
-      "sculpture",
-      "silhouette",
-      "sky",
-      "tints-and-shades",
-      "vertebrate",
-      "person"
+      "person",
+      "silhouette"
     ]
   },
   {
@@ -921,23 +762,11 @@
     "tags": [
       "annotated",
       "aspect:portrait",
-      "aspectTall",
       "color:warm",
-      "ear",
-      "eyebrow",
-      "eyelash",
-      "flash-photography",
-      "forehead",
       "headshot",
-      "jaw",
-      "lip",
-      "neck",
-      "nose",
-      "shoulder",
+      "person",
       "silhouette",
-      "warm",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -946,21 +775,12 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "blue",
       "color:warm",
-      "colorful",
-      "electric-blue",
-      "electricity",
-      "magenta",
       "man",
       "midshot",
-      "rectangle",
+      "person",
       "silhouette",
-      "sky",
-      "technology",
-      "tints-and-shades",
-      "person"
+      "technology"
     ]
   },
   {
@@ -968,23 +788,13 @@
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724441630/arpowers_minimal_stock_background_for_profile_photo_professiona_4becd944-10bc-44b4-969b-9a85b3885409_mv0js5.png",
     "tags": [
       "annotated",
-      "art",
       "aspect:landscape",
-      "aspectLandscape",
       "color:warm",
-      "flash-photography",
-      "gesture",
-      "happy",
-      "heat",
       "nature",
       "people",
-      "people-in-nature",
+      "person",
       "silhouette",
-      "sky",
-      "tints-and-shades",
-      "warm",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -992,22 +802,12 @@
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724441018/arpowers_minimal_stock_background_for_profile_photo_professiona_44e70af0-20d2-4ac2-9227-72bdcc4141c2_vghenq.png",
     "tags": [
       "annotated",
-      "art",
       "aspect:landscape",
-      "aspectLandscape",
-      "circle",
       "color:warm",
-      "entertainment",
-      "event",
-      "flash-photography",
-      "hair",
-      "human-body",
-      "performing-arts",
-      "tints-and-shades",
+      "man",
+      "person",
       "wideshot",
-      "woman",
-      "wood",
-      "person"
+      "woman"
     ]
   },
   {
@@ -1016,22 +816,10 @@
     "tags": [
       "annotated",
       "aspect:portrait",
-      "aspectTall",
       "color:warm",
-      "ear",
-      "eyelash",
-      "eyewear",
-      "flash-photography",
-      "jaw",
-      "neck",
-      "shoulder",
+      "person",
       "silhouette",
-      "sleeve",
-      "sunglasses",
-      "vision-care",
-      "warm",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -1039,21 +827,11 @@
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724441013/arpowers_minimal_stock_background_for_profile_photo_professiona_3dfbcab8-fc4a-4079-b5a8-2b81a26e24df_qoijpt.png",
     "tags": [
       "annotated",
-      "art",
       "aspect:portrait",
-      "aspectTall",
-      "black-hair",
-      "chin",
       "color:cool",
-      "eyebrow",
-      "eyewear",
-      "flash-photography",
-      "jaw",
-      "neck",
+      "person",
       "silhouette",
-      "vision-care",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -1061,21 +839,12 @@
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724441017/arpowers_minimal_stock_background_for_profile_photo_professiona_3be631fa-0377-4636-9d51-4e015030eed9_fhj8jk.png",
     "tags": [
       "annotated",
-      "art",
       "aspect:portrait",
-      "aspectTall",
-      "cloud",
       "color:warm",
-      "elbow",
-      "flash-photography",
-      "human-leg",
-      "landscape",
-      "neck",
+      "man",
+      "person",
       "silhouette",
-      "sky",
-      "tints-and-shades",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -1084,22 +853,11 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "black-and-white",
-      "blackAndWhite",
-      "blazer",
-      "collar",
-      "dress-shirt",
-      "flash-photography",
-      "gesture",
+      "color:neutral",
       "headshot",
       "man",
-      "neck",
-      "silhouette",
-      "sleeve",
-      "style",
-      "tie",
-      "person"
+      "person",
+      "silhouette"
     ]
   },
   {
@@ -1108,22 +866,11 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "azure",
-      "blazer",
-      "blue",
       "color:cool",
-      "electric-blue",
-      "eyewear",
-      "flash-photography",
-      "formal-wear",
       "man",
       "midshot",
-      "silhouette",
-      "sky",
-      "suit",
-      "tints-and-shades",
-      "person"
+      "person",
+      "silhouette"
     ]
   },
   {
@@ -1132,24 +879,12 @@
     "tags": [
       "annotated",
       "aspect:portrait",
-      "aspectTall",
-      "black-hair",
-      "cloud",
       "color:cool",
-      "dusk",
-      "flash-photography",
-      "happy",
-      "landscape",
       "nature",
       "people",
-      "people-in-nature",
+      "person",
       "silhouette",
-      "sky",
-      "sunset",
-      "tints-and-shades",
-      "warm",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -1157,23 +892,11 @@
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724441017/arpowers_minimal_stock_background_for_profile_photo_professiona_2ae2a119-2213-4f21-9941-66c64bc38841_msz7zx.png",
     "tags": [
       "annotated",
-      "art",
       "aspect:portrait",
-      "aspectTall",
-      "black-hair",
-      "chin",
       "color:warm",
-      "ear",
-      "eyebrow",
-      "forehead",
-      "hair",
-      "jaw",
-      "neck",
-      "no-expression",
+      "person",
       "silhouette",
-      "warm",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -1182,17 +905,10 @@
     "tags": [
       "annotated",
       "aspect:portrait",
-      "aspectTall",
-      "backlighting",
-      "city",
       "color:warm",
       "midshot",
-      "sculpture",
-      "silhouette",
-      "sleeve",
-      "tints-and-shades",
-      "window",
-      "person"
+      "person",
+      "silhouette"
     ]
   },
   {
@@ -1201,22 +917,10 @@
     "tags": [
       "annotated",
       "aspect:portrait",
-      "aspectTall",
-      "black-hair",
-      "blackAndWhite",
-      "blazer",
-      "bun",
       "color:warm",
-      "eyebrow",
-      "eyelash",
-      "eyewear",
-      "flash-photography",
-      "jaw",
-      "neck",
+      "person",
       "silhouette",
-      "sleeve",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -1224,24 +928,12 @@
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724441622/arpowers_minimal_stock_background_for_mid_shot_profile_photo_Si_dd1a1ffb-2f07-41c4-92e8-d622217be765_qfecff.png",
     "tags": [
       "annotated",
-      "art",
       "aspect:landscape",
-      "aspectLandscape",
-      "backlighting",
-      "black-hair",
-      "blackAndWhite",
-      "chin",
       "color:cool",
-      "eye",
-      "flash-photography",
-      "gesture",
-      "headgear",
       "headshot",
       "man",
-      "neck",
-      "shoulder",
-      "silhouette",
-      "person"
+      "person",
+      "silhouette"
     ]
   },
   {
@@ -1250,32 +942,23 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
       "color:cool",
-      "flash-photography",
-      "gesture",
-      "happy",
-      "horizon",
-      "landscape",
       "man",
       "midshot",
       "nature",
       "people",
-      "people-in-nature",
-      "silhouette",
-      "sky",
-      "tints-and-shades",
-      "person"
+      "person",
+      "silhouette"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556135/arpowers_minimal_photo_of_random_object_made_simple_with_minima_04ad425f-409f-4e8a-8f3a-43008888794e_kyc68z.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
@@ -1284,22 +967,10 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
       "color:warm",
-      "colorful",
-      "dress",
-      "flash-photography",
-      "gesture",
       "midshot",
-      "neck",
-      "one-piece-garment",
-      "pink",
-      "sleeve",
-      "sunglasses",
-      "thigh",
-      "waist",
-      "woman",
-      "person"
+      "person",
+      "woman"
     ]
   },
   {
@@ -1308,22 +979,10 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "choreography",
       "color:warm",
-      "colorful",
-      "entertainment",
-      "event",
-      "fashion-design",
-      "fashion-model",
-      "formal-wear",
-      "gesture",
       "midshot",
-      "performing-arts",
-      "sleeve",
-      "waist",
-      "woman",
-      "person"
+      "person",
+      "woman"
     ]
   },
   {
@@ -1332,23 +991,12 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
       "color:warm",
-      "colorful",
-      "electric-blue",
-      "eyelash",
-      "fashion-design",
-      "flash-photography",
-      "gesture",
-      "lipstick",
-      "magenta",
       "midshot",
       "nature",
       "people",
-      "people-in-nature",
-      "sleeve",
-      "woman",
-      "person"
+      "person",
+      "woman"
     ]
   },
   {
@@ -1357,12 +1005,10 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
       "color:warm",
-      "colorful",
       "midshot",
-      "woman",
-      "person"
+      "person",
+      "woman"
     ]
   },
   {
@@ -1370,23 +1016,12 @@
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724443255/arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_1633893b-f298-4d6a-b1eb-f02c8069fe64_za5ifd.png",
     "tags": [
       "annotated",
-      "art",
       "aspect:landscape",
-      "aspectLandscape",
-      "balance",
       "color:warm",
-      "colorful",
-      "entertainment",
-      "gesture",
-      "happy",
-      "human-body",
-      "magenta",
-      "painting",
-      "performing-arts",
-      "pink",
+      "man",
+      "person",
       "wideshot",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -1395,22 +1030,10 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "black-hair",
       "color:cool",
-      "colorful",
-      "eyelash",
-      "fashion",
-      "fashion-design",
-      "flash-photography",
       "midshot",
-      "neck",
-      "pink",
-      "sleeve",
-      "thigh",
-      "waist",
-      "woman",
-      "person"
+      "person",
+      "woman"
     ]
   },
   {
@@ -1419,22 +1042,10 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "bright",
       "color:warm",
-      "dress",
-      "fashion-design",
-      "flash-photography",
-      "formal-wear",
       "midshot",
       "modern",
-      "neck",
-      "one-piece-garment",
       "person",
-      "sky",
-      "sleeve",
-      "sunglasses",
-      "waist",
       "woman"
     ]
   },
@@ -1442,737 +1053,724 @@
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556178/arpowers_minimal_midshot_photo_of_object_incredible_light_and_s_adba25a1-2233-4126-abba-ea937263df12_tcxnnk.png",
     "tags": [
+      "annotated",
       "aspect:tall",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556185/arpowers_minimal_midshot_photo_of_object_incredible_light_and_s_962ef25a-cb07-4233-a1c5-b158d2c98575_rfnots.png",
     "tags": [
+      "annotated",
       "aspect:tall",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556175/arpowers_minimal_midshot_photo_of_object_incredible_light_and_s_65488929-9a6c-4752-b872-90f038a94632_ivy9fl.png",
     "tags": [
+      "annotated",
       "aspect:tall",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556157/arpowers_minimal_midshot_photo_of_object_incredible_light_and_s_237498ba-11da-4fbf-813d-69d9650e3c1e_hvqyv1.png",
     "tags": [
+      "annotated",
       "aspect:wide",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556210/arpowers_minimal_midshot_photo_of_object_futuristic_ancient_gre_f7c28b0f-3148-44fe-927f-b0fe57460f6c_cwyamv.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556266/arpowers_minimal_midshot_photo_of_object_futuristic_ancient_gre_c5bee5e5-78dd-4613-ae89-0df0c483f02a_coxsq3.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:cool",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556279/arpowers_minimal_midshot_photo_of_object_futuristic_ancient_gre_9de3451f-189e-4e2c-8433-fd19a32a2c73_tumlwu.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556274/arpowers_minimal_midshot_photo_of_object_futuristic_ancient_gre_685c05c4-b02c-407a-8ffb-c150dbafbe08_jz6nfc.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556283/arpowers_minimal_midshot_photo_of_object_futuristic_ancient_gre_5ef92f82-5327-4bbf-8446-05d855c08abc_yvhufx.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:cool",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724550031/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_f5334b4a-7d58-4b67-9a10-5e5677736e72_sagqfj.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556115/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_f5334b4a-7d58-4b67-9a10-5e5677736e72_p9knuw.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556153/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_e8b14321-4f8b-49a5-834f-ea5f44bc081c_xxcsqr.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556206/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_c954fed0-a698-4b95-8470-e8a0541b0b55_qkrjxn.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
       "color:cool",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556224/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_c2a59fad-3b84-470c-a307-d9b1e8ecb3ec_zmnxet.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
-      "building",
       "color:cool",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556374/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_beda1d16-a6d3-46af-9fa5-6508f8d3ce52_oc8s3f.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556163/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_b98d7681-0d3c-4f0d-8b28-b06b7c9d269c_kpokem.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724555827/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_ac3d7046-5abd-489a-8aa4-464bd8565354_r4f564.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556378/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_987d238b-9d42-4753-a41d-67c422307c06_wsxqzj.png",
     "tags": [
+      "annotated",
       "aspect:square",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556350/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_96b5594c-edbe-4d8d-8a5a-0bf228922f7f_rqw3ey.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:cool",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724550005/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_96b5594c-edbe-4d8d-8a5a-0bf228922f7f_1_rbdvce.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:cool",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556086/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_96b5594c-edbe-4d8d-8a5a-0bf228922f7f_1_i49oxg.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:cool",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556346/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_8b17dc54-1507-49d5-a510-bb773a01043f_d9gbkp.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:warm",
+      "man",
       "nature",
       "object",
-      "people",
-      "annotated"
+      "people"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724550009/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_8b17dc54-1507-49d5-a510-bb773a01043f_1_rch8du.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:warm",
+      "man",
       "nature",
       "object",
-      "people",
-      "annotated"
+      "people"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556091/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_8b17dc54-1507-49d5-a510-bb773a01043f_1_oyq7mu.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:warm",
+      "man",
       "nature",
       "object",
-      "people",
-      "annotated"
+      "people"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556395/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_860343f3-74d7-4592-b697-4f9b23532186_noz30f.png",
     "tags": [
+      "annotated",
       "aspect:square",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556234/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_851b3067-f015-416c-bcbd-6744165c6848_e2b4be.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
-      "building",
       "color:cool",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556121/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_74812b55-2326-482e-a6a0-e40d8e2a3772_igfm1h.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556148/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_6f69a8db-4ca2-40cb-b8bf-ec5181eb3937_dfvpef.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556364/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_676c2cc1-6be4-4593-95f7-453ef046af15_cis0kk.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556239/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_5f99902c-0878-4f99-b1e9-0f9585c5faf7_nrgfic.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556144/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_5c3f0980-d14a-4b5c-8b3d-982d320ec1fc_nh4j0p.png",
     "tags": [
+      "annotated",
       "aspect:wide",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724550017/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_5811ac26-6ab8-4125-b62f-7e8800e5bbd2_kro9o1.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556099/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_5811ac26-6ab8-4125-b62f-7e8800e5bbd2_jwvckr.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556108/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_4f68d524-46d5-44c5-bae8-8a0a0a552fcc_fopm7x.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:cool",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556118/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_4d9b8248-1cb0-4f19-8309-c75321133f82_woikyd.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556244/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_4b9aa180-978e-48ca-b88f-7e385e01efd3_loes2x.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
-      "building",
       "color:cool",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556167/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_44fb295a-8dc9-4d62-9fd5-9fb8e0d44f30_grho1i.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
-      "building",
       "color:cool",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556192/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_430c5e7f-3b67-4286-9677-df287aa199f1_vce8s7.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
-      "building",
       "color:cool",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724550022/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_427e4e07-b84a-40d1-9222-6b5a7a3d7352_yfp6sc.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:warm",
-      "object",
-      "annotated"
+      "man",
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556103/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_427e4e07-b84a-40d1-9222-6b5a7a3d7352_xus1tx.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:warm",
-      "object",
-      "annotated"
+      "man",
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556140/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_411205ee-fe6d-4564-b0d3-0258cfb944eb_lfthxq.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556360/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_41022bd5-b794-47c0-bbb5-0eeb24780974_k6fglt.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556369/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_3fc526bb-bc7b-4f2d-ac11-7ca9a1de5f19_l0dqer.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556202/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_3de3e268-6afc-44e3-bf16-84a357273bc4_zcxjz9.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556125/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_36012f77-cda6-4bae-9ae1-5c6bcaf6be56_uj42se.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:warm",
-      "object",
-      "annotated"
+      "man",
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556215/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_26a95636-e166-40d7-9c13-90a29e031845_ervwq7.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556229/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_1e92bb12-3dad-4d64-ba27-8a09a7ef30dd_e4vqjv.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556355/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_189de993-3771-4a77-8b5a-6e080ca07673_qwcrkh.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556130/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_16ec2682-8379-4aeb-a5b6-518d10b73c68_jcjjol.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556247/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_163fe6a4-e2a0-4ee4-a0ec-a469c6ff35bd_hcqhzh.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556187/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_15f06b6c-8492-4d3a-9c0b-57a9b18e839d_zoq8og.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556219/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_14486649-e275-41ce-8214-aebf8f6d0a1a_jse0bc.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
-      "building",
       "color:cool",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556341/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_12401694-bb22-4f7b-9617-4e52872c0a66_jpfqrt.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:warm",
       "nature",
       "object",
-      "people",
-      "annotated"
+      "people"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556084/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal__66907fac-c53d-414e-883d-6e729aa4bf4c_2_shvx2h.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556338/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal__55376da2-811e-4ef3-ac72-d11e2d38c691_2_faph5o.png",
     "tags": [
+      "annotated",
       "aspect:wide",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556261/arpowers_minimal_midshot_photo_of_object_2050s_aesthetic_incred_85d766ca-3cc0-4722-a9bd-7ca2c2229b18_blgxdm.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556293/arpowers_minimal_midshot_photo_of_object_2030s_futuristic_ancie_a797e9d2-5c50-4e55-a1f6-815dd167d8fc_cvorkh.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556256/arpowers_minimal_midshot_photo_of_object_2030s_futuristic_ancie_7186e87e-e314-407d-bbd7-54c5c5851464_kewpy0.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556252/arpowers_minimal_midshot_photo_of_object_2030s_futuristic_ancie_421c505b-190c-47bb-a1d0-ca92b08cab3c_yybbhm.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556288/arpowers_minimal_midshot_photo_of_object_2030s_futuristic_ancie_3c00d98d-2cb1-49cf-8563-43c43573ea53_ixbak5.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556270/arpowers_minimal_midshot_photo_of_object_2030s_futuristic_ancie_14b3b37f-7efe-4b14-ab12-18a4734835d1_so76cm.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556320/arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_d84c6546-f1a3-4171-8d57-bae4de7d33cd_kyjjmy.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556301/arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_cc62f99f-b02e-4d9b-a38b-689b68a346a1_dhcszf.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:cool",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556298/arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_b50e9db3-34e6-4089-be9a-5fd1584c9ebd_z61gqa.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556315/arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_a2a285ab-ee34-4037-9236-9e7a1c55e23d_nefprh.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556310/arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_59c5e3d3-695e-4a03-88ac-ca87bff23762_pyzzqu.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556306/arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_14001eab-faa2-4c3d-a043-321b080b73cd_juorma.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724555832/arpowers_minimal_midshot_photo_of_laurels_futuristic_ancient_gr_16603d41-f199-4adc-aa62-51f9248793f1_zaciyk.png",
     "tags": [
+      "annotated",
       "aspect:portrait",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556063/arpowers_minimal_mid_shot_photo_of_item_ancient_greek_ideal_bea_e307b13e-b4f1-4aea-94e2-840ac89186fd_fo5hbs.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556080/arpowers_minimal_mid_shot_photo_of_item_ancient_greek_ideal_bea_ade3f08e-801f-458c-9741-cbcc750bdabf_aeadrc.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556068/arpowers_minimal_mid_shot_photo_of_item_ancient_greek_ideal_bea_2fc9cea8-00b4-47b4-957f-aa995071aaad_xekbep.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
@@ -2181,22 +1779,11 @@
     "tags": [
       "annotated",
       "aspect:square",
-      "aspectSquare",
-      "chin",
       "color:warm",
-      "ear",
-      "eyebrow",
-      "eyelash",
-      "forehead",
       "headshot",
-      "jaw",
-      "lip",
-      "lipstick",
-      "neck",
+      "person",
       "realistic",
-      "sleeve",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -2205,22 +1792,12 @@
     "tags": [
       "annotated",
       "aspect:square",
-      "aspectSquare",
-      "chin",
       "color:warm",
-      "eyelash",
-      "flash-photography",
-      "hair",
       "headshot",
-      "human-body",
-      "jaw",
-      "joint",
-      "lip",
-      "lipstick",
-      "neck",
+      "man",
+      "person",
       "realistic",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -2229,22 +1806,11 @@
     "tags": [
       "annotated",
       "aspect:square",
-      "aspectSquare",
       "color:warm",
-      "eye",
-      "eyebrow",
-      "eyelash",
-      "face",
-      "flash-photography",
       "headshot",
-      "joint",
-      "neck",
+      "person",
       "realistic",
-      "shoulder",
-      "sleeve",
-      "waist",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -2253,215 +1819,190 @@
     "tags": [
       "annotated",
       "aspect:square",
-      "aspectSquare",
       "color:warm",
-      "ear",
-      "eye",
-      "eyebrow",
-      "eyelash",
-      "flash-photography",
-      "forehead",
-      "hair",
       "headshot",
-      "jaw",
-      "lip",
-      "neck",
+      "person",
       "realistic",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724603280/arpowers_minimal_futuristic_city_futuristic_ancient_greek_beaut_e3943227-f092-44b6-b30b-3dffdd5b4277_jap0i5.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
       "background",
-      "city",
       "color:warm",
-      "nature",
-      "annotated"
+      "nature"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724603288/arpowers_minimal_futuristic_city_futuristic_ancient_greek_beaut_cc0b99f5-25c2-4e14-963b-98e61da1d084_rs5ij4.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
       "background",
-      "city",
       "color:cool",
-      "urban",
-      "annotated"
+      "urban"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724603280/arpowers_minimal_futuristic_city_futuristic_ancient_greek_beaut_a6510283-295d-4af6-b2b0-b82a5d4e30fa_dc8u3y.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
       "background",
-      "city",
-      "color:cool",
-      "annotated"
+      "color:cool"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724603281/arpowers_minimal_futuristic_city_futuristic_ancient_greek_beaut_8a0836d8-db89-4562-b866-c24a4bb9550c_clkjlu.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
       "background",
-      "city",
-      "color:cool",
-      "annotated"
+      "color:cool"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724603293/arpowers_minimal_futuristic_city_futuristic_ancient_greek_beaut_7e0cc1dd-d949-466e-bbd8-c567d45112ad_fjyogc.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
       "background",
-      "city",
-      "color:warm",
-      "annotated"
+      "color:warm"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724603292/arpowers_minimal_futuristic_city_futuristic_ancient_greek_beaut_6cf150cd-a945-4962-bb48-13ceedc2badb_xthcpy.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
       "background",
-      "city",
       "color:warm",
-      "nature",
-      "annotated"
+      "nature"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724603284/arpowers_minimal_futuristic_city_futuristic_ancient_greek_beaut_681fae0e-e289-4714-a2bb-8be682c37c8b_b4y6wd.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
       "background",
-      "city",
       "color:warm",
-      "nature",
-      "annotated"
+      "nature"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724603292/arpowers_minimal_futuristic_city_futuristic_ancient_greek_beaut_468a3e11-6136-41ef-a715-b90237729d9c_wssxqi.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
       "background",
-      "city",
-      "color:warm",
-      "annotated"
+      "color:warm"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724603279/arpowers_minimal_futuristic_city_futuristic_ancient_greek_beaut_38bde571-3ac6-4f9f-a6ef-c0e446717db7_ukaveo.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
       "background",
-      "city",
       "color:neutral",
-      "urban",
-      "annotated"
+      "urban"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724603285/arpowers_minimal_futuristic_city_futuristic_ancient_greek_beaut_2e5a3aa1-ac51-497c-8868-5232a43ea62a_v23smo.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
       "background",
-      "city",
       "color:warm",
-      "urban",
-      "annotated"
+      "urban"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724603283/arpowers_minimal_futuristic_city_futuristic_ancient_greek_beaut_2424a6a8-37b9-4442-b539-af9425d4f67b_qsdzrb.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
       "background",
-      "city",
-      "color:warm",
-      "annotated"
+      "color:warm"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724603282/arpowers_minimal_futuristic_city_futuristic_ancient_greek_beaut_218f96fd-cd7e-4074-bf6b-62d85a1daf1f_kfotej.png",
     "tags": [
+      "annotated",
       "aspect:landscape",
       "background",
-      "city",
       "color:cool",
-      "urban",
-      "annotated"
+      "urban"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556387/arpowers_minimal_close_photo_of_object_ancient_greek_ideal_beau_8ede6028-d3a5-4418-b020-3c802d2a8742_qm4lkf.png",
     "tags": [
+      "annotated",
       "aspect:square",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724555823/arpowers_minimal_close_photo_of_object_ancient_greek_ideal_beau_71a0138f-a4e3-4893-9be0-6ceba235df26_bqholx.png",
     "tags": [
+      "annotated",
       "aspect:square",
       "color:cool",
       "nature",
       "object",
-      "people",
-      "annotated"
+      "people"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556382/arpowers_minimal_close_photo_of_object_ancient_greek_ideal_beau_6782b71e-739f-4d30-abaf-cee8f4e4163e_wigvas.png",
     "tags": [
+      "annotated",
       "aspect:square",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556400/arpowers_minimal_close_photo_of_object_ancient_greek_ideal_beau_5147ed2e-36e9-4284-bde9-d5455731a5d0_ydkvo4.png",
     "tags": [
+      "annotated",
       "aspect:square",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556392/arpowers_minimal_close_photo_of_object_ancient_greek_ideal_beau_30b45650-f0d2-4fcb-8290-f0c2f26c292a_tkp2s4.png",
     "tags": [
+      "annotated",
       "aspect:square",
-      "building",
       "color:warm",
-      "object",
-      "annotated"
+      "object"
     ]
   },
   {
@@ -2470,21 +2011,10 @@
     "tags": [
       "annotated",
       "aspect:portrait",
-      "aspectTall",
       "color:warm",
-      "eyewear",
-      "fashion",
-      "flash-photography",
-      "grey",
-      "knee",
       "midshot",
-      "sleeve",
-      "standing",
-      "style",
-      "waist",
-      "wall",
-      "woman",
-      "person"
+      "person",
+      "woman"
     ]
   },
   {
@@ -2493,23 +2023,14 @@
     "tags": [
       "annotated",
       "aspect:square",
-      "aspectSquare",
       "color:cool",
-      "electric-blue",
-      "facial-expression",
-      "flash-photography",
-      "font",
-      "gesture",
-      "happy",
-      "human-body",
-      "knee",
+      "man",
       "midshot",
       "nature",
       "people",
-      "people-in-nature",
+      "person",
       "silhouette",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -2518,22 +2039,10 @@
     "tags": [
       "annotated",
       "aspect:square",
-      "aspectSquare",
-      "blackAndWhite",
       "color:warm",
-      "day-dress",
-      "dress",
-      "eyewear",
-      "flash-photography",
       "midshot",
-      "neck",
-      "one-piece-garment",
-      "shoulder",
-      "sleeve",
-      "vision-care",
-      "waist",
-      "woman",
-      "person"
+      "person",
+      "woman"
     ]
   },
   {
@@ -2542,23 +2051,12 @@
     "tags": [
       "annotated",
       "aspect:square",
-      "aspectSquare",
-      "black-hair",
       "color:warm",
-      "eyelash",
-      "flash-photography",
-      "happy",
       "headshot",
-      "layered-hair",
-      "lip",
       "nature",
-      "neck",
       "people",
-      "people-in-nature",
-      "shoulder",
-      "sunlight",
-      "woman",
-      "person"
+      "person",
+      "woman"
     ]
   },
   {
@@ -2567,21 +2065,11 @@
     "tags": [
       "annotated",
       "aspect:square",
-      "aspectSquare",
-      "cheek",
-      "chin",
-      "eyebrow",
-      "eyelash",
-      "gesture",
+      "color:warm",
       "headshot",
-      "jaw",
-      "lip",
-      "neck",
+      "person",
       "realistic",
-      "shoulder",
-      "sleeve",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -2590,20 +2078,9 @@
     "tags": [
       "annotated",
       "aspect:square",
-      "aspectSquare",
-      "chin",
       "color:warm",
-      "eye",
-      "eyebrow",
-      "eyelash",
-      "forehead",
-      "hairstyle",
-      "jaw",
-      "lip",
-      "neck",
-      "sleeve",
-      "woman",
-      "person"
+      "person",
+      "woman"
     ]
   },
   {
@@ -2612,20 +2089,9 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "chin",
       "color:cool",
-      "eyebrow",
-      "eyelash",
-      "flash-photography",
-      "forehead",
-      "jaw",
-      "lip",
-      "neck",
-      "shoulder",
-      "skin",
-      "woman",
-      "person"
+      "person",
+      "woman"
     ]
   },
   {
@@ -2634,21 +2100,10 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "black-hair",
-      "blue",
       "color:cool",
-      "eyebrow",
-      "eyelash",
-      "eyewear",
-      "flash-photography",
-      "hair",
-      "head",
-      "neck",
-      "shoulder",
+      "person",
       "silhouette",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -2657,21 +2112,10 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "chin",
-      "cloud",
       "color:warm",
-      "eyebrow",
-      "flash-photography",
-      "forehead",
       "headshot",
-      "lip",
-      "neck",
-      "shoulder",
-      "sky",
-      "sunlight",
-      "woman",
-      "person"
+      "person",
+      "woman"
     ]
   },
   {
@@ -2680,10 +2124,9 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
       "color:warm",
-      "woman",
-      "person"
+      "person",
+      "woman"
     ]
   },
   {
@@ -2691,25 +2134,13 @@
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724441002/arpowers_incredibly_beautiful_profile_photo_of_woman_business_a_4d1aa14f-015f-4e9e-a7ee-6c7451cb8874_mkmvny.png",
     "tags": [
       "annotated",
-      "art",
       "aspect:landscape",
-      "aspectLandscape",
-      "backlighting",
-      "black-hair",
       "color:warm",
-      "flash-photography",
-      "gesture",
-      "happy",
-      "heat",
       "nature",
       "people",
-      "people-in-nature",
+      "person",
       "silhouette",
-      "sky",
-      "tints-and-shades",
-      "warm",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -2718,21 +2149,10 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
       "color:warm",
-      "eyebrow",
-      "eyelash",
-      "flash-photography",
-      "forehead",
-      "hair",
-      "head",
       "headshot",
-      "jaw",
-      "lip",
-      "neck",
-      "shoulder",
-      "woman",
-      "person"
+      "person",
+      "woman"
     ]
   },
   {
@@ -2741,56 +2161,44 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
       "color:warm",
-      "ear",
-      "eyebrow",
-      "eyelash",
-      "flash-photography",
-      "gesture",
       "headshot",
-      "lip",
-      "neck",
+      "person",
       "realistic",
-      "shoulder",
-      "sleeve",
-      "warm",
-      "white",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556324/arpowers_incredibly_beautiful_profile_photo_of_woman_business_8385d6df-4492-43a2-8fc6-ecb55499f2db_1_naicl4.png",
     "tags": [
+      "annotated",
       "aspect:square",
       "color:warm",
       "person",
-      "realistic",
-      "annotated"
+      "realistic"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556332/arpowers_incredibly_beautiful_profile_photo_of_woman_business_49449508-c18f-4070-9ffc-15539e9e8def_3_udiklc.png",
     "tags": [
+      "annotated",
       "aspect:square",
       "color:warm",
       "person",
-      "realistic",
-      "annotated"
+      "realistic"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556328/arpowers_incredibly_beautiful_profile_photo_of_woman_business_49449508-c18f-4070-9ffc-15539e9e8def_1_qw77rl.png",
     "tags": [
+      "annotated",
       "aspect:square",
       "color:warm",
       "person",
-      "realistic",
-      "annotated"
+      "realistic"
     ]
   },
   {
@@ -2799,20 +2207,8 @@
     "tags": [
       "annotated",
       "aspect:square",
-      "aspectSquare",
-      "blackAndWhite",
-      "coat",
-      "collar",
       "color:cool",
-      "dress-shirt",
-      "eyewear",
-      "flash-photography",
-      "glasses",
-      "grey",
       "man",
-      "style",
-      "suit",
-      "vision-care",
       "person"
     ]
   },
@@ -2822,20 +2218,8 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "beard",
-      "collar",
       "color:warm",
-      "dress-shirt",
-      "eyewear",
-      "forehead",
-      "glasses",
-      "hairstyle",
       "man",
-      "orange",
-      "vision-care",
-      "warm",
-      "yellow",
       "person"
     ]
   },
@@ -2845,12 +2229,10 @@
     "tags": [
       "annotated",
       "aspect:portrait",
-      "aspectTall",
-      "blackAndWhite",
       "color:neutral",
       "man",
-      "silhouette",
-      "person"
+      "person",
+      "silhouette"
     ]
   },
   {
@@ -2859,20 +2241,8 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "collar",
       "color:warm",
-      "dress-shirt",
-      "eyewear",
-      "flash-photography",
-      "glasses",
       "man",
-      "sleeve",
-      "suit",
-      "sunglasses",
-      "tie",
-      "vision-care",
-      "warm",
       "person"
     ]
   },
@@ -2882,21 +2252,10 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "audio-equipment",
-      "blazer",
       "color:warm",
-      "dress-shirt",
-      "entertainment",
-      "flash-photography",
-      "formal-wear",
-      "gesture",
-      "happy",
       "man",
-      "music",
-      "silhouette",
-      "tie",
-      "person"
+      "person",
+      "silhouette"
     ]
   },
   {
@@ -2905,19 +2264,8 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "beard",
-      "blazer",
-      "collar",
       "color:warm",
-      "dress-shirt",
-      "flash-photography",
-      "formal-wear",
-      "hairstyle",
       "man",
-      "suit",
-      "tie",
-      "tints-and-shades",
       "person"
     ]
   },
@@ -2927,20 +2275,9 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "audio-equipment",
-      "beard",
-      "blazer",
-      "collar",
       "color:warm",
-      "dress-shirt",
-      "flash-photography",
-      "gesture",
       "man",
       "midshot",
-      "neck",
-      "sleeve",
-      "suit",
       "person"
     ]
   },
@@ -2950,24 +2287,12 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "cloud",
       "color:warm",
-      "flash-photography",
-      "gesture",
-      "happy",
-      "landscape",
       "man",
       "nature",
       "people",
-      "people-in-nature",
-      "shirt",
-      "silhouette",
-      "sky",
-      "suit",
-      "tints-and-shades",
-      "warm",
-      "person"
+      "person",
+      "silhouette"
     ]
   },
   {
@@ -2976,22 +2301,10 @@
     "tags": [
       "annotated",
       "aspect:portrait",
-      "aspectTall",
-      "collar",
       "color:warm",
-      "dress-shirt",
-      "ear",
-      "eyewear",
-      "flash-photography",
-      "forehead",
-      "gesture",
-      "hair",
       "man",
-      "neck",
-      "silhouette",
-      "vision-care",
-      "warm",
-      "person"
+      "person",
+      "silhouette"
     ]
   },
   {
@@ -3000,20 +2313,9 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "black-and-white",
-      "blazer",
-      "collar",
       "color:warm",
-      "dress-shirt",
-      "flash-photography",
-      "gesture",
       "man",
       "midshot",
-      "style",
-      "tie",
-      "tints-and-shades",
-      "vision-care",
       "person"
     ]
   },
@@ -3023,23 +2325,11 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "audio-equipment",
-      "blazer",
       "color:warm",
-      "colorful",
-      "entertainment",
-      "eyewear",
-      "flash-photography",
-      "gesture",
-      "goggles",
       "headshot",
       "man",
-      "purple",
-      "silhouette",
-      "sleeve",
-      "vision-care",
-      "person"
+      "person",
+      "silhouette"
     ]
   },
   {
@@ -3048,22 +2338,10 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "audio-equipment",
-      "blazer",
       "color:warm",
-      "eyewear",
-      "flash-photography",
-      "glasses",
       "man",
-      "orange",
-      "shirt",
-      "silhouette",
-      "suit",
-      "tie",
-      "vision-care",
-      "warm",
-      "person"
+      "person",
+      "silhouette"
     ]
   },
   {
@@ -3071,23 +2349,13 @@
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724441033/arpowers_incredibly_beautiful_profile_photo_of_man_business_att_33cac797-9273-49d6-bc1c-d9abaf2dd7ce_s0awqr.png",
     "tags": [
       "annotated",
-      "art",
       "aspect:landscape",
-      "aspectLandscape",
-      "black-hair",
       "color:cool",
-      "electric-blue",
-      "eyewear",
-      "flash-photography",
-      "gesture",
-      "happy",
       "man",
       "nature",
       "people",
-      "people-in-nature",
-      "silhouette",
-      "sky",
-      "person"
+      "person",
+      "silhouette"
     ]
   },
   {
@@ -3096,40 +2364,23 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "backlighting",
       "color:warm",
-      "event",
-      "flash-photography",
       "man",
-      "silhouette",
-      "tints-and-shades",
-      "warm",
-      "person"
+      "person",
+      "silhouette"
     ]
   },
   {
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724441005/arpowers_incredibly_beautiful_profile_photo_of_man_business_att_2ff5b6b2-16ea-4508-99f9-1986083339a0_ujl23x.png",
     "tags": [
-      "adaptation",
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "blazer",
       "color:warm",
-      "flash-photography",
-      "gesture",
-      "human",
       "man",
       "midshot",
       "nature",
       "people",
-      "people-in-nature",
-      "rectangle",
-      "suit",
-      "tints-and-shades",
-      "wall",
       "person"
     ]
   },
@@ -3138,20 +2389,9 @@
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724441065/arpowers_incredibly_beautiful_profile_photo_of_man_business_att_09fec68b-d18e-44a1-9d43-aee9cb66a073_udgefd.png",
     "tags": [
       "annotated",
-      "aqua",
       "aspect:landscape",
-      "aspectLandscape",
-      "azure",
-      "blazer",
-      "blue",
       "color:cool",
-      "eyewear",
       "man",
-      "standing",
-      "suit",
-      "sunglasses",
-      "vision-care",
-      "wall",
       "person"
     ]
   },
@@ -3161,20 +2401,8 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "beard",
-      "collar",
       "color:warm",
-      "dress-shirt",
-      "eyewear",
-      "forehead",
-      "glasses",
-      "hairstyle",
       "man",
-      "orange",
-      "vision-care",
-      "warm",
-      "yellow",
       "person"
     ]
   },
@@ -3184,21 +2412,10 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "audio-equipment",
-      "blazer",
       "color:warm",
-      "dress-shirt",
-      "entertainment",
-      "flash-photography",
-      "formal-wear",
-      "gesture",
-      "happy",
       "man",
-      "music",
-      "silhouette",
-      "tie",
-      "person"
+      "person",
+      "silhouette"
     ]
   },
   {
@@ -3207,22 +2424,10 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "audio-equipment",
-      "blazer",
       "color:warm",
-      "eyewear",
-      "flash-photography",
-      "glasses",
       "man",
-      "orange",
-      "shirt",
-      "silhouette",
-      "suit",
-      "tie",
-      "vision-care",
-      "warm",
-      "person"
+      "person",
+      "silhouette"
     ]
   },
   {
@@ -3230,25 +2435,13 @@
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724440967/arpowers_incredibly_beautiful_profile_photo_business_attire_Sil_dd158f53-8be3-46fe-91da-e9fbda1d4516_tffnws.png",
     "tags": [
       "annotated",
-      "art",
       "aspect:landscape",
-      "aspectLandscape",
-      "cloud",
       "color:warm",
-      "eyewear",
-      "flash-photography",
-      "gesture",
-      "happy",
       "nature",
       "people",
-      "people-in-nature",
+      "person",
       "silhouette",
-      "sky",
-      "vision-care",
-      "warm",
-      "water",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -3256,25 +2449,13 @@
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724440973/arpowers_incredibly_beautiful_profile_photo_business_attire_Sil_d0620df0-00c5-47b5-b034-796e89ef935a_yr4uvl.png",
     "tags": [
       "annotated",
-      "art",
       "aspect:landscape",
-      "aspectLandscape",
-      "atmosphere",
-      "cloud",
       "color:warm",
-      "dusk",
-      "flash-photography",
-      "happy",
       "nature",
       "people",
-      "people-in-nature",
-      "sculpture",
+      "person",
       "silhouette",
-      "sky",
-      "sunlight",
-      "warm",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -3283,23 +2464,11 @@
     "tags": [
       "annotated",
       "aspect:square",
-      "aspectSquare",
-      "blackAndWhite",
-      "chin",
       "color:warm",
-      "eye",
-      "eyebrow",
-      "eyelash",
-      "flash-photography",
-      "hair",
-      "hairstyle",
       "headshot",
-      "lip",
-      "neck",
-      "shoulder",
+      "person",
       "silhouette",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -3308,22 +2477,11 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "chin",
       "color:warm",
-      "eyebrow",
-      "eyelash",
-      "flash-photography",
-      "forehead",
       "headshot",
-      "jaw",
-      "lip",
-      "neck",
-      "nose",
+      "person",
       "realistic",
-      "shoulder",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -3332,23 +2490,11 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "cheek",
       "color:warm",
-      "ear",
-      "eyebrow",
-      "eyelash",
-      "flash-photography",
-      "forehead",
       "headshot",
-      "jaw",
-      "lip",
-      "neck",
-      "nose",
+      "person",
       "realistic",
-      "warm",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -3357,22 +2503,10 @@
     "tags": [
       "annotated",
       "aspect:square",
-      "aspectSquare",
       "color:warm",
-      "eyebrow",
-      "eyelash",
-      "flash-photography",
-      "gesture",
       "headshot",
-      "jaw",
-      "lip",
-      "lipstick",
-      "neck",
-      "shoulder",
-      "sleeve",
-      "warm",
-      "woman",
-      "person"
+      "person",
+      "woman"
     ]
   },
   {
@@ -3381,11 +2515,10 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
       "color:warm",
+      "person",
       "realistic",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -3394,23 +2527,11 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "chin",
       "color:warm",
-      "eyebrow",
-      "eyelash",
-      "face",
-      "flash-photography",
       "headshot",
-      "lip",
-      "neck",
+      "person",
       "realistic",
-      "shoulder",
-      "skin",
-      "smile",
-      "warm",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -3419,23 +2540,11 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "chin",
       "color:warm",
-      "eye",
-      "eyebrow",
-      "eyelash",
-      "flash-photography",
-      "forehead",
-      "hair",
       "headshot",
-      "lip",
-      "photograph",
+      "person",
       "realistic",
-      "shoulder",
-      "warm",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -3444,23 +2553,12 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "chin",
       "color:warm",
-      "eyebrow",
-      "eyelash",
-      "flash-photography",
-      "hair",
       "headshot",
-      "human",
-      "lip",
-      "neck",
+      "man",
+      "person",
       "realistic",
-      "sleeve",
-      "smile",
-      "warm",
-      "woman",
-      "person"
+      "woman"
     ]
   },
   {
@@ -3469,21 +2567,9 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "beard",
-      "chin",
       "color:warm",
-      "dress-shirt",
-      "flash-photography",
-      "forehead",
-      "hairstyle",
       "man",
       "midshot",
-      "neck",
-      "smile",
-      "temple",
-      "tie",
-      "warm",
       "person"
     ]
   },
@@ -3493,21 +2579,9 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "blazer",
-      "collar",
       "color:warm",
-      "dress-shirt",
-      "flash-photography",
-      "gesture",
-      "grey",
       "man",
       "midshot",
-      "neck",
-      "sleeve",
-      "suit",
-      "tie",
-      "warm",
       "person"
     ]
   },
@@ -3517,20 +2591,8 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "beard",
-      "black",
-      "blackAndWhite",
       "color:neutral",
-      "dress-shirt",
-      "eyewear",
-      "glasses",
-      "goggles",
-      "hair",
       "man",
-      "sunglasses",
-      "vision-care",
-      "white",
       "person"
     ]
   },
@@ -3540,20 +2602,9 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "chin",
-      "cloud",
       "color:warm",
-      "eyebrow",
-      "flash-photography",
-      "forehead",
-      "gesture",
-      "hair",
-      "head",
       "headshot",
       "man",
-      "neck",
-      "sky",
       "person"
     ]
   },
@@ -3563,23 +2614,11 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "beard",
       "color:warm",
-      "dress-shirt",
-      "eyebrow",
-      "forehead",
-      "glasses",
       "headshot",
-      "lip",
       "man",
-      "neck",
-      "realistic",
-      "shoulder",
-      "sunglasses",
-      "vision-care",
-      "warm",
-      "person"
+      "person",
+      "realistic"
     ]
   },
   {
@@ -3588,20 +2627,9 @@
     "tags": [
       "annotated",
       "aspect:square",
-      "aspectSquare",
-      "beard",
-      "chin",
       "color:warm",
-      "dress-shirt",
-      "eye",
-      "eyebrow",
-      "facial-expression",
-      "forehead",
-      "hairstyle",
       "headshot",
-      "jaw",
       "man",
-      "neck",
       "person"
     ]
   },
@@ -3611,21 +2639,9 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "blazer",
-      "collar",
       "color:warm",
-      "dress-shirt",
-      "flash-photography",
-      "formal-wear",
-      "hat",
       "man",
       "midshot",
-      "sleeve",
-      "smile",
-      "suit",
-      "tie",
-      "warm",
       "person"
     ]
   },
@@ -3635,7 +2651,6 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
       "color:warm",
       "man",
       "person"
@@ -3647,23 +2662,11 @@
     "tags": [
       "annotated",
       "aspect:square",
-      "aspectSquare",
-      "blazer",
-      "collar",
       "color:warm",
-      "dress-shirt",
-      "eyewear",
-      "flash-photography",
-      "gesture",
       "headshot",
       "man",
-      "neck",
-      "silhouette",
-      "sleeve",
-      "suit",
-      "tie",
-      "warm",
-      "person"
+      "person",
+      "silhouette"
     ]
   },
   {
@@ -3672,20 +2675,9 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "black",
-      "black-and-white",
-      "blazer",
       "color:neutral",
-      "flash-photography",
-      "formal-wear",
-      "gesture",
       "man",
       "midshot",
-      "neck",
-      "sleeve",
-      "style",
-      "tints-and-shades",
       "person"
     ]
   },
@@ -3695,19 +2687,8 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "blazer",
-      "collar",
-      "dress-shirt",
-      "flash-photography",
-      "formal-wear",
-      "hat",
+      "color:warm",
       "man",
-      "sleeve",
-      "smile",
-      "suit",
-      "tie",
-      "warm",
       "person"
     ]
   },
@@ -3717,20 +2698,9 @@
     "tags": [
       "annotated",
       "aspect:landscape",
-      "aspectLandscape",
-      "beard",
-      "chin",
-      "collar",
       "color:warm",
-      "dress-shirt",
-      "forehead",
-      "hairstyle",
       "man",
       "midshot",
-      "neck",
-      "sleeve",
-      "smile",
-      "tie",
       "person"
     ]
   },
@@ -3738,53 +2708,36 @@
     "format": "image",
     "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724556405/arpowers_close-up_photo_of_art_deco_statue_ancient_greek_ideal__95cb200f-30a0-478a-9737-f4846d630dde_kjx4qm.png",
     "tags": [
+      "annotated",
       "aspect:square",
       "color:warm",
-      "object",
-      "annotated"
-    ]
-  },
-  {
-    "format": "video",
-    "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724555285/Gen-3_Alpha_763621660_futuristic_ancient_g_Cropped_-_arpowers_m_emxmrs.mp4",
-    "tags": [
-      "object",
-      "video",
-      "aspect:landscape"
+      "object"
     ]
   },
   {
     "format": "video",
     "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724555276/Gen-3_Alpha_530605946_futuristic_ancient_g_Cropped_-_arpowers_m_vig5an.mp4",
     "tags": [
+      "aspect:landscape",
       "object",
-      "video",
-      "aspect:landscape"
+      "video"
     ]
   },
   {
     "format": "video",
     "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724555298/Gen-3_Alpha_371370400_woman_modeling_for_c_Cropped_-_arpowers_i_fmaqrb.mp4",
     "tags": [
-      "video",
-      "aspect:landscape"
-    ]
-  },
-  {
-    "format": "video",
-    "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724555289/Gen-3_Alpha_2063173861_man_looking_to_side_Cropped_-_arpowers_i_tsz3bz.mp4",
-    "tags": [
-      "video",
-      "aspect:landscape"
+      "aspect:landscape",
+      "video"
     ]
   },
   {
     "format": "video",
     "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto,c_fill,w_1000,h_1000/v1724555294/Gen-3_Alpha_1536169769_futuristic_ancient_g_Cropped_-_arpowers_m_asf5qt.mp4",
     "tags": [
+      "aspect:landscape",
       "object",
-      "video",
-      "aspect:landscape"
+      "video"
     ]
   }
 ]

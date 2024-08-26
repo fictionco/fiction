@@ -33,6 +33,16 @@ type MediaItem = {
   tags: string[]
 }
 
+function flattenTagSet(tagSet: typeof import('../@fiction/cards/stock/tags.js').tagSet): string[] {
+  return Object.values(tagSet).flat()
+}
+
+const allowedTags = flattenTagSet(tagSet)
+
+function filterAllowedTags(tags: string[]): string[] {
+  return tags.filter(tag => allowedTags.includes(tag))
+}
+
 function getAspectRatio(width: number, height: number): AspectRatio {
   const ratio = width / height
   if (ratio >= 2)
@@ -126,13 +136,10 @@ async function getAIStyleTags(imageUrl: string): Promise<string[]> {
 
     // Determine color tone based on image properties
     const colorToneTag = determineColorTone(data.responses[0].imagePropertiesAnnotation.dominantColors.colors)
-    if (colorToneTag)
+    if (colorToneTag && tagSet.colorTone.includes(colorToneTag))
       tags.push(colorToneTag)
 
-    // Optionally, add logic for aspect ratio or any other custom tags
-    // Example: tags.push('aspect:square') based on your own logic
-
-    return tags
+    return filterAllowedTags(tags)
   }
   catch (error) {
     console.error('Error in AI style tagging:', error)
@@ -144,7 +151,7 @@ function matchTags(labels: string[], predefinedTags: readonly string[]): string[
   return predefinedTags.filter(tag => labels.some(label => label.includes(tag)))
 }
 
-function determineColorTone(colors: { color: { red: number, green: number, blue: number } }[]): string | null {
+function determineColorTone(colors: { color: { red: number, green: number, blue: number } }[]): typeof tagSet.colorTone[number] | undefined {
   const avgColor = colors.reduce((acc, color) => {
     acc.red += color.color.red
     acc.green += color.color.green
@@ -213,16 +220,19 @@ async function fetchAndFormatAssets(): Promise<MediaItem[]> {
       const { width, height } = await fetchAssetDetails(resource.public_id, resource.resource_type)
       const aspectRatio = getAspectRatio(width, height)
 
-      let tags = resource.tags || []
-      const existingAspectTag = tags.find((tag: string) => tag.startsWith('aspect:'))
-      if (!existingAspectTag) {
-        await addTag(resource.public_id, resource.resource_type, aspectRatio)
-        tags.push(aspectRatio)
-      }
-      else if (existingAspectTag !== aspectRatio) {
-        tags = tags.filter((tag: string) => !tag.startsWith('aspect:'))
-        await addTag(resource.public_id, resource.resource_type, aspectRatio)
-        tags.push(aspectRatio)
+      let tags = filterAllowedTags(resource.tags || [])
+
+      if (tagSet.aspectRatio.includes(aspectRatio as any)) {
+        const existingAspectTag = tags.find((tag: string) => tag.startsWith('aspect:'))
+        if (!existingAspectTag) {
+          await addTag(resource.public_id, resource.resource_type, aspectRatio)
+          tags.push(aspectRatio)
+        }
+        else if (existingAspectTag !== aspectRatio) {
+          tags = tags.filter((tag: string) => !tag.startsWith('aspect:'))
+          await addTag(resource.public_id, resource.resource_type, aspectRatio)
+          tags.push(aspectRatio)
+        }
       }
 
       if (isImage && !tags.includes('annotated')) {
@@ -237,7 +247,7 @@ async function fetchAndFormatAssets(): Promise<MediaItem[]> {
         await addTag(resource.public_id, resource.resource_type, 'annotated')
       }
 
-      return { format: isImage ? 'image' : 'video', url, tags }
+      return { format: isImage ? 'image' : 'video', url, tags: filterAllowedTags(tags) }
     }))
 
     await fs.writeFile(outputPath, JSON.stringify(assets, null, 2))

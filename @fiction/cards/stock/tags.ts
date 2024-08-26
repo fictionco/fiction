@@ -3,6 +3,9 @@ export const tagSet = {
     'image',
     'video',
   ],
+  flags: [
+    'annotated',
+  ],
   // Style
   style: [
     'realistic',
