@@ -4,6 +4,8 @@ import { CardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 import { standardOption } from '../inputSets'
+import type { Tag } from '../stock/index.js'
+import { stockMediaHandler } from '../stock/index.js'
 
 const el = vue.defineAsyncComponent(async () => import('./ElMarquee.vue'))
 
@@ -24,22 +26,23 @@ const UserConfigSchema = z.object({
 
 export type UserConfig = z.infer<typeof UserConfigSchema>
 
-async function getDefaultUserConfig(): Promise<UserConfig> {
+async function getDefaultUserConfig(args: { tags: Tag[] }): Promise<UserConfig> {
+  const { tags = ['person'] } = args
   const urls = [
-    'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/61636426-96a3-4185-b095-aebdf86fa700/public',
-    'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/7c949640-3223-4fa8-4a41-dbf9dec88c00/public',
-    'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/7ce233bf-c7c3-473e-1983-f38a9d4f8300/public',
-    'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/ffee7f67-0133-4136-1699-830c60e4e500/public',
-    'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/2bd64561-5b07-4974-e2c2-c499e93fdb00/public',
+    stockMediaHandler.getRandomByTags(['aspect:portrait', ...tags]),
+    stockMediaHandler.getRandomByTags(['aspect:portrait', ...tags]),
+    stockMediaHandler.getRandomByTags(['aspect:portrait', ...tags]),
+    stockMediaHandler.getRandomByTags(['aspect:portrait', ...tags]),
+    stockMediaHandler.getRandomByTags(['aspect:portrait', ...tags]),
   ]
 
   return {
     items: [
-      { href: '/test', name: 'Title', desc: 'Description', media: { format: 'url', url: urls[0] } },
-      { href: '/test', name: 'Title', desc: 'Description', media: { format: 'url', url: urls[1] } },
-      { href: '/test', name: 'Title', desc: 'Description', media: { format: 'url', url: urls[2] } },
-      { href: '/test', name: 'Title', desc: 'Description', media: { format: 'url', url: urls[3] } },
-      { href: '/test', name: 'Title', desc: 'Description', media: { format: 'url', url: urls[4] } },
+      { href: '/test', name: 'Title', desc: 'Description', media: urls[0] },
+      { href: '/test', name: 'Title', desc: 'Description', media: urls[1] },
+      { href: '/test', name: 'Title', desc: 'Description', media: urls[2] },
+      { href: '/test', name: 'Title', desc: 'Description', media: urls[3] },
+      { href: '/test', name: 'Title', desc: 'Description', media: urls[4] },
     ],
   }
 }
@@ -60,14 +63,16 @@ export const templates = [
       new InputOption({ key: 'stagger', label: 'Stagger Items', input: 'InputCheckbox', default: () => false }),
     ],
     getBaseConfig: () => ({ standard: { spacing: { contentWidth: 'none' } } }),
-    getUserConfig: () => getDefaultUserConfig(),
+    getUserConfig: () => getDefaultUserConfig({ tags: ['object'] }),
     schema: UserConfigSchema,
     demoPage: async () => {
-      const userConfig = await getDefaultUserConfig()
+      const uc1 = await getDefaultUserConfig({ tags: ['object'] })
+      const uc2 = await getDefaultUserConfig({ tags: ['object'] })
+      const uc3 = await getDefaultUserConfig({ tags: ['object'] })
       return { cards: [
-        { templateId, userConfig },
-        { templateId, userConfig: { ...userConfig, direction: 'right' as const } },
-        { templateId, userConfig: { ...userConfig, stagger: true } },
+        { templateId, userConfig: uc1 },
+        { templateId, userConfig: { ...uc2, direction: 'right' as const } },
+        { templateId, userConfig: { ...uc3, stagger: true } },
       ] }
     },
   }),

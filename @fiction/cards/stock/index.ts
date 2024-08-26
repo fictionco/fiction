@@ -5,7 +5,7 @@ import type { tagSet } from './tags'
 const logger = log.contextLogger('stockMedia')
 
 type TagCategory = keyof typeof tagSet
-type Tag = typeof tagSet[TagCategory][number]
+export type Tag = typeof tagSet[TagCategory][number]
 
 type MediaFormat = 'image' | 'video'
 

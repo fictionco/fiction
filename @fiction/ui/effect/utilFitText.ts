@@ -177,13 +177,12 @@ export class Fitty {
 
     let low = f.minSize
     let high = f.maxSize
-    let mid
     let bestFit = low
 
     while (low <= high) {
-      mid = Math.floor((low + high) / 2)
+      const mid = Math.floor((low + high) / 2)
       f.element.style.fontSize = `${mid}px`
-      f.element.style.whiteSpace = f.multiLine ? 'normal' : 'nowrap'
+      f.element.style.whiteSpace = f.lines === 1 ? 'nowrap' : (f.multiLine ? 'normal' : 'nowrap')
       f.element.style.display = 'block'
 
       const lineHeight = this.calculateLineHeight(mid)
@@ -221,10 +220,18 @@ export class Fitty {
   private checkFit(f: FittyInstance, fontSize: number, lineHeight: number): boolean {
     const computedLineHeight = fontSize * lineHeight
     const maxLines = f.lines || 1
-    const maxHeight = maxLines * computedLineHeight
 
-    if (f.element.scrollHeight > maxHeight) {
-      return false
+    if (maxLines === 1) {
+      const singleLineHeight = f.element.offsetHeight
+      if (singleLineHeight > f.availableHeight || f.element.scrollWidth > f.availableWidth) {
+        return false
+      }
+    }
+    else {
+      const maxHeight = maxLines * computedLineHeight
+      if (f.element.scrollHeight > maxHeight) {
+        return false
+      }
     }
 
     if (f.maxCharsPerLine && !this.respectsMaxCharsPerLine(f.element, f.maxCharsPerLine)) {

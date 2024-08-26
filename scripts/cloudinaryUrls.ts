@@ -213,7 +213,7 @@ async function fetchAndFormatAssets(): Promise<MediaItem[]> {
 
     const assets: MediaItem[] = await Promise.all(resources.map(async (resource: any) => {
       const isImage = resource.resource_type === 'image'
-      const transformations = 'f_auto,q_auto,c_fill,w_1000,h_1000'
+      const transformations = 'f_auto,q_auto'
 
       const url = `https://res.cloudinary.com/${cloudinary.config().cloud_name}/${resource.resource_type}/upload/${transformations}/v${resource.version}/${resource.public_id}.${resource.format}`
 
