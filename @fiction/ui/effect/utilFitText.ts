@@ -222,10 +222,8 @@ export class Fitty {
     const maxLines = f.lines || 1
 
     if (maxLines === 1) {
-      const singleLineHeight = f.element.offsetHeight
-      if (singleLineHeight > f.availableHeight || f.element.scrollWidth > f.availableWidth) {
-        return false
-      }
+      // For single-line text, we only care about the width
+      return f.element.scrollWidth <= f.availableWidth
     }
     else {
       const maxHeight = maxLines * computedLineHeight

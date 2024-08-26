@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { resetUi, toLabel, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
-import EffectTransitionList from '@fiction/admin/el/EffectTransitionList.vue'
+import EffectTransitionCardList from './EffectTransitionCardList.vue'
 import CardWrap from './CardWrap.vue'
 
 const props = defineProps({
@@ -32,7 +32,7 @@ const cards = vue.computed(() => {
 
 <template>
   <component :is="tag" v-if="cards.length" class="card-engine">
-    <EffectTransitionList>
+    <EffectTransitionCardList>
       <template v-for="(subCard) in cards" :key="subCard.cardId">
         <CardWrap
 
@@ -62,6 +62,6 @@ const cards = vue.computed(() => {
           />
         </CardWrap>
       </template>
-    </EffectTransitionList>
+    </EffectTransitionCardList>
   </component>
 </template>

@@ -8,9 +8,9 @@ defineProps({
 </script>
 
 <template>
-  <transition-group :name="!disabled ? 'nlist' : ''">
+  <TransitionGroup :name="!disabled ? 'nlist' : ''">
     <slot />
-  </transition-group>
+  </TransitionGroup>
 </template>
 
 <style lang="less">

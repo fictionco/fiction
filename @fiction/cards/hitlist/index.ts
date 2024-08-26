@@ -2,6 +2,7 @@ import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import { CardTemplate } from '@fiction/site'
 import { z } from 'zod'
+import { stockMediaHandler } from '../stock/index.js'
 
 const templateId = 'hitlist'
 
@@ -10,7 +11,7 @@ const schema = z.object({
   title: z.string().optional(),
   content: z.string().optional(),
   media: z.object({
-    format: z.enum(['url', 'video']).optional(),
+    format: z.enum(['url', 'video', 'image']).optional(),
     url: z.string().optional(),
   }).optional(),
   items: z.array(z.object({
@@ -61,7 +62,7 @@ function isThisYouConfig(): UserConfig {
 function imagineConfig(): UserConfig {
   return {
     title: 'Imagine If...',
-    media: { format: 'url' as const, url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/9621afe1-115d-4f7d-6e37-b348c851ae00/public' },
+    media: stockMediaHandler.getRandomByTags(['person', 'aspect:portrait']),
 
     items: [
       {
@@ -89,7 +90,7 @@ function imagineConfig(): UserConfig {
 function getUserConfig(): UserConfig {
   return {
     title: 'Introducing Fiction',
-    media: { format: 'url' as const, url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/440c92f7-268c-4ae9-24ed-08632303c200/public' },
+    media: stockMediaHandler.getRandomByTags(['person', 'aspect:portrait']),
 
     items: [
       {

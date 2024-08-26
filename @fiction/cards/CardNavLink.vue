@@ -44,7 +44,7 @@ const styles = vue.computed(() => {
     :href="item.href"
     :target="item.target ? item.target : '_self'"
     class="group"
-    :class="!item.href ? 'cursor-s-resize' : ''"
+    :class="!item.href ? 'cursor-s-resize' : 'cursor-pointer'"
     :data-el-type="styles.componentType"
   >
     <span class="inline-flex items-center space-x-1 relative whitespace-nowrap">
