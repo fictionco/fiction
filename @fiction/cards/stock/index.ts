@@ -59,7 +59,8 @@ export class StockMedia {
       filteredMedia = this.filterMedia(args)
     }
 
-    else if (filteredMedia.length === 0) {
+    if (filteredMedia.length === 0) {
+      logger.error('No media items available', { data: { args, filteredMedia } })
       return this.media[0] // Fallback to the first item in the entire media collection if no filtered media is available
     }
 
@@ -69,7 +70,7 @@ export class StockMedia {
 
     if (!selectedItem) {
       logger.error('No media items available', { data: { args, filteredMedia } })
-      throw new Error('No media items available')
+      throw new Error(`No media items available: tags: "${args.tags?.join(', ')}", randomIndex: ${randomIndex}, filteredMedia: ${filteredMedia.length}`)
     }
 
     this.markAsUsed(selectedItem)

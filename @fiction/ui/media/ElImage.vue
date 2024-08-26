@@ -151,7 +151,30 @@ const filterStyle = vue.computed(() => ({
 const inlineImage = vue.computed(() => props.imageMode === 'inline')
 const imageModeClass = vue.computed(() => props.imageMode === 'contain' ? 'object-contain' : 'object-cover')
 
-const isImageFormat = vue.computed(() => ['url', 'image'].includes(props.media?.format || ''))
+const mediaFormat = vue.computed(() => {
+  if (props.media?.format)
+    return props.media.format
+
+  if (!props.media?.url)
+    return 'html'
+
+  const extension = props.media.url.split('.').pop()?.toLowerCase() || ''
+  const formatMap: Record<string, string> = {
+    jpg: 'image',
+    jpeg: 'image',
+    png: 'image',
+    gif: 'image',
+    webp: 'image',
+    svg: 'image',
+    mp4: 'video',
+    webm: 'video',
+    ogg: 'video',
+    html: 'html',
+  }
+  return formatMap[extension] || 'url'
+})
+
+const isImageFormat = vue.computed(() => ['url', 'image'].includes(mediaFormat.value))
 </script>
 
 <template>
@@ -182,16 +205,16 @@ const isImageFormat = vue.computed(() => ['url', 'image'].includes(props.media?.
       <template v-if="!loading">
         <component
           :is="media.el"
-          v-if="media.format === 'component'"
+          v-if="mediaFormat === 'component'"
           :class="[imageClass, inlineImage ? '' : 'h-full w-full']"
         />
         <div
-          v-else-if="media.format === 'html'"
+          v-else-if="mediaFormat === 'html'"
           :class="[imageClass, inlineImage ? '' : 'h-full w-full *:w-full *:h-full']"
           v-html="media.html"
         />
         <video
-          v-else-if="media.format === 'video'"
+          v-else-if="mediaFormat === 'video'"
           class="absolute h-full w-full z-0 dark:bg-theme-800/30 bg-theme-50/50"
           :class="[imageClass, imageModeClass, inlineImage ? 'block' : '']"
           :src="media.url"
@@ -209,7 +232,7 @@ const isImageFormat = vue.computed(() => ['url', 'image'].includes(props.media?.
           :style="filterStyle"
         >
         <iframe
-          v-else-if="media.format === 'iframe'"
+          v-else-if="mediaFormat === 'iframe'"
           class="absolute inset-0 h-full w-full z-0"
           :src="media.url"
           frameborder="0"

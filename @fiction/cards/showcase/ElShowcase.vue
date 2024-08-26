@@ -5,6 +5,7 @@ import ElImage from '@fiction/ui/media/ElImage.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
 import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
 import EffectGlare from '@fiction/ui/effect/EffectGlare.vue'
+import ElClose from '@fiction/ui/common/ElClose.vue'
 import CardText from '../CardText.vue'
 import type { UserConfig } from '.'
 
@@ -111,14 +112,8 @@ function gridCols() {
           </EffectGlare>
         </div>
       </div>
-      <ElModal :vis="activeitemIndex >= 0" modal-class="lg:max-w-[80dvw] min-h-[80dvh] x-font-body " @update:vis="activeitemIndex = -1">
-        <div class="close">
-          <div class="absolute top-0 right-0 p-2 md:p-4">
-            <div class="cursor-pointer text-theme-400 dark:text-theme-500 opacity-70 hover:opacity-100" @click="activeitemIndex = -1">
-              <div class="i-tabler-x text-5xl" />
-            </div>
-          </div>
-        </div>
+      <ElModal :vis="activeitemIndex >= 0" modal-class="lg:max-w-[96vw] min-h-[96vh] x-font-body " @update:vis="activeitemIndex = -1">
+        <ElClose class="absolute right-2 top-2 z-40" @click="activeitemIndex = -1" />
         <div class="py-12 md:py-24 px-4">
           <div :class="proseClass">
             <div class="not-prose">
