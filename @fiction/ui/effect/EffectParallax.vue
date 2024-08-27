@@ -3,44 +3,54 @@ import { vue } from '@fiction/core'
 import ClipPathAnim from '../anim/AnimClipPath.vue'
 
 const props = defineProps({
-  intensity: { type: Number, default: 125 },
+  maxMovement: { type: Number, default: 50 }, // Maximum movement in pixels
   direction: { type: String as vue.PropType<'normal' | 'reverse'>, default: 'normal' },
   animate: { type: Boolean, default: true },
 })
 
-const getWindow = () => (typeof window !== 'undefined' && window) ? window : { innerHeight: 0, scrollY: 0 }
-
 const state = vue.reactive({
   scrollY: 0,
-  viewportHeight: getWindow().innerHeight,
+  viewportHeight: 0,
   cardHeight: 0,
   offsetTop: 0,
   parallaxY: 0,
 })
 
-function updateParallax() {
-  // Calculate the position where the element enters the viewport
-  const entryPosition = state.offsetTop - state.viewportHeight
+const cardRef = vue.ref<HTMLElement | null>(null)
 
-  // Calculate progress based on the entry position
-  const progress = (state.scrollY - entryPosition) / (state.viewportHeight + state.cardHeight)
+const getWindow = () => (typeof window !== 'undefined' && window) ? window : { innerHeight: 0, scrollY: 0 }
+
+function updateParallax() {
+  const entryPosition = state.offsetTop - state.viewportHeight
+  const exitPosition = state.offsetTop + state.cardHeight
+
+  const progress = (state.scrollY - entryPosition) / (exitPosition - entryPosition)
+  const clampedProgress = Math.max(0, Math.min(1, progress))
 
   const multiplier = props.direction === 'reverse' ? 1 : -1
+  const movement = clampedProgress * props.maxMovement * 2 - props.maxMovement
 
-  // Adjust the parallax calculation to start at -50%
-  state.parallaxY = (progress - 0.7) * props.intensity * multiplier
+  state.parallaxY = movement * multiplier
 }
 
 function handleScroll() {
   state.scrollY = getWindow().scrollY
+  requestAnimationFrame(updateParallax)
+}
+
+function updateDimensions() {
+  state.viewportHeight = getWindow().innerHeight
+  if (cardRef.value) {
+    state.cardHeight = cardRef.value.offsetHeight
+    state.offsetTop = cardRef.value.getBoundingClientRect().top + getWindow().scrollY
+  }
   updateParallax()
 }
 
 vue.onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
+  window.addEventListener('scroll', handleScroll, { passive: true })
   window.addEventListener('resize', updateDimensions)
   updateDimensions()
-  updateParallax()
 })
 
 vue.onUnmounted(() => {
@@ -48,25 +58,15 @@ vue.onUnmounted(() => {
   window.removeEventListener('resize', updateDimensions)
 })
 
-function updateDimensions() {
-  state.viewportHeight = getWindow().innerHeight
-  const cardElement = document.querySelector('.parallax-card') as HTMLElement
-  if (cardElement) {
-    state.cardHeight = cardElement.offsetHeight
-    state.offsetTop = cardElement.getBoundingClientRect().top + getWindow().scrollY
-  }
-  updateParallax()
-}
-
 const cardStyle = vue.computed(() => ({
   transform: `translateY(${state.parallaxY}px)`,
-  transition: 'transform 0.1s ease-out',
+  transition: 'transform 0.3s ease-out',
 }))
 </script>
 
 <template>
-  <div class="parallax-card h-full w-full drop-shadow-md" :style="cardStyle">
-    <ClipPathAnim :animate class="h-full w-full">
+  <div ref="cardRef" class="parallax-card h-full w-full drop-shadow-md" :style="cardStyle">
+    <ClipPathAnim :animate="animate" class="h-full w-full">
       <slot />
     </ClipPathAnim>
   </div>

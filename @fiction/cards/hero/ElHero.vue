@@ -111,7 +111,7 @@ const overlays = vue.computed(() => uc.value.overlays || [])
             :data-position="overlay.position"
           >
             <EffectParallax class="z-0 mx-auto w-full h-full scale-90 md:scale-100 ">
-              <img class="rounded-xl" :src="overlay?.media?.url">
+              <ElImage class="rounded-xl" :media="overlay?.media" image-mode="inline" />
             </EffectParallax>
           </div>
         </template>
