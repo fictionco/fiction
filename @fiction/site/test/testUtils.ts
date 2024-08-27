@@ -31,8 +31,8 @@ export type SiteTestUtils = TestUtils & {
   createSite: (args?: { themeId?: string }) => Promise<Site>
 }
 
-export async function createSiteTestUtils(args: { mainFilePath?: string, context?: 'node' | 'app', themes?: ThemeSetup[] } = {}): Promise<SiteTestUtils> {
-  const { mainFilePath, context = 'node' } = args
+export async function createSiteTestUtils(args: { mainFilePath?: string, context?: 'node' | 'app', themes?: ThemeSetup[], delaySiteRouterCreation?: boolean } = {}): Promise<SiteTestUtils> {
+  const { mainFilePath, context = 'node', delaySiteRouterCreation = false } = args
 
   const testUtils = createTestUtils({ mainFilePath, envFiles: [testEnvFile], ...args })
 
@@ -58,6 +58,9 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
     fictionEnv,
     baseUrl: 'https://www.test.com',
     routes,
+    // regular tests need initialized router
+    // ux test needs to delay if testing editor as it creates in memoryMode to prevent browser interaction
+    create: !delaySiteRouterCreation,
   })
   out.fictionAppSites = new FictionApp({ port: sitePort, ...out, fictionRouter: out.fictionRouterSites, isTest: true, liveUrl: 'https://*.test.com', localHostname: '*.lan.com' })
   out.fictionAdmin = new FictionAdmin({ ...(out as SiteTestUtils) })
