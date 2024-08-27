@@ -4,6 +4,7 @@ import { CardTemplate } from '@fiction/site/card'
 import { z } from 'zod'
 import { refineOptions } from '@fiction/site/utils/schema'
 import { standardOption } from '../inputSets'
+import { stockMediaHandler } from '../stock/index.js'
 
 export const UserConfigSchema = z.object({
   heading: z.string().optional().describe('Primary headline for profile 3 to 8 words'),
@@ -13,7 +14,7 @@ export const UserConfigSchema = z.object({
   detailsTitle: z.string().optional().describe('Title for list of details'),
   mediaItems: z.array(z.object({
     media: z.object({
-      format: z.enum(['url']).optional(),
+      format: z.enum(['url', 'image', 'video']).optional(),
       url: z.string().optional(),
       html: z.string().optional(),
     }),
@@ -68,25 +69,27 @@ const options = [
 
 const templateId = 'profile'
 
-const defaultContent: UserConfig = {
-  superHeading: 'A Tagline or Category',
-  heading: 'A Catchy Headline About Something',
-  subHeading: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
-  mediaItems: [
-    { media: { url: 'https://images.unsplash.com/photo-1577565177023-d0f29c354b69?q=80&w=2943&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' } },
-    { media: { url: 'https://images.unsplash.com/photo-1513379733131-47fc74b45fc7?q=80&w=3648&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' } },
-  ],
-  detailsTitle: 'About Me',
-  details: [
-    { name: 'Location', desc: 'Somewhere, USA' },
-    { name: 'Email', desc: 'hello@mywebsite.com', href: 'mailto:hello@example.com' },
-    { name: 'Phone', desc: '123-456-7890' },
-  ],
-  socials: [
-    { name: '@handle on facebook', href: '#', icon: 'facebook' },
-    { name: '@handle on x', href: '#', icon: 'x' },
-    { name: '@handle on linkedin', href: '#', icon: 'linkedin' },
-  ],
+function getUserConfig(): UserConfig {
+  return {
+    superHeading: 'A Tagline or Category',
+    heading: 'A Catchy Headline About Something',
+    subHeading: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
+    mediaItems: [
+      { media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'person']) },
+      { media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'person']) },
+    ],
+    detailsTitle: 'About Me',
+    details: [
+      { name: 'Location', desc: 'Somewhere, USA' },
+      { name: 'Email', desc: 'hello@mywebsite.com', href: 'mailto:hello@example.com' },
+      { name: 'Phone', desc: '123-456-7890' },
+    ],
+    socials: [
+      { name: '@handle on facebook', href: '#', icon: 'facebook' },
+      { name: '@handle on x', href: '#', icon: 'x' },
+      { name: '@handle on linkedin', href: '#', icon: 'linkedin' },
+    ],
+  }
 }
 const minimalProfile = new CardTemplate({
   templateId,
@@ -95,14 +98,14 @@ const minimalProfile = new CardTemplate({
   icon: 'i-tabler-user',
   colorTheme: 'blue',
   el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
-  getUserConfig: () => defaultContent,
+  getUserConfig: () => getUserConfig(),
   isPublic: true,
   options,
   schema: UserConfigSchema,
   demoPage: async () => {
     return { cards: [
-      { templateId, userConfig: { ...defaultContent } },
-      { templateId, userConfig: { ...defaultContent, layout: 'left' as const } },
+      { templateId, userConfig: { ...getUserConfig() } },
+      { templateId, userConfig: { ...getUserConfig(), layout: 'left' as const } },
     ] }
   },
 })

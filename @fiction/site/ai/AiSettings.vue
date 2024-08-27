@@ -28,22 +28,6 @@ const options = [
         props: { rows: 3 },
       }),
       new InputOption({
-        key: 'userConfig.ai.objectives.targetCustomer',
-        label: 'Target Customer',
-        description: 'Who is the target customer(s) for the website? What are their needs?',
-        input: 'InputTextarea',
-        placeholder: 'Small business owners in need of a professional website.',
-        props: { rows: 3 },
-      }),
-
-    ],
-  }),
-  new InputOption({
-    key: 'aiImageSettings',
-    label: 'AI Image Generation',
-    input: 'group',
-    options: [
-      new InputOption({
         key: 'userConfig.ai.objectives.imageStyle',
         label: 'Image Style',
         input: 'InputSelectCustom',
@@ -55,20 +39,6 @@ const options = [
         description: 'When generating placeholder images for your site, what style would be best?',
         input: 'InputTextarea',
         placeholder: 'realistic, highly professional',
-        props: { rows: 3 },
-      }),
-    ],
-  }),
-  new InputOption({
-    key: 'aiAdvanced',
-    label: 'Advanced AI Settings',
-    input: 'group',
-    options: [
-      new InputOption({
-        key: 'userConfig.ai.baseInstruction',
-        label: 'Base Instruction',
-        description: 'This is the base instruction given to the AI when generating content.',
-        input: 'InputTextarea',
         props: { rows: 3 },
       }),
 

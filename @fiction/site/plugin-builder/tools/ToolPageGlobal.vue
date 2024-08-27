@@ -8,6 +8,7 @@ import ElTool from '@fiction/admin/tools/ElTool.vue'
 import ToolForm from '@fiction/admin/tools/ToolForm.vue'
 import type { Site } from '../../site'
 import { saveSite, updateSite } from '../../utils/site'
+import { imageStyle } from '../../util'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },
@@ -47,7 +48,36 @@ const options = [
       new InputOption({ key: 'userConfig.customCode.gtmContainerId', label: 'Scripts: Google Tag Manager (Container ID)', input: 'InputText', placeholder: 'GTM-XXXXXXX', description: 'Use Google Tag Manager to add analytics and other scripts.' }),
     ],
   }),
+  new InputOption({
+    key: 'aiContentSettings',
+    label: 'AI Content Generation',
+    input: 'group',
+    options: [
+      new InputOption({
+        key: 'userConfig.ai.objectives.about',
+        label: 'About the Website',
+        description: 'The primary focus for the website? Who or what is it about?',
+        input: 'InputTextarea',
+        placeholder: 'A portfolio website for a freelance web designer...',
+        props: { rows: 3 },
+      }),
+      new InputOption({
+        key: 'userConfig.ai.objectives.imageStyle',
+        label: 'Image Style',
+        input: 'InputSelectCustom',
+        list: imageStyle,
+      }),
+      new InputOption({
+        key: 'userConfig.ai.objectives.imageStyle',
+        label: 'Image Style',
+        description: 'When generating placeholder images for your site, what style would be best?',
+        input: 'InputTextarea',
+        placeholder: 'realistic, highly professional',
+        props: { rows: 3 },
+      }),
 
+    ],
+  }),
 ]
 
 vue.onMounted(() => {

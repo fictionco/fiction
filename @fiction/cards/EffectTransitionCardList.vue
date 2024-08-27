@@ -14,7 +14,7 @@ defineProps({
 .cardList-enter-active,
 .cardList-leave-active,
 .cardList-move {
-  transition: all 600ms cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  transition: all 600ms cubic-bezier(0.25,1,0.33,1);
   transform-origin: center;
 }
 

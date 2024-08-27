@@ -126,7 +126,7 @@ export class Card<
   description = vue.ref(this.settings.description)
   slug = vue.ref(this.settings.slug)
   displayTitle = vue.computed(() => this.title.value || toLabel(this.slug.value))
-  userConfig = vue.ref<T>(this.settings.userConfig || {} as T)
+  userConfig = vue.shallowRef(this.settings.userConfig || {} as T) as vue.Ref<vue.UnwrapRef<T>> // allow passing of components and other complex objects
   fullConfig = vue.computed(() => (deepMerge([
     this.site?.fullConfig.value,
     this.tpl.value?.getBaseConfig({ site: this.site }) || {},
