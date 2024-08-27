@@ -62,7 +62,7 @@ vue.onMounted(() => {
           await loadImage(url)
         }
         catch (e) {
-          logger.warn('Error loading image', { error: e })
+          logger.warn(`error loading image: (${url})`, { error: e })
         }
         finally {
           loading.value = false

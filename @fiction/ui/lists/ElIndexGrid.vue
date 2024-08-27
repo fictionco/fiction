@@ -61,6 +61,7 @@ async function paginate(dir: 'prev' | 'next') {
             <XButton
               v-for="(act, i) in actions"
               :key="i"
+              :data-test-id="act.testId"
               :href="act.href"
               :theme="act.theme || 'default'"
               :rounding="act.rounding || 'full'"

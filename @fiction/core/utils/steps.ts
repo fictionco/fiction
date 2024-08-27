@@ -8,6 +8,7 @@ export interface StepActions {
 }
 
 export interface StepItem {
+  testId?: string
   key: string
   el?: vue.Component
   name: string

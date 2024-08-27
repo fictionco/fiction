@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { useService, vue } from '@fiction/core'
-import type { FictionSites } from '..'
+import { useService, vue } from '@fiction/core/index.js'
+import type { FictionSites } from '../index.js'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
@@ -31,13 +31,12 @@ vue.onMounted(() => {
 <template>
   <div class="relative my-6">
     <div class="grid grid-cols-2 gap-12" @click="emit('update:modelValue', '')">
-      <div
-        v-for="(theme, i) in themes"
-        :key="i"
-      >
+      <div v-for="(theme, i) in themes" :key="i">
         <div
           class="screen rounded-lg group relative transition-all cursor-pointer ring-offset-4  select-none"
           :class="modelValue === theme.themeId ? 'ring-4 ring-primary-500  dark:ring-offset-theme-800' : 'ring-0 hover:ring-4 hover:ring-primary-300'"
+          :data-test-id="`theme-${theme.themeId}`"
+          :data-test-index="i"
           @click.stop="emit('update:modelValue', theme.themeId)"
         >
           <img :src="theme.settings.screenshot" class="pointer-events-none shadow-xl rounded-lg">

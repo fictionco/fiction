@@ -1,15 +1,12 @@
 <script lang="ts" setup>
 import type { FictionRouter, FictionUser, StepConfig, StepItem } from '@fiction/core/index.js'
 import { useService, vue } from '@fiction/core'
-import ElButton from '@fiction/ui/ElButton.vue'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElStep from './ElStep.vue'
 
 const props = defineProps({
-  stepConfig: {
-    type: Object as vue.PropType<StepConfig>,
-    required: true,
-  },
+  stepConfig: { type: Object as vue.PropType<StepConfig>, required: true },
 })
 
 useService<{
@@ -96,10 +93,11 @@ async function next(currentStep: StepItem) {
   <ElForm id="stepForm" class="h-full  py-[12vh] relative">
     <ElStep
       v-slot="{ step }"
-      :steps="steps"
+      :steps
       :current-index="stepIndex"
       class="steps pointer-events-auto"
       transit="next"
+      :data-test-id="`step-${stepKey}`"
     >
       <div class="space-y-8">
         <slot :step="step" />
@@ -108,15 +106,15 @@ async function next(currentStep: StepItem) {
           v-if="!step.noAction"
           class="flex justify-center md:justify-end"
         >
-          <ElButton
-            btn="primary"
+          <XButton
+            theme="primary"
             size="lg"
             :loading="step.isLoading"
             :animate="true"
             @click.prevent="next(step)"
           >
             {{ step.actionText || "Next" }}
-          </ElButton>
+          </XButton>
         </div>
       </div>
     </ElStep>

@@ -81,7 +81,7 @@ defineProps({
 
 @keyframes kaboom {
   0% {
-    fill: theme("colors.emerald.500");
+    fill: currentColor;
   }
 
   100% {

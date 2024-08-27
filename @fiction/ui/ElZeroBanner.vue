@@ -31,6 +31,7 @@ defineProps({
             <XButton
               v-for="(item, i) in actions"
               :key="i"
+              :data-test-id="item.testId"
               :href="item.href"
               :theme="item.theme"
               :rounding="item.rounding || 'full'"

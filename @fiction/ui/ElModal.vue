@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { resetUi, vue } from '@fiction/core'
+import { onResetUi, resetUi, vue, waitFor } from '@fiction/core'
+import { PopupUtility } from './anim/popupUtil'
 
 const props = defineProps({
   vis: { type: Boolean, default: false },
@@ -11,6 +12,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:vis', 'close', 'escape'])
+const popupUtil = new PopupUtility()
 function close(args: { reason: 'escape' | 'reset' }): void {
   const { reason } = args
   emit('update:vis', false)
@@ -38,38 +40,39 @@ const classes = [
 ]
 
 const afterVisible = vue.ref(false)
-vue.onMounted(() => {
-  const el = document.querySelector('.x-site-content') as HTMLElement | null
-
-  vue.watch(
+const cleanups = [] as (() => void)[]
+vue.onMounted(async () => {
+  const unwatch = vue.watch(
     () => props.vis,
     (vis) => {
-      if (!el)
-        return
-
       if (vis) {
-        el.style.transform = 'scale(.95)'
-        el.style.transition = 'transform .75s cubic-bezier(0.25, 1, 0.33, 1)'
-        el.style.overflow = 'hidden'
-        el.style.height = '100dvh'
+        popupUtil.activate()
 
         setTimeout(() => (afterVisible.value = true), 300)
       }
       else {
         afterVisible.value = false
-        el.style.transform = 'none'
-        el.style.height = 'auto'
-        el.style.overflow = ''
+        popupUtil.deactivate()
       }
     },
     { immediate: true },
 
   )
 
-  // onResetUi(({ scope }) => {
-  //   if (scope !== 'inputs' && props.vis)
-  //     close({ reason: 'reset' })
-  // })
+  cleanups.push(() => {
+    unwatch()
+    popupUtil.deactivate()
+  })
+
+  await waitFor(50)
+  onResetUi((args) => {
+    if (args.scope === 'all')
+      close({ reason: 'reset' })
+  })
+})
+
+vue.onUnmounted(() => {
+  cleanups.forEach(c => c())
 })
 </script>
 

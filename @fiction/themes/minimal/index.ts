@@ -200,7 +200,7 @@ export async function setup(args: { fictionEnv: FictionEnv }) {
             templateId: 'area',
             cards: [
               await factory.create({ templateId: 'nav', userConfig: {
-                logo: { html: `Alison Groves`, format: 'html' },
+                logo: { html: `Your Name`, format: 'html' },
                 navA: [
                   { name: 'About', href: '/about' },
                 ],
@@ -215,7 +215,7 @@ export async function setup(args: { fictionEnv: FictionEnv }) {
             templateId: 'area',
             cards: [
               await factory.create({ templateId: 'footer', userConfig: {
-                logo: { format: 'html', html: `BF` },
+                logo: { format: 'html', html: `Your Name` },
                 nav: [
                   {
                     name: 'About',

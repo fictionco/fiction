@@ -9,7 +9,8 @@ import { createUiTestingKit } from '@fiction/core/test-utils/kit'
 import { FictionTransactions } from '@fiction/plugin-transactions'
 import { FictionSubscribe } from '@fiction/plugin-subscribe'
 import { FictionAdmin } from '@fiction/admin'
-import type { ThemeSetup } from '..'
+import * as minimalTheme from '@fiction/theme-minimal'
+import type { ThemeSetup } from '../index.js'
 import { FictionSites } from '..'
 import { Site } from '../site.js'
 import * as testTheme from './test-theme'
@@ -29,14 +30,6 @@ export type SiteTestUtils = TestUtils & {
   close: () => Promise<void>
   createSite: (args?: { themeId?: string }) => Promise<Site>
 }
-
-// export type IRunServicesSetup = (params: any) => Promise<void>
-// export type ICreateSiteTestUtils = ReturnType<typeof createSiteTestUtils2>
-// export function createSiteTestUtils2(runServicesSetup: IRunServicesSetup) {
-//   return async (params: {id2: number}) => {
-//     await runServicesSetup(params as any)
-//   }
-// }
 
 export async function createSiteTestUtils(args: { mainFilePath?: string, context?: 'node' | 'app', themes?: ThemeSetup[] } = {}): Promise<SiteTestUtils> {
   const { mainFilePath, context = 'node' } = args
@@ -65,7 +58,11 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
   out.fictionAdmin = new FictionAdmin({ ...(out as SiteTestUtils) })
   out.fictionSubscribe = new FictionSubscribe({ ...(out as SiteTestUtils) })
 
-  const themes = async () => Promise.all([testTheme.setup(out), ...(args.themes || []).map(async _ => _(out as SiteTestUtils))])
+  const themes = async () => Promise.all([
+    minimalTheme.setup(out),
+    testTheme.setup(out),
+    ...(args.themes || []).map(async _ => _(out as SiteTestUtils)),
+  ])
 
   out.fictionSites = new FictionSites({ ...(out as SiteTestUtils), flyApiToken, flyAppId, themes })
 
