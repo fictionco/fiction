@@ -54,7 +54,7 @@ function getPrice(price?: UserConfigPrice) {
   }
 
   if (priceDuration.value === 'year' && uc.value.annualDiscountPercent) {
-    return formatNumber(Math.ceil(price.price * 12 * (1 - uc.value.annualDiscountPercent / 100)))
+    return formatNumber(Math.ceil(price.price * (1 - uc.value.annualDiscountPercent / 100)))
   }
   else {
     return formatNumber(price.price)
@@ -64,7 +64,7 @@ function getPrice(price?: UserConfigPrice) {
 
 <template>
   <div :class="card.classes.value.contentWidth">
-    <div v-if="uc.hasAnnual" class="flex justify-center mb-8">
+    <div v-if="uc.hasAnnual" class="flex justify-center mb-8  gap-4">
       <div class="relative grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-sans font-semibold leading-5 ring-1 ring-inset ring-theme-300 dark:ring-theme-600">
         <label :class="priceDuration === 'month' ? 'text-theme-0' : 'text-theme-500 dark:text-theme-200'" class="z-10 relative cursor-pointer rounded-full px-4 py-0.5 transition-all" @click="priceDuration = 'month'">
           <span>Monthly</span>
@@ -72,7 +72,12 @@ function getPrice(price?: UserConfigPrice) {
         <label :class="priceDuration === 'year' ? ' text-theme-0' : 'text-theme-500 dark:text-theme-200'" class="z-10 relative cursor-pointer rounded-full px-4 py-0.5 transition-all" @click="priceDuration = 'year'">
           <span>Annually</span>
         </label>
-        <div class="bg-theme-500 dark:bg-theme-600 text-theme-0 rounded-full marker w-50 absolute h-full w-[50%] transition-all ease-[cubic-bezier(0.25,1,0.33,1)] duration-500" :class="priceDuration === 'month' ? 'left-0' : 'left-1/2'" />
+        <div class="bg-theme-500 dark:bg-theme-600 ring-1 ring-inset ring-theme-600 dark:ring-theme-500/50 text-theme-0 rounded-full marker w-50 absolute h-full w-[50%] transition-all ease-[cubic-bezier(0.25,1,0.33,1)] duration-500" :class="priceDuration === 'month' ? 'left-0' : 'left-1/2'" />
+      </div>
+      <div class="relative">
+        <div v-if="uc.annualDiscountPercent" class="x-font-highlight absolute left-full w-56 flex items-center bottom-full -rotate-6">
+          <div class="i-tabler-arrow-down-left" /><div>Save {{ uc.annualDiscountPercent }}%</div>
+        </div>
       </div>
     </div>
     <div class="grid grid-cols-1 gap-6" :class="prices.length > 2 ? 'lg:grid-cols-3' : 'lg:grid-cols-2'">
@@ -95,7 +100,7 @@ function getPrice(price?: UserConfigPrice) {
             </span>
             <span v-if="price.price" class="text-base font-normal font-sans flex gap-0.5 items-center">
               <span class="i-tabler-slash" />
-              <span>{{ priceDuration }}</span>
+              <span>month</span>
             </span>
           </p>
 

@@ -178,7 +178,7 @@ const isImageFormat = vue.computed(() => ['url', 'image'].includes(mediaFormat.v
 </script>
 
 <template>
-  <ClipPathAnim :animate="animate" :data-format="mediaFormat" :data-format-prop="media?.format">
+  <ClipPathAnim :animate="animate" :data-format="mediaFormat">
     <div
       v-if="media"
       :class="[!inlineImage ? 'h-full w-full' : '', cls, flipClass]"

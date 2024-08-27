@@ -314,6 +314,9 @@ body,
       font-weight: var(--font-weight-title, 500);
     }
   }
+  .x-font-highlight {
+    font-family: var(--font-family-highlight, unset);
+  }
 
   .x-font-body {
     font-family: var(--font-family-body, unset);
