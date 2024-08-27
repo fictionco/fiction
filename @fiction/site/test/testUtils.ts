@@ -53,7 +53,12 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
   out.fictionAws = new FictionAws({ fictionEnv, awsAccessKey, awsAccessKeySecret })
   out.fictionMedia = new FictionMedia({ ...out, fictionAws: out.fictionAws, awsBucketMedia, cdnUrl })
   out.fictionTransactions = new FictionTransactions({ ...out })
-  out.fictionRouterSites = new FictionRouter({ routerId: 'siteRouter', fictionEnv, baseUrl: 'https://www.test.com', routes, create: true })
+  out.fictionRouterSites = new FictionRouter({
+    routerId: 'siteRouter',
+    fictionEnv,
+    baseUrl: 'https://www.test.com',
+    routes,
+  })
   out.fictionAppSites = new FictionApp({ port: sitePort, ...out, fictionRouter: out.fictionRouterSites, isTest: true, liveUrl: 'https://*.test.com', localHostname: '*.lan.com' })
   out.fictionAdmin = new FictionAdmin({ ...(out as SiteTestUtils) })
   out.fictionSubscribe = new FictionSubscribe({ ...(out as SiteTestUtils) })

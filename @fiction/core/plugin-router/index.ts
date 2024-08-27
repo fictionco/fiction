@@ -247,7 +247,7 @@ export class FictionRouter<
     const path = typeof location === 'string' ? location : caller
     const current = this.current.value.path
 
-    this.log.info(`${this.settings.routerId}(${caller}): ${current} -> ${path}`, { data: location })
+    this.log.info(`routerId:${this.settings.routerId}(from ${caller}): ${current} -> ${path}`, { data: location })
 
     if (navMode === 'replace')
       await this.router.value.replace(location)

@@ -17,6 +17,8 @@ unhead.useHead({
   },
 })
 
+const themeIds = vue.computed(() => service.fictionSites.themes.value.map(theme => theme.themeId))
+
 // Reference to hold the mounted app
 let entry: FictionAppEntry | undefined = undefined
 
@@ -39,6 +41,7 @@ async function mountApp() {
     const { selectorType, selectorId } = (service.fictionRouter.params.value || {}) as Record<string, string>
 
     const mountContext = getMountContext({ selectorType, selectorId, siteMode: 'editable' })
+
     const serviceConfig = { fictionEnv: service.fictionEnv, service: s, runVars: { ...runVars, MOUNT_CONTEXT: mountContext } }
 
     entry = await service.fictionAppSites.mountApp({ selector: '#admin-app', serviceConfig })
@@ -54,5 +57,10 @@ vue.onMounted(async () => {
 </script>
 
 <template>
-  <div id="admin-app" />
+  <div
+    id="admin-app"
+    :data-route="service.fictionRouterSites.current.value.fullPath"
+    :data-route-count="service.fictionRouterSites.routes.value.length"
+    :data-theme-ids="themeIds.join(', ')"
+  />
 </template>

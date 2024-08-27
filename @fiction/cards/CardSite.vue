@@ -17,6 +17,8 @@ const props = defineProps({
   siteRouter: { type: Object as vue.PropType<FictionRouter>, default: undefined },
 })
 
+const logger = log.contextLogger('CardSite.vue')
+
 const { fictionSites, fictionRouter, runVars, fictionRouterSites, fictionUser, fictionEnv } = useService<{
   fictionSites: FictionSites
   fictionRouterSites: FictionRouter
@@ -36,16 +38,17 @@ async function load() {
 
   try {
     const mountContext = getMountContext({ queryVars: { themeId }, runVars, siteId, orgId })
+    const siteRouter = props.siteRouter || fictionRouterSites || fictionRouter
 
     site.value = await loadSite({
-      siteRouter: props.siteRouter || fictionRouterSites,
+      siteRouter,
       fictionSites,
       mountContext,
       caller: `CardSite(${props.themeId || 'na'}):${currentUrl}`,
     })
   }
   catch (error) {
-    log.error('CardSite.vue', `Error loading site ${(error as Error).message}`, { error })
+    logger.error(`Error loading site ${(error as Error).message}`, { error })
   }
   finally {
     loading.value = false
@@ -252,6 +255,7 @@ vue.onMounted(() => {
     :data-sub-domain="site?.subDomain.value ?? '-'"
     :data-site-id="site?.siteId ?? '-'"
     :data-user-email="fictionUser.activeUser.value?.email ?? '-'"
+    :data-fiction-router-id="site?.siteRouter.routerId ?? '-'"
     class="x-site bg-theme-50 dark:bg-theme-900 text-theme-800 dark:text-theme-0"
   >
     <div class="x-font-body x-site-content relative z-10 bg-theme-0 dark:bg-theme-950" :class="site?.isEditable.value ? '' : ''">
