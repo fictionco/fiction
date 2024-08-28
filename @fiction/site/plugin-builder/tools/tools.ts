@@ -3,17 +3,19 @@ import type { EditorTool } from '@fiction/admin'
 import { AdminEditorController } from '@fiction/admin'
 import type { Site } from '../../site'
 
+export type ToolKeys = 'pageMaster' | 'addPage' | 'editPage' | 'ai' | 'global' | 'publish' | 'editCard'
+
 export const tools = [
   {
     toolId: 'pageMaster',
-    icon: 'i-tabler-drag-drop-2',
-    title: 'Pages',
+    icon: 'i-tabler-file',
+    title: 'Edit Pages',
     el: vue.defineAsyncComponent(async () => import('./PageToolMaster.vue')),
     isPrimary: true,
   },
   {
     toolId: 'addPage',
-    title: 'Add Page',
+    title: 'Add New Page',
     icon: 'i-tabler-file-plus',
     el: vue.defineAsyncComponent(async () => import('./ToolPageAdd.vue')),
   },
@@ -34,7 +36,7 @@ export const tools = [
   // },
   {
     toolId: 'global',
-    title: 'Settings',
+    title: 'Global Settings',
     icon: 'i-tabler-adjustments',
     isPrimary: true,
     widthClasses: 'w-[500px]',
@@ -42,7 +44,7 @@ export const tools = [
   },
   {
     toolId: 'publish',
-    title: 'Domain',
+    title: 'Public URL',
     icon: 'i-tabler-link',
     isPrimary: true,
     widthClasses: 'w-[600px]',
@@ -67,12 +69,10 @@ export const tools = [
     },
     el: vue.defineAsyncComponent(async () => import('./ToolCardEdit.vue')),
   },
-] as const satisfies EditorTool[]
-
-export type ToolKeys = (typeof tools)[number]['toolId']
+] as const satisfies EditorTool<ToolKeys>[]
 
 export function createSiteEditingController(site?: Site) {
-  const controller = new AdminEditorController<{ toolIds: (typeof tools)[number]['toolId'] }>({ tools })
+  const controller = new AdminEditorController<{ toolIds: ToolKeys }>({ tools })
 
   site?.events.on('setActiveCard', () => {
     controller.useTool({ toolId: 'editCard' })

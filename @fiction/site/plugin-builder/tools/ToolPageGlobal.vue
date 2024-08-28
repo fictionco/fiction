@@ -3,16 +3,18 @@ import { toSlug, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
-import type { EditorTool } from '@fiction/admin'
+import type { AdminEditorController, EditorTool } from '@fiction/admin'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
 import ToolForm from '@fiction/admin/tools/ToolForm.vue'
 import type { Site } from '../../site'
 import { saveSite, updateSite } from '../../utils/site'
 import { imageStyle } from '../../util'
+import type { ToolKeys } from './tools'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
+  controller: { type: Object as vue.PropType<AdminEditorController<{ toolIds: ToolKeys }>>, required: true },
 })
 
 const loading = vue.ref(false)
@@ -122,7 +124,7 @@ const v = vue.computed({
       />
 
       <div class="text-right px-4 py-2">
-        <ElInput input="InputSubmit" :loading="loading">
+        <ElInput input="InputSubmit" :loading rounding="full">
           Save Global Settings
         </ElInput>
       </div>

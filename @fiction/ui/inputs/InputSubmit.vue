@@ -1,16 +1,16 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
-import ElButton from '../ElButton.vue'
+import XButton from '../buttons/XButton.vue'
 
 const attrs = vue.useAttrs()
 </script>
 
 <template>
-  <ElButton
+  <XButton
     type="submit"
-    btn="primary"
+    theme="primary"
     v-bind="attrs"
   >
     <slot />
-  </ElButton>
+  </XButton>
 </template>

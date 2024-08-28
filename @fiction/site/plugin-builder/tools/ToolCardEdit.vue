@@ -3,12 +3,15 @@ import { useService, vue } from '@fiction/core'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
 import ElToolBanner from '@fiction/admin/tools/ElToolBanner.vue'
 import ToolForm from '@fiction/admin/tools/ToolForm.vue'
+import type { AdminEditorController } from '@fiction/admin'
 import type { Site } from '../../site'
 import type { FictionSites } from '../..'
 import type { TableCardConfig } from '../../tables'
+import type { ToolKeys } from './tools'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, default: undefined },
+  controller: { type: Object as vue.PropType<AdminEditorController<{ toolIds: ToolKeys }>>, required: true },
 })
 useService<{ fictionSites: FictionSites }>()
 
@@ -25,7 +28,7 @@ function setActiveCardConfig(config: Partial<TableCardConfig>) {
 </script>
 
 <template>
-  <ElTool v-if="site" :tool="tool">
+  <ElTool v-if="site" :tool>
     <ElToolBanner
       v-if="!site.editor.value.selectedCardId"
       class="m-4"

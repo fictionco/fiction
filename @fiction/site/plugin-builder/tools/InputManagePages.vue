@@ -2,17 +2,18 @@
 import { vue } from '@fiction/core'
 import type { ActionItem } from '@fiction/core'
 import type { AdminEditorController, EditorTool, Handle } from '@fiction/admin'
-
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElToolBanner from '@fiction/admin/tools/ElToolBanner.vue'
 import ELToolHandle from '@fiction/admin/tools/ElToolHandle.vue'
 import EffectDraggableSort from '@fiction/admin/el/EffectDraggableSort.vue'
 import { saveSite } from '../../utils/site'
 import type { Site } from '../../site'
+import type { ToolKeys } from './tools.js'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
-  controller: { type: Object as vue.PropType<AdminEditorController>, required: true },
+  controller: { type: Object as vue.PropType<AdminEditorController<{ toolIds: ToolKeys }>>, required: true },
 })
 
 function useEditPage(args: { cardId?: string } = {}) {
@@ -75,7 +76,7 @@ async function handleSorted(sorted: string[]) {
       title="Add New Page"
       sub="Click the add button above to add your first page."
       :icon="tool.icon"
-      :actions="actions"
+      :actions
     />
     <template v-else>
       <div>
@@ -88,6 +89,18 @@ async function handleSorted(sorted: string[]) {
             :data-drag-id="handle.handleId"
           />
         </EffectDraggableSort>
+        <div class="flex justify-end mt-4">
+          <XButton
+            data-test-id="addPage"
+            theme="primary"
+            size="xs"
+            icon="i-tabler-circle-plus"
+            rounding="full"
+            @click="useEditPage()"
+          >
+            Add Page
+          </XButton>
+        </div>
       </div>
     </template>
   </div>

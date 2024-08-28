@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { resetUi, toLabel, vue } from '@fiction/core'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
+import ElTooltip from '@fiction/ui/common/ElTooltip.vue'
 import type { AdminEditorController } from '../admin'
 
 const props = defineProps({
@@ -39,16 +40,19 @@ const contextTool = vue.computed(() => props.controller.activeTool.context.value
               :key="i"
               class="flex items-center justify-center"
             >
-              <div
-                class=" space-x-2 cursor-pointer p-2 justify-end w-[40px] h-[40px] rounded-lg transition-all"
-                :title="toLabel(tool.title || tool.toolId)"
-                :class="controller.isUsingTool({ toolId: tool.toolId })
-                  ? 'bg-theme-100/80 dark:bg-theme-700 text-theme-900 dark:text-theme-50'
-                  : 'text-theme-700 dark:text-theme-0 dark:hover:bg-theme-600 hover:bg-theme-100/80'"
-                @click="controller.useTool({ toolId: tool.toolId })"
-              >
-                <div class="text-2xl" :class="tool.icon" />
-              </div>
+              <ElTooltip :content="toLabel(tool.title || tool.toolId)">
+                <div
+                  :data-test-id="`tool-button-${tool.toolId}`"
+                  class=" space-x-2 cursor-pointer p-2 justify-end w-[40px] h-[40px] rounded-lg transition-all"
+                  :title="toLabel(tool.title || tool.toolId)"
+                  :class="controller.isUsingTool({ toolId: tool.toolId })
+                    ? 'bg-theme-100/80 dark:bg-primary-600/60 dark:ring-1 dark:ring-primary-500 text-theme-900 dark:text-primary-50'
+                    : 'text-theme-700 dark:text-theme-0 dark:hover:bg-primary-600/60 dark:hover:ring-1 ring-inset dark:hover:ring-primary-500 hover:bg-theme-100/80'"
+                  @click="controller.useTool({ toolId: tool.toolId })"
+                >
+                  <div class="text-2xl" :class="tool.icon" />
+                </div>
+              </ElTooltip>
             </div>
           </div>
           <transition
@@ -62,6 +66,7 @@ const contextTool = vue.computed(() => props.controller.activeTool.context.value
           >
             <div
               v-if="primaryTool"
+              :key="primaryTool.toolId"
               class="absolute left-full h-full bg-theme-0 dark:bg-theme-900 top-0 z-30 border-r shadow-[10px_0_18px_-15px_rgba(0,0,0,0.6)] border-theme-300/70 dark:border-theme-600 overflow-scroll no-scrollbar "
               :class="primaryTool.widthClasses || 'w-[300px]'"
             >

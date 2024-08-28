@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { toSlug, vue } from '@fiction/core'
+import { toSlug, vue, waitFor } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
@@ -10,11 +10,12 @@ import type { CardConfigPortable } from '../../tables'
 import type { Site } from '../../site'
 import { requestManagePage } from '../../utils/region'
 import InputSlug from '../InputSlug.vue'
+import type { ToolKeys } from './tools.js'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
-  controller: { type: Object as vue.PropType<AdminEditorController>, required: true },
+  controller: { type: Object as vue.PropType<AdminEditorController<{ toolIds: ToolKeys }>>, required: true },
 })
 const loading = vue.ref(false)
 
@@ -60,7 +61,12 @@ async function save() {
   })
   loading.value = false
 
-  props.controller.useTool({ toolId: 'pages' })
+  // wait for reset of UI
+  await waitFor(700)
+
+  console.log('SET USE TOOL')
+
+  props.controller.useTool({ toolId: 'pageMaster' })
 }
 </script>
 
@@ -69,8 +75,8 @@ async function save() {
     :actions="[]"
     v-bind="props"
     :back="{
-      name: 'All Pages',
-      onClick: () => controller.useTool({ toolId: 'pages' }),
+      name: 'Manage Pages',
+      onClick: () => controller.useTool({ toolId: 'pageMaster' }),
     }"
     title="Add Page"
   >
@@ -82,7 +88,7 @@ async function save() {
       />
 
       <div class="text-right px-4 py-2">
-        <ElInput input="InputSubmit" :loading="loading">
+        <ElInput input="InputSubmit" :loading rounding="full">
           Create New Page
         </ElInput>
       </div>

@@ -2,7 +2,7 @@
 import type { ResponseStatus, ValidationReason } from '@fiction/core'
 import { vue } from '@fiction/core'
 import { textInputClasses } from '@fiction/ui/inputs/theme'
-import ElButton from '@fiction/ui/ElButton.vue'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElModalConfirm from '@fiction/ui/ElModalConfirm.vue'
 import type { Site } from '../site'
 
@@ -114,9 +114,9 @@ const isHome = vue.computed(() => props.modelValue === '_home')
   <div>
     <div class="space-y-2">
       <div v-if="isHome">
-        <ElButton btn="success" :no-hover="true" size="sm" icon="i-tabler-home">
+        <XButton theme="green" :no-hover="true" size="sm" icon="i-tabler-home" rounding="full">
           Current Home Page
-        </ElButton>
+        </XButton>
       </div>
       <div v-else class="flex items-center space-x-2 border" :class="textInputClasses({ inputClass })">
         <input
@@ -143,9 +143,9 @@ const isHome = vue.computed(() => props.modelValue === '_home')
         </div>
       </div>
       <div v-if="!isHome">
-        <ElButton tag="div" size="xs" icon="i-tabler-home" @click.stop="showSetHomeModal = true">
+        <XButton rounding="full" tag="div" size="xs" icon="i-tabler-home" @click.stop="showSetHomeModal = true">
           Set As Homepage
-        </ElButton>
+        </XButton>
         <ElModalConfirm
           v-model:vis="showSetHomeModal"
           title="Confirm New Homepage"

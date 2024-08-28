@@ -175,7 +175,7 @@ const navigator = new FrameNavigator({
             id="urlBar"
             v-model="navigator.typedPath.value"
             type="text"
-            class="block focus:border-0 text-theme-500 dark:text-theme-0 dark:bg-theme-700 border-0 w-full min-w-0 flex-1 rounded-none rounded-r-md text-xs focus:outline-none focus:ring-0 p-1.5"
+            class="block focus:border-0 text-theme-500 dark:text-theme-0 dark:bg-theme-700 border-0 w-full min-w-0 flex-1 rounded-none rounded-r-md text-xs font-mono focus:outline-none focus:ring-0 p-1.5"
             @keyup.enter="navigator.setNewPath({ fullPath: navigator.typedPath.value })"
           >
         </label>

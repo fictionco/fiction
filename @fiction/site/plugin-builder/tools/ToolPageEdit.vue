@@ -9,11 +9,12 @@ import ToolForm from '@fiction/admin/tools/ToolForm.vue'
 import type { Site } from '../../site'
 import { requestManagePage } from '../../utils/region'
 import InputSlug from '../InputSlug.vue'
+import type { ToolKeys } from './tools.js'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
-  controller: { type: Object as vue.PropType<AdminEditorController>, required: true },
+  controller: { type: Object as vue.PropType<AdminEditorController<{ toolIds: ToolKeys }>>, required: true },
 })
 
 const loading = vue.ref(false)
@@ -54,7 +55,7 @@ async function save() {
   })
   loading.value = false
 
-  props.controller.useTool({ toolId: 'pages' })
+  props.controller.useTool({ toolId: 'pageMaster' })
 }
 </script>
 

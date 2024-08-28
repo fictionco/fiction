@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
-import ElButton from '@fiction/ui/ElButton.vue'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
+import type { UiElementSize } from '@fiction/ui/utils'
 
 export interface CustomDomain {
   hostname?: string
@@ -11,6 +12,7 @@ export interface CustomDomain {
 const props = defineProps({
   modelValue: { type: Array as vue.PropType<CustomDomain[]>, default: () => ([]) },
   destination: { type: String, required: true },
+  uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
 })
 const emit = defineEmits(['update:modelValue'])
 
@@ -100,41 +102,31 @@ const showInstructions = vue.ref(false)
                 :model-value="item.hostname"
                 type="text"
                 placeholder="www.example.com"
+                :ui-size="uiSize"
                 @update:model-value="updateHostname($event, i)"
               />
-              <div class="flex space-x-1 mt-2 justify-between text-[9px]  font-medium text-theme-500 select-none">
-                <div
-                  class="rounded-md px-2 py-0.5 flex space-x-0.5 items-center cursor-pointer hover:bg-theme-200"
-                  :class="item.isPrimary ? 'bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-theme-0' : 'bg-theme-100 dark:bg-theme-950'"
-                  @click.prevent="setPrimary(i)"
-                >
-                  <div class="text-[11px]">
-                    <div :class="item.isPrimary ? 'i-tabler-check' : 'i-tabler-switch-horizontal'" />
-                  </div>
-                  <div>
-                    {{ item.isPrimary ? 'Primary Domain' : 'Set as Primary' }}
-                  </div>
-                </div>
-                <div class="bg-theme-100 dark:bg-theme-700 rounded-md px-2 py-0.5 flex space-x-0.5 items-center cursor-pointer hover:bg-theme-200" @click.prevent="deleteDomain(i)">
-                  <div class="text-[11px]">
-                    <div class="i-tabler-x" />
-                  </div>
-                  <div>
-                    Remove
-                  </div>
-                </div>
+              <div class="flex space-x-1 mt-3 justify-between text-[9px]  font-medium text-theme-500 select-none">
+                <XButton size="xs" :icon="item.isPrimary ? 'i-tabler-check' : 'i-tabler-switch-horizontal'" theme="primary" rounding="full" @click.prevent="setPrimary(i)">
+                  {{ item.isPrimary ? 'Primary Domain' : 'Set as Primary' }}
+                </XButton>
+
+                <XButton size="xs" icon="i-tabler-x" theme="default" rounding="full" @click.prevent="deleteDomain(i)">
+                  Remove
+                </XButton>
               </div>
             </div>
           </div>
         </div>
         <div class="add-new mt-4">
-          <ElButton
-            btn="default"
+          <XButton
+            theme="default"
             size="xs"
+            icon="i-tabler-plus"
+            rounding="full"
             @click.prevent="addCustomDomain()"
           >
             Add Domain
-          </ElButton>
+          </XButton>
         </div>
       </div>
       <div class="sm:col-span-6 bg-theme-50 dark:bg-theme-800 rounded-lg p-6 mb-8">
