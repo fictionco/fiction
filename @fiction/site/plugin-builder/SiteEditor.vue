@@ -109,7 +109,9 @@ async function save() {
       <ViewEditor :tool-props="{ site }" :controller="adminEditorController">
         <template #headerLeft>
           <div>
-            <CardButton :card theme="default" href="/" icon="i-tabler-home" />
+            <CardButton :card theme="default" href="/" icon="i-tabler-arrow-left">
+              Home
+            </CardButton>
           </div>
           <div class="flex space-x-1 font-medium">
             <CardLink

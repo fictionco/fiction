@@ -113,7 +113,7 @@ vue.onUnmounted(() => {
     clearTimeout(hideTooltipTimer.value)
 })
 
-const bgClass = 'text-white bg-theme-900 dark:bg-theme-600'
+const bgClass = 'text-white bg-theme-900/80 dark:bg-theme-600'
 </script>
 
 <template>

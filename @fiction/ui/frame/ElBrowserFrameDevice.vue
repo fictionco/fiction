@@ -1,7 +1,7 @@
 <script lang="ts" setup generic="T extends MsgUnknown">
 import { shortId, vue } from '@fiction/core/index.js'
 import XButton from '../buttons/XButton.vue'
-import ElLoading from '../loaders/ElLoading.vue'
+import ElSpinner from '../loaders/ElSpinner.vue'
 import type { MsgUnknown } from './elBrowserFrameUtil.js'
 import { FrameNavigator, FrameUtility } from './elBrowserFrameUtil.js'
 
@@ -44,7 +44,7 @@ const dimensions = vue.computed(() => {
 type Scale = { scale: number, width: string, height: string }
 
 function setLoaded() {
-  setTimeout(() => loading.value = false, 1400)
+  setTimeout(() => loading.value = false, 300)
 }
 
 vue.onMounted(async () => {
@@ -214,9 +214,7 @@ const navigator = new FrameNavigator({
       />
       <transition name="fade">
         <div v-if="loading" class="absolute inset-0 text-center pt-24 flex justify-center h-full bg-white/95 dark:bg-theme-950/90">
-          <div class="w-[25%]">
-            <ElLoading />
-          </div>
+          <ElSpinner class="size-10" />
         </div>
       </transition>
     </div>

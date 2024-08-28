@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { MediaObject } from '@fiction/core'
 import { log, shortId, useService, vue } from '@fiction/core'
-import ElButton from '../ElButton.vue'
+import XButton from '../buttons/XButton.vue'
 import type { UiElementSize } from '../utils'
 import { textInputClasses } from './theme'
 
@@ -77,7 +77,14 @@ function triggerFileInput() {
       @dragleave="draggingOver = false"
     >
       <span class="font-mono relative flex grow shadow-sm group cursor-pointer space-x-2" @click="console.log('hi')">
-        <ElButton class="shrink-0" icon="i-tabler-upload" :loading="uploading" @click="triggerFileInput()">Upload</ElButton>
+        <XButton
+          theme="primary"
+          class="shrink-0"
+          design="solid"
+          icon="i-tabler-upload"
+          :loading="uploading"
+          @click="triggerFileInput()"
+        >Upload</XButton>
         <input
           :value="modelValue?.url"
           type="text"

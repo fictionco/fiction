@@ -2,7 +2,7 @@
 import { onResetUi, toLabel, vue, waitFor } from '@fiction/core'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
-import ElButton from '@fiction/ui/ElButton.vue'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
 import InputCheckbox from '@fiction/ui/inputs/InputCheckbox.vue'
 import type { InputOptionGeneration } from '@fiction/ui'
@@ -79,17 +79,18 @@ const fieldClasses = `font-sans antialiased capitalize inline-block inline-flex 
   <div v-if="card" class="space-y-3">
     <div class="flex justify-between">
       <div class="flex items-center">
-        <ElButton
+        <XButton
           type="submit"
-          btn="primary"
+          theme="primary"
           wrap-class="gap-1"
           size="xs"
           :loading="loading"
           icon="i-tabler-sparkles"
+          rounding="full"
           @click.stop="vis = !vis"
         >
           Generate Content...
-        </ElButton>
+        </XButton>
       </div>
 
       <div class="flex items-center space-x-2" />
@@ -137,23 +138,24 @@ const fieldClasses = `font-sans antialiased capitalize inline-block inline-flex 
               </div>
             </div>
             <div class="flex items-center justify-between mt-6">
-              <ElButton
-                btn="default"
+              <XButton
+                theme="default"
                 size="md"
                 icon="i-tabler-chevron-left"
+                rounding="full"
                 @click="completion = undefined"
               >
                 Discard Changes
-              </ElButton>
-              <ElButton
-                btn="primary"
+              </XButton>
+              <XButton
+                theme="primary"
                 size="md"
                 :loading="loading"
                 icon="i-tabler-sparkles"
                 @click="applyChanges()"
               >
                 Apply
-              </ElButton>
+              </XButton>
             </div>
           </div>
           <div v-else-if="!loading" class="space-y-6 max-w-screen-sm">
@@ -208,17 +210,18 @@ const fieldClasses = `font-sans antialiased capitalize inline-block inline-flex 
               </div>
               <div class="flex items-center justify-between">
                 <div />
-                <ElButton
+                <XButton
                   type="submit"
-                  btn="primary"
+                  theme="primary"
                   wrap-class="gap-1"
                   size="md"
                   :loading="loading"
                   icon="i-tabler-sparkles"
                   :disabled="!Object.keys(genUtil?.outputProps.value).length"
+                  rounding="full"
                 >
                   Generate Content...
-                </ElButton>
+                </XButton>
               </div>
             </ElForm>
           </div>

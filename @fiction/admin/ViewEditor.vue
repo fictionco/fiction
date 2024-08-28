@@ -53,8 +53,8 @@ vue.watch(
                   class=" space-x-2 cursor-pointer p-2 justify-end w-[40px] h-[40px] rounded-lg transition-all"
                   :title="toLabel(tool.title || tool.toolId)"
                   :class="controller.isUsingTool({ toolId: tool.toolId })
-                    ? 'bg-theme-100/80 dark:bg-primary-600/60 dark:ring-1 dark:ring-primary-500 text-theme-900 dark:text-primary-50'
-                    : 'text-theme-700 dark:text-theme-0 dark:hover:bg-primary-600/60 dark:hover:ring-1 ring-inset dark:hover:ring-primary-500 hover:bg-theme-100/80'"
+                    ? 'bg-primary-500 dark:bg-primary-600/60 ring-1 dark:ring-primary-500 ring-primary-600 text-white'
+                    : 'text-theme-600/80 dark:text-theme-0 hover:bg-primary-500 hover:text-white ring-primary-600 dark:hover:bg-primary-600/60  hover:ring-1 ring-inset dark:hover:ring-primary-500  '"
                   @click="controller.useTool({ toolId: tool.toolId })"
                 >
                   <div class="text-2xl" :class="tool.icon" />

@@ -89,7 +89,7 @@ async function save() {
       />
 
       <div class="text-right px-4 py-2">
-        <ElInput input="InputSubmit" :loading="loading">
+        <ElInput input="InputSubmit" :loading rounding="full">
           Save Page
         </ElInput>
       </div>
