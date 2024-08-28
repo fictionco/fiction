@@ -109,18 +109,18 @@ async function save() {
       <ViewEditor :tool-props="{ site }" :controller="adminEditorController">
         <template #headerLeft>
           <div>
-            <CardButton :card theme="default" href="/" icon="i-tabler-arrow-left">
+            <CardButton :card theme="primary" design="outline" href="/" icon="i-tabler-arrow-left">
               Home
             </CardButton>
           </div>
           <div class="flex space-x-1 font-medium">
             <CardLink
               :card
-              class=" whitespace-nowrap text-theme-400 dark:text-theme-300  pr-1 hover:text-primary-500 dark:hover:text-theme-0 flex items-center gap-1"
+              class="whitespace-nowrap  dark:text-theme-300 pr-1 hover:text-primary-500 dark:hover:text-theme-0 flex items-center gap-1"
               href="/"
             >
               <span class="i-tabler-browser-plus text-xl inline-block dark:text-theme-500" />
-              <span>Site Designer</span>
+              <span>Edit Site</span>
               <span class="i-tabler-slash text-xl dark:text-theme-500" />
             </CardLink>
 

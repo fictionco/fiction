@@ -41,7 +41,7 @@ vue.watch(
           class="no-scrollbar min-w-0 grow-0 relative "
           @click.stop="resetUi({ scope: 'inputs', cause: 'clickEditorTools' })"
         >
-          <div class="space-y-1 py-2 z-30 relative h-full bg-theme-0 dark:bg-theme-900 border-r border-theme-200 dark:border-theme-700">
+          <div class="space-y-1 py-2 z-40 relative h-full bg-theme-0 dark:bg-theme-900 border-r border-theme-200 dark:border-theme-700">
             <div
               v-for="(tool, i) in controller.tools?.filter(_ => _.isPrimary) || []"
               :key="i"
@@ -50,7 +50,7 @@ vue.watch(
               <ElTooltip :content="toLabel(tool.title || tool.toolId)">
                 <div
                   :data-test-id="`tool-button-${tool.toolId}`"
-                  class=" space-x-2 cursor-pointer p-2 justify-end w-[40px] h-[40px] rounded-lg transition-all"
+                  class=" space-x-2 cursor-pointer p-2 justify-end size-[40px] rounded-lg transition-all"
                   :title="toLabel(tool.title || tool.toolId)"
                   :class="controller.isUsingTool({ toolId: tool.toolId })
                     ? 'bg-primary-500 dark:bg-primary-600/60 ring-1 dark:ring-primary-500 ring-primary-600 text-white'

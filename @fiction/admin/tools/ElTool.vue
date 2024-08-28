@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { ActionItem, vue } from '@fiction/core'
 import { toLabel } from '@fiction/core'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import { iconStyle } from '../util'
 import type { EditorTool } from './tools'
 
@@ -21,21 +22,12 @@ const ico = iconStyle[props.iconTheme]
     <div class="flex justify-between p-4 items-center select-none z-10">
       <div>
         <div v-if="back" class="mb-6">
-          <div
-            class="inline-block text-[10px] rounded-md py-0.5 px-2 bg-theme-50 dark:bg-theme-600/50 font-medium  cursor-pointer text-theme-400 dark:text-theme-0 hover:bg-theme-100"
-            @click.stop="back?.onClick?.({ event: $event })"
-          >
-            &larr; {{ back?.name || "Back" }}
-          </div>
+          <XButton icon="i-tabler-arrow-left" rounding="full" theme="default" size="xs" @click.stop.prevent="back?.onClick?.({ event: $event })">
+            {{ back?.name || "Back" }}
+          </XButton>
         </div>
-        <h3 class="font-semibold flex gap-3 items-center">
-          <div
-            class="rounded-md p-1 size-7 border flex items-center justify-center"
-            :data-theme="iconTheme"
-            :class="[ico.color, ico.bg, ico.border]"
-          >
-            <div :class="icon || tool.icon" />
-          </div>
+        <h3 class="font-semibold flex gap-1.5 items-center">
+          <div class="text-xl" :class="icon || tool.icon" />
           <div v-html="title || tool.title || toLabel(tool.toolId)" />
         </h3>
       </div>

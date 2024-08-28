@@ -14,18 +14,18 @@ const draggableMode = vue.ref<number>(-1)
   <div
     :data-handle-id="handle.handleId"
     :data-handle-depth="handle.depth"
-    class="handle border border-theme-300 dark:border-theme-600 rounded-md"
-    :class="[handle.isActive ? 'ring-2 ring-primary-500/10' : '']"
+    class="handle border rounded-md"
+    :class="[handle.isActive ? 'border-theme-300/90 dark:border-theme-500' : 'border-theme-300/70 dark:border-theme-600']"
   >
     <div
-      class="handlebar flex group rounded-full select-none min-w-0 hover:opacity-80 justify-between cursor-pointer"
-      :class="[handle.isActive ? 'bg-theme-50 dark:bg-theme-800 text-theme-700 dark:text-theme-0' : '']"
+      class="handlebar flex group rounded-md select-none min-w-0 hover:opacity-80 justify-between cursor-pointer"
+      :class="[handle.isActive ? 'bg-theme-100/50 dark:bg-theme-800 text-theme-700 dark:text-theme-0' : 'text-theme-500']"
       @mouseover="draggableMode = handle.depth"
       @mouseleave="draggableMode = -1"
       @click="handle.onClick?.({ event: $event })"
     >
       <div
-        class="p-1 flex gap-0.5 font-medium items-center justify-center  shrink-0 x-font-title antialiased text-xs"
+        class="p-1 flex gap-0.5 font-medium items-center justify-center  shrink-0 font-mono text-xs"
         :class="[
           handle.hasDrawer ? 'rounded-tl-full' : 'rounded-l-full',
         ]"

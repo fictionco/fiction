@@ -21,10 +21,10 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
       icon: 'text-theme-500 dark:text-theme-500',
     },
     outline: {
-      base: 'bg-transparent text-theme-700 dark:text-theme-50',
-      border: 'border-theme-500 dark:border-theme-600',
+      base: 'bg-transparent text-theme-700 dark:text-theme-300',
+      border: 'border-theme-500 dark:border-theme-400',
       hover: 'hover:opacity-70',
-      icon: 'text-theme-700 dark:text-theme-400',
+      icon: 'text-theme-700 dark:text-theme-300',
     },
     textOnly: {
       base: 'bg-transparent text-theme-600 dark:text-theme-50',
@@ -73,10 +73,10 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
       icon: 'text-primary-500 dark:text-primary-500',
     },
     outline: {
-      base: 'bg-transparent text-primary-700 dark:text-primary-50',
+      base: 'bg-transparent text-primary-700 dark:text-primary-100',
       border: 'border-primary-500 dark:border-primary-500',
-      hover: 'hover:bg-primary-500/10 dark:hover:bg-primary-400/10',
-      icon: 'text-primary-700 dark:text-primary-0',
+      hover: 'hover:bg-primary-500/10 dark:hover:bg-primary-500/20',
+      icon: 'text-primary-700 dark:text-primary-100',
     },
     textOnly: {
       base: 'bg-transparent text-primary-600 dark:text-primary-400',
@@ -99,10 +99,10 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
       icon: 'text-theme-500 dark:text-theme-500',
     },
     outline: {
-      base: 'bg-transparent text-theme-500 dark:text-theme-50',
-      border: 'border-theme-500 dark:border-theme-600',
-      hover: 'hover:bg-theme-500/10 dark:hover:bg-theme-400/10',
-      icon: 'text-theme-500 dark:text-theme-50',
+      base: 'bg-transparent text-theme-500 dark:text-theme-300',
+      border: 'border-theme-500 dark:border-theme-400',
+      hover: 'hover:bg-theme-500/10 dark:hover:bg-theme-400/20',
+      icon: 'text-theme-500 dark:text-theme-300',
     },
     textOnly: {
       base: 'bg-transparent text-theme-600 dark:text-theme-400',
