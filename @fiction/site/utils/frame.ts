@@ -220,7 +220,8 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
 
       case 'setActiveCard': {
         const { cardId } = msg.data
-        site.editor.value.selectedCardId = cardId
+
+        site.setActiveCard({ cardId })
         break
       }
 

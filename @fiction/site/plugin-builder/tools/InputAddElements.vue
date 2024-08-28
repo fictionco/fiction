@@ -4,7 +4,7 @@ import type { EditorTool } from '@fiction/admin'
 import ElBadge from '@fiction/ui/common/ElBadge.vue'
 import type { CardTemplate } from '../../card'
 import type { Site } from '../../site'
-import { categoryOrder } from '../../card'
+import { CardCategorySchema } from '../../card'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },
@@ -23,6 +23,8 @@ const groupTemplates = vue.computed(() => {
       grouped[cat].push(template)
     })
   })
+
+  const categoryOrder = CardCategorySchema.options
 
   // Order grouped categories based on categoryOrder and include any additional categories at the end
   return categoryOrder.reduce((acc, cat) => {

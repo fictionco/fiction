@@ -1,7 +1,7 @@
 import type { Query, colorTheme, vueRouter } from '@fiction/core'
 import { FictionObject, deepMerge, objectId, setNested, toLabel, vue } from '@fiction/core'
 import type { InputOption } from '@fiction/ui'
-import type { z } from 'zod'
+import { z } from 'zod'
 import { refineOptions } from './utils/schema.js'
 import type { CardConfigPortable, TableCardConfig } from './tables.js'
 import type { Site } from './site.js'
@@ -12,9 +12,9 @@ import type { CardQuerySettings } from './cardQuery.js'
 import { getContentWidthClass, getSpacingClass } from './styling.js'
 import type { CardOptionsWithStandard, SiteUserConfig } from './schema.js'
 
-type CardCategory = 'basic' | 'posts' | 'theme' | 'stats' | 'marketing' | 'content' | 'layout' | 'media' | 'navigation' | 'social' | 'commerce' | 'form' | 'other' | 'special' | 'portfolio' | 'advanced' | 'effect'
+export const CardCategorySchema = z.enum(['basic', 'posts', 'theme', 'stats', 'marketing', 'content', 'layout', 'media', 'navigation', 'social', 'commerce', 'form', 'other', 'special', 'portfolio', 'advanced', 'effect'])
 
-export const categoryOrder: CardCategory[] = ['basic', 'theme', 'marketing', 'content', 'stats', 'layout', 'media', 'navigation', 'social', 'commerce', 'form', 'other', 'special']
+type CardCategory = z.infer<typeof CardCategorySchema>
 
 type CardTemplateUserConfig<T extends ComponentConstructor> = InstanceType<T> extends { $props: { card: { userConfig: { value: infer V } } } } ? V : SiteUserConfig
 

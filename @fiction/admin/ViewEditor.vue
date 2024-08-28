@@ -12,6 +12,13 @@ const props = defineProps({
 
 const primaryTool = vue.computed(() => props.controller.activeTool.primary.value)
 const contextTool = vue.computed(() => props.controller.activeTool.context.value)
+
+vue.watch(
+  () => primaryTool.value,
+  (tool) => {
+    console.warn('PRIMARY TOOL', tool)
+  },
+)
 </script>
 
 <template>

@@ -210,6 +210,19 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     this.events.emit('setActiveCard', { cardId })
 
     this.frame.syncActiveCard({ cardId })
+
+    this.scrollActiveCardIntoView({ cardId })
+  }
+
+  scrollActiveCardIntoView(args: { cardId: string }) {
+    const { cardId } = args
+    const card = this.availableCards.value.find(c => c.cardId === cardId)
+
+    if (!card || this.siteMode.value !== 'editable' || typeof document === 'undefined')
+      return
+
+    const selectedElement = document.querySelector(`#${cardId}`)
+    selectedElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' })
   }
 
   async updateLayout(args: { order: LayoutOrder[] }) {

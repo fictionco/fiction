@@ -2,8 +2,11 @@ import { CardTemplate } from '@fiction/site/card.js'
 import { Theme, createCard } from '@fiction/site/theme.js'
 import type { FictionEnv } from '@fiction/core/index.js'
 import { safeDirname, vue } from '@fiction/core/index.js'
-import { fictionLogo, templates } from '../templates.js'
+import favicon from '@fiction/ui/brand/favicon.svg'
+import icon from '@fiction/ui/brand/icon.png'
+import shareImage from '@fiction/ui/brand/shareImage.png'
 import type { FictionAdmin } from '../index.js'
+import { fictionLogo, templates } from '../templates.js'
 
 const def = vue.defineAsyncComponent
 
@@ -65,6 +68,11 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionAdmin: Fictio
         pages,
         sections: {},
         userConfig: {
+          branding: {
+            shareImage: { url: shareImage, format: 'image' },
+            favicon: { url: favicon, format: 'image' },
+            icon: { url: icon, format: 'image' },
+          },
           styling: {
             fonts: {
               body: { fontKey: 'Inter', stack: 'sans' },

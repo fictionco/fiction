@@ -24,6 +24,21 @@ const page = vue.computed(() => props.site.editPageConfig.value)
 const options = vue.computed(() => {
   return [
     new InputOption({
+      key: 'manageLayout',
+      label: 'Page Layout',
+      input: 'group',
+      options: [
+        new InputOption({
+          key: 'manageLayoutInput',
+          input: vue.defineAsyncComponent(() => import('./InputManageLayout.vue')),
+        }),
+        new InputOption({
+          key: 'addElementsInputs',
+          input: vue.defineAsyncComponent(() => import('./InputAddElements.vue')),
+        }),
+      ],
+    }),
+    new InputOption({
       key: 'pageSetup',
       label: 'Page Setup',
       input: 'group',
@@ -63,7 +78,7 @@ async function save() {
   <ElTool
     :actions="[]"
     v-bind="props"
-    :back="{ name: 'All Pages', onClick: () => controller.useTool({ toolId: 'pageMaster' }) }"
+    :back="{ name: 'Manage Pages', onClick: () => controller.useTool({ toolId: 'pageMaster' }) }"
     title="Edit Page"
   >
     <ElForm @submit="save()">

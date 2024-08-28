@@ -54,7 +54,9 @@ export class FictionClient extends WriteBuffer<TrackingEvent> {
 
     this.intervalSeconds = settings.intervalSeconds || 2
     this.beaconUrl = settings.beaconUrl
-    this.log.debug('new client created', { data: this })
+
+    if (this.logToConsole)
+      this.log.debug('new client created', { data: this })
 
     // on page unload, clear events
     UnloadUtility.onUnload(() => this.unload())
@@ -117,7 +119,9 @@ export class FictionClient extends WriteBuffer<TrackingEvent> {
     if (events && events.length > 0) {
       const msg = `get(async): ${events.length} events`
       const url = `${baseUrl}?${this.getQueryArgs({ events })}`
-      this.log.info(msg, { data: { url, events, baseUrl } })
+
+      if (this.logToConsole)
+        this.log.info(msg, { data: { url, events, baseUrl } })
 
       if (!fetch)
         throw new Error('FictionClient: fetch is not available')

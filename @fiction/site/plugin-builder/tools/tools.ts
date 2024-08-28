@@ -7,33 +7,27 @@ export type ToolKeys = 'pageMaster' | 'addPage' | 'editPage' | 'ai' | 'global' |
 
 export const tools = [
   {
+    toolId: 'editPage',
+    title: 'Edit Page',
+    icon: 'i-tabler-edit',
+    widthClasses: 'w-[430px]',
+    el: vue.defineAsyncComponent(async () => import('./ToolPageEdit.vue')),
+    isPrimary: true,
+  },
+  {
     toolId: 'pageMaster',
-    icon: 'i-tabler-file',
-    title: 'Edit Pages',
+    icon: 'i-tabler-files',
+    title: 'Manage Pages',
     el: vue.defineAsyncComponent(async () => import('./PageToolMaster.vue')),
     isPrimary: true,
   },
+
   {
     toolId: 'addPage',
     title: 'Add New Page',
     icon: 'i-tabler-file-plus',
     el: vue.defineAsyncComponent(async () => import('./ToolPageAdd.vue')),
   },
-  {
-    toolId: 'editPage',
-    title: 'Edit Page',
-    icon: 'i-tabler-files',
-    widthClasses: 'w-[430px]',
-    el: vue.defineAsyncComponent(async () => import('./ToolPageEdit.vue')),
-  },
-  // {
-  //   toolId: 'ai',
-  //   title: 'AI Generation',
-  //   icon: 'i-tabler-input-ai',
-  //   isPrimary: true,
-  //   widthClasses: 'w-[500px]',
-  //   el: vue.defineAsyncComponent(async () => import('./ToolPageAi.vue')),
-  // },
   {
     toolId: 'global',
     title: 'Global Settings',
@@ -71,12 +65,4 @@ export const tools = [
   },
 ] as const satisfies EditorTool<ToolKeys>[]
 
-export function createSiteEditingController(site?: Site) {
-  const controller = new AdminEditorController<{ toolIds: ToolKeys }>({ tools })
-
-  site?.events.on('setActiveCard', () => {
-    controller.useTool({ toolId: 'editCard' })
-  })
-
-  return controller
-}
+export const adminEditorController = new AdminEditorController<{ toolIds: ToolKeys }>({ tools })

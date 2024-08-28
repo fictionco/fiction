@@ -48,7 +48,9 @@ export class AdminEditorController<T extends CardSurface = CardSurface> extends 
   constructor(settings: AdminEditorControllerSettings) {
     super('AdminEditorController', settings)
 
+    this.log.info('init', { data: settings })
     onResetUi((args) => {
+      this.log.info('controller reset', { data: args })
       if (args.scope === 'iframe')
         this.useTool({ toolId: '' })
     })
@@ -78,5 +80,7 @@ export class AdminEditorController<T extends CardSurface = CardSurface> extends 
     const t = this.settings.tools.find(t => t.toolId === toolId)
     const location = t?.location || 'primary'
     this.activeToolId[location].value = toolId
+
+    this.log.info(`set use tool ${toolId} at ${location}`, { data: args })
   }
 }

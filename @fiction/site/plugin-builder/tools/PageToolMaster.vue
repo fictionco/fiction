@@ -21,12 +21,12 @@ const options = [
   new InputOption({ key: 'managePages', label: 'Manage Pages', input: 'group', options: [
     new InputOption({ key: 'managePagesInput', input: InputManagePages }),
   ] }),
-  new InputOption({ key: 'manageLayout', label: 'Current Layout', input: 'group', options: [
-    new InputOption({ key: 'manageLayoutInput', input: InputManageLayout }),
-  ] }),
-  new InputOption({ key: 'addElements', label: 'Add Elements', input: 'group', options: [
-    new InputOption({ key: 'addElementsInputs', input: InputAddElements }),
-  ] }),
+  // new InputOption({ key: 'manageLayout', label: 'Page Layout', input: 'group', options: [
+  //   new InputOption({ key: 'manageLayoutInput', input: InputManageLayout }),
+  // ] }),
+  // new InputOption({ key: 'addElements', label: 'Add Elements', input: 'group', options: [
+  //   new InputOption({ key: 'addElementsInputs', input: InputAddElements }),
+  // ] }),
 
 ]
 </script>

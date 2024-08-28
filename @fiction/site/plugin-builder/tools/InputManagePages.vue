@@ -19,8 +19,8 @@ const props = defineProps({
 function useEditPage(args: { cardId?: string } = {}) {
   const { cardId } = args
 
-  // if (cardId)
-  //   props.site.activePageId.value = cardId
+  if (cardId)
+    props.site.activePageId.value = cardId
 
   props.site.editor.value.selectedPageId = cardId || ''
 
@@ -46,10 +46,7 @@ const handles = vue.computed(() => {
     }]
 
     if (pg.slug.value === '_home') {
-      actions.unshift({
-        name: 'View',
-        icon: 'i-tabler-home',
-      })
+      actions.unshift({ name: 'View', icon: 'i-tabler-home' })
     }
     return {
       title: pg.displayTitle.value,
@@ -57,7 +54,7 @@ const handles = vue.computed(() => {
       handleId: cardId ?? 'no-id-provided',
       depth: 0,
       isActive: cardId === props.site.activePageId.value,
-      onClick: () => { props.site.activePageId.value = cardId },
+      onClick: () => { useEditPage({ cardId }) },
       actions,
     }
   })

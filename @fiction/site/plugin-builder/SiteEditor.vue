@@ -13,7 +13,7 @@ import { getMountContext, loadSite } from '../load'
 import type { Card } from '../card'
 import { activeSiteDisplayUrl } from '../utils/site'
 import SiteEditorFrame from './SiteEditorFrame.vue'
-import { createSiteEditingController } from './tools/tools'
+import { adminEditorController } from './tools/tools'
 
 type UserConfig = {
   isNavItem: boolean
@@ -51,7 +51,14 @@ async function load() {
       mountContext,
     })
 
-    site.value?.frame.init({ caller: 'SiteEditor' })
+    if (!site.value)
+      throw new Error('No site found')
+
+    site.value.frame.init({ caller: 'SiteEditor' })
+
+    site.value.events.on('setActiveCard', () => {
+      adminEditorController.useTool({ toolId: 'editCard' })
+    })
   }
   catch (error) {
     console.error('Error loading site', error)
@@ -99,7 +106,7 @@ async function save() {
     </div>
 
     <template v-else>
-      <ViewEditor :tool-props="{ site }" :controller="createSiteEditingController(site)">
+      <ViewEditor :tool-props="{ site }" :controller="adminEditorController">
         <template #headerLeft>
           <div>
             <CardButton :card theme="default" href="/" icon="i-tabler-home" />

@@ -61,11 +61,6 @@ async function save() {
   })
   loading.value = false
 
-  // wait for reset of UI
-  await waitFor(700)
-
-  console.log('SET USE TOOL')
-
   props.controller.useTool({ toolId: 'pageMaster' })
 }
 </script>
@@ -74,18 +69,11 @@ async function save() {
   <ElTool
     :actions="[]"
     v-bind="props"
-    :back="{
-      name: 'Manage Pages',
-      onClick: () => controller.useTool({ toolId: 'pageMaster' }),
-    }"
+    :back="{ name: 'Manage Pages', onClick: () => controller.useTool({ toolId: 'pageMaster' }) }"
     title="Add Page"
   >
     <ElForm @submit="save()">
-      <ToolForm
-        v-model="page"
-        :options="options"
-        :input-props="{ site }"
-      />
+      <ToolForm v-model="page" :options :input-props="{ site }" />
 
       <div class="text-right px-4 py-2">
         <ElInput input="InputSubmit" :loading rounding="full">
