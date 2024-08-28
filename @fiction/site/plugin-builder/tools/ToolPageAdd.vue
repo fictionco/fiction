@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { toSlug, vue, waitFor } from '@fiction/core'
+import { toSlug, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'

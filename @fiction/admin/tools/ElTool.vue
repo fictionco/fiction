@@ -2,19 +2,15 @@
 import type { ActionItem, vue } from '@fiction/core'
 import { toLabel } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
-import { iconStyle } from '../util'
 import type { EditorTool } from './tools'
 
-const props = defineProps({
+defineProps({
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
   actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
   back: { type: Object as vue.PropType<ActionItem>, default: undefined },
   title: { type: String, default: '' },
-  iconTheme: { type: String as vue.PropType<keyof typeof iconStyle>, default: 'theme' },
   icon: { type: String, default: '' },
 })
-
-const ico = iconStyle[props.iconTheme]
 </script>
 
 <template>

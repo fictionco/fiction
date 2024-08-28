@@ -76,8 +76,8 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
   hooks() {
     const fictionUser = this.settings.fictionUser
 
-    fictionUser.events.on('newUser', async (event) => {
-      const { user, params } = event.detail
+    fictionUser.events.on('newUser', async (_event) => {
+      // const { user, params } = event.detail
 
       // if (params.isVerifyEmail) {
       //   await this.emailActions.verifyEmailAction.serveSend({ recipient: user, queryVars: { code: user.verify?.code || '', email: user.email || '' } }, { server: true })

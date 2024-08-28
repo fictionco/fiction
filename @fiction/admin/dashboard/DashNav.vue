@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site/card'
 import type { MediaObject, NavItem, vue } from '@fiction/core'
-import { toLabel, useService } from '@fiction/core'
+import { toLabel } from '@fiction/core'
 import ElImage from '@fiction/ui/media/ElImage.vue'
 import CardLink from '@fiction/cards/el/CardLink.vue'
 
@@ -11,8 +11,6 @@ defineProps({
   navBottom: { type: Array as vue.PropType<NavItem[]>, default: () => [] },
   card: { type: Object as vue.PropType<Card>, required: true },
 })
-
-const service = useService()
 
 async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
   if (item.onClick) {

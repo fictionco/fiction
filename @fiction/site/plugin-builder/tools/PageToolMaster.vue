@@ -7,8 +7,6 @@ import ElTool from '@fiction/admin/tools/ElTool.vue'
 import ToolForm from '@fiction/admin/tools/ToolForm.vue'
 import type { Site } from '../../site'
 import InputManagePages from './InputManagePages.vue'
-import InputManageLayout from './InputManageLayout.vue'
-import InputAddElements from './InputAddElements.vue'
 import type { ToolKeys } from './tools.js'
 
 const props = defineProps({

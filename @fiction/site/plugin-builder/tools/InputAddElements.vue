@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { toLabel, vue } from '@fiction/core'
 import type { EditorTool } from '@fiction/admin'
-import ElBadge from '@fiction/ui/common/ElBadge.vue'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
 import type { CardTemplate } from '../../card'
@@ -60,7 +59,7 @@ function toggleAddElements() {
         rounding="full"
         design="solid"
         size="sm"
-        icon="i-tabler-plus"
+        :icon="addElementsVisible ? 'i-tabler-remove' : 'i-tabler-plus'"
         @click.prevent="toggleAddElements()"
       >
         {{ addElementsVisible ? 'Close' : 'Add New Elements' }}

@@ -62,12 +62,6 @@ function shouldStopProp(event: MouseEvent) {
     props.card?.site?.setActiveCard({ cardId })
   }
 }
-
-vue.onMounted(() => {
-  vue.watch(() => isContentEditable.value, () => {
-    console.log('isEditable', isContentEditable.value)
-  })
-})
 </script>
 
 <template>
