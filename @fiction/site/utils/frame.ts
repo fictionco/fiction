@@ -28,14 +28,13 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
     super('SiteFrameUtility', args)
   }
 
-  // gets url for the frametools site
+  // gets preveiw frame url for the current site - used to show preview in the admin
   currentSiteFrameUrl = vue.computed(() => {
     const s = this.site.fictionSites
     return `${s.adminBaseRoute}/preview/site/${this.site.siteId}${this.framePath.value}`
   })
 
   previewPath = vue.computed(() => this.site.fictionSites.getQueryItemPreviewPath.value)
-  frameUrl = vue.computed(() => `${this.previewPath.value}${this.framePath.value}`)
 
   displayUrlBase = activeSiteDisplayUrl(this.site, { mode: 'display' })
   displayUrl = vue.computed(() => `${this.displayUrlBase.value}${this.site.currentPath.value}`)
@@ -43,6 +42,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
   // path used for iframe url, we don't use currentPath as it causes full page reloads
   // so we only update this when the frame URL actually needs to change (not when the route changes from URL click in frame)
   framePath = vue.ref('')
+  frameUrl = vue.computed(() => `${this.previewPath.value}${this.framePath.value}`)
 
   setUtil(util: FrameUtility<FramePostMessageList>) {
     this.util = util
@@ -96,9 +96,10 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
     this.stopWatchCurrentPath = vue.watch(
       () => site.currentPath.value,
       (p) => {
-        if (this.relation.value === 'child')
-          this.send({ msg: { messageType: 'navigate', data: { urlOrPath: p, siteId: this.site.siteId } } })
-        else
+        this.syncRoute({ urlOrPath: p, siteId: this.site.siteId })
+
+        // only update iframe url if _reload in query
+        if (site.siteRouter.query.value._reload && this.relation.value === 'parent')
           this.framePath.value = p
       },
       { immediate: true },
@@ -108,47 +109,17 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
     fictionEnv.cleanupCallbacks.push(() => this.clearListeners())
   }
 
-  // init(_args: { caller?: string } = {}) {
-  //   const site = this.site
-
-  //   const fictionEnv = site.fictionSites.fictionEnv
-
-  //   if (fictionEnv.isNode)
-  //     return
-
-  //   this.log.info('INITIALIZE')
-
-  //   // propagate resetUi events between frames
-  //   fictionEnv.events.on('resetUi', (event) => {
-  //     const { scope } = event.detail
-  //     // prevent recursion
-  //     if (scope === 'iframe')
-  //       return
-
-  //     this.send({ msg: { messageType: 'resetUi', data: undefined } })
-  //   })
-
-  //   const stopWatch = vue.watch(
-  //     () => site.currentPath.value,
-  //     (p) => {
-  //       if (this.relation === 'child')
-  //         this.send({ msg: { messageType: 'navigate', data: { urlOrPath: p, siteId: this.site.siteId } } })
-
-  //       else
-  //         this.framePath.value = p
-  //     },
-  //     { immediate: true },
-  //   )
-
-  //   fictionEnv.cleanupCallbacks.push(() => stopWatch())
-  // }
-
   updateFrameUrl(pathOrUrl: string) {
     const newPath = new URL(pathOrUrl, 'http://dummybase.com').pathname
 
     this.log.info('updateFrameUrl', { data: { newPath } })
 
     this.site.currentPath.value = newPath
+  }
+
+  syncRoute(args: { urlOrPath: string, siteId: string }) {
+    const { urlOrPath, siteId } = args
+    this.send({ msg: { messageType: 'navigate', data: { urlOrPath, siteId } } })
   }
 
   syncActiveCard(args: { cardId: string }) {
@@ -236,6 +207,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
       }
 
       case 'frameReady':{
+        this.syncSite({ caller: 'frameReadyReceived' })
         break
       }
 

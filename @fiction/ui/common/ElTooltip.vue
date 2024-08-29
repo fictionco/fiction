@@ -147,26 +147,27 @@ const arrowClass = vue.computed(() => {
 <template>
   <div ref="triggerRef" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
     <slot />
-  </div>
-  <teleport to="body">
-    <transition
-      enter-active-class="transition ease-out duration-200"
-      enter-from-class="opacity-0 translate-y-1"
-      enter-to-class="opacity-100 translate-y-0"
-      leave-active-class="transition ease-in duration-150"
-      leave-from-class="opacity-100 translate-y-0"
-      leave-to-class="opacity-0 translate-y-1"
-    >
-      <div
-        v-show="showTooltip && !disabled"
-        ref="tooltipRef"
-        class="fixed z-50 px-2.5 py-1.5 text-xs font-normal rounded-md shadow-sm"
-        :class="bgClass"
-        :style="tooltipStyle"
+
+    <teleport to="body">
+      <transition
+        enter-active-class="transition ease-out duration-200"
+        enter-from-class="opacity-0 translate-y-1"
+        enter-to-class="opacity-100 translate-y-0"
+        leave-active-class="transition ease-in duration-150"
+        leave-from-class="opacity-100 translate-y-0"
+        leave-to-class="opacity-0 translate-y-1"
       >
-        {{ tooltipContent }}
-        <div :class="arrowClass" />
-      </div>
-    </transition>
-  </teleport>
+        <div
+          v-show="showTooltip && !disabled"
+          ref="tooltipRef"
+          class="fixed z-50 px-2.5 py-1.5 text-xs font-normal rounded-md shadow-sm"
+          :class="bgClass"
+          :style="tooltipStyle"
+        >
+          {{ tooltipContent }}
+          <div :class="arrowClass" />
+        </div>
+      </transition>
+    </teleport>
+  </div>
 </template>

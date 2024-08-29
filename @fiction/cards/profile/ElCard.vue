@@ -33,8 +33,8 @@ vue.onMounted(async () => {
 <template>
   <div class="minimal-profile" :class="card.classes.value.contentWidth">
     <div>
-      <div class="md:flex gap-16 " :class="uc.layout === 'left' ? 'md:flex-row-reverse' : ''">
-        <div class="w-full md:w-[50%] px-2 ">
+      <div class="md:flex gap-8 xl:gap-12" :class="uc.layout === 'left' ? 'md:flex-row-reverse' : ''">
+        <div class="w-full md:w-[40%] xl:w-[50%] px-2 ">
           <div class="relative">
             <EffectGlare wrap-class="rounded-[20px]">
               <div class="aspect-[5/7] relative w-full overflow-x-auto snap-mandatory snap-x flex no-scrollbar clip-path-anim" :class="isVisible ? '[clip-path:inset(0_round_20px)] opacity-100' : '[clip-path:inset(30%)] opacity-50'">
@@ -44,8 +44,8 @@ vue.onMounted(async () => {
             <NavDots v-model:active-item="activeItem" :items="mediaItems || []" :container-id="card.cardId" class="absolute bottom-4 z-20 justify-center w-full" />
           </div>
         </div>
-        <div class="md:w-[50%] mt-6 md:mt-0 flex items-center">
-          <div class="p-6 md:py-12 flex flex-col justify-center gap-10 2xl:gap-16 " :class="isVisible ? 'translate-y-0' : 'translate-y-[100px]'">
+        <div class="md:w-[60%] xl:w-[50%] mt-6 md:mt-0 flex items-center">
+          <div class="p-6 xl:py-12 flex flex-col justify-center gap-10 2xl:gap-16 " :class="isVisible ? 'translate-y-0' : 'translate-y-[100px]'">
             <div class="details">
               <CardText
                 tag="h3"

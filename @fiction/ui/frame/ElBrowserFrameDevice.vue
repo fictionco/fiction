@@ -2,6 +2,7 @@
 import { shortId, vue } from '@fiction/core/index.js'
 import XButton from '../buttons/XButton.vue'
 import ElSpinner from '../loaders/ElSpinner.vue'
+import ElTooltip from '../common/ElTooltip.vue'
 import type { MsgUnknown } from './elBrowserFrameUtil.js'
 import { FrameNavigator, FrameUtility } from './elBrowserFrameUtil.js'
 
@@ -164,12 +165,15 @@ const navigator = new FrameNavigator({
           </button>
         </div>
         <label for="urlBar" class="relative flex grow rounded-md shadow-sm gap-0.5 group border border-theme-200 dark:bg-theme-700 dark:border-theme-600 focus-within:border-theme-200 overflow-hidden">
-          <span
-            class="group/url bg-theme-0 dark:bg-theme-600/40 hidden text-theme-300 dark:text-theme-400 @xl:inline-flex select-none items-center rounded-l-md pl-2 pr-2 font-medium text-xs"
-            :title="navigator.displayUrlObject.value.origin"
+          <ElTooltip
+            :timeout="0"
+            :max-width="350"
+            direction="bottom"
+            :content="`Base URL: ${navigator.displayUrlObject.value.origin}`"
+            class="group/url bg-theme-0 dark:bg-theme-600/40   text-theme-300 dark:text-theme-400  inline-flex select-none items-center rounded-l-md pl-2 pr-2 font-medium text-xs"
           >
-            <span class="i-tabler-link text-lg" :title="navigator.displayUrlObject.value.origin" />
-          </span>
+            <span class="i-tabler-link text-lg" />
+          </ElTooltip>
           <input
             id="urlBar"
             v-model="navigator.typedPath.value"
