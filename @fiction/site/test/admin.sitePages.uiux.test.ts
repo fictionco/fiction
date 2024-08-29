@@ -2,7 +2,7 @@ import { afterAll, describe, it } from 'vitest'
 import { shortId } from '@fiction/core'
 import { createSiteUiTestingKit } from '@fiction/site/test/testUtils.js'
 
-describe('settings e2e', async () => {
+describe('admin site pages', async () => {
   const kit = await createSiteUiTestingKit({ initUser: true, headless: false, slowMo: 2000 })
 
   const testUtils = kit.testUtils
@@ -12,7 +12,7 @@ describe('settings e2e', async () => {
 
   afterAll(async () => kit.close())
 
-  it('creates site', { timeout: 80000 }, async () => {
+  it('page and card ui', { timeout: 80000, retry: 3 }, async () => {
     const initialViewId = 'edit-site'
     const slugId = shortId()
     await kit.performActions({

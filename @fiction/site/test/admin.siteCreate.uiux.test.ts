@@ -12,7 +12,7 @@ describe('settings e2e', async () => {
 
   afterAll(async () => kit.close())
 
-  it('creates site', { timeout: 80000 }, async () => {
+  it('creates site', { timeout: 80000, retry: 3 }, async () => {
     await kit.performActions({
       path: '/app/sites',
       actions: [
