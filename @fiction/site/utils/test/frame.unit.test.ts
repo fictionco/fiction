@@ -69,7 +69,7 @@ describe('siteFrameTools', async () => {
     const resetUiSpy = vi.spyOn(site.fictionSites.fictionEnv.events, 'emit')
 
     // Test resetUi message
-    site.frame.processFrameMessage({ msg: { messageType: 'resetUi', data: undefined }, scope: 'parent' })
+    site.frame.processFrameMessage({ msg: { messageType: 'resetUi', data: { scope: 'all', cause: 'test', trigger: 'test' } }, scope: 'parent' })
     expect(resetUiSpy, 'resetUi event should be emitted').toHaveBeenCalledWith('resetUi', { scope: 'iframe', cause: expect.any(String) })
 
     // Test setSite message

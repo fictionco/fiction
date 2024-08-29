@@ -70,7 +70,7 @@ async function save() {
   })
   loading.value = false
 
-  props.controller.useTool({ toolId: 'pageMaster' })
+  props.controller.useTool({ toolId: 'managePages' })
 }
 </script>
 
@@ -78,7 +78,7 @@ async function save() {
   <ElTool
     :actions="[]"
     v-bind="props"
-    :back="{ name: 'Manage Pages', onClick: () => controller.useTool({ toolId: 'pageMaster' }) }"
+    :back="{ name: 'Manage Pages', onClick: () => controller.useTool({ toolId: 'managePages' }) }"
     title="Edit Page"
   >
     <ElForm @submit="save()">

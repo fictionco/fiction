@@ -1,18 +1,17 @@
 import type { FictionRouter } from '../plugin-router/index.js'
-import type { FictionEnv } from '../plugin-env/index.js'
+import type { FictionEnv, ResetUiScope, ResetUiTrigger } from '../plugin-env/index.js'
 import { vue } from './libraries.js'
 import { emitEvent, onEvent } from './event.js'
 
-type ResetUiScope = 'all' | 'inputs' | 'iframe'
 interface ResetUiDetail {
   scope: ResetUiScope
+  trigger: ResetUiTrigger
   cause: string
 }
 /**
  * Emits an event that will reset ui on all dynamic UI components
  */
-export function resetUi(args?: ResetUiDetail): void {
-  args = { scope: 'all', cause: 'unknown', ...args }
+export function resetUi(args: ResetUiDetail): void {
   emitEvent('resetUi', args)
 }
 /**
@@ -45,18 +44,18 @@ export async function initializeResetUi(args: { fictionRouter: FictionRouter, fi
 
   window.addEventListener('keydown', (e: KeyboardEvent) => {
     if (e.key === 'Escape' || e.key === 'Tab')
-      res({ scope: 'all', cause: 'escape' })
+      res({ scope: 'all', cause: 'escape', trigger: 'escape' })
   })
 
   window.addEventListener('click', () => {
-    res({ scope: 'all', cause: 'windowClick' })
+    res({ scope: 'all', cause: 'windowClick', trigger: 'windowClick' })
   })
 
   vue.watch(
     () => fictionRouter.current.value.path,
     (r, old) => {
       if (r !== old)
-        res({ scope: 'all', cause: 'routeChange' })
+        res({ scope: 'all', cause: 'routeChange', trigger: 'routeChange' })
     },
   )
 }

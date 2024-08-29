@@ -49,6 +49,7 @@ const handles = vue.computed(() => {
       actions.unshift({ name: 'View', icon: 'i-tabler-home' })
     }
     return {
+      testId: `page-${pg.slug.value}`,
       title: pg.displayTitle.value,
       icon: 'i-tabler-file',
       handleId: cardId ?? 'no-id-provided',

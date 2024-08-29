@@ -22,6 +22,7 @@ type FictionRouterSettings = {
   routerId?: string
   create?: boolean
   routeBasePath?: string
+  noBrowserNav?: boolean
 } & FictionPluginSettings
 
 type BaseCompiled = {
@@ -42,7 +43,7 @@ export class FictionRouter<
   baseUrl = this.settings.baseUrl || this.fictionEnv?.meta.app?.url || ''
   // prepended to every route (vue-router base)
   routeBasePath = this.settings.routeBasePath || '/'
-  noBrowserNav = vue.ref(!!this.fictionEnv?.isNode)
+  noBrowserNav = vue.ref(this.settings.noBrowserNav ?? !!this.fictionEnv?.isNode)
   constructor(settings: FictionRouterSettings) {
     super(settings.routerId || 'router', { root: safeDirname(import.meta.url), ...settings })
     this.replacers = settings.replacers || {}

@@ -5,7 +5,7 @@ import type { CardConfigPortable, PageRegion, TableCardConfig } from '../tables.
 
 const logger = log.contextLogger('regionUtils')
 
-export function updateRegion(args: { site: Site, cardConfig: Partial<TableCardConfig> }) {
+export function updatePage(args: { site: Site, cardConfig: Partial<TableCardConfig> }) {
   const { site, cardConfig } = args
 
   if (!site)
@@ -18,6 +18,8 @@ export function updateRegion(args: { site: Site, cardConfig: Partial<TableCardCo
     site.pages.value[i] = r
   else
     site.pages.value = [r, ...site.pages.value]
+
+  site.frame.syncSite({ caller: 'updatePage' })
 }
 
 export async function requestManagePage(args: {
@@ -54,7 +56,7 @@ export async function requestManagePage(args: {
 
   const cardConfig = r.data
 
-  const updateRegionAction = () => {
+  const updatePageAction = () => {
     if (_action === 'delete') {
       const i = site.pages.value.findIndex(r => r.cardId === regionCard.cardId)
 
@@ -62,7 +64,7 @@ export async function requestManagePage(args: {
         site.pages.value.splice(i, 1)
     }
     else if (cardConfig && cardConfig.cardId) {
-      updateRegion({ site, cardConfig })
+      updatePage({ site, cardConfig })
 
       site.activePageId.value = cardConfig.cardId
     }
@@ -70,10 +72,10 @@ export async function requestManagePage(args: {
 
   if (r.status === 'success') {
     if (delay && delay > 0)
-      setTimeout(() => updateRegionAction(), delay)
+      setTimeout(() => updatePageAction(), delay)
 
     else
-      updateRegionAction()
+      updatePageAction()
   }
   return { cardConfig, response: r }
 }

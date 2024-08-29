@@ -9,6 +9,8 @@ import type { FictionEnv } from '../plugin-env/index.js'
 import type { FictionObject, FictionPlugin } from '../plugin.js'
 import type { RunVars } from '../inject.js'
 
+export type ResetUiScope = 'all' | 'inputs' | 'iframe'
+export type ResetUiTrigger = 'escape' | 'routeChange' | 'windowClick' | 'manualReset' | 'elementClick' | 'test'
 export interface FictionAppEntry<T extends ServiceList = ServiceList> {
   app: vue.App
   router: Router

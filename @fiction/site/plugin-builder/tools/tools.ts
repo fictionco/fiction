@@ -3,7 +3,7 @@ import type { EditorTool } from '@fiction/admin'
 import { AdminEditorController } from '@fiction/admin'
 import type { Site } from '../../site'
 
-export type ToolKeys = 'pageMaster' | 'addPage' | 'editPage' | 'ai' | 'global' | 'publish' | 'editCard'
+export type ToolKeys = 'managePages' | 'addPage' | 'editPage' | 'ai' | 'global' | 'publish' | 'editCard'
 
 export const tools = [
   {
@@ -15,7 +15,7 @@ export const tools = [
     isPrimary: true,
   },
   {
-    toolId: 'pageMaster',
+    toolId: 'managePages',
     icon: 'i-tabler-files',
     title: 'Manage Pages',
     el: vue.defineAsyncComponent(async () => import('./PageToolMaster.vue')),

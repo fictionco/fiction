@@ -16,7 +16,7 @@ function handleCardClick(args: { cardId: string, event: MouseEvent }) {
 
   if (isEditable.value) {
     event?.stopPropagation()
-    resetUi({ scope: 'all', cause: 'ElEngine' })
+    resetUi({ scope: 'all', cause: 'ElEngine', trigger: 'elementClick' })
     props.card?.site?.setActiveCard({ cardId })
   }
 }

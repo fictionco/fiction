@@ -7,6 +7,7 @@ import CardLink from '@fiction/cards/el/CardLink.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import XText from '@fiction/ui/common/XText.vue'
 import ViewEditor from '@fiction/admin/ViewEditor.vue'
+import { expect } from 'vitest'
 import type { Site } from '../site'
 import type { FictionSites } from '..'
 import { getMountContext, loadSite } from '../load'
@@ -23,7 +24,7 @@ defineProps({
 })
 
 const service = useService<{ fictionSites: FictionSites, fictionRouterSites: FictionRouter, fictionAppSites: FictionApp }>()
-const { fictionRouter, fictionSites, fictionRouterSites } = service
+const { fictionRouter, fictionSites, fictionRouterSites, fictionEnv } = service
 
 const loading = vue.ref(true)
 const sending = vue.ref('')
@@ -59,6 +60,12 @@ async function load() {
     site.value.events.on('setActiveCard', () => {
       adminEditorController.useTool({ toolId: 'editCard' })
     })
+
+    fictionEnv.events.on('resetUi', (event) => {
+      const { scope, trigger } = event.detail
+      if (scope === 'iframe' && trigger !== 'routeChange')
+        adminEditorController.useTool({ toolId: '' })
+    })
   }
   catch (error) {
     console.error('Error loading site', error)
@@ -83,7 +90,7 @@ async function save() {
   sending.value = 'save'
 
   // make sure any blur events are triggered
-  resetUi({ scope: 'all', cause: 'saveSite' })
+  resetUi({ scope: 'all', cause: 'saveSite', trigger: 'manualReset' })
 
   await site.value.save({ minTime: 500 })
   sending.value = ''

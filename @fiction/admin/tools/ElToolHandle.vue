@@ -12,6 +12,7 @@ const draggableMode = vue.ref<number>(-1)
 
 <template>
   <div
+    :data-test-id="handle.testId ?? 'handle'"
     :data-handle-id="handle.handleId"
     :data-handle-depth="handle.depth"
     class="handle border rounded-md"

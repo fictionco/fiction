@@ -96,7 +96,7 @@ if (props.mode !== 'route') {
               </button>
               <div
                 class="flex h-full flex-col bg-white shadow-xl"
-                @click="resetUi({ scope: 'inputs', cause: 'slideOver' })"
+                @click="resetUi({ scope: 'inputs', cause: 'slideOver', trigger: 'manualReset' })"
               >
                 <div class="h-0 flex-1 overflow-y-auto">
                   <div class="flex flex-1 flex-col justify-between">

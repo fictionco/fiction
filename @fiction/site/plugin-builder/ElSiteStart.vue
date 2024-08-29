@@ -34,7 +34,7 @@ async function requestCreateSite() {
   catch (error) {
     fictionEnv.events.emit('notify', { type: 'error', message: 'There was a problem.' })
 
-    resetUi()
+    resetUi({ scope: 'all', cause: 'requestManageSite error', trigger: 'manualReset' })
     console.error(error)
   }
 

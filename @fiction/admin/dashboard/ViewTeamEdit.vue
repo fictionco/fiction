@@ -77,7 +77,7 @@ async function send(): Promise<void> {
 
   sending.value = false
 
-  resetUi({ scope: 'all', cause: 'sendTeamEdit' })
+  resetUi({ scope: 'all', cause: 'sendTeamEdit', trigger: 'manualReset' })
 }
 
 async function resendInvite(): Promise<void> {

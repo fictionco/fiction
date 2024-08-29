@@ -1,7 +1,8 @@
-import type { ActionItem, ClickHandler, colorTheme } from '@fiction/core'
+import type { ActionItem, ClickHandler, FictionEnv, colorTheme } from '@fiction/core'
 import { FictionObject, onResetUi, vue } from '@fiction/core'
 
 export type Handle = {
+  testId: string
   handleId: string
   title: string
   sub?: string
@@ -30,6 +31,7 @@ export type EditorTool<T extends string = string, U extends Record<string, any> 
 
 type AdminEditorControllerSettings = {
   tools: readonly EditorTool[]
+
 }
 
  type CardSurface = {
@@ -48,10 +50,12 @@ export class AdminEditorController<T extends CardSurface = CardSurface> extends 
   constructor(settings: AdminEditorControllerSettings) {
     super('AdminEditorController', settings)
 
-    onResetUi((args) => {
-      if (args.scope === 'iframe')
-        this.useTool({ toolId: '' })
-    })
+    // this.log.info('AdminEditorController created')
+    // onResetUi((args) => {
+    //   this.log.info('onResetUi', { data: args })
+    //   if (args.scope === 'iframe')
+    //     this.useTool({ toolId: '' })
+    // })
   }
 
   activeToolId = {
@@ -73,8 +77,9 @@ export class AdminEditorController<T extends CardSurface = CardSurface> extends 
     return locations.some(l => this.activeToolId[l].value === toolId)
   }
 
-  useTool(args: { toolId: Surface<T>['toolIds'] }) {
+  useTool(args: { toolId: Surface<T>['toolIds'] | '' }) {
     const { toolId } = args
+    this.log.info(`useTool "${toolId}"`)
     const t = this.settings.tools.find(t => t.toolId === toolId)
     const location = t?.location || 'primary'
     this.activeToolId[location].value = toolId

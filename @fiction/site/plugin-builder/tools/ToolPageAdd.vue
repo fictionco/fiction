@@ -32,7 +32,7 @@ const options = [
 
 ]
 
-const page = vue.ref<CardConfigPortable>({ title: '', slug: '' })
+const page = vue.ref<CardConfigPortable>({ title: '', slug: '', cards: [{ templateId: 'hero' }] })
 
 vue.onMounted(() => {
   /**
@@ -61,7 +61,7 @@ async function save() {
   })
   loading.value = false
 
-  props.controller.useTool({ toolId: 'pageMaster' })
+  props.controller.useTool({ toolId: 'managePages' })
 }
 </script>
 
@@ -69,14 +69,14 @@ async function save() {
   <ElTool
     :actions="[]"
     v-bind="props"
-    :back="{ name: 'Manage Pages', onClick: () => controller.useTool({ toolId: 'pageMaster' }) }"
+    :back="{ name: 'Manage Pages', onClick: () => controller.useTool({ toolId: 'managePages' }) }"
     title="Add Page"
   >
     <ElForm @submit="save()">
       <ToolForm v-model="page" :options :input-props="{ site }" />
 
       <div class="text-right px-4 py-2">
-        <ElInput input="InputSubmit" :loading rounding="full">
+        <ElInput input="InputSubmit" :loading rounding="full" data-test-id="requestCreateNewPage">
           Create New Page
         </ElInput>
       </div>

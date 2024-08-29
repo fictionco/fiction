@@ -6,7 +6,7 @@ import { snap } from '@fiction/core/test-utils'
 import { describe, expect, it } from 'vitest'
 import { Site } from '../site'
 import { requestManageSite } from '../load'
-import { requestManagePage, updateRegion } from '../utils/region'
+import { requestManagePage, updatePage } from '../utils/region'
 import { saveSite } from '../utils/site'
 import { setup } from './test-theme'
 import { createSiteTestUtils } from './testUtils'
@@ -513,7 +513,7 @@ describe('site plugin tests', async () => {
     expect(site.activeCard.value?.userConfig.value.hello).toBe('world')
 
     // make sure region changes don't affect the settings
-    updateRegion({ site, cardConfig: { title: 'test', regionId: 'main' } })
+    updatePage({ site, cardConfig: { title: 'test', regionId: 'main' } })
     await site.addCard({ templateId: 'hero', cardId: 'testId_3' })
     site.activeCard.value?.update({ userConfig: { hello: 'world' } })
 

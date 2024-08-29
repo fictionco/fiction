@@ -109,7 +109,7 @@ function toggle(): void {
   if (props.disabled)
     return
 
-  resetUi({ scope: 'inputs', cause: 'startDropdown' })
+  resetUi({ scope: 'inputs', cause: 'startDropdown', trigger: 'manualReset' })
   hovered.value = selectedIndex.value
   active.value = true
 

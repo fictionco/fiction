@@ -215,7 +215,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   setActiveCard(args: { cardId: string }) {
     const { cardId } = args
 
-    resetUi({ scope: 'all', cause: 'setActiveCard' })
+    resetUi({ scope: 'all', cause: 'setActiveCard', trigger: 'manualReset' })
 
     this.editor.value.selectedCardId = cardId
 

@@ -18,7 +18,7 @@ const emit = defineEmits(['update:modelValue'])
 if (props.defaultValue && props.modelValue === undefined)
   emit('update:modelValue', props.defaultValue)
 
-const attrs = vue.useAttrs() as { for?: string, class?: string, required?: string }
+const attrs = vue.useAttrs() as { for?: string, class?: string, required?: string, [key: string]: any }
 
 const inputEl = vue.ref<vue.ComponentPublicInstance>()
 const valid = vue.ref<boolean | undefined>()
@@ -104,7 +104,7 @@ const cls = vue.computed(() => {
         v-if="inputComponent"
         ref="inputEl"
         :model-value="modelValue"
-        v-bind="omit(attrs, 'class')"
+        v-bind="omit(attrs, 'class', 'data-test-id')"
         :ui-size="uiSize"
         @update:model-value="updateValue($event)"
       >

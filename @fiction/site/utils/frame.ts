@@ -1,3 +1,4 @@
+import type { ResetUiScope, ResetUiTrigger } from '@fiction/core'
 import { FictionObject, getUrlPath, resetUi, vue } from '@fiction/core'
 import type { FrameUtility } from '@fiction/ui/frame/elBrowserFrameUtil.js'
 import type { Site } from '../index.js'
@@ -7,7 +8,7 @@ import { activeSiteDisplayUrl, updateSite } from './site.js'
 export type FramePostMessageList =
   | { messageType: 'setSite', data: { siteConfig: Partial<TableSiteConfig>, caller?: string } }
   | { messageType: 'setCard', data: { cardConfig: CardConfigPortable, caller?: string } }
-  | { messageType: 'resetUi', data: undefined }
+  | { messageType: 'resetUi', data: { cause: string, scope: ResetUiScope, trigger: ResetUiTrigger } }
   | { messageType: 'setActiveCard', data: { cardId: string, caller?: string } }
   | { messageType: 'navigate', data: { urlOrPath: string, siteId: string } }
   | { messageType: 'frameReady', data: undefined }
@@ -77,13 +78,14 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
     this.site.fictionSites.fictionEnv.events.remove('resetUi', this.handleResetUi)
   }
 
-  private handleResetUi = (event: CustomEvent<{ scope: string }>) => {
-    const { scope } = event.detail
+  private handleResetUi = (event: CustomEvent<{ scope: ResetUiScope, trigger: ResetUiTrigger, cause: string }>) => {
+    const { scope, trigger } = event.detail
+
     // prevent recursion
-    if (scope === 'iframe')
+    if (scope === 'iframe' || !['windowClick', 'escape'].includes(trigger))
       return
 
-    this.send({ msg: { messageType: 'resetUi', data: undefined } })
+    this.send({ msg: { messageType: 'resetUi', data: event.detail } })
   }
 
   private addListeners() {
@@ -161,8 +163,9 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
     const site = this.site
     switch (msg.messageType) {
       case 'resetUi': {
-        resetUi({ scope: 'iframe', cause: 'iframeSiteRender' })
-        this.site.fictionSites.fictionEnv.events.emit('resetUi', { scope: 'iframe', cause: 'iframeSiteRender' })
+        const { trigger } = msg.data
+        resetUi({ scope: 'iframe', cause: `iframeMessage:event-${msg.data.cause}`, trigger })
+        this.site.fictionSites.fictionEnv.events.emit(`resetUi`, { scope: `iframe`, cause: `iframeMessage:fictionEnv-${msg.data.cause}`, trigger })
         break
       }
 

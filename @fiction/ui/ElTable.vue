@@ -140,7 +140,7 @@ function bulkEdit(_action: string) {
     _action,
     selectedIds: selectedIds.value,
   })
-  resetUi()
+  resetUi({ scope: 'all', cause: 'bulkEdit', trigger: 'manualReset' })
   resetSelected()
 }
 

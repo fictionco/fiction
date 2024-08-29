@@ -15,7 +15,7 @@ import { standardAppCommands } from './commands.js'
 import { generateStaticConfig } from './generate.js'
 import { commonServerOnlyModules } from './serverOnly.js'
 import { EnvVar, envConfig, vars } from './onImport.js'
-import type { CliOptions, CliVars, ServerModuleDef, ServiceConfig } from './types.js'
+import type { CliOptions, CliVars, ResetUiScope, ResetUiTrigger, ServerModuleDef, ServiceConfig } from './types.js'
 import type { FictionEnvHookDictionary } from './hooks.js'
 
 export { envConfig, vars, EnvVar }
@@ -63,7 +63,7 @@ type BaseCompiled = {
 }
 
 export type EnvEventMap = {
-  resetUi: CustomEvent<{ scope: 'all' | 'inputs' | 'iframe', cause: string }>
+  resetUi: CustomEvent<{ scope: ResetUiScope, cause: string, trigger: ResetUiTrigger }>
   keypress: CustomEvent<{ key: string, direction: 'up' | 'down' }>
   shutdown: CustomEvent<{ reason: string }> // shut down services, server
   restartServers: CustomEvent<{ reason: string }> // restart services, server

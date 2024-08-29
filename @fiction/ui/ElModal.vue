@@ -124,7 +124,7 @@ export default {
               v-if="vis"
               :class="classes"
               class="click-stop"
-              @click.stop="resetUi({ scope: 'inputs', cause: `modalClick` })"
+              @click.stop="resetUi({ scope: 'inputs', cause: `modalClick`, trigger: 'elementClick' })"
             >
               <slot />
             </div>

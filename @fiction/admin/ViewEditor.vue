@@ -12,13 +12,6 @@ const props = defineProps({
 
 const primaryTool = vue.computed(() => props.controller.activeTool.primary.value)
 const contextTool = vue.computed(() => props.controller.activeTool.context.value)
-
-vue.watch(
-  () => primaryTool.value,
-  (tool) => {
-    console.warn('PRIMARY TOOL', tool)
-  },
-)
 </script>
 
 <template>
@@ -39,7 +32,7 @@ vue.watch(
       >
         <div
           class="no-scrollbar min-w-0 grow-0 relative "
-          @click.stop="resetUi({ scope: 'inputs', cause: 'clickEditorTools' })"
+          @click.stop="resetUi({ scope: 'inputs', cause: 'clickEditorTools', trigger: 'elementClick' })"
         >
           <div class="space-y-1 py-2 z-40 relative h-full bg-theme-0 dark:bg-theme-900 border-r border-theme-200 dark:border-theme-700">
             <div

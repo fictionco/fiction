@@ -71,7 +71,7 @@ describe('fictionEnv', () => {
       done(true)
     })
 
-    fictionEnv.events.emit('resetUi', { scope: 'all', cause: 'test' })
+    fictionEnv.events.emit('resetUi', { scope: 'all', cause: 'resetUi tests', trigger: 'test' })
   }))
 
   it('tracks held keys correctly', () => {

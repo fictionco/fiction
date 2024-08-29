@@ -5,7 +5,7 @@ import { Card } from '../../card'
 import type { CardConfigPortable, TableCardConfig } from '../../tables'
 import { Site } from '../../site'
 import { createSiteTestUtils } from '../../test/testUtils'
-import { addNewCard, removeCard, requestManagePage, updateRegion } from '../region'
+import { addNewCard, removeCard, requestManagePage, updatePage } from '../region'
 
 describe('removeCard', async () => {
   const testUtils = await createSiteTestUtils()
@@ -135,7 +135,7 @@ describe('addNewCard', async () => {
   })
 })
 
-describe('updateRegion', async () => {
+describe('updatePage', async () => {
   const testUtils = await createSiteTestUtils()
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteId: `test-${shortId()}` }
   const cardCommon = { regionId: 'main', templateId: 'area' } as const
@@ -144,7 +144,7 @@ describe('updateRegion', async () => {
     const cardConfig: Partial<TableCardConfig> = { cardId: 'card1', ...cardCommon }
     const initialLength = site.pages.value.length
 
-    updateRegion({ site, cardConfig })
+    updatePage({ site, cardConfig })
 
     expect(site.pages.value).toHaveLength(initialLength + 1)
     expect(site.pages.value[0]).toBeInstanceOf(Card)
@@ -157,7 +157,7 @@ describe('updateRegion', async () => {
     site.pages.value.push(new Card({ cardId: id, userConfig: { val: 'bravo' }, site }))
 
     const cardConfig: Partial<TableCardConfig> = { cardId: id, userConfig: { val: 'alpha' }, ...cardCommon }
-    updateRegion({ site, cardConfig })
+    updatePage({ site, cardConfig })
 
     const reg = site.pages.value.filter(c => c.cardId === id)
     expect(reg).toHaveLength(1)

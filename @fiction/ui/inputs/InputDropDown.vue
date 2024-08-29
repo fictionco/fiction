@@ -40,7 +40,7 @@ async function update(value?: string | number) {
 }
 
 function toggleVis() {
-  resetUi({ scope: 'inputs', cause: 'dropdown' })
+  resetUi({ scope: 'inputs', cause: 'dropdown', trigger: 'elementClick' })
   menuVis.value = !menuVis.value
 }
 

@@ -20,6 +20,7 @@ const handles = vue.computed<Handle[]>(() => {
 
   return history?.map((item) => {
     return {
+      testId: `draft-${item.draftId}`,
       handleId: item.draftId || '',
       title: item.title || 'Untitled',
       date: item.createdAt,

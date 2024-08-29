@@ -55,6 +55,7 @@ function toggleAddElements() {
   <div>
     <div>
       <XButton
+        data-test-id="add-new-elements"
         :theme="addElementsVisible ? 'theme' : 'primary'"
         rounding="full"
         design="solid"
@@ -77,6 +78,7 @@ function toggleAddElements() {
                 <XButton
                   v-for="(item, ii) in tplGroup"
                   :key="ii"
+                  :data-test-id="`add-element-${item.settings.templateId}`"
                   :theme="item.settings.colorTheme || 'theme'"
                   class="cursor-pointer hover:opacity-80"
                   rounding="full"

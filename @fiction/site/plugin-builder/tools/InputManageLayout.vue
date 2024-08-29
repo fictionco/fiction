@@ -5,7 +5,7 @@ import type { Site } from '../../site'
 import DraggableLayout from './LayoutDraggable.vue'
 import LayoutToolRegion from './LayoutToolRegion.vue'
 
-const props = defineProps({
+defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
 })
