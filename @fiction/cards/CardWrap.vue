@@ -86,10 +86,6 @@ const autoSetDark = vue.computed(() => {
   const lightBg = standardUc.value?.scheme?.light?.bg
   return baseBg && !lightBg
 })
-
-const isEditable = vue.computed(() => {
-  return props.card?.site?.isEditable.value
-})
 </script>
 
 <template>
@@ -128,9 +124,9 @@ const isEditable = vue.computed(() => {
       </div>
     </div>
     <div
-      v-if="isEditable"
-      class="opacity-0 group-hover/engine:opacity-100 transition-all bg-blue-500 dark:bg-blue-600/30 dark:hover:bg-blue-600/80 hover:z-20 cursor-pointer py-[1px] px-1.5 text-blue-100 font-sans text-[10px] absolute top-0 right-0 flex gap-0.5 items-center justify-center rounded-full"
-      :class="card.tpl.value?.settings.isContainer ? 'left-1' : 'right-1'"
+      v-if="props.card?.site?.isEditable.value"
+      class="opacity-0 group-hover/engine:opacity-100 transition-all bg-blue-500 dark:bg-blue-600/60 dark:hover:bg-blue-600/80 hover:z-20 cursor-pointer py-[1px] px-1.5 text-blue-100 font-sans text-[10px] absolute top-0 flex gap-0.5 items-center justify-center "
+      :class="card.tpl.value?.settings.isContainer ? 'left-0' : 'right-0'"
     >
       <div :class="card.tpl.value?.settings.icon" />
       <div>{{ card.tpl.value?.settings.title }}</div>

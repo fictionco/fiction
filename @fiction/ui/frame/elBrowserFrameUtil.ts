@@ -5,6 +5,7 @@ import { computed, ref, watch } from 'vue'
 
 // lightweight for tag
 import { Obj } from '@fiction/core/obj.js'
+import { LinkHandler } from './utils'
 
 export interface FrameMessage<T = unknown> {
   from?: 'fiction'
@@ -53,7 +54,6 @@ export class FrameUtility<T extends MsgUnknown = FrameMessage> extends Obj<Frame
   frameEl = this.settings.frameEl
   getWindow = this.settings.getWindow || (() => window)
   getSendToWindow = this.settings.getSendToWindow || (() => (this.relation === 'child' ? this.getWindow().parent : this.frameEl?.contentWindow))
-
   messageBuffer: ((T | MsgStandard) & MsgAuth)[] = []
   loaded = ref(false)
   waitForReadySignal = this.settings.waitForReadySignal ?? false
@@ -66,6 +66,7 @@ export class FrameUtility<T extends MsgUnknown = FrameMessage> extends Obj<Frame
   onFrameLoad = this.settings.onFrameLoad ?? (() => {})
   messageCallbacks = new Set<MessageListener<T>>([this.settings.onMessage ?? (() => {})])
   debug = false
+  cleanups: (() => void)[] = []
 
   init() {
     if (typeof this.getWindow() === 'undefined') {
@@ -75,16 +76,25 @@ export class FrameUtility<T extends MsgUnknown = FrameMessage> extends Obj<Frame
 
     this.initialized = true
 
-    if (this.relation === 'parent' && this.frameEl)
+    if (this.relation === 'parent' && this.frameEl) {
       this.parentInit()
-    else if (this.relation === 'child')
+    }
+    else if (this.relation === 'child') {
       this.sendReadySignal()
+      this.setupClickHandler()
+    }
 
     watch(() => this.isFrameReady.value, v => v && this.flushBuffer())
     if (this.hasKeyBoardEvents) {
       this.setupKeyboardEvents()
     }
     this.listenForMessages()
+  }
+
+  setupClickHandler() {
+    const linkHandler = new LinkHandler(this)
+    linkHandler.setup()
+    this.cleanups.push(() => linkHandler.cleanup())
   }
 
   parentInit() {
@@ -152,6 +162,9 @@ export class FrameUtility<T extends MsgUnknown = FrameMessage> extends Obj<Frame
   clear() {
     if (this.messageListener)
       this.getWindow().removeEventListener('message', this.messageListener)
+
+    this.cleanups.forEach(cleanup => cleanup())
+    this.cleanups = []
   }
 
   listenForMessages(): void {

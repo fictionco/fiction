@@ -9,9 +9,7 @@ const props = defineProps({
   tag: { type: String, default: 'div' },
 })
 
-const isEditable = vue.computed(() => {
-  return props.card?.site?.isEditable.value
-})
+const isEditable = vue.computed(() => props.card?.site?.isEditable.value)
 
 function handleCardClick(args: { cardId: string, event: MouseEvent }) {
   const { event, cardId } = args
@@ -35,13 +33,11 @@ const cards = vue.computed(() => {
     <EffectTransitionCardList>
       <template v-for="(subCard) in cards" :key="subCard.cardId">
         <CardWrap
-
-          data-card-wrap=""
           :card="subCard"
           class="relative group/engine"
           :class="[
-            subCard.isActive.value && isEditable ? '' : '',
-            isEditable ? ' cursor-pointer  transition-all' : '',
+            subCard.isActive.value && isEditable ? 'outline-2 outline-dashed outline-theme-300 dark:outline-theme-600' : '',
+            isEditable ? 'hover:outline-2 hover:outline-dashed hover:outline-blue-300 dark:hover:outline-blue-600 cursor-pointer  transition-all' : '',
           ]"
           @click="handleCardClick({ cardId: subCard.cardId, event: $event })"
         >

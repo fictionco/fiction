@@ -81,8 +81,7 @@ vue.onMounted(async () => {
       }
 
       if (widthScale && heightScale) {
-        frameSize.value
-        = widthScale.scale < heightScale.scale ? widthScale : heightScale
+        frameSize.value = widthScale.scale < heightScale.scale ? widthScale : heightScale
       }
       else {
         frameSize.value = widthScale || heightScale || frameSizeDefault
@@ -196,7 +195,7 @@ const navigator = new FrameNavigator({
     </div>
     <div
       :id="`${frameId}-wrap`"
-      class="relative max-h-[100%] overflow-hidden w-full"
+      class="relative max-h-[100%] overflow-hidden w-full "
       :class="dimensions.aspectClass"
     >
       <iframe

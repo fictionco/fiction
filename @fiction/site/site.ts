@@ -10,7 +10,7 @@ import { SiteFrameTools } from './utils/frame.js'
 import { activePageId, getPageById, getViewMap, setPages, updatePages } from './utils/page.js'
 import { addNewCard, removeCard } from './utils/region.js'
 import type { QueryVarHook } from './utils/site.js'
-import { saveSite, setSections, setupRouteWatcher, updateSite } from './utils/site.js'
+import { saveSite, scrollActiveCardIntoView, setSections, setupRouteWatcher, updateSite } from './utils/site.js'
 import type { SiteMode } from './load.js'
 import { type FontConfigVal, activeSiteFont } from './utils/fonts.js'
 import type { FictionSites, ThemeConfig } from './index.js'
@@ -23,6 +23,7 @@ export type EditorState = {
   tempSite: Record<string, any>
   selectedRegionId: PageRegion | undefined
   savedCardOrder: Record<string, string[]>
+  savedEditingStyle: 'clean' | 'quick'
 }
 
 export type SiteSettings = {
@@ -44,7 +45,15 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   fictionSites = this.settings.fictionSites
   siteRouter = this.settings.siteRouter
   siteMode = vue.ref(this.settings.siteMode || 'standard')
-  isEditable = vue.computed(() => this.siteMode.value === 'editable' || false)
+  heldMetaKey = vue.computed(() => this.fictionSites.fictionEnv?.heldKeys.value.meta)
+  isEditable = vue.computed(() => {
+    const isEditContext = this.siteMode.value === 'editable' || false
+    const editingStyle = this.editor.value.savedEditingStyle || 'normal'
+    const held = this.heldMetaKey.value
+    const out = isEditContext && ((editingStyle === 'quick' && !held) || (editingStyle === 'clean' && held))
+    return out
+  })
+
   isDesigner = vue.computed(() => ['designer', 'coding'].includes(this.siteMode.value) || false)
   frame = new SiteFrameTools({ site: this, relation: this.isDesigner.value ? 'parent' : 'child' })
   events = new TypedEventTarget<SiteEventMap>({ fictionEnv: this.fictionSites.fictionEnv })
@@ -148,6 +157,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     selectedPageId: '',
     selectedRegionId: 'main',
     savedCardOrder: {},
+    savedEditingStyle: 'quick',
     tempPage: {},
     tempSite: {},
     ...this.settings.editor,
@@ -155,10 +165,11 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
   editorStored = vue.computed(() => {
     // get object of keys with store in them
-    const storeKeys = Object.keys(this.editor).filter(k => k.includes('saved'))
+    const editorValues = this.editor.value
+    const storeKeys = Object.keys(editorValues).filter(k => k.includes('saved'))
     const out = {} as Record<string, unknown>
     storeKeys.forEach((k) => {
-      out[k] = this.editor.value[k as keyof EditorState] || []
+      out[k] = editorValues[k as keyof EditorState] || []
     })
     return out
   })
@@ -168,10 +179,11 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     const { fictionSites: _, siteRouter: __, ...savedSettings } = this.settings
     const pages = this.pages.value.filter(_ => !_.isSystem.value).map(p => p.toConfig())
     const sections = Object.fromEntries(Object.entries(this.sections.value).map(([k, v]) => [k, v.toConfig()]))
+    const editor = this.editorStored.value
 
     const baseConfig = {
       ...savedSettings,
-      editor: this.editorStored.value,
+      editor,
       siteId: this.siteId,
       themeId: this.themeId.value,
       status: this.status.value,
@@ -211,18 +223,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
     this.frame.syncActiveCard({ cardId })
 
-    this.scrollActiveCardIntoView({ cardId })
-  }
-
-  scrollActiveCardIntoView(args: { cardId: string }) {
-    const { cardId } = args
-    const card = this.availableCards.value.find(c => c.cardId === cardId)
-
-    if (!card || this.siteMode.value !== 'editable' || typeof document === 'undefined')
-      return
-
-    const selectedElement = document.querySelector(`#${cardId}`)
-    selectedElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' })
+    scrollActiveCardIntoView({ cardId, site: this })
   }
 
   async updateLayout(args: { order: LayoutOrder[] }) {

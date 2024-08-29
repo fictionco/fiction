@@ -227,3 +227,40 @@ export function staticFileUrls<T extends readonly string[]>(args: { site: Site, 
 
   return result
 }
+
+export function scrollActiveCardIntoView(args: { site: Site, cardId: string }) {
+  const { site, cardId } = args
+
+  if (site.siteMode.value !== 'editable' || typeof document === 'undefined' || typeof window === 'undefined')
+    return
+
+  const element = document.getElementById(cardId)
+  if (!element)
+    return
+
+  const rect = element.getBoundingClientRect()
+  const viewportHeight = window.innerHeight || document.documentElement.clientHeight
+
+  // Calculate the visible height of the element
+  const visibleHeight = Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0)
+
+  // Calculate the percentage of the element that's visible
+  const visiblePercentage = (visibleHeight / rect.height) * 100
+
+  const minPercent = rect.height > viewportHeight ? 0 : 40
+
+  // If less than or equal to 20% is visible, scroll it into view
+  if (visiblePercentage <= minPercent) {
+    const scrollOptions: ScrollIntoViewOptions = {
+      behavior: 'smooth',
+      block: 'center',
+    }
+
+    // If the element is taller than the viewport, align to top instead of center
+    if (rect.height > viewportHeight) {
+      scrollOptions.block = 'start'
+    }
+
+    element.scrollIntoView(scrollOptions)
+  }
+}

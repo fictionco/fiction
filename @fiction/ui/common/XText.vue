@@ -15,7 +15,6 @@ const props = defineProps({
   suffix: { type: String, default: '' },
   fallback: { type: String, default: '' },
   mode: { type: String as vue.PropType<InputModes>, default: 'text' },
-  editKey: { type: [Boolean, String], default: false },
 })
 
 const emit = defineEmits<{
@@ -24,8 +23,6 @@ const emit = defineEmits<{
   (event: 'update:modelValue', payload: string): void
   (event: 'onEditable', payload: boolean): void
 }>()
-
-const { fictionEnv } = useService()
 
 const randomId = shortId()
 
@@ -40,19 +37,9 @@ function getValue(rawValue: string) {
   return v
 }
 
-const canClickToEdit = vue.computed(() => {
-  const requiredKey = props.editKey === true ? 'meta' : props.editKey
-
-  return !!((!requiredKey || (requiredKey && fictionEnv?.heldKeys.value[requiredKey])))
-})
-
 const isContentEditable = vue.computed(() => {
-  return (props.isEditable && canClickToEdit.value) || isEditing.value
+  return props.isEditable || isEditing.value
 })
-
-vue.watch(() => isContentEditable.value, (v) => {
-  emit('onEditable', !!v)
-}, { immediate: true })
 
 // set the displayed text, only do this when not editing
 // as any reactive change bounces the cursor to the start
@@ -120,7 +107,7 @@ function loadAnimation() {
   const themeId = typeof props.animate == 'string' ? props.animate : 'rise'
 
   useElementVisible({
-    selector: `#${randomId}`,
+    selector: `[data-anim-id="${randomId}"]`,
     onVisible: () => {
       loaded.value = true
       animateItemEnter({ targets: `#${randomId} .fx`, themeId })
@@ -155,7 +142,7 @@ function setIsEditing(type: 'click' | 'focus') {
   <component
     :is="tag"
     v-if="(isContentEditable && placeholder) || textValue || fallback"
-    :id="randomId"
+    :data-anim-id="randomId"
     class="focus:outline-none xtext"
     :class="loaded ? '' : 'invisible'"
     :contenteditable="isContentEditable ? 'true' : 'false'"

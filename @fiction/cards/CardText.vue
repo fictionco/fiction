@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getNested, setNested, useService, vue } from '@fiction/core'
+import { getNested, setNested, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import type { InputModes } from '@fiction/ui/common/XText.vue'
 import XText from '@fiction/ui/common/XText.vue'
@@ -14,8 +14,6 @@ const props = defineProps({
   mode: { type: String as vue.PropType<InputModes>, default: 'text' },
   editKey: { type: [Boolean, String], default: true },
 })
-
-const { fictionEnv } = useService()
 
 const attrs = vue.useAttrs()
 const textEl = vue.ref<HTMLElement>()
@@ -40,19 +38,7 @@ const value = vue.computed(() => {
   return getNested({ path: props.path, data: data.value }) as string
 })
 
-// const isEditable = vue.computed(() => {
-//   const isEditable = props.card.site?.isEditable.value
-//   const requiredKey = props.editKey === true ? 'meta' : props.editKey
-
-//   if (isEditable && requiredKey && fictionEnv?.heldKeys.value[requiredKey]) {
-//     return true
-//   }
-//   else if (!requiredKey) {
-//     return isEditable
-//   }
-// })
-
-const isContentEditable = vue.ref(false)
+const isContentEditable = vue.computed(() => props.card.site?.isEditable.value)
 
 function shouldStopProp(event: MouseEvent) {
   if (isContentEditable.value) {
@@ -62,6 +48,8 @@ function shouldStopProp(event: MouseEvent) {
     props.card?.site?.setActiveCard({ cardId })
   }
 }
+
+const editOrAnimate = vue.computed(() => props.card.site?.siteMode.value === 'editable' ? false : props.animate)
 </script>
 
 <template>
@@ -69,14 +57,13 @@ function shouldStopProp(event: MouseEvent) {
     ref="textEl"
     :data-key="path"
     v-bind="attrs"
-    :animate
+    :animate="editOrAnimate"
     :tag
-    :is-editable="props.card.site?.isEditable.value"
+    :is-editable="isContentEditable"
     :edit-key="editKey"
     :model-value="value"
     :placeholder
     :fallback
-    @on-editable="isContentEditable = $event"
     @click="shouldStopProp($event)"
     @update:model-value="onValue($event)"
     @input="onInput($event)"

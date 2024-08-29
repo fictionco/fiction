@@ -12,6 +12,7 @@ const props = defineProps({
 
 const uc = vue.computed(() => props.card.userConfig.value || {})
 const prices = vue.computed(() => uc.value.prices || [])
+const loading = vue.ref(true)
 
 function cls(price: UserConfigPrice) {
   if (price.isHighlighted) {
@@ -34,6 +35,7 @@ vue.onMounted(() => {
   useElementVisible({
     selector: `#${props.card.cardId}`,
     onVisible: async () => {
+      loading.value = false
       await animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'rise', config: { overallDelay: 500 } })
     },
   })
@@ -80,7 +82,7 @@ function getPrice(price?: UserConfigPrice) {
         </div>
       </div>
     </div>
-    <div class="grid grid-cols-1 gap-6" :class="prices.length > 2 ? 'lg:grid-cols-3' : 'lg:grid-cols-2'">
+    <div class="grid grid-cols-1 gap-6 transition-all" :class="[prices.length > 2 ? 'lg:grid-cols-3' : 'lg:grid-cols-2', loading ? 'opacity-0' : 'opacity-100']">
       <div v-for="(price, i) in uc.prices" :key="i" class="rounded-xl x-action-item" :class="cls(price).col">
         <div class="px-6 py-8 lg:px-8">
           <div class="flex justify-between">
