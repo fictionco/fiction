@@ -482,7 +482,7 @@ export class FictionEnv<
     const envVar = this.getVars().find(_ => _.name === variable)
 
     if (!envVar) {
-      throw new Error(`variable definition not set up: ${variable}`)
+      throw new Error(`variable definition not set up: ${variable} (IS_APP: ${isApp})`)
     }
 
     const v = envVar.val.value

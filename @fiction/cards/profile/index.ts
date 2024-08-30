@@ -2,11 +2,10 @@ import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import { CardTemplate } from '@fiction/site/card'
 import { z } from 'zod'
-import { refineOptions } from '@fiction/site/utils/schema'
 import { standardOption } from '../inputSets'
 import { stockMediaHandler } from '../stock/index.js'
 
-export const UserConfigSchema = z.object({
+export const schema = z.object({
   heading: z.string().optional().describe('Primary headline for profile 3 to 8 words'),
   subHeading: z.string().optional().describe('Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs'),
   superHeading: z.string().optional().describe('Shorter badge above headline, 2 to 5 words'),
@@ -32,39 +31,29 @@ export const UserConfigSchema = z.object({
   })).optional().describe('List of social media links'),
 })
 
-export type UserConfig = z.infer<typeof UserConfigSchema>
-
-function userControls() {
-  const { options } = refineOptions({
-    options: [
-      new InputOption({
-        label: 'Settings',
-        input: 'group',
-        key: 'minProfileSettings',
-        options: [
-          new InputOption({
-            key: 'layout',
-            input: 'InputSelect',
-            list: [
-              { name: 'Media on Left', value: 'left' },
-              { name: 'Media on Right', value: 'right' },
-            ],
-          }),
-          standardOption.mediaItems(),
-          standardOption.headers(),
-          standardOption.navItems({ label: 'Details', key: 'details' }),
-          standardOption.socials(),
-        ],
-      }),
-    ],
-    schema: UserConfigSchema,
-  })
-  return options
-}
+export type UserConfig = z.infer<typeof schema>
 
 const options = [
   standardOption.ai(),
-  ...userControls(),
+  new InputOption({
+    label: 'Settings',
+    input: 'group',
+    key: 'minProfileSettings',
+    options: [
+      new InputOption({
+        key: 'layout',
+        input: 'InputSelect',
+        list: [
+          { name: 'Media on Left', value: 'left' },
+          { name: 'Media on Right', value: 'right' },
+        ],
+      }),
+      standardOption.mediaItems(),
+      standardOption.headers(),
+      standardOption.navItems({ label: 'Details', key: 'details' }),
+      standardOption.socials(),
+    ],
+  }),
 ]
 
 const templateId = 'profile'
@@ -101,7 +90,7 @@ const minimalProfile = new CardTemplate({
   getUserConfig: () => getUserConfig(),
   isPublic: true,
   options,
-  schema: UserConfigSchema,
+  schema,
   demoPage: async () => {
     return { cards: [
       { templateId, userConfig: { ...getUserConfig() } },

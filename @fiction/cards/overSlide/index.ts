@@ -1,6 +1,6 @@
 import { vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
-import type { InputOption } from '@fiction/ui'
+import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 import { mediaSchema } from '../schemaSets.js'
 import { stockMediaHandler } from '../stock/index.js'
@@ -12,10 +12,8 @@ const schema = z.object({
   items: z.array(
     z.object({
       media: mediaSchema.optional(),
-      mediaBackground: mediaSchema.optional(),
       title: z.string().optional(),
       subTitle: z.string().optional(),
-      href: z.string().optional(),
       textBlend: z.enum(['normal', 'difference']).optional(),
     }),
   ).optional(),
@@ -24,6 +22,16 @@ const schema = z.object({
 export type UserConfig = z.infer<typeof schema>
 
 const options: InputOption[] = [
+  new InputOption({ key: 'autoSlide', label: 'Animate slide transition?', input: 'InputToggle' }),
+  new InputOption({ key: 'items', label: 'Items', input: 'InputList', options: [
+    new InputOption({ key: 'media', label: 'Media', input: 'InputMediaDisplay' }),
+    new InputOption({ key: 'title', label: 'Title', input: 'InputText' }),
+    new InputOption({ key: 'subTitle', label: 'Sub Title', input: 'InputText' }),
+    new InputOption({ key: 'textBlend', label: 'Text Blend', input: 'InputSelect', list: [
+      { name: 'Normal', value: 'normal' },
+      { name: 'Difference', value: 'difference' },
+    ] }),
+  ] }),
 ]
 
 async function getDefaultConfig(): Promise<UserConfig> {
@@ -65,7 +73,7 @@ export const templates = [
     description: 'Overlayed profile slider, great for showcasing people or services.',
     icon: 'i-tabler-layers-intersect',
     colorTheme: 'teal',
-    isPublic: false,
+    isPublic: true,
     schema,
     options,
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),

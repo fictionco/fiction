@@ -78,7 +78,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
         {
           appType: 'custom',
           server: { middlewareMode: true },
-          // optimizeDeps: { holdUntilCrawlEnd: true },
+          optimizeDeps: { holdUntilCrawlEnd: true },
         },
       ])
 

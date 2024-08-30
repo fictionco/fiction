@@ -29,82 +29,87 @@ const UserConfigSchema = z.object({
 
 export type UserConfig = z.infer<typeof UserConfigSchema>
 
-export async function getDefaultConfig(args: { site?: Site }): Promise<UserConfig> {
+export async function getDefaultConfig(): Promise<UserConfig> {
   return {
     aspect: 'portrait',
     gridColsMax: '4',
     items: [
       {
-        title: 'Coca-Cola',
-        subTitle: 'Refreshing brand refresh',
-        content: 'Led the summer campaign design, increasing engagement by 25%. Created a series of vibrant, eco-friendly packaging designs that resonated with younger demographics while maintaining brand recognition.',
+        title: 'Item 1',
+        subTitle: 'Lorem ipsum dolor sit amet',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'object']),
       },
       {
-        title: 'Google',
-        subTitle: 'Reimagining the search experience',
-        content: 'Collaborated on redesigning Google\'s search results page, focusing on improved readability and accessibility. Implemented a new system of micro-interactions that enhanced user engagement by 15%.',
+        title: 'Item 2',
+        subTitle: 'Consectetur adipiscing elit',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'object']),
       },
       {
-        title: 'Nike',
-        subTitle: 'Just Do It - 2024 Edition',
-        content: 'Spearheaded the visual direction for Nike\'s 2024 "Just Do It" campaign. Developed a series of dynamic, inclusive visuals that increased social media engagement by 40% and contributed to a 10% boost in online sales.',
+        title: 'Item 3',
+        subTitle: 'Sed do eiusmod tempor',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'object']),
       },
       {
-        title: 'Apple',
-        subTitle: 'Simplicity in innovation',
-        content: 'Assisted in designing the user interface for a new product line, emphasizing Apple\'s core principle of intuitive design. The resulting UI scored 95% in user satisfaction tests.',
+        title: 'Item 4',
+        subTitle: 'Incididunt ut labore et dolore',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'object']),
       },
       {
-        title: 'Starbucks',
-        subTitle: 'Brewing a new visual identity',
-        content: 'Redesigned Starbucks\' in-store visual elements, creating a cohesive, modern aesthetic that enhanced brand perception. The new design was implemented in over 5,000 stores worldwide.',
+        title: 'Item 5',
+        subTitle: 'Magna aliqua ut enim',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'object']),
       },
       {
-        title: 'Amazon',
-        subTitle: 'Redefining the online shopping experience',
-        content: 'Contributed to the redesign of Amazon\'s mobile app, focusing on streamlining the checkout process. The new design reduced cart abandonment rates by 18% and improved overall user satisfaction.',
+        title: 'Item 6',
+        subTitle: 'Ad minim veniam quis',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'object']),
       },
       {
-        title: 'Tesla',
-        subTitle: 'Electrifying the future of transport',
-        content: 'Developed the visual concept for Tesla\'s sustainability report, effectively communicating complex data through intuitive infographics. The report garnered significant positive press and strengthened Tesla\'s position as an industry leader in sustainability.',
+        title: 'Item 7',
+        subTitle: 'Nostrud exercitation ullamco',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'object']),
       },
       {
-        title: 'Disney',
-        subTitle: 'Bringing magic to life',
-        content: 'Created promotional materials for Disney\'s new streaming content, blending classic characters with contemporary design elements. The campaign contributed to a 30% increase in new subscriptions during its run.',
-        media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'object']),
-      },
-
-      {
-        title: 'Microsoft',
-        subTitle: 'Windows to the future',
-        content: 'Contributed to the design of key UI elements for Windows 11, focusing on creating a more intuitive and visually appealing user experience. The new design elements received positive feedback in beta testing, with a 92% approval rating.',
+        title: 'Item 8',
+        subTitle: 'Laboris nisi ut aliquip',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'object']),
       },
       {
-        title: 'Adidas',
-        subTitle: 'Stripes of excellence',
-        content: 'Led the design for Adidas\' eco-friendly product line, creating packaging and promotional materials that highlighted the company\'s commitment to sustainability. The campaign contributed to a 20% increase in sales for the new product line.',
+        title: 'Item 9',
+        subTitle: 'Ex ea commodo consequat',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'object']),
       },
       {
-        title: 'Spotify',
-        subTitle: 'Visualizing the sound of a generation',
-        content: 'Designed a series of dynamic, music-responsive visuals for Spotify\'s annual wrapped campaign. The designs increased social media shares of Wrapped results by 50% compared to the previous year.',
+        title: 'Item 10',
+        subTitle: 'Duis aute irure dolor',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'object']),
       },
       {
-        title: 'Netflix',
-        subTitle: 'Streaming success',
-        content: 'Redesigned Netflix\'s content recommendation UI, improving personalization and discoverability. The new design increased viewer engagement time by an average of 12 minutes per session and boosted content diversity in user watchlists.',
+        title: 'Item 11',
+        subTitle: 'In reprehenderit in voluptate',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'object']),
+      },
+      {
+        title: 'Item 12',
+        subTitle: 'Velit esse cillum dolore',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'object']),
+      },
+      {
+        title: 'Item 13',
+        subTitle: 'Eu fugiat nulla pariatur',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'object']),
       },
     ],
@@ -126,10 +131,10 @@ const template = new CardTemplate({
     new InputOption({ key: 'gridColsMax', label: 'Max Grid Columns', input: 'InputSelect', list: gridCols, default: () => '4' }),
     new InputOption({ key: 'gridColsMin', label: 'Min Grid Columns', input: 'InputSelect', list: ['1', '2'], default: () => '1' }),
   ],
-  getUserConfig: args => getDefaultConfig(args),
+  getUserConfig: () => getDefaultConfig(),
   schema: UserConfigSchema,
-  demoPage: async (args) => {
-    const userConfig = await getDefaultConfig(args)
+  demoPage: async () => {
+    const userConfig = await getDefaultConfig()
     return { cards: [{ templateId, userConfig }] }
   },
 })
