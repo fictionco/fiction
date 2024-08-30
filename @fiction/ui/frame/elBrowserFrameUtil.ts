@@ -184,9 +184,9 @@ export class FrameUtility<T extends MsgUnknown = FrameMessage> extends Obj<Frame
   flushBuffer() {
     const sendToWindow = this.getSendToWindow()
 
-    this.log.debug('flush', {
-      data: { sendToWindow, initialized: this.initialized, frameReady: this.isFrameReady.value, sig: this.hasReadySignal.value },
-    })
+    // this.log.debug('flush', {
+    //   data: { sendToWindow, initialized: this.initialized, frameReady: this.isFrameReady.value, sig: this.hasReadySignal.value },
+    // })
 
     if (!sendToWindow)
       return

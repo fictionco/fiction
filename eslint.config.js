@@ -42,6 +42,7 @@ export default antfu(
       'style/max-statements-per-line': ['error', { max: 2 }],
       'regexp/no-super-linear-backtracking': 'warn',
       'regexp/no-unused-capturing-group': 'warn',
+      'unicorn/consistent-function-scoping': 'off',
     },
   },
   { ignores: [

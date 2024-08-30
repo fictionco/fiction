@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { shortId, toHtml, toMarkdown, useService, vue } from '@fiction/core'
+import { shortId, toHtml, toMarkdown, vue } from '@fiction/core'
 import { animateItemEnter, splitLetters, useElementVisible } from '../anim'
 
 export type InputModes = 'text' | 'markdown' | 'html' | 'number' | 'email' | 'url' | 'password' | 'phone' | 'date'

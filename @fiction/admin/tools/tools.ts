@@ -1,5 +1,5 @@
-import type { ActionItem, ClickHandler, FictionEnv, colorTheme } from '@fiction/core'
-import { FictionObject, onResetUi, vue } from '@fiction/core'
+import type { ActionItem, ClickHandler, colorTheme } from '@fiction/core'
+import { FictionObject, vue } from '@fiction/core'
 
 export type Handle = {
   testId: string
