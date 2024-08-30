@@ -19,7 +19,7 @@ export const UserConfigSchema = z.object({
       icon: z.string().optional(),
       href: z.string().optional(),
     })).optional().describe('List of details with contact details, location, etc.'),
-  })),
+  })).optional().describe('List of contact details'),
   socials: z.array(z.object({
     name: z.string().optional().describe('@handle on (platform)'),
     href: z.string().optional().describe('Full link for href'),

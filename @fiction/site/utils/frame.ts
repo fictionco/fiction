@@ -79,10 +79,10 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
   }
 
   private handleResetUi = (event: CustomEvent<{ scope: ResetUiScope, trigger: ResetUiTrigger, cause: string }>) => {
-    const { scope, trigger } = event.detail
+    const { scope } = event.detail
 
     // prevent recursion
-    if (scope === 'iframe' || !['windowClick', 'escape'].includes(trigger))
+    if (scope === 'iframe')
       return
 
     this.send({ msg: { messageType: 'resetUi', data: event.detail } })

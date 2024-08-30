@@ -130,22 +130,16 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
         await factory.create({
           templateId: 'profile',
           userConfig: {
-            superHeading: 'Alison Groves',
-            heading: 'I Solve Leadership Challenges for People and Organizations',
-            subHeading: `<p>I am a leadership coach, organizational consultant, and keynote speaker. With over 15 years of experience in corporate leadership and executive coaching, I specialize in empowering leaders to unlock their full potential and drive organizational success.</p>
-<p>Based in New York, I've had the privilege of working with Fortune 500 executives, startup founders, and non-profit leaders across diverse industries. My approach combines evidence-based strategies with personalized insights to create transformative leadership experiences. I hold certifications in [relevant certifications, e.g., ICF PCC, CPCC] and am a frequent contributor to leading business publications on leadership development.</p>`,
+            superHeading: 'Name or Tagline',
+            heading: 'A Few Words That Describe What You Do',
+            subHeading: `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>`,
             mediaItems: [
               {
-                media: {
-                  format: 'url',
-                  url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/2a9591f6-8529-4ba1-3ebb-7323e12e9b00/public',
-                },
+                media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'person']),
               },
               {
-                media: {
-                  format: 'url',
-                  url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/4f5fbd75-ce12-4135-94c6-d18473410500/public',
-                },
+                media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'person']),
               },
             ],
             detailsTitle: 'Let\'s Connect',
@@ -169,6 +163,7 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
       slug: 'contact',
       title: 'Contact',
       cards: [
+        await factory.create({ templateId: 'contact', userConfig: { } }),
         await factory.create({ templateId: 'maps', userConfig: { } }),
       ],
     }),
