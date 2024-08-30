@@ -244,8 +244,10 @@ export class FictionEnv<
     const vars = this.getVars()
 
     if (!this.isApp.value) {
+      const total = vars.length
+      const publicVars = vars.filter(_ => _.isPublic).length
       this.log.info(
-        `variables (${vars.length} total / ${vars.filter(_ => _.isPublic).length} public)`,
+        `${publicVars} public vars (${total} total)`,
         { data: this.getRenderedEnvVars(), disableOnRestart: true },
       )
 
@@ -348,7 +350,7 @@ export class FictionEnv<
       this.getPublicVars().filter(_ => _.val.value).map(_ => [_.name, _.val.value]),
     ) as Record<string, string | Record<string, string>>
 
-    rendered.IS_VITE = 'yes'
+    rendered.IS_APP_CLIENT = 'yes'
 
     return rendered
   }

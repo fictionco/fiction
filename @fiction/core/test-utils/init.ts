@@ -234,6 +234,8 @@ export function createTestUtils(opts?: TestUtilSettings) {
       const { fictionUser, fictionServer, fictionDb, fictionApp } = service
       const { mode = 'test', context } = args
 
+      logger.info(`Running app in ${mode} mode`, { data: args })
+
       if (context === 'node') {
         await fictionDb.init()
         const srv = await fictionServer.initServer({ useLocal: true, fictionUser })

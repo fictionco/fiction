@@ -45,8 +45,6 @@ export class SSR extends FictionObject<SSRSettings> {
   startGlobals(args: { runVars: Partial<RunVars>, simulateWindow?: boolean }) {
     // set flag used to determine if app code is running in vite
 
-    crossVar.set('IS_VITE', 'yes')
-
     const pathname = args.runVars.PATHNAME
     const { simulateWindow = false } = args
 
@@ -67,8 +65,6 @@ export class SSR extends FictionObject<SSRSettings> {
   }
 
   revertGlobals() {
-    crossVar.delete('IS_VITE')
-
     this.revertGlobal?.()
   }
 
@@ -87,15 +83,19 @@ export class SSR extends FictionObject<SSRSettings> {
 
     const cacheKey = this.getCacheKey(runVars)
 
+    let cacheStatus: 'miss' | 'hit' | 'bypass' = mode === 'prod' ? 'miss' : 'bypass'
+
     if (mode === 'prod') {
       if (this.cache.has(cacheKey) && mode === 'prod') {
-        this.log.info('cache hit', { data: { URL: runVars.URL } })
-        return this.cache.get(cacheKey) as RenderedHtmlParts
-      }
-      else {
-        this.log.info('cache miss', { data: { URL: runVars.URL } })
+        cacheStatus = 'hit'
+        out = this.cache.get(cacheKey) as RenderedHtmlParts
       }
     }
+
+    this.log.info(`SSR:${runVars.URL} -> CACHE: ${cacheStatus}`)
+
+    if (cacheStatus === 'hit')
+      return out
 
     const { runEntrySRR } = await this.getMountFile(mode)
 
@@ -135,6 +135,8 @@ export class SSR extends FictionObject<SSRSettings> {
   async render(args: { runVars: Partial<RunVars> }): Promise<RenderedHtmlParts> {
     const { runVars } = args
     try {
+      this.log.info('set IS_APP_SSR')
+      crossVar.set('IS_APP_SSR', runVars.URL || 'NO_URL')
       this.startGlobals({ runVars })
       return await this.getParts({ runVars })
     }
@@ -145,6 +147,8 @@ export class SSR extends FictionObject<SSRSettings> {
       return this.init()
     }
     finally {
+      this.log.info('delete IS_APP_SSR')
+      crossVar.delete('IS_APP_SSR')
       this.revertGlobals()
     }
   }

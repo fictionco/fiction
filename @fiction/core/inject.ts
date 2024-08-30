@@ -21,7 +21,8 @@ export type RunVars = {
   HOST: string
   HOSTNAME: string
   IP_ADDRESS: string
-  IS_VITE: string
+  IS_APP_SSR: string
+  IS_APP_CLIENT: string
   NODE_ENV: string
   PATHNAME: string
   PROTOCOL: string
