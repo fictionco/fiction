@@ -70,7 +70,7 @@ describe('siteFrameTools', async () => {
 
     // Test resetUi message
     site.frame.processFrameMessage({ msg: { messageType: 'resetUi', data: { scope: 'all', cause: 'test', trigger: 'test' } }, scope: 'parent' })
-    expect(resetUiSpy, 'resetUi event should be emitted').toHaveBeenCalledWith('resetUi', { scope: 'iframe', cause: expect.any(String) })
+    expect(resetUiSpy, 'resetUi event should be emitted').toHaveBeenCalledWith('resetUi', { scope: 'iframe', cause: expect.any(String), trigger: 'test' })
 
     // Test setSite message
     const siteConfig = { title: 'New Title' }
@@ -120,8 +120,22 @@ describe('siteFrameTools', async () => {
 
   it('should update framePath when currentPath changes (parent relation)', async () => {
     site.frame.relation.value = 'parent'
+    expect(site.frame.framePath.value).toMatchInlineSnapshot(`""`)
 
-    site.currentPath.value = '/update-frame-path'
+    const spyOnSync = vi.spyOn(site.frame, 'syncRoute')
+
+    expect(site.frame.framePath.value).toBe('')
+
+    site.currentPath.value = '/sync-path'
+
+    await waitFor(100)
+
+    expect(spyOnSync).toHaveBeenCalledWith({
+      siteId: site.siteId,
+      urlOrPath: '/sync-path',
+    })
+
+    site.currentPath.value = '/update-frame-path?_reload=1'
     expect(site.frame.relation.value).toMatchInlineSnapshot(`"parent"`)
     await waitFor(100)
     expect(site.frame.framePath.value).toBe('/update-frame-path')

@@ -2,6 +2,7 @@
  * @vitest-environment happy-dom
  */
 
+import exp from 'node:constants'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { crossVar } from '@fiction/core/utils'
 import { EnvVar, FictionEnv } from '../index.js'
@@ -67,7 +68,7 @@ describe('fictionEnv', () => {
 
   it('emits resetUi event', () => new Promise((done) => {
     fictionEnv.events.on('resetUi', (event) => {
-      expect(event.detail).toEqual({ scope: 'all', cause: 'test[env]' })
+      expect(event.detail).toEqual({ scope: 'all', cause: expect.any(String), trigger: 'test' })
       done(true)
     })
 
