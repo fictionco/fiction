@@ -2,7 +2,6 @@
  * @vitest-environment happy-dom
  */
 
-import exp from 'node:constants'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { crossVar } from '@fiction/core/utils'
 import { EnvVar, FictionEnv } from '../index.js'
