@@ -24,7 +24,7 @@ export type UserConfig = z.infer<typeof schema>
 const options: InputOption[] = [
   new InputOption({ key: 'autoSlide', label: 'Animate slide transition?', input: 'InputToggle' }),
   new InputOption({ key: 'items', label: 'Items', input: 'InputList', options: [
-    new InputOption({ key: 'media', label: 'Media', input: 'InputMediaDisplay' }),
+    new InputOption({ key: 'media', label: 'Media', input: 'InputMedia' }),
     new InputOption({ key: 'title', label: 'Title', input: 'InputText' }),
     new InputOption({ key: 'subTitle', label: 'Sub Title', input: 'InputText' }),
     new InputOption({ key: 'textBlend', label: 'Text Blend', input: 'InputSelect', list: [

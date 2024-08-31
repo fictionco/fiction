@@ -387,7 +387,7 @@ export class AiImage extends QueryAi {
 
       if (r?.status === 'success') {
         this.log.info('ai image created', { data: r.data })
-        data = r.data
+        data = r.data?.[0]
       }
 
       return { status: 'success', data, params }

@@ -44,14 +44,15 @@ describe('media upload/download tests', async () => {
 
     // Assertions to check if the media was created correctly
     expect(result?.status).toBe('success')
-    expect(result?.data?.url).toContain('fiction-media')
-    expect(result?.data?.mime).toBe('image/jpeg') // or the correct mime type
+    const media = result?.data?.[0]
+    expect(media?.url).toContain('fiction-media')
+    expect(media?.mime).toBe('image/jpeg') // or the correct mime type
 
-    expect(Object.keys(result?.data || {})).toMatchInlineSnapshot(`
+    expect(Object.keys(media || {})).toMatchInlineSnapshot(`
       [
-        "mediaId",
-        "userId",
         "orgId",
+        "userId",
+        "mediaId",
         "caption",
         "hash",
         "url",
@@ -59,8 +60,8 @@ describe('media upload/download tests', async () => {
         "rasterUrl",
         "thumbUrl",
         "thumbOriginUrl",
-        "thumbFilePath",
         "blurhash",
+        "thumbFilePath",
         "preview",
         "filePath",
         "mime",
@@ -68,8 +69,8 @@ describe('media upload/download tests', async () => {
         "height",
         "orientation",
         "alt",
-        "contentEncoding",
         "etag",
+        "contentEncoding",
         "bucket",
         "size",
         "prompt",
@@ -126,11 +127,12 @@ describe('media upload/download tests', async () => {
 
     const r = await testUtils?.fictionMedia?.requests.ManageMedia.projectRequest({
       _action: 'delete',
-      fields: { url },
+      where: [{ url }],
     })
 
-    expect(r?.data?.mediaId).toBeTruthy()
-    expect(r?.message).toMatchInlineSnapshot(`"deleted successfully"`)
+    const media = r?.data?.[0]
+    expect(media?.mediaId).toBeTruthy()
+    expect(r?.message).toMatchInlineSnapshot(`"1 Media items deleted"`)
     expect(r?.status).toBe('success')
 
     const img2 = await fetch(url)

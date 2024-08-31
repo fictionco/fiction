@@ -2,7 +2,7 @@ import path from 'node:path'
 import type sharp from 'sharp'
 import fs from 'fs-extra'
 import { Query } from '../query.js'
-import type { EndpointResponse } from '../types/index.js'
+import type { DataFilter, EndpointResponse, IndexQuery } from '../types/index.js'
 import type { CropSettings, EndpointMeta } from '../utils/index.js'
 import type { FictionDb } from '../plugin-db/index.js'
 import type { FictionAws } from '../plugin-aws/index.js'
@@ -19,11 +19,27 @@ interface SaveMediaSettings {
   fictionMedia: FictionMedia
   fictionDb: FictionDb
   fictionAws: FictionAws
+  maxFileSize?: number
+  supportedMimeTypes?: string[]
 }
 
 abstract class MediaQuery extends Query<SaveMediaSettings> {
   db = () => this.settings.fictionDb?.client()
   maxSide = isTest() ? 700 : 1600
+  maxFileSize = this.settings.maxFileSize || 10 * 1024 * 1024 // 10MB
+
+  supportedMimeTypes = new Set(this.settings.supportedMimeTypes || [
+    // Images
+    'image/jpeg',
+    'image/png',
+    'image/gif',
+    'image/webp',
+    'image/svg+xml',
+    // Videos
+    'video/mp4',
+    'video/webm',
+  ])
+
   constructor(settings: SaveMediaSettings) {
     super(settings)
   }
@@ -116,6 +132,14 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
     return insertedMedia
   }
 
+  private cleanAndLimitFileName(fileName: string, maxLength: number = 70): string {
+    const ext = path.extname(fileName)
+    const nameWithoutExt = path.basename(fileName, ext)
+    const cleanName = nameWithoutExt.replace(/[^a-z0-9-]/gi, '')
+    const limitedName = cleanName.slice(0, maxLength - ext.length)
+    return limitedName + ext
+  }
+
   async createAndSaveMedia(args: {
     file?: Express.Multer.File
     filePath?: string
@@ -132,25 +156,28 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
     const maxSide = this.maxSide
     const fictionAws = this.settings.fictionAws
 
-    const {
-      file,
-      filePath: sourceFilePath,
-      orgId,
-      userId,
-      fields,
-      storageGroupPath = orgId,
-      storageKeyPath,
-      crop,
-    } = args
+    const { file, filePath: sourceFilePath, orgId, userId, fields, storageGroupPath = orgId, storageKeyPath, crop } = args
     const fileSource = file?.buffer || (sourceFilePath && fs.readFileSync(sourceFilePath))
-    const fileName = file?.originalname || (sourceFilePath && path.basename(sourceFilePath))
-    const cleanFileName = fileName?.replace(/[^a-z0-9-.]/gi, '')
-    const baseFileName = cleanFileName?.split('.').slice(0, -1).join('.') || cleanFileName
+    const originalFileName = file?.originalname || (sourceFilePath && path.basename(sourceFilePath))
 
-    if (!fileSource || !cleanFileName)
+    if (!fileSource || !originalFileName) {
       throw new Error('No file provided')
+    }
+
+    const cleanFileName = this.cleanAndLimitFileName(originalFileName)
+    const baseFileName = path.parse(cleanFileName).name
+
+    // Add this check for file size
+    if (fileSource.length > this.maxFileSize) {
+      throw abort(`File size exceeds limit of ${this.maxFileSize / (1024 * 1024)}MB`, { expected: meta.expectError })
+    }
 
     const fileMime = getMimeType(cleanFileName, file?.mimetype)
+
+    if (!this.supportedMimeTypes.has(fileMime)) {
+      throw abort(`Unsupported file type: ${fileMime}`, { expected: meta.expectError })
+    }
+
     const mediaId = objectId({ prefix: 'med' })
     const basePath = `${storageGroupPath}/${mediaId}`
     const filePath = storageKeyPath || `${basePath}-${cleanFileName}`
@@ -166,49 +193,56 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
 
     const hash = args.hash || await hashFile({ filePath: sourceFilePath, buffer: file?.buffer, settings: { crop } })
 
-    const uploadPromises = [
-      fictionAws.uploadS3({ data: mainBuffer, filePath, mime: fileMime, bucket }),
-      thumbnailBuffer && fictionAws.uploadS3({ data: thumbnailBuffer, filePath: thumbFilePath, mime: 'image/png', bucket }),
-      rasterBuffer && fictionAws.uploadS3({ data: rasterBuffer, filePath: rasterFilePath, mime: 'image/png', bucket }),
-    ]
+    try {
+      const uploadPromises = [
+        fictionAws.uploadS3({ data: mainBuffer, filePath, mime: fileMime, bucket }),
+        thumbnailBuffer && fictionAws.uploadS3({ data: thumbnailBuffer, filePath: thumbFilePath, mime: 'image/png', bucket }),
+        rasterBuffer && fictionAws.uploadS3({ data: rasterBuffer, filePath: rasterFilePath, mime: 'image/png', bucket }),
+      ]
 
-    const [mainData, thumbData] = await Promise.all(uploadPromises)
-    const baseUrl = mainData?.url
+      const [mainData, thumbData] = await Promise.all(uploadPromises)
+      const baseUrl = mainData?.url
 
-    const searchParams = new URLSearchParams({ blurhash: blurhash || '' }).toString()
-    const constructUrl = (base: string | undefined, path: string): string => `${base ? new URL(path, base).toString() : baseUrl}?${searchParams}`
+      const searchParams = new URLSearchParams({ blurhash: blurhash || '' }).toString()
+      const constructUrl = (base: string | undefined, path: string): string => `${base ? new URL(path, base).toString() : baseUrl}?${searchParams}`
 
-    const originUrl = `${baseUrl}?${searchParams}`
-    const thumbOriginUrl = `${thumbData?.url || baseUrl}?${searchParams}`
-    const url = constructUrl(cdnUrl, filePath)
-    const thumbUrl = constructUrl(cdnUrl, thumbFilePath)
+      const originUrl = `${baseUrl}?${searchParams}`
+      const thumbOriginUrl = `${thumbData?.url || baseUrl}?${searchParams}`
+      const url = constructUrl(cdnUrl, filePath)
+      const thumbUrl = constructUrl(cdnUrl, thumbFilePath)
 
-    const { ContentLength: size, ContentType: mime = fileMime } = mainData?.headObject || {}
-    const { width, height, orientation } = metadata || {}
+      const { ContentLength: size, ContentType: mime = fileMime } = mainData?.headObject || {}
+      const { width, height, orientation } = metadata || {}
 
-    const mediaConfig: Partial<TableMediaConfig> = {
-      ...fields,
-      orgId,
-      userId,
-      mediaId,
-      hash,
-      blurhash,
-      originUrl,
-      url,
-      thumbOriginUrl,
-      thumbUrl,
-      mime,
-      bucket,
-      filePath,
-      size,
-      width,
-      height,
-      orientation,
+      const mediaConfig: Partial<TableMediaConfig> = {
+        ...fields,
+        orgId,
+        userId,
+        mediaId,
+        hash,
+        blurhash,
+        originUrl,
+        url,
+        thumbOriginUrl,
+        thumbUrl,
+        mime,
+        bucket,
+        filePath,
+        size,
+        width,
+        height,
+        orientation,
+      }
+
+      const insertedMedia = await this.saveReferenceToDb(mediaConfig, meta)
+
+      return insertedMedia
     }
-
-    const insertedMedia = await this.saveReferenceToDb(mediaConfig, meta)
-
-    return insertedMedia
+    catch (e) {
+      const error = e as Error
+      this.log.error('Error uploading media', { error })
+      throw abort(`Failed to upload media: ${error.message}`, { expected: meta.expectError })
+    }
   }
 }
 
@@ -265,114 +299,172 @@ export class QueryMediaIndex extends MediaQuery {
   }
 }
 
-type ManageMediaParams = {
-  _action: 'delete' | 'retrieve' | 'checkAndCreate' | 'createFromUrl'
-  fields: TableMediaConfig
-  userId?: string
-  orgId?: string
+type WhereMedia = { mediaId?: string, orgId?: string, url?: string, hash?: string }
+
+type MediaCreate = {
+  fields: Partial<TableMediaConfig>
   storageKeyPath?: string
   storageGroupPath?: string
   crop?: CropSettings
   noCache?: boolean
 }
 
+export type ManageMediaRequest =
+  | { _action: 'create', orgId: string, userId?: string } & MediaCreate
+  | { _action: 'createFromUrl', orgId: string, userId?: string, fields: { sourceImageUrl: string } & Partial<TableMediaConfig> } & MediaCreate
+  | { _action: 'checkAndCreate', orgId: string, userId?: string } & MediaCreate
+  | { _action: 'list', orgId: string, where?: Partial<TableMediaConfig>, limit?: number, offset?: number, page?: number }
+  | { _action: 'count', orgId: string, filters?: DataFilter[] }
+  | { _action: 'update', orgId: string, where: WhereMedia[], fields: Partial<TableMediaConfig> }
+  | { _action: 'delete', orgId: string, where: WhereMedia[] }
+  | { _action: 'retrieve', orgId: string, where: WhereMedia }
+
+export type MediaParams = ManageMediaRequest & IndexQuery
 export class QueryManageMedia extends MediaQuery {
-  async run(params: ManageMediaParams, meta: EndpointMeta): Promise<EndpointResponse<TableMediaConfig | undefined>> {
-    const { _action } = params
+  limit = 40
+  offset = 0
 
-    let media: TableMediaConfig | undefined = undefined
-    let message = ''
+  async run(params: MediaParams, meta: EndpointMeta): Promise<EndpointResponse<TableMediaConfig[]>> {
+    const { _action, orgId } = params
 
+    if (!orgId)
+      throw abort('orgId required')
+
+    let r: EndpointResponse<TableMediaConfig[]>
     switch (_action) {
       case 'createFromUrl':
-        media = await this.handleCreateFromUrl(params, meta)
+        r = await this.handleCreateFromUrl(params, meta)
         break
       case 'checkAndCreate':
-        media = await this.handleCheckAndCreate(params, meta)
-        message = media ? 'using existing media' : 'created successfully'
+        r = await this.handleCheckAndCreate(params, meta)
         break
       case 'retrieve':
-        media = await this.handleRetrieve(params)
+        r = await this.handleRetrieve(params, meta)
         break
       case 'delete':
-        media = await this.handleDelete(params)
-        message = 'deleted successfully'
+        r = await this.handleDelete(params, meta)
+        break
+      case 'list':
+        r = await this.handleList(params, meta)
+        break
+      case 'count':
+        r = { status: 'success', data: [] } // added in addIndexMeta
         break
       default:
-        throw abort('Invalid action')
+        return { status: 'error', message: 'Invalid action' }
     }
 
-    if (!media)
-      return { status: 'error', data: undefined }
-
-    return { status: 'success', data: media, message }
+    return this.addIndexMeta(params, r, meta)
   }
 
-  async handleCreateFromUrl(params: ManageMediaParams, meta: EndpointMeta): Promise<TableMediaConfig | undefined> {
+  private async addIndexMeta(params: MediaParams, r: EndpointResponse<TableMediaConfig[]>, _meta: EndpointMeta): Promise<EndpointResponse<TableMediaConfig[]>> {
+    const { orgId, limit = this.limit, offset = this.offset, filters = [] } = params
+
+    const q = this.db().table(t.media).where({ orgId }).count().first<{ count: string }>()
+
+    if (filters.length) {
+      filters.forEach((filter) => {
+        void q.andWhere(filter.field, filter.operator, filter.value)
+      })
+    }
+
+    const { count } = await q
+
+    r.indexMeta = { limit, offset, count: +count, ...r.indexMeta }
+
+    return r
+  }
+
+  async handleCreateFromUrl(params: MediaParams & { _action: 'createFromUrl' }, meta: EndpointMeta): Promise<EndpointResponse<TableMediaConfig[]>> {
     if (params._action !== 'createFromUrl')
       throw abort('Invalid action')
 
     const { orgId, userId, fields, storageGroupPath } = params
-    return this.createMediaFromUrl({ orgId, userId, fields, storageGroupPath }, meta)
+    const media = await this.createMediaFromUrl({ orgId, userId, fields, storageGroupPath }, meta)
+
+    if (!media)
+      return { status: 'error', data: undefined }
+
+    return { status: 'success', data: [media] }
   }
 
-  async handleCheckAndCreate(params: ManageMediaParams, meta: EndpointMeta): Promise<TableMediaConfig | undefined> {
-    const { _action, noCache, crop } = params
-    if (_action !== 'checkAndCreate')
-      throw abort('Invalid action')
+  async handleCheckAndCreate(params: MediaParams & { _action: 'checkAndCreate' }, meta: EndpointMeta): Promise<EndpointResponse<TableMediaConfig[]>> {
+    const { fields, noCache, crop, orgId, userId, storageKeyPath, storageGroupPath } = params
 
-    const { fields: { filePath } } = params
-
-    if (!filePath)
+    if (!fields?.filePath)
       throw abort('File path is required for checkAndCreate action.', { expected: meta.expectError })
 
-    const hash = await hashFile({ filePath, settings: { crop } })
+    const hash = await hashFile({ filePath: fields.filePath, settings: { crop } })
+
     if (!noCache) {
       const [existingMedia] = await this.db().select('*').from(t.media).where({ hash })
 
       if (existingMedia) {
         existingMedia.isCached = true
-        return existingMedia
+        return { status: 'success', data: [existingMedia] }
       }
     }
 
-    return this.createAndSaveMedia({ filePath, hash, ...params }, meta)
+    const media = await this.createAndSaveMedia({ filePath: fields.filePath, hash, orgId, userId, fields, storageKeyPath, storageGroupPath, crop }, meta)
+    return { status: 'success', data: [media] }
   }
 
-  async handleRetrieve(params: ManageMediaParams): Promise<TableMediaConfig | undefined> {
-    if (params._action !== 'retrieve')
-      throw abort('Invalid action')
+  async handleRetrieve(params: MediaParams & { _action: 'retrieve' }, meta: EndpointMeta): Promise<EndpointResponse<TableMediaConfig[]>> {
+    const { orgId, where } = params
 
-    const { orgId, fields } = params
+    if (!where)
+      throw abort('Fields are required for retrieve action.', { expected: meta.expectError })
 
-    const { url, mediaId, hash } = fields
+    const { url, mediaId, hash } = where
 
     const queryConditions = { orgId, ...(url && { url }), ...(mediaId && { mediaId }), ...(hash && { hash }) }
 
-    const [media] = await this.db().select().from(t.media).where(queryConditions)
+    const media = await this.db().select().from(t.media).where(queryConditions)
 
-    return media
+    return { status: 'success', data: media }
   }
 
-  async handleDelete(params: ManageMediaParams): Promise<TableMediaConfig | undefined> {
-    if (params._action !== 'delete')
-      throw abort('Invalid action')
+  async handleDelete(params: MediaParams & { _action: 'delete' }, meta: EndpointMeta): Promise<EndpointResponse<TableMediaConfig[]>> {
+    const { orgId, where } = params
 
-    const { orgId, fields } = params
-
-    const { url, mediaId, hash } = fields
-
-    const queryConditions = { orgId, ...(url && { url }), ...(mediaId && { mediaId }), ...(hash && { hash }) }
-
-    const [media] = await this.db().delete().from(t.media).where(queryConditions).returning<TableMediaConfig[]>('*')
-
-    if (media && media.url) {
-      const filePath = new URL(media.url).pathname.replace(/^\/+/g, '')
-      const bucket = this.settings.fictionMedia.settings.awsBucketMedia
-      this.log.info(`deleting media file: ${filePath}`, { data: { filePath, bucket } })
-      await this.settings.fictionAws.deleteS3({ filePath, bucket })
+    if (!Array.isArray(where)) {
+      return { status: 'error', message: 'where must be an array of conditions' }
     }
 
-    return media
+    const results: TableMediaConfig[] = []
+    for (const condition of where) {
+      const result = await this.db().table(t.media).where({ orgId, ...condition }).delete().returning('*')
+      results.push(...result)
+
+      if (result.length > 0 && result[0].url) {
+        const filePath = new URL(result[0].url).pathname.replace(/^\/+/g, '')
+        const bucket = this.settings.fictionMedia.settings.awsBucketMedia
+        this.log.info(`deleting media file: ${filePath}`, { data: { filePath, bucket } })
+        await this.settings.fictionAws.deleteS3({ filePath, bucket })
+      }
+    }
+
+    return { status: 'success', message: `${results.length} Media items deleted`, data: results, indexMeta: { changedCount: results.length } }
+  }
+
+  async handleList(params: MediaParams & { _action: 'list' }, _meta: EndpointMeta): Promise<EndpointResponse<TableMediaConfig[]>> {
+    const { where, orgId, limit = this.limit, offset = this.offset, page, filters = [] } = params
+
+    let effectiveOffset = offset
+    if (page && page > 0) {
+      effectiveOffset = (page - 1) * limit
+    }
+
+    let query = this.db().select('*').from(t.media).where({ orgId, ...where })
+
+    if (filters.length) {
+      filters.forEach((filter) => {
+        query = query.andWhere(filter.field, filter.operator, filter.value)
+      })
+    }
+
+    const media = await query.limit(limit).offset(effectiveOffset).orderBy('createdAt', 'desc')
+
+    return { status: 'success', data: media }
   }
 }

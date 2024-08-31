@@ -43,6 +43,10 @@ export async function relativeMedia(args: RelativeMediaArgs): Promise<TableMedia
       return { url } // Return original URL if file doesn't exist
     }
 
+    if (!orgId) {
+      throw new Error('orgId is required')
+    }
+
     // Handle media creation or retrieval
     const mediaResponse = await fictionMedia.queries.ManageMedia.serve({
       _action: 'checkAndCreate',
@@ -53,7 +57,7 @@ export async function relativeMedia(args: RelativeMediaArgs): Promise<TableMedia
     }, { server: true })
 
     // Cache and return the new or existing media URL
-    const newMedia = mediaResponse.data || { url }
+    const newMedia = mediaResponse.data?.[0] || { url }
     cache[url] = newMedia
     return newMedia
   }

@@ -24,7 +24,7 @@ describe('createAndSaveMedia', async () => {
 
   it('converts a local filepath image to aws link', async () => {
     expect(1).toBe(1)
-    const result = await testUtils.fictionMedia?.relativeMedia({ url: testImgPath })
+    const result = await testUtils.fictionMedia?.relativeMedia({ url: testImgPath, orgId: testUtils.initialized?.orgId })
 
     expect(result).toMatchInlineSnapshot(`
       {
@@ -33,28 +33,28 @@ describe('createAndSaveMedia', async () => {
         "bucket": "fiction-media-dev",
         "caption": null,
         "contentEncoding": null,
-        "createdAt": "2024-07-22 15:43:52.804915+00",
+        "createdAt": "2024-08-30 23:04:03.85353+00",
         "etag": null,
-        "filePath": "org669e7e3720171941dff7f771/med669e7e39d44fdc1f5de81170-test.jpg",
+        "filePath": "org66d24fe24f67e29edd17150c/med66d24fe68304cc556d40272f-test.jpg",
         "hash": "e641b4e287db381e1499c7575a427e6d6c47ba00b4f4ae1ec3162dcfb4fae1cd",
         "height": 640,
         "isCached": true,
-        "mediaId": "med669e7e39d44fdc1f5de81170",
+        "mediaId": "med66d24fe68304cc556d40272f",
         "mime": "image/jpeg",
-        "orgId": "org669e7e3720171941dff7f771",
+        "orgId": "org66d24fe24f67e29edd17150c",
         "orientation": null,
-        "originUrl": "https://fiction-media-dev.s3.amazonaws.com/org669e7e3720171941dff7f771/med669e7e39d44fdc1f5de81170-test.jpg?blurhash=UIF68%7C-%3BM%7B%3Fb%7Eqt7WBxu_3-%3B%25MRj%25MofofM%7B",
+        "originUrl": "https://fiction-media-dev.s3.amazonaws.com/org66d24fe24f67e29edd17150c/med66d24fe68304cc556d40272f-test.jpg?blurhash=UIF68%7C-%3BM%7B%3Fb%7Eqt7WBxu_3-%3B%25MRj%25MofofM%7B",
         "preview": null,
         "prompt": null,
         "rasterUrl": null,
         "size": 123812,
         "sourceImageUrl": null,
         "thumbFilePath": null,
-        "thumbOriginUrl": "https://fiction-media-dev.s3.amazonaws.com/org669e7e3720171941dff7f771/med669e7e39d44fdc1f5de81170-thumb-test.png?blurhash=UIF68%7C-%3BM%7B%3Fb%7Eqt7WBxu_3-%3B%25MRj%25MofofM%7B",
-        "thumbUrl": "https://fiction-media-dev.s3.amazonaws.com/org669e7e3720171941dff7f771/med669e7e39d44fdc1f5de81170-test.jpg?blurhash=UIF68%7C-%3BM%7B%3Fb%7Eqt7WBxu_3-%3B%25MRj%25MofofM%7B",
-        "updatedAt": "2024-07-22T15:43:54.639Z",
-        "url": "https://fiction-media-dev.s3.amazonaws.com/org669e7e3720171941dff7f771/med669e7e39d44fdc1f5de81170-test.jpg?blurhash=UIF68%7C-%3BM%7B%3Fb%7Eqt7WBxu_3-%3B%25MRj%25MofofM%7B",
-        "userId": "usr669e7e37388f8a41df1e78c9",
+        "thumbOriginUrl": "https://fiction-media-dev.s3.amazonaws.com/org66d24fe24f67e29edd17150c/med66d24fe68304cc556d40272f-thumb-test.png?blurhash=UIF68%7C-%3BM%7B%3Fb%7Eqt7WBxu_3-%3B%25MRj%25MofofM%7B",
+        "thumbUrl": "https://fiction-media-dev.s3.amazonaws.com/org66d24fe24f67e29edd17150c/med66d24fe68304cc556d40272f-test.jpg?blurhash=UIF68%7C-%3BM%7B%3Fb%7Eqt7WBxu_3-%3B%25MRj%25MofofM%7B",
+        "updatedAt": "2024-08-30T23:04:06.852Z",
+        "url": "https://fiction-media-dev.s3.amazonaws.com/org66d24fe24f67e29edd17150c/med66d24fe68304cc556d40272f-test.jpg?blurhash=UIF68%7C-%3BM%7B%3Fb%7Eqt7WBxu_3-%3B%25MRj%25MofofM%7B",
+        "userId": "usr66d24fe2eb02bf1ef6b56d7b",
         "width": 640,
       }
     `)

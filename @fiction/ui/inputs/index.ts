@@ -33,6 +33,7 @@ export const inputs = {
   InputTextarea: { el: def(async () => import('./InputTextarea.vue')) },
   InputWeight: { el: def(async () => import('./InputWeight.vue')) },
   InputNumber: { el: def(async () => import('./InputNumber.vue')) },
+  InputMedia: { el: def(async () => import('./InputMedia.vue')), shape: ['url', 'format', 'html', 'el', 'modify', 'modify.flip'] },
   InputMediaUpload: { el: def(async () => import('./InputMediaUpload.vue')), shape: ['url'] },
   InputMediaDisplay: { el: def(async () => import('./InputMediaDisplay.vue')), shape: ['url', 'format', 'html', 'el', 'modify', 'modify.flip'] },
   InputRanking: { el: def(async () => import('./InputRanking.vue')) },

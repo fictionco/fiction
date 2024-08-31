@@ -135,11 +135,6 @@ describe('getMimeType', () => {
     const mimeType = getMimeType(filePath)
     expect(mimeType).toBe(expectedMimeType)
   })
-
-  it('should return default MIME type when file path is undefined', () => {
-    const mimeType = getMimeType()
-    expect(mimeType).toBe('application/octet-stream')
-  })
 })
 
 describe('getExtensionFromMimeType', () => {

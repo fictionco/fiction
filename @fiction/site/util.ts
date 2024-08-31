@@ -53,7 +53,7 @@ export async function processUrlKey(args: {
         storageGroupPath,
       }, { server: true })
 
-      const media = r.data
+      const media = r.data?.[0]
 
       return media?.url || url
     }

@@ -1,104 +1,133 @@
 <script lang="ts" setup>
 import type { MediaObject } from '@fiction/core'
-import { log, shortId, useService, vue } from '@fiction/core'
+import { formatBytes, log, shortId, useService, vue } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 import type { UiElementSize } from '../utils'
 import { textInputClasses } from './theme'
 
-defineProps({
-  modelValue: { type: Object as vue.PropType<MediaObject>, default: () => {} },
-  fileTypes: { type: Array as vue.PropType<string[]>, default: () => ['jpg', 'png', 'gif', 'svg'] },
-  fileSize: { type: Number, default: 1000000 },
-  uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
+type Props = {
+  modelValue: MediaObject
+  fileTypes?: string[]
+  fileSize?: number
+  uiSize?: UiElementSize
+  acceptVideoFormats?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  modelValue: () => ({}),
+  fileTypes: () => ['jpg', 'png', 'gif', 'svg'],
+  fileSize: 10_240_000,
+  uiSize: 'md',
+  acceptVideoFormats: false,
 })
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: MediaObject): void
 }>()
 
-const { fictionMedia } = useService()
+const { fictionMedia, fictionEnv } = useService()
 
-// uploadId is to allow label click without conflict with others on page
 const uploadId = `file-upload-${shortId()}`
-const draggingOver = vue.ref()
+const draggingOver = vue.ref(false)
 const uploading = vue.ref(false)
+const fileInput = vue.ref<HTMLInputElement | null>(null)
+
+const acceptedFileTypes = vue.computed(() => {
+  const types = props.fileTypes.map(type => `image/${type}`)
+  if (props.acceptVideoFormats) {
+    types.push('video/mp4', 'video/webm')
+  }
+  return types.join(',')
+})
 
 async function updateValue(value: MediaObject): Promise<void> {
   emit('update:modelValue', value)
 }
 
 async function uploadFiles(files?: FileList | null) {
-  uploading.value = true
-
-  const file = files?.[0]
-
-  if (!file)
+  if (!files?.length)
     return
 
   uploading.value = true
-  const result = await fictionMedia.uploadFile({ file })
-  log.info('mediaUpload', `upload result`, { data: result })
+  const file = files[0]
 
-  if (!result)
+  if (file.size > props.fileSize) {
+    log.warn('mediaUpload', 'File size exceeds limit')
+    fictionEnv.events.emit('notify', {
+      type: 'error',
+      message: `File size exceeds limit of ${formatBytes(props.fileSize)}`,
+    })
+    uploading.value = false
     return
+  }
 
-  if (result.status === 'success' && result.data)
-    await updateValue(result.data)
+  try {
+    const result = await fictionMedia.uploadFile({ file })
+    log.info('mediaUpload', 'upload result', { data: result })
 
-  uploading.value = false
+    if (result?.status === 'success' && result.data) {
+      await updateValue(result.data)
+    }
+  }
+  catch (error) {
+    log.error('mediaUpload', 'Upload failed', { error })
+  }
+  finally {
+    uploading.value = false
+  }
 }
 
-async function handleUploadFile(ev: Event) {
+function handleUploadFile(ev: Event) {
   const target = ev.target as HTMLInputElement
-  await uploadFiles(target.files)
+  uploadFiles(target.files)
 }
-async function handleDropFile(ev: Event) {
-  const event = ev as DragEvent
-  await uploadFiles(event.dataTransfer?.files)
+
+function handleDropFile(ev: DragEvent) {
+  ev.preventDefault()
+  draggingOver.value = false
+  uploadFiles(ev.dataTransfer?.files)
 }
 
 function triggerFileInput() {
-  const fileInput = document.getElementById(uploadId) as HTMLInputElement
-  fileInput.click()
+  fileInput.value?.click()
 }
 </script>
 
 <template>
   <div
     class="media-body"
-    @dragover.prevent
-    @drop.prevent
+    @dragover.prevent="draggingOver = true"
+    @dragleave.prevent="draggingOver = false"
+    @drop="handleDropFile"
   >
     <label
       :for="uploadId"
-      :class="[]"
-      @drop="handleDropFile"
-      @dragover="draggingOver = true"
-      @dragleave="draggingOver = false"
+      class="relative flex grow shadow-sm group cursor-pointer space-x-2"
+      :class="[{ 'border-2 border-dashed border-primary-500': draggingOver }]"
     >
-      <span class="font-mono relative flex grow shadow-sm group cursor-pointer space-x-2" @click="console.log('hi')">
-        <XButton
-          theme="primary"
-          class="shrink-0"
-          design="solid"
-          icon="i-tabler-upload"
-          :loading="uploading"
-          @click="triggerFileInput()"
-        >Upload</XButton>
-        <input
-          :value="modelValue?.url"
-          type="text"
-          :class="textInputClasses({ inputClass: 'grow', uiSize })"
-          @input="updateValue({ url: ($event.target as HTMLInputElement).value })"
-        >
-      </span>
+      <XButton
+        theme="primary"
+        class="shrink-0"
+        design="solid"
+        icon="i-tabler-upload"
+        :loading="uploading"
+        @click.prevent="triggerFileInput"
+      >
+        Upload
+      </XButton>
+      <input
+        v-model="modelValue.url"
+        type="text"
+        :class="textInputClasses({ inputClass: 'grow', uiSize })"
+        @input="updateValue({ url: ($event.target as HTMLInputElement).value })"
+      >
       <input
         :id="uploadId"
+        ref="fileInput"
         name="file-upload"
         type="file"
         class="sr-only"
-        accept="image/*"
-        multiple
+        :accept="acceptedFileTypes"
         @change="handleUploadFile"
       >
     </label>

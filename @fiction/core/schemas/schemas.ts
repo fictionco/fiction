@@ -100,11 +100,13 @@ export const ImageFilterConfigSchema = z.object({
 })
 export type ImageFilterConfig = z.infer<typeof ImageFilterConfigSchema>
 
+export const MediaFormat = z.enum(['url', 'image', 'video', 'iframe', 'html', 'component'])
+
 // MediaBasic schema
 export const MediaBasicSchema = z.object({
   html: z.string().optional(),
   url: z.string().optional(),
-  format: z.enum(['url', 'image', 'video', 'iframe', 'html', 'component']).optional(),
+  format: MediaFormat.optional(),
   el: z.custom<vue.AsyncComponentLoader | vue.Component>((val) => {
     return typeof val === 'function' || val instanceof Promise
   }, { message: 'Must be an async component or Promise' }).optional(),
