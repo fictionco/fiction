@@ -1,4 +1,5 @@
 import path from 'node:path'
+import process from 'node:process'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { createApp, nextTick } from 'vue'
 import type { App, Component } from 'vue'
@@ -69,7 +70,9 @@ export async function testComponentStability(args: {
     let errorHandlerSpy: ReturnType<typeof vi.fn>
     const importError: Error | undefined = undefined
     const modelRef = vue.ref(modelValue)
+    let start: number
     beforeAll(async () => {
+      start = performance.now()
       // Create and mount the component
       errorHandlerSpy = vi.fn()
 
@@ -81,7 +84,8 @@ export async function testComponentStability(args: {
           vue.provide('service', vue.ref(service))
           return { model: modelRef, props }
         },
-        template: `<Component v-model="model" v-bind="props" />`,
+        // x-site is necessary for teleports to work
+        template: `<div class="x-site"><Component v-model="model" v-bind="props" /></div>`,
       }
 
       app = createApp(WrapperComponent)
@@ -115,6 +119,11 @@ export async function testComponentStability(args: {
     it('renders correctly', async () => {
       await nextTick()
       expect(mountPoint.innerHTML).toBeTruthy()
+    })
+
+    it('renders efficiently', async () => {
+      const end = performance.now()
+      expect(end - start, 'Rendering should be completed within a reasonable time').toBeLessThan(1000) // 1 second threshold
     })
 
     if (find.length) {

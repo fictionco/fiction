@@ -50,8 +50,9 @@ function selectByLetter(ev: KeyboardEvent) {
     selectItem(val)
 }
 
+const cleanups: (() => void)[] = []
 vue.onMounted(() => {
-  vue.watch(
+  const uw = vue.watch(
     () => props.modelValue,
     (val) => {
       const min = attrs.required === undefined ? 0 : 1
@@ -67,6 +68,12 @@ vue.onMounted(() => {
     },
     { immediate: true },
   )
+
+  cleanups.push(uw)
+})
+
+vue.onBeforeUnmount(() => {
+  cleanups.forEach(fn => fn())
 })
 </script>
 

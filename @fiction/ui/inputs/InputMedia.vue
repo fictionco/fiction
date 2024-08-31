@@ -6,6 +6,7 @@ import ElModal from '../ElModal.vue'
 import XButton from '../buttons/XButton.vue'
 import ElSpinner from '../loaders/ElSpinner.vue'
 import EffectMasonry from '../effect/EffectMasonry.vue'
+import TransitionSlide from '../anim/TransitionSlide.vue'
 import InputMediaUpload from './InputMediaUpload.vue'
 import ElInput from './ElInput.vue'
 
@@ -203,6 +204,7 @@ function applyChanges() {
               :theme="item.value === navItemActive.value ? 'primary' : 'theme'"
               size="xs"
               rounding="full"
+              :data-test-id="`nav-${item.value}`"
               @click="handleNavItemClick(item)"
             >
               {{ item.name }}
@@ -210,26 +212,29 @@ function applyChanges() {
           </div>
         </div>
 
-        <div class="px-4 py-2 border-b border-theme-300/50 dark:border-theme-700/70">
-          <div class="flex justify-between text-theme-500 dark:text-theme-600 py-2">
-            <div class="text-sm">
-              Preview
+        <TransitionSlide>
+          <div v-if="currentSelection" class="px-4 py-2 border-b border-theme-300/50 dark:border-theme-700/70">
+            <div class="flex justify-between text-theme-500 dark:text-theme-600 py-2">
+              <div class="text-sm">
+                Preview
+              </div>
+              <div class="text-xs" :data-media-format="currentSelection.format">
+                Format: {{ currentSelection.format }}
+              </div>
             </div>
-            <div class="text-xs">
-              Format: {{ currentSelection.format }}
+            <div>
+              <ElImage
+                :media="currentSelection"
+                image-mode="contain"
+                class="h-[200px]"
+              />
             </div>
           </div>
-          <div>
-            <ElImage
-              :media="currentSelection"
-              image-mode="contain"
-              class="h-[200px]"
-            />
-          </div>
-        </div>
+        </TransitionSlide>
 
         <div v-if="navItemActive.value === 'upload'" class="p-8 flex flex-col justify-center items-center">
           <InputMediaUpload
+            data-test-id="media-upload"
             :has-video="true"
             :model-value="currentSelection"
             class="w-full mx-auto max-w-xl"

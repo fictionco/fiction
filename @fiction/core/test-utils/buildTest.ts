@@ -147,12 +147,14 @@ export async function createTestServer(params: {
 }
 
 type TestPageAction = {
-  type: 'visible' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'value' | 'hasText' | 'scrollTo'
+  type: 'visible' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'value' | 'hasText' | 'scrollTo' | 'frameInteraction'
   selector?: string
   text?: string
   key?: string
   wait?: number
   callback?: (value?: Record<string, string>) => void
+  frameSelector?: string
+  frameActions?: TestPageAction[]
 }
 
 export async function performActions(args: {
@@ -252,6 +254,29 @@ export async function performActions(args: {
           logger.info('VALUE', { data: { result: value, selector: action.selector } })
           const v = value ? JSON.parse(value) : {}
           action.callback?.(v)
+          break
+        }
+        case 'frameInteraction': {
+          if (!action.frameSelector || !action.frameActions) {
+            throw new Error('Frame selector and actions are required for frame interaction')
+          }
+          const frame = page.frameLocator(action.frameSelector)
+          for (const frameAction of action.frameActions) {
+            const frameElement = frame.locator(frameAction.selector || 'body')
+            // Handle frame actions similarly to main actions
+            switch (frameAction.type) {
+              case 'click':
+                await frameElement.click()
+                break
+              case 'fill':
+                await frameElement.fill(frameAction.text || '')
+                break
+              case 'visible':
+                await frameElement.waitFor({ state: 'visible', timeout: 20000 })
+                expect(await frameElement.isVisible(), `${frameAction.selector} is visible in frame`).toBe(true)
+                break
+            }
+          }
           break
         }
       }
