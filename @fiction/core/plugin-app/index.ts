@@ -216,13 +216,13 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   }
 
   async ssrServerSetup(
-    args: { mode?: 'dev' | 'prod' | 'test', expressApp?: Express } = {},
+    args: { mode?: 'dev' | 'prod' | 'test', expressApp?: Express, id?: string } = {},
   ): Promise<Express | undefined> {
     if (this.settings.fictionEnv.isApp.value || !this.fictionRender)
       return
 
-    const { mode = 'dev', expressApp } = args
-    const eApp = await this.fictionRender.createExpressApp({ mode, expressApp })
+    const { mode = 'dev', expressApp, id = `ssr-${this.appInstanceId}` } = args
+    const eApp = await this.fictionRender.createExpressApp({ mode, expressApp, id })
 
     return eApp
   }

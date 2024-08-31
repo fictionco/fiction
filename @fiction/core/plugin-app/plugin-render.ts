@@ -19,6 +19,7 @@ import { FictionBuild } from '../plugin-build/index.js'
 import { FictionPlugin } from '../plugin.js'
 import { version } from '../package.json'
 import type { RunVars } from '../inject.js'
+import { addExpressHealthCheck } from '../utils/serverHealth.js'
 import type * as types from './types.js'
 import { getMarkdownPlugins } from './utils/vitePluginMarkdown.js'
 import { IndexHtml, getRequestVars } from './render/utils.js'
@@ -469,17 +470,20 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
   createExpressApp = async (config: {
     mode: 'dev' | 'prod' | 'test'
     expressApp?: Express
+    id: string
   }): Promise<Express | undefined> => {
     if (this.isApp.value)
       return
 
-    const { mode } = config
+    const { mode, id } = config
 
     const expressApp = config.expressApp || express()
 
     // allow additional forwarded info
     // https://stackoverflow.com/questions/23413401/what-does-trust-proxy-actually-do-in-express-js-and-do-i-need-to-use-it
     expressApp.set('trust proxy', true)
+
+    addExpressHealthCheck({ expressApp, id })
 
     try {
       let viteServer: vite.ViteDevServer | undefined
@@ -568,6 +572,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
       crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
       xFrameOptions: false,
       referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+      id: 'staticServer',
     })
 
     app.use(async (req, res, next) => {

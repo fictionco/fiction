@@ -71,7 +71,9 @@ export class FictionBeacon extends FictionPlugin<FictionBeaconSettings> {
     if (this.beaconServer)
       this.beaconServer.close()
 
-    const app = createExpressApp()
+    const id = 'beaconServer'
+
+    const app = createExpressApp({ id })
 
     app.use('/events', async (request, response) => {
       const r = await this.handleRequest(request)
@@ -106,7 +108,7 @@ export class FictionBeacon extends FictionPlugin<FictionBeaconSettings> {
       response.status(200).end()
     })
 
-    addExpressHealthCheck({ expressApp: app })
+    addExpressHealthCheck({ expressApp: app, id })
 
     app.use('/', (request, response) => (response.status(200).send('ok').end()))
 

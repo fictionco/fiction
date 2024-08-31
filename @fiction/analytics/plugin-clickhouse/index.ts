@@ -144,10 +144,13 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
           return data
         }
         catch (error: unknown) {
+          const e = error as Error
+
+          this.log.error(`clickhouse query error (${e?.message ?? 'no message'})`, { data: { url, query }, error })
+
           const { format } = await import('sql-formatter')
 
-          const e = error as Error
-          this.log.error(e?.message ?? 'no message', { data: { url, query: format(query) }, error })
+          this.log.error(`clickhouse error query formatted (${e?.message ?? 'no message'})`, { data: { url, query: format(query) }, error })
         }
       },
     )

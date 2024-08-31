@@ -4,7 +4,8 @@ import { log } from '../plugin-log'
 import { getCommit, getVersion } from './vars'
 import { getNodeOs } from './nodeUtils.js'
 
-export function getServerHealth(expressApp: express.Express) {
+export function getServerHealth(args: { expressApp: express.Express, id: string }) {
+  const { expressApp, id = 'unknown' } = args
   const memoryUsage = process.memoryUsage()
   const cpuUsage = process.cpuUsage()
   const os = getNodeOs()
@@ -12,6 +13,7 @@ export function getServerHealth(expressApp: express.Express) {
   const uptime = process.uptime()
 
   const healthData = {
+    id,
     status: 'success',
     message: 'ok',
     version: getVersion(),
@@ -36,8 +38,8 @@ export function getServerHealth(expressApp: express.Express) {
   return healthData
 }
 
-export function addExpressHealthCheck(args: { expressApp: express.Express, basePath?: string }) {
-  const { expressApp, basePath = '/health' } = args
+export function addExpressHealthCheck(args: { expressApp: express.Express, basePath?: string, id: string }) {
+  const { expressApp, basePath = '/health', id } = args
   expressApp.set('requestCount', 0)
 
   // Middleware to count requests
@@ -47,7 +49,7 @@ export function addExpressHealthCheck(args: { expressApp: express.Express, baseP
   })
 
   expressApp.use(basePath, (request, response) => {
-    const healthData = getServerHealth(expressApp)
+    const healthData = getServerHealth({ expressApp, id })
 
     response.status(200).send(healthData).end()
   })

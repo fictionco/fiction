@@ -44,7 +44,7 @@ async function load() {
       siteRouter,
       fictionSites,
       mountContext,
-      caller: `CardSite(${props.themeId || 'na'}):${currentUrl}`,
+      caller: `CardSite-loadSite(${props.themeId || 'no-theme-id'}):${currentUrl}:HEADERS${runVars?.ALL_HEADERS}`,
     })
   }
   catch (error) {

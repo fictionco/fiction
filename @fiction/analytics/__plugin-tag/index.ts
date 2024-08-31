@@ -323,7 +323,7 @@ export class KaptionTag extends FictionPlugin<FictionTagSettings> {
       this.server.close()
     }
 
-    const app = createExpressApp({ noHelmet: true })
+    const app = createExpressApp({ noHelmet: true, id: 'tagStaticServer' })
 
     app.use('/', express.static(path.join(this.clientTagDir(), 'dist', 'tag')))
     app.use('*', async (req, res) => {

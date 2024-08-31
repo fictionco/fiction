@@ -157,7 +157,7 @@ export async function getPage(args: { factory: Awaited<ReturnType<typeof getFact
                   author: {
                     name: 'Tim Ferris',
                     image: {
-                      format: 'url',
+                      format: 'image',
                       url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/12556c45-5956-4c71-aebf-c86a0ed45400/public',
                     },
                     title: 'Author of The 4-Hour Workweek',
@@ -172,7 +172,7 @@ export async function getPage(args: { factory: Awaited<ReturnType<typeof getFact
                   author: {
                     name: 'Gary Vaynerchuk',
                     image: {
-                      format: 'url',
+                      format: 'image',
                       url: 'https://imagedelivery.net/mxykd8B2Zc6Xxmx1NDi9mA/1a443428-3409-4ed1-7cc8-acb57f566700/public',
                     },
                     title: 'Entrepreneur & Author',

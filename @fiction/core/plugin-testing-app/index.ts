@@ -159,6 +159,7 @@ export class FictionTestingApp extends FictionPlugin<FictionTestingAppSettings> 
       // in dev these cause images/scripts to fail locally
       contentSecurityPolicy: false,
       crossOriginEmbedderPolicy: false,
+      id: 'testingApp',
     })
 
     let viteServer: ViteDevServer | undefined

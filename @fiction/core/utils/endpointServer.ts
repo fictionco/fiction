@@ -33,8 +33,8 @@ export interface EndpointServerOptions {
   url?: string
 }
 
-export function createExpressApp(opts: HelmetOptions & { noHelmet?: boolean } = {}): express.Express {
-  const { noHelmet } = opts
+export function createExpressApp(opts: HelmetOptions & { noHelmet?: boolean, id: string }): express.Express {
+  const { noHelmet, id } = opts
   const app = express()
 
   // prevent bots looking for exposed .env files
@@ -54,7 +54,7 @@ export function createExpressApp(opts: HelmetOptions & { noHelmet?: boolean } = 
   app.use(bodyParser.text({ limit: '10mb' }))
   app.use(compression())
 
-  addExpressHealthCheck({ expressApp: app, basePath: '/api/health' })
+  addExpressHealthCheck({ expressApp: app, basePath: '/api/health', id })
 
   return app
 }
@@ -82,7 +82,7 @@ export class EndpointServer {
     this.fictionUser = settings.fictionUser
     this.fictionEnv = settings.fictionEnv
     this.url = settings.url || `http://localhost:${port}`
-    this.expressApp = createExpressApp({ noHelmet: true })
+    this.expressApp = createExpressApp({ noHelmet: true, id: serverName })
   }
 
   async runServer(): Promise<http.Server | undefined> {
