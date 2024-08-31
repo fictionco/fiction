@@ -150,6 +150,15 @@ const mimeTypes: { [extension: string]: string } = {
   '.js': 'application/javascript',
   '.json': 'application/json',
   '.xml': 'application/xml',
+  '.mp4': 'video/mp4',
+  '.webm': 'video/webm',
+  '.ogg': 'video/ogg',
+  '.avi': 'video/x-msvideo',
+  '.mov': 'video/quicktime',
+  '.mp3': 'audio/mpeg',
+  '.wav': 'audio/wav',
+  '.flac': 'audio/flac',
+  '.zip': 'application/zip',
   // Add more as needed
 }
 

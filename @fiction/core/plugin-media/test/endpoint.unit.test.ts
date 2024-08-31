@@ -1,5 +1,5 @@
 import { Buffer } from 'node:buffer'
-import { afterAll, describe, expect, it, vi } from 'vitest'
+import { afterAll, afterEach, describe, expect, it, vi } from 'vitest'
 import fs from 'fs-extra'
 import type { EndpointMeta } from '@fiction/core/utils'
 import sharp from 'sharp'
@@ -7,18 +7,15 @@ import type { TableMediaConfig } from '@fiction/core'
 import { createTestUtils } from '../../test-utils/init'
 import { FictionMedia } from '..'
 import { FictionAws } from '../../plugin-aws'
-import { testEnvFile, testImgPath } from '../../test-utils'
+import { testEnvFile, testImgPath, testVideoPath } from '../../test-utils'
 import type { TestUtils } from '../../test-utils/init'
 import { getEnvVars, path } from '../../utils'
-
-let testUtils: TestUtils & { fictionMedia?: FictionMedia }
-let meta: EndpointMeta
 
 describe('createAndSaveMedia', async () => {
   if (!fs.existsSync(testEnvFile))
     console.warn(`missing test env file ${testEnvFile}`)
 
-  testUtils = createTestUtils({ envFiles: [testEnvFile] }) as TestUtils & { fictionMedia?: FictionMedia }
+  const testUtils = createTestUtils({ envFiles: [testEnvFile] }) as TestUtils & { fictionMedia?: FictionMedia }
 
   const v = getEnvVars(testUtils.fictionEnv, ['AWS_ACCESS_KEY', 'AWS_ACCESS_KEY_SECRET', 'UNSPLASH_ACCESS_KEY', 'AWS_BUCKET_MEDIA', 'AWS_REGION'] as const)
 
@@ -34,7 +31,7 @@ describe('createAndSaveMedia', async () => {
   const orgId = testUtils.initialized?.orgId || ''
   const userId = testUtils.initialized?.user?.userId || ''
 
-  meta = {} as EndpointMeta // Mock meta as needed
+  const meta = {} as EndpointMeta // Mock meta as needed
 
   afterAll(async () => {
     await testUtils.close()
@@ -323,5 +320,242 @@ describe('createAndSaveMedia', async () => {
     expect(countResult?.status).toBe('success')
     expect(countResult?.indexMeta).toBeDefined()
     expect(typeof countResult?.indexMeta?.count).toBe('number')
+  })
+})
+
+describe('video upload functionality', async () => {
+  if (!fs.existsSync(testEnvFile))
+    console.warn(`missing test env file ${testEnvFile}`)
+
+  const testUtils = createTestUtils({ envFiles: [testEnvFile] }) as TestUtils & { fictionMedia?: FictionMedia }
+
+  const v = getEnvVars(testUtils.fictionEnv, ['AWS_ACCESS_KEY', 'AWS_ACCESS_KEY_SECRET', 'UNSPLASH_ACCESS_KEY', 'AWS_BUCKET_MEDIA', 'AWS_REGION'] as const)
+
+  const { awsAccessKey, awsAccessKeySecret, unsplashAccessKey, awsBucketMedia, awsRegion } = v
+
+  const fictionEnv = testUtils.fictionEnv
+  const fictionAws = new FictionAws({ fictionEnv, awsAccessKey, awsAccessKeySecret, awsRegion })
+
+  const mediaService = { ...testUtils, fictionAws, awsBucketMedia, unsplashAccessKey }
+  testUtils.fictionMedia = new FictionMedia(mediaService)
+  testUtils.initialized = await testUtils.init()
+  const orgId = testUtils.initialized?.orgId || ''
+  const userId = testUtils.initialized?.user?.userId || ''
+  let uploadedMediaIds: string[] = []
+
+  const meta = {} as EndpointMeta // Mock meta as needed
+
+  afterEach(async () => {
+    // Clean up uploaded media after each test
+    for (const mediaId of uploadedMediaIds) {
+      await testUtils.fictionMedia?.queries.ManageMedia.serve({
+        _action: 'delete',
+        orgId,
+        where: [{ mediaId }],
+      }, meta)
+    }
+    uploadedMediaIds = []
+  })
+
+  afterAll(async () => {
+    // Perform any final cleanup if necessary
+    await testUtils.close()
+  })
+
+  it('should upload and process an MP4 file correctly', async () => {
+    const fileMime = 'video/mp4'
+    const mediaConfig: TableMediaConfig = {
+      orgId,
+      userId,
+      filePath: testVideoPath,
+      sourceImageUrl: '',
+      mime: fileMime,
+    }
+
+    const result = await testUtils.fictionMedia?.queries.ManageMedia.serve({
+      _action: 'checkAndCreate',
+      fields: mediaConfig,
+      userId,
+      orgId,
+      noCache: true,
+    }, meta)
+
+    expect(result?.status).toBe('success')
+    const media = result?.data?.[0]
+    expect(media?.url).toContain('fiction-media')
+    expect(media?.mime).toBe(fileMime)
+    expect(media?.width).toBeGreaterThan(0)
+    expect(media?.height).toBeGreaterThan(0)
+    expect(media?.duration).toBeGreaterThan(0)
+  })
+
+  it('should extract correct metadata from the MP4 file', async () => {
+    const fileMime = 'video/mp4'
+    const mediaConfig: TableMediaConfig = {
+      orgId,
+      userId,
+      filePath: testVideoPath,
+      sourceImageUrl: '',
+      mime: fileMime,
+    }
+
+    const result = await testUtils.fictionMedia?.queries.ManageMedia.serve({
+      _action: 'checkAndCreate',
+      fields: mediaConfig,
+      userId,
+      orgId,
+      noCache: true,
+    }, meta)
+
+    const media = result?.data?.[0]
+    expect({ width: media?.width, height: media?.height, duration: media?.duration }).toMatchInlineSnapshot(`
+      {
+        "duration": 5.28,
+        "height": 720,
+        "width": 1280,
+      }
+    `)
+    expect(media?.width).toBe(1280) // Adjust these values based on your test video
+    expect(media?.height).toBe(720)
+    expect(media?.duration).toBeCloseTo(5, 0) // Assuming the test video is about 10 seconds long
+  })
+
+  it('should handle large video files', async () => {
+    const largeVideoPath = path.join(path.dirname(testVideoPath), 'large_test_video.mp4')
+    const largeBuffer = Buffer.alloc(15 * 1024 * 1024) // 15MB file
+    fs.writeFileSync(largeVideoPath, largeBuffer)
+
+    const mediaConfig: TableMediaConfig = {
+      orgId,
+      userId,
+      filePath: largeVideoPath,
+      sourceImageUrl: '',
+      mime: 'video/mp4',
+    }
+
+    const result = await testUtils.fictionMedia?.queries.ManageMedia.serve({
+      _action: 'checkAndCreate',
+      fields: mediaConfig,
+      userId,
+      orgId,
+      noCache: true,
+    }, { ...meta, expectError: true })
+
+    expect(result?.status).toBe('error')
+    expect(result?.message).toContain('File size exceeds limit')
+
+    fs.unlinkSync(largeVideoPath)
+  })
+
+  it('should reject unsupported video formats', async () => {
+    const unsupportedVideoPath = path.join(path.dirname(testVideoPath), 'test.avi')
+    fs.writeFileSync(unsupportedVideoPath, Buffer.from('Fake AVI content'))
+
+    const mediaConfig: TableMediaConfig = {
+      orgId,
+      userId,
+      filePath: unsupportedVideoPath,
+      sourceImageUrl: '',
+      mime: 'video/x-msvideo',
+    }
+
+    const result = await testUtils.fictionMedia?.queries.ManageMedia.serve({
+      _action: 'checkAndCreate',
+      fields: mediaConfig,
+      userId,
+      orgId,
+      noCache: true,
+    }, { ...meta, expectError: true })
+
+    expect(result?.status).toBe('error')
+    expect(result?.message).toContain('Unsupported file type')
+
+    fs.unlinkSync(unsupportedVideoPath)
+  })
+
+  it('should handle video files with no metadata gracefully', async () => {
+    const noMetadataVideoPath = path.join(path.dirname(testVideoPath), 'no_metadata.mp4')
+    fs.writeFileSync(noMetadataVideoPath, Buffer.from('Fake MP4 content without metadata'))
+
+    const mediaConfig: TableMediaConfig = {
+      orgId,
+      userId,
+      filePath: noMetadataVideoPath,
+      sourceImageUrl: '',
+      mime: 'video/mp4',
+    }
+
+    const result = await testUtils.fictionMedia?.queries.ManageMedia.serve({
+      _action: 'checkAndCreate',
+      fields: mediaConfig,
+      userId,
+      orgId,
+      noCache: true,
+    }, meta)
+
+    expect(result?.status).toBe('success')
+    const media = result?.data?.[0]
+    expect(media?.url).toContain('fiction-media')
+    expect(media?.mime).toBe('video/mp4')
+    expect(media?.width).toBeFalsy()
+    expect(media?.height).toBeFalsy()
+    expect(media?.duration).toBeFalsy()
+
+    fs.unlinkSync(noMetadataVideoPath)
+  })
+
+  it('should not generate blurhash for video files', async () => {
+    const fileMime = 'video/mp4'
+    const mediaConfig: TableMediaConfig = {
+      orgId,
+      userId,
+      filePath: testVideoPath,
+      sourceImageUrl: '',
+      mime: fileMime,
+    }
+
+    const result = await testUtils.fictionMedia?.queries.ManageMedia.serve({
+      _action: 'checkAndCreate',
+      fields: mediaConfig,
+      userId,
+      orgId,
+      noCache: true,
+    }, meta)
+
+    const media = result?.data?.[0]
+    expect(media?.blurhash).toBeFalsy()
+  })
+
+  it('should list and filter video files correctly', async () => {
+    // First, upload a video file
+    const fileMime = 'video/mp4'
+    const mediaConfig: TableMediaConfig = {
+      orgId,
+      userId,
+      filePath: testVideoPath,
+      sourceImageUrl: '',
+      mime: fileMime,
+    }
+    await testUtils.fictionMedia?.queries.ManageMedia.serve({
+      _action: 'checkAndCreate',
+      fields: mediaConfig,
+      userId,
+      orgId,
+      noCache: true,
+    }, meta)
+
+    // Now test listing with video filter
+    const listResult = await testUtils.fictionMedia?.queries.ManageMedia.serve({
+      _action: 'list',
+      orgId,
+      limit: 10,
+      offset: 0,
+      filters: [{ field: 'mime', operator: '=', value: fileMime }],
+    }, meta)
+
+    expect(listResult?.status).toBe('success')
+    expect(Array.isArray(listResult?.data)).toBe(true)
+    expect(listResult?.data?.length).toBeGreaterThan(0)
+    expect(listResult?.data?.every(item => item.mime === fileMime)).toBe(true)
   })
 })

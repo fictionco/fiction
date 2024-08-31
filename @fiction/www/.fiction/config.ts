@@ -186,6 +186,7 @@ export interface CompiledServiceConfig {
       | 'width'
       | 'height'
       | 'orientation'
+      | 'duration'
       | 'alt'
       | 'contentEncoding'
       | 'etag'

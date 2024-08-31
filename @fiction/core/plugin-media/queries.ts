@@ -1,4 +1,5 @@
 import path from 'node:path'
+import type { Buffer } from 'node:buffer'
 import type sharp from 'sharp'
 import fs from 'fs-extra'
 import { Query } from '../query.js'
@@ -140,6 +141,31 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
     return limitedName + ext
   }
 
+  async getMediaMetadata(buffer: Buffer, mime: string): Promise<{ width?: number, height?: number, duration?: number }> {
+    const { default: ffprobe } = await import('ffprobe')
+    const { default: ffprobeStatic } = await import('ffprobe-static')
+    if (mime.startsWith('video/')) {
+      try {
+        const tempFilePath = `/tmp/${objectId()}.${mime.split('/')[1]}`
+        await fs.promises.writeFile(tempFilePath, buffer)
+        const info = await ffprobe(tempFilePath, { path: ffprobeStatic.path })
+        await fs.promises.unlink(tempFilePath)
+
+        const videoStream = info.streams.find(s => s.codec_type === 'video')
+        return {
+          width: videoStream?.width,
+          height: videoStream?.height,
+          duration: videoStream?.duration ? Number.parseFloat(videoStream.duration) : undefined,
+        }
+      }
+      catch (error) {
+        console.error('Error extracting video metadata:', error)
+        return {}
+      }
+    }
+    return {}
+  }
+
   async createAndSaveMedia(args: {
     file?: Express.Multer.File
     filePath?: string
@@ -201,6 +227,9 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
       ]
 
       const [mainData, thumbData] = await Promise.all(uploadPromises)
+
+      this.log.info('media uploaded')
+
       const baseUrl = mainData?.url
 
       const searchParams = new URLSearchParams({ blurhash: blurhash || '' }).toString()
@@ -212,7 +241,10 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
       const thumbUrl = constructUrl(cdnUrl, thumbFilePath)
 
       const { ContentLength: size, ContentType: mime = fileMime } = mainData?.headObject || {}
-      const { width, height, orientation } = metadata || {}
+      const imageMetadata = metadata || {}
+
+      const mediaMetadata = await this.getMediaMetadata(mainBuffer, fileMime)
+      const { width, height, duration, orientation } = { ...imageMetadata, ...mediaMetadata }
 
       const mediaConfig: Partial<TableMediaConfig> = {
         ...fields,
@@ -232,6 +264,7 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
         width,
         height,
         orientation,
+        duration,
       }
 
       const insertedMedia = await this.saveReferenceToDb(mediaConfig, meta)

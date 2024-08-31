@@ -25,6 +25,7 @@ export const mediaColumns = [
   new Col({ key: 'width', sec: 'setting', sch: ({ z }) => z.number(), make: ({ s, col }) => s.integer(col.k) }),
   new Col({ key: 'height', sec: 'setting', sch: ({ z }) => z.number(), make: ({ s, col }) => s.integer(col.k) }),
   new Col({ key: 'orientation', sec: 'setting', sch: ({ z }) => z.number(), make: ({ s, col }) => s.integer(col.k) }),
+  new Col({ key: 'duration', sec: 'setting', sch: ({ z }) => z.number(), make: ({ s, col }) => s.float(col.k) }),
   new Col({ key: 'alt', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'contentEncoding', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'etag', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),

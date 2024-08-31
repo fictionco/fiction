@@ -8,12 +8,13 @@ import type { ServiceList } from '../plugin-env/index.js'
 
 const toolUtilsRoot = safeDirname(import.meta.url)
 // test special characters in path
+const testVideoPath = path.join(toolUtilsRoot, './img/test-video.mp4')
 const testImgPath = path.join(toolUtilsRoot, './img/test (#).jpg')
 const testSvgPath = path.join(toolUtilsRoot, './img/favicon.svg')
 const testPngPath = path.join(toolUtilsRoot, './img/favicon.png')
 const testEnvFile = path.join(toolUtilsRoot, '.env.test')
 
-export { toolUtilsRoot, testImgPath, testSvgPath, testPngPath, testEnvFile }
+export { toolUtilsRoot, testImgPath, testSvgPath, testPngPath, testEnvFile, testVideoPath }
 
 type ActionType = 'select' | 'input' | 'typeText' | 'click' | 'find'
 export interface Interaction {
