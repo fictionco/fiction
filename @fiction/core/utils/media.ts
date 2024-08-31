@@ -185,7 +185,7 @@ export async function getFileExtensionFromFetchResponse(response: Response) {
 export function getMimeType(filePath: string, fileMimeType?: string): string {
   const ext = path.extname(filePath).toLowerCase()
 
-  const mime = mimeTypes[ext] || fileMimeType
+  const mime = mimeTypes[ext] || fileMimeType || 'application/octet-stream'
   if (!mime)
     throw new Error(`No mimeType found for file: ${filePath}`)
 
