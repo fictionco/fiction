@@ -27,7 +27,7 @@ const options: InputOption[] = [
   new InputOption({ key: 'superHeading', label: 'Super Heading', input: 'InputText' }),
   new InputOption({ key: 'superColor', input: 'InputSelect', label: 'Color of Super Header', list: colorThemeUser }),
   new InputOption({ key: 'superIcon', input: 'InputText', label: 'Super Header Icon', placeholder: 'i-tabler-check', description: 'Any tabler icon in the format i-tabler-[icon]' }),
-  new InputOption({ key: 'items', label: 'Items', input: 'InputList', options: [
+  new InputOption({ key: 'items', label: 'Items', input: 'InputList', props: { itemName: 'Feature' }, options: [
     new InputOption({ key: 'name', label: 'Name', input: 'InputText' }),
     new InputOption({ key: 'desc', label: 'Description', input: 'InputText' }),
     new InputOption({ key: 'icon', label: 'Icon', input: 'InputText' }),

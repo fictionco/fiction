@@ -14,7 +14,7 @@ type Props = {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: () => ({}),
+  modelValue: undefined,
   fileTypes: () => ['jpg', 'png', 'gif', 'svg', 'webp', 'mp4', 'webm'],
   fileSize: 10_240_000,
   uiSize: 'md',
@@ -116,9 +116,10 @@ function triggerFileInput() {
         Upload
       </XButton>
       <input
-        v-model="modelValue.url"
+        :model-value="modelValue?.url"
         type="text"
         :class="textInputClasses({ inputClass: 'grow', uiSize })"
+        @update:model-value="updateValue"
         @input="updateValue({ url: ($event.target as HTMLInputElement).value })"
       >
       <input

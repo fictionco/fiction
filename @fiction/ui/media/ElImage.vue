@@ -158,7 +158,15 @@ const mediaFormat = vue.computed(() => {
   if (!props.media?.url)
     return 'html'
 
-  const pathname = new URL(props.media.url).pathname
+  const url = new URL(props.media.url, 'https://dummybase.com')
+
+  // Check for other common image hosting services
+  const imageHosts = ['imgur', 'gravatar', 'flickr']
+  if (imageHosts.some(host => url.hostname.includes(host))) {
+    return 'image'
+  }
+
+  const pathname = url.pathname
   const extension = pathname.split('.').pop()?.toLowerCase() || ''
   const formatMap: Record<string, string> = {
     'jpg': 'image',
@@ -255,4 +263,4 @@ const mediaFormat = vue.computed(() => {
       :style="overlayStyle"
     />
   </ClipPathAnim>
-</template>
+</template>import { url } from 'inspector';
