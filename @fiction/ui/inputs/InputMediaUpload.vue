@@ -10,15 +10,15 @@ type Props = {
   fileTypes?: string[]
   fileSize?: number
   uiSize?: UiElementSize
-  acceptVideoFormats?: boolean
+  hasVideo?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   modelValue: () => ({}),
-  fileTypes: () => ['jpg', 'png', 'gif', 'svg'],
+  fileTypes: () => ['jpg', 'png', 'gif', 'svg', 'webp', 'mp4', 'webm'],
   fileSize: 10_240_000,
   uiSize: 'md',
-  acceptVideoFormats: false,
+  hasVideo: false,
 })
 
 const emit = defineEmits<{
@@ -34,7 +34,7 @@ const fileInput = vue.ref<HTMLInputElement | null>(null)
 
 const acceptedFileTypes = vue.computed(() => {
   const types = props.fileTypes.map(type => `image/${type}`)
-  if (props.acceptVideoFormats) {
+  if (props.hasVideo) {
     types.push('video/mp4', 'video/webm')
   }
   return types.join(',')

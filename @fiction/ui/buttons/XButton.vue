@@ -4,7 +4,7 @@ import { getNavComponentType, shortId, vue } from '@fiction/core'
 import { animateItemEnter, splitLetters } from '../anim'
 import { getButtonClasses } from './util'
 
-defineOptions({ name: 'ElButton' })
+defineOptions({ name: 'XButton' })
 
 const props = defineProps<{
   icon?: string

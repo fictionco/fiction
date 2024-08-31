@@ -152,33 +152,40 @@ const inlineImage = vue.computed(() => props.imageMode === 'inline')
 const imageModeClass = vue.computed(() => props.imageMode === 'contain' ? 'object-contain' : 'object-cover')
 
 const mediaFormat = vue.computed(() => {
-  if (props.media?.format)
+  if (props.media?.format && props.media?.format !== 'url')
     return props.media.format
 
   if (!props.media?.url)
     return 'html'
 
-  const extension = props.media.url.split('.').pop()?.toLowerCase() || ''
+  const pathname = new URL(props.media.url).pathname
+  const extension = pathname.split('.').pop()?.toLowerCase() || ''
   const formatMap: Record<string, string> = {
-    jpg: 'image',
-    jpeg: 'image',
-    png: 'image',
-    gif: 'image',
-    webp: 'image',
-    svg: 'image',
-    mp4: 'video',
-    webm: 'video',
-    ogg: 'video',
-    html: 'html',
+    'jpg': 'image',
+    'jpeg': 'image',
+    'png': 'image',
+    'gif': 'image',
+    'webp': 'image',
+    'svg': 'image',
+    'mp4': 'video',
+    'webm': 'video',
+    'ogg': 'video',
+    'html': 'html',
+    '': 'html',
   }
-  return formatMap[extension] || 'url'
-})
 
-const isImageFormat = vue.computed(() => ['url', 'image'].includes(mediaFormat.value))
+  const out = formatMap[extension]
+
+  if (!out) {
+    logger.error(`Unknown media format: ${extension}`)
+  }
+
+  return out
+})
 </script>
 
 <template>
-  <ClipPathAnim :animate="animate" :data-format="mediaFormat">
+  <ClipPathAnim :animate="animate" :data-format="mediaFormat" :data-media-width="media?.width" :data-media-height="media?.height">
     <div
       v-if="media"
       :class="[!inlineImage ? 'h-full w-full' : '', cls, flipClass]"
@@ -193,7 +200,7 @@ const isImageFormat = vue.computed(() => ['url', 'image'].includes(mediaFormat.v
         leave-to-class="opacity-0"
       >
         <canvas
-          v-if="blurhash && loading"
+          v-if="blurhash && loading && imageMode === 'cover'"
           ref="blurCanvas"
           class="absolute inset-0 z-10 h-full w-full"
           :class="imageClass"
@@ -225,7 +232,7 @@ const isImageFormat = vue.computed(() => ['url', 'image'].includes(mediaFormat.v
           playsinline
         />
         <img
-          v-else-if="isImageFormat && media.url"
+          v-else-if="mediaFormat === 'image' && media.url"
           class="inset-0 z-0"
           :class="[imageClass, imageModeClass, inlineImage ? 'block' : 'absolute h-full w-full']"
           :src="media.url"

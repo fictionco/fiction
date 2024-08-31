@@ -3,6 +3,8 @@ import { omit, vue } from '@fiction/core'
 import type { UiElementSize } from '../utils'
 import { inputs } from '.'
 
+defineOptions({ name: 'ElInput' })
+
 const props = defineProps({
   modelValue: { type: [String, Object, Array, Number, Date, Boolean], default: undefined },
   label: { type: String, default: '' },

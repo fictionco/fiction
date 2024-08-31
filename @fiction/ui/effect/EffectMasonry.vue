@@ -2,18 +2,20 @@
 import { vue, waitFor } from '@fiction/core'
 import type { PackeryOptions, Packery as PackeryType } from 'packery'
 
-type EffectOptions = Partial<Omit<PackeryOptions, 'gutter'>> & {
-  resize?: boolean
-  initLayout?: boolean
-  defaultCols?: number
-  gutter?: string | number
-}
+defineOptions({ name: 'EffectMasonry' })
 
 const props = defineProps<{
   items: T[]
   options?: EffectOptions
   gap?: string
 }>()
+
+type EffectOptions = Partial<Omit<PackeryOptions, 'gutter'>> & {
+  resize?: boolean
+  initLayout?: boolean
+  defaultCols?: number
+  gutter?: string | number
+}
 
 const containerRef = vue.ref<HTMLElement | null>(null)
 let pckry: PackeryType | null = null

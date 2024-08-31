@@ -3,7 +3,7 @@ import { vue } from '@fiction/core'
 import type { MediaObject } from '@fiction/core'
 import ElImage from '../media/ElImage.vue'
 import ElInput from './ElInput.vue'
-import ElDropDown from './InputDropDown.vue'
+import InputDropDown from './InputDropDown.vue'
 import InputMediaUpload from './InputMediaUpload.vue'
 
 const props = defineProps({
@@ -43,7 +43,7 @@ const format = vue.computed(() => {
 <template>
   <div class="space-y-3">
     <div class="flex items-center gap-4">
-      <ElDropDown
+      <InputDropDown
         v-if="formatList.length > 1"
         :model-value="format"
         :list="formatList"
