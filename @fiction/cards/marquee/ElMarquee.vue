@@ -63,6 +63,8 @@ vue.onMounted(() => {
             :href="item.href"
             class="group/marquee marquee-item relative overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,1,0.33,1)] hover:-translate-y-1 hover:scale-105 hover:z-10"
             :class="[getStagger(i)]"
+            :data-display-items="temp.length"
+            :data-display-direction="uc.direction || 'left'"
           >
             <div class="x-action-item absolute inset-0 transition-all duration-1000 opacity-0">
               <div v-if="item.media" class="item-media absolute inset-0 bg-white overflow-hidden">
