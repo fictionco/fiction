@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { toLabel, vue } from '@fiction/core'
 import type { MediaObject } from '@fiction/core'
+import { systemIcons } from '@fiction/core/schemas/systemIcons'
 import ElModal from '../ElModal.vue'
 import XButton from '../buttons/XButton.vue'
 import XIcon from '../media/XIcon.vue'
-import { systemIcons } from '../media/systemIcons'
 import ElInput from './ElInput.vue'
 
 defineOptions({ name: 'FictionIcon' })
@@ -70,7 +70,7 @@ function getCurrentValue() {
     <div v-if="hasIcon" class="relative overflow-hidden rounded-lg group bg-theme-100/40 dark:bg-theme-700/70" @click.stop.prevent="openIconSelector">
       <div class="flex items-center justify-center pointer-events-none p-2">
         <XIcon
-          :media="modelValue"
+          :icon="modelValue"
           class="size-10"
         />
       </div>
@@ -127,7 +127,7 @@ function getCurrentValue() {
           </div>
           <div class="flex justify-center items-center h-[100px]">
             <XIcon
-              :media="currentSelection"
+              :icon="currentSelection"
               class="size-16"
             />
           </div>
@@ -140,7 +140,7 @@ function getCurrentValue() {
             class="flex flex-col items-center justify-center p-2 rounded hover:bg-theme-100 dark:hover:bg-theme-800"
             @click="selectIcon({ iconId: icon.iconId, format: 'iconId' })"
           >
-            <XIcon :media="{ format: 'iconId', iconId: icon.iconId }" class="w-8 h-8" />
+            <XIcon :icon="{ format: 'iconId', iconId: icon.iconId }" class="w-8 h-8" />
             <span class="mt-1 text-xs">{{ icon.name }}</span>
           </button>
         </div>

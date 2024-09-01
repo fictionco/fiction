@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import type { vue } from '../utils/libraries.js'
 import { ColorScaleSchema, colorThemeUser, colorThemeWithInvert } from '../utils/colors.js'
+import type { IconId } from './systemIcons.js'
 
 export const PostStatusSchema = z.enum(['draft', 'scheduled', 'published', 'hidden', 'protected', 'deleted', 'archived', 'trashed', 'spam'])
 export const ProgressStatusSchema = z.enum(['pending', 'requested', 'processing', 'ready', 'error', 'cancelled'])
@@ -106,7 +107,7 @@ export const MediaFormat = z.enum(['url', 'image', 'video', 'iframe', 'html', 'c
 export const MediaBasicSchema = z.object({
   html: z.string().optional(),
   url: z.string().optional(),
-  iconId: z.string().optional(),
+  iconId: z.string().optional() as z.Schema<IconId | undefined>,
   class: z.string().optional(),
   format: MediaFormat.optional(),
   el: z.custom<vue.AsyncComponentLoader | vue.Component>((val) => {

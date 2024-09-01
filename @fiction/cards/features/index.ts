@@ -1,4 +1,4 @@
-import { colorThemeUser, vue } from '@fiction/core'
+import { MediaBasicSchema, colorThemeUser, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
@@ -9,12 +9,12 @@ const schema = z.object({
   heading: z.string().optional(),
   subHeading: z.string().optional(),
   superHeading: z.string().optional(),
-  superIcon: z.string().optional().describe('Icon for the super heading'),
+  superIcon: MediaBasicSchema.optional().describe('Icon for the super heading'),
   superColor: z.enum(colorThemeUser).optional().describe('change color of super heading'),
   items: z.array(z.object({
     name: z.string().optional(),
     desc: z.string().optional(),
-    icon: z.string().optional(),
+    icon: MediaBasicSchema.optional(),
     color: z.enum(colorThemeUser).optional(),
   })).optional(),
 })
@@ -26,7 +26,7 @@ const options: InputOption[] = [
   new InputOption({ key: 'subHeading', label: 'Sub Heading', input: 'InputText' }),
   new InputOption({ key: 'superHeading', label: 'Super Heading', input: 'InputText' }),
   new InputOption({ key: 'superColor', input: 'InputSelect', label: 'Color of Super Header', list: colorThemeUser }),
-  new InputOption({ key: 'superIcon', input: 'InputText', label: 'Super Header Icon', placeholder: 'i-tabler-check', description: 'Any tabler icon in the format i-tabler-[icon]' }),
+  new InputOption({ key: 'superIcon', input: 'InputIcon', label: 'Super Header Icon' }),
   new InputOption({ key: 'items', label: 'Items', input: 'InputList', props: { itemName: 'Feature' }, options: [
     new InputOption({ key: 'name', label: 'Name', input: 'InputText' }),
     new InputOption({ key: 'desc', label: 'Description', input: 'InputText' }),
@@ -37,17 +37,17 @@ const options: InputOption[] = [
 
 const defaultConfig: UserConfig = {
   superColor: 'primary',
-  superIcon: 'i-tabler-chef-hat',
-  superHeading: 'Voted Best Bakery 2024',
-  heading: `Excellence in Baking`,
-  subHeading: `We offer exceptional services for people that don't just want a cake, but an experience.`,
+  superIcon: { iconId: 'check' },
+  superHeading: 'Industry Recognition',
+  heading: 'Main Product or Service',
+  subHeading: 'Brief description of your core offering and its unique value proposition.',
   items: [
-    { name: 'Custom Cakes', desc: 'Award-winning custom cakes crafted for every special occasion, made to your exact specifications.', icon: 'i-tabler-cake', color: 'rose' },
-    { name: 'Gourmet Pastries', desc: 'Indulge in an array of gourmet pastries, freshly baked and perfect for any time of the day.', icon: 'i-tabler-brand-cakephp', color: 'emerald' },
-    { name: 'Artisan Bread', desc: 'Experience the taste of artisanal bread, made from the finest ingredients and baked to perfection.', icon: 'i-tabler-bread', color: 'orange' },
-    { name: 'Baking Classes', desc: 'Join exclusive baking classes and learn the secrets behind the chef\'s world-renowned creations.', icon: 'i-tabler-school', color: 'blue' },
-    { name: 'Decadent Cookies', desc: 'Savor our selection of freshly baked cookies, perfect for any occasion or just a sweet treat.', icon: 'i-tabler-cookie', color: 'yellow' },
-    { name: 'Nationwide Delivery', desc: 'Enjoy our baked goods from anywhere with our reliable and fast nationwide delivery service.', icon: 'i-tabler-truck', color: 'purple' },
+    { name: 'Key Feature 1', desc: 'Description of the first key feature and its benefits to the customer.', icon: { iconId: 'check' }, color: 'blue' },
+    { name: 'Key Feature 2', desc: 'Explanation of the second key feature and how it addresses customer needs.', icon: { iconId: 'check' }, color: 'green' },
+    { name: 'Key Feature 3', desc: 'Details about the third key feature and its advantages over competitors.', icon: { iconId: 'check' }, color: 'yellow' },
+    { name: 'Additional Service 1', desc: 'Information about an additional service that complements the main offering.', icon: { iconId: 'check' }, color: 'red' },
+    { name: 'Additional Service 2', desc: 'Description of another complementary service or product available to customers.', icon: { iconId: 'check' }, color: 'purple' },
+    { name: 'Customer Benefit', desc: 'Highlight of a significant benefit or convenience offered to customers.', icon: { iconId: 'check' }, color: 'orange' },
   ],
 }
 

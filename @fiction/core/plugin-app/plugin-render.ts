@@ -6,7 +6,7 @@ import fs from 'fs-extra'
 import compression from 'compression'
 import serveStatic from 'serve-static'
 import { minify } from 'html-minifier'
-import type { Express, Request } from 'express'
+import type { Express, NextFunction, Request } from 'express'
 import type tailwindcss from 'tailwindcss'
 import { dynamicIconsPlugin, iconsPlugin } from '@egoist/tailwindcss-icons'
 import express from 'express'
@@ -467,6 +467,19 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     return folders
   }
 
+  addProductionHeaders(req: express.Request, res: express.Response, next: NextFunction) {
+    // Cache Control
+    // Adjust max-age as needed. This example sets it to 1 hour
+    if (req.method === 'GET') {
+      res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400')
+    }
+    else {
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
+    }
+
+    next()
+  }
+
   createExpressApp = async (config: {
     mode: 'dev' | 'prod' | 'test'
     expressApp?: Express
@@ -490,6 +503,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
       let template: string
       if (mode === 'prod') {
+        expressApp.use(this.addProductionHeaders)
         expressApp.use(compression())
         expressApp.use(serveStatic(this.distFolderClient, { index: false }))
         template = await this.indexHtml.getRenderedIndexHtml()
