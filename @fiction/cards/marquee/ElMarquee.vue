@@ -61,20 +61,18 @@ vue.onMounted(() => {
             :key="i"
             :to="item.href"
             :href="item.href"
-            class=" marquee-item relative overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,1,0.33,1)]"
-            :class="[getStagger(i), item.href ? 'hover:-translate-y-1 hover:scale-105' : '']"
-            :data-display-items="temp.length"
-            :data-display-direction="uc.direction || 'left'"
+            class="group/marquee marquee-item relative overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,1,0.33,1)] hover:-translate-y-1 hover:scale-105 hover:z-10"
+            :class="[getStagger(i)]"
           >
-            <div class=" x-action-item absolute inset-0 transition-all duration-1000  opacity-0">
-              <div v-if="item.media" class="item-media absolute inset-0 bg-white">
+            <div class="x-action-item absolute inset-0 transition-all duration-1000 opacity-0">
+              <div v-if="item.media" class="item-media absolute inset-0 bg-white overflow-hidden">
                 <img
                   :src="item.media.url"
-                  class="absolute inset-0 h-full w-full object-cover object-center"
+                  class="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.33,1)] group-hover/marquee:scale-105"
                 >
-                <div class="grad absolute inset-0 transition-all show-on-hover" />
+                <div class="grad absolute inset-0 transition-opacity duration-300 opacity-0 group-hover/marquee:opacity-100" />
               </div>
-              <div class="absolute bottom-0 p-3 lg:p-6 text-white show-on-hover">
+              <div class="absolute bottom-0 p-3 lg:p-6 text-white transition-opacity duration-300 opacity-0 group-hover/marquee:opacity-100">
                 <h2 class="font-semibold text-base lg:text-xl x-font-title">
                   {{ item.name }}
                 </h2>
@@ -96,19 +94,20 @@ vue.onMounted(() => {
   --card-media-height: 340px;
   --grid-gap: 32px;
   --card-count: v-bind(temp.length);
+
   .marquee-track {
     width: fit-content;
     animation: marqueeDesktop calc(var(--card-speed, 7s) * var(--card-count, 20)) linear infinite;
 
     &.reverse {
-      animation-direction: reverse; // Reverses the animation direction
+      animation-direction: reverse;
     }
     &:hover {
       animation-play-state: paused;
     }
   }
+
   .marquee-grid {
-    grid-auto-columns: -webkit-min-content;
     grid-auto-columns: min-content;
     grid-auto-flow: column;
     width: fit-content;
@@ -117,26 +116,19 @@ vue.onMounted(() => {
   .marquee-item {
     width: var(--card-media-width);
     height: var(--card-media-height);
+    clip-path: inset(0 round 30px);
 
     @media (max-width: 1024px) {
       width: calc(var(--card-media-width) * 0.6);
       height: calc(var(--card-media-height) * 0.6);
     }
-    clip-path: inset(0 round 30px);
+
     .grad {
-      background: radial-gradient( circle at left bottom,  rgba(0, 0, 0, 0.55) 0,  transparent 70%  );
-
-    }
-
-    .show-on-hover{
-      opacity: 1;
-      transition: opacity 0.3s;
-    }
-    &:hover .show-on-hover{
-      opacity: 1;
+      background: radial-gradient(circle at left bottom, rgba(0, 0, 0, 0.55) 0, transparent 70%);
     }
   }
 }
+
 @keyframes marqueeDesktop {
   0% {
     transform: translate3d(-10%, 0, 0);

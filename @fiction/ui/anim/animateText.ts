@@ -129,7 +129,7 @@ function getShapeAttributes(shape: UnderlineShape): { viewBox: string, d: string
     case 'line':
       return {
         viewBox: '-400 -55 730 60',
-        d: 'm -390.25 -6 c 45.25 -12 130.75 -33.5 293.25 -38 c 54.5 -0.5 195 -2.5 401 15',
+        d: 'm -390.25 -14 c 50 -5 150 -15 293.25 -20 c 100 -3 250 0 401 10',
       }
     case 'squiggle':
       return {

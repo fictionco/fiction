@@ -53,8 +53,8 @@ export function page(args: { site: Site }) {
               superColor: 'orange',
               superIcon: 'i-tabler-award',
               superHeading: 'The #1 Platform for Personal Branding',
-              heading: `The Personal Marketing Platform`,
-              subHeading: `Create a unique personal brand, build an audience, and measure results.`,
+              heading: `The Personal Branding Platform`,
+              subHeading: `Create your personal brand and quickly build your audience.`,
               actions: [
                 {
                   name: 'Create Account',
