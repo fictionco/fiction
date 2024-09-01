@@ -19,8 +19,8 @@ const CinemaItemSchema = z.object({
     name: z.string(),
     href: z.string(),
     btn: z.enum(['outline', 'minimal']),
-    icon: z.string().optional(),
-    iconAfter: z.string().optional(),
+    icon: MediaBasicSchema.optional(),
+    iconAfter: MediaBasicSchema.optional(),
   }) as z.Schema<ActionItem>).optional(),
 })
 
@@ -103,13 +103,13 @@ const options = [
       new InputOption({ key: 'header', label: 'Header', input: 'InputText' }),
       new InputOption({ key: 'subHeader', label: 'Sub Header', input: 'InputText' }),
       new InputOption({ key: 'superHeader', label: 'Super Header', input: 'InputText' }),
-      new InputOption({ key: 'media', label: 'Media', input: 'InputMediaDisplay', props: { formats: { url: true, image: true, video: true } } }),
+      new InputOption({ key: 'media', label: 'Media', input: 'InputMedia', props: { formats: { url: true, image: true, video: true } } }),
       new InputOption({ key: 'actions', label: 'Actions', input: 'InputList', options: [
         new InputOption({ key: 'name', label: 'Name', input: 'InputText' }),
         new InputOption({ key: 'href', label: 'Href', input: 'InputText' }),
         new InputOption({ key: 'btn', label: 'Button', input: 'InputSelect', props: { options: ['outline', 'minimal'] } }),
-        new InputOption({ key: 'icon', label: 'Icon (Left)', input: 'InputText', description: 'Use format i-tabler-[icon], check docs for info' }),
-        new InputOption({ key: 'iconAfter', label: 'Icon (Right)', input: 'InputText', description: 'Use format i-tabler-[icon], check docs for info' }),
+        new InputOption({ key: 'icon', label: 'Icon (Left)', input: 'InputIcon', description: 'Use format i-tabler-[icon], check docs for info' }),
+        new InputOption({ key: 'iconAfter', label: 'Icon (Right)', input: 'InputIcon', description: 'Use format i-tabler-[icon], check docs for info' }),
       ] }),
     ],
   }),
