@@ -30,7 +30,7 @@ const options: InputOption[] = [
   new InputOption({ key: 'items', label: 'Items', input: 'InputList', props: { itemName: 'Feature' }, options: [
     new InputOption({ key: 'name', label: 'Name', input: 'InputText' }),
     new InputOption({ key: 'desc', label: 'Description', input: 'InputText' }),
-    new InputOption({ key: 'icon', label: 'Icon', input: 'InputText' }),
+    new InputOption({ key: 'icon', label: 'Icon', input: 'InputIcon' }),
     new InputOption({ key: 'color', input: 'InputSelect', label: 'Color', list: colorThemeUser }),
   ] }),
 ]
