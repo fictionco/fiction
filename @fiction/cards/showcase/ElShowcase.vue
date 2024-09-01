@@ -86,7 +86,7 @@ function gridCols() {
   <div :class="card.classes.value.contentWidth">
     <div :class="[!loaded ? 'opacity-0' : '']" class="relative transition-opacity duration-700" data-test-id="showcase">
       <div class="grid md:gap-8 gap-6" :data-items-count="uc.items?.length || 0" :class="gridCols()" :data-aspect="uc.aspect" :data-grid-cols-max="uc.gridColsMax">
-        <div v-for="(item, i) in uc.items" :key="i" class="[perspective:1000px] group showcase-item x-action-item transition-all duration-300 space-y-2 relative cursor-pointer" @click="activeitemIndex = i">
+        <div v-for="(item, i) in uc.items" :key="i" class="[perspective:1000px] group showcase-item x-action-item transition-all duration-300 space-y-2 relative cursor-pointer" @click.stop="activeitemIndex = i">
           <EffectGlare wrap-class="rounded-[20px]">
             <div class="relative">
               <ElImage :animate="true" :media="item.media" :class="gridImageAspect()" />

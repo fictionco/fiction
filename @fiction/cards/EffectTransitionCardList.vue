@@ -12,7 +12,6 @@ defineProps({
 
 <style lang="less">
 .cardList-enter-active,
-.cardList-leave-active,
 .cardList-move {
   transition: all 600ms cubic-bezier(0.25,1,0.33,1);
   transform-origin: center;
@@ -31,10 +30,11 @@ defineProps({
 .cardList-leave-active {
   position: absolute;
   width: 100%;
+  transition: none;
 }
 
 .cardList-leave-to {
   opacity: 0;
-  transform: translateY(200px) scale(0.8);
+  transform: none;
 }
 </style>
