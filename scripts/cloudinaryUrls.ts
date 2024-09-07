@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import process from 'node:process'
+import { fileURLToPath } from 'node:url'
 import { v2 as cloudinary } from 'cloudinary'
 import dotenv from 'dotenv'
 import fetch from 'node-fetch'
@@ -31,6 +31,7 @@ type MediaItem = {
   format: 'image' | 'video'
   url: string
   tags: string[]
+  slug: string
 }
 
 function flattenTagSet(tagSet: typeof import('../@fiction/cards/stock/tags.js').tagSet): string[] {
@@ -116,9 +117,7 @@ async function getAIStyleTags(imageUrl: string): Promise<string[]> {
       ]
     }
 
-    const labels = data.responses[0].labelAnnotations
-      .filter(label => label.score > 0.7)
-      .map(label => label.description.toLowerCase())
+    const labels = data.responses[0].labelAnnotations.filter(label => label.score > 0.7).map(label => label.description.toLowerCase())
 
     const tags: string[] = []
 
@@ -164,13 +163,29 @@ function determineColorTone(colors: { color: { red: number, green: number, blue:
   avgColor.green /= count
   avgColor.blue /= count
 
-  if (avgColor.red > avgColor.blue) {
+  // Calculate relative luminance
+  const luminance = {
+    red: 0.2126 * avgColor.red,
+    green: 0.7152 * avgColor.green,
+    blue: 0.0722 * avgColor.blue,
+  }
+
+  const totalLuminance = luminance.red + luminance.green + luminance.blue
+
+  // Calculate color temperature based on red-blue ratio
+  const temperatureRatio = (luminance.red - luminance.blue) / totalLuminance
+
+  // Define thresholds for warm and cool tones
+  const warmThreshold = 0.1
+  const coolThreshold = -0.1
+
+  if (temperatureRatio > warmThreshold) {
     return 'color:warm'
   }
-  else if (avgColor.blue > avgColor.red) {
+  else if (temperatureRatio < coolThreshold) {
     return 'color:cool'
   }
-  else if (avgColor.red === avgColor.blue && avgColor.green === avgColor.red) {
+  else if (Math.abs(luminance.red - luminance.blue) < 0.05 * totalLuminance) {
     return 'color:neutral'
   }
   else {
@@ -247,7 +262,15 @@ async function fetchAndFormatAssets(): Promise<MediaItem[]> {
         await addTag(resource.public_id, resource.resource_type, 'annotated')
       }
 
-      return { format: isImage ? 'image' : 'video', url, tags: filterAllowedTags(tags) }
+      // Generate the slug from the public_id
+      const slug = path.basename(resource.public_id).replace(/\.[^/.]+$/, '')
+
+      return {
+        format: isImage ? 'image' : 'video',
+        url,
+        tags: filterAllowedTags(tags),
+        slug, // Add the slug to the returned object
+      }
     }))
 
     await fs.writeFile(outputPath, JSON.stringify(assets, null, 2))

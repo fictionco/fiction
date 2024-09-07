@@ -13,6 +13,7 @@ type MediaItem = {
   format: MediaFormat
   url: string
   tags: Tag[]
+  slug: string
 }
 
 type MediaCollection = MediaItem[]
@@ -87,6 +88,23 @@ export class StockMedia {
 
   getRandomByAspectRatio(aspectRatio: Extract<Tag, `aspect${string}`>, args: Omit<GetMediaArgs, 'tags'> = {}): MediaItem {
     return this.getRandomMedia({ ...args, tags: [aspectRatio] })
+  }
+
+  getAssetBySlug(partialSlug: string): MediaItem | undefined {
+    const normalizedPartialSlug = partialSlug.toLowerCase()
+
+    return this.media.find(item =>
+      item.slug.toLowerCase().includes(normalizedPartialSlug),
+    )
+  }
+
+  // New method to get all assets matching a partial slug
+  getAllAssetsBySlug(partialSlug: string): MediaItem[] {
+    const normalizedPartialSlug = partialSlug.toLowerCase()
+
+    return this.media.filter(item =>
+      item.slug.toLowerCase().includes(normalizedPartialSlug),
+    )
   }
 
   resetUsedMedia(): void {

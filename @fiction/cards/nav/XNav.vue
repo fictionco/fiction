@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useService, vue } from '@fiction/core'
-import type { Card } from '@fiction/site'
 import CardNavLink from '@fiction/cards/CardNavLink.vue'
+import { useService, vue } from '@fiction/core'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
+import type { Card } from '@fiction/site'
 
 import type { SchemaNavItem, UserConfig } from './index.js'
 

@@ -7,7 +7,10 @@ const props = defineProps({
   href: { type: String, default: undefined },
 })
 
-const linkProps = vue.computed(() => props.href?.startsWith('http') ? { href: props.href } : props.href ? { to: props.href } : {})
+const linkProps = vue.computed(() => {
+  const { href } = props
+  return (href?.startsWith('http') || href?.includes('_reload')) ? { href } : { to: href }
+})
 </script>
 
 <template>

@@ -1,12 +1,13 @@
+import { stockMediaHandler } from '@fiction/cards/stock/index.js'
 import { createCard } from '@fiction/site/theme.js'
 import { staticFileUrls } from '@fiction/site/utils/site.js'
 import type { Site } from '@fiction/site/site.js'
 import { templates } from '../templates.js'
-import selena from './img/selena.jpg'
-import dean from './img/dean2.jpg'
-import rogan from './img/rogan.jpg'
-import obama from './img/obama.webp'
 import andrew from './img/andrew.jpg'
+import dean from './img/dean2.jpg'
+import obama from './img/obama.webp'
+import rogan from './img/rogan.jpg'
+import selena from './img/selena.jpg'
 
 export function page(args: { site: Site }) {
   const { site } = args
@@ -77,7 +78,7 @@ export function page(args: { site: Site }) {
               items: [
                 {
                   name: 'Andrew Powers',
-                  desc: 'Founder, Fiction.com',
+                  desc: 'Serial Entrepreneur',
                   tags: ['Tech'],
                   media: {
                     url: `${andrew}?blurhash=UbD%2Be.f%2B9an%24~UbIE2aeskaeV%40W%3BM%7BaeoLbb`,
@@ -87,16 +88,14 @@ export function page(args: { site: Site }) {
 
                 {
                   name: 'Hugo Rebora',
-                  desc: 'Business Site',
+                  desc: 'Podcaster',
                   tags: ['Professional'],
-                  media: {
-                    url: urls.profileMan7,
-                  },
+                  media: stockMediaHandler.getAssetBySlug('rebora'),
                   href: '#',
                 },
                 {
                   name: 'Selena Gomez',
-                  desc: 'Personal Site',
+                  desc: 'Musician',
                   tags: ['Music'],
                   media: {
                     url: selena,
@@ -105,26 +104,22 @@ export function page(args: { site: Site }) {
 
                 {
                   name: 'Olivia Alani',
-                  desc: 'Personal Site',
+                  desc: 'Fashion Designer',
                   tags: ['Music'],
-                  media: {
-                    url: urls.profileWoman5,
-                  },
+                  media: stockMediaHandler.getAssetBySlug('olivia'),
                   href: '#',
                 },
                 {
                   name: 'Gabriel Torres',
-                  desc: 'Personal Site',
+                  desc: 'Coach',
                   tags: ['Speaker'],
-                  media: {
-                    url: urls.profileMan6,
-                  },
+                  media: stockMediaHandler.getAssetBySlug('abgcuk'),
                   href: '#',
                 },
 
                 {
                   name: 'Barack Obama',
-                  desc: 'Personal Site',
+                  desc: 'Politician',
                   tags: ['Politics'],
                   media: {
                     url: obama,
@@ -132,11 +127,9 @@ export function page(args: { site: Site }) {
                 },
                 {
                   name: 'Sarah Bands',
-                  desc: 'Personal Site',
+                  desc: 'Director',
                   tags: ['Professional'],
-                  media: {
-                    url: urls.profileWoman7,
-                  },
+                  media: stockMediaHandler.getAssetBySlug('bands'),
                   href: '#',
                 },
                 {
@@ -149,7 +142,7 @@ export function page(args: { site: Site }) {
                 },
                 {
                   name: 'Joe Rogan',
-                  desc: 'Personal Site',
+                  desc: 'Comedian / Podcaster',
                   tags: ['Politics'],
                   media: {
                     url: rogan,
