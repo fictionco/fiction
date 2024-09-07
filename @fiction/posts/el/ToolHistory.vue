@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
-import type { EditorTool, Handle } from '@fiction/admin'
+import ElTool from '@fiction/admin/tools/ElTool.vue'
 import ElToolBanner from '@fiction/admin/tools/ElToolBanner.vue'
 import ELToolHandle from '@fiction/admin/tools/ElToolHandle.vue'
-import ElTool from '@fiction/admin/tools/ElTool.vue'
+import { vue } from '@fiction/core'
+import type { EditorTool, Handle } from '@fiction/admin'
 import type { Post } from '../post'
 import type { PostDraft } from '../schema'
 

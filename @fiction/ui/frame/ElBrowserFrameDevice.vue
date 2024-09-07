@@ -1,10 +1,10 @@
 <script lang="ts" setup generic="T extends MsgUnknown">
 import { shortId, vue } from '@fiction/core/index.js'
 import XButton from '../buttons/XButton.vue'
-import ElSpinner from '../loaders/ElSpinner.vue'
 import ElTooltip from '../common/ElTooltip.vue'
-import type { MsgUnknown } from './elBrowserFrameUtil.js'
+import ElSpinner from '../loaders/ElSpinner.vue'
 import { FrameNavigator, FrameUtility } from './elBrowserFrameUtil.js'
+import type { MsgUnknown } from './elBrowserFrameUtil.js'
 
 const props = defineProps({
   deviceMode: {

@@ -1,10 +1,10 @@
 /**
  * @vitest-environment happy-dom
  */
-import { afterEach, describe, expect, it, vi } from 'vitest'
 import { vue, waitFor } from '@fiction/core'
-import type { FrameMessage } from '../elBrowserFrameUtil.js'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { FrameNavigator, FrameUtility } from '../elBrowserFrameUtil.js'
+import type { FrameMessage } from '../elBrowserFrameUtil.js'
 
 declare global {
   interface Window {

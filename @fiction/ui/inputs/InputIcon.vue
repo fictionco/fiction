@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { toLabel, vue } from '@fiction/core'
-import type { MediaObject } from '@fiction/core'
+import { vue } from '@fiction/core'
 import { systemIcons } from '@fiction/core/schemas/systemIcons'
-import ElModal from '../ElModal.vue'
+import type { MediaObject } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
+import ElModal from '../ElModal.vue'
 import XIcon from '../media/XIcon.vue'
 import ElInput from './ElInput.vue'
 

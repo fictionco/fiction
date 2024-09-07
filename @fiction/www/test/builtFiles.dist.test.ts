@@ -1,10 +1,10 @@
-import { describe, expect, it } from 'vitest'
-import fs from 'fs-extra'
-import { execa } from 'execa'
 import { path, randomBetween, safeDirname } from '@fiction/core'
+import { createTestUtils } from '@fiction/core/test-utils'
 import { appRunTest } from '@fiction/core/test-utils/buildTest.js'
 import dotenv from 'dotenv'
-import { createTestUtils } from '@fiction/core/test-utils'
+import { execa } from 'execa'
+import fs from 'fs-extra'
+import { describe, expect, it } from 'vitest'
 
 describe('dist checks', async () => {
   const testUtils = createTestUtils()

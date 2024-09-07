@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { clean, vue } from '@fiction/core'
-import type { MediaObject } from '@fiction/core'
 import { systemIcons } from '@fiction/core/schemas/systemIcons'
+import type { MediaObject } from '@fiction/core'
 
 defineOptions({ name: 'XIcon' })
 

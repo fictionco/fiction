@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { formatNumber, vue } from '@fiction/core'
-import type { Card } from '@fiction/site'
 import CardButton from '@fiction/cards/CardButton.vue'
+import { formatNumber, vue } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim/index.js'
+import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
 import type { UserConfig, UserConfigPrice } from './index.js'
 

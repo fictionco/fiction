@@ -1,7 +1,7 @@
-import { createServer } from 'vite'
-import type { FictionEnv } from '@fiction/core'
 import { FictionBuild, safeDirname } from '@fiction/core'
 import vuePlugin from '@vitejs/plugin-vue'
+import { createServer } from 'vite'
+import type { FictionEnv } from '@fiction/core'
 
 export async function getServer(args: {
   port: number

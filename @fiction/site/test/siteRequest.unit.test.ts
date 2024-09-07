@@ -3,10 +3,10 @@
  */
 import { shortId } from '@fiction/core'
 import { describe, expect, it } from 'vitest'
-import type { TableSiteConfig } from '../tables'
-import type { Site } from '../site'
 import { loadSite, requestManageSite } from '../load'
 import { createSiteTestUtils } from './testUtils'
+import type { Site } from '../site'
+import type { TableSiteConfig } from '../tables'
 
 let siteConfig: TableSiteConfig
 let site: Site

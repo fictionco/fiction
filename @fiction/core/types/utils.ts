@@ -1,7 +1,7 @@
-import type { vue } from '../utils/libraries.js'
 import type { User } from '../plugin-user'
 import type { ButtonRounding, MediaObject } from '../schemas/schemas.js'
 import type { ColorThemeUser } from '../utils/colors.js'
+import type { vue } from '../utils/libraries.js'
 
 export type CleanupCallback = (() => void) | undefined
 

@@ -1,14 +1,14 @@
 <script lang="ts" setup>
+import { useService, vue } from '@fiction/core'
 import ElPanel from '@fiction/ui/ElPanel.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 import type { ActionItem, FictionApp, IndexItem, IndexMeta } from '@fiction/core'
-import { useService, vue } from '@fiction/core'
-import type { Site } from '../site'
+import { manageSiteIndex } from '../utils/manage.js'
+import ElSiteStart from './ElSiteStart.vue'
+import { getSiteIndexItemList } from './utils.js'
 import type { FictionSites } from '..'
 import type { Card } from '../card'
-import { manageSiteIndex } from '../utils/manage.js'
-import { getSiteIndexItemList } from './utils.js'
-import ElSiteStart from './ElSiteStart.vue'
+import type { Site } from '../site'
 
 type UserConfig = {
   isNavItem: boolean

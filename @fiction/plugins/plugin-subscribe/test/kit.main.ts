@@ -1,7 +1,7 @@
-import { AppRoute, type ServiceConfig } from '@fiction/core/index.js'
-import * as minimalTheme from '@fiction/theme-minimal/index.js'
 import CardSite from '@fiction/cards/CardSite.vue'
+import { AppRoute, type ServiceConfig } from '@fiction/core/index.js'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils.js'
+import * as minimalTheme from '@fiction/theme-minimal/index.js'
 import { FictionSubscribe } from '../index.js'
 
 export async function setup(args: { context?: 'node' | 'app' } = {}) {

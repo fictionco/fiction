@@ -1,19 +1,19 @@
-import 'uno.css'
-import type { Component } from 'vue'
 import { createSSRApp } from 'vue'
-import type {
-  RouteRecordRaw,
-} from 'vue-router'
 import {
   createMemoryHistory,
   createRouter,
   createWebHistory,
 } from 'vue-router'
-import PageHome from './el/PageHome.vue'
-import PageWrap from './el/PageWrap.vue'
-import PageSingle from './el/PageSingle.vue'
-import PageOther from './el/PageOther.vue'
+import type { Component } from 'vue'
+import type {
+  RouteRecordRaw,
+} from 'vue-router'
 import PageAbout from './el/PageAbout.vue'
+import PageHome from './el/PageHome.vue'
+import PageOther from './el/PageOther.vue'
+import PageSingle from './el/PageSingle.vue'
+import PageWrap from './el/PageWrap.vue'
+import 'uno.css'
 
 export function initApp(config: { env: 'server' | 'client' }) {
   const { env } = config

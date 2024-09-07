@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { createTestUtils } from '../../test-utils/init'
-import { getTestEmail } from '../../test-utils'
 import { objectId } from '../..'
+import { getTestEmail } from '../../test-utils'
+import { createTestUtils } from '../../test-utils/init'
 
 const email = getTestEmail()
 const googleId = objectId()

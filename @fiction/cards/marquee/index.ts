@@ -1,11 +1,11 @@
-import type { MediaItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
+import type { MediaItem } from '@fiction/core'
 import { standardOption } from '../inputSets'
-import type { Tag } from '../stock/index.js'
 import { stockMediaHandler } from '../stock/index.js'
+import type { Tag } from '../stock/index.js'
 
 const el = vue.defineAsyncComponent(async () => import('./ElMarquee.vue'))
 
@@ -59,8 +59,8 @@ export const templates = [
     el,
     options: [
       standardOption.mediaItems({ key: 'items', label: 'Marquee Media Items' }),
-      new InputOption({ key: 'direction', label: 'Animation Direction', input: 'InputSelect', list: ['left', 'right'], default: () => 'left' }),
-      new InputOption({ key: 'stagger', label: 'Stagger Items', input: 'InputCheckbox', default: () => false }),
+      new InputOption({ key: 'direction', label: 'Animation Direction', input: 'InputSelect', list: ['left', 'right'] }),
+      new InputOption({ key: 'stagger', label: 'Stagger Items', input: 'InputCheckbox' }),
     ],
     getBaseConfig: () => ({ standard: { spacing: { contentWidth: 'none' } } }),
     getUserConfig: () => getDefaultUserConfig({ tags: ['object'] }),

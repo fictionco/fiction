@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
+import { describe, expect, it } from 'vitest'
 import { getDemoPages, standardCardTemplates } from '..'
 
 describe('verify template settings config', async () => {

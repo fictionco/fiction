@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import ElImage from '@fiction/ui/media/ElImage.vue'
 import { type MediaObject, useService, vue } from '@fiction/core'
+import ElImage from '@fiction/ui/media/ElImage.vue'
 
 const { fictionUser } = useService()
 

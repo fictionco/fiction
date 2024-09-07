@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { Card } from '@fiction/site/card'
 import { useService, vue, vueRouter } from '@fiction/core'
-import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
-import type { NavCardUserConfig } from '../index.js'
+import ElInput from '@fiction/ui/inputs/ElInput.vue'
+import type { Card } from '@fiction/site/card'
 import ElPanelSettings from './ElPanelSettings.vue'
+import type { NavCardUserConfig } from '../index.js'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<NavCardUserConfig>>, required: true },

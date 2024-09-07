@@ -1,13 +1,13 @@
-import type { FictionEnv, FictionPluginSettings, ServiceList } from '@fiction/core'
-import { FictionPlugin, deepMerge, log, parseObject, vue } from '@fiction/core'
+import { deepMerge, FictionPlugin, log, parseObject, vue } from '@fiction/core'
 import type { FictionAdmin } from '@fiction/admin/index.js'
-import type { CreateUserConfigs, ExtractCardTemplateUserConfig, ExtractComponentUserConfig } from './card.js'
-import type { CardConfigPortable, PageRegion, TableCardConfig } from './tables.js'
+import type { FictionEnv, FictionPluginSettings, ServiceList } from '@fiction/core'
 import { Card, CardTemplate } from './card.js'
-import { imageStyle } from './util.js'
-import type { ComponentConstructor } from './type-utils.js'
 import { Site, type SiteSettings } from './site.js'
+import { imageStyle } from './util.js'
+import type { CreateUserConfigs, ExtractCardTemplateUserConfig, ExtractComponentUserConfig } from './card.js'
 import type { SiteUserConfig } from './schema.js'
+import type { CardConfigPortable, PageRegion, TableCardConfig } from './tables.js'
+import type { ComponentConstructor } from './type-utils.js'
 
 export type ThemeConfig = {
   userConfig: SiteUserConfig

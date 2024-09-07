@@ -1,24 +1,24 @@
 // importing this endpoint module is here to fix a bug in DTS generation
 // likely fixed in TS 4.8
-// https://github.com/microsoft/TypeScript/issues/48212
-import '../utils/endpoint'
-import type { FictionPluginSettings } from '../plugin.js'
 import { FictionPlugin } from '../plugin.js'
-import { getAccessLevel, userCan, userCapabilities } from '../utils/priv.js'
 import { EnvVar, vars } from '../plugin-env/index.js'
-import type { FictionServer } from '../plugin-server/index.js'
+import { TypedEventTarget } from '../utils/eventTarget.js'
+import { hasWindow, isActualBrowser, isNode, safeDirname, vue } from '../utils/index.js'
+import { createUserToken, decodeUserToken, manageClientUserToken } from '../utils/jwt.js'
+import { getAccessLevel, userCan, userCapabilities } from '../utils/priv.js'
+import * as priv from '../utils/priv.js'
+import { type ManageUserParams, QueryManageUser } from './endpoint.js'
+import { QueryManageMemberRelation, QueryManageOrganization, QueryOrganizationsByUserId } from './endpointOrg.js'
+import { FictionUserEnrich } from './enrich/pluginEnrich.js'
+import { getAdminTables } from './schema.js'
+import type { FictionPluginSettings } from '../plugin.js'
 import type { FictionDb } from '../plugin-db/index.js'
 import type { FictionEmail } from '../plugin-email/index.js'
 import type { FictionRouter } from '../plugin-router/index.js'
-import { hasWindow, isActualBrowser, isNode, safeDirname, vue } from '../utils/index.js'
-import * as priv from '../utils/priv.js'
-import { createUserToken, decodeUserToken, manageClientUserToken } from '../utils/jwt.js'
-import { TypedEventTarget } from '../utils/eventTarget.js'
+import type { FictionServer } from '../plugin-server/index.js'
 import type { Organization, OrganizationMember, User } from './types.js'
-import { QueryManageMemberRelation, QueryManageOrganization, QueryOrganizationsByUserId } from './endpointOrg.js'
-import { type ManageUserParams, QueryManageUser } from './endpoint.js'
-import { getAdminTables } from './schema.js'
-import { FictionUserEnrich } from './enrich/pluginEnrich.js'
+// https://github.com/microsoft/TypeScript/issues/48212
+import '../utils/endpoint'
 
 export * from './types.js'
 

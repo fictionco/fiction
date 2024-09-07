@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
-import type { Card } from '@fiction/site'
-import ElImage from '@fiction/ui/media/ElImage.vue'
 import EffectParallax from '@fiction/ui/effect/EffectParallax.vue'
+import ElImage from '@fiction/ui/media/ElImage.vue'
+import type { Card } from '@fiction/site'
 import CardHeader from '../el/CardHeader.vue'
 
 import type { OverlayConfig, UserConfig } from './index.js'

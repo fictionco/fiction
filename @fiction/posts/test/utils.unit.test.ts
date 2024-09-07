@@ -2,8 +2,8 @@
  * @vitest-environment happy-dom
  */
 import { snap } from '@fiction/core/test-utils'
-import { afterAll, describe, expect, it } from 'vitest'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
+import { afterAll, describe, expect, it } from 'vitest'
 import { FictionPosts } from '..'
 import { managePost, managePostIndex } from '../utils'
 

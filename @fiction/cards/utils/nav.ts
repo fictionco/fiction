@@ -1,5 +1,5 @@
-import type { FictionRouter, FictionUser, NavItem } from '@fiction/core'
 import { shortId } from '@fiction/core'
+import type { FictionRouter, FictionUser, NavItem } from '@fiction/core'
 
 export function processNavItems<T extends NavItem = NavItem>(args: {
   fictionUser: FictionUser

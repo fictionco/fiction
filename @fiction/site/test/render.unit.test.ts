@@ -2,12 +2,12 @@
  * @vitest-environment happy-dom
  */
 
-import { afterAll, describe, expect, it } from 'vitest'
 import { shortId, waitFor } from '@fiction/core'
 import { snapshotHtml } from '@fiction/core/utils/snapshot'
-import type { Site } from '../site'
+import { afterAll, describe, expect, it } from 'vitest'
 import { loadSiteFromTheme, requestManageSite } from '../load'
 import { createSiteTestUtils } from './testUtils'
+import type { Site } from '../site'
 
 let siteObj: Site
 

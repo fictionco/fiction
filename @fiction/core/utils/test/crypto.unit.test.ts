@@ -1,5 +1,5 @@
-import { expect, it } from 'vitest'
 import { sha256 } from 'js-sha256'
+import { expect, it } from 'vitest'
 
 // Example usage and expected hash values for testing
 const testCases = [

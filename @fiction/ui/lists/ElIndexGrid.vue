@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { ActionItem, IndexItem, IndexMeta } from '@fiction/core'
 import { getNavComponentType, getPaginationInfo, vue } from '@fiction/core/index.js'
-import ElZeroBanner from '../ElZeroBanner.vue'
+import type { ActionItem, IndexItem, IndexMeta } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
+import ElZeroBanner from '../ElZeroBanner.vue'
 import ElSpinner from '../loaders/ElSpinner.vue'
 import ElImage from '../media/ElImage.vue'
 
@@ -15,7 +15,7 @@ const props = defineProps({
   actions: { type: Array as vue.PropType<ActionItem[]>, default: undefined },
   size: { type: String as vue.PropType<'xs' | 'md'>, default: undefined },
   loading: { type: Boolean, default: false },
-  onItemClick: { type: Function as vue.PropType<(id: string | number) => void>, default: undefined },
+  onItemClick: { type: Function as vue.PropType<((id: string | number) => void) | undefined>, default: undefined },
   mediaIcon: { type: String, default: 'i-tabler-photo' },
 })
 

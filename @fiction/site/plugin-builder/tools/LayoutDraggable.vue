@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { vue, waitFor } from '@fiction/core'
 import type { Sortable } from '@shopify/draggable'
-import type { LayoutOrder } from '../../utils/layout'
 import { getOrderRecursive, selectors } from '../../utils/layout'
 import type { Site } from '../../site'
+import type { LayoutOrder } from '../../utils/layout'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },

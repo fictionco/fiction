@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
-import type { Card } from '@fiction/site'
 import EffectCarousel from '@fiction/ui/effect/EffectCarousel.vue'
 import ElImage from '@fiction/ui/media/ElImage.vue'
+import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
 import NavDots from '../el/NavDots.vue'
 
@@ -34,7 +34,7 @@ function getBgClass(args: { slide: Testimonial, index: number }) {
 
 <template>
   <div class="">
-    <EffectCarousel v-model:activeIndex="activeIndex" :slides="items" :options="carouselOptions" @slide-change="onSlideChange">
+    <EffectCarousel v-model:active-index="activeIndex" :slides="items" :options="carouselOptions" @slide-change="onSlideChange">
       <template #default="{ slide, index }">
         <blockquote class="carousel-cell w-[80%] md:w-[55%] lg:w-[30%] max-w-[600px] mr-6 md:mr-16 lg:mr-64">
           <div class="transition-all duration-500" :class="index === activeIndex ? 'scale-110' : ''">

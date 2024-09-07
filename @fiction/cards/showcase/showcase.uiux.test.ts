@@ -1,6 +1,6 @@
-import { afterAll, describe, expect, it } from 'vitest'
 import { createSiteUiTestingKit } from '@fiction/site/test/testUtils.js'
 import { collectKeysFromOptions } from '@fiction/site/utils/schema'
+import { afterAll, describe, expect, it } from 'vitest'
 import { templates } from './index.js'
 
 const headless = true

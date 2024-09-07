@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { vue } from '@fiction/core'
-import type { Card } from '@fiction/site'
-import { useElementVisible } from '@fiction/ui/anim'
 import CardForm from '@fiction/forms/deck/CardForm.vue'
+import { useElementVisible } from '@fiction/ui/anim'
+import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
 import CardSocials from '../el/CardSocials.vue'
 import type { UserConfig } from '.'

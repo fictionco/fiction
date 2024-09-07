@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { NavItem } from '@fiction/core'
-import { vue } from '@fiction/core'
-import type { Card } from '@fiction/site'
-import ElImage from '@fiction/ui/media/ElImage.vue'
 import CardLink from '@fiction/cards/el/CardLink.vue'
+import { vue } from '@fiction/core'
+import ElImage from '@fiction/ui/media/ElImage.vue'
+import type { NavItem } from '@fiction/core'
+import type { Card } from '@fiction/site'
 import DashBarMenu from './DashBarMenu.vue'
 import type { UserConfig } from './DashWrap.vue'
 

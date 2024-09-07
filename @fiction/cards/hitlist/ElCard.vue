@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
-import type { Card } from '@fiction/site'
-import EffectFitText from '@fiction/ui/effect/EffectFitText.vue'
 import CardText from '@fiction/cards/CardText.vue'
-import ElImage from '@fiction/ui/media/ElImage.vue'
+import { vue } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim/index.js'
+import EffectFitText from '@fiction/ui/effect/EffectFitText.vue'
+import ElImage from '@fiction/ui/media/ElImage.vue'
+import type { Card } from '@fiction/site'
 import type { UserConfig } from './index.js'
 
 const props = defineProps({

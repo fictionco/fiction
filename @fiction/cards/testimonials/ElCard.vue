@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
+import LayoutMasonry from './LayoutMasonry.vue'
 import LayoutMega from './LayoutMega.vue'
 import LayoutSlider from './LayoutSlider.vue'
-import LayoutMasonry from './LayoutMasonry.vue'
 
 import type { UserConfig } from './index.js'
 

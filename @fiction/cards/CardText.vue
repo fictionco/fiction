@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { getNested, setNested, vue } from '@fiction/core'
+import XText from '@fiction/ui/common/XText.vue'
 import type { Card } from '@fiction/site/card'
 import type { InputModes } from '@fiction/ui/common/XText.vue'
-import XText from '@fiction/ui/common/XText.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },

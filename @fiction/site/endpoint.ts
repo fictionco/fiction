@@ -1,13 +1,13 @@
-import type { DataFilter, EndpointMeta, EndpointResponse } from '@fiction/core'
-import { Query, deepMerge, incrementSlugId, objectId, shortId } from '@fiction/core'
-import type { Knex } from 'knex'
+import { deepMerge, incrementSlugId, objectId, Query, shortId } from '@fiction/core'
 import { abort } from '@fiction/core/utils/error.js'
-import type { CardConfigPortable, TableCardConfig, TableDomainConfig, TableSiteConfig } from './tables.js'
+import type { DataFilter, EndpointMeta, EndpointResponse } from '@fiction/core'
+import type { Knex } from 'knex'
+import { Card } from './card.js'
 import { tableNames } from './tables.js'
 import { updateSiteCerts } from './utils/cert.js'
-import { Card } from './card.js'
-import type { WhereSite } from './load.js'
 import type { FictionSites, Site, SitesPluginSettings } from './index.js'
+import type { WhereSite } from './load.js'
+import type { CardConfigPortable, TableCardConfig, TableDomainConfig, TableSiteConfig } from './tables.js'
 
 export type SitesQuerySettings = SitesPluginSettings & {
   fictionSites: FictionSites
@@ -253,12 +253,7 @@ export class ManageSite extends SitesQuery {
     const mergedFields = deepMerge([themeSite, { subDomain: `${defaultSubDomain}-${shortId({ len: 4 })}` }, fields])
 
     const prepped = this.settings.fictionDb.prep({ type: 'insert', fields: mergedFields, table: tableNames.sites, meta })
-    const [site] = await this.settings.fictionDb.client()
-      .insert({ orgId, userId, ...prepped })
-      .into(tableNames.sites)
-      .onConflict('site_id')
-      .ignore()
-      .returning<TableSiteConfig[]>('*')
+    const [site] = await this.settings.fictionDb.client().insert({ orgId, userId, ...prepped }).into(tableNames.sites).onConflict('site_id').ignore().returning<TableSiteConfig[]>('*')
 
     if (!site?.siteId)
       throw abort('site not created')
@@ -294,11 +289,7 @@ export class ManageSite extends SitesQuery {
     const selector = await this.getSiteSelector(where)
     const prepped = this.settings.fictionDb.prep({ type: 'update', fields, table: tableNames.sites, meta })
 
-    const [updatedSite] = await this.settings.fictionDb.client()
-      .update({ orgId, userId, ...prepped })
-      .where({ orgId, ...selector })
-      .into(tableNames.sites)
-      .returning<TableSiteConfig[]>('*')
+    const [updatedSite] = await this.settings.fictionDb.client().update({ orgId, userId, ...prepped }).where({ orgId, ...selector }).into(tableNames.sites).returning<TableSiteConfig[]>('*')
 
     if (fields.pages && fields.pages.length) {
       await this.updateSitePages(updatedSite.siteId, fields.pages, userId, orgId, meta)

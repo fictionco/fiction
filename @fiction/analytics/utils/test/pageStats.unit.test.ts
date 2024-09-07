@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { type BrowserEvent, type BrowserEventObject, onBrowserEvent } from '@fiction/core/utils/eventBrowser'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { ClickHandler, ScrollHandler } from '../pageStats'
 
 describe('scrollHandler', () => {

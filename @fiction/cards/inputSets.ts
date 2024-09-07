@@ -1,7 +1,7 @@
-import type { InputOptionSettings } from '@fiction/ui/index.js'
-import { InputOption } from '@fiction/ui/index.js'
+import { ButtonDesignSchema, colorTheme, colorThemeUser, SizeSchema } from '@fiction/core'
 import InputAi from '@fiction/site/ai/InputAi.vue'
-import { ButtonDesignSchema, SizeSchema, colorTheme, colorThemeUser } from '@fiction/core'
+import { InputOption } from '@fiction/ui/index.js'
+import type { InputOptionSettings } from '@fiction/ui/index.js'
 
 type OptArgs<T extends string = string> = (Partial<InputOptionSettings<T>> & Record<string, unknown>) | undefined
 
@@ -20,7 +20,6 @@ export const standardOption = {
     label: 'Heading',
     input: 'InputTextarea',
     props: { maxHeight: 250 },
-    default: () => 'Headline',
     schema: ({ z }) => z.string(),
     ..._,
   }),
@@ -29,7 +28,6 @@ export const standardOption = {
     label: 'Sub Heading',
     input: 'InputTextarea',
     props: { maxHeight: 250 },
-    default: () => 'Sub headline',
     schema: ({ z }) => z.string(),
     ..._,
   }),
@@ -38,7 +36,6 @@ export const standardOption = {
     label: 'Super Heading',
     input: 'InputTextarea',
     props: { maxHeight: 250 },
-    default: () => 'Super Headline',
     schema: ({ z }) => z.string().optional(),
     ..._,
   }),
@@ -131,7 +128,7 @@ export const standardOption = {
 
       if (depth < maxDepth) {
         out.push(
-          s.groupTitle({ key: 'items', label: 'Sub Items' }),
+          s.groupTitle({ key: 'items', label: 'Sub Items' }) as InputOption,
           s.inputList({ key: 'items', label: 'Sub Items', props: { itemName: itemNames[depth + 1] || itemNames.pop() }, options: opts(depth + 1) }),
           new InputOption({ key: 'subStyle', label: 'Submenu Style', input: 'InputSelect', list: ['drop', 'mega'] }),
         )
@@ -142,11 +139,11 @@ export const standardOption = {
         s.target(),
         new InputOption({ key: 'itemStyle', label: 'Style', input: 'InputSelect', list: ['default', 'button', 'user'] }),
         new InputOption({ key: 'authState', label: 'Auth State', input: 'InputSelect', list: ['default', 'loggedIn', 'loggedOut'] }),
-      ])
+      ] as InputOption[])
 
       return out
     }
-    const g = s.group({ ...__, options: [s.groupTitle(__), s.inputList({ ...__, props: { itemName: itemNames[0] }, options: opts(0) })] })
+    const g = s.group({ ...__, options: [s.groupTitle(__) as InputOption, s.inputList({ ...__, props: { itemName: itemNames[0] }, options: opts(0) })] })
     return g
   },
   mediaItems: (_: OptArgs = {}) => {
@@ -168,7 +165,7 @@ export const standardOption = {
   socials: (_: OptArgs = {}) => {
     const s = standardOption
     const __ = { label: 'Socials', key: 'socials', ..._ }
-    return s.group({ ...__, options: [s.groupTitle(__), s.inputList({ ...__, props: { itemName: 'Account' }, options: [s.name(), s.desc(), s.socialIcon(), s.href(), s.target()] })] })
+    return s.group({ ...__, options: [s.groupTitle(__) as InputOption, s.inputList({ ...__, props: { itemName: 'Account' }, options: [s.name(), s.desc(), s.socialIcon() as InputOption, s.href(), s.target()] })] })
   },
   quotes: (_: OptArgs = {}) => {
     const { mode } = _ || {}
@@ -190,7 +187,7 @@ export const standardOption = {
       return options
     }
 
-    return mode === 'multi' ? s.inputList({ ...__, options: quoteOptions() }) : s.group({ ...__, options: quoteOptions() })
+    return mode === 'multi' ? s.inputList({ ...__, options: quoteOptions() as InputOption[] }) : s.group({ ...__, options: quoteOptions() as InputOption[] })
   },
   post: (_: OptArgs = {}) => {
     const __ = { label: 'Post', key: 'post', ..._ }

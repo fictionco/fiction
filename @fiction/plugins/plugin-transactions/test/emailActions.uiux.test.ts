@@ -1,9 +1,9 @@
 /* eslint-disable no-irregular-whitespace */
 
-import { afterAll, describe, expect, it } from 'vitest'
 import { testEnvFile } from '@fiction/core/test-utils'
 import { createUiTestingKit } from '@fiction/core/test-utils/kit'
 import fs from 'fs-extra'
+import { afterAll, describe, expect, it } from 'vitest'
 import { setup as emailActionMainFileSetup } from './emailActions.main'
 import { emailActionSnapshot } from './utils'
 

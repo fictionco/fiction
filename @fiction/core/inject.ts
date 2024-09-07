@@ -1,11 +1,11 @@
 import { vue } from './utils/index.js'
 import type { FictionApp } from './plugin-app/index.js'
-import type { FictionRouter } from './plugin-router/index.js'
-import type { FictionUser } from './plugin-user/index.js'
+import type { FictionDb } from './plugin-db/index.js'
 import type { FictionEnv, ServiceList } from './plugin-env/index.js'
 import type { FictionMedia } from './plugin-media/index.js'
-import type { FictionDb } from './plugin-db/index.js'
+import type { FictionRouter } from './plugin-router/index.js'
 import type { FictionServer } from './plugin-server/index.js'
+import type { FictionUser } from './plugin-user/index.js'
 
 export type RunVars = {
   RUN_MODE: 'prod' | 'dev' | 'test'

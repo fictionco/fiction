@@ -1,11 +1,11 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import dotenv from 'dotenv'
-import type Stripe from 'stripe'
 import { log, vue } from '@fiction/core'
-import type { TestUtils } from '@fiction/core/test-utils/init'
 import { createTestUtils } from '@fiction/core/test-utils/init'
+import dotenv from 'dotenv'
 import { beforeAll, describe, expect, it } from 'vitest'
+import type { TestUtils } from '@fiction/core/test-utils/init'
+import type Stripe from 'stripe'
 import { FictionStripe } from '../plugin'
 
 let orgId: string | undefined

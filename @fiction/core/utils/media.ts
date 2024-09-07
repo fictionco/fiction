@@ -1,7 +1,7 @@
-import type { Buffer } from 'node:buffer'
 import path from 'node:path'
-import type sharp from 'sharp'
 import fs from 'fs-extra'
+import type { Buffer } from 'node:buffer'
+import type sharp from 'sharp'
 import { stringify } from './utils'
 
 export async function hashFile(fileInput: {

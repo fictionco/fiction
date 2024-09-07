@@ -3,9 +3,9 @@
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { AnalyticsTag } from '../tagAnalytics' // Replace with the actual file name
+import { historyUtil } from '../../utils/history'
 import { FictionPageStats } from '../../utils/pageStats'
 import { UnloadUtility } from '../../utils/tracking'
-import { historyUtil } from '../../utils/history'
 import { FictionClient } from '../client'
 
 describe('analyticsTag', () => {

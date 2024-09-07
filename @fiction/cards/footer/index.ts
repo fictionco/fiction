@@ -1,7 +1,7 @@
-import { vue } from '@fiction/core'
-import { InputOption } from '@fiction/ui'
 import { standardOption } from '@fiction/cards/inputSets'
+import { vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site/card'
+import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 import { mediaSchema } from '../schemaSets'
 
@@ -54,7 +54,7 @@ const schema = z.object({
 
 export type UserConfig = z.infer<typeof schema>
 
-const options = [
+const options: InputOption[] = [
   new InputOption({ key: 'logo', label: 'Logo', input: 'InputMediaDisplay' }),
   new InputOption({ key: 'layout', label: 'Layout', input: 'InputSelect', list: layoutKeys }),
   new InputOption({ key: 'tagline', label: 'Tagline', input: 'InputText', description: 'A catchy phrase or description of what you do.' }),

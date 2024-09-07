@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import type { IndexItem } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
-import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
-import type { Card } from '@fiction/site/card'
 import ElZeroBanner from '@fiction/ui/ElZeroBanner.vue'
+import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
+import type { IndexItem } from '@fiction/core'
+import type { Card } from '@fiction/site/card'
 import { manageEmailCampaign } from '../utils.js'
-import type { FictionSend } from '../index.js'
-import type { EmailCampaign } from '../campaign.js'
 import ElStart from './ElStart.vue'
+import type { EmailCampaign } from '../campaign.js'
+import type { FictionSend } from '../index.js'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },

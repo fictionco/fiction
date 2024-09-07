@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { type MediaObject, vue, waitFor } from '@fiction/core'
-import type { Card } from '@fiction/site'
-import ElImage from '@fiction/ui/media/ElImage.vue'
-import ElModal from '@fiction/ui/ElModal.vue'
 import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
-import EffectGlare from '@fiction/ui/effect/EffectGlare.vue'
 import ElClose from '@fiction/ui/common/ElClose.vue'
+import EffectGlare from '@fiction/ui/effect/EffectGlare.vue'
+import ElModal from '@fiction/ui/ElModal.vue'
+import ElImage from '@fiction/ui/media/ElImage.vue'
+import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
 import type { UserConfig } from '.'
 

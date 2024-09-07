@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-import { toSlug, vue } from '@fiction/core'
-import { InputOption } from '@fiction/ui'
-import ElInput from '@fiction/ui/inputs/ElInput.vue'
-import ElForm from '@fiction/ui/inputs/ElForm.vue'
-import type { AdminEditorController, EditorTool } from '@fiction/admin'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
 import ToolForm from '@fiction/admin/tools/ToolForm.vue'
-import type { CardConfigPortable } from '../../tables'
-import type { Site } from '../../site'
+import { toSlug, vue } from '@fiction/core'
+import { InputOption } from '@fiction/ui'
+import ElForm from '@fiction/ui/inputs/ElForm.vue'
+import ElInput from '@fiction/ui/inputs/ElInput.vue'
+import type { AdminEditorController, EditorTool } from '@fiction/admin'
 import { requestManagePage } from '../../utils/region'
 import InputSlug from '../InputSlug.vue'
+import type { Site } from '../../site'
+import type { CardConfigPortable } from '../../tables'
 import type { ToolKeys } from './tools.js'
 
 const props = defineProps({
@@ -19,7 +19,7 @@ const props = defineProps({
 })
 const loading = vue.ref(false)
 
-const options = [
+const options: InputOption[] = [
   new InputOption({
     key: 'pageSetup',
     label: 'Page Setup',

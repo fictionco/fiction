@@ -1,6 +1,6 @@
 import { vue } from '@fiction/core'
-import { InputOption } from '@fiction/ui'
 import { CardTemplate } from '@fiction/site'
+import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 
 const templateId = 'logos'

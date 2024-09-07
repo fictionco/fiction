@@ -1,17 +1,17 @@
 <script lang="ts" setup>
-import type { FictionApp } from '@fiction/core'
+import ElTool from '@fiction/admin/tools/ElTool.vue'
+import ToolForm from '@fiction/admin/tools/ToolForm.vue'
 import { useService, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import XButton from '@fiction/ui/buttons/XButton.vue'
-import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElModalConfirm from '@fiction/ui/ElModalConfirm.vue'
+import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import type { AdminEditorController, EditorTool } from '@fiction/admin'
-import ElTool from '@fiction/admin/tools/ElTool.vue'
-import ToolForm from '@fiction/admin/tools/ToolForm.vue'
-import type { Site } from '../../site'
-import type { TableSiteConfig } from '../../tables'
+import type { FictionApp } from '@fiction/core'
 import { tableNames } from '../../tables'
 import { activeSiteHostname, saveSite } from '../../utils/site'
+import type { Site } from '../../site'
+import type { TableSiteConfig } from '../../tables'
 import type { ToolKeys } from './tools'
 
 const props = defineProps({
@@ -27,7 +27,7 @@ const loading = vue.ref(false)
 function getSuffixUrl() {
   return new URL(fictionAppSites.liveUrl.value).hostname.split('.').slice(-2).join('.')
 }
-const options = [
+const options: InputOption[] = [
   new InputOption({
     key: 'editor.hidePublishing',
     label: 'Domain',
@@ -89,7 +89,7 @@ const showConfirm = vue.ref(false)
     v-bind="props"
   >
     <ElForm @submit="showConfirm = true">
-      <ToolForm v-model="v" :options="options" :input-props="{ site }" />
+      <ToolForm v-model="v" :options :input-props="{ site }" />
 
       <div class="text-right px-4 py-2 border-t border-theme-200 dark:border-theme-600 pt-4 space-x-4 flex justify-between">
         <XButton rounding="full" theme="default" @click="reset()">

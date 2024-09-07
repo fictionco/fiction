@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { ColorThemeUser } from '@fiction/core'
 import { vue } from '@fiction/core'
-import type { Card } from '@fiction/site'
-import { getColorThemeStyles } from '@fiction/ui/utils'
 import XIcon from '@fiction/ui/media/XIcon.vue'
+import { getColorThemeStyles } from '@fiction/ui/utils'
+import type { ColorThemeUser } from '@fiction/core'
+import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
 import type { UserConfig } from './index.js'
 

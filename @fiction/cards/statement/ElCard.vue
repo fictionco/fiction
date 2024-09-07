@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
-import type { Card } from '@fiction/site'
 import EffectCarousel from '@fiction/ui/effect/EffectCarousel.vue'
-import CardButtons from '../el/CardButtons.vue'
+import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
+import CardButtons from '../el/CardButtons.vue'
 import NavDots from '../el/NavDots.vue'
 
 import type { Statement, UserConfig } from '.'
@@ -27,7 +27,7 @@ function onSlideChange(index: number) {
 
 <template>
   <div class="">
-    <EffectCarousel v-model:activeIndex="activeIndex" :slides="items" :options="carouselOptions" @slide-change="onSlideChange">
+    <EffectCarousel v-model:active-index="activeIndex" :slides="items" :options="carouselOptions" @slide-change="onSlideChange">
       <template #default="{ slide, index }">
         <div class="carousel-cell w-[90%] sm:w-[80%] lg:w-[60%] mr-24">
           <div class="max-w-[900px] mx-auto p-4 sm:p-6">

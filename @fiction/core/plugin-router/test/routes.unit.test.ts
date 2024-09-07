@@ -1,8 +1,8 @@
 import { createTestUtils } from '@fiction/core/test-utils/init'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { waitFor } from '@fiction/core/utils'
-import { AppRoute } from '../appRoute'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { FictionRouter } from '..'
+import { AppRoute } from '../appRoute'
 
 const component = async () => import('./ElTest.vue')
 const routes = [
@@ -179,7 +179,8 @@ describe('fictionRouter2', () => {
         routerId: 'uninitializedRouter',
       })
       await expect(uninitializedRouter.push('/test/123', { caller: 'testinit' }))
-        .rejects.toThrow('router not initialized [uninitializedRouter]')
+        .rejects
+        .toThrow('router not initialized [uninitializedRouter]')
     })
   })
 

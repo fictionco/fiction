@@ -1,7 +1,7 @@
-import { MediaBasicSchema, colorThemeUser, vue } from '@fiction/core'
+import { colorThemeUser, MediaBasicSchema, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
-import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
+import { z } from 'zod'
 
 const templateId = 'features'
 

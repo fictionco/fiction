@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { Card } from '@fiction/site/card'
 import { standardDate, useService, vue } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
 import type { FictionStripe } from '@fiction/plugin-stripe'
-import type { NavCardUserConfig } from '../index.js'
+import type { Card } from '@fiction/site/card'
 import ElPanelSettings from './ElPanelSettings.vue'
+import type { NavCardUserConfig } from '../index.js'
 
 defineProps({
   card: { type: Object as vue.PropType<Card<NavCardUserConfig>>, required: true },

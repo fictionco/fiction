@@ -1,8 +1,8 @@
-import { AppRoute, type ServiceConfig } from '@fiction/core'
-import CardSite from '@fiction/cards/CardSite.vue'
-import * as fictionTheme from '@fiction/theme-fiction'
-import * as adminTheme from '@fiction/admin/theme'
 import { FictionAdmin } from '@fiction/admin'
+import * as adminTheme from '@fiction/admin/theme'
+import CardSite from '@fiction/cards/CardSite.vue'
+import { AppRoute, type ServiceConfig } from '@fiction/core'
+import * as fictionTheme from '@fiction/theme-fiction'
 import { createSiteTestUtils } from './testUtils'
 
 export async function setup(args: { context?: 'node' | 'app' } = {}) {

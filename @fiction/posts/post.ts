@@ -1,7 +1,7 @@
 import { FictionObject, objectId, vue } from '@fiction/core'
-import type { TablePostConfig } from './schema'
 import { managePost } from './utils'
 import type { FictionPosts } from '.'
+import type { TablePostConfig } from './schema'
 
 export type PostConfig = { fictionPosts: FictionPosts } & TablePostConfig
 

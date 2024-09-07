@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useService, vue } from '@fiction/core'
-import type { Card } from '@fiction/site/card'
-import NavMobile from '@fiction/ui/NavMobile.vue'
-import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
 import CardNavLink from '@fiction/cards/CardNavLink.vue'
-import { processNavItems } from '../utils/nav'
+import { useService, vue } from '@fiction/core'
+import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
+import NavMobile from '@fiction/ui/NavMobile.vue'
+import type { Card } from '@fiction/site/card'
 import ElBrand from '../el/ElBrand.vue'
+import { processNavItems } from '../utils/nav'
 import XNav from './XNav.vue'
 import type { SchemaNavItem, UserConfig } from './index.js'
 

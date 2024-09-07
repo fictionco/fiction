@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { vue } from '@fiction/core'
 import { BubbleMenu, isTextSelection } from '@tiptap/vue-3'
 import type { Editor } from '@tiptap/core'
-import { vue } from '@fiction/core'
-import type { MenuType } from './menu'
-import { BubbleMenuTools } from './menu'
 import ButtonMenu from './ButtonMenu.vue'
+import { BubbleMenuTools } from './menu'
+import type { MenuType } from './menu'
 
 const props = defineProps({
   editor: { type: Object as vue.PropType<Editor>, required: true },

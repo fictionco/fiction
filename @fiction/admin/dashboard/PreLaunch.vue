@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { localRef, vue } from '@fiction/core'
-import InputText from '@fiction/ui/inputs/InputText.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
+import InputText from '@fiction/ui/inputs/InputText.vue'
 import ElImage from '@fiction/ui/media/ElImage.vue'
 import type { Card } from '@fiction/site'
 import type { UserConfig } from './DashWrap.vue'

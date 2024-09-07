@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
 import { twMerge } from 'tailwind-merge'
+import type { StandardSize } from '@fiction/core'
 
 const props = defineProps({
   min: { type: [String, Number], default: '1' },

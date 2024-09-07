@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { FictionPosts } from '@fiction/posts'
-import { Post } from '@fiction/posts'
 import { useService, vue } from '@fiction/core'
+import { Post } from '@fiction/posts'
+import type { FictionPosts } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import type { UserConfig } from '.'
 

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { NodeViewWrapper, nodeViewProps } from '@tiptap/vue-3'
-import InputImage from '@fiction/ui/inputs/InputImage.vue'
-import type { MediaObject } from '@fiction/core'
 import { vue } from '@fiction/core'
+import InputImage from '@fiction/ui/inputs/InputImage.vue'
+import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
+import type { MediaObject } from '@fiction/core'
 import ButtonMenu from '../../el/ButtonMenu.vue'
 import ElImageResize from './ElImageResize.vue'
 

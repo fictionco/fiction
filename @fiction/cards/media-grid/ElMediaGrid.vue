@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { MediaItem } from '@fiction/core'
 import { vue } from '@fiction/core'
+import type { MediaItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
 
 export type UserConfig = {

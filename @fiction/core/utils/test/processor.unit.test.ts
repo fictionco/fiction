@@ -1,8 +1,8 @@
+import { createTestUtils } from '@fiction/core/test-utils'
 import { beforeAll, describe, expect, it } from 'vitest'
 import type { TestUtils } from '@fiction/core/test-utils'
-import { createTestUtils } from '@fiction/core/test-utils'
-import type { Processor } from '../processors'
 import { ObjectProcessor, Shortcodes } from '../processors'
+import type { Processor } from '../processors'
 
 let testUtils: TestUtils
 let shortcodes: Shortcodes

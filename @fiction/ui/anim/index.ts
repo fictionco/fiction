@@ -1,4 +1,4 @@
-import { type NumberFormats, formatNumber } from '@fiction/core'
+import { formatNumber, type NumberFormats } from '@fiction/core'
 import anime from 'animejs'
 
 type AnimationThemeConfig = Partial<{

@@ -1,8 +1,8 @@
-import { describe, expect, it } from 'vitest'
-import { execa } from 'execa'
 import { path } from '@fiction/core'
-import dotenv from 'dotenv'
 import { createTestUtils } from '@fiction/core/test-utils'
+import dotenv from 'dotenv'
+import { execa } from 'execa'
+import { describe, expect, it } from 'vitest'
 
 describe('environment checks', async () => {
   const testUtils = createTestUtils()

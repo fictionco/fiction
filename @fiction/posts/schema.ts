@@ -1,7 +1,7 @@
-import type { ColType, TableTaxonomyConfig, User } from '@fiction/core'
-import { z } from 'zod'
 import { MediaDisplaySchema, PostStatusSchema, standardTable, toSlug } from '@fiction/core'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
+import { z } from 'zod'
+import type { ColType, TableTaxonomyConfig, User } from '@fiction/core'
 import type { TableSiteConfig } from '@fiction/site'
 import type { SiteUserConfig } from '@fiction/site/schema'
 

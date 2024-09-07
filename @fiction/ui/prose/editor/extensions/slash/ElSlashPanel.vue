@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { PropType } from 'vue'
+import { useCompletion } from 'ai/vue'
 import { ref, watch } from 'vue'
 import type { Editor, Range } from '@tiptap/core'
-import { useCompletion } from 'ai/vue'
+import type { PropType } from 'vue'
 import { getPrevText } from '../../utils/editor'
 import type { SuggestionItem } from '.'
 

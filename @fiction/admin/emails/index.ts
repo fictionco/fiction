@@ -1,4 +1,4 @@
-import { type EndpointMeta, type EndpointResponse, type User, abort, vue } from '@fiction/core'
+import { abort, type EndpointMeta, type EndpointResponse, type User, vue } from '@fiction/core'
 import { EmailAction } from '@fiction/plugin-transactions'
 import type { FictionAdmin } from '..'
 

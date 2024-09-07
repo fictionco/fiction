@@ -1,10 +1,10 @@
-import path from 'node:path'
 import { Buffer } from 'node:buffer'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import type { MainFile } from '@fiction/core/plugin-env'
-
-import type { ResultPromise } from 'execa'
+import path from 'node:path'
 import { execa } from 'execa'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+
+import type { MainFile } from '@fiction/core/plugin-env'
+import type { ResultPromise } from 'execa'
 import { executeCommand, getMainFilePath, importIfExists } from '../nodeUtils'
 
 const cwd = path.dirname(new URL('../../../www/package.json', import.meta.url).pathname)
@@ -135,7 +135,8 @@ describe('executeCommand', () => {
     vi.mocked(execa).mockReturnValue(cp as unknown as ResultPromise)
 
     await expect(executeCommand({ command: 'exit 1' }))
-      .rejects.toThrow(`Command failed with exit code 1\nErrors:\n${mockErrors.join('\n')}`)
+      .rejects
+      .toThrow(`Command failed with exit code 1\nErrors:\n${mockErrors.join('\n')}`)
   })
 
   it('should handle process errors', async () => {

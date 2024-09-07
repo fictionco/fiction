@@ -1,9 +1,9 @@
-import { describe, expect, it } from 'vitest'
-import { shortId, waitFor } from '@fiction/core'
 import { standardCardTemplates } from '@fiction/cards'
+import { shortId, waitFor } from '@fiction/core'
+import { describe, expect, it } from 'vitest'
 import { Card, CardTemplate } from '../card'
-import { Site } from '../site'
 import { CardGeneration } from '../generation'
+import { Site } from '../site'
 import { createSiteTestUtils } from './testUtils'
 
 describe('card', async () => {

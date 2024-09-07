@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { ListItem, StandardSize } from '@fiction/core'
 import { normalizeList, vue } from '@fiction/core'
 import { twMerge } from 'tailwind-merge'
+import type { ListItem, StandardSize } from '@fiction/core'
 
 const props = defineProps({
   modelValue: { type: [String, Number, Boolean], default: null },

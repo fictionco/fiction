@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { NavItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
+import type { NavItem } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import { socialIcons } from './util.js'
 

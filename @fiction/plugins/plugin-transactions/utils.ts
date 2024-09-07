@@ -1,7 +1,7 @@
 import { abort, toSlug } from '@fiction/core'
 import { createUserToken } from '@fiction/core/utils/jwt'
-import type { EmailVars, QueryVars, SendEmailArgs } from './action'
 import type { FictionTransactions } from '.'
+import type { EmailVars, QueryVars, SendEmailArgs } from './action'
 
 export async function createEmailVars<
   T extends Record<string, string> | undefined = Record<string, string> | undefined,

@@ -1,7 +1,7 @@
 import { shortId, vue } from '@fiction/core'
-import '@unocss/reset/tailwind.css'
 import { setup } from '../../tag'
 import App from './App.vue'
+import '@unocss/reset/tailwind.css'
 
 vue.createApp(App).mount('#app')
 

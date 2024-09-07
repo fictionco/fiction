@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { resetUi, toLabel, vue } from '@fiction/core'
-import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import ElTooltip from '@fiction/ui/common/ElTooltip.vue'
+import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import type { AdminEditorController } from '../admin'
 
 const props = defineProps({

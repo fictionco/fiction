@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import type { FontEntry } from '../fonts'
 import { createGoogleFontsLink, variantToGoogleFontsFormat } from '../fonts'
+import type { FontEntry } from '../fonts'
 
 // Sample data similar to what you might have in './lib/fonts'
 const fonts = [

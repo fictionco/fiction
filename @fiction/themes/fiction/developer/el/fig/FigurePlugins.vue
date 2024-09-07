@@ -10,9 +10,9 @@ import iGallery from './img/icon-gallery.svg'
 import iJobs from './img/icon-plugin-job-board.svg'
 import iSEO from './img/icon-plugin-seo.svg'
 import iSitemap from './img/icon-plugin-sitemap.svg'
+import iSyntax from './img/icon-plugin-syntax-highlight.svg'
 import iSocial from './img/icon-socialize.svg'
 import iSub from './img/icon-subscriptions.svg'
-import iSyntax from './img/icon-plugin-syntax-highlight.svg'
 import iThemes from './img/icon-themes.svg'
 
 const plugins = vue.ref([

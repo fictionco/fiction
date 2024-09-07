@@ -1,4 +1,6 @@
 /* eslint-disable no-console */
+import chalk from 'chalk'
+import dayjs from 'dayjs'
 /**
  * notes
  * - Since many files use this logger, be careful for
@@ -6,8 +8,6 @@
  * - Dependencies should be lean as this gets included in slim builds
  */
 import prettyoutput from 'prettyoutput'
-import dayjs from 'dayjs'
-import chalk from 'chalk'
 import type { Omit, Record } from '@sinclair/typebox'
 import { isDebug, isNode, isProd, isRestart } from '../utils/vars.js'
 

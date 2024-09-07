@@ -1,7 +1,7 @@
 import { vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
-import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
+import { z } from 'zod'
 import { stockMediaHandler } from '../stock/index.js'
 
 const templateId = 'people'

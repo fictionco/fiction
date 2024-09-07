@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import type { EndpointMeta } from '../utils'
 import type { FictionDb } from '.'
+import type { EndpointMeta } from '../utils'
 
 type ScenarioType = 'insert' | 'update' | 'internal' | 'return'
 

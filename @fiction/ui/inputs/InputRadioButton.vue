@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { ListItem } from '@fiction/core'
 import { normalizeList, vue } from '@fiction/core'
+import type { ListItem } from '@fiction/core'
 
 const props = defineProps({
   modelValue: { type: [String, Number], default: '' },

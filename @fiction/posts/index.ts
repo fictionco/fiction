@@ -1,10 +1,10 @@
-import type { FictionDb, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
-
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
+
 import type { FictionAdmin } from '@fiction/admin'
-import { tables } from './schema'
+import type { FictionDb, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
 import { ManagePostIndex, QueryManagePost, QueryManageTaxonomy } from './endpoint'
 import { Post } from './post'
+import { tables } from './schema'
 import { getWidgets } from './widgets'
 
 type FictionPostsSettings = {
@@ -14,10 +14,10 @@ type FictionPostsSettings = {
   fictionAdmin: FictionAdmin
 } & FictionPluginSettings
 
-export * from './schema'
-export * from './utils/links.js'
-export * from './utils/index.js'
 export * from './post'
+export * from './schema'
+export * from './utils/index.js'
+export * from './utils/links.js'
 
 export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
   widgets = getWidgets({ fictionPosts: this, ...this.settings })

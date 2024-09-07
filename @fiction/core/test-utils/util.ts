@@ -1,5 +1,4 @@
 import path from 'node:path'
-import process from 'node:process'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { createApp, nextTick } from 'vue'
 import type { App, Component } from 'vue'
@@ -15,7 +14,7 @@ const testSvgPath = path.join(toolUtilsRoot, './img/favicon.svg')
 const testPngPath = path.join(toolUtilsRoot, './img/favicon.png')
 const testEnvFile = path.join(toolUtilsRoot, '.env.test')
 
-export { toolUtilsRoot, testImgPath, testSvgPath, testPngPath, testEnvFile, testVideoPath }
+export { testEnvFile, testImgPath, testPngPath, testSvgPath, testVideoPath, toolUtilsRoot }
 
 type ActionType = 'select' | 'input' | 'typeText' | 'click' | 'find'
 export interface Interaction {

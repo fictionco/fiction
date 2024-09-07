@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { ButtonDesignSchema, type ButtonHover, ButtonRoundingSchema, SizeSchema, colorThemeUser, vue } from '@fiction/core'
-import XButton from '../XButton.vue'
-
+import { ButtonDesignSchema, type ButtonHover, ButtonRoundingSchema, colorThemeUser, SizeSchema, vue } from '@fiction/core'
 import InputSelect from '../../inputs/InputSelect.vue'
+
+import XButton from '../XButton.vue'
 
 const designs = ButtonDesignSchema.options
 const roundings = ButtonRoundingSchema.options

@@ -1,10 +1,10 @@
-import { describe, expect, it } from 'vitest'
 import { shortId } from '@fiction/core'
-import { tableNames } from '../../tables.js'
+import { describe, expect, it } from 'vitest'
 import { requestManageSite } from '../../load.js'
+import { tableNames } from '../../tables.js'
 import { createSiteTestUtils } from '../../test/testUtils.js'
-import { saveSite } from '../site.js'
 import { updateSiteCerts } from '../cert.js'
+import { saveSite } from '../site.js'
 
 describe('updateSiteCerts', async () => {
   const testUtils = await createSiteTestUtils()
@@ -42,9 +42,7 @@ describe('updateSiteCerts', async () => {
     const siteId = site.siteId
     const updatedDomains = await updateSiteCerts({ siteId, customDomains: [], fictionSites, fictionDb }, {})
 
-    const domainExists = await testUtils.fictionDb.client()(tableNames.domains)
-      .where({ hostname: existingDomain.hostname })
-      .first()
+    const domainExists = await testUtils.fictionDb.client()(tableNames.domains).where({ hostname: existingDomain.hostname }).first()
 
     expect(updatedDomains).toHaveLength(0)
     expect(domainExists).toBeUndefined()

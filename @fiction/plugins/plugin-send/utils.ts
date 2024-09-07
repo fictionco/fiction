@@ -1,10 +1,10 @@
-import { type Organization, type RequestOptions, type TransactionalEmailConfig, toMarkdown, vue } from '@fiction/core'
+import { type Organization, type RequestOptions, toMarkdown, type TransactionalEmailConfig, vue } from '@fiction/core'
 import FictionFooterImg from '@fiction/core/plugin-email/img/fiction-email-footer.png'
 
-import type { ManageCampaignRequestParams } from './endpoint.js'
 import { EmailCampaign } from './campaign.js'
-import type { EmailCampaignConfig } from './schema.js'
+import type { ManageCampaignRequestParams } from './endpoint.js'
 import type { FictionSend } from './index.js'
+import type { EmailCampaignConfig } from './schema.js'
 
 export async function manageEmailCampaign(args: { fictionSend: FictionSend, params: ManageCampaignRequestParams, options?: RequestOptions }) {
   const { fictionSend, params, options = {} } = args

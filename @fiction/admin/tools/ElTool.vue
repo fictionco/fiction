@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { ActionItem, vue } from '@fiction/core'
 import { toLabel } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
+import type { ActionItem, vue } from '@fiction/core'
 import type { EditorTool } from './tools'
 
 defineProps({

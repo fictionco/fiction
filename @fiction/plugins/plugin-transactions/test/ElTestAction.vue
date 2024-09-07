@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { Card } from '@fiction/site'
 import type { vue } from '@fiction/core'
+import type { Card } from '@fiction/site'
 import type { EmailAction } from '../action'
 
 defineProps({

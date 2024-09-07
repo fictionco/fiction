@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { getNested, setNested } from '../obj'
 import { vue } from '../libraries'
+import { getNested, setNested } from '../obj'
 
 describe('utils:nested', () => {
   it('nestedPropertyUtil', async () => {

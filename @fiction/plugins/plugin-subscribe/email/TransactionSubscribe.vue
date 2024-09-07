@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { Card } from '@fiction/site'
-import { type User, useService, vue } from '@fiction/core'
 import TransactionWrap from '@fiction/cards/transactions/TransactionWrap.vue'
+import { type User, useService, vue } from '@fiction/core'
 import type { QueryVars } from '@fiction/plugin-transactions'
+import type { Card } from '@fiction/site'
 import type { FictionSubscribe } from '..'
 
 type SpecEmailAction = FictionSubscribe['transactions']['subscribe']

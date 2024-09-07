@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import type { StepConfig, StepItem } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
 import ElModal from '@fiction/ui/ElModal.vue'
-import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElStepNav from '@fiction/ui/ElStepNav.vue'
+import ElInput from '@fiction/ui/inputs/ElInput.vue'
+import type { StepConfig, StepItem } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
+import { manageEmailCampaign } from '../utils'
 import type { FictionSend } from '..'
 import type { EmailCampaignConfig } from '../schema'
-import { manageEmailCampaign } from '../utils'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },

@@ -2,9 +2,9 @@
  * @vitest-environment happy-dom
  */
 import fs from 'node:fs'
+import { createTestUtils, testEnvFile } from '@fiction/core/test-utils'
 import { beforeAll, describe, expect, it } from 'vitest'
 import type { TestUtils } from '@fiction/core/test-utils'
-import { createTestUtils, testEnvFile } from '@fiction/core/test-utils'
 import { FictionUnsplash } from '..'
 
 let testUtils: (TestUtils & { fictionUnsplash?: FictionUnsplash }) | undefined

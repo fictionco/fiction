@@ -1,7 +1,7 @@
 import { vue } from '@fiction/core'
+import { FormUserConfigSchema } from '@fiction/forms'
 import { CardTemplate } from '@fiction/site/card'
 import { z } from 'zod'
-import { FormUserConfigSchema } from '@fiction/forms'
 import { standardOption } from '../inputSets'
 
 const templateId = 'contact'

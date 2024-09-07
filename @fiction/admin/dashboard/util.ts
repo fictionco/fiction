@@ -1,5 +1,5 @@
-import type { Query } from '@fiction/core'
 import { createEndpointRequests, log } from '@fiction/core'
+import type { Query } from '@fiction/core'
 import type { FictionAdmin } from '..'
 import type { Widget } from './widget'
 

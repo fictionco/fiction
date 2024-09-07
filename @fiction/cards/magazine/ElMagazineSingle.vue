@@ -1,13 +1,13 @@
 <script lang="ts" setup>
+import CardLink from '@fiction/cards/el/CardLink.vue'
 import { useService, vue } from '@fiction/core'
-import type { Card } from '@fiction/site'
-import type { FictionPosts, Post } from '@fiction/posts'
+import { allPostsLink, postEditLink, postLink, taxonomyLink } from '@fiction/posts'
 import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
 import XButton from '@fiction/ui/buttons/XButton.vue'
-import El404 from '@fiction/ui/page/El404.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
-import { allPostsLink, postEditLink, postLink, taxonomyLink } from '@fiction/posts'
-import CardLink from '@fiction/cards/el/CardLink.vue'
+import El404 from '@fiction/ui/page/El404.vue'
+import type { FictionPosts, Post } from '@fiction/posts'
+import type { Card } from '@fiction/site'
 import ElAuthor from './ElAuthor.vue'
 import type { UserConfig } from './index.js'
 

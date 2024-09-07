@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { dayjs, useService, vue, waitFor } from '@fiction/core'
-import type { Card } from '@fiction/site/card'
-import ElImage from '@fiction/ui/media/ElImage.vue'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
-import CardSocials from '../el/CardSocials.vue'
+import ElImage from '@fiction/ui/media/ElImage.vue'
+import type { Card } from '@fiction/site/card'
 import CardNavLink from '../CardNavLink.vue'
 import CardText from '../CardText.vue'
-import { processNavItems } from '../utils/nav'
+import CardSocials from '../el/CardSocials.vue'
 import ElBrand from '../el/ElBrand.vue'
+import { processNavItems } from '../utils/nav'
 import type { UserConfig } from './index.js'
 
 const props = defineProps({

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { NumberFormats } from '@fiction/core'
 import { dayjs, formatNumber, isDarkOrLightMode, vue } from '@fiction/core'
 import ElLoading from '@fiction/ui/loaders/ElSpinner.vue'
 import type { ComparePeriods, DataCompared, DataPointChart } from '@fiction/analytics/types'
+import type { NumberFormats } from '@fiction/core'
 import { createLineChart } from './chart'
 import { shouldUpdateChart } from './util'
 

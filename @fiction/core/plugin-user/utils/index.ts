@@ -1,12 +1,12 @@
 import bcrypt from 'bcrypt'
-import type { FictionDb } from '../../plugin-db'
 import { standardTable } from '../../tbl'
 import { isValid, toLabel } from '../../utils'
 import { abort } from '../../utils/error'
 import { dayjs } from '../../utils/libraries'
 import type { FictionUser, User } from '..'
-import type { VerificationCode } from '../schema'
+import type { FictionDb } from '../../plugin-db'
 import type { WhereUser } from '../endpoint'
+import type { VerificationCode } from '../schema'
 
 export function defaultOrgName(email: string, suffix: string = 'Newsletter'): string {
   // Extract username from email and clean special characters

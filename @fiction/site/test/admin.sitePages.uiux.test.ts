@@ -1,6 +1,6 @@
-import { afterAll, describe, it } from 'vitest'
 import { shortId } from '@fiction/core'
 import { createSiteUiTestingKit } from '@fiction/site/test/testUtils.js'
+import { afterAll, describe, it } from 'vitest'
 
 describe('admin site pages', async () => {
   const kit = await createSiteUiTestingKit({ initUser: true, headless: false, slowMo: 2000 })

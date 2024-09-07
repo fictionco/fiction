@@ -1,10 +1,10 @@
-import type http from 'node:http'
+import { chromium } from 'playwright'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
+import type http from 'node:http'
 import type { Browser, Page } from 'playwright'
-import { chromium } from 'playwright'
-import { createTestUtilServices } from '../../test-utils/init'
 import { FictionTestingApp } from '..'
+import { createTestUtilServices } from '../../test-utils/init'
 
 let server: http.Server | undefined
 let browser: Browser | undefined

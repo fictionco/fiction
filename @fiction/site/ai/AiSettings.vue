@@ -1,11 +1,11 @@
 <script lang="ts" setup>
+import ToolForm from '@fiction/admin/tools/ToolForm.vue'
 import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
-import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
-import ToolForm from '@fiction/admin/tools/ToolForm.vue'
-import type { Site } from '../../site'
+import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import { imageStyle } from '../util'
+import type { Site } from '../../site'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },
@@ -13,7 +13,7 @@ const props = defineProps({
 })
 const loading = vue.ref(false)
 
-const options = [
+const options: InputOption[] = [
   new InputOption({
     key: 'aiContentSettings',
     label: 'AI Content Generation',
@@ -60,7 +60,7 @@ async function save() {
   <ElForm class="space-y-6" @submit="save()">
     <ToolForm
       :model-value="site.toConfig()"
-      :options="options"
+      :options
       :input-props="{ site }"
       :depth="0"
       @update:model-value="site.update($event)"

@@ -1,9 +1,9 @@
-import { describe, expect, it, vi } from 'vitest'
 import { shortId, vue, waitFor } from '@fiction/core'
-import { createSiteTestUtils } from '../../test/testUtils'
+import { describe, expect, it, vi } from 'vitest'
 import { Card } from '../../card'
-import { activePageId, getPageById, getViewMap } from '../page'
 import { Site } from '../../site'
+import { createSiteTestUtils } from '../../test/testUtils'
+import { activePageId, getPageById, getViewMap } from '../page'
 
 describe('getViewMap', async () => {
   it('should map card slugs to cardIds correctly', () => {

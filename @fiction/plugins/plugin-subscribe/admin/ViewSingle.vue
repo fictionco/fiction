@@ -1,9 +1,9 @@
 <script lang="ts" setup>
+import SettingsTool from '@fiction/admin/settings/SettingsTool.vue'
 import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import SettingsTool from '@fiction/admin/settings/SettingsTool.vue'
-import type { FictionSubscribe, Subscriber } from '../index.js'
 import { getViewSubscriberTools } from './tools.js'
+import type { FictionSubscribe, Subscriber } from '../index.js'
 
 type UserConfig = {
   isNavItem: boolean

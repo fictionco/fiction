@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
+import type { StandardSize } from '@fiction/core'
 import { textInputClasses } from './theme'
 
 const props = defineProps({

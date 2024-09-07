@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
-import type { FontEntry } from '@fiction/core/utils/fonts'
 import { safeStacks } from '@fiction/core/utils/fonts'
+import type { StandardSize } from '@fiction/core'
+import type { FontEntry } from '@fiction/core/utils/fonts'
 import InputSelectCustom from './InputSelectCustom.vue'
 
 const props = defineProps({

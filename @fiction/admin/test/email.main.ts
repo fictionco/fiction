@@ -1,8 +1,8 @@
-import { AppRoute, type ServiceConfig } from '@fiction/core'
 import CardSite from '@fiction/cards/CardSite.vue'
+import { AppRoute, type ServiceConfig } from '@fiction/core'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils.js'
-import * as adminTheme from '../theme'
 import { FictionAdmin } from '../index.js'
+import * as adminTheme from '../theme'
 
 export async function setup(args: { context?: 'node' | 'app' } = {}) {
   const { context = 'node' } = args

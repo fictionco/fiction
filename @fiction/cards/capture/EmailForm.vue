@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { useService, vue } from '@fiction/core'
-import type { Card } from '@fiction/site'
-import ElEmail from '@fiction/ui/inputs/InputEmail.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
-import ElImage from '@fiction/ui/media/ElImage.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
+import ElEmail from '@fiction/ui/inputs/InputEmail.vue'
+import ElImage from '@fiction/ui/media/ElImage.vue'
 import type { FictionSubscribe } from '@fiction/plugin-subscribe'
+import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
 import type { UserConfig } from '.'
 

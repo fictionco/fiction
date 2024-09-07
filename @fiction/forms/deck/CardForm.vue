@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { useService, vue, waitFor } from '@fiction/core'
-import type { Card } from '@fiction/site'
 import El404 from '@fiction/ui/page/El404.vue'
-import type { Form } from '../form'
+import type { Card } from '@fiction/site'
 import { loadForm } from '../utils/load.js'
-import type { FictionForms } from '..'
-import FormProgressBar from './FormProgressBar.vue'
 import FormLoading from './FormLoading.vue'
+import FormProgressBar from './FormProgressBar.vue'
+import type { FictionForms } from '..'
+import type { Form } from '../form'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },

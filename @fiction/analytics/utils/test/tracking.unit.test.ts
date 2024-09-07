@@ -2,9 +2,9 @@
  * @vitest-environment happy-dom
  */
 
+import { waitFor } from '@fiction/core'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { BrowserEvent } from '@fiction/core/utils/eventBrowser'
-import { waitFor } from '@fiction/core'
 import { ActivityTrigger, canonicalUrlFromTag, detectMultiClick, getCanonicalUrl, getDeviceType, getSelector, onRageClick } from '../tracking'
 
 describe('getDeviceType', () => {

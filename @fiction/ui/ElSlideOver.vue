@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { vue } from '@fiction/core'
 import { onResetUi, resetUi } from '@fiction/core'
+import type { vue } from '@fiction/core'
 
 const props = defineProps({
   name: { type: String, default: '' },

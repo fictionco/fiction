@@ -2,11 +2,11 @@
  * @vitest-environment happy-dom
  */
 
-import { beforeEach, describe, expect, it } from 'vitest'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
-import type { FormSettings } from '../form'
-import { Form } from '../form'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { FictionForms } from '..'
+import { Form } from '../form'
+import type { FormSettings } from '../form'
 
 describe('form', async () => {
   let formSettings: FormSettings

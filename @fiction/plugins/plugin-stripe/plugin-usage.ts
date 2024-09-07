@@ -1,8 +1,8 @@
-import type { FictionApp, FictionDb, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
-import type { FictionStripe } from './plugin'
+import type { FictionApp, FictionDb, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
 import { QueryManageUsage } from './endpointsUsage'
 import { tables } from './tables'
+import type { FictionStripe } from './plugin'
 
 export type FictionUsageSettings = {
   fictionServer: FictionServer

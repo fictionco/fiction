@@ -4,19 +4,19 @@
  */
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { WebSocket as NodeWebSocket } from 'ws'
-import type {
-  SocketMeta,
-  SocketServerComponents,
-} from '../socket'
+import { snap } from '../../test-utils'
+import { createTestUtils } from '../../test-utils/init'
+import { createUserToken } from '../jwt'
 import {
   ClientSocket,
   createSocketServer,
 } from '../socket'
-import type { TestUtils } from '../../test-utils/init'
-import { createTestUtils } from '../../test-utils/init'
 import { waitFor } from '../utils'
-import { snap } from '../../test-utils'
-import { createUserToken } from '../jwt'
+import type { TestUtils } from '../../test-utils/init'
+import type {
+  SocketMeta,
+  SocketServerComponents,
+} from '../socket'
 
 // Polyfill WebSocket in Node.js environment
 const isNode = typeof process === 'object'

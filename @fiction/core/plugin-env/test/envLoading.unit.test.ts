@@ -2,13 +2,13 @@
  * @vitest-environment happy-dom
  */
 
-import type { Mock } from 'vitest'
-import { beforeAll, describe, expect, it, vi } from 'vitest'
-import { randomBetween, safeDirname, vue, waitFor } from '@fiction/core/utils'
+import { FictionPlugin } from '@fiction/core/plugin.js'
 import { FictionApp } from '@fiction/core/plugin-app'
 import { FictionRouter } from '@fiction/core/plugin-router'
+import { randomBetween, safeDirname, vue, waitFor } from '@fiction/core/utils'
+import { beforeAll, describe, expect, it, vi } from 'vitest'
 import type { FictionPluginSettings } from '@fiction/core/plugin.js'
-import { FictionPlugin } from '@fiction/core/plugin.js'
+import type { Mock } from 'vitest'
 import { CliCommand, FictionEnv } from '../index.js'
 import type { ServiceConfig } from '../types.js'
 

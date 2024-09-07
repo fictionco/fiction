@@ -2,9 +2,9 @@
  * @vitest-environment happy-dom
  * https://vitest.dev/config/#environment
  */
-import type { TestUtils } from '@fiction/core/test-utils/init'
 import { createTestUtils } from '@fiction/core/test-utils/init'
 import { beforeAll, describe, it } from 'vitest'
+import type { TestUtils } from '@fiction/core/test-utils/init'
 
 type CurrentTestUtils = TestUtils
 let testUtils: CurrentTestUtils | undefined

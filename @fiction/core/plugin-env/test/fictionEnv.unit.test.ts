@@ -2,8 +2,8 @@
  * @vitest-environment happy-dom
  */
 
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { crossVar } from '@fiction/core/utils'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { EnvVar, FictionEnv } from '../index.js'
 import { vars } from '../onImport.js'
 

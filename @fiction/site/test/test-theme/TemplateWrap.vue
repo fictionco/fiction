@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { vue } from '@fiction/core'
 import ElEngine from '@fiction/cards/CardEngine.vue'
+import type { vue } from '@fiction/core'
 import type { Card } from '../../card'
 
 defineProps({

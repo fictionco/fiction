@@ -1,6 +1,6 @@
+import { AdminEditorController } from '@fiction/admin'
 import { vue } from '@fiction/core'
 import type { EditorTool } from '@fiction/admin'
-import { AdminEditorController } from '@fiction/admin'
 
 export const tools = [
   // {

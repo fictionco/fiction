@@ -1,12 +1,12 @@
 /** server-only-file */
 import fs from 'node:fs'
 import path from 'node:path'
+import { log, safeUrl } from '@fiction/core'
 import yaml from 'js-yaml'
 import getMetaData from 'metadata-scraper'
-import { log, safeUrl } from '@fiction/core'
 import type { FictionCache } from '@fiction/core/plugin-cache'
-import type { ReferralParams } from '../../tables'
 import { getCleanUrl } from './utils'
+import type { ReferralParams } from '../../tables'
 
 type ReferrerDictionary = Record<string, ReferrerItem>
 

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { type StandardSize, onResetUi, vue } from '@fiction/core'
+import { onResetUi, type StandardSize, vue } from '@fiction/core'
 import { textInputClasses } from './theme'
 
 const props = defineProps({

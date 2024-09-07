@@ -1,8 +1,8 @@
+import { createRequire } from 'node:module'
 import path from 'node:path'
 import process from 'node:process'
-import { createRequire } from 'node:module'
-import { configDefaults, defineConfig } from 'vitest/config'
 import pluginVue from '@vitejs/plugin-vue'
+import { configDefaults, defineConfig } from 'vitest/config'
 import { getMarkdownPlugins } from './@fiction/core/plugin-app/utils/vitePluginMarkdown.js'
 
 const require = createRequire(import.meta.url)

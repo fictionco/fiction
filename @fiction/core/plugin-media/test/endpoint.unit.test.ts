@@ -1,15 +1,15 @@
 import { Buffer } from 'node:buffer'
-import { afterAll, afterEach, describe, expect, it, vi } from 'vitest'
 import fs from 'fs-extra'
-import type { EndpointMeta } from '@fiction/core/utils'
 import sharp from 'sharp'
+import { afterAll, afterEach, describe, expect, it, vi } from 'vitest'
 import type { TableMediaConfig } from '@fiction/core'
-import { createTestUtils } from '../../test-utils/init'
+import type { EndpointMeta } from '@fiction/core/utils'
 import { FictionMedia } from '..'
 import { FictionAws } from '../../plugin-aws'
 import { testEnvFile, testImgPath, testVideoPath } from '../../test-utils'
-import type { TestUtils } from '../../test-utils/init'
+import { createTestUtils } from '../../test-utils/init'
 import { getEnvVars, path } from '../../utils'
+import type { TestUtils } from '../../test-utils/init'
 
 describe('createAndSaveMedia', async () => {
   if (!fs.existsSync(testEnvFile))

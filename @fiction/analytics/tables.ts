@@ -1,7 +1,7 @@
 import { dayjs } from '@fiction/core'
 import { z } from 'zod'
-import { FictionAnalyticsCol, FictionAnalyticsTable } from './plugin-clickhouse/utils.js'
 import { standardUrl } from './plugin-beacon/utils/index.js'
+import { FictionAnalyticsCol, FictionAnalyticsTable } from './plugin-clickhouse/utils.js'
 
 export const t = {
   event: 'analytics_event',

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { toLabel, vue } from '@fiction/core'
-import type { EditorTool } from '@fiction/admin'
-import XButton from '@fiction/ui/buttons/XButton.vue'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
+import XButton from '@fiction/ui/buttons/XButton.vue'
+import type { EditorTool } from '@fiction/admin'
+import { CardCategorySchema } from '../../card'
 import type { CardTemplate } from '../../card'
 import type { Site } from '../../site'
-import { CardCategorySchema } from '../../card'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },

@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
 
-import type { Card } from '@fiction/site'
-import ElImage from '@fiction/ui/media/ElImage.vue'
 import MasonryEffect from '@fiction/ui/effect/EffectMasonry.vue'
+import ElImage from '@fiction/ui/media/ElImage.vue'
 import ElLightbox from '@fiction/ui/media/ElLightbox.vue'
+import type { Card } from '@fiction/site'
 
 import type { MediaItem, UserConfig } from './index.js'
 
@@ -72,6 +72,6 @@ function showLightbox(index: number) {
       </div>
     </MasonryEffect>
 
-    <ElLightbox v-model:activeIndex="currentLightboxIndex" :items />
+    <ElLightbox v-model:active-index="currentLightboxIndex" :items />
   </div>
 </template>

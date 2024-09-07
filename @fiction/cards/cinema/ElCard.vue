@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
-import type { Card } from '@fiction/site'
 import ElActions from '@fiction/ui/buttons/ElActions.vue'
-import NavDots from '../el/NavDots.vue'
+import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
+import NavDots from '../el/NavDots.vue'
 
 import type { UserConfig } from '.'
 

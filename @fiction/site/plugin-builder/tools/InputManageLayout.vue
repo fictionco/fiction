@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { vue } from '@fiction/core'
 import type { EditorTool } from '@fiction/admin'
-import type { Site } from '../../site'
+import type { vue } from '@fiction/core'
 import DraggableLayout from './LayoutDraggable.vue'
 import LayoutToolRegion from './LayoutToolRegion.vue'
+import type { Site } from '../../site'
 
 defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },

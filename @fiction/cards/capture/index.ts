@@ -2,8 +2,8 @@ import { safeDirname, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
-import { mediaSchema } from '../schemaSets'
 import { standardOption } from '../inputSets.js'
+import { mediaSchema } from '../schemaSets'
 
 const UserConfigSchema = z.object({
   superHeading: z.string().describe('Social proof Metric or KPI for the newsletter, e.g. "22,300+ subscribers"').optional(),
@@ -40,7 +40,7 @@ const demoUserConfig = {
   thanksText: 'Thanks for subscribing!',
 } as const
 
-const options = [
+const options: InputOption[] = [
   new InputOption({ key: 'presentationMode', label: 'Presentation Mode', input: 'InputSelect', list: ['inline', 'onScroll', 'onLoad'], description: 'Show the card inline with content as a popup on load, or when scrolling.' }),
   standardOption.headers(),
   new InputOption({ key: 'media', label: 'Image', input: 'InputMediaDisplay' }),

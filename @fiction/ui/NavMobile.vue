@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { onBrowserEvent } from '@fiction/core/utils/eventBrowser'
 import { getNavComponentType, onResetUi, shortId, vue } from '@fiction/core/index.js'
+import { onBrowserEvent } from '@fiction/core/utils/eventBrowser'
 import type { NavItem } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from './anim'
 

@@ -1,7 +1,7 @@
 <!-- AnimatedGradient.vue -->
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, watch } from 'vue'
-import { SimplexNoise, animate } from './gradientUtil'
+import { animate, SimplexNoise } from './gradientUtil'
 
 const props = defineProps({
   baseColor: {

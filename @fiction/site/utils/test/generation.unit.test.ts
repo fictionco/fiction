@@ -1,13 +1,13 @@
-import { describe, expect, it, vi } from 'vitest'
 import { standardCardTemplates } from '@fiction/cards'
+import { shortId } from '@fiction/core'
+import { describe, expect, it, vi } from 'vitest'
 import zodToJsonSchema from 'zod-to-json-schema'
 import type { JsonSchema7ObjectType } from 'zod-to-json-schema'
-import { shortId } from '@fiction/core'
-import type { CardTemplate } from '../../card'
 import { Card } from '../../card'
 import { Site } from '../../site'
 import { createSiteTestUtils } from '../../test/testUtils'
-import { type InputOptionGeneration, calculateTotalEstimatedTimeSeconds, generateJsonPropConfig, generateOutputProps, parseDescription, simulateProgress } from '../generation'
+import { calculateTotalEstimatedTimeSeconds, generateJsonPropConfig, generateOutputProps, type InputOptionGeneration, parseDescription, simulateProgress } from '../generation'
+import type { CardTemplate } from '../../card'
 
 describe('generation utils', async () => {
   const testUtils = await createSiteTestUtils()

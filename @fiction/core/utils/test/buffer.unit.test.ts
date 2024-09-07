@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest'
 import { WriteBuffer } from '@fiction/core/utils/buffer'
+import { describe, expect, it } from 'vitest'
 import { waitFor } from '../utils'
 
 describe('buffer', () => {

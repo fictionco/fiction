@@ -1,10 +1,10 @@
 import { createCard } from '@fiction/site/theme.js'
 import type { MapSchemaConfig } from '@fiction/cards/map'
 import { templates } from '../templates.js'
-import spectrum from './spectrum.jpg'
 import ap from './ap.webp'
-import pro from './pro.webp'
 import girlComputer from './girl-computer.webp'
+import pro from './pro.webp'
+import spectrum from './spectrum.jpg'
 
 const topHeroCard = createCard({
   templates,

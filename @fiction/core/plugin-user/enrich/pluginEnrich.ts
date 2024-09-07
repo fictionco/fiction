@@ -3,8 +3,8 @@ import type { FictionDb } from '@fiction/core/plugin-db'
 import type { FictionEmail } from '@fiction/core/plugin-email'
 import type { FictionRouter } from '@fiction/core/plugin-router'
 import type { FictionServer } from '@fiction/core/plugin-server'
-import type { FictionUser } from '..'
 import { EnrichUser } from './endpoint'
+import type { FictionUser } from '..'
 
 export type UserPluginSettings = {
   fictionServer?: FictionServer

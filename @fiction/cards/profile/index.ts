@@ -1,6 +1,6 @@
 import { vue } from '@fiction/core'
-import { InputOption } from '@fiction/ui'
 import { CardTemplate } from '@fiction/site/card'
+import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 import { standardOption } from '../inputSets'
 import { stockMediaHandler } from '../stock/index.js'
@@ -33,7 +33,7 @@ export const schema = z.object({
 
 export type UserConfig = z.infer<typeof schema>
 
-const options = [
+const options: InputOption[] = [
   standardOption.ai(),
   new InputOption({
     label: 'Settings',

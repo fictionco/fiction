@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { UiElementStyle } from '@fiction/ui/utils'
-import type { ActionItem, vue } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
+import type { ActionItem, vue } from '@fiction/core'
+import type { UiElementStyle } from '@fiction/ui/utils'
 
 defineProps({
   title: { type: String, default: '' },

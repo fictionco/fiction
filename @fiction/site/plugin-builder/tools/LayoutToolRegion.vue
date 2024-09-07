@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import type { vue } from '@fiction/core'
+import TransitionList from '@fiction/admin/el/EffectTransitionList.vue'
+import ElToolHandle from '@fiction/admin/tools/ElToolHandle.vue'
 import { toLabel } from '@fiction/core'
 import type { Handle } from '@fiction/admin'
-import ElToolHandle from '@fiction/admin/tools/ElToolHandle.vue'
-import TransitionList from '@fiction/admin/el/EffectTransitionList.vue'
-import type { Site } from '../../site'
+import type { vue } from '@fiction/core'
 import type { Card } from '../../card'
+import type { Site } from '../../site'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { ColorThemeUser } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
-import type { Card } from '@fiction/site'
-import { getColorThemeStyles } from '@fiction/ui/utils.js'
 import ElButton from '@fiction/ui/ElButton.vue'
+import { getColorThemeStyles } from '@fiction/ui/utils.js'
+import type { ColorThemeUser } from '@fiction/core'
+import type { Card } from '@fiction/site'
 import type { FictionExtend } from '.'
 
 defineProps({

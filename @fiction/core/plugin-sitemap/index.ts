@@ -1,11 +1,11 @@
 import path from 'node:path'
-import type { Buffer } from 'node:buffer'
 import fs from 'fs-extra'
-import type { FictionPluginSettings } from '../plugin.js'
+import type { Buffer } from 'node:buffer'
 import { FictionPlugin } from '../plugin.js'
 import { safeDirname } from '../utils/index.js'
 import { dayjs } from '../utils/libraries.js'
 import type { RunVars } from '../inject.js'
+import type { FictionPluginSettings } from '../plugin.js'
 import type { FictionApp } from '../plugin-app/index.js'
 import type { FictionRouter } from '../plugin-router/index.js'
 

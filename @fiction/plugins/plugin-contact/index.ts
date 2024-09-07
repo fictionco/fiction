@@ -1,3 +1,7 @@
+import {
+  FictionPlugin,
+  safeDirname,
+} from '@fiction/core'
 import type {
   FictionApp,
   FictionDb,
@@ -8,14 +12,10 @@ import type {
   FictionServer,
   FictionUser,
 } from '@fiction/core'
-import {
-  FictionPlugin,
-  safeDirname,
-} from '@fiction/core'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
-import type { TableSubmissionConfig } from './tables'
-import { table } from './tables'
 import { QueryManageSubmission } from './endpoint'
+import { table } from './tables'
+import type { TableSubmissionConfig } from './tables'
 
 export * from './tables'
 type FictionContactSettings = {

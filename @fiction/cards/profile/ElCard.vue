@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { vue } from '@fiction/core'
-import ElImage from '@fiction/ui/media/ElImage.vue'
-import type { Card } from '@fiction/site'
 import { useElementVisible } from '@fiction/ui/anim'
 import EffectGlare from '@fiction/ui/effect/EffectGlare.vue'
+import ElImage from '@fiction/ui/media/ElImage.vue'
+import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
 import CardSocials from '../el/CardSocials.vue'
 import NavDots from '../el/NavDots.vue'

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { unhead, useService, vue } from '@fiction/core'
 
-import type { Card } from '@fiction/site'
-import type { FictionPosts } from '@fiction/posts'
 import { Post } from '@fiction/posts'
+import type { FictionPosts } from '@fiction/posts'
+import type { Card } from '@fiction/site'
 import ElMagazineIndex from './ElMagazineIndex.vue'
 import ElMagazineSingle from './ElMagazineSingle.vue'
 import type { UserConfig } from './index.js'

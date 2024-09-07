@@ -2,16 +2,16 @@
  * @vitest-environment happy-dom
  */
 
-import { describe, expect, it } from 'vitest'
-import { AppRoute, shortId } from '@fiction/core'
 import FSite from '@fiction/cards/CardSite.vue'
+import { AppRoute, shortId } from '@fiction/core'
+import { describe, expect, it } from 'vitest'
 import { requestManageSite } from '../../load.js'
-import type { EditorState } from '../../site.js'
 import { Site } from '../../site.js'
 import { createSiteTestUtils } from '../../test/testUtils.js'
-import { activeSiteHostname, saveSite, updateSite } from '../site.js'
-import { setPages, updatePages } from '../page.js'
 import { siteGoto, siteLink } from '../manage.js'
+import { setPages, updatePages } from '../page.js'
+import { activeSiteHostname, saveSite, updateSite } from '../site.js'
+import type { EditorState } from '../../site.js'
 
 describe('siteLink / siteGoto', async () => {
   const testUtils = await createSiteTestUtils()

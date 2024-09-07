@@ -1,8 +1,8 @@
+import { abort, deepMerge, incrementSlugId, objectId, Query, standardTable, toLabel, toSlug } from '@fiction/core'
 import type { DataFilter, EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser, IndexMeta, IndexQuery, TableTaxonomyConfig } from '@fiction/core'
-import { Query, abort, deepMerge, incrementSlugId, objectId, standardTable, toLabel, toSlug } from '@fiction/core'
-import type { TablePostConfig } from './schema'
 import { t } from './schema'
 import type { FictionPosts } from '.'
+import type { TablePostConfig } from './schema'
 
 export type PostsQuerySettings = FictionPluginSettings & {
   fictionPosts: FictionPosts
@@ -633,7 +633,8 @@ export class QueryManageTaxonomy extends PostsQuery {
       const whereQuery = slug ? { slug } : { taxonomyId }
       const r = await db(t.taxonomy)
         .where({ ...whereQuery, orgId })
-        .update(item).returning('*')
+        .update(item)
+        .returning('*')
 
       return r[0]
     }))

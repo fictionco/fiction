@@ -1,6 +1,6 @@
-import type { FictionPluginSettings } from '@fiction/core'
 import { FictionPlugin } from '@fiction/core'
 import { config } from 'dotenv'
+import type { FictionPluginSettings } from '@fiction/core'
 
 type ModuleConfig = {
   name: string

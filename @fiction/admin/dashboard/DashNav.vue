@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { Card } from '@fiction/site/card'
-import type { MediaObject, NavItem, vue } from '@fiction/core'
+import CardLink from '@fiction/cards/el/CardLink.vue'
 import { toLabel } from '@fiction/core'
 import ElImage from '@fiction/ui/media/ElImage.vue'
-import CardLink from '@fiction/cards/el/CardLink.vue'
+import type { MediaObject, NavItem, vue } from '@fiction/core'
+import type { Card } from '@fiction/site/card'
 
 defineProps({
   icon: { type: Object as vue.PropType<MediaObject>, default: undefined },

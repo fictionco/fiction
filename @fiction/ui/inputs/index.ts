@@ -1,5 +1,6 @@
-import type { ListItem } from '@fiction/core'
 import { FictionObject, removeUndefined, vue } from '@fiction/core'
+import type { ListItem } from '@fiction/core'
+import type { U } from 'vitest/dist/chunks/environment.0M5R1SX_.js'
 import type { z } from 'zod'
 
 const def = vue.defineAsyncComponent
@@ -74,7 +75,7 @@ export interface InputOptionSettings<T extends string = string, U = any> {
   props?: Record<string, unknown>
   options?: InputOption[]
   list?: (ListItem | string)[] | readonly (ListItem | string)[]
-  default?: () => U
+  // default?: () => U
   schema?: SchemaCallback
   generation?: InputOptionGeneration
   isHidden?: boolean
@@ -89,7 +90,7 @@ export type OptArgs = (Partial<InputOptionSettings> & Record<string, unknown>) |
 
 type InputOptionConfig = Omit<InputOptionSettings, 'options'> & { options?: InputOptionConfig[] }
 
-export class InputOption<T extends string = string, U = any> extends FictionObject<InputOptionSettings<T, U>> {
+export class InputOption<T extends string = string> extends FictionObject<InputOptionSettings<T, U>> {
   key = vue.ref(this.settings.key)
   aliasKey = vue.ref(this.settings.aliasKey || this.key)
   input = vue.shallowRef(this.settings.input)
@@ -102,7 +103,6 @@ export class InputOption<T extends string = string, U = any> extends FictionObje
   description = vue.ref(this.settings.description)
   options = vue.shallowRef(this.settings.options || [])
   list = vue.shallowRef(this.settings.list)
-  default = this.settings.default
   schema = vue.shallowRef(this.settings.schema)
   generation = vue.ref(this.settings.generation || {})
 

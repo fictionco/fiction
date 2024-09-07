@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
 
-import type { ApolloApiResponse } from '../types'
 import { apolloResponseToUser } from '../util'
-import type { User } from '../..'
 import exampleResponse from './exampleResponse.json'
+import type { User } from '../..'
+import type { ApolloApiResponse } from '../types'
 
 describe('apolloResponseToUser', () => {
   it('should correctly convert Apollo response to User', async () => {

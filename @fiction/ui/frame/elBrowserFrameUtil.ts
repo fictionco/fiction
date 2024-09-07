@@ -1,10 +1,10 @@
-import { standardizeUrlOrPath, updateUrl, vue, waitFor } from '@fiction/core/utils'
 import { FictionObject } from '@fiction/core'
-import type { Ref } from 'vue'
-import { computed, ref, watch } from 'vue'
-
 // lightweight for tag
 import { Obj } from '@fiction/core/obj.js'
+import { standardizeUrlOrPath, updateUrl, vue, waitFor } from '@fiction/core/utils'
+import { computed, ref, watch } from 'vue'
+
+import type { Ref } from 'vue'
 import { LinkHandler } from './utils'
 
 export interface FrameMessage<T = unknown> {

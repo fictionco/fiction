@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { vue, waitFor } from '@fiction/core'
-import type { Card, Site } from '@fiction/site'
 import { type QueryVarHook, setupRouteWatcher } from '@fiction/site/utils/site'
 import ElModal from '@fiction/ui/ElModal.vue'
+import type { Card, Site } from '@fiction/site'
 import { MediaEmbedder } from './mediaEmbedder.js'
 import type { UserConfig } from '.'
 

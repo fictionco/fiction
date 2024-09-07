@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useService, vue, waitFor } from '@fiction/core'
-import type { Card } from '@fiction/site'
 import { animateUnderline } from '@fiction/ui/anim/animateText.js'
+import type { Card } from '@fiction/site'
 
 defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },

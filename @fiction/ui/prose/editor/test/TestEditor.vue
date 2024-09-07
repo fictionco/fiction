@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import ThemeWrap from '@fiction/ui/ThemeWrap.vue'
 import { vue } from '@fiction/core'
+import ThemeWrap from '@fiction/ui/ThemeWrap.vue'
 import ProseEditor from '../ProseEditor.vue'
 import { content } from './testContent'
 

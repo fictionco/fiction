@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { getNavComponentType, vue } from '@fiction/core'
-import type { UiElementFormat, UiElementSize, UiElementStyle } from './utils'
 import { getButtonClasses } from './utils'
+import type { UiElementFormat, UiElementSize, UiElementStyle } from './utils'
 
 defineOptions({ name: 'ElButton' })
 

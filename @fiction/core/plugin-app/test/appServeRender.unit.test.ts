@@ -1,10 +1,10 @@
 import { createRequire } from 'node:module'
 import path from 'node:path'
 
-import type playwright from 'playwright'
-import { afterAll, describe, expect, it } from 'vitest'
 import { createTestServer } from '@fiction/core/test-utils/buildTest'
 import { commands } from '@fiction/www/src/commands'
+import { afterAll, describe, expect, it } from 'vitest'
+import type playwright from 'playwright'
 
 const require = createRequire(import.meta.url)
 const cwd = path.dirname(require.resolve('@fiction/www/package.json'))

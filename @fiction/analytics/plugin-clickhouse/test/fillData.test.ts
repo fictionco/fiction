@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest'
 import { dayjs } from '@fiction/core'
+import { describe, expect, it } from 'vitest'
 import { fillData } from '../utils.js'
 
 const data = [

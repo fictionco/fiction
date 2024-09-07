@@ -1,5 +1,5 @@
-import { objectId } from '../utils/id'
 import { getCookie, setCookieNakedDomain } from '../utils/cookie'
+import { objectId } from '../utils/id'
 
 export const ANON_ID_KEY = 'FictionAnonId'
 export const FIRST_SESSION_KEY = 'FictionFirstSession'

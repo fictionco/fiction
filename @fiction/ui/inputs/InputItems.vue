@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { ListItem, StandardSize, TableTaxonomyConfig } from '@fiction/core'
+import EffectDraggableSort from '@fiction/admin/el/EffectDraggableSort.vue'
 import { toSlug, vue, waitFor } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
-import EffectDraggableSort from '@fiction/admin/el/EffectDraggableSort.vue'
+import type { ListItem, StandardSize, TableTaxonomyConfig } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 
 const props = defineProps({

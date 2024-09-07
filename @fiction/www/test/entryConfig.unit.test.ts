@@ -1,7 +1,7 @@
-import { describe, expect, it } from 'vitest'
 import { compileApplication } from '@fiction/core/plugin-env/entry.js'
-import type { MainFile, ServiceList } from '@fiction/core/plugin-env/types.js'
+import { describe, expect, it } from 'vitest'
 import type { FictionApp, FictionEnv } from '@fiction/core'
+import type { MainFile, ServiceList } from '@fiction/core/plugin-env/types.js'
 import { setup } from '../src/index.js'
 
 describe('user config', async () => {

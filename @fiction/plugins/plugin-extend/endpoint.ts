@@ -1,5 +1,5 @@
-import type { EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser } from '@fiction/core'
 import { Query } from '@fiction/core'
+import type { EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser } from '@fiction/core'
 import type { TablePostConfig } from '@fiction/posts'
 
 export type ExtendQuerySettings = FictionPluginSettings & {

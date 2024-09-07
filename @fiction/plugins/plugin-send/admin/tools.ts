@@ -1,17 +1,17 @@
-import { InputOption } from '@fiction/ui'
-import { type ActionItem, vue } from '@fiction/core'
-import { SettingsTool } from '@fiction/admin/types'
-import type { EditorTool } from '@fiction/admin'
 import { AdminEditorController } from '@fiction/admin'
+import { SettingsTool } from '@fiction/admin/types'
+import { type ActionItem, vue } from '@fiction/core'
+import { InputOption } from '@fiction/ui'
+import type { EditorTool } from '@fiction/admin'
 import type { Card } from '@fiction/site'
-import type { FictionSend } from '..'
-import type { EmailCampaign } from '../campaign'
-import type { EmailCampaignConfig } from '../schema'
 import { loadEmail } from '../utils'
 import { manageEmailCampaign } from '../utils.js'
 import InputAudience from './InputAudience.vue'
 import InputEmailPreview from './InputEmailPreview.vue'
 import InputOverview from './InputOverview.vue'
+import type { FictionSend } from '..'
+import type { EmailCampaign } from '../campaign'
+import type { EmailCampaignConfig } from '../schema'
 
 export const tools = [
   {
@@ -40,7 +40,7 @@ export type ToolKeys = (typeof tools)[number]['toolId']
 
 export const emailComposeController = new AdminEditorController({ tools })
 
-export function getEmailManageOptions(args: { fictionSend: FictionSend, email?: EmailCampaign, card: Card }) {
+export function getEmailManageOptions(args: { fictionSend: FictionSend, email?: EmailCampaign, card: Card }): InputOption[] {
   const { email, card } = args
   return [
     new InputOption({ key: 'title', label: 'Internal Title', input: 'InputText', isRequired: true, placeholder: 'Only used to help you manage this campaign.' }),

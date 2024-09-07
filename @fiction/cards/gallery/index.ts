@@ -1,7 +1,7 @@
 import { vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
-import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
+import { z } from 'zod'
 import type { SiteUserConfig } from '@fiction/site/schema'
 import { standardOption } from '../inputSets'
 import { stockMediaHandler } from '../stock/index.js'
@@ -132,7 +132,7 @@ async function getUserConfig(): Promise<UserConfig & SiteUserConfig> {
   }
 }
 
-const options = [
+const options: InputOption[] = [
   standardOption.ai(),
   new InputOption({
     input: 'InputList',

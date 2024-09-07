@@ -1,7 +1,7 @@
-import { beforeAll, describe, expect, it } from 'vitest'
 import * as jsdom from 'jsdom'
-import { clean } from '../libraries'
+import { beforeAll, describe, expect, it } from 'vitest'
 import { populateGlobal } from '../globalUtils'
+import { clean } from '../libraries'
 
 // Helper function to compare two SVG strings by converting them to DOM trees
 function compareSVGs(actual: string, expected: string) {

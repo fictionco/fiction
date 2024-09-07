@@ -1,6 +1,6 @@
-import type { vue } from '../utils/index.js'
-import { getNakedDomain, waitFor } from '../utils/index.js'
 import { log } from '../plugin-log/index.js'
+import { getNakedDomain, waitFor } from '../utils/index.js'
+import type { vue } from '../utils/index.js'
 import type { FictionUser } from './index.js'
 
 const logger = log.contextLogger('Fiction - Google One Tap')

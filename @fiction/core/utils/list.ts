@@ -1,5 +1,5 @@
-import type { IndexMeta, ListItem } from '../types'
 import { toLabel, toSlug } from './casing'
+import type { IndexMeta, ListItem } from '../types'
 
 export type PaginationInfo = {
   total: number

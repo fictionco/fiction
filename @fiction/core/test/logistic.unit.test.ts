@@ -2,8 +2,8 @@
  * @vitest-environment happy-dom
  */
 
-import { beforeAll, describe, expect, it } from 'vitest'
 import { vue } from '@fiction/core'
+import { beforeAll, describe, expect, it } from 'vitest'
 import { defineComponent } from 'vue'
 import { useService } from '../inject'
 import { Obj } from '../obj'

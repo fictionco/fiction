@@ -1,8 +1,8 @@
-import { type LogHelper, log } from './plugin-log/index.js'
-import type { ErrorConfig } from './utils/error.js'
+import { log, type LogHelper } from './plugin-log/index.js'
 import { abort } from './utils/error.js'
 import type { EndpointResponse } from './types/index.js'
 import type { EndpointMeta } from './utils/endpoint.js'
+import type { ErrorConfig } from './utils/error.js'
 import type { vue } from './utils/libraries.js'
 
 export type QueryConfig = {

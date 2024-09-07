@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import type { vue } from '../utils/libraries.js'
 import { ColorScaleSchema, colorThemeUser, colorThemeWithInvert } from '../utils/colors.js'
+import type { vue } from '../utils/libraries.js'
 import type { IconId } from './systemIcons.js'
 
 export const PostStatusSchema = z.enum(['draft', 'scheduled', 'published', 'hidden', 'protected', 'deleted', 'archived', 'trashed', 'spam'])

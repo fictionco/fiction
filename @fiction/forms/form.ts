@@ -1,10 +1,10 @@
 import { FictionObject, getNested, vue } from '@fiction/core'
 
-import type { CardTemplate, Site } from '@fiction/site'
 import { Card } from '@fiction/site'
+import type { CardTemplate, Site } from '@fiction/site'
+import type { FictionForms } from '.'
 import type { FormConfigPortable } from './schema'
 import type { InputUserConfig } from './templates'
-import type { FictionForms } from '.'
 
 export type FormSettings = FormConfigPortable & {
   templates?: CardTemplate[] | readonly CardTemplate[]

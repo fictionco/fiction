@@ -1,5 +1,5 @@
-import type { ServiceConfig } from '../plugin-env'
 import { createTestUtils } from './init'
+import type { ServiceConfig } from '../plugin-env'
 
 export function setup(args: { envFiles?: string[], context?: 'node' | 'app' }) {
   // so app mount can find its way back

@@ -1,6 +1,6 @@
 import type { EndpointResponse, ResponseStatus, ValidationReason } from '@fiction/core'
-import { toSlug } from '../utils/index.js'
 import { Query } from '../query.js'
+import { toSlug } from '../utils/index.js'
 import type { FictionDb } from './index.js'
 
 type QuerySettings = { fictionDb: FictionDb }
@@ -48,14 +48,12 @@ export class CheckUsername extends Query<QuerySettings> {
           break
         }
 
-        const r = await fictionDb.db?.table(table)
-          .where((builder) => {
-            columns.forEach(({ name, value }) => {
-              const v = allowAnyValue ? value.trim() : toSlug(value.trim())
-              void builder.andWhere(name, v)
-            })
+        const r = await fictionDb.db?.table(table).where((builder) => {
+          columns.forEach(({ name, value }) => {
+            const v = allowAnyValue ? value.trim() : toSlug(value.trim())
+            void builder.andWhere(name, v)
           })
-          .first()
+        }).first()
 
         if (r) {
           result = { available: 'fail', reason: 'taken' }

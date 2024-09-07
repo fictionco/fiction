@@ -1,8 +1,8 @@
 import { type EndpointMeta, type EndpointResponse, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { CardQuery, type CardQuerySettings } from '@fiction/site/cardQuery'
-import type { InputOption } from '@fiction/ui'
 import { z } from 'zod'
+import type { InputOption } from '@fiction/ui'
 
 const templateId = 'insta'
 

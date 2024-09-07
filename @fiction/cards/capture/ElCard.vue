@@ -2,8 +2,8 @@
 import { localRef, useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
-import EmailForm from './EmailForm.vue'
 import EffectScrollModal from './EffectScrollModal.vue'
+import EmailForm from './EmailForm.vue'
 import type { UserConfig } from '.'
 
 const props = defineProps({

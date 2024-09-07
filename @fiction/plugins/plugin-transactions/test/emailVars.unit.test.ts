@@ -1,10 +1,10 @@
 import { FictionAws, FictionMedia, getEnvVars } from '@fiction/core'
+import { createTestUtils, testEnvFile } from '@fiction/core/test-utils'
 import { createUserToken } from '@fiction/core/utils/jwt'
 import { describe, expect, it } from 'vitest'
-import { createTestUtils, testEnvFile } from '@fiction/core/test-utils'
 import { FictionTransactions } from '..'
-import type { SendEmailArgs } from '../action'
 import { createEmailVars } from '../utils'
+import type { SendEmailArgs } from '../action'
 
 describe('createEmailVars', async () => {
   const testUtils = createTestUtils({ envFiles: [testEnvFile] })

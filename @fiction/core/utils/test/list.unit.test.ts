@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { IndexMeta } from '@fiction/core/types'
-import { getPaginationInfo, normalizeList, sortPriority } from '../list'
 import { toLabel, toSlug } from '../casing'
+import { getPaginationInfo, normalizeList, sortPriority } from '../list'
 
 describe('getPaginationInfo', () => {
   it('calculates pagination information correctly with default values', () => {

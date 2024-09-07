@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import type { Card } from '@fiction/site/card'
 import { log, useService, vue } from '@fiction/core'
-import type { Organization } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
-import type { NavCardUserConfig } from '../index.js'
+import type { Organization } from '@fiction/core'
+import type { Card } from '@fiction/site/card'
 import ElAvatarOrg from './ElAvatarOrg.vue'
 import ElPanelSettings from './ElPanelSettings.vue'
 import UtilDeleteOrg from './UtilDeleteOrg.vue'
 import UtilListOrganizations from './UtilListOrganizations.vue'
+import type { NavCardUserConfig } from '../index.js'
 
 defineProps({
   card: { type: Object as vue.PropType<Card<NavCardUserConfig>>, required: true },

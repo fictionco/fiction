@@ -1,8 +1,8 @@
 import { colorTheme, deepMerge, safeDirname, toLabel, vue } from '@fiction/core/index.js'
 import { CardTemplate } from '@fiction/site/index.js'
-import type { SiteUserConfig } from '@fiction/site/schema'
 import { InputOption } from '@fiction/ui/index.js'
 import { z } from 'zod'
+import type { SiteUserConfig } from '@fiction/site/schema'
 
 const SchemeSchema = z.object({
   bg: z.object({
@@ -31,7 +31,7 @@ export type UserConfig = z.infer<typeof schema>
 
 const templateId = 'area'
 
-function modeOptions(mode: 'light' | 'base'): InputOption {
+function modeOptions(mode: 'light' | 'base') {
   return new InputOption({
     key: `scheme.${mode}`,
     label: `${toLabel(mode)} Mode`,
@@ -41,11 +41,11 @@ function modeOptions(mode: 'light' | 'base'): InputOption {
       new InputOption({ key: `scheme.${mode}.theme`, label: 'Text and Element Color', input: 'InputSelect', props: { list: colorTheme } }),
       new InputOption({ key: `scheme.${mode}.primary`, label: 'Primary Color', input: 'InputSelect', props: { list: colorTheme } }),
       new InputOption({ key: `scheme.${mode}.bg.gradient`, label: 'Background Gradient', input: 'InputGradient' }),
-    ],
-  })
+    ] as InputOption[],
+  }) as InputOption
 }
 
-const options = [
+const options: InputOption[] = [
   new InputOption({ key: 'scheme.reverse', label: 'Flip Color Scheme', description: 'Great for contrast. This will flip the mode to the opposite of the mode for the website (from dark to light or vice versa).', input: 'InputToggle' }),
   modeOptions('light'),
   modeOptions('base'),

@@ -1,11 +1,11 @@
-import { describe, expect, it } from 'vitest'
 import { shortId, waitFor } from '@fiction/core'
-import { requestManageSite } from '../../load'
+import { describe, expect, it } from 'vitest'
 import { Card } from '../../card'
-import type { CardConfigPortable, TableCardConfig } from '../../tables'
+import { requestManageSite } from '../../load'
 import { Site } from '../../site'
 import { createSiteTestUtils } from '../../test/testUtils'
 import { addNewCard, removeCard, requestManagePage, updatePage } from '../region'
+import type { CardConfigPortable, TableCardConfig } from '../../tables'
 
 describe('removeCard', async () => {
   const testUtils = await createSiteTestUtils()

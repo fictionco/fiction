@@ -1,13 +1,13 @@
 /* server-only-file */
 import path from 'node:path'
 import process from 'node:process'
-import type { Plugin } from 'vite'
-import type { TransformResult } from 'rollup'
-import type { ChildNode } from 'domhandler'
-import { Element } from 'domhandler'
-import { DomUtils, parseDocument } from 'htmlparser2'
 import { compileTemplate } from '@vue/compiler-sfc'
+import { Element } from 'domhandler'
 import fs from 'fs-extra'
+import { DomUtils, parseDocument } from 'htmlparser2'
+import type { ChildNode } from 'domhandler'
+import type { TransformResult } from 'rollup'
+import type { Plugin } from 'vite'
 import { parseMarkdownFile } from '../../utils/markdown'
 
 export interface PluginOptions {

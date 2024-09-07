@@ -1,6 +1,6 @@
-import type { ColDefaultValue, ColSettings, FictionDbTableSettings } from '@fiction/core'
-import { Col, FictionDbTable, dayjs } from '@fiction/core'
+import { Col, dayjs, FictionDbTable } from '@fiction/core'
 import { z } from 'zod'
+import type { ColDefaultValue, ColSettings, FictionDbTableSettings } from '@fiction/core'
 import type { TimeLineInterval } from '../types.js'
 import type { FictionEvent } from '../typesTracking.js'
 import type { BaseChartData, ClickHouseDatatype, FictionClickHouse } from './index.js'

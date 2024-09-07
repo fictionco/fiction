@@ -1,17 +1,17 @@
 /* server-only-file */
 import path from 'node:path'
 import process from 'node:process'
-import fs from 'fs-extra'
-import type { ExecaError, ResultPromise } from 'execa'
 import enquirer from 'enquirer'
-import type { ReleaseType } from 'semver'
+import fs from 'fs-extra'
 import semver from 'semver'
-import type { FictionEnv } from '../plugin-env/index.js'
+import type { ExecaError, ResultPromise } from 'execa'
+import type { ReleaseType } from 'semver'
+import { FictionPlugin, type FictionPluginSettings } from '../plugin.js'
 import { log } from '../plugin-log/index.js'
 import { getRequire, safeDirname } from '../utils/index.js'
-import type { PackageJson } from '../types/index.js'
-import { FictionPlugin, type FictionPluginSettings } from '../plugin.js'
 import { getPackages, isGitDirty } from './utils.js'
+import type { FictionEnv } from '../plugin-env/index.js'
+import type { PackageJson } from '../types/index.js'
 
 const { prompt } = enquirer
 

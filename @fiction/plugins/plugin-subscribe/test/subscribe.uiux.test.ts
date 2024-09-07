@@ -1,7 +1,7 @@
-import { afterAll, describe, expect, it } from 'vitest'
-import { createUiTestingKit } from '@fiction/core/test-utils/kit.js'
-import type { EmailVars } from '@fiction/plugin-transactions/action.js'
 import { createTestUser } from '@fiction/core/test-utils/init.js'
+import { createUiTestingKit } from '@fiction/core/test-utils/kit.js'
+import { afterAll, describe, expect, it } from 'vitest'
+import type { EmailVars } from '@fiction/plugin-transactions/action.js'
 import { setup } from './kit.main.js'
 
 describe('subscribe uiux', { retry: 3 }, async () => {

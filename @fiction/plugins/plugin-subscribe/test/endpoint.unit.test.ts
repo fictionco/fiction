@@ -1,7 +1,7 @@
 import { abort } from '@fiction/core'
-import { describe, expect, it } from 'vitest'
 import { createTestUser } from '@fiction/core/test-utils'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
+import { describe, expect, it } from 'vitest'
 import { FictionSubscribe } from '..'
 
 describe('subscriptione endpoint', async () => {

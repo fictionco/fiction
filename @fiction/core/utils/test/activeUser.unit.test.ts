@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { User } from '@fiction/core/plugin-user'
-import { vue } from '../libraries'
 import { createTestUtils } from '../../test-utils/init'
+import { vue } from '../libraries'
 
 describe('active user handling', async () => {
   const testUtils = createTestUtils()

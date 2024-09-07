@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
-import ToolForm from '@fiction/admin/tools/ToolForm.vue'
-import type { EditorTool } from '@fiction/admin'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
-import ElForm from '@fiction/ui/inputs/ElForm.vue'
-import type { Card } from '@fiction/site'
-
+import ToolForm from '@fiction/admin/tools/ToolForm.vue'
+import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui/index.js'
+import ElForm from '@fiction/ui/inputs/ElForm.vue'
+import type { EditorTool } from '@fiction/admin'
+
+import type { Card } from '@fiction/site'
+import InputEmailPreview from './InputEmailPreview.vue'
 import type { EmailCampaign } from '../campaign.js'
 import type { EmailCampaignConfig } from '../schema.js'
-import InputEmailPreview from './InputEmailPreview.vue'
 
 const props = defineProps({
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
@@ -17,7 +17,7 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
-const options = vue.computed(() => {
+const options = vue.computed<InputOption[]>(() => {
   return [
     new InputOption({ key: '*', label: 'Email Preview', input: InputEmailPreview }),
   ]
@@ -33,7 +33,7 @@ function updatePost(config: Partial<EmailCampaignConfig>) {
     <ElForm v-if="email" id="toolForm">
       <ToolForm
         :model-value="email.toConfig()"
-        :options="options"
+        :options
         :input-props="{ email, card }"
         @update:model-value="updatePost($event as Partial<EmailCampaignConfig>)"
       />

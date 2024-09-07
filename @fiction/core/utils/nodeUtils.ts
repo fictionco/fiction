@@ -1,19 +1,19 @@
 /* server-only-file */
-import path from 'node:path'
-import * as mod from 'node:module'
 import { Buffer } from 'node:buffer'
+import * as mod from 'node:module'
 import os from 'node:os'
+import path from 'node:path'
 import process from 'node:process'
 import stream from 'node:stream'
 import v8 from 'node:v8'
+import { execa } from 'execa'
 import fs from 'fs-extra'
 import type { ExecaError, ResultPromise } from 'execa'
-import { execa } from 'execa'
-import type { PackageJson } from '../types'
 import { log } from '../plugin-log'
-import { isNode } from './vars'
 import { formatBytes } from './number'
 import { waitFor } from './utils.js'
+import { isNode } from './vars'
+import type { PackageJson } from '../types'
 
 interface WhichModule {
   moduleName?: string

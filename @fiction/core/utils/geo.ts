@@ -1,8 +1,8 @@
-import type { UserGeolocation } from '@fiction/core/types/index.js'
-import { fetchWithTimeout, getNetworkIp, isLocalhostIp } from '@fiction/core/utils/index.js'
 import { log } from '@fiction/core/plugin-log/index.js'
-
+import { fetchWithTimeout, getNetworkIp, isLocalhostIp } from '@fiction/core/utils/index.js'
 import { z } from 'zod'
+
+import type { UserGeolocation } from '@fiction/core/types/index.js'
 
 export const GeoDataSchema = z.object({
   ip: z.string().optional(),

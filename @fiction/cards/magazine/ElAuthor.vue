@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { User } from '@fiction/core'
 import { dayjs, vue } from '@fiction/core'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
+import type { User } from '@fiction/core'
 
 const props = defineProps({
   user: { type: Object as vue.PropType<User>, required: true },

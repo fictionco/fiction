@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { EditorContent, useEditor } from '@tiptap/vue-3'
 import { isDarkOrLightMode, vue } from '@fiction/core'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
-import { extensions } from './extensions/index'
+import { EditorContent, useEditor } from '@tiptap/vue-3'
 import BubbleMenuEngine from './el/BubbleMenuEngine.vue'
+import { extensions } from './extensions/index'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },

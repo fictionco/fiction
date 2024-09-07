@@ -1,14 +1,14 @@
-import * as crypto from 'node:crypto'
-import path from 'node:path'
-import os from 'node:os'
 import { Buffer } from 'node:buffer'
+import * as crypto from 'node:crypto'
+import os from 'node:os'
+import path from 'node:path'
 import fs from 'fs-extra'
-import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import sharp from 'sharp'
-import type { ImageSizeOptions } from '../media'
-import { createBlurHash, createImageVariants, getExtensionFromMimeType, getFileExtensionFromFetchResponse, getMimeType, hashFile } from '../media'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { testImgPath, testSvgPath } from '../../test-utils'
+import { createBlurHash, createImageVariants, getExtensionFromMimeType, getFileExtensionFromFetchResponse, getMimeType, hashFile } from '../media'
 import { safeDirname } from '../utils'
+import type { ImageSizeOptions } from '../media'
 
 /**
  * BLURHASH

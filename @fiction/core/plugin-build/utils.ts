@@ -1,11 +1,11 @@
 import path from 'node:path'
 import process from 'node:process'
-import { glob } from 'glob'
-import type { ParsedArgs } from 'minimist'
-import minimist from 'minimist'
 import fs from 'fs-extra'
-import type { PackageJson } from '../types/index.js'
+import { glob } from 'glob'
+import minimist from 'minimist'
+import type { ParsedArgs } from 'minimist'
 import { getRequire } from '../utils/index.js'
+import type { PackageJson } from '../types/index.js'
 
 /**
  * Checks whether the working directory has uncommitted changes

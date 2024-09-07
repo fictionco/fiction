@@ -1,6 +1,6 @@
 import { FictionAws, FictionMedia, type ServiceConfig, vue } from '@fiction/core'
-import { createTestUtils } from '@fiction/core/test-utils'
 import { getEnvVars } from '@fiction/core'
+import { createTestUtils } from '@fiction/core/test-utils'
 import { EmailAction, FictionTransactions } from '..'
 
 export async function setup(args: { context?: 'node' | 'app' } = {}) {

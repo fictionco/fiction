@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { ActionItem, NavItem } from '@fiction/core'
 import { dayjs, getNavComponentType, useService, vue } from '@fiction/core'
-import type { Card } from '@fiction/site'
 import ElActions from '@fiction/ui/buttons/ElActions.vue'
 import ElModalConfirm from '@fiction/ui/ElModalConfirm.vue'
+import type { ActionItem, NavItem } from '@fiction/core'
+import type { Card } from '@fiction/site'
 import type { EmailCampaignConfig } from '../schema.js'
 
 const props = defineProps({

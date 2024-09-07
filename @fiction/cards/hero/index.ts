@@ -1,9 +1,9 @@
 import { colorTheme, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
-import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
-import { XButtonSchema } from '../schemaSets.js'
+import { z } from 'zod'
 import { standardOption } from '../inputSets'
+import { XButtonSchema } from '../schemaSets.js'
 import { stockMediaHandler } from '../stock/index.js'
 
 const templateId = 'hero'
@@ -38,7 +38,7 @@ export const schema = z.object({
 export type UserConfig = z.infer<typeof schema>
 export type OverlayConfig = z.infer<typeof overlaySchema>
 
-export const options = [
+export const options: InputOption[] = [
   standardOption.headers({}),
   standardOption.layout(),
   standardOption.buttons(),

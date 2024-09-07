@@ -1,6 +1,6 @@
-import '@fiction/core/plugin-env/hooks'
 import type Stripe from 'stripe'
 import type { FictionStripe } from './plugin'
+import '@fiction/core/plugin-env/hooks'
 
 declare module '@fiction/core/plugin-env/hooks' {
   interface FictionEnvHookDictionary {

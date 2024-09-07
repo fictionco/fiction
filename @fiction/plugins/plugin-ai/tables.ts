@@ -1,8 +1,8 @@
-import type { User } from '@fiction/core'
 import { Col, FictionDbTable } from '@fiction/core'
-import type { ColType } from '@fiction/core/tbl'
 import { standardTable } from '@fiction/core/tbl'
 import { z } from 'zod'
+import type { User } from '@fiction/core'
+import type { ColType } from '@fiction/core/tbl'
 
 export type TableSourceConfig = ColType<typeof sourceTableColumns> & { author?: User }
 

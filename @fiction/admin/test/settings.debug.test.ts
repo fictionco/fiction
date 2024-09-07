@@ -1,6 +1,6 @@
-import { afterAll, describe, expect, it } from 'vitest'
-
 import { createSiteUiTestingKit } from '@fiction/site/test/testUtils.js'
+
+import { afterAll, describe, expect, it } from 'vitest'
 import type { Organization } from '@fiction/core'
 import { getTools } from '../settings'
 

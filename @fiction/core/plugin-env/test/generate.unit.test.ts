@@ -1,9 +1,9 @@
 import path from 'node:path'
-import { createTestUtils } from '@fiction/core/test-utils/init.js'
-import { beforeAll, describe, expect, it } from 'vitest'
-import fs from 'fs-extra'
-import { safeDirname } from '@fiction/core/utils'
 import { generateStaticConfig } from '@fiction/core/plugin-env/generate.js'
+import { createTestUtils } from '@fiction/core/test-utils/init.js'
+import { safeDirname } from '@fiction/core/utils'
+import fs from 'fs-extra'
+import { beforeAll, describe, expect, it } from 'vitest'
 
 const root = new URL('.', import.meta.url).pathname
 describe('test config generator', () => {

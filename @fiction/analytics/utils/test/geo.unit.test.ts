@@ -1,9 +1,9 @@
 /**
  * @vitest-environment happy-dom
  */
-import { describe, expect, it, vi } from 'vitest'
-import { getGeo, getGeoFree, setUserGeolocation } from '@fiction/core/utils/geo'
 import { fetchWithTimeout } from '@fiction/core/utils'
+import { getGeo, getGeoFree, setUserGeolocation } from '@fiction/core/utils/geo'
+import { describe, expect, it, vi } from 'vitest'
 
 // Mock the utilities used in the geo functions
 vi.mock('@fiction/core/utils', () => ({

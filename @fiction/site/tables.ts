@@ -1,9 +1,9 @@
 import { validHost } from '@fiction/core'
-import type { ColType } from '@fiction/core'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
 import { z } from 'zod'
-import type { SiteUserConfig } from './schema.js'
+import type { ColType } from '@fiction/core'
 import type { CardGenerationConfig } from './generation.js'
+import type { SiteUserConfig } from './schema.js'
 import type { EditorState } from './site.js'
 
 export const tableNames = { sites: 'fiction_site', pages: 'fiction_site_pages', domains: 'fiction_site_domains' }

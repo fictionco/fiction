@@ -1,8 +1,8 @@
 import process from 'node:process'
 import type express from 'express'
 import { log } from '../plugin-log'
-import { getCommit, getVersion } from './vars'
 import { getNodeOs } from './nodeUtils.js'
+import { getCommit, getVersion } from './vars'
 
 export function getServerHealth(args: { expressApp: express.Express, id: string }) {
   const { expressApp, id = 'unknown' } = args

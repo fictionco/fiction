@@ -1,12 +1,12 @@
 /**
  * @vitest-environment happy-dom
  */
-import { afterAll, describe, expect, it, vi } from 'vitest'
 import jwt from 'jsonwebtoken'
-import { createUserToken, decodeUserToken, manageClientUserToken } from '../jwt'
-
+import { afterAll, describe, expect, it, vi } from 'vitest'
 import { createTestUtils } from '../../test-utils/init'
+
 import { getCookie, getNakedDomain } from '../cookie'
+import { createUserToken, decodeUserToken, manageClientUserToken } from '../jwt'
 
 describe('user token', async () => {
   const testUtils = createTestUtils()

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { ActionButton } from '@fiction/core/schemas/schemas.js'
 import { shortId, vue } from '@fiction/core'
-import type { UiElementSize } from '../utils'
+import type { ActionButton } from '@fiction/core/schemas/schemas.js'
 import { animateItemEnter, useElementVisible } from '../anim'
 import XButton from './XButton.vue'
+import type { UiElementSize } from '../utils'
 
 const props = defineProps({
   actions: { type: Array as vue.PropType<ActionButton[]>, default: () => [] },

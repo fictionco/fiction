@@ -1,5 +1,5 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { FictionEnv } from '@fiction/core/plugin-env'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { Endpoint } from '../endpoint'
 
 const mockData = { sampleData: 123 }

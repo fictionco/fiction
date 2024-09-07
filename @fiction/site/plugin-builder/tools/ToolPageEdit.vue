@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
-import { InputOption } from '@fiction/ui'
-import ElInput from '@fiction/ui/inputs/ElInput.vue'
-import ElForm from '@fiction/ui/inputs/ElForm.vue'
-import type { AdminEditorController, EditorTool } from '@fiction/admin'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
 import ToolForm from '@fiction/admin/tools/ToolForm.vue'
-import type { Site } from '../../site'
+import { vue } from '@fiction/core'
+import { InputOption } from '@fiction/ui'
+import ElForm from '@fiction/ui/inputs/ElForm.vue'
+import ElInput from '@fiction/ui/inputs/ElInput.vue'
+import type { AdminEditorController, EditorTool } from '@fiction/admin'
 import { requestManagePage } from '../../utils/region'
 import InputSlug from '../InputSlug.vue'
+import type { Site } from '../../site'
 import type { ToolKeys } from './tools.js'
 
 const props = defineProps({
@@ -21,7 +21,7 @@ const loading = vue.ref(false)
 
 const page = vue.computed(() => props.site.editPageConfig.value)
 
-const options = vue.computed(() => {
+const options = vue.computed<InputOption[]>(() => {
   return [
     new InputOption({
       key: 'manageLayout',

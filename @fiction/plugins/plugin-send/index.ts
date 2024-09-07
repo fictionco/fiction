@@ -1,12 +1,12 @@
-import type { FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionPluginSettings, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
-import type { FictionTransactions } from '@fiction/plugin-transactions'
 import type { FictionAdmin } from '@fiction/admin'
-import type { FictionPosts } from '@fiction/posts'
+import type { FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionPluginSettings, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 import type { FictionSubscribe } from '@fiction/plugin-subscribe'
-import type { ExtensionManifest } from '../plugin-extend'
+import type { FictionTransactions } from '@fiction/plugin-transactions'
+import type { FictionPosts } from '@fiction/posts'
 import { ManageCampaign, ManageSend } from './endpoint'
 import { sendTable } from './schema.js'
+import type { ExtensionManifest } from '../plugin-extend'
 
 export type FictionSendSettings = {
   fictionDb: FictionDb

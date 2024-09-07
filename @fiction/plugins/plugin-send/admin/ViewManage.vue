@@ -1,9 +1,9 @@
 <script lang="ts" setup>
+import SettingsTool from '@fiction/admin/settings/SettingsTool.vue'
 import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import SettingsTool from '@fiction/admin/settings/SettingsTool.vue'
-import type { FictionSend } from '../index.js'
 import { getTools } from './tools.js'
+import type { FictionSend } from '../index.js'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },

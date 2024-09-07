@@ -1,6 +1,6 @@
-import { afterAll, describe, it } from 'vitest'
-
 import { createSiteUiTestingKit } from '@fiction/site/test/testUtils.js'
+
+import { afterAll, describe, it } from 'vitest'
 
 describe('settings e2e', async () => {
   const kit = await createSiteUiTestingKit({ initUser: true, headless: false, slowMo: 0 })

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
-import type { Card } from '@fiction/site'
 import ElImage from '@fiction/ui/media/ElImage.vue'
+import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
 
 import type { UserConfig } from './index.js'

@@ -1,8 +1,8 @@
-import { FictionPlugin, WriteBuffer, dayjs, groupBy, objectId } from '@fiction/core'
-import type { FictionEvent } from '../typesTracking'
-import type { SessionEvent, SessionStarted } from '../tables'
+import { dayjs, FictionPlugin, groupBy, objectId, WriteBuffer } from '@fiction/core'
 import { eventFields } from '../tables'
-import { ReferrerUtility, getGeo, parseUa, standardUrl } from './utils'
+import { getGeo, parseUa, ReferrerUtility, standardUrl } from './utils'
+import type { SessionEvent, SessionStarted } from '../tables'
+import type { FictionEvent } from '../typesTracking'
 import type { FictionBeaconSettings } from './index.js'
 
 export class SessionManager extends FictionPlugin<FictionBeaconSettings> {

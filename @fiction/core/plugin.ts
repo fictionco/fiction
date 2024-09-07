@@ -1,11 +1,11 @@
-import { toSlug } from './utils/casing.js'
-import { omit } from './utils/obj.js'
-import type { CreateEndpointRequestsParams, EndpointMap } from './utils/endpoint.js'
-import { createEndpointRequests } from './utils/endpoint.js'
-import type { LogHelper } from './plugin-log/index.js'
 import { log } from './plugin-log/index.js'
-import type { Query } from './query.js'
+import { toSlug } from './utils/casing.js'
+import { createEndpointRequests } from './utils/endpoint.js'
+import { omit } from './utils/obj.js'
 import type { FictionEnv } from './plugin-env/index.js'
+import type { LogHelper } from './plugin-log/index.js'
+import type { Query } from './query.js'
+import type { CreateEndpointRequestsParams, EndpointMap } from './utils/endpoint.js'
 
 export type FictionPluginSettings = {
   fictionEnv: FictionEnv

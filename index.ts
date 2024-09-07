@@ -1,8 +1,8 @@
 import process from 'node:process'
-import type { Buffer } from 'node:buffer'
-import type { ServiceConfig } from '@fiction/core/index.js'
 import { CliCommand, FictionBundle, FictionEnv, FictionRelease, log, safeDirname } from '@fiction/core/index.js'
 import { execa } from 'execa'
+import type { ServiceConfig } from '@fiction/core/index.js'
+import type { Buffer } from 'node:buffer'
 import { version } from './package.json'
 
 const logger = log.contextLogger('Root Build')

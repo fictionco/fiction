@@ -1,9 +1,8 @@
-import type { PostItem } from '@fiction/core'
 import { vue } from '@fiction/core'
-import type { Site } from '@fiction/site'
 import { CardTemplate } from '@fiction/site'
-import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
+import { z } from 'zod'
+import type { PostItem } from '@fiction/core'
 import { standardOption } from '../inputSets'
 import { stockMediaHandler } from '../stock/index.js'
 
@@ -127,10 +126,10 @@ const template = new CardTemplate({
   el,
   options: [
     standardOption.postItems({ key: 'items', label: 'Showcase Items' }),
-    new InputOption({ key: 'aspect', label: 'Image Aspect', input: 'InputSelect', list: aspects, default: () => 'golden' }),
-    new InputOption({ key: 'gridColsMax', label: 'Max Grid Columns', input: 'InputSelect', list: gridCols, default: () => '4' }),
-    new InputOption({ key: 'gridColsMin', label: 'Min Grid Columns', input: 'InputSelect', list: ['1', '2'], default: () => '1' }),
-  ],
+    new InputOption({ key: 'aspect', label: 'Image Aspect', input: 'InputSelect', list: aspects }),
+    new InputOption({ key: 'gridColsMax', label: 'Max Grid Columns', input: 'InputSelect', list: gridCols }),
+    new InputOption({ key: 'gridColsMin', label: 'Min Grid Columns', input: 'InputSelect', list: ['1', '2'] }),
+  ] as InputOption[],
   getUserConfig: () => getDefaultConfig(),
   schema: UserConfigSchema,
   demoPage: async () => {

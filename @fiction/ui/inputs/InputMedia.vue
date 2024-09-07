@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import { toLabel, useService, vue } from '@fiction/core'
+import { useService, vue } from '@fiction/core'
 import type { MediaObject, TableMediaConfig } from '@fiction/core'
-import ElImage from '../media/ElImage.vue'
-import ElModal from '../ElModal.vue'
-import XButton from '../buttons/XButton.vue'
-import ElSpinner from '../loaders/ElSpinner.vue'
-import EffectMasonry from '../effect/EffectMasonry.vue'
 import TransitionSlide from '../anim/TransitionSlide.vue'
-import InputMediaUpload from './InputMediaUpload.vue'
+import XButton from '../buttons/XButton.vue'
+import EffectMasonry from '../effect/EffectMasonry.vue'
+import ElModal from '../ElModal.vue'
+import ElSpinner from '../loaders/ElSpinner.vue'
+import ElImage from '../media/ElImage.vue'
 import ElInput from './ElInput.vue'
+import InputMediaUpload from './InputMediaUpload.vue'
 
 defineOptions({ name: 'InputMedia' })
 

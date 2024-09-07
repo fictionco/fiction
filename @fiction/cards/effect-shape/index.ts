@@ -1,7 +1,7 @@
 import { BlendModesSchema, UiOriginSchema, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
-import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
+import { z } from 'zod'
 
 const templateId = 'effectShape'
 
@@ -31,7 +31,7 @@ async function getUserConfig(): Promise<UserConfig> {
   return { }
 }
 
-const options = [
+const options: InputOption[] = [
   new InputOption({
     input: 'InputList',
     key: `shapes`,

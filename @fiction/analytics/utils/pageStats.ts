@@ -1,6 +1,6 @@
 import { log } from '@fiction/core/plugin-log/index.js'
-import { debounce, localRef, throttle, vue } from '@fiction/core/utils/index.js'
 import { onBrowserEvent } from '@fiction/core/utils/eventBrowser.js'
+import { debounce, localRef, throttle, vue } from '@fiction/core/utils/index.js'
 import { ActivityTrigger } from './tracking.js'
 
 abstract class PageStat {

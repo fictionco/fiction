@@ -1,11 +1,11 @@
+import { colorList, colorTheme } from '@fiction/core'
+import { InputOption } from '@fiction/ui'
 import { describe, expect, it } from 'vitest'
 import { z } from 'zod'
-import { InputOption } from '@fiction/ui'
-import { colorList, colorTheme } from '@fiction/core'
 import { collectKeysFromOptions, refineOptions, zodSchemaToDotPathRecord, zodToSimpleSchema } from '../schema'
 
 describe('schema tools', () => {
-  const options = [
+  const options: InputOption[] = [
     new InputOption({ key: 'text', label: 'test', input: 'InputText' }),
     new InputOption({ key: 'sub', label: 'whatever', input: 'InputList', options: [
       new InputOption({ key: 'subText', label: 'subText', input: 'InputText' }),
@@ -130,7 +130,7 @@ describe('schema tools', () => {
       }
     `)
 
-    const ops = [
+    const ops: InputOption[] = [
       new InputOption({ key: 'scheme.flip', label: 'Reverse Color Scheme', input: 'InputCheckbox' }),
       new InputOption({ key: 'scheme.light', label: 'Light Mode', input: 'group', options: [
         new InputOption({ key: 'scheme.light.bg.color', label: 'Light Background Color', input: 'InputColor' }),

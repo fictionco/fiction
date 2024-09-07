@@ -1,11 +1,11 @@
-import type { EndpointMeta, EndpointResponse, TableMediaConfig } from '@fiction/core'
-import { Query, Shortcodes, abort, objectId, toLabel } from '@fiction/core'
-import type { PineconeRecord, RecordMetadata } from '@pinecone-database/pinecone'
+import { abort, objectId, Query, Shortcodes, toLabel } from '@fiction/core'
 import { Pinecone } from '@pinecone-database/pinecone'
+import type { EndpointMeta, EndpointResponse, TableMediaConfig } from '@fiction/core'
+import type { PineconeRecord, RecordMetadata } from '@pinecone-database/pinecone'
 
-import type { SourceItem } from './tables'
 import { Document, TextSplitter } from './splitter'
 import type { FictionAi, FictionAiSettings } from '.'
+import type { SourceItem } from './tables'
 
 type QueryAiSettings = { fictionAi: FictionAi } & FictionAiSettings
 

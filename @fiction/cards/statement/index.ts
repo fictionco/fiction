@@ -1,12 +1,12 @@
 import { ActionButtonSchema, vue } from '@fiction/core'
-import type { Site, TableCardConfig } from '@fiction/site'
 import { CardTemplate } from '@fiction/site'
-import { z } from 'zod'
-import { InputOption } from '@fiction/ui'
-import type { SiteUserConfig } from '@fiction/site/schema'
 import { CardFactory } from '@fiction/site/cardFactory'
-import { standardOption } from '../inputSets'
+import { InputOption } from '@fiction/ui'
+import { z } from 'zod'
+import type { Site, TableCardConfig } from '@fiction/site'
+import type { SiteUserConfig } from '@fiction/site/schema'
 import { getCardTemplates } from '../index.js'
+import { standardOption } from '../inputSets'
 import { stockMediaHandler } from '../stock/index.js'
 
 const templateId = 'statement'
@@ -76,7 +76,7 @@ async function getUserConfig(): Promise<UserConfig & SiteUserConfig> {
   }
 }
 
-const options = [
+const options: InputOption[] = [
   standardOption.ai(),
   new InputOption({
     input: 'InputList',

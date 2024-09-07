@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
-import type { Card } from '@fiction/site'
 import EffectParallaxBackground from '@fiction/ui/effect/EffectParallaxBackground.vue'
+import type { Card } from '@fiction/site'
 import CardContent from './CardContent.vue'
 import type { UserConfig } from '.'
 

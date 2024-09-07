@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { vue } from '@fiction/core'
-import type { UiElementSize } from '../utils'
 import { textInputClasses } from './theme'
+import type { UiElementSize } from '../utils'
 
 defineProps({
   modelValue: { type: [String], default: '' },

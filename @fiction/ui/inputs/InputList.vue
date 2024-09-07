@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { getNested, setNested, shortId, vue, waitFor } from '@fiction/core'
-import ElButton from '../ElButton.vue'
 import TransitionSlide from '../anim/TransitionSlide.vue'
+import ElButton from '../ElButton.vue'
 import ElInput from './ElInput.vue'
 import type { InputOption } from '.'
 

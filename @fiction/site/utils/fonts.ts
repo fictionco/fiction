@@ -1,6 +1,6 @@
+import { vue } from '@fiction/core'
 import { createGoogleFontsLink, safeStacks } from '@fiction/core/utils/fonts'
 import { deepMerge } from '@fiction/core/utils/obj'
-import { vue } from '@fiction/core'
 import type { Site } from '..'
 
 export type FontConfigVal = { fontKey?: string, stack: 'monospace' | 'sans' | 'serif' }

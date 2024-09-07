@@ -1,6 +1,6 @@
-import type { vueRouter } from '../utils/libraries.js'
-import type { User } from '../plugin-user/types.js'
 import type { FictionUser } from '../plugin-user/index.js'
+import type { User } from '../plugin-user/types.js'
+import type { vueRouter } from '../utils/libraries.js'
 import type { FictionRouter } from './index.js'
 
 export interface BaseCompiledConfig {

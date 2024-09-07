@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { type IndexItem, getNavComponentType, useService, vue } from '@fiction/core'
-import type { Card } from '@fiction/site'
-import type { FictionPosts, Post, TablePostConfig } from '@fiction/posts'
+import { getNavComponentType, type IndexItem, useService, vue } from '@fiction/core'
+import { postLink, taxonomyLink } from '@fiction/posts'
 import ClipPathAnim from '@fiction/ui/anim/AnimClipPath.vue'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElBadge from '@fiction/ui/common/ElBadge.vue'
 import El404 from '@fiction/ui/page/El404.vue'
-import { postLink, taxonomyLink } from '@fiction/posts'
-import XButton from '@fiction/ui/buttons/XButton.vue'
+import type { FictionPosts, Post, TablePostConfig } from '@fiction/posts'
+import type { Card } from '@fiction/site'
 import ElAuthor from './ElAuthor.vue'
 import type { UserConfig } from '.'
 

@@ -1,17 +1,17 @@
+import * as unhead from '@unhead/vue'
 import * as axios from 'axios'
-import knex from 'knex'
-import * as vue from 'vue'
-import * as vueRouter from 'vue-router'
-import dayjs from 'dayjs'
 import chalk from 'chalk'
+import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime.js'
-import utc from 'dayjs/plugin/utc.js'
 import timezone from 'dayjs/plugin/timezone.js'
 import updateLocale from 'dayjs/plugin/updateLocale.js'
+import utc from 'dayjs/plugin/utc.js'
 import weekOfYear from 'dayjs/plugin/weekOfYear.js'
 import createDOMPurify from 'dompurify'
-import * as unhead from '@unhead/vue'
+import knex from 'knex'
 import { twMerge } from 'tailwind-merge'
+import * as vue from 'vue'
+import * as vueRouter from 'vue-router'
 
 dayjs.extend(relativeTime)
 dayjs.extend(utc)
@@ -45,4 +45,4 @@ function clean(text: unknown) {
   // Sanitize the text
   return DOMPurify.sanitize(text, config)
 }
-export { dayjs, axios, knex, chalk, vue, vueRouter, clean, unhead, twMerge }
+export { axios, chalk, clean, dayjs, knex, twMerge, unhead, vue, vueRouter }

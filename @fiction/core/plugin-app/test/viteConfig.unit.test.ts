@@ -1,6 +1,6 @@
-import type { TestUtils } from '@fiction/core/test-utils/init'
 import { createTestUtils } from '@fiction/core/test-utils/init'
 import { beforeAll, describe, expect, it } from 'vitest'
+import type { TestUtils } from '@fiction/core/test-utils/init'
 import type * as vite from 'vite'
 
 let viteConfig: vite.InlineConfig | undefined

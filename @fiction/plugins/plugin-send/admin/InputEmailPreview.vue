@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { useService, vue } from '@fiction/core'
-import type { Card } from '@fiction/site'
-
-import type { TransactionalEmailConfig } from '@fiction/core/plugin-email/index.js'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
+
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
-import type { EmailCampaignConfig } from '../schema.js'
+import type { TransactionalEmailConfig } from '@fiction/core/plugin-email/index.js'
+import type { Card } from '@fiction/site'
 import { getEmailForCampaign } from '../utils.js'
 import type { FictionSend } from '../index.js'
+import type { EmailCampaignConfig } from '../schema.js'
 
 const props = defineProps({
   modelValue: { type: Object as vue.PropType<EmailCampaignConfig>, default: undefined },

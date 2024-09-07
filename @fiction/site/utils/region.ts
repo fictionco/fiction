@@ -1,6 +1,6 @@
 import { log } from '@fiction/core'
-import type { Site } from '../index.js'
 import { Card } from '../card.js'
+import type { Site } from '../index.js'
 import type { CardConfigPortable, PageRegion, TableCardConfig } from '../tables.js'
 
 const logger = log.contextLogger('regionUtils')

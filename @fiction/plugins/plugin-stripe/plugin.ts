@@ -1,13 +1,13 @@
-import './register'
-import type express from 'express'
-import type { FictionApp, FictionDb, FictionEnv, FictionPluginSettings, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
-import { Endpoint, FictionPlugin, abort, dayjs, isActualBrowser, toLabel, vue } from '@fiction/core'
-
-import type * as StripeJS from '@stripe/stripe-js'
+import { abort, dayjs, Endpoint, FictionPlugin, isActualBrowser, toLabel, vue } from '@fiction/core'
 import Stripe from 'stripe'
-import { getCycleRange } from './utils'
+import type { FictionApp, FictionDb, FictionEnv, FictionPluginSettings, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
+import type * as StripeJS from '@stripe/stripe-js'
+
+import type express from 'express'
 import { QueryGetCustomerData, QueryListSubscriptions, QueryManageCustomer } from './endpoints'
+import { getCycleRange } from './utils'
 import type * as types from './types'
+import './register'
 
 interface CheckoutQueryParams {
   priceId?: string

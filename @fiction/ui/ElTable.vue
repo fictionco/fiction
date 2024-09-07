@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { ActionItem, IndexMeta } from '@fiction/core'
 import { onResetUi, resetUi, toLabel, vue } from '@fiction/core'
-import ElZeroBanner from './ElZeroBanner.vue'
+import type { ActionItem, IndexMeta } from '@fiction/core'
 import ElButton from './ElButton.vue'
+import ElZeroBanner from './ElZeroBanner.vue'
 import InputCheckbox from './inputs/InputCheckbox.vue'
 import ElSpinner from './loaders/ElSpinner.vue'
 
@@ -46,7 +46,7 @@ const props = defineProps({
   size: { type: String as vue.PropType<'xs' | 'md'>, default: undefined },
   loading: { type: Boolean, default: false },
   onRowClick: {
-    type: Function as vue.PropType<(id: string) => void>,
+    type: Function as vue.PropType<((id: string) => void) | undefined>,
     default: undefined,
   },
 })

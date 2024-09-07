@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { FictionApp, FictionAppEntry, FictionRouter } from '@fiction/core'
 import { log, unhead, useService, vue } from '@fiction/core'
-import type { FictionSites } from '..'
+import type { FictionApp, FictionAppEntry, FictionRouter } from '@fiction/core'
 import { getMountContext } from '../load'
+import type { FictionSites } from '..'
 
 const service = useService<{ fictionAppSites: FictionApp, fictionRouterSites: FictionRouter, fictionSites: FictionSites }>()
 

@@ -16,7 +16,7 @@
     "@aws-sdk/client-cloudfront": "^3.645.0",
     "@aws-sdk/client-s3": "^3.645.0",
     "@egoist/tailwindcss-icons": "^1.8.1",
-    "@faker-js/faker": "^8.4.1",
+    "@faker-js/faker": "^9.0.0",
     "@iconify-json/carbon": "^1.2.1",
     "@iconify-json/ci": "^1.2.0",
     "@iconify-json/clarity": "^1.2.0",

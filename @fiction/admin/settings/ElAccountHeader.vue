@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { Card } from '@fiction/site/card'
 import { dayjs, gravatarUrlSync, useService, vue } from '@fiction/core/index.js'
 import ElModal from '@fiction/ui/ElModal.vue'
-import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import { InputOption } from '@fiction/ui/index.js'
+import ElForm from '@fiction/ui/inputs/ElForm.vue'
+import type { Card } from '@fiction/site/card'
 import ToolForm from '../tools/ToolForm.vue'
-import type { FictionAdmin } from '..'
 import ElHeader from './ElHeader.vue'
+import type { FictionAdmin } from '..'
 
 defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
@@ -90,7 +90,7 @@ const toolFormOptions = vue.computed<InputOption[]>(() => {
 
   const actions = codeSent.value ? [submitAction] : [requestAction]
 
-  const options = [
+  const options: InputOption[] = [
     new InputOption({ key: 'email', label: 'New Email Address', input: 'InputEmail', placeholder: 'New Email Address' }),
     new InputOption({ key: 'code', label: 'One Time Code', input: 'InputOneTimeCode', placeholder: '••••••', isHidden: !codeSent.value }),
     new InputOption({ key: 'actions', input: 'InputActions', props: { actions, defaultSize: 'md' } }),

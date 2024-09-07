@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { FictionUser } from '@fiction/core'
 import { getNetworkIp, useService, vue } from '@fiction/core'
+import type { FictionUser } from '@fiction/core'
 import ElButton from '../ElButton.vue'
 
 export interface BlockIp {

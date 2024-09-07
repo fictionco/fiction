@@ -1,9 +1,9 @@
-import type { DataFilter, EndpointMeta, EndpointResponse, IndexQuery } from '@fiction/core'
 import { Query } from '@fiction/core'
+import type { DataFilter, EndpointMeta, EndpointResponse, IndexQuery } from '@fiction/core'
 import type { EmailResponse } from '@fiction/core/plugin-email/endpoint.js'
-import type { FormConfigPortable, FormSubmissionConfig } from './schema.js'
 import { t } from './schema.js'
 import type { FictionForms, FormPluginSettings } from './index.js'
+import type { FormConfigPortable, FormSubmissionConfig } from './schema.js'
 
 type FormSubmissionSettings = {
   fictionForms: FictionForms

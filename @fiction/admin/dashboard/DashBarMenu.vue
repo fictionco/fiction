@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { IndexItem, ListItem } from '@fiction/core'
 import { getNavComponentType, onResetUi, useService, vue } from '@fiction/core'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
+import type { IndexItem, ListItem } from '@fiction/core'
 import type { Site } from '../../site'
 
 defineProps({

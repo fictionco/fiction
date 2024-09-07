@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import { toSlug, vue } from '@fiction/core'
-import { InputOption } from '@fiction/ui'
-import ElInput from '@fiction/ui/inputs/ElInput.vue'
-import ElForm from '@fiction/ui/inputs/ElForm.vue'
-import type { AdminEditorController, EditorTool } from '@fiction/admin'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
 import ToolForm from '@fiction/admin/tools/ToolForm.vue'
-import type { Site } from '../../site'
-import { saveSite, updateSite } from '../../utils/site'
+import { toSlug, vue } from '@fiction/core'
+import { InputOption } from '@fiction/ui'
+import ElForm from '@fiction/ui/inputs/ElForm.vue'
+import ElInput from '@fiction/ui/inputs/ElInput.vue'
+import type { AdminEditorController, EditorTool } from '@fiction/admin'
 import { imageStyle } from '../../util'
+import { saveSite, updateSite } from '../../utils/site'
+import type { Site } from '../../site'
 import type { ToolKeys } from './tools'
 
 const props = defineProps({
@@ -19,8 +19,7 @@ const props = defineProps({
 
 const loading = vue.ref(false)
 
-const options = [
-
+const options: InputOption[] = [
   new InputOption({
     key: 'siteGlobal',
     label: 'Global Site Details',

@@ -1,11 +1,11 @@
 import { abort, dayjs } from '@fiction/core'
-import { afterAll, describe, expect, it, vi } from 'vitest'
 import { createTestUser, getTestEmail } from '@fiction/core/test-utils'
-import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { FictionPosts } from '@fiction/posts'
+import { createSiteTestUtils } from '@fiction/site/test/testUtils'
+import { afterAll, describe, expect, it, vi } from 'vitest'
 import { FictionSend } from '..'
-import type { EmailCampaignConfig } from '../schema'
 import { ManageSend } from '../endpoint.js'
+import type { EmailCampaignConfig } from '../schema'
 
 describe('email send endpoint', async () => {
   const testUtils = await createSiteTestUtils()

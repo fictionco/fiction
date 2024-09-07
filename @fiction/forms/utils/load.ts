@@ -1,9 +1,9 @@
 import type { Site } from '@fiction/site'
-import { getFormTemplates } from '../formTemplates'
-import type { FormConfigPortable } from '../schema'
 import { Form } from '../form'
+import { getFormTemplates } from '../formTemplates'
 import { getCardTemplates } from '../templates'
 import type { FictionForms } from '..'
+import type { FormConfigPortable } from '../schema'
 
 export async function loadForm(args: { formId?: string, formTemplateId?: string, site: Site, fictionForms: FictionForms }): Promise<Form> {
   const { formId, formTemplateId, site, fictionForms } = args

@@ -1,8 +1,8 @@
 import { createTestUser } from '@fiction/core/test-utils/init'
 
+import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, describe, expect, it } from 'vitest'
 import type { DataFilter } from '@fiction/core'
-import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { FictionPosts } from '..'
 import type { ManagePostParams, ManageTaxonomyParams } from '../endpoint'
 

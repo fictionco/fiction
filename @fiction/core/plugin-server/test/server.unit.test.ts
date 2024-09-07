@@ -1,13 +1,13 @@
 /**
  * @vitest-environment happy-dom
  */
-import type http from 'node:http'
-import type { TestUtils } from '@fiction/core/test-utils/init'
-import { createTestUtils } from '@fiction/core/test-utils/init'
-import { afterEach, beforeAll, describe, expect, it } from 'vitest'
-import { axios, randomBetween, vue } from '@fiction/core/utils'
-import type { EndpointResponse } from '@fiction/core/types'
 import { FictionUser } from '@fiction/core/plugin-user'
+import { createTestUtils } from '@fiction/core/test-utils/init'
+import { axios, randomBetween, vue } from '@fiction/core/utils'
+import { afterEach, beforeAll, describe, expect, it } from 'vitest'
+import type { TestUtils } from '@fiction/core/test-utils/init'
+import type { EndpointResponse } from '@fiction/core/types'
+import type http from 'node:http'
 import { FictionServer } from '..'
 
 let testUtils: TestUtils

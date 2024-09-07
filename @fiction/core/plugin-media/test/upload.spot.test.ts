@@ -3,17 +3,17 @@
  * https://vitest.dev/config/#environment
  */
 import fs from 'node:fs'
-import { fileFromPath } from 'formdata-node/file-from-path'
-
-import { describe, expect, it } from 'vitest'
 import { FormData } from 'formdata-node'
+
+import { fileFromPath } from 'formdata-node/file-from-path'
+import { describe, expect, it } from 'vitest'
 import type { EndpointMeta } from '@fiction/core/utils'
-import type { TestUtils } from '../../test-utils/init'
-import { createTestUtils } from '../../test-utils/init'
-import { testEnvFile, testImgPath } from '../../test-utils'
 import { FictionMedia } from '..'
 import { FictionAws } from '../../plugin-aws'
+import { testEnvFile, testImgPath } from '../../test-utils'
+import { createTestUtils } from '../../test-utils/init'
 import { getEnvVars } from '../../utils'
+import type { TestUtils } from '../../test-utils/init'
 
 describe('media upload/download tests', async () => {
   let url: string | undefined

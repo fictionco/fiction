@@ -1,15 +1,15 @@
-import type http from 'node:http'
 import path from 'node:path'
 import fs from 'fs-extra'
-import type { ViteDevServer } from 'vite'
 import { createServer } from 'vite'
-import type { Browser, BrowserContextOptions, LaunchOptions } from 'playwright'
 import type { faker } from '@faker-js/faker'
-import { createExpressApp, safeDirname, vue } from '../utils'
-import type { FictionPluginSettings } from '../plugin'
-import { FictionPlugin } from '../plugin'
+import type http from 'node:http'
+import type { Browser, BrowserContextOptions, LaunchOptions } from 'playwright'
+import type { ViteDevServer } from 'vite'
 import { version } from '../package.json'
+import { FictionPlugin } from '../plugin'
+import { createExpressApp, safeDirname, vue } from '../utils'
 import sharedConfig from './vite.config'
+import type { FictionPluginSettings } from '../plugin'
 
 interface TestingConfig {
   headless?: boolean

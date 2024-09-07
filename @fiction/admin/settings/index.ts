@@ -1,12 +1,12 @@
-import { InputOption } from '@fiction/ui'
 import { type ActionItem, type StandardServices, vue } from '@fiction/core'
+import { InputOption } from '@fiction/ui'
 
 import { SettingsTool } from '../types'
-import ElOrgHeader from './ElOrgHeader.vue'
 import ElAccountHeader from './ElAccountHeader.vue'
+import ElOrgHeader from './ElOrgHeader.vue'
 
 export function newOrgOptions(args: { title: string, actionsRef?: vue.Ref<ActionItem[]> }) {
-  return vue.computed(() => {
+  return vue.computed<InputOption>(() => {
     const { title, actionsRef } = args
 
     const actions = actionsRef?.value || []

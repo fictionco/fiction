@@ -1,6 +1,6 @@
 /* server-only-file */
-import requestIp from 'request-ip'
 import ipUtil from 'ipaddr.js'
+import requestIp from 'request-ip'
 import type express from 'express'
 
 /**

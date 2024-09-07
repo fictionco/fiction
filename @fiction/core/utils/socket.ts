@@ -1,20 +1,20 @@
-import http from 'node:http'
-
 // eslint-disable-next-line unicorn/prefer-node-protocol
 import { EventEmitter } from 'events'
+
+import http from 'node:http'
 import type express from 'express'
 import type * as ws from 'ws'
 import { log } from '../plugin-log/index.js'
-import type { FictionUser, User } from '../plugin-user/index.js'
+import { EndpointServer } from './endpointServer.js'
+import { emitEvent } from './event.js'
+import { objectId, shortId } from './id.js'
+import { decodeUserToken, manageClientUserToken } from './jwt.js'
+import { dayjs } from './libraries.js'
+import { fastHash, waitFor } from './utils.js'
 import type { FictionDb } from '../plugin-db/index.js'
 import type { FictionEnv } from '../plugin-env/index.js'
-import { emitEvent } from './event.js'
-import { dayjs } from './libraries.js'
-import { objectId, shortId } from './id.js'
-import { fastHash, waitFor } from './utils.js'
+import type { FictionUser, User } from '../plugin-user/index.js'
 import type { Endpoint, EndpointMeta } from './endpoint.js'
-import { EndpointServer } from './endpointServer.js'
-import { decodeUserToken, manageClientUserToken } from './jwt.js'
 
 export interface EventMap {
   [key: string]: { req?: unknown, res?: unknown }

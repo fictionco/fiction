@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { isDarkOrLightMode, isNode, vue, waitFor } from '@fiction/core'
-import { twMerge } from 'tailwind-merge'
+import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 
-import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
 import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
 import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
+import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
 import JsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
-import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+import { twMerge } from 'tailwind-merge'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },

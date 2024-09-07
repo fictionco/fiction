@@ -1,16 +1,16 @@
 <script lang="ts" setup>
-import type { StyleValue } from 'vue'
-import { computed, onMounted, ref, watch } from 'vue'
-import { onEvent } from '@fiction/core/utils/event'
-import type { ColorThemeWithInvert } from '@fiction/core/utils/colors'
 import { getColorScheme } from '@fiction/core/utils/colors'
-import type { FrameUtility } from '@fiction/ui/frame/elBrowserFrameUtil'
+import { onEvent } from '@fiction/core/utils/event'
 import chroma from 'chroma-js'
-import EmbedSlideOver from './EmbedSlideOver.vue'
+import { computed, onMounted, ref, watch } from 'vue'
+import type { ColorThemeWithInvert } from '@fiction/core/utils/colors'
+import type { FrameUtility } from '@fiction/ui/frame/elBrowserFrameUtil'
+import type { StyleValue } from 'vue'
 import EmbedModal from './EmbedModal.vue'
 import EmbedPopover from './EmbedPopover.vue'
-import { embedPosition } from './util'
+import EmbedSlideOver from './EmbedSlideOver.vue'
 import { createKeyboardListener, displaySymbols } from './keyboard'
+import { embedPosition } from './util'
 
 const props = defineProps({
   agentConfig: { type: Object, required: true },

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import type mapboxgl from 'mapbox-gl'
 import { isDarkOrLightMode, vue } from '@fiction/core'
 import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
+import type mapboxgl from 'mapbox-gl'
 
-import 'mapbox-gl/dist/mapbox-gl.css'
 import type { MapSchemaConfig } from '.'
+import 'mapbox-gl/dist/mapbox-gl.css'
 
 const props = defineProps({
   container: { type: String, default: 'mapbox' },

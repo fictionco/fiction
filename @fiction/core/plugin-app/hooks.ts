@@ -1,7 +1,7 @@
-import '@fiction/core/plugin-env/hooks'
-import type { InlineConfig } from 'vite'
 import type { Express } from 'express'
+import type { InlineConfig } from 'vite'
 import type { FictionAppEntry } from '../plugin-env/index.js'
+import '@fiction/core/plugin-env/hooks'
 
 declare module '@fiction/core/plugin-env/hooks.js' {
   interface FictionEnvHookDictionary {

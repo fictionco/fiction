@@ -1,9 +1,9 @@
 import { FictionObject, objectId, vue } from '@fiction/core'
-import type { TablePostConfig } from '@fiction/posts'
 import { Post } from '@fiction/posts'
-import type { EmailCampaignConfig } from './schema'
+import type { TablePostConfig } from '@fiction/posts'
 import { settingsKeys } from './schema'
 import type { FictionSend } from '.'
+import type { EmailCampaignConfig } from './schema'
 
 export type EmailConfig = { fictionSend: FictionSend } & EmailCampaignConfig
 

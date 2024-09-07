@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { resetUi, toLabel, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
-import EffectTransitionCardList from './EffectTransitionCardList.vue'
 import CardWrap from './CardWrap.vue'
+import EffectTransitionCardList from './EffectTransitionCardList.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, default: undefined },

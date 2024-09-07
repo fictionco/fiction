@@ -1,8 +1,8 @@
-import type { FictionRouter, RunVars } from '@fiction/core'
 import { log } from '@fiction/core'
-import type { ManageSiteParams } from './endpoint.js'
+import type { FictionRouter, RunVars } from '@fiction/core'
+import { createCard, Site } from './index.js'
 import { localSiteConfig } from './utils/site.js'
-import { Site, createCard } from './index.js'
+import type { ManageSiteParams } from './endpoint.js'
 import type { FictionSites, TableSiteConfig } from './index.js'
 
 const logger = log.contextLogger('siteLoader')
@@ -293,17 +293,12 @@ export function getPathsFromSite(site: Site, basePath: string = ''): string[] {
   if (!site?.pages?.value)
     return []
 
-  return site.pages.value
-    .filter(page => page.slug.value && page.slug.value !== '_404')
-    .flatMap((page) => {
-      const pagePath = page.slug.value === '_home' ? '/' : `/${page.slug.value}`
-      const cardPaths = page.cards.value
-        .filter(card => card.slug.value)
-        .map(card => `${pagePath}/${card.slug.value}`)
+  return site.pages.value.filter(page => page.slug.value && page.slug.value !== '_404').flatMap((page) => {
+    const pagePath = page.slug.value === '_home' ? '/' : `/${page.slug.value}`
+    const cardPaths = page.cards.value.filter(card => card.slug.value).map(card => `${pagePath}/${card.slug.value}`)
 
-      return [pagePath, ...cardPaths]
-    })
-    .map(path => formatPath(basePath, path))
+    return [pagePath, ...cardPaths]
+  }).map(path => formatPath(basePath, path))
 }
 
 export async function loadSitemap(args: { mode: 'static' | 'dynamic', runVars?: Partial<RunVars>, fictionRouter: FictionRouter, fictionSites: FictionSites }): Promise<{ hostname: string, paths: string[] }> {

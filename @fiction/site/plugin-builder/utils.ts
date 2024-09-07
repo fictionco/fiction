@@ -1,6 +1,6 @@
 import type { IndexItem } from '@fiction/core'
-import type { Card, Site } from '..'
 import { siteLink } from '../utils/manage.js'
+import type { Card, Site } from '..'
 
 export function getSiteIndexItemList(sites: Site[], parentCard: Card): IndexItem[] {
   if (!sites || !sites.length)

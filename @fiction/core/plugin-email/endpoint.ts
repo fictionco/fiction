@@ -1,12 +1,12 @@
-import type { Transporter } from 'nodemailer'
 import nodeMailer from 'nodemailer'
 import nodeMailerHtmlToText from 'nodemailer-html-to-text'
-import type { FictionPluginSettings } from '../plugin.js'
+import type { Transporter } from 'nodemailer'
 import { Query } from '../query.js'
 import { abort } from '../utils/index.js'
 import { type EndpointMeta, isActualBrowser } from '../utils/index.js'
-import type { EndpointResponse } from '../types/index.js'
 import { isCi } from '../utils/vars.js'
+import type { FictionPluginSettings } from '../plugin.js'
+import type { EndpointResponse } from '../types/index.js'
 import type { FictionEmail, TransactionalEmailConfig } from './index.js'
 
 export type EmailQuerySettings = FictionPluginSettings & {

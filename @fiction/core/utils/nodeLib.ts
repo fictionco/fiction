@@ -2,4 +2,4 @@
 import events from 'events'
 import path from 'path-browserify-esm'
 
-export { path, events }
+export { events, path }

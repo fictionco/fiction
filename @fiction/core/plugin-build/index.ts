@@ -1,7 +1,7 @@
 import process from 'node:process'
-import type * as vite from 'vite'
-import type * as esLexer from 'es-module-lexer'
 import type * as cjsLexer from 'cjs-module-lexer'
+import type * as esLexer from 'es-module-lexer'
+import type * as vite from 'vite'
 
 import { FictionPlugin, type FictionPluginSettings } from '../plugin.js'
 import { deepMergeAll, randomBetween, safeDirname } from '../utils/index.js'

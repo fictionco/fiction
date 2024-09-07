@@ -1,6 +1,6 @@
-import { describe, expect, it } from 'vitest'
-import { snap } from '@fiction/core/test-utils/util.js'
 import { fetchWithTimeout, log } from '@fiction/core'
+import { snap } from '@fiction/core/test-utils/util.js'
+import { describe, expect, it } from 'vitest'
 
 describe('service health checks', () => {
   const logger = log.contextLogger('Service Health')

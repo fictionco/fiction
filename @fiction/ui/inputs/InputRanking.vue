@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { ListItem } from '@fiction/core'
 import { DraggableList, normalizeList, vue } from '@fiction/core'
+import type { ListItem } from '@fiction/core'
 import InputElTab from './InputElTab.vue'
 
 const props = defineProps({

@@ -1,6 +1,6 @@
-import type { ViteDevServer } from 'vite'
-import type { FictionApp, FictionEnv, FictionPluginSettings } from '@fiction/core'
 import { FictionPlugin, safeDirname } from '@fiction/core'
+import type { FictionApp, FictionEnv, FictionPluginSettings } from '@fiction/core'
+import type { ViteDevServer } from 'vite'
 import { getServer } from './test/app'
 
 type FictionEmbedSettings = {

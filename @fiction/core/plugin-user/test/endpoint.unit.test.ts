@@ -1,10 +1,10 @@
+import { standardTable } from '@fiction/core/tbl'
 import { describe, expect, it } from 'vitest'
 import type { Request } from 'express'
-import { standardTable } from '@fiction/core/tbl'
-import { dayjs } from '../../utils/libraries'
 import { createTestUtils, getTestEmail } from '../../test-utils'
-import type { User } from '..'
+import { dayjs } from '../../utils/libraries'
 import { comparePassword } from '../utils'
+import type { User } from '..'
 import type { ManageUserParams } from '../endpoint'
 
 describe('user endpoint tests', async () => {

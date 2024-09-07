@@ -2,9 +2,9 @@
  * @vitest-environment happy-dom
  */
 
+import { mount } from '@vue/test-utils'
 import { afterAll, beforeEach, describe, expect, it } from 'vitest'
 import type { VueWrapper } from '@vue/test-utils'
-import { mount } from '@vue/test-utils'
 import InputList from '../InputList.vue'
 
 describe('yourComponent', () => {

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
-import type { Card } from '@fiction/site'
 import { animateItemEnter } from '@fiction/ui/anim'
+import type { StandardSize } from '@fiction/core'
+import type { Card } from '@fiction/site'
 import CardButton from '../CardButton.vue'
 import type { XButtonProps } from '../schemaSets'
 

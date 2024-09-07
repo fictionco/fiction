@@ -1,14 +1,14 @@
-import type { ActionItem } from '@fiction/core'
 import { MediaBasicSchema, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
-import { z } from 'zod'
 import { InputOption } from '@fiction/ui'
+import { z } from 'zod'
+import type { ActionItem } from '@fiction/core'
 import { standardOption } from '../inputSets'
-import nightPhoto from './night-photo.mp4'
-import mountainPhoto from './mountain-photo.mp4'
-import desertPhoto from './desert-photo.mp4'
-import wildlifePhoto from './wildlife-photo.mp4'
 import cityPhoto from './city-photo.jpg'
+import desertPhoto from './desert-photo.mp4'
+import mountainPhoto from './mountain-photo.mp4'
+import nightPhoto from './night-photo.mp4'
+import wildlifePhoto from './wildlife-photo.mp4'
 
 const CinemaItemSchema = z.object({
   header: z.string().optional().describe('Header text for slide'),
@@ -94,7 +94,7 @@ const UserConfigSchema = z.object({
   autoSlide: z.boolean().optional(),
 })
 
-const options = [
+const options: InputOption[] = [
   standardOption.ai(),
   new InputOption({
     input: 'InputList',
