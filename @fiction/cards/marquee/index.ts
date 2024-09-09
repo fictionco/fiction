@@ -1,11 +1,11 @@
 import { vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
+import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
 import type { MediaItem } from '@fiction/core'
+import type { Tag } from '@fiction/ui/stock/index.js'
 import { standardOption } from '../inputSets'
-import { stockMediaHandler } from '../stock/index.js'
-import type { Tag } from '../stock/index.js'
 
 const el = vue.defineAsyncComponent(async () => import('./ElMarquee.vue'))
 

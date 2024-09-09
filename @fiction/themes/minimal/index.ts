@@ -1,8 +1,8 @@
 import { getCardTemplates } from '@fiction/cards/index.js'
-import { stockMediaHandler } from '@fiction/cards/stock/index.js'
 import { safeDirname } from '@fiction/core'
 import { CardFactory } from '@fiction/site/cardFactory.js'
 import { Theme } from '@fiction/site/theme.js'
+import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import type { FictionEnv } from '@fiction/core'
 import type { Site } from '@fiction/site/site.js'
 

@@ -1,6 +1,6 @@
-import { stockMediaHandler } from '@fiction/cards/stock/index.js'
 import { createCard } from '@fiction/site/theme.js'
 import { staticFileUrls } from '@fiction/site/utils/site.js'
+import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import type { Site } from '@fiction/site/site.js'
 import { templates } from '../templates.js'
 import andrew from './img/andrew.jpg'

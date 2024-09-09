@@ -1,9 +1,9 @@
 import { vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site/card'
 import { InputOption } from '@fiction/ui'
+import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
 import { standardOption } from '../inputSets'
-import { stockMediaHandler } from '../stock/index.js'
 
 export const schema = z.object({
   heading: z.string().optional().describe('Primary headline for profile 3 to 8 words'),

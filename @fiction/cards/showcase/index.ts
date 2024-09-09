@@ -1,10 +1,10 @@
 import { vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
+import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
 import type { PostItem } from '@fiction/core'
 import { standardOption } from '../inputSets'
-import { stockMediaHandler } from '../stock/index.js'
 
 const el = vue.defineAsyncComponent(async () => import('./ElShowcase.vue'))
 const aspects = ['square', 'tall', 'wide', 'golden', 'portrait', 'landscape', 'cinema'] as const

@@ -22,22 +22,29 @@ const emit = defineEmits<{
 }>()
 
 const mediaFormat = vue.computed(() => {
-  if (props.media.format) return props.media.format
+  if (props.media.format)
+    return props.media.format
   if (props.media.url) {
     const extension = props.media.url.split('.').pop()?.toLowerCase()
-    if (extension && ['mp4', 'webm', 'ogg'].includes(extension)) return 'video'
+    if (extension && ['mp4', 'webm', 'ogg'].includes(extension))
+      return 'video'
     return 'image'
   }
-  if (props.media.html) return 'html'
-  if (props.media.typography) return 'typography'
-  if (props.media.iconId) return 'iconId'
-  if (props.media.el) return 'component'
+  if (props.media.html)
+    return 'html'
+  if (props.media.typography)
+    return 'typography'
+  if (props.media.iconId)
+    return 'iconId'
+  if (props.media.el)
+    return 'component'
   return 'url'
 })
 
 const typographyStyle = vue.computed(() => {
   const typography = props.media.typography
-  if (!typography) return {}
+  if (!typography)
+    return {}
   return {
     fontFamily: typography.font,
     fontWeight: typography.weight,
@@ -57,9 +64,11 @@ const containerClass = vue.computed(() => {
 
   if (props.alignment === 'left') {
     classes.push('justify-start')
-  } else if (props.alignment === 'center') {
+  }
+  else if (props.alignment === 'center') {
     classes.push('justify-center')
-  } else if (props.alignment === 'right') {
+  }
+  else if (props.alignment === 'right') {
     classes.push('justify-end')
   }
 
@@ -94,9 +103,11 @@ const htmlWrapperClass = vue.computed(() => {
 
   if (props.alignment === 'left') {
     classes.push('justify-start')
-  } else if (props.alignment === 'center') {
+  }
+  else if (props.alignment === 'center') {
     classes.push('justify-center')
-  } else if (props.alignment === 'right') {
+  }
+  else if (props.alignment === 'right') {
     classes.push('justify-end')
   }
 
@@ -105,21 +116,19 @@ const htmlWrapperClass = vue.computed(() => {
   return classes
 })
 
-
-
 const iconStyling = vue.computed(() => {
-
   let maskPosition = 'center'
 
   if (props.alignment === 'left') {
     maskPosition = 'left'
-  } else if (props.alignment === 'right') {
+  }
+  else if (props.alignment === 'right') {
     maskPosition = 'right'
   }
 
   return {
-    classes:  ['w-full h-full'],
-    style: {  maskPosition,  }
+    classes: ['w-full h-full'],
+    style: { maskPosition },
   }
 })
 </script>
@@ -169,7 +178,7 @@ const iconStyling = vue.computed(() => {
       </video>
     </template>
 
-    <template v-else-if="mediaFormat === 'component'" class="">
+    <template v-else-if="mediaFormat === 'component'">
       <component
         :is="media.el"
         v-bind="media"

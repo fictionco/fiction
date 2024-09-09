@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 import { v2 as cloudinary } from 'cloudinary'
 import dotenv from 'dotenv'
 import fetch from 'node-fetch'
-import { tagSet } from '../@fiction/cards/stock/tags.js'
+import { tagSet } from '../@fiction/ui/stock/tags.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -34,7 +34,7 @@ type MediaItem = {
   slug: string
 }
 
-function flattenTagSet(tagSet: typeof import('../@fiction/cards/stock/tags.js').tagSet): string[] {
+function flattenTagSet(tagSet: typeof import('../@fiction/ui/stock/tags.js').tagSet): string[] {
   return Object.values(tagSet).flat()
 }
 

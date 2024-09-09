@@ -2,12 +2,12 @@ import { ActionButtonSchema, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { CardFactory } from '@fiction/site/cardFactory'
 import { InputOption } from '@fiction/ui'
+import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
 import type { Site, TableCardConfig } from '@fiction/site'
 import type { SiteUserConfig } from '@fiction/site/schema'
 import { getCardTemplates } from '../index.js'
 import { standardOption } from '../inputSets'
-import { stockMediaHandler } from '../stock/index.js'
 
 const templateId = 'statement'
 

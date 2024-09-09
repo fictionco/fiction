@@ -1,9 +1,9 @@
 import { vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
+import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
 import { mediaSchema } from '../schemaSets.js'
-import { stockMediaHandler } from '../stock/index.js'
 
 const templateId = 'overSlide'
 
