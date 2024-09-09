@@ -2,7 +2,7 @@
 import { vue } from '@fiction/core'
 import { safeStacks } from '@fiction/core/utils/fonts'
 import type { StandardSize } from '@fiction/core'
-import type { FontEntry } from '@fiction/core/utils/fonts'
+import type { FontEntry } from '@fiction/core/utils/lib/fontList'
 import InputSelectCustom from './InputSelectCustom.vue'
 
 const props = defineProps({

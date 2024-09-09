@@ -3,7 +3,7 @@
 import { FictionPlugin } from '../plugin.js'
 import { EnvVar, vars } from '../plugin-env/index.js'
 import { TypedEventTarget } from '../utils/eventTarget.js'
-import { hasWindow, isActualBrowser, isNode, safeDirname, vue } from '../utils/index.js'
+import { crossVar, hasWindow, isActualBrowser, isNode, safeDirname, vue } from '../utils/index.js'
 import { createUserToken, decodeUserToken, manageClientUserToken } from '../utils/jwt.js'
 import { getAccessLevel, userCan, userCapabilities } from '../utils/priv.js'
 import * as priv from '../utils/priv.js'
@@ -384,5 +384,27 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
       user: new URL('img/user-avatar.png', import.meta.url).href,
       org: new URL('img/org-avatar.png', import.meta.url).href,
     }
+  }
+
+  async ensureAppOrgId(args: { context?: 'node' | 'app', defaultId?: string }) {
+    const { context = 'node', defaultId = 'admin' } = args
+
+    if (context === 'node' && !crossVar.has('FICTION_ORG_ID')) {
+      const { fictionEnv } = this.settings
+      const { email, name } = fictionEnv.meta.app || {}
+
+      if (!email || !name)
+        throw new Error('No email or name for app')
+
+      const { org } = await this?.ensureUserAndOrganization({ orgName: name, email, orgId: defaultId })
+
+      if (!org.orgId)
+        throw new Error('No orgId')
+
+      crossVar.set('FICTION_ORG_ID', org.orgId)
+      fictionEnv.log.info(`Setting app FICTION_ORG_ID to '${org.orgId}'`)
+    }
+
+    return crossVar.get('FICTION_ORG_ID')
   }
 }

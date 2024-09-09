@@ -213,7 +213,7 @@ export function setup(): ServiceConfig {
       }
       else {
         await initializeBackingServices(args)
-        await fictionSites.ensureDefaults({ context })
+        await fictionSites.ensureAppDefaults({ context })
 
         if (command === 'app' || command === 'dev') {
           const { build } = options as { build?: boolean, useLocal?: boolean }
