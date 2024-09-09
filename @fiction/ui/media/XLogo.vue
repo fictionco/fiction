@@ -1,74 +1,79 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
+import { googleFontsUtility } from '@fiction/core/utils/fonts'
 import type { MediaObject } from '@fiction/core'
 import XIcon from '../media/XIcon.vue'
 
-defineOptions({ name: 'XMediaInline' })
+defineOptions({ name: 'XLogo' })
 
-const props = defineProps({
-  media: {
-    type: Object as vue.PropType<MediaObject>,
-    required: true,
-  },
-  alt: { type: String, default: '' },
-  alignment: {
-    type: String as vue.PropType<'left' | 'center' | 'right'>,
-    default: 'center',
-  },
-})
-
-const emit = defineEmits<{
-  (event: 'loadFont', fontKey: string): void
+const {
+  media,
+  alt = '',
+  alignment = 'center',
+  addGoogleFont,
+} = defineProps<{
+  media: MediaObject
+  alt?: string
+  alignment?: 'left' | 'center' | 'right'
+  addGoogleFont?: (family: string) => void
 }>()
 
 const mediaFormat = vue.computed(() => {
-  if (props.media.format)
-    return props.media.format
-  if (props.media.url) {
-    const extension = props.media.url.split('.').pop()?.toLowerCase()
+  if (media.format)
+    return media.format
+  if (media.url) {
+    const extension = media.url.split('.').pop()?.toLowerCase()
     if (extension && ['mp4', 'webm', 'ogg'].includes(extension))
       return 'video'
     return 'image'
   }
-  if (props.media.html)
+  if (media.html)
     return 'html'
-  if (props.media.typography)
+  if (media.typography)
     return 'typography'
-  if (props.media.iconId)
+  if (media.iconId)
     return 'iconId'
-  if (props.media.el)
+  if (media.el)
     return 'component'
   return 'url'
 })
 
 const typographyStyle = vue.computed(() => {
-  const typography = props.media.typography
+  const typography = media.typography
   if (!typography)
     return {}
   return {
     fontFamily: typography.font,
     fontWeight: typography.weight,
-    lineHeight: typography.lineHeight,
+    lineHeight: 1,
     letterSpacing: typography.letterSpacing,
+    fontSize: 'clamp(16px, 4vw, 48px)',
   }
 })
 
-vue.watch(() => props.media.typography?.font, (newFont) => {
-  if (newFont) {
-    emit('loadFont', newFont)
-  }
-}, { immediate: true })
+vue.onMounted(() => {
+  vue.watch(() => media.typography?.font, async (newFont) => {
+    if (newFont) {
+      if (addGoogleFont) {
+        addGoogleFont(newFont)
+      }
+      else {
+        await googleFontsUtility.loadFont(newFont)
+      }
+    }
+  }, { immediate: true })
+})
 
 const containerClass = vue.computed(() => {
-  const classes = ['inline-flex items-center w-full h-full']
+  const classes = ['inline-flex items-center h-full w-full']
 
-  if (props.alignment === 'left') {
+  if (alignment === 'left') {
     classes.push('justify-start')
   }
-  else if (props.alignment === 'center') {
+  else if (alignment === 'center') {
     classes.push('justify-center')
   }
-  else if (props.alignment === 'right') {
+  else if (alignment === 'right') {
     classes.push('justify-end')
   }
 
@@ -76,7 +81,7 @@ const containerClass = vue.computed(() => {
 })
 
 const contentClass = vue.computed(() => {
-  return ['max-w-full max-h-full object-contain']
+  return ['max-h-full object-contain']
 })
 
 const htmlContentRef = vue.ref<HTMLElement | null>(null)
@@ -94,42 +99,30 @@ vue.onMounted(() => {
   }
 })
 
-const isSvgContent = vue.computed(() => {
-  return props.media.html?.trim().startsWith('<svg')
-})
-
 const htmlWrapperClass = vue.computed(() => {
-  const classes = ['inline-flex items-center w-full h-full']
+  const classes = ['inline-flex items-center h-full']
 
-  if (props.alignment === 'left') {
+  if (alignment === 'left') {
     classes.push('justify-start')
   }
-  else if (props.alignment === 'center') {
+  else if (alignment === 'center') {
     classes.push('justify-center')
   }
-  else if (props.alignment === 'right') {
+  else if (alignment === 'right') {
     classes.push('justify-end')
   }
-
-  classes.push('svg-wrapper')
 
   return classes
 })
 
 const iconStyling = vue.computed(() => {
-  let maskPosition = 'center'
-
-  if (props.alignment === 'left') {
-    maskPosition = 'left'
-  }
-  else if (props.alignment === 'right') {
-    maskPosition = 'right'
-  }
-
   return {
-    classes: ['w-full h-full'],
-    style: { maskPosition },
+    classes: ['h-full w-auto aspect-square'],
   }
+})
+
+const isSvgContent = vue.computed(() => {
+  return media.html?.trim().startsWith('<svg')
 })
 </script>
 
@@ -148,7 +141,8 @@ const iconStyling = vue.computed(() => {
       <span :class="htmlWrapperClass">
         <span
           ref="htmlContentRef"
-          class="inline-block max-w-full h-full html-wrapper"
+          class="inline-block h-full html-wrapper"
+          :class="{ 'w-full': isSvgContent, 'w-auto': !isSvgContent }"
           v-html="media.html"
         />
       </span>
@@ -156,7 +150,7 @@ const iconStyling = vue.computed(() => {
 
     <template v-else-if="mediaFormat === 'typography'">
       <span
-        class="inline-block whitespace-nowrap overflow-hidden text-ellipsis"
+        class="whitespace-nowrap h-full flex items-center"
         :style="typographyStyle"
       >
         {{ media.typography?.text }}
@@ -164,7 +158,7 @@ const iconStyling = vue.computed(() => {
     </template>
 
     <template v-else-if="mediaFormat === 'iconId'">
-      <XIcon :icon="media" :class="iconStyling.classes" :style="iconStyling.style" />
+      <XIcon :icon="media" :class="iconStyling.classes" />
     </template>
 
     <template v-else-if="mediaFormat === 'video'">
@@ -193,6 +187,11 @@ const iconStyling = vue.computed(() => {
 </template>
 
 <style scoped>
+.html-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: inherit;
+}
 .html-wrapper > * {
   height: 100%;
   max-width: 100%;

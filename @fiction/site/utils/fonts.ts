@@ -1,5 +1,5 @@
 import { vue } from '@fiction/core'
-import { createGoogleFontsLink, safeStacks } from '@fiction/core/utils/fonts'
+import { googleFontsUtility, safeStacks } from '@fiction/core/utils/fonts'
 import { deepMerge } from '@fiction/core/utils/obj'
 import type { Site } from '..'
 
@@ -63,7 +63,8 @@ export function activeSiteFont(site?: Site) {
 
     const fontKeys = Object.values(config).flatMap(_ => [_?.fontKey]).filter(Boolean) as string[]
 
-    const fontsUrl = createGoogleFontsLink({ fontKeys })
+    // Use GoogleFontsUtility to create the fonts URL
+    const fontsUrl = googleFontsUtility.createGoogleFontsLink({ fontKeys })
 
     return { stacks, fontsUrl }
   })

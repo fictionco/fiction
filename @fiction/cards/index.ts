@@ -103,7 +103,7 @@ export async function getDemoPages(args: { site: Site, templates: CardTemplate[]
     title: 'Buttons',
     description: 'Standard button styles',
     icon: 'i-tabler-square-rounded-chevron-right-filled',
-    category: ['basic'],
+    category: ['advanced'],
     el: vue.defineAsyncComponent(async () => import('@fiction/ui/buttons/test/TestButtonsAll.vue')),
     schema: z.object({}),
     isPublic: false,
@@ -118,7 +118,7 @@ export async function getDemoPages(args: { site: Site, templates: CardTemplate[]
     title: 'Inputs',
     description: 'Standard input styles',
     icon: 'i-tabler-input-check',
-    category: ['basic'],
+    category: ['advanced'],
     el: vue.defineAsyncComponent(async () => import('@fiction/ui/inputs/test/TestInputsAll.vue')),
     schema: z.object({}),
     isPublic: false,
@@ -130,17 +130,17 @@ export async function getDemoPages(args: { site: Site, templates: CardTemplate[]
   })
 
   const mediaTemplate = new CardTemplate({
-    templateId: 'xmedia',
-    title: 'Media',
-    description: 'Standard media handling',
-    icon: 'i-tabler-input-image',
-    category: ['basic'],
+    templateId: 'xlogo',
+    title: 'Logo Component',
+    description: 'Standard logo handling',
+    icon: 'i-tabler-brand-apple',
+    category: ['advanced'],
     el: vue.defineAsyncComponent(async () => import('@fiction/ui/test/TestMediaHandling.vue')),
     schema: z.object({}),
     isPublic: false,
     demoPage: async () => {
       return {
-        cards: [{ templateId: 'xmedia' }],
+        cards: [{ templateId: 'xlogo' }],
       }
     },
   })

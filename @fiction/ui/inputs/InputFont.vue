@@ -72,7 +72,7 @@ vue.watch(() => props.modelValue, (newFont) => {
       document.head.appendChild(newFontLink)
     }
   }
-})
+}, { immediate: true })
 
 const fontFamily = vue.computed(() => {
   const selectedFont = props.modelValue || ''
