@@ -2,7 +2,7 @@
 import { localRef, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
-import ElImage from '@fiction/ui/media/ElImage.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 import type { Card } from '@fiction/site'
 import type { UserConfig } from './DashWrap.vue'
 
@@ -54,7 +54,7 @@ const hasAccessCode = vue.ref(false)
           To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
       -->
         <div class="p-8 text-white">
-          <ElImage class="mx-auto h-[25px]" :media="card.userConfig.value.homeIcon" />
+          <XMedia class="mx-auto h-[25px]" :media="card.userConfig.value.homeIcon" />
         </div>
         <div
           class="relative w-full overflow-hidden rounded-lg bg-white dark:bg-theme-800 border border-theme-300 dark:border-theme-600 px-8 pb-8 pt-10 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-12"

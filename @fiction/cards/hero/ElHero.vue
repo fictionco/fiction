@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
 import EffectParallax from '@fiction/ui/effect/EffectParallax.vue'
-import ElImage from '@fiction/ui/media/ElImage.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 import type { Card } from '@fiction/site'
 import CardHeader from '../el/CardHeader.vue'
 
@@ -95,7 +95,7 @@ const overlays = vue.computed(() => uc.value.overlays || [])
         class="flow-root relative [perspective:1000px]"
         :class="mediaWrapClass"
       >
-        <ElImage
+        <XMedia
           data-key="splash"
           class="w-full rounded-lg overflow-hidden dark:ring-1 dark:ring-theme-800"
           :class="mediaClass"
@@ -111,7 +111,7 @@ const overlays = vue.computed(() => uc.value.overlays || [])
             :data-position="overlay.position"
           >
             <EffectParallax class="z-0 mx-auto w-full h-full scale-90 md:scale-100 ">
-              <ElImage class="rounded-xl" :media="overlay?.media" image-mode="inline" />
+              <XMedia class="rounded-xl" :media="overlay?.media" image-mode="inline" />
             </EffectParallax>
           </div>
         </template>

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
-import ElImage from '@fiction/ui/media/ElImage.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 import type { MediaItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
 
@@ -68,7 +68,7 @@ function getInlineLogoCols() {
 
             target="_blank"
           >
-            <ElImage :media="logo.media" class="aspect-[2/1] min-h-0 h-full" />
+            <XMedia :media="logo.media" class="aspect-[2/1] min-h-0 h-full" />
           </a>
         </div>
       </div>

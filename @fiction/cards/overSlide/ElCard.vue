@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
 import EffectFitText from '@fiction/ui/effect/EffectFitText.vue'
-import ElImage from '@fiction/ui/media/ElImage.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 import { gsap } from 'gsap'
 import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
@@ -163,7 +163,7 @@ function leave(el: Element, done: () => void) {
                 :class="[`stack-item-${i}`]"
                 @click="setActiveItemByTitle(item.title)"
               >
-                <ElImage
+                <XMedia
                   :media="item.media"
                   class="w-full h-full object-cover rounded-[20px] overflow-hidden"
                 />

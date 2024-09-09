@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
-import ElImage from '@fiction/ui/media/ElImage.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
 import CardSocials from '../el/CardSocials.vue'
@@ -20,7 +20,7 @@ const uc = vue.computed(() => props.card.userConfig.value || {})
     :class="uc.layout === 'mediabox' ? '' : 'sm:grid-cols-2'"
   >
     <li v-for="(profile, i) in uc.profiles" :key="i" class="space-y-4" :class="uc.layout === 'mediabox' ? 'flex flex-col gap-10 sm:flex-row' : ''">
-      <ElImage
+      <XMedia
         class="rounded-2xl overflow-hidden dark:ring-1 dark:ring-theme-800 flex-shrink-0"
         :class="uc.layout === 'mediabox' ? 'aspect-[3/4] w-32 md:w-52' : 'aspect-[3/2] w-full '"
         :media="profile.media"

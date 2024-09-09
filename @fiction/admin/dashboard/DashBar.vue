@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import CardLink from '@fiction/cards/el/CardLink.vue'
 import { vue } from '@fiction/core'
-import ElImage from '@fiction/ui/media/ElImage.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 import type { NavItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import DashBarMenu from './DashBarMenu.vue'
@@ -28,7 +28,7 @@ const uc = vue.computed(() => props.card.userConfig.value)
     <div class="mx-auto flex items-center justify-between  px-4 py-2">
       <div class="flex items-center md:min-w-[150px]">
         <CardLink :card href="/" class="active:opacity-80 sm:hidden">
-          <ElImage class="h-[21px]" :media="uc.homeIcon" />
+          <XMedia class="h-[21px]" :media="uc.homeIcon" />
         </CardLink>
         <div class="hidden sm:block dark:text-theme-0 text-theme-700 md:flex gap-2 items-center">
           <div v-if="uc.navIcon || uc.navIconAlt" :class="uc.navIconAlt || uc.navIcon" class="text-xl" />

@@ -2,7 +2,7 @@
 import { vue } from '@fiction/core'
 
 import MasonryEffect from '@fiction/ui/effect/EffectMasonry.vue'
-import ElImage from '@fiction/ui/media/ElImage.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 import ElLightbox from '@fiction/ui/media/ElLightbox.vue'
 import type { Card } from '@fiction/site'
 
@@ -58,7 +58,7 @@ function showLightbox(index: number) {
         class="masonry-grid-item float-left w-full relative cursor-pointer overflow-hidden rounded-xl"
         @click.stop="showLightbox(index)"
       >
-        <ElImage class="absolute inset-0 object-cover" :media="item?.media" :animate="true" />
+        <XMedia class="absolute inset-0 object-cover" :media="item?.media" :animate="true" />
         <div class="rounded-[20px] absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
           <div class="text-white text-left p-6 max-w-md absolute bottom-0 right-0 space-y-2">
             <h3 class="text-2xl font-semibold x-font-title">

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import CardLink from '@fiction/cards/el/CardLink.vue'
 import { toLabel } from '@fiction/core'
-import ElImage from '@fiction/ui/media/ElImage.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 import type { MediaObject, NavItem, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 
@@ -34,7 +34,7 @@ const cls = {
         <div class=" ">
           <div class="rounded-full flex items-center justify-center">
             <CardLink :card href="/" class="text-xl text-theme-700 hover:text-primary-500 dark:text-theme-0 dark:hover:text-primary-300 transition-all px-4 py-2.5 rounded-md">
-              <ElImage class="h-[21px]" :media="icon" />
+              <XMedia class="h-[21px]" :media="icon" />
             </CardLink>
           </div>
         </div>

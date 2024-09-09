@@ -4,7 +4,7 @@ import CardText from '@fiction/cards/CardText.vue'
 import { vue } from '@fiction/core'
 import { inputs } from '@fiction/ui/inputs'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
-import ElImage from '@fiction/ui/media/ElImage.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 import type { MediaObject } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { Form } from '../form'
@@ -123,7 +123,7 @@ function handleValidChange(valid: boolean) {
 <template>
   <div class="grid-flow-dense @container" :class="classes">
     <div v-if="layout !== 'hero'" :class="mediaClasses">
-      <ElImage
+      <XMedia
         class="absolute"
         :class="
           ['heroLeft', 'heroRight'].includes(layout) ? 'inset-[10%]' : 'inset-0'
@@ -175,7 +175,7 @@ function handleValidChange(valid: boolean) {
               </div>
 
               <div v-if="layout === 'hero' && media" class="hero my-10">
-                <ElImage
+                <XMedia
                   image-class="max-h-[40vh]"
                   :media
                   fit="inline"

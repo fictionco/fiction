@@ -129,13 +129,13 @@ export async function getDemoPages(args: { site: Site, templates: CardTemplate[]
     },
   })
 
-  const mediaTemplate = new CardTemplate({
+  const logoTemplate = new CardTemplate({
     templateId: 'xlogo',
     title: 'Logo Component',
     description: 'Standard logo handling',
     icon: 'i-tabler-brand-apple',
     category: ['advanced'],
-    el: vue.defineAsyncComponent(async () => import('@fiction/ui/test/TestMediaHandling.vue')),
+    el: vue.defineAsyncComponent(async () => import('@fiction/ui/test/TestLogoHandling.vue')),
     schema: z.object({}),
     isPublic: false,
     demoPage: async () => {
@@ -145,7 +145,23 @@ export async function getDemoPages(args: { site: Site, templates: CardTemplate[]
     },
   })
 
-  const tpls = [buttonsTemplate, inputsTemplate, mediaTemplate, ...templates]
+  const mediaTemplate = new CardTemplate({
+    templateId: 'xmedia',
+    title: 'Media Component',
+    description: 'Standard media handling',
+    icon: 'i-tabler-photo-hexagon',
+    category: ['advanced'],
+    el: vue.defineAsyncComponent(async () => import('@fiction/ui/test/TestMediaHandling.vue')),
+    schema: z.object({}),
+    isPublic: false,
+    demoPage: async () => {
+      return {
+        cards: [{ templateId: 'xmedia' }],
+      }
+    },
+  })
+
+  const tpls = [buttonsTemplate, inputsTemplate, logoTemplate, mediaTemplate, ...templates]
 
   const promises = tpls.filter(t => t.settings.demoPage).map(async (t) => {
     const card = await t.settings.demoPage?.(args) as CardConfigPortable

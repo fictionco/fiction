@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { deepMerge, getColorScheme, vue } from '@fiction/core'
 import { fontFamilyByKey } from '@fiction/site/utils/fonts'
-import ElImage from '@fiction/ui/media/ElImage.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 import type { Card } from '@fiction/site/index.js'
 import type { CardOptionsWithStandard } from '@fiction/site/schema'
 import StandardHeader from './el/StandardHeader.vue'
@@ -131,6 +131,6 @@ const autoSetDark = vue.computed(() => {
       <div :class="card.tpl.value?.settings.icon" />
       <div>{{ card.tpl.value?.settings.title }}</div>
     </div>
-    <ElImage v-if="colorScheme?.bg" class="object-cover w-full h-full absolute inset-0 pointer-events-none -z-10" :media="colorScheme?.bg" />
+    <XMedia v-if="colorScheme?.bg" class="object-cover w-full h-full absolute inset-0 pointer-events-none -z-10" :media="colorScheme?.bg" />
   </div>
 </template>

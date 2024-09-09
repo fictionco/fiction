@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import XText from '@fiction/ui/common/XText.vue'
-import ElImage from '@fiction/ui/media/ElImage.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 import ProseEditor from '@fiction/ui/prose/editor/ProseEditor.vue'
 import type { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
@@ -35,7 +35,7 @@ defineProps({
           />
         </div>
         <div v-if="post.media.value?.url || post.media.value?.html" class="not-prose">
-          <ElImage :media="post.media.value" class="size-32 border border-theme-200 dark:border-theme-600 rounded-md bg-theme-50 dark:bg-theme-800 overflow-hidden" />
+          <XMedia :media="post.media.value" class="size-32 border border-theme-200 dark:border-theme-600 rounded-md bg-theme-50 dark:bg-theme-800 overflow-hidden" />
         </div>
       </div>
       <div class="border-b border-theme-200 dark:border-theme-700 my-12" />

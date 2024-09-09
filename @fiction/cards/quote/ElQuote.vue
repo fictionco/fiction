@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
-import ElImage from '@fiction/ui/media/ElImage.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
 import NavDots from '../el/NavDots.vue'
@@ -26,7 +26,7 @@ const activeItem = vue.ref(0)
       <div v-for="(quote, i) in quotes" :key="i" class="slide shrink-0 w-full snap-center">
         <div v-if="hasOrgImage(quote) && quote?.org" class="org mb-6 md:text-center">
           <div data-test-id="org-image" class="relative inline-block dark:text-theme-0">
-            <ElImage
+            <XMedia
               class="h-10 md:h-20 aspect-[2/1] object-contain"
               :media="quote.org.image"
               :alt="quote.org.name"
@@ -50,7 +50,7 @@ const activeItem = vue.ref(0)
             v-if="hasAuthorImage(quote)"
             class="relative aspect-square h-10 md:h-14 overflow-hidden rounded-full dark:ring-2 dark:ring-theme-0 m-1"
           >
-            <ElImage
+            <XMedia
               class="absolute h-full w-full object-cover"
               :media="quote.author.image"
             />

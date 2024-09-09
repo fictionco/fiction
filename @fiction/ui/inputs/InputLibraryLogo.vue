@@ -2,7 +2,7 @@
 import { vue } from '@fiction/core'
 import type { MediaObject } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
-import ElImage from '../media/ElImage.vue'
+import XMedia from '../media/XMedia.vue'
 import LibraryModal from './LibraryModal.vue'
 
 defineOptions({ name: 'InputLibraryLogo' })
@@ -36,7 +36,7 @@ function handleLogoUpdate(newValue: MediaObject) {
       @click.stop.prevent="openLogoSelector"
     >
       <div class="flex items-center justify-center pointer-events-none p-2 h-[70px]">
-        <ElImage
+        <XMedia
           :media="v"
           image-mode="contain"
           class="h-full max-w-full"

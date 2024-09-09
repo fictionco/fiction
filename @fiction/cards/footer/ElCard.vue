@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { dayjs, useService, vue, waitFor } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
-import ElImage from '@fiction/ui/media/ElImage.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 import type { Card } from '@fiction/site/card'
 import CardNavLink from '../CardNavLink.vue'
 import CardText from '../CardText.vue'
@@ -137,7 +137,7 @@ vue.onMounted(() => {
           <div v-if="uc.badges?.length" :class="layoutClasses.badgeWrap" class="text-theme-400 dark:text-theme-50 mt-5 text-right text-xs flex flex-col items-center gap-4  ">
             <template v-for="(badge, i) in uc.badges" :key="i">
               <a :href="card.link(badge.href)" :title="badge.name" class="inline-block">
-                <ElImage :media="badge.media" image-mode="inline" />
+                <XMedia :media="badge.media" image-mode="inline" />
               </a>
             </template>
           </div>

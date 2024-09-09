@@ -3,7 +3,7 @@ import { useService, vue } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElEmail from '@fiction/ui/inputs/InputEmail.vue'
-import ElImage from '@fiction/ui/media/ElImage.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 import type { FictionSubscribe } from '@fiction/plugin-subscribe'
 import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
@@ -73,7 +73,7 @@ async function createSubscription() {
       <div class="mx-auto  text-center">
         <div v-if="uc.media" class="mb-3 md:mb-6 text-center">
           <div class="relative inline-block dark:text-theme-0">
-            <ElImage :animate="animate ? 'swipe' : false" class="h-10 md:h-20 aspect-[2/1] object-contain" :media="uc.media" />
+            <XMedia :animate="animate ? 'swipe' : false" class="h-10 md:h-20 aspect-[2/1] object-contain" :media="uc.media" />
           </div>
         </div>
         <CardText :animate="animate" path="superHeading" :card="card" class="font-sans text-sm text-theme-400/80 font-medium  text-balance mb-3" />

@@ -4,7 +4,7 @@ import * as bh from 'blurhash'
 import type { GradientPoint, GradientSetting, MediaObject } from '@fiction/core'
 import ClipPathAnim from '../anim/AnimClipPath.vue'
 
-defineOptions({ name: 'ElImage' })
+defineOptions({ name: 'XMedia' })
 
 const props = defineProps({
   media: { type: Object as vue.PropType<MediaObject>, default: undefined },
@@ -15,7 +15,7 @@ const props = defineProps({
 type ImageMode = 'inline' | 'cover' | 'contain'
 type AnimateType = 'swipe' | 'expand' | '' | boolean
 
-const logger = log.contextLogger('ElImage')
+const logger = log.contextLogger('XMedia')
 
 const loading = vue.ref(true)
 const blurCanvas = vue.ref<HTMLCanvasElement>()
@@ -230,8 +230,8 @@ const mediaFormat = vue.computed(() => {
         />
         <video
           v-else-if="mediaFormat === 'video'"
-          class="absolute h-full w-full z-0 dark:bg-theme-800/30 bg-theme-50/50"
-          :class="[imageClass, imageModeClass, inlineImage ? 'block' : '']"
+          class=" z-0 dark:bg-theme-800/30 bg-theme-50/50"
+          :class="[imageClass, imageModeClass, inlineImage ? 'block' : 'absolute h-full w-full']"
           :src="media.url"
           :style="filterStyle"
           autoplay

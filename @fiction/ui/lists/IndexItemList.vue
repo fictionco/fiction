@@ -2,7 +2,7 @@
 import { getNavComponentType } from '@fiction/core'
 import ElActions from '@fiction/ui/buttons/ElActions.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
-import ElImage from '@fiction/ui/media/ElImage.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 import type { ActionItem, IndexItem, vue } from '@fiction/core'
 
 defineProps({
@@ -41,7 +41,7 @@ const mediaClass = `size-14 border-2 border-theme-200/50 bg-theme-50 dark:bg-the
           <div v-if="!item.media?.url && !item.media?.html" class="flex items-center justify-center size-12" :class="mediaClass">
             <div class="text-2xl" :class="item.icon" />
           </div>
-          <ElImage v-else :class="mediaClass" :media="item.media" />
+          <XMedia v-else :class="mediaClass" :media="item.media" />
         </div>
         <div class="">
           <div v-if="$slots.details" class="flex items-center text-xs text-theme-500 dark:text-theme-400 gap-2">

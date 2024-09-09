@@ -2,7 +2,7 @@
 import { vue } from '@fiction/core'
 import { useElementVisible } from '@fiction/ui/anim'
 import EffectGlare from '@fiction/ui/effect/EffectGlare.vue'
-import ElImage from '@fiction/ui/media/ElImage.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
 import CardSocials from '../el/CardSocials.vue'
@@ -38,7 +38,7 @@ vue.onMounted(async () => {
           <div class="relative">
             <EffectGlare wrap-class="rounded-[20px]">
               <div class="aspect-[5/7] relative w-full overflow-x-auto snap-mandatory snap-x flex no-scrollbar clip-path-anim" :class="isVisible ? '[clip-path:inset(0_round_20px)] opacity-100' : '[clip-path:inset(30%)] opacity-50'">
-                <ElImage v-for="(item, i) in mediaItems" :key="i" :media="item.media" class="relative slide w-full h-full snap-center shrink-0" />
+                <XMedia v-for="(item, i) in mediaItems" :key="i" :media="item.media" class="relative slide w-full h-full snap-center shrink-0" />
               </div>
             </EffectGlare>
             <NavDots v-model:active-item="activeItem" :items="mediaItems || []" :container-id="card.cardId" class="absolute bottom-4 z-20 justify-center w-full" />

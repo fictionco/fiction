@@ -4,7 +4,7 @@ import type { ActionItem, IndexItem, IndexMeta } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 import ElZeroBanner from '../ElZeroBanner.vue'
 import ElSpinner from '../loaders/ElSpinner.vue'
-import ElImage from '../media/ElImage.vue'
+import XMedia from '../media/XMedia.vue'
 
 const props = defineProps({
   list: { type: Array as vue.PropType<IndexItem[]>, default: () => [] },
@@ -87,7 +87,7 @@ async function paginate(dir: 'prev' | 'next') {
                   <div v-if="!item.media?.url" class="flex items-center justify-center size-12" :class="mediaClass">
                     <div class="text-2xl" :class="mediaIcon" />
                   </div>
-                  <ElImage v-else :class="mediaClass" :media="item.media" />
+                  <XMedia v-else :class="mediaClass" :media="item.media" />
                 </div>
                 <div>
                   <p class="text-lg font-medium leading-6 ">

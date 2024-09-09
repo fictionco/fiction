@@ -4,7 +4,7 @@ import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
 import ElClose from '@fiction/ui/common/ElClose.vue'
 import EffectGlare from '@fiction/ui/effect/EffectGlare.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
-import ElImage from '@fiction/ui/media/ElImage.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
 import type { UserConfig } from '.'
@@ -89,7 +89,7 @@ function gridCols() {
         <div v-for="(item, i) in uc.items" :key="i" class="[perspective:1000px] group showcase-item x-action-item transition-all duration-300 space-y-2 relative cursor-pointer" @click.stop="activeitemIndex = i">
           <EffectGlare wrap-class="rounded-[20px]">
             <div class="relative">
-              <ElImage :animate="true" :media="item.media" :class="gridImageAspect()" />
+              <XMedia :animate="true" :media="item.media" :class="gridImageAspect()" />
               <div class="py-4 px-5 space-y-0 absolute bottom-0 z-10">
                 <CardText
                   tag="div"

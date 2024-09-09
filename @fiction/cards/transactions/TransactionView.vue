@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
 import EffectShootingStar from '@fiction/ui/effect/EffectShootingStar.vue'
-import ElImage from '@fiction/ui/media/ElImage.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 import type { MediaObject } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 
@@ -19,7 +19,7 @@ const uc = vue.computed(() => props.card.userConfig.value)
       class="relative hidden w-[38.2%] overflow-hidden bg-gradient-to-b from-theme-1000 via-theme-1000 to-theme-950  text-theme-0 border-r border-theme-700 lg:block"
     >
       <div class="relative z-20 p-8">
-        <ElImage :media="uc.logo" class="h-6 inline-block" />
+        <XMedia :media="uc.logo" class="h-6 inline-block" />
       </div>
 
       <div class="z-40 absolute bottom-16 w-full flex justify-center">
@@ -41,7 +41,7 @@ const uc = vue.computed(() => props.card.userConfig.value)
           class="relative mx-auto flex items-center justify-between px-4 py-2 text-xs md:max-w-7xl"
         >
           <div class="mt-2 text-center lg:hidden">
-            <ElImage :media="uc.logo" class="h-6" />
+            <XMedia :media="uc.logo" class="h-6" />
           </div>
         </div>
       </div>

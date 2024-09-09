@@ -3,7 +3,7 @@ import { useService, vue } from '@fiction/core'
 import type { MediaObject, TableMediaConfig } from '@fiction/core'
 import EffectMasonry from '../effect/EffectMasonry.vue'
 import ElSpinner from '../loaders/ElSpinner.vue'
-import ElImage from '../media/ElImage.vue'
+import XMedia from '../media/XMedia.vue'
 
 const props = defineProps({
   modelValue: { type: Object as vue.PropType<MediaObject>, default: () => ({}) },
@@ -90,7 +90,7 @@ vue.onMounted(() => {
         :class="getMasonryItemClass(media)"
         @click="selectMedia(media)"
       >
-        <ElImage
+        <XMedia
           :media="media"
           image-mode="cover"
           class="absolute inset-0 w-full h-full transition-transform duration-300 group-hover:scale-110"

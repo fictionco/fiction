@@ -4,7 +4,7 @@ import type { PostObject } from '@fiction/core'
 import AnimClipPath from '../anim/AnimClipPath.vue'
 import { PopupUtility } from '../anim/popupUtil'
 import ElClose from '../common/ElClose.vue'
-import ElImage from './ElImage.vue'
+import XMedia from './XMedia.vue'
 
 const props = defineProps<{
   items?: PostObject[]
@@ -96,7 +96,7 @@ function previousItem() {
         <AnimClipPath animate="expand">
           <div ref="animatedDivRef" class="relative  h-[80vh] w-[90vw] md:w-[80dvw] flex flex-col gap-6 overflow-hidden rounded-xl">
             <div class="grow relative" @click.stop>
-              <ElImage ref="mediaRef" class="absolute inset-0" :media="activeItem.media" image-mode="contain" />
+              <XMedia ref="mediaRef" class="absolute inset-0" :media="activeItem.media" image-mode="contain" />
               <div v-if="items && items.length > 1" class="absolute inset-y-0 left-0 flex items-center mix-blend-difference">
                 <button class=" text-white/70 p-2 md:p-4 rounded-r hover:text-white" @click.stop="previousItem">
                   <div class="i-tabler-chevron-left text-3xl" />

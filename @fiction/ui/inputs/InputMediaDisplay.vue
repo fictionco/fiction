@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
 import type { MediaObject } from '@fiction/core'
-import ElImage from '../media/ElImage.vue'
+import XMedia from '../media/XMedia.vue'
 import ElInput from './ElInput.vue'
 import InputDropDown from './InputDropDown.vue'
 import InputMediaUpload from './InputMediaUpload.vue'
@@ -73,7 +73,7 @@ const format = vue.computed(() => {
       <InputMediaUpload :model-value="v" @update:model-value="updateValue($event)" />
 
       <div v-if="v.url" class="pt-4">
-        <ElImage class="h-16 w-16 inline-block group relative" image-class="rounded-md shadow" :media="v" />
+        <XMedia class="h-16 w-16 inline-block group relative" image-class="rounded-md shadow" :media="v" />
       </div>
     </div>
   </div>

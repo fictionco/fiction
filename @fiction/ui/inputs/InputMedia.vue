@@ -6,7 +6,7 @@ import XButton from '../buttons/XButton.vue'
 import EffectMasonry from '../effect/EffectMasonry.vue'
 import ElModal from '../ElModal.vue'
 import ElSpinner from '../loaders/ElSpinner.vue'
-import ElImage from '../media/ElImage.vue'
+import XMedia from '../media/XMedia.vue'
 import ElInput from './ElInput.vue'
 import InputMediaUpload from './InputMediaUpload.vue'
 
@@ -148,7 +148,7 @@ function applyChanges() {
 <template>
   <div class="relative">
     <div v-if="hasMedia" class="relative overflow-hidden rounded-lg group bg-theme-100/40 dark:bg-theme-700/70" @click.stop.prevent="openMediaSelector">
-      <ElImage
+      <XMedia
         :media="v"
         image-mode="contain"
         class="h-[70px] max-w-full pointer-events-none"
@@ -205,7 +205,7 @@ function applyChanges() {
               </div>
             </div>
             <div>
-              <ElImage
+              <XMedia
                 :media="currentSelection"
                 image-mode="contain"
                 class="h-[200px]"
@@ -235,7 +235,7 @@ function applyChanges() {
               :class="getMasonryItemClass(media)"
               @click="selectMedia({ format: 'url', ...media })"
             >
-              <ElImage
+              <XMedia
                 :media
                 image-mode="cover"
                 class="absolute inset-0 w-full h-full transition-transform duration-300 group-hover:scale-110"

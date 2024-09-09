@@ -3,7 +3,7 @@ import CardText from '@fiction/cards/CardText.vue'
 import { vue } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim/index.js'
 import EffectFitText from '@fiction/ui/effect/EffectFitText.vue'
-import ElImage from '@fiction/ui/media/ElImage.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 import type { Card } from '@fiction/site'
 import type { UserConfig } from './index.js'
 
@@ -49,7 +49,7 @@ vue.onMounted(() => {
           ]"
         >
           <div class="relative h-full max-h-[800px]" :class="[layout === 'right' ? 'right-0' : '', !isDefaultLayout ? 'w-full' : 'w-full']">
-            <ElImage :animate="true" :media="uc.media" class="w-full h-full object-cover rounded-lg overflow-hidden" />
+            <XMedia :animate="true" :media="uc.media" class="w-full h-full object-cover rounded-lg overflow-hidden" />
           </div>
         </div>
         <div

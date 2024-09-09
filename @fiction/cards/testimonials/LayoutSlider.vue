@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
 import EffectCarousel from '@fiction/ui/effect/EffectCarousel.vue'
-import ElImage from '@fiction/ui/media/ElImage.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
 import NavDots from '../el/NavDots.vue'
@@ -65,7 +65,7 @@ function getBgClass(args: { slide: Testimonial, index: number }) {
               </div>
             </div>
             <div class="flex justify-center pt-9 flex-col items-center gap-2">
-              <div><ElImage :media="slide.user?.avatar" class="size-16 rounded-full overflow-clip ring-2 ring-white" /></div>
+              <div><XMedia :media="slide.user?.avatar" class="size-16 rounded-full overflow-clip ring-2 ring-white" /></div>
               <div class="text-center">
                 <CardText
                   tag="div"

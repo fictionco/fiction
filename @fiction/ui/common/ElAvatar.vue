@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { gravatarUrlSync, stored, vue } from '@fiction/core'
 import type { MediaObject, User } from '@fiction/core'
-import ElImage from '../media/ElImage.vue'
+import XMedia from '../media/XMedia.vue'
 import userBlank from './user-blank.png'
 
 const props = defineProps({
@@ -41,5 +41,5 @@ const media = vue.computed<MediaObject>(() => {
 </script>
 
 <template>
-  <ElImage class="rounded-full overflow-hidden dark:bg-theme-0/10" :media />
+  <XMedia class="rounded-full overflow-hidden dark:bg-theme-0/10" :media />
 </template>

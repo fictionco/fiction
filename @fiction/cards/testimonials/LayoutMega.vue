@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
-import ElImage from '@fiction/ui/media/ElImage.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
 
@@ -33,7 +33,7 @@ function setActiveItem(index: number) {
           leave-from-class="opacity-100"
           leave-to-class="opacity-0"
         >
-          <ElImage class="absolute inset-0 object-cover" :media="activeItem?.media || activeItem?.user?.avatar" />
+          <XMedia class="absolute inset-0 object-cover" :media="activeItem?.media || activeItem?.user?.avatar" />
         </transition>
       </div>
       <blockquote class="flex flex-col justify-between h-full w-full lg:w-[50%] border-y border-r overflow-hidden rounded-r-2xl border-black/10 p-4 lg:p-10 space-y-6 xl:space-y-12">
@@ -57,7 +57,7 @@ function setActiveItem(index: number) {
         <div class="flex gap-3 lg:gap-6  no-scrollbar justify-center py-3 overflow-x-auto snap-mandatory snap-x">
           <div v-for="(item, i) in items" :key="i" class=" snap-center basis-1/3 lg:basis-auto transition-opacity duration-500 cursor-pointer" :class="activeIndex === i ? 'opacity-100' : 'opacity-40 hover:opacity-100'" @click="setActiveItem(i)">
             <div class="flex justify-center flex-col items-center gap-2">
-              <div><ElImage :media="item.user?.avatar" class="size-12 md:size-16 rounded-full overflow-clip ring-2 ring-white" /></div>
+              <div><XMedia :media="item.user?.avatar" class="size-12 md:size-16 rounded-full overflow-clip ring-2 ring-white" /></div>
               <div class="text-center" :class="activeIndex === i ? 'font-semibold' : ''">
                 <CardText
                   tag="div"

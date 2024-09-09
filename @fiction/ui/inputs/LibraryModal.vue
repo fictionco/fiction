@@ -3,7 +3,7 @@ import { vue } from '@fiction/core'
 import type { MediaObject } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 import ElModal from '../ElModal.vue'
-import ElImage from '../media/ElImage.vue'
+import XMedia from '../media/XMedia.vue'
 import XLogo from '../media/XLogo.vue'
 import ElInput from './ElInput.vue'
 import InputMediaUpload from './InputMediaUpload.vue'
@@ -83,7 +83,7 @@ function updateCurrentSelection(updates: Partial<MediaObject>) {
         </div>
         <div class="flex justify-center items-center">
           <XLogo :media="currentSelection" class="h-[200px]" />
-          <ElImage
+          <XMedia
             :media="currentSelection"
             image-mode="contain"
             class="h-[200px]"

@@ -4,7 +4,7 @@ import InputImage from '@fiction/ui/inputs/InputImage.vue'
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import type { MediaObject } from '@fiction/core'
 import ButtonMenu from '../../el/ButtonMenu.vue'
-import ElImageResize from './ElImageResize.vue'
+import XMediaResize from './ElImageResize.vue'
 
 const props = defineProps(nodeViewProps)
 
@@ -56,7 +56,7 @@ const items = vue.computed(() => {
           name: 'linkInput',
           icon: 'i-tabler-link',
           figure: {
-            el: ElImageResize,
+            el: XMediaResize,
             props: {
               'editor': props.editor,
               'onUpdate:modelValue': (value: string) => {
