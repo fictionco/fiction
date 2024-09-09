@@ -99,24 +99,6 @@ vue.watch(() => navItemActive.value, (newValue) => {
   }
 })
 
-const mediaFormat = vue.computed(() => {
-  if (currentSelection.value.html)
-    return 'html'
-  if (currentSelection.value.url && currentSelection.value.url.includes('youtube.com'))
-    return 'iframe'
-  return 'image'
-})
-
-const dropdownOptions = [
-  { name: 'Delete', value: 'delete' },
-]
-
-function handleDropdownAction(action: string | number | undefined, media: TableMediaConfig) {
-  if (action === 'delete') {
-    deleteMedia(media)
-  }
-}
-
 function handleNavItemClick(item: typeof navItems[number]) {
   if (item.value === 'close') {
     vis.value = false

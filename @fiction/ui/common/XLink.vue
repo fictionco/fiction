@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getNavComponentType, vue } from '@fiction/core'
+import { getNavComponentType, pathIsHref, vue } from '@fiction/core'
 
 defineOptions({ name: 'XLink' })
 
@@ -9,7 +9,7 @@ const props = defineProps({
 
 const linkProps = vue.computed(() => {
   const { href } = props
-  return (href?.startsWith('http') || href?.includes('_reload')) ? { href } : { to: href }
+  return pathIsHref(href) ? { href } : { to: href }
 })
 </script>
 

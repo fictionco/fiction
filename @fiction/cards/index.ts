@@ -129,7 +129,23 @@ export async function getDemoPages(args: { site: Site, templates: CardTemplate[]
     },
   })
 
-  const tpls = [buttonsTemplate, inputsTemplate, ...templates]
+  const mediaTemplate = new CardTemplate({
+    templateId: 'xmedia',
+    title: 'Media',
+    description: 'Standard media handling',
+    icon: 'i-tabler-input-image',
+    category: ['basic'],
+    el: vue.defineAsyncComponent(async () => import('@fiction/ui/test/TestMediaHandling.vue')),
+    schema: z.object({}),
+    isPublic: false,
+    demoPage: async () => {
+      return {
+        cards: [{ templateId: 'xmedia' }],
+      }
+    },
+  })
+
+  const tpls = [buttonsTemplate, inputsTemplate, mediaTemplate, ...templates]
 
   const promises = tpls.filter(t => t.settings.demoPage).map(async (t) => {
     const card = await t.settings.demoPage?.(args) as CardConfigPortable

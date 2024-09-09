@@ -26,11 +26,11 @@ const options: InputOption[] = [
   new InputOption({ key: 'subHeading', label: 'Sub Heading', input: 'InputText' }),
   new InputOption({ key: 'superHeading', label: 'Super Heading', input: 'InputText' }),
   new InputOption({ key: 'superColor', input: 'InputSelect', label: 'Color of Super Header', list: colorThemeUser }),
-  new InputOption({ key: 'superIcon', input: 'InputIcon', label: 'Super Header Icon' }),
+  new InputOption({ key: 'superIcon', input: 'InputLibraryIcon', label: 'Super Header Icon' }),
   new InputOption({ key: 'items', label: 'Items', input: 'InputList', props: { itemName: 'Feature' }, options: [
     new InputOption({ key: 'name', label: 'Name', input: 'InputText' }),
     new InputOption({ key: 'desc', label: 'Description', input: 'InputText' }),
-    new InputOption({ key: 'icon', label: 'Icon', input: 'InputIcon' }),
+    new InputOption({ key: 'icon', label: 'Icon', input: 'InputLibraryIcon' }),
     new InputOption({ key: 'color', input: 'InputSelect', label: 'Color', list: colorThemeUser }),
   ] }),
 ]

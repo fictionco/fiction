@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { localRef, vue } from '@fiction/core'
-import ElButton from '@fiction/ui/ElButton.vue'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
 import ElImage from '@fiction/ui/media/ElImage.vue'
 import type { Card } from '@fiction/site'
@@ -76,47 +76,51 @@ const hasAccessCode = vue.ref(false)
                 id="modal-title"
                 class="x-font-title text-3xl font-bold text-balance tracking-tight"
               >
-                Publicly Available Fall 2024
+                You're on the waitlist.
               </h3>
               <div class="mt-4">
-                <p class="text-theme-500 text-sm text-balance">
-                  Fiction is currently in private beta. Please message us for early access.
+                <p class="text-theme-500 dark:text-theme-300 text-sm text-balance">
+                  Due to high demand, we are onboarding users in batches (to ensure exceptional results). When it's your turn, you'll receive an email with your access code.
                 </p>
               </div>
             </div>
           </div>
           <div class="mt-8 mb-6">
             <div v-if="!hasAccessCode" class="actions flex justify-center space-y-4 md:space-y-0 md:space-x-4 flex-col md:flex-row">
-              <ElButton
+              <XButton
                 type="button"
-                btn="default"
+                theme="default"
                 size="lg"
+                rounding="full"
                 @click="hasAccessCode = true"
               >
                 Enter Invite Code
-              </ElButton>
-              <ElButton
+              </XButton>
+              <XButton
                 type="button"
-                btn="success"
+                theme="primary"
                 size="lg"
-                href="https://wa.me/message/CX5P5VWZ3YWDH1"
+                href="mailto:andrew@fiction.com"
                 target="_blank"
+                icon="i-tabler-mail"
+                rounding="full"
               >
-                <span class="i-tabler-brand-whatsapp mr-2 text-xl" />
-                <span>Message on WhatsApp</span>
-              </ElButton>
+                Email Us
+              </XButton>
             </div>
             <div v-else>
               <div class="space-x-4 flex justify-center">
-                <InputText v-model="code" placeholder="ACCESS_CODE" @keyup.enter.stop="setCode()" />
-                <ElButton
+                <InputText v-model="code" input-class="dark:bg-theme-700" placeholder="ACCESS_CODE" @keyup.enter.stop="setCode()" />
+                <XButton
                   type="button"
-                  btn="primary"
+                  theme="primary"
                   size="lg"
+                  class="shrink-0"
+                  rounding="full"
                   @click="setCode()"
                 >
                   Get Access
-                </ElButton>
+                </XButton>
               </div>
               <div class=" text-xs font-sans text-theme-500 mt-3 text-center opacity-60 uppercase tracking-wide cursor-pointer" @click="hasAccessCode = false">
                 &larr; Back

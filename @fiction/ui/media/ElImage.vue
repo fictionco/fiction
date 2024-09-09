@@ -263,4 +263,4 @@ const mediaFormat = vue.computed(() => {
       :style="overlayStyle"
     />
   </ClipPathAnim>
-</template>import { url } from 'inspector';
+</template>

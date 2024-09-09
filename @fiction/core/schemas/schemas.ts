@@ -1,7 +1,7 @@
 import { z } from 'zod'
+import type { IconId } from '@fiction/ui/lib/systemIcons.js'
 import { ColorScaleSchema, colorThemeUser, colorThemeWithInvert } from '../utils/colors.js'
 import type { vue } from '../utils/libraries.js'
-import type { IconId } from './systemIcons.js'
 
 export const PostStatusSchema = z.enum(['draft', 'scheduled', 'published', 'hidden', 'protected', 'deleted', 'archived', 'trashed', 'spam'])
 export const ProgressStatusSchema = z.enum(['pending', 'requested', 'processing', 'ready', 'error', 'cancelled'])
@@ -101,7 +101,7 @@ export const ImageFilterConfigSchema = z.object({
 })
 export type ImageFilterConfig = z.infer<typeof ImageFilterConfigSchema>
 
-export const MediaFormat = z.enum(['url', 'image', 'video', 'iframe', 'html', 'component', 'iconId', 'iconClass'])
+export const MediaFormat = z.enum(['url', 'image', 'video', 'iframe', 'html', 'component', 'iconId', 'iconClass', 'typography'])
 
 // MediaBasic schema
 export const MediaBasicSchema = z.object({
@@ -113,6 +113,16 @@ export const MediaBasicSchema = z.object({
   el: z.custom<vue.AsyncComponentLoader | vue.Component>((val) => {
     return typeof val === 'function' || val instanceof Promise
   }, { message: 'Must be an async component or Promise' }).optional(),
+})
+
+export const MediaTypographySchema = MediaBasicSchema.extend({
+  typography: z.object({
+    text: z.string().optional(),
+    weight: z.string().optional(),
+    lineHeight: z.string().optional(),
+    letterSpacing: z.string().optional(),
+    font: z.string().optional(),
+  }).optional(),
 })
 
 // MediaContent schema (includes MediaBasic)
@@ -139,7 +149,7 @@ export const MediaDisplaySchema = MediaContentSchema.extend({
     flip: z.enum(['horizontal', 'vertical']).optional(),
   }).optional(),
 })
-export type MediaObject = z.infer<typeof MediaDisplaySchema>
+export type MediaObject = z.infer<typeof MediaDisplaySchema & typeof MediaTypographySchema>
 
 export const TaxonomySchema = z.object({
   title: z.string().optional(),

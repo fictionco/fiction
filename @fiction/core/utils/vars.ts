@@ -45,9 +45,15 @@ export class CrossVarManager {
   /**
    * Gets a cross-environment variable.
    */
-  get<T extends keyof RunVars>(name: T | string): RunVars[T] | string | undefined {
+  get<T extends keyof RunVars>(name: T | string, opts?: { errorOnUndefined?: boolean }): RunVars[T] | string | undefined {
+    const { errorOnUndefined = false } = opts || {}
     const storage = this.vars()
-    return storage[name as T]
+    const out = storage[name as T]
+
+    if (errorOnUndefined && out === undefined)
+      throw new Error(`CrossVarManager: ${name} is not set`)
+
+    return out
   }
 
   /**
@@ -122,6 +128,8 @@ export const isDebug = () => crossVar.has('DEBUG')
 export const isRestart = () => crossVar.has('IS_RESTART')
 export const getVersion = () => crossVar.get('RUNTIME_VERSION')
 export const getCommit = () => crossVar.get('RUNTIME_COMMIT')
+export const appOrgId = () => crossVar.get('FICTION_ORG_ID', { errorOnUndefined: true }) as string
+export const appSiteId = () => crossVar.get('FICTION_SITE_ID', { errorOnUndefined: true }) as string
 
 type Camelize<S extends string> = S extends `${infer T}_${infer U}`
   ? `${Lowercase<T>}${Capitalize<Camelize<U>>}`
@@ -157,7 +165,7 @@ export function setupTestPorts<T extends readonly string[]>(args: { opts: Record
       val = +(crossVar.get(envVar) || '')
     }
     else {
-      val = val || randomBetween(2_000, 50_000)
+      val = val || randomBetween(8_000, 50_000)
       crossVar.setVar(envVar, String(val))
     }
 

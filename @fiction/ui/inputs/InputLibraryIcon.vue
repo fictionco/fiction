@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
-import { systemIcons } from '@fiction/core/schemas/systemIcons'
+import { systemIcons } from '@fiction/ui/lib/systemIcons'
 import type { MediaObject } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 import ElModal from '../ElModal.vue'
 import XIcon from '../media/XIcon.vue'
 import ElInput from './ElInput.vue'
 
-defineOptions({ name: 'FictionIcon' })
+defineOptions({ name: 'InputLibraryIcon' })
 
 const props = defineProps({
   modelValue: { type: Object as vue.PropType<MediaObject>, default: () => ({}) },

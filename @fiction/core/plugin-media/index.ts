@@ -2,6 +2,7 @@ import { FormData } from 'formdata-node'
 import multer from 'multer'
 import { FictionPlugin } from '../plugin.js'
 import { EnvVar, vars } from '../plugin-env/index.js'
+import { appOrgId } from '../utils/index.js'
 import { QueryManageMedia, QueryMediaIndex, QuerySaveMedia } from './queries.js'
 import { mediaTable, type TableMediaConfig } from './tables.js'
 import { relativeMedia } from './utils.js'
@@ -76,6 +77,7 @@ export class FictionMedia extends FictionPlugin<FictionMediaSettings> {
   }
 
   async relativeMedia(args: { url: string, orgId?: string, userId?: string }): Promise<TableMediaConfig> {
-    return relativeMedia({ fictionMedia: this, cache: this.cache, ...args })
+    const orgId = args.orgId || appOrgId()
+    return relativeMedia({ fictionMedia: this, cache: this.cache, orgId, ...args })
   }
 }

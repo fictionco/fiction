@@ -8,3 +8,7 @@ export function getNavComponentType(item: NavItem, fallback: 'button' | 'div' | 
   else
     return fallback
 }
+
+export function pathIsHref(href: string | undefined): boolean {
+  return !!(href?.startsWith('http') || href?.includes('_reload') || href?.includes(':'))
+}

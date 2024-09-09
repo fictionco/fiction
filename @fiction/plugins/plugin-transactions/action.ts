@@ -1,4 +1,4 @@
-import { abort, deepMerge, FictionObject } from '@fiction/core'
+import { abort, appOrgId, deepMerge, FictionObject } from '@fiction/core'
 import type { EndpointMeta, EndpointResponse, RequestMeta, TransactionalEmailConfig, User, vue } from '@fiction/core'
 import type { EmailResponse } from '@fiction/core/plugin-email/endpoint'
 import { createEmailVars } from './utils'
@@ -101,7 +101,7 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
     return r
   }
 
-  async defaultConfig(): Promise<TransactionalEmailConfig> {
+  async defaultEmailConfig(): Promise<TransactionalEmailConfig> {
     const fictionTransactions = this.fictionTransactions
     const fictionMedia = fictionTransactions?.settings.fictionMedia
     const fictionEmail = fictionTransactions?.settings.fictionEmail
@@ -143,7 +143,7 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
 
     const emailConfig = await this.settings.emailConfig(emailVars)
 
-    const defaultEmail = await this.defaultConfig()
+    const defaultEmail = await this.defaultEmailConfig()
     const finalEmail = deepMerge([defaultEmail, emailConfig])
     const r = await fictionEmail.renderAndSendEmail(finalEmail, { ...meta })
 

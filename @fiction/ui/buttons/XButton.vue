@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getNavComponentType, shortId, vue } from '@fiction/core'
+import { getNavComponentType, pathIsHref, shortId, vue } from '@fiction/core'
 import type { ButtonDesign, ButtonFontWeight, ButtonFormat, ButtonHover, ButtonRounding, ButtonShadow, ColorThemeUser, StandardSize } from '@fiction/core'
 import { animateItemEnter, splitLetters } from '../anim'
 import { getButtonClasses } from './util'
@@ -51,7 +51,7 @@ const iconAdjust = vue.computed(() => {
     'xs': { mt: '', mxBefore: '-ml-[1px] mr-[1px]', mxAfter: '-mr-[1px] ml-[1px]' },
     'sm': { mt: '', mxBefore: '-ml-[1px] mr-[1px]', mxAfter: '-mr-[1px] ml-[1px]' },
     'md': { mt: '', mxBefore: '-ml-[1px] mr-[1px]', mxAfter: '-mr-[1px] ml-[1px]' },
-    'lg': { mt: '', mxBefore: '-ml-1.5 mr-1.5', mxAfter: '-mr-1 ml-1' },
+    'lg': { mt: '', mxBefore: '-ml-[3px] mr-[3px]', mxAfter: '-mr-[3px] ml-[3px]' },
     'xl': { mt: '', mxBefore: '-ml-1.5 mr-1.5', mxAfter: '-mr-1.5 ml-1.5' },
     '2xl': { mt: '', mxBefore: '-ml-2 mr-2', mxAfter: '-mr-2 ml-2' },
   }
@@ -84,7 +84,7 @@ vue.onMounted(() => {
 
 const linkProps = vue.computed(() => {
   const { href } = props
-  return (href?.startsWith('http') || href?.includes('_reload')) ? { href } : { to: href }
+  return pathIsHref(href) ? { href } : { to: href }
 })
 </script>
 

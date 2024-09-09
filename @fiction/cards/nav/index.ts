@@ -1,5 +1,5 @@
 import { standardOption } from '@fiction/cards/inputSets'
-import { vue } from '@fiction/core'
+import { MediaTypographySchema, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site/card'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
@@ -35,7 +35,7 @@ const navItemSchema = z.object({
 export type SchemaNavItem = z.infer<typeof navItemSchema> & { isActive?: boolean, isHidden?: boolean, basePath?: string, items?: SchemaNavItem[], id?: string }
 
 const schema = z.object({
-  logo: mediaSchema.optional(),
+  logo: MediaTypographySchema.optional(),
   layout: z.enum(['navCenter', 'logoCenter', 'justified']).optional(),
   navA: z.array(navItemSchema).optional(),
   navB: z.array(navItemSchema).optional(),
@@ -44,7 +44,7 @@ const schema = z.object({
 export type UserConfig = z.infer<typeof schema>
 
 const options: InputOption[] = [
-  new InputOption({ key: 'logo', label: 'Logo', input: 'InputMediaDisplay' }),
+  new InputOption({ key: 'logo', label: 'Logo', input: 'InputLibraryLogo' }),
   new InputOption({ key: 'layout', label: 'Layout', input: 'InputSelect', list: ['navCenter', 'logoCenter', 'justified'] }),
   standardOption.navItems({ key: 'navA', maxDepth: 2 }),
   standardOption.navItems({ key: 'navB', maxDepth: 2 }),
