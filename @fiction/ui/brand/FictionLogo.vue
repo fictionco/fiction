@@ -1,16 +1,26 @@
 <script lang="ts" setup>
+import { vue } from '@fiction/core'
+
+import { animateItemEnter } from '../anim'
+
 defineProps({
   colorMode: { type: String, default: 'primary' },
 })
+
+const randomId = vue.useId()
+function doHoverAnimation() {
+  animateItemEnter({ targets: `#${randomId} .loader`, themeId: 'rise', totalTime: 600 })
+}
 </script>
 
 <template>
-  <div class="spinner w-full h-full ">
+  <div :id="randomId" class="spinner w-full h-full " @mouseenter="doHoverAnimation()">
     <svg
       class="main-logo w-full h-full"
       viewBox="0 0 488 122"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      overflow="visible"
     >
       <path
         d="M101.983 122H50.8045C47.484 122 44.3565 120.668 42.0075 118.237L3.01319 77.9858C0.0653321 74.9503 -0.806383 70.4109 0.783998 66.4414C2.38103 62.4651 6.1008 59.8898 10.2731 59.8898H58.0577V10.5739C58.0577 6.28166 60.5464 2.44269 64.3926 0.79448C68.1789 -0.83313 72.6906 0.0939898 75.5852 3.08138L114.599 43.3458C116.948 45.7838 118.239 49.0047 118.239 52.4248V105.229C118.233 114.48 110.946 122 101.983 122ZM52.9472 103.856H100.659V54.6155L75.6384 28.7935V78.0339H27.927L52.9472 103.856Z"
@@ -54,38 +64,33 @@ defineProps({
 <style lang="less" scoped>
 .spinner:hover {
   .loader {
-    animation: kaboom 1s ease-in-out alternate infinite;
-    transform-origin: 50% right;
-    animation-delay: 0s;
+    animation: kaboom 2s ease-in-out alternate infinite;
+    transform-origin: 50% 50%;
     will-change: fill;
-    &:nth-child(2) {
-      animation-delay: 0.1s;
+  }
+
+  // Loop through nth-child(2) to nth-child(7)
+  .loader {
+    @total-loaders: 7;
+    .loop (@i) when (@i <= @total-loaders) {
+      &:nth-child(@{i}) {
+        animation-delay: (@i - 1) * 0.1s;
+      }
+      .loop(@i + 1);
     }
-    &:nth-child(3) {
-      animation-delay: 0.2s;
-    }
-    &:nth-child(4) {
-      animation-delay: 0.3s;
-    }
-    &:nth-child(5) {
-      animation-delay: 0.4s;
-    }
-    &:nth-child(6) {
-      animation-delay: 0.5s;
-    }
-    &:nth-child(7) {
-      animation-delay: 0.6s;
-    }
+    .loop(2); // Start from nth-child(2)
   }
 }
 
 @keyframes kaboom {
   0% {
-    fill: currentColor;
+    opacity: 1;
   }
-
+  50% {
+    opacity: .5;
+  }
   100% {
-    fill: theme("colors.primary.500");
+    opacity: 1;
   }
 }
 </style>

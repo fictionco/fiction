@@ -8,6 +8,7 @@ import InputSelectCustom from './InputSelectCustom.vue'
 const props = defineProps({
   modelValue: { type: String, default: '' },
   uiSize: { type: String as vue.PropType<StandardSize>, default: 'md' },
+  noPreview: { type: Boolean, default: false },
 })
 
 const emit = defineEmits<{
@@ -101,7 +102,7 @@ export default {
 
 <template>
   <div class="space-y-2">
-    <div v-if="fontFamily">
+    <div v-if="fontFamily && !noPreview">
       <div
         contenteditable="true"
         class="font-preview inline-block border border-dashed border-theme-200 dark:border-theme-600/60 rounded-md focus:outline-none focus:ring-0  hover:opacity-80"

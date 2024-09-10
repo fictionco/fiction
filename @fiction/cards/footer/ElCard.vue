@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { dayjs, useService, vue, waitFor } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
+import XLogo from '@fiction/ui/media/XLogo.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import type { Card } from '@fiction/site/card'
 import CardNavLink from '../CardNavLink.vue'
 import CardText from '../CardText.vue'
 import CardSocials from '../el/CardSocials.vue'
-import ElBrand from '../el/ElBrand.vue'
 import { processNavItems } from '../utils/nav'
 import type { UserConfig } from './index.js'
 
@@ -90,7 +90,7 @@ vue.onMounted(() => {
     <div class=" px-4 lg:px-0">
       <div :class="layoutClasses.wrapClass">
         <div :class="layoutClasses.logoClass" class="text-primary-500 dark:text-theme-0">
-          <ElBrand :logo="uc.logo" :card />
+          <XLogo v-if="uc.logo" :media="uc.logo" class="h-12" alignment-class="md:justify-start justify-center" />
           <CardText
             class="text-base text-theme-700 dark:text-theme-500 x-font-title leading-tight text-balance font-medium"
             :card

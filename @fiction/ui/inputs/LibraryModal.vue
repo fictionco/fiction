@@ -3,8 +3,8 @@ import { vue } from '@fiction/core'
 import type { MediaObject } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 import ElModal from '../ElModal.vue'
-import XMedia from '../media/XMedia.vue'
 import XLogo from '../media/XLogo.vue'
+import XMedia from '../media/XMedia.vue'
 import ElInput from './ElInput.vue'
 import InputMediaUpload from './InputMediaUpload.vue'
 import LibraryIcon from './LibraryIcon.vue'
@@ -73,7 +73,7 @@ function updateCurrentSelection(updates: Partial<MediaObject>) {
 
       <!-- Preview section -->
       <div v-if="currentSelection.format" class="px-4 py-2 border-b border-theme-300/50 dark:border-theme-700/70">
-        <div class="flex justify-between text-theme-500 dark:text-theme-600 py-2">
+        <div class="flex justify-between text-theme-500 dark:text-theme-400 py-2">
           <div class="text-sm">
             Preview
           </div>
@@ -81,14 +81,13 @@ function updateCurrentSelection(updates: Partial<MediaObject>) {
             Format: {{ currentSelection.format }}
           </div>
         </div>
-        <div class="flex justify-center items-center">
-          <XLogo :media="currentSelection" class="h-[200px]" />
-          <XMedia
-            :media="currentSelection"
-            image-mode="contain"
-            class="h-[200px]"
-          />
+        <div class="flex justify-center items-center truncate p-4">
+          <XLogo :media="currentSelection" :class="['typography'].includes(currentSelection.format) ? 'h-[60px]' : 'h-[150px]'" />
         </div>
+      </div>
+
+      <div class=" p-4 text-xs flex items-center gap-1 text-theme-500 dark:text-theme-400">
+        <span>Set New Value ({{ navItemActive.value }} format)</span> <span class="i-tabler-arrow-down-right text-lg" />
       </div>
 
       <!-- Tool-specific content -->
@@ -140,6 +139,7 @@ function updateCurrentSelection(updates: Partial<MediaObject>) {
             input="InputFont"
             placeholder="Select font for logo"
             class="mb-4"
+            :no-preview="true"
             @update:model-value="updateCurrentSelection({ typography: { ...currentSelection.typography, font: $event }, format: 'typography' })"
           />
         </div>

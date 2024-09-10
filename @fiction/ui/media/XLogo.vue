@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
 import { googleFontsUtility } from '@fiction/core/utils/fonts'
+import { twMerge } from 'tailwind-merge'
 import type { MediaObject } from '@fiction/core'
 import XIcon from '../media/XIcon.vue'
 
@@ -9,14 +10,19 @@ defineOptions({ name: 'XLogo' })
 const {
   media,
   alt = '',
-  alignment = 'center',
+  alignmentClass = 'justify-center',
   addGoogleFont,
 } = defineProps<{
   media: MediaObject
   alt?: string
-  alignment?: 'left' | 'center' | 'right'
+  alignmentClass?: string
   addGoogleFont?: (family: string) => void
 }>()
+
+const containerRef = vue.ref<HTMLElement | null>(null)
+const textRef = vue.ref<HTMLElement | null>(null)
+const htmlContentRef = vue.ref<HTMLElement | null>(null)
+const fontSize = vue.ref(16) // Default font size
 
 const mediaFormat = vue.computed(() => {
   if (media.format)
@@ -47,7 +53,7 @@ const typographyStyle = vue.computed(() => {
     fontWeight: typography.weight,
     lineHeight: 1,
     letterSpacing: typography.letterSpacing,
-    fontSize: 'clamp(16px, 4vw, 48px)',
+    fontSize: fontSize.value && fontSize.value > 8 ? `${fontSize.value}px` : 'inherit',
   }
 })
 
@@ -62,34 +68,23 @@ vue.onMounted(() => {
       }
     }
   }, { immediate: true })
-})
 
-const containerClass = vue.computed(() => {
-  const classes = ['inline-flex items-center h-full w-full']
+  if (mediaFormat.value === 'typography') {
+    const resizeObserver = new ResizeObserver(() => {
+      adjustFontSize()
+    })
 
-  if (alignment === 'left') {
-    classes.push('justify-start')
+    if (containerRef.value) {
+      resizeObserver.observe(containerRef.value)
+    }
+
+    vue.onUnmounted(() => {
+      resizeObserver.disconnect()
+    })
   }
-  else if (alignment === 'center') {
-    classes.push('justify-center')
-  }
-  else if (alignment === 'right') {
-    classes.push('justify-end')
-  }
 
-  return classes
-})
-
-const contentClass = vue.computed(() => {
-  return ['max-h-full object-contain']
-})
-
-const htmlContentRef = vue.ref<HTMLElement | null>(null)
-
-vue.onMounted(() => {
   if (mediaFormat.value === 'html' && htmlContentRef.value) {
-    const content = htmlContentRef.value
-    const svg = content.querySelector('svg')
+    const svg = htmlContentRef.value.querySelector('svg')
     if (svg) {
       svg.setAttribute('width', '100%')
       svg.setAttribute('height', '100%')
@@ -99,18 +94,39 @@ vue.onMounted(() => {
   }
 })
 
+const MIN_FONT_SIZE = 8 // Minimum font size in pixels
+
+function adjustFontSize() {
+  if (containerRef.value && textRef.value && fontSize.value > 8) {
+    const containerHeight = containerRef.value.clientHeight
+    let testSize = containerHeight
+    textRef.value.style.fontSize = `${testSize}px`
+
+    while (textRef.value.scrollHeight > containerHeight && testSize > MIN_FONT_SIZE) {
+      testSize -= 1
+      textRef.value.style.fontSize = `${testSize}px`
+    }
+
+    fontSize.value = testSize
+  }
+}
+
+const containerClass = vue.computed(() => {
+  const classes = ['inline-flex items-center w-full']
+
+  classes.push(alignmentClass)
+
+  return twMerge(classes.join(' '))
+})
+
+const contentClass = vue.computed(() => {
+  return ['max-h-full object-contain']
+})
+
 const htmlWrapperClass = vue.computed(() => {
   const classes = ['inline-flex items-center h-full']
 
-  if (alignment === 'left') {
-    classes.push('justify-start')
-  }
-  else if (alignment === 'center') {
-    classes.push('justify-center')
-  }
-  else if (alignment === 'right') {
-    classes.push('justify-end')
-  }
+  classes.push(alignmentClass)
 
   return classes
 })
@@ -127,7 +143,7 @@ const isSvgContent = vue.computed(() => {
 </script>
 
 <template>
-  <span :class="containerClass">
+  <div ref="containerRef" :class="containerClass">
     <template v-if="mediaFormat === 'image' || mediaFormat === 'url'">
       <img
         v-if="media.url"
@@ -149,12 +165,13 @@ const isSvgContent = vue.computed(() => {
     </template>
 
     <template v-else-if="mediaFormat === 'typography'">
-      <span
-        class="whitespace-nowrap h-full flex items-center"
+      <div
+        ref="textRef"
+        class="whitespace-nowrap h-full"
         :style="typographyStyle"
       >
         {{ media.typography?.text }}
-      </span>
+      </div>
     </template>
 
     <template v-else-if="mediaFormat === 'iconId'">
@@ -183,7 +200,7 @@ const isSvgContent = vue.computed(() => {
     <template v-else>
       <span class="text-theme-500 dark:text-theme-400">Invalid Media Format</span>
     </template>
-  </span>
+  </div>
 </template>
 
 <style scoped>

@@ -2,9 +2,10 @@
 import CardNavLink from '@fiction/cards/CardNavLink.vue'
 import { useService, vue } from '@fiction/core'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
+import XLogo from '@fiction/ui/media/XLogo.vue'
 import NavMobile from '@fiction/ui/NavMobile.vue'
 import type { Card } from '@fiction/site/card'
-import ElBrand from '../el/ElBrand.vue'
+import CardLink from '../el/CardLink.vue'
 import { processNavItems } from '../utils/nav'
 import XNav from './XNav.vue'
 import type { SchemaNavItem, UserConfig } from './index.js'
@@ -67,8 +68,14 @@ function close() {
     <div class="x-header-container">
       <div class="relative">
         <nav class="relative flex items-center justify-between gap-12" aria-label="Global">
-          <div class="flex" :class="layoutClass.brand">
-            <ElBrand :logo="uc.logo" :card />
+          <div v-if="uc.logo" class="flex h-6" :class="layoutClass.brand">
+            <CardLink
+              :card
+              href="/"
+              class="flex  x-font-title text-2xl font-medium transition-all"
+            >
+              <XLogo :media="uc.logo" alignment-class="justify-start" />
+            </CardLink>
           </div>
           <XNav
             :nav="nav.navA"

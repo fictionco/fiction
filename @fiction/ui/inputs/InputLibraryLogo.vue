@@ -2,7 +2,7 @@
 import { vue } from '@fiction/core'
 import type { MediaObject } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
-import XMedia from '../media/XMedia.vue'
+import XLogo from '../media/XLogo.vue'
 import LibraryModal from './LibraryModal.vue'
 
 defineOptions({ name: 'InputLibraryLogo' })
@@ -36,14 +36,14 @@ function handleLogoUpdate(newValue: MediaObject) {
       @click.stop.prevent="openLogoSelector"
     >
       <div class="flex items-center justify-center pointer-events-none p-2 h-[70px]">
-        <XMedia
+        <XLogo
           :media="v"
-          image-mode="contain"
           class="h-full max-w-full"
+          alignment-class="justify-start"
         />
       </div>
       <div
-        class="absolute text-xs font-sans inset-0 flex items-center justify-center bg-theme-900 bg-opacity-50 transition-opacity pointer-events-none opacity-0 group-hover:opacity-100"
+        class="absolute text-xs font-sans inset-0 flex items-center justify-center bg-primary-900/80 cursor-pointer transition-opacity  opacity-0 group-hover:opacity-100"
       >
         <span class="text-theme-100 font-medium flex gap-1 items-center">
           <div class="i-tabler-rotate text-lg" />

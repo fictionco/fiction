@@ -7,7 +7,7 @@ import { stockMediaHandler } from '../stock/index.js'
 
 const darkMode = vue.ref(false)
 
-const alignments = ['left', 'center', 'right'] as const
+const alignments = ['justify-start', 'justify-center', 'justify-end'] as const
 
 const containerScenarios = [
   { name: 'Header Logo', class: 'h-16' },
@@ -16,11 +16,13 @@ const containerScenarios = [
   { name: 'Mobile Header', class: 'h-8' },
   { name: 'Logo Grid Item', class: 'h-24' },
   { name: 'Banner Logo', class: 'h-20' },
+  { name: 'Tall Container', class: 'h-40' },
+  { name: 'No Height Specified', class: '' },
 ]
 
 function generateMediaObjects(): MediaObject[] {
   return [
-    // Typography example
+    // Typography examples
     {
       typography: {
         text: 'Fiction.com',
@@ -30,7 +32,16 @@ function generateMediaObjects(): MediaObject[] {
       },
       format: 'typography',
     },
-    // HTML (SVG) example
+    {
+      typography: {
+        text: 'Fiction.com',
+        font: 'Montserrat',
+        weight: 'normal',
+        letterSpacing: '-0.02em',
+      },
+      format: 'typography',
+    },
+    // HTML (SVG) examples
     { html: `<div class="flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
 </svg><div class="font-sans">test</div></div>`, format: 'html' },
@@ -46,6 +57,7 @@ function generateMediaObjects(): MediaObject[] {
   <path d="M181.593 47.7951C182.718 40.9825 183.43 35.2206 191.561 34.0188C194.576 33.6617 195.707 33.5312 198.548 33.8746L202.295 15.8541C197.71 15.0506 192.852 15.1743 188.747 15.5726C168.205 17.571 162.515 29.8159 159.707 47.7814H149.06L146.911 65.6095H157.045C157.045 65.6095 151.003 100.167 150.597 102.66C150.191 105.153 147.756 118.819 147.756 118.819L169.602 118.503C169.602 118.503 169.229 118.641 170.354 111.396L178.512 65.6301H193.371L187.15 104.858C186.724 107.316 185.706 118.311 185.706 118.311L206.62 118.153C206.76 113.188 206.92 111.904 207.345 107.756C207.771 103.601 212.822 76.3298 212.822 76.3298C213.62 71.1585 214.845 63.5905 215.936 57.547C216.928 52.0461 216.375 47.8089 216.375 47.8089H181.593V47.7951Z" />
   <path d="M101.983 122H50.8045C47.484 122 44.3565 120.668 42.0075 118.237L3.01319 77.9858C0.0653321 74.9503 -0.806383 70.4109 0.783998 66.4414C2.38103 62.4651 6.1008 59.8898 10.2731 59.8898H58.0577V10.5739C58.0577 6.28166 60.5464 2.44269 64.3926 0.79448C68.1789 -0.83313 72.6906 0.0939898 75.5852 3.08138L114.599 43.3458C116.948 45.7838 118.239 49.0047 118.239 52.4248V105.229C118.233 114.48 110.946 122 101.983 122ZM52.9472 103.856H100.659V54.6155L75.6384 28.7935V78.0339H27.927L52.9472 103.856Z" />
 </svg>`, format: 'html' },
+    { html: `<div class="bg-primary-500 text-white flex items-center rounded"><div>Custom HTML Logo</div></div>`, format: 'html' },
     // Icon example
     { iconId: 'github', format: 'iconId' },
     // Image example
@@ -73,6 +85,15 @@ const gridItems = vue.computed(() => {
     href: index % 2 === 0 ? `https://example.com/logo${index}` : undefined,
   }))
 })
+
+// Height handling examples
+const heightExamples = [
+  { name: 'Default (no height)', class: '' },
+  { name: 'Fixed Height (64px)', class: 'h-16' },
+  { name: 'Percentage Height (50%)', class: 'h-1/2' },
+  { name: 'Viewport Height (25vh)', class: 'h-[15vh]' },
+  { name: 'Min Height (100px)', class: 'min-h-[100px]' },
+]
 </script>
 
 <template>
@@ -110,10 +131,30 @@ const gridItems = vue.computed(() => {
               <div class="bg-theme-100 dark:bg-theme-700 rounded" :class="scenario.class">
                 <XLogo
                   :media="media"
-                  :alignment="alignment"
+                  :alignment-class="alignment"
                   class="w-full h-full"
                 />
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Height Handling Examples -->
+      <div class="mt-16">
+        <h2 class="text-2xl font-bold mb-8 text-theme-800 dark:text-white">
+          Height Handling Examples
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div v-for="example in heightExamples" :key="example.name" class="space-y-4">
+            <h3 class="text-lg font-semibold text-theme-700 dark:text-theme-300 font-sans">
+              {{ example.name }}
+            </h3>
+            <div class="bg-theme-100 dark:bg-theme-700 rounded" :class="example.class">
+              <XLogo
+                :media="mediaObjects[0]"
+                :class="example.class"
+              />
             </div>
           </div>
         </div>
