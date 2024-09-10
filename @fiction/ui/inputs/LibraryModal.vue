@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
+import { determineMediaFormat, vue } from '@fiction/core'
 import type { MediaObject } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 import ElModal from '../ElModal.vue'
@@ -30,8 +30,10 @@ const availableTools = [
 ] as const
 type Tool = typeof availableTools[number]['value']
 
+const currentSelection = vue.ref<MediaObject>({})
+
 function getDefaultTool() {
-  const format = props.modelValue.format
+  const format = currentSelection.value.format
   let v: Tool
   if (format === 'html')
     v = 'html'
@@ -44,14 +46,16 @@ function getDefaultTool() {
   return availableTools.find(item => item.value === v) || availableTools[0]
 }
 
+function selectMedia(media: MediaObject) {
+  const format = determineMediaFormat(media)
+  currentSelection.value = { ...currentSelection.value, format, ...media }
+}
+
+selectMedia(props.modelValue)
+
 const navItems = vue.computed(() => availableTools.filter(item => props.tools.includes(item.value)))
 
 const navItemActive = vue.ref(getDefaultTool())
-const currentSelection = vue.ref<MediaObject>({ ...props.modelValue })
-
-function selectMedia(media: MediaObject) {
-  currentSelection.value = { ...currentSelection.value, ...media }
-}
 
 function applyChanges() {
   emit('update:modelValue', currentSelection.value)

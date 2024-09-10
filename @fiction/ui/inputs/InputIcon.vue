@@ -2,10 +2,10 @@
 import { vue } from '@fiction/core'
 import type { MediaObject } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
-import XLogo from '../media/XLogo.vue'
+import XIcon from '../media/XIcon.vue'
 import LibraryModal from './LibraryModal.vue'
 
-defineOptions({ name: 'InputLibraryLogo' })
+defineOptions({ name: 'InputIcon' })
 
 const props = defineProps({
   modelValue: { type: Object as vue.PropType<MediaObject>, default: () => ({}) },
@@ -17,13 +17,13 @@ const emit = defineEmits<{
 
 const vis = vue.ref(false)
 const v = vue.computed(() => props.modelValue || {})
-const hasLogo = vue.computed(() => v.value.url || v.value.html || v.value.typography?.text || v.value.iconId)
+const hasIcon = vue.computed(() => v.value.iconId || v.value.html || v.value.url)
 
-function openLogoSelector() {
+function openIconSelector() {
   vis.value = true
 }
 
-function handleLogoUpdate(newValue: MediaObject) {
+function handleIconUpdate(newValue: MediaObject) {
   emit('update:modelValue', newValue)
 }
 </script>
@@ -31,23 +31,22 @@ function handleLogoUpdate(newValue: MediaObject) {
 <template>
   <div class="relative">
     <div
-      v-if="hasLogo"
+      v-if="hasIcon"
       class="relative overflow-hidden rounded-lg group bg-theme-100/40 dark:bg-theme-700/70"
-      @click.stop.prevent="openLogoSelector"
+      @click.stop.prevent="openIconSelector"
     >
-      <div class="flex items-center justify-center pointer-events-none p-2 h-[50px]">
-        <XLogo
-          :media="v"
-          class="h-full max-w-full"
-          alignment-class="justify-start"
+      <div class="flex items-center justify-center pointer-events-none p-2">
+        <XIcon
+          :icon="v"
+          class="size-10"
         />
       </div>
       <div
-        class="absolute text-xs font-sans inset-0 flex items-center justify-center bg-primary-900/80 cursor-pointer transition-opacity  opacity-0 group-hover:opacity-100"
+        class="absolute text-xs font-sans inset-0 flex items-center justify-center bg-theme-900 bg-opacity-50 transition-opacity opacity-0 group-hover:opacity-100"
       >
         <span class="text-theme-100 font-medium flex gap-1 items-center">
           <div class="i-tabler-rotate text-lg" />
-          <div>Change Logo</div>
+          <div>Change Icon</div>
         </span>
       </div>
     </div>
@@ -57,17 +56,17 @@ function handleLogoUpdate(newValue: MediaObject) {
       theme="primary"
       icon="i-tabler-photo"
       size="sm"
-      @click.stop.prevent="openLogoSelector"
+      @click.stop.prevent="openIconSelector"
     >
-      Select Logo
+      Select Icon
     </XButton>
 
     <LibraryModal
-      v-model="v"
       v-model:vis="vis"
-      :tools="['upload', 'library', 'html', 'typography']"
-      title="Logo Selector"
-      @update:model-value="handleLogoUpdate"
+      :model-value="v"
+      :tools="['upload', 'library', 'html', 'icons']"
+      title="Icon Selector"
+      @update:model-value="handleIconUpdate"
     />
   </div>
 </template>

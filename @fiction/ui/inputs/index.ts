@@ -2,7 +2,6 @@ import { FictionObject, removeUndefined, vue } from '@fiction/core'
 import type { ListItem } from '@fiction/core'
 import type { U } from 'vitest/dist/chunks/environment.0M5R1SX_.js'
 import type { z } from 'zod'
-import InputLibraryLogo from './InputLibraryLogo.vue'
 
 const def = vue.defineAsyncComponent
 
@@ -35,8 +34,8 @@ export const inputs = {
   InputTextarea: { el: def(async () => import('./InputTextarea.vue')) },
   InputWeight: { el: def(async () => import('./InputWeight.vue')) },
   InputNumber: { el: def(async () => import('./InputNumber.vue')) },
-  InputLibraryLogo: { el: def(async () => import('./InputLibraryLogo.vue')), shape: ['url', 'format', 'html', 'el', 'typography.*', 'class', 'iconId'] },
-  InputLibraryIcon: { el: def(async () => import('./InputLibraryIcon.vue')), shape: ['url', 'format', 'html', 'iconId', 'el', 'class'] },
+  InputLogo: { el: def(async () => import('./InputLogo.vue')), shape: ['url', 'format', 'html', 'el', 'typography.*', 'class', 'iconId'] },
+  InputIcon: { el: def(async () => import('./InputIcon.vue')), shape: ['url', 'format', 'html', 'iconId', 'el', 'class'] },
   InputMedia: { el: def(async () => import('./InputMedia.vue')), shape: ['url', 'format', 'html', 'el', 'modify.*', 'iconId', 'class'] },
   InputMediaUpload: { el: def(async () => import('./InputMediaUpload.vue')), shape: ['url'] },
   InputMediaDisplay: { el: def(async () => import('./InputMediaDisplay.vue')), shape: ['url', 'format', 'html', 'el', 'modify', 'modify.flip'] },

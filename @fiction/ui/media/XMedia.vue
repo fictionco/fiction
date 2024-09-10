@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getColorScheme, log, vue, waitFor } from '@fiction/core'
+import { determineMediaFormat, getColorScheme, log, vue, waitFor } from '@fiction/core'
 import * as bh from 'blurhash'
 import type { GradientPoint, GradientSetting, MediaObject } from '@fiction/core'
 import ClipPathAnim from '../anim/AnimClipPath.vue'
@@ -19,6 +19,10 @@ const logger = log.contextLogger('XMedia')
 
 const loading = vue.ref(true)
 const blurCanvas = vue.ref<HTMLCanvasElement>()
+
+const mediaFormat = vue.computed(() => {
+  return determineMediaFormat(props.media)
+})
 
 async function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -57,12 +61,13 @@ vue.onMounted(() => {
     async (url) => {
       loading.value = true
       setBlurHash()
-      if (url) {
+      if (url && mediaFormat.value === 'image') {
         try {
           await loadImage(url)
         }
         catch (e) {
-          logger.warn(`error loading image: (${url})`, { error: e })
+          const error = e as Error
+          logger.error(`error loading image: ${error.message}: (${url})`, { error })
         }
         finally {
           loading.value = false
@@ -150,46 +155,6 @@ const filterStyle = vue.computed(() => ({
 
 const inlineImage = vue.computed(() => props.imageMode === 'inline')
 const imageModeClass = vue.computed(() => props.imageMode === 'contain' ? 'object-contain' : 'object-cover')
-
-const mediaFormat = vue.computed(() => {
-  if (props.media?.format && props.media?.format !== 'url')
-    return props.media.format
-
-  if (!props.media?.url)
-    return 'html'
-
-  const url = new URL(props.media.url, 'https://dummybase.com')
-
-  // Check for other common image hosting services
-  const imageHosts = ['imgur', 'gravatar', 'flickr']
-  if (imageHosts.some(host => url.hostname.includes(host))) {
-    return 'image'
-  }
-
-  const pathname = url.pathname
-  const extension = pathname.split('.').pop()?.toLowerCase() || ''
-  const formatMap: Record<string, string> = {
-    'jpg': 'image',
-    'jpeg': 'image',
-    'png': 'image',
-    'gif': 'image',
-    'webp': 'image',
-    'svg': 'image',
-    'mp4': 'video',
-    'webm': 'video',
-    'ogg': 'video',
-    'html': 'html',
-    '': 'html',
-  }
-
-  const out = formatMap[extension]
-
-  if (!out) {
-    logger.error(`Unknown media format: ${extension}`)
-  }
-
-  return out
-})
 </script>
 
 <template>

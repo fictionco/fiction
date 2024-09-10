@@ -108,7 +108,7 @@ export class FictionLog {
       )
 
       if (error) {
-        console.error('Error Details:', error)
+        console.error(`Error Details:`, error)
         const e = error as Error
         if (e.stack)
           console.error('Error Stack:', e.stack)

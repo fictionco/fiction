@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
+import { determineMediaFormat, vue } from '@fiction/core'
 import { googleFontsUtility } from '@fiction/core/utils/fonts'
 import { twMerge } from 'tailwind-merge'
 import type { MediaObject } from '@fiction/core'
@@ -25,23 +25,7 @@ const htmlContentRef = vue.ref<HTMLElement | null>(null)
 const fontSize = vue.ref(16) // Default font size
 
 const mediaFormat = vue.computed(() => {
-  if (media.format)
-    return media.format
-  if (media.url) {
-    const extension = media.url.split('.').pop()?.toLowerCase()
-    if (extension && ['mp4', 'webm', 'ogg'].includes(extension))
-      return 'video'
-    return 'image'
-  }
-  if (media.html)
-    return 'html'
-  if (media.typography)
-    return 'typography'
-  if (media.iconId)
-    return 'iconId'
-  if (media.el)
-    return 'component'
-  return 'url'
+  return determineMediaFormat(media)
 })
 
 const typographyStyle = vue.computed(() => {
@@ -51,7 +35,7 @@ const typographyStyle = vue.computed(() => {
   return {
     fontFamily: typography.font,
     fontWeight: typography.weight,
-    lineHeight: 1,
+    lineHeight: 1.2,
     letterSpacing: typography.letterSpacing,
     fontSize: fontSize.value && fontSize.value > 8 ? `${fontSize.value}px` : 'inherit',
   }

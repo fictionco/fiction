@@ -1,8 +1,68 @@
 import path from 'node:path'
 import fs from 'fs-extra'
+import type { MediaObject } from '@fiction/platform'
 import type { Buffer } from 'node:buffer'
 import type sharp from 'sharp'
 import { stringify } from './utils'
+
+export function determineMediaFormat(media?: MediaObject): MediaObject['format'] | undefined {
+  if (!media)
+    return undefined
+
+  // Helper functions
+  const isValidUrl = (str: string): boolean => {
+    try {
+      const _x = new URL(str)
+      return true
+    }
+    catch {
+      return false
+    }
+  }
+
+  const getExtension = (url: string): string =>
+    url.split('.').pop()?.toLowerCase() || ''
+
+  const isImageHost = (hostname: string): boolean =>
+    ['imgur', 'gravatar', 'flickr'].some(host => hostname.includes(host))
+
+  const formatMap: Record<string, string> = {
+    'jpg': 'image',
+    'jpeg': 'image',
+    'png': 'image',
+    'gif': 'image',
+    'webp': 'image',
+    'svg': 'image',
+    'mp4': 'video',
+    'webm': 'video',
+    'ogg': 'video',
+    'html': 'html',
+    '': 'html',
+  }
+
+  // Main logic
+  if (media.format && media.format !== 'url')
+    return media.format
+  if (media.iconId)
+    return 'iconId'
+  if (media.class)
+    return 'iconClass'
+  if (media.html)
+    return 'html'
+  if (media.typography)
+    return 'typography'
+
+  if (media.url && isValidUrl(media.url)) {
+    const url = new URL(media.url)
+    if (isImageHost(url.hostname))
+      return 'image'
+
+    const extension = getExtension(url.pathname)
+    return (formatMap[extension] || 'image') as MediaObject['format']
+  }
+
+  return undefined
+}
 
 export async function hashFile(fileInput: {
   filePath?: string

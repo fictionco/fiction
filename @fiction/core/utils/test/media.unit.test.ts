@@ -5,10 +5,75 @@ import path from 'node:path'
 import fs from 'fs-extra'
 import sharp from 'sharp'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import type { MediaObject } from '@fiction/platform'
+import type { IconId } from '@fiction/ui/lib/systemIcons'
 import { testImgPath, testSvgPath } from '../../test-utils'
-import { createBlurHash, createImageVariants, getExtensionFromMimeType, getFileExtensionFromFetchResponse, getMimeType, hashFile } from '../media'
+import { createBlurHash, createImageVariants, determineMediaFormat, getExtensionFromMimeType, getFileExtensionFromFetchResponse, getMimeType, hashFile } from '../media'
 import { safeDirname } from '../utils'
 import type { ImageSizeOptions } from '../media'
+
+describe('determineMediaFormat', () => {
+  it('should return the format if it is already set', () => {
+    const media: MediaObject = { format: 'video', url: 'https://example.com/video.mp4' }
+    expect(determineMediaFormat(media)).toBe('video')
+  })
+
+  it('should return "iconId" for media with iconId', () => {
+    const media: MediaObject = { iconId: 'airplane' }
+    expect(determineMediaFormat(media)).toBe('iconId')
+  })
+
+  it('should return "iconClass" for media with class', () => {
+    const media: MediaObject = { class: 'some-icon-class' }
+    expect(determineMediaFormat(media)).toBe('iconClass')
+  })
+
+  it('should return "html" for media with html content', () => {
+    const media: MediaObject = { html: '<div>Some HTML</div>' }
+    expect(determineMediaFormat(media)).toBe('html')
+  })
+
+  it('should return "typography" for media with typography', () => {
+    const media: MediaObject = { typography: { text: 'Some text', font: 'Arial' } }
+    expect(determineMediaFormat(media)).toBe('typography')
+  })
+
+  it('should return "image" for valid image URLs', () => {
+    const media: MediaObject = { url: 'https://example.com/image.jpg' }
+    expect(determineMediaFormat(media)).toBe('image')
+  })
+
+  it('should return "video" for valid video URLs', () => {
+    const media: MediaObject = { url: 'https://example.com/video.mp4' }
+    expect(determineMediaFormat(media)).toBe('video')
+  })
+
+  it('should return "image" for URLs from known image hosting services', () => {
+    const media: MediaObject = { url: 'https://imgur.com/someimage' }
+    expect(determineMediaFormat(media)).toBe('image')
+  })
+
+  it('should return "image" for URLs with unknown extensions', () => {
+    const media: MediaObject = { url: 'https://example.com/file.xyz' }
+    expect(determineMediaFormat(media)).toBe('image')
+  })
+
+  it('should return "undefined" for invalid URLs', () => {
+    const media: MediaObject = { url: 'not-a-valid-url' }
+    expect(determineMediaFormat(media)).toBeFalsy()
+  })
+
+  it('should return "undefined" for empty media objects', () => {
+    const media: MediaObject = {}
+    expect(determineMediaFormat(media)).toBeFalsy()
+  })
+
+  it('should return "undefined" for media objects with only unrelated properties', () => {
+    // @ts-expect-error test
+    const media: MediaObject = { someProperty: 'someValue' }
+    expect(determineMediaFormat(media)).toBeFalsy()
+  })
+})
 
 /**
  * BLURHASH

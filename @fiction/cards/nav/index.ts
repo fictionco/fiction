@@ -44,7 +44,7 @@ const schema = z.object({
 export type UserConfig = z.infer<typeof schema>
 
 const options: InputOption[] = [
-  new InputOption({ key: 'logo', label: 'Logo', input: 'InputLibraryLogo' }),
+  new InputOption({ key: 'logo', label: 'Logo', input: 'InputLogo' }),
   new InputOption({ key: 'layout', label: 'Layout', input: 'InputSelect', list: ['navCenter', 'logoCenter', 'justified'] }),
   standardOption.navItems({ key: 'navA', maxDepth: 2 }),
   standardOption.navItems({ key: 'navB', maxDepth: 2 }),

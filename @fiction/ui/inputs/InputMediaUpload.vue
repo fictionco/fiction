@@ -5,21 +5,19 @@ import XButton from '../buttons/XButton.vue'
 import { textInputClasses } from './theme'
 import type { UiElementSize } from '../utils'
 
-type Props = {
+const {
+  modelValue,
+  fileTypes = ['jpg', 'png', 'gif', 'svg', 'webp', 'mp4', 'webm'],
+  fileSize = 10_240_000,
+  uiSize = 'md',
+  hasVideo = false,
+} = defineProps<{
   modelValue: MediaObject
   fileTypes?: string[]
   fileSize?: number
   uiSize?: UiElementSize
   hasVideo?: boolean
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  modelValue: undefined,
-  fileTypes: () => ['jpg', 'png', 'gif', 'svg', 'webp', 'mp4', 'webm'],
-  fileSize: 10_240_000,
-  uiSize: 'md',
-  hasVideo: false,
-})
+}>()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: MediaObject): void
@@ -33,8 +31,8 @@ const uploading = vue.ref(false)
 const fileInput = vue.ref<HTMLInputElement | null>(null)
 
 const acceptedFileTypes = vue.computed(() => {
-  const types = props.fileTypes.map(type => `image/${type}`)
-  if (props.hasVideo) {
+  const types = fileTypes.map(type => `image/${type}`)
+  if (hasVideo) {
     types.push('video/mp4', 'video/webm')
   }
   return types.join(',')
@@ -51,11 +49,11 @@ async function uploadFiles(files?: FileList | null) {
   uploading.value = true
   const file = files[0]
 
-  if (file.size > props.fileSize) {
+  if (file.size > fileSize) {
     log.warn('mediaUpload', 'File size exceeds limit')
     fictionEnv.events.emit('notify', {
       type: 'error',
-      message: `File size exceeds limit of ${formatBytes(props.fileSize)}`,
+      message: `File size exceeds limit of ${formatBytes(fileSize)}`,
     })
     uploading.value = false
     return
@@ -116,10 +114,9 @@ function triggerFileInput() {
         Upload
       </XButton>
       <input
-        :model-value="modelValue?.url"
+        :value="modelValue?.url"
         type="text"
         :class="textInputClasses({ inputClass: 'grow', uiSize })"
-        @update:model-value="updateValue"
         @input="updateValue({ url: ($event.target as HTMLInputElement).value })"
       >
       <input
