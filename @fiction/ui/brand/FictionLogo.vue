@@ -14,9 +14,9 @@ function doHoverAnimation() {
 </script>
 
 <template>
-  <div :id="randomId" class="spinner w-full h-full " @mouseenter="doHoverAnimation()">
+  <div :id="randomId" class="spinner h-full " @mouseenter="doHoverAnimation()">
     <svg
-      class="main-logo w-full h-full"
+      class="main-logo h-full"
       viewBox="0 0 488 122"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

@@ -129,12 +129,7 @@ const isSvgContent = vue.computed(() => {
 <template>
   <div ref="containerRef" :class="containerClass">
     <template v-if="mediaFormat === 'image' || mediaFormat === 'url'">
-      <img
-        v-if="media.url"
-        :src="media.url"
-        :alt="alt || media.alt"
-        :class="contentClass"
-      >
+      <img v-if="media.url" :src="media.url" :alt="alt || media.alt" :class="contentClass">
     </template>
 
     <template v-else-if="mediaFormat === 'html'">
@@ -149,11 +144,7 @@ const isSvgContent = vue.computed(() => {
     </template>
 
     <template v-else-if="mediaFormat === 'typography'">
-      <div
-        ref="textRef"
-        class="whitespace-nowrap h-full"
-        :style="typographyStyle"
-      >
+      <div ref="textRef" class="whitespace-nowrap h-full" :style="typographyStyle">
         {{ media.typography?.text }}
       </div>
     </template>
@@ -163,22 +154,13 @@ const isSvgContent = vue.computed(() => {
     </template>
 
     <template v-else-if="mediaFormat === 'video'">
-      <video
-        :src="media.url"
-        :class="contentClass"
-        controls
-        playsinline
-      >
+      <video :src="media.url" :class="contentClass" controls playsinline>
         Your browser does not support the video tag.
       </video>
     </template>
 
     <template v-else-if="mediaFormat === 'component'">
-      <component
-        :is="media.el"
-        v-bind="media"
-        :class="contentClass"
-      />
+      <component :is="media.el" v-bind="media" :class="contentClass" />
     </template>
 
     <template v-else>
