@@ -155,6 +155,7 @@ function handleKeydown(event: KeyboardEvent) {
       <div
         class="relative"
         tabindex="-1"
+        data-test-id="select-custom-dropdown-toggle"
         @click="toggle()"
         @keydown="handleKeydown($event)"
       >

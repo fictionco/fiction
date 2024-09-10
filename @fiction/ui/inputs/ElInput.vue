@@ -10,12 +10,35 @@ const props = defineProps({
   label: { type: String, default: '' },
   subLabel: { type: String, default: '' },
   description: { type: String, default: '' },
+  inputProps: { type: Object as vue.PropType<InputProps>, default: () => ({}) },
   uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
   input: { type: [String, Object] as vue.PropType<keyof typeof inputs | vue.Component | 'title' | 'group'>, default: undefined },
   defaultValue: { type: [String, Object, Array, Number, Date, Boolean], default: undefined },
 })
 
 const emit = defineEmits(['update:modelValue'])
+
+type InputProps = {
+  required?: boolean
+  disabled?: boolean
+  readonly?: boolean
+  placeholder?: string
+  autocomplete?: string
+  autofocus?: boolean
+  spellcheck?: boolean
+  tabindex?: number
+  inputmode?: string
+  pattern?: string
+  minlength?: number
+  maxlength?: number
+  min?: number
+  max?: number
+  step?: number
+  multiple?: boolean
+  accept?: string
+  capture?: string
+  [key: string]: any
+}
 
 if (props.defaultValue && props.modelValue === undefined)
   emit('update:modelValue', props.defaultValue)
@@ -106,7 +129,7 @@ const cls = vue.computed(() => {
         v-if="inputComponent"
         ref="inputEl"
         :model-value="modelValue"
-        v-bind="omit(attrs, 'class', 'data-test-id')"
+        v-bind="{ ...omit(attrs, 'class', 'data-test-id', 'data-key'), ...inputProps }"
         :ui-size="uiSize"
         @update:model-value="updateValue($event)"
       >

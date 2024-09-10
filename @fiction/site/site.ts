@@ -132,7 +132,8 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     },
     set: (v) => {
       this.userConfig.value = setNested({ data: this.userConfig.value, path: 'styling.isLightMode', value: v })
-      this.localLightMode.value = v
+      if (this.siteMode.value === 'standard')
+        this.localLightMode.value = v
     },
   })
 

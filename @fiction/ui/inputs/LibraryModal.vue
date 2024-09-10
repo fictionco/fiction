@@ -4,7 +4,6 @@ import type { MediaObject } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 import ElModal from '../ElModal.vue'
 import XLogo from '../media/XLogo.vue'
-import XMedia from '../media/XMedia.vue'
 import ElInput from './ElInput.vue'
 import InputMediaUpload from './InputMediaUpload.vue'
 import LibraryIcon from './LibraryIcon.vue'
@@ -69,7 +68,7 @@ function updateCurrentSelection(updates: Partial<MediaObject>) {
 
 <template>
   <ElModal :vis class="max-w-3xl" modal-class="max-w-screen-md" @update:vis="emit('update:vis', $event)">
-    <div class="library-modal text-sm">
+    <div data-test-id="library-modal" class="text-sm">
       <div class="nav p-4 flex justify-between gap-4 items-center border-b border-theme-300/50 dark:border-theme-700/70">
         <div class="font-medium">
           {{ title }}
@@ -82,6 +81,7 @@ function updateCurrentSelection(updates: Partial<MediaObject>) {
             :theme="item.value === navItemActive.value ? 'primary' : 'theme'"
             size="xs"
             rounding="full"
+            :data-test-id="`nav-${item.value}`"
             @click="navItemActive = item"
           >
             {{ item.name }}
@@ -147,7 +147,8 @@ function updateCurrentSelection(updates: Partial<MediaObject>) {
             :model-value="currentSelection.typography?.text"
             label="Logo Text"
             input="InputText"
-            placeholder="Enter text for logo"
+            data-test-id="typography-text"
+            :input-props="{ placeholder: 'Enter text for logo' }"
             class="mb-4"
             @update:model-value="updateCurrentSelection({ typography: { ...currentSelection.typography, text: $event }, format: 'typography' })"
           />
@@ -155,19 +156,19 @@ function updateCurrentSelection(updates: Partial<MediaObject>) {
             :model-value="currentSelection.typography?.font"
             label="Font"
             input="InputFont"
-            placeholder="Select font for logo"
+            data-test-id="typography-font"
+            :input-props="{ placeholder: 'Select font for logo', noPreview: true }"
             class="mb-4"
-            :no-preview="true"
             @update:model-value="updateCurrentSelection({ typography: { ...currentSelection.typography, font: $event }, format: 'typography' })"
           />
         </div>
       </div>
 
       <div class="p-4 border-t border-theme-300/50 dark:border-theme-700/70 flex justify-between">
-        <XButton theme="default" rounding="full" icon="i-tabler-x" @click="$emit('update:vis', false)">
+        <XButton theme="default" rounding="full" icon="i-tabler-x" data-test-id="library-cancel" @click="$emit('update:vis', false)">
           Cancel
         </XButton>
-        <XButton theme="primary" rounding="full" icon="i-tabler-check" @click="applyChanges">
+        <XButton theme="primary" rounding="full" icon="i-tabler-check" data-test-id="library-apply-changes" @click="applyChanges">
           Apply Changes
         </XButton>
       </div>

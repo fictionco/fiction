@@ -74,7 +74,7 @@ function close() {
               href="/"
               class="flex  x-font-title text-2xl font-medium transition-all"
             >
-              <XLogo :media="uc.logo" alignment-class="justify-start" />
+              <XLogo :media="uc.logo" alignment-class="justify-start" data-test-id="nav-logo" />
             </CardLink>
           </div>
           <XNav

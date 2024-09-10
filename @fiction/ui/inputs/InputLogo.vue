@@ -33,6 +33,7 @@ function handleLogoUpdate(newValue: MediaObject) {
     <div
       v-if="hasLogo"
       class="relative overflow-hidden rounded-lg group bg-theme-100/40 dark:bg-theme-700/70"
+      data-test-id="logo-select-button"
       @click.stop.prevent="openLogoSelector"
     >
       <div class="flex items-center justify-center pointer-events-none p-2 h-[50px]">
@@ -57,6 +58,7 @@ function handleLogoUpdate(newValue: MediaObject) {
       theme="primary"
       icon="i-tabler-photo"
       size="sm"
+      data-test-id="logo-select-button"
       @click.stop.prevent="openLogoSelector"
     >
       Select Logo

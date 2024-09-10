@@ -41,43 +41,6 @@ const typographyStyle = vue.computed(() => {
   }
 })
 
-vue.onMounted(() => {
-  vue.watch(() => media.typography?.font, async (newFont) => {
-    if (newFont) {
-      if (addGoogleFont) {
-        addGoogleFont(newFont)
-      }
-      else {
-        await googleFontsUtility.loadFont(newFont)
-      }
-    }
-  }, { immediate: true })
-
-  if (mediaFormat.value === 'typography') {
-    const resizeObserver = new ResizeObserver(() => {
-      adjustFontSize()
-    })
-
-    if (containerRef.value) {
-      resizeObserver.observe(containerRef.value)
-    }
-
-    vue.onUnmounted(() => {
-      resizeObserver.disconnect()
-    })
-  }
-
-  if (mediaFormat.value === 'html' && htmlContentRef.value) {
-    const svg = htmlContentRef.value.querySelector('svg')
-    if (svg) {
-      svg.setAttribute('width', '100%')
-      svg.setAttribute('height', '100%')
-      svg.style.maxWidth = '100%'
-      svg.style.maxHeight = '100%'
-    }
-  }
-})
-
 const MIN_FONT_SIZE = 8 // Minimum font size in pixels
 
 function adjustFontSize() {
@@ -95,11 +58,55 @@ function adjustFontSize() {
   }
 }
 
+vue.onMounted(() => {
+  vue.watch(() => media.typography?.font, async (newFont) => {
+    if (newFont) {
+      if (addGoogleFont) {
+        addGoogleFont(newFont)
+      }
+      else {
+        await googleFontsUtility.loadFont(newFont)
+      }
+    }
+  }, { immediate: true })
+
+  const resizeObserver = new ResizeObserver(() => {
+    if (mediaFormat.value === 'typography') {
+      adjustFontSize()
+    }
+  })
+
+  if (containerRef.value) {
+    resizeObserver.observe(containerRef.value)
+  }
+
+  vue.onUnmounted(() => {
+    resizeObserver.disconnect()
+  })
+
+  if (mediaFormat.value === 'html' && htmlContentRef.value) {
+    const svg = htmlContentRef.value.querySelector('svg')
+    if (svg) {
+      svg.setAttribute('width', '100%')
+      svg.setAttribute('height', '100%')
+      svg.style.maxWidth = '100%'
+      svg.style.maxHeight = '100%'
+    }
+  }
+})
+
+// Watch for changes in media format and adjust font size if necessary
+vue.watch(() => mediaFormat.value, (newFormat, oldFormat) => {
+  if (newFormat === 'typography' || oldFormat === 'typography') {
+    vue.nextTick(() => {
+      adjustFontSize()
+    })
+  }
+})
+
 const containerClass = vue.computed(() => {
   const classes = ['inline-flex items-center w-full']
-
   classes.push(alignmentClass)
-
   return twMerge(classes.join(' '))
 })
 
@@ -109,9 +116,7 @@ const contentClass = vue.computed(() => {
 
 const htmlWrapperClass = vue.computed(() => {
   const classes = ['inline-flex items-center h-full']
-
   classes.push(alignmentClass)
-
   return classes
 })
 
@@ -144,7 +149,7 @@ const isSvgContent = vue.computed(() => {
     </template>
 
     <template v-else-if="mediaFormat === 'typography'">
-      <div ref="textRef" class="whitespace-nowrap h-full" :style="typographyStyle">
+      <div ref="textRef" class="whitespace-nowrap h-full" :style="typographyStyle" data-test-id="typography-text">
         {{ media.typography?.text }}
       </div>
     </template>

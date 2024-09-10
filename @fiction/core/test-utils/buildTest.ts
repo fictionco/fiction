@@ -205,7 +205,6 @@ export async function performActions(args: {
           break
         }
         case 'hasText': {
-          // const allText = await element.textContent()
           logger.info('HAS_TEXT', { data: { selector: action.selector, text: action.text } })
           await playwrightTest.expect(element).toContainText(action.text || '')
           break
@@ -275,6 +274,11 @@ export async function performActions(args: {
                 await frameElement.waitFor({ state: 'visible', timeout: 20000 })
                 expect(await frameElement.isVisible(), `${frameAction.selector} is visible in frame`).toBe(true)
                 break
+              case 'hasText': {
+                logger.info('HAS_TEXT', { data: { selector: frameAction.selector, text: frameAction.text } })
+                await playwrightTest.expect(frameElement).toContainText(frameAction.text || '')
+                break
+              }
             }
           }
           break
