@@ -84,7 +84,7 @@ async function save() {
     <ElForm @submit="save()">
       <ToolForm
         v-model="site.editPageConfig.value"
-        :options="options"
+        :options
         :input-props="{ site, tool }"
       />
 

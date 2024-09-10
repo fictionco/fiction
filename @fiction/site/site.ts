@@ -243,7 +243,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   }
 
   editPageConfig = vue.computed({
-    get: () => this.pages.value.find(r => r.cardId === this.editor.value.selectedPageId)?.toConfig() || {},
+    get: () => this.pages.value.find(r => r.cardId === (this.editor.value.selectedPageId || this.activePageId.value))?.toConfig() || {},
     set: v => updatePages({ site: this, pages: [v] }),
   })
 
