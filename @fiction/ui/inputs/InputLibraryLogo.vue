@@ -35,7 +35,7 @@ function handleLogoUpdate(newValue: MediaObject) {
       class="relative overflow-hidden rounded-lg group bg-theme-100/40 dark:bg-theme-700/70"
       @click.stop.prevent="openLogoSelector"
     >
-      <div class="flex items-center justify-center pointer-events-none p-2 h-[70px]">
+      <div class="flex items-center justify-center pointer-events-none p-2 h-[50px]">
         <XLogo
           :media="v"
           class="h-full max-w-full"

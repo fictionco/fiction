@@ -24,16 +24,25 @@ export function refineOptions<T extends z.AnyZodObject>(args: {
 
   const hiddenOptions: string[] = []
 
+  // Simplified checkRecord to handle both normal paths and wildcard paths
   const checkRecord = (path: string) => {
-    if (typeof dotRecord[path] !== 'undefined') {
+    if (dotRecord[path]) {
       const prompt = dotRecord[path]
       delete dotRecord[path]
       return prompt
     }
-    else {
-      hiddenOptions.push(path)
-      return false
+
+    // Handle wildcard paths
+    const wildcardBase = path.replace('.*', '')
+    const matches = Object.keys(dotRecord).filter(key => key.startsWith(wildcardBase))
+
+    if (matches.length > 0) {
+      matches.forEach(key => delete dotRecord[key])
+      return matches.filter(Boolean).join(', ') || true
     }
+
+    hiddenOptions.push(path)
+    return false
   }
 
   const removeDotKeyParents = (key: string, basePath: string) => {
@@ -59,12 +68,12 @@ export function refineOptions<T extends z.AnyZodObject>(args: {
     if (!isGroup) {
       const optionIsUtility = option.settings.isUtility || parent?.settings.isUtility
 
-      const fieldDescription = checkRecord(path)
+      const result = checkRecord(path)
 
-      if (!isGroup && !optionIsUtility && !fieldDescription)
+      if (!isGroup && !optionIsUtility && !result)
         option.isHidden.value = true
 
-      option.generation.value = { ...option.generation.value, prompt: fieldDescription || undefined }
+      option.generation.value = { ...option.generation.value }
 
       // remove empty objects that dont need inputs
       removeDotKeyParents(key, basePath)

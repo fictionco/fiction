@@ -30,9 +30,23 @@ const availableTools = [
 ] as const
 type Tool = typeof availableTools[number]['value']
 
+function getDefaultTool() {
+  const format = props.modelValue.format
+  let v: Tool
+  if (format === 'html')
+    v = 'html'
+  else if (format === 'typography')
+    v = 'typography'
+  else if (format === 'iconId')
+    v = 'icons'
+  else v = 'upload'
+
+  return availableTools.find(item => item.value === v) || availableTools[0]
+}
+
 const navItems = vue.computed(() => availableTools.filter(item => props.tools.includes(item.value)))
 
-const navItemActive = vue.ref(navItems.value[0])
+const navItemActive = vue.ref(getDefaultTool())
 const currentSelection = vue.ref<MediaObject>({ ...props.modelValue })
 
 function selectMedia(media: MediaObject) {
