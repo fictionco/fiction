@@ -1,18 +1,16 @@
 <script lang="ts" setup>
 import { useService, vue, waitFor } from '@fiction/core'
+import XButton from '@fiction/ui/buttons/XButton.vue'
+import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import El404 from '@fiction/ui/page/El404.vue'
-import type { Card } from '@fiction/site'
+import type { Card, Site } from '@fiction/site'
 import { loadForm } from '../utils/load.js'
 import FormLoading from './FormLoading.vue'
 import FormProgressBar from './FormProgressBar.vue'
-import type { FictionForms } from '..'
+import type { FictionForms, FormConfigPortable } from '..'
 import type { Form } from '../form'
 
-const props = defineProps({
-  card: { type: Object as vue.PropType<Card>, required: true },
-  formTemplateId: { type: String, default: '' },
-  formId: { type: String, default: '' },
-})
+const { site, config } = defineProps<{ site: Site, config: FormConfigPortable }>()
 
 const { fictionForms } = useService<{ fictionForms: FictionForms }>()
 
@@ -22,19 +20,11 @@ vue.onMounted(async () => {
   await waitFor(500)
 
   try {
-    const site = props.card.site
-
     if (!site) {
       throw new Error('site not found')
     }
 
-    const { formTemplateId, formId } = props
-
-    if (!formTemplateId && !formId) {
-      throw new Error('formTemplateId or formId not found')
-    }
-
-    form.value = await loadForm({ site, formTemplateId, fictionForms })
+    form.value = await loadForm({ site, fictionForms, config })
   }
   catch (e) {
     console.error(e)
@@ -52,11 +42,14 @@ const showNavigation = vue.computed(() => !form.value?.submittedData.value)
 </script>
 
 <template>
-  <div
+  <ElForm
     v-if="form"
     class="card-deck-theme theme-wrap theme-font overflow-hidden bg-cover relative"
     :data-value="JSON.stringify(form.formValues.value || {})"
     :data-submitted="JSON.stringify(form.submittedData.value || {})"
+    :data="form.formValues.value"
+    @submit="form.nextCard()"
+    @update:valid="form.setCurrentCardValid($event)"
   >
     <FormProgressBar :progress="form.percentComplete.value" />
     <transition
@@ -93,26 +86,27 @@ const showNavigation = vue.computed(() => !form.value?.submittedData.value)
       </div>
     </transition>
 
-    <div v-if="form && showNavigation" class="gap-2 navigation absolute right-4 bottom-4 flex  justify-center items-center z-30">
-      <button
-        :disabled="!form.isPrevAvailable"
-        class=" disabled:opacity-50 text-theme-300 dark:text-theme-600 flex"
-        @click="form?.prevCard()"
-      >
-        <span class="sr-only">Previous</span>
-        <span class="i-tabler-arrow-up text-xl" />
-      </button>
+    <div v-if="form && showNavigation" class="gap-2 navigation absolute bottom-0 right-0 p-4 flex  justify-between items-center z-30">
+      <XButton
+        :disabled="!form.isPrevAvailable.value"
+        :data-active-index="form.activeCardIndex.value"
+        size="xs"
+        rounding="full"
+        class="disabled:opacity-50 text-theme-300 dark:text-theme-500 flex"
+        icon="i-tabler-arrow-up"
+        @click.prevent="form?.prevCard()"
+      />
 
-      <button
-        :disabled="!form.isNextAvailable"
-        class="disabled:opacity-50 text-theme-300 dark:text-theme-400 flex"
-        @click="form?.nextCard()"
-      >
-        <span class="sr-only">Next</span>
-        <span class="i-tabler-arrow-down text-xl" />
-      </button>
+      <XButton
+        :disabled="!form.isNextAvailable.value"
+        size="xs"
+        rounding="full"
+        class="disabled:opacity-50 text-theme-300 dark:text-theme-500 flex"
+        type="submit"
+        icon="i-tabler-arrow-down"
+      />
     </div>
-  </div>
+  </ElForm>
 </template>
 
 <style lang="less">

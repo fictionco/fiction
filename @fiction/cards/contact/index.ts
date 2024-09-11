@@ -1,6 +1,7 @@
 import { vue } from '@fiction/core'
 import { FormUserConfigSchema } from '@fiction/forms'
 import { CardTemplate } from '@fiction/site/card'
+import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 import { standardOption } from '../inputSets'
 
@@ -8,9 +9,6 @@ const templateId = 'contact'
 
 export const UserConfigSchema = z.object({
   layout: z.enum(['left', 'right']).optional().describe('Layout of the card, image on left or right'),
-  title: z.string().optional().describe('Primary headline for profile 3 to 8 words'),
-  subTitle: z.string().optional().describe('Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs'),
-  superTitle: z.string().optional().describe('Shorter badge above headline, 2 to 5 words'),
   items: z.array(z.object({
     title: z.string().optional().describe('Title for list of details'),
     items: z.array(z.object({
@@ -25,29 +23,44 @@ export const UserConfigSchema = z.object({
     href: z.string().optional().describe('Full link for href'),
     icon: z.string().optional().describe('icon reference associated with the social media platform (x, youtube, facebook, etc)'),
   })).optional().describe('List of social media links'),
-  form: FormUserConfigSchema.optional(),
+  notifyEmails: z.array(z.object({ email: z.string().email() })).optional().describe('List of emails to notify when form is submitted'),
 })
 
 export type UserConfig = z.infer<typeof UserConfigSchema>
 
 const options = [
   standardOption.ai(),
-]
+  new InputOption({ key: 'layout', label: 'Layout', input: 'InputSelect', list: ['left', 'right'], description: 'Layout of the card, image on left or right' }),
+  new InputOption({ key: 'items', label: 'Contact Details', input: 'InputList', options: [
+    new InputOption({ key: 'title', label: 'Title', input: 'InputText' }),
+    new InputOption({ key: 'items', label: 'Details', input: 'InputList', options: [
+      new InputOption({ key: 'title', label: 'Title', input: 'InputText' }),
+      new InputOption({ key: 'content', label: 'Content', input: 'InputText' }),
+      new InputOption({ key: 'icon', label: 'Icon', input: 'InputIcon' }),
+      new InputOption({ key: 'href', label: 'Link', input: 'InputText' }),
+    ] }),
+  ] }),
+  new InputOption({ key: 'socials', label: 'Social Media', input: 'InputList', options: [
+    new InputOption({ key: 'name', label: 'Name', input: 'InputText' }),
+    new InputOption({ key: 'href', label: 'Link', input: 'InputText' }),
+    new InputOption({ key: 'icon', label: 'Icon', input: 'InputIcon' }),
+  ] }),
+  new InputOption({ key: 'notifyEmails', label: 'Notify Email', input: 'InputList', options: [
+    new InputOption({ key: 'email', label: 'Email', input: 'InputEmail' }),
+  ] }),
+] as InputOption[]
 
 const defaultContent: UserConfig = {
-  superTitle: 'Contact',
-  title: 'Get In Touch',
-  subTitle: `Send me a message and I'll respond within 24 hours.`,
   items: [
     {
-      title: 'Chat / Email',
+      title: 'Message',
       items: [
-        { title: 'Send me an email', content: 'test@example.com', href: 'mailto:test@example.com', icon: 'i-tabler-mail' },
-        { title: 'Discord Community', content: 'Join', href: '#', icon: 'i-tabler-brand-discord' },
+        { title: 'Way To Get In Touch', content: 'test@example.com', href: 'mailto:test@example.com', icon: 'i-tabler-mail' },
+        { title: 'Another Way', content: 'Join', href: '#', icon: 'i-tabler-brand-discord' },
       ],
     },
     {
-      title: 'Phone',
+      title: 'Call',
       items: [
         { title: '+1(888) 888-8888', content: '', href: '#', icon: 'i-tabler-phone' },
       ],
@@ -60,9 +73,7 @@ const defaultContent: UserConfig = {
     { name: '@handle on linkedin', href: '#', icon: 'linkedin' },
   ],
 
-  form: {
-    notifyEmails: ['arpowers@gmail.com', 'andrew@fiction.com'],
-  },
+  notifyEmails: [{ email: 'andrew@fiction.com' }],
 }
 
 export const templates = [
@@ -74,7 +85,7 @@ export const templates = [
     colorTheme: 'blue',
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
     getUserConfig: () => defaultContent,
-    isPublic: false,
+    isPublic: true,
     options,
     schema: UserConfigSchema,
     demoPage: async () => {

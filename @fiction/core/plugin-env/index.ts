@@ -222,6 +222,11 @@ export class FictionEnv<
 
   setupWindowKeyListeners(): void {
     const emitKeypress = (event: BrowserEventObject<'keydown' | 'keyup'>): void => {
+      if (!event.key) {
+        this.log.warn('keypress event missing key', { data: event })
+        return
+      }
+
       const direction = event.type === 'keydown' ? 'down' : 'up'
       this.events.emit('keypress', { key: event.key.toLowerCase(), direction })
     }

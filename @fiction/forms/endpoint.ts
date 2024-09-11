@@ -18,7 +18,7 @@ abstract class FormQuery extends Query<FormSubmissionSettings> {
 
 export type WhereSubmission = { formId?: string, formTemplateId?: string, orgId?: string, submissionId?: string } & ({ orgId: string, formTemplateId: string } | { formId: string } | { submissionId: string })
 
-export type SubmissionCreate = { fields: Partial<FormSubmissionConfig> }
+export type SubmissionCreate = { fields: Partial<FormSubmissionConfig> & FormConfigPortable }
 
 export type ManageSubmissionRequest =
   | { _action: 'create', orgId: string } & SubmissionCreate
@@ -170,9 +170,9 @@ export class QueryManageSubmission extends FormQuery {
   private async sendUserEmailNotification(params: SubmissionParams & { _action: 'create' }, meta: EndpointMeta): Promise<EndpointResponse<EmailResponse[]>> {
     const { orgId, fields } = params
     try {
-      const { title, card } = fields
+      const { title, userConfig = {}, card } = fields
 
-      const { notifyEmails } = fields.card?.userConfig || {}
+      const { notifyEmails } = userConfig
       // Retrieve organization details
       const r = await this.settings.fictionUser?.queries.ManageOrganization.serve({
         _action: 'retrieve',
@@ -205,10 +205,10 @@ export class QueryManageSubmission extends FormQuery {
       }
 
       // limit to 5 emails
-      const emailList = notifyEmails?.slice(0, 5) || [orgEmail]
+      const emailList = notifyEmails?.slice(0, 5) || [{ email: orgEmail }]
 
-      const emailPromises = emailList.map(to => this.settings.fictionEmail.renderAndSendEmail({
-        to,
+      const emailPromises = emailList.map(item => this.settings.fictionEmail.renderAndSendEmail({
+        to: item.email,
         subject: heading,
         bodyMarkdown,
         heading,

@@ -174,8 +174,22 @@ export class Form extends FictionObject<FormSettings> {
   }
 
   toConfig(): FormConfigPortable {
-    const card = this.card.value.toConfig()
-    return { formId: this.settings.formId, card }
+    return {
+      formId: this.settings.formId,
+      formTemplateId: this.settings.formTemplateId,
+      orgId: this.settings.orgId,
+      title: this.settings.title,
+      userConfig: this.settings.userConfig,
+      card: this.card.value.toConfig(),
+      status: this.settings.status,
+    }
+  }
+
+  toSubmissionData() {
+    return {
+      ...this.toConfig(),
+      userValues: this.formValues.value,
+    }
   }
 
   async submitForm() {
@@ -187,16 +201,11 @@ export class Form extends FictionObject<FormSettings> {
       if (!orgId) {
         throw new Error('submitForm: orgId is required')
       }
-      const { formId, formTemplateId } = this.settings
+
       const r = await this.settings.fictionForms.requests.ManageSubmission.request({
         _action: 'create',
         orgId,
-        fields: {
-          formId,
-          formTemplateId,
-          card: this.card.value.toConfig(),
-          userValues: this.formValues.value,
-        },
+        fields: this.toSubmissionData(),
       })
 
       if (r.status === 'success') {

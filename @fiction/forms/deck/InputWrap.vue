@@ -137,13 +137,10 @@ function handleValidChange(valid: boolean) {
       :class="contentClasses"
     >
       <transition :name="form?.slideTransition.value" mode="out-in">
-        <ElForm
+        <div
           :id="ic?.cardId"
           :key="ic?.cardId"
           class="no-scrollbar overflow-y-auto"
-          :data="form.formValues.value"
-          @submit="submitCard()"
-          @update:valid="handleValidChange"
         >
           <div class="mx-auto w-full h-full max-w-4xl px-8 @md:px-[4em] py-12 @lg:py-[15vh]">
             <div class="relative" :data-card-id="card.cardId">
@@ -211,7 +208,7 @@ function handleValidChange(valid: boolean) {
               </div>
             </div>
           </div>
-        </ElForm>
+        </div>
       </transition>
     </div>
   </div>

@@ -24,14 +24,6 @@ const isVisible = vue.ref(false)
 vue.onMounted(async () => {
   await useElementVisible({ selector: `.minimal-profile`, onVisible: () => isVisible.value = true })
 })
-
-vue.onMounted(() => {
-  // Load the Typeform embed script
-  const script = document.createElement('script')
-  script.src = '//embed.typeform.com/next/embed.js'
-  script.async = true
-  document.body.appendChild(script)
-})
 </script>
 
 <template>
@@ -39,8 +31,17 @@ vue.onMounted(() => {
     <div class="text-center">
       <div class="md:inline-flex gap-6 lg:gap-16 justify-center" :class="uc.layout === 'left' ? 'md:flex-row-reverse' : ''">
         <div class="w-full md:w-[40vw] px-2">
-          <div class="overflow-hidden relative border border-theme-200 dark:border-theme-700 rounded-xl h-full bg-theme-50 dark:bg-theme-800/50">
-            <CardForm :card form-template-id="contact" class="h-full w-full" />
+          <div v-if="card.site" class="overflow-hidden relative border border-theme-200 dark:border-theme-700 rounded-xl h-full bg-theme-50 dark:bg-theme-800/50">
+            <CardForm
+              :site="card.site"
+              :config="{
+                formTemplateId: 'contact',
+                userConfig: {
+                  notifyEmails: card.userConfig.value.notifyEmails,
+                },
+              }"
+              class="h-full w-full"
+            />
           </div>
         </div>
         <div class="md:w-[50%] mt-6 md:mt-0 flex items-center text-left">

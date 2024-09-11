@@ -58,7 +58,11 @@ const iconAdjust = vue.computed(() => {
 
   const { mt, mxBefore, mxAfter } = sizeAdjustments[size]
 
-  return { before: hasContent ? mxBefore : 'mx-[-2px]', after: hasContent ? mxAfter : 'mx-[-2px]', both: `text-[1.2em] ${mt}` }
+  return {
+    before: hasContent.value ? mxBefore : 'mx-[-2px]',
+    after: hasContent.value ? mxAfter : 'mx-[-2px]',
+    both: `text-[1.2em] ${mt}`,
+  }
 })
 const hasAnimation = vue.computed(() => !['none', 'basic', ''].includes(props.hover || '') && !props.disabled)
 
@@ -132,9 +136,9 @@ const linkProps = vue.computed(() => {
       class="flex w-full min-w-0 items-center whitespace-nowrap transition-all duration-500 ease-[cubic-bezier(0.25,1,0.33,1)]"
       :class="[loading ? 'translate-y-[-150%] opacity-0' : '', wrapClass, format === 'spread' ? '' : 'justify-center']"
     >
-      <div class="flex space-x-1 items-center">
-        <div v-if="icon" class="" :class="[cls.iconClasses, icon, iconAdjust.both, iconAdjust.before]" />
-        <div v-if="hasContent" class="txt" :data-content="slots?.default?.()"><slot /></div>
+      <div class="flex space-x-1 items-center" :data-has-content="hasContent">
+        <div v-if="icon" :class="[cls.iconClasses, icon, iconAdjust.both, iconAdjust.before]" :data-before="iconAdjust.before" />
+        <div v-if="hasContent" class="txt"><slot /></div>
         <div v-if="iconAfter" class="" :class="[cls.iconClasses, iconAfter, iconAdjust.both, iconAdjust.after]" />
       </div>
     </span>
