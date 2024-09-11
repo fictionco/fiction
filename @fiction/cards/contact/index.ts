@@ -13,7 +13,7 @@ export const UserConfigSchema = z.object({
     items: z.array(z.object({
       title: z.string().optional(),
       content: z.string().optional(),
-      icon: z.string().optional(),
+      media: MediaIconSchema.optional(),
       href: z.string().optional(),
     })).optional().describe('List of details with contact details, location, etc.'),
   })).optional().describe('List of contact details'),
@@ -31,11 +31,11 @@ const options = [
   standardOption.ai(),
   new InputOption({ key: 'layout', label: 'Layout', input: 'InputSelect', list: ['left', 'right'], description: 'Layout of the card, image on left or right' }),
   new InputOption({ key: 'items', label: 'Contact Details', props: { itemName: 'Contact Group' }, input: 'InputList', options: [
-    new InputOption({ key: 'title', label: 'Title', input: 'InputText' }),
-    new InputOption({ key: 'items', label: 'Details', input: 'InputList', options: [
+    new InputOption({ key: 'title', label: 'Group Title', input: 'InputText' }),
+    new InputOption({ key: 'items', label: 'Details', input: 'InputList', props: { itemName: 'Contact Detail' }, options: [
       new InputOption({ key: 'title', label: 'Title', input: 'InputText' }),
       new InputOption({ key: 'content', label: 'Content', input: 'InputText' }),
-      new InputOption({ key: 'icon', label: 'Icon', input: 'InputIcon' }),
+      new InputOption({ key: 'media', label: 'Icon', input: 'InputIcon' }),
       new InputOption({ key: 'href', label: 'Link', input: 'InputText' }),
     ] }),
   ] }),
@@ -56,14 +56,14 @@ function getDefaultConfig(): UserConfig {
       {
         title: 'Message',
         items: [
-          { title: 'Way To Get In Touch', content: 'test@example.com', href: 'mailto:test@example.com', icon: 'i-tabler-mail' },
-          { title: 'Another Way', content: 'Join', href: '#', icon: 'i-tabler-brand-discord' },
+          { title: 'Way To Get In Touch', content: 'test@example.com', href: 'mailto:test@example.com', media: { iconId: 'email' } },
+          { title: 'Another Way', content: 'Join', href: '#', media: { iconId: 'discord' } },
         ],
       },
       {
         title: 'Call',
         items: [
-          { title: '+1(888) 888-8888', content: '', href: '#', icon: 'i-tabler-phone' },
+          { title: '+1(888) 888-8888', content: '', href: '#', media: { iconId: 'phone' } },
         ],
       },
     ],

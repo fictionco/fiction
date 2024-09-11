@@ -2,6 +2,7 @@
 import { vue } from '@fiction/core'
 import CardForm from '@fiction/forms/deck/CardForm.vue'
 import { useElementVisible } from '@fiction/ui/anim'
+import XIcon from '@fiction/ui/media/XIcon.vue'
 import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
 import CardSocials from '../el/CardSocials.vue'
@@ -56,7 +57,7 @@ vue.onMounted(async () => {
               />
               <div class="flex gap-[10%] gap-y-4 flex-wrap  text-base  ">
                 <a v-for="(subItem, ii) in item.items" :key="ii" :href="subItem.href" class="flex gap-4 items-center hover:text-primary-500 dark:hover:text-primary-400">
-                  <div class="text-3xl" :class="subItem.icon" />
+                  <XIcon v-if="subItem.media" class="size-6" :media="subItem.media" />
                   <CardText
                     :card
                     tag="span"

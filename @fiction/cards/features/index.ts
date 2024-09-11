@@ -1,4 +1,4 @@
-import { colorThemeUser, MediaBasicSchema, vue } from '@fiction/core'
+import { colorThemeUser, MediaBasicSchema, MediaIconSchema, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
@@ -9,12 +9,12 @@ const schema = z.object({
   heading: z.string().optional(),
   subHeading: z.string().optional(),
   superHeading: z.string().optional(),
-  superIcon: MediaBasicSchema.optional().describe('Icon for the super heading'),
+  superIcon: MediaIconSchema.optional().describe('Icon for the super heading'),
   superColor: z.enum(colorThemeUser).optional().describe('change color of super heading'),
   items: z.array(z.object({
     name: z.string().optional(),
     desc: z.string().optional(),
-    icon: MediaBasicSchema.optional(),
+    icon: MediaIconSchema.optional(),
     color: z.enum(colorThemeUser).optional(),
   })).optional(),
 })
