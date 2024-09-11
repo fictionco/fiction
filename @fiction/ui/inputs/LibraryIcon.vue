@@ -25,7 +25,7 @@ function selectIcon(iconId: IconId) {
       class="flex flex-col items-center justify-center p-2 rounded hover:bg-theme-100 dark:hover:bg-theme-800"
       @click="selectIcon(icon.iconId)"
     >
-      <XIcon :icon="{ format: 'iconId', iconId: icon.iconId }" class="w-8 h-8" />
+      <XIcon :media="{ format: 'iconId', iconId: icon.iconId }" class="w-8 h-8" />
       <span class="mt-1 text-xs">{{ icon.name }}</span>
     </button>
   </div>

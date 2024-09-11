@@ -1,5 +1,4 @@
-import { vue } from '@fiction/core'
-import { FormUserConfigSchema } from '@fiction/forms'
+import { MediaIconSchema, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site/card'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
@@ -21,7 +20,7 @@ export const UserConfigSchema = z.object({
   socials: z.array(z.object({
     name: z.string().optional().describe('@handle on (platform)'),
     href: z.string().optional().describe('Full link for href'),
-    icon: z.string().optional().describe('icon reference associated with the social media platform (x, youtube, facebook, etc)'),
+    media: MediaIconSchema.optional().describe('icon reference associated with the social media platform (x, youtube, facebook, etc)'),
   })).optional().describe('List of social media links'),
   notifyEmails: z.array(z.object({ email: z.string().email() })).optional().describe('List of emails to notify when form is submitted'),
 })
@@ -31,7 +30,7 @@ export type UserConfig = z.infer<typeof UserConfigSchema>
 const options = [
   standardOption.ai(),
   new InputOption({ key: 'layout', label: 'Layout', input: 'InputSelect', list: ['left', 'right'], description: 'Layout of the card, image on left or right' }),
-  new InputOption({ key: 'items', label: 'Contact Details', input: 'InputList', options: [
+  new InputOption({ key: 'items', label: 'Contact Details', props: { itemName: 'Contact Group' }, input: 'InputList', options: [
     new InputOption({ key: 'title', label: 'Title', input: 'InputText' }),
     new InputOption({ key: 'items', label: 'Details', input: 'InputList', options: [
       new InputOption({ key: 'title', label: 'Title', input: 'InputText' }),
@@ -40,40 +39,43 @@ const options = [
       new InputOption({ key: 'href', label: 'Link', input: 'InputText' }),
     ] }),
   ] }),
-  new InputOption({ key: 'socials', label: 'Social Media', input: 'InputList', options: [
+  new InputOption({ key: 'socials', label: 'Icon Links / Social', props: { itemName: 'Button' }, input: 'InputList', options: [
     new InputOption({ key: 'name', label: 'Name', input: 'InputText' }),
     new InputOption({ key: 'href', label: 'Link', input: 'InputText' }),
-    new InputOption({ key: 'icon', label: 'Icon', input: 'InputIcon' }),
+    new InputOption({ key: 'media', label: 'Icon', input: 'InputIcon' }),
   ] }),
-  new InputOption({ key: 'notifyEmails', label: 'Notify Email', input: 'InputList', options: [
+  new InputOption({ key: 'notifyEmails', label: 'Notify Email', props: { itemName: 'Email' }, input: 'InputList', options: [
     new InputOption({ key: 'email', label: 'Email', input: 'InputEmail' }),
   ] }),
 ] as InputOption[]
 
-const defaultContent: UserConfig = {
-  items: [
-    {
-      title: 'Message',
-      items: [
-        { title: 'Way To Get In Touch', content: 'test@example.com', href: 'mailto:test@example.com', icon: 'i-tabler-mail' },
-        { title: 'Another Way', content: 'Join', href: '#', icon: 'i-tabler-brand-discord' },
-      ],
-    },
-    {
-      title: 'Call',
-      items: [
-        { title: '+1(888) 888-8888', content: '', href: '#', icon: 'i-tabler-phone' },
-      ],
-    },
-  ],
+function getDefaultConfig(): UserConfig {
+  return {
+    layout: 'right',
+    items: [
+      {
+        title: 'Message',
+        items: [
+          { title: 'Way To Get In Touch', content: 'test@example.com', href: 'mailto:test@example.com', icon: 'i-tabler-mail' },
+          { title: 'Another Way', content: 'Join', href: '#', icon: 'i-tabler-brand-discord' },
+        ],
+      },
+      {
+        title: 'Call',
+        items: [
+          { title: '+1(888) 888-8888', content: '', href: '#', icon: 'i-tabler-phone' },
+        ],
+      },
+    ],
 
-  socials: [
-    { name: '@handle on facebook', href: '#', icon: 'facebook' },
-    { name: '@handle on x', href: '#', icon: 'x' },
-    { name: '@handle on linkedin', href: '#', icon: 'linkedin' },
-  ],
+    socials: [
+      { name: 'Follow on Facebook', href: '#', media: { iconId: 'facebook' } },
+      { name: 'Follow on X', href: '#', media: { iconId: 'x' } },
+      { name: 'Follow on LinkedIn', href: '#', media: { iconId: 'linkedin' } },
+    ],
 
-  notifyEmails: [{ email: 'andrew@fiction.com' }],
+    notifyEmails: [{ email: 'andrew@fiction.com' }],
+  }
 }
 
 export const templates = [
@@ -84,14 +86,15 @@ export const templates = [
     icon: 'i-tabler-user',
     colorTheme: 'blue',
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
-    getUserConfig: () => defaultContent,
+    getUserConfig: () => getDefaultConfig(),
     isPublic: true,
     options,
     schema: UserConfigSchema,
     demoPage: async () => {
+      const defaultConfig = getDefaultConfig()
       return { cards: [
-        { templateId, userConfig: { ...defaultContent } },
-        { templateId, userConfig: { ...defaultContent, layout: 'left' as const } },
+        { templateId, userConfig: { ...defaultConfig } },
+        { templateId, userConfig: { ...defaultConfig, layout: 'left' as const } },
       ] }
     },
   }),

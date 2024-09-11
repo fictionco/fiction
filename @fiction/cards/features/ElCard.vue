@@ -42,7 +42,7 @@ const colorStyle = vue.computed(() => {
     <div class=" space-y-4 items-start">
       <div v-if="uc.superHeading || uc.superIcon" class="flex gap-3 items-center mb-6" :class="[colorStyle.text]">
         <div v-if="uc.superIcon" :class="colorStyle.icon" class="size-14 rounded-full flex items-center justify-center">
-          <XIcon class="size-8" :icon="uc.superIcon" />
+          <XIcon class="size-8" :media="uc.superIcon" />
         </div>
         <CardText
           tag="h3"
@@ -59,7 +59,7 @@ const colorStyle = vue.computed(() => {
     <div class="grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 text-left  grid ">
       <div v-for="(item, i) in uc.items" :key="i">
         <div v-if="item.icon" :class="getColorStyle(item.color).icon" class="mb-3 size-14 rounded-full flex items-center justify-center">
-          <XIcon class="size-8" :icon="item.icon" />
+          <XIcon class="size-8" :media="item.icon" />
         </div>
         <CardText animate="fade" :card class="text-3xl font-semibold x-font-title" :path="`items.${i}.name`" />
         <CardText animate="fade" :card class="mt-4 text-xl text-theme-500 dark:text-theme-200" :path="`items.${i}.desc`" />

@@ -257,7 +257,7 @@ export const systemIcons = [
   { name: 'QR Code', iconId: 'qr-code', iconClass: 'i-tabler-qrcode' },
   { name: 'Barcode', iconId: 'barcode', iconClass: 'i-tabler-barcode' },
   { name: 'Facebook', iconId: 'facebook', iconClass: 'i-tabler-brand-facebook' },
-  { name: 'Twitter', iconId: 'twitter', iconClass: 'i-tabler-brand-twitter' },
+  { name: 'X', iconId: 'x', iconClass: 'i-tabler-brand-x' },
   { name: 'Instagram', iconId: 'instagram', iconClass: 'i-tabler-brand-instagram' },
   { name: 'LinkedIn', iconId: 'linkedin', iconClass: 'i-tabler-brand-linkedin' },
   { name: 'YouTube', iconId: 'youtube', iconClass: 'i-tabler-brand-youtube' },

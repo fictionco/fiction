@@ -25,6 +25,7 @@ export interface NavItem {
   testId?: string
   name?: string
   desc?: string
+  media?: MediaObject
   icon?: string
   iconAfter?: string
   href?: string

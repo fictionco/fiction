@@ -107,12 +107,15 @@ export const MediaFormat = z.enum(['url', 'image', 'video', 'iframe', 'html', 'c
 export const MediaBasicSchema = z.object({
   html: z.string().optional(),
   url: z.string().optional(),
-  iconId: z.string().optional() as z.Schema<IconId | undefined>,
-  class: z.string().optional(),
   format: MediaFormat.optional(),
   el: z.custom<vue.AsyncComponentLoader | vue.Component>((val) => {
     return typeof val === 'function' || val instanceof Promise
   }, { message: 'Must be an async component or Promise' }).optional(),
+})
+
+export const MediaIconSchema = MediaBasicSchema.extend({
+  iconId: z.string().optional() as z.Schema<IconId | undefined>,
+  class: z.string().optional(),
 })
 
 export const MediaTypographySchema = MediaBasicSchema.extend({
@@ -149,7 +152,7 @@ export const MediaDisplaySchema = MediaContentSchema.extend({
     flip: z.enum(['horizontal', 'vertical']).optional(),
   }).optional(),
 })
-export type MediaObject = z.infer<typeof MediaDisplaySchema & typeof MediaTypographySchema>
+export type MediaObject = z.infer<typeof MediaDisplaySchema & typeof MediaTypographySchema & typeof MediaIconSchema>
 
 export const TaxonomySchema = z.object({
   title: z.string().optional(),

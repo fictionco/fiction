@@ -155,7 +155,7 @@ const isSvgContent = vue.computed(() => {
     </template>
 
     <template v-else-if="mediaFormat === 'iconId'">
-      <XIcon :icon="media" :class="iconStyling.classes" />
+      <XIcon :media :class="iconStyling.classes" />
     </template>
 
     <template v-else-if="mediaFormat === 'video'">

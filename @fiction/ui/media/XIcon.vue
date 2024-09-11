@@ -1,37 +1,25 @@
 <script lang="ts" setup>
-import { clean, vue } from '@fiction/core'
+import { clean, determineMediaFormat, vue } from '@fiction/core'
 import { systemIcons } from '@fiction/ui/lib/systemIcons'
 import type { MediaObject } from '@fiction/core'
 
 defineOptions({ name: 'XIcon' })
 
-const props = defineProps({
-  icon: { type: Object as vue.PropType<MediaObject >, required: true },
-})
+const { media } = defineProps<{ media: MediaObject }>()
 
 const iconData = vue.computed(() => {
-  if (typeof props.icon === 'string') {
-    return { iconId: props.icon }
+  if (typeof media === 'string') {
+    return { iconId: media }
   }
-  return props.icon
+  return media
 })
 
-const format = vue.computed(() => {
-  if (iconData.value.format)
-    return iconData.value.format
-  if (iconData.value.iconId)
-    return 'iconId'
-  if (iconData.value.class)
-    return 'iconClass'
-  if (iconData.value.html)
-    return 'html'
-  if (iconData.value.url)
-    return 'url'
-  return 'iconId' // Default to iconId if no format can be determined
+const mediaFormat = vue.computed(() => {
+  return determineMediaFormat(media)
 })
 
 const iconContent = vue.computed(() => {
-  switch (format.value) {
+  switch (mediaFormat.value) {
     case 'html':
       return clean(iconData.value.html || '')
     case 'iconId': {
@@ -48,15 +36,15 @@ const iconContent = vue.computed(() => {
   }
 })
 
-const isIconClass = vue.computed(() => ['iconId', 'iconClass'].includes(format.value))
+const isIconClass = vue.computed(() => ['iconId', 'iconClass'].includes(mediaFormat.value || ''))
 </script>
 
 <template>
   <span v-if="isIconClass" :class="iconContent" />
   <img
-    v-else-if="format === 'image' || format === 'url'"
+    v-else-if="mediaFormat === 'image' || mediaFormat === 'url'"
     :src="iconContent"
     alt="Icon"
   >
-  <span v-else-if="format === 'html'" v-html="iconContent" />
+  <span v-else-if="mediaFormat === 'html'" v-html="iconContent" />
 </template>

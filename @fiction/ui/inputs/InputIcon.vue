@@ -36,10 +36,7 @@ function handleIconUpdate(newValue: MediaObject) {
       @click.stop.prevent="openIconSelector"
     >
       <div class="flex items-center justify-center pointer-events-none p-2">
-        <XIcon
-          :icon="v"
-          class="size-10"
-        />
+        <XIcon :media="v" class="size-10" />
       </div>
       <div
         class="absolute text-xs font-sans inset-0 flex items-center justify-center bg-theme-900 bg-opacity-50 transition-opacity opacity-0 group-hover:opacity-100"

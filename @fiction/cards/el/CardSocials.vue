@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { vue } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
+import XIcon from '@fiction/ui/media/XIcon.vue'
 import type { NavItem } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import { socialIcons } from './util.js'
@@ -44,10 +45,10 @@ vue.onMounted(() => {
       :key="i"
       :href="item.href"
       target="_blank"
-      :class="getIcon(item.icon).bg"
+      :class="[clr.bgClasses, clr.textClasses]"
       class="x-action-items text-center flex items-center justify-center size-10 text-2xl rounded-full"
     >
-      <div :class="getIcon(item.icon).icon" class="" :title="item.name" />
+      <XIcon v-if="item.media" :media="item.media" :title="item.name" />
     </a>
   </div>
 </template>
