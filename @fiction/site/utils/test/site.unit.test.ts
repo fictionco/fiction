@@ -19,6 +19,30 @@ describe('siteLink / siteGoto', async () => {
 
   testUtils.fictionRouterSites.update([new AppRoute({ name: 'tester', path: '/test/:viewId?/:itemId?', component: FSite })])
 
+  it('handles empty viewId correctly when followed by a path', async () => {
+    await testUtils.fictionRouterSites.push({ path: '/test/' }, { caller: 'test' })
+    const site = await Site.create({ ...common, themeId: 'test', siteId: `test-${shortId()}` })
+
+    const result = siteLink({ site, location: '/:viewId/something' })
+    expect(result).toBe('/test/_/something')
+
+    const result2 = siteLink({ site, location: '/:viewId?test=1' })
+
+    expect(result2).toBe('/test/_?test=1')
+
+    const result3 = siteLink({ site, location: '/:viewId/something?test=1' })
+
+    expect(result3).toBe('/test/_/something?test=1')
+  })
+
+  it('handles non-empty viewId correctly when followed by a path', async () => {
+    await testUtils.fictionRouterSites.push({ path: '/test/page' }, { caller: 'test' })
+    const site = await Site.create({ ...common, themeId: 'test', siteId: `test-${shortId()}` })
+
+    const result = siteLink({ site, location: { path: ':viewId/something' } })
+    expect(result).toBe('/test/page/something')
+  })
+
   it('handles child routes correctly', async () => {
     testUtils.fictionRouterSites.update([new AppRoute({ name: 'app', path: '/app/:viewId?/:itemId?', component: FSite })])
     await testUtils.fictionRouterSites.push({ path: '/app/dashboard' }, { caller: 'test' })

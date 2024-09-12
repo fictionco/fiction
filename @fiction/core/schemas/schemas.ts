@@ -58,6 +58,7 @@ export const ActionButtonSchema = z.object({
   theme: ButtonColorThemeSchema.optional(),
   design: ButtonDesignSchema.optional(),
   format: ButtonFormatSchema.optional(),
+  rounding: ButtonRoundingSchema.optional(),
   icon: z.string().optional(),
   iconAfter: z.string().optional(),
   loading: z.boolean().optional(),

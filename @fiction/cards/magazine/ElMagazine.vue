@@ -8,18 +8,16 @@ import ElMagazineIndex from './ElMagazineIndex.vue'
 import ElMagazineSingle from './ElMagazineSingle.vue'
 import type { UserConfig } from './index.js'
 
-const props = defineProps({
-  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
-})
+const { card } = defineProps<{ card: Card<UserConfig> }>()
 
-const { fictionPosts, fictionRouter } = useService<{ fictionPosts: FictionPosts }>()
+const { fictionPosts } = useService<{ fictionPosts: FictionPosts }>()
 
-const uc = vue.computed(() => props.card.userConfig.value || {})
+const uc = vue.computed(() => card.userConfig.value || {})
 const postIndex = vue.shallowRef<Post[]>([])
 const singlePost = vue.shallowRef<Post | undefined>()
 const nextPost = vue.shallowRef<Post | undefined>()
 const loading = vue.ref(false)
-const routeSlug = vue.computed(() => fictionRouter.params.value.itemId as string | undefined)
+const routeSlug = vue.computed(() => card.site?.siteRouter.params.value.itemId as string | undefined)
 
 function getNextPost(args: { single?: Post, posts?: Post[] }) {
   const { single, posts = [] } = args
@@ -35,7 +33,7 @@ function getNextPost(args: { single?: Post, posts?: Post[] }) {
 
 async function loadGlobal() {
   loading.value = true
-  const orgId = props.card.site?.settings.orgId
+  const orgId = card.site?.settings.orgId
 
   if (!orgId)
     throw new Error('No fiction orgId found')
@@ -51,7 +49,7 @@ async function loadGlobal() {
   loading.value = false
 }
 
-async function loadInline() {
+async function loadLocal() {
   const ps = uc.value.posts?.posts || []
   postIndex.value = ps.map(p => new Post({ fictionPosts, ...p }))
 
@@ -64,7 +62,7 @@ async function loadInline() {
 
 async function load() {
   if (uc.value.posts?.format === 'local') {
-    await loadInline()
+    await loadLocal()
   }
   else {
     await loadGlobal()
@@ -100,7 +98,7 @@ if (routeSlug.value) {
 </script>
 
 <template>
-  <div>
+  <div :data-route-slug="routeSlug">
     <transition
       enter-active-class="ease-out duration-200"
       enter-from-class="opacity-0 translate-y-10"
@@ -110,7 +108,14 @@ if (routeSlug.value) {
       leave-to-class="opacity-0 -translate-y-10"
       mode="out-in"
     >
-      <ElMagazineSingle v-if="routeSlug" :card="card" :loading="loading" :post="singlePost" :next-post="nextPost" />
+      <ElMagazineSingle
+        v-if="routeSlug"
+        :key="routeSlug"
+        :card="card"
+        :loading="loading"
+        :post="singlePost"
+        :next-post="nextPost"
+      />
       <ElMagazineIndex v-else :card="card" :loading="loading" :post-index="postIndex" />
     </transition>
   </div>

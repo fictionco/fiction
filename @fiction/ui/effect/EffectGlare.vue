@@ -71,7 +71,7 @@ vue.onMounted(async () => {
 <template>
   <div ref="trackingEl" class="[perspective:1000px]">
     <div
-      class="overflow-hidden hover flipcard group"
+      class="overflow-hidden hover flipcard group w-full h-full"
       :class="cls"
       :style="cardStyle"
       @mouseenter="handleMouseEnter"

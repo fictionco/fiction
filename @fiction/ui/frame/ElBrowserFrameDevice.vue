@@ -34,10 +34,10 @@ const dimensions = vue.computed(() => {
   const deviceMode = props.deviceMode
 
   const devices = {
-    mobile: { minWidth: 375, minHeight: 667, aspectClass: 'aspect-[9/16]' },
-    landscape: { minWidth: 500, minHeight: 500, aspectClass: 'aspect-[4/3]' },
-    tablet: { minWidth: 768, minHeight: 400, aspectClass: 'aspect-[3/4]' },
-    desktop: { minWidth: 1300, minHeight: 700, aspectClass: 'aspect-[3/4]' },
+    mobile: { minWidth: 375, minHeight: 200, aspectClass: 'aspect-[9/16]' },
+    landscape: { minWidth: 500, minHeight: 200, aspectClass: 'aspect-[4/3]' },
+    tablet: { minWidth: 768, minHeight: 200, aspectClass: 'aspect-[3/4]' },
+    desktop: { minWidth: 1300, minHeight: 200, aspectClass: 'aspect-[3/4]' },
   }
   return devices[deviceMode]
 })

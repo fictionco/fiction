@@ -20,8 +20,6 @@ const props = defineProps({
   disableGroupHide: { type: Boolean, default: false },
 })
 
-
-console.log("OPTIONAS", props.options)
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: Record<string, unknown>): void
 }>()

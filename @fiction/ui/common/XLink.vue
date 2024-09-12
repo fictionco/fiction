@@ -9,7 +9,8 @@ const props = defineProps({
 
 const linkProps = vue.computed(() => {
   const { href } = props
-  return pathIsHref(href) ? { href } : { to: href }
+  const out = pathIsHref(href) ? { href } : { to: href }
+  return out
 })
 </script>
 

@@ -2,11 +2,14 @@
 import { getNavComponentType, type IndexItem, useService, vue } from '@fiction/core'
 import { postLink, taxonomyLink } from '@fiction/posts'
 import ClipPathAnim from '@fiction/ui/anim/AnimClipPath.vue'
-import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElBadge from '@fiction/ui/common/ElBadge.vue'
+import EffectGlare from '@fiction/ui/effect/EffectGlare.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import type { FictionPosts, Post, TablePostConfig } from '@fiction/posts'
 import type { Card } from '@fiction/site'
+import CardButton from '../CardButton.vue'
+import CardLink from '../el/CardLink.vue'
 import ElAuthor from './ElAuthor.vue'
 import type { UserConfig } from '.'
 
@@ -50,53 +53,55 @@ function getItemClasses(index: number): string {
 <template>
   <div :class="card.classes.value.contentWidth">
     <!-- Grid Container -->
-    <div v-if="list.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+    <div v-if="list.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
       <!-- Loop through posts -->
-      <component
-        :is="getNavComponentType(item)"
+      <CardLink
         v-for="(item, i) in list"
         :key="item.slug"
-        :to="item.href"
+        :card
         :href="item.href"
         :class="[getItemClasses(i)]"
       >
-        <ClipPathAnim :animate="true" class="w-full h-full overflow-hidden">
-          <div
-            class="h-full w-full relative group cursor-pointer block hover:scale-105 duration-1000 ease-[cubic-bezier(0.25,1,0.33,1)] transition-all"
-            :class="i === 0 ? '' : 'aspect-[4/3]'"
-            :style="item.media?.url ? { backgroundImage: `url(${item.media.url})` } : {}"
-          >
-            <div :data-bg="item.media?.url" class="absolute z-0 inset-0 bg-cover  bg-gradient-to-br from-theme-50 dark:from-theme-600 to-theme-100 dark:to-theme-700 rounded-lg overflow-hidden bg-center" :style="item.media?.url ? { backgroundImage: `url(${item.media.url})` } : {}" />
-            <div v-if="i === 0" class="overlay absolute w-full h-full z-10 pointer-events-none inset-0" />
-            <div v-if="!item.media" class="w-full h-60 sm:h-full" />
-            <div v-if="i === 0" class="p-[min(max(35px,_3.5vw),_50px)] text-theme-0 z-20 relative ">
-              <div class="mb-4 space-x-2">
-                <XButton
-                  v-for="(cat, ii) in item.categories?.slice(0, 2)"
-                  :key="ii"
-                  theme="overlay"
-                  rounding="full"
-                  size="sm"
-                  :text="cat.title"
-                  :href="taxonomyLink({ card, taxonomy: 'category', term: cat.slug })"
-                />
-              </div>
-              <h2 class="text-2xl md:text-3xl font-semibold x-font-title text-balance max-w-[80%]">
-                {{ item.name }}
-              </h2>
-              <ElAuthor v-for="(author, ii) in item.authors || []" :key="ii" :user="author" :date-at="item.dateAt" />
+        <EffectGlare class="relative" wrap-class="rounded-[20px]" :class="i === 0 ? 'w-full h-full' : 'aspect-[4/3]'">
+          <XMedia :animate="true" :media="item.media" :class="i === 0 ? 'w-full h-full' : 'aspect-[4/3]'" />
+          <div v-if="i === 0" class="py-8 px-5 space-y-4 absolute top-0 z-10">
+            <div class="mb-4 space-x-2">
+              <CardButton
+                v-for="(cat, ii) in item.categories?.slice(0, 2)"
+                :key="ii"
+                :card
+                theme="overlay"
+                rounding="full"
+                size="sm"
+                :text="cat.title"
+                :href="taxonomyLink({ card, taxonomy: 'category', term: cat.slug })"
+              />
             </div>
+            <h2 class="text-2xl md:text-3xl font-semibold x-font-title text-balance max-w-[80%]">
+              {{ item.name }}
+            </h2>
+            <ElAuthor v-for="(author, ii) in item.authors || []" :key="ii" :user="author" :date-at="item.dateAt" />
           </div>
-        </ClipPathAnim>
+          <div class="overlay absolute w-full h-full z-0 pointer-events-none inset-0 bg-[radial-gradient(circle_at_0%_100%,rgba(0,0,0,.5)_0,rgba(0,0,0,.3)_40%,transparent_70%)]" />
+        </EffectGlare>
+
         <div v-if="i !== 0" class="pt-4">
-          <h2 class="text-xl font-semibold x-font-title text-balance">
+          <h2 class="text-lg font-medium x-font-title !leading-[1.3]">
             {{ item.name }}
           </h2>
           <div class="mt-2 space-x-2">
-            <ElBadge v-for="(cat, ii) in item.categories?.slice(0, 2)" :key="ii" :text="cat.title" ui-size="sm" :href="taxonomyLink({ card, taxonomy: 'category', term: cat.slug })" />
+            <CardButton
+              v-for="(cat, ii) in item.categories?.slice(0, 2)"
+              :key="ii"
+              :card
+              :text="cat.title"
+              ui-size="xxs"
+              :href="taxonomyLink({ card, taxonomy: 'category', term: cat.slug })"
+              rounding="full"
+            />
           </div>
         </div>
-      </component>
+      </CardLink>
     </div>
     <El404 v-else super-heading="Index" heading="No Posts Found" sub-heading="Nothing to show here." :actions="[{ name: 'Go to Home', href: '/' }]" />
   </div>

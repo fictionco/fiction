@@ -1,22 +1,28 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
+import { type ActionButton, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import type { Card } from '@fiction/site/card'
 
-const props = defineProps({
-  card: { type: Object as vue.PropType<Card>, required: true },
-  href: { type: String, default: undefined },
-})
+const { card, href, theme, design, size, rounding } = defineProps<{
+  card: Card
+  href?: string
+  theme?: ActionButton['theme']
+  design?: ActionButton['design']
+  size?: ActionButton['size']
+  rounding?: ActionButton['rounding']
+} >()
 
 const attrs = vue.useAttrs()
 
-const siteStyling = vue.computed(() => props.card.site?.fullConfig.value?.styling?.buttons)
+const siteStyling = vue.computed(() => card.site?.fullConfig.value?.styling?.buttons)
 const buttonProps = vue.computed(() => {
   return {
     ...attrs,
-    href: props.href ? props.card.link(props.href) : undefined,
-    rounding: siteStyling.value?.rounding,
-    design: siteStyling.value?.design,
+    href: href ? card.link(href) : undefined,
+    theme,
+    size,
+    rounding: rounding || siteStyling.value?.rounding,
+    design: design || siteStyling.value?.design,
     hover: siteStyling.value?.hover,
   }
 })

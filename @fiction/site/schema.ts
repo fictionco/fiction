@@ -64,6 +64,12 @@ export type CardStandardOptions = z.infer<typeof CardStandardSchema>
 
 export type CardOptionsWithStandard = z.infer<typeof CardOptionsWithStandardSchema>
 
+const ButtonTypeSchema = z.object({
+  rounding: ButtonRoundingSchema.optional(),
+  design: ButtonDesignSchema.optional(),
+  hover: ButtonHoverSchema.optional(),
+})
+
 export const SiteUserConfigSchema = z.object({
   branding: z.object({
     favicon: MediaDisplaySchema.optional(),
@@ -93,11 +99,7 @@ export const SiteUserConfigSchema = z.object({
   styling: z.object({
     isLightMode: z.boolean().optional(),
     fonts: FontsSchema.optional(),
-    buttons: z.object({
-      rounding: ButtonRoundingSchema.optional(),
-      design: ButtonDesignSchema.optional(),
-      hover: ButtonHoverSchema.optional(),
-    }).optional(),
+    buttons: ButtonTypeSchema.optional(),
   }).optional(),
   standard: CardStandardSchema.optional(),
 })

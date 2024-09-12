@@ -3,11 +3,11 @@ import CardLink from '@fiction/cards/el/CardLink.vue'
 import { useService, vue } from '@fiction/core'
 import { allPostsLink, postEditLink, postLink, taxonomyLink } from '@fiction/posts'
 import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
-import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import type { FictionPosts, Post } from '@fiction/posts'
 import type { Card } from '@fiction/site'
+import CardButton from '../CardButton.vue'
 import ElAuthor from './ElAuthor.vue'
 import type { UserConfig } from './index.js'
 
@@ -47,14 +47,29 @@ const imageAspect = vue.computed(() => {
     </div>
     <article v-if="post" class="p-8 pb-44">
       <div class="space-y-8 my-[min(max(35px,_5vw),_60px)] prose:max-w-none text-center max-w-screen-lg mx-auto" :class="proseClass">
-        <div class="tags space-x-3">
-          <XButton design="textOnly" :href="allPostsLink({ card })">
+        <div class="tags space-x-3 not-prose">
+          <CardButton size="xs" :card design="textOnly" :href="allPostsLink({ card })" rounding="full">
             &larr; All Posts
-          </XButton>
-          <ElBadge v-for="(cat, i) in post.categories.value" :key="i" :text="cat.title" :href="taxonomyLink({ card, taxonomy: 'category', term: cat.slug })" />
-          <ElBadge v-if="userIsAuthor" :href="postEditLink({ post })" class="flex items-center">
+          </CardButton>
+          <CardButton
+            v-for="(cat, i) in post.categories.value"
+            :key="i"
+            size="xs"
+            :card
+            rounding="full"
+            :text="cat.title"
+            :href="taxonomyLink({ card, taxonomy: 'category', term: cat.slug })"
+          />
+          <CardButton
+            v-if="userIsAuthor"
+            size="xs"
+            :card
+            :href="postEditLink({ post })"
+            class="flex items-center"
+            rounding="full"
+          >
             Edit Post
-          </ElBadge>
+          </CardButton>
         </div>
         <h1 class="text-6xl font-bold x-font-title text-balance">
           {{ post.title.value }}
@@ -80,7 +95,14 @@ const imageAspect = vue.computed(() => {
             tagged with &rarr;
           </div>
           <div class="gap-3 flex">
-            <ElBadge v-for="(tag, i) in post.tags.value" :key="i" :text="tag.title" :href="taxonomyLink({ card, taxonomy: 'tag', term: tag.slug })" />
+            <CardButton
+              v-for="(tag, i) in post.tags.value"
+              :key="i"
+              size="xs"
+              :card
+              :text="tag.title"
+              :href="taxonomyLink({ card, taxonomy: 'tag', term: tag.slug })"
+            />
           </div>
         </div>
 

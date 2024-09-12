@@ -42,14 +42,14 @@ export function siteLink(args: { site?: Site, location: vueRouter.RouteLocationR
     throw new Error('Card.link - No matched current route')
   }
 
-  const viewId = router.currentRoute.value.params.viewId as string | undefined || ''
+  const currentViewId = router.currentRoute.value.params.viewId as string | undefined || '_'
   const prefix = matchedPath.match(/.*?(?=\/:viewId|$)/)?.[0] || ''
-  const resolvedHref = router.resolve(location).href
+  const resolvedHref = router.resolve(location).fullPath
   const locationPath = resolvedHref.replace(base, '')
 
   const resolvedPath = locationPath.startsWith(prefix) ? locationPath : `${prefix}${locationPath}`
 
-  const finalHref = resolvedPath.replace(/:viewId/g, viewId).replace(/([^:]\/)\/+/g, '$1')
+  const finalHref = resolvedPath.replace(/:viewId/g, currentViewId).replace(/([^:]\/)\/+/g, '$1')
 
   return finalHref
 }
