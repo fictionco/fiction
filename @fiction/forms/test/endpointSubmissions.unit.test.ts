@@ -271,7 +271,7 @@ describe('submission endpoint', async () => {
       _action: 'count',
       orgId,
       filters: [
-        { field: 'status', operator: '=', value: 'reviewed' },
+        { field: 'attention', operator: '=', value: 'reviewed' },
       ],
     }, { server: true })
 

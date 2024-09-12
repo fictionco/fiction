@@ -1,21 +1,26 @@
 import { vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
+import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
-import type { InputOption } from '@fiction/ui'
 
 const templateId = 'fitText'
 
 const schema = z.object({
-  lines: z.number().optional(),
-  text: z.string().optional(),
-  minFontSize: z.number().optional(),
-  maxFontSize: z.number().optional(),
-  font: z.string().optional(),
+  lines: z.number().optional().describe('Number of lines to fit the text into'),
+  text: z.string().optional().describe('Text to fit into the container'),
+  minFontSize: z.number().optional().describe('Minimum font size'),
+  maxFontSize: z.number().optional().describe('Maximum font size'),
+  font: z.string().optional().describe('Font to use (google font key)'),
 })
 
 export type UserConfig = z.infer<typeof schema>
 
 const options: InputOption[] = [
+  new InputOption({ key: 'text', label: 'Text', input: 'InputText' }),
+  new InputOption({ key: 'lines', label: 'Lines', input: 'InputNumber' }),
+  new InputOption({ key: 'minFontSize', label: 'Min Font Size', input: 'InputNumber' }),
+  new InputOption({ key: 'maxFontSize', label: 'Max Font Size', input: 'InputNumber' }),
+  new InputOption({ key: 'font', label: 'Font', input: 'InputFont' }),
 ]
 
 export const templates = [
@@ -25,7 +30,7 @@ export const templates = [
     description: 'Text that fits the container',
     icon: 'i-tabler-adjustments',
     colorTheme: 'orange',
-    isPublic: false,
+    isPublic: true,
     schema,
     options,
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),

@@ -246,6 +246,7 @@ export interface CompiledServiceConfig {
       | 'updatedAt'
     fiction_form:
       | 'formId'
+      | 'formTemplateId'
       | 'orgId'
       | 'title'
       | 'description'
@@ -259,7 +260,7 @@ export interface CompiledServiceConfig {
       | 'orgId'
       | 'formId'
       | 'formTemplateId'
-      | 'status'
+      | 'attention'
       | 'title'
       | 'card'
       | 'userValues'

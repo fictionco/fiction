@@ -1,4 +1,4 @@
-import { vue } from '@fiction/core'
+import { MediaBasicSchema, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
@@ -11,22 +11,26 @@ const schema = z.object({
   items: z.array(z.object({
     title: z.string().optional(),
     content: z.string().optional(),
-    media: z.object({
-      url: z.string().optional(),
-      html: z.string().optional(),
-      format: z.enum(['image', 'video', 'html']).optional(),
-    }).optional(),
+    media: MediaBasicSchema.optional().describe(''),
     actions: z.array(z.object({
       name: z.string().optional(),
       href: z.string().optional(),
     })).optional(),
-  })),
+  })).describe('Story paragraph with text, media, and actions'),
 })
 
 export type UserConfig = z.infer<typeof schema>
 
 const options: InputOption[] = [
-  new InputOption({ key: 'items', label: 'Tour Items', input: 'InputList', options: [] }),
+  new InputOption({ key: 'items', label: 'Tour Items', input: 'InputList', props: { itemName: 'paragraph' }, options: [
+    new InputOption({ key: 'title', label: 'Title', input: 'InputText' }),
+    new InputOption({ key: 'content', label: 'Content', input: 'InputText' }),
+    new InputOption({ key: 'media', label: 'Media', input: 'InputMediaDisplay' }),
+    new InputOption({ key: 'actions', label: 'Actions', input: 'InputList', options: [
+      new InputOption({ key: 'name', label: 'Button Label', input: 'InputText' }),
+      new InputOption({ key: 'href', label: 'Button Link', input: 'InputText' }),
+    ] }),
+  ] }),
 ]
 
 async function defaultConfig(args: { site?: Site }): Promise<UserConfig> {
@@ -63,7 +67,7 @@ export const templates = [
     colorTheme: 'green',
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
     options,
-    isPublic: false,
+    isPublic: true,
     schema,
     getUserConfig: async args => defaultConfig(args),
     demoPage: async (args) => {

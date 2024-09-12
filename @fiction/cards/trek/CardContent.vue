@@ -34,8 +34,8 @@ const actions = vue.computed(() => {
     >
       <div :key="itemIndex">
         <div class="space-y-3">
-          <CardText :card :path="`items.${itemIndex}.header`" tag="h2" class="font-semibold x-font-title text-xl md:text-3xl xl:text-5xl text-pretty" />
-          <CardText :card :path="`items.${itemIndex}.subHeader`" tag="p" class="text-lg md:text-xl xl:text-4xl text-pretty !leading-[1.4]" />
+          <CardText :card :path="`items.${itemIndex}.title`" tag="h2" class="font-semibold x-font-title text-xl md:text-3xl xl:text-5xl text-pretty" />
+          <CardText :card :path="`items.${itemIndex}.content`" tag="p" class="text-lg md:text-xl xl:text-4xl text-pretty !leading-[1.4]" />
         </div>
         <ElActions v-if="actions" class="mt-6" :actions :is-overlay="mode === 'overlay'" />
       </div>

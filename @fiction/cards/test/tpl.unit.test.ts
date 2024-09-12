@@ -236,19 +236,9 @@ describe('verify template settings config', async () => {
         },
         {
           "hasDemo": true,
-          "isPublic": false,
+          "isPublic": true,
           "templateId": "story",
-          "unusedSchema": {
-            "items.0.actions": "array",
-            "items.0.actions.0.href": "string",
-            "items.0.actions.0.name": "string",
-            "items.0.content": "string",
-            "items.0.media": "object",
-            "items.0.media.format": "string",
-            "items.0.media.html": "string",
-            "items.0.media.url": "string",
-            "items.0.title": "string",
-          },
+          "unusedSchema": {},
         },
         {
           "hasDemo": true,
@@ -318,27 +308,15 @@ describe('verify template settings config', async () => {
         },
         {
           "hasDemo": true,
-          "isPublic": false,
+          "isPublic": true,
           "templateId": "trek",
-          "unusedSchema": {
-            "items.0.actions": "array",
-            "items.0.actions.0.href": "string",
-            "items.0.actions.0.name": "string",
-            "items.0.actions.0.theme": "string",
-            "items.0.media.video": "string",
-          },
+          "unusedSchema": {},
         },
         {
           "hasDemo": true,
-          "isPublic": false,
+          "isPublic": true,
           "templateId": "fitText",
-          "unusedSchema": {
-            "font": "string",
-            "lines": "number",
-            "maxFontSize": "number",
-            "minFontSize": "number",
-            "text": "string",
-          },
+          "unusedSchema": {},
         },
         {
           "hasDemo": true,
