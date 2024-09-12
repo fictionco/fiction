@@ -1,25 +1,44 @@
 import { standardCardTemplates } from '@fiction/cards'
 import { type FictionEnv, safeDirname, vue } from '@fiction/core'
-import { CardTemplate } from '../../card.js'
-import { createCard, Theme } from '../../theme.js'
+import { z } from 'zod'
+import { cardTemplate } from '../../card.js'
+import { CardFactory } from '../../cardFactory.js'
+import { Theme } from '../../theme.js'
 import { staticFileUrl } from '../../utils/site.js'
 
 const def = vue.defineAsyncComponent
 
-export const templates = [
-  ...standardCardTemplates,
-  new CardTemplate({
-    templateId: 'testWrap',
-    el: def(async () => import('./TemplateWrap.vue')),
-    isPageCard: true,
-    sections: {
-      test: createCard({ templates: standardCardTemplates, cards: [] }),
-    },
-  }),
-] as const
-
-export function setup(args: { fictionEnv: FictionEnv }) {
+export async function setup(args: { fictionEnv: FictionEnv }) {
   const { fictionEnv } = args
+
+  const factory = new CardFactory({ templates: standardCardTemplates })
+
+  const templates = [
+    ...standardCardTemplates,
+    cardTemplate({
+      templateId: 'testWrap',
+      el: def(async () => import('./TemplateWrap.vue')),
+      isPageCard: true,
+      sections: {
+        test: await factory.create({ cards: [] }),
+      },
+    }),
+    cardTemplate({
+      templateId: 'testBlog',
+      el: def(async () => import('./TemplateWrap.vue')),
+      schema: z.object({
+        posts: z.array(z.object({
+          slug: z.string(),
+          title: z.string(),
+          content: z.string(),
+        })),
+      }),
+      getSitemapPaths: async ({ site, card, pagePath }) => {
+        const posts = card.userConfig.value.posts || []
+        return posts.map(post => `${pagePath}/${post.slug}`)
+      },
+    }),
+  ] as const
 
   return new Theme({
     root: safeDirname(import.meta.url),
@@ -33,8 +52,8 @@ export function setup(args: { fictionEnv: FictionEnv }) {
     getConfig: async (args) => {
       const { site } = args
       const obama = staticFileUrl({ site, filename: 'obama.webp' })
-      const mediaGridCard = createCard({
-        templates,
+      const factory = new CardFactory({ templates, site })
+      const mediaGridCard = await factory.create({
         templateId: 'marquee',
         userConfig: {
           items: [
@@ -50,19 +69,17 @@ export function setup(args: { fictionEnv: FictionEnv }) {
       return {
         userConfig: {},
         sections: {
-          header: createCard({ templates, cards: [] }),
-          footer: createCard({ templates, cards: [] }),
+          header: await factory.create({ cards: [] }),
+          footer: await factory.create({ cards: [] }),
         },
         pages: [
-          createCard({
-            templates,
+          await factory.create({
             slug: '_home',
             title: 'Default Page',
             isHome: true,
             cards: [mediaGridCard, { templateId: 'hero' }, { templateId: 'area', cards: [{ templateId: 'hero' }] }, { templateId: 'hero' }],
           }),
-          createCard({
-            templates,
+          await factory.create({
             slug: 'example',
             title: 'Example Page',
             templateId: 'testWrap',

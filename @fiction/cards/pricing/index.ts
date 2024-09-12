@@ -1,5 +1,5 @@
 import { vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 
@@ -131,7 +131,7 @@ const altConfig: UserConfig = {
 }
 
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     templateId,
     category: ['advanced'],
     description: 'Pricing columns with features and buttons',

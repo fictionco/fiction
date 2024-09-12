@@ -1,5 +1,5 @@
 import { vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
@@ -106,7 +106,7 @@ async function defaultConfig(): Promise<UserConfig> {
 }
 
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     templateId,
     category: ['advanced'],
     description: 'Showcase profiles with images and social links.',
@@ -117,7 +117,7 @@ export const templates = [
     schema,
     isPublic: true,
     getUserConfig: () => defaultConfig(),
-    demoPage: async (args) => {
+    demoPage: async () => {
       const userConfig = await defaultConfig()
       return {
         cards: [

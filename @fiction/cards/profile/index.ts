@@ -1,5 +1,5 @@
 import { vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site/card'
+import { cardTemplate } from '@fiction/site/card'
 import { InputOption } from '@fiction/ui'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
@@ -80,7 +80,7 @@ function getUserConfig(): UserConfig {
     ],
   }
 }
-const minimalProfile = new CardTemplate({
+const minimalProfile = cardTemplate({
   templateId,
   category: ['marketing'],
   description: 'A minimal profile card with a splash image, headline, subheading, and contact details.',

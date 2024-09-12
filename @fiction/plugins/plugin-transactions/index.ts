@@ -1,9 +1,9 @@
 import { AppRoute, FictionPlugin, safeDirname, vue } from '@fiction/core'
 
-import { createCard } from '@fiction/site'
+import { CardFactory } from '@fiction/site/cardFactory'
 import type { FictionApp, FictionDb, FictionEmail, FictionMedia, FictionPluginSettings, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
-import type { FictionMonitor } from '@fiction/plugin-monitor'
 
+import type { FictionMonitor } from '@fiction/plugin-monitor'
 import { EndpointEmailAction } from './endpoint'
 import type { EmailAction } from './action'
 
@@ -39,23 +39,24 @@ export class FictionTransactions extends FictionPlugin<FictionTransactionsSettin
       hook: 'setPages',
       caller: 'emailActions',
       context: 'app',
-      callback: (pages, site) => {
+      callback: async (pages, site) => {
         const theme = site?.theme.value
         const transactionTemplateId = theme?.templateDefaults.value.transaction || 'wrap'
 
         if (!theme?.templates || !theme.templates.find(_ => _.settings.templateId === transactionTemplateId))
           return pages
 
+        const factory = new CardFactory({ templates: theme.templates, site })
+
         return [
           ...pages,
-          createCard({
+          await factory.create({
             isSystem: true, // prevent saving
             cardId: this.transactionSlug,
             slug: this.transactionSlug,
-            templates: theme?.templates,
             templateId: transactionTemplateId,
             cards: [
-              createCard({
+              await factory.create({
                 templateId: 'emailAction',
                 el: vue.defineAsyncComponent(async () => import('./ElEmailAction.vue')),
               }),

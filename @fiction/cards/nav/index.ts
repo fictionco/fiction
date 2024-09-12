@@ -1,5 +1,5 @@
 import { MediaTypographySchema, vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site/card'
+import { cardTemplate } from '@fiction/site/card'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 import { standardOption } from '../inputSets'
@@ -78,7 +78,7 @@ const defaultConfig: UserConfig = {
 const el = vue.defineAsyncComponent(async () => import('./ElCard.vue'))
 
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     templateId,
     category: ['navigation'],
     icon: 'i-tabler-box-align-top',

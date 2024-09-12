@@ -1,5 +1,5 @@
 import { envConfig, safeDirname, vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site/card'
+import { CardTemplate, cardTemplate } from '@fiction/site/card'
 import { z } from 'zod'
 import type { FictionEnv } from '@fiction/core'
 import type { CardConfigPortable } from '@fiction/site'
@@ -46,9 +46,23 @@ import * as wrap from './wrap/index.js'
  */
 envConfig.register({ name: 'CARD_UI_ROOT', onLoad: ({ fictionEnv }) => { fictionEnv.addUiRoot(safeDirname(import.meta.url)) } })
 
+export const testCardTemplates = [
+  ...nav.templates,
+] as const
+
+type CreateTuple<T extends readonly CardTemplate[]> = {
+  [P in keyof T]: T[P] extends CardTemplate<infer S> ? [S['templateId'], S['userConfig'] ] : never
+}[number]
+
+type TupleToObject<T extends [string, any]> = {
+  [P in T[0]]: T extends [P, infer B] ? B : never
+}
+
+export type TemplateUserConfigMap<T extends readonly CardTemplate[]> = TupleToObject<CreateTuple<T>>
+
 export const standardCardTemplates = [
   ...wrap.templates,
-  new CardTemplate({
+  cardTemplate({
     templateId: 'transaction',
     el: vue.defineAsyncComponent(async () => import('./CardWrapTransaction.vue')),
     schema: z.object({}),
@@ -95,7 +109,7 @@ export async function getCardTemplates() {
   return standardCardTemplates
 }
 
-export async function getDemoPages(args: { site: Site, templates: CardTemplate[] | readonly CardTemplate[], fictionEnv?: FictionEnv }) {
+export async function getDemoPages(args: { site: Site, templates: CardTemplate<any>[] | readonly CardTemplate<any>[], fictionEnv?: FictionEnv }) {
   const { templates, site } = args
 
   const buttonsTemplate = new CardTemplate({

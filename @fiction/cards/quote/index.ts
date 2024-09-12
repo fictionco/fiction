@@ -1,5 +1,5 @@
 import { MediaBasicSchema, vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 import { standardOption } from '../inputSets'
@@ -67,7 +67,7 @@ const UserConfigSchema = z.object({
 export type UserConfig = z.infer<typeof UserConfigSchema>
 
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     templateId,
     category: ['marketing'],
     description: 'A quote card with author and organization information',

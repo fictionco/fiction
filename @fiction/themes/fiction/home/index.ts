@@ -1,5 +1,4 @@
-import { createCard } from '@fiction/site/theme.js'
-import { staticFileUrls } from '@fiction/site/utils/site.js'
+import { CardFactory } from '@fiction/site/cardFactory.js'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import type { Site } from '@fiction/site/site.js'
 import { templates } from '../templates.js'
@@ -9,28 +8,12 @@ import obama from './img/obama.webp'
 import rogan from './img/rogan.jpg'
 import selena from './img/selena.jpg'
 
-export function page(args: { site: Site }) {
+export async function page(args: { site: Site }) {
   const { site } = args
-  const filenames = [
-    'profile-man-1.png',
-    'profile-man-2.png',
-    'profile-man-3.png',
-    'profile-man-4.png',
-    'profile-man-5.png',
-    'profile-man-6.png',
-    'profile-man-7.png',
-    'profile-man-8.png',
-    'profile-woman-1.png',
-    'profile-woman-2.png',
-    'profile-woman-3.png',
-    'profile-woman-4.png',
-    'profile-woman-5.png',
-    'profile-woman-7.png',
-  ] as const
 
-  const urls = staticFileUrls({ site, filenames })
-  return createCard({
-    templates,
+  const factory = new CardFactory({ templates, site })
+
+  return await factory.create({
     regionId: 'main',
     templateId: 'wrap',
     slug: '_home',
@@ -42,13 +25,11 @@ export function page(args: { site: Site }) {
       },
     },
     cards: [
-      createCard({
-        templates,
+      await factory.create({
         templateId: 'area',
         userConfig: { },
         cards: [
-          createCard({
-            templates,
+          await factory.create({
             templateId: 'hero',
             userConfig: {
               superColor: 'orange',
@@ -71,8 +52,7 @@ export function page(args: { site: Site }) {
               ],
             },
           }),
-          createCard({
-            templates,
+          await factory.create({
             templateId: 'marquee',
             userConfig: {
               items: [
@@ -151,8 +131,7 @@ export function page(args: { site: Site }) {
               ],
             },
           }),
-          createCard({
-            templates,
+          await factory.create({
             templateId: 'logos',
             userConfig: {
               items: [

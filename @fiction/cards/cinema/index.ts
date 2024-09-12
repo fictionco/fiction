@@ -1,5 +1,5 @@
 import { MediaBasicSchema, vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 import type { ActionItem } from '@fiction/core'
@@ -119,7 +119,7 @@ const options: InputOption[] = [
 export type UserConfig = z.infer<typeof UserConfigSchema>
 const templateId = 'cinema'
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     templateId,
     category: ['marketing'],
     description: 'Full screen images or videos with text overlay.',

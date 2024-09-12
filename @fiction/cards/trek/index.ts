@@ -1,5 +1,5 @@
 import { colorThemeUser, MediaBasicSchema, vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
@@ -65,7 +65,7 @@ async function defaultConfig(): Promise<UserConfig> {
 }
 
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     templateId,
     category: ['content'],
     description: 'A tour card with sticky content and parallaxed images',

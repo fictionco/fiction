@@ -1,5 +1,5 @@
 import { vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 
@@ -14,7 +14,7 @@ const options = [
 ] as InputOption[]
 
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     templateId: 'wrap',
     el: vue.defineAsyncComponent(async () => import('./CardWrap.vue')),
     schema: UserConfigSchema,

@@ -15,7 +15,7 @@ describe('site plugin tests', async () => {
   const testUtils = await createSiteTestUtils()
   let site = await testUtils.createSite()
 
-  const testTheme = setup(testUtils)
+  const testTheme = await setup(testUtils)
   const r = await testUtils.init()
   const userId = r?.user?.userId ?? ''
   const orgId = r?.user?.orgs?.[0]?.orgId ?? ''

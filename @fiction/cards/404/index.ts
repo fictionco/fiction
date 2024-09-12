@@ -1,5 +1,5 @@
 import { vue } from '@fiction/core/index.js'
-import { CardTemplate } from '@fiction/site/index.js'
+import { cardTemplate } from '@fiction/site/index.js'
 import { z } from 'zod'
 import { standardOption } from '../inputSets.js'
 
@@ -13,7 +13,7 @@ const UserConfigSchema = z.object({
 export type UserConfig = z.infer<typeof UserConfigSchema>
 
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     templateId: '404',
     category: ['special'],
     description: 'Shown when a page is not found',

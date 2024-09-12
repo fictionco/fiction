@@ -119,7 +119,7 @@ describe('special slug handling for _home', async () => {
 
 describe('upsert action', async () => {
   const testUtils = await createSiteTestUtils()
-  const testTheme = setup(testUtils)
+  const testTheme = await setup(testUtils)
   const r = await testUtils.init()
   const userId = r?.user?.userId ?? ''
   const orgId = r?.user?.orgs?.[0]?.orgId ?? ''

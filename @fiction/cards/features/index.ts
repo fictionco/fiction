@@ -1,5 +1,5 @@
-import { colorThemeUser, MediaBasicSchema, MediaIconSchema, vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
+import { colorThemeUser, MediaIconSchema, vue } from '@fiction/core'
+import { cardTemplate, CardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 
@@ -52,7 +52,7 @@ const defaultConfig: UserConfig = {
 }
 
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     templateId,
     category: ['marketing'],
     description: 'Discuss the features of your product or service.',

@@ -7,37 +7,35 @@ import type { SiteUserConfig } from './schema.js'
 import type { ComponentConstructor } from './type-utils.js'
 
 type CreateTuple<T extends readonly CardTemplate[]> = {
-  [P in keyof T]: T[P] extends CardTemplate<infer X, infer Q> ? [X, InstanceType<Q>['$props']['card'] ] : never
+  [P in keyof T]: T[P] extends CardTemplate<infer S> ? [S['templateId'], S['userConfig'] ] : never
 }[number]
 
-type TupleToObject<T extends [string, unknown]> = {
-  [P in T[0]]: T extends [P, Card<infer B>] ? B & SiteUserConfig : never
+type TupleToObject<T extends [string, any]> = {
+  [P in T[0]]: T extends [P, infer B] ? B : never
 }
 
-export type CreateUserConfigs<T extends readonly CardTemplate[]> = TupleToObject<CreateTuple<T>>
+export type TemplateUserConfigMap<T extends readonly CardTemplate[]> = TupleToObject<CreateTuple<T>>
 
 export type ExtractComponentUserConfig<T extends ComponentConstructor> = InstanceType<T> extends { $props: { card: { userConfig: infer B } } } ? vue.UnwrapRef<B> & SiteUserConfig : never
 
-export type ExtractCardTemplateUserConfig<T extends CardTemplate<any, any>> =
-    T extends CardTemplate<infer _X, infer U> ?
-      U extends new (...args: any[]) => { $props: { card: { userConfig: infer B } } } ? vue.UnwrapRef<B> & SiteUserConfig : never
+export type ExtractCardTemplateUserConfig<T extends CardTemplate<any>> =
+    T extends CardTemplate<infer S> ?
+      S['component'] extends new (...args: any[]) => { $props: { card: { userConfig: infer B } } } ? vue.UnwrapRef<B> & SiteUserConfig : never
       : never
 
-type CardUserConfig<U extends readonly CardTemplate[]> = CreateUserConfigs<U>
-
 type UserConfigType<
-  T extends keyof CardUserConfig<U>,
+  T extends keyof TemplateUserConfigMap<U>,
   U extends readonly CardTemplate[],
   W extends CardTemplate | undefined,
   X extends ComponentConstructor | undefined,
 > = W extends CardTemplate
-  ? ExtractCardTemplateUserConfig<W>
+  ? TemplateUserConfigMap<U>[T]
   : X extends ComponentConstructor
     ? ExtractComponentUserConfig<X>
-    : U extends readonly CardTemplate[] ? CardUserConfig<U>[T] : Record<string, unknown>
+    : U extends readonly CardTemplate[] ? TemplateUserConfigMap<U>[T] : Record<string, unknown>
 
 type CreateCardArgs<
-  T extends keyof CardUserConfig<U>,
+  T extends keyof TemplateUserConfigMap<U>,
   U extends readonly CardTemplate[],
   W extends CardTemplate | undefined,
   X extends ComponentConstructor | undefined,
@@ -63,7 +61,7 @@ type CardFactorSettings<U extends readonly CardTemplate[]> = {
   site?: Site
 }
 
-export class CardFactory<U extends readonly CardTemplate[]> extends FictionObject<CardFactorSettings<U>> {
+export class CardFactory<U extends readonly CardTemplate<any>[]> extends FictionObject<CardFactorSettings<U>> {
   private templates: U
 
   constructor(settings: CardFactorSettings<U>) {
@@ -73,7 +71,7 @@ export class CardFactory<U extends readonly CardTemplate[]> extends FictionObjec
   }
 
   async create<
-    T extends keyof CreateUserConfigs<U>,
+    T extends keyof TemplateUserConfigMap<U>,
     W extends CardTemplate | undefined,
     X extends ComponentConstructor | undefined,
   >(
@@ -84,7 +82,7 @@ export class CardFactory<U extends readonly CardTemplate[]> extends FictionObjec
     const templateId = args.templateId || (args.slug ? 'wrap' : 'area')
 
     if (!templateId && !tpl)
-      throw new Error('createCard: templateId or tpl required')
+      throw new Error('CardFactory: templateId or tpl required')
 
     const inlineTemplate = tpl || (el ? new CardTemplate({ el, templateId: `${templateId}-inline` }) : undefined)
 
@@ -92,8 +90,8 @@ export class CardFactory<U extends readonly CardTemplate[]> extends FictionObjec
 
     // Ensure that 'templates' contains 'templateId'
     if (!template) {
-      log.error('createCard', `Template with key "${templateId}" not found in provided templates.`)
-      throw new Error(`createCard: Template not found: "${templateId}"`)
+      log.error('CardFactory', `Template with key "${templateId}" not found in provided templates.`)
+      throw new Error(`CardFactory: Template not found: "${templateId}"`)
     }
 
     const createdCard = await template.toCard({ ...args, inlineTemplate, site: this.settings.site, userConfig, baseConfig })

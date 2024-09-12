@@ -1,5 +1,5 @@
-import { ActionButtonSchema, ButtonDesignSchema, colorThemeUser, vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
+import { ButtonDesignSchema, colorThemeUser, vue } from '@fiction/core'
+import { cardTemplate } from '@fiction/site'
 import { CardFactory } from '@fiction/site/cardFactory'
 import { InputOption } from '@fiction/ui'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
@@ -101,7 +101,7 @@ async function getUserConfig(): Promise<UserConfig & SiteUserConfig> {
 }
 
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     templateId,
     category: ['content', 'basic'],
     description: 'Display a statement to focus and highlight your mission, objective, goals, etc. .',

@@ -1,5 +1,5 @@
 import { colorTheme, deepMerge, safeDirname, toLabel, vue } from '@fiction/core/index.js'
-import { CardTemplate } from '@fiction/site/index.js'
+import { cardTemplate } from '@fiction/site/index.js'
 import { InputOption } from '@fiction/ui/index.js'
 import { z } from 'zod'
 import type { SiteUserConfig } from '@fiction/site/schema'
@@ -52,7 +52,7 @@ const options: InputOption[] = [
 ]
 
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     root: safeDirname(import.meta.url),
     templateId,
     category: ['basic'],

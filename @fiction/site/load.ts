@@ -1,6 +1,7 @@
 import { log } from '@fiction/core'
 import type { FictionRouter, RunVars } from '@fiction/core'
-import { createCard, Site } from './index.js'
+import { CardFactory } from './cardFactory.js'
+import { Site } from './index.js'
 import { localSiteConfig } from './utils/site.js'
 import type { ManageSiteParams } from './endpoint.js'
 import type { FictionSites, TableSiteConfig } from './index.js'
@@ -110,8 +111,10 @@ export async function loadSiteFromCard(args: { cardId: string, siteRouter: Ficti
 
   const cards = card?.cards || []
 
+  const factory = new CardFactory({ templates, site })
+
   site.update({ pages: [
-    createCard({
+    await factory.create({
       slug: '_home',
       cards: [
         {
@@ -289,16 +292,21 @@ function formatPath(basePath: string, path: string): string {
   return out || '/'
 }
 
-export async function getPathsFromSite(site: Site, basePath: string = ''): Promise<string[]> {
+export async function getSitemapPathsFromSite(site: Site, basePath: string = ''): Promise<string[]> {
   if (!site?.pages?.value)
     return []
 
-  return site.pages.value.filter(page => page.slug.value && page.slug.value !== '_404').flatMap((page) => {
+  const pagePathPromises = site.pages.value.filter(page => page.slug.value && page.slug.value !== '_404' && !page.slug.value.startsWith('__')).map(async (page) => {
     const pagePath = page.slug.value === '_home' ? '/' : `/${page.slug.value}`
-    const cardPaths = page.cards.value.filter(card => card.slug.value).map(card => `${pagePath}/${card.slug.value}`)
+    const cardPathPromises = page.cards.value.filter(card => card.tpl.value?.settings.getSitemapPaths).map(card => card.tpl.value?.settings.getSitemapPaths?.({ site, card, pagePath }) || [])
+    const cardPaths = (await Promise.all(cardPathPromises)).flat()
 
     return [pagePath, ...cardPaths]
-  }).map(path => formatPath(basePath, path))
+  })
+
+  const allPaths = (await Promise.all(pagePathPromises)).flat()
+
+  return allPaths.map(path => formatPath(basePath, path))
 }
 
 export async function loadSitemap(args: { mode: 'static' | 'dynamic', runVars?: Partial<RunVars>, fictionRouter: FictionRouter, fictionSites: FictionSites }): Promise<{ hostname: string, paths: string[] }> {
@@ -318,7 +326,7 @@ export async function loadSitemap(args: { mode: 'static' | 'dynamic', runVars?: 
       return { site, basePath }
     }))
 
-    const pathPromises = themeSites.map(({ site, basePath }) => getPathsFromSite(site, basePath))
+    const pathPromises = themeSites.map(({ site, basePath }) => getSitemapPathsFromSite(site, basePath))
 
     const pathLists = await Promise.all(pathPromises)
 
@@ -333,7 +341,7 @@ export async function loadSitemap(args: { mode: 'static' | 'dynamic', runVars?: 
     if (!site)
       return { hostname: '', paths: [] }
 
-    const paths = await getPathsFromSite(site)
+    const paths = await getSitemapPathsFromSite(site)
     return { hostname: runVars?.HOSTNAME || '', paths }
   }
 }

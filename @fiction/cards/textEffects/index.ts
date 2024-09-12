@@ -1,5 +1,5 @@
 import { vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site'
 import { z } from 'zod'
 import type { InputOption } from '@fiction/ui'
 
@@ -13,7 +13,7 @@ const options: InputOption[] = [
 ]
 
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     templateId,
     category: ['basic'],
     description: 'Text effects',

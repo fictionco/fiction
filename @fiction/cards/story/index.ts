@@ -1,5 +1,5 @@
 import { MediaBasicSchema, vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
@@ -59,7 +59,7 @@ async function defaultConfig(args: { site?: Site }): Promise<UserConfig> {
 }
 
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     templateId,
     category: ['content'],
     description: 'Text that reveals itself as you scroll, with scrolling media items',

@@ -1,6 +1,7 @@
 import { safeDirname, vue } from '@fiction/core/index.js'
 import { CardTemplate } from '@fiction/site/card.js'
-import { createCard, Theme } from '@fiction/site/theme.js'
+import { CardFactory } from '@fiction/site/cardFactory.js'
+import { Theme } from '@fiction/site/theme.js'
 import favicon from '@fiction/ui/brand/favicon.svg'
 import icon from '@fiction/ui/brand/icon.png'
 import shareImage from '@fiction/ui/brand/shareImage.png'
@@ -11,36 +12,31 @@ import type { FictionAdmin } from '../index.js'
 const def = vue.defineAsyncComponent
 
 export async function getPages() {
+  const factory = new CardFactory({ templates })
   return [
-    createCard({
-      templates,
+    await factory.create({
       regionId: 'main',
       templateId: 'dash',
       slug: '_404',
       title: 'Not Found (404)',
       cards: [
-        createCard({ templates, templateId: '404' }),
+        await factory.create({ templateId: '404' }),
       ],
     }),
-    createCard({
-      templates,
+    await factory.create({
       templateId: 'dash',
       slug: 'settings',
       title: 'Settings',
       userConfig: { navIcon: 'i-tabler-settings', navIconAlt: 'i-tabler-settings-filled' },
-      cards: [createCard({ el: def(async () => import('../settings/SettingsMain.vue')) })],
+      cards: [await factory.create({ el: def(async () => import('../settings/SettingsMain.vue')) })],
     }),
-    createCard({
-      templates,
+    await factory.create({
       templateId: 'transaction',
       slug: 'auth',
       title: 'Settings',
       cards: [
-        createCard({
-          tpl: new CardTemplate({
-            templateId: 'auth',
-            el: def(async () => import('../auth/AuthCard.vue')),
-          }),
+        await factory.create({
+          el: def(async () => import('../auth/AuthCard.vue')),
           userConfig: { logo: { format: 'html' as const, html: fictionLogo }, standard: { spacing: { verticalSpacing: 'none' } } },
         }),
       ],

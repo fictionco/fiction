@@ -1,7 +1,7 @@
 import { getCardTemplates, getDemoPages } from '@fiction/cards'
 import { safeDirname } from '@fiction/core'
 import { CardFactory } from '@fiction/site/cardFactory.js'
-import { createCard, Theme } from '@fiction/site/theme.js'
+import { Theme } from '@fiction/site/theme.js'
 import favicon from '@fiction/ui/brand/favicon.svg'
 import FictionLogo from '@fiction/ui/brand/FictionLogo.vue'
 import icon from '@fiction/ui/brand/icon.png'
@@ -98,18 +98,15 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
         },
         pages,
         sections: {
-          hidden: createCard({
-            templates,
+          hidden: await factory.create({
             cards: [
-              createCard({ templates, templateId: 'mediaPop', userConfig: { } }),
-              createCard({ templates, templateId: 'textEffects', userConfig: { } }),
+              await factory.create({ templateId: 'mediaPop', userConfig: { } }),
+              await factory.create({ templateId: 'textEffects', userConfig: { } }),
             ],
           }),
-          header: createCard({
-            templates,
+          header: await factory.create({
             cards: [
-              createCard({
-                templates,
+              await factory.create({
                 templateId: 'nav',
                 userConfig: {
                   layout: 'navCenter',
@@ -214,11 +211,9 @@ export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: Fict
               }),
             ],
           }),
-          footer: createCard({
-            templates,
+          footer: await factory.create({
             cards: [
-              createCard({
-                templates,
+              await factory.create({
                 templateId: 'footer',
                 userConfig: {
                   logo: {

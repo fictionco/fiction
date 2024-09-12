@@ -1,5 +1,5 @@
 import { MediaBasicSchema, safeDirname, vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 import { standardOption } from '../inputSets.js'
@@ -49,13 +49,13 @@ const options: InputOption[] = [
 ]
 
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     root: safeDirname(import.meta.url),
     templateId: 'demoProse',
     el: vue.defineAsyncComponent(async () => import('./DemoProse.vue')),
     isPublic: false,
   }),
-  new CardTemplate({
+  cardTemplate({
     root: safeDirname(import.meta.url),
     templateId,
     title: 'Capture',

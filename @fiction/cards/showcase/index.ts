@@ -1,5 +1,5 @@
 import { vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
@@ -116,7 +116,7 @@ export async function getDefaultConfig(): Promise<UserConfig> {
 }
 
 const templateId = 'showcase'
-const template = new CardTemplate({
+const template = cardTemplate({
   templateId,
   category: ['portfolio'],
   description: 'Showcase grid of items with popup details',

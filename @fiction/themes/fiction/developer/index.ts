@@ -1,28 +1,23 @@
 import { vue } from '@fiction/core'
-import { createCard } from '@fiction/site/theme'
+import { CardFactory } from '@fiction/site/cardFactory'
 import { templates } from '../templates'
 
-export function page() {
-  const homeCard = createCard({
+export async function page() {
+  const factory = new CardFactory({ templates })
+
+  const homeCard = await factory.create({
     el: vue.defineAsyncComponent(async () => import('./el/ElCard.vue')),
     userConfig: {
       standard: { spacing: { verticalSpacing: 'none' } },
     },
   })
 
-  return createCard({
-    templates,
+  return await factory.create({
     regionId: 'main',
     templateId: 'wrap',
     slug: 'developer',
     cards: [
-      createCard({
-        templates,
-        templateId: 'area',
-        cards: [
-          homeCard,
-        ],
-      }),
+      await factory.create({ templateId: 'area', cards: [homeCard] }),
 
     ],
   })

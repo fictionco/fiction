@@ -1,5 +1,5 @@
 import { MediaBasicSchema, vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
@@ -66,7 +66,7 @@ async function getDefaultConfig(): Promise<UserConfig> {
 }
 
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     templateId,
     category: ['marketing', 'portfolio'],
     description: 'Overlayed profile slider, great for showcasing people or services.',

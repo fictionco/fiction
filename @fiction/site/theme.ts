@@ -1,13 +1,11 @@
 import { deepMerge, FictionPlugin, log, parseObject, vue } from '@fiction/core'
 import type { FictionAdmin } from '@fiction/admin/index.js'
 import type { FictionEnv, FictionPluginSettings, ServiceList } from '@fiction/core'
-import { Card, CardTemplate } from './card.js'
 import { Site, type SiteSettings } from './site.js'
 import { imageStyle } from './util.js'
-import type { CreateUserConfigs, ExtractCardTemplateUserConfig, ExtractComponentUserConfig } from './card.js'
+import type { CardTemplate } from './card.js'
 import type { SiteUserConfig } from './schema.js'
-import type { CardConfigPortable, PageRegion, TableCardConfig } from './tables.js'
-import type { ComponentConstructor } from './type-utils.js'
+import type { TableCardConfig } from './tables.js'
 
 export type ThemeConfig = {
   userConfig: SiteUserConfig
@@ -22,7 +20,7 @@ export type ThemeSettings<T extends Record<string, unknown> = Record<string, unk
   version?: string
   description?: string
   screenshot?: string
-  templates?: readonly CardTemplate[] | CardTemplate[]
+  templates?: readonly CardTemplate<any>[] | CardTemplate<any>[]
   ui?: UiConfig
   isPublic?: boolean
   userConfig?: Partial<SiteUserConfig> & T
@@ -100,66 +98,66 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
   }
 }
 
-type CardUserConfig<U extends readonly CardTemplate[]> = CreateUserConfigs<U>
+// type CardUserConfig<U extends readonly CardTemplate[]> = CreateUserConfigs<U>
 
 // Base interface without slug
-  type BaseCreateCardArgs<
-    T extends keyof CardUserConfig<U>,
-    U extends readonly CardTemplate[],
-    V extends PageRegion,
-    W extends CardTemplate | undefined,
-    X extends ComponentConstructor | undefined,
-  > = {
-    templates?: U
-    tpl?: W
-    templateId?: T | 'wrap'
-    el?: X
-    userConfig?:
-    W extends CardTemplate
-      ? ExtractCardTemplateUserConfig<W>
-      : X extends ComponentConstructor
-        ? ExtractComponentUserConfig<X>
-        : U extends readonly CardTemplate[] ? CardUserConfig<U>[T] : Record<string, unknown>
-    regionId?: V
-    layoutId?: string
-    cards?: CardConfigPortable[]
-    cardId?: string
-    isSystem?: boolean
-    slug?: string
-    title?: string
-    isHome?: boolean
-    is404?: boolean
-  }
+// type BaseCreateCardArgs<
+//   T extends keyof CardUserConfig<U>,
+//   U extends readonly CardTemplate[],
+//   V extends PageRegion,
+//   W extends CardTemplate | undefined,
+//   X extends ComponentConstructor | undefined,
+// > = {
+//   templates?: U
+//   tpl?: W
+//   templateId?: T | 'wrap'
+//   el?: X
+//   userConfig?:
+//   W extends CardTemplate
+//     ? ExtractCardTemplateUserConfig<W>
+//     : X extends ComponentConstructor
+//       ? ExtractComponentUserConfig<X>
+//       : U extends readonly CardTemplate[] ? CardUserConfig<U>[T] : Record<string, unknown>
+//   regionId?: V
+//   layoutId?: string
+//   cards?: CardConfigPortable[]
+//   cardId?: string
+//   isSystem?: boolean
+//   slug?: string
+//   title?: string
+//   isHome?: boolean
+//   is404?: boolean
+// }
 
-export function createCard<
-  T extends keyof CreateUserConfigs<U>,
-  U extends readonly CardTemplate[],
-  V extends PageRegion,
-  W extends CardTemplate | undefined,
-  X extends ComponentConstructor | undefined,
->(args: BaseCreateCardArgs<T, U, V, W, X>) {
-  const { templates, templateId = 'area', tpl, el } = args
+// export function createCard<
+//   T extends keyof CreateUserConfigs<U>,
+//   U extends readonly CardTemplate[],
+//   V extends PageRegion,
+//   W extends CardTemplate | undefined,
+//   X extends ComponentConstructor | undefined,
+// >(args: BaseCreateCardArgs<T, U, V, W, X>) {
+//   const { templates, templateId = 'area', tpl, el } = args
 
-  if (!templateId && !tpl)
-    throw new Error('createCard: templateId or tpl required')
+//   if (!templateId && !tpl)
+//     throw new Error('createCard: templateId or tpl required')
 
-  const inlineTemplate = tpl || (el ? new CardTemplate({ el, templateId: `${templateId}-inline` }) : undefined)
+//   const inlineTemplate = tpl || (el ? new CardTemplate({ el, templateId: `${templateId}-inline` }) : undefined)
 
-  const template = inlineTemplate || templates?.find(template => template.settings.templateId === templateId)
+//   const template = inlineTemplate || templates?.find(template => template.settings.templateId === templateId)
 
-  // Ensure that 'templates' contains 'templateId'
-  if (!template && templates) {
-    log.error('createCard', `Template with key "${templateId}" not found in provided templates.`, { data: { templates } })
-    throw new Error(`createCard: Template not found: "${templateId}"`)
-  }
+//   // Ensure that 'templates' contains 'templateId'
+//   if (!template && templates) {
+//     log.error('createCard', `Template with key "${templateId}" not found in provided templates.`, { data: { templates } })
+//     throw new Error(`createCard: Template not found: "${templateId}"`)
+//   }
 
-  const templateUserConfig = template?.settings.getBaseConfig ? template?.settings.getBaseConfig({}) as CardUserConfig<U>[T] : {}
+//   const templateUserConfig = template?.settings.getBaseConfig ? template?.settings.getBaseConfig({}) as CardUserConfig<U>[T] : {}
 
-  const obj = deepMerge([templateUserConfig, args.userConfig])
+//   const obj = deepMerge([templateUserConfig, args.userConfig])
 
-  const userConfig = parseObject({ obj, onValue: ({ value }) => typeof value === 'string' ? value.replace('file://', '/@fs') : value })
+//   const userConfig = parseObject({ obj, onValue: ({ value }) => typeof value === 'string' ? value.replace('file://', '/@fs') : value })
 
-  const { templates: _, ...rest } = args
+//   const { templates: _, ...rest } = args
 
-  return new Card({ ...rest, inlineTemplate, userConfig }).toConfig() as TableCardConfig
-}
+//   return new Card({ ...rest, inlineTemplate, userConfig }).toConfig() as TableCardConfig
+// }

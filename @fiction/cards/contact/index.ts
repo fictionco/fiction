@@ -1,5 +1,5 @@
 import { MediaIconSchema, vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site/card'
+import { cardTemplate } from '@fiction/site/card'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 import { standardOption } from '../inputSets'
@@ -79,7 +79,7 @@ function getDefaultConfig(): UserConfig {
 }
 
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     templateId,
     category: ['form', 'marketing'],
     description: 'A minimal profile card with a splash image, headline, subheading, and contact details.',

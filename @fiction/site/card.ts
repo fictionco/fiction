@@ -16,31 +16,41 @@ export const CardCategorySchema = z.enum(['basic', 'posts', 'theme', 'stats', 'm
 
 type CardCategory = z.infer<typeof CardCategorySchema>
 
-type CardTemplateUserConfig<T extends ComponentConstructor> = InstanceType<T> extends { $props: { card: { userConfig: { value: infer V } } } } ? V : SiteUserConfig
+// Utility type to merge two types
+type MergeTypes<T, U> = T & Omit<U, keyof T>
 
-type FullTemplateUserConfig<T extends ComponentConstructor> = SiteUserConfig & CardTemplateUserConfig<T>
+export type CardTemplateSurfaceDefault = {
+  templateId: string
+  userConfig: Record<string, unknown>
+  queries: Record<string, Query>
+  component: ComponentConstructor
+  schema: z.AnyZodObject
+}
+
+// Use defaults
+type CardTemplateSurface<T> = MergeTypes<T, CardTemplateSurfaceDefault>
+type CardTemplateUserConfigAll<T extends CardTemplateSurfaceDefault> = SiteUserConfig & T['userConfig']
 
 interface CardTemplateSettings<
-  U extends string = string,
-  T extends ComponentConstructor = ComponentConstructor,
-  X extends Record<string, Query> = Record<string, Query>,
+  S extends CardTemplateSurfaceDefault = CardTemplateSurfaceDefault,
 > {
   root?: string
-  templateId: U
-  el: T
+  templateId: CardTemplateSurface<S>[ 'templateId' ]
+  el: CardTemplateSurface<S>[ 'component' ]
   isPublic?: boolean
   isEffect?: boolean
   isPageCard?: boolean // full page wrap
   isContainer?: boolean // ui drawer
   isRegion?: boolean
   options?: InputOption[]
-  schema?: z.AnyZodObject
+  schema?: CardTemplateSurface<S>[ 'schema' ]
   sections?: Record<string, CardConfigPortable>
-  getBaseConfig?: (args: { site?: Site }) => FullTemplateUserConfig<T>
-  getUserConfig?: (args: { site?: Site }) => Promise<FullTemplateUserConfig<T>> | (FullTemplateUserConfig<T>)
+  getBaseConfig?: (args: { site?: Site }) => CardTemplateUserConfigAll<S>
+  getUserConfig?: (args: { site?: Site }) => Promise<CardTemplateUserConfigAll<S>> | (CardTemplateUserConfigAll<S>)
   getEffects?: (args: { site?: Site }) => Promise<TableCardConfig[]>
-  demoPage?: (args: { site: Site }) => Promise<{ cards: CardConfigPortable< FullTemplateUserConfig<T>>[] }>
-  getQueries?: (args: CardQuerySettings) => X
+  demoPage?: (args: { site: Site }) => Promise<{ cards: CardConfigPortable< CardTemplateUserConfigAll<S>>[] }>
+  getQueries?: (args: CardQuerySettings) => CardTemplateSurface<S>[ 'queries' ]
+  getSitemapPaths?: (args: { site: Site, card: Card<CardTemplateUserConfigAll<S>>, pagePath: string }) => Promise<string[]>
   title?: string
   description?: string
   category?: CardCategory[]
@@ -51,17 +61,16 @@ interface CardTemplateSettings<
 }
 
 export class CardTemplate<
-  U extends string = string,
-  T extends ComponentConstructor = ComponentConstructor,
-> extends FictionObject< CardTemplateSettings<U, T> > {
-  constructor(settings: CardTemplateSettings<U, T>) {
+  S extends CardTemplateSurfaceDefault = CardTemplateSurfaceDefault,
+> extends FictionObject< CardTemplateSettings<S> > {
+  constructor(settings: CardTemplateSettings<S>) {
     super('CardTemplate', { title: toLabel(settings.templateId), ...settings })
   }
 
   optionConfig = refineOptions({ options: this.settings.options || [], schema: this.settings.schema, templateId: this.settings.templateId })
   getBaseConfig = this.settings.getBaseConfig || (() => ({ xxx: '123' }))
 
-  async toCard(args: { cardId?: string, site?: Site, userConfig?: FullTemplateUserConfig<T>, baseConfig?: FullTemplateUserConfig<T> } & CardSettings) {
+  async toCard(args: { cardId?: string, site?: Site, userConfig?: CardTemplateUserConfigAll<S>, baseConfig?: CardTemplateUserConfigAll<S> } & CardSettings) {
     const { cardId, site, baseConfig = {}, userConfig } = args
     const { getUserConfig = () => {}, getEffects = () => [] } = this.settings
 
@@ -82,6 +91,27 @@ export class CardTemplate<
   }
 }
 
+export function cardTemplate<
+  TTemplateId extends string,
+  TSchema extends z.AnyZodObject,
+  TComponent extends ComponentConstructor,
+  TQueries extends Record<string, Query> = Record<string, Query>,
+>(settings: CardTemplateSettings<{
+  templateId: TTemplateId
+  userConfig: z.infer<TSchema>
+  schema: TSchema
+  component: TComponent
+  queries: TQueries
+}>) {
+  return new CardTemplate<{
+    templateId: TTemplateId
+    userConfig: z.infer<TSchema>
+    schema: TSchema
+    queries: TQueries
+    component: TComponent
+  }>(settings)
+}
+
 export type CardSettings<T extends Record<string, unknown> = Record<string, unknown> > = CardConfigPortable<T> & {
   site?: Site
   inlineTemplate?: CardTemplate
@@ -95,9 +125,6 @@ export type CardSurface = {
     [key: string]: { params: unknown, result: unknown }
   }
 }
-
-// Utility type to merge two types
-type MergeTypes<T, U> = T & Omit<U, keyof T>
 
 // Use defaults
 type Surface<T> = MergeTypes<T, CardSurface>
@@ -302,19 +329,19 @@ export class Card<
 /**
  * Special Types
  */
-type CreateTuple<T extends readonly CardTemplate[]> = {
-  [P in keyof T]: T[P] extends CardTemplate<infer X, infer Q> ? [X, InstanceType<Q>['$props']['card'] ] : never
-}[number]
+// type CreateTuple<T extends readonly CardTemplate[]> = {
+//   [P in keyof T]: T[P] extends CardTemplate<infer S> ? [S['templateId'], S['userConfig'] ] : never
+// }[number]
 
-type TupleToObject<T extends [string, unknown]> = {
-  [P in T[0]]: T extends [P, Card<infer B>] ? B & SiteUserConfig : never
-}
+// type TupleToObject<T extends [string, any]> = {
+//   [P in T[0]]: T extends [P, infer B] ? B : never
+// }
 
-export type CreateUserConfigs<T extends readonly CardTemplate[]> = TupleToObject<CreateTuple<T>>
+// export type TemplateUserConfigMap<T extends readonly CardTemplate[]> = TupleToObject<CreateTuple<T>>
 
 export type ExtractComponentUserConfig<T extends ComponentConstructor> = InstanceType<T> extends { $props: { card: { userConfig: infer B } } } ? vue.UnwrapRef<B> & SiteUserConfig : never
 
-export type ExtractCardTemplateUserConfig<T extends CardTemplate<any, any>> =
-    T extends CardTemplate<infer _X, infer U> ?
-      U extends new (...args: any[]) => { $props: { card: { userConfig: infer B } } } ? vue.UnwrapRef<B> & SiteUserConfig : never
+export type ExtractCardTemplateUserConfig<T extends CardTemplate<any >> =
+    T extends CardTemplate<infer S> ?
+      S extends new (...args: any[]) => { $props: { card: { userConfig: infer B } } } ? vue.UnwrapRef<B> & SiteUserConfig : never
       : never
