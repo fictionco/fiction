@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import ElTool from '@fiction/admin/tools/ElTool.vue'
-import ToolForm from '@fiction/admin/tools/ToolForm.vue'
 import { toSlug, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
+import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import type { AdminEditorController, EditorTool } from '@fiction/admin'
 import { requestManagePage } from '../../utils/region'
 import InputSlug from '../InputSlug.vue'
@@ -73,7 +73,7 @@ async function save() {
     title="Add Page"
   >
     <ElForm @submit="save()">
-      <ToolForm v-model="page" :options :input-props="{ site }" />
+      <FormEngine v-model="page" :options :input-props="{ site }" />
 
       <div class="text-right px-4 py-2">
         <ElInput input="InputSubmit" :loading rounding="full" data-test-id="requestCreateNewPage">

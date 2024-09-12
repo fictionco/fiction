@@ -1,25 +1,27 @@
 <script lang="ts" setup>
 import ElTool from '@fiction/admin/tools/ElTool.vue'
-import ToolForm from '@fiction/admin/tools/ToolForm.vue'
 import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
+import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import type { AdminEditorController, EditorTool } from '@fiction/admin'
 import { requestManagePage } from '../../utils/region'
 import InputSlug from '../InputSlug.vue'
 import type { Site } from '../../site'
 import type { ToolKeys } from './tools.js'
 
-const props = defineProps({
-  site: { type: Object as vue.PropType<Site>, required: true },
-  tool: { type: Object as vue.PropType<EditorTool>, required: true },
-  controller: { type: Object as vue.PropType<AdminEditorController<{ toolIds: ToolKeys }>>, required: true },
-})
+const props = defineProps<{
+  site: Site
+  tool: EditorTool
+  controller: AdminEditorController<{ toolIds: ToolKeys }>
+}>()
+
+const { controller, site, tool } = props
 
 const loading = vue.ref(false)
 
-const page = vue.computed(() => props.site.editPageConfig.value)
+const page = vue.computed(() => site.editPageConfig.value)
 
 const options = vue.computed<InputOption[]>(() => {
   return [
@@ -31,10 +33,12 @@ const options = vue.computed<InputOption[]>(() => {
         new InputOption({
           key: 'manageLayoutInput',
           input: vue.defineAsyncComponent(() => import('./InputManageLayout.vue')),
+          props: { site, tool },
         }),
         new InputOption({
           key: 'addElementsInputs',
           input: vue.defineAsyncComponent(() => import('./InputAddElements.vue')),
+          props: { site, tool },
         }),
       ],
     }),
@@ -44,7 +48,7 @@ const options = vue.computed<InputOption[]>(() => {
       input: 'group',
       options: [
         new InputOption({ key: 'title', label: 'Name', input: 'InputText', placeholder: 'Page Name', isRequired: true }),
-        new InputOption({ key: 'slug', label: 'Slug', input: InputSlug, placeholder: 'my-page', isRequired: true }),
+        new InputOption({ key: 'slug', label: 'Slug', input: InputSlug, placeholder: 'my-page', isRequired: true, props: { site } }),
       ],
     }),
     new InputOption({
@@ -62,7 +66,7 @@ const options = vue.computed<InputOption[]>(() => {
 async function save() {
   loading.value = true
   await requestManagePage({
-    site: props.site,
+    site,
     _action: 'upsert',
     regionCard: page.value,
     delay: 400,
@@ -70,7 +74,7 @@ async function save() {
   })
   loading.value = false
 
-  props.controller.useTool({ toolId: 'managePages' })
+  controller.useTool({ toolId: 'managePages' })
 }
 </script>
 
@@ -82,7 +86,7 @@ async function save() {
     title="Edit Page"
   >
     <ElForm @submit="save()">
-      <ToolForm
+      <FormEngine
         v-model="site.editPageConfig.value"
         :options
         :input-props="{ site, tool }"

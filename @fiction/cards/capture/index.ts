@@ -43,7 +43,7 @@ const demoUserConfig = {
 const options: InputOption[] = [
   new InputOption({ key: 'presentationMode', label: 'Presentation Mode', input: 'InputSelect', list: ['inline', 'onScroll', 'onLoad'], description: 'Show the card inline with content as a popup on load, or when scrolling.' }),
   standardOption.headers(),
-  new InputOption({ key: 'media', label: 'Image', input: 'InputMediaDisplay' }),
+  new InputOption({ key: 'media', label: 'Image', input: 'InputMedia' }),
   new InputOption({ key: 'dismissText', label: 'Dismiss Text', input: 'InputText', placeholder: 'No thanks', description: 'Dismisses modal in load and modal modes' }),
   new InputOption({ key: 'buttonText', label: 'Button Text', input: 'InputText', placeholder: 'Subscribe', description: 'Text on the subscribe button' }),
   new InputOption({ key: 'thanksText', label: 'Thanks Text', input: 'InputText', placeholder: 'Thanks for subscribing!', description: 'Text on the thank you message' }),

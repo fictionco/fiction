@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import ElTool from '@fiction/admin/tools/ElTool.vue'
-import ToolForm from '@fiction/admin/tools/ToolForm.vue'
 import { standardOption } from '@fiction/cards/inputSets.js'
 import { vue } from '@fiction/core'
 import { refineOptions } from '@fiction/site/utils/schema'
 import { InputOption } from '@fiction/ui/index.js'
-
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
+
+import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import type { EditorTool } from '@fiction/admin'
 import type { Card } from '@fiction/site'
 import { sendTable } from '../schema.js'
@@ -54,7 +54,7 @@ function updatePost(config: Partial<EmailCampaignConfig>) {
 <template>
   <ElTool :tool="tool">
     <ElForm v-if="email" id="toolForm">
-      <ToolForm
+      <FormEngine
         :model-value="email.toConfig()"
         :options
         :input-props="{ email, card }"

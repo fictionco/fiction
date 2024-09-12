@@ -27,7 +27,7 @@ const options: InputOption[] = [
   new InputOption({ key: 'items', label: 'Items', input: 'InputList', options: [
     new InputOption({ key: 'name', label: 'Name', input: 'InputText' }),
     new InputOption({ key: 'href', label: 'Link', input: 'InputText' }),
-    new InputOption({ key: 'media', label: 'Image URL', input: 'InputMediaDisplay' }),
+    new InputOption({ key: 'media', label: 'Image URL', input: 'InputMedia' }),
   ] }),
 ]
 

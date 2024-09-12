@@ -3,8 +3,8 @@ import { dayjs, gravatarUrlSync, useService, vue } from '@fiction/core/index.js'
 import ElModal from '@fiction/ui/ElModal.vue'
 import { InputOption } from '@fiction/ui/index.js'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
+import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import type { Card } from '@fiction/site/card'
-import ToolForm from '../tools/ToolForm.vue'
 import ElHeader from './ElHeader.vue'
 import type { FictionAdmin } from '..'
 
@@ -116,7 +116,7 @@ vue.onMounted(() => {
   <div class="px-6 ">
     <ElModal v-if="mode === 'changeEmail'" :vis="mode === 'changeEmail'" modal-class="max-w-lg" @update:vis="mode = 'current'">
       <ElForm @submit="codeSent ? requestChangeEmail() : requestCode()">
-        <ToolForm v-model="form" ui-size="lg" :card :options="toolFormOptions" :disable-group-hide="true" />
+        <FormEngine v-model="form" ui-size="lg" :card :options="toolFormOptions" :disable-group-hide="true" />
       </ElForm>
     </ElModal>
 

@@ -1,4 +1,4 @@
-import { Col, DataFilterSchema, FictionDbTable, MediaDisplaySchema, ProgressStatusSchema, standardTable } from '@fiction/core'
+import { AndDataFilterSchema, Col, FictionDbTable, MediaDisplaySchema, ProgressStatusSchema, standardTable } from '@fiction/core'
 import { t as postTableNames } from '@fiction/posts'
 
 import { z } from 'zod'
@@ -37,7 +37,7 @@ export const sendColumns = [
   new Col({ key: 'avatar', sch: () => MediaDisplaySchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
   new Col({ key: 'scheduleMode', sch: ({ z }) => z.enum(['now', 'schedule']), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'scheduledAt', sch: ({ z }) => z.string(), make: ({ s, col }) => s.timestamp(col.k).defaultTo(null) }),
-  new Col({ key: 'filters', sch: ({ z }) => z.array(DataFilterSchema), make: ({ s, col }) => s.jsonb(col.k).defaultTo([]) }),
+  new Col({ key: 'filters', sch: ({ z }) => z.array(AndDataFilterSchema), make: ({ s, col }) => s.jsonb(col.k).defaultTo([]) }),
   new Col({ key: 'counts', sch: () => EmailAnalyticsSchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
   new Col({ key: 'draft', sch: ({ z }) => z.record(z.string(), z.any()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
   new Col({ key: 'userConfig', sch: () => EmailUserConfigSchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),

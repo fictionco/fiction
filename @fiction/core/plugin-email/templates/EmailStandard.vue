@@ -210,7 +210,7 @@ const markdownStyles = {
             <ESection class="mt-12 mb-8 text-left">
               <ESection class="inline-block">
                 <EColumn v-for="(item, i) in actions" :key="i" :class="i === 0 ? '' : 'pl-4'">
-                  <EButton :href="item.href" :class="getButtonClass(item)" class="hover:opacity-80 font-bold select-none" :style="{ whiteSpace: 'nowrap' }" v-html="item.name" />
+                  <EButton :href="item.href" :class="getButtonClass(item)" class="rounded-full hover:opacity-80 font-bold select-none" :style="{ whiteSpace: 'nowrap' }" v-html="item.name" />
                 </EColumn>
               </ESection>
             </ESection>

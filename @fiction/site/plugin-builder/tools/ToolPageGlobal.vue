@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import ElTool from '@fiction/admin/tools/ElTool.vue'
-import ToolForm from '@fiction/admin/tools/ToolForm.vue'
 import { toSlug, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
+import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import type { AdminEditorController, EditorTool } from '@fiction/admin'
 import { imageStyle } from '../../util'
 import { saveSite, updateSite } from '../../utils/site'
@@ -116,7 +116,7 @@ const v = vue.computed({
     v-bind="props"
   >
     <ElForm @submit="save()">
-      <ToolForm
+      <FormEngine
         v-model="v"
         :options="options"
         :input-props="{ site }"

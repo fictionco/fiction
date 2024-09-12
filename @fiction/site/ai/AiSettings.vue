@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import ToolForm from '@fiction/admin/tools/ToolForm.vue'
 import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
+import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import { imageStyle } from '../util'
 import type { Site } from '../../site'
 
@@ -58,7 +58,7 @@ async function save() {
 
 <template>
   <ElForm class="space-y-6" @submit="save()">
-    <ToolForm
+    <FormEngine
       :model-value="site.toConfig()"
       :options
       :input-props="{ site }"

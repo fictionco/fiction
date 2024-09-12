@@ -38,7 +38,7 @@ const options: InputOption[] = [
     new InputOption({ key: 'name', input: 'InputText', label: 'Name' }),
     new InputOption({ key: 'title', input: 'InputText', label: 'Title' }),
     new InputOption({ key: 'desc', input: 'InputText', label: 'Description' }),
-    new InputOption({ key: 'media', input: 'InputMediaDisplay', label: 'Media', props: { formats: { url: true } } }),
+    new InputOption({ key: 'media', input: 'InputMedia', label: 'Media', props: { formats: { url: true } } }),
     new InputOption({ key: 'social', input: 'InputList', label: 'Social', options: [
       new InputOption({ key: 'name', input: 'InputText', label: 'Name' }),
       new InputOption({ key: 'href', input: 'InputText', label: 'Link' }),

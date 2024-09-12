@@ -2,10 +2,10 @@
 import { getNavComponentType, toLabel, toSlug, useService, vue } from '@fiction/core'
 import ElPanel from '@fiction/ui/ElPanel.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
+import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import type { NavItem } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import type { InputOption } from '@fiction/ui'
-import ToolForm from '../tools/ToolForm.vue'
 import type { SettingsTool } from '..'
 
 const props = defineProps({
@@ -100,7 +100,7 @@ async function navigate(v: NavItem) {
               <div class="px-6 py-4 mb-6 font-semibold text-lg dark:text-theme-600 text-theme-300">
                 {{ currentPanel.title.value }}
               </div>
-              <ToolForm
+              <FormEngine
                 v-model="currentPanel.val.value"
                 :data-settings-tool="currentPanel.slug"
                 ui-size="lg"

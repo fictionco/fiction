@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import type { IconId } from '@fiction/ui/lib/systemIcons.js'
+import { OrFilterGroupSchema } from '../types/endpoint.js'
 import { ColorScaleSchema, colorThemeUser, colorThemeWithInvert } from '../utils/colors.js'
 import type { vue } from '../utils/libraries.js'
 
@@ -181,10 +182,24 @@ export const PostSchema = z.object({
   authors: z.array(UserSchema).optional(),
 })
 
+export const GlobalQuerySchema = z.object({
+  filters: z.array(OrFilterGroupSchema).optional(), // Array of OR filter groups
+  sortBy: z.string().optional(),
+  sortOrder: z.enum(['asc', 'desc']).optional(),
+  search: z.string().optional(),
+  dateRange: z.object({
+    start: z.date().optional(),
+    end: z.date().optional(),
+  }).optional(),
+})
+
+// Updated PostHandlingSchema
 export const PostHandlingSchema = z.object({
-  mode: z.enum(['global', 'inline']).optional(),
+  format: z.enum(['global', 'local']).default('local'),
   limit: z.number().optional(),
-  items: z.array(PostSchema).optional(),
+  posts: z.array(PostSchema).optional(),
+  query: GlobalQuerySchema.optional(),
 })
 
 export type PostObject = z.infer<typeof PostSchema>
+export type PostHandlingObject = z.infer<typeof PostHandlingSchema>

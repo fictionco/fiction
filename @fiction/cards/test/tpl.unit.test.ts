@@ -23,9 +23,7 @@ describe('verify template settings config', async () => {
           "hasDemo": false,
           "isPublic": false,
           "templateId": "wrap",
-          "unusedSchema": {
-            "fixedHeader": "boolean",
-          },
+          "unusedSchema": {},
         },
         {
           "hasDemo": false,

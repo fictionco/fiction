@@ -6,7 +6,7 @@ import type { InputOptionSettings } from '@fiction/ui/index.js'
 type OptArgs<T extends string = string> = (Partial<InputOptionSettings<T>> & Record<string, unknown>) | undefined
 
 export const standardOption = {
-  media: (_: OptArgs = {}) => new InputOption({ key: 'media', label: 'Image', input: 'InputMediaDisplay', props: { formats: _?.formats }, ..._ }),
+  media: (_: OptArgs = {}) => new InputOption({ key: 'media', label: 'Image', input: 'InputMedia', props: { formats: _?.formats }, ..._ }),
   name: (_: OptArgs = {}) => new InputOption({ key: 'name', label: 'Text', input: 'InputText', ..._ }),
   desc: (_: OptArgs = {}) => new InputOption({ key: 'desc', label: 'Description', input: 'InputTextarea', ..._ }),
   icon: (_: OptArgs = {}) => new InputOption({ key: 'icon', label: 'Icon', input: 'InputSelect', ..._ }),

@@ -104,8 +104,8 @@ function toggleDarkMode() {
         :service="service"
         :options="[
           new InputOption({ label: 'Text', input: 'InputText', key: 'text' }),
-          new InputOption({ label: 'Media Display', input: 'InputMediaDisplay', key: 'media' }),
-          new InputOption({ label: 'Overlays', input: 'InputList', key: 'overlays', options: [new InputOption({ label: 'Media Display', input: 'InputMediaDisplay', key: 'media' })] })]"
+          new InputOption({ label: 'Media Display', input: 'InputMedia', key: 'media' }),
+          new InputOption({ label: 'Overlays', input: 'InputList', key: 'overlays', options: [new InputOption({ label: 'Media Display', input: 'InputMedia', key: 'media' })] })]"
       />
       <TestInput input-name="Overlay" :input-el="inputs.InputOverlay" />
 

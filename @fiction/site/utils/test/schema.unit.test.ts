@@ -15,7 +15,7 @@ describe('schema tools', () => {
     new InputOption({ key: 'grp', label: 'Group 1', input: 'group', options: [
       new InputOption({ key: 'groupInput', label: 'subText', input: 'InputTextarea' }),
     ] }),
-    new InputOption({ key: 'media', label: 'test', input: 'InputMediaDisplay' }),
+    new InputOption({ key: 'media', label: 'test', input: 'InputMedia' }),
   ]
 
   const schema = z.object({

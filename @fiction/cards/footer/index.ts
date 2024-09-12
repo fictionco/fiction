@@ -1,8 +1,8 @@
-import { standardOption } from '@fiction/cards/inputSets'
 import { vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site/card'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
+import { standardOption } from '../inputSets'
 import { mediaSchema } from '../schemaSets'
 
 const templateId = 'footer'
@@ -55,7 +55,7 @@ const schema = z.object({
 export type UserConfig = z.infer<typeof schema>
 
 const options: InputOption[] = [
-  new InputOption({ key: 'logo', label: 'Logo', input: 'InputMediaDisplay' }),
+  new InputOption({ key: 'logo', label: 'Logo', input: 'InputLogo' }),
   new InputOption({ key: 'layout', label: 'Layout', input: 'InputSelect', list: layoutKeys }),
   new InputOption({ key: 'tagline', label: 'Tagline', input: 'InputText', description: 'A catchy phrase or description of what you do.' }),
   standardOption.navItems({ key: 'nav', maxDepth: 2, itemNames: ['Column', 'Nav Item', 'Sub Nav Item'] }),
@@ -71,7 +71,7 @@ const options: InputOption[] = [
     new InputOption({ key: 'badges', label: 'Badges', description: 'Add certifications or other graphics to build your authority', input: 'InputList', props: { itemName: 'Badge' }, options: [
       new InputOption({ key: 'name', label: 'Name', input: 'InputText' }),
       new InputOption({ key: 'href', label: 'URL', input: 'InputText' }),
-      new InputOption({ key: 'media', label: 'Media', input: 'InputMediaDisplay' }),
+      new InputOption({ key: 'media', label: 'Media', input: 'InputMedia' }),
       new InputOption({ key: 'target', label: 'Target', input: 'InputSelect', list: ['_blank', '_self'] }),
     ] }),
   ] }),

@@ -1,13 +1,12 @@
 <script lang="ts" setup>
 import { getNested, localRef, setNested, vue } from '@fiction/core'
-import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
-import ElActions from '@fiction/ui/buttons/ElActions.vue'
-import ElInput from '@fiction/ui/inputs/ElInput.vue'
-import ElToolSep from '@fiction/ui/inputs/ElToolSep.vue'
 import type { ActionItem } from '@fiction/core'
-import type { Card } from '@fiction/site/card'
-import type { InputOption } from '@fiction/ui'
-import type { UiElementSize } from '@fiction/ui/utils'
+import TransitionSlide from '../anim/TransitionSlide.vue'
+import ElActions from '../buttons/ElActions.vue'
+import ElInput from './ElInput.vue'
+import ElToolSep from './ElToolSep.vue'
+import type { UiElementSize } from '../utils'
+import type { InputOption } from './index.js'
 
 const props = defineProps({
   options: { type: Array as vue.PropType<InputOption[]>, required: true },
@@ -17,11 +16,12 @@ const props = defineProps({
   basePath: { type: String, default: '' },
   inputProps: { type: Object as vue.PropType<Record<string, unknown>>, default: () => ({}) },
   uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
-  card: { type: Object as vue.PropType<Card>, default: undefined },
   actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
   disableGroupHide: { type: Boolean, default: false },
 })
 
+
+console.log("OPTIONAS", props.options)
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: Record<string, unknown>): void
 }>()
@@ -61,13 +61,13 @@ const cls = vue.computed(() => {
 </script>
 
 <template>
-  <div class="">
+  <div :data-options-len="options.length">
     <div class="flex flex-col" :class="cls.inputGap">
       <div v-for="(opt, i) in options.filter(_ => !_.settings.isHidden)" :key="i">
         <div
           v-if="opt.input.value === 'group'"
           :class="[
-            depth > 0 ? 'border rounded-md overflow-hidden' : '',
+            depth > 0 ? 'border rounded-md ' : '',
             hide(opt.key.value) ? 'border-theme-300 dark:border-theme-600' : 'border-theme-200 dark:border-theme-700',
           ]"
         >
@@ -87,14 +87,13 @@ const cls = vue.computed(() => {
           <TransitionSlide>
             <div v-show="!hide(opt.key.value)">
               <div :class="cls.groupPad">
-                <ToolForm
+                <FormEngine
                   :ui-size="uiSize"
                   :input-props="inputProps"
                   :options="opt.options.value || []"
                   :model-value="modelValue"
                   :depth="depth + 1"
                   :base-path="basePath"
-                  :card
                   @update:model-value="emit('update:modelValue', $event)"
                 />
               </div>
@@ -111,7 +110,6 @@ const cls = vue.computed(() => {
         <div v-else :class="opt.settings.uiFormat !== 'naked' && depth === 0 ? 'px-6' : ''" :data-depth="depth">
           <ElInput
             v-if="opt.isHidden.value !== true"
-            :card
             :ui-size="uiSize"
             :data-key="opt.key.value"
             class="setting-input"

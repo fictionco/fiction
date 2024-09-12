@@ -3,14 +3,16 @@ import type express from 'express'
 import type { ErrorCode } from '../utils/error.js'
 import type { UserRoles } from './roles.js'
 
-export const DataFilterSchema = z.object({
+export const AndDataFilterSchema = z.object({
   field: z.string(),
   value: z.union([z.string(), z.number(), z.array(z.union([z.string(), z.number()]))]),
   operator: z.enum(['=', '!=', '>', '<', '>=', '<=', 'like', 'not like', 'in', 'not in']),
 })
 
+export const OrFilterGroupSchema = z.array(AndDataFilterSchema)
+
 // sql where operators.value
-export type DataFilter = z.infer<typeof DataFilterSchema>
+export type DataFilter = z.infer<typeof AndDataFilterSchema>
 
 export type IndexQuery = {
   offset?: number

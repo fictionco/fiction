@@ -25,7 +25,7 @@ const options: InputOption[] = [
   new InputOption({ key: 'items', label: 'Tour Items', input: 'InputList', props: { itemName: 'Tour Item' }, options: [
     new InputOption({ key: 'title', label: 'Title', input: 'InputText' }),
     new InputOption({ key: 'content', label: 'Content', input: 'InputText' }),
-    new InputOption({ key: 'media', label: 'Media', input: 'InputMediaDisplay' }),
+    new InputOption({ key: 'media', label: 'Media', input: 'InputMedia' }),
     new InputOption({ key: 'actions', label: 'Actions', input: 'InputList', options: [
       new InputOption({ key: 'name', label: 'Button Label', input: 'InputText' }),
       new InputOption({ key: 'href', label: 'Button Link', input: 'InputText' }),

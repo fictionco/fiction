@@ -52,7 +52,7 @@ async function loadGlobal() {
 }
 
 async function loadInline() {
-  const ps = uc.value.posts?.items || []
+  const ps = uc.value.posts?.posts || []
   postIndex.value = ps.map(p => new Post({ fictionPosts, ...p }))
 
   if (routeSlug.value) {
@@ -63,7 +63,7 @@ async function loadInline() {
 }
 
 async function load() {
-  if (uc.value.posts?.mode === 'inline') {
+  if (uc.value.posts?.format === 'local') {
     await loadInline()
   }
   else {

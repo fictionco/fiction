@@ -15,13 +15,13 @@ const schema = z.object({
 export type UserConfig = z.infer<typeof schema> & SiteUserConfig
 
 const options: InputOption[] = [
-  new InputOption({ key: 'scheme.reverse', label: 'Reverse Color Scheme', input: 'InputCheckbox' }),
+  new InputOption({ key: 'posts', label: 'Posts', input: 'InputPosts' }),
 ]
 
 async function getDefaultUserConfig(): Promise<UserConfig> {
   return {
     standard: { spacing: { verticalSpacing: 'none' } },
-    posts: { mode: 'global', limit: 12 },
+    posts: { format: 'global', limit: 12 },
   }
 }
 
@@ -29,8 +29,8 @@ async function getDemoUserConfig(args: { site?: Site }): Promise<UserConfig> {
   const c: UserConfig = {
     standard: { spacing: { verticalSpacing: 'sm' } },
     posts: {
-      mode: 'inline',
-      items: [
+      format: 'local',
+      posts: [
         {
           title: 'Revolutionizing UX: My Journey at Tech Giant',
           subTitle: 'From Concept to Launch',

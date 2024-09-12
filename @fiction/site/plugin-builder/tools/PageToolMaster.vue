@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import ElTool from '@fiction/admin/tools/ElTool.vue'
-import ToolForm from '@fiction/admin/tools/ToolForm.vue'
 import { InputOption } from '@fiction/ui'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
+import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import type { EditorTool } from '@fiction/admin'
 import type { vue } from '@fiction/core'
 import InputManagePages from './InputManagePages.vue'
@@ -15,24 +15,19 @@ const props = defineProps({
   controller: { type: Object as vue.PropType<ToolKeys>, required: true },
 })
 
+const { site, tool, controller } = props
+
 const options: InputOption[] = [
   new InputOption({ key: 'managePages', label: 'Manage Pages', input: 'group', options: [
-    new InputOption({ key: 'managePagesInput', input: InputManagePages }),
+    new InputOption({ key: 'managePagesInput', input: InputManagePages, props: { site, tool } }),
   ] }),
-  // new InputOption({ key: 'manageLayout', label: 'Page Layout', input: 'group', options: [
-  //   new InputOption({ key: 'manageLayoutInput', input: InputManageLayout }),
-  // ] }),
-  // new InputOption({ key: 'addElements', label: 'Add Elements', input: 'group', options: [
-  //   new InputOption({ key: 'addElementsInputs', input: InputAddElements }),
-  // ] }),
-
 ]
 </script>
 
 <template>
   <ElTool :actions="[]" v-bind="props">
     <ElForm>
-      <ToolForm :options :input-props="{ site, tool, controller }" />
+      <FormEngine :options :input-props="{ site, tool, controller }" />
     </ElForm>
   </ElTool>
 </template>

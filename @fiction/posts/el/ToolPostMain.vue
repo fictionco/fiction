@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import ElTool from '@fiction/admin/tools/ElTool.vue'
-import ToolForm from '@fiction/admin/tools/ToolForm.vue'
 import { useService, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
+import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import InputActions from '@fiction/ui/inputs/InputActions.vue'
 import type { EditorTool } from '@fiction/admin'
 import type { ActionItem } from '@fiction/core'
@@ -171,7 +171,7 @@ function updatePost(config: TablePostConfig) {
 <template>
   <ElTool v-if="post" :tool="tool" :actions="actions">
     <ElForm id="toolForm">
-      <ToolForm
+      <FormEngine
         :model-value="post.toConfig()"
         :options
         :input-props="{ post, card }"
