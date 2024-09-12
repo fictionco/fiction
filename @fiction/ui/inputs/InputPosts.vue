@@ -4,7 +4,7 @@ import type { PostHandlingObject } from '@fiction/core'
 import FormEngine from './FormEngine.vue'
 import { InputOption } from './index.js'
 
-const { modelValue } = defineProps<{ modelValue: PostHandlingObject }>()
+const { modelValue } = defineProps<{ modelValue?: PostHandlingObject }>()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: PostHandlingObject): void
@@ -171,7 +171,7 @@ const options = vue.computed(() => {
   const formatOption = baseOptions.find(opt => opt.key.value === 'format')!
   const limitOption = baseOptions.find(opt => opt.key.value === 'limit')!
 
-  if (modelValue.format === 'global') {
+  if (modelValue?.format === 'global') {
     return [
       formatOption,
       ...globalQueryOptions,
