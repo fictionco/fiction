@@ -1,14 +1,13 @@
 <script lang="ts" setup>
-import { getNavComponentType, type IndexItem, useService, vue } from '@fiction/core'
+import { type IndexItem, useService, vue } from '@fiction/core'
 import { postLink, taxonomyLink } from '@fiction/posts'
-import ClipPathAnim from '@fiction/ui/anim/AnimClipPath.vue'
-import ElBadge from '@fiction/ui/common/ElBadge.vue'
 import EffectGlare from '@fiction/ui/effect/EffectGlare.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import type { FictionPosts, Post, TablePostConfig } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import CardButton from '../CardButton.vue'
+import CardText from '../CardText.vue'
 import CardLink from '../el/CardLink.vue'
 import ElAuthor from './ElAuthor.vue'
 import type { UserConfig } from '.'
@@ -72,7 +71,7 @@ function getItemClasses(index: number): string {
                 :card
                 theme="overlay"
                 rounding="full"
-                size="sm"
+                size="xs"
                 :text="cat.title"
                 :href="taxonomyLink({ card, taxonomy: 'category', term: cat.slug })"
               />
@@ -95,7 +94,7 @@ function getItemClasses(index: number): string {
               :key="ii"
               :card
               :text="cat.title"
-              ui-size="xxs"
+              size="xs"
               :href="taxonomyLink({ card, taxonomy: 'category', term: cat.slug })"
               rounding="full"
             />

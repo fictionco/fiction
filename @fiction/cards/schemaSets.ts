@@ -1,37 +1,36 @@
 import { ButtonDesignSchema, colorThemeUser, SizeSchema } from '@fiction/core'
 import { z } from 'zod'
-import type { MediaItem } from '@fiction/core'
 
-export const mediaSchema = z.object({
-  url: z.string().optional(),
-  html: z.string().optional(),
-  format: z.enum(['html', 'url', 'video', 'image']).optional(),
-  modify: z.object({
-    flip: z.enum(['horizontal', 'vertical']).optional(),
-  }).optional(),
-}).optional()
+// export const mediaSchema = z.object({
+//   url: z.string().optional(),
+//   html: z.string().optional(),
+//   format: z.enum(['html', 'url', 'video', 'image']).optional(),
+//   modify: z.object({
+//     flip: z.enum(['horizontal', 'vertical']).optional(),
+//   }).optional(),
+// }).optional()
 
-export const MediaItemSchema = z.object({
-  name: z.string().optional(),
-  desc: z.string().optional(),
-  media: z.object({
-    format: z.enum(['url', 'html']).optional(),
-    url: z.string().optional(),
-    html: z.string().optional(),
-  }),
-}) as z.Schema<MediaItem>
+// export const MediaItemSchema = z.object({
+//   name: z.string().optional(),
+//   desc: z.string().optional(),
+//   media: z.object({
+//     format: z.enum(['url', 'html']).optional(),
+//     url: z.string().optional(),
+//     html: z.string().optional(),
+//   }),
+// }) as z.Schema<MediaItem>
 
-export const PostSchema = z.object({
-  title: z.string().optional(),
-  subTitle: z.string().optional(),
-  content: z.string().optional(),
-  image: mediaSchema,
-  slug: z.string().optional(),
-  actions: z.array(z.object({
-    name: z.string().optional(),
-    href: z.string().optional(),
-  })).optional(),
-})
+// export const PostSchema = z.object({
+//   title: z.string().optional(),
+//   subTitle: z.string().optional(),
+//   content: z.string().optional(),
+//   image: mediaSchema,
+//   slug: z.string().optional(),
+//   actions: z.array(z.object({
+//     name: z.string().optional(),
+//     href: z.string().optional(),
+//   })).optional(),
+// })
 
 export const XButtonSchema = z.object({
   name: z.string().optional(),

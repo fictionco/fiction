@@ -1,9 +1,8 @@
-import { vue } from '@fiction/core'
+import { MediaBasicSchema, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 import { standardOption } from '../inputSets'
-import { mediaSchema } from '../schemaSets'
 import franklin from './franklin.jpg'
 import socrates from './socrates.jpg'
 
@@ -14,12 +13,12 @@ const QuoteSchema = z.object({
   author: z.object({
     name: z.string(),
     title: z.string().optional(),
-    image: mediaSchema,
+    image: MediaBasicSchema.optional(),
     href: z.string().optional(),
   }).optional(),
   org: z.object({
     name: z.string().optional(),
-    image: mediaSchema,
+    image: MediaBasicSchema.optional(),
     href: z.string().optional(),
   }).optional(),
 }).optional()

@@ -1,15 +1,14 @@
-import { safeDirname, vue } from '@fiction/core'
+import { MediaBasicSchema, safeDirname, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 import { standardOption } from '../inputSets.js'
-import { mediaSchema } from '../schemaSets'
 
 const UserConfigSchema = z.object({
   superHeading: z.string().describe('Social proof Metric or KPI for the newsletter, e.g. "22,300+ subscribers"').optional(),
   heading: z.string().describe('Newsletter hook header 5 words or so').optional(),
   subHeading: z.string().describe('Specific benefits of subscribing').optional(),
-  media: mediaSchema,
+  media: MediaBasicSchema.optional().describe('Image or video for the form'),
   presentationMode: z.enum(['inline', 'onScroll', 'onLoad']).optional(),
   dismissText: z.string().optional().describe('Dismisses modal in load and modal modes'),
   buttonText: z.string().optional().describe('Text on the subscribe button'),

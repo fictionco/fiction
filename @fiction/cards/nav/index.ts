@@ -3,7 +3,6 @@ import { CardTemplate } from '@fiction/site/card'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 import { standardOption } from '../inputSets'
-import { mediaSchema } from '../schemaSets'
 
 const templateId = 'nav'
 

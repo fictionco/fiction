@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import EffectDraggableSort from '@fiction/admin/el/EffectDraggableSort.vue'
 import { toSlug, vue, waitFor } from '@fiction/core'
-import ElButton from '@fiction/ui/ElButton.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
 import type { ListItem, StandardSize, TableTaxonomyConfig } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
@@ -49,7 +48,7 @@ async function sortValue(sortedValues: string[]) {
       <XButton
         v-for="(item, i) in modelValue"
         :key="i"
-        :size="uiSize"
+        size="sm"
         :data-drag-id="item.value"
         class="gap-1 cursor-grab"
         theme="default"
@@ -63,21 +62,23 @@ async function sortValue(sortedValues: string[]) {
     </EffectDraggableSort>
     <div class="flex justify-start gap-2">
       <InputText v-if="addNewVisible" v-model="addNewTitle" placeholder="Name" :ui-size="uiSize" />
-      <ElButton
+      <XButton
         icon="i-tabler-plus"
         class="shrink-0"
-        :size="uiSize"
-        :btn="addNewVisible ? 'primary' : 'default'"
+        size="sm"
+        :theme="addNewVisible ? 'primary' : 'default'"
+        rounding="full"
         @click.prevent="addNew()"
       >
         Add
-      </ElButton>
-      <ElButton
+      </XButton>
+      <XButton
         v-if="addNewVisible"
         icon="i-tabler-x"
         class="shrink-0"
         :size="uiSize"
-        btn="default"
+        theme="default"
+        rounding="full"
         @click.prevent="addNewVisible = false"
       />
     </div>

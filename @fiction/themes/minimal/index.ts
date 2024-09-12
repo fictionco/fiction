@@ -210,7 +210,7 @@ export async function setup(args: { fictionEnv: FictionEnv }) {
             templateId: 'area',
             cards: [
               await factory.create({ templateId: 'footer', userConfig: {
-                logo: { format: 'html', html: `Your Name` },
+                logo: { format: 'typography', typography: { text: 'Your Name', font: 'Poppins' } },
                 nav: [
                   {
                     name: 'About',
@@ -231,19 +231,19 @@ export async function setup(args: { fictionEnv: FictionEnv }) {
                     href: 'https://www.linkedin.com/company/fictionco',
                     target: '_blank',
                     name: 'LinkedIn',
-                    icon: `linkedin`,
+                    media: { iconId: `linkedin` },
                   },
                   {
                     href: 'https://github.com/fictionco',
                     target: '_blank',
                     name: 'Github',
-                    icon: `github`,
+                    media: { iconId: `github` },
                   },
                   {
                     href: 'https://www.twitter.com/fictionco',
                     target: '_blank',
                     name: 'X',
-                    icon: 'x',
+                    media: { iconId: 'x' },
                   },
 
                 ],

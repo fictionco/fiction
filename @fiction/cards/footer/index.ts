@@ -1,9 +1,8 @@
-import { vue } from '@fiction/core'
+import { MediaBasicSchema, MediaIconSchema, MediaTypographySchema, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site/card'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 import { standardOption } from '../inputSets'
-import { mediaSchema } from '../schemaSets'
 
 const templateId = 'footer'
 
@@ -28,7 +27,7 @@ export type SchemaNavItem = z.infer<typeof navItemSchema> & { isActive?: boolean
 
 const layoutKeys = ['columns', 'centered'] as const
 const schema = z.object({
-  logo: mediaSchema.optional(),
+  logo: MediaTypographySchema.optional(),
   tagline: z.string().optional(),
   starline: z.string().optional(),
   layout: z.enum(layoutKeys).optional(),
@@ -42,13 +41,13 @@ const schema = z.object({
     href: z.string().optional(),
     target: z.string().optional(),
     name: z.string().optional(),
-    icon: z.string().optional(),
+    media: MediaIconSchema.optional(),
   })).optional(),
   badges: z.array(z.object({
     href: z.string().optional(),
     target: z.string().optional(),
     name: z.string().optional(),
-    media: mediaSchema.optional(),
+    media: MediaBasicSchema.optional(),
   })).optional(),
 })
 
@@ -64,7 +63,12 @@ const options: InputOption[] = [
     new InputOption({ key: 'legal.termsOfServiceUrl', label: 'Terms of Service URL', input: 'InputText' }),
     new InputOption({ key: 'legal.copyrightText', label: 'Copyright Text', input: 'InputText' }),
   ] }),
-  standardOption.socials(),
+  new InputOption({ key: 'socials', label: 'Socials', input: 'InputList', props: { itemName: 'Social' }, options: [
+    new InputOption({ key: 'name', label: 'Name', input: 'InputText' }),
+    new InputOption({ key: 'href', label: 'URL', input: 'InputText' }),
+    new InputOption({ key: 'media', label: 'Icon', input: 'InputIcon' }),
+    new InputOption({ key: 'target', label: 'Target', input: 'InputSelect', list: ['_blank', '_self'] }),
+  ] }),
   new InputOption({ key: 'badges', label: 'Badges', input: 'group', options: [
     new InputOption({ key: 'starline', label: 'Starline', input: 'InputText', description: 'Show 5 stars and add information about satisfaction or reviews.' }),
 
@@ -80,8 +84,11 @@ const options: InputOption[] = [
 // Example default configuration for a movie actor or director's personal website
 const defaultConfig: UserConfig = {
   logo: {
-    format: 'html',
-    html: `Logo`,
+    format: 'typography',
+    typography: {
+      text: 'Your Name',
+      font: 'Poppins',
+    },
   },
   nav: [
     {
@@ -116,19 +123,19 @@ const defaultConfig: UserConfig = {
       href: 'https://www.linkedin.com/company/fictionco',
       target: '_blank',
       name: 'LinkedIn',
-      icon: `linkedin`,
+      media: { iconId: `linkedin` },
     },
     {
       href: 'https://github.com/fictionco',
       target: '_blank',
       name: 'Github',
-      icon: `github`,
+      media: { iconId: `github` },
     },
     {
       href: 'https://www.twitter.com/fictionco',
       target: '_blank',
       name: 'X',
-      icon: 'x',
+      media: { iconId: `x` },
     },
 
   ],

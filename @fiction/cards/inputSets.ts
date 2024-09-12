@@ -50,24 +50,7 @@ export const standardOption = {
   socialIcon: (_: OptArgs = {}) => new InputOption({
     key: 'icon',
     label: 'Icon',
-    input: 'InputSelect',
-    schema: ({ z }) => z.enum(['x', 'linkedin', 'facebook', 'instagram', 'youtube', 'github', 'email', 'phone', 'pinterest', 'snapchat', 'twitch', 'discord', 'slack', 'snapchat']),
-    list: [
-      { name: 'X', value: 'x' },
-      { name: 'LinkedIn', value: 'linkedin' },
-      { name: 'Facebook', value: 'facebook' },
-      { name: 'Instagram', value: 'instagram' },
-      { name: 'YouTube', value: 'youtube' },
-      { name: 'GitHub', value: 'github' },
-      { name: 'Email', value: 'email' },
-      { name: 'Phone', value: 'phone' },
-      { name: 'Pinterest', value: 'pinterest' },
-      { name: 'Snapchat', value: 'snapchat' },
-      { name: 'Twitch', value: 'twitch' },
-      { name: 'Discord', value: 'discord' },
-      { name: 'Slack', value: 'slack' },
-      { name: 'Snapchat', value: 'snapchat' },
-    ],
+    input: 'InputIcon',
   }),
 
   groupTitle: (_: OptArgs = {}) => new InputOption({
@@ -165,7 +148,14 @@ export const standardOption = {
   socials: (_: OptArgs = {}) => {
     const s = standardOption
     const __ = { label: 'Socials', key: 'socials', ..._ }
-    return s.group({ ...__, options: [s.groupTitle(__) as InputOption, s.inputList({ ...__, props: { itemName: 'Account' }, options: [s.name(), s.desc(), s.socialIcon() as InputOption, s.href(), s.target()] })] })
+    return s.group({ ...__, options: [
+      s.groupTitle(__) as InputOption,
+      s.inputList({ ...__, props: { itemName: 'Account' }, options: [s.name(), s.desc(), new InputOption({
+        key: 'icon',
+        label: 'Icon',
+        input: 'InputIcon',
+      }), s.href(), s.target()] }),
+    ] })
   },
   quotes: (_: OptArgs = {}) => {
     const { mode } = _ || {}

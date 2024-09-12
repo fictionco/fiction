@@ -4,7 +4,6 @@ import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import XIcon from '@fiction/ui/media/XIcon.vue'
 import type { NavItem } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
-import { socialIcons } from './util.js'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
@@ -13,20 +12,6 @@ const props = defineProps({
 })
 
 const clr = { textClasses: 'text-primary-500 dark:text-primary-200', bgClasses: 'bg-primary-50 hover:bg-primary-100 dark:bg-primary-900/30 dark:hover:bg-primary-900/50' }
-
-function getIcon(value?: string) {
-  if (!value)
-    return {}
-
-  const icon = socialIcons.find(i => i.value === value)
-  const iconClasses = icon ? icon.icon : ''
-  const text = icon ? clr.textClasses : ''
-  const bg = icon ? clr.bgClasses : ''
-  return {
-    icon: iconClasses,
-    bg: `${bg} ${text}`,
-  }
-}
 
 vue.onMounted(() => {
   useElementVisible({

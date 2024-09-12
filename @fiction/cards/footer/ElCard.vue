@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { dayjs, useService, vue, waitFor } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
+import XIcon from '@fiction/ui/media/XIcon.vue'
 import XLogo from '@fiction/ui/media/XLogo.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import type { Card } from '@fiction/site/card'
@@ -90,7 +91,7 @@ vue.onMounted(() => {
     <div class=" px-4 lg:px-0">
       <div :class="layoutClasses.wrapClass">
         <div :class="layoutClasses.logoClass" class="text-primary-500 dark:text-theme-0">
-          <XLogo v-if="uc.logo" :media="uc.logo" class="h-12" alignment-class="md:justify-start justify-center" />
+          <XLogo v-if="uc.logo" :media="uc.logo" class="h-8" alignment-class="md:justify-start justify-center" />
           <CardText
             class="text-base text-theme-700 dark:text-theme-500 x-font-title leading-tight text-balance font-medium"
             :card

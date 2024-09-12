@@ -127,16 +127,6 @@ const localPostOptions: InputOption[] = [
     input: 'InputTextarea',
   }),
   new InputOption({
-    key: 'status',
-    label: 'Status',
-    input: 'InputSelectCustom',
-    list: [
-      { name: 'Draft', value: 'draft' },
-      { name: 'Published', value: 'published' },
-      { name: 'Archived', value: 'archived' },
-    ],
-  }),
-  new InputOption({
     key: 'slug',
     label: 'Slug',
     input: 'InputText',
@@ -144,26 +134,12 @@ const localPostOptions: InputOption[] = [
   new InputOption({
     key: 'tags',
     label: 'Tags',
-    input: 'InputList',
-    options: [
-      new InputOption({
-        key: 'name',
-        label: 'Tag Name',
-        input: 'InputText',
-      }),
-    ],
+    input: 'InputItems',
   }),
   new InputOption({
     key: 'categories',
     label: 'Categories',
-    input: 'InputList',
-    options: [
-      new InputOption({
-        key: 'name',
-        label: 'Category Name',
-        input: 'InputText',
-      }),
-    ],
+    input: 'InputItems',
   }),
 ]
 

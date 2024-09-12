@@ -181,6 +181,10 @@ export const PostSchema = z.object({
   tags: z.array(TaxonomySchema).optional(),
   categories: z.array(TaxonomySchema).optional(),
   authors: z.array(UserSchema).optional(),
+  seo: z.object({
+    title: z.string().optional(),
+    description: z.string().optional(),
+  }).optional(),
 })
 
 export const GlobalQuerySchema = z.object({

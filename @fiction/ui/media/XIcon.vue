@@ -47,4 +47,5 @@ const isIconClass = vue.computed(() => ['iconId', 'iconClass'].includes(mediaFor
     alt="Icon"
   >
   <span v-else-if="mediaFormat === 'html'" v-html="iconContent" />
+  <span v-else :data-icon-format="mediaFormat" :data-icon-content="iconContent" />
 </template>
