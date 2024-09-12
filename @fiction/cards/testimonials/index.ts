@@ -1,4 +1,4 @@
-import { vue } from '@fiction/core'
+import { MediaBasicSchema, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
@@ -9,35 +9,44 @@ import { standardOption } from '../inputSets'
 const templateId = 'testimonials'
 
 const TestimonialSchema = z.object({
-  title: z.string().optional(),
-  content: z.string(),
-  href: z.string().optional(),
-  media: z.object({
-    format: z.enum(['url', 'video', 'image']).optional(),
-    url: z.string().optional(),
-  }).optional(),
+  title: z.string().optional().describe('The title of the testimonial.'),
+  content: z.string().describe('The content of the testimonial.'),
+  href: z.string().optional().describe('A link for more information.'),
+  media: MediaBasicSchema.optional().describe('Background media for the testimonial.'),
   user: z.object({
     fullName: z.string().optional(),
     title: z.string().optional(),
-    avatar: z.object({
-      format: z.enum(['url', 'video', 'image']).optional(),
-      url: z.string().optional(),
-    }).optional(),
-  }).optional(),
-  action: z.object({
-    name: z.string().optional(),
-    href: z.string().optional(),
-  }).optional(),
+    avatar: MediaBasicSchema.optional(),
+  }).optional().describe('The user who gave the testimonial.'),
 })
 
 export type Testimonial = z.infer<typeof TestimonialSchema>
 
 const UserConfigSchema = z.object({
-  layout: z.enum(['slider', 'mega', 'masonry']).optional(),
+  layout: z.enum(['slider', 'mega', 'masonry']).optional().describe('The layout of the testimonials. Slider is a horizontal slider, mega is a large testimonial with media, and masonry is a grid of testimonials.'),
   items: z.array(TestimonialSchema).optional(),
 })
 
 export type UserConfig = z.infer<typeof UserConfigSchema>
+
+const options: InputOption[] = [
+  standardOption.ai(),
+  new InputOption({ key: 'layout', label: 'Layout', input: 'InputSelect', list: ['slider', 'mega', 'masonry'] }),
+  new InputOption({
+    input: 'InputList',
+    key: `items`,
+    props: { itemName: 'Testimonial' },
+    options: [
+      new InputOption({ key: 'title', label: 'Title', input: 'InputText' }),
+      new InputOption({ key: 'content', label: 'Content', input: 'InputTextarea' }),
+      new InputOption({ key: 'user.fullName', label: 'Author', input: 'InputText' }),
+      new InputOption({ key: 'user.title', label: 'Author Title', input: 'InputText' }),
+      new InputOption({ key: 'user.avatar', label: 'Author Avatar', input: 'InputMedia' }),
+      new InputOption({ key: 'href', label: 'Link', input: 'InputText' }),
+      new InputOption({ key: 'media', label: 'Media', input: 'InputMedia' }),
+    ],
+  }),
+]
 
 async function getUserConfig(): Promise<UserConfig & SiteUserConfig> {
   return {
@@ -100,17 +109,6 @@ async function getUserConfig(): Promise<UserConfig & SiteUserConfig> {
   }
 }
 
-const options: InputOption[] = [
-  standardOption.ai(),
-  new InputOption({
-    input: 'InputList',
-    key: `items`,
-    options: [
-      new InputOption({ key: 'content', label: 'Quote Text', input: 'InputText' }),
-    ],
-  }),
-]
-
 export const templates = [
   new CardTemplate({
     templateId,
@@ -119,7 +117,7 @@ export const templates = [
     icon: 'i-tabler-message-bolt',
     colorTheme: 'emerald',
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
-    isPublic: false,
+    isPublic: true,
     options,
     schema: UserConfigSchema,
     getBaseConfig: () => ({ standard: { } }),

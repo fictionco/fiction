@@ -142,7 +142,7 @@ function handleValidChange(valid: boolean) {
           :key="ic?.cardId"
           class="no-scrollbar overflow-y-auto"
         >
-          <div class="mx-auto w-full h-full max-w-4xl px-8 @md:px-[4em] py-12 @lg:py-[15vh]">
+          <div class="mx-auto w-full h-full max-w-4xl px-8 @md:px-[4em] py-12 @lg:py-32 @xl:py-48">
             <div class="relative" :data-card-id="card.cardId">
               <div class="relative">
                 <div class="text-input-size grow">

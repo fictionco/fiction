@@ -83,7 +83,7 @@ vue.onMounted(() => {
               </div>
               <div>
                 <p class="text-2xl x-font-title leading-relaxed">
-                  {{ item.title }}
+                  {{ item.content }}
                 </p>
               </div>
             </div>

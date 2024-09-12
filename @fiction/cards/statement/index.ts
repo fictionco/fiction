@@ -1,4 +1,4 @@
-import { ActionButtonSchema, vue } from '@fiction/core'
+import { ActionButtonSchema, ButtonDesignSchema, colorThemeUser, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { CardFactory } from '@fiction/site/cardFactory'
 import { InputOption } from '@fiction/ui'
@@ -12,18 +12,42 @@ import { standardOption } from '../inputSets'
 const templateId = 'statement'
 
 const StatementSchema = z.object({
-  title: z.string().optional(),
-  content: z.string(),
-  actions: z.array(ActionButtonSchema).optional(),
+  title: z.string().optional().describe('The title of the statement.'),
+  content: z.string().describe('The content of the statement.'),
+  actions: z.array(z.object({
+    name: z.string().describe('The name of the action button.'),
+    href: z.string().describe('The URL the action button should link to.'),
+    theme: z.enum(colorThemeUser).optional().describe('The color theme of the action button.'),
+    design: ButtonDesignSchema.optional().describe('The design of the action button.'),
+  })).optional().describe('Action buttons to display with the statement.'),
 })
 
 export type Statement = z.infer<typeof StatementSchema>
 
 const UserConfigSchema = z.object({
-  items: z.array(StatementSchema).optional(),
+  items: z.array(StatementSchema).optional().describe('The statements to display.'),
 })
 
 export type UserConfig = z.infer<typeof UserConfigSchema>
+
+const options: InputOption[] = [
+  standardOption.ai(),
+  new InputOption({
+    input: 'InputList',
+    key: `items`,
+    props: { itemName: 'Statement' },
+    options: [
+      new InputOption({ key: 'title', label: 'Title', input: 'InputText' }),
+      new InputOption({ key: 'content', label: 'Content', input: 'InputTextarea' }),
+      new InputOption({ key: 'actions', label: 'Actions', input: 'InputList', options: [
+        new InputOption({ key: 'name', label: 'Name', input: 'InputText' }),
+        new InputOption({ key: 'href', label: 'Link', input: 'InputText' }),
+        new InputOption({ key: 'theme', label: 'Theme', input: 'InputSelect', list: colorThemeUser }),
+        new InputOption({ key: 'design', label: 'Design', input: 'InputSelect', list: ButtonDesignSchema.options }),
+      ] }),
+    ],
+  }),
+]
 
 async function getEffects(args: { site?: Site }): Promise<TableCardConfig[]> {
   const { site } = args
@@ -76,17 +100,6 @@ async function getUserConfig(): Promise<UserConfig & SiteUserConfig> {
   }
 }
 
-const options: InputOption[] = [
-  standardOption.ai(),
-  new InputOption({
-    input: 'InputList',
-    key: `items`,
-    options: [
-      new InputOption({ key: 'content', label: 'Quote Text', input: 'InputText' }),
-    ],
-  }),
-]
-
 export const templates = [
   new CardTemplate({
     templateId,
@@ -95,7 +108,7 @@ export const templates = [
     icon: 'i-tabler-message-bolt',
     colorTheme: 'emerald',
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
-    isPublic: false,
+    isPublic: true,
     options,
     schema: UserConfigSchema,
     getBaseConfig: () => ({ standard: { spacing: { verticalSpacing: 'xl', contentWidth: 'none' } } }),

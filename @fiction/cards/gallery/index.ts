@@ -1,4 +1,4 @@
-import { vue } from '@fiction/core'
+import { MediaBasicSchema, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
@@ -9,15 +9,12 @@ import { standardOption } from '../inputSets'
 const templateId = 'gallery'
 
 const MediaItemSchema = z.object({
-  title: z.string().optional(),
-  content: z.string(),
-  href: z.string().optional(),
-  media: z.object({
-    format: z.enum(['url', 'video', 'image']).optional(),
-    url: z.string().optional(),
-  }).optional(),
-  columns: z.enum(['1', '2', '3', '4']).optional(),
-  rows: z.enum(['1', '2', '3', '4']).optional(),
+  title: z.string().optional().describe('The title of the media item.'),
+  content: z.string().describe('The description of the media item.'),
+  href: z.string().optional().describe('Instead of opening the media item in a lightbox, the user will be taken to this URL when they click on the item.'),
+  media: MediaBasicSchema.optional().describe('The media item to display.'),
+  columns: z.enum(['1', '2', '3', '4']).optional().describe('The number of columns the media item should span.'),
+  rows: z.enum(['1', '2', '3', '4']).optional().describe('The number of rows the media item should span.'),
 })
 
 export type MediaItem = z.infer<typeof MediaItemSchema>
@@ -27,6 +24,23 @@ const UserConfigSchema = z.object({
 })
 
 export type UserConfig = z.infer<typeof UserConfigSchema>
+
+const options: InputOption[] = [
+  standardOption.ai(),
+  new InputOption({
+    input: 'InputList',
+    key: `items`,
+    props: { itemName: 'Media Item' },
+    options: [
+      new InputOption({ key: 'title', label: 'Title', input: 'InputText' }),
+      new InputOption({ key: 'content', label: 'Content', input: 'InputTextarea' }),
+      new InputOption({ key: 'href', label: 'Link', input: 'InputText' }),
+      new InputOption({ key: 'media', label: 'Media', input: 'InputMedia' }),
+      new InputOption({ key: 'columns', label: 'Columns', input: 'InputSelect', list: ['1', '2', '3', '4'] }),
+      new InputOption({ key: 'rows', label: 'Rows', input: 'InputSelect', list: ['1', '2', '3', '4'] }),
+    ],
+  }),
+]
 
 async function getUserConfig(): Promise<UserConfig & SiteUserConfig> {
   return {
@@ -132,17 +146,6 @@ async function getUserConfig(): Promise<UserConfig & SiteUserConfig> {
   }
 }
 
-const options: InputOption[] = [
-  standardOption.ai(),
-  new InputOption({
-    input: 'InputList',
-    key: `items`,
-    options: [
-      new InputOption({ key: 'content', label: 'Quote Text', input: 'InputText' }),
-    ],
-  }),
-]
-
 export const templates = [
   new CardTemplate({
     templateId,
@@ -152,7 +155,7 @@ export const templates = [
     icon: 'i-tabler-message-bolt',
     colorTheme: 'emerald',
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
-    isPublic: false,
+    isPublic: true,
     options,
     schema: UserConfigSchema,
     getBaseConfig: () => ({ standard: { } }),

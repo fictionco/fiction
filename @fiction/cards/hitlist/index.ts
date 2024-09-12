@@ -9,14 +9,12 @@ const templateId = 'hitlist'
 const schema = z.object({
   layout: z.enum(['default', 'left', 'right']).optional(),
   title: z.string().optional(),
-  content: z.string().optional(),
   media: z.object({
     format: z.enum(['url', 'video', 'image']).optional(),
     url: z.string().optional(),
   }).optional(),
   items: z.array(z.object({
-    title: z.string().optional(),
-    subTitle: z.string().optional(),
+    content: z.string().optional(),
   })),
 })
 
@@ -25,10 +23,10 @@ export type UserConfig = z.infer<typeof schema>
 const options: InputOption[] = [
   new InputOption({ key: 'label', label: 'Label', input: 'InputText' }),
   new InputOption({ key: 'layout', label: 'Layout', input: 'InputSelect', list: ['inline', 'stacked'] }),
+  new InputOption({ key: 'title', label: 'Title', input: 'InputText' }),
+  new InputOption({ key: 'media', label: 'Media', input: 'InputMedia' }),
   new InputOption({ key: 'items', label: 'Items', input: 'InputList', options: [
-    new InputOption({ key: 'name', label: 'Name', input: 'InputText' }),
-    new InputOption({ key: 'href', label: 'Link', input: 'InputText' }),
-    new InputOption({ key: 'media', label: 'Image URL', input: 'InputMediaDisplay' }),
+    new InputOption({ key: 'content', label: 'Text', input: 'InputText' }),
   ] }),
 ]
 
@@ -37,22 +35,22 @@ function isThisYouConfig(): UserConfig {
     title: 'Tell Me, Is This You?',
     items: [
       {
-        title: `Your reputation isn't growing as quickly as you expected, and you're not sure why.`,
+        content: `Your reputation isn't growing as quickly as you expected, and you're not sure why.`,
       },
       {
-        title: `You share work-related content randomly, without a clear purpose or long-term plan.`,
+        content: `You share work-related content randomly, without a clear purpose or long-term plan.`,
       },
       {
-        title: `Your professional network and visibility have stopped expanding, but you don't know how to reignite growth.`,
+        content: `Your professional network and visibility have stopped expanding, but you don't know how to reignite growth.`,
       },
       {
-        title: `Peers in your field are gaining more recognition than you, even though your work is just as valuable.`,
+        content: `Peers in your field are gaining more recognition than you, even though your work is just as valuable.`,
       },
       {
-        title: `Your career is succeeding in most areas, but you know improving your professional visibility could lead to even bigger opportunities.`,
+        content: `Your career is succeeding in most areas, but you know improving your professional visibility could lead to even bigger opportunities.`,
       },
       {
-        title: `You know showcasing your work is important, but you're having trouble making it look professional online.`,
+        content: `You know showcasing your work is important, but you're having trouble making it look professional online.`,
       },
     ],
 
@@ -66,22 +64,22 @@ function imagineConfig(): UserConfig {
 
     items: [
       {
-        title: `You had a clear strategy to build your professional reputation, knowing exactly who your target audience is and how to engage them effectively.`,
+        content: `You had a clear strategy to build your professional reputation, knowing exactly who your target audience is and how to engage them effectively.`,
       },
       {
-        title: `You could confidently adapt your expertise to various digital formats, making your content feel current and relevant.`,
+        content: `You could confidently adapt your expertise to various digital formats, making your content feel current and relevant.`,
       },
       {
-        title: `Every piece of content you shared aligned perfectly with your long-term career goals and personal brand vision.`,
+        content: `Every piece of content you shared aligned perfectly with your long-term career goals and personal brand vision.`,
       },
       {
-        title: `You understood the exact steps to take to expand your professional network and increase your visibility in your industry.`,
+        content: `You understood the exact steps to take to expand your professional network and increase your visibility in your industry.`,
       },
       {
-        title: `Your unique value was widely recognized, leading to exciting opportunities and collaborations in your field.`,
+        content: `Your unique value was widely recognized, leading to exciting opportunities and collaborations in your field.`,
       },
       {
-        title: `Your personal brand became a powerful asset, opening doors to new career heights and business growth you've always dreamed of.`,
+        content: `Your personal brand became a powerful asset, opening doors to new career heights and business growth you've always dreamed of.`,
       },
     ],
   }
@@ -94,30 +92,25 @@ function getUserConfig(): UserConfig {
 
     items: [
       {
-        title: `Craft stunning websites that showcase your expertise and captivate your audience, setting you apart in your industry.`,
+        content: `Craft stunning websites that showcase your expertise and captivate your audience, setting you apart in your industry.`,
       },
       {
-        title: `Design professional emails that resonate with your network, turning connections into valuable opportunities.`,
+        content: `Design professional emails that resonate with your network, turning connections into valuable opportunities.`,
       },
       {
-        title: `Create engaging newsletters that keep your audience informed and position you as a thought leader in your field.`,
+        content: `Create engaging newsletters that keep your audience informed and position you as a thought leader in your field.`,
       },
       {
-        title: `Develop smart forms that capture leads and insights, growing your professional network strategically.`,
+        content: `Develop smart forms that capture leads and insights, growing your professional network strategically.`,
       },
       {
-        title: `Integrate seamlessly across platforms, ensuring your personal brand remains consistent and impactful wherever your audience finds you.`,
+        content: `Integrate seamlessly across platforms, ensuring your personal brand remains consistent and impactful wherever your audience finds you.`,
       },
       {
-        title: `Leverage data-driven insights to refine your strategy, continuously improving your professional marketing efforts for maximum impact.`,
+        content: `Leverage data-driven insights to refine your strategy, continuously improving your professional marketing efforts for maximum impact.`,
       },
     ],
 
-    content: `Fiction: Your All-in-One Personal Marketing Platform
-
-A comprehensive solution empowering professionals to elevate their personal brand from overlooked to outstanding. Fiction provides the tools and strategies to create a cohesive online presence, attract the right opportunities, and achieve the professional recognition you've always deserved.
-
-Transform your digital footprint into a powerful asset that opens doors, builds credibility, and drives your career or business to new heights.`,
   }
 }
 
@@ -131,7 +124,7 @@ export const templates = [
     el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
     schema,
     options,
-    isPublic: false,
+    isPublic: true,
     getUserConfig: async () => isThisYouConfig(),
     demoPage: async () => {
       return {

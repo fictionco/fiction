@@ -51,8 +51,8 @@ const ClickHandlerSchema = z.function()
   .returns(z.any())
 
 export const ActionButtonSchema = z.object({
-  name: z.string(),
-  href: z.string(),
+  name: z.string().optional(),
+  href: z.string().optional(),
   size: SizeSchema.optional(),
   theme: ButtonColorThemeSchema.optional(),
   design: ButtonDesignSchema.optional(),

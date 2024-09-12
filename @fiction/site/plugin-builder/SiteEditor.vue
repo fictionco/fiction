@@ -157,7 +157,7 @@ async function save() {
         </template>
         <template #default>
           <El404 v-if="!site && !loading" heading="Site Not Found" sub-heading="No site was found here." />
-          <SiteEditorFrame v-else :site="site" />
+          <SiteEditorFrame v-else class="h-full" :site="site" />
         </template>
       </ViewEditor>
     </template>
