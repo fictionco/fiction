@@ -165,7 +165,7 @@ export const TaxonomySchema = z.object({
 export const UserSchema = z.object({
   fullName: z.string().optional(),
   email: z.string().optional(),
-  avatar: MediaDisplaySchema.optional(),
+  avatar: MediaBasicSchema.optional(),
   title: z.string().optional(),
   websiteUrl: z.string().optional(),
 })
@@ -175,7 +175,7 @@ export const PostSchema = z.object({
   subTitle: z.string().optional(),
   content: z.string().optional(),
   status: PostStatusSchema.optional(),
-  media: MediaDisplaySchema.optional(),
+  media: MediaBasicSchema.optional(),
   slug: z.string().optional(),
   taxonomy: z.array(TaxonomySchema).optional(),
   tags: z.array(TaxonomySchema).optional(),

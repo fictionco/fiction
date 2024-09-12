@@ -289,7 +289,7 @@ function formatPath(basePath: string, path: string): string {
   return out || '/'
 }
 
-export function getPathsFromSite(site: Site, basePath: string = ''): string[] {
+export async function getPathsFromSite(site: Site, basePath: string = ''): Promise<string[]> {
   if (!site?.pages?.value)
     return []
 
@@ -318,7 +318,11 @@ export async function loadSitemap(args: { mode: 'static' | 'dynamic', runVars?: 
       return { site, basePath }
     }))
 
-    const paths = themeSites.flatMap(({ site, basePath }) => getPathsFromSite(site, basePath))
+    const pathPromises = themeSites.map(({ site, basePath }) => getPathsFromSite(site, basePath))
+
+    const pathLists = await Promise.all(pathPromises)
+
+    const paths = pathLists.flat()
 
     return { hostname: fictionRouter.baseUrl, paths }
   }
@@ -329,7 +333,7 @@ export async function loadSitemap(args: { mode: 'static' | 'dynamic', runVars?: 
     if (!site)
       return { hostname: '', paths: [] }
 
-    const paths = getPathsFromSite(site)
+    const paths = await getPathsFromSite(site)
     return { hostname: runVars?.HOSTNAME || '', paths }
   }
 }

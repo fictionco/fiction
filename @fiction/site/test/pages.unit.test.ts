@@ -55,7 +55,7 @@ describe('site plugin tests', async () => {
       { slug: 'blog', cards: [{ slug: 'first-post' }, { slug: 'second-post' }] },
     ] })
 
-    const paths = getPathsFromSite(site)
+    const paths = await getPathsFromSite(site)
 
     expect(paths).toMatchInlineSnapshot(`
       [
@@ -78,7 +78,7 @@ describe('site plugin tests', async () => {
 
     expect(paths).toEqual(expectedPaths)
 
-    const paths2 = getPathsFromSite(site, '/test')
+    const paths2 = await getPathsFromSite(site, '/test')
 
     expect(paths2.some(_ => !_.startsWith('/test'))).toBe(false)
 

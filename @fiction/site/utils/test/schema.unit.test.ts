@@ -83,11 +83,11 @@ describe('schema tools', () => {
     `)
     expect(out.unusedSchema).toMatchInlineSnapshot(`{}`)
 
-    expect(Object.keys(out?.unusedSchema || { f: '', f2: '' }).length).toBe(0)
+    expect(Object.keys(out?.unusedSchema || { f: '', f2: '' }).length, 'no unused schema').toBe(0)
 
     expect(out.hiddenOptions).toMatchInlineSnapshot(`[]`)
 
-    expect(out.hiddenOptions.length).toBe(0)
+    expect(out.hiddenOptions.length, 'no hidden options').toBe(0)
 
     const out2 = refineOptions({ options, schema: schema2 })
 
@@ -165,8 +165,7 @@ describe('schema tools', () => {
         "media.format",
         "media.html",
         "media.el",
-        "media.modify",
-        "media.modify.flip",
+        "media.modify.*",
       ]
     `)
   })
