@@ -95,6 +95,11 @@ jobs:
           echo "SHOULD_DEPLOY: ${{ env.SHOULD_DEPLOY }}"
           echo "Commit Message: ${{ github.event.head_commit.message }}"
 
+      - name: Get current time
+        id: current_time
+        run: echo "time=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_OUTPUT
+        shell: bash
+
       - name: Write Build Information to a Config File
         run: |
           echo '{
@@ -136,14 +141,15 @@ jobs:
           cache: pnpm
 
       - name: Get pnpm store directory
+        id: pnpm-cache
         shell: bash
         run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
 
       - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
-          path: ${{ env.STORE_PATH }}
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
@@ -156,6 +162,20 @@ jobs:
 
       - name: Run Type Check
         run: npm run types:ci
+
+      - name: ESLint Check
+        uses: actions/cache@v4
+        id: eslint-cache
+        with:
+          path: ~/.eslintcache
+          key: ${{ runner.os }}-eslint-${{ hashFiles('**/.eslintrc.*') }}-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-eslint-
+
+      - name: Run ESLint
+        run: |
+          npm run lint:dev
+        continue-on-error: false
 
       - name: Debug Git Config
         run: |

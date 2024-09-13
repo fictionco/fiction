@@ -9,7 +9,7 @@ import pkg from '../package.json'
 import { log } from '../plugin-log/index.js'
 import { toCamel } from '../utils/casing.js'
 import { emitEvent } from '../utils/event.js'
-import { getRequire } from '../utils/index.js'
+import { getMonorepoRootPath, getRequire } from '../utils/nodeUtils.js'
 
 const commander = new Command()
 
@@ -94,7 +94,10 @@ export async function execute(): Promise<void> {
 }
 
 function getLatestCommitId() {
-  let currentPath = process.cwd()
+  let currentPath = getMonorepoRootPath()
+
+  if (!currentPath)
+    currentPath = process.cwd()
 
   const buildInfoPath = path.join(currentPath, 'buildInfo.json')
 

@@ -22,6 +22,29 @@ interface WhichModule {
 
 const logger = log.contextLogger('nodeUtils')
 
+export function getMonorepoRootPath() {
+  let currentPath = process.cwd()
+
+  // We'll check for up to 5 levels up to find the monorepo root
+  for (let i = 0; i < 5; i++) {
+    // Check for specific files that indicate the monorepo root
+    if (fs.existsSync(path.join(currentPath, 'pnpm-workspace.yaml'))
+      && fs.existsSync(path.join(currentPath, '.pnpmfile.js'))) {
+      return currentPath
+    }
+
+    const parentPath = path.dirname(currentPath)
+    if (parentPath === currentPath) {
+      // We've reached the root of the filesystem
+      break
+    }
+    currentPath = parentPath
+  }
+
+  // If we couldn't find the monorepo root, return null or throw an error
+  return null
+}
+
 export function getNodeBuffer(): typeof Buffer {
   if (!isNode())
     throw new Error('getNodeBuffer: not a node environment')
