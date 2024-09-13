@@ -9,7 +9,7 @@
     "@fiction/core": "workspace:*",
     "@fiction/ui": "workspace:*",
     "@types/js-yaml": "^4.0.9",
-    "express": "^4.19.2",
+    "express": "^4.21.0",
     "js-yaml": "^4.1.0",
     "metadata-scraper": "^0.2.61",
     "sql-formatter": "^15.4.2",

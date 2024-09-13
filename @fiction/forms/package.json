@@ -9,7 +9,7 @@
     "@fiction/site": "workspace:*",
     "@fiction/ui": "workspace:*",
     "@types/chroma-js": "^2.4.4",
-    "chroma-js": "^3.0.0"
+    "chroma-js": "^3.1.1"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "license": "MIT",
