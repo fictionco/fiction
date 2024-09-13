@@ -102,7 +102,7 @@ export class Form extends FictionObject<FormSettings> {
     }
 
     if (nextCardId)
-      this.setActiveId({ cardId: nextCardId, drawer: 'toggle' })
+      await this.setActiveId({ cardId: nextCardId, drawer: 'toggle' })
   }
 
   async setActiveId(args: {

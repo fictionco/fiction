@@ -7,10 +7,10 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig, { requests: CardRequests }>>, required: true },
 })
 
-const vis = vue.ref(false)
+const _vis = vue.ref(false)
 
 vue.onMounted(async () => {
-  const x = props.card.request('instagram', { test: true })
+  const _x = props.card.request('instagram', { test: true })
 })
 </script>
 

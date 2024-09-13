@@ -5,7 +5,6 @@ import { describe, expect, it } from 'vitest'
 describe('org handling', async () => {
   const testUtils = createTestUtils()
   const initialized = await testUtils.init()
-  const orgId = initialized.user.orgs?.[0].orgId
 
   let workingUser: User | undefined
   let workingOrg: Organization | undefined

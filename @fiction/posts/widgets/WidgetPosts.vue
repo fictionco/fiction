@@ -40,8 +40,6 @@ vue.onMounted(async () => {
   }
 })
 
-const mediaClass = `size-14 ring-2 ring-theme-200/50 bg-theme-50 dark:bg-theme-700 dark:text-theme-0 dark:ring-theme-0 rounded-lg overflow-hidden text-theme-500/50`
-
 const actions: ActionItem[] = [
   {
     name: 'View all posts',

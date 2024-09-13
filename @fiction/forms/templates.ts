@@ -16,7 +16,7 @@ const inputSchema = z.object({
   buttonText: z.string().optional(),
   required: z.boolean().optional(),
   inputType: z.string().optional() as z.Schema<keyof typeof inputs | undefined>,
-  userValue: z.unknown().optional(),
+  userValue: z.union([z.string(), z.number(), z.record(z.string(), z.union([z.string(), z.number()]))]).optional(),
   media: z.object({
     url: z.string().optional(),
     format: z.enum(['url', 'image', 'video']).optional(),

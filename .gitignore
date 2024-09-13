@@ -35,6 +35,7 @@ wire.*
 
 # Debugging
 .ts-node
+.eslintcache
 *.log
 chrome_debug.log
 heap*

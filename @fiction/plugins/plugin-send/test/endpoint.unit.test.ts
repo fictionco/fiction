@@ -29,7 +29,7 @@ describe('email send endpoint', async () => {
   const { user: user2 } = await createTestUser(testUtils.fictionUser)
   const userId2 = user2?.userId
 
-  const { user: user3, orgId: orgId3 } = await createTestUser(testUtils.fictionUser)
+  const { user: user3 } = await createTestUser(testUtils.fictionUser)
   const userId3 = user3?.userId
 
   const subscriberEmail = getTestEmail()

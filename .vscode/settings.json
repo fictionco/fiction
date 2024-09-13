@@ -1,5 +1,7 @@
 {
-
+  "git.enableSmartCommit": true,
+  "git.autofetch": true,
+  "git.confirmSync": false,
   "prettier.proseWrap": "always",
   "editor.largeFileOptimizations": true,
   // Enable the ESlint flat config support
@@ -13,7 +15,8 @@
     "**/node_modules/**",
     "**/.hg/**",
     "**/.svn/**",
-    "**/*.test.*"
+    "**/*.test.*",
+    ".eslintcache"
   ],
   // Auto fix
   "editor.codeActionsOnSave": {
@@ -58,10 +61,11 @@
     { "rule": "*semi", "severity": "off", "fixable": true }
   ],
   "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
     "**/.fiction/**": true,
     "**/.ref*": true,
     "*.log": true,
-    "**/dist": true,
     "node_modules": true,
     "coverage": true,
     "**/CHANGELOG.md": true,
@@ -75,8 +79,13 @@
     "**/*.svg": true,
     "**/stats.html": true
   },
-  "files.exclude": {},
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/dist": true
+  },
   "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/dist/**": true,
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,
     "**/node_modules/*/**": true,

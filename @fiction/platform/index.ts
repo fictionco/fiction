@@ -21,6 +21,6 @@ export interface CreateSiteSettings {
   isGlobalSetup?: boolean
 }
 
-export function createSite(opts?: CreateSiteSettings) {
+export function createSite(_opts?: CreateSiteSettings) {
   return { }
 }

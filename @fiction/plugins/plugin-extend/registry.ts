@@ -12,12 +12,12 @@ class RegistryPlugin extends FictionPlugin<ModuleConfig> {
     super(config.name, settings)
   }
 
-  async init(services: RegistryPlugin[]) {
+  async init(_services: RegistryPlugin[]) {
     // Initialize module with available services
   }
 }
 
-class ModuleRegistry {
+export class ModuleRegistry {
   private modules: Record<string, RegistryPlugin> = {}
   private moduleConfigs: Record<string, ModuleConfig> = {}
 

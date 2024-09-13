@@ -65,16 +65,16 @@ describe('siteFrameTools', async () => {
     expect(site.currentPath.value).toBe(newPath)
   })
 
-  it('should process frame messages correctly', () => {
+  it('should process frame messages correctly', async () => {
     const resetUiSpy = vi.spyOn(site.fictionSites.fictionEnv.events, 'emit')
 
     // Test resetUi message
-    site.frame.processFrameMessage({ msg: { messageType: 'resetUi', data: { scope: 'all', cause: 'test', trigger: 'test' } }, scope: 'parent' })
+    await site.frame.processFrameMessage({ msg: { messageType: 'resetUi', data: { scope: 'all', cause: 'test', trigger: 'test' } }, scope: 'parent' })
     expect(resetUiSpy, 'resetUi event should be emitted').toHaveBeenCalledWith('resetUi', { scope: 'iframe', cause: expect.any(String), trigger: 'test' })
 
     // Test setSite message
     const siteConfig = { title: 'New Title' }
-    site.frame.processFrameMessage({ msg: { messageType: 'setSite', data: { siteConfig } }, scope: 'parent' })
+    await site.frame.processFrameMessage({ msg: { messageType: 'setSite', data: { siteConfig } }, scope: 'parent' })
     expect(site.title.value, 'site title should be updated').toBe('New Title')
 
     // Test setCard message
@@ -84,36 +84,36 @@ describe('siteFrameTools', async () => {
     vi.spyOn(mockCard, 'update')
     // Add the mock card to a page
     site.pages.value = [mockCard]
-    site.frame.processFrameMessage({ msg: { messageType: 'setCard', data: { cardConfig } }, scope: 'parent' })
+    await site.frame.processFrameMessage({ msg: { messageType: 'setCard', data: { cardConfig } }, scope: 'parent' })
 
     // eslint-disable-next-line ts/unbound-method
     expect(mockCard.update, 'card update should be called with correct config').toHaveBeenCalledWith(cardConfig)
 
     // Test setActiveCard message
-    site.frame.processFrameMessage({ msg: { messageType: 'setActiveCard', data: { cardId: 'test-card-id' } }, scope: 'parent' })
+    await site.frame.processFrameMessage({ msg: { messageType: 'setActiveCard', data: { cardId: 'test-card-id' } }, scope: 'parent' })
     expect(site.editor.value.selectedCardId, 'selected card ID should be updated').toBe('test-card-id')
 
     // Test navigate message
-    site.frame.processFrameMessage({ msg: { messageType: 'navigate', data: { urlOrPath: '/new-path', siteId: site.siteId } }, scope: 'parent' })
+    await site.frame.processFrameMessage({ msg: { messageType: 'navigate', data: { urlOrPath: '/new-path', siteId: site.siteId } }, scope: 'parent' })
     expect(site.currentPath.value, 'current path should be updated').toBe('/new-path')
   })
 
   it('should handle frame ready message', () => {
     // Since there's no specific handler for frameReady, we'll just check if it doesn't throw an error
-    expect(() => {
-      site.frame.processFrameMessage({ msg: { messageType: 'frameReady', data: undefined }, scope: 'parent' })
+    expect(async () => {
+      await site.frame.processFrameMessage({ msg: { messageType: 'frameReady', data: undefined }, scope: 'parent' })
     }).not.toThrow()
   })
 
-  it('should warn on unrecognized message type', () => {
+  it('should warn on unrecognized message type', async () => {
     const spy = vi.spyOn(site.frame.log, 'warn')
 
     // First, test with a recognized message type (shouldn't warn)
-    site.frame.processFrameMessage({ msg: { messageType: 'setSite', data: { siteConfig: {} } }, scope: 'parent' })
+    await site.frame.processFrameMessage({ msg: { messageType: 'setSite', data: { siteConfig: {} } }, scope: 'parent' })
     expect(spy).not.toHaveBeenCalled()
 
     // Now test with an unrecognized message type
-    site.frame.processFrameMessage({
+    await site.frame.processFrameMessage({
       msg: { messageType: 'unknownType', data: {} } as unknown as FramePostMessageList,
       scope: 'parent',
     })

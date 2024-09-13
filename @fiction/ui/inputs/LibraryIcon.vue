@@ -4,7 +4,7 @@ import type { IconId } from '@fiction/ui/lib/systemIcons'
 import { systemIcons } from '@fiction/ui/lib/systemIcons'
 import XIcon from '../media/XIcon.vue'
 
-const props = defineProps({
+defineProps({
   modelValue: { type: Object as vue.PropType<MediaObject>, default: () => ({}) },
 })
 

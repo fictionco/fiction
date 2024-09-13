@@ -39,7 +39,7 @@ describe('tracking client', async () => {
   it('should transmit event data synchronously', async () => {
     const event = client.createTrackingEvent({ event: 'syncEvent' })
     const spy = vi.spyOn(client as any, 'transmitSync')
-    client.event({ event: 'syncEvent' }, { sync: true })
+    await client.event({ event: 'syncEvent' }, { sync: true })
     await waitFor(20) // events are buffered
     expect(spy).toHaveBeenCalled()
     expect(spy).toHaveBeenCalledWith(expect.objectContaining({ events: [

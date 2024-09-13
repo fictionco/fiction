@@ -12,7 +12,7 @@ import XText from '@fiction/ui/common/XText.vue'
 import { loadEmail } from '../utils.js'
 import { emailComposeController } from './tools'
 
-const props = defineProps({
+defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 

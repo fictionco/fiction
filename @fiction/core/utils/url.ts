@@ -162,7 +162,7 @@ export function updateUrl({ url, newUrlOrPath }: { url: string, newUrlOrPath: st
     newUrlObj = new URL(p)
     urlObj = newUrlObj
   }
-  catch (e) {
+  catch {
     // If not a full URL, treat it as a pathname and construct a new URL with a dummy base
     const dummyBase = 'http://dummybase.com'
     newUrlObj = new URL(p, dummyBase)

@@ -185,7 +185,7 @@ export class QueryManagePost extends PostsQuery {
     select?: (keyof TablePostConfig)[] | ['*']
     caller?: string
   }, _meta: EndpointMeta): Promise<EndpointResponse<TablePostConfig>> {
-    const { postId, slug, select = ['*'], loadDraft = false, orgId, caller = 'unknown' } = options
+    const { postId, slug, select = ['*'], loadDraft = false, orgId } = options
     const db = this.db()
 
     if (!orgId)

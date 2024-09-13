@@ -33,7 +33,7 @@ export async function setup(args: { fictionEnv: FictionEnv }) {
           content: z.string(),
         })),
       }),
-      getSitemapPaths: async ({ site, card, pagePath }) => {
+      getSitemapPaths: async ({ card, pagePath }) => {
         const posts = card.userConfig.value.posts || []
         return posts.map(post => `${pagePath}/${post.slug}`)
       },

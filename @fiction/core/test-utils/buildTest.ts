@@ -279,6 +279,26 @@ export async function performActions(args: {
                 await playwrightTest.expect(frameElement).toContainText(frameAction.text || '')
                 break
               }
+              case 'scrollTo':
+                await frameElement.scrollIntoViewIfNeeded()
+                break
+              case 'exists':
+                await frameElement.waitFor({ state: 'attached', timeout: 10000 })
+                expect(await frameElement.count(), `${frameAction.selector} exists in frame`).toBeGreaterThan(0)
+                break
+              case 'count':
+                await frameElement.waitFor({ state: 'attached', timeout: 10000 })
+                expect(await frameElement.count(), `${frameAction.selector} count in frame`).toBeGreaterThan(0)
+                break
+              case 'value': {
+                await waitFor(500)
+                const value = await frameElement.evaluate(el => el.dataset.value)
+                const v = value ? JSON.parse(value) : {}
+                frameAction.callback?.(v)
+                break
+              }
+              default:
+                throw new Error(`Unsupported frame action type: ${frameAction.type}`)
             }
           }
           break

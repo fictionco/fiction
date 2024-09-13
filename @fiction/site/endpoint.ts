@@ -264,7 +264,7 @@ export class ManageSite extends SitesQuery {
     return { status: 'success', data: site, message: 'site created' }
   }
 
-  private async retrieveSite(params: ManageSiteParams & { _action: 'retrieve' }, meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
+  private async retrieveSite(params: ManageSiteParams & { _action: 'retrieve' }, _meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
     const { where, disableLog } = params
     const selector = await this.getSiteSelector(where)
 
@@ -298,7 +298,7 @@ export class ManageSite extends SitesQuery {
     return { status: 'success', data: updatedSite, message: 'site saved' }
   }
 
-  private async deleteSite(params: ManageSiteParams & { _action: 'delete' }, meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
+  private async deleteSite(_params: ManageSiteParams & { _action: 'delete' }, _meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
     // Implement delete logic here
     throw new Error('Delete action not implemented')
   }

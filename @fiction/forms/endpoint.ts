@@ -1,8 +1,10 @@
 import type { DataFilter, EndpointMeta, EndpointResponse, IndexQuery } from '@fiction/core'
 import type { EmailResponse } from '@fiction/core/plugin-email/endpoint.js'
+import type { CardConfigPortable } from '@fiction/site/tables.js'
 import type { FictionForms, FormPluginSettings } from './index.js'
 import type { FormConfigPortable, FormSubmissionConfig } from './schema.js'
-import { Query } from '@fiction/core'
+import type { InputUserConfig } from './templates.js'
+import { isPlainObject, Query } from '@fiction/core'
 import { t } from './schema.js'
 
 type FormSubmissionSettings = {
@@ -189,12 +191,14 @@ export class QueryManageSubmission extends FormQuery {
 
       const heading = `${orgName}: New ${title || 'Form'} Submission`
 
-      const cards = card?.cards || []
+      const cards = (card?.cards || []) as CardConfigPortable<InputUserConfig>[]
 
       const formattedDetails = cards.filter(c => c.userConfig?.userValue).map((c) => {
         const uc = c.userConfig || {}
 
-        return `- **${uc.title}**: ${uc.userValue}`
+        const val = Array.isArray(uc.userValue) ? uc.userValue.join(', ') : isPlainObject(uc.userValue) ? JSON.stringify(uc.userValue) : uc.userValue as string
+
+        return `- **${uc.title}**: ${val}`
       },
       ).join('\n')
 
@@ -219,8 +223,10 @@ export class QueryManageSubmission extends FormQuery {
       const emails = await Promise.all(emailPromises)
 
       this.log.info('Email sent for new form submission', { data: { heading, bodyMarkdown } })
+      // eslint-disable-next-line ts/no-unnecessary-type-assertion
+      const data = (emails.map(e => e.data).filter(Boolean)) as EmailResponse[]
 
-      return { status: 'success', data: emails.map(e => e.data).filter(Boolean) }
+      return { status: 'success', data }
     }
     catch (error) {
       this.log.error('Failed to send email notification for new form submission', { error, data: params })

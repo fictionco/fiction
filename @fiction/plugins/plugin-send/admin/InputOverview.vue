@@ -12,7 +12,7 @@ const props = defineProps({
   actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
 })
 
-const emit = defineEmits<{
+defineEmits<{
   (event: 'update:modelValue', payload: EmailCampaignConfig): void
 }>()
 

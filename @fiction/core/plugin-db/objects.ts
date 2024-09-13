@@ -107,7 +107,7 @@ export class FictionDbTable {
     else {
       this.log.info(`creating table: ${this.pgTableKey}`)
       const promise = new Promise<void>(async (resolve) => {
-        await db.schema.createTable(this.pgTableKey, async (t) => {
+        await db.schema.createTable(this.pgTableKey, async () => {
           await this.createColumns(db)
           resolve()
         })

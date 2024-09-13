@@ -3,7 +3,7 @@ import type { Handle } from './tools'
 import { vue } from '@fiction/core'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
 
-const props = defineProps({
+defineProps({
   handle: { type: Object as vue.PropType<Handle>, required: true },
 })
 

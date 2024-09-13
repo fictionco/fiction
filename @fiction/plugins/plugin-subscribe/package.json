@@ -1,18 +1,14 @@
 {
-  "name": "@fiction/plugin-subscribe",
-  "type": "module",
-  "version": "6.0.35",
   "author": "Fiction",
-  "license": "MIT",
-  "main": "index.ts",
   "dependencies": {
     "@fiction/admin": "workspace:*",
+    "@fiction/analytics": "workspace:*",
     "@fiction/cards": "workspace:*",
     "@fiction/core": "workspace:*",
+    "@fiction/plugin-ai": "workspace:*",
     "@fiction/plugin-monitor": "workspace:*",
     "@fiction/site": "workspace:*",
     "@fiction/ui": "workspace:*",
-    "@fiction/analytics": "workspace:*",
     "fast-csv": "^5.0.1",
     "formdata-node": "^6.0.3",
     "multer": "1.4.5-lts.1",
@@ -22,7 +18,12 @@
     "@fiction/theme-minimal": "workspace:*"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
+  "license": "MIT",
+  "main": "index.ts",
+  "name": "@fiction/plugin-subscribe",
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "type": "module",
+  "version": "6.0.35"
 }

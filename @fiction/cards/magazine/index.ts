@@ -1,4 +1,3 @@
-import type { Site } from '@fiction/site'
 import type { SiteUserConfig } from '@fiction/site/schema'
 import { PostHandlingSchema, safeDirname, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site'
@@ -25,7 +24,7 @@ async function getDefaultUserConfig(): Promise<UserConfig> {
   }
 }
 
-async function getDemoUserConfig(args: { site?: Site }): Promise<UserConfig> {
+async function getDemoUserConfig(): Promise<UserConfig> {
   const c: UserConfig = {
     standard: { spacing: { verticalSpacing: 'sm' } },
     posts: {
@@ -119,8 +118,8 @@ export const templates = [
     isPublic: false,
     options,
     schema,
-    demoPage: async (args) => {
-      const demoUserConfig = await getDemoUserConfig(args)
+    demoPage: async () => {
+      const demoUserConfig = await getDemoUserConfig()
       const defaultUserConfig = await getDefaultUserConfig()
       return {
         cards: [

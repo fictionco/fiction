@@ -6,7 +6,7 @@ import { type ListItem, log, useService, vue } from '@fiction/core'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import { csvToEmailList, parseAndValidateEmails } from './utils'
 
-const props = defineProps({
+defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 

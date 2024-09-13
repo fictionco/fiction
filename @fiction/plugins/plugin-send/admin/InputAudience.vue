@@ -3,12 +3,12 @@ import type { User, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import ElBadge from '@fiction/ui/common/ElBadge.vue'
 
-const props = defineProps({
+defineProps({
   modelValue: { type: Array as vue.PropType<User[]>, default: () => [] },
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
-const emit = defineEmits<{
+defineEmits<{
   (event: 'update:modelValue', payload: User[]): void
 }>()
 </script>

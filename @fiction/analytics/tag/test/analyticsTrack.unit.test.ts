@@ -1,12 +1,13 @@
+/* eslint-disable ts/unbound-method */
 /**
  * @vitest-environment happy-dom
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { AnalyticsTag } from '../tagAnalytics' // Replace with the actual file name
-import { historyUtil } from '../../utils/history'
+import { historyUtil } from '../../utils/history' // Replace with the actual file name
 import { FictionPageStats } from '../../utils/pageStats'
 import { UnloadUtility } from '../../utils/tracking'
 import { FictionClient } from '../client'
+import { AnalyticsTag } from '../tagAnalytics'
 
 describe('analyticsTag', () => {
   let analyticsTag: AnalyticsTag

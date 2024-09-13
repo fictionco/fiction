@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "jsx": "preserve",
+    "jsxImportSource": "vue",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
     "useDefineForClassFields": true,
@@ -28,7 +29,9 @@
     "removeComments": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true, // vue/vetur needs this
-    "skipDefaultLibCheck": true
+    "skipDefaultLibCheck": true,
+    "incremental": true,
+    "preserveSymlinks": true
     // "noUncheckedIndexedAccess": true,
     // "noErrorTruncation": true // prevent cutoff error messages
   },
@@ -55,6 +58,7 @@
     "__*",
     ".git",
     ".pnpmfile.cjs"
+
   ]
 
 }

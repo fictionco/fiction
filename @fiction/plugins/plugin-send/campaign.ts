@@ -24,9 +24,7 @@ export class EmailCampaign extends FictionObject<EmailConfig> {
     super('EmailSend', settings)
   }
 
-  update(sendConfig: Partial<EmailCampaignConfig>, options: { noSave?: boolean } = {}) {
-    const { noSave = false } = options
-
+  update(sendConfig: Partial<EmailCampaignConfig>, _options: { noSave?: boolean } = {}) {
     if (!sendConfig)
       return
     const availableKeys = settingsKeys as string[]

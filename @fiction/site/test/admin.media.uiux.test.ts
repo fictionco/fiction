@@ -1,4 +1,3 @@
-import { shortId } from '@fiction/core'
 import { createSiteUiTestingKit } from '@fiction/site/test/testUtils.js'
 import { afterAll, describe, it } from 'vitest'
 
@@ -14,7 +13,6 @@ describe('admin site pages', async () => {
 
   it('page and card ui', { timeout: 80000, retry: 3 }, async () => {
     const initialViewId = 'edit-site'
-    const slugId = shortId()
 
     const logoText = 'Hello World from Test'
     await kit.performActions({

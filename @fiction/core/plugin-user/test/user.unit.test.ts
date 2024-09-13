@@ -84,7 +84,7 @@ describe('user tests', async () => {
 
     let triggered = false
 
-    testUtils.fictionUser.events.on('resetPassword', async (args) => {
+    testUtils.fictionUser.events.on('resetPassword', async (_args) => {
       triggered = true
     })
 

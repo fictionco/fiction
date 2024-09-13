@@ -6,7 +6,8 @@ import { clickId, elementId } from '../tracking'
 
 // Mock the getSelector function
 vi.mock('../tracking', async (importOriginal) => {
-  const mod = (await importOriginal())
+  // eslint-disable-next-line ts/no-unnecessary-type-assertion
+  const mod = (await importOriginal()) as Record<string, unknown>
   return {
     ...mod,
     getSelector: vi.fn().mockImplementation(() => 'div.test-class'),

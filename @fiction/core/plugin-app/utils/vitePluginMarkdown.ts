@@ -52,6 +52,7 @@ class ParseHandler {
     const content = new ExportedContent()
 
     // RELATIVE IMAGE PATHS
+    // eslint-disable-next-line regexp/no-unused-capturing-group
     const imagePattern = /\.\.?\/[^\s)]+\.(jpg|jpeg|png|svg|gif|bmp|webp)/gi
 
     const resolvedCode = code.replaceAll(imagePattern, (match) => {
