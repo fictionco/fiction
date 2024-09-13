@@ -1,7 +1,6 @@
-import { FictionObject, removeUndefined, vue } from '@fiction/core'
 import type { ListItem } from '@fiction/core'
-import type { U } from 'vitest/dist/chunks/environment.0M5R1SX_.js'
 import type { z } from 'zod'
+import { FictionObject, removeUndefined, vue } from '@fiction/core'
 
 const def = vue.defineAsyncComponent
 
@@ -64,7 +63,7 @@ export type InputOptionGeneration = {
   cumulativeTime?: number
 }
 
-export interface InputOptionSettings<T extends string = string, U = any> {
+export interface InputOptionSettings<T extends string = string > {
   key: T
   aliasKey?: string
   label?: string
@@ -91,7 +90,7 @@ export type OptArgs = (Partial<InputOptionSettings> & Record<string, unknown>) |
 
 type InputOptionConfig = Omit<InputOptionSettings, 'options'> & { options?: InputOptionConfig[] }
 
-export class InputOption<T extends string = string> extends FictionObject<InputOptionSettings<T, U>> {
+export class InputOption<T extends string = string> extends FictionObject<InputOptionSettings<T >> {
   key = vue.ref(this.settings.key)
   aliasKey = vue.ref(this.settings.aliasKey || this.key)
   input = vue.shallowRef(this.settings.input)
@@ -123,7 +122,7 @@ export class InputOption<T extends string = string> extends FictionObject<InputO
     }
   })
 
-  update(config: Partial<InputOptionSettings<T, U>>) {
+  update(config: Partial<InputOptionSettings<T>>) {
     Object.entries(config).forEach(([key, value]) => {
       if (value !== undefined && vue.isRef(this[key as keyof typeof this]))
         (this[key as keyof typeof this] as vue.Ref).value = value
@@ -132,7 +131,7 @@ export class InputOption<T extends string = string> extends FictionObject<InputO
     return this
   }
 
-  constructor(settings: InputOptionSettings<T, U>) {
+  constructor(settings: InputOptionSettings<T>) {
     super('InputOption', settings)
   }
 

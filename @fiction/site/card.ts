@@ -1,16 +1,16 @@
-import { deepMerge, FictionObject, objectId, setNested, toLabel, vue } from '@fiction/core'
-import { z } from 'zod'
 import type { colorTheme, Query, vueRouter } from '@fiction/core'
 import type { InputOption } from '@fiction/ui'
-import { CardGeneration } from './generation.js'
-import { getContentWidthClass, getSpacingClass } from './styling.js'
-import { siteGoto, siteLink } from './utils/manage.js'
-import { refineOptions } from './utils/schema.js'
 import type { CardQuerySettings } from './cardQuery.js'
 import type { CardOptionsWithStandard, SiteUserConfig } from './schema.js'
 import type { Site } from './site.js'
 import type { CardConfigPortable, TableCardConfig } from './tables.js'
 import type { ComponentConstructor } from './type-utils.js'
+import { deepMerge, FictionObject, objectId, setNested, toLabel, vue } from '@fiction/core'
+import { z } from 'zod'
+import { CardGeneration } from './generation.js'
+import { getContentWidthClass, getSpacingClass } from './styling.js'
+import { siteGoto, siteLink } from './utils/manage.js'
+import { refineOptions } from './utils/schema.js'
 
 export const CardCategorySchema = z.enum(['basic', 'posts', 'theme', 'stats', 'marketing', 'content', 'layout', 'media', 'navigation', 'social', 'commerce', 'form', 'other', 'special', 'portfolio', 'advanced', 'effect'])
 
@@ -114,7 +114,7 @@ export function cardTemplate<
 
 export type CardSettings<T extends Record<string, unknown> = Record<string, unknown> > = CardConfigPortable<T> & {
   site?: Site
-  inlineTemplate?: CardTemplate
+  inlineTemplate?: CardTemplate<any>
   templates?: CardTemplate[] | readonly CardTemplate[]
   onSync?: (card: Card) => void
 }

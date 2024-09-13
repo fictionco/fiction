@@ -1,10 +1,10 @@
-import { deepMerge } from '@fiction/core'
 import type { Site } from '@fiction/site'
+import type { FictionForms } from '..'
+import type { FormConfigPortable } from '../schema'
+import { deepMerge } from '@fiction/core'
 import { Form } from '../form'
 import { getFormTemplates } from '../formTemplates'
 import { getCardTemplates } from '../templates'
-import type { FictionForms } from '..'
-import type { FormConfigPortable } from '../schema'
 
 export async function loadForm(args: { config: FormConfigPortable, site: Site, fictionForms: FictionForms }): Promise<Form> {
   const { config, site, fictionForms } = args

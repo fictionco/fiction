@@ -1,11 +1,5 @@
-import path from 'node:path'
 import type express from 'express'
 import type { FormData } from 'formdata-node'
-import { log } from '../plugin-log'
-import { axios, vue } from './libraries'
-import { deepMergeAll } from './obj'
-import { flatParse, flatStringify } from './stringify'
-import { waitFor } from './utils'
 import type { FictionEnv } from '../plugin-env'
 import type { LogHelper } from '../plugin-log'
 import type { FictionRouter } from '../plugin-router'
@@ -14,6 +8,12 @@ import type { FictionUser } from '../plugin-user'
 import type { User } from '../plugin-user/types'
 import type { Query } from '../query'
 import type { EndpointResponse } from '../types'
+import path from 'node:path'
+import { log } from '../plugin-log'
+import { axios, vue } from './libraries'
+import { deepMergeAll } from './obj'
+import { flatParse, flatStringify } from './stringify'
+import { waitFor } from './utils'
 
 type EndpointServerUrl = (() => string | undefined) | string | vue.ComputedRef<string> | undefined
 
@@ -308,7 +308,12 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     data.append('userId', userId)
     data.append('_params', flatStringify(params))
 
-    const resp = await fetch(url, { method: 'POST', body: data, headers })
+    /**
+     * TODO - FormData is not recommended, upgrade to BodyInit
+     */
+    const body = data as unknown as BodyInit
+
+    const resp = await fetch(url, { method: 'POST', body, headers })
 
     const response = await resp.json() as ReturnType<T['run']>
 
