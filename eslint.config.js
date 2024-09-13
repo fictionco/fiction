@@ -14,6 +14,7 @@ export default antfu(
     },
     vue: true,
     rules: {
+      'no-template-curly-in-string': 'error',
       'no-alert': 'off',
       'no-undef-init': 'off',
       'eslint-comments/no-unlimited-disable': 'off',

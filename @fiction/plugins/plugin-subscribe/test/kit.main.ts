@@ -1,3 +1,4 @@
+import type { FictionAi } from '@fiction/plugin-ai'
 import CardSite from '@fiction/cards/CardSite.vue'
 import { AppRoute, type ServiceConfig } from '@fiction/core/index.js'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils.js'

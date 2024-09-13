@@ -3,6 +3,7 @@
     "@fiction/admin": "workspace:*",
     "@fiction/cards": "workspace:*",
     "@fiction/core": "workspace:*",
+    "@fiction/plugin-ai": "workspace:*",
     "@fiction/plugin-stripe": "workspace:*",
     "@fiction/plugin-transactions": "workspace:*",
     "@fiction/site": "workspace:*",
