@@ -9,9 +9,11 @@ import { createSiteTestUtils } from './testUtils'
 describe('card', async () => {
   const testUtils = await createSiteTestUtils()
   const site = await Site.create({ fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteId: `test-${shortId()}` })
+
+  const inlineTemplate = standardCardTemplates.find(t => t.settings.templateId === 'hero')
   const card = new Card({
     site,
-    inlineTemplate: standardCardTemplates.find(t => t.settings.templateId === 'hero') as CardTemplate,
+    inlineTemplate,
     title: 'Test Card',
   })
 

@@ -1,5 +1,5 @@
 import { PostSchema, vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 
@@ -31,7 +31,7 @@ async function defaultConfig(): Promise<UserConfig> {
 }
 
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     templateId,
     category: ['content'],
     description: 'Text that reveals itself as you scroll, with scrolling media items',

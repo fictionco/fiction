@@ -5,7 +5,7 @@ import type { FictionRouter } from '@fiction/core'
 import { activeSiteFont, type FontConfigVal } from './utils/fonts.js'
 import { SiteFrameTools } from './utils/frame.js'
 import { flattenCards, setLayoutOrder } from './utils/layout.js'
-import { activePageId, getPageById, getViewMap, setPages, updatePages } from './utils/page.js'
+import { activePageId, getPageById, getViewMap, updatePages } from './utils/page.js'
 import { addNewCard, removeCard } from './utils/region.js'
 import { saveSite, scrollActiveCardIntoView, setSections, setupRouteWatcher, updateSite } from './utils/site.js'
 import type { Card, CardTemplate } from './card.js'
@@ -66,6 +66,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   static async create<U extends SiteSettings>(settings: U, options: { loadThemePages?: boolean } = {}): Promise<Site<U>> {
     const site = new Site<U>(settings)
     await site.loadTheme(options)
+    await site.loadConfig()
 
     return site
   }
@@ -137,7 +138,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     },
   })
 
-  pages = vue.shallowRef(setPages({ pages: this.settings.pages, site: this }))
+  pages = vue.shallowRef([] as Card[])
 
   primaryCustomDomain = vue.computed(() => this.customDomains.value?.find(d => d.isPrimary)?.hostname ?? this.customDomains.value?.[0]?.hostname)
 
@@ -152,6 +153,10 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     get: () => this.siteRouter.current.value.path,
     set: async v => this.siteRouter.push(v, { caller: 'currentPath' }),
   })
+
+  async loadConfig() {
+    await this.update({ pages: this.settings.pages })
+  }
 
   editor = vue.ref<EditorState>({
     selectedCardId: '',

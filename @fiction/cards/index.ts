@@ -1,8 +1,9 @@
 import { envConfig, safeDirname, vue } from '@fiction/core'
-import { CardTemplate, cardTemplate } from '@fiction/site/card'
+import { cardTemplate } from '@fiction/site/card'
 import { z } from 'zod'
 import type { FictionEnv } from '@fiction/core'
 import type { CardConfigPortable } from '@fiction/site'
+import type { CardTemplate } from '@fiction/site/card'
 import type { Site } from '@fiction/site/site.js'
 import * as four04 from './404'
 import * as area from './area'
@@ -112,7 +113,7 @@ export async function getCardTemplates() {
 export async function getDemoPages(args: { site: Site, templates: CardTemplate<any>[] | readonly CardTemplate<any>[], fictionEnv?: FictionEnv }) {
   const { templates, site } = args
 
-  const buttonsTemplate = new CardTemplate({
+  const buttonsTemplate = cardTemplate({
     templateId: 'xbutton',
     title: 'Buttons',
     description: 'Standard button styles',
@@ -127,7 +128,7 @@ export async function getDemoPages(args: { site: Site, templates: CardTemplate<a
       }
     },
   })
-  const inputsTemplate = new CardTemplate({
+  const inputsTemplate = cardTemplate({
     templateId: 'xinput',
     title: 'Inputs',
     description: 'Standard input styles',
@@ -143,7 +144,7 @@ export async function getDemoPages(args: { site: Site, templates: CardTemplate<a
     },
   })
 
-  const logoTemplate = new CardTemplate({
+  const logoTemplate = cardTemplate({
     templateId: 'xlogo',
     title: 'Logo Component',
     description: 'Standard logo handling',
@@ -159,7 +160,7 @@ export async function getDemoPages(args: { site: Site, templates: CardTemplate<a
     },
   })
 
-  const mediaTemplate = new CardTemplate({
+  const mediaTemplate = cardTemplate({
     templateId: 'xmedia',
     title: 'Media Component',
     description: 'Standard media handling',

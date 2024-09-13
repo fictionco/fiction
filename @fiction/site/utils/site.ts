@@ -128,12 +128,12 @@ export async function saveSite(args: { site: Site, onlyKeys?: (keyof TableSiteCo
     caller: 'saveSite',
   }, { minTime })
 
-  updateSite({ site, newConfig: r.data || {} })
+  await updateSite({ site, newConfig: r.data || {} })
 
   return r.data
 }
 
-export function updateSite(args: { site: Site, newConfig: Partial<SiteSettings> }) {
+export async function updateSite(args: { site: Site, newConfig: Partial<SiteSettings> }) {
   const { site, newConfig } = args
   if (!newConfig)
     return
@@ -152,7 +152,7 @@ export function updateSite(args: { site: Site, newConfig: Partial<SiteSettings> 
     site.editor.value = { ...site.editor.value, ...editor }
 
   if (pages) {
-    site.pages.value = setPages({ site, pages })
+    site.pages.value = await setPages({ site, pages })
     site.sections.value = setSections({ site })
   }
 

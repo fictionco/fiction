@@ -1,5 +1,5 @@
 import { vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
@@ -49,7 +49,7 @@ async function getDefaultUserConfig(args: { tags: Tag[] }): Promise<UserConfig> 
 
 const templateId = 'marquee'
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     templateId,
     category: ['marketing'],
     description: 'A marquee of media items that slide in and out',

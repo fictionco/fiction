@@ -1,5 +1,5 @@
 import { PostHandlingSchema, safeDirname, vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
@@ -107,7 +107,7 @@ async function getDemoUserConfig(args: { site?: Site }): Promise<UserConfig> {
 }
 
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     root: safeDirname(import.meta.url),
     templateId,
     category: ['posts'],

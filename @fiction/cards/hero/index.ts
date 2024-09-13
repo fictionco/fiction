@@ -1,5 +1,5 @@
 import { colorTheme, vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
@@ -53,7 +53,7 @@ export const options: InputOption[] = [
 ]
 
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     templateId,
     category: ['basic'],
     isPublic: true,

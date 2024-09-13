@@ -1,5 +1,5 @@
 import { vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 import { standardOption } from '../inputSets'
@@ -51,7 +51,7 @@ const mapBase = {
 }
 
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     templateId,
     category: ['advanced'],
     description: 'map with markers, powered by Mapbox',

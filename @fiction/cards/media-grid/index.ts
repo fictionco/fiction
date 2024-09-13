@@ -1,8 +1,8 @@
 import { vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site'
 
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     templateId: 'mediaGrid',
     category: ['marketing'],
     description: 'grid of text elements',

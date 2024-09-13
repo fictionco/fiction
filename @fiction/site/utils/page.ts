@@ -5,11 +5,11 @@ import type { Site } from '../index.js'
 import type { CardConfigPortable } from '../tables.js'
 
 const logger = log.contextLogger('sitePageUtils')
-export function setPages(args: { pages?: CardConfigPortable[], site?: Site }) {
+export async function setPages(args: { pages?: CardConfigPortable[], site?: Site }) {
   const { pages = [], site } = args
   const fictionEnv = site?.fictionSites.settings.fictionEnv
 
-  const pg = fictionEnv?.runHooksSync('setPages', pages, site) || pages || []
+  const pg = await fictionEnv?.runHooks('setPages', pages, site) || pages || []
 
   const templateId = site?.theme.value?.templateDefaults.value.page || 'wrap'
 

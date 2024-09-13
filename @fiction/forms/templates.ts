@@ -1,4 +1,4 @@
-import { CardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site'
 import { z } from 'zod'
 import type { inputs } from '@fiction/ui/inputs/index.js'
 import CardForm from './deck/CardForm.vue'
@@ -27,18 +27,18 @@ export type InputUserConfig = z.infer<typeof inputSchema>
 
 export async function getCardTemplates() {
   return [
-    new CardTemplate({ templateId: 'formWrap', el: CardForm, isPageCard: true }),
-    new CardTemplate({ templateId: 'formStart', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ }) }),
-    new CardTemplate({ templateId: 'formEnd', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ cardType: 'end' as const }) }),
-    new CardTemplate({ templateId: 'inputTextShort', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ inputType: 'InputText' as const }) }),
-    new CardTemplate({ templateId: 'inputTextLong', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ inputType: 'InputTextarea' as const }) }),
-    new CardTemplate({ templateId: 'inputEmail', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ inputType: 'InputEmail' as const }) }),
-    new CardTemplate({ templateId: 'inputNumber', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ inputType: 'InputNumber' as const }) }),
-    new CardTemplate({ templateId: 'inputSelect', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ inputType: 'InputSelect' as const }) }),
-    new CardTemplate({ templateId: 'inputDate', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ inputType: 'InputDate' as const }) }),
-    new CardTemplate({ templateId: 'inputCheckbox', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ inputType: 'InputCheckbox' as const }) }),
-    new CardTemplate({ templateId: 'inputRadio', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ inputType: 'InputRadio' as const }) }),
-    new CardTemplate({ templateId: 'inputRanking', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ inputType: 'InputRanking' as const }) }),
+    cardTemplate({ templateId: 'formWrap', el: CardForm, isPageCard: true }),
+    cardTemplate({ templateId: 'formStart', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ }) }),
+    cardTemplate({ templateId: 'formEnd', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ cardType: 'end' as const }) }),
+    cardTemplate({ templateId: 'inputTextShort', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ inputType: 'InputText' as const }) }),
+    cardTemplate({ templateId: 'inputTextLong', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ inputType: 'InputTextarea' as const }) }),
+    cardTemplate({ templateId: 'inputEmail', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ inputType: 'InputEmail' as const }) }),
+    cardTemplate({ templateId: 'inputNumber', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ inputType: 'InputNumber' as const }) }),
+    cardTemplate({ templateId: 'inputSelect', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ inputType: 'InputSelect' as const }) }),
+    cardTemplate({ templateId: 'inputDate', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ inputType: 'InputDate' as const }) }),
+    cardTemplate({ templateId: 'inputCheckbox', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ inputType: 'InputCheckbox' as const }) }),
+    cardTemplate({ templateId: 'inputRadio', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ inputType: 'InputRadio' as const }) }),
+    cardTemplate({ templateId: 'inputRanking', el: InputWrap, schema: inputSchema, getBaseConfig: () => ({ inputType: 'InputRanking' as const }) }),
   ] as const
 }
 

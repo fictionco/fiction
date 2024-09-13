@@ -210,7 +210,7 @@ describe('updateSite / updatePages', async () => {
   it('updates site with valid keys', async () => {
     const site = await Site.create({ ...common, themeId: 'test' })
 
-    updateSite({ site, newConfig: { title: 'New Title', userConfig: { seo: { locale: 'es' } }, subDomain: 'newSub', customDomains: [{ hostname: 'new.com' }] } })
+    await updateSite({ site, newConfig: { title: 'New Title', userConfig: { seo: { locale: 'es' } }, subDomain: 'newSub', customDomains: [{ hostname: 'new.com' }] } })
 
     expect(site.title.value).toBe('New Title')
     expect(site.userConfig.value.seo?.locale).toBe('es')
@@ -221,7 +221,7 @@ describe('updateSite / updatePages', async () => {
   it('updates and initializes new partial regions', async () => {
     const site = await Site.create({ ...common, themeId: 'test' })
 
-    updateSite({ site, newConfig: { pages: [{ templateId: 'wrap', cardId: 'card1' }] } })
+    await updateSite({ site, newConfig: { pages: [{ templateId: 'wrap', cardId: 'card1' }] } })
 
     expect(site.pages.value[0].cardId).toBe('card1')
   })
@@ -229,7 +229,7 @@ describe('updateSite / updatePages', async () => {
   it('merge updates editor', async () => {
     const site = await Site.create({ ...common, themeId: 'test', editor: { selectedCardId: 'test123' } as EditorState })
 
-    updateSite({ site, newConfig: { editor: { selectedRegionId: 'header' } as EditorState } })
+    await updateSite({ site, newConfig: { editor: { selectedRegionId: 'header' } as EditorState } })
 
     expect(site.editor.value).toMatchObject({ selectedCardId: 'test123', selectedRegionId: 'header' })
   })
@@ -237,7 +237,7 @@ describe('updateSite / updatePages', async () => {
   it('updates pages', async () => {
     const site = await Site.create({ ...common, themeId: 'test', siteId: `test-${shortId()}` })
     // Setup initial state
-    const pgs = setPages({ site, pages: [{ cardId: 'card1', title: 'Original Title', userConfig: { otherProp: 'initial' } }] })
+    const pgs = await setPages({ site, pages: [{ cardId: 'card1', title: 'Original Title', userConfig: { otherProp: 'initial' } }] })
 
     site.pages.value = pgs
 

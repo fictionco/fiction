@@ -22,9 +22,9 @@ type MergeTypes<T, U> = T & Omit<U, keyof T>
 export type CardTemplateSurfaceDefault = {
   templateId: string
   userConfig: Record<string, unknown>
+  schema: z.AnyZodObject
   queries: Record<string, Query>
   component: ComponentConstructor
-  schema: z.AnyZodObject
 }
 
 // Use defaults

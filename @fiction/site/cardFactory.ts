@@ -29,7 +29,7 @@ type UserConfigType<
   W extends CardTemplate | undefined,
   X extends ComponentConstructor | undefined,
 > = W extends CardTemplate
-  ? TemplateUserConfigMap<U>[T]
+  ? TemplateUserConfigMap<U>[T] & SiteUserConfig
   : X extends ComponentConstructor
     ? ExtractComponentUserConfig<X>
     : U extends readonly CardTemplate[] ? TemplateUserConfigMap<U>[T] : Record<string, unknown>

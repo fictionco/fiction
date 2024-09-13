@@ -1,5 +1,5 @@
 import { vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 
@@ -74,7 +74,7 @@ const getUserConfig: (args: { layout?: 'stacked' | 'inline', noItems?: number })
 }
 
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     templateId,
     category: ['marketing'],
     description: 'Add a grid of logos or graphic to your page.',

@@ -1,5 +1,5 @@
 import { standardCardTemplates } from '@fiction/cards/index.js'
-import { CardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site'
 import FictionLogo from '@fiction/ui/brand/FictionLogo.vue'
 import DashWrap from './dashboard/DashWrap.vue'
 
@@ -7,7 +7,7 @@ export const fictionLogo = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" 
 
 export const templates = [
   ...standardCardTemplates,
-  new CardTemplate({
+  cardTemplate({
     templateId: 'dash',
     el: DashWrap,
     isPageCard: true,

@@ -1,5 +1,5 @@
 import { numberFormats, vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 
@@ -90,7 +90,7 @@ async function getDefaultConfig(): Promise<UserConfig> {
 }
 
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     templateId,
     category: ['stats'],
     description: 'Display key metrics in a visually appealing way',

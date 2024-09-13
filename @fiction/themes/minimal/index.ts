@@ -210,7 +210,6 @@ export async function setup(args: { fictionEnv: FictionEnv }) {
             templateId: 'area',
             cards: [
               await factory.create({ templateId: 'footer', userConfig: {
-                asdf: 'asdf',
                 logo: { format: 'typography', typography: { text: 'Your Name', font: 'Poppins' } },
                 nav: [
                   {

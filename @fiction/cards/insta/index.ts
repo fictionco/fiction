@@ -1,5 +1,5 @@
 import { type EndpointMeta, type EndpointResponse, vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site'
 import { CardQuery, type CardQuerySettings } from '@fiction/site/cardQuery'
 import { z } from 'zod'
 import type { InputOption } from '@fiction/ui'
@@ -34,7 +34,7 @@ type ExtractCardRequests<T> = {
 export type CardRequests = ExtractCardRequests<Awaited<ReturnType<typeof getQueries>>>
 
 export const templates = [
-  new CardTemplate({
+  cardTemplate({
     templateId,
     category: ['social'],
     description: 'Instagram galleries for your site',
