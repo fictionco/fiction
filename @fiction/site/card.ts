@@ -316,7 +316,7 @@ export class Card<
     const fictionSites = site.fictionSites
     const themeId = site.theme.value?.themeId
 
-    return await fictionSites.requests.CardQuery.request({
+    return fictionSites.requests.CardQuery.request({
       templateId,
       themeId,
       siteId: site.siteId,

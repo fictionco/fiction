@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { getNavComponentType } from '@fiction/core'
 import type { NavGroup, NavItem, vue } from '@fiction/core'
+import { getNavComponentType } from '@fiction/core'
 
 defineProps({
   menu: { type: Object as vue.PropType<NavGroup[]>, default: undefined },

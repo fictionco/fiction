@@ -1,6 +1,6 @@
+import type { Organization, User } from '..'
 import { createTestUtils } from '@fiction/core/test-utils/init'
 import { describe, expect, it } from 'vitest'
-import type { Organization, User } from '..'
 
 describe('org handling', async () => {
   const testUtils = createTestUtils()

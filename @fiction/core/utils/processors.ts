@@ -1,7 +1,7 @@
+import type { FictionEnv } from '../plugin-env/index.js'
 import { FictionObject } from '../plugin.js'
 import { log } from '../plugin-log/index.js'
 import { isPlainObject } from './obj.js'
-import type { FictionEnv } from '../plugin-env/index.js'
 
 const logger = log.contextLogger('processors')
 

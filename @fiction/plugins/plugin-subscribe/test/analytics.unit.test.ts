@@ -1,9 +1,9 @@
+import type { DataPointChart, TimeLineInterval } from '@fiction/analytics/types'
 import { refineParams, refineTimelineData } from '@fiction/analytics/utils/refine'
 import { abort, dayjs } from '@fiction/core'
 import { createTestUser } from '@fiction/core/test-utils'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { describe, expect, it } from 'vitest'
-import type { DataPointChart, TimeLineInterval } from '@fiction/analytics/types'
 
 import { t } from '../schema.js'
 

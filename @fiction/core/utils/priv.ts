@@ -1,6 +1,6 @@
-import { _stop } from './error'
 import type { MemberAccess } from '../plugin-user/types'
 import type { EndpointMeta } from './endpoint'
+import { _stop } from './error'
 
 export const userCapabilities = {
   canExecute: 1000,

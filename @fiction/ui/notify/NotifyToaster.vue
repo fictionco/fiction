@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { log, toSlug, useService, vue } from '@fiction/core'
 import type { UserNotification } from '@fiction/core'
+import { log, toSlug, useService, vue } from '@fiction/core'
 
 const props = defineProps({
   dev: { type: Boolean, default: false },

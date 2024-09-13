@@ -1,16 +1,15 @@
 <script lang="ts" setup>
-import CardButton from '@fiction/cards/CardButton.vue'
-import CardText from '@fiction/cards/CardText.vue'
-import { vue } from '@fiction/core'
-import { inputs } from '@fiction/ui/inputs'
-import ElForm from '@fiction/ui/inputs/ElForm.vue'
-import XMedia from '@fiction/ui/media/XMedia.vue'
 import type { MediaObject } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { Form } from '../form'
 import type { CardAlignmentMode, CardLayoutMode } from '../schema.js'
-
 import type { InputUserConfig } from '../templates.js'
+import CardButton from '@fiction/cards/CardButton.vue'
+import CardText from '@fiction/cards/CardText.vue'
+import { vue } from '@fiction/core'
+import { inputs } from '@fiction/ui/inputs'
+
+import XMedia from '@fiction/ui/media/XMedia.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<InputUserConfig>>, required: true },

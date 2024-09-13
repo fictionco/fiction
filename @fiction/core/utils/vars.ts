@@ -1,8 +1,8 @@
+import type { RunVars } from '../inject.js'
+import type { FictionEnv } from '../plugin-env/index.js'
 import process from 'node:process'
 import { toCamel } from './casing.js'
 import { randomBetween } from './utils.js'
-import type { RunVars } from '../inject.js'
-import type { FictionEnv } from '../plugin-env/index.js'
 
 export class CrossVarManager {
   private managedKeys: Set<string> = new Set()

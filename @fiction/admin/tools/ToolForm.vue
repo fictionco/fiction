@@ -1,13 +1,13 @@
 <script lang="ts" setup>
+import type { ActionItem } from '@fiction/core'
+import type { Card } from '@fiction/site/card'
+import type { InputOption } from '@fiction/ui'
+import type { UiElementSize } from '@fiction/ui/utils'
 import { getNested, localRef, setNested, vue } from '@fiction/core'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
 import ElActions from '@fiction/ui/buttons/ElActions.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElToolSep from '@fiction/ui/inputs/ElToolSep.vue'
-import type { ActionItem } from '@fiction/core'
-import type { Card } from '@fiction/site/card'
-import type { InputOption } from '@fiction/ui'
-import type { UiElementSize } from '@fiction/ui/utils'
 
 const props = defineProps({
   options: { type: Array as vue.PropType<InputOption[]>, required: true },

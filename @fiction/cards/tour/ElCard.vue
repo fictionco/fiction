@@ -1,9 +1,9 @@
 <script lang="ts" setup>
+import type { UserConfig } from '.'
+import type { UserConfig as HeroUserConfig } from '../hero'
 import { vue } from '@fiction/core'
 import { Card } from '@fiction/site'
 import ElHero from '../hero/ElHero.vue'
-import type { UserConfig } from '.'
-import type { UserConfig as HeroUserConfig } from '../hero'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },

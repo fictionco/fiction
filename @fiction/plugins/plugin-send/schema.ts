@@ -1,9 +1,9 @@
-import { AndDataFilterSchema, Col, FictionDbTable, MediaDisplaySchema, ProgressStatusSchema, standardTable } from '@fiction/core'
-import { t as postTableNames } from '@fiction/posts'
-
-import { z } from 'zod'
 import type { ColType } from '@fiction/core'
 import type { TablePostConfig } from '@fiction/posts'
+
+import { AndDataFilterSchema, Col, FictionDbTable, MediaDisplaySchema, ProgressStatusSchema, standardTable } from '@fiction/core'
+import { t as postTableNames } from '@fiction/posts'
+import { z } from 'zod'
 
 export const t = {
   ...standardTable,

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
+import type { InputOption } from '.'
 import { getNested, setNested, shortId, vue, waitFor } from '@fiction/core'
 import TransitionSlide from '../anim/TransitionSlide.vue'
 import ElButton from '../ElButton.vue'
 import ElInput from './ElInput.vue'
-import type { InputOption } from '.'
 
 const props = defineProps({
   modelValue: { type: Array as vue.PropType<Record<string, unknown>[]>, default: () => [] },

@@ -1,7 +1,7 @@
-import { EnvVar, FictionPlugin, isActualBrowser, isTest, vars } from '@fiction/core'
-import { IncomingWebhook } from '@slack/webhook'
 import type { FictionApp, FictionAppEntry, FictionEmail, FictionEnv, FictionUser, User } from '@fiction/core'
 import type { IncomingWebhookSendArguments } from '@slack/webhook'
+import { EnvVar, FictionPlugin, isActualBrowser, isTest, vars } from '@fiction/core'
+import { IncomingWebhook } from '@slack/webhook'
 
 declare global {
   interface Window {

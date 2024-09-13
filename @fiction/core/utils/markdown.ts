@@ -1,9 +1,9 @@
+import type { MarkedOptions } from 'marked'
+import type { Component } from 'vue'
 import Frontmatter from 'front-matter'
 import { marked } from 'marked'
 import { gfmHeadingId } from 'marked-gfm-heading-id'
 import removeMarkdownUtility from 'remove-markdown'
-import type { MarkedOptions } from 'marked'
-import type { Component } from 'vue'
 // import type { NodeHtmlMarkdownOptions } from 'node-html-markdown'
 // import { NodeHtmlMarkdown } from 'node-html-markdown'
 

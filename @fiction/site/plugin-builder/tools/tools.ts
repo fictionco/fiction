@@ -1,7 +1,7 @@
-import { AdminEditorController } from '@fiction/admin'
-import { vue } from '@fiction/core'
 import type { EditorTool } from '@fiction/admin'
 import type { Site } from '../../site'
+import { AdminEditorController } from '@fiction/admin'
+import { vue } from '@fiction/core'
 
 export type ToolKeys = 'managePages' | 'addPage' | 'editPage' | 'ai' | 'global' | 'publish' | 'editCard'
 

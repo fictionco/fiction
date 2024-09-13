@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import type { ActionItem, IndexItem, Organization } from '@fiction/core/index.js'
+import type { Card } from '@fiction/site/card'
+import type { InputOption } from '@fiction/ui'
 import { useService, vue } from '@fiction/core'
 import { gravatarUrlSync } from '@fiction/core/index.js'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
@@ -6,9 +9,6 @@ import ElModal from '@fiction/ui/ElModal.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
-import type { ActionItem, IndexItem, Organization } from '@fiction/core/index.js'
-import type { Card } from '@fiction/site/card'
-import type { InputOption } from '@fiction/ui'
 import ElHeader from './ElHeader.vue'
 import { newOrgOptions } from './index.js'
 

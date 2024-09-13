@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { toLabel } from '@fiction/core'
-import XButton from '@fiction/ui/buttons/XButton.vue'
 import type { ActionItem, vue } from '@fiction/core'
 import type { EditorTool } from './tools'
+import { toLabel } from '@fiction/core'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 
 defineProps({
   tool: { type: Object as vue.PropType<EditorTool>, required: true },

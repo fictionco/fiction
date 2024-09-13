@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import WidgetWrap from '@fiction/admin/dashboard/WidgetWrap.vue'
 import type { vue } from '@fiction/core'
 import type { Card } from '../..'
 import type { getWidgets } from './index.js'
+import WidgetWrap from '@fiction/admin/dashboard/WidgetWrap.vue'
 
 type WidgetConfig = ReturnType<typeof getWidgets>['sites']
 

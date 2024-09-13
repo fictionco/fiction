@@ -1,6 +1,3 @@
-import { Query } from '../query.js'
-import { standardTable as t } from '../tbl.js'
-import { abort } from '../utils/error.js'
 import type { FictionDb } from '../plugin-db/index.js'
 import type { FictionEmail } from '../plugin-email/index.js'
 import type { FictionEnv } from '../plugin-env/index.js'
@@ -9,6 +6,9 @@ import type { FictionUser, MemberAccess, OrganizationMember, User } from '../plu
 import type { EndpointResponse } from '../types/index.js'
 import type { EndpointMeta } from '../utils/endpoint.js'
 import type { FictionTeam } from './index.js'
+import { Query } from '../query.js'
+import { standardTable as t } from '../tbl.js'
+import { abort } from '../utils/error.js'
 
 export interface TeamQuerySettings {
   fictionEnv: FictionEnv

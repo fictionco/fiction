@@ -1,5 +1,5 @@
 import { colorThemeUser, MediaIconSchema, vue } from '@fiction/core'
-import { cardTemplate, CardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 

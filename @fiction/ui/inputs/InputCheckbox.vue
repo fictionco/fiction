@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import type { StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
 import { twMerge } from 'tailwind-merge'
-import type { StandardSize } from '@fiction/core'
 import { getCheckboxClasses } from './theme'
 
 const props = defineProps({

@@ -1,14 +1,14 @@
 <script lang="ts" setup>
+import type { AdminEditorController, EditorTool, Handle } from '@fiction/admin'
+import type { ActionItem } from '@fiction/core'
+import type { Site } from '../../site'
+import type { ToolKeys } from './tools.js'
 import EffectDraggableSort from '@fiction/admin/el/EffectDraggableSort.vue'
 import ElToolBanner from '@fiction/admin/tools/ElToolBanner.vue'
 import ELToolHandle from '@fiction/admin/tools/ElToolHandle.vue'
 import { vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
-import type { AdminEditorController, EditorTool, Handle } from '@fiction/admin'
-import type { ActionItem } from '@fiction/core'
 import { saveSite } from '../../utils/site'
-import type { Site } from '../../site'
-import type { ToolKeys } from './tools.js'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },

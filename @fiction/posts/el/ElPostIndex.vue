@@ -1,13 +1,13 @@
 <script lang="ts" setup>
+import type { IndexItem } from '@fiction/core'
+import type { Card } from '@fiction/site/card'
+import type { FictionPosts } from '..'
+import type { Post } from '../post'
 import { useService, vue } from '@fiction/core'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import ElZeroBanner from '@fiction/ui/ElZeroBanner.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
-import type { IndexItem } from '@fiction/core'
-import type { Card } from '@fiction/site/card'
 import { managePostIndex } from '../utils'
-import type { FictionPosts } from '..'
-import type { Post } from '../post'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },

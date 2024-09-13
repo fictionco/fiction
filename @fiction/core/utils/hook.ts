@@ -11,10 +11,10 @@ export type HookType<
     callback: (
       ...args: T[K]['args']
     ) =>
-    | Promise<T[K]['args'][0] | undefined | void>
-    | T[K]['args'][0]
-    | undefined
-    | void
+      | Promise<T[K]['args'][0] | undefined | void>
+      | T[K]['args'][0]
+      | undefined
+      | void
   }
 }[U]
 

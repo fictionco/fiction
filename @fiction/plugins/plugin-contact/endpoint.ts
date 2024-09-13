@@ -1,9 +1,9 @@
-import { abort, isTest, Query } from '@fiction/core'
 import type { EndpointMeta, EndpointResponse, FictionDb, FictionEmail, FictionEnv } from '@fiction/core'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
-import { tableName } from './tables'
 import type { FictionContact } from '.'
 import type { TableSubmissionConfig } from './tables'
+import { abort, isTest, Query } from '@fiction/core'
+import { tableName } from './tables'
 
 interface SaveMediaSettings {
   fictionContact: FictionContact

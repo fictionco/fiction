@@ -1,6 +1,6 @@
+import type { tagSet } from './tags'
 import { log } from '@fiction/core'
 import media from './mediaItems.json'
-import type { tagSet } from './tags'
 
 const logger = log.contextLogger('stockMedia')
 

@@ -1,5 +1,5 @@
-import { UAParser } from 'ua-parser-js'
 import type { FictionEvent, TrackingScreen } from '../../typesTracking.js'
+import { UAParser } from 'ua-parser-js'
 
 export function getDeviceTypeByWidth(screen: Partial<TrackingScreen>): 'mobile' | 'tablet' | 'laptop' | 'desktop' | 'unknown' | 'largeDesktop' {
   const width = screen.width

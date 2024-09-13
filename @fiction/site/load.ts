@@ -298,7 +298,7 @@ export async function getSitemapPathsFromSite(site: Site, basePath: string = '')
 
   const pagePathPromises = site.pages.value.filter(page => page.slug.value && page.slug.value !== '_404' && !page.slug.value.startsWith('__')).map(async (page) => {
     const pagePath = page.slug.value === '_home' ? '/' : `/${page.slug.value}`
-    const cardPathPromises = page.cards.value.filter(card => card.tpl.value?.settings.getSitemapPaths).map(card => card.tpl.value?.settings.getSitemapPaths?.({ site, card, pagePath }) || [])
+    const cardPathPromises = page.cards.value.filter(card => card.tpl.value?.settings.getSitemapPaths).map(async card => card.tpl.value?.settings.getSitemapPaths?.({ site, card, pagePath }) || [])
     const cardPaths = (await Promise.all(cardPathPromises)).flat()
 
     return [pagePath, ...cardPaths]
@@ -326,7 +326,7 @@ export async function loadSitemap(args: { mode: 'static' | 'dynamic', runVars?: 
       return { site, basePath }
     }))
 
-    const pathPromises = themeSites.map(({ site, basePath }) => getSitemapPathsFromSite(site, basePath))
+    const pathPromises = themeSites.map(async ({ site, basePath }) => getSitemapPathsFromSite(site, basePath))
 
     const pathLists = await Promise.all(pathPromises)
 

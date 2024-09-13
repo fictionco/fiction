@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import type { Card } from '@fiction/site/card'
 import { type ActionButton, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
-import type { Card } from '@fiction/site/card'
 
 const { card, href, theme, design, size, rounding } = defineProps<{
   card: Card

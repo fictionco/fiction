@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { normalizeList, onResetUi, resetUi, shortId, vue } from '@fiction/core'
 import type { ListItem, StandardSize } from '@fiction/core'
 import type { RouteLocationRaw } from 'vue-router'
+import { normalizeList, onResetUi, resetUi, shortId, vue } from '@fiction/core'
 import { selectInputClasses } from './theme'
 
 type RouteListItem = ListItem & { route?: RouteLocationRaw }

@@ -23,8 +23,8 @@ export type RouteAuthCallback = (args: {
   fictionUser?: FictionUser
   route: vueRouter.RouteLocationNormalized
 }) =>
-| Promise<
+  | Promise<
   { navigate: NavigateRoute, id: string, reason?: string } | undefined
->
-| { navigate: NavigateRoute, id: string, reason?: string }
-| undefined
+  >
+  | { navigate: NavigateRoute, id: string, reason?: string }
+  | undefined

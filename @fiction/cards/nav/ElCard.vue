@@ -1,14 +1,14 @@
 <script setup lang="ts">
+import type { Card } from '@fiction/site/card'
+import type { SchemaNavItem, UserConfig } from './index.js'
 import CardNavLink from '@fiction/cards/CardNavLink.vue'
 import { useService, vue } from '@fiction/core'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
 import XLogo from '@fiction/ui/media/XLogo.vue'
 import NavMobile from '@fiction/ui/NavMobile.vue'
-import type { Card } from '@fiction/site/card'
 import CardLink from '../el/CardLink.vue'
 import { processNavItems } from '../utils/nav'
 import XNav from './XNav.vue'
-import type { SchemaNavItem, UserConfig } from './index.js'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },

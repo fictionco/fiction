@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
 import type { ListItem } from '@fiction/core'
+import { vue } from '@fiction/core'
 
 defineProps({
   list: { type: Array as vue.PropType<ListItem[]>, default: () => [] },

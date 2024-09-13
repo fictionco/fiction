@@ -2,11 +2,11 @@
  * @vitest-environment happy-dom
  */
 
+import type { FormSettings } from '../form'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { FictionForms } from '..'
 import { Form } from '../form'
-import type { FormSettings } from '../form'
 
 describe('form', async () => {
   let formSettings: FormSettings
@@ -89,9 +89,9 @@ describe('form', async () => {
     expect(form.endCards.value.length).toBe(1)
   })
 
-  it('should set active card correctly', () => {
+  it('should set active card correctly', async () => {
     expect(form.activeCardId.value).toBe('card1')
-    form.setActiveId({ cardId: 'card2', drawer: 'toggle' })
+    await form.setActiveId({ cardId: 'card2', drawer: 'toggle' })
     expect(form.activeCardId.value).toBe('card2')
   })
 
@@ -102,9 +102,9 @@ describe('form', async () => {
     expect(form.activeCardId.value).toBe('card3')
   })
 
-  it('should compute percent complete correctly', () => {
+  it('should compute percent complete correctly', async () => {
     expect(form.percentComplete.value).toBe(0) // 1 out of 2 input cards
-    form.setActiveId({ cardId: 'card2', drawer: 'toggle' })
+    await form.setActiveId({ cardId: 'card2', drawer: 'toggle' })
     expect(form.percentComplete.value).toBe(50) // 2 out of 2 input cards
   })
 
@@ -136,15 +136,15 @@ describe('form', async () => {
     })
   })
 
-  it('should compute isLastCard correctly', () => {
+  it('should compute isLastCard correctly', async () => {
     expect(form.isLastCard.value).toBe(false)
-    form.setActiveId({ cardId: 'card3', drawer: 'toggle' })
+    await form.setActiveId({ cardId: 'card3', drawer: 'toggle' })
     expect(form.isLastCard.value).toBe(true)
   })
 
-  it('should compute isSubmitCard correctly', () => {
+  it('should compute isSubmitCard correctly', async () => {
     expect(form.isSubmitCard.value).toBe(false)
-    form.setActiveId({ cardId: 'card2', drawer: 'toggle' })
+    await form.setActiveId({ cardId: 'card2', drawer: 'toggle' })
     expect(form.isSubmitCard.value).toBe(true)
   })
 

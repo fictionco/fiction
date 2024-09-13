@@ -1,8 +1,8 @@
+import type { CardConfigPortable, Site } from '@fiction/site'
+import type { FormConfigPortable } from './schema'
 import { FictionObject } from '@fiction/core'
 import { CardFactory } from '@fiction/site/cardFactory'
-import type { CardConfigPortable, Site } from '@fiction/site'
 import { getCardTemplates } from './templates'
-import type { FormConfigPortable } from './schema'
 
 type FormTemplateConfig = FormConfigPortable & {
   formTemplateId: string

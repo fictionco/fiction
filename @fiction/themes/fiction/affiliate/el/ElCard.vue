@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import type { Card } from '@fiction/site'
 import { vue } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
-import type { Card } from '@fiction/site'
 import bothWaysArrow from './both-ways-arrow.svg'
 
 export type UserConfig = { test?: boolean }

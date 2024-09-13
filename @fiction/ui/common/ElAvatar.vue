@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { gravatarUrlSync, stored, vue } from '@fiction/core'
 import type { MediaObject, User } from '@fiction/core'
+import { gravatarUrlSync, stored, vue } from '@fiction/core'
 import XMedia from '../media/XMedia.vue'
 import userBlank from './user-blank.png'
 

@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import type { Card } from '@fiction/site'
+import type { FictionPosts } from '..'
+import type { Post } from '../post.js'
 import ViewEditor from '@fiction/admin/ViewEditor.vue'
 import { useService, vue, waitFor } from '@fiction/core'
 import XText from '@fiction/ui/common/XText.vue'
@@ -6,12 +9,9 @@ import ElButton from '@fiction/ui/ElButton.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import InputDate from '@fiction/ui/inputs/InputDate.vue'
-import type { Card } from '@fiction/site'
 import { managePost } from '../utils'
 import ElPostEditor from './ElPostEditor.vue'
 import { postEditController } from './tools'
-import type { FictionPosts } from '..'
-import type { Post } from '../post.js'
 
 type UserConfig = {
   isNavItem: boolean

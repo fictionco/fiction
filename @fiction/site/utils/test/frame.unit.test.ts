@@ -1,14 +1,14 @@
 /**
  * @vitest-environment happy-dom
  */
+import type { Mock } from 'vitest'
+import type { FramePostMessageList } from '../frame'
 import { shortId, waitFor } from '@fiction/core'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import type { Mock } from 'vitest'
 import { Card } from '../../card.js'
 import { Site } from '../../site'
 import { createSiteTestUtils } from '../../test/testUtils'
 import { activeSiteDisplayUrl } from '../site'
-import type { FramePostMessageList } from '../frame'
 
 describe('siteFrameTools', async () => {
   const testUtils = await createSiteTestUtils()
@@ -85,6 +85,8 @@ describe('siteFrameTools', async () => {
     // Add the mock card to a page
     site.pages.value = [mockCard]
     site.frame.processFrameMessage({ msg: { messageType: 'setCard', data: { cardConfig } }, scope: 'parent' })
+
+    // eslint-disable-next-line ts/unbound-method
     expect(mockCard.update, 'card update should be called with correct config').toHaveBeenCalledWith(cardConfig)
 
     // Test setActiveCard message

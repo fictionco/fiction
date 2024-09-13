@@ -1,10 +1,10 @@
+import type { TestUtils } from '../../test-utils'
 import fs from 'fs-extra'
 import { afterAll, describe, expect, it } from 'vitest'
 import { FictionMedia } from '..'
 import { FictionAws } from '../../plugin-aws'
 import { createTestUtils, testEnvFile, testImgPath } from '../../test-utils'
 import { getEnvVars } from '../../utils'
-import type { TestUtils } from '../../test-utils'
 
 describe('createAndSaveMedia', async () => {
   if (!fs.existsSync(testEnvFile))

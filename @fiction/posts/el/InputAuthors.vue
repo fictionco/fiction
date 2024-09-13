@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { useService, vue } from '@fiction/core'
-import ElBadge from '@fiction/ui/common/ElBadge.vue'
-import ElButton from '@fiction/ui/ElButton.vue'
-import InputSelectCustom from '@fiction/ui/inputs/InputSelectCustom.vue'
 import type { ListItem, User } from '@fiction/core'
 import type { FictionTeam } from '@fiction/core/plugin-team'
 import type { Card } from '@fiction/site'
 import type { FictionPosts } from '..'
+import { useService, vue } from '@fiction/core'
+import ElBadge from '@fiction/ui/common/ElBadge.vue'
+import ElButton from '@fiction/ui/ElButton.vue'
+import InputSelectCustom from '@fiction/ui/inputs/InputSelectCustom.vue'
 
 const props = defineProps({
   modelValue: { type: Array as vue.PropType<User[]>, default: () => [] },

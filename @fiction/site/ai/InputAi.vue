@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import type { InputOptionGeneration } from '@fiction/ui'
+import type { Card } from '../card'
+import type { Site } from '../site'
 import { onResetUi, toLabel, vue, waitFor } from '@fiction/core'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
 import XButton from '@fiction/ui/buttons/XButton.vue'
@@ -9,10 +12,7 @@ import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import InputCheckbox from '@fiction/ui/inputs/InputCheckbox.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
 import ElProgress from '@fiction/ui/loaders/ElProgress.vue'
-import type { InputOptionGeneration } from '@fiction/ui'
 import AiSettings from './AiSettings.vue'
-import type { Card } from '../card'
-import type { Site } from '../site'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },

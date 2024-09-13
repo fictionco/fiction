@@ -1,6 +1,6 @@
+import type { DOMWindow } from 'jsdom'
 import { JSDOM } from 'jsdom'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import type { DOMWindow } from 'jsdom'
 import { getWindowKeys, populateGlobal } from '../globalUtils'
 
 let dom

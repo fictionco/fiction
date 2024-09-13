@@ -1,3 +1,5 @@
+import type { PackageJson } from '../types/index.js'
+import type { CliVars, MainFile } from './types.js'
 import fs from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
@@ -8,8 +10,6 @@ import { log } from '../plugin-log/index.js'
 import { toCamel } from '../utils/casing.js'
 import { emitEvent } from '../utils/event.js'
 import { getRequire } from '../utils/index.js'
-import type { PackageJson } from '../types/index.js'
-import type { CliVars, MainFile } from './types.js'
 
 const commander = new Command()
 

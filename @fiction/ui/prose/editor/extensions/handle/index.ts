@@ -1,11 +1,11 @@
+import type { Node } from '@tiptap/pm/model'
+import type { EditorView } from '@tiptap/pm/view'
 import { Extension } from '@tiptap/core'
 import { Fragment, Slice } from '@tiptap/pm/model'
 import { NodeSelection, Plugin, TextSelection } from '@tiptap/pm/state'
+
 // @ts-expect-error not exported publicly
 import { __serializeForClipboard } from '@tiptap/pm/view'
-import type { Node } from '@tiptap/pm/model'
-
-import type { EditorView } from '@tiptap/pm/view'
 
 const plus = `<svg  class="size-[1.4em]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />

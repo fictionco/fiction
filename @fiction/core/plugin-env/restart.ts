@@ -1,9 +1,9 @@
-import process from 'node:process'
 import type { NodemonSettings } from 'nodemon'
+import type { FictionPluginSettings } from '../plugin.js'
+import process from 'node:process'
 import { FictionPlugin } from '../plugin.js'
 import { isRestart } from '../utils/index.js'
 import { done } from './utils.js'
-import type { FictionPluginSettings } from '../plugin.js'
 
 export class FictionDevRestart extends FictionPlugin {
   constructor(settings: FictionPluginSettings) {

@@ -1,7 +1,7 @@
 import type { EndpointMeta, EndpointResponse } from '@fiction/core'
 
-import { SitesQuery } from './endpoint.js'
 import type { SitesQuerySettings } from './endpoint.js'
+import { SitesQuery } from './endpoint.js'
 
 type CertificateIssue = {
   type: string

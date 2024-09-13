@@ -1,8 +1,8 @@
-import { chromium } from 'playwright'
-import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-
 import type http from 'node:http'
 import type { Browser, Page } from 'playwright'
+
+import { chromium } from 'playwright'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { FictionTestingApp } from '..'
 import { createTestUtilServices } from '../../test-utils/init'
 

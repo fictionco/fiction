@@ -1,9 +1,9 @@
-import { Query } from '@fiction/core'
 import type { DataFilter, EndpointMeta, EndpointResponse, IndexQuery } from '@fiction/core'
 import type { EmailResponse } from '@fiction/core/plugin-email/endpoint.js'
-import { t } from './schema.js'
 import type { FictionForms, FormPluginSettings } from './index.js'
 import type { FormConfigPortable, FormSubmissionConfig } from './schema.js'
+import { Query } from '@fiction/core'
+import { t } from './schema.js'
 
 type FormSubmissionSettings = {
   fictionForms: FictionForms
@@ -207,7 +207,7 @@ export class QueryManageSubmission extends FormQuery {
       // limit to 5 emails
       const emailList = notifyEmails?.slice(0, 5) || [{ email: orgEmail }]
 
-      const emailPromises = emailList.map(item => this.settings.fictionEmail.renderAndSendEmail({
+      const emailPromises = emailList.map(async item => this.settings.fictionEmail.renderAndSendEmail({
         to: item.email,
         subject: heading,
         bodyMarkdown,
@@ -220,7 +220,7 @@ export class QueryManageSubmission extends FormQuery {
 
       this.log.info('Email sent for new form submission', { data: { heading, bodyMarkdown } })
 
-      return { status: 'success', data: emails.map(e => e.data).filter(Boolean) as EmailResponse[] }
+      return { status: 'success', data: emails.map(e => e.data).filter(Boolean) }
     }
     catch (error) {
       this.log.error('Failed to send email notification for new form submission', { error, data: params })

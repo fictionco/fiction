@@ -1,7 +1,7 @@
+import type { PostsQuerySettings } from '../endpoint.js'
 import { Widget } from '@fiction/admin/dashboard/widget'
 import { vue } from '@fiction/core'
 import { QueryManagePost } from '../endpoint.js'
-import type { PostsQuerySettings } from '../endpoint.js'
 
 export function getWidgets(service: PostsQuerySettings) {
   const query = new QueryManagePost({ ...service, key: 'posts' })

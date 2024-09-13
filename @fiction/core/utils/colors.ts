@@ -160,7 +160,7 @@ export function isDarkOrLightMode(element?: HTMLElement | null | undefined): 'li
 export function getColorScheme(schemeIdWithInvert: ColorThemeWithInvert, options: { invert?: boolean, outputFormat?: 'rgb' | 'hex' } = {}): ColorRecord {
   const schemeId = schemeIdWithInvert.replace('Inverted', '') as ColorTheme
 
-  const scheme = colorList[schemeId as ColorTheme] || colorList.gray
+  const scheme = colorList[schemeId] || colorList.gray
   const format = options.outputFormat || 'rgb'
 
   const invert = options.invert || schemeIdWithInvert.endsWith('Inverted')

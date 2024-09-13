@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import type { Omit, Record } from '@sinclair/typebox'
 import chalk from 'chalk'
 import dayjs from 'dayjs'
 /**
@@ -8,7 +9,6 @@ import dayjs from 'dayjs'
  * - Dependencies should be lean as this gets included in slim builds
  */
 import prettyoutput from 'prettyoutput'
-import type { Omit, Record } from '@sinclair/typebox'
 import { isDebug, isNode, isProd, isRestart } from '../utils/vars.js'
 
 type Levels = 'error' | 'warn' | 'info' | 'debug' | 'trace'

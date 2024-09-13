@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import type { Card } from '@fiction/site'
+import type { EmailCampaign } from '../campaign.js'
+import type { FictionSend } from '../index.js'
 import ViewEditor from '@fiction/admin/ViewEditor.vue'
 import CardButton from '@fiction/cards/CardButton.vue'
 import CardLink from '@fiction/cards/el/CardLink.vue'
@@ -6,11 +9,8 @@ import { useService, vue } from '@fiction/core'
 import ElPostEditor from '@fiction/posts/el/ElPostEditor.vue'
 import ElActions from '@fiction/ui/buttons/ElActions.vue'
 import XText from '@fiction/ui/common/XText.vue'
-import type { Card } from '@fiction/site'
 import { loadEmail } from '../utils.js'
 import { emailComposeController } from './tools'
-import type { EmailCampaign } from '../campaign.js'
-import type { FictionSend } from '../index.js'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },

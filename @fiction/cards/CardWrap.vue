@@ -1,9 +1,9 @@
 <script lang="ts" setup>
+import type { Card } from '@fiction/site/index.js'
+import type { CardOptionsWithStandard } from '@fiction/site/schema'
 import { deepMerge, getColorScheme, vue } from '@fiction/core'
 import { fontFamilyByKey } from '@fiction/site/utils/fonts'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import type { Card } from '@fiction/site/index.js'
-import type { CardOptionsWithStandard } from '@fiction/site/schema'
 import StandardHeader from './el/StandardHeader.vue'
 
 const props = defineProps({

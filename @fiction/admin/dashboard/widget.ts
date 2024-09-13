@@ -1,6 +1,6 @@
-import { FictionObject, vue } from '@fiction/core'
 import type { QueryParams } from '@fiction/analytics/types'
 import type { Query } from '@fiction/core'
+import { FictionObject, vue } from '@fiction/core'
 
 export const layoutModes = {
   list: { colSpan: 3, rowSpan: 1 },

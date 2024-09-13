@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest'
 import type { User } from '@fiction/core/plugin-user'
+import { describe, expect, it } from 'vitest'
 import { createTestUtils } from '../../test-utils/init'
 import { vue } from '../libraries'
 

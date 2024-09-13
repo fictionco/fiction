@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { determineMediaFormat, vue } from '@fiction/core'
 import type { MediaObject } from '@fiction/core'
+import { determineMediaFormat, vue } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 import ElModal from '../ElModal.vue'
 import XLogo from '../media/XLogo.vue'

@@ -1,10 +1,4 @@
 import type { OAuth2Client } from 'google-auth-library'
-import { Query } from '../query.js'
-import { standardTable as t } from '../tbl.js'
-import { getGeoFree } from '../utils/geo.js'
-import { shortId } from '../utils/id.js'
-import { abort, dayjs, getRequestIpAddress } from '../utils/index.js'
-import { comparePassword, defaultOrgName, emailExists, getCode, hashPassword, validateNewEmail, verifyCode } from './utils/index.js'
 import type { FictionDb } from '../plugin-db/index.js'
 import type { FictionEmail } from '../plugin-email/index.js'
 import type { FictionEnv } from '../plugin-env/index.js'
@@ -12,6 +6,12 @@ import type { EndpointResponse } from '../types/index.js'
 import type { EndpointMeta } from '../utils/endpoint.js'
 import type { FictionUser, OnboardStoredSettings, Organization } from './index.js'
 import type { User } from './types.js'
+import { Query } from '../query.js'
+import { standardTable as t } from '../tbl.js'
+import { getGeoFree } from '../utils/geo.js'
+import { shortId } from '../utils/id.js'
+import { abort, dayjs, getRequestIpAddress } from '../utils/index.js'
+import { comparePassword, defaultOrgName, emailExists, getCode, hashPassword, validateNewEmail, verifyCode } from './utils/index.js'
 
 interface UserQuerySettings {
   fictionUser: FictionUser

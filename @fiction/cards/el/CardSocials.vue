@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import type { NavItem } from '@fiction/core'
+import type { Card } from '@fiction/site/card'
 import { vue } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import XIcon from '@fiction/ui/media/XIcon.vue'
-import type { NavItem } from '@fiction/core'
-import type { Card } from '@fiction/site/card'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },

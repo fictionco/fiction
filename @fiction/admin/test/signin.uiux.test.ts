@@ -1,8 +1,8 @@
 /* eslint-disable no-irregular-whitespace */
+import type { EmailVars } from '@fiction/plugin-transactions/action.js'
 import { createUiTestingKit } from '@fiction/core/test-utils/kit'
 import { emailActionSnapshot } from '@fiction/plugin-transactions/test/utils'
 import { afterAll, describe, expect, it } from 'vitest'
-import type { EmailVars } from '@fiction/plugin-transactions/action.js'
 import { setup } from './email.main.js'
 
 describe('signin UX', { retry: 3 }, async () => {

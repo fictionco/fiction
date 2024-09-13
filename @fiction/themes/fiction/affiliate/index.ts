@@ -10,7 +10,7 @@ export async function page() {
     userConfig: { standard: { spacing: { verticalSpacing: 'none' } } },
   })
 
-  return await factory.create({
+  return factory.create({
     regionId: 'main',
     templateId: 'wrap',
     slug: 'affiliate',

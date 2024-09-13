@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { unhead, useService, vue } from '@fiction/core'
-
-import { Post } from '@fiction/posts'
 import type { FictionPosts } from '@fiction/posts'
+
 import type { Card } from '@fiction/site'
+import type { UserConfig } from './index.js'
+import { unhead, useService, vue } from '@fiction/core'
+import { Post } from '@fiction/posts'
 import ElMagazineIndex from './ElMagazineIndex.vue'
 import ElMagazineSingle from './ElMagazineSingle.vue'
-import type { UserConfig } from './index.js'
 
 const { card } = defineProps<{ card: Card<UserConfig> }>()
 

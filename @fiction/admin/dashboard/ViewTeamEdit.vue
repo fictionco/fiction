@@ -1,4 +1,10 @@
 <script lang="ts" setup>
+import type {
+  OrganizationMember,
+} from '@fiction/core'
+import type { FictionTeam } from '@fiction/core/plugin-team'
+import type { Card } from '@fiction/site/card'
+import type { NavCardUserConfig } from '../index.js'
 import {
   resetUi,
   useService,
@@ -8,13 +14,7 @@ import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
-import type {
-  OrganizationMember,
-} from '@fiction/core'
-import type { FictionTeam } from '@fiction/core/plugin-team'
-import type { Card } from '@fiction/site/card'
 import ElPanelSettings from './ElPanelSettings.vue'
-import type { NavCardUserConfig } from '../index.js'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<NavCardUserConfig>>, required: true },

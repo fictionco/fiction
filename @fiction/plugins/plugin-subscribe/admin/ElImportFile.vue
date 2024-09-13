@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import type { Card } from '@fiction/site/card'
+import type { FictionSubscribe } from '..'
 import CardButton from '@fiction/cards/CardButton.vue'
 import { type ListItem, log, useService, vue } from '@fiction/core'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
-import type { Card } from '@fiction/site/card'
 import { csvToEmailList, parseAndValidateEmails } from './utils'
-import type { FictionSubscribe } from '..'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },

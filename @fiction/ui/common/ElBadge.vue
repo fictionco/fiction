@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { getNavComponentType, getTextColorTheme, vue } from '@fiction/core'
 import type { ColorThemeUser } from '@fiction/core'
-import { getBadgeClasses } from '../utils'
 import type { UiElementSize } from '../utils'
+import { getNavComponentType, getTextColorTheme, vue } from '@fiction/core'
+import { getBadgeClasses } from '../utils'
 
 const props = defineProps({
   theme: { type: String as vue.PropType<ColorThemeUser>, default: undefined },

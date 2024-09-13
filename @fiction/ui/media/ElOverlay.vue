@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { getGradientCss, vue } from '@fiction/core'
 import type { MediaObject } from '@fiction/core'
+import { getGradientCss, vue } from '@fiction/core'
 
 const props = defineProps({
   overlay: {

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
+import type { ActionItem } from '@fiction/core'
+import type { Widget } from './widget.js'
 import { vue } from '@fiction/core'
 import ElActions from '@fiction/ui/buttons/ElActions.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
-import type { ActionItem } from '@fiction/core'
-import type { Widget } from './widget.js'
 
 const props = defineProps({
 

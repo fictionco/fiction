@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { getColorScheme, isDarkOrLightMode, vue } from '@fiction/core'
 import type { ColorTheme } from '@fiction/core'
+import { getColorScheme, isDarkOrLightMode, vue } from '@fiction/core'
 
 const props = defineProps({
   theme: { type: String as vue.PropType<ColorTheme>, default: 'gray' },

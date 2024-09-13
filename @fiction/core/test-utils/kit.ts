@@ -1,8 +1,8 @@
+import type { MainFileSetup, ServiceList } from '../plugin-env/index.js'
+import type { InitializedTestUtils, TestUtils } from './init.js'
 import { log } from '../plugin-log/index.js'
 import { createTestBrowser, performActions } from './buildTest.js'
 import { setup as mainFileSetup } from './testMainFile.js'
-import type { MainFileSetup, ServiceList } from '../plugin-env/index.js'
-import type { InitializedTestUtils, TestUtils } from './init.js'
 
 export type TestingKit<T extends MainFileSetup = MainFileSetup> = {
   port: number
@@ -57,9 +57,11 @@ export async function createUiTestingKit<T extends MainFileSetup = MainFileSetup
   }
 
   const close = async () => {
-    await browser?.close()
-    await testUtils?.close?.()
-    serviceConfig.close?.()
+    await Promise.all([
+      browser?.close(),
+      testUtils?.close?.(),
+      serviceConfig.close?.(),
+    ])
   }
 
   return { initialized, testUtils, port, browser, close, performActions: async _ => performActions({ port, browser, ..._ }) }

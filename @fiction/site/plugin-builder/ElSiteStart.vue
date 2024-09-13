@@ -1,14 +1,14 @@
 <script lang="ts" setup>
+import type { FictionRouter, StepConfig, StepItem } from '@fiction/core'
+import type { FictionSites } from '..'
+import type { Card } from '../card'
+import type { TableSiteConfig } from '../tables'
 import { resetUi, useService, vue } from '@fiction/core'
 import ElModal from '@fiction/ui/ElModal.vue'
 import ElStepNav from '@fiction/ui/ElStepNav.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
-import type { FictionRouter, StepConfig, StepItem } from '@fiction/core'
 import { requestManageSite } from '../load'
 import ElThemeSelect from './ElThemeSelect.vue'
-import type { FictionSites } from '..'
-import type { Card } from '../card'
-import type { TableSiteConfig } from '../tables'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },

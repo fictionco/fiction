@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { getNested, localRef, setNested, vue } from '@fiction/core'
 import type { ActionItem } from '@fiction/core'
+import type { UiElementSize } from '../utils'
+import type { InputOption } from './index.js'
+import { getNested, localRef, setNested, vue } from '@fiction/core'
 import TransitionSlide from '../anim/TransitionSlide.vue'
 import ElActions from '../buttons/ElActions.vue'
 import ElInput from './ElInput.vue'
 import ElToolSep from './ElToolSep.vue'
-import type { UiElementSize } from '../utils'
-import type { InputOption } from './index.js'
 
 const props = defineProps({
   options: { type: Array as vue.PropType<InputOption[]>, required: true },

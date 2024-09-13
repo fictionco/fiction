@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue'
 import type { StandardSize } from '@fiction/core'
 import type { PropType } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 const props = defineProps({
   label: { type: [String, Number], default: '' },

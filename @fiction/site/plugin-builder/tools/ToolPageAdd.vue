@@ -1,16 +1,16 @@
 <script lang="ts" setup>
+import type { AdminEditorController, EditorTool } from '@fiction/admin'
+import type { Site } from '../../site'
+import type { CardConfigPortable } from '../../tables'
+import type { ToolKeys } from './tools.js'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
 import { toSlug, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
-import type { AdminEditorController, EditorTool } from '@fiction/admin'
 import { requestManagePage } from '../../utils/region'
 import InputSlug from '../InputSlug.vue'
-import type { Site } from '../../site'
-import type { CardConfigPortable } from '../../tables'
-import type { ToolKeys } from './tools.js'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },

@@ -1,5 +1,5 @@
-import { log } from '@fiction/core/plugin-log/index.js'
 import type { TagSettings } from './types'
+import { log } from '@fiction/core/plugin-log/index.js'
 
 export abstract class ClientTag<T extends TagSettings = TagSettings> {
   orgId: string

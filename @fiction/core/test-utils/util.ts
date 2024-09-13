@@ -1,10 +1,10 @@
+import type { App, Component } from 'vue'
+import type { ServiceList } from '../plugin-env/index.js'
 import path from 'node:path'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { createApp, nextTick } from 'vue'
-import type { App, Component } from 'vue'
 import { isPlainObject, safeDirname, stringify, waitFor } from '../utils/index.js'
 import { vue } from '../utils/libraries.js'
-import type { ServiceList } from '../plugin-env/index.js'
 
 const toolUtilsRoot = safeDirname(import.meta.url)
 // test special characters in path
@@ -187,10 +187,10 @@ function snapString(value: unknown, key?: string, opts: { maskedKeys?: string[] 
   }
   else if (
     (key?.endsWith('At')
-    || key?.endsWith('Iso')
-    || key === 'duration'
-    || key === 'timestamp')
-    && val
+      || key?.endsWith('Iso')
+      || key === 'duration'
+      || key === 'timestamp')
+      && val
   ) {
     out = rep('dateTime')
   }

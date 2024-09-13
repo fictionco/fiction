@@ -1,7 +1,7 @@
 import type { EndpointResponse, ResponseStatus, ValidationReason } from '@fiction/core'
+import type { FictionDb } from './index.js'
 import { Query } from '../query.js'
 import { toSlug } from '../utils/index.js'
-import type { FictionDb } from './index.js'
 
 type QuerySettings = { fictionDb: FictionDb }
 

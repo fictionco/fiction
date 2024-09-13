@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useService, type vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
+import { useService, type vue } from '@fiction/core'
 import { getTools } from '.'
 import SettingsTool from './SettingsTool.vue'
 

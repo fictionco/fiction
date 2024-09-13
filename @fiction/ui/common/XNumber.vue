@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { shortId, vue } from '@fiction/core'
 import type { NumberFormats } from '@fiction/core'
+import { shortId, vue } from '@fiction/core'
 import { animateNumber } from '../anim'
 
 const props = defineProps({

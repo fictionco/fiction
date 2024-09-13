@@ -1,10 +1,10 @@
-import { createTestUser } from '@fiction/core/test-utils/init'
+import type { DataFilter } from '@fiction/core'
 
+import type { ManagePostParams, ManageTaxonomyParams } from '../endpoint'
+import { createTestUser } from '@fiction/core/test-utils/init'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, describe, expect, it } from 'vitest'
-import type { DataFilter } from '@fiction/core'
 import { FictionPosts } from '..'
-import type { ManagePostParams, ManageTaxonomyParams } from '../endpoint'
 
 describe('taxonomy management tests', async () => {
   const testUtils = await createSiteTestUtils()

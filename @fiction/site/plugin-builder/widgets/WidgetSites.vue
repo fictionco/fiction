@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import WidgetWrap from '@fiction/admin/dashboard/WidgetWrap.vue'
-import { dayjs, useService, vue } from '@fiction/core'
-import IndexItemList from '@fiction/ui/lists/IndexItemList.vue'
 import type { ActionItem, IndexItem } from '@fiction/core'
-import { manageSiteIndex } from '../../utils/manage.js'
-import { getSiteIndexItemList } from '../utils.js'
 import type { Card } from '../..'
 import type { FictionSites } from '../../index.js'
 import type { Site } from '../../site.js'
 import type { getWidgets } from './index.js'
+import WidgetWrap from '@fiction/admin/dashboard/WidgetWrap.vue'
+import { dayjs, useService, vue } from '@fiction/core'
+import IndexItemList from '@fiction/ui/lists/IndexItemList.vue'
+import { manageSiteIndex } from '../../utils/manage.js'
+import { getSiteIndexItemList } from '../utils.js'
 
 type WidgetConfig = ReturnType<typeof getWidgets>['sites']
 

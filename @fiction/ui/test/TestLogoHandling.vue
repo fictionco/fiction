@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
 import type { MediaObject } from '@fiction/core'
+import { vue } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 import XLogo from '../media/XLogo.vue'
 import { stockMediaHandler } from '../stock/index.js'

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
+import type { AdminEditorController } from '../admin'
 import { resetUi, toLabel, vue } from '@fiction/core'
 import ElTooltip from '@fiction/ui/common/ElTooltip.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
-import type { AdminEditorController } from '../admin'
 
 const props = defineProps({
   controller: { type: Object as vue.PropType<AdminEditorController>, required: true },

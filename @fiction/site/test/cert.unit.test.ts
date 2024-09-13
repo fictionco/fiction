@@ -1,10 +1,10 @@
 /**
  * @vitest-environment happy-dom
  */
+import type { SiteTestUtils } from './testUtils'
 import { snap } from '@fiction/core/test-utils'
 import { beforeAll, describe, expect, it } from 'vitest'
 import { createSiteTestUtils } from './testUtils'
-import type { SiteTestUtils } from './testUtils'
 
 let testUtils: SiteTestUtils
 describe('manageCertificates', { retry: 3 }, () => {

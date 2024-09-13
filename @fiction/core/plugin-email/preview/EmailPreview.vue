@@ -1,10 +1,10 @@
 <script lang="ts" setup>
+import type { TransactionalEmailConfig } from '../index.js'
 import { vue } from '../../utils/libraries.js'
 import { toMarkdown } from '../../utils/markdown.js'
 import FictionFooterImg from '../img/fiction-email-footer.png'
 import FictionIconImg from '../img/fiction-icon.png'
 import { sampleHtml } from './content.js'
-import type { TransactionalEmailConfig } from '../index.js'
 
 const email = vue.ref('')
 

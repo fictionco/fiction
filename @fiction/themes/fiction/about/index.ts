@@ -1,5 +1,5 @@
-import { CardFactory } from '@fiction/site/cardFactory.js'
 import type { MapSchemaConfig } from '@fiction/cards/map'
+import { CardFactory } from '@fiction/site/cardFactory.js'
 import { templates } from '../templates.js'
 import ap from './ap.webp'
 import girlComputer from './girl-computer.webp'
@@ -100,7 +100,7 @@ export async function page() {
     },
   })
 
-  return await factory.create({
+  return factory.create({
     regionId: 'main',
     templateId: 'wrap',
     slug: 'about',

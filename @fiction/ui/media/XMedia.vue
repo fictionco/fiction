@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import type { GradientPoint, GradientSetting, MediaObject } from '@fiction/core'
 import { determineMediaFormat, getColorScheme, log, vue, waitFor } from '@fiction/core'
 import * as bh from 'blurhash'
-import type { GradientPoint, GradientSetting, MediaObject } from '@fiction/core'
 import ClipPathAnim from '../anim/AnimClipPath.vue'
 
 defineOptions({ name: 'XMedia' })

@@ -1,9 +1,9 @@
+import type { EndpointResponse } from '@fiction/core/types'
+import type { FictionUnsplash } from '.'
 import { abort, type EndpointMeta } from '@fiction/core'
 import { Query } from '@fiction/core/query'
 import nodeFetch from 'node-fetch'
 import * as un from 'unsplash-js'
-import type { EndpointResponse } from '@fiction/core/types'
-import type { FictionUnsplash } from '.'
 
 interface FictionUnsplashSettings {
   fictionUnsplash: FictionUnsplash

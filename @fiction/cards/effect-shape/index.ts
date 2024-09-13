@@ -52,7 +52,7 @@ export const templates = [
     options,
     schema: UserConfigSchema,
     getBaseConfig: () => ({ }),
-    getUserConfig: () => getUserConfig(),
+    getUserConfig: async () => getUserConfig(),
     demoPage: async () => {
       const userConfig = await getUserConfig()
       return { cards: [{ templateId, userConfig }] }

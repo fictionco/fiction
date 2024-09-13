@@ -1,5 +1,5 @@
-import { type NavItem, onResetUi, vue } from '@fiction/core'
 import type { Editor } from '@tiptap/core'
+import { type NavItem, onResetUi, vue } from '@fiction/core'
 import BubbleLinkMenu from './BubbleLinkMenu.vue'
 
 export type MenuType = 'text' | 'image' | 'none'

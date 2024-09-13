@@ -1,7 +1,7 @@
-import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import type { FictionAdmin } from '@fiction/admin'
 import type { FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
 import type { FictionTransactions } from '@fiction/plugin-transactions'
+import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { getWidgets } from './admin/widgets'
 import { getEmails } from './email'
 import { ManageSubscriptionQuery, SubscriptionAnalytics } from './endpoint'

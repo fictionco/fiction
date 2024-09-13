@@ -1,8 +1,8 @@
-import path from 'node:path'
-import fs from 'fs-extra'
 import type { MediaObject } from '@fiction/platform'
 import type { Buffer } from 'node:buffer'
 import type sharp from 'sharp'
+import path from 'node:path'
+import fs from 'fs-extra'
 import { stringify } from './utils'
 
 export function determineMediaFormat(media?: MediaObject): MediaObject['format'] | undefined {

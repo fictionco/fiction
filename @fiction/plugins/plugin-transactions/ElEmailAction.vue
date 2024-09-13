@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import type { Card } from '@fiction/site'
+import type { FictionTransactions } from '.'
+import type { EmailAction, EmailVars } from './action'
 import TransactionWrap from '@fiction/cards/transactions/TransactionWrap.vue'
 import { toCamel, useService, vue } from '@fiction/core'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
-import type { Card } from '@fiction/site'
-import type { FictionTransactions } from '.'
-import type { EmailAction, EmailVars } from './action'
 
 type UserConfig = {
   test: string

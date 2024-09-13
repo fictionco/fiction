@@ -1,5 +1,5 @@
-import { dayjs } from '@fiction/core'
 import type { DataPointChart, QueryParams, QueryParamsRefined, TimeLineInterval } from '../types.js'
+import { dayjs } from '@fiction/core'
 
 export function refineTimelineData<T extends DataPointChart>(args: {
   timeZone?: string

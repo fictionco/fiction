@@ -3,7 +3,7 @@ import type { FictionEnv, FictionPluginSettings, ServiceList } from '@fiction/co
 import type { CardTemplate } from './card.js'
 import type { SiteUserConfig } from './schema.js'
 import type { TableCardConfig } from './tables.js'
-import { deepMerge, FictionPlugin, log, parseObject, vue } from '@fiction/core'
+import { deepMerge, FictionPlugin, vue } from '@fiction/core'
 import { Site, type SiteSettings } from './site.js'
 import { imageStyle } from './util.js'
 

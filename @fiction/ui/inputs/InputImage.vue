@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { log, shortId, useService, vue } from '@fiction/core'
 import type { MediaObject } from '@fiction/core'
+import { log, shortId, useService, vue } from '@fiction/core'
 import ElButton from '../ElButton.vue'
 import ElSpinner from '../loaders/ElSpinner.vue'
 import InputText from './InputText.vue'

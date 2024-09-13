@@ -2,11 +2,11 @@
  * @vitest-environment happy-dom
  */
 
+import type { IdentifyTraitsUser, TrackingProperties } from '../typesTracking'
 import { objectId, waitFor } from '@fiction/core'
 import { afterAll, describe, expect, it, vi } from 'vitest'
 import { FictionClient } from '../tag/client.js'
 import { createAnalyticsTestUtils } from './helpers'
-import type { IdentifyTraitsUser, TrackingProperties } from '../typesTracking'
 
 describe('tracking client', async () => {
   const testUtils = await createAnalyticsTestUtils()

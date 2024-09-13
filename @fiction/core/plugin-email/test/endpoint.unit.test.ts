@@ -1,12 +1,12 @@
 /* eslint-disable no-irregular-whitespace */
+import type { TransactionalEmailConfig } from '..'
 import { afterAll, describe, expect, it } from 'vitest'
-import { FictionAws } from '../../plugin-aws'
 
+import { FictionAws } from '../../plugin-aws'
 import { FictionMedia } from '../../plugin-media'
 import { createTestUtils, testEnvFile } from '../../test-utils'
 import { getEnvVars } from '../../utils'
 import { sampleHtml } from '../preview/content'
-import type { TransactionalEmailConfig } from '..'
 
 describe('transactional email', async () => {
   const testUtils = createTestUtils({ envFiles: [testEnvFile] })

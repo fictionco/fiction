@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import type { UiElementSize } from '../utils'
 import { omit, vue } from '@fiction/core'
 import { inputs } from '.'
-import type { UiElementSize } from '../utils'
 
 defineOptions({ name: 'ElInput' })
 

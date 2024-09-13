@@ -1,13 +1,13 @@
 <script setup lang="ts">
+import type { Card } from '@fiction/site'
+import type { UserConfig } from '.'
 import { vue } from '@fiction/core'
 import { useElementVisible } from '@fiction/ui/anim'
 import EffectGlare from '@fiction/ui/effect/EffectGlare.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
 import CardSocials from '../el/CardSocials.vue'
 import NavDots from '../el/NavDots.vue'
-import type { UserConfig } from '.'
 
 const props = defineProps({
   card: {

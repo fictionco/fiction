@@ -77,11 +77,11 @@ export function getLogicResult(args: {
       || (l.operator === '<' && v < l.value)
       || (l.operator === '<=' && v <= l.value)
       || (l.operator === '<>'
-      && (typeof v === 'string' || Array.isArray(v))
-      && v.includes(String(l.value)))
-      || (l.operator === '><'
-      && (typeof v === 'string' || Array.isArray(v))
-      && !v.includes(String(l.value)))
+        && (typeof v === 'string' || Array.isArray(v))
+        && v.includes(String(l.value)))
+        || (l.operator === '><'
+          && (typeof v === 'string' || Array.isArray(v))
+          && !v.includes(String(l.value)))
     ) {
       skipTo = l.skipTo
       return false

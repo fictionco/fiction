@@ -1,4 +1,12 @@
 /* server-only-file */
+import type { Express, NextFunction, Request } from 'express'
+import type http from 'node:http'
+import type tailwindcss from 'tailwindcss'
+import type { RunVars } from '../inject.js'
+import type { FictionEnv } from '../plugin-env/index.js'
+import type { FictionRouter } from '../plugin-router/index.js'
+import type { FictionApp } from './index.js'
+import type * as types from './types.js'
 import path from 'node:path'
 import { dynamicIconsPlugin, iconsPlugin } from '@egoist/tailwindcss-icons'
 import chokidar from 'chokidar'
@@ -9,9 +17,6 @@ import { glob } from 'glob'
 import { minify } from 'html-minifier'
 import serveStatic from 'serve-static'
 import * as vite from 'vite'
-import type { Express, NextFunction, Request } from 'express'
-import type http from 'node:http'
-import type tailwindcss from 'tailwindcss'
 import { version } from '../package.json'
 import { FictionPlugin } from '../plugin.js'
 import { FictionBuild } from '../plugin-build/index.js'
@@ -20,11 +25,6 @@ import { addExpressHealthCheck } from '../utils/serverHealth.js'
 import { SSR } from './render/ssr.js'
 import { getRequestVars, IndexHtml } from './render/utils.js'
 import { getMarkdownPlugins } from './utils/vitePluginMarkdown.js'
-import type { RunVars } from '../inject.js'
-import type { FictionEnv } from '../plugin-env/index.js'
-import type { FictionRouter } from '../plugin-router/index.js'
-import type { FictionApp } from './index.js'
-import type * as types from './types.js'
 
 export type FictionRenderSettings = {
   fictionEnv: FictionEnv
@@ -461,7 +461,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
       watcher.on('add', throttledOnChange)
       watcher.on('unlink', throttledOnChange)
 
-      this.fictionEnv.events.on('shutdown', () => watcher.close())
+      this.fictionEnv.events.on('shutdown', async () => watcher.close())
     }
 
     return folders
@@ -503,7 +503,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
       let template: string
       if (mode === 'prod') {
-        expressApp.use(this.addProductionHeaders)
+        expressApp.use((...args) => this.addProductionHeaders(...args))
         expressApp.use(compression())
         expressApp.use(serveStatic(this.distFolderClient, { index: false }))
         template = await this.indexHtml.getRenderedIndexHtml()

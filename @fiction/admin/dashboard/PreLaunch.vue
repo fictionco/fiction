@@ -1,10 +1,10 @@
 <script lang="ts" setup>
+import type { Card } from '@fiction/site'
+import type { UserConfig } from './DashWrap.vue'
 import { localRef, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import type { Card } from '@fiction/site'
-import type { UserConfig } from './DashWrap.vue'
 
 defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },

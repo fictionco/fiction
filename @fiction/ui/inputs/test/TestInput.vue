@@ -1,8 +1,8 @@
 <script lang="ts" setup>
+import type { InputOption } from '..'
 import { stringify, vue } from '@fiction/core'
 import XText from '../../common/XText.vue'
 import ElForm from '../ElForm.vue'
-import type { InputOption } from '..'
 
 const props = defineProps({
   inputName: { type: String, default: '' },

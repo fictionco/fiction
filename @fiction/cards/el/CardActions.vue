@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
-import { animateItemEnter } from '@fiction/ui/anim'
 import type { StandardSize } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import CardButton from '../CardButton.vue'
 import type { XButtonProps } from '../schemaSets'
+import { vue } from '@fiction/core'
+import { animateItemEnter } from '@fiction/ui/anim'
+import CardButton from '../CardButton.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },

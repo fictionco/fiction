@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { localRef, useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
+import type { UserConfig } from '.'
+import { localRef, useService, vue } from '@fiction/core'
 import CardText from '../CardText.vue'
 import EffectScrollModal from './EffectScrollModal.vue'
 import EmailForm from './EmailForm.vue'
-import type { UserConfig } from '.'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },

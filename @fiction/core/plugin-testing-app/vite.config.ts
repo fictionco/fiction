@@ -1,6 +1,6 @@
+import type { InlineConfig } from 'vite'
 import path from 'node:path'
 import pluginVue from '@vitejs/plugin-vue'
-import type { InlineConfig } from 'vite'
 import { safeDirname } from '../utils'
 
 export default (_opts: { buildName: string }): InlineConfig => {

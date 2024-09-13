@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import WidgetWrap from '@fiction/admin/dashboard/WidgetWrap.vue'
-import DateChart from '@fiction/analytics/chart/DateChart.vue'
 import type { vue } from '@fiction/core'
 import type { FictionSubscribe } from '..'
+import WidgetWrap from '@fiction/admin/dashboard/WidgetWrap.vue'
+import DateChart from '@fiction/analytics/chart/DateChart.vue'
 
 type SubscriberWidget = FictionSubscribe['widgets']['subscribers']
 

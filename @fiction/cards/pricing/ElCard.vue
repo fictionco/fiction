@@ -1,10 +1,10 @@
 <script lang="ts" setup>
+import type { Card } from '@fiction/site'
+import type { UserConfig, UserConfigPrice } from './index.js'
 import CardButton from '@fiction/cards/CardButton.vue'
 import { formatNumber, vue } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim/index.js'
-import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
-import type { UserConfig, UserConfigPrice } from './index.js'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },

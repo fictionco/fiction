@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { useService, vue } from '@fiction/core'
 import type { MediaObject, TableMediaConfig } from '@fiction/core'
+import { useService, vue } from '@fiction/core'
 import EffectMasonry from '../effect/EffectMasonry.vue'
 import ElSpinner from '../loaders/ElSpinner.vue'
 import XMedia from '../media/XMedia.vue'

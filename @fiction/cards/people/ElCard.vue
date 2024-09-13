@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import StandardTeam from './StandardTeam.vue'
 import type { UserConfig } from './index.js'
+import { vue } from '@fiction/core'
+import StandardTeam from './StandardTeam.vue'
 
 const props = defineProps({
   card: {

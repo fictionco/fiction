@@ -1,4 +1,9 @@
 <script lang="ts" setup>
+import type { AdminEditorController, EditorTool } from '@fiction/admin'
+import type { FictionApp } from '@fiction/core'
+import type { Site } from '../../site'
+import type { TableSiteConfig } from '../../tables'
+import type { ToolKeys } from './tools'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
 import { useService, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
@@ -6,13 +11,8 @@ import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElModalConfirm from '@fiction/ui/ElModalConfirm.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
-import type { AdminEditorController, EditorTool } from '@fiction/admin'
-import type { FictionApp } from '@fiction/core'
 import { tableNames } from '../../tables'
 import { activeSiteHostname, saveSite } from '../../utils/site'
-import type { Site } from '../../site'
-import type { TableSiteConfig } from '../../tables'
-import type { ToolKeys } from './tools'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },

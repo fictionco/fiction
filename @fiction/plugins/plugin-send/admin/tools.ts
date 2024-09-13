@@ -1,17 +1,17 @@
+import type { EditorTool } from '@fiction/admin'
+import type { Card } from '@fiction/site'
+import type { FictionSend } from '..'
+import type { EmailCampaign } from '../campaign'
+import type { EmailCampaignConfig } from '../schema'
 import { AdminEditorController } from '@fiction/admin'
 import { SettingsTool } from '@fiction/admin/types'
 import { type ActionItem, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
-import type { EditorTool } from '@fiction/admin'
-import type { Card } from '@fiction/site'
 import { loadEmail } from '../utils'
 import { manageEmailCampaign } from '../utils.js'
 import InputAudience from './InputAudience.vue'
 import InputEmailPreview from './InputEmailPreview.vue'
 import InputOverview from './InputOverview.vue'
-import type { FictionSend } from '..'
-import type { EmailCampaign } from '../campaign'
-import type { EmailCampaignConfig } from '../schema'
 
 export const tools = [
   {

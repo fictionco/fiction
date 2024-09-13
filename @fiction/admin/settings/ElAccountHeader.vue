@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import type { Card } from '@fiction/site/card'
+import type { FictionAdmin } from '..'
 import { dayjs, gravatarUrlSync, useService, vue } from '@fiction/core/index.js'
 import ElModal from '@fiction/ui/ElModal.vue'
 import { InputOption } from '@fiction/ui/index.js'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
-import type { Card } from '@fiction/site/card'
 import ElHeader from './ElHeader.vue'
-import type { FictionAdmin } from '..'
 
 defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },

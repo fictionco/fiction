@@ -1,7 +1,7 @@
-import { abort, Query } from '@fiction/core'
 import type { EndpointMeta, EndpointResponse, FictionDb, FictionUser } from '@fiction/core'
-import { tableNames } from './tables'
 import type { TableUsageConfig } from './tables'
+import { abort, Query } from '@fiction/core'
+import { tableNames } from './tables'
 
 interface UsageQuerySettings {
   fictionUser?: FictionUser

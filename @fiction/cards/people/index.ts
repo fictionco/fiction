@@ -116,7 +116,7 @@ export const templates = [
     options,
     schema,
     isPublic: true,
-    getUserConfig: () => defaultConfig(),
+    getUserConfig: async () => defaultConfig(),
     demoPage: async () => {
       const userConfig = await defaultConfig()
       return {

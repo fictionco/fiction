@@ -1,15 +1,15 @@
 /* server-only-file */
+import type { RollupWatcher, RollupWatcherEvent } from 'rollup'
+import type { CliOptions, FictionEnv } from '../plugin-env/index.js'
+import type { PackageJson } from '../types/index.js'
 import path from 'node:path'
 import { execa } from 'execa'
 import fs from 'fs-extra'
 import * as vite from 'vite'
-import type { RollupWatcher, RollupWatcherEvent } from 'rollup'
 import { FictionPlugin, type FictionPluginSettings } from '../plugin.js'
 import { deepMergeAll, getRequire, isNode, safeDirname } from '../utils/index.js'
 import { FictionBuild } from './index.js'
 import { getCommit, getPackages } from './utils.js'
-import type { CliOptions, FictionEnv } from '../plugin-env/index.js'
-import type { PackageJson } from '../types/index.js'
 
 type FictionBundleSettings = {
   fictionEnv: FictionEnv

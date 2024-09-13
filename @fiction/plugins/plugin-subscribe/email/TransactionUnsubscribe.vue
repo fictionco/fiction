@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TransactionWrap from '@fiction/cards/transactions/TransactionWrap.vue'
-import { vue } from '@fiction/core'
 import type { QueryVars } from '@fiction/plugin-transactions'
 import type { Card } from '@fiction/site'
 import type { FictionSubscribe } from '..'
+import TransactionWrap from '@fiction/cards/transactions/TransactionWrap.vue'
+import { vue } from '@fiction/core'
 
 type SpecEmailAction = FictionSubscribe['transactions']['subscribe']
 const props = defineProps({

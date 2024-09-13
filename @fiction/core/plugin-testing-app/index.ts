@@ -1,15 +1,15 @@
-import path from 'node:path'
-import fs from 'fs-extra'
-import { createServer } from 'vite'
 import type { faker } from '@faker-js/faker'
 import type http from 'node:http'
 import type { Browser, BrowserContextOptions, LaunchOptions } from 'playwright'
 import type { ViteDevServer } from 'vite'
+import type { FictionPluginSettings } from '../plugin'
+import path from 'node:path'
+import fs from 'fs-extra'
+import { createServer } from 'vite'
 import { version } from '../package.json'
 import { FictionPlugin } from '../plugin'
 import { createExpressApp, safeDirname, vue } from '../utils'
 import sharedConfig from './vite.config'
-import type { FictionPluginSettings } from '../plugin'
 
 interface TestingConfig {
   headless?: boolean

@@ -1,5 +1,5 @@
-import { ref, watch } from 'vue'
 import type { Ref } from 'vue'
+import { ref, watch } from 'vue'
 
 // Global cache to store refs by key
 const refCache: Record<string, ReturnType<typeof ref>> = {}

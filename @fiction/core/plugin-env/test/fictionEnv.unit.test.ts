@@ -65,7 +65,7 @@ describe('fictionEnv', () => {
     expect(fictionEnv.getRenderedEnvVars()).toHaveProperty('TEST_VAR', 'test-value')
   })
 
-  it('emits resetUi event', () => new Promise((done) => {
+  it('emits resetUi event', async () => new Promise((done) => {
     fictionEnv.events.on('resetUi', (event) => {
       expect(event.detail).toEqual({ scope: 'all', cause: expect.any(String), trigger: 'test' })
       done(true)

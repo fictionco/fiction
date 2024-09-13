@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
 import type { ImageFilterConfig, MediaObject } from '@fiction/core'
+import { vue } from '@fiction/core'
 import FictionLogo from '../brand/FictionLogo.vue'
 import XButton from '../buttons/XButton.vue'
 import XMedia from '../media/XMedia.vue'

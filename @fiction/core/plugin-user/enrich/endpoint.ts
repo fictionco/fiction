@@ -1,10 +1,10 @@
 /* server-only-file */
-import { deepMerge, type EndpointMeta } from '@fiction/core/utils'
 import type { EndpointResponse } from '@fiction/core/types'
-import { UserBaseQuery } from '../endpoint'
-import { apolloResponseToUser } from './util'
 import type { User } from '..'
 import type { ApolloApiResponse } from './types'
+import { deepMerge, type EndpointMeta } from '@fiction/core/utils'
+import { UserBaseQuery } from '../endpoint'
+import { apolloResponseToUser } from './util'
 
 export type EnrichUserParams =
   | { _action: 'enrichUser', user: User }

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
 import type { MediaObject } from '@fiction/core'
+import { vue } from '@fiction/core'
 
 const props = defineProps({
   media: { type: Object as vue.PropType<MediaObject>, required: true },

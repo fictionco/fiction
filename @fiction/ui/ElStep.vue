@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
 import type { StepItem } from '@fiction/core'
+import { vue } from '@fiction/core'
 
 const props = defineProps({
   sup: {

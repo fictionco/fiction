@@ -1,13 +1,13 @@
 <script lang="ts" setup>
+import type { FictionSubscribe } from '@fiction/plugin-subscribe'
+import type { Card } from '@fiction/site'
+import type { UserConfig } from '.'
 import { useService, vue } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElEmail from '@fiction/ui/inputs/InputEmail.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import type { FictionSubscribe } from '@fiction/plugin-subscribe'
-import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
-import type { UserConfig } from '.'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },

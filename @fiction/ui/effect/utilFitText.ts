@@ -82,7 +82,7 @@ export class Fitty {
   public fit(target: string | HTMLElement, options: Partial<FittyOptions> = {}): void {
     const elements = typeof target === 'string'
       ? Array.from(document.querySelectorAll<HTMLElement>(target))
-      : [target as HTMLElement]
+      : [target]
 
     const fittyOptions = { ...Fitty.defaultOptions, ...options }
 

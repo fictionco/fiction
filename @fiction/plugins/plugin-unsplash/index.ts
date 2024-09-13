@@ -1,5 +1,5 @@
-import { EnvVar, FictionPlugin, safeDirname, vars } from '@fiction/core'
 import type { FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
+import { EnvVar, FictionPlugin, safeDirname, vars } from '@fiction/core'
 import { QueryUnsplash } from './endpoint'
 
 vars.register(() => [

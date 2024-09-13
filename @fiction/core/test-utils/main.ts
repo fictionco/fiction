@@ -1,5 +1,5 @@
-import { createTestUtilServices } from './init'
 import type { ServiceConfig } from '../plugin-env'
+import { createTestUtilServices } from './init'
 
 const service = createTestUtilServices()
 

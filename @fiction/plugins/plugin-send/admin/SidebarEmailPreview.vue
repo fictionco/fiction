@@ -1,15 +1,15 @@
 <script lang="ts" setup>
+import type { EditorTool } from '@fiction/admin'
+import type { Card } from '@fiction/site'
+import type { EmailCampaign } from '../campaign.js'
+import type { EmailCampaignConfig } from '../schema.js'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
 import { vue } from '@fiction/core'
+
 import { InputOption } from '@fiction/ui/index.js'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
-import type { EditorTool } from '@fiction/admin'
-
-import type { Card } from '@fiction/site'
 import InputEmailPreview from './InputEmailPreview.vue'
-import type { EmailCampaign } from '../campaign.js'
-import type { EmailCampaignConfig } from '../schema.js'
 
 const props = defineProps({
   tool: { type: Object as vue.PropType<EditorTool>, required: true },

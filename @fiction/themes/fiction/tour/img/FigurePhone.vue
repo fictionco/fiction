@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import type { PropType } from 'vue'
 import { randomBetween } from '@fiction/core'
 import { computed, ref } from 'vue'
-import type { PropType } from 'vue'
 
 const props = defineProps({
   layout: {

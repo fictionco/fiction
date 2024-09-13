@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
 import type { PostHandlingObject } from '@fiction/core'
+import { vue } from '@fiction/core'
 import FormEngine from './FormEngine.vue'
 import { InputOption } from './index.js'
 

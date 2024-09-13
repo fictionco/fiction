@@ -2,7 +2,7 @@ import type { getFactory } from '../index.js'
 
 export async function getPage(args: { factory: Awaited<ReturnType<typeof getFactory>> }) {
   const { factory } = args
-  return await factory.create({
+  return factory.create({
     regionId: 'main',
     templateId: 'wrap',
     slug: 'tour',

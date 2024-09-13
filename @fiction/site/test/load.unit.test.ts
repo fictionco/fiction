@@ -1,11 +1,11 @@
 /**
  * @vitest-environment happy-dom
  */
+import type { Site } from '../site'
 import { shortId } from '@fiction/core'
 import { afterEach, describe, expect, it } from 'vitest'
 import { domainMountContext, getMountContext, loadSite, loadSiteById, loadSiteFromTheme, requestManageSite } from '../load'
 import { createSiteTestUtils } from './testUtils'
-import type { Site } from '../site'
 
 describe('domainMountContext', () => {
   it('should handle special domains correctly', () => {

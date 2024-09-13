@@ -1,15 +1,15 @@
 <script lang="ts" setup>
+import type { FictionPosts, Post } from '@fiction/posts'
+import type { Card } from '@fiction/site'
+import type { UserConfig } from './index.js'
 import CardLink from '@fiction/cards/el/CardLink.vue'
 import { useService, vue } from '@fiction/core'
 import { allPostsLink, postEditLink, postLink, taxonomyLink } from '@fiction/posts'
 import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
-import type { FictionPosts, Post } from '@fiction/posts'
-import type { Card } from '@fiction/site'
 import CardButton from '../CardButton.vue'
 import ElAuthor from './ElAuthor.vue'
-import type { UserConfig } from './index.js'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },

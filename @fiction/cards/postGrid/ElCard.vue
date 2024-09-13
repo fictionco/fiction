@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { useService, vue } from '@fiction/core'
-import { Post } from '@fiction/posts'
 import type { FictionPosts } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import type { UserConfig } from '.'
+import { useService, vue } from '@fiction/core'
+import { Post } from '@fiction/posts'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },

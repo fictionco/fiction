@@ -1,12 +1,12 @@
+import type { Component } from 'vue'
+import type {
+  RouteRecordRaw,
+} from 'vue-router'
 import { createSSRApp } from 'vue'
 import {
   createMemoryHistory,
   createRouter,
   createWebHistory,
-} from 'vue-router'
-import type { Component } from 'vue'
-import type {
-  RouteRecordRaw,
 } from 'vue-router'
 import PageAbout from './el/PageAbout.vue'
 import PageHome from './el/PageHome.vue'

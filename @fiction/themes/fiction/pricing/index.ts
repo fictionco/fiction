@@ -1,5 +1,5 @@
-import { CardFactory } from '@fiction/site/cardFactory.js'
 import type { FictionStripe } from '@fiction/plugin-stripe/plugin.js'
+import { CardFactory } from '@fiction/site/cardFactory.js'
 import { templates } from '../templates.js'
 
 export async function page(args: { fictionStripe?: FictionStripe }) {
@@ -75,7 +75,7 @@ export async function page(args: { fictionStripe?: FictionStripe }) {
     },
   })
 
-  return await factory.create({
+  return factory.create({
     regionId: 'main',
     templateId: 'wrap',
     slug: 'pricing',

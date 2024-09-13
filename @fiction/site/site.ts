@@ -63,8 +63,6 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     this.watchers()
   }
 
-
-
   watchers() {
     if (typeof window === 'undefined') {
       return
@@ -207,7 +205,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       : { ...baseConfig, siteId: this.siteId }
   }
 
-  update = (newConfig: Partial<TableSiteConfig>, opts?: { caller?: string }) => updateSite({ site: this, newConfig, ...opts })
+  update = async (newConfig: Partial<TableSiteConfig>, opts?: { caller?: string }) => updateSite({ site: this, newConfig, ...opts })
   save = async (args: { minTime?: number } = {}) => saveSite({ site: this, successMessage: 'Site Saved', ...args })
 
   activeCard = vue.computed(() => this.availableCards.value.find(c => c.cardId === this.editor.value.selectedCardId))

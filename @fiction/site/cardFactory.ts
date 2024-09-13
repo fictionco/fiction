@@ -1,10 +1,9 @@
-import { FictionObject, log } from '@fiction/core'
 import type { vue } from '@fiction/core'
-import { CardTemplate } from './card.js'
-import type { Card } from './card.js'
 import type { CardConfigPortable, PageRegion, Site, TableCardConfig } from './index.js'
 import type { SiteUserConfig } from './schema.js'
 import type { ComponentConstructor } from './type-utils.js'
+import { FictionObject, log } from '@fiction/core'
+import { CardTemplate } from './card.js'
 
 type CreateTuple<T extends readonly CardTemplate[]> = {
   [P in keyof T]: T[P] extends CardTemplate<infer S> ? [S['templateId'], S['userConfig'] ] : never

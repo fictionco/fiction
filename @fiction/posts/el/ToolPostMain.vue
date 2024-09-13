@@ -1,19 +1,19 @@
 <script lang="ts" setup>
+import type { EditorTool } from '@fiction/admin'
+import type { ActionItem } from '@fiction/core'
+import type { Card } from '@fiction/site'
+import type { FictionPosts } from '..'
+import type { Post } from '../post'
+import type { TablePostConfig } from '../schema'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
 import { useService, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import InputActions from '@fiction/ui/inputs/InputActions.vue'
-import type { EditorTool } from '@fiction/admin'
-import type { ActionItem } from '@fiction/core'
-import type { Card } from '@fiction/site'
 import { t } from '../schema'
 import InputAuthors from './InputAuthors.vue'
 import InputTaxonomy from './InputTaxonomy.vue'
-import type { FictionPosts } from '..'
-import type { Post } from '../post'
-import type { TablePostConfig } from '../schema'
 
 const props = defineProps({
   tool: { type: Object as vue.PropType<EditorTool>, required: true },

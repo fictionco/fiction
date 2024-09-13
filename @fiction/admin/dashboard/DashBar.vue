@@ -1,11 +1,11 @@
 <script lang="ts" setup>
+import type { NavItem } from '@fiction/core'
+import type { Card } from '@fiction/site'
+import type { UserConfig } from './DashWrap.vue'
 import CardLink from '@fiction/cards/el/CardLink.vue'
 import { vue } from '@fiction/core'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import type { NavItem } from '@fiction/core'
-import type { Card } from '@fiction/site'
 import DashBarMenu from './DashBarMenu.vue'
-import type { UserConfig } from './DashWrap.vue'
 
 const props = defineProps({
   iconDashboard: { type: String, default: '' },

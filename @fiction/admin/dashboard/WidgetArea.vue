@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import { getWidgetMap, runWidgetRequests } from './util'
 import type { FictionAdmin } from '..'
 import type { WidgetLocation } from '../types'
+import { useService, vue } from '@fiction/core'
+import { getWidgetMap, runWidgetRequests } from './util'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },

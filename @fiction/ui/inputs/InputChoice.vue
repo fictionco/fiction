@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { normalizeList, vue } from '@fiction/core'
 import type { ListItem } from '@fiction/core'
 import type { RouteLocationRaw } from 'vue-router'
+import { normalizeList, vue } from '@fiction/core'
 import InputElTab from './InputElTab.vue'
 
 type RouteListItem = ListItem & { route?: RouteLocationRaw }

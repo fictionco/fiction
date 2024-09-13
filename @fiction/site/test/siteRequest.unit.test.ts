@@ -1,12 +1,12 @@
 /**
  * @vitest-environment happy-dom
  */
+import type { Site } from '../site'
+import type { TableSiteConfig } from '../tables'
 import { shortId } from '@fiction/core'
 import { describe, expect, it } from 'vitest'
 import { loadSite, requestManageSite } from '../load'
 import { createSiteTestUtils } from './testUtils'
-import type { Site } from '../site'
-import type { TableSiteConfig } from '../tables'
 
 let siteConfig: TableSiteConfig
 let site: Site

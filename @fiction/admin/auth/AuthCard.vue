@@ -1,14 +1,14 @@
 <script lang="ts" setup>
+import type { MediaObject } from '@fiction/core'
+import type { Card } from '@fiction/site/card'
+import type { FictionAdmin } from '..'
 import TransactionView from '@fiction/cards/transactions/TransactionView.vue'
 import TransactionWrap from '@fiction/cards/transactions/TransactionWrap.vue'
 import { unhead, useService, vue } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
-import type { MediaObject } from '@fiction/core'
-import type { Card } from '@fiction/site/card'
 import EffectTransitionList from '../el/EffectTransitionList.vue'
-import type { FictionAdmin } from '..'
 
 export type UserConfig = { logo?: MediaObject, termsUrl?: string, privacyUrl?: string }
 

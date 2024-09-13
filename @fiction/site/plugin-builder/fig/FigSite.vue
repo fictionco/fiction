@@ -1,9 +1,9 @@
 <script lang='ts' setup>
-import ElBrowserFrameDevice from '@fiction/ui/frame/ElBrowserFrameDevice.vue'
 import type { vue } from '@fiction/core'
+import type { Site } from '../../../site'
+import ElBrowserFrameDevice from '@fiction/ui/frame/ElBrowserFrameDevice.vue'
 import FigSite from './img/figSite.svg'
 import FigSiteMobile from './img/figSiteMobile.svg'
-import type { Site } from '../../../site'
 
 defineProps({
   site: {

@@ -1,14 +1,14 @@
 <script lang="ts" setup>
+import type { Site } from '@fiction/site'
+import type { FictionForms, FormConfigPortable } from '..'
+import type { Form } from '../form'
 import { useService, vue, waitFor } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import El404 from '@fiction/ui/page/El404.vue'
-import type { Card, Site } from '@fiction/site'
 import { loadForm } from '../utils/load.js'
 import FormLoading from './FormLoading.vue'
 import FormProgressBar from './FormProgressBar.vue'
-import type { FictionForms, FormConfigPortable } from '..'
-import type { Form } from '../form'
 
 const { site, config } = defineProps<{ site: Site, config: FormConfigPortable }>()
 

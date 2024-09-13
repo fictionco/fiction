@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import type { Editor } from '@tiptap/core'
 import { vue } from '@fiction/core'
 import InputRange from '@fiction/ui/inputs/InputRange.vue'
-import type { Editor } from '@tiptap/core'
 
 const props = defineProps({
   editor: { type: Object as vue.PropType<Editor>, required: true },

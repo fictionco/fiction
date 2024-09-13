@@ -1,8 +1,8 @@
 <script lang="ts" setup>
+import type { ActionItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import InputActions from '@fiction/ui/inputs/InputActions.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
-import type { ActionItem } from '@fiction/core'
 
 const props = defineProps({
   loading: { type: Boolean, default: false },

@@ -1,6 +1,6 @@
+import type { ColType } from '../tbl.js'
 import { Col, FictionDbTable } from '../plugin-db/index.js'
 import { standardTable } from '../tbl.js'
-import type { ColType } from '../tbl.js'
 
 export const t = { ...standardTable, media: 'fiction_media' }
 

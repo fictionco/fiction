@@ -1,12 +1,12 @@
+import type { Editor, Range } from '@tiptap/core'
+import type { SuggestionKeyDownProps, SuggestionProps } from '@tiptap/suggestion'
 import { Extension } from '@tiptap/core'
 import Suggestion from '@tiptap/suggestion'
 import { VueRenderer } from '@tiptap/vue-3'
+
 import { CheckSquare, Code, Heading1, Heading2, Heading3, Image, List, ListOrdered, Text, TextQuote } from 'lucide-vue-next'
+
 import tippy from 'tippy.js'
-
-import type { Editor, Range } from '@tiptap/core'
-
-import type { SuggestionKeyDownProps, SuggestionProps } from '@tiptap/suggestion'
 
 import ElSlashPanel from './ElSlashPanel.vue'
 // import Magic from "../icons/magic.vue";
@@ -141,7 +141,7 @@ function getSuggestionItems({ query }: { query: string }) {
         item.title.toLowerCase().includes(search)
         || item.description.toLowerCase().includes(search)
         || (item.searchTerms
-        && item.searchTerms.some((term: string) => term.includes(search)))
+          && item.searchTerms.some((term: string) => term.includes(search)))
       )
     }
     return true

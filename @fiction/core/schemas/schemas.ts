@@ -1,8 +1,8 @@
-import { z } from 'zod'
 import type { IconId } from '@fiction/ui/lib/systemIcons.js'
+import type { vue } from '../utils/libraries.js'
+import { z } from 'zod'
 import { OrFilterGroupSchema } from '../types/endpoint.js'
 import { ColorScaleSchema, colorThemeUser, colorThemeWithInvert } from '../utils/colors.js'
-import type { vue } from '../utils/libraries.js'
 
 export const PostStatusSchema = z.enum(['draft', 'scheduled', 'published', 'hidden', 'protected', 'deleted', 'archived', 'trashed', 'spam'])
 export const ProgressStatusSchema = z.enum(['pending', 'requested', 'processing', 'ready', 'error', 'cancelled'])

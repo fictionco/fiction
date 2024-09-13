@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T">
-import { vue, waitFor } from '@fiction/core'
 import type { PackeryOptions, Packery as PackeryType } from 'packery'
+import { vue, waitFor } from '@fiction/core'
 
 defineOptions({ name: 'EffectMasonry' })
 

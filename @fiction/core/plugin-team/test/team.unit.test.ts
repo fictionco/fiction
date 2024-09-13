@@ -1,7 +1,7 @@
-import { createTestUtils } from '@fiction/core/test-utils/init.js'
-import { beforeAll, describe, expect, it } from 'vitest'
 import type { OrganizationMember } from '@fiction/core/plugin-user/types.js'
 import type { TestUtils } from '@fiction/core/test-utils/init.js'
+import { createTestUtils } from '@fiction/core/test-utils/init.js'
+import { beforeAll, describe, expect, it } from 'vitest'
 import { snap } from '../../test-utils/util.js'
 import { FictionTeam } from '../index.js'
 

@@ -1,13 +1,13 @@
 <script lang="ts" setup>
+import type { Card } from '@fiction/site'
+import type { UserConfig } from '.'
 import { type MediaObject, vue, waitFor } from '@fiction/core'
 import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
 import ElClose from '@fiction/ui/common/ElClose.vue'
 import EffectGlare from '@fiction/ui/effect/EffectGlare.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
-import type { UserConfig } from '.'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },

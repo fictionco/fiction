@@ -1,6 +1,6 @@
-import { twMerge } from 'tailwind-merge'
 import type { StandardSize } from '@fiction/core/index.js'
 import type { UiElementSize } from '../utils.js'
+import { twMerge } from 'tailwind-merge'
 
 // export function inputClasses(feature: 'box') {
 //   const out: string[] = []

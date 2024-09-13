@@ -1,6 +1,6 @@
+import type { FontEntry } from './lib/fontList.js'
 import { toCamel } from './casing'
 import { fonts } from './lib/fontList.js'
-import type { FontEntry } from './lib/fontList.js'
 
 export const safeStacks = {
   monospace: `'Nimbus Mono PS', 'Courier New', monospace`,
@@ -93,7 +93,7 @@ class GoogleFontsUtility {
         return ''
       }
       const variants = font.variants
-        .map(this.variantToGoogleFontsFormat)
+        .map(_ => this.variantToGoogleFontsFormat(_))
         .sort()
         .join(';')
       const family = font.family.replace(/ /g, '+')

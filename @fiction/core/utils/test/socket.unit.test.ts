@@ -2,6 +2,11 @@
  * @vitest-environment happy-dom
  * https://vitest.dev/config/#environment
  */
+import type { TestUtils } from '../../test-utils/init'
+import type {
+  SocketMeta,
+  SocketServerComponents,
+} from '../socket'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { WebSocket as NodeWebSocket } from 'ws'
 import { snap } from '../../test-utils'
@@ -12,11 +17,6 @@ import {
   createSocketServer,
 } from '../socket'
 import { waitFor } from '../utils'
-import type { TestUtils } from '../../test-utils/init'
-import type {
-  SocketMeta,
-  SocketServerComponents,
-} from '../socket'
 
 // Polyfill WebSocket in Node.js environment
 const isNode = typeof process === 'object'

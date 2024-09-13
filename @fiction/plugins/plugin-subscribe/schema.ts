@@ -1,7 +1,7 @@
+import type { TableTaxonomyConfig } from '@fiction/core/plugin-user/types'
 import { type ColType, type ListItem, type MediaObject, standardTable, type SyndicateStatus, type User } from '@fiction/core'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
 import { z } from 'zod'
-import type { TableTaxonomyConfig } from '@fiction/core/plugin-user/types'
 
 export const t = {
   subscribe: 'fiction_subscribe',

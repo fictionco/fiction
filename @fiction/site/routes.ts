@@ -1,5 +1,5 @@
-import { AppRoute } from '@fiction/core'
 import type { SitesQuerySettings } from './endpoint'
+import { AppRoute } from '@fiction/core'
 
 export function getRoutes(args: SitesQuerySettings) {
   return [

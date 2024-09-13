@@ -1,4 +1,6 @@
 /* server-only-file */
+import type { ExecaError, ResultPromise } from 'execa'
+import type { PackageJson } from '../types'
 import { Buffer } from 'node:buffer'
 import * as mod from 'node:module'
 import os from 'node:os'
@@ -8,12 +10,10 @@ import stream from 'node:stream'
 import v8 from 'node:v8'
 import { execa } from 'execa'
 import fs from 'fs-extra'
-import type { ExecaError, ResultPromise } from 'execa'
 import { log } from '../plugin-log'
 import { formatBytes } from './number'
 import { waitFor } from './utils.js'
 import { isNode } from './vars'
-import type { PackageJson } from '../types'
 
 interface WhichModule {
   moduleName?: string

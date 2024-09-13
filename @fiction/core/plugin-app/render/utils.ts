@@ -1,9 +1,9 @@
-import path from 'node:path'
-import fs from 'fs-extra'
 import type { Request } from 'express'
 import type { ViteDevServer } from 'vite'
-import { FictionObject } from '../../plugin'
 import type { RunVars } from '../../inject'
+import path from 'node:path'
+import fs from 'fs-extra'
+import { FictionObject } from '../../plugin'
 
 export type IndexHtmlSettings = {
   distClientFolder: string

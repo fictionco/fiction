@@ -1,8 +1,8 @@
+import type { NumberFormats } from '@fiction/core/utils/index.js'
+import type { Chart as ChartClassType, ChartConfiguration, ChartDataset, ChartType, ChartTypeRegistry, ScriptableContext, ScriptableLineSegmentContext, TooltipItem, TooltipLabelStyle, TooltipOptions } from 'chart.js'
 import process from 'node:process'
 import { colorStandard, deepMerge, numberFormatter } from '@fiction/core/utils/index.js'
 import * as ChartJS from 'chart.js'
-import type { NumberFormats } from '@fiction/core/utils/index.js'
-import type { Chart as ChartClassType, ChartConfiguration, ChartDataset, ChartType, ChartTypeRegistry, ScriptableContext, ScriptableLineSegmentContext, TooltipItem, TooltipLabelStyle, TooltipOptions } from 'chart.js'
 
 // need to load this way due to ESM / Node issue at build
 const { Chart, registerables } = ChartJS

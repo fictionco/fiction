@@ -1,9 +1,9 @@
 /* eslint-disable node/prefer-global/process */
+import type { RunVars } from '../inject'
+import type { FictionAppEntry, MainFile, ServiceConfig } from '../plugin-env/types'
 import { compileApplication } from '../plugin-env/entry'
 import { log } from '../plugin-log'
 import { isNode } from '../utils/vars'
-import type { RunVars } from '../inject'
-import type { FictionAppEntry, MainFile, ServiceConfig } from '../plugin-env/types'
 import 'tailwindcss/tailwind.css'
 
 const logger = log.contextLogger('Mount')

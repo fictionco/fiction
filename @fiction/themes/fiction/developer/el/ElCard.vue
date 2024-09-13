@@ -1,9 +1,9 @@
 <script lang="ts" setup>
+import type { vue } from '@fiction/core'
+import type { Card } from '@fiction/site'
 import { version } from '@fiction/core/package.json'
 import favicon from '@fiction/ui/brand/favicon.svg'
 import ElButton from '@fiction/ui/ElButton.vue'
-import type { vue } from '@fiction/core'
-import type { Card } from '@fiction/site'
 import dash from './dash.svg'
 import ElBenefits from './ElBenefits.vue'
 import ElFeatures from './ElFeatures.vue'

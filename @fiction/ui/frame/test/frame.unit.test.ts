@@ -1,10 +1,10 @@
 /**
  * @vitest-environment happy-dom
  */
+import type { FrameMessage } from '../elBrowserFrameUtil.js'
 import { vue, waitFor } from '@fiction/core'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { FrameNavigator, FrameUtility } from '../elBrowserFrameUtil.js'
-import type { FrameMessage } from '../elBrowserFrameUtil.js'
 
 declare global {
   interface Window {
@@ -174,9 +174,9 @@ describe('frameNavigator', () => {
       displayUrl: vue.computed(() => 'http://www.test.com/initial-display-url'),
     })
 
-    await navigator.setNewPath({ fullPath: '/path1' })
-    await navigator.setNewPath({ fullPath: '/path2' })
-    await navigator.setNewPath({ fullPath: '/path3' })
+    navigator.setNewPath({ fullPath: '/path1' })
+    navigator.setNewPath({ fullPath: '/path2' })
+    navigator.setNewPath({ fullPath: '/path3' })
 
     expect(navigator.getHistory(), 'History should contain all paths').toEqual(['/initial-display-url', '/path1', '/path2', '/path3'])
     expect(navigator.getCurrentPath(), 'Current path should be the last one set').toBe('/path3')
@@ -192,9 +192,9 @@ describe('frameNavigator', () => {
     expect(navigator.canGoBack(), 'Should not be able to go back initially').toBe(false)
     expect(navigator.canGoForward(), 'Should not be able to go forward initially').toBe(false)
 
-    await navigator.setNewPath({ fullPath: '/path1' })
-    await navigator.setNewPath({ fullPath: '/path2' })
-    await navigator.setNewPath({ fullPath: '/path3' })
+    navigator.setNewPath({ fullPath: '/path1' })
+    navigator.setNewPath({ fullPath: '/path2' })
+    navigator.setNewPath({ fullPath: '/path3' })
 
     expect(navigator.canGoBack(), 'Should be able to go back after navigation').toBe(true)
     expect(navigator.canGoForward(), 'Should not be able to go forward at the end of history').toBe(false)
@@ -218,9 +218,9 @@ describe('frameNavigator', () => {
       displayUrl: vue.computed(() => 'http://www.test.com/initial-display-url'),
     })
 
-    await navigator.setNewPath({ fullPath: '/path1' })
-    await navigator.setNewPath({ fullPath: '/path2' })
-    await navigator.setNewPath({ fullPath: '/path3' })
+    navigator.setNewPath({ fullPath: '/path1' })
+    navigator.setNewPath({ fullPath: '/path2' })
+    navigator.setNewPath({ fullPath: '/path3' })
 
     expect(navigator.getCurrentPath(), 'Current path should be the last one set').toBe('/path3')
 
@@ -247,9 +247,9 @@ describe('frameNavigator', () => {
       displayUrl: vue.computed(() => 'http://www.test.com/initial-display-url'),
     })
 
-    await navigator.setNewPath({ fullPath: '/path1' })
-    await navigator.setNewPath({ fullPath: '/path2' })
-    await navigator.setNewPath({ fullPath: '/path3' })
+    navigator.setNewPath({ fullPath: '/path1' })
+    navigator.setNewPath({ fullPath: '/path2' })
+    navigator.setNewPath({ fullPath: '/path3' })
 
     await navigator.navigateFrame('backward')
     await navigator.navigateFrame('backward')
@@ -257,7 +257,7 @@ describe('frameNavigator', () => {
     expect(navigator.getCurrentPath(), 'Should be at /path1').toBe('/path1')
     expect(navigator.canGoForward(), 'Should be able to go forward').toBe(true)
 
-    await navigator.setNewPath({ fullPath: '/new-path' })
+    navigator.setNewPath({ fullPath: '/new-path' })
 
     expect(navigator.getCurrentPath(), 'Should be at /new-path').toBe('/new-path')
     expect(navigator.canGoForward(), 'Should not be able to go forward after new navigation').toBe(false)

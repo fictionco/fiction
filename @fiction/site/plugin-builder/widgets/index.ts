@@ -1,6 +1,6 @@
+import type { FictionSiteBuilderSettings } from '../index.js'
 import { Widget } from '@fiction/admin/dashboard/widget'
 import { vue } from '@fiction/core'
-import type { FictionSiteBuilderSettings } from '../index.js'
 
 export function getWidgets(_service: FictionSiteBuilderSettings) {
   const sites = new Widget({

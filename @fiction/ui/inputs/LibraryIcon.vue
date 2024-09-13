@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { systemIcons } from '@fiction/ui/lib/systemIcons'
 import type { MediaObject, vue } from '@fiction/core'
 import type { IconId } from '@fiction/ui/lib/systemIcons'
+import { systemIcons } from '@fiction/ui/lib/systemIcons'
 import XIcon from '../media/XIcon.vue'
 
 const props = defineProps({

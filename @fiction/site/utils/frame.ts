@@ -1,9 +1,9 @@
-import { FictionObject, getUrlPath, resetUi, vue } from '@fiction/core'
 import type { ResetUiScope, ResetUiTrigger } from '@fiction/core'
 import type { FrameUtility } from '@fiction/ui/frame/elBrowserFrameUtil.js'
-import { activeSiteDisplayUrl, updateSite } from './site.js'
 import type { Site } from '../index.js'
 import type { CardConfigPortable, TableSiteConfig } from '../tables.js'
+import { FictionObject, getUrlPath, resetUi, vue } from '@fiction/core'
+import { activeSiteDisplayUrl, updateSite } from './site.js'
 
 export type FramePostMessageList =
   | { messageType: 'setSite', data: { siteConfig: Partial<TableSiteConfig>, caller?: string } }
@@ -153,12 +153,12 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
     const { msg } = args
 
     if (!this.util)
-      this.log.warn(`${this.relation}: no frame utility found to send message: "${msg.messageType}"`, { data: msg })
+      this.log.warn(`${this.relation.value}: no frame utility found to send message: "${msg.messageType}"`, { data: msg })
 
     this.util?.sendMessage({ message: msg })
   }
 
-  processFrameMessage(args: { msg: FramePostMessageList, scope: 'child' | 'parent' }) {
+  async processFrameMessage(args: { msg: FramePostMessageList, scope: 'child' | 'parent' }) {
     const { msg } = args
     const site = this.site
     switch (msg.messageType) {
@@ -177,7 +177,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
 
       case 'setSite': {
         const { siteConfig } = msg.data
-        updateSite({ site, newConfig: siteConfig })
+        await updateSite({ site, newConfig: siteConfig })
         break
       }
 

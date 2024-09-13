@@ -1,11 +1,11 @@
+import type {
+  Editor,
+} from '@tiptap/core'
 import {
   Mark,
   markInputRule,
   markPasteRule,
   mergeAttributes,
-} from '@tiptap/core'
-import type {
-  Editor,
 } from '@tiptap/core'
 
 export interface AIHighlightOptions {

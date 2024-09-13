@@ -1,11 +1,11 @@
 /**
  * @vitest-environment happy-dom
  */
+import type { User } from '../types'
 import { createTestUtils } from '@fiction/core/test-utils/init'
 import { decodeUserToken } from '@fiction/core/utils/jwt'
 import { afterAll, describe, expect, it } from 'vitest'
 import { getTestEmail, snap } from '../../test-utils'
-import type { User } from '../types'
 
 let user: Partial<User> | undefined
 let token: string | undefined

@@ -1,7 +1,7 @@
 /* server-only-file */
+import type express from 'express'
 import ipUtil from 'ipaddr.js'
 import requestIp from 'request-ip'
-import type express from 'express'
 
 /**
  * Get IP address on network

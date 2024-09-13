@@ -1,11 +1,11 @@
 import type { CloudFront, Invalidation } from '@aws-sdk/client-cloudfront'
 import type { DeleteObjectCommandOutput, GetObjectCommandOutput, HeadObjectCommandOutput, PutObjectCommandOutput, S3 } from '@aws-sdk/client-s3'
 import type { Buffer } from 'node:buffer'
+import type { FictionPluginSettings } from '../plugin.js'
 import { FictionPlugin } from '../plugin.js'
 import { EnvVar, vars } from '../plugin-env/index.js'
 import { objectId } from '../utils/id.js'
 import { getNodeBuffer } from '../utils/nodeUtils'
-import type { FictionPluginSettings } from '../plugin.js'
 
 vars.register(() => [
   new EnvVar({ name: 'AWS_ACCESS_KEY' }),

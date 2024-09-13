@@ -1,9 +1,9 @@
+import type { SiteUserConfig } from '@fiction/site/schema'
 import { MediaBasicSchema, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
-import type { SiteUserConfig } from '@fiction/site/schema'
 import { standardOption } from '../inputSets'
 
 const templateId = 'testimonials'
@@ -121,7 +121,7 @@ export const templates = [
     options,
     schema: UserConfigSchema,
     getBaseConfig: () => ({ standard: { } }),
-    getUserConfig: () => getUserConfig(),
+    getUserConfig: async () => getUserConfig(),
     demoPage: async (_) => {
       const userConfig = await getUserConfig()
       return {

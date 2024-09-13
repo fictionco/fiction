@@ -1,3 +1,6 @@
+import type { TrackingProperties } from '../typesTracking.js'
+import type { OffloadEvent } from '../utils/tracking.js'
+import type { TagEntryPoint, TagSettings } from './types'
 import { onBrowserEvent } from '@fiction/core/utils/eventBrowser.js'
 import { fastHash } from '@fiction/core/utils/utils.js'
 import { isBot } from '../utils/bot.js'
@@ -6,9 +9,6 @@ import { FictionPageStats } from '../utils/pageStats.js'
 import { clickId, onRageClick, UnloadUtility } from '../utils/tracking.js'
 import { FictionClient } from './client.js'
 import { ClientTag } from './clientTag.js'
-import type { TrackingProperties } from '../typesTracking.js'
-import type { OffloadEvent } from '../utils/tracking.js'
-import type { TagEntryPoint, TagSettings } from './types'
 
 type AnalyticsTagSettings = { throttleMs?: number } & TagSettings
 

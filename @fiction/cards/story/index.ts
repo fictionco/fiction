@@ -1,9 +1,9 @@
+import type { Site } from '@fiction/site'
 import { MediaBasicSchema, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
-import type { Site } from '@fiction/site'
 
 const templateId = 'story'
 

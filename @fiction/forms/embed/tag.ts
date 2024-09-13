@@ -1,12 +1,12 @@
+import type { TagSettings } from '@fiction/analytics/tag/types'
+import type { App, Component } from 'vue'
+import type { EmbedItemConfig, EmbedMode, EmbedPosition, EmbedTrigger } from './util'
 import { ClientTag } from '@fiction/analytics/tag/clientTag'
 import { historyUtil } from '@fiction/analytics/utils'
 import { shortId, waitFor } from '@fiction/core/utils'
 import { emitEvent } from '@fiction/core/utils/event'
 import { createApp } from 'vue'
-import type { TagSettings } from '@fiction/analytics/tag/types'
-import type { App, Component } from 'vue'
 import EmbedWrap from './EmbedWrap.vue'
-import type { EmbedItemConfig, EmbedMode, EmbedPosition, EmbedTrigger } from './util'
 
 type EmbedTagSettings = {
   agentBaseUrl?: string

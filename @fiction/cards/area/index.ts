@@ -1,8 +1,8 @@
+import type { SiteUserConfig } from '@fiction/site/schema'
 import { colorTheme, deepMerge, safeDirname, toLabel, vue } from '@fiction/core/index.js'
 import { cardTemplate } from '@fiction/site/index.js'
 import { InputOption } from '@fiction/ui/index.js'
 import { z } from 'zod'
-import type { SiteUserConfig } from '@fiction/site/schema'
 
 const SchemeSchema = z.object({
   bg: z.object({

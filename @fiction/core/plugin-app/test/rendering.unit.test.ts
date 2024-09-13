@@ -1,7 +1,7 @@
-import { beforeAll, describe, expect, it, vi } from 'vitest'
 import type { Request } from 'express'
-import { createTestUtils } from '../../test-utils/init'
 import type { TestUtils } from '../../test-utils/init'
+import { beforeAll, describe, expect, it, vi } from 'vitest'
+import { createTestUtils } from '../../test-utils/init'
 
 let testUtils: undefined | TestUtils
 describe('rendering tests', () => {

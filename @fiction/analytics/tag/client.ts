@@ -1,14 +1,14 @@
+import type { LogHelper } from '@fiction/core/plugin-log'
+import type { EndpointResponse } from '@fiction/core/types'
+import type { IdentifyTraitsUser, TrackingEvent, TrackingEventUserDefined, TrackingProperties } from './types'
 import { log } from '@fiction/core/plugin-log'
 import { WriteBuffer } from '@fiction/core/utils/buffer'
 import { emitEvent } from '@fiction/core/utils/event'
 import { objectId } from '@fiction/core/utils/id'
 import { deepMerge } from '@fiction/core/utils/obj'
 import dayjs from 'dayjs'
-import type { LogHelper } from '@fiction/core/plugin-log'
-import type { EndpointResponse } from '@fiction/core/types'
 import { UnloadUtility } from '../utils/tracking'
 import { baseBrowserEvent } from './utils'
-import type { IdentifyTraitsUser, TrackingEvent, TrackingEventUserDefined, TrackingProperties } from './types'
 
 export * from './types'
 

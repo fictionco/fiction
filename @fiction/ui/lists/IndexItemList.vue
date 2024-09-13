@@ -1,9 +1,9 @@
 <script lang="ts" setup>
+import type { ActionItem, IndexItem, vue } from '@fiction/core'
 import { getNavComponentType } from '@fiction/core'
 import ElActions from '@fiction/ui/buttons/ElActions.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import type { ActionItem, IndexItem, vue } from '@fiction/core'
 
 defineProps({
   list: { type: Array as vue.PropType<IndexItem[]>, required: true },

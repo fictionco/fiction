@@ -1,10 +1,10 @@
+import type { FictionApp, FictionPluginSettings, vue } from '@fiction/core/index.js'
+import type { Config as TailwindConfig } from 'tailwindcss'
 import { FictionPlugin, safeDirname } from '@fiction/core/index.js'
 import { tailwindVarColorScheme } from '@fiction/core/utils/colors.js'
 import twContainerQueries from '@tailwindcss/container-queries'
 import twForms from '@tailwindcss/forms'
 import twTypography from '@tailwindcss/typography'
-import type { FictionApp, FictionPluginSettings, vue } from '@fiction/core/index.js'
-import type { Config as TailwindConfig } from 'tailwindcss'
 import { inputs } from './inputs/index.js'
 
 export * from './buttons/util.js'

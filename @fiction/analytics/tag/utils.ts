@@ -1,7 +1,7 @@
+import type { TrackingContext, TrackingEventBrowser } from './types'
 import { getAnonymousId } from '@fiction/core/utils/anon'
 import { safeUrl } from '@fiction/core/utils/url'
 import { getCanonicalUrl } from '../utils/tracking'
-import type { TrackingContext, TrackingEventBrowser } from './types'
 
 export function baseBrowserEvent(args: {
   library: string

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
+import type { UiElementSize } from '@fiction/ui/utils'
 import { vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
-import type { UiElementSize } from '@fiction/ui/utils'
 
 export interface CustomDomain {
   hostname?: string

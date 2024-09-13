@@ -53,7 +53,7 @@ describe('site plugin tests', async () => {
     await site.update({ pages: [
       { slug: '_home', cards: [{ templateId: 'hero' }] },
       { slug: 'blog', cards: [{ templateId: 'testBlog', userConfig: {
-        posts: [{ slug: 'first-post' }, {  slug: 'second-post' }],
+        posts: [{ slug: 'first-post' }, { slug: 'second-post' }],
       } }] },
     ] })
 

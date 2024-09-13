@@ -1,6 +1,6 @@
+import type { TagEntryPoint, TagSettings } from './types.js'
 import { log } from '@fiction/core/plugin-log'
 import { shouldTrack } from '../utils/tracking.js'
-import type { TagEntryPoint, TagSettings } from './types.js'
 
 export async function initializeClientTag(tagSettings: TagSettings): Promise<void> {
   try {
@@ -24,7 +24,7 @@ export async function initializeClientTag(tagSettings: TagSettings): Promise<voi
 
     const entryFiles = (await Promise.all(p)) as { setup: TagEntryPoint<TagSettings> }[]
 
-    const tagService = await Promise.all(entryFiles.map(_ => _.setup(tagSettings)))
+    const tagService = await Promise.all(entryFiles.map(async _ => _.setup(tagSettings)))
 
     tagService.forEach((t) => { t.initialized = t.init() })
   }

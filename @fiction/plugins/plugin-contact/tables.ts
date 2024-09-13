@@ -1,6 +1,6 @@
+import type { ColType } from '@fiction/core'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
 import { z } from 'zod'
-import type { ColType } from '@fiction/core'
 
 export const tableName = 'fiction_submission'
 

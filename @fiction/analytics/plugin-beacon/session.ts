@@ -1,9 +1,9 @@
-import { dayjs, FictionPlugin, groupBy, objectId, WriteBuffer } from '@fiction/core'
-import { eventFields } from '../tables'
-import { getGeo, parseUa, ReferrerUtility, standardUrl } from './utils'
 import type { SessionEvent, SessionStarted } from '../tables'
 import type { FictionEvent } from '../typesTracking'
 import type { FictionBeaconSettings } from './index.js'
+import { dayjs, FictionPlugin, groupBy, objectId, WriteBuffer } from '@fiction/core'
+import { eventFields } from '../tables'
+import { getGeo, parseUa, ReferrerUtility, standardUrl } from './utils'
 
 export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
   checkExpiredIntervalMs = this.settings.checkExpiredIntervalMs || 5000

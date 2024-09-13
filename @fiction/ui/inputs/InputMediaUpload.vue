@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { formatBytes, log, shortId, useService, vue } from '@fiction/core'
 import type { MediaObject } from '@fiction/core'
+import type { UiElementSize } from '../utils'
+import { formatBytes, log, shortId, useService, vue } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 import { textInputClasses } from './theme'
-import type { UiElementSize } from '../utils'
 
 const {
   modelValue,

@@ -1,10 +1,10 @@
+import type { Site } from '@fiction/site'
+import type { SiteUserConfig } from '@fiction/site/schema'
 import { PostHandlingSchema, safeDirname, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
-import type { Site } from '@fiction/site'
-import type { SiteUserConfig } from '@fiction/site/schema'
 
 const templateId = 'magazine'
 
@@ -115,7 +115,7 @@ export const templates = [
     icon: 'i-tabler-box-padding',
     colorTheme: 'blue',
     el: vue.defineAsyncComponent(async () => import('./ElMagazine.vue')),
-    getUserConfig: () => getDefaultUserConfig(),
+    getUserConfig: async () => getDefaultUserConfig(),
     isPublic: false,
     options,
     schema,

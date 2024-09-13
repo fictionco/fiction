@@ -1,10 +1,10 @@
-import { Buffer } from 'node:buffer'
-import path from 'node:path'
-import { execa } from 'execa'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-
 import type { MainFile } from '@fiction/core/plugin-env'
 import type { ResultPromise } from 'execa'
+import { Buffer } from 'node:buffer'
+import path from 'node:path'
+
+import { execa } from 'execa'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { executeCommand, getMainFilePath, importIfExists } from '../nodeUtils'
 
 const cwd = path.dirname(new URL('../../../www/package.json', import.meta.url).pathname)

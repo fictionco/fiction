@@ -12,7 +12,7 @@ export async function page() {
     },
   })
 
-  return await factory.create({
+  return factory.create({
     regionId: 'main',
     templateId: 'wrap',
     slug: 'developer',

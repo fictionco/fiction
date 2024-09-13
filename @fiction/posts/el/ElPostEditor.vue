@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import XText from '@fiction/ui/common/XText.vue'
-import XMedia from '@fiction/ui/media/XMedia.vue'
-import ProseEditor from '@fiction/ui/prose/editor/ProseEditor.vue'
 import type { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { Post } from '../post.js'
+import XText from '@fiction/ui/common/XText.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
+import ProseEditor from '@fiction/ui/prose/editor/ProseEditor.vue'
 
 defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },

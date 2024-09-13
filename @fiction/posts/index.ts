@@ -1,7 +1,7 @@
-import { FictionPlugin, safeDirname, vue } from '@fiction/core'
-
 import type { FictionAdmin } from '@fiction/admin'
+
 import type { FictionDb, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
+import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { ManagePostIndex, QueryManagePost, QueryManageTaxonomy } from './endpoint'
 import { Post } from './post'
 import { tables } from './schema'

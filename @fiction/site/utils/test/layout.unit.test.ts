@@ -2,6 +2,8 @@
  * @vitest-environment happy-dom
  */
 
+import type { CardConfigPortable } from '../../tables'
+import type { LayoutOrder } from '../layout'
 import { shortId } from '@fiction/core'
 import { JSDOM } from 'jsdom'
 import { beforeAll, describe, expect, it } from 'vitest'
@@ -9,8 +11,6 @@ import { Card } from '../../card'
 import { Site } from '../../site'
 import { createSiteTestUtils } from '../../test/testUtils'
 import { getOrderRecursive, getSimpleOrderSchema, layoutOrderCards, setLayoutOrder } from '../layout'
-import type { CardConfigPortable } from '../../tables'
-import type { LayoutOrder } from '../layout'
 
 describe('setLayoutOrder', async () => {
   const testUtils = await createSiteTestUtils()

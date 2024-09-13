@@ -40,26 +40,26 @@ describe('googleFontsUtility', () => {
     })
   })
 
-  it('should load fonts correctly', () => {
-    googleFontsUtility.loadFont('Roboto')
+  it('should load fonts correctly', async () => {
+    await googleFontsUtility.loadFont('Roboto')
     let linkElement = document.querySelector('link#google-font-roboto')
     expect(linkElement).not.toBeNull()
     expect(linkElement?.getAttribute('href')).toContain('Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900')
     expect(linkElement?.getAttribute('rel')).toBe('stylesheet')
 
     // Should not load again
-    googleFontsUtility.loadFont('Roboto')
+    await googleFontsUtility.loadFont('Roboto')
     expect(document.querySelectorAll('link#google-font-roboto').length).toBe(1)
 
-    googleFontsUtility.loadFont('Open Sans')
+    await googleFontsUtility.loadFont('Open Sans')
     linkElement = document.querySelector('link#google-font-open-sans')
     expect(linkElement).not.toBeNull()
     expect(linkElement?.getAttribute('href')).toContain('Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800')
     expect(linkElement?.getAttribute('rel')).toBe('stylesheet')
   })
 
-  it('should check if a font is loaded', () => {
-    googleFontsUtility.loadFont('Roboto')
+  it('should check if a font is loaded', async () => {
+    await googleFontsUtility.loadFont('Roboto')
     expect(googleFontsUtility.isFontLoaded('Roboto')).toBe(true)
     expect(googleFontsUtility.isFontLoaded('Open Sans')).toBe(false)
   })

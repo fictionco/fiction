@@ -1,5 +1,5 @@
-import process from 'node:process'
 import type express from 'express'
+import process from 'node:process'
 import { log } from '../plugin-log'
 import { getNodeOs } from './nodeUtils.js'
 import { getCommit, getVersion } from './vars'

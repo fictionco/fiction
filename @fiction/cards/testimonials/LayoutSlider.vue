@@ -1,12 +1,12 @@
 <script lang="ts" setup>
+import type { Card } from '@fiction/site'
+import type { Testimonial, UserConfig } from './index.js'
 import { vue } from '@fiction/core'
 import EffectCarousel from '@fiction/ui/effect/EffectCarousel.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
-import NavDots from '../el/NavDots.vue'
 
-import type { Testimonial, UserConfig } from './index.js'
+import NavDots from '../el/NavDots.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },

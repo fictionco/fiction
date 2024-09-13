@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { DraggableList, getGradientCss, vue } from '@fiction/core'
 import type { GradientPoint, GradientSetting } from '@fiction/core'
+import { DraggableList, getGradientCss, vue } from '@fiction/core'
 import InputColor from './InputColor.vue'
 import InputRange from './InputRange.vue'
 

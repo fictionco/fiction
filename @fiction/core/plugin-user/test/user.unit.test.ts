@@ -1,7 +1,7 @@
+import type { User } from '../types'
 import { createTestUtils } from '@fiction/core/test-utils/init'
 import { describe, expect, it, vi } from 'vitest'
 import { getTestEmail } from '../../test-utils'
-import type { User } from '../types'
 
 vi.mock('../serverEmail', async () => {
   const actual = (await vi.importActual('../serverEmail'))

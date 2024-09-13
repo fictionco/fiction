@@ -1,6 +1,6 @@
-import { removeUndefined } from '../../utils/obj'
 import type { User } from '..'
 import type { ApolloApiResponse, NullablePartial } from './types'
+import { removeUndefined } from '../../utils/obj'
 
 export async function apolloResponseToUser({ data }: { data: ApolloApiResponse }): Promise<User> {
   const { person = {} } = data

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
+import type { MediaObject } from '@fiction/core'
 import { determineMediaFormat, vue } from '@fiction/core'
 import { googleFontsUtility } from '@fiction/core/utils/fonts'
 import { twMerge } from 'tailwind-merge'
-import type { MediaObject } from '@fiction/core'
 import XIcon from '../media/XIcon.vue'
 
 defineOptions({ name: 'XLogo' })

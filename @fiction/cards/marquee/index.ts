@@ -1,10 +1,10 @@
+import type { MediaItem } from '@fiction/core'
+import type { Tag } from '@fiction/ui/stock/index.js'
 import { vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
-import type { MediaItem } from '@fiction/core'
-import type { Tag } from '@fiction/ui/stock/index.js'
 import { standardOption } from '../inputSets'
 
 const el = vue.defineAsyncComponent(async () => import('./ElMarquee.vue'))
@@ -63,7 +63,7 @@ export const templates = [
       new InputOption({ key: 'stagger', label: 'Stagger Items', input: 'InputCheckbox' }),
     ],
     getBaseConfig: () => ({ standard: { spacing: { contentWidth: 'none' } } }),
-    getUserConfig: () => getDefaultUserConfig({ tags: ['object'] }),
+    getUserConfig: async () => getDefaultUserConfig({ tags: ['object'] }),
     schema: UserConfigSchema,
     demoPage: async () => {
       const uc1 = await getDefaultUserConfig({ tags: ['object'] })

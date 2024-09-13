@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
-import { getColorThemeStyles } from '@fiction/ui/utils'
 import type { colorTheme } from '@fiction/core'
 import type { Card } from '@fiction/site'
+import type { XButtonProps } from '../schemaSets'
+import { vue } from '@fiction/core'
+import { getColorThemeStyles } from '@fiction/ui/utils'
 import CardText from '../CardText.vue'
 import CardActions from './CardActions.vue'
-import type { XButtonProps } from '../schemaSets'
 
 export type UserConfig = {
   heading?: string

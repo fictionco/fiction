@@ -47,7 +47,7 @@ describe('activeSiteFont', async () => {
     }
 
     const fontConfig = activeSiteFont(site)
-    const result = await fontConfig.value
+    const result = fontConfig.value
 
     expect(result.stacks.test).toContain('Roboto')
     expect(result.fontsUrl).toContain('Roboto')
@@ -83,7 +83,7 @@ describe('activeSiteFont', async () => {
     }
 
     const fontConfig = activeSiteFont(site)
-    const result = await fontConfig.value
+    const result = fontConfig.value
 
     expect(result.stacks.test).toContain('Open Sans')
     expect(result.fontsUrl).toContain('Open+Sans')

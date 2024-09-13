@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { getNavComponentType, pathIsHref, shortId, vue } from '@fiction/core'
 import type { ButtonDesign, ButtonFontWeight, ButtonFormat, ButtonHover, ButtonRounding, ButtonShadow, ColorThemeUser, StandardSize } from '@fiction/core'
+import { getNavComponentType, pathIsHref, shortId, vue } from '@fiction/core'
 import { animateItemEnter, splitLetters } from '../anim'
 import { getButtonClasses } from './util'
 

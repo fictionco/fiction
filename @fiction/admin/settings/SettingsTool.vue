@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { getNavComponentType, toLabel, toSlug, useService, vue } from '@fiction/core'
-import ElPanel from '@fiction/ui/ElPanel.vue'
-import ElForm from '@fiction/ui/inputs/ElForm.vue'
-import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import type { NavItem } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import type { InputOption } from '@fiction/ui'
 import type { SettingsTool } from '..'
+import { getNavComponentType, toLabel, toSlug, useService, vue } from '@fiction/core'
+import ElPanel from '@fiction/ui/ElPanel.vue'
+import ElForm from '@fiction/ui/inputs/ElForm.vue'
+import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },

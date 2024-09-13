@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import CardNavLink from '@fiction/cards/CardNavLink.vue'
-import CardText from '@fiction/cards/CardText.vue'
 import type { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { SchemaNavItem } from './index.js'
+import CardNavLink from '@fiction/cards/CardNavLink.vue'
+import CardText from '@fiction/cards/CardText.vue'
 
 defineProps({
   item: { type: Object as vue.PropType<SchemaNavItem>, required: true },

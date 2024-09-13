@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { useService, vue } from '@fiction/core/index.js'
 import type { FictionSites } from '../index.js'
+import { useService, vue } from '@fiction/core/index.js'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },

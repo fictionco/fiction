@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { getNavComponentType, vue } from '@fiction/core'
-import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import type { Card } from '@fiction/site'
 import type { UserConfig } from '.'
+import { getNavComponentType, vue } from '@fiction/core'
+import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },

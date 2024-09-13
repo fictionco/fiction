@@ -1,11 +1,11 @@
-import { runServicesSetup } from '@fiction/core'
-import { FictionPlugin } from '@fiction/core/plugin'
-import { safeDirname, vue } from '@fiction/core/utils'
 import type { FictionAdmin } from '@fiction/admin'
 import type { FictionPluginSettings, PluginSetupArgs } from '@fiction/core/plugin'
 import type { FictionUser } from '@fiction/core/plugin-user'
-import { loadAndInitializeExtensions } from './utils'
 import type { ExtensionLoader, ExtensionManifest } from './utils'
+import { runServicesSetup } from '@fiction/core'
+import { FictionPlugin } from '@fiction/core/plugin'
+import { safeDirname, vue } from '@fiction/core/utils'
+import { loadAndInitializeExtensions } from './utils'
 
 export * from './utils'
 

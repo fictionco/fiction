@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest'
 import type { IndexMeta } from '@fiction/core/types'
+import { describe, expect, it } from 'vitest'
 import { toLabel, toSlug } from '../casing'
 import { getPaginationInfo, normalizeList, sortPriority } from '../list'
 

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
+import type { ColorThemeUser } from '@fiction/core'
+import type { Card } from '@fiction/site'
+import type { UserConfig } from './index.js'
 import { vue } from '@fiction/core'
 import XIcon from '@fiction/ui/media/XIcon.vue'
 import { getColorThemeStyles } from '@fiction/ui/utils'
-import type { ColorThemeUser } from '@fiction/core'
-import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
-import type { UserConfig } from './index.js'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },

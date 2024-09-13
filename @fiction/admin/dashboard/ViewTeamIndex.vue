@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import { dayjs, vue } from '@fiction/core'
-import { useService } from '@fiction/core/inject'
-import ElTable from '@fiction/ui/ElTable.vue'
-
 import type { OrganizationMember } from '@fiction/core'
 import type { FictionTeam } from '@fiction/core/plugin-team'
 import type { Card } from '@fiction/site/card'
+
 import type { TableCell } from '@fiction/ui/ElTable.vue'
-import ElPanelSettings from './ElPanelSettings.vue'
 import type { NavCardUserConfig } from '../index.js'
+import { dayjs, vue } from '@fiction/core'
+import { useService } from '@fiction/core/inject'
+import ElTable from '@fiction/ui/ElTable.vue'
+import ElPanelSettings from './ElPanelSettings.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<NavCardUserConfig>>, required: true },

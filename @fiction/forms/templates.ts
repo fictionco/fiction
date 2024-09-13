@@ -1,6 +1,6 @@
+import type { inputs } from '@fiction/ui/inputs/index.js'
 import { cardTemplate } from '@fiction/site'
 import { z } from 'zod'
-import type { inputs } from '@fiction/ui/inputs/index.js'
 import CardForm from './deck/CardForm.vue'
 import InputWrap from './deck/InputWrap.vue'
 import { CardAlignmentSchema, CardLayoutSchema } from './schema'

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { vue } from '@fiction/core'
-import ProseEditor from '../prose/editor/ProseEditor.vue'
 import type { UiElementSize } from '../utils'
+import ProseEditor from '../prose/editor/ProseEditor.vue'
 
 defineProps({
   modelValue: { type: String, default: '' },

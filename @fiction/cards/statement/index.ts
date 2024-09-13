@@ -1,11 +1,11 @@
+import type { Site, TableCardConfig } from '@fiction/site'
+import type { SiteUserConfig } from '@fiction/site/schema'
 import { ButtonDesignSchema, colorThemeUser, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site'
 import { CardFactory } from '@fiction/site/cardFactory'
 import { InputOption } from '@fiction/ui'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
-import type { Site, TableCardConfig } from '@fiction/site'
-import type { SiteUserConfig } from '@fiction/site/schema'
 import { getCardTemplates } from '../index.js'
 import { standardOption } from '../inputSets'
 
@@ -112,7 +112,7 @@ export const templates = [
     options,
     schema: UserConfigSchema,
     getBaseConfig: () => ({ standard: { spacing: { verticalSpacing: 'xl', contentWidth: 'none' } } }),
-    getUserConfig: () => getUserConfig(),
+    getUserConfig: async () => getUserConfig(),
     getEffects: async _ => getEffects(_),
     demoPage: async (_) => {
       const userConfig = await getUserConfig()

@@ -1,6 +1,6 @@
 import type { IndexMeta, IndexQuery, vueRouter } from '@fiction/core'
-import { Site } from '../site.js'
 import type { FictionSites } from '../index.js'
+import { Site } from '../site.js'
 
 export type ManageIndexParamsRequest = {
   _action: 'delete' | 'list'

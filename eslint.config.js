@@ -2,12 +2,18 @@
 import antfu from '@antfu/eslint-config'
 
 export default antfu(
-
   {
-    typescript: true,
+    typescript: {
+      tsconfigPath: 'tsconfig.json',
+      parserOptions: {
+        projectService: true,
+        project: 'tsconfig.json',
+        extraFileExtensions: ['.vue', '.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
     vue: true,
     rules: {
-      'ts/no-floating-promises': 'error',
       'no-alert': 'off',
       'no-undef-init': 'off',
       'eslint-comments/no-unlimited-disable': 'off',
@@ -38,7 +44,9 @@ export default antfu(
       'regexp/no-unused-capturing-group': 'warn',
       'unicorn/consistent-function-scoping': 'off',
     },
+
   },
+
   { ignores: [
     '**/.ref/**/*',
     '**/.ref-*/**/*',

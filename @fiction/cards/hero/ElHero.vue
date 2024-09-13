@@ -1,11 +1,11 @@
 <script lang="ts" setup>
+import type { Card } from '@fiction/site'
+import type { OverlayConfig, UserConfig } from './index.js'
 import { vue } from '@fiction/core'
 import EffectParallax from '@fiction/ui/effect/EffectParallax.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import type { Card } from '@fiction/site'
-import CardHeader from '../el/CardHeader.vue'
 
-import type { OverlayConfig, UserConfig } from './index.js'
+import CardHeader from '../el/CardHeader.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },

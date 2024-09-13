@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import type { Card } from '@fiction/site'
+import type { SchemaNavItem, UserConfig } from './index.js'
 import CardNavLink from '@fiction/cards/CardNavLink.vue'
 import { useService, vue } from '@fiction/core'
-import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
-import type { Card } from '@fiction/site'
 
-import type { SchemaNavItem, UserConfig } from './index.js'
+import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
 
 const props = defineProps({
   nav: { type: Array as vue.PropType<SchemaNavItem[]>, required: true },

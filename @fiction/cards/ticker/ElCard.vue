@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { getTextColorBasedOnBackground, isDarkOrLightMode, vue } from '@fiction/core'
-import { fontFamilyByKey } from '@fiction/site/utils/fonts'
 import type { Card } from '@fiction/site'
 import type { FontConfigVal } from '@fiction/site/utils/fonts'
 import type { Ticker, UserConfig } from '.'
+import { getTextColorBasedOnBackground, isDarkOrLightMode, vue } from '@fiction/core'
+import { fontFamilyByKey } from '@fiction/site/utils/fonts'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },

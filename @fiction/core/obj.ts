@@ -1,6 +1,6 @@
+import type { LogHelper } from './plugin-log'
 import { log } from './plugin-log'
 import { omit } from './utils/obj'
-import type { LogHelper } from './plugin-log'
 
 export abstract class Obj<T extends { [key: string]: unknown } = { [key: string]: unknown }> {
   name: string

@@ -1,3 +1,5 @@
+import type { MediaObject } from '@fiction/platform'
+import type { ImageSizeOptions } from '../media'
 import { Buffer } from 'node:buffer'
 import * as crypto from 'node:crypto'
 import os from 'node:os'
@@ -5,12 +7,9 @@ import path from 'node:path'
 import fs from 'fs-extra'
 import sharp from 'sharp'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import type { MediaObject } from '@fiction/platform'
-import type { IconId } from '@fiction/ui/lib/systemIcons'
 import { testImgPath, testSvgPath } from '../../test-utils'
 import { createBlurHash, createImageVariants, determineMediaFormat, getExtensionFromMimeType, getFileExtensionFromFetchResponse, getMimeType, hashFile } from '../media'
 import { safeDirname } from '../utils'
-import type { ImageSizeOptions } from '../media'
 
 describe('determineMediaFormat', () => {
   it('should return the format if it is already set', () => {

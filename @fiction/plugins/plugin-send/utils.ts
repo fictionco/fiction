@@ -1,10 +1,10 @@
-import { type Organization, type RequestOptions, toMarkdown, type TransactionalEmailConfig, vue } from '@fiction/core'
-import FictionFooterImg from '@fiction/core/plugin-email/img/fiction-email-footer.png'
-
-import { EmailCampaign } from './campaign.js'
 import type { ManageCampaignRequestParams } from './endpoint.js'
 import type { FictionSend } from './index.js'
+
 import type { EmailCampaignConfig } from './schema.js'
+import { type Organization, type RequestOptions, toMarkdown, type TransactionalEmailConfig, vue } from '@fiction/core'
+import FictionFooterImg from '@fiction/core/plugin-email/img/fiction-email-footer.png'
+import { EmailCampaign } from './campaign.js'
 
 export async function manageEmailCampaign(args: { fictionSend: FictionSend, params: ManageCampaignRequestParams, options?: RequestOptions }) {
   const { fictionSend, params, options = {} } = args
@@ -51,7 +51,7 @@ export async function getEmailForCampaign(args: { org: Organization, campaignCon
     darkMode: true,
   }
 
-  const EmailStandard = vue.defineAsyncComponent(() => import('@fiction/core/plugin-email/templates/EmailStandard.vue'))
+  const EmailStandard = vue.defineAsyncComponent(async () => import('@fiction/core/plugin-email/templates/EmailStandard.vue'))
   const { useRender } = await import('vue-email')
   const r = await useRender(EmailStandard, { props: emailConfig })
   emailConfig.bodyHtml = r.html

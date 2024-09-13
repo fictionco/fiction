@@ -1,5 +1,5 @@
-import { toLabel } from '@fiction/core'
 import type { JsonSchema7ObjectType } from 'zod-to-json-schema'
+import { toLabel } from '@fiction/core'
 
 export type InputOptionGeneration = {
   prompt?: string

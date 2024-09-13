@@ -1,9 +1,9 @@
+import type { PostItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
-import type { PostItem } from '@fiction/core'
 import { standardOption } from '../inputSets'
 
 const el = vue.defineAsyncComponent(async () => import('./ElShowcase.vue'))
@@ -130,7 +130,7 @@ const template = cardTemplate({
     new InputOption({ key: 'gridColsMax', label: 'Max Grid Columns', input: 'InputSelect', list: gridCols }),
     new InputOption({ key: 'gridColsMin', label: 'Min Grid Columns', input: 'InputSelect', list: ['1', '2'] }),
   ] as InputOption[],
-  getUserConfig: () => getDefaultConfig(),
+  getUserConfig: async () => getDefaultConfig(),
   schema: UserConfigSchema,
   demoPage: async () => {
     const userConfig = await getDefaultConfig()

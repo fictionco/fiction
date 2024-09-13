@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import type { UiElementSize } from '../utils'
 import { dayjs, isDarkOrLightMode, vue } from '@fiction/core'
 import { textInputClasses } from './theme'
-import type { UiElementSize } from '../utils'
 
 const props = defineProps({
   modelValue: { type: [String], default: '' },

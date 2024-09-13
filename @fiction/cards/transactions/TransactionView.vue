@@ -1,9 +1,9 @@
 <script lang="ts" setup>
+import type { MediaObject } from '@fiction/core'
+import type { Card } from '@fiction/site/card'
 import { vue } from '@fiction/core'
 import EffectShootingStar from '@fiction/ui/effect/EffectShootingStar.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import type { MediaObject } from '@fiction/core'
-import type { Card } from '@fiction/site/card'
 
 export type UserConfig = { logo?: MediaObject, termsUrl?: string, privacyUrl?: string }
 const props = defineProps({

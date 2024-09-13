@@ -1,7 +1,7 @@
-import { emitEvent, onEvent } from './event.js'
-import { vue } from './libraries.js'
 import type { FictionEnv, ResetUiScope, ResetUiTrigger } from '../plugin-env/index.js'
 import type { FictionRouter } from '../plugin-router/index.js'
+import { emitEvent, onEvent } from './event.js'
+import { vue } from './libraries.js'
 
 interface ResetUiDetail {
   scope: ResetUiScope

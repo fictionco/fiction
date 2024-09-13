@@ -1,6 +1,6 @@
+import type { Card, CardConfigPortable } from '@fiction/site'
 import { Col, type ColType, FictionDbTable, standardTable } from '@fiction/core'
 import { z } from 'zod'
-import type { Card, CardConfigPortable } from '@fiction/site'
 
 export const t = { ...standardTable, form: 'fiction_form', submission: 'fiction_form_submission' }
 

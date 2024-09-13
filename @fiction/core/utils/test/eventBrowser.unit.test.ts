@@ -2,8 +2,8 @@
  * @vitest-environment happy-dom
  */
 
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Mock } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { onBrowserEvent } from '../eventBrowser'
 
 describe('onBrowserEvent', () => {

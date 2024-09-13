@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import ElTool from '@fiction/admin/tools/ElTool.vue'
 import type { EditorTool } from '@fiction/admin'
 import type { vue } from '@fiction/core'
-import AiSettings from '../../ai/AiSettings.vue'
 import type { Site } from '../../site'
+import ElTool from '@fiction/admin/tools/ElTool.vue'
+import AiSettings from '../../ai/AiSettings.vue'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },

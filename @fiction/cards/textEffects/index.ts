@@ -1,7 +1,7 @@
+import type { InputOption } from '@fiction/ui'
 import { vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site'
 import { z } from 'zod'
-import type { InputOption } from '@fiction/ui'
 
 const templateId = 'textEffects'
 

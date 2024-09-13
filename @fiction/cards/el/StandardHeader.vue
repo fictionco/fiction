@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import type { Card } from '@fiction/site'
 import { vue } from '@fiction/core'
 import { getColorThemeStyles } from '@fiction/ui/utils'
-import type { Card } from '@fiction/site'
 import CardText from '../CardText.vue'
 
 const props = defineProps({

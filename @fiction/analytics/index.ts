@@ -1,6 +1,6 @@
+import type { FictionCache, FictionPluginSettings, FictionServer, FictionUser, vue } from '@fiction/core'
 import { FictionPlugin, safeDirname } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
-import type { FictionCache, FictionPluginSettings, FictionServer, FictionUser, vue } from '@fiction/core'
 import { FictionBeacon } from './plugin-beacon'
 import { FictionClickHouse } from './plugin-clickhouse'
 

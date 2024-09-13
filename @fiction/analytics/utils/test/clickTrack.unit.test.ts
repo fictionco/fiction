@@ -6,7 +6,7 @@ import { clickId, elementId } from '../tracking'
 
 // Mock the getSelector function
 vi.mock('../tracking', async (importOriginal) => {
-  const mod = (await importOriginal()) as Record<string, unknown>
+  const mod = (await importOriginal())
   return {
     ...mod,
     getSelector: vi.fn().mockImplementation(() => 'div.test-class'),

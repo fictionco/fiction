@@ -1,11 +1,11 @@
-import { FictionObject, setNested, toLabel, vue } from '@fiction/core'
-import zodToJsonSchema from 'zod-to-json-schema'
 import type { JsonSchema7ObjectType } from 'zod-to-json-schema'
-
-import { getCardCompletion } from './utils/ai.js'
-import { calculateTotalEstimatedTimeSeconds, generateJsonPropConfig, generateOutputProps, simulateProgress } from './utils/generation.js'
 import type { Card } from './index.js'
 import type { InputOptionGeneration, ProgressState } from './utils/generation.js'
+
+import { FictionObject, setNested, toLabel, vue } from '@fiction/core'
+import zodToJsonSchema from 'zod-to-json-schema'
+import { getCardCompletion } from './utils/ai.js'
+import { calculateTotalEstimatedTimeSeconds, generateJsonPropConfig, generateOutputProps, simulateProgress } from './utils/generation.js'
 
 type CardGenerationSettings = {
   card: Card

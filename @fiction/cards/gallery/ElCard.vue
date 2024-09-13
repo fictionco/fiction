@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
-
-import MasonryEffect from '@fiction/ui/effect/EffectMasonry.vue'
-import XMedia from '@fiction/ui/media/XMedia.vue'
-import ElLightbox from '@fiction/ui/media/ElLightbox.vue'
 import type { Card } from '@fiction/site'
 
 import type { MediaItem, UserConfig } from './index.js'
+import { vue } from '@fiction/core'
+import MasonryEffect from '@fiction/ui/effect/EffectMasonry.vue'
+import ElLightbox from '@fiction/ui/media/ElLightbox.vue'
+
+import XMedia from '@fiction/ui/media/XMedia.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },

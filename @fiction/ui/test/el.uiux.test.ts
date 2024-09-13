@@ -2,10 +2,10 @@
  * @vitest-environment happy-dom
  */
 
-import { createTestUtilServices, testComponentStability } from '@fiction/core/test-utils'
-import { beforeAll, describe } from 'vitest'
 import type { ServiceList } from '@fiction/core'
 import type { Interaction } from '@fiction/core/test-utils'
+import { createTestUtilServices, testComponentStability } from '@fiction/core/test-utils'
+import { beforeAll, describe } from 'vitest'
 
 import { inputs } from '../inputs/index.js'
 

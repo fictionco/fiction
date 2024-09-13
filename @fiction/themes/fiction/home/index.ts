@@ -1,6 +1,6 @@
+import type { Site } from '@fiction/site/site.js'
 import { CardFactory } from '@fiction/site/cardFactory.js'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
-import type { Site } from '@fiction/site/site.js'
 import { templates } from '../templates.js'
 import andrew from './img/andrew.jpg'
 import dean from './img/dean2.jpg'
@@ -13,7 +13,7 @@ export async function page(args: { site: Site }) {
 
   const factory = new CardFactory({ templates, site })
 
-  return await factory.create({
+  return factory.create({
     regionId: 'main',
     templateId: 'wrap',
     slug: '_home',

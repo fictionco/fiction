@@ -1,11 +1,11 @@
+import type { InitializedTestUtils } from '@fiction/core/test-utils'
+import type { SiteTestUtils } from './testUtils'
 import { objectId } from '@fiction/core'
 import { describe, expect, it } from 'vitest'
-import type { InitializedTestUtils } from '@fiction/core/test-utils'
 import { Card } from '../card'
 import { Site } from '../site'
 import { setup } from './test-theme'
 import { createSiteTestUtils } from './testUtils'
-import type { SiteTestUtils } from './testUtils'
 
 let site: Site
 

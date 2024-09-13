@@ -1,6 +1,6 @@
-import { Post } from '../post'
 import type { FictionPosts } from '..'
 import type { ManageIndexParamsRequest, ManagePostParamsRequest } from '../endpoint'
+import { Post } from '../post'
 
 export async function managePost(args: { fictionPosts: FictionPosts, params: ManagePostParamsRequest }): Promise<Post | undefined> {
   const { fictionPosts, params } = args
