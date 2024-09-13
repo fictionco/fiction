@@ -198,7 +198,7 @@ export function requireIfExists<T = unknown>(mod: string): T | undefined {
     if (e.code === 'MODULE_NOT_FOUND') {
       // get module missing in error message
       // https://stackoverflow.com/a/32808869
-      const m = e.message.match(/(?<=')(.*?)(?=')/g)
+      const m = e.message.match(/(?<=').*?(?=')/g)
 
       if (m && !m.includes(mod))
         throw error
@@ -221,7 +221,7 @@ export function resolveIfExists(mod: string): string | undefined {
     if (e.code === 'MODULE_NOT_FOUND') {
       // get module missing in error message
       // https://stackoverflow.com/a/32808869
-      const m = e.message.match(/(?<=')(.*?)(?=')/g)
+      const m = e.message.match(/(?<=').*?(?=')/g)
 
       if (m && !m.includes(mod))
         throw error

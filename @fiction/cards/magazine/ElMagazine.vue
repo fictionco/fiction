@@ -74,7 +74,7 @@ vue.onServerPrefetch(async () => {
 })
 
 vue.onMounted(async () => {
-  vue.watch(() => routeSlug.value, async () => {
+  vue.watch(() => [routeSlug.value, uc.value.posts?.format], async () => {
     await load()
   }, { immediate: true })
 })

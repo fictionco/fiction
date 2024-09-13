@@ -22,10 +22,6 @@ const inputComponent = vue.computed(() => uc.value.inputType ? inputs[uc.value.i
 const inputEl = vue.ref<HTMLElement>()
 const submitEl = vue.ref<HTMLElement>()
 
-function submitCard() {
-  props.form.nextCard()
-}
-
 const layout = vue.computed<CardLayoutMode>(() => {
   const conf = props.card.fullConfig.value
   const out = conf.layout && conf.media ? conf.layout : 'background'
@@ -113,10 +109,6 @@ const buttonText = vue.computed(() => {
 })
 
 const ic = vue.computed(() => props.form?.activeCard.value)
-
-function handleValidChange(valid: boolean) {
-  props.form.setCurrentCardValid(valid)
-}
 </script>
 
 <template>

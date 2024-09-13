@@ -113,7 +113,7 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
 
       return result
     }
-    catch (_e) {
+    catch {
       return undefined
     }
     finally {
@@ -457,7 +457,7 @@ export class QueryManageMedia extends MediaQuery {
     return { status: 'success', data: media }
   }
 
-  async handleDelete(params: MediaParams & { _action: 'delete' }, meta: EndpointMeta): Promise<EndpointResponse<TableMediaConfig[]>> {
+  async handleDelete(params: MediaParams & { _action: 'delete' }, _meta: EndpointMeta): Promise<EndpointResponse<TableMediaConfig[]>> {
     const { orgId, where } = params
 
     if (!Array.isArray(where)) {
