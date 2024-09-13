@@ -1,4 +1,4 @@
-import type { FictionAi } from '@fiction/plugin-ai'
+import type { FictionAi } from '@fiction/plugin-ai/index.js'
 import CardSite from '@fiction/cards/CardSite.vue'
 import { AppRoute, type ServiceConfig } from '@fiction/core/index.js'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils.js'
@@ -9,8 +9,7 @@ export async function setup(args: { context?: 'node' | 'app' } = {}) {
   const { context = 'node' } = args
   const mainFilePath = new URL(import.meta.url).pathname
 
-  const testUtils = await createSiteTestUtils({ mainFilePath, context, themes: [minimalTheme.setup] })
-
+  const testUtils = await createSiteTestUtils({ mainFilePath, context, themes: [minimalTheme.setup] }) satisfies { fictionAi: FictionAi }
   const siteRouter = testUtils.fictionRouter
   const component = CardSite
 

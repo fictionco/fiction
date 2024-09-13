@@ -103,7 +103,7 @@ const modalText = vue.computed(() => {
 })
 
 async function sendOrSchedule() {
-  const em = email.value
+  const _em = email.value
   // if (sendNow.value)
   //   await service.fictionSend.sendEmailNow(em?.campaignId)
   // else
