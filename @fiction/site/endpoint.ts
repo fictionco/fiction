@@ -1,13 +1,13 @@
-import { deepMerge, incrementSlugId, objectId, Query, shortId } from '@fiction/core'
-import { abort } from '@fiction/core/utils/error.js'
 import type { DataFilter, EndpointMeta, EndpointResponse } from '@fiction/core'
 import type { Knex } from 'knex'
-import { Card } from './card.js'
-import { tableNames } from './tables.js'
-import { updateSiteCerts } from './utils/cert.js'
 import type { FictionSites, Site, SitesPluginSettings } from './index.js'
 import type { WhereSite } from './load.js'
 import type { CardConfigPortable, TableCardConfig, TableDomainConfig, TableSiteConfig } from './tables.js'
+import { deepMerge, incrementSlugId, objectId, Query, shortId } from '@fiction/core'
+import { abort } from '@fiction/core/utils/error.js'
+import { Card } from './card.js'
+import { tableNames } from './tables.js'
+import { updateSiteCerts } from './utils/cert.js'
 
 export type SitesQuerySettings = SitesPluginSettings & {
   fictionSites: FictionSites
@@ -246,9 +246,9 @@ export class ManageSite extends SitesQuery {
     if (!orgId)
       throw abort('orgId required')
 
-    this.log.info(`creating site: ${fields.title}`, { data: { orgId, fields } })
-
     const themeSite = await this.createSiteFromTheme(params, meta)
+
+    this.log.info(`endpoint:createSite: ${themeSite.title}`, { data: { orgId, fields, pages: themeSite.pages } })
     const defaultSubDomain = meta.bearer?.email?.split('@')[0] || 'site'
     const mergedFields = deepMerge([themeSite, { subDomain: `${defaultSubDomain}-${shortId({ len: 4 })}` }, fields])
 
@@ -411,7 +411,7 @@ export class ManageSite extends SitesQuery {
 
     const theme = this.getThemeById(themeId)
 
-    const site = await theme.toSite({ siteRouter, fictionSites, userId, orgId, siteId: objectId({ prefix: 'sit' }) })
+    const site = await theme.toSite({ siteRouter, fictionSites, ...fields, userId, orgId, siteId: objectId({ prefix: 'sit' }) })
 
     return site.toConfig()
   }

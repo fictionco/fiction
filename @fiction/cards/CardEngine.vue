@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { resetUi, toLabel, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
+import { resetUi, toLabel, vue } from '@fiction/core'
 import CardWrap from './CardWrap.vue'
 import EffectTransitionCardList from './EffectTransitionCardList.vue'
 
@@ -53,6 +53,7 @@ const cards = vue.computed(() => {
           <component
             :is="subCard.tpl.value?.settings?.el"
             :id="subCard.cardId"
+            data-test-id="card-engine-component"
             :data-card-type="subCard.templateId.value"
             :card="subCard"
           />

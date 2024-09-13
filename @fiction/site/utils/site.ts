@@ -1,8 +1,8 @@
+import type { Site, SiteSettings } from '../index.js'
+import type { CardConfigPortable, TableSiteConfig } from '../tables.js'
 import { type CleanupCallback, toCamel, vue, waitFor } from '@fiction/core'
 import { Card } from '../card.js'
 import { setPages } from './page.js'
-import type { Site, SiteSettings } from '../index.js'
-import type { CardConfigPortable, TableSiteConfig } from '../tables.js'
 
 // Define a type for the hooks to ensure type safety
 export type QueryVarHook = {
@@ -133,7 +133,7 @@ export async function saveSite(args: { site: Site, onlyKeys?: (keyof TableSiteCo
   return r.data
 }
 
-export async function updateSite(args: { site: Site, newConfig: Partial<SiteSettings> }) {
+export async function updateSite(args: { site: Site, newConfig: Partial<SiteSettings>, caller?: string }) {
   const { site, newConfig } = args
   if (!newConfig)
     return

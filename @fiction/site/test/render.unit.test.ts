@@ -2,12 +2,12 @@
  * @vitest-environment happy-dom
  */
 
+import type { Site } from '../site'
 import { shortId, waitFor } from '@fiction/core'
 import { snapshotHtml } from '@fiction/core/utils/snapshot'
 import { afterAll, describe, expect, it } from 'vitest'
 import { loadSiteFromTheme, requestManageSite } from '../load'
 import { createSiteTestUtils } from './testUtils'
-import type { Site } from '../site'
 
 let siteObj: Site
 
@@ -30,7 +30,7 @@ describe('siteRendering Tests', async () => {
     {
       _action: 'create',
       fields: { title: 'test', themeId: 'test', subDomain },
-      caller: 'iframeEditingTest',
+      caller: 'siteRenderingTests',
       ...common,
     },
   )
@@ -46,6 +46,14 @@ describe('siteRendering Tests', async () => {
   })
 
   it('loads site correctly', async () => {
+    expect(siteObj.pages.value.map(p => p.slug.value)).toMatchInlineSnapshot(`
+      [
+        "example",
+        "_home",
+        "__transaction",
+      ]
+    `)
+
     if (!testUtils?.fictionAppSites)
       return
 

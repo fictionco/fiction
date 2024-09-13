@@ -1,11 +1,11 @@
-import { deepMerge, FictionPlugin, log, parseObject, vue } from '@fiction/core'
 import type { FictionAdmin } from '@fiction/admin/index.js'
 import type { FictionEnv, FictionPluginSettings, ServiceList } from '@fiction/core'
-import { Site, type SiteSettings } from './site.js'
-import { imageStyle } from './util.js'
 import type { CardTemplate } from './card.js'
 import type { SiteUserConfig } from './schema.js'
 import type { TableCardConfig } from './tables.js'
+import { deepMerge, FictionPlugin, log, parseObject, vue } from '@fiction/core'
+import { Site, type SiteSettings } from './site.js'
+import { imageStyle } from './util.js'
 
 export type ThemeConfig = {
   userConfig: SiteUserConfig
@@ -57,7 +57,6 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
 
   async toSite(settings: Omit<SiteSettings, 'themeId'>): Promise<Site> {
     const site = await Site.create({ themeId: this.themeId, pages: [], sections: {}, ...settings }, { loadThemePages: true })
-
     return site
   }
 

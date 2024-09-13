@@ -1,8 +1,8 @@
-import { log, vue } from '@fiction/core'
 import type { FictionRouter } from '@fiction/core'
-import { Card } from '../card.js'
 import type { Site } from '../index.js'
 import type { CardConfigPortable } from '../tables.js'
+import { log, vue } from '@fiction/core'
+import { Card } from '../card.js'
 
 const logger = log.contextLogger('sitePageUtils')
 export async function setPages(args: { pages?: CardConfigPortable[], site?: Site }) {

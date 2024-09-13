@@ -34,7 +34,6 @@ describe('post utils', async () => {
         "draftHistory": "",
         "excerpt": "",
         "hasChanges": false,
-        "image": {},
         "isSyndicated": false,
         "media": {},
         "orgId": "[id:***************************]",

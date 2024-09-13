@@ -64,6 +64,8 @@ describe('minimalProfile', async () => {
                     "format": {
                       "enum": [
                         "url",
+                        "image",
+                        "video",
                       ],
                       "type": "string",
                     },

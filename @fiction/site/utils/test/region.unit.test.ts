@@ -1,3 +1,4 @@
+import type { CardConfigPortable, TableCardConfig } from '../../tables'
 import { shortId, waitFor } from '@fiction/core'
 import { describe, expect, it } from 'vitest'
 import { Card } from '../../card'
@@ -5,7 +6,6 @@ import { requestManageSite } from '../../load'
 import { Site } from '../../site'
 import { createSiteTestUtils } from '../../test/testUtils'
 import { addNewCard, removeCard, requestManagePage, updatePage } from '../region'
-import type { CardConfigPortable, TableCardConfig } from '../../tables'
 
 describe('removeCard', async () => {
   const testUtils = await createSiteTestUtils()

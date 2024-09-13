@@ -1,7 +1,6 @@
-import { createSiteUiTestingKit } from '@fiction/site/test/testUtils.js'
-
-import { afterAll, describe, expect, it } from 'vitest'
 import type { Organization } from '@fiction/core'
+import { createSiteUiTestingKit } from '@fiction/site/test/testUtils.js'
+import { afterAll, describe, expect, it } from 'vitest'
 import { getTools } from '../settings'
 
 describe('settings e2e', async () => {

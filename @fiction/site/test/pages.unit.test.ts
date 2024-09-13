@@ -50,9 +50,11 @@ describe('site plugin tests', async () => {
   })
 
   it('generates correct paths for site pages and cards', async () => {
-    site.update({ pages: [
-      { slug: '_home', cards: [{ slug: 'welcome' }] },
-      { slug: 'blog', cards: [{ slug: 'first-post' }, { slug: 'second-post' }] },
+    await site.update({ pages: [
+      { slug: '_home', cards: [{ templateId: 'hero' }] },
+      { slug: 'blog', cards: [{ templateId: 'testBlog', userConfig: {
+        posts: [{ slug: 'first-post' }, {  slug: 'second-post' }],
+      } }] },
     ] })
 
     const paths = await getSitemapPathsFromSite(site)
@@ -60,20 +62,16 @@ describe('site plugin tests', async () => {
     expect(paths).toMatchInlineSnapshot(`
       [
         "/",
-        "/welcome",
         "/blog",
         "/blog/first-post",
         "/blog/second-post",
-        "/__transaction",
       ]
     `)
     const expectedPaths = [
       '/',
-      '/welcome',
       '/blog',
       '/blog/first-post',
       '/blog/second-post',
-      '/__transaction',
     ]
 
     expect(paths).toEqual(expectedPaths)
@@ -85,11 +83,9 @@ describe('site plugin tests', async () => {
     expect(paths2).toMatchInlineSnapshot(`
       [
         "/test",
-        "/test/welcome",
         "/test/blog",
         "/test/blog/first-post",
         "/test/blog/second-post",
-        "/test/__transaction",
       ]
     `)
   })

@@ -1,14 +1,14 @@
 <script lang="ts" setup>
+import type { FictionAnalytics } from '@fiction/analytics'
+import type { FictionRouter } from '@fiction/core'
+import type { FictionSites, Site } from '@fiction/site'
+import type { FramePostMessageList } from '@fiction/site/utils/frame'
 import { getColorScheme, log, simpleHandlebarsParser, toLabel, unhead, useService, vue } from '@fiction/core'
 import { getMountContext, loadSite } from '@fiction/site/load'
 import { FrameUtility } from '@fiction/ui/frame/elBrowserFrameUtil'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import NotifyToaster from '@fiction/ui/notify/NotifyToaster.vue'
 import El404 from '@fiction/ui/page/El404.vue'
-import type { FictionAnalytics } from '@fiction/analytics'
-import type { FictionRouter } from '@fiction/core'
-import type { FictionSites, Site } from '@fiction/site'
-import type { FramePostMessageList } from '@fiction/site/utils/frame'
 
 const props = defineProps({
   themeId: { type: String, default: undefined },
@@ -277,7 +277,7 @@ vue.onMounted(() => {
         </template>
         <template v-else>
           <div class="h-dvh w-full grid min-h-full place-items-center bg-theme-900 text-white px-6 py-24 sm:py-32 lg:px-8">
-            <El404 class="" heading="No Site Found" sub-heading="No site was found at this URL" />
+            <El404 heading="No Site Found" sub-heading="No site was found at this URL" />
           </div>
         </template>
       </div>

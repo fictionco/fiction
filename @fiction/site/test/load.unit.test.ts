@@ -227,15 +227,15 @@ describe('site plugin tests', async () => {
       [
         [
           "domainId",
-          "siteId",
           "hostname",
+          "siteId",
           "isPrimary",
           "dnsValidationHostname",
-          "dnsValidationInstructions",
           "dnsValidationTarget",
+          "dnsValidationInstructions",
           "check",
-          "createdAt",
           "configured",
+          "createdAt",
           "certificateAuthority",
           "updatedAt",
         ],

@@ -152,13 +152,13 @@ describe('site plugin tests', async () => {
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
         "regionId": "[id:****]",
-        "siteId": "[id:****************************]",
+        "siteId": "[id:***************************]",
         "slug": "test",
         "templateId": "[id:****]",
         "title": "test",
         "updatedAt": "[dateTime:]",
         "userConfig": {},
-        "userId": "[id:***************************]",
+        "userId": null,
       }
     `)
 
@@ -316,13 +316,13 @@ describe('site plugin tests', async () => {
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
         "regionId": "[id:****]",
-        "siteId": "[id:****************************]",
+        "siteId": "[id:***************************]",
         "slug": "testalpha",
         "templateId": "[id:****]",
         "title": "testAlpha",
         "updatedAt": "[dateTime:]",
         "userConfig": {},
-        "userId": "[id:***************************]",
+        "userId": null,
       }
     `)
 
@@ -349,13 +349,13 @@ describe('site plugin tests', async () => {
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
         "regionId": "[id:****]",
-        "siteId": "[id:****************************]",
+        "siteId": "[id:***************************]",
         "slug": "testalpha",
         "templateId": "[id:****]",
         "title": "testAlpha",
         "updatedAt": "[dateTime:]",
         "userConfig": {},
-        "userId": "[id:***************************]",
+        "userId": null,
       }
     `)
 
@@ -407,13 +407,13 @@ describe('site plugin tests', async () => {
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
         "regionId": "[id:****]",
-        "siteId": "[id:****************************]",
+        "siteId": "[id:***************************]",
         "slug": "testalpha",
         "templateId": "[id:****]",
         "title": "testAlpha",
         "updatedAt": "[dateTime:]",
         "userConfig": {},
-        "userId": "[id:***************************]",
+        "userId": null,
       }
     `)
 
@@ -444,13 +444,13 @@ describe('site plugin tests', async () => {
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
         "regionId": "[id:****]",
-        "siteId": "[id:****************************]",
+        "siteId": "[id:***************************]",
         "slug": "testalpha",
         "templateId": "[id:****]",
         "title": "testAlpha",
         "updatedAt": "[dateTime:]",
         "userConfig": {},
-        "userId": "[id:***************************]",
+        "userId": null,
       }
     `)
 
@@ -486,13 +486,13 @@ describe('site plugin tests', async () => {
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
         "regionId": "[id:****]",
-        "siteId": "[id:****************************]",
+        "siteId": "[id:***************************]",
         "slug": "testalpha",
         "templateId": "[id:****]",
         "title": "testAlpha",
         "updatedAt": "[dateTime:]",
         "userConfig": {},
-        "userId": "[id:***************************]",
+        "userId": null,
       }
     `)
 
@@ -539,13 +539,13 @@ describe('site plugin tests', async () => {
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
         "regionId": "[id:****]",
-        "siteId": "[id:****************************]",
+        "siteId": "[id:***************************]",
         "slug": "testalpha",
         "templateId": "[id:****]",
         "title": "testAlpha",
         "updatedAt": "[dateTime:]",
         "userConfig": {},
-        "userId": "[id:***************************]",
+        "userId": null,
       }
     `)
   })

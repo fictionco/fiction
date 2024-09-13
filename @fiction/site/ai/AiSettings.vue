@@ -1,11 +1,11 @@
 <script lang="ts" setup>
+import type { Site } from '../../site'
 import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import { imageStyle } from '../util'
-import type { Site } from '../../site'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },

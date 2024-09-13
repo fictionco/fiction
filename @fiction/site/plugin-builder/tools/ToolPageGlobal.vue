@@ -1,15 +1,15 @@
 <script lang="ts" setup>
+import type { AdminEditorController, EditorTool } from '@fiction/admin'
+import type { Site } from '../../site'
+import type { ToolKeys } from './tools'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
 import { toSlug, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
-import type { AdminEditorController, EditorTool } from '@fiction/admin'
 import { imageStyle } from '../../util'
 import { saveSite, updateSite } from '../../utils/site'
-import type { Site } from '../../site'
-import type { ToolKeys } from './tools'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },

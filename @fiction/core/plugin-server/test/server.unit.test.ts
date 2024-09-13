@@ -51,6 +51,7 @@ describe('server test', () => {
 
     expect(Object.keys(response?.data || {})).toMatchInlineSnapshot(`
       [
+        "id",
         "status",
         "message",
         "duration",

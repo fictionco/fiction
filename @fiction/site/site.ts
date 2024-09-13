@@ -1,19 +1,19 @@
+import type { FictionRouter } from '@fiction/core'
+import type { Card, CardTemplate } from './card.js'
+import type { FictionSites, ThemeConfig } from './index.js'
+
+import type { SiteMode } from './load.js'
+import type { CardConfigPortable, PageRegion, TableCardConfig, TableSiteConfig } from './tables.js'
+import type { LayoutOrder } from './utils/layout.js'
+import type { QueryVarHook } from './utils/site.js'
 import { deepMerge, FictionObject, localRef, objectId, resetUi, setNested, shortId, vue, waitFor } from '@fiction/core'
 import { TypedEventTarget } from '@fiction/core/utils/eventTarget.js'
-import type { FictionRouter } from '@fiction/core'
-
 import { activeSiteFont, type FontConfigVal } from './utils/fonts.js'
 import { SiteFrameTools } from './utils/frame.js'
 import { flattenCards, setLayoutOrder } from './utils/layout.js'
 import { activePageId, getPageById, getViewMap, updatePages } from './utils/page.js'
 import { addNewCard, removeCard } from './utils/region.js'
 import { saveSite, scrollActiveCardIntoView, setSections, setupRouteWatcher, updateSite } from './utils/site.js'
-import type { Card, CardTemplate } from './card.js'
-import type { FictionSites, ThemeConfig } from './index.js'
-import type { SiteMode } from './load.js'
-import type { CardConfigPortable, PageRegion, TableCardConfig, TableSiteConfig } from './tables.js'
-import type { LayoutOrder } from './utils/layout.js'
-import type { QueryVarHook } from './utils/site.js'
 import '@vue/shared' // for non-portable types (?)
 
 export type EditorState = {
@@ -63,13 +63,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     this.watchers()
   }
 
-  static async create<U extends SiteSettings>(settings: U, options: { loadThemePages?: boolean } = {}): Promise<Site<U>> {
-    const site = new Site<U>(settings)
-    await site.loadTheme(options)
-    await site.loadConfig()
 
-    return site
-  }
 
   watchers() {
     if (typeof window === 'undefined') {
@@ -103,7 +97,15 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   userConfig = vue.ref(this.settings.userConfig || {})
   themeConfig = vue.ref<ThemeConfig>()
   fullConfig = vue.computed(() => deepMerge([this.themeConfig.value?.userConfig, this.userConfig.value]))
-  async loadTheme(options: { loadThemePages?: boolean } = {}) {
+
+  static async create<U extends SiteSettings>(settings: U, options: { loadThemePages?: boolean } = {}): Promise<Site<U>> {
+    const site = new Site<U>(settings)
+    await site.loadConfig(options)
+
+    return site
+  }
+
+  async loadConfig(options: { loadThemePages?: boolean } = {}) {
     const { loadThemePages = false } = options
     const theme = this.theme.value
 
@@ -114,9 +116,12 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
     this.themeConfig.value = c
 
+    const pgs = this.settings.pages || []
     if (loadThemePages) {
-      this.update({ pages: c.pages })
+      pgs.push(...c.pages)
     }
+
+    await this.update({ pages: pgs })
 
     this.sections.value = setSections({ site: this, themeSections: c.sections })
 
@@ -153,10 +158,6 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     get: () => this.siteRouter.current.value.path,
     set: async v => this.siteRouter.push(v, { caller: 'currentPath' }),
   })
-
-  async loadConfig() {
-    await this.update({ pages: this.settings.pages })
-  }
 
   editor = vue.ref<EditorState>({
     selectedCardId: '',
@@ -206,7 +207,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       : { ...baseConfig, siteId: this.siteId }
   }
 
-  update = (newConfig: Partial<TableSiteConfig>) => updateSite({ site: this, newConfig })
+  update = (newConfig: Partial<TableSiteConfig>, opts?: { caller?: string }) => updateSite({ site: this, newConfig, ...opts })
   save = async (args: { minTime?: number } = {}) => saveSite({ site: this, successMessage: 'Site Saved', ...args })
 
   activeCard = vue.computed(() => this.availableCards.value.find(c => c.cardId === this.editor.value.selectedCardId))

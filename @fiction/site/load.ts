@@ -1,10 +1,10 @@
-import { log } from '@fiction/core'
 import type { FictionRouter, RunVars } from '@fiction/core'
+import type { ManageSiteParams } from './endpoint.js'
+import type { FictionSites, TableSiteConfig } from './index.js'
+import { log } from '@fiction/core'
 import { CardFactory } from './cardFactory.js'
 import { Site } from './index.js'
 import { localSiteConfig } from './utils/site.js'
-import type { ManageSiteParams } from './endpoint.js'
-import type { FictionSites, TableSiteConfig } from './index.js'
 
 const logger = log.contextLogger('siteLoader')
 
@@ -113,7 +113,7 @@ export async function loadSiteFromCard(args: { cardId: string, siteRouter: Ficti
 
   const factory = new CardFactory({ templates, site })
 
-  site.update({ pages: [
+  await site.update({ pages: [
     await factory.create({
       slug: '_home',
       cards: [

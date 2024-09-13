@@ -4,16 +4,10 @@ import antfu from '@antfu/eslint-config'
 export default antfu(
 
   {
-    // typescript: {
-    //   tsconfigPath: './tsconfig.json',
-    //   parserOptions: {
-    //     project: './tsconfig.json',
-    //     extraFileExtensions: ['.vue', '.json'],
-    //     tsconfigRootDir: __dirname,
-    //   },
-    // },
+    typescript: true,
     vue: true,
     rules: {
+      'ts/no-floating-promises': 'error',
       'no-alert': 'off',
       'no-undef-init': 'off',
       'eslint-comments/no-unlimited-disable': 'off',
