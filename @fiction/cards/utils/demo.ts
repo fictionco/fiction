@@ -1,8 +1,8 @@
-import { CardFactory } from '@fiction/site/cardFactory.js'
 import type { CardConfigPortable, CardTemplate, Site } from '@fiction/site'
+import { CardFactory } from '@fiction/site/cardFactory.js'
 import { getCardTemplates } from '../index.js'
 
-export async function createDemoPage(args: { site: Site, template: CardTemplate, card: CardConfigPortable }) {
+export async function createDemoPage(args: { site: Site, template: CardTemplate<any>, card: CardConfigPortable }) {
   const { template, card = {}, site } = args
   const slug = card.slug || `demo-${template.settings.templateId}`
   const cards = card.cards || []
