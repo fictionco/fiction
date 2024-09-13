@@ -2,7 +2,7 @@
 import type { InputOption } from '.'
 import { getNested, setNested, shortId, vue, waitFor } from '@fiction/core'
 import TransitionSlide from '../anim/TransitionSlide.vue'
-import ElButton from '../ElButton.vue'
+import XButton from '../buttons/XButton.vue'
 import ElInput from './ElInput.vue'
 
 type BasicItem = Record<string, unknown> & { _key: string }
@@ -147,9 +147,9 @@ vue.onMounted(async () => {
             </div>
             <div class="flex justify-between pt-4">
               <div />
-              <ElButton size="sm" btn="default" icon="i-heroicons-trash" @click="removeItem(item)">
+              <XButton rounding="full" size="sm" theme="default" icon="i-heroicons-trash" @click="removeItem(item)">
                 Remove Item
-              </ElButton>
+              </XButton>
             </div>
           </div>
         </div>
@@ -157,14 +157,15 @@ vue.onMounted(async () => {
     </div>
 
     <div class="actions mt-2">
-      <ElButton
-        btn="default"
+      <XButton
+        rounding="full"
+        theme="primary"
         size="xs"
         data-test="add"
         @click="addItem()"
       >
         Add +
-      </ElButton>
+      </XButton>
     </div>
   </div>
 </template>

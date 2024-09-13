@@ -17,7 +17,7 @@ const posts = vue.shallowRef<Post[]>([])
 async function load() {
   if (postMode.value === 'custom') {
     const ps = uc.value.customPosts || []
-    posts.value = ps.map(p => new Post({ fictionPosts, ...p }))
+    posts.value = ps.map(p => new Post({ fictionPosts, ...p, sourceMode: 'local' }))
   }
   else {
     loading.value = true
