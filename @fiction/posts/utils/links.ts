@@ -6,8 +6,12 @@ export function postEditLink(args: { post: Post }): string {
   return `/app/post-edit?postId=${post.postId}&_reload=1`
 }
 
-export function postLink(args: { card: Card, slug?: string }): string {
+export function postLink(args: { card?: Card, slug?: string }): string {
   const { card, slug } = args
+
+  if (!card) {
+    return ''
+  }
 
   if (!slug) {
     return card.link(`/:viewId`)

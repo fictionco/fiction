@@ -5,8 +5,10 @@ import TransitionSlide from '../anim/TransitionSlide.vue'
 import ElButton from '../ElButton.vue'
 import ElInput from './ElInput.vue'
 
+type BasicItem = Record<string, unknown> & { _key: string }
+
 const props = defineProps({
-  modelValue: { type: Array as vue.PropType<Record<string, unknown>[]>, default: () => [] },
+  modelValue: { type: Array as vue.PropType<BasicItem[]>, default: () => [] },
   options: { type: Array as vue.PropType<InputOption[]>, default: () => [] },
   depth: { type: Number, default: 0 },
   inputClass: { type: String, default: '' },
@@ -21,10 +23,11 @@ type KeyedItem = Record<string, unknown> & { _key: string }
 
 const itemSelector = `[data-drag-depth="${props.depth}"]`
 const dragSelector = `[data-drag-handle="${props.depth}"]`
-const openItem = vue.ref('')
+const openItem = vue.ref(-1)
 const wrapperEl = vue.ref<HTMLElement>()
+
 const keyedModelValue = vue.computed<KeyedItem[]>(() => {
-  return props.modelValue.map((item) => {
+  return props.modelValue.map((item, i) => {
     item._key = item._key || shortId()
     return item
   }) as KeyedItem[]
@@ -65,7 +68,7 @@ function updateInputValue(args: { index: number, key: string, value: unknown }) 
 function addItem() {
   const _key = shortId()
   const val = [...props.modelValue, { name: 'New Item', _key }]
-  openItem.value = _key
+  openItem.value = val.length - 1
   updateModelValue(val)
 }
 
@@ -75,10 +78,12 @@ function removeItem(item: Record<string, unknown> & { _key: string }) {
     return
   const val = props.modelValue.filter(i => i._key !== item._key)
   updateModelValue(val)
+
+  openItem.value = -1
 }
 
-function toggleItem(item: Record<string, unknown> & { _key: string }) {
-  openItem.value = openItem.value === item._key ? '' : item._key
+function toggleItem(index: number) {
+  openItem.value = openItem.value === index ? -1 : index
 }
 
 vue.onMounted(async () => {
@@ -113,9 +118,9 @@ vue.onMounted(async () => {
     >
       <div
         class="px-1 py-1 bg-theme-50/50 dark:bg-theme-600/50 hover:bg-theme-50 text-xs font-mono  font-medium flex justify-between items-center"
-        :class="openItem === item._key ? 'rounded-t-md border-b border-theme-200 dark:border-theme-600' : 'rounded-md'"
+        :class="openItem === i ? 'rounded-t-md border-b border-theme-200 dark:border-theme-600' : 'rounded-md'"
         :data-drag-handle="depth"
-        @click="toggleItem(item)"
+        @click="toggleItem(i)"
       >
         <div class="flex gap-1 items-center cursor-move">
           <div class="text-lg text-theme-300 dark:text-theme-500 i-tabler-grip-vertical" />
@@ -123,10 +128,10 @@ vue.onMounted(async () => {
             {{ itemName }} {{ i + 1 }}
           </div>
         </div>
-        <div class="text-lg text-theme-300 i-tabler-chevron-down transition-all" :class="openItem === item._key ? 'rotate-180' : ''" />
+        <div class="text-lg text-theme-300 i-tabler-chevron-down transition-all" :class="openItem === i ? 'rotate-180' : ''" />
       </div>
       <TransitionSlide>
-        <div v-if="openItem === item._key">
+        <div v-if="openItem === i">
           <div class="py-4 px-2 space-y-3">
             <div v-for="(opt, ii) in options" :key="ii">
               <ElInput

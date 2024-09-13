@@ -1,11 +1,13 @@
-import type { FictionPosts } from '.'
+import type { Card } from '@fiction/site'
 import type { TablePostConfig } from './schema'
 import { FictionObject, objectId, vue } from '@fiction/core'
+import { type FictionPosts, postLink } from '.'
 import { managePost } from './utils'
 
-export type PostConfig = { fictionPosts: FictionPosts } & TablePostConfig
+export type PostConfig = { fictionPosts: FictionPosts, card?: Card, sourceMode: 'local' | 'global', localSourcePath?: string } & TablePostConfig
 
 export class Post extends FictionObject<PostConfig> {
+  card = this.settings.card
   postId = this.settings.postId || objectId({ prefix: 'pst' })
   status = vue.ref(this.settings.status || 'draft')
   title = vue.ref(this.settings.title || '')
@@ -13,6 +15,7 @@ export class Post extends FictionObject<PostConfig> {
   excerpt = vue.ref(this.settings.excerpt || '')
   content = vue.ref(this.settings.content || '')
   slug = vue.ref(this.settings.slug || '')
+  href = vue.computed(() => postLink({ card: this.settings.card, slug: this.slug.value }))
   media = vue.ref(this.settings.media || {})
   tags = vue.ref(this.settings.taxonomy?.filter(_ => _.type === 'tag') || [])
   categories = vue.ref(this.settings.taxonomy?.filter(_ => _.type === 'category') || [])
@@ -114,7 +117,7 @@ export class Post extends FictionObject<PostConfig> {
   }
 
   toConfig(): TablePostConfig {
-    const { fictionPosts, ...rest } = this.settings
+    const { fictionPosts, card, ...rest } = this.settings
 
     return {
       ...rest,

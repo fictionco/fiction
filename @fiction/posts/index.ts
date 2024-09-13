@@ -104,7 +104,7 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
 
     const r = await this.requests.ManagePost.request({ _action: 'get', orgId, ...params })
 
-    return r.data ? new Post({ fictionPosts: this, ...r.data }) : undefined
+    return r.data ? new Post({ fictionPosts: this, sourceMode: 'global', ...r.data }) : undefined
   }
 
   async getPostIndex(args: { orgId: string, limit?: number, offset?: number }) {
@@ -112,6 +112,6 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
 
     const r = await this.requests.ManagePostIndex.request({ _action: 'list', orgId, limit, offset })
 
-    return r.data?.length ? r.data.map(p => new Post({ fictionPosts: this, ...p })) : []
+    return r.data?.length ? r.data.map(p => new Post({ fictionPosts: this, sourceMode: 'global', ...p })) : []
   }
 }

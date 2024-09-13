@@ -13,7 +13,7 @@ const { card } = defineProps<{ card: Card<UserConfig> }>()
 const { fictionPosts } = useService<{ fictionPosts: FictionPosts }>()
 
 const uc = vue.computed(() => card.userConfig.value || {})
-const postIndex = vue.shallowRef<Post[]>([])
+const posts = vue.shallowRef<Post[]>([])
 const singlePost = vue.shallowRef<Post | undefined>()
 const nextPost = vue.shallowRef<Post | undefined>()
 const loading = vue.ref(false)
@@ -40,23 +40,24 @@ async function loadGlobal() {
 
   if (routeSlug.value) {
     singlePost.value = await fictionPosts.getPost({ slug: routeSlug.value, orgId })
-    nextPost.value = getNextPost({ single: singlePost.value, posts: postIndex.value })
+    nextPost.value = getNextPost({ single: singlePost.value, posts: posts.value })
   }
   else {
-    postIndex.value = await fictionPosts.getPostIndex({ limit: 5, orgId })
+    posts.value = await fictionPosts.getPostIndex({ limit: 5, orgId })
   }
 
   loading.value = false
 }
 
 async function loadLocal() {
+  const common = { fictionPosts, card, sourceMode: 'local' } as const
   const ps = uc.value.posts?.posts || []
-  postIndex.value = ps.map(p => new Post({ fictionPosts, ...p }))
+  posts.value = ps.map((p, i) => new Post({ ...common, ...p, localSourcePath: `posts.posts.${i}` }))
 
   if (routeSlug.value) {
     const p = ps.find(p => p.slug === routeSlug.value)
-    singlePost.value = new Post({ fictionPosts, ...p })
-    nextPost.value = getNextPost({ single: singlePost.value, posts: ps.map(p => new Post({ fictionPosts, ...p })) })
+    singlePost.value = new Post({ ...common, ...p })
+    nextPost.value = getNextPost({ single: singlePost.value, posts: ps.map(p => new Post({ ...common, ...p })) })
   }
 }
 
@@ -116,7 +117,7 @@ if (routeSlug.value) {
         :post="singlePost"
         :next-post="nextPost"
       />
-      <ElMagazineIndex v-else :card="card" :loading="loading" :post-index="postIndex" />
+      <ElMagazineIndex v-else :card="card" :loading="loading" :posts="posts" />
     </transition>
   </div>
 </template>
