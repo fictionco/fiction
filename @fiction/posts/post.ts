@@ -81,6 +81,10 @@ export class Post extends FictionObject<PostConfig> {
   }
 
   autosave() {
+    if (this.settings.sourceMode === 'local') {
+      return
+    }
+
     this.isDirty.value = true
     this.clearAutosave()
 

@@ -1,9 +1,11 @@
 <script lang="ts" setup>
-import type { FictionPosts, Post, TablePostConfig } from '@fiction/posts'
+import type { IndexMeta } from '@fiction/core'
+import type { Post } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import type { UserConfig } from '.'
-import { type IndexItem, useService, vue } from '@fiction/core'
-import { postLink, taxonomyLink } from '@fiction/posts'
+import { vue } from '@fiction/core'
+import { taxonomyLink } from '@fiction/posts'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import EffectGlare from '@fiction/ui/effect/EffectGlare.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import El404 from '@fiction/ui/page/El404.vue'
@@ -12,17 +14,37 @@ import CardTextPost from '../CardTextPost.vue'
 import CardLink from '../el/CardLink.vue'
 import ElAuthor from './ElAuthor.vue'
 
-const { card, posts, loading } = defineProps<{ card: Card<UserConfig>, posts: Post[], loading: boolean }>()
+const { card, posts, loading, indexMeta } = defineProps<{
+  card: Card<UserConfig>
+  posts: Post[]
+  loading: boolean
+  indexMeta: IndexMeta
+}>()
+
+const emit = defineEmits<{
+  (e: 'update:indexMeta', value: IndexMeta): void
+}>()
+
+const totalPages = vue.computed(() => Math.ceil((indexMeta.count || 0) / (indexMeta.limit || 10)))
+const currentPage = vue.computed(() => Math.floor((indexMeta.offset || 0) / (indexMeta.limit || 10)) + 1)
 
 function getItemClasses(index: number): string {
   const out = []
 
   if (index === 0)
-    out.push('col-span-1 lg:col-span-2 row-span-2 rounded-lg  ')
+    out.push('col-span-1 lg:col-span-2 row-span-2 rounded-lg')
   else
     out.push('col-span-1 row-span-1 aspect-[4/3]')
 
   return out.join(' ')
+}
+
+function changePage(newPage: number) {
+  if (newPage < 1 || newPage > totalPages.value)
+    return
+
+  const newOffset = (newPage - 1) * (indexMeta.limit || 10)
+  emit('update:indexMeta', { ...indexMeta, offset: newOffset })
 }
 </script>
 
@@ -34,7 +56,7 @@ function getItemClasses(index: number): string {
       <CardLink
         v-for="(post, i) in posts"
         :key="post.slug.value"
-        :card
+        :card="card"
         :href="post.href.value"
         :class="[getItemClasses(i)]"
       >
@@ -45,7 +67,7 @@ function getItemClasses(index: number): string {
               <CardButton
                 v-for="(cat, ii) in post.categories.value?.slice(0, 2)"
                 :key="ii"
-                :card
+                :card="card"
                 theme="overlay"
                 rounding="full"
                 size="xs"
@@ -65,7 +87,7 @@ function getItemClasses(index: number): string {
             <CardButton
               v-for="(cat, ii) in post.categories.value?.slice(0, 2)"
               :key="ii"
-              :card
+              :card="card"
               :text="cat.title"
               size="xs"
               :href="taxonomyLink({ card, taxonomy: 'category', term: cat.slug })"
@@ -76,6 +98,25 @@ function getItemClasses(index: number): string {
       </CardLink>
     </div>
     <El404 v-else super-heading="Index" heading="No Posts Found" sub-heading="Nothing to show here." :actions="[{ name: 'Go to Home', href: '/' }]" />
+
+    <!-- Pagination -->
+    <div v-if="totalPages > 1" class="mt-10 flex justify-center items-center space-x-4">
+      <XButton
+        :disabled="currentPage === 1"
+        size="sm"
+        @click="changePage(currentPage - 1)"
+      >
+        Previous
+      </XButton>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <XButton
+        :disabled="currentPage === totalPages"
+        size="sm"
+        @click="changePage(currentPage + 1)"
+      >
+        Next
+      </XButton>
+    </div>
   </div>
 </template>
 

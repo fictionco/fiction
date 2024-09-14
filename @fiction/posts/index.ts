@@ -112,6 +112,8 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
 
     const r = await this.requests.ManagePostIndex.request({ _action: 'list', orgId, limit, offset })
 
-    return r.data?.length ? r.data.map(p => new Post({ fictionPosts: this, sourceMode: 'global', ...p })) : []
+    const posts = r.data?.length ? r.data.map(p => new Post({ fictionPosts: this, sourceMode: 'global', ...p })) : []
+
+    return { posts, indexMeta: r.indexMeta }
   }
 }

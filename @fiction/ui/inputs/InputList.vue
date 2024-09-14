@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { Sortable } from '@shopify/draggable'
 import type { InputOption } from '.'
 import { getNested, setNested, shortId, vue, waitFor } from '@fiction/core'
 import TransitionSlide from '../anim/TransitionSlide.vue'
@@ -25,6 +26,7 @@ const itemSelector = `[data-drag-depth="${props.depth}"]`
 const dragSelector = `[data-drag-handle="${props.depth}"]`
 const openItem = vue.ref(-1)
 const wrapperEl = vue.ref<HTMLElement>()
+const listKey = vue.ref(0)
 
 const keyedModelValue = vue.computed<KeyedItem[]>(() => {
   return props.modelValue.map((item, i) => {
@@ -37,7 +39,7 @@ function updateModelValue(val: Record<string, unknown>[]) {
   emit('update:modelValue', val)
 }
 
-function updateOrder() {
+async function updateOrder() {
   if (!wrapperEl.value)
     return
 
@@ -54,6 +56,7 @@ function updateOrder() {
   })
 
   updateModelValue(val)
+  listKey.value++ // Increment the key to force re-render
 }
 
 function updateInputValue(args: { index: number, key: string, value: unknown }) {
@@ -86,13 +89,17 @@ function toggleItem(index: number) {
   openItem.value = openItem.value === index ? -1 : index
 }
 
-vue.onMounted(async () => {
-  await waitFor(200)
+let sortable: Sortable | undefined
 
+async function createDraggable() {
   if (!wrapperEl.value)
     return
   const { Plugins, Sortable } = await import('@shopify/draggable')
-  const sortable = new Sortable(wrapperEl.value, {
+
+  if (sortable)
+    sortable.destroy()
+
+  sortable = new Sortable(wrapperEl.value, {
     draggable: itemSelector,
     distance: 3,
     handle: dragSelector,
@@ -104,11 +111,19 @@ vue.onMounted(async () => {
   sortable.on('sortable:stop', (_evt) => {
     setTimeout(() => updateOrder(), 50)
   })
+}
+
+vue.onMounted(async () => {
+  await waitFor(200)
+
+  vue.watch(() => listKey.value, async () => {
+    await createDraggable()
+  }, { immediate: true })
 })
 </script>
 
 <template>
-  <div ref="wrapperEl">
+  <div ref="wrapperEl" :key="listKey">
     <div
       v-for="(item, i) in keyedModelValue"
       :key="i"

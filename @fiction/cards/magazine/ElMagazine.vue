@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import type { FictionPosts } from '@fiction/posts'
+import type { IndexMeta } from '@fiction/core'
 
+import type { FictionPosts } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import type { UserConfig } from './index.js'
 import { unhead, useService, vue } from '@fiction/core'
@@ -18,6 +19,29 @@ const singlePost = vue.shallowRef<Post | undefined>()
 const nextPost = vue.shallowRef<Post | undefined>()
 const loading = vue.ref(false)
 const routeSlug = vue.computed(() => card.site?.siteRouter.params.value.itemId as string | undefined)
+
+const indexMeta = vue.ref<IndexMeta>({
+  offset: 0,
+  limit: uc.value.posts?.limit || 10,
+  count: 0,
+  order: 'desc',
+  orderBy: 'dateAt',
+})
+
+function updateIndexMeta(newMeta: IndexMeta) {
+  indexMeta.value = newMeta
+  // Trigger re-fetching of posts with the new offset
+  loadPosts()
+}
+
+async function loadPosts() {
+  if (uc.value.posts?.format === 'local') {
+    await loadLocal()
+  }
+  else {
+    await loadGlobal()
+  }
+}
 
 function getNextPost(args: { single?: Post, posts?: Post[] }) {
   const { single, posts = [] } = args
@@ -43,7 +67,9 @@ async function loadGlobal() {
     nextPost.value = getNextPost({ single: singlePost.value, posts: posts.value })
   }
   else {
-    posts.value = await fictionPosts.getPostIndex({ limit: 5, orgId })
+    const r = await fictionPosts.getPostIndex({ limit: 5, orgId })
+    posts.value = r.posts
+    indexMeta.value = { ...indexMeta.value, ...r.indexMeta }
   }
 
   loading.value = false
@@ -59,24 +85,27 @@ async function loadLocal() {
     singlePost.value = new Post({ ...common, ...p })
     nextPost.value = getNextPost({ single: singlePost.value, posts: ps.map(p => new Post({ ...common, ...p })) })
   }
-}
-
-async function load() {
-  if (uc.value.posts?.format === 'local') {
-    await loadLocal()
-  }
   else {
-    await loadGlobal()
+    const { offset = 0, limit = 10 } = indexMeta.value
+    const start = offset
+    const end = offset + limit
+    posts.value = ps.slice(start, end).map((p, i) => new Post({ ...common, ...p, localSourcePath: `posts.posts.${i + start}` }))
+    indexMeta.value = {
+      ...indexMeta.value,
+      count: ps.length,
+      offset,
+      limit,
+    }
   }
 }
 
 vue.onServerPrefetch(async () => {
-  await load()
+  await loadPosts()
 })
 
 vue.onMounted(async () => {
   vue.watch(() => [routeSlug.value, uc.value.posts?.format], async () => {
-    await load()
+    await loadPosts()
   }, { immediate: true })
 })
 
@@ -117,7 +146,14 @@ if (routeSlug.value) {
         :post="singlePost"
         :next-post="nextPost"
       />
-      <ElMagazineIndex v-else :card="card" :loading="loading" :posts="posts" />
+      <ElMagazineIndex
+        v-else
+        :card="card"
+        :loading="loading"
+        :posts="posts"
+        :index-meta="{}"
+        @update:index-meta="updateIndexMeta"
+      />
     </transition>
   </div>
 </template>

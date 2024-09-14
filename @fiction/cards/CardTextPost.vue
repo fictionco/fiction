@@ -47,9 +47,6 @@ function onInput(v: string) {
     const userConfig = getNewUserConfig(v)
     card.value?.syncCard({ caller: 'updatePost', cardConfig: { cardId: card.value?.cardId, userConfig } })
   }
-  else {
-    console.error('Cannot update post in sourceMode: global')
-  }
 }
 
 const value = vue.computed(() => {
