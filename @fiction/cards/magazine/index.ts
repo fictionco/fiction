@@ -29,6 +29,7 @@ async function getDemoUserConfig(): Promise<UserConfig> {
     standard: { spacing: { verticalSpacing: 'sm' } },
     posts: {
       format: 'local',
+      limit: 5,
       posts: [
         {
           title: 'Revolutionizing UX: My Journey at Tech Giant',

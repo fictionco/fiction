@@ -100,18 +100,20 @@ function changePage(newPage: number) {
     <El404 v-else super-heading="Index" heading="No Posts Found" sub-heading="Nothing to show here." :actions="[{ name: 'Go to Home', href: '/' }]" />
 
     <!-- Pagination -->
-    <div v-if="totalPages > 1" class="mt-10 flex justify-center items-center space-x-4">
+    <div v-if="totalPages > 1" class="mt-12 flex justify-center items-center gap-6">
       <XButton
         :disabled="currentPage === 1"
         size="sm"
+        rounding="full"
         @click="changePage(currentPage - 1)"
       >
         Previous
       </XButton>
-      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <span class="font-sans text-xs text-theme-500 dark:text-theme-400">Page {{ currentPage }} <span class="italic font-serif">of</span> {{ totalPages }}</span>
       <XButton
         :disabled="currentPage === totalPages"
         size="sm"
+        rounding="full"
         @click="changePage(currentPage + 1)"
       >
         Next

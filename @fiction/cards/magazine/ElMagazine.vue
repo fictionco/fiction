@@ -151,7 +151,7 @@ if (routeSlug.value) {
         :card="card"
         :loading="loading"
         :posts="posts"
-        :index-meta="{}"
+        :index-meta="indexMeta"
         @update:index-meta="updateIndexMeta"
       />
     </transition>
