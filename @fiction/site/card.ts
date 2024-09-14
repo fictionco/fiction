@@ -51,6 +51,7 @@ interface CardTemplateSettings<
   demoPage?: (args: { site: Site }) => Promise<{ cards: CardConfigPortable< CardTemplateUserConfigAll<S>>[] }>
   getQueries?: (args: CardQuerySettings) => CardTemplateSurface<S>[ 'queries' ]
   getSitemapPaths?: (args: { site: Site, card: Card<CardTemplateUserConfigAll<S>>, pagePath: string }) => Promise<string[]>
+  singleCard?: (args: { card: Card }) => CardConfigPortable
   title?: string
   description?: string
   category?: CardCategory[]
@@ -198,7 +199,7 @@ export class Card<
     }
   })
 
-  initSubCard(args: { cardConfig: CardConfigPortable }) {
+  initSubCard(args: { cardConfig: CardConfigPortable }): Card {
     const { cardConfig } = args
     const card = new Card({
       parentId: this.cardId,

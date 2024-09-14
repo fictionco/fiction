@@ -26,7 +26,7 @@ async function getDefaultUserConfig(): Promise<UserConfig> {
 
 async function getDemoUserConfig(): Promise<UserConfig> {
   const c: UserConfig = {
-    standard: { spacing: { verticalSpacing: 'sm' } },
+    standard: { spacing: { verticalSpacing: 'sm' }, handling: { showOnSingle: true } },
     posts: {
       format: 'local',
       limit: 5,
@@ -119,6 +119,9 @@ export const templates = [
     isPublic: false,
     options,
     schema,
+    singleCard: ({ card }) => {
+      return { cards: [{ templateId }] }
+    },
     demoPage: async () => {
       const demoUserConfig = await getDemoUserConfig()
       const defaultUserConfig = await getDefaultUserConfig()

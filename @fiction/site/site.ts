@@ -144,13 +144,14 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   pages = vue.shallowRef([] as Card[])
 
   primaryCustomDomain = vue.computed(() => this.customDomains.value?.find(d => d.isPrimary)?.hostname ?? this.customDomains.value?.[0]?.hostname)
-
+  currentItemId = vue.computed(() => this.siteRouter.params.value.itemId as string | undefined)
   currentViewId = vue.computed(() => (this.siteRouter.params.value.viewId || '_home') as string)
   viewMap = vue.computed(() => getViewMap({ pages: this.pages.value }))
   activePageId = activePageId({ siteRouter: this.siteRouter, viewMapRef: this.viewMap })
   currentPage = vue.computed(() => getPageById({ pageId: this.activePageId.value, site: this }))
   sections = vue.shallowRef(setSections({ site: this, sections: this.settings.sections }))
   layout = vue.computed<Record<string, Card>>(() => ({ ...this.sections.value, main: this.currentPage.value }))
+
   availableCards = vue.computed(() => flattenCards([...this.pages.value, ...Object.values(this.sections.value)]))
   currentPath = vue.computed({
     get: () => this.siteRouter.current.value.path,

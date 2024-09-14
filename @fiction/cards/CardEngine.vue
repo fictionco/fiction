@@ -4,12 +4,12 @@ import { resetUi, toLabel, vue } from '@fiction/core'
 import CardWrap from './CardWrap.vue'
 import EffectTransitionCardList from './EffectTransitionCardList.vue'
 
-const props = defineProps({
-  card: { type: Object as vue.PropType<Card>, default: undefined },
-  tag: { type: String, default: 'div' },
-})
+const { card, tag = 'div' } = defineProps<{
+  card: Card
+  tag: string
+}>()
 
-const isEditable = vue.computed(() => props.card?.site?.isEditable.value)
+const isEditable = vue.computed(() => card?.site?.isEditable.value)
 
 function handleCardClick(args: { cardId: string, event: MouseEvent }) {
   const { event, cardId } = args
@@ -17,25 +17,35 @@ function handleCardClick(args: { cardId: string, event: MouseEvent }) {
   if (isEditable.value) {
     event?.stopPropagation()
     resetUi({ scope: 'all', cause: 'ElEngine', trigger: 'elementClick' })
-    props.card?.site?.setActiveCard({ cardId })
+    card?.site?.setActiveCard({ cardId })
   }
 }
 
-const cards = vue.computed(() => {
-  const c = props.card?.cards.value || []
+const renderCards = vue.computed(() => {
+  const c = card?.cards.value || []
 
-  return c.filter(c => c.tpl.value?.settings)
+  const site = card?.site
+  const currentItemId = site?.currentItemId.value
+
+  return tag === 'main'
+    ? c.filter((c) => {
+      const uc = c.userConfig.value
+      const showOnSingle = uc.standard?.handling?.showOnSingle
+      const hideOnPage = uc.standard?.handling?.hideOnPage
+      return (currentItemId && showOnSingle) || (!currentItemId && !hideOnPage)
+    })
+    : c
 })
 </script>
 
 <template>
-  <component :is="tag" v-if="cards.length" class="card-engine">
+  <component :is="tag" v-if="renderCards.length" class="card-engine">
     <EffectTransitionCardList>
       <CardWrap
-        v-for="(subCard) in cards"
+        v-for="(subCard) in renderCards"
         :key="subCard.cardId"
         :card="subCard"
-        :data-sub-card-id="subCard.cardId"
+        :data-card-id="subCard.cardId"
         class="relative group/engine"
         :class="[
           subCard.isActive.value && isEditable ? 'outline-2 outline-dashed outline-theme-300 dark:outline-theme-600' : '',

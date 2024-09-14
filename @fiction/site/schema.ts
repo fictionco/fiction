@@ -21,6 +21,11 @@ const Scheme = z.object({
 // Main schema
 export const CardStandardSchema = z.object({
 
+  handling: z.object({
+    hideOnPage: z.boolean().optional(),
+    showOnSingle: z.boolean().optional(),
+  }).optional(),
+
   scheme: z.object({
     light: Scheme.optional(),
     base: Scheme.optional(),
@@ -100,6 +105,7 @@ export const SiteUserConfigSchema = z.object({
     isLightMode: z.boolean().optional(),
     fonts: FontsSchema.optional(),
     buttons: ButtonTypeSchema.optional(),
+
   }).optional(),
   standard: CardStandardSchema.optional(),
 })
