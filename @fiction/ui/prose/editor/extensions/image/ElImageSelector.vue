@@ -93,8 +93,7 @@ const items = vue.computed(() => {
       <ButtonMenu :items="items" class="absolute top-3 right-3 z-20 opacity-0 group-hover:opacity-100" />
       <div :style="imageStyle">
         <img class="w-full" :src="media?.url" :alt="media?.alt">
-        <figcaption
-
+        <div
           contenteditable="true"
           placeholder="Add a caption..."
           class="cptn w-full text-center text-sm mt-4 text-theme-500 dark:text-theme-400"
@@ -103,7 +102,7 @@ const items = vue.computed(() => {
           @click="isEditing = true"
         >
           {{ media.caption }}
-        </figcaption>
+        </div>
       </div>
     </div>
   </NodeViewWrapper>

@@ -9,24 +9,25 @@ import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import CardButton from '../CardButton.vue'
+import CardTextPost from '../CardTextPost.vue'
 import ElAuthor from './ElAuthor.vue'
 
-const props = defineProps({
-  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
-  loading: { type: Boolean, default: true },
-  post: { type: Object as vue.PropType<Post>, default: undefined },
-  nextPost: { type: Object as vue.PropType<Post>, default: undefined },
-})
+const { card, loading = false, post, nextPost } = defineProps<{
+  card: Card<UserConfig>
+  loading: boolean
+  post?: Post
+  nextPost?: Post
+}>()
 
 const service = useService<{ fictionPosts: FictionPosts }>()
 
 const userIsAuthor = vue.computed(() => {
-  return props.post?.settings.authors?.some(a => a.userId === service.fictionUser.activeUser.value?.userId)
+  return post?.settings.authors?.some(a => a.userId === service.fictionUser.activeUser.value?.userId)
 })
 const proseClass = `prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl mx-auto focus:outline-none `
 
 const imageAspect = vue.computed(() => {
-  const img = props.post?.media.value
+  const img = post?.media.value
   const h = img?.height
   const w = img?.width
 
@@ -71,12 +72,8 @@ const imageAspect = vue.computed(() => {
             Edit Post
           </CardButton>
         </div>
-        <h1 class="text-6xl font-bold x-font-title text-balance">
-          {{ post.title.value }}
-        </h1>
-        <h3 class=" font-medium dark:text-theme-400 text-balance">
-          {{ post.subTitle.value }}
-        </h3>
+        <CardTextPost tag="h1" path="title" :post class="text-6xl font-bold x-font-title text-balance" />
+        <CardTextPost :post tag="h2" path="subTitle" class=" font-medium dark:text-theme-400 text-balance" />
         <div class="flex justify-center">
           <ElAuthor v-for="(author, i) in post.authors.value" :key="i" :user="author" :date-at="post.dateAt.value" />
         </div>
@@ -88,7 +85,7 @@ const imageAspect = vue.computed(() => {
         </div>
       </AnimClipPath>
       <div :class="proseClass">
-        <div class="content-container" v-html="post.content.value" />
+        <CardTextPost :post path="content" class="content-container" />
 
         <div v-if="post.tags.value?.length" class="not-prose tags flex gap-4 my-8 items-center px-4 justify-center" :class="proseClass">
           <div class="text-xs italic text-theme-500">

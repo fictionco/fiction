@@ -167,7 +167,7 @@ jobs:
         uses: actions/cache/restore@v4
         id: eslint-cache-restore
         with:
-          path: ~/.eslintcache
+          path: .eslintcache
           key: ${{ runner.os }}-eslint-${{ github.ref }}
           restore-keys: |
             ${{ runner.os }}-eslint-
@@ -180,7 +180,7 @@ jobs:
         uses: actions/cache/save@v4
         if: always()
         with:
-          path: ~/.eslintcache
+          path: .eslintcache
           key: ${{ runner.os }}-eslint-${{ github.ref }}-${{ github.sha }}
 
       - name: Debug Git Config

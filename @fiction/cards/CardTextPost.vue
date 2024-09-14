@@ -33,6 +33,7 @@ function getNewPostConfig(v: string) {
 function getNewUserConfig(v: string) {
   const cardPath = `${post.settings.localSourcePath}.${path}`
   const cardUserConfig = card.value?.userConfig.value || {}
+
   return setNested({ data: cardUserConfig, path: cardPath, value: v })
 }
 
@@ -45,6 +46,7 @@ function onValue(v: string) {
 function onInput(v: string) {
   if (post.settings.sourceMode === 'local') {
     const userConfig = getNewUserConfig(v)
+
     card.value?.syncCard({ caller: 'updatePost', cardConfig: { cardId: card.value?.cardId, userConfig } })
   }
 }

@@ -13,6 +13,8 @@ const emit = defineEmits<{
   (event: 'update:modelValue', payload: string): void
 }>()
 
+const isEditing = vue.ref(false)
+
 const editor = useEditor({
   content: props.modelValue,
   extensions,
@@ -27,7 +29,12 @@ const editor = useEditor({
     if (html !== props.modelValue)
       emit('update:modelValue', html)
   },
-
+  onFocus: () => {
+    isEditing.value = true
+  },
+  onBlur: () => {
+    isEditing.value = false
+  },
 })
 
 const tt = vue.ref<HTMLElement>()
@@ -36,6 +43,12 @@ vue.onMounted(() => {
     const md = isDarkOrLightMode(tt.value)
     tt.value.classList.add(md)
   }
+
+  vue.watch(() => props.modelValue, (v) => {
+    if (editor && !isEditing.value) {
+      editor.value?.commands.setContent(v)
+    }
+  })
 })
 </script>
 

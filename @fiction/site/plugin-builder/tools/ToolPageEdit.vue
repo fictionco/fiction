@@ -26,6 +26,15 @@ const page = vue.computed(() => site.editPageConfig.value)
 const options = vue.computed<InputOption[]>(() => {
   return [
     new InputOption({
+      key: 'pageSetup',
+      label: 'Name / Slug',
+      input: 'group',
+      options: [
+        new InputOption({ key: 'title', label: 'Name', input: 'InputText', placeholder: 'Page Name', isRequired: true }),
+        new InputOption({ key: 'slug', label: 'Slug', input: InputSlug, placeholder: 'my-page', isRequired: true, props: { site } }),
+      ],
+    }),
+    new InputOption({
       key: 'manageLayout',
       label: 'Page Layout',
       input: 'group',
@@ -42,15 +51,7 @@ const options = vue.computed<InputOption[]>(() => {
         }),
       ],
     }),
-    new InputOption({
-      key: 'pageSetup',
-      label: 'Page Setup',
-      input: 'group',
-      options: [
-        new InputOption({ key: 'title', label: 'Name', input: 'InputText', placeholder: 'Page Name', isRequired: true }),
-        new InputOption({ key: 'slug', label: 'Slug', input: InputSlug, placeholder: 'my-page', isRequired: true, props: { site } }),
-      ],
-    }),
+
     new InputOption({
       key: 'pageSeo',
       label: 'SEO / Meta Tags',
@@ -82,7 +83,6 @@ async function save() {
   <ElTool
     :actions="[]"
     v-bind="props"
-    :back="{ name: 'Manage Pages', onClick: () => controller.useTool({ toolId: 'managePages' }) }"
     title="Edit Page"
   >
     <ElForm @submit="save()">

@@ -22,7 +22,7 @@ const options = vue.computed(() => props.site?.activeCard.value?.options.value |
 function setActiveCardConfig(config: Partial<TableCardConfig>) {
   if (props.site) {
     props.site.activeCardConfig.value = config
-    props.site.frame.syncSite({ caller: 'updateCardConfig' })
+    props.site.activeCard.value?.syncCard({ caller: 'updateCardConfig', cardConfig: config })
   }
 }
 </script>

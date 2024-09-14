@@ -161,6 +161,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
   async processFrameMessage(args: { msg: FramePostMessageList, scope: 'child' | 'parent' }) {
     const { msg } = args
     const site = this.site
+
     switch (msg.messageType) {
       case 'resetUi': {
         const { trigger } = msg.data

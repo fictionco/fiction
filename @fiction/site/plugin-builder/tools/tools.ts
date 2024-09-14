@@ -9,7 +9,7 @@ export const tools = [
   {
     toolId: 'editPage',
     title: 'Edit Page',
-    icon: 'i-tabler-edit',
+    icon: 'i-tabler-layout-grid-add',
     widthClasses: 'w-[430px]',
     el: vue.defineAsyncComponent(async () => import('./ToolPageEdit.vue')),
     isPrimary: true,

@@ -117,8 +117,8 @@ const globalQueryOptions: InputOption[] = [
 
 const localPostOptions: InputOption[] = [
   new InputOption({ key: 'title', label: 'Title', input: 'InputText' }),
-  new InputOption({ key: 'content', label: 'Content', input: 'InputTextarea' }),
   new InputOption({ key: 'media', label: 'Media', input: 'InputMedia' }),
+  new InputOption({ key: 'content', label: 'Content', input: 'InputProse' }),
   new InputOption({ key: 'slug', label: 'Slug', input: 'InputText' }),
   new InputOption({ key: 'tags', label: 'Tags', input: 'InputItems' }),
   new InputOption({ key: 'categories', label: 'Categories', input: 'InputItems' }),

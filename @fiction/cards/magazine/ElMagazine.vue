@@ -82,7 +82,8 @@ async function loadLocal() {
 
   if (routeSlug.value) {
     const p = ps.find(p => p.slug === routeSlug.value)
-    singlePost.value = new Post({ ...common, ...p })
+    const localSourcePath = `posts.posts.${ps.findIndex(p => p.slug === routeSlug.value)}`
+    singlePost.value = new Post({ ...common, ...p, localSourcePath })
     nextPost.value = getNextPost({ single: singlePost.value, posts: ps.map(p => new Post({ ...common, ...p })) })
   }
   else {
