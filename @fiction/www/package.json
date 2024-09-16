@@ -20,7 +20,7 @@
     "@fiction/ui": "workspace:*",
     "@types/mapbox-gl": "^3.4.0",
     "mapbox-gl": "^3.6.0",
-    "postcss": "^8.4.45",
+    "postcss": "^8.4.47",
     "tailwindcss": "^3.4.11"
   },
   "devDependencies": {
