@@ -3,8 +3,8 @@ import type { ListItem, TableTaxonomyConfig } from '@fiction/core'
 import type { FictionPosts } from '..'
 import EffectDraggableSort from '@fiction/admin/el/EffectDraggableSort.vue'
 import { debounce, toLabel, useService, vue, waitFor } from '@fiction/core'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElBadge from '@fiction/ui/common/ElBadge.vue'
-import ElButton from '@fiction/ui/ElButton.vue'
 import InputSelectCustom from '@fiction/ui/inputs/InputSelectCustom.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
 
@@ -121,10 +121,10 @@ async function sortValue(sortedTitles: string[]) {
     />
     <div class="flex justify-start gap-2">
       <InputText v-if="addNewVisible" v-model="addNewTitle" :placeholder="`${toLabel(taxonomyType)} Name`" />
-      <ElButton class="shrink-0" :size="!addNewVisible ? 'xs' : 'md'" :btn="addNewVisible ? 'primary' : 'default'" @click.prevent="addNew()">
+      <XButton class="shrink-0" :size="!addNewVisible ? 'xs' : 'md'" :btn="addNewVisible ? 'primary' : 'default'" @click.prevent="addNew()">
         Add New
-      </ElButton>
-      <ElButton
+      </XButton>
+      <XButton
         v-if="addNewVisible"
         icon="i-tabler-x"
         class="shrink-0"

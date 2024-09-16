@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { ActionItem, vue } from '@fiction/core'
-import ElButton from '@fiction/ui/ElButton.vue'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 
 defineProps({
   title: { type: String, default: '' },
@@ -28,16 +28,16 @@ defineProps({
         class="flex  mt-4"
         :class="[mode === 'hero' ? ' ' : 'justify-center']"
       >
-        <ElButton
+        <XButton
           v-for="(item, i) in actions"
           :key="i"
-          btn="primary"
+          theme="primary"
           :href="item.href"
           :icon="item.icon"
           @click="item.onClick?.({ event: $event, item })"
         >
           {{ item.name }}
-        </ElButton>
+        </XButton>
       </div>
     </div>
   </div>

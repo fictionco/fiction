@@ -6,7 +6,24 @@ import { getButtonClasses } from './util'
 
 defineOptions({ name: 'XButton' })
 
-const props = defineProps<{
+const {
+  icon,
+  iconAfter,
+  href,
+  disabled,
+  design,
+  hover,
+  format,
+  theme,
+  size,
+  rounding = 'full',
+  shadow,
+  fontWeight,
+  loading,
+  wrapClass,
+  animate,
+  tag,
+} = defineProps<{
   icon?: string
   iconAfter?: string
   href?: string
@@ -16,36 +33,33 @@ const props = defineProps<{
   format?: ButtonFormat
   theme?: ColorThemeUser
   size?: StandardSize
-
   rounding?: ButtonRounding
   shadow?: ButtonShadow
   fontWeight?: ButtonFontWeight
-
   loading?: boolean | string
   wrapClass?: string
   animate?: boolean
-  tag?: 'button' | 'div'
-  isEditing?: boolean
+  tag?: 'button' | 'div' 
 }>()
 
 const randomId = shortId()
 const loaded = vue.ref(false)
 const animateSelected = vue.ref()
 function onClick() {
-  if (props.animate) {
+  if ( animate) {
     animateSelected.value = true
     setTimeout(() => animateSelected.value = false, 1000)
   }
 }
 
 const cls = vue.computed(() => {
-  return getButtonClasses(props)
+  return getButtonClasses({ rounding, design, theme, size, format, disabled, shadow, hover, fontWeight  })
 })
 const slots = vue.useSlots()
 const hasContent = vue.computed(() => !!slots?.default?.()?.[0]?.children?.length)
 
 const iconAdjust = vue.computed(() => {
-  const size = props.size || 'md'
+  const sz =  size || 'md'
   const sizeAdjustments: Record<StandardSize, { mt: string, mxBefore: string, mxAfter: string }> = {
     'xxs': { mt: '', mxBefore: '-ml-[1px] mr-[1px]', mxAfter: '-mr-[1px] ml-[1px]' },
     'xs': { mt: '', mxBefore: '-ml-[1px] mr-[1px]', mxAfter: '-mr-[1px] ml-[1px]' },
@@ -56,7 +70,7 @@ const iconAdjust = vue.computed(() => {
     '2xl': { mt: '', mxBefore: '-ml-2 mr-2', mxAfter: '-mr-2 ml-2' },
   }
 
-  const { mt, mxBefore, mxAfter } = sizeAdjustments[size]
+  const { mt, mxBefore, mxAfter } = sizeAdjustments[sz]
 
   return {
     before: hasContent.value ? mxBefore : 'mx-[-2px]',
@@ -64,7 +78,7 @@ const iconAdjust = vue.computed(() => {
     both: `text-[1.2em] ${mt}`,
   }
 })
-const hasAnimation = vue.computed(() => !['none', 'basic', ''].includes(props.hover || '') && !props.disabled)
+const hasAnimation = vue.computed(() => !['none', 'basic', ''].includes(hover || '') && !disabled)
 
 function loadAnimation() {
   splitLetters({ selector: `#${randomId} .txt` })
@@ -74,7 +88,7 @@ function doHoverAnimation() {
   if (!hasAnimation.value)
     return
 
-  animateItemEnter({ targets: `#${randomId} .fx`, themeId: props.hover || 'fade', totalTime: 600 })
+  animateItemEnter({ targets: `#${randomId} .fx`, themeId: hover || 'fade', totalTime: 600 })
 }
 
 vue.onMounted(() => {
@@ -87,14 +101,13 @@ vue.onMounted(() => {
 })
 
 const linkProps = vue.computed(() => {
-  const { href } = props
   return pathIsHref(href) ? { href } : { to: href }
 })
 </script>
 
 <template>
   <component
-    :is="getNavComponentType({ name: 'btn', href }, props.hover === 'none' ? 'div' : tag || 'button')"
+    :is="getNavComponentType({ name: 'btn', href }, hover === 'none' ? 'div' : tag || 'button')"
     :id="randomId"
     v-bind="linkProps"
     class="xbutton group/button"

@@ -3,7 +3,7 @@ import type { FictionSubscribe } from '@fiction/plugin-subscribe'
 import type { Card } from '@fiction/site'
 import type { UserConfig } from '.'
 import { useService, vue } from '@fiction/core'
-import ElButton from '@fiction/ui/ElButton.vue'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElEmail from '@fiction/ui/inputs/InputEmail.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
@@ -76,15 +76,15 @@ async function createSubscription() {
             <XMedia :animate="animate ? 'swipe' : false" class="h-10 md:h-20 aspect-[2/1] object-contain" :media="uc.media" />
           </div>
         </div>
-        <CardText :animate="animate" path="superHeading" :card="card" class="font-sans text-sm text-theme-400/80 font-medium  text-balance mb-3" />
-        <CardText :animate="animate" path="heading" :card="card" class="x-font-title text-xl md:text-2xl font-semibold  text-balance" />
-        <CardText :animate="animate" path="subHeading" :card="card" class="text-sm md:text-base text-theme-500 dark:text-theme-300 text-balance my-3" />
+        <CardText :animate="animate" path="superHeading" :card class="font-sans text-sm text-theme-400/80 font-medium  text-balance mb-3" />
+        <CardText :animate="animate" path="heading" :card class="x-font-title text-xl md:text-2xl font-semibold  text-balance" />
+        <CardText :animate="animate" path="subHeading" :card class="text-sm md:text-base text-theme-500 dark:text-theme-300 text-balance my-3" />
       </div>
       <ElForm class="flex gap-2 mx-auto max-w-xs md:max-w-sm" @submit="createSubscription()">
         <ElEmail v-model="email" data-test-id="email" />
-        <ElButton data-test-id="submit" btn="primary" class="shrink-0" type="submit" :loading="loading">
+        <XButton data-test-id="submit" theme="primary" class="shrink-0" type="submit" :loading="loading">
           {{ uc.buttonText || 'Subscribe' }}
-        </ElButton>
+        </XButton>
       </ElForm>
 
       <div v-if="showDismiss" class=" text-xs font-sans antialiased font-medium text-center">

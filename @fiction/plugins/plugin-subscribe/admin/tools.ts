@@ -1,13 +1,15 @@
+import type { Card } from '@fiction/site'
 import type { FictionSubscribe } from '..'
 import type { Subscriber } from '../schema'
 import ElHeader from '@fiction/admin/settings/ElHeader.vue'
-import { SettingsTool } from '@fiction/admin/types'
 
+import { SettingsTool } from '@fiction/admin/types'
 import { deepMerge, gravatarUrlSync, type StandardServices, type User, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import ElImportFile from './ElImportFile.vue'
 
-export function getTools(_args: { service: StandardServices }) {
+export function getTools(_args: { service: StandardServices, card: Card }) {
+  const { card } = _args
   const tools = [
     new SettingsTool({
       title: 'Back',
@@ -19,7 +21,7 @@ export function getTools(_args: { service: StandardServices }) {
       title: 'Add Subscribers',
       userConfig: { isNavItem: true, navIcon: 'i-tabler-table-share', navIconAlt: 'i-tabler-table-plus' },
       options: (_args) => {
-        return vue.computed(() => [new InputOption({ key: 'publication', input: ElImportFile })] satisfies InputOption[])
+        return vue.computed(() => [new InputOption({ key: 'publication', input: ElImportFile, props: { card } })] satisfies InputOption[])
       },
     }),
   ] satisfies SettingsTool[]

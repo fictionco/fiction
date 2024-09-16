@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { ActionItem, MediaObject, vue } from '@fiction/core'
-import ElButton from '@fiction/ui/ElButton.vue'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 
 defineProps({
   heading: { type: String, default: 'Settings' },
@@ -31,9 +31,9 @@ defineProps({
       </div>
     </div>
     <div class="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-3 sm:space-y-0 sm:space-x-reverse md:mt-0 md:flex-row md:space-x-3">
-      <ElButton v-for="(action, i) in actions" :key="i" size="sm" :icon="action.icon" @click.stop="action.onClick?.({ event: $event })">
+      <XButton v-for="(action, i) in actions" :key="i" size="sm" :icon="action.icon" @click.stop="action.onClick?.({ event: $event })">
         {{ action.name }}
-      </ElButton>
+      </XButton>
     </div>
   </div>
 </template>

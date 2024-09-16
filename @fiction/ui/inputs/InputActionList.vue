@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { ActionItem, vue } from '@fiction/core'
-import ElButton from '../ElButton.vue'
+import XButton from '../buttons/XButton.vue'
 
 const props = defineProps({
   actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
@@ -27,10 +27,10 @@ function gapSize() {
 
 <template>
   <div class="flex items-center flex-wrap py-2" :class="gapSize()">
-    <ElButton
+    <XButton
       v-for="(action, i) in actions"
       :key="i"
-      :btn="action.btn || 'default'"
+      :theme="action.theme || 'default'"
       :size="action.size || uiSize"
       :loading="action.loading"
       :href="action.href"
@@ -40,6 +40,6 @@ function gapSize() {
       @click.stop.prevent="action.onClick ? action.onClick({ event: $event, props: { ...props, ...$attrs } }) : ''"
     >
       {{ action.name }}
-    </ElButton>
+    </XButton>
   </div>
 </template>

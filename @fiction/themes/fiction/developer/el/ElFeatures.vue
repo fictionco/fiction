@@ -32,7 +32,7 @@ const features = [
   },
   {
     title: 'Quick Setup',
-    text: `Fiction OS is built to be easy to use and quick to set up. Get started in minutes.`,
+    text: `FictionOS is built to be easy to use and quick to set up. Get started in minutes.`,
     figure: FigureThemes,
     link: { path: '/showcase', text: 'View Showcase' },
   },

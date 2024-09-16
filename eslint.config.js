@@ -4,9 +4,9 @@ import antfu from '@antfu/eslint-config'
 export default antfu(
   {
     typescript: {
+
       tsconfigPath: 'tsconfig.json',
       parserOptions: {
-        projectService: true,
         project: 'tsconfig.json',
         extraFileExtensions: ['.vue', '.json'],
         tsconfigRootDir: import.meta.dirname,

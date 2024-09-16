@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ActionItem, vue } from '@fiction/core'
 import type { UiElementStyle } from '@fiction/ui/utils'
-import ElButton from '@fiction/ui/ElButton.vue'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 
 defineProps({
   title: { type: String, default: '' },
@@ -31,7 +31,7 @@ defineProps({
             v-if="actions && actions.length"
             class="flex shrink-0 items-end justify-end space-x-4"
           >
-            <ElButton
+            <XButton
               v-for="(action, i) in actions"
               :key="i"
               :btn="(action.btn || 'default') as UiElementStyle"
@@ -41,7 +41,7 @@ defineProps({
               @click.stop="action.onClick ? action.onClick($event) : ''"
             >
               {{ action.name }}
-            </ElButton>
+            </XButton>
           </div>
         </div>
 

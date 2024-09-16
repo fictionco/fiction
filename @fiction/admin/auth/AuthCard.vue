@@ -5,7 +5,7 @@ import type { FictionAdmin } from '..'
 import TransactionView from '@fiction/cards/transactions/TransactionView.vue'
 import TransactionWrap from '@fiction/cards/transactions/TransactionWrap.vue'
 import { unhead, useService, vue } from '@fiction/core'
-import ElButton from '@fiction/ui/ElButton.vue'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import EffectTransitionList from '../el/EffectTransitionList.vue'
@@ -187,30 +187,30 @@ const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length
               @input="fields.password = $event.target.value"
             />
             <div class="action">
-              <ElButton
+              <XButton
                 v-if="itemId === 'password'"
                 data-test-id="password-login-button"
                 type="submit"
                 format="block"
-                btn="primary"
+                theme="primary"
                 size="lg"
                 :loading="sending"
                 icon="i-tabler-login"
               >
                 Login with Password
-              </ElButton>
-              <ElButton
+              </XButton>
+              <XButton
                 v-else
                 data-test-id="email-login-button"
                 type="submit"
                 format="block"
-                btn="primary"
+                theme="primary"
                 size="lg"
                 :loading="sending"
                 icon="i-tabler-sparkles"
               >
                 Email Me a Magic Link
-              </ElButton>
+              </XButton>
             </div>
 
             <div class="text-theme-400 dark:text-theme-500 text-xs font-sans text-balance text-center space-y-6">

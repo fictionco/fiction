@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import ElButton from '@fiction/ui/ElButton.vue'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 
 defineProps({
   title: {
@@ -24,13 +24,13 @@ defineProps({
       </h2>
       <div class="mt-4 flex lg:mt-0 lg:shrink-0">
         <slot>
-          <ElButton
-            btn="primary"
+          <XButton
+            theme="primary"
             href="https://docs.fiction.com"
             class="font-bold shadow md:ml-3 md:py-2.5 md:px-7 md:text-lg"
           >
             Start Now &rarr;
-          </ElButton>
+          </XButton>
         </slot>
       </div>
     </div>

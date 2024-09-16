@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { ActionItem, vue } from '@fiction/core'
-import ElButton from './ElButton.vue'
+import XButton from './buttons/XButton.vue'
 
 defineProps({
   title: { type: String, default: '' },
@@ -33,10 +33,10 @@ defineProps({
             v-if="actions && actions.length"
             class="flex shrink-0 items-end justify-end space-x-4"
           >
-            <ElButton
+            <XButton
               v-for="(action, i) in actions"
               :key="i"
-              :btn="action.btn || 'default'"
+              :theme="action.theme || 'default'"
               :size="action.size || 'md'"
               :loading="action.loading"
               :icon="action.icon"
@@ -46,7 +46,7 @@ defineProps({
               @click.stop="action.onClick ? action.onClick({ event: $event }) : ''"
             >
               {{ action.name }}
-            </ElButton>
+            </XButton>
           </div>
         </div>
 

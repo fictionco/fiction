@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { ActionItem, vue } from '@fiction/core'
-import ElButton from '../ElButton.vue'
+import XButton from '../buttons/XButton.vue'
 
 defineProps({
   superHeading: { type: String, default: undefined },
@@ -23,15 +23,15 @@ defineProps({
         {{ subHeading || `This page does not exist or has moved.` }}
       </p>
       <div class="mt-10 flex items-center justify-center gap-x-6">
-        <ElButton
+        <XButton
           v-for="(item, i) in actions"
           :key="i"
           :href="item.href"
-          :btn="item.btn"
+          :theme="item.theme"
           @click.stop="item.onClick && item.onClick({ event: $event })"
         >
           {{ item.name }}
-        </ElButton>
+        </XButton>
       </div>
     </div>
   </div>

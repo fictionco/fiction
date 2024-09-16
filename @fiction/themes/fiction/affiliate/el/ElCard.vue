@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site'
 import { vue } from '@fiction/core'
-import ElButton from '@fiction/ui/ElButton.vue'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import bothWaysArrow from './both-ways-arrow.svg'
 
 export type UserConfig = { test?: boolean }
@@ -74,14 +74,14 @@ const referralAccounts = vue.computed(() => {
               <div class="mt-10 sm:mt-12">
                 <div class="">
                   <div class="mt-3 sm:mt-0">
-                    <ElButton
+                    <XButton
                       href="#"
                       size="lg"
                       btn="primary"
                       class="px-3 sm:px-6"
                     >
                       Coming Soon
-                    </ElButton>
+                    </XButton>
                   </div>
                   <div
                     class="text-dark-400 mt-8 text-xs font-sans"

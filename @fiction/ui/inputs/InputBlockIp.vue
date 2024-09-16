@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { FictionUser } from '@fiction/core'
 import { getNetworkIp, useService, vue } from '@fiction/core'
-import ElButton from '../ElButton.vue'
+import XButton from '../buttons/XButton.vue'
 
 export interface BlockIp {
   ipName?: string
@@ -91,7 +91,7 @@ vue.watch(
       </div>
 
       <div class="sm:col-span-1">
-        <ElButton btn="default" @click.prevent="deleteIp(i)">
+        <XButton theme="default" @click.prevent="deleteIp(i)">
           <svg
             class="h-5 w-5"
             xmlns="http://www.w3.org/2000/svg"
@@ -106,12 +106,12 @@ vue.watch(
               d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
             />
           </svg>
-        </ElButton>
+        </XButton>
       </div>
     </div>
     <div class="add-new mt-4">
-      <ElButton
-        btn="default"
+      <XButton
+        theme="default"
         size="sm"
         @click.prevent="newIp()"
       >
@@ -130,10 +130,10 @@ vue.watch(
           />
         </svg>
         Add New IP
-      </ElButton>
-      <ElButton
+      </XButton>
+      <XButton
         class="ml-4"
-        btn="default"
+        theme="default"
         size="sm"
         @click.prevent="addCurrentIp()"
       >
@@ -152,7 +152,7 @@ vue.watch(
           />
         </svg>
         Add Current IP
-      </ElButton>
+      </XButton>
     </div>
   </div>
 </template>

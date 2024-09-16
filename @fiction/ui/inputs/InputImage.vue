@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { MediaObject } from '@fiction/core'
 import { log, shortId, useService, vue } from '@fiction/core'
-import ElButton from '../ElButton.vue'
+import XButton from '../buttons/XButton.vue'
 import ElSpinner from '../loaders/ElSpinner.vue'
 import InputText from './InputText.vue'
 
@@ -89,22 +89,22 @@ async function triggerFileUpload() {
             input-class="text-xs"
             @update:model-value="updateValue({ url: $event })"
           />
-          <ElButton icon="i-tabler-arrow-left" size="xs" @click.stop="layoutMode = 'upload'">
+          <XButton icon="i-tabler-arrow-left" size="xs" @click.stop="layoutMode = 'upload'">
             Back to Upload
-          </ElButton>
+          </XButton>
         </template>
         <template v-else>
           <div class="font-sans antialiased text-xs font-semibold dark:text-theme-600 hidden xl:block">
             Drag &amp; Drop or...
           </div>
           <div class="flex gap-x-2 flex-col xl:flex-row gap-y-1">
-            <ElButton icon="i-tabler-upload" btn="theme" size="xs" @click="triggerFileUpload">
+            <XButton icon="i-tabler-upload" theme="theme" size="xs" @click="triggerFileUpload">
               Upload
-            </ElButton>
-            <ElButton icon="i-tabler-world" size="xs" @click.stop="layoutMode = 'url'">
+            </XButton>
+            <XButton icon="i-tabler-world" size="xs" @click.stop="layoutMode = 'url'">
               Url
-            </ElButton>
-            <ElButton v-if="v?.url" icon="i-tabler-x" size="xs" @click="updateValue({ url: $event })" />
+            </XButton>
+            <XButton v-if="v?.url" icon="i-tabler-x" size="xs" @click="updateValue({ url: $event })" />
           </div>
         </template>
       </div>

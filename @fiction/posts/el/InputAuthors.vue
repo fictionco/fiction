@@ -4,8 +4,8 @@ import type { FictionTeam } from '@fiction/core/plugin-team'
 import type { Card } from '@fiction/site'
 import type { FictionPosts } from '..'
 import { useService, vue } from '@fiction/core'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElBadge from '@fiction/ui/common/ElBadge.vue'
-import ElButton from '@fiction/ui/ElButton.vue'
 import InputSelectCustom from '@fiction/ui/inputs/InputSelectCustom.vue'
 
 const props = defineProps({
@@ -88,9 +88,9 @@ vue.onMounted(async () => {
       @update:model-value="addFromId($event as string)"
     />
     <div class="flex justify-start gap-2">
-      <ElButton class="shrink-0" size="xs" btn="default" :href="card.link('/team')">
+      <XButton class="shrink-0" size="xs" btn="default" :href="card.link('/team')">
         Add to Team &rarr;
-      </ElButton>
+      </XButton>
     </div>
   </div>
 </template>

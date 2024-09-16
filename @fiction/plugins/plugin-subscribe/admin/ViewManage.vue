@@ -15,5 +15,5 @@ const service = useService()
 </script>
 
 <template>
-  <SettingsTool base-path="/subscriber-manage" :tools="getTools({ service })" :card />
+  <SettingsTool base-path="/subscriber-manage" :tools="getTools({ service, card })" :card />
 </template>
