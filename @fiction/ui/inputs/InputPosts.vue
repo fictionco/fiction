@@ -128,7 +128,7 @@ const options = vue.computed(() => {
   const formatOption = baseOptions.find(opt => opt.key.value === 'format')!
   const limitOption = baseOptions.find(opt => opt.key.value === 'limit')!
 
-  if (modelValue?.format === 'global') {
+  if (modelValue?.format === 'standard') {
     return [
       formatOption,
       ...globalQueryOptions,
@@ -139,7 +139,7 @@ const options = vue.computed(() => {
     return [
       formatOption,
       new InputOption({
-        key: 'posts',
+        key: 'entries',
         label: 'Local Posts',
         input: 'InputList',
         options: localPostOptions,
@@ -153,6 +153,7 @@ const options = vue.computed(() => {
 <template>
   <div class="border-t border-theme-200 dark:border-theme-700 pt-4">
     <FormEngine
+      state-key="postHandling"
       :depth="1"
       :model-value="modelValue"
       ui-size="md"

@@ -8,6 +8,7 @@ type InputEntry = { el: vue.Component, shape?: string[] }
 
 export const inputs = {
   InputProse: { el: def(async () => import('./InputProse.vue')) },
+  InputActionList: { el: def(async () => import('./InputActionList.vue')) },
   InputActions: { el: def(async () => import('./InputActions.vue')) },
   InputItems: { el: def(async () => import('./InputItems.vue')) },
   InputUsername: { el: def(async () => import('./InputUsername.vue')) },
@@ -72,6 +73,7 @@ export interface InputOptionSettings<T extends string = string > {
   placeholder?: string
   input?: keyof typeof inputs | 'title' | 'group' | vue.Component
   isRequired?: boolean
+  isClosed?: boolean
   props?: Record<string, unknown>
   options?: InputOption[]
   list?: (ListItem | string)[] | readonly (ListItem | string)[]
@@ -99,6 +101,7 @@ export class InputOption<T extends string = string> extends FictionObject<InputO
   subLabel = vue.ref(this.settings.subLabel)
   placeholder = vue.ref(this.settings.placeholder)
   isRequired = vue.ref(this.settings.isRequired || false)
+  isClosed = vue.ref(this.settings.isClosed || false)
   isHidden = vue.ref(this.settings.isHidden || false)
   description = vue.ref(this.settings.description)
   options = vue.shallowRef(this.settings.options || [])

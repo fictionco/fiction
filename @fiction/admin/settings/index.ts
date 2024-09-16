@@ -19,7 +19,7 @@ export function newOrgOptions(args: { title: string, actionsRef?: vue.Ref<Action
     ]
 
     if (actions.length) {
-      options.push(new InputOption({ key: 'actions', input: 'InputActions', props: { actions, defaultSize: 'md' } }))
+      options.push(new InputOption({ key: 'actions', input: 'InputActionList', props: { actions, defaultSize: 'md' } }))
     }
 
     return new InputOption({ key: 'orgInfo', label: title, input: 'group', options })

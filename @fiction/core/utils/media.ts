@@ -1,6 +1,6 @@
-import type { MediaObject } from '@fiction/platform'
 import type { Buffer } from 'node:buffer'
 import type sharp from 'sharp'
+import type { MediaObject } from '../schemas/schemas.js'
 import path from 'node:path'
 import fs from 'fs-extra'
 import { stringify } from './utils'

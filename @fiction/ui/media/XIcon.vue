@@ -5,17 +5,17 @@ import { systemIcons } from '@fiction/ui/lib/systemIcons'
 
 defineOptions({ name: 'XIcon' })
 
-const { media } = defineProps<{ media: MediaObject }>()
+const { media } = defineProps<{ media: MediaObject | string }>()
 
 const iconData = vue.computed(() => {
   if (typeof media === 'string') {
-    return { iconId: media }
+    return (media.includes('i-') ? { iconClass: media, format: 'iconClass' } : { iconId: media, format: 'iconId' }) as MediaObject
   }
-  return media
+  return media as MediaObject
 })
 
 const mediaFormat = vue.computed(() => {
-  return determineMediaFormat(media)
+  return determineMediaFormat(iconData.value)
 })
 
 const iconContent = vue.computed(() => {

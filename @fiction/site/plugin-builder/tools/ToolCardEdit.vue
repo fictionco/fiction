@@ -17,7 +17,9 @@ useService<{ fictionSites: FictionSites }>()
 
 const tool = { toolId: 'settings', icon: 'i-tabler-settings', title: 'Settings' }
 
-const options = vue.computed(() => props.site?.activeCard.value?.options.value || [])
+const options = vue.computed(() => {
+  return props.site?.activeCard.value?.options.value || []
+})
 
 function setActiveCardConfig(config: Partial<TableCardConfig>) {
   if (props.site) {
@@ -55,8 +57,9 @@ function setActiveCardConfig(config: Partial<TableCardConfig>) {
       <template v-else>
         <FormEngine
           :key="site.activeCardConfig.value.cardId"
+          state-key="cardEdit"
           :model-value="site.activeCardConfig.value"
-          :options="options"
+          :options
           :input-props="{ site }"
           base-path="userConfig"
           @update:model-value="setActiveCardConfig($event)"

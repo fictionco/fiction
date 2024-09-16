@@ -77,12 +77,12 @@ async function loadGlobal() {
 
 async function loadLocal() {
   const common = { fictionPosts, card, sourceMode: 'local' } as const
-  const ps = uc.value.posts?.posts || []
-  posts.value = ps.map((p, i) => new Post({ ...common, ...p, localSourcePath: `posts.posts.${i}` }))
+  const ps = uc.value.posts?.entries || []
+  posts.value = ps.map((p, i) => new Post({ ...common, ...p, localSourcePath: `posts.entries.${i}` }))
 
   if (routeSlug.value) {
     const p = ps.find(p => p.slug === routeSlug.value)
-    const localSourcePath = `posts.posts.${ps.findIndex(p => p.slug === routeSlug.value)}`
+    const localSourcePath = `posts.entries.${ps.findIndex(p => p.slug === routeSlug.value)}`
     singlePost.value = new Post({ ...common, ...p, localSourcePath })
     nextPost.value = getNextPost({ single: singlePost.value, posts: ps.map(p => new Post({ ...common, ...p })) })
   }
@@ -90,7 +90,7 @@ async function loadLocal() {
     const { offset = 0, limit = 10 } = indexMeta.value
     const start = offset
     const end = offset + limit
-    posts.value = ps.slice(start, end).map((p, i) => new Post({ ...common, ...p, localSourcePath: `posts.posts.${i + start}` }))
+    posts.value = ps.slice(start, end).map((p, i) => new Post({ ...common, ...p, localSourcePath: `posts.entries.${i + start}` }))
     indexMeta.value = {
       ...indexMeta.value,
       count: ps.length,

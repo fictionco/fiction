@@ -73,7 +73,7 @@ async function save() {
     title="Add Page"
   >
     <ElForm @submit="save()">
-      <FormEngine v-model="page" :options :input-props="{ site }" />
+      <FormEngine v-model="page" state-key="pageEdit" :options :input-props="{ site }" />
 
       <div class="text-right px-4 py-2">
         <ElInput input="InputSubmit" :loading rounding="full" data-test-id="requestCreateNewPage">

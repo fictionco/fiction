@@ -1,4 +1,4 @@
-import type { colorTheme, Query, vueRouter } from '@fiction/core'
+import type { colorTheme, MediaObject, Query, vueRouter } from '@fiction/core'
 import type { InputOption } from '@fiction/ui'
 import type { CardQuerySettings } from './cardQuery.js'
 import type { CardOptionsWithStandard, SiteUserConfig } from './schema.js'
@@ -7,6 +7,7 @@ import type { CardConfigPortable, TableCardConfig } from './tables.js'
 import type { ComponentConstructor } from './type-utils.js'
 import { deepMerge, FictionObject, objectId, setNested, toLabel, vue } from '@fiction/core'
 import { z } from 'zod'
+import { standardCardOptions } from './cardStandard.js'
 import { CardGeneration } from './generation.js'
 import { getContentWidthClass, getSpacingClass } from './styling.js'
 import { siteGoto, siteLink } from './utils/manage.js'
@@ -57,8 +58,8 @@ interface CardTemplateSettings<
   category?: CardCategory[]
   icon?: string
   colorTheme?: typeof colorTheme[number]
-  thumb?: string
-
+  thumb?: MediaObject
+  getStandardOptions?: (args: { card: Card<CardTemplateUserConfigAll<S>> }) => InputOption
 }
 
 export class CardTemplate<
@@ -68,7 +69,26 @@ export class CardTemplate<
     super('CardTemplate', { title: toLabel(settings.templateId), ...settings })
   }
 
-  optionConfig = refineOptions({ options: this.settings.options || [], schema: this.settings.schema, templateId: this.settings.templateId })
+  getOptionConfig(args: { card: Card }) {
+    const { card } = args
+    return vue.computed(() => {
+      const standardOpts = this.settings.getStandardOptions
+        ? this.settings.getStandardOptions({ card })
+        : standardCardOptions({ card })
+
+      const templateOpts = refineOptions({
+        options: this.settings.options || [],
+        schema: this.settings.schema,
+        templateId: this.settings.templateId,
+      })
+
+      return {
+        ...templateOpts,
+        options: [...templateOpts.options, standardOpts],
+      }
+    })
+  }
+
   getBaseConfig = this.settings.getBaseConfig || (() => ({ xxx: '123' }))
 
   async toCard(args: { cardId?: string, site?: Site, userConfig?: CardTemplateUserConfigAll<S>, baseConfig?: CardTemplateUserConfigAll<S> } & CardSettings) {
@@ -178,7 +198,7 @@ export class Card<
 
   genUtil = new CardGeneration({ card: this })
   isActive = vue.computed<boolean>(() => this.site?.editor.value.selectedCardId === this.settings.cardId)
-  options: vue.ComputedRef<InputOption[]> = vue.computed(() => this.tpl.value?.optionConfig.options || [])
+  options: vue.ComputedRef<InputOption<any>[]> = vue.computed(() => this.tpl.value?.getOptionConfig({ card: this }).value.options || [])
   isNotInline = vue.ref(false) // allows cards to break out of inline mode
 
   constructor(settings: CardSettings<T>) {

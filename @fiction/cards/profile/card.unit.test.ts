@@ -1,3 +1,4 @@
+import { Card } from '@fiction/site'
 import { describe, expect, it } from 'vitest'
 import { zodToJsonSchema } from 'zod-to-json-schema'
 import { templates } from '.'
@@ -7,7 +8,9 @@ describe('minimalProfile', async () => {
     if (!templates[0].settings.schema)
       throw new Error('no schema')
 
-    expect(templates[0].optionConfig.unusedSchema).toMatchInlineSnapshot(`{}`)
+    const card = new Card({})
+
+    expect(templates[0].getOptionConfig({ card }).value.unusedSchema).toMatchInlineSnapshot(`{}`)
 
     const jsonSchema = zodToJsonSchema(templates[0].settings.schema)
     expect(jsonSchema).toMatchInlineSnapshot(`

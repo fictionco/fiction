@@ -12,6 +12,6 @@ const loaded = vue.ref(false)
 
 <template>
   <div class="engine-container relative" :class="[loaded ? 'loaded' : '']">
-    <ElEngine :card />
+    <ElEngine tag="div" :card data-test-id="area-engine" />
   </div>
 </template>

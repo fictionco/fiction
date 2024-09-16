@@ -102,6 +102,7 @@ async function navigate(v: NavItem) {
               </div>
               <FormEngine
                 v-model="currentPanel.val.value"
+                state-key="settingsTool"
                 :data-settings-tool="currentPanel.slug"
                 ui-size="lg"
                 :options="currentPanelOptions"

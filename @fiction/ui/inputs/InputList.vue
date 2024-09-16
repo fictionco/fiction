@@ -6,7 +6,7 @@ import TransitionSlide from '../anim/TransitionSlide.vue'
 import XButton from '../buttons/XButton.vue'
 import ElInput from './ElInput.vue'
 
-type BasicItem = Record<string, unknown> & { _key: string }
+export type BasicItem = Record<string, unknown> & { _key?: string }
 
 const props = defineProps({
   modelValue: { type: Array as vue.PropType<BasicItem[]>, default: () => [] },
@@ -17,7 +17,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-  (event: 'update:modelValue', payload: Record<string, unknown>[]): void
+  (event: 'update:modelValue', payload: BasicItem[]): void
 }>()
 
 type KeyedItem = Record<string, unknown> & { _key: string }

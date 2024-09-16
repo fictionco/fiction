@@ -8,7 +8,7 @@ import { z } from 'zod'
 const templateId = 'magazine'
 
 const schema = z.object({
-  posts: PostHandlingSchema.optional(),
+  posts: PostHandlingSchema.optional().describe('Posts used in the magazine'),
 })
 
 export type UserConfig = z.infer<typeof schema> & SiteUserConfig
@@ -20,7 +20,7 @@ const options: InputOption[] = [
 async function getDefaultUserConfig(): Promise<UserConfig> {
   return {
     standard: { spacing: { verticalSpacing: 'none' } },
-    posts: { format: 'global', limit: 12 },
+    posts: { format: 'standard', limit: 12 },
   }
 }
 
@@ -30,7 +30,7 @@ async function getDemoUserConfig(): Promise<UserConfig> {
     posts: {
       format: 'local',
       limit: 5,
-      posts: [
+      entries: [
         {
           title: 'Revolutionizing UX: My Journey at Tech Giant',
           subTitle: 'From Concept to Launch',

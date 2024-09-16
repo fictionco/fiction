@@ -32,7 +32,7 @@ export async function createDemoPage(args: { site: Site, template: CardTemplate<
           subHeading: template.settings.description,
           actions: [],
           superColor: template.settings.colorTheme,
-          superIcon: template.settings.icon,
+          superIcon: { format: 'iconClass', class: template.settings.icon },
         },
       }),
       ...crds,

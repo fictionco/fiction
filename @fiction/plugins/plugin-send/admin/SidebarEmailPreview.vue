@@ -32,6 +32,7 @@ function updatePost(config: Partial<EmailCampaignConfig>) {
   <ElTool :tool="tool">
     <ElForm v-if="email" id="toolForm">
       <FormEngine
+        state-key="emailPreview"
         :model-value="email.toConfig()"
         :options
         :input-props="{ email, card }"

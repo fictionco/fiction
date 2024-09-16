@@ -1,5 +1,6 @@
+
 import type { InputOptionSettings } from '@fiction/ui/index.js'
-import { ButtonDesignSchema, colorTheme, colorThemeUser, SizeSchema } from '@fiction/core'
+import { ButtonDesignSchema, colorTheme, colorThemeUser, HeaderLayoutSchema, SizeSchema } from '@fiction/core'
 import InputAi from '@fiction/site/ai/InputAi.vue'
 import { InputOption } from '@fiction/ui/index.js'
 
@@ -156,28 +157,6 @@ export const standardOption = {
         input: 'InputIcon',
       }), s.href(), s.target()] }),
     ] })
-  },
-  quotes: (_: OptArgs = {}) => {
-    const { mode } = _ || {}
-
-    const __ = { label: mode === 'single' ? 'Quote' : 'Quotes', key: 'quotes', ..._ }
-    const s = standardOption
-    const quoteOptions = () => {
-      const options = [
-        new InputOption({ key: 'text', label: 'Quote Text', input: 'InputText' }),
-        new InputOption({ key: 'authorName', label: 'Author Name', input: 'InputText' }),
-        new InputOption({ key: 'authorTitle', label: 'Author Title', input: 'InputText' }),
-        new InputOption({ key: 'authorImage', label: 'Author Image', input: 'InputMediaUpload' }),
-        new InputOption({ key: 'authorUrl', label: 'Author Link', input: 'InputUrl' }),
-        new InputOption({ key: 'orgName', label: 'Organization Name', input: 'InputText' }),
-        new InputOption({ key: 'orgImage', label: 'Organization Image', input: 'InputMediaUpload' }),
-        new InputOption({ key: 'orgUrl', label: 'Organization Url', input: 'InputText' }),
-      ]
-
-      return options
-    }
-
-    return mode === 'multi' ? s.inputList({ ...__, options: quoteOptions() as InputOption[] }) : s.group({ ...__, options: quoteOptions() as InputOption[] })
   },
   post: (_: OptArgs = {}) => {
     const __ = { label: 'Post', key: 'post', ..._ }

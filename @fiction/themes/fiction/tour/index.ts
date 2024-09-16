@@ -15,7 +15,7 @@ export async function getPage(args: { factory: Awaited<ReturnType<typeof getFact
             templateId: 'hero',
             userConfig: {
               superColor: 'green',
-              superIcon: 'i-tabler-arrow-up-right',
+              superIcon: { iconId: 'arrow-up-right' },
               superHeading: 'Why Fiction',
               subHeading: `Fiction is the easiest way to market yourself online.`,
               heading: `Are you ready to be seen and to <span data-text-effect data-effect-type="squiggle" data-effect-color="primary">make your impact?</span>`,

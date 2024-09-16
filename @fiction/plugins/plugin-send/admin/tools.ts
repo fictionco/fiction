@@ -89,7 +89,7 @@ export function getEmailManageOptions(args: { fictionSend: FictionSend, email?: 
 
         new InputOption({ key: 'post.title', label: 'Title', input: 'InputText', placeholder: 'Add a Catchy Title', isRequired: true, description: 'The text header that appears at the top of the email.' }),
         new InputOption({ key: 'post.subTitle', label: 'Subtitle', input: 'InputText', placeholder: 'Add some context with a subtitle', description: 'The text that appears below the title.' }),
-        new InputOption({ key: 'actions', label: 'Email Body Content', input: 'InputActions', props: {
+        new InputOption({ key: 'actions', label: 'Email Body Content', input: 'InputActionList', props: {
           actions: [{ name: 'Edit Email Content', btn: 'primary', href: card.link(`/campaign-edit?campaignId=${email?.campaignId}`) }],
           uiSize: 'md',
         } }),
@@ -103,7 +103,7 @@ export function getEmailManageOptions(args: { fictionSend: FictionSend, email?: 
         new InputOption({
           key: 'deletePost',
           label: 'Permanently Delete Email',
-          input: 'InputActions',
+          input: 'InputActionList',
           props: {
             actions: [
               {

@@ -171,15 +171,15 @@ export const UserSchema = z.object({
 })
 
 export const PostSchema = z.object({
-  title: z.string().optional(),
-  subTitle: z.string().optional(),
-  content: z.string().optional(),
-  status: PostStatusSchema.optional(),
-  media: MediaBasicSchema.optional(),
-  slug: z.string().optional(),
-  taxonomy: z.array(TaxonomySchema).optional(),
-  tags: z.array(TaxonomySchema).optional(),
-  categories: z.array(TaxonomySchema).optional(),
+  title: z.string().optional().describe('Title of the post'),
+  subTitle: z.string().optional().describe('Subtitle of the post'),
+  content: z.string().optional().describe('Content of the post'),
+  status: PostStatusSchema.optional().describe('Status of the post'),
+  media: MediaBasicSchema.optional().describe('Featured Media for the post'),
+  slug: z.string().optional().describe('Slug of the post page'),
+  taxonomy: z.array(TaxonomySchema).optional().describe('Taxonomy for the post which combines all types (categories, tags, etc)'),
+  tags: z.array(TaxonomySchema).optional().describe('Tags for the post'),
+  categories: z.array(TaxonomySchema).optional().describe('Categories for the post'),
   authors: z.array(UserSchema).optional(),
   seo: z.object({
     title: z.string().optional(),
@@ -188,7 +188,7 @@ export const PostSchema = z.object({
 })
 
 export const GlobalQuerySchema = z.object({
-  filters: z.array(OrFilterGroupSchema).optional(), // Array of OR filter groups
+  filters: z.array(OrFilterGroupSchema).optional().describe('Array of filter groups which selects by OR'),
   sortBy: z.string().optional(),
   sortOrder: z.enum(['asc', 'desc']).optional(),
   search: z.string().optional(),
@@ -200,11 +200,24 @@ export const GlobalQuerySchema = z.object({
 
 // Updated PostHandlingSchema
 export const PostHandlingSchema = z.object({
-  format: z.enum(['global', 'local']).default('local'),
-  limit: z.number().optional(),
-  posts: z.array(PostSchema).optional(),
-  query: GlobalQuerySchema.optional(),
+  format: z.enum(['standard', 'local']).default('local').describe('Either get from global posts or inline entries, AI always uses local'),
+  limit: z.number().optional().describe('Limit the number of posts to show - default is 12'),
+  entries: z.array(PostSchema).optional().describe('Inline post entries for local format'),
+  query: GlobalQuerySchema.optional().describe('Query for global posts'),
 })
 
 export type PostObject = z.infer<typeof PostSchema>
 export type PostHandlingObject = z.infer<typeof PostHandlingSchema>
+
+export const XButtonSchema = z.object({
+  name: z.string().optional().describe('Text in the button'),
+  href: z.string().optional().describe('Link to navigate to use path for local route, or full URL for external'),
+  design: ButtonDesignSchema.optional().describe('Design style of the button'),
+  theme: z.enum(colorThemeUser).optional().describe('Color theme of the button'),
+  size: SizeSchema.optional().describe('Size of the button'),
+  icon: z.string().optional(),
+  iconAfter: z.string().optional(),
+  target: z.enum(['_blank', '_self']).optional(),
+})
+
+export type XButtonProps = z.infer<typeof XButtonSchema>

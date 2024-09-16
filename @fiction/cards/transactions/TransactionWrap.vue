@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ActionItem } from '@fiction/core'
 import { vue } from '@fiction/core'
-import InputActions from '@fiction/ui/inputs/InputActions.vue'
+import InputActionList from '@fiction/ui/inputs/InputActionList.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 
 const props = defineProps({
@@ -62,7 +62,7 @@ const ico = vue.computed(() => iconThemes[props.status as keyof typeof iconTheme
         <div class="pb-24 md:pb-8 relative space-y-6">
           <slot />
 
-          <InputActions :data-test-actions="actions.length" class="justify-center" ui-size="md" :actions />
+          <InputActionList :data-test-actions="actions.length" class="justify-center" ui-size="md" :actions />
         </div>
       </div>
     </transition>

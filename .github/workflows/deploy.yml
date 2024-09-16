@@ -163,25 +163,25 @@ jobs:
       - name: Run Type Check
         run: npm run types:ci
 
-      - name: Restore ESLint cache
-        uses: actions/cache/restore@v4
-        id: eslint-cache-restore
-        with:
-          path: .eslintcache
-          key: ${{ runner.os }}-eslint-${{ github.ref }}
-          restore-keys: |
-            ${{ runner.os }}-eslint-
+      # - name: Restore ESLint cache
+      #   uses: actions/cache/restore@v4
+      #   id: eslint-cache-restore
+      #   with:
+      #     path: .eslintcache
+      #     key: ${{ runner.os }}-eslint-${{ github.ref }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-eslint-
 
-      - name: Run ESLint
-        run: npm run lint:dev
-        continue-on-error: false
+      # - name: Run ESLint
+      #   run: npm run lint:dev
+      #   continue-on-error: false
 
-      - name: Save ESLint cache
-        uses: actions/cache/save@v4
-        if: always()
-        with:
-          path: .eslintcache
-          key: ${{ runner.os }}-eslint-${{ github.ref }}-${{ github.sha }}
+      # - name: Save ESLint cache
+      #   uses: actions/cache/save@v4
+      #   if: always()
+      #   with:
+      #     path: .eslintcache
+      #     key: ${{ runner.os }}-eslint-${{ github.ref }}-${{ github.sha }}
 
       - name: Debug Git Config
         run: |

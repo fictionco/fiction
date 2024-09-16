@@ -10,7 +10,7 @@ import { useService, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
-import InputActions from '@fiction/ui/inputs/InputActions.vue'
+import InputActionList from '@fiction/ui/inputs/InputActionList.vue'
 import { t } from '../schema'
 import InputAuthors from './InputAuthors.vue'
 import InputTaxonomy from './InputTaxonomy.vue'
@@ -132,7 +132,7 @@ const options = vue.computed<InputOption[]>(() => {
         new InputOption({
           key: 'deletePost',
           label: 'Permanently Delete Post',
-          input: InputActions,
+          input: InputActionList,
           props: {
             actions: [
               {
@@ -172,6 +172,7 @@ function updatePost(config: TablePostConfig) {
   <ElTool v-if="post" :tool="tool" :actions="actions">
     <ElForm id="toolForm">
       <FormEngine
+        state-key="postEdit"
         :model-value="post.toConfig()"
         :options
         :input-props="{ post, card }"

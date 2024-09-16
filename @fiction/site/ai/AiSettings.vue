@@ -59,6 +59,7 @@ async function save() {
 <template>
   <ElForm class="space-y-6" @submit="save()">
     <FormEngine
+      state-key="aiSettings"
       :model-value="site.toConfig()"
       :options
       :input-props="{ site }"

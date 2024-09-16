@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { colorTheme } from '@fiction/core'
+import type { colorTheme, MediaObject, XButtonProps } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import type { XButtonProps } from '../schemaSets'
 import { vue } from '@fiction/core'
+import XIcon from '@fiction/ui/media/XIcon.vue'
 import { getColorThemeStyles } from '@fiction/ui/utils'
 import CardText from '../CardText.vue'
 import CardActions from './CardActions.vue'
@@ -11,7 +11,7 @@ export type UserConfig = {
   heading?: string
   subHeading?: string
   superHeading?: string
-  superIcon?: string
+  superIcon?: MediaObject
   superColor?: typeof colorTheme[number]
   actions?: XButtonProps[]
   layout?: 'center' | 'justify' | 'right' | 'left'
@@ -75,9 +75,9 @@ const layout = vue.computed(() => {
       :data-layout="layout"
     >
       <div class="max-w-screen-lg" :class="layout === 'justify' ? 'lg:min-w-[50%]' : 'mx-auto'">
-        <div v-if="uc.superHeading || uc.superIcon" class="flex gap-3 items-center mb-6" :class="[colorStyle.text, layout === 'center' ? 'md:justify-center' : '']">
+        <div v-if="uc.superHeading || uc.superIcon" class="flex gap-3 items-center mb-4" :class="[colorStyle.text, layout === 'center' ? 'md:justify-center' : '']">
           <div v-if="uc.superIcon" :class="colorStyle.icon" class="size-10 rounded-full flex items-center justify-center">
-            <div :class="uc.superIcon" class="text-2xl" />
+            <XIcon :media="uc.superIcon" class="size-6" />
           </div>
           <CardText
             tag="h3"
@@ -102,7 +102,7 @@ const layout = vue.computed(() => {
         <CardText
           tag="div"
           :card="card"
-          class="mt-8 text-xl lg:text-2xl lg:leading-snug md:text-balance text-theme-700 dark:text-theme-300/90"
+          class="mt-8 text-xl lg:text-2xl !leading-[1.5] md:text-balance text-theme-700 dark:text-theme-300/90"
           :class="layout === 'justify' ? 'lg:text-right' : ''"
           path="subHeading"
           placeholder="Sub Heading"

@@ -1,45 +1,79 @@
 <script lang="ts" setup>
-import type { ActionItem, vue } from '@fiction/core'
-import ElButton from '../ElButton.vue'
+import type { BasicItem } from './InputList.vue'
+import { colorThemeUser } from '@fiction/core'
+import { InputOption } from './index.js'
+import InputList from './InputList.vue'
 
-const props = defineProps({
-  actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
-  uiSize: { type: String as vue.PropType<ActionItem['size']>, default: 'sm' },
-})
+const { modelValue = [] } = defineProps<{ modelValue?: BasicItem[] }>()
 
-function gapSize() {
-  switch (props.uiSize) {
-    case 'xs':
-      return 'gap-2'
-    case 'sm':
-      return 'gap-3'
-    case 'md':
-      return 'gap-4'
-    case 'lg':
-      return 'gap-4'
-    case 'xl':
-      return 'gap-5'
-    default:
-      return 'gap-2'
-  }
-}
+const emit = defineEmits<{
+  (event: 'update:modelValue', payload: BasicItem[]): void
+}>()
+
+const buttonOptions: InputOption[] = [
+  new InputOption({
+    key: 'name',
+    label: 'Button Text',
+    input: 'InputText',
+    props: { placeholder: 'Enter button text' },
+  }),
+  new InputOption({
+    key: 'href',
+    label: 'Link',
+    input: 'InputUrl',
+    props: { placeholder: 'Enter URL or path' },
+  }),
+  new InputOption({
+    key: 'design',
+    label: 'Design Style',
+    input: 'InputSelectCustom',
+    list: [
+      { name: 'Solid', value: 'solid' },
+      { name: 'Outline', value: 'outline' },
+      { name: 'Ghost', value: 'ghost' },
+      { name: 'Link', value: 'link' },
+    ],
+  }),
+  new InputOption({
+    key: 'theme',
+    label: 'Color Theme',
+    input: 'InputSelectCustom',
+    list: colorThemeUser,
+  }),
+  new InputOption({
+    key: 'size',
+    label: 'Size',
+    input: 'InputSelectCustom',
+    list: [
+      { name: 'Extra Small', value: 'xs' },
+      { name: 'Small', value: 'sm' },
+      { name: 'Medium', value: 'md' },
+      { name: 'Large', value: 'lg' },
+      { name: 'Extra Large', value: 'xl' },
+    ],
+  }),
+  new InputOption({
+    key: 'icon',
+    label: 'Icon (Before)',
+    input: 'InputIcon',
+  }),
+  new InputOption({
+    key: 'iconAfter',
+    label: 'Icon (After)',
+    input: 'InputIcon',
+  }),
+  new InputOption({
+    key: 'target',
+    label: 'Link Target',
+    input: 'InputSelectCustom',
+    list: [
+      { name: 'Same Window', value: '_self' },
+      { name: 'New Window', value: '_blank' },
+    ],
+  }),
+]
 </script>
 
 <template>
-  <div class="flex items-center flex-wrap py-2" :class="gapSize()">
-    <ElButton
-      v-for="(action, i) in actions"
-      :key="i"
-      :btn="action.btn || 'default'"
-      :size="action.size || uiSize"
-      :loading="action.loading"
-      :href="action.href"
-      :target="action.target"
-      :icon="action.icon"
-      :icon-after="action.iconAfter"
-      @click.stop.prevent="action.onClick ? action.onClick({ event: $event, props: { ...props, ...$attrs } }) : ''"
-    >
-      {{ action.name }}
-    </ElButton>
-  </div>
+  <InputList item-name="Button" :options="buttonOptions" :model-value="modelValue" @update:model-value="emit('update:modelValue', $event)" />
 </template>

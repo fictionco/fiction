@@ -52,7 +52,7 @@ const mediaClass = vue.computed(() => {
   const layout = uc.value.layout || ''
 
   if (['right', 'left'].includes(layout))
-    out.push('aspect-[5/3] w-full')
+    out.push('aspect-[1/1] w-full')
   else
     out.push('aspect-[2/1]')
 

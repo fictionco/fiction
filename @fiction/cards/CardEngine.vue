@@ -4,10 +4,7 @@ import { resetUi, toLabel, vue } from '@fiction/core'
 import CardWrap from './CardWrap.vue'
 import EffectTransitionCardList from './EffectTransitionCardList.vue'
 
-const { card, tag = 'div' } = defineProps<{
-  card: Card
-  tag: string
-}>()
+const { card, tag = 'div' } = defineProps<{ card?: Card, tag: string }>()
 
 const isEditable = vue.computed(() => card?.site?.isEditable.value)
 

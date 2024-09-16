@@ -104,7 +104,14 @@ vue.onMounted(() => {
   <div class="px-6">
     <ElModal v-if="mode === 'new'" :vis="mode === 'new'" modal-class="max-w-lg" @update:vis="mode = 'current'">
       <ElForm @submit="createNewOrganization()">
-        <FormEngine v-model="newOrgForm" ui-size="lg" :card :options="toolFormOptions" :disable-group-hide="true" />
+        <FormEngine
+          v-model="newOrgForm"
+          state-key="orgHeader"
+          ui-size="lg"
+          :card
+          :options="toolFormOptions"
+          :disable-group-hide="true"
+        />
       </ElForm>
     </ElModal>
     <div v-else-if="mode === 'change'" class="p-12">

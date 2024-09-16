@@ -147,7 +147,7 @@ function toggleSidebar() {
         />
       </template>
       <template v-else-if="uc.layoutFormat === 'full'">
-        <ElEngine class="h-full" :card="card" />
+        <ElEngine tag="div" class="h-full" :card />
       </template>
       <div v-else class="relative min-h-0 grow overflow-scroll">
         <div class="page-area h-full">
@@ -190,7 +190,7 @@ function toggleSidebar() {
                     leave-to-class="opacity-0 -translate-y-10"
                     mode="out-in"
                   >
-                    <ElEngine :key="card.cardId" class="h-full" :card />
+                    <ElEngine :key="card.cardId" tag="div" class="h-full" :card />
                   </transition>
                 </template>
               </div>

@@ -118,6 +118,7 @@ const v = vue.computed({
     <ElForm @submit="save()">
       <FormEngine
         v-model="v"
+        state-key="globalSettings"
         :options="options"
         :input-props="{ site }"
       />

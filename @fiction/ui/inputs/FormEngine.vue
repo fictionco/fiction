@@ -8,26 +8,54 @@ import ElActions from '../buttons/ElActions.vue'
 import ElInput from './ElInput.vue'
 import ElToolSep from './ElToolSep.vue'
 
-const props = defineProps({
-  options: { type: Array as vue.PropType<InputOption[]>, required: true },
-  loading: { type: Boolean, default: false },
-  modelValue: { type: Object as vue.PropType<Record<string, unknown>>, default: () => {} },
-  depth: { type: Number, default: 0 },
-  basePath: { type: String, default: '' },
-  inputProps: { type: Object as vue.PropType<Record<string, unknown>>, default: () => ({}) },
-  uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
-  actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
-  disableGroupHide: { type: Boolean, default: false },
-})
+const {
+  options,
+  stateKey,
+  modelValue = {},
+  depth = 0,
+  basePath = '',
+  inputProps = {},
+  uiSize = 'md',
+  actions = [],
+  disableGroupHide = false,
+} = defineProps<{
+  stateKey: string
+  options: InputOption[]
+  loading?: boolean
+  modelValue?: Record<string, unknown>
+  depth?: number
+  basePath?: string
+  inputProps?: Record<string, unknown>
+  uiSize?: UiElementSize
+  actions?: ActionItem[]
+  disableGroupHide?: boolean
+}>()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: Record<string, unknown>): void
 }>()
 
-const menuVisibility = localRef<Record<string, boolean>>({ lifecycle: 'local', def: {}, key: 'toolForm' })
+// Create a function to recursively get all group options and their isClosed status
+function getGroupClosedStatus(options: InputOption[]): Record<string, boolean> {
+  return options.reduce((acc, opt) => {
+    if (opt.input.value === 'group') {
+      acc[opt.key.value] = opt.isClosed.value
+      if (opt.options.value) {
+        Object.assign(acc, getGroupClosedStatus(opt.options.value))
+      }
+    }
+    return acc
+  }, {} as Record<string, boolean>)
+}
+
+const menuVisibility = localRef<Record<string, boolean>>({
+  lifecycle: 'session',
+  def: getGroupClosedStatus(options),
+  key: `FormEngine-${stateKey}`,
+})
 
 function hide(key: string, val?: boolean) {
-  if (props.disableGroupHide)
+  if (disableGroupHide)
     return
 
   if (val !== undefined)
@@ -37,24 +65,24 @@ function hide(key: string, val?: boolean) {
 }
 
 function getOptionPath(key: string) {
-  return props.basePath ? `${props.basePath}.${key}` : key
+  return basePath ? `${basePath}.${key}` : key
 }
 
 const cls = vue.computed(() => {
   const configs = {
     md: {
-      groupHeader: 'py-2 px-4 text-xs',
+      groupHeader: 'py-1.5 px-3 text-xs',
       groupPad: 'p-4',
       inputGap: 'gap-4',
     },
     lg: {
-      groupHeader: 'py-3 px-5 text-sm',
+      groupHeader: 'py-2.5 px-4 text-sm',
       groupPad: 'px-8 lg:px-10 py-6',
       inputGap: 'gap-6',
     },
   }
 
-  return configs[props.uiSize as 'md' | 'lg']
+  return configs[uiSize as 'md' | 'lg']
 })
 </script>
 
@@ -66,7 +94,7 @@ const cls = vue.computed(() => {
           v-if="opt.input.value === 'group'"
           :class="[
             depth > 0 ? 'border rounded-md ' : '',
-            hide(opt.key.value) ? 'border-theme-300 dark:border-theme-600' : 'border-theme-200 dark:border-theme-700',
+            hide(opt.key.value) ? 'overflow-hidden border-theme-300 dark:border-theme-600' : 'border-theme-200 dark:border-theme-700',
           ]"
         >
           <div
@@ -86,6 +114,7 @@ const cls = vue.computed(() => {
             <div v-show="!hide(opt.key.value)">
               <div :class="cls.groupPad">
                 <FormEngine
+                  :state-key="stateKey"
                   :ui-size="uiSize"
                   :input-props="inputProps"
                   :options="opt.options.value || []"

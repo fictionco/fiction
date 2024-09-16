@@ -93,7 +93,7 @@ const toolFormOptions = vue.computed<InputOption[]>(() => {
   const options: InputOption[] = [
     new InputOption({ key: 'email', label: 'New Email Address', input: 'InputEmail', placeholder: 'New Email Address' }),
     new InputOption({ key: 'code', label: 'One Time Code', input: 'InputOneTimeCode', placeholder: '••••••', isHidden: !codeSent.value }),
-    new InputOption({ key: 'actions', input: 'InputActions', props: { actions, defaultSize: 'md' } }),
+    new InputOption({ key: 'actions', input: 'InputActionList', props: { actions, defaultSize: 'md' } }),
   ]
 
   return [new InputOption({ key: 'orgInfo', label: 'Change Email Address', input: 'group', options })]
@@ -116,7 +116,14 @@ vue.onMounted(() => {
   <div class="px-6 ">
     <ElModal v-if="mode === 'changeEmail'" :vis="mode === 'changeEmail'" modal-class="max-w-lg" @update:vis="mode = 'current'">
       <ElForm @submit="codeSent ? requestChangeEmail() : requestCode()">
-        <FormEngine v-model="form" ui-size="lg" :card :options="toolFormOptions" :disable-group-hide="true" />
+        <FormEngine
+          v-model="form"
+          state-key="accountHeader"
+          ui-size="lg"
+          :card
+          :options="toolFormOptions"
+          :disable-group-hide="true"
+        />
       </ElForm>
     </ElModal>
 

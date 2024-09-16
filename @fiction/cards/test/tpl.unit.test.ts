@@ -1,3 +1,4 @@
+import { Card } from '@fiction/site'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { describe, expect, it } from 'vitest'
 import { getDemoPages, standardCardTemplates } from '..'
@@ -8,10 +9,12 @@ describe('verify template settings config', async () => {
 
   it('has template options set correctly', async () => {
     const demoPages = await getDemoPages({ templates: standardCardTemplates, site })
+    const card = new Card({})
     const templatesOptionConfig = standardCardTemplates.map((_) => {
+      const conf = _.getOptionConfig({ card }).value
       return {
         templateId: _.settings.templateId,
-        unusedSchema: _.optionConfig.unusedSchema,
+        unusedSchema: conf.unusedSchema,
         isPublic: _.settings.isPublic,
         hasDemo: !!(_.settings.demoPage || demoPages.some(d => d.slug === `card-${_.settings.templateId}`)),
       }

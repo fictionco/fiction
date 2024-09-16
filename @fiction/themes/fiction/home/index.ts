@@ -33,7 +33,7 @@ export async function page(args: { site: Site }) {
             templateId: 'hero',
             userConfig: {
               superColor: 'orange',
-              superIcon: 'i-tabler-award',
+              superIcon: { iconId: 'medal' },
               superHeading: 'The #1 Platform for Personal Branding',
               heading: `The Personal Branding Platform`,
               subHeading: `Create your personal brand and quickly build your audience.`,
