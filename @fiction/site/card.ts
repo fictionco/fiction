@@ -1,11 +1,11 @@
 import type { colorTheme, MediaObject, Query, vueRouter } from '@fiction/core'
-import type { InputOption } from '@fiction/ui'
 import type { CardQuerySettings } from './cardQuery.js'
 import type { CardOptionsWithStandard, SiteUserConfig } from './schema.js'
 import type { Site } from './site.js'
 import type { CardConfigPortable, TableCardConfig } from './tables.js'
 import type { ComponentConstructor } from './type-utils.js'
 import { deepMerge, FictionObject, objectId, setNested, toLabel, vue } from '@fiction/core'
+import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 import { standardCardOptions } from './cardStandard.js'
 import { CardGeneration } from './generation.js'
@@ -81,10 +81,10 @@ export class CardTemplate<
         schema: this.settings.schema,
         templateId: this.settings.templateId,
       })
-
+      const specificOpts = new InputOption({ key: 'specific', label: 'Specific Options', input: 'group', options: templateOpts.options })
       return {
         ...templateOpts,
-        options: [...templateOpts.options, standardOpts],
+        options: [specificOpts, standardOpts],
       }
     })
   }

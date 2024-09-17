@@ -13,8 +13,8 @@ type PostLoaderSettings = {
 export class PostLoader extends FictionObject<PostLoaderSettings> {
   card = this.settings.card
   rootKey = this.settings.rootKey || 'posts'
-  private config = vue.computed(() => this.settings.card.userConfig.value[this.rootKey] as PostHandlingObject)
-  private sourceMode = vue.computed(() => this.config.value.format === 'local' ? 'local' : 'standard')
+  private config = vue.computed(() => this.settings.card.userConfig.value[this.rootKey] as PostHandlingObject | undefined)
+  private sourceMode = vue.computed(() => this.config.value?.format === 'local' ? 'local' : 'standard')
   loading = vue.ref(false)
 
   constructor(settings: PostLoaderSettings) {
@@ -52,7 +52,7 @@ export class PostLoader extends FictionObject<PostLoaderSettings> {
   }
 
   private async fetchLocalPosts(args: IndexQuery = {}) {
-    const allEntries = this.config.value.entries || []
+    const allEntries = this.config.value?.entries || []
     const { offset = 0, limit = 12 } = { ...this.config.value, ...args }
     const entries = allEntries.slice(offset, offset + limit)
     const indexMeta = { ...this.getDefaultIndexMeta(), count: entries.length }
@@ -90,9 +90,9 @@ export class PostLoader extends FictionObject<PostLoaderSettings> {
     let singleEntry: PostObject | undefined
     let index: number | undefined
     if (this.sourceMode.value === 'local') {
-      const index = conf.entries?.findIndex(p => p.slug === slug)
+      const index = conf?.entries?.findIndex(p => p.slug === slug)
       if (index && index !== -1) {
-        singleEntry = conf.entries?.[index]
+        singleEntry = conf?.entries?.[index]
       }
     }
     else {

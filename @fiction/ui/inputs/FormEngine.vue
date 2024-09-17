@@ -48,11 +48,13 @@ function getGroupClosedStatus(options: InputOption[]): Record<string, boolean> {
   }, {} as Record<string, boolean>)
 }
 
-const menuVisibility = localRef<Record<string, boolean>>({
-  lifecycle: 'session',
-  def: getGroupClosedStatus(options),
-  key: `FormEngine-${stateKey}`,
-})
+// const menuVisibility = localRef<Record<string, boolean>>({
+//   lifecycle: 'session',
+//   def: getGroupClosedStatus(options),
+//   key: `FormEngine-${stateKey}`,
+// })
+
+const menuVisibility = vue.ref<Record<string, boolean>>(getGroupClosedStatus(options))
 
 function hide(key: string, val?: boolean) {
   if (disableGroupHide)
@@ -71,12 +73,12 @@ function getOptionPath(key: string) {
 const cls = vue.computed(() => {
   const configs = {
     md: {
-      groupHeader: 'py-1.5 px-3 text-xs',
+      groupHeader: 'py-1.5 px-2 text-xs',
       groupPad: 'p-4',
       inputGap: 'gap-4',
     },
     lg: {
-      groupHeader: 'py-2.5 px-4 text-sm',
+      groupHeader: 'py-2.5 px-3 text-sm',
       groupPad: 'px-8 lg:px-10 py-6',
       inputGap: 'gap-6',
     },
@@ -84,6 +86,27 @@ const cls = vue.computed(() => {
 
   return configs[uiSize as 'md' | 'lg']
 })
+
+function getGroupHeaderClasses(opt: InputOption) {
+  const isHidden = hide(opt.key.value)
+
+  const out = [cls.value.groupHeader]
+
+  if (isHidden) {
+    out.push('bg-theme-50 dark:bg-theme-700 text-theme-600 dark:text-theme-100 border-primary-200 dark:border-theme-600')
+  }
+  else {
+    out.push('border-theme-300/50 dark:border-theme-600/80 text-theme-500 dark:text-theme-100 hover:bg-theme-50 dark:hover:bg-theme-800 active:bg-theme-100 dark:active:bg-theme-700')
+    if (depth > 0) {
+      out.push('dark:bg-theme-700/60')
+    }
+    else {
+      out.push('border-b')
+    }
+  }
+
+  return out.join(' ')
+}
 </script>
 
 <template>
@@ -94,20 +117,19 @@ const cls = vue.computed(() => {
           v-if="opt.input.value === 'group'"
           :class="[
             depth > 0 ? 'border rounded-md ' : '',
-            hide(opt.key.value) ? 'overflow-hidden border-theme-300 dark:border-theme-600' : 'border-theme-200 dark:border-theme-700',
+            hide(opt.key.value) ? 'overflow-hidden border-theme-300 dark:border-theme-600' : 'border-theme-200 dark:border-theme-600/80',
           ]"
         >
           <div
             v-if="opt.label.value"
             class=" select-none flex justify-between cursor-pointer items-center hover:opacity-90 antialiased"
-            :class="[
-              cls.groupHeader,
-              !hide(opt.key.value) || depth === 0 ? 'border-b ' : '',
-              hide(opt.key.value) ? 'bg-theme-50 dark:bg-theme-700 text-theme-600 dark:text-theme-100 border-primary-200 dark:border-theme-600' : 'border-theme-300/50 dark:border-theme-700 text-theme-500 dark:text-theme-100 hover:bg-theme-50 dark:hover:bg-theme-800 active:bg-theme-100 dark:active:bg-theme-700',
-            ]"
+            :class="getGroupHeaderClasses(opt)"
             @click="hide(opt.key.value, !hide(opt.key.value))"
           >
-            <div class="font-semibold" v-html="opt.label.value" />
+            <div class="flex items-center gap-2">
+              <div v-if="opt.settings.icon" class="text-base" :class="opt.settings.icon" />
+              <div class="font-semibold" v-html="opt.label.value" />
+            </div>
             <div v-if="opt.key.value && !disableGroupHide" class="text-lg i-tabler-chevron-up transition-all" :class="hide(opt.key.value) ? 'rotate-180' : ''" />
           </div>
           <TransitionSlide>

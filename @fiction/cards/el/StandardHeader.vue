@@ -19,7 +19,7 @@ const colorStyle = vue.computed(() => {
   if (!color) {
     return {
       icon: 'text-primary-500 dark:text-theme-100 bg-primary-100/80 dark:bg-theme-700/80',
-      text: 'text-theme-500 dark:text-theme-300/50',
+      text: 'text-theme-500 dark:text-theme-300/80',
     }
   }
 
@@ -39,7 +39,7 @@ const textWrapClass = vue.computed(() => {
   else if (layout === 'left')
     out.push('text-left')
   else if (layout === 'right')
-    out.push('text-left')
+    out.push('text-right')
   else
     out.push('mx-auto text-left md:text-center')
 
@@ -98,7 +98,7 @@ const currentSizeClasses = vue.computed(() => sizeClasses[headerSize.value])
           class="flex items-center"
           :class="[
             colorStyle.text,
-            layout === 'center' ? 'md:justify-center' : '',
+            layout === 'center' ? 'md:justify-center' : layout === 'right' ? 'md:justify-end' : '',
             currentSizeClasses.spacing,
           ]"
         >
@@ -111,8 +111,8 @@ const currentSizeClasses = vue.computed(() => sizeClasses[headerSize.value])
           </div>
           <CardText
             tag="h4"
-            :card="card"
-            class="font-sans font-medium"
+            :card
+            class="font-sans font-normal"
             :class="[currentSizeClasses.superTitle]"
             path="standard.headers.superTitle"
             placeholder="Super Heading"
@@ -121,7 +121,7 @@ const currentSizeClasses = vue.computed(() => sizeClasses[headerSize.value])
         </div>
         <CardText
           tag="h2"
-          :card="card"
+          :card
           class="x-font-title md:text-balance x-font-title font-semibold"
           :class="[
             currentSizeClasses.title,
@@ -135,7 +135,7 @@ const currentSizeClasses = vue.computed(() => sizeClasses[headerSize.value])
       <div :class="layout === 'justify' ? 'lg:max-w-[50%]' : 'mx-auto'">
         <CardText
           tag="div"
-          :card="card"
+          :card
           class="mt-5 lg:leading-snug md:text-balance"
           :class="[
             currentSizeClasses.subTitle,

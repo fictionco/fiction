@@ -96,32 +96,32 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
             posts: {
               format: 'local',
               entries: [
-              {
-                title: 'Executive Breakthrough',
-                subTitle: 'From Overwhelmed to Empowered',
-                content: '<p>Working with Sarah, a C-suite executive facing burnout, we developed strategies to enhance work-life balance and improve team delegation. Within six months, Sarah reported a 40% increase in productivity and a significant boost in job satisfaction.</p><p>This transformation not only revitalized Sarah\'s career but also positively impacted her entire organization, demonstrating the far-reaching effects of effective leadership coaching.</p>',
-                media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'object']),
-              },
-              {
-                title: 'Team Alignment Mastery',
-                subTitle: 'Turning Conflict into Collaboration',
-                content: '<p>A tech startup\'s leadership team was struggling with communication and alignment. Through targeted workshops and individual coaching, we transformed their dynamics. The result? A 50% reduction in project delays and a culture of open, constructive dialogue.</p><p>This success story highlights how addressing team dynamics can lead to tangible business outcomes, showcasing the power of cohesive leadership.</p>',
-                media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'object']),
-              },
-              {
-                title: 'Career Transition Triumph',
-                subTitle: 'Navigating Change with Confidence',
-                content: '<p>John, a mid-career professional, sought guidance in transitioning to a leadership role in a new industry. Our coaching partnership focused on transferable skills and strategic networking. Within three months, John secured a senior position, confidently leading a team in his desired field.</p><p>This case demonstrates the impact of targeted coaching in navigating significant career shifts, empowering professionals to embrace new challenges.</p>',
-                media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'object']),
-              },
-              {
-                title: 'Organizational Culture Shift',
-                subTitle: 'From Stagnation to Innovation',
-                content: '<p>A large corporation was struggling with an outdated, hierarchical culture. Through a comprehensive leadership development program, we empowered managers at all levels to foster innovation and employee engagement. The result was a 30% increase in employee satisfaction and a surge in innovative projects.</p><p>This transformation illustrates how leadership coaching can catalyze organization-wide change, driving both employee satisfaction and business innovation.</p>',
-                media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'object']),
-              },
-            ],
-          }
+                {
+                  title: 'Executive Breakthrough',
+                  subTitle: 'From Overwhelmed to Empowered',
+                  content: '<p>Working with Sarah, a C-suite executive facing burnout, we developed strategies to enhance work-life balance and improve team delegation. Within six months, Sarah reported a 40% increase in productivity and a significant boost in job satisfaction.</p><p>This transformation not only revitalized Sarah\'s career but also positively impacted her entire organization, demonstrating the far-reaching effects of effective leadership coaching.</p>',
+                  media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'object']),
+                },
+                {
+                  title: 'Team Alignment Mastery',
+                  subTitle: 'Turning Conflict into Collaboration',
+                  content: '<p>A tech startup\'s leadership team was struggling with communication and alignment. Through targeted workshops and individual coaching, we transformed their dynamics. The result? A 50% reduction in project delays and a culture of open, constructive dialogue.</p><p>This success story highlights how addressing team dynamics can lead to tangible business outcomes, showcasing the power of cohesive leadership.</p>',
+                  media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'object']),
+                },
+                {
+                  title: 'Career Transition Triumph',
+                  subTitle: 'Navigating Change with Confidence',
+                  content: '<p>John, a mid-career professional, sought guidance in transitioning to a leadership role in a new industry. Our coaching partnership focused on transferable skills and strategic networking. Within three months, John secured a senior position, confidently leading a team in his desired field.</p><p>This case demonstrates the impact of targeted coaching in navigating significant career shifts, empowering professionals to embrace new challenges.</p>',
+                  media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'object']),
+                },
+                {
+                  title: 'Organizational Culture Shift',
+                  subTitle: 'From Stagnation to Innovation',
+                  content: '<p>A large corporation was struggling with an outdated, hierarchical culture. Through a comprehensive leadership development program, we empowered managers at all levels to foster innovation and employee engagement. The result was a 30% increase in employee satisfaction and a surge in innovative projects.</p><p>This transformation illustrates how leadership coaching can catalyze organization-wide change, driving both employee satisfaction and business innovation.</p>',
+                  media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'object']),
+                },
+              ],
+            },
           },
         }),
       ],
