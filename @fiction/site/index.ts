@@ -115,8 +115,12 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     const { fictionAnalytics } = this.settings
     const beaconUrl = fictionAnalytics?.fictionBeacon?.beaconUrl.value
 
+    if (this.fictionEnv.isTest.value) {
+      return
+    }
+
     if (!fictionAnalytics)
-      return this.log.warn('Analytics not enabled')
+      return this.log.warn('trackWebsiteEvents: Analytics not enabled')
 
     if (!site)
       throw new Error('Site not found')
@@ -124,9 +128,9 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     const { siteId, settings: { orgId } } = site
 
     if (!beaconUrl)
-      throw new Error('Beacon URL not found')
+      throw new Error('trackWebsiteEvents: Beacon URL not found')
     if (!orgId)
-      throw new Error('Org ID not found')
+      throw new Error('trackWebsiteEvents: Org ID not found')
 
     const { anonymousId } = getAnonymousId()
     await initializeClientTag({ siteId, orgId, beaconUrl, anonymousId })

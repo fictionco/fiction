@@ -1,4 +1,4 @@
-import type { ComplexDataFilter, DataFilter, EndpointMeta, EndpointResponse } from '@fiction/core'
+import type { ComplexDataFilter, EndpointMeta, EndpointResponse } from '@fiction/core'
 import type { Knex } from 'knex'
 import type { FictionSites, Site, SitesPluginSettings } from './index.js'
 import type { WhereSite } from './load.js'

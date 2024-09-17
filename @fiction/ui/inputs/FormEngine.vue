@@ -2,7 +2,7 @@
 import type { ActionItem } from '@fiction/core'
 import type { UiElementSize } from '../utils'
 import type { InputOption } from './index.js'
-import { getNested, localRef, setNested, vue } from '@fiction/core'
+import { getNested, setNested, vue } from '@fiction/core'
 import TransitionSlide from '../anim/TransitionSlide.vue'
 import ElActions from '../buttons/ElActions.vue'
 import ElInput from './ElInput.vue'

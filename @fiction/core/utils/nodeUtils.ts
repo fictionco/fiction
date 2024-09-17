@@ -268,3 +268,19 @@ export async function streamToString(stream?: NodeJS.ReadableStream): Promise<st
     stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')))
   })
 }
+
+export function stripBrowserConsoleFormatting(message: string): string {
+  // Regular expression to match the actual message content
+  const messageRegex = /%c([^%]+)(?=%c|$)/g
+
+  // Extract all message parts
+  const messageParts = message.match(messageRegex)
+
+  if (!messageParts) {
+    // If no formatted parts found, return the original message
+    return message
+  }
+
+  // Join the message parts, removing the %c prefix
+  return messageParts.map(part => part.replace('%c', '')).join(' ').trim()
+}

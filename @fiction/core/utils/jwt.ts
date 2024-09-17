@@ -46,7 +46,7 @@ export function manageClientUserToken(args: { _action?: 'set' | 'get' | 'destroy
   if (typeof window === 'undefined') {
     if (_action === 'get')
       return
-    logger.warn('browser functions not available, set client token', { data: args })
+    logger.warn('cannot set JWT token in browser (no window)', { data: args })
     return
   }
 

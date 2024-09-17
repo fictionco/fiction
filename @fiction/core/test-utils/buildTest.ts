@@ -12,7 +12,7 @@ import fs from 'fs-extra'
 import { describe, expect, it } from 'vitest'
 import { log } from '../plugin-log/index.js'
 import { randomBetween, toKebab, waitFor } from '../utils/index.js'
-import { executeCommand } from '../utils/nodeUtils.js'
+import { executeCommand, stripBrowserConsoleFormatting } from '../utils/nodeUtils.js'
 import { isCi } from '../utils/vars.js'
 
 const logger = log.contextLogger('E2E')
@@ -174,9 +174,10 @@ export async function performActions(args: {
   // page.on('response', request => logger.debug(`${request.status()}<--${request.url()}`))
 
   page.on('console', (message) => {
-    logger.info('CONSOLE', { data: { message: message.text() } })
+    const txt = stripBrowserConsoleFormatting(message.text())
+    logger.info('CONSOLE', { data: { message: txt } })
     if (message.type() === 'error')
-      errorLogs.push(message.text())
+      errorLogs.push(txt)
   })
 
   page.on('pageerror', (err) => {
@@ -426,9 +427,10 @@ export async function appBuildTests(config: { moduleName?: string, cwd?: string,
 
       const errorLogs: string[] = []
       page.on('console', (message) => {
-        logger.info('CONSOLE', { data: { message: message.text() } })
-        if (message.type() === 'error' && !message.text().includes('404'))
-          errorLogs.push(message.text())
+        const txt = stripBrowserConsoleFormatting(message.text())
+        logger.info('CONSOLE', { data: { message: txt } })
+        if (message.type() === 'error' && !txt.includes('404'))
+          errorLogs.push(txt)
       })
 
       page.on('pageerror', (err) => {

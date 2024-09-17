@@ -36,7 +36,7 @@ export async function getPages() {
       cards: [
         await factory.create({
           el: def(async () => import('../auth/AuthCard.vue')),
-          userConfig: { logo: { format: 'html' as const, html: fictionLogo }, standard: { spacing: { verticalSpacing: 'none' } } },
+          userConfig: { logo: { format: 'html' as const, html: fictionLogo }, standard: { spacing: { verticalSpacing: 'none' }, handling: { showOnSingle: true } } },
         }),
       ],
     }),

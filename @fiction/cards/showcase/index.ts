@@ -1,10 +1,8 @@
-import type { PostItem } from '@fiction/core'
-import { MediaBasicSchema, PostHandlingSchema, vue } from '@fiction/core'
+import { PostHandlingSchema, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
-import { standardOption } from '../inputSets'
 
 const el = vue.defineAsyncComponent(async () => import('./ElShowcase.vue'))
 const aspects = ['square', 'tall', 'wide', 'golden', 'portrait', 'landscape', 'cinema'] as const
