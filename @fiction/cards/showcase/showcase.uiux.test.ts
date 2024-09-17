@@ -29,6 +29,12 @@ describe('validate option keys', async () => {
     expect(keys).toMatchInlineSnapshot(`
       [
         "posts",
+        "posts.entries.*",
+        "posts.media.*",
+        "posts.query.*",
+        "posts.limit",
+        "posts.offset",
+        "posts.format",
         "aspect",
         "gridColsMax",
         "gridColsMin",
@@ -37,6 +43,12 @@ describe('validate option keys', async () => {
 
     const expectedKeys = [
       'posts',
+      'posts.entries.*',
+      'posts.media.*',
+      'posts.query.*',
+      'posts.limit',
+      'posts.offset',
+      'posts.format',
       'aspect',
       'gridColsMax',
       'gridColsMin',
