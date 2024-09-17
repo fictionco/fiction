@@ -116,7 +116,7 @@ export const templates = [
     colorTheme: 'blue',
     el: vue.defineAsyncComponent(async () => import('./ElMagazine.vue')),
     getUserConfig: async () => getDefaultUserConfig(),
-    isPublic: false,
+    isPublic: true,
     options,
     schema,
     singleCard: ({ card }) => {

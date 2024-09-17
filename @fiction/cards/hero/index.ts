@@ -41,6 +41,7 @@ export const options: InputOption[] = [
   new InputOption({ key: 'subHeading', input: 'InputTextarea', label: 'Sub Heading' }),
   new InputOption({ key: 'superHeading', input: 'InputTextarea', label: 'Super Heading' }),
   new InputOption({ key: 'superColor', input: 'InputSelect', label: 'Super Color', props: { list: colorTheme } }),
+  new InputOption({ key: 'superIcon', input: 'InputIcon', label: 'Super Icon' }),
   new InputOption({ key: 'layout', input: 'InputSelect', label: 'Layout', props: { list: ['justify', 'center', 'left', 'right'] } }),
   new InputOption({ key: 'actions', input: 'InputActions', label: 'Buttons' }),
   new InputOption({ key: 'splash', input: 'InputMedia', label: 'Splash Image', props: { formats: { url: true } } }),

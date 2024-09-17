@@ -4,8 +4,8 @@ import type { FictionPosts } from '..'
 import type { Post } from '../post.js'
 import ViewEditor from '@fiction/admin/ViewEditor.vue'
 import { useService, vue, waitFor } from '@fiction/core'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import XText from '@fiction/ui/common/XText.vue'
-import ElButton from '@fiction/ui/ElButton.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import InputDate from '@fiction/ui/inputs/InputDate.vue'
@@ -71,9 +71,9 @@ vue.onMounted(async () => {
   <div>
     <ViewEditor :tool-props="{ post, card }" :controller="postEditController" :loading="loading">
       <template #headerLeft>
-        <ElButton btn="default" :href="card.link('/')" class="shrink-0">
-          <div class="i-tabler-home text-lg" />
-        </ElButton>
+        <XButton theme="primary" :href="card.link('/')" class="shrink-0" icon="i-tabler-home" design="outline">
+          Home
+        </XButton>
         <div class="flex space-x-1 font-medium">
           <RouterLink
             class=" whitespace-nowrap text-theme-400 dark:text-theme-300  pr-1 hover:text-primary-500 dark:hover:text-theme-0 flex items-center gap-1"
@@ -93,8 +93,8 @@ vue.onMounted(async () => {
           </svg>
           {{ post?.isDirty.value ? 'Syncing' : 'Draft Saved' }}
         </span>
-        <ElButton
-          btn="primary"
+        <XButton
+          theme="primary"
           :loading="sending === 'publish'"
           class="min-w-36"
           icon="i-tabler-arrow-big-up-lines"
@@ -102,7 +102,7 @@ vue.onMounted(async () => {
           @click.stop.prevent="publish()"
         >
           {{ post?.status.value !== 'draft' ? 'Save Changes' : 'Update Draft' }}
-        </ElButton>
+        </XButton>
       </template>
       <template #default>
         <div v-if="post">
@@ -138,12 +138,12 @@ vue.onMounted(async () => {
         </div>
         <div v-if="!publishItemSelected" class="space-y-6">
           <div class="flex justify-center gap-6">
-            <ElButton size="md" icon="i-tabler-calendar-bolt" @click="publishItemSelected = 'schedule'">
+            <XButton size="md" icon="i-tabler-calendar-bolt" @click="publishItemSelected = 'schedule'">
               Schedule Publication
-            </ElButton>
-            <ElButton size="md" btn="primary" icon="i-tabler-arrow-big-up-lines" :loading="sending === 'publish'" @click="publish()">
+            </XButton>
+            <XButton size="md" theme="primary" icon="i-tabler-arrow-big-up-lines" :loading="sending === 'publish'" @click="publish()">
               Publish Now
-            </ElButton>
+            </XButton>
           </div>
         </div>
 
@@ -151,12 +151,12 @@ vue.onMounted(async () => {
           <ElForm class=" space-y-6" @submit="publish('schedule')">
             <InputDate v-model="post.publishAt.value" :include-time="true" required date-mode="future" />
             <div class="flex justify-center gap-6">
-              <ElButton v-if="publishItemSelected" size="md" @click="publishItemSelected = ''">
+              <XButton v-if="publishItemSelected" size="md" @click="publishItemSelected = ''">
                 &larr; Back
-              </ElButton>
-              <ElButton size="md" btn="primary" icon="i-tabler-calendar-bolt" type="submit" :loading="sending === 'publish'">
+              </XButton>
+              <XButton size="md" theme="primary" icon="i-tabler-calendar-bolt" type="submit" :loading="sending === 'publish'">
                 Schedule Publication
-              </ElButton>
+              </XButton>
             </div>
           </ElForm>
         </div>
