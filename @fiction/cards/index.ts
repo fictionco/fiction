@@ -67,6 +67,9 @@ export const standardCardTemplates = [
     templateId: 'transaction',
     el: vue.defineAsyncComponent(async () => import('./CardWrapTransaction.vue')),
     schema: z.object({}),
+    getBaseConfig: () => {
+      return { standard: { handling: { showOnSingle: true } } }
+    },
     isPublic: false,
     isPageCard: true,
   }),

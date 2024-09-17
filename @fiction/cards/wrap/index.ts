@@ -23,7 +23,7 @@ export const templates = [
     isPageCard: true,
     getBaseConfig: () => {
       return {
-        standard: { spacing: { verticalSpacing: 'none' } },
+        standard: { spacing: { verticalSpacing: 'none' }, handling: { showOnSingle: true } },
       }
     },
   }),

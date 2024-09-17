@@ -36,7 +36,7 @@ const renderCards = vue.computed(() => {
 </script>
 
 <template>
-  <component :is="tag" v-if="renderCards.length" class="card-engine">
+  <component :is="tag" class="card-engine">
     <EffectTransitionCardList>
       <CardWrap
         v-for="(subCard) in renderCards"
