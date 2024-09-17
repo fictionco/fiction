@@ -2,7 +2,7 @@ import type { DataCompared, DataPointChart, QueryParamsRefined } from '@fiction/
 import type { FictionSubscribe } from '.'
 import type { Subscriber, TableSubscribeConfig } from './schema'
 import { refineParams, refineTimelineData } from '@fiction/analytics/utils/refine'
-import { abort, type DataFilter, type EndpointMeta, type EndpointResponse, type FictionDb, type FictionEmail, type FictionEnv, type FictionUser, type IndexQuery, type User, vue } from '@fiction/core'
+import { abort, applyComplexFilters, type ComplexDataFilter, type DataFilter, type EndpointMeta, type EndpointResponse, type FictionDb, type FictionEmail, type FictionEnv, type FictionUser, type IndexQuery, type User, vue } from '@fiction/core'
 import { dayjs, deepMerge, Query } from '@fiction/core'
 import { t } from './schema'
 
@@ -28,7 +28,7 @@ export type ManageSubscriptionRequest =
   | { _action: 'create', orgId: string } & SubscriberCreate
   | { _action: 'bulkCreate', orgId: string, subscribers: SubscriberCreate[] }
   | { _action: 'list', orgId: string, where?: Partial<TableSubscribeConfig>, limit?: number, offset?: number, page?: number }
-  | { _action: 'count', orgId: string, filters?: DataFilter[] }
+  | { _action: 'count', orgId: string, filters?: ComplexDataFilter[] }
   | { _action: 'update', orgId: string, where: WhereSubscription[], fields: Partial<TableSubscribeConfig> }
   | { _action: 'delete', orgId: string, where: WhereSubscription[] }
 
@@ -78,15 +78,14 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
     const { orgId } = params
     const { limit = this.limit, offset = this.offset, filters = [] } = params
 
-    const q = this.db().table(t.subscribe).where({ orgId }).count().first<{ count: string }>()
+    let baseQuery = this.db().table(t.subscribe).where({ orgId }).count().first<{ count: string }>()
 
-    if (filters.length) {
-      filters.forEach((filter) => {
-        void q.andWhere(filter.field, filter.operator, filter.value)
-      })
-    }
+    baseQuery = applyComplexFilters(baseQuery, filters)
 
-    const { count } = await q
+    let countQuery = baseQuery.clone().count('* as count').first<{ count: string }>()
+
+    // Execute the count query
+    const { count } = await countQuery
 
     r.indexMeta = { limit, offset, count: +count, ...r.indexMeta }
 

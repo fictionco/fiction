@@ -300,7 +300,7 @@ describe('createAndSaveMedia', async () => {
       orgId,
       limit: 10,
       offset: 0,
-      filters: [{ field: 'mime', operator: '=', value: fileMime }],
+      filters: [[{ field: 'mime', operator: '=', value: fileMime }]],
     }, meta)
 
     expect(listResult?.status).toBe('success')
@@ -314,7 +314,7 @@ describe('createAndSaveMedia', async () => {
     const countResult = await testUtils.fictionMedia?.queries.ManageMedia.serve({
       _action: 'count',
       orgId,
-      filters: [{ field: 'mime', operator: '=', value: 'image/jpeg' }],
+      filters: [[{ field: 'mime', operator: '=', value: 'image/jpeg' }]],
     }, meta)
 
     expect(countResult?.status).toBe('success')
@@ -550,7 +550,7 @@ describe('video upload functionality', async () => {
       orgId,
       limit: 10,
       offset: 0,
-      filters: [{ field: 'mime', operator: '=', value: fileMime }],
+      filters: [[{ field: 'mime', operator: '=', value: fileMime }]],
     }, meta)
 
     expect(listResult?.status).toBe('success')

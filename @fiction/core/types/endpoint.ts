@@ -13,13 +13,14 @@ export const OrFilterGroupSchema = z.array(AndDataFilterSchema)
 
 // sql where operators.value
 export type DataFilter = z.infer<typeof AndDataFilterSchema>
+export type ComplexDataFilter = z.infer<typeof OrFilterGroupSchema>
 
 export type IndexQuery = {
   offset?: number
   limit?: number
   order?: 'asc' | 'desc'
   orderBy?: string
-  filters?: DataFilter[]
+  filters?: ComplexDataFilter[]
   taxonomy?: { taxonomyId: string } | { type: 'tag' | 'category', slug: string }
 }
 

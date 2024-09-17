@@ -1,4 +1,3 @@
-/* eslint-disable ts/unbound-method */
 /**
  * @vitest-environment happy-dom
  */

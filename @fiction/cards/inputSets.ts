@@ -1,6 +1,5 @@
-
 import type { InputOptionSettings } from '@fiction/ui/index.js'
-import { ButtonDesignSchema, colorTheme, colorThemeUser, HeaderLayoutSchema, SizeSchema } from '@fiction/core'
+import { ButtonDesignSchema, colorTheme, colorThemeUser, SizeSchema } from '@fiction/core'
 import InputAi from '@fiction/site/ai/InputAi.vue'
 import { InputOption } from '@fiction/ui/index.js'
 

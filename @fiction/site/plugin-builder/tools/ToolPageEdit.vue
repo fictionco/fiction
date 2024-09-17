@@ -87,8 +87,8 @@ async function save() {
   >
     <ElForm @submit="save()">
       <FormEngine
-        state-key="pageEdit"
         v-model="site.editPageConfig.value"
+        state-key="pageEdit"
         :options
         :input-props="{ site, tool }"
       />

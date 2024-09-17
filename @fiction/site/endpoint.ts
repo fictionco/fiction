@@ -1,9 +1,9 @@
-import type { DataFilter, EndpointMeta, EndpointResponse } from '@fiction/core'
+import type { ComplexDataFilter, DataFilter, EndpointMeta, EndpointResponse } from '@fiction/core'
 import type { Knex } from 'knex'
 import type { FictionSites, Site, SitesPluginSettings } from './index.js'
 import type { WhereSite } from './load.js'
 import type { CardConfigPortable, TableCardConfig, TableDomainConfig, TableSiteConfig } from './tables.js'
-import { deepMerge, incrementSlugId, objectId, Query, shortId } from '@fiction/core'
+import { applyComplexFilters, deepMerge, incrementSlugId, objectId, Query, shortId } from '@fiction/core'
 import { abort } from '@fiction/core/utils/error.js'
 import { Card } from './card.js'
 import { tableNames } from './tables.js'
@@ -459,7 +459,7 @@ interface ManageSitesParams {
   limit?: number
   offset?: number
   selectedIds?: string[]
-  filters?: DataFilter[]
+  filters?: ComplexDataFilter[]
 }
 export class ManageSites extends SitesQuery {
   async run(
@@ -478,7 +478,7 @@ export class ManageSites extends SitesQuery {
 
     let count = 0
     if (_action === 'list') {
-      const base = db
+      let baseQuery = db
         .select([
           `${tableNames.sites}.*`,
         ])
@@ -489,15 +489,9 @@ export class ManageSites extends SitesQuery {
         .orderBy('updatedAt', 'desc')
         .groupBy(`${tableNames.sites}.site_id`)
 
-      if (filters.length) {
-        filters.forEach((filter) => {
-          const { field, operator, value } = filter
-          if (field && operator && value)
-            void base.where(field, operator, value)
-        })
-      }
+      baseQuery = applyComplexFilters(baseQuery, filters)
 
-      const rows = await base
+      const rows = await baseQuery
 
       data = rows
 

@@ -188,6 +188,7 @@ export const PostSchema = z.object({
 })
 
 export const GlobalQuerySchema = z.object({
+
   filters: z.array(OrFilterGroupSchema).optional().describe('Array of filter groups which selects by OR'),
   sortBy: z.string().optional(),
   sortOrder: z.enum(['asc', 'desc']).optional(),
@@ -202,6 +203,7 @@ export const GlobalQuerySchema = z.object({
 export const PostHandlingSchema = z.object({
   format: z.enum(['standard', 'local']).default('local').describe('Either get from global posts or inline entries, AI always uses local'),
   limit: z.number().optional().describe('Limit the number of posts to show - default is 12'),
+  offset: z.number().optional().describe('Offset the number of posts to show'),
   entries: z.array(PostSchema).optional().describe('Inline post entries for local format'),
   query: GlobalQuerySchema.optional().describe('Query for global posts'),
 })

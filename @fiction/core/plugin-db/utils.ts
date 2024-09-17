@@ -1,4 +1,6 @@
+import type { Knex } from 'knex'
 import type { FictionDb } from '.'
+import type { ComplexDataFilter, DataFilter } from '../types'
 import type { EndpointMeta } from '../utils'
 import { z } from 'zod'
 

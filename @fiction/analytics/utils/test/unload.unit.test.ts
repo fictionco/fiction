@@ -30,7 +30,6 @@ describe('unloadHandler', () => {
     const callback = vi.fn()
     handler.onUnload(callback)
 
-    // eslint-disable-next-line ts/unbound-method
     expect(mockWindow.addEventListener).toHaveBeenCalledTimes(6)
   })
 
@@ -105,7 +104,7 @@ describe('unloadHandler', () => {
     handler.clear()
     expect(handler.unloaded).toBe(false)
     expect(handler.focused).toBe(true)
-    // eslint-disable-next-line ts/unbound-method
+
     expect(mockWindow.removeEventListener).toHaveBeenCalledTimes(6)
   })
 
@@ -126,7 +125,7 @@ describe('unloadHandler', () => {
     const nonClientHandler = new UnloadHandler()
     const callback = vi.fn()
     nonClientHandler.onUnload(callback)
-    // eslint-disable-next-line ts/unbound-method
+
     expect(mockWindow.addEventListener).not.toHaveBeenCalled()
   })
 })

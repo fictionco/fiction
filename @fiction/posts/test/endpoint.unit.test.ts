@@ -33,7 +33,7 @@ describe('post index tests', async () => {
       orgId,
       limit: 10,
       offset: 0,
-      filters: [] as DataFilter[],
+      filters: [] as DataFilter[][],
     } as const
 
     const result = await fictionPosts.queries.ManagePostIndex.serve(listParams, {})

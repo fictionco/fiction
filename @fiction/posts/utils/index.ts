@@ -6,12 +6,12 @@ export async function managePost(args: { fictionPosts: FictionPosts, params: Man
   const { fictionPosts, params } = args
   const r = await fictionPosts.requests.ManagePost.projectRequest(params)
 
-  return r.data ? new Post({ fictionPosts, ...r.data, sourceMode: 'global' }) : undefined
+  return r.data ? new Post({ fictionPosts, ...r.data, sourceMode: 'standard' }) : undefined
 }
 
 export async function managePostIndex(args: { fictionPosts: FictionPosts, params: ManageIndexParamsRequest }): Promise<Post[]> {
   const { fictionPosts, params } = args
   const r = await fictionPosts.requests.ManagePostIndex.projectRequest(params)
 
-  return r.data?.length ? r.data.map(p => new Post({ fictionPosts, ...p, sourceMode: 'global' })) : []
+  return r.data?.length ? r.data.map(p => new Post({ fictionPosts, ...p, sourceMode: 'standard' })) : []
 }

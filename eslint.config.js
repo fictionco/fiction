@@ -1,17 +1,15 @@
 // @ts-check
 import antfu from '@antfu/eslint-config'
 
-const extraFileExtensions = ['.vue', '.json']
-
 export default antfu(
   {
-    typescript: {
-      tsconfigPath: 'tsconfig.json',
-      parserOptions: {
-        project: 'tsconfig.json',
-        tsconfigRootDir: import.meta.dirname,
-      },
-    },
+    // typescript: {
+    //   tsconfigPath: 'tsconfig.json',
+    //   parserOptions: {
+    //     project: 'tsconfig.json',
+    //     tsconfigRootDir: import.meta.dirname,
+    //   },
+    // },
     rules: {
       'no-template-curly-in-string': 'error',
       'no-alert': 'off',
@@ -60,14 +58,5 @@ export default antfu(
       '.pnpmfile.cjs',
       'docs/**/*.md',
     ],
-  },
-  {
-    files: ['**/*.{ts,vue}'],
-    languageOptions: {
-      parserOptions: {
-        projectService: true,
-        extraFileExtensions,
-      },
-    },
   },
 )

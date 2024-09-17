@@ -2,12 +2,13 @@ import type { Buffer } from 'node:buffer'
 import type sharp from 'sharp'
 import type { FictionAws } from '../plugin-aws/index.js'
 import type { FictionDb } from '../plugin-db/index.js'
-import type { DataFilter, EndpointResponse, IndexQuery } from '../types/index.js'
+import type { ComplexDataFilter, EndpointResponse, IndexQuery } from '../types/index.js'
 import type { CropSettings, EndpointMeta } from '../utils/index.js'
 import type { FictionMedia, TableMediaConfig } from './index.js'
 import path from 'node:path'
 import fs from 'fs-extra'
 import { Query } from '../query.js'
+import { applyComplexFilters } from '../utils/db.js'
 import { abort } from '../utils/error.js'
 import { objectId } from '../utils/id.js'
 import { createImageVariants, getFileExtensionFromFetchResponse, getMimeType, hashFile } from '../utils/media.js'
@@ -347,7 +348,7 @@ export type ManageMediaRequest =
   | { _action: 'createFromUrl', orgId: string, userId?: string, fields: { sourceImageUrl: string } & Partial<TableMediaConfig> } & MediaCreate
   | { _action: 'checkAndCreate', orgId: string, userId?: string } & MediaCreate
   | { _action: 'list', orgId: string, where?: Partial<TableMediaConfig>, limit?: number, offset?: number, page?: number }
-  | { _action: 'count', orgId: string, filters?: DataFilter[] }
+  | { _action: 'count', orgId: string, filters?: ComplexDataFilter[] }
   | { _action: 'update', orgId: string, where: WhereMedia[], fields: Partial<TableMediaConfig> }
   | { _action: 'delete', orgId: string, where: WhereMedia[] }
   | { _action: 'retrieve', orgId: string, where: WhereMedia }
@@ -393,13 +394,9 @@ export class QueryManageMedia extends MediaQuery {
   private async addIndexMeta(params: MediaParams, r: EndpointResponse<TableMediaConfig[]>, _meta: EndpointMeta): Promise<EndpointResponse<TableMediaConfig[]>> {
     const { orgId, limit = this.limit, offset = this.offset, filters = [] } = params
 
-    const q = this.db().table(t.media).where({ orgId }).count().first<{ count: string }>()
+    let q = this.db().table(t.media).where({ orgId }).count().first<{ count: string }>()
 
-    if (filters.length) {
-      filters.forEach((filter) => {
-        void q.andWhere(filter.field, filter.operator, filter.value)
-      })
-    }
+    q = applyComplexFilters(q, filters)
 
     const { count } = await q
 
@@ -488,15 +485,11 @@ export class QueryManageMedia extends MediaQuery {
       effectiveOffset = (page - 1) * limit
     }
 
-    let query = this.db().select('*').from(t.media).where({ orgId, ...where })
+    let baseQuery = this.db().select('*').from(t.media).where({ orgId, ...where })
 
-    if (filters.length) {
-      filters.forEach((filter) => {
-        query = query.andWhere(filter.field, filter.operator, filter.value)
-      })
-    }
+    baseQuery = applyComplexFilters(baseQuery, filters)
 
-    const media = await query.limit(limit).offset(effectiveOffset).orderBy('createdAt', 'desc')
+    const media = await baseQuery.limit(limit).offset(effectiveOffset).orderBy('createdAt', 'desc')
 
     return { status: 'success', data: media }
   }

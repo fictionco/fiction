@@ -16,7 +16,7 @@ export class EmailCampaign extends FictionObject<EmailConfig> {
   title = vue.ref(this.settings.title || 'Untitled')
   scheduledAt = vue.ref(this.settings.scheduledAt)
   filters = vue.ref(this.settings.filters || [])
-  post = vue.shallowRef(new Post({ ...(this.settings.post || {}), fictionPosts: this.fictionPosts, sourceMode: 'global' }))
+  post = vue.shallowRef(new Post({ ...(this.settings.post || {}), fictionPosts: this.fictionPosts, sourceMode: 'standard' }))
   subject = vue.ref(this.settings.subject || '')
   preview = vue.ref(this.settings.preview || '')
   userConfig = vue.ref(this.settings.userConfig || {})

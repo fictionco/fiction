@@ -93,7 +93,9 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
               },
             },
             aspect: 'tall',
-            items: [
+            posts: {
+              format: 'local',
+              entries: [
               {
                 title: 'Executive Breakthrough',
                 subTitle: 'From Overwhelmed to Empowered',
@@ -119,6 +121,7 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
                 media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'object']),
               },
             ],
+          }
           },
         }),
       ],

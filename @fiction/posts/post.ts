@@ -4,7 +4,7 @@ import { FictionObject, objectId, vue } from '@fiction/core'
 import { type FictionPosts, postLink } from '.'
 import { managePost } from './utils'
 
-export type PostConfig = { fictionPosts: FictionPosts, card?: Card, sourceMode: 'local' | 'global', localSourcePath?: string } & TablePostConfig
+export type PostConfig = { fictionPosts: FictionPosts, card?: Card, sourceMode: 'local' | 'standard', localSourcePath?: string } & TablePostConfig
 
 export class Post extends FictionObject<PostConfig> {
   card = this.settings.card

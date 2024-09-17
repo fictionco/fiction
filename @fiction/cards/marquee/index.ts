@@ -1,30 +1,36 @@
-import type { MediaItem } from '@fiction/core'
 import type { Tag } from '@fiction/ui/stock/index.js'
-import { vue } from '@fiction/core'
+import { MediaBasicSchema, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
-import { standardOption } from '../inputSets'
 
 const el = vue.defineAsyncComponent(async () => import('./ElMarquee.vue'))
 
-const UserConfigSchema = z.object({
+const schema = z.object({
   items: z.array(z.object({
-    name: z.string().optional(),
-    desc: z.string().optional(),
-    href: z.string().optional(),
-    media: z.object({
-      format: z.enum(['url', 'html']).optional(),
-      url: z.string().optional(),
-      html: z.string().optional(),
-    }),
-  })).optional() as z.Schema<MediaItem[] | undefined>,
+    title: z.string().optional().describe('Title shown over the card, 1 to 5 words [AI]'),
+    subTitle: z.string().optional().describe('Subtitle shown under the title, 1 to 5 words [AI]'),
+    href: z.string().optional().describe('link, include http for external links'),
+    media: MediaBasicSchema.optional().describe('Media background for the item'),
+  })).optional(),
   direction: z.enum(['left', 'right']).optional().describe('Animation direction'),
   stagger: z.boolean().optional(),
 })
 
-export type UserConfig = z.infer<typeof UserConfigSchema>
+export type UserConfig = z.infer<typeof schema>
+
+const options = [
+  new InputOption({ key: 'items', label: 'Items', input: 'InputList', options: [
+    new InputOption({ key: 'title', label: 'Title', input: 'InputText' }),
+    new InputOption({ key: 'subTitle', label: 'Content', input: 'InputText' }),
+    new InputOption({ key: 'media', label: 'Media', input: 'InputMedia' }),
+    new InputOption({ key: 'href', label: 'Link', input: 'InputText' }),
+  ] }),
+
+  new InputOption({ key: 'direction', label: 'Animation Direction', input: 'InputSelect', list: ['left', 'right'] }),
+  new InputOption({ key: 'stagger', label: 'Stagger Items', input: 'InputCheckbox' }),
+] as InputOption[]
 
 async function getDefaultUserConfig(args: { tags: Tag[] }): Promise<UserConfig> {
   const { tags = ['person'] } = args
@@ -38,11 +44,11 @@ async function getDefaultUserConfig(args: { tags: Tag[] }): Promise<UserConfig> 
 
   return {
     items: [
-      { href: '/test', name: 'Title', desc: 'Description', media: urls[0] },
-      { href: '/test', name: 'Title', desc: 'Description', media: urls[1] },
-      { href: '/test', name: 'Title', desc: 'Description', media: urls[2] },
-      { href: '/test', name: 'Title', desc: 'Description', media: urls[3] },
-      { href: '/test', name: 'Title', desc: 'Description', media: urls[4] },
+      { href: '/test', title: 'Title', subTitle: 'Description', media: urls[0] },
+      { href: '/test', title: 'Title', subTitle: 'Description', media: urls[1] },
+      { href: '/test', title: 'Title', subTitle: 'Description', media: urls[2] },
+      { href: '/test', title: 'Title', subTitle: 'Description', media: urls[3] },
+      { href: '/test', title: 'Title', subTitle: 'Description', media: urls[4] },
     ],
   }
 }
@@ -57,14 +63,10 @@ export const templates = [
     colorTheme: 'pink',
     isPublic: true,
     el,
-    options: [
-      standardOption.mediaItems({ key: 'items', label: 'Marquee Media Items' }),
-      new InputOption({ key: 'direction', label: 'Animation Direction', input: 'InputSelect', list: ['left', 'right'] }),
-      new InputOption({ key: 'stagger', label: 'Stagger Items', input: 'InputCheckbox' }),
-    ],
+    options,
     getBaseConfig: () => ({ standard: { spacing: { contentWidth: 'none' } } }),
     getUserConfig: async () => getDefaultUserConfig({ tags: ['object'] }),
-    schema: UserConfigSchema,
+    schema,
     demoPage: async () => {
       const uc1 = await getDefaultUserConfig({ tags: ['object'] })
       const uc2 = await getDefaultUserConfig({ tags: ['object'] })

@@ -270,9 +270,7 @@ describe('submission endpoint', async () => {
     const r = await fictionForms.queries.ManageSubmission.serve({
       _action: 'count',
       orgId,
-      filters: [
-        { field: 'attention', operator: '=', value: 'reviewed' },
-      ],
+      filters: [[{ field: 'attention', operator: '=', value: 'reviewed' }]],
     }, { server: true })
 
     expect(r.status).toBe('success')

@@ -1,5 +1,6 @@
-import type { EndpointMeta, EndpointResponse, IndexQuery, TransactionalEmailConfig } from '@fiction/core'
+import { applyComplexFilters} from '@fiction/core'
 import type { Subscriber } from '@fiction/plugin-subscribe'
+import type { EndpointMeta, EndpointResponse, IndexQuery, TransactionalEmailConfig } from '@fiction/core'
 import type { ManageSubscriptionParams } from '@fiction/plugin-subscribe/endpoint'
 import type { FictionSend, FictionSendSettings } from '.'
 import type { EmailCampaignConfig } from './schema.js'
@@ -169,7 +170,7 @@ export class ManageCampaign extends SendEndpoint {
   }
 
   private async get(params: ManageCampaignParams & { _action: 'get' }, meta: EndpointMeta): Promise<ManageCampaignResponse> {
-    const r = await this.list({ ...params, _action: 'list', filters: [{ field: 'campaignId', operator: '=', value: params.where.campaignId || '' }] }, meta)
+    const r = await this.list({ ...params, _action: 'list', filters: [[{ field: 'campaignId', operator: '=', value: params.where.campaignId || '' }]] }, meta)
 
     const ManageSubscription = this.settings.fictionSubscribe.queries.ManageSubscription
     const sub = await ManageSubscription.serve({ _action: 'count', orgId: params.orgId }, meta)
@@ -183,16 +184,11 @@ export class ManageCampaign extends SendEndpoint {
 
   private async list(params: ManageCampaignParams & { _action: 'list' }, _meta: EndpointMeta): Promise<ManageCampaignResponse> {
     const { orgId, limit = this.limit, offset = this.offset, filters = [] } = params
-    const query = this.db().select('*').from(t.send).where({ orgId }).orderBy('updatedAt', 'desc').limit(limit).offset(offset)
+    let baseQuery = this.db().select('*').from(t.send).where({ orgId }).orderBy('updatedAt', 'desc').limit(limit).offset(offset)
 
-    filters.forEach((filter) => {
-      if (filter.field && filter.operator && filter.value)
-        void query.where(filter.field, filter.operator, filter.value)
-      else
-        throw new Error('Invalid filter')
-    })
+    baseQuery = applyComplexFilters(baseQuery, filters)
 
-    const r = await query
+    const r = await baseQuery
 
     return { status: 'success', data: r }
   }

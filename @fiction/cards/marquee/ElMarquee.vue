@@ -76,10 +76,10 @@ vue.onMounted(() => {
               </div>
               <div class="absolute bottom-0 p-3 lg:p-6 text-white transition-opacity duration-300 opacity-0 group-hover/marquee:opacity-100">
                 <h2 class="font-semibold text-base lg:text-xl x-font-title">
-                  {{ item.name }}
+                  {{ item.title }}
                 </h2>
                 <div class="opacity-70 font-medium text-sm lg:text-base">
-                  {{ item.desc }}
+                  {{ item.subTitle }}
                 </div>
               </div>
             </div>

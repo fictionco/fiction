@@ -1,7 +1,9 @@
 <script lang="ts" setup>
+import type { FictionPosts, Post } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import type { UserConfig } from '.'
-import { type MediaObject, vue, waitFor } from '@fiction/core'
+import { type MediaObject, useService, vue, waitFor } from '@fiction/core'
+import { PostLoader } from '@fiction/posts/postLoader.js'
 import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
 import ElClose from '@fiction/ui/common/ElClose.vue'
 import EffectGlare from '@fiction/ui/effect/EffectGlare.vue'
@@ -13,23 +15,27 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
+const { fictionPosts } = useService<{ fictionPosts: FictionPosts }>()
 const loaded = vue.ref(false)
 const uc = vue.computed(() => props.card.userConfig.value)
 
+const postLoader = new PostLoader({
+  fictionPosts,
+  card: props.card,
+  rootKey: 'posts',
+})
+
+const posts = vue.shallowRef<Post[]>([])
+
 vue.onMounted(async () => {
   await waitFor(100)
+  const { posts: loadedPosts } = await postLoader.loadPosts()
+  posts.value = loadedPosts
   loaded.value = true
-  // useElementVisible({
-  //   selector: `#${props.card.cardId}`,
-  //   onVisible: async () => {
-
-  //     await animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'fade', config: { overallDelay: 400 } })
-  //   },
-  // })
 })
 
 const activeitemIndex = vue.ref(-1)
-const activeItem = vue.computed(() => uc.value.items?.find((item, i) => i === activeitemIndex.value))
+const activeItem = vue.computed(() => posts.value[activeitemIndex.value])
 const proseClass = `prose dark:prose-invert prose-sm md:prose-lg lg:prose-2xl max-w-[45ch] mx-auto focus:outline-none `
 
 function featuredImageAspect(media: MediaObject) {
@@ -85,17 +91,17 @@ function gridCols() {
 <template>
   <div :class="card.classes.value.contentWidth">
     <div :class="[!loaded ? 'opacity-0' : '']" class="relative transition-opacity duration-700" data-test-id="showcase">
-      <div class="grid md:gap-8 gap-6" :data-items-count="uc.items?.length || 0" :class="gridCols()" :data-aspect="uc.aspect" :data-grid-cols-max="uc.gridColsMax">
-        <div v-for="(item, i) in uc.items" :key="i" class="[perspective:1000px] group showcase-item x-action-item transition-all duration-300 space-y-2 relative cursor-pointer" @click.stop="activeitemIndex = i">
+      <div class="grid md:gap-8 gap-6" :data-items-count="posts.length" :class="gridCols()" :data-aspect="uc.aspect" :data-grid-cols-max="uc.gridColsMax">
+        <div v-for="(post, i) in posts" :key="post.postId" class="[perspective:1000px] group showcase-item x-action-item transition-all duration-300 space-y-2 relative cursor-pointer" @click.stop="activeitemIndex = i">
           <EffectGlare wrap-class="rounded-[20px]">
             <div class="relative">
-              <XMedia :animate="true" :media="item.media" :class="gridImageAspect()" />
+              <XMedia :animate="true" :media="post.media.value" :class="gridImageAspect()" />
               <div class="py-4 px-5 space-y-0 absolute bottom-0 z-10">
                 <CardText
                   tag="div"
                   :card="card"
                   class="text-lg font-semibold min-w-0 x-font-title text-pretty leading-tight line-clamp-2 text-white"
-                  :path="`items.${i}.title`"
+                  :path="`posts.entries.${i}.title`"
                   animate="fade"
                 />
 
@@ -103,7 +109,7 @@ function gridCols() {
                   tag="div"
                   :card="card"
                   class=" text-base text-white/80 text-pretty line-clamp-1 font-medium"
-                  :path="`items.${i}.subTitle`"
+                  :path="`posts.entries.${i}.subTitle`"
                   animate="fade"
                 />
               </div>
@@ -122,22 +128,21 @@ function gridCols() {
                   tag="h1"
                   :card="card"
                   class="mb-0 text-3xl md:text-5xl font-semibold x-font-title "
-                  :path="`items.${activeitemIndex}.title`"
+                  :path="`posts.entries.${activeitemIndex}.title`"
                   animate="fade"
                 />
                 <CardText
                   tag="h3"
                   :card="card"
                   class="my-0 text-theme-500 dark:text-theme-400 text-lg md:text-3xl"
-                  :path="`items.${activeitemIndex}.subTitle`"
+                  :path="`posts.entries.${activeitemIndex}.subTitle`"
                   animate="fade"
                 />
               </div>
 
               <AnimClipPath animate="expand" class="my-[min(max(35px,_5vw),_30px)] md:-mx-16">
-                <div v-if="activeItem?.media?.url" class=" mx-auto relative overflow-hidden rounded-xl" :class="featuredImageAspect(activeItem.media)">
-                  <!-- Optionally display media -->
-                  <img :src="activeItem?.media?.url" alt="Post media" class="absolute h-full w-full object-cover object-center">
+                <div v-if="activeItem?.media?.value?.url" class=" mx-auto relative overflow-hidden rounded-xl" :class="featuredImageAspect(activeItem.media.value)">
+                  <img :src="activeItem.media.value.url" :alt="activeItem.title.value" class="absolute h-full w-full object-cover object-center">
                 </div>
               </AnimClipPath>
             </div>
@@ -146,7 +151,7 @@ function gridCols() {
               tag="div"
               :card="card"
               class="my-12 font-serif"
-              :path="`items.${activeitemIndex}.content`"
+              :path="`posts.entries.${activeitemIndex}.content`"
               animate="fade"
             />
           </div>

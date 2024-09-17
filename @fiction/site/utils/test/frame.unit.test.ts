@@ -86,7 +86,6 @@ describe('siteFrameTools', async () => {
     site.pages.value = [mockCard]
     await site.frame.processFrameMessage({ msg: { messageType: 'setCard', data: { cardConfig } }, scope: 'parent' })
 
-    // eslint-disable-next-line ts/unbound-method
     expect(mockCard.update, 'card update should be called with correct config').toHaveBeenCalledWith(cardConfig)
 
     // Test setActiveCard message

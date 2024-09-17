@@ -1,10 +1,10 @@
-import type { DataFilter, EndpointMeta, EndpointResponse, IndexQuery } from '@fiction/core'
+import type { ComplexDataFilter, DataFilter, EndpointMeta, EndpointResponse, IndexQuery } from '@fiction/core'
 import type { EmailResponse } from '@fiction/core/plugin-email/endpoint.js'
 import type { CardConfigPortable } from '@fiction/site/tables.js'
 import type { FictionForms, FormPluginSettings } from './index.js'
 import type { FormConfigPortable, FormSubmissionConfig } from './schema.js'
 import type { InputUserConfig } from './templates.js'
-import { isPlainObject, Query } from '@fiction/core'
+import { applyComplexFilters, isPlainObject, Query } from '@fiction/core'
 import { t } from './schema.js'
 
 type FormSubmissionSettings = {
@@ -25,7 +25,7 @@ export type SubmissionCreate = { fields: Partial<FormSubmissionConfig> & FormCon
 export type ManageSubmissionRequest =
   | { _action: 'create', orgId: string } & SubmissionCreate
   | { _action: 'list', orgId: string, where?: FormSubmissionConfig, limit?: number, offset?: number, page?: number }
-  | { _action: 'count', orgId: string, filters?: DataFilter[] }
+  | { _action: 'count', orgId: string, filters?: ComplexDataFilter[] }
   | { _action: 'update', orgId: string, where: WhereSubmission[], fields: Partial<FormSubmissionConfig> }
   | { _action: 'delete', orgId: string, where: WhereSubmission[] }
 
@@ -72,15 +72,11 @@ export class QueryManageSubmission extends FormQuery {
     const { orgId } = params
     const { limit = this.limit, offset = this.offset, filters = [] } = params
 
-    const q = this.db().table(t.submission).where({ orgId }).count().first<{ count: string }>()
+    let baseQuery = this.db().table(t.submission).where({ orgId }).count().first<{ count: string }>()
 
-    if (filters.length) {
-      filters.forEach((filter) => {
-        void q.andWhere(filter.field, filter.operator, filter.value)
-      })
-    }
+    baseQuery = applyComplexFilters(baseQuery, filters)
 
-    const { count } = await q
+    const { count } = await baseQuery
 
     r.indexMeta = { limit, offset, count: +count, ...r.indexMeta }
 
@@ -223,7 +219,7 @@ export class QueryManageSubmission extends FormQuery {
       const emails = await Promise.all(emailPromises)
 
       this.log.info('Email sent for new form submission', { data: { heading, bodyMarkdown } })
-      // eslint-disable-next-line ts/no-unnecessary-type-assertion
+
       const data = (emails.map(e => e.data).filter(Boolean)) as EmailResponse[]
 
       return { status: 'success', data }
@@ -289,15 +285,11 @@ export class QueryManageForm extends FormQuery {
     const { orgId } = params
     const { limit = this.limit, offset = this.offset, filters = [] } = params
 
-    const q = this.db().table(t.form).where({ orgId }).count().first<{ count: string }>()
+    let baseQuery = this.db().table(t.form).where({ orgId }).count().first<{ count: string }>()
 
-    if (filters.length) {
-      filters.forEach((filter) => {
-        void q.andWhere(filter.field, filter.operator, filter.value)
-      })
-    }
+    baseQuery = applyComplexFilters(baseQuery, filters)
 
-    const { count } = await q
+    const { count } = await baseQuery
 
     r.indexMeta = { limit, offset, count: +count, ...r.indexMeta }
 

@@ -39,27 +39,27 @@ const {
   loading?: boolean | string
   wrapClass?: string
   animate?: boolean
-  tag?: 'button' | 'div' 
+  tag?: 'button' | 'div'
 }>()
 
 const randomId = shortId()
 const loaded = vue.ref(false)
 const animateSelected = vue.ref()
 function onClick() {
-  if ( animate) {
+  if (animate) {
     animateSelected.value = true
     setTimeout(() => animateSelected.value = false, 1000)
   }
 }
 
 const cls = vue.computed(() => {
-  return getButtonClasses({ rounding, design, theme, size, format, disabled, shadow, hover, fontWeight  })
+  return getButtonClasses({ rounding, design, theme, size, format, disabled, shadow, hover, fontWeight })
 })
 const slots = vue.useSlots()
 const hasContent = vue.computed(() => !!slots?.default?.()?.[0]?.children?.length)
 
 const iconAdjust = vue.computed(() => {
-  const sz =  size || 'md'
+  const sz = size || 'md'
   const sizeAdjustments: Record<StandardSize, { mt: string, mxBefore: string, mxAfter: string }> = {
     'xxs': { mt: '', mxBefore: '-ml-[1px] mr-[1px]', mxAfter: '-mr-[1px] ml-[1px]' },
     'xs': { mt: '', mxBefore: '-ml-[1px] mr-[1px]', mxAfter: '-mr-[1px] ml-[1px]' },

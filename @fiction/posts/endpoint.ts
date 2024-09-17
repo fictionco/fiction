@@ -1,7 +1,7 @@
 import type { DataFilter, EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser, IndexMeta, IndexQuery, TableTaxonomyConfig } from '@fiction/core'
 import type { FictionPosts } from '.'
 import type { TablePostConfig } from './schema'
-import { abort, deepMerge, incrementSlugId, objectId, Query, standardTable, toLabel, toSlug } from '@fiction/core'
+import { abort, applyComplexFilters, deepMerge, incrementSlugId, objectId, Query, standardTable, toLabel, toSlug } from '@fiction/core'
 import { t } from './schema'
 
 export type PostsQuerySettings = FictionPluginSettings & {
@@ -88,7 +88,7 @@ export class ManagePostIndex extends PostsQuery {
 
   private async fetchPosts(args: { orgId: string, type: string } & IndexQuery) {
     const { orgId, limit = 20, offset = 0, filters = [], orderBy = 'updatedAt', order = 'desc', type = 'post', taxonomy } = args
-    const query = this.db()
+    let baseQuery = this.db()
       .select<TablePostConfig[]>('*')
       .from(t.posts)
       .where({ orgId, type })
@@ -96,24 +96,21 @@ export class ManagePostIndex extends PostsQuery {
       .offset(offset)
       .orderBy(orderBy, order)
 
-    filters.forEach((filter) => {
-      if (filter.field && filter.operator && filter.value)
-        void query.where(filter.field, filter.operator, filter.value)
-    })
+    baseQuery = applyComplexFilters(baseQuery, filters)
 
     if (taxonomy) {
-      query.join(t.taxonomy, `${t.taxonomy}.taxonomyId`, '=', `${t.posts}.taxonomyId`)
+      baseQuery.join(t.taxonomy, `${t.taxonomy}.taxonomyId`, '=', `${t.posts}.taxonomyId`)
 
       if ('taxonomyId' in taxonomy) {
-        query.where(`${t.taxonomy}.taxonomyId`, taxonomy.taxonomyId)
+        baseQuery.where(`${t.taxonomy}.taxonomyId`, taxonomy.taxonomyId)
       }
       else if ('type' in taxonomy && 'slug' in taxonomy) {
-        query.where(`${t.taxonomy}.type`, taxonomy.type)
+        baseQuery.where(`${t.taxonomy}.type`, taxonomy.type)
           .where(`${t.taxonomy}.slug`, taxonomy.slug)
       }
     }
 
-    return query
+    return baseQuery
   }
 
   private async fetchCount(args: { orgId: string, type: string }): Promise<number> {

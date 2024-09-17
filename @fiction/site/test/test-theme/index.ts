@@ -58,9 +58,8 @@ export async function setup(args: { fictionEnv: FictionEnv }) {
         userConfig: {
           items: [
             {
-              name: 'Barack Obama',
-              desc: 'Personal Site',
-              tags: ['Politics'],
+              title: 'Barack Obama',
+              subTitle: 'Personal Site',
               media: { url: obama },
             },
           ],

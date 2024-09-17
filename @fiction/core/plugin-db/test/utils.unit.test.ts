@@ -1,6 +1,6 @@
 import { createTestUtils } from '@fiction/core/test-utils'
 import { t } from '@fiction/posts/schema.js'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { Col, FictionDbTable } from '../objects.js'
 import { dbPrep } from '../utils.js'
 

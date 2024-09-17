@@ -57,9 +57,8 @@ export async function page(args: { site: Site }) {
             userConfig: {
               items: [
                 {
-                  name: 'Andrew Powers',
-                  desc: 'Serial Entrepreneur',
-                  tags: ['Tech'],
+                  title: 'Andrew Powers',
+                  subTitle: 'Serial Entrepreneur',
                   media: {
                     url: `${andrew}?blurhash=UbD%2Be.f%2B9an%24~UbIE2aeskaeV%40W%3BM%7BaeoLbb`,
                   },
@@ -67,63 +66,55 @@ export async function page(args: { site: Site }) {
                 },
 
                 {
-                  name: 'Hugo Rebora',
-                  desc: 'Podcaster',
-                  tags: ['Professional'],
+                  title: 'Hugo Rebora',
+                  subTitle: 'Podcaster',
                   media: stockMediaHandler.getAssetBySlug('rebora'),
                   href: '#',
                 },
                 {
-                  name: 'Selena Gomez',
-                  desc: 'Musician',
-                  tags: ['Music'],
+                  title: 'Selena Gomez',
+                  subTitle: 'Musician',
                   media: {
                     url: selena,
                   },
                 },
 
                 {
-                  name: 'Olivia Alani',
-                  desc: 'Fashion Designer',
-                  tags: ['Music'],
+                  title: 'Olivia Alani',
+                  subTitle: 'Fashion Designer',
                   media: stockMediaHandler.getAssetBySlug('olivia'),
                   href: '#',
                 },
                 {
-                  name: 'Gabriel Torres',
-                  desc: 'Coach',
-                  tags: ['Speaker'],
+                  title: 'Gabriel Torres',
+                  subTitle: 'Coach',
                   media: stockMediaHandler.getAssetBySlug('abgcuk'),
                   href: '#',
                 },
 
                 {
-                  name: 'Barack Obama',
-                  desc: 'Politician',
-                  tags: ['Politics'],
+                  title: 'Barack Obama',
+                  subTitle: 'Politician',
                   media: {
                     url: obama,
                   },
                 },
                 {
-                  name: 'Sarah Bands',
-                  desc: 'Director',
-                  tags: ['Professional'],
+                  title: 'Sarah Bands',
+                  subTitle: 'Director',
                   media: stockMediaHandler.getAssetBySlug('bands'),
                   href: '#',
                 },
                 {
-                  name: 'Dean Stoecker',
-                  desc: 'Founder, Alteryx',
-                  tags: ['Executive'],
+                  title: 'Dean Stoecker',
+                  subTitle: 'Founder, Alteryx',
                   media: {
                     url: dean,
                   },
                 },
                 {
-                  name: 'Joe Rogan',
-                  desc: 'Comedian / Podcaster',
-                  tags: ['Politics'],
+                  title: 'Joe Rogan',
+                  subTitle: 'Comedian / Podcaster',
                   media: {
                     url: rogan,
                   },
