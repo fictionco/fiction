@@ -1,6 +1,6 @@
 import { mergeAttributes, Node } from '@tiptap/core'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
-import ImageUploader from './ElImageSelector.vue'
+import ElImageSelector from './ElImageSelector.vue'
 
 export const xImage = Node.create({
   name: 'xImage',
@@ -9,7 +9,7 @@ export const xImage = Node.create({
   selectable: true,
 
   addNodeView() {
-    return VueNodeViewRenderer(ImageUploader)
+    return VueNodeViewRenderer(ElImageSelector)
   },
 
   addAttributes() {

@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import type { MediaObject } from '@fiction/core'
+import type { NodeViewProps } from '@tiptap/vue-3'
 import { vue } from '@fiction/core'
 import InputImage from '@fiction/ui/inputs/InputImage.vue'
-import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
+import { NodeViewWrapper } from '@tiptap/vue-3'
 import ButtonMenu from '../../el/ButtonMenu.vue'
 import XMediaResize from './ElImageResize.vue'
 
-const props = defineProps(nodeViewProps)
+const props = defineProps<NodeViewProps>()
 
 const media = vue.ref<MediaObject>({
   url: props.node.attrs.src,
