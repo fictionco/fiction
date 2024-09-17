@@ -1,5 +1,5 @@
 import type { Card } from './card'
-import { colorTheme, colorThemeBright, HeaderLayoutSchema, SizeSchema } from '@fiction/core'
+import { colorTheme, colorThemeBright, HeaderLayoutSchema, SizeSchema, SizeSchemaComplete } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import InputAi from './ai/InputAi.vue'
 
@@ -19,8 +19,8 @@ export function standardCardOptions(args: { card: Card }) {
       new InputOption({ key: 'standard.headers.superColor', label: 'Super Color', input: 'InputSelectCustom', list: colorThemeBright }),
     ] }),
     new InputOption({ key: 'standardSpacing', icon: 'i-tabler-viewport-wide', isClosed: true, label: 'Width / Spacing', input: 'group', options: [
-      new InputOption({ key: 'standard.spacing.contentWidth', label: 'Content Width', input: 'InputSelectCustom', list: SizeSchema.options }),
-      new InputOption({ key: 'standard.spacing.verticalSpacing', label: 'Vertical Spacing', input: 'InputSelectCustom', list: SizeSchema.options }),
+      new InputOption({ key: 'standard.spacing.contentWidth', label: 'Content Width', input: 'InputSelectCustom', list: SizeSchemaComplete.options }),
+      new InputOption({ key: 'standard.spacing.verticalSpacing', label: 'Vertical Spacing', input: 'InputSelectCustom', list: SizeSchemaComplete.options }),
     ] }),
     new InputOption({ key: 'standardBackground', icon: 'i-tabler-background', isClosed: true, label: 'Color / Background', input: 'group', options: [
       new InputOption({ key: 'standard.scheme.base.bg', label: 'Dark Mode Background', input: 'InputMedia' }),

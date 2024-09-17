@@ -1,18 +1,22 @@
-import type { SizeBasic } from './schema.js'
+import type { StandardSize } from '@fiction/core'
 
 type Direction = 'top' | 'bottom' | 'both'
 
+type SizeWithNone = StandardSize | 'none' | 'full'
+
 const spacingClasses = {
-  none: { top: 'pt-0', bottom: 'pb-0' },
-  full: { top: 'min-h-[100dvh] flex items-center', bottom: 'min-h-[100dvh]' },
-  xs: { top: 'pt-[calc(0.5rem+1vw)]', bottom: 'pb-[calc(0.5+1vw)]' },
-  sm: { top: 'pt-[calc(1rem+2vw)]', bottom: 'pb-[calc(1rem+2vw)]' },
-  md: { top: 'pt-[calc(2rem+4vw)]', bottom: 'pb-[calc(2rem+4vw)]' },
-  lg: { top: 'pt-[calc(4rem+6vw)]', bottom: 'pb-[calc(4rem+6vw)]' },
-  xl: { top: 'pt-[calc(6rem+10vw)]', bottom: 'pb-[calc(6rem+10vw)]' },
+  'none': { top: 'pt-0', bottom: 'pb-0' },
+  'full': { top: 'min-h-[100dvh] flex items-center', bottom: 'min-h-[100dvh]' },
+  'xxs': { top: 'pt-[calc(0.25rem+.5vw)]', bottom: 'pb-[calc(0.25+.5vw)]' },
+  'xs': { top: 'pt-[calc(0.5rem+1vw)]', bottom: 'pb-[calc(0.5+1vw)]' },
+  'sm': { top: 'pt-[calc(1rem+2vw)]', bottom: 'pb-[calc(1rem+2vw)]' },
+  'md': { top: 'pt-[calc(2rem+4vw)]', bottom: 'pb-[calc(2rem+4vw)]' },
+  'lg': { top: 'pt-[calc(4rem+6vw)]', bottom: 'pb-[calc(4rem+6vw)]' },
+  'xl': { top: 'pt-[calc(6rem+10vw)]', bottom: 'pb-[calc(6rem+10vw)]' },
+  '2xl': { top: 'pt-[calc(8rem+14vw)]', bottom: 'pb-[calc(8rem+14vw)]' },
 }
 
-export function getSpacingClass(args: { size: SizeBasic, direction: Direction }): string {
+export function getSpacingClass(args: { size: SizeWithNone, direction: Direction }): string {
   const { size = 'md', direction = 'both' } = args
   const classes: string[] = []
   if (direction === 'top' || direction === 'both') {
@@ -24,27 +28,31 @@ export function getSpacingClass(args: { size: SizeBasic, direction: Direction })
   return classes.join(' ')
 }
 
-const baseContentWidthClasses: Record<SizeBasic, string> = {
-  none: 'mx-auto',
-  full: 'mx-auto w-full',
-  xs: 'mx-auto max-w-screen-lg',
-  sm: 'mx-auto max-w-screen-xl',
-  md: 'mx-auto max-w-screen-2xl',
-  lg: 'mx-auto max-w-screen-3xl',
-  xl: 'mx-auto max-w-screen-4xl',
+const baseContentWidthClasses: Record<SizeWithNone, string> = {
+  'none': 'mx-auto',
+  'full': 'mx-auto w-full',
+  'xxs': 'mx-auto max-w-screen-md',
+  'xs': 'mx-auto max-w-screen-lg',
+  'sm': 'mx-auto max-w-screen-xl',
+  'md': 'mx-auto max-w-screen-2xl',
+  'lg': 'mx-auto max-w-screen-3xl',
+  'xl': 'mx-auto max-w-screen-4xl',
+  '2xl': 'mx-auto max-w-screen-5xl',
 }
 
-const padClasses: Record<SizeBasic, string> = {
-  none: '',
-  full: 'px-4 sm:px-6 lg:px-8',
-  xs: 'px-6 sm:px-14',
-  sm: 'px-6 sm:px-14',
-  md: 'px-6 sm:px-14 lg:px-20', // Updated to match your specification
-  lg: 'px-6 sm:px-14 lg:px-20',
-  xl: 'px-6 sm:px-14 lg:px-20',
+const padClasses: Record<SizeWithNone, string> = {
+  'none': '',
+  'full': 'px-4 sm:px-6 lg:px-8',
+  'xxs': 'px-2 sm:px-4',
+  'xs': 'px-6 sm:px-14',
+  'sm': 'px-6 sm:px-14',
+  'md': 'px-6 sm:px-14 lg:px-20', // Updated to match your specification
+  'lg': 'px-6 sm:px-14 lg:px-20',
+  'xl': 'px-6 sm:px-14 lg:px-20',
+  '2xl': 'px-6 sm:px-14 lg:px-20',
 }
 
-export function getContentWidthClass(args: { size: SizeBasic, padSize?: SizeBasic | boolean }): string {
+export function getContentWidthClass(args: { size: SizeWithNone, padSize?: SizeWithNone | boolean }): string {
   const { size = 'md', padSize } = args
 
   const baseClass = baseContentWidthClasses[size] || baseContentWidthClasses.md

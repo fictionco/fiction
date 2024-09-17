@@ -1,7 +1,7 @@
-import { ButtonDesignSchema, ButtonHoverSchema, ButtonRoundingSchema, ColorThemeSchema, colorThemeUser, FontConfigValSchema, FontStyleSchema, HeaderLayoutSchema, MediaDisplaySchema, SizeBasicSchema, UiOriginSchema } from '@fiction/core'
+import { ButtonDesignSchema, ButtonHoverSchema, ButtonRoundingSchema, ColorThemeSchema, colorThemeUser, FontConfigValSchema, FontStyleSchema, HeaderLayoutSchema, MediaDisplaySchema, SizeSchemaComplete, UiOriginSchema } from '@fiction/core'
 import { z } from 'zod'
 
-export type SizeBasic = z.infer<typeof SizeBasicSchema>
+export type SizeBasic = z.infer<typeof SizeSchemaComplete>
 
 const KnownFontKeys = ['mono', 'input', 'title', 'sans', 'body', 'serif', 'highlight'] as const
 
@@ -39,14 +39,14 @@ export const CardStandardSchema = z.object({
   }).optional(),
 
   spacing: z.object({
-    contentWidth: SizeBasicSchema.optional(),
-    contentPad: SizeBasicSchema.optional(),
-    verticalSpacing: SizeBasicSchema.optional(),
+    contentWidth: SizeSchemaComplete.optional(),
+    contentPad: SizeSchemaComplete.optional(),
+    verticalSpacing: SizeSchemaComplete.optional(),
   }).optional(),
 
   headers: z.object({
     layout: HeaderLayoutSchema.optional(),
-    size: SizeBasicSchema.optional(),
+    size: SizeSchemaComplete.optional(),
     superTitle: z.string().optional(),
     superIcon: z.string().optional(),
     superColor: z.enum(colorThemeUser).optional(),
@@ -56,7 +56,7 @@ export const CardStandardSchema = z.object({
 
   effect: z.object({
     origin: UiOriginSchema.optional(),
-    size: SizeBasicSchema.optional(),
+    size: SizeSchemaComplete.optional(),
     rotation: z.number().min(0).max(360).optional(),
   }).optional(),
 })

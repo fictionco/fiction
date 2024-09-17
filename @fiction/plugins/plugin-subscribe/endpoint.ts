@@ -82,10 +82,7 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
 
     baseQuery = applyComplexFilters(baseQuery, filters)
 
-    let countQuery = baseQuery.clone().count('* as count').first<{ count: string }>()
-
-    // Execute the count query
-    const { count } = await countQuery
+    const { count } = await baseQuery
 
     r.indexMeta = { limit, offset, count: +count, ...r.indexMeta }
 
