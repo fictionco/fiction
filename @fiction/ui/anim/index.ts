@@ -100,8 +100,8 @@ export function animateItemEnter(args: { targets: string, themeId?: keyof typeof
   })
 }
 
-export async function useElementVisible(args: { selector: string, onVisible: () => void, onHidden?: () => void }): Promise<{ close: () => void }> {
-  const { selector, onVisible, onHidden } = args
+export async function useElementVisible(args: { caller: string, selector: string, onVisible: () => void, onHidden?: () => void }): Promise<{ close: () => void }> {
+  const { selector, onVisible, onHidden, caller = 'unknown' } = args
 
   if (typeof IntersectionObserver === 'undefined') {
     console.warn('IntersectionObserver is not supported in this environment.')
@@ -141,7 +141,7 @@ export async function useElementVisible(args: { selector: string, onVisible: () 
     else {
       count++
       if (count > 100) {
-        console.warn(`Element with selector "${selector}" not found after 5 seconds.`)
+        console.warn(`Element with selector "${selector}" not found after 5 seconds (called by ${caller})`)
         clearInterval(intervalId)
       }
     }

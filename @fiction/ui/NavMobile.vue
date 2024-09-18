@@ -59,6 +59,7 @@ vue.onMounted(() => {
 
 vue.onMounted(() => {
   useElementVisible({
+    caller: 'navMobile',
     selector: `#${randomId}`,
     onVisible: async () => {
       await animateItemEnter({ targets: `#${randomId} .x-action-item`, themeId: 'rise', config: { } })

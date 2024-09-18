@@ -41,6 +41,7 @@ function getStagger(index: number): string {
 
 vue.onMounted(() => {
   useElementVisible({
+    caller: 'marquee',
     selector: `#${props.card.cardId}`,
     onVisible: async () => {
       await animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'fade', config: { overallDelay: 0, isRandom: true } })

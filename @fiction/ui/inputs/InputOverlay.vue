@@ -43,7 +43,7 @@ async function updateField(field: string, value: unknown): Promise<void> {
 </script>
 
 <template>
-  <div class="space-y-4">
+  <div class="space-y-6 bg-theme-50 dark:bg-theme-700/40 p-4 rounded-md">
     <ElInput
       class=""
       input="InputGradient"

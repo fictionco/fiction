@@ -4,6 +4,8 @@ import { DraggableList, getGradientCss, vue } from '@fiction/core'
 import InputColor from './InputColor.vue'
 import InputRange from './InputRange.vue'
 
+defineOptions({ name: 'InputGradient' })
+
 const props = defineProps({
   modelValue: { type: Object as vue.PropType<GradientSetting>, default: undefined },
 })
@@ -110,16 +112,19 @@ vue.onMounted(async () => {
       <div class="flex items-center gap-2 cursor-pointer hover:opacity-70" @click="visible = !visible">
         <div class="i-tabler-background text-xl" />
         <div class="font-sans text-xs font-medium">
-          Edit Gradient
+          Edit Colors
         </div>
-        <div class="i-tabler-chevron-down text-xl" :class="visible ? 'rotate-180' : ''" />
+        <div class="i-tabler-chevron-down text-lg transition-all" :class="visible ? 'rotate-180' : ''" />
       </div>
       <div
-        class="cursor-pointer hover:opacity-80 bar bg-theme-50 text-white/30 text-center text-[10px] font-sans flex items-center justify-center dark:bg-theme-700 h-6 grow rounded-full shadow-sm ring-2 ring-inset ring-theme-800/20"
+        class="hover:opacity-80 bar bg-theme-50 text-white text-center text-[9px] font-sans flex items-center justify-center dark:bg-theme-700 h-6 grow rounded-full shadow-sm ring-2 ring-inset ring-theme-800/20"
         :style="{ 'background-image': gradientCss }"
+        :class="gradientCss ? 'cursor-pointer' : 'cursor-not-allowed opacity-0'"
         @click="visible = !visible"
       >
-        Preview
+        <div class="uppercase tracking-widest">
+          Preview
+        </div>
       </div>
     </div>
     <div v-if="visible" class="space-y-3">

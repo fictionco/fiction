@@ -8,6 +8,7 @@ let close = () => {}
 
 vue.onMounted(async () => {
   const r = await useElementVisible({
+    caller: 'ElClose',
     selector: `#${randomId}`,
     onVisible: () => {
       inView.value = true

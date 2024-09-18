@@ -4,6 +4,8 @@ import type { IconId } from '@fiction/ui/lib/systemIcons'
 import { systemIcons } from '@fiction/ui/lib/systemIcons'
 import XIcon from '../media/XIcon.vue'
 
+defineOptions({ name: 'LibraryIcon' })
+
 defineProps({
   modelValue: { type: Object as vue.PropType<MediaObject>, default: () => ({}) },
 })

@@ -5,6 +5,8 @@ import EffectMasonry from '../effect/EffectMasonry.vue'
 import ElSpinner from '../loaders/ElSpinner.vue'
 import XMedia from '../media/XMedia.vue'
 
+defineOptions({ name: 'LibraryMedia' })
+
 const props = defineProps({
   modelValue: { type: Object as vue.PropType<MediaObject>, default: () => ({}) },
 })

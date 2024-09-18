@@ -73,6 +73,7 @@ function startHighlightStar() {
 
 vue.onMounted(() => {
   useElementVisible({
+    caller: 'footerCard',
     selector: `#${props.card.cardId}`,
     onVisible: async () => {
       await animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'pop', config: { overallDelay: 200 } })

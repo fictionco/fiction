@@ -33,6 +33,7 @@ function cls(price: UserConfigPrice) {
 
 vue.onMounted(() => {
   useElementVisible({
+    caller: 'pricing',
     selector: `#${props.card.cardId}`,
     onVisible: async () => {
       loading.value = false

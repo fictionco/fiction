@@ -4,15 +4,19 @@ import { determineMediaFormat, vue } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 import ElModal from '../ElModal.vue'
 import XLogo from '../media/XLogo.vue'
+import XMedia from '../media/XMedia.vue'
 import ElInput from './ElInput.vue'
 import InputMediaUpload from './InputMediaUpload.vue'
+import LibraryBackground from './LibraryBackground.vue'
 import LibraryIcon from './LibraryIcon.vue'
 import LibraryMedia from './LibraryMedia.vue'
+
+defineOptions({ name: 'LibraryModal' })
 
 const props = defineProps({
   modelValue: { type: Object as vue.PropType<MediaObject>, default: () => ({}) },
   vis: { type: Boolean, default: false },
-  tools: { type: Array as vue.PropType<Tool[]>, default: () => ['upload'] },
+  tools: { type: Array as vue.PropType<LibraryTool[]>, default: () => ['upload'] },
   title: { type: String, default: 'Library' },
 })
 const emit = defineEmits<{
@@ -26,14 +30,16 @@ const availableTools = [
   { name: 'HTML/Embed', value: 'html', icon: 'i-tabler-code' },
   { name: 'System Icons', value: 'icons', icon: 'i-tabler-category' },
   { name: 'Text + Font', value: 'typography', icon: 'i-tabler-typography' },
+  { name: 'Background', value: 'background', icon: 'i-tabler-palette' },
 ] as const
-type Tool = typeof availableTools[number]['value']
 
-const currentSelection = vue.ref<MediaObject>({})
+export type LibraryTool = typeof availableTools[number]['value']
+
+const currentSelection = vue.ref<MediaObject>({ bgColor: 'rgba(50 50 50 / .1)', format: 'url' })
 
 function getDefaultTool() {
   const format = currentSelection.value.format
-  let v: Tool
+  let v: LibraryTool
   if (format === 'html')
     v = 'html'
   else if (format === 'typography')
@@ -90,17 +96,31 @@ function updateCurrentSelection(updates: Partial<MediaObject>) {
       </div>
 
       <!-- Preview section -->
-      <div v-if="currentSelection.format" class="px-4 py-2 border-b border-theme-300/50 dark:border-theme-700/70">
-        <div class="flex justify-between text-theme-500 dark:text-theme-400 py-2">
-          <div class="text-sm">
+      <div class="relative  py-2 border-b border-theme-300/50 dark:border-theme-700/70">
+        <div class="absolute top-0 w-full flex justify-between items-center text-theme-500 dark:text-theme-400 px-4 py-2">
+          <div class="text-sm opacity-60">
             Preview
           </div>
-          <div class="text-xs" :data-format="currentSelection.format">
-            Format: {{ currentSelection.format }}
+          <div class="text-xs text-right" :data-format="currentSelection.format">
+            <div class="opacity-60">
+              Format
+            </div> <div>{{ currentSelection.format || 'None' }}</div>
           </div>
         </div>
         <div class="flex justify-center items-center truncate p-4">
-          <XLogo :media="currentSelection" :class="['typography'].includes(currentSelection.format) ? 'h-[60px]' : 'h-[150px]'" />
+          <XLogo v-if="['iconId', 'iconClass', 'typography'].includes(currentSelection.format || '')" :media="currentSelection" :class="['typography'].includes(currentSelection.format || '') ? 'h-[60px]' : 'h-[150px]'" />
+          <XMedia v-else class="h-[150px] aspect-video" :media="currentSelection" />
+        </div>
+        <div class="absolute right-2 bottom-2 z-10 px-4 py-2">
+          <XButton
+            v-if="currentSelection.url"
+            theme="default"
+            size="xs"
+            icon="i-tabler-x"
+            @click="updateCurrentSelection({ url: undefined, iconId: undefined })"
+          >
+            Remove
+          </XButton>
         </div>
       </div>
 
@@ -163,6 +183,12 @@ function updateCurrentSelection(updates: Partial<MediaObject>) {
           />
         </div>
       </div>
+
+      <LibraryBackground
+        v-else-if="navItemActive.value === 'background'"
+        v-model="currentSelection"
+        @update:model-value="updateCurrentSelection"
+      />
 
       <div class="p-4 border-t border-theme-300/50 dark:border-theme-700/70 flex justify-between">
         <XButton theme="default" rounding="full" icon="i-tabler-x" data-test-id="library-cancel" @click="$emit('update:vis', false)">

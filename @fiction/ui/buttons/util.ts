@@ -26,7 +26,7 @@ export function getButtonClasses(args: {
     border = 'normal',
   } = args
 
-  const baseClasses = 'relative overflow-hidden max-w-full select-none items-center font-sans focus:outline-none antialiased'
+  const baseClasses = 'relative overflow-hidden max-w-full select-none items-center font-sans focus:outline-none antialiased leading-[1.2]'
 
   const sizes: Record<StandardSize, string> = {
     'xxs': 'px-2 py-0.5 text-[9px]',

@@ -18,6 +18,7 @@ const isDefaultLayout = vue.computed(() => !uc.value.layout || uc.value.layout =
 
 vue.onMounted(() => {
   useElementVisible({
+    caller: 'hitlist',
     selector: `#${props.card.cardId}`,
     onVisible: async () => {
       await animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'rise', config: { overallDelay: 600, totalAnimationTime: 2000 } })

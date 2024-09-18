@@ -107,6 +107,7 @@ function loadAnimation() {
   const themeId = typeof props.animate == 'string' ? props.animate : 'rise'
 
   useElementVisible({
+    caller: 'xText',
     selector: `[data-anim-id="${randomId}"]`,
     onVisible: () => {
       loaded.value = true

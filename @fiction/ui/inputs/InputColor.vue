@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { objectId, onResetUi, vue } from '@fiction/core'
 
+defineOptions({ name: 'InputColor' })
+
 defineProps({
   modelValue: { type: String, default: undefined },
 })

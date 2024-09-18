@@ -23,10 +23,10 @@ export function standardCardOptions(args: { card: Card }) {
       new InputOption({ key: 'standard.spacing.verticalSpacing', label: 'Vertical Spacing', input: 'InputSelectCustom', list: SizeSchemaComplete.options }),
     ] }),
     new InputOption({ key: 'standardBackground', icon: 'i-tabler-background', isClosed: true, label: 'Color / Background', input: 'group', options: [
-      new InputOption({ key: 'standard.scheme.base.bg', label: 'Dark Mode Background', input: 'InputMedia' }),
+      new InputOption({ key: 'standard.scheme.base.bg', label: 'Dark Mode Background', input: 'InputMedia', props: { isBackground: true } }),
       new InputOption({ key: 'standard.scheme.base.primary', label: 'Dark Primary Color', input: 'InputSelectCustom', list: colorThemeBright }),
       new InputOption({ key: 'standard.scheme.base.theme', label: 'Dark Theme Color', input: 'InputSelectCustom', list: colorTheme }),
-      new InputOption({ key: 'standard.scheme.light.bg', label: 'Light Mode Background', input: 'InputMedia' }),
+      new InputOption({ key: 'standard.scheme.light.bg', label: 'Light Mode Background', input: 'InputMedia', props: { isBackground: true } }),
       new InputOption({ key: 'standard.scheme.light.primary', label: 'Light Primary Color', input: 'InputSelectCustom', list: colorThemeBright }),
       new InputOption({ key: 'standard.scheme.light.theme', label: 'Light Theme Color', input: 'InputSelectCustom', list: colorTheme }),
       new InputOption({ key: 'standard.scheme.reverse', label: 'Reverse Light Mode', input: 'InputToggle' }),

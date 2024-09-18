@@ -136,7 +136,7 @@ const overlayStyle = vue.computed(() => {
 
   return {
     background: overlay.gradient ? createGradientString(overlay.gradient) : overlay.color,
-    opacity: overlay.opacity,
+    opacity: (overlay.opacity || 50) / 100,
     mixBlendMode: overlay.blendMode,
   }
 })
@@ -158,10 +158,10 @@ const imageModeClass = vue.computed(() => props.imageMode === 'contain' ? 'objec
 </script>
 
 <template>
-  <ClipPathAnim :animate="animate" :data-format="mediaFormat" :data-media-width="media?.width" :data-media-height="media?.height">
+  <ClipPathAnim :class="cls" :animate="animate" :data-format="mediaFormat" :data-media-width="media?.width" :data-media-height="media?.height">
     <div
       v-if="media"
-      :class="[!inlineImage ? 'h-full w-full' : '', cls, flipClass]"
+      :class="[!inlineImage ? 'h-full w-full' : '', flipClass]"
       :style="[bgStyle]"
     >
       <transition

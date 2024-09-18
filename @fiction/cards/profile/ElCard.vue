@@ -26,7 +26,7 @@ const mediaItems = vue.computed(() => {
 const activeItem = vue.ref(0)
 const isVisible = vue.ref(false)
 vue.onMounted(async () => {
-  await useElementVisible({ selector: `.minimal-profile`, onVisible: () => isVisible.value = true })
+  await useElementVisible({ selector: `.minimal-profile`, onVisible: () => isVisible.value = true, caller: 'minimalProfile' })
 })
 </script>
 

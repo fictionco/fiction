@@ -15,6 +15,7 @@ const clr = { textClasses: 'text-primary-500 dark:text-primary-200', bgClasses: 
 
 vue.onMounted(() => {
   useElementVisible({
+    caller: 'socials',
     selector: `#${props.card.cardId}`,
     onVisible: async () => {
       await animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'fade', config: { overallDelay: 600 } })

@@ -13,7 +13,7 @@ const randomId = shortId()
 const isVisible = vue.ref(false)
 
 vue.onMounted(async () => {
-  await useElementVisible({ selector: `#${randomId}`, onVisible: () => isVisible.value = true })
+  await useElementVisible({ caller: 'animClipPath', selector: `#${randomId}`, onVisible: () => isVisible.value = true })
 })
 
 const endClip = vue.computed(() => props.rounded ? '[clip-path:inset(0_round_20px)]' : '[clip-path:inset(0)]')
