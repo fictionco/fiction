@@ -27,8 +27,8 @@ export function newOrgOptions(args: { title: string, actionsRef?: vue.Ref<Action
   })
 }
 
-export function getTools(args: { service: StandardServices, card: Card }) {
-  const { card, service } = args
+export function getTools(args: { service: StandardServices }) {
+  const { service } = args
   const fictionUser = service.fictionUser
   const loading = vue.ref(false)
   const tools = [
@@ -68,7 +68,7 @@ export function getTools(args: { service: StandardServices, card: Card }) {
       },
 
       options: (args) => {
-        const { service } = args
+        const { service, card } = args
         const userIsAdmin = service.fictionUser.activeUser.value?.isSuperAdmin
         return vue.computed(() => [
           new InputOption({ key: 'orgHead', input: ElOrgHeader, uiFormat: 'naked', props: { card } }),

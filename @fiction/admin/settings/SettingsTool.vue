@@ -24,7 +24,7 @@ const panels = vue.computed(() => props.tools.filter(t => t.slug))
 const routeItemId = vue.computed(() => toSlug(props.card.site?.siteRouter.params.value.itemId as string) || panels.value[0].slug)
 
 const currentPanel = vue.computed(() => panels.value.find(p => toSlug(p.slug) === routeItemId.value))
-const currentPanelOptions = vue.computed<InputOption[]>(() => currentPanel.value?.options?.({ tool: currentPanel.value, service }).value || [])
+const currentPanelOptions = vue.computed<InputOption[]>(() => currentPanel.value?.options?.({ tool: currentPanel.value, service, card: props.card }).value || [])
 
 const nav = vue.computed<NavItem[]>(() => {
   const tools = props.tools || []

@@ -1,3 +1,4 @@
+import type { Card } from '@fiction/site'
 import type { InputOption } from '@fiction/ui/index.js'
 import { type ActionItem, type EndpointResponse, FictionObject, type StandardServices, vue } from '@fiction/core/index.js'
 
@@ -9,7 +10,7 @@ export type SettingsToolConfig<T extends string = string, U extends Record<strin
   title?: string | vue.Ref<string>
   el?: vue.Component
   userConfig?: NavCardUserConfig
-  options?: (args: { tool: SettingsTool<T, U>, service: StandardServices }) => vue.Ref<InputOption[]>
+  options?: (args: { tool: SettingsTool<T, U>, service: StandardServices, card: Card }) => vue.Ref<InputOption[]>
   save?: (args: { tool: SettingsTool<T, U>, service: StandardServices }) => Promise<EndpointResponse>
   val?: vue.Ref<U> | vue.WritableComputedRef<U>
   getActions?: (args: { tool: SettingsTool<T, U>, service: StandardServices }) => vue.ComputedRef<ActionItem[]>
