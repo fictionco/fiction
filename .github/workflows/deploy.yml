@@ -47,6 +47,7 @@ env:
   SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
   UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+  ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
   GH_TOKEN: ${{ secrets.GH_TOKEN }}
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
