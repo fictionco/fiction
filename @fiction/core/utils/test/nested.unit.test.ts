@@ -168,7 +168,7 @@ describe('setNested with isMerge functionality', () => {
     expect(result.a.b).toEqual(newValue)
   })
 
-  it('does not merge arrays', async () => {
+  it('merges arrays', async () => {
     const data = {
       a: {
         b: [1, 2],
@@ -180,6 +180,6 @@ describe('setNested with isMerge functionality', () => {
     const result = setNested<typeof data>({ data, path: 'a.b', value: newValue, isMerge: true })
 
     // newValue should replace the existing array at 'a.b' entirely
-    expect(result.a.b).toEqual(newValue)
+    expect(result.a.b).toEqual([1, 2, 3, 4])
   })
 })

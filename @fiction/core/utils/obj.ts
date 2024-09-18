@@ -101,11 +101,18 @@ export function setNested<T extends Record<string, any> = Record<string, any>>(a
   if (value === undefined && !Object.prototype.hasOwnProperty.call(current, lastKey))
     return clone as T
 
-  if (isMerge && isPlainObject(value) && isPlainObject(current[lastKey]))
-    current[lastKey] = deepMerge([current[lastKey], value])
+  if (isMerge && Array.isArray(current[lastKey]) && Array.isArray(value)) {
+    // If both are arrays, concatenate them
+    current[lastKey] = [...current[lastKey], ...value]
+  }
 
-  else
+  else if (isMerge && isPlainObject(value) && isPlainObject(current[lastKey])) {
+    current[lastKey] = deepMergeAll([current[lastKey], value])
+  }
+
+  else {
     current[lastKey] = value
+  }
 
   return clone as T
 }
