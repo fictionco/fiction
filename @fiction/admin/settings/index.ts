@@ -1,4 +1,3 @@
-import type { Card } from '@fiction/site'
 import { type ActionItem, type StandardServices, vue } from '@fiction/core'
 
 import { InputOption } from '@fiction/ui'

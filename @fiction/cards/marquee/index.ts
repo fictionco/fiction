@@ -9,8 +9,8 @@ const el = vue.defineAsyncComponent(async () => import('./ElMarquee.vue'))
 
 const schema = z.object({
   items: z.array(z.object({
-    title: z.string().optional().describe('Title shown over the card, 1 to 5 words [AI]'),
-    subTitle: z.string().optional().describe('Subtitle shown under the title, 1 to 5 words [AI]'),
+    title: z.string().optional().describe('Title shown over the card, 1 to 5 words [ai]'),
+    subTitle: z.string().optional().describe('Subtitle shown under the title, 1 to 5 words [ai]'),
     href: z.string().optional().describe('link, include http for external links'),
     media: MediaBasicSchema.optional().describe('Media background for the item'),
   })).optional(),

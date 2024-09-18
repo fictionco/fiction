@@ -3,7 +3,6 @@ import type { InputOptionGeneration } from '@fiction/ui'
 import type { Card } from '../card'
 import type { Site } from '../site'
 import { onResetUi, toLabel, vue, waitFor } from '@fiction/core'
-import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
@@ -158,7 +157,7 @@ async function applyChanges() {
             <div v-for="(opt, key) in genUtil?.jsonPropConfig.value" :key="key" class="text-xs space-y-1">
               <div class="flex gap-2 items-center">
                 <div class="">
-                  <InputToggle :id="`opt-${key}`" :model-value="opt.isEnabled" input-class="bg-theme-0 dark:bg-theme-600" @update:model-value="updateGeneration(opt, { isEnabled: $event })" />
+                  <InputToggle :id="`opt-${key}`" :model-value="opt.isUserEnabled" input-class="bg-theme-0 dark:bg-theme-600" @update:model-value="updateGeneration(opt, { isUserEnabled: $event })" />
                 </div>
                 <label :for="`opt-${key}`" class="w-24 truncate font-semibold cursor-pointer select-none">
                   {{ toLabel(opt.label) }}

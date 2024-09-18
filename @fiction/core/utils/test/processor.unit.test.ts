@@ -1,22 +1,16 @@
-import type { TestUtils } from '@fiction/core/test-utils'
 import type { Processor } from '../processors'
 import { createTestUtils } from '@fiction/core/test-utils'
-import { beforeAll, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { ObjectProcessor, Shortcodes } from '../processors'
 
-let testUtils: TestUtils
-let shortcodes: Shortcodes
-
 describe('shortcodes tests', () => {
-  beforeAll(async () => {
-    testUtils = createTestUtils()
-    const fictionEnv = testUtils.fictionEnv
-    shortcodes = new Shortcodes({ fictionEnv })
-    shortcodes.addShortcode('mock', () => 'MockResult')
-    shortcodes.addShortcode('mock_attr', (args) => {
-      const attr = Object.entries(args.attributes || {}).map(([key, value]) => `${key}:${value}`).join(', ')
-      return `MockResult: ${attr}`
-    })
+  const testUtils = createTestUtils()
+  const fictionEnv = testUtils.fictionEnv
+  const shortcodes = new Shortcodes({ fictionEnv })
+  shortcodes.addShortcode('mock', () => 'MockResult')
+  shortcodes.addShortcode('mock_attr', (args) => {
+    const attr = Object.entries(args.attributes || {}).map(([key, value]) => `${key}:${value}`).join(', ')
+    return `MockResult: ${attr}`
   })
 
   it('should parse attributes with escaped quotes', async () => {
@@ -29,21 +23,21 @@ describe('shortcodes tests', () => {
   })
 
   it('should parse a string with a cwd shortcode', async () => {
-    const result = await shortcodes.parseString('Current directory: [cwd]')
-    expect(result).toBe(`Current directory: ${testUtils.fictionEnv.cwd}`)
+    const { text } = await shortcodes.parseString('Current directory: [cwd]')
+    expect(text).toBe(`Current directory: ${testUtils.fictionEnv.cwd}`)
   })
 
   it('should parse a string with date and time shortcodes', async () => {
     const dateString = new Date().toLocaleDateString()
     const timeString = new Date().toLocaleTimeString()
     const result = await shortcodes.parseString('Today is [date] and the time is [time]')
-    expect(result).toBe(`Today is ${dateString} and the time is ${timeString}`)
+    expect(result.text).toBe(`Today is ${dateString} and the time is ${timeString}`)
   })
 
   it('should handle custom shortcodes', async () => {
     shortcodes.addShortcode('greeting', () => 'Hello World')
     const result = await shortcodes.parseString('Greeting: [greeting]')
-    expect(result).toBe('Greeting: Hello World')
+    expect(result.text).toBe('Greeting: Hello World')
   })
 
   it('should recursively parse an object with shortcodes', async () => {
@@ -64,20 +58,20 @@ describe('shortcodes tests', () => {
   it('should correctly process content within shortcodes', async () => {
     shortcodes.addShortcode('sc', args => `Processed: ${args.content}`)
     const result = await shortcodes.parseString('[sc]sample content[/sc]')
-    expect(result).toBe('Processed: sample content')
+    expect(result.text).toBe('Processed: sample content')
   })
 
   it('should handle nested content shortcodes', async () => {
     shortcodes.addShortcode('outer', args => `Outer Start ${args.content} Outer End`)
     shortcodes.addShortcode('inner', args => `Inner Start ${args.content} Inner End`)
     const result = await shortcodes.parseString('[outer][inner]content[/inner][/outer]')
-    expect(result).toBe('Outer Start Inner Start content Inner End Outer End')
+    expect(result.text).toBe('Outer Start Inner Start content Inner End Outer End')
   })
 
   it('should handle shortcodes with attributes', async () => {
     shortcodes.addShortcode('sc', args => `Attribute: ${args.attributes?.attribute}, Content: ${args.content}`)
     const result = await shortcodes.parseString('[sc attribute="value"]sample content[/sc]')
-    expect(result).toBe('Attribute: value, Content: sample content')
+    expect(result.text).toBe('Attribute: value, Content: sample content')
   })
 
   // Testing multiple attributes
@@ -86,52 +80,52 @@ describe('shortcodes tests', () => {
       return `Attributes: ${args.attributes?.first}, ${args.attributes?.second}; Content: ${args.content}`
     })
     const result = await shortcodes.parseString('[multi first="one" second="two"]content here[/multi]')
-    expect(result).toBe('Attributes: one, two; Content: content here')
+    expect(result.text).toBe('Attributes: one, two; Content: content here')
   })
 
   // Testing shortcodes with attributes but no content
   it('should handle shortcodes with attributes but no content', async () => {
     shortcodes.addShortcode('attrOnly', args => `Only attribute: ${args.attributes?.only}`)
     const result = await shortcodes.parseString('[attrOnly only="attribute-value"]')
-    expect(result).toBe('Only attribute: attribute-value')
+    expect(result.text).toBe('Only attribute: attribute-value')
   })
 
   // Testing shortcodes with empty attributes
   it('should handle shortcodes with empty attributes', async () => {
     shortcodes.addShortcode('emptyAttr', args => `Empty attribute: ${args.attributes?.empty}`)
     const result = await shortcodes.parseString('[emptyAttr empty=""]')
-    expect(result).toBe('Empty attribute: ')
+    expect(result.text).toBe('Empty attribute: ')
   })
 
   it('should return empty string when input is empty', async () => {
     const result = await shortcodes.parseString('')
-    expect(result).toBe('')
+    expect(result.text).toBe('')
   })
 
   it('should return the original string if it contains no shortcodes', async () => {
     const original = 'This is a test string without shortcodes.'
     const result = await shortcodes.parseString(original)
-    expect(result).toBe(original)
+    expect(result.text).toBe(original)
   })
 
   it('should ignore unrecognized shortcodes', async () => {
     const original = 'This string contains an [unknown] shortcode.'
     const result = await shortcodes.parseString(original)
-    expect(result).toBe(original)
+    expect(result.text).toBe(original)
   })
 
   // Testing shortcodes with special characters
   it('should handle shortcodes with special characters in names and attributes', async () => {
     shortcodes.addShortcode('special@char', args => `Special: ${args.attributes?.['attr@special']}`)
     const result = await shortcodes.parseString('[special@char attr@special="value"]')
-    expect(result).toBe('Special: value')
+    expect(result.text).toBe('Special: value')
   })
 
   // Testing handling of different whitespace patterns
   it('should handle different types of whitespace within shortcode tags and attributes', async () => {
     shortcodes.addShortcode('whitespace', () => 'Whitespace handled')
     const result = await shortcodes.parseString('[  whitespace   ]')
-    expect(result).toBe('Whitespace handled')
+    expect(result.text).toBe('Whitespace handled')
   })
 
   // Testing attribute quotes handling
@@ -139,21 +133,21 @@ describe('shortcodes tests', () => {
     shortcodes.addShortcode('quoteTest', args => `Quote: ${args.attributes?.quote}`)
     const singleQuoteResult = await shortcodes.parseString('[quoteTest quote=\'single quote\']')
     const doubleQuoteResult = await shortcodes.parseString('[quoteTest quote="double quote"]')
-    expect(singleQuoteResult).toBe('Quote: single quote')
-    expect(doubleQuoteResult).toBe('Quote: double quote')
+    expect(singleQuoteResult.text).toBe('Quote: single quote')
+    expect(doubleQuoteResult.text).toBe('Quote: double quote')
   })
 
   // Testing escaping of shortcodes
   it('should not treat escaped shortcodes as valid', async () => {
     const result = await shortcodes.parseString('This is not a shortcode: \\[escaped]')
-    expect(result).toBe('This is not a shortcode: [escaped]')
+    expect(result.text).toBe('This is not a shortcode: [escaped]')
   })
 
   // Testing error handling for invalid shortcode formats
   it('should gracefully handle invalid shortcode formats', async () => {
     const invalidFormatString = 'This is an invalid format: [invalid'
     const result = await shortcodes.parseString(invalidFormatString)
-    expect(result).toBe(invalidFormatString)
+    expect(result.text).toBe(invalidFormatString)
   })
 
   it('should parse escaped string values', async () => {
@@ -223,6 +217,77 @@ describe('shortcodes tests', () => {
   it('should leave non-string values unchanged', async () => {
     const input = { number: 123, boolean: true, nullValue: null }
     expect(await shortcodes.parseObject(input)).toEqual(input)
+  })
+})
+
+describe('synchronous shortcodes', () => {
+  const testUtils = createTestUtils()
+  const fictionEnv = testUtils.fictionEnv
+  const shortcodes = new Shortcodes({ fictionEnv })
+  beforeEach(() => {
+    shortcodes.clear()
+  })
+
+  it('should parse a string with synchronous shortcodes', () => {
+    const result = shortcodes.parseStringSync('Current directory: [cwd]')
+    expect(result.text).toBe(`Current directory: ${testUtils.fictionEnv.cwd}`)
+  })
+
+  it('should handle custom synchronous shortcodes', () => {
+    shortcodes.addShortcode('syncGreeting', () => 'Hello Sync World')
+    const result = shortcodes.parseStringSync('Sync Greeting: [syncGreeting]')
+    expect(result.text).toBe('Sync Greeting: Hello Sync World')
+  })
+
+  it('should recursively parse nested synchronous shortcodes', () => {
+    shortcodes.addShortcode('outer', ({ content }) => `<outer>${content}</outer>`)
+    shortcodes.addShortcode('inner', ({ content }) => `<inner>${content}</inner>`)
+    const result = shortcodes.parseStringSync('[outer][inner]content[/inner][/outer]')
+    expect(result.text).toBe('<outer><inner>content</inner></outer>')
+  })
+
+  it('should handle shortcodes with attributes in sync mode', () => {
+    shortcodes.addShortcode('attr', ({ attributes }) => `Attribute: ${attributes?.value}`)
+    const result = shortcodes.parseStringSync('[attr value="test"]')
+    expect(result.text).toBe('Attribute: test')
+  })
+
+  it('should throw an error when encountering an async shortcode in sync mode', () => {
+    shortcodes.addShortcode('asyncShortcode', async () => 'Async Result')
+    expect(() => {
+      shortcodes.parseStringSync('This will fail: [asyncShortcode]')
+    }).toThrow('Synchronous parsing is not possible when async shortcodes are present')
+  })
+
+  it('should handle multiple shortcodes in a single string synchronously', () => {
+    shortcodes.addShortcode('one', () => '1')
+    shortcodes.addShortcode('two', () => '2')
+    const result = shortcodes.parseStringSync('Count: [one] [two] [one]')
+    expect(result.text).toBe('Count: 1 2 1')
+  })
+
+  it('should ignore unrecognized shortcodes in sync mode', () => {
+    const result = shortcodes.parseStringSync('This [unknown] shortcode will be ignored')
+    expect(result.text).toBe('This [unknown] shortcode will be ignored')
+  })
+
+  it('should handle escaped shortcodes in sync mode', () => {
+    const result = shortcodes.parseStringSync('This \\[escaped] is not a shortcode')
+    expect(result.text).toBe('This [escaped] is not a shortcode')
+  })
+
+  it('should process shortcodes with empty content in sync mode', () => {
+    shortcodes.addShortcode('empty', ({ content }) => `Empty: "${content}"`)
+    const result = shortcodes.parseStringSync('[empty][/empty]')
+    expect(result.text).toBe('Empty: ""')
+  })
+
+  it('should handle complex nested structures synchronously', () => {
+    shortcodes.addShortcode('list', ({ content }) => `<ul>${content}</ul>`)
+    shortcodes.addShortcode('item', ({ content }) => `<li>${content}</li>`)
+    const input = '[list][item]First[/item][item]Second[/item][/list]'
+    const result = shortcodes.parseStringSync(input)
+    expect(result.text).toBe('<ul><li>First</li><li>Second</li></ul>')
   })
 })
 
@@ -386,7 +451,7 @@ it('should remove properties that cause processing errors', async () => {
     condition: async ({ value }) => typeof value === 'string' && value.includes('error'),
     // @ts-expect-error test
     action: (value: string) => {
-      throw new Error(`Processing error for value: ${value}`)
+      throw new Error(`[IGNORE] Processing error for value: ${value}`)
     },
   }
 
@@ -409,7 +474,7 @@ it('should not throw and continue processing when an error occurs', async () => 
   const failingProcessor: Processor = {
     condition: async ({ key }) => key === 'fail',
     action: async () => {
-      throw new Error('Failed processing')
+      throw new Error('[IGNORE] Failed processing')
     },
   }
 

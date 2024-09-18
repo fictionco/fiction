@@ -12,7 +12,7 @@ import { standardOption } from '../inputSets'
 const templateId = 'statement'
 
 const StatementSchema = z.object({
-  title: z.string().optional().describe('The title of the statement 3 to 8 words [AI]'),
+  title: z.string().optional().describe('The title of the statement 3 to 8 words [ai]'),
   content: z.string().describe('The content of the statement.'),
   actions: z.array(z.object({
     name: z.string().describe('The name of the action button.'),

@@ -57,9 +57,9 @@ describe('determineMediaFormat', () => {
     expect(determineMediaFormat(media)).toBe('image')
   })
 
-  it('should return "undefined" for invalid URLs', () => {
+  it('should return "image" for URLs with no format', () => {
     const media: MediaObject = { url: 'not-a-valid-url' }
-    expect(determineMediaFormat(media)).toBeFalsy()
+    expect(determineMediaFormat(media)).toBe('image')
   })
 
   it('should return "undefined" for empty media objects', () => {

@@ -37,7 +37,7 @@
     "@types/imagesloaded": "^4.1.6",
     "@types/packery": "^1.4.37",
     "add": "^2.0.6",
-    "ai": "^3.3.40",
+    "ai": "^3.3.41",
     "blurhash": "^2.0.5",
     "flickity": "^3.0.0",
     "gsap": "^3.12.5",

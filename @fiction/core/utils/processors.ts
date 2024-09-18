@@ -83,124 +83,165 @@ export class ObjectProcessor {
   }
 }
 
-export type ShortcodesConfig = {
-  fictionEnv?: FictionEnv
-}
-type ShortcodeAttributes = Record<string, string>
-type ShortcodeHandler<T extends ShortcodeAttributes = ShortcodeAttributes> = (args: { content?: string, attributes?: T, fullMatch: string }) => Promise<string> | string
+type ShortcodeAttributes = Record<string, string | number>
+export type ShortcodeMatch<T extends ShortcodeAttributes = ShortcodeAttributes> = { shortcode: string, content: string, attributes: T, fullMatch: string }
+export type ShortcodeHandler<T extends ShortcodeAttributes = ShortcodeAttributes> = (args: { content?: string, attributes?: T, fullMatch: string }) => string | Promise<string>
 
-export class Shortcodes extends FictionObject<ShortcodesConfig> {
-  private shortcodeDictionary: Record<string, ShortcodeHandler> = {}
-  private objectProcessor: ObjectProcessor
+export class Shortcodes extends FictionObject<{ fictionEnv?: FictionEnv }> {
+  private shortcodes: Record<string, ShortcodeHandler> = {}
+  private hasAsyncShortcodes = false
 
-  constructor(settings: ShortcodesConfig) {
+  constructor(settings: { fictionEnv?: FictionEnv } = {}) {
     super('Shortcodes', settings)
-    this.initializeShortcodeHandlers()
-    this.objectProcessor = new ObjectProcessor([
-      this.createShortcodeProcessor(),
-    ])
+    this.initializeDefaultShortcodes()
   }
 
-  private initializeShortcodeHandlers(): void {
-    this.shortcodeDictionary = {
-      cwd: async () => this.settings.fictionEnv?.cwd || '',
-      date: async () => new Date().toLocaleDateString(),
-      time: async () => new Date().toLocaleTimeString(),
-      // Additional async shortcodes can be defined here
-    }
+  clear() {
+    this.shortcodes = {}
+    this.hasAsyncShortcodes = false
+    this.initializeDefaultShortcodes()
   }
 
-  public addShortcode<T extends ShortcodeAttributes>(shortcode: string, handler: ShortcodeHandler<T>): void {
+  private initializeDefaultShortcodes(): void {
+    this.addShortcode('cwd', () => this.settings.fictionEnv?.cwd || '')
+    this.addShortcode('date', () => new Date().toLocaleDateString())
+    this.addShortcode('time', () => new Date().toLocaleTimeString())
+  }
+
+  public addShortcode<T extends ShortcodeAttributes = ShortcodeAttributes>(shortcode: string, handler: ShortcodeHandler<T>): void {
     if (!shortcode.match(/^[\w\-@]+$/))
       throw new Error('Invalid shortcode name')
-
-    this.shortcodeDictionary[shortcode] = handler as ShortcodeHandler
-  }
-
-  private createShortcodeProcessor(): Processor<string> {
-    return {
-      condition: async ({ value }) => typeof value === 'string' && this.containsShortcode(value),
-      action: async (value: string) => this.parseString(value),
+    this.shortcodes[shortcode] = handler as ShortcodeHandler
+    if (handler.constructor.name === 'AsyncFunction') {
+      this.hasAsyncShortcodes = true
     }
   }
 
-  async parseString(input: string): Promise<string> {
-    // eslint-disable-next-line regexp/no-super-linear-backtracking
-    const regex = /\\?\[\s*([\w\-@]+)(?:\s+([^[\]]+?))?\s*\](?:((?:.|\n)*?)\[\/\1\])?/g
-    const matches = Array.from(input.matchAll(regex))
+  public async parseString(input: string): Promise<{ text: string, matches: ShortcodeMatch[] }> {
+    return this.parseStringInternal(input, true)
+  }
+
+  public parseStringSync(input: string): { text: string, matches: ShortcodeMatch[] } {
+    if (this.hasAsyncShortcodes) {
+      throw new Error('Synchronous parsing is not possible when async shortcodes are present')
+    }
+    return this.parseStringInternal(input, false) as { text: string, matches: ShortcodeMatch[] }
+  }
+
+  private parseStringInternal(input: string, isAsync: boolean): { text: string, matches: ShortcodeMatch[] } | Promise<{ text: string, matches: ShortcodeMatch[] }> {
+    const matches = this.parseToMatches(input)
     let result = ''
     let lastIndex = 0
 
-    for (const match of matches) {
-      // TypeScript might worry `match.index` could be undefined. We ensure we only proceed if it's defined.
-      if (typeof match.index === 'undefined')
-        continue // Skip this iteration if match.index is undefined
+    const processMatches = async () => {
+      for (const match of matches) {
+        const { shortcode, content, attributes, fullMatch } = match
+        const startIndex = input.indexOf(fullMatch, lastIndex)
+        result += input.slice(lastIndex, startIndex)
+        lastIndex = startIndex + fullMatch.length
 
-      const [fullMatch, shortcode, attrString, content = ''] = match
-      // Add text before the current match
-      result += input.slice(lastIndex, match.index)
-      // Update lastIndex to the end of the current match
-      lastIndex = match.index + fullMatch.length
+        if (fullMatch.startsWith('\\')) {
+          result += fullMatch.slice(1) // Handle escaped shortcode by removing backslash
+          continue
+        }
 
-      if (fullMatch.startsWith('\\')) {
-        result += fullMatch.slice(1) // Handle escaped shortcode by removing backslash
-        continue
-      }
-
-      try {
-        const handler = this.shortcodeDictionary[shortcode]
+        const handler = this.shortcodes[shortcode.trim()]
         if (!handler) {
           this.log.warn(`No handler found for shortcode: ${shortcode}`)
-          result += fullMatch // Append the original match if no handler is found
+          result += fullMatch
+          continue
         }
-        else {
-          const attributes = this.parseAttributes(attrString)
-          // Process nested shortcodes if content is not self-closing
-          const processedContent = content ? await this.parseString(content) : ''
-          // Execute handler and append processed result
-          const processed = await handler({ content: processedContent, attributes, fullMatch })
-          result += processed
-        }
+
+        const processedContent = content ? (await this.parseStringInternal(content, isAsync)).text : ''
+        const processed = await handler({ content: processedContent, attributes, fullMatch })
+        result += processed
       }
-      catch (e) {
-        this.log.error('Error in shortcode:', { error: e as Error })
-      }
+      result += input.slice(lastIndex)
+      return { text: result, matches }
     }
 
-    // Append any remaining text after the last match
-    result += input.slice(lastIndex)
-    return result
+    if (isAsync) {
+      return processMatches()
+    }
+    else {
+      for (const match of matches) {
+        const { shortcode, content, attributes, fullMatch } = match
+        const startIndex = input.indexOf(fullMatch, lastIndex)
+        result += input.slice(lastIndex, startIndex)
+        lastIndex = startIndex + fullMatch.length
+
+        if (fullMatch.startsWith('\\')) {
+          result += fullMatch.slice(1) // Handle escaped shortcode by removing backslash
+          continue
+        }
+
+        const handler = this.shortcodes[shortcode.trim()]
+        if (!handler) {
+          this.log.warn(`No handler found for shortcode: ${shortcode}`)
+          result += fullMatch
+          continue
+        }
+
+        const processedContent = content ? (this.parseStringInternal(content, false) as { text: string }).text : ''
+        const processed = handler({ content: processedContent, attributes, fullMatch }) as string
+        result += processed
+      }
+      result += input.slice(lastIndex)
+      return { text: result, matches }
+    }
   }
 
-  private containsShortcode(input: string): boolean {
-    // eslint-disable-next-line regexp/no-unused-capturing-group, regexp/no-super-linear-backtracking
-    const regex = /\[\s*([\w\-@]+)(?:\s[^[\]]+?)?\s*\]/
-    return regex.test(input)
+  parseToMatches(input: string): ShortcodeMatch[] {
+    const regex = /\\?\[\s*([\w\-@]+)(?:\s+([^[\]]+?))?\s*\](?:((?:.|\n)*?)\[\/\1\])?/g
+    return Array.from(input.matchAll(regex))
+      .map(([fullMatch, shortcode, attrString, content = '']) => ({
+        shortcode,
+        content,
+        attributes: this.parseAttributes(attrString),
+        fullMatch,
+      }))
   }
 
-  parseAttributes(attrString: string | undefined): ShortcodeAttributes {
-    const attributes: ShortcodeAttributes = {}
-
+  parseAttributes(attrString?: string): ShortcodeAttributes {
     if (!attrString)
-      return attributes
-
-    // Preprocess the string to replace escaped quotes
-    const preprocessedString = attrString.replace(/\\+"/g, '"').replace(/\\+'/g, '\'')
-
-    const attrRegex = /([\w\-@]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g
-    let match: RegExpExecArray | null
-
-    // Use a for loop instead of while for ESLint compliance
-    for (match = attrRegex.exec(preprocessedString); match !== null; match = attrRegex.exec(preprocessedString)) {
-      const attrName = match[1]
-      const attrValue = match[2] || match[3] || ''
-      attributes[attrName] = attrValue
-    }
-
+      return {}
+    const regex = /([\w\-@]+)\s*=\s*(?:"([^"]*)"|'([^']*)'|(\S+))/g
+    const attributes: ShortcodeAttributes = {}
+    attrString.replace(/\\+"/g, '"').replace(/\\+'/g, '\'').replace(regex, (_, name, dq, sq, uq) => {
+      let value = dq || sq || uq || ''
+      // Convert to number if the string is numeric
+      if (/^-?\d+(\.\d+)?$/.test(value)) {
+        value = Number(value)
+      }
+      attributes[name] = value
+      return ''
+    })
     return attributes
   }
 
   public async parseObject(obj: any): Promise<any> {
-    return this.objectProcessor.parseObject(obj)
+    if (Array.isArray(obj))
+      return Promise.all(obj.map(item => this.parseObject(item)))
+    if (isPlainObject(obj)) {
+      const entries = await Promise.all(
+        Object.entries(obj).map(async ([key, value]) => {
+          try {
+            return [key, await this.parseObject(value)]
+          }
+          catch (error) {
+            this.log.error(`Error processing ${key}`, { error })
+            return null
+          }
+        }),
+      )
+      return Object.fromEntries(entries.filter(Boolean) as [string, any][])
+    }
+    if (typeof obj === 'string' && this.containsShortcode(obj))
+      return (await this.parseString(obj)).text
+    return obj
+  }
+
+  private containsShortcode(input: string): boolean {
+    return /\[\s*[\w\-@]+/.test(input)
   }
 }

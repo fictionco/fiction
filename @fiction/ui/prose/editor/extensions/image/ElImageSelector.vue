@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { MediaObject } from '@fiction/core'
-import type { NodeViewProps } from '@tiptap/vue-3'
 import { vue } from '@fiction/core'
 import InputImage from '@fiction/ui/inputs/InputImage.vue'
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'

@@ -40,7 +40,7 @@ describe('card', async () => {
   })
 
   it('card computes total estimated time correctly', async () => {
-    generation.fieldsUserConfig.value = { heading: { isEnabled: true }, subHeading: { isEnabled: true } }
+    generation.fieldsUserConfig.value = { heading: { isUserEnabled: true }, subHeading: { isUserEnabled: true } }
 
     await waitFor(50)
 
@@ -69,7 +69,7 @@ describe('card', async () => {
   })
 
   it('should compute total estimated time correctly', () => {
-    generation.fieldsUserConfig.value = { heading: { isEnabled: true }, subHeading: { isEnabled: true } }
+    generation.fieldsUserConfig.value = { heading: { isUserEnabled: true }, subHeading: { isUserEnabled: true } }
 
     const totalEstimatedTime = generation.totalEstimatedTime.value
 
@@ -91,11 +91,14 @@ describe('card', async () => {
     expect(inputConfig.actions.label).toEqual('Actions')
     expect(inputConfig.subHeading.label).toEqual('Sub Heading')
 
+    expect(Object.values(inputConfig).filter(c => c.isUserEnabled && c.hasTag).length).toBe(2)
+
     expect(inputConfig).toMatchInlineSnapshot(`
       {
         "actions": {
           "cumulativeTime": 8000,
           "estimatedMs": 4000,
+          "hasTag": false,
           "key": "actions",
           "label": "Actions",
           "prompt": "List of link buttons",
@@ -103,6 +106,7 @@ describe('card', async () => {
         "caption": {
           "cumulativeTime": 8000,
           "estimatedMs": 4000,
+          "hasTag": false,
           "key": "caption",
           "label": "Caption",
           "prompt": "Caption for the splash image",
@@ -110,14 +114,16 @@ describe('card', async () => {
         "heading": {
           "cumulativeTime": 4000,
           "estimatedMs": 4000,
-          "isEnabled": true,
+          "hasTag": true,
+          "isUserEnabled": true,
           "key": "heading",
           "label": "Heading",
-          "prompt": "Primary hero headline, 3 to 13 words [AI]",
+          "prompt": "Primary hero headline, 3 to 13 words",
         },
         "layout": {
           "cumulativeTime": 0,
           "estimatedMs": 4000,
+          "hasTag": false,
           "key": "layout",
           "label": "Layout",
           "prompt": "Alignment style of text and images",
@@ -125,6 +131,7 @@ describe('card', async () => {
         "overlays": {
           "cumulativeTime": 8000,
           "estimatedMs": 4000,
+          "hasTag": false,
           "key": "overlays",
           "label": "Overlays",
           "prompt": "Overlays to be placed on top of the splash image",
@@ -132,6 +139,7 @@ describe('card', async () => {
         "splash": {
           "cumulativeTime": 8000,
           "estimatedMs": 4000,
+          "hasTag": false,
           "key": "splash",
           "label": "Splash",
           "prompt": "Splash picture for hero [TIME:40000]",
@@ -139,14 +147,16 @@ describe('card', async () => {
         "subHeading": {
           "cumulativeTime": 8000,
           "estimatedMs": 4000,
-          "isEnabled": true,
+          "hasTag": true,
+          "isUserEnabled": true,
           "key": "subHeading",
           "label": "Sub Heading",
-          "prompt": "Secondary hero headline, 10 to 30 words [AI]",
+          "prompt": "Secondary hero headline, 10 to 30 words",
         },
         "superColor": {
           "cumulativeTime": 8000,
           "estimatedMs": 4000,
+          "hasTag": false,
           "key": "superColor",
           "label": "Super Color",
           "prompt": "change color of super heading",
@@ -154,16 +164,18 @@ describe('card', async () => {
         "superHeading": {
           "cumulativeTime": 8000,
           "estimatedMs": 4000,
+          "hasTag": true,
           "key": "superHeading",
           "label": "Super Heading",
-          "prompt": "Shorter badge above headline, 2 to 5 words [AI]",
+          "prompt": "Shorter badge above headline, 2 to 5 words",
         },
         "superIcon": {
           "cumulativeTime": 8000,
           "estimatedMs": 4000,
+          "hasTag": true,
           "key": "superIcon",
           "label": "Super Icon",
-          "prompt": "Icon for the super heading [AI]",
+          "prompt": "Icon for the super heading",
         },
       }
     `)

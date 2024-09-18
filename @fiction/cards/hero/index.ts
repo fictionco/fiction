@@ -22,10 +22,10 @@ const LayerMediaScheme = z.object({
 
 export const schema = z.object({
   layout: z.enum(['justify', 'center', 'left', 'right']).optional().describe('Alignment style of text and images'),
-  heading: z.string().optional().describe('Primary hero headline, 3 to 13 words [AI]'),
-  subHeading: z.string().optional().describe('Secondary hero headline, 10 to 30 words [AI]'),
-  superHeading: z.string().optional().describe('Shorter badge above headline, 2 to 5 words [AI]'),
-  superIcon: MediaIconSchema.optional().describe('Icon for the super heading [AI]'),
+  heading: z.string().optional().describe('Primary hero headline, 3 to 13 words [ai]'),
+  subHeading: z.string().optional().describe('Secondary hero headline, 10 to 30 words [ai]'),
+  superHeading: z.string().optional().describe('Shorter badge above headline, 2 to 5 words [ai]'),
+  superIcon: MediaIconSchema.optional().describe('Icon for the super heading [ai]'),
   superColor: z.enum(colorTheme).optional().describe('change color of super heading'),
   splash: MediaBasicSchema.optional().describe('Splash picture for hero [TIME:40000]').refine(_ => true, { params: { time: 40 } }),
   caption: z.string().optional().describe('Caption for the splash image'),

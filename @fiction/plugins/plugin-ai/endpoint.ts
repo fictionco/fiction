@@ -2,7 +2,7 @@ import type { EndpointMeta, EndpointResponse, TableMediaConfig } from '@fiction/
 import type { PineconeRecord, RecordMetadata } from '@pinecone-database/pinecone'
 import type { FictionAi, FictionAiSettings } from '.'
 import type { SourceItem } from './tables'
-import { abort, objectId, Query, randomBetween, Shortcodes, toLabel } from '@fiction/core'
+import { abort, objectId, Query, Shortcodes } from '@fiction/core'
 
 import { stockMediaHandler } from '@fiction/ui/stock'
 import { Pinecone } from '@pinecone-database/pinecone'

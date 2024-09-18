@@ -57,7 +57,7 @@ type SchemaCallback = (args: { z: typeof z, subSchema: z.AnyZodObject }) => z.Sc
 
 export type InputOptionGeneration = {
   prompt?: string
-  isEnabled?: boolean
+  isUserEnabled?: boolean
   estimatedMs?: number
   key?: string
   label?: string

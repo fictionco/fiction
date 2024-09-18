@@ -44,22 +44,23 @@ describe('generation utils', async () => {
 
     const outputProps = generateOutputProps({ jsonSchema, jsonPropConfig: inputConfig })
 
-    // empty because no isEnabled
+    // empty because no isUserEnabled
     expect(outputProps).toStrictEqual({})
 
-    const inputConfig2 = generateJsonPropConfig({ jsonSchema, userPropConfig: { heading: { isEnabled: true }, layout: { isEnabled: true } } })
+    const inputConfig2 = generateJsonPropConfig({ jsonSchema, userPropConfig: { heading: { isUserEnabled: true }, layout: { isUserEnabled: true } } })
     const outputProps2 = generateOutputProps({ jsonSchema, jsonPropConfig: inputConfig2 })
 
-    expect(Object.values(inputConfig2).filter(c => c.isEnabled).length).toBe(2)
+    expect(Object.values(inputConfig2).filter(c => c.isUserEnabled).length).toBe(2)
     expect(Object.values(outputProps2).filter(c => c.description).length).toBe(2)
   })
 
   it('parses description correctly', () => {
-    const description = 'This is a test; time:40; type:image'
+    const description = 'This is a test [ai seconds=4 type=image]'
     const result = parseDescription(description)
     expect(result).toEqual({
       description: 'This is a test',
-      meta: { time: 40, type: 'image' },
+      meta: { seconds: 4, type: 'image' },
+      hasTag: true,
     })
   })
 
@@ -69,6 +70,7 @@ describe('generation utils', async () => {
     expect(result).toEqual({
       description: 'Only description',
       meta: {},
+      hasTag: false,
     })
   })
 
@@ -81,8 +83,8 @@ describe('generation utils', async () => {
     } as unknown as JsonSchema7ObjectType
 
     const jsonPropConfig = {
-      heading: { isEnabled: true, prompt: 'Custom heading' },
-      subHeading: { isEnabled: false, prompt: 'Custom subheading' },
+      heading: { isUserEnabled: true, prompt: 'Custom heading' },
+      subHeading: { isUserEnabled: false, prompt: 'Custom subheading' },
     }
 
     const result = generateOutputProps({ jsonSchema, jsonPropConfig })
@@ -100,7 +102,7 @@ describe('generation utils', async () => {
     } as unknown as JsonSchema7ObjectType
 
     const userPropConfig = {
-      heading: { isEnabled: true },
+      heading: { isUserEnabled: true, hasTag: true },
     }
 
     const result = generateJsonPropConfig({ jsonSchema, userPropConfig })
@@ -112,25 +114,27 @@ describe('generation utils', async () => {
         prompt: '',
         estimatedMs: 4000,
         cumulativeTime: 4000,
-        isEnabled: true,
+        hasTag: true,
+        isUserEnabled: true,
       },
     })
   })
 
   it('handles numeric meta correctly in parseDescription', () => {
-    const description = 'This is a test; time:40; count:10'
+    const description = 'This is a test [ai time=40 count=10]'
     const result = parseDescription(description)
     expect(result).toEqual({
       description: 'This is a test',
       meta: { time: 40, count: 10 },
+      hasTag: true,
     })
   })
 
   it('calculates total estimated time correctly', () => {
     const jsonPropConfig = {
-      heading: { isEnabled: true, estimatedMs: 5000 },
-      subHeading: { isEnabled: true, estimatedMs: 3000 },
-      splash: { isEnabled: false, estimatedMs: 10000 },
+      heading: { isUserEnabled: true, estimatedMs: 5000 },
+      subHeading: { isUserEnabled: true, estimatedMs: 3000 },
+      splash: { isUserEnabled: false, estimatedMs: 10000 },
     }
 
     const result = calculateTotalEstimatedTimeSeconds({ jsonPropConfig })
@@ -140,8 +144,8 @@ describe('generation utils', async () => {
 
   it('returns zero for total estimated time with no enabled fields', () => {
     const jsonPropConfig = {
-      heading: { isEnabled: false, estimatedMs: 5000 },
-      subHeading: { isEnabled: false, estimatedMs: 3000 },
+      heading: { isUserEnabled: false, estimatedMs: 5000 },
+      subHeading: { isUserEnabled: false, estimatedMs: 3000 },
     }
 
     const result = calculateTotalEstimatedTimeSeconds({ jsonPropConfig })
@@ -153,13 +157,13 @@ describe('generation utils', async () => {
     const jsonSchema = {
       properties: {
         heading: { type: 'string', description: 'Primary hero headline, 3 to 13 words' },
-        subHeading: { type: 'string', description: 'Secondary hero headline, 10 to 30 words' },
+        subHeading: { type: 'string', description: 'Secondary hero headline, 10 to 30 words [ai]' },
       },
     } as unknown as JsonSchema7ObjectType
 
     const userPropConfig = {
-      heading: { isEnabled: true },
-      subHeading: { isEnabled: true },
+      heading: { isUserEnabled: true },
+      subHeading: { isUserEnabled: true },
     }
 
     const result = generateJsonPropConfig({ jsonSchema, userPropConfig })
@@ -170,8 +174,9 @@ describe('generation utils', async () => {
         label: 'Heading',
         prompt: 'Primary hero headline, 3 to 13 words',
         estimatedMs: 4000,
+        hasTag: false,
         cumulativeTime: 4000,
-        isEnabled: true,
+        isUserEnabled: true,
       },
       subHeading: {
         key: 'subHeading',
@@ -179,7 +184,8 @@ describe('generation utils', async () => {
         prompt: 'Secondary hero headline, 10 to 30 words',
         estimatedMs: 4000,
         cumulativeTime: 8000,
-        isEnabled: true,
+        isUserEnabled: true,
+        hasTag: true,
       },
     })
   })
@@ -188,8 +194,8 @@ describe('generation utils', async () => {
 describe('simulateProgress', () => {
   it('simulates progress correctly', async () => {
     const jsonPropConfig: Record<string, InputOptionGeneration> = {
-      heading: { isEnabled: true, label: 'heading', cumulativeTime: 5000 },
-      subHeading: { isEnabled: true, label: 'subHeading', cumulativeTime: 10000 },
+      heading: { isUserEnabled: true, label: 'heading', cumulativeTime: 5000 },
+      subHeading: { isUserEnabled: true, label: 'subHeading', cumulativeTime: 10000 },
     }
 
     const totalEstimatedTime = 15 // 15 seconds

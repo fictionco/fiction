@@ -1,26 +1,31 @@
 import type { JsonSchema7ObjectType } from 'zod-to-json-schema'
-import { toLabel } from '@fiction/core'
+import { type ShortcodeMatch, Shortcodes, toLabel } from '@fiction/core'
 
 export type InputOptionGeneration = {
   prompt?: string
-  isEnabled?: boolean
+  isUserEnabled?: boolean
+  hasTag?: boolean
   estimatedMs?: number
   key?: string
   label?: string
   cumulativeTime?: number
 }
 
-export function parseDescription(description: string): { description: string, meta: Record<string, any> } {
-  const meta: Record<string, any> = {}
-  const parts = description.split(';').map(part => part.trim())
-  const desc = parts.shift() || ''
+const shortcodes = new Shortcodes()
+type AiShortcodeAttributes = { seconds?: number }
+// remove shortcode from description
+shortcodes.addShortcode<AiShortcodeAttributes>('ai', () => '')
 
-  parts.forEach((part) => {
-    const [key, value] = part.split(':').map(s => s.trim())
-    meta[key] = Number.isNaN(+value) ? value : Number(value)
-  })
+export function parseDescription(text: string): { description: string, meta: AiShortcodeAttributes, hasTag: boolean } {
+  const result = shortcodes.parseStringSync(text)
 
-  return { description: desc, meta }
+  const description = result.text.trim()
+
+  const aiTagMatch = result.matches.find(match => match.shortcode === 'ai') as ShortcodeMatch<AiShortcodeAttributes>
+
+  const meta = aiTagMatch?.attributes || {}
+
+  return { description, meta, hasTag: !!aiTagMatch }
 }
 
 type GenerateOutputPropsArgs = {
@@ -32,7 +37,7 @@ export function generateOutputProps({ jsonSchema, jsonPropConfig }: GenerateOutp
   const props = jsonSchema?.properties || {}
   const entries = Object.entries(props).map(([key, value]) => {
     const userConfig = jsonPropConfig[key]
-    if (!userConfig?.isEnabled)
+    if (!userConfig?.isUserEnabled)
       return [key, undefined]
     const description = userConfig.prompt || value.description
     return [key, { ...value, description }]
@@ -50,18 +55,29 @@ export function generateJsonPropConfig({ jsonSchema, userPropConfig }: GenerateJ
   let cumulativeTime = 0
   const props = jsonSchema?.properties || {}
   return Object.fromEntries(Object.entries(props).map(([key, value]) => {
-    const { description, meta } = parseDescription(value.description || '')
+    const { description, meta, hasTag } = parseDescription(value.description || '')
     const userValue = userPropConfig[key] || {}
-    const estimatedMs = +meta.time || 4000
-    if (userValue.isEnabled)
+    const { seconds = 4 } = meta || {}
+    const estimatedMs = seconds * 1000
+
+    if (userValue.isUserEnabled)
       cumulativeTime += estimatedMs
-    return [key, { key, label: toLabel(key), prompt: description, estimatedMs, cumulativeTime, ...userValue }]
+
+    return [key, {
+      key,
+      label: toLabel(key),
+      prompt: description,
+      estimatedMs,
+      cumulativeTime,
+      hasTag,
+      ...userValue,
+    }]
   }))
 }
 
 export function calculateTotalEstimatedTimeSeconds({ jsonPropConfig }: { jsonPropConfig: Record<string, InputOptionGeneration> }): number {
   const total = Object.values(jsonPropConfig)
-    .filter(opt => opt.isEnabled)
+    .filter(opt => opt.isUserEnabled)
     .reduce((acc, opt) => acc + (opt.estimatedMs ?? 3000), 0)
   return Math.round(total / 1000)
 }
@@ -94,7 +110,7 @@ export function simulateProgress({
     currentInterval++
     const percent = Math.round((currentInterval / totalIntervals) * 100)
     const currentSetting = Object.values(jsonPropConfig).find(
-      opt => opt.isEnabled && opt.cumulativeTime && (currentInterval * interval) <= opt.cumulativeTime,
+      opt => opt.isUserEnabled && opt.cumulativeTime && (currentInterval * interval) <= opt.cumulativeTime,
     )
     updateProgress({ percent, status: `Generating ${currentSetting?.label || ''}` })
 

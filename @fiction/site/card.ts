@@ -8,7 +8,6 @@ import { deepMerge, FictionObject, objectId, setNested, toLabel, vue } from '@fi
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
 import { standardCardOptions } from './cardStandard.js'
-import { CardGeneration } from './generation.js'
 import { getContentWidthClass, getSpacingClass } from './styling.js'
 import { siteGoto, siteLink } from './utils/manage.js'
 import { refineOptions } from './utils/schema.js'

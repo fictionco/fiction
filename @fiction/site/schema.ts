@@ -64,7 +64,7 @@ export const CardStandardSchema = z.object({
     prompt: z.string().optional(),
     fields: z.record(z.object({
       prompt: z.string().optional(),
-      isEnabled: z.boolean().optional(),
+      isUserEnabled: z.boolean().optional(),
     })).optional(),
   }).optional(),
 })

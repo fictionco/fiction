@@ -6,18 +6,18 @@ import { z } from 'zod'
 import { standardOption } from '../inputSets'
 
 export const schema = z.object({
-  heading: z.string().optional().describe('Primary headline for profile 3 to 8 words'),
-  subHeading: z.string().optional().describe('Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs'),
-  superHeading: z.string().optional().describe('Shorter badge above headline, 2 to 5 words'),
+  heading: z.string().optional().describe('Primary headline for profile 3 to 8 words [ai]'),
+  subHeading: z.string().optional().describe('Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs [ai]'),
+  superHeading: z.string().optional().describe('Shorter badge above headline, 2 to 5 words [ai]'),
   layout: z.union([z.literal('left'), z.literal('right')]).optional().describe('Media on left or right'),
-  detailsTitle: z.string().optional().describe('Title for list of details'),
+  detailsTitle: z.string().optional().describe('Title for list of details [ai]'),
   mediaItems: z.array(z.object({
     media: z.object({
       format: z.enum(['url', 'image', 'video']).optional(),
       url: z.string().optional(),
       html: z.string().optional(),
     }),
-  })).optional().describe('Splash picture in portrait format'),
+  })).optional().describe('Splash picture in portrait format  [ai seconds=40]'),
   details: z.array(z.object({
     name: z.string().optional(),
     desc: z.string().optional(),
