@@ -9,7 +9,7 @@ import CardText from '../CardText.vue'
 import NavDots from '../el/NavDots.vue'
 
 const props = defineProps({
-  card: { type: Object as vue.PropType<Card<UserConfig >>, required: true },
+  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
 const uc = vue.computed(() => props.card.userConfig.value)
@@ -31,6 +31,8 @@ const circularItems = vue.computed(() => {
   ]
 })
 
+const renderItems = vue.computed(() => circularItems.value.slice(0, 5))
+
 const currentItem = vue.computed(() => circularItems.value[0])
 
 const slideTime = 15000
@@ -47,12 +49,7 @@ function autoSlideTimer() {
 
   timer = setTimeout(() => {
     const items = uc.value.items || []
-    currentItemIndex.value = currentItemIndex.value + 1
-
-    if (currentItemIndex.value >= items.length) {
-      currentItemIndex.value = 0
-    }
-
+    currentItemIndex.value = (currentItemIndex.value + 1) % items.length
     autoSlideTimer()
   }, slideTime)
 }
@@ -68,7 +65,6 @@ vue.onMounted(() => {
 
 function setActiveItem(index: number) {
   currentItemIndex.value = index
-
   autoSlideTimer()
 }
 
@@ -79,35 +75,34 @@ function setActiveItemByTitle(title?: string) {
   }
 }
 
-function beforeEnter(el: Element) {
-  gsap.set(el, {
-    opacity: 0,
-    scale: 0.75,
-    x: -24,
+function getItemStyle(index: number) {
+  return {
+    zIndex: renderItems.value.length - index,
+  }
+}
+
+function animateItems() {
+  gsap.to('.carousel-item', {
+    duration: 0.5,
+    ease: 'cubic-bezier(0.25,1,0.33,1)',
+    stagger: 0.05,
+    opacity: i => 1 - (i * 0.15),
+    x: i => i * 20,
+    y: i => i * 10,
+    scale: i => 1 - (i * 0.05),
+    right: i => `${i * -1}%`,
   })
 }
 
-function enter(el: Element, done: () => void) {
-  gsap.to(el, {
-    opacity: 1,
-    scale: 1,
-    x: 0,
-    duration: 0.5,
-    ease: 'cubic-bezier(0.25,1,0.33,1)',
-    onComplete: done,
+vue.watch(currentItemIndex, () => {
+  vue.nextTick(() => {
+    animateItems()
   })
-}
+})
 
-function leave(el: Element, done: () => void) {
-  gsap.to(el, {
-    opacity: 0,
-    scale: 1.5,
-    x: 24,
-    duration: 0.5,
-    ease: 'cubic-bezier(0.25,1,0.33,1)',
-    onComplete: done,
-  })
-}
+vue.onMounted(() => {
+  animateItems()
+})
 </script>
 
 <template>
@@ -141,7 +136,7 @@ function leave(el: Element, done: () => void) {
                 :lines="2"
                 :min-size="28"
                 :content="currentItem?.subTitle || ''"
-                class="x-font-title z-20 font-medium  md:w-[160%] mt-4 !leading-[1.4]"
+                class="x-font-title z-20 font-medium md:w-[160%] mt-4 !leading-[1.4]"
               >
                 <CardText animate="fade" :card tag="span" :path="`items.${currentItemIndex}.subTitle`" />
               </EffectFitText>
@@ -149,26 +144,19 @@ function leave(el: Element, done: () => void) {
           </transition>
         </div>
         <div class="h-[400px] md:h-full relative basis-[70%] [perspective:1000px] z-10">
-          <div class="absolute md:relative w-full h-full ">
-            <TransitionGroup
-              :css="false"
-              @before-enter="beforeEnter"
-              @enter="enter"
-              @leave="leave"
+          <div class="absolute md:relative w-full h-full flex justify-end items-center">
+            <div
+              v-for="(item, i) in renderItems"
+              :key="item.title"
+              class="carousel-item absolute w-full md:w-[90%] md:h-[80%] aspect-[5/3] md:aspect-[4.5/3] cursor-pointer"
+              :style="getItemStyle(i)"
+              @click="setActiveItemByTitle(item.title)"
             >
-              <div
-                v-for="(item, i) in circularItems.slice(0, 5)"
-                :key="item.title"
-                class="absolute  top-[10%] w-full md:w-[90%] md:h-[80%] aspect-[5/3] md:aspect-[4.5/3] transition-all duration-500 shadow-[10px_-10px_10px_-8px_rgba(0_0_0/0.3)]"
-                :class="[`stack-item-${i}`]"
-                @click="setActiveItemByTitle(item.title)"
-              >
-                <XMedia
-                  :media="item.media"
-                  class="w-full h-full object-cover rounded-[20px] overflow-hidden"
-                />
-              </div>
-            </TransitionGroup>
+              <XMedia
+                :media="item.media"
+                class="w-full h-full object-cover rounded-[20px] overflow-hidden shadow-[10px_-10px_10px_-8px_rgba(0_0_0/0.3)]"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -176,11 +164,3 @@ function leave(el: Element, done: () => void) {
     </div>
   </div>
 </template>
-
-<style lang="less">
-.stack-item-0 { z-index: 10; right: 0%;  }
-.stack-item-1 { z-index: 9; right: -5%; transform: translateX(10px) rotateY(-7deg) scale(0.9);  }
-.stack-item-2 { z-index: 8; right: -10%; transform: translateX(20px) rotateY(-14deg) scale(0.8);  }
-.stack-item-3 { z-index: 7; right: -15%; transform: translateX(30px) rotateY(-21deg) scale(0.7);   }
-.stack-item-4 { z-index: 6; right: -20%; transform: translateX(40px) rotateY(-28deg) scale(0.6);  }
-</style>

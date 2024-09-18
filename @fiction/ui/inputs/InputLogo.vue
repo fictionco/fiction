@@ -32,7 +32,7 @@ function handleLogoUpdate(newValue: MediaObject) {
   <div class="relative">
     <div
       v-if="hasLogo"
-      class="relative overflow-hidden rounded-lg group bg-theme-100/40 dark:bg-theme-700/70"
+      class="relative overflow-hidden rounded-lg group bg-theme-100/40 dark:bg-theme-700/70 cursor-pointer"
       data-test-id="logo-select-button"
       @click.stop.prevent="openLogoSelector"
     >

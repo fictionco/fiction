@@ -7,6 +7,7 @@ vars.register(() => [
   new EnvVar({ name: 'PINECONE_ENVIRONMENT' }),
   new EnvVar({ name: 'PINECONE_INDEX' }),
   new EnvVar({ name: 'OPENAI_API_KEY' }),
+  new EnvVar({ name: 'ANTHROPIC_API_KEY' }),
 ])
 
 export interface PushNotification {
@@ -22,6 +23,7 @@ export type FictionAiSettings = {
   fictionUser?: FictionUser
   fictionMedia?: FictionMedia
   openaiApiKey?: string
+  anthropicApiKey?: string
   pineconeApiKey?: string
   pineconeEnvironment?: string
   pineconeIndex?: string

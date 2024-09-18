@@ -12,7 +12,7 @@ export function determineMediaFormat(media?: MediaObject): MediaObject['format']
   // Helper functions
   const isValidUrl = (str: string): boolean => {
     try {
-      const _x = new URL(str)
+      const _x = new URL(str, 'http://dummybase.com')
       return true
     }
     catch {
@@ -27,17 +27,16 @@ export function determineMediaFormat(media?: MediaObject): MediaObject['format']
     ['imgur', 'gravatar', 'flickr'].some(host => hostname.includes(host))
 
   const formatMap: Record<string, string> = {
-    'jpg': 'image',
-    'jpeg': 'image',
-    'png': 'image',
-    'gif': 'image',
-    'webp': 'image',
-    'svg': 'image',
-    'mp4': 'video',
-    'webm': 'video',
-    'ogg': 'video',
-    'html': 'html',
-    '': 'html',
+    jpg: 'image',
+    jpeg: 'image',
+    png: 'image',
+    gif: 'image',
+    webp: 'image',
+    svg: 'image',
+    mp4: 'video',
+    webm: 'video',
+    ogg: 'video',
+    html: 'html',
   }
 
   // Main logic
@@ -53,12 +52,18 @@ export function determineMediaFormat(media?: MediaObject): MediaObject['format']
     return 'typography'
 
   if (media.url && isValidUrl(media.url)) {
-    const url = new URL(media.url)
+    const url = new URL(media.url, 'http://dummybase.com')
+
+    const extension = getExtension(url.pathname)
+
+    if (formatMap[extension]) {
+      return formatMap[extension] as MediaObject['format']
+    }
+
     if (isImageHost(url.hostname))
       return 'image'
 
-    const extension = getExtension(url.pathname)
-    return (formatMap[extension] || 'image') as MediaObject['format']
+    return 'image'
   }
 
   return undefined

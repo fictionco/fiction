@@ -13,6 +13,7 @@ import InputText from '@fiction/ui/inputs/InputText.vue'
 import InputToggle from '@fiction/ui/inputs/InputToggle.vue'
 import ElProgress from '@fiction/ui/loaders/ElProgress.vue'
 import { CardGeneration } from '../generation'
+import GeneratedContentDisplay from './GeneratedContentDisplay.vue'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
@@ -100,18 +101,14 @@ async function applyChanges() {
         <div class="space-y-2">
           <div v-for="(field, key) in completion" :key="key" class="flex gap-8 border bg-theme-50 dark:bg-theme-700 rounded-md border-theme-200 dark:border-theme-600/70 p-4">
             <div class="font-semibold text-xs w-20 text-right shrink-0 text-theme-400 dark:text-theme-500">
-              {{ toLabel(key) }}
-            </div>
-            <div class="text-sm grow">
-              <div v-if="typeof field === 'object' && (field as Record<string, any>)?.url" class="">
-                <img class="max-h-[10em]" :src="(field as Record<string, any>)?.url">
-              </div>
-              <div v-else>
-                {{ field }}
+              <div>{{ toLabel(key) }}</div>
+
+              <div class="text-xs">
+                <InputCheckbox :model-value="accept[key]" text="Accept?" input-class="bg-theme-0 dark:bg-theme-600" @update:model-value="accept = { ...accept, [key]: $event }" />
               </div>
             </div>
-            <div class="text-xs">
-              <InputCheckbox :model-value="accept[key]" text="Accept?" input-class="bg-theme-0 dark:bg-theme-600" @update:model-value="accept = { ...accept, [key]: $event }" />
+            <div class="grow">
+              <GeneratedContentDisplay :field="field" />
             </div>
           </div>
         </div>

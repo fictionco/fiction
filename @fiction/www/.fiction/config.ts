@@ -6,6 +6,7 @@
 export interface CompiledServiceConfig {
   commands: 'app' | 'beacon' | 'build' | 'dev' | 'dev-r' | 'generate' | 'render' | 'server' | 'sites'
   vars:
+    | 'ANTHROPIC_API_KEY'
     | 'APOLLO_API_KEY'
     | 'APP_PORT'
     | 'AWS_ACCESS_KEY'

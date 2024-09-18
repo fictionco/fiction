@@ -101,6 +101,7 @@ const overlays = vue.computed(() => uc.value.overlays || [])
           :class="mediaClass"
           :media="uc.splash"
           :animate="true"
+          :data-splash="uc.splash.url"
         />
         <template v-if="overlays">
           <div

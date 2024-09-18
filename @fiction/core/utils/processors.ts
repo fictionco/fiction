@@ -87,7 +87,7 @@ export type ShortcodesConfig = {
   fictionEnv?: FictionEnv
 }
 type ShortcodeAttributes = Record<string, string>
-type ShortcodeHandler = (args: { content?: string, attributes?: ShortcodeAttributes, fullMatch: string }) => Promise<string> | string
+type ShortcodeHandler<T extends ShortcodeAttributes = ShortcodeAttributes> = (args: { content?: string, attributes?: T, fullMatch: string }) => Promise<string> | string
 
 export class Shortcodes extends FictionObject<ShortcodesConfig> {
   private shortcodeDictionary: Record<string, ShortcodeHandler> = {}
@@ -110,11 +110,11 @@ export class Shortcodes extends FictionObject<ShortcodesConfig> {
     }
   }
 
-  public addShortcode(shortcode: string, handler: ShortcodeHandler): void {
+  public addShortcode<T extends ShortcodeAttributes>(shortcode: string, handler: ShortcodeHandler<T>): void {
     if (!shortcode.match(/^[\w\-@]+$/))
       throw new Error('Invalid shortcode name')
 
-    this.shortcodeDictionary[shortcode] = handler
+    this.shortcodeDictionary[shortcode] = handler as ShortcodeHandler
   }
 
   private createShortcodeProcessor(): Processor<string> {

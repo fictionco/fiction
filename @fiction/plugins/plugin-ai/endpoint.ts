@@ -2,9 +2,11 @@ import type { EndpointMeta, EndpointResponse, TableMediaConfig } from '@fiction/
 import type { PineconeRecord, RecordMetadata } from '@pinecone-database/pinecone'
 import type { FictionAi, FictionAiSettings } from '.'
 import type { SourceItem } from './tables'
+import { abort, objectId, Query, randomBetween, Shortcodes, toLabel } from '@fiction/core'
 
-import { abort, objectId, Query, Shortcodes, toLabel } from '@fiction/core'
+import { stockMediaHandler } from '@fiction/ui/stock'
 import { Pinecone } from '@pinecone-database/pinecone'
+import { generateText } from 'ai'
 import { Document, TextSplitter } from './splitter'
 
 type QueryAiSettings = { fictionAi: FictionAi } & FictionAiSettings
@@ -26,9 +28,6 @@ type AiCompletionSettings = {
   referenceInfo?: string
   objectives: {
     about?: string
-    goal?: string
-    targetCustomer?: string
-    targetAction?: string
     imageStyle?: string
   }
   orgId: string
@@ -52,6 +51,21 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
     })
 
     return pc.index(this.settings.pineconeIndex).namespace(namespace)
+  }
+
+  async getAiModels() {
+    const { createOpenAI } = await import('@ai-sdk/openai')
+    const { createAnthropic } = await import('@ai-sdk/anthropic')
+
+    const anthropic = createAnthropic({
+      apiKey: this.settings.anthropicApiKey,
+    })
+
+    const openai = createOpenAI({
+      apiKey: this.settings.openaiApiKey,
+    })
+
+    return { openai, anthropic }
   }
 
   async getOpenAiApi() {
@@ -131,7 +145,7 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
     if (!baseInstruction)
       throw abort('basePrompt required')
 
-    const openAi = await this.getOpenAiApi()
+    const { anthropic } = await this.getAiModels()
 
     if (useSimilaritySearch) {
       if (!searchNamespace)
@@ -144,27 +158,71 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
       referenceInfo += searchResultText
     }
 
-    const imageInstruction = [
-      `Image style should not affect text content.`,
-      `For image URLs, use shortcodes as [stock_img search="image_prompt" orientation="(portrait, landscape, or squarish)" description="(JSON schema field description)"],`,
-      `replacing image_prompt with a 3-10 word image generation prompt designed to create a contextual image in a style like image style objective.`,
-      `Set description attribute to the schema description for schema parent group then the field itself, preferring more specific descriptions.`,
-      `Be creative and specific, employing analogies, metaphors, and similes to enrich the description.`,
-    ].join(' ')
+    const imageInstruction = `<image_guidelines>
+    <guideline>Image style should not affect text content.</guideline>
+    <guideline>For image URLs, use shortcodes in the following format:
+      [stock_img search="image_prompt" orientation="(portrait, landscape, or squarish)" subject="(person, object)" description="(JSON schema field description)"]
+    </guideline>
+    <guideline>Replace "image_prompt" with a 3-10 word image generation prompt designed to create a contextual image in the specified style.</guideline>
+    <guideline>Set the description attribute to the schema description for the schema parent group and the field itself, preferring more specific descriptions.</guideline>
+  </image_guidelines>`
+
+    const objectivesInstruction = Object.entries(objectives).map(([key, value]) => `<objective>${key}:${value}</objective>`).join('\n')
+    const topicInstruction = `<topic_guidelines>${objectivesInstruction}</topic_guidelines>`
 
     const messages: CommandMessage[] = [
-      { role: 'system', content: `follow these orders EXACTLY and return JSON based on inputs provided: ${baseInstruction}.\n${imageInstruction}` },
+      { role: 'system', content: `
+<system_message>follow these orders EXACTLY and return JSON based on inputs provided:
+  <role>
+    You are an expert AI copywriter, marketer, and web designer tasked with creating persuasive website content. Your goal is to craft compelling, customer-centric copy using neurolinguistic programming principles to address user pain points and present effective solutions.
+  </role>
+
+  <output_format>
+    Generate ONLY JSON content strictly adhering to the provided schema. Nothing besides JSON should be returned.
+    For arrays, create 1 to 3 entries unless otherwise specified.
+    Ensure all required fields are populated with appropriate, context-relevant content.
+  </output_format>
+
+  <content_guidelines>
+    <tone_and_voice>
+      <guideline>Adopt a professional yet approachable tone that builds trust and credibility.</guideline>
+      <guideline>Use clear, concise language that resonates with the target audience.</guideline>
+      <guideline>Balance authority with empathy to connect with readers on an emotional level.</guideline>
+    </tone_and_voice>
+
+    <structure_and_style>
+      <guideline>Create elegant, concise content without redundancy or excessive exclamations.</guideline>
+      <guideline>Use analogies, metaphors, and similes to enrich descriptions and engage readers.</guideline>
+      <guideline>Craft headlines and subheadings that are both informative and attention-grabbing.</guideline>
+    </structure_and_style>
+
+    <persuasion_techniques>
+      <guideline>Employ neurolinguistic programming to help users visualize their problems and imagine solutions.</guideline>
+      <guideline>Focus on the target customer's pain points where the provider can offer solutions.</guideline>
+      <guideline>Use "you" and "your" to address the reader directly; avoid "our", "I", "us", or "me".</guideline>
+      <guideline>Incorporate "because" to strengthen persuasive arguments.</guideline>
+    </persuasion_techniques>
+
+    <seo_optimization>
+      <guideline>Naturally incorporate relevant keywords without compromising readability.</guideline>
+      <guideline>Create SEO-friendly meta descriptions and title tags when required by the schema.</guideline>
+      <guideline>Use header tags (H1, H2, H3) appropriately to structure content for both users and search engines.</guideline>
+    </seo_optimization>
+
+    <constraints>
+      <guideline>Avoid clichés, cheesy language, or overly sales-oriented content.</guideline>
+      <guideline>Do not reuse the name of the site subject in the content unless absolutely necessary.</guideline>
+      <guideline>Refrain from making unsubstantiated claims or promises.</guideline>
+    </constraints>
+  </content_guidelines>
+  ${topicInstruction}
+  ${imageInstruction}
+</system_message>` },
     ]
 
     if (outputFormat) {
       const outputFormatText = JSON.stringify(outputFormat)
       messages.push({ role: 'system', content: `Generate JSON content that conforms to the following schema: ${outputFormatText}. Ensure the response is structured according to this schema.` })
-    }
-
-    let objectiveText = ''
-    if (objectives) {
-      objectiveText = Object.entries(objectives).map(([key, val]) => `${toLabel(key)}: ${val}`).join(`\n`)
-      messages.push({ role: 'system', content: `objectives: ${objectiveText}` })
     }
 
     if (referenceInfo)
@@ -175,46 +233,62 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
 
     this.log.info('sending messages', { data: { messages, outputFormat } })
 
-    const response = await openAi.chat.completions.create({
-      model: 'gpt-4-turbo-preview',
-      max_tokens: 1000,
-      n: 1,
-      messages,
-      response_format: { type: 'json_object' },
+    const { text } = await generateText({
+      model: anthropic('claude-3-5-sonnet-20240620'),
+      system: messages.map(m => m.content).join('\n'),
+      prompt: runPrompt,
+      temperature: 0.7,
     })
 
-    const rawCompletion = response.choices[0].message.content
+    // const response = await openAi.chat.completions.create({
+    //   model: 'gpt-4-turbo-preview',
+    //   max_tokens: 1000,
+    //   n: 1,
+    //   messages,
+    //   response_format: { type: 'json_object' },
+    // })
+
+    const rawCompletion = text
 
     const shortcodes = new Shortcodes({ fictionEnv: this.settings.fictionEnv })
 
-    let message = ''
-    let more = ''
-    shortcodes.addShortcode('stock_img', async (args) => {
+    const message = ''
+    const more = ''
+    shortcodes.addShortcode<{
+      search?: string
+      description?: string
+      orientation?: 'portrait' | 'landscape' | 'squarish'
+      subject?: 'person' | 'object'
+    }>('stock_img', async (args) => {
       const { attributes } = args
-      const search = attributes?.search || ''
-      const description = attributes?.description || ''
-      const orientation = attributes?.orientation as 'portrait' | 'landscape' || 'squarish'
 
-      const prompt = [
-        `Prompt: ${search}`,
-        `Format: ${description || 'none'}`,
-        `Contraints: make SURE the image has no text, logos, or watermarks on it.`,
-        `Style: ${objectives.imageStyle}.`,
+      const orientation = attributes?.orientation || 'squarish'
+      const subject = attributes?.subject || 'person'
 
-      ].filter(Boolean).join('\n')
+      const mediaItem = await stockMediaHandler.getRandomByAspectRatio(orientation, { tags: ['object', 'image'] })
 
-      const start = Date.now()
-      this.log.info('creating image', { data: { prompt, orientation, orgId, userId } })
-      const r = await this.settings.fictionAi.queries.AiImage.serve({ _action: 'createImage', prompt, orientation, orgId, userId }, { server: true })
+      //  const search = attributes?.search || ''
+      // const description = attributes?.description || ''
+      // const _prompt = [
+      //   `Prompt: ${search}`,
+      //   `Format: ${description || 'none'}`,
+      //   `Contraints: make SURE the image has no text, logos, or watermarks on it.`,
+      //   `Style: ${objectives.imageStyle}.`,
 
-      if (r.status === 'error' || !r.data) {
-        message = 'There was a "safety" API error during image generation. Try again, change image style if needed.'
-        more = 'This happens when images are similar to trademarked works, etc...'
-        throw new Error(message)
-      }
+      // ].filter(Boolean).join('\n')
 
-      this.log.info(`created image in ${Math.round((Date.now() - start) / 1000)}s`, { data: { r } })
-      return r.data?.url || ''
+      // const start = Date.now()
+      // this.log.info('creating image', { data: { prompt, orientation, orgId, userId } })
+      // const r = await this.settings.fictionAi.queries.AiImage.serve({ _action: 'createImage', prompt, orientation, orgId, userId }, { server: true })
+
+      // if (r.status === 'error' || !r.data) {
+      //   message = 'There was a "safety" API error during image generation. Try again, change image style if needed.'
+      //   more = 'This happens when images are similar to trademarked works, etc...'
+      //   throw new Error(message)
+      // }
+
+      // this.log.info(`created image in ${Math.round((Date.now() - start) / 1000)}s`, { data: { r } })
+      return mediaItem.url
     })
 
     this.log.info('parsing raw completion', { data: { rawCompletion } })

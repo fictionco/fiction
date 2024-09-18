@@ -32,10 +32,10 @@ function handleIconUpdate(newValue: MediaObject) {
   <div class="relative">
     <div
       v-if="hasIcon"
-      class="relative overflow-hidden rounded-lg group bg-theme-100/40 dark:bg-theme-700/70"
+      class="relative overflow-hidden rounded-lg group bg-theme-100/40 dark:bg-theme-700/70 cursor-pointer"
       @click.stop.prevent="openIconSelector"
     >
-      <div class="flex items-center justify-center pointer-events-none p-2">
+      <div class="flex items-center justify-center p-2">
         <XIcon :media="v" class="size-10" />
       </div>
       <div

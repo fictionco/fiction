@@ -200,6 +200,9 @@ jobs:
       - name: DEBUG tests
         run: npm exec -- vitest run debug -u --passWithNoTests
 
+      - name: AI tests
+        run: npm exec -- vitest run aix -u --passWithNoTests
+
       - name: ENVIRONMENT tests
         run: npm exec -- vitest run envi -u --passWithNoTests
 

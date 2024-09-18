@@ -44,7 +44,7 @@ export const options: InputOption[] = [
   new InputOption({ key: 'superIcon', input: 'InputIcon', label: 'Super Icon' }),
   new InputOption({ key: 'layout', input: 'InputSelect', label: 'Layout', props: { list: ['justify', 'center', 'left', 'right'] } }),
   new InputOption({ key: 'actions', input: 'InputActions', label: 'Buttons' }),
-  new InputOption({ key: 'splash', input: 'InputMedia', label: 'Splash Image', props: { formats: { url: true } } }),
+  new InputOption({ key: 'splash', input: 'InputMedia', label: 'Splash Image' }),
   new InputOption({ key: 'caption', input: 'InputText', label: 'Splash Caption' }),
   new InputOption({ key: 'overlays', input: 'InputList', label: 'Overlays', options: [
     new InputOption({ key: 'media', label: 'Image', input: 'InputMedia', props: { formats: { url: true } } }),

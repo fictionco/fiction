@@ -86,8 +86,22 @@ export class StockMedia {
     return this.getRandomMedia({ ...args, tags })
   }
 
-  getRandomByAspectRatio(aspectRatio: Extract<Tag, `aspect${string}`>, args: Omit<GetMediaArgs, 'tags'> = {}): MediaItem {
-    return this.getRandomMedia({ ...args, tags: [aspectRatio] })
+  getRandomByAspectRatio(aspectRatio?: Extract<Tag, `aspect${string}`> | 'portrait' | 'landscape' | 'squarish', args: GetMediaArgs = {}): MediaItem {
+    let aspectTag: Tag
+    if (aspectRatio === 'portrait') {
+      aspectTag = 'aspect:portrait'
+    }
+    else if (aspectRatio === 'landscape') {
+      aspectTag = 'aspect:landscape'
+    }
+    else if (aspectRatio === 'squarish') {
+      aspectTag = 'aspect:square'
+    }
+    else {
+      aspectTag = aspectRatio || 'aspect:square'
+    }
+
+    return this.getRandomMedia({ ...args, tags: [aspectTag, ...(args.tags || [])] })
   }
 
   getAssetBySlug(partialSlug: string): MediaItem | undefined {

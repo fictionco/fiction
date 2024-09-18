@@ -10,7 +10,7 @@ defineOptions({ name: 'InputMedia' })
 
 const { modelValue = {}, isBackground = false } = defineProps<{
   modelValue: MediaObject
-  isBackground: boolean
+  isBackground?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -44,7 +44,7 @@ const tools = vue.computed(() => {
   <div class="relative">
     <div
       v-if="hasMedia"
-      class="relative overflow-hidden rounded-lg group bg-theme-100/40 dark:bg-theme-700/70"
+      class="relative overflow-hidden rounded-lg group bg-theme-100/40 dark:bg-theme-700/70 cursor-pointer"
       @click.stop.prevent="openMediaSelector"
     >
       <XMedia
