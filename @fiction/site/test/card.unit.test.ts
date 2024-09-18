@@ -40,7 +40,7 @@ describe('card', async () => {
   })
 
   it('card computes total estimated time correctly', async () => {
-    generation.userPropConfig.value = { heading: { isEnabled: true }, subHeading: { isEnabled: true } }
+    generation.fieldsUserConfig.value = { heading: { isEnabled: true }, subHeading: { isEnabled: true } }
 
     await waitFor(50)
 
@@ -64,21 +64,21 @@ describe('card', async () => {
 
     card.update({ title: 'Updated Card' })
     expect(card.title.value).toBe('Updated Card')
-    const prompt = card.genUtil.prompt.value
+    const prompt = generation.prompt.value
     expect(prompt.toLowerCase()).toContain('updated card')
   })
 
   it('should compute total estimated time correctly', () => {
-    card.genUtil.userPropConfig.value = { heading: { isEnabled: true }, subHeading: { isEnabled: true } }
+    generation.fieldsUserConfig.value = { heading: { isEnabled: true }, subHeading: { isEnabled: true } }
 
-    const totalEstimatedTime = card.genUtil.totalEstimatedTime.value
+    const totalEstimatedTime = generation.totalEstimatedTime.value
 
     expect(totalEstimatedTime).toMatchInlineSnapshot(`8`)
     expect(totalEstimatedTime).toBe(8)
   })
 
   it('should have correct generations settings', () => {
-    const inputConfig = card.genUtil.jsonPropConfig.value
+    const inputConfig = generation.jsonPropConfig.value
 
     expect(inputConfig).toEqual(expect.objectContaining({
       actions: expect.any(Object),

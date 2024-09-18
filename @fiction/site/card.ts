@@ -196,7 +196,6 @@ export class Card<
     return this.settings.inlineTemplate || foundTemplate
   })
 
-  genUtil = new CardGeneration({ card: this })
   isActive = vue.computed<boolean>(() => this.site?.editor.value.selectedCardId === this.settings.cardId)
   options: vue.ComputedRef<InputOption<any>[]> = vue.computed(() => this.tpl.value?.getOptionConfig({ card: this }).value.options || [])
   isNotInline = vue.ref(false) // allows cards to break out of inline mode
@@ -296,8 +295,6 @@ export class Card<
     const cards = this.cards.value.filter(_ => !_.isSystem.value).map(c => c.toConfig())
     const effects = this.effects.value.filter(_ => !_.isSystem.value).map(c => c.toConfig())
 
-    const generation = this.genUtil.toConfig()
-
     return {
       ...rest,
       regionId: this.regionId,
@@ -313,7 +310,6 @@ export class Card<
       cards,
       effects,
       scope: this.settings.scope,
-      generation,
     }
   }
 

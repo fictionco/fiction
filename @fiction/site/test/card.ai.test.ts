@@ -1,6 +1,7 @@
 import { shortId } from '@fiction/core'
 import { describe, expect, it } from 'vitest'
 import { Card } from '../card'
+import { CardGeneration } from '../generation'
 import { Site } from '../site'
 import { createSiteTestUtils } from './testUtils'
 
@@ -11,9 +12,11 @@ describe('cardCompletion', async () => {
   it('generates the content for the card', async () => {
     const card = new Card({ templateId: 'hero', site })
 
-    card.genUtil.userPrompt.value = 'get the content for home page hero section'
+    const genUtil = new CardGeneration({ card })
 
-    const r = await card.genUtil.getCompletion()
+    genUtil.userPrompt.value = 'get the content for home page hero section'
+
+    const r = await genUtil.getCompletion()
 
     expect(r).toMatchInlineSnapshot(`
       {

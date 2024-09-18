@@ -44,7 +44,7 @@ function getClasses(uiSize: StandardSize) {
     input: 'absolute h-1 w-1 opacity-0',
     button: 'relative inline-flex shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none',
     buttonOn: 'bg-primary-600',
-    buttonOff: 'bg-theme-300 dark:bg-theme-700',
+    buttonOff: 'bg-theme-300 dark:bg-theme-600',
     span: 'inline-block rounded-full transition duration-200 ease-in-out ease-[cubic-bezier(0.25,1,0.33,1)]',
     spanOn: 'bg-primary-0 ring-primary-600',
     spanOff: 'bg-theme-0 ring-theme-300',

@@ -20,7 +20,14 @@ export type CardGenerationConfig = {
 export class CardGeneration extends FictionObject<CardGenerationSettings> {
   card = this.settings.card
   savedSettings = this.card.settings.generation || {}
-  userPropConfig = vue.ref<Record<string, InputOptionGeneration | undefined>>(this.savedSettings?.userPropConfig || {})
+  aiUserConfig = vue.computed(() => this.card.userConfig.value.standard?.ai || {})
+
+  fieldsUserConfig = vue.computed({
+    get: () => this.aiUserConfig.value.fields || {},
+    set: (v) => {
+      this.card.updateUserConfig({ path: 'standard.ai.fields', value: v })
+    },
+  })
 
   constructor(settings: CardGenerationSettings) {
     super('CardGeneration', settings)
@@ -38,7 +45,7 @@ export class CardGeneration extends FictionObject<CardGenerationSettings> {
     return jsonSchema
   })
 
-  jsonPropConfig = vue.computed(() => generateJsonPropConfig({ jsonSchema: this.jsonSchema.value, userPropConfig: this.userPropConfig.value }))
+  jsonPropConfig = vue.computed(() => generateJsonPropConfig({ jsonSchema: this.jsonSchema.value, userPropConfig: this.fieldsUserConfig.value }))
   outputProps = vue.computed(() => generateOutputProps({ jsonSchema: this.jsonSchema.value, jsonPropConfig: this.jsonPropConfig.value }))
 
   outputSchema = vue.computed(() => {
@@ -112,15 +119,5 @@ export class CardGeneration extends FictionObject<CardGenerationSettings> {
     finally {
       progress.complete()
     }
-  }
-
-  toConfig(): CardGenerationConfig {
-    const config = {
-      prompt: this.prompt.value,
-      totalEstimatedTime: this.totalEstimatedTime.value,
-      userPropConfig: this.userPropConfig.value,
-    }
-
-    return config
   }
 }

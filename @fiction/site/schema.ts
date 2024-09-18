@@ -59,6 +59,14 @@ export const CardStandardSchema = z.object({
     size: SizeSchemaComplete.optional(),
     rotation: z.number().min(0).max(360).optional(),
   }).optional(),
+
+  ai: z.object({
+    prompt: z.string().optional(),
+    fields: z.record(z.object({
+      prompt: z.string().optional(),
+      isEnabled: z.boolean().optional(),
+    })).optional(),
+  }).optional(),
 })
 
 export const CardOptionsWithStandardSchema = z.object({
