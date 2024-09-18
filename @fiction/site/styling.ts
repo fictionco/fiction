@@ -7,8 +7,8 @@ type SizeWithNone = StandardSize | 'none' | 'full'
 const spacingClasses = {
   'none': { top: 'pt-0', bottom: 'pb-0' },
   'full': { top: 'min-h-[100dvh] flex items-center', bottom: 'min-h-[100dvh]' },
-  'xxs': { top: 'pt-[calc(0.25rem+.5vw)]', bottom: 'pb-[calc(0.25+.5vw)]' },
-  'xs': { top: 'pt-[calc(0.5rem+1vw)]', bottom: 'pb-[calc(0.5+1vw)]' },
+  'xxs': { top: 'pt-[calc(0.25rem+.5vw)]', bottom: 'pb-[calc(0.25rem+.5vw)]' },
+  'xs': { top: 'pt-[calc(0.5rem+1vw)]', bottom: 'pb-[calc(0.5rem+1vw)]' },
   'sm': { top: 'pt-[calc(1rem+2vw)]', bottom: 'pb-[calc(1rem+2vw)]' },
   'md': { top: 'pt-[calc(2rem+4vw)]', bottom: 'pb-[calc(2rem+4vw)]' },
   'lg': { top: 'pt-[calc(4rem+6vw)]', bottom: 'pb-[calc(4rem+6vw)]' },
