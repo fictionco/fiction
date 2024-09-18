@@ -13,8 +13,8 @@
     }
   ],
   "dependencies": {
-    "@aws-sdk/client-cloudfront": "^3.651.1",
-    "@aws-sdk/client-s3": "^3.651.1",
+    "@aws-sdk/client-cloudfront": "^3.654.0",
+    "@aws-sdk/client-s3": "^3.654.0",
     "@egoist/tailwindcss-icons": "^1.8.1",
     "@faker-js/faker": "^9.0.1",
     "@iconify-json/carbon": "^1.2.1",
