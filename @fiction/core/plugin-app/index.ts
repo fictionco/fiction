@@ -41,6 +41,14 @@ export type FictionAppSettings = {
   root?: string
 } & FictionPluginSettings
 
+function isConstructor(value: any, name?: string): value is () => any {
+  const isValid = typeof value === 'function' && value.prototype && value.prototype.constructor === value
+  if (!isValid && name) {
+    console.warn(`${name} is not a constructor [skipping]`)
+  }
+  return isValid
+}
+
 export class FictionApp extends FictionPlugin<FictionAppSettings> {
   isLive = this.settings.isLive ?? this.settings.fictionEnv.isProd
   viteDevServer?: vite.ViteDevServer
@@ -75,8 +83,13 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
      * node application init
      */
     if (!this.settings.fictionEnv.isApp.value && this.settings.fictionEnv?.cwd) {
-      this.fictionRender = new FictionRender({ fictionApp: this, ...this.settings })
-      this.fictionSitemap = new FictionSitemap({ fictionApp: this, ...this.settings })
+      if (isConstructor(FictionRender, 'FictionRender')) {
+        this.fictionRender = new FictionRender({ fictionApp: this, ...this.settings })
+      }
+
+      if (isConstructor(FictionSitemap, 'FictionSitemap')) {
+        this.fictionSitemap = new FictionSitemap({ fictionApp: this, ...this.settings })
+      }
     }
 
     // add testing routes
@@ -127,8 +140,6 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   }
 
   async serveStaticApp() {
-    if (this.settings.fictionEnv.isApp.value)
-      return
     return this.fictionRender?.serveStaticApp()
   }
 

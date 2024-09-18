@@ -136,16 +136,6 @@ export class FictionEnv<
     super('FictionEnv', settings)
 
     const commitId = crossVar.get('RUNTIME_COMMIT') || ''
-    this.log.info(`[start] environment`, {
-      data: {
-        appName: this.meta.app?.name || 'no name',
-        version: `${this.version || 'no version'} [fiction: ${fictionVersion}]`,
-        vars: Object.keys(crossVar.vars()).length,
-        commands: this.commands.map(c => c.command).join(', '),
-        isRestart: this.isRestart(),
-        commit: commitId,
-      },
-    })
 
     this.envInit()
 
@@ -155,6 +145,28 @@ export class FictionEnv<
     this.isDev.value = isDev()
 
     this.mode.value = this.isDev.value ? 'development' : 'production'
+
+    const flagsList = {
+      commit: commitId,
+      isApp: this.isApp.value,
+      isTest: this.isTest.value,
+      isDev: this.isDev.value,
+      isCi: this.isCi,
+      isNode: this.isNode,
+      isRestart: this.isRestart(),
+    }
+
+    const flags = Object.entries(flagsList).map(([key, value]) => `${key}: ${value}`).join(', ')
+
+    this.log.info(`[start] environment`, {
+      data: {
+        appName: this.meta.app?.name || 'no name',
+        version: `${this.version || 'no version'} [fiction: ${fictionVersion}]`,
+        vars: Object.keys(crossVar.vars()).length,
+        commands: this.commands.map(c => c.command).join(', '),
+        flags,
+      },
+    })
 
     if (isNode())
       this.nodeInit()

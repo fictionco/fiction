@@ -1,6 +1,7 @@
+import type { Card } from '@fiction/site'
 import { type ActionItem, type StandardServices, vue } from '@fiction/core'
-import { InputOption } from '@fiction/ui'
 
+import { InputOption } from '@fiction/ui'
 import { SettingsTool } from '../types'
 import ElAccountHeader from './ElAccountHeader.vue'
 import ElOrgHeader from './ElOrgHeader.vue'
@@ -26,8 +27,9 @@ export function newOrgOptions(args: { title: string, actionsRef?: vue.Ref<Action
   })
 }
 
-export function getTools(args: { service: StandardServices }) {
-  const fictionUser = args.service.fictionUser
+export function getTools(args: { service: StandardServices, card: Card }) {
+  const { card, service } = args
+  const fictionUser = service.fictionUser
   const loading = vue.ref(false)
   const tools = [
     new SettingsTool({
@@ -69,7 +71,7 @@ export function getTools(args: { service: StandardServices }) {
         const { service } = args
         const userIsAdmin = service.fictionUser.activeUser.value?.isSuperAdmin
         return vue.computed(() => [
-          new InputOption({ key: 'orgHead', input: ElOrgHeader, uiFormat: 'naked' }),
+          new InputOption({ key: 'orgHead', input: ElOrgHeader, uiFormat: 'naked', props: { card } }),
           newOrgOptions({ title: 'Organization Info' }).value,
           new InputOption({
             key: 'publication',

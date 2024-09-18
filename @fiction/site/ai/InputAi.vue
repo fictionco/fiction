@@ -167,7 +167,7 @@ async function applyChanges() {
                   {{ toLabel(opt.label) }}
                 </label>
                 <div class="grow" @click.stop>
-                  <InputText input-class="text-xs" :model-value="opt.prompt" placeholder="Prompt for Field" @update:model-value="updateGeneration(opt, { prompt: $event })" />
+                  <InputText input-class="text-xs" :model-value="opt.prompt" placeholder="Prompt for Field (optional)" @update:model-value="updateGeneration(opt, { prompt: $event })" />
                 </div>
               </div>
             </div>
@@ -183,6 +183,7 @@ async function applyChanges() {
               icon="i-tabler-sparkles"
               :disabled="!Object.keys(genUtil?.outputProps.value).length"
               rounding="full"
+              :title="!Object.keys(genUtil?.outputProps.value).length ? 'No fields selected for generation' : ''"
             >
               Generate Content...
             </XButton>

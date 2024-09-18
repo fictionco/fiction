@@ -53,7 +53,7 @@ describe('card', async () => {
 
   it('card generates correct prompt for content creation', () => {
     const prompt = generation.prompt.value
-    expect(prompt).toMatchInlineSnapshot(`"create content for the "Test Card" card on the "404" page"`)
+    expect(prompt).toMatchInlineSnapshot(`"create content for the "Test Card" card"`)
     expect(prompt.toLowerCase()).toContain('test card')
     // Adjust based on actual prompt structure
   })
@@ -113,7 +113,7 @@ describe('card', async () => {
           "isEnabled": true,
           "key": "heading",
           "label": "Heading",
-          "prompt": "Primary hero headline, 3 to 13 words",
+          "prompt": "Primary hero headline, 3 to 13 words [AI]",
         },
         "layout": {
           "cumulativeTime": 0,
@@ -131,10 +131,10 @@ describe('card', async () => {
         },
         "splash": {
           "cumulativeTime": 8000,
-          "estimatedMs": 40000,
+          "estimatedMs": 4000,
           "key": "splash",
           "label": "Splash",
-          "prompt": "Splash picture for hero",
+          "prompt": "Splash picture for hero [TIME:40000]",
         },
         "subHeading": {
           "cumulativeTime": 8000,
@@ -142,7 +142,7 @@ describe('card', async () => {
           "isEnabled": true,
           "key": "subHeading",
           "label": "Sub Heading",
-          "prompt": "Secondary hero headline, 10 to 30 words",
+          "prompt": "Secondary hero headline, 10 to 30 words [AI]",
         },
         "superColor": {
           "cumulativeTime": 8000,
@@ -156,14 +156,14 @@ describe('card', async () => {
           "estimatedMs": 4000,
           "key": "superHeading",
           "label": "Super Heading",
-          "prompt": "Shorter badge above headline, 2 to 5 words",
+          "prompt": "Shorter badge above headline, 2 to 5 words [AI]",
         },
         "superIcon": {
           "cumulativeTime": 8000,
           "estimatedMs": 4000,
           "key": "superIcon",
           "label": "Super Icon",
-          "prompt": "Icon for the super heading",
+          "prompt": "Icon for the super heading [AI]",
         },
       }
     `)

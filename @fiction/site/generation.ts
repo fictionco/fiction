@@ -62,9 +62,7 @@ export class CardGeneration extends FictionObject<CardGenerationSettings> {
   defaultPrompt = vue.computed(() => {
     const c = this.card
 
-    const p = this.site?.currentPage?.value
-    const pageName = p?.title.value ? `on the "${p.title.value}" page` : ''
-    return `create content for the "${c?.title.value || toLabel(c?.templateId.value)}" card ${pageName}`
+    return `create content for the "${c?.title.value || toLabel(c?.templateId.value)}" card`
   })
 
   userPrompt = vue.ref(this.savedSettings.prompt || '')
