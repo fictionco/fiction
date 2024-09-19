@@ -58,7 +58,7 @@ function selectMedia(media: MediaObject) {
 
 selectMedia(props.modelValue)
 
-const navItems = vue.computed(() => availableTools.filter(item => props.tools.includes(item.value)))
+const navItems = vue.computed(() => props.tools.map(t => availableTools.find(item => item.value === t)).filter(Boolean) as typeof availableTools[number][])
 
 const navItemActive = vue.ref(getDefaultTool())
 

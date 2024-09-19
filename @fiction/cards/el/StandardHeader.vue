@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site'
 import { vue } from '@fiction/core'
+import XIcon from '@fiction/ui/media/XIcon.vue'
 import { getColorThemeStyles } from '@fiction/ui/utils'
 import CardText from '../CardText.vue'
 
@@ -24,6 +25,11 @@ const colorStyle = vue.computed(() => {
   }
 
   const r = getColorThemeStyles(headers.value.superColor || 'theme')
+
+  if (!r) {
+    return { icon: '', text: '' }
+  }
+
   return {
     icon: [r.bg, r.text, r.border].join(' '),
     text: r.text,
@@ -65,19 +71,19 @@ const sizeClasses: Record<HeaderSize, SizeClasses> = {
   sm: {
     superTitle: 'text-sm lg:text-base',
     title: 'text-3xl lg:text-4xl',
-    subTitle: 'text-lg lg:text-xl',
+    subTitle: 'text-xl lg:text-xl',
     spacing: 'mb-4 gap-2',
   },
   md: {
     superTitle: 'text-sm lg:text-base',
     title: 'text-4xl lg:text-5xl',
-    subTitle: 'text-xl lg:text-2xl',
+    subTitle: 'text-2xl lg:text-2xl',
     spacing: 'mb-5 gap-3',
   },
   lg: {
     superTitle: 'text-base lg:text-lg',
     title: 'text-5xl lg:text-6xl',
-    subTitle: 'text-2xl lg:text-3xl',
+    subTitle: 'text-3xl lg:text-3xl',
     spacing: 'mb-6 gap-3',
   },
 }
@@ -107,7 +113,7 @@ const currentSizeClasses = vue.computed(() => sizeClasses[headerSize.value])
             :class="colorStyle.icon"
             class="size-10 rounded-full flex items-center justify-center"
           >
-            <div :class="headers.superIcon" class="text-2xl" />
+            <XIcon :media="headers.superIcon" class="size-8" />
           </div>
           <CardText
             tag="h4"

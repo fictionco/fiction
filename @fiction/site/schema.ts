@@ -1,4 +1,4 @@
-import { ButtonDesignSchema, ButtonHoverSchema, ButtonRoundingSchema, ColorThemeSchema, colorThemeUser, FontConfigValSchema, FontStyleSchema, HeaderLayoutSchema, MediaDisplaySchema, SizeSchemaComplete, UiOriginSchema } from '@fiction/core'
+import { ButtonDesignSchema, ButtonHoverSchema, ButtonRoundingSchema, ColorThemeSchema, colorThemeUser, FontConfigValSchema, FontStyleSchema, HeaderLayoutSchema, MediaDisplaySchema, MediaIconSchema, SizeSchemaComplete, UiOriginSchema } from '@fiction/core'
 import { z } from 'zod'
 
 export type SizeBasic = z.infer<typeof SizeSchemaComplete>
@@ -48,7 +48,7 @@ export const CardStandardSchema = z.object({
     layout: HeaderLayoutSchema.optional(),
     size: SizeSchemaComplete.optional(),
     superTitle: z.string().optional(),
-    superIcon: z.string().optional(),
+    superIcon: MediaIconSchema.optional(),
     superColor: z.enum(colorThemeUser).optional(),
     title: z.string().optional(),
     subTitle: z.string().optional(),

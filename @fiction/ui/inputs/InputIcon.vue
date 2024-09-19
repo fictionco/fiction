@@ -61,7 +61,7 @@ function handleIconUpdate(newValue: MediaObject) {
     <LibraryModal
       v-model:vis="vis"
       :model-value="v"
-      :tools="['upload', 'library', 'html', 'icons']"
+      :tools="['icons', 'upload', 'library', 'html']"
       title="Icon Selector"
       @update:model-value="handleIconUpdate"
     />
