@@ -26,11 +26,11 @@ export const schema = z.object({
   subHeading: z.string().optional().describe('Secondary hero headline, 10 to 30 words [ai]'),
   superHeading: z.string().optional().describe('Shorter badge above headline, 2 to 5 words [ai]'),
   superIcon: MediaIconSchema.optional().describe('Icon for the super heading [ai]'),
-  superColor: z.enum(colorTheme).optional().describe('change color of super heading'),
-  splash: MediaBasicSchema.optional().describe('Splash picture for hero [TIME:40000]').refine(_ => true, { params: { time: 40 } }),
+  superColor: z.enum(colorTheme).optional().describe('change color of super heading [ai]'),
+  splash: MediaBasicSchema.optional().describe('Splash picture for hero [ai]'),
   caption: z.string().optional().describe('Caption for the splash image'),
   actions: z.array(XButtonSchema).optional().describe('List of link buttons'),
-  overlays: z.array(LayerMediaScheme).optional().describe('Overlays to be placed on top of the splash image'),
+  overlays: z.array(LayerMediaScheme).optional().describe('Overlays to be placed on top of the splash image [ai]'),
 })
 
 export type UserConfig = z.infer<typeof schema>

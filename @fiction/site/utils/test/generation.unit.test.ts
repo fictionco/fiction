@@ -29,15 +29,12 @@ describe('generation utils', async () => {
 
     expect(Object.keys(inputConfig)).toMatchInlineSnapshot(`
       [
-        "layout",
         "heading",
         "subHeading",
         "superHeading",
         "superIcon",
         "superColor",
         "splash",
-        "caption",
-        "actions",
         "overlays",
       ]
     `)
@@ -47,7 +44,7 @@ describe('generation utils', async () => {
     // empty because no isUserEnabled
     expect(outputProps).toStrictEqual({})
 
-    const inputConfig2 = generateJsonPropConfig({ jsonSchema, userPropConfig: { heading: { isUserEnabled: true }, layout: { isUserEnabled: true } } })
+    const inputConfig2 = generateJsonPropConfig({ jsonSchema, userPropConfig: { heading: { isUserEnabled: true }, subHeading: { isUserEnabled: true } } })
     const outputProps2 = generateOutputProps({ jsonSchema, jsonPropConfig: inputConfig2 })
 
     expect(Object.values(inputConfig2).filter(c => c.isUserEnabled).length).toBe(2)
@@ -59,17 +56,17 @@ describe('generation utils', async () => {
     const result = parseDescription(description)
     expect(result).toEqual({
       description: 'This is a test',
-      meta: { seconds: 4, type: 'image' },
+      attributes: { seconds: 4, type: 'image' },
       hasTag: true,
     })
   })
 
-  it('parses description with empty meta correctly', () => {
+  it('parses description with empty attributes correctly', () => {
     const description = 'Only description'
     const result = parseDescription(description)
     expect(result).toEqual({
       description: 'Only description',
-      meta: {},
+      attributes: {},
       hasTag: false,
     })
   })
@@ -107,17 +104,7 @@ describe('generation utils', async () => {
 
     const result = generateJsonPropConfig({ jsonSchema, userPropConfig })
 
-    expect(result).toEqual({
-      heading: {
-        key: 'heading',
-        label: 'Heading',
-        prompt: '',
-        estimatedMs: 4000,
-        cumulativeTime: 4000,
-        hasTag: true,
-        isUserEnabled: true,
-      },
-    })
+    expect(result).toEqual({ })
   })
 
   it('handles numeric meta correctly in parseDescription', () => {
@@ -125,7 +112,7 @@ describe('generation utils', async () => {
     const result = parseDescription(description)
     expect(result).toEqual({
       description: 'This is a test',
-      meta: { time: 40, count: 10 },
+      attributes: { time: 40, count: 10 },
       hasTag: true,
     })
   })
@@ -169,21 +156,12 @@ describe('generation utils', async () => {
     const result = generateJsonPropConfig({ jsonSchema, userPropConfig })
 
     expect(result).toEqual({
-      heading: {
-        key: 'heading',
-        label: 'Heading',
-        prompt: 'Primary hero headline, 3 to 13 words',
-        estimatedMs: 4000,
-        hasTag: false,
-        cumulativeTime: 4000,
-        isUserEnabled: true,
-      },
       subHeading: {
         key: 'subHeading',
         label: 'Sub Heading',
         prompt: 'Secondary hero headline, 10 to 30 words',
         estimatedMs: 4000,
-        cumulativeTime: 8000,
+        cumulativeTime: 4000,
         isUserEnabled: true,
         hasTag: true,
       },
