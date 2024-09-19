@@ -24,7 +24,7 @@ const uc = vue.computed(() => props.card.userConfig.value)
 
       <div class="z-40 absolute bottom-16 w-full flex justify-center">
         <blockquote v-if="quote.text" class="mx-auto max-w-xs text-right text-balance">
-          <p class="text-lg lg:text-xl ">
+          <p class="text-lg lg:text-xl x-font-title">
             "{{ quote.text }}"
           </p>
           <footer v-if="quote.author" class="text-theme-500 text-base lg:text-lg mt-2">

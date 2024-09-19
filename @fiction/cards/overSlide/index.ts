@@ -7,22 +7,22 @@ import { z } from 'zod'
 const templateId = 'overSlide'
 
 const schema = z.object({
-  autoSlide: z.boolean().optional(),
-  items: z.array(
+  autoSlide: z.boolean().optional().describe('Animate slide transition automatically'),
+  slides: z.array(
     z.object({
       media: MediaBasicSchema.optional(),
-      title: z.string().optional(),
-      subTitle: z.string().optional(),
-      textBlend: z.enum(['normal', 'difference']).optional(),
+      title: z.string().optional().describe('Title for slide, fitted 2 to 6 words'),
+      subTitle: z.string().optional().describe('Subtitle for slide, fitted 3 to 8 words'),
+      textBlend: z.enum(['normal', 'difference']).optional().describe('Text blend mode over slide'),
     }),
-  ).optional(),
+  ).optional().describe('Slides for slider with media, title, and subtitle. [ai seconds=12]'),
 })
 
 export type UserConfig = z.infer<typeof schema>
 
 const options: InputOption[] = [
   new InputOption({ key: 'autoSlide', label: 'Animate slide transition?', input: 'InputToggle' }),
-  new InputOption({ key: 'items', label: 'Slides', input: 'InputList', props: { itemName: 'Slide' }, options: [
+  new InputOption({ key: 'slides', label: 'Slides', input: 'InputList', props: { itemName: 'Slide' }, options: [
     new InputOption({ key: 'media', label: 'Media', input: 'InputMedia' }),
     new InputOption({ key: 'title', label: 'Title', input: 'InputText' }),
     new InputOption({ key: 'subTitle', label: 'Sub Title', input: 'InputText' }),
@@ -36,7 +36,7 @@ const options: InputOption[] = [
 async function getDefaultConfig(): Promise<UserConfig> {
   return {
     autoSlide: true,
-    items: [
+    slides: [
       {
         title: 'First and Last Name',
         subTitle: 'Author and Speaker',

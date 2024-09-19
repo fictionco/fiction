@@ -36,12 +36,12 @@ const codeLines = vue.computed(() => {
     <div v-if="isImage" class="image-container">
       <XMedia class="h-40 aspect-video" :media="(field as MediaObject)" />
     </div>
-    <div v-else-if="isArray" class="array-container bg-theme-50 dark:bg-theme-700 rounded-md space-y-6">
+    <div v-else-if="isArray" class="array-container space-y-6">
       <div v-for="(item, index) in field" :key="index">
         <GeneratedContentDisplay :field="item" />
       </div>
     </div>
-    <div v-else-if="isObject" class="object-container bg-theme-50 dark:bg-theme-700 rounded-md space-y-6">
+    <div v-else-if="isObject" class="object-container space-y-6">
       <div v-for="(value, key) in field" :key="key" class="mb-2 space-y-1">
         <div class="text-xs text-theme-500">
           {{ key }}:

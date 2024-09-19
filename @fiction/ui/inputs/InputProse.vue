@@ -32,5 +32,14 @@ function handleEmit(payload: string): void {
   > *:last-child{
     margin-bottom: .5em;
   }
+
+  .tiptap{
+    > *:first-child{
+      margin-top: .5em;
+    }
+    > *:last-child{
+      margin-bottom: .5em;
+    }
+  }
 }
 </style>

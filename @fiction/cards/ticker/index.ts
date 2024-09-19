@@ -10,7 +10,7 @@ const TickerSchema = z.object({
   text: z.string().describe('The text to display in the ticker'),
   speed: z.number().min(0).max(10).optional().describe('The speed of the scrolling text'),
   direction: z.enum(['left', 'right']).optional().describe('The direction of the ticker scroll'),
-  font: z.string().optional().describe('The font family of the text'),
+  font: z.string().optional().describe('The google font family of the text'),
   bgColor: z.string().optional().describe('The color background of the ticker'),
   bgColorDark: z.string().optional().describe('The color background of the ticker in dark mode'),
   outline: z.boolean().optional().describe('Whether to add an outline to the text'),
@@ -20,7 +20,7 @@ const TickerSchema = z.object({
 }).describe('Schema for individual ticker item configuration')
 
 export const UserConfigSchema = z.object({
-  items: z.array(TickerSchema).describe('Array of ticker items').optional(),
+  items: z.array(TickerSchema).describe('Array of ticker items [ai label=Tickers]').optional(),
   fontSize: z.number().min(5).max(15).optional().describe('The font size of the text'),
 })
 
@@ -28,7 +28,6 @@ export type Ticker = z.infer<typeof TickerSchema>
 export type UserConfig = z.infer<typeof UserConfigSchema>
 
 const options: InputOption[] = [
-  standardOption.ai(),
   new InputOption({ key: 'fontSize', label: 'Font Size', input: 'InputRange', props: { min: 5, max: 15 } }),
 
   new InputOption({

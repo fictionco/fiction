@@ -228,7 +228,7 @@ function DragHandle(options: GlobalDragHandleOptions) {
     view: (view) => {
       // Create the parent element
       handleContainerElement = document.createElement('div')
-      handleContainerElement.classList.add('handle-container', 'flex', 'items-center', 'fixed', 'transition-opacity', 'size-[1.5em]', 'text-theme-300', 'dark:text-theme-600')
+      handleContainerElement.classList.add('handle-container', 'flex', 'items-center', 'fixed', 'transition-opacity', 'size-[1.5em]', 'text-theme-500', 'dark:text-theme-300')
 
       // Create the add button
       const btnClass = ['add-button', 'cursor-pointer', 'hover:text-primary-500', 'dark:hover:text-theme-0', 'hover:bg-theme-100', 'dark:hover:bg-theme-700', 'rounded-lg', 'transition-colors', 'duration-200']

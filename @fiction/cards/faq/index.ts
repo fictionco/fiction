@@ -6,12 +6,12 @@ import { z } from 'zod'
 const templateId = 'faq'
 
 const schema = z.object({
-  heading: z.string().optional(),
-  subHeading: z.string().optional(),
+  heading: z.string().optional().describe('Feature heading for the element [ai]'),
+  subHeading: z.string().optional().describe('Feature Sub heading for the element [ai]'),
   items: z.array(z.object({
     name: z.string().optional(),
     desc: z.string().optional(),
-  })).optional(),
+  })).optional().describe('List of items faq, values, similar [ai seconds=10 label="List Items"]'),
 })
 
 export type UserConfig = z.infer<typeof schema>
@@ -26,12 +26,12 @@ const options: InputOption[] = [
 ]
 
 const defaultConfig: UserConfig = {
-  heading: 'Treasure Hunting Services',
+  heading: 'Frequently Asked Questions',
   items: [
-    { name: 'Expedition Planning', desc: 'Comprehensive planning and logistics for successful treasure hunting expeditions.' },
-    { name: 'Map Deciphering', desc: 'Skilled interpretation of ancient maps and clues to locate hidden treasures.' },
-    { name: 'Site Excavation', desc: 'Professional excavation services to uncover and preserve valuable artifacts.' },
-    { name: 'Treasure Appraisal', desc: 'Accurate appraisal of discovered treasures to determine their historical and monetary value.' },
+    { name: `How much does it cost?`, desc: `Our pricing varies depending on your specific needs. Please contact us for a personalized quote.` },
+    { name: `What happens if I need to cancel?`, desc: `We understand that circumstances change. Please refer to our cancellation policy for details on the process and any applicable fees.` },
+    { name: `How long does it usually take?`, desc: `The timeline can vary based on the complexity of your request. We strive to provide efficient service while ensuring quality results.` },
+    { name: `What happens if I'm not satisfied?`, desc: `Your satisfaction is our priority. If you're not happy with our service, please contact us to discuss how we can address your concerns.` },
   ],
 }
 

@@ -16,10 +16,10 @@ const uc = vue.computed(() => props.card.userConfig.value)
 
 const currentItemIndex = vue.ref(0)
 
-const items = vue.computed(() => uc.value.items || [])
+const slides = vue.computed(() => uc.value.slides || [])
 
 const circularItems = vue.computed(() => {
-  const originalItems = items.value
+  const originalItems = slides.value
   if (originalItems.length === 0)
     return []
 
@@ -48,8 +48,8 @@ function autoSlideTimer() {
     clearTimeout(timer)
 
   timer = setTimeout(() => {
-    const items = uc.value.items || []
-    currentItemIndex.value = (currentItemIndex.value + 1) % items.length
+    const slides = uc.value.slides || []
+    currentItemIndex.value = (currentItemIndex.value + 1) % slides.length
     autoSlideTimer()
   }, slideTime)
 }
@@ -69,7 +69,7 @@ function setActiveItem(index: number) {
 }
 
 function setActiveItemByTitle(title?: string) {
-  const index = items.value.findIndex(item => item.title === title)
+  const index = slides.value.findIndex(item => item.title === title)
   if (index !== -1 && title) {
     setActiveItem(index)
   }
@@ -129,7 +129,7 @@ vue.onMounted(() => {
                 class="x-font-title z-20 font-bold md:w-[160%]"
                 :min-size="40"
               >
-                <CardText :card tag="span" :path="`items.${currentItemIndex}.title`" />
+                <CardText :card tag="span" :path="`slides.${currentItemIndex}.title`" />
               </EffectFitText>
               <EffectFitText
                 v-if="currentItem?.subTitle"
@@ -138,7 +138,7 @@ vue.onMounted(() => {
                 :content="currentItem?.subTitle || ''"
                 class="x-font-title z-20 font-medium md:w-[160%] mt-4 !leading-[1.4]"
               >
-                <CardText animate="fade" :card tag="span" :path="`items.${currentItemIndex}.subTitle`" />
+                <CardText animate="fade" :card tag="span" :path="`slides.${currentItemIndex}.subTitle`" />
               </EffectFitText>
             </div>
           </transition>
@@ -160,7 +160,7 @@ vue.onMounted(() => {
           </div>
         </div>
       </div>
-      <NavDots class="mt-6 md:mt-0" :active-item="currentItemIndex" :items="uc.items || []" :container-id="card.cardId" @update:active-item="setActiveItem($event)" />
+      <NavDots class="mt-6 md:mt-0" :active-item="currentItemIndex" :items="uc.slides || []" :container-id="card.cardId" @update:active-item="setActiveItem($event)" />
     </div>
   </div>
 </template>

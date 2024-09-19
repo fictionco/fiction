@@ -118,8 +118,8 @@ export const MediaBasicSchema = z.object({
 })
 
 export const MediaIconSchema = MediaBasicSchema.extend({
-  iconId: z.string().optional() as z.Schema<IconId | undefined>,
-  class: z.string().optional(),
+  iconId: z.string().optional().describe('iconId is common icon name (e.g. user, check, lock)') as z.Schema<IconId | undefined>,
+  class: z.string().optional().describe('tabler iconify class i-tabler-[icon-name]'),
 })
 
 export const MediaTypographySchema = MediaBasicSchema.extend({

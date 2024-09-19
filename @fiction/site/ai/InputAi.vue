@@ -92,18 +92,18 @@ async function applyChanges() {
       <div class="flex items-center space-x-2" />
     </div>
 
-    <ElModal v-model:vis="vis" modal-class="max-w-screen-sm p-12">
-      <div v-if="completion" class="space-y-6 max-w-xl mx-auto">
+    <ElModal v-model:vis="vis" modal-class="max-w-screen-md p-12">
+      <div v-if="completion" class="space-y-6 max-w-2xl mx-auto">
         <h2 class="font-semibold text-lg x-font-title ">
           Accept Generated Content
         </h2>
-        <div class="space-y-2">
-          <div v-for="(field, key) in completion" :key="key" class="flex gap-8 border bg-theme-50 dark:bg-theme-700 rounded-md border-theme-200 dark:border-theme-600/70 p-4">
-            <div class="font-semibold text-xs w-20 text-right shrink-0 text-theme-400 dark:text-theme-500">
+        <div class=" divide-y divide-theme-200 dark:divide-theme-700  max-h-[400px] overflow-scroll">
+          <div v-for="(field, key) in completion" :key="key" class="py-4 flex gap-8 rounded-md">
+            <div class="space-y-2 font-semibold text-xs w-32 text-right shrink-0 text-theme-400 dark:text-theme-500">
               <div>{{ toLabel(key) }}</div>
 
               <div class="text-xs">
-                <InputCheckbox :model-value="accept[key]" text="Accept?" input-class="bg-theme-0 dark:bg-theme-600" @update:model-value="accept = { ...accept, [key]: $event }" />
+                <InputCheckbox ui-size="xs" :model-value="accept[key]" text="Add to Page" input-class="bg-theme-0 dark:bg-theme-600" @update:model-value="accept = { ...accept, [key]: $event }" />
               </div>
             </div>
             <div class="grow">
@@ -125,10 +125,10 @@ async function applyChanges() {
             theme="primary"
             size="md"
             :loading="loading"
-            icon="i-tabler-sparkles"
+            icon="i-tabler-check"
             @click="applyChanges()"
           >
-            Apply
+            Apply Changes
           </XButton>
         </div>
       </div>
@@ -154,7 +154,10 @@ async function applyChanges() {
                 Fields to Generate <span class="text-xs opacity-50 text-theme-500">( {{ genUtil.totalEstimatedTime.value }} seconds)</span>
               </div>
             </div>
-            <div v-for="(opt, key) in genUtil?.jsonPropConfig.value" :key="key" class="text-xs space-y-1">
+            <div v-if=" Object.keys(genUtil?.jsonPropConfig.value || {}).length === 0 " class="p-6 text-center text-sm bg-theme-50/60 rounded-md dark:bg-theme-700/40">
+              This element has no fields to generate.
+            </div>
+            <div v-for="(opt, key) in genUtil?.jsonPropConfig.value" v-else :key="key" class="text-xs space-y-1">
               <div class="flex gap-2 items-center">
                 <div class="">
                   <InputToggle :id="`opt-${key}`" :model-value="opt.isUserEnabled" input-class="bg-theme-0 dark:bg-theme-600" @update:model-value="updateGeneration(opt, { isUserEnabled: $event })" />

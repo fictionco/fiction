@@ -25,6 +25,10 @@ function getColorStyle(color?: ColorThemeUser) {
 
   const r = getColorThemeStyles(color || 'theme')
 
+  if (!r) {
+    return { icon: '', text: '' }
+  }
+
   return {
     icon: [r.bg, r.text, r.border, r.text].join(' '),
     text: r.text,

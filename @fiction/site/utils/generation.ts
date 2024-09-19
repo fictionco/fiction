@@ -12,20 +12,22 @@ export type InputOptionGeneration = {
 }
 
 const shortcodes = new Shortcodes()
-type AiShortcodeAttributes = { seconds?: number }
+type AiShortcodeAttributes = { seconds?: number, label?: string }
 // remove shortcode from description
 shortcodes.addShortcode<AiShortcodeAttributes>('ai', () => '')
 
-export function parseDescription(text: string): { description: string, meta: AiShortcodeAttributes, hasTag: boolean } {
+export function parseDescription(text: string): { label?: string, description: string, attributes: AiShortcodeAttributes, hasTag: boolean } {
   const result = shortcodes.parseStringSync(text)
 
   const description = result.text.trim()
 
   const aiTagMatch = result.matches.find(match => match.shortcode === 'ai') as ShortcodeMatch<AiShortcodeAttributes>
 
-  const meta = aiTagMatch?.attributes || {}
+  const attributes = aiTagMatch?.attributes || {}
 
-  return { description, meta, hasTag: !!aiTagMatch }
+  const label = attributes.label
+
+  return { label, description, attributes, hasTag: !!aiTagMatch }
 }
 
 type GenerateOutputPropsArgs = {
@@ -55,9 +57,14 @@ export function generateJsonPropConfig({ jsonSchema, userPropConfig }: GenerateJ
   let cumulativeTime = 0
   const props = jsonSchema?.properties || {}
   return Object.fromEntries(Object.entries(props).map(([key, value]) => {
-    const { description, meta, hasTag } = parseDescription(value.description || '')
+    const { label, description, attributes, hasTag } = parseDescription(value.description || '')
+
+    if (!hasTag) {
+      return [key, undefined]
+    }
+
     const userValue = userPropConfig[key] || {}
-    const { seconds = 4 } = meta || {}
+    const { seconds = 4 } = attributes || {}
     const estimatedMs = seconds * 1000
 
     if (userValue.isUserEnabled)
@@ -65,14 +72,14 @@ export function generateJsonPropConfig({ jsonSchema, userPropConfig }: GenerateJ
 
     return [key, {
       key,
-      label: toLabel(key),
+      label: label || toLabel(key),
       prompt: description,
       estimatedMs,
       cumulativeTime,
       hasTag,
       ...userValue,
     }]
-  }))
+  }).filter(entry => entry[1]))
 }
 
 export function calculateTotalEstimatedTimeSeconds({ jsonPropConfig }: { jsonPropConfig: Record<string, InputOptionGeneration> }): number {

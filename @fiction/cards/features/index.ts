@@ -6,17 +6,17 @@ import { z } from 'zod'
 const templateId = 'features'
 
 const schema = z.object({
-  heading: z.string().optional(),
-  subHeading: z.string().optional(),
-  superHeading: z.string().optional(),
-  superIcon: MediaIconSchema.optional().describe('Icon for the super heading'),
-  superColor: z.enum(colorThemeUser).optional().describe('change color of super heading'),
+  heading: z.string().optional().describe('Feature heading for the element [ai]'),
+  subHeading: z.string().optional().describe('Feature Sub heading for the element [ai]'),
+  superHeading: z.string().optional().describe('Feature Super heading above the heading of the element [ai]'),
+  superIcon: MediaIconSchema.optional().describe('Icon for the super heading [ai]'),
+  superColor: z.enum(colorThemeUser).optional().describe('change color of super heading [ai]'),
   items: z.array(z.object({
     name: z.string().optional(),
     desc: z.string().optional(),
     icon: MediaIconSchema.optional(),
     color: z.enum(colorThemeUser).optional(),
-  })).optional(),
+  })).optional().describe('List of features with name, description, icon, and color [ai seconds=10 label=Features]'),
 })
 
 export type UserConfig = z.infer<typeof schema>

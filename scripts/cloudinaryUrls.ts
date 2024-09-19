@@ -11,7 +11,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 dotenv.config({ path: path.resolve(__dirname, '../@fiction/core/.env') })
 
-const outputPath = path.resolve(__dirname, '../@fiction/cards/stock/mediaItems.json')
+const outputPath = path.resolve(__dirname, '../@fiction/ui/stock/mediaItems.json')
 
 cloudinary.config({
   cloud_name: 'fiction-com-inc',

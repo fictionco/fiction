@@ -9,14 +9,14 @@ const templateId = 'story'
 
 const schema = z.object({
   items: z.array(z.object({
-    title: z.string().optional(),
-    content: z.string().optional(),
-    media: MediaBasicSchema.optional().describe(''),
+    title: z.string().optional().describe('Title for the story paragraph'),
+    content: z.string().optional().describe('Html content, 15 to 35 words, 2 to 3 paragraphs, sep with <p> tags'),
+    media: MediaBasicSchema.optional().describe('media to complement the story'),
     actions: z.array(z.object({
       name: z.string().optional(),
       href: z.string().optional(),
     })).optional(),
-  })).describe('Story paragraph with text, media, and actions'),
+  })).describe('Story paragraph with text, media, and actions [ai seconds=10 label="Story Sections"]').optional(),
 })
 
 export type UserConfig = z.infer<typeof schema>
@@ -24,7 +24,7 @@ export type UserConfig = z.infer<typeof schema>
 const options: InputOption[] = [
   new InputOption({ key: 'items', label: 'Tour Items', input: 'InputList', props: { itemName: 'paragraph' }, options: [
     new InputOption({ key: 'title', label: 'Title', input: 'InputText' }),
-    new InputOption({ key: 'content', label: 'Content', input: 'InputText' }),
+    new InputOption({ key: 'content', label: 'Content', input: 'InputProse' }),
     new InputOption({ key: 'media', label: 'Media', input: 'InputMedia' }),
     new InputOption({ key: 'actions', label: 'Actions', input: 'InputList', options: [
       new InputOption({ key: 'name', label: 'Button Label', input: 'InputText' }),
