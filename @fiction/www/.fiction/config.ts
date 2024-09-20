@@ -210,6 +210,9 @@ export interface CompiledServiceConfig {
       | 'userPrivate'
       | 'editor'
       | 'sections'
+      | 'draft'
+      | 'draftHistory'
+      | 'archiveAt'
       | 'createdAt'
       | 'updatedAt'
     fiction_site_pages:
@@ -231,6 +234,9 @@ export interface CompiledServiceConfig {
       | 'is404'
       | 'editor'
       | 'generation'
+      | 'draft'
+      | 'draftHistory'
+      | 'archiveAt'
       | 'createdAt'
       | 'updatedAt'
     fiction_site_domains:

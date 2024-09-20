@@ -1,4 +1,5 @@
 import type { ComplexDataFilter, EndpointMeta, EndpointResponse } from '@fiction/core'
+import type { TablePostConfig } from '@fiction/posts/schema.js'
 import type { Knex } from 'knex'
 import type { FictionSites, Site, SitesPluginSettings } from './index.js'
 import type { WhereSite } from './load.js'
@@ -55,7 +56,6 @@ type PageStandardFields = {
   successMessage?: string
   disableLog?: boolean
   scope: 'draft' | 'publish'
-  fields?: CardConfigPortable[]
 }
 
 type WherePage = { cardId?: string, slug?: string } & ({ cardId: string } | { slug: string })
@@ -67,6 +67,7 @@ export type ManagePageRequestParams =
   | { _action: 'delete', where: WherePage[] }
   | { _action: 'list', where?: Partial<TableCardConfig>, limit?: number, offset?: number, page?: number }
   | { _action: 'count', filters?: ComplexDataFilter[] }
+  | { _action: 'saveDraft', fields: CardConfigPortable[] }
 
 export type ManagePageParams = ManagePageRequestParams & PageStandardFields
 
@@ -95,6 +96,9 @@ export class ManagePage extends Query<SitesQuerySettings> {
         break
       case 'update':
         result = await this.updatePages(params, meta)
+        break
+      case 'saveDraft':
+        result = await this.saveDraft(params, meta)
         break
       case 'delete':
         result = await this.deletePages(params, meta)
@@ -129,7 +133,7 @@ export class ManagePage extends Query<SitesQuerySettings> {
   }
 
   private async upsertPages(params: ManagePageParams & { _action: 'upsert' }, meta: EndpointMeta): Promise<EndpointResponse<TableCardConfig[]>> {
-    const { fields, siteId, orgId, userId, caller } = params
+    const { fields, siteId, orgId, caller } = params
     const db = this.settings.fictionDb?.client()
     if (!db)
       throw abort('no db')
@@ -172,8 +176,8 @@ export class ManagePage extends Query<SitesQuerySettings> {
     return { status: 'success', data: upsertedPages, message: 'Pages upserted successfully', indexMeta: { changedCount: upsertedPages.length } }
   }
 
-  private async retrievePages(params: ManagePageParams & { _action: 'retrieve', where: WherePage[] }, meta: EndpointMeta): Promise<EndpointResponse<TableCardConfig[]>> {
-    const { where, siteId, orgId } = params
+  private async retrievePages(params: ManagePageParams & { _action: 'retrieve', where: WherePage[] }, _meta: EndpointMeta): Promise<EndpointResponse<TableCardConfig[]>> {
+    const { where, siteId, orgId, scope = 'publish' } = params
     const db = this.settings.fictionDb?.client()
     if (!db)
       throw abort('no db')
@@ -182,7 +186,7 @@ export class ManagePage extends Query<SitesQuerySettings> {
       throw abort('where must be a non-empty array of conditions')
 
     // Create a query builder
-    const query = db.select().from(t.pages).where({ siteId, orgId })
+    const query = db.select<TableCardConfig[]>().from(t.pages).where({ siteId, orgId })
 
     // Build the WHERE clause using OR conditions for each item in the where array
     query.where(function () {
@@ -197,11 +201,17 @@ export class ManagePage extends Query<SitesQuerySettings> {
     })
 
     // Execute the query
-    const pages = await query
+    let pages = await query
 
     if (pages.length === 0) {
       this.log.info('No pages found', { data: { where, siteId, orgId } })
       return { status: 'error', data: [] }
+    }
+
+    if (scope === 'draft') {
+      pages = pages.map((page) => {
+        return page.draft ? deepMerge<TableCardConfig>([page, page.draft as TableCardConfig]) : page
+      })
     }
 
     return { status: 'success', data: pages }
@@ -233,7 +243,7 @@ export class ManagePage extends Query<SitesQuerySettings> {
     return { status: 'success', data: updatedPages, message: 'Pages updated successfully', indexMeta: { changedCount: updatedPages.length } }
   }
 
-  private async deletePages(params: ManagePageParams & { _action: 'delete' }, meta: EndpointMeta): Promise<EndpointResponse<TableCardConfig[]>> {
+  private async deletePages(params: ManagePageParams & { _action: 'delete' }, _meta: EndpointMeta): Promise<EndpointResponse<TableCardConfig[]>> {
     const { where, siteId, orgId } = params
     const db = this.settings.fictionDb?.client()
     if (!db)
@@ -257,8 +267,8 @@ export class ManagePage extends Query<SitesQuerySettings> {
     return { status: 'success', data: deletedPages, message: 'Pages deleted successfully', indexMeta: { changedCount: deletedPages.length } }
   }
 
-  private async listPages(params: ManagePageParams & { _action: 'list' }, meta: EndpointMeta): Promise<EndpointResponse<TableCardConfig[]>> {
-    const { where, siteId, orgId } = params
+  private async listPages(params: ManagePageParams & { _action: 'list' }, _meta: EndpointMeta): Promise<EndpointResponse<TableCardConfig[]>> {
+    const { where, siteId, orgId, scope = 'publish' } = params
     let { limit = this.limit, offset = this.offset, page } = params
     const db = this.settings.fictionDb?.client()
     if (!db)
@@ -268,15 +278,21 @@ export class ManagePage extends Query<SitesQuerySettings> {
       offset = (page - 1) * limit
     }
 
-    const pages = await db
-      .select('*')
+    let pages = await db
+      .select<TableCardConfig[]>('*')
       .from(t.pages)
       .where({ siteId, orgId, ...where })
       .limit(limit)
       .offset(offset)
       .orderBy('updated_at', 'desc')
 
-    return { status: 'success', data: pages, message: 'Pages listed successfully' }
+    if (scope === 'draft') {
+      pages = pages.map((page) => {
+        return page.draft ? deepMerge<TableCardConfig>([page, page.draft as TableCardConfig]) : page
+      })
+    }
+
+    return { status: 'success', data: pages }
   }
 
   private async handleSpecialSlugConflicts(args: { slug?: string, cardId?: string, siteId: string, db: Knex }): Promise<void> {
@@ -304,6 +320,65 @@ export class ManagePage extends Query<SitesQuerySettings> {
     }
 
     return updateExistingSlug(slug)
+  }
+
+  private async saveDraft(params: ManagePageParams & { _action: 'saveDraft' }, meta: EndpointMeta): Promise<EndpointResponse<TableCardConfig[]>> {
+    const { siteId, orgId, fields } = params
+    const db = this.settings.fictionDb.client()
+
+    const now = new Date()
+
+    const saveDraftPromises = fields.map(async (cardConfig) => {
+      const card = new Card(cardConfig)
+      const cardId = card.cardId
+
+      const currentDraft = await db
+        .select('draft', 'draft_history')
+        .from(t.pages)
+        .where({ siteId, orgId, card_id: cardId })
+        .first()
+
+      const draft = (currentDraft?.draft || {}) as TableCardConfig
+      const draftHistory = (currentDraft?.draftHistory || []) as TableCardConfig[]
+
+      const TEN_MINUTES = 600000
+      const isNewDraftNeeded = draft.createdAt && (now.getTime() - new Date(draft.createdAt).getTime()) > TEN_MINUTES
+
+      if (isNewDraftNeeded) {
+        draftHistory.push({ ...draft, archiveAt: now.toISOString() })
+        draft.createdAt = now.toISOString()
+      }
+      const fields = card.toConfig()
+
+      const keysToRemove = ['draft', 'draftHistory', 'cardId', 'userId', 'orgId']
+      keysToRemove.forEach((key) => {
+        delete fields[key as keyof typeof fields]
+      })
+
+      const newDraft = {
+        draftId: objectId({ prefix: 'drf' }),
+        ...fields,
+        updatedAt: now.toISOString(),
+        createdAt: draft.createdAt || now.toISOString(),
+      }
+
+      await db(t.pages)
+        .where({ siteId, orgId, card_id: cardId })
+        .update({ draft: newDraft, draft_history: draftHistory })
+        .returning('*')
+
+      const r = await this.retrievePages({ _action: 'retrieve', where: [{ cardId }], siteId, orgId, scope: 'draft', caller: 'endOfSaveDraft' }, meta)
+      const pg = r.data?.[0]
+
+      if (!pg) {
+        throw new Error('Page not found after saving draft')
+      }
+      return pg
+    })
+
+    const updatedDrafts = await Promise.all(saveDraftPromises)
+
+    return { status: 'success', data: updatedDrafts }
   }
 }
 
@@ -371,7 +446,6 @@ export class ManageSite extends SitesQuery {
 
     const themeSite = await this.createSiteFromTheme(params, meta)
 
-    this.log.info(`endpoint:createSite: ${themeSite.title}`, { data: { orgId, fields, pages: themeSite.pages } })
     const defaultSubDomain = meta.bearer?.email?.split('@')[0] || 'site'
     const mergedFields = deepMerge([themeSite, { subDomain: `${defaultSubDomain}-${shortId({ len: 4 })}` }, fields])
 
@@ -388,13 +462,13 @@ export class ManageSite extends SitesQuery {
   }
 
   private async retrieveSite(params: ManageSiteParams & { _action: 'retrieve' }, _meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
-    const { where, disableLog } = params
+    const { where, disableLog, scope = 'publish' } = params
     const selector = await this.getSiteSelector(where)
 
     if (!disableLog)
       this.log.info('retrieving site', { data: { selector, caller: `retrieve:${params.caller}` } })
 
-    const site = await this.fetchSiteWithDetails(selector)
+    const site = await this.fetchSiteWithDetails({ selector, scope })
 
     if (!site?.siteId) {
       this.log.warn('ManageSite: Site not found', { data: { where, caller: params.caller } })
@@ -413,6 +487,9 @@ export class ManageSite extends SitesQuery {
     const prepped = this.settings.fictionDb.prep({ type: 'update', fields, table: t.sites, meta })
 
     const [updatedSite] = await this.settings.fictionDb.client().update({ orgId, userId, ...prepped }).where({ orgId, ...selector }).into(t.sites).returning<TableSiteConfig[]>('*')
+
+    if (!updatedSite)
+      throw abort('site not found')
 
     if (fields.pages && fields.pages.length) {
       await this.updateSitePages({ siteId: updatedSite.siteId, fields: fields.pages, userId, orgId, scope: 'publish' }, meta)
@@ -446,16 +523,15 @@ export class ManageSite extends SitesQuery {
       draftHistory.push({ ...draft, archiveAt: now.toISOString() }) // Archive the current draft
       draft.createdAt = now.toISOString() // Reset creation time for a new draft
     }
-    const prepped = this.settings.fictionDb.prep({ type: 'update', fields, meta, table: t.sites })
 
     const keysToRemove = ['draft', 'draftHistory', 'siteId', 'userId', 'orgId']
 
     keysToRemove.forEach((key) => {
-      delete prepped[key as keyof typeof prepped]
+      delete fields[key as keyof typeof fields]
     })
 
     // taxonomies are removed by prepare, due to joined table, saved directly in draft
-    const newDraft = { draftId: objectId({ prefix: 'sdf' }), ...draft, ...prepped, updatedAt: now, createdAt: draft.createdAt }
+    const newDraft = { draftId: objectId({ prefix: 'sdf' }), ...draft, ...fields, updatedAt: now, createdAt: draft.createdAt }
 
     // Persist the updated draft and history
     const [site] = await db(t.sites)
@@ -506,7 +582,7 @@ export class ManageSite extends SitesQuery {
     return this.settings.fictionSites.queries.ManagePage.serve({
       siteId,
       scope,
-      _action: 'upsert',
+      _action: scope === 'draft' ? 'saveDraft' : 'upsert',
       fields,
       userId,
       orgId,
@@ -514,10 +590,11 @@ export class ManageSite extends SitesQuery {
     }, meta)
   }
 
-  private async fetchSiteWithDetails(selector: WhereSite): Promise<TableSiteConfig | undefined> {
+  private async fetchSiteWithDetails(args: { selector: WhereSite, scope: 'draft' | 'publish' }): Promise<TableSiteConfig | undefined> {
+    const { selector, scope = 'publish' } = args
     const db = this.settings.fictionDb.client()
 
-    const site = await db
+    let site = await db
       .select<TableSiteConfig>('*')
       .from(t.sites)
       .where(selector)
@@ -527,14 +604,9 @@ export class ManageSite extends SitesQuery {
       return undefined
     }
 
-    // Retrieve all pages associated with the siteId
-    const pages = await db
-      .select()
-      .from(t.pages)
-      .where({ siteId: site.siteId })
-
-    // Assign the pages to the site object
-    site.pages = pages
+    if (scope === 'draft') {
+      site = deepMerge([site, site.draft as TableSiteConfig])
+    }
 
     const domains = await db
       .select()
@@ -542,6 +614,19 @@ export class ManageSite extends SitesQuery {
       .where({ siteId: site.siteId })
 
     site.customDomains = domains
+
+    const r = await this.settings.fictionSites.queries.ManagePage.serve({
+      _action: 'list',
+      orgId: site.orgId,
+      siteId: site.siteId,
+      limit: 200,
+      offset: 0,
+      caller: 'fetchSiteWithDetails',
+      scope,
+    }, { server: true })
+
+    // Assign the pages to the site object
+    site.pages = r.data || []
 
     return site
   }
