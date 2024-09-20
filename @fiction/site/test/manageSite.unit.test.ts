@@ -3,7 +3,6 @@ import type { TableSiteConfig } from '../tables'
 import type { SiteTestUtils } from './testUtils'
 import { objectId } from '@fiction/core'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { Site } from '../site'
 import { createSiteTestUtils } from './testUtils'
 
 describe('manageSite query', () => {

@@ -4,7 +4,6 @@ import type { UserConfig } from '.'
 import { vue } from '@fiction/core'
 import EffectFitText from '@fiction/ui/effect/EffectFitText.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import { gsap } from 'gsap'
 import CardText from '../CardText.vue'
 import NavDots from '../el/NavDots.vue'
 
@@ -61,6 +60,7 @@ vue.onBeforeUnmount(() => {
 
 vue.onMounted(() => {
   autoSlideTimer()
+  animateItems()
 })
 
 function setActiveItem(index: number) {
@@ -78,30 +78,43 @@ function setActiveItemByTitle(title?: string) {
 function getItemStyle(index: number) {
   return {
     zIndex: renderItems.value.length - index,
+    opacity: 1 - (index * 0.15),
+    transform: `translateX(${index * 20}px) translateY(${index * 10}px) scale(${1 - (index * 0.05)})`,
+    right: `${index * -1}%`,
   }
 }
 
 function animateItems() {
-  gsap.to('.carousel-item', {
-    duration: 0.5,
-    ease: 'cubic-bezier(0.25,1,0.33,1)',
-    stagger: 0.05,
-    opacity: i => 1 - (i * 0.15),
-    x: i => i * 20,
-    y: i => i * 10,
-    scale: i => 1 - (i * 0.05),
-    right: i => `${i * -1}%`,
+  vue.nextTick(() => {
+    const items = document.querySelectorAll('.carousel-item') as NodeListOf<HTMLElement>
+    items.forEach((item, index) => {
+      const style = getItemStyle(index)
+      Object.assign(item.style, {
+        transition: 'all 0.5s cubic-bezier(0.25, 1, 0.33, 1)',
+        opacity: style.opacity,
+        transform: style.transform,
+        right: style.right,
+      })
+    })
   })
 }
 
 vue.watch(currentItemIndex, () => {
-  vue.nextTick(() => {
-    animateItems()
-  })
+  animateItems()
 })
 
+async function handleVisibilityChange() {
+  if (document.visibilityState === 'visible') {
+    currentItemIndex.value = 0
+  }
+}
+
 vue.onMounted(() => {
-  animateItems()
+  document.addEventListener('visibilitychange', handleVisibilityChange)
+})
+
+vue.onBeforeUnmount(() => {
+  document.removeEventListener('visibilitychange', handleVisibilityChange)
 })
 </script>
 
@@ -114,10 +127,10 @@ vue.onMounted(() => {
       <div v-else class="md:flex items-center justify-between md:h-[680px]">
         <div class="relative h-full basis-[30%]">
           <transition
-            enter-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-500"
+            enter-active-class="transition-all duration-500 ease-[cubic-bezier(0.25,1,0.33,1)]"
             enter-from-class="opacity-0 translate-x-44"
             enter-to-class="opacity-100 translate-x-0"
-            leave-active-class="ease-[cubic-bezier(0.25,1,0.33,1)] duration-500"
+            leave-active-class="transition-all duration-500 ease-[cubic-bezier(0.25,1,0.33,1)]"
             leave-from-class="opacity-100 translate-x-0"
             leave-to-class="opacity-0 -translate-x-44"
             mode="out-in"
@@ -126,7 +139,7 @@ vue.onMounted(() => {
               <EffectFitText
                 :lines="3"
                 :content="currentItem?.title || ''"
-                class="x-font-title z-20 font-bold md:w-[160%]"
+                class="x-font-title z-20 font-bold md:w-[170%]"
                 :min-size="40"
               >
                 <CardText :card tag="span" :path="`slides.${currentItemIndex}.title`" />

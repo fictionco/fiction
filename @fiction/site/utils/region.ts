@@ -19,7 +19,7 @@ export function updatePage(args: { site: Site, cardConfig: Partial<TableCardConf
   else
     site.pages.value = [r, ...site.pages.value]
 
-  site.frame.syncSite({ caller: 'updatePage' })
+  site.syncChange({ caller: 'updatePage' })
 }
 
 export async function requestManagePage(args: {

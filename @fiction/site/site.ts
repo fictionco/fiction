@@ -192,6 +192,10 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   }
 
   autosave() {
+    if (this.siteMode.value !== 'designer') {
+      return
+    }
+
     this.editor.value.isDirty = true
     this.clearAutosave()
 
@@ -226,8 +230,14 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       : { ...baseConfig, siteId: this.siteId }
   }
 
-  update = async (newConfig: Partial<TableSiteConfig>, opts?: { caller?: string }) => updateSite({ site: this, newConfig, ...opts })
+  update = async (newConfig: Partial<TableSiteConfig>, opts?: { caller?: string, noSave?: boolean }) => updateSite({ site: this, newConfig, ...opts })
   save = async (args: { minTime?: number, scope?: 'draft' | 'publish' } = {}) => saveSite({ site: this, successMessage: 'Site Saved', ...args })
+  syncChange = (args: { caller: string, noSave?: boolean }) => {
+    this.frame.syncSite(args)
+
+    if (!args.noSave)
+      this.autosave()
+  }
 
   activeCard = vue.computed(() => this.availableCards.value.find(c => c.cardId === this.editor.value.selectedCardId))
   activeCardConfig = vue.computed({
@@ -263,7 +273,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
     await waitFor(100)
 
-    this.frame.syncSite({ caller: 'updateLayout' })
+    this.syncChange({ caller: 'updateLayout' })
 
     this.isAnimationDisabled.value = false
   }
@@ -283,15 +293,11 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   }
 
   removeCard(args: { cardId: string }) {
-    return removeCard({
-      site: this,
-      ...args,
-      onRemove: (_config) => {
-        (this.editor.value.selectedCardId = '')
+    return removeCard({ site: this, ...args, onRemove: (_config) => {
+      (this.editor.value.selectedCardId = '')
 
-        this.frame.syncSite({ caller: 'removeCard' })
-      },
-    })
+      this.syncChange({ caller: 'removeCard' })
+    } })
   }
 
   async addCard(args: { templateId: string, addToCardId?: string, delay?: number, cardId?: string, location?: 'top' | 'bottom' }) {

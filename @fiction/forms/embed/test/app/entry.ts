@@ -5,6 +5,10 @@ import '@unocss/reset/tailwind.css'
 
 vue.createApp(App).mount('#app')
 
-const tag = await setup({ orgId: 'example', siteId: 'example', beaconUrl: '#', anonymousId: shortId() })
+async function runEmbed() {
+  const tag = await setup({ orgId: 'example', siteId: 'example', beaconUrl: '#', anonymousId: shortId() })
 
-await tag.init()
+  await tag.init()
+}
+
+runEmbed().catch(console.error)

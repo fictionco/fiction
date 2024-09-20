@@ -7,9 +7,13 @@ if (typeof window !== 'undefined' && window.process === undefined) {
   window.process = { env: {} }
 }
 
-const { app, router } = initApp({ env: 'client' })
+async function init() {
+  const { app, router } = initApp({ env: 'client' })
 
-// wait until router is ready before mounting to ensure hydration match
-await router.isReady()
+  // wait until router is ready before mounting to ensure hydration match
+  await router.isReady()
 
-app.mount('#app')
+  app.mount('#app')
+}
+
+init().catch(console.error)

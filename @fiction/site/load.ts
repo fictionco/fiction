@@ -28,6 +28,8 @@ export async function requestManageSite(args: RequestManageSiteParams) {
 
   logger.info(`request manage site:${_action}`, { data: { fields, where } })
 
+  let scope: 'publish' | 'draft' = 'publish'
+
   if (_action === 'create') {
     const { fields } = args
     const { themeId } = fields || {}
@@ -42,7 +44,12 @@ export async function requestManageSite(args: RequestManageSiteParams) {
     }
   }
 
-  const r = await fictionSites.requests.ManageSite.projectRequest({ ...pass, caller, _action, fields: fields || {}, where: where as WhereSite }, { userOptional: _action === 'retrieve' })
+  if (_action === 'retrieve') {
+    if (['designer', 'editable'].includes(siteMode))
+      scope = 'draft'
+  }
+
+  const r = await fictionSites.requests.ManageSite.projectRequest({ ...pass, caller, _action, fields: fields || {}, where: where as WhereSite, scope }, { userOptional: _action === 'retrieve' })
 
   let site: Site | undefined = undefined
   if (r.data?.siteId)

@@ -264,7 +264,7 @@ export class Card<
     this.syncCard({ caller: `updateUserConfig:${this.templateId.value}`, cardConfig: { userConfig: this.userConfig.value } })
   }
 
-  syncCard(args: { caller: string, cardConfig?: CardConfigPortable }) {
+  syncCard(args: { caller: string, noSave?: boolean, cardConfig?: CardConfigPortable }) {
     if (!this.site || this.site.siteMode.value === 'standard')
       return
 
@@ -276,6 +276,9 @@ export class Card<
     if (this.settings.onSync) {
       this.settings.onSync(this)
     }
+
+    if (!args.noSave)
+      this.site?.autosave()
   }
 
   link(location?: vueRouter.RouteLocationRaw, opts?: { caller?: string }) {

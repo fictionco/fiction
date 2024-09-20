@@ -47,7 +47,7 @@ export class FrameUtility<T extends MsgUnknown = FrameMessage> extends Obj<Frame
     super(`FrameUtility:${settings.relation}`, settings)
   }
 
-  recursionDelay = 100
+  recursionDelay = 200
   initialized = false
   from: 'fiction' = 'fiction' as const
   relation = this.settings.relation

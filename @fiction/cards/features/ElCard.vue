@@ -57,8 +57,8 @@ const colorStyle = vue.computed(() => {
           animate="fade"
         />
       </div>
-      <CardText animate="fade" :card path="heading" class="x-font-title max-w-full text-4xl font-semibold md:text-balance" v-html="uc.heading" />
-      <CardText animate="fade" :card path="subHeading" class="text-xl lg:text-2xl lg:leading-snug w-full text-balance mt-4 lg:max-w-xl " v-html="uc.subHeading" />
+      <CardText animate="fade" :card path="heading" class="x-font-title max-w-full text-4xl font-semibold md:text-balance" />
+      <CardText animate="fade" :card path="subHeading" class="text-xl lg:text-2xl lg:leading-snug w-full text-balance mt-4 lg:max-w-xl " />
     </div>
     <div class="grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 text-left  grid ">
       <div v-for="(item, i) in uc.items" :key="i">

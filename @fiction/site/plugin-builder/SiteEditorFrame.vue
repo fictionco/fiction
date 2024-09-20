@@ -40,7 +40,7 @@ function toggleDarkLightMode() {
   const v = !props.site.isLightMode.value
   props.site.isLightMode.value = v
 
-  props.site.frame.syncSite({ caller: 'updateDarkLightMode' })
+  props.site.syncChange({ noSave: true, caller: 'updateDarkLightMode' })
 }
 
 function toggleEditingStyle() {
@@ -49,7 +49,7 @@ function toggleEditingStyle() {
   const v = props.site.editor.value.savedEditingStyle === 'quick' ? 'clean' : 'quick'
   props.site.editor.value.savedEditingStyle = v
 
-  props.site.frame.syncSite({ caller: 'updateEditingStyle' })
+  props.site.syncChange({ noSave: true, caller: 'updateEditingStyle' })
 }
 </script>
 

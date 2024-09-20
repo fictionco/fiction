@@ -104,8 +104,7 @@ async function save() {
 const v = vue.computed({
   get: () => props.site.toConfig(),
   set: async (v) => {
-    await updateSite({ site: props.site, newConfig: v })
-    props.site.frame.syncSite({ caller: 'updateGlobalSettings' })
+    await updateSite({ site: props.site, newConfig: v, caller: 'updateGlobalSettings' })
   },
 })
 </script>

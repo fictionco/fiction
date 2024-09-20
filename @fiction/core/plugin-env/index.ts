@@ -245,10 +245,12 @@ export class FictionEnv<
 
     const removeKeydown = onBrowserEvent('keydown', emitKeypress)
     const removeKeyup = onBrowserEvent('keyup', emitKeypress)
+    const resetOnVisibilityChange = onBrowserEvent('visibilitychange', () => (this.heldKeys.value = {}))
 
     this.cleanupCallbacks.push(() => {
       removeKeydown()
       removeKeyup()
+      resetOnVisibilityChange()
     })
   }
 

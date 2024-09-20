@@ -1,5 +1,4 @@
 import type { ComplexDataFilter, EndpointMeta, EndpointResponse } from '@fiction/core'
-import type { TablePostConfig } from '@fiction/posts/schema.js'
 import type { Knex } from 'knex'
 import type { FictionSites, Site, SitesPluginSettings } from './index.js'
 import type { WhereSite } from './load.js'
@@ -333,7 +332,7 @@ export class ManagePage extends Query<SitesQuerySettings> {
       const cardId = card.cardId
 
       const currentDraft = await db
-        .select('draft', 'draft_history')
+        .select<TableCardConfig[]>('draft', 'draft_history')
         .from(t.pages)
         .where({ siteId, orgId, card_id: cardId })
         .first()
@@ -345,6 +344,7 @@ export class ManagePage extends Query<SitesQuerySettings> {
       const isNewDraftNeeded = draft.createdAt && (now.getTime() - new Date(draft.createdAt).getTime()) > TEN_MINUTES
 
       if (isNewDraftNeeded) {
+        this.log.info(`Creating new draft ${typeof draftHistory} ${JSON.stringify(draftHistory)}`, { data: { cardId, siteId, orgId, draftHistory, currentDraft } })
         draftHistory.push({ ...draft, archiveAt: now.toISOString() })
         draft.createdAt = now.toISOString()
       }
@@ -364,7 +364,7 @@ export class ManagePage extends Query<SitesQuerySettings> {
 
       await db(t.pages)
         .where({ siteId, orgId, card_id: cardId })
-        .update({ draft: newDraft, draft_history: draftHistory })
+        .update({ draft: JSON.stringify(newDraft), draft_history: JSON.stringify(draftHistory) })
         .returning('*')
 
       const r = await this.retrievePages({ _action: 'retrieve', where: [{ cardId }], siteId, orgId, scope: 'draft', caller: 'endOfSaveDraft' }, meta)
@@ -450,8 +450,9 @@ export class ManageSite extends SitesQuery {
     const mergedFields = deepMerge([themeSite, { subDomain: `${defaultSubDomain}-${shortId({ len: 4 })}` }, fields])
 
     const prepped = this.settings.fictionDb.prep({ type: 'insert', fields: mergedFields, table: t.sites, meta })
-    const [site] = await this.settings.fictionDb.client().insert({ orgId, userId, ...prepped }).into(t.sites).onConflict('site_id').ignore().returning<TableSiteConfig[]>('*')
 
+    const [site] = await this.settings.fictionDb.client().insert({ orgId, userId, ...prepped }).into(t.sites).onConflict('site_id').ignore().returning<TableSiteConfig[]>('*')
+    this.log.info('creating site', { data: { fields: prepped, site } })
     if (!site?.siteId)
       throw abort('site not created')
 
@@ -536,7 +537,7 @@ export class ManageSite extends SitesQuery {
     // Persist the updated draft and history
     const [site] = await db(t.sites)
       .where(where)
-      .update({ draft: newDraft, draft_history: draftHistory })
+      .update({ draft: JSON.stringify(newDraft), draft_history: JSON.stringify(draftHistory) })
       .returning<TableSiteConfig[]>('*')
 
     if (fields.pages && fields.pages.length) {

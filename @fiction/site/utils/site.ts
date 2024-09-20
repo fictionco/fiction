@@ -95,8 +95,35 @@ export async function localSiteConfig(args: { siteId: string, fields?: Partial<T
   return conf
 }
 
+export async function saveSiteDraft(args: { site: Site }) {
+  const { site } = args
+
+  const config = site.toConfig()
+
+  if (!config.siteId)
+    throw new Error('no siteId')
+
+  const fields: Partial<TableSiteConfig> = config
+
+  const r = await site.settings.fictionSites.requests.ManageSite.projectRequest({
+    _action: 'saveDraft',
+    fields,
+    where: { siteId: config.siteId },
+    caller: 'saveSite',
+  })
+
+  site.editor.value.isDirty = false
+  site.clearAutosave()
+
+  return r.data
+}
+
 export async function saveSite(args: { site: Site, scope?: 'draft' | 'publish', onlyKeys?: (keyof TableSiteConfig)[], delayUntilSaveConfig?: Partial<TableSiteConfig>, successMessage: string, isPublishingDomains?: boolean, minTime?: number }) {
   const { site, onlyKeys, delayUntilSaveConfig, successMessage, isPublishingDomains, minTime, scope = 'publish' } = args
+
+  if (scope === 'draft') {
+    return saveSiteDraft({ site })
+  }
 
   const config = site.toConfig()
 
@@ -130,11 +157,14 @@ export async function saveSite(args: { site: Site, scope?: 'draft' | 'publish', 
 
   await updateSite({ site, newConfig: r.data || {} })
 
+  site.editor.value.isDirty = false
+  site.clearAutosave()
+
   return r.data
 }
 
-export async function updateSite(args: { site: Site, newConfig: Partial<SiteSettings>, caller?: string }) {
-  const { site, newConfig } = args
+export async function updateSite(args: { site: Site, newConfig: Partial<SiteSettings>, caller?: string, noSave?: boolean }) {
+  const { site, newConfig, noSave = false, caller = 'updateSite' } = args
   if (!newConfig)
     return
 
@@ -158,6 +188,8 @@ export async function updateSite(args: { site: Site, newConfig: Partial<SiteSett
 
   if (sections)
     site.sections.value = setSections({ site, sections })
+
+  site.syncChange({ caller, noSave })
 
   return site
 }
