@@ -24,6 +24,7 @@ export type EditorState = {
   selectedRegionId: PageRegion | undefined
   savedCardOrder: Record<string, string[]>
   savedEditingStyle: 'clean' | 'quick'
+  isDirty: boolean
 }
 
 export type SiteSettings = {
@@ -166,6 +167,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     savedEditingStyle: 'quick',
     tempPage: {},
     tempSite: {},
+    isDirty: false,
     ...this.settings.editor,
   })
 
@@ -179,6 +181,24 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     })
     return out
   })
+
+  saveTimeout: ReturnType<typeof setTimeout> | null = null // Store timeout reference
+
+  clearAutosave() {
+    if (this.saveTimeout) {
+      clearTimeout(this.saveTimeout) // Clear the timeout after saving
+      this.saveTimeout = null
+    }
+  }
+
+  autosave() {
+    this.editor.value.isDirty = true
+    this.clearAutosave()
+
+    this.saveTimeout = setTimeout(() => {
+      this.save({ scope: 'draft' }).catch(console.error) // Error handling
+    }, 2000) // Set a new timeout for 2 seconds
+  }
 
   toConfig(args: { onlyKeys?: (keyof TableSiteConfig)[] | readonly (keyof TableSiteConfig)[] } = {}): { siteId: string } & Partial<TableSiteConfig> {
     const { onlyKeys = [] } = args
@@ -207,7 +227,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   }
 
   update = async (newConfig: Partial<TableSiteConfig>, opts?: { caller?: string }) => updateSite({ site: this, newConfig, ...opts })
-  save = async (args: { minTime?: number } = {}) => saveSite({ site: this, successMessage: 'Site Saved', ...args })
+  save = async (args: { minTime?: number, scope?: 'draft' | 'publish' } = {}) => saveSite({ site: this, successMessage: 'Site Saved', ...args })
 
   activeCard = vue.computed(() => this.availableCards.value.find(c => c.cardId === this.editor.value.selectedCardId))
   activeCardConfig = vue.computed({

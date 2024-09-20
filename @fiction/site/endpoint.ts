@@ -6,7 +6,7 @@ import type { CardConfigPortable, TableCardConfig, TableDomainConfig, TableSiteC
 import { applyComplexFilters, deepMerge, incrementSlugId, objectId, Query, shortId } from '@fiction/core'
 import { abort } from '@fiction/core/utils/error.js'
 import { Card } from './card.js'
-import { tableNames } from './tables.js'
+import { t } from './tables.js'
 import { updateSiteCerts } from './utils/cert.js'
 
 export type SitesQuerySettings = SitesPluginSettings & {
@@ -47,90 +47,253 @@ export abstract class SitesQuery extends Query<SitesQuerySettings> {
   }
 }
 
-type ManagePageParams = {
-  siteId: string
-  userId?: string
+type PageStandardFields = {
   orgId: string
-  successMessage?: string
+  userId?: string
+  siteId: string
   caller: string
-} & ({ _action: 'upsert', fields: CardConfigPortable } | { _action: 'retrieve' | 'delete', fields: CardConfigPortable })
+  successMessage?: string
+  disableLog?: boolean
+  scope: 'draft' | 'publish'
+  fields?: CardConfigPortable[]
+}
 
-export class ManagePage extends SitesQuery {
-  private async handleUpsert(args: {
-    fields: CardConfigPortable
-    siteId: string
-    orgId: string
-    userId?: string
-    caller: string
-  }, meta: EndpointMeta): Promise<TableCardConfig> {
-    const { siteId, orgId, userId, caller } = args
+type WherePage = { cardId?: string, slug?: string } & ({ cardId: string } | { slug: string })
 
-    const fields = new Card(args.fields).toConfig()
+export type ManagePageRequestParams =
+  | { _action: 'upsert', fields: CardConfigPortable[] }
+  | { _action: 'retrieve', where: WherePage[] }
+  | { _action: 'update', where: WherePage[], fields: Partial<CardConfigPortable> }
+  | { _action: 'delete', where: WherePage[] }
+  | { _action: 'list', where?: Partial<TableCardConfig>, limit?: number, offset?: number, page?: number }
+  | { _action: 'count', filters?: ComplexDataFilter[] }
 
-    if (!siteId)
-      throw abort(`UPSERT: siteId field required from ${caller}`, { data: { fields, caller } })
+export type ManagePageParams = ManagePageRequestParams & PageStandardFields
 
-    const fictionDb = this.settings.fictionDb
-    const db = fictionDb?.client()
+export class ManagePage extends Query<SitesQuerySettings> {
+  limit = 40
+  offset = 0
+
+  constructor(settings: SitesQuerySettings) {
+    super(settings)
+  }
+
+  async run(params: ManagePageParams, meta: EndpointMeta): Promise<EndpointResponse<TableCardConfig[]>> {
+    const { _action, caller = 'unknown', successMessage } = params
+
+    if (!_action)
+      throw abort('_action required', { data: { caller } })
+
+    let result: EndpointResponse<TableCardConfig[]>
+
+    switch (_action) {
+      case 'upsert':
+        result = await this.upsertPages(params, meta)
+        break
+      case 'retrieve':
+        result = await this.retrievePages(params, meta)
+        break
+      case 'update':
+        result = await this.updatePages(params, meta)
+        break
+      case 'delete':
+        result = await this.deletePages(params, meta)
+        break
+      case 'list':
+        result = await this.listPages(params, meta)
+        break
+      case 'count':
+        result = { status: 'success', data: [] } // added in addIndexMeta
+        break
+      default:
+        throw abort('Invalid action')
+    }
+
+    result = await this.addIndexMeta(params, result, meta)
+    return { ...result, message: successMessage ?? result.message }
+  }
+
+  private async addIndexMeta(params: ManagePageParams, r: EndpointResponse<TableCardConfig[]>, _meta?: EndpointMeta): Promise<EndpointResponse<TableCardConfig[]>> {
+    const { siteId, orgId } = params
+    const { limit = this.limit, offset = this.offset, filters = [] } = params as { limit?: number, offset?: number, filters?: ComplexDataFilter[] }
+
+    let baseQuery = this.settings.fictionDb.client().table(t.pages).where({ siteId, orgId }).count().first<{ count: string }>()
+
+    baseQuery = applyComplexFilters(baseQuery, filters)
+
+    const { count } = await baseQuery
+
+    r.indexMeta = { limit, offset, count: +count, ...r.indexMeta }
+
+    return r
+  }
+
+  private async upsertPages(params: ManagePageParams & { _action: 'upsert' }, meta: EndpointMeta): Promise<EndpointResponse<TableCardConfig[]>> {
+    const { fields, siteId, orgId, userId, caller } = params
+    const db = this.settings.fictionDb?.client()
     if (!db)
       throw abort('no db')
 
-    const prepped = fictionDb.prep({ type: 'insert', fields, table: tableNames.pages, meta })
+    const upsertedPages: TableCardConfig[] = []
 
-    await this.specialSlugConflicts({ slug: prepped.slug, cardId: fields.cardId, siteId, db })
+    for (const field of fields) {
+      const card = new Card(field)
+      const preparedFields = this.settings.fictionDb.prep({ type: 'insert', fields: card.toConfig(), table: t.pages, meta })
 
-    // all are needed to do propper recursion, without slug it infintely loops
-    const where = { siteId, slug: prepped.slug || `page` }
+      await this.handleSpecialSlugConflicts({ slug: preparedFields.slug, cardId: card.cardId, siteId, db })
 
-    for (const key in where) {
-      if (!where[key as keyof typeof where])
-        throw abort(`UPSERT(where clause): '${key}' required from ${caller}`, { data: { fields, caller } })
+      const where = { siteId, slug: preparedFields.slug || 'page' }
+      if (!where.slug)
+        throw abort(`UPSERT(where clause): 'slug' required from ${caller}`, { data: { field, caller } })
+
+      const insertFields = { ...preparedFields, orgId, siteId }
+
+      const existingPage = await db
+        .select('*')
+        .from(t.pages)
+        .where(where)
+        .whereNot({ card_id: card.cardId })
+        .first()
+
+      if (existingPage) {
+        insertFields.slug = incrementSlugId(preparedFields.slug)
+      }
+
+      const [upsertedPage] = await db
+        .insert(insertFields)
+        .into(t.pages)
+        .onConflict(['card_id'])
+        .merge()
+        .returning<TableCardConfig[]>('*')
+
+      upsertedPages.push(upsertedPage)
     }
 
-    const insertFields = { ...prepped, orgId, siteId }
-
-    // Check if the combination of slug, regionId, and siteId already exists
-    const query = db
-      .select('*')
-      .from(tableNames.pages)
-      .where(where)
-      .whereNot({ card_id: fields.cardId })
-      .first()
-
-    const existingPage = await query
-
-    if (existingPage) {
-      // If the combination exists, increment the slug and retry the upsert
-      const incrementedSlugId = incrementSlugId(prepped.slug)
-      return this.handleUpsert({ caller, fields: { ...fields, slug: incrementedSlugId }, orgId, userId, siteId }, meta)
-    }
-
-    const [region] = await db
-      .insert(insertFields)
-      .into(tableNames.pages)
-      .onConflict(['card_id'])
-      .merge()
-      .returning<TableCardConfig[]>('*')
-
-    return region
+    return { status: 'success', data: upsertedPages, message: 'Pages upserted successfully', indexMeta: { changedCount: upsertedPages.length } }
   }
 
-  private async specialSlugConflicts(args: { slug?: string, cardId?: string, siteId: string, db: Knex }) {
+  private async retrievePages(params: ManagePageParams & { _action: 'retrieve', where: WherePage[] }, meta: EndpointMeta): Promise<EndpointResponse<TableCardConfig[]>> {
+    const { where, siteId, orgId } = params
+    const db = this.settings.fictionDb?.client()
+    if (!db)
+      throw abort('no db')
+
+    if (!Array.isArray(where) || where.length === 0)
+      throw abort('where must be a non-empty array of conditions')
+
+    // Create a query builder
+    const query = db.select().from(t.pages).where({ siteId, orgId })
+
+    // Build the WHERE clause using OR conditions for each item in the where array
+    query.where(function () {
+      where.forEach((condition, _index) => {
+        this.orWhere(function () {
+          if (condition.cardId)
+            this.where('card_id', condition.cardId)
+          if (condition.slug)
+            this.where('slug', condition.slug)
+        })
+      })
+    })
+
+    // Execute the query
+    const pages = await query
+
+    if (pages.length === 0) {
+      this.log.info('No pages found', { data: { where, siteId, orgId } })
+      return { status: 'error', data: [] }
+    }
+
+    return { status: 'success', data: pages }
+  }
+
+  private async updatePages(params: ManagePageParams & { _action: 'update' }, meta: EndpointMeta): Promise<EndpointResponse<TableCardConfig[]>> {
+    const { where, fields, siteId, orgId } = params
+    const db = this.settings.fictionDb?.client()
+    if (!db)
+      throw abort('no db')
+
+    if (!Array.isArray(where)) {
+      return { status: 'error', message: 'where must be an array of conditions' }
+    }
+
+    const prepped = this.settings.fictionDb.prep({ type: 'update', fields, meta, table: t.pages })
+
+    const updatedPages: TableCardConfig[] = []
+    for (const condition of where) {
+      const result = await db
+        .table(t.pages)
+        .where({ siteId, orgId, ...condition })
+        .update({ ...prepped, updatedAt: new Date().toISOString() })
+        .returning('*')
+
+      updatedPages.push(...result)
+    }
+
+    return { status: 'success', data: updatedPages, message: 'Pages updated successfully', indexMeta: { changedCount: updatedPages.length } }
+  }
+
+  private async deletePages(params: ManagePageParams & { _action: 'delete' }, meta: EndpointMeta): Promise<EndpointResponse<TableCardConfig[]>> {
+    const { where, siteId, orgId } = params
+    const db = this.settings.fictionDb?.client()
+    if (!db)
+      throw abort('no db')
+
+    if (!Array.isArray(where)) {
+      return { status: 'error', message: 'where must be an array of conditions' }
+    }
+
+    const deletedPages: TableCardConfig[] = []
+    for (const condition of where) {
+      const result = await db
+        .table(t.pages)
+        .where({ siteId, orgId, ...condition })
+        .delete()
+        .returning('*')
+
+      deletedPages.push(...result)
+    }
+
+    return { status: 'success', data: deletedPages, message: 'Pages deleted successfully', indexMeta: { changedCount: deletedPages.length } }
+  }
+
+  private async listPages(params: ManagePageParams & { _action: 'list' }, meta: EndpointMeta): Promise<EndpointResponse<TableCardConfig[]>> {
+    const { where, siteId, orgId } = params
+    let { limit = this.limit, offset = this.offset, page } = params
+    const db = this.settings.fictionDb?.client()
+    if (!db)
+      throw abort('no db')
+
+    if (page && page > 0) {
+      offset = (page - 1) * limit
+    }
+
+    const pages = await db
+      .select('*')
+      .from(t.pages)
+      .where({ siteId, orgId, ...where })
+      .limit(limit)
+      .offset(offset)
+      .orderBy('updated_at', 'desc')
+
+    return { status: 'success', data: pages, message: 'Pages listed successfully' }
+  }
+
+  private async handleSpecialSlugConflicts(args: { slug?: string, cardId?: string, siteId: string, db: Knex }): Promise<void> {
     const { slug, siteId, db, cardId } = args
     if (!slug?.startsWith('_') || !cardId)
       return
 
-    // recursively check for existing slugs, and iterate until a unique slug is found
-    const updateExistingSlug = async (loopSlug: string) => {
+    const updateExistingSlug = async (loopSlug: string): Promise<void> => {
       const newSlug = incrementSlugId(loopSlug)
 
       const existingNewSlug = await db.select('slug')
-        .from(tableNames.pages)
+        .from(t.pages)
         .where({ slug: newSlug, siteId })
         .first()
 
       if (!existingNewSlug) {
-        await db.table(tableNames.pages)
+        await db.table(t.pages)
           .where({ slug, siteId })
           .whereNot({ card_id: cardId })
           .update({ slug: newSlug })
@@ -142,54 +305,9 @@ export class ManagePage extends SitesQuery {
 
     return updateExistingSlug(slug)
   }
-
-  async run(
-    params: ManagePageParams,
-    meta: EndpointMeta,
-  ): Promise<EndpointResponse<TableCardConfig>> {
-    const db = this.settings.fictionDb?.client()
-    if (!db)
-      throw abort('no db')
-
-    const { _action, fields, siteId, orgId, userId, successMessage = '', caller } = params
-
-    const message = successMessage
-    let data: TableCardConfig | undefined
-
-    if (_action === 'upsert') {
-      data = await this.handleUpsert({ fields, siteId, orgId, userId, caller }, meta)
-    }
-    else if (_action === 'retrieve') {
-      const { cardId, slug } = fields
-
-      if (!cardId && !slug)
-        throw abort('cardId or slug required to retrieve page')
-
-      const where = cardId ? { orgId, cardId } : { siteId, slug }
-
-      data = await db.select().from(tableNames.pages).where(where).first()
-
-      if (!data) {
-        this.log.info('Page not found', { data: { where, cardId, _action, caller } })
-        throw new Error('Page not found')
-      }
-    }
-    else if (_action === 'delete') {
-      const { cardId } = fields
-
-      if (!cardId)
-        throw abort('cardId required', { data: { caller } })
-
-      await db.delete().from(tableNames.pages).where({ orgId, cardId })
-
-      data = undefined
-    }
-
-    return { status: 'success', data, message }
-  }
 }
 
-type StandardFields = {
+type SiteStandardFields = {
   orgId?: string
   userId?: string
   isPublishingDomains?: boolean
@@ -198,15 +316,17 @@ type StandardFields = {
   disableLog?: boolean
   fields?: Partial<TableSiteConfig>
   where?: WhereSite
+  scope?: 'draft' | 'publish'
 }
 
 export type ManageSiteRequestParams =
   | { _action: 'create', fields: Partial<TableSiteConfig> }
   | { _action: 'update', where: WhereSite, fields: Partial<TableSiteConfig> }
+  | { _action: 'saveDraft', where: WhereSite, fields: Partial<TableSiteConfig> }
   | { _action: 'delete', where: WhereSite }
   | { _action: 'retrieve', where: WhereSite }
 
-export type ManageSiteParams = ManageSiteRequestParams & StandardFields
+export type ManageSiteParams = ManageSiteRequestParams & SiteStandardFields
 
 export class ManageSite extends SitesQuery {
   async run(params: ManageSiteParams, meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
@@ -226,6 +346,9 @@ export class ManageSite extends SitesQuery {
         break
       case 'update':
         result = await this.updateSite(params as ManageSiteParams & { _action: 'update' }, meta)
+        break
+      case 'saveDraft':
+        result = await this.saveDraft(params, meta)
         break
       case 'delete':
         result = await this.deleteSite(params as ManageSiteParams & { _action: 'delete' }, meta)
@@ -252,13 +375,13 @@ export class ManageSite extends SitesQuery {
     const defaultSubDomain = meta.bearer?.email?.split('@')[0] || 'site'
     const mergedFields = deepMerge([themeSite, { subDomain: `${defaultSubDomain}-${shortId({ len: 4 })}` }, fields])
 
-    const prepped = this.settings.fictionDb.prep({ type: 'insert', fields: mergedFields, table: tableNames.sites, meta })
-    const [site] = await this.settings.fictionDb.client().insert({ orgId, userId, ...prepped }).into(tableNames.sites).onConflict('site_id').ignore().returning<TableSiteConfig[]>('*')
+    const prepped = this.settings.fictionDb.prep({ type: 'insert', fields: mergedFields, table: t.sites, meta })
+    const [site] = await this.settings.fictionDb.client().insert({ orgId, userId, ...prepped }).into(t.sites).onConflict('site_id').ignore().returning<TableSiteConfig[]>('*')
 
     if (!site?.siteId)
       throw abort('site not created')
 
-    await this.createSitePages({ siteId: site.siteId, pages: themeSite.pages, userId, orgId }, meta)
+    await this.updateSitePages({ siteId: site.siteId, fields: themeSite.pages || [], userId, orgId, scope: 'publish' }, meta)
     await this.settings.fictionMonitor?.slackNotify({ message: '*New Site Created*', data: site })
 
     return { status: 'success', data: site, message: 'site created' }
@@ -287,15 +410,66 @@ export class ManageSite extends SitesQuery {
       throw abort('orgId required')
 
     const selector = await this.getSiteSelector(where)
-    const prepped = this.settings.fictionDb.prep({ type: 'update', fields, table: tableNames.sites, meta })
+    const prepped = this.settings.fictionDb.prep({ type: 'update', fields, table: t.sites, meta })
 
-    const [updatedSite] = await this.settings.fictionDb.client().update({ orgId, userId, ...prepped }).where({ orgId, ...selector }).into(tableNames.sites).returning<TableSiteConfig[]>('*')
+    const [updatedSite] = await this.settings.fictionDb.client().update({ orgId, userId, ...prepped }).where({ orgId, ...selector }).into(t.sites).returning<TableSiteConfig[]>('*')
 
     if (fields.pages && fields.pages.length) {
-      await this.updateSitePages(updatedSite.siteId, fields.pages, userId, orgId, meta)
+      await this.updateSitePages({ siteId: updatedSite.siteId, fields: fields.pages, userId, orgId, scope: 'publish' }, meta)
     }
 
     return { status: 'success', data: updatedSite, message: 'site saved' }
+  }
+
+  private async saveDraft(params: ManageSiteParams & { _action: 'saveDraft' }, meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
+    const db = this.settings.fictionDb.client()
+    const { where, fields, orgId, userId } = params
+
+    if (!orgId)
+      throw abort('orgId required')
+
+    // Get current date and format
+    const now = new Date()
+    fields.updatedAt = now.toISOString()
+
+    const currentDrafts = await db.select<TableSiteConfig>('draft', 'draft_history')
+      .from(t.sites)
+      .where(where)
+      .first()
+
+    const draft = (currentDrafts?.draft || {}) as TableSiteConfig
+    const draftHistory = (currentDrafts?.draftHistory || []) as TableSiteConfig[]
+    const TEN_MINUTES = 600000
+    // Create or update draft
+    const isNewDraftNeeded = draft.createdAt && (now.getTime() - new Date(draft.createdAt).getTime()) > TEN_MINUTES
+    if (isNewDraftNeeded) {
+      draftHistory.push({ ...draft, archiveAt: now.toISOString() }) // Archive the current draft
+      draft.createdAt = now.toISOString() // Reset creation time for a new draft
+    }
+    const prepped = this.settings.fictionDb.prep({ type: 'update', fields, meta, table: t.sites })
+
+    const keysToRemove = ['draft', 'draftHistory', 'siteId', 'userId', 'orgId']
+
+    keysToRemove.forEach((key) => {
+      delete prepped[key as keyof typeof prepped]
+    })
+
+    // taxonomies are removed by prepare, due to joined table, saved directly in draft
+    const newDraft = { draftId: objectId({ prefix: 'sdf' }), ...draft, ...prepped, updatedAt: now, createdAt: draft.createdAt }
+
+    // Persist the updated draft and history
+    const [site] = await db(t.sites)
+      .where(where)
+      .update({ draft: newDraft, draft_history: draftHistory })
+      .returning<TableSiteConfig[]>('*')
+
+    if (fields.pages && fields.pages.length) {
+      await this.updateSitePages({ siteId: site.siteId, orgId, fields: fields.pages, userId, scope: 'draft' }, meta)
+    }
+
+    const { data: post } = await this.retrieveSite({ _action: 'retrieve', scope: 'draft', caller: 'saveDraft', where }, meta)
+
+    return { status: 'success', data: post }
   }
 
   private async deleteSite(_params: ManageSiteParams & { _action: 'delete' }, _meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
@@ -327,26 +501,17 @@ export class ManageSite extends SitesQuery {
     return updatedResult
   }
 
-  private async createSitePages(args: { siteId: string, pages?: CardConfigPortable[], userId?: string, orgId: string }, meta: EndpointMeta): Promise<void> {
-    const { siteId, pages = [], userId, orgId } = args
-
-    const promises = (pages || []).map(async (page) => {
-      if (!siteId)
-        throw abort('ENDPOINT: siteId missing')
-
-      const fields = { ...page, siteId } as const
-
-      return this.settings.fictionSites.queries.ManagePage.serve({
-        siteId,
-        _action: 'upsert',
-        fields,
-        userId,
-        orgId,
-        caller: 'createSite',
-      }, meta)
-    })
-
-    await Promise.all(promises)
+  private async updateSitePages(args: { siteId: string, fields: TableCardConfig[], userId?: string, orgId: string, scope: 'draft' | 'publish' }, meta: EndpointMeta) {
+    const { siteId, fields, userId, orgId, scope } = args
+    return this.settings.fictionSites.queries.ManagePage.serve({
+      siteId,
+      scope,
+      _action: 'upsert',
+      fields,
+      userId,
+      orgId,
+      caller: 'updateSite',
+    }, meta)
   }
 
   private async fetchSiteWithDetails(selector: WhereSite): Promise<TableSiteConfig | undefined> {
@@ -354,7 +519,7 @@ export class ManageSite extends SitesQuery {
 
     const site = await db
       .select<TableSiteConfig>('*')
-      .from(tableNames.sites)
+      .from(t.sites)
       .where(selector)
       .first()
 
@@ -365,7 +530,7 @@ export class ManageSite extends SitesQuery {
     // Retrieve all pages associated with the siteId
     const pages = await db
       .select()
-      .from(tableNames.pages)
+      .from(t.pages)
       .where({ siteId: site.siteId })
 
     // Assign the pages to the site object
@@ -373,30 +538,12 @@ export class ManageSite extends SitesQuery {
 
     const domains = await db
       .select()
-      .from(tableNames.domains)
+      .from(t.domains)
       .where({ siteId: site.siteId })
 
     site.customDomains = domains
 
     return site
-  }
-
-  private async updateSitePages(siteId: string, pages: any[], userId: string, orgId: string, meta: EndpointMeta): Promise<void> {
-    const upsertPromises = pages.map(async (page) => {
-      if (!siteId)
-        return
-
-      return this.settings.fictionSites.queries.ManagePage.serve({
-        siteId,
-        _action: 'upsert',
-        fields: { siteId, ...page },
-        userId,
-        orgId,
-        caller: 'updateSite',
-      }, meta)
-    })
-
-    await Promise.all(upsertPromises)
   }
 
   async createSiteFromTheme(params: ManageSiteParams & { _action: 'create' }, _meta: EndpointMeta): Promise<Partial<TableSiteConfig>> {
@@ -425,7 +572,7 @@ export class ManageSite extends SitesQuery {
       const db = this.settings.fictionDb.client()
       const domains = await db
         .select<TableDomainConfig[]>('*')
-        .from(tableNames.domains)
+        .from(t.domains)
         .where({ hostname })
 
       if (domains && domains.length) {
@@ -480,14 +627,14 @@ export class ManageSites extends SitesQuery {
     if (_action === 'list') {
       let baseQuery = db
         .select([
-          `${tableNames.sites}.*`,
+          `${t.sites}.*`,
         ])
-        .from(tableNames.sites)
-        .where(`${tableNames.sites}.org_id`, orgId)
+        .from(t.sites)
+        .where(`${t.sites}.org_id`, orgId)
         .limit(limit)
         .offset(offset)
         .orderBy('updatedAt', 'desc')
-        .groupBy(`${tableNames.sites}.site_id`)
+        .groupBy(`${t.sites}.site_id`)
 
       baseQuery = applyComplexFilters(baseQuery, filters)
 
@@ -497,7 +644,7 @@ export class ManageSites extends SitesQuery {
 
       const r = await db
         .count<{ count: string }>('*')
-        .from(tableNames.sites)
+        .from(t.sites)
         .where({ orgId })
         .first()
 

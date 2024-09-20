@@ -2,18 +2,18 @@ import type { ColType } from '@fiction/core'
 import type { CardGenerationConfig } from './generation.js'
 import type { SiteUserConfig } from './schema.js'
 import type { EditorState } from './site.js'
-import { validHost } from '@fiction/core'
+import { standardTable, validHost } from '@fiction/core'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
 import { z } from 'zod'
 
-export const tableNames = { sites: 'fiction_site', pages: 'fiction_site_pages', domains: 'fiction_site_domains' }
+export const t = { sites: 'fiction_site', pages: 'fiction_site_pages', domains: 'fiction_site_domains', ...standardTable }
 
 type st = { updatedAt?: string, createdAt?: string }
 
 export const pageRegionIds = ['header', 'main', 'footer', 'aside', 'article', 'section'] as const
 export type PageRegion = typeof pageRegionIds[number] | string
 
-export type TableSiteConfig = ColType<typeof siteCols> & st & { pages: CardConfigPortable[] }
+export type TableSiteConfig = Omit<ColType<typeof siteCols>, 'draft' | 'draftHistory'> & st & { pages: CardConfigPortable[], draft: TableSiteConfig, draftHistory: TableSiteConfig[] }
 
 type TablePageCardConfig = Partial<ColType<typeof pageCols>>
 
@@ -54,11 +54,14 @@ export const siteCols = [
   new Col({ key: 'userPrivate', sec: 'private', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'editor', sec: 'setting', sch: () => z.record(z.unknown()) as z.Schema<Partial<EditorState>>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'sections', sec: 'setting', sch: () => z.record(z.unknown()) as z.Schema<Record<string, CardConfigPortable>>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
+  new Col({ key: 'draft', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
+  new Col({ key: 'draftHistory', sec: 'setting', sch: () => z.array(z.record(z.unknown())), make: ({ s, col }) => s.jsonb(col.k).defaultTo([]) }),
+  new Col({ key: 'archiveAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
 ] as const
 
 export const pageCols = [
   new Col({ key: 'cardId', sec: 'permanent', sch: () => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('card')`)).index() }),
-  new Col({ key: 'siteId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`${tableNames.sites}.site_id`).onUpdate('CASCADE').notNullable().index() }),
+  new Col({ key: 'siteId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`${t.sites}.site_id`).onUpdate('CASCADE').notNullable().index() }),
   new Col({ key: 'userId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`fiction_user.user_id`) }),
   new Col({ key: 'orgId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`fiction_org.org_id`).onUpdate('CASCADE').notNullable() }),
   new Col({ key: 'regionId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('main') }),
@@ -75,11 +78,13 @@ export const pageCols = [
   new Col({ key: 'is404', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
   new Col({ key: 'editor', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'generation', sec: 'setting', sch: () => z.record(z.unknown()) as z.Schema<CardGenerationConfig>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
+  new Col({ key: 'draft', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
+  new Col({ key: 'draftHistory', sec: 'setting', sch: () => z.array(z.record(z.unknown())), make: ({ s, col }) => s.jsonb(col.k).defaultTo([]) }),
 ] as const
 
 export const domainCols = [
   new Col({ key: 'domainId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('dmn')`)).index() }),
-  new Col({ key: 'siteId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`${tableNames.sites}.site_id`).onUpdate('CASCADE').notNullable().index() }),
+  new Col({ key: 'siteId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`${t.sites}.site_id`).onUpdate('CASCADE').notNullable().index() }),
   new Col({ key: 'hostname', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k).notNullable().index() }),
   new Col({ key: 'isPrimary', sec: 'setting', sch: ({ z }) => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
   new Col({ key: 'dnsValidationHostname', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k).defaultTo('') }),
@@ -91,7 +96,7 @@ export const domainCols = [
 ] as const
 
 export const tables = [
-  new FictionDbTable({ tableKey: tableNames.sites, timestamps: true, cols: siteCols }),
-  new FictionDbTable({ tableKey: tableNames.pages, timestamps: true, cols: pageCols, onCreate: t => t.unique(['site_id', 'slug']) }),
-  new FictionDbTable({ tableKey: tableNames.domains, timestamps: true, cols: domainCols, onCreate: t => t.unique(['site_id', 'hostname']) }),
+  new FictionDbTable({ tableKey: t.sites, timestamps: true, cols: siteCols }),
+  new FictionDbTable({ tableKey: t.pages, timestamps: true, cols: pageCols, onCreate: t => t.unique(['site_id', 'slug']) }),
+  new FictionDbTable({ tableKey: t.domains, timestamps: true, cols: domainCols, onCreate: t => t.unique(['site_id', 'hostname']) }),
 ]

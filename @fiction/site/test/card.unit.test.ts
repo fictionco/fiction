@@ -53,7 +53,7 @@ describe('card', async () => {
 
   it('card generates correct prompt for content creation', () => {
     const prompt = generation.prompt.value
-    expect(prompt).toMatchInlineSnapshot(`"create content for the "Test Card" card"`)
+    expect(prompt).toMatchInlineSnapshot(`"create content for the "Test Card" website section"`)
     expect(prompt.toLowerCase()).toContain('test card')
     // Adjust based on actual prompt structure
   })
@@ -81,36 +81,22 @@ describe('card', async () => {
     const inputConfig = generation.jsonPropConfig.value
 
     expect(inputConfig).toEqual(expect.objectContaining({
-      actions: expect.any(Object),
       heading: expect.any(Object),
-      layout: expect.any(Object),
+      overlays: expect.any(Object),
+      splash: expect.any(Object),
       subHeading: expect.any(Object),
+      superColor: expect.any(Object),
       superHeading: expect.any(Object),
+      superIcon: expect.any(Object),
+
     }))
 
-    expect(inputConfig.actions.label).toEqual('Actions')
     expect(inputConfig.subHeading.label).toEqual('Sub Heading')
 
     expect(Object.values(inputConfig).filter(c => c.isUserEnabled && c.hasTag).length).toBe(2)
 
     expect(inputConfig).toMatchInlineSnapshot(`
       {
-        "actions": {
-          "cumulativeTime": 8000,
-          "estimatedMs": 4000,
-          "hasTag": false,
-          "key": "actions",
-          "label": "Actions",
-          "prompt": "List of link buttons",
-        },
-        "caption": {
-          "cumulativeTime": 8000,
-          "estimatedMs": 4000,
-          "hasTag": false,
-          "key": "caption",
-          "label": "Caption",
-          "prompt": "Caption for the splash image",
-        },
         "heading": {
           "cumulativeTime": 4000,
           "estimatedMs": 4000,
@@ -120,18 +106,10 @@ describe('card', async () => {
           "label": "Heading",
           "prompt": "Primary hero headline, 3 to 13 words",
         },
-        "layout": {
-          "cumulativeTime": 0,
-          "estimatedMs": 4000,
-          "hasTag": false,
-          "key": "layout",
-          "label": "Layout",
-          "prompt": "Alignment style of text and images",
-        },
         "overlays": {
           "cumulativeTime": 8000,
           "estimatedMs": 4000,
-          "hasTag": false,
+          "hasTag": true,
           "key": "overlays",
           "label": "Overlays",
           "prompt": "Overlays to be placed on top of the splash image",
@@ -139,10 +117,10 @@ describe('card', async () => {
         "splash": {
           "cumulativeTime": 8000,
           "estimatedMs": 4000,
-          "hasTag": false,
+          "hasTag": true,
           "key": "splash",
           "label": "Splash",
-          "prompt": "Splash picture for hero [TIME:40000]",
+          "prompt": "Splash picture for hero",
         },
         "subHeading": {
           "cumulativeTime": 8000,
@@ -156,7 +134,7 @@ describe('card', async () => {
         "superColor": {
           "cumulativeTime": 8000,
           "estimatedMs": 4000,
-          "hasTag": false,
+          "hasTag": true,
           "key": "superColor",
           "label": "Super Color",
           "prompt": "change color of super heading",

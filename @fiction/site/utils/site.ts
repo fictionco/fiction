@@ -95,8 +95,8 @@ export async function localSiteConfig(args: { siteId: string, fields?: Partial<T
   return conf
 }
 
-export async function saveSite(args: { site: Site, onlyKeys?: (keyof TableSiteConfig)[], delayUntilSaveConfig?: Partial<TableSiteConfig>, successMessage: string, isPublishingDomains?: boolean, minTime?: number }) {
-  const { site, onlyKeys, delayUntilSaveConfig, successMessage, isPublishingDomains, minTime } = args
+export async function saveSite(args: { site: Site, scope?: 'draft' | 'publish', onlyKeys?: (keyof TableSiteConfig)[], delayUntilSaveConfig?: Partial<TableSiteConfig>, successMessage: string, isPublishingDomains?: boolean, minTime?: number }) {
+  const { site, onlyKeys, delayUntilSaveConfig, successMessage, isPublishingDomains, minTime, scope = 'publish' } = args
 
   const config = site.toConfig()
 

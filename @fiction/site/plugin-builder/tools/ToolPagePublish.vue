@@ -11,7 +11,7 @@ import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElModalConfirm from '@fiction/ui/ElModalConfirm.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
-import { tableNames } from '../../tables'
+import { t } from '../../tables'
 import { activeSiteHostname, saveSite } from '../../utils/site'
 
 const props = defineProps({
@@ -42,7 +42,7 @@ const options: InputOption[] = [
         props: {
           beforeInput: 'https://',
           afterInput: getSuffixUrl(),
-          table: tableNames.sites,
+          table: t.sites,
           columns: [{ name: 'subDomain' }],
           uiSize: 'lg',
         },

@@ -116,18 +116,19 @@ describe('site plugin tests', async () => {
       {
         siteId: site.siteId,
         _action: 'upsert',
-        fields: { siteId: site.siteId, title, slug },
+        fields: [{ siteId: site.siteId, title, slug }],
         userId,
         orgId,
         caller: 'testRegionCreation',
+        scope: 'publish',
       },
       { server: true, caller: 'testRegionCreationNo1' },
     )
 
-    if (!r?.data)
+    if (!r?.data?.[0])
       throw new Error('problem creating region')
 
-    const region = r.data
+    const region = r.data[0]
     expect(region).toBeTruthy()
 
     expect(region.title).toBe(title)
@@ -142,16 +143,13 @@ describe('site plugin tests', async () => {
         "description": "",
         "editor": {},
         "effects": "",
-        "generation": {
-          "prompt": "create content for the "test" card ",
-          "totalEstimatedTime": 0,
-          "userPropConfig": {},
-        },
+        "generation": {},
         "is404": false,
         "isHome": false,
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
         "regionId": "[id:****]",
+        "single": {},
         "siteId": "[id:***************************]",
         "slug": "test",
         "templateId": "[id:****]",
@@ -166,10 +164,11 @@ describe('site plugin tests', async () => {
       {
         siteId: site.siteId,
         _action: 'delete',
-        fields: { siteId: site?.siteId, cardId: region.cardId },
+        where: [{ cardId: region.cardId || '' }],
         userId,
         orgId,
         caller: 'testRegionCreationNo2',
+        scope: 'publish',
       },
       { server: true },
     )
@@ -276,7 +275,7 @@ describe('site plugin tests', async () => {
     expect(m['']).toBe(m.home)
 
     expect(site.currentViewId.value).toMatchInlineSnapshot(`"test"`)
-    expect(site.currentPage.value?.settings.isHome).toMatchInlineSnapshot(`false`)
+    expect(site.currentPage.value?.settings.isHome).toMatchInlineSnapshot(`undefined`)
     expect(site.activePageId.value).toBeTruthy()
 
     const nm = 'testAlpha'
@@ -306,16 +305,13 @@ describe('site plugin tests', async () => {
         "description": "",
         "editor": {},
         "effects": "",
-        "generation": {
-          "prompt": "create content for the "testAlpha" card on the "test" page",
-          "totalEstimatedTime": 0,
-          "userPropConfig": {},
-        },
+        "generation": {},
         "is404": false,
         "isHome": false,
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
         "regionId": "[id:****]",
+        "single": {},
         "siteId": "[id:***************************]",
         "slug": "testalpha",
         "templateId": "[id:****]",
@@ -339,16 +335,13 @@ describe('site plugin tests', async () => {
         "description": "",
         "editor": {},
         "effects": "",
-        "generation": {
-          "prompt": "create content for the "testAlpha" card on the "test" page",
-          "totalEstimatedTime": 0,
-          "userPropConfig": {},
-        },
+        "generation": {},
         "is404": false,
         "isHome": false,
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
         "regionId": "[id:****]",
+        "single": {},
         "siteId": "[id:***************************]",
         "slug": "testalpha",
         "templateId": "[id:****]",
@@ -397,16 +390,13 @@ describe('site plugin tests', async () => {
         "description": "",
         "editor": {},
         "effects": "",
-        "generation": {
-          "prompt": "create content for the "testAlpha" card on the "test" page",
-          "totalEstimatedTime": 0,
-          "userPropConfig": {},
-        },
+        "generation": {},
         "is404": false,
         "isHome": false,
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
         "regionId": "[id:****]",
+        "single": {},
         "siteId": "[id:***************************]",
         "slug": "testalpha",
         "templateId": "[id:****]",
@@ -434,16 +424,13 @@ describe('site plugin tests', async () => {
         "description": "",
         "editor": {},
         "effects": "",
-        "generation": {
-          "prompt": "create content for the "testAlpha" card on the "test" page",
-          "totalEstimatedTime": 0,
-          "userPropConfig": {},
-        },
+        "generation": {},
         "is404": false,
         "isHome": false,
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
         "regionId": "[id:****]",
+        "single": {},
         "siteId": "[id:***************************]",
         "slug": "testalpha",
         "templateId": "[id:****]",
@@ -476,16 +463,13 @@ describe('site plugin tests', async () => {
         "description": "",
         "editor": {},
         "effects": "",
-        "generation": {
-          "prompt": "create content for the "testAlpha" card on the "test" page",
-          "totalEstimatedTime": 0,
-          "userPropConfig": {},
-        },
+        "generation": {},
         "is404": false,
         "isHome": false,
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
         "regionId": "[id:****]",
+        "single": {},
         "siteId": "[id:***************************]",
         "slug": "testalpha",
         "templateId": "[id:****]",
@@ -529,16 +513,13 @@ describe('site plugin tests', async () => {
         "description": "",
         "editor": {},
         "effects": "",
-        "generation": {
-          "prompt": "create content for the "testAlpha" card on the "test" page",
-          "totalEstimatedTime": 0,
-          "userPropConfig": {},
-        },
+        "generation": {},
         "is404": false,
         "isHome": false,
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
         "regionId": "[id:****]",
+        "single": {},
         "siteId": "[id:***************************]",
         "slug": "testalpha",
         "templateId": "[id:****]",

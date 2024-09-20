@@ -1,7 +1,7 @@
 import { shortId } from '@fiction/core'
 import { describe, expect, it } from 'vitest'
 import { requestManageSite } from '../../load.js'
-import { tableNames } from '../../tables.js'
+import { t } from '../../tables.js'
 import { createSiteTestUtils } from '../../test/testUtils.js'
 import { updateSiteCerts } from '../cert.js'
 import { saveSite } from '../site.js'
@@ -35,14 +35,14 @@ describe('updateSiteCerts', async () => {
 
   it('removes certs when custom domains are removed', async () => {
     const existingDomain = { hostname: `existing-${shortId()}.test.com` }
-    await testUtils.fictionDb.client()(tableNames.domains).insert({
+    await testUtils.fictionDb.client()(t.domains).insert({
       siteId: site.siteId,
       hostname: existingDomain.hostname,
     })
     const siteId = site.siteId
     const updatedDomains = await updateSiteCerts({ siteId, customDomains: [], fictionSites, fictionDb }, {})
 
-    const domainExists = await testUtils.fictionDb.client()(tableNames.domains).where({ hostname: existingDomain.hostname }).first()
+    const domainExists = await testUtils.fictionDb.client()(t.domains).where({ hostname: existingDomain.hostname }).first()
 
     expect(updatedDomains).toHaveLength(0)
     expect(domainExists).toBeUndefined()

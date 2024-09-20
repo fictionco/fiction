@@ -1,6 +1,6 @@
 import type { Site } from '../index.js'
 import type { CardConfigPortable, PageRegion, TableCardConfig } from '../tables.js'
-import { log } from '@fiction/core'
+import { type EndpointResponse, log } from '@fiction/core'
 import { Card } from '../card.js'
 
 const logger = log.contextLogger('regionUtils')
@@ -46,15 +46,33 @@ export async function requestManagePage(args: {
 
   logger.info(`${caller}: requesting region action: ${_action}`, { data: { fields, successMessage } })
 
-  const r = await site.fictionSites.requests.ManagePage.projectRequest({
+  const common = {
     siteId: site.siteId,
-    _action,
-    fields: { ...fields },
+    scope: 'publish',
     successMessage,
     caller: `requestManagePage:${caller}:${_action}`,
-  })
+  } as const
 
-  const cardConfig = r.data
+  let r: EndpointResponse<TableCardConfig[]>
+  if (_action === 'delete') {
+    if (!fields.cardId)
+      throw new Error('cardId is required for delete action.')
+
+    r = await site.fictionSites.requests.ManagePage.projectRequest({
+      ...common,
+      where: [{ cardId: fields.cardId }],
+      _action,
+    })
+  }
+  else {
+    r = await site.fictionSites.requests.ManagePage.projectRequest({
+      ...common,
+      _action,
+      fields: [fields],
+    })
+  }
+
+  const cardConfig = r.data?.[0]
 
   const updatePageAction = () => {
     if (_action === 'delete') {

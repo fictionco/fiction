@@ -59,61 +59,62 @@ describe('special slug handling for _home', async () => {
   it('should rename existing _home to old-home if a new _home is created', async () => {
     const pg = site.pages.value.find(p => p.slug.value === '_home')
     await testUtils.fictionSites.queries.ManagePage.run(
-      { _action: 'upsert', siteId, fields: { ...fields, cardId: pg?.cardId, siteId, slug: '_home' }, orgId, userId, caller },
+      { _action: 'upsert', siteId, fields: [{ ...fields, cardId: pg?.cardId, siteId, slug: '_home' }], orgId, userId, caller, scope: 'publish' },
       { server: true },
     )
 
-    // Verify that the first page's slug has been renamed to 'old-home'
+    // Verify that old-home doesn't exist
     const response1 = await testUtils.fictionSites.queries.ManagePage.serve(
-      { _action: 'retrieve', siteId, fields: { siteId, slug: 'old-home' }, orgId, userId, caller },
+      { _action: 'retrieve', siteId, where: [{ slug: 'old-home' }], orgId, userId, caller, scope: 'publish' },
       { server: true },
     )
 
     expect(response1.status).toBe('error')
+    expect(response1.data?.length).toBe(0)
 
     // Attempt to create another page with the same slug '_home'
     await testUtils.fictionSites.queries.ManagePage.run(
-      { _action: 'upsert', siteId, fields: { ...fields, cardId: objectId(), siteId, slug: '_home' }, orgId, userId, caller },
+      { _action: 'upsert', siteId, fields: [{ ...fields, cardId: objectId(), siteId, slug: '_home' }], orgId, userId, caller, scope: 'publish' },
       { server: true },
     )
 
     // Verify that the first page's slug has been renamed to 'old-home'
     const response2 = await testUtils.fictionSites.queries.ManagePage.serve(
-      { _action: 'retrieve', siteId, fields: { siteId, slug: 'old-home' }, orgId, userId, caller },
+      { _action: 'retrieve', siteId, where: [{ slug: 'old-home' }], orgId, userId, caller, scope: 'publish' },
       { server: true },
     )
 
     expect(response2.status).toBe('success')
-    expect(response2.data?.slug).toMatchInlineSnapshot(`"old-home"`)
+    expect(response2.data?.[0]?.slug).toMatchInlineSnapshot(`"old-home"`)
 
     // Assuming the renaming and iteration logic is correctly implemented
     // After creating two _home pages and having the first renamed to 'old-home'
     // Create a third page with slug '_home'
     await testUtils.fictionSites.queries.ManagePage.run(
-      { _action: 'upsert', siteId, fields: { ...fields, cardId: objectId(), siteId, slug: '_home' }, orgId, userId, caller },
+      { _action: 'upsert', siteId, fields: [{ ...fields, cardId: objectId(), siteId, slug: '_home' }], orgId, userId, caller, scope: 'publish' },
       { server: true },
     )
 
     // Verify the second _home page's slug has been renamed to 'old-home-1'
     const response3 = await testUtils.fictionSites.queries.ManagePage.run(
-      { _action: 'retrieve', siteId, fields: { siteId, slug: 'old-home-1' }, orgId, userId, caller },
+      { _action: 'retrieve', siteId, where: [{ slug: 'old-home-1' }], orgId, userId, caller, scope: 'publish' },
       { server: true },
     )
 
     expect(response3.status).toBe('success')
-    expect(response3.data?.slug).toBe('old-home-1')
+    expect(response3.data?.[0]?.slug).toBe('old-home-1')
   })
 
   it('should handle creation of a page with a slug starting with underscore other than _home', async () => {
     // Create a page with slug '_about'
     const response = await testUtils.fictionSites.queries.ManagePage.run(
-      { _action: 'upsert', siteId, fields: { ...fields, siteId: site.siteId, slug: '_about' }, orgId, userId, caller },
+      { _action: 'upsert', siteId, fields: [{ ...fields, siteId: site.siteId, slug: '_about' }], orgId, userId, caller, scope: 'publish' },
       { server: true },
     )
 
     expect(response.status).toBe('success')
     // The slug should be directly transformed to 'old-about' without needing iteration
-    expect(response.data?.slug).toBe('_about')
+    expect(response.data?.[0]?.slug).toBe('_about')
   })
 })
 
@@ -144,68 +145,68 @@ describe('upsert action', async () => {
 
   it('should upsert a region', async () => {
     const response = await testUtils.fictionSites.queries.ManagePage.run(
-      { _action: 'upsert', siteId, fields: { ...fields, siteId: site.siteId, slug: 'r' }, orgId, userId, caller },
+      { _action: 'upsert', siteId, fields: [{ ...fields, siteId: site.siteId, slug: 'r' }], orgId, userId, caller, scope: 'publish' },
       { server: true },
     )
 
     expect(response.status).toBe('success')
-    expect(response.data?.slug).toBe('r')
+    expect(response.data?.[0]?.slug).toBe('r')
   })
 
   it('should not change viewId if cardId is the same', async () => {
     const response = await testUtils.fictionSites.queries.ManagePage.run(
-      { _action: 'upsert', siteId, fields: { ...fields, siteId: site.siteId, slug: 'r' }, orgId, userId, caller },
+      { _action: 'upsert', siteId, fields: [{ ...fields, siteId: site.siteId, slug: 'r' }], orgId, userId, caller, scope: 'publish' },
       { server: true },
     )
 
     expect(response.status).toBe('success')
-    expect(response.data?.slug).toBe('r')
+    expect(response.data?.[0]?.slug).toBe('r')
   })
 
   it('should update region', async () => {
     const userConfig = { ...fields.userConfig, foo: 'bar' }
     const response = await testUtils.fictionSites.queries.ManagePage.run(
-      { _action: 'upsert', siteId, fields: { ...fields, userConfig, siteId: site.siteId, slug: 'r' }, orgId, userId, caller },
+      { _action: 'upsert', siteId, fields: [{ ...fields, userConfig, siteId: site.siteId, slug: 'r' }], orgId, userId, caller, scope: 'publish' },
       { server: true },
     )
 
     expect(response.status).toBe('success')
-    expect(response.data?.userConfig).toEqual({ foo: 'bar' })
+    expect(response.data?.[0]?.userConfig).toEqual({ foo: 'bar' })
   })
 
   it('should iterate viewId if cardId is different', async () => {
     const response = await testUtils.fictionSites.queries.ManagePage.run(
-      { _action: 'upsert', siteId, fields: { ...fields, cardId: 'another', siteId: site.siteId, slug: 'r' }, orgId, userId, caller },
+      { _action: 'upsert', siteId, fields: [{ ...fields, cardId: 'another', siteId: site.siteId, slug: 'r' }], orgId, userId, caller, scope: 'publish' },
       { server: true },
     )
 
     expect(response.status).toBe('success')
-    expect(response.data?.slug).toBe('r-1')
+    expect(response.data?.[0]?.slug).toBe('r-1')
   })
 
   it('should get a region successfully', async () => {
     await testUtils.fictionSites.queries.ManagePage.run(
-      { _action: 'upsert', siteId, fields: { ...fields, siteId: site.siteId, cardId: 'xxx', slug: 'yyy' }, orgId, userId, caller },
+      { _action: 'upsert', siteId, fields: [{ ...fields, siteId: site.siteId, cardId: 'xxx', slug: 'yyy' }], orgId, userId, caller, scope: 'publish' },
       { server: true },
     )
 
     const r = await testUtils.fictionSites.queries.ManagePage.run(
-      { _action: 'retrieve', siteId, fields: { siteId: site.siteId, cardId: 'xxx' }, orgId, userId, caller },
+      { _action: 'retrieve', siteId, where: [{ cardId: 'xxx' }], orgId, userId, caller, scope: 'publish' },
       { server: true },
     )
 
     expect(r.status).toBe('success')
-    expect(r.data?.slug).toBe('yyy')
+    expect(r.data?.[0]?.slug).toBe('yyy')
   })
 
   it('should delete a region successfully', async () => {
     await testUtils.fictionSites.queries.ManagePage.run(
-      { _action: 'upsert', siteId, fields: { ...fields, siteId: site.siteId, cardId: 'xxx', slug: 'yyy' }, orgId, userId, caller },
+      { _action: 'upsert', siteId, fields: [{ ...fields, siteId: site.siteId, cardId: 'xxx', slug: 'yyy' }], orgId, userId, caller, scope: 'publish' },
       { server: true },
     )
 
     const deleteResponse = await testUtils.fictionSites.queries.ManagePage.run(
-      { _action: 'delete', siteId, fields: { siteId: site.siteId, cardId: 'xxx' }, orgId, userId, caller },
+      { _action: 'delete', siteId, where: [{ cardId: 'xxx' }], orgId, userId, caller, scope: 'publish' },
       { server: true },
     )
 

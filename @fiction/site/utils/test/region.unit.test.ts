@@ -232,8 +232,9 @@ describe('requestManagePage', async () => {
     const r = await site.fictionSites.requests.ManagePage.projectRequest({
       siteId: site.siteId,
       _action: 'retrieve',
-      fields: { cardId: cc1?.cardId, siteId: site.siteId },
+      where: [{ cardId: cc1?.cardId || '' }],
       caller: 'retrieveAttemptAfterDelete',
+      scope: 'publish',
     })
 
     expect(r.status).toBe('error')

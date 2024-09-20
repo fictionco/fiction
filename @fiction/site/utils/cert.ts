@@ -1,7 +1,7 @@
 import type { FictionSites } from '..'
 import type { TableDomainConfig } from '../tables'
 import { _stop, type EndpointMeta, type FictionDb, validHost } from '@fiction/core'
-import { tableNames } from '../tables'
+import { t } from '../tables'
 
 export async function updateSiteCerts(args: { siteId: string, customDomains?: Partial<TableDomainConfig>[], fictionSites: FictionSites, fictionDb: FictionDb }, meta: EndpointMeta) {
   const { siteId, customDomains = [], fictionSites, fictionDb } = args
@@ -10,7 +10,7 @@ export async function updateSiteCerts(args: { siteId: string, customDomains?: Pa
 
   const validUserDomains = customDomains.map(d => ({ ...d, hostname: validHost(d.hostname) })).filter(Boolean) as Partial<TableDomainConfig>[]
 
-  const existingDomains = await db(tableNames.domains).select<TableDomainConfig[]>('*').where({ siteId })
+  const existingDomains = await db(t.domains).select<TableDomainConfig[]>('*').where({ siteId })
 
   await Promise.all(existingDomains.map(async (domain) => {
     if (validUserDomains?.some(d => d.hostname === domain.hostname))
@@ -21,7 +21,7 @@ export async function updateSiteCerts(args: { siteId: string, customDomains?: Pa
     if (result.status !== 'success')
       throw _stop('cert not deleted', { data: { domain, result } })
 
-    await db(tableNames.domains).delete().where({ hostname: domain.hostname, siteId })
+    await db(t.domains).delete().where({ hostname: domain.hostname, siteId })
   }))
 
   const domains = (await Promise.all(validUserDomains?.map(async (domain) => {
@@ -35,8 +35,8 @@ export async function updateSiteCerts(args: { siteId: string, customDomains?: Pa
     const result = await fictionSites.queries.ManageCert.serve({ _action: 'create', hostname, siteId }, { caller: 'updateSiteCerts' })
 
     if (result.status === 'success' && result.data) {
-      const prepped = fictionDb.prep({ type: 'internal', fields: { ...domain, ...result.data }, table: tableNames.domains, meta })
-      return (await db(tableNames.domains)
+      const prepped = fictionDb.prep({ type: 'internal', fields: { ...domain, ...result.data }, table: t.domains, meta })
+      return (await db(t.domains)
         .insert({ siteId, hostname: domain.hostname, ...prepped })
         .onConflict(['hostname', 'site_id'])
         .merge()

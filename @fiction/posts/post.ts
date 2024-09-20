@@ -20,7 +20,7 @@ export class Post extends FictionObject<PostConfig> {
   tags = vue.ref(this.settings.taxonomy?.filter(_ => _.type === 'tag') || [])
   categories = vue.ref(this.settings.taxonomy?.filter(_ => _.type === 'category') || [])
   authors = vue.ref(this.settings.authors || [])
-  sites = vue.ref(this.settings.sites || [])
+  sites = vue.shallowRef(this.settings.sites || [])
   dateAt = vue.ref(this.settings.dateAt || new Date().toISOString())
   userConfig = vue.ref(this.settings.userConfig || {})
   isDirty = vue.ref(false)
@@ -90,7 +90,7 @@ export class Post extends FictionObject<PostConfig> {
 
     this.saveTimeout = setTimeout(() => {
       this.save({ mode: 'draft' }).catch(console.error) // Error handling
-    }, 2000) // Set a new timeout for 10 seconds
+    }, 2000) // Set a new timeout for 2 seconds
   }
 
   async save(args: { mode: 'publish' | 'draft' | 'schedule', publishAt?: string }) {
