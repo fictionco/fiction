@@ -25,15 +25,9 @@ describe('admin site pages', async () => {
         { type: 'visible', selector: `[data-test-id="layout-card-hero"]` },
         { type: 'click', selector: `[data-test-id="tool-button-managePages"]` },
         { type: 'click', selector: `[data-test-id="addPage"]` },
-        { type: 'fill', selector: `[data-key="title"] input`, text: `New Page ${slugId}` },
+        { type: 'fill', selector: `[data-option-path="title"] input`, text: `New Page ${slugId}` },
         { type: 'click', selector: `[data-test-id="requestCreateNewPage"]` },
         { type: 'visible', selector: `[data-test-id="page-new-page-${slugId}"]` },
-        // { type: 'click', selector: `[data-test-id="createSite"]` },
-        // { type: 'fill', selector: `[data-test-id="siteName"] input`, text: 'Test Site' },
-        // { type: 'click', selector: `[data-test-id="createSiteModal"] .xbutton` },
-        // { type: 'click', selector: `[data-test-id="createSiteModal"] [data-test-index="0"]` },
-        // { type: 'click', selector: `[data-test-id="createSiteModal"] .xbutton` },
-        // { type: 'visible', selector: `[data-view-id="edit-site"]` },
       ],
     })
   })

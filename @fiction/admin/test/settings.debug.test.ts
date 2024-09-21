@@ -21,12 +21,12 @@ describe('settings e2e', async () => {
       path: '/app/settings',
       actions: [
         { type: 'visible', selector: `[data-settings-tool="${first}"]` },
-        { type: 'fill', selector: `[data-key="orgName"] input`, text: 'Org Name Test' },
-        { type: 'fill', selector: `[data-key="orgEmail"] input`, text: 'billing@example.com' },
-        { type: 'fill', selector: `[data-key="avatar"] input[type="text"]`, text: 'https://example.com/image.jpg' },
-        { type: 'fill', selector: `[data-key="publication.tagline"] input`, text: 'Test Description' },
-        { type: 'fill', selector: `[data-key="publication.email"] input`, text: 'test@example.com' },
-        { type: 'fill', selector: `[data-key="publication.sender"] input`, text: 'Alvin the Chipmunk' },
+        { type: 'fill', selector: `[data-option-path="orgName"] input`, text: 'Org Name Test' },
+        { type: 'fill', selector: `[data-option-path="orgEmail"] input`, text: 'billing@example.com' },
+        { type: 'fill', selector: `[data-option-path="avatar"] input[type="text"]`, text: 'https://example.com/image.jpg' },
+        { type: 'fill', selector: `[data-option-path="publication.tagline"] input`, text: 'Test Description' },
+        { type: 'fill', selector: `[data-option-path="publication.email"] input`, text: 'test@example.com' },
+        { type: 'fill', selector: `[data-option-path="publication.sender"] input`, text: 'Alvin the Chipmunk' },
         { type: 'click', selector: `[data-test-id="save"]` },
         { type: 'visible', selector: `[data-settings-tool="${first}"]` },
         { type: 'value', selector: `[data-settings-tool]`, callback: (value) => {

@@ -160,7 +160,7 @@ function getGroupHeaderClasses(opt: InputOption) {
           <ElInput
             v-if="opt.isHidden.value !== true"
             :ui-size="uiSize"
-            :data-key="opt.key.value"
+            :data-option-path="opt.key.value"
             class="setting-input"
             :input-class="opt.settings.inputClass || 'max-w-md'"
             v-bind="{ ...inputProps, ...opt.outputProps.value }"

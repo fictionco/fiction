@@ -36,12 +36,12 @@ const containerStyle = vue.computed(() => {
   const style: Record<string, string> = {}
 
   // Set theme and primary color variables
-  if (colorScheme.value?.theme) {
+  if (colorScheme.value?.theme && colorScheme.value?.theme !== 'gray') {
     const theme = getColorScheme(colorScheme.value?.theme || 'gray')
     Object.entries(theme).forEach(([k, v]) => style[`--theme-${k}`] = v)
   }
 
-  if (colorScheme.value?.primary) {
+  if (colorScheme.value?.primary && colorScheme.value?.primary !== 'primary') {
     const primary = getColorScheme(colorScheme.value?.primary || 'blue')
     Object.entries(primary).forEach(([k, v]) => style[`--primary-${k}`] = v)
   }
@@ -105,6 +105,8 @@ const autoSetDark = vue.computed(() => {
     :data-font-title="standardUc?.fontStyle?.title?.fontKey"
     :data-font-body="standardUc?.fontStyle?.body?.fontKey"
     :data-card-depth="card.depth.value"
+    :data-primary-scheme="colorScheme?.primary"
+    :data-theme-scheme="colorScheme?.theme"
   >
     <div class="w-full relative text-theme-950 dark:text-theme-50 x-font-body ">
       <div>

@@ -130,11 +130,13 @@ vue.onMounted(async () => {
       class="rounded-md border border-theme-300 dark:border-theme-600 mb-2 shadow-sm bg-theme-0 dark:bg-theme-800 cursor-pointer text-theme-700 dark:text-theme-100"
       :data-drag-id="item._key"
       :data-drag-depth="depth"
+      :data-handle-index="i"
     >
       <div
         class="px-1 py-1 bg-theme-50/50 dark:bg-theme-600/50 hover:bg-theme-50 text-xs font-mono  font-medium flex justify-between items-center"
         :class="openItem === i ? 'rounded-t-md border-b border-theme-200 dark:border-theme-600' : 'rounded-md'"
         :data-drag-handle="depth"
+        data-test-id="handle"
         @click="toggleItem(i)"
       >
         <div class="flex gap-1 items-center cursor-move">
@@ -156,6 +158,7 @@ vue.onMounted(async () => {
                 v-bind="opt.outputProps.value"
                 :depth="depth + 1"
                 :input="opt.input.value"
+                :data-option-path="opt.key.value"
                 :model-value="getNested({ path: opt.key.value, data: item })"
                 @update:model-value="updateInputValue({ index: i, key: opt.key.value || '', value: $event })"
               />

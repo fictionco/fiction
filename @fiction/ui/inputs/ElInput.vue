@@ -129,7 +129,7 @@ const cls = vue.computed(() => {
         v-if="inputComponent"
         ref="inputEl"
         :model-value="modelValue"
-        v-bind="{ ...omit(attrs, 'class', 'data-test-id', 'data-key'), ...inputProps }"
+        v-bind="{ ...omit(attrs, 'class', 'data-test-id', 'data-option-path'), ...inputProps }"
         :ui-size="uiSize"
         @update:model-value="updateValue($event)"
       >

@@ -77,7 +77,7 @@ const editOrAnimate = vue.computed(() => card.value?.site?.siteMode.value === 'e
 <template>
   <XText
     ref="textEl"
-    :data-key="path"
+    :data-option-path="path"
     v-bind="attrs"
     :animate="editOrAnimate"
     :tag

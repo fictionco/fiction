@@ -48,7 +48,13 @@ const list = vue.computed<IndexItem[]>(() => {
 })
 
 function getActions(location: 'top' | 'zero') {
-  const actions: ActionItem[] = [{ testId: 'createSite', name: 'Create New Site', icon: 'i-tabler-plus', theme: 'primary', onClick: () => (showCreateModal.value = true) }]
+  const actions: ActionItem[] = [{
+    testId: 'createSite',
+    name: 'Create New Site',
+    icon: 'i-tabler-plus',
+    theme: 'primary',
+    onClick: () => (showCreateModal.value = true),
+  }]
   return location === 'zero' || list.value.length > 0 ? actions : []
 }
 </script>

@@ -86,7 +86,7 @@ describe('siteFrameTools', async () => {
     site.pages.value = [mockCard]
     await site.frame.processFrameMessage({ msg: { messageType: 'setCard', data: { cardConfig } }, scope: 'parent' })
 
-    expect(mockCard.update, 'card update should be called with correct config').toHaveBeenCalledWith(cardConfig)
+    expect(mockCard.update, 'card update should be called with correct config').toHaveBeenCalledWith(cardConfig, expect.any(Object))
 
     // Test setActiveCard message
     await site.frame.processFrameMessage({ msg: { messageType: 'setActiveCard', data: { cardId: 'test-card-id' } }, scope: 'parent' })

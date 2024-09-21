@@ -71,7 +71,7 @@ const layout = vue.computed(() => {
   <div>
     <div
       :class="textWrapClass"
-      data-key="layout"
+      data-option-path="layout"
       :data-layout="layout"
     >
       <div class="max-w-screen-lg" :class="layout === 'justify' ? 'lg:min-w-[50%]' : 'mx-auto'">

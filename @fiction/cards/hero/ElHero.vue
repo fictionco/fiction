@@ -96,7 +96,7 @@ const overlays = vue.computed(() => uc.value.overlays || [])
         :class="mediaWrapClass"
       >
         <XMedia
-          data-key="splash"
+          data-option-path="splash"
           class="w-full rounded-lg overflow-hidden dark:ring-1 dark:ring-theme-800"
           :class="mediaClass"
           :media="uc.splash"

@@ -95,7 +95,7 @@ const currentSizeClasses = vue.computed(() => sizeClasses[headerSize.value])
   <div>
     <div
       :class="textWrapClass"
-      data-key="layout"
+      data-option-path="layout"
       :data-layout="layout"
     >
       <div :class="layout === 'justify' ? 'lg:min-w-[50%]' : 'mx-auto'">
