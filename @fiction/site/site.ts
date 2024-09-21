@@ -120,7 +120,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       pgs.push(...c.pages)
     }
 
-    await this.update({ pages: pgs }, { caller: 'loadConfig' })
+    await this.update({ pages: pgs }, { caller: 'loadConfig', noSave: true })
 
     this.sections.value = setSections({ site: this, themeSections: c.sections })
 

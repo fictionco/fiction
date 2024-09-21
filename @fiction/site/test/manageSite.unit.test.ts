@@ -172,8 +172,8 @@ describe('manageSite query', () => {
       )
 
       expect(response.status).toBe('success')
-      expect(response.data?.draft?.title).toBe('Draft Site Title')
-      expect(response.data?.draft?.userConfig?.draftKey).toBe('draftValue')
+      expect(response.data?.title).toBe('Draft Site Title')
+      expect(response.data?.userConfig?.draftKey).toBe('draftValue')
     })
 
     it('should retrieve a site with merged draft data when scope is draft', async () => {
@@ -340,6 +340,111 @@ describe('manageSite query', () => {
       expect(response.status).toBe('success')
       expect(response.data?.pages).toContainEqual(expect.objectContaining(updatedDraft))
       expect(response.data?.pages).not.toContainEqual(expect.objectContaining(initialDraft))
+    })
+  })
+
+  describe('site draft reversion', () => {
+    let siteId: string
+    let cardId: string
+
+    beforeEach(async () => {
+      const fields = createSiteFields('Draft Reversion Test Site')
+      const response = await testUtils.fictionSites.queries.ManageSite.run(
+        { _action: 'create', fields, orgId, userId, caller: 'test' },
+        { server: true },
+      )
+      siteId = response.data?.siteId as string
+      cardId = objectId({ prefix: 'card' })
+
+      // Add a published page to the site
+      await testUtils.fictionSites.queries.ManagePage.serve(
+        {
+          _action: 'upsert',
+          siteId,
+          fields: [{ cardId, templateId: 'wrap', title: 'Published Page', slug: 'published-page' }],
+          orgId,
+          userId,
+          caller: 'test',
+          scope: 'publish',
+        },
+        { server: true },
+      )
+    })
+
+    it('should revert site and page drafts', async () => {
+      // Create drafts for site and page
+      const siteDraft = { title: 'Draft Site Title' }
+      const pageDraft = { cardId, templateId: 'wrap', title: 'Draft Page Title', slug: 'published-page' }
+
+      await testUtils.fictionSites.queries.ManageSite.serve(
+        { _action: 'saveDraft', where: { siteId }, fields: siteDraft, orgId, userId, caller: 'test' },
+        { server: true },
+      )
+
+      await testUtils.fictionSites.queries.ManagePage.serve(
+        {
+          _action: 'saveDraft',
+          siteId,
+          fields: [pageDraft],
+          orgId,
+          userId,
+          caller: 'test',
+          scope: 'draft',
+        },
+        { server: true },
+      )
+
+      // Revert drafts
+      const revertResponse = await testUtils.fictionSites.queries.ManageSite.run(
+        { _action: 'revertDraft', where: { siteId }, orgId, userId, caller: 'test' },
+        { server: true },
+      )
+
+      expect(revertResponse.status).toBe('success')
+      expect(revertResponse.message).toMatchInlineSnapshot(`"Site reverted successfully"`)
+      expect(revertResponse.message).toBeTruthy()
+
+      // Verify site draft is reverted
+      const siteResponse = await testUtils.fictionSites.queries.ManageSite.run(
+        { _action: 'retrieve', where: { siteId }, orgId, userId, caller: 'test', scope: 'draft' },
+        { server: true },
+      )
+
+      expect(siteResponse.data?.title).not.toBe('Draft Site Title')
+
+      // Verify page draft is reverted
+      const pageResponse = await testUtils.fictionSites.queries.ManagePage.serve(
+        {
+          _action: 'retrieve',
+          where: [{ cardId }],
+          siteId,
+          orgId,
+          caller: 'test',
+          scope: 'draft',
+        },
+        { server: true },
+      )
+
+      expect(pageResponse.data?.[0]?.title).toBe('Published Page')
+    })
+
+    it('should handle revert when no drafts exist', async () => {
+      const revertResponse = await testUtils.fictionSites.queries.ManageSite.run(
+        { _action: 'revertDraft', where: { siteId }, orgId, userId, caller: 'test' },
+        { server: true },
+      )
+
+      expect(revertResponse.status).toBe('success')
+      expect(revertResponse.message).toMatchInlineSnapshot(`"Site reverted successfully"`)
+      expect(revertResponse.message).toBeTruthy()
+    })
+
+    it('should throw an error when reverting non-existent site', async () => {
+      const nonExistentSiteId = objectId({ prefix: 'sit' })
+      await expect(testUtils.fictionSites.queries.ManageSite.run(
+        { _action: 'revertDraft', where: { siteId: nonExistentSiteId }, orgId, userId, caller: 'test' },
+        { server: true },
+      )).rejects.toThrowErrorMatchingInlineSnapshot(`[EndpointError: Site not found]`)
     })
   })
 

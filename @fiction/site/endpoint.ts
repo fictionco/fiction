@@ -394,6 +394,7 @@ export type ManageSiteRequestParams =
   | { _action: 'create', fields: Partial<TableSiteConfig> }
   | { _action: 'update', where: WhereSite, fields: Partial<TableSiteConfig> }
   | { _action: 'saveDraft', where: WhereSite, fields: Partial<TableSiteConfig> }
+  | { _action: 'revertDraft', where: WhereSite }
   | { _action: 'delete', where: WhereSite }
   | { _action: 'retrieve', where: WhereSite }
 
@@ -420,6 +421,9 @@ export class ManageSite extends SitesQuery {
         break
       case 'saveDraft':
         result = await this.saveDraft(params, meta)
+        break
+      case 'revertDraft':
+        result = await this.revertDraft(params as ManageSiteParams & { _action: 'revertDraft' }, meta)
         break
       case 'delete':
         result = await this.deleteSite(params as ManageSiteParams & { _action: 'delete' }, meta)
@@ -448,7 +452,7 @@ export class ManageSite extends SitesQuery {
     const prepped = this.settings.fictionDb.prep({ type: 'insert', fields: mergedFields, table: t.sites, meta })
 
     const [site] = await this.settings.fictionDb.client().insert({ orgId, userId, ...prepped }).into(t.sites).onConflict('site_id').ignore().returning<TableSiteConfig[]>('*')
-    this.log.info('creating site', { data: { fields: prepped, site } })
+
     if (!site?.siteId)
       throw abort('site not created')
 
@@ -513,7 +517,9 @@ export class ManageSite extends SitesQuery {
 
     const draft = (currentDrafts?.draft || {}) as TableSiteConfig
 
-    const keysToRemove = ['draft', 'draftHistory', 'siteId', 'userId', 'orgId']
+    const draftPages = fields.pages || []
+
+    const keysToRemove = ['draft', 'draftHistory', 'siteId', 'userId', 'orgId', 'pages']
 
     keysToRemove.forEach((key) => {
       delete fields[key as keyof typeof fields]
@@ -528,14 +534,49 @@ export class ManageSite extends SitesQuery {
       .update({ draft: JSON.stringify(newDraft) })
       .returning<TableSiteConfig[]>('*')
 
-    if (fields.pages && fields.pages.length) {
-      await this.updateSitePages({ siteId: site.siteId, orgId, fields: fields.pages, userId, scope: 'draft' }, meta)
+    if (draftPages && draftPages.length) {
+      await this.updateSitePages({ siteId: site.siteId, orgId, fields: draftPages, userId, scope: 'draft' }, meta)
     }
 
     const r = await this.retrieveSite({ _action: 'retrieve', scope: 'draft', caller: 'saveDraft', where }, meta)
-    this.log.info('saveDraft', { data: { where, fields, newDraft, site: r.data } })
 
     return { status: 'success', data: r.data }
+  }
+
+  private async revertDraft(params: ManageSiteParams & { _action: 'revertDraft' }, meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
+    const { where, orgId } = params
+    const db = this.settings.fictionDb.client()
+
+    const selector = await this.getSiteSelector(where)
+
+    // Revert site draft
+    const [updatedSite] = await db(t.sites)
+      .where({ orgId, ...selector })
+      .update({ draft: '{}' })
+      .returning('*')
+
+    if (!updatedSite) {
+      throw abort('Site not found')
+    }
+
+    // Revert page drafts
+    await db(t.pages)
+      .where({ siteId: updatedSite.siteId })
+      .update({ draft: '{}' })
+
+    // Fetch the updated site with reverted drafts
+    const result = await this.retrieveSite({
+      _action: 'retrieve',
+      where: { siteId: updatedSite.siteId },
+      orgId,
+      caller: 'revertDraft',
+      scope: 'publish', // Use 'publish' to get the site without draft data
+    }, meta)
+
+    return {
+      ...result,
+      message: 'Site reverted successfully',
+    }
   }
 
   private async deleteSite(params: ManageSiteParams & { _action: 'delete' }, _meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {

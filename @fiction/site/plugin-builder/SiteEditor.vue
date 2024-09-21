@@ -99,8 +99,19 @@ async function save() {
 async function resetToPublished() {
   if (!site.value)
     throw new Error('No site to revert')
+  const s = site.value
+  const siteId = s.siteId
 
-  // await saveSiteDraft({ site: site.value, resetToPublished: true })
+  const r = await s.settings.fictionSites.requests.ManageSite.projectRequest({
+    _action: 'revertDraft',
+    where: { siteId },
+    caller: 'saveSite',
+  })
+
+  if (r.status === 'success') {
+    console.log('Reverted to published version', r)
+    await site.value.update({ ...r.data }, { noSave: true, caller: 'resetToPublished' })
+  }
 }
 </script>
 
