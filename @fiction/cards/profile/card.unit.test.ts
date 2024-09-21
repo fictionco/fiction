@@ -9,8 +9,7 @@ describe('minimalProfile', async () => {
     if (!templates[0].settings.schema)
       throw new Error('no schema')
 
-    const card = new Card({})
-    const tpl = card.tpl.value
+    const tpl = templates[0]
 
     if (!tpl)
       throw new Error('no template')
@@ -52,11 +51,11 @@ describe('minimalProfile', async () => {
             "type": "array",
           },
           "detailsTitle": {
-            "description": "Title for list of details",
+            "description": "Title for list of details [ai]",
             "type": "string",
           },
           "heading": {
-            "description": "Primary headline for profile 3 to 8 words",
+            "description": "Primary headline for profile 3 to 8 words [ai]",
             "type": "string",
           },
           "layout": {
@@ -68,7 +67,7 @@ describe('minimalProfile', async () => {
             "type": "string",
           },
           "mediaItems": {
-            "description": "Splash picture in portrait format",
+            "description": "Splash picture in portrait format  [ai seconds=40]",
             "items": {
               "additionalProperties": false,
               "properties": {
@@ -123,11 +122,11 @@ describe('minimalProfile', async () => {
             "type": "array",
           },
           "subHeading": {
-            "description": "Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs",
+            "description": "Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs [ai]",
             "type": "string",
           },
           "superHeading": {
-            "description": "Shorter badge above headline, 2 to 5 words",
+            "description": "Shorter badge above headline, 2 to 5 words [ai]",
             "type": "string",
           },
         },

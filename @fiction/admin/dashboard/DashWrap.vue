@@ -54,6 +54,7 @@ const primaryNav = vue.computed<NavItem[]>(() => {
     const isActive = slug === currentViewId || slug === uc.value.parentNavItemSlug || (!currentViewId && (!slug || slug === '_home'))
     const icon = isActive && itemUc.navIconAlt ? itemUc.navIconAlt : itemUc.navIcon
     return {
+      testId: slug,
       name: itemUc.navTitle || item.title.value || '',
       href: `/${slug}`,
       icon,

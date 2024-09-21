@@ -52,6 +52,7 @@ const cls = {
               class="group nav-item flex cursor-pointer items-center py-3 px-4 space-x-3 truncate rounded-full font-sans text-base  focus:outline-none transition-all duration-100"
               :href="sub.href"
               :class=" sub.isActive ? cls.active : cls.inactive "
+              :data-test-id="`dashboard-nav-${sub.testId}`"
               @click="handleClick($event, sub)"
             >
               <div v-if="sub.icon" class="text-2xl" :class="sub.icon" />
@@ -73,6 +74,7 @@ const cls = {
             class="group nav-item flex cursor-pointer items-center py-3 px-4 space-x-3 truncate rounded-full font-sans text-base  focus:outline-none transition-all duration-100"
             :href="sub.href"
             :class=" sub.isActive ? cls.active : cls.inactive "
+            :data-test-id="`dashboard-nav-${sub.testId}`"
             @click="handleClick($event, sub)"
           >
             <div v-if="sub.icon" class="text-2xl" :class="sub.icon" />
