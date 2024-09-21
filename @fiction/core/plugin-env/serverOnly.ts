@@ -1,5 +1,7 @@
 export function commonServerOnlyModules(): Record<string, true | Record<string, string>> {
   return {
+    'ai': true,
+    'ua-parser-js': true,
     'ffprobe': true,
     'ffprobe-static': true,
     'js-yaml': true,
