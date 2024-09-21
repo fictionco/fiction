@@ -15,6 +15,9 @@ const props = defineProps({
   editKey: { type: [Boolean, String], default: true },
 })
 
+const emit = defineEmits<{
+  (event: 'isEditing', payload: boolean): void
+}>()
 const attrs = vue.useAttrs()
 const textEl = vue.ref<HTMLElement>()
 
@@ -67,5 +70,6 @@ const editOrAnimate = vue.computed(() => props.card.site?.siteMode.value === 'ed
     @click="shouldStopProp($event)"
     @update:model-value="onValue($event)"
     @input="onInput($event)"
+    @is-editing="emit('isEditing', $event)"
   />
 </template>

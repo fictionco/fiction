@@ -3,6 +3,7 @@ import type { FictionApp, FictionRouter } from '@fiction/core'
 import type { FictionSites } from '..'
 import type { Card } from '../card'
 import type { Site } from '../site'
+import ElDraftSignal from '@fiction/admin/el/ElDraftSignal.vue'
 import ViewEditor from '@fiction/admin/ViewEditor.vue'
 import CardButton from '@fiction/cards/CardButton.vue'
 import CardLink from '@fiction/cards/el/CardLink.vue'
@@ -11,7 +12,7 @@ import XText from '@fiction/ui/common/XText.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import { getMountContext, loadSite } from '../load'
-import { activeSiteDisplayUrl } from '../utils/site'
+import { activeSiteDisplayUrl, saveSiteDraft } from '../utils/site'
 import SiteEditorFrame from './SiteEditorFrame.vue'
 import { adminEditorController } from './tools/tools'
 
@@ -94,6 +95,13 @@ async function save() {
   await site.value.save({ minTime: 500 })
   sending.value = ''
 }
+
+async function resetToPublished() {
+  if (!site.value)
+    throw new Error('No site to revert')
+
+  // await saveSiteDraft({ site: site.value, resetToPublished: true })
+}
 </script>
 
 <template>
@@ -134,12 +142,7 @@ async function save() {
           </div>
         </template>
         <template v-if="site" #headerRight>
-          <span class="inline-flex items-center gap-x-1.5 rounded-md  px-2 py-1 text-xs font-medium text-theme-400 antialiased">
-            <svg class="size-1.5" :class="site?.editor.value.isDirty ? 'fill-orange-500' : 'fill-green-500'" viewBox="0 0 6 6" aria-hidden="true">
-              <circle cx="3" cy="3" r="3" />
-            </svg>
-            <span>{{ site?.editor.value.isDirty ? 'Syncing' : 'Draft Saved' }}</span>
-          </span>
+          <ElDraftSignal :is-dirty="site?.editor.value.isDirty" :nav-items="[{ name: 'Reset to Published Version', onClick: () => resetToPublished() }]" />
           <CardButton
             :card
             theme="default"
@@ -148,7 +151,7 @@ async function save() {
             size="md"
             icon="i-tabler-arrow-up-right"
           >
-            View
+            View Site
           </CardButton>
           <CardButton
             :card
@@ -158,7 +161,7 @@ async function save() {
             size="md"
             @click.prevent="save()"
           >
-            Save Site
+            Publish Changes
           </CardButton>
         </template>
         <template #default>

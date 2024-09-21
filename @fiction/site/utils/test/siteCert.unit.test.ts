@@ -52,7 +52,7 @@ describe('updateSiteCerts', async () => {
     const hostname = `test-q-${shortId()}.test.com`
     const newDomain = { hostname, isPrimary: true }
     const badDomain = { hostname: 'bad' }
-    await site.update({ customDomains: [newDomain, badDomain] })
+    await site.update({ customDomains: [newDomain, badDomain] }, { caller: 'certTests' })
 
     const updatedSite = await saveSite({
       site,
@@ -69,7 +69,7 @@ describe('updateSiteCerts', async () => {
     expect(deployedCert1.status).toBe('success')
     expect(deployedCert1.data?.hostname).toBe(hostname)
 
-    await site.update({ customDomains: [] })
+    await site.update({ customDomains: [] }, { caller: 'certTests' })
 
     const updatedSite2 = await saveSite({
       site,

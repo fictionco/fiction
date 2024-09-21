@@ -8,6 +8,7 @@ import ElTool from '@fiction/admin/tools/ElTool.vue'
 import ElToolBanner from '@fiction/admin/tools/ElToolBanner.vue'
 import { useService, vue } from '@fiction/core'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
+import { getCardOptionConfig } from '../../utils/cardHelpers'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, default: undefined },
@@ -18,7 +19,7 @@ useService<{ fictionSites: FictionSites }>()
 const tool = { toolId: 'settings', icon: 'i-tabler-settings', title: 'Settings' }
 
 const options = vue.computed(() => {
-  return props.site?.activeCard.value?.options.value || []
+  return getCardOptionConfig({ card: props.site?.activeCard.value }).value || []
 })
 
 function setActiveCardConfig(config: Partial<TableCardConfig>) {

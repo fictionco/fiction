@@ -11,6 +11,8 @@ const props = defineProps({
 })
 
 const uc = vue.computed(() => props.card.userConfig.value || {})
+
+const editingStoryText = vue.ref(false)
 </script>
 
 <template>
@@ -23,8 +25,8 @@ const uc = vue.computed(() => props.card.userConfig.value || {})
           </div>
         </div>
         <div class=" md:w-[70%] grow">
-          <EffectScrollReveal class="space-y-6 ">
-            <CardText tag="div" :card :path="`items.${i}.content`" class="prose dark:prose-invert prose-sm md:prose-md lg:prose-xl text-pretty text-xl sm:text-3xl lg:text-4xl !leading-relaxed" />
+          <EffectScrollReveal class="space-y-6" :disable="card.site?.isEditable.value">
+            <CardText tag="div" :card :path="`items.${i}.content`" class="prose dark:prose-invert prose-sm md:prose-md lg:prose-xl text-pretty text-xl sm:text-3xl lg:text-4xl !leading-relaxed" @editing="editingStoryText = $event" />
           </EffectScrollReveal>
         </div>
       </div>

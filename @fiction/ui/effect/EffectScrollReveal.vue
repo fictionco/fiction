@@ -2,13 +2,12 @@
 import { vue, waitFor } from '@fiction/core'
 import { splitLetters } from '../anim/index.js'
 
-const props = defineProps({
-  fromTop: { type: Number, default: 80 },
-})
+const { fromTop = 80, disable = false } = defineProps<{ fromTop?: number, disable?: boolean }>()
 
 // Register ScrollTrigger plugin with GSAP
 
 const revealText = vue.ref<HTMLElement | null>(null)
+const originalHtml = vue.ref<string>()
 
 // Load GSAP and ScrollTrigger in client only as problems in node
 async function getGsap() {
@@ -21,9 +20,27 @@ async function getGsap() {
   return { gsap }
 }
 
-vue.onUnmounted(async () => {
+async function clearGsap() {
   const { ScrollTrigger } = await import('gsap/ScrollTrigger')
   ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+}
+
+async function revertToOriginal() {
+  const el = revealText.value
+
+  if (!el) {
+    throw new Error('Element not found for scroll reveal effect')
+  }
+
+  if (!originalHtml.value) {
+    return
+  }
+
+  el.innerHTML = originalHtml.value
+}
+
+vue.onUnmounted(async () => {
+  await clearGsap()
 })
 
 async function loadRevealText() {
@@ -32,6 +49,8 @@ async function loadRevealText() {
   if (!el) {
     throw new Error('Element not found for scroll reveal effect')
   }
+
+  originalHtml.value = el.innerHTML
 
   const { gsap } = await getGsap()
 
@@ -43,8 +62,8 @@ async function loadRevealText() {
   gsap.from(bits, {
     scrollTrigger: {
       trigger: el,
-      start: () => `top ${props.fromTop + 10}%`,
-      end: () => `top+=${elHeight} ${props.fromTop}%`,
+      start: () => `top ${fromTop + 10}%`,
+      end: () => `top+=${elHeight} ${fromTop}%`,
       scrub: 0,
     },
     x: 0,
@@ -57,7 +76,16 @@ async function loadRevealText() {
 
 vue.onMounted(async () => {
   await waitFor(200)
-  await loadRevealText()
+
+  vue.watch(() => disable, async () => {
+    if (!disable) {
+      loadRevealText()
+    }
+    else {
+      await clearGsap()
+      revertToOriginal()
+    }
+  }, { immediate: true })
 })
 </script>
 

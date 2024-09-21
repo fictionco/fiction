@@ -73,7 +73,7 @@ export function refineOptions<T extends z.AnyZodObject>(args: {
       if (!isGroup && !optionIsUtility && !result)
         option.isHidden.value = true
 
-      option.generation.value = { ...option.generation.value }
+      // option.generation.value = { ...option.generation.value }
 
       // remove empty objects that dont need inputs
       removeDotKeyParents(key, basePath)

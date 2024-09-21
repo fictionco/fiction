@@ -34,7 +34,7 @@ export function updatePages(args: { site: Site, pages: (CardConfigPortable | und
     if (c.cardId) {
       const ind = site.pages.value.findIndex(r => r.cardId === c?.cardId)
       if (ind > -1)
-        site.pages.value[ind].update(c || {})
+        site.pages.value[ind].update(c || {}, { caller: 'updatePages' })
     }
   })
 }

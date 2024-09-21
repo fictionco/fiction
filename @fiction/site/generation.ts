@@ -81,7 +81,7 @@ export class CardGeneration extends FictionObject<CardGenerationSettings> {
         data = setNested({ path, data, value, isMerge: true })
       })
 
-      this.card.update(data)
+      this.card.update(data, { caller: 'applyChanges' })
     }
   }
 

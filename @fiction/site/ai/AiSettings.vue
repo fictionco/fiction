@@ -64,7 +64,7 @@ async function save() {
       :options
       :input-props="{ site }"
       :depth="0"
-      @update:model-value="site.update($event)"
+      @update:model-value="site.update($event, { caller: 'updateGlobalSettings' })"
     />
 
     <div class="text-right px-4 py-2">

@@ -62,7 +62,7 @@ describe('card', async () => {
     card.updateUserConfig({ path: 'heading', value: 'New Headline' })
     expect(card.userConfig.value.heading).toBe('New Headline')
 
-    card.update({ title: 'Updated Card' })
+    card.update({ title: 'Updated Card' }, { caller: 'cardunit' })
     expect(card.title.value).toBe('Updated Card')
     const prompt = generation.prompt.value
     expect(prompt.toLowerCase()).toContain('updated card')

@@ -486,7 +486,7 @@ describe('site plugin tests', async () => {
     expect(site.editor.value.selectedCardId, 'selectedCardId should be set').toBe('testId_2')
     expect(site.activeCard.value?.cardId, 'activeCard should be set to latest').toBe('testId_2')
 
-    site.activeCard.value?.update({ userConfig: { hello: 'world' } })
+    site.activeCard.value?.update({ userConfig: { hello: 'world' } }, { caller: 'test' })
 
     expect(site.activeCard.value?.userConfig.value).toMatchInlineSnapshot(`
       {
@@ -499,10 +499,10 @@ describe('site plugin tests', async () => {
     // make sure region changes don't affect the settings
     updatePage({ site, cardConfig: { title: 'test', regionId: 'main' } })
     await site.addCard({ templateId: 'hero', cardId: 'testId_3' })
-    site.activeCard.value?.update({ userConfig: { hello: 'world' } })
+    site.activeCard.value?.update({ userConfig: { hello: 'world' } }, { caller: 'test' })
 
     await site.addCard({ templateId: 'hero', addToCardId: 'testId_2', cardId: 'nestedTestId1' })
-    site.activeCard.value?.update({ userConfig: { foo: 'bar' } })
+    site.activeCard.value?.update({ userConfig: { foo: 'bar' } }, { caller: 'test' })
     expect(site.activeCard.value?.userConfig.value.foo).toBe('bar')
 
     expect(snap(site.currentPage.value?.toConfig(), { maskedKeys: [''] })).toMatchInlineSnapshot(`

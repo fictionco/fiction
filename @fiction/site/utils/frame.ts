@@ -144,8 +144,6 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
     const sendConfig = args.siteConfig || this.site.toConfig({ onlyKeys })
     const siteConfig = { siteId: this.site.siteId, ...sendConfig }
 
-    this.log.info('syncSite', { data: siteConfig })
-
     this.send({ msg: { messageType: 'setSite', data: { siteConfig, ...args } } })
   }
 
@@ -178,7 +176,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
 
       case 'setSite': {
         const { siteConfig } = msg.data
-        await updateSite({ site, newConfig: siteConfig })
+        await updateSite({ site, newConfig: siteConfig, caller: 'frameMessage:setSite' })
         break
       }
 
@@ -186,7 +184,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
         const { cardConfig } = msg.data
         const card = site.availableCards.value.find(c => c.cardId === cardConfig.cardId)
         if (card)
-          card.update(cardConfig)
+          card.update(cardConfig, { caller: 'frameMessage:setCard' })
         else
           this.log.error('No card found', { data: { cardConfig } })
 

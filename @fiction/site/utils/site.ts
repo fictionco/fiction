@@ -95,7 +95,7 @@ export async function localSiteConfig(args: { siteId: string, fields?: Partial<T
   return conf
 }
 
-export async function saveSiteDraft(args: { site: Site }) {
+export async function saveSiteDraft(args: { site: Site, resetToPublished?: boolean }) {
   const { site } = args
 
   const config = site.toConfig()
@@ -155,7 +155,7 @@ export async function saveSite(args: { site: Site, scope?: 'draft' | 'publish', 
     caller: 'saveSite',
   }, { minTime })
 
-  await updateSite({ site, newConfig: r.data || {} })
+  await updateSite({ site, newConfig: r.data || {}, caller: 'saveSite' })
 
   site.editor.value.isDirty = false
   site.clearAutosave()
@@ -163,7 +163,7 @@ export async function saveSite(args: { site: Site, scope?: 'draft' | 'publish', 
   return r.data
 }
 
-export async function updateSite(args: { site: Site, newConfig: Partial<SiteSettings>, caller?: string, noSave?: boolean }) {
+export async function updateSite(args: { site: Site, newConfig: Partial<SiteSettings>, caller: string, noSave?: boolean }) {
   const { site, newConfig, noSave = false, caller = 'updateSite' } = args
   if (!newConfig)
     return
@@ -189,7 +189,7 @@ export async function updateSite(args: { site: Site, newConfig: Partial<SiteSett
   if (sections)
     site.sections.value = setSections({ site, sections })
 
-  site.syncChange({ caller, noSave })
+  // site.syncChange({ caller, noSave })
 
   return site
 }

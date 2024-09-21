@@ -3,5 +3,4 @@ import { appBuildTests } from '@fiction/core/test-utils/buildTest.js'
 import { commands } from '../src/commands.js'
 
 const cwd = safeDirname(import.meta.url, '..')
-
-appBuildTests({ cwd, commands })
+await appBuildTests({ cwd, commands })

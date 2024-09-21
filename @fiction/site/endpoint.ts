@@ -209,7 +209,12 @@ export class ManagePage extends Query<SitesQuerySettings> {
 
     if (scope === 'draft') {
       pages = pages.map((page) => {
-        return page.draft ? deepMerge<TableCardConfig>([page, page.draft as TableCardConfig]) : page
+        const p = page.draft ? deepMerge<TableCardConfig>([page, page.draft as TableCardConfig]) : page
+
+        // Remove draft and draftHistory from the response
+        const { draft, draftHistory, ...rest } = p
+
+        return rest
       })
     }
 
@@ -338,16 +343,7 @@ export class ManagePage extends Query<SitesQuerySettings> {
         .first()
 
       const draft = (currentDraft?.draft || {}) as TableCardConfig
-      const draftHistory = (currentDraft?.draftHistory || []) as TableCardConfig[]
 
-      const TEN_MINUTES = 600000
-      const isNewDraftNeeded = draft.createdAt && (now.getTime() - new Date(draft.createdAt).getTime()) > TEN_MINUTES
-
-      if (isNewDraftNeeded) {
-        this.log.info(`Creating new draft ${typeof draftHistory} ${JSON.stringify(draftHistory)}`, { data: { cardId, siteId, orgId, draftHistory, currentDraft } })
-        draftHistory.push({ ...draft, archiveAt: now.toISOString() })
-        draft.createdAt = now.toISOString()
-      }
       const fields = card.toConfig()
 
       const keysToRemove = ['draft', 'draftHistory', 'cardId', 'userId', 'orgId']
@@ -364,7 +360,7 @@ export class ManagePage extends Query<SitesQuerySettings> {
 
       await db(t.pages)
         .where({ siteId, orgId, card_id: cardId })
-        .update({ draft: JSON.stringify(newDraft), draft_history: JSON.stringify(draftHistory) })
+        .update({ draft: JSON.stringify(newDraft) })
         .returning('*')
 
       const r = await this.retrievePages({ _action: 'retrieve', where: [{ cardId }], siteId, orgId, scope: 'draft', caller: 'endOfSaveDraft' }, meta)
@@ -516,14 +512,6 @@ export class ManageSite extends SitesQuery {
       .first()
 
     const draft = (currentDrafts?.draft || {}) as TableSiteConfig
-    const draftHistory = (currentDrafts?.draftHistory || []) as TableSiteConfig[]
-    const TEN_MINUTES = 600000
-    // Create or update draft
-    const isNewDraftNeeded = draft.createdAt && (now.getTime() - new Date(draft.createdAt).getTime()) > TEN_MINUTES
-    if (isNewDraftNeeded) {
-      draftHistory.push({ ...draft, archiveAt: now.toISOString() }) // Archive the current draft
-      draft.createdAt = now.toISOString() // Reset creation time for a new draft
-    }
 
     const keysToRemove = ['draft', 'draftHistory', 'siteId', 'userId', 'orgId']
 
@@ -532,26 +520,38 @@ export class ManageSite extends SitesQuery {
     })
 
     // taxonomies are removed by prepare, due to joined table, saved directly in draft
-    const newDraft = { draftId: objectId({ prefix: 'sdf' }), ...draft, ...fields, updatedAt: now, createdAt: draft.createdAt }
+    const newDraft = { draftId: objectId({ prefix: 'sdf' }), ...fields, updatedAt: now, createdAt: draft.createdAt }
 
     // Persist the updated draft and history
     const [site] = await db(t.sites)
       .where(where)
-      .update({ draft: JSON.stringify(newDraft), draft_history: JSON.stringify(draftHistory) })
+      .update({ draft: JSON.stringify(newDraft) })
       .returning<TableSiteConfig[]>('*')
 
     if (fields.pages && fields.pages.length) {
       await this.updateSitePages({ siteId: site.siteId, orgId, fields: fields.pages, userId, scope: 'draft' }, meta)
     }
 
-    const { data: post } = await this.retrieveSite({ _action: 'retrieve', scope: 'draft', caller: 'saveDraft', where }, meta)
+    const r = await this.retrieveSite({ _action: 'retrieve', scope: 'draft', caller: 'saveDraft', where }, meta)
+    this.log.info('saveDraft', { data: { where, fields, newDraft, site: r.data } })
 
-    return { status: 'success', data: post }
+    return { status: 'success', data: r.data }
   }
 
-  private async deleteSite(_params: ManageSiteParams & { _action: 'delete' }, _meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
-    // Implement delete logic here
-    throw new Error('Delete action not implemented')
+  private async deleteSite(params: ManageSiteParams & { _action: 'delete' }, _meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
+    const { where, orgId } = params
+    const db = this.settings.fictionDb.client()
+    if (!db)
+      throw abort('no db')
+
+    const selector = await this.getSiteSelector(where)
+
+    const [deletedSite] = await db(t.sites).where({ orgId, ...selector }).delete().returning<TableSiteConfig[]>('*')
+
+    if (!deletedSite)
+      throw abort('site not found')
+
+    return { status: 'success', data: deletedSite, message: 'site deleted' }
   }
 
   private async finalizeSiteAction(params: ManageSiteParams, result: EndpointResponse<TableSiteConfig>, meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
@@ -629,7 +629,10 @@ export class ManageSite extends SitesQuery {
     // Assign the pages to the site object
     site.pages = r.data || []
 
-    return site
+    // remove draft and draftHistory from the response
+    const { draft, draftHistory, ...final } = site
+
+    return final
   }
 
   async createSiteFromTheme(params: ManageSiteParams & { _action: 'create' }, _meta: EndpointMeta): Promise<Partial<TableSiteConfig>> {

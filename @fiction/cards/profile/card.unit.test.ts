@@ -1,4 +1,6 @@
 import { Card } from '@fiction/site'
+import { refineOptions } from '@fiction/site/utils/schema'
+import _ from 'lodash'
 import { describe, expect, it } from 'vitest'
 import { zodToJsonSchema } from 'zod-to-json-schema'
 import { templates } from '.'
@@ -9,8 +11,18 @@ describe('minimalProfile', async () => {
       throw new Error('no schema')
 
     const card = new Card({})
+    const tpl = card.tpl.value
 
-    expect(templates[0].getOptionConfig({ card }).value.unusedSchema).toMatchInlineSnapshot(`{}`)
+    if (!tpl)
+      throw new Error('no template')
+
+    const conf = refineOptions({
+      options: tpl.settings.options || [],
+      schema: tpl.settings.schema,
+      templateId: tpl.settings.templateId,
+    })
+
+    expect(conf.unusedSchema).toMatchInlineSnapshot(`{}`)
 
     const jsonSchema = zodToJsonSchema(templates[0].settings.schema)
     expect(jsonSchema).toMatchInlineSnapshot(`

@@ -21,7 +21,7 @@ const emit = defineEmits<{
   (event: 'input', payload: string): void
   (event: 'reset', payload: string): void
   (event: 'update:modelValue', payload: string): void
-  (event: 'onEditable', payload: boolean): void
+  (event: 'isEditing', payload: boolean): void
 }>()
 
 const randomId = shortId()
@@ -121,6 +121,10 @@ vue.onMounted(() => {
     loadAnimation()
   else
     loaded.value = true
+
+  vue.watch(() => isEditing.value, () => {
+    emit('isEditing', !!isEditing.value)
+  })
 })
 
 function onPaste(event: ClipboardEvent) {

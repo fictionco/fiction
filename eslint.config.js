@@ -41,6 +41,7 @@ export default antfu(
       'regexp/no-super-linear-backtracking': 'off',
       'regexp/no-unused-capturing-group': 'off',
       'unicorn/consistent-function-scoping': 'off',
+      'antfu/no-top-level-await': 'off',
     },
   },
   {

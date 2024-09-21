@@ -13,7 +13,7 @@ type st = { updatedAt?: string, createdAt?: string }
 export const pageRegionIds = ['header', 'main', 'footer', 'aside', 'article', 'section'] as const
 export type PageRegion = typeof pageRegionIds[number] | string
 
-export type TableSiteConfig = Omit<ColType<typeof siteCols>, 'draft' | 'draftHistory'> & st & { pages: CardConfigPortable[], draft: TableSiteConfig, draftHistory: TableSiteConfig[] }
+export type TableSiteConfig = Omit<ColType<typeof siteCols>, 'draft' | 'draftHistory'> & st & { pages: CardConfigPortable[], draft?: TableSiteConfig, draftHistory?: TableSiteConfig[] }
 
 type TablePageCardConfig = Partial<ColType<typeof pageCols>>
 

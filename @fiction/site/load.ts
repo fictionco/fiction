@@ -139,7 +139,7 @@ export async function loadSiteFromCard(args: { cardId: string, siteRouter: Ficti
       ],
 
     }),
-  ], ...staticConfig })
+  ], ...staticConfig }, { caller: 'loadSiteFromCard', noSave: true })
 
   return site
 }

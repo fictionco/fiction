@@ -55,7 +55,7 @@ describe('site plugin tests', async () => {
       { slug: 'blog', cards: [{ templateId: 'testBlog', userConfig: {
         posts: [{ slug: 'first-post' }, { slug: 'second-post' }],
       } }] },
-    ] })
+    ] }, { caller: 'pagesTests' })
 
     const paths = await getSitemapPathsFromSite(site)
 
