@@ -109,7 +109,6 @@ async function resetToPublished() {
   })
 
   if (r.status === 'success') {
-    console.log('Reverted to published version', r)
     await site.value.update({ ...r.data }, { noSave: true, caller: 'resetToPublished' })
   }
 }

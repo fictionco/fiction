@@ -1,4 +1,5 @@
 import type { InitializedTestUtils } from '@fiction/core/test-utils'
+import type { TableCardConfig } from '../tables'
 import type { SiteTestUtils } from './testUtils'
 import { objectId } from '@fiction/core'
 import { beforeEach, describe, expect, it } from 'vitest'
@@ -146,12 +147,12 @@ describe('managePage query', async () => {
         { server: true },
       )
 
-      const draft = response.data?.[0]?.draft
+      const pg = response.data?.[0] as TableCardConfig
 
       expect(response.status).toBe('success')
-      expect(draft).toBeDefined()
-      expect(draft?.title).toBe('Draft Test Page')
-      expect(draft?.userConfig?.draftKey).toBe('draftValue')
+      expect(pg).toBeDefined()
+      expect(pg?.title).toBe('Draft Test Page')
+      expect(pg?.userConfig?.draftKey).toBe('draftValue')
     })
 
     it('should retrieve a page with merged draft data when scope is draft', async () => {
