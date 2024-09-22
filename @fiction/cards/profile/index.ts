@@ -46,7 +46,7 @@ const options: InputOption[] = [
   new InputOption({ key: 'superTitle', input: 'InputText' }),
   new InputOption({ key: 'content', input: 'InputProse' }),
   new InputOption({ key: 'detailsTitle', input: 'InputText' }),
-  new InputOption({ key: 'mediaItems', input: 'InputList', props: { itemName: 'Profile Detail' }, options: [
+  new InputOption({ key: 'details', input: 'InputList', props: { itemName: 'Profile Detail' }, options: [
     new InputOption({ key: 'name', input: 'InputText' }),
     new InputOption({ key: 'desc', input: 'InputText' }),
     new InputOption({ key: 'icon', input: 'InputIcon' }),
