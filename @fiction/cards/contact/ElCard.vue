@@ -22,13 +22,14 @@ const uc = vue.computed(() => {
 const items = vue.computed(() => uc.value.items)
 
 const isVisible = vue.ref(false)
+
 vue.onMounted(async () => {
-  await useElementVisible({ selector: `.minimal-profile`, onVisible: () => isVisible.value = true, caller: 'contact' })
+  await useElementVisible({ selector: `.contact-form`, onVisible: () => isVisible.value = true, caller: 'contact' })
 })
 </script>
 
 <template>
-  <div :class="card.classes.value.contentWidth">
+  <div :class="card.classes.value.contentWidth" class="contact-form">
     <div class="text-center">
       <div class="md:inline-flex gap-6 lg:gap-16 justify-center" :class="uc.layout === 'left' ? 'md:flex-row-reverse' : ''">
         <div class="w-full md:w-[40vw] px-2">

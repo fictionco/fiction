@@ -28,7 +28,6 @@ export const UserConfigSchema = z.object({
 export type UserConfig = z.infer<typeof UserConfigSchema>
 
 const options = [
-  standardOption.ai(),
   new InputOption({ key: 'layout', label: 'Layout', input: 'InputSelect', list: ['left', 'right'], description: 'Layout of the card, image on left or right' }),
   new InputOption({ key: 'items', label: 'Contact Details', props: { itemName: 'Contact Group' }, input: 'InputList', options: [
     new InputOption({ key: 'title', label: 'Group Title', input: 'InputText' }),

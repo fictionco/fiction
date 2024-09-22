@@ -2,6 +2,7 @@
 import type { Card } from '@fiction/site'
 import type { FontConfigVal } from '@fiction/site/utils/fonts'
 import type { Ticker, UserConfig } from '.'
+import CardText from '@fiction/cards/CardText.vue'
 import { getTextColorBasedOnBackground, isDarkOrLightMode, vue } from '@fiction/core'
 import { fontFamilyByKey } from '@fiction/site/utils/fonts'
 
@@ -91,8 +92,8 @@ function getAnimationDuration(speed?: number): string {
   <div class="">
     <div ref="tickerWrap" class="x-font-title font-bold [perspective:1000px] " :style="{ perspective: '1000px' }">
       <div
-        v-for="(item, index) in items"
-        :key="index"
+        v-for="(item, i) in items"
+        :key="i"
         :style="{
           'fontFamily': fontFamilyByKey(item.font),
           'fontSize': item.fontSize,
@@ -110,8 +111,7 @@ function getAnimationDuration(speed?: number): string {
           :style="{ animationDuration: getAnimationDuration(item.speed) }"
         >
           <div :style="{ ...getColorStyle(item as Ticker) }">
-            <span class="font-bold">{{ item.text }}&nbsp;</span>
-            <span v-for="i in 30" :key="i" class="font-bold">{{ item.text }}&nbsp;</span>
+            <span v-for="ii in 30" :key="ii" class="font-bold"><CardText tag="span" :card :path="`items.${i}.text`" />&nbsp;</span>
           </div>
         </div>
       </div>
