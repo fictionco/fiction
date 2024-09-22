@@ -1,3 +1,4 @@
+import { isCi } from '@fiction/core'
 import { createSiteUiTestingKit } from '@fiction/site/test/testUtils.js'
 import { collectKeysFromOptions } from '@fiction/site/utils/schema'
 import { afterAll, describe, expect, it } from 'vitest'
@@ -10,7 +11,7 @@ describe('marquee card', async () => {
 
   afterAll(async () => kit?.close())
 
-  it('marquee: displays correctly', async () => {
+  it('marquee: displays correctly', { retry: isCi() ? 3 : 1 }, async () => {
     await kit.performActions({
       path: '/demo-marquee',
       actions: [

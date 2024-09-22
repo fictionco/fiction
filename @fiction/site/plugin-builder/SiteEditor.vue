@@ -152,7 +152,15 @@ async function resetToPublished() {
           </div>
         </template>
         <template v-if="site" #headerRight>
-          <ElDraftSignal :is-dirty="site?.editor.value.isDirty" :nav-items="[{ name: 'Reset to Published Version', onClick: () => resetToPublished() }]" />
+          <ElDraftSignal
+            :is-dirty="site?.editor.value.isDirty"
+            :nav-items="[{
+              name: 'Reset to Published Version',
+              onClick: () => resetToPublished(),
+              testId: 'reset-to-published',
+            }]"
+            data-test-id="draft-control-dropdown"
+          />
           <CardButton
             :card
             theme="default"

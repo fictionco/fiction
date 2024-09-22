@@ -61,7 +61,7 @@ defineExpose({ isOpen, toggleDropdown })
             ]"
             :target="item.target"
             role="menuitem"
-            :data-testid="item.testId"
+            :data-test-id="item.testId"
             @click="handleItemClick({ item, event: $event })"
           >
             {{ item.name }}
@@ -75,7 +75,7 @@ defineExpose({ isOpen, toggleDropdown })
               item.class,
             ]"
             role="menuitem"
-            :data-testid="item.testId"
+            :data-test-id="item.testId"
             @click="handleItemClick({ item, event: $event })"
           >
             {{ item.name }}

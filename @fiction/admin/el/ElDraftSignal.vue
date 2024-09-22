@@ -3,10 +3,7 @@ import type { NavItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import XDropDown from '@fiction/ui/common/XDropDown.vue'
 
-const { isDirty, navItems } = defineProps<{
-  isDirty: boolean
-  navItems: NavItem[]
-}>()
+const { isDirty, navItems } = defineProps<{ isDirty: boolean, navItems: NavItem[] }>()
 
 const isOpen = vue.ref(false)
 
