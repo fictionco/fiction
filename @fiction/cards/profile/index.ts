@@ -1,22 +1,19 @@
-import { vue } from '@fiction/core'
+import { MediaBasicSchema, MediaIconSchema, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site/card'
 import { InputOption } from '@fiction/ui'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
-import { standardOption } from '../inputSets'
+
+const templateId = 'profile'
 
 export const schema = z.object({
-  heading: z.string().optional().describe('Primary headline for profile 3 to 8 words [ai]'),
-  subHeading: z.string().optional().describe('Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs [ai]'),
-  superHeading: z.string().optional().describe('Shorter badge above headline, 2 to 5 words [ai]'),
+  title: z.string().optional().describe('Primary headline for profile 3 to 8 words [ai]'),
+  content: z.string().optional().describe('Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs [ai]'),
+  superTitle: z.string().optional().describe('Shorter badge above headline, 2 to 5 words [ai]'),
   layout: z.union([z.literal('left'), z.literal('right')]).optional().describe('Media on left or right'),
   detailsTitle: z.string().optional().describe('Title for list of details [ai]'),
   mediaItems: z.array(z.object({
-    media: z.object({
-      format: z.enum(['url', 'image', 'video']).optional(),
-      url: z.string().optional(),
-      html: z.string().optional(),
-    }),
+    media: MediaBasicSchema.optional().describe('Media item with image or video'),
   })).optional().describe('Splash picture in portrait format  [ai seconds=40]'),
   details: z.array(z.object({
     name: z.string().optional(),
@@ -27,42 +24,46 @@ export const schema = z.object({
   socials: z.array(z.object({
     name: z.string().optional().describe('@handle on (platform)'),
     href: z.string().optional().describe('Full link for href'),
-    icon: z.string().optional().describe('icon reference associated with the social media platform (x, youtube, facebook, etc)'),
+    media: MediaIconSchema.optional().describe('icon reference associated with the social media platform (x, youtube, facebook, etc)'),
   })).optional().describe('List of social media links'),
 })
 
 export type UserConfig = z.infer<typeof schema>
 
 const options: InputOption[] = [
-  standardOption.ai(),
   new InputOption({
-    label: 'Settings',
-    input: 'group',
-    key: 'minProfileSettings',
-    options: [
-      new InputOption({
-        key: 'layout',
-        input: 'InputSelect',
-        list: [
-          { name: 'Media on Left', value: 'left' },
-          { name: 'Media on Right', value: 'right' },
-        ],
-      }),
-      standardOption.mediaItems(),
-      standardOption.headers(),
-      standardOption.navItems({ label: 'Details', key: 'details' }),
-      standardOption.socials(),
+    key: 'layout',
+    input: 'InputSelect',
+    list: [
+      { name: 'Media on Left', value: 'left' },
+      { name: 'Media on Right', value: 'right' },
     ],
   }),
+  new InputOption({ key: 'mediaItems', input: 'InputList', props: { itemName: 'Media Item' }, options: [
+    new InputOption({ key: 'media', input: 'InputMedia' }),
+  ] }),
+  new InputOption({ key: 'title', input: 'InputText' }),
+  new InputOption({ key: 'superTitle', input: 'InputText' }),
+  new InputOption({ key: 'content', input: 'InputProse' }),
+  new InputOption({ key: 'detailsTitle', input: 'InputText' }),
+  new InputOption({ key: 'mediaItems', input: 'InputList', props: { itemName: 'Profile Detail' }, options: [
+    new InputOption({ key: 'name', input: 'InputText' }),
+    new InputOption({ key: 'desc', input: 'InputText' }),
+    new InputOption({ key: 'icon', input: 'InputIcon' }),
+    new InputOption({ key: 'href', input: 'InputText' }),
+  ] }),
+  new InputOption({ key: 'socials', input: 'InputList', props: { itemName: 'Social Media' }, options: [
+    new InputOption({ key: 'name', input: 'InputText' }),
+    new InputOption({ key: 'href', input: 'InputText' }),
+    new InputOption({ key: 'media', input: 'InputIcon' }),
+  ] }),
 ]
-
-const templateId = 'profile'
 
 function getUserConfig(): UserConfig {
   return {
-    superHeading: 'A Tagline or Category',
-    heading: 'A Catchy Headline About Something',
-    subHeading: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
+    title: 'A Catchy Headline About Something',
+    content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
+    superTitle: 'A Tagline or Category',
     mediaItems: [
       { media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'person']) },
       { media: stockMediaHandler.getRandomByTags(['aspect:portrait', 'person']) },
@@ -74,9 +75,9 @@ function getUserConfig(): UserConfig {
       { name: 'Phone', desc: '123-456-7890' },
     ],
     socials: [
-      { name: '@handle on facebook', href: '#', icon: 'facebook' },
-      { name: '@handle on x', href: '#', icon: 'x' },
-      { name: '@handle on linkedin', href: '#', icon: 'linkedin' },
+      { name: '@handle on facebook', href: '#', media: { format: 'iconId', iconId: 'facebook' } },
+      { name: '@handle on x', href: '#', media: { format: 'iconId', iconId: 'x' } },
+      { name: '@handle on linkedin', href: '#', media: { format: 'iconId', iconId: 'linkedin' } },
     ],
   }
 }

@@ -82,8 +82,8 @@ const link = 'https://docs.fiction.com'
       </div>
     </div>
 
-    <ElBenefits :card="card" />
+    <ElBenefits :card />
 
-    <ElFeatures :card="card" />
+    <ElFeatures :card />
   </div>
 </template>

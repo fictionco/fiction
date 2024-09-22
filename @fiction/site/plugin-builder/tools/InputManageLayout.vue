@@ -19,7 +19,7 @@ defineProps({
         v-for="(card, regionId) in site.sections.value"
         :key="regionId"
         :region-id="String(regionId)"
-        :card="card"
+        :card
         :site="site"
         scope="Global"
       />

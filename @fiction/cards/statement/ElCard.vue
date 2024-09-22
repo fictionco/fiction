@@ -35,7 +35,7 @@ function onSlideChange(index: number) {
               <CardText
                 tag="div"
                 class="text-4xl sm:!leading-[1.4] sm:text-5xl   xl:text-6xl x-font-title font-medium"
-                :card="card"
+                :card
                 :path="`items.${index}.title`"
                 animate="fade"
               />
@@ -43,7 +43,7 @@ function onSlideChange(index: number) {
               <CardText
                 tag="div"
                 class="text-lg leading-relaxed sm:!leading-[1.6] sm:text-3xl  text-theme-700/50 dark:text-theme-300/90"
-                :card="card"
+                :card
                 :path="`items.${index}.content`"
                 animate="fade"
               />

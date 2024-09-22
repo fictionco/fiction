@@ -38,7 +38,7 @@ const masonryOptions = {
                 <CardText
                   tag="div"
                   class="text-lg sm:text-2xl text-theme-50 !leading-[1.4]"
-                  :card="card"
+                  :card
                   :path="`items.${index}.content`"
                   animate="fade"
                 />
@@ -49,14 +49,14 @@ const masonryOptions = {
                   <CardText
                     tag="div"
                     class="text-base font-medium text-theme-50 leading-tight"
-                    :card="card"
+                    :card
                     :path="`items.${index}.user.fullName`"
                     animate="fade"
                   />
                   <CardText
                     tag="div"
                     class="text-xs opacity-50 font-sans mt-1"
-                    :card="card"
+                    :card
                     :path="`items.${index}.user.title`"
                     animate="fade"
                   />

@@ -15,6 +15,6 @@ const _x = true
 
 <template>
   <div class="py-12">
-    <ElPostIndex :card="card" />
+    <ElPostIndex :card />
   </div>
 </template>

@@ -76,6 +76,6 @@ vue.onMounted(async () => {
         />
       </template>
     </ElIndexGrid>
-    <ElStart v-model:vis="showStartModal" :card="card" />
+    <ElStart v-model:vis="showStartModal" :card />
   </div>
 </template>

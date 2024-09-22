@@ -99,7 +99,7 @@ function gridCols() {
               <div class="py-4 px-5 space-y-0 absolute bottom-0 z-10">
                 <CardText
                   tag="div"
-                  :card="card"
+                  :card
                   class="text-lg font-semibold min-w-0 x-font-title text-pretty leading-tight line-clamp-2 text-white"
                   :path="`posts.entries.${i}.title`"
                   animate="fade"
@@ -107,7 +107,7 @@ function gridCols() {
 
                 <CardText
                   tag="div"
-                  :card="card"
+                  :card
                   class=" text-base text-white/80 text-pretty line-clamp-1 font-medium"
                   :path="`posts.entries.${i}.subTitle`"
                   animate="fade"
@@ -126,14 +126,14 @@ function gridCols() {
               <div class="mb-8 not-prose space-y-4 text-center">
                 <CardText
                   tag="h1"
-                  :card="card"
+                  :card
                   class="mb-0 text-3xl md:text-5xl font-semibold x-font-title "
                   :path="`posts.entries.${activeitemIndex}.title`"
                   animate="fade"
                 />
                 <CardText
                   tag="h3"
-                  :card="card"
+                  :card
                   class="my-0 text-theme-500 dark:text-theme-400 text-lg md:text-3xl"
                   :path="`posts.entries.${activeitemIndex}.subTitle`"
                   animate="fade"
@@ -149,7 +149,7 @@ function gridCols() {
 
             <CardText
               tag="div"
-              :card="card"
+              :card
               class="my-12 font-serif"
               :path="`posts.entries.${activeitemIndex}.content`"
               animate="fade"

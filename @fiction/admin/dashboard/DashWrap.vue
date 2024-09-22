@@ -169,7 +169,7 @@ function toggleSidebar() {
               v-if="site"
               class="no-scrollbar relative min-h-0 min-w-0 grow overflow-scroll"
             >
-              <DashBar class="border-theme-300/70 dark:border-theme-700 border-b" :account-menu="accountMenu" :card="card" :site="site" @nav="toggleSidebar()" />
+              <DashBar class="border-theme-300/70 dark:border-theme-700 border-b" :account-menu="accountMenu" :card :site="site" @nav="toggleSidebar()" />
               <div
                 class="mx-auto pt-4 md:pt-8 md:pb-36 min-h-full bg-theme-50/50 dark:bg-theme-950"
               >

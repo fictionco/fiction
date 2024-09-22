@@ -11,7 +11,7 @@ defineProps({
 <template>
   <div v-if="card.site">
     <ElEngine tag="header" :card="card.site.sections.value.header" />
-    <ElEngine tag="main" :card="card" />
+    <ElEngine tag="main" :card />
     <ElEngine tag="footer" :card="card.site.sections.value.footer" />
   </div>
 </template>

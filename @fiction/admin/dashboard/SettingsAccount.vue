@@ -17,10 +17,10 @@ defineProps({
 <template>
   <AccountWrap>
     <ElPanelSettings title="Edit Account">
-      <SettingsAccountEdit :card="card" />
+      <SettingsAccountEdit :card />
     </ElPanelSettings>
     <ElPanelSettings title="Edit Profile">
-      <SettingsAccountEditProfile :card="card" />
+      <SettingsAccountEditProfile :card />
     </ElPanelSettings>
   </AccountWrap>
 </template>

@@ -13,6 +13,6 @@ const _props = defineProps({
 
 <template>
   <div>
-    <ElIndex :card="card" />
+    <ElIndex :card />
   </div>
 </template>

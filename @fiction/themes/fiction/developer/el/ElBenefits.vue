@@ -99,7 +99,7 @@ const benefits = vue.ref([
           </div>
         </dl>
       </div>
-      <ElCta :card="card" />
+      <ElCta :card />
     </div>
   </div>
 </template>

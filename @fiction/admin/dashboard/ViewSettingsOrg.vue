@@ -76,7 +76,7 @@ vue.onMounted(async () => {
         { name: 'Create New Organization', href: card.link(`/settings/new-org`) },
       ]"
     >
-      <UtilListOrganizations :card="card" />
+      <UtilListOrganizations :card />
     </ElPanelSettings>
     <ElPanelSettings
       :title="`Active Organization: ${fictionUser.activeOrganization.value?.orgName}`"
@@ -160,7 +160,7 @@ vue.onMounted(async () => {
           </div>
         </div>
 
-        <UtilDeleteOrg :card="card" />
+        <UtilDeleteOrg :card />
       </div>
     </ElPanelSettings>
   </div>

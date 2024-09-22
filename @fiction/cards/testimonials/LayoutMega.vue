@@ -48,7 +48,7 @@ function setActiveItem(index: number) {
                 tag="span"
                 animate="rise"
                 class="text-xl lg:text-2xl  2xl:text-4xl  !leading-[1.4] font-semibold x-font-title  "
-                :card="card"
+                :card
                 :path="`items.${activeIndex}.content`"
               />
             </div>

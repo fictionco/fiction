@@ -71,7 +71,7 @@ export default {
                 <EmailForm
                   class="pointer-events-auto"
                   :animate="false"
-                  :card="card"
+                  :card
                   v-bind="attrs"
                   :show-dismiss="true"
                   @update:subscribed="subscribed = $event"
@@ -85,7 +85,7 @@ export default {
       <EffectScrollModal v-if="uc.presentationMode === 'onScroll' && showCard && !dismissedScroll">
         <div class="px-4 md:px-8 py-10" :data-mode="uc.presentationMode">
           <EmailForm
-            :card="card"
+            :card
             v-bind="attrs"
             :show-dismiss="true"
             :subscribed
@@ -96,7 +96,7 @@ export default {
       </EffectScrollModal>
     </template>
     <div v-else-if="!subscribed" v-bind="attrs" :class="card.classes.value.contentWidth" :data-mode="uc.presentationMode">
-      <EmailForm :animate="true" :card="card" :subscribed @update:subscribed="subscribed = $event" />
+      <EmailForm :animate="true" :card :subscribed @update:subscribed="subscribed = $event" />
     </div>
     <div v-else class="p-4 text-center bg-theme-50 dark:bg-theme-700/60 dark:text-theme-500 max-w-sm mx-auto rounded-full">
       <CardText tag="h2" class="font-normal x-font-title text-balance" :card path="thanksText" fallback="Thanks for subscribing! Please confirm via email." />

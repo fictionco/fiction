@@ -27,7 +27,7 @@ const uc = vue.computed(() => {
           {{ uc.subHeading }}
         </p>
       </div>
-      <StandardTeam :card="card" class="grid-cols-1 " :class="uc.heading ? 'lg:col-span-2' : 'lg:col-span-3'" />
+      <StandardTeam :card class="grid-cols-1 " :class="uc.heading ? 'lg:col-span-2' : 'lg:col-span-3'" />
     </div>
   </div>
 </template>

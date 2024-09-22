@@ -72,7 +72,7 @@ vue.onMounted(async () => {
       <component
         :is="currentAction?.settings.template"
         v-if="currentAction?.settings.template"
-        :card="card"
+        :card
         :action="currentAction"
         :query-vars="vars"
       />

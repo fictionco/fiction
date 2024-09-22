@@ -80,6 +80,6 @@ function getActions(location: 'top' | 'zero') {
       />
     </div>
 
-    <ElSiteStart v-model:vis="showCreateModal" :card="card" />
+    <ElSiteStart v-model:vis="showCreateModal" :card />
   </ElPanel>
 </template>

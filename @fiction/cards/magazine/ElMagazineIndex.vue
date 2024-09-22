@@ -56,7 +56,7 @@ function changePage(newPage: number) {
       <CardLink
         v-for="(post, i) in posts"
         :key="post.slug.value"
-        :card="card"
+        :card
         :href="post.href.value"
         :class="[getItemClasses(i)]"
       >
@@ -67,7 +67,7 @@ function changePage(newPage: number) {
               <CardButton
                 v-for="(cat, ii) in post.categories.value?.slice(0, 2)"
                 :key="ii"
-                :card="card"
+                :card
                 theme="overlay"
                 rounding="full"
                 size="xs"
@@ -87,7 +87,7 @@ function changePage(newPage: number) {
             <CardButton
               v-for="(cat, ii) in post.categories.value?.slice(0, 2)"
               :key="ii"
-              :card="card"
+              :card
               :text="cat.title"
               size="xs"
               :href="taxonomyLink({ card, taxonomy: 'category', term: cat.slug })"

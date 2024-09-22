@@ -49,7 +49,7 @@ function getBgClass(args: { slide: Testimonial, index: number }) {
                       <CardText
                         tag="div"
                         class="text-xl md:text-3xl leading-snug w-fit"
-                        :card="card"
+                        :card
                         :path="`items.${index}.content`"
                         animate="fade"
                       />

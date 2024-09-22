@@ -81,7 +81,7 @@ const layout = vue.computed(() => {
           </div>
           <CardText
             tag="h3"
-            :card="card"
+            :card
             class=" font-sans text-sm lg:text-lg font-medium"
             path="superHeading"
             placeholder="Super Heading"
@@ -101,7 +101,7 @@ const layout = vue.computed(() => {
       <div class="max-w-screen-lg" :class="layout === 'justify' ? 'lg:max-w-[50%]' : 'mx-auto'">
         <CardText
           tag="div"
-          :card="card"
+          :card
           class="mt-8 text-xl lg:text-2xl !leading-[1.5] md:text-balance text-theme-700 dark:text-theme-300/90"
           :class="layout === 'justify' ? 'lg:text-right' : ''"
           path="subHeading"

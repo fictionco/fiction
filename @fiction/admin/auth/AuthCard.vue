@@ -105,7 +105,7 @@ const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length
 </script>
 
 <template>
-  <TransactionView :card="card" :quote>
+  <TransactionView :card :quote>
     <TransactionWrap v-bind="config">
       <template #links>
         <div class="text-sm text-theme-500 dark:text-theme-300 font-sans">

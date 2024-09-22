@@ -142,14 +142,14 @@ if (routeSlug.value) {
       <ElMagazineSingle
         v-if="routeSlug"
         :key="routeSlug"
-        :card="card"
+        :card
         :loading="loading"
         :post="singlePost"
         :next-post="nextPost"
       />
       <ElMagazineIndex
         v-else
-        :card="card"
+        :card
         :loading="loading"
         :posts="posts"
         :index-meta="indexMeta"

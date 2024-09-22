@@ -37,7 +37,7 @@ const activeItem = vue.ref(0)
           <div class="min-w-0 text-left sm:text-center text-4xl lg:text-6xl !leading-[1.2]">
             <CardText
               tag="span"
-              :card="card"
+              :card
               :path="`quotes.${i}.text`"
               animate="fade"
               prefix="&#8220;"
@@ -56,8 +56,8 @@ const activeItem = vue.ref(0)
             />
           </div>
           <div class="text-left  space-y-0.5" :class="hasAuthorImage(quote) ? 'text-left' : 'md:text-center'">
-            <CardText :card="card" :path="`quotes.${i}.author.name`" class="text-lg md:text-3xl font-bold" animate="fade" />
-            <CardText class="font-sans text-sm md:text-xl text-theme-500 dark:text-theme-400" :card="card" :path="`quotes.${i}.author.title`" animate="fade" />
+            <CardText :card :path="`quotes.${i}.author.name`" class="text-lg md:text-3xl font-bold" animate="fade" />
+            <CardText class="font-sans text-sm md:text-xl text-theme-500 dark:text-theme-400" :card :path="`quotes.${i}.author.title`" animate="fade" />
           </div>
         </div>
       </div>

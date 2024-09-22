@@ -49,24 +49,23 @@ vue.onMounted(async () => {
             <div class="details">
               <CardText
                 tag="h3"
-                :card="card"
+                :card
                 class="text-primary-300 dark:text-primary-600 mb-4 text-base lg:text-lg font-sans font-medium"
-                path="superHeading"
+                path="superTitle"
                 animate="rise"
               />
               <CardText
                 tag="h1"
-                :card="card"
+                :card
                 class="heading text-4xl font-semibold md:text-4xl lg:text-5xl x-font-title tracking-tight lg:leading-[1.1] text-balance"
-                path="heading"
+                path="title"
                 animate="rise"
               />
               <CardText
                 tag="div"
-                :card="card"
+                :card
                 class="sub-heading mt-6 prose md:prose-xl leading-normal dark:prose-invert  prose"
-                path="subHeading"
-                :is-markdown="true"
+                path="content"
                 animate="rise"
               />
             </div>
@@ -74,7 +73,7 @@ vue.onMounted(async () => {
             <div class="list">
               <CardText
                 tag="h3"
-                :card="card"
+                :card
                 class="sub-heading  text-theme-300 x-font-sans text-sm font-semibold mb-4"
                 path="detailsTitle"
                 placeholder="List Title"
@@ -82,13 +81,13 @@ vue.onMounted(async () => {
               <div class="flex gap-[10%] gap-y-4 flex-wrap font-sans text-sm font-medium">
                 <div v-for="(item, i) in uc.details" :key="i" class="w-[45%] ">
                   <CardText
-                    :card="card"
+                    :card
                     class="font-semibold"
                     :path="`details.${i}.name`"
                   />
                   <CardText
                     tag="a"
-                    :card="card"
+                    :card
                     :class="item.href ? 'hover:text-primary-200 text-primary-600 dark:text-primary-400' : 'text-theme-500 dark:text-theme-400'"
                     :path="`details.${i}.desc`"
                     :href="item.href"

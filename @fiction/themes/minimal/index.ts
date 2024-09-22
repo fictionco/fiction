@@ -133,9 +133,9 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
         await factory.create({
           templateId: 'profile',
           userConfig: {
-            superHeading: 'Name or Tagline',
-            heading: 'A Few Words That Describe What You Do',
-            subHeading: `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            superTitle: 'Name or Tagline',
+            title: 'A Few Words That Describe What You Do',
+            content: `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>`,
             mediaItems: [
               {
@@ -152,9 +152,9 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
               { name: 'Phone', desc: '123-456-7890' },
             ],
             socials: [
-              { name: '@handle on facebook', href: '#', icon: 'facebook' },
-              { name: '@handle on x', href: '#', icon: 'x' },
-              { name: '@handle on linkedin', href: '#', icon: 'linkedin' },
+              { name: '@handle on facebook', href: '#', media: { iconId: 'facebook' } },
+              { name: '@handle on x', href: '#', media: { iconId: 'x' }},
+              { name: '@handle on linkedin', href: '#', media: { iconId: 'linkedin' } },
             ],
           },
         }),

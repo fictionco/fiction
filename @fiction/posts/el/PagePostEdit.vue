@@ -106,7 +106,7 @@ vue.onMounted(async () => {
       </template>
       <template #default>
         <div v-if="post">
-          <ElPostEditor :post :card="card" />
+          <ElPostEditor :post :card />
         </div>
       </template>
     </ViewEditor>
