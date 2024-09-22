@@ -195,6 +195,7 @@ export async function performActions(args: {
     const element = page.locator(action.selector || 'body')
 
     if (action.wait) {
+      logger.info('WAIT_FOR', { data: { wait: `${action.wait}ms` } })
       await waitFor(action.wait)
     }
 

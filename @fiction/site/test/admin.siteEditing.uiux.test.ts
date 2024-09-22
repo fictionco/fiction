@@ -36,15 +36,21 @@ describe('admin site editing', async () => {
           { type: 'hasText', selector: `[data-option-path="slides.0.title"]`, text: 'hello' },
           { type: 'hasText', selector: `[data-option-path="slides.0.subTitle"]`, text: 'world' },
         ] },
+        { type: 'click', selector: `[data-test-id="publishChangesButton"]` },
+
+        { type: 'frameInteraction', frameSelector: `#site-builder-iframe`, frameActions: [
+          { type: 'fill', selector: `[data-option-path="slides.0.title"]`, text: 'change' },
+          { type: 'fill', selector: `[data-option-path="slides.0.subTitle"]`, text: 'the text' },
+        ] },
 
         { type: 'click', selector: `[data-test-id="draft-control-dropdown"] button` },
         { type: 'click', selector: `[data-test-id="draft-control-dropdown"] [data-test-id="reset-to-published"]` },
         { type: 'frameInteraction', frameSelector: `#site-builder-iframe`, frameActions: [
           { type: 'click', selector: `[data-test-id="nav-dot-0"]` },
-          { type: 'hasText', selector: `[data-option-path="slides.0.title"]`, text: 'First and Last Name' },
-          { type: 'hasText', selector: `[data-option-path="slides.0.subTitle"]`, text: 'Author and Speaker' },
+          { type: 'hasText', selector: `[data-option-path="slides.0.title"]`, text: 'hello' },
+          { type: 'hasText', selector: `[data-option-path="slides.0.subTitle"]`, text: 'world' },
         ] },
-        // { type: 'click', selector: `[data-test-id="tool-button-managePages"]` },
+        { type: 'click', selector: `[data-test-id="tool-button-managePages"]` },
         // { type: 'click', selector: `[data-test-id="addPage"]` },
         // { type: 'fill', selector: `[data-option-path="title"] input`, texxt: `New Page ${slugId}` },
         // { type: 'click', selector: `[data-test-id="requestCreateNewPage"]` },

@@ -105,7 +105,6 @@ const initialFontSize = vue.computed(() => {
         fontSize: initialFontSize,
         maxWidth: '100%',
         maxHeight: '100%',
-        overflow: 'hidden',
       }"
     >
       <slot />

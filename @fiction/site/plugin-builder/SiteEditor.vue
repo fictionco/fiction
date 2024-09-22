@@ -168,6 +168,7 @@ async function resetToPublished() {
             target="_blank"
             size="md"
             icon="i-tabler-arrow-up-right"
+            data-test-id="viewSiteButton"
           >
             View Site
           </CardButton>
@@ -177,6 +178,7 @@ async function resetToPublished() {
             :loading="sending === 'save'"
             icon="i-tabler-arrow-big-up-lines"
             size="md"
+            data-test-id="publishChangesButton"
             @click.prevent="save()"
           >
             Publish Changes
