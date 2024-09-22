@@ -337,7 +337,7 @@ export class ManagePage extends Query<SitesQuerySettings> {
       const cardId = card.cardId
 
       const currentDraft = await db
-        .select<TableCardConfig[]>('draft', 'draft_history')
+        .select<TableCardConfig[]>('draft')
         .from(t.pages)
         .where({ siteId, orgId, card_id: cardId })
         .first()
@@ -480,20 +480,43 @@ export class ManageSite extends SitesQuery {
   }
 
   private async updateSite(params: ManageSiteParams & { _action: 'update' }, meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
-    const { fields, where, userId, orgId } = params
+    const { fields, where, userId, orgId, scope = 'publish' } = params
     if (!userId || !orgId)
       throw abort('orgId required')
+
+    if (scope === 'draft') {
+      return this.saveDraft({ ...params, _action: 'saveDraft' }, meta)
+    }
 
     const selector = await this.getSiteSelector(where)
     const prepped = this.settings.fictionDb.prep({ type: 'update', fields, table: t.sites, meta })
 
-    const [updatedSite] = await this.settings.fictionDb.client().update({ orgId, userId, ...prepped }).where({ orgId, ...selector }).into(t.sites).returning<TableSiteConfig[]>('*')
+    this.log.info('UPDATING SITE', { data: { selector, fields: fields.pages?.find(_ => _.slug === '_home') } })
+
+    const db = this.settings.fictionDb.client()
+
+    let updatedSite: TableSiteConfig | undefined
+
+    await db.transaction(async (trx) => {
+      [updatedSite] = await trx(t.sites)
+        .update({ orgId, userId, ...prepped })
+        .where({ orgId, ...selector })
+        .returning('*')
+
+      if (!updatedSite)
+        throw abort('site not found')
+
+      // If updating in publish mode, clear all drafts
+      if (scope === 'publish') {
+        await this.clearSiteDrafts(trx, { siteId: updatedSite.siteId }, orgId)
+      }
+    })
 
     if (!updatedSite)
-      throw abort('site not found')
+      throw abort('updated site not found')
 
     if (fields.pages && fields.pages.length) {
-      await this.updateSitePages({ siteId: updatedSite.siteId, fields: fields.pages, userId, orgId, scope: 'publish' }, meta)
+      await this.updateSitePages({ siteId: updatedSite.siteId, fields: fields.pages, userId, orgId, scope }, meta)
     }
 
     return { status: 'success', data: updatedSite, message: 'site saved' }
@@ -510,7 +533,7 @@ export class ManageSite extends SitesQuery {
     const now = new Date()
     fields.updatedAt = now.toISOString()
 
-    const currentDrafts = await db.select<TableSiteConfig>('draft', 'draft_history')
+    const currentDrafts = await db.select<TableSiteConfig>('draft')
       .from(t.sites)
       .where(where)
       .first()
@@ -543,26 +566,42 @@ export class ManageSite extends SitesQuery {
     return { status: 'success', data: r.data }
   }
 
+  async clearSiteDrafts(db: Knex, selector: WhereSite, orgId: string): Promise<TableSiteConfig | null> {
+    return db.transaction(async (trx) => {
+      // Clear site draft
+      const [updatedSite] = await trx(t.sites)
+        .where({ orgId, ...selector })
+        .update({ draft: '{}' })
+        .returning('*')
+
+      if (!updatedSite) {
+        return null
+      }
+
+      // Clear page drafts
+      await trx(t.pages)
+        .where({ siteId: updatedSite.siteId })
+        .update({ draft: '{}' })
+
+      return updatedSite
+    })
+  }
+
   private async revertDraft(params: ManageSiteParams & { _action: 'revertDraft' }, meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
     const { where, orgId } = params
-    const db = this.settings.fictionDb.client()
+
+    if (!orgId)
+      throw abort('orgId required')
 
     const selector = await this.getSiteSelector(where)
 
-    // Revert site draft
-    const [updatedSite] = await db(t.sites)
-      .where({ orgId, ...selector })
-      .update({ draft: '{}' })
-      .returning('*')
+    const db = this.settings.fictionDb.client()
+
+    const updatedSite = await this.clearSiteDrafts(db, selector, orgId)
 
     if (!updatedSite) {
       throw abort('Site not found')
     }
-
-    // Revert page drafts
-    await db(t.pages)
-      .where({ siteId: updatedSite.siteId })
-      .update({ draft: '{}' })
 
     // Fetch the updated site with reverted drafts
     const result = await this.retrieveSite({

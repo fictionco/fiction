@@ -211,8 +211,6 @@ export interface CompiledServiceConfig {
       | 'editor'
       | 'sections'
       | 'draft'
-      | 'draftHistory'
-      | 'archiveAt'
       | 'createdAt'
       | 'updatedAt'
     fiction_site_pages:
@@ -235,8 +233,6 @@ export interface CompiledServiceConfig {
       | 'editor'
       | 'generation'
       | 'draft'
-      | 'draftHistory'
-      | 'archiveAt'
       | 'createdAt'
       | 'updatedAt'
     fiction_site_domains:

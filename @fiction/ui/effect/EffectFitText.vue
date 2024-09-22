@@ -14,12 +14,13 @@ const props = defineProps({
 })
 
 const fittyRef = vue.ref<HTMLElement | null>(null)
+const containerRef = vue.ref<HTMLElement | null>(null)
 const fitty = vue.ref<Fitty | null>(null)
+const isTextVisible = vue.ref(false)
 
-vue.onMounted(async () => {
-  await waitFor(50)
+function initFitty() {
   if (fittyRef.value) {
-    fitty.value = new Fitty()
+    fitty.value = new Fitty({ debug: false })
     fitty.value.fit(fittyRef.value, {
       minSize: props.minSize,
       maxSize: props.maxSize,
@@ -30,30 +31,83 @@ vue.onMounted(async () => {
         : props.observeMutations,
     })
   }
-})
+}
 
-vue.onBeforeUnmount(() => {
-  if (fitty.value) {
-    fitty.value.observeWindow = false
+function refitText() {
+  vue.nextTick(async () => {
+    await vue.nextTick() // Wait for DOM update
+    fitty.value?.fitAll()
+    isTextVisible.value = true // Show text after fitting
+  })
+}
+
+vue.onMounted(async () => {
+  await waitFor(50)
+  initFitty()
+  refitText()
+
+  // Use ResizeObserver to detect container size changes
+  const resizeObserver = new ResizeObserver(() => {
+    refitText()
+  })
+  if (containerRef.value) {
+    resizeObserver.observe(containerRef.value)
   }
+
+  vue.onBeforeUnmount(() => {
+    resizeObserver.disconnect()
+    if (fitty.value) {
+      fitty.value.destroy()
+    }
+  })
 })
 
 vue.watch(
   () => [props.content, props.minSize, props.maxSize, props.multiLine, props.lines],
   () => {
-    vue.nextTick(() => {
-      fitty.value?.fitAll()
-    })
+    isTextVisible.value = false // Hide text before refitting
+    refitText()
   },
   { deep: true, immediate: true },
 )
 
 const cls = vue.computed(() => twMerge(props.wrapClass))
+
+// Expose a method to force recalculation
+function forceRecalculate() {
+  isTextVisible.value = false // Hide text before refitting
+  vue.nextTick(async () => {
+    await waitFor(50)
+    refitText()
+  })
+}
+
+defineExpose({ forceRecalculate })
+
+// Compute an initial font size based on container size
+const initialFontSize = vue.computed(() => {
+  if (!containerRef.value)
+    return `${props.minSize}px`
+  const containerWidth = containerRef.value.clientWidth
+  const containerHeight = containerRef.value.clientHeight
+  const initialSize = Math.min(containerWidth / 10, containerHeight / 2, props.maxSize)
+  return `${Math.max(initialSize, props.minSize)}px`
+})
 </script>
 
 <template>
-  <div :class="cls">
-    <div ref="fittyRef" class="w-full h-full">
+  <div ref="containerRef" :class="cls">
+    <div
+      ref="fittyRef"
+      class="w-full h-full transition-opacity duration-300"
+      :class="{ 'opacity-0': !isTextVisible }"
+      :style="{
+        fontSize: initialFontSize,
+        maxWidth: '100%',
+        maxHeight: '100%',
+        overflow: 'hidden',
+      }"
+    >
       <slot />
     </div>
   </div>

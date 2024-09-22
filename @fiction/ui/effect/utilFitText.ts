@@ -19,7 +19,7 @@ type FittyInstance = {
   newbie: boolean
   styleComputed: boolean
   availableWidth: number
-  availableHeight: number // Added this property
+  availableHeight: number
   currentWidth: number
   previousFontSize: number
   currentFontSize: number
@@ -32,7 +32,8 @@ type FittyInstance = {
   display: string
   preStyleTestCompleted: boolean
   observer?: MutationObserver
-  maxCharsPerLine?: number // Changed to optional to match FittyOptions
+  maxCharsPerLine?: number
+  isVisible: boolean
 }
 
 export class Fitty {
@@ -45,6 +46,7 @@ export class Fitty {
 
   private fitties: FittyInstance[] = []
   private redrawFrame: number | null = null
+  private visibilityObserver: IntersectionObserver | null = null
 
   public observeWindowDelay: number = 100
   private isObservingWindow: boolean = false
@@ -70,6 +72,26 @@ export class Fitty {
   constructor(options: { debug?: boolean } = {}) {
     this.observeWindow = true
     this.debug = options.debug || false
+    this.initVisibilityObserver()
+  }
+
+  private initVisibilityObserver(): void {
+    if (typeof IntersectionObserver !== 'undefined') {
+      this.visibilityObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            const fitty = this.fitties.find(f => f.element === entry.target)
+            if (fitty) {
+              fitty.isVisible = entry.isIntersecting
+              if (fitty.isVisible && fitty.dirty !== Fitty.DrawState.IDLE) {
+                this.requestRedraw()
+              }
+            }
+          })
+        },
+        { threshold: 0.1 },
+      )
+    }
   }
 
   private log(...args: any[]): void {
@@ -89,6 +111,9 @@ export class Fitty {
     elements.forEach((element) => {
       const fitty = this.createFitty(element, fittyOptions)
       this.fitties.push(fitty)
+      if (this.visibilityObserver) {
+        this.visibilityObserver.observe(element)
+      }
     })
     this.requestRedraw()
   }
@@ -119,6 +144,7 @@ export class Fitty {
       display: '',
       preStyleTestCompleted: false,
       maxCharsPerLine: options.maxCharsPerLine,
+      isVisible: true,
     }
 
     this.initFitty(f)
@@ -157,14 +183,14 @@ export class Fitty {
   }
 
   private redraw(fitties: FittyInstance[]): void {
-    fitties.forEach(f => this.calculateStyles(f))
+    fitties.filter(f => f.isVisible).forEach(f => this.calculateStyles(f))
 
-    fitties.forEach((f) => {
+    fitties.filter(f => f.isVisible).forEach((f) => {
       this.applyStyle(f)
       f.dirty = Fitty.DrawState.IDLE
     })
 
-    fitties.forEach(f => this.dispatchFitEvent(f))
+    fitties.filter(f => f.isVisible).forEach(f => this.dispatchFitEvent(f))
   }
 
   private calculateStyles(f: FittyInstance): void {
@@ -205,14 +231,12 @@ export class Fitty {
 
   private calculateLineHeight(fontSize: number): number {
     if (fontSize < 50) {
-      // Linear interpolation between 1.4 (at 16px) and 1.1 (at 50px)
       return 1.4 - (0.3 * (fontSize - 16) / (50 - 16))
     }
     else if (fontSize >= 200) {
       return 0.85
     }
     else {
-      // Linear interpolation between 1.1 (at 50px) and 0.85 (at 200px)
       return 1.1 - (0.25 * (fontSize - 50) / (200 - 50))
     }
   }
@@ -222,7 +246,6 @@ export class Fitty {
     const maxLines = f.lines || 1
 
     if (maxLines === 1) {
-      // For single-line text, we only care about the width
       return f.element.scrollWidth <= f.availableWidth
     }
     else {
@@ -265,7 +288,6 @@ export class Fitty {
     const lineHeight = this.calculateLineHeight(f.currentFontSize)
     f.element.style.lineHeight = `${lineHeight}`
 
-    // Apply word-wrap: normal to the first child element
     const firstChild = f.element.firstElementChild as HTMLElement
     if (firstChild) {
       firstChild.style.wordWrap = 'normal'
@@ -313,5 +335,18 @@ export class Fitty {
     ['resize', 'orientationchange'].forEach((event) => {
       window[method](event, this.onWindowResized)
     })
+  }
+
+  public destroy(): void {
+    if (this.visibilityObserver) {
+      this.visibilityObserver.disconnect()
+    }
+    this.fitties.forEach((fitty) => {
+      if (fitty.observer) {
+        fitty.observer.disconnect()
+      }
+    })
+    this.fitties = []
+    this.observeWindow = false
   }
 }

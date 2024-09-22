@@ -448,6 +448,150 @@ describe('manageSite query', () => {
     })
   })
 
+  describe('draft clearing on publish', () => {
+    let siteId: string
+    let cardId: string
+
+    beforeEach(async () => {
+      const fields = createSiteFields('Draft Clearing Test Site')
+      const response = await testUtils.fictionSites.queries.ManageSite.run(
+        { _action: 'create', fields, orgId, userId, caller: 'test' },
+        { server: true },
+      )
+      siteId = response.data?.siteId as string
+      cardId = objectId({ prefix: 'card' })
+
+      // Add a published page to the site
+      await testUtils.fictionSites.queries.ManagePage.serve(
+        {
+          _action: 'upsert',
+          siteId,
+          fields: [{ cardId, templateId: 'wrap', title: 'Published Page', slug: 'published-page' }],
+          orgId,
+          userId,
+          caller: 'test',
+          scope: 'publish',
+        },
+        { server: true },
+      )
+    })
+
+    it('should clear site and page drafts when publishing', async () => {
+      // Create drafts for site and page
+      const siteDraft = { title: 'Draft Site Title' }
+      const pageDraft = { cardId, templateId: 'wrap', title: 'Draft Page Title', slug: 'published-page' }
+
+      await testUtils.fictionSites.queries.ManageSite.serve(
+        { _action: 'saveDraft', where: { siteId }, fields: siteDraft, orgId, userId, caller: 'test' },
+        { server: true },
+      )
+
+      await testUtils.fictionSites.queries.ManagePage.serve(
+        {
+          _action: 'saveDraft',
+          siteId,
+          fields: [pageDraft],
+          orgId,
+          userId,
+          caller: 'test',
+          scope: 'draft',
+        },
+        { server: true },
+      )
+
+      // Publish the site
+      const publishResponse = await testUtils.fictionSites.queries.ManageSite.run(
+        { _action: 'update', where: { siteId }, fields: { title: 'Published Site Title' }, orgId, userId, caller: 'test', scope: 'publish' },
+        { server: true },
+      )
+
+      expect(publishResponse.status).toBe('success')
+      expect(publishResponse.data?.title).toBe('Published Site Title')
+
+      // Verify site draft is cleared
+      const siteResponse = await testUtils.fictionSites.queries.ManageSite.run(
+        { _action: 'retrieve', where: { siteId }, orgId, userId, caller: 'test', scope: 'draft' },
+        { server: true },
+      )
+
+      expect(siteResponse.data?.title).toBe('Published Site Title')
+      expect(siteResponse.data?.draft).toBeUndefined()
+
+      // Verify page draft is cleared
+      const pageResponse = await testUtils.fictionSites.queries.ManagePage.serve(
+        {
+          _action: 'retrieve',
+          where: [{ cardId }],
+          siteId,
+          orgId,
+          caller: 'test',
+          scope: 'draft',
+        },
+        { server: true },
+      )
+
+      expect(pageResponse.data?.[0]?.title).toBe('Published Page')
+      expect(pageResponse.data?.[0]?.draft).toBeUndefined()
+    })
+
+    it('should not clear drafts when updating in draft mode', async () => {
+      // Create drafts for site and page
+      const siteDraft = { title: 'Draft Site Title' }
+      const pageDraft = { cardId, templateId: 'wrap', title: 'Draft Page Title', slug: 'published-page' }
+
+      await testUtils.fictionSites.queries.ManageSite.serve(
+        { _action: 'saveDraft', where: { siteId }, fields: siteDraft, orgId, userId, caller: 'test' },
+        { server: true },
+      )
+
+      await testUtils.fictionSites.queries.ManagePage.serve(
+        {
+          _action: 'saveDraft',
+          siteId,
+          fields: [pageDraft],
+          orgId,
+          userId,
+          caller: 'test',
+          scope: 'draft',
+        },
+        { server: true },
+      )
+
+      // Update the site in draft mode
+      const updateResponse = await testUtils.fictionSites.queries.ManageSite.run(
+        { _action: 'update', where: { siteId }, fields: { title: 'Updated Draft Title' }, orgId, userId, caller: 'test', scope: 'draft' },
+        { server: true },
+      )
+
+      expect(updateResponse.status).toBe('success')
+
+      // Verify site draft is not cleared
+      const siteResponse = await testUtils.fictionSites.queries.ManageSite.run(
+        { _action: 'retrieve', where: { siteId }, orgId, userId, caller: 'test', scope: 'draft' },
+        { server: true },
+      )
+
+      expect(siteResponse.data?.title).toBe('Updated Draft Title')
+      expect(siteResponse.data?.draft).toBeFalsy()
+
+      // Verify page draft is not cleared
+      const pageResponse = await testUtils.fictionSites.queries.ManagePage.serve(
+        {
+          _action: 'retrieve',
+          where: [{ cardId }],
+          siteId,
+          orgId,
+          caller: 'test',
+          scope: 'draft',
+        },
+        { server: true },
+      )
+
+      expect(pageResponse.data?.[0]?.title).toBe('Draft Page Title')
+      expect(pageResponse.data?.[0]?.draft).toBeFalsy()
+    })
+  })
+
   describe('edge cases and error handling', () => {
     it('should have correct error message for invalid theme', async () => {
       const fields = { ...createSiteFields('Invalid Theme Site'), themeId: 'non-existent-theme' }

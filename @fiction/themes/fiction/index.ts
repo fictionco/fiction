@@ -22,21 +22,21 @@ const socials: NavItem[] = [
     href: 'https://www.linkedin.com/company/fictionco',
     target: '_blank',
     name: 'LinkedIn',
-    icon: `linkedin`,
+    media: { iconId: `linkedin` },
   },
   {
     key: 'github',
     href: 'https://github.com/fictionco',
     target: '_blank',
     name: 'Github',
-    icon: `github`,
+    media: { iconId: `github` },
   },
   {
     key: 'x',
     href: 'https://www.x.com/fictionplatform',
     target: '_blank',
     name: 'X',
-    icon: 'x',
+    media: { iconId: `x` },
   },
 ]
 

@@ -92,7 +92,7 @@ async function save() {
   // make sure any blur events are triggered
   resetUi({ scope: 'all', cause: 'saveSite', trigger: 'manualReset' })
 
-  await site.value.save({ minTime: 500 })
+  await site.value.save({ minTime: 500, scope: 'publish' })
   sending.value = ''
 }
 

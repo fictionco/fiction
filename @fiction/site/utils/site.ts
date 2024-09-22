@@ -155,7 +155,7 @@ export async function saveSite(args: { site: Site, scope?: 'draft' | 'publish', 
     caller: 'saveSite',
   }, { minTime })
 
-  await updateSite({ site, newConfig: r.data || {}, caller: 'saveSite' })
+  await updateSite({ site, newConfig: r.data || {}, caller: 'saveSite', noSave: true })
 
   site.editor.value.isDirty = false
   site.clearAutosave()

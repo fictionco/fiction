@@ -57,8 +57,6 @@ export const siteCols = [
   new Col({ key: 'editor', sec: 'setting', sch: () => z.record(z.unknown()) as z.Schema<Partial<EditorState>>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'sections', sec: 'setting', sch: () => z.record(z.unknown()) as z.Schema<Record<string, CardConfigPortable>>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'draft', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
-  new Col({ key: 'draftHistory', sec: 'setting', sch: () => z.array(z.record(z.unknown())), make: ({ s, col }) => s.jsonb(col.k).defaultTo([]), prepare: ({ value }) => JSON.stringify(value) }),
-  new Col({ key: 'archiveAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
 ] as const
 
 export const pageCols = [
@@ -81,8 +79,6 @@ export const pageCols = [
   new Col({ key: 'editor', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'generation', sec: 'setting', sch: () => z.record(z.unknown()) as z.Schema<CardGenerationConfig>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'draft', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
-  new Col({ key: 'draftHistory', sec: 'setting', sch: () => z.array(z.record(z.unknown())), make: ({ s, col }) => s.jsonb(col.k).defaultTo([]) }),
-  new Col({ key: 'archiveAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
 ] as const
 
 export const domainCols = [
