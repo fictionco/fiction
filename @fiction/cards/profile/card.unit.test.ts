@@ -1,4 +1,3 @@
-import { Card } from '@fiction/site'
 import { refineOptions } from '@fiction/site/utils/schema'
 import { describe, expect, it } from 'vitest'
 import { zodToJsonSchema } from 'zod-to-json-schema'

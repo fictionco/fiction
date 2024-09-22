@@ -153,7 +153,7 @@ async function getPages(args: { factory: CardFactory<Awaited<ReturnType<typeof g
             ],
             socials: [
               { name: '@handle on facebook', href: '#', media: { iconId: 'facebook' } },
-              { name: '@handle on x', href: '#', media: { iconId: 'x' }},
+              { name: '@handle on x', href: '#', media: { iconId: 'x' } },
               { name: '@handle on linkedin', href: '#', media: { iconId: 'linkedin' } },
             ],
           },

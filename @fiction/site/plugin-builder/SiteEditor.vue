@@ -12,7 +12,7 @@ import XText from '@fiction/ui/common/XText.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import { getMountContext, loadSite } from '../load'
-import { activeSiteDisplayUrl, saveSiteDraft } from '../utils/site'
+import { activeSiteDisplayUrl } from '../utils/site'
 import SiteEditorFrame from './SiteEditorFrame.vue'
 import { adminEditorController } from './tools/tools'
 

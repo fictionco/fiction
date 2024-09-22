@@ -7,7 +7,6 @@ import type { CardConfigPortable, TableCardConfig } from './tables.js'
 import type { ComponentConstructor } from './type-utils.js'
 import { deepMerge, FictionObject, objectId, setNested, toLabel, vue } from '@fiction/core'
 import { z } from 'zod'
-import { standardCardOptions } from './cardStandard.js'
 import { getContentWidthClass, getSpacingClass } from './styling.js'
 import { siteGoto, siteLink } from './utils/manage.js'
 
