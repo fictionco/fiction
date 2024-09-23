@@ -159,96 +159,93 @@ class PlaywrightLogger {
 
   private async handleConsoleMessage(message: playwrightTest.ConsoleMessage): Promise<void> {
     const type = message.type()
-    const text = this.cleanConsoleMessage(message.text())
-    const location = message.location()
+    const text = this.cleanMessage(message.text())
 
-    const args = await this.serializeArguments(message.args())
-
-    const logData = {
-      text,
-      location: `${location.url}:${location.lineNumber}:${location.columnNumber}`,
-      args,
+    if (type === 'debug') {
+      return // Don't log debug messages
     }
 
-    switch (type) {
-      case 'error':
+    if (type === 'error' || type === 'warning') {
+      const location = message.location()
+      const args = await this.serializeArguments(message.args())
+      const stack = this.extractStackTrace(args)
+
+      const logData = {
+        location: `${location.url}:${location.lineNumber}:${location.columnNumber}`,
+        ...(args.length > 0 && { args }),
+        ...(stack && { stack }),
+      }
+
+      if (type === 'error') {
         this.logger.error(text, { data: logData })
         this.errorLogs.push(text)
-        break
-      case 'warning':
+      }
+      else {
         this.logger.warn(text, { data: logData })
-        break
-      case 'info':
-      case 'log':
-        this.logger.info(text, { data: logData })
-        break
-      case 'debug':
-        this.logger.debug(text, { data: logData })
-        break
-      default:
-        this.logger.trace(text, { data: logData })
+      }
+    }
+    else {
+      this.logger.info(text)
     }
   }
 
   private handlePageError(error: Error): void {
-    this.logger.error(error.message, {
-      data: {
-        stack: error.stack,
-      },
-    })
+    this.logger.error(error.message, { data: { stack: error.stack } })
     this.errorLogs.push(error.message)
   }
 
   private async serializeArguments(args: any[]): Promise<any[]> {
-    return Promise.all(args.map(arg => this.serializeArgument(arg)))
+    const serialized = await Promise.all(args.map(async (arg) => {
+      try {
+        const value = await arg.jsonValue().catch(() => 'Unable to serialize')
+        return typeof value === 'object' && value !== null
+          ? JSON.parse(JSON.stringify(value, this.jsonReplacer))
+          : value
+      }
+      catch (error) {
+        return 'Error serializing argument'
+      }
+    }))
+
+    return serialized.filter(arg =>
+      typeof arg !== 'string' || !arg.match(/^(color|font-weight|background-color):/),
+    ).map(arg => typeof arg === 'string' ? this.cleanMessage(arg) : arg)
   }
 
-  private async serializeArgument(arg: any): Promise<any> {
-    try {
-      const value = await arg.jsonValue().catch(() => 'Unable to serialize')
-
-      if (typeof value === 'object' && value !== null) {
-        return JSON.stringify(value, this.jsonReplacer, 2)
-      }
-
-      return value
+  private extractStackTrace(args: any[]): string | null {
+    const stackArg = args.find(arg => typeof arg === 'string' && arg.includes('at '))
+    if (stackArg) {
+      return this.parseStackTrace(stackArg)
     }
-    catch (error) {
-      return `Error serializing argument ${(error as Error).message}`
-    }
+    return null
+  }
+
+  private parseStackTrace(stack: string): string {
+    if (!stack)
+      return ''
+
+    const lines = stack.split('\n')
+    return lines
+      .filter(line => line.includes('/fiction/') && !line.includes('node_modules'))
+      .join('\n')
   }
 
   private jsonReplacer(key: string, value: any): any {
-    if (value instanceof RegExp) {
+    if (value instanceof RegExp)
       return value.toString()
-    }
-    if (typeof value === 'function') {
+    if (typeof value === 'function')
       return '[Function]'
-    }
-    if (typeof value === 'symbol') {
+    if (typeof value === 'symbol')
       return value.toString()
-    }
     return value
   }
 
-  private cleanConsoleMessage(message: string): string {
-    // Remove color and styling information
-    message = message.replace(/%c/g, '')
-
-    // Remove inline styles
-    message = message.replace(/(?:color|font-weight|background-color): [^;]+;?\s*/g, '')
-
-    // Clean up extra whitespace
-    message = message.replace(/\s+/g, ' ').trim()
-
-    // Extract the actual log message
-    const parts = message.split(':')
-    if (parts.length > 2) {
-      const [level, context, ...rest] = parts
-      return `${level.trim()} (${context.trim()}): ${rest.join(':').trim()}`
-    }
-
+  private cleanMessage(message: string): string {
     return message
+      .replace(/%c/g, '')
+      .replace(/(?:color|font-weight|background-color): [^;]+;?\s*/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
   }
 
   getErrorLogs(): string[] {
