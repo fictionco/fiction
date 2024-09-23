@@ -1,5 +1,4 @@
-import type { ActionItem } from '@fiction/core'
-import { ActionButtonSchema, ButtonDesignSchema, colorThemeUser, MediaBasicSchema, MediaIconSchema, vue } from '@fiction/core'
+import { ActionButtonSchema, MediaBasicSchema, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'

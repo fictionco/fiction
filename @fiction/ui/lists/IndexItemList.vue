@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActionItem, IndexItem, vue } from '@fiction/core'
+import type { ActionButton, IndexItem, vue } from '@fiction/core'
 import { getNavComponentType } from '@fiction/core'
 import ElActions from '@fiction/ui/buttons/ElActions.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
@@ -9,7 +9,7 @@ defineProps({
   list: { type: Array as vue.PropType<IndexItem[]>, required: true },
   loading: { type: Boolean, default: false },
   zeroText: { type: String, default: 'No items found' },
-  actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
+  actions: { type: Array as vue.PropType<ActionButton[]>, default: () => [] },
 })
 
 const mediaClass = `size-14 border-2 border-theme-200/50 bg-theme-50 dark:bg-theme-700 dark:text-theme-0 dark:border-theme-0 rounded-lg overflow-hidden text-theme-500/50`

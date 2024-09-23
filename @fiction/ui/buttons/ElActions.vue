@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import type { ActionItem } from '@fiction/core'
+import type { ActionButton } from '@fiction/core'
 import type { UiElementSize } from '../utils'
 import { shortId, vue } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from '../anim'
 import XButton from '../buttons/XButton.vue'
 
 const props = defineProps({
-  actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
+  actions: { type: Array as vue.PropType<ActionButton[]>, default: () => [] },
   uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
   animate: { type: String as vue.PropType<'fade' | 'slide' | 'pop' | 'rise' | 'none'>, default: 'none' },
   isOverlay: { type: Boolean, default: false },
@@ -26,7 +26,7 @@ vue.onMounted(() => {
   }
 })
 
-function getButtonType(action: ActionItem) {
+function getButtonType(action: ActionButton) {
   if (props.isOverlay) {
     return 'overlay'
   }
@@ -49,7 +49,7 @@ function getButtonType(action: ActionItem) {
       :icon="action.icon"
       :loading="action.loading"
       :icon-after="action.iconAfter"
-      :disabled="action.isDisabled"
+      :disabled="action.disabled"
       @click.stop="action.onClick && action.onClick({ event: $event, item: action })"
     >
       {{ action.name }}

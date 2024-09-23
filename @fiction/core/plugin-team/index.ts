@@ -44,7 +44,7 @@ export class FictionTeam extends FictionPlugin<FictionTeamSettings> {
   }
 
   async loadMemberIndex() {
-    const requestPromise = this.requests.OrgMembers.projectRequest({ _action: 'index' })
+    const requestPromise = this.requests.OrgMembers.projectRequest({ _action: 'list' })
 
     const r = await requestPromise
 

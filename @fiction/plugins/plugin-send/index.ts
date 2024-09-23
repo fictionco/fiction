@@ -48,7 +48,7 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
   admin() {
     const { fictionAdmin } = this.settings
 
-    fictionAdmin.addAdminPages(async ({ factory }) => [
+    fictionAdmin.addAdminPages({ key: 'send', loader: async ({ factory }) => [
       await factory.create({
         templateId: 'dash',
         slug: 'send',
@@ -79,7 +79,7 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
         })],
         userConfig: { navIcon: 'i-tabler-send', parentNavItemSlug: 'send' },
       }),
-    ])
+    ] })
   }
 }
 

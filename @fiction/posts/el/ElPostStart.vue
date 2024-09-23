@@ -28,7 +28,15 @@ async function requestCreate() {
   try {
     const createParams = { _action: 'create', fields: { title: form.value.title || '' } } as const
     post.value = await managePost({ fictionPosts, params: createParams })
-    await props.card.goto({ path: '/edit-post', query: { postId: post.value?.postId } })
+
+    const postId = post.value?.postId
+
+    if (!postId) {
+      fictionEnv.events.emit('notify', { type: 'error', message: 'There was a problem.' })
+      return
+    }
+
+    await props.card.goto({ path: '/edit-post', query: { postId } })
   }
   catch (error) {
     fictionEnv.events.emit('notify', { type: 'error', message: 'There was a problem.' })
@@ -48,10 +56,11 @@ const stepConfig: StepConfig = {
       {
         name: 'Create A New Post',
         desc: 'Give it a title...',
-        key: 'name',
+        key: 'postTitle',
         class: 'max-w-lg',
         isLoading: isLoading.value,
         onClick: () => requestCreate(),
+        actionText: 'Create Post',
       },
     ]
 
@@ -68,13 +77,13 @@ const stepConfig: StepConfig = {
     @update:vis="emit('update:vis', $event)"
   >
     <ElStepNav v-slot="{ step }" :step-config="stepConfig" data-test-id="createPostModal">
-      <div v-if="step.key === 'name'" class="">
+      <div v-if="step.key === 'postTitle'" class="">
         <ElInput
           v-model="form.title"
           input="InputText"
-          placeholder="Post Title"
-          input-class="p-4 text-lg"
+          :input-props="{ placeholder: 'Post Title' }"
           data-test-id="postTitleInput"
+          ui-size="lg"
         />
       </div>
     </ElStepNav>

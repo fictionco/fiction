@@ -225,7 +225,6 @@ export interface CompiledServiceConfig {
       | 'title'
       | 'description'
       | 'cards'
-      | 'single'
       | 'effects'
       | 'userConfig'
       | 'isHome'

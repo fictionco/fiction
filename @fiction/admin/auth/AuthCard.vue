@@ -137,9 +137,8 @@ const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length
               class="my-6"
               label="Email Address"
               input="InputEmail"
-              required
+              :input-props="{ autocomplete: 'email', required: true, placeholder: 'Enter Your Email' }"
               :value="fields.email"
-              placeholder="Enter Your Email"
               ui-size="lg"
               @input="fields.email = $event.target.value"
             />
@@ -149,9 +148,7 @@ const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length
               data-test-id="input-name"
               label="Your Name"
               input="InputText"
-              required
-              placeholder="Full Name"
-              autocomplete="name"
+              :input-props="{ autocomplete: 'name', required: true, placeholder: 'Full Name' }"
               ui-size="lg"
               :value="fields.fullName"
               @input="fields.fullName = $event.target.value"
@@ -163,10 +160,8 @@ const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length
               data-test-id="input-password"
               input="InputPassword"
               label="Password"
-              autocomplete="current-password"
-              placeholder="Your Password"
+              :input-props="{ autocomplete: 'current-password', required: true, placeholder: 'Your Password' }"
               ui-size="lg"
-              required
               :value="fields.password"
               @input="fields.password = $event.target.value"
             />
@@ -179,10 +174,8 @@ const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length
               input="InputPassword"
               label="Create Password"
               description="Minimum 6 characters"
-              autocomplete="new-password"
-              placeholder="Create New Password"
+              :input-props="{ autocomplete: 'new-password', required: true, placeholder: 'Create New Password' }"
               ui-size="lg"
-              required
               :value="fields.password"
               @input="fields.password = $event.target.value"
             />

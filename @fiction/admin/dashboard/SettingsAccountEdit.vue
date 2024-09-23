@@ -54,26 +54,21 @@ vue.watch(
         v-model="form.fullName"
         input="InputText"
         label="Full Name"
-        placeholder="Enter your full name"
-        required
+        :input-props="{ placeholder: 'Enter your full name', required: true }"
       />
       <ElInput
         v-model="form.username"
         input="InputUsername"
         label="Username"
         sub-label="Must be unique. Used in profile URL."
-        placeholder="username123"
-        table="fiction_user"
-        :columns="[{ name: 'username' }]"
-        required
+        :input-props="{ placeholder: 'username123', table: 'fiction_user', columns: [{ name: 'username' }], required: true }"
       />
 
       <ElInput
         v-model="form.email"
         input="InputEmail"
         label="Email Address"
-        placeholder="email@example.com"
-        disabled
+        :input-props="{ placeholder: 'email@example.com', disabled: true }"
       >
         <template #after>
           <div class="mt-4">

@@ -5,9 +5,9 @@ import { AppRoute, type ServiceConfig } from '@fiction/core'
 import * as fictionTheme from '@fiction/theme-fiction'
 import { createSiteTestUtils } from './testUtils'
 
-export async function setup(args: { context?: 'node' | 'app' } = {}) {
+export async function setup(args: { context?: 'node' | 'app', mainFilePath?: string } = {}) {
   const { context = 'app' } = args
-  const mainFilePath = new URL(import.meta.url).pathname
+  const mainFilePath = args.mainFilePath || new URL(import.meta.url).pathname
 
   const testUtils = await createSiteTestUtils({
     mainFilePath,
@@ -23,9 +23,9 @@ export async function setup(args: { context?: 'node' | 'app' } = {}) {
     new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component, props: { siteRouter, themeId: 'fiction' } }),
   ])
 
-  const fictionAdmin = new FictionAdmin({ ...testUtils })
+  // const fictionAdmin = new FictionAdmin({ ...testUtils })
 
-  const service = { ...testUtils, fictionAdmin }
+  const service = { ...testUtils }
 
   return {
     runVars: { },

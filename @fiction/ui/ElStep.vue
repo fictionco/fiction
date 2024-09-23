@@ -52,10 +52,10 @@ const step = vue.computed(() => {
         >
           {{ sup }}
         </div>
-        <h1 class="x-font-title text-2xl font-bold">
+        <h1 class="x-font-title text-2xl font-semibold">
           {{ step.name }}
         </h1>
-        <div class="text-theme-500  mt-1 text-base">
+        <div class="text-theme-500 dark:text-theme-300 text-lg mt-1">
           {{ step.desc }}
         </div>
       </div>

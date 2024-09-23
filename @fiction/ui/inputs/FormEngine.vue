@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActionItem } from '@fiction/core'
+import type { ActionButton } from '@fiction/core'
 import type { UiElementSize } from '../utils'
 import type { InputOption } from './index.js'
 import { getNested, setNested, vue } from '@fiction/core'
@@ -27,7 +27,7 @@ const {
   basePath?: string
   inputProps?: Record<string, unknown>
   uiSize?: UiElementSize
-  actions?: ActionItem[]
+  actions?: ActionButton[]
   disableGroupHide?: boolean
 }>()
 
@@ -163,7 +163,8 @@ function getGroupHeaderClasses(opt: InputOption) {
             :data-option-path="opt.key.value"
             class="setting-input"
             :input-class="opt.settings.inputClass || 'max-w-md'"
-            v-bind="{ ...inputProps, ...opt.outputProps.value }"
+            v-bind="{ ...opt.outputProps.value }"
+            :input-props="{ ...inputProps }"
             :input="opt.input.value"
             :model-value="getNested({ path: getOptionPath(opt.key.value), data: modelValue })"
             @update:model-value="emit('update:modelValue', setNested({ path: getOptionPath(opt.key.value), data: modelValue, value: $event }))"

@@ -19,6 +19,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 type InputProps = {
+  class?: string
   required?: boolean
   disabled?: boolean
   readonly?: boolean

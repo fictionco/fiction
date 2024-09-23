@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActionItem } from '@fiction/core'
+import type { ActionButton } from '@fiction/core'
 import type { Widget } from './widget.js'
 import { vue } from '@fiction/core'
 import ElActions from '@fiction/ui/buttons/ElActions.vue'
@@ -10,7 +10,7 @@ const props = defineProps({
   loading: { type: Boolean, default: false },
   widget: { type: Object as vue.PropType<Widget>, default: undefined },
   editable: { type: Boolean, default: false },
-  actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
+  actions: { type: Array as vue.PropType<ActionButton[]>, default: () => [] },
 })
 
 const widgetTitle = vue.computed(() => props.widget?.settings.title)

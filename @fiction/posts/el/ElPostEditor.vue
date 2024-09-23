@@ -23,6 +23,7 @@ defineProps({
             class="text-balance my-0 py-0"
             :is-editable="true"
             placeholder="Enter Title"
+            data-test-id="post-editor-title"
             @update:model-value="post?.update({ title: $event as string })"
           />
           <XText
@@ -31,11 +32,12 @@ defineProps({
             class="dark:text-theme-300"
             :is-editable="true"
             placeholder="Enter Subtitle"
+            data-test-id="post-editor-sub-title"
             @update:model-value="post?.update({ subTitle: $event as string })"
           />
         </div>
         <div v-if="post.media.value?.url || post.media.value?.html" class="not-prose">
-          <XMedia :media="post.media.value" class="size-32 border border-theme-200 dark:border-theme-600 rounded-md bg-theme-50 dark:bg-theme-800 overflow-hidden" />
+          <XMedia data-test-id="featured-post-media" :media="post.media.value" class="size-32 border border-theme-200 dark:border-theme-600 rounded-md bg-theme-50 dark:bg-theme-800 overflow-hidden" />
         </div>
       </div>
       <div class="border-b border-theme-200 dark:border-theme-700 my-12" />

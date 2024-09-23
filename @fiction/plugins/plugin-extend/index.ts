@@ -20,7 +20,7 @@ export class FictionExtend<T extends PluginIndexSettings = PluginIndexSettings> 
 
   admin() {
     const { fictionAdmin } = this.settings
-    fictionAdmin.addAdminPages(async ({ factory }) => [
+    fictionAdmin.addAdminPages({ key: 'plugins', loader: async ({ factory }) => [
       await factory.create({
         regionId: 'main',
         templateId: 'dash',
@@ -31,7 +31,7 @@ export class FictionExtend<T extends PluginIndexSettings = PluginIndexSettings> 
         ],
         userConfig: { isNavItem: true, navIcon: 'i-tabler-plug', navIconAlt: 'i-tabler-plug-x', priority: 100 },
       }),
-    ])
+    ] })
   }
 
   override async beforeSetup(args: PluginSetupArgs) {

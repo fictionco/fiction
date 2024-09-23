@@ -9,6 +9,7 @@ import { version as fictionVersion } from '../package.json'
 import ElRoot from '../plugin-app/ElRoot.vue'
 import { runServicesSetup } from '../plugin-env'
 import { log } from '../plugin-log'
+import { FictionTeam } from '../plugin-team'
 import { randomBetween, safeDirname } from '../utils/utils'
 import { crossVar, getEnvVars } from '../utils/vars'
 import { getTestEmail, testEnvFile } from './util'
@@ -212,9 +213,11 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
 
   const fictionUser = new FictionUser({ ...base, googleClientId, googleClientSecret, tokenSecret: 'test', apolloApiKey: 'test' })
 
+  const fictionTeam = new FictionTeam({ ...base, fictionApp, fictionUser })
+
   const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp] })
 
-  const services = { ...base, fictionApp, fictionUser, fictionUi }
+  const services = { ...base, fictionApp, fictionUser, fictionTeam, fictionUi }
 
   return services
 }

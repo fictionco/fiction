@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActionItem } from '@fiction/core'
+import type { ActionButton } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import type { InputOption } from '@fiction/ui'
 import type { UiElementSize } from '@fiction/ui/utils'
@@ -18,7 +18,7 @@ const props = defineProps({
   inputProps: { type: Object as vue.PropType<Record<string, unknown>>, default: () => ({}) },
   uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
   card: { type: Object as vue.PropType<Card>, default: undefined },
-  actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
+  actions: { type: Array as vue.PropType<ActionButton[]>, default: () => [] },
   disableGroupHide: { type: Boolean, default: false },
 })
 

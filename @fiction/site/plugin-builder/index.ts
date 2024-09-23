@@ -24,7 +24,7 @@ export class FictionSiteBuilder extends FictionPlugin<FictionSiteBuilderSettings
     fictionAdmin.widgetRegister.value.push(...w)
     fictionAdmin.addToWidgetArea('homeMain', w.map(widget => widget.key))
 
-    fictionAdmin.addAdminPages(async ({ factory }) => [
+    fictionAdmin.addAdminPages({ key: 'sites', loader: async ({ factory }) => [
       await factory.create({
         regionId: 'main',
         templateId: 'dash',
@@ -46,6 +46,6 @@ export class FictionSiteBuilder extends FictionPlugin<FictionSiteBuilderSettings
         ],
         userConfig: { isNavItem: false, layoutFormat: 'full', navIcon: 'i-tabler-home-plus' },
       }),
-    ])
+    ] })
   }
 }

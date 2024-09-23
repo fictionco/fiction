@@ -111,6 +111,7 @@ async function next(currentStep: StepItem) {
             size="lg"
             :loading="step.isLoading"
             :animate="true"
+            :data-test-id="`step-button-${step.key}`"
             @click.prevent="next(step)"
           >
             {{ step.actionText || "Next" }}

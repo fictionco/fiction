@@ -51,7 +51,7 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
     fictionAdmin.widgetRegister.value.push(...w)
     fictionAdmin.addToWidgetArea('homeMain', w.map(widget => widget.key))
 
-    fictionAdmin.addAdminPages(async ({ factory }) => [
+    fictionAdmin.addAdminPages({ key: 'posts', loader: async ({ factory }) => [
       await factory.create({
         regionId: 'main',
         templateId: 'dash',
@@ -72,7 +72,7 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
         userConfig: { layoutFormat: 'full' },
 
       }),
-    ])
+    ] })
   }
 
   async runScheduler() {

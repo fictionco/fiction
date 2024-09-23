@@ -50,10 +50,7 @@ async function load() {
   const postId = r.query.value.postId as string | undefined
 
   if (!postId) {
-    const createParams = { _action: 'create', fields: { } } as const
-    post.value = await managePost({ fictionPosts: service.fictionPosts, params: createParams })
-
-    r.replace({ query: { postId: post.value?.postId } })
+    service.fictionEnv.events.emit('notify', { type: 'error', message: 'No post ID provided.' })
   }
   else {
     const editParams = { _action: 'get', postId, loadDraft: true } as const

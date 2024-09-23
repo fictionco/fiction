@@ -62,11 +62,13 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
 
   async getAdminPages(): Promise<TableCardConfig[]> {
     const pages = await Promise.all(this.adminPageLoaders.value.map(async loader => loader({ factory })))
+
     return pages.flat()
   }
 
-  addAdminPages(getPages: PageLoader) {
-    this.adminPageLoaders.value.push(getPages)
+  addAdminPages(args: { key: string, loader: PageLoader }) {
+    const { loader } = args
+    this.adminPageLoaders.value.push(loader)
   }
 
   override async setup() {

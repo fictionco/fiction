@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActionItem, IndexItem, MediaObject } from '@fiction/core'
+import type { ActionButton, IndexItem, MediaObject } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { FictionPosts, Post } from '..'
 import WidgetWrap from '@fiction/admin/dashboard/WidgetWrap.vue'
@@ -40,7 +40,7 @@ vue.onMounted(async () => {
   }
 })
 
-const actions: ActionItem[] = [
+const actions: ActionButton[] = [
   {
     name: 'View all posts',
     icon: 'i-tabler-layout-grid',
@@ -48,9 +48,9 @@ const actions: ActionItem[] = [
   },
   {
     name: 'New Post',
-    btn: 'primary',
+    theme: 'primary',
     icon: 'i-tabler-pin',
-    href: props.card.link('/edit-post'),
+    href: props.card.link('/posts?addNew=1'),
   },
 
 ]

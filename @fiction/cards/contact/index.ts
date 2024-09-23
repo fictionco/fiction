@@ -2,7 +2,6 @@ import { MediaIconSchema, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site/card'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
-import { standardOption } from '../inputSets'
 
 const templateId = 'contact'
 

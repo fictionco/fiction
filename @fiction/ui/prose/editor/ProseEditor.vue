@@ -63,7 +63,7 @@ vue.onMounted(() => {
     <template v-else>
       <BubbleMenuEngine :editor="editor" />
 
-      <EditorContent class=" focus:outline-none" :editor="editor" />
+      <EditorContent class=" focus:outline-none" :editor="editor" data-test-id="prose-editor-content" />
     </template>
   </div>
 </template>

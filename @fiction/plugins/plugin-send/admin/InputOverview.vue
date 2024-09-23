@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActionItem, NavItem } from '@fiction/core'
+import type { ActionButton, NavItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { EmailCampaignConfig } from '../schema.js'
 import { dayjs, getNavComponentType, useService, vue } from '@fiction/core'
@@ -9,7 +9,7 @@ import ElModalConfirm from '@fiction/ui/ElModalConfirm.vue'
 const props = defineProps({
   modelValue: { type: Object as vue.PropType<EmailCampaignConfig>, default: undefined },
   card: { type: Object as vue.PropType<Card>, required: true },
-  actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
+  actions: { type: Array as vue.PropType<ActionButton[]>, default: () => [] },
 })
 
 defineEmits<{
@@ -67,7 +67,7 @@ const sendNow = vue.computed(() => {
   return em?.scheduleMode === 'now' || !em?.scheduledAt || dayjs(em.scheduledAt).isBefore(dayjs())
 })
 
-const readyAction = vue.computed<ActionItem>(() => {
+const readyAction = vue.computed<ActionButton>(() => {
   const em = email.value
   const isReady = items.value.every(item => item.isActive)
   const scheduledTime = em?.scheduledAt ? dayjs(em.scheduledAt).format('MMM D, YYYY h:mm A') : ''
@@ -80,7 +80,7 @@ const readyAction = vue.computed<ActionItem>(() => {
     return { name: em?.status, btn: 'default' }
 })
 
-const allActions = vue.computed<ActionItem[]>(() => {
+const allActions = vue.computed<ActionButton[]>(() => {
   const propActions = props.actions || []
   return [
     readyAction.value,

@@ -52,7 +52,7 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
     fictionAdmin.addToWidgetArea('homeSecondary', widgetKeys)
     fictionAdmin.addToWidgetArea('subscriberIndex', widgetKeys)
 
-    fictionAdmin.addAdminPages(async ({ factory }) => [
+    fictionAdmin.addAdminPages({ key: 'audience', loader: async ({ factory }) => [
       await factory.create({
         templateId: 'dash',
         slug: 'audience',
@@ -74,6 +74,6 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
         cards: [await factory.create({ el: vue.defineAsyncComponent(async () => import('./admin/ViewManage.vue')) })],
         userConfig: { navIcon: 'i-tabler-users-group', parentNavItemSlug: 'subscriber' },
       }),
-    ])
+    ] })
   }
 }

@@ -28,7 +28,7 @@ export abstract class TeamQuery extends Query<TeamQuerySettings> {
 
 type OrgMemberParams = { orgId: string } & (
   | { _action: 'single', memberId: string }
-  | { _action: 'index', limit?: number, offset?: number }
+  | { _action: 'list', limit?: number, offset?: number }
 )
 
 export class QueryOrgMembers extends TeamQuery {
@@ -57,7 +57,7 @@ export class QueryOrgMembers extends TeamQuery {
 
       data = r
     }
-    else if (_action === 'index') {
+    else if (_action === 'list') {
       const { limit = 50, offset = 0 } = params
       const r = await base
         .clone()

@@ -5,6 +5,7 @@ import type { CreateEndpointRequestsParams, EndpointMap } from './utils/endpoint
 import { log } from './plugin-log/index.js'
 import { toSlug } from './utils/casing.js'
 import { createEndpointRequests } from './utils/endpoint.js'
+import { shortId } from './utils/id.js'
 import { omit } from './utils/obj.js'
 
 export type FictionPluginSettings = {
@@ -38,6 +39,7 @@ export abstract class FictionObject< T extends object = object> {
 export abstract class FictionPlugin<T extends FictionPluginSettings = { fictionEnv: FictionEnv }> extends FictionObject<T> {
   basePath: string
   fictionEnv: FictionEnv
+  uniqueId = shortId()
   constructor(name: string, settings: T) {
     super(name, settings)
     this.basePath = `/${toSlug(this.name)}`

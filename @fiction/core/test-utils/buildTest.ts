@@ -147,7 +147,7 @@ export async function createTestServer(params: {
 }
 
 type TestPageAction = {
-  type: 'visible' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'value' | 'hasText' | 'scrollTo' | 'frameInteraction'
+  type: 'visible' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'value' | 'hasText' | 'hasValue' | 'scrollTo' | 'frameInteraction'
   selector?: string
   text?: string
   key?: string
@@ -204,6 +204,11 @@ export async function performActions(args: {
         case 'scrollTo': {
           logger.info('SCROLL_TO', { data: { selector: action.selector } })
           await element.scrollIntoViewIfNeeded()
+          break
+        }
+        case 'hasValue': {
+          logger.info('HAS_VALUE', { data: { selector: action.selector, text: action.text } })
+          await playwrightTest.expect(element).toHaveValue(action.text || '')
           break
         }
         case 'hasText': {
@@ -275,6 +280,10 @@ export async function performActions(args: {
               case 'visible':
                 await frameElement.waitFor({ state: 'visible', timeout: 20000 })
                 expect(await frameElement.isVisible(), `${frameAction.selector} is visible in frame`).toBe(true)
+                break
+              case 'hasValue':
+                logger.info('HAS_VALUE', { data: { selector: frameAction.selector, text: frameAction.text } })
+                await playwrightTest.expect(frameElement).toHaveValue(frameAction.text || '')
                 break
               case 'hasText': {
                 logger.info('HAS_TEXT', { data: { selector: frameAction.selector, text: frameAction.text } })

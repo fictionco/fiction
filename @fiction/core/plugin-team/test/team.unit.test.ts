@@ -1,35 +1,22 @@
 import type { OrganizationMember } from '@fiction/core/plugin-user/types.js'
-import type { TestUtils } from '@fiction/core/test-utils/init.js'
 import { createTestUtils } from '@fiction/core/test-utils/init.js'
-import { beforeAll, describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { snap } from '../../test-utils/util.js'
-import { FictionTeam } from '../index.js'
 
-let testUtils: (TestUtils & { fictionTeam?: FictionTeam }) | undefined
+describe('org team', async () => {
+  const testUtils = createTestUtils()
 
-describe('org team', () => {
-  beforeAll(async () => {
-    testUtils = createTestUtils()
-
-    const fictionTeam = new FictionTeam({
-      ...testUtils,
-    })
-
-    testUtils.fictionTeam = fictionTeam
-
-    testUtils.initialized = await testUtils.init()
-  })
+  const initialized = await testUtils.init()
 
   it('get members', async () => {
-    const orgId
-      = testUtils?.initialized?.user?.orgs?.[0]?.orgId
+    const orgId = initialized?.user?.orgs?.[0]?.orgId
 
     if (!orgId)
       throw new Error('no orgId')
 
     const q = await testUtils?.fictionTeam?.queries.OrgMembers.serve(
       {
-        _action: 'index',
+        _action: 'list',
         orgId,
       },
       { server: true },
