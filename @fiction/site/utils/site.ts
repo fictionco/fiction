@@ -189,7 +189,8 @@ export async function updateSite(args: { site: Site, newConfig: Partial<SiteSett
   if (sections)
     site.sections.value = setSections({ site, sections })
 
-  site.syncChange({ caller, noSave })
+  if (site.siteMode.value !== 'standard')
+    site.syncChange({ caller, noSave })
 
   return site
 }

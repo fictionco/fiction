@@ -139,12 +139,12 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
   }
 
   syncSite(args: { caller: string, siteConfig?: Partial<TableSiteConfig>, onlyKeys?: (keyof TableSiteConfig)[] }) {
-    const { onlyKeys } = args
+    const { onlyKeys, caller } = args
 
     const sendConfig = args.siteConfig || this.site.toConfig({ onlyKeys })
     const siteConfig = { siteId: this.site.siteId, ...sendConfig }
 
-    this.send({ msg: { messageType: 'setSite', data: { siteConfig, ...args } } })
+    this.send({ msg: { messageType: 'setSite', data: { siteConfig, ...args, caller } } })
   }
 
   send(args: { msg: FramePostMessageList }) {
