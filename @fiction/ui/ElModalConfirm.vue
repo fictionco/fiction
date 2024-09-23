@@ -30,7 +30,7 @@ export default {
 <template>
   <ElModal v-bind="$attrs" :vis="vis" modal-class="max-w-screen-sm p-8 lg:p-16" @update:vis="emit('update:vis', $event)">
     <div class="mb-6 text-center">
-      <div class="text-lg font-bold text-balance">
+      <div class="text-lg font-semibold text-balance x-font-title">
         {{ title }}
       </div>
       <div v-if="sub" class="text-base text-theme-500 dark:text-theme-200 mt-2 text-balance">

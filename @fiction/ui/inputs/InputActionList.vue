@@ -30,6 +30,7 @@ function gapSize() {
     <XButton
       v-for="(action, i) in actions"
       :key="i"
+      :design="action.design || 'solid'"
       :theme="action.theme || 'default'"
       :size="action.size || uiSize"
       :loading="action.loading"

@@ -1,5 +1,5 @@
 import type { ActionItem } from '@fiction/core'
-import { MediaBasicSchema, vue } from '@fiction/core'
+import { ActionButtonSchema, ButtonDesignSchema, colorThemeUser, MediaBasicSchema, MediaIconSchema, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
@@ -15,13 +15,7 @@ const CinemaItemSchema = z.object({
   subHeader: z.string().optional().describe('Subheader text for slide'),
   superHeader: z.string().optional().describe('Superheader text for slid (2 to 5 words) above header'),
   media: MediaBasicSchema.optional(),
-  actions: z.array(z.object({
-    name: z.string(),
-    href: z.string(),
-    btn: z.enum(['outline', 'minimal']),
-    icon: MediaBasicSchema.optional(),
-    iconAfter: MediaBasicSchema.optional(),
-  }) as z.Schema<ActionItem>).optional(),
+  actions: z.array(ActionButtonSchema).optional(),
 })
 
 export type CinemaItem = z.infer<typeof CinemaItemSchema>
@@ -35,7 +29,7 @@ const defaultItem: CinemaItem[] = [
       url: mountainPhoto,
     },
     actions: [
-      { name: 'View Gallery', href: '#', btn: 'outline', icon: 'i-tabler-camera' },
+      { name: 'View Gallery', href: '#', design: 'outline', icon: 'i-tabler-camera' },
     ],
   },
   {
@@ -47,8 +41,8 @@ const defaultItem: CinemaItem[] = [
       url: desertPhoto,
     },
     actions: [
-      { name: 'Book Now', href: '#', btn: 'outline' },
-      { name: 'Learn More', href: '#', btn: 'minimal', iconAfter: 'i-tabler-chevron-right' },
+      { name: 'Book Now', href: '#', design: 'outline', theme: 'overlay' },
+      { name: 'Learn More', href: '#', design: 'textOnly', iconAfter: 'i-tabler-chevron-right' },
     ],
   },
   {
@@ -60,7 +54,7 @@ const defaultItem: CinemaItem[] = [
       url: wildlifePhoto,
     },
     actions: [
-      { name: 'Explore Projects', href: '#', btn: 'outline' },
+      { name: 'Explore Projects', href: '#', design: 'outline', theme: 'overlay' },
     ],
   },
   {
@@ -72,7 +66,7 @@ const defaultItem: CinemaItem[] = [
       url: cityPhoto,
     },
     actions: [
-      { name: 'Read Blog', href: '#', btn: 'outline' },
+      { name: 'Read Blog', href: '#', design: 'outline', theme: 'overlay' },
     ],
   },
   {
@@ -84,7 +78,7 @@ const defaultItem: CinemaItem[] = [
       url: nightPhoto,
     },
     actions: [
-      { name: 'View Portfolio', href: '#', btn: 'outline' },
+      { name: 'View Portfolio', href: '#', design: 'outline', theme: 'overlay' },
     ],
   },
 ]

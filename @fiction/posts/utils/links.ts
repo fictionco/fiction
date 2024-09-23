@@ -3,7 +3,7 @@ import type { Post } from '../post'
 
 export function postEditLink(args: { post: Post }): string {
   const { post } = args
-  return `/app/post-edit?postId=${post.postId}&_reload=1`
+  return `/app/edit-post?postId=${post.postId}&_reload=1`
 }
 
 export function postLink(args: { card?: Card, slug?: string }): string {

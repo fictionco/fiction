@@ -63,7 +63,7 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
       await factory.create({
         regionId: 'main',
         templateId: 'dash',
-        slug: 'post-edit',
+        slug: 'edit-post',
         title: 'Edit Post',
         cards: [await factory.create({
           el: vue.defineAsyncComponent(async () => import('./el/PagePostEdit.vue')),

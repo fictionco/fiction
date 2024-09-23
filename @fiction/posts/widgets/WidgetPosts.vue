@@ -50,7 +50,7 @@ const actions: ActionItem[] = [
     name: 'New Post',
     btn: 'primary',
     icon: 'i-tabler-pin',
-    href: props.card.link('/post-edit'),
+    href: props.card.link('/edit-post'),
   },
 
 ]
@@ -63,7 +63,7 @@ const list = vue.computed<IndexItem[]>(() => {
       icon: 'i-tabler-pin',
       name: post.title.value || 'Untitled',
       desc: post.excerpt.value || post.subTitle.value,
-      href: props.card.link(`/post-edit?postId=${post.postId}`),
+      href: props.card.link(`/edit-post?postId=${post.postId}`),
       dateIso: post.publishAt.value || post.settings.updatedAt,
     }
   })

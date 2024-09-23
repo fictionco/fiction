@@ -149,7 +149,7 @@ const isHome = vue.computed(() => props.modelValue === '_home')
         <ElModalConfirm
           v-model:vis="showSetHomeModal"
           title="Confirm New Homepage"
-          sub="Are you sure you want to make this page the homepage? Any unsaved changes you've made will be discarded."
+          sub="Sure you want to make this page the homepage?"
           @confirmed="setNewHomepage()"
         />
       </div>

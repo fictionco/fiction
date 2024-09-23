@@ -21,7 +21,7 @@ defineProps({
           <div v-if="icon" class="mb-4 lg:mb-6 relative">
             <div class="text-4xl lg:text-6xl text-theme-500/30 lg:absolute bottom-0" :class="icon" />
           </div>
-          <h1 class="mt-4 lg:mt-6  text-2xl md:text-4xl font-bold tracking-tight dark:text-theme-0 sm:text-5xl x-font-title">
+          <h1 class="mt-4 lg:mt-6  text-2xl md:text-4xl font-semibold dark:text-theme-0 sm:text-5xl x-font-title">
             {{ title }}
           </h1>
           <p class="mt-6 text-lg lg:text-xl text-theme-600 dark:text-theme-300">

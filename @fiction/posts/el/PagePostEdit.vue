@@ -101,7 +101,7 @@ vue.onMounted(async () => {
           size="md"
           @click.stop.prevent="publish()"
         >
-          {{ post?.status.value !== 'draft' ? 'Save Changes' : 'Update Draft' }}
+          {{ post?.status.value === 'draft' ? 'Save Changes' : 'Publish Changes' }}
         </XButton>
       </template>
       <template #default>

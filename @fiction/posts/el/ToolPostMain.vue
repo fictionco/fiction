@@ -137,7 +137,9 @@ const options = vue.computed<InputOption[]>(() => {
             actions: [
               {
                 name: 'Delete Post...',
-                btn: 'danger',
+                theme: 'rose',
+                design: 'ghost',
+                icon: 'i-tabler-trash',
                 onClick: (args) => {
                   const p = args.props as { post: Post }
                   const confirmed = confirm('Are you sure you want to delete this post?')

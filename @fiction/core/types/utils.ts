@@ -1,5 +1,5 @@
 import type { User } from '../plugin-user'
-import type { ButtonRounding, MediaObject } from '../schemas/schemas.js'
+import type { ButtonDesign, ButtonRounding, MediaObject } from '../schemas/schemas.js'
 import type { ColorThemeUser } from '../utils/colors.js'
 import type { vue } from '../utils/libraries.js'
 
@@ -46,6 +46,7 @@ export interface NavItem {
 
 export type ActionItem = NavItem & {
   theme?: ColorThemeUser
+  design?: ButtonDesign
   btn?: 'default' | 'primary' | 'naked' | 'caution' | 'success' | 'danger' | 'outline' | 'minimal'
   size?: 'xs' | 'sm' | 'lg' | 'md' | 'xl' | '2xl'
   target?: string

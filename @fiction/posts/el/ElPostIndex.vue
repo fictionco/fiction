@@ -8,14 +8,26 @@ import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import ElZeroBanner from '@fiction/ui/ElZeroBanner.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 import { managePostIndex } from '../utils'
+import ElPostStart from './ElPostStart.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
-const service = useService<{ fictionPosts: FictionPosts }>()
+const { fictionRouter, fictionPosts } = useService<{ fictionPosts: FictionPosts }>()
 
 const posts = vue.shallowRef<Post[]>([])
+
+const showCreateModal = vue.ref(false)
+
+vue.onMounted(() => {
+  vue.watchEffect(() => {
+    if (fictionRouter.query.value.addNew) {
+      showCreateModal.value = true
+      fictionRouter.query.value = { }
+    }
+  })
+})
 
 const list = vue.computed<IndexItem[]>(() => {
   return posts.value.map((p) => {
@@ -24,7 +36,7 @@ const list = vue.computed<IndexItem[]>(() => {
       key: p.postId,
       name: p.title.value || 'Untitled',
       desc: p.subTitle.value || 'No description',
-      href: props.card.link(`/post-edit?postId=${p.postId}`),
+      href: props.card.link(`/edit-post?postId=${p.postId}`),
       media: p.media.value,
     } as IndexItem
   })
@@ -34,12 +46,12 @@ const loading = vue.ref(true)
 async function load() {
   loading.value = true
   const createParams = { _action: 'list', fields: { }, loadDraft: true } as const
-  posts.value = await managePostIndex({ fictionPosts: service.fictionPosts, params: createParams })
+  posts.value = await managePostIndex({ fictionPosts, params: createParams })
   loading.value = false
 }
 
 vue.onMounted(async () => {
-  vue.watch(() => service.fictionPosts.cacheKey.value, load, { immediate: true })
+  vue.watch(() => fictionPosts.cacheKey.value, load, { immediate: true })
 })
 </script>
 
@@ -49,11 +61,12 @@ vue.onMounted(async () => {
       :list="list"
       :loading="loading"
       :actions="[{
-        name: 'Start New Post',
+        name: 'Create Post',
         icon: 'i-tabler-plus',
-        btn: 'primary',
-        href: card.link('/post-edit'),
+        theme: 'primary',
+        onClick: () => (showCreateModal = true),
         rounding: 'full',
+        testId: 'createPostButtonTop',
       }]"
     >
       <template #item="{ item }">
@@ -72,13 +85,15 @@ vue.onMounted(async () => {
           description="Posts are the building blocks of your marketing efforts. Use them for newsletters, social media clips, and more."
           icon="i-tabler-pin"
           :actions="[{
-            name: 'Start Writing',
-            href: card.link('/post-edit'),
-            btn: 'primary',
+            name: 'Create Post',
+            onClick: () => (showCreateModal = true),
+            theme: 'primary',
             icon: 'i-heroicons-plus',
+            testId: 'createPostButton',
           }]"
         />
       </template>
     </ElIndexGrid>
+    <ElPostStart v-model:vis="showCreateModal" :card />
   </div>
 </template>
