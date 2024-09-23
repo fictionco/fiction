@@ -71,10 +71,10 @@ const options = vue.computed<InputOption[]>(() => {
       input: 'group',
       options: [
         new InputOption({
-          key: 'image',
+          key: 'media',
           label: 'Featured Image',
           description: 'The image that will be displayed with the post',
-          input: 'InputImage',
+          input: 'InputMedia',
         }),
         new InputOption({
           key: 'title',
@@ -171,7 +171,7 @@ function updatePost(config: TablePostConfig) {
 </script>
 
 <template>
-  <ElTool v-if="post" :tool="tool" :actions="actions">
+  <ElTool v-if="post" :tool :actions>
     <ElForm id="toolForm">
       <FormEngine
         state-key="postEdit"

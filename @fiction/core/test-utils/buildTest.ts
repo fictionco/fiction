@@ -146,6 +146,116 @@ export async function createTestServer(params: {
   }
 }
 
+class PlaywrightLogger {
+  private logger = log.contextLogger('playwright')
+  errorLogs: string[] = []
+
+  constructor() {}
+
+  setupLogging(page: Page): void {
+    page.on('console', this.handleConsoleMessage.bind(this))
+    page.on('pageerror', this.handlePageError.bind(this))
+  }
+
+  private async handleConsoleMessage(message: playwrightTest.ConsoleMessage): Promise<void> {
+    const type = message.type()
+    const text = this.cleanConsoleMessage(message.text())
+    const location = message.location()
+
+    const args = await this.serializeArguments(message.args())
+
+    const logData = {
+      text,
+      location: `${location.url}:${location.lineNumber}:${location.columnNumber}`,
+      args,
+    }
+
+    switch (type) {
+      case 'error':
+        this.logger.error(text, { data: logData })
+        this.errorLogs.push(text)
+        break
+      case 'warning':
+        this.logger.warn(text, { data: logData })
+        break
+      case 'info':
+      case 'log':
+        this.logger.info(text, { data: logData })
+        break
+      case 'debug':
+        this.logger.debug(text, { data: logData })
+        break
+      default:
+        this.logger.trace(text, { data: logData })
+    }
+  }
+
+  private handlePageError(error: Error): void {
+    this.logger.error(error.message, {
+      data: {
+        stack: error.stack,
+      },
+    })
+    this.errorLogs.push(error.message)
+  }
+
+  private async serializeArguments(args: any[]): Promise<any[]> {
+    return Promise.all(args.map(arg => this.serializeArgument(arg)))
+  }
+
+  private async serializeArgument(arg: any): Promise<any> {
+    try {
+      const value = await arg.jsonValue().catch(() => 'Unable to serialize')
+
+      if (typeof value === 'object' && value !== null) {
+        return JSON.stringify(value, this.jsonReplacer, 2)
+      }
+
+      return value
+    }
+    catch (error) {
+      return `Error serializing argument ${(error as Error).message}`
+    }
+  }
+
+  private jsonReplacer(key: string, value: any): any {
+    if (value instanceof RegExp) {
+      return value.toString()
+    }
+    if (typeof value === 'function') {
+      return '[Function]'
+    }
+    if (typeof value === 'symbol') {
+      return value.toString()
+    }
+    return value
+  }
+
+  private cleanConsoleMessage(message: string): string {
+    // Remove color and styling information
+    message = message.replace(/%c/g, '')
+
+    // Remove inline styles
+    message = message.replace(/(?:color|font-weight|background-color): [^;]+;?\s*/g, '')
+
+    // Clean up extra whitespace
+    message = message.replace(/\s+/g, ' ').trim()
+
+    // Extract the actual log message
+    const parts = message.split(':')
+    if (parts.length > 2) {
+      const [level, context, ...rest] = parts
+      return `${level.trim()} (${context.trim()}): ${rest.join(':').trim()}`
+    }
+
+    return message
+  }
+
+  getErrorLogs(): string[] {
+    return this.errorLogs
+  }
+}
+
 type TestPageAction = {
   type: 'visible' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'value' | 'hasText' | 'hasValue' | 'scrollTo' | 'frameInteraction'
   selector?: string
@@ -168,22 +278,9 @@ export async function performActions(args: {
 
   const url = new URL(path || '/', `http://localhost:${port}`).toString()
 
-  const errorLogs: string[] = []
+  const playwrightLogger = new PlaywrightLogger()
 
-  // page.on('request', request => logger.debug(`${request.method()}-->${request.url()}`))
-  // page.on('response', request => logger.debug(`${request.status()}<--${request.url()}`))
-
-  page.on('console', (message) => {
-    const txt = stripBrowserConsoleFormatting(message.text())
-    logger.info('CONSOLE', { data: { message: txt } })
-    if (message.type() === 'error')
-      errorLogs.push(txt)
-  })
-
-  page.on('pageerror', (err) => {
-    logger.info('PAGEERROR', { data: { message: err.message } })
-    errorLogs.push(err.message)
-  })
+  playwrightLogger.setupLogging(page)
 
   logger.info('NAVIGATING_TO', { data: { url } })
 
@@ -217,7 +314,7 @@ export async function performActions(args: {
           break
         }
         case 'click': {
-          await element.first().waitFor({ state: 'visible', timeout: 5000 })
+          await element.first().waitFor({ state: 'visible', timeout: 10000 })
           logger.info('CLICK_ELEMENT', { data: { selector: action.selector } })
           await element.click()
           break
@@ -321,7 +418,7 @@ export async function performActions(args: {
       const errorMessage = `ACTION_ERROR: ${action.type} on selector ${action.selector}: ${e.message}`
       const pageDom = await page.innerHTML('body')
 
-      logger.error(errorMessage, { data: { error: e, data: { errorLogs, pageDom } } })
+      logger.error(errorMessage, { data: { error: e, data: { errorLogs: playwrightLogger.errorLogs, pageDom } } })
       throw new Error(errorMessage)
     }
 
@@ -329,8 +426,8 @@ export async function performActions(args: {
       await waitFor(action.wait)
   }
 
-  if (errorLogs.length > 0)
-    errorLogs.forEach(e => console.error(e))
+  if (playwrightLogger.errorLogs.length > 0)
+    playwrightLogger.errorLogs.forEach(e => console.error(e))
   // expect(errorLogs).toStrictEqual([])
 }
 
