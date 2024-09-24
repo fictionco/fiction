@@ -145,35 +145,38 @@ export async function createTestServer(params: {
     },
   }
 }
-
-class PlaywrightLogger {
+export class PlaywrightLogger {
   private logger = log.contextLogger('playwright')
-  errorLogs: string[] = []
+  public errorLogs: string[] = []
   private currentUrl: string = ''
-  caller: string
-  constructor(args: { caller: string }) {
-    this.caller = args.caller
+  private readonly caller: string
+  private page?: Page
+
+  constructor(caller: string) {
+    this.caller = caller
   }
 
   async setupLogging(page: Page): Promise<void> {
+    this.page = page
     page.on('console', this.handleConsoleMessage.bind(this))
     page.on('pageerror', this.handlePageError.bind(this))
-    page.on('load', () => {
-      this.currentUrl = page.url()
-    })
+    page.on('load', () => { this.currentUrl = page.url() })
   }
 
-  cleanup(): void {
-
+  close(): void {
+    if (this.page) {
+      this.page.removeListener('console', this.handleConsoleMessage.bind(this))
+      this.page.removeListener('pageerror', this.handlePageError.bind(this))
+      this.page = undefined
+    }
   }
 
   private async handleConsoleMessage(message: playwrightTest.ConsoleMessage): Promise<void> {
     const type = message.type()
     const text = this.cleanMessage(message.text())
 
-    if (type === 'debug') {
-      return // Don't log debug messages
-    }
+    if (type === 'debug')
+      return
 
     const logData = {
       url: `${this.caller} -> ${this.currentUrl}`,
@@ -205,7 +208,7 @@ class PlaywrightLogger {
   private handlePageError(error: Error): void {
     const logData = {
       url: `${this.caller} -> ${this.currentUrl}`,
-      stack: error.stack,
+      stack: this.parseStackTrace(error.stack || ''),
     }
     this.logger.error(error.message, { data: logData })
     this.errorLogs.push(`[${this.currentUrl}] ${error.message}`)
@@ -215,39 +218,29 @@ class PlaywrightLogger {
     const serialized = await Promise.all(args.map(async (arg) => {
       try {
         const value = await arg.jsonValue().catch(() => 'Unable to serialize')
-        return typeof value === 'object' && value !== null
-          ? JSON.parse(JSON.stringify(value, this.jsonReplacer))
-          : value
+        return JSON.parse(JSON.stringify(value, this.jsonReplacer))
       }
       catch {
         return 'Error serializing argument'
       }
     }))
 
-    return serialized.filter(arg =>
-      typeof arg !== 'string' || !arg.match(/^(color|font-weight|background-color):/),
-    ).map(arg => typeof arg === 'string' ? this.cleanMessage(arg) : arg)
+    return serialized.filter(arg => !this.isStyleInfo(arg))
+      .map(arg => typeof arg === 'string' ? this.cleanMessage(arg) : arg)
   }
 
   private extractStackTrace(args: any[]): string | null {
     const stackArg = args.find(arg => typeof arg === 'string' && arg.includes('at '))
-    if (stackArg) {
-      return this.parseStackTrace(stackArg)
-    }
-    return null
+    return stackArg ? this.parseStackTrace(stackArg) : null
   }
 
   private parseStackTrace(stack: string): string {
-    if (!stack)
-      return ''
-
-    const lines = stack.split('\n')
-    return lines
+    return stack.split('\n')
       .filter(line => line.includes('/fiction/') && !line.includes('node_modules'))
       .join('\n')
   }
 
-  private jsonReplacer(key: string, value: any): any {
+  private jsonReplacer(_key: string, value: any): any {
     if (value instanceof RegExp)
       return value.toString()
     if (typeof value === 'function')
@@ -258,24 +251,18 @@ class PlaywrightLogger {
   }
 
   private cleanMessage(message: string): string {
-    // Remove color and styling information
-    message = message
-      .replace(/%c/g, '')
-      .replace(/(?:color|font-weight|background-color): [^;]+;?\s*/g, '')
-      .trim()
+    message = message.replace(/%c/g, '').replace(/(?:color|font-weight|background-color): [^;]+;?\s*/g, '').trim()
 
-    // Improve Vue warnings
     if (message.startsWith('[Vue warn]')) {
-      const lines = message.split('\n')
-      const warning = lines[0]
-      const componentInfo = lines.slice(1)
-        .filter(line => line.trim() !== '' && !line.includes('at <'))
-        .join(' ')
-      return `${warning} ${componentInfo}`.trim()
+      const [warning, ...componentInfo] = message.split('\n')
+      return `${warning} ${componentInfo.filter(line => line.trim() !== '' && !line.includes('at <')).join(' ')}`.trim()
     }
 
-    // For other multi-line messages, join them with a space
     return message.replace(/\n+/g, ' ')
+  }
+
+  private isStyleInfo(arg: any): boolean {
+    return typeof arg === 'string' && /^(color|font-weight|background-color):/.test(arg)
   }
 
   getErrorLogs(): string[] {
@@ -306,7 +293,7 @@ export async function performActions(args: {
 
   const url = new URL(path || '/', `http://localhost:${port}`).toString()
 
-  const playwrightLogger = new PlaywrightLogger({ caller })
+  const playwrightLogger = new PlaywrightLogger(caller)
 
   playwrightLogger.setupLogging(page)
 
@@ -457,6 +444,8 @@ export async function performActions(args: {
   if (playwrightLogger.errorLogs.length > 0)
     playwrightLogger.errorLogs.forEach(e => console.error(e))
   // expect(errorLogs).toStrictEqual([])
+
+  playwrightLogger.close()
 }
 
 function getModifiedCommands(commands: CliCommand[]) {
