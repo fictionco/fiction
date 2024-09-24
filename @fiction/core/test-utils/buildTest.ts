@@ -163,6 +163,10 @@ class PlaywrightLogger {
     })
   }
 
+  cleanup(): void {
+
+  }
+
   private async handleConsoleMessage(message: playwrightTest.ConsoleMessage): Promise<void> {
     const type = message.type()
     const text = this.cleanMessage(message.text())

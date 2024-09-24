@@ -3,11 +3,9 @@ import { afterAll, describe, it } from 'vitest'
 import { createPostsUiTestingKit } from './postTestUtils'
 
 describe('postEditing', async () => {
-  const kit = await createPostsUiTestingKit({ headless: false, slowMo: 0, initUser: true })
-
-  afterAll(async () => kit?.close())
-
   it('creates post and allows basic editing', { retry: isCi() ? 3 : 2 }, async () => {
+    const kit = await createPostsUiTestingKit({ headless: false, slowMo: 500, initUser: true })
+
     await kit.performActions({
       caller: 'postEditing',
       path: '/app',
@@ -23,5 +21,7 @@ describe('postEditing', async () => {
         { type: 'fill', selector: '[data-test-id="prose-editor-content"] .tiptap', text: 'testing' },
       ],
     })
+
+    kit?.close()
   })
 })
