@@ -2,7 +2,7 @@ import type { FictionAdmin } from '@fiction/admin'
 
 import type { FictionDb, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
-import { ManagePostIndex, QueryManagePost, QueryManageTaxonomy } from './endpoint'
+import { ManagePostIndex, QueryManagePost, QueryManageTaxonomy, type WherePost } from './endpoint'
 import { Post } from './post'
 import { tables } from './schema'
 import { getWidgets } from './widgets'
@@ -97,12 +97,10 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
     return r.data || []
   }
 
-  async getPost(args: { orgId: string, postId?: string, slug?: string } &({ postId: string } | { slug: string })) {
-    const { orgId, postId, slug } = args
+  async getPost(args: { orgId: string, where: WherePost }) {
+    const { orgId, where } = args
 
-    const params = postId ? { postId } : { slug }
-
-    const r = await this.requests.ManagePost.request({ _action: 'get', orgId, ...params })
+    const r = await this.requests.ManagePost.request({ _action: 'get', orgId, where })
 
     return r.data ? new Post({ fictionPosts: this, sourceMode: 'standard', ...r.data }) : undefined
   }

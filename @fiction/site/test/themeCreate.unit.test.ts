@@ -34,7 +34,7 @@ describe('themeCreation', async () => {
 
     const val = findValueByKey(r.pages, 'media')?.url
 
-    expect(val.length).toMatchInlineSnapshot(`48`)
+    expect(val.length).toMatchInlineSnapshot(`49`)
     expect(findValueByKey(r.pages, 'media')?.url).toContain(`/__static/`)
   })
 })

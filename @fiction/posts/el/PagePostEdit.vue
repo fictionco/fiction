@@ -54,7 +54,7 @@ async function load() {
     service.fictionEnv.events.emit('notify', { type: 'error', message: 'No post ID provided.' })
   }
   else {
-    const editParams = { _action: 'get', postId, loadDraft: true } as const
+    const editParams = { _action: 'get', where: { postId }, loadDraft: true } as const
     post.value = await managePost({ fictionPosts: service.fictionPosts, params: editParams })
   }
   loading.value = false
@@ -77,7 +77,9 @@ async function resetToPublished() {
   }, { caller: 'postEdit' })
 
   if (r.status === 'success') {
-    await post.value.update({ ...r.data }, { noSave: true, caller: 'resetToPublished' })
+    const responsePost = r.data?.[0]
+
+    await post.value.update({ ...responsePost }, { noSave: true, caller: 'resetToPublished' })
   }
 }
 </script>

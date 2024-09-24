@@ -33,8 +33,10 @@ describe('postLoader Integration Tests', async () => {
         userId,
       }, {})
 
-      if (result.data)
-        createdPosts.push(result.data)
+      const createdPost = result.data?.[0]
+
+      if (createdPost)
+        createdPosts.push(createdPost)
     }
 
     mockCard = {
@@ -65,7 +67,7 @@ describe('postLoader Integration Tests', async () => {
     for (const post of createdPosts) {
       await fictionPosts.queries.ManagePost.serve({
         _action: 'delete',
-        postId: post.postId || '',
+        where: { postId: post.postId || '' },
         orgId,
       }, {})
     }

@@ -27,6 +27,10 @@ describe('minimalProfile', async () => {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "additionalProperties": false,
         "properties": {
+          "content": {
+            "description": "Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs [ai]",
+            "type": "string",
+          },
           "details": {
             "description": "List of details with contact details, location, etc.",
             "items": {
@@ -53,10 +57,6 @@ describe('minimalProfile', async () => {
             "description": "Title for list of details [ai]",
             "type": "string",
           },
-          "heading": {
-            "description": "Primary headline for profile 3 to 8 words [ai]",
-            "type": "string",
-          },
           "layout": {
             "description": "Media on left or right",
             "enum": [
@@ -72,12 +72,20 @@ describe('minimalProfile', async () => {
               "properties": {
                 "media": {
                   "additionalProperties": false,
+                  "description": "Media item with image or video",
                   "properties": {
+                    "el": {},
                     "format": {
                       "enum": [
                         "url",
                         "image",
                         "video",
+                        "iframe",
+                        "html",
+                        "component",
+                        "iconId",
+                        "iconClass",
+                        "typography",
                       ],
                       "type": "string",
                     },
@@ -91,9 +99,6 @@ describe('minimalProfile', async () => {
                   "type": "object",
                 },
               },
-              "required": [
-                "media",
-              ],
               "type": "object",
             },
             "type": "array",
@@ -107,9 +112,32 @@ describe('minimalProfile', async () => {
                   "description": "Full link for href",
                   "type": "string",
                 },
-                "icon": {
+                "media": {
+                  "additionalProperties": false,
                   "description": "icon reference associated with the social media platform (x, youtube, facebook, etc)",
-                  "type": "string",
+                  "properties": {
+                    "class": {
+                      "description": "tabler iconify class i-tabler-[icon-name]",
+                      "type": "string",
+                    },
+                    "el": {
+                      "$ref": "#/properties/mediaItems/items/properties/media/properties/el",
+                    },
+                    "format": {
+                      "$ref": "#/properties/mediaItems/items/properties/media/properties/format",
+                    },
+                    "html": {
+                      "$ref": "#/properties/mediaItems/items/properties/media/properties/html",
+                    },
+                    "iconId": {
+                      "description": "iconId is common icon name (e.g. user, check, lock)",
+                      "type": "string",
+                    },
+                    "url": {
+                      "$ref": "#/properties/mediaItems/items/properties/media/properties/url",
+                    },
+                  },
+                  "type": "object",
                 },
                 "name": {
                   "description": "@handle on (platform)",
@@ -120,12 +148,12 @@ describe('minimalProfile', async () => {
             },
             "type": "array",
           },
-          "subHeading": {
-            "description": "Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs [ai]",
+          "superTitle": {
+            "description": "Shorter badge above headline, 2 to 5 words [ai]",
             "type": "string",
           },
-          "superHeading": {
-            "description": "Shorter badge above headline, 2 to 5 words [ai]",
+          "title": {
+            "description": "Primary headline for profile 3 to 8 words [ai]",
             "type": "string",
           },
         },

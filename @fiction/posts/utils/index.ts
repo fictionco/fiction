@@ -6,7 +6,9 @@ export async function managePost(args: { fictionPosts: FictionPosts, params: Man
   const { fictionPosts, params } = args
   const r = await fictionPosts.requests.ManagePost.projectRequest(params)
 
-  return r.data ? new Post({ fictionPosts, ...r.data, sourceMode: 'standard' }) : undefined
+  const postConfig = r.data?.[0]
+
+  return r.data ? new Post({ fictionPosts, ...postConfig, sourceMode: 'standard' }) : undefined
 }
 
 export async function managePostIndex(args: { fictionPosts: FictionPosts, params: ManageIndexParamsRequest }): Promise<Post[]> {

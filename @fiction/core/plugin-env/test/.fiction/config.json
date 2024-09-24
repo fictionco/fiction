@@ -19,6 +19,18 @@
     {
       "key": "OrganizationsByUserId",
       "path": "/api/user/OrganizationsByUserId"
+    },
+    {
+      "key": "OrgMembers",
+      "path": "/api/fiction-team/OrgMembers"
+    },
+    {
+      "key": "TeamInvite",
+      "path": "/api/fiction-team/TeamInvite"
+    },
+    {
+      "key": "SeekInviteFromUser",
+      "path": "/api/fiction-team/SeekInviteFromUser"
     }
   ],
   "routes": [

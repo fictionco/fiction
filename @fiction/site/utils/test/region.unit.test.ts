@@ -241,9 +241,12 @@ describe('requestManagePage', async () => {
 
     expect(r).toMatchInlineSnapshot(`
       {
-        "context": "ManagePage",
-        "httpStatus": 200,
-        "message": "",
+        "data": [],
+        "indexMeta": {
+          "count": 2,
+          "limit": 40,
+          "offset": 0,
+        },
         "status": "error",
       }
     `)

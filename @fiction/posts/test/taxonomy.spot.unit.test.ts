@@ -29,8 +29,9 @@ describe('taxonomy management tests', async () => {
 
     const res = await fictionPosts.queries.ManagePost.serve(createNoAuthors, {})
 
-    expect(res.data?.authors?.length).toBe(1)
-    expect(res.data?.authors?.[0].userId).toBe(userId)
+    const post1 = res.data?.[0]
+    expect(post1?.authors?.length).toBe(1)
+    expect(post1?.authors?.[0].userId).toBe(userId)
 
     const { user: { userId: userId2 } = {} } = await createTestUser(testUtils.fictionUser)
 
@@ -48,11 +49,13 @@ describe('taxonomy management tests', async () => {
 
     const r = await fictionPosts.queries.ManagePost.serve(create, {})
 
+    const post2 = r.data?.[0]
+
     expect(r.status).toBe('success')
-    expect(r.data).toBeInstanceOf(Object)
-    expect(r.data?.authors).toBeInstanceOf(Array)
-    expect(r.data?.authors?.length).toBe(2)
-    expect(r.data?.authors?.map(_ => _.userId).sort()).toStrictEqual([userId, userId2].sort())
+    expect(post2).toBeInstanceOf(Object)
+    expect(post2?.authors).toBeInstanceOf(Array)
+    expect(post2?.authors?.length).toBe(2)
+    expect(post2?.authors?.map(_ => _.userId).sort()).toStrictEqual([userId, userId2].sort())
   })
 
   it('creates a taxonomy', async () => {
@@ -99,8 +102,17 @@ describe('taxonomy management tests', async () => {
     const r = await fictionPosts.queries.ManagePost.serve(create, {})
 
     expect(r.status).toBe('success')
-    expect(r.data).toBeInstanceOf(Object)
-    const tax = (r.data?.taxonomy || [])
+
+    const post = r.data?.[0]
+
+    const postId = post?.postId
+
+    if (!postId) {
+      throw new Error('No postId returned')
+    }
+
+    expect(post).toBeInstanceOf(Object)
+    const tax = (post?.taxonomy || [])
     expect(tax).toBeInstanceOf(Array)
     expect(tax?.length).toBe(3)
     expect(tax.map(_ => _.title).sort()).toStrictEqual([
@@ -108,11 +120,11 @@ describe('taxonomy management tests', async () => {
       'Hiking',
       'Non Existent',
     ])
-    expect(r.data?.postId?.length).toBeGreaterThan(10)
+    expect(postId.length).toBeGreaterThan(10)
 
     const update: ManagePostParams = {
       _action: 'update',
-      postId: r.data?.postId || '',
+      where: { postId },
       orgId,
       fields: {
         taxonomy: [
@@ -124,9 +136,11 @@ describe('taxonomy management tests', async () => {
     const r2 = await fictionPosts.queries.ManagePost.serve(update, {})
 
     expect(r2.status).toBe('success')
-    expect(r2.data).toBeInstanceOf(Object)
-    expect(r2.data?.taxonomy).toBeInstanceOf(Array)
-    expect(r2.data?.taxonomy?.length).toBe(1)
+
+    const post2 = r2.data?.[0]
+    expect(post2).toBeInstanceOf(Object)
+    expect(post2?.taxonomy).toBeInstanceOf(Array)
+    expect(post2?.taxonomy?.length).toBe(1)
   })
 
   it('lists taxonomies', async () => {

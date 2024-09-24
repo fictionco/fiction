@@ -104,7 +104,7 @@ export class Post extends FictionObject<PostConfig> {
         ? { ...this.toConfig(), status: 'scheduled', publishAt: args.publishAt } as const
         : this.toConfig()
 
-    const params = { _action, postId: this.postId, fields } as const
+    const params = { _action, where: { postId: this.postId }, fields } as const
     const p = await managePost({ fictionPosts: this.settings.fictionPosts, params })
 
     if (mode !== 'draft')
@@ -116,7 +116,7 @@ export class Post extends FictionObject<PostConfig> {
 
   async delete() {
     this.log.info('Deleting post')
-    await managePost({ fictionPosts: this.settings.fictionPosts, params: { _action: 'delete', postId: this.postId } })
+    await managePost({ fictionPosts: this.settings.fictionPosts, params: { _action: 'delete', where: { postId: this.postId } } })
     this.settings.fictionPosts.cacheKey.value++
   }
 

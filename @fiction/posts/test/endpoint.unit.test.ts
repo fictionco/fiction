@@ -1,3 +1,4 @@
+import type { title } from 'node:process'
 import type { TablePostConfig } from '../schema'
 import { type DataFilter, dayjs } from '@fiction/core'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
@@ -26,7 +27,7 @@ describe('post index tests', async () => {
     } as const
 
     const r = await fictionPosts.queries.ManagePost.serve(create, {})
-    createdPost = r.data
+    createdPost = r.data?.[0]
 
     const listParams = {
       _action: 'list',
@@ -57,7 +58,7 @@ describe('post index tests', async () => {
   it('lists sites correctly with draft', async () => {
     const draftTitle = 'Draft Post'
     const update = {
-      postId: createdPost?.postId || '',
+      where: { postId: createdPost?.postId || '' },
       _action: 'saveDraft',
       fields: { title: draftTitle },
       orgId,
@@ -124,7 +125,7 @@ describe('post crud tests', async () => {
     const result = await fictionPosts.queries.ManagePost.serve(create, {})
 
     expect(result.status).toBe('success')
-    createdPost = result.data
+    createdPost = result.data?.[0]
     expect(createdPost?.title).toBe(create.fields.title)
     expect(createdPost?.content).toBe(create.fields.content)
     expect(createdPost?.status).toBe('draft')
@@ -146,14 +147,16 @@ describe('post crud tests', async () => {
 
     const result2 = await fictionPosts.queries.ManagePost.serve(create2, {})
 
-    expect(result2.data?.slug).toBe(`new-post-1`)
+    const createdPost2 = result2.data?.[0]
+
+    expect(createdPost2?.slug).toBe(`new-post-1`)
   })
 
   it('updates a post', async () => {
     const update = {
       _action: 'update',
       orgId,
-      postId: createdPost?.postId || '',
+      where: { postId: createdPost?.postId || '' },
       fields: {
         title: 'Updated Post',
         content: 'Updated content of the post',
@@ -163,27 +166,31 @@ describe('post crud tests', async () => {
 
     const updateResult = await fictionPosts.queries.ManagePost.serve(update, {})
 
+    const updatedPost = updateResult.data?.[0]
+
     expect(updateResult.status).toBe('success')
-    expect(updateResult.data?.title).toBe(update.fields.title)
-    expect(updateResult.data?.content).toBe(update.fields.content)
+    expect(updatedPost?.title).toBe(update.fields.title)
+    expect(updatedPost?.content).toBe(update.fields.content)
     expect(updateResult.message).toBe('Post updated')
-    expect(updateResult.data?.status).toBe('published')
-    expect(updateResult.data?.postId).toBe(update.postId)
-    expect(dayjs(updateResult.data?.dateAt).toISOString()).toStrictEqual(dayjs(updateResult.data?.updatedAt).toISOString())
+    expect(updatedPost?.status).toBe('published')
+    expect(updatedPost?.postId).toBe(update.where.postId)
+    expect(dayjs(updatedPost?.dateAt).toISOString()).toStrictEqual(dayjs(updatedPost?.updatedAt).toISOString())
   })
 
   it('retrieves a post', async () => {
     const retrieve = {
       _action: 'get',
-      postId: createdPost?.postId || '',
+      where: { postId: createdPost?.postId || '' },
       orgId: createdPost?.orgId || '',
     } as const
 
     const retrieveResult = await fictionPosts.queries.ManagePost.serve(retrieve, {})
 
     expect(retrieveResult.status).toBe('success')
-    expect(retrieveResult.data?.postId).toBe(createdPost?.postId)
-    expect(retrieveResult.data?.title).toBe('Updated Post')
+
+    const retrievedPost = retrieveResult.data?.[0]
+    expect(retrievedPost?.postId).toBe(createdPost?.postId)
+    expect(retrievedPost?.title).toBe('Updated Post')
     expect(retrieveResult.message).toBeFalsy()
   })
 
@@ -191,21 +198,22 @@ describe('post crud tests', async () => {
     const newTitle = 'Draft Saved'
     const draftParams = {
       _action: 'saveDraft',
-      postId: createdPost?.postId || '',
+      where: { postId: createdPost?.postId || '' },
       fields: { ...createdPost, title: newTitle },
       orgId,
     } as const
 
     const r = await fictionPosts.queries.ManagePost.serve(draftParams, {})
+    const post = r.data?.[0]
 
     expect(r.status).toBe('success')
-    expect(r.data?.title).toBe(newTitle)
+    expect(post?.title).toBe(newTitle)
   })
 
   it('deletes a post', async () => {
     const deleteAction = {
       _action: 'delete',
-      postId: createdPost?.postId || '',
+      where: { postId: createdPost?.postId || '' },
       orgId,
     } as const
 
@@ -218,11 +226,13 @@ describe('post crud tests', async () => {
   it('tries to retrieve a non-existent post', async () => {
     const retrieve = {
       _action: 'get',
-      postId: 'nonexistent',
+      where: { postId: 'nonexistent' },
       orgId,
     } as const
 
     const retrieveResult = await fictionPosts.queries.ManagePost.serve(retrieve, {})
+
+    const retrievedPost = retrieveResult.data?.[0]
 
     expect(retrieveResult).toMatchInlineSnapshot(`
       {
@@ -231,13 +241,13 @@ describe('post crud tests', async () => {
       }
     `)
     expect(retrieveResult.status).toBe('error')
-    expect(retrieveResult.data).toBe(undefined)
+    expect(retrievedPost).toBe(undefined)
   })
 
   it('checks deletion of already deleted post', async () => {
     const deleteAgain = {
       _action: 'delete',
-      postId: createdPost?.postId || '',
+      where: { postId: createdPost?.postId || '' },
       orgId,
     } as const
 

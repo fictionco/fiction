@@ -103,9 +103,9 @@ export class PostLoader extends FictionObject<PostLoaderSettings> {
       const result = await this.settings.fictionPosts.requests.ManagePost.request({
         _action: 'get',
         orgId,
-        slug,
+        where: { slug },
       })
-      singleEntry = result.data
+      singleEntry = result.data?.[0]
     }
 
     return { singleEntry, index }

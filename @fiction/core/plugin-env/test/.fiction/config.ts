@@ -30,7 +30,15 @@ export interface CompiledServiceConfig {
     | 'SMTP_USER'
     | 'TOKEN_SECRET'
     | 'UNSPLASH_ACCESS_KEY'
-  endpoints: 'CheckUsername' | 'ManageMemberRelation' | 'ManageOrganization' | 'ManageUser' | 'OrganizationsByUserId'
+  endpoints:
+    | 'CheckUsername'
+    | 'ManageMemberRelation'
+    | 'ManageOrganization'
+    | 'ManageUser'
+    | 'OrgMembers'
+    | 'OrganizationsByUserId'
+    | 'SeekInviteFromUser'
+    | 'TeamInvite'
   routes: 'renderTest'
   menus: ''
   [k: string]: unknown

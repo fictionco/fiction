@@ -18,9 +18,6 @@ describe('post utils', async () => {
 
   it('managePost', async () => {
     const post = await managePost({ fictionPosts, params: { _action: 'create', fields: { title: 'test', content: 'hello world' } } })
-    expect(post).toBeDefined()
-    expect(post?.settings.title).toBe('test')
-    expect(post?.postId).toBeTruthy()
 
     expect(snap(post?.toConfig())).toMatchInlineSnapshot(`
       {
@@ -41,6 +38,7 @@ describe('post utils', async () => {
         "publishAt": null,
         "sites": "",
         "slug": "test",
+        "sourceMode": "standard",
         "status": "draft",
         "subTitle": "",
         "tags": "",
@@ -52,6 +50,9 @@ describe('post utils', async () => {
         "userId": "[id:***************************]",
       }
     `)
+    expect(post).toBeDefined()
+    expect(post?.settings.title).toBe('test')
+    expect(post?.postId).toBeTruthy()
   })
 
   it('managePostIndex', async () => {

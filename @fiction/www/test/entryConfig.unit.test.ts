@@ -107,7 +107,6 @@ describe('user config', async () => {
           "dash",
           "engine",
           "renderTest",
-          "emailTransaction",
           "sitePreview",
         ]
       `)
