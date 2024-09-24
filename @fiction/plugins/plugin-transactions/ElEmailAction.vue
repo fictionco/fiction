@@ -7,12 +7,7 @@ import { toCamel, useService, vue } from '@fiction/core'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 
-type UserConfig = {
-  test: string
-}
-defineProps({
-  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
-})
+const { card } = defineProps<{ card?: Card }>()
 
 const { fictionUser, fictionTransactions, fictionRouter } = useService<{ fictionTransactions: FictionTransactions }>()
 
@@ -61,7 +56,7 @@ vue.onMounted(async () => {
 </script>
 
 <template>
-  <div :data-action-id="actionId" :class="card?.classes?.value.contentWidth">
+  <div :data-action-id="actionId" :class="card?.classes?.value.contentWidth || 'max-w-screen-sm px-6'">
     <div v-if="loading">
       <div class="text-theme-300 dark:text-theme-600 flex justify-center pt-32">
         <ElSpinner class="size-6" />

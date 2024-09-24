@@ -64,11 +64,9 @@ describe('email actions', async () => {
           line-height: 1rem;"><tbody><tr><td><td data-id="__vue-email-column" role="presentation" class="w-[65%] align-top" style="width: 65%; vertical-align: top;"><img data-id="__vue-email-img" style="display:block;outline:none;border:none;text-decoration:none;" src="https://media.fiction.com/fiction-relative-media/med66f2033efae31d14b773375d-fiction-email-footer.png?blurhash=U2DS%5D%5D%7Eq00_N00_4%25M4n00_N%3FcIU%7Eq9F%25M-%3B" width="80" alt="Personal Marketing Platform"><p data-id="__vue-email-text" style="font-size: 14px; line-height: 24px; margin: 16px 0;"><a data-id="__vue-email-link" style="color:#067df7;text-decoration:none; color: rgb(179,185,197); margin-top: 1rem;" href="https://www.fiction.com" target="_blank" class="text-normal dark:text-gray-600">Personal Marketing Platform ↗ </a></p></img></td><td data-id="__vue-email-column" role="presentation" class="w-[35%] text-right align-top text-xs" style="width: 35%; text-align: right; vertical-align: top; font-size: 0.75rem;
           line-height: 1rem;"><!--v-if--><!--v-if--></td></td></tr></tbody></table></hr></hr></td></tr></tbody></table></body></html>"
     `)
-  })
 
-  it('loads up ui associated with action', async () => {
     await kit.performActions({
-      path: '/__transaction-route/test-action',
+      path: new URL(callbackUrl).pathname,
       actions: [
         { type: 'visible', selector: `[data-action-id="${testUtils.emailAction.settings.actionId}"]` },
       ],

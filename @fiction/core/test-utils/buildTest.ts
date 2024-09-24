@@ -149,12 +149,16 @@ export async function createTestServer(params: {
 class PlaywrightLogger {
   private logger = log.contextLogger('playwright')
   errorLogs: string[] = []
+  private currentUrl: string = ''
 
   constructor() {}
 
   async setupLogging(page: Page): Promise<void> {
     page.on('console', this.handleConsoleMessage.bind(this))
     page.on('pageerror', this.handlePageError.bind(this))
+    page.on('load', () => {
+      this.currentUrl = page.url()
+    })
   }
 
   private async handleConsoleMessage(message: playwrightTest.ConsoleMessage): Promise<void> {
@@ -165,33 +169,40 @@ class PlaywrightLogger {
       return // Don't log debug messages
     }
 
+    const logData = {
+      url: this.currentUrl,
+      location: `${message.location().url}:${message.location().lineNumber}:${message.location().columnNumber}`,
+    }
+
     if (type === 'error' || type === 'warning') {
-      const location = message.location()
       const args = await this.serializeArguments(message.args())
       const stack = this.extractStackTrace(args)
 
-      const logData = {
-        location: `${location.url}:${location.lineNumber}:${location.columnNumber}`,
+      Object.assign(logData, {
         ...(stack && { stack }),
         ...(args.length > 0 && { args }),
-      }
+      })
 
       if (type === 'error') {
         this.logger.error(text, { data: logData })
-        this.errorLogs.push(text)
+        this.errorLogs.push(`[${this.currentUrl}] ${text}`)
       }
       else {
         this.logger.warn(text, { data: logData })
       }
     }
     else {
-      this.logger.info(text)
+      this.logger.info(text, { data: logData })
     }
   }
 
   private handlePageError(error: Error): void {
-    this.logger.error(error.message, { data: { stack: error.stack } })
-    this.errorLogs.push(error.message)
+    const logData = {
+      url: this.currentUrl,
+      stack: error.stack,
+    }
+    this.logger.error(error.message, { data: logData })
+    this.errorLogs.push(`[${this.currentUrl}] ${error.message}`)
   }
 
   private async serializeArguments(args: any[]): Promise<any[]> {
@@ -241,11 +252,24 @@ class PlaywrightLogger {
   }
 
   private cleanMessage(message: string): string {
-    return message
+    // Remove color and styling information
+    message = message
       .replace(/%c/g, '')
       .replace(/(?:color|font-weight|background-color): [^;]+;?\s*/g, '')
-      .replace(/\s+/g, ' ')
       .trim()
+
+    // Improve Vue warnings
+    if (message.startsWith('[Vue warn]')) {
+      const lines = message.split('\n')
+      const warning = lines[0]
+      const componentInfo = lines.slice(1)
+        .filter(line => line.trim() !== '' && !line.includes('at <'))
+        .join(' ')
+      return `${warning} ${componentInfo}`.trim()
+    }
+
+    // For other multi-line messages, join them with a space
+    return message.replace(/\n+/g, ' ')
   }
 
   getErrorLogs(): string[] {

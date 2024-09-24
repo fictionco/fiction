@@ -1,24 +1,36 @@
-import { FictionAws, FictionMedia, type ServiceConfig, vue } from '@fiction/core'
-import { getEnvVars } from '@fiction/core'
-import { createTestUtils } from '@fiction/core/test-utils'
+import * as adminTheme from '@fiction/admin/theme'
+import CardSite from '@fiction/cards/CardSite.vue'
+import { AppRoute, FictionAws, FictionMedia, type ServiceConfig, vue } from '@fiction/core'
+import { createSiteTestUtils } from '@fiction/site/test/testUtils'
+import * as fictionTheme from '@fiction/theme-fiction'
 import { EmailAction, FictionTransactions } from '..'
+import '@fiction/plugin-ai'
 
-export async function setup(args: { context?: 'node' | 'app' } = {}) {
-  const mainFilePath = new URL(import.meta.url).pathname
-  const testUtils = createTestUtils({ mainFilePath, ...args }) as ReturnType<typeof createTestUtils> & { emailAction: EmailAction }
+export async function setup(args: { context?: 'node' | 'app', mainFilePath?: string } = {}) {
+  const { context } = args
+  const mainFilePath = args.mainFilePath || new URL(import.meta.url).pathname
 
-  const v = getEnvVars(testUtils.fictionEnv, ['AWS_ACCESS_KEY', 'AWS_ACCESS_KEY_SECRET', 'AWS_BUCKET_MEDIA'] as const)
+  const testUtils = await createSiteTestUtils({
+    mainFilePath,
+    context,
+    themes: [fictionTheme.setup, adminTheme.setup],
+    delaySiteRouterCreation: true, // created on editor start
+  })
 
-  const { awsAccessKey, awsAccessKeySecret, awsBucketMedia } = v
+  const siteRouter = testUtils.fictionRouter
+  const component = CardSite
+  testUtils.fictionRouter.update([
+    new AppRoute({ name: 'dash', path: '/app/:viewId?/:itemId?', component, props: { siteRouter, themeId: 'admin' } }),
+    new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component, props: { siteRouter, themeId: 'fiction' } }),
+  ])
 
-  const fictionAws = new FictionAws({ ...testUtils, awsAccessKey, awsAccessKeySecret })
-  const fictionMedia = new FictionMedia({ ...testUtils, fictionAws, awsBucketMedia })
-  const fictionTransactions = new FictionTransactions({ ...testUtils, fictionMedia })
+  const fictionTransactions = new FictionTransactions({ ...testUtils })
 
-  const service = { ...testUtils, fictionAws, fictionMedia, fictionTransactions }
+  const service = { ...testUtils, fictionTransactions }
+
   const actionId = 'testAction'
 
-  service.emailAction = new EmailAction({
+  const emailAction = new EmailAction({
     actionId,
     template: vue.defineAsyncComponent(async () => import('./ElTestAction.vue')),
     fictionTransactions,
@@ -44,7 +56,7 @@ export async function setup(args: { context?: 'node' | 'app' } = {}) {
   })
 
   return {
-    service,
+    service: { ...service, emailAction },
     runVars: {},
     runCommand: async args => service.runApp(args),
     createMount: async args => service.fictionApp.mountApp(args),

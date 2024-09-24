@@ -66,10 +66,6 @@ export class FictionTransactions extends FictionPlugin<FictionTransactionsSettin
         ]
       },
     })
-
-    this.settings.fictionRouter.update([
-      new AppRoute({ name: 'emailTransaction', path: '/__transaction-route/:itemId', component: async (): Promise<any> => import('./ElEmailAction.vue') }),
-    ])
   }
 
   emailActions: Record<string, EmailAction> = {}
