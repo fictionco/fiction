@@ -145,16 +145,18 @@ export type ManagePostParamsRequest =
   | { _action: 'delete', where: WherePost }
   | { _action: 'saveDraft', where: WherePost, fields: Partial<TablePostConfig> }
   | { _action: 'revertDraft', where: WherePost }
+  | { _action: 'list', type?: string }
 
-export type ManagePostParams = ManagePostParamsRequest & { userId?: string, orgId: string }
+export type ManagePostParams = ManagePostParamsRequest & { userId?: string, orgId: string } & IndexQuery
 
 type ManagePostResponse = EndpointResponse<TablePostConfig[]> & {
   isNew?: boolean
+  indexMeta?: IndexMeta
 }
 
 export class QueryManagePost extends PostsQuery {
   async run(params: ManagePostParams, meta: EndpointMeta): Promise<ManagePostResponse> {
-    let r: EndpointResponse<TablePostConfig[]>
+    let r: ManagePostResponse
 
     switch (params._action) {
       case 'get':
@@ -175,12 +177,96 @@ export class QueryManagePost extends PostsQuery {
       case 'revertDraft':
         r = await this.revertDraft(params, meta)
         break
-
+      case 'list':
+        r = await this.listPosts(params, meta)
+        break
       default:
         return { status: 'error', message: 'Invalid action' }
     }
 
     return r
+  }
+
+  private async listPosts(params: ManagePostParams & { _action: 'list' }, _meta: EndpointMeta): Promise<ManagePostResponse> {
+    const {
+      orgId,
+      filters = [],
+      limit = 10,
+      offset = 0,
+      orderBy = 'updatedAt',
+      order = 'desc',
+      type = 'post',
+      taxonomy,
+    } = params
+    const db = this.db()
+
+    let query = db
+      .select<TablePostConfig[]>('*')
+      .from(t.posts)
+      .where({ orgId, type })
+      .limit(limit)
+      .offset(offset)
+      .orderBy(orderBy, order)
+
+    query = applyComplexFilters(query, filters)
+
+    if (taxonomy) {
+      query = query.join(t.taxonomy, `${t.taxonomy}.taxonomyId`, '=', `${t.posts}.taxonomyId`)
+      if ('taxonomyId' in taxonomy) {
+        query = query.where(`${t.taxonomy}.taxonomyId`, taxonomy.taxonomyId)
+      }
+      else if ('type' in taxonomy && 'slug' in taxonomy) {
+        query = query.where(`${t.taxonomy}.type`, taxonomy.type)
+          .where(`${t.taxonomy}.slug`, taxonomy.slug)
+      }
+    }
+
+    const posts = await query
+
+    const allAuthorIds = posts.map(post => post.userId).filter(Boolean) as string[]
+    const allAuthors = await this.fetchAuthors(allAuthorIds)
+
+    const postsWithAuthors = posts.map(post => ({
+      ...post,
+      authors: [post.userId].filter(Boolean).map(userId => allAuthors.find(author => author.userId === userId)),
+    })) as TablePostConfig[]
+
+    const count = await this.countPosts(params, _meta)
+
+    return {
+      status: 'success',
+      data: postsWithAuthors,
+      indexMeta: { ...params, count, limit, offset },
+    }
+  }
+
+  private async countPosts(params: ManagePostParams & { _action: 'list' }, _meta: EndpointMeta): Promise<number> {
+    const { orgId, filters = [], type = 'post', taxonomy } = params
+    const db = this.db()
+
+    let query = db
+      .count<{ count: string }>('*')
+      .from(t.posts)
+      .where({ orgId, type })
+
+    query = applyComplexFilters(query, filters)
+
+    if (taxonomy) {
+      query = query.join(t.taxonomy, `${t.taxonomy}.taxonomyId`, '=', `${t.posts}.taxonomyId`)
+      if ('taxonomyId' in taxonomy) {
+        query = query.where(`${t.taxonomy}.taxonomyId`, taxonomy.taxonomyId)
+      }
+      else if ('type' in taxonomy && 'slug' in taxonomy) {
+        query = query.where(`${t.taxonomy}.type`, taxonomy.type)
+          .where(`${t.taxonomy}.slug`, taxonomy.slug)
+      }
+    }
+
+    const result = await query.first()
+
+    const count = Number.parseInt(result?.count || '0', 10)
+
+    return count
   }
 
   private async getPost(params: ManagePostParams & { _action: 'get' }, _meta: EndpointMeta): Promise<EndpointResponse<TablePostConfig[]>> {

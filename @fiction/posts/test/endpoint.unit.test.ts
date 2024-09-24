@@ -1,9 +1,205 @@
-import type { title } from 'node:process'
 import type { TablePostConfig } from '../schema'
-import { type DataFilter, dayjs } from '@fiction/core'
+import { type ComplexDataFilter, type DataFilter, dayjs } from '@fiction/core'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
-import { afterAll, describe, expect, it } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { FictionPosts } from '..'
+
+describe('post tests', async () => {
+  const testUtils = await createSiteTestUtils()
+  const { orgId, user } = await testUtils.init()
+  const { userId = '' } = user
+  const fictionPosts = new FictionPosts(testUtils)
+  let createdPost: TablePostConfig | undefined
+  let secondPost: TablePostConfig | undefined
+
+  beforeAll(async () => {
+    // Create two posts for testing
+    const createFirst = {
+      _action: 'create' as const,
+      fields: {
+        title: 'First Test Post',
+        content: 'Content of the first test post',
+        status: 'published' as const,
+      },
+      orgId,
+      userId,
+    }
+    const createSecond = {
+      _action: 'create' as const,
+      fields: {
+        title: 'Second Test Post',
+        content: 'Content of the second test post',
+        status: 'draft' as const,
+      },
+      orgId,
+      userId,
+    }
+
+    const resultFirst = await fictionPosts.queries.ManagePost.serve(createFirst, {})
+    const resultSecond = await fictionPosts.queries.ManagePost.serve(createSecond, {})
+
+    createdPost = resultFirst.data?.[0]
+    secondPost = resultSecond.data?.[0]
+  })
+
+  afterAll(async () => {
+    await testUtils.close()
+  })
+
+  it('lists posts correctly', async () => {
+    const listParams = {
+      _action: 'list' as const,
+      orgId,
+      limit: 10,
+      offset: 0,
+      filters: [] as ComplexDataFilter[],
+    }
+
+    const result = await fictionPosts.queries.ManagePost.serve(listParams, {})
+
+    expect(result.status).toBe('success')
+    expect(result.data).toBeInstanceOf(Array)
+    expect(result.data?.length).toBe(2)
+    expect(result.indexMeta).toHaveProperty('count')
+    expect(result.indexMeta?.count).toBe(2)
+    expect(result.message).toBeFalsy()
+
+    const [secondPost, firstPost] = result.data || []
+
+    expect(firstPost?.title).toBe('First Test Post')
+    expect(firstPost?.status).toBe('published')
+    expect(secondPost?.title).toBe('Second Test Post')
+    expect(secondPost?.status).toBe('draft')
+  })
+
+  it('filters posts correctly', async () => {
+    const listParams = {
+      _action: 'list' as const,
+      orgId,
+      limit: 10,
+      offset: 0,
+      filters: [[{ field: 'status', operator: '=', value: 'published' }]] as ComplexDataFilter[],
+    }
+
+    const result = await fictionPosts.queries.ManagePost.serve(listParams, {})
+
+    expect(result.status).toBe('success')
+    expect(result.data).toBeInstanceOf(Array)
+    expect(result.data?.length).toBe(1)
+    expect(result.indexMeta?.count).toBe(1)
+
+    const [publishedPost] = result.data || []
+
+    expect(publishedPost?.title).toBe('First Test Post')
+    expect(publishedPost?.status).toBe('published')
+  })
+
+  it('sorts posts correctly', async () => {
+    const listParams = {
+      _action: 'list' as const,
+      orgId,
+      limit: 10,
+      offset: 0,
+      orderBy: 'title',
+      order: 'desc' as const,
+    }
+
+    const result = await fictionPosts.queries.ManagePost.serve(listParams, {})
+
+    expect(result.status).toBe('success')
+    expect(result.data).toBeInstanceOf(Array)
+    expect(result.data?.length).toBe(2)
+
+    const [firstPost, secondPost] = result.data || []
+
+    expect(firstPost?.title).toBe('Second Test Post')
+    expect(secondPost?.title).toBe('First Test Post')
+  })
+
+  it('paginates posts correctly', async () => {
+    const listParamsFirstPage = {
+      _action: 'list' as const,
+      orgId,
+      limit: 1,
+      offset: 0,
+    }
+
+    const resultFirstPage = await fictionPosts.queries.ManagePost.serve(listParamsFirstPage, {})
+
+    expect(resultFirstPage.status).toBe('success')
+    expect(resultFirstPage.data?.length).toBe(1)
+    expect(resultFirstPage.indexMeta?.count).toBe(2)
+
+    const listParamsSecondPage = {
+      _action: 'list' as const,
+      orgId,
+      limit: 1,
+      offset: 1,
+    }
+
+    const resultSecondPage = await fictionPosts.queries.ManagePost.serve(listParamsSecondPage, {})
+
+    expect(resultSecondPage.status).toBe('success')
+    expect(resultSecondPage.data?.length).toBe(1)
+    expect(resultSecondPage.indexMeta?.count).toBe(2)
+
+    expect(resultFirstPage.data?.[0]?.postId).not.toBe(resultSecondPage.data?.[0]?.postId)
+  })
+
+  it('updates a post and reflects in list', async () => {
+    const updateParams = {
+      _action: 'update' as const,
+      orgId,
+      where: { postId: createdPost?.postId || '' },
+      fields: {
+        title: 'Updated First Post',
+        content: 'Updated content of the first post',
+      },
+    }
+
+    await fictionPosts.queries.ManagePost.serve(updateParams, {})
+
+    const listParams = {
+      _action: 'list' as const,
+      orgId,
+      limit: 10,
+      offset: 0,
+    }
+
+    const result = await fictionPosts.queries.ManagePost.serve(listParams, {})
+
+    expect(result.status).toBe('success')
+    const updatedPost = result.data?.find(post => post.postId === createdPost?.postId)
+    expect(updatedPost?.title).toBe('Updated First Post')
+    expect(updatedPost?.content).toBe('Updated content of the first post')
+  })
+
+  it('deletes a post and reflects in list', async () => {
+    const deleteParams = {
+      _action: 'delete' as const,
+      where: { postId: secondPost?.postId || '' },
+      orgId,
+    }
+
+    await fictionPosts.queries.ManagePost.serve(deleteParams, {})
+
+    const listParams = {
+      _action: 'list' as const,
+      orgId,
+      limit: 10,
+      offset: 0,
+    }
+
+    const result = await fictionPosts.queries.ManagePost.serve(listParams, {})
+
+    expect(result.status).toBe('success')
+    expect(result.data?.length).toBe(1)
+    expect(result.indexMeta?.count).toBe(1)
+    expect(result.data?.[0]?.postId).toBe(createdPost?.postId)
+  })
+
+  // Add more tests here for other scenarios...
+})
 
 describe('post index tests', async () => {
   const testUtils = await createSiteTestUtils()
