@@ -1,4 +1,3 @@
-import { FictionAdmin } from '@fiction/admin'
 import * as adminTheme from '@fiction/admin/theme'
 import CardSite from '@fiction/cards/CardSite.vue'
 import { AppRoute, type ServiceConfig } from '@fiction/core'

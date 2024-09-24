@@ -1085,6 +1085,9 @@ importers:
       '@fiction/core':
         specifier: workspace:*
         version: link:../../core
+      '@fiction/plugin-ai':
+        specifier: workspace:*
+        version: link:../plugin-ai
       '@fiction/plugin-monitor':
         specifier: workspace:*
         version: link:../plugin-monitor

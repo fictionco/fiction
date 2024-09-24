@@ -1,5 +1,5 @@
 import { isCi } from '@fiction/core'
-import { afterAll, describe, expect, it } from 'vitest'
+import { afterAll, describe, it } from 'vitest'
 import { createPostsUiTestingKit } from './postTestUtils'
 
 describe('postEditing', async () => {

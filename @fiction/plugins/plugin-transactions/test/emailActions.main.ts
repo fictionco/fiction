@@ -1,6 +1,6 @@
 import * as adminTheme from '@fiction/admin/theme'
 import CardSite from '@fiction/cards/CardSite.vue'
-import { AppRoute, FictionAws, FictionMedia, type ServiceConfig, vue } from '@fiction/core'
+import { AppRoute, type ServiceConfig, vue } from '@fiction/core'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import * as fictionTheme from '@fiction/theme-fiction'
 import { EmailAction, FictionTransactions } from '..'

@@ -3,7 +3,7 @@ import type { FictionApp, FictionDb, FictionEmail, FictionMedia, FictionPluginSe
 import type { FictionMonitor } from '@fiction/plugin-monitor'
 import type { EmailAction } from './action'
 
-import { AppRoute, FictionPlugin, safeDirname, vue } from '@fiction/core'
+import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { CardFactory } from '@fiction/site/cardFactory'
 import { EndpointEmailAction } from './endpoint'
 
