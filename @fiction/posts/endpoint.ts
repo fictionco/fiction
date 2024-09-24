@@ -1,4 +1,6 @@
 import type { DataFilter, EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser, IndexMeta, IndexQuery, TableTaxonomyConfig } from '@fiction/core'
+import type { TableSiteConfig } from '@fiction/site'
+import type { WhereSite } from '@fiction/site/load'
 import type { FictionPosts } from '.'
 import type { TablePostConfig } from './schema'
 import { abort, applyComplexFilters, deepMerge, incrementSlugId, objectId, Query, standardTable, toLabel, toSlug } from '@fiction/core'
@@ -134,12 +136,15 @@ export class ManagePostIndex extends PostsQuery {
   }
 }
 
+type WherePost = { postId?: string, slug?: string } & ({ postId: string } | { slug: string })
+
 export type ManagePostParamsRequest =
   | { _action: 'create', fields: Partial<TablePostConfig>, defaultTitle?: string }
   | { _action: 'update', postId: string, fields: Partial<TablePostConfig>, loadDraft?: boolean }
   | { _action: 'get', postId?: string, slug?: string, select?: (keyof TablePostConfig)[] | ['*'], loadDraft?: boolean }
   | { _action: 'delete', postId: string }
   | { _action: 'saveDraft', postId: string, fields: Partial<TablePostConfig> }
+  | { _action: 'revertDraft', where: WherePost }
 
 export type ManagePostParams = ManagePostParamsRequest & { userId?: string, orgId: string }
 
@@ -167,6 +172,10 @@ export class QueryManagePost extends PostsQuery {
       case 'saveDraft':
         r = await this.saveDraft(params, meta)
         break
+      case 'revertDraft':
+        r = await this.revertDraft(params, meta)
+        break
+
       default:
         return { status: 'error', message: 'Invalid action' }
     }
@@ -481,6 +490,18 @@ export class QueryManagePost extends PostsQuery {
     const { data: post } = await this.getPost({ postId, orgId, loadDraft: true, caller: 'saveDraft' }, meta)
 
     return { status: 'success', data: post }
+  }
+
+  private async revertDraft(params: ManagePostParams & { _action: 'revertDraft' }, meta: EndpointMeta): Promise<EndpointResponse<TablePostConfig>> {
+    const { where, orgId } = params
+    const db = this.db()
+
+    const [updatedPost] = await db(t.posts)
+      .where({ orgId, ...where })
+      .update({ draft: '{}' })
+      .returning('*')
+
+    return { status: 'success', message: 'Reverted to published version', data: updatedPost }
   }
 }
 

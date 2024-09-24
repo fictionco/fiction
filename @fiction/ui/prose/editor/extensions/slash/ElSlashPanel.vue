@@ -2,7 +2,7 @@
 import type { Editor, Range } from '@tiptap/core'
 import type { PropType } from 'vue'
 import type { SuggestionItem } from '.'
-import { useCompletion } from 'ai/vue'
+import { useCompletion } from '@ai-sdk/vue'
 import { ref, watch } from 'vue'
 import { getPrevText } from '../../utils/editor'
 

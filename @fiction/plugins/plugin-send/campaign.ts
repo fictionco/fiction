@@ -45,7 +45,7 @@ export class EmailCampaign extends FictionObject<EmailConfig> {
     })
 
     if (sendConfig.post) {
-      this.post.value.update(sendConfig.post, { noSave: true })
+      this.post.value.update(sendConfig.post, { noSave: true, caller: 'campaignUpdate' })
     }
   }
 

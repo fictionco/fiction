@@ -24,7 +24,7 @@ defineProps({
             :is-editable="true"
             placeholder="Enter Title"
             data-test-id="post-editor-title"
-            @update:model-value="post?.update({ title: $event as string })"
+            @update:model-value="post?.update({ title: $event as string }, { caller: 'proseEditor:title' })"
           />
           <XText
             :model-value="post.subTitle.value"
@@ -33,7 +33,7 @@ defineProps({
             :is-editable="true"
             placeholder="Enter Subtitle"
             data-test-id="post-editor-sub-title"
-            @update:model-value="post?.update({ subTitle: $event as string })"
+            @update:model-value="post?.update({ subTitle: $event as string }, { caller: 'proseEditor:subTitle' })"
           />
         </div>
         <div v-if="post.media.value?.url || post.media.value?.html" class="not-prose">
@@ -44,7 +44,7 @@ defineProps({
       <ProseEditor
         :model-value="post.content.value"
         class="font-serif"
-        @update:model-value="post?.update({ content: $event as string })"
+        @update:model-value="post?.update({ content: $event as string }, { caller: 'proseEditor:content' })"
       />
       <div v-if="$slots.footer" class="not-prose">
         <slot name="footer" />

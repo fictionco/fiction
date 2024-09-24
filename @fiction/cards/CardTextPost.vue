@@ -40,7 +40,7 @@ function getNewUserConfig(v: string) {
 function onValue(v: string) {
   const newConfig = getNewPostConfig(v)
 
-  post.update(newConfig)
+  post.update(newConfig, { caller: 'CardTextPost' })
 }
 
 function onInput(v: string) {

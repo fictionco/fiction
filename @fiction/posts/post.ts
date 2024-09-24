@@ -32,8 +32,8 @@ export class Post extends FictionObject<PostConfig> {
     super('Post', settings)
   }
 
-  update(postConfig: Partial<TablePostConfig>, options: { noSave?: boolean } = {}) {
-    const { noSave = false } = options
+  update(postConfig: Partial<TablePostConfig>, options: { noSave?: boolean, caller: string }) {
+    const { noSave = false } = options || {}
 
     if (!postConfig)
       return
@@ -108,7 +108,7 @@ export class Post extends FictionObject<PostConfig> {
     const p = await managePost({ fictionPosts: this.settings.fictionPosts, params })
 
     if (mode !== 'draft')
-      this.update(p?.toConfig() || {})
+      this.update(p?.toConfig() || {}, { caller: 'savePost' })
 
     this.isDirty.value = false
     this.clearAutosave()

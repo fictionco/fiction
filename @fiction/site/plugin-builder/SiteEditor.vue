@@ -105,7 +105,7 @@ async function resetToPublished() {
   const r = await s.settings.fictionSites.requests.ManageSite.projectRequest({
     _action: 'revertDraft',
     where: { siteId },
-    caller: 'saveSite',
+    caller: 'siteEditor',
   })
 
   if (r.status === 'success') {

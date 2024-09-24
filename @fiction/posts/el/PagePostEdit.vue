@@ -2,6 +2,7 @@
 import type { Card } from '@fiction/site'
 import type { FictionPosts } from '..'
 import type { Post } from '../post.js'
+import ElDraftSignal from '@fiction/admin/el/ElDraftSignal.vue'
 import ViewEditor from '@fiction/admin/ViewEditor.vue'
 import { useService, vue, waitFor } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
@@ -62,6 +63,23 @@ async function load() {
 vue.onMounted(async () => {
   await load()
 })
+
+async function resetToPublished() {
+  if (!post.value)
+    throw new Error('No post to revert')
+
+  const s = post.value
+  const postId = s.postId
+
+  const r = await s.settings.fictionPosts.requests.ManagePost.projectRequest({
+    _action: 'revertDraft',
+    where: { postId },
+  }, { caller: 'postEdit' })
+
+  if (r.status === 'success') {
+    await post.value.update({ ...r.data }, { noSave: true, caller: 'resetToPublished' })
+  }
+}
 </script>
 
 <template>
@@ -84,12 +102,16 @@ vue.onMounted(async () => {
         </div>
       </template>
       <template #headerRight>
-        <span class="inline-flex items-center gap-x-1.5 rounded-md  px-2 py-1 text-xs font-medium text-theme-400 antialiased">
-          <svg class="h-1.5 w-1.5" :class="post?.isDirty.value ? 'fill-orange-500' : 'fill-green-500'" viewBox="0 0 6 6" aria-hidden="true">
-            <circle cx="3" cy="3" r="3" />
-          </svg>
-          {{ post?.isDirty.value ? 'Syncing' : 'Draft Saved' }}
-        </span>
+        <ElDraftSignal
+          v-if="post"
+          :is-dirty="post.isDirty.value"
+          :nav-items="[{
+            name: 'Reset to Published Version',
+            onClick: () => resetToPublished(),
+            testId: 'reset-to-published',
+          }]"
+          data-test-id="draft-control-dropdown"
+        />
         <XButton
           theme="primary"
           :loading="sending === 'publish'"
@@ -98,7 +120,7 @@ vue.onMounted(async () => {
           size="md"
           @click.stop.prevent="publish()"
         >
-          {{ post?.status.value === 'draft' ? 'Save Changes' : 'Publish Changes' }}
+          Publish Changes
         </XButton>
       </template>
       <template #default>
