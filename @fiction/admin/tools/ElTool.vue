@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import type { ActionItem, vue } from '@fiction/core'
+import type { ActionButton, vue } from '@fiction/core'
 import type { EditorTool } from './tools'
 import { toLabel } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 
 defineProps({
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
-  actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
-  back: { type: Object as vue.PropType<ActionItem>, default: undefined },
+  actions: { type: Array as vue.PropType<ActionButton[]>, default: () => [] },
+  back: { type: Object as vue.PropType<ActionButton>, default: undefined },
   title: { type: String, default: '' },
   icon: { type: String, default: '' },
 })
@@ -28,17 +28,17 @@ defineProps({
         </h3>
       </div>
       <div class="flex space-x-2 text-xs items-center font-semibold text-theme-200">
-        <div
+        <XButton
           v-for="(item, i) in actions"
           :key="i"
-          class="flex space-x-1 items-center transition-all cursor-pointer text-theme-500 dark:text-theme-0 hover:bg-primary-100 dark:hover:bg-primary-700 hover:text-primary-500 rounded-md bg-theme-50 dark:bg-primary-800 py-1 px-2 text-[10px] border border-theme-200 dark:border-primary-500 hover:border-primary-300 "
-          @click="item.onClick?.({ event: $event, item })"
+          :icon="item.icon"
+          :rounding="item.rounding || 'full'"
+          :theme="item.theme || 'default'"
+          :size="item.size || 'xs'"
+          @click.prevent="item.onClick?.({ event: $event, item })"
         >
-          <div :class="item.icon" class="text-base" />
-          <div class="">
-            {{ item.name }}
-          </div>
-        </div>
+          {{ item?.name }}
+        </XButton>
       </div>
     </div>
     <div>

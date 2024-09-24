@@ -3,7 +3,7 @@ import { afterAll, describe, expect, it } from 'vitest'
 import { createPostsUiTestingKit } from './postTestUtils'
 
 describe('postEditing', async () => {
-  const kit = await createPostsUiTestingKit({ headless: false, slowMo: 400, initUser: true })
+  const kit = await createPostsUiTestingKit({ headless: false, slowMo: 0, initUser: true })
 
   afterAll(async () => kit?.close())
 

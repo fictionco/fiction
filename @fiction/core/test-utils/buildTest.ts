@@ -152,7 +152,7 @@ class PlaywrightLogger {
 
   constructor() {}
 
-  setupLogging(page: Page): void {
+  async setupLogging(page: Page): Promise<void> {
     page.on('console', this.handleConsoleMessage.bind(this))
     page.on('pageerror', this.handlePageError.bind(this))
   }
@@ -172,8 +172,8 @@ class PlaywrightLogger {
 
       const logData = {
         location: `${location.url}:${location.lineNumber}:${location.columnNumber}`,
-        ...(args.length > 0 && { args }),
         ...(stack && { stack }),
+        ...(args.length > 0 && { args }),
       }
 
       if (type === 'error') {

@@ -41,25 +41,29 @@ function refitText() {
   })
 }
 
+let resizeObserver: ResizeObserver | undefined = undefined
 vue.onMounted(async () => {
   await waitFor(50)
   initFitty()
   refitText()
 
   // Use ResizeObserver to detect container size changes
-  const resizeObserver = new ResizeObserver(() => {
+  resizeObserver = new ResizeObserver(() => {
     refitText()
   })
   if (containerRef.value) {
     resizeObserver.observe(containerRef.value)
   }
+})
 
-  vue.onBeforeUnmount(() => {
+vue.onBeforeUnmount(() => {
+  if (resizeObserver) {
     resizeObserver.disconnect()
-    if (fitty.value) {
-      fitty.value.destroy()
-    }
-  })
+  }
+
+  if (fitty.value) {
+    fitty.value.destroy()
+  }
 })
 
 vue.watch(

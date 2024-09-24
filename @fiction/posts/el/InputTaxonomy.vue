@@ -2,7 +2,7 @@
 import type { ListItem, TableTaxonomyConfig } from '@fiction/core'
 import type { FictionPosts } from '..'
 import EffectDraggableSort from '@fiction/admin/el/EffectDraggableSort.vue'
-import { debounce, toLabel, useService, vue, waitFor } from '@fiction/core'
+import { debounce, log, toLabel, useService, vue, waitFor } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElBadge from '@fiction/ui/common/ElBadge.vue'
 import InputSelectCustom from '@fiction/ui/inputs/InputSelectCustom.vue'
@@ -17,6 +17,8 @@ const emit = defineEmits<{
   (event: 'update:modelValue', payload: TableTaxonomyConfig[]): void
 }>()
 
+const logger = log.contextLogger('InputTaxonomy')
+
 const service = useService<{ fictionPosts: FictionPosts }>()
 const allTaxonomies = vue.ref<TableTaxonomyConfig[]>([])
 const list = vue.computed<ListItem[]>(() => allTaxonomies.value.map(t => ({ value: t.taxonomyId, name: t.title, count: t.usageCount, desc: t.description })))
@@ -24,27 +26,35 @@ const isFocused = vue.ref(false)
 const search = vue.ref<string | undefined>()
 
 const searchCache = new Map<string, TableTaxonomyConfig[]>()
+
 async function fetchList() {
-  const activeOrganizationId = service.fictionUser.activeOrgId.value
-  const orgId = activeOrganizationId
+  try {
+    const activeOrganizationId = service.fictionUser.activeOrgId.value
+    const orgId = activeOrganizationId
 
-  if (!orgId)
-    return []
+    if (!orgId)
+      throw new Error('No active organization')
 
-  const s = search.value || ''
+    logger.info('fetching taxonomy', { orgId, taxonomyType: props.taxonomyType, search: search.value })
 
-  if (searchCache.has(s))
-    return
+    const s = search.value || ''
 
-  const tax = await service.fictionPosts.getPostTaxonomyList({ orgId, type: props.taxonomyType, search: search.value })
+    if (searchCache.has(s))
+      return
 
-  // if not in all taxonomies, add it
-  tax.forEach((t) => {
-    if (!allTaxonomies.value.find(at => at.taxonomyId === t.taxonomyId))
-      allTaxonomies.value.push(t)
-  })
+    const tax = await service.fictionPosts.getPostTaxonomyList({ orgId, type: props.taxonomyType, search: search.value })
 
-  searchCache.set(s, tax)
+    // if not in all taxonomies, add it
+    tax.forEach((t) => {
+      if (!allTaxonomies.value.find(at => at.taxonomyId === t.taxonomyId))
+        allTaxonomies.value.push(t)
+    })
+
+    searchCache.set(s, tax)
+  }
+  catch (e) {
+    logger.error('error fetching taxonomy', { error: e })
+  }
 }
 
 function addTaxonomyFromId(taxonomyId: string) {
@@ -106,12 +116,14 @@ async function sortValue(sortedTitles: string[]) {
 
 <template>
   <div class="space-y-2">
-    <EffectDraggableSort class="tag-list flex flex-row flex-wrap gap-1" :allow-horizontal="true" @update:sorted="sortValue($event)">
-      <ElBadge v-for="(tax, i) in modelValue" :key="i" :data-drag-id="tax.title" class="gap-1 cursor-grab" :theme="taxonomyType === 'tag' ? 'green' : 'orange'">
-        <span>{{ tax.title }}</span>
-        <span class="i-tabler-x hover:opacity-70 cursor-pointer" @click="removeTaxomomy(tax)" />
-      </ElBadge>
-    </EffectDraggableSort>
+    <div v-if="modelValue.length">
+      <EffectDraggableSort class="tag-list flex flex-row flex-wrap gap-1" :allow-horizontal="true" @update:sorted="sortValue($event)">
+        <ElBadge v-for="(tax, i) in modelValue" :key="i" :data-drag-id="tax.title" class="gap-1 cursor-grab" :theme="taxonomyType === 'tag' ? 'green' : 'orange'">
+          <span>{{ tax.title }}</span>
+          <span class="i-tabler-x hover:opacity-70 cursor-pointer" @click="removeTaxomomy(tax)" />
+        </ElBadge>
+      </EffectDraggableSort>
+    </div>
     <InputSelectCustom
       v-model:search="search"
       v-model:focused="isFocused"

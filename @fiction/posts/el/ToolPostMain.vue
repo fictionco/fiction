@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { EditorTool } from '@fiction/admin'
-import type { ActionItem } from '@fiction/core'
+import type { ActionButton } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { FictionPosts } from '..'
 import type { Post } from '../post'
@@ -22,14 +22,6 @@ const props = defineProps({
 })
 
 const service = useService<{ fictionPosts: FictionPosts }>()
-
-const actions: ActionItem[] = [
-  // {
-  //   name: 'New Page',
-  //   icon: 'i-tabler-circle-plus',
-  //   onClick: () => {},
-  // },
-]
 
 const options = vue.computed<InputOption[]>(() => {
   const activeOrganizationId = service.fictionUser.activeOrgId.value
@@ -119,9 +111,7 @@ const options = vue.computed<InputOption[]>(() => {
       options: [
         new InputOption({ key: 'tags', label: 'Tags', input: InputTaxonomy, props: { taxonomyType: 'tag' } }),
         new InputOption({ key: 'categories', label: 'Categories', input: InputTaxonomy, props: { taxonomyType: 'category' } }),
-
         new InputOption({ key: 'authors', label: 'Authors', input: InputAuthors, props: { } }),
-
       ],
     }),
     new InputOption({
@@ -150,7 +140,7 @@ const options = vue.computed<InputOption[]>(() => {
                   }
                 },
               },
-            ] as ActionItem[],
+            ] as ActionButton[],
           },
         }),
 
@@ -171,7 +161,7 @@ function updatePost(config: TablePostConfig) {
 </script>
 
 <template>
-  <ElTool v-if="post" :tool :actions>
+  <ElTool v-if="post" :tool>
     <ElForm id="toolForm">
       <FormEngine
         state-key="postEdit"

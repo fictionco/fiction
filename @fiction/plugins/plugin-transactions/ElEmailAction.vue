@@ -11,7 +11,7 @@ type UserConfig = {
   test: string
 }
 defineProps({
-  card: { type: Object as vue.PropType<Card<UserConfig> | undefined>, required: true },
+  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
 const { fictionUser, fictionTransactions, fictionRouter } = useService<{ fictionTransactions: FictionTransactions }>()

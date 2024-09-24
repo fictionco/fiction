@@ -37,9 +37,6 @@ export const tools = [
     icon: 'i-tabler-edit-circle',
     location: 'context',
     isDefault: true,
-    props: () => {
-      return vue.computed(() => ({}))
-    },
     el: vue.defineAsyncComponent(async () => import('./ToolPostMain.vue')),
   },
 ] as const satisfies EditorTool[]
