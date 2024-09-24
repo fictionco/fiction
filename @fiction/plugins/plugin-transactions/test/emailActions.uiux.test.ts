@@ -66,6 +66,7 @@ describe('email actions', async () => {
     `)
 
     await kit.performActions({
+      caller: 'emailActions',
       path: new URL(callbackUrl).pathname,
       actions: [
         { type: 'visible', selector: `[data-action-id="${testUtils.emailAction.settings.actionId}"]` },

@@ -76,6 +76,7 @@ describe('signin UX', { retry: 3 }, async () => {
 
   it('logs in when callback url is visited and redirects to base route', async () => {
     await kit.performActions({
+      caller: 'signin1',
       path: vars?.callbackUrl || '',
       actions: [
         { type: 'visible', selector: '[data-pathname="/"]' },
@@ -86,6 +87,7 @@ describe('signin UX', { retry: 3 }, async () => {
   it('has fields ', async () => {
     const fields = { email: 'foo@bar.com', password: 'password123', name: 'Test User' }
     await kit.performActions({
+      caller: 'signin2',
       path: '/auth/register',
       actions: [
         { type: 'click', selector: '[data-test-id="to-login"]' },
@@ -109,6 +111,7 @@ describe('signin UX', { retry: 3 }, async () => {
 
   it('allows user to register with google account or email', async () => {
     await kit.performActions({
+      caller: 'signin3',
       path: '/auth/login',
       actions: [
         { type: 'visible', selector: '[data-test-id="email-login-button"]' },
@@ -120,6 +123,7 @@ describe('signin UX', { retry: 3 }, async () => {
 
   it('defaults to login page', async () => {
     await kit.performActions({
+      caller: 'signin4',
       path: '/auth/does-not-exist',
       actions: [
         { type: 'visible', selector: '[data-test-id="email-login-button"]' },
@@ -131,6 +135,7 @@ describe('signin UX', { retry: 3 }, async () => {
 
   it('allows toggle between sign up and login', async () => {
     await kit.performActions({
+      caller: 'signin5',
       path: '/auth/register',
       actions: [
         { type: 'click', selector: '[data-test-id="to-login"]' },

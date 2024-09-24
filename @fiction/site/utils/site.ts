@@ -163,8 +163,8 @@ export async function saveSite(args: { site: Site, scope?: 'draft' | 'publish', 
   return r.data
 }
 
-export async function updateSite(args: { site: Site, newConfig: Partial<SiteSettings>, caller: string, noSave?: boolean }) {
-  const { site, newConfig, noSave = false, caller = 'updateSite' } = args
+export async function updateSite(args: { site: Site, newConfig: Partial<SiteSettings>, caller: string, noSave?: boolean, noSync?: boolean }) {
+  const { site, newConfig, noSave = false, noSync = false, caller = 'updateSite' } = args
   if (!newConfig)
     return
 
@@ -189,7 +189,7 @@ export async function updateSite(args: { site: Site, newConfig: Partial<SiteSett
   if (sections)
     site.sections.value = setSections({ site, sections })
 
-  if (site.siteMode.value !== 'standard')
+  if (site.siteMode.value !== 'standard' && !noSync)
     site.syncChange({ caller, noSave })
 
   return site

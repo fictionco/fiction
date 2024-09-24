@@ -16,6 +16,7 @@ describe('admin site pages', async () => {
     const initialViewId = 'edit-site'
     const slugId = shortId()
     await kit.performActions({
+      caller: 'adminSitePages',
       path: `/app/${initialViewId}?theme=minimal`,
       actions: [
         { type: 'visible', selector: `[data-view-id="${initialViewId}"]` },

@@ -150,8 +150,10 @@ class PlaywrightLogger {
   private logger = log.contextLogger('playwright')
   errorLogs: string[] = []
   private currentUrl: string = ''
-
-  constructor() {}
+  caller: string
+  constructor(args: { caller: string }) {
+    this.caller = args.caller
+  }
 
   async setupLogging(page: Page): Promise<void> {
     page.on('console', this.handleConsoleMessage.bind(this))
@@ -170,7 +172,7 @@ class PlaywrightLogger {
     }
 
     const logData = {
-      url: this.currentUrl,
+      url: `${this.caller} -> ${this.currentUrl}`,
       location: `${message.location().url}:${message.location().lineNumber}:${message.location().columnNumber}`,
     }
 
@@ -198,7 +200,7 @@ class PlaywrightLogger {
 
   private handlePageError(error: Error): void {
     const logData = {
-      url: this.currentUrl,
+      url: `${this.caller} -> ${this.currentUrl}`,
       stack: error.stack,
     }
     this.logger.error(error.message, { data: logData })
@@ -213,7 +215,7 @@ class PlaywrightLogger {
           ? JSON.parse(JSON.stringify(value, this.jsonReplacer))
           : value
       }
-      catch (error) {
+      catch {
         return 'Error serializing argument'
       }
     }))
@@ -289,17 +291,18 @@ type TestPageAction = {
 }
 
 export async function performActions(args: {
+  caller: string
   browser: TestBrowser
   path: string
   actions: readonly TestPageAction[] | TestPageAction[]
   port: number
 }) {
-  const { browser, path, actions, port } = args
+  const { browser, path, actions, port, caller } = args
   const page = browser.page
 
   const url = new URL(path || '/', `http://localhost:${port}`).toString()
 
-  const playwrightLogger = new PlaywrightLogger()
+  const playwrightLogger = new PlaywrightLogger({ caller })
 
   playwrightLogger.setupLogging(page)
 

@@ -16,6 +16,7 @@ describe('admin site editing', async () => {
     const _initialViewId = 'edit-site'
     const _slugId = shortId()
     await kit.performActions({
+      caller: 'adminSiteEditing',
       path: `/app`,
       actions: [
         { type: 'click', selector: `[data-test-id="dashboard-nav-sites"]` },

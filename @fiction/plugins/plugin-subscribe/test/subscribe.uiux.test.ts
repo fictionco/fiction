@@ -75,6 +75,7 @@ describe('subscribe uiux', { retry: 3 }, async () => {
   it('logs in when callback url is visited and redirects to base route', { retry: 2 }, async () => {
     const selector = `[data-action-id="${action.settings.actionId}"]`
     await kit.performActions({
+      caller: 'subscribe',
       path: vars?.callbackUrl || '',
       actions: [
         { type: 'visible', selector },

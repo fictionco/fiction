@@ -12,6 +12,7 @@ describe('showcase card', async () => {
 
   it('showcase: displays correctly', async () => {
     await kit.performActions({
+      caller: 'showcase',
       path: '/demo-showcase',
       actions: [
         { type: 'exists', selector: '[data-test-id="showcase"]' },

@@ -14,6 +14,7 @@ describe('settings e2e', async () => {
 
   it('creates site', { timeout: 80000, retry: 3 }, async () => {
     await kit.performActions({
+      caller: 'adminSiteCreating',
       path: '/app/sites',
       actions: [
         { type: 'visible', selector: `[data-view-id="sites"]` },

@@ -120,7 +120,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       pgs.push(...c.pages)
     }
 
-    await this.update({ pages: pgs }, { caller: 'loadConfig', noSave: true })
+    await this.update({ pages: pgs }, { caller: 'loadConfig', noSave: true, noSync: this.siteMode.value === 'editable' })
 
     this.sections.value = setSections({ site: this, themeSections: c.sections })
 
@@ -230,7 +230,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       : { ...baseConfig, siteId: this.siteId }
   }
 
-  update = async (newConfig: Partial<TableSiteConfig>, opts: { caller: string, noSave?: boolean }) => updateSite({ site: this, newConfig, ...opts })
+  update = async (newConfig: Partial<TableSiteConfig>, opts: { caller: string, noSave?: boolean, noSync?: boolean }) => updateSite({ site: this, newConfig, ...opts })
   save = async (args: { minTime?: number, scope?: 'draft' | 'publish' } = {}) => saveSite({ site: this, successMessage: 'Site Saved', ...args })
   syncChange = (args: { caller: string, noSave?: boolean }) => {
     this.frame.syncSite(args)

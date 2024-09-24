@@ -13,6 +13,7 @@ describe('marquee card', async () => {
 
   it('marquee: displays correctly', { retry: isCi() ? 3 : 1 }, async () => {
     await kit.performActions({
+      caller: 'marquee',
       path: '/demo-marquee',
       actions: [
         { type: 'exists', selector: '[data-display-items]' },

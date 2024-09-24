@@ -135,7 +135,6 @@ export class SSR extends FictionObject<SSRSettings> {
   async render(args: { runVars: Partial<RunVars> }): Promise<RenderedHtmlParts> {
     const { runVars } = args
     try {
-      this.log.info(`set IS_APP_SSR (${runVars.URL})`)
       crossVar.set('IS_APP_SSR', runVars.URL || 'NO_URL')
       this.startGlobals({ runVars })
       return await this.getParts({ runVars })
@@ -147,7 +146,6 @@ export class SSR extends FictionObject<SSRSettings> {
       return this.init()
     }
     finally {
-      this.log.info(`delete IS_APP_SSR (${runVars.URL})`)
       crossVar.delete('IS_APP_SSR')
       this.revertGlobals()
     }

@@ -18,6 +18,7 @@ describe('settings e2e', async () => {
   it('loads up ui associated with action', { timeout: 80000 }, async () => {
     const first = tools[0].slug
     await kit.performActions({
+      caller: 'settings',
       path: '/app/settings',
       actions: [
         { type: 'visible', selector: `[data-settings-tool="${first}"]` },

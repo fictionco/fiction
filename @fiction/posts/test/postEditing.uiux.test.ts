@@ -9,6 +9,7 @@ describe('postEditing', async () => {
 
   it('creates post and allows basic editing', { retry: isCi() ? 3 : 2 }, async () => {
     await kit.performActions({
+      caller: 'postEditing',
       path: '/app',
       actions: [
         { type: 'click', selector: '[data-test-id="dashboard-nav-posts"]' },

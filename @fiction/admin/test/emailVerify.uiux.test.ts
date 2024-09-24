@@ -35,21 +35,21 @@ describe('email actions', async () => {
       {
         "actionId": "verifyEmail",
         "appName": "Test Fiction App",
-        "callbackUrl": "http://localhost:27579/__transaction/verify-email?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3Vic2NyaWJlciIsInVzZXJJZCI6InVzcjY2ZjIyNTFhYThlN2JhMGMwNmFlMTEyYSIsImVtYWlsIjoiYXJwb3dlcnMrMjIyNTMwNTY0OUBnbWFpbC5jb20iLCJ2ZXJpZnlFbWFpbCI6dHJ1ZSwiaWF0IjoxNzI3MTQ1MjQyLCJleHAiOjE3MjczMTgwNDJ9.FAED857ihJ-HtcBZCcsQLduTXbXTCxaScwMJUMYEo08&code=376993&email=arpowers%2B2225305649%40gmail.com&userId=usr66f2251aa8e7ba0c06ae112a",
-        "code": "376993",
-        "email": "arpowers+2225305649@gmail.com",
-        "fullName": "Maryann Franecki",
-        "originUrl": "http://localhost:27579",
+        "callbackUrl": "http://localhost:15963/__transaction/verify-email?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3Vic2NyaWJlciIsInVzZXJJZCI6InVzcjY2ZjIyZmQ3ZjhhMzk1MGNhODUwNzc4NyIsImVtYWlsIjoiYXJwb3dlcnMrNTc4OTU5Mzk4NEBnbWFpbC5jb20iLCJ2ZXJpZnlFbWFpbCI6dHJ1ZSwiaWF0IjoxNzI3MTQ3OTkxLCJleHAiOjE3MjczMjA3OTF9.LZ3tYBz1rOFjhlMfccuEUreL1qFhnJb7u4uxZlwIVEI&code=795601&email=arpowers%2B5789593984%40gmail.com&userId=usr66f22fd7f8a3950ca8507787",
+        "code": "795601",
+        "email": "arpowers+5789593984@gmail.com",
+        "fullName": "Marcos Gleichner III",
+        "originUrl": "http://localhost:15963",
         "queryVars": {
-          "code": "376993",
-          "email": "arpowers+2225305649@gmail.com",
-          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3Vic2NyaWJlciIsInVzZXJJZCI6InVzcjY2ZjIyNTFhYThlN2JhMGMwNmFlMTEyYSIsImVtYWlsIjoiYXJwb3dlcnMrMjIyNTMwNTY0OUBnbWFpbC5jb20iLCJ2ZXJpZnlFbWFpbCI6dHJ1ZSwiaWF0IjoxNzI3MTQ1MjQyLCJleHAiOjE3MjczMTgwNDJ9.FAED857ihJ-HtcBZCcsQLduTXbXTCxaScwMJUMYEo08",
-          "userId": "usr66f2251aa8e7ba0c06ae112a",
+          "code": "795601",
+          "email": "arpowers+5789593984@gmail.com",
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3Vic2NyaWJlciIsInVzZXJJZCI6InVzcjY2ZjIyZmQ3ZjhhMzk1MGNhODUwNzc4NyIsImVtYWlsIjoiYXJwb3dlcnMrNTc4OTU5Mzk4NEBnbWFpbC5jb20iLCJ2ZXJpZnlFbWFpbCI6dHJ1ZSwiaWF0IjoxNzI3MTQ3OTkxLCJleHAiOjE3MjczMjA3OTF9.LZ3tYBz1rOFjhlMfccuEUreL1qFhnJb7u4uxZlwIVEI",
+          "userId": "usr66f22fd7f8a3950ca8507787",
         },
         "redirect": "",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3Vic2NyaWJlciIsInVzZXJJZCI6InVzcjY2ZjIyNTFhYThlN2JhMGMwNmFlMTEyYSIsImVtYWlsIjoiYXJwb3dlcnMrMjIyNTMwNTY0OUBnbWFpbC5jb20iLCJ2ZXJpZnlFbWFpbCI6dHJ1ZSwiaWF0IjoxNzI3MTQ1MjQyLCJleHAiOjE3MjczMTgwNDJ9.FAED857ihJ-HtcBZCcsQLduTXbXTCxaScwMJUMYEo08",
-        "unsubscribeUrl": "http://localhost:27579/__transaction/unsubscribe",
-        "userId": "usr66f2251aa8e7ba0c06ae112a",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3Vic2NyaWJlciIsInVzZXJJZCI6InVzcjY2ZjIyZmQ3ZjhhMzk1MGNhODUwNzc4NyIsImVtYWlsIjoiYXJwb3dlcnMrNTc4OTU5Mzk4NEBnbWFpbC5jb20iLCJ2ZXJpZnlFbWFpbCI6dHJ1ZSwiaWF0IjoxNzI3MTQ3OTkxLCJleHAiOjE3MjczMjA3OTF9.LZ3tYBz1rOFjhlMfccuEUreL1qFhnJb7u4uxZlwIVEI",
+        "unsubscribeUrl": "http://localhost:15963/__transaction/unsubscribe",
+        "userId": "usr66f22fd7f8a3950ca8507787",
         "username": "",
       }
     `)
@@ -101,6 +101,7 @@ describe('email actions', async () => {
 
   it('loads up ui associated with action', async () => {
     await kit.performActions({
+      caller: 'emailVerify',
       path: r?.emailVars?.callbackUrl || '/',
       actions: [
         { type: 'visible', selector: `[data-action-id="${actionId}"]` },

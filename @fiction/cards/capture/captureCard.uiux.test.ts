@@ -8,6 +8,7 @@ describe('hero: card', async () => {
 
   it('capture: ui testing', { retry: 3 }, async () => {
     await kit.performActions({
+      caller: 'capture1',
       path: '/demo-capture',
       actions: [
         { type: 'exists', selector: '[data-mode="onLoad"] form' },
@@ -20,6 +21,7 @@ describe('hero: card', async () => {
     await kit.browser.reset()
 
     await kit.performActions({
+      caller: 'capture2',
       path: '/demo-capture',
       actions: [
         { type: 'exists', selector: '[data-mode="onLoad"] form' },
