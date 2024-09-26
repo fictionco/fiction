@@ -211,8 +211,8 @@ export class ManagePage extends Query<SitesQuerySettings> {
       pages = pages.map((page) => {
         const p = page.draft ? deepMerge<TableCardConfig>([page, page.draft as TableCardConfig]) : page
 
-        // Remove draft and draftHistory from the response
-        const { draft, draftHistory, ...rest } = p
+        // Remove draft from the response
+        const { draft, ...rest } = p
 
         return rest
       })
@@ -346,7 +346,7 @@ export class ManagePage extends Query<SitesQuerySettings> {
 
       const fields = card.toConfig()
 
-      const keysToRemove = ['draft', 'draftHistory', 'cardId', 'userId', 'orgId']
+      const keysToRemove = ['draft', 'cardId', 'userId', 'orgId']
       keysToRemove.forEach((key) => {
         delete fields[key as keyof typeof fields]
       })
@@ -542,7 +542,7 @@ export class ManageSite extends SitesQuery {
 
     const draftPages = fields.pages || []
 
-    const keysToRemove = ['draft', 'draftHistory', 'siteId', 'userId', 'orgId', 'pages']
+    const keysToRemove = ['draft', 'siteId', 'userId', 'orgId', 'pages']
 
     keysToRemove.forEach((key) => {
       delete fields[key as keyof typeof fields]
@@ -709,8 +709,8 @@ export class ManageSite extends SitesQuery {
     // Assign the pages to the site object
     site.pages = r.data || []
 
-    // remove draft and draftHistory from the response
-    const { draft, draftHistory, ...final } = site
+    // remove draft  from the response
+    const { draft, ...final } = site
 
     return final
   }

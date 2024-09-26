@@ -13,7 +13,7 @@ const props = defineProps({
 })
 
 const handles = vue.computed<Handle[]>(() => {
-  const history = (props.post.settings.draftHistory || []) as PostDraft[]
+  const history = [] as PostDraft[]
 
   if (!Array.isArray(history))
     return []

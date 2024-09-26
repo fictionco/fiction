@@ -5,7 +5,6 @@ import { describe, expect, it } from 'vitest'
 import { z } from 'zod'
 import zodToJsonSchema from 'zod-to-json-schema'
 import { FictionAi } from '..'
-import { webDesignBasePrompt } from '../basePrompts'
 
 const pageSchema = z.object({
   heading: z.string().min(18).max(60).describe('The heading for the page'),
@@ -48,14 +47,12 @@ describe('ai completions', async () => {
   // const _fictionUnsplash = new FictionUnsplash({ ...testUtils, unsplashAccessKey })
   const fictionAi = new FictionAi({ ...testUtils, fictionMedia, openaiApiKey, anthropicApiKey })
 
-  const baseInstruction = webDesignBasePrompt
-
-  it('gets a completion', async () => {
+  it('gets a website copy completion', async () => {
     const r4 = await fictionAi.queries.AiCompletion.serve({
       _action: 'completion',
-      baseInstruction,
+      format: 'websiteCopy',
       objectives: {
-        about: 'This is the website of Jane Smith, a well known designer and influencer in the fashion industry, built to showcase her latest collection.',
+        about: 'This is the website of Jane Smith, a well known designer and influencer in the fashion industry. She is known for her unique style and innovative designs.',
         imageStyle: 'Cutting-edge technology with a cyberpunk vibe. Clean and minimal. Super Simple!!',
       },
       outputFormat: pageSchemaJson,
@@ -74,13 +71,38 @@ describe('ai completions', async () => {
         "heading": "Elevate Your Style with Jane Smith's Vision",
         "images": [
           {
-            "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724639769/replicate-prediction-219495bpydrj00chhhxr130rdc_qgfa91.mp4",
+            "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556210/arpowers_minimal_midshot_photo_of_object_futuristic_ancient_gre_f7c28b0f-3148-44fe-927f-b0fe57460f6c_cwyamv.png",
           },
           {
-            "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441630/arpowers_minimal_stock_background_for_profile_photo_professiona_4becd944-10bc-44b4-969b-9a85b3885409_mv0js5.png",
+            "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556206/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_c954fed0-a698-4b95-8470-e8a0541b0b55_qkrjxn.png",
           },
         ],
-        "subHeading": "Discover a fusion of avant-garde design and timeless elegance in our latest collection, where fashion meets innovation.",
+        "subHeading": "Discover innovative fashion designs that blend cutting-edge trends with timeless elegance. Transform your wardrobe and express your unique personality through Jane's signature creations.",
+      }
+    `)
+  }, 90000)
+
+  it('gets a autocomplete completion', async () => {
+    const r4 = await fictionAi.queries.AiCompletion.serve({
+      _action: 'completion',
+      format: 'contentAutocomplete',
+      objectives: {
+        previousText: 'It was crazy what happened next. One moment',
+        title: 'The Eye of the Storm',
+        description: 'How I narrowly escaped the storm of the century.',
+      },
+      runPrompt: `Create content suggestions`,
+      orgId,
+      userId,
+    }, { server: true })
+
+    const completion = r4.data?.completion as CompletionType
+    expect(Object.keys(completion || {}).sort()).toStrictEqual(['suggestion1', 'suggestion2'])
+
+    expect(r4.data?.completion).toMatchInlineSnapshot(`
+      {
+        "suggestion1": "everything was calm, then chaos erupted",
+        "suggestion2": "the sky turned an ominous shade of green",
       }
     `)
   }, 90000)

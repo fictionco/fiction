@@ -8,10 +8,11 @@ import { stockMediaHandler } from '@fiction/ui/stock'
 import { Pinecone } from '@pinecone-database/pinecone'
 import { generateText } from 'ai'
 import { Document, TextSplitter } from './splitter'
+import { contentCommandUtil } from './systemMessage'
 
 type QueryAiSettings = { fictionAi: FictionAi } & FictionAiSettings
 
-type CommandMessage = { role: 'system' | 'assistant' | 'user', content: string }
+export type CommandMessage = { role: 'system' | 'assistant' | 'user', content: string }
 
 interface AiResult {
   referenceInfo?: string
@@ -19,20 +20,20 @@ interface AiResult {
   messages?: CommandMessage[]
 }
 
-type AiCompletionSettings = {
-  baseInstruction: string
+export type ContentFormat =
+  | { format: 'websiteCopy', outputFormat: Record<string, unknown> }
+  | { format: 'contentAutocomplete' }
+
+export type AiCompletionSettings = {
+  _action: 'similaritySearch' | 'completion'
   runPrompt: string
-  outputFormat?: Record<string, unknown>
   searchNamespace?: string
   useSimilaritySearch?: boolean
   referenceInfo?: string
-  objectives: {
-    about?: string
-    imageStyle?: string
-  }
   orgId: string
   userId: string
-}
+  objectives: Record<string, string>
+} & ContentFormat
 
 export abstract class QueryAi extends Query<QueryAiSettings> {
   constructor(settings: QueryAiSettings) {
@@ -139,11 +140,7 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
   }
 
   async getChatCompletion(args: AiCompletionSettings): Promise<EndpointResponse<AiResult>> {
-    const { useSimilaritySearch, baseInstruction, searchNamespace, runPrompt, outputFormat, objectives, orgId, userId } = args
-    let { referenceInfo = '' } = args
-
-    if (!baseInstruction)
-      throw abort('basePrompt required')
+    const { useSimilaritySearch, searchNamespace, runPrompt } = args
 
     const { anthropic } = await this.getAiModels()
 
@@ -155,89 +152,22 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
 
       const searchResultText = sourceDocuments.map(d => d.pageContent).join('\n\n')
 
-      referenceInfo += searchResultText
+      args.referenceInfo += searchResultText
     }
 
-    const imageInstruction = `<image_guidelines>
-    <guideline>Image style should not affect text content.</guideline>
-    <guideline>For image URLs, use shortcodes in the following format:
-      [stock_img search="image_prompt" orientation="(portrait, landscape, or squarish)" subject="(person, object)" description="(JSON schema field description)"]
-    </guideline>
-    <guideline>Replace "image_prompt" with a 3-10 word image generation prompt designed to create a contextual image in the specified style.</guideline>
-    <guideline>Set the description attribute to the schema description for the schema parent group and the field itself, preferring more specific descriptions.</guideline>
-  </image_guidelines>`
+    const messages = contentCommandUtil.getMessages(args)
 
-    const objectivesInstruction = Object.entries(objectives).map(([key, value]) => `<objective>${key}:${value}</objective>`).join('\n')
-    const topicInstruction = `<topic_guidelines>${objectivesInstruction}</topic_guidelines>`
-
-    const messages: CommandMessage[] = [
-      { role: 'system', content: `
-<system_message>follow these orders EXACTLY and return JSON based on inputs provided:
-  <role>
-    You are an expert AI copywriter, marketer, and web designer tasked with creating persuasive website content. Your goal is to craft compelling, customer-centric copy using neurolinguistic programming principles to address user pain points and present effective solutions.
-  </role>
-
-  <output_format>
-    Generate ONLY JSON content strictly adhering to the provided schema. Nothing besides JSON should be returned.
-    For arrays, create 1 to 3 entries unless otherwise specified.
-    Ensure all required fields are populated with appropriate, context-relevant content.
-  </output_format>
-
-  <content_guidelines>
-    <tone_and_voice>
-      <guideline>Adopt a professional yet approachable tone that builds trust and credibility.</guideline>
-      <guideline>Use clear, concise language that resonates with the target audience.</guideline>
-      <guideline>Balance authority with empathy to connect with readers on an emotional level.</guideline>
-    </tone_and_voice>
-
-    <structure_and_style>
-      <guideline>Create elegant, concise content without redundancy or excessive exclamations.</guideline>
-      <guideline>Use analogies, metaphors, and similes to enrich descriptions and engage readers.</guideline>
-      <guideline>Craft headlines and subheadings that are both informative and attention-grabbing.</guideline>
-    </structure_and_style>
-
-    <persuasion_techniques>
-      <guideline>Employ neurolinguistic programming to help users visualize their problems and imagine solutions.</guideline>
-      <guideline>Focus on the target customer's pain points where the provider can offer solutions.</guideline>
-      <guideline>Use "you" and "your" to address the reader directly; avoid "our", "I", "us", or "me".</guideline>
-      <guideline>Incorporate "because" to strengthen persuasive arguments.</guideline>
-    </persuasion_techniques>
-
-    <seo_optimization>
-      <guideline>Naturally incorporate relevant keywords without compromising readability.</guideline>
-      <guideline>Create SEO-friendly meta descriptions and title tags when required by the schema.</guideline>
-      <guideline>Use header tags (H1, H2, H3) appropriately to structure content for both users and search engines.</guideline>
-    </seo_optimization>
-
-    <constraints>
-      <guideline>Avoid clichés, cheesy language, or overly sales-oriented content.</guideline>
-      <guideline>Do not reuse the name of the site subject in the content unless absolutely necessary.</guideline>
-      <guideline>Refrain from making unsubstantiated claims or promises.</guideline>
-    </constraints>
-  </content_guidelines>
-  ${topicInstruction}
-  ${imageInstruction}
-</system_message>` },
-    ]
-
-    if (outputFormat) {
-      const outputFormatText = JSON.stringify(outputFormat)
-      messages.push({ role: 'system', content: `Generate JSON content that conforms to the following schema: ${outputFormatText}. Ensure the response is structured according to this schema.` })
+    const generateArgs = {
+      system: messages.map(m => `content(${m.role}): ${m.content}`).join('\n'),
+      prompt: runPrompt || 'Follow guidelines for provided objectives.',
+      temperature: 0.7,
     }
 
-    if (referenceInfo)
-      messages.push({ role: 'system', content: `reference info: ${referenceInfo}\n` })
-
-    if (runPrompt)
-      messages.push({ role: 'user', content: runPrompt })
-
-    this.log.info('sending messages', { data: { messages, outputFormat } })
+    this.log.info('sending messages', { data: { generateArgs } })
 
     const { text } = await generateText({
       model: anthropic('claude-3-5-sonnet-20240620'),
-      system: messages.map(m => m.content).join('\n'),
-      prompt: runPrompt,
-      temperature: 0.7,
+      ...generateArgs,
     })
 
     // const response = await openAi.chat.completions.create({
@@ -301,7 +231,7 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
     }
     catch (e) {
       this.log.error('error parsing completion', { data: { e, rawCompletion } })
-      return { status: 'error', message: 'error parsing completion', data: { referenceInfo, messages } }
+      return { status: 'error', data: { messages } }
     }
 
     return {
@@ -309,7 +239,6 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
       message,
       more,
       data: {
-        referenceInfo,
         completion,
         messages,
       },

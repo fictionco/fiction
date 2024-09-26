@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { isDarkOrLightMode, vue } from '@fiction/core'
+import type { FictionAi } from '@fiction/plugin-ai'
+import { isDarkOrLightMode, useService, vue } from '@fiction/core'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import { EditorContent, useEditor } from '@tiptap/vue-3'
 import BubbleMenuEngine from './el/BubbleMenuEngine.vue'
-import { extensions } from './extensions/index'
+import { getExtensions } from './extensions/index'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
@@ -13,11 +14,13 @@ const emit = defineEmits<{
   (event: 'update:modelValue', payload: string): void
 }>()
 
+const { fictionAi } = useService<{ fictionAi: FictionAi }>()
+
 const isEditing = vue.ref(false)
 
 const editor = useEditor({
   content: props.modelValue,
-  extensions,
+  extensions: getExtensions({ fictionAi }),
   editorProps: {
     attributes: {
       class: 'ml-[-4em] mr-[-4em] pl-[4em] pr-[4em] focus:outline-none',
@@ -112,6 +115,10 @@ vue.onMounted(() => {
       outline: 3px solid #5abbf7;
       filter: brightness(90%);
     }
+  }
+
+  .autocomplete-suggestion{
+    opacity: .5;
   }
 
   .img-placeholder {

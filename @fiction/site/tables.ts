@@ -13,11 +13,11 @@ type st = { updatedAt?: string, createdAt?: string }
 export const pageRegionIds = ['header', 'main', 'footer', 'aside', 'article', 'section'] as const
 export type PageRegion = typeof pageRegionIds[number] | string
 
-export type TableSiteConfig = Omit<ColType<typeof siteCols>, 'draft' | 'draftHistory'> & st & { pages: CardConfigPortable[], draft?: TableSiteConfig, draftHistory?: TableSiteConfig[] }
+export type TableSiteConfig = Omit<ColType<typeof siteCols>, 'draft' > & st & { pages: CardConfigPortable[], draft?: TableSiteConfig }
 
 type TablePageCardConfig = Partial<ColType<typeof pageCols>>
 
-export type TableCardConfig<T extends Record<string, unknown> = Record<string, unknown> > = Omit<TablePageCardConfig, 'cards' | 'effects' | 'single' | 'userConfig' | 'draft' | 'draftHistory'> & st & {
+export type TableCardConfig<T extends Record<string, unknown> = Record<string, unknown> > = Omit<TablePageCardConfig, 'cards' | 'effects' | 'single' | 'userConfig' | 'draft'> & st & {
   parentId?: string
   depth?: number
   index?: number
@@ -26,7 +26,6 @@ export type TableCardConfig<T extends Record<string, unknown> = Record<string, u
   single?: TableCardConfig
   effects?: TableCardConfig[]
   draft?: CardConfigPortable
-  draftHistory?: CardConfigPortable[]
   scope?: string
   isSystem?: boolean
 }

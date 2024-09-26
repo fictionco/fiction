@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { MediaObject } from '@fiction/core'
 import { vue } from '@fiction/core'
-import InputImage from '@fiction/ui/inputs/InputImage.vue'
+import InputMedia from '@fiction/ui/inputs/InputMedia.vue'
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import ButtonMenu from '../../el/ButtonMenu.vue'
 import XMediaResize from './ElImageResize.vue'
@@ -86,8 +86,8 @@ const items = vue.computed(() => {
 
 <template>
   <NodeViewWrapper as="figure" :data-menu="media?.url ? 'image' : 'none'" class="ifigure my-6 not-prose outline-dotted outline-theme-200/30 dark:outline-theme-700 dark:focus:outline-theme-500 p-1 rounded-lg">
-    <div v-if="!media?.url" class="not-prose">
-      <InputImage v-model:model-value="media" />
+    <div v-if="!media?.url" class="not-prose flex justify-center p-2">
+      <InputMedia v-model:model-value="media" />
     </div>
     <div v-else ref="imageFigure" class="relative group">
       <ButtonMenu :items="items" class="absolute top-3 right-3 z-20 opacity-0 group-hover:opacity-100" />

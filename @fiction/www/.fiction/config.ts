@@ -311,7 +311,6 @@ export interface CompiledServiceConfig {
       | 'publishAt'
       | 'dateAt'
       | 'draft'
-      | 'draftHistory'
       | 'archiveAt'
       | 'createdAt'
       | 'updatedAt'

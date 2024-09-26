@@ -15,24 +15,6 @@ const props = defineProps({
 
 const selectedIndex = ref(0)
 
-const { complete, isLoading } = useCompletion({
-  id: 'novel-vue',
-  api: '/api/generate',
-  onResponse: (_) => {
-    props.editor.chain().focus().deleteRange(props.range).run()
-  },
-  onFinish: (_prompt, completion) => {
-    // highlight the generated text
-    props.editor.commands.setTextSelection({
-      from: props.range.from,
-      to: props.range.from + completion.length,
-    })
-  },
-  onError: (e) => {
-    console.error(e)
-  },
-})
-
 const commandListContainer = ref<HTMLDivElement>()
 
 const navigationKeys = ['ArrowUp', 'ArrowDown', 'Enter']
@@ -74,16 +56,7 @@ function selectItem(index: number) {
   const item = props.items[index]
 
   if (item) {
-    if (item.title === 'Continue writing') {
-      if (isLoading.value)
-        return
-      complete(
-        getPrevText(props.editor, { chars: 5000, offset: 1 }),
-      )
-    }
-    else {
-      props.command(item)
-    }
+    props.command(item)
   }
 }
 

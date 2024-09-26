@@ -1,3 +1,5 @@
+import type { FictionEnv } from '@fiction/core'
+import type { FictionAi } from '@fiction/plugins/plugin-ai'
 import { InputRule } from '@tiptap/core'
 import BubbleMenu from '@tiptap/extension-bubble-menu'
 import { Color } from '@tiptap/extension-color'
@@ -16,19 +18,20 @@ import TextStyle from '@tiptap/extension-text-style'
 import TiptapUnderline from '@tiptap/extension-underline'
 import StarterKit from '@tiptap/starter-kit'
 import AutoJoiner from 'tiptap-extension-auto-joiner'
+import { AutocompleteExtension } from './ai/aiAutocomplete'
 import DragHandle from './handle'
 import { xImage } from './image'
 import SlashCommand from './slash'
 
-const PlaceholderExtension = Placeholder.configure({
-  placeholder: ({ node }) => {
-    if (node.type.name === 'heading')
-      return `Heading ${node.attrs.level}`
+// const PlaceholderExtension = Placeholder.configure({
+//   placeholder: ({ node }) => {
+//     if (node.type.name === 'heading')
+//       return `Heading ${node.attrs.level}`
 
-    return 'Type \'/\'...'
-  },
-  includeChildren: true,
-})
+//     return 'Type \'/\'...'
+//   },
+//   includeChildren: true,
+// })
 
 const Horizontal = HorizontalRule.extend({
   addInputRules() {
@@ -57,42 +60,49 @@ const Horizontal = HorizontalRule.extend({
   },
 })
 
-export const extensions = [
-  xImage,
-  StarterKit.configure({
-    horizontalRule: false,
-    dropcursor: { color: '#3452ff', width: 4, class: 'rounded-lg opacity-40' },
-    codeBlock: false,
-  }),
-  BubbleMenu,
-  PlaceholderExtension,
-  Horizontal,
-  TiptapLink.configure({
-    openOnClick: 'whenNotEditable',
-    HTMLAttributes: { class: 'cursor-pointer' },
-  }),
-  TiptapImage,
-  TaskList.configure({
-    HTMLAttributes: { class: 'not-prose pl-2' },
-  }),
-  TaskItem.configure({
-    HTMLAttributes: { class: 'flex items-start my-4' },
-    nested: true,
-  }),
-  TiptapUnderline,
-  Superscript,
-  Subscript,
-  TextStyle,
-  Color,
-  Highlight.configure({ multicolor: true }),
-  // Markdown.configure({ html: false, transformCopiedText: true }),
-  AutoJoiner,
-  TextAlign.configure({
-    types: ['heading', 'paragraph'],
-    defaultAlignment: 'left',
-    alignments: ['left', 'center', 'right', 'justify'],
-  }),
-  SlashCommand,
-  DragHandle,
-  Focus,
-]
+export function getExtensions(args: { fictionAi: FictionAi }) {
+  const { fictionAi } = args
+  return [
+    xImage,
+    AutocompleteExtension.configure({
+      fictionAi,
+    }),
+    StarterKit.configure({
+      horizontalRule: false,
+      dropcursor: { color: '#3452ff', width: 4, class: 'rounded-lg opacity-40' },
+      codeBlock: false,
+    }),
+    BubbleMenu,
+    // PlaceholderExtension,
+    Horizontal,
+    TiptapLink.configure({
+      openOnClick: 'whenNotEditable',
+      HTMLAttributes: { class: 'cursor-pointer' },
+    }),
+    TiptapImage,
+    TaskList.configure({
+      HTMLAttributes: { class: 'not-prose pl-2' },
+    }),
+    TaskItem.configure({
+      HTMLAttributes: { class: 'flex items-start my-4' },
+      nested: true,
+    }),
+    TiptapUnderline,
+    Superscript,
+    Subscript,
+    TextStyle,
+    Color,
+    Highlight.configure({ multicolor: true }),
+    // Markdown.configure({ html: false, transformCopiedText: true }),
+    AutoJoiner,
+    TextAlign.configure({
+      types: ['heading', 'paragraph'],
+      defaultAlignment: 'left',
+      alignments: ['left', 'center', 'right', 'justify'],
+    }),
+    SlashCommand,
+    DragHandle,
+    // CommandMenu,
+    Focus,
+  ]
+}

@@ -6,12 +6,12 @@ export async function getCardCompletion<T extends Record<string, unknown> = Reco
   const { baseInstruction, objectives } = site.fullConfig.value.ai || {}
   const fictionEnv = site.fictionSites.settings.fictionEnv
   try {
-    if (!baseInstruction || !objectives)
+    if (!baseInstruction || !objectives || !outputFormat)
       throw new Error('baseInstruction and objectives required')
 
     const result = await site.fictionSites.settings.fictionAi?.requests.AiCompletion.projectRequest({
       _action: 'completion',
-      baseInstruction,
+      format: 'websiteCopy',
       objectives,
       runPrompt,
       outputFormat,
