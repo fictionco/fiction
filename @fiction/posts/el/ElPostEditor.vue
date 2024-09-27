@@ -44,6 +44,7 @@ defineProps({
       <ProseEditor
         :model-value="post.content.value"
         class="font-serif"
+        :supplemental="{ title: post.title.value, subTitle: post.subTitle.value }"
         @update:model-value="post?.update({ content: $event as string }, { caller: 'proseEditor:content' })"
       />
       <div v-if="$slots.footer" class="not-prose">

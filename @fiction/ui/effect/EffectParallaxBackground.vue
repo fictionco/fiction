@@ -44,7 +44,7 @@ let animationFrame: number | null = null
 
 function updateParallax(entries: IntersectionObserverEntry[]) {
   const [entry] = entries
-  if (entry.isIntersecting) {
+  if (entry?.isIntersecting) {
     animationFrame = requestAnimationFrame(animate)
   }
   else if (animationFrame) {

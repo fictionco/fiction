@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import type { Editor, Range } from '@tiptap/core'
+import type { Range } from '@tiptap/core'
 import type { PropType } from 'vue'
-import type { SuggestionItem } from '.'
-import { useCompletion } from '@ai-sdk/vue'
+import type { SuggestionItem } from './suggestionItems'
 import { ref, watch } from 'vue'
-import { getPrevText } from '../../utils/editor'
 
 const props = defineProps({
   items: { type: Array as PropType<SuggestionItem[]>, required: true },
   command: { type: Function, required: true },
-  editor: { type: Object as PropType<Editor>, required: true },
   range: { type: Object as PropType<Range>, required: true },
 })
 

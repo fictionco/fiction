@@ -1,8 +1,12 @@
 import type { FictionAi } from '@fiction/plugins/plugin-ai'
-import { debounce } from '@fiction/core'
+import { debounce, log } from '@fiction/core'
+import { onBrowserEvent } from '@fiction/core/utils/eventBrowser'
 import { Extension } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
+import { type EditorSupplementary, generateAutocompleteObjectives, shouldSuggest } from '../../utils/editor'
+
+const logger = log.contextLogger('AutocompleteExtension')
 
 const PLUGIN_KEY = new PluginKey<DecorationSet>('suggestion')
 
@@ -10,8 +14,9 @@ interface AutocompleteOptions {
   applySuggestionKey: string
   suggestionDebounce: number
   previousTextLength: number
-  getSuggestion: (args: { previousText: string, fictionAi?: FictionAi }) => Promise<string | undefined>
+  getSuggestion: (args: { previousText: string, nextText: string, fictionAi?: FictionAi, supplemental: EditorSupplementary }) => Promise<string | undefined>
   fictionAi?: FictionAi
+  supplemental?: EditorSupplementary
 }
 
 export const AutocompleteExtension = Extension.create<AutocompleteOptions>({
@@ -22,16 +27,21 @@ export const AutocompleteExtension = Extension.create<AutocompleteOptions>({
       applySuggestionKey: 'Tab',
       suggestionDebounce: 1500,
       previousTextLength: 4000,
-      getSuggestion: async (args: { previousText: string, fictionAi?: FictionAi }) => {
-        const { previousText, fictionAi } = args
+      supplemental: undefined,
+      getSuggestion: async (args: { previousText: string, nextText: string, fictionAi?: FictionAi, supplemental: EditorSupplementary }) => {
+        const { previousText, nextText, fictionAi, supplemental = {} } = args
 
-        if (previousText.length < 10 || previousText.trim().endsWith('/'))
+        if (!shouldSuggest(previousText, nextText))
           return
+
+        const supplementalObjectives = generateAutocompleteObjectives(supplemental)
 
         const r = await fictionAi?.requests.AiCompletion.projectRequest({
           _action: 'completion',
           objectives: {
-            previousText: `continue from previous text: ${previousText}`,
+            nextText: `the autocomplete text is followed by: "${args.nextText}"`,
+            previousText: `continue from previous text: "${previousText}"`,
+            ...supplementalObjectives,
           },
           runPrompt: 'Create short autocompletions for previous text and reference info',
           format: 'contentAutocomplete',
@@ -49,12 +59,30 @@ export const AutocompleteExtension = Extension.create<AutocompleteOptions>({
   addProseMirrorPlugins() {
     const options = this.options
 
-    const debouncedSuggestion = debounce(async (previousText: string, cb: (suggestion: string | null) => void) => {
-      // Replace this with your actual API call
-      const suggestion = await options.getSuggestion({ previousText, fictionAi: options.fictionAi })
+    let isWindowFocused = !document.hidden
+
+    const cleanups = [
+      onBrowserEvent('focus', () => { isWindowFocused = true }),
+      onBrowserEvent('blur', () => { isWindowFocused = false }),
+      onBrowserEvent('visibilitychange', () => { isWindowFocused = !document.hidden }),
+    ]
+
+    const debouncedSuggestion = debounce(async (args: { previousText: string, nextText: string }, cb: (suggestion: string | null) => void) => {
+      const { previousText, nextText } = args
+      const { supplemental = {}, fictionAi } = options
+
+      if (!isWindowFocused)
+        return
+
+      const suggestion = await options.getSuggestion({ previousText, nextText, fictionAi, supplemental })
       if (suggestion)
         cb(suggestion)
     }, options.suggestionDebounce)
+
+    const removeSuggestion = (view: any) => {
+      const { state } = view
+      view.dispatch(state.tr.setMeta(PLUGIN_KEY, { decorations: DecorationSet.empty }).setMeta('addToHistory', false))
+    }
 
     return [
       new Plugin({
@@ -90,22 +118,38 @@ export const AutocompleteExtension = Extension.create<AutocompleteOptions>({
                 }
               }
             }
+            if (event.key === 'Escape') {
+              removeSuggestion(view)
+              return true
+            }
+            return false
+          },
+          handleClick(view) {
+            // Remove suggestion on any click
+            removeSuggestion(view)
             return false
           },
         },
-        view(editorView) {
+        view() {
           return {
+
             update(view, prevState) {
               const { state } = view
               const selection = state.selection
               const cursorPos = selection.$head.pos
 
-              if (prevState && prevState.doc.eq(state.doc)) {
+              // Remove suggestion if content changed or cursor moved
+              if (prevState
+                && (!prevState.doc.eq(state.doc)
+                  || !prevState.selection.eq(state.selection))) {
+                removeSuggestion(view)
                 return
               }
 
-              // Reset suggestion
-              view.dispatch(state.tr.setMeta(PLUGIN_KEY, { decorations: DecorationSet.empty }))
+              // Only proceed if there's no current suggestion
+              if (PLUGIN_KEY.getState(state)?.find().length) {
+                return
+              }
 
               // Fetch new suggestion
               const previousText = state.doc.textBetween(
@@ -113,13 +157,31 @@ export const AutocompleteExtension = Extension.create<AutocompleteOptions>({
                 cursorPos,
                 ' ',
               )
-              debouncedSuggestion(previousText, (suggestion: string | null) => {
+
+              const nextText = state.doc.textBetween(
+                cursorPos,
+                Math.min(state.doc.content.size, cursorPos + 200),
+                ' ',
+              )
+
+              debouncedSuggestion({ previousText, nextText }, (suggestion: string | null) => {
                 if (!suggestion)
                   return
 
                 const decoration = Decoration.widget(cursorPos, () => {
                   const span = document.createElement('span')
-                  span.textContent = suggestion.startsWith(' ') ? suggestion : ` ${suggestion}`
+
+                  if (!suggestion) {
+                    return span
+                  }
+                  const charBeforeCursor = view.state.doc.textBetween(Math.max(0, cursorPos - 1), cursorPos)
+
+                  // Only add a leading space to the suggestion if there isn't already a space before the cursor
+                  if (![' ', '\n'].includes(charBeforeCursor) && !suggestion.startsWith(' ')) {
+                    suggestion = ` ${suggestion}`
+                  }
+
+                  span.textContent = suggestion
                   span.className = 'autocomplete-suggestion'
                   return span
                 }, { side: 1 })
@@ -128,8 +190,12 @@ export const AutocompleteExtension = Extension.create<AutocompleteOptions>({
                 view.dispatch(state.tr.setMeta(PLUGIN_KEY, { decorations }).setMeta('addToHistory', false))
               })
             },
+            destroy() {
+              cleanups.forEach(cleanup => cleanup())
+            },
           }
         },
+
       }),
     ]
   },

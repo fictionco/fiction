@@ -8,7 +8,7 @@ defineProps({
 const groupClass = 'bg-theme-0 text-theme-900 dark:bg-theme-800 dark:text-theme-0 overflow-hidden'
 const ringClass = 'ring-1 ring-theme-300 dark:ring-theme-600 ring-inset'
 const hoverClass = 'hover:bg-theme-50 hover:dark:bg-theme-700'
-const btnClass = `relative inline-flex items-center px-3 py-2 text-sm font-semibold focus:z-10`
+const btnClass = `relative inline-flex items-center px-3 py-2 text-sm font-semibold focus:z-10 cursor-pointer`
 
 const activeSubMenu = vue.ref<string>()
 onResetUi(() => {
@@ -42,15 +42,15 @@ const passProps = vue.computed(() => {
       :key="i"
       class="relative"
     >
-      <button
-        type="button"
+      <div
         class="whitespace-nowrap "
         :class="getItemClass({ item, i, items })"
-        @click="item.onClick ? item.onClick({ event: $event, item }) : ''"
+        :title="item.name"
+        @click.prevent="item.onClick ? item.onClick({ event: $event, item }) : ''"
       >
-        <span class="text-lg" :class="item.icon" :title="item.name" />
+        <span class="text-lg" :class="item.icon" />
         <span v-if="item.items" class="text-lg i-tabler-chevron-down" />
-      </button>
+      </div>
 
       <div
         v-if="item.items"
@@ -68,14 +68,13 @@ const passProps = vue.computed(() => {
                 :item="subItem"
                 :parent="item"
               />
-              <button
+              <div
                 v-else
-                type="button"
                 :class="getItemClass({ item: subItem, i: ii, items: item.items })"
-                @click="subItem.onClick ? subItem.onClick({ event: $event, item }) : ''"
+                @click.prevent="subItem.onClick ? subItem.onClick({ event: $event, item }) : ''"
               >
                 <span class="text-base" :class="subItem.icon" :title="item.name" />
-              </button>
+              </div>
             </template>
           </div>
         </div>

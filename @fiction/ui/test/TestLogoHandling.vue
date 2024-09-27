@@ -152,7 +152,7 @@ const heightExamples = [
             </h3>
             <div class="bg-theme-100 dark:bg-theme-700 rounded" :class="example.class">
               <XLogo
-                :media="mediaObjects[0]"
+                :media="mediaObjects[0] ?? {}"
                 :class="example.class"
               />
             </div>

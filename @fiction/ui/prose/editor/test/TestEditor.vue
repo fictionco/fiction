@@ -20,7 +20,7 @@ const displayMode = vue.ref<'editor' | 'html'>('editor')
         </button>
       </div>
       <div v-if="displayMode === 'editor'" class="dark:bg-theme-900 bg-theme-0 dark:text-theme-0 py-24">
-        <ProseEditor v-model="val" />
+        <ProseEditor v-model="val" :supplemental="{}" />
       </div>
       <div v-else-if="displayMode === 'html'" class="dark:bg-theme-900 bg-theme-0 dark:text-theme-0 py-24">
         {{ val }}

@@ -31,8 +31,8 @@
     "forceConsistentCasingInFileNames": true, // vue/vetur needs this
     "skipDefaultLibCheck": true,
     "incremental": true,
-    "preserveSymlinks": true
     // "noUncheckedIndexedAccess": true,
+    "moduleDetection": "force"
     // "noErrorTruncation": true // prevent cutoff error messages
   },
   "references": [],

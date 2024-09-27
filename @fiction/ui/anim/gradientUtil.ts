@@ -15,9 +15,9 @@ export function hexToRgb(hex: string): { r: number, g: number, b: number } | nul
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
   return result
     ? {
-        r: Number.parseInt(result[1], 16),
-        g: Number.parseInt(result[2], 16),
-        b: Number.parseInt(result[3], 16),
+        r: Number.parseInt(result[1] ?? '0', 16),
+        g: Number.parseInt(result[2] ?? '0', 16),
+        b: Number.parseInt(result[3] ?? '0', 16),
       }
     : null
 }
@@ -81,8 +81,9 @@ export class SimplexNoise {
     this.perm = new Uint8Array(512)
     this.permMod12 = new Uint8Array(512)
     for (let i = 0; i < 512; i++) {
-      this.perm[i] = this.p[i & 255]
-      this.permMod12[i] = this.perm[i] % 12
+      const o = this.p[i & 255] ?? 0
+      this.perm[i] = 0
+      this.permMod12[i] = o % 12
     }
 
     this.grad3 = new Float32Array([1, 1, 0, -1, 1, 0, 1, -1, 0, -1, -1, 0, 1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, -1, 0, 1, 1, 0, -1, 1, 0, 1, -1, 0, -1, -1])
@@ -93,7 +94,6 @@ export class SimplexNoise {
     const F3 = 1 / 3
     const G3 = 1 / 6
 
-    let n0: number, n1: number, n2: number, n3: number
     const s: number = (xin + yin + zin) * F3
     const i: number = Math.floor(xin + s)
     const j: number = Math.floor(yin + s)
@@ -110,54 +110,24 @@ export class SimplexNoise {
     let i2: number, j2: number, k2: number
     if (x0 >= y0) {
       if (y0 >= z0) {
-        i1 = 1
-        j1 = 0
-        k1 = 0
-        i2 = 1
-        j2 = 1
-        k2 = 0
+        [i1, j1, k1, i2, j2, k2] = [1, 0, 0, 1, 1, 0]
       }
       else if (x0 >= z0) {
-        i1 = 1
-        j1 = 0
-        k1 = 0
-        i2 = 1
-        j2 = 0
-        k2 = 1
+        [i1, j1, k1, i2, j2, k2] = [1, 0, 0, 1, 0, 1]
       }
       else {
-        i1 = 0
-        j1 = 0
-        k1 = 1
-        i2 = 1
-        j2 = 0
-        k2 = 1
+        [i1, j1, k1, i2, j2, k2] = [0, 0, 1, 1, 0, 1]
       }
     }
     else {
       if (y0 < z0) {
-        i1 = 0
-        j1 = 0
-        k1 = 1
-        i2 = 0
-        j2 = 1
-        k2 = 1
+        [i1, j1, k1, i2, j2, k2] = [0, 0, 1, 0, 1, 1]
       }
       else if (x0 < z0) {
-        i1 = 0
-        j1 = 1
-        k1 = 0
-        i2 = 0
-        j2 = 1
-        k2 = 1
+        [i1, j1, k1, i2, j2, k2] = [0, 1, 0, 0, 1, 1]
       }
       else {
-        i1 = 0
-        j1 = 1
-        k1 = 0
-        i2 = 1
-        j2 = 1
-        k2 = 0
+        [i1, j1, k1, i2, j2, k2] = [0, 1, 0, 1, 1, 0]
       }
     }
 
@@ -175,45 +145,33 @@ export class SimplexNoise {
     const jj: number = j & 255
     const kk: number = k & 255
 
-    let t0: number = 0.6 - x0 * x0 - y0 * y0 - z0 * z0
-    if (t0 < 0) {
-      n0 = 0
-    }
-    else {
-      const gi0: number = permMod12[ii + perm[jj + perm[kk]]] * 3
-      t0 *= t0
-      n0 = t0 * t0 * (grad3[gi0] * x0 + grad3[gi0 + 1] * y0 + grad3[gi0 + 2] * z0)
+    const calculateNoise = (t: number, gi: number, x: number, y: number, z: number): number => {
+      if (t < 0)
+        return 0
+      t *= t
+      return t * t * ((grad3[gi] ?? 0) * x + (grad3[gi + 1] ?? 0) * y + (grad3[gi + 2] ?? 0) * z)
     }
 
-    let t1: number = 0.6 - x1 * x1 - y1 * y1 - z1 * z1
-    if (t1 < 0) {
-      n1 = 0
-    }
-    else {
-      const gi1: number = permMod12[ii + i1 + perm[jj + j1 + perm[kk + k1]]] * 3
-      t1 *= t1
-      n1 = t1 * t1 * (grad3[gi1] * x1 + grad3[gi1 + 1] * y1 + grad3[gi1 + 2] * z1)
+    const getGi = (i: number, j: number, k: number): number => {
+      const index = ii + i + (perm[jj + j + (perm[kk + k] ?? 0)] ?? 0)
+      return (permMod12[index] ?? 0) * 3
     }
 
-    let t2: number = 0.6 - x2 * x2 - y2 * y2 - z2 * z2
-    if (t2 < 0) {
-      n2 = 0
-    }
-    else {
-      const gi2: number = permMod12[ii + i2 + perm[jj + j2 + perm[kk + k2]]] * 3
-      t2 *= t2
-      n2 = t2 * t2 * (grad3[gi2] * x2 + grad3[gi2 + 1] * y2 + grad3[gi2 + 2] * z2)
-    }
+    const t0: number = 0.6 - x0 * x0 - y0 * y0 - z0 * z0
+    const gi0: number = getGi(0, 0, 0)
+    const n0 = calculateNoise(t0, gi0, x0, y0, z0)
 
-    let t3: number = 0.6 - x3 * x3 - y3 * y3 - z3 * z3
-    if (t3 < 0) {
-      n3 = 0
-    }
-    else {
-      const gi3: number = permMod12[ii + 1 + perm[jj + 1 + perm[kk + 1]]] * 3
-      t3 *= t3
-      n3 = t3 * t3 * (grad3[gi3] * x3 + grad3[gi3 + 1] * y3 + grad3[gi3 + 2] * z3)
-    }
+    const t1: number = 0.6 - x1 * x1 - y1 * y1 - z1 * z1
+    const gi1: number = getGi(i1, j1, k1)
+    const n1 = calculateNoise(t1, gi1, x1, y1, z1)
+
+    const t2: number = 0.6 - x2 * x2 - y2 * y2 - z2 * z2
+    const gi2: number = getGi(i2, j2, k2)
+    const n2 = calculateNoise(t2, gi2, x2, y2, z2)
+
+    const t3: number = 0.6 - x3 * x3 - y3 * y3 - z3 * z3
+    const gi3: number = getGi(1, 1, 1)
+    const n3 = calculateNoise(t3, gi3, x3, y3, z3)
 
     return 32 * (n0 + n1 + n2 + n3)
   }
@@ -225,8 +183,8 @@ export class SimplexNoise {
     }
     for (let i = 0; i < 255; i++) {
       const r: number = i + ~~(random() * (256 - i))
-      const aux: number = p[i]
-      p[i] = p[r]
+      const aux: number = p[i] ?? 0
+      p[i] = p[r] ?? 0
       p[r] = aux
     }
     return p

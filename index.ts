@@ -60,7 +60,7 @@ export function setup(): ServiceConfig {
           await new Promise((resolve, reject) => {
             const c = cmd.split(' ')
 
-            const cp = execa(c[0], c.slice(1), { env: { FORCE_COLOR: 'true' } })
+            const cp = execa(c[0] ?? '', c.slice(1), { env: { FORCE_COLOR: 'true' } })
             cp.stdout?.pipe(process.stdout)
             cp.stderr?.pipe(process.stderr)
             // cp.stdout?.on('data', (d: Buffer) => {

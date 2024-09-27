@@ -223,7 +223,7 @@ describe('updateSite / updatePages', async () => {
 
     await updateSite({ caller: 'testUpdateSite', site, newConfig: { pages: [{ templateId: 'wrap', cardId: 'card1' }] } })
 
-    expect(site.pages.value[0].cardId).toBe('card1')
+    expect(site.pages.value[0]?.cardId).toBe('card1')
   })
 
   it('merge updates editor', async () => {
@@ -259,10 +259,10 @@ describe('updateSite / updatePages', async () => {
     `)
     expect(userSitePages.length, 'set pages should be 1').toBe(1)
     expect(userSitePages.length).toBe(1) // Ensure no new pages were added
-    expect(userSitePages[0].cardId).toBe('card1')
-    expect(userSitePages[0].slug.value).toBe(undefined)
-    expect(userSitePages[0].title.value).toBe('Updated Title')
-    expect(userSitePages[0].userConfig.value.otherProp).toBe('Updated')
+    expect(userSitePages[0]?.cardId).toBe('card1')
+    expect(userSitePages[0]?.slug.value).toBe(undefined)
+    expect(userSitePages[0]?.title.value).toBe('Updated Title')
+    expect(userSitePages[0]?.userConfig.value.otherProp).toBe('Updated')
   })
 })
 

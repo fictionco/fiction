@@ -3,6 +3,8 @@ import type { Editor } from '@tiptap/core'
 import { vue } from '@fiction/core'
 import InputRange from '@fiction/ui/inputs/InputRange.vue'
 
+defineOptions({ name: 'MediaWidthResize' })
+
 const props = defineProps({
   editor: { type: Object as vue.PropType<Editor>, required: true },
   modelValue: { type: String, required: true },

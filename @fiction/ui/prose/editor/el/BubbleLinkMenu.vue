@@ -19,7 +19,7 @@ const inputRef = vue.ref<HTMLInputElement | null>(null)
 function addLink() {
   const url = encodeURIComponent(val.value.trim().replace(/^https?:\/\//, '').replace(/\/$/, ''))
   const href = `https://${url}`
-  props.editor.chain().focus().setLink({ href }).run()
+  props.editor.chain().focus(null, { scrollIntoView: false }).setLink({ href }).run()
 
   val.value = ''
 
@@ -28,13 +28,13 @@ function addLink() {
 </script>
 
 <template>
-  <div class="w-60 flex gap-2">
+  <div class=" flex gap-2">
     <input
       ref="inputRef"
       v-model="val"
       type="text"
       placeholder="Paste a link"
-      class="flex-1 p-1 px-2 text-sm outline-none border-none focus:outline-none focus:ring-0 appearance-none bg-theme-0 dark:bg-theme-700 dark:text-theme-0 rounded-sm"
+      class="w-60 flex-1 p-1 px-2 text-sm font-mono font-normal outline-none border-none focus:outline-none focus:ring-0 appearance-none bg-theme-0 dark:bg-theme-700 dark:text-theme-0 rounded-sm"
       @keyup.enter="addLink()"
     >
 
@@ -42,7 +42,7 @@ function addLink() {
       class="flex items-center p-1 transition-all rounded-sm hover:opacity-85 cursor-pointer"
       @click="addLink()"
     >
-      <Check class="w-4 h-4" />
+      <div class="i-tabler-check text-lg" />
     </div>
   </div>
 </template>

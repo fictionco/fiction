@@ -62,7 +62,7 @@ export class StockMedia {
 
     if (filteredMedia.length === 0) {
       logger.error('No media items available', { data: { args, filteredMedia } })
-      return this.media[0] // Fallback to the first item in the entire media collection if no filtered media is available
+      return this.media[0] ?? {}
     }
 
     const rand = Math.random()

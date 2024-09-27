@@ -49,7 +49,7 @@ async function uploadFiles(files?: FileList | null) {
   uploading.value = true
   const file = files[0]
 
-  if (file.size > fileSize) {
+  if (file && file.size > fileSize) {
     log.warn('mediaUpload', 'File size exceeds limit')
     fictionEnv.events.emit('notify', {
       type: 'error',

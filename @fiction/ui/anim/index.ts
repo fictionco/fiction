@@ -112,7 +112,7 @@ export async function useElementVisible(args: { caller: string, selector: string
   let isVisible = false
   const observer = new IntersectionObserver((entries, observer) => {
     const [entry] = entries
-    if (entry.isIntersecting && !isVisible) {
+    if (entry?.isIntersecting && !isVisible) {
       isVisible = true
       onVisible()
 
@@ -120,7 +120,7 @@ export async function useElementVisible(args: { caller: string, selector: string
         observer.disconnect()
       }
     }
-    else if (!entry.isIntersecting && isVisible) {
+    else if (!entry?.isIntersecting && isVisible) {
       isVisible = false
       if (onHidden) {
         onHidden()
@@ -212,7 +212,7 @@ export function animateNumber(element: HTMLElement, finalValue: number | string,
           round: 1,
           duration: 2000,
           update(anim) {
-            element.innerHTML = formatNumber(anim.animations[0].currentValue, format) as string
+            element.innerHTML = formatNumber(anim.animations[0]?.currentValue, format) as string
           },
         })
         observer.unobserve(element)

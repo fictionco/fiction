@@ -29,11 +29,11 @@ export class ContentCommand {
     const messages: CommandMessage[] = [
       {
         role: 'system',
-        content: `<system_message>follow these orders EXACTLY and return JSON based on inputs provided: ${formatGuidelines.guidelines}</system_message>`,
+        content: `<system_message>follow these orders EXACTLY and return ONLY JSON based on inputs provided: ${formatGuidelines.guidelines}</system_message>`,
       },
       {
         role: 'system',
-        content: `<output_format>Generate JSON content that conforms to the following schema: ${JSON.stringify(formatGuidelines.outputFormat)}. Ensure the response is structured according to this schema.</output_format>`,
+        content: `<output_format>Generate ONLY JSON that conforms to the following schema: ${JSON.stringify(formatGuidelines.outputFormat)}. Ensure the response is structured according to this schema.</output_format>`,
       },
     ]
 
@@ -110,46 +110,32 @@ export class ContentCommand {
         suggestion1: z.string().min(3).max(100),
         suggestion2: z.string().min(3).max(100),
       })),
-      guidelines: `
-      <role>
-      You are an expert writing assistant, providing precise and contextually appropriate autocomplete suggestions.
-      </role>
-
-      <output_format>
-      - Generate ONLY JSON content strictly adhering to the provided schema. Nothing besides JSON should be returned.
-      - Ensure grammatical correctness and proper punctuation. Based on previous text.
-      - Vary suggestion length based on context (typically 3-10 words).
-      - For uncertain subjects, prefer shorter responses (3-5 words).
-      - For more certain subjects, provide longer, more detailed suggestions (6-10 words).
-      - If a space is needed after a suggestion, include it in the suggestion.
-      </output_format>
-
-      <content_guidelines>
-      1. Style and Tone:
-         - Accurately mimic the user's writing style, voice, and tone.
-         - Maintain consistency across suggestions.
-
-      2. Context and Relevance:
-         - Provide suggestions that flow naturally from the given input.
-         - Ensure high relevance to the topic and context.
-         - Incorporate key ideas from the objectives when appropriate.
-
-      3. Creativity and Engagement:
-         - Offer unique perspectives to overcome potential writer's block.
-         - Use vivid language to evoke emotions and visualization.
-         - Suggest thought-provoking continuations when appropriate.
-
-      4. Precision and Conciseness:
-         - Prioritize clarity and conciseness.
-         - Avoid clichés, redundancy, and overused phrases.
-         - Use active voice and strong verbs.
-
-      5. Adaptability:
-         - Adjust suggestions based on the content type (e.g., formal report, creative writing, technical documentation).
-         - Provide a mix of continuation types (e.g., elaboration, transition, conclusion) as appropriate.
-
-      ${this.getObjectivesInstruction(objectives)}
-      </content_guidelines>`,
+      guidelines: `<role>Expert writing assistant generating brilliant, contextual autocomplete suggestions.</role>
+<output>
+- JSON content adhering to schema
+- Flawless grammar and punctuation, write or complete full sentences.
+- Context-based length (3-20 words)
+- Include trailing space if needed
+- Avoid repeating surrounding text
+</output>
+<guidelines>
+- Elevate style while maintaining voice
+- Ensure focused relevance and coherence
+- Seamlessly integrate objectives
+- Offer thought-provoking angles
+- Craft vivid, emotive language
+- Prioritize clarity and impact
+- Champion originality; avoid clichés
+- Use powerful verbs and active voice
+- Adapt tone to content type
+- Provide diverse, intelligent continuations
+- Address potential counterarguments
+- Inject expert insights and cutting-edge ideas
+- Balance creativity with accuracy
+- Suggest compelling metaphors/analogies
+- Propose data-driven points when relevant
+</guidelines>
+<objectives>${this.getObjectivesInstruction(objectives)}</objectives>`,
     }
   }
 

@@ -328,7 +328,7 @@ export class FrameNavigator extends FictionObject<FrameNavigatorSettings> {
       return
     }
 
-    const newPath = this.history[this.currentIndex]
+    const newPath = this.history[this.currentIndex] ?? '/'
     this.setNewPath({ fullPath: newPath, updateHistory: false })
   }
 

@@ -1,7 +1,8 @@
-import type { FictionEnv } from '@fiction/core'
 import type { FictionAi } from '@fiction/plugins/plugin-ai'
+import type { EditorSupplementary } from '../utils/editor'
 import { InputRule } from '@tiptap/core'
 import BubbleMenu from '@tiptap/extension-bubble-menu'
+import CodeBlock from '@tiptap/extension-code-block'
 import { Color } from '@tiptap/extension-color'
 import Focus from '@tiptap/extension-focus'
 import Highlight from '@tiptap/extension-highlight'
@@ -21,17 +22,17 @@ import AutoJoiner from 'tiptap-extension-auto-joiner'
 import { AutocompleteExtension } from './ai/aiAutocomplete'
 import DragHandle from './handle'
 import { xImage } from './image'
-import SlashCommand from './slash'
 
-// const PlaceholderExtension = Placeholder.configure({
-//   placeholder: ({ node }) => {
-//     if (node.type.name === 'heading')
-//       return `Heading ${node.attrs.level}`
+const PlaceholderExtension = Placeholder.configure({
+  placeholder: ({ node }) => {
+    if (node.type.name === 'heading')
+      return `Heading ${node.attrs.level}`
 
-//     return 'Type \'/\'...'
-//   },
-//   includeChildren: true,
-// })
+    return 'Type / for commands...'
+  },
+
+  includeChildren: false,
+})
 
 const Horizontal = HorizontalRule.extend({
   addInputRules() {
@@ -60,12 +61,13 @@ const Horizontal = HorizontalRule.extend({
   },
 })
 
-export function getExtensions(args: { fictionAi: FictionAi }) {
-  const { fictionAi } = args
+export function getExtensions(args: { fictionAi: FictionAi, supplemental: EditorSupplementary }) {
+  const { fictionAi, supplemental = {} } = args
   return [
     xImage,
     AutocompleteExtension.configure({
       fictionAi,
+      supplemental,
     }),
     StarterKit.configure({
       horizontalRule: false,
@@ -73,7 +75,7 @@ export function getExtensions(args: { fictionAi: FictionAi }) {
       codeBlock: false,
     }),
     BubbleMenu,
-    // PlaceholderExtension,
+    PlaceholderExtension,
     Horizontal,
     TiptapLink.configure({
       openOnClick: 'whenNotEditable',
@@ -89,6 +91,7 @@ export function getExtensions(args: { fictionAi: FictionAi }) {
     }),
     TiptapUnderline,
     Superscript,
+    CodeBlock,
     Subscript,
     TextStyle,
     Color,
@@ -100,9 +103,7 @@ export function getExtensions(args: { fictionAi: FictionAi }) {
       defaultAlignment: 'left',
       alignments: ['left', 'center', 'right', 'justify'],
     }),
-    SlashCommand,
     DragHandle,
-    // CommandMenu,
     Focus,
   ]
 }

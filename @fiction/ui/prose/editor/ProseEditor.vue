@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import type { FictionAi } from '@fiction/plugin-ai'
+import type { EditorSupplementary } from './utils/editor.js'
 import { isDarkOrLightMode, useService, vue } from '@fiction/core'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import { EditorContent, useEditor } from '@tiptap/vue-3'
 import BubbleMenuEngine from './el/BubbleMenuEngine.vue'
 import { getExtensions } from './extensions/index'
 
-const props = defineProps({
-  modelValue: { type: String, default: '' },
-})
+const { modelValue = '', supplemental = {} } = defineProps<{
+  modelValue: string
+  supplemental?: EditorSupplementary
+}>()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: string): void
@@ -19,17 +21,16 @@ const { fictionAi } = useService<{ fictionAi: FictionAi }>()
 const isEditing = vue.ref(false)
 
 const editor = useEditor({
-  content: props.modelValue,
-  extensions: getExtensions({ fictionAi }),
+  content: modelValue,
+  extensions: getExtensions({ fictionAi, supplemental }),
   editorProps: {
     attributes: {
       class: 'ml-[-4em] mr-[-4em] pl-[4em] pr-[4em] focus:outline-none',
-
     },
   },
   onUpdate: ({ editor }) => {
     const html = editor.getHTML()
-    if (html !== props.modelValue)
+    if (html !== modelValue)
       emit('update:modelValue', html)
   },
   onFocus: () => {
@@ -47,7 +48,7 @@ vue.onMounted(() => {
     tt.value.classList.add(md)
   }
 
-  vue.watch(() => props.modelValue, (v) => {
+  vue.watch(() => modelValue, (v) => {
     if (editor && !isEditing.value) {
       editor.value?.commands.setContent(v)
     }
@@ -92,13 +93,17 @@ vue.onMounted(() => {
     }
   }
 
-  .ProseMirror p.is-editor-empty:first-child::before,
-  .ProseMirror p.is-empty::before {
-    content: attr(data-placeholder);
+  .ProseMirror p.is-empty {
+    &::before{
+      content: attr(data-placeholder);
     float: left;
     pointer-events: none;
     height: 0;
-    color: rgba(var(--theme-300));
+    opacity: 0.4;
+    }
+    &.has-focus::before {
+      opacity: 0;
+    }
   }
 
   /* Custom image styles */
