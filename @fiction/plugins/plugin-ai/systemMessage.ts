@@ -113,7 +113,8 @@ export class ContentCommand {
       guidelines: `<role>Expert writing assistant generating brilliant, contextual autocomplete suggestions.</role>
 <output>
 - JSON content adhering to schema
-- Flawless grammar and punctuation, write or complete full sentences.
+- Flawless grammar and punctuation.
+- Write or complete full sentences. Capitalize if needed.
 - Context-based length (3-20 words)
 - Include trailing space if needed
 - Avoid repeating surrounding text

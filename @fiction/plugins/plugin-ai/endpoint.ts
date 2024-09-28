@@ -165,10 +165,7 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
 
     this.log.info('sending messages', { data: { generateArgs } })
 
-    const { text } = await generateText({
-      model: anthropic('claude-3-5-sonnet-20240620'),
-      ...generateArgs,
-    })
+    const { text } = await generateText({ model: anthropic('claude-3-5-sonnet-20240620'), ...generateArgs })
 
     // const response = await openAi.chat.completions.create({
     //   model: 'gpt-4-turbo-preview',

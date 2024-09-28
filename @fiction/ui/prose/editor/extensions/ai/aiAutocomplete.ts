@@ -1,4 +1,5 @@
 import type { FictionAi } from '@fiction/plugins/plugin-ai'
+import type { Editor, Node } from '@tiptap/core'
 import { debounce, log } from '@fiction/core'
 import { onBrowserEvent } from '@fiction/core/utils/eventBrowser'
 import { Extension } from '@tiptap/core'
@@ -14,7 +15,13 @@ interface AutocompleteOptions {
   applySuggestionKey: string
   suggestionDebounce: number
   previousTextLength: number
-  getSuggestion: (args: { previousText: string, nextText: string, fictionAi?: FictionAi, supplemental: EditorSupplementary }) => Promise<string | undefined>
+  getSuggestion: (args: {
+    previousText: string
+    nextText: string
+    fictionAi?: FictionAi
+    supplemental: EditorSupplementary
+    editor: Editor
+  }) => Promise<string | undefined>
   fictionAi?: FictionAi
   supplemental?: EditorSupplementary
 }
@@ -28,10 +35,17 @@ export const AutocompleteExtension = Extension.create<AutocompleteOptions>({
       suggestionDebounce: 1500,
       previousTextLength: 4000,
       supplemental: undefined,
-      getSuggestion: async (args: { previousText: string, nextText: string, fictionAi?: FictionAi, supplemental: EditorSupplementary }) => {
+      getSuggestion: async (args: {
+        previousText: string
+        nextText: string
+        fictionAi?: FictionAi
+        supplemental: EditorSupplementary
+        editor: Editor
+      }) => {
         const { previousText, nextText, fictionAi, supplemental = {} } = args
 
-        if (!shouldSuggest(previousText, nextText))
+        const shouldSuggestResult = shouldSuggest({ previousText, nextText })
+        if (shouldSuggestResult.status !== 'success')
           return
 
         const supplementalObjectives = generateAutocompleteObjectives(supplemental)
@@ -74,7 +88,7 @@ export const AutocompleteExtension = Extension.create<AutocompleteOptions>({
       if (!isWindowFocused)
         return
 
-      const suggestion = await options.getSuggestion({ previousText, nextText, fictionAi, supplemental })
+      const suggestion = await options.getSuggestion({ editor: this.editor, previousText, nextText, fictionAi, supplemental })
       if (suggestion)
         cb(suggestion)
     }, options.suggestionDebounce)
@@ -146,6 +160,16 @@ export const AutocompleteExtension = Extension.create<AutocompleteOptions>({
                 return
               }
 
+              // if not in a paragraph or heading, don't suggest
+              // Get the current node type
+              const currentNode = selection.$head.parent
+              const currentNodeType = currentNode.type.name
+              const allowedNodeTypes = ['paragraph', 'list_item', 'blockquote']
+
+              if (!allowedNodeTypes.includes(currentNodeType)) {
+                return false
+              }
+
               // Only proceed if there's no current suggestion
               if (PLUGIN_KEY.getState(state)?.find().length) {
                 return
@@ -155,13 +179,13 @@ export const AutocompleteExtension = Extension.create<AutocompleteOptions>({
               const previousText = state.doc.textBetween(
                 Math.max(0, cursorPos - options.previousTextLength),
                 cursorPos,
-                ' ',
+                '\n', // Use newline as block separator
               )
 
               const nextText = state.doc.textBetween(
                 cursorPos,
                 Math.min(state.doc.content.size, cursorPos + 200),
-                ' ',
+                '\n',
               )
 
               debouncedSuggestion({ previousText, nextText }, (suggestion: string | null) => {

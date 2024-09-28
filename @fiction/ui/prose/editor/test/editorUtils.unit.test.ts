@@ -51,43 +51,85 @@ describe('generateAutocompleteObjectives', () => {
   })
 })
 
-describe('shouldSuggest', () => {
-  it('should suggest at the end of a sentence', () => {
-    expect(shouldSuggest('This is a sentence.', '')).toBe(true)
+describe('shouldSuggest function', () => {
+  it('should suggest when all conditions are met', () => {
+    const result = shouldSuggest({
+      previousText: 'This is a complete sentence. ',
+      nextText: '\n',
+    })
+    expect(result.status, 'Should return success status when all conditions are met').toBe('success')
+    expect(result.message, 'Should return a string message').toBeTypeOf('string')
   })
 
-  it('should suggest after a colon', () => {
-    expect(shouldSuggest('This is a list:', '')).toBe(true)
+  it('should not suggest when there is no sentence-ending punctuation', () => {
+    const result = shouldSuggest({
+      previousText: 'This is an incomplete sentence ',
+      nextText: '\n',
+    })
+    expect(result.status, 'Should return error status when missing punctuation').toBe('error')
+    expect(result.message, 'Should return a string message').toBeTypeOf('string')
   })
 
-  it('should suggest for a new list item', () => {
-    expect(shouldSuggest('- ', '')).toBe(true)
-    expect(shouldSuggest('1. ', '')).toBe(true)
+  it('should not suggest when the next text is not empty or a new line', () => {
+    const result = shouldSuggest({
+      previousText: 'This is a complete sentence. ',
+      nextText: 'More text follows',
+    })
+    expect(result.status, 'Should return error status when next text is not empty or newline').toBe('error')
+    expect(result.message, 'Should return a string message').toBeTypeOf('string')
   })
 
-  it('should suggest after a comma if next word hasn\'t started', () => {
-    expect(shouldSuggest('This is a phrase,', ' ')).toBe(true)
-    expect(shouldSuggest('This is a phrase,', 'next')).toBe(false)
+  it('should not suggest when there is insufficient context', () => {
+    const result = shouldSuggest({
+      previousText: 'Hi. ',
+      nextText: '\n',
+    })
+    expect(result.status, 'Should return error status when context is too short').toBe('error')
+    expect(result.message, 'Should return a string message').toBeTypeOf('string')
   })
 
-  it('should suggest in the middle of a sentence if next word hasn\'t started', () => {
-    expect(shouldSuggest('This is an', ' ')).toBe(true)
-    expect(shouldSuggest('This is an', 'unfinished')).toBe(false)
+  it('should suggest with comma as clause break', () => {
+    const result = shouldSuggest({
+      previousText: 'After a clause, ',
+      nextText: '\n',
+    })
+    expect(result.status, 'Should return success status with comma').toBe('success')
+    expect(result.message, 'Should return a string message').toBeTypeOf('string')
   })
 
-  it('should not suggest for short text', () => {
-    expect(shouldSuggest('Short', '')).toBe(false)
+  it('should suggest with semicolon as clause break', () => {
+    const result = shouldSuggest({
+      previousText: 'First part; ',
+      nextText: '\n',
+    })
+    expect(result.status, 'Should return success status with semicolon').toBe('success')
+    expect(result.message, 'Should return a string message').toBeTypeOf('string')
   })
 
-  it('should not suggest if text ends with /', () => {
-    expect(shouldSuggest('This ends with /', '')).toBe(false)
+  it('should suggest when next text is empty string', () => {
+    const result = shouldSuggest({
+      previousText: 'End of text. ',
+      nextText: '',
+    })
+    expect(result.status, 'Should return success status with empty next text').toBe('success')
+    expect(result.message, 'Should return a string message').toBeTypeOf('string')
   })
 
-  it('should not suggest if next word has started on the same line', () => {
-    expect(shouldSuggest('This is a', 'continuation')).toBe(false)
+  it('should not suggest with only spaces after punctuation', () => {
+    const result = shouldSuggest({
+      previousText: 'Sentence.    ',
+      nextText: 'More text',
+    })
+    expect(result.status, 'Should return error status with spaces after punctuation').toBe('error')
+    expect(result.message, 'Should return a string message').toBeTypeOf('string')
   })
 
-  it('should suggest if there\'s a line break', () => {
-    expect(shouldSuggest('This is a line', '\nNew line')).toBe(true)
+  it('should suggest with multiple spaces before newline', () => {
+    const result = shouldSuggest({
+      previousText: 'Multiple spaces.   ',
+      nextText: '\n',
+    })
+    expect(result.status, 'Should return success status with multiple spaces before newline').toBe('success')
+    expect(result.message, 'Should return a string message').toBeTypeOf('string')
   })
 })

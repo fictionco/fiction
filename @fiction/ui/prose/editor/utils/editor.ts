@@ -1,3 +1,4 @@
+import type { EndpointResponse } from '@fiction/core'
 import type { Editor } from '@tiptap/core'
 
 export type EditorSupplementary = Partial<{
@@ -53,61 +54,38 @@ export function generateAutocompleteObjectives(supplementary: EditorSupplementar
   return objectives
 }
 
-export function shouldSuggest(previousText: string, nextText: string): boolean {
-  // Check for line breaks
-  const previousEndsWithLineBreak = /\n\s*$/.test(previousText)
-  const nextStartsWithLineBreak = /^\s*\n/.test(nextText)
-  const hasLineBreak = previousEndsWithLineBreak || nextStartsWithLineBreak
+export function shouldSuggest(args: { previousText: string, nextText: string }): EndpointResponse {
+  const { previousText, nextText } = args
 
-  // Trim whitespace from the end of previousText and start of nextText
-  const trimmedPrevious = previousText.trimEnd()
-  const trimmedNext = nextText.trimStart()
+  const conditions = [
+    {
+      check: () => /[.!?,;]\s*$/.test(previousText.trim()),
+      successMessage: 'Suggesting after sentence-ending punctuation or clause break.',
+      failureMessage: 'No sentence-ending punctuation or clause break detected.',
+    },
+    {
+      check: () => nextText.trim() === '' || nextText.startsWith('\n'),
+      successMessage: 'Suggesting at the end of a line or paragraph.',
+      failureMessage: 'Not at the end of a line or paragraph.',
+    },
+    {
+      check: () => previousText.trim().length >= 5,
+      successMessage: 'Sufficient context for suggestion.',
+      failureMessage: 'Insufficient context for meaningful suggestion.',
+    },
+  ]
 
-  // Check for list items (allow shorter content for list items)
-  const isListItem = /<li>\s*$/.test(trimmedPrevious)
+  for (const condition of conditions) {
+    if (!condition.check()) {
+      return {
+        status: 'error',
+        message: condition.failureMessage,
+      }
+    }
+  }
 
-  // For non-list items, require a minimum length
-  if (!isListItem && trimmedPrevious.length < 10 && !hasLineBreak)
-    return false
-
-  // Additional cases where we should not suggest
-  if (trimmedPrevious.endsWith('/'))
-    return false
-  if (/<code[^>]*>\s*$/.test(trimmedPrevious))
-    return false // Inside code block or inline code
-  if (/<a[^>]*>\s*$/.test(trimmedPrevious))
-    return false // Inside URL/link
-  if (/<[^>]*$/.test(trimmedPrevious))
-    return false // Inside any open HTML tag
-
-  // Check if the cursor is at the end of a sentence or a natural pause
-  const endsWithSentenceBreak = /[.!?]\s*$/.test(trimmedPrevious)
-  const endsWithColon = trimmedPrevious.endsWith(':')
-  const endsWithComma = trimmedPrevious.endsWith(',')
-
-  // Check if the next word has started
-  const nextWordStarted = /^\S/.test(trimmedNext)
-
-  // Determine if we're in the middle of a sentence
-  const inMiddleOfSentence = !endsWithSentenceBreak && trimmedPrevious.length > 0 && !nextWordStarted
-
-  // Suggest if:
-  // 1. We're at the end of a sentence
-  // 2. We're at a colon (expecting a list or explanation)
-  // 3. We're starting a new list item
-  // 4. We're in the middle of a sentence but at a natural pause (like after a comma)
-  // 5. We're in the middle of a sentence and the next word hasn't started
-  // 6. There's a line break
-  // 7. We're at the end of a block-level element
-  const atEndOfBlockElement = /<\/(p|h[1-6]|div|li)>\s*$/.test(trimmedPrevious)
-
-  return (
-    endsWithSentenceBreak
-    || endsWithColon
-    || isListItem
-    || (endsWithComma && !nextWordStarted)
-    || inMiddleOfSentence
-    || hasLineBreak
-    || atEndOfBlockElement
-  )
+  return {
+    status: 'success',
+    message: conditions.map(c => c.successMessage).join(' '),
+  }
 }
