@@ -10,7 +10,7 @@ export function postLink(args: { card?: Card, slug?: string }): string {
   const { card, slug } = args
 
   if (!card) {
-    return ''
+    return '/no-card-for-link'
   }
 
   if (!slug) {

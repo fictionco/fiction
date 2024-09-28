@@ -17,6 +17,7 @@ type EffectOptions = Partial<Omit<PackeryOptions, 'gutter'>> & {
   gutter?: string | number
 }
 
+const isLoading = vue.ref(false)
 const containerRef = vue.ref<HTMLElement | null>(null)
 let pckry: PackeryType | null = null
 
@@ -24,9 +25,14 @@ async function initPackery() {
   if (typeof window === 'undefined')
     return
 
+  isLoading.value = true
   const PackeryModule = await import('packery')
   const Packery = PackeryModule.default || PackeryModule
   const { default: imagesLoaded } = await import('imagesloaded')
+
+  if (pckry) {
+    pckry.destroy()
+  }
 
   if (containerRef.value) {
     const defaultOptions: EffectOptions = {
@@ -46,6 +52,8 @@ async function initPackery() {
       })
     }
   }
+
+  isLoading.value = false
 }
 
 vue.onMounted(async () => {
@@ -60,9 +68,6 @@ vue.onBeforeUnmount(() => {
 })
 
 vue.watch(() => props.items, () => {
-  if (pckry) {
-    pckry.destroy()
-  }
   vue.nextTick(async () => {
     await initPackery()
   })
@@ -74,7 +79,7 @@ defineExpose({ packery: pckry })
 
 <template>
   <div>
-    <div ref="containerRef" class="masonry-grid clear-both w-full">
+    <div ref="containerRef" class="masonry-grid clear-both w-full transition-opacity" :class="isLoading ? 'opacity-0' : 'opacity-100'">
       <slot />
     </div>
   </div>

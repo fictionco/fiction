@@ -22,7 +22,11 @@ export type TablePostConfig = Partial<ColType<typeof postCols>> & {
   draftId?: string
 }
 
-export type PostDraft = Partial<{ draftId: string, title: string, content: string, userConfig: SiteUserConfig, createdAt: string, updatedAt: string }>
+export type PostUserConfig = {
+  isContentCompletionDisabled?: boolean
+} & SiteUserConfig
+
+export type PostDraft = Partial<{ draftId: string, title: string, content: string, userConfig: PostUserConfig, createdAt: string, updatedAt: string }>
 
 export const postCols = [
   new Col({ key: 'postId', sec: 'permanent', sch: () => z.string().min(1), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('pst')`)).index() }),
@@ -36,7 +40,7 @@ export const postCols = [
   new Col({ key: 'content', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k).defaultTo('') }),
   new Col({ key: 'media', sec: 'setting', sch: () => MediaDisplaySchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
   new Col({ key: 'status', sec: 'setting', sch: () => PostStatusSchema, make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('draft') }),
-  new Col({ key: 'userConfig', sec: 'setting', sch: () => z.record(z.unknown()) as z.Schema<SiteUserConfig>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
+  new Col({ key: 'userConfig', sec: 'setting', sch: () => z.record(z.unknown()) as z.Schema<PostUserConfig>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
   new Col({ key: 'isSyndicated', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
   new Col({ key: 'hasChanges', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
   new Col({ key: 'publishAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),

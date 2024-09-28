@@ -57,7 +57,11 @@ export const xImage = Node.create({
 
   renderHTML({ node }) {
     const isVideo = node.attrs.isVideo || videoExtensions.some(ext => node.attrs.src?.toLowerCase().endsWith(`.${ext}`))
-    const wrapperStyle = `width: ${node.attrs.width}; ${node.attrs.aspectRatio ? `aspect-ratio: ${node.attrs.aspectRatio};` : ''} overflow: hidden;`
+
+    const widthPercent = node.attrs.width
+    const w = Number.parseInt(widthPercent.replace('%', ''), 10)
+    const wrapperMargin = w > 100 ? `0 -${(w - 100) / 2}%` : '0 auto'
+    const wrapperStyle = `margin: ${wrapperMargin}; width: ${node.attrs.width}; ${node.attrs.aspectRatio ? `aspect-ratio: ${node.attrs.aspectRatio};` : ''} overflow: hidden; display: inline-block;`
     const mediaStyle = 'width: 100%; height: 100%; object-fit: cover;'
     const figureStyle = `text-align: ${node.attrs.align};`
 

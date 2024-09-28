@@ -23,38 +23,50 @@ const props = defineProps({
 
 const service = useService<{ fictionPosts: FictionPosts }>()
 
-const options = vue.computed<InputOption[]>(() => {
+const options = vue.computed<InputOption<any>[]>(() => {
   const activeOrganizationId = service.fictionUser.activeOrgId.value
   return [
-
     new InputOption({
-      key: 'status',
-      label: 'Status',
-      input: 'InputSelectCustom',
-      isRequired: true,
-      list: ['draft', 'published', 'scheduled', 'archived'],
-    }),
-    new InputOption({
-      key: 'publishAt',
-      label: 'Scheduled Publish Date',
-      input: 'InputDate',
-      isRequired: true,
-      isHidden: props.post?.status.value !== 'scheduled',
-      props: {
-        includeTime: true,
-        dateMode: 'future',
-      },
-    }),
-    new InputOption({
-      key: 'slug',
-      label: 'Slug',
-      input: 'InputUsername',
-      placeholder: 'my-post',
-      isRequired: true,
-      props: {
-        table: t.posts,
-        columns: [{ name: 'slug', allowReserved: true }, { name: 'orgId', value: activeOrganizationId }],
-      },
+      key: 'postHandling',
+      label: 'Post Handling',
+      input: 'group',
+      options: [
+        new InputOption({
+          key: 'status',
+          label: 'Status',
+          input: 'InputSelectCustom',
+          isRequired: true,
+          list: ['draft', 'published', 'scheduled', 'archived'],
+        }),
+        new InputOption({
+          key: 'publishAt',
+          label: 'Scheduled Publish Date',
+          input: 'InputDate',
+          isRequired: true,
+          isHidden: props.post?.status.value !== 'scheduled',
+          props: {
+            includeTime: true,
+            dateMode: 'future',
+          },
+        }),
+        new InputOption({
+          key: 'slug',
+          label: 'Slug',
+          input: 'InputUsername',
+          placeholder: 'my-post',
+          isRequired: true,
+          props: {
+            table: t.posts,
+            columns: [{ name: 'slug', allowReserved: true }, { name: 'orgId', value: activeOrganizationId }],
+          },
+        }),
+        new InputOption({
+          key: 'userConfig.isContentCompletionDisabled',
+          label: 'Disable Content Completions (AI)',
+          description: `Disables content completions while you're writing.`,
+          input: 'InputToggle',
+        }),
+      ],
     }),
 
     new InputOption({

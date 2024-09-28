@@ -28,10 +28,10 @@ const PlaceholderExtension = Placeholder.configure({
     if (node.type.name === 'heading')
       return `Heading ${node.attrs.level}`
 
-    return 'Type / for commands...'
+    return `Type '/' for menu...`
   },
 
-  includeChildren: false,
+  includeChildren: true,
 })
 
 const Horizontal = HorizontalRule.extend({
@@ -61,13 +61,18 @@ const Horizontal = HorizontalRule.extend({
   },
 })
 
-export function getExtensions(args: { fictionAi: FictionAi, supplemental: EditorSupplementary }) {
-  const { fictionAi, supplemental = {} } = args
+export function getExtensions(args: {
+  fictionAi: FictionAi
+  getSupplemental: () => EditorSupplementary
+  checkContentCompletionDisabled: () => boolean
+}) {
+  const { fictionAi, getSupplemental, checkContentCompletionDisabled } = args
   return [
     xImage,
     AutocompleteExtension.configure({
       fictionAi,
-      supplemental,
+      getSupplemental,
+      checkContentCompletionDisabled,
     }),
     StarterKit.configure({
       horizontalRule: false,

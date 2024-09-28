@@ -63,11 +63,12 @@ async function loadGlobal() {
     throw new Error('No fiction orgId found')
 
   if (routeSlug.value) {
-    singlePost.value = await fictionPosts.getPost({ where: { slug: routeSlug.value }, orgId })
+    singlePost.value = await fictionPosts.getPost({ card, where: { slug: routeSlug.value }, orgId })
+
     nextPost.value = getNextPost({ single: singlePost.value, posts: posts.value })
   }
   else {
-    const r = await fictionPosts.getPostIndex({ limit: 5, orgId })
+    const r = await fictionPosts.getPostIndex({ card, limit: 5, orgId })
     posts.value = r.posts
     indexMeta.value = { ...indexMeta.value, ...r.indexMeta }
   }

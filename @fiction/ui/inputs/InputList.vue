@@ -68,9 +68,20 @@ function updateInputValue(args: { index: number, key: string, value: unknown }) 
   updateModelValue(val)
 }
 
+function getDefaultItem() {
+  const item: Record<string, unknown> = {}
+  props.options.forEach((opt) => {
+    const v = opt.settings.getDefaultValue?.()
+    if (v !== undefined)
+      item[opt.key.value] = v
+  })
+  return item
+}
+
 function addItem() {
   const _key = shortId()
-  const val = [...props.modelValue, { name: 'New Item', _key }]
+  const defaultItem = getDefaultItem()
+  const val = [...props.modelValue, { name: 'New Item', _key, ...defaultItem }]
   openItem.value = val.length - 1
   updateModelValue(val)
 }
@@ -174,15 +185,16 @@ vue.onMounted(async () => {
       </TransitionSlide>
     </div>
 
-    <div class="actions mt-2">
+    <div class="actions mt-3">
       <XButton
         rounding="full"
         theme="primary"
         size="xs"
         data-test="add"
+        icon="i-tabler-plus"
         @click="addItem()"
       >
-        Add +
+        Add {{ itemName }}
       </XButton>
     </div>
   </div>

@@ -86,6 +86,7 @@ export interface InputOptionSettings<T extends string = string > {
   icon?: string
   inputClass?: string
   uiFormat?: 'standard' | 'naked' | 'fullWidth'
+  getDefaultValue?: () => unknown
 }
 
 export type OptArgs = (Partial<InputOptionSettings> & Record<string, unknown>) | undefined

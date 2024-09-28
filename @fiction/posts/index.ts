@@ -1,6 +1,7 @@
 import type { FictionAdmin } from '@fiction/admin'
 
 import type { FictionDb, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
+import type { Card } from '@fiction/site'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { ManagePostIndex, QueryManagePost, QueryManageTaxonomy, type WherePost } from './endpoint'
 import { Post } from './post'
@@ -97,20 +98,22 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
     return r.data || []
   }
 
-  async getPost(args: { orgId: string, where: WherePost }) {
-    const { orgId, where } = args
+  async getPost(args: { orgId: string, where: WherePost, card: Card }) {
+    const { orgId, where, card } = args
 
     const r = await this.requests.ManagePost.request({ _action: 'get', orgId, where })
 
-    return r.data ? new Post({ fictionPosts: this, sourceMode: 'standard', ...r.data }) : undefined
+    const postConfig = r.data?.[0]
+
+    return r.data ? new Post({ card, fictionPosts: this, sourceMode: 'standard', ...postConfig }) : undefined
   }
 
-  async getPostIndex(args: { orgId: string, limit?: number, offset?: number }) {
-    const { orgId, limit, offset } = args
+  async getPostIndex(args: { orgId: string, limit?: number, offset?: number, card: Card }) {
+    const { orgId, limit, offset, card } = args
 
     const r = await this.requests.ManagePostIndex.request({ _action: 'list', orgId, limit, offset })
 
-    const posts = r.data?.length ? r.data.map(p => new Post({ fictionPosts: this, sourceMode: 'standard', ...p })) : []
+    const posts = r.data?.length ? r.data.map(p => new Post({ card, fictionPosts: this, sourceMode: 'standard', ...p })) : []
 
     return { posts, indexMeta: r.indexMeta }
   }

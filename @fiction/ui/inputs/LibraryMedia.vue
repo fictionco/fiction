@@ -88,7 +88,7 @@ vue.onMounted(() => {
       <div
         v-for="media in libraryMedia"
         :key="media.mediaId"
-        class="masonry-grid-item group relative cursor-pointer overflow-hidden rounded-lg"
+        class="inline-block masonry-grid-item group relative cursor-pointer overflow-hidden rounded-lg"
         :class="getMasonryItemClass(media)"
         @click="selectMedia(media)"
       >

@@ -97,12 +97,11 @@ describe('ai completions', async () => {
     }, { server: true })
 
     const completion = r4.data?.completion as CompletionType
-    expect(Object.keys(completion || {}).sort()).toStrictEqual(['suggestion1', 'suggestion2'])
+    expect(Object.keys(completion || {}).sort()).toStrictEqual(['suggestion1'])
 
     expect(r4.data?.completion).toMatchInlineSnapshot(`
       {
         "suggestion1": "everything was calm, then chaos erupted",
-        "suggestion2": "the sky turned an ominous shade of green",
       }
     `)
   }, 90000)

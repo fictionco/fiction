@@ -111,6 +111,7 @@ export function openMenuFromDragHandle(args: {
     popup?.[0].destroy()
     component?.destroy()
     view.focus()
+    view.dom.classList.remove('slash-menu-active')
   }
 
   const props = {
@@ -151,7 +152,7 @@ export function openMenuFromDragHandle(args: {
     trigger: 'manual',
     placement: 'auto',
   })
-
+  view.dom.classList.add('slash-menu-active')
   // Add the event listener to the editor's DOM element
   view.dom.addEventListener('keydown', handleKeyDown)
 

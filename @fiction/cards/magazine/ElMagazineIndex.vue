@@ -32,7 +32,7 @@ function getItemClasses(index: number): string {
   const out = []
 
   if (index === 0)
-    out.push('col-span-1 lg:col-span-2 row-span-2 rounded-lg')
+    out.push('col-span-1 lg:col-span-2 row-span-2 rounded-lg min-h-[400px]')
   else
     out.push('col-span-1 row-span-1 aspect-[4/3]')
 
@@ -59,9 +59,11 @@ function changePage(newPage: number) {
         :card
         :href="post.href.value"
         :class="[getItemClasses(i)]"
+        :data-link-slug="post.slug.value"
+        :data-link-href="post.href.value"
       >
         <EffectGlare class="relative" wrap-class="rounded-[20px]" :class="i === 0 ? 'w-full h-full' : 'aspect-[4/3]'">
-          <XMedia :animate="true" :media="post.media.value" :class="i === 0 ? 'w-full h-full' : 'aspect-[4/3]'" />
+          <XMedia class="bg-theme-50 dark:bg-theme-700/70" :animate="true" :media="post.media.value" :class="i === 0 ? 'w-full h-full' : 'aspect-[4/3]'" />
           <div v-if="i === 0" class="py-8 px-5 space-y-4 absolute top-0 z-10">
             <div class="mb-4 space-x-2">
               <CardButton
@@ -75,7 +77,7 @@ function changePage(newPage: number) {
                 :href="taxonomyLink({ card, taxonomy: 'category', term: cat.slug })"
               />
             </div>
-            <CardTextPost :post path="title" tag="h2" class="text-2xl md:text-3xl font-semibold x-font-title text-balance max-w-[80%]" />
+            <CardTextPost :data-post-title="post.title.value" :post path="title" tag="h2" class="text-2xl md:text-3xl font-semibold x-font-title text-balance max-w-[80%]" />
             <ElAuthor v-for="(author, ii) in post.authors.value || []" :key="ii" :user="author" :date-at="post.dateAt.value" />
           </div>
           <div class="overlay absolute w-full h-full z-0 pointer-events-none inset-0 bg-[radial-gradient(circle_at_0%_100%,rgba(0,0,0,.5)_0,rgba(0,0,0,.3)_40%,transparent_70%)]" />

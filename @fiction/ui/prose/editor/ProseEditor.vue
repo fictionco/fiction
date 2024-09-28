@@ -7,9 +7,10 @@ import { EditorContent, useEditor } from '@tiptap/vue-3'
 import BubbleMenuEngine from './el/BubbleMenuEngine.vue'
 import { getExtensions } from './extensions/index'
 
-const { modelValue = '', supplemental = {} } = defineProps<{
+const { modelValue = '', supplemental = {}, isContentCompletionDisabled = false } = defineProps<{
   modelValue: string
   supplemental?: EditorSupplementary
+  isContentCompletionDisabled?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -22,7 +23,11 @@ const isEditing = vue.ref(false)
 
 const editor = useEditor({
   content: modelValue,
-  extensions: getExtensions({ fictionAi, supplemental }),
+  extensions: getExtensions({
+    fictionAi,
+    getSupplemental: () => supplemental,
+    checkContentCompletionDisabled: () => isContentCompletionDisabled,
+  }),
   editorProps: {
     attributes: {
       class: 'ml-[-4em] mr-[-4em] pl-[4em] pr-[4em] focus:outline-none',
@@ -57,7 +62,7 @@ vue.onMounted(() => {
 </script>
 
 <template>
-  <div ref="tt" class="tiptap-wrap">
+  <div ref="tt" class="tiptap-wrap" :data-ai-disabled="isContentCompletionDisabled ? 1 : 0">
     <div
       v-if="!editor"
       class="flex py-24 justify-center h-[90dvh] text-theme-300 dark:text-theme-700"
@@ -96,10 +101,10 @@ vue.onMounted(() => {
   .ProseMirror p.is-empty {
     &::before{
       content: attr(data-placeholder);
-    float: left;
-    pointer-events: none;
-    height: 0;
-    opacity: 0.4;
+      float: left;
+      pointer-events: none;
+      height: 0;
+      opacity: 0.4;
     }
     &.has-focus::before {
       opacity: 0;
@@ -123,7 +128,10 @@ vue.onMounted(() => {
   }
 
   .autocomplete-suggestion{
-    opacity: .5;
+    color: rgba(var(--theme-500) / 0.5);
+  }
+  .dark .autocomplete-suggestion{
+    color: rgba(var(--theme-700) / 0.5);
   }
 
   .img-placeholder {
@@ -190,4 +198,4 @@ vue.onMounted(() => {
     color: rgba(var(--theme-500) / 0.8);
   }
 }
-</style>Editor,Editor,
+</style>

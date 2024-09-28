@@ -4,6 +4,7 @@ import { twMerge } from 'tailwind-merge'
 
 const props = defineProps({
   wrapClass: { type: String, default: '' },
+  disabled: { type: Boolean, default: false },
 })
 
 const isHovered = vue.ref(false)

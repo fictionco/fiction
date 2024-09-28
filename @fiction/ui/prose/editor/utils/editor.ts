@@ -57,35 +57,26 @@ export function generateAutocompleteObjectives(supplementary: EditorSupplementar
 export function shouldSuggest(args: { previousText: string, nextText: string }): EndpointResponse {
   const { previousText, nextText } = args
 
-  const conditions = [
-    {
-      check: () => /[.!?,;]\s*$/.test(previousText.trim()),
-      successMessage: 'Suggesting after sentence-ending punctuation or clause break.',
-      failureMessage: 'No sentence-ending punctuation or clause break detected.',
-    },
-    {
-      check: () => nextText.trim() === '' || nextText.startsWith('\n'),
-      successMessage: 'Suggesting at the end of a line or paragraph.',
-      failureMessage: 'Not at the end of a line or paragraph.',
-    },
-    {
-      check: () => previousText.trim().length >= 5,
-      successMessage: 'Sufficient context for suggestion.',
-      failureMessage: 'Insufficient context for meaningful suggestion.',
-    },
-  ]
-
-  for (const condition of conditions) {
-    if (!condition.check()) {
-      return {
-        status: 'error',
-        message: condition.failureMessage,
-      }
-    }
+  if (previousText.trim().length < 5) {
+    return { status: 'error', message: 'Not suggesting: insufficient context.' }
   }
 
-  return {
-    status: 'success',
-    message: conditions.map(c => c.successMessage).join(' '),
+  if (/\w$/.test(previousText) && /^\w/.test(nextText)) {
+    return { status: 'error', message: 'Not suggesting: cursor is in the middle of a word.' }
   }
+
+  const atWordBoundary = /\w+[.,;!?]?$/.test(previousText)
+  const hasSpacesBetween = /\s$/.test(previousText) || /^\s/.test(nextText)
+  const atNewLine = previousText.endsWith('\n')
+
+  if (atWordBoundary || hasSpacesBetween || atNewLine) {
+    const reason = atNewLine
+      ? 'cursor is at a new line'
+      : atWordBoundary
+        ? 'cursor is at the end of a word'
+        : 'cursor is between words'
+    return { status: 'success', message: `Suggesting: ${reason}.` }
+  }
+
+  return { status: 'error', message: 'Not suggesting: conditions not met for suggestion.' }
 }

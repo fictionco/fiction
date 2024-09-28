@@ -19,7 +19,7 @@ const options: InputOption[] = [
 
 async function getDefaultUserConfig(): Promise<UserConfig> {
   return {
-    standard: { spacing: { verticalSpacing: 'none' } },
+    standard: { spacing: { verticalSpacing: 'sm' } },
     posts: { format: 'standard', limit: 12 },
   }
 }
