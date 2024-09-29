@@ -1,5 +1,5 @@
 import type { FictionAi } from '@fiction/plugins/plugin-ai'
-import type { Editor, Node } from '@tiptap/core'
+import type { Editor } from '@tiptap/core'
 import { debounce, log } from '@fiction/core'
 import { onBrowserEvent } from '@fiction/core/utils/eventBrowser'
 import { Extension } from '@tiptap/core'

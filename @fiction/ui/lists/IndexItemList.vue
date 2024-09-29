@@ -2,8 +2,10 @@
 import type { ActionButton, IndexItem, vue } from '@fiction/core'
 import { getNavComponentType } from '@fiction/core'
 import ElActions from '@fiction/ui/buttons/ElActions.vue'
+import XLink from '@fiction/ui/common/XLink.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
+import ElIndexItemMedia from './ElIndexItemMedia.vue'
 
 defineProps({
   list: { type: Array as vue.PropType<IndexItem[]>, required: true },
@@ -11,55 +13,62 @@ defineProps({
   zeroText: { type: String, default: 'No items found' },
   actions: { type: Array as vue.PropType<ActionButton[]>, default: () => [] },
 })
-
-const mediaClass = `size-14 border-2 border-theme-200/50 bg-theme-50 dark:bg-theme-700 dark:text-theme-0 dark:border-theme-0 rounded-lg overflow-hidden text-theme-500/50`
 </script>
 
 <template>
   <div>
-    <div v-if="loading" class="p-12 flex justify-center text-theme-400 dark:text-theme-500">
+    <div
+      v-if="loading"
+      class="p-12 flex justify-center text-theme-400 dark:text-theme-500"
+    >
       <ElSpinner class="size-8" />
     </div>
+
     <div v-else-if="!list || list.length === 0">
       <div class="p-6 text-center">
         <p class="text-theme-400">
           {{ zeroText }}
         </p>
-        <ElActions class="mt-4 gap-4 flex justify-center" :actions="actions" ui-size="sm" />
+        <ElActions
+          class="mt-4 gap-4 flex justify-center"
+          :actions="actions"
+          ui-size="sm"
+        />
       </div>
     </div>
-    <div v-else class="p-6 space-y-6">
-      <component
-        :is="getNavComponentType(item)"
+
+    <div v-else class="px-6 divide-y divide-theme-100 dark:divide-theme-700">
+      <XLink
         v-for="(item, i) in list"
         :key="i"
-        class="relative isolate flex gap-6  hover:opacity-90 cursor-pointer"
+        class="relative isolate flex gap-6 items-center hover:opacity-90 cursor-pointer py-6"
         :href="item.href"
-        :to="item.href"
       >
+        <ElIndexItemMedia :item />
+
         <div>
-          <div v-if="!item.media?.url && !item.media?.html" class="flex items-center justify-center size-12" :class="mediaClass">
-            <div class="text-2xl" :class="item.icon" />
-          </div>
-          <XMedia v-else :class="mediaClass" :media="item.media" />
-        </div>
-        <div class="">
-          <div v-if="$slots.details" class="flex items-center text-xs text-theme-500 dark:text-theme-400 gap-2">
+          <div
+            v-if="$slots.details"
+            class="flex items-center text-xs text-theme-500 dark:text-theme-400 gap-2"
+          >
             <slot name="details" :item="item" />
           </div>
-          <div class="group relative max-w-xl">
-            <h3 class="text-xl mt-1 font-semibold hover:underline x-font-title">
+          <div class="group relative max-w-xl space-y-1.5">
+            <h3 class="text-xl mt-1 font-semibold hover:underline x-font-title leading-tight">
               {{ item.name }}
             </h3>
-            <div v-if="$slots.subTitle" class="text-sm  dark:text-theme-400">
+            <div
+              v-if="$slots.subTitle"
+              class="text-sm dark:text-theme-400"
+            >
               <slot name="subTitle" :item="item" />
             </div>
-            <p v-else class="text-sm  dark:text-theme-400 ">
+            <p v-else class="text-sm dark:text-theme-400">
               {{ item.desc }}
             </p>
           </div>
         </div>
-      </component>
+      </XLink>
     </div>
   </div>
 </template>

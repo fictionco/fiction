@@ -8,6 +8,8 @@ import ElBadge from '@fiction/ui/common/ElBadge.vue'
 import InputSelectCustom from '@fiction/ui/inputs/InputSelectCustom.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
 
+defineOptions({ name: 'InputTaxonomy' })
+
 const props = defineProps({
   modelValue: { type: Array as vue.PropType<TableTaxonomyConfig[]>, default: () => [] },
   taxonomyType: { type: String as vue.PropType<'category' | 'tag'>, default: 'tag' },
@@ -118,10 +120,20 @@ async function sortValue(sortedTitles: string[]) {
   <div class="space-y-2">
     <div v-if="modelValue.length">
       <EffectDraggableSort class="tag-list flex flex-row flex-wrap gap-1" :allow-horizontal="true" @update:sorted="sortValue($event)">
-        <ElBadge v-for="(tax, i) in modelValue" :key="i" :data-drag-id="tax.title" class="gap-1 cursor-grab" :theme="taxonomyType === 'tag' ? 'green' : 'orange'">
-          <span>{{ tax.title }}</span>
-          <span class="i-tabler-x hover:opacity-70 cursor-pointer" @click="removeTaxomomy(tax)" />
-        </ElBadge>
+        <XButton
+          v-for="(tax, i) in modelValue"
+          :key="i"
+          size="sm"
+          :data-drag-id="tax.title"
+          class="cursor-grab"
+          design="ghost"
+          :theme="taxonomyType === 'tag' ? 'green' : 'orange'"
+        >
+          <span class="inline-flex items-center gap-1">
+            <span>{{ tax.title }}</span>
+            <span class="i-tabler-x hover:opacity-70 cursor-pointer" @click.stop="removeTaxomomy(tax)" />
+          </span>
+        </XButton>
       </EffectDraggableSort>
     </div>
     <InputSelectCustom

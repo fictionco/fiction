@@ -2,10 +2,12 @@
 import { vue, waitFor } from '@fiction/core'
 import EffectTransitionList from './EffectTransitionList.vue'
 
-const props = defineProps({
-  itemSelector: { type: String, default: '[data-drag-id]' },
-  allowHorizontal: { type: Boolean, default: false },
-})
+const { itemSelector = '[data-drag-id]', allowHorizontal = false, mode = 'block', disabled = false } = defineProps<{
+  itemSelector?: string
+  allowHorizontal?: boolean
+  mode?: 'inline' | 'block'
+  disabled?: boolean
+}>()
 
 const emit = defineEmits<{
   (event: 'update:sorted', payload: string[]): void
@@ -18,7 +20,7 @@ function update() {
     return
 
   const rank: string[] = []
-  wrapperEl.value.querySelectorAll(props.itemSelector).forEach((el) => {
+  wrapperEl.value.querySelectorAll(itemSelector).forEach((el) => {
     const element = el as HTMLElement
     const value = element.dataset.dragId
     if (value)
@@ -35,7 +37,7 @@ vue.onMounted(async () => {
     return
   const { Plugins, Sortable } = await import('@shopify/draggable')
   const sortable = new Sortable(wrapperEl.value, {
-    draggable: props.itemSelector,
+    draggable: itemSelector,
     distance: 3,
 
     mirror: {
@@ -44,7 +46,7 @@ vue.onMounted(async () => {
     swapAnimation: {
       duration: 200,
       easingFunction: 'ease-in-out',
-      horizontal: props.allowHorizontal,
+      horizontal: allowHorizontal,
     },
     plugins: [Plugins.SwapAnimation], // Or [SwapAnimation]
   })
@@ -67,7 +69,7 @@ vue.onMounted(async () => {
 
 <template>
   <div ref="wrapperEl" class="relative min-h-[30px] rounded-md">
-    <EffectTransitionList>
+    <EffectTransitionList :mode :disabled>
       <slot />
     </EffectTransitionList>
   </div>

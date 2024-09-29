@@ -56,7 +56,7 @@ async function sortValue(sortedValues: string[]) {
       >
         <div class="flex items-center gap-2">
           <span>{{ item.name }}</span>
-          <span class="i-tabler-x opacity-50 hover:opacity-100 cursor-pointer -mr-[2px]" @click="removeItem(item)" />
+          <span class="i-tabler-x opacity-50 hover:opacity-100 cursor-pointer -mr-[2px]" @click.stop="removeItem(item)" />
         </div>
       </XButton>
     </EffectDraggableSort>

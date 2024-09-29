@@ -16,17 +16,17 @@ const uc = vue.computed(() => {
 </script>
 
 <template>
-  <div :class="card.classes.value.contentWidth" class="space-y-12">
-    <div class="space-y-6 text-left md:text-balance max-w-md text-theme-500 dark:text-theme-200/50">
-      <CardText animate="fade" :card path="heading" class="text-4xl x-font-title font-medium" />
-      <CardText v-if="uc.subHeading" animate="fade" :card path="subHeading" class="text-2xl " />
+  <div :class="card.classes.value.contentWidth" class="space-y-6 sm:space-y-12">
+    <div class="space-y-6 text-left md:text-balance max-w-md text-theme-500 dark:text-theme-400">
+      <CardText animate="fade" :card path="heading" class="text-xl sm:text-4xl x-font-title font-medium" />
+      <CardText v-if="uc.subHeading" animate="fade" :card path="subHeading" class="text-lg sm:text-2xl " />
     </div>
     <div>
       <div
         v-for="(item, i) in uc.items"
         :key="i"
       >
-        <div class="divider h-[1px] dark:bg-theme-0/10 bg-theme-200 my-6" />
+        <div class="divider h-[1px] dark:bg-theme-0/10 bg-theme-200 my-3 sm:my-6" />
         <div class="py-6 flex flex-col-reverse lg:flex-row justify-between gap-6 lg:items-center ">
           <div class="space-y-4 max-w-screen-md">
             <CardText :card :path="`items.${i}.name`" animate="fade" class="text-2xl sm:text-3xl lg:text-5xl x-font-title font-semibold !leading-[1.2]" />

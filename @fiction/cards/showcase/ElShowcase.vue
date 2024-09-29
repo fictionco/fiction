@@ -51,14 +51,14 @@ function featuredImageAspect(media: MediaObject) {
 
 function gridImageAspect() {
   const aspectMappings: { [key: string]: string } = {
-    square: 'aspect-square max-h-[70dvh]',
-    tall: 'aspect-[9/16] max-h-[70dvh]',
-    wide: 'aspect-[16/9] max-w-[70dvw]',
-    golden: 'aspect-[1.618/1] max-w-[70dvw]',
-    portrait: 'aspect-[3/4] max-h-[70dvh]',
-    landscape: 'aspect-[4/3] max-w-[70dvw]',
-    cinema: 'aspect-[21/9] max-w-[70dvw]',
-    default: 'aspect-[4/3] max-h-[70dvh]',
+    square: 'aspect-square',
+    tall: 'aspect-[9/16]',
+    wide: 'aspect-[16/9]',
+    golden: 'aspect-[1.618/1]',
+    portrait: 'aspect-[3/4]',
+    landscape: 'aspect-[4/3]',
+    cinema: 'aspect-[21/9]',
+    default: 'aspect-[4/3]',
   }
 
   const aspect = uc.value.aspect || 'default'

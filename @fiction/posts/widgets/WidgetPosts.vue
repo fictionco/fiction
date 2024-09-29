@@ -42,8 +42,8 @@ vue.onMounted(async () => {
 
 const actions: ActionButton[] = [
   {
-    name: 'View all posts',
-    icon: 'i-tabler-layout-grid',
+    name: 'View All Posts',
+    icon: 'i-tabler-list',
     href: props.card.link('/posts'),
   },
   {
@@ -57,7 +57,7 @@ const actions: ActionButton[] = [
 
 const list = vue.computed<IndexItem[]>(() => {
   return posts.value.map((post) => {
-    const media = post.media.value as MediaObject
+    const media = post.media.value
     return {
       media,
       icon: 'i-tabler-pin',
@@ -73,8 +73,13 @@ const list = vue.computed<IndexItem[]>(() => {
 <template>
   <WidgetWrap :widget :actions>
     <IndexItemList :list :actions>
-      <template #details="{ item }">
-        <time v-if="item.dateIso" class="text-theme-400">{{ dayjs(item.dateIso).format('MMM DD, YYYY') }}</time>
+      <template #subTitle="{ item }">
+        <div class="flex gap-2 flex-wrap leading-[1]">
+          <div class="opacity-80">
+            {{ item.desc || 'No excerpt' }}
+          </div> &middot;
+          <time v-if="item.dateIso" class="text-theme-400">{{ dayjs(item.dateIso).format('MMM DD, YYYY') }}</time>
+        </div>
       </template>
     </IndexItemList>
   </WidgetWrap>

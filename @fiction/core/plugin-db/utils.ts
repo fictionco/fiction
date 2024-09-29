@@ -53,7 +53,7 @@ export function dbPrep<T>(args: {
 
       const parsed = schema.safeParse(value)
       if (!parsed.success) {
-        fictionDb.log.error(`Validation failed for field ${table}:${key} - ${parsed.error.message}`, { data: { value, fields } })
+        fictionDb.log.error(`DB PREP: Validation failed for field ${table}:${key} - ${parsed.error.message}`, { data: { value, fields } })
         isValid = false
       }
       else {

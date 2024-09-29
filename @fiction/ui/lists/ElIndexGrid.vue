@@ -5,6 +5,7 @@ import XButton from '../buttons/XButton.vue'
 import ElZeroBanner from '../ElZeroBanner.vue'
 import ElSpinner from '../loaders/ElSpinner.vue'
 import XMedia from '../media/XMedia.vue'
+import ElIndexItemMedia from './ElIndexItemMedia.vue'
 
 const props = defineProps({
   list: { type: Array as vue.PropType<IndexItem[]>, default: () => [] },
@@ -83,12 +84,7 @@ async function paginate(dir: 'prev' | 'next') {
           >
             <component :is="getNavComponentType(item)" :to="item.href" :href="item.href" class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap" :class="boxClass">
               <div class="flex gap-6 items-center">
-                <div>
-                  <div v-if="!item.media?.url" class="flex items-center justify-center size-12" :class="mediaClass">
-                    <div class="text-2xl" :class="mediaIcon" />
-                  </div>
-                  <XMedia v-else :class="mediaClass" :media="item.media" />
-                </div>
+                <ElIndexItemMedia :item />
                 <div>
                   <p class="text-lg font-medium leading-6 ">
                     <span class="hover:underline cursor-pointer">{{ item.name }}</span>

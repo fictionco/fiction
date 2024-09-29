@@ -3,7 +3,7 @@ import type { Handle } from '@fiction/admin'
 import type { vue } from '@fiction/core'
 import type { Card } from '../../card'
 import type { Site } from '../../site'
-import TransitionList from '@fiction/admin/el/EffectTransitionList.vue'
+import EffectTransitionList from '@fiction/admin/el/EffectTransitionList.vue'
 import ElToolHandle from '@fiction/admin/tools/ElToolHandle.vue'
 import { toLabel } from '@fiction/core'
 
@@ -77,7 +77,7 @@ function getCardHandle(card: Card): Handle {
     </div>
 
     <div class="relative">
-      <TransitionList
+      <EffectTransitionList
         tag="div"
         class="space-y-2 sortable-zone min-h-[30px] rounded-md"
         data-drag-zone
@@ -87,9 +87,10 @@ function getCardHandle(card: Card): Handle {
         <ElToolHandle
           v-for="cardObj in card.cards.value"
           :key="cardObj.cardId"
+          class="w-full"
           :handle="getCardHandle(cardObj)"
         />
-      </TransitionList>
+      </EffectTransitionList>
     </div>
   </div>
 </template>

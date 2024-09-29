@@ -9,7 +9,7 @@
     "@fiction/ui": "workspace:*",
     "cron": "^3.1.7",
     "cronstrue": "^2.50.0",
-    "vue": "^3.5.8"
+    "vue": "^3.5.10"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "license": "MIT",

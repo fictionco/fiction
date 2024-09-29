@@ -86,7 +86,7 @@ export class ManageCampaign extends SendEndpoint {
           return row
         }
 
-        const r = await this.settings.fictionPosts.queries.ManagePost.serve({ _action: 'get', orgId, where: {postId: row.postId}, loadDraft }, _meta)
+        const r = await this.settings.fictionPosts.queries.ManagePost.serve({ _action: 'get', orgId, where: { postId: row.postId }, loadDraft }, _meta)
         row.post = r.data?.[0]
         return row
       })
@@ -213,7 +213,7 @@ export class ManageCampaign extends SendEndpoint {
         return row
       }
 
-      const r = await this.settings.fictionPosts.queries.ManagePost.serve({ _action: 'update', orgId, userId, where: {postId}, fields: { ...fields.post } }, meta)
+      const r = await this.settings.fictionPosts.queries.ManagePost.serve({ _action: 'update', orgId, userId, where: { postId }, fields: { ...fields.post } }, meta)
 
       row.post = r.data?.[0]
 
@@ -242,7 +242,7 @@ export class ManageCampaign extends SendEndpoint {
 
       // foreign key constraint will delete post and email row if post is deleted
       if (postId) {
-        const r = await this.settings.fictionPosts.queries.ManagePost.serve({ _action: 'delete', orgId, where: {postId} }, _meta)
+        const r = await this.settings.fictionPosts.queries.ManagePost.serve({ _action: 'delete', orgId, where: { postId } }, _meta)
         row.post = r.data?.[0]
       }
       else {

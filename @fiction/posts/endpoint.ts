@@ -1,6 +1,4 @@
 import type { DataFilter, EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser, IndexMeta, IndexQuery, TableTaxonomyConfig } from '@fiction/core'
-import type { TableSiteConfig } from '@fiction/site'
-import type { WhereSite } from '@fiction/site/load'
 import type { FictionPosts } from '.'
 import type { TablePostConfig } from './schema'
 import { abort, applyComplexFilters, deepMerge, incrementSlugId, objectId, Query, standardTable, toLabel, toSlug } from '@fiction/core'
@@ -345,8 +343,6 @@ export class QueryManagePost extends PostsQuery {
 
     prepped.draft = {}
 
-    this.log.info('saving post', { data: { prepped, params } })
-
     await Promise.all([
       db(t.posts).update(prepped).where({ postId }),
       this.updatePostTaxonomies({ postId, fields, orgId }),
@@ -536,19 +532,17 @@ export class QueryManagePost extends PostsQuery {
 
     const draft = (currentDrafts?.draft || {}) as TablePostConfig
 
-    const prepped = this.settings.fictionDb.prep({ type: 'update', fields, meta, table: t.posts })
-
     const keysToRemove = ['draft', 'postId', 'userId', 'orgId']
 
     keysToRemove.forEach((key) => {
-      delete prepped[key as keyof typeof prepped]
+      delete fields[key as keyof typeof fields]
     })
 
     // taxonomies are removed by prepare, due to joined table, saved directly in draft
     const taxonomy = fields.taxonomy || []
     const authors = fields.authors || []
     const sites = fields.sites || []
-    const newDraft = { draftId: objectId({ prefix: 'dft' }), ...draft, ...prepped, taxonomy, sites, authors, updatedAt: now, createdAt: draft.createdAt }
+    const newDraft = { draftId: objectId({ prefix: 'dft' }), ...draft, ...fields, taxonomy, sites, authors, updatedAt: now, createdAt: draft.createdAt }
 
     // Persist the updated draft and history
     await db(t.posts)

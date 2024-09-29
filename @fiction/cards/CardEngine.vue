@@ -43,7 +43,7 @@ const renderCards = vue.computed(() => {
         :key="subCard.cardId"
         :card="subCard"
         :data-card-id="subCard.cardId"
-        class="relative group/engine"
+        class="relative w-full group/engine"
         :class="[
           subCard.isActive.value && isEditable ? 'outline-2 outline-dashed outline-theme-300 dark:outline-theme-600' : '',
           isEditable ? 'hover:outline-2 hover:outline-dashed hover:outline-blue-300 dark:hover:outline-blue-600 cursor-pointer  transition-all' : '',

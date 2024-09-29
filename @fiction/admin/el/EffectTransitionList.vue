@@ -1,10 +1,5 @@
 <script lang="ts" setup>
-defineProps({
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-})
+const { disabled = false, mode = 'block' } = defineProps<{ disabled?: boolean, mode?: 'block' | 'inline' }>()
 </script>
 
 <template>
@@ -32,7 +27,7 @@ defineProps({
 
 .nlist-leave-active {
   position: absolute;
-  width: 100%;
+ // width: 100%;
 }
 
 .nlist-leave-to {

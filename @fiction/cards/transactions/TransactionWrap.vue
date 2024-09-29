@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { ActionItem } from '@fiction/core'
 import { vue } from '@fiction/core'
+import XText from '@fiction/ui/common/XText.vue'
 import InputActionList from '@fiction/ui/inputs/InputActionList.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 
@@ -52,9 +53,9 @@ const ico = vue.computed(() => iconThemes[props.status as keyof typeof iconTheme
             <div class="text-2xl md:text-3xl" :class="icon || ico.icon" />
           </div>
           <div>
-            <h1 class="x-font-title text-3xl font-semibold tracking-tight text-balance" v-html="heading" />
+            <XText animate="fade" tag="h1" class="x-font-title text-3xl font-semibold tracking-tight text-balance" :model-value="heading" />
             <div class="mt-2 text-lg md:text-xl font-normal x-font-title text-theme-500 capitalize">
-              <h4 v-if="subHeading" class="space-x-2" v-html="subHeading" />
+              <XText v-if="subHeading" animate="fade" tag="h4" class="space-x-2" :model-value="subHeading" />
             </div>
             <slot name="links" />
           </div>

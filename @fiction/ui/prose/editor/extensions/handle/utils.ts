@@ -1,7 +1,6 @@
 import type { Editor } from '@tiptap/core'
 import type { EditorView } from '@tiptap/pm/view'
-import { objectId } from '@fiction/core'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { PluginKey } from '@tiptap/pm/state'
 import { VueRenderer } from '@tiptap/vue-3'
 import tippy from 'tippy.js'
 import ElSlashPanel from './ElSlashPanel.vue'

@@ -92,13 +92,9 @@ const config = vue.computed<TransactionProps | undefined>(() => {
 })
 
 const quotes = [
-  { text: 'You were born an original. Don\'t die a copy.', author: 'John Mason' },
-  { text: 'Be yourself; everyone else is already taken.', author: 'Oscar Wilde' },
-  { text: 'Your brand is what people say about you when you\'re not in the room.', author: 'Jeff Bezos' },
-  { text: 'Personal branding is managing your name in a world of misinformation.', author: 'Tim Ferriss' },
-  { text: 'The most important brand you will ever build is your own.', author: 'Richie Norton' },
-  { text: 'Your personal brand is your unique identifier in a crowded marketplace.', author: 'Tom Peters' },
-  { text: 'Be the CEO of your own personal brand.', author: 'Pete Cashmore' },
+  { text: 'Make yourself visible. You can never know where the opportunity can come from.', author: 'Dentes Leo' },
+  { text: 'Yesterday you said tomorrow.', author: 'Nike' },
+  { text: 'Without marketing yourself, people from your past know a version of you that no longer exists.', author: 'Anonymous' },
 ]
 
 const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length)])

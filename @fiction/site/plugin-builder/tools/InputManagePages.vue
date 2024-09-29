@@ -82,7 +82,7 @@ async function handleSorted(sorted: string[]) {
           <ELToolHandle
             v-for="handle in handles"
             :key="handle.handleId"
-            class="drag-handle"
+            class="drag-handle w-full"
             :handle="handle"
             :data-drag-id="handle.handleId"
           />

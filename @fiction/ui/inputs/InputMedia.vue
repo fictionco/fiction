@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { MediaObject } from '@fiction/core'
 import type { LibraryTool } from './LibraryModal.vue'
-import { vue } from '@fiction/core'
+import { removeUndefined, vue } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 import XMedia from '../media/XMedia.vue'
 import LibraryModal from './LibraryModal.vue'
@@ -26,7 +26,8 @@ function openMediaSelector() {
 }
 
 function handleMediaUpdate(newValue: MediaObject) {
-  emit('update:modelValue', newValue)
+  const newMedia = removeUndefined(newValue, { removeNull: true })
+  emit('update:modelValue', newMedia)
 }
 
 const tools = vue.computed(() => {

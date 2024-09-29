@@ -30,7 +30,7 @@ function onSlideChange(index: number) {
     <EffectCarousel v-model:active-index="activeIndex" :slides="items" :options="carouselOptions" @slide-change="onSlideChange">
       <template #default="{ slide, index }">
         <div class="carousel-cell w-[90%] sm:w-[80%] lg:w-[60%] mr-24">
-          <div class="max-w-[900px] mx-auto p-4 sm:p-6">
+          <div class="max-w-[900px] mx-auto sm:p-6">
             <div class="space-y-[2vw]">
               <CardText
                 tag="div"
@@ -42,7 +42,7 @@ function onSlideChange(index: number) {
 
               <CardText
                 tag="div"
-                class="text-lg leading-relaxed sm:!leading-[1.6] sm:text-3xl  text-theme-700/50 dark:text-theme-300/90"
+                class="text-lg leading-relaxed sm:!leading-[1.6] sm:text-3xl opacity-90"
                 :card
                 :path="`items.${index}.content`"
                 animate="fade"

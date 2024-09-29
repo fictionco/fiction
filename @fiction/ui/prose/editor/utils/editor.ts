@@ -1,5 +1,4 @@
 import type { EndpointResponse } from '@fiction/core'
-import type { Editor } from '@tiptap/core'
 
 export type EditorSupplementary = Partial<{
   title: string

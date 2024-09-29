@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { Editor } from '@tiptap/core'
 import { vue } from '@fiction/core'
-import { Check } from 'lucide-vue-next'
 
 const props = defineProps({
   editor: { type: Object as vue.PropType<Editor>, required: true },
