@@ -21,9 +21,9 @@ export function removeUndefined<T>(
   if (Array.isArray(value)) {
     return value.filter(item => item !== undefined && (!removeNull || item !== null)) as T
   }
-  else if (typeof value === 'object' && value !== null) {
+  else if (isPlainObject(value)) {
     const cleanedObject: Record<string, unknown> = {}
-    for (const [key, val] of Object.entries(value)) {
+    for (const [key, val] of Object.entries(value as Record<string, unknown>)) {
       if (val !== undefined && (!removeNull || val !== null))
         cleanedObject[key] = removeUndefined(val, options)
     }

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { MediaObject, TableMediaConfig } from '@fiction/core'
-import { useService, vue } from '@fiction/core'
+import { removeUndefined, useService, vue } from '@fiction/core'
 import EffectMasonry from '../effect/EffectMasonry.vue'
 import ElSpinner from '../loaders/ElSpinner.vue'
 import XMedia from '../media/XMedia.vue'
@@ -41,7 +41,9 @@ async function fetchLibraryMedia() {
 }
 
 function selectMedia(media: MediaObject) {
-  emit('update:modelValue', { ...props.modelValue, ...media, format: 'url' })
+  const v = { ...props.modelValue, ...media, format: 'url' }
+  const newValue = removeUndefined(v, { removeNull: true }) as MediaObject
+  emit('update:modelValue', newValue)
 }
 
 function getMasonryItemClass(media: TableMediaConfig) {

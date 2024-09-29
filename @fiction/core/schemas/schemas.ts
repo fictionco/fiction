@@ -124,37 +124,37 @@ export const MediaIconSchema = MediaBasicSchema.extend({
 
 export const MediaTypographySchema = MediaBasicSchema.extend({
   typography: z.object({
-    text: z.string().nullish(),
-    weight: z.string().nullish(),
-    lineHeight: z.string().nullish(),
-    letterSpacing: z.string().nullish(),
-    font: z.string().nullish(),
-  }).nullish(),
+    text: z.string().optional(),
+    weight: z.string().optional(),
+    lineHeight: z.string().optional(),
+    letterSpacing: z.string().optional(),
+    font: z.string().optional(),
+  }).optional(),
 })
 
 // MediaContent schema (includes MediaBasic)
 export const MediaContentSchema = MediaBasicSchema.extend({
-  alt: z.string().nullish(),
-  caption: z.string().nullish(),
-  mime: z.string().nullish(),
-  blurhash: z.string().nullish(),
-  thumbUrl: z.string().nullish(),
+  alt: z.string().optional(),
+  caption: z.string().optional(),
+  mime: z.string().optional(),
+  blurhash: z.string().optional(),
+  thumbUrl: z.string().optional(),
 })
 
 // MediaDisplaySchema (extends MediaContent with display properties)
 export const MediaDisplaySchema = MediaContentSchema.extend({
-  bgColor: z.string().nullish(),
-  bgGradient: GradientSettingSchema.nullish(),
-  bgRepeat: BackgroundRepeatSchema.nullish(),
-  bgPosition: BackgroundPositionSchema.nullish(),
-  bgSize: BackgroundSizeSchema.nullish(),
-  filters: z.array(ImageFilterConfigSchema).nullish(),
-  overlay: OverlaySettingSchema.nullish(),
-  width: z.number().nullish(),
-  height: z.number().nullish(),
+  bgColor: z.string().optional(),
+  bgGradient: GradientSettingSchema.optional(),
+  bgRepeat: BackgroundRepeatSchema.optional(),
+  bgPosition: BackgroundPositionSchema.optional(),
+  bgSize: BackgroundSizeSchema.optional(),
+  filters: z.array(ImageFilterConfigSchema).optional(),
+  overlay: OverlaySettingSchema.optional(),
+  width: z.number().optional(),
+  height: z.number().optional(),
   modify: z.object({
-    flip: z.enum(['horizontal', 'vertical']).nullish(),
-  }).nullish(),
+    flip: z.enum(['horizontal', 'vertical']).optional(),
+  }).optional(),
 })
 export type MediaObject = z.infer<typeof MediaDisplaySchema & typeof MediaTypographySchema & typeof MediaIconSchema>
 

@@ -1,5 +1,5 @@
 import type { TablePostConfig } from '../schema'
-import { type ComplexDataFilter, type DataFilter, dayjs } from '@fiction/core'
+import { type ComplexDataFilter, type DataFilter, dayjs, type MediaObject } from '@fiction/core'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { FictionPosts } from '..'
@@ -313,6 +313,8 @@ describe('post crud tests', async () => {
       fields: {
         title: 'New Post',
         content: 'Content of the new post',
+        // @ts-expect-error test
+        media: { format: 'image', url: 'https://example.com/image.jpg', alt: null as undefined },
       },
       orgId,
       userId,
@@ -329,6 +331,9 @@ describe('post crud tests', async () => {
     expect(createdPost?.userId).toBe(userId)
     expect(createdPost?.postId).toBeTruthy()
     expect(createdPost?.createdAt).toBeTruthy()
+    expect(createdPost?.updatedAt).toBeTruthy()
+    expect(createdPost?.media?.format).toBe('image')
+    expect(createdPost?.media?.url).toBe('https://example.com/image.jpg')
     expect(createdPost?.dateAt).toBeFalsy()
     expect(createdPost?.slug).toBe('new-post')
 
@@ -357,6 +362,7 @@ describe('post crud tests', async () => {
         title: 'Updated Post',
         content: 'Updated content of the post',
         status: 'published',
+        media: { format: 'video', url: 'https://example.com/video.mp4', alt: 'Image alt text' },
       },
     } as const
 
@@ -369,6 +375,8 @@ describe('post crud tests', async () => {
     expect(updatedPost?.content).toBe(update.fields.content)
     expect(updateResult.message).toBe('Post updated')
     expect(updatedPost?.status).toBe('published')
+    expect(updatedPost?.media?.format).toBe('video')
+    expect(updatedPost?.media?.url).toBe('https://example.com/video.mp4')
     expect(updatedPost?.postId).toBe(update.where.postId)
     expect(dayjs(updatedPost?.dateAt).toISOString()).toStrictEqual(dayjs(updatedPost?.updatedAt).toISOString())
   })

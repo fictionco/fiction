@@ -1,6 +1,6 @@
 import type { FictionDb } from '.'
-import type { EndpointMeta } from '../utils'
 import { z } from 'zod'
+import { type EndpointMeta, removeUndefined } from '../utils'
 
 type ScenarioType = 'insert' | 'update' | 'internal' | 'return'
 
@@ -50,7 +50,7 @@ export function dbPrep<T>(args: {
     let isValid = !sch || value === null
     if (sch && value !== null) {
       const schema = sch({ z })
-
+      value = removeUndefined(value, { removeNull: true })
       const parsed = schema.safeParse(value)
       if (!parsed.success) {
         fictionDb.log.error(`DB PREP: Validation failed for field ${table}:${key} - ${parsed.error.message}`, { data: { value, fields } })

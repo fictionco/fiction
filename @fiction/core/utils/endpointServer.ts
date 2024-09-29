@@ -38,7 +38,7 @@ export function createExpressApp(opts: HelmetOptions & { noHelmet?: boolean, id:
   const app = express()
 
   // prevent bots looking for exposed .env files
-  app.use('*.env', (req, res) => res.status(404).end())
+  app.use('*.env', (req, res) => { res.status(404).end() })
 
   if (!noHelmet) {
     app.use(
@@ -118,7 +118,7 @@ export class EndpointServer {
     if (this.middleware)
       await this.middleware(this.expressApp)
 
-    this.expressApp.use('/api/ok', (req, res) => res.status(200).send('ok').end())
+    this.expressApp.use('/api/ok', (req, res) => { res.status(200).send('ok').end() })
   }
 
   async run(args: { port?: number, isRestart?: boolean } = {}) {

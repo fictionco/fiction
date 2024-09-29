@@ -110,7 +110,7 @@ export class FictionBeacon extends FictionPlugin<FictionBeaconSettings> {
 
     addExpressHealthCheck({ expressApp: app, id })
 
-    app.use('/', (request, response) => (response.status(200).send('ok').end()))
+    app.use('/', (request, response) => { response.status(200).send('ok').end() })
 
     this.beaconServer = await new Promise(async (resolve, reject) => {
       const s = app.listen(this.beaconPort, () => resolve(s)).on('error', error => reject(error))
