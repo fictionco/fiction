@@ -18,7 +18,12 @@ describe('postEditing', async () => {
         { type: 'hasValue', selector: '[data-option-path="title"] input', text: 'Test Post' },
         { type: 'fill', selector: '[data-test-id="post-editor-sub-title"]', text: 'hello world' },
         { type: 'hasValue', selector: '[data-option-path="subTitle"] input', text: 'hello world' },
-        { type: 'fill', selector: '[data-test-id="prose-editor-content"] .tiptap', text: 'testing' },
+        { type: 'fill', selector: '[data-test-id="prose-editor-content"] .tiptap', text: 'testing testing testing' },
+        { type: 'click', selector: '[data-test-id="publish-button"]' },
+        { type: 'fill', selector: '[data-test-id="prose-editor-content"] .tiptap', text: ' lorem ipsum', wait: 3000 },
+        { type: 'click', selector: `[data-test-id="draft-control-dropdown"] button`, wait: 3000 },
+        { type: 'click', selector: `[data-test-id="draft-control-dropdown"] [data-test-id="reset-to-published"]` },
+        { type: 'hasValue', selector: '[data-option-path="content"]', text: '<p>testing testing testing</p>' },
       ],
     })
 

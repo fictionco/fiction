@@ -7,6 +7,8 @@ import { EditorContent, useEditor } from '@tiptap/vue-3'
 import BubbleMenuEngine from './el/BubbleMenuEngine.vue'
 import { getExtensions } from './extensions/index'
 
+defineOptions({ name: 'ProseEditor' })
+
 const { modelValue = '', supplemental = {}, isContentCompletionDisabled = false } = defineProps<{
   modelValue: string
   supplemental?: EditorSupplementary
@@ -59,6 +61,9 @@ vue.onMounted(() => {
     }
   })
 })
+
+// Expose the editor instance
+defineExpose({ editor })
 </script>
 
 <template>

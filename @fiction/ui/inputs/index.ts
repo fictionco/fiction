@@ -71,7 +71,7 @@ export interface InputOptionSettings<T extends string = string > {
   description?: string
   subLabel?: string
   placeholder?: string
-  input?: keyof typeof inputs | 'title' | 'group' | vue.Component
+  input?: keyof typeof inputs | 'title' | 'group' | 'hidden' | vue.Component
   isRequired?: boolean
   isClosed?: boolean
   props?: Record<string, unknown>

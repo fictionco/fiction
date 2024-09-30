@@ -30,7 +30,7 @@ describe('settings e2e', async () => {
         { type: 'fill', selector: `[data-option-path="publication.sender"] input`, text: 'Alvin the Chipmunk' },
         { type: 'click', selector: `[data-test-id="save"]` },
         { type: 'visible', selector: `[data-settings-tool="${first}"]` },
-        { type: 'value', selector: `[data-settings-tool]`, callback: (value) => {
+        { type: 'value', selector: `[data-settings-tool]`, onValue: (value) => {
           const v = value as Organization
 
           expect(v.orgName).toBe('Org Name Test')

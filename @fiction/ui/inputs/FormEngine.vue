@@ -112,7 +112,7 @@ function getGroupHeaderClasses(opt: InputOption) {
 <template>
   <div :data-options-len="options.length">
     <div class="flex flex-col" :class="cls.inputGap">
-      <div v-for="(opt, i) in options.filter(_ => !_.settings.isHidden)" :key="i">
+      <template v-for="(opt, i) in options.filter(_ => !_.settings.isHidden)" :key="i">
         <div
           v-if="opt.input.value === 'group'"
           :class="[
@@ -156,6 +156,7 @@ function getGroupHeaderClasses(opt: InputOption) {
           class="mb-2"
           :class="i === 0 ? 'mt-0' : 'mt-8'"
         />
+        <input v-else-if="opt.input.value === 'hidden'" :data-option-path="opt.key.value" type="hidden" :value="getNested({ path: getOptionPath(opt.key.value), data: modelValue })">
         <div v-else :class="opt.settings.uiFormat !== 'naked' && depth === 0 ? 'px-6' : ''" :data-depth="depth">
           <ElInput
             v-if="opt.isHidden.value !== true"
@@ -170,7 +171,7 @@ function getGroupHeaderClasses(opt: InputOption) {
             @update:model-value="emit('update:modelValue', setNested({ path: getOptionPath(opt.key.value), data: modelValue, value: $event }))"
           />
         </div>
-      </div>
+      </template>
     </div>
     <ElActions :actions class="mt-4 flex items-center justify-center" />
   </div>

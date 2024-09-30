@@ -14,7 +14,7 @@ describe('hero: card', async () => {
         { type: 'exists', selector: '[data-mode="onLoad"] form' },
         { type: 'fill', selector: '[data-mode="onLoad"] form [data-test-id="email"]', text: 'arpowers+test@gmail.com' },
         { type: 'click', selector: '[data-mode="onLoad"] form [data-test-id="submit"]' },
-        { type: 'value', selector: '[data-wrap-mode="onLoad"]', callback: value => expect(value?.subscribed).toBeTruthy() },
+        { type: 'value', selector: '[data-wrap-mode="onLoad"]', onValue: value => expect(value?.subscribed).toBeTruthy() },
       ],
     })
 
@@ -30,7 +30,7 @@ describe('hero: card', async () => {
         { type: 'exists', selector: '[data-mode="onScroll"] form' },
         { type: 'fill', selector: '[data-mode="onScroll"] form [data-test-id="email"]', text: 'arpowers+test@gmail.com' },
         { type: 'click', selector: '[data-mode="onScroll"] form [data-test-id="submit"]' },
-        { type: 'value', selector: '[data-wrap-mode="onScroll"]', callback: value => expect(value?.subscribed).toBeTruthy() },
+        { type: 'value', selector: '[data-wrap-mode="onScroll"]', onValue: value => expect(value?.subscribed).toBeTruthy() },
       ],
     })
   })

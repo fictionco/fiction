@@ -12,7 +12,7 @@ const props = defineProps({
   description: { type: String, default: '' },
   inputProps: { type: Object as vue.PropType<InputProps>, default: () => ({}) },
   uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
-  input: { type: [String, Object] as vue.PropType<keyof typeof inputs | vue.Component | 'title' | 'group'>, default: undefined },
+  input: { type: [String, Object] as vue.PropType<keyof typeof inputs | vue.Component | 'title' | 'group' | 'hidden'>, default: undefined },
   defaultValue: { type: [String, Object, Array, Number, Date, Boolean], default: undefined },
 })
 
@@ -50,7 +50,7 @@ const inputEl = vue.ref<vue.ComponentPublicInstance>()
 const valid = vue.ref<boolean | undefined>()
 const inputComponent = vue.computed(() => {
   const inp = props.input
-  if (inp === 'title' || inp === 'group') {
+  if (inp === 'title' || inp === 'group' || inp === 'hidden') {
     return ''
   }
   else if (inp && typeof inp === 'string') {

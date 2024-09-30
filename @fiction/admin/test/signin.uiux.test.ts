@@ -99,7 +99,7 @@ describe('signin UX', { retry: 3 }, async () => {
         { type: 'fill', selector: '[data-test-id="input-email"] input', text: fields.email },
         { type: 'fill', selector: '[data-test-id="input-password"] input', text: fields.password },
         { type: 'fill', selector: '[data-test-id="input-name"] input', text: fields.name },
-        { type: 'value', selector: '[data-test-id="form"]', callback: (v) => {
+        { type: 'value', selector: '[data-test-id="form"]', onValue: (v) => {
           expect(v?.email).toBe(fields.email)
           expect(v?.password).toBe(fields.password)
           expect(v?.fullName).toBe(fields.name)

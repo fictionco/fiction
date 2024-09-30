@@ -271,12 +271,19 @@ export class PlaywrightLogger {
 }
 
 type TestPageAction = {
-  type: 'visible' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'value' | 'hasText' | 'hasValue' | 'scrollTo' | 'frameInteraction'
+  type: 'visible' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'value' | 'hasText' | 'hasValue' | 'scrollTo' | 'frameInteraction' | 'callback'
   selector?: string
   text?: string
   key?: string
   wait?: number
-  callback?: (value?: Record<string, string>) => void
+  waitAfter?: number
+  onValue?: (value?: Record<string, string>) => void
+  callback?: (args: {
+    page: Page
+    element: playwrightTest.Locator
+    action: TestPageAction
+    browser: TestBrowser
+  }) => Promise<void>
   frameSelector?: string
   frameActions?: TestPageAction[]
 }
@@ -374,6 +381,14 @@ export async function performActions(args: {
           action.callback?.(v)
           break
         }
+        case 'callback': {
+          logger.info('EXECUTING_CALLBACK', { data: { selector: action.selector } })
+          if (action.callback) {
+            await action.callback({ page, element, action, browser })
+          }
+          break
+        }
+
         case 'frameInteraction': {
           if (!action.frameSelector || !action.frameActions) {
             throw new Error('Frame selector and actions are required for frame interaction')
@@ -420,8 +435,22 @@ export async function performActions(args: {
                 frameAction.callback?.(v)
                 break
               }
+
+              case 'callback': {
+                logger.info('EXECUTING_CALLBACK_IN_FRAME', { data: { selector: frameAction.selector } })
+                if (frameAction.callback) {
+                  await frameAction.callback({ page, element: frameElement, action: frameAction, browser })
+                }
+                break
+              }
+
               default:
                 throw new Error(`Unsupported frame action type: ${frameAction.type}`)
+            }
+
+            if (frameAction.waitAfter) {
+              logger.info('WAIT_AFTER_FRAME_ACTION', { data: { wait: `${frameAction.waitAfter}ms` } })
+              await waitFor(frameAction.waitAfter)
             }
           }
           break
@@ -437,8 +466,10 @@ export async function performActions(args: {
       throw new Error(errorMessage)
     }
 
-    if (action.wait)
-      await waitFor(action.wait)
+    if (action.waitAfter) {
+      logger.info('WAIT_AFTER', { data: { wait: `${action.waitAfter}ms` } })
+      await waitFor(action.waitAfter)
+    }
   }
 
   if (playwrightLogger.errorLogs.length > 0)

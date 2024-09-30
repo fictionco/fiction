@@ -120,6 +120,7 @@ async function resetToPublished() {
           class="min-w-36"
           icon="i-tabler-arrow-big-up-lines"
           size="md"
+          data-test-id="publish-button"
           @click.stop.prevent="publish()"
         >
           Publish Changes

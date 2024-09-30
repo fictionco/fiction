@@ -99,6 +99,10 @@ const options = vue.computed<InputOption<any>[]>(() => {
           input: 'InputTextarea',
         }),
         new InputOption({
+          key: 'content',
+          input: 'hidden',
+        }),
+        new InputOption({
           key: 'dateAt',
           label: 'Display Date',
           description: 'For display and SEO purposes only.',
