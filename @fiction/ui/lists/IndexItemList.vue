@@ -1,10 +1,8 @@
 <script lang="ts" setup>
 import type { ActionButton, IndexItem, vue } from '@fiction/core'
-import { getNavComponentType } from '@fiction/core'
 import ElActions from '@fiction/ui/buttons/ElActions.vue'
 import XLink from '@fiction/ui/common/XLink.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
-import XMedia from '@fiction/ui/media/XMedia.vue'
 import ElIndexItemMedia from './ElIndexItemMedia.vue'
 
 defineProps({

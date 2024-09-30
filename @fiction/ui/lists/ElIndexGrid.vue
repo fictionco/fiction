@@ -4,7 +4,6 @@ import { getNavComponentType, getPaginationInfo, vue } from '@fiction/core/index
 import XButton from '../buttons/XButton.vue'
 import ElZeroBanner from '../ElZeroBanner.vue'
 import ElSpinner from '../loaders/ElSpinner.vue'
-import XMedia from '../media/XMedia.vue'
 import ElIndexItemMedia from './ElIndexItemMedia.vue'
 
 const props = defineProps({

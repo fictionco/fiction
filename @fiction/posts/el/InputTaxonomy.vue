@@ -4,7 +4,6 @@ import type { FictionPosts } from '..'
 import EffectDraggableSort from '@fiction/admin/el/EffectDraggableSort.vue'
 import { debounce, log, toLabel, useService, vue, waitFor } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
-import ElBadge from '@fiction/ui/common/ElBadge.vue'
 import InputSelectCustom from '@fiction/ui/inputs/InputSelectCustom.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
 

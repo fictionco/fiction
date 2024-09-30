@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActionButton, IndexItem, MediaObject } from '@fiction/core'
+import type { ActionButton, IndexItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { FictionPosts, Post } from '..'
 import WidgetWrap from '@fiction/admin/dashboard/WidgetWrap.vue'

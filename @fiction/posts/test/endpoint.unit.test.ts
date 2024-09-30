@@ -1,5 +1,5 @@
 import type { TablePostConfig } from '../schema'
-import { type ComplexDataFilter, type DataFilter, dayjs, type MediaObject } from '@fiction/core'
+import { type ComplexDataFilter, type DataFilter, dayjs } from '@fiction/core'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { FictionPosts } from '..'

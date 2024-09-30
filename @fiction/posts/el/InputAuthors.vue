@@ -5,7 +5,6 @@ import type { Card } from '@fiction/site'
 import type { FictionPosts } from '..'
 import { useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
-import ElBadge from '@fiction/ui/common/ElBadge.vue'
 import InputSelectCustom from '@fiction/ui/inputs/InputSelectCustom.vue'
 
 const props = defineProps({
