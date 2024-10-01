@@ -40,10 +40,7 @@ export async function saveSubscriber(args: { fictionSubscribe: FictionSubscribe,
   if (r.status === 'success' && r.data?.[0]) {
     fictionSubscribe.cacheKey.value++
 
-    fictionSubscribe.fictionEnv.events.emit('notify', {
-      type: 'success',
-      message: 'Subscriber saved',
-    })
+    fictionSubscribe.fictionEnv.events.emit('notify', { type: 'success', message: 'Subscriber saved' })
 
     return r.data[0]
   }

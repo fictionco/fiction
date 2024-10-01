@@ -48,32 +48,68 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
     const { fictionAdmin } = this.settings
 
     fictionAdmin.widgetRegister.value.push(...Object.values(this.widgets))
-    const widgetKeys = Object.values(this.widgets).map(widget => widget.key)
-    fictionAdmin.addToWidgetArea('homeSecondary', widgetKeys)
-    fictionAdmin.addToWidgetArea('subscriberIndex', widgetKeys)
 
-    fictionAdmin.addAdminPages({ key: 'audience', loader: async ({ factory }) => [
-      await factory.create({
-        templateId: 'dash',
-        slug: 'audience',
-        title: 'Audience',
-        cards: [await factory.create({ el: vue.defineAsyncComponent(async () => import('./admin/ViewIndex.vue')) })],
-        userConfig: { isNavItem: true, navIcon: 'i-tabler-users', navIconAlt: 'i-tabler-users-plus', priority: 50 },
-      }),
-      await factory.create({
-        templateId: 'dash',
-        slug: 'subscriber-view',
-        title: 'View Subscriber',
-        cards: [await factory.create({ el: vue.defineAsyncComponent(async () => import('./admin/ViewSingle.vue')) })],
-        userConfig: { navIcon: 'i-tabler-user', parentNavItemSlug: 'subscriber' },
-      }),
-      await factory.create({
-        templateId: 'dash',
-        slug: 'audience-manage',
-        title: 'Manage Audience',
-        cards: [await factory.create({ el: vue.defineAsyncComponent(async () => import('./admin/ViewManage.vue')) })],
-        userConfig: { navIcon: 'i-tabler-users-group', parentNavItemSlug: 'subscriber' },
-      }),
-    ] })
+    fictionAdmin.addToWidgetArea('homeSecondary', ['subscribers', 'unsubscribes'])
+    fictionAdmin.addToWidgetArea('subscriberIndex', ['subscribers', 'unsubscribes', 'cleaned'])
+
+    fictionAdmin.addAdminPages({
+      key: 'audience',
+      loader: async ({ factory }) => [
+      // await factory.create({
+      //   templateId: 'dash',
+      //   slug: 'audience',
+      //   title: 'Audience',
+      //   cards: [await factory.create({ el: vue.defineAsyncComponent(async () => import('./admin/ViewIndex.vue')) })],
+      //   userConfig: { isNavItem: true, navIcon: 'i-tabler-users', navIconAlt: 'i-tabler-users-plus', priority: 50 },
+      // }),
+        await factory.create({
+          templateId: 'dash',
+          slug: 'subscriber-view',
+          title: 'View Subscriber',
+          cards: [await factory.create({ el: vue.defineAsyncComponent(async () => import('./admin/ViewSingle.vue')) })],
+          userConfig: { navIcon: 'i-tabler-user', parentNavItemSlug: 'subscriber' },
+        }),
+        await factory.create({
+          templateId: 'dash',
+          slug: 'audience',
+          title: 'Audience',
+          userConfig: { isNavItem: true, navIcon: 'i-tabler-users', navIconAlt: 'i-tabler-users-plus', priority: 50 },
+          cards: [
+            await factory.create({
+              el: vue.defineAsyncComponent(async () => import('./admin/ViewManage.vue')),
+              cards: [
+                await factory.create({
+                  slug: '_home',
+                  title: 'Subscribers',
+                  description: 'Manage your subscribers',
+                  el: vue.defineAsyncComponent(async () => import('./admin/ViewIndex.vue')),
+                  userConfig: { isNavItem: true, navIcon: 'i-tabler-users', navIconAlt: 'i-tabler-users-plus' },
+                }),
+                await factory.create({
+                  slug: 'add',
+                  title: 'Add Subscribers',
+                  description: 'Import from a CSV or Cut / Paste',
+                  el: vue.defineAsyncComponent(async () => import('./admin/ElImportFile.vue')),
+                  userConfig: { isNavItem: true, navIcon: 'i-tabler-table-share', navIconAlt: 'i-tabler-table-plus' },
+                }),
+                await factory.create({
+                  slug: 'view',
+                  title: 'View Subscriber',
+                  el: vue.defineAsyncComponent(async () => import('./admin/ViewSingle.vue')),
+                  userConfig: { navIcon: 'i-tabler-user' },
+                }),
+                await factory.create({
+                  slug: 'analytics',
+                  title: 'Subscriber Analytics',
+                  description: 'Total subscribers and more',
+                  el: vue.defineAsyncComponent(async () => import('./admin/ViewAnalytics.vue')),
+                  userConfig: { isNavItem: true, navIcon: 'i-tabler-user' },
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    })
   }
 }

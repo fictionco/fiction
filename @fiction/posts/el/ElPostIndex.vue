@@ -56,7 +56,7 @@ vue.onMounted(async () => {
 </script>
 
 <template>
-  <div :class="card.classes.value.contentWidth">
+  <div>
     <ElIndexGrid
       :list="list"
       :loading="loading"

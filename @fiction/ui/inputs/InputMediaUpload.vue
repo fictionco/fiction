@@ -11,12 +11,14 @@ const {
   fileSize = 10_240_000,
   uiSize = 'md',
   hasVideo = false,
+  inputClass = '',
 } = defineProps<{
   modelValue: MediaObject
   fileTypes?: string[]
   fileSize?: number
   uiSize?: UiElementSize
   hasVideo?: boolean
+  inputClass?: string
 }>()
 
 const emit = defineEmits<{
@@ -101,12 +103,13 @@ function triggerFileInput() {
     <label
       :for="uploadId"
       class="relative flex grow shadow-sm group cursor-pointer space-x-2"
-      :class="[{ 'border-2 border-dashed border-primary-500': draggingOver }]"
+      :class="[{ 'border-2 border-dashed border-primary-500': draggingOver }, inputClass]"
     >
       <XButton
         theme="primary"
         class="shrink-0"
         design="solid"
+        rounding="md"
         icon="i-tabler-upload"
         :loading="uploading"
         @click.prevent="triggerFileInput"

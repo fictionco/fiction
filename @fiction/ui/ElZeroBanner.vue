@@ -15,16 +15,16 @@ defineProps({
 
 <template>
   <div class="bg-theme-0 border border-theme-300/70 bg-theme-0  dark:border-theme-700 dark:bg-theme-800/70 relative rounded-lg overflow-hidden ">
-    <div class="mx-auto max-w-7xl px-6 py-24 lg:flex lg:px-24">
-      <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl flex flex-col justify-center lg:pt-12">
+    <div class="mx-auto max-w-7xl p-[calc(1rem+3vw)]">
+      <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl flex md:flex-col justify-center lg:pt-12">
         <div class="">
           <div v-if="icon" class="mb-4 lg:mb-6 relative">
-            <div class="text-4xl lg:text-6xl text-theme-500/30 lg:absolute bottom-0" :class="icon" />
+            <div class="text-4xl lg:text-5xl text-theme-500/30 lg:absolute bottom-0" :class="icon" />
           </div>
-          <h1 class="mt-4 lg:mt-6  text-2xl md:text-4xl font-semibold dark:text-theme-0 sm:text-5xl x-font-title">
+          <h1 class="mt-4 lg:mt-6 text-lg sm:text-2xl lg:text-4xl font-semibold dark:text-theme-0 x-font-title">
             {{ title }}
           </h1>
-          <p class="mt-6 text-lg lg:text-xl text-theme-600 dark:text-theme-300">
+          <p class="mt-6 text-base lg:text-xl text-theme-600 dark:text-theme-300">
             {{ description }}
           </p>
           <div v-if="actions?.length" class="mt-10 flex items-center gap-x-6">

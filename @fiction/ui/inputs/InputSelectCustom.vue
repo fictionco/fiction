@@ -151,7 +151,7 @@ function handleKeydown(event: KeyboardEvent) {
 
 <template>
   <div :id="randomId" @keydown.stop @click.stop>
-    <div :class="themeClasses.wrapClass">
+    <div :class="[themeClasses.wrapClass, inputClass]">
       <div
         class="relative"
         tabindex="-1"

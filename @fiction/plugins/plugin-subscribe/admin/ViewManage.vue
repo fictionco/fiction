@@ -1,19 +1,11 @@
 <script lang="ts" setup>
-import type { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import SettingsTool from '@fiction/admin/settings/SettingsTool.vue'
-import { useService } from '@fiction/core'
-import { getTools } from './tools'
+import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
 
-type UserConfig = {
-  isNavItem: boolean
-}
-defineProps({
-  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
-})
-const service = useService()
+const { card } = defineProps<{ card: Card }>()
+const _hello = 1
 </script>
 
 <template>
-  <SettingsTool base-path="/subscriber-manage" :tools="getTools({ service, card })" :card />
+  <SettingsPanel :card base-path="/audience" />
 </template>

@@ -74,62 +74,65 @@ async function paginate(dir: 'prev' | 'next') {
           </div>
         </nav>
       </div>
-      <div v-if="list.length" class="grid grid-cols-5 lg:gap-8 gap-4">
-        <ul role="list" class="space-y-5" :class="$slots.sidebar ? 'col-span-3' : 'col-span-5'">
-          <li
-            v-for="item in list"
-            :key="item.key"
-            @click.stop="onItemClick && item.key ? onItemClick(item.key) : ''"
-          >
-            <component :is="getNavComponentType(item)" :to="item.href" :href="item.href" class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap" :class="boxClass">
-              <div class="flex gap-6 items-center">
-                <ElIndexItemMedia :item />
-                <div>
-                  <p class="text-lg font-medium leading-6 ">
-                    <span class="hover:underline cursor-pointer">{{ item.name }}</span>
-                  </p>
-                  <div class="mt-1 flex items-center gap-x-2 text-sm leading-5 text-theme-500">
-                    <p>
-                      <span class="hover:underline cursor-pointer">{{ item.desc }}</span>
+      <div class="grid grid-cols-12 lg:gap-8 gap-4">
+        <div :class="$slots.sidebar ? 'col-span-12 md:col-span-6 xl:col-span-8' : 'col-span-12'">
+          <ul v-if="list.length" role="list" class="space-y-5">
+            <li
+              v-for="item in list"
+              :key="item.key"
+              @click.stop="onItemClick && item.key ? onItemClick(item.key) : ''"
+            >
+              <component :is="getNavComponentType(item)" :to="item.href" :href="item.href" class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap" :class="boxClass">
+                <div class="flex gap-6 items-center">
+                  <ElIndexItemMedia :media="item.media" :icon="item.icon" />
+                  <div>
+                    <p class="text-lg font-medium leading-6 ">
+                      <span class="hover:underline cursor-pointer">{{ item.name }}</span>
                     </p>
+                    <div class="mt-1 flex items-center gap-x-2 text-sm leading-5 text-theme-500">
+                      <p>
+                        <span class="hover:underline cursor-pointer">{{ item.desc }}</span>
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <dl class="flex w-full flex-none justify-between gap-x-8 sm:w-auto items-center">
-                <slot :item="item" name="item" />
+                <dl class="flex w-full flex-none justify-between gap-x-8 sm:w-auto items-center">
+                  <slot :item="item" name="item" />
 
-                <div class="hidden sm:flex sm:flex-col sm:items-end">
-                  <p class="text-sm leading-6  ">
-                    {{ item.slug }}
-                  </p>
-                </div>
-                <svg class="h-5 w-5 flex-none text-theme-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-                </svg>
-              </dl>
-            </component>
-          </li>
-        </ul>
-        <div v-if="$slots.sidebar" class="col-span-2">
+                  <div class="hidden sm:flex sm:flex-col sm:items-end">
+                    <p class="text-sm leading-6  ">
+                      {{ item.slug }}
+                    </p>
+                  </div>
+                  <svg class="h-5 w-5 flex-none text-theme-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                  </svg>
+                </dl>
+              </component>
+            </li>
+          </ul>
+          <div v-else>
+            <template v-if="$slots.zero">
+              <slot name="zero" />
+            </template>
+            <ElZeroBanner
+              v-else
+              :title="empty?.name || 'No items found'"
+              :description="empty?.desc || 'Try creating a new one.'"
+              :actions="empty?.actions || actions"
+              :icon="empty?.icon || 'i-heroicons-search'"
+            >
+              <template v-if="empty?.figure?.el" #figure>
+                <component :is="empty?.figure.el" />
+              </template>
+            </ElZeroBanner>
+          </div>
+        </div>
+        <div v-if="$slots.sidebar" class="col-span-12 md:col-span-6 xl:col-span-4">
           <slot name="sidebar" />
         </div>
       </div>
-      <div v-if="list.length === 0 ">
-        <template v-if="$slots.zero">
-          <slot name="zero" />
-        </template>
-        <ElZeroBanner
-          v-else
-          :title="empty?.name || 'No items found'"
-          :description="empty?.desc || 'Try creating a new one.'"
-          :actions="empty?.actions || actions"
-          :icon="empty?.icon || 'i-heroicons-search'"
-        >
-          <template v-if="empty?.figure?.el" #figure>
-            <component :is="empty?.figure.el" />
-          </template>
-        </ElZeroBanner>
-      </div>
+
       <nav v-if="pagination.count && list.length" class="flex items-center justify-between  py-6  " aria-label="Pagination">
         <div class="hidden sm:block">
           <p class="text-sm">

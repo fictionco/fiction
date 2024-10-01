@@ -14,17 +14,19 @@ const {
   modelValue = {},
   depth = 0,
   basePath = '',
+  inputWrapClass = '',
   inputProps = {},
   uiSize = 'md',
   actions = [],
   disableGroupHide = false,
 } = defineProps<{
   stateKey: string
-  options: InputOption[]
+  options: InputOption<any>[]
   loading?: boolean
   modelValue?: Record<string, unknown>
   depth?: number
   basePath?: string
+  inputWrapClass?: string
   inputProps?: Record<string, unknown>
   uiSize?: UiElementSize
   actions?: ActionButton[]
@@ -140,6 +142,7 @@ function getGroupHeaderClasses(opt: InputOption) {
                   :ui-size="uiSize"
                   :input-props="inputProps"
                   :options="opt.options.value || []"
+                  :input-wrap-class="inputWrapClass"
                   :model-value="modelValue"
                   :depth="depth + 1"
                   :base-path="basePath"
@@ -157,7 +160,7 @@ function getGroupHeaderClasses(opt: InputOption) {
           :class="i === 0 ? 'mt-0' : 'mt-8'"
         />
         <input v-else-if="opt.input.value === 'hidden'" :data-option-path="opt.key.value" type="hidden" :value="getNested({ path: getOptionPath(opt.key.value), data: modelValue })">
-        <div v-else :class="opt.settings.uiFormat !== 'naked' && depth === 0 ? 'px-6' : ''" :data-depth="depth">
+        <div v-else :data-input-wrap="inputWrapClass" :class="[inputWrapClass, opt.settings.uiFormat !== 'naked' && depth === 0 ? 'px-6' : '']" :data-depth="depth">
           <ElInput
             v-if="opt.isHidden.value !== true"
             :ui-size="uiSize"

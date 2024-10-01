@@ -42,7 +42,7 @@ defineProps({
         class="relative isolate flex gap-6 items-center hover:opacity-90 cursor-pointer py-6"
         :href="item.href"
       >
-        <ElIndexItemMedia :item />
+        <ElIndexItemMedia :media="item.media" :icon="item.icon" />
 
         <div>
           <div

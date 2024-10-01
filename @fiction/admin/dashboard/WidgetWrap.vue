@@ -21,12 +21,10 @@ const widgetDescription = vue.computed(() => props.widget?.settings.description)
   <div
     class="drop-target border-theme-300/70 shadow-[0px_8px_5px_-8px_rgba(var(--theme-300,.7))] dark:shadow-none bg-theme-0 dark:bg-theme-800/50 dark:border-theme-600 relative flex flex-col rounded-lg border transition-all"
     :draggable="editable"
-    :wid="widget?.hashId.value"
   >
     <div
       class="border-theme-200 dark:border-theme-600 text-theme-600 dark:text-theme-50 flex items-center justify-between border-b p-2 text-sm"
       :class="editable ? 'cursor-move ' : ''"
-      :data-hash="widget?.hashId.value"
     >
       <div class="relative flex items-center px-2">
         <div class="font-semibold">

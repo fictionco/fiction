@@ -14,10 +14,15 @@ const emit = defineEmits<{
 
 const carouselRef = vue.ref<HTMLElement | null>(null)
 let flkty: Flickity | null = null
+const loading = vue.ref(true)
 
 async function initFlickity() {
   if (typeof window === 'undefined')
     return
+
+  if (flkty) {
+    flkty.destroy()
+  }
 
   const { default: Flickity } = await import('flickity')
 
@@ -53,10 +58,12 @@ async function initFlickity() {
       emit('update:activeIndex', index)
     })
   }
+
+  loading.value = false
 }
 
 vue.onMounted(async () => {
-  await waitFor(200) // attempt better height calculation
+  await waitFor(500) // attempt better height calculation
   await initFlickity()
 })
 
@@ -67,9 +74,6 @@ vue.onBeforeUnmount(() => {
 })
 
 vue.watch(() => props.slides, () => {
-  if (flkty) {
-    flkty.destroy()
-  }
   vue.nextTick(async () => {
     await initFlickity()
   })
@@ -83,7 +87,7 @@ vue.watch(() => props.activeIndex, (newIndex) => {
 </script>
 
 <template>
-  <div ref="carouselRef" class="carousel">
+  <div ref="carouselRef" class="carousel" :class="loading ? 'opacity-0' : 'opacity-100'">
     <slot v-for="(slide, index) in slides" :key="index" :slide="slide" :index="index" />
   </div>
 </template>

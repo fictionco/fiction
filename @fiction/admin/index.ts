@@ -44,7 +44,7 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
 
   widgetRegister = vue.shallowRef<Widget[]>([])
   widgetMapRaw = vue.shallowRef<Record<string, string[]>>({})
-  addToWidgetArea(widgetArea: WidgetLocation, widgetKeys: string[]) {
+  addToWidgetArea<T extends string[] = string[]>(widgetArea: WidgetLocation, widgetKeys: T) {
     this.widgetMapRaw.value[widgetArea] = this.widgetMapRaw.value[widgetArea] ?? []
     this.widgetMapRaw.value[widgetArea]?.push(...widgetKeys)
   }

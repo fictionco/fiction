@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { ActionItem, MediaObject, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
+import ElIndexItemMedia from '@fiction/ui/lists/ElIndexItemMedia.vue'
 
 defineProps({
   heading: { type: String, default: 'Settings' },
@@ -11,15 +12,10 @@ defineProps({
 </script>
 
 <template>
-  <div class="px-4 py-12  md:flex md:items-center md:justify-between md:space-x-5 ">
+  <div class="px-12 py-12  md:flex md:items-center md:justify-between md:space-x-5 ">
     <div class="flex items-start space-x-6">
       <div v-if="avatar?.url" class="flex-shrink-0">
-        <div class="relative">
-          <div class="bg-theme-300 dark:bg-theme-600 size-16 rounded-full ring-2 ring-theme-800 dark:ring-theme-0 fiction-avatar avatar bg-cover bg-center relative overflow-hidden">
-            <img class="object-cover inset-0 " :src="avatar.url">
-          </div>
-          <span class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />
-        </div>
+        <ElIndexItemMedia :media="avatar" />
       </div>
       <div class="pt-1.5 space-y-1">
         <h1 class="text-2xl font-semibold text-theme-900 dark:text-theme-0 x-font-title">

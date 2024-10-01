@@ -7,6 +7,7 @@ import type { Site } from './site.js'
 import { initializeClientTag } from '@fiction/analytics/tag/entry.js'
 import { crossVar, FictionPlugin, getAnonymousId, isNode, safeDirname, vue } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
+import { getWidgets } from './admin/widgets.js'
 import { CardQueryHandler } from './cardQuery.js'
 import { ManagePage, ManageSite, ManageSites } from './endpoint.js'
 import { ManageCert } from './endpoint-certs.js'
@@ -69,6 +70,14 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     this.settings.fictionRouter?.update(getRoutes({ ...this.settings, fictionSites: this }))
 
     this.addSitemaps()
+    this.admin()
+  }
+
+  admin() {
+    const widgets = getWidgets(this.settings)
+    this.settings.fictionAdmin.widgetRegister.value.push(...Object.values(widgets))
+    this.settings.fictionAdmin.addToWidgetArea('homeSecondary', ['siteVisitors'])
+    this.settings.fictionAdmin.addToWidgetArea('sitesIndex', ['sitesWelcome', 'siteVisitors'])
   }
 
   addSitemaps() {

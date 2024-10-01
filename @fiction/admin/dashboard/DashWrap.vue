@@ -156,7 +156,7 @@ function toggleSidebar() {
             class="work-area relative block min-h-0 w-full overflow-hidden md:flex md:h-full md:overflow-visible"
           >
             <div
-              class="md:opacity-100 will-change-auto transition-all  duration-300 bg-theme-0 dark:bg-theme-900 border-theme-300/70 dark:border-theme-700 fixed top-0 z-30 justify-end border-r  md:static md:flex h-dvh w-52 lg:w-64"
+              class="shrink-0 md:opacity-100 will-change-auto transition-all  duration-300 bg-theme-0 dark:bg-theme-900 border-theme-300/70 dark:border-theme-700 fixed top-0 z-30 justify-end border-r  md:static md:flex h-dvh w-52 lg:w-64"
               :class="showMobileNav ? 'left-0 opacity-100' : '-left-full opacity-0'"
             >
               <DashNav :icon="card.userConfig.value.homeIcon" :nav="primaryNav" :nav-bottom="bottomNav" :card />
@@ -167,11 +167,11 @@ function toggleSidebar() {
             </Transition>
             <div
               v-if="site"
-              class="no-scrollbar relative min-h-0 min-w-0 grow overflow-scroll"
+              class="no-scrollbar relative min-h-0 min-w-0 grow flex flex-col h-[100dvh]"
             >
               <DashBar class="border-theme-300/70 dark:border-theme-700 border-b" :account-menu="accountMenu" :card :site="site" @nav="toggleSidebar()" />
               <div
-                class="mx-auto pt-4 md:pt-8 md:pb-36 min-h-full bg-theme-50/50 dark:bg-theme-950"
+                class="mx-auto bg-theme-50/50 dark:bg-theme-950 grow overflow-scroll overflow-y-clip w-full"
               >
                 <div
                   v-if="loading"

@@ -1,20 +1,11 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site'
-import type { FictionSend } from '../index.js'
-import SettingsTool from '@fiction/admin/settings/SettingsTool.vue'
-import { useService, vue } from '@fiction/core'
-import { getTools } from './tools.js'
+import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
 
-const props = defineProps({
-  card: { type: Object as vue.PropType<Card>, required: true },
-})
-const { fictionSend } = useService<{ fictionSend: FictionSend }>()
-
-const loading = vue.ref(true)
-
-const { tools, val } = getTools({ fictionSend, card: props.card })
+const { card } = defineProps<{ card: Card }>()
+const _hello = 1
 </script>
 
 <template>
-  <SettingsTool base-path="/campaign-manage" :tools :card :loading :title="val?.title" />
+  <SettingsPanel :card base-path="/campaign" />
 </template>

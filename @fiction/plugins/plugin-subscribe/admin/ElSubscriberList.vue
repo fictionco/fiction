@@ -34,7 +34,7 @@ const list = vue.computed<IndexItem[]>(() => {
       key: p.subscriptionId,
       name,
       desc: desc.join(' | '),
-      href: props.card.link(`/subscriber-view?subscriptionId=${p.subscriptionId}`),
+      href: props.card.link(`/audience/view?subscriptionId=${p.subscriptionId}`),
       media: p.user?.avatar || p.avatar,
     } as IndexItem
   })
@@ -90,8 +90,8 @@ vue.onMounted(async () => {
 const actions: ActionItem[] = [
   {
     name: 'Add / Import Subscribers',
-    href: props.card.link('/audience-manage/import'),
-    btn: 'primary',
+    href: props.card.link('/audience/add'),
+    theme: 'primary',
     icon: 'i-tabler-plus',
   },
 ]
@@ -105,6 +105,12 @@ const actions: ActionItem[] = [
       :actions
       list-title="Subscribers"
       :index-meta="indexMeta"
+      :zero="{
+        title: 'No Subscribers Yet',
+        description: 'Quickly create your audience by importing your list or capturing emails on your site.',
+        icon: 'i-tabler-users',
+        actions,
+      }"
       @update:offset="load({ offset: $event })"
     >
       <template #item="{ item }">
@@ -116,17 +122,6 @@ const actions: ActionItem[] = [
             <ElAvatar class="h-6 w-6 rounded-full bg-theme-50 ring-2 ring-white" :email="member.email" />
           </dd>
         </div>
-      </template>
-      <template #sidebar>
-        <WidgetArea location="subscriberIndex" :card />
-      </template>
-      <template #zero>
-        <ElZeroBanner
-          title="No Subscribers Yet"
-          description="Quickly create your audience by importing your list or capturing emails on your site."
-          icon="i-tabler-users"
-          :actions
-        />
       </template>
     </ElIndexGrid>
   </div>

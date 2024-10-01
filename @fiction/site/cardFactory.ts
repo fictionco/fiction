@@ -51,6 +51,7 @@ type CreateCardArgs<
   isSystem?: boolean
   slug?: string
   title?: string
+  description?: string
   isHome?: boolean
   is404?: boolean
 }

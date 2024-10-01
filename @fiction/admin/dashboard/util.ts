@@ -1,9 +1,13 @@
 import type { Query } from '@fiction/core'
 import type { FictionAdmin } from '..'
-import type { Widget } from './widget'
+import type { AnalyticsWidget, Widget } from './widget'
 import { createEndpointRequests, log } from '@fiction/core'
 
 const logger = log.contextLogger('widgets')
+
+function isAnalyticsWidget(widget: Widget): widget is AnalyticsWidget {
+  return 'query' in widget && widget.query !== undefined
+}
 
 export function getWidgetMap(args: { fictionAdmin: FictionAdmin }): Record<string, Widget[]> {
   const { fictionAdmin } = args
@@ -37,9 +41,8 @@ export async function runWidgetRequests(args: { widgets?: Widget[], fictionAdmin
   }
 
   const q = widgets.reduce((acc, widget) => {
-    const q = widget.query as Query
-    if (q?.key) {
-      acc[q.key] = q
+    if (isAnalyticsWidget(widget) && widget.query?.key) {
+      acc[widget.query.key] = widget.query
     }
     return acc
   }, {} as Record<string, Query>)
@@ -79,9 +82,8 @@ function getWidgetQueries(args: { fictionAdmin: FictionAdmin }): Record<string, 
   const entries = Object.entries(widgetMap)
   return entries.reduce((acc, [_key, widgets]) => {
     widgets.forEach((widget) => {
-      const q = widget.query
-      if (q && q?.key) {
-        acc[q.key] = q
+      if (isAnalyticsWidget(widget) && widget.query?.key) {
+        acc[widget.query.key] = widget.query
       }
     })
 

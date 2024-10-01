@@ -51,15 +51,46 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
     fictionAdmin.addAdminPages({ key: 'send', loader: async ({ factory }) => [
       await factory.create({
         templateId: 'dash',
-        slug: 'send',
+        slug: 'email',
         title: 'Emails',
         cards: [await factory.create({ el: vue.defineAsyncComponent(async () => import('./admin/ViewIndex.vue')) })],
-        userConfig: { isNavItem: true, navTitle: 'Send', navIcon: 'i-tabler-mail', navIconAlt: 'i-tabler-mail-share', priority: 50 },
+        userConfig: { isNavItem: true, navTitle: 'Email', navIcon: 'i-tabler-mail', navIconAlt: 'i-tabler-mail-share', priority: 50 },
+      }),
+      await factory.create({
+        templateId: 'dash',
+        slug: 'email-manage',
+        title: 'Emails',
+        cards: [
+          await factory.create({
+            el: vue.defineAsyncComponent(async () => import('./admin/ViewManage.vue')),
+            cards: [
+              await factory.create({
+                slug: '_home',
+                title: 'Overview',
+                description: 'Overview of this campaign.',
+                el: vue.defineAsyncComponent(async () => import('./admin/ManageOverview.vue')),
+                userConfig: { isNavItem: true, navIcon: 'i-tabler-mail', navIconAlt: 'i-tabler-mail' },
+              }),
+              await factory.create({
+                slug: 'settings',
+                title: 'Settings',
+                description: 'Settings for this campaign.',
+                userConfig: { isNavItem: true, navIcon: 'i-tabler-settings', navIconAlt: 'i-tabler-settings-filled' },
+              }),
+              await factory.create({
+                slug: 'preview',
+                title: 'Preview',
+                description: 'Preview the email.',
+                userConfig: { isNavItem: true, navIcon: 'i-tabler-eye', navIconAlt: 'i-tabler-eye' },
+              }),
+            ],
+          }),
+        ],
       }),
 
       await factory.create({
         templateId: 'dash',
-        slug: 'campaign-edit',
+        slug: 'email-edit',
         title: 'Edit Email',
         cards: [
           await factory.create({
@@ -70,15 +101,6 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
         userConfig: { navIcon: 'i-tabler-send', parentNavItemSlug: 'send', layoutFormat: 'full' },
       }),
 
-      await factory.create({
-        templateId: 'dash',
-        slug: 'campaign-manage',
-        title: 'Manage Email',
-        cards: [await factory.create({
-          el: vue.defineAsyncComponent(async () => import('./admin/ViewManage.vue')),
-        })],
-        userConfig: { navIcon: 'i-tabler-send', parentNavItemSlug: 'send' },
-      }),
     ] })
   }
 }

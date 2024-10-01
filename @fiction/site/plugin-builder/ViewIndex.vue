@@ -3,6 +3,7 @@ import type { ActionItem, FictionApp, IndexItem, IndexMeta } from '@fiction/core
 import type { FictionSites } from '..'
 import type { Card } from '../card'
 import type { Site } from '../site'
+import WidgetArea from '@fiction/admin/dashboard/WidgetArea.vue'
 import { useService, vue } from '@fiction/core'
 import ElPanel from '@fiction/ui/ElPanel.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
@@ -60,7 +61,7 @@ function getActions(location: 'top' | 'zero') {
 </script>
 
 <template>
-  <ElPanel :class="card.classes.value.contentWidth">
+  <ElPanel class="p-12 w-full max-w-screen-md mx-auto">
     <div class="pt-8  ">
       <ElIndexGrid
         :loading="loading"
@@ -70,7 +71,7 @@ function getActions(location: 'top' | 'zero') {
         :edit-actions="[]"
         :empty="{
           name: 'Create Your First Site',
-          desc: `The homebase for your online presence. Create a search engine optimized website in minutes.`,
+          desc: `The homebase for your online presence.`,
           actions: getActions('zero'),
           icon: 'i-tabler-browser-plus',
         }"

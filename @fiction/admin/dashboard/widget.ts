@@ -12,25 +12,35 @@ export const layoutModes = {
   panel: { colSpan: 3, rowSpan: 1 },
 }
 
-export type WidgetConfig<T extends Query = Query> = {
+export type WidgetConfig = {
   key: string
-  query?: T
-  params?: QueryParams
   el: vue.Component
   title?: string
   description?: string
   layoutHandling?: keyof typeof layoutModes
   location?: 'primary' | 'secondary'
-  valueKey?: T['dataKeys'] extends readonly string[] ? T['dataKeys'][number] : undefined
 }
 
-export class Widget<T extends Query = Query> extends FictionObject<WidgetConfig<T>> {
-  query = this.settings.query
+export class Widget<T extends WidgetConfig = WidgetConfig> extends FictionObject<T> {
+  key = this.settings.key
   errorMessage = vue.ref('')
   loading = vue.ref(false)
-  hashId = vue.ref('')
-  key = this.settings.key
-  constructor(settings: WidgetConfig<T>) {
+  constructor(settings: T) {
     super('Widget', settings)
+  }
+}
+
+export type AnalyticsWidgetConfig<T extends Query = Query> = {
+  query?: T
+  params?: QueryParams
+  valueKey?: T['dataKeys'] extends readonly string[] ? T['dataKeys'][number] : undefined
+} & WidgetConfig
+
+export class AnalyticsWidget<T extends Query = Query> extends Widget<AnalyticsWidgetConfig<T>> {
+  query = this.settings.query
+
+  hashId = vue.ref('')
+  constructor(settings: AnalyticsWidgetConfig<T>) {
+    super(settings)
   }
 }
