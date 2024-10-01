@@ -26,7 +26,7 @@ const manageLink = vue.computed(() => {
   const campaignId = campaign.value?.campaignId
 
   if (!campaignId)
-    return '/send'
+    return '/campaigns'
 
   return `/campaign-manage?campaignId=${campaignId}`
 })

@@ -13,12 +13,12 @@ defineProps({
 
 <template>
   <div class="px-12 py-12  md:flex md:items-center md:justify-between md:space-x-5 ">
-    <div class="flex items-start space-x-6">
-      <div v-if="avatar?.url" class="flex-shrink-0">
+    <div class="flex items-center space-x-6">
+      <div v-if="avatar" class="flex-shrink-0">
         <ElIndexItemMedia :media="avatar" />
       </div>
       <div class="pt-1.5 space-y-1">
-        <h1 class="text-2xl font-semibold text-theme-900 dark:text-theme-0 x-font-title">
+        <h1 class="text-2xl font-semibold text-theme-900 dark:text-theme-0 x-font-title !leading-[1.1]">
           {{ heading }}
         </h1>
         <p class="text-sm font-normal text-theme-500 dark:text-theme-300">

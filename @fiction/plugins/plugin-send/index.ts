@@ -51,14 +51,14 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
     fictionAdmin.addAdminPages({ key: 'send', loader: async ({ factory }) => [
       await factory.create({
         templateId: 'dash',
-        slug: 'email',
+        slug: 'campaigns',
         title: 'Campaigns',
         cards: [await factory.create({ el: vue.defineAsyncComponent(async () => import('./admin/ViewIndex.vue')) })],
         userConfig: { isNavItem: true, navIcon: 'i-tabler-mail', navIconAlt: 'i-tabler-mail-share', priority: 50 },
       }),
       await factory.create({
         templateId: 'dash',
-        slug: 'email-manage',
+        slug: 'manage-campaign',
         title: 'Manage Campaign',
         cards: [
           await factory.create({

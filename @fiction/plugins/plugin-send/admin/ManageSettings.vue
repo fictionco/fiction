@@ -17,10 +17,7 @@ const options = vue.computed(() => {
 </script>
 
 <template>
-  <SettingsContentWrap
-    :card
-    :header="campaign?.title.value || 'Untitled Campaign'"
-  >
+  <div>
     <FormEngine
       :model-value="campaign?.toConfig()"
       state-key="settingsTool"
@@ -32,5 +29,5 @@ const options = vue.computed(() => {
       :data-value="JSON.stringify(campaign?.toConfig())"
       @update:model-value="campaign?.update($event)"
     />
-  </SettingsContentWrap>
+  </div>
 </template>

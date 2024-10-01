@@ -32,7 +32,7 @@ const items = vue.computed<NavItem[]>(() => {
   const post = config.post
   const subscriberCount = config.subscriberCount
   const wordCount = getWordCountFromHTML(post?.content || '')
-  const settings = card.link(`/email-manage/settings?campaignId=${config?.campaignId}`)
+  const settings = card.link(`/manage-campaign/settings?campaignId=${config?.campaignId}`)
   const edit = card.link(`/email-edit?campaignId=${config?.campaignId}`)
   const pub = card.link(`/settings/project`)
   const hasSubject = !!config?.subject
@@ -105,17 +105,12 @@ async function sendOrSchedule() {
 </script>
 
 <template>
-  <SettingsContentWrap
-    :card
-    :header="`Email: ${campaign?.title.value ?? 'Untitled'}`"
-    :sub-header="`Status: ${campaign?.status.value ?? 'Draft'}`"
-    :avatar="{ iconId: 'email' }"
-  >
+  <div>
     <div class="p-12 w-full max-w-screen-md mx-auto">
       <fieldset class="my-12">
         <div class=" grid grid-cols-1 gap-4">
           <component :is="getNavComponentType(item)" v-for="(item, i) in items" :key="i" :to="item.href" class="relative flex gap-5 border border-theme-200 dark:border-theme-600/80 dark:hover:border-theme-600 bg-theme-50 dark:bg-theme-700/30 rounded-xl p-4">
-            <div class="size-12 rounded-xl flex justify-center items-center " :class="item.isActive ? 'bg-green-500 dark:bg-green-600 text-white' : 'bg-theme-50 dark:bg-theme-700'">
+            <div class="size-12 rounded-xl flex justify-center items-center " :class="item.isActive ? 'bg-green-500 dark:bg-green-500/30 text-white' : 'bg-theme-50 dark:bg-theme-700'">
               <div class="text-3xl" :class="!item.isActive ? 'i-tabler-x' : 'i-tabler-check'" />
             </div>
             <div class="text-sm">
@@ -135,5 +130,5 @@ async function sendOrSchedule() {
       v-bind="modalText"
       @confirmed="sendOrSchedule()"
     />
-  </SettingsContentWrap>
+  </div>
 </template>

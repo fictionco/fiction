@@ -1,12 +1,25 @@
 <script setup lang="ts">
-import type { NavItem } from '@fiction/core'
+import type { MediaObject, NavItem } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import type { NavCardUserConfig } from '..'
 import CardLink from '@fiction/cards/el/CardLink.vue'
 import { toLabel, toSlug, vue } from '@fiction/core'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
+import ElHeader from './ElHeader.vue'
 
-const { card, basePath, panelProps = {}, loading = false } = defineProps<{ card: Card, basePath: string, panelProps?: Record<string, any>, loading?: boolean }>()
+const {
+  card,
+  basePath,
+  panelProps = {},
+  loading = false,
+  header,
+} = defineProps<{
+  card: Card
+  basePath: string
+  panelProps?: Record<string, any>
+  loading?: boolean
+  header?: { title?: string, subTitle?: string, avatar?: MediaObject }
+}>()
 
 const panels = vue.computed(() => card.cards.value.filter(t => t.slug.value) as Card<NavCardUserConfig>[])
 
@@ -75,18 +88,33 @@ const nav = vue.computed<NavItem[]>(() => {
         leave-to-class="opacity-0 -translate-y-12"
         mode="out-in"
       >
-        <div v-if="loading" class="p-12 flex justify-center">
-          <ElSpinner class="size-8" />
+        <div v-if="currentPanel" :key="currentPanel?.cardId">
+          <div class="font-semibold text-lg p-4 border-b border-theme-300 dark:border-theme-700/70">
+            {{ currentPanel.title.value }}
+          </div>
+          <div class="p-5">
+            <ElHeader
+              v-if="header"
+              class="dark:bg-theme-700/50 rounded-lg"
+              :heading="header.title"
+              :subheading="header.subTitle"
+              :avatar="header.avatar"
+            />
+          </div>
+
+          <div v-if="loading" class="p-12 flex justify-center">
+            <ElSpinner class="size-8" />
+          </div>
+          <component
+            :is="currentPanel?.tpl.value?.settings?.el"
+            v-else
+            :id="currentPanel?.cardId"
+            data-test-id="card-engine-component"
+            :data-card-type="currentPanel?.templateId.value"
+            :card="currentPanel"
+            v-bind="panelProps"
+          />
         </div>
-        <component
-          :is="currentPanel?.tpl.value?.settings?.el"
-          v-else
-          :id="currentPanel?.cardId"
-          data-test-id="card-engine-component"
-          :data-card-type="currentPanel?.templateId.value"
-          :card="currentPanel"
-          v-bind="panelProps"
-        />
       </transition>
     </div>
   </div>

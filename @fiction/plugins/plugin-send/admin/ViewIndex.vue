@@ -26,7 +26,7 @@ const list = vue.computed<IndexItem[]>(() => {
       key: campaign.campaignId,
       name: campaign.title.value || p.title.value || 'Untitled',
       desc: p.subTitle.value || 'No description',
-      href: props.card.link(`/email-manage?campaignId=${campaign.campaignId}`),
+      href: props.card.link(`/manage-campaign?campaignId=${campaign.campaignId}`),
       media: p.media.value,
       icon: 'i-tabler-mail',
     } as IndexItem
@@ -57,7 +57,7 @@ vue.onMounted(async () => {
 
 <template>
   <div class="p-12 w-full max-w-screen-md mx-auto">
-    <ElIndexGrid media-icon="i-tabler-mail" list-title="Emails" :list="list" :loading="loading" :actions="[{ name: 'New Email', icon: 'i-tabler-plus', theme: 'primary', onClick: () => { showStartModal = true } }]">
+    <ElIndexGrid media-icon="i-tabler-mail" list-title="Email Campaigns" :list="list" :loading="loading" :actions="[{ name: 'New Email Campaign', icon: 'i-tabler-plus', theme: 'primary', onClick: () => { showStartModal = true } }]">
       <template #item="{ item }">
         <div class="flex -space-x-0.5">
           <dt class="sr-only">
