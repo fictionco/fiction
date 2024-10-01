@@ -40,8 +40,8 @@ export type ToolKeys = (typeof tools)[number]['toolId']
 
 export const emailComposeController = new AdminEditorController({ tools })
 
-export function getEmailManageOptions(args: { fictionSend: FictionSend, email?: EmailCampaign, card: Card }): InputOption[] {
-  const { email, card } = args
+export function getEmailManageOptions(args: { fictionSend: FictionSend, campaign?: EmailCampaign, card: Card }): InputOption[] {
+  const { campaign, card } = args
   return [
     new InputOption({ key: 'title', label: 'Internal Title', input: 'InputText', isRequired: true, placeholder: 'Only used to help you manage this campaign.' }),
     new InputOption({
@@ -74,10 +74,10 @@ export function getEmailManageOptions(args: { fictionSend: FictionSend, email?: 
           label: 'Scheduled Send Time',
           input: 'InputDate',
           isRequired: true,
-          isHidden: email?.scheduleMode.value !== 'schedule',
+          isHidden: campaign?.scheduleMode.value !== 'schedule',
           props: { includeTime: true, dateMode: 'future' },
         }),
-        new InputOption({ key: 'audience', label: 'Audience', input: InputAudience }),
+        new InputOption({ key: 'audience', label: 'Audience', input: InputAudience, props: { card } }),
       ],
     }),
 
@@ -90,7 +90,7 @@ export function getEmailManageOptions(args: { fictionSend: FictionSend, email?: 
         new InputOption({ key: 'post.title', label: 'Title', input: 'InputText', placeholder: 'Add a Catchy Title', isRequired: true, description: 'The text header that appears at the top of the email.' }),
         new InputOption({ key: 'post.subTitle', label: 'Subtitle', input: 'InputText', placeholder: 'Add some context with a subtitle', description: 'The text that appears below the title.' }),
         new InputOption({ key: 'actions', label: 'Email Body Content', input: 'InputActionList', props: {
-          actions: [{ name: 'Edit Email Content', btn: 'primary', href: card.link(`/campaign-edit?campaignId=${email?.campaignId}`) }],
+          actions: [{ name: 'Edit Email Content', btn: 'primary', href: card.link(`/campaign-edit?campaignId=${campaign?.campaignId}`) }],
           uiSize: 'md',
         } }),
       ],
@@ -113,7 +113,7 @@ export function getEmailManageOptions(args: { fictionSend: FictionSend, email?: 
                   const confirmed = confirm('Are you sure you want to delete this email?')
 
                   if (confirmed) {
-                    await email?.delete()
+                    await campaign?.delete()
                     await card.goto('/send')
                   }
                 },
@@ -200,7 +200,7 @@ export function getTools(args: { fictionSend: FictionSend, card: Card }) {
       val,
       getActions: () => vue.computed(() => [editEmailAction(), saveAction()]),
       options: (_args) => {
-        return vue.computed(() => getEmailManageOptions({ fictionSend, email: email.value, card }))
+        return vue.computed(() => getEmailManageOptions({ fictionSend, campaign: email.value, card }))
       },
     }),
     new SettingsTool({

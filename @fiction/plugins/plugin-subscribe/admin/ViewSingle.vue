@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site'
 import type { FictionSubscribe, Subscriber } from '../index.js'
-import ElHeader from '@fiction/admin/settings/ElHeader.vue'
 import SettingsContentWrap from '@fiction/admin/settings/SettingsContentWrap.vue'
 import { deepMerge, gravatarUrlSync, type User, useService, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui/index.js'

@@ -52,35 +52,37 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
       await factory.create({
         templateId: 'dash',
         slug: 'email',
-        title: 'Emails',
+        title: 'Campaigns',
         cards: [await factory.create({ el: vue.defineAsyncComponent(async () => import('./admin/ViewIndex.vue')) })],
-        userConfig: { isNavItem: true, navTitle: 'Email', navIcon: 'i-tabler-mail', navIconAlt: 'i-tabler-mail-share', priority: 50 },
+        userConfig: { isNavItem: true, navIcon: 'i-tabler-mail', navIconAlt: 'i-tabler-mail-share', priority: 50 },
       }),
       await factory.create({
         templateId: 'dash',
         slug: 'email-manage',
-        title: 'Emails',
+        title: 'Manage Campaign',
         cards: [
           await factory.create({
             el: vue.defineAsyncComponent(async () => import('./admin/ViewManage.vue')),
             cards: [
               await factory.create({
                 slug: '_home',
-                title: 'Overview',
+                title: 'Campaign Overview',
                 description: 'Overview of this campaign.',
                 el: vue.defineAsyncComponent(async () => import('./admin/ManageOverview.vue')),
                 userConfig: { isNavItem: true, navIcon: 'i-tabler-mail', navIconAlt: 'i-tabler-mail' },
               }),
               await factory.create({
                 slug: 'settings',
-                title: 'Settings',
+                title: 'Campaign Settings',
                 description: 'Settings for this campaign.',
+                el: vue.defineAsyncComponent(async () => import('./admin/ManageSettings.vue')),
                 userConfig: { isNavItem: true, navIcon: 'i-tabler-settings', navIconAlt: 'i-tabler-settings-filled' },
               }),
               await factory.create({
                 slug: 'preview',
-                title: 'Preview',
+                title: 'Email Preview',
                 description: 'Preview the email.',
+                el: vue.defineAsyncComponent(async () => import('./admin/ManagePreview.vue')),
                 userConfig: { isNavItem: true, navIcon: 'i-tabler-eye', navIconAlt: 'i-tabler-eye' },
               }),
             ],

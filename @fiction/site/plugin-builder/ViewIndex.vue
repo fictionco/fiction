@@ -3,7 +3,6 @@ import type { ActionItem, FictionApp, IndexItem, IndexMeta } from '@fiction/core
 import type { FictionSites } from '..'
 import type { Card } from '../card'
 import type { Site } from '../site'
-import WidgetArea from '@fiction/admin/dashboard/WidgetArea.vue'
 import { useService, vue } from '@fiction/core'
 import ElPanel from '@fiction/ui/ElPanel.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'

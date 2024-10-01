@@ -3,9 +3,10 @@ import type { NavItem } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import type { NavCardUserConfig } from '..'
 import CardLink from '@fiction/cards/el/CardLink.vue'
-import { toLabel, toSlug, useService, vue } from '@fiction/core'
+import { toLabel, toSlug, vue } from '@fiction/core'
+import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 
-const { card, basePath } = defineProps<{ card: Card, basePath: string }>()
+const { card, basePath, panelProps = {}, loading = false } = defineProps<{ card: Card, basePath: string, panelProps?: Record<string, any>, loading?: boolean }>()
 
 const panels = vue.computed(() => card.cards.value.filter(t => t.slug.value) as Card<NavCardUserConfig>[])
 
@@ -14,28 +15,24 @@ const routeItemId = vue.computed(() => toSlug(card.site?.siteRouter.params.value
 const currentPanel = vue.computed(() => panels.value.find(p => toSlug(p.slug.value) === routeItemId.value))
 
 const nav = vue.computed<NavItem[]>(() => {
+  const router = card.site?.siteRouter.current.value
+  const currentRoute = card.site?.siteRouter.current.value
+  const query = currentRoute?.fullPath.split('?')[1] || ''
+
   return panels.value
-    .filter(panel => panel.userConfig.value?.isNavItem)
-    .map((panel) => {
-      const slug = panel.slug.value === '_home' ? '' : panel.slug.value
-
-      const panelConfig = panel.userConfig.value || {}
-      const itemId = card.site?.siteRouter.params.value.itemId || ''
-      const parentItemId = currentPanel.value?.userConfig.value?.parentItemId
-      const isActive = !!(slug === itemId || (slug === parentItemId))
-
-      const icon = isActive && panelConfig.navIconAlt
-        ? panelConfig.navIconAlt
-        : panelConfig.navIcon
-          ? panelConfig.navIcon
-          : 'i-heroicons-arrow-small-right-20-solid'
+    .filter(p => p.userConfig.value?.isNavItem)
+    .map((p) => {
+      const slug = p.slug.value === '_home' ? '' : p.slug.value
+      const cfg = p.userConfig.value || {}
+      const itemId = router?.params.itemId || ''
+      const isActive = slug === itemId || slug === currentPanel.value?.userConfig.value?.parentItemId
 
       return {
-        name: panel.title.value || toLabel(panel.slug.value),
-        desc: panel.description.value,
-        href: `${basePath}/${slug}`,
+        name: p.title.value || toLabel(slug),
+        desc: p.description.value,
+        href: `${basePath}/${slug}${query ? `?${query}` : ''}`,
         isActive,
-        icon,
+        icon: isActive && cfg.navIconAlt ? cfg.navIconAlt : cfg.navIcon || 'i-heroicons-arrow-small-right-20-solid',
       }
     })
 })
@@ -78,12 +75,17 @@ const nav = vue.computed<NavItem[]>(() => {
         leave-to-class="opacity-0 -translate-y-12"
         mode="out-in"
       >
+        <div v-if="loading" class="p-12 flex justify-center">
+          <ElSpinner class="size-8" />
+        </div>
         <component
           :is="currentPanel?.tpl.value?.settings?.el"
+          v-else
           :id="currentPanel?.cardId"
           data-test-id="card-engine-component"
           :data-card-type="currentPanel?.templateId.value"
           :card="currentPanel"
+          v-bind="panelProps"
         />
       </transition>
     </div>

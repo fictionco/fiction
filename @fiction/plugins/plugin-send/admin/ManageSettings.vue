@@ -1,0 +1,36 @@
+<script lang="ts" setup>
+import type { Card } from '@fiction/site'
+import type { FictionSend } from '..'
+import type { EmailCampaign } from '../campaign'
+import SettingsContentWrap from '@fiction/admin/settings/SettingsContentWrap.vue'
+import { useService, vue } from '@fiction/core'
+import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
+import { getEmailManageOptions } from './tools'
+
+const { card, campaign } = defineProps<{ card: Card, campaign?: EmailCampaign }>()
+
+const { fictionSend } = useService<{ fictionSend: FictionSend }>()
+
+const options = vue.computed(() => {
+  return getEmailManageOptions({ card, campaign, fictionSend })
+})
+</script>
+
+<template>
+  <SettingsContentWrap
+    :card
+    :header="campaign?.title.value || 'Untitled Campaign'"
+  >
+    <FormEngine
+      :model-value="campaign?.toConfig()"
+      state-key="settingsTool"
+      input-wrap-class="max-w-lg w-full"
+      ui-size="lg"
+      :options
+      :card
+      :disable-group-hide="true"
+      :data-value="JSON.stringify(campaign?.toConfig())"
+      @update:model-value="campaign?.update($event)"
+    />
+  </SettingsContentWrap>
+</template>

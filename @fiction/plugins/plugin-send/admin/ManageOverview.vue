@@ -1,18 +1,15 @@
 <script lang="ts" setup>
 import type { ActionButton, NavItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
+import type { EmailCampaign } from '../campaign.js'
 import type { EmailCampaignConfig } from '../schema.js'
 import SettingsContentWrap from '@fiction/admin/settings/SettingsContentWrap.vue'
 import { dayjs, getNavComponentType, useService, vue } from '@fiction/core'
-import ElActions from '@fiction/ui/buttons/ElActions.vue'
 import ElModalConfirm from '@fiction/ui/ElModalConfirm.vue'
 
-const { card } = defineProps<{ card: Card }>()
+const { card, campaign } = defineProps<{ card: Card, campaign?: EmailCampaign }>()
 
 const service = useService()
-const email = vue.computed<EmailCampaignConfig>(() => {
-  return {}
-})
 
 const showSendModal = vue.ref(false)
 
@@ -31,37 +28,39 @@ function getWordCountFromHTML(html?: string) {
 }
 
 const items = vue.computed<NavItem[]>(() => {
-  const em = email.value
-  const wordCount = getWordCountFromHTML(em?.post?.content || '')
-  const settings = card.link(`/email-manage/settings?campaignId=${em?.campaignId}`)
-  const edit = card.link(`/email-edit?campaignId=${em?.campaignId}`)
+  const config = campaign?.toConfig() as EmailCampaignConfig
+  const post = config.post
+  const subscriberCount = config.subscriberCount
+  const wordCount = getWordCountFromHTML(post?.content || '')
+  const settings = card.link(`/email-manage/settings?campaignId=${config?.campaignId}`)
+  const edit = card.link(`/email-edit?campaignId=${config?.campaignId}`)
   const pub = card.link(`/settings/project`)
-  const hasSubject = !!em?.subject
-  const hasTitle = !!em?.post?.title
-  const hasContent = !!em?.post?.content
+  const hasSubject = !!config?.subject
+  const hasTitle = !!post?.title
+  const hasContent = !!post?.content
 
-  const scheduleDisplay = em?.scheduledAt && em?.scheduleMode !== 'now' ? 'Scheduled' : 'Send on Publish'
+  const scheduleDisplay = config?.scheduledAt && config?.scheduleMode !== 'now' ? 'Scheduled' : 'Send on Publish'
 
-  const subs = em?.subscriberCount ? `${em?.subscriberCount} Subscribers` : 'No Subscribers'
-  const hasSubs = !!(em?.subscriberCount && em?.subscriberCount > 0)
+  const subs = subscriberCount ? `${subscriberCount} Subscribers` : 'No Subscribers'
+  const hasSubs = !!(subscriberCount && subscriberCount > 0)
 
   return [
     { name: 'Schedule Send', desc: scheduleDisplay, isActive: true, href: settings },
-    { name: 'Subject', desc: em?.subject || 'Not Set', isActive: hasSubject, href: settings },
+    { name: 'Subject', desc: config?.subject || 'Not Set', isActive: hasSubject, href: settings },
     { name: 'Sending From', desc: from.value, isActive: !!from.value, href: pub },
     { name: 'Sending To', desc: subs, isActive: hasSubs, href: settings },
-    { name: 'Title', desc: em?.post?.title || 'Not Set', href: edit, isActive: hasTitle },
+    { name: 'Title', desc: post?.title || 'Not Set', href: edit, isActive: hasTitle },
     { name: 'Email Content', desc: wordCount ? `Approx. ${wordCount} Words` : 'Not Set', href: edit, isActive: hasContent },
   ]
 })
 
 const sendNow = vue.computed(() => {
-  const em = email.value
-  return em?.scheduleMode === 'now' || !em?.scheduledAt || dayjs(em.scheduledAt).isBefore(dayjs())
+  const em = campaign
+  return em?.scheduleMode.value === 'now' || !em?.scheduledAt || dayjs(em.scheduledAt.value).isBefore(dayjs())
 })
 
 const readyAction = vue.computed<ActionButton>(() => {
-  const em = email.value
+  const em = campaign?.toConfig() as EmailCampaignConfig
   const isReady = items.value.every(item => item.isActive)
   const scheduledTime = em?.scheduledAt ? dayjs(em.scheduledAt).format('MMM D, YYYY h:mm A') : ''
   const readyText = em?.scheduleMode === 'now' ? 'Send Now...' : `Schedule (${scheduledTime})...`
@@ -82,8 +81,8 @@ const allActions = vue.computed<ActionButton[]>(() => {
 })
 
 const modalText = vue.computed(() => {
-  const em = email.value
-  const scheduledTime = em?.scheduledAt ? dayjs(em.scheduledAt).format('MMM D, YYYY h:mm A') : ''
+  const em = campaign
+  const scheduledTime = em?.scheduledAt.value ? dayjs(em.scheduledAt.value).format('MMM D, YYYY h:mm A') : ''
   return sendNow.value
     ? {
         title: `Send email now?`,
@@ -96,7 +95,7 @@ const modalText = vue.computed(() => {
 })
 
 async function sendOrSchedule() {
-  const _em = email.value
+  const _em = campaign
   // if (sendNow.value)
   //   await service.fictionSend.sendEmailNow(em?.campaignId)
   // else
@@ -108,8 +107,8 @@ async function sendOrSchedule() {
 <template>
   <SettingsContentWrap
     :card
-    :header="`Email: ${email?.title ?? 'Untitled'}`"
-    :sub-header="`Status: ${email?.status ?? 'Draft'}`"
+    :header="`Email: ${campaign?.title.value ?? 'Untitled'}`"
+    :sub-header="`Status: ${campaign?.status.value ?? 'Draft'}`"
     :avatar="{ iconId: 'email' }"
   >
     <div class="p-12 w-full max-w-screen-md mx-auto">

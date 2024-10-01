@@ -2,10 +2,8 @@
 import type { ActionItem, IndexItem } from '@fiction/core'
 import type { FictionSubscribe, Subscriber } from '@fiction/plugin-subscribe'
 import type { Card } from '@fiction/site'
-import WidgetArea from '@fiction/admin/dashboard/WidgetArea.vue'
 import { dayjs, gravatarUrlSync, useService, vue } from '@fiction/core'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
-import ElZeroBanner from '@fiction/ui/ElZeroBanner.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 
 type UserConfig = {

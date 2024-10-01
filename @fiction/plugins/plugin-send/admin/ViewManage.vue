@@ -1,11 +1,48 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site'
+import type { FictionSend } from '..'
 import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
+import { useService, vue } from '@fiction/core'
+import { EmailCampaign } from '../campaign'
 
 const { card } = defineProps<{ card: Card }>()
-const _hello = 1
+const loading = vue.ref(true)
+
+const { fictionSend, fictionRouter } = useService<{ fictionSend: FictionSend }>()
+
+const campaign = vue.shallowRef<EmailCampaign>()
+
+async function load() {
+  loading.value = true
+
+  const campaignId = fictionRouter.query.value.campaignId as string | undefined
+
+  try {
+    if (!campaignId)
+      return
+
+    const endpoint = fictionSend.requests.ManageCampaign
+
+    const r = await endpoint.projectRequest({ _action: 'get', where: { campaignId } })
+
+    if (!r.data || !r.data.length)
+      throw new Error('No campaign found')
+
+    campaign.value = new EmailCampaign({ fictionSend, ...r.data[0] })
+
+    console.warn('Loaded email', campaign.value)
+  }
+  catch (error) {
+    console.error('Error loading campaign', error)
+  }
+  finally {
+    loading.value = false
+  }
+}
+
+vue.onMounted(() => load())
 </script>
 
 <template>
-  <SettingsPanel :card base-path="/campaign" />
+  <SettingsPanel :loading :card base-path="/email-manage" :panel-props="{ campaign }" />
 </template>

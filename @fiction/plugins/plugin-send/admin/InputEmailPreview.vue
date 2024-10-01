@@ -37,7 +37,7 @@ async function setEmail(campaignConfig?: EmailCampaignConfig) {
   const { useRender } = await import('vue-email')
   const EmailStandard = vue.defineAsyncComponent(() => import('@fiction/core/plugin-email/templates/EmailStandard.vue'))
 
-  const r = await useRender(EmailStandard, { props: emailConfig })
+  const r = await useRender(EmailStandard, { props: emailConfig.value })
   conf.bodyHtml = r.html
 
   emailConfig.value = conf
@@ -59,7 +59,7 @@ vue.onMounted(async () => {
     </div>
     <div v-else-if="emailConfig" class="border-b border-theme-200 dark:border-theme-700/70 mb-8 pb-8">
       <div class=" mb-6">
-        <div class="text-3xl font-medium">
+        <div class="text-3xl font-medium x-font-title">
           {{ emailConfig.subject }}
         </div>
         <div class="text-sm text-theme-500 dark:text-theme-400">
@@ -78,6 +78,9 @@ vue.onMounted(async () => {
         </div>
       </div>
     </div>
-    <iframe class="h-[800px] w-full" :srcdoc="emailHtml" />
+    <div v-if="!emailHtml">
+      No HTML to preview
+    </div>
+    <iframe v-else class="h-[800px] w-full" :srcdoc="emailHtml" />
   </div>
 </template>
