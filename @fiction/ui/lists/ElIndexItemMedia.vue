@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { MediaObject } from '@fiction/core'
+import XIcon from '@fiction/ui/media/XIcon.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 
 const { media, icon } = defineProps<{ media?: MediaObject, icon?: string }>()
@@ -17,10 +18,10 @@ const mediaClass = `
 <template>
   <div :class="mediaClass">
     <div
-      v-if="!media?.url && !media?.html"
+      v-if="media && !media?.url && !media?.html"
       class="flex items-center justify-center size-16"
     >
-      <div class="text-2xl" :class="icon || 'i-tabler-circle'" />
+      <XIcon class="size-8" :media />
     </div>
     <div v-else class="absolute inset-0 overflow-hidden">
       <XMedia class="absolute inset-0 z-10" :media="media" />
