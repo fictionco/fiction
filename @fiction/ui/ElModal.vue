@@ -21,7 +21,7 @@ function close(args: { reason: 'escape' | 'reset' }): void {
     emit('escape', true)
 }
 
-const cls = props.modalClass ? [props.modalClass] : ['p-12', 'sm:max-w-sm']
+const cls = props.modalClass ? [props.modalClass] : ['max-w-screen-md p-24']
 const styleClass = props.styleClass ? [props.styleClass] : ['bg-white text-theme-900 dark:bg-theme-900 dark:text-theme-0', 'shadow-xl']
 
 if (props.fullScreen)

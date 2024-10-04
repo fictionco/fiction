@@ -40,7 +40,11 @@ export type ToolKeys = (typeof tools)[number]['toolId']
 
 export const emailComposeController = new AdminEditorController({ tools })
 
-export function getEmailManageOptions(args: { fictionSend: FictionSend, campaign?: EmailCampaign, card: Card }): InputOption[] {
+export function getEmailManageOptions(args: {
+  fictionSend: FictionSend
+  campaign?: EmailCampaign
+  card: Card
+}): InputOption[] {
   const { campaign, card } = args
   return [
     new InputOption({ key: 'title', label: 'Internal Title', input: 'InputText', isRequired: true, placeholder: 'Only used to help you manage this campaign.' }),

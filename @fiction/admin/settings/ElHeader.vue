@@ -12,16 +12,16 @@ defineProps({
 </script>
 
 <template>
-  <div class="px-12 py-12  md:flex md:items-center md:justify-between md:space-x-5 ">
+  <div class="md:flex md:items-center md:justify-between md:space-x-5 ">
     <div class="flex items-center space-x-6">
       <div v-if="avatar" class="flex-shrink-0">
-        <ElIndexItemMedia :media="avatar" />
+        <ElIndexItemMedia :media="avatar" class="size-16 lg:size-20" />
       </div>
       <div class="pt-1.5 space-y-1">
-        <h1 class="text-2xl font-semibold text-theme-900 dark:text-theme-0 x-font-title !leading-[1.1]">
+        <h1 class="text-2xl lg:text-3xl font-semibold text-theme-900 dark:text-theme-0 x-font-title !leading-[1.1]">
           {{ heading }}
         </h1>
-        <p class="text-sm font-normal text-theme-500 dark:text-theme-300">
+        <p class="text-base lg:text-xl  font-normal text-theme-500 dark:text-theme-300">
           {{ subheading }}
         </p>
       </div>

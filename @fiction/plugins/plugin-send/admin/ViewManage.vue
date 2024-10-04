@@ -53,6 +53,7 @@ vue.onMounted(() => load())
       title: campaign?.title.value || 'Untitled',
       subTitle: campaign?.post.value.subTitle.value || 'No description',
       avatar: { class: `i-tabler-mail` },
+      actions: [],
     }"
   />
 </template>

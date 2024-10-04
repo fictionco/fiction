@@ -124,7 +124,7 @@ function getGroupHeaderClasses(opt: InputOption) {
         >
           <div
             v-if="opt.label.value"
-            class=" select-none flex justify-between cursor-pointer items-center hover:opacity-90 antialiased"
+            class=" select-none flex justify-between cursor-pointer items-center hover:opacity-90"
             :class="getGroupHeaderClasses(opt)"
             @click="hide(opt.key.value, !hide(opt.key.value))"
           >

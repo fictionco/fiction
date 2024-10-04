@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { MediaObject, NavItem } from '@fiction/core'
+import type { ActionButton, MediaObject, NavItem } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import type { NavCardUserConfig } from '..'
 import CardLink from '@fiction/cards/el/CardLink.vue'
@@ -18,7 +18,7 @@ const {
   basePath: string
   panelProps?: Record<string, any>
   loading?: boolean
-  header?: { title?: string, subTitle?: string, avatar?: MediaObject }
+  header?: { title?: string, subTitle?: string, avatar?: MediaObject, actions?: ActionButton[] }
 }>()
 
 const panels = vue.computed(() => card.cards.value.filter(t => t.slug.value) as Card<NavCardUserConfig>[])
@@ -53,25 +53,25 @@ const nav = vue.computed<NavItem[]>(() => {
 
 <template>
   <div class="flex h-[calc(100dvh-61px)]">
-    <div class="w-[350px] shrink-0 rounded-l-md pb-32 p-3 md:p-6 border-r dark:border-theme-600/60 border-theme-300/60">
+    <div class="w-[32%] shrink-0 rounded-l-md pb-32 p-3 md:p-6 border-r dark:border-theme-600/60 border-theme-300/60">
       <div class="space-y-1 text-right">
         <CardLink
           v-for="(v, i) in nav"
           :key="i"
           :card
-          class="flex items-center gap-4 px-3 py-2.5 text-sm rounded-lg transition-all duration-100"
+          class="flex items-center gap-4 px-3 py-2.5 text-xs sm:text-base rounded-lg transition-all duration-100"
           :href="v.href"
           :class="
             v.isActive
               ? 'active bg-primary-100/50 text-primary-700 hover:text-primary-500 dark:bg-theme-600/50 dark:text-theme-0'
               : 'inactive text-theme-600 dark:text-theme-0 hover:bg-theme-100/30 dark:hover:bg-theme-700/60' "
         >
-          <div v-if="v.icon" class="text-[2em] shrink-0 opacity-80" :class="v.icon" />
+          <div v-if="v.icon" class="text-[1.5em] md:text-[2em] shrink-0 text-theme-500 dark:text-theme-300" :class="v.icon" />
           <div class="min-w-0 truncate overflow-ellipsis text-left">
-            <div class="font-semibold">
+            <div class="font-semibold truncate">
               {{ v.name }}
             </div>
-            <div class="text-sm text-theme-500 dark:text-theme-400">
+            <div class="text-theme-500 dark:text-theme-400 truncate">
               {{ v.desc }}
             </div>
           </div>
@@ -92,10 +92,9 @@ const nav = vue.computed<NavItem[]>(() => {
           <div class="font-semibold text-lg p-4 border-b border-theme-300 dark:border-theme-700/70">
             {{ currentPanel.title.value }}
           </div>
-          <div class="p-5">
+          <div class="px-5 py-8">
             <ElHeader
               v-if="header"
-              class="dark:bg-theme-700/50 rounded-lg"
               :heading="header.title"
               :subheading="header.subTitle"
               :avatar="header.avatar"

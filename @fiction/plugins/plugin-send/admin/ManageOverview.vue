@@ -2,19 +2,25 @@
 import type { ActionButton, NavItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { EmailCampaign } from '../campaign.js'
+import type { FictionSend } from '../index.js'
 import type { EmailCampaignConfig } from '../schema.js'
-import SettingsContentWrap from '@fiction/admin/settings/SettingsContentWrap.vue'
-import { dayjs, getNavComponentType, useService, vue } from '@fiction/core'
+import { dayjs, useService, vue } from '@fiction/core'
+import XButton from '@fiction/ui/buttons/XButton.vue'
+import ElModal from '@fiction/ui/ElModal.vue'
 import ElModalConfirm from '@fiction/ui/ElModalConfirm.vue'
+import { InputOption } from '@fiction/ui/index.js'
+import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
+import InputAudience from './InputAudience.vue'
 
 const { card, campaign } = defineProps<{ card: Card, campaign?: EmailCampaign }>()
 
-const service = useService()
+const { fictionUser } = useService<{ fictionSend: FictionSend }>()
 
 const showSendModal = vue.ref(false)
+const settingsModal = vue.ref('')
 
 const from = vue.computed(() => {
-  const org = service.fictionUser.activeOrganization.value
+  const org = fictionUser.activeOrganization.value
   return `${org?.orgName || org?.orgEmail} <${org?.orgEmail}>`
 })
 
@@ -27,13 +33,15 @@ function getWordCountFromHTML(html?: string) {
   return wordCount
 }
 
-const items = vue.computed<NavItem[]>(() => {
+type OptionItem = NavItem & { options?: InputOption<any>[] }
+
+const items = vue.computed<OptionItem[]>(() => {
   const config = campaign?.toConfig() as EmailCampaignConfig
   const post = config.post
   const subscriberCount = config.subscriberCount
   const wordCount = getWordCountFromHTML(post?.content || '')
   const settings = card.link(`/manage-campaign/settings?campaignId=${config?.campaignId}`)
-  const edit = card.link(`/email-edit?campaignId=${config?.campaignId}`)
+  const editLink = card.link(`/email-edit?campaignId=${config?.campaignId}`)
   const pub = card.link(`/settings/project`)
   const hasSubject = !!config?.subject
   const hasTitle = !!post?.title
@@ -45,13 +53,121 @@ const items = vue.computed<NavItem[]>(() => {
   const hasSubs = !!(subscriberCount && subscriberCount > 0)
 
   return [
-    { name: 'Schedule Send', desc: scheduleDisplay, isActive: true, href: settings },
-    { name: 'Subject', desc: config?.subject || 'Not Set', isActive: hasSubject, href: settings },
-    { name: 'Sending From', desc: from.value, isActive: !!from.value, href: pub },
-    { name: 'Sending To', desc: subs, isActive: hasSubs, href: settings },
-    { name: 'Title', desc: post?.title || 'Not Set', href: edit, isActive: hasTitle },
-    { name: 'Email Content', desc: wordCount ? `Approx. ${wordCount} Words` : 'Not Set', href: edit, isActive: hasContent },
+
+    {
+      key: 'subject',
+      icon: 'i-tabler-mail',
+      title: 'Subject and Sender',
+      subTitle: 'The subject line of the email',
+      content: config?.subject || 'Not Set',
+      progress: 'pending',
+      actions: [{
+        name: 'Set Up',
+        onClick: ({ item }) => (settingsModal.value = item?.key),
+      }],
+      options: [
+        new InputOption({ key: 'subject', label: 'Subject Line', input: 'InputText', isRequired: true, placeholder: 'Subject Line', description: 'This is the subject line that appears in the recipient\'s inbox.' }),
+        new InputOption({ key: 'preview', label: 'Preview Text', input: 'InputText', placeholder: 'Preview Text', description: 'This is the text that appears in the inbox preview of your email.' }),
+      ],
+    },
+    {
+      key: 'content',
+      icon: 'i-tabler-mail',
+      title: 'Title and Content',
+      subTitle: 'The content of the email',
+      content: config?.subject || 'Not Set',
+      progress: 'pending',
+      href: settings,
+      actions: [{
+        name: 'Compose',
+        href: editLink,
+      }],
+    },
+    {
+      icon: 'i-tabler-calendar',
+      key: 'schedule',
+      title: 'Schedule and Audience',
+      subTitle: 'Send Time and Date',
+      content: scheduleDisplay,
+      progress: 'ready',
+      actions: [{
+        name: 'Set Up',
+        onClick: ({ item }) => (settingsModal.value = item?.key),
+      }],
+      options: [
+        new InputOption({
+          key: 'audience',
+          label: 'Audience',
+          description: 'Who this email will be sent to...',
+          input: InputAudience,
+          props: { card },
+        }),
+        new InputOption({
+          key: 'scheduleMode',
+          label: 'Sending Time',
+          input: 'InputSelectCustom',
+          isRequired: true,
+          list: [
+            { name: 'Send Immediately', value: 'now' },
+            { name: 'Schedule Send', value: 'schedule' },
+          ],
+        }),
+        new InputOption({
+          key: 'scheduledAt',
+          label: 'Scheduled Send Time',
+          input: 'InputDate',
+          isRequired: true,
+          isHidden: campaign?.scheduleMode.value !== 'schedule',
+          props: { includeTime: true, dateMode: 'future' },
+        }),
+
+      ],
+    },
+    // {
+    //   icon: 'i-tabler-users',
+    //   key: 'schedule',
+    //   title: 'Recipients of the Email',
+    //   subTitle: 'Who will receive this email',
+    //   content: scheduleDisplay,
+    //   progress: 'ready',
+    //   actions: [{
+    //     name: 'Set Up',
+    //     onClick: ({ item }) => (settingsModal.value = item?.key),
+    //   }],
+    // },
+    // {
+    //   name: 'Sending From',
+    //   desc: 'The email address the email will be sent from',
+    //   value: from.value,
+    //   isActive: !!from.value,
+    //   href: pub,
+    // },
+    // {
+    //   name: 'Sending To',
+    //   desc: 'The list of subscribers the email will be sent to',
+    //   value: subs,
+    //   isActive: hasSubs,
+    //   href: settings,
+    // },
+    // {
+    //   name: 'Title',
+    //   desc: 'The title of the email content',
+    //   value: post?.title || 'Not Set',
+    //   href: edit,
+    //   isActive: hasTitle,
+    // },
+    // {
+    //   name: 'Email Body Content',
+    //   desc: 'The HTML content of the email',
+    //   value: wordCount ? `Approx. ${wordCount} Words` : 'Not Set',
+    //   href: edit,
+    //   isActive: hasContent,
+    // },
   ]
+})
+
+const currentItem = vue.computed(() => {
+  return settingsModal ? items.value.find(item => item.key === settingsModal.value) : undefined
 })
 
 const sendNow = vue.computed(() => {
@@ -106,25 +222,77 @@ async function sendOrSchedule() {
 
 <template>
   <div>
-    <div class="p-12 w-full max-w-screen-md mx-auto">
+    <div class="">
       <fieldset class="my-12">
-        <div class=" grid grid-cols-1 gap-4">
-          <component :is="getNavComponentType(item)" v-for="(item, i) in items" :key="i" :to="item.href" class="relative flex gap-5 border border-theme-200 dark:border-theme-600/80 dark:hover:border-theme-600 bg-theme-50 dark:bg-theme-700/30 rounded-xl p-4">
-            <div class="size-12 rounded-xl flex justify-center items-center " :class="item.isActive ? 'bg-green-500 dark:bg-green-500/30 text-white' : 'bg-theme-50 dark:bg-theme-700'">
-              <div class="text-3xl" :class="!item.isActive ? 'i-tabler-x' : 'i-tabler-check'" />
+        <div class=" grid grid-cols-1 gap-4 divide-y divide-theme-200 dark:divide-theme-700/70">
+          <div
+            v-for="(item, i) in items"
+            :key="i"
+            class="relative flex gap-4 lg:gap-6 px-8 py-4"
+          >
+            <div class="size-7 rounded-xl flex justify-center items-center ">
+              <div class="text-3xl" :class="item.icon" />
             </div>
-            <div class="text-sm">
-              <div class=" font-medium text-theme-500 dark:text-theme-400 hover:text-theme-300 dark:hover:text-theme-0 cursor-pointer">
-                {{ item.name }}
+            <div class="grow">
+              <div class="mb-1 text-xl font-semibold  hover:text-theme-300 dark:hover:text-theme-0 cursor-pointer">
+                {{ item.title }}
               </div>
-              <p id="comments-description" class="text-base">
-                {{ item?.desc }}
+              <p class="text-lg font-normal text-theme-500 dark:text-theme-400">
+                {{ item?.subTitle }}
               </p>
+              <div class="text-base mt-4 flex items-center gap-4">
+                <XButton
+                  design="ghost"
+                  :icon="item.progress === 'ready' ? 'i-tabler-check' : 'i-tabler-x'"
+                  :theme="item.progress === 'ready' ? 'green' : 'rose'"
+                  size="sm"
+                >
+                  {{ item.progress === 'ready' ? 'Ready' : 'Incomplete' }}
+                </XButton>
+                <span class="text-sm  text-theme-500 dark:text-theme-400">{{ item.content }}</span>
+              </div>
             </div>
-          </component>
+            <div>
+              <XButton
+                v-for="(action, ii) in (item.actions || [])"
+                :key="ii"
+                design="solid"
+                :theme="action.theme || 'theme'"
+                size="lg"
+                icon-after="i-tabler-arrow-right"
+                :href="action.href"
+                @click.stop="action.onClick ? (action.onClick({ item, event: $event })) : ''"
+              >
+                {{ action.name }}
+              </XButton>
+            </div>
+          </div>
         </div>
       </fieldset>
     </div>
+    <ElModal :vis="!!settingsModal" modal-class="max-w-screen-md p-12 " @update:vis="$event ? '' : (settingsModal = '')">
+      <div v-if="currentItem">
+        <div class="mb-6 space-y-1 border-b border-theme-200 dark:border-theme-700 pb-4">
+          <div class="text-xl font-medium">
+            {{ currentItem.title }}
+          </div>
+          <div class="text-base text-theme-500 dark:text-theme-400">
+            {{ currentItem.subTitle }}
+          </div>
+        </div>
+        <FormEngine
+          :model-value="campaign?.toConfig()"
+          state-key="settingsTool"
+          input-wrap-class="max-w-lg w-full"
+          ui-size="lg"
+          :options="currentItem.options || []"
+          :card
+          :disable-group-hide="true"
+          :data-value="JSON.stringify(campaign?.toConfig())"
+          @update:model-value="campaign?.update($event)"
+        />
+      </div>
+    </ElModal>
     <ElModalConfirm
       v-model:vis="showSendModal"
       v-bind="modalText"

@@ -2,7 +2,6 @@
 import type { Card } from '@fiction/site'
 import type { FictionSend } from '..'
 import type { EmailCampaign } from '../campaign'
-import SettingsContentWrap from '@fiction/admin/settings/SettingsContentWrap.vue'
 import { useService, vue } from '@fiction/core'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import { getEmailManageOptions } from './tools'

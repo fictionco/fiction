@@ -2,7 +2,6 @@
 import type { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import WidgetArea from '@fiction/admin/dashboard/WidgetArea.vue'
-import SettingsContentWrap from '@fiction/admin/settings/SettingsContentWrap.vue'
 
 type UserConfig = {
   isNavItem: boolean
@@ -14,9 +13,7 @@ const _x = 1
 </script>
 
 <template>
-  <SettingsContentWrap :card>
-    <div class="mx-auto max-w-3xl p-4 md:p-16">
-      <WidgetArea location="subscriberIndex" :card />
-    </div>
-  </SettingsContentWrap>
+  <div class="mx-auto max-w-3xl p-4 md:p-16">
+    <WidgetArea location="subscriberIndex" :card />
+  </div>
 </template>

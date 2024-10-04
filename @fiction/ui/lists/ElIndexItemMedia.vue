@@ -6,7 +6,7 @@ import XMedia from '@fiction/ui/media/XMedia.vue'
 const { media, icon } = defineProps<{ media?: MediaObject, icon?: string }>()
 
 const mediaClass = `
-  relative size-16
+  relative
   bg-primary-50 dark:bg-primary-900/30
   dark:text-primary-300/70
   rounded-full overflow-hidden
@@ -19,9 +19,9 @@ const mediaClass = `
   <div :class="mediaClass">
     <div
       v-if="media && !media?.url && !media?.html"
-      class="flex items-center justify-center size-16"
+      class="w-full h-full flex items-center justify-center"
     >
-      <XIcon class="size-8" :media />
+      <XIcon class="size-[50%]" :media />
     </div>
     <div v-else class="absolute inset-0 overflow-hidden">
       <XMedia class="absolute inset-0 z-10" :media="media" />

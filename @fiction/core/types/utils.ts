@@ -1,5 +1,5 @@
 import type { User } from '../plugin-user'
-import type { ButtonDesign, ButtonRounding, MediaObject } from '../schemas/schemas.js'
+import type { ActionButton, ButtonDesign, ButtonRounding, MediaObject, ProgressStatus } from '../schemas/schemas.js'
 import type { ColorThemeUser } from '../utils/colors.js'
 import type { vue } from '../utils/libraries.js'
 
@@ -42,6 +42,11 @@ export interface NavItem {
   count?: number
   basePath?: string
   authState?: 'loggedIn' | 'loggedOut' | 'default'
+  title?: string
+  subTitle?: string
+  content?: string
+  progress?: ProgressStatus
+  actions?: ActionButton[]
 }
 
 export type ActionItem = NavItem & {
@@ -106,10 +111,10 @@ export type MenuItem = {
   href?: string
   link?: vue.Ref<string>
 
-  // @deprecated
-  route?: vue.Ref<string> | vue.ComputedRef<string>
-  // @deprecated
-  url?: vue.Ref<string>
+  // // @deprecated
+  // route?: vue.Ref<string> | vue.ComputedRef<string>
+  // // @deprecated
+  // url?: vue.Ref<string>
   active?: vue.Ref<boolean> | vue.ComputedRef<string>
   onClick?: (evnt?: MouseEvent, item?: MenuItem) => void | Promise<void>
   priority?: number

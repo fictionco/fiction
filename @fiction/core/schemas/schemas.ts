@@ -6,6 +6,7 @@ import { ColorScaleSchema, colorThemeUser, colorThemeWithInvert } from '../utils
 
 export const PostStatusSchema = z.enum(['draft', 'scheduled', 'published', 'hidden', 'protected', 'deleted', 'archived', 'trashed', 'spam'])
 export const ProgressStatusSchema = z.enum(['pending', 'requested', 'processing', 'ready', 'error', 'cancelled'])
+export type ProgressStatus = z.infer<typeof ProgressStatusSchema>
 export const SyndicateStatusSchema = z.enum(['active', 'unsubscribed', 'pending', 'cancelled', 'bounced', 'complained'])
 export const ColorThemeSchema = z.enum(colorThemeWithInvert)
 export const ImageFiltersSchema = z.enum(['brightness', 'opacity', 'contrast', 'blur', 'grayscale', 'sepia', 'saturate', 'invert', 'hue-rotate'])

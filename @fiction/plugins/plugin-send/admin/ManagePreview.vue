@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site'
 import type { EmailCampaign } from '../campaign'
-import SettingsContentWrap from '@fiction/admin/settings/SettingsContentWrap.vue'
 import InputEmailPreview from './InputEmailPreview.vue'
 
 const { card, campaign } = defineProps<{ card: Card, campaign?: EmailCampaign }>()

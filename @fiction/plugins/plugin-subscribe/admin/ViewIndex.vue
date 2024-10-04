@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import SettingsContentWrap from '@fiction/admin/settings/SettingsContentWrap.vue'
 import ElSubscriberList from './ElSubscriberList.vue'
 
 type UserConfig = {
@@ -14,9 +13,7 @@ const _x = 1
 </script>
 
 <template>
-  <SettingsContentWrap :card>
-    <div class="mx-auto max-w-3xl p-4 md:p-16">
-      <ElSubscriberList :card />
-    </div>
-  </SettingsContentWrap>
+  <div class="mx-auto max-w-3xl p-4 md:p-16">
+    <ElSubscriberList :card />
+  </div>
 </template>

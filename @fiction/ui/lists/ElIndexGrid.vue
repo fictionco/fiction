@@ -84,7 +84,7 @@ async function paginate(dir: 'prev' | 'next') {
             >
               <component :is="getNavComponentType(item)" :to="item.href" :href="item.href" class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap" :class="boxClass">
                 <div class="flex gap-6 items-center">
-                  <ElIndexItemMedia :media="item.media" :icon="item.icon" />
+                  <ElIndexItemMedia class="size-16" :media="item.media" :icon="item.icon" />
                   <div>
                     <p class="text-lg font-medium leading-6 ">
                       <span class="hover:underline cursor-pointer">{{ item.name }}</span>

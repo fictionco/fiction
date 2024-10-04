@@ -61,11 +61,11 @@ const hasContent = vue.computed(() => !!slots?.default?.()?.[0]?.children?.lengt
 const iconAdjust = vue.computed(() => {
   const sz = size || 'md'
   const sizeAdjustments: Record<StandardSize, { mt: string, mxBefore: string, mxAfter: string }> = {
-    'xxs': { mt: '', mxBefore: '-ml-[1px] mr-[1px]', mxAfter: '-mr-[1px] ml-[1px]' },
-    'xs': { mt: '', mxBefore: '-ml-[1px] mr-[1px]', mxAfter: '-mr-[1px] ml-[1px]' },
-    'sm': { mt: '', mxBefore: '-ml-[1px] mr-[1px]', mxAfter: '-mr-[1px] ml-[1px]' },
-    'md': { mt: '', mxBefore: '-ml-[1px] mr-[1px]', mxAfter: '-mr-[1px] ml-[1px]' },
-    'lg': { mt: '', mxBefore: '-ml-[3px] mr-[3px]', mxAfter: '-mr-[3px] ml-[3px]' },
+    'xxs': { mt: '', mxBefore: '-ml-[1px] mr-[4px]', mxAfter: '-mr-[1px] ml-[4px]' },
+    'xs': { mt: '', mxBefore: '-ml-[1px] mr-[4px]', mxAfter: '-mr-[1px] ml-[4px]' },
+    'sm': { mt: '', mxBefore: '-ml-[1px] mr-[4px]', mxAfter: '-mr-[1px] ml-[4px]' },
+    'md': { mt: '', mxBefore: '-ml-[1px] mr-[4px]', mxAfter: '-mr-[1px] ml-[4px]' },
+    'lg': { mt: '', mxBefore: '-ml-[3px] mr-[5px]', mxAfter: '-mr-[3px] ml-[5px]' },
     'xl': { mt: '', mxBefore: '-ml-1.5 mr-1.5', mxAfter: '-mr-1.5 ml-1.5' },
     '2xl': { mt: '', mxBefore: '-ml-2 mr-2', mxAfter: '-mr-2 ml-2' },
   }
@@ -149,7 +149,7 @@ const linkProps = vue.computed(() => {
       class="flex w-full min-w-0 items-center whitespace-nowrap transition-all duration-500 ease-[cubic-bezier(0.25,1,0.33,1)]"
       :class="[loading ? 'translate-y-[-150%] opacity-0' : '', wrapClass, format === 'spread' ? '' : 'justify-center']"
     >
-      <div class="flex space-x-1 items-center" :data-has-content="hasContent">
+      <div class="flex items-center" :data-has-content="hasContent">
         <div v-if="icon" :class="[cls.iconClasses, icon, iconAdjust.both, iconAdjust.before]" :data-before="iconAdjust.before" />
         <div v-if="hasContent" class="txt"><slot /></div>
         <div v-if="iconAfter" class="" :class="[cls.iconClasses, iconAfter, iconAdjust.both, iconAdjust.after]" />
