@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site/card'
 import type { FictionAdmin } from '..'
-import { dayjs, gravatarUrlSync, useService, vue } from '@fiction/core/index.js'
+import { dayjs, gravatarUrlSync, type MediaObject, useService, vue } from '@fiction/core/index.js'
 import ElModal from '@fiction/ui/ElModal.vue'
 import { InputOption } from '@fiction/ui/index.js'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
@@ -99,7 +99,7 @@ const toolFormOptions = vue.computed<InputOption[]>(() => {
   return [new InputOption({ key: 'orgInfo', label: 'Change Email Address', input: 'group', options })]
 })
 
-const avatar = vue.ref({})
+const avatar = vue.shallowRef<MediaObject>({})
 vue.onMounted(() => {
   vue.watchEffect(async () => {
     if (user.value?.avatar?.url) {
@@ -109,6 +109,19 @@ vue.onMounted(() => {
       avatar.value = (await gravatarUrlSync(user.value.email, { size: 400, default: 'identicon' }))
     }
   })
+})
+
+const header = vue.computed(() => {
+  return {
+    title: user.value?.fullName || user.value?.email,
+    subTitle: `User / ${user.value?.email} / Joined ${dayjs(user.value?.createdAt).format('MMM D, YYYY')}`,
+    media: avatar.value,
+    actions: [{
+      name: 'Change Email',
+      icon: 'i-tabler-arrows-exchange',
+      onClick: () => mode.value = 'changeEmail',
+    }],
+  }
 })
 </script>
 
@@ -129,14 +142,7 @@ vue.onMounted(() => {
 
     <ElHeader
       v-else
-      :heading="user?.fullName || user?.email"
-      :subheading="`User / ${user?.email} / Joined ${dayjs(user?.createdAt).format('MMM D, YYYY')}`"
-      :avatar="avatar"
-      :actions="[{
-        name: 'Change Email',
-        icon: 'i-tabler-arrows-exchange',
-        onClick: () => mode = 'changeEmail',
-      }]"
+      :model-value="header"
     />
   </div>
 </template>

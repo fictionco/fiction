@@ -62,7 +62,6 @@ export class PopupUtility {
 
     // Reset scale and other styles
     if (this.siteContentElement) {
-      this.siteContentElement.style.transition = ''
       this.siteContentElement.style.transform = ''
       this.siteContentElement.style.height = ''
       this.siteContentElement.style.overflow = ''
@@ -70,5 +69,11 @@ export class PopupUtility {
 
     // Restore original scroll position
     window.scrollTo(0, this.originalScrollPosition)
+
+    setTimeout(() => {
+      if (this.siteContentElement) {
+        this.siteContentElement.style.transition = ''
+      }
+    }, 1000)
   }
 }

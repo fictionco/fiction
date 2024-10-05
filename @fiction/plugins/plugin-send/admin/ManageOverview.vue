@@ -18,6 +18,7 @@ const { fictionUser } = useService<{ fictionSend: FictionSend }>()
 
 const showSendModal = vue.ref(false)
 const settingsModal = vue.ref('')
+const saving = vue.ref(false)
 
 const from = vue.computed(() => {
   const org = fictionUser.activeOrganization.value
@@ -59,12 +60,11 @@ const items = vue.computed<OptionItem[]>(() => {
       icon: 'i-tabler-mail',
       title: 'Subject and Sender',
       subTitle: 'The subject line of the email',
-      content: config?.subject || 'Not Set',
-      progress: 'pending',
-      actions: [{
-        name: 'Set Up',
-        onClick: ({ item }) => (settingsModal.value = item?.key),
-      }],
+      content: config?.subject ? `${config?.subject} / ${config?.preview || 'No Preview'}` : 'Not Set',
+      progress: config?.subject ? 'ready' : 'pending',
+      actions: [
+        { name: 'Update', onClick: ({ item }) => (settingsModal.value = item?.key) },
+      ],
       options: [
         new InputOption({ key: 'subject', label: 'Subject Line', input: 'InputText', isRequired: true, placeholder: 'Subject Line', description: 'This is the subject line that appears in the recipient\'s inbox.' }),
         new InputOption({ key: 'preview', label: 'Preview Text', input: 'InputText', placeholder: 'Preview Text', description: 'This is the text that appears in the inbox preview of your email.' }),
@@ -75,13 +75,12 @@ const items = vue.computed<OptionItem[]>(() => {
       icon: 'i-tabler-mail',
       title: 'Title and Content',
       subTitle: 'The content of the email',
-      content: config?.subject || 'Not Set',
+      content: config?.post?.content ? `${getWordCountFromHTML(config?.post?.content)} words` : 'Not Set',
       progress: 'pending',
       href: settings,
-      actions: [{
-        name: 'Compose',
-        href: editLink,
-      }],
+      actions: [
+        { name: 'Compose', href: editLink },
+      ],
     },
     {
       icon: 'i-tabler-calendar',
@@ -218,6 +217,15 @@ async function sendOrSchedule() {
   //   await service.fictionSend.scheduleEmail(em?.campaignId)
   showSendModal.value = false
 }
+
+async function saveChanges() {
+  saving.value = true
+
+  campaign?.save()
+
+  settingsModal.value = ''
+  saving.value = false
+}
 </script>
 
 <template>
@@ -245,7 +253,7 @@ async function sendOrSchedule() {
                   design="ghost"
                   :icon="item.progress === 'ready' ? 'i-tabler-check' : 'i-tabler-x'"
                   :theme="item.progress === 'ready' ? 'green' : 'rose'"
-                  size="sm"
+                  size="md"
                 >
                   {{ item.progress === 'ready' ? 'Ready' : 'Incomplete' }}
                 </XButton>
@@ -291,6 +299,18 @@ async function sendOrSchedule() {
           :data-value="JSON.stringify(campaign?.toConfig())"
           @update:model-value="campaign?.update($event)"
         />
+        <div class="flex justify-between border-t border-theme-200/70 dark:border-theme-700/70 pt-4 mt-8">
+          <div>
+            <XButton size="lg" theme="default" @click="settingsModal = ''">
+              Cancel
+            </XButton>
+          </div>
+          <div>
+            <XButton size="lg" theme="primary" :loading="saving" @click="saveChanges()">
+              Apply Changes
+            </XButton>
+          </div>
+        </div>
       </div>
     </ElModal>
     <ElModalConfirm

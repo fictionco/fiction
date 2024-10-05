@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActionButton, MediaObject, NavItem } from '@fiction/core'
+import type { ActionButton, MediaObject, NavItem, PostObject } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import type { NavCardUserConfig } from '..'
 import CardLink from '@fiction/cards/el/CardLink.vue'
@@ -18,7 +18,11 @@ const {
   basePath: string
   panelProps?: Record<string, any>
   loading?: boolean
-  header?: { title?: string, subTitle?: string, avatar?: MediaObject, actions?: ActionButton[] }
+  header?: PostObject
+}>()
+
+const emit = defineEmits<{
+  (event: 'update:header', payload: PostObject): void
 }>()
 
 const panels = vue.computed(() => card.cards.value.filter(t => t.slug.value) as Card<NavCardUserConfig>[])
@@ -95,9 +99,8 @@ const nav = vue.computed<NavItem[]>(() => {
           <div class="px-5 py-8">
             <ElHeader
               v-if="header"
-              :heading="header.title"
-              :subheading="header.subTitle"
-              :avatar="header.avatar"
+              :model-value="header"
+              @update:model-value="emit('update:header', $event)"
             />
           </div>
 

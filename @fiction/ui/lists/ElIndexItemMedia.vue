@@ -7,10 +7,10 @@ const { media, icon } = defineProps<{ media?: MediaObject, icon?: string }>()
 
 const mediaClass = `
   relative
-  bg-primary-50 dark:bg-primary-900/30
-  dark:text-primary-300/70
+  bg-theme-50 dark:bg-theme-600/40
+  dark:text-theme-0
   rounded-full overflow-hidden
-  text-primary-500/50
+  text-theme-500/50
   shrink-0
 `
 </script>

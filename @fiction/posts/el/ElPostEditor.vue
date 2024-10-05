@@ -16,11 +16,11 @@ defineProps({
   <div v-if="post">
     <div class="py-12 md:py-32 px-12 prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl xl:prose-2xl mx-auto focus:outline-none">
       <div class="flex gap-6 justify-between">
-        <div class="flex-grow">
+        <div class="flex-grow not-prose space-y-4">
           <XText
             :model-value="post.title.value"
             tag="h1"
-            class="text-balance my-0 py-0"
+            class="text-balance my-0 py-0 text-5xl font-bold"
             :is-editable="true"
             placeholder="Enter Title"
             data-test-id="post-editor-title"
@@ -29,7 +29,7 @@ defineProps({
           <XText
             :model-value="post.subTitle.value"
             tag="h3"
-            class="dark:text-theme-300"
+            class="dark:text-theme-300 text-3xl"
             :is-editable="true"
             placeholder="Enter Subtitle"
             data-test-id="post-editor-sub-title"

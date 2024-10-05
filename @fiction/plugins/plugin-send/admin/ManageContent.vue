@@ -3,6 +3,7 @@ import type { Card } from '@fiction/site'
 import type { FictionSend } from '..'
 import type { EmailCampaign } from '../campaign'
 import { useService, vue } from '@fiction/core'
+import ElPostEditor from '@fiction/posts/el/ElPostEditor.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import { getEmailManageOptions } from './tools'
 
@@ -17,7 +18,7 @@ const options = vue.computed(() => {
 
 <template>
   <div>
-    <FormEngine
+    <!-- <FormEngine
       :model-value="campaign?.toConfig()"
       state-key="settingsTool"
       input-wrap-class="max-w-lg w-full"
@@ -27,6 +28,7 @@ const options = vue.computed(() => {
       :disable-group-hide="true"
       :data-value="JSON.stringify(campaign?.toConfig())"
       @update:model-value="campaign?.update($event)"
-    />
+    /> -->
+    <ElPostEditor :card :post="campaign?.post.value" />
   </div>
 </template>

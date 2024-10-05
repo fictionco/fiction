@@ -98,6 +98,17 @@ vue.onMounted(() => {
     }
   })
 })
+
+const header = {
+  title: service.fictionUser.activeOrganization.value?.orgName || 'Unnamed Organization',
+  subTitle: `Organization / ${service.fictionUser.activeOrganization.value?.orgEmail} / you are an ${service.fictionUser.activeOrganization.value?.relation?.memberAccess}`,
+  media: avatar.value,
+  actions: [{
+    name: 'Change / Add Publication',
+    icon: 'i-tabler-plus',
+    onClick: () => mode.value = 'change',
+  }],
+}
 </script>
 
 <template>
@@ -137,14 +148,7 @@ vue.onMounted(() => {
     </div>
     <ElHeader
       v-else
-      :heading="service.fictionUser.activeOrganization.value?.orgName || 'Unnamed Organization'"
-      :subheading="`Organization / ${service.fictionUser.activeOrganization.value?.orgEmail} / you are an ${service.fictionUser.activeOrganization.value?.relation?.memberAccess}`"
-      :avatar="avatar"
-      :actions="[{
-        name: 'Change / Add Publication',
-        icon: 'i-tabler-plus',
-        onClick: () => mode = 'change',
-      }]"
+      :model-value="header"
     />
   </div>
 </template>

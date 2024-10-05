@@ -134,7 +134,7 @@ export const MediaTypographySchema = MediaBasicSchema.extend({
 })
 
 // MediaContent schema (includes MediaBasic)
-export const MediaContentSchema = MediaBasicSchema.extend({
+export const MediaContentSchema = MediaIconSchema.extend({
   alt: z.string().optional(),
   caption: z.string().optional(),
   mime: z.string().optional(),
@@ -178,12 +178,13 @@ export const PostSchema = z.object({
   subTitle: z.string().optional().describe('Subtitle of the post'),
   content: z.string().optional().describe('Content of the post'),
   status: PostStatusSchema.optional().describe('Status of the post'),
-  media: MediaBasicSchema.optional().describe('Featured Media for the post'),
+  media: MediaContentSchema.optional().describe('Featured Media for the post'),
   slug: z.string().optional().describe('Slug of the post page'),
   taxonomy: z.array(TaxonomySchema).optional().describe('Taxonomy for the post which combines all types (categories, tags, etc)'),
   tags: z.array(TaxonomySchema).optional().describe('Tags for the post'),
   categories: z.array(TaxonomySchema).optional().describe('Categories for the post'),
   authors: z.array(UserSchema).optional(),
+  actions: z.array(ActionButtonSchema).optional().describe('Action links or buttons for the post'),
   seo: z.object({
     title: z.string().optional(),
     description: z.string().optional(),

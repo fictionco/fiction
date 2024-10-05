@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site'
 import type { FictionSubscribe, Subscriber } from '../index.js'
-import SettingsContentWrap from '@fiction/admin/settings/SettingsContentWrap.vue'
+import ElHeader from '@fiction/admin/settings/ElHeader.vue'
 import { deepMerge, gravatarUrlSync, type User, useService, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui/index.js'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
@@ -9,9 +9,8 @@ import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 type UserConfig = {
   isNavItem: boolean
 }
-defineProps({
-  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
-})
+
+const { card } = defineProps<{ card: Card<UserConfig> }>()
 const service = useService<{ fictionSubscribe: FictionSubscribe }>()
 
 const loading = vue.ref(true)
@@ -88,15 +87,23 @@ const options = vue.computed(() => {
     }),
   ]
 })
+
+const header = vue.computed(() => {
+  return {
+    title: user.value.fullName || user.value.email,
+    subTitle: card.title.value,
+    media: getAvatarUrl(user.value),
+  }
+})
 </script>
 
 <template>
-  <SettingsContentWrap
-    :card
-    :header="user.fullName || user.email"
-    :sub-header="card.title.value"
-    :avatar="getAvatarUrl(user)"
-  >
+  <div>
+    <ElHeader
+      v-if="header"
+      class="p-12"
+      :model-value="header"
+    />
     <FormEngine
       v-model="subscriber"
       state-key="settingsTool"
@@ -107,5 +114,5 @@ const options = vue.computed(() => {
       :disable-group-hide="true"
       :data-value="JSON.stringify(subscriber)"
     />
-  </SettingsContentWrap>
+  </div>
 </template>

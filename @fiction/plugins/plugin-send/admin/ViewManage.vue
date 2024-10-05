@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site'
 import type { FictionSend } from '..'
+import type { EmailCampaignConfig } from '../schema'
 import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
 import { useService, vue } from '@fiction/core'
 import { EmailCampaign } from '../campaign'
+import { manageEmailCampaign } from '../utils'
 
 const { card } = defineProps<{ card: Card }>()
 const loading = vue.ref(true)
@@ -51,8 +53,8 @@ vue.onMounted(() => load())
     :panel-props="{ campaign }"
     :header="{
       title: campaign?.title.value || 'Untitled',
-      subTitle: campaign?.post.value.subTitle.value || 'No description',
-      avatar: { class: `i-tabler-mail` },
+      subTitle: 'Email Campaign',
+      media: { class: `i-tabler-mail` },
       actions: [],
     }"
   />
