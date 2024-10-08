@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import type { ActionItem, vue } from '@fiction/core'
-import type { UiElementStyle } from '@fiction/ui/utils'
+import type { ActionButton, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 
 defineProps({
@@ -10,7 +9,7 @@ defineProps({
   boxClass: { type: String, default: '' },
   panelClass: { type: String, default: '' },
   actions: {
-    type: Array as vue.PropType<ActionItem[] >,
+    type: Array as vue.PropType<ActionButton[] >,
     default: () => [],
   },
 })
@@ -34,7 +33,7 @@ defineProps({
             <XButton
               v-for="(action, i) in actions"
               :key="i"
-              :btn="(action.btn || 'default') as UiElementStyle"
+              :theme="(action.theme || 'default') "
               :size="action.size || 'md'"
               :loading="action.loading"
               :href="action.href"

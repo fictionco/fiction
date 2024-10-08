@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { ActionItem, vue } from '@fiction/core'
+import type { ActionButton, vue } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 
 const props = defineProps({
-  actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
-  uiSize: { type: String as vue.PropType<ActionItem['size']>, default: 'sm' },
+  actions: { type: Array as vue.PropType<ActionButton[]>, default: () => [] },
+  uiSize: { type: String as vue.PropType<ActionButton['size']>, default: 'sm' },
 })
 
 function gapSize() {

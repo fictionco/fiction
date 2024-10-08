@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActionItem, IndexItem, Organization } from '@fiction/core/index.js'
+import type { ActionButton, IndexItem, Organization } from '@fiction/core/index.js'
 import type { Card } from '@fiction/site/card'
 import type { InputOption } from '@fiction/ui'
 import { useService, vue } from '@fiction/core'
@@ -72,7 +72,7 @@ async function createNewOrganization(): Promise<void> {
   }
 }
 
-const newOrgActions = vue.computed<ActionItem[]>(() => {
+const newOrgActions = vue.computed<ActionButton[]>(() => {
   return [
     {
       name: 'Create New Organization',
@@ -130,8 +130,8 @@ const header = {
         list-title="Publications You Are A Member Of"
         :list="list"
         :actions="[
-          { name: 'Back', icon: 'i-tabler-arrow-left', btn: 'default', onClick: () => (mode = 'current') },
-          { name: 'New', icon: 'i-tabler-plus', btn: 'primary', onClick: () => (mode = 'new') },
+          { name: 'Back', icon: 'i-tabler-arrow-left', theme: 'default', onClick: () => (mode = 'current') },
+          { name: 'New', icon: 'i-tabler-plus', theme: 'primary', onClick: () => (mode = 'new') },
         ]"
       >
         <template #item="{ item }">

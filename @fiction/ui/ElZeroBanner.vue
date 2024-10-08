@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActionItem, vue } from '@fiction/core'
+import type { ActionButton, NavItem, vue } from '@fiction/core'
 import XButton from './buttons/XButton.vue'
 
 defineProps({
@@ -7,8 +7,8 @@ defineProps({
   subTitle: { type: String, default: undefined },
   title: { type: String, required: true },
   description: { type: String, required: true },
-  actions: { type: Array as vue.PropType<ActionItem[]>, default: undefined },
-  bullets: { type: Array as vue.PropType<ActionItem[]>, default: undefined },
+  actions: { type: Array as vue.PropType<ActionButton[]>, default: undefined },
+  bullets: { type: Array as vue.PropType<NavItem[]>, default: undefined },
   tags: { type: Array as vue.PropType<string[]>, default: () => [] },
 })
 </script>

@@ -1,6 +1,5 @@
 import type { User } from '../plugin-user'
-import type { ActionButton, ButtonDesign, ButtonRounding, MediaObject, ProgressStatus } from '../schemas/schemas.js'
-import type { ColorThemeUser } from '../utils/colors.js'
+import type { ActionButton, MediaObject, ProgressStatus } from '../schemas/schemas.js'
 import type { vue } from '../utils/libraries.js'
 
 export type CleanupCallback = (() => void) | undefined
@@ -49,22 +48,22 @@ export interface NavItem {
   actions?: ActionButton[]
 }
 
-export type ActionItem = NavItem & {
-  theme?: ColorThemeUser
-  design?: ButtonDesign
-  btn?: 'default' | 'primary' | 'naked' | 'caution' | 'success' | 'danger' | 'outline' | 'minimal'
-  size?: 'xs' | 'sm' | 'lg' | 'md' | 'xl' | '2xl'
-  target?: string
-  loading?: boolean
-  isDisabled?: boolean
-  rounding?: ButtonRounding
-}
+// export type ActionButton = NavItem & {
+//   theme?: ColorThemeUser
+//   design?: ButtonDesign
+//   btn?: 'default' | 'primary' | 'naked' | 'caution' | 'success' | 'danger' | 'outline' | 'minimal'
+//   size?: 'xs' | 'sm' | 'lg' | 'md' | 'xl' | '2xl'
+//   target?: string
+//   loading?: boolean
+//   isDisabled?: boolean
+//   rounding?: ButtonRounding
+// }
 
 export type MediaItem = {
   media?: MediaObject
   overlays?: MediaObject[]
   tags?: string[]
-  actions?: ActionItem[]
+  actions?: ActionButton[]
 } & NavItem
 
 export type PostItem = {
@@ -91,10 +90,10 @@ export type Figure = { el?: vue.Component, props?: Record<string, any> }
 
 export type IndexItem = {
   images?: MediaObject[]
-  links?: ActionItem[]
-  actions?: ActionItem[]
-  category?: ActionItem[]
-  tags?: ActionItem[]
+  links?: ActionButton[]
+  actions?: ActionButton[]
+  category?: ActionButton[]
+  tags?: ActionButton[]
   authors?: User[]
   figure?: Figure
   media?: MediaObject

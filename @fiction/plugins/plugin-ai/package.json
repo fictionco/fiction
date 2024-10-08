@@ -1,14 +1,14 @@
 {
   "dependencies": {
     "@ai-sdk/anthropic": "^0.0.51",
-    "@ai-sdk/openai": "^0.0.63",
+    "@ai-sdk/openai": "^0.0.66",
     "@fiction/core": "workspace:*",
     "@fiction/plugin-unsplash": "workspace:*",
     "@pinecone-database/pinecone": "^3.0.3",
-    "ai": "^3.4.7",
-    "openai": "^4.67.1",
+    "ai": "^3.4.9",
+    "openai": "^4.67.3",
     "tailwindcss": "^3.4.13",
-    "vue": "^3.5.10"
+    "vue": "^3.5.11"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "license": "MIT",

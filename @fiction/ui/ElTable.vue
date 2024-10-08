@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { ActionItem, IndexMeta } from '@fiction/core'
+import type { ActionButton, IndexMeta } from '@fiction/core'
 import { onResetUi, resetUi, toLabel, vue } from '@fiction/core'
-import ElButton from './ElButton.vue'
+import XButton from './buttons/XButton.vue'
 import ElZeroBanner from './ElZeroBanner.vue'
 import InputCheckbox from './inputs/InputCheckbox.vue'
 import ElSpinner from './loaders/ElSpinner.vue'
@@ -38,7 +38,7 @@ const props = defineProps({
     type: Object as vue.PropType<{ title: string, description: string }>,
     required: true,
   },
-  actions: { type: Array as vue.PropType<ActionItem[]>, default: undefined },
+  actions: { type: Array as vue.PropType<ActionButton[]>, default: undefined },
   rowLink: {
     type: Function as vue.PropType<(id: string) => string | undefined>,
     default: undefined,
@@ -144,7 +144,7 @@ function bulkEdit(_action: string) {
   resetSelected()
 }
 
-async function handleOnClick(event: MouseEvent, item: ActionItem) {
+async function handleOnClick(event: MouseEvent, item: ActionButton) {
   event.preventDefault()
   event.stopPropagation()
   sending.value = true
@@ -190,14 +190,14 @@ async function handleOnClick(event: MouseEvent, item: ActionItem) {
                 class="relative"
                 @click.stop
               >
-                <ElButton
+                <XButton
                   btn="primary"
                   size="xs"
                   @click.stop="editSelected = true"
                 >
                   Edit Selected
                   <div class="i-carbon-chevron-down ml-1 text-base" />
-                </ElButton>
+                </XButton>
                 <div
                   v-if="editSelected"
                   class="bg-theme-0 absolute z-10 w-56 overflow-hidden rounded shadow-lg ring-1 ring-black/5"
@@ -316,15 +316,15 @@ async function handleOnClick(event: MouseEvent, item: ActionItem) {
         aria-label="Pagination"
       >
         <div class="">
-          <ElButton
+          <XButton
             v-for="(act, i) in actions"
             :key="i"
             :href="act.href"
-            :btn="act.btn || 'default'"
+            :theme="act.theme || 'default'"
             @click.stop="act.onClick ? handleOnClick($event, act) : null"
           >
             {{ act.name }}
-          </ElButton>
+          </XButton>
         </div>
         <div v-if="indexMeta.count" class="hidden sm:block">
           <div class="text-theme-400 mr-2">

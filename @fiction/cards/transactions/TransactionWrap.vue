@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActionItem } from '@fiction/core'
+import type { ActionButton } from '@fiction/core'
 import { vue } from '@fiction/core'
 import XText from '@fiction/ui/common/XText.vue'
 import InputActionList from '@fiction/ui/inputs/InputActionList.vue'
@@ -12,8 +12,8 @@ const props = defineProps({
   heading: { type: String, default: '' },
   subHeading: { type: String, default: '' },
   status: { type: String as vue.PropType<'success' | 'error' | 'pending'>, default: '' },
-  actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
-  links: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
+  actions: { type: Array as vue.PropType<ActionButton[]>, default: () => [] },
+  links: { type: Array as vue.PropType<ActionButton[]>, default: () => [] },
 })
 
 const iconThemes: Record<string, { class: string, icon?: string }> = {

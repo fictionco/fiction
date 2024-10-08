@@ -5,7 +5,7 @@ import type { EmailCampaign } from '../campaign'
 import type { EmailCampaignConfig } from '../schema'
 import { AdminEditorController } from '@fiction/admin'
 import { SettingsTool } from '@fiction/admin/types'
-import { type ActionItem, vue } from '@fiction/core'
+import { type ActionButton, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import { loadEmail } from '../utils'
 import { manageEmailCampaign } from '../utils.js'
@@ -112,7 +112,7 @@ export function getEmailManageOptions(args: {
             actions: [
               {
                 name: 'Delete Email...',
-                btn: 'default',
+                theme: 'default',
                 onClick: async () => {
                   const confirmed = confirm('Are you sure you want to delete this email?')
 
@@ -122,7 +122,7 @@ export function getEmailManageOptions(args: {
                   }
                 },
               },
-            ] as ActionItem[],
+            ] as ActionButton[],
           },
         }),
 

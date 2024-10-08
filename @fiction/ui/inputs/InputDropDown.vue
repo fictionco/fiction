@@ -24,7 +24,7 @@ onResetUi(() => (menuVis.value = false))
 
 const menuList = vue.computed(() => {
   return props.menu?.flatMap((group) => {
-    return (group.menu) ? [{ value: 'title', name: group.groupName }, ...group.menu.map(item => ({ name: item.name, value: item.route?.value || item.url }))] as ListItem[] : []
+    return (group.menu) ? [{ value: 'title', name: group.groupName }, ...group.menu.map(item => ({ name: item.name, value: item.href }))] as ListItem[] : []
   }) || []
 })
 

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActionItem, vue } from '@fiction/core'
+import type { ActionButton, vue } from '@fiction/core'
 import XButton from './buttons/XButton.vue'
 
 defineProps({
@@ -10,7 +10,7 @@ defineProps({
   panelClass: { type: String, default: '' },
   headerClass: { type: String, default: '' },
   actions: {
-    type: Array as vue.PropType<ActionItem[]>,
+    type: Array as vue.PropType<ActionButton[]>,
     default: () => [],
   },
 })

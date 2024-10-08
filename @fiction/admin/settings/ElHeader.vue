@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { PostObject } from '@fiction/core'
-import type { Post } from '@fiction/posts'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import XText from '@fiction/ui/common/XText.vue'
 import ElIndexItemMedia from '@fiction/ui/lists/ElIndexItemMedia.vue'

@@ -28,17 +28,17 @@ vue.onMounted(async () => {
     bodyMarkdown: toMarkdown(sampleHtml),
     actions: [
       {
-        btn: 'primary',
+        theme: 'primary',
         name: `Confirm email address &#x2192;`,
         href: '#',
       },
       {
-        btn: 'default',
+        theme: 'default',
         name: `test`,
         href: '#',
       },
       {
-        btn: 'naked',
+        theme: 'naked',
         name: `Test`,
         href: '#',
       },

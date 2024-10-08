@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { AdminEditorController, EditorTool, Handle } from '@fiction/admin'
-import type { ActionItem } from '@fiction/core'
+import type { ActionButton } from '@fiction/core'
 import type { Site } from '../../site'
 import type { ToolKeys } from './tools.js'
 import EffectDraggableSort from '@fiction/admin/el/EffectDraggableSort.vue'
@@ -27,7 +27,7 @@ function useEditPage(args: { cardId?: string } = {}) {
   props.controller.useTool({ toolId: cardId ? 'editPage' : 'addPage' })
 }
 
-const actions: ActionItem[] = [
+const actions: ActionButton[] = [
   {
     name: 'New Page',
     icon: 'i-tabler-circle-plus',
@@ -39,7 +39,7 @@ const handles = vue.computed(() => {
   const pg = props.site.pages.value.filter(_ => !_.isSystem.value) || []
   return pg.map((pg): Handle => {
     const cardId = pg.cardId
-    const actions: ActionItem[] = [{
+    const actions: ActionButton[] = [{
       name: 'Settings',
       icon: 'i-tabler-edit',
       onClick: () => useEditPage({ cardId }),

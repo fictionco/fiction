@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActionItem, vue } from '@fiction/core'
+import type { ActionButton, vue } from '@fiction/core'
 import ElSpinner from './loaders/ElSpinner.vue'
 
 defineProps({
@@ -19,7 +19,7 @@ defineProps({
     type: String,
     required: true,
   },
-  actions: { type: Array as vue.PropType<ActionItem[]>, default: undefined },
+  actions: { type: Array as vue.PropType<ActionButton[]>, default: undefined },
   tags: {
     type: Array as vue.PropType<string[]>,
     default: () => [],

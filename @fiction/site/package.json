@@ -11,13 +11,13 @@
     "graphql": "^16.9.0",
     "graphql-request": "^7.1.0",
     "tailwindcss": "^3.4.13",
-    "vue": "^3.5.10"
+    "vue": "^3.5.11"
   },
   "devDependencies": {
     "@fiction/admin": "workspace:*",
     "@fiction/cards": "workspace:*",
     "@fiction/theme-fiction": "workspace:*",
-    "playwright": "^1.47.2"
+    "playwright": "^1.48.0"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "license": "MIT",

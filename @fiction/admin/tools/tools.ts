@@ -1,4 +1,4 @@
-import type { ActionItem, ClickHandler, colorTheme } from '@fiction/core'
+import type { ActionButton, ClickHandler, colorTheme } from '@fiction/core'
 import { FictionObject, vue } from '@fiction/core'
 
 export type Handle = {
@@ -13,7 +13,7 @@ export type Handle = {
   hasDrawer?: boolean
   handles?: Handle[]
   onClick?: ClickHandler
-  actions?: ActionItem[]
+  actions?: ActionButton[]
   isActive?: boolean
 }
 

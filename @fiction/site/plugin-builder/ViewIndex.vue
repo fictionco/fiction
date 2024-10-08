@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActionItem, FictionApp, IndexItem, IndexMeta } from '@fiction/core'
+import type { ActionButton, FictionApp, IndexItem, IndexMeta } from '@fiction/core'
 import type { FictionSites } from '..'
 import type { Card } from '../card'
 import type { Site } from '../site'
@@ -48,7 +48,7 @@ const list = vue.computed<IndexItem[]>(() => {
 })
 
 function getActions(location: 'top' | 'zero') {
-  const actions: ActionItem[] = [{
+  const actions: ActionButton[] = [{
     testId: 'createSite',
     name: 'Create New Site',
     icon: 'i-tabler-plus',

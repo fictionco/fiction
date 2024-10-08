@@ -217,7 +217,7 @@ export class QueryTeamInvite extends TeamQuery {
           {
             name: linkText,
             href: linkUrl,
-            btn: 'primary',
+            theme: 'primary',
           },
         ],
       }, { server: true })

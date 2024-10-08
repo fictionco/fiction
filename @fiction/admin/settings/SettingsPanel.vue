@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActionButton, MediaObject, NavItem, PostObject } from '@fiction/core'
+import type { NavItem, PostObject } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import type { NavCardUserConfig } from '..'
 import CardLink from '@fiction/cards/el/CardLink.vue'

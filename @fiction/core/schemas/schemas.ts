@@ -67,6 +67,8 @@ export const ActionButtonSchema = z.object({
   loading: z.boolean().optional(),
   disabled: z.boolean().optional(),
   onClick: ClickHandlerSchema.optional(),
+  testId: z.string().optional(),
+  target: z.enum(['_blank', '_self']).optional(),
 })
 
 export type ActionButton = z.infer<typeof ActionButtonSchema>

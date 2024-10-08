@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import type { ActionItem, vue } from '@fiction/core'
+import type { ActionButton, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 
 defineProps({
   title: { type: String, default: '' },
   sub: { type: String, default: '' },
   icon: { type: String, default: '' },
-  actions: { type: Array as vue.PropType<ActionItem[]>, default: () => [] },
+  actions: { type: Array as vue.PropType<ActionButton[]>, default: () => [] },
   mode: { type: String as vue.PropType<'mast' | 'hero'>, default: 'mast' },
 })
 </script>

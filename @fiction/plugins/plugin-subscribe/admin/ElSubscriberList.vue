@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActionItem, IndexItem } from '@fiction/core'
+import type { ActionButton, IndexItem } from '@fiction/core'
 import type { FictionSubscribe, Subscriber } from '@fiction/plugin-subscribe'
 import type { Card } from '@fiction/site'
 import { dayjs, gravatarUrlSync, useService, vue } from '@fiction/core'
@@ -85,7 +85,7 @@ vue.onMounted(async () => {
   vue.watch(() => service.fictionSubscribe.cacheKey.value, () => load(), { immediate: true })
 })
 
-const actions: ActionItem[] = [
+const actions: ActionButton[] = [
   {
     name: 'Add / Import Subscribers',
     href: props.card.link('/audience/add'),

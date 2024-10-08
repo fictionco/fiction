@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { Config as TailwindConfig } from 'tailwindcss'
 import type { PropType } from 'vue'
-import type { ActionItem, MediaItem } from '../../types'
+import type { ActionButton } from '../../schemas/schemas.js'
+import type { MediaItem } from '../../types'
 import { computed } from 'vue'
 import { EBody, EButton, EColumn, EContainer, EHead, EHr, EHtml, EImg, ELink, EMarkdown, EPreview, ESection, EStyle, ETailwind, EText } from 'vue-email'
 
@@ -15,7 +16,7 @@ const props = defineProps({
   subHeading: { type: String, default: undefined },
   bodyMarkdown: { type: String, default: undefined },
   preview: { type: String, default: undefined },
-  actions: { type: Array as PropType<ActionItem[]>, default: () => [] },
+  actions: { type: Array as PropType<ActionButton[]>, default: () => [] },
   unsubscribeUrl: { type: String, default: undefined },
   mediaSuper: { type: Object as PropType<MediaItem>, default: undefined },
   mediaFooter: { type: Object as PropType<MediaItem>, default: undefined },
@@ -83,7 +84,7 @@ const previewText = computed(() => {
   return props.preview || (props.heading ? `${props.heading} ${props.subHeading || ''}` : '')
 })
 
-function getButtonClass(item: ActionItem): string {
+function getButtonClass(item: ActionButton): string {
   const buttonStyles = {
     primary: 'dark:bg-blue-600 bg-blue-600 text-white',
     default: 'dark:bg-gray-700 bg-gray-100 text-gray-700 dark:text-white dark:hover:text-gray-200',
@@ -91,6 +92,7 @@ function getButtonClass(item: ActionItem): string {
   }
 
   const sizeStyles = {
+    'xxs': 'py-0.5 px-1.5 rounded-sm text-[11px]',
     'xs': 'py-1 px-2 rounded-sm text-[12px]',
     'sm': 'py-2 px-3 rounded-md text-[14px]',
     'md': 'py-3 px-4 rounded-md text-[16px]',
@@ -98,9 +100,9 @@ function getButtonClass(item: ActionItem): string {
     'xl': 'py-4 px-6 rounded-xl text-[20px]',
     '2xl': 'py-5 px-7 rounded-2xl text-[24px]',
   }
-  const btn = item.btn || 'default'
+  const theme = item.theme || 'default'
   const size = item.size || 'md'
-  const typeClass = buttonStyles[btn as keyof typeof buttonStyles] || buttonStyles.default
+  const typeClass = buttonStyles[theme as keyof typeof buttonStyles] || buttonStyles.default
   const sizeClass = sizeStyles[size] || ''
   return `${typeClass} ${sizeClass}`.trim()
 }

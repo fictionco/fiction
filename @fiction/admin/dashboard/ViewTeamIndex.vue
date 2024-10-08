@@ -69,7 +69,7 @@ vue.onMounted(async () => {
       {
         name: 'Invite More People',
         href: card.link(`/settings/team-invite`),
-        btn: 'primary',
+        theme: 'primary',
       },
     ]"
   >

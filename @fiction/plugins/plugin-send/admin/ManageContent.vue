@@ -4,7 +4,6 @@ import type { FictionSend } from '..'
 import type { EmailCampaign } from '../campaign'
 import { useService, vue } from '@fiction/core'
 import ElPostEditor from '@fiction/posts/el/ElPostEditor.vue'
-import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import { getEmailManageOptions } from './tools'
 
 const { card, campaign } = defineProps<{ card: Card, campaign?: EmailCampaign }>()

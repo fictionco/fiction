@@ -32,7 +32,7 @@ const proStatus = vue.computed(() => fictionStripe?.activeCustomer.value)
         {
           name: 'View Dashboard',
           href: card.link('/'),
-          btn: 'primary',
+          theme: 'primary',
         },
       ]"
       :bullets="[

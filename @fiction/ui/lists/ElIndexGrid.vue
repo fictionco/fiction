@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActionItem, IndexItem, IndexMeta } from '@fiction/core'
+import type { ActionButton, IndexItem, IndexMeta } from '@fiction/core'
 import { getNavComponentType, getPaginationInfo, vue } from '@fiction/core/index.js'
 import XButton from '../buttons/XButton.vue'
 import ElZeroBanner from '../ElZeroBanner.vue'
@@ -12,7 +12,7 @@ const props = defineProps({
   indexMeta: { type: Object as vue.PropType<IndexMeta>, default: () => ({}) },
   editActions: { type: Array as vue.PropType<string[]>, default: () => [] },
   empty: { type: Object as vue.PropType<IndexItem>, required: false },
-  actions: { type: Array as vue.PropType<ActionItem[]>, default: undefined },
+  actions: { type: Array as vue.PropType<ActionButton[]>, default: undefined },
   size: { type: String as vue.PropType<'xs' | 'md'>, default: undefined },
   loading: { type: Boolean, default: false },
   onItemClick: { type: Function as vue.PropType<((id: string | number) => void) | undefined>, default: undefined },

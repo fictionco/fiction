@@ -73,7 +73,7 @@ vue.onMounted(async () => {
           title="Email Your Subscribers"
           description="Quickly emails and send them to your subscribers in a few clicks."
           icon="i-tabler-mail-share"
-          :actions="[{ name: 'Start', onClick: () => { showStartModal = true }, btn: 'primary', icon: 'i-heroicons-plus' }]"
+          :actions="[{ name: 'Start', onClick: () => { showStartModal = true }, theme: 'primary', icon: 'i-heroicons-plus' }]"
         />
       </template>
     </ElIndexGrid>
