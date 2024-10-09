@@ -28,7 +28,7 @@ const manageLink = vue.computed(() => {
   if (!campaignId)
     return '/campaigns'
 
-  return `/campaign-manage?campaignId=${campaignId}`
+  return `/manage-campaign?campaignId=${campaignId}`
 })
 async function publish() {
   if (!campaign.value)

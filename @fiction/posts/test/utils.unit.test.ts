@@ -28,6 +28,7 @@ describe('post utils', async () => {
         "createdAt": "[dateTime:]",
         "dateAt": "[dateTime:]",
         "draft": {},
+        "draftHistory": "",
         "excerpt": "",
         "hasChanges": false,
         "isSyndicated": false,

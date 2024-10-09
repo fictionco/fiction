@@ -64,8 +64,8 @@ const iconAdjust = vue.computed(() => {
     'xxs': { mt: '', mxBefore: '-ml-[1px] mr-[4px]', mxAfter: '-mr-[1px] ml-[4px]' },
     'xs': { mt: '', mxBefore: '-ml-[1px] mr-[4px]', mxAfter: '-mr-[1px] ml-[4px]' },
     'sm': { mt: '', mxBefore: '-ml-[1px] mr-[4px]', mxAfter: '-mr-[1px] ml-[4px]' },
-    'md': { mt: '', mxBefore: '-ml-[1px] mr-[4px]', mxAfter: '-mr-[1px] ml-[4px]' },
-    'lg': { mt: '', mxBefore: '-ml-[3px] mr-[5px]', mxAfter: '-mr-[3px] ml-[5px]' },
+    'md': { mt: '', mxBefore: '-ml-[1px] mr-[5px]', mxAfter: '-mr-[1px] ml-[5px]' },
+    'lg': { mt: '', mxBefore: '-ml-[3px] mr-[6px]', mxAfter: '-mr-[3px] ml-[6px]' },
     'xl': { mt: '', mxBefore: '-ml-1.5 mr-1.5', mxAfter: '-mr-1.5 ml-1.5' },
     '2xl': { mt: '', mxBefore: '-ml-2 mr-2', mxAfter: '-mr-2 ml-2' },
   }

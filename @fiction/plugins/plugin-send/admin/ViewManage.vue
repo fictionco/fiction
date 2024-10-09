@@ -50,8 +50,9 @@ vue.onMounted(() => load())
     base-path="/manage-campaign"
     :panel-props="{ campaign }"
     :header="{
+      superTitle: 'Campaign',
       title: campaign?.title.value || 'Untitled',
-      subTitle: 'Email Campaign',
+      subTitle: 'Email campaigns are a simple way to send beautiful emails to your email list.',
       media: { class: `i-tabler-mail` },
       actions: [],
     }"

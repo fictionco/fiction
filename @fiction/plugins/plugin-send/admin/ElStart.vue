@@ -28,7 +28,7 @@ async function start() {
   try {
     const fields = form.value
     const [_email] = await manageEmailCampaign({ fictionSend, params: { _action: 'create', fields: [fields] } })
-    await props.card.goto(`/campaign-manage?campaignId=${_email?.campaignId}`)
+    await props.card.goto(`/manage-campaign?campaignId=${_email?.campaignId}`)
   }
   catch (error) {
     console.error(error)

@@ -176,11 +176,12 @@ export const UserSchema = z.object({
 })
 
 export const PostSchema = z.object({
+  superTitle: z.string().optional().describe('Super title of the post'),
   title: z.string().optional().describe('Title of the post'),
   subTitle: z.string().optional().describe('Subtitle of the post'),
   content: z.string().optional().describe('Content of the post'),
   status: PostStatusSchema.optional().describe('Status of the post'),
-  media: MediaContentSchema.optional().describe('Featured Media for the post'),
+  media: MediaDisplaySchema.optional().describe('Featured Media for the post'),
   slug: z.string().optional().describe('Slug of the post page'),
   taxonomy: z.array(TaxonomySchema).optional().describe('Taxonomy for the post which combines all types (categories, tags, etc)'),
   tags: z.array(TaxonomySchema).optional().describe('Tags for the post'),

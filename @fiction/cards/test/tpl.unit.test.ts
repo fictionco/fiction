@@ -122,7 +122,9 @@ describe('verify template settings config', async () => {
           "hasDemo": true,
           "isPublic": true,
           "templateId": "cinema",
-          "unusedSchema": {},
+          "unusedSchema": {
+            "items.0.actions.0.testId": "string",
+          },
         },
         {
           "hasDemo": true,

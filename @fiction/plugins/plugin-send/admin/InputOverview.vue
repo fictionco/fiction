@@ -40,7 +40,7 @@ function getWordCountFromHTML(html?: string) {
 const items = vue.computed<NavItem[]>(() => {
   const em = email.value
   const wordCount = getWordCountFromHTML(em?.post?.content || '')
-  const settings = props.card.link(`/campaign-manage/settings?campaignId=${em?.campaignId}`)
+  const settings = props.card.link(`/manage-campaign/settings?campaignId=${em?.campaignId}`)
   const edit = props.card.link(`/campaign-edit?campaignId=${em?.campaignId}`)
   const pub = props.card.link(`/settings/project`)
   const hasSubject = !!em?.subject
