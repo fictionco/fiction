@@ -88,7 +88,6 @@ const UserConfigSchema = z.object({
 })
 
 const options: InputOption[] = [
-  standardOption.ai(),
   new InputOption({
     input: 'InputList',
     key: `items`,

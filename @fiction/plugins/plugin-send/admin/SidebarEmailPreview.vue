@@ -11,31 +11,31 @@ import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import InputEmailPreview from './InputEmailPreview.vue'
 
-const props = defineProps({
-  tool: { type: Object as vue.PropType<EditorTool>, required: true },
-  email: { type: Object as vue.PropType<EmailCampaign>, default: undefined },
-  card: { type: Object as vue.PropType<Card>, required: true },
-})
+const { tool, campaign, card } = defineProps<{
+  tool: EditorTool
+  campaign?: EmailCampaign | undefined
+  card: Card
+}>()
 
 const options = vue.computed<InputOption[]>(() => {
   return [
-    new InputOption({ key: '*', label: 'Email Preview', input: InputEmailPreview }),
+    new InputOption({ key: '*', label: 'Email Preview', input: InputEmailPreview, props: { modelValue: campaign, card } }),
   ]
 })
 
 function updatePost(config: Partial<EmailCampaignConfig>) {
-  props.email?.update(config)
+  campaign?.update(config)
 }
 </script>
 
 <template>
   <ElTool :tool="tool">
-    <ElForm v-if="email" id="toolForm">
+    <ElForm v-if="campaign" id="toolForm">
       <FormEngine
         state-key="emailPreview"
-        :model-value="email.toConfig()"
+        :model-value="campaign.toConfig()"
         :options
-        :input-props="{ email, card }"
+        :input-props="{ campaign, card }"
         @update:model-value="updatePost($event as Partial<EmailCampaignConfig>)"
       />
     </ElForm>

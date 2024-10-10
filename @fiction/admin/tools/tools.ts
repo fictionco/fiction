@@ -30,8 +30,7 @@ export type EditorTool<T extends string = string, U extends Record<string, any> 
 }
 
 type AdminEditorControllerSettings = {
-  tools: readonly EditorTool[]
-
+  tools: readonly EditorTool<any, any>[]
 }
 
  type CardSurface = {
@@ -51,10 +50,7 @@ export class AdminEditorController<T extends CardSurface = CardSurface> extends 
     super('AdminEditorController', settings)
   }
 
-  activeToolId = {
-    primary: vue.ref<string>(),
-    context: vue.ref<string>(),
-  }
+  activeToolId = { primary: vue.ref<string>(), context: vue.ref<string>() }
 
   defaultTool = {
     context: vue.computed(() => this.settings.tools.find(t => t.isDefault && t.location === 'context')?.toolId),

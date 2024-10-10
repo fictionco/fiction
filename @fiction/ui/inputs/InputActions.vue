@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { BasicItem } from './InputList.vue'
-import { colorThemeUser } from '@fiction/core'
+import { colorThemeUser, vue } from '@fiction/core'
 import { InputOption } from './index.js'
 import InputList from './InputList.vue'
 
@@ -72,8 +72,20 @@ const buttonOptions: InputOption[] = [
     ],
   }),
 ]
+
+function updateModelValue(val: Record<string, unknown>[]) {
+  emit('update:modelValue', val)
+}
 </script>
 
 <template>
-  <InputList item-name="Button" :options="buttonOptions" :model-value="modelValue" @update:model-value="emit('update:modelValue', $event)" />
+  <div>
+    <InputList
+      :data-options-num="buttonOptions.length"
+      item-name="Button"
+      :options="buttonOptions"
+      :model-value="modelValue"
+      @update:model-value="updateModelValue($event)"
+    />
+  </div>
 </template>

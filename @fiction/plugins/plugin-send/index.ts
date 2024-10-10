@@ -99,11 +99,11 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
 
       await factory.create({
         templateId: 'dash',
-        slug: 'email-edit',
+        slug: 'campaign-composer',
         title: 'Edit Email',
         cards: [
           await factory.create({
-            el: vue.defineAsyncComponent(async () => import('./admin/ViewSingle.vue')),
+            el: vue.defineAsyncComponent(async () => import('./admin/EmailEditor.vue')),
             userConfig: { standard: { spacing: { verticalSpacing: 'none' } } },
           }),
         ],

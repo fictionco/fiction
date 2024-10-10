@@ -149,4 +149,19 @@ export class Post extends FictionObject<PostConfig> {
       sites: this.sites.value,
     }
   }
+
+  async resetToPublished() {
+    const postId = this.postId
+
+    const r = await this.settings.fictionPosts.requests.ManagePost.projectRequest({
+      _action: 'revertDraft',
+      where: { postId },
+    }, { caller: 'postEdit' })
+
+    if (r.status === 'success') {
+      const responsePost = r.data?.[0]
+
+      await this.update({ ...responsePost }, { noSave: true, caller: 'resetToPublished' })
+    }
+  }
 }

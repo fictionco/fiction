@@ -4,28 +4,21 @@ import type { Card } from '@fiction/site'
 import type { EmailCampaign } from '../campaign.js'
 import type { EmailCampaignConfig } from '../schema.js'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
-import { standardOption } from '@fiction/cards/inputSets.js'
 
 import { vue } from '@fiction/core'
-import { refineOptions } from '@fiction/site/utils/schema'
 import { InputOption } from '@fiction/ui/index.js'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
-import { sendTable } from '../schema.js'
 
-const props = defineProps({
-  tool: { type: Object as vue.PropType<EditorTool>, required: true },
-  email: { type: Object as vue.PropType<EmailCampaign>, default: undefined },
-  card: { type: Object as vue.PropType<Card>, required: true },
-})
+const { tool, campaign, card } = defineProps<{
+  tool: EditorTool
+  campaign?: EmailCampaign | undefined
+  card: Card
+}>()
 
 const options = vue.computed<InputOption[]>(() => {
-  const refinedOptions = refineOptions({
-    options: [standardOption.buttons({ key: 'userConfig.actions', label: 'Action Buttons' })],
-    schema: sendTable.tableSchema(),
-  })
-
   return [
+
     new InputOption({
       key: 'emailContent',
       label: 'Email Content',
@@ -40,25 +33,30 @@ const options = vue.computed<InputOption[]>(() => {
           isRequired: true,
         }),
         new InputOption({ key: 'post.subTitle', label: 'Subtitle', input: 'InputText' }),
-        ...refinedOptions.options,
+        new InputOption({ key: 'userConfig.actions', label: 'Email Links', input: 'InputActions' }),
       ],
     }),
+
   ]
 })
 
 function updatePost(config: Partial<EmailCampaignConfig>) {
-  props.email?.update(config)
+  campaign?.update(config)
 }
+
+const activeConfig = vue.computed(() => {
+  return campaign?.toConfig()
+})
 </script>
 
 <template>
   <ElTool :tool="tool">
-    <ElForm v-if="email" id="toolForm">
+    <ElForm v-if="campaign" id="toolForm">
       <FormEngine
         state-key="emailPreview"
-        :model-value="email.toConfig()"
+        :model-value="activeConfig"
         :options
-        :input-props="{ email, card }"
+        :input-props="{ campaign, card }"
         @update:model-value="updatePost($event as Partial<EmailCampaignConfig>)"
       />
     </ElForm>

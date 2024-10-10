@@ -76,7 +76,6 @@ export const templates = [
     el: vue.defineAsyncComponent(async () => import('./ElQuote.vue')),
     isPublic: true,
     options: [
-      standardOption.ai(),
       new InputOption({
         input: 'InputList',
         key: `quotes`,

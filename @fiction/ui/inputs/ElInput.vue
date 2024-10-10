@@ -5,16 +5,16 @@ import { inputs } from '.'
 
 defineOptions({ name: 'ElInput' })
 
-const props = defineProps({
-  modelValue: { type: [String, Object, Array, Number, Date, Boolean], default: undefined },
-  label: { type: String, default: '' },
-  subLabel: { type: String, default: '' },
-  description: { type: String, default: '' },
-  inputProps: { type: Object as vue.PropType<InputProps>, default: () => ({}) },
-  uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
-  input: { type: [String, Object] as vue.PropType<keyof typeof inputs | vue.Component | 'title' | 'group' | 'hidden'>, default: undefined },
-  defaultValue: { type: [String, Object, Array, Number, Date, Boolean], default: undefined },
-})
+const { modelValue, label = '', subLabel = '', description = '', inputProps = {}, uiSize = 'md', input, defaultValue } = defineProps<{
+  modelValue?: any
+  label?: string
+  subLabel?: string
+  description?: string
+  inputProps?: InputProps
+  uiSize?: UiElementSize
+  input?: keyof typeof inputs | vue.Component | 'title' | 'group' | 'hidden'
+  defaultValue?: any
+}>()
 
 const emit = defineEmits(['update:modelValue'])
 
@@ -41,15 +41,15 @@ type InputProps = {
   [key: string]: any
 }
 
-if (props.defaultValue && props.modelValue === undefined)
-  emit('update:modelValue', props.defaultValue)
+if (defaultValue && modelValue === undefined)
+  emit('update:modelValue', defaultValue)
 
 const attrs = vue.useAttrs() as { for?: string, class?: string, required?: string, [key: string]: any }
 
 const inputEl = vue.ref<vue.ComponentPublicInstance>()
 const valid = vue.ref<boolean | undefined>()
 const inputComponent = vue.computed(() => {
-  const inp = props.input
+  const inp = input
   if (inp === 'title' || inp === 'group' || inp === 'hidden') {
     return ''
   }
@@ -58,7 +58,7 @@ const inputComponent = vue.computed(() => {
     return r
   }
   else {
-    return props.input || ''
+    return input || ''
   }
 })
 
@@ -96,7 +96,7 @@ vue.onMounted(() => {
 })
 
 const cls = vue.computed(() => {
-  const size = props.uiSize
+  const size = uiSize
   const map = {
     sm: { labelSize: 'text-[11px]' },
     md: { labelSize: 'text-xs' },
@@ -130,7 +130,7 @@ const cls = vue.computed(() => {
         v-if="inputComponent"
         ref="inputEl"
         :model-value="modelValue"
-        v-bind="{ ...omit(attrs, 'class', 'data-test-id', 'data-option-path'), ...inputProps }"
+        v-bind="{ ...omit(attrs, 'class', 'data-test-id', 'data-option-path', 'model-value'), ...inputProps }"
         :ui-size="uiSize"
         @update:model-value="updateValue($event)"
       >

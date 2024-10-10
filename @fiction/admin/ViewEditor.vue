@@ -1,17 +1,17 @@
-<script lang="ts" setup>
+<script lang="ts" setup generic="T extends Record<string, unknown> = Record<string, unknown>">
 import type { AdminEditorController } from '../admin'
 import { resetUi, toLabel, vue } from '@fiction/core'
 import ElTooltip from '@fiction/ui/common/ElTooltip.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 
-const props = defineProps({
-  controller: { type: Object as vue.PropType<AdminEditorController>, required: true },
-  loading: { type: Boolean, default: false },
-  toolProps: { type: Object as vue.PropType<Record<string, unknown>>, default: () => ({}) },
-})
+const { controller, toolProps, loading = false } = defineProps<{
+  controller: AdminEditorController
+  toolProps: T
+  loading?: boolean
+}>()
 
-const primaryTool = vue.computed(() => props.controller.activeTool.primary.value)
-const contextTool = vue.computed(() => props.controller.activeTool.context.value)
+const primaryTool = vue.computed(() => controller.activeTool.primary.value)
+const contextTool = vue.computed(() => controller.activeTool.context.value)
 </script>
 
 <template>

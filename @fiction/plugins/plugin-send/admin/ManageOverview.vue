@@ -11,7 +11,6 @@ import ElModal from '@fiction/ui/ElModal.vue'
 import ElModalConfirm from '@fiction/ui/ElModalConfirm.vue'
 import { InputOption } from '@fiction/ui/index.js'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
-import InputAudience from './InputAudience.vue'
 
 const { card, campaign } = defineProps<{ card: Card, campaign?: EmailCampaign }>()
 
@@ -23,6 +22,10 @@ const saving = vue.ref(false)
 
 const from = vue.computed(() => {
   const org = fictionUser.activeOrganization.value
+
+  if (!org?.orgEmail) {
+    return
+  }
   return `${org?.orgName || org?.orgEmail} <${org?.orgEmail}>`
 })
 
@@ -35,7 +38,11 @@ function getWordCountFromHTML(html?: string) {
   return wordCount
 }
 
-type OptionItem = NavItem & { options?: InputOption<any>[] }
+type OptionItem = NavItem & { options?: InputOption<any>[], isOptional?: boolean, isActive?: boolean }
+
+function getCampaignLink(slug: 'campaigns' | 'manage-campaign' | 'campaign-composer') {
+  return card.link(`/${slug}?campaignId=${campaign?.campaignId}`)
+}
 
 function getPanelLink(panel: 'compose' | 'delivery' | 'analytics' | '') {
   return card.link(`/manage-campaign/${panel}?campaignId=${campaign?.campaignId}`)
@@ -56,7 +63,7 @@ const items = vue.computed<OptionItem[]>(() => {
 
   const scheduleDisplay = config?.scheduledAt && config?.scheduleMode !== 'now' ? 'Scheduled' : 'Send Immediately'
 
-  const subs = subscriberCount ? `${subscriberCount} Subscribers` : 'No Subscribers'
+  const subs = subscriberCount ? `${subscriberCount} Active Subscribers` : 'No Subscribers'
   const hasSubs = !!(subscriberCount && subscriberCount > 0)
 
   return [
@@ -64,35 +71,57 @@ const items = vue.computed<OptionItem[]>(() => {
     {
       key: 'subject',
       icon: 'i-tabler-input-spark',
-      title: config?.subject || 'No Subject',
+      title: config?.subject || 'No Subject Line',
       subTitle: 'Subject Line',
-      content: config?.subject ? `${config?.subject} / ${config?.preview || 'No Preview'}` : 'Not Set',
+      content: 'The subject line of the email',
       progress: config?.subject ? 'ready' : 'pending',
+      isOptional: false,
+      isActive: hasSubject,
       actions: [
         {
-          name: 'Compose',
-          href: getPanelLink('compose'),
-          theme: 'primary',
+          name: 'Update',
+          onClick: ({ item }) => (settingsModal.value = item?.key),
+          theme: 'theme',
         },
       ],
       options: [
         new InputOption({ key: 'subject', label: 'Subject Line', input: 'InputText', isRequired: true, placeholder: 'Subject Line', description: 'This is the subject line that appears in the recipient\'s inbox.' }),
+      ],
+    },
+    {
+      key: 'subjectPreview',
+      icon: 'i-tabler-input-search',
+      title: config?.preview || 'No Preview Text',
+      subTitle: 'Preview Text',
+      content: 'The text that appears in the inbox preview of your email',
+      progress: config?.subject ? 'ready' : 'pending',
+      isOptional: true,
+      isActive: !!config?.preview,
+      actions: [
+        {
+          name: 'Update',
+          onClick: ({ item }) => (settingsModal.value = item?.key),
+          theme: 'theme',
+        },
+      ],
+      options: [
         new InputOption({ key: 'preview', label: 'Preview Text', input: 'InputText', placeholder: 'Preview Text', description: 'This is the text that appears in the inbox preview of your email.' }),
       ],
     },
     {
       key: 'content',
       icon: 'i-tabler-file-description',
-      title: `${wordCount} Words`,
-      subTitle: 'The content of the email',
-      content: config?.post?.content ? `${getWordCountFromHTML(config?.post?.content)} words` : 'Not Set',
+      title: `${wordCount} Words in Email`,
+      subTitle: 'Email Content',
+      content: 'The text of the email',
       progress: 'pending',
-      href: settings,
+      isOptional: false,
+      isActive: hasContent,
       actions: [
         {
           name: 'Compose',
-          href: getPanelLink('compose'),
-          theme: 'primary',
+          href: getCampaignLink('campaign-composer'),
+          theme: 'theme',
         },
       ],
     },
@@ -100,15 +129,16 @@ const items = vue.computed<OptionItem[]>(() => {
       key: 'audience',
       icon: 'i-tabler-users-group',
       title: `${subs}`,
-      subTitle: 'Recipients of the Email',
-      content: config?.post?.content ? `${getWordCountFromHTML(config?.post?.content)} words` : 'Not Set',
+      subTitle: 'Recipients',
+      content: 'Emails will be sent to these recipients',
       progress: 'pending',
-      href: settings,
+      isOptional: false,
+      isActive: hasSubs,
       actions: [
         {
-          name: 'Compose',
+          name: 'View Subscribers',
           href: getPanelLink('compose'),
-          theme: 'primary',
+          theme: 'theme',
         },
       ],
     },
@@ -116,15 +146,16 @@ const items = vue.computed<OptionItem[]>(() => {
       key: 'from',
       icon: 'i-tabler-mailbox',
       title: `${from.value}`,
-      subTitle: 'Sender email address',
-      content: config?.post?.content ? `${getWordCountFromHTML(config?.post?.content)} words` : 'Not Set',
+      subTitle: 'Sender',
+      content: 'The email address that the email will be sent from',
       progress: 'pending',
-      href: settings,
+      isOptional: false,
+      isActive: !!from.value,
       actions: [
         {
-          name: 'Compose',
+          name: 'Update',
           href: getPanelLink('compose'),
-          theme: 'primary',
+          theme: 'theme',
         },
       ],
     },
@@ -133,21 +164,14 @@ const items = vue.computed<OptionItem[]>(() => {
       key: 'schedule',
       title: scheduleDisplay,
       subTitle: 'Schedule Send Time and Date',
-      content: scheduleDisplay,
+      content: 'This is the time and date that the email will be sent',
       progress: 'ready',
       actions: [{
-        name: 'Set Up',
-        href: getPanelLink('delivery'),
-        theme: 'primary',
+        name: 'Update',
+        onClick: ({ item }) => (settingsModal.value = item?.key),
+        theme: 'theme',
       }],
       options: [
-        new InputOption({
-          key: 'audience',
-          label: 'Audience',
-          description: 'Who this email will be sent to...',
-          input: InputAudience,
-          props: { card },
-        }),
         new InputOption({
           key: 'scheduleMode',
           label: 'Sending Time',
@@ -169,46 +193,22 @@ const items = vue.computed<OptionItem[]>(() => {
 
       ],
     },
-    // {
-    //   icon: 'i-tabler-users',
-    //   key: 'schedule',
-    //   title: 'Recipients of the Email',
-    //   subTitle: 'Who will receive this email',
-    //   content: scheduleDisplay,
-    //   progress: 'ready',
-    //   actions: [{
-    //     name: 'Set Up',
-    //     onClick: ({ item }) => (settingsModal.value = item?.key),
-    //   }],
-    // },
-    // {
-    //   name: 'Sending From',
-    //   desc: 'The email address the email will be sent from',
-    //   value: from.value,
-    //   isActive: !!from.value,
-    //   href: pub,
-    // },
-    // {
-    //   name: 'Sending To',
-    //   desc: 'The list of subscribers the email will be sent to',
-    //   value: subs,
-    //   isActive: hasSubs,
-    //   href: settings,
-    // },
-    // {
-    //   name: 'Title',
-    //   desc: 'The title of the email content',
-    //   value: post?.title || 'Not Set',
-    //   href: edit,
-    //   isActive: hasTitle,
-    // },
-    // {
-    //   name: 'Email Body Content',
-    //   desc: 'The HTML content of the email',
-    //   value: wordCount ? `Approx. ${wordCount} Words` : 'Not Set',
-    //   href: edit,
-    //   isActive: hasContent,
-    // },
+    {
+      key: 'test',
+      icon: 'i-tabler-eye-check',
+      title: `Test Sent`,
+      subTitle: 'Preview and Test',
+      content: 'View preview and send test email',
+      isOptional: true,
+      isActive: !!from.value,
+      actions: [
+        {
+          name: 'Preview / Test',
+          href: getPanelLink('compose'),
+          theme: 'theme',
+        },
+      ],
+    },
   ]
 })
 
@@ -280,12 +280,41 @@ async function saveChanges() {
 }
 
 const header = vue.computed(() => {
+  const em = campaign?.toConfig() as EmailCampaignConfig
+  const activeItems = items.value.filter(item => item.isActive)
+  const isReady = activeItems.length === items.value.length
+  const percentComplete = Math.round((activeItems.length / items.value.length) * 100)
+
+  const scheduledTime = em?.scheduledAt
+    ? dayjs(em.scheduledAt).format('MMM D, YYYY h:mm A')
+    : ''
+
+  const isScheduled = em?.scheduleMode === 'schedule'
+  const actionText = isScheduled ? `Schedule (${scheduledTime})` : 'Send Now'
+
+  const statusText = em?.status === 'pending' && !isReady
+    ? `Complete Setup to ${actionText}`
+    : `Ready to ${actionText}`
+
+  const publishButton: ActionButton = {
+    name: em?.status === 'pending' && isReady
+      ? `${actionText}...`
+      : em?.status === 'pending'
+        ? `${percentComplete}% Complete`
+        : em?.status,
+    theme: em?.status === 'pending' && isReady ? 'primary' : 'default',
+    disabled: em?.status === 'pending' && !isReady,
+    onClick: em?.status === 'pending' && isReady
+      ? () => { showSendModal.value = true }
+      : undefined,
+  }
+
   const out: PostObject = {
     superTitle: 'Status',
-    title: 'Ready to Send',
-    subTitle: 'Email campaigns status',
-    media: { class: `i-tabler-mail` },
-    actions: allActions.value,
+    title: statusText,
+    subTitle: `Email campaign status: ${em?.status}`,
+    media: { class: 'i-tabler-mail' },
+    actions: [{ size: 'lg', ...publishButton }],
   }
 
   return out
@@ -328,17 +357,16 @@ const header = vue.computed(() => {
                 >
                   {{ item.progress === 'ready' ? 'Ready' : 'Incomplete' }}
                 </XButton>
-                <span class="text-sm  text-theme-500 dark:text-theme-400">{{ item.content }}</span>
+                <span class="text-sm  text-theme-500/60 dark:text-theme-400/60">{{ item.content }}</span>
               </div>
             </div>
-            <div>
+            <div class="space-x-3">
               <XButton
                 v-for="(action, ii) in (item.actions || [])"
                 :key="ii"
                 design="solid"
                 :theme="action.theme || 'theme'"
                 size="lg"
-                icon-after="i-tabler-arrow-right"
                 :href="action.href"
                 @click.stop="action.onClick ? (action.onClick({ item, event: $event })) : ''"
               >

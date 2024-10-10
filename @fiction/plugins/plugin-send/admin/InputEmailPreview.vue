@@ -9,10 +9,7 @@ import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import { getEmailForCampaign } from '../utils.js'
 
-const props = defineProps({
-  modelValue: { type: Object as vue.PropType<EmailCampaignConfig>, default: undefined },
-  card: { type: Object as vue.PropType<Card>, required: true },
-})
+const { modelValue } = defineProps<{ modelValue?: EmailCampaignConfig, card: Card }>()
 
 const _emit = defineEmits<{
   (event: 'update:modelValue', payload: EmailCampaignConfig): void
@@ -48,7 +45,7 @@ async function setEmail(campaignConfig?: EmailCampaignConfig) {
 vue.onMounted(async () => {
   await fictionUser.userInitialized()
 
-  vue.watch(() => props.modelValue, v => setEmail(v), { immediate: true })
+  vue.watch(() => modelValue, v => setEmail(v), { immediate: true })
 })
 </script>
 

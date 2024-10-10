@@ -30,7 +30,6 @@ const UserConfigSchema = z.object({
 export type UserConfig = z.infer<typeof UserConfigSchema>
 
 const options: InputOption[] = [
-  standardOption.ai(),
   new InputOption({ key: 'layout', label: 'Layout', input: 'InputSelect', list: ['slider', 'mega', 'masonry'] }),
   new InputOption({
     input: 'InputList',

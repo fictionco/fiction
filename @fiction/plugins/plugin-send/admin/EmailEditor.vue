@@ -2,6 +2,7 @@
 import type { Card } from '@fiction/site'
 import type { EmailCampaign } from '../campaign.js'
 import type { FictionSend } from '../index.js'
+import ElDraftSignal from '@fiction/admin/el/ElDraftSignal.vue'
 import ViewEditor from '@fiction/admin/ViewEditor.vue'
 import CardButton from '@fiction/cards/CardButton.vue'
 import CardLink from '@fiction/cards/el/CardLink.vue'
@@ -67,7 +68,8 @@ const actions = vue.computed(() => {
         <div class="flex space-x-2 items-center">
           <CardButton
             :card
-            theme="default"
+            theme="primary"
+            design="outline"
             size="sm"
             href="/"
             class="shrink-0"
@@ -77,13 +79,14 @@ const actions = vue.computed(() => {
           </CardButton>
           <CardButton
             :card
-            theme="default"
+            theme="green"
+            design="outline"
             size="sm"
             :href="manageLink"
             class="shrink-0"
             icon="i-tabler-arrow-left"
           >
-            Manage
+            Manage Campaign
           </CardButton>
         </div>
         <div v-if="campaign" class="flex space-x-1 font-medium">
@@ -93,28 +96,33 @@ const actions = vue.computed(() => {
             href="/send"
           >
             <span class="i-tabler-mail text-xl inline-block dark:text-theme-500" />
-            <span>Compose Email</span>
+            <span>Email Campaign Composer</span>
             <span class="i-tabler-slash text-xl dark:text-theme-500" />
           </CardLink>
           <XText :model-value="campaign?.title.value" class="whitespace-nowrap" :is-editable="true" @update:model-value="campaign && (campaign.title.value = $event)" />
         </div>
       </template>
       <template #headerRight>
-        <span class="inline-flex items-center gap-x-1.5 rounded-md  px-2 py-1 text-xs font-medium text-theme-400 antialiased">
-          <svg class="h-1.5 w-1.5" :class="campaign?.post.value?.isDirty.value ? 'fill-orange-500' : 'fill-green-500'" viewBox="0 0 6 6" aria-hidden="true">
-            <circle cx="3" cy="3" r="3" />
-          </svg>
-          {{ campaign?.post.value?.isDirty.value ? 'Syncing' : 'Draft Saved' }}
-        </span>
+        <ElDraftSignal
+          v-if="campaign?.post.value"
+          :is-dirty="campaign?.post.value.isDirty.value"
+          data-test-id="draft-control-dropdown"
+          :nav-items="[
+            {
+              name: 'Reset to Published Version',
+              onClick: () => campaign?.post.value.resetToPublished(),
+              testId: 'reset-to-published',
+            },
+          ]"
+        />
         <CardButton
           :card
           theme="primary"
-          class="min-w-36"
           size="md"
           :loading="!!sending"
           @click.stop.prevent="publish()"
         >
-          Save
+          Publish Changes
         </CardButton>
       </template>
       <template #default>

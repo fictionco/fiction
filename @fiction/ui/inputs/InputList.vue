@@ -8,13 +8,13 @@ import ElInput from './ElInput.vue'
 
 export type BasicItem = Record<string, unknown> & { _key?: string }
 
-const props = defineProps({
-  modelValue: { type: Array as vue.PropType<BasicItem[]>, default: () => [] },
-  options: { type: Array as vue.PropType<InputOption[]>, default: () => [] },
-  depth: { type: Number, default: 0 },
-  inputClass: { type: String, default: '' },
-  itemName: { type: String, default: 'Item' },
-})
+const { modelValue = [], options = [], itemName = 'Item', depth = 0, inputClass = '' } = defineProps<{
+  modelValue?: BasicItem[]
+  options?: InputOption[]
+  itemName?: string
+  inputClass?: string
+  depth?: number
+}>()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: BasicItem[]): void
@@ -22,14 +22,14 @@ const emit = defineEmits<{
 
 type KeyedItem = Record<string, unknown> & { _key: string }
 
-const itemSelector = `[data-drag-depth="${props.depth}"]`
-const dragSelector = `[data-drag-handle="${props.depth}"]`
+const itemSelector = `[data-drag-depth="${depth}"]`
+const dragSelector = `[data-drag-handle="${depth}"]`
 const openItem = vue.ref(-1)
 const wrapperEl = vue.ref<HTMLElement>()
 const listKey = vue.ref(0)
 
 const keyedModelValue = vue.computed<KeyedItem[]>(() => {
-  return props.modelValue.map((item, i) => {
+  return modelValue.map((item, i) => {
     item._key = item._key || shortId()
     return item
   }) as KeyedItem[]
@@ -62,7 +62,7 @@ async function updateOrder() {
 function updateInputValue(args: { index: number, key: string, value: unknown }) {
   const { index, key, value } = args
 
-  const val = [...props.modelValue]
+  const val = [...modelValue]
   val[index] = setNested({ path: key, data: val[index], value })
 
   updateModelValue(val)
@@ -70,7 +70,7 @@ function updateInputValue(args: { index: number, key: string, value: unknown }) 
 
 function getDefaultItem() {
   const item: Record<string, unknown> = {}
-  props.options.forEach((opt) => {
+  options.forEach((opt) => {
     const v = opt.settings.getDefaultValue?.()
     if (v !== undefined)
       item[opt.key.value] = v
@@ -81,7 +81,7 @@ function getDefaultItem() {
 function addItem() {
   const _key = shortId()
   const defaultItem = getDefaultItem()
-  const val = [...props.modelValue, { name: 'New Item', _key, ...defaultItem }]
+  const val = [...modelValue, { name: `New ${itemName}`, _key, ...defaultItem }]
   openItem.value = val.length - 1
   updateModelValue(val)
 }
@@ -90,7 +90,7 @@ function removeItem(item: Record<string, unknown> & { _key: string }) {
   const confirmed = confirm('Are you sure?')
   if (!confirmed)
     return
-  const val = props.modelValue.filter(i => i._key !== item._key)
+  const val = modelValue.filter(i => i._key !== item._key)
   updateModelValue(val)
 
   openItem.value = -1
@@ -161,6 +161,7 @@ vue.onMounted(async () => {
       <TransitionSlide>
         <div v-if="openItem === i">
           <div class="py-4 px-2 space-y-3">
+            {{ options.length }}
             <div v-for="(opt, ii) in options" :key="ii">
               <ElInput
                 v-if="opt.isHidden.value !== true"
@@ -192,7 +193,7 @@ vue.onMounted(async () => {
         size="xs"
         data-test="add"
         icon="i-tabler-plus"
-        @click="addItem()"
+        @click.prevent="addItem()"
       >
         Add {{ itemName }}
       </XButton>
