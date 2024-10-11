@@ -161,7 +161,6 @@ vue.onMounted(async () => {
       <TransitionSlide>
         <div v-if="openItem === i">
           <div class="py-4 px-2 space-y-3">
-            {{ options.length }}
             <div v-for="(opt, ii) in options" :key="ii">
               <ElInput
                 v-if="opt.isHidden.value !== true"

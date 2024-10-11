@@ -16,7 +16,7 @@ const { tool, campaign, card } = defineProps<{
   card: Card
 }>()
 
-const options = vue.computed<InputOption[]>(() => {
+const options = vue.computed<InputOption<any>[]>(() => {
   return [
 
     new InputOption({
@@ -24,16 +24,14 @@ const options = vue.computed<InputOption[]>(() => {
       label: 'Email Content',
       input: 'group',
       options: [
-
-        new InputOption({
-          key: 'post.title',
-          label: 'Title',
-          input: 'InputText',
-          placeholder: 'Title',
-          isRequired: true,
-        }),
+        new InputOption({ key: 'post.title', label: 'Title', input: 'InputText', placeholder: 'Title', isRequired: true }),
         new InputOption({ key: 'post.subTitle', label: 'Subtitle', input: 'InputText' }),
-        new InputOption({ key: 'userConfig.actions', label: 'Email Links', input: 'InputActions' }),
+        new InputOption({ key: 'userConfig.actions', label: 'Calls to Action', input: 'InputActions', props: {
+          addOptions: [
+            new InputOption({ key: 'theme', label: 'Color Theme', input: 'InputSelectCustom', list: ['primary', 'default', 'naked'] }),
+          ],
+          disableKeys: ['design', 'icon', 'iconAfter', 'target', 'theme', 'size'],
+        } }),
       ],
     }),
 
@@ -43,10 +41,6 @@ const options = vue.computed<InputOption[]>(() => {
 function updatePost(config: Partial<EmailCampaignConfig>) {
   campaign?.update(config)
 }
-
-const activeConfig = vue.computed(() => {
-  return campaign?.toConfig()
-})
 </script>
 
 <template>
@@ -54,7 +48,7 @@ const activeConfig = vue.computed(() => {
     <ElForm v-if="campaign" id="toolForm">
       <FormEngine
         state-key="emailPreview"
-        :model-value="activeConfig"
+        :model-value="campaign?.toConfig()"
         :options
         :input-props="{ campaign, card }"
         @update:model-value="updatePost($event as Partial<EmailCampaignConfig>)"

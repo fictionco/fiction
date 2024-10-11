@@ -4,7 +4,9 @@ import { colorThemeUser, vue } from '@fiction/core'
 import { InputOption } from './index.js'
 import InputList from './InputList.vue'
 
-const { modelValue = [] } = defineProps<{ modelValue?: BasicItem[] }>()
+type OptionKey = 'name' | 'href' | 'design' | 'theme' | 'size' | 'icon' | 'iconAfter' | 'target'
+
+const { modelValue = [], disableKeys = [], addOptions = [] } = defineProps<{ modelValue?: BasicItem[], disableKeys?: OptionKey[], addOptions?: InputOption<any>[] }>()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: BasicItem[]): void
@@ -54,12 +56,12 @@ const buttonOptions: InputOption[] = [
   }),
   new InputOption({
     key: 'icon',
-    label: 'Icon (Before)',
+    label: 'Icon (Left)',
     input: 'InputIcon',
   }),
   new InputOption({
     key: 'iconAfter',
-    label: 'Icon (After)',
+    label: 'Icon (Right)',
     input: 'InputIcon',
   }),
   new InputOption({
@@ -71,7 +73,10 @@ const buttonOptions: InputOption[] = [
       { name: 'New Window', value: '_blank' },
     ],
   }),
+
 ]
+
+const finalOptions = [...buttonOptions.filter(_ => !disableKeys.includes(_.key.value as OptionKey)), ...addOptions]
 
 function updateModelValue(val: Record<string, unknown>[]) {
   emit('update:modelValue', val)
@@ -83,7 +88,7 @@ function updateModelValue(val: Record<string, unknown>[]) {
     <InputList
       :data-options-num="buttonOptions.length"
       item-name="Button"
-      :options="buttonOptions"
+      :options="finalOptions"
       :model-value="modelValue"
       @update:model-value="updateModelValue($event)"
     />

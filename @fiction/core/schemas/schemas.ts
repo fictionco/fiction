@@ -54,25 +54,6 @@ const ClickHandlerSchema = z.function()
   )
   .returns(z.any())
 
-export const ActionButtonSchema = z.object({
-  name: z.string().optional(),
-  href: z.string().optional(),
-  size: SizeSchema.optional(),
-  theme: ButtonColorThemeSchema.optional(),
-  design: ButtonDesignSchema.optional(),
-  format: ButtonFormatSchema.optional(),
-  rounding: ButtonRoundingSchema.optional(),
-  icon: z.string().optional(),
-  iconAfter: z.string().optional(),
-  loading: z.boolean().optional(),
-  disabled: z.boolean().optional(),
-  onClick: ClickHandlerSchema.optional(),
-  testId: z.string().optional(),
-  target: z.enum(['_blank', '_self']).optional(),
-})
-
-export type ActionButton = z.infer<typeof ActionButtonSchema>
-
 export const FontConfigValSchema = z.object({
   fontKey: z.string().optional(),
   stack: z.enum(['monospace', 'sans', 'serif']),
@@ -160,6 +141,25 @@ export const MediaDisplaySchema = MediaContentSchema.extend({
   }).optional(),
 })
 export type MediaObject = z.infer<typeof MediaDisplaySchema & typeof MediaTypographySchema & typeof MediaIconSchema>
+
+export const ActionButtonSchema = z.object({
+  name: z.string().optional(),
+  href: z.string().optional(),
+  size: SizeSchema.optional(),
+  theme: ButtonColorThemeSchema.optional(),
+  design: ButtonDesignSchema.optional(),
+  format: ButtonFormatSchema.optional(),
+  rounding: ButtonRoundingSchema.optional(),
+  icon: z.union([z.string(), MediaIconSchema]).optional(),
+  iconAfter: z.union([z.string(), MediaIconSchema]).optional(),
+  loading: z.boolean().optional(),
+  disabled: z.boolean().optional(),
+  onClick: ClickHandlerSchema.optional(),
+  testId: z.string().optional(),
+  target: z.enum(['_blank', '_self']).optional(),
+})
+
+export type ActionButton = z.infer<typeof ActionButtonSchema>
 
 export const TaxonomySchema = z.object({
   title: z.string().optional(),

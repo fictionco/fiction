@@ -20,6 +20,9 @@ export class EmailCampaign extends FictionObject<EmailConfig> {
   subject = vue.ref(this.settings.subject || '')
   preview = vue.ref(this.settings.preview || '')
   userConfig = vue.ref(this.settings.userConfig || {})
+  isDirty = vue.ref(false)
+  saveTimeout: ReturnType<typeof setTimeout> | null = null // Store timeout reference
+
   constructor(settings: EmailConfig) {
     super('EmailSend', settings)
   }
@@ -49,9 +52,24 @@ export class EmailCampaign extends FictionObject<EmailConfig> {
     }
   }
 
+  clearAutosave() {
+    if (this.saveTimeout) {
+      clearTimeout(this.saveTimeout) // Clear the timeout after saving
+      this.saveTimeout = null
+    }
+  }
+
+  autosave() {
+    this.isDirty.value = true
+    this.clearAutosave()
+
+    this.saveTimeout = setTimeout(() => {
+      this.save().catch(console.error) // Error handling
+    }, 2000) // Set a new timeout for 2 seconds
+  }
+
   async save() {
     const fields = this.toConfig()
-
     await this.settings.fictionSend.requests.ManageCampaign.projectRequest({ _action: 'update', fields, where: [{ campaignId: this.campaignId }] }, { minTime: 500 })
   }
 

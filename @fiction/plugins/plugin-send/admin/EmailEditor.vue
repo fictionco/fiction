@@ -129,8 +129,8 @@ const actions = vue.computed(() => {
         <div v-if="campaign?.post.value">
           <ElPostEditor :post="campaign.post.value" :card>
             <template #footer>
-              <div v-if="actions.length" class="mt-12 pt-12 border-t border-theme-200 dark:border-theme-700">
-                <ElActions :actions="actions" ui-size="lg" class="flex gap-4" />
+              <div v-if="actions.length" class="mt-12 pt-12">
+                <ElActions :actions ui-size="xl" class="flex gap-4" />
               </div>
             </template>
           </ElPostEditor>

@@ -3,7 +3,7 @@ import type { Subscriber } from '@fiction/plugin-subscribe'
 import type { ManageSubscriptionParams } from '@fiction/plugin-subscribe/endpoint'
 import type { FictionSend, FictionSendSettings } from '.'
 import type { EmailCampaignConfig } from './schema.js'
-import { applyComplexFilters, dayjs, Query } from '@fiction/core'
+import { applyComplexFilters, dayjs, deepMerge, objectId, Query } from '@fiction/core'
 import { CronTool } from '@fiction/core/utils/cron'
 import { t } from './schema'
 import { getEmailForCampaign } from './utils'
@@ -29,6 +29,8 @@ export type ManageCampaignRequestParams =
   | { _action: 'list' } & IndexQuery
   | { _action: 'get', where: WhereSend, loadDraft?: boolean }
   | { _action: 'send', where: WhereSend }
+  | { _action: 'saveDraft', where: WhereSend, fields: Partial<EmailCampaignConfig> }
+  | { _action: 'revertDraft', where: WhereSend }
 
 export type ManageCampaignParams = ManageCampaignRequestParams & StandardFields
 
@@ -60,7 +62,12 @@ export class ManageCampaign extends SendEndpoint {
       case 'send':
         r = await this.send(params, meta)
         break
-
+      case 'saveDraft':
+        r = await this.saveDraft(params, meta)
+        break
+      case 'revertDraft':
+        r = await this.revertDraft(params, meta)
+        break
       default:
         r = { status: 'error', message: 'Invalid action' }
     }
@@ -168,6 +175,34 @@ export class ManageCampaign extends SendEndpoint {
     return { status: 'success', message: 'created successfully', data, indexMeta: { changedCount: fields.length } }
   }
 
+  private async list(params: ManageCampaignParams & { _action: 'list' }, _meta: EndpointMeta): Promise<ManageCampaignResponse> {
+    const { orgId, limit = this.limit, offset = this.offset, filters = [], loadDraft = false } = params
+    let baseQuery = this.db().select('*').from(t.send).where({ orgId }).orderBy('updatedAt', 'desc').limit(limit).offset(offset)
+
+    baseQuery = applyComplexFilters(baseQuery, filters)
+
+    let campaigns = await baseQuery
+
+    if (loadDraft) {
+      campaigns = campaigns.map((campaign) => {
+        if (campaign.draft) {
+          const mergedCampaign = deepMerge([campaign, campaign.draft])
+          delete mergedCampaign.draft
+          return mergedCampaign
+        }
+        return campaign
+      })
+    }
+    else {
+      campaigns = campaigns.map((campaign) => {
+        const { draft, ...rest } = campaign
+        return rest
+      })
+    }
+
+    return { status: 'success', data: campaigns }
+  }
+
   private async get(params: ManageCampaignParams & { _action: 'get' }, meta: EndpointMeta): Promise<ManageCampaignResponse> {
     const r = await this.list({ ...params, _action: 'list', filters: [[{ field: 'campaignId', operator: '=', value: params.where.campaignId || '' }]] }, meta)
 
@@ -181,19 +216,8 @@ export class ManageCampaign extends SendEndpoint {
     return r
   }
 
-  private async list(params: ManageCampaignParams & { _action: 'list' }, _meta: EndpointMeta): Promise<ManageCampaignResponse> {
-    const { orgId, limit = this.limit, offset = this.offset, filters = [] } = params
-    let baseQuery = this.db().select('*').from(t.send).where({ orgId }).orderBy('updatedAt', 'desc').limit(limit).offset(offset)
-
-    baseQuery = applyComplexFilters(baseQuery, filters)
-
-    const r = await baseQuery
-
-    return { status: 'success', data: r }
-  }
-
   private async update(params: ManageCampaignParams & { _action: 'update' }, meta: EndpointMeta): Promise<ManageCampaignResponse> {
-    const { where, fields, orgId, userId } = params
+    const { where, fields, orgId, userId, loadDraft = false } = params
 
     if (!Array.isArray(where)) {
       return { status: 'error', message: 'where must be an array of conditions' }
@@ -201,26 +225,42 @@ export class ManageCampaign extends SendEndpoint {
 
     const prepped = this.settings.fictionDb.prep({ type: 'update', fields, meta, table: t.send })
 
-    this.log.info('updating email', { data: { fields, prepped } })
-
     const promises = where.map(async (w) => {
-      const result = await this.db().table(t.send).where({ orgId, ...w }).update({ ...prepped, updatedAt: new Date().toISOString() }).limit(1).returning<EmailCampaignConfig[]>('*')
-      const row = result[0]
-      const postId = row?.postId
-
-      if (!postId) {
-        this.log.error('No postId found for email send', { orgId, userId, campaignId: row?.campaignId })
-        return row
+      let updateFields = prepped
+      if (loadDraft) {
+        const currentCampaign = await this.db().table(t.send).where({ orgId, ...w }).first()
+        updateFields = { draft: deepMerge([currentCampaign.draft || {}, prepped]) }
+      }
+      else {
+        updateFields.draft = {}
       }
 
-      const r = await this.settings.fictionPosts.queries.ManagePost.serve({ _action: 'update', orgId, userId, where: { postId }, fields: { ...fields.post } }, meta)
+      const result = await this.db().table(t.send).where({ orgId, ...w }).update({ ...updateFields, updatedAt: new Date().toISOString() }).returning('*')
 
-      row.post = r.data?.[0]
+      const row = result[0]
+      if (row?.postId) {
+        const r = await this.settings.fictionPosts.queries.ManagePost.serve({
+          _action: 'update',
+          orgId,
+          userId,
+          where: { postId: row.postId },
+          fields: { ...fields.post },
+          loadDraft,
+        }, meta)
+        row.post = r.data?.[0]
+      }
 
-      return row
+      if (loadDraft && row.draft) {
+        const mergedRow = deepMerge([row, row.draft])
+        delete mergedRow.draft
+        return mergedRow
+      }
+
+      const { draft, ...restRow } = row
+      return restRow
     })
 
-    const data = (await Promise.all(promises)).filter(Boolean)
+    const data = await Promise.all(promises)
 
     return { status: 'success', data, indexMeta: { changedCount: data.length }, message: 'Updated Successfully' }
   }
@@ -255,6 +295,85 @@ export class ManageCampaign extends SendEndpoint {
     const data = (await Promise.all(promises)).filter(Boolean) as EmailCampaignConfig[]
 
     return { status: 'success', message: `${data.length} items deleted`, data, indexMeta: { changedCount: data.length } }
+  }
+
+  private async saveDraft(params: ManageCampaignParams & { _action: 'saveDraft' }, meta: EndpointMeta): Promise<ManageCampaignResponse> {
+    const { where, fields, orgId, userId } = params
+    const db = this.db()
+
+    if (!where.campaignId) {
+      return { status: 'error', message: 'campaignId is required to save a draft' }
+    }
+
+    const now = new Date()
+    fields.updatedAt = now.toISOString()
+
+    const campaign = await db(t.send).where({ orgId, ...where }).first()
+    if (!campaign) {
+      return { status: 'error', message: 'Campaign not found' }
+    }
+
+    const currentDraft = campaign.draft || {}
+    const newDraft = {
+      draftId: objectId({ prefix: 'dft' }),
+      ...currentDraft,
+      ...fields,
+      updatedAt: now,
+      createdAt: currentDraft.createdAt || now,
+    }
+
+    // Update campaign draft
+    await db(t.send)
+      .where({ orgId, ...where })
+      .update({ draft: newDraft })
+
+    // Save post draft if postId exists
+    if (campaign.postId) {
+      await this.settings.fictionPosts.queries.ManagePost.serve({
+        _action: 'saveDraft',
+        orgId,
+        userId,
+        where: { postId: campaign.postId },
+        fields: fields.post || {},
+      }, meta)
+    }
+
+    const updatedCampaign = await this.get({ _action: 'get', orgId, where, userId, loadDraft: true }, meta)
+
+    return { status: 'success', data: updatedCampaign.data }
+  }
+
+  private async revertDraft(params: ManageCampaignParams & { _action: 'revertDraft' }, meta: EndpointMeta): Promise<ManageCampaignResponse> {
+    const { where, orgId, userId } = params
+    const db = this.db()
+
+    if (!where.campaignId) {
+      return { status: 'error', message: 'campaignId is required to revert a draft' }
+    }
+
+    const campaign = await db(t.send).where({ orgId, ...where }).first()
+    if (!campaign) {
+      return { status: 'error', message: 'Campaign not found' }
+    }
+
+    // Revert campaign draft
+    await db(t.send)
+      .where({ orgId, ...where })
+      .update({ draft: {} })
+
+    // Revert post draft if postId exists
+    if (campaign.postId) {
+      await this.settings.fictionPosts.queries.ManagePost.serve({
+        _action: 'revertDraft',
+        orgId,
+        userId,
+        where: { postId: campaign.postId },
+      }, meta)
+    }
+
+    const updatedCampaign = await this.get({ _action: 'get', orgId, where, userId, loadDraft: false }, meta)
+
+    return { status: 'success', data: updatedCampaign.data, message: 'Draft reverted successfully' }
   }
 }
 

@@ -18,8 +18,8 @@ import {
   openMenuFromDragHandle,
 } from './utils'
 
-const plus = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-[1.2em]">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
+const plus = `<svg  class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
 </svg>`
 
 function DragHandle(options: GlobalDragHandleOptions) {
@@ -166,6 +166,7 @@ function DragHandle(options: GlobalDragHandleOptions) {
         },
         keydown: hideDragHandle,
         mousewheel: hideDragHandle,
+        scroll: hideDragHandle,
         dragstart: view => view.dom.classList.add('dragging'),
         drop: (view, event) => {
           view.dom.classList.remove('dragging')

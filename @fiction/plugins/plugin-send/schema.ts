@@ -1,7 +1,7 @@
 import type { ColType } from '@fiction/core'
 import type { TablePostConfig } from '@fiction/posts'
 
-import { AndDataFilterSchema, Col, FictionDbTable, MediaDisplaySchema, ProgressStatusSchema, standardTable } from '@fiction/core'
+import { ActionButtonSchema, AndDataFilterSchema, Col, FictionDbTable, MediaDisplaySchema, ProgressStatusSchema, standardTable } from '@fiction/core'
 import { t as postTableNames } from '@fiction/posts'
 import { z } from 'zod'
 
@@ -20,7 +20,7 @@ export type TableEmailCampaign = ColType<typeof sendColumns>
 export type EmailCampaignConfig = Partial<TableEmailCampaign> & { post?: TablePostConfig, subscriberCount?: number }
 
 const EmailUserConfigSchema = z.object({
-  actions: z.array(z.object({ name: z.string().optional(), href: z.string().optional(), btn: z.string() as z.Schema<'default' | 'primary'> })).optional(),
+  actions: z.array(ActionButtonSchema).optional(),
 })
 
 export const sendColumns = [
@@ -41,6 +41,7 @@ export const sendColumns = [
   new Col({ key: 'counts', sch: () => EmailAnalyticsSchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
   new Col({ key: 'draft', sch: ({ z }) => z.record(z.string(), z.any()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
   new Col({ key: 'userConfig', sch: () => EmailUserConfigSchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
+  new Col({ key: 'draft', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
 ] as const
 
 export const settingsKeys = sendColumns.filter(c => c.sec === 'setting').map(c => c.key)

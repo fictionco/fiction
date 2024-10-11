@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import type { ButtonDesign, ButtonFontWeight, ButtonFormat, ButtonHover, ButtonRounding, ButtonShadow, ColorThemeUser, StandardSize } from '@fiction/core'
+import type { ButtonDesign, ButtonFontWeight, ButtonFormat, ButtonHover, ButtonRounding, ButtonShadow, ColorThemeUser, MediaObject, StandardSize } from '@fiction/core'
 import { getNavComponentType, pathIsHref, shortId, vue } from '@fiction/core'
 import { animateItemEnter, splitLetters } from '../anim'
+import XIcon from '../media/XIcon.vue'
 import { getButtonClasses } from './util'
 
 defineOptions({ name: 'XButton' })
@@ -24,8 +25,8 @@ const {
   animate,
   tag,
 } = defineProps<{
-  icon?: string
-  iconAfter?: string
+  icon?: string | MediaObject
+  iconAfter?: string | MediaObject
   href?: string
   disabled?: boolean
   design?: ButtonDesign
@@ -150,9 +151,9 @@ const linkProps = vue.computed(() => {
       :class="[loading ? 'translate-y-[-150%] opacity-0' : '', wrapClass, format === 'spread' ? '' : 'justify-center']"
     >
       <div class="flex items-center" :data-has-content="hasContent">
-        <div v-if="icon" :class="[cls.iconClasses, icon, iconAdjust.both, iconAdjust.before]" :data-before="iconAdjust.before" />
+        <XIcon v-if="icon" :media="icon" :class="[cls.iconClasses, iconAdjust.both, iconAdjust.before]" />
         <div v-if="hasContent" class="txt"><slot /></div>
-        <div v-if="iconAfter" class="" :class="[cls.iconClasses, iconAfter, iconAdjust.both, iconAdjust.after]" />
+        <XIcon v-if="iconAfter" :media="iconAfter" :class="[cls.iconClasses, iconAdjust.both, iconAdjust.after]" />
       </div>
     </span>
   </component>

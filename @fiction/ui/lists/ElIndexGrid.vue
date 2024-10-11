@@ -99,11 +99,6 @@ async function paginate(dir: 'prev' | 'next') {
                 <dl class="flex w-full flex-none justify-between gap-x-8 sm:w-auto items-center">
                   <slot :item="item" name="item" />
 
-                  <div class="hidden sm:flex sm:flex-col sm:items-end">
-                    <p class="text-sm leading-6  ">
-                      {{ item.slug }}
-                    </p>
-                  </div>
                   <svg class="h-5 w-5 flex-none text-theme-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
                   </svg>

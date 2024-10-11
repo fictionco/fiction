@@ -95,11 +95,91 @@ describe('email send endpoint', async () => {
       fields: { scheduledAt: d.toISOString(), subject: 'Hello World', preview: 'Preview text' },
     }, { server: true })
 
+    if (!r.data?.[0]) {
+      throw new Error('missing data')
+    }
+
     expect(r.status).toBe('success')
     expect(r.data?.length).toBe(1)
     expect(r.indexMeta?.changedCount).toBe(1)
     expect(r.data?.[0].scheduledAt).toStrictEqual(d.toDate())
     expect(r.message).toBeTruthy()
+
+    workingCampaigns[0] = r.data?.[0]
+  })
+
+  it('saveDraft', async () => {
+    const em = workingCampaigns[0]
+    const draftFields = {
+      subject: 'Draft Subject',
+      preview: 'Draft Preview',
+      post: {
+        title: 'Draft Post Title',
+        content: 'Draft Post Content',
+      },
+    }
+
+    const r = await fictionSend.queries.ManageCampaign.serve({
+      _action: 'saveDraft',
+      orgId,
+      userId,
+      where: { campaignId: em.campaignId },
+      fields: draftFields,
+    }, { server: true })
+
+    expect(r.status).toBe('success')
+    expect(r.data?.length).toBe(1)
+
+    const savedCampaign = r.data?.[0]
+
+    expect(savedCampaign?.subject).toBe(draftFields.subject)
+    expect(savedCampaign?.preview).toBe(draftFields.preview)
+    expect(savedCampaign?.post?.title).toBe(draftFields.post?.title)
+    expect(savedCampaign?.post?.content).toBe(draftFields.post?.content)
+    expect(savedCampaign?.draft).toBeUndefined()
+
+    const r2 = await fictionSend.queries.ManageCampaign.serve({
+      _action: 'get',
+      orgId,
+      userId,
+      where: { campaignId: em.campaignId },
+      loadDraft: true,
+    }, { server: true })
+
+    const loadedDraft = r2.data?.[0]
+    expect(loadedDraft?.subject).toBe(draftFields.subject)
+    expect(loadedDraft?.preview).toBe(draftFields.preview)
+    expect(loadedDraft?.post?.title).toBe(draftFields.post.title)
+    expect(loadedDraft?.post?.content).toBe(draftFields.post.content)
+    expect(loadedDraft?.draft).toBeUndefined()
+  })
+
+  it('revertDraft', async () => {
+    const em = workingCampaigns[0]
+
+    const r = await fictionSend.queries.ManageCampaign.serve({
+      _action: 'revertDraft',
+      orgId,
+      userId,
+      where: { campaignId: em.campaignId },
+    }, { server: true })
+
+    expect(r.status).toBe('success')
+    expect(r.data?.length).toBe(1)
+    expect(r.data?.[0].draft).toBeUndefined()
+    expect(r.message).toBe('Draft reverted successfully')
+
+    // Verify that the main campaign data remains unchanged
+    expect(r.data?.[0].subject).toBe(em.subject)
+    expect(r.data?.[0].preview).toBe(em.preview)
+    expect(r.data?.[0].post?.title).toBe(em.post?.title)
+    expect(r.data?.[0].post?.content).toBe(em.post?.content)
+
+    if (!r.data?.[0]) {
+      throw new Error('missing data')
+    }
+
+    workingCampaigns[0] = r.data?.[0]
   })
 
   it('sends', async () => {
