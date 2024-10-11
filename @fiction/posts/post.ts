@@ -109,6 +109,7 @@ export class Post extends FictionObject<PostConfig> {
         ? { ...this.toConfig(), status: 'scheduled', publishAt: args.publishAt } as const
         : this.toConfig()
 
+    this.clearAutosave()
     const params = { _action, where: { postId: this.postId }, fields } as const
     const p = await managePost({ fictionPosts: this.settings.fictionPosts, params })
 
@@ -116,7 +117,6 @@ export class Post extends FictionObject<PostConfig> {
       this.update(p?.toConfig() || {}, { caller: 'savePost' })
 
     this.isDirty.value = false
-    this.clearAutosave()
   }
 
   async delete() {

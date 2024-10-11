@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { BasicItem } from './InputList.vue'
-import { colorThemeUser, vue } from '@fiction/core'
+import { colorThemeUser } from '@fiction/core'
 import { InputOption } from './index.js'
 import InputList from './InputList.vue'
 

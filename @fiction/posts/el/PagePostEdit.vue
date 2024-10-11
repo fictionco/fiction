@@ -2,7 +2,7 @@
 import type { Card } from '@fiction/site'
 import type { FictionPosts } from '..'
 import type { Post } from '../post.js'
-import ElDraftSignal from '@fiction/admin/el/ElDraftSignal.vue'
+import ElSavingSignal from '@fiction/admin/el/ElSavingSignal.vue'
 import ViewEditor from '@fiction/admin/ViewEditor.vue'
 import { useService, vue, waitFor } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
@@ -104,7 +104,7 @@ async function resetToPublished() {
         </div>
       </template>
       <template #headerRight>
-        <ElDraftSignal
+        <ElSavingSignal
           v-if="post"
           :is-dirty="post.isDirty.value"
           :nav-items="[{

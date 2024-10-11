@@ -32,7 +32,6 @@ export const tools = [
     icon: 'i-tabler-mail',
     location: 'context',
     isDefault: true,
-
     el: vue.defineAsyncComponent(async () => import('./SidebarEmailEditor.vue')),
     props: () => {
       return vue.computed(() => ({}))

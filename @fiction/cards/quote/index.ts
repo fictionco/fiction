@@ -2,7 +2,6 @@ import { MediaBasicSchema, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { z } from 'zod'
-import { standardOption } from '../inputSets'
 import franklin from './franklin.jpg'
 import socrates from './socrates.jpg'
 

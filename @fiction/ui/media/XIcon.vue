@@ -9,7 +9,7 @@ const { media } = defineProps<{ media: MediaObject | string }>()
 
 const iconData = vue.computed(() => {
   if (typeof media === 'string') {
-    return (media.includes('i-') ? { iconClass: media, format: 'iconClass' } : { iconId: media, format: 'iconId' }) as MediaObject
+    return (media.includes('i-') ? { class: media, format: 'iconClass' } : { iconId: media, format: 'iconId' }) as MediaObject
   }
   return media as MediaObject
 })

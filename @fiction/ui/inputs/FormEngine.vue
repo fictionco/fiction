@@ -77,12 +77,12 @@ const cls = vue.computed(() => {
     md: {
       groupHeader: 'py-1.5 px-2 text-xs',
       groupPad: 'p-4',
-      inputGap: 'gap-4',
+      inputGap: 'gap-5',
     },
     lg: {
       groupHeader: 'py-2.5 px-3 text-sm',
       groupPad: 'px-8 lg:px-10 py-6',
-      inputGap: 'gap-6',
+      inputGap: 'gap-7',
     },
   }
 

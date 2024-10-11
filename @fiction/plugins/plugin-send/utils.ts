@@ -27,8 +27,14 @@ export async function loadEmail(args: { fictionSend: FictionSend, campaignId: st
   return campaign
 }
 
-export async function getEmailForCampaign(args: { org: Organization, campaignConfig: EmailCampaignConfig, fictionSend: FictionSend, withDefaults: boolean }): Promise<TransactionalEmailConfig> {
-  const { campaignConfig, fictionSend, withDefaults = false, org } = args
+export async function getEmailForCampaign(args: {
+  org: Organization
+  campaignConfig: EmailCampaignConfig
+  fictionSend: FictionSend
+  withDefaults: boolean
+  previewMode?: 'dark' | 'light' | ''
+}): Promise<TransactionalEmailConfig> {
+  const { campaignConfig, fictionSend, withDefaults = false, org, previewMode } = args
   const fictionMedia = fictionSend.settings.fictionMedia
 
   const footerImage = await fictionMedia.relativeMedia({ url: FictionFooterImg })
@@ -48,14 +54,13 @@ export async function getEmailForCampaign(args: { org: Organization, campaignCon
     mediaFooter: { media: { url: footerImage.url }, name: 'Powered by Fiction', href: 'https://www.fiction.com' },
     legal: { name: orgName, href: url, desc: address || '' },
     unsubscribeUrl: '#',
-    darkMode: true,
+    previewMode,
   }
 
   const EmailStandard = vue.defineAsyncComponent(async () => import('@fiction/core/plugin-email/templates/EmailStandard.vue'))
-  const { useRender } = await import('vue-email')
-  const r = await useRender(EmailStandard, { props: emailConfig })
-  emailConfig.bodyHtml = r.html
-  emailConfig.bodyText = r.text
+  const { render } = await import('@vue-email/render')
+  emailConfig.bodyHtml = await render(EmailStandard, emailConfig)
+  emailConfig.bodyText = await render(EmailStandard, emailConfig, { plainText: true })
 
   return emailConfig
 }

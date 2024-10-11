@@ -7,7 +7,6 @@ import process from 'node:process'
 import { compileTemplate } from '@vue/compiler-sfc'
 import { Element } from 'domhandler'
 import fs from 'fs-extra'
-import { DomUtils, parseDocument } from 'htmlparser2'
 import { parseMarkdownFile } from '../../utils/markdown'
 
 export interface PluginOptions {
@@ -82,6 +81,8 @@ class ParseHandler {
 
       return url
     })
+
+    const { DomUtils, parseDocument } = await import('htmlparser2')
 
     const { attributes, bodyHtml, bodyMarkdown } = await parseMarkdownFile(resolvedCode)
 

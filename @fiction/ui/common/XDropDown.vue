@@ -48,7 +48,7 @@ defineExpose({ isOpen, toggleDropdown })
   <div ref="dropdownRef" class="relative inline-block text-left">
     <slot :toggle="toggleDropdown" :is-open="isOpen" />
 
-    <div v-if="isOpen" :class="menuClasses" role="menu" aria-orientation="vertical">
+    <div v-if="isOpen && items?.length" :class="menuClasses" role="menu" aria-orientation="vertical">
       <div class="py-1" role="none">
         <template v-for="(item, index) in visibleItems" :key="index">
           <a

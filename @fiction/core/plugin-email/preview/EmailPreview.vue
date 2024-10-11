@@ -9,7 +9,6 @@ import { sampleHtml } from './content.js'
 const email = vue.ref('')
 
 vue.onMounted(async () => {
-  const { useRender } = await import('vue-email')
   // subject: { type: String, default: undefined },
   // heading: { type: String, default: undefined },
   // subHeading: { type: String, default: undefined },
@@ -55,10 +54,8 @@ vue.onMounted(async () => {
     },
   }
   const EmailStandard = vue.defineAsyncComponent(() => import('@fiction/core/plugin-email/templates/EmailStandard.vue'))
-  const r = await useRender(EmailStandard, {
-    props: confirmEmail,
-  })
-  email.value = r.html
+  const { render } = await import('@vue-email/render')
+  email.value = await render(EmailStandard, confirmEmail)
 })
 </script>
 

@@ -2,7 +2,7 @@
 import type { Card } from '@fiction/site'
 import type { EmailCampaign } from '../campaign.js'
 import type { FictionSend } from '../index.js'
-import ElDraftSignal from '@fiction/admin/el/ElDraftSignal.vue'
+import ElSavingSignal from '@fiction/admin/el/ElSavingSignal.vue'
 import ViewEditor from '@fiction/admin/ViewEditor.vue'
 import CardButton from '@fiction/cards/CardButton.vue'
 import CardLink from '@fiction/cards/el/CardLink.vue'
@@ -70,23 +70,12 @@ const actions = vue.computed(() => {
             :card
             theme="primary"
             design="outline"
-            size="sm"
+            size="md"
             href="/"
             class="shrink-0"
             icon="i-tabler-home"
           >
             Home
-          </CardButton>
-          <CardButton
-            :card
-            theme="green"
-            design="outline"
-            size="sm"
-            :href="manageLink"
-            class="shrink-0"
-            icon="i-tabler-arrow-left"
-          >
-            Manage Campaign
           </CardButton>
         </div>
         <div v-if="campaign" class="flex space-x-1 font-medium">
@@ -103,26 +92,22 @@ const actions = vue.computed(() => {
         </div>
       </template>
       <template #headerRight>
-        <ElDraftSignal
-          v-if="campaign?.post.value"
-          :is-dirty="campaign?.post.value.isDirty.value"
+        <ElSavingSignal
+          v-if="campaign"
+          :is-dirty="campaign?.isDirty.value"
           data-test-id="draft-control-dropdown"
-          :nav-items="[
-            {
-              name: 'Reset to Published Version',
-              onClick: () => campaign?.post.value.resetToPublished(),
-              testId: 'reset-to-published',
-            },
-          ]"
+          change-type="publish"
         />
         <CardButton
           :card
           theme="primary"
+          design="outline"
           size="md"
-          :loading="!!sending"
-          @click.stop.prevent="publish()"
+          :href="manageLink"
+          class="shrink-0"
+          icon-after="i-tabler-arrow-right"
         >
-          Publish Changes
+          Review &amp; Send
         </CardButton>
       </template>
       <template #default>

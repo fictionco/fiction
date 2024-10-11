@@ -327,7 +327,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     params: DistributiveOmit< Parameters<this['request']>[0], 'orgId' | 'userId'>,
     opts?: RequestOptions,
   ): ReturnType<this['request']> {
-    const { userOptional, useRouteParams, minTime, debug } = opts || {}
+    const { userOptional, useRouteParams } = opts || {}
 
     if (!this.fictionUser)
       throw new Error(`fictionUser is required for projectRequest`)
@@ -346,7 +346,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
     requestParams = { ...userInfo, ...requestParams }
 
-    return this.request(requestParams, { debug, minTime }) as ReturnType<this['request']>
+    return this.request(requestParams, opts) as ReturnType<this['request']>
   }
 }
 

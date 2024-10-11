@@ -25,17 +25,12 @@ async function setEmail(campaignConfig?: EmailCampaignConfig) {
   const org = fictionUser.activeOrganization.value
 
   if (!campaignConfig || !org) {
+    console.error('No campaign or org')
     emailHtml.value = ''
     return
   }
 
-  const conf = await getEmailForCampaign({ campaignConfig, fictionSend, org, withDefaults: true })
-
-  const { useRender } = await import('vue-email')
-  const EmailStandard = vue.defineAsyncComponent(() => import('@fiction/core/plugin-email/templates/EmailStandard.vue'))
-
-  const r = await useRender(EmailStandard, { props: emailConfig.value })
-  conf.bodyHtml = r.html
+  const conf = await getEmailForCampaign({ campaignConfig, fictionSend, org, withDefaults: true, previewMode: 'dark' })
 
   emailConfig.value = conf
 
@@ -75,9 +70,9 @@ vue.onMounted(async () => {
         </div>
       </div>
     </div>
-    <div v-if="!emailHtml">
+    <div v-if="!emailConfig?.bodyHtml" class="text-center text-theme-500/50 ">
       No HTML to preview
     </div>
-    <iframe v-else class="h-[800px] w-full" :srcdoc="emailHtml" />
+    <iframe v-else class="h-[800px] w-full" :srcdoc="emailConfig?.bodyHtml" />
   </div>
 </template>

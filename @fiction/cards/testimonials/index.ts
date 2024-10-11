@@ -4,7 +4,6 @@ import { cardTemplate } from '@fiction/site'
 import { InputOption } from '@fiction/ui'
 import { stockMediaHandler } from '@fiction/ui/stock/index.js'
 import { z } from 'zod'
-import { standardOption } from '../inputSets'
 
 const templateId = 'testimonials'
 

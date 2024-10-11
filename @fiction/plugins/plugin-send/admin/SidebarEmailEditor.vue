@@ -18,7 +18,33 @@ const { tool, campaign, card } = defineProps<{
 
 const options = vue.computed<InputOption<any>[]>(() => {
   return [
-
+    new InputOption({
+      key: 'emailSubject',
+      label: 'Inbox Information',
+      input: 'group',
+      options: [
+        new InputOption({ key: 'subject', label: 'Subject', input: 'InputText', placeholder: 'Enter Subject', isRequired: true }),
+        new InputOption({ key: 'preview', label: 'Preview Text', input: 'InputText', placeholder: 'Enter Preview Text' }),
+      ],
+    }),
+    new InputOption({
+      key: 'emailDelivery',
+      label: 'Send Time',
+      input: 'group',
+      options: [
+        new InputOption({
+          key: 'scheduleMode',
+          label: 'Sending Time',
+          input: 'InputSelectCustom',
+          isRequired: true,
+          list: [
+            { name: 'Send Immediately', value: 'now' },
+            { name: 'Schedule Send', value: 'schedule' },
+          ],
+        }),
+        new InputOption({ key: 'scheduledAt', label: 'Scheduled Send Time', input: 'InputDate', isRequired: true, isHidden: campaign?.scheduleMode.value !== 'schedule', props: { includeTime: true, dateMode: 'future' } }),
+      ],
+    }),
     new InputOption({
       key: 'emailContent',
       label: 'Email Content',

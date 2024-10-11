@@ -27,7 +27,8 @@ export class EmailCampaign extends FictionObject<EmailConfig> {
     super('EmailSend', settings)
   }
 
-  update(sendConfig: Partial<EmailCampaignConfig>, _options: { noSave?: boolean } = {}) {
+  update(sendConfig: Partial<EmailCampaignConfig>, options: { noSave?: boolean } = {}) {
+    const { noSave = false } = options || {}
     if (!sendConfig)
       return
     const availableKeys = settingsKeys as string[]
@@ -41,6 +42,9 @@ export class EmailCampaign extends FictionObject<EmailConfig> {
         const existing = k.value
         if (existing !== value) {
           ref.value = value
+
+          if (!noSave)
+            this.autosave()
         }
       }
 
@@ -64,13 +68,15 @@ export class EmailCampaign extends FictionObject<EmailConfig> {
     this.clearAutosave()
 
     this.saveTimeout = setTimeout(() => {
-      this.save().catch(console.error) // Error handling
+      this.save({ disableNotify: true }).catch(console.error) // Error handling
     }, 2000) // Set a new timeout for 2 seconds
   }
 
-  async save() {
+  async save(args: { disableNotify?: boolean } = {}) {
     const fields = this.toConfig()
-    await this.settings.fictionSend.requests.ManageCampaign.projectRequest({ _action: 'update', fields, where: [{ campaignId: this.campaignId }] }, { minTime: 500 })
+    this.clearAutosave()
+    await this.settings.fictionSend.requests.ManageCampaign.projectRequest({ _action: 'update', fields, where: [{ campaignId: this.campaignId }] }, { minTime: 500, ...args })
+    this.isDirty.value = false
   }
 
   async delete() {

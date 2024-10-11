@@ -3,7 +3,7 @@ import type { FictionApp, FictionRouter } from '@fiction/core'
 import type { FictionSites } from '..'
 import type { Card } from '../card'
 import type { Site } from '../site'
-import ElDraftSignal from '@fiction/admin/el/ElDraftSignal.vue'
+import ElSavingSignal from '@fiction/admin/el/ElSavingSignal.vue'
 import ViewEditor from '@fiction/admin/ViewEditor.vue'
 import CardButton from '@fiction/cards/CardButton.vue'
 import CardLink from '@fiction/cards/el/CardLink.vue'
@@ -152,7 +152,7 @@ async function resetToPublished() {
           </div>
         </template>
         <template v-if="site" #headerRight>
-          <ElDraftSignal
+          <ElSavingSignal
             :is-dirty="site?.editor.value.isDirty"
             :nav-items="[{
               name: 'Reset to Published Version',
