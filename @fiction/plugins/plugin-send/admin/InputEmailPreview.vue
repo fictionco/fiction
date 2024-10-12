@@ -49,30 +49,32 @@ vue.onMounted(async () => {
     <div v-if="loading" class="p-12 flex justify-center">
       <ElSpinner class="size-8" />
     </div>
-    <div v-else-if="emailConfig" class="border-b border-theme-200 dark:border-theme-700/70 mb-8 pb-8">
-      <div class=" mb-6">
-        <div class="text-3xl font-medium x-font-title">
-          {{ emailConfig.subject }}
-        </div>
-        <div class="text-sm text-theme-500 dark:text-theme-400">
-          {{ emailConfig.preview }}
-        </div>
-      </div>
-      <div class="flex gap-4">
-        <div><ElAvatar class="size-12 rounded-full" :url="emailConfig.avatarUrl" /></div>
-        <div>
-          <div class="font-medium">
-            {{ emailConfig.fromName }}
+    <template v-else-if="emailConfig">
+      <div class="border-b border-theme-200 dark:border-theme-700/70 mb-8 pb-8">
+        <div class=" mb-6">
+          <div class="text-3xl font-medium x-font-title">
+            {{ emailConfig.subject }}
           </div>
           <div class="text-sm text-theme-500 dark:text-theme-400">
-            {{ emailConfig.fromEmail }}
+            {{ emailConfig.preview }}
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div><ElAvatar class="size-12 rounded-full" :url="emailConfig.avatarUrl" /></div>
+          <div>
+            <div class="font-medium">
+              {{ emailConfig.fromName }}
+            </div>
+            <div class="text-sm text-theme-500 dark:text-theme-400">
+              {{ emailConfig.fromEmail }}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div v-if="!emailConfig?.bodyHtml" class="text-center text-theme-500/50 ">
-      No HTML to preview
-    </div>
-    <iframe v-else class="h-[800px] w-full" :srcdoc="emailConfig?.bodyHtml" />
+      <div v-if="!emailConfig?.bodyHtml" class="text-center text-theme-500/50 ">
+        No HTML content was generated
+      </div>
+      <iframe v-else class="h-[800px] w-full" :srcdoc="emailConfig?.bodyHtml" />
+    </template>
   </div>
 </template>

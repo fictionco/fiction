@@ -3,7 +3,7 @@ import type { Config as TailwindConfig } from 'tailwindcss'
 import type { PropType } from 'vue'
 import type { ActionButton } from '../../schemas/schemas.js'
 import type { MediaItem } from '../../types'
-import { Body, Button, Column, Container, Head, Hr, Html, Img, Link, Markdown, Preview, Section, Style, Tailwind, Text } from '@vue-email/components'
+import { Body, Button, Column, Container, Head, Hr, Html, Img, Markdown, Preview, Section, Style, Tailwind, Text } from '@vue-email/components'
 import { computed } from 'vue'
 
 const props = defineProps({
