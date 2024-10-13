@@ -6,9 +6,9 @@ import DateChart from '@fiction/analytics/chart/DateChart.vue'
 
 type SubscriberWidget = FictionSubscribe['widgets']['subscribers']
 
-const props = defineProps({
-  widget: { type: Object as vue.PropType<SubscriberWidget>, required: true },
-})
+const { widget } = defineProps<{
+  widget: SubscriberWidget
+}>()
 </script>
 
 <template>
