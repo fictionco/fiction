@@ -342,7 +342,7 @@ const header = vue.computed(() => {
               <div class="text-3xl lg:text-5xl" :class="item.icon" />
             </div>
             <div class="grow">
-              <div class="mb-1 text-xl lg:text-2xl font-semibold  hover:text-theme-300 dark:hover:text-theme-0 cursor-pointer">
+              <div class="mb-1 text-lg lg:text-xl font-semibold  hover:text-theme-300 dark:hover:text-theme-0 cursor-pointer">
                 {{ item.title }}
               </div>
               <p class="text-lg lg:text-xl font-normal text-theme-500 dark:text-theme-400">

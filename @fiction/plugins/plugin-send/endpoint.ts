@@ -83,7 +83,7 @@ export class ManageCampaign extends SendEndpoint {
     const { orgId, loadDraft } = params
     const { limit = this.limit, offset = this.offset } = params as { limit?: number, offset?: number }
 
-    const { count } = await this.db().table(t.send).where({ orgId }).count().first<{ count: string }>()
+    const { count } = await this.db().table(t.campaign).where({ orgId }).count().first<{ count: string }>()
 
     r.indexMeta = { limit, offset, count: +count, ...r.indexMeta }
 
@@ -154,10 +154,10 @@ export class ManageCampaign extends SendEndpoint {
         throw new Error('Post not created')
       }
 
-      const insertFields = fictionDb.prep({ type: 'insert', fields: sendFields, meta, table: t.send })
+      const insertFields = fictionDb.prep({ type: 'insert', fields: sendFields, meta, table: t.campaign })
       const insertData: EmailCampaignConfig = { orgId, userId, postId: post.postId, ...insertFields }
 
-      const [row] = await this.db().table(t.send).insert(insertData).returning('*')
+      const [row] = await this.db().table(t.campaign).insert(insertData).returning('*')
 
       const r2 = await this.get({ _action: 'get', orgId, where: { campaignId: row.campaignId } }, meta)
 
@@ -177,7 +177,7 @@ export class ManageCampaign extends SendEndpoint {
 
   private async list(params: ManageCampaignParams & { _action: 'list' }, _meta: EndpointMeta): Promise<ManageCampaignResponse> {
     const { orgId, limit = this.limit, offset = this.offset, filters = [], loadDraft = false } = params
-    let baseQuery = this.db().select('*').from(t.send).where({ orgId }).orderBy('updatedAt', 'desc').limit(limit).offset(offset)
+    let baseQuery = this.db().select('*').from(t.campaign).where({ orgId }).orderBy('updatedAt', 'desc').limit(limit).offset(offset)
 
     baseQuery = applyComplexFilters(baseQuery, filters)
 
@@ -223,19 +223,19 @@ export class ManageCampaign extends SendEndpoint {
       return { status: 'error', message: 'where must be an array of conditions' }
     }
 
-    const prepped = this.settings.fictionDb.prep({ type: 'update', fields, meta, table: t.send })
+    const prepped = this.settings.fictionDb.prep({ type: 'update', fields, meta, table: t.campaign })
 
     const promises = where.map(async (w) => {
       let updateFields = prepped
       if (loadDraft) {
-        const currentCampaign = await this.db().table(t.send).where({ orgId, ...w }).first()
+        const currentCampaign = await this.db().table(t.campaign).where({ orgId, ...w }).first()
         updateFields = { draft: deepMerge([currentCampaign.draft || {}, prepped]) }
       }
       else {
         updateFields.draft = {}
       }
 
-      const result = await this.db().table(t.send).where({ orgId, ...w }).update({ ...updateFields, updatedAt: new Date().toISOString() }).returning('*')
+      const result = await this.db().table(t.campaign).where({ orgId, ...w }).update({ ...updateFields, updatedAt: new Date().toISOString() }).returning('*')
 
       const row = result[0]
       if (row?.postId) {
@@ -273,7 +273,7 @@ export class ManageCampaign extends SendEndpoint {
     }
 
     const promises = where.map(async (w) => {
-      const row = await this.db().select('*').table(t.send).where({ orgId, ...w }).first<EmailCampaignConfig>()
+      const row = await this.db().select('*').table(t.campaign).where({ orgId, ...w }).first<EmailCampaignConfig>()
       if (!row) {
         return
       }
@@ -286,7 +286,7 @@ export class ManageCampaign extends SendEndpoint {
         row.post = r.data?.[0]
       }
       else {
-        await this.db().table(t.send).where({ orgId, ...w }).delete()
+        await this.db().table(t.campaign).where({ orgId, ...w }).delete()
       }
 
       return row
@@ -308,7 +308,7 @@ export class ManageCampaign extends SendEndpoint {
     const now = new Date()
     fields.updatedAt = now.toISOString()
 
-    const campaign = await db(t.send).where({ orgId, ...where }).first()
+    const campaign = await db(t.campaign).where({ orgId, ...where }).first()
     if (!campaign) {
       return { status: 'error', message: 'Campaign not found' }
     }
@@ -323,7 +323,7 @@ export class ManageCampaign extends SendEndpoint {
     }
 
     // Update campaign draft
-    await db(t.send)
+    await db(t.campaign)
       .where({ orgId, ...where })
       .update({ draft: newDraft })
 
@@ -351,13 +351,13 @@ export class ManageCampaign extends SendEndpoint {
       return { status: 'error', message: 'campaignId is required to revert a draft' }
     }
 
-    const campaign = await db(t.send).where({ orgId, ...where }).first()
+    const campaign = await db(t.campaign).where({ orgId, ...where }).first()
     if (!campaign) {
       return { status: 'error', message: 'Campaign not found' }
     }
 
     // Revert campaign draft
-    await db(t.send)
+    await db(t.campaign)
       .where({ orgId, ...where })
       .update({ draft: {} })
 
@@ -394,7 +394,7 @@ export class ManageSend extends SendEndpoint {
 
     // Find emails with status 'scheduled' and scheduledAt in the past
     const requestedCampaigns = await this.db()
-      .table(t.send)
+      .table(t.campaign)
       .where('status', 'requested')
       .where('scheduledAt', '<=', now)
       .select<{ campaignId: string, orgId: string }[]>('*')

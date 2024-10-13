@@ -8,7 +8,7 @@ import { z } from 'zod'
 export const t = {
   ...standardTable,
   ...postTableNames,
-  send: 'fiction_email_campaign',
+  campaign: 'fiction_campaign',
 } as const
 
 const EmailAnalyticsSchema = z.object({ sent: z.number(), delivered: z.number(), opened: z.number(), clicked: z.number(), bounced: z.number(), unsubscribed: z.number(), complaints: z.number() }).partial()
@@ -41,9 +41,8 @@ export const sendColumns = [
   new Col({ key: 'counts', sch: () => EmailAnalyticsSchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
   new Col({ key: 'draft', sch: ({ z }) => z.record(z.string(), z.any()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
   new Col({ key: 'userConfig', sch: () => EmailUserConfigSchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
-  new Col({ key: 'draft', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
 ] as const
 
 export const settingsKeys = sendColumns.filter(c => c.sec === 'setting').map(c => c.key)
 
-export const sendTable = new FictionDbTable({ tableKey: t.send, timestamps: true, cols: sendColumns })
+export const sendTable = new FictionDbTable({ tableKey: t.campaign, timestamps: true, cols: sendColumns })
