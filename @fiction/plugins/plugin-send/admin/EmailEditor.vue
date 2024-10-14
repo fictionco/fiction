@@ -71,11 +71,11 @@ const actions = vue.computed(() => {
             theme="primary"
             design="outline"
             size="md"
-            href="/"
+            :href="manageLink"
             class="shrink-0"
-            icon="i-tabler-home"
+            icon="i-tabler-arrow-left"
           >
-            Home
+            Back
           </CardButton>
         </div>
         <div v-if="campaign" class="flex space-x-1 font-medium">
@@ -85,7 +85,7 @@ const actions = vue.computed(() => {
             href="/send"
           >
             <span class="i-tabler-mail text-xl inline-block dark:text-theme-500" />
-            <span>Newsletter Composer</span>
+            <span>Email Composer</span>
             <span class="i-tabler-slash text-xl dark:text-theme-500" />
           </CardLink>
           <XText :model-value="campaign?.title.value" class="whitespace-nowrap" :is-editable="true" @update:model-value="campaign && (campaign.title.value = $event)" />

@@ -3,7 +3,7 @@
 </h1>
 
 <p align="center">
-  Quickly create personal websites, marketing funnels, and newsletter campaigns.
+  Quickly create personal websites, marketing funnels, and newsletter emails.
 </p>
 
 <div align="center">

@@ -1,5 +1,5 @@
 import type { User } from '../plugin-user'
-import type { ActionButton, MediaObject, ProgressStatus } from '../schemas/schemas.js'
+import type { ActionButton, MediaObject } from '../schemas/schemas.js'
 import type { vue } from '../utils/libraries.js'
 
 export type CleanupCallback = (() => void) | undefined

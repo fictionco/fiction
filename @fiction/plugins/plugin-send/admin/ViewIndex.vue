@@ -57,7 +57,7 @@ vue.onMounted(async () => {
 
 <template>
   <div class="p-12 w-full max-w-screen-md mx-auto">
-    <ElIndexGrid media-icon="i-tabler-mail" list-title="Newsletter Campaigns" :list="list" :loading="loading" :actions="[{ name: 'New Campaign', icon: 'i-tabler-plus', theme: 'primary', onClick: () => { showStartModal = true } }]">
+    <ElIndexGrid media-icon="i-tabler-mail" list-title="Newsletter Emails" :list="list" :loading="loading" :actions="[{ name: 'New Email', icon: 'i-tabler-plus', theme: 'primary', onClick: () => { showStartModal = true } }]">
       <template #item="{ item }">
         <div class="flex -space-x-0.5">
           <dt class="sr-only">
@@ -73,7 +73,7 @@ vue.onMounted(async () => {
           title="Your Newsletter"
           description="Quickly craft emails and send them to your subscribers."
           icon="i-tabler-mail-share"
-          :actions="[{ name: 'Create Campaign', onClick: () => { showStartModal = true }, theme: 'primary', icon: 'i-heroicons-plus' }]"
+          :actions="[{ name: 'New Email', onClick: () => { showStartModal = true }, theme: 'primary', icon: 'i-heroicons-plus' }]"
         />
       </template>
     </ElIndexGrid>

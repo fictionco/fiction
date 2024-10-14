@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type { vue } from '@fiction/core'
 import type { FictionSubscribe } from '..'
 import WidgetWrap from '@fiction/admin/dashboard/WidgetWrap.vue'
 import DateChart from '@fiction/analytics/chart/DateChart.vue'

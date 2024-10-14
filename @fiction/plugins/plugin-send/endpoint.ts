@@ -422,7 +422,7 @@ export class ManageCampaign extends SendEndpoint {
       try {
         await fictionEmail.sendEmail(
           { ...emailConfig, to: email, subject: `[TEST] ${emailConfig.subject}` },
-          { server: true, emailMode: 'sendInProd' },
+          { server: true, emailMode: 'standard' },
         )
         return { email, success: true }
       }
