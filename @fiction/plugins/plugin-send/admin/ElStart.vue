@@ -44,7 +44,7 @@ const stepConfig: StepConfig = {
     const out: StepItem[] = [
 
       {
-        name: 'Send a New Email',
+        name: 'Create New Campaign',
         desc: 'Give it a name...',
         key: 'name',
         class: 'max-w-lg',
@@ -70,7 +70,7 @@ const stepConfig: StepConfig = {
         <ElInput
           v-model="form.title"
           input="InputText"
-          placeholder="Internal Title"
+          placeholder="Reference Title"
           ui-size="lg"
         />
       </div>

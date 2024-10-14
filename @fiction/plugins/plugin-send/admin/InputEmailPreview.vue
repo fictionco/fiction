@@ -20,6 +20,7 @@ const { fictionSend, fictionUser } = useService<{ fictionSend: FictionSend }>()
 const emailHtml = vue.ref('')
 const emailConfig = vue.ref<TransactionalEmailConfig>()
 const loading = vue.ref(true)
+const iframeHeight = vue.ref('800px')
 
 async function setEmail(campaignConfig?: EmailCampaignConfig) {
   const org = fictionUser.activeOrganization.value
@@ -34,6 +35,33 @@ async function setEmail(campaignConfig?: EmailCampaignConfig) {
 
   emailConfig.value = conf
 
+  // Add script to email HTML for height calculation
+  if (conf.bodyHtml) {
+    const script = `
+      <script>
+        function updateHeight() {
+          const height = document.body.scrollHeight;
+          window.parent.postMessage({ type: 'resize', height: height }, '*');
+        }
+
+        function handleLinks() {
+          document.body.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A') {
+              e.preventDefault();
+              window.parent.postMessage({ type: 'link', href: e.target.href }, '*');
+            }
+          });
+        }
+
+        window.addEventListener('load', function() {
+          updateHeight();
+          handleLinks();
+        });
+        window.addEventListener('resize', updateHeight);
+      </` + `script>`
+    emailConfig.value.bodyHtml = conf.bodyHtml.replace('</body>', `${script}</body>`)
+  }
+
   loading.value = false
 }
 
@@ -41,6 +69,20 @@ vue.onMounted(async () => {
   await fictionUser.userInitialized()
 
   vue.watch(() => modelValue, v => setEmail(v), { immediate: true })
+
+  // Listen for messages from the iframe
+  // Listen for messages from the iframe
+  window.addEventListener('message', (event) => {
+    if (event.data.type === 'resize') {
+      iframeHeight.value = `${event.data.height}px`
+    }
+    else if (event.data.type === 'link') {
+      if (event.data.href && event.data.href.startsWith('http')) {
+        // Open link in a new tab/window
+        window.open(event.data.href, '_blank')
+      }
+    }
+  })
 })
 </script>
 
@@ -52,7 +94,7 @@ vue.onMounted(async () => {
     <template v-else-if="emailConfig">
       <div class="border-b border-theme-200 dark:border-theme-700/70 mb-8 pb-8">
         <div class=" mb-6">
-          <div class="text-3xl font-medium x-font-title">
+          <div class="text-xl font-medium x-font-title">
             {{ emailConfig.subject }}
           </div>
           <div class="text-sm text-theme-500 dark:text-theme-400">
@@ -74,7 +116,14 @@ vue.onMounted(async () => {
       <div v-if="!emailConfig?.bodyHtml" class="text-center text-theme-500/50 ">
         No HTML content was generated
       </div>
-      <iframe v-else class="h-[800px] w-full" :srcdoc="emailConfig?.bodyHtml" />
+      <iframe
+        v-else
+        :style="{ height: iframeHeight }"
+        class="w-full"
+        :srcdoc="emailConfig?.bodyHtml"
+        frameborder="0"
+        scrolling="no"
+      />
     </template>
   </div>
 </template>

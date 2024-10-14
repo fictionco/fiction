@@ -22,9 +22,14 @@ export const tools = [
     isPrimary: true,
     widthClasses: 'w-[400px] lg:w-[700px]',
     el: vue.defineAsyncComponent(async () => import('./SidebarEmailPreview.vue')),
-    props: (args: { card: Card, campaign: EmailCampaign }) => {
-      return vue.computed(() => ({}))
-    },
+  },
+  {
+    toolId: 'emailTest',
+    title: 'Send Test Emails',
+    icon: 'i-tabler-mailbox',
+    location: 'primary',
+    isPrimary: true,
+    el: vue.defineAsyncComponent(async () => import('./SidebarEmailPreview.vue')),
   },
   {
     toolId: 'emailSettings',

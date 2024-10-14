@@ -166,7 +166,7 @@ function getGroupHeaderClasses(opt: InputOption) {
             :ui-size="uiSize"
             :data-option-path="opt.key.value"
             class="setting-input"
-            :input-class="opt.settings.inputClass || 'max-w-md'"
+            :input-class="opt.settings.inputClass"
             v-bind="{ ...opt.outputProps.value }"
             :input-props="{ ...inputProps }"
             :input="opt.input.value"

@@ -31,6 +31,7 @@ export type ManageCampaignRequestParams =
   | { _action: 'send', where: WhereSend }
   | { _action: 'saveDraft', where: WhereSend, fields: Partial<EmailCampaignConfig> }
   | { _action: 'revertDraft', where: WhereSend }
+  | { _action: 'sendTest', where: WhereSend, testEmails: string, maxEmails?: number }
 
 export type ManageCampaignParams = ManageCampaignRequestParams & StandardFields
 
@@ -67,6 +68,9 @@ export class ManageCampaign extends SendEndpoint {
         break
       case 'revertDraft':
         r = await this.revertDraft(params, meta)
+        break
+      case 'sendTest':
+        r = await this.sendTest(params as ManageCampaignParams & { _action: 'sendTest' }, meta)
         break
       default:
         r = { status: 'error', message: 'Invalid action' }
@@ -374,6 +378,79 @@ export class ManageCampaign extends SendEndpoint {
     const updatedCampaign = await this.get({ _action: 'get', orgId, where, userId, loadDraft: false }, meta)
 
     return { status: 'success', data: updatedCampaign.data, message: 'Draft reverted successfully' }
+  }
+
+  private async sendTest(params: ManageCampaignParams & { _action: 'sendTest' }, meta: EndpointMeta): Promise<ManageCampaignResponse> {
+    const { orgId, where, testEmails, maxEmails = 10 } = params
+    const { fictionUser, fictionEmail } = this.settings
+
+    if (!where.campaignId) {
+      return { status: 'error', message: 'campaignId is required' }
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const allEmails = testEmails.split(',').map(email => email.trim())
+    const validEmails = allEmails.filter(email => emailRegex.test(email))
+    const badlyFormattedEmails = allEmails.filter(email => !emailRegex.test(email))
+
+    if (validEmails.length === 0) {
+      return { status: 'error', message: 'No valid email addresses provided' }
+    }
+
+    if (validEmails.length > maxEmails) {
+      return { status: 'error', message: `Too many email addresses. Maximum allowed: ${maxEmails}` }
+    }
+
+    const [campaign, org] = await Promise.all([
+      this.get({ _action: 'get', orgId, where, loadDraft: true }, meta).then(r => r.data?.[0]),
+      fictionUser.queries.ManageOrganization.serve({ _action: 'retrieve', where: { orgId } }, { server: true }).then(r => r.data),
+    ])
+
+    if (!campaign || !org) {
+      return { status: 'error', message: 'Campaign or organization not found' }
+    }
+
+    const emailConfig = await getEmailForCampaign({
+      org,
+      campaignConfig: campaign,
+      fictionSend: this.settings.fictionSend,
+      withDefaults: false,
+      previewMode: undefined,
+    })
+
+    const results = await Promise.all(validEmails.map(async (email) => {
+      try {
+        await fictionEmail.sendEmail(
+          { ...emailConfig, to: email, subject: `[TEST] ${emailConfig.subject}` },
+          { server: true, emailMode: 'sendInProd' },
+        )
+        return { email, success: true }
+      }
+      catch (error) {
+        this.log.error(`Failed to send test email to ${email}`, { error })
+        return { email, success: false }
+      }
+    }))
+
+    const sentEmails = results.filter(r => r.success).map(r => r.email)
+    const failedToSendEmails = results.filter(r => !r.success).map(r => r.email)
+
+    const message = [
+      `Emails sent to ${sentEmails.length} recipient(s).`,
+      failedToSendEmails.length > 0 ? `${failedToSendEmails.length} failed to send.` : '',
+      badlyFormattedEmails.length > 0 ? `${badlyFormattedEmails.length} had invalid format.` : '',
+    ].filter(Boolean).join(' ')
+
+    return {
+      status: 'success',
+      message,
+      data: [campaign],
+      meta: {
+        sentEmails,
+        failedToSendEmails,
+        badlyFormattedEmails,
+      },
+    }
   }
 }
 

@@ -317,7 +317,7 @@ export interface CompiledServiceConfig {
     fiction_post_taxonomy: 'postTaxonomyId' | 'postId' | 'taxonomyId' | 'orgId' | 'priority' | 'createdAt' | 'updatedAt'
     fiction_post_author: 'postAuthorId' | 'postId' | 'userId' | 'orgId' | 'priority' | 'createdAt' | 'updatedAt'
     fiction_post_site: 'postSiteId' | 'postId' | 'siteId' | 'orgId' | 'priority' | 'createdAt' | 'updatedAt'
-    fiction_email_campaign:
+    fiction_campaign:
       | 'campaignId'
       | 'userId'
       | 'orgId'

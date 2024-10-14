@@ -23,6 +23,7 @@ export default antfu(
       'max-statements-per-line': ['error', { max: 2 }],
       'eqeqeq': 'warn',
       'vue/eqeqeq': 'warn',
+      'vue/require-valid-default-prop': 'off', // no working with new props system
       'vue/no-unused-refs': 'warn',
       'vue/max-attributes-per-line': ['error', { singleline: { max: 5 }, multiline: { max: 1 } }],
       'vue/no-v-text-v-html-on-component': 'off',

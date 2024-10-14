@@ -5,20 +5,22 @@ import type { EmailCampaign } from '../campaign.js'
 import type { FictionSend } from '../index.js'
 import type { EmailCampaignConfig } from '../schema.js'
 import ElHeader from '@fiction/admin/settings/ElHeader.vue'
-import { dayjs, useService, vue } from '@fiction/core'
+import { dayjs, toLabel, useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
 import ElModalConfirm from '@fiction/ui/ElModalConfirm.vue'
 import { InputOption } from '@fiction/ui/index.js'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
+import InputEmailPreview from './InputEmailPreview.vue'
 
 const { card, campaign } = defineProps<{ card: Card, campaign?: EmailCampaign }>()
 
-const { fictionUser } = useService<{ fictionSend: FictionSend }>()
+const { fictionUser, fictionSend } = useService<{ fictionSend: FictionSend }>()
 
 const showSendModal = vue.ref(false)
 const settingsModal = vue.ref('')
 const saving = vue.ref(false)
+const loading = vue.ref('')
 
 const from = vue.computed(() => {
   const org = fictionUser.activeOrganization.value
@@ -38,13 +40,20 @@ function getWordCountFromHTML(html?: string) {
   return wordCount
 }
 
-type OptionItem = NavItem & { options?: InputOption<any>[], isOptional?: boolean, isActive?: boolean }
+type OptionItem = NavItem & {
+  options?: InputOption<any>[]
+  optionActions?: ActionButton[]
+  isOptional?: boolean
+  isActive?: boolean
+  progress?: 'ready' | 'incomplete' | 'optional'
+
+}
 
 function getCampaignLink(slug: 'campaigns' | 'manage-campaign' | 'campaign-composer') {
   return card.link(`/${slug}?campaignId=${campaign?.campaignId}`)
 }
 
-function getPanelLink(panel: 'compose' | 'delivery' | 'analytics' | '') {
+function _getPanelLink(panel: 'compose' | 'delivery' | 'analytics' | '') {
   return card.link(`/manage-campaign/${panel}?campaignId=${campaign?.campaignId}`)
 }
 
@@ -54,14 +63,9 @@ const items = vue.computed<OptionItem[]>(() => {
   const subscriberCount = config.subscriberCount
   const allContent = [post?.title, post?.subTitle, post?.content].filter(Boolean).join(' ')
   const wordCount = getWordCountFromHTML(allContent)
-  const settings = card.link(`/manage-campaign/settings?campaignId=${config?.campaignId}`)
-  const editLink = card.link(`/email-edit?campaignId=${config?.campaignId}`)
-  const pub = card.link(`/settings/project`)
-  const hasSubject = !!config?.subject
-  const hasTitle = !!post?.title
-  const hasContent = !!post?.content
 
-  const scheduleDisplay = config?.scheduledAt && config?.scheduleMode !== 'now' ? 'Scheduled' : 'Send Immediately'
+  const scheduledTime = config?.scheduledAt ? dayjs(config.scheduledAt).format('MMM D, YYYY h:mm A') : ''
+  const scheduleDisplay = config?.scheduledAt && config?.scheduleMode !== 'now' ? `Send at ${scheduledTime}` : 'Send Immediately'
 
   const subs = subscriberCount ? `${subscriberCount} Active Subscribers` : 'No Subscribers'
   const hasSubs = !!(subscriberCount && subscriberCount > 0)
@@ -74,9 +78,8 @@ const items = vue.computed<OptionItem[]>(() => {
       title: config?.subject || 'No Subject Line',
       subTitle: 'Subject Line',
       content: 'The subject line of the email',
-      progress: config?.subject ? 'ready' : 'pending',
+      progress: config?.subject ? 'ready' : 'incomplete',
       isOptional: false,
-      isActive: hasSubject,
       actions: [
         {
           name: 'Update',
@@ -94,9 +97,8 @@ const items = vue.computed<OptionItem[]>(() => {
       title: config?.preview || 'No Preview Text',
       subTitle: 'Preview Text',
       content: 'The text that appears in the inbox preview of your email',
-      progress: config?.subject ? 'ready' : 'pending',
+      progress: config?.preview ? 'ready' : 'incomplete',
       isOptional: true,
-      isActive: !!config?.preview,
       actions: [
         {
           name: 'Update',
@@ -114,47 +116,12 @@ const items = vue.computed<OptionItem[]>(() => {
       title: `${wordCount} Words in Email`,
       subTitle: 'Email Content',
       content: 'The text of the email',
-      progress: 'pending',
+      progress: wordCount > 5 ? 'ready' : 'incomplete',
       isOptional: false,
-      isActive: hasContent,
       actions: [
         {
           name: 'Compose',
           href: getCampaignLink('campaign-composer'),
-          theme: 'theme',
-        },
-      ],
-    },
-    {
-      key: 'audience',
-      icon: 'i-tabler-users-group',
-      title: `${subs}`,
-      subTitle: 'Recipients',
-      content: 'Emails will be sent to these recipients',
-      progress: 'pending',
-      isOptional: false,
-      isActive: hasSubs,
-      actions: [
-        {
-          name: 'View Subscribers',
-          href: getPanelLink('compose'),
-          theme: 'theme',
-        },
-      ],
-    },
-    {
-      key: 'from',
-      icon: 'i-tabler-mailbox',
-      title: `${from.value}`,
-      subTitle: 'Sender',
-      content: 'The email address that the email will be sent from',
-      progress: 'pending',
-      isOptional: false,
-      isActive: !!from.value,
-      actions: [
-        {
-          name: 'Update',
-          href: getPanelLink('compose'),
           theme: 'theme',
         },
       ],
@@ -165,7 +132,7 @@ const items = vue.computed<OptionItem[]>(() => {
       title: scheduleDisplay,
       subTitle: 'Schedule Send Time and Date',
       content: 'This is the time and date that the email will be sent',
-      progress: 'ready',
+      progress: config?.scheduleMode === 'now' || config?.scheduledAt ? 'ready' : 'incomplete',
       actions: [{
         name: 'Update',
         onClick: ({ item }) => (settingsModal.value = item?.key),
@@ -194,18 +161,99 @@ const items = vue.computed<OptionItem[]>(() => {
       ],
     },
     {
-      key: 'test',
-      icon: 'i-tabler-eye-check',
-      title: `Test Sent`,
-      subTitle: 'Preview and Test',
-      content: 'View preview and send test email',
-      isOptional: true,
-      isActive: !!from.value,
+      key: 'audience',
+      icon: 'i-tabler-users-group',
+      title: `${subs}`,
+      subTitle: 'Recipients',
+      content: 'Emails will be sent to these recipients',
+      progress: hasSubs ? 'ready' : 'incomplete',
+      isOptional: false,
       actions: [
         {
-          name: 'Preview / Test',
-          href: getPanelLink('compose'),
+          name: 'View Subscribers',
+          href: card.link(`/audience`),
           theme: 'theme',
+        },
+      ],
+    },
+    {
+      key: 'from',
+      icon: 'i-tabler-mailbox',
+      title: `${from.value}`,
+      subTitle: 'Sender',
+      content: 'The email address that the email will be sent from',
+      progress: from.value ? 'ready' : 'incomplete',
+      isOptional: false,
+      actions: [
+        {
+          name: 'Organization Settings',
+          href: card.link(`/settings/project`),
+          theme: 'theme',
+        },
+      ],
+    },
+
+    {
+      key: 'preview',
+      icon: 'i-tabler-eye-check',
+      title: `Preview Email`,
+      subTitle: 'View HTML preview',
+      content: 'A rendered preview of the email',
+      progress: 'optional',
+      isOptional: true,
+      actions: [
+        {
+          name: 'Preview',
+          onClick: ({ item }) => (settingsModal.value = item?.key),
+          theme: 'theme',
+        },
+      ],
+      options: [
+        new InputOption({ key: '*', label: 'Email Preview', input: InputEmailPreview, props: { modelValue: campaign, card } }),
+      ],
+      optionActions: [],
+    },
+    {
+      key: 'testEmail',
+      icon: 'i-tabler-mail-question',
+      title: `Send Test Email`,
+      subTitle: 'Send a test email to yourself',
+      content: 'View the email as it will appear in target email clients',
+      progress: 'optional',
+      isOptional: true,
+      actions: [
+        {
+          name: 'Send Test',
+          onClick: ({ item }) => (settingsModal.value = item?.key),
+          theme: 'theme',
+        },
+      ],
+      options: [
+        new InputOption({ key: 'userConfig.testEmails', label: 'Test Emails', input: 'InputText', placeholder: 'email@example.com, email2@test.com', description: 'Enter emails to send the test to... (comma separated)' }),
+      ],
+      optionActions: [
+        {
+          name: 'Send Test Email',
+          theme: 'primary',
+          onClick: async ({ item }) => {
+            const em = campaign
+
+            const testEmails = em?.userConfig.value.testEmails
+
+            if (!testEmails)
+              return
+
+            loading.value = 'testEmail'
+
+            await fictionSend.requests.ManageCampaign.projectRequest({
+              _action: 'sendTest',
+              testEmails,
+              where: { campaignId: em.campaignId },
+            })
+
+            loading.value = ''
+          },
+          loading: loading.value === 'testEmail',
         },
       ],
     },
@@ -221,42 +269,16 @@ const sendNow = vue.computed(() => {
   return em?.scheduleMode.value === 'now' || !em?.scheduledAt || dayjs(em.scheduledAt.value).isBefore(dayjs())
 })
 
-const readyAction = vue.computed<ActionButton>(() => {
-  const em = campaign?.toConfig() as EmailCampaignConfig
-
-  const isReady = items.value.every(item => item.isActive)
-  const scheduledTime = em?.scheduledAt ? dayjs(em.scheduledAt).format('MMM D, YYYY h:mm A') : ''
-  const readyText = em?.scheduleMode === 'now' ? 'Send Now...' : `Schedule (${scheduledTime})...`
-
-  let out: ActionButton = {}
-  if (em?.status === 'pending' && isReady)
-    out = { name: readyText, theme: 'primary', onClick: () => { showSendModal.value = true } }
-  else if (em?.status === 'pending')
-    out = { name: 'Complete Set Up to Send', theme: 'default', disabled: true }
-  else
-    out = { name: em?.status, theme: 'default' }
-
-  return { size: 'lg', ...out }
-})
-
-const allActions = vue.computed<ActionButton[]>(() => {
-  const propActions: ActionButton[] = []
-  return [
-    readyAction.value,
-    ...propActions,
-  ]
-})
-
 const modalText = vue.computed(() => {
   const em = campaign
   const scheduledTime = em?.scheduledAt.value ? dayjs(em.scheduledAt.value).format('MMM D, YYYY h:mm A') : ''
   return sendNow.value
     ? {
-        title: `Send email now?`,
+        title: `Send campaign now?`,
         sub: 'This will send the email you have composed as soon as resources are available.',
       }
     : {
-        title: `Schedule email for ${scheduledTime}?`,
+        title: `Schedule send at ${scheduledTime}?`,
         sub: 'This will schedule the email to be sent at the specified time. You will need to cancel the schedule if you want to change settings.',
       }
 })
@@ -281,40 +303,38 @@ async function saveChanges() {
 
 const header = vue.computed(() => {
   const em = campaign?.toConfig() as EmailCampaignConfig
-  const activeItems = items.value.filter(item => item.isActive)
-  const isReady = activeItems.length === items.value.length
-  const percentComplete = Math.round((activeItems.length / items.value.length) * 100)
-
-  const scheduledTime = em?.scheduledAt
-    ? dayjs(em.scheduledAt).format('MMM D, YYYY h:mm A')
-    : ''
+  const incompleteItems = items.value.filter(item => item.progress === 'incomplete')
+  const isReady = incompleteItems.length === 0
 
   const isScheduled = em?.scheduleMode === 'schedule'
-  const actionText = isScheduled ? `Schedule (${scheduledTime})` : 'Send Now'
+  const actionText = isScheduled ? `Schedule Send` : 'Send'
 
-  const statusText = em?.status === 'pending' && !isReady
+  const statusText = !isReady
     ? `Complete Setup to ${actionText}`
     : `Ready to ${actionText}`
-
-  const publishButton: ActionButton = {
-    name: em?.status === 'pending' && isReady
-      ? `${actionText}...`
-      : em?.status === 'pending'
-        ? `${percentComplete}% Complete`
-        : em?.status,
-    theme: em?.status === 'pending' && isReady ? 'primary' : 'default',
-    disabled: em?.status === 'pending' && !isReady,
-    onClick: em?.status === 'pending' && isReady
-      ? () => { showSendModal.value = true }
-      : undefined,
-  }
 
   const out: PostObject = {
     superTitle: 'Status',
     title: statusText,
-    subTitle: `Email campaign status: ${em?.status}`,
+    subTitle: `Status: ${em?.status}`,
     media: { class: 'i-tabler-mail' },
-    actions: [{ size: 'lg', ...publishButton }],
+    actions: [
+      {
+        size: 'md',
+        name: 'Edit Content',
+        icon: 'i-tabler-file-description',
+        theme: 'primary',
+        href: getCampaignLink('campaign-composer'),
+
+      },
+      {
+        size: 'md',
+        design: 'textOnly',
+        name: isReady ? 'Ready' : `${items.value.length - incompleteItems.length} / ${items.value.length} Complete`,
+        disabled: true,
+      },
+
+    ],
   }
 
   return out
@@ -351,11 +371,11 @@ const header = vue.computed(() => {
               <div class="text-base mt-4 flex items-center gap-4">
                 <XButton
                   design="ghost"
-                  :icon="item.progress === 'ready' ? 'i-tabler-check' : 'i-tabler-x'"
-                  :theme="item.progress === 'ready' ? 'green' : 'rose'"
+                  :icon="item.progress === 'ready' ? 'i-tabler-check' : item.progress === 'incomplete' ? 'i-tabler-x' : 'i-tabler-circle-plus'"
+                  :theme="item.progress === 'ready' ? 'green' : item.progress === 'incomplete' ? 'rose' : 'theme'"
                   size="md"
                 >
-                  {{ item.progress === 'ready' ? 'Ready' : 'Incomplete' }}
+                  {{ toLabel(item.progress) }}
                 </XButton>
                 <span class="text-sm  text-theme-500/60 dark:text-theme-400/60">{{ item.content }}</span>
               </div>
@@ -367,6 +387,7 @@ const header = vue.computed(() => {
                 design="solid"
                 :theme="action.theme || 'theme'"
                 size="lg"
+                :loading="action.loading"
                 :href="action.href"
                 @click.stop="action.onClick ? (action.onClick({ item, event: $event })) : ''"
               >
@@ -390,7 +411,7 @@ const header = vue.computed(() => {
         <FormEngine
           :model-value="campaign?.toConfig()"
           state-key="settingsTool"
-          input-wrap-class="max-w-lg w-full"
+          input-wrap-class="w-full"
           ui-size="lg"
           :options="currentItem.options || []"
           :card
@@ -404,8 +425,23 @@ const header = vue.computed(() => {
               Cancel
             </XButton>
           </div>
-          <div>
-            <XButton size="lg" theme="primary" :loading="saving" @click="saveChanges()">
+          <div class="gap-4 flex">
+            <template v-if="currentItem.optionActions">
+              <XButton
+                v-for="(action, ii) in (currentItem.optionActions || [])"
+                :key="ii"
+                design="solid"
+                :theme="action.theme || 'theme'"
+                :loading="action.loading"
+
+                size="lg"
+                :href="action.href"
+                @click.stop="action.onClick ? (action.onClick({ item: currentItem, event: $event })) : ''"
+              >
+                {{ action.name }}
+              </XButton>
+            </template>
+            <XButton v-else size="lg" theme="primary" :loading="saving" @click="saveChanges()">
               Apply Changes
             </XButton>
           </div>

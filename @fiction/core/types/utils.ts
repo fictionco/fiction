@@ -44,7 +44,6 @@ export interface NavItem {
   title?: string
   subTitle?: string
   content?: string
-  progress?: ProgressStatus
   actions?: ActionButton[]
 }
 

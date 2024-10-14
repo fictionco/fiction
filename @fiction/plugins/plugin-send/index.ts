@@ -52,7 +52,7 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
       await factory.create({
         templateId: 'dash',
         slug: 'campaigns',
-        title: 'Campaigns',
+        title: 'Newsletter',
         cards: [await factory.create({ el: vue.defineAsyncComponent(async () => import('./admin/ViewIndex.vue')) })],
         userConfig: { isNavItem: true, navIcon: 'i-tabler-mail', navIconAlt: 'i-tabler-mail-share', priority: 50 },
       }),
@@ -71,20 +71,20 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
                 el: vue.defineAsyncComponent(async () => import('./admin/ManageOverview.vue')),
                 userConfig: { isNavItem: true, navIcon: 'i-tabler-dashboard', navIconAlt: 'i-tabler-dashboard' },
               }),
-              await factory.create({
-                slug: 'compose',
-                title: 'Compose',
-                description: 'Compose email content and settings.',
-                el: vue.defineAsyncComponent(async () => import('./admin/ManageContent.vue')),
-                userConfig: { isNavItem: true, navIcon: 'i-tabler-file-description', navIconAlt: 'i-tabler-file-description' },
-              }),
-              await factory.create({
-                slug: 'delivery',
-                title: 'Delivery',
-                description: 'When and how to send the email.',
-                el: vue.defineAsyncComponent(async () => import('./admin/ManagePreview.vue')),
-                userConfig: { isNavItem: true, navIcon: 'i-tabler-calendar', navIconAlt: 'i-tabler-calendar' },
-              }),
+              // await factory.create({
+              //   slug: 'compose',
+              //   title: 'Compose',
+              //   description: 'Compose email content and settings.',
+              //   el: vue.defineAsyncComponent(async () => import('./admin/ManageContent.vue')),
+              //   userConfig: { isNavItem: true, navIcon: 'i-tabler-file-description', navIconAlt: 'i-tabler-file-description' },
+              // }),
+              // await factory.create({
+              //   slug: 'delivery',
+              //   title: 'Delivery',
+              //   description: 'When and how to send the email.',
+              //   el: vue.defineAsyncComponent(async () => import('./admin/ManagePreview.vue')),
+              //   userConfig: { isNavItem: true, navIcon: 'i-tabler-calendar', navIconAlt: 'i-tabler-calendar' },
+              // }),
               await factory.create({
                 slug: 'analytics',
                 title: 'Analytics',

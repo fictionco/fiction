@@ -52,7 +52,7 @@ vue.onMounted(() => load())
     :header="{
       superTitle: 'Campaign',
       title: campaign?.title.value || 'Untitled',
-      subTitle: 'Email campaigns are a simple way to send beautiful emails to your email list.',
+      subTitle: 'A simple way to send beautiful emails to your email list.',
       media: { class: `i-tabler-mail` },
       actions: [],
     }"

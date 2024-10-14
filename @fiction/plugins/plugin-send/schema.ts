@@ -1,6 +1,7 @@
 import type { ColType } from '@fiction/core'
 import type { TablePostConfig } from '@fiction/posts'
 
+import test from 'node:test'
 import { ActionButtonSchema, AndDataFilterSchema, Col, FictionDbTable, MediaDisplaySchema, ProgressStatusSchema, standardTable } from '@fiction/core'
 import { t as postTableNames } from '@fiction/posts'
 import { z } from 'zod'
@@ -21,6 +22,8 @@ export type EmailCampaignConfig = Partial<TableEmailCampaign> & { post?: TablePo
 
 const EmailUserConfigSchema = z.object({
   actions: z.array(ActionButtonSchema).optional(),
+  isTestSent: z.boolean().optional(),
+  testEmails: z.string().optional(),
 })
 
 export const sendColumns = [

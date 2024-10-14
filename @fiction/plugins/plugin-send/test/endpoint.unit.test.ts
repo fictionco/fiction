@@ -108,6 +108,70 @@ describe('email send endpoint', async () => {
     workingCampaigns[0] = r.data?.[0]
   })
 
+  it('sendTest', async () => {
+    const em = workingCampaigns[0]
+    const validEmail1 = getTestEmail()
+    const validEmail2 = getTestEmail()
+    const testEmails = `${validEmail1}, ${validEmail2}, invalid-email, bad@format@test.com`
+
+    const r = await fictionSend.queries.ManageCampaign.serve({
+      _action: 'sendTest',
+      orgId,
+      userId,
+      where: { campaignId: em.campaignId },
+      testEmails,
+      maxEmails: 5,
+    }, { server: true })
+
+    expect(r.status).toBe('success')
+    expect(r.data?.length).toBe(1)
+    expect(r.data?.[0].campaignId).toBe(em.campaignId)
+    expect(r.message).toMatchInlineSnapshot('"Emails sent to 2 recipient(s). 2 had invalid format."')
+    expect(r.meta?.sentEmails).toEqual([validEmail1, validEmail2])
+    expect(r.meta?.failedToSendEmails).toEqual([])
+    expect(r.meta?.badlyFormattedEmails).toEqual(['invalid-email', 'bad@format@test.com'])
+
+    // Test with too many emails
+    const tooManyEmails = Array.from({ length: 6 }).fill(0).map(() => getTestEmail()).join(', ')
+    const r2 = await fictionSend.queries.ManageCampaign.serve({
+      _action: 'sendTest',
+      orgId,
+      userId,
+      where: { campaignId: em.campaignId },
+      testEmails: tooManyEmails,
+      maxEmails: 5,
+    }, { server: true })
+
+    expect(r2.status).toBe('error')
+    expect(r2.message).toMatchInlineSnapshot('"Too many email addresses. Maximum allowed: 5"')
+
+    // Test with all invalid emails
+    const r3 = await fictionSend.queries.ManageCampaign.serve({
+      _action: 'sendTest',
+      orgId,
+      userId,
+      where: { campaignId: em.campaignId },
+      testEmails: 'invalid1, invalid2',
+      maxEmails: 5,
+    }, { server: true })
+
+    expect(r3.status).toBe('error')
+    expect(r3.message).toMatchInlineSnapshot('"No valid email addresses provided"')
+
+    // Test with non-existent campaign
+    const r4 = await fictionSend.queries.ManageCampaign.serve({
+      _action: 'sendTest',
+      orgId,
+      userId,
+      where: { campaignId: 'non-existent-id' },
+      testEmails: getTestEmail(),
+      maxEmails: 5,
+    }, { server: true })
+
+    expect(r4.status).toBe('error')
+    expect(r4.message).toMatchInlineSnapshot('"Campaign or organization not found"')
+  })
+
   it('saveDraft', async () => {
     const em = workingCampaigns[0]
     const draftFields = {

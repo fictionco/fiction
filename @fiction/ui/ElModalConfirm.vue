@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { vue, waitFor } from '@fiction/core'
-import ElButton from './ElButton.vue'
+import XButton from './buttons/XButton.vue'
 import ElModal from './ElModal.vue'
 
 defineProps({
@@ -33,17 +33,17 @@ export default {
       <div class="text-lg font-semibold text-balance x-font-title">
         {{ title }}
       </div>
-      <div v-if="sub" class="text-base text-theme-500 dark:text-theme-200 mt-2 text-balance">
+      <div v-if="sub" class="text-base text-theme-500 dark:text-theme-300 mt-2 text-balance">
         {{ sub }}
       </div>
     </div>
     <div class="flex justify-center gap-4">
-      <ElButton class="" btn="default" icon="i-tabler-x" @click="emit('update:vis', false)">
+      <XButton class="" theme="default" icon="i-tabler-x" @click="emit('update:vis', false)">
         Cancel
-      </ElButton>
-      <ElButton btn="primary" :loading="loading" icon="i-tabler-check" @click.stop="confirmed()">
+      </XButton>
+      <XButton theme="primary" :loading="loading" icon="i-tabler-check" @click.stop="confirmed()">
         Confirm
-      </ElButton>
+      </XButton>
     </div>
   </ElModal>
 </template>

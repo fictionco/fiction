@@ -85,7 +85,7 @@ const actions = vue.computed(() => {
             href="/send"
           >
             <span class="i-tabler-mail text-xl inline-block dark:text-theme-500" />
-            <span>Email Campaign Composer</span>
+            <span>Newsletter Composer</span>
             <span class="i-tabler-slash text-xl dark:text-theme-500" />
           </CardLink>
           <XText :model-value="campaign?.title.value" class="whitespace-nowrap" :is-editable="true" @update:model-value="campaign && (campaign.title.value = $event)" />

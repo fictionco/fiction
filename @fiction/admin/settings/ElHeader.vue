@@ -28,7 +28,7 @@ function updateValue<T extends keyof PostObject = keyof PostObject>(key: T, valu
             v-if="modelValue.title"
             tag="h1"
             :model-value="modelValue.title"
-            class="text-xl lg:text-2xl font-semibold text-theme-900 dark:text-theme-0 x-font-title !leading-[1.1]"
+            class="text-xl lg:text-2xl font-semibold text-theme-900 dark:text-theme-0 x-font-title"
             :is-editable="editable.includes('title')"
             @update:model-value="updateValue('title', $event)"
           />
@@ -42,7 +42,18 @@ function updateValue<T extends keyof PostObject = keyof PostObject>(key: T, valu
         </div>
       </div>
       <div class="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-3 sm:space-y-0 sm:space-x-reverse @lg:mt-0 @lg:flex-row @lg:space-x-3">
-        <XButton v-for="(action, i) in modelValue.actions" :key="i" :size="action.size || 'md'" :icon="action.icon" @click.stop="action.onClick?.({ event: $event })">
+        <XButton
+          v-for="(action, i) in modelValue.actions"
+          :key="i"
+          :size="action.size || 'md'"
+          :icon="action.icon"
+          :theme="action.theme || 'default'"
+          :design="action.design || 'solid'"
+          :href="action.href"
+          :loading="action.loading"
+          :disabled="action.disabled"
+          @click.stop="action.onClick?.({ event: $event })"
+        >
           {{ action.name }}
         </XButton>
       </div>
