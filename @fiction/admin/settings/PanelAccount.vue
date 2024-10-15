@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site'
-import { gravatarUrlSync, type Organization, type User, useService, vue } from '@fiction/core'
+import { gravatarUrlSync, type User, useService, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save.js'
 import { InputOption } from '@fiction/ui/index.js'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'

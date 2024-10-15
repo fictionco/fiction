@@ -21,7 +21,7 @@
     "@types/mapbox-gl": "^3.4.0",
     "mapbox-gl": "^3.7.0",
     "postcss": "^8.4.47",
-    "tailwindcss": "^3.4.13"
+    "tailwindcss": "^3.4.14"
   },
   "devDependencies": {
     "dotenv": "^16.4.5"

@@ -1,14 +1,16 @@
 /// <reference path="./env.d.ts" />
 
 import type { Knex } from 'knex'
+import type { KnexStringcaseConfig } from 'knex-stringcase/dist/types.js'
 import type { FictionPluginSettings } from '../plugin.js'
 import type { FictionEnv } from '../plugin-env/index.js'
 import type { FictionServer } from '../plugin-server/index.js'
 import type { Col, FictionDbTable } from './objects.js'
 import process from 'node:process'
 import * as typebox from '@sinclair/typebox'
+
 import knex from 'knex'
-import knexStringcase from 'knex-stringcase'
+import knexStringcase2 from 'knex-stringcase'
 import { FictionPlugin } from '../plugin.js'
 import { EnvVar, vars } from '../plugin-env/index.js'
 import { toCamel } from '../utils/casing.js'
@@ -115,7 +117,10 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
      * if conflicts or issues occur, thexn best to change to a custom version at that time
      * https://www.npmjs.com/package/knex-stringcase
      */
-    const opts: Knex.Config = knexStringcase(knexOptions) as Knex.Config
+
+    const knexStringcase = await import('knex-stringcase')
+
+    const opts: Knex.Config = knexStringcase.default(knexOptions as KnexStringcaseConfig) as Knex.Config
 
     this.db = knex(opts)
 

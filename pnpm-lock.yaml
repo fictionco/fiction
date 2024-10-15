@@ -78,7 +78,7 @@ importers:
         version: 14.2.1
       ts-node:
         specifier: ^10.9.2
-        version: 10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3)
+        version: 10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3)
       tsx:
         specifier: ^4.19.1
         version: 4.19.1
@@ -165,8 +165,8 @@ importers:
         specifier: ^2.11.1
         version: 2.11.1
       tailwindcss:
-        specifier: ^3.4.13
-        version: 3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3))
+        specifier: ^3.4.14
+        version: 3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3))
       tslib:
         specifier: ^2.7.0
         version: 2.7.0
@@ -219,8 +219,8 @@ importers:
         specifier: ^3.7.0
         version: 3.7.0
       tailwindcss:
-        specifier: ^3.4.13
-        version: 3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3))
+        specifier: ^3.4.14
+        version: 3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3))
       vue:
         specifier: ^3.5.12
         version: 3.5.12(typescript@5.6.3)
@@ -302,8 +302,8 @@ importers:
         specifier: ^3.7.0
         version: 3.7.0
       tailwindcss:
-        specifier: ^3.4.13
-        version: 3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3))
+        specifier: ^3.4.14
+        version: 3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3))
       vue:
         specifier: ^3.5.12
         version: 3.5.12(typescript@5.6.3)
@@ -325,7 +325,7 @@ importers:
         version: 3.670.0
       '@egoist/tailwindcss-icons':
         specifier: ^1.8.1
-        version: 1.8.1(tailwindcss@3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3)))
+        version: 1.8.1(tailwindcss@3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3)))
       '@faker-js/faker':
         specifier: ^9.0.3
         version: 9.0.3
@@ -364,7 +364,7 @@ importers:
         version: 7.0.3
       '@tailwindcss/container-queries':
         specifier: ^0.1.1
-        version: 0.1.1(tailwindcss@3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3)))
+        version: 0.1.1(tailwindcss@3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3)))
       '@types/ffprobe':
         specifier: ^1.1.8
         version: 1.1.8
@@ -388,7 +388,7 @@ importers:
         version: 5.1.4(vite@5.4.9(@types/node@22.7.5)(less@4.2.0))(vue@3.5.12(typescript@5.6.3))
       '@vue-email/compiler':
         specifier: ^0.8.14
-        version: 0.8.14(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3))(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3))
+        version: 0.8.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3))(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3))
       '@vue-email/components':
         specifier: ^0.0.19
         version: 0.0.19(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3))
@@ -558,8 +558,8 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0(pg@8.13.0)
       knex-stringcase:
-        specifier: 1.4.6
-        version: 1.4.6
+        specifier: ^1.5.3
+        version: 1.5.3
       less:
         specifier: ^4.2.0
         version: 4.2.0
@@ -567,11 +567,11 @@ importers:
         specifier: ^0.30.12
         version: 0.30.12
       marked:
-        specifier: ^14.1.2
-        version: 14.1.2
+        specifier: ^14.1.3
+        version: 14.1.3
       marked-gfm-heading-id:
         specifier: ^4.1.0
-        version: 4.1.0(marked@14.1.2)
+        version: 4.1.0(marked@14.1.3)
       mime:
         specifier: ^4.0.4
         version: 4.0.4
@@ -672,11 +672,11 @@ importers:
         specifier: ^2.5.4
         version: 2.5.4
       tailwindcss:
-        specifier: ^3.4.13
-        version: 3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3))
+        specifier: ^3.4.14
+        version: 3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3))
       ts-node:
         specifier: ^10.9.2
-        version: 10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3)
+        version: 10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3)
       tsup:
         specifier: ^8.3.0
         version: 8.3.0(jiti@1.21.6)(postcss@8.4.47)(tsx@4.19.1)(typescript@5.6.3)(yaml@2.6.0)
@@ -722,7 +722,7 @@ importers:
         version: 1.48.0
       '@tailwindcss/forms':
         specifier: ^0.5.9
-        version: 0.5.9(tailwindcss@3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3)))
+        version: 0.5.9(tailwindcss@3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3)))
       '@types/bcrypt':
         specifier: ^5.0.2
         version: 5.0.2
@@ -895,8 +895,8 @@ importers:
         specifier: ^0.0.51
         version: 0.0.51(zod@3.23.8)
       '@ai-sdk/openai':
-        specifier: ^0.0.66
-        version: 0.0.66(zod@3.23.8)
+        specifier: ^0.0.67
+        version: 0.0.67(zod@3.23.8)
       '@fiction/core':
         specifier: workspace:*
         version: link:../../core
@@ -913,8 +913,8 @@ importers:
         specifier: ^4.67.3
         version: 4.67.3(encoding@0.1.13)(zod@3.23.8)
       tailwindcss:
-        specifier: ^3.4.13
-        version: 3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3))
+        specifier: ^3.4.14
+        version: 3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3))
       vue:
         specifier: ^3.5.12
         version: 3.5.12(typescript@5.6.3)
@@ -1170,8 +1170,8 @@ importers:
         specifier: ^7.1.0
         version: 7.1.0(graphql@16.9.0)
       tailwindcss:
-        specifier: ^3.4.13
-        version: 3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3))
+        specifier: ^3.4.14
+        version: 3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3))
       vue:
         specifier: ^3.5.12
         version: 3.5.12(typescript@5.6.3)
@@ -1201,8 +1201,8 @@ importers:
         specifier: workspace:*
         version: link:../../ui
       tailwindcss:
-        specifier: ^3.4.13
-        version: 3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3))
+        specifier: ^3.4.14
+        version: 3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3))
       vue:
         specifier: ^3.5.12
         version: 3.5.12(typescript@5.6.3)
@@ -1222,8 +1222,8 @@ importers:
         specifier: workspace:*
         version: link:../../ui
       tailwindcss:
-        specifier: ^3.4.13
-        version: 3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3))
+        specifier: ^3.4.14
+        version: 3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3))
       vue:
         specifier: ^3.5.12
         version: 3.5.12(typescript@5.6.3)
@@ -1238,13 +1238,13 @@ importers:
         version: 1.1.3
       '@tailwindcss/container-queries':
         specifier: ^0.1.1
-        version: 0.1.1(tailwindcss@3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3)))
+        version: 0.1.1(tailwindcss@3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3)))
       '@tailwindcss/forms':
         specifier: ^0.5.9
-        version: 0.5.9(tailwindcss@3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3)))
+        version: 0.5.9(tailwindcss@3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3)))
       '@tailwindcss/typography':
         specifier: ^0.5.15
-        version: 0.5.15(tailwindcss@3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3)))
+        version: 0.5.15(tailwindcss@3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3)))
       '@tiptap/core':
         specifier: ^2.8.0
         version: 2.8.0(@tiptap/pm@2.8.0)
@@ -1369,8 +1369,8 @@ importers:
         specifier: ^8.4.47
         version: 8.4.47
       tailwindcss:
-        specifier: ^3.4.13
-        version: 3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3))
+        specifier: ^3.4.14
+        version: 3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3))
       tippy.js:
         specifier: ^6.3.7
         version: 6.3.7
@@ -1459,8 +1459,8 @@ importers:
         specifier: ^8.4.47
         version: 8.4.47
       tailwindcss:
-        specifier: ^3.4.13
-        version: 3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3))
+        specifier: ^3.4.14
+        version: 3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3))
     devDependencies:
       dotenv:
         specifier: ^16.4.5
@@ -1474,8 +1474,8 @@ packages:
     peerDependencies:
       zod: ^3.0.0
 
-  '@ai-sdk/openai@0.0.66':
-    resolution: {integrity: sha512-V4XeDnlNl5/AY3GB3ozJUjqnBLU5pK3DacKTbCNH3zH8/MggJoH6B8wRGdLUPVFMcsMz60mtvh4DC9JsIVFrKw==}
+  '@ai-sdk/openai@0.0.67':
+    resolution: {integrity: sha512-LOvbQaKXuNdhlZ+Asinc4DGdh4v32wKTzFB8FIKvVYjPuXwMWAsK4ZjrS6sxwB37AjmyGLPTMVBUtwcHZdpk+A==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.0.0
@@ -3384,8 +3384,8 @@ packages:
     peerDependencies:
       eslint: '>=8.40.0'
 
-  '@swc/wasm@1.7.35':
-    resolution: {integrity: sha512-AIga54+/rRRDdSnta7KIYcm3/DeK+ZX8xQV3yrlmdgjWSUuiJbd+E9OG9UFCe5tjGmPC5xd8aatCUcYZ85Sc4A==}
+  '@swc/wasm@1.7.36':
+    resolution: {integrity: sha512-U0f2fVOx4uUYg1xMGXKmfpDnmvTIyDjlhgBLvP9lTWhBep4VXBEOlPZG+JI77CATn0lHPRFWOQXneCOAmAcXeg==}
 
   '@szmarczak/http-timer@4.0.6':
     resolution: {integrity: sha512-4BAffykYOgO+5nzBWYwE3W90sBgLJoUPRWWcL8wlyiM8IB8ipJz3UMJ9KXQd1RKQXpKp8Tutn80HZtWsu2u76w==}
@@ -5617,8 +5617,8 @@ packages:
     resolution: {integrity: sha512-brcKcxGnISN2CcVhXJ/kEQlNa0MEfGRtwKtWA16SkqXHKitaKIMrfemJKLKX1YqDU5C/5JY3PvZXd5jEW04e0Q==}
     engines: {node: '>=5.0.0'}
 
-  eslint-plugin-perfectionist@3.8.0:
-    resolution: {integrity: sha512-BYJWbQVOjvIGK9V1xUfn790HuvkePjxti8epOi1H6sdzo0N4RehBmQ8coHPbgA/f12BUG1NIoDtQhI9mUm+o2A==}
+  eslint-plugin-perfectionist@3.9.0:
+    resolution: {integrity: sha512-qLsV6/94hokK+k77wUeLMEtB3tS/NtC9ke5OZCAaeCyK1VyVv7Ct0il16vkNNw/1IwNo8Fy60PKjQZSBcsVX5A==}
     engines: {node: ^18.0.0 || >=20.0.0}
     peerDependencies:
       astro-eslint-parser: ^1.0.2
@@ -6790,8 +6790,8 @@ packages:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
 
-  knex-stringcase@1.4.6:
-    resolution: {integrity: sha512-8YJafQWJqF0REx6OYKem4UBBY75RD+ZvENcWAufz/afc9MOBGjFyr70EPBy59y6LqoPzSmCdUV+qWO550B3lJg==}
+  knex-stringcase@1.5.3:
+    resolution: {integrity: sha512-QvECLBu0AJg8xdvAIlzIsH0QWDN5844a0YRLQdMMZvpQOig8GYpvZqxFXzLi0I+cduONfXaX+2xFVc0FhDWcyw==}
 
   knex@3.1.0:
     resolution: {integrity: sha512-GLoII6hR0c4ti243gMs5/1Rb3B+AjwMOfjYm97pu0FOQa7JH56hgBxYf5WK2525ceSbBY1cjeZ9yk99GPMB6Kw==}
@@ -7079,8 +7079,8 @@ packages:
     peerDependencies:
       marked: '>=13 <15'
 
-  marked@14.1.2:
-    resolution: {integrity: sha512-f3r0yqpz31VXiDB/wj9GaOB0a2PRLQl6vJmXiFrniNwjkKdvakqJRULhjFKJpxOchlCRiG5fcacoUZY5Xa6PEQ==}
+  marked@14.1.3:
+    resolution: {integrity: sha512-ZibJqTULGlt9g5k4VMARAktMAjXoVnnr+Y3aCqW1oDftcV4BA3UmrBifzXoZyenHRk75csiPu9iwsTj4VNBT0g==}
     engines: {node: '>= 18'}
     hasBin: true
 
@@ -8978,8 +8978,8 @@ packages:
   tailwind-merge@2.5.4:
     resolution: {integrity: sha512-0q8cfZHMu9nuYP/b5Shb7Y7Sh1B7Nnl5GqNr1U+n2p6+mybvRtayrQ+0042Z5byvTA8ihjlP8Odo8/VnHbZu4Q==}
 
-  tailwindcss@3.4.13:
-    resolution: {integrity: sha512-KqjHOJKogOUt5Bs752ykCeiwvi0fKVkr5oqsFNt/8px/tA8scFPIlkygsf6jXrfCqGHz7VflA6+yytWuM+XhFw==}
+  tailwindcss@3.4.14:
+    resolution: {integrity: sha512-IcSvOcTRcUtQQ7ILQL5quRDg7Xs93PdJEk1ZLbhhvJc7uj/OAhYOnruEiwnGgBvUtaUAJ8/mhSw1o8L2jCiENA==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
@@ -9756,7 +9756,7 @@ snapshots:
       '@ai-sdk/provider-utils': 1.0.20(zod@3.23.8)
       zod: 3.23.8
 
-  '@ai-sdk/openai@0.0.66(zod@3.23.8)':
+  '@ai-sdk/openai@0.0.67(zod@3.23.8)':
     dependencies:
       '@ai-sdk/provider': 0.0.24
       '@ai-sdk/provider-utils': 1.0.20(zod@3.23.8)
@@ -9953,7 +9953,7 @@ snapshots:
       eslint-plugin-jsonc: 2.16.0(eslint@9.12.0(jiti@1.21.6))
       eslint-plugin-n: 17.11.1(eslint@9.12.0(jiti@1.21.6))
       eslint-plugin-no-only-tests: 3.3.0
-      eslint-plugin-perfectionist: 3.8.0(eslint@9.12.0(jiti@1.21.6))(svelte@4.2.19)(typescript@5.6.3)(vue-eslint-parser@9.4.3(eslint@9.12.0(jiti@1.21.6)))
+      eslint-plugin-perfectionist: 3.9.0(eslint@9.12.0(jiti@1.21.6))(svelte@4.2.19)(typescript@5.6.3)(vue-eslint-parser@9.4.3(eslint@9.12.0(jiti@1.21.6)))
       eslint-plugin-regexp: 2.6.0(eslint@9.12.0(jiti@1.21.6))
       eslint-plugin-toml: 0.11.1(eslint@9.12.0(jiti@1.21.6))
       eslint-plugin-unicorn: 55.0.0(eslint@9.12.0(jiti@1.21.6))
@@ -10888,10 +10888,10 @@ snapshots:
     transitivePeerDependencies:
       - '@algolia/client-search'
 
-  '@egoist/tailwindcss-icons@1.8.1(tailwindcss@3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3)))':
+  '@egoist/tailwindcss-icons@1.8.1(tailwindcss@3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3)))':
     dependencies:
       '@iconify/utils': 2.1.33
-      tailwindcss: 3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3))
+      tailwindcss: 3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3))
     transitivePeerDependencies:
       - supports-color
 
@@ -12358,28 +12358,28 @@ snapshots:
       - supports-color
       - typescript
 
-  '@swc/wasm@1.7.35': {}
+  '@swc/wasm@1.7.36': {}
 
   '@szmarczak/http-timer@4.0.6':
     dependencies:
       defer-to-connect: 2.0.1
 
-  '@tailwindcss/container-queries@0.1.1(tailwindcss@3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3)))':
+  '@tailwindcss/container-queries@0.1.1(tailwindcss@3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3)))':
     dependencies:
-      tailwindcss: 3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3))
+      tailwindcss: 3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3))
 
-  '@tailwindcss/forms@0.5.9(tailwindcss@3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3)))':
+  '@tailwindcss/forms@0.5.9(tailwindcss@3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3)))':
     dependencies:
       mini-svg-data-uri: 1.4.4
-      tailwindcss: 3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3))
+      tailwindcss: 3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3))
 
-  '@tailwindcss/typography@0.5.15(tailwindcss@3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3)))':
+  '@tailwindcss/typography@0.5.15(tailwindcss@3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3)))':
     dependencies:
       lodash.castarray: 4.4.0
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       postcss-selector-parser: 6.0.10
-      tailwindcss: 3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3))
+      tailwindcss: 3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3))
 
   '@testing-library/dom@10.4.0':
     dependencies:
@@ -13354,7 +13354,7 @@ snapshots:
 
   '@vue-email/cli@0.0.14(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3))':
     dependencies:
-      '@vue-email/compiler': 0.8.14(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3))(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3))
+      '@vue-email/compiler': 0.8.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3))(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3))
     transitivePeerDependencies:
       - typescript
       - vue
@@ -13372,13 +13372,13 @@ snapshots:
     dependencies:
       vue: 3.5.12(typescript@5.6.3)
 
-  '@vue-email/compiler@0.8.14(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3))(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3))':
+  '@vue-email/compiler@0.8.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3))(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3))':
     dependencies:
       import-string: 0.1.2(typescript@5.6.3)
       kolorist: 1.8.0
       scule: 1.3.0
       vue: 3.5.12(typescript@5.6.3)
-      vue-email: 0.8.11(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3))(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3))
+      vue-email: 0.8.11(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3))(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3))
     transitivePeerDependencies:
       - bufferutil
       - canvas
@@ -13475,11 +13475,11 @@ snapshots:
     dependencies:
       vue: 3.5.12(typescript@5.6.3)
 
-  '@vue-email/tailwind@0.0.6(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3))':
+  '@vue-email/tailwind@0.0.6(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3))':
     dependencies:
       postcss: 8.4.47
       postcss-css-variables: 0.19.0(postcss@8.4.47)
-      tailwindcss: 3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3))
+      tailwindcss: 3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3))
     transitivePeerDependencies:
       - ts-node
 
@@ -14900,7 +14900,7 @@ snapshots:
 
   eslint-plugin-no-only-tests@3.3.0: {}
 
-  eslint-plugin-perfectionist@3.8.0(eslint@9.12.0(jiti@1.21.6))(svelte@4.2.19)(typescript@5.6.3)(vue-eslint-parser@9.4.3(eslint@9.12.0(jiti@1.21.6))):
+  eslint-plugin-perfectionist@3.9.0(eslint@9.12.0(jiti@1.21.6))(svelte@4.2.19)(typescript@5.6.3)(vue-eslint-parser@9.4.3(eslint@9.12.0(jiti@1.21.6))):
     dependencies:
       '@typescript-eslint/types': 8.9.0
       '@typescript-eslint/utils': 8.9.0(eslint@9.12.0(jiti@1.21.6))(typescript@5.6.3)
@@ -15884,7 +15884,7 @@ snapshots:
 
   import-string@0.1.2(typescript@5.6.3):
     dependencies:
-      '@swc/wasm': 1.7.35
+      '@swc/wasm': 1.7.36
       module-from-string: 3.3.1
       typescript: 5.6.3
 
@@ -16283,7 +16283,7 @@ snapshots:
 
   kind-of@6.0.3: {}
 
-  knex-stringcase@1.4.6:
+  knex-stringcase@1.5.3:
     dependencies:
       stringcase: 4.3.1
 
@@ -16568,12 +16568,12 @@ snapshots:
 
   markdown-table@3.0.3: {}
 
-  marked-gfm-heading-id@4.1.0(marked@14.1.2):
+  marked-gfm-heading-id@4.1.0(marked@14.1.3):
     dependencies:
       github-slugger: 2.0.0
-      marked: 14.1.2
+      marked: 14.1.3
 
-  marked@14.1.2: {}
+  marked@14.1.3: {}
 
   marked@7.0.4: {}
 
@@ -17774,13 +17774,13 @@ snapshots:
       camelcase-css: 2.0.1
       postcss: 8.4.47
 
-  postcss-load-config@4.0.2(postcss@8.4.47)(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3)):
+  postcss-load-config@4.0.2(postcss@8.4.47)(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3)):
     dependencies:
       lilconfig: 3.1.2
       yaml: 2.6.0
     optionalDependencies:
       postcss: 8.4.47
-      ts-node: 10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3)
+      ts-node: 10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3)
 
   postcss-load-config@6.0.1(jiti@1.21.6)(postcss@8.4.47)(tsx@4.19.1)(yaml@2.6.0):
     dependencies:
@@ -18812,7 +18812,7 @@ snapshots:
 
   tailwind-merge@2.5.4: {}
 
-  tailwindcss@3.4.13(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3)):
+  tailwindcss@3.4.14(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3)):
     dependencies:
       '@alloc/quick-lru': 5.2.0
       arg: 5.0.2
@@ -18831,7 +18831,7 @@ snapshots:
       postcss: 8.4.47
       postcss-import: 15.1.0(postcss@8.4.47)
       postcss-js: 4.0.1(postcss@8.4.47)
-      postcss-load-config: 4.0.2(postcss@8.4.47)(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3))
+      postcss-load-config: 4.0.2(postcss@8.4.47)(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3))
       postcss-nested: 6.2.0(postcss@8.4.47)
       postcss-selector-parser: 6.1.2
       resolve: 1.22.8
@@ -19018,7 +19018,7 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3):
+  ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.11
@@ -19036,7 +19036,7 @@ snapshots:
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
     optionalDependencies:
-      '@swc/wasm': 1.7.35
+      '@swc/wasm': 1.7.36
 
   ts-toolbelt@9.6.0: {}
 
@@ -19410,10 +19410,10 @@ snapshots:
     dependencies:
       vue: 3.5.12(typescript@5.6.3)
 
-  vue-email@0.8.11(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3))(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3)):
+  vue-email@0.8.11(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3))(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3)):
     dependencies:
       '@vue-email/cli': 0.0.14(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3))
-      '@vue-email/tailwind': 0.0.6(ts-node@10.9.2(@swc/wasm@1.7.35)(@types/node@22.7.5)(typescript@5.6.3))
+      '@vue-email/tailwind': 0.0.6(ts-node@10.9.2(@swc/wasm@1.7.36)(@types/node@22.7.5)(typescript@5.6.3))
       isomorphic-dompurify: 2.10.0
       shiki: 1.0.0
       ufo: 1.5.4

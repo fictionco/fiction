@@ -1,5 +1,4 @@
 import type { Transporter } from 'nodemailer'
-import type Mail from 'nodemailer/lib/mailer/index.js'
 import type { FictionPluginSettings } from '../plugin.js'
 import type { EndpointResponse } from '../types/index.js'
 import type { FictionEmail, TransactionalEmailConfig } from './index.js'

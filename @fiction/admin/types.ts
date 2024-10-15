@@ -1,7 +1,3 @@
-import type { Card } from '@fiction/site'
-import type { InputOption } from '@fiction/ui/index.js'
-import { type ActionButton, type EndpointResponse, FictionObject, type StandardServices, vue } from '@fiction/core/index.js'
-
 export type NavCardUserConfig = { isNavItem?: boolean, navIcon?: string, navIconAlt?: string, parentItemId?: string }
 
 // export type SettingsToolConfig<T extends string = string, U extends Record<string, any> | undefined = Record<string, any> | undefined> = {
