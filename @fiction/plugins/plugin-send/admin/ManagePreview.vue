@@ -7,7 +7,7 @@ const { card, campaign } = defineProps<{ card: Card, campaign?: EmailCampaign }>
 </script>
 
 <template>
-  <div class="p-12">
+  <div>
     <InputEmailPreview :card :model-value="campaign?.toConfig()" />
   </div>
 </template>

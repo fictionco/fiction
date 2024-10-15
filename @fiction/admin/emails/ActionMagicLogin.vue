@@ -28,7 +28,7 @@ vue.onMounted(async () => {
 
 const wrapProps = vue.computed(() => {
   const actions = [
-    { name: 'Home', href: props.card.link('/'), btn: 'default' as const, icon: 'i-tabler-home' },
+    { name: 'Home', href: props.card.link('/'), theme: 'default' as const, icon: 'i-tabler-home' },
   ]
   const success = {
     superHeading: 'Success!',

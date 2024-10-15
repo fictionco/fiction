@@ -4,8 +4,9 @@ import type { Card } from '@fiction/site'
 
 import type { FictionSend } from '../index.js'
 import type { EmailCampaignConfig } from '../schema.js'
-import { useService, vue } from '@fiction/core'
+import { isDarkOrLightMode, useService, vue } from '@fiction/core'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
+import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import { getEmailForCampaign } from '../utils.js'
 
@@ -22,7 +23,11 @@ const emailConfig = vue.ref<TransactionalEmailConfig>()
 const loading = vue.ref(true)
 const iframeHeight = vue.ref('800px')
 
+const previewMode = vue.ref<'dark' | 'light' | ''>(isDarkOrLightMode())
+
 async function setEmail(campaignConfig?: EmailCampaignConfig) {
+  loading.value = true
+
   const org = fictionUser.activeOrganization.value
 
   if (!campaignConfig || !org) {
@@ -31,7 +36,7 @@ async function setEmail(campaignConfig?: EmailCampaignConfig) {
     return
   }
 
-  const conf = await getEmailForCampaign({ campaignConfig, fictionSend, org, withDefaults: true, previewMode: 'dark' })
+  const conf = await getEmailForCampaign({ campaignConfig, fictionSend, org, withDefaults: true, previewMode: previewMode.value })
 
   emailConfig.value = conf
 
@@ -68,7 +73,7 @@ async function setEmail(campaignConfig?: EmailCampaignConfig) {
 vue.onMounted(async () => {
   await fictionUser.userInitialized()
 
-  vue.watch(() => modelValue, v => setEmail(v), { immediate: true })
+  vue.watch([() => modelValue, () => previewMode.value], () => setEmail(modelValue), { immediate: true })
 
   // Listen for messages from the iframe
   // Listen for messages from the iframe
@@ -87,7 +92,7 @@ vue.onMounted(async () => {
 </script>
 
 <template>
-  <div class="py-6">
+  <div class="py-6 space-y-6">
     <div v-if="loading" class="p-12 flex justify-center">
       <ElSpinner class="size-8" />
     </div>
@@ -125,5 +130,9 @@ vue.onMounted(async () => {
         scrolling="no"
       />
     </template>
+
+    <div>
+      <ElInput v-model="previewMode" label="Color Scheme" input="InputSelect" :list="['dark', 'light', { name: 'User Default', value: '' }]" />
+    </div>
   </div>
 </template>

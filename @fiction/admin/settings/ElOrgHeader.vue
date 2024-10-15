@@ -76,7 +76,7 @@ const newOrgActions = vue.computed<ActionButton[]>(() => {
   return [
     {
       name: 'Create New Organization',
-      btn: 'primary' as const,
+      theme: 'primary' as const,
       loading: sending.value,
     },
   ]

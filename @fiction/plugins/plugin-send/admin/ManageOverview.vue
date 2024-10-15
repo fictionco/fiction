@@ -209,7 +209,7 @@ const items = vue.computed<OptionItem[]>(() => {
         },
       ],
       options: [
-        new InputOption({ key: '*', label: 'Email Preview', input: InputEmailPreview, props: { modelValue: campaign, card } }),
+        new InputOption({ key: '*', input: InputEmailPreview, props: { modelValue: campaign, card } }),
       ],
       optionActions: [],
     },

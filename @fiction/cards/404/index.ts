@@ -1,4 +1,4 @@
-import { vue } from '@fiction/core/index.js'
+import { ActionButtonSchema, vue } from '@fiction/core/index.js'
 import { cardTemplate } from '@fiction/site/index.js'
 import { z } from 'zod'
 import { standardOption } from '../inputSets.js'
@@ -7,7 +7,7 @@ const UserConfigSchema = z.object({
   superHeading: z.string().optional(),
   heading: z.string().optional(),
   subHeading: z.string().optional(),
-  actions: z.array(z.object({ btn: z.string().optional(), href: z.string().optional() })).optional(),
+  actions: z.array(ActionButtonSchema).optional(),
 })
 
 export type UserConfig = z.infer<typeof UserConfigSchema>

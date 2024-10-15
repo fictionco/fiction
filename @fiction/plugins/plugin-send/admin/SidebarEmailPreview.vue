@@ -19,7 +19,7 @@ const { tool, campaign, card } = defineProps<{
 
 const options = vue.computed<InputOption[]>(() => {
   return [
-    new InputOption({ key: '*', label: 'Email Preview', input: InputEmailPreview, props: { modelValue: campaign, card } }),
+    new InputOption({ key: '*', input: InputEmailPreview, props: { modelValue: campaign, card } }),
   ]
 })
 

@@ -73,11 +73,11 @@ const readyAction = vue.computed<ActionButton>(() => {
   const scheduledTime = em?.scheduledAt ? dayjs(em.scheduledAt).format('MMM D, YYYY h:mm A') : ''
   const readyText = em?.scheduleMode === 'now' ? 'Send Now...' : `Schedule (${scheduledTime})...`
   if (em?.status === 'pending' && isReady)
-    return { name: readyText, btn: 'primary', onClick: () => { showSendModal.value = true } }
+    return { name: readyText, theme: 'primary', onClick: () => { showSendModal.value = true } }
   else if (em?.status === 'pending')
-    return { name: 'Waiting for Setup', btn: 'default', isDisabled: true }
+    return { name: 'Waiting for Setup', theme: 'default', isDisabled: true }
   else
-    return { name: em?.status, btn: 'default' }
+    return { name: em?.status, theme: 'default' }
 })
 
 const allActions = vue.computed<ActionButton[]>(() => {

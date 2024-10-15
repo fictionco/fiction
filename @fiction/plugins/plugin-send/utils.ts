@@ -2,9 +2,10 @@ import type { ManageCampaignRequestParams } from './endpoint.js'
 import type { FictionSend } from './index.js'
 
 import type { EmailCampaignConfig } from './schema.js'
-import { type Organization, type RequestOptions, toMarkdown, type TransactionalEmailConfig, vue } from '@fiction/core'
-import FictionFooterImg from '@fiction/core/plugin-email/img/fiction-email-footer.png'
+import { log, type Organization, type RequestOptions, toMarkdown, type TransactionalEmailConfig, vue } from '@fiction/core'
 import { EmailCampaign } from './campaign.js'
+
+const logger = log.contextLogger('NewsletterUtils')
 
 export async function manageEmailCampaign(args: { fictionSend: FictionSend, params: ManageCampaignRequestParams, options?: RequestOptions }) {
   const { fictionSend, params, options = {} } = args
@@ -20,7 +21,7 @@ export async function loadEmail(args: { fictionSend: FictionSend, campaignId: st
   if (!campaignId)
     throw new Error('No campaignId')
 
-  const [_campaign] = await manageEmailCampaign({ fictionSend, params: { _action: 'get', where: { campaignId }, loadDraft: true } })
+  const [_campaign] = await manageEmailCampaign({ fictionSend, params: { _action: 'get', where: { campaignId } } })
 
   const campaign = _campaign
 
@@ -35,9 +36,9 @@ export async function getEmailForCampaign(args: {
   previewMode?: 'dark' | 'light' | ''
 }): Promise<TransactionalEmailConfig> {
   const { campaignConfig, fictionSend, withDefaults = false, org, previewMode } = args
-  const fictionMedia = fictionSend.settings.fictionMedia
+  const fictionEmail = fictionSend.settings.fictionEmail
 
-  const footerImage = await fictionMedia.relativeMedia({ url: FictionFooterImg })
+  const img = await fictionEmail?.emailImages({ fictionMedia: fictionSend.settings.fictionMedia })
 
   const { orgName, orgEmail, url, address, avatar } = org
 
@@ -51,15 +52,18 @@ export async function getEmailForCampaign(args: {
     bodyMarkdown: toMarkdown(campaignConfig.post?.content || (withDefaults ? 'No content' : '')),
     actions: campaignConfig.userConfig?.actions || [],
     mediaSuper: { media: { url: avatar?.url }, name: orgName, href: url },
-    mediaFooter: { media: { url: footerImage.url }, name: 'Powered by Fiction', href: 'https://www.fiction.com' },
+    mediaFooter: { media: { url: img.footer.url }, name: 'Powered by Fiction', href: 'https://www.fiction.com' },
     legal: { name: orgName, href: url, desc: address || '' },
     unsubscribeUrl: '#',
     previewMode,
   }
 
-  const EmailStandard = vue.defineAsyncComponent(async () => import('@fiction/core/plugin-email/templates/EmailStandard.vue'))
+  const EmailStandard = vue.defineAsyncComponent(() => import('@fiction/core/plugin-email/templates/EmailStandard.vue'))
+
   const { render } = await import('@vue-email/render')
+  logger.info('Rendering Email', { data: emailConfig })
   emailConfig.bodyHtml = await render(EmailStandard, emailConfig)
+  logger.info('Done Rendering', { data: { bodyHtml: emailConfig.bodyHtml } })
   emailConfig.bodyText = await render(EmailStandard, emailConfig, { plainText: true })
 
   return emailConfig

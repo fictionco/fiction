@@ -80,7 +80,7 @@ export class ManageCampaign extends SendEndpoint {
       return { status: 'error', message: 'Invalid action' }
     }
 
-    return this.refineResponse(params, r, meta)
+    return r
   }
 
   private async refineResponse(params: ManageCampaignParams, r: ManageCampaignResponse, _meta: EndpointMeta): Promise<ManageCampaignResponse> {
@@ -137,7 +137,7 @@ export class ManageCampaign extends SendEndpoint {
 
     const message = campaign.scheduleMode === 'now' ? `Email is being sent, check back soon.` : `Email scheduled ${dayjs(scheduledAt).tz(timeZone).format(`MMM DD, YYYY [at] h:mm A [${timeZone}]`)}`
 
-    return { status: 'success', message, data: r2.data }
+    return this.refineResponse(params, { status: 'success', message, data: r2.data }, meta)
   }
 
   private async create(params: ManageCampaignParams & { _action: 'create' }, meta: EndpointMeta): Promise<ManageCampaignResponse> {
@@ -176,7 +176,7 @@ export class ManageCampaign extends SendEndpoint {
 
     const data = await Promise.all(promises)
 
-    return { status: 'success', message: 'created successfully', data, indexMeta: { changedCount: fields.length } }
+    return this.refineResponse(params, { status: 'success', message: 'created successfully', data, indexMeta: { changedCount: fields.length } }, meta)
   }
 
   private async list(params: ManageCampaignParams & { _action: 'list' }, _meta: EndpointMeta): Promise<ManageCampaignResponse> {
@@ -204,7 +204,7 @@ export class ManageCampaign extends SendEndpoint {
       })
     }
 
-    return { status: 'success', data: campaigns }
+    return this.refineResponse(params, { status: 'success', data: campaigns }, _meta)
   }
 
   private async get(params: ManageCampaignParams & { _action: 'get' }, meta: EndpointMeta): Promise<ManageCampaignResponse> {
@@ -217,7 +217,7 @@ export class ManageCampaign extends SendEndpoint {
       r.data[0].subscriberCount = sub.indexMeta?.count || 0
     }
 
-    return r
+    return this.refineResponse(params, r, meta)
   }
 
   private async update(params: ManageCampaignParams & { _action: 'update' }, meta: EndpointMeta): Promise<ManageCampaignResponse> {
@@ -266,7 +266,7 @@ export class ManageCampaign extends SendEndpoint {
 
     const data = await Promise.all(promises)
 
-    return { status: 'success', data, indexMeta: { changedCount: data.length }, message: 'Updated Successfully' }
+    return this.refineResponse(params, { status: 'success', data, indexMeta: { changedCount: data.length }, message: 'Updated Successfully' }, meta)
   }
 
   private async delete(params: ManageCampaignParams & { _action: 'delete' }, _meta: EndpointMeta): Promise<ManageCampaignResponse> {
@@ -298,7 +298,7 @@ export class ManageCampaign extends SendEndpoint {
 
     const data = (await Promise.all(promises)).filter(Boolean) as EmailCampaignConfig[]
 
-    return { status: 'success', message: `${data.length} items deleted`, data, indexMeta: { changedCount: data.length } }
+    return this.refineResponse(params, { status: 'success', message: `${data.length} items deleted`, data, indexMeta: { changedCount: data.length } }, _meta)
   }
 
   private async saveDraft(params: ManageCampaignParams & { _action: 'saveDraft' }, meta: EndpointMeta): Promise<ManageCampaignResponse> {
@@ -344,7 +344,7 @@ export class ManageCampaign extends SendEndpoint {
 
     const updatedCampaign = await this.get({ _action: 'get', orgId, where, userId, loadDraft: true }, meta)
 
-    return { status: 'success', data: updatedCampaign.data }
+    return this.refineResponse(params, { status: 'success', data: updatedCampaign.data }, meta)
   }
 
   private async revertDraft(params: ManageCampaignParams & { _action: 'revertDraft' }, meta: EndpointMeta): Promise<ManageCampaignResponse> {
@@ -377,7 +377,7 @@ export class ManageCampaign extends SendEndpoint {
 
     const updatedCampaign = await this.get({ _action: 'get', orgId, where, userId, loadDraft: false }, meta)
 
-    return { status: 'success', data: updatedCampaign.data, message: 'Draft reverted successfully' }
+    return this.refineResponse(params, { status: 'success', data: updatedCampaign.data, message: 'Draft reverted successfully' }, meta)
   }
 
   private async sendTest(params: ManageCampaignParams & { _action: 'sendTest' }, meta: EndpointMeta): Promise<ManageCampaignResponse> {
@@ -402,9 +402,11 @@ export class ManageCampaign extends SendEndpoint {
     }
 
     const [campaign, org] = await Promise.all([
-      this.get({ _action: 'get', orgId, where, loadDraft: true }, meta).then(r => r.data?.[0]),
+      this.get({ _action: 'get', orgId, where }, meta).then(r => r.data?.[0]),
       fictionUser.queries.ManageOrganization.serve({ _action: 'retrieve', where: { orgId } }, { server: true }).then(r => r.data),
     ])
+
+    console.log('cam', campaign)
 
     if (!campaign || !org) {
       return { status: 'error', message: 'Campaign or organization not found' }
@@ -415,14 +417,13 @@ export class ManageCampaign extends SendEndpoint {
       campaignConfig: campaign,
       fictionSend: this.settings.fictionSend,
       withDefaults: false,
-      previewMode: undefined,
     })
 
     const results = await Promise.all(validEmails.map(async (email) => {
       try {
         await fictionEmail.sendEmail(
           { ...emailConfig, to: email, subject: `[TEST] ${emailConfig.subject}` },
-          { server: true, emailMode: 'standard' },
+          { server: true },
         )
         return { email, success: true }
       }
@@ -436,12 +437,12 @@ export class ManageCampaign extends SendEndpoint {
     const failedToSendEmails = results.filter(r => !r.success).map(r => r.email)
 
     const message = [
-      `Emails sent to ${sentEmails.length} recipient(s).`,
+      `Test emails sent.`,
       failedToSendEmails.length > 0 ? `${failedToSendEmails.length} failed to send.` : '',
       badlyFormattedEmails.length > 0 ? `${badlyFormattedEmails.length} had invalid format.` : '',
     ].filter(Boolean).join(' ')
 
-    return {
+    return this.refineResponse(params, {
       status: 'success',
       message,
       data: [campaign],
@@ -450,7 +451,7 @@ export class ManageCampaign extends SendEndpoint {
         failedToSendEmails,
         badlyFormattedEmails,
       },
-    }
+    }, meta)
   }
 }
 

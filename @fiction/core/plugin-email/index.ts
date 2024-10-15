@@ -1,3 +1,5 @@
+import type { MediaObject } from '@fiction/platform'
+import type { FictionMedia } from '../plugin-media'
 import type EmailStandard from './templates/EmailStandard.vue'
 import { FictionPlugin, type FictionPluginSettings } from '../plugin.js'
 import { EnvVar, vars } from '../plugin-env/index.js'
@@ -75,10 +77,18 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
     return this.queries.TransactionEmail.serve({ _action: 'send', fields }, { server: true, ...meta })
   }
 
-  emailImages() {
-    return {
-      icon: new URL('img/fiction-icon.png', import.meta.url).href,
-      footer: new URL('img/fiction-email-footer.png', import.meta.url).href,
+  async emailImages({ fictionMedia }: { fictionMedia: FictionMedia }) {
+    const images = {
+      icon: 'img/fiction-icon.png',
+      footer: 'img/fiction-email-footer.png',
     }
+    const results = await Promise.all(
+      Object.entries(images).map(async ([key, path]) => [
+        key,
+        await fictionMedia.relativeMedia({ url: new URL(path, import.meta.url).href }),
+      ]),
+    )
+
+    return Object.fromEntries(results) as { [K in keyof typeof images]: MediaObject }
   }
 }

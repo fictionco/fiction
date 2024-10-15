@@ -49,7 +49,7 @@ export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
         to: `${emailVars.email}`,
         from: `${fromName} <${fromEmail}>`,
         actions: [
-          { name: 'Confirm Subscription', href: emailVars.callbackUrl, btn: 'primary' },
+          { name: 'Confirm Subscription', href: emailVars.callbackUrl, theme: 'primary' },
         ],
         mediaSuper: { name: fromName, media: avatar },
       }

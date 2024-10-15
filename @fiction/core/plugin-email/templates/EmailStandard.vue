@@ -3,24 +3,23 @@ import type { Config as TailwindConfig } from 'tailwindcss'
 import type { PropType } from 'vue'
 import type { ActionButton } from '../../schemas/schemas.js'
 import type { MediaItem } from '../../types'
-import { Body, Button, Column, Container, Head, Hr, Html, Img, Markdown, Preview, Section, Style, Tailwind, Text } from '@vue-email/components'
+import { Body, Button, Column, Container, Head, Heading, Hr, Html, Img, Markdown, Preview, Section, Style, Tailwind, Text } from '@vue-email/components'
 import { computed } from 'vue'
 
 const props = defineProps({
-  fromName: { type: String, default: undefined },
-  fromEmail: { type: String, default: undefined },
+  fromName: { type: String, default: '' },
+  fromEmail: { type: String, default: '' },
   avatarUrl: { type: String, default: undefined },
-  subject: { type: String, default: undefined },
-  heading: { type: String, default: undefined },
-  subHeading: { type: String, default: undefined },
-  bodyMarkdown: { type: String, default: undefined },
+  subject: { type: String, default: '' },
+  heading: { type: String, default: '' },
+  subHeading: { type: String, default: '' },
+  bodyMarkdown: { type: String, default: '' },
   preview: { type: String, default: undefined },
-  actions: { type: Array as PropType<ActionButton[]>, default: () => [] },
+  actions: { type: Array as PropType<ActionButton[]>, default: undefined },
   unsubscribeUrl: { type: String, default: undefined },
   mediaSuper: { type: Object as PropType<MediaItem>, default: undefined },
   mediaFooter: { type: Object as PropType<MediaItem>, default: undefined },
   legal: { type: Object as PropType<MediaItem>, default: undefined },
-  darkMode: { type: Boolean, default: false },
   // set later
   to: { type: String, default: undefined },
   bodyHtml: { type: String, default: undefined },
@@ -67,6 +66,7 @@ const tailwindConfig: TailwindConfig = {
     extend: {
       colors: {
         gray: colorList.gray,
+        primary: colorList[props.primaryColor],
       },
     },
   },
@@ -80,9 +80,9 @@ const previewText = computed(() => {
 
 function getButtonClass(item: ActionButton): string {
   const buttonStyles = {
-    primary: 'button-primary',
-    default: 'button-default',
-    naked: 'button-naked',
+    primary: 'bg-primary-500 text-white',
+    default: 'bg-gray-600 text-white',
+    naked: 'text-primary-500 bg-transparent',
   }
 
   const sizeStyles = {
@@ -94,33 +94,10 @@ function getButtonClass(item: ActionButton): string {
     'xl': 'py-4 px-6 rounded-xl text-[20px]',
     '2xl': 'py-5 px-7 rounded-2xl text-[24px]',
   }
+
   const theme = item.theme || 'default'
   const size = item.size || 'md'
-  const typeClass = buttonStyles[theme as keyof typeof buttonStyles] || buttonStyles.default
-  const sizeClass = sizeStyles[size] || ''
-  return `${typeClass} ${sizeClass}`.trim()
-}
-
-function getColorStyle(type: 'primary' | 'default' | 'naked', isDarkMode?: boolean) {
-  const buttonStyles = {
-    primary: {
-      bg: isDarkMode ? primaryColor[500] : primaryColor[600],
-      hover: isDarkMode ? primaryColor[600] : primaryColor[700],
-      color: 'white',
-    },
-    default: {
-      bg: isDarkMode ? colorList.gray[700] : colorList.gray[100],
-      hover: isDarkMode ? colorList.gray[800] : colorList.gray[200],
-      color: isDarkMode ? 'white' : 'black',
-    },
-    naked: {
-      bg: 'transparent',
-      hover: isDarkMode ? colorList.gray[800] : colorList.gray[200],
-      color: isDarkMode ? 'white' : 'black',
-    },
-  }
-
-  return buttonStyles[type]
+  return `${buttonStyles[theme as keyof typeof buttonStyles] || buttonStyles.default} ${sizeStyles[size] || ''}`.trim()
 }
 
 const markdownStyles = {
@@ -160,151 +137,126 @@ const markdownStyles = {
     margin: '1.5rem 0',
   },
 }
+
+function generateColorStyles(isDark: boolean) {
+  return `
+  body {
+    background-color: ${isDark ? colorList.gray[900] : colorList.gray[0]};
+    color: ${isDark ? '#ffffff' : colorList.gray[900]};
+  }
+  a { color: ${isDark ? primaryColor[400] : primaryColor[500]}; }
+  hr { border-color: ${isDark ? colorList.gray[700] : colorList.gray[200]} !important; }
+`
+}
 </script>
 
 <template>
-  <Suspense>
-    <Tailwind :config="tailwindConfig">
-      <Html lang="en" dir="ltr" :class="previewMode">
-        <Head>
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-          <title>{{ subject || "No Subject" }}</title>
-          <meta name="description" :content="previewText">
-          <Style>
-            tbody{font-size: 1rem; line-height: 1.65;}
-            h1, h2{
-            line-height: 1.2;
-            }
-            h3, h4, h5{
-            line-height: 1.4;
-            }
-            h5, h6{font-weight: bold;}
-            ol, ul, dd, dt{ font-size: 1rem; line-height: 1.65;}
-            dt{font-weight: bold; margin-top: 0.5rem;}
-            dd{margin-inline-start: 1.5rem;}
-            ul, ol{padding-inline-start: 1.5rem;}
-            img, figure{max-width: 100%; height: auto; }
-            img[data-emoji]{display: inline;}
-            figure img{border-radius: .5rem; display: block;}
-            figcaption{font-size: 0.8rem; text-align: center; color: #666; margin-top: 0.5rem;}
-            body {
-            background-color: {{ colorList.gray[0] }};
-            color: {{ colorList.gray[900] }};
-            }
-            a{color: {{ primaryColor[500] }};}
-            .subtle-text, a.subtle-text{
-            color: {{ colorList.gray[500] }};
-            }
-            .button-primary{
-            background-color: {{ getColorStyle('primary').bg }};
-            color: {{ getColorStyle('primary').color }};
-            }
-            .button-primary:hover{
-            background-color: {{ getColorStyle('primary').hover }};
-            }
-            .button-default{
-            background-color: {{ getColorStyle('default').bg }};
-            color: {{ getColorStyle('default').color }};
-            }
-            .button-default:hover{
-            background-color: {{ getColorStyle('default').hover }};
-            }
-            .button-naked{
-            background-color: {{ getColorStyle('naked').bg }};
-            color: {{ getColorStyle('naked').color }};
-            }
-            .button-naked:hover{
-            background-color: {{ getColorStyle('naked').hover }};
-            }
-            hr{ border-color: {{ colorList.gray[200] }} !important; }
-            @media (prefers-color-scheme: dark) {
-            body { background-color: {{ colorList.gray[900] }}; color: #ffffff; }
-            .button-primary{ background-color: {{ getColorStyle('primary', true).bg }}; color: {{ getColorStyle('primary', true).color }}; }
-            .button-primary:hover{ background-color: {{ getColorStyle('primary', true).hover }}; }
-            .button-default{ background-color: {{ getColorStyle('default', true).bg }}; color: {{ getColorStyle('default', true).color }}; }
-            .button-default:hover{ background-color: {{ getColorStyle('default', true).hover }}; }
-            .button-naked{ background-color: {{ getColorStyle('naked', true).bg }}; color: {{ getColorStyle('naked', true).color }}; }
-            .button-naked:hover{ background-color: {{ getColorStyle('naked', true).hover }}; }
-            hr{ border-color: {{ colorList.gray[700] }} !important; }
-            a{color: {{ primaryColor[400] }};}
-            .subtle-text, a.subtle-text{
-            color: {{ colorList.gray[300] }};
-            }
-            }
-            a{ transition: opacity 0.2s; }
-            a:hover{opacity: 0.8;}
-          </Style>
-        </Head>
-        <Preview v-if="previewText">
-          {{ previewText }}
-        </Preview>
-        <Body :style="{ fontFamily: fontStack }">
-          <Container class="py-8 px-4 max-w-[600px]">
-            <Section v-if="mediaSuper" class="mb-6">
-              <Column v-if="mediaSuper.media?.url" class="w-[22px]">
-                <a :href="mediaSuper.href || '#'">
-                  <Img class="rounded-md !border-2 !border-white/10 !border-solid" width="22" :src="mediaSuper.media?.url" />
-                </a>
-              </Column>
-              <Column v-if="mediaSuper?.name" :class="mediaSuper.media?.url ? `pl-3` : ''">
-                <a :href="mediaSuper.href || '#'" class="subtle-text font-normal text-[14px] no-underline">
-                  {{ mediaSuper?.name }}
-                </a>
+  <Tailwind :config="tailwindConfig">
+    <Html lang="en" dir="ltr" :class="previewMode">
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>{{ subject || "No Subject" }}</title>
+        <meta name="description" :content="previewText">
+        <Style>
+          {{ generateColorStyles(false) }}
+          @media (prefers-color-scheme: dark) {
+          {{ generateColorStyles(true) }}
+          }
+          .dark { {{ generateColorStyles(true) }} }
+          .light { {{ generateColorStyles(false) }} }
+          tbody { font-size: 1rem; line-height: 1.65; }
+          h1, h2 { line-height: 1.2; }
+          h3, h4, h5 { line-height: 1.4; }
+          h5, h6 { font-weight: bold; }
+          ol, ul, dd, dt { font-size: 1rem; line-height: 1.65; }
+          dt { font-weight: bold; margin-top: 0.5rem; }
+          dd { margin-inline-start: 1.5rem; }
+          ul, ol { padding-inline-start: 1.5rem; }
+          img, figure { max-width: 100%; height: auto; }
+          img[data-emoji] { display: inline; }
+          figure img { border-radius: .5rem; display: block; }
+          figcaption { font-size: 0.8rem; text-align: center; color: #666; margin-top: 0.5rem; }
+          a { transition: opacity 0.2s; }
+          a:hover { opacity: 0.8; }
+        </Style>
+      </Head>
+      <Preview v-if="previewText">
+        {{ previewText }}
+      </Preview>
+      <Body :style="{ fontFamily: fontStack }">
+        <Container class="py-8 px-4 max-w-[600px]">
+          <Section v-if="mediaSuper" :style="{ marginBottom: '24px' }">
+            <Column v-if="mediaSuper.media?.url" class="w-[22px]">
+              <a :href="mediaSuper.href || '#'">
+                <Img class="rounded-md !border-2 !border-white/10 !border-solid" width="22" :src="mediaSuper.media?.url" />
+              </a>
+            </Column>
+            <Column v-if="mediaSuper?.name" :class="mediaSuper.media?.url ? `pl-3` : ''">
+              <a :href="mediaSuper.href || '#'" class="text-inherit font-normal text-[14px] no-underline">
+                {{ mediaSuper?.name }}
+              </a>
+            </Column>
+          </Section>
+
+          <Section :style="{ font: fancyFontStack }">
+            <Heading as="h1" :data-heading="heading" :style="{ margin: '0 0 0 0', fontWeight: 'bold', fontSize: '24px', lineHeight: 1.2 }">
+              {{ heading }}
+            </Heading>
+
+            <Heading v-if="subHeading" as="h3" class="my-0 opacity-60" :style="{ margin: '0 0 0 0', fontWeight: 'normal', fontSize: '24px', lineHeight: 1.33 }">
+              <span v-html="subHeading" /> <span class="opacity-40">&#x2198;</span>
+            </Heading>
+          </Section>
+
+          <Hr :style="{ margin: '32px 0' }" />
+
+          <Markdown v-if="bodyMarkdown" class="body-content" :markdown-custom-styles="markdownStyles" :source="bodyMarkdown" />
+
+          <Section v-if="actions" class="mt-12 mb-8 text-left">
+            <Section :style="{ display: 'inline-block' }">
+              <Column v-for="(item, i) in actions" :key="i" :class="i === 0 ? '' : 'pl-4'">
+                <Button
+                  :href="item.href"
+                  :data-type="item.theme"
+                  :class="getButtonClass(item)"
+                  class="rounded-full hover:opacity-80 font-bold select-none"
+                  :style="{ whiteSpace: 'nowrap' }"
+                  v-html="item.name"
+                />
               </Column>
             </Section>
+          </Section>
 
-            <Section :style="{ font: fancyFontStack }">
-              <Text :data-heading="heading" class="my-0" :style="{ fontWeight: 'bold', fontSize: '24px', lineHeight: 1.33 }">
-                {{ heading }}
-              </Text>
-              <Text v-if="subHeading" class="my-0 subtle-text" :style="{ fontWeight: 'normal', fontSize: '24px', lineHeight: 1.33 }">
-                <span v-html="subHeading" /> <span class="opacity-50">&#x2198;</span>
-              </Text>
-            </Section>
+          <Hr class="my-12 " />
 
-            <Hr class="my-8 " />
-
-            <Markdown v-if="bodyMarkdown" class="body-content" :markdown-custom-styles="markdownStyles" :source="bodyMarkdown" />
-
-            <Section class="mt-12 mb-8 text-left">
-              <Section class="inline-block">
-                <Column v-for="(item, i) in actions" :key="i" :class="i === 0 ? '' : 'pl-4'">
-                  <Button :href="item.href" :class="getButtonClass(item)" class="rounded-full hover:opacity-80 font-bold select-none" :style="{ whiteSpace: 'nowrap' }" v-html="item.name" />
-                </Column>
-              </Section>
-            </Section>
-
-            <Hr class="my-12 " />
-
-            <Section class="mt-8 text-left subtle-text text-normal text-xs">
-              <Column class="w-[65%] align-top">
-                <template v-if="mediaFooter">
-                  <Img v-if="mediaFooter.media?.url" width="80" :src="mediaFooter.media?.url" :alt="mediaFooter.name " />
-                  <Text>
-                    <a v-if="mediaFooter.name" class="text-normal mt-4 no-underline subtle-text" :href="mediaFooter.href || '#'">
-                      {{ mediaFooter.name }} &#x2197;
-                    </a>
-                  </Text>
-                </template>
-              </Column>
-              <Column class="w-[35%] text-right  align-top text-xs">
-                <div v-if="legal" class="text-sm mb-4 mt-0">
-                  <a v-if="legal.name" class="mb-1 subtle-text no-underline" :href="legal.href || '#'">
-                    {{ legal?.name }}
+          <Section class="mt-8 text-left subtle-text text-normal text-xs">
+            <Column class="w-[65%] align-top">
+              <template v-if="mediaFooter">
+                <Img v-if="mediaFooter.media?.url" width="80" :src="mediaFooter.media?.url" :alt="mediaFooter.name " />
+                <Text>
+                  <a v-if="mediaFooter.name" class="text-normal mt-4 no-underline text-inherit opacity-40 hover:opacity-80" :href="mediaFooter.href || '#'">
+                    {{ mediaFooter.name }} &#x2197;
                   </a>
-                  <div v-if="legal?.desc" class="opacity-70">
-                    {{ legal?.desc }}
-                  </div>
-                </div>
-                <a v-if="unsubscribeUrl" :href="unsubscribeUrl" class="opacity-70 text-normal no-underline subtle-text">
-                  Unsubscribe
+                </Text>
+              </template>
+            </Column>
+            <Column class="w-[35%] text-right  align-top text-xs">
+              <div v-if="legal" class="text-sm mb-4 mt-0">
+                <a v-if="legal.name" class="mb-1 text-inherit no-underline" :href="legal.href || '#'">
+                  {{ legal?.name }}
                 </a>
-              </Column>
-            </Section>
-          </Container>
-        </Body>
-      </Html>
-    </Tailwind>
-  </Suspense>
+                <div v-if="legal?.desc" class="opacity-70">
+                  {{ legal?.desc }}
+                </div>
+              </div>
+              <a v-if="unsubscribeUrl" :href="unsubscribeUrl" class="opacity-70 text-inherit no-underline">
+                unsubscribe
+              </a>
+            </Column>
+          </Section>
+        </Container>
+      </Body>
+    </Html>
+  </Tailwind>
 </template>

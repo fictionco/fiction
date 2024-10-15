@@ -18,7 +18,7 @@ const loading = vue.ref(false)
 const response = vue.ref<Awaited<ReturnType<SpecEmailAction['requestTransaction']>>>()
 const errorMessage = vue.ref<string | undefined>()
 
-const homeAction = { name: 'Home', href: '/', btn: 'default' as const, icon: 'i-tabler-home' }
+const homeAction = { name: 'Home', href: '/', theme: 'default' as const, icon: 'i-tabler-home' }
 const content = vue.computed<TransactionProps>(() => {
   if (errorMessage.value) {
     return {
@@ -49,7 +49,7 @@ const content = vue.computed<TransactionProps>(() => {
       subHeading: 'Are you sure you want to unsubscribe?',
       status: 'pending',
       actions: [
-        { name: 'Yes, unsubscribe', onClick: () => sendRequest(), btn: 'default', icon: 'i-tabler-x' },
+        { name: 'Yes, unsubscribe', onClick: () => sendRequest(), theme: 'default', icon: 'i-tabler-x' },
         homeAction,
       ],
     }

@@ -8,6 +8,7 @@ export type PostConfig = {
   fictionPosts: FictionPosts
   card?: Card
   sourceMode: 'local' | 'standard'
+  noAutoSave?: boolean
   localSourcePath?: string
 } & TablePostConfig
 
@@ -86,7 +87,7 @@ export class Post extends FictionObject<PostConfig> {
   }
 
   autosave() {
-    if (this.settings.sourceMode === 'local') {
+    if (this.settings.sourceMode === 'local' || this.settings.noAutoSave) {
       return
     }
 

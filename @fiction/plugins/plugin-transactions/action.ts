@@ -110,21 +110,19 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
     if (!fictionMedia)
       throw abort('no fictionMedia provided')
 
-    const emailImages = fictionEmail?.emailImages()
-    const superImage = await fictionMedia.relativeMedia({ url: emailImages?.icon || '' })
-    const footerImage = await fictionMedia.relativeMedia({ url: emailImages?.footer || '' })
+    const emailImages = await fictionEmail?.emailImages({ fictionMedia })
     const app = fictionEnv?.meta.app || {}
     return {
       fromName: app.name || '',
       fromEmail: app.email || '',
       mediaSuper: {
-        media: { url: superImage.url },
+        media: { url: emailImages.icon.url },
         name: 'Fiction',
         href: `https://www.fiction.com`,
       },
       mediaFooter: {
-        media: { url: footerImage.url },
-        name: 'Personal Marketing Platform',
+        media: { url: emailImages.footer.url },
+        name: 'Brand Yourself with Fiction',
         href: `https://www.fiction.com`,
       },
     }

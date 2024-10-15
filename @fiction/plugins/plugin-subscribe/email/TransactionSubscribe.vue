@@ -26,7 +26,7 @@ const content = vue.computed<TransactionProps>(() => {
       subHeading: errorMessage.value,
       status: 'error' as const,
       actions: [
-        { name: 'Home', href: props.card.link('/'), btn: 'primary', icon: 'i-tabler-home' },
+        { name: 'Home', href: props.card.link('/'), theme: 'primary', icon: 'i-tabler-home' },
       ],
     }
   }
@@ -37,7 +37,7 @@ const content = vue.computed<TransactionProps>(() => {
       subHeading: response.value.message,
       status: response.value.status as 'success' | 'error' | 'pending',
       actions: [
-        { name: 'Home', href: props.card.link('/'), btn: 'primary', icon: 'i-tabler-home' },
+        { name: 'Home', href: props.card.link('/'), theme: 'primary', icon: 'i-tabler-home' },
       ],
     }
   }

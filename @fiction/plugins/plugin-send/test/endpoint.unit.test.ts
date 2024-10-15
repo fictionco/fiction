@@ -126,7 +126,7 @@ describe('email send endpoint', async () => {
     expect(r.status).toBe('success')
     expect(r.data?.length).toBe(1)
     expect(r.data?.[0].campaignId).toBe(em.campaignId)
-    expect(r.message).toMatchInlineSnapshot('"Emails sent to 2 recipient(s). 2 had invalid format."')
+    expect(r.message).toMatchInlineSnapshot(`"Test emails sent. 2 had invalid format."`)
     expect(r.meta?.sentEmails).toEqual([validEmail1, validEmail2])
     expect(r.meta?.failedToSendEmails).toEqual([])
     expect(r.meta?.badlyFormattedEmails).toEqual(['invalid-email', 'bad@format@test.com'])

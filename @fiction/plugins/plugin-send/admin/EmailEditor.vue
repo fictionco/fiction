@@ -20,7 +20,6 @@ defineProps({
 const { fictionSend, fictionRouter } = useService<{ fictionSend: FictionSend }>()
 
 const loading = vue.ref(true)
-const sending = vue.ref()
 const campaign = vue.shallowRef<EmailCampaign>()
 
 const manageLink = vue.computed(() => {
@@ -31,17 +30,6 @@ const manageLink = vue.computed(() => {
 
   return `/manage-campaign?campaignId=${campaignId}`
 })
-async function publish() {
-  if (!campaign.value)
-    return
-  sending.value = 'publish'
-
-  await campaign.value.save()
-
-  sending.value = ''
-
-  // await props.card.goto(manageLink.value, { caller: 'send' })
-}
 
 vue.onMounted(async () => {
   vue.watch(() => fictionRouter.query.value.campaignId, async (v, old) => {
@@ -85,7 +73,7 @@ const actions = vue.computed(() => {
             href="/send"
           >
             <span class="i-tabler-mail text-xl inline-block dark:text-theme-500" />
-            <span>Email Composer</span>
+            <span>Newsletter Composer</span>
             <span class="i-tabler-slash text-xl dark:text-theme-500" />
           </CardLink>
           <XText :model-value="campaign?.title.value" class="whitespace-nowrap" :is-editable="true" @update:model-value="campaign && (campaign.title.value = $event)" />
@@ -112,7 +100,7 @@ const actions = vue.computed(() => {
       </template>
       <template #default>
         <div v-if="campaign?.post.value">
-          <ElPostEditor :post="campaign.post.value" :card>
+          <ElPostEditor :post="campaign.post.value" :card @update:post="campaign.autosave()">
             <template #footer>
               <div v-if="actions.length" class="mt-12 pt-12">
                 <ElActions :actions ui-size="xl" class="flex gap-4" />

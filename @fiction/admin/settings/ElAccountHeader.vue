@@ -85,8 +85,8 @@ async function requestChangeEmail() {
 }
 
 const toolFormOptions = vue.computed<InputOption[]>(() => {
-  const requestAction = { name: 'Request Verification Code', btn: 'primary' as const, loading: sending.value }
-  const submitAction = { name: 'Change Email', btn: 'primary' as const, loading: sending.value }
+  const requestAction = { name: 'Request Verification Code', theme: 'primary' as const, loading: sending.value }
+  const submitAction = { name: 'Change Email', theme: 'primary' as const, loading: sending.value }
 
   const actions = codeSent.value ? [submitAction] : [requestAction]
 

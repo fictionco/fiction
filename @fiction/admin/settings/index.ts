@@ -60,7 +60,7 @@ export function getTools(args: { service: StandardServices }) {
               loading.value = false
             },
             loading: loading.value,
-            btn: 'primary',
+            theme: 'primary',
             iconAfter: 'i-tabler-arrow-up-right',
           }]
         })
@@ -134,7 +134,7 @@ export function getTools(args: { service: StandardServices }) {
               loading.value = false
             },
             loading: loading.value,
-            btn: 'primary',
+            theme: 'primary',
             iconAfter: 'i-tabler-arrow-up-right',
           }]
         })

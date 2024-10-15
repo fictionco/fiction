@@ -27,7 +27,7 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
         bodyMarkdown: `Verify your email using the code: **${emailVars.code}** or click the button below.`,
         to: `${emailVars.email}`,
         actions: [
-          { name: 'Verify Email', href: emailVars.callbackUrl, btn: 'primary' },
+          { name: 'Verify Email', href: emailVars.callbackUrl, theme: 'primary' },
         ],
       }
     },
@@ -59,7 +59,7 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
         bodyMarkdown: `The link below will sign you in to ${emailVars.appName}.\n\nIf you didn't request this email, there's nothing to worry about, you can safely ignore it.`,
         to: `${emailVars.email}`,
         actions: [
-          { name: 'Log In', href: emailVars.callbackUrl, btn: 'primary' },
+          { name: 'Log In', href: emailVars.callbackUrl, theme: 'primary' },
         ],
       }
     },
