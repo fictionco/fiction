@@ -277,11 +277,11 @@ const modalText = vue.computed(() => {
   return sendNow.value
     ? {
         title: `Send campaign now?`,
-        sub: 'This will send the email you have composed as soon as resources are available.',
+        sub: 'This will send the newsletter as soon as resources are available. No further changes can be made.',
       }
     : {
         title: `Schedule send at ${scheduledTime}?`,
-        sub: 'This will schedule the email to be sent at the specified time. You will need to cancel the schedule if you want to change settings.',
+        sub: 'This will schedule the email to be sent at the specified time. You will need to cancel it if you want to make edits.',
       }
 })
 
@@ -315,28 +315,44 @@ const header = vue.computed(() => {
     ? `Complete Setup to ${actionText}`
     : `Ready to ${actionText}`
 
+  const actions = [
+    {
+      size: 'md',
+      name: 'Email Composer',
+      icon: 'i-tabler-edit',
+      theme: !isReady ? 'primary' : 'theme',
+      href: getCampaignLink('campaign-composer'),
+
+    },
+
+  ] as ActionButton[]
+
+  if (!isReady) {
+    actions.push({
+      size: 'md',
+      design: 'textOnly',
+      name: isReady ? 'Ready' : `${items.value.length - incompleteItems.length} / ${items.value.length} Complete`,
+      disabled: true,
+    })
+  }
+  else {
+    actions.unshift({
+      size: 'md',
+      name: isScheduled ? 'Schedule Send' : 'Send Now',
+      icon: 'i-tabler-send',
+      theme: 'primary',
+      onClick: () => {
+        showSendModal.value = true
+      },
+    })
+  }
+
   const out: PostObject = {
     superTitle: 'Status',
     title: statusText,
     subTitle: `Status: ${em?.status}`,
     media: { class: 'i-tabler-mail' },
-    actions: [
-      {
-        size: 'md',
-        name: 'Edit Content',
-        icon: 'i-tabler-file-description',
-        theme: 'primary',
-        href: getCampaignLink('campaign-composer'),
-
-      },
-      {
-        size: 'md',
-        design: 'textOnly',
-        name: isReady ? 'Ready' : `${items.value.length - incompleteItems.length} / ${items.value.length} Complete`,
-        disabled: true,
-      },
-
-    ],
+    actions,
   }
 
   return out

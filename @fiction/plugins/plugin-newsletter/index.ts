@@ -89,7 +89,7 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
                 slug: 'analytics',
                 title: 'Analytics',
                 description: 'Data and information about the email',
-                el: vue.defineAsyncComponent(async () => import('./admin/ManagePreview.vue')),
+                el: vue.defineAsyncComponent(async () => import('./admin/ManageAnalytics.vue')),
                 userConfig: { isNavItem: true, navIcon: 'i-tabler-chart-dots', navIconAlt: 'i-tabler-chart-line' },
               }),
             ],

@@ -93,10 +93,13 @@ vue.onMounted(async () => {
 
 <template>
   <div class="py-6 space-y-6">
-    <div v-if="loading" class="p-12 flex justify-center">
+    <div v-if="loading" class="p-12 flex justify-center min-h-[300px]">
       <ElSpinner class="size-8" />
     </div>
     <template v-else-if="emailConfig">
+      <div>
+        <ElInput v-model="previewMode" label="Color Scheme" input="InputSelect" :list="['dark', 'light', { name: 'User Default', value: '' }]" />
+      </div>
       <div class="border-b border-theme-200 dark:border-theme-700/70 mb-8 pb-8">
         <div class=" mb-6">
           <div class="text-xl font-medium x-font-title">
@@ -130,9 +133,5 @@ vue.onMounted(async () => {
         scrolling="no"
       />
     </template>
-
-    <div>
-      <ElInput v-model="previewMode" label="Color Scheme" input="InputSelect" :list="['dark', 'light', { name: 'User Default', value: '' }]" />
-    </div>
   </div>
 </template>

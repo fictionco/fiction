@@ -10,7 +10,7 @@
     "@fiction/plugin-extend": "workspace:*",
     "@fiction/plugin-highlight-code": "workspace:*",
     "@fiction/plugin-monitor": "workspace:*",
-    "@fiction/plugin-send": "workspace:*",
+    "@fiction/plugin-newsletter": "workspace:*",
     "@fiction/plugin-stripe": "workspace:*",
     "@fiction/plugin-transactions": "workspace:*",
     "@fiction/posts": "workspace:*",

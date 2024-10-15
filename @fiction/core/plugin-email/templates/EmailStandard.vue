@@ -81,8 +81,8 @@ const previewText = computed(() => {
 function getButtonClass(item: ActionButton): string {
   const buttonStyles = {
     primary: 'bg-primary-500 text-white',
-    default: 'bg-gray-600 text-white',
-    naked: 'text-primary-500 bg-transparent',
+    default: 'bg-gray-700/70 text-white',
+    naked: 'text-primary-500 bg-gray-200/40',
   }
 
   const sizeStyles = {

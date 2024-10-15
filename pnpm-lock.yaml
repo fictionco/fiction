@@ -979,7 +979,7 @@ importers:
         specifier: ^3.0.20
         version: 3.0.20
 
-  '@fiction/plugins/plugin-send':
+  '@fiction/plugins/plugin-newsletter':
     dependencies:
       '@fiction/admin':
         specifier: workspace:*
@@ -1358,7 +1358,7 @@ importers:
         version: 5.0.0
       lucide-vue-next:
         specifier: latest
-        version: 0.452.0(vue@3.5.12(typescript@5.6.3))
+        version: 0.453.0(vue@3.5.12(typescript@5.6.3))
       monaco-editor:
         specifier: ^0.52.0
         version: 0.52.0
@@ -1425,9 +1425,9 @@ importers:
       '@fiction/plugin-monitor':
         specifier: workspace:*
         version: link:../plugins/plugin-monitor
-      '@fiction/plugin-send':
+      '@fiction/plugin-newsletter':
         specifier: workspace:*
-        version: link:../plugins/plugin-send
+        version: link:../plugins/plugin-newsletter
       '@fiction/plugin-stripe':
         specifier: workspace:*
         version: link:../plugins/plugin-stripe
@@ -5456,8 +5456,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  electron-to-chromium@1.5.37:
-    resolution: {integrity: sha512-u7000ZB/X0K78TaQqXZ5ktoR7J79B9US7IkE4zyvcILYwOGY2Tx9GRPYstn7HmuPcMxZ+BDGqIsyLpZQi9ufPw==}
+  electron-to-chromium@1.5.38:
+    resolution: {integrity: sha512-VbeVexmZ1IFh+5EfrYz1I0HTzHVIlJa112UEWhciPyeOcKJGeTv6N8WnG4wsQB81DGCaVEGhpSb6o6a8WYFXXg==}
 
   elliptic@6.5.7:
     resolution: {integrity: sha512-ESVCtTwiA+XhY3wyh24QqRGBoP3rEdDUl3EDUUo9tft074fi19IrdpH7hLCMMP3CIj7jb3W96rn8lt/BqIlt5Q==}
@@ -7013,8 +7013,8 @@ packages:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
     engines: {node: '>=10'}
 
-  lucide-vue-next@0.452.0:
-    resolution: {integrity: sha512-a7i6LayYT/kPDkwRvcWWZlPTRPiaM11xhUhFctRXmjibZod9TdVhk4U/7q2RYYkkkDJHp/4OSiXbxC82+mda3Q==}
+  lucide-vue-next@0.453.0:
+    resolution: {integrity: sha512-5zmv83vxAs9SVoe22veDBi8Dw0Fh2F+oTngWgKnKOkrZVbZjceXLQ3tescV2boB0zlaf9R2Sd9RuUP2766xvsQ==}
     peerDependencies:
       vue: '>=3.0.1'
 
@@ -13962,7 +13962,7 @@ snapshots:
   browserslist@4.24.0:
     dependencies:
       caniuse-lite: 1.0.30001668
-      electron-to-chromium: 1.5.37
+      electron-to-chromium: 1.5.38
       node-releases: 2.0.18
       update-browserslist-db: 1.1.1(browserslist@4.24.0)
 
@@ -14669,7 +14669,7 @@ snapshots:
     dependencies:
       jake: 10.9.2
 
-  electron-to-chromium@1.5.37: {}
+  electron-to-chromium@1.5.38: {}
 
   elliptic@6.5.7:
     dependencies:
@@ -16480,7 +16480,7 @@ snapshots:
     dependencies:
       yallist: 4.0.0
 
-  lucide-vue-next@0.452.0(vue@3.5.12(typescript@5.6.3)):
+  lucide-vue-next@0.453.0(vue@3.5.12(typescript@5.6.3)):
     dependencies:
       vue: 3.5.12(typescript@5.6.3)
 
