@@ -2,16 +2,10 @@ import type { EditorTool } from '@fiction/admin'
 import type { Card } from '@fiction/site'
 import type { FictionSend } from '..'
 import type { EmailCampaign } from '../campaign'
-import type { EmailCampaignConfig } from '../schema'
 import { AdminEditorController } from '@fiction/admin'
-import { SettingsTool } from '@fiction/admin/types'
 import { type ActionButton, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
-import { loadEmail } from '../utils'
-import { manageEmailCampaign } from '../utils.js'
 import InputAudience from './InputAudience.vue'
-import InputEmailPreview from './InputEmailPreview.vue'
-import InputOverview from './InputOverview.vue'
 
 export const tools = [
   {
@@ -139,95 +133,95 @@ export function getEmailManageOptions(args: {
   ]
 }
 
-export function getTools(args: { fictionSend: FictionSend, card: Card }) {
-  const { fictionSend, card } = args
-  const fictionRouter = fictionSend.settings.fictionRouter
-  const loading = vue.ref(false)
-  const email = vue.shallowRef<EmailCampaign>()
+// export function getTools(args: { fictionSend: FictionSend, card: Card }) {
+//   const { fictionSend, card } = args
+//   const fictionRouter = fictionSend.settings.fictionRouter
+//   const loading = vue.ref(false)
+//   const email = vue.shallowRef<EmailCampaign>()
 
-  vue.watch(() => fictionRouter.query.value.campaignId, async (v, old) => {
-    if (!v || v === old)
-      return
+//   vue.watch(() => fictionRouter.query.value.campaignId, async (v, old) => {
+//     if (!v || v === old)
+//       return
 
-    email.value = await loadEmail({ fictionSend, campaignId: v as string })
-  }, { immediate: true })
+//     email.value = await loadEmail({ fictionSend, campaignId: v as string })
+//   }, { immediate: true })
 
-  const val = vue.computed<EmailCampaignConfig | undefined>({
-    get: () => email.value?.toConfig(),
-    set: v => (email.value?.update(v || {})),
-  })
+//   const val = vue.computed<EmailCampaignConfig | undefined>({
+//     get: () => email.value?.toConfig(),
+//     set: v => (email.value?.update(v || {})),
+//   })
 
-  const editEmailAction = (theme: 'default' | 'primary' = 'default') => ({
-    name: 'Compose',
-    href: card.link(`/campaign-edit?campaignId=${email.value?.campaignId}`),
-    theme,
-    icon: 'i-tabler-edit',
-  })
+//   const editEmailAction = (theme: 'default' | 'primary' = 'default') => ({
+//     name: 'Compose',
+//     href: card.link(`/campaign-edit?campaignId=${email.value?.campaignId}`),
+//     theme,
+//     icon: 'i-tabler-edit',
+//   })
 
-  const pubAction = (btn: 'default' | 'primary' = 'default') => ({
-    name: 'Publication Setup',
-    href: card.link(`/settings/project`),
-    btn,
-    icon: 'i-tabler-news',
-  })
+//   const pubAction = (btn: 'default' | 'primary' = 'default') => ({
+//     name: 'Publication Setup',
+//     href: card.link(`/settings/project`),
+//     btn,
+//     icon: 'i-tabler-news',
+//   })
 
-  const saveAction = (btn: 'default' | 'primary' = 'default') => {
-    return {
-      name: 'Save',
-      onClick: async () => {
-        loading.value = true
-        const fields = val.value
-        if (!fields)
-          throw new Error('No fields')
+//   const saveAction = (btn: 'default' | 'primary' = 'default') => {
+//     return {
+//       name: 'Save',
+//       onClick: async () => {
+//         loading.value = true
+//         const fields = val.value
+//         if (!fields)
+//           throw new Error('No fields')
 
-        const campaignId = fields?.campaignId
+//         const campaignId = fields?.campaignId
 
-        await manageEmailCampaign({ fictionSend, params: { _action: 'update', where: [{ campaignId }], fields }, options: { minTime: 1000 } })
+//         await manageEmailCampaign({ fictionSend, params: { _action: 'update', where: [{ campaignId }], fields }, options: { minTime: 1000 } })
 
-        loading.value = false
-      },
-      loading: loading.value,
-      btn,
-      icon: 'i-tabler-upload',
-    }
-  }
+//         loading.value = false
+//       },
+//       loading: loading.value,
+//       btn,
+//       icon: 'i-tabler-upload',
+//     }
+//   }
 
-  const tools = [
-    new SettingsTool({
-      slug: 'overview',
-      title: 'Overview',
-      userConfig: { isNavItem: true, navIcon: 'i-tabler-mail', navIconAlt: 'i-tabler-mail' },
-      val,
-      getActions: () => vue.computed(() => [pubAction()]),
-      options: (_args) => {
-        return vue.computed(() => {
-          return [new InputOption({ key: '*', input: InputOverview, props: { actions: [editEmailAction()] } })]
-        })
-      },
-    }),
-    new SettingsTool({
-      slug: 'settings',
-      title: 'Settings',
-      userConfig: { isNavItem: true, navIcon: 'i-tabler-settings', navIconAlt: 'i-tabler-settings-filled' },
-      val,
-      getActions: () => vue.computed(() => [editEmailAction(), saveAction()]),
-      options: (_args) => {
-        return vue.computed(() => getEmailManageOptions({ fictionSend, campaign: email.value, card }))
-      },
-    }),
-    new SettingsTool({
-      slug: 'preview',
-      title: vue.computed(() => `Preview`),
-      userConfig: { isNavItem: true, navIcon: 'i-tabler-eye', navIconAlt: 'i-tabler-eye' },
-      val,
-      getActions: () => vue.computed(() => [pubAction(), editEmailAction()]),
-      options: (_args) => {
-        return vue.computed(() => {
-          return [new InputOption({ key: '*', label: 'Email Preview', input: InputEmailPreview })]
-        })
-      },
-    }),
-  ]
+//   const tools = [
+//     new SettingsTool({
+//       slug: 'overview',
+//       title: 'Overview',
+//       userConfig: { isNavItem: true, navIcon: 'i-tabler-mail', navIconAlt: 'i-tabler-mail' },
+//       val,
+//       getActions: () => vue.computed(() => [pubAction()]),
+//       options: (_args) => {
+//         return vue.computed(() => {
+//           return [new InputOption({ key: '*', input: InputOverview, props: { actions: [editEmailAction()] } })]
+//         })
+//       },
+//     }),
+//     new SettingsTool({
+//       slug: 'settings',
+//       title: 'Settings',
+//       userConfig: { isNavItem: true, navIcon: 'i-tabler-settings', navIconAlt: 'i-tabler-settings-filled' },
+//       val,
+//       getActions: () => vue.computed(() => [editEmailAction(), saveAction()]),
+//       options: (_args) => {
+//         return vue.computed(() => getEmailManageOptions({ fictionSend, campaign: email.value, card }))
+//       },
+//     }),
+//     new SettingsTool({
+//       slug: 'preview',
+//       title: vue.computed(() => `Preview`),
+//       userConfig: { isNavItem: true, navIcon: 'i-tabler-eye', navIconAlt: 'i-tabler-eye' },
+//       val,
+//       getActions: () => vue.computed(() => [pubAction(), editEmailAction()]),
+//       options: (_args) => {
+//         return vue.computed(() => {
+//           return [new InputOption({ key: '*', label: 'Email Preview', input: InputEmailPreview })]
+//         })
+//       },
+//     }),
+//   ]
 
-  return { tools: tools as SettingsTool[], val }
-}
+//   return { tools: tools as SettingsTool[], val }
+// }
