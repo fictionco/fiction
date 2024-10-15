@@ -252,6 +252,8 @@ const items = vue.computed<OptionItem[]>(() => {
             })
 
             loading.value = ''
+
+            settingsModal.value = ''
           },
           loading: loading.value === 'testEmail',
         },

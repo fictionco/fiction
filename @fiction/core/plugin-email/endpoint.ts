@@ -1,4 +1,5 @@
 import type { Transporter } from 'nodemailer'
+import type Mail from 'nodemailer/lib/mailer/index.js'
 import type { FictionPluginSettings } from '../plugin.js'
 import type { EndpointResponse } from '../types/index.js'
 import type { FictionEmail, TransactionalEmailConfig } from './index.js'
@@ -8,6 +9,7 @@ import { Query } from '../query.js'
 import { abort } from '../utils/index.js'
 import { type EndpointMeta, isActualBrowser } from '../utils/index.js'
 import { isCi } from '../utils/vars.js'
+import { replaceEmailDomain } from './util.js'
 
 export type EmailQuerySettings = FictionPluginSettings & {
   fictionEmail: FictionEmail
@@ -118,7 +120,7 @@ export class QueryTransactionalEmail extends EmailQuery {
   fromAppEmail() {
     const appMeta = this.settings.fictionEnv.meta.app || {}
 
-    const { name, email } = appMeta
+    const { name, email = 'no-reply@fiction.com' } = appMeta
 
     const from = name ? `${name} <${email}>` : email
 
@@ -130,15 +132,18 @@ export class QueryTransactionalEmail extends EmailQuery {
 
     const html = fields.bodyHtml || ''
     const text = fields.bodyMarkdown || ''
+    const sendingDomain = this.settings.fictionEmail.settings.sendingDomain
 
     if (!html && !text)
       throw abort('missing bodyHtml or bodyMarkdown')
 
     const { fromName, fromEmail, to, subject } = fields
 
-    const from = (fromName ? `${fromName} <${fromEmail}>` : fromEmail) || this.fromAppEmail()
+    const replyTo = (fromName ? `${fromName} <${fromEmail}>` : fromEmail) || this.fromAppEmail()
 
-    const theEmail = { from, to, subject, html, text }
+    const from = replaceEmailDomain(replyTo, sendingDomain)
+
+    const theEmail = { from, to, subject, html, text, replyTo }
 
     const client = this.getClient()
 

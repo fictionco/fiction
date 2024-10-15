@@ -406,8 +406,6 @@ export class ManageCampaign extends SendEndpoint {
       fictionUser.queries.ManageOrganization.serve({ _action: 'retrieve', where: { orgId } }, { server: true }).then(r => r.data),
     ])
 
-    console.log('cam', campaign)
-
     if (!campaign || !org) {
       return { status: 'error', message: 'Campaign or organization not found' }
     }

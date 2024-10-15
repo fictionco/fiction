@@ -24,6 +24,7 @@ type FictionEmailSettings = {
   smtpHost?: string
   smtpUser?: string
   smtpPassword?: string
+  sendingDomain?: string
 } & FictionPluginSettings
 
 export class FictionEmail extends FictionPlugin<FictionEmailSettings> {

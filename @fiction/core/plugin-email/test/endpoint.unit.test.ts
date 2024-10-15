@@ -7,6 +7,16 @@ import { FictionMedia } from '../../plugin-media'
 import { createTestUtils, testEnvFile } from '../../test-utils'
 import { getEnvVars } from '../../utils'
 import { sampleHtml } from '../preview/content'
+import { replaceEmailDomain } from '../util'
+
+describe('utils', () => {
+  it('replaces email domain', () => {
+    const basicEmail = 'Albert Einstein <test@example.com>'
+    const replaced = replaceEmailDomain(basicEmail, 'fiction.com')
+
+    expect(replaced).toBe('Albert Einstein <test@fiction.com>')
+  })
+})
 
 describe('transactional email', async () => {
   const testUtils = createTestUtils({ envFiles: [testEnvFile] })

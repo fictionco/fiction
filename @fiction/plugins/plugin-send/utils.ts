@@ -37,12 +37,13 @@ export async function getEmailForCampaign(args: {
 }): Promise<TransactionalEmailConfig> {
   const { campaignConfig, fictionSend, withDefaults = false, org, previewMode } = args
   const fictionEmail = fictionSend.settings.fictionEmail
+  const isApp = fictionSend.settings.fictionEnv?.isApp.value
 
   const img = await fictionEmail?.emailImages({ fictionMedia: fictionSend.settings.fictionMedia })
 
   const { orgName, orgEmail, url, address, avatar } = org
 
-  const emailConfig: TransactionalEmailConfig = {
+  let emailConfig: TransactionalEmailConfig = {
     fromName: orgName || (withDefaults ? 'No Name' : ''),
     fromEmail: orgEmail || (withDefaults ? 'No Email' : ''),
     avatarUrl: avatar?.url,
@@ -58,13 +59,14 @@ export async function getEmailForCampaign(args: {
     previewMode,
   }
 
-  const EmailStandard = vue.defineAsyncComponent(() => import('@fiction/core/plugin-email/templates/EmailStandard.vue'))
-
-  const { render } = await import('@vue-email/render')
-  logger.info('Rendering Email', { data: emailConfig })
-  emailConfig.bodyHtml = await render(EmailStandard, emailConfig)
-  logger.info('Done Rendering', { data: { bodyHtml: emailConfig.bodyHtml } })
-  emailConfig.bodyText = await render(EmailStandard, emailConfig, { plainText: true })
+  if (isApp) {
+    const EmailStandard = vue.defineAsyncComponent(() => import('@fiction/core/plugin-email/templates/EmailStandard.vue'))
+    const { render } = await import('@vue-email/render')
+    emailConfig.bodyHtml = await render(EmailStandard, emailConfig)
+  }
+  else {
+    emailConfig = await fictionEmail?.renderEmailTemplate(emailConfig)
+  }
 
   return emailConfig
 }

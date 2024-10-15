@@ -75,7 +75,7 @@ const tailwindConfig: TailwindConfig = {
 const primaryColor = colorList[props.primaryColor]
 
 const previewText = computed(() => {
-  return props.preview || (props.heading ? `${props.heading} ${props.subHeading || ''}` : '')
+  return props.preview || (props.heading ? `${props.heading} -- ${props.subHeading || ''}` : '')
 })
 
 function getButtonClass(item: ActionButton): string {
@@ -213,14 +213,14 @@ function generateColorStyles(isDark: boolean) {
 
           <Markdown v-if="bodyMarkdown" class="body-content" :markdown-custom-styles="markdownStyles" :source="bodyMarkdown" />
 
-          <Section v-if="actions" class="mt-12 mb-8 text-left">
+          <Section v-if="actions" class="mt-8 mb-8 text-left">
             <Section :style="{ display: 'inline-block' }">
-              <Column v-for="(item, i) in actions" :key="i" :class="i === 0 ? '' : 'pl-4'">
+              <Column v-for="(item, i) in actions" :key="i" :class="i === 0 ? '' : 'pl-3'">
                 <Button
                   :href="item.href"
                   :data-type="item.theme"
                   :class="getButtonClass(item)"
-                  class="rounded-full hover:opacity-80 font-bold select-none"
+                  class="rounded-full hover:opacity-80 font-medium select-none"
                   :style="{ whiteSpace: 'nowrap' }"
                   v-html="item.name"
                 />
@@ -250,7 +250,7 @@ function generateColorStyles(isDark: boolean) {
                   {{ legal?.desc }}
                 </div>
               </div>
-              <a v-if="unsubscribeUrl" :href="unsubscribeUrl" class="opacity-70 text-inherit no-underline">
+              <a v-if="unsubscribeUrl" :href="unsubscribeUrl" class="opacity-50 text-inherit no-underline">
                 unsubscribe
               </a>
             </Column>

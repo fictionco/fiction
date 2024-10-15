@@ -114,7 +114,7 @@ const fictionAppSites = new FictionApp({
 
 const fictionServer = new FictionServer({ fictionEnv, serverName: 'FictionMain', port: comboPort, liveUrl: appUrl })
 const fictionDb = new FictionDb({ fictionEnv, fictionServer, postgresUrl })
-const fictionEmail = new FictionEmail({ fictionEnv, smtpHost, smtpPassword, smtpUser })
+const fictionEmail = new FictionEmail({ fictionEnv, smtpHost, smtpPassword, smtpUser, sendingDomain: 'mail.fiction.com' })
 const base = { fictionEnv, fictionApp, fictionServer, fictionDb, fictionEmail, fictionRouter }
 const fictionUser = new FictionUser({ ...base, googleClientId, googleClientSecret, tokenSecret, apolloApiKey })
 const fictionCache = new FictionCache({ ...base, redisUrl })
