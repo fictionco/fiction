@@ -1,16 +1,20 @@
 <script setup lang="ts">
+import type { vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
-import { useService, type vue } from '@fiction/core'
-import { getTools } from '.'
-import SettingsTool from './SettingsTool.vue'
+import SettingsBoard from './SettingsBoard.vue'
 
 defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
-
-const service = useService()
 </script>
 
 <template>
-  <SettingsTool :class="card.classes.value.contentWidth" base-path="/settings" :tools="getTools({ service })" :card title="Settings" />
+  <SettingsBoard
+    :card
+    base-path="/settings"
+    :header="{
+      title: 'Settings',
+      subTitle: 'Organization and user settings',
+    }"
+  />
 </template>

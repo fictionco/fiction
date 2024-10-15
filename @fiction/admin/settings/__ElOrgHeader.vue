@@ -10,7 +10,6 @@ import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 import ElHeader from './ElHeader.vue'
-import { newOrgOptions } from './index.js'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
@@ -80,10 +79,6 @@ const newOrgActions = vue.computed<ActionButton[]>(() => {
       loading: sending.value,
     },
   ]
-})
-
-const toolFormOptions = vue.computed<InputOption[]>(() => {
-  return [newOrgOptions({ title: 'New Organization', actionsRef: newOrgActions }).value]
 })
 
 const avatar = vue.ref({})

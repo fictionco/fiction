@@ -27,7 +27,27 @@ export async function getPages() {
       slug: 'settings',
       title: 'Settings',
       userConfig: { navIcon: 'i-tabler-settings', navIconAlt: 'i-tabler-settings-filled' },
-      cards: [await factory.create({ el: def(async () => import('../settings/SettingsMain.vue')) })],
+      cards: [
+        await factory.create({
+          el: def(async () => import('../settings/SettingsMain.vue')),
+          cards: [
+            await factory.create({
+              slug: '_home',
+              title: 'Organization',
+              description: 'Organization settings',
+              el: vue.defineAsyncComponent(async () => import('../settings/PanelOrganization.vue')),
+              userConfig: { isNavItem: true, navIcon: 'i-tabler-building', navIconAlt: 'i-tabler-building-cog' },
+            }),
+            await factory.create({
+              slug: 'account',
+              title: 'Account',
+              description: 'Your account settings',
+              el: vue.defineAsyncComponent(async () => import('../settings/PanelAccount.vue')),
+              userConfig: { isNavItem: true, navIcon: 'i-tabler-user', navIconAlt: 'i-tabler-user-cog' },
+            }),
+          ],
+        }),
+      ],
     }),
     await factory.create({
       templateId: 'transaction',
