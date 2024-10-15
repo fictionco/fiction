@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site/card'
 import type { FictionSubscribe } from '..'
+import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
 import CardButton from '@fiction/cards/CardButton.vue'
 import { type ListItem, log, useService, vue } from '@fiction/core'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
@@ -109,7 +110,7 @@ async function importSubscribers() {
 </script>
 
 <template>
-  <div>
+  <SettingsPanel title="Add / Import Subscribers">
     <div class="min-h-[40dvh] p-16 max-w-3xl mx-auto">
       <transition
         enter-active-class="ease-out duration-300"
@@ -233,5 +234,5 @@ async function importSubscribers() {
         </div>
       </transition>
     </div>
-  </div>
+  </SettingsPanel>
 </template>

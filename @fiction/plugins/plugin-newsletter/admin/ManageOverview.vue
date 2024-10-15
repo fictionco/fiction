@@ -5,6 +5,7 @@ import type { EmailCampaign } from '../campaign.js'
 import type { FictionSend } from '../index.js'
 import type { EmailCampaignConfig } from '../schema.js'
 import ElHeader from '@fiction/admin/settings/ElHeader.vue'
+import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
 import { dayjs, toLabel, useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
@@ -360,13 +361,13 @@ const header = vue.computed(() => {
 </script>
 
 <template>
-  <div>
+  <SettingsPanel title="Newletter Email Overview">
     <div class="">
       <div class="my-6 space-y-6">
         <div class="px-8">
           <ElHeader
             v-if="header"
-            class="dark:bg-theme-700/50 rounded-xl p-12"
+            class="dark:bg-theme-700/50 rounded-xl p-8"
             :model-value="header"
           />
         </div>
@@ -471,5 +472,5 @@ const header = vue.computed(() => {
       v-bind="modalText"
       @confirmed="sendOrSchedule()"
     />
-  </div>
+  </SettingsPanel>
 </template>

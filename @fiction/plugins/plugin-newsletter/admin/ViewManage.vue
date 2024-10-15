@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site'
 import type { FictionSend } from '..'
-import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
+import SettingsBoard from '@fiction/admin/settings/SettingsBoard.vue'
 import { useService, vue } from '@fiction/core'
 import { EmailCampaign } from '../campaign'
 
@@ -44,7 +44,7 @@ vue.onMounted(() => load())
 </script>
 
 <template>
-  <SettingsPanel
+  <SettingsBoard
     :loading
     :card
     base-path="/manage-campaign"

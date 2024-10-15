@@ -41,7 +41,7 @@ function updateValue<T extends keyof PostObject = keyof PostObject>(key: T, valu
           />
         </div>
       </div>
-      <div class="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-3 sm:space-y-0 sm:space-x-reverse @lg:mt-0 @lg:flex-row @lg:space-x-3">
+      <div v-if="modelValue.actions?.length" class="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-3 sm:space-y-0 sm:space-x-reverse @lg:mt-0 @lg:flex-row @lg:space-x-3">
         <XButton
           v-for="(action, i) in modelValue.actions"
           :key="i"

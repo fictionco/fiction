@@ -193,7 +193,7 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
       results.push(...result)
     }
 
-    return { status: 'success', data: results, indexMeta: { changedCount: results.length } }
+    return { status: 'success', message: 'Subscriber Updated', data: results, indexMeta: { changedCount: results.length } }
   }
 
   private async deleteSubscription(params: ManageSubscriptionParams & { _action: 'delete' }, _meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
@@ -205,9 +205,9 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
 
     const results: Subscriber[] = []
     for (const condition of where) {
-      const { userId, email } = condition
-      if ((!userId && !email)) {
-        return { status: 'error', message: 'orgId and either userId or email must be provided' }
+      const { userId, email, subscriptionId } = condition
+      if ((!userId && !email && !subscriptionId)) {
+        return { status: 'error', message: 'delete subscription missing specifier' }
       }
 
       const result = await this.db().table(t.subscribe).where({ orgId, ...condition }).delete().returning('*')
