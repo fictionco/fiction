@@ -51,7 +51,7 @@ describe('user endpoint tests', async () => {
     expect(response.user?.verify?.code).toBeFalsy()
   })
 
-  it('handles code and no create user on getCreate', async () => {
+  it('handles code and no create user', async () => {
     const fictionUser = testUtils.fictionUser
 
     const email = workingUser?.email
@@ -80,6 +80,12 @@ describe('user endpoint tests', async () => {
     expect(response.data?.userId).toBe(workingUser?.userId)
     expect(response.data?.verify?.code).not.toBe(workingUserVerify.data?.verify?.code)
     expect(response.data?.verify?.expiresAt).not.toBe(workingUserVerify.data?.verify?.expiresAt)
+
+    const userResponse = await fictionUser.queries.ManageUser.serve({ _action: 'requestCode', where: { userId } }, { returnAuthority: ['verify'] })
+
+    expect(userResponse.status).toBe('success')
+    expect(userResponse.data?.verify?.code).toBeTruthy()
+    expect(userResponse.data?.verify?.expiresAt).toBeTruthy()
   })
 
   it('updates user password', async () => {

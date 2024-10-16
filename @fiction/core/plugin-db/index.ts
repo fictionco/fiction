@@ -10,7 +10,6 @@ import process from 'node:process'
 import * as typebox from '@sinclair/typebox'
 
 import knex from 'knex'
-import knexStringcase2 from 'knex-stringcase'
 import { FictionPlugin } from '../plugin.js'
 import { EnvVar, vars } from '../plugin-env/index.js'
 import { toCamel } from '../utils/casing.js'

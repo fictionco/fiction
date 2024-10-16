@@ -61,7 +61,9 @@ export function dbPrep<T>(args: {
       }
     }
 
-    if (includeField && isValid && value) {
+    const useValid = isValid || (!isValid && type === 'return')
+
+    if (includeField && useValid && value) {
       (out as Record<string, any>)[key] = value !== null && prepare ? prepare({ value, key }) : value
     }
   })

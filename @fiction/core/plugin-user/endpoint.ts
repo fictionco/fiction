@@ -438,7 +438,8 @@ export class QueryManageUser extends UserBaseQuery {
   }
 
   private async prepareResponse(args: { _action: ManageUserParams['_action'], user?: User, isNew: boolean, token?: string, message?: string, params: ManageUserParams }, meta: EndpointMeta): Promise<ManageUserResponse> {
-    const { isNew, token, message, params } = args
+    const { isNew, token, message, params, _action } = args
+
     const user = this.settings.fictionDb.prep({ type: 'return', fields: args.user, table: t.user, meta })
 
     const fictionUser = this.settings.fictionUser
