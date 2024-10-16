@@ -48,8 +48,8 @@ function cancelChanges() {
 <template>
   <div>
     <div class="relative flex gap-4 lg:gap-6 ">
-      <div v-if="controlOption.settings.icon" class="size-7 lg:size-8 rounded-xl flex justify-center items-center">
-        <XIcon class="size-[60%]" :media="controlOption.settings.icon" />
+      <div v-if="controlOption.settings.icon" class="size-8 shrink-0 lg:size-10 rounded-xl flex justify-center items-center">
+        <XIcon class="size-[80%]" :media="controlOption.settings.icon" />
       </div>
       <div class="grow min-w-0">
         <div v-if="v" class="flex items-center gap-4 text-sm lg:text-base leading-[1] font-normal text-theme-500 dark:text-theme-400">
@@ -105,7 +105,14 @@ function cancelChanges() {
             {{ action.name }}
           </XButton>
         </template>
-        <XButton v-else design="solid" theme="theme" size="lg" @click.stop="openModal">
+        <XButton
+          v-else
+          design="solid"
+          theme="theme"
+          size="lg"
+          :icon="{ class: 'i-tabler-pencil' }"
+          @click.stop="openModal"
+        >
           Edit
         </XButton>
       </div>

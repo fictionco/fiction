@@ -2,6 +2,7 @@ import type { TablePostConfig } from '@fiction/posts'
 import type { FictionSend } from '.'
 import type { EmailCampaignConfig } from './schema'
 import { FictionObject, objectId, vue } from '@fiction/core'
+import { AutosaveUtility } from '@fiction/core/utils/save'
 import { Post } from '@fiction/posts'
 import { settingsKeys } from './schema'
 
@@ -20,8 +21,10 @@ export class EmailCampaign extends FictionObject<EmailConfig> {
   subject = vue.ref(this.settings.subject || '')
   preview = vue.ref(this.settings.preview || '')
   userConfig = vue.ref(this.settings.userConfig || {})
-  isDirty = vue.ref(false)
-  saveTimeout: ReturnType<typeof setTimeout> | null = null // Store timeout reference
+  saveUtility = new AutosaveUtility({
+    onSave: () => this.save({ disableNotify: true }),
+    debounceMs: 2000,
+  })
 
   constructor(settings: EmailConfig) {
     super('EmailSend', settings)
@@ -44,7 +47,7 @@ export class EmailCampaign extends FictionObject<EmailConfig> {
           ref.value = value
 
           if (!noSave)
-            this.autosave()
+            this.saveUtility.autosave()
         }
       }
 
@@ -56,27 +59,10 @@ export class EmailCampaign extends FictionObject<EmailConfig> {
     }
   }
 
-  clearAutosave() {
-    if (this.saveTimeout) {
-      clearTimeout(this.saveTimeout) // Clear the timeout after saving
-      this.saveTimeout = null
-    }
-  }
-
-  autosave() {
-    this.isDirty.value = true
-    this.clearAutosave()
-
-    this.saveTimeout = setTimeout(() => {
-      this.save({ disableNotify: true }).catch(console.error) // Error handling
-    }, 2000) // Set a new timeout for 2 seconds
-  }
-
   async save(args: { disableNotify?: boolean } = {}) {
     const fields = this.toConfig()
-    this.clearAutosave()
+    this.saveUtility.clear()
     await this.settings.fictionSend.requests.ManageCampaign.projectRequest({ _action: 'update', fields, where: [{ campaignId: this.campaignId }] }, { minTime: 500, ...args })
-    this.isDirty.value = false
   }
 
   async delete() {

@@ -13,14 +13,15 @@ import XText from '@fiction/ui/common/XText.vue'
 import { loadEmail } from '../utils.js'
 import { emailComposeController } from './tools'
 
-defineProps({
-  card: { type: Object as vue.PropType<Card>, required: true },
-})
+const { card } = defineProps<{
+  card: Card
+}>()
 
 const { fictionSend, fictionRouter } = useService<{ fictionSend: FictionSend }>()
 
 const loading = vue.ref(true)
 const campaign = vue.shallowRef<EmailCampaign>()
+const sending = vue.ref('')
 
 const manageLink = vue.computed(() => {
   const campaignId = campaign.value?.campaignId
@@ -47,6 +48,16 @@ vue.onMounted(async () => {
 const actions = vue.computed(() => {
   return campaign.value?.userConfig.value.actions || []
 })
+
+async function saveBeforeNavigate(args: { location: string, href: string }) {
+  sending.value = args.location
+
+  if (campaign.value?.saveUtility.isDirty.value)
+    await campaign.value?.save({ disableNotify: true })
+
+  sending.value = ''
+  await card.goto(args.href)
+}
 </script>
 
 <template>
@@ -59,9 +70,10 @@ const actions = vue.computed(() => {
             theme="primary"
             design="outline"
             size="md"
-            :href="manageLink"
             class="shrink-0"
             icon="i-tabler-arrow-left"
+            :loading="sending === 'manage-campaign-back'"
+            @click.prevent="saveBeforeNavigate({ location: 'manage-campaign-back', href: manageLink })"
           >
             Back
           </CardButton>
@@ -82,7 +94,7 @@ const actions = vue.computed(() => {
       <template #headerRight>
         <ElSavingSignal
           v-if="campaign"
-          :is-dirty="campaign?.isDirty.value"
+          :is-dirty="campaign?.saveUtility.isDirty.value"
           data-test-id="draft-control-dropdown"
           change-type="publish"
         />
@@ -91,16 +103,17 @@ const actions = vue.computed(() => {
           theme="primary"
           design="outline"
           size="md"
-          :href="manageLink"
           class="shrink-0"
           icon-after="i-tabler-arrow-right"
+          :loading="sending === 'manage-campaign-review'"
+          @click.prevent="saveBeforeNavigate({ location: 'manage-campaign-review', href: manageLink })"
         >
           Review &amp; Send
         </CardButton>
       </template>
       <template #default>
         <div v-if="campaign?.post.value">
-          <ElPostEditor :post="campaign.post.value" :card @update:post="campaign.autosave()">
+          <ElPostEditor :post="campaign.post.value" :card @update:post="campaign.saveUtility.autosave()">
             <template #footer>
               <div v-if="actions.length" class="mt-12 pt-12">
                 <ElActions :actions ui-size="xl" class="flex gap-4" />
