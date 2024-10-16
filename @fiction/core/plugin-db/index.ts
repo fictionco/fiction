@@ -1,14 +1,14 @@
 /// <reference path="./env.d.ts" />
 
 import type { Knex } from 'knex'
-import type { KnexStringcaseConfig } from 'knex-stringcase/dist/types.js'
+import type sc from 'knex-stringcase'
 import type { FictionPluginSettings } from '../plugin.js'
 import type { FictionEnv } from '../plugin-env/index.js'
 import type { FictionServer } from '../plugin-server/index.js'
 import type { Col, FictionDbTable } from './objects.js'
 import process from 'node:process'
-import * as typebox from '@sinclair/typebox'
 
+import * as typebox from '@sinclair/typebox'
 import knex from 'knex'
 import { FictionPlugin } from '../plugin.js'
 import { EnvVar, vars } from '../plugin-env/index.js'
@@ -95,6 +95,7 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
     const knexOptions: Knex.Config & {
       recursiveStringcase: (obj: any, name: string) => boolean
       appStringcase: (key: string) => string
+      [key: string]: any
     } = {
       client: 'pg',
       version: '16.2',
@@ -119,7 +120,7 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
 
     const knexStringcase = await import('knex-stringcase')
 
-    const opts: Knex.Config = knexStringcase.default(knexOptions as KnexStringcaseConfig) as Knex.Config
+    const opts: Knex.Config = knexStringcase.default(knexOptions) as Knex.Config
 
     this.db = knex(opts)
 
