@@ -93,6 +93,7 @@ function cancelChanges() {
           <XButton
             v-for="(action, ii) in (controlOption.actions.value || [])"
             :key="ii"
+            :data-test-id="action.testId"
             :design="action.design || 'solid'"
             :theme="action.theme || 'theme'"
             size="lg"
@@ -111,6 +112,7 @@ function cancelChanges() {
           theme="theme"
           size="lg"
           :icon="{ class: 'i-tabler-pencil' }"
+          :data-edit-modal="controlOption.settings.testId"
           @click.stop="openModal"
         >
           Edit
@@ -153,12 +155,13 @@ function cancelChanges() {
                 :loading="action.loading"
                 size="lg"
                 :href="action.href"
+                :data-test-id="action.testId"
                 @click.stop="action.onClick ? (action.onClick({ item: action, event: $event })) : ''"
               >
                 {{ action.name }}
               </XButton>
             </template>
-            <XButton v-else size="lg" theme="primary" @click="saveChanges">
+            <XButton v-else size="lg" theme="primary" :data-modal-apply="controlOption.settings.testId" @click="saveChanges">
               Apply Changes
             </XButton>
           </div>

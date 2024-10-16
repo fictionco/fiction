@@ -1,7 +1,6 @@
 /// <reference path="./env.d.ts" />
 
 import type { Knex } from 'knex'
-import type sc from 'knex-stringcase'
 import type { FictionPluginSettings } from '../plugin.js'
 import type { FictionEnv } from '../plugin-env/index.js'
 import type { FictionServer } from '../plugin-server/index.js'

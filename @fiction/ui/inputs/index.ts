@@ -80,6 +80,7 @@ export type ValueResponse = {
 }
 
 export interface InputOptionSettings {
+  testId?: string
   key?: string
   aliasKey?: string
   label?: string
