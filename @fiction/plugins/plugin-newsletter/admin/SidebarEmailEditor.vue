@@ -16,7 +16,7 @@ const { tool, campaign, card } = defineProps<{
   card: Card
 }>()
 
-const options = vue.computed<InputOption<any>[]>(() => {
+const options = vue.computed<InputOption[]>(() => {
   return [
     new InputOption({
       key: 'emailSubject',

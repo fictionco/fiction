@@ -18,6 +18,6 @@ export function getCardOptionConfig(args: { card?: Card }) {
 
     out.push(standardCardOptions({ card }))
 
-    return out as InputOption<any>[]
+    return out as InputOption[]
   })
 }

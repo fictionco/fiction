@@ -38,7 +38,7 @@ export function removeUndefined<T>(
  * Plain objects are direct instances of Object or have a null prototype.
  */
 export function isPlainObject(value: unknown): boolean {
-  if (typeof value !== 'object' || value === null)
+  if (typeof value !== 'object' || value === null || !value)
     return false
   const proto = Object.getPrototypeOf(value)
   return proto === Object.prototype || proto === null

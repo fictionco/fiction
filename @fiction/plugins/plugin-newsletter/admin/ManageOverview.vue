@@ -42,7 +42,7 @@ function getWordCountFromHTML(html?: string) {
 }
 
 type OptionItem = NavItem & {
-  options?: InputOption<any>[]
+  options?: InputOption[]
   optionActions?: ActionButton[]
   isOptional?: boolean
   isActive?: boolean

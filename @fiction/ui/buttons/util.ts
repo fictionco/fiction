@@ -12,6 +12,7 @@ export function getButtonClasses(args: {
   hover?: ButtonHover
   fontWeight?: ButtonFontWeight
   border?: ButtonBorder
+  padding?: string
 }): { buttonClasses: string, iconClasses: string } {
   const {
     theme = 'default',
@@ -24,18 +25,29 @@ export function getButtonClasses(args: {
     hover = 'standard',
     fontWeight = 'semibold',
     border = 'normal',
+    padding,
   } = args
 
   const baseClasses = 'relative overflow-hidden max-w-full select-none items-center font-sans focus:outline-none antialiased leading-[1.2]'
 
   const sizes: Record<StandardSize, string> = {
-    'xxs': 'px-2 py-0.5 text-[9px]',
-    'xs': 'px-2 py-1 text-[10px]',
-    'sm': 'px-2.5 py-1 text-xs',
-    'md': 'px-3 py-1.5 text-sm',
-    'lg': 'px-4 py-2 text-base',
-    'xl': 'px-6 py-2.5 sm:text-base md:text-lg',
-    '2xl': 'px-8 py-3 sm:text-base md:text-lg',
+    'xxs': 'text-[9px]',
+    'xs': 'text-[10px]',
+    'sm': 'text-xs',
+    'md': 'text-sm',
+    'lg': 'text-base',
+    'xl': 'sm:text-base md:text-lg',
+    '2xl': 'sm:text-base md:text-lg',
+  }
+
+  const defaultPadding: Record<StandardSize, string> = {
+    'xxs': 'px-2 py-0.5',
+    'xs': 'px-2 py-1',
+    'sm': 'px-2.5 py-1',
+    'md': 'px-3 py-1.5',
+    'lg': 'px-4 py-2',
+    'xl': 'px-6 py-2.5',
+    '2xl': 'px-8 py-3',
   }
 
   const formats: Record<ButtonFormat, string> = {
@@ -61,7 +73,7 @@ export function getButtonClasses(args: {
     lg: 'shadow-lg',
   }
 
-  const hoverClasses = !disabled && hover ? (themes[theme]?.[design]?.hover) : ''
+  const hoverClasses = !disabled && hover && hover !== 'none' ? (themes[theme]?.[design]?.hover) : ''
 
   const fontWeights: Record<ButtonFontWeight, string> = {
     normal: 'font-normal',
@@ -86,6 +98,7 @@ export function getButtonClasses(args: {
     borderClass,
     hoverClasses,
     sizes[size],
+    padding || defaultPadding[size],
     formats[format],
     rounding === 'none' ? 'rounded-none' : rounding === 'full' ? 'rounded-full' : roundedSizeMap[size],
     shadows[shadow],

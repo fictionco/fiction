@@ -3,7 +3,7 @@ import { ButtonDesignSchema, colorTheme, colorThemeUser, SizeSchema } from '@fic
 import InputAi from '@fiction/site/ai/InputAi.vue'
 import { InputOption } from '@fiction/ui/index.js'
 
-type OptArgs<T extends string = string> = (Partial<InputOptionSettings<T>> & Record<string, unknown>) | undefined
+type OptArgs = (Partial<InputOptionSettings> & Record<string, unknown>) | undefined
 
 export const standardOption = {
   media: (_: OptArgs = {}) => new InputOption({ key: 'media', label: 'Image', input: 'InputMedia', props: { formats: _?.formats }, ..._ }),

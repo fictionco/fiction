@@ -23,7 +23,7 @@ const props = defineProps({
 
 const service = useService<{ fictionPosts: FictionPosts }>()
 
-const options = vue.computed<InputOption<any>[]>(() => {
+const options = vue.computed<InputOption[]>(() => {
   const activeOrganizationId = service.fictionUser.activeOrgId.value
   return [
     new InputOption({

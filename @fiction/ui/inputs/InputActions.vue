@@ -6,7 +6,7 @@ import InputList from './InputList.vue'
 
 type OptionKey = 'name' | 'href' | 'design' | 'theme' | 'size' | 'icon' | 'iconAfter' | 'target'
 
-const { modelValue = [], disableKeys = [], addOptions = [] } = defineProps<{ modelValue?: BasicItem[], disableKeys?: OptionKey[], addOptions?: InputOption<any>[] }>()
+const { modelValue = [], disableKeys = [], addOptions = [] } = defineProps<{ modelValue?: BasicItem[], disableKeys?: OptionKey[], addOptions?: InputOption[] }>()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: BasicItem[]): void

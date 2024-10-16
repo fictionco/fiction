@@ -3,6 +3,7 @@ import type { ActionButton } from '@fiction/core'
 import type { UiElementSize } from '../utils'
 import type { InputOption } from './index.js'
 import { getNested, setNested, vue } from '@fiction/core'
+import { twMerge } from 'tailwind-merge'
 import TransitionSlide from '../anim/TransitionSlide.vue'
 import ElActions from '../buttons/ElActions.vue'
 import ElInput from './ElInput.vue'
@@ -15,22 +16,28 @@ const {
   depth = 0,
   basePath = '',
   inputWrapClass = '',
+  rootListClass = '',
+  rootInputClass = '',
   inputProps = {},
   uiSize = 'md',
   actions = [],
   disableGroupHide = false,
+  format = 'input',
 } = defineProps<{
   stateKey: string
-  options: InputOption<any>[]
+  options: InputOption[]
   loading?: boolean
   modelValue?: Record<string, unknown>
   depth?: number
   basePath?: string
   inputWrapClass?: string
+  rootListClass?: string
+  rootInputClass?: string
   inputProps?: Record<string, unknown>
   uiSize?: UiElementSize
   actions?: ActionButton[]
   disableGroupHide?: boolean
+  format?: 'control' | 'input'
 }>()
 
 const emit = defineEmits<{
@@ -109,11 +116,26 @@ function getGroupHeaderClasses(opt: InputOption) {
 
   return out.join(' ')
 }
+
+const rootListClasses = vue.computed(() => {
+  const defaultClass = format === 'control' ? 'divide-y divide-theme-200/50 dark:divide-theme-600/50 gap-0' : cls.value.inputGap
+
+  return twMerge(['flex flex-col', defaultClass])
+})
+
+function getInputWrapClasses(opt: InputOption) {
+  const defaultClass = format === 'control' ? 'p-6' : opt.settings.uiFormat !== 'naked' && depth === 0 ? 'px-6' : ''
+  return twMerge([defaultClass])
+}
+
+function getGroupClasses(opt: InputOption) {
+  return opt.settings.format === 'control' ? '' : cls.value.groupPad
+}
 </script>
 
 <template>
   <div :data-options-len="options.length">
-    <div class="flex flex-col" :class="cls.inputGap">
+    <div :class="rootListClasses">
       <template v-for="(opt, i) in options.filter(_ => !_.settings.isHidden)" :key="i">
         <div
           v-if="opt.input.value === 'group'"
@@ -136,7 +158,7 @@ function getGroupHeaderClasses(opt: InputOption) {
           </div>
           <TransitionSlide>
             <div v-show="!hide(opt.key.value)">
-              <div :class="cls.groupPad">
+              <div :class="getGroupClasses(opt)">
                 <FormEngine
                   :state-key="stateKey"
                   :ui-size="uiSize"
@@ -146,6 +168,7 @@ function getGroupHeaderClasses(opt: InputOption) {
                   :model-value="modelValue"
                   :depth="depth + 1"
                   :base-path="basePath"
+                  :format="opt.settings.format"
                   @update:model-value="emit('update:modelValue', $event)"
                 />
               </div>
@@ -160,12 +183,14 @@ function getGroupHeaderClasses(opt: InputOption) {
           :class="i === 0 ? 'mt-0' : 'mt-8'"
         />
         <input v-else-if="opt.input.value === 'hidden'" :data-option-path="opt.key.value" type="hidden" :value="getNested({ path: getOptionPath(opt.key.value), data: modelValue })">
-        <div v-else :data-input-wrap="inputWrapClass" :class="[inputWrapClass, opt.settings.uiFormat !== 'naked' && depth === 0 ? 'px-6' : '']" :data-depth="depth">
+
+        <div v-else :data-input-wrap="inputWrapClass" :class="getInputWrapClasses(opt)" :data-depth="depth">
           <ElInput
             v-if="opt.isHidden.value !== true"
             :ui-size="uiSize"
             :data-option-path="opt.key.value"
             class="setting-input"
+            :control-option="opt"
             :input-class="opt.settings.inputClass"
             v-bind="{ ...opt.outputProps.value }"
             :input-props="{ ...inputProps }"

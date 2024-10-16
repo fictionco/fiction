@@ -24,6 +24,7 @@ const {
   wrapClass,
   animate,
   tag,
+  padding,
 } = defineProps<{
   icon?: string | MediaObject
   iconAfter?: string | MediaObject
@@ -41,6 +42,7 @@ const {
   wrapClass?: string
   animate?: boolean
   tag?: 'button' | 'div'
+  padding?: string
 }>()
 
 const randomId = shortId()
@@ -54,7 +56,7 @@ function onClick() {
 }
 
 const cls = vue.computed(() => {
-  return getButtonClasses({ rounding, design, theme, size, format, disabled, shadow, hover, fontWeight })
+  return getButtonClasses({ rounding, design, theme, size, format, disabled, shadow, hover, fontWeight, padding })
 })
 const slots = vue.useSlots()
 const hasContent = vue.computed(() => !!slots?.default?.()?.[0]?.children?.length)

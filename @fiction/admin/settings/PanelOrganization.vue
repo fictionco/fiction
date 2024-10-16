@@ -59,39 +59,212 @@ function newOrgOptions() {
   return new InputOption({ key: 'orgInfo', label: 'Details', input: 'group', options })
 }
 
+const controlOptions = [
+  new InputOption({
+    label: 'Organization Name',
+    subLabel: 'Used for publication name.',
+    input: 'InputControl',
+    valueDisplay: () => {
+      return {
+        status: org.value?.orgName ? 'ready' : 'incomplete',
+        data: org.value?.orgName,
+      }
+    },
+    options: [
+      new InputOption({ key: 'orgName', label: 'Publication Name', input: 'InputText', placeholder: 'Publication Name', isRequired: true }),
+    ],
+  }),
+  new InputOption({
+    label: 'Primary Email',
+    subLabel: 'Used for newsletter, billing, admin.',
+    input: 'InputControl',
+    valueDisplay: () => {
+      return {
+        status: org.value?.orgEmail ? 'ready' : 'incomplete',
+        data: org.value?.orgEmail,
+      }
+    },
+    options: [
+      new InputOption({ key: 'orgEmail', label: 'Contact Email', description: 'Used for billing.', input: 'InputEmail', isRequired: true }),
+    ],
+  }),
+  new InputOption({
+    label: 'Logo / Avatar',
+    subLabel: 'Will default to Gravatar if not set.',
+    input: 'InputControl',
+    valueDisplay: () => {
+      return {
+        status: org.value?.avatar?.url ? 'ready' : 'incomplete',
+        data: org.value?.avatar,
+        format: 'media',
+      }
+    },
+    options: [
+      new InputOption({ key: 'avatar', label: 'Publication Avatar', input: 'InputMedia', subLabel: 'Upload a square image or it will be cropped' }),
+    ],
+  }),
+  new InputOption({
+    label: 'Primary Website',
+    input: 'InputControl',
+    valueDisplay: () => {
+      return {
+        status: org.value?.url ? 'ready' : 'incomplete',
+        data: org.value?.url,
+      }
+    },
+    options: [
+      new InputOption({ key: 'url', label: 'Website', input: 'InputUrl' }),
+    ],
+  }),
+]
+
+const newsletterOptions = [
+  new InputOption({
+    label: 'Newsletter Title',
+    subLabel: 'Used in emails and other places.',
+    input: 'InputControl',
+    valueDisplay: () => {
+      return {
+        status: org.value?.publication?.title ? 'ready' : 'incomplete',
+        data: org.value?.publication?.title,
+      }
+    },
+    options: [
+      new InputOption({ key: 'publication.title', label: 'Newsletter Title', input: 'InputText' }),
+    ],
+  }),
+  new InputOption({
+    label: 'Newsletter Tagline / Description',
+    input: 'InputControl',
+    valueDisplay: () => {
+      return {
+        status: org.value?.publication?.tagline ? 'ready' : 'optional',
+        data: org.value?.publication?.tagline,
+      }
+    },
+    options: [
+      new InputOption({ key: 'publication.tagline', label: 'Newsletter Tagline', description: 'Used in descriptions and meta info', input: 'InputText', placeholder: 'A sentence on what you do...' }),
+    ],
+  }),
+  new InputOption({
+    label: 'Newsletter Email',
+    subLabel: 'Email will be sent from this address.',
+    input: 'InputControl',
+    valueDisplay: () => {
+      const { email, sender } = org.value?.publication || {}
+      return {
+        status: email ? 'ready' : 'incomplete',
+        data: sender ? `${sender} <${email}>` : email,
+      }
+    },
+    options: [
+      new InputOption({ key: 'publication.email', label: 'Sender Email', description: 'Email will be sent from this address.', input: 'InputEmail' }),
+      new InputOption({ key: 'publication.sender', label: 'Sender Name', input: 'InputText', placeholder: 'Sender Name' }),
+    ],
+  }),
+]
+
+const legalOptions = [
+  new InputOption({
+    label: 'Terms of Service and Privacy Policy',
+    subLabel: 'Needed for sites, newsletters, and other services.',
+    input: 'InputControl',
+    valueDisplay: () => {
+      const { termsUrl, privacyUrl } = org.value?.legal || {}
+      const out = []
+      if (termsUrl)
+        out.push('Terms of Service Added')
+      if (privacyUrl)
+        out.push('Privacy Policy Added')
+      return {
+        status: termsUrl && privacyUrl ? 'ready' : 'incomplete',
+        data: out.join(', '),
+      }
+    },
+    options: [
+      new InputOption({ key: 'legal.termsUrl', label: 'Terms of Service URL', input: 'InputUrl' }),
+      new InputOption({ key: 'legal.privacyUrl', label: 'Privacy Policy URL', input: 'InputUrl' }),
+    ],
+  }),
+]
+
+const adminOptions = [
+  new InputOption({
+    label: 'Add a Special Pricing Plan',
+    subLabel: 'Discounts or special pricing for certain organizations.',
+    input: 'InputControl',
+    valueDisplay: () => {
+      const { specialPlan } = org.value || {}
+      return {
+        status: specialPlan ? 'enabled' : 'optional',
+        data: specialPlan,
+      }
+    },
+    options: [
+      new InputOption({ key: 'specialPlan', label: 'Assign a Special Pricing Plan', input: 'InputSelect', list: ['standard', 'vip', 'non-profit'] }),
+    ],
+  }),
+  new InputOption({
+    label: 'Delete Organization',
+    subLabel: 'Permanently delete this organization.',
+    input: 'InputControl',
+    actions: () => [
+      {
+        name: 'Delete Organization...',
+        theme: 'rose',
+        design: 'ghost',
+        icon: 'i-tabler-trash',
+        loading: loading.value,
+        onClick: async () => {
+          const endpoint = service.fictionUser.requests.ManageOrganization
+
+          const confirmed = confirm('Are you sure you want to delete this organization?')
+          if (confirmed && org.value?.orgId) {
+            sending.value = 'delete'
+            const r = await endpoint.projectRequest({ _action: 'delete', where: { orgId: org.value?.orgId } })
+            if (r.status === 'success') {
+              await card.goto('/', { caller: 'adminDeleteOrganization' })
+            }
+
+            sending.value = ''
+          }
+        },
+      },
+    ],
+  }),
+]
+
 const options = vue.computed(() => {
-  const userIsAdmin = service.fictionUser.activeUser.value?.isSuperAdmin
   return [
-    newOrgOptions(),
+    new InputOption({
+      key: 'details',
+      label: 'Organization Details',
+      input: 'group',
+      options: controlOptions,
+      format: 'control',
+    }),
     new InputOption({
       key: 'publication',
-      label: 'Email and Syndication',
+      label: 'Newsletter and Email',
       input: 'group',
-      options: [
-        new InputOption({ key: 'publication.tagline', label: 'Publication Tagline', description: 'Used in descriptions and meta info', input: 'InputText', placeholder: 'A sentence on what you do...' }),
-        new InputOption({ key: 'publication.email', label: 'Email: From Email', description: 'Email will be sent from this address.', input: 'InputEmail' }),
-        new InputOption({ key: 'publication.sender', label: 'Email: From Name', description: 'If different from publication name', input: 'InputText', placeholder: 'Sender Name' }),
-      ],
+      options: newsletterOptions,
+      format: 'control',
     }),
     new InputOption({
       key: 'legal',
       label: 'Legal',
       input: 'group',
-      options: [
-        new InputOption({ key: 'legal.termsUrl', label: 'Terms of Service URL', input: 'InputUrl' }),
-        new InputOption({ key: 'legal.privacyUrl', label: 'Privacy Policy URL', input: 'InputUrl' }),
-        new InputOption({ key: 'legal.copyrightText', label: 'Copyright Text', input: 'InputText', placeholder: 'Copyright Text' }),
-      ],
+      options: legalOptions,
+      format: 'control',
     }),
     new InputOption({
       key: 'adminOnly',
-      label: 'Admin Only',
+      label: 'Admin Only Options',
+      subLabel: 'Only Fiction Admins should see these options.',
       input: 'group',
-      isHidden: !userIsAdmin,
-      options: [
-        new InputOption({ key: 'specialPlan', label: 'Assign a Special Pricing Plan', input: 'InputSelect', list: ['standard', 'vip', 'non-profit'] }),
-        new InputOption({ key: 'deleteOrg', label: 'Delete Organization', input: 'InputUrl' }),
-      ],
+      format: 'control',
+      isHidden: !service.fictionUser.activeUser.value?.isSuperAdmin,
+      options: adminOptions,
     }),
   ]
 })
@@ -112,7 +285,7 @@ vue.onMounted(async () => {
 
 <template>
   <SettingsPanel
-    title="Subscriber Details"
+    title="Organization Details"
     :loading
     :actions="[{
       name: saveUtil.isDirty.value ? 'Saving...' : 'Saved',
@@ -132,7 +305,6 @@ vue.onMounted(async () => {
     <FormEngine
       :model-value="org"
       state-key="settingsTool"
-      input-wrap-class="max-w-lg w-full"
       ui-size="lg"
       :options
       :card

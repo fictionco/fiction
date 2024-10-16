@@ -1,12 +1,13 @@
-import type { ListItem } from '@fiction/core'
+import type { ActionButton, ListItem, MediaObject } from '@fiction/core'
 import type { z } from 'zod'
-import { FictionObject, removeUndefined, vue } from '@fiction/core'
+import { FictionObject, removeUndefined, toCamel, vue } from '@fiction/core'
 
 const def = vue.defineAsyncComponent
 
 type InputEntry = { el: vue.Component, shape?: string[] }
 
 export const inputs = {
+  InputControl: { el: def(async () => import('./InputControl.vue')) },
   InputProse: { el: def(async () => import('./InputProse.vue')) },
   InputActionList: { el: def(async () => import('./InputActionList.vue')) },
   InputActions: { el: def(async () => import('./InputActions.vue')), shape: ['0.design', '0.href', '0.icon', '0.iconAfter', '0.name', '0.size', '0.target', '0.theme', '0.rounding', '0.disabled', '0.format', '0.loading'] },
@@ -64,8 +65,22 @@ export type InputOptionGeneration = {
   cumulativeTime?: number
 }
 
-export interface InputOptionSettings<T extends string = string > {
-  key: T
+export type InputControlSurface = Partial<{
+  key: string
+  value: string | number | boolean | any[] | Record<string, unknown> | undefined
+}>
+
+export type ReactiveOrStatic<T> = T | vue.Ref<T> | vue.ComputedRef<T>
+
+export type ValueResponse = {
+  status: 'ready' | 'enabled' | 'disabled' | 'incomplete' | 'optional'
+  data?: unknown
+  message?: string
+  format?: 'text' | 'html' | 'media'
+}
+
+export interface InputOptionSettings {
+  key?: string
   aliasKey?: string
   label?: string
   description?: string
@@ -83,18 +98,22 @@ export interface InputOptionSettings<T extends string = string > {
   isHidden?: boolean
   isUtility?: boolean
   shape?: string[]
-  icon?: string
   inputClass?: string
   uiFormat?: 'standard' | 'naked' | 'fullWidth'
   getDefaultValue?: () => unknown
+  icon?: MediaObject
+  format?: 'control' | 'input'
+  actions?: (args: { input: InputOption }) => ActionButton[]
+  modalActions?: (args: { input: InputOption }) => ActionButton[]
+  valueDisplay?: (args: { input: InputOption }) => ValueResponse
 }
 
 export type OptArgs = (Partial<InputOptionSettings> & Record<string, unknown>) | undefined
 
 type InputOptionConfig = Omit<InputOptionSettings, 'options'> & { options?: InputOptionConfig[] }
 
-export class InputOption<T extends string = string> extends FictionObject<InputOptionSettings<T >> {
-  key = vue.ref(this.settings.key)
+export class InputOption extends FictionObject<InputOptionSettings> {
+  key = vue.ref(this.settings.key || '*')
   aliasKey = vue.ref(this.settings.aliasKey || this.key)
   input = vue.shallowRef(this.settings.input)
   shape = vue.ref(typeof this.input.value === 'string' ? (inputs as Record<string, InputEntry>)[this.input.value]?.shape || [] : [])
@@ -110,23 +129,37 @@ export class InputOption<T extends string = string> extends FictionObject<InputO
   schema = vue.shallowRef(this.settings.schema)
   generation = vue.ref(this.settings.generation || {})
 
+  // modal control options
+  isModalOpen = vue.ref(false) // allows for modal input visible
+  actions = vue.computed(() => this.settings.actions?.({ input: this }) || [])
+  modalActions = vue.computed(() => this.settings.modalActions?.({ input: this }) || [])
+  valueDisplay = vue.computed(() => this.settings.valueDisplay?.({ input: this }))
+
   props = vue.shallowRef(this.settings.props)
 
   outputProps = vue.computed(() => {
-    return {
-      label: this.label.value,
-      subLabel: this.subLabel.value,
-      description: this.description.value,
-      placeholder: this.placeholder.value,
-      required: this.isRequired.value,
-      key: this.key.value,
-      options: this.options.value,
-      list: this.list.value,
-      ...this.props.value,
+    if (this.input.value === 'InputControl') {
+      return {
+        options: this.options.value?.map(option => option.toConfig()),
+        ...this.props.value,
+      }
+    }
+    else {
+      return {
+        label: this.label.value,
+        subLabel: this.subLabel.value,
+        description: this.description.value,
+        placeholder: this.placeholder.value,
+        required: this.isRequired.value,
+        key: this.key.value,
+        options: this.options.value,
+        list: this.list.value,
+        ...this.props.value,
+      }
     }
   })
 
-  update(config: Partial<InputOptionSettings<T>>) {
+  update(config: Partial<InputOptionSettings>) {
     Object.entries(config).forEach(([key, value]) => {
       if (value !== undefined && vue.isRef(this[key as keyof typeof this]))
         (this[key as keyof typeof this] as vue.Ref).value = value
@@ -135,7 +168,7 @@ export class InputOption<T extends string = string> extends FictionObject<InputO
     return this
   }
 
-  constructor(settings: InputOptionSettings<T>) {
+  constructor(settings: InputOptionSettings) {
     super('InputOption', settings)
   }
 
