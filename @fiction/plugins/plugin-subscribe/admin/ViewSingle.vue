@@ -3,7 +3,7 @@ import type { Card } from '@fiction/site'
 import type { FictionSubscribe, Subscriber } from '../index.js'
 import ElHeader from '@fiction/admin/settings/ElHeader.vue'
 import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
-import { deepMerge, gravatarUrlSync, type User, useService, vue } from '@fiction/core'
+import { type ActionButton, deepMerge, gravatarUrlSync, type User, useService, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save.js'
 import { InputOption } from '@fiction/ui/index.js'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
@@ -84,62 +84,153 @@ function updateSubscriber(subscriberNew: Subscriber) {
   saveUtil.autosave()
 }
 
+const detailOptions = [
+  new InputOption({
+    label: 'Subscriber Email',
+    subLabel: 'The email address of the subscriber',
+    input: 'InputControl',
+    valueDisplay: () => {
+      return {
+        status: subscriber.value?.email ? 'ready' : 'optional',
+        data: subscriber.value?.email,
+      }
+    },
+    options: [
+      new InputOption({ key: 'email', label: 'Profile Headline', input: 'InputText', placeholder: 'Enter Headline' }),
+    ],
+  }),
+  new InputOption({
+    label: 'Status',
+    subLabel: 'The recipient status of the subscriber',
+    input: 'InputControl',
+    valueDisplay: () => {
+      return {
+        status: subscriber.value?.status ? 'ready' : 'incomplete',
+        data: subscriber.value?.status,
+      }
+    },
+    options: [
+      new InputOption({ key: 'status', label: 'Status', input: 'InputSelectCustom', list: ['active', 'unsubscribed', 'cleaned'] }),
+    ],
+  }),
+  new InputOption({
+    label: 'Tags',
+    subLabel: 'Tags associated with the subscriber',
+    input: 'InputControl',
+    valueDisplay: () => {
+      return {
+        status: subscriber.value?.inlineTags ? 'ready' : 'optional',
+        data: subscriber.value?.inlineTags,
+      }
+    },
+    options: [
+      new InputOption({ key: 'inlineTags', label: 'Tags', input: 'InputItems', placeholder: 'Tag, Tag, Tag' }),
+    ],
+  }),
+  new InputOption({
+    label: 'Subscription Date',
+    subLabel: 'The date the subscriber was added to the list',
+    input: 'InputControl',
+    valueDisplay: () => {
+      return {
+        status: subscriber.value?.createdAt ? 'ready' : 'incomplete',
+        data: subscriber.value?.createdAt,
+      }
+    },
+    options: [
+      new InputOption({ key: 'createdAt', label: 'Subscription Date', input: 'InputDate' }),
+    ],
+  }),
+  new InputOption({
+    label: 'Subscriber Name',
+    subLabel: 'The name of the subscriber',
+    input: 'InputControl',
+    valueDisplay: () => {
+      return {
+        status: subscriber.value?.inlineUser?.fullName ? 'ready' : 'optional',
+        data: subscriber.value?.inlineUser?.fullName,
+      }
+    },
+    options: [
+      new InputOption({ key: 'inlineUser.fullName', label: 'Subscriber Name', input: 'InputText', placeholder: 'Enter Name' }),
+    ],
+  }),
+  new InputOption({
+    label: 'Subscriber Avatar',
+    subLabel: 'The avatar of the subscriber',
+    input: 'InputControl',
+    valueDisplay: () => {
+      return {
+        status: subscriber.value?.inlineUser?.avatar?.url ? 'ready' : 'optional',
+        data: subscriber.value?.inlineUser?.avatar,
+        format: 'media',
+      }
+    },
+    options: [
+      new InputOption({ key: 'inlineUser.avatar', label: 'Subscriber Avatar', input: 'InputMedia', subLabel: 'Upload a square image or it will be cropped' }),
+    ],
+  }),
+  new InputOption({
+    label: 'Subscriber Phone',
+    subLabel: 'The phone number of the subscriber',
+    input: 'InputControl',
+    valueDisplay: () => {
+      return {
+        status: subscriber.value?.inlineUser?.phone ? 'ready' : 'optional',
+        data: subscriber.value?.inlineUser?.phone,
+      }
+    },
+    options: [
+      new InputOption({ key: 'inlineUser.phone', label: 'Subscriber Phone', input: 'InputPhone', placeholder: '+1 555 555 5555' }),
+    ],
+  }),
+]
+
+const adminOptions = [
+  new InputOption({
+    key: 'deleteSubscriber',
+    label: 'Permanently Delete Subscriber',
+    subLabel: 'This action cannot be undone',
+    input: 'InputControl',
+    actions: () => [
+      {
+        name: 'Delete Subscriber...',
+        theme: 'rose',
+        design: 'ghost',
+        icon: 'i-tabler-trash',
+        loading: loading.value,
+        onClick: async () => {
+          const endpoint = service.fictionSubscribe.requests.ManageSubscription
+
+          const confirmed = confirm('Are you sure you want to delete this subscriber?')
+
+          if (confirmed && subscriber.value.subscriptionId) {
+            sending.value = 'delete'
+            await endpoint.projectRequest({ _action: 'delete', where: [{ subscriptionId: subscriber.value.subscriptionId }] })
+            await card.goto('/audience', { caller: 'deleteSubscriber' })
+            sending.value = ''
+          }
+        },
+      },
+    ],
+  }),
+]
+
 const options = vue.computed(() => {
   return [
     new InputOption({
       key: 'userDetails',
-      label: 'Subscriber',
+      label: 'Subscriber Details',
       input: 'group',
-      options: [
-        new InputOption({ key: 'email', label: 'Email', input: 'InputEmail' }),
-        new InputOption({ key: 'status', label: 'Status', input: 'InputSelectCustom', list: ['active', 'unsubscribed', 'cleaned'] }),
-        new InputOption({ key: 'inlineTags', label: 'Tags', input: 'InputItems', placeholder: 'Tag, Tag, Tag' }),
-      ],
-    }),
-    new InputOption({
-      key: 'userDetails',
-      label: 'User Details',
-      input: 'group',
-      options: [
-        new InputOption({ key: 'inlineUser.fullName', label: 'Full Name', input: 'InputText', placeholder: 'Your Full Name' }),
-        new InputOption({ key: 'inlineUser.avatar', label: 'Avatar', input: 'InputMediaUpload', subLabel: 'Upload a square image or it will be cropped' }),
-        new InputOption({ key: 'inlineUser.phone', label: 'Phone Number', description: 'Include country code. Used for 2FA and notifications.', input: 'InputPhone', placeholder: '+1 555 555 5555' }),
-      ],
+      options: detailOptions,
+      format: 'control',
     }),
     new InputOption({
       key: 'userDanger',
       label: 'Danger Zone',
       input: 'group',
-      options: [
-        new InputOption({
-          key: 'deleteSubscriber',
-          label: 'Permanently Delete Subscriber',
-          input: 'InputActionList',
-          props: {
-            actions: [
-              {
-                name: 'Delete Subscriber...',
-                theme: 'rose',
-                design: 'ghost',
-                icon: 'i-tabler-trash',
-                loading: loading.value,
-                onClick: async () => {
-                  const endpoint = service.fictionSubscribe.requests.ManageSubscription
-
-                  const confirmed = confirm('Are you sure you want to delete this subscriber?')
-
-                  if (confirmed && subscriber.value.subscriptionId) {
-                    sending.value = 'delete'
-                    await endpoint.projectRequest({ _action: 'delete', where: [{ subscriptionId: subscriber.value.subscriptionId }] })
-                    await card.goto('/audience', { caller: 'deleteSubscriber' })
-                    sending.value = ''
-                  }
-                },
-              },
-            ],
-          },
-        }),
-      ],
+      options: adminOptions,
+      format: 'control',
     }),
   ]
 })

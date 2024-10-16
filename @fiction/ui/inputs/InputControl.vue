@@ -93,11 +93,13 @@ function cancelChanges() {
           <XButton
             v-for="(action, ii) in (controlOption.actions.value || [])"
             :key="ii"
-            design="solid"
+            :design="action.design || 'solid'"
             :theme="action.theme || 'theme'"
             size="lg"
             :loading="action.loading"
             :href="action.href"
+            :icon="action.icon"
+            :icon-after="action.iconAfter"
             @click.stop="action.onClick ? (action.onClick({ item: action, event: $event })) : ''"
           >
             {{ action.name }}
