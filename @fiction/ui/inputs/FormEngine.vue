@@ -6,6 +6,7 @@ import { getNested, setNested, vue } from '@fiction/core'
 import { twMerge } from 'tailwind-merge'
 import TransitionSlide from '../anim/TransitionSlide.vue'
 import ElActions from '../buttons/ElActions.vue'
+import XIcon from '../media/XIcon.vue'
 import ElInput from './ElInput.vue'
 import ElToolSep from './ElToolSep.vue'
 
@@ -16,8 +17,6 @@ const {
   depth = 0,
   basePath = '',
   inputWrapClass = '',
-  rootListClass = '',
-  rootInputClass = '',
   inputProps = {},
   uiSize = 'md',
   actions = [],
@@ -31,8 +30,6 @@ const {
   depth?: number
   basePath?: string
   inputWrapClass?: string
-  rootListClass?: string
-  rootInputClass?: string
   inputProps?: Record<string, unknown>
   uiSize?: UiElementSize
   actions?: ActionButton[]
@@ -151,7 +148,7 @@ function getGroupClasses(opt: InputOption) {
             @click="hide(opt.key.value, !hide(opt.key.value))"
           >
             <div class="flex items-center gap-2">
-              <div v-if="opt.settings.icon" class="text-base" :class="opt.settings.icon" />
+              <XIcon v-if="opt.settings.icon" class="size-[1em]" :media="opt.settings.icon" />
               <div class="font-semibold" v-html="opt.label.value" />
             </div>
             <div v-if="opt.key.value && !disableGroupHide" class="text-lg i-tabler-chevron-up transition-all" :class="hide(opt.key.value) ? 'rotate-180' : ''" />
