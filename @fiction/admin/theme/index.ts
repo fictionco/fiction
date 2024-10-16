@@ -45,6 +45,13 @@ export async function getPages() {
               el: vue.defineAsyncComponent(async () => import('../settings/PanelAccount.vue')),
               userConfig: { isNavItem: true, navIcon: 'i-tabler-user', navIconAlt: 'i-tabler-user-cog' },
             }),
+            await factory.create({
+              slug: 'developer',
+              title: 'Developer',
+              description: 'Developer settings and Info',
+              el: vue.defineAsyncComponent(async () => import('../settings/PanelDev.vue')),
+              userConfig: { isNavItem: true, navIcon: 'i-tabler-code-circle', navIconAlt: 'i-tabler-code-circle-filled' },
+            }),
           ],
         }),
       ],

@@ -132,8 +132,8 @@ export class InputOption extends FictionObject<InputOptionSettings> {
 
   // modal control options
   isModalOpen = vue.ref(false) // allows for modal input visible
-  actions = vue.computed(() => this.settings.actions?.({ input: this }) || [])
-  modalActions = vue.computed(() => this.settings.modalActions?.({ input: this }) || [])
+  actions = vue.computed(() => this.settings.actions?.({ input: this }))
+  modalActions = vue.computed(() => this.settings.modalActions?.({ input: this }))
   valueDisplay = vue.computed(() => this.settings.valueDisplay?.({ input: this }))
 
   props = vue.shallowRef(this.settings.props)

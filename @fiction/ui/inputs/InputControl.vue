@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { InputOption } from '.'
-import { isPlainObject, type MediaObject, toLabel, vue, waitFor } from '@fiction/core'
+import { type ActionButton, isPlainObject, type MediaObject, toLabel, vue, waitFor } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 import ElModal from '../ElModal.vue'
 import XIcon from '../media/XIcon.vue'
@@ -43,6 +43,43 @@ function cancelChanges() {
   tempValue.value = vue.toRaw(modelValue)
   controlOption.isModalOpen.value = false
 }
+
+const modalActions = vue.computed<ActionButton[]>(() => {
+  const optionModalActions = controlOption.modalActions.value
+
+  if (!optionModalActions) {
+    return [
+      {
+        testId: 'modal-apply',
+        name: 'Apply Changes',
+        theme: 'primary',
+        onClick: saveChanges,
+      },
+    ]
+  }
+  else {
+    return optionModalActions
+  }
+})
+
+const actions = vue.computed<ActionButton[]>(() => {
+  const optionActions = controlOption.actions.value
+
+  if (!optionActions) {
+    return [
+      {
+        testId: 'modal-edit',
+        name: 'Edit',
+        theme: 'theme',
+        onClick: openModal,
+        icon: { class: 'i-tabler-pencil' },
+      },
+    ]
+  }
+  else {
+    return optionActions
+  }
+})
 </script>
 
 <template>
@@ -89,33 +126,20 @@ function cancelChanges() {
         </div>
       </div>
       <div class="space-x-3 shrink-0">
-        <template v-if="controlOption.actions.value?.length">
-          <XButton
-            v-for="(action, ii) in (controlOption.actions.value || [])"
-            :key="ii"
-            :data-test-id="action.testId"
-            :design="action.design || 'solid'"
-            :theme="action.theme || 'theme'"
-            size="lg"
-            :loading="action.loading"
-            :href="action.href"
-            :icon="action.icon"
-            :icon-after="action.iconAfter"
-            @click.stop="action.onClick ? (action.onClick({ item: action, event: $event })) : ''"
-          >
-            {{ action.name }}
-          </XButton>
-        </template>
         <XButton
-          v-else
-          design="solid"
-          theme="theme"
-          size="lg"
-          :icon="{ class: 'i-tabler-pencil' }"
-          :data-edit-modal="controlOption.settings.testId"
-          @click.stop="openModal"
+          v-for="(action, ii) in actions"
+          :key="ii"
+          :data-test-id="action.testId"
+          :design="action.design || 'solid'"
+          :theme="action.theme || 'theme'"
+          size="md"
+          :loading="action.loading"
+          :href="action.href"
+          :icon="action.icon"
+          :icon-after="action.iconAfter"
+          @click.stop="action.onClick ? (action.onClick({ item: action, event: $event })) : ''"
         >
-          Edit
+          {{ action.name }}
         </XButton>
       </div>
     </div>
@@ -139,30 +163,28 @@ function cancelChanges() {
           :data-value="JSON.stringify(tempValue)"
           @update:model-value="updateTempValue"
         />
-        <div class="flex justify-between border-t border-theme-200/70 dark:border-theme-700/70 pt-4 mt-8">
+        <div
+          class="flex border-t border-theme-200/70 dark:border-theme-700/70 pt-4 mt-8"
+          :class="modalActions.length ? 'justify-between' : 'justify-center'"
+        >
           <div>
             <XButton size="lg" theme="default" @click="cancelChanges">
-              Cancel
+              {{ controlOption.modalActions.value?.length ? 'Cancel' : 'Close' }}
             </XButton>
           </div>
-          <div class="gap-4 flex">
-            <template v-if="controlOption.modalActions.value?.length">
-              <XButton
-                v-for="(action, ii) in (controlOption.modalActions.value || [])"
-                :key="ii"
-                design="solid"
-                :theme="action.theme || 'theme'"
-                :loading="action.loading"
-                size="lg"
-                :href="action.href"
-                :data-test-id="action.testId"
-                @click.stop="action.onClick ? (action.onClick({ item: action, event: $event })) : ''"
-              >
-                {{ action.name }}
-              </XButton>
-            </template>
-            <XButton v-else size="lg" theme="primary" :data-modal-apply="controlOption.settings.testId" @click="saveChanges">
-              Apply Changes
+          <div v-if="modalActions.length" class="gap-4 flex">
+            <XButton
+              v-for="(action, ii) in modalActions"
+              :key="ii"
+              design="solid"
+              :theme="action.theme || 'theme'"
+              :loading="action.loading"
+              size="lg"
+              :href="action.href"
+              :data-test-id="action.testId"
+              @click.stop="action.onClick ? (action.onClick({ item: action, event: $event })) : ''"
+            >
+              {{ action.name }}
             </XButton>
           </div>
         </div>
