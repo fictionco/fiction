@@ -2,6 +2,8 @@
 import { onResetUi, resetUi, vue, waitFor } from '@fiction/core'
 import { PopupUtility } from './anim/popupUtil'
 
+defineOptions({ name: 'ElModal' })
+
 const props = defineProps({
   vis: { type: Boolean, default: false },
   title: { type: String, default: '' },

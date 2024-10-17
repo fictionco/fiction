@@ -110,17 +110,6 @@ const actions: ActionButton[] = [
         actions,
       }"
       @update:offset="load({ offset: $event })"
-    >
-      <template #item="{ item }">
-        <div class="flex -space-x-0.5">
-          <dt class="sr-only">
-            Authors
-          </dt>
-          <dd v-for="(member, ii) in item.authors" :key="ii">
-            <ElAvatar class="h-6 w-6 rounded-full bg-theme-50 ring-2 ring-white" :email="member.email" />
-          </dd>
-        </div>
-      </template>
-    </ElIndexGrid>
+    />
   </div>
 </template>

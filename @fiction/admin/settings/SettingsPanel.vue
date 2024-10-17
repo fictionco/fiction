@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import type { ActionButton } from '@fiction/core'
+import type { ActionButton, PostObject } from '@fiction/core'
 import ElActions from '@fiction/ui/buttons/ElActions.vue'
+import ElHeader from './ElHeader.vue'
 
-const { title, actions = [] } = defineProps<{ title?: string, actions?: ActionButton[] }>()
+const { title, actions = [], header } = defineProps<{ title?: string, actions?: ActionButton[], header?: PostObject }>()
 </script>
 
 <template>
@@ -12,6 +13,13 @@ const { title, actions = [] } = defineProps<{ title?: string, actions?: ActionBu
         {{ title || 'No Title' }}
       </div>
       <ElActions :actions class="flex justify-end" />
+    </div>
+
+    <div v-if="header" class="p-6">
+      <ElHeader
+        class="dark:bg-theme-700/50 rounded-xl p-8"
+        :model-value="header"
+      />
     </div>
 
     <slot />

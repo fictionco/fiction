@@ -2,17 +2,13 @@
 import type { FictionTeam } from '@fiction/core/plugin-team'
 import type { MemberAccess } from '@fiction/core/plugin-user/types'
 import type { Card } from '@fiction/site/card'
-import type { NavCardUserConfig } from '../index.js'
 import { onResetUi, useService, vue } from '@fiction/core'
-import ElButton from '@fiction/ui/ElButton.vue'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import InputEmail from '@fiction/ui/inputs/InputEmail.vue'
 import InputSelect from '@fiction/ui/inputs/InputSelect.vue'
-import ElPanelSettings from './ElPanelSettings.vue'
 
-defineProps({
-  card: { type: Object as vue.PropType<Card<NavCardUserConfig>>, required: true },
-})
+defineProps<{ card: Card }>()
 
 const { fictionUser, fictionTeam } = useService<{ fictionTeam: FictionTeam }>()
 interface Invite {
@@ -73,7 +69,7 @@ onResetUi(() => {
 </script>
 
 <template>
-  <ElPanelSettings>
+  <div>
     <div class="max-w-2xl">
       <div v-if="sent" class="m-8">
         <div class="py-3">
@@ -85,22 +81,21 @@ onResetUi(() => {
           </p>
         </div>
         <div class="mt-6">
-          <ElButton btn="primary" @click="sent = false">
+          <XButton theme="primary" @click="sent = false">
             Invite More &rarr;
-          </ElButton>
+          </XButton>
         </div>
       </div>
 
       <div v-else class="m-8">
         <div class="pb-12">
           <h2 class="text-xl font-bold">
+            Add Team Members
+          </h2>
+          <p class="text-theme-500 mt-2">
             Invite people to the "{{
               fictionUser.activeOrganization.value?.orgName
             }}" Organization
-          </h2>
-          <p class="text-theme-500 mt-2">
-            Invited members will be granted access to all projects under the
-            selected organization.
           </p>
         </div>
 
@@ -114,9 +109,8 @@ onResetUi(() => {
               What will happen:
             </h2>
             <div class="font-media text-theme-500 text-sm">
-              An email will be sent with a sign up link, access to this
-              organization, and text letting the person know you've invited
-              them.
+              An email will be sent with a link, and the email will be granted access to this
+              organization.
             </div>
           </div>
 
@@ -141,11 +135,12 @@ onResetUi(() => {
               :key="i"
               class="invite my-4 grid grid-cols-5 gap-4"
             >
-              <InputEmail v-model="invites[i]!.email" class="col-span-3" />
+              <InputEmail v-model="invites[i]!.email" class="col-span-3" ui-size="lg" />
 
               <InputSelect
                 v-model="invites[i]!.memberAccess"
                 class="col-span-2"
+                ui-size="lg"
                 :list="[
                   { value: 'owner', name: 'Owner' },
                   { value: 'admin', name: 'Admin' },
@@ -155,17 +150,18 @@ onResetUi(() => {
             </div>
           </div>
 
-          <div class="my-8">
-            <ElButton
+          <div class="my-8 flex flex-end">
+            <XButton
               input="submit"
-              btn="primary"
+              theme="primary"
               :loading="sending"
+              size="lg"
             >
               Send Invites &rarr;
-            </ElButton>
+            </XButton>
           </div>
         </ElForm>
       </div>
     </div>
-  </ElPanelSettings>
+  </div>
 </template>

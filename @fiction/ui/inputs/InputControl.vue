@@ -132,7 +132,7 @@ const actions = vue.computed<ActionButton[]>(() => {
           :data-test-id="action.testId"
           :design="action.design || 'solid'"
           :theme="action.theme || 'theme'"
-          size="md"
+          size="lg"
           :loading="action.loading"
           :href="action.href"
           :icon="action.icon"

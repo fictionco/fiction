@@ -43,7 +43,14 @@ export async function getPages() {
               title: 'Account',
               description: 'Your account settings',
               el: vue.defineAsyncComponent(async () => import('../settings/PanelAccount.vue')),
-              userConfig: { isNavItem: true, navIcon: 'i-tabler-user', navIconAlt: 'i-tabler-user-cog' },
+              userConfig: { isNavItem: true, navIcon: 'i-tabler-user-circle', navIconAlt: 'i-tabler-user-cog' },
+            }),
+            await factory.create({
+              slug: 'team',
+              title: 'Team',
+              description: 'Members and roles',
+              el: vue.defineAsyncComponent(async () => import('../settings/PanelTeam.vue')),
+              userConfig: { isNavItem: true, navIcon: 'i-tabler-users-group' },
             }),
             await factory.create({
               slug: 'developer',

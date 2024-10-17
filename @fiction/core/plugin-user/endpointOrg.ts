@@ -4,12 +4,13 @@ import type { FictionEmail } from '../plugin-email/index.js'
 import type { FictionEnv } from '../plugin-env/index.js'
 import type { EndpointResponse } from '../types/index.js'
 import type { EndpointManageAction, EndpointMeta } from '../utils/endpoint.js'
-import type { FictionUser } from './index.js'
+import type { FictionUser, OrganizationMember } from './index.js'
 import type { MemberAccess, MemberStatus, Organization, OrganizationMembership, User } from './types.js'
 import { Query } from '../query.js'
 import { standardTable as t } from '../tbl.js'
 import { abort } from '../utils/error.js'
 import { objectId } from '../utils/id.js'
+import { gravatarUrlSync } from '../utils/url.js'
 
 interface OrgQuerySettings {
   fictionUser: FictionUser
@@ -45,6 +46,7 @@ export abstract class QueryOrganization extends OrgQuery {
       ['email', t.user],
       ['full_name', t.user],
       ['last_seen_at', t.user],
+      ['avatar', t.user],
       ['member_access', t.member],
       ['member_status', t.member],
     ]
@@ -68,7 +70,7 @@ export abstract class QueryOrganization extends OrgQuery {
         select *, count(*) OVER() AS member_count
         from "fiction_org_user"
         where "fiction_org_user".org_id = "fiction_org"."org_id"
-        limit 5
+        limit 25
       ) as "fiction_org_user" on true`,
       )
       .join(t.user, `${t.user}.user_id`, `=`, `${t.member}.user_id`)
@@ -120,7 +122,11 @@ export class QueryOrganizationsByUserId extends QueryOrganization {
     }
 
     // remove nulls from empty joins
-    org.members = org.members ?? []
+    org.members = (org.members ?? []).map((m: OrganizationMember) => {
+      m.avatar = m.avatar || (m.email ? gravatarUrlSync(m.email, { size: 200 }) : undefined)
+
+      return m
+    })
 
     if (lastOrgId === org.orgId)
       org.lastOrgId = true

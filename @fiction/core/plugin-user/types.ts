@@ -1,5 +1,5 @@
 import type stripe from 'stripe'
-import type { ProgressStatus } from '../schemas/schemas.js'
+import type { MediaObject, ProgressStatus } from '../schemas/schemas.js'
 import type { ColType } from '../tbl.js'
 import type { UserCapability } from '../utils/priv.js'
 import type { membersColumns, orgColumns, taxonomyCols, userColumns } from './schema.js'
@@ -104,6 +104,7 @@ export type OrganizationMember = ColType<typeof membersColumns> & {
   userId: string
   lastSeenAt: string
   accessLevel: number
+  avatar?: MediaObject
 } & UserCapabilities
 
 export interface OrganizationCustomerData {
