@@ -60,6 +60,13 @@ export async function getPages() {
               userConfig: { isNavItem: false, navIcon: 'i-tabler-users-group', parentItemId: 'team' },
             }),
             await factory.create({
+              slug: 'billing',
+              title: 'Billing',
+              description: 'Billing and payment settings',
+              el: vue.defineAsyncComponent(async () => import('../settings/PanelBilling.vue')),
+              userConfig: { isNavItem: true, navIcon: 'i-tabler-credit-card', navIconAlt: 'i-tabler-credit-card-filled' },
+            }),
+            await factory.create({
               slug: 'developer',
               title: 'Developer',
               description: 'Developer settings and Info',
