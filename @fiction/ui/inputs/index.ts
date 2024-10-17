@@ -90,6 +90,7 @@ export interface InputOptionSettings {
   input?: keyof typeof inputs | 'title' | 'group' | 'hidden' | vue.Component
   isRequired?: boolean
   isClosed?: boolean
+  disabled?: boolean | string
   props?: Record<string, unknown>
   options?: InputOption[]
   list?: (ListItem | string)[] | readonly (ListItem | string)[]
@@ -141,6 +142,7 @@ export class InputOption extends FictionObject<InputOptionSettings> {
   outputProps = vue.computed(() => {
     if (this.input.value === 'InputControl') {
       return {
+        disabled: this.settings.disabled,
         options: this.options.value?.map(option => option.toConfig()),
         ...this.props.value,
       }
@@ -155,6 +157,7 @@ export class InputOption extends FictionObject<InputOptionSettings> {
         key: this.key.value,
         options: this.options.value,
         list: this.list.value,
+        disabled: this.settings.disabled,
         ...this.props.value,
       }
     }

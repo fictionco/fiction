@@ -161,8 +161,11 @@ function handleKeydown(event: KeyboardEvent) {
       >
         <input
           type="text"
-          :class="[themeClasses.buttonClasses.always, disabled ? themeClasses.buttonClasses.disabled : themeClasses.buttonClasses.regular]"
-
+          :class="[
+            themeClasses.buttonClasses.always,
+            disabled ? themeClasses.buttonClasses.disabled : themeClasses.buttonClasses.regular,
+          ]"
+          :title="disabled ? (typeof disabled === 'string' ? disabled : 'Disabled') : 'Select'"
           :value="search ?? selectedItem?.name"
           :placeholder="String(defaultValue) || defaultText || 'Select'"
           :readonly="!props.allowSearch"

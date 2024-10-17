@@ -21,7 +21,7 @@ const emit = defineEmits(['update:modelValue'])
 type InputProps = {
   class?: string
   required?: boolean
-  disabled?: boolean
+  disabled?: boolean | string
   readonly?: boolean
   placeholder?: string
   autocomplete?: string

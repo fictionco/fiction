@@ -103,6 +103,7 @@ export type OrganizationMember = ColType<typeof membersColumns> & {
   email: string
   userId: string
   lastSeenAt: string
+  memberAccess: MemberAccess
   accessLevel: number
   avatar?: MediaObject
 } & UserCapabilities

@@ -137,6 +137,7 @@ const actions = vue.computed<ActionButton[]>(() => {
           :href="action.href"
           :icon="action.icon"
           :icon-after="action.iconAfter"
+          :disabled="action.disabled"
           @click.stop="action.onClick ? (action.onClick({ item: action, event: $event })) : ''"
         >
           {{ action.name }}

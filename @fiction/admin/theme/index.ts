@@ -53,6 +53,13 @@ export async function getPages() {
               userConfig: { isNavItem: true, navIcon: 'i-tabler-users-group' },
             }),
             await factory.create({
+              slug: 'team-member',
+              title: 'Member',
+              description: 'Team member settings',
+              el: vue.defineAsyncComponent(async () => import('../settings/PanelTeamMember.vue')),
+              userConfig: { isNavItem: false, navIcon: 'i-tabler-users-group', parentItemId: 'team' },
+            }),
+            await factory.create({
               slug: 'developer',
               title: 'Developer',
               description: 'Developer settings and Info',
