@@ -61,6 +61,7 @@ function newOrgOptions() {
 
 const controlOptions = [
   new InputOption({
+    testId: 'orgName',
     label: 'Organization Name',
     subLabel: 'Used for publication name.',
     input: 'InputControl',
@@ -75,6 +76,7 @@ const controlOptions = [
     ],
   }),
   new InputOption({
+    testId: 'orgEmail',
     label: 'Primary Email',
     subLabel: 'Used for newsletter, billing, admin.',
     input: 'InputControl',
@@ -89,6 +91,7 @@ const controlOptions = [
     ],
   }),
   new InputOption({
+    testId: 'orgAvatar',
     label: 'Logo / Avatar',
     subLabel: 'Will default to Gravatar if not set.',
     input: 'InputControl',
@@ -104,6 +107,7 @@ const controlOptions = [
     ],
   }),
   new InputOption({
+    testId: 'orgUrl',
     label: 'Primary Website',
     input: 'InputControl',
     valueDisplay: () => {
@@ -120,6 +124,7 @@ const controlOptions = [
 
 const newsletterOptions = [
   new InputOption({
+    testId: 'pubTitle',
     label: 'Newsletter Title',
     subLabel: 'Used in emails and other places.',
     input: 'InputControl',
@@ -134,7 +139,8 @@ const newsletterOptions = [
     ],
   }),
   new InputOption({
-    label: 'Newsletter Tagline / Description',
+    testId: 'pubTagline',
+    label: 'Newsletter Description',
     input: 'InputControl',
     valueDisplay: () => {
       return {
@@ -147,7 +153,8 @@ const newsletterOptions = [
     ],
   }),
   new InputOption({
-    label: 'Newsletter Email',
+    testId: 'pubEmail',
+    label: 'Newsletter Email and Sender',
     subLabel: 'Email will be sent from this address.',
     input: 'InputControl',
     valueDisplay: () => {
@@ -166,6 +173,7 @@ const newsletterOptions = [
 
 const legalOptions = [
   new InputOption({
+    testId: 'legal',
     label: 'Terms of Service and Privacy Policy',
     subLabel: 'Needed for sites, newsletters, and other services.',
     input: 'InputControl',
@@ -190,6 +198,7 @@ const legalOptions = [
 
 const adminOptions = [
   new InputOption({
+    testId: 'specialPlan',
     label: 'Add a Special Pricing Plan',
     subLabel: 'Discounts or special pricing for certain organizations.',
     input: 'InputControl',
@@ -205,11 +214,13 @@ const adminOptions = [
     ],
   }),
   new InputOption({
+    testId: 'deleteOrg',
     label: 'Delete Organization',
     subLabel: 'Permanently delete this organization.',
     input: 'InputControl',
     actions: () => [
       {
+        testId: 'deleteOrgButton',
         name: 'Delete Organization...',
         theme: 'rose',
         design: 'ghost',
@@ -288,6 +299,7 @@ vue.onMounted(async () => {
     title="Organization Details"
     :loading
     :actions="[{
+      testId: 'saveButton',
       name: saveUtil.isDirty.value ? 'Saving...' : 'Saved',
       onClick: () => save(),
       theme: saveUtil.isDirty.value ? 'primary' : 'default',
@@ -309,7 +321,6 @@ vue.onMounted(async () => {
       :options
       :card
       :disable-group-hide="true"
-      :data-value="JSON.stringify(org)"
       @update:model-value="update($event)"
     />
   </SettingsPanel>

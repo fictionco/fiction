@@ -45,6 +45,7 @@ const tools = vue.computed(() => {
   <div class="relative">
     <div
       v-if="hasMedia"
+      data-test-id="media-select-button"
       class="relative overflow-hidden rounded-lg group bg-theme-100/40 dark:bg-theme-700/70 cursor-pointer"
       @click.stop.prevent="openMediaSelector"
     >
@@ -64,6 +65,7 @@ const tools = vue.computed(() => {
     </div>
     <XButton
       v-else
+      data-test-id="media-select-button"
       rounding="full"
       theme="primary"
       icon="i-tabler-photo"

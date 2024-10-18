@@ -310,6 +310,7 @@ export async function performActions(args: {
 
   logger.info('ARRIVED_AT', { data: { url } })
 
+  let index = 0
   for (const action of actions) {
     const element = page.locator(action.selector || 'body')
 
@@ -459,7 +460,7 @@ export async function performActions(args: {
     }
     catch (error) {
       const e = error as Error
-      const errorMessage = `ACTION_ERROR: ${action.type} on selector ${action.selector}: ${e.message}`
+      const errorMessage = `ACTION_ERROR: ${action.type}(${index}) on selector ${action.selector}: ${e.message}`
       const pageDom = await page.innerHTML('body')
 
       logger.error(errorMessage, { data: { error: e, data: { errorLogs: playwrightLogger.errorLogs, pageDom } } })
@@ -470,6 +471,8 @@ export async function performActions(args: {
       logger.info('WAIT_AFTER', { data: { wait: `${action.waitAfter}ms` } })
       await waitFor(action.waitAfter)
     }
+
+    index++
   }
 
   if (playwrightLogger.errorLogs.length > 0)

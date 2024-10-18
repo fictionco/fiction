@@ -131,7 +131,7 @@ function getGroupClasses(opt: InputOption) {
 </script>
 
 <template>
-  <div :data-options-len="options.length">
+  <div :class="`form-engine-${depth}`" :data-value="depth === 0 ? JSON.stringify(modelValue) : undefined" :data-form-engine-depth="depth" :data-options-len="options.length">
     <div :class="rootListClasses">
       <template v-for="(opt, i) in options.filter(_ => !_.settings.isHidden)" :key="i">
         <div

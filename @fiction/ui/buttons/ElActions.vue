@@ -42,6 +42,7 @@ function getButtonType(action: ActionButton) {
       v-for="(action, i) in actions"
       :key="i"
       class="x-action-item"
+      :data-test-id="action.testId"
       :theme="getButtonType(action)"
       :href="action.href"
       :size="action.size || uiSize"

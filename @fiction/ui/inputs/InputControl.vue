@@ -46,11 +46,11 @@ function cancelChanges() {
 
 const modalActions = vue.computed<ActionButton[]>(() => {
   const optionModalActions = controlOption.modalActions.value
-
+  const baseTestId = controlOption.settings.testId || 'input-control'
   if (!optionModalActions) {
     return [
       {
-        testId: 'modal-apply',
+        testId: `${baseTestId}-modal-apply`,
         name: 'Apply Changes',
         theme: 'primary',
         onClick: saveChanges,
@@ -64,11 +64,11 @@ const modalActions = vue.computed<ActionButton[]>(() => {
 
 const actions = vue.computed<ActionButton[]>(() => {
   const optionActions = controlOption.actions.value
-
+  const baseTestId = controlOption.settings.testId || 'input-control'
   if (!optionActions) {
     return [
       {
-        testId: 'modal-edit',
+        testId: `${baseTestId}-edit-button`,
         name: 'Edit',
         theme: 'theme',
         onClick: openModal,
