@@ -44,6 +44,7 @@ function getButtonType(action: ActionButton) {
       class="x-action-item"
       :data-test-id="action.testId"
       :theme="getButtonType(action)"
+      :design="action.design || 'solid'"
       :href="action.href"
       :size="action.size || uiSize"
       :rounding="action.rounding || 'full'"

@@ -154,7 +154,7 @@ vue.watch([() => addNewTitle.value, () => isFocused.value], () => {
         <XButton
           icon="i-tabler-plus"
           class="shrink-0"
-          size="sm"
+          :ui-size="uiSize"
           theme="primary"
           rounding="md"
 

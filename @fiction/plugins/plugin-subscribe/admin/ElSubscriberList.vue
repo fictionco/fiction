@@ -3,7 +3,6 @@ import type { ActionButton, IndexItem } from '@fiction/core'
 import type { FictionSubscribe, Subscriber } from '@fiction/plugin-subscribe'
 import type { Card } from '@fiction/site'
 import { dayjs, gravatarUrlSync, useService, vue } from '@fiction/core'
-import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 
 type UserConfig = {

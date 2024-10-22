@@ -3,7 +3,7 @@ import type { Card } from '@fiction/site'
 import type { FictionSubscribe, Subscriber } from '../index.js'
 import ElHeader from '@fiction/admin/settings/ElHeader.vue'
 import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
-import { type ActionButton, deepMerge, gravatarUrlSync, standardDate, type User, useService, vue } from '@fiction/core'
+import { deepMerge, gravatarUrlSync, standardDate, type User, useService, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save.js'
 import { InputOption } from '@fiction/ui/index.js'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
@@ -86,6 +86,7 @@ function updateSubscriber(subscriberNew: Subscriber) {
 
 const detailOptions = [
   new InputOption({
+    testId: 'subscriber-email',
     label: 'Subscriber Email',
     subLabel: 'The email address of the subscriber',
     input: 'InputControl',
@@ -96,10 +97,11 @@ const detailOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'email', label: 'Profile Headline', input: 'InputText', placeholder: 'Enter Headline' }),
+      new InputOption({ key: 'email', label: 'Subscriber Email', input: 'InputText', placeholder: 'Enter Headline' }),
     ],
   }),
   new InputOption({
+    testId: 'subscriber-status',
     label: 'Status',
     subLabel: 'The recipient status of the subscriber',
     input: 'InputControl',
@@ -110,10 +112,16 @@ const detailOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'status', label: 'Status', input: 'InputSelectCustom', list: ['active', 'unsubscribed', 'cleaned'] }),
+      new InputOption({ key: 'status', label: 'Status', input: 'InputSelectCustom', list: [
+        'active',
+        'unsubscribed',
+        'cleaned',
+        'pending',
+      ] }),
     ],
   }),
   new InputOption({
+    testId: 'subscriber-tags',
     label: 'Tags',
     subLabel: 'Tags associated with the subscriber',
     input: 'InputControl',
@@ -128,6 +136,7 @@ const detailOptions = [
     ],
   }),
   new InputOption({
+    testId: 'subscriber-created-at',
     label: 'Subscription Created At',
     subLabel: 'The date the subscriber was added to the list',
     input: 'InputControl',
@@ -138,10 +147,11 @@ const detailOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'createdAt', label: 'Subscription Date', input: 'InputDate' }),
+      new InputOption({ key: 'createdAt', label: 'Created At Date', input: 'InputDate', props: { includeTime: true } }),
     ],
   }),
   new InputOption({
+    testId: 'subscriber-name',
     label: 'Subscriber Name',
     subLabel: 'The name of the subscriber',
     input: 'InputControl',
@@ -156,6 +166,7 @@ const detailOptions = [
     ],
   }),
   new InputOption({
+    testId: 'subscriber-avatar',
     label: 'Subscriber Avatar',
     subLabel: 'The avatar of the subscriber',
     input: 'InputControl',
@@ -171,6 +182,7 @@ const detailOptions = [
     ],
   }),
   new InputOption({
+    testId: 'subscriber-phone',
     label: 'Subscriber Phone',
     subLabel: 'The phone number of the subscriber',
     input: 'InputControl',
@@ -248,20 +260,15 @@ const header = vue.computed(() => {
   <SettingsPanel
     title="Subscriber Details"
     :actions="[{
+      testId: 'subscriber-save-button',
       name: saveUtil.isDirty.value ? 'Saving...' : 'Saved',
       onClick: () => saveSubscriber(),
-      theme: saveUtil.isDirty.value ? 'primary' : 'default',
+      theme: saveUtil.isDirty.value ? 'orange' : 'theme',
       loading: sending === 'saving',
       icon: saveUtil.isDirty.value ? 'i-tabler-upload' : 'i-tabler-check',
     }]"
+    :header
   >
-    <div class="p-6">
-      <ElHeader
-        v-if="header"
-        class="dark:bg-theme-700/50 rounded-xl p-8"
-        :model-value="header"
-      />
-    </div>
     <FormEngine
       :model-value="subscriber"
       state-key="settingsTool"

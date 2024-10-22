@@ -1,4 +1,4 @@
-import type { ColType, TableTaxonomyConfig, User } from '@fiction/core'
+import type { ColType, User } from '@fiction/core'
 import type { TableSiteConfig } from '@fiction/site'
 import type { SiteUserConfig } from '@fiction/site/schema'
 import { MediaDisplaySchema, PostStatusSchema, standardTable, toSlug } from '@fiction/core'

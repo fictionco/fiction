@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActionButton, NavItem, PostObject } from '@fiction/core'
+import type { ActionButton, PostObject } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { EmailCampaign } from '../campaign.js'
 import type { FictionSend } from '../index.js'

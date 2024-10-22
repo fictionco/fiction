@@ -1,5 +1,4 @@
 import type { OAuth2Client } from 'google-auth-library'
-import type { Knex } from 'knex'
 import type { FictionDb } from '../plugin-db/index.js'
 import type { FictionEmail } from '../plugin-email/index.js'
 import type { FictionEnv } from '../plugin-env/index.js'

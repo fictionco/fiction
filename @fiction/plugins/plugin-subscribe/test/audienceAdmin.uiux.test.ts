@@ -1,10 +1,10 @@
-import type { Organization } from '@fiction/core'
+import type { Subscriber } from '../schema'
 import { isCi } from '@fiction/core'
 import { createSiteUiTestingKit } from '@fiction/site/test/testUtils.js'
 import { afterAll, describe, expect, it } from 'vitest'
 
 describe('admin audience-subscribe', async () => {
-  const kit = await createSiteUiTestingKit({ headless: false, slowMo: 3000, initUser: true })
+  const kit = await createSiteUiTestingKit({ headless: false, slowMo: 0, initUser: true })
 
   const testUtils = kit.testUtils
 
@@ -26,31 +26,30 @@ describe('admin audience-subscribe', async () => {
         { type: 'click', selector: `[data-test-id="submit"]` },
         { type: 'exists', selector: `[data-list-count="2"]` },
         { type: 'click', selector: `[data-test-id="index-item-0"] a` },
-        // { type: 'click', selector: `[data-test-id="orgEmail-modal-apply"]` },
-        // { type: 'click', selector: `[data-test-id="orgAvatar-edit-button"]` },
-        // { type: 'click', selector: `[data-test-id="media-select-button"]` },
-        // { type: 'click', selector: `[data-test-id="nav-upload"]` },
-        // { type: 'fill', selector: `[data-test-id="library-modal"] input[type="text"]`, text: 'https://picsum.photos/id/237/200/300' },
-        // { type: 'click', selector: `[data-test-id="library-apply-changes"]` },
-        // { type: 'click', selector: `[data-test-id="orgAvatar-modal-apply"]` },
-        // { type: 'click', selector: `[data-test-id="pubTagline-edit-button"]` },
-        // { type: 'fill', selector: `[data-option-path="publication.tagline"] input`, text: 'Test Description' },
-        // { type: 'click', selector: `[data-test-id="pubTagline-modal-apply"]` },
-        // { type: 'click', selector: `[data-test-id="pubEmail-edit-button"]` },
-        // { type: 'fill', selector: `[data-option-path="publication.email"] input`, text: 'test@example.com' },
-        // { type: 'click', selector: `[data-test-id="pubEmail-modal-apply"]` },
-        // { type: 'click', selector: `[data-test-id="legal-edit-button"]` },
-        // { type: 'fill', selector: `[data-option-path="legal.termsUrl"] input`, text: 'https://www.test.com/url' },
-        // { type: 'click', selector: `[data-test-id="legal-modal-apply"]` },
-        // { type: 'click', selector: `[data-test-id="saveButton"]`, waitAfter: 3000 },
-        // { type: 'value', selector: `[data-form-engine-depth="0"]`, onValue: (value) => {
-        //   const v = value as Organization
+        { type: 'click', selector: `[data-test-id="subscriber-email-edit-button"]` },
+        { type: 'fill', selector: `[data-option-path="email"] input`, text: 'testing@testing.com' },
+        { type: 'click', selector: `[data-test-id="subscriber-email-modal-apply"]` },
+        { type: 'click', selector: `[data-test-id="subscriber-name-edit-button"]` },
+        { type: 'fill', selector: `[data-option-path="inlineUser.fullName"] input`, text: 'Test Name' },
+        { type: 'click', selector: `[data-test-id="subscriber-name-modal-apply"]` },
+        { type: 'click', selector: `[data-test-id="subscriber-status-edit-button"]` },
+        { type: 'click', selector: `[data-option-path="status"]` },
+        { type: 'click', selector: `[data-option-path="status"] [data-value="pending"]` },
+        { type: 'click', selector: `[data-test-id="subscriber-status-modal-apply"]` },
+        { type: 'click', selector: `[data-test-id="subscriber-tags-edit-button"]` },
+        { type: 'fill', selector: `[data-option-path="tags"] input`, text: 'test 1, test 2' },
+        { type: 'click', selector: `[data-option-path="tags"] button` },
+        { type: 'click', selector: `[data-test-id="subscriber-tags-modal-apply"]` },
+        { type: 'click', selector: `[data-test-id="subscriber-save-button"]`, waitAfter: 3000 },
+        { type: 'value', selector: `[data-form-engine-depth="0"]`, onValue: (value) => {
+          const v = value as Subscriber
 
-        //   expect(v.orgName).toBe('Org Name Test')
-        //   expect(v.orgEmail).toBe('billing@example.com')
-        //   expect(v.publication?.email).toBe('test@example.com')
-        //   expect(v.publication?.sender).toBe('Alvin the Chipmunk')
-        // } },
+          expect(v.email).toBe('testing@testing.com')
+          expect(v.inlineUser?.fullName).toBe('Test Name')
+          expect(v.status).toBe('pending')
+          expect(v.tags).toContain(['test-1', 'test-2'])
+        } },
+
       ],
     })
   })

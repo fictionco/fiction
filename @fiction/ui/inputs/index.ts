@@ -1,6 +1,6 @@
 import type { ActionButton, ListItem, MediaObject } from '@fiction/core'
 import type { z } from 'zod'
-import { FictionObject, removeUndefined, toCamel, vue } from '@fiction/core'
+import { FictionObject, removeUndefined, vue } from '@fiction/core'
 
 const def = vue.defineAsyncComponent
 

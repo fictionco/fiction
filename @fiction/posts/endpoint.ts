@@ -1,7 +1,7 @@
-import type { DataFilter, EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser, IndexMeta, IndexQuery, TableTaxonomyConfig } from '@fiction/core'
+import type { EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser, IndexMeta, IndexQuery } from '@fiction/core'
 import type { FictionPosts } from '.'
 import type { TablePostConfig } from './schema'
-import { abort, applyComplexFilters, deepMerge, incrementSlugId, objectId, Query, standardTable, toLabel, toSlug } from '@fiction/core'
+import { abort, applyComplexFilters, deepMerge, incrementSlugId, objectId, Query, standardTable, toSlug } from '@fiction/core'
 import { t } from './schema'
 
 export type PostsQuerySettings = FictionPluginSettings & {
