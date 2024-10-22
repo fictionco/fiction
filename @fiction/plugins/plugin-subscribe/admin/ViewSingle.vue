@@ -3,7 +3,7 @@ import type { Card } from '@fiction/site'
 import type { FictionSubscribe, Subscriber } from '../index.js'
 import ElHeader from '@fiction/admin/settings/ElHeader.vue'
 import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
-import { type ActionButton, deepMerge, gravatarUrlSync, type User, useService, vue } from '@fiction/core'
+import { type ActionButton, deepMerge, gravatarUrlSync, standardDate, type User, useService, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save.js'
 import { InputOption } from '@fiction/ui/index.js'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
@@ -119,22 +119,22 @@ const detailOptions = [
     input: 'InputControl',
     valueDisplay: () => {
       return {
-        status: subscriber.value?.inlineTags ? 'ready' : 'optional',
-        data: subscriber.value?.inlineTags,
+        status: subscriber.value?.tags?.length ? 'ready' : 'optional',
+        data: subscriber.value?.tags?.join(', '),
       }
     },
     options: [
-      new InputOption({ key: 'inlineTags', label: 'Tags', input: 'InputItems', placeholder: 'Tag, Tag, Tag' }),
+      new InputOption({ key: 'tags', label: 'Tags', input: 'InputItems', placeholder: 'Tag, Tag, Tag' }),
     ],
   }),
   new InputOption({
-    label: 'Subscription Date',
+    label: 'Subscription Created At',
     subLabel: 'The date the subscriber was added to the list',
     input: 'InputControl',
     valueDisplay: () => {
       return {
         status: subscriber.value?.createdAt ? 'ready' : 'incomplete',
-        data: subscriber.value?.createdAt,
+        data: standardDate(subscriber.value?.createdAt, { withTime: true }),
       }
     },
     options: [

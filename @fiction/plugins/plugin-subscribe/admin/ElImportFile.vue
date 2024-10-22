@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site/card'
 import type { FictionSubscribe } from '..'
+import type { ImportDetail } from '../schema'
 import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
 import CardButton from '@fiction/cards/CardButton.vue'
-import { type ListItem, log, useService, vue } from '@fiction/core'
+import { type ListItem, log, objectId, useService, vue } from '@fiction/core'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import { csvToEmailList, parseAndValidateEmails } from './utils'
 
-defineProps({
-  card: { type: Object as vue.PropType<Card>, required: true },
-})
+const { card } = defineProps<{ card: Card }>()
 
 const logger = log.contextLogger('ImportFile')
 
@@ -21,6 +20,7 @@ const fileList = vue.shallowRef<FileList>()
 const importMethod = vue.ref<'csv' | 'text'>('text')
 const step = vue.ref<'import' | 'submit'>('import')
 const rawTextEmailList = vue.ref<string>()
+const tagList = vue.ref<string[]>([])
 const csvEmailList = vue.ref<string[]>([])
 async function uploadFiles() {
   const files = fileList.value
@@ -67,16 +67,29 @@ function prepareSubmit() {
 }
 
 const info = vue.computed<ListItem[]>(() => {
+  const emailAddresses = emailList.value.slice(0, 10).join(', ')
+  const hasMore = emailList.value.length > 10 ? `... and ${emailList.value.length - 10} more` : ''
   return [
     { name: 'Emails to Import', value: emailList.value.length },
-    { name: 'Email Addresses', value: emailList.value.slice(0, 10).join(', ') || 'None' },
+    { name: 'Email Addresses', value: `${emailAddresses} ${hasMore}` },
+    { name: 'Tags', value: tagList.value.join(', ') || 'None' },
   ]
 })
+
+function getImportDetail(): ImportDetail {
+  return {
+    importId: objectId(),
+    importedAt: new Date().toISOString(),
+    count: emailList.value.length,
+    tags: tagList.value,
+  }
+}
 
 async function importSubscribers() {
   loading.value = true
   try {
-    const subscribers = emailList.value.map(email => ({ email }))
+    const importDetail = getImportDetail()
+    const subscribers = emailList.value.map(email => ({ email, tags: tagList.value, importDetail }))
     const orgId = service.fictionUser.activeOrgId.value
 
     if (!orgId) {
@@ -95,10 +108,13 @@ async function importSubscribers() {
 
       csvEmailList.value = []
       rawTextEmailList.value = ''
-    }
+      logger.info(`imported subscribers`, { data: emailList.value })
 
-    logger.info(`imported subscribers`, { data: emailList.value })
-    step.value = 'import'
+      await card.goto('/audience')
+    }
+    else {
+      step.value = 'import'
+    }
   }
   catch (error) {
     logger.error(`import error`, { error })
@@ -181,6 +197,7 @@ async function importSubscribers() {
               sub-label="Separate each email address with a comma or new line"
               :rows="10"
               placeholder="email1@example.com,email2@example.com"
+              data-test-id="text-email-list"
             />
 
             <ElInput
@@ -217,6 +234,15 @@ async function importSubscribers() {
               </label>
             </ElInput>
           </transition>
+          <ElInput
+            v-model="tagList"
+            input="InputItems"
+            label="Tags"
+            sub-label="Used to categorize subscribers"
+            :rows="10"
+            placeholder="tag1,tag2,tag3"
+            data-test-id="tag-list"
+          />
           <div>
             <CardButton
               :card

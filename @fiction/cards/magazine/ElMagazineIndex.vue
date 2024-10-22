@@ -73,8 +73,8 @@ function changePage(newPage: number) {
                 theme="overlay"
                 rounding="full"
                 size="xs"
-                :text="cat.title"
-                :href="taxonomyLink({ card, taxonomy: 'category', term: cat.slug })"
+                :text="cat"
+                :href="taxonomyLink({ card, taxonomy: 'category', term: cat })"
               />
             </div>
             <CardTextPost :data-post-title="post.title.value" :post path="title" tag="h2" class="text-2xl md:text-3xl font-semibold x-font-title text-balance max-w-[80%]" />
@@ -90,9 +90,9 @@ function changePage(newPage: number) {
               v-for="(cat, ii) in post.categories.value?.slice(0, 2)"
               :key="ii"
               :card
-              :text="cat.title"
+              :text="cat"
               size="xs"
-              :href="taxonomyLink({ card, taxonomy: 'category', term: cat.slug })"
+              :href="taxonomyLink({ card, taxonomy: 'category', term: cat })"
               rounding="full"
             />
           </div>

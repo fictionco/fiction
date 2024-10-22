@@ -16,9 +16,6 @@ export const t = {
 export type TablePostConfig = Partial<ColType<typeof postCols>> & {
   authors?: User[]
   sites?: Partial<TableSiteConfig>[]
-  taxonomy?: TableTaxonomyConfig[]
-  tags?: TableTaxonomyConfig[]
-  categories?: TableTaxonomyConfig[]
   draftId?: string
 }
 
@@ -47,6 +44,8 @@ export const postCols = [
   new Col({ key: 'dateAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
   new Col({ key: 'draft', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'archiveAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
+  new Col({ key: 'tags', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
+  new Col({ key: 'categories', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
 ] as const
 
 export const postTaxonomyCols = [

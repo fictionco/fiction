@@ -41,6 +41,7 @@ export const userColumns = [
   new Col({ key: 'company', sec: 'setting', sch: () => z.any() as z.Schema<UserCompany>, make: ({ s, col }) => s.jsonb(col.k) }),
   new Col({ key: 'birthday', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'gender', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'tags', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
 ] as const
 
 export const orgColumns = [
@@ -79,6 +80,7 @@ export const membersColumns = [
   new Col({ key: 'memberRole', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'invitedById', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).references(`fiction_user.user_id`) }),
   new Col({ key: 'priority', sch: () => z.number().int(), make: ({ s, col }) => s.integer(col.k) }),
+  new Col({ key: 'tags', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
 ] as const
 
 export const taxonomyCols = [

@@ -5,6 +5,10 @@
       "path": "/api/utils/db/CheckUsername"
     },
     {
+      "key": "GetTopValues",
+      "path": "/api/utils/db/GetTopValues"
+    },
+    {
       "key": "ManageUser",
       "path": "/api/user/ManageUser"
     },

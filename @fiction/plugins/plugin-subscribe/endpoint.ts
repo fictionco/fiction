@@ -173,14 +173,14 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
     return { status: 'success', data: subscriptions }
   }
 
-  private async updateSubscription(params: ManageSubscriptionParams & { _action: 'update' }, _meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
+  private async updateSubscription(params: ManageSubscriptionParams & { _action: 'update' }, meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
     const { where, fields, orgId } = params
 
     if (!Array.isArray(where)) {
       return { status: 'error', message: 'where must be an array of conditions' }
     }
 
-    const prepped = this.settings.fictionDb.prep({ type: 'update', fields, meta: _meta, table: t.subscribe })
+    const prepped = this.settings.fictionDb.prep({ type: 'update', fields, meta, table: t.subscribe })
 
     const results: Subscriber[] = []
     for (const condition of where) {

@@ -26,6 +26,7 @@ export class Col<U extends string = string, T extends ColDefaultValue = ColDefau
   sec = this.settings.sec || 'setting'
   sch = this.settings.sch
   prepare = this.settings.prepare as PrepareForStorage
+  make = this.settings.make
 
   constructor(settings: ColSettings<U, T>) {
     super('Col', settings)

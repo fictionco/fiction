@@ -304,6 +304,7 @@ async function handleOnClick(event: MouseEvent, item: ActionButton) {
           :title="empty.title"
           :description="empty.description"
           :actions="actions"
+          test-id="zero-banner-table"
         >
           <slot name="empty" />
         </ElZeroBanner>

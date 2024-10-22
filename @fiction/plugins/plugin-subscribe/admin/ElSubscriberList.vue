@@ -22,8 +22,8 @@ const list = vue.computed<IndexItem[]>(() => {
     const name = p.user?.fullName || p.user?.email || p.email || 'Unknown'
     const desc = [`Added ${dayjs(p.createdAt).format('MMM D, YYYY')}`]
 
-    if (p.inlineTags)
-      desc.push(`Tags: ${p.inlineTags.join(', ')}`)
+    if (p.tags)
+      desc.push(`Tags: ${p.tags.join(', ')}`)
 
     if (!name.includes('@'))
       desc.push(`Email: ${p.email}`)
@@ -87,7 +87,8 @@ vue.onMounted(async () => {
 
 const actions: ActionButton[] = [
   {
-    name: 'Add / Import Subscribers',
+    testId: 'add-subscribers-button',
+    name: 'Add Subscribers to Audience',
     href: props.card.link('/audience/add'),
     theme: 'primary',
     icon: 'i-tabler-plus',
@@ -103,9 +104,10 @@ const actions: ActionButton[] = [
       :actions
       list-title="Subscribers"
       :index-meta="indexMeta"
-      :zero="{
-        title: 'No Subscribers Yet',
-        description: 'Quickly create your audience by importing your list or capturing emails on your site.',
+      :empty="{
+        testId: 'subscriber-list-empty',
+        name: 'No Subscribers Yet',
+        desc: 'Import your email list or start capturing emails on your site.',
         icon: 'i-tabler-users',
         actions,
       }"

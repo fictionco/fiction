@@ -38,7 +38,8 @@ async function getDemoUserConfig(): Promise<UserConfig> {
           authors: [{ fullName: 'Alex Chen', email: 'alex.chen@example.com' }],
           content: `In my role as Lead UX Designer at one of Silicon Valley's top tech companies, I spearheaded a project that redefined user interaction with AI assistants. This post details the challenges we faced, the innovative solutions we developed, and the impact of our work on millions of users worldwide.`,
           media: stockMediaHandler.getRandomByTags(['object', 'aspect:square']),
-          taxonomy: [{ type: 'category', title: 'Design', slug: 'design' }, { type: 'category', title: 'Technology', slug: 'technology' }, { type: 'tag', title: 'UX', slug: 'ux' }],
+          categories: ['Design', 'Technology'],
+          tags: ['ux'],
         },
         {
           title: 'The Future of Sustainable Fashion',
@@ -47,7 +48,8 @@ async function getDemoUserConfig(): Promise<UserConfig> {
           authors: [{ fullName: 'Emma Rodriguez', email: 'emma.rodriguez@example.com' }],
           content: `As a fashion consultant specializing in sustainability, I recently partnered with several leading brands to develop eco-friendly clothing lines. This post explores the innovative materials we used, the challenges of maintaining style while reducing environmental impact, and the consumer response to these groundbreaking collections.`,
           media: stockMediaHandler.getRandomByTags(['object']),
-          taxonomy: [{ type: 'category', title: 'Design', slug: 'design' }, { type: 'category', title: 'Technology', slug: 'technology' }, { type: 'tag', title: 'Fashion', slug: 'fashion' }],
+          tags: ['fashion'],
+          categories: ['Design', 'Technology'],
         },
         {
           title: 'From Startup to IPO: Lessons Learned',
@@ -63,8 +65,8 @@ async function getDemoUserConfig(): Promise<UserConfig> {
           slug: 'data-storytelling',
           authors: [{ fullName: 'Sarah Johnson', email: 'sarah.johnson@example.com' }],
           content: `As a data scientist, I've learned that numbers alone rarely convince decision-makers. This post delves into the techniques I've developed to turn complex data into compelling narratives, illustrated with case studies from my work with Fortune 500 companies.`,
-          taxonomy: [{ type: 'category', title: 'Design', slug: 'design' }, { type: 'category', title: 'Technology', slug: 'technology' }, { type: 'tag', title: 'Fashion', slug: 'fashion' }],
-
+          categories: ['Design', 'Technology'],
+          tags: ['data'],
           media: stockMediaHandler.getRandomByTags(['object']),
         },
         {

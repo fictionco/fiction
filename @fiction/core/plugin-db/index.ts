@@ -13,7 +13,7 @@ import { FictionPlugin } from '../plugin.js'
 import { EnvVar, vars } from '../plugin-env/index.js'
 import { toCamel } from '../utils/casing.js'
 import { isActualBrowser, isTest, safeDirname } from '../utils/index.js'
-import { CheckUsername } from './endpoint.js'
+import { CheckUsername, GetTopValues } from './endpoint.js'
 import { dbPrep } from './utils.js'
 
 export * from './objects.js'
@@ -44,6 +44,7 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
   isInitialized = false
   queries = {
     CheckUsername: new CheckUsername({ ...this.settings, fictionDb: this }),
+    GetTopValues: new GetTopValues({ ...this.settings, fictionDb: this }),
   }
 
   requests = this.createRequests({

@@ -58,8 +58,8 @@ const imageAspect = vue.computed(() => {
             size="xs"
             :card
             rounding="full"
-            :text="cat.title"
-            :href="taxonomyLink({ card, taxonomy: 'category', term: cat.slug })"
+            :text="cat"
+            :href="taxonomyLink({ card, taxonomy: 'category', term: cat })"
           />
           <CardButton
             v-if="userIsAuthor"
@@ -97,8 +97,8 @@ const imageAspect = vue.computed(() => {
               :key="i"
               size="xs"
               :card
-              :text="tag.title"
-              :href="taxonomyLink({ card, taxonomy: 'tag', term: tag.slug })"
+              :text="tag"
+              :href="taxonomyLink({ card, taxonomy: 'tag', term: tag })"
             />
           </div>
         </div>

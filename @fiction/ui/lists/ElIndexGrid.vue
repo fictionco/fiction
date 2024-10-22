@@ -48,7 +48,7 @@ async function paginate(dir: 'prev' | 'next') {
       <ElSpinner class="h-6 w-6" />
     </div>
     <div v-else>
-      <div v-if="list.length > 0" class="mb-6 flex justify-between items-end">
+      <div v-if="list.length > 0" class="mb-6 flex justify-between items-end" :data-list-count="indexMeta.count">
         <div class="text-base font-semibold leading-4 text-theme-300 dark:text-theme-500 antialiased">
           {{ listTitle }} <span v-if="indexMeta.count">({{ indexMeta.count }} total)</span>
         </div>
@@ -78,11 +78,18 @@ async function paginate(dir: 'prev' | 'next') {
         <div :class="$slots.sidebar ? 'col-span-12 md:col-span-6 xl:col-span-8' : 'col-span-12'">
           <ul v-if="list.length" role="list" class="space-y-5">
             <li
-              v-for="item in list"
+              v-for="(item, i) in list"
               :key="item.key"
+              :data-test-id="item.testId || `index-item-${i}`"
               @click.stop="onItemClick && item.key ? onItemClick(item.key) : ''"
             >
-              <component :is="getNavComponentType(item)" :to="item.href" :href="item.href" class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap" :class="boxClass">
+              <component
+                :is="getNavComponentType(item)"
+                :to="item.href"
+                :href="item.href"
+                class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap"
+                :class="boxClass"
+              >
                 <div class="flex gap-6 items-center">
                   <ElIndexItemMedia class="size-16" :media="item.media" :icon="item.icon" />
                   <div>
@@ -116,6 +123,7 @@ async function paginate(dir: 'prev' | 'next') {
               :description="empty?.desc || 'Try creating a new one.'"
               :actions="empty?.actions || actions"
               :icon="empty?.icon || 'i-heroicons-search'"
+              :test-id="empty?.testId"
             >
               <template v-if="empty?.figure?.el" #figure>
                 <component :is="empty?.figure.el" />

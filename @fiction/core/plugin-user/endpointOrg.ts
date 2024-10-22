@@ -145,6 +145,7 @@ export class QueryManageMemberRelation extends OrgQuery {
       memberStatus?: MemberStatus
       memberRole?: string
       invitedById?: string
+      tags?: string[]
     },
     meta: EndpointMeta,
   ): Promise<EndpointResponse<OrganizationMembership>> {
@@ -152,7 +153,7 @@ export class QueryManageMemberRelation extends OrgQuery {
       throw abort('no user service')
     if (!meta.bearer && !meta.server)
       throw abort('auth required')
-    const { memberId, orgId, _action, memberAccess, memberStatus, memberRole, invitedById } = params
+    const { memberId, orgId, _action, memberAccess, memberStatus, memberRole, invitedById, tags } = params
 
     const db = this.db()
 
@@ -171,7 +172,7 @@ export class QueryManageMemberRelation extends OrgQuery {
     else if (_action === 'create' || _action === 'update') {
       // Add relation
       ;[relation] = await db
-        .insert({ userId: memberId, orgId, memberAccess, memberStatus, memberRole, invitedById })
+        .insert({ userId: memberId, orgId, memberAccess, memberStatus, memberRole, invitedById, tags })
         .onConflict(['user_id', 'org_id'])
         .merge()
         .into(t.member)

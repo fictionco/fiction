@@ -271,9 +271,11 @@ export class PlaywrightLogger {
 }
 
 type TestPageAction = {
-  type: 'visible' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'value' | 'hasText' | 'hasValue' | 'scrollTo' | 'frameInteraction' | 'callback'
+  type: 'visible' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'value' | 'hasText' | 'hasValue' | 'scrollTo' | 'frameInteraction' | 'callback' | 'hasAttribute'
   selector?: string
   text?: string
+  attribute?: string
+  expectedValue?: string
   key?: string
   wait?: number
   waitAfter?: number
@@ -334,6 +336,15 @@ export async function performActions(args: {
         case 'hasText': {
           logger.info('HAS_TEXT', { data: { selector: action.selector, text: action.text } })
           await playwrightTest.expect(element).toContainText(action.text || '')
+          break
+        }
+        case 'hasAttribute': {
+          if (!action.attribute || action.expectedValue === undefined) {
+            throw new Error('Attribute name and expected value are required for hasAttribute action')
+          }
+          logger.info('CHECK_ATTRIBUTE', { data: { selector: action.selector, attribute: action.attribute, expectedValue: action.expectedValue } })
+          const attributeValue = await element.getAttribute(action.attribute)
+          expect(attributeValue, `${action.selector} has attribute ${action.attribute} with value ${action.expectedValue}`).toBe(action.expectedValue)
           break
         }
         case 'click': {
@@ -429,6 +440,15 @@ export async function performActions(args: {
                 await frameElement.waitFor({ state: 'attached', timeout: 10000 })
                 expect(await frameElement.count(), `${frameAction.selector} count in frame`).toBeGreaterThan(0)
                 break
+              case 'hasAttribute': {
+                if (!frameAction.attribute || frameAction.expectedValue === undefined) {
+                  throw new Error('Attribute name and expected value are required for hasAttribute action in frame')
+                }
+                logger.info('CHECK_ATTRIBUTE_IN_FRAME', { data: { selector: frameAction.selector, attribute: frameAction.attribute, expectedValue: frameAction.expectedValue } })
+                const attributeValue = await frameElement.getAttribute(frameAction.attribute)
+                expect(attributeValue, `${frameAction.selector} has attribute ${frameAction.attribute} with value ${frameAction.expectedValue} in frame`).toBe(frameAction.expectedValue)
+                break
+              }
               case 'value': {
                 await waitFor(500)
                 const value = await frameElement.evaluate(el => el.dataset.value)

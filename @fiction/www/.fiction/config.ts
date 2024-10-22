@@ -56,6 +56,7 @@ export interface CompiledServiceConfig {
     | 'GetClientSessions'
     | 'GetCustomerData'
     | 'GetDimensionList'
+    | 'GetTopValues'
     | 'GetTotalSessions'
     | 'ListSubscriptions'
     | 'ManageCampaign'
@@ -115,6 +116,7 @@ export interface CompiledServiceConfig {
       | 'company'
       | 'birthday'
       | 'gender'
+      | 'tags'
       | 'createdAt'
       | 'updatedAt'
     fiction_org:
@@ -153,6 +155,7 @@ export interface CompiledServiceConfig {
       | 'memberRole'
       | 'invitedById'
       | 'priority'
+      | 'tags'
       | 'createdAt'
       | 'updatedAt'
     fiction_taxonomy:
@@ -195,6 +198,7 @@ export interface CompiledServiceConfig {
       | 'size'
       | 'prompt'
       | 'sourceImageUrl'
+      | 'tags'
       | 'createdAt'
       | 'updatedAt'
     fiction_site:
@@ -281,8 +285,9 @@ export interface CompiledServiceConfig {
       | 'level'
       | 'status'
       | 'previousStatus'
-      | 'inlineTags'
+      | 'tags'
       | 'inlineUser'
+      | 'importDetail'
       | 'createdAt'
       | 'updatedAt'
     fiction_subscribe_taxonomy:
@@ -312,6 +317,8 @@ export interface CompiledServiceConfig {
       | 'dateAt'
       | 'draft'
       | 'archiveAt'
+      | 'tags'
+      | 'categories'
       | 'createdAt'
       | 'updatedAt'
     fiction_post_taxonomy: 'postTaxonomyId' | 'postId' | 'taxonomyId' | 'orgId' | 'priority' | 'createdAt' | 'updatedAt'

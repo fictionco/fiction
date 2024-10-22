@@ -1,30 +1,29 @@
 <script lang="ts" setup>
-import type { ActionButton, NavItem, vue } from '@fiction/core'
+import type { ActionButton } from '@fiction/core'
 import XButton from './buttons/XButton.vue'
+import XIcon from './media/XIcon.vue'
 
-defineProps({
-  icon: { type: String, default: undefined },
-  subTitle: { type: String, default: undefined },
-  title: { type: String, required: true },
-  description: { type: String, required: true },
-  actions: { type: Array as vue.PropType<ActionButton[]>, default: undefined },
-  bullets: { type: Array as vue.PropType<NavItem[]>, default: undefined },
-  tags: { type: Array as vue.PropType<string[]>, default: () => [] },
-})
+const { testId = 'zero-banner', icon, title, description, actions } = defineProps<{
+  testId?: string
+  icon?: string
+  title: string
+  description: string
+  actions?: ActionButton[]
+}>()
 </script>
 
 <template>
   <div class="bg-theme-0 border border-theme-300/70 bg-theme-0  dark:border-theme-700 dark:bg-theme-800/70 relative rounded-lg overflow-hidden ">
-    <div class="mx-auto max-w-7xl p-[calc(1rem+3vw)]">
+    <div class="mx-auto max-w-7xl px-12 py-16">
       <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl flex md:flex-col justify-center lg:pt-12">
         <div class="">
           <div v-if="icon" class="mb-4 lg:mb-6 relative">
-            <div class="text-4xl lg:text-5xl text-theme-500/30 lg:absolute bottom-0" :class="icon" />
+            <XIcon class="size-10 text-theme-500/30 lg:absolute bottom-0" :media="icon" />
           </div>
-          <h1 class="mt-4 lg:mt-6 text-lg sm:text-2xl lg:text-4xl font-semibold dark:text-theme-0 x-font-title">
+          <h1 class="mt-4 lg:mt-6 text-lg sm:text-2xl font-semibold dark:text-theme-0 x-font-title" :data-test-id="`${testId}-title`">
             {{ title }}
           </h1>
-          <p class="mt-6 text-base lg:text-xl text-theme-600 dark:text-theme-300">
+          <p class="mt-3 text-base text-theme-600 dark:text-theme-300" :data-test-id="`${testId}-description`">
             {{ description }}
           </p>
           <div v-if="actions?.length" class="mt-10 flex items-center gap-x-6">
@@ -36,7 +35,7 @@ defineProps({
               :theme="item.theme"
               :rounding="item.rounding || 'full'"
               :icon="item.icon"
-              size="lg"
+              size="md"
               @click.stop="item.onClick && item.onClick({ event: $event })"
             >
               {{ item.name }}

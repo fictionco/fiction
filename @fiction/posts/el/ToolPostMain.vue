@@ -125,8 +125,8 @@ const options = vue.computed<InputOption[]>(() => {
       label: 'Taxonomy',
       input: 'group',
       options: [
-        new InputOption({ key: 'tags', label: 'Tags', input: InputTaxonomy, props: { taxonomyType: 'tag' } }),
-        new InputOption({ key: 'categories', label: 'Categories', input: InputTaxonomy, props: { taxonomyType: 'category' } }),
+        new InputOption({ key: 'tags', label: 'Tags', input: 'InputItems', props: { taxonomyType: 'tag' } }),
+        new InputOption({ key: 'categories', label: 'Categories', input: 'InputItems', props: { taxonomyType: 'category' } }),
         new InputOption({ key: 'authors', label: 'Authors', input: InputAuthors, props: { } }),
       ],
     }),

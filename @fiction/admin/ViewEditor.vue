@@ -90,7 +90,7 @@ const contextTool = vue.computed(() => controller.activeTool.context.value)
               </template>
             </div>
 
-            <div class="no-scrollbar  bg-theme-0 dark:bg-theme-900 border-l border-theme-200 dark:border-theme-700 relative overflow-scroll">
+            <div class="no-scrollbar  bg-theme-0 dark:bg-theme-900 border-l border-theme-200 dark:border-theme-700 relative overflow-y-scroll overflow-x-clip">
               <transition
                 mode="out-in"
                 enter-active-class="ease-out duration-200"

@@ -296,7 +296,10 @@ export class QueryManagePost extends PostsQuery {
         .where(`${t.postTaxonomies}.post_id`, post.postId)
         .orderBy(`${t.postTaxonomies}.priority`, 'asc')
 
-      post.taxonomy = await q
+      const taxonomy = await q
+
+      post.tags = taxonomy.filter(tax => tax.type === 'tag').map(tax => tax.slug)
+      post.categories = taxonomy.filter(tax => tax.type === 'category').map(tax => tax.slug)
     }
 
     if (loadDraft && post.draft)
@@ -345,7 +348,6 @@ export class QueryManagePost extends PostsQuery {
 
     await Promise.all([
       db(t.posts).update(prepped).where({ postId }),
-      this.updatePostTaxonomies({ postId, fields, orgId }),
       this.updateAssociations({ type: 'authors', postId, fields, orgId }),
       this.updateAssociations({ type: 'sites', postId, fields, orgId }),
     ])
@@ -355,33 +357,33 @@ export class QueryManagePost extends PostsQuery {
     return { status: 'success', data: final.data, message: 'Post updated' }
   }
 
-  private async insertNewTaxonomies(args: { taxonomy: TableTaxonomyConfig[], orgId: string }) {
-    const db = this.db()
-    const { taxonomy = [], orgId } = args
+  // private async insertNewTaxonomies(args: { taxonomy: TableTaxonomyConfig[], orgId: string }) {
+  //   const db = this.db()
+  //   const { taxonomy = [], orgId } = args
 
-    const newTaxonomies = taxonomy.filter(tax => !tax.taxonomyId)
+  //   const newTaxonomies = taxonomy.filter(tax => !tax.taxonomyId)
 
-    let insertedTaxonomyIds: string[] = []
-    if (newTaxonomies.length > 0) {
-      const insertItems = newTaxonomies.map((_) => {
-        const { slug = toSlug(_.title), title = toLabel(_.slug), type = '', description } = _
-        return { slug, title, description, type, orgId }
-      })
+  //   let insertedTaxonomyIds: string[] = []
+  //   if (newTaxonomies.length > 0) {
+  //     const insertItems = newTaxonomies.map((_) => {
+  //       const { slug = toSlug(_.title), title = toLabel(_.slug), type = '', description } = _
+  //       return { slug, title, description, type, orgId }
+  //     })
 
-      const uniqueOn = this.settings.fictionDb.getTable(t.taxonomy)?.uniqueOn || []
+  //     const uniqueOn = this.settings.fictionDb.getTable(t.taxonomy)?.uniqueOn || []
 
-      // Insert new taxonomies and get their IDs
-      const r = await db(t.taxonomy)
-        .insert(insertItems)
-        .onConflict(uniqueOn)
-        .merge(['slug']) // return without changing anything (ignore wont return existing)
-        .returning<{ taxonomyId: string }[]>('taxonomyId')
+  //     // Insert new taxonomies and get their IDs
+  //     const r = await db(t.taxonomy)
+  //       .insert(insertItems)
+  //       .onConflict(uniqueOn)
+  //       .merge(['slug']) // return without changing anything (ignore wont return existing)
+  //       .returning<{ taxonomyId: string }[]>('taxonomyId')
 
-      insertedTaxonomyIds = r.map(t => t.taxonomyId)
-    }
+  //     insertedTaxonomyIds = r.map(t => t.taxonomyId)
+  //   }
 
-    return insertedTaxonomyIds
-  }
+  //   return insertedTaxonomyIds
+  // }
 
   private async updateAssociations(args: { type: 'authors' | 'sites', fields: TablePostConfig, postId: string, orgId: string }) {
     const db = this.db()
@@ -416,30 +418,30 @@ export class QueryManagePost extends PostsQuery {
   }
 
   // Handle the association between post and taxonomies
-  private async updatePostTaxonomies(args: { postId: string, fields: TablePostConfig, orgId: string }) {
-    const { postId, fields: { taxonomy = [] }, orgId } = args
-    const db = this.db()
+  // private async updatePostTaxonomies(args: { postId: string, fields: TablePostConfig, orgId: string }) {
+  //   const { postId, fields: { taxonomy = [] }, orgId } = args
+  //   const db = this.db()
 
-    const insertedTaxonomyIds = await this.insertNewTaxonomies({ taxonomy, orgId })
+  //   const insertedTaxonomyIds = await this.insertNewTaxonomies({ taxonomy, orgId })
 
-    const existingTaxonomies = await db.select('taxonomyId').from(t.postTaxonomies).where({ postId })
-    const existingTaxonomyIds = existingTaxonomies.map(t => t.taxonomyId)
+  //   const existingTaxonomies = await db.select('taxonomyId').from(t.postTaxonomies).where({ postId })
+  //   const existingTaxonomyIds = existingTaxonomies.map(t => t.taxonomyId)
 
-    const oldTaxonomiesIds = taxonomy.filter(tax => tax.taxonomyId).map(tax => tax.taxonomyId)
-    const passedInTaxonomyIds = [...oldTaxonomiesIds, ...insertedTaxonomyIds]
+  //   const oldTaxonomiesIds = taxonomy.filter(tax => tax.taxonomyId).map(tax => tax.taxonomyId)
+  //   const passedInTaxonomyIds = [...oldTaxonomiesIds, ...insertedTaxonomyIds]
 
-    const toRemoveFromPost = existingTaxonomyIds.filter(id => !passedInTaxonomyIds.includes(id))
+  //   const toRemoveFromPost = existingTaxonomyIds.filter(id => !passedInTaxonomyIds.includes(id))
 
-    // Remove old associations
-    if (toRemoveFromPost.length > 0)
-      await db.table(t.postTaxonomies).where({ postId }).whereIn('taxonomyId', toRemoveFromPost).delete()
+  //   // Remove old associations
+  //   if (toRemoveFromPost.length > 0)
+  //     await db.table(t.postTaxonomies).where({ postId }).whereIn('taxonomyId', toRemoveFromPost).delete()
 
-    // Add new associations
-    if (passedInTaxonomyIds.length > 0) {
-      const newTaxonomies = passedInTaxonomyIds.map((taxonomyId, index) => ({ postId, taxonomyId, orgId, priority: index }))
-      await db.table(t.postTaxonomies).insert(newTaxonomies).onConflict(['postId', 'taxonomyId']).merge(['priority'])
-    }
-  }
+  //   // Add new associations
+  //   if (passedInTaxonomyIds.length > 0) {
+  //     const newTaxonomies = passedInTaxonomyIds.map((taxonomyId, index) => ({ postId, taxonomyId, orgId, priority: index }))
+  //     await db.table(t.postTaxonomies).insert(newTaxonomies).onConflict(['postId', 'taxonomyId']).merge(['priority'])
+  //   }
+  // }
 
   private async isSlugTaken(orgId: string, slug: string, postId?: string): Promise<boolean> {
     const existingPost = await this.db()(t.posts)
@@ -483,11 +485,9 @@ export class QueryManagePost extends PostsQuery {
 
     const authors = fields.authors?.length ? fields.authors : [{ userId }]
 
-    const associationFields = { ...fieldsWithOrg, taxonomy: fields.taxonomy, postId, authors } as const
+    const associationFields = { ...fieldsWithOrg, postId, authors } as const
 
-    const associationParams = { ...params, fields: associationFields, postId, _action: 'update' } as const
     await Promise.all([
-      this.updatePostTaxonomies(associationParams),
       this.updateAssociations({ type: 'authors', postId, orgId, fields: associationFields }),
       this.updateAssociations({ type: 'sites', postId, orgId, fields: associationFields }),
     ])
@@ -538,20 +538,14 @@ export class QueryManagePost extends PostsQuery {
       delete fields[key as keyof typeof fields]
     })
 
-    // taxonomies are removed by prepare, due to joined table, saved directly in draft
-    const taxonomy = fields.taxonomy || []
     const authors = fields.authors || []
     const sites = fields.sites || []
-    const newDraft = { draftId: objectId({ prefix: 'dft' }), ...draft, ...fields, taxonomy, sites, authors, updatedAt: now, createdAt: draft.createdAt }
+    const newDraft = { draftId: objectId({ prefix: 'dft' }), ...draft, ...fields, sites, authors, updatedAt: now, createdAt: draft.createdAt }
 
     // Persist the updated draft and history
     await db(t.posts)
       .where(where)
       .update({ draft: newDraft })
-
-    // save any new taxonomies that are not already in the database
-    if (fields.taxonomy?.length)
-      await this.insertNewTaxonomies({ orgId, taxonomy: fields.taxonomy })
 
     const r = await this.getPost({ _action: 'get', where, orgId, loadDraft: true }, { ...meta, caller: 'saveDraft' })
 

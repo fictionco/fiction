@@ -183,9 +183,8 @@ export const PostSchema = z.object({
   status: PostStatusSchema.optional().describe('Status of the post'),
   media: MediaDisplaySchema.optional().describe('Featured Media for the post'),
   slug: z.string().optional().describe('Slug of the post page'),
-  taxonomy: z.array(TaxonomySchema).optional().describe('Taxonomy for the post which combines all types (categories, tags, etc)'),
-  tags: z.array(TaxonomySchema).optional().describe('Tags for the post'),
-  categories: z.array(TaxonomySchema).optional().describe('Categories for the post'),
+  tags: z.array(z.string()).optional().describe('Tags for the post'),
+  categories: z.array(z.string()).optional().describe('Categories for the post'),
   authors: z.array(UserSchema).optional(),
   actions: z.array(ActionButtonSchema).optional().describe('Action links or buttons for the post'),
   seo: z.object({

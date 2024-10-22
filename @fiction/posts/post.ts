@@ -23,8 +23,8 @@ export class Post extends FictionObject<PostConfig> {
   slug = vue.ref(this.settings.slug || '')
   href = vue.computed(() => postLink({ card: this.settings.card, slug: this.slug.value }))
   media = vue.ref(this.settings.media || {})
-  tags = vue.ref(this.settings.taxonomy?.filter(_ => _.type === 'tag') || [])
-  categories = vue.ref(this.settings.taxonomy?.filter(_ => _.type === 'category') || [])
+  tags = vue.ref(this.settings.tags || [])
+  categories = vue.ref(this.settings.categories || [])
   authors = vue.ref(this.settings.authors || [])
   sites = vue.shallowRef(this.settings.sites || [])
   dateAt = vue.ref(this.settings.dateAt || new Date().toISOString())
@@ -143,7 +143,6 @@ export class Post extends FictionObject<PostConfig> {
       hasChanges: this.hasChanges.value,
       publishAt: this.publishAt.value,
       status: this.status.value,
-      taxonomy: [...this.tags.value, ...this.categories.value],
       tags: this.tags.value,
       categories: this.categories.value,
       authors: this.authors.value,

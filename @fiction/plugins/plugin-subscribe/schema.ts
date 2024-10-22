@@ -17,6 +17,13 @@ export type Subscriber = Partial<TableSubscribeConfig> & {
 
 export type TableSubscribeConfig = ColType<typeof subscribeColumns>
 
+export type ImportDetail = {
+  importId?: string
+  importedAt?: string
+  count?: number
+  tags?: string[]
+}
+
 export const subscribeColumns = [
   new Col({ key: 'subscriptionId', sec: 'permanent', sch: () => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('sub')`)).index() }),
   new Col({ key: 'userId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.user}.user_id`).onUpdate('CASCADE').index() }),
@@ -25,8 +32,9 @@ export const subscribeColumns = [
   new Col({ key: 'level', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).defaultTo('standard') }),
   new Col({ key: 'status', sec: 'setting', sch: () => z.string() as z.Schema<SyndicateStatus>, make: ({ s, col }) => s.string(col.k, 50).defaultTo('active') }),
   new Col({ key: 'previousStatus', sch: () => z.string() as z.Schema<SyndicateStatus>, make: ({ s, col }) => s.string(col.k, 50).defaultTo('active') }),
-  new Col({ key: 'inlineTags', sec: 'setting', sch: () => z.array(z.record(z.unknown())) as z.Schema<ListItem[]>, make: ({ s, col }) => s.jsonb(col.k) }),
-  new Col({ key: 'inlineUser', sec: 'setting', sch: () => z.record(z.unknown()).optional() as z.Schema<Partial<User>>, make: ({ s, col }) => s.jsonb(col.k) }),
+  new Col({ key: 'tags', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
+  new Col({ key: 'inlineUser', sec: 'setting', sch: () => z.record(z.unknown()).optional() as z.Schema<Partial<User>>, make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(value) }),
+  new Col({ key: 'importDetail', sec: 'setting' as const, sch: () => z.record(z.unknown()).optional() as z.Schema<ImportDetail>, make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(value) }),
 ] as const
 
 export const subscribeTaxonomyCols = [

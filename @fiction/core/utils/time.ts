@@ -21,6 +21,6 @@ export function timeAgo(time?: dayjs.ConfigType): string {
   return time ? timeUtil(time).fromNow() : ''
 }
 
-export function standardDate(time?: dayjs.ConfigType): string {
-  return time ? timeUtil(time).format('MMM DD, YYYY') : ''
+export function standardDate(time?: dayjs.ConfigType, opts: { withTime?: boolean } = {}): string {
+  return time ? timeUtil(time).format(`MMM DD, YYYY${opts.withTime ? ' h:mm A' : ''}`) : ''
 }

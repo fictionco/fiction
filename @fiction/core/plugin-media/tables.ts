@@ -33,6 +33,7 @@ export const mediaColumns = [
   new Col({ key: 'size', sec: 'setting', sch: ({ z }) => z.number(), make: ({ s, col }) => s.integer(col.k) }),
   new Col({ key: 'prompt', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.text(col.k) }),
   new Col({ key: 'sourceImageUrl', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.text(col.k) }),
+  new Col({ key: 'tags', sec: 'setting', sch: ({ z }) => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
 ] as const
 
 export const mediaTable = new FictionDbTable({
