@@ -28,8 +28,20 @@ export abstract class Query<T extends QueryConfig = QueryConfig> {
     this.dataKeys = settings.dataKeys
   }
 
-  allowed(_params: Parameters<this['run']>[0], _meta: Parameters<this['run']>[1]): boolean | Promise<boolean> {
-    return true
+  permission(_params: Parameters<this['run']>[0], _meta: Parameters<this['run']>[1]): EndpointResponse<boolean> | Promise<EndpointResponse<boolean>> {
+    if (_meta?.server) {
+      return { status: 'success', reason: 'server request' }
+    }
+
+    const bearer = _meta?.bearer
+
+    const { orgId } = _params as Record<string, any>
+
+    if (orgId && !bearer?.orgs?.find(org => org.orgId === orgId)) {
+      return { status: 'error', reason: `user ${bearer?.userId} not a member of org with id: ${orgId}` }
+    }
+
+    return { status: 'success', reason: 'allowed' }
   }
 
   /**
@@ -43,10 +55,10 @@ export abstract class Query<T extends QueryConfig = QueryConfig> {
    */
   async serve(params: Parameters<this['run']>[0], meta: Parameters<this['run']>[1]): Promise<Awaited<ReturnType<this['run']>>> {
     try {
-      const allowed = await this.allowed(params, meta)
+      const permissionResult = await this.permission(params, meta)
 
-      if (!allowed)
-        throw abort('unauthorized', { code: 'PERMISSION_DENIED' })
+      if (permissionResult.status !== 'success')
+        throw abort('unauthorized', { code: 'PERMISSION_DENIED', message: 'Permission denied', reason: permissionResult.reason || 'Unknown' })
 
       const result = await this.run(params, meta)
 

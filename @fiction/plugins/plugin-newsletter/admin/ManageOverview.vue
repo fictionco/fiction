@@ -55,194 +55,238 @@ const options = vue.computed(() => {
   const wordCount = getWordCountFromHTML(allContent)
 
   const scheduledTime = config?.scheduledAt ? dayjs(config.scheduledAt).format('MMM D, YYYY h:mm A') : ''
-  const scheduleDisplay = config?.scheduledAt && config?.scheduleMode !== 'now' ? `Send at ${scheduledTime}` : 'Send Immediately'
 
   const subs = subscriberCount ? `${subscriberCount} Active Subscribers` : 'No Subscribers'
   const hasSubs = !!(subscriberCount && subscriberCount > 0)
 
   return [
+
     new InputOption({
-      icon: { class: 'i-tabler-input-spark' },
-      label: 'Subject Line',
-      subLabel: 'What the user sees in their inbox',
-      input: 'InputControl',
-      valueDisplay: () => {
-        return {
-          status: config?.subject ? 'ready' : 'incomplete',
-          data: config?.subject,
-        }
-      },
-      options: [
-        new InputOption({ key: 'subject', label: 'Subject Line', input: 'InputText', isRequired: true, placeholder: 'Subject Line', description: 'This is the subject line that appears in the recipient\'s inbox.' }),
-      ],
-    }),
-    new InputOption({
-      icon: { class: 'i-tabler-input-search' },
-      label: 'Preview Text',
-      subLabel: 'What the user sees in their inbox',
-      input: 'InputControl',
-      valueDisplay: () => {
-        return {
-          status: config?.preview ? 'ready' : 'incomplete',
-          data: config?.preview,
-        }
-      },
-      options: [
-        new InputOption({ key: 'preview', label: 'Preview Text', input: 'InputText', placeholder: 'Preview Text', description: 'This is the text that appears in the inbox preview of your email.' }),
-      ],
-    }),
-    new InputOption({
-      icon: { class: 'i-tabler-file-description' },
-      label: 'Email Content',
-      subLabel: 'The text of the email',
-      input: 'InputControl',
-      valueDisplay: () => {
-        return {
-          status: wordCount > 5 ? 'ready' : 'incomplete',
-          data: `${wordCount} Words in Email`,
-        }
-      },
-      actions: () => [
-        {
-          name: 'Email Composer',
-          href: getCampaignLink('campaign-composer'),
-          theme: 'theme',
-          icon: { class: 'i-tabler-edit' },
-        },
-      ],
-    }),
-    new InputOption({
-      icon: { class: 'i-tabler-calendar' },
-      label: 'Schedule Send Time and Date',
-      subLabel: 'When the email will be sent',
-      input: 'InputControl',
-      valueDisplay: () => {
-        return {
-          status: config?.scheduleMode === 'now' || config?.scheduledAt ? 'ready' : 'incomplete',
-          data: config?.scheduleMode === 'now' || config?.scheduledAt ? `Send at ${scheduledTime}` : 'Send Immediately',
-        }
-      },
+      key: 'campaignDetails',
+      label: 'Content and Delivery Details',
+      input: 'group',
       options: [
         new InputOption({
-          key: 'scheduleMode',
-          label: 'Sending Time',
-          input: 'InputSelectCustom',
-          isRequired: true,
-          list: [
-            { name: 'Send Immediately', value: 'now' },
-            { name: 'Schedule Send', value: 'schedule' },
+          icon: { class: 'i-tabler-input-spark' },
+          label: 'Subject Line',
+          subLabel: 'What the user sees in their inbox',
+          input: 'InputControl',
+          valueDisplay: () => {
+            return {
+              status: config?.subject ? 'ready' : 'incomplete',
+              data: config?.subject,
+            }
+          },
+          options: [
+            new InputOption({ key: 'subject', label: 'Subject Line', input: 'InputText', isRequired: true, placeholder: 'Subject Line', description: 'This is the subject line that appears in the recipient\'s inbox.' }),
           ],
         }),
         new InputOption({
-          key: 'scheduledAt',
-          label: 'Scheduled Send Time',
-          input: 'InputDate',
-          isRequired: true,
-          isHidden: campaign?.scheduleMode.value !== 'schedule',
-          props: { includeTime: true, dateMode: 'future' },
+          icon: { class: 'i-tabler-input-search' },
+          label: 'Preview Text',
+          subLabel: 'What the user sees in their inbox',
+          input: 'InputControl',
+          valueDisplay: () => {
+            return {
+              status: config?.preview ? 'ready' : 'incomplete',
+              data: config?.preview,
+            }
+          },
+          options: [
+            new InputOption({ key: 'preview', label: 'Preview Text', input: 'InputText', placeholder: 'Preview Text', description: 'This is the text that appears in the inbox preview of your email.' }),
+          ],
+        }),
+        new InputOption({
+          icon: { class: 'i-tabler-file-description' },
+          label: 'Email Content',
+          subLabel: 'The text of the email',
+          input: 'InputControl',
+          valueDisplay: () => {
+            return {
+              status: wordCount > 5 ? 'ready' : 'incomplete',
+              data: `${wordCount} Words in Email`,
+            }
+          },
+          actions: () => [
+            {
+              name: 'Email Composer',
+              href: getCampaignLink('campaign-composer'),
+              theme: 'theme',
+              icon: { class: 'i-tabler-edit' },
+            },
+          ],
+        }),
+        new InputOption({
+          icon: { class: 'i-tabler-calendar' },
+          label: 'Schedule Send Time and Date',
+          subLabel: 'When the email will be sent',
+          input: 'InputControl',
+          valueDisplay: () => {
+            return {
+              status: config?.scheduleMode === 'now' || config?.scheduledAt ? 'ready' : 'incomplete',
+              data: config?.scheduleMode === 'now' || config?.scheduledAt ? `Send at ${scheduledTime}` : 'Send Immediately',
+            }
+          },
+          options: [
+            new InputOption({
+              key: 'scheduleMode',
+              label: 'Sending Time',
+              input: 'InputSelectCustom',
+              isRequired: true,
+              list: [
+                { name: 'Send Immediately', value: 'now' },
+                { name: 'Schedule Send', value: 'schedule' },
+              ],
+            }),
+            new InputOption({
+              key: 'scheduledAt',
+              label: 'Scheduled Send Time',
+              input: 'InputDate',
+              isRequired: true,
+              isHidden: campaign?.scheduleMode.value !== 'schedule',
+              props: { includeTime: true, dateMode: 'future' },
+            }),
+          ],
+        }),
+        new InputOption({
+          icon: { class: 'i-tabler-users-group' },
+          label: 'Recipients',
+          subLabel: 'Who will receive the email',
+          input: 'InputControl',
+          valueDisplay: () => {
+            return {
+              status: hasSubs ? 'ready' : 'incomplete',
+              data: subs,
+            }
+          },
+          actions: () => [
+            {
+              name: 'View Subscribers',
+              href: card.link(`/audience`),
+              theme: 'theme',
+              icon: { class: 'i-tabler-arrow-up-right' },
+            },
+          ],
+        }),
+        new InputOption({
+          icon: { class: 'i-tabler-mailbox' },
+          label: 'Sender',
+          subLabel: 'Who the email will be sent from',
+          input: 'InputControl',
+          valueDisplay: () => {
+            return {
+              status: from.value ? 'ready' : 'incomplete',
+              data: from.value,
+            }
+          },
+          actions: () => [
+            {
+              name: 'View Settings',
+              href: card.link(`/settings/project`),
+              theme: 'theme',
+              icon: { class: 'i-tabler-arrow-up-right' },
+            },
+          ],
+        }),
+        new InputOption({
+          icon: { class: 'i-tabler-eye-check' },
+          label: 'Preview Email',
+          subLabel: 'View the email as it will appear',
+          input: 'InputControl',
+          actions: ({ input }) => [
+            {
+              name: 'Preview',
+              onClick: () => input.isModalOpen.value = true,
+              theme: 'theme',
+              icon: { class: 'i-tabler-eye' },
+            },
+          ],
+          options: [
+            new InputOption({ key: '*', input: InputEmailPreview, props: { modelValue: campaign, card } }),
+          ],
+        }),
+        new InputOption({
+          icon: { class: 'i-tabler-mail-question' },
+          label: 'Send Test Email',
+          subLabel: 'Send a test email to yourself',
+          input: 'InputControl',
+          actions: ({ input }) => [
+            {
+              name: 'Send Test',
+              onClick: () => input.isModalOpen.value = true,
+              theme: 'theme',
+              icon: { class: 'i-tabler-test-pipe' },
+            },
+          ],
+          options: [
+            new InputOption({ key: 'userConfig.testEmails', label: 'Test Emails', input: 'InputText', placeholder: '', description: 'Enter emails to send the test to... (comma separated)' }),
+          ],
+          modalActions: () => [
+            {
+              name: 'Send Test Email',
+              theme: 'primary',
+              onClick: async () => {
+                const em = campaign
+
+                const testEmails = em?.userConfig.value.testEmails
+
+                if (!testEmails)
+                  return
+
+                loading.value = 'testEmail'
+
+                await fictionSend.requests.ManageCampaign.projectRequest({
+                  _action: 'sendTest',
+                  testEmails,
+                  where: { campaignId: em.campaignId },
+                })
+
+                loading.value = ''
+
+                settingsModal.value = ''
+              },
+              loading: loading.value === 'testEmail',
+            },
+          ],
         }),
       ],
+      format: 'control',
     }),
     new InputOption({
-      icon: { class: 'i-tabler-users-group' },
-      label: 'Recipients',
-      subLabel: 'Who will receive the email',
-      input: 'InputControl',
-      valueDisplay: () => {
-        return {
-          status: hasSubs ? 'ready' : 'incomplete',
-          data: subs,
-        }
-      },
-      actions: () => [
-        {
-          name: 'View Subscribers',
-          href: card.link(`/audience`),
-          theme: 'theme',
-          icon: { class: 'i-tabler-arrow-up-right' },
-        },
-      ],
-    }),
-    new InputOption({
-      icon: { class: 'i-tabler-mailbox' },
-      label: 'Sender',
-      subLabel: 'Who the email will be sent from',
-      input: 'InputControl',
-      valueDisplay: () => {
-        return {
-          status: from.value ? 'ready' : 'incomplete',
-          data: from.value,
-        }
-      },
-      actions: () => [
-        {
-          name: 'View Settings',
-          href: card.link(`/settings/project`),
-          theme: 'theme',
-          icon: { class: 'i-tabler-arrow-up-right' },
-        },
-      ],
-    }),
-    new InputOption({
-      icon: { class: 'i-tabler-eye-check' },
-      label: 'Preview Email',
-      subLabel: 'View the email as it will appear',
-      input: 'InputControl',
-      actions: () => [
-        {
-          name: 'Preview',
-          onClick: () => (settingsModal.value = 'preview'),
-          theme: 'theme',
-          icon: { class: 'i-tabler-eye' },
-        },
-      ],
+      key: 'campaignDanger',
+      label: 'Danger Zone',
+      input: 'group',
       options: [
-        new InputOption({ key: '*', input: InputEmailPreview, props: { modelValue: campaign, card } }),
+        new InputOption({
+          key: 'deleteCampaign',
+          label: 'Permanently Delete Campaign',
+          subLabel: 'This action cannot be undone',
+          input: 'InputControl',
+
+          actions: () => [
+            {
+              name: 'Delete This Campaign...',
+              theme: 'rose',
+              design: 'ghost',
+              icon: 'i-tabler-trash',
+              loading: loading.value === 'delete',
+              onClick: async () => {
+                const endpoint = fictionSend.requests.ManageCampaign
+
+                const confirmed = confirm('Are you sure you want to delete this forever?')
+
+                if (confirmed && campaign?.campaignId) {
+                  loading.value = 'delete'
+                  await endpoint.projectRequest({ _action: 'delete', where: [{ campaignId: campaign?.campaignId }] })
+                  await card.goto('/campaigns', { caller: 'deleteCampaign' })
+                  loading.value = ''
+                }
+              },
+            },
+          ],
+        }),
       ],
-    }),
-    new InputOption({
-      icon: { class: 'i-tabler-mail-question' },
-      label: 'Send Test Email',
-      subLabel: 'Send a test email to yourself',
-      input: 'InputControl',
-      actions: () => [
-        {
-          name: 'Send Test',
-          onClick: () => (settingsModal.value = 'testEmail'),
-          theme: 'theme',
-          icon: { class: 'i-tabler-test-pipe' },
-        },
-      ],
-      options: [
-        new InputOption({ key: 'userConfig.testEmails', label: 'Test Emails', input: 'InputText', placeholder: '', description: 'Enter emails to send the test to... (comma separated)' }),
-      ],
-      modalActions: () => [
-        {
-          name: 'Send Test Email',
-          theme: 'primary',
-          onClick: async () => {
-            const em = campaign
-
-            const testEmails = em?.userConfig.value.testEmails
-
-            if (!testEmails)
-              return
-
-            loading.value = 'testEmail'
-
-            await fictionSend.requests.ManageCampaign.projectRequest({
-              _action: 'sendTest',
-              testEmails,
-              where: { campaignId: em.campaignId },
-            })
-
-            loading.value = ''
-
-            settingsModal.value = ''
-          },
-          loading: loading.value === 'testEmail',
-        },
-      ],
+      format: 'control',
     }),
   ]
 })
@@ -357,7 +401,6 @@ const header = vue.computed(() => {
           ui-size="lg"
           :options
           :card
-          :disable-group-hide="true"
           format="control"
           @update:model-value="campaign?.update($event)"
         />

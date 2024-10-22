@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site'
 import type { FictionSubscribe, Subscriber } from '../index.js'
-import ElHeader from '@fiction/admin/settings/ElHeader.vue'
 import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
 import { deepMerge, gravatarUrlSync, standardDate, type User, useService, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save.js'

@@ -15,6 +15,7 @@ export interface ErrorConfig {
   suggestedAction?: string
   retryable?: boolean
   expected?: boolean
+  reason?: string
 }
 
 export class EndpointError extends Error {

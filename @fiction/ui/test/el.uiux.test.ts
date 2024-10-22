@@ -7,7 +7,7 @@ import type { Interaction } from '@fiction/core/test-utils'
 import { createTestUtilServices, testComponentStability } from '@fiction/core/test-utils'
 import { beforeAll, describe } from 'vitest'
 
-import { inputs } from '../inputs/index.js'
+import { InputOption, inputs } from '../inputs/index.js'
 
 let service: ServiceList
 
@@ -31,6 +31,9 @@ describe('inputs', async () => {
     const props: Record<string, any> = {}
     if (name === 'InputUsername') {
       props.table = 'fiction_user'
+    }
+    else if (name === 'InputControl') {
+      props.controlOption = new InputOption({ label: 'hello' })
     }
 
     const interactions: Interaction[] = textInputs.includes(name)

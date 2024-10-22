@@ -9,7 +9,7 @@ defineOptions({ name: 'InputItems' })
 
 const { modelValue = [], uiSize = 'md', placeholder, table, column } = defineProps<{
   modelValue: string[]
-  uiSize: StandardSize
+  uiSize?: StandardSize
   placeholder?: string
   table?: string
   column?: string

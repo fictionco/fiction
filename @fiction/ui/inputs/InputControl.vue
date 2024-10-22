@@ -132,13 +132,13 @@ const actions = vue.computed<ActionButton[]>(() => {
           :data-test-id="action.testId"
           :design="action.design || 'solid'"
           :theme="action.theme || 'theme'"
-          size="lg"
+          :size="action.size || 'lg'"
           :loading="action.loading"
           :href="action.href"
           :icon="action.icon"
           :icon-after="action.iconAfter"
           :disabled="action.disabled"
-          @click.stop="action.onClick ? (action.onClick({ item: action, event: $event })) : ''"
+          @click.stop="action.onClick ? (action.onClick({ item: action, event: $event, props: { controlOption } })) : ''"
         >
           {{ action.name }}
         </XButton>
@@ -183,7 +183,7 @@ const actions = vue.computed<ActionButton[]>(() => {
               size="lg"
               :href="action.href"
               :data-test-id="action.testId"
-              @click.stop="action.onClick ? (action.onClick({ item: action, event: $event })) : ''"
+              @click.stop="action.onClick ? (action.onClick({ item: action, event: $event, props: { controlOption } })) : ''"
             >
               {{ action.name }}
             </XButton>
