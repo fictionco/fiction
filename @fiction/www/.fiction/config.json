@@ -5,10 +5,6 @@
       "path": "/api/utils/db/CheckUsername"
     },
     {
-      "key": "GetTopValues",
-      "path": "/api/utils/db/GetTopValues"
-    },
-    {
       "key": "ManageUser",
       "path": "/api/user/ManageUser"
     },
@@ -23,6 +19,10 @@
     {
       "key": "OrganizationsByUserId",
       "path": "/api/user/OrganizationsByUserId"
+    },
+    {
+      "key": "GetTopValues",
+      "path": "/api/user/GetTopValues"
     },
     {
       "key": "SaveMedia",
@@ -135,10 +135,6 @@
     {
       "key": "ManagePostIndex",
       "path": "/api/fiction-posts/ManagePostIndex"
-    },
-    {
-      "key": "ManageTaxonomy",
-      "path": "/api/fiction-posts/ManageTaxonomy"
     },
     {
       "key": "ManageCampaign",

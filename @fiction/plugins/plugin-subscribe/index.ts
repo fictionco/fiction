@@ -55,13 +55,7 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
     fictionAdmin.addAdminPages({
       key: 'audience',
       loader: async ({ factory }) => [
-      // await factory.create({
-      //   templateId: 'dash',
-      //   slug: 'audience',
-      //   title: 'Audience',
-      //   cards: [await factory.create({ el: vue.defineAsyncComponent(async () => import('./admin/ViewIndex.vue')) })],
-      //   userConfig: { isNavItem: true, navIcon: 'i-tabler-users', navIconAlt: 'i-tabler-users-plus', priority: 50 },
-      // }),
+
         await factory.create({
           templateId: 'dash',
           slug: 'subscriber-view',

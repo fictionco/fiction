@@ -63,7 +63,7 @@ export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
 
       await fictionUser.queries.ManageUser.serve({ _action: 'verifyEmail', code, email: userId }, { ...meta, server: true })
 
-      const r = await fictionSubscribe.queries.ManageSubscription.serve({ _action: 'create', orgId, userId }, { ...meta, server: true })
+      const r = await fictionSubscribe.queries.ManageSubscription.serve({ _action: 'create', orgId, subscriber: { userId } }, { ...meta, server: true })
 
       const sub = r.data?.[0]
 

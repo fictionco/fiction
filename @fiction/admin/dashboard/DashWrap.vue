@@ -171,7 +171,7 @@ function toggleSidebar() {
             >
               <DashBar class="border-theme-300/70 dark:border-theme-700 border-b" :account-menu="accountMenu" :card :site="site" @nav="toggleSidebar()" />
               <div
-                class="mx-auto bg-theme-50/50 dark:bg-theme-950 grow overflow-scroll overflow-y-clip w-full"
+                class="mx-auto bg-theme-50/50 dark:bg-theme-950 grow overflow-scroll w-full"
               >
                 <div
                   v-if="loading"

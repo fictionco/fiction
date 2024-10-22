@@ -3,7 +3,7 @@ import type { FictionAdmin } from '@fiction/admin'
 import type { FictionDb, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
-import { ManagePostIndex, QueryManagePost, QueryManageTaxonomy, type WherePost } from './endpoint'
+import { ManagePostIndex, QueryManagePost, type WherePost } from './endpoint'
 import { Post } from './post'
 import { tables } from './schema'
 import { getWidgets } from './widgets'
@@ -25,7 +25,6 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
   queries = {
     ManagePost: new QueryManagePost({ fictionPosts: this, ...this.settings }),
     ManagePostIndex: new ManagePostIndex({ fictionPosts: this, ...this.settings }),
-    ManageTaxonomy: new QueryManageTaxonomy({ fictionPosts: this, ...this.settings }),
   }
 
   requests = this.createRequests({
@@ -88,14 +87,6 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
 
       job.start()
     }
-  }
-
-  async getPostTaxonomyList(args: { orgId: string, search?: string, type: 'category' | 'tag' }) {
-    const { orgId, search, type } = args
-
-    const r = await this.requests.ManageTaxonomy.request({ _action: 'list', orgId, search, orderMode: 'popularity', type })
-
-    return r.data || []
   }
 
   async getPost(args: { orgId: string, where: WherePost, card: Card }) {

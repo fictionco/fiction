@@ -10,7 +10,6 @@ export const t = {
 }
 
 export type Subscriber = Partial<TableSubscribeConfig> & {
-  tags?: TableTaxonomyConfig[]
   user?: User
   avatar?: MediaObject
 }

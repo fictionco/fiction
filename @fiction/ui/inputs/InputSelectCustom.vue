@@ -208,8 +208,8 @@ function handleKeydown(event: KeyboardEvent) {
               </template>
             </div>
             <template v-for="(item, i) of li" v-else :key="i">
-              <li v-if="item.format === 'divider' || item.value === 'divider'">
-                <div :class="themeClasses.optionClasses.divider" />
+              <li v-if="(item.format === 'divider' || item.value === 'divider')">
+                <div :class="[themeClasses.optionClasses.divider, i === li.length - 1 ? 'hidden' : '']" />
               </li>
               <li
                 v-else-if="item.format === 'title'"

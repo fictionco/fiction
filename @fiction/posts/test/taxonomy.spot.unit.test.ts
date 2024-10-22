@@ -1,6 +1,4 @@
-import type { DataFilter } from '@fiction/core'
-
-import type { ManagePostParams, ManageTaxonomyParams } from '../endpoint'
+import type { ManagePostParams } from '../endpoint'
 import { createTestUser } from '@fiction/core/test-utils/init'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, describe, expect, it } from 'vitest'

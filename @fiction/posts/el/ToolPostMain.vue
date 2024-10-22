@@ -13,7 +13,6 @@ import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import InputActionList from '@fiction/ui/inputs/InputActionList.vue'
 import { t } from '../schema'
 import InputAuthors from './InputAuthors.vue'
-import InputTaxonomy from './InputTaxonomy.vue'
 
 const props = defineProps({
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
@@ -125,8 +124,8 @@ const options = vue.computed<InputOption[]>(() => {
       label: 'Taxonomy',
       input: 'group',
       options: [
-        new InputOption({ key: 'tags', label: 'Tags', input: 'InputItems', props: { taxonomyType: 'tag' } }),
-        new InputOption({ key: 'categories', label: 'Categories', input: 'InputItems', props: { taxonomyType: 'category' } }),
+        new InputOption({ key: 'tags', label: 'Tags', input: 'InputItems', props: { taxonomyType: 'tag', table: t.posts, column: 'tags' } }),
+        new InputOption({ key: 'categories', label: 'Categories', input: 'InputItems', props: { taxonomyType: 'category', table: t.posts, column: 'categories' } }),
         new InputOption({ key: 'authors', label: 'Authors', input: InputAuthors, props: { } }),
       ],
     }),
@@ -178,14 +177,12 @@ function updatePost(config: TablePostConfig) {
 
 <template>
   <ElTool v-if="post" :tool>
-    <ElForm id="toolForm">
-      <FormEngine
-        state-key="postEdit"
-        :model-value="post.toConfig()"
-        :options
-        :input-props="{ post, card }"
-        @update:model-value="updatePost($event as TablePostConfig)"
-      />
-    </ElForm>
+    <FormEngine
+      state-key="postEdit"
+      :model-value="post.toConfig()"
+      :options
+      :input-props="{ post, card }"
+      @update:model-value="updatePost($event as TablePostConfig)"
+    />
   </ElTool>
 </template>

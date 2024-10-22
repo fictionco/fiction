@@ -15,6 +15,7 @@ import { getAccessLevel, userCan, userCapabilities } from '../utils/priv.js'
 import * as priv from '../utils/priv.js'
 import { type ManageUserParams, QueryManageUser } from './endpoint.js'
 import { QueryManageMemberRelation, QueryManageOrganization, QueryOrganizationsByUserId } from './endpointOrg.js'
+import { GetTopValues } from './endpointTopValues.js'
 import { FictionUserEnrich } from './enrich/pluginEnrich.js'
 import { getAdminTables } from './schema.js'
 // https://github.com/microsoft/TypeScript/issues/48212
@@ -65,6 +66,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     ManageOrganization: new QueryManageOrganization({ ...this.settings, fictionUser: this }),
     ManageMemberRelation: new QueryManageMemberRelation({ ...this.settings, fictionUser: this }),
     OrganizationsByUserId: new QueryOrganizationsByUserId({ ...this.settings, fictionUser: this }),
+    GetTopValues: new GetTopValues({ ...this.settings, fictionUser: this }),
   }
 
   requests = this.createRequests({

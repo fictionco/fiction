@@ -90,6 +90,7 @@ async function importSubscribers() {
   try {
     const importDetail = getImportDetail()
     const subscribers = emailList.value.map(email => ({ email, tags: tagList.value, importDetail }))
+
     const orgId = service.fictionUser.activeOrgId.value
 
     if (!orgId) {

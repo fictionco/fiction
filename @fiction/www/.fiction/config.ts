@@ -74,7 +74,6 @@ export interface CompiledServiceConfig {
     | 'ManageSites'
     | 'ManageSubmission'
     | 'ManageSubscription'
-    | 'ManageTaxonomy'
     | 'ManageUser'
     | 'ManageVectors'
     | 'MediaIndex'

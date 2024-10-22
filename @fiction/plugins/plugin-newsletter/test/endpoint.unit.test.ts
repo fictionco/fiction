@@ -34,7 +34,7 @@ describe('email send endpoint', async () => {
 
   const subscriberEmail = getTestEmail()
 
-  await testUtils.fictionSubscribe.queries.ManageSubscription.serve({ _action: 'create', orgId, email: subscriberEmail }, { server: true })
+  await testUtils.fictionSubscribe.queries.ManageSubscription.serve({ _action: 'create', orgId, subscriber: { email: subscriberEmail } }, { server: true })
 
   if (!orgId || !userId || !userId2 || !userId3) {
     throw abort('missing orgId or userId')

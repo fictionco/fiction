@@ -65,13 +65,13 @@ describe('subscriptione endpoint', async () => {
     const r = await fictionSubscribe.queries.ManageSubscription.serve({
       _action: 'create',
       orgId,
-      userId: userId2,
+      subscriber: { userId: userId2 },
     }, { server: true })
 
     const r2 = await fictionSubscribe.queries.ManageSubscription.serve({
       _action: 'create',
       orgId,
-      userId: userId3,
+      subscriber: { userId: userId3 },
     }, { server: true })
 
     expect(r.status).toBe('success')

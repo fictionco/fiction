@@ -77,7 +77,7 @@ export function selectInputClasses(args: { inputClass: string, classButton?: str
     ]),
     optionClasses: {
       title: `py-input-y px-input-x mt-[0.5em] text-theme-300 dark:text-theme-0 text-[0.8em]`,
-      divider: 'border-input-edge w-full border-t',
+      divider: 'border-theme-200 dark:border-theme-600/70 w-full border-t',
       always: twMerge([
         'group relative cursor-pointer select-none rounded-md mb-[1px] antialiased flex items-center justify-between',
         sizeClasses[uiSize].option,

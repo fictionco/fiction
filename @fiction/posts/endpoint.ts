@@ -288,18 +288,6 @@ export class QueryManagePost extends PostsQuery {
     if (post.postId) {
       post.authors = await db.select([`${t.user}.userId`, `${t.user}.email`, `${t.user}.fullName`, `${t.postAuthor}.priority`]).from(t.postAuthor).join(t.user, `${t.user}.user_id`, `=`, `${t.postAuthor}.user_id`).where(`${t.postAuthor}.post_id`, post.postId).orderBy(`${t.postAuthor}.priority`, 'asc')
       post.sites = await db.select([`${t.site}.siteId`, `${t.site}.title`]).from(t.postSite).join(t.site, `${t.site}.site_id`, `=`, `${t.postSite}.site_id`).where(`${t.postSite}.post_id`, post.postId)
-
-      const q = db
-        .select([`${t.taxonomy}.*`, `${t.postTaxonomies}.priority`])
-        .from(t.postTaxonomies)
-        .join(t.taxonomy, `${t.taxonomy}.taxonomy_id`, `=`, `${t.postTaxonomies}.taxonomy_id`)
-        .where(`${t.postTaxonomies}.post_id`, post.postId)
-        .orderBy(`${t.postTaxonomies}.priority`, 'asc')
-
-      const taxonomy = await q
-
-      post.tags = taxonomy.filter(tax => tax.type === 'tag').map(tax => tax.slug)
-      post.categories = taxonomy.filter(tax => tax.type === 'category').map(tax => tax.slug)
     }
 
     if (loadDraft && post.draft)
@@ -353,6 +341,8 @@ export class QueryManagePost extends PostsQuery {
     ])
 
     const final = await this.getPost({ ...params, _action: 'get' }, { ...meta, caller: 'updatePostEnd' })
+
+    this.log.info('prepped', { data: { prepped, final } })
 
     return { status: 'success', data: final.data, message: 'Post updated' }
   }
@@ -564,176 +554,176 @@ export class QueryManagePost extends PostsQuery {
   }
 }
 
-export type ManageTaxonomyParamsRequest =
-  | { _action: 'create', items: TableTaxonomyConfig[] | readonly TableTaxonomyConfig[] }
-  | { _action: 'update', items: TableTaxonomyConfig[] | readonly TableTaxonomyConfig[] }
-  | { _action: 'get', select?: (keyof TableTaxonomyConfig)[] | ['*'], selectors: { taxonomyId?: string, slug?: string }[] }
-  | {
-    _action: 'list'
-    search?: string
-    type?: 'tag' | 'category'
-    limit?: number
-    offset?: number
-    filters?: DataFilter[]
-    orderMode?: 'popularity' | 'recent'
-  }
-  | {
-    _action: 'delete'
-    items: TableTaxonomyConfig[] | readonly TableTaxonomyConfig[]
-  }
+// export type ManageTaxonomyParamsRequest =
+//   | { _action: 'create', items: TableTaxonomyConfig[] | readonly TableTaxonomyConfig[] }
+//   | { _action: 'update', items: TableTaxonomyConfig[] | readonly TableTaxonomyConfig[] }
+//   | { _action: 'get', select?: (keyof TableTaxonomyConfig)[] | ['*'], selectors: { taxonomyId?: string, slug?: string }[] }
+//   | {
+//     _action: 'list'
+//     search?: string
+//     type?: 'tag' | 'category'
+//     limit?: number
+//     offset?: number
+//     filters?: DataFilter[]
+//     orderMode?: 'popularity' | 'recent'
+//   }
+//   | {
+//     _action: 'delete'
+//     items: TableTaxonomyConfig[] | readonly TableTaxonomyConfig[]
+//   }
 
-export type ManageTaxonomyParams = ManageTaxonomyParamsRequest & { orgId: string, userId?: string }
+// export type ManageTaxonomyParams = ManageTaxonomyParamsRequest & { orgId: string, userId?: string }
 
-type ManageTaxonomyResponse = EndpointResponse<TableTaxonomyConfig[]>
+// type ManageTaxonomyResponse = EndpointResponse<TableTaxonomyConfig[]>
 
-export class QueryManageTaxonomy extends PostsQuery {
-  async run(params: ManageTaxonomyParams, _meta: EndpointMeta): Promise<ManageTaxonomyResponse> {
-    let taxonomies: TableTaxonomyConfig[] = []
+// export class QueryManageTaxonomy extends PostsQuery {
+//   async run(params: ManageTaxonomyParams, _meta: EndpointMeta): Promise<ManageTaxonomyResponse> {
+//     let taxonomies: TableTaxonomyConfig[] = []
 
-    switch (params._action) {
-      case 'get':
-        taxonomies = await this.getTaxonomies(params, _meta)
-        break
-      case 'list':
-        taxonomies = await this.listTaxonomies(params, _meta)
-        break
-      case 'update':
-        taxonomies = await this.updateTaxonomies(params, _meta)
-        break
-      case 'create':
-        taxonomies = await this.createTaxonomies(params, _meta)
-        break
-      case 'delete':
-        taxonomies = await this.deleteTaxonomies(params, _meta)
-        break
-      default:
-        return { status: 'error', message: 'Invalid action' }
-    }
+//     switch (params._action) {
+//       case 'get':
+//         taxonomies = await this.getTaxonomies(params, _meta)
+//         break
+//       case 'list':
+//         taxonomies = await this.listTaxonomies(params, _meta)
+//         break
+//       case 'update':
+//         taxonomies = await this.updateTaxonomies(params, _meta)
+//         break
+//       case 'create':
+//         taxonomies = await this.createTaxonomies(params, _meta)
+//         break
+//       case 'delete':
+//         taxonomies = await this.deleteTaxonomies(params, _meta)
+//         break
+//       default:
+//         return { status: 'error', message: 'Invalid action' }
+//     }
 
-    return { status: 'success', data: taxonomies }
-  }
+//     return { status: 'success', data: taxonomies }
+//   }
 
-  private async createTaxonomies(params: ManageTaxonomyParams & { _action: 'create' }, _meta: EndpointMeta): Promise<TableTaxonomyConfig[]> {
-    const { items, orgId } = params
-    const db = this.db()
+//   private async createTaxonomies(params: ManageTaxonomyParams & { _action: 'create' }, _meta: EndpointMeta): Promise<TableTaxonomyConfig[]> {
+//     const { items, orgId } = params
+//     const db = this.db()
 
-    const refined = items.map((item) => {
-      return { orgId, title: toLabel(item.slug), slug: toSlug(item.title), ...item }
-    })
-    const tbl = this.settings.fictionDb.getTable(t.taxonomy)
-    const uniqueOn = tbl?.uniqueOn || []
+//     const refined = items.map((item) => {
+//       return { orgId, title: toLabel(item.slug), slug: toSlug(item.title), ...item }
+//     })
+//     const tbl = this.settings.fictionDb.getTable(t.taxonomy)
+//     const uniqueOn = tbl?.uniqueOn || []
 
-    const results = await db(t.taxonomy).insert(refined).onConflict(uniqueOn).merge(['slug']).returning('*')
+//     const results = await db(t.taxonomy).insert(refined).onConflict(uniqueOn).merge(['slug']).returning('*')
 
-    return results
-  }
+//     return results
+//   }
 
-  private async getTaxonomies(params: ManageTaxonomyParams & { _action: 'get' }, _meta: EndpointMeta): Promise<TableTaxonomyConfig[]> {
-    const { selectors, select = ['*'], orgId } = params
-    const db = this.db()
+//   private async getTaxonomies(params: ManageTaxonomyParams & { _action: 'get' }, _meta: EndpointMeta): Promise<TableTaxonomyConfig[]> {
+//     const { selectors, select = ['*'], orgId } = params
+//     const db = this.db()
 
-    if (!selectors || selectors.length === 0)
-      throw abort('No selectors provided')
+//     if (!selectors || selectors.length === 0)
+//       throw abort('No selectors provided')
 
-    const results = await Promise.all(selectors.map((s) => {
-      const { slug, taxonomyId } = s
-      const whereQuery = slug ? { slug, orgId } : { taxonomyId, orgId }
+//     const results = await Promise.all(selectors.map((s) => {
+//       const { slug, taxonomyId } = s
+//       const whereQuery = slug ? { slug, orgId } : { taxonomyId, orgId }
 
-      const r = db.select(select)
-        .from(t.taxonomy)
-        .where(whereQuery)
-        .first()
+//       const r = db.select(select)
+//         .from(t.taxonomy)
+//         .where(whereQuery)
+//         .first()
 
-      return r
-    }))
+//       return r
+//     }))
 
-    return results.filter(Boolean) as TableTaxonomyConfig[]
-  }
+//     return results.filter(Boolean) as TableTaxonomyConfig[]
+//   }
 
-  private async listTaxonomies(params: ManageTaxonomyParams & { _action: 'list' }, _meta: EndpointMeta): Promise<TableTaxonomyConfig[]> {
-    const { limit = 20, offset = 0, filters = [], orgId, search, type, orderMode = 'recent' } = params
-    const db = this.db()
+//   private async listTaxonomies(params: ManageTaxonomyParams & { _action: 'list' }, _meta: EndpointMeta): Promise<TableTaxonomyConfig[]> {
+//     const { limit = 20, offset = 0, filters = [], orgId, search, type, orderMode = 'recent' } = params
+//     const db = this.db()
 
-    // Define ordering logic in a dictionary for easy extension
-    const orderCriteria = {
-      popularity: { field: 'usage_count', direction: 'desc' },
-      recent: { field: 'createdAt', direction: 'desc' },
-      alphabetical: { field: 'title', direction: 'asc' },
-      updated: { field: 'updatedAt', direction: 'desc' },
-    }
+//     // Define ordering logic in a dictionary for easy extension
+//     const orderCriteria = {
+//       popularity: { field: 'usage_count', direction: 'desc' },
+//       recent: { field: 'createdAt', direction: 'desc' },
+//       alphabetical: { field: 'title', direction: 'asc' },
+//       updated: { field: 'updatedAt', direction: 'desc' },
+//     }
 
-    const query = db
-      .select('*')
-      .from(
-        db.select([
-          `${t.taxonomy}.*`,
-          db.raw('CAST(COUNT(DISTINCT ??) AS INTEGER) as usage_count', `${t.postTaxonomies}.post_id`),
-        ])
-          .from(t.taxonomy)
-          .leftJoin(t.postTaxonomies, `${t.postTaxonomies}.taxonomy_id`, `${t.taxonomy}.taxonomy_id`)
-          .where(`${t.taxonomy}.orgId`, '=', orgId)
-          .groupBy(`${t.taxonomy}.taxonomy_id`)
-          .as('subquery'),
-      ) // The results of this are treated as a table
-      .offset(offset)
-      .limit(limit)
+//     const query = db
+//       .select('*')
+//       .from(
+//         db.select([
+//           `${t.taxonomy}.*`,
+//           db.raw('CAST(COUNT(DISTINCT ??) AS INTEGER) as usage_count', `${t.postTaxonomies}.post_id`),
+//         ])
+//           .from(t.taxonomy)
+//           .leftJoin(t.postTaxonomies, `${t.postTaxonomies}.taxonomy_id`, `${t.taxonomy}.taxonomy_id`)
+//           .where(`${t.taxonomy}.orgId`, '=', orgId)
+//           .groupBy(`${t.taxonomy}.taxonomy_id`)
+//           .as('subquery'),
+//       ) // The results of this are treated as a table
+//       .offset(offset)
+//       .limit(limit)
 
-    // Apply optional filters
-    if (type)
-      void query.andWhere({ type })
+//     // Apply optional filters
+//     if (type)
+//       void query.andWhere({ type })
 
-    if (search) {
-      void query.andWhere(function () {
-        void this.where('title', 'like', `%${search}%`).orWhere('slug', 'like', `%${search}%`)
-      })
-    }
+//     if (search) {
+//       void query.andWhere(function () {
+//         void this.where('title', 'like', `%${search}%`).orWhere('slug', 'like', `%${search}%`)
+//       })
+//     }
 
-    filters.forEach((filter) => {
-      void query.andWhere(filter.field, filter.operator, filter.value)
-    })
+//     filters.forEach((filter) => {
+//       void query.andWhere(filter.field, filter.operator, filter.value)
+//     })
 
-    // Apply ordering based on mode
-    const { field, direction } = orderCriteria[orderMode]
-    void query.orderBy(field, direction)
+//     // Apply ordering based on mode
+//     const { field, direction } = orderCriteria[orderMode]
+//     void query.orderBy(field, direction)
 
-    const r = await query
+//     const r = await query
 
-    return r
-  }
+//     return r
+//   }
 
-  private async updateTaxonomies(params: ManageTaxonomyParams & { _action: 'update' }, _meta: EndpointMeta): Promise<TableTaxonomyConfig[]> {
-    const { items, orgId } = params
-    const db = this.db()
+//   private async updateTaxonomies(params: ManageTaxonomyParams & { _action: 'update' }, _meta: EndpointMeta): Promise<TableTaxonomyConfig[]> {
+//     const { items, orgId } = params
+//     const db = this.db()
 
-    const results = await Promise.all(items.map(async (item) => {
-      const { slug, taxonomyId } = item
-      const whereQuery = slug ? { slug } : { taxonomyId }
-      const r = await db(t.taxonomy)
-        .where({ ...whereQuery, orgId })
-        .update(item)
-        .returning('*')
+//     const results = await Promise.all(items.map(async (item) => {
+//       const { slug, taxonomyId } = item
+//       const whereQuery = slug ? { slug } : { taxonomyId }
+//       const r = await db(t.taxonomy)
+//         .where({ ...whereQuery, orgId })
+//         .update(item)
+//         .returning('*')
 
-      return r[0]
-    }))
+//       return r[0]
+//     }))
 
-    return results
-  }
+//     return results
+//   }
 
-  private async deleteTaxonomies(params: ManageTaxonomyParams & { _action: 'delete' }, _meta: EndpointMeta): Promise<TableTaxonomyConfig[]> {
-    const { items = [], orgId } = params
-    const db = this.db()
+//   private async deleteTaxonomies(params: ManageTaxonomyParams & { _action: 'delete' }, _meta: EndpointMeta): Promise<TableTaxonomyConfig[]> {
+//     const { items = [], orgId } = params
+//     const db = this.db()
 
-    const results = await Promise.all(items.map(async (item) => {
-      const { slug, taxonomyId } = item
-      const whereQuery = slug ? { slug } : { taxonomyId }
-      const r = await db(t.taxonomy)
-        .where({ ...whereQuery, orgId })
-        .delete()
-        .returning('*')
+//     const results = await Promise.all(items.map(async (item) => {
+//       const { slug, taxonomyId } = item
+//       const whereQuery = slug ? { slug } : { taxonomyId }
+//       const r = await db(t.taxonomy)
+//         .where({ ...whereQuery, orgId })
+//         .delete()
+//         .returning('*')
 
-      return r[0]
-    }))
+//       return r[0]
+//     }))
 
-    return results
-  }
-}
+//     return results
+//   }
+// }

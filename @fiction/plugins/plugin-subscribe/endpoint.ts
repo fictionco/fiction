@@ -23,9 +23,9 @@ abstract class SubscribeEndpoint extends Query<SubscriberEndpointSettings> {
 
 export type WhereSubscription = { userId?: string, email?: string, subscriptionId?: string } & ({ userId: string } | { email: string } | { subscriptionId: string })
 
-export type SubscriberCreate = { email?: string, userId?: string, fields?: Partial<TableSubscribeConfig> } & ({ userId: string } | { email: string })
+export type SubscriberCreate = { email?: string, userId?: string } & Partial<TableSubscribeConfig> & ({ userId: string } | { email: string })
 export type ManageSubscriptionRequest =
-  | { _action: 'create', orgId: string } & SubscriberCreate
+  | { _action: 'create', orgId: string, subscriber: SubscriberCreate }
   | { _action: 'bulkCreate', orgId: string, subscribers: SubscriberCreate[] }
   | { _action: 'list', orgId: string, where?: Partial<TableSubscribeConfig>, limit?: number, offset?: number, page?: number }
   | { _action: 'count', orgId: string, filters?: ComplexDataFilter[] }
@@ -100,13 +100,13 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
   }
 
   private async create(params: ManageSubscriptionParams & { _action: 'create' }, meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
-    const { orgId, fields } = params
+    const { orgId, subscriber } = params
 
     const { fictionDb } = this.settings
-    const { email, userId } = params as { email?: string, userId?: string }
+    const { email, userId } = subscriber as { email?: string, userId?: string }
 
     if (!email && !userId) {
-      throw abort('Missing both email and userId')
+      throw abort('need an email or userId to create subscriber')
     }
     else if (email && userId) {
       throw abort('Provide either email or userId, not both')
@@ -114,7 +114,7 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
 
     const resolvedUserId = userId || await this.resolveUserId(email, meta)
 
-    const subscriptionFields: Partial<TableSubscribeConfig> = { orgId, userId: resolvedUserId, email, ...fields, status: fields?.status || 'active' }
+    const subscriptionFields: Partial<TableSubscribeConfig> = { orgId, userId: resolvedUserId, email, ...subscriber, status: subscriber?.status || 'active' }
 
     const insertData = fictionDb.prep({ type: 'insert', fields: subscriptionFields, meta, table: t.subscribe })
 
@@ -134,7 +134,7 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
 
     // Process subscribers in batches
     for (const subscriber of subscribers) {
-      const createParams: ManageSubscriptionParams & { _action: 'create' } = { _action: 'create', orgId, ...subscriber }
+      const createParams: ManageSubscriptionParams & { _action: 'create' } = { _action: 'create', orgId, subscriber }
 
       const result = await this.create(createParams, meta)
       if (result.status === 'success' && result.data) {

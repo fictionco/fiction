@@ -1,4 +1,5 @@
 import type { OAuth2Client } from 'google-auth-library'
+import type { Knex } from 'knex'
 import type { FictionDb } from '../plugin-db/index.js'
 import type { FictionEmail } from '../plugin-email/index.js'
 import type { FictionEnv } from '../plugin-env/index.js'
@@ -13,7 +14,7 @@ import { shortId } from '../utils/id.js'
 import { abort, dayjs, getRequestIpAddress } from '../utils/index.js'
 import { comparePassword, defaultOrgName, emailExists, getCode, hashPassword, validateNewEmail, verifyCode } from './utils/index.js'
 
-interface UserQuerySettings {
+export type UserQuerySettings = {
   fictionUser: FictionUser
   fictionDb: FictionDb
   fictionEmail?: FictionEmail
