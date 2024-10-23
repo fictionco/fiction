@@ -200,18 +200,18 @@ function generateColorStyles(isDark: boolean) {
           </Section>
 
           <Section :style="{ font: fancyFontStack }">
-            <Heading as="h1" :data-heading="heading" :style="{ margin: '0 0 0 0', fontWeight: 'bold', fontSize: '24px', lineHeight: 1.2 }">
+            <Heading data-test-id="email-title" as="h1" :data-heading="heading" :style="{ margin: '0 0 0 0', fontWeight: 'bold', fontSize: '24px', lineHeight: 1.2 }">
               {{ heading }}
             </Heading>
 
-            <Heading v-if="subHeading" as="h3" class="my-0 opacity-60" :style="{ margin: '0 0 0 0', fontWeight: 'normal', fontSize: '24px', lineHeight: 1.33 }">
+            <Heading v-if="subHeading" data-test-id="email-sub-title" as="h3" class="my-0 opacity-60" :style="{ margin: '0 0 0 0', fontWeight: 'normal', fontSize: '24px', lineHeight: 1.33 }">
               <span v-html="subHeading" /> <span class="opacity-40">&#x2198;</span>
             </Heading>
           </Section>
 
           <Hr :style="{ margin: '32px 0' }" />
 
-          <Markdown v-if="bodyMarkdown" class="body-content" :markdown-custom-styles="markdownStyles" :source="bodyMarkdown" />
+          <Markdown v-if="bodyMarkdown" data-test-id="email-content" class="body-content" :markdown-custom-styles="markdownStyles" :source="bodyMarkdown" />
 
           <Section v-if="actions" class="mt-8 mb-8 text-left">
             <Section :style="{ display: 'inline-block' }">

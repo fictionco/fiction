@@ -218,6 +218,7 @@ const options = vue.computed(() => {
           input: 'InputControl',
           actions: ({ input }) => [
             {
+              testId: 'view-preview-button',
               name: 'Preview',
               onClick: () => input.isModalOpen.value = true,
               theme: 'theme',

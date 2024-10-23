@@ -48,6 +48,12 @@ describe('admin:newsletter', async () => {
         { type: 'click', selector: '[data-test-id="review-send-button"]' },
         { type: 'hasText', selector: '[data-test-id="email-subject-line-display-value"]', text: 'Test Subject' },
         { type: 'hasText', selector: '[data-test-id="email-preview-text-display-value"]', text: 'Test Preview Text' },
+        { type: 'click', selector: '[data-test-id="view-preview-button"]' },
+        { type: 'frameInteraction', frameSelector: `#email-preview-frame`, frameActions: [
+          { type: 'hasText', selector: `[data-test-id="email-title"]`, text: 'Test Content Title' },
+          { type: 'hasText', selector: `[data-test-id="email-sub-title"]`, text: 'Test Content Subtitle' },
+          { type: 'hasText', selector: `[data-test-id="email-content"]`, text: 'welcome to the jungle' },
+        ] },
         // { type: 'click', selector: '[data-test-id="add-subscribers-button"]' },
         // { type: 'fill', selector: `[data-test-id="text-email-list"] textarea`, text: 'test@example.com, example@test.com' },
         // { type: 'click', selector: `[data-test-id="save"]` },

@@ -126,6 +126,7 @@ vue.onMounted(async () => {
       </div>
       <iframe
         v-else
+        id="email-preview-frame"
         :style="{ height: iframeHeight }"
         class="w-full"
         :srcdoc="emailConfig?.bodyHtml"

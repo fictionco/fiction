@@ -313,6 +313,8 @@ export async function performActions(args: {
   logger.info('ARRIVED_AT', { data: { url } })
 
   let index = 0
+  let lastSelector = ''
+  let lastAction = ''
   for (const action of actions) {
     const element = page.locator(action.selector || 'body')
 
@@ -320,6 +322,9 @@ export async function performActions(args: {
       logger.info('WAIT_FOR', { data: { wait: `${action.wait}ms` } })
       await waitFor(action.wait)
     }
+
+    lastSelector = action.selector || ''
+    lastAction = action.type
 
     try {
       switch (action.type) {
@@ -408,6 +413,9 @@ export async function performActions(args: {
           }
           const frame = page.frameLocator(action.frameSelector)
           for (const frameAction of action.frameActions) {
+            lastSelector = frameAction.selector || ''
+            lastAction = frameAction.type
+
             const frameElement = frame.locator(frameAction.selector || 'body')
             // Handle frame actions similarly to main actions
             switch (frameAction.type) {
@@ -427,6 +435,7 @@ export async function performActions(args: {
                 await playwrightTest.expect(frameElement).toHaveValue(frameAction.text || '')
                 break
               case 'hasText': {
+                await frameElement.waitFor({ state: 'visible', timeout: 20000 })
                 logger.info('HAS_TEXT', { data: { selector: frameAction.selector, text: frameAction.text } })
                 await playwrightTest.expect(frameElement).toContainText(frameAction.text || '')
                 break
@@ -482,7 +491,9 @@ export async function performActions(args: {
     }
     catch (error) {
       const e = error as Error
-      const errorMessage = `ACTION_ERROR: ${action.type}(${index}) on selector ${action.selector}: ${e.message}`
+      const actionType = action.type === 'frameInteraction' ? `frame: ${lastAction}` : action.type
+      const sel = action.type === 'frameInteraction' ? `frame: ${lastSelector}` : action.selector
+      const errorMessage = `ACTION_ERROR: ${actionType}(ind:${index}) on selector ${sel}: ${e.message}`
       const pageDom = await page.innerHTML('body')
 
       logger.error(errorMessage, { data: { error: e, data: { errorLogs: playwrightLogger.errorLogs, pageDom } } })
