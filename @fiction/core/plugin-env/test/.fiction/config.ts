@@ -32,6 +32,7 @@ export interface CompiledServiceConfig {
     | 'UNSPLASH_ACCESS_KEY'
   endpoints:
     | 'CheckUsername'
+    | 'GetTopValues'
     | 'ManageMemberRelation'
     | 'ManageOrganization'
     | 'ManageUser'

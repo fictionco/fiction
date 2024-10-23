@@ -50,6 +50,7 @@ describe('createAndSaveMedia', async () => {
         "rasterUrl": null,
         "size": 123812,
         "sourceImageUrl": null,
+        "tags": null,
         "thumbFilePath": null,
         "thumbOriginUrl": "https://fiction-media-dev.s3.amazonaws.com/org66f331e113e3e1fedcfc6ffd/med66f331e5fd55725dc2f1b8b3-thumb-test.png?blurhash=UIF68%7C-%3BM%7B%3Fb%7Eqt7WBxu_3-%3B%25MRj%25MofofM%7B",
         "thumbUrl": "https://fiction-media-dev.s3.amazonaws.com/org66f331e113e3e1fedcfc6ffd/med66f331e5fd55725dc2f1b8b3-test.jpg?blurhash=UIF68%7C-%3BM%7B%3Fb%7Eqt7WBxu_3-%3B%25MRj%25MofofM%7B",

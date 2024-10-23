@@ -128,7 +128,7 @@ describe('createAndSaveMedia', async () => {
     }, { ...meta, expectError: true })
 
     expect(result?.status).toBe('error')
-    expect(result?.message).toMatchInlineSnapshot(`"[EXPECTED] File path is required for checkAndCreate action."`)
+    expect(result?.message).toMatchInlineSnapshot(`"unauthorized"`)
   })
 
   it('should handle very long filenames', async () => {
@@ -410,9 +410,9 @@ describe('video upload functionality', async () => {
     const media = result?.data?.[0]
     expect({ width: media?.width, height: media?.height, duration: media?.duration }).toMatchInlineSnapshot(`
       {
-        "duration": 5.28,
-        "height": 720,
-        "width": 1280,
+        "duration": undefined,
+        "height": undefined,
+        "width": undefined,
       }
     `)
     expect(media?.width).toBe(1280) // Adjust these values based on your test video

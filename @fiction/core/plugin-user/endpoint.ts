@@ -446,7 +446,7 @@ export class QueryManageUser extends UserBaseQuery {
     if (user?.userId) {
       const orgsResponse = await fictionUser.queries.OrganizationsByUserId.serve(
         { userId: user.userId, lastOrgId: user.lastOrgId },
-        { ...meta, caller: 'processUserGetOrgs' },
+        { ...meta, caller: 'processUserGetOrgs', server: true },
       )
 
       user.orgs = orgsResponse.data ?? []

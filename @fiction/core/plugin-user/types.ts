@@ -98,15 +98,17 @@ export type StreetAddress = Partial<{
   country: string
 }>
 
-export type OrganizationMember = ColType<typeof membersColumns> & {
-  fullName: string
-  email: string
-  userId: string
-  lastSeenAt: string
-  memberAccess: MemberAccess
-  accessLevel: number
-  avatar?: MediaObject
-} & UserCapabilities
+export type OrganizationMember = Partial<
+  ColType<typeof membersColumns> & {
+    fullName: string
+    email: string
+    userId: string
+    lastSeenAt: string
+    memberAccess: MemberAccess
+    accessLevel: number
+    avatar?: MediaObject
+  } & UserCapabilities
+>
 
 export interface OrganizationCustomerData {
   customerId?: string

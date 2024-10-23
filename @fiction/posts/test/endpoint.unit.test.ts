@@ -440,7 +440,13 @@ describe('post crud tests', async () => {
 
     expect(retrieveResult).toMatchInlineSnapshot(`
       {
+        "code": "PERMISSION_DENIED",
+        "context": "QueryManagePost",
         "data": undefined,
+        "expose": true,
+        "httpStatus": 403,
+        "location": undefined,
+        "message": "unauthorized",
         "status": "error",
       }
     `)

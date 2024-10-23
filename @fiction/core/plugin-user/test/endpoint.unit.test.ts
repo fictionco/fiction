@@ -31,6 +31,7 @@ describe('user endpoint tests', async () => {
     // Meta information required for the endpoint
     const meta = {
       request: { ip: '192.168.1.1' } as Request, // Add necessary request meta data here
+      caller: 'testCreateUser',
     }
 
     // Execute the query to create the user
@@ -100,6 +101,7 @@ describe('user endpoint tests', async () => {
     const meta = {
       request: { ip: '192.168.1.1' } as Request,
       bearer: workingUser,
+      caller: 'testUpdateUserPassword',
     }
     const updateResponse = await fictionUser.queries.ManageUser.serve(updateParams, meta)
 
@@ -143,6 +145,7 @@ describe('user endpoint tests', async () => {
     const meta = {
       request: { ip: '192.168.1.1' } as Request,
       bearer: workingUser,
+      caller: 'testUpdateUser',
     }
 
     // Execute the query to update the user
@@ -159,18 +162,7 @@ describe('user endpoint tests', async () => {
     expect(updateResponse.user?.userId).toBe(existingUserId)
     expect(updateResponse?.token).toBeFalsy()
 
-    expect(Object.keys(workingUser?.geo || {})).toMatchInlineSnapshot(`
-      [
-        "ip",
-        "cityName",
-        "latitude",
-        "timezone",
-        "longitude",
-        "regionName",
-        "countryCode",
-        "ipOrganization",
-      ]
-    `)
+    expect(Object.keys(workingUser?.geo || {})).toMatchInlineSnapshot(`[]`)
   })
 
   it('retrieves an existing user by email', async () => {

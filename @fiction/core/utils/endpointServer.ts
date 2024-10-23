@@ -59,6 +59,58 @@ export function createExpressApp(opts: HelmetOptions & { noHelmet?: boolean, id:
   return app
 }
 
+export async function setAuthorizedUser(args: { fictionUser: FictionUser, request: express.Request, serverName?: string }): Promise<express.Request> {
+  const { fictionUser, request, serverName = 'Unknown' } = args
+  if (!fictionUser) {
+    throw new Error(`no fictionUser instance for endpoint authorization (${serverName})`)
+  }
+
+  let userId: string | undefined
+  request.bearer = undefined
+  request.bearerToken = undefined
+
+  let token: string | undefined
+  const bearerToken = request.headers.authorization
+
+  if (bearerToken && bearerToken.startsWith('Bearer ')) {
+    token = bearerToken.split('Bearer ')[1]
+  }
+  else if (request.headers['x-access-token']) {
+    token = request.headers['x-access-token'] as string
+  }
+
+  if (token) {
+    request.bearerToken = token
+
+    const r = decodeUserToken({ token, tokenSecret: fictionUser.settings.tokenSecret }) ?? {}
+
+    userId = r.userId
+  }
+
+  if (userId) {
+    const { data: user } = await fictionUser.queries.ManageUser.serve(
+      { where: { userId }, _action: 'retrieve' },
+      { server: true },
+    )
+
+    if (user) {
+      const params = request.body as Record<string, any>
+      const o = params.orgId
+
+      const relation = user.orgs?.find(org => org.orgId === o)?.relation
+
+      if (relation)
+        relation.accessLevel = getAccessLevel(relation?.memberAccess)
+
+      user.relation = relation
+
+      request.bearer = user
+    }
+  }
+
+  return request
+}
+
 export class EndpointServer {
   fictionEnv: FictionEnv
   serverName: string
@@ -168,57 +220,6 @@ export class EndpointServer {
     }
   }
 
-  /**
-   * Takes authorization header with bearer token and converts it into a user for subsequent endpoint operations
-   *
-   * @category server
-   */
-  setAuthorizedUser = async (request: express.Request): Promise<express.Request> => {
-    if (!this.fictionUser) {
-      this.log.error(`no fictionUser instance for endpoint authorization (${this.serverName})`)
-      return request
-    }
-
-    let userId: string | undefined
-    request.bearer = undefined
-    request.bearerToken = undefined
-
-    const bearerToken = request.headers.authorization
-
-    if (bearerToken && bearerToken.startsWith('Bearer ')) {
-      const token = bearerToken.split('Bearer ')[1]
-
-      request.bearerToken = token
-
-      const r = decodeUserToken({ token, tokenSecret: this.fictionUser.settings.tokenSecret }) ?? {}
-
-      userId = r.userId
-    }
-
-    if (userId) {
-      const { data: user } = await this.fictionUser.queries.ManageUser.serve(
-        { where: { userId }, _action: 'retrieve' },
-        { server: true },
-      )
-
-      if (user) {
-        const params = request.body as Record<string, any>
-        const o = params.orgId
-
-        const relation = user.orgs?.find(org => org.orgId === o)?.relation
-
-        if (relation)
-          relation.accessLevel = getAccessLevel(relation?.memberAccess)
-
-        user.relation = relation
-
-        request.bearer = user
-      }
-    }
-
-    return request
-  }
-
   endpointAuthorization = async (
     request: express.Request,
     response: express.Response,
@@ -230,7 +231,10 @@ export class EndpointServer {
     const { headers: { authorization } } = request
 
     try {
-      request = await this.setAuthorizedUser(request)
+      if (this.fictionUser) {
+        request = await setAuthorizedUser({ request, fictionUser: this.fictionUser, serverName: this.serverName })
+      }
+
       next()
     }
     catch (error) {

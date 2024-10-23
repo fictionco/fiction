@@ -36,8 +36,10 @@ export abstract class Query<T extends QueryConfig = QueryConfig> {
     const bearer = _meta?.bearer
 
     const { orgId, userId } = _params as Record<string, any>
-
-    if (orgId && !bearer?.orgs?.find(org => org.orgId === orgId)) {
+    if (!bearer && (orgId || userId)) {
+      return { status: 'error', reason: 'bearer is undefined (but orgId or userId are set)' }
+    }
+    else if (orgId && !bearer?.orgs?.find(org => org.orgId === orgId)) {
       return { status: 'error', reason: `bearer user (${bearer?.userId}) not a member of org (${orgId})` }
     }
     else if (userId && bearer?.userId !== userId) {
@@ -60,8 +62,10 @@ export abstract class Query<T extends QueryConfig = QueryConfig> {
     try {
       const permissionResult = await this.permission(params, meta)
 
-      if (permissionResult.status !== 'success')
+      if (permissionResult.status !== 'success') {
+        this.log.error(`Permission denied: ${permissionResult.reason} (caller: ${meta?.caller || 'unknown'})`, { data: { params, meta } })
         throw abort('unauthorized', { code: 'PERMISSION_DENIED', message: 'Permission denied', reason: permissionResult.reason || 'Unknown' })
+      }
 
       const result = await this.run(params, meta)
 

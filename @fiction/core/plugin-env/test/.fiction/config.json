@@ -21,6 +21,10 @@
       "path": "/api/user/OrganizationsByUserId"
     },
     {
+      "key": "GetTopValues",
+      "path": "/api/user/GetTopValues"
+    },
+    {
       "key": "OrgMembers",
       "path": "/api/fiction-team/OrgMembers"
     },

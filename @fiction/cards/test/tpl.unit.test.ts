@@ -43,7 +43,11 @@ describe('verify template settings config', async () => {
           "isPublic": false,
           "templateId": "404",
           "unusedSchema": {
-            "actions.0.btn": "string",
+            "actions.0.disabled": "boolean",
+            "actions.0.format": "string",
+            "actions.0.loading": "boolean",
+            "actions.0.rounding": "string",
+            "actions.0.testId": "string",
           },
         },
         {

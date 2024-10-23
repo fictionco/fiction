@@ -65,6 +65,7 @@ describe('org team', async () => {
           "memberStatus": "active",
           "orgId": "[id:***************************]",
           "priority": null,
+          "tags": null,
           "updatedAt": "[dateTime:]",
           "userId": "[id:***************************]",
         },

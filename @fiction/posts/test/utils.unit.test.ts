@@ -42,7 +42,6 @@ describe('post utils', async () => {
         "status": "draft",
         "subTitle": "",
         "tags": "",
-        "taxonomy": "",
         "title": "test",
         "type": "post",
         "updatedAt": "[dateTime:]",

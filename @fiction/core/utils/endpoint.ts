@@ -215,9 +215,12 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     return baseUrl
   }
 
+  get accessToken() {
+    return this.fictionUser?.manageUserToken({ _action: 'get' })
+  }
+
   get bearerHeader() {
-    const bearerToken = this.fictionUser?.manageUserToken({ _action: 'get' })
-    return `Bearer ${bearerToken ?? ''}`
+    return `Bearer ${this.accessToken ?? ''}`
   }
 
   public async http<U>(
@@ -235,7 +238,16 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     // Get client's time zone
     const clientTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
-    const headers = { 'Authorization': this.bearerHeader, 'X-Timezone': clientTimeZone }
+    const headers: Record<string, string> = {
+      'X-Timezone': clientTimeZone,
+      'X-Caller': options.caller || 'fiction-http',
+    }
+
+    if (this.accessToken) {
+      headers.Authorization = `Bearer ${this.accessToken}`
+      headers['X-Access-Token'] = this.accessToken
+    }
+
     const fullUrl = `${this.getBaseUrl()}${url}`
 
     let conf: axios.AxiosRequestConfig = { method: 'POST', headers, baseURL: this.getBaseUrl(), url, data: dataWithMeta, timeout: 120000 }

@@ -40,7 +40,7 @@ describe('media upload/download tests', async () => {
       orgId: testUtils.initialized?.orgId || '',
       userId: testUtils.initialized?.user?.userId || '',
       fields: { sourceImageUrl },
-    }, {} as EndpointMeta) // Mock the meta as well if needed
+    }, { bearer: testUtils.initialized?.user } as EndpointMeta) // Mock the meta as well if needed
 
     // Assertions to check if the media was created correctly
     expect(result?.status).toBe('success')
@@ -48,35 +48,37 @@ describe('media upload/download tests', async () => {
     expect(media?.url).toContain('fiction-media')
     expect(media?.mime).toBe('image/jpeg') // or the correct mime type
 
-    expect(Object.keys(media || {})).toMatchInlineSnapshot(`
+    expect(Object.keys(media || {}).sort()).toMatchInlineSnapshot(`
       [
-        "orgId",
-        "userId",
-        "mediaId",
-        "caption",
-        "hash",
-        "url",
-        "originUrl",
-        "rasterUrl",
-        "thumbUrl",
-        "thumbOriginUrl",
-        "blurhash",
-        "thumbFilePath",
-        "preview",
-        "filePath",
-        "mime",
-        "width",
-        "height",
-        "orientation",
         "alt",
-        "etag",
-        "contentEncoding",
+        "blurhash",
         "bucket",
-        "size",
-        "prompt",
-        "sourceImageUrl",
+        "caption",
+        "contentEncoding",
         "createdAt",
+        "duration",
+        "etag",
+        "filePath",
+        "hash",
+        "height",
+        "mediaId",
+        "mime",
+        "orgId",
+        "orientation",
+        "originUrl",
+        "preview",
+        "prompt",
+        "rasterUrl",
+        "size",
+        "sourceImageUrl",
+        "tags",
+        "thumbFilePath",
+        "thumbOriginUrl",
+        "thumbUrl",
         "updatedAt",
+        "url",
+        "userId",
+        "width",
       ]
     `)
   })
