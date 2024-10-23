@@ -2,7 +2,7 @@
 import type { ActionButton, PostObject } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { EmailCampaign } from '../campaign.js'
-import type { FictionSend } from '../index.js'
+import type { FictionNewsletter } from '../index.js'
 import type { EmailCampaignConfig } from '../schema.js'
 import ElHeader from '@fiction/admin/settings/ElHeader.vue'
 import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
@@ -14,7 +14,7 @@ import InputEmailPreview from './InputEmailPreview.vue'
 
 const { card, campaign } = defineProps<{ card: Card, campaign?: EmailCampaign }>()
 
-const { fictionUser, fictionSend } = useService<{ fictionSend: FictionSend }>()
+const { fictionUser, fictionNewsletter } = useService<{ fictionNewsletter: FictionNewsletter }>()
 
 const showSendModal = vue.ref(false)
 const settingsModal = vue.ref('')
@@ -39,12 +39,12 @@ function getWordCountFromHTML(html?: string) {
   return wordCount
 }
 
-function getCampaignLink(slug: 'campaigns' | 'manage-campaign' | 'campaign-composer') {
+function getCampaignLink(slug: 'newsletter' | 'manage-newsletter' | 'newsletter-composer') {
   return card.link(`/${slug}?campaignId=${campaign?.campaignId}`)
 }
 
 function _getPanelLink(panel: 'compose' | 'delivery' | 'analytics' | '') {
-  return card.link(`/manage-campaign/${panel}?campaignId=${campaign?.campaignId}`)
+  return card.link(`/manage-newsletter/${panel}?campaignId=${campaign?.campaignId}`)
 }
 
 const options = vue.computed(() => {
@@ -62,11 +62,12 @@ const options = vue.computed(() => {
   return [
 
     new InputOption({
-      key: 'campaignDetails',
+      key: 'emailDetails',
       label: 'Content and Delivery Details',
       input: 'group',
       options: [
         new InputOption({
+          testId: 'email-subject-line',
           icon: { class: 'i-tabler-input-spark' },
           label: 'Subject Line',
           subLabel: 'What the user sees in their inbox',
@@ -82,6 +83,7 @@ const options = vue.computed(() => {
           ],
         }),
         new InputOption({
+          testId: 'email-preview-text',
           icon: { class: 'i-tabler-input-search' },
           label: 'Preview Text',
           subLabel: 'What the user sees in their inbox',
@@ -97,6 +99,7 @@ const options = vue.computed(() => {
           ],
         }),
         new InputOption({
+          testId: 'email-content',
           icon: { class: 'i-tabler-file-description' },
           label: 'Email Content',
           subLabel: 'The text of the email',
@@ -110,45 +113,50 @@ const options = vue.computed(() => {
           actions: () => [
             {
               name: 'Email Composer',
-              href: getCampaignLink('campaign-composer'),
+              href: getCampaignLink('newsletter-composer'),
               theme: 'theme',
               icon: { class: 'i-tabler-edit' },
             },
           ],
         }),
         new InputOption({
+          testId: 'email-schedule',
           icon: { class: 'i-tabler-calendar' },
           label: 'Schedule Send Time and Date',
           subLabel: 'When the email will be sent',
           input: 'InputControl',
           valueDisplay: () => {
+            const inTheFuture = config?.scheduledAt && dayjs(config.scheduledAt).isAfter(dayjs())
             return {
-              status: config?.scheduleMode === 'now' || config?.scheduledAt ? 'ready' : 'incomplete',
-              data: config?.scheduleMode === 'now' || config?.scheduledAt ? `Send at ${scheduledTime}` : 'Send Immediately',
+              status: config?.scheduleMode === 'now' || inTheFuture ? 'ready' : 'incomplete',
+              data: config?.scheduleMode === 'schedule' && inTheFuture ? `Send at ${scheduledTime}` : 'Send on Publish',
             }
           },
-          options: [
-            new InputOption({
-              key: 'scheduleMode',
-              label: 'Sending Time',
-              input: 'InputSelectCustom',
-              isRequired: true,
-              list: [
-                { name: 'Send Immediately', value: 'now' },
-                { name: 'Schedule Send', value: 'schedule' },
-              ],
-            }),
-            new InputOption({
-              key: 'scheduledAt',
-              label: 'Scheduled Send Time',
-              input: 'InputDate',
-              isRequired: true,
-              isHidden: campaign?.scheduleMode.value !== 'schedule',
-              props: { includeTime: true, dateMode: 'future' },
-            }),
-          ],
+          options: ({ input }) => {
+            return [
+              new InputOption({
+                key: 'scheduleMode',
+                label: 'Sending Time',
+                input: 'InputSelectCustom',
+                isRequired: true,
+                list: [
+                  { name: 'Send on Publish', value: 'now' },
+                  { name: 'Send at Scheduled Time', value: 'schedule' },
+                ],
+              }),
+              new InputOption({
+                key: 'scheduledAt',
+                label: 'Scheduled Send Time',
+                input: 'InputDate',
+                isRequired: true,
+                isHidden: input.tempValue.value?.scheduleMode !== 'schedule',
+                props: { includeTime: true, dateMode: 'future' },
+              }),
+            ]
+          },
         }),
         new InputOption({
+          testId: 'email-recipients',
           icon: { class: 'i-tabler-users-group' },
           label: 'Recipients',
           subLabel: 'Who will receive the email',
@@ -169,6 +177,7 @@ const options = vue.computed(() => {
           ],
         }),
         new InputOption({
+          testId: 'email-sender',
           icon: { class: 'i-tabler-mailbox' },
           label: 'Sender',
           subLabel: 'Who the email will be sent from',
@@ -189,6 +198,7 @@ const options = vue.computed(() => {
           ],
         }),
         new InputOption({
+          testId: 'email-preview',
           icon: { class: 'i-tabler-eye-check' },
           label: 'Preview Email',
           subLabel: 'View the email as it will appear',
@@ -206,6 +216,7 @@ const options = vue.computed(() => {
           ],
         }),
         new InputOption({
+          testId: 'email-test',
           icon: { class: 'i-tabler-mail-question' },
           label: 'Send Test Email',
           subLabel: 'Send a test email to yourself',
@@ -235,7 +246,7 @@ const options = vue.computed(() => {
 
                 loading.value = 'testEmail'
 
-                await fictionSend.requests.ManageCampaign.projectRequest({
+                await fictionNewsletter.requests.ManageCampaign.projectRequest({
                   _action: 'sendTest',
                   testEmails,
                   where: { campaignId: em.campaignId },
@@ -271,7 +282,7 @@ const options = vue.computed(() => {
               icon: 'i-tabler-trash',
               loading: loading.value === 'delete',
               onClick: async () => {
-                const endpoint = fictionSend.requests.ManageCampaign
+                const endpoint = fictionNewsletter.requests.ManageCampaign
 
                 const confirmed = confirm('Are you sure you want to delete this forever?')
 
@@ -313,9 +324,9 @@ const modalText = vue.computed(() => {
 async function sendOrSchedule() {
   const _em = campaign
   // if (sendNow.value)
-  //   await service.fictionSend.sendEmailNow(em?.campaignId)
+  //   await service.fictionNewsletter.sendEmailNow(em?.campaignId)
   // else
-  //   await service.fictionSend.scheduleEmail(em?.campaignId)
+  //   await service.fictionNewsletter.scheduleEmail(em?.campaignId)
   showSendModal.value = false
 }
 
@@ -346,7 +357,7 @@ const header = vue.computed(() => {
       name: 'Email Composer',
       icon: 'i-tabler-edit',
       theme: !isReady ? 'primary' : 'theme',
-      href: getCampaignLink('campaign-composer'),
+      href: getCampaignLink('newsletter-composer'),
 
     },
 

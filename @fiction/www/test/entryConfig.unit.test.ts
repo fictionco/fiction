@@ -41,7 +41,7 @@ describe('user config', async () => {
         "fictionUi",
         "fictionStripe",
         "fictionSubscribe",
-        "fictionSend",
+        "fictionNewsletter",
         "fictionPosts",
         "fictionExtend",
       ]

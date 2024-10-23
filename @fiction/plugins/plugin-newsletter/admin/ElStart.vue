@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { StepConfig, StepItem } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
-import type { FictionSend } from '..'
+import type { FictionNewsletter } from '..'
 import type { EmailCampaignConfig } from '../schema'
-import { useService, vue } from '@fiction/core'
+import { dayjs, toLabel, useService, vue } from '@fiction/core'
 import ElModal from '@fiction/ui/ElModal.vue'
 import ElStepNav from '@fiction/ui/ElStepNav.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
@@ -16,7 +16,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:vis'])
 
-const { fictionSend } = useService<{ fictionSend: FictionSend }>()
+const { fictionNewsletter } = useService<{ fictionNewsletter: FictionNewsletter }>()
 
 const form = vue.ref<Partial<EmailCampaignConfig>>({
   title: '',
@@ -27,8 +27,8 @@ async function start() {
   isLoading.value = true
   try {
     const fields = form.value
-    const [_email] = await manageEmailCampaign({ fictionSend, params: { _action: 'create', fields: [fields] } })
-    await props.card.goto(`/manage-campaign?campaignId=${_email?.campaignId}`)
+    const [_email] = await manageEmailCampaign({ fictionNewsletter, params: { _action: 'create', fields: [fields] } })
+    await props.card.goto(`/manage-newsletter?campaignId=${_email?.campaignId}`)
   }
   catch (error) {
     console.error(error)
@@ -44,9 +44,9 @@ const stepConfig: StepConfig = {
     const out: StepItem[] = [
 
       {
-        name: 'Create New Campaign',
+        name: 'Create New Email',
         desc: 'Give it a name...',
-        key: 'name',
+        key: 'emailTitle',
         class: 'max-w-lg',
         isNeeded: true,
         onClick: () => start(),
@@ -66,11 +66,12 @@ const stepConfig: StepConfig = {
     @update:vis="emit('update:vis', $event)"
   >
     <ElStepNav v-slot="{ step }" :step-config="stepConfig">
-      <div v-if="step.key === 'name'" class="">
+      <div v-if="step.key === 'emailTitle'" class="">
         <ElInput
           v-model="form.title"
+          data-test-id="email-title-input"
           input="InputText"
-          placeholder="Reference Title"
+          :placeholder="`Title (e.g. '${toLabel(dayjs().format('MMM'))} Newsletter')`"
           ui-size="lg"
         />
       </div>

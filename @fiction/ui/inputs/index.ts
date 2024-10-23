@@ -92,7 +92,7 @@ export interface InputOptionSettings {
   isClosed?: boolean
   disabled?: boolean | string
   props?: Record<string, unknown>
-  options?: InputOption[]
+  options?: InputOption[] | ((args: { input: InputOption }) => InputOption[])
   list?: (ListItem | string)[] | readonly (ListItem | string)[]
   // default?: () => U
   schema?: SchemaCallback
@@ -126,18 +126,19 @@ export class InputOption extends FictionObject<InputOptionSettings> {
   isClosed = vue.ref(this.settings.isClosed || false)
   isHidden = vue.ref(this.settings.isHidden || false)
   description = vue.ref(this.settings.description)
-  options = vue.shallowRef(this.settings.options || [])
-  list = vue.shallowRef(this.settings.list)
-  schema = vue.shallowRef(this.settings.schema)
-  generation = vue.ref(this.settings.generation || {})
 
   // modal control options
   isModalOpen = vue.ref(false) // allows for modal input visible
+  tempValue = vue.ref<Record<string, any> | undefined>() // temp value for modal input
   actions = vue.computed(() => this.settings.actions?.({ input: this }))
   modalActions = vue.computed(() => this.settings.modalActions?.({ input: this }))
   valueDisplay = vue.computed(() => this.settings.valueDisplay?.({ input: this }))
 
   props = vue.shallowRef(this.settings.props)
+  options = vue.computed(() => (typeof this.settings.options === 'function' ? this.settings.options({ input: this }) : this.settings.options) || [])
+  list = vue.shallowRef(this.settings.list)
+  schema = vue.shallowRef(this.settings.schema)
+  generation = vue.ref(this.settings.generation || {})
 
   outputProps = vue.computed(() => {
     if (this.input.value === 'InputControl') {

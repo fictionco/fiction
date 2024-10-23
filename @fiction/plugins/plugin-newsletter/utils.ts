@@ -1,5 +1,5 @@
 import type { ManageCampaignRequestParams } from './endpoint.js'
-import type { FictionSend } from './index.js'
+import type { FictionNewsletter } from './index.js'
 
 import type { EmailCampaignConfig } from './schema.js'
 import { log, type Organization, type RequestOptions, toMarkdown, type TransactionalEmailConfig, vue } from '@fiction/core'
@@ -7,21 +7,21 @@ import { EmailCampaign } from './campaign.js'
 
 const logger = log.contextLogger('NewsletterUtils')
 
-export async function manageEmailCampaign(args: { fictionSend: FictionSend, params: ManageCampaignRequestParams, options?: RequestOptions }) {
-  const { fictionSend, params, options = {} } = args
+export async function manageEmailCampaign(args: { fictionNewsletter: FictionNewsletter, params: ManageCampaignRequestParams, options?: RequestOptions }) {
+  const { fictionNewsletter, params, options = {} } = args
 
-  const r = await fictionSend.requests.ManageCampaign.projectRequest(params, options)
+  const r = await fictionNewsletter.requests.ManageCampaign.projectRequest(params, options)
 
-  return r.data?.map(emailConfig => new EmailCampaign({ ...emailConfig, fictionSend })) || []
+  return r.data?.map(emailConfig => new EmailCampaign({ ...emailConfig, fictionNewsletter })) || []
 }
 
-export async function loadEmail(args: { fictionSend: FictionSend, campaignId: string }) {
-  const { fictionSend, campaignId } = args
+export async function loadEmail(args: { fictionNewsletter: FictionNewsletter, campaignId: string }) {
+  const { fictionNewsletter, campaignId } = args
 
   if (!campaignId)
     throw new Error('No campaignId')
 
-  const [_campaign] = await manageEmailCampaign({ fictionSend, params: { _action: 'get', where: { campaignId } } })
+  const [_campaign] = await manageEmailCampaign({ fictionNewsletter, params: { _action: 'get', where: { campaignId } } })
 
   const campaign = _campaign
 
@@ -31,15 +31,15 @@ export async function loadEmail(args: { fictionSend: FictionSend, campaignId: st
 export async function getEmailForCampaign(args: {
   org: Organization
   campaignConfig: EmailCampaignConfig
-  fictionSend: FictionSend
+  fictionNewsletter: FictionNewsletter
   withDefaults: boolean
   previewMode?: 'dark' | 'light' | ''
 }): Promise<TransactionalEmailConfig> {
-  const { campaignConfig, fictionSend, withDefaults = false, org, previewMode } = args
-  const fictionEmail = fictionSend.settings.fictionEmail
-  const isApp = fictionSend.settings.fictionEnv?.isApp.value
+  const { campaignConfig, fictionNewsletter, withDefaults = false, org, previewMode } = args
+  const fictionEmail = fictionNewsletter.settings.fictionEmail
+  const isApp = fictionNewsletter.settings.fictionEnv?.isApp.value
 
-  const img = await fictionEmail?.emailImages({ fictionMedia: fictionSend.settings.fictionMedia })
+  const img = await fictionEmail?.emailImages({ fictionMedia: fictionNewsletter.settings.fictionMedia })
 
   const { orgName, orgEmail, url, address, avatar } = org
 

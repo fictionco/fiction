@@ -27,6 +27,7 @@ export class EndpointError extends Error {
   failedField?: string
   suggestedAction?: string
   retryable: boolean
+  reason: string
 
   constructor(message: string, config: ErrorConfig = {}) {
     super(config.expected ? `[EXPECTED] ${message}` : message)
@@ -39,6 +40,7 @@ export class EndpointError extends Error {
       failedField = undefined,
       suggestedAction = undefined,
       retryable = false,
+      reason = 'unknown',
     } = config
 
     const httpStatus = config.httpStatus || defaultHttpStatus(code)
@@ -52,6 +54,7 @@ export class EndpointError extends Error {
     this.failedField = failedField
     this.suggestedAction = suggestedAction
     this.retryable = retryable
+    this.reason = reason
   }
 }
 export function abort(message: string, config: ErrorConfig = {}): Error {

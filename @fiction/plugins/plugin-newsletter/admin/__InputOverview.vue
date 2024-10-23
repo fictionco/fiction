@@ -40,7 +40,7 @@ function getWordCountFromHTML(html?: string) {
 const items = vue.computed<NavItem[]>(() => {
   const em = email.value
   const wordCount = getWordCountFromHTML(em?.post?.content || '')
-  const settings = props.card.link(`/manage-campaign/settings?campaignId=${em?.campaignId}`)
+  const settings = props.card.link(`/manage-newsletter/settings?campaignId=${em?.campaignId}`)
   const edit = props.card.link(`/campaign-edit?campaignId=${em?.campaignId}`)
   const pub = props.card.link(`/settings/project`)
   const hasSubject = !!em?.subject
@@ -105,9 +105,9 @@ const modalText = vue.computed(() => {
 async function sendOrSchedule() {
   const _em = email.value
   // if (sendNow.value)
-  //   await service.fictionSend.sendEmailNow(em?.campaignId)
+  //   await service.fictionNewsletter.sendEmailNow(em?.campaignId)
   // else
-  //   await service.fictionSend.scheduleEmail(em?.campaignId)
+  //   await service.fictionNewsletter.scheduleEmail(em?.campaignId)
   showSendModal.value = false
 }
 </script>

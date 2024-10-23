@@ -38,8 +38,8 @@ const options = vue.computed<InputOption[]>(() => {
           input: 'InputSelectCustom',
           isRequired: true,
           list: [
-            { name: 'Send Immediately', value: 'now' },
-            { name: 'Schedule Send', value: 'schedule' },
+            { name: 'Send on Publish', value: 'now' },
+            { name: 'Send at Scheduled Time', value: 'schedule' },
           ],
         }),
         new InputOption({ key: 'scheduledAt', label: 'Scheduled Send Time', input: 'InputDate', isRequired: true, isHidden: campaign?.scheduleMode.value !== 'schedule', props: { includeTime: true, dateMode: 'future' } }),

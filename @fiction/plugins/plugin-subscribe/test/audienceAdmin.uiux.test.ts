@@ -19,7 +19,7 @@ describe('admin audience-subscribe', async () => {
       path: '/app',
       actions: [
         { type: 'click', selector: '[data-test-id="dashboard-nav-audience"]' },
-        { type: 'hasText', selector: `[data-test-id="subscriber-list-empty-title"]`, text: 'No Subscribers Yet' },
+        { type: 'hasText', selector: `[data-test-id="subscriber-list-empty-title"]`, text: 'Your Subscribers' },
         { type: 'click', selector: '[data-test-id="add-subscribers-button"]' },
         { type: 'fill', selector: `[data-test-id="text-email-list"] textarea`, text: 'test@example.com, example@test.com' },
         { type: 'click', selector: `[data-test-id="save"]` },

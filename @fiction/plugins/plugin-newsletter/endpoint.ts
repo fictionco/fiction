@@ -1,7 +1,7 @@
 import type { EndpointMeta, EndpointResponse, IndexQuery, TransactionalEmailConfig } from '@fiction/core'
 import type { Subscriber } from '@fiction/plugin-subscribe'
 import type { ManageSubscriptionParams } from '@fiction/plugin-subscribe/endpoint'
-import type { FictionSend, FictionSendSettings } from '.'
+import type { FictionNewsletter, FictionNewsletterSettings } from '.'
 import type { EmailCampaignConfig } from './schema.js'
 import { applyComplexFilters, dayjs, deepMerge, objectId, Query } from '@fiction/core'
 import { CronTool } from '@fiction/core/utils/cron'
@@ -9,8 +9,8 @@ import { t } from './schema'
 import { getEmailForCampaign } from './utils'
 
 export type SendEndpointSettings = {
-  fictionSend: FictionSend
-} & FictionSendSettings
+  fictionNewsletter: FictionNewsletter
+} & FictionNewsletterSettings
 
 abstract class SendEndpoint extends Query<SendEndpointSettings> {
   db = () => this.settings.fictionDb.client()
@@ -413,7 +413,7 @@ export class ManageCampaign extends SendEndpoint {
     const emailConfig = await getEmailForCampaign({
       org,
       campaignConfig: campaign,
-      fictionSend: this.settings.fictionSend,
+      fictionNewsletter: this.settings.fictionNewsletter,
       withDefaults: false,
     })
 
@@ -481,8 +481,8 @@ export class ManageSend extends SendEndpoint {
   // Method to process each email
   async processCampaign(c: { campaignId?: string, orgId?: string }): Promise<ManageCampaignResponse & { emailsSent?: number }> {
     const fictionUser = this.settings.fictionUser
-    const fictionSend = this.settings.fictionSend
-    const ManageCampaign = fictionSend.queries.ManageCampaign
+    const fictionNewsletter = this.settings.fictionNewsletter
+    const ManageCampaign = fictionNewsletter.queries.ManageCampaign
     const { orgId, campaignId } = c
     if (!orgId || !campaignId) {
       throw new Error('Invalid campaign')
@@ -512,7 +512,7 @@ export class ManageSend extends SendEndpoint {
       let offset = 0
       let hasMoreSubscribers = true
 
-      const emailConfig = await getEmailForCampaign({ org, campaignConfig, fictionSend, withDefaults: false })
+      const emailConfig = await getEmailForCampaign({ org, campaignConfig, fictionNewsletter, withDefaults: false })
 
       while (hasMoreSubscribers) {
         const subscribers = await this.getSubscribers({ orgId, limit, offset })

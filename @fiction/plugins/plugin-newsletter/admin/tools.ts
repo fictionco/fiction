@@ -1,6 +1,6 @@
 import type { EditorTool } from '@fiction/admin'
 import type { Card } from '@fiction/site'
-import type { FictionSend } from '..'
+import type { FictionNewsletter } from '..'
 import type { EmailCampaign } from '../campaign'
 import { AdminEditorController } from '@fiction/admin'
 import { type ActionButton, vue } from '@fiction/core'
@@ -43,7 +43,7 @@ export type ToolKeys = (typeof tools)[number]['toolId']
 export const emailComposeController = new AdminEditorController({ tools })
 
 export function getEmailManageOptions(args: {
-  fictionSend: FictionSend
+  fictionNewsletter: FictionNewsletter
   campaign?: EmailCampaign
   card: Card
 }): InputOption[] {
@@ -71,8 +71,8 @@ export function getEmailManageOptions(args: {
           input: 'InputSelectCustom',
           isRequired: true,
           list: [
-            { name: 'Send Immediately', value: 'now' },
-            { name: 'Schedule Send', value: 'schedule' },
+            { name: 'Send on Publish', value: 'now' },
+            { name: 'Send at Scheduled Time', value: 'schedule' },
           ],
         }),
         new InputOption({
@@ -133,9 +133,9 @@ export function getEmailManageOptions(args: {
   ]
 }
 
-// export function getTools(args: { fictionSend: FictionSend, card: Card }) {
-//   const { fictionSend, card } = args
-//   const fictionRouter = fictionSend.settings.fictionRouter
+// export function getTools(args: { fictionNewsletter: FictionNewsletter, card: Card }) {
+//   const { fictionNewsletter, card } = args
+//   const fictionRouter = fictionNewsletter.settings.fictionRouter
 //   const loading = vue.ref(false)
 //   const email = vue.shallowRef<EmailCampaign>()
 
@@ -143,7 +143,7 @@ export function getEmailManageOptions(args: {
 //     if (!v || v === old)
 //       return
 
-//     email.value = await loadEmail({ fictionSend, campaignId: v as string })
+//     email.value = await loadEmail({ fictionNewsletter, campaignId: v as string })
 //   }, { immediate: true })
 
 //   const val = vue.computed<EmailCampaignConfig | undefined>({
@@ -176,7 +176,7 @@ export function getEmailManageOptions(args: {
 
 //         const campaignId = fields?.campaignId
 
-//         await manageEmailCampaign({ fictionSend, params: { _action: 'update', where: [{ campaignId }], fields }, options: { minTime: 1000 } })
+//         await manageEmailCampaign({ fictionNewsletter, params: { _action: 'update', where: [{ campaignId }], fields }, options: { minTime: 1000 } })
 
 //         loading.value = false
 //       },
@@ -206,7 +206,7 @@ export function getEmailManageOptions(args: {
 //       val,
 //       getActions: () => vue.computed(() => [editEmailAction(), saveAction()]),
 //       options: (_args) => {
-//         return vue.computed(() => getEmailManageOptions({ fictionSend, campaign: email.value, card }))
+//         return vue.computed(() => getEmailManageOptions({ fictionNewsletter, campaign: email.value, card }))
 //       },
 //     }),
 //     new SettingsTool({

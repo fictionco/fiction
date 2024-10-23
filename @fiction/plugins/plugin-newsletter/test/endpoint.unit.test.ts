@@ -4,17 +4,17 @@ import { createTestUser, getTestEmail } from '@fiction/core/test-utils'
 import { FictionPosts } from '@fiction/posts'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, describe, expect, it, vi } from 'vitest'
-import { FictionSend } from '..'
+import { FictionNewsletter } from '..'
 import { ManageSend } from '../endpoint.js'
 
 describe('email send endpoint', async () => {
   const testUtils = await createSiteTestUtils()
   const fictionPosts = new FictionPosts(testUtils)
-  const fictionSend = new FictionSend({ fictionPosts, ...testUtils })
+  const fictionNewsletter = new FictionNewsletter({ fictionPosts, ...testUtils })
 
   const initialized = await testUtils.init()
 
-  const manageSend = new ManageSend({ ...testUtils, fictionPosts, fictionSend })
+  const manageSend = new ManageSend({ ...testUtils, fictionPosts, fictionNewsletter })
 
   await manageSend.init({ crontab: '* * * * * *' })
 
@@ -43,7 +43,7 @@ describe('email send endpoint', async () => {
   let workingCampaigns: EmailCampaignConfig[] = []
 
   it('create', async () => {
-    const r = await fictionSend.queries.ManageCampaign.serve({
+    const r = await fictionNewsletter.queries.ManageCampaign.serve({
       _action: 'create',
       orgId,
       userId,
@@ -67,7 +67,7 @@ describe('email send endpoint', async () => {
   })
 
   it('list/get', async () => {
-    const r = await fictionSend.queries.ManageCampaign.serve({ _action: 'list', orgId, userId }, { server: true })
+    const r = await fictionNewsletter.queries.ManageCampaign.serve({ _action: 'list', orgId, userId }, { server: true })
 
     expect(r.status).toBe('success')
 
@@ -77,7 +77,7 @@ describe('email send endpoint', async () => {
     expect(p?.postId).toBeTruthy()
     expect(r.indexMeta?.count).toBe(2)
 
-    const r2 = await fictionSend.queries.ManageCampaign.serve({ _action: 'get', orgId, userId, where: { campaignId: email?.campaignId } }, { server: true })
+    const r2 = await fictionNewsletter.queries.ManageCampaign.serve({ _action: 'get', orgId, userId, where: { campaignId: email?.campaignId } }, { server: true })
 
     expect(r2.status).toBe('success')
     expect(r2.data?.length).toBe(1)
@@ -87,7 +87,7 @@ describe('email send endpoint', async () => {
   it('update', async () => {
     const em = workingCampaigns[0]
     const d = dayjs('2025-06-07T23:59:59Z')
-    const r = await fictionSend.queries.ManageCampaign.serve({
+    const r = await fictionNewsletter.queries.ManageCampaign.serve({
       _action: 'update',
       orgId,
       userId,
@@ -114,7 +114,7 @@ describe('email send endpoint', async () => {
     const validEmail2 = getTestEmail()
     const testEmails = `${validEmail1}, ${validEmail2}, invalid-email, bad@format@test.com`
 
-    const r = await fictionSend.queries.ManageCampaign.serve({
+    const r = await fictionNewsletter.queries.ManageCampaign.serve({
       _action: 'sendTest',
       orgId,
       userId,
@@ -133,7 +133,7 @@ describe('email send endpoint', async () => {
 
     // Test with too many emails
     const tooManyEmails = Array.from({ length: 6 }).fill(0).map(() => getTestEmail()).join(', ')
-    const r2 = await fictionSend.queries.ManageCampaign.serve({
+    const r2 = await fictionNewsletter.queries.ManageCampaign.serve({
       _action: 'sendTest',
       orgId,
       userId,
@@ -146,7 +146,7 @@ describe('email send endpoint', async () => {
     expect(r2.message).toMatchInlineSnapshot('"Too many email addresses. Maximum allowed: 5"')
 
     // Test with all invalid emails
-    const r3 = await fictionSend.queries.ManageCampaign.serve({
+    const r3 = await fictionNewsletter.queries.ManageCampaign.serve({
       _action: 'sendTest',
       orgId,
       userId,
@@ -159,7 +159,7 @@ describe('email send endpoint', async () => {
     expect(r3.message).toMatchInlineSnapshot('"No valid email addresses provided"')
 
     // Test with non-existent campaign
-    const r4 = await fictionSend.queries.ManageCampaign.serve({
+    const r4 = await fictionNewsletter.queries.ManageCampaign.serve({
       _action: 'sendTest',
       orgId,
       userId,
@@ -183,7 +183,7 @@ describe('email send endpoint', async () => {
       },
     }
 
-    const r = await fictionSend.queries.ManageCampaign.serve({
+    const r = await fictionNewsletter.queries.ManageCampaign.serve({
       _action: 'saveDraft',
       orgId,
       userId,
@@ -202,7 +202,7 @@ describe('email send endpoint', async () => {
     expect(savedCampaign?.post?.content).toBe(draftFields.post?.content)
     expect(savedCampaign?.draft).toBeUndefined()
 
-    const r2 = await fictionSend.queries.ManageCampaign.serve({
+    const r2 = await fictionNewsletter.queries.ManageCampaign.serve({
       _action: 'get',
       orgId,
       userId,
@@ -221,7 +221,7 @@ describe('email send endpoint', async () => {
   it('revertDraft', async () => {
     const em = workingCampaigns[0]
 
-    const r = await fictionSend.queries.ManageCampaign.serve({
+    const r = await fictionNewsletter.queries.ManageCampaign.serve({
       _action: 'revertDraft',
       orgId,
       userId,
@@ -248,7 +248,7 @@ describe('email send endpoint', async () => {
 
   it('sends', async () => {
     const em = workingCampaigns[0]
-    const r = await fictionSend.queries.ManageCampaign.serve({ _action: 'send', orgId, userId, where: { campaignId: em.campaignId } }, { server: true })
+    const r = await fictionNewsletter.queries.ManageCampaign.serve({ _action: 'send', orgId, userId, where: { campaignId: em.campaignId } }, { server: true })
 
     expect(r.status).toBe('success')
     expect(r.data?.length).toBe(1)
@@ -256,9 +256,9 @@ describe('email send endpoint', async () => {
     expect(r.message).toMatchInlineSnapshot(`"Email scheduled Jun 07, 2025 at 11:59 PM UTC"`)
     const em2 = workingCampaigns[1]
 
-    await fictionSend.queries.ManageCampaign.serve({ _action: 'update', orgId, userId, where: [{ campaignId: em2.campaignId }], fields: { scheduleMode: 'now', title: 'internal', subject: 'HELLO', preview: 'WORLD', post: { title: 'YO', content: 'LOREM' } } }, { server: true })
+    await fictionNewsletter.queries.ManageCampaign.serve({ _action: 'update', orgId, userId, where: [{ campaignId: em2.campaignId }], fields: { scheduleMode: 'now', title: 'internal', subject: 'HELLO', preview: 'WORLD', post: { title: 'YO', content: 'LOREM' } } }, { server: true })
 
-    const r3 = await fictionSend.queries.ManageCampaign.serve({ _action: 'send', orgId, userId, where: { campaignId: em2.campaignId } }, { server: true })
+    const r3 = await fictionNewsletter.queries.ManageCampaign.serve({ _action: 'send', orgId, userId, where: { campaignId: em2.campaignId } }, { server: true })
 
     if (!r3.data?.[0])
       throw new Error('missing data')
@@ -294,7 +294,7 @@ describe('email send endpoint', async () => {
 
   it('delete', async () => {
     const em = workingCampaigns[0]
-    const r = await fictionSend.queries.ManageCampaign.serve({
+    const r = await fictionNewsletter.queries.ManageCampaign.serve({
       _action: 'delete',
       orgId,
       userId,

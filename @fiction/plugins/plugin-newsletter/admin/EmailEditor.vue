@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site'
 import type { EmailCampaign } from '../campaign.js'
-import type { FictionSend } from '../index.js'
+import type { FictionNewsletter } from '../index.js'
 import ElSavingSignal from '@fiction/admin/el/ElSavingSignal.vue'
 import ViewEditor from '@fiction/admin/ViewEditor.vue'
 import CardButton from '@fiction/cards/CardButton.vue'
@@ -17,7 +17,7 @@ const { card } = defineProps<{
   card: Card
 }>()
 
-const { fictionSend, fictionRouter } = useService<{ fictionSend: FictionSend }>()
+const { fictionNewsletter, fictionRouter } = useService<{ fictionNewsletter: FictionNewsletter }>()
 
 const loading = vue.ref(true)
 const campaign = vue.shallowRef<EmailCampaign>()
@@ -29,7 +29,7 @@ const manageLink = vue.computed(() => {
   if (!campaignId)
     return '/campaigns'
 
-  return `/manage-campaign?campaignId=${campaignId}`
+  return `/manage-newsletter?campaignId=${campaignId}`
 })
 
 vue.onMounted(async () => {
@@ -39,7 +39,7 @@ vue.onMounted(async () => {
 
     loading.value = true
 
-    campaign.value = await loadEmail({ fictionSend, campaignId: v as string })
+    campaign.value = await loadEmail({ fictionNewsletter, campaignId: v as string })
 
     loading.value = false
   }, { immediate: true })
@@ -72,8 +72,8 @@ async function saveBeforeNavigate(args: { location: string, href: string }) {
             size="md"
             class="shrink-0"
             icon="i-tabler-arrow-left"
-            :loading="sending === 'manage-campaign-back'"
-            @click.prevent="saveBeforeNavigate({ location: 'manage-campaign-back', href: manageLink })"
+            :loading="sending === 'manage-newsletter-back'"
+            @click.prevent="saveBeforeNavigate({ location: 'manage-newsletter-back', href: manageLink })"
           >
             Back
           </CardButton>
@@ -105,8 +105,8 @@ async function saveBeforeNavigate(args: { location: string, href: string }) {
           size="md"
           class="shrink-0"
           icon-after="i-tabler-arrow-right"
-          :loading="sending === 'manage-campaign-review'"
-          @click.prevent="saveBeforeNavigate({ location: 'manage-campaign-review', href: manageLink })"
+          :loading="sending === 'manage-newsletter-review'"
+          @click.prevent="saveBeforeNavigate({ location: 'manage-newsletter-review', href: manageLink })"
         >
           Review &amp; Send
         </CardButton>

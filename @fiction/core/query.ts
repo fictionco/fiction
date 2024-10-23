@@ -35,10 +35,13 @@ export abstract class Query<T extends QueryConfig = QueryConfig> {
 
     const bearer = _meta?.bearer
 
-    const { orgId } = _params as Record<string, any>
+    const { orgId, userId } = _params as Record<string, any>
 
     if (orgId && !bearer?.orgs?.find(org => org.orgId === orgId)) {
-      return { status: 'error', reason: `user ${bearer?.userId} not a member of org with id: ${orgId}` }
+      return { status: 'error', reason: `bearer user (${bearer?.userId}) not a member of org (${orgId})` }
+    }
+    else if (userId && bearer?.userId !== userId) {
+      return { status: 'error', reason: `bearer user (${bearer?.userId}) not the same as passed user (${userId})` }
     }
 
     return { status: 'success', reason: 'allowed' }

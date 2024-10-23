@@ -215,6 +215,9 @@ jobs:
       - name: SPOT tests
         run: npm exec -- vitest run spot -u --passWithNoTests
 
+      - name: FLOW tests
+        run: npm exec -- vitest run flow -u --no-file-parallelism --passWithNoTests
+
       - name: E2E/UI tests
         run: npm exec -- vitest run uiux -u --no-file-parallelism
 

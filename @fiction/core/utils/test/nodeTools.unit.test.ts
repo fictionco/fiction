@@ -63,7 +63,7 @@ describe('node utils', () => {
         "fictionPosts",
         "fictionRouter",
         "fictionRouterSites",
-        "fictionSend",
+        "fictionNewsletter",
         "fictionServer",
         "fictionSites",
         "fictionStripe",

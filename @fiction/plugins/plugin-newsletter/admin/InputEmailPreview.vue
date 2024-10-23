@@ -2,7 +2,7 @@
 import type { TransactionalEmailConfig } from '@fiction/core/plugin-email/index.js'
 import type { Card } from '@fiction/site'
 
-import type { FictionSend } from '../index.js'
+import type { FictionNewsletter } from '../index.js'
 import type { EmailCampaignConfig } from '../schema.js'
 import { isDarkOrLightMode, useService, vue } from '@fiction/core'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
@@ -16,7 +16,7 @@ const _emit = defineEmits<{
   (event: 'update:modelValue', payload: EmailCampaignConfig): void
 }>()
 
-const { fictionSend, fictionUser } = useService<{ fictionSend: FictionSend }>()
+const { fictionNewsletter, fictionUser } = useService<{ fictionNewsletter: FictionNewsletter }>()
 
 const emailHtml = vue.ref('')
 const emailConfig = vue.ref<TransactionalEmailConfig>()
@@ -36,7 +36,7 @@ async function setEmail(campaignConfig?: EmailCampaignConfig) {
     return
   }
 
-  const conf = await getEmailForCampaign({ campaignConfig, fictionSend, org, withDefaults: true, previewMode: previewMode.value })
+  const conf = await getEmailForCampaign({ campaignConfig, fictionNewsletter, org, withDefaults: true, previewMode: previewMode.value })
 
   emailConfig.value = conf
 

@@ -1,16 +1,16 @@
 import type { TablePostConfig } from '@fiction/posts'
-import type { FictionSend } from '.'
+import type { FictionNewsletter } from '.'
 import type { EmailCampaignConfig } from './schema'
 import { FictionObject, objectId, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save'
 import { Post } from '@fiction/posts'
 import { settingsKeys } from './schema'
 
-export type EmailConfig = { fictionSend: FictionSend } & EmailCampaignConfig
+export type EmailConfig = { fictionNewsletter: FictionNewsletter } & EmailCampaignConfig
 
 export class EmailCampaign extends FictionObject<EmailConfig> {
-  fictionPosts = this.settings.fictionSend.settings.fictionPosts
-  fictionUser = this.settings.fictionSend.settings.fictionUser
+  fictionPosts = this.settings.fictionNewsletter.settings.fictionPosts
+  fictionUser = this.settings.fictionNewsletter.settings.fictionUser
   campaignId = this.settings.campaignId || objectId({ prefix: 'eml' })
   status = vue.ref(this.settings.status || 'pending')
   scheduleMode = vue.ref(this.settings.scheduleMode || 'now')
@@ -62,17 +62,17 @@ export class EmailCampaign extends FictionObject<EmailConfig> {
   async save(args: { disableNotify?: boolean } = {}) {
     const fields = this.toConfig()
     this.saveUtility.clear()
-    await this.settings.fictionSend.requests.ManageCampaign.projectRequest({ _action: 'update', fields, where: [{ campaignId: this.campaignId }] }, { minTime: 500, ...args })
+    await this.settings.fictionNewsletter.requests.ManageCampaign.projectRequest({ _action: 'update', fields, where: [{ campaignId: this.campaignId }] }, { minTime: 500, ...args })
   }
 
   async delete() {
     this.log.info('Deleting Send')
-    await this.settings.fictionSend.requests.ManageCampaign.projectRequest({ _action: 'delete', where: [{ campaignId: this.campaignId }] }, { minTime: 500 })
-    this.settings.fictionSend.cacheKey.value++
+    await this.settings.fictionNewsletter.requests.ManageCampaign.projectRequest({ _action: 'delete', where: [{ campaignId: this.campaignId }] }, { minTime: 500 })
+    this.settings.fictionNewsletter.cacheKey.value++
   }
 
   toConfig(): EmailCampaignConfig {
-    const { fictionSend, ...rest } = this.settings
+    const { fictionNewsletter, ...rest } = this.settings
 
     return {
       ...rest,

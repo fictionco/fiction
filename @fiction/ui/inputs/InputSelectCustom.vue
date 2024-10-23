@@ -160,8 +160,10 @@ function handleKeydown(event: KeyboardEvent) {
         @keydown="handleKeydown($event)"
       >
         <input
+          data-input-type="select"
           type="text"
           :class="[
+            !search ? 'cursor-pointer' : 'cursor-text',
             themeClasses.buttonClasses.always,
             disabled ? themeClasses.buttonClasses.disabled : themeClasses.buttonClasses.regular,
           ]"
@@ -180,6 +182,7 @@ function handleKeydown(event: KeyboardEvent) {
         </div>
         <!-- For validation -->
         <input
+          data-input-type="validation"
           class="pointer-events-none absolute bottom-0 left-1/2 h-0 w-0 -translate-x-1/2 p-0 opacity-0"
           v-bind="$attrs"
           type="text"

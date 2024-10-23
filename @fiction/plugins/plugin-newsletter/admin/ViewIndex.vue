@@ -2,7 +2,7 @@
 import type { IndexItem } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import type { EmailCampaign } from '../campaign.js'
-import type { FictionSend } from '../index.js'
+import type { FictionNewsletter } from '../index.js'
 import { useService, vue } from '@fiction/core'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import ElZeroBanner from '@fiction/ui/ElZeroBanner.vue'
@@ -14,7 +14,7 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
-const { fictionSend, fictionRouter } = useService<{ fictionSend: FictionSend }>()
+const { fictionNewsletter, fictionRouter } = useService<{ fictionNewsletter: FictionNewsletter }>()
 
 const campaigns = vue.shallowRef<EmailCampaign[]>([])
 
@@ -26,7 +26,7 @@ const list = vue.computed<IndexItem[]>(() => {
       key: campaign.campaignId,
       name: campaign.title.value || p.title.value || 'Untitled',
       desc: p.subTitle.value || 'No description',
-      href: props.card.link(`/manage-campaign?campaignId=${campaign.campaignId}`),
+      href: props.card.link(`/manage-newsletter?campaignId=${campaign.campaignId}`),
       media: p.media.value,
       icon: 'i-tabler-mail',
     } as IndexItem
@@ -36,15 +36,15 @@ const list = vue.computed<IndexItem[]>(() => {
 const loading = vue.ref(true)
 async function load() {
   loading.value = true
-  console.warn('load index', fictionSend.cacheKey.value)
+  console.warn('load index', fictionNewsletter.cacheKey.value)
   const createParams = { _action: 'list', fields: { }, loadDraft: true } as const
-  campaigns.value = await manageEmailCampaign({ params: createParams, fictionSend })
+  campaigns.value = await manageEmailCampaign({ params: createParams, fictionNewsletter })
   loading.value = false
 }
 const showStartModal = vue.ref(false)
 
 vue.onMounted(async () => {
-  vue.watch(() => fictionSend.cacheKey.value, load, { immediate: true })
+  vue.watch(() => fictionNewsletter.cacheKey.value, load, { immediate: true })
 
   vue.watchEffect(() => {
     if (fictionRouter.query.value.addEmail) {
@@ -57,7 +57,19 @@ vue.onMounted(async () => {
 
 <template>
   <div class="p-12 w-full max-w-screen-md mx-auto">
-    <ElIndexGrid media-icon="i-tabler-mail" list-title="Newsletter Emails" :list="list" :loading="loading" :actions="[{ name: 'New Email', icon: 'i-tabler-plus', theme: 'primary', onClick: () => { showStartModal = true } }]">
+    <ElIndexGrid
+      media-icon="i-tabler-mail"
+      list-title="Newsletter Emails"
+      :list="list"
+      :loading="loading"
+      :actions="[{
+        testId: 'new-email-button-index',
+        name: 'New Email',
+        icon: 'i-tabler-plus',
+        theme: 'primary',
+        onClick: () => { showStartModal = true },
+      }]"
+    >
       <template #item="{ item }">
         <div class="flex -space-x-0.5">
           <dt class="sr-only">
@@ -70,10 +82,17 @@ vue.onMounted(async () => {
       </template>
       <template #zero>
         <ElZeroBanner
+          test-id="newsletter-zero"
           title="Your Newsletter"
           description="Quickly craft emails and send them to your subscribers."
           icon="i-tabler-mail-share"
-          :actions="[{ name: 'New Email', onClick: () => { showStartModal = true }, theme: 'primary', icon: 'i-heroicons-plus' }]"
+          :actions="[{
+            testId: 'new-email-button-zero',
+            name: 'New Email',
+            onClick: () => { showStartModal = true },
+            theme: 'primary',
+            icon: 'i-heroicons-plus',
+          }]"
         />
       </template>
     </ElIndexGrid>

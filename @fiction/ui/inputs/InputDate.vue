@@ -25,7 +25,7 @@ const dateFormat = vue.computed(() => {
   return props.includeTime ? 'YYYY-MM-DDTHH:mm' : 'YYYY-MM-DD'
 })
 const inputValue = vue.computed(() => {
-  return dayjs(props.modelValue).format(dateFormat.value)
+  return props.modelValue ? dayjs(props.modelValue).format(dateFormat.value) : ''
 })
 
 const dateEl = vue.ref<HTMLInputElement>()

@@ -17,7 +17,8 @@ const emit = defineEmits<{
   (event: 'update:modelValue', payload: any): void
 }>()
 
-const tempValue = vue.ref(vue.toRaw(modelValue))
+// needed on option to control outputs/visible of other options
+controlOption.tempValue.value = vue.toRaw(modelValue)
 
 vue.onMounted(async () => {
   await waitFor(200)
@@ -26,21 +27,21 @@ vue.onMounted(async () => {
 const v = vue.computed(() => controlOption.valueDisplay.value)
 
 function updateTempValue(val: any) {
-  tempValue.value = val
+  controlOption.tempValue.value = val
 }
 
 function saveChanges() {
-  emit('update:modelValue', tempValue.value)
+  emit('update:modelValue', controlOption.tempValue.value)
   controlOption.isModalOpen.value = false
 }
 
 function openModal() {
-  tempValue.value = vue.toRaw(modelValue)
+  controlOption.tempValue.value = vue.toRaw(modelValue)
   controlOption.isModalOpen.value = true
 }
 
 function cancelChanges() {
-  tempValue.value = vue.toRaw(modelValue)
+  controlOption.tempValue.value = vue.toRaw(modelValue)
   controlOption.isModalOpen.value = false
 }
 
@@ -155,13 +156,13 @@ const actions = vue.computed<ActionButton[]>(() => {
           </div>
         </div>
         <FormEngine
-          :model-value="tempValue"
+          :model-value="controlOption.tempValue.value"
           state-key="settingsTool"
           input-wrap-class="w-full"
           ui-size="lg"
           :options="controlOption.options.value || []"
           :disable-group-hide="true"
-          :data-value="JSON.stringify(tempValue)"
+          :data-value="JSON.stringify(controlOption.tempValue.value)"
           @update:model-value="updateTempValue"
         />
         <div
