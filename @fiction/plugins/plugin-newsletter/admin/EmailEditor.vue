@@ -100,6 +100,7 @@ async function saveBeforeNavigate(args: { location: string, href: string }) {
         />
         <CardButton
           :card
+          data-test-id="review-send-button"
           theme="primary"
           design="outline"
           size="md"
@@ -116,7 +117,7 @@ async function saveBeforeNavigate(args: { location: string, href: string }) {
           <ElPostEditor :post="campaign.post.value" :card @update:post="campaign.saveUtility.autosave()">
             <template #footer>
               <div v-if="actions.length" class="mt-12 pt-12">
-                <ElActions :actions ui-size="xl" class="flex gap-4" />
+                <ElActions :actions ui-size="xl" class="flex gap-4" data-test-id="editor-actions" />
               </div>
             </template>
           </ElPostEditor>

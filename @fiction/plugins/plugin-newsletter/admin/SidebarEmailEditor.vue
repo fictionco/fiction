@@ -52,12 +52,17 @@ const options = vue.computed<InputOption[]>(() => {
       options: [
         new InputOption({ key: 'post.title', label: 'Title', input: 'InputText', placeholder: 'Title', isRequired: true }),
         new InputOption({ key: 'post.subTitle', label: 'Subtitle', input: 'InputText' }),
-        new InputOption({ key: 'userConfig.actions', label: 'Calls to Action', input: 'InputActions', props: {
-          addOptions: [
-            new InputOption({ key: 'theme', label: 'Color Theme', input: 'InputSelectCustom', list: ['primary', 'default', 'naked'] }),
-          ],
-          disableKeys: ['design', 'icon', 'iconAfter', 'target', 'theme', 'size'],
-        } }),
+        new InputOption({
+          key: 'userConfig.actions',
+          label: 'Calls to Action',
+          input: 'InputActions',
+          props: {
+            addOptions: [
+              new InputOption({ key: 'theme', label: 'Color Theme', input: 'InputSelectCustom', list: ['primary', 'default', 'naked'] }),
+            ],
+            disableKeys: ['design', 'icon', 'iconAfter', 'target', 'theme', 'size'],
+          },
+        }),
       ],
     }),
 

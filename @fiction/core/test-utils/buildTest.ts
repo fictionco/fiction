@@ -329,6 +329,7 @@ export async function performActions(args: {
           break
         }
         case 'hasValue': {
+          await element.first().waitFor({ state: 'visible', timeout: 20000 })
           logger.info('HAS_VALUE', { data: { selector: action.selector, text: action.text } })
           await playwrightTest.expect(element).toHaveValue(action.text || '')
           break
@@ -421,6 +422,7 @@ export async function performActions(args: {
                 expect(await frameElement.isVisible(), `${frameAction.selector} is visible in frame`).toBe(true)
                 break
               case 'hasValue':
+                await frameElement.waitFor({ state: 'visible', timeout: 20000 })
                 logger.info('HAS_VALUE', { data: { selector: frameAction.selector, text: frameAction.text } })
                 await playwrightTest.expect(frameElement).toHaveValue(frameAction.text || '')
                 break

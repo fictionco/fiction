@@ -17,6 +17,8 @@ const emit = defineEmits<{
   (event: 'update:modelValue', payload: any): void
 }>()
 
+const baseTestId = controlOption.settings.testId || 'input-control'
+
 // needed on option to control outputs/visible of other options
 controlOption.tempValue.value = vue.toRaw(modelValue)
 
@@ -47,7 +49,6 @@ function cancelChanges() {
 
 const modalActions = vue.computed<ActionButton[]>(() => {
   const optionModalActions = controlOption.modalActions.value
-  const baseTestId = controlOption.settings.testId || 'input-control'
   if (!optionModalActions) {
     return [
       {
@@ -65,7 +66,6 @@ const modalActions = vue.computed<ActionButton[]>(() => {
 
 const actions = vue.computed<ActionButton[]>(() => {
   const optionActions = controlOption.actions.value
-  const baseTestId = controlOption.settings.testId || 'input-control'
   if (!optionActions) {
     return [
       {
@@ -100,7 +100,7 @@ const actions = vue.computed<ActionButton[]>(() => {
           <div v-else-if="v?.format === 'media' && isPlainObject(v?.data)" class="my-2">
             <XMedia class="size-14" :media="(v?.data as MediaObject)" />
           </div>
-          <div v-else>
+          <div v-else :data-test-id="`${baseTestId}-display-value`">
             {{ v?.data || 'Not Set' }}
           </div>
         </div>
@@ -113,6 +113,7 @@ const actions = vue.computed<ActionButton[]>(() => {
             :icon="v?.status === 'ready' ? 'i-tabler-check' : v?.status === 'incomplete' ? 'i-tabler-x' : 'i-tabler-circle-plus'"
             :theme="v?.status === 'ready' ? 'green' : v?.status === 'incomplete' ? 'rose' : 'theme'"
             size="md"
+            :data-test-id="`${baseTestId}-status-button`"
           >
             {{ toLabel(v?.status) }}
           </XButton>

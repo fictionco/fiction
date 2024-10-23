@@ -47,6 +47,16 @@ function _getPanelLink(panel: 'compose' | 'delivery' | 'analytics' | '') {
   return card.link(`/manage-newsletter/${panel}?campaignId=${campaign?.campaignId}`)
 }
 
+async function saveBeforeNavigate(args: { location: string, href: string }) {
+  loading.value = args.location
+
+  if (campaign?.saveUtility.isDirty.value)
+    await campaign?.save({ disableNotify: true })
+
+  loading.value = ''
+  await card.goto(args.href)
+}
+
 const options = vue.computed(() => {
   const config = campaign?.toConfig() as EmailCampaignConfig
   const post = config.post
@@ -105,15 +115,18 @@ const options = vue.computed(() => {
           subLabel: 'The text of the email',
           input: 'InputControl',
           valueDisplay: () => {
+            const isReady = wordCount > 10
             return {
-              status: wordCount > 5 ? 'ready' : 'incomplete',
-              data: `${wordCount} Words in Email`,
+              status: isReady ? 'ready' : 'incomplete',
+              data: isReady ? `${wordCount} Words in Email` : 'Add Content',
+              message: isReady ? '' : 'Add at least 10 words to the email content.',
             }
           },
           actions: () => [
             {
+              testId: 'email-composer-link',
               name: 'Email Composer',
-              href: getCampaignLink('newsletter-composer'),
+              onClick: () => saveBeforeNavigate({ location: 'newsletter-composer-link', href: getCampaignLink('newsletter-composer') }),
               theme: 'theme',
               icon: { class: 'i-tabler-edit' },
             },
@@ -191,9 +204,9 @@ const options = vue.computed(() => {
           actions: () => [
             {
               name: 'View Settings',
-              href: card.link(`/settings/project`),
               theme: 'theme',
               icon: { class: 'i-tabler-arrow-up-right' },
+              onClick: () => saveBeforeNavigate({ location: 'view-settings', href: card.link(`/settings/project`) }),
             },
           ],
         }),
@@ -330,26 +343,17 @@ async function sendOrSchedule() {
   showSendModal.value = false
 }
 
-async function saveChanges() {
-  saving.value = true
-
-  campaign?.save()
-
-  settingsModal.value = ''
-  saving.value = false
-}
-
 const header = vue.computed(() => {
   const em = campaign?.toConfig() as EmailCampaignConfig
-  const incompleteItems = options.value.filter(opt => opt.valueDisplay.value?.status === 'incomplete')
+  const allControlOptions = options.value.flatMap(o => [o, ...o.options.value]).filter(o => o.input.value === 'InputControl')
+  const incompleteItems = allControlOptions.filter(opt => opt.valueDisplay.value?.status === 'incomplete')
   const isReady = incompleteItems.length === 0
 
   const isScheduled = em?.scheduleMode === 'schedule'
-  const actionText = isScheduled ? `Schedule Send` : 'Send'
 
   const statusText = !isReady
-    ? `Edits Required`
-    : `Ready to ${actionText}`
+    ? `Edits Needed`
+    : `Ready to Publish`
 
   const actions = [
     {
@@ -357,7 +361,7 @@ const header = vue.computed(() => {
       name: 'Email Composer',
       icon: 'i-tabler-edit',
       theme: !isReady ? 'primary' : 'theme',
-      href: getCampaignLink('newsletter-composer'),
+      onClick: () => saveBeforeNavigate({ location: 'header-composer-link', href: getCampaignLink('newsletter-composer') }),
 
     },
 
@@ -367,7 +371,7 @@ const header = vue.computed(() => {
     actions.push({
       size: 'md',
       design: 'textOnly',
-      name: isReady ? 'Ready' : `${options.value.length - incompleteItems.length} / ${options.value.length} Complete`,
+      name: isReady ? 'Ready' : `${allControlOptions.length - incompleteItems.length} / ${allControlOptions.length} Complete`,
       disabled: true,
     })
   }
@@ -396,16 +400,9 @@ const header = vue.computed(() => {
 </script>
 
 <template>
-  <SettingsPanel title="Newletter Email Overview">
+  <SettingsPanel title="Newletter Email Overview" :header>
     <div class="">
       <div class="my-6 space-y-6">
-        <div class="px-8">
-          <ElHeader
-            v-if="header"
-            class="dark:bg-theme-700/50 rounded-xl p-8"
-            :model-value="header"
-          />
-        </div>
         <FormEngine
           :model-value="campaign?.toConfig()"
           state-key="settingsTool"
