@@ -81,7 +81,7 @@ export function refineOptions<T extends z.AnyZodObject>(args: {
 
     // If the option is a group, refine its children
     if (option.options?.value.length > 0) {
-      option.options.value = option.options.value.map(_ => refineOptionRecursive(_, !isGroup ? `${path}.0` : basePath, option))
+      option.options.value.map(_ => refineOptionRecursive(_, !isGroup ? `${path}.0` : basePath, option))
       return option
     }
     else if (option.shape.value.length > 0) {
