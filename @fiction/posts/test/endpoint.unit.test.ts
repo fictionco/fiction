@@ -288,15 +288,15 @@ describe('post index tests', async () => {
 
   it('deletes selected posts', async () => {
     const deleteParams = {
-      _action: 'delete' as const,
+      _action: 'deletePosts' as const,
       selectedIds: [createdPost?.postId || ''],
       orgId,
     }
 
-    const deleteResult = await fictionPosts.queries.ManagePostIndex.serve(deleteParams, { ...meta, caller: 'testDeleteSelectedPosts' })
+    const deleteResult = await fictionPosts.queries.ManagePost.serve(deleteParams, { ...meta, caller: 'testDeleteSelectedPosts' })
 
     expect(deleteResult.status).toBe('success')
-    expect(deleteResult.message).toBe('Deleted successfully')
+    expect(deleteResult.message).toMatchInlineSnapshot(`"Deleted 1 posts"`)
   })
 })
 

@@ -87,7 +87,6 @@ describe('user config', async () => {
           "ManageSubscription",
           "SubscriptionAnalytics",
           "ManagePost",
-          "ManagePostIndex",
           "ManageCampaign",
           "ManageSend",
           "posts",

@@ -33,7 +33,7 @@
     "unit:dist": "npm exec -- vitest dist",
     "unit:coverage": "npm exec -- vitest run unit --coverage -u",
     "types:ci": "npm exec -- vue-tsc",
-    "types:dev": "npm exec -- vue-tsc --watch",
+    "types:dev": "npm exec -- vue-tsc --watch --preserveWatchOutput",
     "lint:dev": "npm exec -- eslint . --fix --cache --color --quiet",
     "lint:view": "npx eslint-flat-config-viewer",
     "i:clear": "rm pnpm-lock.yaml && find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",

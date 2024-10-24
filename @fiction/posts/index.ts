@@ -3,7 +3,7 @@ import type { FictionAdmin } from '@fiction/admin'
 import type { FictionDb, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
-import { ManagePostIndex, QueryManagePost, type WherePost } from './endpoint'
+import { QueryManagePost, type WherePost } from './endpoint'
 import { Post } from './post'
 import { tables } from './schema'
 import { getWidgets } from './widgets'
@@ -24,7 +24,6 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
   widgets = getWidgets({ fictionPosts: this, ...this.settings })
   queries = {
     ManagePost: new QueryManagePost({ fictionPosts: this, ...this.settings }),
-    ManagePostIndex: new ManagePostIndex({ fictionPosts: this, ...this.settings }),
   }
 
   requests = this.createRequests({

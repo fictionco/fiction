@@ -1,4 +1,4 @@
-import { objectId, standardTable } from '@fiction/core'
+import { Endpoint, type EndpointMeta, objectId, standardTable } from '@fiction/core'
 import { createTestUtils, getTestEmail } from '@fiction/core/test-utils'
 import { afterAll, describe, expect, it } from 'vitest'
 
@@ -6,11 +6,14 @@ describe('get top values', async () => {
   const testUtils = createTestUtils()
   const fictionUser = testUtils.fictionUser
   const initialized = await testUtils.init()
+  const meta = { bearer: initialized.user } as EndpointMeta
   const orgId = initialized.org.orgId || ''
   const table = standardTable.member
 
   if (!orgId)
     throw new Error('orgId is undefined')
+
+  const where = { orgId }
 
   afterAll(async () => {
     await testUtils.close()
@@ -50,8 +53,8 @@ describe('get top values', async () => {
       table: 'emptyTableTest',
       column: 'tags',
       arrayColumn: true,
-      orgId,
-    }, undefined)
+      where,
+    }, {})
 
     expect(response.status).toBe('error')
     expect(response.data).toEqual([])
@@ -67,8 +70,8 @@ describe('get top values', async () => {
       table,
       column: 'tags',
       arrayColumn: true,
-      orgId,
-    }, undefined)
+      where,
+    }, {})
 
     expect(response.data).toMatchInlineSnapshot(`
       [
@@ -106,8 +109,8 @@ describe('get top values', async () => {
       column: 'tags',
       arrayColumn: true,
       limit: 2,
-      orgId,
-    }, undefined)
+      where,
+    }, {})
 
     expect(response.status).toBe('success')
     if (!response.data?.length) {
@@ -124,8 +127,8 @@ describe('get top values', async () => {
       column: 'tags',
       arrayColumn: true,
       minCount: 2,
-      orgId,
-    }, undefined)
+      where,
+    }, {})
 
     expect(response.status).toBe('success')
     if (!response.data?.length) {
@@ -143,8 +146,8 @@ describe('get top values', async () => {
       column: 'tags',
       arrayColumn: true,
       search: 'developer',
-      orgId,
-    }, undefined)
+      where,
+    }, {})
 
     expect(response.status).toBe('success')
     if (!response.data?.length) {
@@ -159,8 +162,8 @@ describe('get top values', async () => {
       table,
       column: 'memberAccess',
       arrayColumn: false,
-      orgId,
-    }, undefined)
+      where,
+    }, {})
 
     if (!response.data?.length) {
       throw new Error('response.data is empty')
@@ -177,8 +180,8 @@ describe('get top values', async () => {
       table: 'nonexistentTable',
       column: 'tags',
       arrayColumn: true,
-      orgId,
-    }, undefined)
+      where,
+    }, {})
 
     expect(response.status).toBe('error')
     expect(response.data).toEqual([])
@@ -189,8 +192,8 @@ describe('get top values', async () => {
       table,
       column: 'nonexistentColumn',
       arrayColumn: true,
-      orgId,
-    }, undefined)
+      where,
+    }, {})
 
     expect(response.status).toBe('error')
     expect(response.data).toEqual([])
@@ -204,8 +207,8 @@ describe('get top values', async () => {
       column: 'tags',
       arrayColumn: true,
       search: 'javascript',
-      orgId,
-    }, undefined)
+      where,
+    }, {})
 
     expect(response.status).toBe('success')
     if (!response.data?.length) {

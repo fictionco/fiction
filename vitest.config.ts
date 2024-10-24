@@ -27,13 +27,14 @@ export default defineConfig({
   plugins: [pluginVue(), ...getMarkdownPlugins()],
   build: { sourcemap: true },
   root: process.cwd(),
-
+  clearScreen: false,
   test: {
     // browser: {
     //   provider: 'playwright',
     //   enabled: true,
     //   name: 'chromium',
     // },
+
     testTimeout: 40000,
     hookTimeout: 40000,
     env: {

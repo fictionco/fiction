@@ -1,4 +1,4 @@
-import type { EndpointResponse } from '@fiction/platform'
+import type { EndpointMeta, EndpointResponse } from '@fiction/platform'
 import type { Knex } from 'knex'
 import type { UserQuerySettings } from './endpoint'
 import { Query } from '../query'
@@ -10,8 +10,7 @@ type GetTopValuesParams = {
   minCount?: number
   search?: string
   arrayColumn?: boolean
-  orgId: string
-}
+} & ({ orgId?: string, where: { orgId: string } } | { orgId: string, where?: { orgId?: string } })
 
 export type TopValueResult = {
   value: string
@@ -26,6 +25,7 @@ type QueryResult = {
 export class GetTopValues extends Query<UserQuerySettings> {
   async run(
     params: GetTopValuesParams,
+    _meta: EndpointMeta,
   ): Promise<EndpointResponse<TopValueResult[]>> {
     const { fictionDb } = this.settings
     const {
@@ -35,7 +35,7 @@ export class GetTopValues extends Query<UserQuerySettings> {
       minCount = 1,
       search = '',
       arrayColumn = false,
-      orgId,
+      where,
     } = params
 
     const db = fictionDb.db
@@ -43,6 +43,8 @@ export class GetTopValues extends Query<UserQuerySettings> {
     if (!db) {
       throw new Error('db not initialized')
     }
+
+    const orgId = where?.orgId || params.orgId
 
     try {
       let query: Knex.QueryBuilder

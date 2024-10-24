@@ -26,126 +26,127 @@ export abstract class PostsQuery extends Query<PostsQuerySettings> {
   }
 }
 
-export type ManageIndexParamsRequest = {
-  _action: 'delete' | 'list'
-  selectedIds?: string[]
-  loadDraft?: boolean
-  type?: string
-} & IndexQuery
+// export type ManageIndexParamsRequest = {
+//   _action: 'delete' | 'list'
+//   selectedIds?: string[]
+//   loadDraft?: boolean
+//   type?: string
+// } & IndexQuery
 
-export type ManageIndexParams = ManageIndexParamsRequest & { userId?: string, orgId?: string }
+// export type ManageIndexParams = ManageIndexParamsRequest & { userId?: string, orgId?: string }
 
-type ManageIndexResponse = EndpointResponse<TablePostConfig[]> & { indexMeta?: IndexMeta }
+// type ManageIndexResponse = EndpointResponse<TablePostConfig[]> & { indexMeta?: IndexMeta }
 
-export class ManagePostIndex extends PostsQuery {
-  async run(params: ManageIndexParams, _meta: EndpointMeta): Promise<ManageIndexResponse> {
-    if (!params._action)
-      throw abort('Action parameter is required.')
+// export class ManagePostIndex extends PostsQuery {
+//   async run(params: ManageIndexParams, _meta: EndpointMeta): Promise<ManageIndexResponse> {
+//     if (!params._action)
+//       throw abort('Action parameter is required.')
 
-    switch (params._action) {
-      case 'list':
-        return this.list(params)
-      case 'delete':
-        return this.deletePosts(params.selectedIds)
-      default:
-        throw abort(`Unsupported action '${params._action as string}'`)
-    }
-  }
+//     switch (params._action) {
+//       case 'list':
+//         return this.list(params)
+//       case 'delete':
+//         return this.deletePosts(params.selectedIds)
+//       default:
+//         throw abort(`Unsupported action '${params._action as string}'`)
+//     }
+//   }
 
-  private async list(args: ManageIndexParams): Promise<ManageIndexResponse> {
-    const { orgId, limit = 10, offset = 0, filters = [], loadDraft = false, type = 'post' } = args
+//   private async list(args: ManageIndexParams): Promise<ManageIndexResponse> {
+//     const { orgId, limit = 10, offset = 0, filters = [], loadDraft = false, type = 'post' } = args
 
-    if (!orgId)
-      throw abort('orgId is required to list posts')
+//     if (!orgId)
+//       throw abort('orgId is required to list posts')
 
-    let posts = await this.fetchPosts({ orgId, limit, offset, filters, type })
+//     let posts = await this.fetchPosts({ orgId, limit, offset, filters, type })
 
-    if (loadDraft) {
-      posts = posts.map((post) => {
-        if (post.draft)
-          return { ...post, ...post.draft }
+//     if (loadDraft) {
+//       posts = posts.map((post) => {
+//         if (post.draft)
+//           return { ...post, ...post.draft }
 
-        return post
-      })
-    }
+//         return post
+//       })
+//     }
 
-    const allAuthorIds = posts.map(post => post.userId).filter(Boolean) as string[]
-    const allAuthors = await this.fetchAuthors(allAuthorIds)
+//     const allAuthorIds = posts.map(post => post.userId).filter(Boolean) as string[]
+//     const allAuthors = await this.fetchAuthors(allAuthorIds)
 
-    const postsWithAuthors = posts.map(post => ({
-      ...post,
-      authors: [post.userId].filter(Boolean).map(userId => allAuthors.find(author => author.userId === userId)),
-    })) as TablePostConfig[]
+//     const postsWithAuthors = posts.map(post => ({
+//       ...post,
+//       authors: [post.userId].filter(Boolean).map(userId => allAuthors.find(author => author.userId === userId)),
+//     })) as TablePostConfig[]
 
-    const count = await this.fetchCount({ orgId, type })
+//     const count = await this.fetchCount({ orgId, type })
 
-    return {
-      status: 'success',
-      data: postsWithAuthors,
-      indexMeta: { ...args, count, limit, offset },
-    }
-  }
+//     return {
+//       status: 'success',
+//       data: postsWithAuthors,
+//       indexMeta: { ...args, count, limit, offset },
+//     }
+//   }
 
-  private async fetchPosts(args: { orgId: string, type: string } & IndexQuery) {
-    const { orgId, limit = 20, offset = 0, filters = [], orderBy = 'updatedAt', order = 'desc', type = 'post', taxonomy } = args
-    let baseQuery = this.db()
-      .select<TablePostConfig[]>('*')
-      .from(t.posts)
-      .where({ orgId, type })
-      .limit(limit)
-      .offset(offset)
-      .orderBy(orderBy, order)
+//   private async fetchPosts(args: { orgId: string, type: string } & IndexQuery) {
+//     const { orgId, limit = 20, offset = 0, filters = [], orderBy = 'updatedAt', order = 'desc', type = 'post', taxonomy } = args
+//     let baseQuery = this.db()
+//       .select<TablePostConfig[]>('*')
+//       .from(t.posts)
+//       .where({ orgId, type })
+//       .limit(limit)
+//       .offset(offset)
+//       .orderBy(orderBy, order)
 
-    baseQuery = applyComplexFilters(baseQuery, filters)
+//     baseQuery = applyComplexFilters(baseQuery, filters)
 
-    if (taxonomy) {
-      baseQuery.join(t.taxonomy, `${t.taxonomy}.taxonomyId`, '=', `${t.posts}.taxonomyId`)
+//     if (taxonomy) {
+//       baseQuery.join(t.taxonomy, `${t.taxonomy}.taxonomyId`, '=', `${t.posts}.taxonomyId`)
 
-      if ('taxonomyId' in taxonomy) {
-        baseQuery.where(`${t.taxonomy}.taxonomyId`, taxonomy.taxonomyId)
-      }
-      else if ('type' in taxonomy && 'slug' in taxonomy) {
-        baseQuery.where(`${t.taxonomy}.type`, taxonomy.type)
-          .where(`${t.taxonomy}.slug`, taxonomy.slug)
-      }
-    }
+//       if ('taxonomyId' in taxonomy) {
+//         baseQuery.where(`${t.taxonomy}.taxonomyId`, taxonomy.taxonomyId)
+//       }
+//       else if ('type' in taxonomy && 'slug' in taxonomy) {
+//         baseQuery.where(`${t.taxonomy}.type`, taxonomy.type)
+//           .where(`${t.taxonomy}.slug`, taxonomy.slug)
+//       }
+//     }
 
-    return baseQuery
-  }
+//     return baseQuery
+//   }
 
-  private async fetchCount(args: { orgId: string, type: string }): Promise<number> {
-    const { orgId, type = 'post' } = args
-    const result = await this.db()
-      .count<{ count: string }>('*')
-      .from(t.posts)
-      .where({ orgId, type })
-      .first()
+//   private async fetchCount(args: { orgId: string, type: string }): Promise<number> {
+//     const { orgId, type = 'post' } = args
+//     const result = await this.db()
+//       .count<{ count: string }>('*')
+//       .from(t.posts)
+//       .where({ orgId, type })
+//       .first()
 
-    return Number.parseInt(result?.count || '0', 10)
-  }
+//     return Number.parseInt(result?.count || '0', 10)
+//   }
 
-  private async deletePosts(selectedIds?: string[]): Promise<ManageIndexResponse> {
-    if (!selectedIds || selectedIds.length === 0)
-      throw abort('No posts selected for deletion')
+//   private async deletePosts(selectedIds?: string[]): Promise<ManageIndexResponse> {
+//     if (!selectedIds || selectedIds.length === 0)
+//       throw abort('No posts selected for deletion')
 
-    await this.db()(t.posts).whereIn('post_id', selectedIds).delete()
+//     await this.db()(t.posts).whereIn('post_id', selectedIds).delete()
 
-    return { status: 'success', message: 'Deleted successfully' }
-  }
-}
+//     return { status: 'success', message: 'Deleted successfully' }
+//   }
+// }
 
 export type WherePost = { postId?: string, slug?: string } & ({ postId: string } | { slug: string })
 
 export type ManagePostParamsRequest =
   | { _action: 'create', fields: Partial<TablePostConfig>, defaultTitle?: string }
   | { _action: 'update', where: WherePost, fields: Partial<TablePostConfig>, loadDraft?: boolean }
-  | { _action: 'get', where: WherePost & { orgId: string }, select?: (keyof TablePostConfig | '*')[], loadDraft?: boolean }
+  | { _action: 'get', select?: (keyof TablePostConfig | '*')[], loadDraft?: boolean } & ({ orgId: string, where: WherePost & { orgId?: string } } | { where: WherePost & { orgId: string } })
   | { _action: 'delete', where: WherePost }
   | { _action: 'saveDraft', where: WherePost, fields: Partial<TablePostConfig> }
   | { _action: 'revertDraft', where: WherePost }
-  | { _action: 'list', type?: string, where: { orgId: string }, loadDraft?: boolean }
+  | { _action: 'list', type?: string, loadDraft?: boolean } & IndexQuery & ({ orgId: string, where?: { orgId?: string } } | { where: { orgId: string } })
+  | { _action: 'deletePosts', selectedIds?: string[], orgId: string }
 
-export type ManagePostParams = ManagePostParamsRequest & { userId?: string, orgId?: string } & IndexQuery
+export type ManagePostParams = ManagePostParamsRequest & { userId?: string, orgId?: string }
 
 type ManagePostResponse = EndpointResponse<TablePostConfig[]> & {
   isNew?: boolean
@@ -178,6 +179,9 @@ export class QueryManagePost extends PostsQuery {
       case 'list':
         r = await this.listPosts(params, meta)
         break
+      case 'deletePosts':
+        r = await this.deletePosts(params, meta)
+        break
       default:
         return { status: 'error', message: 'Invalid action' }
     }
@@ -199,7 +203,7 @@ export class QueryManagePost extends PostsQuery {
     } = params
     const db = this.db()
 
-    const orgId = where.orgId || params.orgId
+    const orgId = where?.orgId || params.orgId
 
     if (!orgId)
       throw abort('orgId is required to list posts')
@@ -255,11 +259,22 @@ export class QueryManagePost extends PostsQuery {
     }
   }
 
+  private async deletePosts(params: ManagePostParams & { _action: 'deletePosts' }, _meta: EndpointMeta): Promise<ManagePostResponse> {
+    const { selectedIds, orgId } = params
+
+    if (!selectedIds || selectedIds.length === 0)
+      throw abort('No posts selected for deletion')
+
+    await this.db()(t.posts).where({ orgId }).whereIn('postId', selectedIds).delete()
+
+    return { status: 'success', message: `Deleted ${selectedIds.length} posts` }
+  }
+
   private async countPosts(params: ManagePostParams & { _action: 'list' }, _meta: EndpointMeta): Promise<number> {
     const { filters = [], type = 'post', taxonomy, where } = params
     const db = this.db()
 
-    const orgId = where.orgId || params.orgId
+    const orgId = where?.orgId || params.orgId
 
     if (!orgId)
       throw abort('orgId is required to count posts')
