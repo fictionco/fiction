@@ -255,16 +255,15 @@ const options = vue.computed(() => {
 
                 const testEmails = em?.userConfig.value.testEmails
 
-                if (!testEmails)
-                  return
+                if (testEmails) {
+                  loading.value = 'testEmail'
 
-                loading.value = 'testEmail'
-
-                await fictionNewsletter.requests.ManageCampaign.projectRequest({
-                  _action: 'sendTest',
-                  testEmails,
-                  where: { campaignId: em.campaignId },
-                })
+                  await fictionNewsletter.requests.ManageCampaign.projectRequest({
+                    _action: 'sendTest',
+                    testEmails,
+                    where: { campaignId: em.campaignId },
+                  })
+                }
 
                 loading.value = ''
 

@@ -23,7 +23,8 @@ export const tools = [
     icon: 'i-tabler-mailbox',
     location: 'primary',
     isPrimary: true,
-    el: vue.defineAsyncComponent(async () => import('./SidebarEmailPreview.vue')),
+    widthClasses: 'w-[400px] lg:w-[500px]',
+    el: vue.defineAsyncComponent(async () => import('./SidebarEmailTestSend.vue')),
   },
   {
     toolId: 'emailSettings',

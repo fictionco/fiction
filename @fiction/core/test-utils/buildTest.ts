@@ -11,7 +11,7 @@ import { execa } from 'execa'
 import fs from 'fs-extra'
 import { describe, expect, it } from 'vitest'
 import { log } from '../plugin-log/index.js'
-import { randomBetween, toKebab, waitFor } from '../utils/index.js'
+import { randomBetween, removeUndefined, toKebab, toSnake, waitFor } from '../utils/index.js'
 import { executeCommand, stripBrowserConsoleFormatting } from '../utils/nodeUtils.js'
 import { isCi } from '../utils/vars.js'
 
@@ -271,9 +271,10 @@ export class PlaywrightLogger {
 }
 
 type TestPageAction = {
-  type: 'visible' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'value' | 'hasText' | 'hasValue' | 'scrollTo' | 'frameInteraction' | 'callback' | 'hasAttribute'
+  type: 'visible' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'value' | 'hasText' | 'notHasText' | 'hasValue' | 'notHasValue' | 'scrollTo' | 'frameInteraction' | 'callback' | 'hasAttribute'
   selector?: string
   text?: string
+  isNot?: boolean
   attribute?: string
   expectedValue?: string
   key?: string
@@ -316,6 +317,11 @@ export async function performActions(args: {
   let lastSelector = ''
   let lastAction = ''
   for (const action of actions) {
+    index++
+    lastSelector = action.selector || ''
+    lastAction = action.type
+
+    logger.info(`---- ${index}: ACTION: ${lastAction} on ${lastSelector} ----`)
     const element = page.locator(action.selector || 'body')
 
     if (action.wait) {
@@ -323,84 +329,79 @@ export async function performActions(args: {
       await waitFor(action.wait)
     }
 
-    lastSelector = action.selector || ''
-    lastAction = action.type
+    if (['click', 'fill', 'hasText', 'hasValue', 'hasAttribute', 'visible'].includes(action.type)) {
+      await element.first().waitFor({ state: 'visible', timeout: 30000 })
+    }
+
+    logger.info(toSnake(action.type, { upper: true }), { data: removeUndefined(action) })
 
     try {
       switch (action.type) {
         case 'scrollTo': {
-          logger.info('SCROLL_TO', { data: { selector: action.selector } })
           await element.scrollIntoViewIfNeeded()
           break
         }
         case 'hasValue': {
-          await element.first().waitFor({ state: 'visible', timeout: 30000 })
-          logger.info('HAS_VALUE', { data: { selector: action.selector, text: action.text } })
           await playwrightTest.expect(element).toHaveValue(action.text || '')
           break
         }
+        case 'notHasValue': {
+          await playwrightTest.expect(element).not.toHaveValue(action.text || '')
+          break
+        }
         case 'hasText': {
-          logger.info('HAS_TEXT', { data: { selector: action.selector, text: action.text } })
           await playwrightTest.expect(element).toContainText(action.text || '')
+          break
+        }
+        case 'notHasText': {
+          await playwrightTest.expect(element).not.toContainText(action.text || '')
           break
         }
         case 'hasAttribute': {
           if (!action.attribute || action.expectedValue === undefined) {
             throw new Error('Attribute name and expected value are required for hasAttribute action')
           }
-          logger.info('CHECK_ATTRIBUTE', { data: { selector: action.selector, attribute: action.attribute, expectedValue: action.expectedValue } })
           const attributeValue = await element.getAttribute(action.attribute)
           expect(attributeValue, `${action.selector} has attribute ${action.attribute} with value ${action.expectedValue}`).toBe(action.expectedValue)
           break
         }
         case 'click': {
-          await element.first().waitFor({ state: 'visible', timeout: 30000 })
-          logger.info('CLICK_ELEMENT', { data: { selector: action.selector } })
           await element.click()
           break
         }
         case 'fill': {
-          const exists = await element.count()
-          logger.info('FILL_TEXT', { data: { selector: action.selector, text: action.text, exists } })
           await element.fill(action.text || '')
           break
         }
         case 'keyboard': {
-          logger.info('TYPE_KEY', { data: { key: action.key } })
           await page.keyboard.press(action.key || '')
           break
         }
         case 'visible': {
-          await element.first().waitFor({ state: 'visible', timeout: 30000 })
           const isVisible = await element.isVisible()
-          logger.info('IS_VISIBLE', { data: { result: isVisible, selector: action.selector } })
           expect(isVisible, `${action.selector} is visible`).toBe(true)
           break
         }
         case 'exists': {
           await element.first().waitFor({ state: 'attached', timeout: 30000 })
           const exists = await element.count()
-          logger.info('EXISTS', { data: { result: exists, selector: action.selector } })
           expect(exists, `${action.selector} exists`).toBeGreaterThan(0)
           break
         }
         case 'count': {
           await element.first().waitFor({ state: 'attached', timeout: 30000 })
           const cnt = await element.count()
-          logger.info('CNT', { data: { result: cnt, selector: action.selector } })
           expect(cnt, `${action.selector} count ${cnt}`).toBe(cnt)
           break
         }
         case 'value': {
           await waitFor(500)
           const value = await element.evaluate(el => el.dataset.value)
-          logger.info('VALUE', { data: { result: value, selector: action.selector } })
           const v = value ? JSON.parse(value) : {}
           action.callback?.(v)
           break
         }
         case 'callback': {
-          logger.info('EXECUTING_CALLBACK', { data: { selector: action.selector } })
           if (action.callback) {
             await action.callback({ page, element, action, browser })
           }
@@ -413,8 +414,11 @@ export async function performActions(args: {
           }
           const frame = page.frameLocator(action.frameSelector)
           for (const frameAction of action.frameActions) {
+            index++
             lastSelector = frameAction.selector || ''
             lastAction = frameAction.type
+
+            logger.info(`---- ${index}: FRAMEACTION: ${lastAction} on ${lastSelector} ----`)
 
             if (frameAction.wait) {
               logger.info('FRAME_WAIT_FOR', { data: { wait: `${frameAction.wait}ms` } })
@@ -422,28 +426,28 @@ export async function performActions(args: {
             }
 
             const frameElement = frame.locator(frameAction.selector || 'body')
+
+            if (['click', 'fill', 'hasText', 'hasValue', 'hasAttribute', 'visible'].includes(frameAction.type)) {
+              await frameElement.first().waitFor({ state: 'visible', timeout: 30000 })
+            }
+
+            logger.info(toSnake(frameAction.type, { upper: true }), { data: removeUndefined(frameAction) })
+
             // Handle frame actions similarly to main actions
             switch (frameAction.type) {
               case 'click':
-                await frameElement.first().waitFor({ state: 'visible', timeout: 30000 })
                 await frameElement.click()
                 break
               case 'fill':
-                await frameElement.first().waitFor({ state: 'visible', timeout: 30000 })
                 await frameElement.fill(frameAction.text || '')
                 break
               case 'visible':
-                await frameElement.first().waitFor({ state: 'visible', timeout: 30000 })
                 expect(await frameElement.isVisible(), `${frameAction.selector} is visible in frame`).toBe(true)
                 break
               case 'hasValue':
-                await frameElement.first().waitFor({ state: 'visible', timeout: 30000 })
-                logger.info('HAS_VALUE', { data: { selector: frameAction.selector, text: frameAction.text } })
                 await playwrightTest.expect(frameElement).toHaveValue(frameAction.text || '')
                 break
               case 'hasText': {
-                await frameElement.first().waitFor({ state: 'visible', timeout: 30000 })
-                logger.info('HAS_TEXT', { data: { selector: frameAction.selector, text: frameAction.text } })
                 await playwrightTest.expect(frameElement).toContainText(frameAction.text || '')
                 break
               }
@@ -462,7 +466,6 @@ export async function performActions(args: {
                 if (!frameAction.attribute || frameAction.expectedValue === undefined) {
                   throw new Error('Attribute name and expected value are required for hasAttribute action in frame')
                 }
-                logger.info('CHECK_ATTRIBUTE_IN_FRAME', { data: { selector: frameAction.selector, attribute: frameAction.attribute, expectedValue: frameAction.expectedValue } })
                 const attributeValue = await frameElement.getAttribute(frameAction.attribute)
                 expect(attributeValue, `${frameAction.selector} has attribute ${frameAction.attribute} with value ${frameAction.expectedValue} in frame`).toBe(frameAction.expectedValue)
                 break
@@ -476,7 +479,6 @@ export async function performActions(args: {
               }
 
               case 'callback': {
-                logger.info('EXECUTING_CALLBACK_IN_FRAME', { data: { selector: frameAction.selector } })
                 if (frameAction.callback) {
                   await frameAction.callback({ page, element: frameElement, action: frameAction, browser })
                 }
@@ -511,8 +513,6 @@ export async function performActions(args: {
       logger.info('WAIT_AFTER', { data: { wait: `${action.waitAfter}ms` } })
       await waitFor(action.waitAfter)
     }
-
-    index++
   }
 
   if (playwrightLogger.errorLogs.length > 0)
