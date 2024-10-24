@@ -49,7 +49,7 @@ export async function requestManageSite(args: RequestManageSiteParams) {
       scope = 'draft'
   }
 
-  const r = await fictionSites.requests.ManageSite.projectRequest({ ...pass, caller, _action, fields: fields || {}, where: where as WhereSite, scope }, { userOptional: _action === 'retrieve' })
+  const r = await fictionSites.requests.ManageSite.projectRequest({ ...pass, caller, _action, fields: fields || {}, where: where as WhereSite, scope }, { caller: `requestManageSite:${caller}`, userOptional: _action === 'retrieve' })
 
   let site: Site | undefined = undefined
   if (r.data?.siteId)

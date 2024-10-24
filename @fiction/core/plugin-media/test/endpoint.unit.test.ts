@@ -28,10 +28,11 @@ describe('createAndSaveMedia', async () => {
   testUtils.fictionMedia = new FictionMedia(mediaService)
   const fictionMediaCdn = new FictionMedia({ ...mediaService, cdnUrl: 'https://media.fiction.com' })
   testUtils.initialized = await testUtils.init()
+  const user = testUtils.initialized?.user
   const orgId = testUtils.initialized?.orgId || ''
-  const userId = testUtils.initialized?.user?.userId || ''
+  const userId = user?.userId || ''
 
-  const meta = {} as EndpointMeta // Mock meta as needed
+  const meta = { bearer: user } as EndpointMeta // Mock meta as needed
 
   afterAll(async () => {
     await testUtils.close()
@@ -128,7 +129,7 @@ describe('createAndSaveMedia', async () => {
     }, { ...meta, expectError: true })
 
     expect(result?.status).toBe('error')
-    expect(result?.message).toMatchInlineSnapshot(`"unauthorized"`)
+    expect(result?.message).toMatchInlineSnapshot(`"[EXPECTED] File path is required for checkAndCreate action."`)
   })
 
   it('should handle very long filenames', async () => {
@@ -339,11 +340,12 @@ describe('video upload functionality', async () => {
   const mediaService = { ...testUtils, fictionAws, awsBucketMedia, unsplashAccessKey }
   testUtils.fictionMedia = new FictionMedia(mediaService)
   testUtils.initialized = await testUtils.init()
+  const user = testUtils.initialized?.user
   const orgId = testUtils.initialized?.orgId || ''
-  const userId = testUtils.initialized?.user?.userId || ''
+  const userId = user?.userId || ''
   let uploadedMediaIds: string[] = []
 
-  const meta = {} as EndpointMeta // Mock meta as needed
+  const meta = { bearer: user } as EndpointMeta // Mock meta as needed
 
   afterEach(async () => {
     // Clean up uploaded media after each test
@@ -410,9 +412,9 @@ describe('video upload functionality', async () => {
     const media = result?.data?.[0]
     expect({ width: media?.width, height: media?.height, duration: media?.duration }).toMatchInlineSnapshot(`
       {
-        "duration": undefined,
-        "height": undefined,
-        "width": undefined,
+        "duration": 5.28,
+        "height": 720,
+        "width": 1280,
       }
     `)
     expect(media?.width).toBe(1280) // Adjust these values based on your test video

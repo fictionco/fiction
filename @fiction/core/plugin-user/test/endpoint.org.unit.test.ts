@@ -33,11 +33,16 @@ describe('org handling', async () => {
         userId: workingUser.userId,
         _action: 'create',
       },
-      { bearer: workingUser },
+      { bearer: workingUser, caller: 'testCreateOrganization' },
     )
 
     workingOrg = response?.data
     workingUser = response?.user
+
+    const userHasOrg = workingUser?.orgs?.find(org => org.orgId === workingOrg?.orgId)
+
+    expect(response?.status).toBe('success')
+    expect(userHasOrg).toBeTruthy()
 
     expect(workingOrg?.orgId).toBeTruthy()
     expect(workingOrg?.orgName).toBe('test')

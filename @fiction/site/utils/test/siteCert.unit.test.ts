@@ -1,4 +1,7 @@
-import { shortId } from '@fiction/core'
+/**
+ * @vitest-environment happy-dom
+ */
+import { type EndpointMeta, shortId } from '@fiction/core'
 import { describe, expect, it } from 'vitest'
 import { requestManageSite } from '../../load.js'
 import { t } from '../../tables.js'
@@ -8,8 +11,14 @@ import { saveSite } from '../site.js'
 
 describe('updateSiteCerts', async () => {
   const testUtils = await createSiteTestUtils()
-  await testUtils.init()
-  const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteMode: 'standard' } as const
+  const { user } = await testUtils.init()
+  const meta = { bearer: user } as EndpointMeta
+  const common = {
+    fictionSites: testUtils.fictionSites,
+    siteRouter: testUtils.fictionRouterSites,
+    themeId: 'test',
+    siteMode: 'standard',
+  } as const
   const { fictionSites, fictionDb } = testUtils
   const result = await requestManageSite(
     {
@@ -64,7 +73,7 @@ describe('updateSiteCerts', async () => {
     expect(updatedSite?.customDomains[0].hostname).toBe(newDomain.hostname)
     expect(updatedSite?.customDomains[0].isPrimary).toBe(true)
 
-    const deployedCert1 = await testUtils.fictionSites.queries.ManageCert.serve({ _action: 'retrieve', hostname: newDomain.hostname }, { caller: 'updateSiteCerts' })
+    const deployedCert1 = await testUtils.fictionSites.queries.ManageCert.serve({ _action: 'retrieve', hostname: newDomain.hostname }, { ...meta, caller: 'updateSiteCerts' })
 
     expect(deployedCert1.status).toBe('success')
     expect(deployedCert1.data?.hostname).toBe(hostname)
@@ -79,7 +88,7 @@ describe('updateSiteCerts', async () => {
 
     expect(updatedSite2?.customDomains).toHaveLength(0)
 
-    const deployedCert2 = await testUtils.fictionSites.queries.ManageCert.serve({ _action: 'retrieve', hostname: newDomain.hostname }, { caller: 'updateSiteCerts' })
+    const deployedCert2 = await testUtils.fictionSites.queries.ManageCert.serve({ _action: 'retrieve', hostname: newDomain.hostname }, { ...meta, caller: 'updateSiteCerts' })
 
     expect(deployedCert2).toMatchInlineSnapshot(`
       {

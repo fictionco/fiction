@@ -1,5 +1,5 @@
+import { objectId, standardTable } from '@fiction/core'
 import { createTestUtils, getTestEmail } from '@fiction/core/test-utils'
-import { objectId, standardTable } from '@fiction/platform'
 import { afterAll, describe, expect, it } from 'vitest'
 
 describe('get top values', async () => {

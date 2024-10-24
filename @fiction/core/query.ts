@@ -40,6 +40,7 @@ export abstract class Query<T extends QueryConfig = QueryConfig> {
       return { status: 'error', reason: 'bearer is undefined (but orgId or userId are set)' }
     }
     else if (orgId && !bearer?.orgs?.find(org => org.orgId === orgId)) {
+      this.log.error('Permission denied: bearer not a member of org', { data: { orgId, bearer } })
       return { status: 'error', reason: `bearer user (${bearer?.userId}) not a member of org (${orgId})` }
     }
     else if (userId && bearer?.userId !== userId) {
@@ -74,7 +75,7 @@ export abstract class Query<T extends QueryConfig = QueryConfig> {
     catch (error: unknown) {
       const e = error as ErrorConfig
 
-      this.log.error(`ServeError: ${e.message}`, { error: e, data: e.data })
+      this.log.error(`ServeError: ${e.message}`, { error: e, data: { errorData: e.data, params } })
 
       const response = {
         status: 'error',

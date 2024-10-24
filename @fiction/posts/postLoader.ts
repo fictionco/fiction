@@ -68,7 +68,12 @@ export class PostLoader extends FictionObject<PostLoaderSettings> {
 
     const { offset = 0, limit = 12 } = { ...this.config.value, ...args }
 
-    const result = await this.settings.fictionPosts.requests.ManagePostIndex.request({ _action: 'list', orgId, limit, offset })
+    const result = await this.settings.fictionPosts.requests.ManagePost.request({
+      _action: 'list',
+      where: { orgId },
+      limit,
+      offset,
+    })
 
     const entries = result.data || []
     const indexMeta = { ...this.getDefaultIndexMeta(), ...result.indexMeta }
@@ -102,8 +107,7 @@ export class PostLoader extends FictionObject<PostLoaderSettings> {
 
       const result = await this.settings.fictionPosts.requests.ManagePost.request({
         _action: 'get',
-        orgId,
-        where: { slug },
+        where: { slug, orgId },
       })
       singleEntry = result.data?.[0]
     }

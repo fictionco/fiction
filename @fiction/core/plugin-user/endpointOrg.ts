@@ -31,7 +31,7 @@ export abstract class OrgQuery extends Query<OrgQuerySettings> {
 
     let user: User | undefined
     if (userId) {
-      const response = await this.settings.fictionUser.queries.ManageUser.serve({ _action: 'retrieve', where: { userId } }, meta)
+      const response = await this.settings.fictionUser.queries.ManageUser.serve({ _action: 'retrieve', where: { userId } }, { ...meta, server: true, caller: 'orgReturnUser' })
 
       user = response.data
     }
@@ -258,7 +258,7 @@ export class QueryManageOrganization extends OrgQuery {
     if (!responseOrg?.orgId)
       throw new Error('Organization creation failed')
 
-    await this.manageMemberRelation({ userId, orgId: responseOrg.orgId, accessType: 'owner' }, meta)
+    await this.manageMemberRelation({ userId, orgId: responseOrg.orgId, accessType: 'owner' }, { server: true, ...meta, caller: 'orgCreateMemberRelationCall' })
 
     if (!responseOrg)
       throw new Error('Organization creation failed')

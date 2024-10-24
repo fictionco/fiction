@@ -92,7 +92,7 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
   async getPost(args: { orgId: string, where: WherePost, card: Card }) {
     const { orgId, where, card } = args
 
-    const r = await this.requests.ManagePost.request({ _action: 'get', orgId, where })
+    const r = await this.requests.ManagePost.request({ _action: 'get', orgId, where: { orgId, ...where } })
 
     const postConfig = r.data?.[0]
 
@@ -102,7 +102,7 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
   async getPostIndex(args: { orgId: string, limit?: number, offset?: number, card: Card }) {
     const { orgId, limit, offset, card } = args
 
-    const r = await this.requests.ManagePostIndex.request({ _action: 'list', orgId, limit, offset })
+    const r = await this.requests.ManagePost.request({ _action: 'list', where: { orgId }, limit, offset })
 
     const posts = r.data?.length ? r.data.map(p => new Post({ card, fictionPosts: this, sourceMode: 'standard', ...p })) : []
 

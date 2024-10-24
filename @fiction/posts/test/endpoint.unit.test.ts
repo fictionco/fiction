@@ -1,5 +1,5 @@
 import type { TablePostConfig } from '../schema'
-import { type ComplexDataFilter, type DataFilter, dayjs } from '@fiction/core'
+import { type ComplexDataFilter, type DataFilter, dayjs, type EndpointMeta } from '@fiction/core'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { FictionPosts } from '..'
@@ -8,6 +8,7 @@ describe('post tests', async () => {
   const testUtils = await createSiteTestUtils()
   const { orgId, user } = await testUtils.init()
   const { userId = '' } = user
+  const meta = { bearer: user } as EndpointMeta
   const fictionPosts = new FictionPosts(testUtils)
   let createdPost: TablePostConfig | undefined
   let secondPost: TablePostConfig | undefined
@@ -35,8 +36,8 @@ describe('post tests', async () => {
       userId,
     }
 
-    const resultFirst = await fictionPosts.queries.ManagePost.serve(createFirst, {})
-    const resultSecond = await fictionPosts.queries.ManagePost.serve(createSecond, {})
+    const resultFirst = await fictionPosts.queries.ManagePost.serve(createFirst, meta)
+    const resultSecond = await fictionPosts.queries.ManagePost.serve(createSecond, meta)
 
     createdPost = resultFirst.data?.[0]
     secondPost = resultSecond.data?.[0]
@@ -49,13 +50,13 @@ describe('post tests', async () => {
   it('lists posts correctly', async () => {
     const listParams = {
       _action: 'list' as const,
-      orgId,
+      where: { orgId },
       limit: 10,
       offset: 0,
       filters: [] as ComplexDataFilter[],
     }
 
-    const result = await fictionPosts.queries.ManagePost.serve(listParams, {})
+    const result = await fictionPosts.queries.ManagePost.serve(listParams, { caller: 'testPostEndpointList' })
 
     expect(result.status).toBe('success')
     expect(result.data).toBeInstanceOf(Array)
@@ -75,10 +76,10 @@ describe('post tests', async () => {
   it('filters posts correctly', async () => {
     const listParams = {
       _action: 'list' as const,
-      orgId,
       limit: 10,
       offset: 0,
       filters: [[{ field: 'status', operator: '=', value: 'published' }]] as ComplexDataFilter[],
+      where: { orgId },
     }
 
     const result = await fictionPosts.queries.ManagePost.serve(listParams, {})
@@ -97,11 +98,11 @@ describe('post tests', async () => {
   it('sorts posts correctly', async () => {
     const listParams = {
       _action: 'list' as const,
-      orgId,
       limit: 10,
       offset: 0,
       orderBy: 'title',
       order: 'desc' as const,
+      where: { orgId },
     }
 
     const result = await fictionPosts.queries.ManagePost.serve(listParams, {})
@@ -119,9 +120,9 @@ describe('post tests', async () => {
   it('paginates posts correctly', async () => {
     const listParamsFirstPage = {
       _action: 'list' as const,
-      orgId,
       limit: 1,
       offset: 0,
+      where: { orgId },
     }
 
     const resultFirstPage = await fictionPosts.queries.ManagePost.serve(listParamsFirstPage, {})
@@ -132,9 +133,9 @@ describe('post tests', async () => {
 
     const listParamsSecondPage = {
       _action: 'list' as const,
-      orgId,
       limit: 1,
       offset: 1,
+      where: { orgId },
     }
 
     const resultSecondPage = await fictionPosts.queries.ManagePost.serve(listParamsSecondPage, {})
@@ -157,13 +158,13 @@ describe('post tests', async () => {
       },
     }
 
-    await fictionPosts.queries.ManagePost.serve(updateParams, {})
+    await fictionPosts.queries.ManagePost.serve(updateParams, { ...meta, caller: 'testPostEndpointUpdate' })
 
     const listParams = {
       _action: 'list' as const,
-      orgId,
       limit: 10,
       offset: 0,
+      where: { orgId },
     }
 
     const result = await fictionPosts.queries.ManagePost.serve(listParams, {})
@@ -181,13 +182,13 @@ describe('post tests', async () => {
       orgId,
     }
 
-    await fictionPosts.queries.ManagePost.serve(deleteParams, {})
+    await fictionPosts.queries.ManagePost.serve(deleteParams, { ...meta, caller: 'testPostEndpointDelete' })
 
     const listParams = {
       _action: 'list' as const,
-      orgId,
       limit: 10,
       offset: 0,
+      where: { orgId },
     }
 
     const result = await fictionPosts.queries.ManagePost.serve(listParams, {})
@@ -204,6 +205,7 @@ describe('post tests', async () => {
 describe('post index tests', async () => {
   const testUtils = await createSiteTestUtils()
   const { orgId, user } = await testUtils.init()
+  const meta = { bearer: user } as EndpointMeta
   const { userId = '' } = user
   const fictionPosts = new FictionPosts(testUtils)
   let createdPost: TablePostConfig | undefined
@@ -211,7 +213,7 @@ describe('post index tests', async () => {
     await testUtils.close()
   })
 
-  it('lists sites correctly', async () => {
+  it('lists posts correctly', async () => {
     const create = {
       _action: 'create',
       fields: {
@@ -222,18 +224,18 @@ describe('post index tests', async () => {
       userId,
     } as const
 
-    const r = await fictionPosts.queries.ManagePost.serve(create, {})
+    const r = await fictionPosts.queries.ManagePost.serve(create, { ...meta, caller: 'testListPostIndex' })
     createdPost = r.data?.[0]
 
     const listParams = {
       _action: 'list',
-      orgId,
+      where: { orgId },
       limit: 10,
       offset: 0,
       filters: [] as DataFilter[][],
     } as const
 
-    const result = await fictionPosts.queries.ManagePostIndex.serve(listParams, {})
+    const result = await fictionPosts.queries.ManagePost.serve(listParams, {})
 
     expect(result.status).toBe('success')
     expect(result.data).toBeInstanceOf(Array)
@@ -261,11 +263,11 @@ describe('post index tests', async () => {
       userId,
     } as const
 
-    await fictionPosts.queries.ManagePost.serve(update, {})
+    await fictionPosts.queries.ManagePost.serve(update, { ...meta, caller: 'testListPostIndexDraft' })
 
-    const listParams = { _action: 'list', orgId, loadDraft: true } as const
+    const listParams = { _action: 'list', where: { orgId }, loadDraft: true } as const
 
-    const result = await fictionPosts.queries.ManagePostIndex.serve(listParams, {})
+    const result = await fictionPosts.queries.ManagePost.serve(listParams, {})
 
     expect(result.status).toBe('success')
     expect(result.data).toBeInstanceOf(Array)
@@ -275,9 +277,9 @@ describe('post index tests', async () => {
 
     expect(post?.title).toBe(draftTitle)
 
-    const listParams2 = { _action: 'list', orgId, loadDraft: false } as const
+    const listParams2 = { _action: 'list', where: { orgId }, loadDraft: false } as const
 
-    const result2 = await fictionPosts.queries.ManagePostIndex.serve(listParams2, {})
+    const result2 = await fictionPosts.queries.ManagePost.serve(listParams2, { ...meta, caller: 'testListPostIndexDraft2' })
 
     const post2 = result2.data?.[0]
 
@@ -291,7 +293,7 @@ describe('post index tests', async () => {
       orgId,
     }
 
-    const deleteResult = await fictionPosts.queries.ManagePostIndex.serve(deleteParams, {})
+    const deleteResult = await fictionPosts.queries.ManagePostIndex.serve(deleteParams, { ...meta, caller: 'testDeleteSelectedPosts' })
 
     expect(deleteResult.status).toBe('success')
     expect(deleteResult.message).toBe('Deleted successfully')
@@ -300,8 +302,10 @@ describe('post index tests', async () => {
 
 describe('post crud tests', async () => {
   const testUtils = await createSiteTestUtils()
-  const { orgId, user: { userId = '' } } = await testUtils.init()
+  const { orgId, user } = await testUtils.init()
+  const meta = { bearer: user } as EndpointMeta
   const fictionPosts = new FictionPosts(testUtils)
+  const userId = user.userId || ''
   let createdPost: TablePostConfig | undefined
   afterAll(async () => {
     await testUtils.close()
@@ -320,7 +324,7 @@ describe('post crud tests', async () => {
       userId,
     } as const
 
-    const result = await fictionPosts.queries.ManagePost.serve(create, {})
+    const result = await fictionPosts.queries.ManagePost.serve(create, { ...meta, caller: 'testCreatePost' })
 
     expect(result.status).toBe('success')
     createdPost = result.data?.[0]
@@ -346,7 +350,7 @@ describe('post crud tests', async () => {
       userId,
     } as const
 
-    const result2 = await fictionPosts.queries.ManagePost.serve(create2, {})
+    const result2 = await fictionPosts.queries.ManagePost.serve(create2, { ...meta, caller: 'testCreatePost2' })
 
     const createdPost2 = result2.data?.[0]
 
@@ -366,7 +370,7 @@ describe('post crud tests', async () => {
       },
     } as const
 
-    const updateResult = await fictionPosts.queries.ManagePost.serve(update, {})
+    const updateResult = await fictionPosts.queries.ManagePost.serve(update, { ...meta, caller: 'testUpdatePost' })
 
     const updatedPost = updateResult.data?.[0]
 
@@ -384,8 +388,11 @@ describe('post crud tests', async () => {
   it('retrieves a post', async () => {
     const retrieve = {
       _action: 'get',
-      where: { postId: createdPost?.postId || '' },
-      orgId: createdPost?.orgId || '',
+      where: {
+        postId: createdPost?.postId || '',
+        orgId: createdPost?.orgId || '',
+      },
+
     } as const
 
     const retrieveResult = await fictionPosts.queries.ManagePost.serve(retrieve, {})
@@ -407,7 +414,7 @@ describe('post crud tests', async () => {
       orgId,
     } as const
 
-    const r = await fictionPosts.queries.ManagePost.serve(draftParams, {})
+    const r = await fictionPosts.queries.ManagePost.serve(draftParams, { ...meta, caller: 'testSaveDraft' })
     const post = r.data?.[0]
 
     expect(r.status).toBe('success')
@@ -421,7 +428,7 @@ describe('post crud tests', async () => {
       orgId,
     } as const
 
-    const deleteResult = await fictionPosts.queries.ManagePost.serve(deleteAction, {})
+    const deleteResult = await fictionPosts.queries.ManagePost.serve(deleteAction, { ...meta, caller: 'testDeletePost' })
 
     expect(deleteResult.status).toBe('success')
     expect(deleteResult.message).toBe('Post deleted')
@@ -430,8 +437,7 @@ describe('post crud tests', async () => {
   it('tries to retrieve a non-existent post', async () => {
     const retrieve = {
       _action: 'get',
-      where: { postId: 'nonexistent' },
-      orgId,
+      where: { postId: 'nonexistent', orgId },
     } as const
 
     const retrieveResult = await fictionPosts.queries.ManagePost.serve(retrieve, {})
@@ -440,13 +446,7 @@ describe('post crud tests', async () => {
 
     expect(retrieveResult).toMatchInlineSnapshot(`
       {
-        "code": "PERMISSION_DENIED",
-        "context": "QueryManagePost",
         "data": undefined,
-        "expose": true,
-        "httpStatus": 403,
-        "location": undefined,
-        "message": "unauthorized",
         "status": "error",
       }
     `)
@@ -461,7 +461,7 @@ describe('post crud tests', async () => {
       orgId,
     } as const
 
-    const deleteResult = await fictionPosts.queries.ManagePost.serve(deleteAgain, {})
+    const deleteResult = await fictionPosts.queries.ManagePost.serve(deleteAgain, { ...meta, caller: 'testDeletePostAgain' })
     expect(deleteResult.status).toBe('error')
     expect(deleteResult.message).toBe('Post not found')
   })

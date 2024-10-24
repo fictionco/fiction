@@ -139,13 +139,13 @@ export type WherePost = { postId?: string, slug?: string } & ({ postId: string }
 export type ManagePostParamsRequest =
   | { _action: 'create', fields: Partial<TablePostConfig>, defaultTitle?: string }
   | { _action: 'update', where: WherePost, fields: Partial<TablePostConfig>, loadDraft?: boolean }
-  | { _action: 'get', where: WherePost, select?: (keyof TablePostConfig | '*')[], loadDraft?: boolean }
+  | { _action: 'get', where: WherePost & { orgId: string }, select?: (keyof TablePostConfig | '*')[], loadDraft?: boolean }
   | { _action: 'delete', where: WherePost }
   | { _action: 'saveDraft', where: WherePost, fields: Partial<TablePostConfig> }
   | { _action: 'revertDraft', where: WherePost }
-  | { _action: 'list', type?: string }
+  | { _action: 'list', type?: string, where: { orgId: string }, loadDraft?: boolean }
 
-export type ManagePostParams = ManagePostParamsRequest & { userId?: string, orgId: string } & IndexQuery
+export type ManagePostParams = ManagePostParamsRequest & { userId?: string, orgId?: string } & IndexQuery
 
 type ManagePostResponse = EndpointResponse<TablePostConfig[]> & {
   isNew?: boolean
@@ -187,7 +187,7 @@ export class QueryManagePost extends PostsQuery {
 
   private async listPosts(params: ManagePostParams & { _action: 'list' }, _meta: EndpointMeta): Promise<ManagePostResponse> {
     const {
-      orgId,
+      where,
       filters = [],
       limit = 10,
       offset = 0,
@@ -195,8 +195,14 @@ export class QueryManagePost extends PostsQuery {
       order = 'desc',
       type = 'post',
       taxonomy,
+      loadDraft = false,
     } = params
     const db = this.db()
+
+    const orgId = where.orgId || params.orgId
+
+    if (!orgId)
+      throw abort('orgId is required to list posts')
 
     let query = db
       .select<TablePostConfig[]>('*')
@@ -219,7 +225,18 @@ export class QueryManagePost extends PostsQuery {
       }
     }
 
-    const posts = await query
+    let posts = await query
+
+    if (loadDraft) {
+      posts = posts.map((post) => {
+        if (post.draft)
+          return { ...post, ...post.draft }
+
+        delete post.draft
+
+        return post
+      })
+    }
 
     const allAuthorIds = posts.map(post => post.userId).filter(Boolean) as string[]
     const allAuthors = await this.fetchAuthors(allAuthorIds)
@@ -239,8 +256,13 @@ export class QueryManagePost extends PostsQuery {
   }
 
   private async countPosts(params: ManagePostParams & { _action: 'list' }, _meta: EndpointMeta): Promise<number> {
-    const { orgId, filters = [], type = 'post', taxonomy } = params
+    const { filters = [], type = 'post', taxonomy, where } = params
     const db = this.db()
+
+    const orgId = where.orgId || params.orgId
+
+    if (!orgId)
+      throw abort('orgId is required to count posts')
 
     let query = db
       .count<{ count: string }>('*')
@@ -268,8 +290,10 @@ export class QueryManagePost extends PostsQuery {
   }
 
   private async getPost(params: ManagePostParams & { _action: 'get' }, _meta: EndpointMeta): Promise<EndpointResponse<TablePostConfig[]>> {
-    const { where, select = ['*'], loadDraft = false, orgId } = params
+    const { where, select = ['*'], loadDraft = false } = params
     const db = this.db()
+
+    const orgId = where.orgId || params.orgId
 
     if (!orgId)
       throw abort('orgId is required to get a post')
@@ -309,7 +333,7 @@ export class QueryManagePost extends PostsQuery {
     fields.updatedAt = new Date().toISOString()
 
     // Retrieve current post details
-    const r = await this.getPost({ _action: 'get', where, orgId, select: ['status', 'dateAt', 'slug'] }, { ...meta, caller: 'updatePostGetExisting' })
+    const r = await this.getPost({ _action: 'get', where: { orgId, ...where }, select: ['status', 'dateAt', 'slug'] }, { ...meta, caller: 'updatePostGetExisting' })
 
     const currentPost = r.data?.[0]
     if (!currentPost?.postId)
@@ -340,7 +364,7 @@ export class QueryManagePost extends PostsQuery {
       this.updateAssociations({ type: 'sites', postId, fields, orgId }),
     ])
 
-    const final = await this.getPost({ ...params, _action: 'get' }, { ...meta, caller: 'updatePostEnd' })
+    const final = await this.getPost({ ...params, where: { orgId, ...where }, _action: 'get' }, { ...meta, caller: 'updatePostEnd' })
 
     this.log.info('prepped', { data: { prepped, final } })
 
@@ -482,7 +506,7 @@ export class QueryManagePost extends PostsQuery {
       this.updateAssociations({ type: 'sites', postId, orgId, fields: associationFields }),
     ])
 
-    const final = await this.getPost({ _action: 'get', where: { postId }, orgId }, { ...meta, caller: 'createPost' })
+    const final = await this.getPost({ _action: 'get', where: { postId, orgId }, orgId }, { ...meta, caller: 'createPost' })
 
     return { status: 'success', data: final.data, message: 'Post created', isNew: true }
   }
@@ -495,7 +519,7 @@ export class QueryManagePost extends PostsQuery {
 
     const db = this.db()
     // Ensure the post exists before deleting it, error if it doesn't
-    const r = await this.getPost({ _action: 'get', where, orgId }, { ..._meta, caller: 'deletePost' })
+    const r = await this.getPost({ _action: 'get', where: { ...where, orgId } }, { ..._meta, caller: 'deletePost' })
 
     const post = r.data?.[0]
 
@@ -509,11 +533,16 @@ export class QueryManagePost extends PostsQuery {
 
   private async saveDraft(params: ManagePostParams & { _action: 'saveDraft' }, meta: EndpointMeta): Promise<EndpointResponse<TablePostConfig[]>> {
     const db = this.db()
-    const { where, fields, orgId } = params
+    const { fields, orgId } = params
+
+    if (!orgId)
+      throw abort('orgId is required to save a draft')
 
     // Get current date and format
     const now = new Date()
     fields.updatedAt = now.toISOString()
+
+    const where = { ...params.where, orgId }
 
     const currentDrafts = await db.select<TablePostConfig>('draft')
       .from(t.posts)
@@ -537,18 +566,26 @@ export class QueryManagePost extends PostsQuery {
       .where(where)
       .update({ draft: newDraft })
 
-    const r = await this.getPost({ _action: 'get', where, orgId, loadDraft: true }, { ...meta, caller: 'saveDraft' })
+    const r = await this.getPost({
+      _action: 'get',
+      where: { ...where, orgId },
+      loadDraft: true,
+    }, { ...meta, caller: 'saveDraft' })
 
     return { status: 'success', data: r.data }
   }
 
   private async revertDraft(params: ManagePostParams & { _action: 'revertDraft' }, meta: EndpointMeta): Promise<EndpointResponse<TablePostConfig[]>> {
     const { where, orgId } = params
+
+    if (!orgId)
+      throw abort('orgId is required to revert a draft')
+
     const db = this.db()
 
     await db(t.posts).where({ orgId, ...where }).update({ draft: '{}' })
 
-    const r = await this.getPost({ _action: 'get', where, orgId, loadDraft: false }, { ...meta, caller: 'revertDraft' })
+    const r = await this.getPost({ _action: 'get', where: { orgId, ...where }, loadDraft: false }, { ...meta, caller: 'revertDraft' })
 
     return { status: 'success', message: 'Reverted to published version', data: r.data }
   }

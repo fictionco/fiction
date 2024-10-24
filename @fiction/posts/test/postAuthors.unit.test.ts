@@ -1,3 +1,4 @@
+import type { EndpointMeta } from '@fiction/platform'
 import type { ManagePostParams } from '../endpoint'
 import { createTestUser } from '@fiction/core/test-utils/init'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
@@ -9,6 +10,8 @@ describe('taxonomy management tests', async () => {
   const { orgId, user } = await testUtils.init()
   const { userId = '' } = user
   const fictionPosts = new FictionPosts(testUtils)
+
+  const meta = { bearer: user } as EndpointMeta
 
   afterAll(async () => {
     await testUtils.close()
@@ -25,7 +28,7 @@ describe('taxonomy management tests', async () => {
       userId,
     } as const
 
-    const res = await fictionPosts.queries.ManagePost.serve(createNoAuthors, {})
+    const res = await fictionPosts.queries.ManagePost.serve(createNoAuthors, meta)
 
     const post1 = res.data?.[0]
     expect(post1?.authors?.length).toBe(1)
@@ -45,7 +48,7 @@ describe('taxonomy management tests', async () => {
       userId,
     } as const
 
-    const r = await fictionPosts.queries.ManagePost.serve(create, {})
+    const r = await fictionPosts.queries.ManagePost.serve(create, meta)
 
     const post2 = r.data?.[0]
 

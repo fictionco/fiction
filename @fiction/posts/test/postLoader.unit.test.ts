@@ -1,3 +1,4 @@
+import type { EndpointMeta } from '@fiction/platform'
 import type { Card } from '@fiction/site'
 import type { TablePostConfig } from '../schema'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
@@ -17,6 +18,8 @@ describe('postLoader Integration Tests', async () => {
   let mockCard: Card
   const createdPosts: TablePostConfig[] = []
 
+  const meta = { bearer: user } as EndpointMeta
+
   beforeAll(async () => {
     // Create some test posts
     const postData = [
@@ -31,7 +34,7 @@ describe('postLoader Integration Tests', async () => {
         fields: data,
         orgId,
         userId,
-      }, {})
+      }, meta)
 
       const createdPost = result.data?.[0]
 
@@ -69,7 +72,7 @@ describe('postLoader Integration Tests', async () => {
         _action: 'delete',
         where: { postId: post.postId || '' },
         orgId,
-      }, {})
+      }, meta)
     }
     await testUtils.close()
   })
