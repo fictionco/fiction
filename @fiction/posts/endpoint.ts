@@ -381,8 +381,6 @@ export class QueryManagePost extends PostsQuery {
 
     const final = await this.getPost({ ...params, where: { orgId, ...where }, _action: 'get' }, { ...meta, caller: 'updatePostEnd' })
 
-    this.log.info('prepped', { data: { prepped, final } })
-
     return { status: 'success', data: final.data, message: 'Post updated' }
   }
 

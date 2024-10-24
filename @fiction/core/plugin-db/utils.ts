@@ -48,7 +48,7 @@ export function dbPrep<T>(args: {
     )
 
     let isValid = !sch || value === null
-    if (sch && value !== null) {
+    if (sch && value !== null && value) {
       const schema = sch({ z })
       value = removeUndefined(value, { removeNull: true })
       const parsed = schema.safeParse(value)

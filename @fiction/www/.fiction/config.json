@@ -133,10 +133,6 @@
       "path": "/api/fiction-posts/ManagePost"
     },
     {
-      "key": "ManagePostIndex",
-      "path": "/api/fiction-posts/ManagePostIndex"
-    },
-    {
       "key": "ManageCampaign",
       "path": "/api/send/ManageCampaign"
     },

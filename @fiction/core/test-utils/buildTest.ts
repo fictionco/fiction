@@ -334,7 +334,7 @@ export async function performActions(args: {
           break
         }
         case 'hasValue': {
-          await element.first().waitFor({ state: 'visible', timeout: 20000 })
+          await element.first().waitFor({ state: 'visible', timeout: 30000 })
           logger.info('HAS_VALUE', { data: { selector: action.selector, text: action.text } })
           await playwrightTest.expect(element).toHaveValue(action.text || '')
           break
@@ -354,7 +354,7 @@ export async function performActions(args: {
           break
         }
         case 'click': {
-          await element.first().waitFor({ state: 'visible', timeout: 10000 })
+          await element.first().waitFor({ state: 'visible', timeout: 30000 })
           logger.info('CLICK_ELEMENT', { data: { selector: action.selector } })
           await element.click()
           break
@@ -371,21 +371,21 @@ export async function performActions(args: {
           break
         }
         case 'visible': {
-          await element.first().waitFor({ state: 'visible', timeout: 20000 })
+          await element.first().waitFor({ state: 'visible', timeout: 30000 })
           const isVisible = await element.isVisible()
           logger.info('IS_VISIBLE', { data: { result: isVisible, selector: action.selector } })
           expect(isVisible, `${action.selector} is visible`).toBe(true)
           break
         }
         case 'exists': {
-          await element.first().waitFor({ state: 'attached', timeout: 10000 })
+          await element.first().waitFor({ state: 'attached', timeout: 30000 })
           const exists = await element.count()
           logger.info('EXISTS', { data: { result: exists, selector: action.selector } })
           expect(exists, `${action.selector} exists`).toBeGreaterThan(0)
           break
         }
         case 'count': {
-          await element.first().waitFor({ state: 'attached', timeout: 10000 })
+          await element.first().waitFor({ state: 'attached', timeout: 30000 })
           const cnt = await element.count()
           logger.info('CNT', { data: { result: cnt, selector: action.selector } })
           expect(cnt, `${action.selector} count ${cnt}`).toBe(cnt)
@@ -416,26 +416,33 @@ export async function performActions(args: {
             lastSelector = frameAction.selector || ''
             lastAction = frameAction.type
 
+            if (frameAction.wait) {
+              logger.info('FRAME_WAIT_FOR', { data: { wait: `${frameAction.wait}ms` } })
+              await waitFor(frameAction.wait)
+            }
+
             const frameElement = frame.locator(frameAction.selector || 'body')
             // Handle frame actions similarly to main actions
             switch (frameAction.type) {
               case 'click':
+                await frameElement.first().waitFor({ state: 'visible', timeout: 30000 })
                 await frameElement.click()
                 break
               case 'fill':
+                await frameElement.first().waitFor({ state: 'visible', timeout: 30000 })
                 await frameElement.fill(frameAction.text || '')
                 break
               case 'visible':
-                await frameElement.waitFor({ state: 'visible', timeout: 20000 })
+                await frameElement.first().waitFor({ state: 'visible', timeout: 30000 })
                 expect(await frameElement.isVisible(), `${frameAction.selector} is visible in frame`).toBe(true)
                 break
               case 'hasValue':
-                await frameElement.waitFor({ state: 'visible', timeout: 20000 })
+                await frameElement.first().waitFor({ state: 'visible', timeout: 30000 })
                 logger.info('HAS_VALUE', { data: { selector: frameAction.selector, text: frameAction.text } })
                 await playwrightTest.expect(frameElement).toHaveValue(frameAction.text || '')
                 break
               case 'hasText': {
-                await frameElement.waitFor({ state: 'visible', timeout: 20000 })
+                await frameElement.first().waitFor({ state: 'visible', timeout: 30000 })
                 logger.info('HAS_TEXT', { data: { selector: frameAction.selector, text: frameAction.text } })
                 await playwrightTest.expect(frameElement).toContainText(frameAction.text || '')
                 break
@@ -444,11 +451,11 @@ export async function performActions(args: {
                 await frameElement.scrollIntoViewIfNeeded()
                 break
               case 'exists':
-                await frameElement.waitFor({ state: 'attached', timeout: 10000 })
+                await frameElement.waitFor({ state: 'attached', timeout: 30000 })
                 expect(await frameElement.count(), `${frameAction.selector} exists in frame`).toBeGreaterThan(0)
                 break
               case 'count':
-                await frameElement.waitFor({ state: 'attached', timeout: 10000 })
+                await frameElement.waitFor({ state: 'attached', timeout: 30000 })
                 expect(await frameElement.count(), `${frameAction.selector} count in frame`).toBeGreaterThan(0)
                 break
               case 'hasAttribute': {

@@ -68,7 +68,6 @@ export interface CompiledServiceConfig {
     | 'ManageOrganization'
     | 'ManagePage'
     | 'ManagePost'
-    | 'ManagePostIndex'
     | 'ManageSend'
     | 'ManageSite'
     | 'ManageSites'

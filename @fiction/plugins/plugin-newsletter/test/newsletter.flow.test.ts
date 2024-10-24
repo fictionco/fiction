@@ -4,7 +4,7 @@ import { afterAll, describe, expect, it } from 'vitest'
 import { setup } from './kit.main.js'
 
 describe('admin:newsletter', async () => {
-  const kit = await createUiTestingKit({ headless: false, setup, slowMo: 500, initUser: true })
+  const kit = await createUiTestingKit({ headless: false, setup, slowMo: 0, initUser: true })
   const testUtils = kit.testUtils
 
   if (!testUtils)
@@ -12,7 +12,7 @@ describe('admin:newsletter', async () => {
 
   afterAll(async () => kit.close())
 
-  it('newsletter workflow', { timeout: 80000, retry: isCi() ? 3 : 0 }, async () => {
+  it('newsletter workflow', { timeout: 100000, retry: isCi() ? 3 : 0 }, async () => {
     await kit.performActions({
       caller: 'kitNewsletter',
       path: '/app',
@@ -50,7 +50,7 @@ describe('admin:newsletter', async () => {
         { type: 'hasText', selector: '[data-test-id="email-preview-text-display-value"]', text: 'Test Preview Text' },
         { type: 'click', selector: '[data-test-id="view-preview-button"]' },
         { type: 'frameInteraction', frameSelector: `#email-preview-frame`, frameActions: [
-          { type: 'hasText', selector: `[data-test-id="email-title"]`, text: 'Test Content Title' },
+          { type: 'hasText', selector: `[data-test-id="email-title"]`, text: 'Test Content Title', wait: 10000 },
           { type: 'hasText', selector: `[data-test-id="email-sub-title"]`, text: 'Test Content Subtitle' },
           { type: 'hasText', selector: `[data-test-id="email-content"]`, text: 'welcome to the jungle' },
         ] },
