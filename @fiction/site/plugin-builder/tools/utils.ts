@@ -1,4 +1,4 @@
-import type { Site } from '@fiction/platform'
+import type { Site } from '@fiction/site'
 import { createOption } from '@fiction/ui'
 
 import { t } from '../../tables'

@@ -6,7 +6,7 @@ import type { FictionClickHouse } from '../plugin-clickhouse/index.js'
 import type { FictionEvent } from '../typesTracking.js'
 import { createExpressApp, dayjs, deepMerge, FictionPlugin, getRequestIpAddress, vue, WriteBuffer } from '@fiction/core'
 import { addExpressHealthCheck } from '@fiction/core/utils/serverHealth.js'
-import { eventsTable, sessionsTable } from '../tables.js'
+import { allTables } from '../tables.js'
 import { SessionManager } from './session.js'
 
 export * from '../tables.js'
@@ -46,10 +46,9 @@ export class FictionBeacon extends FictionPlugin<FictionBeaconSettings> {
   constructor(settings: FictionBeaconSettings) {
     super('beacon', settings)
 
-    this.settings.fictionClickHouse.tables.push(eventsTable, sessionsTable)
-
-    if (!this.fictionEnv.isApp.value)
+    if (!this.fictionEnv.isApp.value) {
       this.sessionManager = new SessionManager(this.settings)
+    }
   }
 
   /**

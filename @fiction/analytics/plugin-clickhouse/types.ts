@@ -1,7 +1,7 @@
 export interface ClickHouseQueryResult<T = unknown> {
   rows: number
   rows_before_limit_at_least?: number
-  data: T
+  data: T[]
   meta?: { name: string, type: string }[]
   statistics?: { elapsed: number, rows_read: number, bytes_read: number }
 }

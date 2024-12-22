@@ -1,4 +1,4 @@
-import type { MediaObject } from '@fiction/platform'
+import type { MediaObject } from '@fiction/core'
 import type { FictionUser, Organization, User } from '..'
 import type { FictionDb } from '../../plugin-db'
 import type { WhereUser } from '../endpoint'

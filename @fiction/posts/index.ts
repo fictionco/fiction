@@ -96,7 +96,7 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
     if (!this.settings.fictionEnv.isApp.value) {
       const { CronJob } = await import('cron')
       const job = new CronJob(
-        '0 */1 * * * *', // cronTime: At minute 0 past every 5th hour
+        '0 */1 * * * *',
         () => {
           this.log.info('RUN ----> job scheduler (5 minutes)')
         },

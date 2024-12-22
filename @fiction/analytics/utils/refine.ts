@@ -1,7 +1,7 @@
 import type { DataPointChart, QueryParams, QueryParamsRefined, TimeLineInterval } from '../types.js'
 import { dayjs } from '@fiction/core'
 
-export function refineTimelineData<T extends DataPointChart>(args: {
+type RefineTimelineArgs<T> = {
   timeZone?: string
   timeStartAtIso: string
   timeEndAtIso: string
@@ -9,37 +9,76 @@ export function refineTimelineData<T extends DataPointChart>(args: {
   withRollup?: boolean
   data: T[]
   nowIso?: string
-}): T[] {
-  const { timeStartAtIso, timeEndAtIso, timeZone = 'utc', interval, data = [], withRollup, nowIso } = args
+  snapshotKeys?: string[]
+}
 
+export function refineTimelineData<T extends DataPointChart>(args: RefineTimelineArgs<T>): T[] {
+  const {
+    timeStartAtIso,
+    timeEndAtIso,
+    timeZone = 'utc',
+    interval = 'day',
+    data = [],
+    withRollup,
+    nowIso,
+    snapshotKeys = [],
+  } = args
+
+  const MAX_POINTS = 2000
+
+  // Initialize with precise start/end points
   const timeStartAt = dayjs(timeStartAtIso).tz(timeZone).startOf(interval)
-  const timeEndAt = dayjs(timeEndAtIso).tz(timeZone).endOf(interval)
-  const now = nowIso ? dayjs(nowIso) : dayjs()
+  const timeEndAt = dayjs(timeEndAtIso).tz(timeZone).startOf(interval)
+  const now = nowIso ? dayjs(nowIso).tz(timeZone) : dayjs().tz(timeZone)
 
+  if (!timeStartAt.isValid() || !timeEndAt.isValid()) {
+    throw new Error('Invalid start or end date')
+  }
+
+  // Setup initial data
   const newData: { date?: string, [key: string]: any }[] = withRollup ? [{ label: 'Totals', tense: 'past', ...data[0] }] : []
 
-  let loopTime = timeStartAt.clone()
-
-  const duration = Math.abs(timeEndAt.diff(loopTime, 'day'))
-  const dateFormat = duration < 3 ? 'ha' : duration > 180 ? 'MMM D, YYYY' : 'MMM D'
-
+  // Extract numerical fields
   const sample = data[0] ?? {}
-  // create default object from sample set to zeros
   const defaultObjectIfMissing = Object.fromEntries(
-    Object.entries(sample).map(([k, v]) => ((typeof v === 'string' && /^-?\d+$/.test(v)) || typeof v === 'number') ? [k, 0] : undefined).filter(Boolean) as [string, number][],
+    Object.entries(sample)
+      .map(([k, v]) => ((typeof v === 'string' && /^-?\d+$/.test(v)) || typeof v === 'number') ? [k, 0] : undefined)
+      .filter(Boolean) as [string, number | string][],
   )
 
-  while (loopTime.isBefore(timeEndAt, interval) || loopTime.isSame(timeEndAt, interval)) {
-    const displayDate = loopTime.tz(timeZone)
+  const lastKnownValues = { ...defaultObjectIfMissing }
 
-    const found = data.find(_ => dayjs(_.date).isSame(loopTime, interval)) || defaultObjectIfMissing
+  // Calculate total points needed
+  const totalPoints = timeEndAt.diff(timeStartAt, interval)
+  if (totalPoints > MAX_POINTS) {
+    throw new Error(`Time range too large: ${totalPoints} ${interval} intervals requested`)
+  }
 
-    const tense = displayDate.isSame(now, interval) ? 'present' : (displayDate.isAfter(now, interval) ? 'future' : 'past')
+  // Generate points
+  for (let i = 0; i <= totalPoints; i++) {
+    const currentTime = timeStartAt.add(i, interval)
 
-    const d: DataPointChart = { ...found, date: loopTime.toISOString(), label: displayDate.format(dateFormat), tense }
+    const foundData = data.find(d => dayjs(d.date).tz(timeZone).isSame(currentTime, interval))
+    const values = { ...defaultObjectIfMissing }
 
-    newData.push(d)
-    loopTime = loopTime.add(1, interval).tz(timeZone)
+    // Process values
+    Object.keys(defaultObjectIfMissing).forEach((key) => {
+      if (foundData?.[key] !== undefined) {
+        values[key] = foundData[key]
+        if (snapshotKeys.includes(key)) {
+          lastKnownValues[key] = foundData[key]
+        }
+      }
+      else if (snapshotKeys.includes(key)) {
+        values[key] = lastKnownValues[key]
+      }
+    })
+
+    const tense = currentTime.utc().isSame(now.utc(), interval)
+      ? 'present'
+      : currentTime.utc().isAfter(now.utc(), interval) ? 'future' : 'past'
+
+    newData.push({ ...values, date: currentTime.toISOString(), tense })
   }
 
   return newData as T[]

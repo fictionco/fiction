@@ -4,7 +4,7 @@ import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { describe, expect, it } from 'vitest'
 import { FictionSubscribe } from '..'
 
-describe('subscriptione endpoint', async () => {
+describe('subscription endpoint', async () => {
   const testUtils = await createSiteTestUtils()
 
   const fictionSubscribe = new FictionSubscribe(testUtils)

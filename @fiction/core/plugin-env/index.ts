@@ -14,6 +14,7 @@ import { crossVar, isApp, isCi, isDev, isNode, isTest, onResetUi, resetUi, runHo
 import { logMemoryUsage } from '../utils/nodeUtils.js'
 import { standardAppCommands } from './commands.js'
 import { compileApplication } from './entry.js'
+import { IntervalManager } from './interval.js'
 import { envConfig, EnvVar, vars } from './onImport.js'
 import { commonServerOnlyModules } from './serverOnly.js'
 import { type ConfigFileGenerator, generateStaticConfig } from './utils/generate.js'
@@ -70,6 +71,9 @@ export type EnvEventMap = {
   restartServers: CustomEvent<{ reason: string }> // restart services, server
   notify: CustomEvent<UserNotification>
   cleanup: CustomEvent<{ reason: string }> // clear memory, etc.
+  fiveMinuteInterval: CustomEvent<{ reason: string }>
+  hourlyInterval: CustomEvent<{ reason: string }>
+  dailyInterval: CustomEvent<{ reason: string }>
 }
 
 export class FictionEnv<
@@ -118,6 +122,8 @@ export class FictionEnv<
   generatedFolder = path.join(this.cwd, '/.fiction')
 
   heldKeys = vue.ref<Record<string, boolean>>({})
+
+  intervalManager?: IntervalManager
 
   // allows service passed to app to be modified
   // plugins that add services need to edit this
@@ -196,11 +202,12 @@ export class FictionEnv<
 
     envConfig.list.forEach(c => c.onLoad({ fictionEnv: this }))
 
-    this.handleEvents()
-    this.setupKeyTracking()
+    this.handleWindowEvents()
+
+    this.intervalManager = new IntervalManager(this)
   }
 
-  handleEvents() {
+  handleWindowEvents() {
     if (!this.hasWindow)
       return
 
@@ -218,6 +225,8 @@ export class FictionEnv<
       args.cause = `${args.cause}[env]`
       resetUi(args)
     })
+
+    this.setupKeyTracking()
   }
 
   setupKeyTracking(): void {

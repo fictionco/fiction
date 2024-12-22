@@ -67,256 +67,224 @@ describe('subscriptione endpoint', async () => {
           "main": [
             {
               "cleaned": 0,
-              "date": "2024-05-10T07:00:00.000Z",
-              "label": "May 10",
+              "date": "2024-05-10T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-05-11T07:00:00.000Z",
-              "label": "May 11",
+              "date": "2024-05-11T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-05-12T07:00:00.000Z",
-              "label": "May 12",
+              "date": "2024-05-12T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-05-13T07:00:00.000Z",
-              "label": "May 13",
+              "date": "2024-05-13T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-05-14T07:00:00.000Z",
-              "label": "May 14",
+              "date": "2024-05-14T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-05-15T07:00:00.000Z",
-              "label": "May 15",
+              "date": "2024-05-15T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-05-16T07:00:00.000Z",
-              "label": "May 16",
+              "date": "2024-05-16T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-05-17T07:00:00.000Z",
-              "label": "May 17",
+              "date": "2024-05-17T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-05-18T07:00:00.000Z",
-              "label": "May 18",
+              "date": "2024-05-18T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-05-19T07:00:00.000Z",
-              "label": "May 19",
+              "date": "2024-05-19T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-05-20T07:00:00.000Z",
-              "label": "May 20",
+              "date": "2024-05-20T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-05-21T07:00:00.000Z",
-              "label": "May 21",
+              "date": "2024-05-21T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-05-22T07:00:00.000Z",
-              "label": "May 22",
+              "date": "2024-05-22T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-05-23T07:00:00.000Z",
-              "label": "May 23",
+              "date": "2024-05-23T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-05-24T07:00:00.000Z",
-              "label": "May 24",
+              "date": "2024-05-24T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-05-25T07:00:00.000Z",
-              "label": "May 25",
+              "date": "2024-05-25T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-05-26T07:00:00.000Z",
-              "label": "May 26",
+              "date": "2024-05-26T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-05-27T07:00:00.000Z",
-              "label": "May 27",
+              "date": "2024-05-27T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-05-28T07:00:00.000Z",
-              "label": "May 28",
+              "date": "2024-05-28T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-05-29T07:00:00.000Z",
-              "label": "May 29",
+              "date": "2024-05-29T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-05-30T07:00:00.000Z",
-              "label": "May 30",
+              "date": "2024-05-30T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-05-31T07:00:00.000Z",
-              "label": "May 31",
+              "date": "2024-05-31T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-06-01T07:00:00.000Z",
-              "label": "Jun 1",
+              "date": "2024-06-01T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-06-02T07:00:00.000Z",
-              "label": "Jun 2",
+              "date": "2024-06-02T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 1,
             },
             {
               "cleaned": 0,
-              "date": "2024-06-03T07:00:00.000Z",
-              "label": "Jun 3",
+              "date": "2024-06-03T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-06-04T07:00:00.000Z",
-              "label": "Jun 4",
+              "date": "2024-06-04T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-06-05T07:00:00.000Z",
-              "label": "Jun 5",
+              "date": "2024-06-05T06:00:00.000Z",
               "subscriptions": 1,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 1,
-              "date": "2024-06-06T07:00:00.000Z",
-              "label": "Jun 6",
+              "date": "2024-06-06T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-06-07T07:00:00.000Z",
-              "label": "Jun 7",
+              "date": "2024-06-07T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-06-08T07:00:00.000Z",
-              "label": "Jun 8",
+              "date": "2024-06-08T06:00:00.000Z",
               "subscriptions": 1,
               "tense": "past",
               "unsubscribes": 1,
             },
             {
               "cleaned": 0,
-              "date": "2024-06-09T07:00:00.000Z",
-              "label": "Jun 9",
+              "date": "2024-06-09T06:00:00.000Z",
               "subscriptions": 1,
               "tense": "past",
               "unsubscribes": 0,
             },
             {
               "cleaned": 0,
-              "date": "2024-06-10T07:00:00.000Z",
-              "label": "Jun 10",
+              "date": "2024-06-10T06:00:00.000Z",
               "subscriptions": 0,
               "tense": "past",
               "unsubscribes": 0,
@@ -336,7 +304,7 @@ describe('subscriptione endpoint', async () => {
             "orgId": "ORG_ID",
             "timeEndAtIso": "2024-06-11T04:40:00.000Z",
             "timeStartAtIso": "2024-05-11T04:40:00.000Z",
-            "timeZone": "America/Los_Angeles",
+            "timeZone": "America/Denver",
           },
         },
         "status": "success",
@@ -396,17 +364,17 @@ describe('refineTimelineData', () => {
 
     expect(refinedData).toEqual([
       { date: '', subscriptions: 3, unsubscribes: 2, cleaned: 1, label: 'Totals', tense: 'past' },
-      { date: '2024-06-01T00:00:00.000Z', subscriptions: 0, unsubscribes: 0, cleaned: 0, label: 'Jun 1', tense: 'past' },
-      { date: '2024-06-02T00:00:00.000Z', subscriptions: 0, unsubscribes: 0, cleaned: 0, label: 'Jun 2', tense: 'past' },
-      { date: '2024-06-03T00:00:00.000Z', subscriptions: 0, unsubscribes: 0, cleaned: 0, label: 'Jun 3', tense: 'past' },
-      { date: '2024-06-04T00:00:00.000Z', subscriptions: 0, unsubscribes: 1, cleaned: 0, label: 'Jun 4', tense: 'past' },
-      { date: '2024-06-05T00:00:00.000Z', subscriptions: 0, unsubscribes: 0, cleaned: 0, label: 'Jun 5', tense: 'past' },
-      { date: '2024-06-06T00:00:00.000Z', subscriptions: 0, unsubscribes: 0, cleaned: 0, label: 'Jun 6', tense: 'past' },
-      { date: '2024-06-07T00:00:00.000Z', subscriptions: 1, unsubscribes: 0, cleaned: 0, label: 'Jun 7', tense: 'past' },
-      { date: '2024-06-08T00:00:00.000Z', subscriptions: 0, unsubscribes: 0, cleaned: 1, label: 'Jun 8', tense: 'past' },
-      { date: '2024-06-09T00:00:00.000Z', subscriptions: 0, unsubscribes: 1, cleaned: 0, label: 'Jun 9', tense: 'past' },
-      { date: '2024-06-10T00:00:00.000Z', subscriptions: 2, unsubscribes: 0, cleaned: 0, label: 'Jun 10', tense: 'past' },
-      { date: '2024-06-11T00:00:00.000Z', subscriptions: 0, unsubscribes: 0, cleaned: 0, label: 'Jun 11', tense: 'present' },
+      { date: '2024-06-01T00:00:00.000Z', subscriptions: 0, unsubscribes: 0, cleaned: 0, tense: 'past' },
+      { date: '2024-06-02T00:00:00.000Z', subscriptions: 0, unsubscribes: 0, cleaned: 0, tense: 'past' },
+      { date: '2024-06-03T00:00:00.000Z', subscriptions: 0, unsubscribes: 0, cleaned: 0, tense: 'past' },
+      { date: '2024-06-04T00:00:00.000Z', subscriptions: 0, unsubscribes: 1, cleaned: 0, tense: 'past' },
+      { date: '2024-06-05T00:00:00.000Z', subscriptions: 0, unsubscribes: 0, cleaned: 0, tense: 'past' },
+      { date: '2024-06-06T00:00:00.000Z', subscriptions: 0, unsubscribes: 0, cleaned: 0, tense: 'past' },
+      { date: '2024-06-07T00:00:00.000Z', subscriptions: 1, unsubscribes: 0, cleaned: 0, tense: 'past' },
+      { date: '2024-06-08T00:00:00.000Z', subscriptions: 0, unsubscribes: 0, cleaned: 1, tense: 'past' },
+      { date: '2024-06-09T00:00:00.000Z', subscriptions: 0, unsubscribes: 1, cleaned: 0, tense: 'past' },
+      { date: '2024-06-10T00:00:00.000Z', subscriptions: 2, unsubscribes: 0, cleaned: 0, tense: 'past' },
+      { date: '2024-06-11T00:00:00.000Z', subscriptions: 0, unsubscribes: 0, cleaned: 0, tense: 'present' },
     ])
   })
 
@@ -421,8 +389,8 @@ describe('refineTimelineData', () => {
     const refinedData = refineTimelineData({ timeZone, timeStartAtIso, timeEndAtIso, interval, data, nowIso, withRollup: true })
 
     expect(refinedData.length).toBe(12)
-    expect(refinedData[1]).toEqual({ date: '2024-06-01T00:00:00.000Z', label: 'Jun 1', tense: 'past' })
-    expect(refinedData[11]).toEqual({ date: '2024-06-11T00:00:00.000Z', label: 'Jun 11', tense: 'present' })
+    expect(refinedData[1]).toEqual({ date: '2024-06-01T00:00:00.000Z', tense: 'past' })
+    expect(refinedData[11]).toEqual({ date: '2024-06-11T00:00:00.000Z', tense: 'present' })
   })
 
   it('correctly refines timeline data with hourly interval', () => {
@@ -435,10 +403,206 @@ describe('refineTimelineData', () => {
       { date: '2024-06-10T00:00:00.000Z', subscriptions: 2, unsubscribes: 0, cleaned: 0 },
     ]
 
-    const refinedData = refineTimelineData({ timeZone, timeStartAtIso, timeEndAtIso, interval, data, nowIso, withRollup: false })
+    const refinedData = refineTimelineData({
+      timeZone,
+      timeStartAtIso,
+      timeEndAtIso,
+      interval,
+      data,
+      nowIso,
+      withRollup: false,
+    })
 
     expect(refinedData.length).toBe(13) // 12 hours + initial point
-    expect(refinedData[0]).toEqual({ date: '2024-06-10T00:00:00.000Z', subscriptions: 2, unsubscribes: 0, cleaned: 0, label: '12am', tense: 'past' })
-    expect(refinedData[12]).toEqual({ date: '2024-06-10T12:00:00.000Z', subscriptions: 0, unsubscribes: 0, cleaned: 0, label: '12pm', tense: 'present' })
+    expect(refinedData[0]).toEqual({
+      date: '2024-06-10T00:00:00.000Z',
+      subscriptions: 2,
+      unsubscribes: 0,
+      cleaned: 0,
+      tense: 'past',
+    })
+    expect(refinedData[12]).toEqual({
+      date: '2024-06-10T12:00:00.000Z',
+      subscriptions: 0,
+      unsubscribes: 0,
+      cleaned: 0,
+      tense: 'present',
+    })
+  })
+})
+
+describe('refineData snapshot', () => {
+  const baseArgs = {
+    timeStartAtIso: '2024-06-01T00:00:00.000Z',
+    timeEndAtIso: '2024-06-05T00:00:00.000Z',
+    nowIso: '2024-06-05T00:00:00.000Z',
+    timeZone: 'UTC',
+    interval: 'day' as TimeLineInterval,
+  }
+
+  it('handles snapshot mode with follower counts', () => {
+    const data: DataPointChart[] = [
+      { date: '2024-06-01T00:00:00.000Z', followers: 100, engagement: 50 },
+      { date: '2024-06-03T00:00:00.000Z', followers: 150, engagement: 75 },
+    ]
+
+    const refinedData = refineTimelineData({
+      ...baseArgs,
+      data,
+      snapshotKeys: ['followers', 'engagement'],
+    })
+
+    expect(refinedData).toEqual([
+      {
+        date: '2024-06-01T00:00:00.000Z',
+        followers: 100,
+        engagement: 50,
+        tense: 'past',
+      },
+      {
+        date: '2024-06-02T00:00:00.000Z',
+        followers: 100, // Carried forward
+        engagement: 50, // Carried forward
+        tense: 'past',
+      },
+      {
+        date: '2024-06-03T00:00:00.000Z',
+        followers: 150, // Updated
+        engagement: 75, // Updated
+        tense: 'past',
+      },
+      {
+        date: '2024-06-04T00:00:00.000Z',
+        followers: 150, // Carried forward
+        engagement: 75, // Carried forward
+        tense: 'past',
+      },
+      {
+        date: '2024-06-05T00:00:00.000Z',
+        followers: 150, // Carried forward
+        engagement: 75, // Carried forward
+        tense: 'present',
+      },
+    ])
+  })
+
+  it('maintains increment mode behavior for activity metrics', () => {
+    const data: DataPointChart[] = [
+      { date: '2024-06-01T00:00:00.000Z', views: 100, likes: 50 },
+      { date: '2024-06-03T00:00:00.000Z', views: 150, likes: 75 },
+    ]
+
+    const refinedData = refineTimelineData({
+      ...baseArgs,
+      data,
+    })
+
+    expect(refinedData).toEqual([
+      {
+        date: '2024-06-01T00:00:00.000Z',
+        views: 100,
+        likes: 50,
+        tense: 'past',
+      },
+      {
+        date: '2024-06-02T00:00:00.000Z',
+        views: 0, // Reset to 0
+        likes: 0, // Reset to 0
+        tense: 'past',
+      },
+      {
+        date: '2024-06-03T00:00:00.000Z',
+        views: 150,
+        likes: 75,
+        tense: 'past',
+      },
+      {
+        date: '2024-06-04T00:00:00.000Z',
+        views: 0, // Reset to 0
+        likes: 0, // Reset to 0
+        tense: 'past',
+      },
+      {
+        date: '2024-06-05T00:00:00.000Z',
+        views: 0, // Reset to 0
+        likes: 0, // Reset to 0
+        tense: 'present',
+      },
+    ])
+  })
+
+  it('handles mixed snapshot and increment data when specified', () => {
+    const data: DataPointChart[] = [
+      {
+        date: '2024-06-01T00:00:00.000Z',
+        followers: 100, // Snapshot
+        posts: 5, // Increment
+      },
+      {
+        date: '2024-06-03T00:00:00.000Z',
+        followers: 150, // Snapshot
+        posts: 3, // Increment
+      },
+    ]
+
+    const refinedData = refineTimelineData({
+      ...baseArgs,
+      data,
+      snapshotKeys: ['followers'], // Specify which keys should use snapshot mode
+    })
+
+    expect(refinedData).toEqual([
+      {
+        date: '2024-06-01T00:00:00.000Z',
+        followers: 100, // Initial snapshot value
+        posts: 5, // Initial increment value
+        tense: 'past',
+      },
+      {
+        date: '2024-06-02T00:00:00.000Z',
+        followers: 100, // Carried forward
+        posts: 0, // Reset to 0
+        tense: 'past',
+      },
+      {
+        date: '2024-06-03T00:00:00.000Z',
+        followers: 150, // Updated snapshot
+        posts: 3, // New increment value
+        tense: 'past',
+      },
+      {
+        date: '2024-06-04T00:00:00.000Z',
+        followers: 150, // Carried forward
+        posts: 0, // Reset to 0
+        tense: 'past',
+      },
+      {
+        date: '2024-06-05T00:00:00.000Z',
+        followers: 150, // Carried forward
+        posts: 0, // Reset to 0
+        tense: 'present',
+      },
+    ])
+  })
+
+  it('handles empty data in snapshot mode', () => {
+    const refinedData = refineTimelineData({ ...baseArgs, data: [] })
+
+    expect(refinedData).toHaveLength(5)
+    expect(refinedData[0]).toEqual({
+      date: '2024-06-01T00:00:00.000Z',
+      tense: 'past',
+    })
+
+    const refinedData2 = refineTimelineData({
+      data: [],
+      timeStartAtIso: '2024-10-23T16:05:37.073Z',
+      timeEndAtIso: '2024-11-22T16:05:37.073Z',
+      timeZone: 'UTC',
+      interval: 'hour',
+      snapshotKeys: [],
+    })
+
+    expect(refinedData2).toHaveLength(721)
   })
 })

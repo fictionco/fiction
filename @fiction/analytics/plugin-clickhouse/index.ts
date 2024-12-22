@@ -1,32 +1,40 @@
-import type { FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
 import type { Dayjs } from 'dayjs'
 import type { Knex } from 'knex'
-import type { FictionAnalytics } from '../index.js'
+import type { FictionAnalytics, FictionAnalyticsSettings } from '../index.js'
 import type { QueryParamsRefined, TimeLineInterval } from '../types.js'
 import type { ClickHouseQueryResult } from './types.js'
-import type { FictionAnalyticsTable } from './utils.js'
-import { capitalize, dayjs, FictionPlugin, isJson, isNode, knex } from '@fiction/core'
+import { capitalize, dayjs, fetchWithTimeout, FictionPlugin, isJson, isNode, knex } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
 import { eventFields } from '../plugin-beacon/index.js'
+import { allTables } from '../tables'
 import { getSessionQuerySelectors, t } from '../tables.js'
-import { QueryGetClientSessions, QueryGetDimensionList, QueryGetTotalSessions } from './endpoints.js'
+import {
+  QueryGetClientSessions,
+  QueryGetDimensionList,
+  QueryGetTotalSessions,
+  QueryMetricAnalytics,
+  QueryMetricTrack,
+} from './endpoints.js'
 
 export * from './types.js'
 
 vars.register(() => [new EnvVar({ name: 'CLICKHOUSE_URL' })])
 
-type FictionClickHouseSettings = {
-  clickhouseUrl: string
-  fictionServer: FictionServer
-  fictionUser?: FictionUser
+export type FictionClickHouseSettings = {
   fictionAnalytics?: FictionAnalytics
-  tables?: FictionAnalyticsTable[]
-} & FictionPluginSettings
+} & FictionAnalyticsSettings
 
 export interface BaseChartData {
   date: string
   label?: string
   tense?: 'past' | 'present' | 'future'
+}
+
+const emptyResult: ClickHouseQueryResult = {
+  data: [],
+  rows: 0,
+  rows_before_limit_at_least: 0,
+  meta: [],
 }
 
 export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> {
@@ -38,12 +46,13 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
   user!: string
   password!: string
   queries = {
+    MetricTrack: new QueryMetricTrack({ fictionClickHouse: this, ...this.settings }),
+    MetricAnalytics: new QueryMetricAnalytics({ fictionClickHouse: this, ...this.settings }),
     GetDimensionList: new QueryGetDimensionList({ fictionClickHouse: this, ...this.settings }),
     GetClientSessions: new QueryGetClientSessions({ fictionClickHouse: this, ...this.settings }),
     GetTotalSessions: new QueryGetTotalSessions({ fictionClickHouse: this, ...this.settings }),
   }
 
-  tables = this.settings.tables || []
   requests = this.createRequests({
     queries: this.queries,
     fictionServer: this.settings.fictionServer,
@@ -107,16 +116,22 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
     return this.db
   }
 
-  async extend(): Promise<void> {
-    await this.clickHouseQuery({ query: `CREATE DATABASE IF NOT EXISTS ${this.dbName}` })
+  getFullTableName(table: keyof typeof t): string {
+    return `${this.dbName}.${t[table]}`
+  }
 
-    if (this.tables.length > 0) {
-      for (const table of this.tables)
+  async extend(): Promise<void> {
+    await this.clickHouseQuery({ query: `CREATE DATABASE IF NOT EXISTS ${this.dbName}`, caller: 'extend' })
+
+    if (allTables.length > 0) {
+      for (const table of allTables)
         await table.createClickHouseTable(this)
     }
   }
 
-  clickHouseQuery = async <T = unknown[]>({ query }: { query: string }): Promise<ClickHouseQueryResult<T> | undefined> => {
+  clickHouseQuery = async <T = unknown>(args: { query: string, caller: string }): Promise<ClickHouseQueryResult<T>> => {
+    const { query, caller = 'unknown' } = args
+
     if (!this.connectionUrl)
       throw new Error('connectionUrl is missing')
 
@@ -129,9 +144,10 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
     const _promises = urls.map(
       async (url: string): Promise<ClickHouseQueryResult<T> | undefined> => {
         try {
-          const fetched = await fetch(url, {
+          const fetched = await fetchWithTimeout(url, {
             method: 'post',
             headers: { 'access-control-allow-origin': '*' },
+            timeout: 10000,
           })
 
           const textData = await fetched.text()
@@ -146,7 +162,7 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
         catch (error: unknown) {
           const e = error as Error
 
-          this.log.error(`clickhouse query error (${e?.message ?? 'no message'})`, { data: { url, query }, error })
+          this.log.error(`${caller}: clickhouse query error (${e?.message ?? 'no message'})`, { data: { url, query }, error })
 
           const { format } = await import('sql-formatter')
 
@@ -159,8 +175,9 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
 
     const primary = result[0]
 
-    if (!primary)
-      return
+    if (!primary) {
+      return emptyResult as ClickHouseQueryResult<T>
+    }
 
     return primary
   }
@@ -168,7 +185,7 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
   cleanPrefixes<E extends Record<string, unknown>>(data: E[]): E[] {
     const r = data.map((d) => {
       const entries = Object.entries(d).map(([key, value]) => {
-        return [key.split('_').pop(), value]
+        return [key.split('__').pop(), value]
       })
 
       return Object.fromEntries(entries) as E
@@ -177,32 +194,29 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
     return r
   }
 
-  async clickHouseSelect<T extends any[]>(
+  async clickHouseSelect<T extends Record<string, unknown>>(
     q: Knex.QueryBuilder,
-  ): Promise<ClickHouseQueryResult<T | []>> {
+    args: { caller: string },
+  ): Promise<ClickHouseQueryResult<T>> {
+    const { caller = 'clickHouseSelect' } = args
     const query = `${q.toQuery()} FORMAT JSON`
 
-    const result = await this.clickHouseQuery<T>({ query })
-
-    const emptyResult: ClickHouseQueryResult<[]> = {
-      data: [],
-      rows: 0,
-      rows_before_limit_at_least: 0,
-      meta: [],
-    }
+    const result = await this.clickHouseQuery<T>({ query, caller })
 
     if (result?.data)
-      result.data = this.cleanPrefixes(result.data) as T
+      result.data = this.cleanPrefixes(result.data) as T[]
 
     return result || emptyResult
   }
 
-  clickhouseBaseQuery(args: { orgId: string, table?: string }): Knex.QueryBuilder {
-    const { orgId, table = this.tableEvents } = args
+  clickhouseBaseQuery(args: { orgId: string, table: keyof typeof t }): Knex.QueryBuilder {
+    const { orgId, table } = args
 
     const client = this.client()
 
-    const q = client.from(table).where({ orgId })
+    const tbl = this.getFullTableName(table)
+
+    const q = client.from(tbl).where({ orgId })
 
     return q
   }
@@ -212,9 +226,11 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
   }
 
   clickhouseDateQuery(args: {
-    params: QueryParamsRefined & { table?: string }
+    params: QueryParamsRefined
+    table: keyof typeof t
   }): Knex.QueryBuilder {
-    const { timeStartAtIso, timeEndAtIso, orgId, table, filters } = args.params
+    const { table } = args
+    const { timeStartAtIso, timeEndAtIso, orgId, filters } = args.params
 
     if (!orgId)
       throw new Error('orgId is missing')
@@ -257,15 +273,13 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
   }
 
   clickhouseBaseQuerySession(args: { orgId: string, selectors?: string[], base?: Knex.QueryBuilder }): Knex.QueryBuilder {
-    const { orgId, selectors = [], base = this.clickhouseBaseQuery({ orgId }) } = args
-    return this.sessionTable({
-      base,
-      selectors,
-    })
+    const { orgId, selectors = [], base = this.clickhouseBaseQuery({ orgId, table: 'event' }) } = args
+    return this.sessionTable({ base, selectors })
   }
 
   clickhouseDateQuerySession(args: { params: QueryParamsRefined, selectors?: string[], base?: Knex.QueryBuilder }): Knex.QueryBuilder {
-    const { params, selectors = [], base = this.clickhouseDateQuery({ params }) } = args
+    const { params, selectors = [], base = this.clickhouseDateQuery({ params: args.params, table: 'event' }) } = args
+
     return this.sessionTable({ base, selectors })
   }
 
@@ -292,15 +306,21 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
     return dayjs.unix(time).format('YYYY-MM-DD HH:mm:ss')
   }
 
-  async saveData(opts: { data: unknown[], table?: string }): Promise<unknown> {
-    const { data, table = this.tableEvents } = opts
-    const rowJson = data.map(item => JSON.stringify(item)).join(' ')
+  async saveData<T extends Record<string, unknown>>(opts: {
+    rows: T[]
+    table: keyof typeof t
+  }): Promise<ClickHouseQueryResult<T>> {
+    const { rows, table } = opts
+    const rowJson = rows.map(item => JSON.stringify(item)).join(' ')
 
-    const r = await this.clickHouseQuery({
-      query: `INSERT INTO ${table} FORMAT JSONEachRow ${rowJson}`,
+    const tbl = this.getFullTableName(table)
+
+    const r = await this.clickHouseQuery<T>({
+      query: `INSERT INTO ${tbl} FORMAT JSONEachRow ${rowJson}`,
+      caller: 'saveData',
     })
 
-    this.log.debug(`saved ${data.length} rows`)
+    this.log.debug(`saved ${rows.length} rows`)
 
     return r
   }

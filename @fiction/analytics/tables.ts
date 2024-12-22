@@ -7,7 +7,16 @@ import { FictionAnalyticsCol, FictionAnalyticsTable } from './plugin-clickhouse/
 export const t = {
   event: 'analytics_event',
   session: 'analytics_session',
+  metrics: 'metrics',
 }
+
+const metricFields = [
+  new FictionAnalyticsCol({ key: 'snapshotId', clickHouseType: 'String', description: 'unique snapshot identifier', indexOn: true, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'orgId', clickHouseType: 'String', description: 'organization identifier', indexOn: true, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'metric', clickHouseType: 'String', description: 'metric type', sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'count', clickHouseType: 'Float32', description: 'metric count', sch: () => z.number() }),
+  new FictionAnalyticsCol({ key: 'timestamp', clickHouseType: 'DateTime', description: 'metric recorded timestamp', sch: () => z.union([z.string(), z.number()]) }),
+] as const
 
 const baseFields = [
   new FictionAnalyticsCol({ key: 'event', clickHouseType: 'String', description: 'Primary event name', indexOn: true, getValue: ({ event }) => event.event, sch: ({ z }) => z.string() }),
@@ -41,6 +50,7 @@ const baseFields = [
   new FictionAnalyticsCol({ key: 'action', clickHouseType: 'String', description: 'Event action', getValue: ({ event }) => event.properties?.action, sch: () => z.string() }),
   new FictionAnalyticsCol({ key: 'selector', clickHouseType: 'String', description: 'DOM trigger selector', getValue: ({ event }) => event.properties?.selector, sch: () => z.string() }),
   new FictionAnalyticsCol({ key: 'value', clickHouseType: 'Float32', description: 'Event value', sessionSelector: _ => `sum(${_.key}) as ${_.id}`, getValue: ({ event }) => event.properties?.value, sch: () => z.number() }),
+  new FictionAnalyticsCol({ key: 'count', clickHouseType: 'Float32', description: 'Associated count', sessionSelector: _ => `sum(${_.key}) as ${_.id}`, getValue: ({ event }) => event.properties?.value, sch: () => z.number() }),
 
   // JSON Fields
   new FictionAnalyticsCol({ key: 'context', clickHouseType: 'String', description: 'Event context object', getValue: ({ event }) => JSON.stringify(event.context || {}), sch: () => z.record(z.string(), z.any()) }),
@@ -167,16 +177,16 @@ export function getSessionQuerySelectors(): string[] {
     .filter(Boolean) as string[]
 }
 
-export const eventsTable = new FictionAnalyticsTable({ tableKey: t.event, cols: eventFields })
-
-export const sessionsTable = new FictionAnalyticsTable({ tableKey: t.session, cols: sessionFields })
-
 export function isSessionField(field: keyof EventParams) {
   const found = eventFields.find(f => f.key === field)
   return found?.sessionSelector ?? false
 }
 
-export const allTables = [eventsTable, sessionsTable]
+export const allTables = [
+  new FictionAnalyticsTable({ tableKey: t.event, cols: eventFields }),
+  new FictionAnalyticsTable({ tableKey: t.session, cols: sessionFields }),
+  new FictionAnalyticsTable({ tableKey: t.metrics, cols: metricFields }),
+]
 
 type CreateTuple<T extends readonly FictionAnalyticsCol<any, any>[]> = {
   [P in keyof T]: T[P] extends FictionAnalyticsCol<infer X, infer Q> ? [X, Q] : never

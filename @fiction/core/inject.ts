@@ -42,7 +42,8 @@ export type RunVars = {
   RUNTIME_COMMIT: string
 }
 
-export type StandardServices = {
+// Core services that must be available
+export interface CoreServices {
   fictionRouter: FictionRouter
   fictionUser: FictionUser
   fictionEnv: FictionEnv
@@ -51,13 +52,48 @@ export type StandardServices = {
   fictionDb: FictionDb
   fictionServer: FictionServer
   runVars?: RunVars
-} & ServiceList
+}
 
-export function useService<T extends ServiceList>(): T & StandardServices {
-  const service = vue.inject<vue.ShallowRef<T & StandardServices>>('service')
+export type StandardServices = CoreServices & ServiceList
+
+export function useService<T extends ServiceList>(): T & CoreServices {
+  const service = vue.inject<vue.ShallowRef<T & CoreServices>>('service')
 
   if (!service)
     throw new Error('service for injection not found')
 
   return service.value
+}
+
+// Extensible service collection that allows adding new services
+export interface ServiceCollection extends CoreServices {
+  [key: string]: any
+}
+
+// Helper to add new services while maintaining types
+export function addService<
+  T extends ServiceCollection,
+  K extends string,
+  V,
+>(services: T, key: K, value: V): T & Record<K, V> {
+  return { ...services, [key]: value }
+}
+
+// Type helper to ensure we track the full type as we add services
+export function createServiceCollection<T extends ServiceCollection>(initialServices: T) {
+  let services = initialServices
+
+  function addService<K extends string, V>(key: K, value: V): typeof services & Record<K, V> {
+    services = { ...services, [key]: value } as typeof services & Record<K, V>
+    return services
+  }
+
+  function getServices(): typeof services {
+    return services
+  }
+
+  return {
+    addService,
+    getServices,
+  }
 }

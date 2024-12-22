@@ -32,7 +32,7 @@ export type AggregationFormat =
   | 'percent'
   | 'ip'
 
-export interface AggregationRow {
+export type AggregationRow = {
   count: string | number
   name: string
   total: string | number
@@ -107,13 +107,20 @@ export interface AnalyticsDataRequestFilters {
   noCache?: boolean
   timeZone?: string
   search?: string
+  metric?: string[]
+  handling?: 'increment' | 'snapshot'
 }
 
 export type QueryParams = AnalyticsDataRequestBase & Partial<AnalyticsDataRequestFilters>
 
-export type QueryParamsRefined = QueryParams & {
+/**
+ * These are params that are set after using refineParams(QueryParams)
+ */
+export type QueryParamsRefined = Omit<QueryParams, 'timeEndAtIso' | 'timeStartAtIso'> & {
   timeZone: string
   orgId?: string
+  timeStartAtIso: string
+  timeEndAtIso: string
   compareEndAtIso: string
   compareStartAtIso: string
   interval: TimeLineInterval

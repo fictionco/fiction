@@ -1,16 +1,12 @@
 {
-  "name": "@fiction/plugin-monitor",
+  "name": "@fiction/plugin-metrics",
   "type": "module",
   "version": "6.0.35",
   "author": "Fiction",
   "license": "MIT",
   "main": "index.ts",
   "dependencies": {
-    "@fiction/core": "workspace:*",
-    "@sentry/browser": "^8.47.0",
-    "@sentry/node": "^8.47.0",
-    "@sentry/vue": "^8.47.0",
-    "@slack/webhook": "^7.0.4"
+    "@fiction/core": "workspace:*"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "publishConfig": {

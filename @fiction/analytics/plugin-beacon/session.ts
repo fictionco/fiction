@@ -19,7 +19,7 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
     name: 'sessionSave',
     flush: async (events) => {
       const promises = [
-        this.settings.fictionClickHouse.saveData({ data: events }),
+        this.settings.fictionClickHouse.saveData({ rows: events, table: 'event' }),
       ]
 
       await Promise.all(promises)
