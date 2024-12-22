@@ -158,21 +158,21 @@ const sessionFields = [
 
   // Session State Flags
   new FictionAnalyticsCol({ key: 'isClosed', clickHouseType: 'UInt8', description: 'Session properly closed', sessionSelector: _ => `if(countIf(event='session') > 0, 1, 0) as ${_.id}`, getValue: ({ session }) => session.isClosed, sch: () => z.number().int().min(0).max(1) }),
-  new FictionAnalyticsCol({ key: 'isBounce', clickHouseType: 'UInt8', description: 'Single page session', sessionSelector: _ => `if(session_pageCount > 1, 0, 1) as ${_.id}`, getValue: ({ session }) => session.isBounce, sch: () => z.number().int().min(0).max(1) }),
+  new FictionAnalyticsCol({ key: 'isBounce', clickHouseType: 'UInt8', description: 'Single page session', sessionSelector: _ => `if(session__pageCount > 1, 0, 1) as ${_.id}`, getValue: ({ session }) => session.isBounce, sch: () => z.number().int().min(0).max(1) }),
   new FictionAnalyticsCol({ key: 'isRobot', clickHouseType: 'UInt8', description: 'Bot/crawler session', sessionSelector: _ => `if(countIf(event='bot') > 0, 1, 0) as ${_.id}`, getValue: ({ session }) => session.isRobot, sch: () => z.number().int().min(0).max(1) }),
   new FictionAnalyticsCol({ key: 'hasReplay', clickHouseType: 'UInt8', description: 'Session has replay data', sessionSelector: _ => `if(countIf(event='replay') > 0, 1, 0) as ${_.id}`, getValue: ({ session }) => session.hasReplay, sch: () => z.number().int().min(0).max(1) }),
 
   // Conversion Metrics
   new FictionAnalyticsCol({ key: 'totalGoalConversion', clickHouseType: 'UInt16', description: 'Count of goal conversions', sessionSelector: _ => `countIf(conversion='goal') as ${_.id}`, getValue: ({ session }) => session.totalGoalConversion, sch: () => z.number() }),
   new FictionAnalyticsCol({ key: 'totalConversion', clickHouseType: 'UInt16', description: 'Count of all conversions', sessionSelector: _ => `countIf(conversion='conversion') as ${_.id}`, getValue: ({ session }) => session.totalConversion, sch: () => z.number() }),
-  new FictionAnalyticsCol({ key: 'hasGoalConversion', clickHouseType: 'UInt8', description: 'Has any goal conversion', sessionSelector: _ => `if(session_totalGoalConversion > 0, 1, 0) as ${_.id}`, getValue: ({ session }) => session.hasGoalConversion, sch: () => z.number().int().min(0).max(1) }),
-  new FictionAnalyticsCol({ key: 'hasConversion', clickHouseType: 'UInt8', description: 'Has any conversion', sessionSelector: _ => `if(session_totalConversion > 0, 1, 0) as ${_.id}`, getValue: ({ session }) => session.hasConversion, sch: () => z.number().int().min(0).max(1) }),
+  new FictionAnalyticsCol({ key: 'hasGoalConversion', clickHouseType: 'UInt8', description: 'Has any goal conversion', sessionSelector: _ => `if(session__totalGoalConversion > 0, 1, 0) as ${_.id}`, getValue: ({ session }) => session.hasGoalConversion, sch: () => z.number().int().min(0).max(1) }),
+  new FictionAnalyticsCol({ key: 'hasConversion', clickHouseType: 'UInt8', description: 'Has any conversion', sessionSelector: _ => `if(session__totalConversion > 0, 1, 0) as ${_.id}`, getValue: ({ session }) => session.hasConversion, sch: () => z.number().int().min(0).max(1) }),
 ] as const
 
 export function getSessionQuerySelectors(): string[] {
   return sessionFields
     .map((_) => {
-      return _.sessionSelector ? _.sessionSelector({ key: _.key, id: `session_${_.key}` }) : undefined
+      return _.sessionSelector ? _.sessionSelector({ key: _.key, id: `session__${_.key}` }) : undefined
     })
     .filter(Boolean) as string[]
 }

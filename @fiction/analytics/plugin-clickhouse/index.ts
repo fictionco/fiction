@@ -290,7 +290,7 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
   formatDateTimeSelect({ interval, timeField = 'timestamp', timeZone }: {
     interval: TimeLineInterval
     timeZone: string
-    timeField?: 'timestamp' | 'session_timestamp'
+    timeField?: 'timestamp' | 'session__timestamp'
   }): string {
     let startOf = `toStartOf${capitalize(interval)}(${timeField}, '${timeZone}')`
 
