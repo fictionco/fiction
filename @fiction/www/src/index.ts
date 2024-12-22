@@ -140,9 +140,8 @@ const fictionMedia = new FictionMedia({ ...basicService, fictionAws, awsBucketMe
 const fictionTransactions = new FictionTransactions({ ...basicService, fictionMedia })
 const fictionAi = new FictionAi({ ...basicService, fictionMedia, openaiApiKey, anthropicApiKey })
 const fictionAdmin = new FictionAdmin({ ...basicService, fictionTransactions, fictionMedia })
-const fictionMetrics = new FictionMetrics({ ...basicService })
 
-const s = { ...basicService, fictionCache, fictionAppSites, fictionRouterSites, fictionAws, fictionMedia, fictionAi, fictionTransactions, fictionAdmin, fictionMetrics }
+const s = { ...basicService, fictionCache, fictionAppSites, fictionRouterSites, fictionAws, fictionMedia, fictionAi, fictionTransactions, fictionAdmin }
 
 const fictionOnboard = new FictionOnboard({ ...s })
 

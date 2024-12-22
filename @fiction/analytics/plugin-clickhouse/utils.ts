@@ -83,7 +83,7 @@ export class FictionAnalyticsTable extends FictionDbTable {
       ORDER BY (${orderBy})
     `
 
-    await fictionClickHouse.clickHouseQuery({ query })
+    await fictionClickHouse.clickHouseQuery({ query, caller: 'createClickHouseTable-Create' })
 
     const addColumnQuery = `ALTER TABLE ${tableName} ${this.cols
       .map((col) => {
@@ -91,7 +91,7 @@ export class FictionAnalyticsTable extends FictionDbTable {
       })
       .join(', ')}`
 
-    await fictionClickHouse.clickHouseQuery({ query: addColumnQuery })
+    await fictionClickHouse.clickHouseQuery({ query: addColumnQuery, caller: 'createClickHouseTable-Alter' })
   }
 }
 

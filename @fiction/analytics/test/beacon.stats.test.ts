@@ -92,12 +92,12 @@ describe('fictionBeacon', async () => {
 
     await waitFor(300)
     const ch = testUtils.fictionClickhouse
-    const query = ch.clickhouseBaseQuery({ orgId })
+    const query = ch.clickhouseBaseQuery({ orgId, table: 'event' })
       .select(ch.client().raw('count(anonymousId) as total, anonymousId'))
       .where({ anonymousId })
       .groupBy('anonymousId')
 
-    const r = await ch.clickHouseSelect<{ total: number }[]>(query)
+    const r = await ch.clickHouseSelect<{ total: number }>(query, { caller: 'saveEventsTest' })
 
     const data = r.data
 

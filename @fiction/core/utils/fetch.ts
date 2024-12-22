@@ -1,8 +1,8 @@
 /**
  * Advanced fetch function that adds a timeout and format option to native fetch
  */
-export async function fetchWithTimeout(url: string, options: RequestInit & { timeout: number }) {
-  const { timeout = 3000, ...fetchOptions } = options
+export async function fetchWithTimeout(url: string, options?: RequestInit & { timeout?: number }) {
+  const { timeout = 3000, ...fetchOptions } = options || {}
 
   const controller = new AbortController()
   const id = setTimeout(() => controller.abort(), timeout)

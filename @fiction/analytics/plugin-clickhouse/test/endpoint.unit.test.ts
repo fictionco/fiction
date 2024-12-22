@@ -67,15 +67,15 @@ describe('metrics', async () => {
         [
           {
             "count": 10,
-            "date": "2024-12-22T15:00:00.000Z",
+            "date": "2024-12-22T16:07:00.000Z",
           },
           {
             "count": 10,
-            "date": "2024-12-22T16:00:00.000Z",
+            "date": "2024-12-22T17:07:00.000Z",
           },
           {
             "count": 10,
-            "date": "2024-12-22T17:00:00.000Z",
+            "date": "2024-12-22T18:07:00.000Z",
           },
         ]
       `)
@@ -117,7 +117,7 @@ describe('metrics', async () => {
       expect(lastPoint?.count).toBe(200)
     })
 
-    it.only('provides accurate period comparisons', async () => {
+    it('provides accurate period comparisons', async () => {
       const compareMetric = `test_sales_${shortId()}`
 
       await fictionClickhouse.queries.MetricTrack.serve({

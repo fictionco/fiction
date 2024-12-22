@@ -98,7 +98,7 @@ describe('standard tables', async () => {
       .andWhereRaw(`session_anonymousId = '${testUtils.anonymousId}'`)
       .limit(1)
 
-    const { data } = await fictionClickhouse.clickHouseSelect<SessionParams>(query)
+    const { data } = await fictionClickhouse.clickHouseSelect<SessionParams>(query, { caller: 'tablesTest' })
 
     expect(data.length).toBeGreaterThan(0)
 
