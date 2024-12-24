@@ -24,22 +24,17 @@ abstract class AnalyticsEndpoint extends Query<AnalyticsEndpointSettings> {
   }
 }
 
-export class QueryMetricTrack extends AnalyticsEndpoint {
-  async run(params: {
-    metric: string
-    count: number
-    orgId: string
-    timestamp?: number
-  }, _meta: EndpointMeta): Promise<EndpointResponse> {
-    const { orgId, metric, count, timestamp = dayjs().unix() } = params
+export class QueryEventTrack extends AnalyticsEndpoint {
+  async run(params: { orgId: string, event: string } & Partial<EventParams>, _meta: EndpointMeta): Promise<EndpointResponse> {
+    const { orgId, event, value, timestamp = dayjs().unix() } = params
 
     try {
-      const metricRow = { orgId, metric, count, timestamp }
+      const metricRow = { orgId, event, value, timestamp }
 
       const fictionClickHouse = this.settings.fictionClickHouse
 
       if (fictionClickHouse) {
-        await fictionClickHouse.saveData({ table: 'metrics', rows: [metricRow] })
+        await fictionClickHouse.saveData({ table: 'event', rows: [metricRow] })
       }
 
       return { status: 'success' }
@@ -52,7 +47,7 @@ export class QueryMetricTrack extends AnalyticsEndpoint {
 }
 
 // Analytics Query
-const dataKeys = ['count'] as const
+const dataKeys = ['value'] as const
 type MetricDataPoint = DataPointChart<typeof dataKeys[number]>
 type ReturnData = DataCompared<MetricDataPoint>
 export type MetricAnalyticsResponse = EndpointResponse<ReturnData>
@@ -67,7 +62,7 @@ export class QueryMetricAnalytics extends AnalyticsEndpoint {
     const {
       timeZone = 'UTC',
       orgId,
-      metric,
+      event,
       timeStartAtIso,
       timeEndAtIso,
       interval = 'day',
@@ -76,8 +71,8 @@ export class QueryMetricAnalytics extends AnalyticsEndpoint {
 
     if (!orgId)
       return { status: 'error', message: 'Missing orgId' }
-    if (!metric)
-      return { status: 'error', message: 'Missing metric' }
+    if (!event)
+      return { status: 'error', message: 'Missing event' }
 
     const ch = this.ch()
     const client = ch.client()
@@ -87,21 +82,22 @@ export class QueryMetricAnalytics extends AnalyticsEndpoint {
 
       const query = ch.clickhouseDateQuery({
         params: { ...refinedParams, timeStartAtIso: startIso, timeEndAtIso: endIso },
-        table: 'metrics',
+        table: 'event',
       })
 
-      // Handle array of metrics with OR condition
-      if (Array.isArray(metric) && metric.length > 0) {
-        query.whereIn('metric', metric)
-      }
+      query.whereIn('event', Array.isArray(event) && event.length > 0 ? event : [event])
 
       // add up if increment (traffic) or if snapshot, use last value (followers)
-      const countFunction = handling === 'snapshot' ? 'last_value(count)' : 'sum(count)'
+      const countFunction = handling === 'snapshot'
+        ? 'last_value(value)'
+        : handling === 'increment'
+          ? 'sum(value)'
+          : 'count(*)'
 
       return query
         .select([
           client.raw(`${dateSelect} as date`),
-          client.raw(`${countFunction} as alias__count`), // in ch can't use count -> if same as column name
+          client.raw(`${countFunction} as value`), // in ch can't use count -> if same as column name
         ])
         .groupByRaw('date WITH ROLLUP')
         .orderBy('date', 'asc')

@@ -1,27 +1,28 @@
 /**
- * Advanced fetch function that adds a timeout and format option to native fetch
+ * Fetch with timeout that aborts after specified duration
+ * @throws Error if request times out or fails
  */
-export async function fetchWithTimeout(url: string, options?: RequestInit & { timeout?: number }) {
-  const { timeout = 3000, ...fetchOptions } = options || {}
-
+export async function fetchWithTimeout(url: string, options?: RequestInit & { timeout?: number }): Promise<Response> {
   const controller = new AbortController()
-  const id = setTimeout(() => controller.abort(), timeout)
+  const { timeout = 3000, signal, ...init } = options || {}
+
+  // Combine incoming signal with timeout signal
+  if (signal) {
+    signal.addEventListener('abort', () => controller.abort())
+  }
+
+  const timeoutId = setTimeout(() => controller.abort(), timeout)
 
   try {
-    const response = await fetch(url, {
-      ...fetchOptions,
-      signal: controller.signal,
-    })
-    clearTimeout(id)
-    return response
+    return await fetch(url, { ...init, signal: controller.signal })
   }
   catch (error) {
-    clearTimeout(id)
-    if (error instanceof Error) {
-      if (error.name === 'AbortError') {
-        throw new Error(`Request timed out after ${timeout}ms`)
-      }
+    if (controller.signal.aborted) {
+      throw new Error(`Request timed out after ${timeout} ms`)
     }
     throw error
+  }
+  finally {
+    clearTimeout(timeoutId)
   }
 }

@@ -1,7 +1,8 @@
 import type { FictionCache, FictionDb, FictionPluginSettings, FictionServer, FictionUser, vue } from '@fiction/core'
+import type { EventParams } from './tables'
 import { FictionPlugin, safeDirname } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
-import { QueryGetClientSessions, QueryGetDimensionList, QueryGetTotalSessions, QueryMetricAnalytics, QueryMetricTrack } from './endpoints'
+import { QueryEventTrack, QueryGetClientSessions, QueryGetDimensionList, QueryGetTotalSessions, QueryMetricAnalytics } from './endpoints'
 import { FictionBeacon } from './plugin-beacon'
 import { FictionClickHouse } from './plugin-clickhouse'
 
@@ -23,21 +24,31 @@ export type FictionAnalyticsSettings = {
   bufferIntervalMs?: number
 } & FictionPluginSettings
 
-interface MetricTypes {
-  content_words_post: { count: number }
-  content_words_site: { count: number }
-  content_posts_total: { count: number }
-  audience_subscribers_total: { count: number }
-  audience_followers_x: { count: number }
-  audience_followers_linkedin: { count: number }
-  audience_followers_youtube: { count: number }
-  audience_followers_instagram: { count: number }
+interface EventTypes {
+  content_total_words_post: { value: number }
+  content_total_words_site: { value: number }
+  content_total_posts: { value: number }
+  audience_total_subscribers: { value: number }
+  audience_total_followers_x: { value: number }
+  audience_total_followers_linkedin: { value: number }
+  audience_total_followers_youtube: { value: number }
+  audience_total_followers_instagram: { value: number }
+  audience_unsubscribe: { email: string }
+  audience_subscribe: { email: string }
+  email_cleaned: { email: string }
+  email_sent: { value: number, campaignId: string }
+  email_open: { email: string, campaignId: string }
+  email_click: { email: string, campaignId: string }
+  email_bounce: { email: string, campaignId: string }
+  email_spam: { email: string, campaignId: string }
+  form_submit: { formId: string }
 }
+
 export class FictionAnalytics extends FictionPlugin<FictionAnalyticsSettings> {
   fictionClickhouse = new FictionClickHouse({ fictionAnalytics: this, ...this.settings })
   fictionBeacon = new FictionBeacon({ fictionAnalytics: this, fictionClickHouse: this.fictionClickhouse, ...this.settings })
   queries = {
-    MetricTrack: new QueryMetricTrack({ fictionAnalytics: this, fictionClickHouse: this.fictionClickhouse, ...this.settings }),
+    EventTrack: new QueryEventTrack({ fictionAnalytics: this, fictionClickHouse: this.fictionClickhouse, ...this.settings }),
     MetricAnalytics: new QueryMetricAnalytics({ fictionAnalytics: this, fictionClickHouse: this.fictionClickhouse, ...this.settings }),
     GetDimensionList: new QueryGetDimensionList({ fictionAnalytics: this, fictionClickHouse: this.fictionClickhouse, ...this.settings }),
     GetClientSessions: new QueryGetClientSessions({ fictionAnalytics: this, fictionClickHouse: this.fictionClickhouse, ...this.settings }),
@@ -70,12 +81,13 @@ export class FictionAnalytics extends FictionPlugin<FictionAnalyticsSettings> {
     await this.fictionBeacon?.init()
   }
 
-  async serverTrackMetric(args: {
+  async track<T extends keyof EventTypes>(args: {
     orgId: string
-    metric: keyof MetricTypes
-    count: number
-    handling: 'increment' | 'snapshot'
-  }) {
-    return await this.queries.MetricTrack.serve(args, { caller: 'trackMetric', server: true })
+    event: T
+  } & EventTypes[T]) {
+    return await this.queries.EventTrack.serve({
+      ...args,
+      event: args.event as string,
+    }, { caller: 'trackMetric', server: true })
   }
 }

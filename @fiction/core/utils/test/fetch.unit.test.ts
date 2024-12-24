@@ -1,49 +1,119 @@
-import type { MockInstance } from 'vitest'
-import { fetchWithTimeout } from '@fiction/core/utils/fetch'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { fetchWithTimeout } from '../fetch'
 
 describe('fetchWithTimeout', () => {
-  let fetchMock: MockInstance
+  let mockFetch: ReturnType<typeof vi.fn>
+  const originalFetch = globalThis.fetch
+
   beforeEach(() => {
-    fetchMock = vi.spyOn(globalThis, 'fetch')
+    vi.useFakeTimers()
+    // Create fetch mock that handles abort signal
+    mockFetch = vi.fn((url: string, init?: RequestInit) => {
+      return new Promise((resolve, reject) => {
+        // Handle abort signal
+        const signal = init?.signal
+        if (signal) {
+          if (signal.aborted) {
+            reject(new DOMException('Aborted', 'AbortError'))
+          }
+          signal.addEventListener('abort', () => {
+            reject(new DOMException('Aborted', 'AbortError'))
+          })
+        }
+      })
+    })
+    globalThis.fetch = mockFetch
   })
 
   afterEach(() => {
     vi.restoreAllMocks()
+    vi.useRealTimers()
+    globalThis.fetch = originalFetch
   })
 
-  it('should complete the fetch operation successfully before the timeout', async () => {
-    const mockResponse = new Response(JSON.stringify({ key: 'value' }), {
-      status: 200,
+  it('successfully fetches before timeout', async () => {
+    const responseData = { success: true }
+    mockFetch.mockImplementationOnce(() =>
+      Promise.resolve(new Response(JSON.stringify(responseData))),
+    )
+
+    const response = await fetchWithTimeout('https://api.test')
+    const data = await response.json()
+
+    expect(data).toEqual(responseData)
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+  })
+
+  it('times out after specified duration', async () => {
+    const promise = fetchWithTimeout('https://api.test', { timeout: 1000 })
+
+    // Advance timers to trigger timeout
+    vi.advanceTimersByTime(1000)
+
+    await expect(promise).rejects.toThrow('Request timed out after 1000 ms')
+  })
+
+  it('respects external abort signal', async () => {
+    const controller = new AbortController()
+
+    const promise = fetchWithTimeout('https://api.test', {
+      signal: controller.signal,
+    })
+
+    controller.abort()
+
+    await expect(promise).rejects.toThrow()
+  })
+
+  it('passes through fetch options', async () => {
+    mockFetch.mockImplementationOnce(() =>
+      Promise.resolve(new Response()),
+    )
+
+    await fetchWithTimeout('https://api.test', {
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     })
 
-    fetchMock.mockResolvedValueOnce(mockResponse)
-
-    const response = await fetchWithTimeout('https://jsonplaceholder.typicode.com/posts/1', { timeout: 3000 })
-    const data = await response.json()
-
-    expect(data).toEqual({ key: 'value' })
-    expect(fetchMock).toHaveBeenCalledTimes(1)
+    expect(mockFetch).toHaveBeenCalledWith(
+      'https://api.test',
+      expect.objectContaining({
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      }),
+    )
   })
 
-  it('should abort the fetch operation after the timeout', async () => {
-    // Mock a fetch implementation that will not resolve or reject within the test timeout,
-    // simulating a long-running request that will be aborted.
-    fetchMock.mockImplementationOnce(async () => new Promise(() => {}))
+  it('cleans up timeout on early response', async () => {
+    const clearTimeoutSpy = vi.spyOn(globalThis, 'clearTimeout')
+    mockFetch.mockImplementationOnce(() =>
+      Promise.resolve(new Response()),
+    )
 
-    const fetchPromise = fetchWithTimeout('https://jsonplaceholder.typicode.com/posts/1', { timeout: 1000 })
+    await fetchWithTimeout('https://api.test', { timeout: 5000 })
 
-    await expect(fetchPromise).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: Request timed out after 1000 ms]`)
-
-    expect(fetchMock).toHaveBeenCalledTimes(1)
+    expect(clearTimeoutSpy).toHaveBeenCalled()
   })
 
-  it('should handle network or other fetch related errors gracefully', async () => {
-    const errorMessage = 'Network error'
-    fetchMock.mockRejectedValueOnce(new Error(errorMessage))
+  it('handles network errors', async () => {
+    const networkError = new Error('Network failure')
+    mockFetch.mockImplementationOnce(() =>
+      Promise.reject(networkError),
+    )
 
-    await expect(fetchWithTimeout('https://jsonplaceholder.typicode.com/posts/1')).rejects.toThrow(errorMessage)
-    expect(fetchMock).toHaveBeenCalledTimes(1)
+    await expect(
+      fetchWithTimeout('https://api.test'),
+    ).rejects.toThrow('Network failure')
+  })
+
+  it('uses default 3000ms timeout', async () => {
+    const setTimeoutSpy = vi.spyOn(globalThis, 'setTimeout')
+    mockFetch.mockImplementationOnce(() =>
+      Promise.resolve(new Response()),
+    )
+
+    await fetchWithTimeout('https://api.test')
+
+    expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 3000)
   })
 })

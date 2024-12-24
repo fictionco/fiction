@@ -107,8 +107,8 @@ export interface AnalyticsDataRequestFilters {
   noCache?: boolean
   timeZone?: string
   search?: string
-  metric?: string[]
-  handling?: 'increment' | 'snapshot'
+  event?: string | string[]
+  handling?: 'increment' | 'snapshot' | 'count'
 }
 
 export type QueryParams = AnalyticsDataRequestBase & Partial<AnalyticsDataRequestFilters>

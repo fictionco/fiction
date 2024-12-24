@@ -14,89 +14,99 @@ const metricFields = [
   new FictionAnalyticsCol({ key: 'snapshotId', clickHouseType: 'String', description: 'unique snapshot identifier', indexOn: true, sch: () => z.string() }),
   new FictionAnalyticsCol({ key: 'orgId', clickHouseType: 'String', description: 'organization identifier', indexOn: true, sch: () => z.string() }),
   new FictionAnalyticsCol({ key: 'metric', clickHouseType: 'String', description: 'metric type', sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'count', clickHouseType: 'Float32', description: 'metric count', sch: () => z.number() }),
+  new FictionAnalyticsCol({ key: 'value', clickHouseType: 'Float32', description: 'metric count', sch: () => z.number() }),
   new FictionAnalyticsCol({ key: 'timestamp', clickHouseType: 'DateTime', description: 'metric recorded timestamp', sch: () => z.union([z.string(), z.number()]) }),
 ] as const
 
 const baseFields = [
-  new FictionAnalyticsCol({ key: 'event', clickHouseType: 'String', description: 'Primary event name', indexOn: true, getValue: ({ event }) => event.event, sch: ({ z }) => z.string() }),
-  new FictionAnalyticsCol({ key: 'type', clickHouseType: 'LowCardinality(String)', description: 'Event type (track/page/identify/group/session/debug)', getValue: ({ event }) => event.type, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'gen', clickHouseType: 'LowCardinality(String)', description: 'Event source type', getValue: ({ event }) => event.gen, sch: ({ z }) => z.enum(['core', 'user', 'internal']) }),
-  new FictionAnalyticsCol({ key: 'channel', clickHouseType: 'String', description: 'Event source channel', getValue: ({ event }) => event?.channel, sch: () => z.string() }),
+  // Core Event Fields
+  new FictionAnalyticsCol({ key: 'event', clickHouseType: 'String', description: 'Primary event identifier', indexOn: true, getValue: ({ event }) => event.event, sch: ({ z }) => z.string() }),
+  new FictionAnalyticsCol({ key: 'type', clickHouseType: 'LowCardinality(String)', description: 'Event classification type (track/page/identify/group/session/debug)', getValue: ({ event }) => event.type, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'category', clickHouseType: 'String', description: 'Event grouping category', getValue: ({ event }) => event.properties?.category, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'action', clickHouseType: 'String', description: 'Event behavioral trigger', getValue: ({ event }) => event.properties?.action, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'label', clickHouseType: 'String', description: 'Event descriptive text', getValue: ({ event }) => event.properties?.label, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'value', clickHouseType: 'Float32', description: 'Event numerical measurement', sessionSelector: _ => `sum(${_.key}) as ${_.id}`, getValue: ({ event }) => event.properties?.value, sch: () => z.number() }),
 
-  // Event Type Flags
-  new FictionAnalyticsCol({ key: 'isCore', clickHouseType: 'UInt8', description: 'Core/internal event flag', getValue: ({ event }) => event.gen === 'core' || event.gen === 'internal' ? 1 : 0, sch: ({ z }) => z.boolean() }),
-  new FictionAnalyticsCol({ key: 'isInternal', clickHouseType: 'UInt8', description: 'Internal event flag', getValue: ({ event }) => event.gen === 'internal' ? 1 : 0, sch: ({ z }) => z.boolean() }),
-  new FictionAnalyticsCol({ key: 'isCustom', clickHouseType: 'UInt8', description: 'Custom user event flag', getValue: ({ event }) => event.gen === 'user' || !event.gen ? 1 : 0, sch: () => z.string() }),
+  // Event Identifiers
+  new FictionAnalyticsCol({ key: 'eventId', clickHouseType: 'String', description: 'Event unique identifier', getValue: ({ event }) => event.eventId, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'messageId', clickHouseType: 'String', description: 'Batch event identifier', getValue: ({ event }) => event?.messageId, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'sessionId', clickHouseType: 'String', description: 'Visit unique identifier', indexOn: true, sessionSelector: _ => `${_.key} as ${_.id}`, getValue: ({ session }) => session.sessionId, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'emailId', clickHouseType: 'String', description: 'Unique email identifier', indexOn: true, getValue: ({ event }) => event.email?.emailId, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'campaignId', clickHouseType: 'String', description: 'Email campaign identifier', indexOn: true, getValue: ({ event }) => event.email?.campaignId, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'formId', clickHouseType: 'String', description: 'Form identifier', indexOn: true, sch: () => z.string() }),
 
-  // Identifiers
-  new FictionAnalyticsCol({ key: 'eventId', clickHouseType: 'String', description: 'Unique event identifier', getValue: ({ event }) => event.eventId, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'messageId', clickHouseType: 'String', description: 'Event batch identifier', getValue: ({ event }) => event?.messageId, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'sessionId', clickHouseType: 'String', description: 'Session identifier', indexOn: true, sessionSelector: _ => `${_.key} as ${_.id}`, getValue: ({ session }) => session.sessionId, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'anonymousId', clickHouseType: 'String', description: 'Cookie-stored client ID', indexOn: true, sessionSelector: ({ key, id }) => `any(${key}) as ${id}`, getValue: ({ session }) => session.anonymousId, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'userId', clickHouseType: 'String', description: 'Authenticated user ID', indexOn: true, sessionSelector: ({ key, id }) => `anyIf(${key}, event='session') as ${id}`, getValue: ({ session }) => session.userId, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'orgId', clickHouseType: 'String', description: 'Organization identifier', indexOn: true, sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.orgId, sch: () => z.string() }),
+  // Event Source Classification
+  new FictionAnalyticsCol({ key: 'gen', clickHouseType: 'LowCardinality(String)', description: 'Event origin system', getValue: ({ event }) => event.gen, sch: ({ z }) => z.enum(['core', 'user', 'internal']) }),
+  new FictionAnalyticsCol({ key: 'channel', clickHouseType: 'String', description: 'Event distribution path', getValue: ({ event }) => event?.channel, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'isCore', clickHouseType: 'UInt8', description: 'System event indicator', getValue: ({ event }) => event.gen === 'core' || event.gen === 'internal' ? 1 : 0, sch: ({ z }) => z.boolean() }),
+  new FictionAnalyticsCol({ key: 'isInternal', clickHouseType: 'UInt8', description: 'Platform event indicator', getValue: ({ event }) => event.gen === 'internal' ? 1 : 0, sch: ({ z }) => z.boolean() }),
+  new FictionAnalyticsCol({ key: 'isCustom', clickHouseType: 'UInt8', description: 'Custom event indicator', getValue: ({ event }) => event.gen === 'user' || !event.gen ? 1 : 0, sch: () => z.string() }),
+
+  // Identity & Organization
+  new FictionAnalyticsCol({ key: 'orgId', clickHouseType: 'String', description: 'Organization unique identifier', indexOn: true, sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.orgId, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'anonymousId', clickHouseType: 'String', description: 'Visitor cookie identifier', indexOn: true, sessionSelector: ({ key, id }) => `any(${key}) as ${id}`, getValue: ({ session }) => session.anonymousId, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'userId', clickHouseType: 'String', description: 'Known user identifier', indexOn: true, sessionSelector: ({ key, id }) => `anyIf(${key}, event='session') as ${id}`, getValue: ({ session }) => session.userId, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'email', clickHouseType: 'String', description: 'user email', indexOn: true, sessionSelector: ({ key, id }) => `anyIf(${key}, event='session') as ${id}`, getValue: ({ session }) => session.email, sch: () => z.string() }),
 
   // Timestamps
-  new FictionAnalyticsCol({ key: 'timestamp', clickHouseType: 'DateTime', description: 'Event/session timestamp', sessionSelector: _ => `min(${_.key}) as ${_.id}`, getValue: ({ event }) => dayjs(event.timestamp).unix(), sch: () => z.union([z.string(), z.number()]) }),
-  new FictionAnalyticsCol({ key: 'sentAt', clickHouseType: 'DateTime', description: 'Client send timestamp', getValue: ({ event }) => dayjs(event.sentAt).unix(), sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'receivedAt', clickHouseType: 'DateTime', description: 'Server receive timestamp', getValue: ({ event }) => dayjs(event.receivedAt).unix(), sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'timestamp', clickHouseType: 'DateTime', description: 'Event occurrence time', sessionSelector: _ => `min(${_.key}) as ${_.id}`, getValue: ({ event }) => dayjs(event.timestamp).unix(), sch: () => z.union([z.string(), z.number()]) }),
+  new FictionAnalyticsCol({ key: 'sentAt', clickHouseType: 'DateTime', description: 'Client dispatch time', getValue: ({ event }) => dayjs(event.sentAt).unix(), sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'receivedAt', clickHouseType: 'DateTime', description: 'Server ingestion time', getValue: ({ event }) => dayjs(event.receivedAt).unix(), sch: () => z.string() }),
 
-  // Event Properties
-  new FictionAnalyticsCol({ key: 'reason', clickHouseType: 'LowCardinality(String)', description: 'Event trigger reason', getValue: ({ event }) => event.properties?.reason, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'conversion', clickHouseType: 'LowCardinality(String)', description: 'Conversion type', getValue: ({ event }) => event.properties?.conversion, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'category', clickHouseType: 'String', description: 'Event category', getValue: ({ event }) => event.properties?.category, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'label', clickHouseType: 'String', description: 'Event label', getValue: ({ event }) => event.properties?.label, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'action', clickHouseType: 'String', description: 'Event action', getValue: ({ event }) => event.properties?.action, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'selector', clickHouseType: 'String', description: 'DOM trigger selector', getValue: ({ event }) => event.properties?.selector, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'value', clickHouseType: 'Float32', description: 'Event value', sessionSelector: _ => `sum(${_.key}) as ${_.id}`, getValue: ({ event }) => event.properties?.value, sch: () => z.number() }),
-  new FictionAnalyticsCol({ key: 'count', clickHouseType: 'Float32', description: 'Associated count', sessionSelector: _ => `sum(${_.key}) as ${_.id}`, getValue: ({ event }) => event.properties?.value, sch: () => z.number() }),
-
-  // JSON Fields
-  new FictionAnalyticsCol({ key: 'context', clickHouseType: 'String', description: 'Event context object', getValue: ({ event }) => JSON.stringify(event.context || {}), sch: () => z.record(z.string(), z.any()) }),
-  new FictionAnalyticsCol({ key: 'meta', clickHouseType: 'String', description: 'Event metadata', getValue: ({ event }) => JSON.stringify(event.meta || {}), sch: () => z.record(z.string(), z.any()) }),
-  new FictionAnalyticsCol({ key: 'debug', clickHouseType: 'String', description: 'Debug information', getValue: ({ event }) => JSON.stringify(event.debug || {}), sch: () => z.record(z.string(), z.string()) }),
-  new FictionAnalyticsCol({ key: 'traits', clickHouseType: 'String', description: 'User traits', getValue: ({ event }) => JSON.stringify(event.traits || {}), sch: () => z.record(z.string(), z.any()) }),
-  new FictionAnalyticsCol({ key: 'trace', clickHouseType: 'String', description: 'Stack/reproduction trace', getValue: ({ event }) => event.properties?.trace, sch: () => z.string() }),
+  // Session Timing
+  new FictionAnalyticsCol({ key: 'startedAt', clickHouseType: 'DateTime', description: 'Visit start time', sessionSelector: _ => `anyIf(${_.key}, event='session') as ${_.id}`, getValue: ({ event, session }) => event.event === 'session' ? session.startedAt : dayjs(event.timestamp).unix(), sch: () => z.union([z.string(), z.number()]) }),
+  new FictionAnalyticsCol({ key: 'endedAt', clickHouseType: 'DateTime', description: 'Visit end time', sessionSelector: _ => `anyIf(${_.key}, event='session') as ${_.id}`, getValue: ({ event, session }) => event.event === 'session' ? session.endedAt : dayjs(event.timestamp).unix(), sch: () => z.union([z.string(), z.number()]) }),
+  new FictionAnalyticsCol({ key: 'duration', clickHouseType: 'UInt16', description: 'Visit length in seconds', sessionSelector: _ => `anyIf(${_.key}, event='session') as ${_.id}`, getValue: ({ event, session }) => event.event === 'session' ? session.duration : undefined, sch: () => z.number() }),
 
   // URL Components
-  new FictionAnalyticsCol({ key: 'url', clickHouseType: 'String', description: 'Full URL', getValue: ({ event }) => (event.context?.page?.url ?? '').replace(/\/$/, ''), sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'origin', clickHouseType: 'String', description: 'URL origin', getValue: ({ event }) => standardUrl({ url: event.context?.page?.url, part: 'origin' }), sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'pathname', clickHouseType: 'String', description: 'URL pathname', indexOn: true, getValue: ({ event }) => standardUrl({ url: event.context?.page?.url, part: 'pathname' }), sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'search', clickHouseType: 'String', description: 'URL search params', getValue: ({ event }) => standardUrl({ url: event.context?.page?.url, part: 'search' }), sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'url', clickHouseType: 'String', description: 'Complete page address', getValue: ({ event }) => (event.context?.page?.url ?? '').replace(/\/$/, ''), sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'origin', clickHouseType: 'String', description: 'Site domain source', getValue: ({ event }) => standardUrl({ url: event.context?.page?.url, part: 'origin' }), sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'pathname', clickHouseType: 'String', description: 'Page route path', indexOn: true, getValue: ({ event }) => standardUrl({ url: event.context?.page?.url, part: 'pathname' }), sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'search', clickHouseType: 'String', description: 'URL query parameters', getValue: ({ event }) => standardUrl({ url: event.context?.page?.url, part: 'search' }), sch: () => z.string() }),
 
-  // Client Info
-  new FictionAnalyticsCol({ key: 'os', clickHouseType: 'LowCardinality(String)', description: 'Operating system', sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.os, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'browser', clickHouseType: 'LowCardinality(String)', description: 'Browser name', sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.browser, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'deviceType', clickHouseType: 'LowCardinality(String)', description: 'Device type', sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.deviceType, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'locale', clickHouseType: 'LowCardinality(String)', description: 'User locale', sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.locale, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'ip', clickHouseType: 'String', description: 'Client IP', sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.ip, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'timezone', clickHouseType: 'LowCardinality(String)', description: 'User timezone', sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.timezone, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'version', clickHouseType: 'String', description: 'Client version', sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.version, sch: () => z.string() }),
+  // Client Environment
+  new FictionAnalyticsCol({ key: 'os', clickHouseType: 'LowCardinality(String)', description: 'Operating system name', sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.os, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'browser', clickHouseType: 'LowCardinality(String)', description: 'Web browser name', sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.browser, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'deviceType', clickHouseType: 'LowCardinality(String)', description: 'Device form factor', sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.deviceType, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'locale', clickHouseType: 'LowCardinality(String)', description: 'User language setting', sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.locale, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'ip', clickHouseType: 'String', description: 'Client network address', sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.ip, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'timezone', clickHouseType: 'LowCardinality(String)', description: 'User time zone', sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.timezone, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'version', clickHouseType: 'String', description: 'Analytics library version', sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.version, sch: () => z.string() }),
 
-  // Session Metrics
-  new FictionAnalyticsCol({ key: 'duration', clickHouseType: 'UInt16', description: 'Total session duration', sessionSelector: _ => `anyIf(${_.key}, event='session') as ${_.id}`, getValue: ({ event, session }) => event.event === 'session' ? session.duration : undefined, sch: () => z.number() }),
-  new FictionAnalyticsCol({ key: 'startedAt', clickHouseType: 'DateTime', description: 'Session start time', sessionSelector: _ => `anyIf(${_.key}, event='session') as ${_.id}`, getValue: ({ event, session }) => event.event === 'session' ? session.startedAt : dayjs(event.timestamp).unix(), sch: () => z.union([z.string(), z.number()]) }),
-  new FictionAnalyticsCol({ key: 'endedAt', clickHouseType: 'DateTime', description: 'Session end time', sessionSelector: _ => `anyIf(${_.key}, event='session') as ${_.id}`, getValue: ({ event, session }) => event.event === 'session' ? session.endedAt : dayjs(event.timestamp).unix(), sch: () => z.union([z.string(), z.number()]) }),
-  new FictionAnalyticsCol({ key: 'entryPage', clickHouseType: 'String', description: 'First page viewed', sessionSelector: _ => `anyIf(${_.key}, event='session') as ${_.id}`, getValue: ({ event, session }) => event.event === 'session' ? session.entryPage : undefined, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'exitPage', clickHouseType: 'String', description: 'Last page viewed', sessionSelector: _ => `anyIf(${_.key}, event='session') as ${_.id}`, getValue: ({ event, session }) => event.event === 'session' ? session.exitPage : undefined, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'isReturning', clickHouseType: 'UInt8', description: 'Returning user flag', sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.isReturning, sch: () => z.number().int().min(0).max(1) }),
-  new FictionAnalyticsCol({ key: 'isFake', clickHouseType: 'UInt8', description: 'Test/fake session flag', sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.isFake, sch: () => z.number().int().min(0).max(1) }),
+  // Session Navigation
+  new FictionAnalyticsCol({ key: 'entryPage', clickHouseType: 'String', description: 'First viewed page', sessionSelector: _ => `anyIf(${_.key}, event='session') as ${_.id}`, getValue: ({ event, session }) => event.event === 'session' ? session.entryPage : undefined, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'exitPage', clickHouseType: 'String', description: 'Last viewed page', sessionSelector: _ => `anyIf(${_.key}, event='session') as ${_.id}`, getValue: ({ event, session }) => event.event === 'session' ? session.exitPage : undefined, sch: () => z.string() }),
+
+  // Session Metadata
+  new FictionAnalyticsCol({ key: 'isReturning', clickHouseType: 'UInt8', description: 'Repeat visitor flag', sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.isReturning, sch: () => z.number().int().min(0).max(1) }),
+  new FictionAnalyticsCol({ key: 'isFake', clickHouseType: 'UInt8', description: 'Test data flag', sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.isFake, sch: () => z.number().int().min(0).max(1) }),
 
   // Engagement Metrics
-  new FictionAnalyticsCol({ key: 'scrollTotal', clickHouseType: 'UInt16', description: 'Total scroll events', sessionSelector: _ => `sum(${_.key}) as ${_.id}`, getValue: ({ event }) => event?.properties?.scrollTotal, sch: () => z.number() }),
-  new FictionAnalyticsCol({ key: 'keypressTotal', clickHouseType: 'UInt16', description: 'Total keypress events', sessionSelector: _ => `sum(${_.key}) as ${_.id}`, getValue: ({ event }) => event.properties?.keypressTotal, sch: () => z.number() }),
-  new FictionAnalyticsCol({ key: 'clickTotal', clickHouseType: 'UInt16', description: 'Total click events', sessionSelector: _ => `sum(${_.key}) as ${_.id}`, getValue: ({ event }) => event.properties?.clickTotal, sch: () => z.number() }),
-  new FictionAnalyticsCol({ key: 'touchTotal', clickHouseType: 'UInt16', description: 'Total touch events', sessionSelector: _ => `sum(${_.key}) as ${_.id}`, getValue: ({ event }) => event.properties?.touchTotal, sch: () => z.number() }),
-  new FictionAnalyticsCol({ key: 'moveTotal', clickHouseType: 'UInt16', description: 'Total mouse move events', sessionSelector: _ => `sum(${_.key}) as ${_.id}`, getValue: ({ event }) => event.properties?.moveTotal, sch: () => z.number() }),
-  new FictionAnalyticsCol({ key: 'engageDuration', clickHouseType: 'UInt16', description: 'Active engagement duration', sessionSelector: _ => `sum(${_.key}) as ${_.id}`, getValue: ({ event }) => event.properties?.engageDuration, sch: () => z.number() }),
-  new FictionAnalyticsCol({ key: 'replayDuration', clickHouseType: 'UInt16', description: 'Session replay duration', sessionSelector: _ => `sum(${_.key}) as ${_.id}`, getValue: ({ event }) => event.properties?.replayDuration, sch: () => z.number() }),
-  new FictionAnalyticsCol({ key: 'scrollDepth', clickHouseType: 'Float32', description: 'Page scroll depth percentage', sessionSelector: _ => `avgIf(${_.key}, event='view' AND isFinite(${_.key})) as ${_.id}`, getValue: ({ event }) => event.properties?.scrollDepth, sch: () => z.number() }),
+  new FictionAnalyticsCol({ key: 'scrollTotal', clickHouseType: 'UInt16', description: 'Total scroll events count', sessionSelector: _ => `sum(${_.key}) as ${_.id}`, getValue: ({ event }) => event?.properties?.scrollTotal, sch: () => z.number() }),
+  new FictionAnalyticsCol({ key: 'keypressTotal', clickHouseType: 'UInt16', description: 'Total keypress events count', sessionSelector: _ => `sum(${_.key}) as ${_.id}`, getValue: ({ event }) => event.properties?.keypressTotal, sch: () => z.number() }),
+  new FictionAnalyticsCol({ key: 'clickTotal', clickHouseType: 'UInt16', description: 'Total click events count', sessionSelector: _ => `sum(${_.key}) as ${_.id}`, getValue: ({ event }) => event.properties?.clickTotal, sch: () => z.number() }),
+  new FictionAnalyticsCol({ key: 'touchTotal', clickHouseType: 'UInt16', description: 'Total touch events count', sessionSelector: _ => `sum(${_.key}) as ${_.id}`, getValue: ({ event }) => event.properties?.touchTotal, sch: () => z.number() }),
+  new FictionAnalyticsCol({ key: 'moveTotal', clickHouseType: 'UInt16', description: 'Total mouse events count', sessionSelector: _ => `sum(${_.key}) as ${_.id}`, getValue: ({ event }) => event.properties?.moveTotal, sch: () => z.number() }),
+  new FictionAnalyticsCol({ key: 'engageDuration', clickHouseType: 'UInt16', description: 'Active interaction time', sessionSelector: _ => `sum(${_.key}) as ${_.id}`, getValue: ({ event }) => event.properties?.engageDuration, sch: () => z.number() }),
+  new FictionAnalyticsCol({ key: 'replayDuration', clickHouseType: 'UInt16', description: 'Session recording length', sessionSelector: _ => `sum(${_.key}) as ${_.id}`, getValue: ({ event }) => event.properties?.replayDuration, sch: () => z.number() }),
+  new FictionAnalyticsCol({ key: 'scrollDepth', clickHouseType: 'Float32', description: 'Maximum scroll percentage reached', sessionSelector: _ => `avgIf(${_.key}, event='view' AND isFinite(${_.key})) as ${_.id}`, getValue: ({ event }) => event.properties?.scrollDepth, sch: () => z.number() }),
+
+  // Event Properties
+  new FictionAnalyticsCol({ key: 'reason', clickHouseType: 'LowCardinality(String)', description: 'Event trigger cause', getValue: ({ event }) => event.properties?.reason, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'conversion', clickHouseType: 'LowCardinality(String)', description: 'Event success type', getValue: ({ event }) => event.properties?.conversion, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'selector', clickHouseType: 'String', description: 'DOM element target path', getValue: ({ event }) => event.properties?.selector, sch: () => z.string() }),
+
+  // Extended Data
+  new FictionAnalyticsCol({ key: 'context', clickHouseType: 'String', description: 'Event contextual data', getValue: ({ event }) => JSON.stringify(event.context || {}), sch: () => z.record(z.string(), z.any()) }),
+  new FictionAnalyticsCol({ key: 'meta', clickHouseType: 'String', description: 'Event supplementary data', getValue: ({ event }) => JSON.stringify(event.meta || {}), sch: () => z.record(z.string(), z.any()) }),
+  new FictionAnalyticsCol({ key: 'debug', clickHouseType: 'String', description: 'Event troubleshooting data', getValue: ({ event }) => JSON.stringify(event.debug || {}), sch: () => z.record(z.string(), z.string()) }),
+  new FictionAnalyticsCol({ key: 'traits', clickHouseType: 'String', description: 'User profile data', getValue: ({ event }) => JSON.stringify(event.traits || {}), sch: () => z.record(z.string(), z.any()) }),
+  new FictionAnalyticsCol({ key: 'trace', clickHouseType: 'String', description: 'Event reproduction steps', getValue: ({ event }) => event.properties?.trace, sch: () => z.string() }),
 
   // Sequence Tracking
-  new FictionAnalyticsCol({ key: 'sessionNo', clickHouseType: 'UInt16', description: 'User session count', sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.sessionNo, sch: () => z.number() }),
-  new FictionAnalyticsCol({ key: 'viewNo', clickHouseType: 'UInt16', description: 'Page view sequence number', getValue: ({ event }) => event.viewNo, sch: () => z.number() }),
-  new FictionAnalyticsCol({ key: 'eventNo', clickHouseType: 'UInt16', description: 'Event sequence number', getValue: ({ event }) => event.eventNo, sch: () => z.number() }),
+  new FictionAnalyticsCol({ key: 'sessionNo', clickHouseType: 'UInt16', description: 'User visit count', sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.sessionNo, sch: () => z.number() }),
+  new FictionAnalyticsCol({ key: 'viewNo', clickHouseType: 'UInt16', description: 'Page view order number', getValue: ({ event }) => event.viewNo, sch: () => z.number() }),
+  new FictionAnalyticsCol({ key: 'eventNo', clickHouseType: 'UInt16', description: 'Event sequence order', getValue: ({ event }) => event.eventNo, sch: () => z.number() }),
 ] as const
 
 // Geographic Location Fields
@@ -127,28 +137,10 @@ const referralFields = [
   new FictionAnalyticsCol({ key: 'referralImage', clickHouseType: 'String', description: 'Referrer og:image URL', sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.referralImage, sch: () => z.string() }),
 ] as const
 
-// Email Event Fields
-const emailEventFields = [
-  // Email Identifiers
-  new FictionAnalyticsCol({ key: 'emailId', clickHouseType: 'String', description: 'Unique email identifier', indexOn: true, getValue: ({ event }) => event.email?.emailId, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'emailCampaignId', clickHouseType: 'String', description: 'Email campaign identifier', indexOn: true, getValue: ({ event }) => event.email?.campaignId, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'emailTemplateId', clickHouseType: 'String', description: 'Email template identifier', getValue: ({ event }) => event.email?.templateId, sch: () => z.string() }),
-
-  // Email Content
-  new FictionAnalyticsCol({ key: 'emailSubject', clickHouseType: 'String', description: 'Email subject line', getValue: ({ event }) => event.email?.subject, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'emailEventType', clickHouseType: 'LowCardinality(String)', description: 'Email event type (open/click/deliver)', getValue: ({ event }) => event.email?.eventType, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'emailClickedUrl', clickHouseType: 'String', description: 'Clicked URL in email', getValue: ({ event }) => event.email?.clickedUrl, sch: () => z.string() }),
-
-  // Email Timestamps
-  new FictionAnalyticsCol({ key: 'emailOpenedAt', clickHouseType: 'DateTime', description: 'Email open timestamp', getValue: ({ event }) => dayjs(event.email?.openedAt).unix(), sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'emailClickedAt', clickHouseType: 'DateTime', description: 'Email click timestamp', getValue: ({ event }) => dayjs(event.email?.clickedAt).unix(), sch: () => z.string() }),
-] as const
-
 export const eventFields = [
   ...baseFields,
   ...geoFields,
   ...referralFields,
-  ...emailEventFields,
 ] as const
 
 // Session Analytics Fields

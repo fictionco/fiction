@@ -183,19 +183,20 @@ export class QueryManagePost extends PostsQuery {
     return Number(result?.total || 0)
   }
 
-  private async trackTotalWordCount(args: {
+  private async trackPostMetrics(args: {
     orgId: string
     status?: 'published' | 'all'
-  }): Promise<number> {
+  }, _meta: EndpointMeta): Promise<number> {
     const { orgId } = args
-    const wordCount = await this.getTotalWordCount(args)
+    const [wordCount, postCount] = await Promise.all([
+      this.getTotalWordCount(args),
+      this.countPosts({ _action: 'list', orgId }, _meta),
+    ])
 
-    await this.settings.fictionAnalytics.serverTrackMetric({
-      orgId,
-      metric: 'content_words_post',
-      count: wordCount,
-      handling: 'snapshot',
-    })
+    await Promise.all([
+      this.settings.fictionAnalytics.track({ orgId, event: 'content_total_words_post', value: wordCount }),
+      this.settings.fictionAnalytics.track({ orgId, event: 'content_total_posts', value: postCount }),
+    ])
 
     return wordCount
   }
@@ -316,7 +317,7 @@ export class QueryManagePost extends PostsQuery {
       db(t.posts).update(prepped).where({ postId }),
       this.updateAssociations({ type: 'authors', postId, fields, orgId }),
       this.updateAssociations({ type: 'sites', postId, fields, orgId }),
-      this.trackTotalWordCount({ orgId }),
+      this.trackPostMetrics({ orgId }, meta),
     ])
 
     const final = await this.getPost({ ...params, where: { orgId, ...where }, _action: 'get' }, { ...meta, caller: 'updatePostEnd' })

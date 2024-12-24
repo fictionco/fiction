@@ -1,6 +1,6 @@
 import { dayjs, shortId } from '@fiction/core'
 import { describe, expect, it } from 'vitest'
-import { createAnalyticsTestUtils } from '../../test/helpers.js'
+import { createAnalyticsTestUtils } from './helpers.js'
 
 describe('metrics', async () => {
   const testUtils = await createAnalyticsTestUtils()
@@ -16,26 +16,26 @@ describe('metrics', async () => {
   if (!orgId)
     throw new Error('no orgId')
 
-  const metric = 'test_metric'
+  const event = 'test_metric'
 
-  describe('queryMetricTrack', () => {
+  describe('queryEventTrack', () => {
     it('tracks incremental metrics correctly', async () => {
-      const trackResult = await testUtils.fictionAnalytics.queries.MetricTrack.serve({
+      const trackResult = await testUtils.fictionAnalytics.queries.EventTrack.serve({
         orgId,
-        metric,
-        count: 5,
+        event,
+        value: 5,
       }, { caller: 'test', server: true })
 
       expect(trackResult.status).toBe('success')
       // Verify the data was saved
       const query = fictionClickhouse
-        .clickhouseBaseQuery({ orgId, table: 'metrics' })
-        .where({ metric })
+        .clickhouseBaseQuery({ orgId, table: 'event' })
+        .where({ event })
         .orderBy('timestamp', 'desc')
 
-      const { data: [savedMetric] } = await fictionClickhouse.clickHouseSelect(query, { caller: 'testQueryMetricTrack' })
+      const { data: [savedMetric] } = await fictionClickhouse.clickHouseSelect(query, { caller: 'testQueryEventTrack' })
 
-      expect(savedMetric.count).toBe(5)
+      expect(savedMetric.value).toBe(5)
     })
   })
 
@@ -46,40 +46,48 @@ describe('metrics', async () => {
       const timestamps = [now.subtract(2, 'hour'), now.subtract(1, 'hour'), now]
 
       for (const time of timestamps) {
-        await testUtils.fictionAnalytics.queries.MetricTrack.serve({
+        await testUtils.fictionAnalytics.queries.EventTrack.serve({
           orgId,
-          metric: incrementalMetric,
-          count: 10,
+          event: incrementalMetric,
+          value: 10,
           timestamp: time.unix(),
         }, { caller: 'test', server: true })
       }
 
       const result = await testUtils.fictionAnalytics.queries.MetricAnalytics.serve({
         orgId,
-        metric: [incrementalMetric],
+        event: [incrementalMetric],
         period: 'hour4',
         handling: 'increment',
         interval: 'hour',
       }, { caller: 'test', server: true })
 
       expect(result.status).toBe('success')
-      expect(result.data?.main).toMatchInlineSnapshot(`
-        [
-          {
-            "count": 10,
-            "date": "2024-12-22T16:07:00.000Z",
+
+      const { main, mainTotals } = result.data || {}
+      expect({ main, mainTotals }).toMatchInlineSnapshot(`
+        {
+          "main": [
+            {
+              "date": "2024-12-24T06:15:00.000Z",
+              "value": 10,
+            },
+            {
+              "date": "2024-12-24T07:15:00.000Z",
+              "value": 10,
+            },
+            {
+              "date": "2024-12-24T08:15:00.000Z",
+              "value": 10,
+            },
+          ],
+          "mainTotals": {
+            "date": "",
+            "value": 30,
           },
-          {
-            "count": 10,
-            "date": "2024-12-22T17:07:00.000Z",
-          },
-          {
-            "count": 10,
-            "date": "2024-12-22T18:07:00.000Z",
-          },
-        ]
+        }
       `)
-      expect(result.data?.mainTotals?.count).toBe(30) // Sum of all increments
+      expect(result.data?.mainTotals?.value).toBe(30) // Sum of all increments
       expect(result.data?.main?.length).toBe(3)
     })
 
@@ -87,23 +95,23 @@ describe('metrics', async () => {
       const snapshotMetric = `test_followers_${shortId()}`
       const now = dayjs()
       const snapshots = [
-        { time: now.subtract(2, 'hour'), count: 100 },
-        { time: now.subtract(1, 'hour'), count: 150 },
-        { time: now, count: 200 },
+        { time: now.subtract(2, 'hour'), value: 100 },
+        { time: now.subtract(1, 'hour'), value: 150 },
+        { time: now, value: 200 },
       ]
 
       for (const snapshot of snapshots) {
-        await testUtils.fictionAnalytics.queries.MetricTrack.serve({
+        await testUtils.fictionAnalytics.queries.EventTrack.serve({
           orgId,
-          metric: snapshotMetric,
-          count: snapshot.count,
+          event: snapshotMetric,
+          value: snapshot.value,
           timestamp: snapshot.time.unix(),
         }, { caller: 'test', server: true })
       }
 
       const result = await testUtils.fictionAnalytics.queries.MetricAnalytics.serve({
         orgId,
-        metric: [snapshotMetric],
+        event: [snapshotMetric],
         period: 'hour4',
         handling: 'snapshot',
         interval: 'hour',
@@ -114,29 +122,29 @@ describe('metrics', async () => {
 
       const mainData = result.data?.main || []
       const lastPoint = mainData[mainData.length - 1]
-      expect(lastPoint?.count).toBe(200)
+      expect(lastPoint?.value).toBe(200)
     })
 
     it('provides accurate period comparisons', async () => {
       const compareMetric = `test_sales_${shortId()}`
 
-      await testUtils.fictionAnalytics.queries.MetricTrack.serve({
+      await testUtils.fictionAnalytics.queries.EventTrack.serve({
         orgId,
-        metric: compareMetric,
-        count: 50,
+        event: compareMetric,
+        value: 50,
         timestamp: dayjs().unix(),
       }, { caller: 'test', server: true })
 
-      await testUtils.fictionAnalytics.queries.MetricTrack.serve({
+      await testUtils.fictionAnalytics.queries.EventTrack.serve({
         orgId,
-        metric: compareMetric,
-        count: 30,
+        event: compareMetric,
+        value: 30,
         timestamp: dayjs().subtract(9, 'day').unix(),
       }, { caller: 'test', server: true })
 
       const result = await testUtils.fictionAnalytics.queries.MetricAnalytics.serve({
         orgId,
-        metric: [compareMetric],
+        event: [compareMetric],
         period: 'week',
         compare: 'week',
         handling: 'increment',
@@ -145,8 +153,8 @@ describe('metrics', async () => {
       expect(result.status).toBe('success')
       expect(result.data?.main).toBeDefined()
       expect(result.data?.compare).toBeDefined()
-      expect(result.data?.mainTotals?.count).toBe(50)
-      expect(result.data?.compareTotals?.count).toBe(30)
+      expect(result.data?.mainTotals?.value).toBe(50)
+      expect(result.data?.compareTotals?.value).toBe(30)
     })
   })
 })
