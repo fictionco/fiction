@@ -68,6 +68,7 @@ export async function setAuthorizedUser(args: { fictionUser: FictionUser, reques
   let userId: string | undefined
   request.bearer = undefined
   request.bearerToken = undefined
+  request.anonymousId = request.headers['x-anonymous-id'] as string | undefined
 
   let token: string | undefined
   const bearerToken = request.headers.authorization

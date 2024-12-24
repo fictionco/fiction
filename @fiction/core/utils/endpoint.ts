@@ -11,6 +11,7 @@ import type { EndpointResponse } from '../types'
 import path from 'node:path'
 import nodeFetch from 'node-fetch'
 import { log } from '../plugin-log'
+import { getAnonymousId } from './anon'
 import { axios, vue } from './libraries'
 import { deepMergeAll } from './obj'
 import { flatParse, flatStringify } from './stringify'
@@ -40,6 +41,7 @@ export interface EndpointMethodOptions<T extends Query> {
 }
 
 export type EndpointMeta = {
+  anonymousId?: string
   bearer?: Partial<User> & { iat?: number }
   server?: boolean
   returnAuthority?: string[]
@@ -189,8 +191,19 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
       const timeZone = request.headers['x-timezone'] as string | undefined
 
       const { caller, debug, expectError, isTest } = (params.meta || {}) as RequestMeta
+      const { anonymousId, bearer } = request
       // explicitly define each as this is security basis backend calls
-      const meta: EndpointMeta = { bearer: request.bearer, request, response, caller, debug, expectError, isTest, timeZone }
+      const meta: EndpointMeta = {
+        anonymousId,
+        bearer,
+        request,
+        response,
+        caller,
+        debug,
+        expectError,
+        isTest,
+        timeZone,
+      }
 
       return this.queryHandler.serveRequest(params, meta)
     }
@@ -243,6 +256,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     const headers: Record<string, string> = {
       'X-Timezone': clientTimeZone,
       'X-Caller': options.caller || 'fiction-http',
+      'X-Anonymous-Id': getAnonymousId().anonymousId,
     }
 
     if (this.accessToken) {
@@ -289,6 +303,8 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
     const { userId, fullName } = this.fictionUser.activeUser.value ?? {}
 
+    const { anonymousId } = getAnonymousId()
+
     if (!userOptional) {
       if (!orgId)
         this.log.error(`getUserInfo: no active organization ${this.key}`)
@@ -300,7 +316,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
         return
     }
 
-    return { orgId, orgName, userId, fullName }
+    return { orgId, orgName, userId, fullName, anonymousId }
   }
 
   async upload(args: {

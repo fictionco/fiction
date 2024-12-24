@@ -1,6 +1,7 @@
 import type { FictionAdmin } from '@fiction/admin'
 
 import type { template as dashTemplate, panelTemplate } from '@fiction/admin/dashboard/cardDash'
+import type { FictionAnalytics } from '@fiction/analytics'
 import type { ComplexDataFilter, FictionDb, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
@@ -9,11 +10,12 @@ import { Post } from './post'
 import { tables } from './schema'
 import { getWidgets } from './widgets'
 
-type FictionPostsSettings = {
+export type FictionPostsSettings = {
   fictionUser: FictionUser
   fictionServer: FictionServer
   fictionDb: FictionDb
   fictionAdmin: FictionAdmin
+  fictionAnalytics: FictionAnalytics
 } & FictionPluginSettings
 
 export * from './post'

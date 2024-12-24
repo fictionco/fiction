@@ -2,6 +2,7 @@ import type { SessionEvent, SessionStarted } from '../tables'
 import type { FictionEvent } from '../typesTracking'
 import type { FictionBeaconSettings } from './index.js'
 import { dayjs, FictionPlugin, groupBy, objectId, WriteBuffer } from '@fiction/core'
+import { getCacheKey } from '@fiction/core/utils/cache'
 import { eventFields } from '../tables'
 import { getGeo, parseUa, ReferrerUtility, standardUrl } from './utils'
 
@@ -10,13 +11,15 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
   sessionExpireAfterMs = this.settings.sessionExpireAfterMs || 60 * 30 * 1000
   bufferIntervalMs = this.settings.bufferIntervalMs || 1000
 
-  cache = () => this.settings.fictionCache.getCache()
-  redisKey = this.settings.fictionCache.redisKey<'page' | 'session' | 'expiration'>
+  cache = () => this.settings.fictionCache?.getCache()
+  cacheKey = getCacheKey<'page' | 'session' | 'expiration'>
   referrerUtility = new ReferrerUtility({ fictionCache: this.settings.fictionCache })
   processedSessions = 0
   saveBuffer = new WriteBuffer<SessionEvent>({
     fictionEnv: this.fictionEnv,
     name: 'sessionSave',
+    limit: 10_000,
+    flushIntervalMs: this.bufferIntervalMs,
     flush: async (events) => {
       const promises = [
         this.settings.fictionClickHouse.saveData({ rows: events, table: 'event' }),
@@ -24,8 +27,6 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
 
       await Promise.all(promises)
     },
-    limit: 10_000,
-    flushIntervalMs: this.bufferIntervalMs,
   })
 
   constructor(settings: FictionBeaconSettings) {
@@ -163,7 +164,7 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
     const events: FictionEvent[] = []
 
     for (const ev of rawEvents) {
-      const key = this.redisKey('page', ev.anonymousId)
+      const key = this.cacheKey('page', ev.anonymousId)
 
       // if new view event, clear the cache of old view with last data
       if (ev.event === 'view') {
@@ -191,7 +192,7 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
 
   cacheSession = async (params: { _action: 'get' | 'set', anonymousId: string, session?: SessionEvent | SessionStarted }): Promise<SessionEvent | undefined> => {
     const { _action, anonymousId } = params
-    const key = this.redisKey('session', anonymousId)
+    const key = this.cacheKey('session', anonymousId)
     if (_action === 'get') {
       const r = await this.cache()?.get(key)
 
@@ -207,7 +208,7 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
 
       // sets score for client ID to now
       // https://redis.io/commands/ZADD
-      await this.cache()?.zadd(this.redisKey('expiration'), +Date.now(), anonymousId)
+      await this.cache()?.zadd(this.cacheKey('expiration'), +Date.now(), anonymousId)
     }
   }
 
@@ -266,7 +267,7 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
       = await Promise.all([
         getGeo(rawIp),
         this.referrerUtility.getReferralParameters(referrer, url),
-        this.settings.fictionClickHouse.queries.GetTotalSessions.serve({ anonymousId, orgId }, { server: true }),
+        this.settings.fictionAnalytics.queries.GetTotalSessions.serve({ anonymousId, orgId }, { server: true }),
       ])
 
     const pathname = standardUrl({ url, part: 'pathname' })
@@ -316,7 +317,7 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
       throw new Error('no cache')
 
     const range = +Date.now() - this.sessionExpireAfterMs
-    const expireKey = this.redisKey('expiration')
+    const expireKey = this.cacheKey('expiration')
     const redisQuery = cache
       .multi()
       .zrangebyscore(expireKey, 0, range)
@@ -345,7 +346,7 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
     const cache = this.cache()
     if (!cache)
       throw new Error('no cache (getFinalViewEvent)')
-    const key = this.redisKey('page', anonymousId)
+    const key = this.cacheKey('page', anonymousId)
     const r = await cache.get(key)
     const data = r ? (JSON.parse(r) as FictionEvent) : undefined
     await cache.del(key)
@@ -381,7 +382,7 @@ export class SessionManager extends FictionPlugin<FictionBeaconSettings> {
 
     this.saveBuffer.batch(saveEvents)
 
-    await cache.del(this.redisKey('session', anonymousId))
+    await cache.del(this.cacheKey('session', anonymousId))
     this.log.info(`publish expire session`, { data: { session } })
   }
 }

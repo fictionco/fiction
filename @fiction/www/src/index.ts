@@ -133,15 +133,25 @@ const fictionEmail = new FictionEmail({ fictionEnv, smtpHost, smtpPassword, smtp
 const base = { fictionEnv, fictionApp, fictionServer, fictionDb, fictionEmail, fictionRouter }
 const fictionUser = new FictionUser({ ...base, googleClientId, googleClientSecret, tokenSecret, apolloApiKey })
 const fictionCache = new FictionCache({ ...base, redisUrl })
+
+const fictionAnalytics = new FictionAnalytics({
+  ...base,
+  fictionCache,
+  clickhouseUrl,
+  beaconPort: +fictionEnv.var('BEACON_PORT'),
+  beaconUrlLive: URLS.beacon,
+})
+
 const fictionMonitor = new FictionMonitor({ ...base, fictionUser, slackWebhookUrl, sentryPublicDsn })
-const basicService = { ...base, fictionUser, fictionMonitor }
+const basicService = { ...base, fictionUser, fictionMonitor, fictionAnalytics, fictionCache }
+
 const fictionAws = new FictionAws({ ...basicService, awsAccessKey, awsAccessKeySecret })
 const fictionMedia = new FictionMedia({ ...basicService, fictionAws, awsBucketMedia, cdnUrl: `https://media.fiction.com` })
 const fictionTransactions = new FictionTransactions({ ...basicService, fictionMedia })
 const fictionAi = new FictionAi({ ...basicService, fictionMedia, openaiApiKey, anthropicApiKey })
 const fictionAdmin = new FictionAdmin({ ...basicService, fictionTransactions, fictionMedia })
 
-const s = { ...basicService, fictionCache, fictionAppSites, fictionRouterSites, fictionAws, fictionMedia, fictionAi, fictionTransactions, fictionAdmin }
+const s = { ...basicService, fictionAppSites, fictionRouterSites, fictionAws, fictionMedia, fictionAi, fictionTransactions, fictionAdmin }
 
 const fictionOnboard = new FictionOnboard({ ...s })
 
@@ -183,12 +193,6 @@ const fictionStripe = new FictionStripe({
   ],
 })
 const themes = async () => getThemes({ ...s, fictionStripe })
-const fictionAnalytics = new FictionAnalytics({
-  clickhouseUrl,
-  ...s,
-  beaconPort: +fictionEnv.var('BEACON_PORT'),
-  beaconUrlLive: URLS.beacon,
-})
 
 const fictionSites = new FictionSites({ ...s, fictionAnalytics, fictionAppSites, fictionRouterSites, flyApiToken, flyAppId: 'fiction-sites', adminBaseRoute: '/admin', themes })
 const fictionCards = new FictionCards({ ...s, fictionSites })

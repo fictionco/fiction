@@ -20,7 +20,7 @@ describe('metrics', async () => {
 
   describe('queryMetricTrack', () => {
     it('tracks incremental metrics correctly', async () => {
-      const trackResult = await fictionClickhouse.queries.MetricTrack.serve({
+      const trackResult = await testUtils.fictionAnalytics.queries.MetricTrack.serve({
         orgId,
         metric,
         count: 5,
@@ -46,7 +46,7 @@ describe('metrics', async () => {
       const timestamps = [now.subtract(2, 'hour'), now.subtract(1, 'hour'), now]
 
       for (const time of timestamps) {
-        await fictionClickhouse.queries.MetricTrack.serve({
+        await testUtils.fictionAnalytics.queries.MetricTrack.serve({
           orgId,
           metric: incrementalMetric,
           count: 10,
@@ -54,7 +54,7 @@ describe('metrics', async () => {
         }, { caller: 'test', server: true })
       }
 
-      const result = await fictionClickhouse.queries.MetricAnalytics.serve({
+      const result = await testUtils.fictionAnalytics.queries.MetricAnalytics.serve({
         orgId,
         metric: [incrementalMetric],
         period: 'hour4',
@@ -93,7 +93,7 @@ describe('metrics', async () => {
       ]
 
       for (const snapshot of snapshots) {
-        await fictionClickhouse.queries.MetricTrack.serve({
+        await testUtils.fictionAnalytics.queries.MetricTrack.serve({
           orgId,
           metric: snapshotMetric,
           count: snapshot.count,
@@ -101,7 +101,7 @@ describe('metrics', async () => {
         }, { caller: 'test', server: true })
       }
 
-      const result = await fictionClickhouse.queries.MetricAnalytics.serve({
+      const result = await testUtils.fictionAnalytics.queries.MetricAnalytics.serve({
         orgId,
         metric: [snapshotMetric],
         period: 'hour4',
@@ -120,21 +120,21 @@ describe('metrics', async () => {
     it('provides accurate period comparisons', async () => {
       const compareMetric = `test_sales_${shortId()}`
 
-      await fictionClickhouse.queries.MetricTrack.serve({
+      await testUtils.fictionAnalytics.queries.MetricTrack.serve({
         orgId,
         metric: compareMetric,
         count: 50,
         timestamp: dayjs().unix(),
       }, { caller: 'test', server: true })
 
-      await fictionClickhouse.queries.MetricTrack.serve({
+      await testUtils.fictionAnalytics.queries.MetricTrack.serve({
         orgId,
         metric: compareMetric,
         count: 30,
         timestamp: dayjs().subtract(9, 'day').unix(),
       }, { caller: 'test', server: true })
 
-      const result = await fictionClickhouse.queries.MetricAnalytics.serve({
+      const result = await testUtils.fictionAnalytics.queries.MetricAnalytics.serve({
         orgId,
         metric: [compareMetric],
         period: 'week',

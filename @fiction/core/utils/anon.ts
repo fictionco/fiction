@@ -4,6 +4,11 @@ import { objectId } from '../utils/id'
 export const ANON_ID_KEY = 'FictionAnonId'
 export const FIRST_SESSION_KEY = 'FictionFirstSession'
 
+/**
+ * Get the anonymous ID for the current user.
+ * If the user is new, save the anonymous ID in cookie and local storage.
+ * @returns {anonymousId: string, isNew: boolean} The anonymous ID and whether the user is new.
+ */
 export function getAnonymousId(): {
   anonymousId: string
   isNew: boolean

@@ -4,6 +4,7 @@ import type { ReferralParams } from '../../tables'
 import fs from 'node:fs'
 import path from 'node:path'
 import { log, safeUrl } from '@fiction/core'
+import { getCacheKey } from '@fiction/core/utils/cache'
 import yaml from 'js-yaml'
 import getMetaData from 'metadata-scraper'
 import { getCleanUrl } from './utils'
@@ -144,7 +145,7 @@ export class ReferrerUtility {
       return out
 
     const cache = this.fictionCache?.getCache()
-    const cacheKey = this.fictionCache?.redisKey('unfurl', url)
+    const cacheKey = getCacheKey('unfurl', url)
     let cached: string = ''
     if (cache && cacheKey)
       cached = (await cache?.get(cacheKey)) || ''

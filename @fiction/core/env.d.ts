@@ -7,6 +7,7 @@ declare module 'express' {
   export interface Request {
     bearer?: User
     bearerToken?: string
+    anonymousId?: string
     clientId?: string
     channels?: string[]
   }

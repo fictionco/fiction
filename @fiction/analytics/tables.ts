@@ -131,7 +131,7 @@ const referralFields = [
 const emailEventFields = [
   // Email Identifiers
   new FictionAnalyticsCol({ key: 'emailId', clickHouseType: 'String', description: 'Unique email identifier', indexOn: true, getValue: ({ event }) => event.email?.emailId, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'campaignId', clickHouseType: 'String', description: 'Email campaign identifier', indexOn: true, getValue: ({ event }) => event.email?.campaignId, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'emailCampaignId', clickHouseType: 'String', description: 'Email campaign identifier', indexOn: true, getValue: ({ event }) => event.email?.campaignId, sch: () => z.string() }),
   new FictionAnalyticsCol({ key: 'emailTemplateId', clickHouseType: 'String', description: 'Email template identifier', getValue: ({ event }) => event.email?.templateId, sch: () => z.string() }),
 
   // Email Content
@@ -144,7 +144,12 @@ const emailEventFields = [
   new FictionAnalyticsCol({ key: 'emailClickedAt', clickHouseType: 'DateTime', description: 'Email click timestamp', getValue: ({ event }) => dayjs(event.email?.clickedAt).unix(), sch: () => z.string() }),
 ] as const
 
-export const eventFields = [...baseFields, ...geoFields, ...referralFields, ...emailEventFields] as const
+export const eventFields = [
+  ...baseFields,
+  ...geoFields,
+  ...referralFields,
+  ...emailEventFields,
+] as const
 
 // Session Analytics Fields
 const sessionFields = [

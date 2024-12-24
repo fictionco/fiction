@@ -1,6 +1,7 @@
 import type { TestUtils } from '@fiction/core/test-utils/init'
 import type { Theme } from '../index.js'
 import { FictionAdmin } from '@fiction/admin'
+import { FictionAnalytics } from '@fiction/analytics/index.js'
 import FSite from '@fiction/cards/CardSite.vue'
 import { FictionCards } from '@fiction/cards/index.js'
 import { AppRoute, FictionApp, FictionAws, FictionMedia, FictionRouter, getEnvVars, randomBetween, shortId } from '@fiction/core'
@@ -14,8 +15,8 @@ import { FictionTransactions } from '@fiction/plugin-transactions'
 import * as minimalTheme from '@fiction/theme-minimal'
 import { FictionSites } from '..'
 import { Site } from '../site.js'
-import * as testTheme from './test-theme'
 
+import * as testTheme from './test-theme'
 import { setup } from './testUtils.main.js'
 
 export type SiteTestUtils = TestUtils & {
@@ -29,6 +30,7 @@ export type SiteTestUtils = TestUtils & {
   fictionTransactions: FictionTransactions
   fictionSubscribe: FictionSubscribe
   fictionAdmin: FictionAdmin
+  fictionAnalytics: FictionAnalytics
   runApp: (args: { context: 'app' | 'node', isProd?: boolean }) => Promise<void>
   close: () => Promise<void>
   createSite: (args?: { themeId?: string }) => Promise<Site>
@@ -57,6 +59,7 @@ export async function createSiteTestUtils(args: {
   const out = { ...testUtils } as Partial<SiteTestUtils> & TestUtils
   const sitePort = randomBetween(1100, 50_000)
   const cdnUrl = 'https://media.fiction.com'
+  out.fictionAnalytics = new FictionAnalytics({ ...out, clickhouseUrl: 'http://localhost:8123', beaconPort: 8080 })
   out.fictionAi = new FictionAi({ ...out, openaiApiKey })
   out.fictionAws = new FictionAws({ fictionEnv, awsAccessKey, awsAccessKeySecret })
   out.fictionMedia = new FictionMedia({ ...out, fictionAws: out.fictionAws, awsBucketMedia, cdnUrl })

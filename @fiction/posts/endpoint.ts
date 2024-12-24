@@ -1,15 +1,12 @@
 import type { EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser, IndexMeta, IndexQuery } from '@fiction/core'
 import type { FictionPosts } from '.'
+import type { FictionPostsSettings } from './index'
 import type { TablePostConfig } from './schema'
 import { abort, applyComplexFilters, deepMerge, incrementSlugId, objectId, Query, standardTable, toSlug } from '@fiction/core'
 import { getObjectWordCount } from '@fiction/core/utils/wordCount'
 import { t } from './schema'
 
-export type PostsQuerySettings = FictionPluginSettings & {
-  fictionPosts: FictionPosts
-  fictionUser: FictionUser
-  fictionDb: FictionDb
-}
+export type PostsQuerySettings = FictionPostsSettings & { fictionPosts: FictionPosts }
 export abstract class PostsQuery extends Query<PostsQuerySettings> {
   db = () => this.settings.fictionDb.client()
   constructor(settings: PostsQuerySettings) {
@@ -163,6 +160,46 @@ export class QueryManagePost extends PostsQuery {
     return { status: 'success', message: `Deleted ${selectedIds.length} posts` }
   }
 
+  private async getTotalWordCount(args: {
+    orgId: string
+    status?: 'published' | 'all'
+  } = { orgId: '' }): Promise<number> {
+    const { orgId, status = 'all' } = args
+
+    if (!orgId)
+      throw abort('orgId is required to count total words')
+
+    const db = this.db()
+    let query = db
+      .sum('wordCount as total')
+      .from(t.posts)
+      .where({ orgId })
+
+    if (status === 'published')
+      query = query.where({ status: 'published' })
+
+    const result = await query.first()
+
+    return Number(result?.total || 0)
+  }
+
+  private async trackTotalWordCount(args: {
+    orgId: string
+    status?: 'published' | 'all'
+  }): Promise<number> {
+    const { orgId } = args
+    const wordCount = await this.getTotalWordCount(args)
+
+    await this.settings.fictionAnalytics.serverTrackMetric({
+      orgId,
+      metric: 'content_words_post',
+      count: wordCount,
+      handling: 'snapshot',
+    })
+
+    return wordCount
+  }
+
   private async countPosts(params: ManagePostParams & { _action: 'list' }, _meta: EndpointMeta): Promise<number> {
     const { filters = [], type = 'post', taxonomy, where } = params
     const db = this.db()
@@ -241,7 +278,11 @@ export class QueryManagePost extends PostsQuery {
     fields.updatedAt = new Date().toISOString()
 
     // Retrieve current post details
-    const r = await this.getPost({ _action: 'get', where: { orgId, ...where }, select: ['status', 'dateAt', 'slug'] }, { ...meta, caller: 'updatePostGetExisting' })
+    const r = await this.getPost({
+      _action: 'get',
+      where: { orgId, ...where },
+      select: ['status', 'dateAt', 'slug'],
+    }, { ...meta, caller: 'updatePostGetExisting' })
 
     const currentPost = r.data?.[0]
     if (!currentPost?.postId)
@@ -251,8 +292,13 @@ export class QueryManagePost extends PostsQuery {
 
     if (fields.slug && fields.slug !== currentPost.slug)
       fields.slug = await this.getSlugId({ orgId, postId, fields })
-
-    const prepped = this.settings.fictionDb.prep({ type: 'insert', fields, meta, table: t.posts })
+    const wordCount = getObjectWordCount(fields)
+    const prepped = this.settings.fictionDb.prep({
+      type: 'insert',
+      fields: { wordCount, ...fields },
+      meta,
+      table: t.posts,
+    })
 
     // Set date to current time if status changes and date is still empty
     if (!prepped.dateAt && prepped.status && prepped.status !== 'draft' && currentPost.status === 'draft' && !currentPost.dateAt)
@@ -270,6 +316,7 @@ export class QueryManagePost extends PostsQuery {
       db(t.posts).update(prepped).where({ postId }),
       this.updateAssociations({ type: 'authors', postId, fields, orgId }),
       this.updateAssociations({ type: 'sites', postId, fields, orgId }),
+      this.trackTotalWordCount({ orgId }),
     ])
 
     const final = await this.getPost({ ...params, where: { orgId, ...where }, _action: 'get' }, { ...meta, caller: 'updatePostEnd' })

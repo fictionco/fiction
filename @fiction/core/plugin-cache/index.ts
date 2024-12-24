@@ -218,8 +218,4 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
       return false
     }
   }
-
-  redisKey = <T extends string = string>(type: T, ...args: string[]): string => {
-    return `${[type, ...args].join(':')}`
-  }
 }

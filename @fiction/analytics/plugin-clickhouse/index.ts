@@ -8,13 +8,6 @@ import { EnvVar, vars } from '@fiction/core/plugin-env'
 import { eventFields } from '../plugin-beacon/index.js'
 import { allTables } from '../tables'
 import { getSessionQuerySelectors, t } from '../tables.js'
-import {
-  QueryGetClientSessions,
-  QueryGetDimensionList,
-  QueryGetTotalSessions,
-  QueryMetricAnalytics,
-  QueryMetricTrack,
-} from './endpoints.js'
 
 export * from './types.js'
 
@@ -45,20 +38,6 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
   connectionUrl!: URL
   user!: string
   password!: string
-  queries = {
-    MetricTrack: new QueryMetricTrack({ fictionClickHouse: this, ...this.settings }),
-    MetricAnalytics: new QueryMetricAnalytics({ fictionClickHouse: this, ...this.settings }),
-    GetDimensionList: new QueryGetDimensionList({ fictionClickHouse: this, ...this.settings }),
-    GetClientSessions: new QueryGetClientSessions({ fictionClickHouse: this, ...this.settings }),
-    GetTotalSessions: new QueryGetTotalSessions({ fictionClickHouse: this, ...this.settings }),
-  }
-
-  requests = this.createRequests({
-    queries: this.queries,
-    fictionServer: this.settings.fictionServer,
-    fictionUser: this.settings.fictionUser,
-    basePath: '/clickhouse',
-  })
 
   constructor(settings: FictionClickHouseSettings) {
     super('FictionClickHouse', settings)
@@ -103,10 +82,6 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
 
     if (!this.fictionEnv.isTest.value)
       await this.extend()
-  }
-
-  get endpoints() {
-    return Object.values(this.requests)
   }
 
   client(): Knex {

@@ -1,16 +1,16 @@
-import type { EndpointMeta, EndpointResponse, FictionEnv } from '@fiction/core'
+import type { EndpointMeta, EndpointResponse } from '@fiction/core'
 import type { Knex } from 'knex'
-import type { AggregationRow, DataCompared, DataPointChart, QueryParams, QueryParamsRefined } from '../types.js'
-import type { FictionClickHouse, FictionClickHouseSettings } from './index.js'
+import type { EventParams } from './plugin-beacon/index.js'
+import type { FictionClickHouse, FictionClickHouseSettings } from './plugin-clickhouse/index.js'
+import type { AggregationRow, DataCompared, DataPointChart, QueryParams, QueryParamsRefined } from './types.js'
 import { abort, dayjs, Query, vue, waitFor } from '@fiction/core'
-import { type EventParams, t } from '../plugin-beacon/index.js'
-import { refineParams, refineTimelineData } from '../utils/refine.js'
+import { refineParams } from './utils/refine.js'
 
-type ClickHouseEndpointSettings = FictionClickHouseSettings & {
+type AnalyticsEndpointSettings = FictionClickHouseSettings & {
   fictionClickHouse: FictionClickHouse
 }
 
-abstract class ClickHouseEndpoint extends Query<ClickHouseEndpointSettings> {
+abstract class AnalyticsEndpoint extends Query<AnalyticsEndpointSettings> {
   ch = () => {
     const ch = this.settings.fictionClickHouse
     if (!ch)
@@ -19,12 +19,12 @@ abstract class ClickHouseEndpoint extends Query<ClickHouseEndpointSettings> {
     return ch
   }
 
-  constructor(settings: ClickHouseEndpointSettings) {
+  constructor(settings: AnalyticsEndpointSettings) {
     super(settings)
   }
 }
 
-export class QueryMetricTrack extends ClickHouseEndpoint {
+export class QueryMetricTrack extends AnalyticsEndpoint {
   async run(params: {
     metric: string
     count: number
@@ -57,7 +57,7 @@ type MetricDataPoint = DataPointChart<typeof dataKeys[number]>
 type ReturnData = DataCompared<MetricDataPoint>
 export type MetricAnalyticsResponse = EndpointResponse<ReturnData>
 
-export class QueryMetricAnalytics extends ClickHouseEndpoint {
+export class QueryMetricAnalytics extends AnalyticsEndpoint {
   override dataKeys = dataKeys
   override getParams = () => refineParams({})
   override dataRef = vue.ref<ReturnData>({})
@@ -137,7 +137,7 @@ export class QueryMetricAnalytics extends ClickHouseEndpoint {
   }
 }
 
-export class QueryGetClientSessions extends ClickHouseEndpoint {
+export class QueryGetClientSessions extends AnalyticsEndpoint {
   async run(params: { anonymousId: string, orgId: string, limit?: number }, _meta: EndpointMeta): Promise<EndpointResponse<EventParams[]>> {
     const { anonymousId, orgId, limit = 10 } = params
 
@@ -149,7 +149,7 @@ export class QueryGetClientSessions extends ClickHouseEndpoint {
   }
 }
 
-export class QueryGetTotalSessions extends ClickHouseEndpoint {
+export class QueryGetTotalSessions extends AnalyticsEndpoint {
   async run(params: { anonymousId: string, orgId: string }, _meta: EndpointMeta): Promise<EndpointResponse<number>> {
     const { anonymousId, orgId } = params
     const query = this.ch()
@@ -166,7 +166,7 @@ export class QueryGetTotalSessions extends ClickHouseEndpoint {
   }
 }
 
-export class QueryGetDimensionList extends ClickHouseEndpoint {
+export class QueryGetDimensionList extends AnalyticsEndpoint {
   async run(params: QueryParams): Promise<EndpointResponse<AggregationRow[]>> {
     const client = this.ch().client()
     const refined = refineParams(params)
