@@ -7,7 +7,7 @@
   "main": "index.ts",
   "dependencies": {
     "@fiction/core": "workspace:*",
-    "highlight.js": "^11.11.0"
+    "highlight.js": "^11.11.1"
   },
   "publishConfig": {
     "access": "public"

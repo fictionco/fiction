@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@ai-sdk/vue": "^1.0.6",
+    "@ai-sdk/vue": "^1.0.7",
     "@fiction/admin": "workspace:*",
     "@fiction/cards": "workspace:*",
     "@fiction/core": "workspace:*",
