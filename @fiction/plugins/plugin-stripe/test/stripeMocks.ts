@@ -44,6 +44,7 @@ export const mockStripeSubscription: Stripe.Subscription = {
   automatic_tax: {
     enabled: false,
     liability: null,
+    disabled_reason: null,
   },
   billing_cycle_anchor: Math.floor(Date.now() / 1000),
   billing_cycle_anchor_config: null,

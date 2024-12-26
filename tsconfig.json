@@ -44,7 +44,7 @@
     "./docs/**/*",
     "**/.fiction/*",
     "**/.fiction/*.json",
-    "@fiction/plugins/plugin-stripe/.ref/stripeMocks.ts",
+    "@fiction/plugins/plugin-stripe/test/stripeMocks.ts",
     "@fiction/plugins/plugin-stripe/.ref/__stripe.test.ts"
   ],
 
@@ -55,7 +55,7 @@
     "cache",
     "**/dist/**",
     ".ref/**",
-    "**/.ref-*/**",
+    "**/.ref*/**",
     "**/__*",
     "__*",
     ".git",
