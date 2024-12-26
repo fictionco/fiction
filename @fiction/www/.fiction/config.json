@@ -25,6 +25,26 @@
       "path": "/api/user/GetTopValues"
     },
     {
+      "key": "EventTrack",
+      "path": "/api/analytics/EventTrack"
+    },
+    {
+      "key": "MetricAnalytics",
+      "path": "/api/analytics/MetricAnalytics"
+    },
+    {
+      "key": "GetDimensionList",
+      "path": "/api/analytics/GetDimensionList"
+    },
+    {
+      "key": "GetClientSessions",
+      "path": "/api/analytics/GetClientSessions"
+    },
+    {
+      "key": "GetTotalSessions",
+      "path": "/api/analytics/GetTotalSessions"
+    },
+    {
       "key": "SaveMedia",
       "path": "/api/media/SaveMedia"
     },
@@ -63,18 +83,6 @@
     {
       "key": "oAuthEndpoint",
       "path": "/api/stripe-checkout/:action"
-    },
-    {
-      "key": "GetDimensionList",
-      "path": "/api/clickhouse/GetDimensionList"
-    },
-    {
-      "key": "GetClientSessions",
-      "path": "/api/clickhouse/GetClientSessions"
-    },
-    {
-      "key": "GetTotalSessions",
-      "path": "/api/clickhouse/GetTotalSessions"
     },
     {
       "key": "CardQuery",

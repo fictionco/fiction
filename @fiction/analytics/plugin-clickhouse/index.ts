@@ -79,11 +79,17 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
     if (!this.connectionUrl)
       throw new Error('no clickhouse connection url')
 
+    const check = await fetch(this.connectionUrl.href, { method: 'GET' })
+    const checkText = await check.text()
+
+    if (checkText.trim() !== 'Ok.')
+      throw new Error('clickhouse not alive')
+
+    this.log.info('CLICKHOUSE INITIALIZED', { data: { url: this.connectionUrl.hostname, port: `[ ${this.connectionUrl.port} ]` } })
+    this.initialized = true
+
     if (!this.fictionEnv.isTest.value)
       await this.extend()
-
-    this.log.info('analytics db initialized', { data: { url: this.connectionUrl.hostname, port: `[ ${this.connectionUrl.port} ]` } })
-    this.initialized = true
   }
 
   client(): Knex {
@@ -113,6 +119,7 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
       throw new Error('connectionUrl is missing')
 
     if (!this.initialized) {
+      this.log.error(`clickhouse not initialized (caller: ${caller})`, { data: { query } })
       throw new Error('clickhouse not initialized')
     }
 

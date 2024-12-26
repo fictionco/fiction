@@ -15,10 +15,8 @@
         "ElPanelSettings.vue": null,
         "PreLaunch.vue": null,
         "UtilDeleteOrg.vue": null,
-        "UtilListOrganizations.vue": null,
         "ViewBillingSuccess.vue": null,
         "ViewDashboard.vue": null,
-        "ViewNewOrganization.vue": null,
         "WidgetArea.vue": null,
         "WidgetChart.vue": null,
         "WidgetVideo.vue": null,
@@ -49,18 +47,21 @@
       "package.json": null,
       "settings": {
         "ElHeader.vue": null,
+        "ElOrgNewModal.vue": null,
         "ElTeamInvite.vue": null,
         "ElTeamList.vue": null,
         "InputApiKey.vue": null,
         "PanelAccount.vue": null,
         "PanelBilling.vue": null,
         "PanelDev.vue": null,
+        "PanelManageOrg.vue": null,
         "PanelOrganization.vue": null,
         "PanelTeam.vue": null,
         "PanelTeamMember.vue": null,
         "SettingsBoard.vue": null,
         "SettingsMain.vue": null,
         "SettingsPanel.vue": null,
+        "__ElOrgList.vue": null,
         "index.ts": null
       },
       "tailwind.config.ts": null,
@@ -84,11 +85,6 @@
       "util.ts": null
     },
     "analytics": {
-      "__plugin-tag": {
-        "index.ts": null,
-        "traffic.ts": null,
-        "utils.ts": null
-      },
       "chart": {
         "DateChart.vue": null,
         "chart.ts": null,
@@ -98,6 +94,7 @@
         },
         "util.ts": null
       },
+      "endpoints.ts": null,
       "index.ts": null,
       "package.json": null,
       "plugin-beacon": {
@@ -115,7 +112,6 @@
         }
       },
       "plugin-clickhouse": {
-        "endpoints.ts": null,
         "index.ts": null,
         "package.json": null,
         "test": {
@@ -141,8 +137,9 @@
       "test": {
         "beacon.stats.test.ts": null,
         "client.stats.test.ts": null,
+        "endpoint.unit.test.ts": null,
         "helpers.ts": null,
-        "tables.test.ts": null
+        "tables.unit.test.ts": null
       },
       "types.ts": null,
       "typesTracking.ts": null,
@@ -199,11 +196,6 @@
         "hero.uiux.test.ts": null,
         "index.ts": null
       },
-      "content-numbered-list": {
-        "ElCard.vue": null,
-        "config.ts": null,
-        "index.ts": null
-      },
       "content-people": {
         "ElCard.vue": null,
         "StandardTeam.vue": null,
@@ -219,6 +211,11 @@
       "content-profile": {
         "ElCard.vue": null,
         "card.unit.test.ts": null,
+        "config.ts": null,
+        "index.ts": null
+      },
+      "content-steps": {
+        "ElCard.vue": null,
         "config.ts": null,
         "index.ts": null
       },
@@ -573,6 +570,7 @@
         "entry.ts": null,
         "hooks.ts": null,
         "index.ts": null,
+        "interval.ts": null,
         "loader.mjs": null,
         "onImport.ts": null,
         "restart.ts": null,
@@ -741,6 +739,7 @@
         "_.ts": null,
         "anon.ts": null,
         "buffer.ts": null,
+        "cache.ts": null,
         "casing.ts": null,
         "colors.ts": null,
         "cookie.ts": null,
@@ -839,7 +838,8 @@
           "store.unit.test.ts": null,
           "time.unit.test.ts": null,
           "url.unit.test.ts": null,
-          "utils.unit.test.ts": null
+          "utils.unit.test.ts": null,
+          "wordCount.test.ts": null
         },
         "time.ts": null,
         "ui.ts": null,
@@ -847,7 +847,8 @@
         "utils.ts": null,
         "validation.ts": null,
         "vars.ts": null,
-        "window.ts": null
+        "window.ts": null,
+        "wordCount.ts": null
       },
       "utils-effects": {
         "count.ts": null,
@@ -957,6 +958,11 @@
         "package.json": null,
         "types.ts": null
       },
+      "plugin-metrics": {
+        "index.ts": null,
+        "package.json": null,
+        "schema.ts": null
+      },
       "plugin-monitor": {
         "index.ts": null,
         "package.json": null
@@ -977,7 +983,6 @@
           "ViewIndex.vue": null,
           "ViewManageCampaign.vue": null,
           "ViewManageIndex.vue": null,
-          "__InputOverview.vue": null,
           "tools.ts": null
         },
         "campaign.ts": null,
@@ -1391,6 +1396,10 @@
       },
       "prestige": {
         "config.ts": null,
+        "img": {
+          "dark-desktop.png": null,
+          "light-desktop.png": null
+        },
         "index.ts": null,
         "package.json": null
       },
@@ -1408,14 +1417,12 @@
       "ElSlideOver.vue": null,
       "ElStep.vue": null,
       "ElStepNav.vue": null,
-      "ElTable.vue": null,
       "ElZeroBanner.vue": null,
       "ElZeroState.vue": null,
       "NavMobile.vue": null,
       "NavMobileItem.vue": null,
       "ThemeWrap.vue": null,
       "ValidityInput.vue": null,
-      "__DropDownList.vue": null,
       "anim": {
         "AnimClipPath.vue": null,
         "AnimGradientBg.vue": null,
@@ -1434,9 +1441,9 @@
         "shareImage.png": null
       },
       "buttons": {
-        "ActionButtons.vue": null,
-        "ElActions.vue": null,
         "XButton.vue": null,
+        "XButtonList.vue": null,
+        "__ActionButtons.vue": null,
         "test": {
           "TestButtonsAll.vue": null
         },
@@ -1492,6 +1499,7 @@
         "ElInput.vue": null,
         "ElToolSep.vue": null,
         "FormEngine.vue": null,
+        "FormEngineModal.vue": null,
         "InputActionArea.vue": null,
         "InputActionList.vue": null,
         "InputActions.vue": null,
@@ -1558,7 +1566,8 @@
           "TestInput.vue": null,
           "TestInputsAll.vue": null
         },
-        "theme.ts": null
+        "theme.ts": null,
+        "utils.ts": null
       },
       "lib": {
         "systemIcons.ts": null
@@ -1566,7 +1575,8 @@
       "lists": {
         "ElIndexGrid.vue": null,
         "ElIndexItemMedia.vue": null,
-        "IndexItemList.vue": null
+        "IndexItemList.vue": null,
+        "XIndexItem.vue": null
       },
       "loaders": {
         "ElLoading.vue": null,
@@ -1639,7 +1649,8 @@
           "lorem6.svg": null,
           "lorem7.svg": null,
           "lorem8.svg": null,
-          "lorem9.svg": null
+          "lorem9.svg": null,
+          "svgList.ts": null
         },
         "index.ts": null,
         "localMedia.ts": null,
