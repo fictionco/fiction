@@ -68,6 +68,12 @@ export class FictionAnalytics extends FictionPlugin<FictionAnalyticsSettings> {
     this.fictionEnv.events.on('shutdown', async () => this.close())
   }
 
+  async init() {
+    return Promise.all([
+      this.fictionClickhouse?.init(),
+    ])
+  }
+
   async close() {
     await this.fictionClickhouse?.close()
     await this.fictionBeacon?.close()

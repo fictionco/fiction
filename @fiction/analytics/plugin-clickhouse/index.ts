@@ -36,8 +36,9 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
   tableSessions = `${this.dbName}.${t.session}`
   private db!: Knex
   connectionUrl!: URL
-  user!: string
-  password!: string
+  user?: string
+  password?: string
+  initialized = false
 
   constructor(settings: FictionClickHouseSettings) {
     super('FictionClickHouse', settings)
@@ -47,6 +48,22 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
     }
     else if (settings.clickhouseUrl) {
       this.connectionUrl = new URL(settings.clickhouseUrl)
+
+      this.user = this.connectionUrl.username
+      this.password = this.connectionUrl.password
+      // prevent the url from having auth in it (error in fetch)
+      this.connectionUrl.username = ''
+      this.connectionUrl.password = ''
+      this.log.info(
+        `clickhouse at ${this.connectionUrl.href} - ${this.user}:password(${this.password.length})`,
+      )
+
+      /**
+       * Create utility, knex doesn't support running
+       * clickhouse queries directly, but this is helpful
+       * in chaining and applying best practices
+       */
+      this.db = knex({ client: 'pg' })
     }
   }
 
@@ -62,26 +79,11 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
     if (!this.connectionUrl)
       throw new Error('no clickhouse connection url')
 
-    this.user = this.connectionUrl.username
-    this.password = this.connectionUrl.password
-    // prevent the url from having auth in it (error in fetch)
-    this.connectionUrl.username = ''
-    this.connectionUrl.password = ''
-    this.log.info(
-      `clickhouse at ${this.connectionUrl.href} - ${this.user}:password(${this.password.length})`,
-    )
-
-    /**
-     * Create utility, knex doesn't support running
-     * clickhouse queries directly, but this is helpful
-     * in chaining and applying best practices
-     */
-    this.db = knex({ client: 'pg' })
-
-    this.log.info('connected', { data: { url: this.connectionUrl.hostname, port: `[ ${this.connectionUrl.port} ]` } })
-
     if (!this.fictionEnv.isTest.value)
       await this.extend()
+
+    this.log.info('analytics db initialized', { data: { url: this.connectionUrl.hostname, port: `[ ${this.connectionUrl.port} ]` } })
+    this.initialized = true
   }
 
   client(): Knex {
@@ -109,6 +111,10 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
 
     if (!this.connectionUrl)
       throw new Error('connectionUrl is missing')
+
+    if (!this.initialized) {
+      throw new Error('clickhouse not initialized')
+    }
 
     const rawUrls: (string | undefined)[] = [this.connectionUrl.toString()]
 
@@ -186,6 +192,9 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
 
   clickhouseBaseQuery(args: { orgId: string, table: keyof typeof t }): Knex.QueryBuilder {
     const { orgId, table } = args
+
+    if (!orgId)
+      throw new Error('orgId is missing')
 
     const client = this.client()
 

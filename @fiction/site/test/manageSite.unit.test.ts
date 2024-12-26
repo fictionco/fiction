@@ -2,9 +2,149 @@ import type { InitializedTestUtils } from '@fiction/core/test-utils'
 import type { Site } from '../site'
 import type { TableSiteConfig } from '../tables'
 import type { SiteTestUtils } from './testUtils'
-import { objectId, type Organization } from '@fiction/core'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { dayjs, objectId, type Organization } from '@fiction/core'
+import { snap } from '@fiction/core/test-utils'
+import { afterAll, afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { getSiteMetrics, trackSiteMetrics } from '../utils/site'
 import { createSiteTestUtils } from './testUtils'
+
+describe('getSiteMetrics and trackSiteMetrics', async () => {
+  const testUtils = await createSiteTestUtils()
+  const r = await testUtils.init()
+  let site: Site
+  let orgId: string
+
+  beforeEach(async () => {
+    orgId = r?.org?.orgId ?? ''
+
+    // Create test site
+    const fields = {
+      title: 'Metrics Test Site',
+      themeId: 'test',
+      subDomain: `test-${objectId({ prefix: 'sub' })}`,
+    }
+
+    const response = await testUtils.fictionSites.queries.ManageSite.serve(
+      { _action: 'create', fields, orgId, userId: r?.user?.userId, caller: 'test' },
+      { server: true },
+    )
+
+    if (!response.data?.siteId) {
+      throw new Error('Site creation failed')
+    }
+    const siteId = response.data.siteId
+
+    const userConfig = { title: 'test', description: 'test', content: 'just three words' }
+    // Add test pages with word counts and cards
+    await testUtils.fictionSites.queries.ManagePage.serve({
+      _action: 'upsert',
+      siteId,
+      orgId,
+      fields: [
+        {
+          cardId: objectId({ prefix: 'card' }),
+          templateId: 'cardPageWrapV1',
+          title: 'Page One',
+          cards: [
+            { cardId: objectId({ prefix: 'card' }), templateId: 'cardHeroV1', userConfig },
+            { cardId: objectId({ prefix: 'card' }), templateId: 'cardTextV1', userConfig },
+          ],
+        },
+        {
+          cardId: objectId({ prefix: 'card' }),
+          templateId: 'cardPageWrapV1',
+          title: 'Page Two',
+          cards: [
+            { cardId: objectId({ prefix: 'card' }), templateId: 'cardFeaturesV1', userConfig },
+          ],
+        },
+      ],
+      caller: 'test',
+      scope: 'publish',
+    }, { server: true })
+  })
+
+  afterAll(async () => {
+    await testUtils.close()
+  })
+
+  it('correctly aggregates word count and card totals', async () => {
+    const metrics = await getSiteMetrics({
+      orgId,
+      fictionSites: testUtils.fictionSites,
+    })
+
+    expect(metrics.totalWords).toBe(19)
+    expect(metrics.totalCards).toBe(8)
+  })
+
+  it('returns zeros for new org with no content', async () => {
+    const newOrgId = objectId({ prefix: 'org' })
+    const metrics = await getSiteMetrics({
+      orgId: newOrgId,
+      fictionSites: testUtils.fictionSites,
+    })
+
+    expect(metrics.totalWords).toBe(0)
+    expect(metrics.totalCards).toBe(0)
+  })
+
+  it('has clickhouse db', async () => {
+    const check = await fetch('http://localhost:8123', { method: 'GET' })
+    const checkText = await check.text()
+    expect(checkText.trim()).toBe('Ok.')
+  })
+
+  it('tracks metrics via analytics', async () => {
+    let trackedEvent: string | undefined
+    let trackedValue: number | undefined
+
+    const metrics = await trackSiteMetrics({
+      orgId,
+      fictionSites: testUtils.fictionSites,
+    })
+    // Query metrics using analytics endpoint
+    const result = await testUtils.fictionAnalytics.queries.MetricAnalytics.serve({
+      orgId,
+      event: 'content_total_words_site',
+      timeStartAtIso: dayjs().subtract(1, 'day').toISOString(),
+      timeEndAtIso: dayjs().add(1, 'day').toISOString(),
+      interval: 'day',
+      handling: 'snapshot',
+    }, { server: true })
+
+    expect(result.status).toBe('success')
+    expect(result.data?.main?.[0].value).toBe(57)
+    expect(result.data?.mainTotals?.value).toBe(57)
+    expect(snap(result.data)).toMatchInlineSnapshot(`
+      {
+        "compare": [],
+        "compareTotals": {},
+        "main": [
+          {
+            "date": "[datetime:****-**-*****:**:**.****]",
+            "value": "57",
+          },
+        ],
+        "mainTotals": {
+          "date": "[datetime:""]",
+          "value": "57",
+        },
+        "params": {
+          "compareEndAtIso": "[datetime:****-**-*****:**:**.****]",
+          "compareStartAtIso": "[datetime:****-**-*****:**:**.****]",
+          "event": "content_total_words_site",
+          "handling": "snapshot",
+          "interval": "day",
+          "orgId": "[id:***************************]",
+          "timeEndAtIso": "[datetime:****-**-*****:**:**.****]",
+          "timeStartAtIso": "[datetime:****-**-*****:**:**.****]",
+          "timeZone": "America/Denver",
+        },
+      }
+    `)
+  })
+})
 
 describe('manageSite query', () => {
   let testUtils: SiteTestUtils

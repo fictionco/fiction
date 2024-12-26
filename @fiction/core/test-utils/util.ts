@@ -138,82 +138,74 @@ function rep(nm: string, val: string = '') {
 }
 function snapString(value: unknown, key?: string, opts: { maskedKeys?: string[] } = {}): string {
   const maskedKeys = opts.maskedKeys ?? []
-  const val = String(value)
 
-  let out = val
+  // Handle null/undefined early
+  if (value == null)
+    return String(value)
+
+  // If value is an object, return its type
+  if (typeof value === 'object') {
+    return `[${value.constructor.name}]`
+  }
+
+  const val = String(value)
 
   if (key && maskedKeys.includes(key))
     return '**MASKED**'
 
-  if (key?.endsWith('Id') && val) {
-    out = rep('id', val)
-  }
-  else if ((key?.endsWith('Url') || key?.endsWith('Urls')) && val) {
-    out = rep('url', val)
-  }
-  else if (
-    (key?.endsWith('At')
-      || key?.endsWith('Iso')
-      || key === 'duration'
-      || key === 'timestamp')
-    && val
-  ) {
-    out = rep('dateTime')
-  }
-  else if (key?.endsWith('Name') && val) {
-    out = rep('name', val)
-  }
-  else if (key?.toLowerCase().endsWith('email') && val) {
-    out = rep('email', val)
-  }
-  else if (
-    val.length === 32
-    || key?.endsWith('Code')
-    || key?.endsWith('Token')
-  ) {
-    out = rep('hash', val)
-  }
-  else if (key === 'latitude' || key === 'longitude' || key === 'ip') {
-    out = rep('geo', val)
+  // Patterns with common identifiers
+  const patterns = {
+    id: /Id$/,
+    url: /(Url|Urls)$/,
+    datetime: /(At|Iso|date)$|^(duration|timestamp)$/,
+    name: /Name$/,
+    email: /email$/i,
+    hash: (v: string) => v.length === 32 || /^(Code|Token)$/.test(v),
+    geo: /^(latitude|longitude|ip)$/,
   }
 
-  return out
+  // Check each pattern
+  for (const [type, pattern] of Object.entries(patterns)) {
+    if (key && (pattern instanceof RegExp ? pattern.test(key) : pattern(key))) {
+      return `[${type}:${val.replace(/[\dA-Z]/gi, '*') || '""'}]`
+    }
+  }
+
+  return val
 }
 
-export function snap(obj?: vue.Ref<Record<any, any>> | string | number | boolean | Record<any, any> | Record<any, any>[] | unknown[] | undefined, opts: { maskedKeys?: string[] } = {}, parentKey?: string): Record<string, unknown> | unknown[] | undefined {
+export function snap(
+  obj?: vue.Ref<Record<any, any>> | string | number | boolean | Record<any, any> | Record<any, any>[] | unknown[] | undefined,
+  opts: { maskedKeys?: string[] } = {},
+  parentKey?: string,
+): Record<string, unknown> | unknown[] | undefined {
   if (!obj)
     return undefined
 
+  // Handle Vue refs
   if (vue.isRef(obj))
-    return { ref: snap(obj.value as Record<any, any>, opts) }
+    return { ref: snap(obj.value as any, opts) }
 
-  if (typeof obj === 'string' || typeof obj === 'number' || typeof obj === 'boolean')
+  // Handle primitives
+  if (typeof obj !== 'object')
     return { [typeof obj]: obj }
 
+  // Handle arrays
   if (Array.isArray(obj)) {
-    return obj.map((o) => {
-      const res
-        = typeof o === 'object' && o
-          ? snap(o as Record<string, unknown>, opts)
-          : snapString(o, parentKey, opts)
-
-      return res
+    return obj.map((item) => {
+      return typeof item === 'object' && item !== null
+        ? snap(item, opts)
+        : snapString(item, parentKey, opts)
     })
   }
 
-  const newObj = {} as Record<string, unknown>
-
-  for (const key in obj) {
-    const value = obj[key] as unknown
-    if (value && isPlainObject(value))
-      newObj[key] = snap(value as Record<string, unknown>, opts, key)
-    else if (value)
-      newObj[key] = snapString(value, key, opts)
-    else
-      newObj[key] = value
+  // Handle objects
+  const newObj: Record<string, unknown> = {}
+  for (const [key, value] of Object.entries(obj)) {
+    newObj[key] = value && typeof value === 'object'
+      ? snap(value, opts, key)
+      : snapString(value, key, opts)
   }
 
-  const out = JSON.parse(stringify(newObj)) as Record<string, any>
-
-  return out
+  return JSON.parse(JSON.stringify(newObj))
 }

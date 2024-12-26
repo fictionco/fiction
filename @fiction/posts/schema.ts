@@ -3,6 +3,7 @@ import type { TableSiteConfig } from '@fiction/site'
 import type { SiteUserConfig } from '@fiction/site/schema'
 import { MediaDisplaySchema, PostStatusSchema, standardTable, toSlug } from '@fiction/core'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
+import { t as siteTables } from '@fiction/site/tables'
 import { z } from 'zod'
 
 export const t = {
@@ -10,6 +11,7 @@ export const t = {
   postTaxonomies: 'fiction_post_taxonomy',
   postAuthor: 'fiction_post_author',
   postSite: 'fiction_post_site',
+  ...siteTables,
   ...standardTable,
 }
 
@@ -68,7 +70,7 @@ export const postAuthorCols = [
 export const postSiteCols = [
   new Col({ key: 'postSiteId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id()`)) }),
   new Col({ key: 'postId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.posts}.postId`).onDelete('CASCADE') }),
-  new Col({ key: 'siteId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.site}.siteId`).onDelete('CASCADE') }),
+  new Col({ key: 'siteId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.sites}.siteId`).onDelete('CASCADE') }),
   new Col({ key: 'orgId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`${t.org}.orgId`).onUpdate('CASCADE').notNullable().index() }),
   new Col({ key: 'priority', sch: ({ z }) => z.number().int().optional(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
 ] as const

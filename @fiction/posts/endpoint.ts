@@ -257,7 +257,7 @@ export class QueryManagePost extends PostsQuery {
 
     if (post.postId) {
       post.authors = await db.select([`${t.user}.userId`, `${t.user}.email`, `${t.user}.fullName`, `${t.postAuthor}.priority`]).from(t.postAuthor).join(t.user, `${t.user}.user_id`, `=`, `${t.postAuthor}.user_id`).where(`${t.postAuthor}.post_id`, post.postId).orderBy(`${t.postAuthor}.priority`, 'asc')
-      post.sites = await db.select([`${t.site}.siteId`, `${t.site}.title`]).from(t.postSite).join(t.site, `${t.site}.site_id`, `=`, `${t.postSite}.site_id`).where(`${t.postSite}.post_id`, post.postId)
+      post.sites = await db.select([`${t.sites}.siteId`, `${t.sites}.title`]).from(t.postSite).join(t.sites, `${t.sites}.site_id`, `=`, `${t.postSite}.site_id`).where(`${t.postSite}.post_id`, post.postId)
     }
 
     if (loadDraft && post.draft)

@@ -9,11 +9,13 @@ import { Card } from './card.js'
 import { t } from './tables.js'
 import { updateSiteCerts } from './utils/cert.js'
 import { getPageWordCount } from './utils/page.js'
+import { trackSiteMetrics } from './utils/site.js'
 
 export type SitesQuerySettings = SitesPluginSettings & {
   fictionSites: FictionSites
 }
 export abstract class SitesQuery extends Query<SitesQuerySettings> {
+  db = () => this.settings.fictionDb.client()
   constructor(settings: SitesQuerySettings) {
     super(settings)
   }
@@ -694,7 +696,7 @@ export class ManageSite extends SitesQuery {
 
   private async updateSitePages(args: { siteId: string, fields: TableCardConfig[], userId?: string, orgId: string, scope: 'draft' | 'publish' }, meta: EndpointMeta) {
     const { siteId, fields, userId, orgId, scope } = args
-    return this.settings.fictionSites.queries.ManagePage.serve({
+    const result = this.settings.fictionSites.queries.ManagePage.serve({
       siteId,
       scope,
       _action: scope === 'draft' ? 'saveDraft' : 'upsert',
@@ -703,6 +705,10 @@ export class ManageSite extends SitesQuery {
       orgId,
       caller: 'updateSite',
     }, meta)
+
+    await trackSiteMetrics({ orgId, fictionSites: this.settings.fictionSites })
+
+    return result
   }
 
   private async fetchSiteWithDetails(args: { selector: WhereSite, scope: 'draft' | 'publish' }): Promise<TableSiteConfig | undefined> {

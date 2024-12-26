@@ -6,7 +6,12 @@ import { standardTable, validHost } from '@fiction/core'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
 import { z } from 'zod'
 
-export const t = { sites: 'fiction_site', pages: 'fiction_site_pages', domains: 'fiction_site_domains', ...standardTable }
+export const t = {
+  sites: 'fiction_site',
+  pages: 'fiction_site_pages',
+  domains: 'fiction_site_domains',
+  ...standardTable,
+}
 
 type st = { updatedAt?: string, createdAt?: string }
 

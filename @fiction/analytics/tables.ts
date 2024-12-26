@@ -34,6 +34,7 @@ const baseFields = [
   new FictionAnalyticsCol({ key: 'emailId', clickHouseType: 'String', description: 'Unique email identifier', indexOn: true, getValue: ({ event }) => event.email?.emailId, sch: () => z.string() }),
   new FictionAnalyticsCol({ key: 'campaignId', clickHouseType: 'String', description: 'Email campaign identifier', indexOn: true, getValue: ({ event }) => event.email?.campaignId, sch: () => z.string() }),
   new FictionAnalyticsCol({ key: 'formId', clickHouseType: 'String', description: 'Form identifier', indexOn: true, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'siteId', clickHouseType: 'String', description: 'Site identifier', indexOn: true, getValue: ({ event }) => event?.siteId, sch: () => z.string() }),
 
   // Event Source Classification
   new FictionAnalyticsCol({ key: 'gen', clickHouseType: 'LowCardinality(String)', description: 'Event origin system', getValue: ({ event }) => event.gen, sch: ({ z }) => z.enum(['core', 'user', 'internal']) }),

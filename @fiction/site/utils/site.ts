@@ -1,7 +1,7 @@
-import type { Site, SiteSettings } from '../index.js'
-import type { CardConfigPortable, TableSiteConfig } from '../tables.js'
+import type { FictionSites, Site, SiteSettings } from '../index.js'
 import { toCamel, vue, waitFor } from '@fiction/core'
 import { Card } from '../card.js'
+import { type CardConfigPortable, t, type TableSiteConfig } from '../tables.js'
 import { setPages } from './page.js'
 
 // Define a type for the hooks to ensure type safety
@@ -317,4 +317,44 @@ export function scrollActiveCardIntoView(args: { site: Site, cardId: string }) {
 
     element.scrollIntoView(scrollOptions)
   }
+}
+
+export async function getSiteMetrics(args: { orgId: string, fictionSites: FictionSites }) {
+  const { orgId, fictionSites } = args
+  const db = fictionSites.settings.fictionDb.client()
+
+  // Query to get totals from pages table
+  const result = await db(t.pages)
+    .where({ orgId })
+    .select<{ totalWords: string, totalCards: string }[]>(
+      db.raw('COALESCE(SUM(word_count), 0) as total_words'),
+      db.raw('COALESCE(SUM(JSONB_ARRAY_LENGTH(cards)), 0) as total_cards'),
+    )
+    .first()
+
+  return {
+    totalWords: Number(result?.totalWords || 0),
+    totalCards: Number(result?.totalCards || 0),
+  }
+}
+
+export async function trackSiteMetrics(args: {
+  orgId: string
+  status?: 'published' | 'all'
+  fictionSites: FictionSites
+}) {
+  const { orgId, fictionSites } = args
+  const metrics = await getSiteMetrics({ orgId, fictionSites })
+
+  const analytics = fictionSites.settings.fictionAnalytics
+
+  await Promise.all([
+    analytics?.track({
+      orgId,
+      event: 'content_total_words_site',
+      value: metrics.totalWords,
+    }),
+  ])
+
+  return metrics
 }

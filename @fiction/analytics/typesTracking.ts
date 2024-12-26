@@ -216,6 +216,7 @@ export interface FictionEventUserDefined {
   type?: ClientTrackType
   event: string
   userId?: string
+  siteId?: string
   anonymousId?: string
   groupId?: string
   properties?: Partial<TrackingProperties>

@@ -46,7 +46,14 @@ export async function createSiteTestUtils(args: {
 
   const testUtils = createTestUtils({ mainFilePath, envFiles: [testEnvFile], ...args })
 
-  const envVarNames = ['AWS_BUCKET_MEDIA', 'AWS_ACCESS_KEY', 'AWS_ACCESS_KEY_SECRET', 'FLY_API_TOKEN', 'OPENAI_API_KEY'] as const
+  const envVarNames = [
+    'AWS_BUCKET_MEDIA',
+    'AWS_ACCESS_KEY',
+    'AWS_ACCESS_KEY_SECRET',
+    'FLY_API_TOKEN',
+    'OPENAI_API_KEY',
+    'CLICKHOUSE_URL',
+  ] as const
   const v = getEnvVars(testUtils.fictionEnv, envVarNames)
 
   const fictionEnv = testUtils.fictionEnv
@@ -59,7 +66,11 @@ export async function createSiteTestUtils(args: {
   const out = { ...testUtils } as Partial<SiteTestUtils> & TestUtils
   const sitePort = randomBetween(1100, 50_000)
   const cdnUrl = 'https://media.fiction.com'
-  out.fictionAnalytics = new FictionAnalytics({ ...out, clickhouseUrl: 'http://localhost:8123', beaconPort: 8080 })
+
+  const clickhouseUrl = v.clickhouseUrl
+
+  console.error('clickhouse UIRLURL', clickhouseUrl)
+  out.fictionAnalytics = new FictionAnalytics({ ...out, clickhouseUrl, beaconPort: 8080 })
   out.fictionAi = new FictionAi({ ...out, openaiApiKey })
   out.fictionAws = new FictionAws({ fictionEnv, awsAccessKey, awsAccessKeySecret })
   out.fictionMedia = new FictionMedia({ ...out, fictionAws: out.fictionAws, awsBucketMedia, cdnUrl })
@@ -101,6 +112,7 @@ export async function createSiteTestUtils(args: {
 
   out.init = async () => {
     const r = await testUtils.init()
+    await out.fictionAnalytics?.init()
     await out.fictionSites?.ensureAppDefaults({ context: args.context, defaultId: 'test' })
     return r
   }

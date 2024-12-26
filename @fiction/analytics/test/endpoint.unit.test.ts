@@ -19,6 +19,12 @@ describe('metrics', async () => {
   const event = 'test_metric'
 
   describe('queryEventTrack', () => {
+    it('has clickhouse db', async () => {
+      const check = await fetch('http://localhost:8123', { method: 'GET' })
+      const checkText = await check.text()
+      expect(checkText.trim()).toBe('Ok.')
+    })
+
     it('tracks incremental metrics correctly', async () => {
       const trackResult = await testUtils.fictionAnalytics.queries.EventTrack.serve({
         orgId,
@@ -69,15 +75,15 @@ describe('metrics', async () => {
         {
           "main": [
             {
-              "date": "2024-12-24T06:15:00.000Z",
+              "date": "2024-12-26T16:38:00.000Z",
               "value": 10,
             },
             {
-              "date": "2024-12-24T07:15:00.000Z",
+              "date": "2024-12-26T17:38:00.000Z",
               "value": 10,
             },
             {
-              "date": "2024-12-24T08:15:00.000Z",
+              "date": "2024-12-26T18:38:00.000Z",
               "value": 10,
             },
           ],
