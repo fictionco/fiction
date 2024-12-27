@@ -12,7 +12,6 @@ import { FictionForms } from '@fiction/forms'
 import { FictionAi } from '@fiction/plugin-ai'
 import { FictionBrand } from '@fiction/plugin-brand'
 import { FictionExtend } from '@fiction/plugin-extend/index.js'
-import { FictionMetrics } from '@fiction/plugin-metrics'
 import { FictionMonitor } from '@fiction/plugin-monitor/index.js'
 import { FictionNewsletter } from '@fiction/plugin-newsletter'
 import { FictionOnboard } from '@fiction/plugin-onboard'
@@ -126,13 +125,13 @@ const fictionAppSites = new FictionApp({
   isLive: fictionEnv.isProd,
   srcFolder: path.join(cwd, './src'),
 })
+const fictionCache = new FictionCache({ fictionEnv, redisUrl })
 
 const fictionServer = new FictionServer({ fictionEnv, serverName: 'FictionMain', port: comboPort, liveUrl: URLS.app })
 const fictionDb = new FictionDb({ fictionEnv, fictionServer, postgresUrl })
 const fictionEmail = new FictionEmail({ fictionEnv, smtpHost, smtpPassword, smtpUser, sendingDomain: 'mail.fiction.com' })
 const base = { fictionEnv, fictionApp, fictionServer, fictionDb, fictionEmail, fictionRouter }
 const fictionUser = new FictionUser({ ...base, googleClientId, googleClientSecret, tokenSecret, apolloApiKey })
-const fictionCache = new FictionCache({ ...base, redisUrl })
 
 const fictionAnalytics = new FictionAnalytics({
   ...base,

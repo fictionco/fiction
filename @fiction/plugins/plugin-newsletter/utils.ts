@@ -1,6 +1,7 @@
+import type express from 'express'
 import type { ManageCampaignRequestParams } from './endpoint.js'
-import type { FictionNewsletter } from './index.js'
 
+import type { FictionNewsletter } from './index.js'
 import type { EmailCampaignConfig } from './schema.js'
 import { log, type Organization, type RequestOptions, toMarkdown, type TransactionalEmailConfig, vue } from '@fiction/core'
 import { EmailCampaign } from './campaign.js'
@@ -69,4 +70,38 @@ export async function getEmailForCampaign(args: {
   }
 
   return emailConfig
+}
+
+export async function trackingEndpointHandler(args: {
+  fictionNewsletter: FictionNewsletter
+  request: express.Request
+  response: express.Response
+}): Promise<void> {
+  const { fictionNewsletter, request, response } = args
+  const query = request.query as Record<string, string>
+  const params = request.params as { action?: 'init' }
+
+  const { action } = params
+
+  if (!action) {
+    fictionNewsletter.log.error('Invalid request', { action })
+    response.status(400).send('Invalid request')
+    return
+  }
+
+  fictionNewsletter.log.error('email tracking webhook', { data: { query, params } })
+
+  try {
+    if (action === 'init') {
+      //
+    }
+    else {
+      throw new Error('invalid action')
+    }
+  }
+  catch (error) {
+    const e = error as Error
+    fictionNewsletter.log.error('tracking endpoint threw an error', { error })
+    response.status(400).send({ status: 'error', message: e.message }).end()
+  }
 }

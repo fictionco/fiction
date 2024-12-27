@@ -5,9 +5,10 @@ import type { FictionSubscribe } from '@fiction/plugin-subscribe'
 import type { FictionTransactions } from '@fiction/plugin-transactions'
 import type { FictionPosts } from '@fiction/posts'
 import type { ExtensionManifest } from '../plugin-extend'
-import { FictionPlugin, safeDirname, vue } from '@fiction/core'
+import { Endpoint, FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { ManageCampaign, ManageSend } from './endpoint'
 import { sendTable } from './schema.js'
+import { trackingEndpointHandler } from './utils'
 
 export type FictionNewsletterSettings = {
   fictionDb: FictionDb
@@ -36,6 +37,25 @@ export class FictionNewsletter extends FictionPlugin<FictionNewsletterSettings> 
 
     this.settings.fictionDb.addTables([sendTable])
     this.admin()
+    this.trackingWebhookEndpoint()
+  }
+
+  private trackingWebhookEndpoint() {
+    if (this.fictionEnv.isApp.value) {
+      return
+    }
+
+    const checkoutEndpoint = new Endpoint({
+      requestHandler: async (...r) => trackingEndpointHandler({ request: r[0], response: r[1], fictionNewsletter: this }),
+      key: 'emailTrackingEndpoint',
+      basePath: '/email-tracking/:action',
+      serverUrl: this.settings.fictionServer.serverUrl.value,
+      fictionUser: this.settings.fictionUser,
+      fictionEnv: this.settings.fictionEnv,
+      useNaked: true,
+    })
+
+    this.settings.fictionServer.addEndpoints([checkoutEndpoint])
   }
 
   async initEmailSendLoop(args: { crontab?: string } = {}) {
