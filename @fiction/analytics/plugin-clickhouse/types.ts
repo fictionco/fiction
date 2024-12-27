@@ -8,6 +8,7 @@ export interface ClickHouseQueryResult<T = unknown> {
 
 export const clickHouseDatatype = [
   'UInt32',
+  'UInt64',
   'Float32',
   'UInt16',
   'Int8',
@@ -17,6 +18,7 @@ export const clickHouseDatatype = [
   'String',
   'Date',
   'DateTime',
+  'DateTime64(3)',
   'LowCardinality(String)',
   'LowCardinality(FixedString(2))',
   'FixedString(24)',

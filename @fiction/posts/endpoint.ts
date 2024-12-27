@@ -5,6 +5,7 @@ import type { TablePostConfig } from './schema'
 import { abort, applyComplexFilters, deepMerge, incrementSlugId, objectId, Query, standardTable, toSlug } from '@fiction/core'
 import { getObjectWordCount } from '@fiction/core/utils/wordCount'
 import { t } from './schema'
+import { trackPostMetrics, updatePostWordCount } from './utils/analytics'
 
 export type PostsQuerySettings = FictionPostsSettings & { fictionPosts: FictionPosts }
 export abstract class PostsQuery extends Query<PostsQuerySettings> {
@@ -160,47 +161,6 @@ export class QueryManagePost extends PostsQuery {
     return { status: 'success', message: `Deleted ${selectedIds.length} posts` }
   }
 
-  private async getTotalWordCount(args: {
-    orgId: string
-    status?: 'published' | 'all'
-  } = { orgId: '' }): Promise<number> {
-    const { orgId, status = 'all' } = args
-
-    if (!orgId)
-      throw abort('orgId is required to count total words')
-
-    const db = this.db()
-    let query = db
-      .sum('wordCount as total')
-      .from(t.posts)
-      .where({ orgId })
-
-    if (status === 'published')
-      query = query.where({ status: 'published' })
-
-    const result = await query.first()
-
-    return Number(result?.total || 0)
-  }
-
-  private async trackPostMetrics(args: {
-    orgId: string
-    status?: 'published' | 'all'
-  }, _meta: EndpointMeta): Promise<number> {
-    const { orgId } = args
-    const [wordCount, postCount] = await Promise.all([
-      this.getTotalWordCount(args),
-      this.countPosts({ _action: 'list', orgId }, _meta),
-    ])
-
-    await Promise.all([
-      this.settings.fictionAnalytics.track({ orgId, event: 'content_total_words_post', value: wordCount }),
-      this.settings.fictionAnalytics.track({ orgId, event: 'content_total_posts', value: postCount }),
-    ])
-
-    return wordCount
-  }
-
   private async countPosts(params: ManagePostParams & { _action: 'list' }, _meta: EndpointMeta): Promise<number> {
     const { filters = [], type = 'post', taxonomy, where } = params
     const db = this.db()
@@ -293,10 +253,10 @@ export class QueryManagePost extends PostsQuery {
 
     if (fields.slug && fields.slug !== currentPost.slug)
       fields.slug = await this.getSlugId({ orgId, postId, fields })
-    const wordCount = getObjectWordCount(fields)
+
     const prepped = this.settings.fictionDb.prep({
       type: 'insert',
-      fields: { wordCount, ...fields },
+      fields,
       meta,
       table: t.posts,
     })
@@ -317,10 +277,11 @@ export class QueryManagePost extends PostsQuery {
       db(t.posts).update(prepped).where({ postId }),
       this.updateAssociations({ type: 'authors', postId, fields, orgId }),
       this.updateAssociations({ type: 'sites', postId, fields, orgId }),
-      this.trackPostMetrics({ orgId }, meta),
     ])
 
     const final = await this.getPost({ ...params, where: { orgId, ...where }, _action: 'get' }, { ...meta, caller: 'updatePostEnd' })
+
+    await trackPostMetrics({ orgId, fictionPosts: this.settings.fictionPosts, post: final.data?.[0] }, meta)
 
     return { status: 'success', data: final.data, message: 'Post updated' }
   }
@@ -391,10 +352,9 @@ export class QueryManagePost extends PostsQuery {
     // Ensure the slug is unique within the organization
     fields.slug = await this.getSlugId({ orgId, fields })
     fields.title = fields.title || defaultTitle
-    const wordCount = getObjectWordCount(fields)
     const prepped = this.settings.fictionDb.prep({
       type: 'insert',
-      fields: { ...fields, wordCount },
+      fields: { ...fields },
       meta,
       table: t.posts,
     })
@@ -409,14 +369,17 @@ export class QueryManagePost extends PostsQuery {
     await Promise.all([
       this.updateAssociations({ type: 'authors', postId, orgId, fields: associationFields }),
       this.updateAssociations({ type: 'sites', postId, orgId, fields: associationFields }),
+
     ])
 
     const final = await this.getPost({ _action: 'get', where: { postId, orgId }, orgId }, { ...meta, caller: 'createPost' })
 
+    await trackPostMetrics({ orgId, fictionPosts: this.settings.fictionPosts, post: final.data?.[0] }, meta)
+
     return { status: 'success', data: final.data, message: 'Post created', isNew: true }
   }
 
-  private async deletePost(args: ManagePostParams & { _action: 'delete' }, _meta: EndpointMeta): Promise<EndpointResponse<TablePostConfig[]>> {
+  private async deletePost(args: ManagePostParams & { _action: 'delete' }, meta: EndpointMeta): Promise<EndpointResponse<TablePostConfig[]>> {
     const { where, orgId } = args
 
     if (!orgId)
@@ -424,7 +387,7 @@ export class QueryManagePost extends PostsQuery {
 
     const db = this.db()
     // Ensure the post exists before deleting it, error if it doesn't
-    const r = await this.getPost({ _action: 'get', where: { ...where, orgId } }, { ..._meta, caller: 'deletePost' })
+    const r = await this.getPost({ _action: 'get', where: { ...where, orgId } }, { ...meta, caller: 'deletePost' })
 
     const post = r.data?.[0]
 
@@ -432,6 +395,10 @@ export class QueryManagePost extends PostsQuery {
       throw abort('Post not found')
 
     await db(t.posts).where({ ...where, orgId }).delete()
+
+    this.log.info('Post deleted', { data: { where } })
+
+    await trackPostMetrics({ orgId, fictionPosts: this.settings.fictionPosts }, meta)
 
     return { status: 'success', data: [post], message: 'Post deleted' }
   }
@@ -464,7 +431,15 @@ export class QueryManagePost extends PostsQuery {
 
     const authors = fields.authors || []
     const sites = fields.sites || []
-    const newDraft = { draftId: objectId({ prefix: 'dft' }), ...draft, ...fields, sites, authors, updatedAt: now, createdAt: draft.createdAt }
+    const newDraft = {
+      draftId: objectId({ prefix: 'dft' }),
+      ...draft,
+      ...fields,
+      sites,
+      authors,
+      updatedAt: now,
+      createdAt: draft.createdAt,
+    }
 
     // Persist the updated draft and history
     await db(t.posts)

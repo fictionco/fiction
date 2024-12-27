@@ -69,7 +69,6 @@ export async function createSiteTestUtils(args: {
 
   const clickhouseUrl = v.clickhouseUrl
 
-  console.error('clickhouse UIRLURL', clickhouseUrl)
   out.fictionAnalytics = new FictionAnalytics({ ...out, clickhouseUrl, beaconPort: 8080 })
   out.fictionAi = new FictionAi({ ...out, openaiApiKey })
   out.fictionAws = new FictionAws({ fictionEnv, awsAccessKey, awsAccessKeySecret })

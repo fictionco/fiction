@@ -70,14 +70,14 @@ describe('ai completions', async () => {
       {
         "images": [
           {
-            "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556068/arpowers_minimal_mid_shot_photo_of_item_ancient_greek_ideal_bea_2fc9cea8-00b4-47b4-957f-aa995071aaad_xekbep.png",
-          },
-          {
             "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556163/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_b98d7681-0d3c-4f0d-8b28-b06b7c9d269c_kpokem.png",
           },
+          {
+            "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556219/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_14486649-e275-41ce-8214-aebf8f6d0a1a_jse0bc.png",
+          },
         ],
-        "subTitle": "Discover cutting-edge fashion designs that blend innovation and style, empowering you to express your unique identity through clothing",
-        "title": "Revolutionize Your Wardrobe with Jane Smith",
+        "subTitle": "Discover cutting-edge fashion designs that empower your unique identity and elevate your presence in the digital age",
+        "title": "Revolutionize Your Style with Jane Smith",
       }
     `)
   }, 90000)
@@ -101,7 +101,7 @@ describe('ai completions', async () => {
 
     expect(r4.data?.completion).toMatchInlineSnapshot(`
       {
-        "suggestion1": "everything went dark. The wind howled like a freight train, and debris pelted the windows. I huddled in the bathtub, praying the roof would hold as the eye of the hurricane passed overhead.",
+        "suggestion1": "the sky was clear, and the next, a wall of darkness loomed on the horizon. The storm's eye approached with terrifying speed, transforming day into night.",
       }
     `)
   }, 90000)

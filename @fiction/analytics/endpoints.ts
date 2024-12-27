@@ -89,7 +89,7 @@ export class QueryMetricAnalytics extends AnalyticsEndpoint {
 
       // add up if increment (traffic) or if snapshot, use last value (followers)
       const countFunction = handling === 'snapshot'
-        ? 'last_value(value)'
+        ? 'argMax(value, timeAt)'
         : handling === 'increment'
           ? 'sum(value)'
           : 'count(*)'

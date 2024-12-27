@@ -16,6 +16,7 @@ const metricFields = [
   new FictionAnalyticsCol({ key: 'metric', clickHouseType: 'String', description: 'metric type', sch: () => z.string() }),
   new FictionAnalyticsCol({ key: 'value', clickHouseType: 'Float32', description: 'metric count', sch: () => z.number() }),
   new FictionAnalyticsCol({ key: 'timestamp', clickHouseType: 'DateTime', description: 'metric recorded timestamp', sch: () => z.union([z.string(), z.number()]) }),
+  new FictionAnalyticsCol({ key: 'sequence', clickHouseType: 'UInt64', description: 'Sequence number for fine ordering', sch: () => z.number() }),
 ] as const
 
 const baseFields = [
@@ -50,7 +51,8 @@ const baseFields = [
   new FictionAnalyticsCol({ key: 'email', clickHouseType: 'String', description: 'user email', indexOn: true, sessionSelector: ({ key, id }) => `anyIf(${key}, event='session') as ${id}`, getValue: ({ session }) => session.email, sch: () => z.string() }),
 
   // Timestamps
-  new FictionAnalyticsCol({ key: 'timestamp', clickHouseType: 'DateTime', description: 'Event occurrence time', sessionSelector: _ => `min(${_.key}) as ${_.id}`, getValue: ({ event }) => dayjs(event.timestamp).unix(), sch: () => z.union([z.string(), z.number()]) }),
+  new FictionAnalyticsCol({ key: 'timestamp', clickHouseType: 'DateTime', description: 'timestamp with second precision', sessionSelector: _ => `min(${_.key}) as ${_.id}`, getValue: ({ event }) => dayjs(event.timestamp).unix(), sch: () => z.union([z.string(), z.number()]) }),
+  new FictionAnalyticsCol({ key: 'timeAt', clickHouseType: 'DateTime64(3)', description: 'Exact timestamp with ms precision', sessionSelector: _ => `min(${_.key}) as ${_.id}`, getValue: ({ event }) => dayjs(event.timestamp).valueOf(), sch: () => z.union([z.string(), z.number()]) }),
   new FictionAnalyticsCol({ key: 'sentAt', clickHouseType: 'DateTime', description: 'Client dispatch time', getValue: ({ event }) => dayjs(event.sentAt).unix(), sch: () => z.string() }),
   new FictionAnalyticsCol({ key: 'receivedAt', clickHouseType: 'DateTime', description: 'Server ingestion time', getValue: ({ event }) => dayjs(event.receivedAt).unix(), sch: () => z.string() }),
 

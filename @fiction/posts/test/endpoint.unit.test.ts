@@ -1,8 +1,216 @@
 import type { TablePostConfig } from '../schema'
-import { type ComplexDataFilter, type DataFilter, dayjs, type EndpointMeta } from '@fiction/core'
+import { type ComplexDataFilter, type DataFilter, dayjs, type EndpointMeta, type Organization } from '@fiction/core'
+import { snap } from '@fiction/core/test-utils'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { FictionPosts } from '..'
+import { getPostMetrics } from '../utils/analytics'
+
+describe('post analytics tests', async () => {
+  const testUtils = await createSiteTestUtils()
+  const r = await testUtils.init()
+  const userId = r?.user?.userId ?? ''
+  const orgId = r?.org?.orgId ?? ''
+
+  const fictionPosts = new FictionPosts(testUtils)
+
+  afterAll(async () => {
+    await testUtils.close()
+  })
+
+  it('tracks post analytics metrics correctly', async () => {
+    // Create test posts
+    const createPosts = async () => {
+      const posts = [
+        {
+          title: 'title words',
+          content: 'just three words',
+          status: 'published',
+        },
+        {
+          title: 'title words',
+          content: 'just three words',
+          status: 'published',
+        },
+      ] as const
+
+      for (const post of posts) {
+        await fictionPosts.queries.ManagePost.serve(
+          {
+            _action: 'create',
+            fields: post,
+            orgId,
+            userId,
+          },
+          { server: true },
+        )
+      }
+    }
+
+    await createPosts()
+
+    const metrics = await getPostMetrics({ orgId, fictionPosts })
+
+    expect(metrics.totalWords).toBe(10)
+    expect(metrics).toMatchInlineSnapshot(`
+      {
+        "totalPostsCount": 2,
+        "totalWords": 10,
+      }
+    `)
+
+    // Query analytics for post metrics
+    const result = await testUtils.fictionAnalytics.queries.MetricAnalytics.serve({
+      orgId,
+      event: ['content_total_words_post'],
+      timeStartAtIso: dayjs().subtract(1, 'day').toISOString(),
+      timeEndAtIso: dayjs().add(1, 'day').toISOString(),
+      interval: 'day',
+      handling: 'snapshot',
+    }, { server: true })
+
+    expect(result.status).toBe('success')
+
+    expect(snap(result.data || {})).toMatchInlineSnapshot(`
+      {
+        "compare": [],
+        "compareTotals": {},
+        "main": [
+          {
+            "date": "[datetime:****-**-*****:**:**.****]",
+            "value": "10",
+          },
+        ],
+        "mainTotals": {
+          "date": "[datetime:""]",
+          "value": "10",
+        },
+        "params": {
+          "compareEndAtIso": "[datetime:****-**-*****:**:**.****]",
+          "compareStartAtIso": "[datetime:****-**-*****:**:**.****]",
+          "event": [
+            "content_total_words_post",
+          ],
+          "handling": "snapshot",
+          "interval": "day",
+          "orgId": "[id:***************************]",
+          "timeEndAtIso": "[datetime:****-**-*****:**:**.****]",
+          "timeStartAtIso": "[datetime:****-**-*****:**:**.****]",
+          "timeZone": "America/Denver",
+        },
+      }
+    `)
+
+    expect(result.data?.main?.[0].value).toBe(10)
+
+    const posts = await fictionPosts.queries.ManagePost.serve({
+      _action: 'list',
+      where: { orgId },
+      limit: 10,
+    }, { server: true })
+
+    const firstPost = posts.data?.[0]
+    if (firstPost?.postId) {
+      await fictionPosts.queries.ManagePost.serve({
+        _action: 'update',
+        where: { postId: firstPost.postId },
+        fields: {
+          content: 'Updated content with just six words',
+        },
+        orgId,
+      }, { server: true })
+    }
+
+    const metrics2 = await getPostMetrics({ orgId, fictionPosts })
+
+    expect(metrics2).toMatchInlineSnapshot(`
+      {
+        "totalPostsCount": 2,
+        "totalWords": 13,
+      }
+    `)
+
+    // Query updated metrics
+    const updatedResult = await testUtils.fictionAnalytics.queries.MetricAnalytics.serve({
+      orgId,
+      event: 'content_total_words_post',
+      timeStartAtIso: dayjs().subtract(1, 'day').toISOString(),
+      timeEndAtIso: dayjs().add(1, 'day').toISOString(),
+      interval: 'day',
+      handling: 'snapshot',
+    }, { server: true })
+
+    expect(updatedResult.status).toBe('success')
+
+    expect(updatedResult.data?.main?.[0].value, 'analytics after updated').toBe(13)
+  })
+
+  it('handles deleted posts in analytics', async () => {
+    // Create and then delete a post
+    const createResponse = await fictionPosts.queries.ManagePost.serve({
+      _action: 'create',
+      fields: {
+        title: 'Post Another',
+        content: 'Just three words',
+        status: 'published',
+      },
+      orgId,
+      userId,
+    }, { server: true })
+
+    const postId = createResponse.data?.[0]?.postId
+    if (!postId)
+      throw new Error('Post creation failed')
+
+    const metrics3 = await getPostMetrics({ orgId, fictionPosts })
+
+    expect(metrics3).toMatchInlineSnapshot(`
+      {
+        "totalPostsCount": 3,
+        "totalWords": 18,
+      }
+    `)
+
+    const initialMetrics = await testUtils.fictionAnalytics.queries.MetricAnalytics.serve({
+      orgId,
+      event: ['content_total_words_post'],
+      timeStartAtIso: dayjs().subtract(1, 'day').toISOString(),
+      timeEndAtIso: dayjs().add(1, 'day').toISOString(),
+      interval: 'day',
+      handling: 'snapshot',
+    }, { server: true })
+
+    expect(initialMetrics.data?.main?.[0].value, 'added post to delete').toBe(18)
+
+    // Delete the post
+    await fictionPosts.queries.ManagePost.serve({
+      _action: 'delete',
+      where: { postId },
+      orgId,
+    }, { server: true })
+
+    const metrics4 = await getPostMetrics({ orgId, fictionPosts })
+
+    expect(metrics4).toMatchInlineSnapshot(`
+      {
+        "totalPostsCount": 2,
+        "totalWords": 13,
+      }
+    `)
+
+    // Get updated metrics
+    const updatedMetrics = await testUtils.fictionAnalytics.queries.MetricAnalytics.serve({
+      orgId,
+      event: ['content_total_words_post'],
+      timeStartAtIso: dayjs().subtract(1, 'day').toISOString(),
+      timeEndAtIso: dayjs().add(1, 'day').toISOString(),
+      interval: 'day',
+      handling: 'snapshot',
+    }, { server: true })
+
+    expect(updatedMetrics.data?.main?.[0].value, 'deleted added post').toBe(13)
+  })
+})
 
 describe('post tests', async () => {
   const testUtils = await createSiteTestUtils()
