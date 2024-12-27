@@ -1,13 +1,227 @@
+import type { TrackEventTypes } from '@fiction/analytics/index.js'
 import type { DataPointChart, TimeLineInterval } from '@fiction/analytics/types'
 import { refineParams, refineTimelineData } from '@fiction/analytics/utils/refine'
 import { abort, dayjs } from '@fiction/core'
 import { createTestUser } from '@fiction/core/test-utils'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
-import { describe, expect, it } from 'vitest'
 
-import { t } from '../schema.js'
+import { describe, expect, it, vi } from 'vitest'
+import { t, type TableSubscribeConfig } from '../schema.js'
+import { getSubscriberMetrics, trackSubscriberMetrics } from '../utils/analytics.js'
 
-describe('subscriptione endpoint', async () => {
+describe('subscription analytics tracking', async () => {
+  const testUtils = await createSiteTestUtils()
+  const initialized = await testUtils.init()
+  const orgId = initialized.orgId
+  const fictionSubscribe = testUtils.fictionSubscribe
+  const trackSpy = vi.spyOn(testUtils.fictionAnalytics, 'track')
+
+  it('tracks through complete subscriber lifecycle', async () => {
+    // Create subscriber
+    const createResponse = await fictionSubscribe.queries.ManageSubscription.serve({
+      _action: 'create',
+      orgId,
+      subscriber: {
+        email: 'test@example.com',
+        status: 'active',
+      },
+    }, { server: true })
+
+    expect(trackSpy).toHaveBeenCalledWith({
+      orgId,
+      event: 'email_subscribe',
+      email: 'test@example.com',
+      userId: '',
+    })
+
+    // Query analytics for post metrics
+    const result = await testUtils.fictionAnalytics.queries.MetricAnalytics.serve({
+      orgId,
+      event: ['email_total_subscribed'],
+      timeStartAtIso: dayjs().subtract(1, 'day').toISOString(),
+      timeEndAtIso: dayjs().add(1, 'day').toISOString(),
+      interval: 'day',
+      handling: 'snapshot',
+    }, { server: true })
+
+    expect(result.status).toBe('success')
+    expect(result.data?.mainTotals).toEqual({
+      date: expect.any(String),
+      value: 1,
+    })
+
+    // Unsubscribe
+    const subscriptionId = createResponse.data?.[0].subscriptionId
+
+    if (!subscriptionId) {
+      throw abort('missing subscriptionId')
+    }
+
+    await fictionSubscribe.queries.ManageSubscription.serve({
+      _action: 'update',
+      orgId,
+      where: [{ subscriptionId }],
+      fields: { status: 'unsubscribed' },
+    }, { server: true })
+
+    expect(trackSpy).toHaveBeenCalledWith({
+      orgId,
+      event: 'email_unsubscribe',
+      email: 'test@example.com',
+      userId: '',
+    })
+
+    // Delete
+    await fictionSubscribe.queries.ManageSubscription.serve({
+      _action: 'delete',
+      orgId,
+      where: [{ subscriptionId }],
+    }, { server: true })
+
+    expect(trackSpy).toHaveBeenCalledWith({
+      orgId,
+      event: 'email_total_subscribed',
+      value: 0,
+    })
+  })
+
+  it('tracks metrics after bulk operations', async () => {
+    await fictionSubscribe.queries.ManageSubscription.serve({
+      _action: 'bulkCreate',
+      orgId,
+      subscribers: [
+        { email: 'one@test.com' },
+        { email: 'two@test.com' },
+      ],
+    }, { server: true })
+
+    const metrics = await getSubscriberMetrics({ orgId, fictionSubscribe })
+
+    expect(metrics).toEqual({
+      totalSubscribed: 2,
+      totalUnsubscribed: 0,
+      totalCleaned: 0,
+    })
+
+    expect(trackSpy).toHaveBeenCalledWith({
+      orgId,
+      event: 'email_total_subscribed',
+      value: 2,
+    })
+  })
+})
+
+describe('subscriber metrics', async () => {
+  const testUtils = await createSiteTestUtils()
+  const initialized = await testUtils.init()
+  const orgId = initialized.orgId
+
+  const { user: user1 } = await createTestUser(testUtils.fictionUser)
+  const { user: user2 } = await createTestUser(testUtils.fictionUser)
+  const { user: user3 } = await createTestUser(testUtils.fictionUser)
+
+  it('counts subscribers by status correctly', async () => {
+    const db = testUtils.fictionDb.client()
+
+    await db('fiction_subscribe').insert([
+      { org_id: orgId, user_id: user1?.userId, status: 'active' },
+      { org_id: orgId, user_id: user2?.userId, status: 'unsubscribed' },
+      { org_id: orgId, user_id: user3?.userId, status: 'bounced' },
+      { org_id: orgId, email: 'test@example.com', status: 'active' },
+    ])
+
+    const metrics = await getSubscriberMetrics({
+      orgId,
+      fictionSubscribe: testUtils.fictionSubscribe,
+    })
+
+    expect(metrics).toEqual({
+      totalSubscribed: 2,
+      totalUnsubscribed: 1,
+      totalCleaned: 1,
+    })
+  })
+
+  it('tracks metrics through analytics', async () => {
+    const trackSpy = vi.spyOn(testUtils.fictionAnalytics, 'track')
+
+    await trackSubscriberMetrics({
+      orgId,
+      fictionSubscribe: testUtils.fictionSubscribe,
+    }, { server: true })
+
+    expect(trackSpy).toHaveBeenCalledTimes(2)
+    expect(trackSpy).toHaveBeenCalledWith({
+      orgId,
+      event: 'email_total_subscribed' satisfies keyof TrackEventTypes,
+      value: 2,
+    })
+    expect(trackSpy).toHaveBeenCalledWith({
+      orgId,
+      event: 'email_total_unsubscribed' satisfies keyof TrackEventTypes,
+      value: 1,
+    })
+  })
+
+  it('tracks status transitions correctly', async () => {
+    const trackSpy = vi.spyOn(testUtils.fictionAnalytics, 'track')
+    const db = testUtils.fictionDb.client()
+
+    // Initial subscription
+    await trackSubscriberMetrics({
+      orgId,
+      fictionSubscribe: testUtils.fictionSubscribe,
+      subscribe: {
+        status: 'active',
+        email: 'test@example.com',
+      } as TableSubscribeConfig,
+    }, { server: true })
+
+    expect(trackSpy).toHaveBeenCalledWith({
+      orgId,
+      event: 'email_subscribe',
+      email: 'test@example.com',
+      userId: '',
+    })
+
+    // Status change
+    await trackSubscriberMetrics({
+      orgId,
+      fictionSubscribe: testUtils.fictionSubscribe,
+      previousStatus: 'active',
+      subscribe: {
+        status: 'unsubscribed',
+        email: 'test@example.com',
+      } as TableSubscribeConfig,
+    }, { server: true })
+
+    expect(trackSpy).toHaveBeenCalledWith({
+      orgId,
+      event: 'email_unsubscribe',
+      email: 'test@example.com',
+      userId: '',
+    })
+  })
+
+  it('handles missing previous status', async () => {
+    const trackSpy = vi.spyOn(testUtils.fictionAnalytics, 'track')
+
+    await trackSubscriberMetrics({
+      orgId,
+      fictionSubscribe: testUtils.fictionSubscribe,
+      subscribe: { status: 'active' } as TableSubscribeConfig,
+    }, { server: true })
+
+    expect(trackSpy).toHaveBeenCalledWith({
+      orgId,
+      event: 'email_subscribe',
+      email: '',
+      userId: '',
+    })
+  })
+})
+
+describe('subscription endpoint', async () => {
   const testUtils = await createSiteTestUtils()
 
   const initialized = await testUtils.init()

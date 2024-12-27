@@ -162,14 +162,14 @@ export class ManagePage extends Query<SitesQuerySettings> {
 
       const insertFields = { ...preparedFields, orgId, siteId }
 
-      const existingPage = await db
+      const anotherExistingPage = await db
         .select('*')
         .from(t.pages)
         .where(where)
         .whereNot({ card_id: card.cardId })
         .first()
 
-      if (existingPage) {
+      if (anotherExistingPage) {
         insertFields.slug = incrementSlugId(preparedFields.slug)
       }
 

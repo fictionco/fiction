@@ -24,24 +24,27 @@ export type FictionAnalyticsSettings = {
   bufferIntervalMs?: number
 } & FictionPluginSettings
 
-interface EventTypes {
-  content_total_words_post: { value: number }
-  content_total_words_site: { value: number }
-  content_total_posts: { value: number }
-  audience_total_subscribers: { value: number }
-  audience_total_followers_x: { value: number }
-  audience_total_followers_linkedin: { value: number }
-  audience_total_followers_youtube: { value: number }
-  audience_total_followers_instagram: { value: number }
-  audience_unsubscribe: { email: string }
-  audience_subscribe: { email: string }
-  email_cleaned: { email: string }
-  email_sent: { value: number, campaignId: string }
-  email_open: { email: string, campaignId: string }
-  email_click: { email: string, campaignId: string }
-  email_bounce: { email: string, campaignId: string }
-  email_spam: { email: string, campaignId: string }
-  form_submit: { formId: string }
+export interface TrackEventTypes {
+  content_total_words_post: { value: number } & Partial<EventParams>
+  content_total_words_site: { value: number } & Partial<EventParams>
+  content_total_posts: { value: number } & Partial<EventParams>
+  audience_total_followers_x: { value: number } & Partial<EventParams>
+  audience_total_followers_linkedin: { value: number } & Partial<EventParams>
+  audience_total_followers_youtube: { value: number } & Partial<EventParams>
+  audience_total_followers_instagram: { value: number } & Partial<EventParams>
+  email_total_subscribed: { value: number } & Partial<EventParams>
+  email_total_unsubscribed: { value: number } & Partial<EventParams>
+  email_total_cleaned: { value: number } & Partial<EventParams>
+  email_unsubscribe: { email: string } & Partial<EventParams>
+  email_subscribe: { email: string } & Partial<EventParams>
+  email_cleaned: { email: string } & Partial<EventParams>
+  email_pending: { email: string } & Partial<EventParams>
+  email_sent: { value: number, campaignId: string } & Partial<EventParams>
+  email_open: { email: string, campaignId: string } & Partial<EventParams>
+  email_click: { email: string, campaignId: string, url: string } & Partial<EventParams>
+  email_bounce: { email: string, campaignId: string } & Partial<EventParams>
+  email_spam: { email: string, campaignId: string } & Partial<EventParams>
+  form_submit: { formId: string } & Partial<EventParams>
 }
 
 export class FictionAnalytics extends FictionPlugin<FictionAnalyticsSettings> {
@@ -87,10 +90,10 @@ export class FictionAnalytics extends FictionPlugin<FictionAnalyticsSettings> {
     await this.fictionBeacon?.init()
   }
 
-  async track<T extends keyof EventTypes>(args: {
+  async track<T extends keyof TrackEventTypes>(args: {
     orgId: string
     event: T
-  } & EventTypes[T]) {
+  } & TrackEventTypes[T]) {
     return await this.queries.EventTrack.serve({
       ...args,
       event: args.event as string,

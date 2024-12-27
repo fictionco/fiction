@@ -1,18 +1,16 @@
 import type { DataCompared, DataPointChart, QueryParamsRefined } from '@fiction/analytics/types'
 import type { FictionSubscribe } from '.'
+import type { FictionSubscribeSettings } from './index'
 import type { Subscriber, TableSubscribeConfig } from './schema'
 import { refineParams, refineTimelineData } from '@fiction/analytics/utils/refine'
-import { abort, applyComplexFilters, type ComplexDataFilter, type EndpointMeta, type EndpointResponse, type FictionDb, type FictionEmail, type FictionEnv, type FictionUser, type IndexQuery, type User, vue } from '@fiction/core'
+import { abort, applyComplexFilters, type ComplexDataFilter, type EndpointMeta, type EndpointResponse, type FictionDb, type FictionEmail, type FictionEnv, type FictionUser, type IndexQuery, type SyndicateStatus, type User, vue } from '@fiction/core'
 import { dayjs, deepMerge, Query } from '@fiction/core'
 import { t } from './schema'
+import { trackSubscriberMetrics } from './utils/analytics'
 
-export interface SubscriberEndpointSettings {
+export type SubscriberEndpointSettings = {
   fictionSubscribe: FictionSubscribe
-  fictionDb: FictionDb
-  fictionEnv: FictionEnv
-  fictionEmail: FictionEmail
-  fictionUser: FictionUser
-}
+} & FictionSubscribeSettings
 
 abstract class SubscribeEndpoint extends Query<SubscriberEndpointSettings> {
   db = () => this.settings.fictionDb.client()
@@ -124,6 +122,10 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
 
     const result = await this.db().table(t.subscribe).insert(insertData).onConflict(conflictTarget).merge().returning('*')
 
+    const subscribe = result[0]
+
+    await trackSubscriberMetrics({ orgId, fictionSubscribe: this.settings.fictionSubscribe, subscribe }, meta)
+
     return { status: 'success', data: result, indexMeta: { changedCount: 1 } }
   }
 
@@ -189,14 +191,19 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
       }
       const updatedAt = new Date().toISOString()
 
-      const result = await this.db().table(t.subscribe).where({ orgId, ...condition }).update({ ...prepped, updatedAt }).returning('*')
-      results.push(...result)
+      const { status: previousStatus } = await this.db().table(t.subscribe).where({ orgId, ...condition }).select<{ status: SyndicateStatus }>('status').first() || { }
+
+      const result = await this.db().table(t.subscribe).where({ orgId, ...condition }).update({ ...prepped, updatedAt }).returning<TableSubscribeConfig[]>('*')
+      const subscribe = result[0]
+      results.push(subscribe)
+
+      await trackSubscriberMetrics({ fictionSubscribe: this.settings.fictionSubscribe, orgId, previousStatus, subscribe }, meta)
     }
 
     return { status: 'success', message: 'Subscriber Updated', data: results, indexMeta: { changedCount: results.length } }
   }
 
-  private async deleteSubscription(params: ManageSubscriptionParams & { _action: 'delete' }, _meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
+  private async deleteSubscription(params: ManageSubscriptionParams & { _action: 'delete' }, meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
     const { where, orgId } = params
 
     if (!Array.isArray(where)) {
@@ -211,7 +218,12 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
       }
 
       const result = await this.db().table(t.subscribe).where({ orgId, ...condition }).delete().returning('*')
-      results.push(...result)
+      const subscribe = result[0]
+      const previousStatus = subscribe.status
+      subscribe.status = 'deleted'
+      results.push(subscribe)
+
+      await trackSubscriberMetrics({ fictionSubscribe: this.settings.fictionSubscribe, orgId, previousStatus, subscribe }, meta)
     }
 
     return { status: 'success', message: 'Subscriptions deleted', data: results, indexMeta: { changedCount: results.length } }

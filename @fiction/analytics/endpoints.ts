@@ -79,56 +79,85 @@ export class QueryMetricAnalytics extends AnalyticsEndpoint {
 
     const buildTimeSeriesQuery = (startIso: string, endIso: string) => {
       const dateSelect = ch.formatDateTimeSelect({ interval, timeZone, timeField: 'timestamp' })
+      const events = Array.isArray(event) ? event : [event]
 
-      const query = ch.clickhouseDateQuery({
-        params: { ...refinedParams, timeStartAtIso: startIso, timeEndAtIso: endIso },
-        table: 'event',
-      })
+      if (handling === 'snapshot') {
+        // For snapshots, get last value per event then sum
+        const subquery = ch
+          .clickhouseDateQuery({ params: refinedParams, table: 'event' })
+          .whereIn('event', events)
+          .select([
+            client.raw(`${dateSelect} as date`),
+            'event',
+            client.raw('argMax(value, timeAt) as event_last_snapshot'),
+          ])
+          .groupBy(['date', 'event'])
 
-      query.whereIn('event', Array.isArray(event) && event.length > 0 ? event : [event])
+        return client
+          .from(subquery.as('snapshots'))
+          .select([
+            'date',
+            client.raw('sum(event_last_snapshot) as value'),
+          ])
+          .groupByRaw('date WITH ROLLUP')
+          .orderBy('date', 'asc')
+      }
+      else {
+        // For incremental values, sum directly
+        const query = ch.clickhouseDateQuery({
+          params: { ...refinedParams, timeStartAtIso: startIso, timeEndAtIso: endIso },
+          table: 'event',
+        })
 
-      // add up if increment (traffic) or if snapshot, use last value (followers)
-      const countFunction = handling === 'snapshot'
-        ? 'argMax(value, timeAt)'
-        : handling === 'increment'
+        query.whereIn('event', events)
+
+        const countFunction = handling === 'increment'
           ? 'sum(value)'
           : 'count(*)'
 
-      return query
-        .select([
-          client.raw(`${dateSelect} as date`),
-          client.raw(`${countFunction} as value`), // in ch can't use count -> if same as column name
-        ])
-        .groupByRaw('date WITH ROLLUP')
-        .orderBy('date', 'asc')
+        return query
+          .select([
+            client.raw(`${dateSelect} as date`),
+            client.raw(`${countFunction} as value`),
+          ])
+          .groupByRaw('date WITH ROLLUP')
+          .orderBy('date', 'asc')
+      }
     }
 
     const diff = dayjs(timeEndAtIso).diff(dayjs(timeStartAtIso), 'seconds')
-
     const compareEndAtIso = refinedParams.compareEndAtIso || timeStartAtIso
-    const compareStartAtIso = refinedParams.compareStartAtIso || dayjs(compareEndAtIso).subtract(diff, 'seconds').toISOString()
+    const compareStartAtIso = refinedParams.compareStartAtIso
+      || dayjs(compareEndAtIso).subtract(diff, 'seconds').toISOString()
 
-    // Build main and comparison period queries
-    const mainQuery = buildTimeSeriesQuery(timeStartAtIso, timeEndAtIso)
-    const compareQuery = buildTimeSeriesQuery(compareStartAtIso, compareEndAtIso)
+    // Build and execute queries
+    const [mainResult, compareResult] = await Promise.all([
+      ch.clickHouseSelect<MetricDataPoint>(
+        buildTimeSeriesQuery(timeStartAtIso, timeEndAtIso),
+        { caller: 'mainResult' },
+      ),
+      ch.clickHouseSelect<MetricDataPoint>(
+        buildTimeSeriesQuery(compareStartAtIso, compareEndAtIso),
+        { caller: 'compareResult' },
+      ),
+    ])
 
-    const mainResult = await ch.clickHouseSelect<MetricDataPoint>(mainQuery, { caller: 'mainResult' })
-
-    const compareResult = await ch.clickHouseSelect<MetricDataPoint>(compareQuery, { caller: 'compareResult' })
-
-    // Destructure with clearer variable names and safe fallbacks
+    // Process results
     const mainData = ch.cleanPrefixes(mainResult.data || [])
     const compareData = ch.cleanPrefixes(compareResult.data || [])
 
-    // Extract totals and detail records
-    const mainTotals = mainData[0] || {}
-    const main = mainData.slice(1)
+    const [mainTotals, ...main] = mainData
+    const [compareTotals, ...compare] = compareData
 
-    const compareTotals = compareData[0] || {}
-    const compare = compareData.slice(1)
     return {
       status: 'success',
-      data: { main, mainTotals, compare, compareTotals, params: refinedParams },
+      data: {
+        main,
+        mainTotals: mainTotals || {},
+        compare,
+        compareTotals: compareTotals || {},
+        params: refinedParams,
+      },
     }
   }
 }

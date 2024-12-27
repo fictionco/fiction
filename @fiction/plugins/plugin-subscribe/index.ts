@@ -1,5 +1,6 @@
 import type { FictionAdmin } from '@fiction/admin'
 import type { template as dashTemplate, panelTemplate } from '@fiction/admin/dashboard/cardDash'
+import type { FictionAnalytics } from '@fiction/analytics'
 import type { FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
 import type { FictionTransactions } from '@fiction/plugin-transactions'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
@@ -10,7 +11,7 @@ import { tables } from './schema'
 
 export * from './schema'
 
-type FictionSubscribeSettings = {
+export type FictionSubscribeSettings = {
   fictionDb: FictionDb
   fictionServer: FictionServer
   fictionEmail: FictionEmail
@@ -18,6 +19,7 @@ type FictionSubscribeSettings = {
   fictionUser: FictionUser
   fictionTransactions: FictionTransactions
   fictionAdmin: FictionAdmin
+  fictionAnalytics: FictionAnalytics
 } & FictionPluginSettings
 
 export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {

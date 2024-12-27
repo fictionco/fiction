@@ -22,26 +22,13 @@ describe('post analytics tests', async () => {
     // Create test posts
     const createPosts = async () => {
       const posts = [
-        {
-          title: 'title words',
-          content: 'just three words',
-          status: 'published',
-        },
-        {
-          title: 'title words',
-          content: 'just three words',
-          status: 'published',
-        },
+        { title: 'title words', content: 'just three words', status: 'published' },
+        { title: 'title words', content: 'just three words', status: 'published' },
       ] as const
 
       for (const post of posts) {
         await fictionPosts.queries.ManagePost.serve(
-          {
-            _action: 'create',
-            fields: post,
-            orgId,
-            userId,
-          },
+          { _action: 'create', fields: post, orgId, userId },
           { server: true },
         )
       }
