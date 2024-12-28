@@ -47,6 +47,7 @@ describe('subscription analytics tracking', async () => {
     }, { server: true })
 
     expect(result.status).toBe('success')
+
     expect(result.data?.mainTotals).toEqual({
       date: expect.any(String),
       value: 1,

@@ -51,7 +51,7 @@ export async function trackSubscriberMetrics(args: {
   }
 
   await Promise.all([
-    analytics.track({ orgId, event: 'subscriptionTotalUnsubscribed', value: metrics.totalSubscribed }),
+    analytics.track({ orgId, event: 'subscriptionTotalActive', value: metrics.totalSubscribed }),
     analytics.track({ orgId, event: 'subscriptionTotalUnsubscribed', value: metrics.totalUnsubscribed }),
   ])
 
