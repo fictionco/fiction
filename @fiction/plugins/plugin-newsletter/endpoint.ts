@@ -1,4 +1,4 @@
-import type { EndpointMeta, EndpointResponse, IndexQuery, TransactionalEmailConfig } from '@fiction/core'
+import type { EmailSendConfig, EndpointMeta, EndpointResponse, IndexQuery } from '@fiction/core'
 import type { Subscriber } from '@fiction/plugin-subscribe'
 import type { ManageSubscriptionParams } from '@fiction/plugin-subscribe/endpoint'
 import type { FictionNewsletter, FictionNewsletterSettings } from '.'
@@ -529,7 +529,7 @@ export class ManageSend extends SendEndpoint {
             return
           }
 
-          await this.sendEmailToSubscriber({ email, emailConfig })
+          await this.sendEmailToSubscriber({ email, emailConfig: { ...emailConfig, toUserId: subscriber.userId } })
 
           emailsSent++
         }))
@@ -561,7 +561,7 @@ export class ManageSend extends SendEndpoint {
     return result.data || []
   }
 
-  async sendEmailToSubscriber(args: { email: string, emailConfig: TransactionalEmailConfig }): Promise<void> {
+  async sendEmailToSubscriber(args: { email: string, emailConfig: EmailSendConfig }): Promise<void> {
     const { email, emailConfig } = args
     const fictionEmail = this.settings.fictionEmail
 

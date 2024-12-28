@@ -9,7 +9,7 @@ export const sampleHtml = `<h1>Welcome to the <a href="#">Galactic Gazette</a>! 
 <p>Imagine a world where <mark>space travel</mark> is as common as taking a bus. Our latest article explores the <strong>future of interstellar journeys</strong>. Is <del>space tourism</del> now a reality?</p>
 
 <div style="text-align: center">
-  <a href="#" style="background: #3498db; color: white; padding: 12px 24px; text-decoration: none; display: inline-block; border-radius: 4px;">Subscribe Now 🚀</a>
+  <a href="https://www.fiction.com" style="background: #3498db; color: white; padding: 12px 24px; text-decoration: none; display: inline-block; border-radius: 4px;">Subscribe Now 🚀</a>
 </div>
 
 <h2>Breaking News: The Andromeda Galaxy is Closer than We Thought!</h2>
@@ -28,7 +28,7 @@ export const sampleHtml = `<h1>Welcome to the <a href="#">Galactic Gazette</a>! 
   <figcaption><a href="https://images.unsplash.com/photo-1506443432602-ac2fcd6f54e0?q=80&w=2268&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">Spectacular Eclipse</a></figcaption>
 </figure>
 
-<p><strong>Check out these amazing photos</strong> of the recent solar eclipse taken from the <a href="#">International Space Station</a>. Witness the awe-inspiring beauty of our universe.</p>
+<p><strong>Check out these amazing photos</strong> of the recent solar eclipse taken from the <a href="https://www.fiction.com" >International Space Station</a>. Witness the awe-inspiring beauty of our universe.</p>
 
 <ul>
   <li><strong>🎆 Latest Discovery:</strong> New exoplanet in the habitable zone.</li>
@@ -73,7 +73,7 @@ export const sampleHtml = `<h1>Welcome to the <a href="#">Galactic Gazette</a>! 
 </blockquote>
 
 <h6>Space Exploration: The Final Frontier</h6>
-<p>Discover the latest missions and milestones in space exploration. From Mars rovers to deep space probes, <a href="#">stay updated</a> with our comprehensive coverage.</p>
+<p>Discover the latest missions and milestones in space exploration. From Mars rovers to deep space probes, <a href="https://www.fiction.com" >stay updated</a> with our comprehensive coverage.</p>
 
 <hr>
 

@@ -1,3 +1,4 @@
+import type { TrackEventTypes } from '@fiction/analytics'
 import type { TablePostConfig } from '../schema'
 import { type ComplexDataFilter, type DataFilter, dayjs, type EndpointMeta, type Organization } from '@fiction/core'
 import { snap } from '@fiction/core/test-utils'
@@ -46,10 +47,12 @@ describe('post analytics tests', async () => {
       }
     `)
 
+    const event = ['contentTotalWordsPosts'] satisfies (keyof TrackEventTypes)[]
+
     // Query analytics for post metrics
     const result = await testUtils.fictionAnalytics.queries.MetricAnalytics.serve({
       orgId,
-      event: ['content_total_words_post'],
+      event,
       timeStartAtIso: dayjs().subtract(1, 'day').toISOString(),
       timeEndAtIso: dayjs().add(1, 'day').toISOString(),
       interval: 'day',
@@ -60,8 +63,16 @@ describe('post analytics tests', async () => {
 
     expect(snap(result.data || {})).toMatchInlineSnapshot(`
       {
-        "compare": [],
-        "compareTotals": {},
+        "compare": [
+          {
+            "date": "[datetime:****-**-*****:**:**.****]",
+            "value": "10",
+          },
+        ],
+        "compareTotals": {
+          "date": "[datetime:""]",
+          "value": "10",
+        },
         "main": [
           {
             "date": "[datetime:****-**-*****:**:**.****]",
@@ -76,7 +87,7 @@ describe('post analytics tests', async () => {
           "compareEndAtIso": "[datetime:****-**-*****:**:**.****]",
           "compareStartAtIso": "[datetime:****-**-*****:**:**.****]",
           "event": [
-            "content_total_words_post",
+            "contentTotalWordsPosts",
           ],
           "handling": "snapshot",
           "interval": "day",
@@ -120,7 +131,7 @@ describe('post analytics tests', async () => {
     // Query updated metrics
     const updatedResult = await testUtils.fictionAnalytics.queries.MetricAnalytics.serve({
       orgId,
-      event: 'content_total_words_post',
+      event: 'contentTotalWordsPosts' satisfies keyof TrackEventTypes,
       timeStartAtIso: dayjs().subtract(1, 'day').toISOString(),
       timeEndAtIso: dayjs().add(1, 'day').toISOString(),
       interval: 'day',
@@ -158,9 +169,11 @@ describe('post analytics tests', async () => {
       }
     `)
 
+    const event = ['contentTotalWordsPosts'] satisfies (keyof TrackEventTypes)[]
+
     const initialMetrics = await testUtils.fictionAnalytics.queries.MetricAnalytics.serve({
       orgId,
-      event: ['content_total_words_post'],
+      event,
       timeStartAtIso: dayjs().subtract(1, 'day').toISOString(),
       timeEndAtIso: dayjs().add(1, 'day').toISOString(),
       interval: 'day',
@@ -185,10 +198,12 @@ describe('post analytics tests', async () => {
       }
     `)
 
+    const event2 = ['contentTotalWordsPosts'] satisfies (keyof TrackEventTypes)[]
+
     // Get updated metrics
     const updatedMetrics = await testUtils.fictionAnalytics.queries.MetricAnalytics.serve({
       orgId,
-      event: ['content_total_words_post'],
+      event: event2,
       timeStartAtIso: dayjs().subtract(1, 'day').toISOString(),
       timeEndAtIso: dayjs().add(1, 'day').toISOString(),
       interval: 'day',

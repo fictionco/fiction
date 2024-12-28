@@ -38,24 +38,21 @@ export async function trackSubscriberMetrics(args: {
 
   if (status && status !== previousStatus) {
     const statusEvents = {
-      active: 'email_subscribe',
-      unsubscribed: 'email_unsubscribe',
-      complained: 'email_unsubscribe',
-      cancelled: 'email_unsubscribe',
-      cleaned: 'email_cleaned',
-      deleted: 'email_cleaned',
-      pending: 'email_pending',
+      active: 'subscriptionActive',
+      unsubscribed: 'subscriptionUnsubscribed',
+      cleaned: 'subscriptionCleaned',
+      pending: 'subscriptionPending',
     } as const
 
-    const event = statusEvents[status]
+    const event = statusEvents[status as keyof typeof statusEvents]
     if (event) {
       await analytics.track({ orgId, event, email: email || '', userId: userId || '' })
     }
   }
 
   await Promise.all([
-    analytics.track({ orgId, event: 'email_total_subscribed', value: metrics.totalSubscribed }),
-    analytics.track({ orgId, event: 'email_total_unsubscribed', value: metrics.totalUnsubscribed }),
+    analytics.track({ orgId, event: 'subscriptionTotalUnsubscribed', value: metrics.totalSubscribed }),
+    analytics.track({ orgId, event: 'subscriptionTotalUnsubscribed', value: metrics.totalUnsubscribed }),
   ])
 
   return metrics

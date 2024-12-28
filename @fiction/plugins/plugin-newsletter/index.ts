@@ -1,5 +1,6 @@
 import type { FictionAdmin } from '@fiction/admin'
 import type { template as dashTemplate, panelTemplate } from '@fiction/admin/dashboard/cardDash'
+import type { FictionAnalytics } from '@fiction/analytics'
 import type { FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionPluginSettings, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 import type { FictionSubscribe } from '@fiction/plugin-subscribe'
 import type { FictionTransactions } from '@fiction/plugin-transactions'
@@ -22,6 +23,7 @@ export type FictionNewsletterSettings = {
   fictionRouter: FictionRouter
   fictionSubscribe: FictionSubscribe
   fictionMedia: FictionMedia
+  fictionAnalytics: FictionAnalytics
 } & FictionPluginSettings
 
 export class FictionNewsletter extends FictionPlugin<FictionNewsletterSettings> {
@@ -48,7 +50,7 @@ export class FictionNewsletter extends FictionPlugin<FictionNewsletterSettings> 
     const checkoutEndpoint = new Endpoint({
       requestHandler: async (...r) => trackingEndpointHandler({ request: r[0], response: r[1], fictionNewsletter: this }),
       key: 'emailTrackingEndpoint',
-      basePath: '/email-tracking/:action',
+      basePath: '/email-tracking/:action?',
       serverUrl: this.settings.fictionServer.serverUrl.value,
       fictionUser: this.settings.fictionUser,
       fictionEnv: this.settings.fictionEnv,

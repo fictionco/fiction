@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { TransactionalEmailConfig } from '@fiction/core/plugin-email/index.js'
+import type { EmailSendConfig } from '@fiction/core/plugin-email/index.js'
 import type { Card } from '@fiction/site'
 
 import type { FictionNewsletter } from '../index.js'
@@ -19,7 +19,7 @@ const _emit = defineEmits<{
 const { fictionNewsletter, fictionUser } = useService<{ fictionNewsletter: FictionNewsletter }>()
 
 const emailHtml = vue.ref('')
-const emailConfig = vue.ref<TransactionalEmailConfig>()
+const emailConfig = vue.ref<EmailSendConfig>()
 const loading = vue.ref(true)
 const iframeHeight = vue.ref('800px')
 

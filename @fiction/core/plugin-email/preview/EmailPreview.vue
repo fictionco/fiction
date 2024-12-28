@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { TransactionalEmailConfig } from '../index.js'
+import type { EmailSendConfig } from '../index.js'
 import { vue } from '../../utils/libraries.js'
 import { toMarkdown } from '../../utils/markdown.js'
 import FictionFooterImg from '../img/fiction-email-footer.png'
@@ -9,7 +9,7 @@ import { sampleHtml } from './content.js'
 const email = vue.ref('')
 
 vue.onMounted(async () => {
-  const confirmEmail: TransactionalEmailConfig = {
+  const confirmEmail: EmailSendConfig = {
     subject: 'Confirm your email address',
     title: 'Welcome to Fiction',
     subTitle: 'Please confirm your email address',

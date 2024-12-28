@@ -1,4 +1,4 @@
-import type { EndpointMeta, EndpointResponse, RequestMeta, TransactionalEmailConfig, User, vue } from '@fiction/core'
+import type { EmailSendConfig, EndpointMeta, EndpointResponse, RequestMeta, User, vue } from '@fiction/core'
 import type { EmailResponse } from '@fiction/core/plugin-email/endpoint'
 import type { FictionTransactions } from '.'
 import { abort, deepMerge, FictionObject } from '@fiction/core'
@@ -29,7 +29,7 @@ export type EmailVars<T extends Record<string, string> | undefined = Record<stri
   masks?: Record<string, string | undefined>
 }
 
-export type EmailConfigResponse = TransactionalEmailConfig & {
+export type EmailConfigResponse = EmailSendConfig & {
   emailVars: EmailVars
 }
 
@@ -105,7 +105,7 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
     return r
   }
 
-  async defaultEmailConfig(): Promise<TransactionalEmailConfig> {
+  async defaultEmailConfig(): Promise<EmailSendConfig> {
     const fictionTransactions = this.fictionTransactions
     const fictionMedia = fictionTransactions?.settings.fictionMedia
     const fictionEmail = fictionTransactions?.settings.fictionEmail

@@ -1,3 +1,4 @@
+import type { TrackEventTypes } from '@fiction/analytics'
 import type { InitializedTestUtils } from '@fiction/core/test-utils'
 import type { Site } from '../site'
 import type { TableSiteConfig } from '../tables'
@@ -106,7 +107,7 @@ describe('getSiteMetrics and trackSiteMetrics', async () => {
     // Query metrics using analytics endpoint
     const result = await testUtils.fictionAnalytics.queries.MetricAnalytics.serve({
       orgId,
-      event: 'content_total_words_site',
+      event: 'contentTotalWordsSites' satisfies keyof TrackEventTypes,
       timeStartAtIso: dayjs().subtract(1, 'day').toISOString(),
       timeEndAtIso: dayjs().add(1, 'day').toISOString(),
       interval: 'day',
@@ -118,8 +119,16 @@ describe('getSiteMetrics and trackSiteMetrics', async () => {
     expect(result.data?.mainTotals?.value).toBe(57)
     expect(snap(result.data)).toMatchInlineSnapshot(`
       {
-        "compare": [],
-        "compareTotals": {},
+        "compare": [
+          {
+            "date": "[datetime:****-**-*****:**:**.****]",
+            "value": "76",
+          },
+        ],
+        "compareTotals": {
+          "date": "[datetime:""]",
+          "value": "76",
+        },
         "main": [
           {
             "date": "[datetime:****-**-*****:**:**.****]",
@@ -133,7 +142,7 @@ describe('getSiteMetrics and trackSiteMetrics', async () => {
         "params": {
           "compareEndAtIso": "[datetime:****-**-*****:**:**.****]",
           "compareStartAtIso": "[datetime:****-**-*****:**:**.****]",
-          "event": "content_total_words_site",
+          "event": "contentTotalWordsSites",
           "handling": "snapshot",
           "interval": "day",
           "orgId": "[id:***************************]",

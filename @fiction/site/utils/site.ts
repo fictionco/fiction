@@ -351,7 +351,7 @@ export async function trackSiteMetrics(args: {
   await Promise.all([
     analytics?.track({
       orgId,
-      event: 'content_total_words_site',
+      event: 'contentTotalWordsSites',
       value: metrics.totalWords,
     }),
   ])

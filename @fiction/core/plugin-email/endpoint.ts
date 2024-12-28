@@ -1,17 +1,28 @@
 import type { Transporter } from 'nodemailer'
+import type Mail from 'nodemailer/lib/mailer/index.js'
 import type { FictionPluginSettings } from '../plugin.js'
 import type { EndpointResponse } from '../types/index.js'
-import type { FictionEmail, TransactionalEmailConfig } from './index.js'
+import type { FictionEmail } from './index.js'
 import nodeMailer from 'nodemailer'
 import nodeMailerHtmlToText from 'nodemailer-html-to-text'
 import { Query } from '../query.js'
 import { abort } from '../utils/index.js'
 import { type EndpointMeta, isActualBrowser } from '../utils/index.js'
 import { isCi } from '../utils/vars.js'
-import { replaceEmailDomain } from './util.js'
+import { type EmailSendConfig, replaceEmailDomain } from './util.js'
 
 export type EmailQuerySettings = FictionPluginSettings & {
   fictionEmail: FictionEmail
+}
+
+export type EmailUserVars = {
+  toUserId?: string
+  fromOrgId?: string
+  campaignId?: string
+  emailId?: string
+  emailType?: 'transactional' | 'campaign' | 'newsletter' | 'notification'
+  env?: 'prod' | 'dev' | 'test'
+  caller?: string
 }
 export abstract class EmailQuery extends Query<EmailQuerySettings> {
   client?: Transporter
@@ -84,20 +95,16 @@ export abstract class EmailQuery extends Query<EmailQuerySettings> {
 }
 
 export type TransactionalEmailParams =
-  | {
-    _action: 'send'
-    fields: TransactionalEmailConfig
-  }
-  | {
-    _action: 'unsubscribe'
-    fields: { email: string }
-  }
+  | { _action: 'send', fields: EmailSendConfig }
+  | { _action: 'unsubscribe', fields: { email: string } }
+
+type NodeMailOptions = Omit<Mail.Options, 'to' | 'html' | 'text'> & { to: string, html: string, text: string }
 
 export type EmailResponse = {
   isSent: boolean
   html: string
   text: string
-} & TransactionalEmailConfig
+} & EmailSendConfig
 
 export class QueryTransactionalEmail extends EmailQuery {
   async run(params: TransactionalEmailParams, meta: EndpointMeta): Promise<EndpointResponse<EmailResponse>> {
@@ -126,7 +133,7 @@ export class QueryTransactionalEmail extends EmailQuery {
     return from
   }
 
-  async sendSmtp(fields: TransactionalEmailConfig, meta: EndpointMeta): Promise<EmailResponse> {
+  async sendSmtp(fields: EmailSendConfig, meta: EndpointMeta): Promise<EmailResponse> {
     const shouldSend = this.shouldSendEmail(meta)
 
     const html = fields.bodyHtml || ''
@@ -136,13 +143,49 @@ export class QueryTransactionalEmail extends EmailQuery {
     if (!html && !text)
       throw abort('missing bodyHtml or bodyMarkdown')
 
-    const { fromName, fromEmail, to, subject } = fields
+    const {
+      fromName,
+      fromEmail,
+      to,
+      subject,
+      campaignId = '',
+      emailId = '',
+      toUserId = '',
+      fromOrgId = '',
+      emailType = 'transactional',
+      env = 'dev',
+      caller = 'unknown',
+    } = fields
+
+    const emailVars: EmailUserVars = {
+      campaignId,
+      emailId,
+      toUserId,
+      fromOrgId,
+      emailType,
+      env,
+      caller,
+    }
 
     const replyTo = (fromName ? `${fromName} <${fromEmail}>` : fromEmail) || this.fromAppEmail()
 
     const from = replaceEmailDomain(replyTo, sendingDomain)
 
-    const theEmail = { from, to, subject, html, text, replyTo }
+    if (!to)
+      throw abort('missing email: to')
+
+    const theEmail: NodeMailOptions = {
+      from,
+      to,
+      subject,
+      html,
+      text,
+      replyTo,
+      headers: {
+        'X-MAILER': 'Fiction',
+        'X-MAILGUN-VARIABLES': JSON.stringify(emailVars),
+      },
+    }
 
     const client = this.getClient()
 
@@ -155,6 +198,12 @@ export class QueryTransactionalEmail extends EmailQuery {
       await this.client?.sendMail(theEmail)
     }
 
-    return { ...fields, ...theEmail, isSent }
+    return {
+      ...fields,
+      to: theEmail.to as string,
+      html: theEmail.html as string,
+      text: theEmail.text as string,
+      isSent,
+    }
   }
 }

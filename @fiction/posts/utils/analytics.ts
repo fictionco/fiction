@@ -60,8 +60,8 @@ export async function trackPostMetrics(args: {
   const metrics = await getPostMetrics({ orgId, fictionPosts })
 
   await Promise.all([
-    fictionPosts.settings.fictionAnalytics.track({ orgId, event: 'content_total_words_post', value: metrics.totalWords }),
-    fictionPosts.settings.fictionAnalytics.track({ orgId, event: 'content_total_posts', value: metrics.totalPostsCount }),
+    fictionPosts.settings.fictionAnalytics.track({ orgId, event: 'contentTotalWordsPosts', value: metrics.totalWords }),
+    fictionPosts.settings.fictionAnalytics.track({ orgId, event: 'contentTotalPosts', value: metrics.totalPostsCount }),
   ])
 
   return metrics

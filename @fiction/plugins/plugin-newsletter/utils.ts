@@ -1,9 +1,11 @@
+import type { TrackEventTypes } from '@fiction/analytics/index.js'
+import type { EmailUserVars } from '@fiction/core/plugin-email/endpoint.js'
 import type express from 'express'
 import type { ManageCampaignRequestParams } from './endpoint.js'
-
 import type { FictionNewsletter } from './index.js'
 import type { EmailCampaignConfig } from './schema.js'
-import { log, type Organization, type RequestOptions, toMarkdown, type TransactionalEmailConfig, vue } from '@fiction/core'
+import { convertKeyCase, type EmailSendConfig, log, type Organization, type RequestOptions, toMarkdown, vue } from '@fiction/core'
+import { z } from 'zod'
 import { EmailCampaign } from './campaign.js'
 
 const logger = log.contextLogger('NewsletterUtils')
@@ -35,19 +37,24 @@ export async function getEmailForCampaign(args: {
   fictionNewsletter: FictionNewsletter
   withDefaults: boolean
   previewMode?: 'dark' | 'light' | ''
-}): Promise<TransactionalEmailConfig> {
+}): Promise<EmailSendConfig> {
   const { campaignConfig, fictionNewsletter, withDefaults = false, org, previewMode } = args
-  const fictionEmail = fictionNewsletter.settings.fictionEmail
-  const isApp = fictionNewsletter.settings.fictionEnv?.isApp.value
+  const { fictionEmail, fictionEnv, fictionMedia } = fictionNewsletter.settings
+  const isApp = fictionEnv?.isApp.value
+  const isTest = fictionEnv?.isTest.value
+  const env = fictionEnv.isProd.value ? 'prod' : isTest ? 'test' : 'dev'
 
-  const img = await fictionEmail?.emailImages({ fictionMedia: fictionNewsletter.settings.fictionMedia })
+  const img = await fictionEmail?.emailImages({ fictionMedia })
 
   const { orgName, orgEmail, url, address, avatar } = org
 
-  let emailConfig: TransactionalEmailConfig = {
+  let emailConfig: EmailSendConfig = {
     fromName: orgName || (withDefaults ? 'No Name' : ''),
     fromEmail: orgEmail || (withDefaults ? 'No Email' : ''),
     avatarUrl: avatar?.url,
+    emailType: 'campaign',
+    fromOrgId: campaignConfig.orgId,
+    campaignId: campaignConfig.campaignId,
     subject: campaignConfig.subject || (withDefaults ? 'No Subject' : ''),
     title: campaignConfig.post?.title || (withDefaults ? 'No Title' : ''),
     subTitle: campaignConfig.post?.subTitle || (withDefaults ? 'No Subtitle' : ''),
@@ -58,6 +65,7 @@ export async function getEmailForCampaign(args: {
     legal: { label: orgName, href: url, description: address || '' },
     unsubscribeUrl: '#',
     previewMode,
+    env,
   }
 
   if (isApp) {
@@ -72,6 +80,82 @@ export async function getEmailForCampaign(args: {
   return emailConfig
 }
 
+export const EmailTrackingActionsEnum = z.enum(['delivered', 'failed', 'opened', 'clicked', 'unsubscribed', 'complained', 'bounced'])
+export type EmailTrackingActions = z.infer<typeof EmailTrackingActionsEnum>
+
+// Main webhook event type
+type MailgunEvent = {
+  id: string
+  timestamp: number
+  event: EmailTrackingActions
+  recipient: string
+  recipientDomain: string
+  tags?: string[]
+  userVariables?: EmailUserVars
+  logLevel: 'info' | 'error' | 'warning'
+  severity?: 'permanent' | 'temporary'
+  deliveryStatus: {
+    code?: number
+    message?: string
+    attemptNo: number
+    sessionSeconds?: number
+    description?: string
+  }
+  envelope: {
+    sender: string
+    transport: string
+    targets: string[]
+    sendingIp: string
+  }
+  message: {
+    headers: {
+      to: string
+      from: string
+      subject: string
+      messageId: string
+    }
+    size: number
+  }
+  storage?: {
+    url: string
+    key: string
+  }
+  reason?: string
+  flags?: {
+    isRouted: boolean
+    isAuthenticated: boolean
+    isSystemTest: boolean
+    isTestMode: boolean
+  }
+  geolocation?: {
+    country?: string
+    region?: string
+    city?: string
+    timezone?: string
+  }
+  url?: string
+}
+
+// Webhook request structure
+type MailgunWebhookRequestBody = {
+  signature: {
+    token: string
+    timestamp: number
+    signature: string
+  }
+  eventData: MailgunEvent
+}
+
+const AnalyticsEventMap: Record<EmailTrackingActions, keyof TrackEventTypes> = {
+  delivered: 'emailDelivered',
+  failed: 'emailFailed',
+  bounced: 'emailBounced',
+  opened: 'emailOpened',
+  clicked: 'emailClicked',
+  unsubscribed: 'subscriptionUnsubscribed',
+  complained: 'emailComplained',
+}
+
 export async function trackingEndpointHandler(args: {
   fictionNewsletter: FictionNewsletter
   request: express.Request
@@ -80,24 +164,53 @@ export async function trackingEndpointHandler(args: {
   const { fictionNewsletter, request, response } = args
   const query = request.query as Record<string, string>
   const params = request.params as { action?: 'init' }
+  const body = convertKeyCase(request.body, { mode: 'camel' }) as MailgunWebhookRequestBody
 
-  const { action } = params
-
-  if (!action) {
-    fictionNewsletter.log.error('Invalid request', { action })
-    response.status(400).send('Invalid request')
-    return
-  }
-
-  fictionNewsletter.log.error('email tracking webhook', { data: { query, params } })
+  const fictionAnalytics = fictionNewsletter.settings.fictionAnalytics
+  const isProd = fictionNewsletter.settings.fictionEnv.isProd.value
 
   try {
-    if (action === 'init') {
-      //
+    const userVariables = body.eventData.userVariables || {}
+    const geolocation = body.eventData.geolocation || {}
+
+    if ((isProd && userVariables.env !== 'prod') || (!isProd && userVariables.env === 'prod')) {
+      fictionNewsletter.log.error('ignoring email event', { data: {
+        isProd,
+        env: userVariables.env,
+        event: body.eventData.event,
+        recipient: body.eventData.recipient,
+      } })
+      return
     }
-    else {
-      throw new Error('invalid action')
+
+    fictionNewsletter.log.info('email tracking webhook', { data: { query, params, body } })
+
+    let mapValue = body.eventData.event as keyof typeof AnalyticsEventMap
+
+    if (body.eventData.event === 'failed' && body.eventData.severity === 'temporary') {
+      mapValue = 'bounced'
     }
+
+    const event = AnalyticsEventMap[mapValue]
+
+    if (!userVariables.fromOrgId) {
+      throw new Error('No fromOrgId in userVariables')
+    }
+
+    fictionAnalytics.track({
+      orgId: userVariables.fromOrgId,
+      event,
+      value: 1,
+      campaignId: userVariables?.campaignId,
+      email: body.eventData.recipient,
+      url: body.eventData.url,
+      cityName: geolocation.city,
+      regionName: geolocation.region,
+      countryCode: geolocation.country,
+      channel: userVariables.caller,
+    })
+
+    response.send(body).end()
   }
   catch (error) {
     const e = error as Error

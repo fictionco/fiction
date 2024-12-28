@@ -1,13 +1,14 @@
 import type { MediaObject } from '@fiction/core'
 import type { FictionMedia } from '../plugin-media'
 import type EmailStandard from './templates/EmailStandard.vue'
+import type { EmailSendConfig } from './util'
 import { EnvVar, vars } from '../plugin-env/index.js'
 import { FictionPlugin, type FictionPluginSettings } from '../plugin.js'
 import { type EndpointMeta, isTest, safeDirname } from '../utils/index.js'
 import { toMarkdown } from '../utils/markdown.js'
 import { QueryTransactionalEmail } from './endpoint.js'
 
-export type TransactionalEmailConfig = InstanceType<typeof EmailStandard>['$props'] & { bodyHtml?: string, bodyText?: string }
+export * from './util'
 
 const verify: EnvVar<string>['verify'] = ({ fictionEnv, value }) => {
   return !(!value && fictionEnv.isProd.value && !fictionEnv.isApp.value)
@@ -53,7 +54,7 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
     })
   }
 
-  async renderEmailTemplate(fields: TransactionalEmailConfig) {
+  async renderEmailTemplate(fields: EmailSendConfig) {
     const emailRenderer = await this.getRenderer()
 
     if (fields.bodyHtml && !fields.bodyMarkdown) {
@@ -68,13 +69,13 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
     return { ...fields, bodyHtml, bodyText }
   }
 
-  async renderAndSendEmail(fields: TransactionalEmailConfig, meta: EndpointMeta) {
+  async renderAndSendEmail(fields: EmailSendConfig, meta: EndpointMeta) {
     fields = await this.renderEmailTemplate(fields)
 
     return this.sendEmail(fields, meta)
   }
 
-  async sendEmail(fields: TransactionalEmailConfig, meta: EndpointMeta) {
+  async sendEmail(fields: EmailSendConfig, meta: EndpointMeta) {
     return this.queries.TransactionEmail.serve({ _action: 'send', fields }, { server: true, ...meta })
   }
 

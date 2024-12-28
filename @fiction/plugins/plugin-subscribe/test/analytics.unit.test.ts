@@ -29,15 +29,17 @@ describe('subscription analytics tracking', async () => {
 
     expect(trackSpy).toHaveBeenCalledWith({
       orgId,
-      event: 'email_subscribe',
+      event: 'subscriptionActive' satisfies keyof TrackEventTypes,
       email: 'test@example.com',
       userId: '',
     })
 
+    const event: (keyof TrackEventTypes)[] = ['subscriptionTotalActive']
+
     // Query analytics for post metrics
     const result = await testUtils.fictionAnalytics.queries.MetricAnalytics.serve({
       orgId,
-      event: ['email_total_subscribed'],
+      event,
       timeStartAtIso: dayjs().subtract(1, 'day').toISOString(),
       timeEndAtIso: dayjs().add(1, 'day').toISOString(),
       interval: 'day',
@@ -66,7 +68,7 @@ describe('subscription analytics tracking', async () => {
 
     expect(trackSpy).toHaveBeenCalledWith({
       orgId,
-      event: 'email_unsubscribe',
+      event: 'subscriptionUnsubscribed' satisfies keyof TrackEventTypes,
       email: 'test@example.com',
       userId: '',
     })
@@ -80,7 +82,7 @@ describe('subscription analytics tracking', async () => {
 
     expect(trackSpy).toHaveBeenCalledWith({
       orgId,
-      event: 'email_total_subscribed',
+      event: 'subscriptionTotalActive' satisfies keyof TrackEventTypes,
       value: 0,
     })
   })
@@ -105,7 +107,7 @@ describe('subscription analytics tracking', async () => {
 
     expect(trackSpy).toHaveBeenCalledWith({
       orgId,
-      event: 'email_total_subscribed',
+      event: 'subscriptionTotalActive' satisfies keyof TrackEventTypes,
       value: 2,
     })
   })
@@ -153,12 +155,12 @@ describe('subscriber metrics', async () => {
     expect(trackSpy).toHaveBeenCalledTimes(2)
     expect(trackSpy).toHaveBeenCalledWith({
       orgId,
-      event: 'email_total_subscribed' satisfies keyof TrackEventTypes,
+      event: 'subscriptionTotalActive' satisfies keyof TrackEventTypes,
       value: 2,
     })
     expect(trackSpy).toHaveBeenCalledWith({
       orgId,
-      event: 'email_total_unsubscribed' satisfies keyof TrackEventTypes,
+      event: 'subscriptionTotalUnsubscribed' satisfies keyof TrackEventTypes,
       value: 1,
     })
   })
@@ -179,7 +181,7 @@ describe('subscriber metrics', async () => {
 
     expect(trackSpy).toHaveBeenCalledWith({
       orgId,
-      event: 'email_subscribe',
+      event: 'subscriptionActive' satisfies keyof TrackEventTypes,
       email: 'test@example.com',
       userId: '',
     })
@@ -197,7 +199,7 @@ describe('subscriber metrics', async () => {
 
     expect(trackSpy).toHaveBeenCalledWith({
       orgId,
-      event: 'email_unsubscribe',
+      event: 'subscriptionUnsubscribed' satisfies keyof TrackEventTypes,
       email: 'test@example.com',
       userId: '',
     })
@@ -214,7 +216,7 @@ describe('subscriber metrics', async () => {
 
     expect(trackSpy).toHaveBeenCalledWith({
       orgId,
-      event: 'email_subscribe',
+      event: 'subscriptionActive' satisfies keyof TrackEventTypes,
       email: '',
       userId: '',
     })
