@@ -1,4 +1,4 @@
-import type { EmailSendConfig, EndpointMeta, EndpointResponse, RequestMeta, User, vue } from '@fiction/core'
+import type { EmailSendConfig, EndpointMeta, EndpointResponse, MetaAppDetails, RequestMeta, User, vue } from '@fiction/core'
 import type { EmailResponse } from '@fiction/core/plugin-email/endpoint'
 import type { FictionTransactions } from '.'
 import { abort, deepMerge, FictionObject } from '@fiction/core'
@@ -15,6 +15,7 @@ export type QueryVars<T extends Record<string, string> | undefined = Record<stri
 export type EmailVars<T extends Record<string, string> | undefined = Record<string, string> | undefined> = {
   actionId: string
   appName: string
+  app?: MetaAppDetails
   code: string
   callbackUrl: string
   fullName: string
@@ -129,6 +130,9 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
         label: 'Powered by Fiction.com',
         href: `https://www.fiction.com`,
       },
+      fromOrgId: app.orgId,
+      fromSiteId: app.siteId,
+      caller: 'transactionalEmail',
     }
   }
 
@@ -147,6 +151,7 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
 
     const defaultEmail = await this.defaultEmailConfig()
     const finalEmail = deepMerge([defaultEmail, emailConfig])
+    finalEmail.caller = `transactional-${finalEmail.subject}`
     const r = await fictionEmail.renderAndSendEmail(finalEmail, { ...meta })
 
     return { ...r, emailVars: emailConfig.emailVars || emailVars }

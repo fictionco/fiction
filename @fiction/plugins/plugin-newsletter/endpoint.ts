@@ -420,7 +420,12 @@ export class ManageCampaign extends SendEndpoint {
     const results = await Promise.all(validEmails.map(async (email) => {
       try {
         await fictionEmail.sendEmail(
-          { ...emailConfig, to: email, subject: `[TEST] ${emailConfig.subject}` },
+          {
+            ...emailConfig,
+            to: email,
+            subject: `[TEST] ${emailConfig.subject}`,
+            caller: 'sendTestEmail',
+          },
           { server: true },
         )
         return { email, success: true }
@@ -565,7 +570,7 @@ export class ManageSend extends SendEndpoint {
     const { email, emailConfig } = args
     const fictionEmail = this.settings.fictionEmail
 
-    await fictionEmail.sendEmail({ ...emailConfig, to: email }, { server: true, emailMode: 'sendInProd' })
+    await fictionEmail.sendEmail({ ...emailConfig, to: email, caller: 'sendEmailToSubscriber' }, { server: true, emailMode: 'sendInProd' })
   }
 
   // Method to start the cron job

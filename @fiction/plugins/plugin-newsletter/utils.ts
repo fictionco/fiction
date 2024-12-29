@@ -174,12 +174,14 @@ export async function trackingEndpointHandler(args: {
     const geolocation = body.eventData.geolocation || {}
 
     if ((isProd && userVariables.env !== 'prod') || (!isProd && userVariables.env === 'prod')) {
-      fictionNewsletter.log.error('ignoring email event', { data: {
-        isProd,
-        env: userVariables.env,
-        event: body.eventData.event,
-        recipient: body.eventData.recipient,
-      } })
+      fictionNewsletter.log.error('ignoring email event', {
+        data: {
+          isProd,
+          env: userVariables.env,
+          event: body.eventData.event,
+          recipient: body.eventData.recipient,
+        },
+      })
       return
     }
 
@@ -194,7 +196,8 @@ export async function trackingEndpointHandler(args: {
     const event = AnalyticsEventMap[mapValue]
 
     if (!userVariables.fromOrgId) {
-      throw new Error('No fromOrgId in userVariables')
+      fictionNewsletter.log.warn(`not tracking email (no fromOrgId)`, { data: { userVariables } })
+      return
     }
 
     fictionAnalytics.track({

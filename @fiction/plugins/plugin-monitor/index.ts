@@ -106,6 +106,7 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
             to: this.monitorEmail,
             subject: `Notify: ${message}`,
             bodyMarkdown: markdownText,
+            caller: 'monitor',
           }, { server: true })
         }
       }

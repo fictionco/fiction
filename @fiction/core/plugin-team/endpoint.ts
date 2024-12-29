@@ -75,6 +75,10 @@ export class QueryOrgMembers extends TeamQuery {
   }
 }
 
+/**
+ * TODO Improve wording with AI
+ */
+
 export class QuerySeekInviteFromUser extends TeamQuery {
   async run(
     params: {
@@ -101,7 +105,7 @@ export class QuerySeekInviteFromUser extends TeamQuery {
     if (!this.settings.fictionEmail)
       throw new Error('no email service')
 
-    const appUrl = this.settings.fictionEnv.meta.app?.url
+    const app = this.settings.fictionEnv.meta.app
 
     const path = this.settings.fictionRouter?.rawPath('teamInvite')
 
@@ -113,8 +117,11 @@ export class QuerySeekInviteFromUser extends TeamQuery {
       subTitle: 'A user has requested access to your organization.',
       actions: [{
         label: 'Login and Invite',
-        href: `${appUrl}${path}`,
+        href: `${app?.url}${path}`,
       }],
+      caller: 'requestInvite',
+      fromSiteId: app?.siteId,
+      fromOrgId: app?.orgId,
     }, { server: true })
 
     return { status: 'success', message: 'Invite requested', more: `We sent them ${email} an email.` }
@@ -170,11 +177,10 @@ export class QueryTeamInvite extends TeamQuery {
         { server: true, returnAuthority: ['hashedPassword'] },
       )
       if (!user?.hashedPassword) {
-        const { data: newUser }
-          = await this.settings.fictionUser.queries.ManageUser.serve(
-            { _action: 'create', fields: { invitedById, email } },
-            { server: true, returnAuthority: ['verificationCode'] },
-          )
+        const { data: newUser } = await this.settings.fictionUser.queries.ManageUser.serve(
+          { _action: 'create', fields: { invitedById, email } },
+          { server: true, returnAuthority: ['verificationCode'] },
+        )
 
         linkUrl = this.settings.fictionTeam.invitationReturnUrl({
           code: newUser?.verify?.code as string,
@@ -214,12 +220,10 @@ export class QueryTeamInvite extends TeamQuery {
         subTitle: `To join ${org.orgName} on Fiction`,
         bodyMarkdown,
         actions: [
-          {
-            label: linkText,
-            href: linkUrl,
-            theme: 'primary',
-          },
+          { label: linkText, href: linkUrl, theme: 'primary' },
         ],
+        caller: 'teamInvite',
+        fromOrgId: org.orgId,
       }, { server: true })
     })
 

@@ -32,6 +32,7 @@ export type EmailSendConfig = {
   emailId?: string
   toUserId?: string
   fromOrgId?: string
+  fromSiteId?: string
   env?: 'prod' | 'dev' | 'test'
   caller?: string
 

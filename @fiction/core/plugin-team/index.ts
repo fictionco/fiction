@@ -60,46 +60,48 @@ export class FictionTeam extends FictionPlugin<FictionTeamSettings> {
     return r.data?.[0]
   }
 
-  /**
-   * Currently unused
-   */
-  async sendClientOrganizationWelcome(params: {
-    client: User
-    user: User
-    org: Organization
-  }): Promise<void> {
-    const { client, user, org } = params
-    const { email, verify } = client
-    const { fullName: requestingName = 'A user', email: requestingEmail } = user
+  // /**
+  //  * Currently unused
+  //  */
+  // async sendClientOrganizationWelcome(params: {
+  //   client: User
+  //   user: User
+  //   org: Organization
+  // }): Promise<void> {
+  //   const { client, user, org } = params
+  //   const { email, verify } = client
+  //   const { fullName: requestingName = 'A user', email: requestingEmail } = user
 
-    if (!email)
-      throw new Error('no client email')
+  //   if (!email)
+  //     throw new Error('no client email')
 
-    const { orgName, orgId } = org
+  //   const { orgName, orgId } = org
 
-    if (!orgId)
-      throw new Error('no orgId')
+  //   if (!orgId)
+  //     throw new Error('no orgId')
 
-    const bodyMarkdown = `Hi there!\n\n${requestingName} (${requestingEmail}) has invited you to the organization "${orgName}."`
+  //   const bodyMarkdown = `Hi there!\n\n${requestingName} (${requestingEmail}) has invited you to the organization "${orgName}."`
 
-    if (!verify?.code)
-      throw abort('A verification code is required')
+  //   if (!verify?.code)
+  //     throw abort('A verification code is required')
 
-    await this.settings.fictionEmail.renderAndSendEmail({
-      to: email,
-      subject: `${org.orgName || 'Organization'}: You've been invited!`,
-      title: 'Your Invitation',
-      subTitle: `To join ${org.orgName} on Fiction`,
-      bodyMarkdown,
-      actions: [{
-        label: 'Set Your Password',
-        href: this.invitationReturnUrl({
-          code: verify?.code,
-          email,
-          orgId,
-          redirect: `/org/${org.orgId}`,
-        }),
-      }],
-    }, { server: true })
-  }
+  //   await this.settings.fictionEmail.renderAndSendEmail({
+  //     to: email,
+  //     subject: `${org.orgName || 'Organization'}: You've been invited!`,
+  //     title: 'Your Invitation',
+  //     subTitle: `To join ${org.orgName} on Fiction`,
+  //     bodyMarkdown,
+  //     actions: [{
+  //       label: 'Set Your Password',
+  //       href: this.invitationReturnUrl({
+  //         code: verify?.code,
+  //         email,
+  //         orgId,
+  //         redirect: `/org/${org.orgId}`,
+  //       }),
+  //     }],
+  //     caller: 'teamInvite',
+  //     fromOrgId: orgId,
+  //   }, { server: true })
+  // }
 }

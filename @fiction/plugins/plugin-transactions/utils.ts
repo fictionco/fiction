@@ -42,10 +42,26 @@ export async function createEmailVars<
   const queryParams = new URLSearchParams(v).toString()
   const callbackUrl = `${callbackHref}?${queryParams}`
   const { fullName = '', email = '', userId = '', username = '' } = recipient || {}
-  const appName = fictionEmail?.settings.fictionEnv.meta.app?.name || ''
+  const app = fictionEmail?.settings.fictionEnv.meta.app
+  const appName = app?.name || ''
   const code = v.code || 'NOT_PROVIDED'
   const token = v.token || ''
   const redirect = v.redirect || ''
 
-  return { queryVars: v as T, actionId, redirect, fullName, email, userId, username, token, code, originUrl, callbackUrl, unsubscribeUrl, appName }
+  return {
+    app,
+    appName,
+    queryVars: v as T,
+    actionId,
+    redirect,
+    fullName,
+    email,
+    userId,
+    username,
+    token,
+    code,
+    originUrl,
+    callbackUrl,
+    unsubscribeUrl,
+  }
 }

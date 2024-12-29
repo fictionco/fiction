@@ -24,6 +24,15 @@ export * from './commands.js'
 export * from './entry.js'
 export * from './types.js'
 
+export interface MetaAppDetails {
+  name?: string
+  email?: string
+  url?: string
+  domain?: string
+  siteId?: string // set dynamically
+  orgId?: string // set dynamically
+  userId?: string // set dynamically
+}
 export interface FictionControlSettings {
   hooks?: HookType<FictionEnvHookDictionary>[]
   generators?: ConfigFileGenerator[]
@@ -46,15 +55,7 @@ export interface FictionControlSettings {
   staticPaths?: string[]
   meta?: {
     version?: string
-    app?: {
-      name?: string
-      email?: string
-      url?: string
-      domain?: string
-      siteId?: string // set dynamically
-      orgId?: string // set dynamically
-      userId?: string // set dynamically
-    }
+    app?: MetaAppDetails
   }
 }
 
