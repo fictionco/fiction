@@ -2,7 +2,9 @@ import type { FictionCache, FictionDb, FictionPluginSettings, FictionServer, Fic
 import type { EventParams } from './tables'
 import { FictionPlugin, safeDirname } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
-import { QueryEventTrack, QueryGetClientSessions, QueryGetDimensionList, QueryGetTotalSessions, QueryMetricAnalytics } from './endpoints'
+import { QueryCompiledMetrics } from './endpointMetrics'
+import { QueryGetClientSessions, QueryGetDimensionList, QueryGetTotalSessions, QueryMetricAnalytics } from './endpoints'
+import { QueryEventTrack } from './endpointTrack'
 import { FictionBeacon } from './plugin-beacon'
 import { FictionClickHouse } from './plugin-clickhouse'
 
@@ -48,6 +50,7 @@ export class FictionAnalytics extends FictionPlugin<FictionAnalyticsSettings> {
   fictionClickhouse = new FictionClickHouse({ fictionAnalytics: this, ...this.settings })
   fictionBeacon = new FictionBeacon({ fictionAnalytics: this, fictionClickHouse: this.fictionClickhouse, ...this.settings })
   queries = {
+    CompiledMetrics: new QueryCompiledMetrics({ fictionAnalytics: this, fictionClickHouse: this.fictionClickhouse, ...this.settings }),
     EventTrack: new QueryEventTrack({ fictionAnalytics: this, fictionClickHouse: this.fictionClickhouse, ...this.settings }),
     MetricAnalytics: new QueryMetricAnalytics({ fictionAnalytics: this, fictionClickHouse: this.fictionClickhouse, ...this.settings }),
     GetDimensionList: new QueryGetDimensionList({ fictionAnalytics: this, fictionClickHouse: this.fictionClickhouse, ...this.settings }),

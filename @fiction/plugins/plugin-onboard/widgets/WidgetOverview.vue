@@ -120,27 +120,7 @@ const metrics = computed(() => [
     displayFormat: 'secondary',
     changeLabel: 'This week',
   }),
-  // Detailed metrics (social platforms)
-  MetricFactory.createMetric({
-    id: 'x-platform',
-    title: 'X Platform',
-    icon: 'i-tabler-brand-x',
-    baseValue: 2200,
-    days: 30,
-    volatility: 0.12,
-    trend: 0.009,
-    displayFormat: 'detailed',
-  }),
-  MetricFactory.createMetric({
-    id: 'linkedin',
-    title: 'LinkedIn',
-    icon: 'i-tabler-brand-linkedin',
-    baseValue: 1100,
-    days: 30,
-    volatility: 0.06,
-    trend: 0.004,
-    displayFormat: 'detailed',
-  }),
+
   MetricFactory.createMetric({
     id: 'email-list',
     title: 'Email List',

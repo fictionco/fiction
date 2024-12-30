@@ -6,11 +6,11 @@ import type { AggregationRow, DataCompared, DataPointChart, QueryParams, QueryPa
 import { abort, dayjs, Query, vue, waitFor } from '@fiction/core'
 import { refineParams } from './utils/refine.js'
 
-type AnalyticsEndpointSettings = FictionClickHouseSettings & {
+export type AnalyticsEndpointSettings = FictionClickHouseSettings & {
   fictionClickHouse: FictionClickHouse
 }
 
-abstract class AnalyticsEndpoint extends Query<AnalyticsEndpointSettings> {
+export abstract class AnalyticsEndpoint extends Query<AnalyticsEndpointSettings> {
   ch = () => {
     const ch = this.settings.fictionClickHouse
     if (!ch)
@@ -21,28 +21,6 @@ abstract class AnalyticsEndpoint extends Query<AnalyticsEndpointSettings> {
 
   constructor(settings: AnalyticsEndpointSettings) {
     super(settings)
-  }
-}
-
-export class QueryEventTrack extends AnalyticsEndpoint {
-  async run(params: { orgId: string, event: string } & Partial<EventParams>, _meta: EndpointMeta): Promise<EndpointResponse> {
-    const { orgId, event, value, timestamp = dayjs().unix() } = params
-
-    try {
-      const metricRow = { orgId, event, value, timestamp }
-
-      const fictionClickHouse = this.settings.fictionClickHouse
-
-      if (fictionClickHouse) {
-        await fictionClickHouse.saveData({ table: 'event', rows: [metricRow] })
-      }
-
-      return { status: 'success' }
-    }
-    catch (error) {
-      this.log.error('Failed to track metric', { data: params, error })
-      return { status: 'error', message: 'Failed to track metric' }
-    }
   }
 }
 

@@ -88,7 +88,7 @@ export function refineTimelineData<T extends DataPointChart>(args: RefineTimelin
  * Standardize analytics query params
  * Here because this can be used by endpoints as well as widget API
  */
-export function refineParams(params: QueryParams): QueryParamsRefined {
+export function refineParams<T extends QueryParams>(params: T): QueryParamsRefined & T {
   const { period = 'month' } = params
 
   let timeStartAtIso: string

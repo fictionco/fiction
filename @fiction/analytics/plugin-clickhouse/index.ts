@@ -219,15 +219,20 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
   clickhouseDateQuery(args: {
     params: QueryParamsRefined
     table: keyof typeof t
+    timeField?: 'timestamp' | 'session__timestamp'
+    isCompare?: boolean
   }): Knex.QueryBuilder {
-    const { table } = args
-    const { timeStartAtIso, timeEndAtIso, orgId, filters } = args.params
+    const { table, isCompare = false } = args
+    const { timeStartAtIso, timeEndAtIso, orgId, filters, compareStartAtIso, compareEndAtIso } = args.params
 
     if (!orgId)
       throw new Error('orgId is missing')
 
-    const clickhouseTimeEndAt = this.formatTime(dayjs(timeEndAtIso))
-    const clickhouseTimeStartAt = this.formatTime(dayjs(timeStartAtIso))
+    const startIso = isCompare ? compareStartAtIso : timeStartAtIso
+    const endIso = isCompare ? compareEndAtIso : timeEndAtIso
+
+    const clickhouseTimeEndAt = this.formatTime(dayjs(endIso))
+    const clickhouseTimeStartAt = this.formatTime(dayjs(startIso))
 
     const base = this.clickhouseBaseQuery({ orgId, table }).whereRaw(
       `toYYYYMMDDhhmmss(timestamp) BETWEEN ${clickhouseTimeStartAt} AND ${clickhouseTimeEndAt}`,
@@ -268,8 +273,14 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
     return this.sessionTable({ base, selectors })
   }
 
-  clickhouseDateQuerySession(args: { params: QueryParamsRefined, selectors?: string[], base?: Knex.QueryBuilder }): Knex.QueryBuilder {
-    const { params, selectors = [], base = this.clickhouseDateQuery({ params: args.params, table: 'event' }) } = args
+  clickhouseDateQuerySession(args: {
+    params: QueryParamsRefined
+    selectors?: string[]
+    base?: Knex.QueryBuilder
+    isCompare?: boolean
+  }): Knex.QueryBuilder {
+    const { params, isCompare, selectors = [] } = args
+    const { base = this.clickhouseDateQuery({ params, table: 'event', isCompare }) } = args
 
     return this.sessionTable({ base, selectors })
   }
