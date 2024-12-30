@@ -1,6 +1,5 @@
 import type { FictionAnalytics } from '../index.js'
 import { dayjs, shortId, waitFor } from '@fiction/core'
-import { snap } from '@fiction/core/test-utils'
 import { describe, expect, it } from 'vitest'
 import { createAnalyticsTestUtils } from './helpers.js'
 

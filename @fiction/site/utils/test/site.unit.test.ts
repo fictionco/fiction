@@ -5,14 +5,13 @@
 import type { EditorState } from '../../site.js'
 import FSite from '@fiction/cards/CardSite.vue'
 import { AppRoute, shortId, waitFor } from '@fiction/core'
-import { t } from '@fiction/site/tables.js'
 import { describe, expect, it } from 'vitest'
 import { requestManageSite } from '../../load.js'
 import { Site } from '../../site.js'
 import { createSiteTestUtils } from '../../test/testUtils.js'
 import { siteGoto, siteLink } from '../manage.js'
 import { setPages, updatePages } from '../page.js'
-import { activeSiteHostname, getSiteMetrics, saveSite, trackSiteMetrics, updateSite } from '../site.js'
+import { activeSiteHostname, saveSite, updateSite } from '../site.js'
 
 describe('siteLink / siteGoto', async () => {
   const testUtils = await createSiteTestUtils()

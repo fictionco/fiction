@@ -2,8 +2,8 @@ import type { EndpointMeta, EndpointResponse } from '@fiction/core'
 import type { Knex } from 'knex'
 import type { EventParams } from './plugin-beacon/index.js'
 import type { FictionClickHouse, FictionClickHouseSettings } from './plugin-clickhouse/index.js'
-import type { AggregationRow, DataCompared, DataPointChart, QueryParams, QueryParamsRefined } from './types.js'
-import { abort, dayjs, Query, vue, waitFor } from '@fiction/core'
+import type { AggregationRow, DataCompared, DataPointChart, QueryParams } from './types.js'
+import { abort, dayjs, Query, vue } from '@fiction/core'
 import { refineParams } from './utils/refine.js'
 
 export type AnalyticsEndpointSettings = FictionClickHouseSettings & {

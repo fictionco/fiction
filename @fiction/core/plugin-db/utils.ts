@@ -1,4 +1,4 @@
-import type { FictionDb, FictionDbTable } from '.'
+import type { FictionDb } from '.'
 import { z } from 'zod'
 import { type EndpointMeta, removeUndefined } from '../utils'
 

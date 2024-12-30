@@ -6,7 +6,6 @@ import type { FictionClickHouse } from '../plugin-clickhouse/index.js'
 import type { FictionEvent } from '../typesTracking.js'
 import { createExpressApp, dayjs, deepMerge, FictionPlugin, getRequestIpAddress, vue, WriteBuffer } from '@fiction/core'
 import { addExpressHealthCheck } from '@fiction/core/utils/serverHealth.js'
-import { allTables } from '../tables.js'
 import { SessionManager } from './session.js'
 
 export * from '../tables.js'

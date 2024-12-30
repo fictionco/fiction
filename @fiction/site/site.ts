@@ -198,7 +198,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     set: async v => this.siteRouter.push(v, { caller: 'currentPath' }),
   })
 
-  editor = vue.ref<EditorState>({
+  editor: vue.Ref<EditorState> = vue.ref({
     selectedCardId: '',
     selectedPageId: '',
     selectedRegionId: 'main',

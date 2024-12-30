@@ -1,4 +1,4 @@
-import type { DataCompared, DataPointChart, QueryParamsRefined, TimeLineInterval } from '@fiction/analytics/types'
+import type { DataCompared, DataPointChart, TimeLineInterval } from '@fiction/analytics/types'
 import { refineParams } from '@fiction/analytics/utils/refine'
 import dayjs from 'dayjs'
 

@@ -3,7 +3,7 @@ import type { ServiceList } from '../plugin-env/index.js'
 import path from 'node:path'
 import { expect, vi } from 'vitest'
 import { createApp, nextTick } from 'vue'
-import { isPlainObject, safeDirname, stringify, waitFor } from '../utils/index.js'
+import { safeDirname, waitFor } from '../utils/index.js'
 import { vue } from '../utils/libraries.js'
 
 const toolUtilsRoot = safeDirname(import.meta.url)

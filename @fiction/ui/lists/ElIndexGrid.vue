@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import type { ActionArea, IndexMeta, NavListItem } from '@fiction/core'
-import { getNavComponentType, getPaginationInfo, vue } from '@fiction/core/index.js'
+import { getPaginationInfo, vue } from '@fiction/core/index.js'
 import XButton from '../buttons/XButton.vue'
 import ElZeroBanner from '../ElZeroBanner.vue'
 import ElSpinner from '../loaders/ElSpinner.vue'
-import ElIndexItemMedia from './ElIndexItemMedia.vue'
 import XIndexItem from './XIndexItem.vue'
 
 const {

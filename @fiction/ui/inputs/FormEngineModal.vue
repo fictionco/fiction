@@ -4,7 +4,6 @@ import type { InputOption } from '@fiction/ui'
 import { vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
-import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import { validateForm } from '@fiction/ui/inputs/utils'
 

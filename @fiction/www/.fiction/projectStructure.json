@@ -94,6 +94,8 @@
         },
         "util.ts": null
       },
+      "endpointMetrics.ts": null,
+      "endpointTrack.ts": null,
       "endpoints.ts": null,
       "index.ts": null,
       "package.json": null,
@@ -137,6 +139,8 @@
       "test": {
         "beacon.stats.test.ts": null,
         "client.stats.test.ts": null,
+        "endpoint.metrics.unit.test.ts": null,
+        "endpoint.track.unit.test.ts": null,
         "endpoint.unit.test.ts": null,
         "helpers.ts": null,
         "tables.unit.test.ts": null
@@ -1016,6 +1020,7 @@
         "test": {
           "endpoints.unit.test.ts": null,
           "plugin.unit.test.ts": null,
+          "stripeMocks.ts": null,
           "utils.unit.test.ts": null
         },
         "types.ts": null,
@@ -1059,6 +1064,9 @@
           "kit.main.ts": null,
           "subscribe.uiux.test.ts": null,
           "test.csv": null
+        },
+        "utils": {
+          "analytics.ts": null
         }
       },
       "plugin-transactions": {
@@ -1115,6 +1123,7 @@
         "utils.unit.test.ts": null
       },
       "utils": {
+        "analytics.ts": null,
         "index.ts": null,
         "links.ts": null
       },

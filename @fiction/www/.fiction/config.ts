@@ -52,6 +52,7 @@ export interface CompiledServiceConfig {
     | 'AiImage'
     | 'CardQuery'
     | 'CheckUsername'
+    | 'CompiledMetrics'
     | 'EmailAction'
     | 'EventTrack'
     | 'GetClientSessions'
@@ -84,6 +85,7 @@ export interface CompiledServiceConfig {
     | 'SeekInviteFromUser'
     | 'SubscriptionAnalytics'
     | 'TeamInvite'
+    | 'emailTrackingEndpoint'
     | 'oAuthEndpoint'
     | 'posts'
   tables: {

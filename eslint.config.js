@@ -1,5 +1,6 @@
 // @ts-check
 import antfu from '@antfu/eslint-config'
+import 'eslint-flat-config-utils'
 
 export default antfu(
   {

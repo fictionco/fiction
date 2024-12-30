@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import type { IndexItem, NavListItem } from '@fiction/core'
+import type { NavListItem } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
-import type { as } from 'vitest/dist/chunks/reporters.D7Jzd9GS.js'
 import type { FictionPosts, TablePostConfig } from '..'
 import type { Post } from '../post'
 import { useService, vue } from '@fiction/core'

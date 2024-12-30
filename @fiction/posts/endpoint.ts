@@ -1,11 +1,10 @@
-import type { EndpointMeta, EndpointResponse, FictionDb, FictionPluginSettings, FictionUser, IndexMeta, IndexQuery } from '@fiction/core'
+import type { EndpointMeta, EndpointResponse, IndexMeta, IndexQuery } from '@fiction/core'
 import type { FictionPosts } from '.'
 import type { FictionPostsSettings } from './index'
 import type { TablePostConfig } from './schema'
 import { abort, applyComplexFilters, deepMerge, incrementSlugId, objectId, Query, standardTable, toSlug } from '@fiction/core'
-import { getObjectWordCount } from '@fiction/core/utils/wordCount'
 import { t } from './schema'
-import { trackPostMetrics, updatePostWordCount } from './utils/analytics'
+import { trackPostMetrics } from './utils/analytics'
 
 export type PostsQuerySettings = FictionPostsSettings & { fictionPosts: FictionPosts }
 export abstract class PostsQuery extends Query<PostsQuerySettings> {

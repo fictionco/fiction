@@ -25,6 +25,10 @@
       "path": "/api/user/GetTopValues"
     },
     {
+      "key": "CompiledMetrics",
+      "path": "/api/analytics/CompiledMetrics"
+    },
+    {
       "key": "EventTrack",
       "path": "/api/analytics/EventTrack"
     },
@@ -143,6 +147,10 @@
     {
       "key": "ManageSend",
       "path": "/api/send/ManageSend"
+    },
+    {
+      "key": "emailTrackingEndpoint",
+      "path": "/api/email-tracking/:action?"
     },
     {
       "key": "ManageBrandGuide",
