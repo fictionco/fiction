@@ -33,20 +33,27 @@ export class QueryEventTrack extends AnalyticsEndpoint {
 
   async run(
     params: {
-      orgId: string
-      event: string
+      eventData: {
+        orgId: string
+        event: string
+      } & Partial<EventParams>
       useBuffer?: boolean
-    } & Partial<EventParams>,
+    },
     _meta: EndpointMeta,
   ): Promise<EndpointResponse> {
-    const { orgId, event, useBuffer = false, value, timestamp = dayjs().unix() } = params
+    const { eventData, useBuffer = false } = params
+
+    const finalEventData: Partial<EventParams> = {
+      type: 'track',
+      timestamp: dayjs().unix(),
+      timeAt: dayjs().valueOf(),
+      ...eventData,
+    }
 
     try {
-      const eventData = { orgId, event, value, timestamp }
-
       // Use buffer for high-volume writes
       if (useBuffer) {
-        this.writeBuffer.add(eventData)
+        this.writeBuffer.add(finalEventData)
         return { status: 'success' }
       }
 
@@ -58,7 +65,7 @@ export class QueryEventTrack extends AnalyticsEndpoint {
       await ch.saveData({
         table: 'event',
         rows: [{
-          ...eventData,
+          ...finalEventData,
           eventId: objectId(),
         }],
       })

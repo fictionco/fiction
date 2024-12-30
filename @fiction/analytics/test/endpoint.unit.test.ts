@@ -27,9 +27,11 @@ describe('metrics', async () => {
 
     it('tracks incremental metrics correctly', async () => {
       const trackResult = await testUtils.fictionAnalytics.queries.EventTrack.serve({
-        orgId,
-        event,
-        value: 5,
+        eventData: {
+          orgId,
+          event,
+          value: 5,
+        },
       }, { caller: 'test', server: true })
 
       expect(trackResult.status).toBe('success')
@@ -53,10 +55,12 @@ describe('metrics', async () => {
 
       for (const time of timestamps) {
         await testUtils.fictionAnalytics.queries.EventTrack.serve({
-          orgId,
-          event: incrementalMetric,
-          value: 10,
-          timestamp: time.unix(),
+          eventData: {
+            orgId,
+            event: incrementalMetric,
+            value: 10,
+            timestamp: time.unix(),
+          },
         }, { caller: 'test', server: true })
       }
 
@@ -108,10 +112,12 @@ describe('metrics', async () => {
 
       for (const snapshot of snapshots) {
         await testUtils.fictionAnalytics.queries.EventTrack.serve({
-          orgId,
-          event: snapshotMetric,
-          value: snapshot.value,
-          timestamp: snapshot.time.unix(),
+          eventData: {
+            orgId,
+            event: snapshotMetric,
+            value: snapshot.value,
+            timestamp: snapshot.time.unix(),
+          },
         }, { caller: 'test', server: true })
       }
 
@@ -135,17 +141,22 @@ describe('metrics', async () => {
       const compareMetric = `test_sales_${shortId()}`
 
       await testUtils.fictionAnalytics.queries.EventTrack.serve({
-        orgId,
-        event: compareMetric,
-        value: 50,
-        timestamp: dayjs().unix(),
+        eventData: {
+          orgId,
+          event: compareMetric,
+          value: 50,
+          timestamp: dayjs().unix(),
+        },
+
       }, { caller: 'test', server: true })
 
       await testUtils.fictionAnalytics.queries.EventTrack.serve({
-        orgId,
-        event: compareMetric,
-        value: 30,
-        timestamp: dayjs().subtract(9, 'day').unix(),
+        eventData: {
+          orgId,
+          event: compareMetric,
+          value: 30,
+          timestamp: dayjs().subtract(9, 'day').unix(),
+        },
       }, { caller: 'test', server: true })
 
       const result = await testUtils.fictionAnalytics.queries.MetricAnalytics.serve({

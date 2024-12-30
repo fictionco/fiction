@@ -1,6 +1,6 @@
+import type { EndpointMeta, EndpointResponse } from '@fiction/core'
 import type { Knex } from 'knex'
 import type { DataCompared, DataPointChart, QueryParams, QueryParamsRefined } from './types'
-import { type EndpointMeta, type EndpointResponse, vue } from '@fiction/core'
 import { AnalyticsEndpoint } from './endpoints'
 import { refineParams } from './utils/refine'
 
@@ -240,6 +240,12 @@ export class QueryCompiledMetrics extends AnalyticsEndpoint {
     refinedParams: QueryParamsRefined & { metrics: MetricSelector[] }
   }): Promise<MetricSelectorResultResponse> {
     const { refinedParams } = args
+
+    const orgId = refinedParams.orgId
+
+    if (!orgId) {
+      throw new Error('Missing orgId')
+    }
     const ch = this.ch()
     const metrics = refinedParams.metrics.filter(m => m.type === 'session')
 

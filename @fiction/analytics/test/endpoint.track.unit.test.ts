@@ -17,9 +17,11 @@ describe('queryEventTrack', async () => {
       const value = 5
 
       const result = await testUtils.fictionAnalytics.queries.EventTrack.serve({
-        orgId,
-        event,
-        value,
+        eventData: {
+          orgId,
+          event,
+          value,
+        },
       }, { caller: 'test', server: true })
 
       expect(result.status).toBe('success')
@@ -47,11 +49,13 @@ describe('queryEventTrack', async () => {
       // Create batch of events
       const promises = Array.from({ length: batchSize }).fill(0).map((_, i) =>
         testUtils.fictionAnalytics.queries.EventTrack.serve({
-          orgId,
-          event,
-          value,
+          eventData: {
+            orgId,
+            event,
+            value,
+            timestamp: now.add(i, 'minutes').unix(),
+          },
           useBuffer: true,
-          timestamp: now.add(i, 'minutes').unix(),
         }, { caller: 'test', server: true }),
       )
 
@@ -86,18 +90,23 @@ describe('queryEventTrack', async () => {
       // Create events with different timestamps
       await Promise.all([
         testUtils.fictionAnalytics.queries.EventTrack.serve({
-          orgId,
-          event,
-          value: 1,
+          eventData: {
+            orgId,
+            event,
+            value: 1,
+            timestamp: now.unix(),
+          },
           useBuffer: true,
-          timestamp: now.unix(),
+
         }, { caller: 'test', server: true }),
         testUtils.fictionAnalytics.queries.EventTrack.serve({
-          orgId,
-          event,
-          value: 2,
+          eventData: {
+            orgId,
+            event,
+            value: 2,
+            timestamp: now.add(1, 'minute').unix(),
+          },
           useBuffer: true,
-          timestamp: now.add(1, 'minute').unix(),
         }, { caller: 'test', server: true }),
       ])
 

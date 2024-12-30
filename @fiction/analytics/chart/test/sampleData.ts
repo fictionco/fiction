@@ -53,6 +53,7 @@ export const data: ChartProps = {
       compareEndAtIso: '2023-05-31T23:59:59Z',
       compareStartAtIso: '2023-05-25T00:00:00Z',
       interval: 'day',
+      nowIso: '2023-06-07T23:59:59Z',
     },
   },
 

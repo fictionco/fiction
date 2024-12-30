@@ -157,6 +157,7 @@ export function refineParams<T extends QueryParams>(params: T): QueryParamsRefin
   return {
     ...params,
     timeZone,
+    nowIso: dayjs().toISOString(),
     timeEndAtIso,
     timeStartAtIso,
     compareEndAtIso: compareEndAt.toISOString(),

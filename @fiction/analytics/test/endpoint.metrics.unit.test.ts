@@ -1,5 +1,6 @@
 import type { FictionAnalytics } from '../index.js'
-import { dayjs, shortId } from '@fiction/core'
+import { dayjs, shortId, waitFor } from '@fiction/core'
+import { snap } from '@fiction/core/test-utils'
 import { describe, expect, it } from 'vitest'
 import { createAnalyticsTestUtils } from './helpers.js'
 
@@ -9,56 +10,72 @@ async function createTestSession(args: {
   timestamp?: number
   fictionAnalytics: FictionAnalytics
   orgId: string
+  engageDuration?: number
 }) {
-  const { pageViews = 2, hasGoal = false, timestamp = dayjs().unix(), fictionAnalytics, orgId } = args
+  const {
+    pageViews = 2,
+    hasGoal = false,
+    timestamp = dayjs().subtract(30, 'minute').unix(),
+    fictionAnalytics,
+    orgId,
+    engageDuration = 60,
+  } = args
+
   const sessionId = `test_${shortId()}`
   const anonymousId = `anon_${shortId()}`
 
   // Init event
   await fictionAnalytics.queries.EventTrack.serve({
-    orgId,
-    event: 'init',
-    sessionId,
-    anonymousId,
-    timestamp,
-    deviceType: 'desktop',
-    browser: 'Chrome',
-    countryCode: 'US',
-    isReturning: 1,
-  }, { caller: 'test', server: true })
-
-  // Page views
-  for (let i = 0; i < pageViews; i++) {
-    await fictionAnalytics.queries.EventTrack.serve({
+    eventData: {
       orgId,
-      event: 'view',
+      event: 'init',
       sessionId,
       anonymousId,
-      timestamp: timestamp + (i * 60),
-      engageDuration: 60,
-      scrollDepth: 80,
+      timestamp,
+      deviceType: 'desktop',
+      browser: 'Chrome',
+      countryCode: 'US',
+      isReturning: 1,
+    },
+  }, { caller: 'test', server: true })
+
+  for (let i = 0; i < pageViews; i++) {
+    await fictionAnalytics.queries.EventTrack.serve({
+      eventData: {
+        orgId,
+        event: 'view',
+        sessionId,
+        anonymousId,
+        timestamp: timestamp + i,
+        engageDuration,
+        scrollDepth: 80,
+      },
     }, { caller: 'test', server: true })
   }
 
   if (hasGoal) {
     await fictionAnalytics.queries.EventTrack.serve({
-      orgId,
-      event: 'signup',
-      sessionId,
-      anonymousId,
-      timestamp: timestamp + ((pageViews + 1) * 60),
-      conversion: 'goal',
+      eventData: {
+        orgId,
+        event: 'signup',
+        sessionId,
+        anonymousId,
+        timestamp: timestamp + pageViews + 1,
+        conversion: 'goal',
+      },
     }, { caller: 'test', server: true })
   }
 
   // End session
   await fictionAnalytics.queries.EventTrack.serve({
-    orgId,
-    event: 'session',
-    sessionId,
-    anonymousId,
-    timestamp: timestamp + ((pageViews + 2) * 60),
-    duration: (pageViews + 2) * 60,
+    eventData: {
+      orgId,
+      event: 'session',
+      sessionId,
+      anonymousId,
+      timestamp: timestamp + pageViews + 2,
+      duration: (pageViews + 2) * 60,
+    },
   }, { caller: 'test', server: true })
 
   return { sessionId, anonymousId }
@@ -85,30 +102,39 @@ describe('queryCompiledMetrics', async () => {
       await Promise.all([
         // Twitter followers
         fictionAnalytics.queries.EventTrack.serve({
-          orgId,
-          event: socialMetric1,
-          value: 100,
-          timestamp: now.subtract(2, 'hour').unix(),
+          eventData: {
+            orgId,
+            event: socialMetric1,
+            value: 100,
+            timestamp: now.subtract(2, 'hour').unix(),
+          },
         }, { caller: 'test', server: true }),
         fictionAnalytics.queries.EventTrack.serve({
-          orgId,
-          event: socialMetric1,
-          value: 150,
-          timestamp: now.subtract(1, 'hour').unix(),
+          eventData: {
+            orgId,
+            event: socialMetric1,
+            value: 150,
+            timestamp: now.subtract(1, 'hour').unix(),
+          },
         }, { caller: 'test', server: true }),
 
         // LinkedIn followers
         fictionAnalytics.queries.EventTrack.serve({
-          orgId,
-          event: socialMetric2,
-          value: 200,
-          timestamp: now.subtract(2, 'hour').unix(),
+          eventData: {
+            orgId,
+            event: socialMetric2,
+            value: 200,
+            timestamp: now.subtract(2, 'hour').unix(),
+          },
         }, { caller: 'test', server: true }),
+
         fictionAnalytics.queries.EventTrack.serve({
-          orgId,
-          event: socialMetric2,
-          value: 250,
-          timestamp: now.subtract(1, 'hour').unix(),
+          eventData: {
+            orgId,
+            event: socialMetric2,
+            value: 250,
+            timestamp: now.subtract(1, 'hour').unix(),
+          },
         }, { caller: 'test', server: true }),
       ])
 
@@ -144,22 +170,30 @@ describe('queryCompiledMetrics', async () => {
       // Create test data
       await Promise.all([
         fictionAnalytics.queries.EventTrack.serve({
-          orgId,
-          event: metric1,
-          value: 100,
-          timestamp: now.unix(),
+          eventData: {
+            orgId,
+            event: metric1,
+            value: 100,
+            timestamp: now.unix(),
+          },
         }, { caller: 'test', server: true }),
+
         fictionAnalytics.queries.EventTrack.serve({
-          orgId,
-          event: metric2,
-          value: 200,
-          timestamp: now.unix(),
+          eventData: {
+            orgId,
+            event: metric2,
+            value: 200,
+            timestamp: now.unix(),
+          },
         }, { caller: 'test', server: true }),
+
         fictionAnalytics.queries.EventTrack.serve({
-          orgId,
-          event: metric3,
-          value: 300,
-          timestamp: now.unix(),
+          eventData: {
+            orgId,
+            event: metric3,
+            value: 300,
+            timestamp: now.unix(),
+          },
         }, { caller: 'test', server: true }),
       ])
 
@@ -195,18 +229,22 @@ describe('queryCompiledMetrics', async () => {
 
       // This week's data
       await fictionAnalytics.queries.EventTrack.serve({
-        orgId,
-        event: metricName,
-        value: 100,
-        timestamp: now.unix(),
+        eventData: {
+          orgId,
+          event: metricName,
+          value: 100,
+          timestamp: now.unix(),
+        },
       }, { caller: 'test', server: true })
 
       // Last week's data
       await fictionAnalytics.queries.EventTrack.serve({
-        orgId,
-        event: metricName,
-        value: 50,
-        timestamp: lastWeek.unix(),
+        eventData: {
+          orgId,
+          event: metricName,
+          value: 50,
+          timestamp: lastWeek.unix(),
+        },
       }, { caller: 'test', server: true })
 
       const result = await fictionAnalytics.queries.CompiledMetrics.serve({
@@ -257,6 +295,204 @@ describe('queryCompiledMetrics', async () => {
 
       expect(result.status).toBe('error')
       expect(result.message).toBe('No metrics specified')
+    })
+  })
+
+  describe('session metrics', () => {
+    it('calculates bounce rate correctly', async () => {
+      const now = dayjs()
+      const randomOrgId = shortId()
+
+      // Create bounced session
+      await createTestSession({
+        fictionAnalytics,
+        orgId: randomOrgId,
+        timestamp: now.unix(),
+        pageViews: 1,
+      })
+
+      await waitFor(1000)
+
+      // Create non-bounced session
+      await createTestSession({
+        fictionAnalytics,
+        orgId: randomOrgId,
+        timestamp: now.unix(),
+        pageViews: 2,
+      })
+
+      const result = await fictionAnalytics.queries.CompiledMetrics.serve({
+        orgId: randomOrgId,
+        period: 'hour',
+        metrics: [
+          {
+            key: 'bounceRate',
+            type: 'session',
+            selector: 'avg(session__isBounce) * 100',
+          },
+          {
+            key: 'sessionCount',
+            type: 'session',
+            selector: 'count(*)',
+          },
+          {
+            key: 'pageCount',
+            type: 'session',
+            selector: 'avg(session__pageCount)',
+          },
+        ],
+      }, { caller: 'test', server: true })
+
+      expect(result.status).toBe('success')
+
+      const bounceData = result.data?.[0].data.main || []
+      const lastPoint = bounceData[bounceData.length - 1]
+
+      // Should be 50% bounce rate (1 bounced, 1 non-bounced)
+      expect(lastPoint?.value).toBe(50)
+    })
+
+    it('tracks engaged time accurately', async () => {
+      const now = dayjs()
+      const engageDuration = 120 // 2 minutes
+      const randomOrgId = shortId()
+      await createTestSession({
+        fictionAnalytics,
+        orgId: randomOrgId,
+        timestamp: now.unix(),
+        pageViews: 2,
+        engageDuration,
+      })
+      await createTestSession({
+        fictionAnalytics,
+        orgId: randomOrgId,
+        timestamp: now.unix(),
+        pageViews: 2,
+        engageDuration,
+      })
+
+      const result = await fictionAnalytics.queries.CompiledMetrics.serve({
+        orgId: randomOrgId,
+        period: 'hour',
+        metrics: [{
+          key: 'engagedTime',
+          type: 'session',
+          selector: 'sum(session__engageDuration)',
+        }],
+      }, { caller: 'test', server: true })
+
+      expect(result.status).toBe('success')
+      const timeData = result.data?.[0].data.main || []
+      const lastPoint = timeData[timeData.length - 1]
+
+      // Should match total engaged duration (2 pageviews * 120 seconds)
+      expect(+(lastPoint?.value || 0)).toBe(240)
+    })
+
+    it('calculates conversion rates correctly', async () => {
+      const randomOrgId = shortId()
+      // Session with conversion
+      await createTestSession({
+        fictionAnalytics,
+        orgId: randomOrgId,
+        hasGoal: true,
+      })
+
+      // Session without conversion
+      await createTestSession({
+        fictionAnalytics,
+        orgId: randomOrgId,
+        hasGoal: false,
+      })
+
+      const result = await fictionAnalytics.queries.CompiledMetrics.serve({
+        orgId: randomOrgId,
+        period: 'hour',
+        metrics: [{
+          key: 'conversionRate',
+          type: 'session',
+          selector: 'avg(session__hasGoalConversion) * 100',
+        }],
+      }, { caller: 'test', server: true })
+
+      expect(result.status).toBe('success')
+      const conversionData = result.data?.[0].data.main || []
+      const lastPoint = conversionData[conversionData.length - 1]
+
+      // Should be 50% conversion rate (1 converted, 1 non-converted)
+      expect(lastPoint?.value).toBe(50)
+    })
+  })
+
+  describe('event metrics', () => {
+    it('counts unique visitors correctly', async () => {
+      const now = dayjs()
+      const uniqueVisitors = 3
+      const randomOrgId = shortId()
+
+      // Create multiple sessions with same visitor
+      for (let i = 0; i < uniqueVisitors; i++) {
+        await createTestSession({
+          fictionAnalytics,
+          orgId: randomOrgId,
+          timestamp: now.subtract(5, 'day').unix() + (i * 3600),
+        })
+      }
+
+      const result = await fictionAnalytics.queries.CompiledMetrics.serve({
+        orgId: randomOrgId,
+        period: 'week',
+        metrics: [{
+          key: 'uniqueVisitors',
+          type: 'event',
+          selector: 'uniq(anonymousId)',
+        }],
+      }, { caller: 'test', server: true })
+
+      expect(result.status).toBe('success')
+      const visitorData = result.data?.[0].data.main || []
+      const lastPoint = visitorData[visitorData.length - 1]
+
+      expect(+(lastPoint?.value || 0)).toBe(uniqueVisitors)
+    })
+
+    it('tracks custom events with values', async () => {
+      const randomOrgId = shortId()
+      const eventName = `test_event_${shortId()}`
+
+      // Track custom events with values
+      await fictionAnalytics.queries.EventTrack.serve({
+        eventData: {
+          orgId: randomOrgId,
+          event: eventName,
+          value: 100,
+        },
+      }, { caller: 'test', server: true })
+
+      await fictionAnalytics.queries.EventTrack.serve({
+        eventData: {
+          orgId: randomOrgId,
+          event: eventName,
+          value: 200,
+          timestamp: dayjs().subtract(6, 'day').unix() + 3600,
+        },
+      }, { caller: 'test', server: true })
+
+      const result = await fictionAnalytics.queries.CompiledMetrics.serve({
+        orgId: randomOrgId,
+        period: 'week',
+        metrics: [{
+          key: 'eventValue',
+          type: 'event',
+          selector: 'sum(value)',
+        }],
+      }, { caller: 'test', server: true })
+
+      expect(result.status).toBe('success')
+      const eventData = result.data?.[0].data.main || []
+      const total = eventData.reduce((sum, point) => sum + (Number(point?.value) || 0), 0)
+
+      expect(total).toBe(300)
     })
   })
 })

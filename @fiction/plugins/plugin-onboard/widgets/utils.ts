@@ -1,4 +1,5 @@
 import type { DataCompared, DataPointChart, QueryParamsRefined, TimeLineInterval } from '@fiction/analytics/types'
+import { refineParams } from '@fiction/analytics/utils/refine'
 import dayjs from 'dayjs'
 
 const metricKeys = ['count', 'users'] as const
@@ -50,18 +51,13 @@ class TimeSeriesGenerator {
 
   generate(): DataCompared<SimDataPoint> {
     const main = this.generatePoints()
-    const now = dayjs()
-    const startDate = now.subtract(this.args.days, 'day')
 
     // Ensure we have required params for QueryParamsRefined
-    const params: QueryParamsRefined = {
-      timeZone: 'UTC',
+    const params = refineParams({
       interval: 'day' as TimeLineInterval,
-      compareEndAtIso: startDate.subtract(1, 'day').toISOString(),
-      compareStartAtIso: startDate.subtract(this.args.days, 'day').toISOString(),
-      timeStartAtIso: main[0]?.date || startDate.toISOString(),
-      timeEndAtIso: main[main.length - 1]?.date || now.toISOString(),
-    }
+      timeStartAtIso: dayjs().subtract(this.args.days, 'day').toISOString(),
+      timeEndAtIso: dayjs().toISOString(),
+    })
 
     return {
       main,

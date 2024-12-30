@@ -191,9 +191,6 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
 
     const result = await this.clickHouseQuery<T>({ query, caller })
 
-    if (result?.data)
-      result.data = this.cleanPrefixes(result.data) as T[]
-
     return result || emptyResult
   }
 
@@ -322,7 +319,7 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
       caller: 'saveData',
     })
 
-    this.log.debug(`saved ${rows.length} rows`)
+    this.log.info(`saved ${rows.length} rows`, { data: { rows: rows.slice(0, 3) } })
 
     return r
   }

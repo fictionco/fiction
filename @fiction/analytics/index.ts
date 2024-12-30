@@ -95,8 +95,10 @@ export class FictionAnalytics extends FictionPlugin<FictionAnalyticsSettings> {
     event: T
   } & TrackEventTypes[T]) {
     return await this.queries.EventTrack.serve({
-      ...args,
-      event: args.event as string,
+      eventData: {
+        ...args,
+        event: args.event as string,
+      },
     }, { caller: 'trackMetric', server: true })
   }
 }

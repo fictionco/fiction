@@ -53,12 +53,12 @@ const baseFields = [
   // Timestamps
   new FictionAnalyticsCol({ key: 'timestamp', clickHouseType: 'DateTime', description: 'timestamp with second precision', sessionSelector: _ => `min(${_.key}) as ${_.id}`, getValue: ({ event }) => dayjs(event.timestamp).unix(), sch: () => z.union([z.string(), z.number()]) }),
   new FictionAnalyticsCol({ key: 'timeAt', clickHouseType: 'DateTime64(3)', description: 'Exact timestamp with ms precision', sessionSelector: _ => `min(${_.key}) as ${_.id}`, getValue: ({ event }) => dayjs(event.timestamp).valueOf(), sch: () => z.union([z.string(), z.number()]) }),
-  new FictionAnalyticsCol({ key: 'sentAt', clickHouseType: 'DateTime', description: 'Client dispatch time', getValue: ({ event }) => dayjs(event.sentAt).unix(), sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'receivedAt', clickHouseType: 'DateTime', description: 'Server ingestion time', getValue: ({ event }) => dayjs(event.receivedAt).unix(), sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'sentAt', clickHouseType: 'DateTime64(3)', description: 'Client dispatch time', getValue: ({ event }) => dayjs(event.sentAt).unix(), sch: () => z.union([z.string(), z.number()]) }),
+  new FictionAnalyticsCol({ key: 'receivedAt', clickHouseType: 'DateTime64(3)', description: 'Server ingestion time', getValue: ({ event }) => dayjs(event.receivedAt).unix(), sch: () => z.union([z.string(), z.number()]) }),
 
   // Session Timing
-  new FictionAnalyticsCol({ key: 'startedAt', clickHouseType: 'DateTime', description: 'Visit start time', sessionSelector: _ => `anyIf(${_.key}, event='session') as ${_.id}`, getValue: ({ event, session }) => event.event === 'session' ? session.startedAt : dayjs(event.timestamp).unix(), sch: () => z.union([z.string(), z.number()]) }),
-  new FictionAnalyticsCol({ key: 'endedAt', clickHouseType: 'DateTime', description: 'Visit end time', sessionSelector: _ => `anyIf(${_.key}, event='session') as ${_.id}`, getValue: ({ event, session }) => event.event === 'session' ? session.endedAt : dayjs(event.timestamp).unix(), sch: () => z.union([z.string(), z.number()]) }),
+  new FictionAnalyticsCol({ key: 'startedAt', clickHouseType: 'DateTime64(3)', description: 'Visit start time', sessionSelector: _ => `anyIf(${_.key}, event='session') as ${_.id}`, getValue: ({ event, session }) => event.event === 'session' ? session.startedAt : dayjs(event.timestamp).unix(), sch: () => z.union([z.string(), z.number()]) }),
+  new FictionAnalyticsCol({ key: 'endedAt', clickHouseType: 'DateTime64(3)', description: 'Visit end time', sessionSelector: _ => `anyIf(${_.key}, event='session') as ${_.id}`, getValue: ({ event, session }) => event.event === 'session' ? session.endedAt : dayjs(event.timestamp).unix(), sch: () => z.union([z.string(), z.number()]) }),
   new FictionAnalyticsCol({ key: 'duration', clickHouseType: 'UInt16', description: 'Visit length in seconds', sessionSelector: _ => `anyIf(${_.key}, event='session') as ${_.id}`, getValue: ({ event, session }) => event.event === 'session' ? session.duration : undefined, sch: () => z.number() }),
 
   // URL Components

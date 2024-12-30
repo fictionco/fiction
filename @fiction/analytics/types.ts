@@ -70,7 +70,6 @@ export type DataCompared<T = unknown> = {
   mainTotals?: T
   compareTotals?: T
   columns?: DataColumn[]
-
   params?: QueryParamsRefined
   sql?: string
 }
@@ -119,6 +118,7 @@ export type QueryParams = AnalyticsDataRequestBase & Partial<AnalyticsDataReques
 export type QueryParamsRefined = Omit<QueryParams, 'timeEndAtIso' | 'timeStartAtIso'> & {
   timeZone: string
   orgId?: string
+  nowIso: string
   timeStartAtIso: string
   timeEndAtIso: string
   compareEndAtIso: string
