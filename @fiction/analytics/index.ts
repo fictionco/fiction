@@ -8,13 +8,15 @@ import { QueryEventTrack } from './endpointTrack'
 import { FictionBeacon } from './plugin-beacon'
 import { FictionClickHouse } from './plugin-clickhouse'
 
+export * from './types'
+
 vars.register(() => [new EnvVar({ name: 'CLICKHOUSE_URL' })])
 
 export type FictionAnalyticsSettings = {
   // required modules
   fictionServer: FictionServer
   fictionDb: FictionDb
-  fictionUser?: FictionUser
+  fictionUser: FictionUser
   fictionCache?: FictionCache
   // plugin specific
   isLive?: vue.Ref<boolean>

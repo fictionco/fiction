@@ -1,73 +1,53 @@
 import type { EndpointMeta, EndpointResponse } from '@fiction/core'
 import type { Knex } from 'knex'
-import type { DataCompared, DataPointChart, QueryParams, QueryParamsRefined } from './types'
+import type {
+  DataCompared,
+  DataPointChart,
+  MetricSelector,
+  MetricSelectorResult,
+  MetricSelectorResultResponse,
+  QueryParams,
+  QueryParamsRefined,
+} from './types'
 import { AnalyticsEndpoint } from './endpoints'
 import { refineParams } from './utils/refine'
 
-type MetricSelector = {
-  key: string
-  events?: string[]
-  selector?: string
-  type: 'event' | 'session' | 'snapshot'
-}
-
-type MetricSelectorResult = MetricSelector & { data: DataCompared<DataPointChart<'value'>> }
-type MetricSelectorResultResponse = EndpointResponse<MetricSelectorResult[]>
 type MetricDataPoint = DataPointChart<string>
 type ReturnData = DataCompared<DataPointChart<string>>
-export type CompiledMetricsResponse = EndpointResponse<ReturnData>
-
-const _exampleConfigCall: MetricSelector[] = [
-  // Total Audience (combines multiple sources)
-  {
-    key: 'totalAudience',
-    type: 'snapshot',
-    events: [
-      'subscriptionTotalActive',
-      'followerLinkedIn',
-      'followerTwitter',
-      'followerInstagram',
-    ],
-  },
-
-  // Site Traffic (session-based stats)
-  {
-    key: 'siteTraffic',
-    type: 'event',
-    selector: 'uniq(anonymousId)',
-  },
-
-  // Total Published Words (snapshot from multiple sources)
-  {
-    key: 'wordsPublished',
-    type: 'snapshot',
-    events: [
-      'contentTotalWordsPosts',
-      'contentTotalWordsSites',
-    ],
-  },
-
-  // Email Subscribers (active only)
-  {
-    key: 'emailList',
-    type: 'snapshot',
-    events: ['subscriptionTotalActive'],
-  },
-
-  // Additional engagement metrics
-  {
-    key: 'engagedTime',
-    type: 'session',
-    selector: 'sum(session__engageDuration)',
-  },
-  {
-    key: 'bounceRate',
-    type: 'session',
-    selector: 'avg(session__isBounce) * 100',
-  },
-]
 
 export class QueryCompiledMetrics extends AnalyticsEndpoint {
+  async run(
+    params: QueryParams & { metrics: MetricSelector[], orgId: string },
+    _meta: EndpointMeta,
+  ): Promise<EndpointResponse<MetricSelectorResult[]>> {
+    const refinedParams = refineParams(params)
+    const {
+      orgId,
+      metrics = [],
+    } = refinedParams
+
+    if (!orgId)
+      return { status: 'error', message: 'Missing orgId' }
+    if (!metrics.length)
+      return { status: 'error', message: 'No metrics specified' }
+
+    // Handle snapshot metrics
+    if (!metrics.length)
+      return { status: 'success', data: [] }
+
+    // Build and execute main query
+    const snapshotResults = await this.getSnapshotData({ refinedParams })
+    const eventData = await this.getEventData({ refinedParams })
+    const sessionData = await this.getSessionData({ refinedParams })
+
+    const allResults = [snapshotResults.data, eventData.data, sessionData.data].flat().filter(Boolean) as MetricSelectorResult[]
+
+    return {
+      status: 'success',
+      data: allResults,
+    }
+  }
+
   getSnapshotQuery(args: {
     refinedParams: QueryParamsRefined
     metrics: MetricSelector[]
@@ -290,37 +270,5 @@ export class QueryCompiledMetrics extends AnalyticsEndpoint {
         data: { main, compare, mainTotals, compareTotals, params: data.params },
       }
     })
-  }
-
-  async run(
-    params: QueryParams & { metrics: MetricSelector[] },
-    _meta: EndpointMeta,
-  ): Promise<EndpointResponse<MetricSelectorResult[]>> {
-    const refinedParams = refineParams(params)
-    const {
-      orgId,
-      metrics = [],
-    } = refinedParams
-
-    if (!orgId)
-      return { status: 'error', message: 'Missing orgId' }
-    if (!metrics.length)
-      return { status: 'error', message: 'No metrics specified' }
-
-    // Handle snapshot metrics
-    if (!metrics.length)
-      return { status: 'success', data: [] }
-
-    // Build and execute main query
-    const snapshotResults = await this.getSnapshotData({ refinedParams })
-    const eventData = await this.getEventData({ refinedParams })
-    const sessionData = await this.getSessionData({ refinedParams })
-
-    const allResults = [snapshotResults.data, eventData.data, sessionData.data].flat().filter(Boolean) as MetricSelectorResult[]
-
-    return {
-      status: 'success',
-      data: allResults,
-    }
   }
 }

@@ -1,167 +1,107 @@
 <script lang="ts" setup>
 import type { Widget } from '@fiction/admin/dashboard/widget'
-import type { DataCompared, DataPointChart, StandardPeriod } from '@fiction/analytics/types'
-import type { NumberFormats } from '@fiction/core'
+import type { FictionAnalytics, MetricDisplayItem } from '@fiction/analytics'
 import WidgetWrap from '@fiction/admin/dashboard/WidgetWrap.vue'
+import { MetricDisplayFactory } from '@fiction/analytics/displayMetricFactory'
+import { useService, vue } from '@fiction/core'
 import XNumber from '@fiction/ui/common/XNumber.vue'
-import { computed } from 'vue'
 import SuperChart from './SuperChart.vue'
-import { generateTimeSeriesData } from './utils'
 
 const { widget } = defineProps<{ widget: Widget }>()
 
-type MetricData = DataCompared<DataPointChart>
-type MetricFormat = 'primary' | 'secondary' | 'detailed'
+const service = useService<{ fictionAnalytics: FictionAnalytics }>()
 
-interface ProcessedMetric {
-  id: string
-  title: string
-  icon: string
-  value: number
-  change: number
-  changePeriod: StandardPeriod
-  format?: NumberFormats
-  displayFormat: MetricFormat
-  changeLabel?: string
-  suffix?: string
-  data: MetricData
-}
-
-interface MetricFactoryArgs {
-  id: string
-  title: string
-  icon: string
-  baseValue: number
-  days: number
-  volatility?: number
-  trend?: number
-  format?: NumberFormats
-  displayFormat: MetricFormat
-  changeLabel?: string
-  suffix?: string
-}
-
-class MetricFactory {
-  static processTimeSeriesData(data: MetricData): { value: number, change: number } {
-    const mainData = data.main || []
-    const value = Number(data.mainTotals?.count || 0)
-
-    // Calculate change using comparison data if available
-    const change = data.compareTotals
-      ? Number(data.mainTotals?.count || 0) - Number(data.compareTotals?.count || 0)
-      : mainData.length > 1
-        ? Number(mainData[mainData.length - 1]?.count || 0) - Number(mainData[0]?.count || 0)
-        : 0
-
-    return { value, change }
-  }
-
-  static createMetric(args: MetricFactoryArgs): ProcessedMetric {
-    const data = generateTimeSeriesData({
-      days: args.days,
-      baseValue: args.baseValue,
-      volatility: args.volatility || 0.1,
-      trend: args.trend || 0.005,
-    })
-
-    const { value, change } = this.processTimeSeriesData(data)
-
-    return {
-      id: args.id,
-      title: args.title,
-      icon: args.icon,
-      value,
-      change,
-      changePeriod: 'month',
-      format: args.format || 'number',
-      displayFormat: args.displayFormat,
-      changeLabel: args.changeLabel,
-      suffix: args.suffix,
-      data,
-    }
-  }
-}
-
-// Define metrics using the updated factory
-const metrics = computed(() => [
-  // Primary metric
-  MetricFactory.createMetric({
-    id: 'total-audience',
+const items: MetricDisplayItem[] = [
+  {
+    key: 'totalAudience',
+    type: 'snapshot',
+    events: ['subscriptionTotalActive'],
     title: 'Total Audience',
     icon: 'i-tabler-users',
-    baseValue: 2500,
-    days: 60,
-    volatility: 0.05,
-    trend: 0.008,
     displayFormat: 'primary',
     suffix: 'followers',
     changeLabel: 'vs. last month',
-  }),
-  // Secondary metrics
-  MetricFactory.createMetric({
-    id: 'site-traffic',
+    format: 'abbreviatedInteger',
+  },
+  {
+    key: 'siteTraffic',
+    type: 'event',
+    selector: 'uniq(anonymousId)',
     title: 'Site Traffic',
+    suffix: 'unique visitors',
     icon: 'i-tabler-world',
-    baseValue: 14000,
-    days: 30,
-    volatility: 0.15,
-    trend: 0.005,
     displayFormat: 'secondary',
     changeLabel: '30 day avg',
-  }),
-  MetricFactory.createMetric({
-    id: 'words-published',
+    format: 'abbreviatedInteger',
+  },
+  {
+    key: 'wordsPublished',
+    type: 'snapshot',
+    events: ['contentTotalWordsPosts', 'contentTotalWordsSites'],
     title: 'Words Published',
+    suffix: 'words',
     icon: 'i-tabler-file-text',
-    baseValue: 22000,
-    days: 30,
-    volatility: 0.08,
-    trend: 0.003,
     displayFormat: 'secondary',
     changeLabel: 'This week',
-  }),
-
-  MetricFactory.createMetric({
-    id: 'email-list',
+    format: 'abbreviatedInteger',
+  },
+  {
+    key: 'emailList',
+    type: 'snapshot',
+    suffix: 'subscribers',
+    events: ['subscriptionTotalActive'],
     title: 'Email List',
     icon: 'i-tabler-mail',
-    baseValue: 375,
-    days: 30,
-    volatility: 0.15,
-    trend: 0.01,
     displayFormat: 'detailed',
-  }),
-])
+    format: 'abbreviatedInteger',
+  },
+]
 
-const primaryMetric = computed(() => metrics.value.find(m => m.displayFormat === 'primary'))
-const secondaryMetrics = computed(() => metrics.value.filter(m => m.displayFormat === 'secondary'))
-const detailedMetrics = computed(() => metrics.value.filter(m => m.displayFormat === 'detailed'))
+const factory = new MetricDisplayFactory('MetricDisplayFactory', { ...service, items })
+
+// Initialize on mount
+vue.onMounted(async () => {
+  await factory.init()
+})
 </script>
 
 <template>
   <WidgetWrap :widget="widget">
-    <div class="space-y-6">
+    <div v-if="factory.loading.value" class="p-12 text-center text-theme-500 text-xs">
+      Loading metrics...
+    </div>
+
+    <div v-else-if="factory.error.value" class="p-12 text-center text-red-500">
+      {{ factory.error }}
+    </div>
+
+    <div v-else class="space-y-6">
       <!-- Primary Metric -->
-      <div v-if="primaryMetric" class="rounded-2xl">
+      <div
+        v-if="factory.grouped.value.primary"
+        class="rounded-2xl"
+        :data-number-format="factory.grouped.value.primary.format || 'none'"
+        :data-number-value="factory.grouped.value.primary.value"
+      >
         <div class="flex justify-between items-start">
           <div>
             <div class="flex items-center gap-2 text-theme-500 dark:text-theme-400 mb-2">
-              <i :class="[primaryMetric.icon]" class="text-lg opacity-80" />
-              <span>{{ primaryMetric.title }}</span>
+              <i :class="[factory.grouped.value.primary.icon]" class="text-lg opacity-80" />
+              <span>{{ factory.grouped.value.primary.title }}</span>
             </div>
             <div class="flex items-baseline gap-2">
               <XNumber
-                :format="primaryMetric.format"
-                :animate="true"
+                :format="factory.grouped.value.primary.format"
+                animate
                 class="text-4xl lg:text-5xl font-medium tracking-tight x-font-title"
-                :model-value="primaryMetric.value"
+                :model-value="factory.grouped.value.primary.value"
               />
-              <span class="text-theme-500 dark:text-theme-400 text-lg">{{ primaryMetric.suffix }}</span>
+              <span class="text-theme-500 dark:text-theme-400 text-lg">{{ factory.grouped.value.primary.suffix }}</span>
             </div>
           </div>
           <div class="relative w-[300px] aspect-[4/1]">
             <SuperChart
-              :data="primaryMetric.data"
+              :data="factory.grouped.value.primary.data"
               line-color="var(--primary-400)"
               area-color="var(--primary-400)"
               date-format="MMM D"
@@ -173,8 +113,8 @@ const detailedMetrics = computed(() => metrics.value.filter(m => m.displayFormat
       <!-- Secondary Metrics -->
       <div class="divide-y divide-theme-200/10">
         <div
-          v-for="metric in secondaryMetrics"
-          :key="metric.id"
+          v-for="metric in factory.grouped.value.secondary"
+          :key="metric.key"
           class="py-4 flex items-center justify-between"
         >
           <div class="flex items-center gap-3">
@@ -185,12 +125,16 @@ const detailedMetrics = computed(() => metrics.value.filter(m => m.displayFormat
               <div class="text-sm text-theme-500 dark:text-theme-400">
                 {{ metric.title }}
               </div>
-              <XNumber
-                :format="metric.format"
-                :animate="true"
-                class="text-2xl font-medium x-font-title"
-                :model-value="metric.value"
-              />
+
+              <div class="flex items-baseline gap-2">
+                <XNumber
+                  :format="metric.format"
+                  animate
+                  class="text-2xl font-medium x-font-title"
+                  :model-value="metric.value"
+                />
+                <span class="text-theme-400 dark:text-theme-600 text-xs">{{ metric.suffix }}</span>
+              </div>
             </div>
           </div>
           <div class="text-right flex justify-end items-center gap-6">
@@ -203,16 +147,15 @@ const detailedMetrics = computed(() => metrics.value.filter(m => m.displayFormat
               />
             </div>
             <div>
-              <div class="text-lg flex items-center justify-end" :class="metric.change >= 0 ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'">
-                <i
-                  :class="[
-                    metric.change >= 0 ? 'i-tabler-arrow-up' : 'i-tabler-arrow-down ',
-                  ]"
-                />
+              <div
+                class="text-lg flex items-center justify-end"
+                :class="metric.change >= 0 ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'"
+              >
+                <i :class="[metric.change >= 0 ? 'i-tabler-arrow-up' : 'i-tabler-arrow-down']" />
                 <XNumber
                   class="font-semibold"
                   :model-value="metric.change"
-                  :animate="true"
+                  animate
                 />
               </div>
               <div class="text-xs text-theme-500 dark:text-theme-400 mt-0.5">
@@ -226,34 +169,42 @@ const detailedMetrics = computed(() => metrics.value.filter(m => m.displayFormat
       <!-- Detailed Metrics -->
       <div class="grid grid-cols-3 gap-4">
         <div
-          v-for="metric in detailedMetrics"
-          :key="metric.id"
-          class="p-4 rounded-xl bg-theme-50/50 dark:bg-theme-800/50 "
+          v-for="metric in factory.grouped.value.detailed"
+          :key="metric.key"
+          class="p-4 rounded-xl bg-theme-50/50 dark:bg-theme-800/50"
         >
           <div class="flex items-center gap-2 mb-1">
             <i :class="[metric.icon]" class="text-lg text-primary-500 dark:text-primary-400" />
             <span class="text-sm text-theme-500 dark:text-theme-400">{{ metric.title }}</span>
           </div>
-          <XNumber
-            :format="metric.format"
-            :animate="true"
-            class="text-2xl font-medium x-font-title"
-            :model-value="metric.value"
-          />
+
+          <div class="flex items-baseline gap-2">
+            <XNumber
+              :format="metric.format"
+              animate
+              class="text-2xl font-medium x-font-title"
+              :model-value="metric.value"
+            />
+            <span class="text-theme-400 dark:text-theme-600 text-xs">{{ metric.suffix }}</span>
+          </div>
           <div class="flex items-center gap-1">
             <i
               class="text-sm"
               :class="[
-                metric.change >= 0 ? 'i-tabler-trending-up text-green-500 dark:text-green-400' : 'i-tabler-trending-down text-red-500 dark:text-red-400',
+                metric.change >= 0
+                  ? 'i-tabler-trending-up text-green-500 dark:text-green-400'
+                  : 'i-tabler-trending-down text-red-500 dark:text-red-400',
               ]"
             />
             <XNumber
               class="text-sm font-semibold"
-              :class="metric.change >= 0 ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'"
+              :class="metric.change >= 0
+                ? 'text-green-500 dark:text-green-400'
+                : 'text-red-500 dark:text-red-400'"
               :model-value="metric.change"
               :data-change="metric.change"
               :data-value="metric.value"
-              :animate="true"
+              animate
             />
           </div>
           <div class="h-[20px] w-full mt-2">

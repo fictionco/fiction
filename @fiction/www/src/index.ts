@@ -135,6 +135,7 @@ const fictionUser = new FictionUser({ ...base, googleClientId, googleClientSecre
 
 const fictionAnalytics = new FictionAnalytics({
   ...base,
+  fictionUser,
   fictionCache,
   clickhouseUrl,
   beaconPort: +fictionEnv.var('BEACON_PORT'),

@@ -1,4 +1,24 @@
-import type { NumberFormats } from '@fiction/core'
+import type { EndpointResponse, NumberFormats } from '@fiction/core'
+import type { TrackEventTypes } from '.'
+
+export type MetricSelector = {
+  key: string
+  events?: (keyof TrackEventTypes | `test_${string}`)[]
+  selector?: string
+  type: 'event' | 'session' | 'snapshot'
+}
+
+export type MetricDisplayItem = MetricSelector & {
+  title: string
+  icon: string
+  format?: NumberFormats
+  displayFormat: 'primary' | 'secondary' | 'detailed'
+  changeLabel?: string
+  suffix?: string
+}
+
+export type MetricSelectorResult = MetricSelector & { data: DataCompared<DataPointChart<'value'>> }
+export type MetricSelectorResultResponse = EndpointResponse<MetricSelectorResult[]>
 
 export type StandardPeriod =
   | 'hour'

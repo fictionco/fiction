@@ -3,6 +3,8 @@ import { dayjs, shortId, waitFor } from '@fiction/core'
 import { describe, expect, it } from 'vitest'
 import { createAnalyticsTestUtils } from './helpers.js'
 
+type TestMetric = `test_${string}`
+
 async function createTestSession(args: {
   pageViews?: number
   hasGoal?: boolean
@@ -93,8 +95,8 @@ describe('queryCompiledMetrics', async () => {
   describe('snapshot metrics', () => {
     it('combines multiple snapshot metrics correctly', async () => {
       // Create test metrics
-      const socialMetric1 = `test_twitter_${shortId()}`
-      const socialMetric2 = `test_linkedin_${shortId()}`
+      const socialMetric1: TestMetric = `test_twitter_${shortId()}`
+      const socialMetric2: TestMetric = `test_linkedin_${shortId()}`
       const now = dayjs()
 
       // Track some snapshot data
@@ -161,9 +163,9 @@ describe('queryCompiledMetrics', async () => {
     })
 
     it('handles multiple metrics with different event combinations', async () => {
-      const metric1 = `test_metric1_${shortId()}`
-      const metric2 = `test_metric2_${shortId()}`
-      const metric3 = `test_metric3_${shortId()}`
+      const metric1: TestMetric = `test_metric1_${shortId()}`
+      const metric2: TestMetric = `test_metric2_${shortId()}`
+      const metric3: TestMetric = `test_metric3_${shortId()}`
       const now = dayjs()
 
       // Create test data
@@ -222,7 +224,7 @@ describe('queryCompiledMetrics', async () => {
     })
 
     it('handles period comparisons for snapshot metrics', async () => {
-      const metricName = `test_compare_${shortId()}`
+      const metricName: TestMetric = `test_compare_${shortId()}`
       const now = dayjs()
       const lastWeek = now.subtract(8, 'day')
 
@@ -277,7 +279,7 @@ describe('queryCompiledMetrics', async () => {
           {
             key: 'test',
             type: 'snapshot',
-            events: ['test'],
+            events: ['test_missing'],
           },
         ],
       }, { caller: 'test', server: true })

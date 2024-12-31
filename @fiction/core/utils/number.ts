@@ -7,13 +7,18 @@ const SCALES = [
 
 type NumberFormatterOptions = {
   /** Keep one decimal place for scaled values (e.g. 4.0k vs 4k) */
-  forceDecimal?: boolean
+  fractionDigits?: number | false
+  integerOnly?: boolean
 }
 
-export function numberFormatter(num: number | string, { forceDecimal = true }: NumberFormatterOptions = {}): string | number {
+export function numberFormatter(num: number | string, { fractionDigits = 1, integerOnly = false }: NumberFormatterOptions = {}): string | number {
   const value = typeof num === 'string' ? Number.parseFloat(num) : num
   if (!Number.isFinite(value))
     return num
+
+  // For 0-99, return whole number
+  if (value < 100 && integerOnly)
+    return Math.round(value)
 
   // For 100-999, return whole number
   if (value >= 100 && value < 1000)
@@ -31,8 +36,8 @@ export function numberFormatter(num: number | string, { forceDecimal = true }: N
     return `${Math.floor(scaled)}${suffix}`
 
   // When not forcing decimal, only show it if there is one
-  const formatted = forceDecimal
-    ? scaled.toFixed(1)
+  const formatted = fractionDigits !== false
+    ? scaled.toFixed(fractionDigits)
     : (scaled % 1 === 0 ? Math.floor(scaled).toString() : scaled.toFixed(1))
 
   return `${formatted}${suffix}`
@@ -87,7 +92,17 @@ export function isNumeric(n: number | string | undefined): boolean {
   return !Number.isNaN(Number.parseFloat(n.toString())) && Number.isFinite(+n)
 }
 
-export const numberFormats = ['number', 'abbreviated', 'abbreviatedDollar', 'percent', 'dollar', 'duration', 'rawPercent', 'microDuration'] as const
+export const numberFormats = [
+  'number',
+  'abbreviated',
+  'abbreviatedInteger',
+  'abbreviatedDollar',
+  'percent',
+  'dollar',
+  'duration',
+  'rawPercent',
+  'microDuration',
+] as const
 
 export type NumberFormats = typeof numberFormats[number]
 /**
@@ -118,6 +133,9 @@ export function formatNumber(value: number | string | undefined, format?: Number
   }
   else if (format === 'abbreviated') {
     out = numberFormatter(value)
+  }
+  else if (format === 'abbreviatedInteger') {
+    out = numberFormatter(value, { integerOnly: true })
   }
   else if (format === 'abbreviatedDollar') {
     out = `$${numberFormatter(value)}`

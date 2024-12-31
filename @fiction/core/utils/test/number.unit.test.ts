@@ -60,10 +60,10 @@ describe('numberFormatter', () => {
   })
 
   it('should respect forceDecimal option except for 100s', () => {
-    expect(numberFormatter(1000, { forceDecimal: false })).toBe('1k')
-    expect(numberFormatter(1500, { forceDecimal: false })).toBe('1.5k')
-    expect(numberFormatter(100000, { forceDecimal: false })).toBe('100k')
-    expect(numberFormatter(150000, { forceDecimal: false })).toBe('150k')
+    expect(numberFormatter(1000, { fractionDigits: false })).toBe('1k')
+    expect(numberFormatter(1500, { fractionDigits: false })).toBe('1.5k')
+    expect(numberFormatter(100000, { fractionDigits: false })).toBe('100k')
+    expect(numberFormatter(150000, { fractionDigits: false })).toBe('150k')
   })
 
   it('should handle string number inputs', () => {
