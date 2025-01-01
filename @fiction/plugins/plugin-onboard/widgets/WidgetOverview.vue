@@ -55,6 +55,33 @@ const items: MetricDisplayItem[] = [
     displayFormat: 'detailed',
     format: 'abbreviatedInteger',
   },
+  {
+    key: 'bounceRate',
+    type: 'session',
+    selector: 'avg(session__isBounce) * 100',
+    title: 'Bounce Rate',
+    icon: 'i-tabler-arrow-bounce',
+    displayFormat: 'detailed',
+    format: 'percent',
+  },
+  {
+    key: 'avgSessionDuration',
+    type: 'session',
+    selector: 'avg(session__duration)',
+    title: 'Avg. Session Duration',
+    icon: 'i-tabler-clock',
+    displayFormat: 'detailed',
+    format: 'duration',
+  },
+  {
+    key: 'pageViews',
+    type: 'event',
+    selector: `countIf(event='view')`,
+    title: 'Page Views',
+    icon: 'i-tabler-layout-grid',
+    displayFormat: 'detailed',
+    format: 'abbreviatedInteger',
+  },
 ]
 
 const factory = new MetricDisplayFactory('MetricDisplayFactory', { ...service, items })
