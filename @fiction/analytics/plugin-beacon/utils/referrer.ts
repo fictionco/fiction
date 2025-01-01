@@ -175,7 +175,7 @@ export class ReferrerUtility {
     originalReferrer: string,
     currentUrl: string,
   ): Promise<Partial<ReferralParams>> {
-    const parsedUrl = new URL(currentUrl || `x://x.x.x`)
+    const parsedUrl = new URL(currentUrl || `x://x.x.x`, 'http://x.x.x')
     const urlParams = new URLSearchParams(parsedUrl.search)
 
     const r = urlParams.get('referrer')

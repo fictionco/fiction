@@ -6,7 +6,8 @@ import type { FictionClickHouse } from '../plugin-clickhouse/index.js'
 import type { FictionEvent } from '../typesTracking.js'
 import { createExpressApp, dayjs, deepMerge, FictionPlugin, getRequestIpAddress, vue, WriteBuffer } from '@fiction/core'
 import { addExpressHealthCheck } from '@fiction/core/utils/serverHealth.js'
-import { SessionManager } from './session.js'
+
+import { checkForExpiredSessions, processAndSaveEvents } from './utils/session.js'
 
 export * from '../tables.js'
 
@@ -25,29 +26,9 @@ export class FictionBeacon extends FictionPlugin<FictionBeaconSettings> {
   })
 
   beaconServer?: http.Server
-  /**
-   * Compiles and orchestrates session data from raw events
-   */
-  sessionManager?: SessionManager
-
-  /**
-   * Buffer events picked up in http server
-   */
-  trackingBuffer = new WriteBuffer<FictionEvent>({
-    flush: async (events: FictionEvent[]) => {
-      this.log.info(`events`, { data: { events: events.length } })
-      await this.sessionManager?.processRawEvents(events)
-    },
-    maxSeconds: 1,
-    fictionEnv: this.fictionEnv,
-  })
 
   constructor(settings: FictionBeaconSettings) {
     super('beacon', settings)
-
-    if (!this.fictionEnv.isApp.value) {
-      this.sessionManager = new SessionManager(this.settings)
-    }
   }
 
   /**
@@ -61,8 +42,21 @@ export class FictionBeacon extends FictionPlugin<FictionBeaconSettings> {
       }
     }
 
-    this.sessionManager?.init()
-    await this.createBeaconServer()
+    this.sessionExpiryInit()
+    return await this.createBeaconServer()
+  }
+
+  sessionExpiryInit() {
+    if (this.fictionEnv.isApp.value)
+      return
+
+    const fictionAnalytics = this.settings.fictionAnalytics
+
+    const inter = setInterval(async () => (checkForExpiredSessions({ fictionAnalytics })), fictionAnalytics.checkExpiredIntervalMs)
+
+    inter.unref() // don't keep process alive
+
+    this.fictionEnv.events.on('cleanup', () => clearInterval(inter))
   }
 
   async createBeaconServer() {
@@ -150,10 +144,6 @@ export class FictionBeacon extends FictionPlugin<FictionBeaconSettings> {
     return mergedEvents
   }
 
-  saveNewRawEvents = (events: FictionEvent[]) => {
-    this.trackingBuffer.batch(events)
-  }
-
   handleRequest = async (request: express.Request): Promise<EndpointResponse<FictionEvent[]>> => {
     const dataParam = request.query.events as string
 
@@ -163,7 +153,7 @@ export class FictionBeacon extends FictionPlugin<FictionBeaconSettings> {
         const events = await this.parseRequestEvents(request)
 
         if (events) {
-          this.saveNewRawEvents(events)
+          await processAndSaveEvents({ events, fictionAnalytics: this.settings.fictionAnalytics })
 
           r = { status: 'success', data: events }
         }

@@ -157,7 +157,7 @@ export class QueryGetTotalSessions extends AnalyticsEndpoint {
     const { anonymousId, orgId } = params
     const query = this.ch()
       .clickhouseBaseQuery({ orgId, table: 'event' })
-      .select(this.ch().client().raw('count(sessionId) as total'))
+      .select(this.ch().client().raw(`toUInt16(countIf(event='init')) as total`))
       .where({ anonymousId })
       .groupBy('anonymousId')
 

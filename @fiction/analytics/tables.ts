@@ -107,7 +107,7 @@ const baseFields = [
   new FictionAnalyticsCol({ key: 'trace', clickHouseType: 'String', description: 'Event reproduction steps', getValue: ({ event }) => event.properties?.trace, sch: () => z.string() }),
 
   // Sequence Tracking
-  new FictionAnalyticsCol({ key: 'sessionNo', clickHouseType: 'UInt16', description: 'User visit count', sessionSelector: _ => `anyIf(${_.key}, event='init') as ${_.id}`, getValue: ({ session }) => session.sessionNo, sch: () => z.number() }),
+  new FictionAnalyticsCol({ key: 'sessionNo', clickHouseType: 'UInt16', description: 'User visit count', sessionSelector: _ => `toUInt16(anyIf(${_.key}, event='init')) as ${_.id}`, getValue: ({ session }) => session.sessionNo, sch: () => z.number() }),
   new FictionAnalyticsCol({ key: 'viewNo', clickHouseType: 'UInt16', description: 'Page view order number', getValue: ({ event }) => event.viewNo, sch: () => z.number() }),
   new FictionAnalyticsCol({ key: 'eventNo', clickHouseType: 'UInt16', description: 'Event sequence order', getValue: ({ event }) => event.eventNo, sch: () => z.number() }),
 ] as const
@@ -152,9 +152,9 @@ const sessionFields = [
   ...eventFields.filter(f => f.sessionSelector),
 
   // Page and Event Counts
-  new FictionAnalyticsCol({ key: 'pageCount', clickHouseType: 'UInt16', description: 'Total page views in session', sessionSelector: _ => `countIf(event='view') as ${_.id}`, getValue: ({ session }) => session.pageCount, sch: () => z.number() }),
-  new FictionAnalyticsCol({ key: 'totalEvents', clickHouseType: 'UInt16', description: 'Total events in session', sessionSelector: _ => `count(*) as ${_.id}`, getValue: ({ session }) => session.totalEvents, sch: () => z.number() }),
-  new FictionAnalyticsCol({ key: 'eventCount', clickHouseType: 'UInt16', description: 'Unique events in session', sessionSelector: _ => `uniq(eventId) as ${_.id}`, getValue: ({ session }) => session.eventCount, sch: () => z.number() }),
+  new FictionAnalyticsCol({ key: 'pageCount', clickHouseType: 'UInt16', description: 'Total page views in session', sessionSelector: _ => `toInt16(countIf(event='view')) as ${_.id}`, getValue: ({ session }) => session.pageCount, sch: () => z.number() }),
+  new FictionAnalyticsCol({ key: 'totalEvents', clickHouseType: 'UInt16', description: 'Total events in session', sessionSelector: _ => `toInt16(count(*)) as ${_.id}`, getValue: ({ session }) => session.totalEvents, sch: () => z.number() }),
+  new FictionAnalyticsCol({ key: 'eventCount', clickHouseType: 'UInt16', description: 'Unique events in session', sessionSelector: _ => `toInt16(uniq(eventId)) as ${_.id}`, getValue: ({ session }) => session.eventCount, sch: () => z.number() }),
 
   // Session State Flags
   new FictionAnalyticsCol({ key: 'isClosed', clickHouseType: 'UInt8', description: 'Session properly closed', sessionSelector: _ => `if(countIf(event='session') > 0, 1, 0) as ${_.id}`, getValue: ({ session }) => session.isClosed, sch: () => z.number().int().min(0).max(1) }),

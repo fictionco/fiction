@@ -11,23 +11,20 @@ import { createAnalyticsTestUtils } from './helpers'
 describe('tracking client', async () => {
   const testUtils = await createAnalyticsTestUtils()
   await testUtils.start()
-  const beaconServerConfig = await testUtils.fictionBeacon?.createBeaconServer()
+  const beaconServerConfig = await testUtils.fictionBeacon?.init()
   const beaconUrl = testUtils.fictionBeacon?.beaconUrl.value
-
-  const sessionManager = testUtils.fictionBeacon?.sessionManager
-
-  sessionManager?.init()
 
   const orgId = objectId()
   const anonymousId = objectId()
 
-  if (!beaconServerConfig || !sessionManager) {
+  if (!beaconServerConfig) {
     throw new Error('beaconServerConfig or sessionManager is undefined')
   }
 
   const client = new FictionClient({ orgId, beaconUrl, anonymousId, intervalSeconds: 0.01 })
 
   afterAll(async () => {
+    testUtils.fictionBeacon?.close()
     await testUtils.close()
   })
 

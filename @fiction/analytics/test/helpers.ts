@@ -10,6 +10,7 @@ import { runServicesSetup } from '@fiction/core/plugin-env/entry.js'
 import { testEnvFile } from '@fiction/core/test-utils'
 import { createTestUtils, initializeTestUtils } from '@fiction/core/test-utils/init.js'
 import { FictionAnalytics } from '../index.js'
+import { processRawEvents } from '../plugin-beacon/utils/session.js'
 import { FictionClient } from '../tag/client.js'
 
 export type AnalyticsTestUtils = TestUtils & {
@@ -48,7 +49,15 @@ export async function createAnalyticsTestUtils(args: { mainFilePath?: string, co
   const { beaconPort } = setupTestPorts({ opts: args, envVars: ['BEACON_PORT'] as const, context })
 
   out.fictionCache = new FictionCache({ ...out, redisUrl: v.redisUrl })
-  out.fictionAnalytics = new FictionAnalytics({ ...(out as AnalyticsTestUtils), clickhouseUrl: v.clickhouseUrl, beaconPort, sessionExpireAfterMs: 100, checkExpiredIntervalMs: 10, bufferIntervalMs: 5 })
+  out.fictionAnalytics = new FictionAnalytics({
+    ...(out as AnalyticsTestUtils),
+    clickhouseUrl: v.clickhouseUrl,
+    beaconPort,
+    sessionExpireAfterMs: 300,
+    checkExpiredIntervalMs: 30,
+    bufferIntervalMs: 30,
+
+  })
   out.fictionClickhouse = out.fictionAnalytics.fictionClickhouse
   out.fictionBeacon = out.fictionAnalytics.fictionBeacon
 
@@ -143,16 +152,16 @@ export async function createFictionEvents(testUtils: AnalyticsTestUtils, fiction
   return serverEvents
 }
 
-export async function saveFictionEvents(testUtils: AnalyticsTestUtils, fictionClient: FictionClient): Promise<FictionEvent[]> {
+export async function testSaveAnalyticsEvents(testUtils: AnalyticsTestUtils, fictionClient: FictionClient): Promise<FictionEvent[]> {
   const events = await createFictionEvents(testUtils, fictionClient)
 
-  const mgr = testUtils.fictionBeacon.sessionManager
+  const fictionAnalytics = testUtils.fictionAnalytics
 
-  const saveEvents = await mgr?.processRawEvents(events)
+  const saveEvents = await processRawEvents({ events, fictionAnalytics })
 
-  mgr?.saveBuffer.batch(saveEvents || [])
+  fictionAnalytics.saveEventBuffer.batch(saveEvents || [])
 
-  mgr?.saveBuffer.flushBuffer({ reason: 'test' })
+  fictionAnalytics.saveEventBuffer.flushBuffer({ reason: 'test' })
 
   await waitFor(1000)
 

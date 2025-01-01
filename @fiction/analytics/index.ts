@@ -1,11 +1,13 @@
 import type { FictionCache, FictionDb, FictionPluginSettings, FictionServer, FictionUser, vue } from '@fiction/core'
-import type { EventParams } from './tables'
-import { FictionPlugin, safeDirname } from '@fiction/core'
+import type { EventParams, SessionEvent } from './tables'
+import { FictionPlugin, safeDirname, WriteBuffer } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
+import { getCacheKey } from '@fiction/core/utils/cache'
 import { QueryCompiledMetrics } from './endpointMetrics'
 import { QueryGetClientSessions, QueryGetDimensionList, QueryGetTotalSessions, QueryMetricAnalytics } from './endpoints'
 import { QueryEventTrack } from './endpointTrack'
 import { FictionBeacon } from './plugin-beacon'
+import { ReferrerUtility } from './plugin-beacon/utils'
 import { FictionClickHouse } from './plugin-clickhouse'
 
 export * from './types'
@@ -67,10 +69,29 @@ export class FictionAnalytics extends FictionPlugin<FictionAnalyticsSettings> {
     basePath: '/analytics',
   })
 
+  getCache = () => this.settings.fictionCache?.getCache()
+  getCacheKey = getCacheKey<'page' | 'session' | 'expiration'>
+  checkExpiredIntervalMs = this.settings.checkExpiredIntervalMs || 5000
+  sessionExpireAfterMs = this.settings.sessionExpireAfterMs || 60 * 30 * 1000
+  bufferIntervalMs = this.settings.bufferIntervalMs || 1000
+  referrerUtility?: ReferrerUtility
+  processedSessions = 0
+  saveEventBuffer = new WriteBuffer<SessionEvent>({
+    fictionEnv: this.fictionEnv,
+    name: 'eventSave',
+    limit: 10_000,
+    flushIntervalMs: this.bufferIntervalMs,
+    flush: async events => this.fictionClickhouse.saveData({ rows: events, table: 'event' }),
+  })
+
   constructor(settings: FictionAnalyticsSettings) {
     super('FictionAnalytics', { root: safeDirname(import.meta.url), ...settings })
 
     this.fictionEnv.events.on('shutdown', async () => this.close())
+
+    if (!this.fictionEnv.isApp.value) {
+      this.referrerUtility = new ReferrerUtility({ fictionCache: this.settings.fictionCache })
+    }
   }
 
   async init() {
