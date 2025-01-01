@@ -1,4 +1,4 @@
-import type { DataPointChart, QueryParams, QueryParamsRefined, TimeLineInterval } from '../types.js'
+import type { DataCompared, DataPointChart, QueryParams, QueryParamsRefined, StandardPeriod, TimeLineInterval } from '../types.js'
 import { dayjs } from '@fiction/core'
 
 type RefineTimelineArgs<T> = {
@@ -12,6 +12,40 @@ type RefineTimelineArgs<T> = {
   snapshotKeys?: string[]
 }
 
+function addInterval(date: dayjs.Dayjs, amount: number, interval: TimeLineInterval): dayjs.Dayjs {
+  const minutes = interval.match(/(\d+)min/)?.[1]
+  return minutes
+    ? date.add(amount * Number.parseInt(minutes), 'minute')
+    : date.add(amount, interval as dayjs.ManipulateType)
+}
+
+function startOfInterval(date: dayjs.Dayjs, interval: TimeLineInterval): dayjs.Dayjs {
+  const minutes = interval.match(/(\d+)min/)?.[1]
+  if (!minutes)
+    return date.startOf(interval as dayjs.OpUnitType)
+
+  const minute = date.minute()
+  const roundedMinutes = Math.floor(minute / Number.parseInt(minutes)) * Number.parseInt(minutes)
+  return date.minute(roundedMinutes).second(0).millisecond(0)
+}
+
+function getIntervalPoints(args: {
+  startAt: dayjs.Dayjs
+  endAt: dayjs.Dayjs
+  interval: TimeLineInterval
+}): number {
+  const { startAt, endAt, interval } = args
+
+  // Handle minute-based intervals (15min, 30min)
+  const minutes = interval.match(/(\d+)min/)?.[1]
+  if (minutes) {
+    return Math.ceil(endAt.diff(startAt, 'minute') / Number.parseInt(minutes))
+  }
+
+  // Handle standard intervals
+  return endAt.diff(startAt, interval as dayjs.OpUnitType)
+}
+
 export function refineTimelineData<T extends DataPointChart>(args: RefineTimelineArgs<T>): T[] {
   const {
     timeStartAtIso,
@@ -19,64 +53,63 @@ export function refineTimelineData<T extends DataPointChart>(args: RefineTimelin
     timeZone = 'utc',
     interval = 'day',
     data = [],
-    withRollup,
+    withRollup = false,
     nowIso,
     snapshotKeys = [],
   } = args
 
   const MAX_POINTS = 2000
 
-  // Initialize with precise start/end points
-  const timeStartAt = dayjs(timeStartAtIso).tz(timeZone).startOf(interval)
-  const timeEndAt = dayjs(timeEndAtIso).tz(timeZone).startOf(interval)
-  const now = nowIso ? dayjs(nowIso).tz(timeZone) : dayjs().tz(timeZone)
+  // Initialize with precise start/end points using custom interval handling
+  const timeStartAt = startOfInterval(dayjs(timeStartAtIso).tz(timeZone), interval)
+  const timeEndAt = startOfInterval(dayjs(timeEndAtIso).tz(timeZone), interval)
+  const now = startOfInterval(nowIso ? dayjs(nowIso).tz(timeZone) : dayjs().tz(timeZone), interval)
 
   if (!timeStartAt.isValid() || !timeEndAt.isValid()) {
     throw new Error('Invalid start or end date')
   }
 
-  // Setup initial data
+  // Rest of setup remains the same
   const newData: { date?: string, [key: string]: any }[] = withRollup ? [{ label: 'Totals', tense: 'past', ...data[0] }] : []
-
-  // Extract numerical fields
   const sample = data[0] ?? {}
   const defaultObjectIfMissing = Object.fromEntries(
     Object.entries(sample)
       .map(([k, v]) => ((typeof v === 'string' && /^-?\d+$/.test(v)) || typeof v === 'number') ? [k, 0] : undefined)
       .filter(Boolean) as [string, number | string][],
   )
-
   const lastKnownValues = { ...defaultObjectIfMissing }
 
-  // Calculate total points needed
-  const totalPoints = timeEndAt.diff(timeStartAt, interval)
+  // Calculate total points using custom interval diff
+  const totalPoints = getIntervalPoints({
+    startAt: timeStartAt,
+    endAt: timeEndAt,
+    interval,
+  })
+
   if (totalPoints > MAX_POINTS) {
     throw new Error(`Time range too large: ${totalPoints} ${interval} intervals requested`)
   }
 
-  // Generate points
+  // Generate points using custom interval addition
   for (let i = 0; i <= totalPoints; i++) {
-    const currentTime = timeStartAt.add(i, interval)
+    const currentTime = addInterval(timeStartAt, i, interval)
+    const foundData = data.find(d => startOfInterval(dayjs(d.date).tz(timeZone), interval).isSame(currentTime))
 
-    const foundData = data.find(d => dayjs(d.date).tz(timeZone).isSame(currentTime, interval))
-    const values = { ...defaultObjectIfMissing }
-
-    // Process values
-    Object.keys(defaultObjectIfMissing).forEach((key) => {
-      if (foundData?.[key] !== undefined) {
+    const values = { ...defaultObjectIfMissing, ...foundData }
+    Object.keys(values).forEach((key) => {
+      if (foundData?.[key] != null) {
         values[key] = foundData[key]
-        if (snapshotKeys.includes(key)) {
+        if (snapshotKeys.includes(key))
           lastKnownValues[key] = foundData[key]
-        }
       }
       else if (snapshotKeys.includes(key)) {
         values[key] = lastKnownValues[key]
       }
     })
 
-    const tense = currentTime.utc().isSame(now.utc(), interval)
+    const tense = currentTime.utc().isSame(now.utc())
       ? 'present'
-      : currentTime.utc().isAfter(now.utc(), interval) ? 'future' : 'past'
+      : currentTime.utc().isAfter(now.utc()) ? 'future' : 'past'
 
     newData.push({ ...values, date: currentTime.toISOString(), tense })
   }
@@ -84,84 +117,159 @@ export function refineTimelineData<T extends DataPointChart>(args: RefineTimelin
   return newData as T[]
 }
 
+type RefineComparedDataArgs = {
+  data: DataCompared<DataPointChart>
+
+  snapshotKeys?: string[]
+}
+
+export function refineComparedData(args: RefineComparedDataArgs): DataCompared<DataPointChart> {
+  const { data, snapshotKeys = [] } = args
+
+  const refineParams = data.params
+
+  if (!refineParams) {
+    throw new Error('Missing params')
+  }
+
+  const {
+    timeZone,
+    timeStartAtIso,
+    timeEndAtIso,
+    interval,
+    nowIso,
+    compareStartAtIso,
+    compareEndAtIso,
+  } = refineParams
+
+  // Process main timeline data
+  const mainData = refineTimelineData({
+    data: data.main || [],
+    timeZone,
+    timeStartAtIso,
+    timeEndAtIso,
+    interval,
+    nowIso,
+    snapshotKeys,
+  })
+
+  // Process compare timeline data
+  const compareData = refineTimelineData({
+    data: data.compare || [],
+    timeZone,
+    timeStartAtIso: compareStartAtIso,
+    timeEndAtIso: compareEndAtIso,
+    interval,
+    nowIso,
+    snapshotKeys,
+  })
+
+  // Return refined data while preserving other DataCompared properties
+  return {
+    ...data,
+    main: mainData,
+    compare: compareData,
+  }
+}
+
 /**
  * Standardize analytics query params
  * Here because this can be used by endpoints as well as widget API
  */
+// Helper to calculate interval based on date range
+function getDefaultInterval(startAt: dayjs.Dayjs, endAt: dayjs.Dayjs): TimeLineInterval {
+  return endAt.diff(startAt, 'day') > 10 ? 'day' : 'hour'
+}
+
+// Helper to get time range based on period
+function getTimeRange(period: StandardPeriod, endAtIso: string, timeZone: string) {
+  let startAtIso: string
+  const endAt = dayjs(endAtIso)
+  let interval: TimeLineInterval = 'day'
+  let finalEndAtIso = endAtIso
+
+  switch (period) {
+    case 'hour':
+    case 'hour4': {
+      const hours = period === 'hour4' ? 4 : 1
+      interval = 'minute'
+      startAtIso = endAt.subtract(hours, 'hour').toISOString()
+      break
+    }
+    case 'today':
+    case 'yesterday': {
+      let nowLocal = dayjs().tz(timeZone)
+      if (period === 'yesterday') {
+        nowLocal = nowLocal.subtract(1, 'day')
+      }
+      interval = 'hour'
+      startAtIso = nowLocal.startOf('day').toISOString()
+      finalEndAtIso = dayjs(startAtIso).add(1, 'day').toISOString()
+      break
+    }
+    case 'week': {
+      interval = 'day'
+      startAtIso = endAt.subtract(1, 'week').toISOString()
+      break
+    }
+    default: {
+      interval = 'day'
+      startAtIso = endAt.subtract(1, 'month').toISOString()
+    }
+  }
+
+  return { startAtIso, endAtIso: finalEndAtIso, interval }
+}
+
 export function refineParams<T extends QueryParams>(params: T): QueryParamsRefined & T {
-  const { period = 'month' } = params
+  const timeZone = params.timeZone || new Intl.DateTimeFormat().resolvedOptions().timeZone
+  const timeEndAtIso = params.timeEndAtIso || dayjs().toISOString()
 
-  let timeStartAtIso: string
-  let timeEndAtIso: string = params.timeEndAtIso || dayjs().toISOString()
-  let interval: TimeLineInterval
+  // Get time range based on period
+  const { startAtIso: timeStartAtIso, endAtIso: finalEndAtIso, interval: periodInterval }
+    = getTimeRange(params.period || 'month', timeEndAtIso, timeZone)
 
-  // get native timezone
-  const envTimeZone = new Intl.DateTimeFormat().resolvedOptions().timeZone
-
-  // get browser timezone
-  const timeZone = params.timeZone || envTimeZone
-
-  if (period === 'hour' || period === 'hour4') {
-    const hours = period === 'hour4' ? 4 : 1
-    interval = 'minute'
-    timeStartAtIso = dayjs(timeEndAtIso).subtract(hours, 'hour').toISOString()
-  }
-  else if (period === 'today' || period === 'yesterday') {
-    let nowLocal = dayjs().tz(timeZone)
-
-    if (period === 'yesterday')
-      nowLocal = nowLocal.subtract(1, 'day')
-
-    interval = 'hour'
-    timeStartAtIso = nowLocal.startOf('day').toISOString()
-    timeEndAtIso = dayjs(timeStartAtIso).add(1, 'day').toISOString()
-  }
-  else if (period === 'week') {
-    timeStartAtIso = dayjs(timeEndAtIso).subtract(1, 'week').toISOString()
-    interval = 'day'
-  }
-  else {
-    timeStartAtIso = dayjs(timeEndAtIso).subtract(1, 'month').toISOString()
-    interval = 'day'
-  }
-
-  params = { ...params, interval, timeStartAtIso, timeEndAtIso }
-
-  const timeEndAt = dayjs(params.timeEndAtIso)
-  const timeStartAt = dayjs(params.timeStartAtIso)
-
+  const timeEndAt = dayjs(finalEndAtIso)
+  const timeStartAt = dayjs(timeStartAtIso)
   const comparePeriod = timeEndAt.diff(timeStartAt, 'day') + 1
 
-  let compareEndAt = timeEndAt.subtract(comparePeriod, 'day')
-  let compareStartAt = timeStartAt.subtract(comparePeriod, 'day')
+  // Calculate comparison dates
+  let compareEndAt = timeEndAt
+  let compareStartAt = timeStartAt
 
-  if (params.compare === 'year') {
-    compareEndAt = timeEndAt.subtract(1, 'year')
-    compareStartAt = timeStartAt.subtract(1, 'year')
-  }
-  else if (params.compare === 'quarter') {
-    compareEndAt = timeEndAt.subtract(3, 'month')
-    compareStartAt = timeStartAt.subtract(3, 'month')
-  }
-  else if (params.compare === 'month') {
-    compareEndAt = timeEndAt.subtract(1, 'month')
-    compareStartAt = timeStartAt.subtract(1, 'month')
-  }
-  else if (params.compare === 'week') {
-    compareEndAt = timeEndAt.subtract(1, 'week')
-    compareStartAt = timeStartAt.subtract(1, 'week')
+  switch (params.compare) {
+    case 'year':
+      compareEndAt = timeEndAt.subtract(1, 'year')
+      compareStartAt = timeStartAt.subtract(1, 'year')
+      break
+    case 'quarter':
+      compareEndAt = timeEndAt.subtract(3, 'month')
+      compareStartAt = timeStartAt.subtract(3, 'month')
+      break
+    case 'month':
+      compareEndAt = timeEndAt.subtract(1, 'month')
+      compareStartAt = timeStartAt.subtract(1, 'month')
+      break
+    case 'week':
+      compareEndAt = timeEndAt.subtract(1, 'week')
+      compareStartAt = timeStartAt.subtract(1, 'week')
+      break
+    default:
+      compareEndAt = timeEndAt.subtract(comparePeriod, 'day')
+      compareStartAt = timeStartAt.subtract(comparePeriod, 'day')
   }
 
-  const defaultInterval = timeEndAt.diff(timeStartAt, 'day') > 10 ? 'day' : 'hour'
+  // Important: Use provided interval, then period interval, then default
+  const interval = params.interval || periodInterval || getDefaultInterval(timeStartAt, timeEndAt)
 
   return {
     ...params,
     timeZone,
     nowIso: dayjs().toISOString(),
-    timeEndAtIso,
+    timeEndAtIso: finalEndAtIso,
     timeStartAtIso,
     compareEndAtIso: compareEndAt.toISOString(),
     compareStartAtIso: compareStartAt.toISOString(),
-    interval: params.interval || defaultInterval,
+    interval,
   }
 }

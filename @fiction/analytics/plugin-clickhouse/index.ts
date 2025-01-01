@@ -291,14 +291,19 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
     timeZone: string
     timeField?: 'timestamp' | 'session__timestamp'
   }): string {
-    let startOf = `toStartOf${capitalize(interval)}(${timeField}, '${timeZone}')`
+    // Handle minute-based intervals
+    const minutes = interval.match(/(\d+)min/)?.[1]
+    if (minutes) {
+      return `formatDateTime(toStartOfInterval(${timeField}, INTERVAL ${minutes} MINUTE, '${timeZone}'), '%FT%T.000Z', 'UTC')`
+    }
 
-    // clickhouse doesn't seem to support timezone in week/month/year intervals
-    // week requires mode = 1 to set monday to be the start of the week
-    if (interval === 'week')
-      startOf = `toMonday(${timeField}, '${timeZone}')`
+    // Special case for week
+    if (interval === 'week') {
+      return `formatDateTime(toMonday(${timeField}, '${timeZone}'), '%FT%T.000Z', 'UTC')`
+    }
 
-    return `formatDateTime(${startOf}, '%FT%T.000Z', 'UTC')`
+    // Default case for other intervals
+    return `formatDateTime(toStartOf${capitalize(interval)}(${timeField}, '${timeZone}'), '%FT%T.000Z', 'UTC')`
   }
 
   naiveDateTime = (time: number): string => {

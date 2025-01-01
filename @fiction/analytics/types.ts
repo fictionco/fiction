@@ -40,7 +40,7 @@ export type ComparePeriods =
   | 'year'
   | 'none'
 
-export type TimeLineInterval = 'month' | 'week' | 'day' | 'hour' | 'minute'
+export type TimeLineInterval = 'minute' | '15min' | '30min' | 'hour' | 'day' | 'week' | 'month' | 'year'
 
 export type AggregationFormat =
   | 'enriched'

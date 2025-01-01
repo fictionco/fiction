@@ -47,12 +47,15 @@ const pathData = computed(() => {
   const max = Math.max(...values)
   const range = max - min
 
-  const xScale = (i: number) =>
-    margin.left + (i / (points.value.length - 1)) * (dimensions.value.width - margin.left - margin.right)
+  const xScale = (i: number) => {
+    const x = margin.left + (i / Math.max(1, points.value.length - 1)) * (dimensions.value.width - margin.left - margin.right)
+    return Number.isNaN(x) ? margin.left : x // Fallback to left margin if NaN
+  }
 
-  const yScale = (v: number) =>
-    margin.top + (1 - ((v - min) / (range || 1))) * (dimensions.value.height - margin.top - margin.bottom)
-
+  const yScale = (v: number) => {
+    const y = margin.top + (1 - ((v - min) / range)) * (dimensions.value.height - margin.top - margin.bottom)
+    return Number.isNaN(y) ? dimensions.value.height - margin.bottom : y // Fallback to bottom if NaN
+  }
   const path = points.value
     .map((point, i) => {
       const x = xScale(i)

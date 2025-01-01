@@ -1,4 +1,5 @@
 import type { FictionAnalytics } from '../index.js'
+import exp from 'node:constants'
 import { dayjs, shortId, waitFor } from '@fiction/core'
 import { describe, expect, it } from 'vitest'
 import { createAnalyticsTestUtils } from './helpers.js'
@@ -93,23 +94,33 @@ describe('queryCompiledMetrics', async () => {
     throw new Error('Test setup failed')
 
   describe('snapshot metrics', () => {
-    it('combines multiple snapshot metrics correctly', async () => {
+    it('combines multiple snapshot metrics correctly with filled timeline', async () => {
       // Create test metrics
       const socialMetric1: TestMetric = `test_twitter_${shortId()}`
       const socialMetric2: TestMetric = `test_linkedin_${shortId()}`
       const now = dayjs()
 
-      // Track some snapshot data
+      // Track some snapshot data with gaps
       await Promise.all([
-        // Twitter followers
+        // Twitter followers - Early value
         fictionAnalytics.queries.EventTrack.serve({
           eventData: {
             orgId,
             event: socialMetric1,
             value: 100,
-            timestamp: now.subtract(2, 'hour').unix(),
+            timestamp: now.subtract(3, 'hour').unix(),
           },
         }, { caller: 'test', server: true }),
+        fictionAnalytics.queries.EventTrack.serve({
+          eventData: {
+            orgId,
+            event: socialMetric2,
+            value: 60,
+            timestamp: now.subtract(3, 'hour').unix(),
+          },
+        }, { caller: 'test', server: true }),
+
+        // Twitter followers - Latest value
         fictionAnalytics.queries.EventTrack.serve({
           eventData: {
             orgId,
@@ -119,25 +130,18 @@ describe('queryCompiledMetrics', async () => {
           },
         }, { caller: 'test', server: true }),
 
-        // LinkedIn followers
-        fictionAnalytics.queries.EventTrack.serve({
-          eventData: {
-            orgId,
-            event: socialMetric2,
-            value: 200,
-            timestamp: now.subtract(2, 'hour').unix(),
-          },
-        }, { caller: 'test', server: true }),
-
+        // LinkedIn followers - Single value, should carry forward
         fictionAnalytics.queries.EventTrack.serve({
           eventData: {
             orgId,
             event: socialMetric2,
             value: 250,
-            timestamp: now.subtract(1, 'hour').unix(),
+            timestamp: now.subtract(2, 'hour').unix(),
           },
         }, { caller: 'test', server: true }),
       ])
+
+      const k = 'total_social'
 
       const result = await fictionAnalytics.queries.CompiledMetrics.serve({
         orgId,
@@ -145,7 +149,7 @@ describe('queryCompiledMetrics', async () => {
         interval: 'hour',
         metrics: [
           {
-            key: 'total_social',
+            key: k,
             type: 'snapshot',
             events: [socialMetric1, socialMetric2],
           },
@@ -156,10 +160,52 @@ describe('queryCompiledMetrics', async () => {
       expect(result.data?.length).toBe(1)
 
       const mainData = result.data?.[0].data.main || []
-      const lastPoint = mainData[mainData.length - 1]
 
-      // Should sum latest values: 150 + 250 = 400
-      expect(lastPoint?.value).toBe(400)
+      // Verify timeline is complete
+      expect(mainData.length).toBeGreaterThan(3) // Should have at least 4 hours of data points
+
+      // Verify values carry forward correctly
+      const timeline = mainData.map(d => ({
+        value: d.value,
+      }))
+
+      // Check specific points
+      const threeHoursAgo = timeline[1]
+      const twoHoursAgo = timeline[2]
+      const oneHourAgo = timeline[3]
+      const current = timeline[4]
+
+      expect(timeline).toMatchInlineSnapshot(`
+        [
+          {
+            "value": 0,
+          },
+          {
+            "value": 160,
+          },
+          {
+            "value": 350,
+          },
+          {
+            "value": 400,
+          },
+          {
+            "value": 400,
+          },
+        ]
+      `)
+
+      // Initial point should have Twitter's first value (100)
+      expect(threeHoursAgo.value).toBe(160)
+
+      // Two hours ago should have Twitter (100) + LinkedIn (250)
+      expect(twoHoursAgo.value).toBe(350)
+
+      // One hour ago should have Twitter (150) + LinkedIn (250)
+      expect(oneHourAgo.value).toBe(400)
+
+      // Current should maintain the last known values
+      expect(current.value).toBe(400)
     })
 
     it('handles multiple metrics with different event combinations', async () => {
@@ -275,6 +321,8 @@ describe('queryCompiledMetrics', async () => {
 
     it('returns error for missing orgId', async () => {
       const result = await fictionAnalytics.queries.CompiledMetrics.serve({
+        // @ts-expect-error Testing missing orgId
+        orgId: undefined,
         metrics: [
           {
             key: 'test',
@@ -408,7 +456,8 @@ describe('queryCompiledMetrics', async () => {
 
       const result = await fictionAnalytics.queries.CompiledMetrics.serve({
         orgId: randomOrgId,
-        period: 'hour',
+        period: 'week',
+        interval: 'day',
         metrics: [{
           key: 'conversionRate',
           type: 'session',
@@ -418,6 +467,7 @@ describe('queryCompiledMetrics', async () => {
 
       expect(result.status).toBe('success')
       const conversionData = result.data?.[0].data.main || []
+
       const lastPoint = conversionData[conversionData.length - 1]
 
       // Should be 50% conversion rate (1 converted, 1 non-converted)
@@ -436,7 +486,7 @@ describe('queryCompiledMetrics', async () => {
         await createTestSession({
           fictionAnalytics,
           orgId: randomOrgId,
-          timestamp: now.subtract(5, 'day').unix() + (i * 3600),
+          timestamp: now.subtract(5, 'hour').unix() + (i * 100),
         })
       }
 

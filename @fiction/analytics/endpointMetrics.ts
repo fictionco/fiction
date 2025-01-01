@@ -10,7 +10,7 @@ import type {
   QueryParamsRefined,
 } from './types'
 import { AnalyticsEndpoint } from './endpoints'
-import { refineParams } from './utils/refine'
+import { refineComparedData, refineParams } from './utils/refine'
 
 type MetricDataPoint = DataPointChart<string>
 type ReturnData = DataCompared<DataPointChart<string>>
@@ -68,32 +68,17 @@ export class QueryCompiledMetrics extends AnalyticsEndpoint {
       metrics.flatMap(m => m.events || []),
     )]
 
-    const subQueryBase = ch.clickhouseDateQuery({ params: refinedParams, table: 'event', isCompare })
+    // Return individual event values for each date
+    return ch.clickhouseDateQuery({ params: refinedParams, table: 'event', isCompare })
       .whereIn('event', eventNames)
       .select([
         client.raw(`${dateSelect} as date`),
-        'event',
-        client.raw('argMax(value, timeAt) as event_value'),
+        ...eventNames.map(event =>
+          ch.client().raw(`argMax(if(event = '${event}', value, null), timeAt) as ${event}`),
+        ),
       ])
-      .groupBy(['date', 'event'])
-
-    // Aggregate snapshots by metric keys
-    const mainQuery = client
-      .from(subQueryBase.as('snapshots'))
-      .select(['date'])
-      .select(metrics.map((metric) => {
-        const events = metric.events || []
-        return client.raw(
-          `sum(CASE WHEN event IN (${
-            events.map(() => '?').join(',')
-          }) THEN event_value ELSE 0 END) as ??`,
-          [...events, metric.key],
-        )
-      }))
       .groupByRaw('date WITH ROLLUP')
-      .orderBy('date', 'asc')
-
-    return mainQuery
+      .orderBy('date')
   }
 
   private async getSnapshotData(args: {
@@ -109,6 +94,7 @@ export class QueryCompiledMetrics extends AnalyticsEndpoint {
 
     // Aggregate snapshots by metric keys
     const mainQuery = this.getSnapshotQuery({ refinedParams, metrics })
+
     const compareQuery = this.getSnapshotQuery({ refinedParams, metrics, isCompare: true })
 
     const [mainResult, compareResult] = await Promise.all([
@@ -126,8 +112,9 @@ export class QueryCompiledMetrics extends AnalyticsEndpoint {
       compareTotals: compareTotals || {},
       params: refinedParams,
     }
+    const finalData = this.getMetricResults({ metrics, data })
 
-    return { status: 'success', data: this.getMetricResults({ metrics, data }) }
+    return { status: 'success', data: finalData }
   }
 
   private getEventQuery(args: {
@@ -257,18 +244,37 @@ export class QueryCompiledMetrics extends AnalyticsEndpoint {
 
   getMetricResults(args: { metrics: MetricSelector[], data: ReturnData }): MetricSelectorResult[] {
     const { metrics, data } = args
+    const snapshotKeys = metrics
+      .filter(m => m.type === 'snapshot')
+      .flatMap(m => m.events || [])
 
-    return metrics.map((metric) => {
-      const key = metric.key
-      const main = data.main?.map(d => ({ ...d, value: d[key] }))
-      const compare = data.compare?.map(d => ({ ...d, value: d[key] }))
-      const mainTotals = { ...data.mainTotals, value: data.mainTotals?.[key] || 0 }
-      const compareTotals = { ...data.compareTotals, value: data.compareTotals?.[key] || 0 }
+    const refinedData = refineComparedData({ data, snapshotKeys })
 
-      return {
-        ...metric,
-        data: { main, compare, mainTotals, compareTotals, params: data.params },
-      }
-    })
+    function transformPoints(points: DataPointChart[] = [], metric: MetricSelector) {
+      return points.map(point => transformPoint({ point, metric })) as DataPointChart[]
+    }
+
+    function transformPoint(args: { point?: DataPointChart, metric: MetricSelector }) {
+      const { point, metric } = args
+      if (!point)
+        return undefined
+
+      const value = metric?.type === 'snapshot' && metric.events?.length
+        ? metric.events.reduce((sum, key) => sum + (Number(point[key]) || 0), 0)
+        : point[metric?.key] || 0
+
+      return { ...point, value }
+    }
+
+    return metrics.map(metric => ({
+      ...metric,
+      data: {
+        ...refinedData,
+        main: transformPoints(refinedData.main, metric),
+        compare: transformPoints(refinedData.compare, metric),
+        mainTotals: transformPoint({ point: refinedData.mainTotals, metric }),
+        compareTotals: transformPoint({ point: refinedData.compareTotals, metric }),
+      },
+    }))
   }
 }

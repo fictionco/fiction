@@ -1,6 +1,6 @@
 import { dayjs } from '@fiction/core'
 import { describe, expect, it } from 'vitest'
-import { fillData } from '../utils.js'
+import { fillData } from '../plugin-clickhouse/utils.js'
 
 const data = [
   {
