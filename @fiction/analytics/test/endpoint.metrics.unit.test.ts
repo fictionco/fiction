@@ -1,5 +1,4 @@
 import type { FictionAnalytics } from '../index.js'
-import exp from 'node:constants'
 import { dayjs, shortId, waitFor } from '@fiction/core'
 import { describe, expect, it } from 'vitest'
 import { createAnalyticsTestUtils } from './helpers.js'

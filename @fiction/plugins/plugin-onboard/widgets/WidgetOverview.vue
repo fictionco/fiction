@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { Widget } from '@fiction/admin/dashboard/widget'
-import type { FictionAnalytics, MetricDisplayItem } from '@fiction/analytics'
+import type { DataPointChart, FictionAnalytics, MetricDisplayItem, MetricDisplayItemWithData } from '@fiction/analytics'
 import WidgetWrap from '@fiction/admin/dashboard/WidgetWrap.vue'
 import { MetricDisplayFactory } from '@fiction/analytics/displayMetricFactory'
-import { useService, vue } from '@fiction/core'
+import { dayjs, useService, vue } from '@fiction/core'
 import XNumber from '@fiction/ui/common/XNumber.vue'
 import SuperChart from './SuperChart.vue'
 
@@ -19,7 +19,7 @@ const items: MetricDisplayItem[] = [
     title: 'Total Audience',
     icon: 'i-tabler-users',
     displayFormat: 'primary',
-    suffix: 'followers',
+    suffix: 'subscribers',
     changeLabel: 'vs. last month',
     format: 'abbreviatedInteger',
   },
@@ -63,6 +63,21 @@ const factory = new MetricDisplayFactory('MetricDisplayFactory', { ...service, i
 vue.onMounted(async () => {
   await factory.init()
 })
+
+function setHoveredMetric(args: { metric: MetricDisplayItemWithData, point: DataPointChart | null, index: number | null }) {
+  const { metric, point } = args
+
+  if (!point) {
+    factory.hovered.value = undefined
+    return
+  }
+
+  factory.hovered.value = {
+    ...metric,
+    value: point.value as number,
+    suffix: dayjs(point.date).format('MMM D'),
+  }
+}
 </script>
 
 <template>
@@ -78,33 +93,35 @@ vue.onMounted(async () => {
     <div v-else class="space-y-6">
       <!-- Primary Metric -->
       <div
-        v-if="factory.grouped.value.primary"
+        v-for="metric in factory.grouped.value.primary"
+        :key="metric.key"
         class="rounded-2xl"
-        :data-number-format="factory.grouped.value.primary.format || 'none'"
-        :data-number-value="factory.grouped.value.primary.value"
+        :data-number-format="metric.format || 'none'"
+        :data-number-value="metric.value"
       >
         <div class="flex justify-between items-start">
           <div>
             <div class="flex items-center gap-2 text-theme-500 dark:text-theme-400 mb-2">
-              <i :class="[factory.grouped.value.primary.icon]" class="text-lg opacity-80" />
-              <span>{{ factory.grouped.value.primary.title }}</span>
+              <i :class="[metric.icon]" class="text-lg opacity-80" />
+              <span>{{ metric.title }}</span>
             </div>
             <div class="flex items-baseline gap-2">
               <XNumber
-                :format="factory.grouped.value.primary.format"
+                :format="metric.format"
                 animate
                 class="text-4xl lg:text-5xl font-medium tracking-tight x-font-title"
-                :model-value="factory.grouped.value.primary.value"
+                :model-value="metric.value"
               />
-              <span class="text-theme-500 dark:text-theme-400 text-lg">{{ factory.grouped.value.primary.suffix }}</span>
+              <span class="text-theme-500 dark:text-theme-400 text-lg">{{ metric.suffix }}</span>
             </div>
           </div>
           <div class="relative w-[300px] aspect-[4/1]">
             <SuperChart
-              :data="factory.grouped.value.primary.data"
+              :data="metric.data"
               line-color="var(--primary-400)"
               area-color="var(--primary-400)"
               date-format="MMM D"
+              @point-hover="setHoveredMetric({ ...$event, metric })"
             />
           </div>
         </div>
@@ -144,12 +161,15 @@ vue.onMounted(async () => {
                 line-color="var(--primary-400)"
                 area-color="var(--primary-400)"
                 date-format="MMM D"
+                @point-hover="setHoveredMetric({ ...$event, metric })"
               />
             </div>
             <div>
               <div
                 class="text-lg flex items-center justify-end"
-                :class="metric.change >= 0 ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'"
+                :class="metric.change >= 0
+                  ? 'text-green-500 dark:text-green-400'
+                  : 'text-red-500 dark:text-red-400'"
               >
                 <i :class="[metric.change >= 0 ? 'i-tabler-arrow-up' : 'i-tabler-arrow-down']" />
                 <XNumber
@@ -213,6 +233,7 @@ vue.onMounted(async () => {
               line-color="var(--primary-400)"
               area-color="var(--primary-400)"
               date-format="MMM D"
+              @point-hover="setHoveredMetric({ ...$event, metric })"
             />
           </div>
         </div>

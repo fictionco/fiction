@@ -261,7 +261,7 @@ export class QueryCompiledMetrics extends AnalyticsEndpoint {
 
       const value = metric?.type === 'snapshot' && metric.events?.length
         ? metric.events.reduce((sum, key) => sum + (Number(point[key]) || 0), 0)
-        : point[metric?.key] || 0
+        : +(point[metric?.key] || 0)
 
       return { ...point, value }
     }

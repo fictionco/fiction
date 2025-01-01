@@ -17,6 +17,12 @@ export type MetricDisplayItem = MetricSelector & {
   suffix?: string
 }
 
+export type MetricDisplayItemWithData = MetricDisplayItem & {
+  value: number
+  change: number
+  data: DataCompared<DataPointChart<'value'>>
+}
+
 export type MetricSelectorResult = MetricSelector & { data: DataCompared<DataPointChart<'value'>> }
 export type MetricSelectorResultResponse = EndpointResponse<MetricSelectorResult[]>
 

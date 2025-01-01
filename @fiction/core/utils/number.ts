@@ -16,6 +16,9 @@ export function numberFormatter(num: number | string, { fractionDigits = 1, inte
   if (!Number.isFinite(value))
     return num
 
+  if (value === 0)
+    return 0
+
   // For 0-99, return whole number
   if (value < 100 && integerOnly)
     return Math.round(value)

@@ -7,7 +7,7 @@ defineOptions({ name: 'XNumber' })
 
 const { tag = 'div', modelValue = 0, animate = false, format = 'abbreviated', prefix, suffix } = defineProps<{
   tag?: 'h1' | 'h2' | 'h3' | 'div' | 'span' | 'p' | 'a'
-  modelValue: number
+  modelValue: number | string
   animate?: boolean
   format?: NumberFormats
   prefix?: string

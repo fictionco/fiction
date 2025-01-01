@@ -1,19 +1,12 @@
 import type { FictionUser } from '@fiction/core'
-import type { DataCompared, DataPointChart, FictionAnalytics, MetricSelectorResult } from '.'
+import type { FictionAnalytics, MetricDisplayItemWithData, MetricSelectorResult } from '.'
 import type { MetricDisplayItem } from './types'
 import { FictionObject, vue } from '@fiction/core'
-import { generateTimeSeriesData } from '../plugins/plugin-onboard/widgets/utils'
-
-type DisplayMetric = MetricDisplayItem & {
-  value: number
-  change: number
-  data: DataCompared<DataPointChart<'value'>>
-}
 
 type GroupedMetrics = {
-  primary?: DisplayMetric
-  secondary: DisplayMetric[]
-  detailed: DisplayMetric[]
+  primary?: MetricDisplayItemWithData[]
+  secondary: MetricDisplayItemWithData[]
+  detailed: MetricDisplayItemWithData[]
 }
 
 export class MetricDisplayFactory extends FictionObject<{
@@ -24,21 +17,36 @@ export class MetricDisplayFactory extends FictionObject<{
   items = this.settings.items
 
   // Main state
-  metrics = vue.shallowRef<DisplayMetric[]>([])
+  metrics = vue.shallowRef<MetricDisplayItemWithData[]>([])
   loading = vue.ref(false)
   error = vue.ref<string>()
+
+  hovered = vue.ref<MetricDisplayItemWithData>()
 
   // Computed groupings
   grouped = vue.computed((): GroupedMetrics => {
     const metrics = this.metrics.value
+    const h = this.hovered.value
+
+    // Map metrics to include hover state
+    const mappedMetrics = h
+      ? metrics.map((m) => {
+          // If this metric matches the currently hovered one, return hovered version
+          if (h?.key === m.key) {
+            return h
+          }
+          return m
+        })
+      : metrics
+
     return {
-      primary: metrics.find(m => m.displayFormat === 'primary'),
-      secondary: metrics.filter(m => m.displayFormat === 'secondary'),
-      detailed: metrics.filter(m => m.displayFormat === 'detailed'),
+      primary: mappedMetrics.filter(m => m.displayFormat === 'primary'),
+      secondary: mappedMetrics.filter(m => m.displayFormat === 'secondary'),
+      detailed: mappedMetrics.filter(m => m.displayFormat === 'detailed'),
     }
   })
 
-  private processMetricResult(metric: MetricDisplayItem, result: MetricSelectorResult): DisplayMetric {
+  private processMetricResult(metric: MetricDisplayItem, result: MetricSelectorResult): MetricDisplayItemWithData {
     const mainTotal = Number(result.data.mainTotals?.value || 0)
     const compareTotal = Number(result.data.compareTotals?.value || 0)
 
