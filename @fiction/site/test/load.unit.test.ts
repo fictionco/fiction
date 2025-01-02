@@ -225,20 +225,18 @@ describe('site plugin tests', async () => {
 
     expect((loaded?.customDomains.value || []).flatMap(_ => Object.keys(_)).sort()).toMatchInlineSnapshot(`
       [
-        [
-          "siteId",
-          "domainId",
-          "isPrimary",
-          "hostname",
-          "dnsValidationHostname",
-          "dnsValidationTarget",
-          "dnsValidationInstructions",
-          "check",
-          "configured",
-          "certificateAuthority",
-          "createdAt",
-          "updatedAt",
-        ],
+        "certificateAuthority",
+        "check",
+        "configured",
+        "createdAt",
+        "dnsValidationHostname",
+        "dnsValidationInstructions",
+        "dnsValidationTarget",
+        "domainId",
+        "hostname",
+        "isPrimary",
+        "siteId",
+        "updatedAt",
       ]
     `)
 
