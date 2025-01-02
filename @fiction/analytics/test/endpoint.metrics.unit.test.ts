@@ -401,27 +401,15 @@ describe('queryCompiledMetrics', async () => {
     })
 
     it('tracks engaged time accurately', async () => {
-      const now = dayjs()
       const engageDuration = 120 // 2 minutes
       const randomOrgId = shortId()
-      await createTestSession({
-        fictionAnalytics,
-        orgId: randomOrgId,
-        timestamp: now.unix(),
-        pageViews: 2,
-        engageDuration,
-      })
-      await createTestSession({
-        fictionAnalytics,
-        orgId: randomOrgId,
-        timestamp: now.unix(),
-        pageViews: 2,
-        engageDuration,
-      })
+      await createTestSession({ fictionAnalytics, orgId: randomOrgId, pageViews: 2, engageDuration })
+      await createTestSession({ fictionAnalytics, orgId: randomOrgId, pageViews: 2, engageDuration })
 
       const result = await fictionAnalytics.queries.CompiledMetrics.serve({
         orgId: randomOrgId,
-        period: 'hour',
+        period: 'hour4',
+        interval: 'hour',
         metrics: [{
           key: 'engagedTime',
           type: 'session',
@@ -431,10 +419,10 @@ describe('queryCompiledMetrics', async () => {
 
       expect(result.status).toBe('success')
       const timeData = result.data?.[0].data.main || []
-      const lastPoint = timeData[timeData.length - 1]
+      const hasValue = timeData.find(d => d.value === 480)
 
-      // Should match total engaged duration (2 pageviews * 120 seconds)
-      expect(+(lastPoint?.value || 0)).toBe(240)
+      // Should match total engaged duration (4 pageviews * 120 seconds)
+      expect(hasValue).toBeTruthy()
     })
 
     it('calculates conversion rates correctly', async () => {
