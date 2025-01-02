@@ -1,7 +1,7 @@
 import type { FictionEvent } from '../typesTracking'
-import { objectId, path, shortId, waitFor } from '@fiction/core'
-import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import { cacheSession, checkForExpiredSessions, processAndSaveEvents, processRawEvents } from '../plugin-beacon/utils/session'
+import { objectId, shortId, waitFor } from '@fiction/core'
+import { afterAll, describe, expect, it } from 'vitest'
+import { cacheSession, processAndSaveEvents, processRawEvents } from '../plugin-beacon/utils/session'
 import { createAnalyticsTestUtils } from './helpers'
 
 describe('beacon event saving', async () => {

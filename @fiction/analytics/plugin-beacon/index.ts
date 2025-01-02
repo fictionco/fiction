@@ -4,7 +4,7 @@ import type http from 'node:http'
 import type { FictionAnalytics, FictionAnalyticsSettings } from '../index.js'
 import type { FictionClickHouse } from '../plugin-clickhouse/index.js'
 import type { FictionEvent } from '../typesTracking.js'
-import { createExpressApp, dayjs, deepMerge, FictionPlugin, getRequestIpAddress, vue, WriteBuffer } from '@fiction/core'
+import { createExpressApp, dayjs, deepMerge, FictionPlugin, getRequestIpAddress, vue } from '@fiction/core'
 import { addExpressHealthCheck } from '@fiction/core/utils/serverHealth.js'
 
 import { checkForExpiredSessions, processAndSaveEvents } from './utils/session.js'

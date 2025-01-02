@@ -94,6 +94,7 @@
         },
         "util.ts": null
       },
+      "displayMetricFactory.ts": null,
       "endpointMetrics.ts": null,
       "endpointTrack.ts": null,
       "endpoints.ts": null,
@@ -103,22 +104,19 @@
         "README.md": null,
         "SPEC.md": null,
         "index.ts": null,
-        "session.ts": null,
         "utils": {
           "device.ts": null,
           "geoIp.ts": null,
           "index.ts": null,
           "referrer-list.yml": null,
           "referrer.ts": null,
+          "session.ts": null,
           "utils.ts": null
         }
       },
       "plugin-clickhouse": {
         "index.ts": null,
         "package.json": null,
-        "test": {
-          "fillData.test.ts": null
-        },
         "types.ts": null,
         "utils.ts": null
       },
@@ -137,7 +135,7 @@
         "utils.ts": null
       },
       "test": {
-        "beacon.stats.test.ts": null,
+        "beacon.unit.test.ts": null,
         "client.stats.test.ts": null,
         "endpoint.metrics.unit.test.ts": null,
         "endpoint.track.unit.test.ts": null,
@@ -159,6 +157,7 @@
           "geo.unit.test.ts": null,
           "history.unit.test.ts": null,
           "pageStats.unit.test.ts": null,
+          "refine.unit.test.ts": null,
           "tracking.unit.test.ts": null,
           "unload.unit.test.ts": null
         },
