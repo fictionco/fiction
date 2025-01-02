@@ -223,21 +223,21 @@ describe('site plugin tests', async () => {
     expect(loaded2).toBeDefined()
     expect(loaded2?.siteId).toBe(site.siteId)
 
-    expect((loaded?.customDomains.value || []).map(_ => Object.keys(_)).sort()).toMatchInlineSnapshot(`
+    expect((loaded?.customDomains.value || []).flatMap(_ => Object.keys(_)).sort()).toMatchInlineSnapshot(`
       [
         [
-          "domainId",
           "siteId",
-          "hostname",
+          "domainId",
           "isPrimary",
+          "hostname",
           "dnsValidationHostname",
           "dnsValidationTarget",
           "dnsValidationInstructions",
           "check",
           "configured",
           "certificateAuthority",
-          "updatedAt",
           "createdAt",
+          "updatedAt",
         ],
       ]
     `)

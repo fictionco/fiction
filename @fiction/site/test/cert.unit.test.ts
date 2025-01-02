@@ -50,7 +50,7 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, () => {
       const originalToken = testUtils.fictionSites.settings.flyApiToken
       testUtils.fictionSites.settings.flyApiToken = 'invalid-token'
 
-      await expect(testUtils.fictionSites.queries.ManageCert.verifyAuthentication()).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: [CERTS-AUTH] Invalid or expired API token]`)
+      await expect(testUtils.fictionSites.queries.ManageCert.verifyAuthentication()).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: [CERTS-AUTH] API token verification failed]`)
 
       // Restore token
       testUtils.fictionSites.settings.flyApiToken = originalToken
@@ -136,12 +136,12 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, () => {
       {
         "_action": "check",
         "acmeAlpnConfigured": "true",
-        "acmeDnsConfigured": false,
+        "acmeDnsConfigured": "false",
         "certificateAuthority": "lets_encrypt",
         "check": "true",
         "clientStatus": "Ready",
         "configured": "true",
-        "createdAt": "[dateTime:]",
+        "createdAt": "[datetime:****-**-*****:**:***]",
         "dnsProvider": "cloudflare",
         "dnsValidationHostname": "_acme-challenge.test-site.fiction.com",
         "dnsValidationInstructions": "**MASKED**",
@@ -149,7 +149,24 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, () => {
         "hostname": "test-site.fiction.com",
         "id": "**MASKED**",
         "issued": {
-          "nodes": "**MASKED**",
+          "nodes": [
+            {
+              "expiresAt": "[datetime:****-**-*****:**:***]",
+              "type": "rsa",
+            },
+            {
+              "expiresAt": "[datetime:****-**-*****:**:***]",
+              "type": "ecdsa",
+            },
+            {
+              "expiresAt": "[datetime:****-**-*****:**:***]",
+              "type": "rsa",
+            },
+            {
+              "expiresAt": "[datetime:****-**-*****:**:***]",
+              "type": "ecdsa",
+            },
+          ],
         },
         "source": "fly",
       }
@@ -178,14 +195,14 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, () => {
     expect(snap(r1.data, { maskedKeys })).toMatchInlineSnapshot(`
       {
         "_action": "create",
-        "acmeAlpnConfigured": false,
-        "acmeDnsConfigured": false,
+        "acmeAlpnConfigured": "false",
+        "acmeDnsConfigured": "false",
         "certificateAuthority": "lets_encrypt",
-        "certificateRequestedAt": null,
-        "check": false,
+        "certificateRequestedAt": "null",
+        "check": "false",
         "clientStatus": "Awaiting configuration",
-        "configured": false,
-        "createdAt": "[dateTime:]",
+        "configured": "false",
+        "createdAt": "[datetime:****-**-*****:**:***]",
         "dnsProvider": "icann",
         "dnsValidationHostname": "_acme-challenge.example.com",
         "dnsValidationInstructions": "**MASKED**",
@@ -193,7 +210,7 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, () => {
         "hostname": "example.com",
         "id": "**MASKED**",
         "issued": {
-          "nodes": "**MASKED**",
+          "nodes": [],
         },
         "source": "fly",
       }
@@ -207,13 +224,13 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, () => {
     expect(snap(r1.data, { maskedKeys })).toMatchInlineSnapshot(`
       {
         "_action": "check",
-        "acmeAlpnConfigured": false,
-        "acmeDnsConfigured": false,
+        "acmeAlpnConfigured": "false",
+        "acmeDnsConfigured": "false",
         "certificateAuthority": "lets_encrypt",
-        "check": false,
+        "check": "false",
         "clientStatus": "Awaiting configuration",
-        "configured": false,
-        "createdAt": "[dateTime:]",
+        "configured": "false",
+        "createdAt": "[datetime:****-**-*****:**:***]",
         "dnsProvider": "icann",
         "dnsValidationHostname": "_acme-challenge.example.com",
         "dnsValidationInstructions": "**MASKED**",
@@ -221,7 +238,7 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, () => {
         "hostname": "example.com",
         "id": "**MASKED**",
         "issued": {
-          "nodes": "**MASKED**",
+          "nodes": [],
         },
         "source": "fly",
       }

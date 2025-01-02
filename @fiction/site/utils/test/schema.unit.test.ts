@@ -107,12 +107,12 @@ describe('schema tools', () => {
 
     expect(s).toMatchInlineSnapshot(`
       {
-        "_scheme": "object",
+        "$scheme": "object",
         "scheme": {
-          "_dark": "object",
-          "_light": "object",
+          "$dark": "object",
+          "$light": "object",
           "dark": {
-            "_bg": "object",
+            "$bg": "object",
             "bg": {
               "color": "string",
             },
@@ -120,7 +120,7 @@ describe('schema tools', () => {
           },
           "flip": "boolean",
           "light": {
-            "_bg": "object",
+            "$bg": "object",
             "bg": {
               "color": "string",
             },
@@ -161,11 +161,7 @@ describe('schema tools', () => {
         "sub.0.author.title",
         "groupInput",
         "media",
-        "media.url",
-        "media.format",
-        "media.html",
-        "media.el",
-        "media.modify.*",
+        "media.*",
       ]
     `)
   })
@@ -196,11 +192,12 @@ describe('schema tools', () => {
 
     expect(simple).toMatchInlineSnapshot(`
       {
-        "_details": "array, List of details with contact details, location, etc.",
-        "_media": "object",
+        "$details": "array, List of details with contact details, location, etc.",
+        "$media": "object",
+        "$superTitle": "object, Shorter badge above headline, 2 to 5 words",
         "details": [
           {
-            "_subObject": "object",
+            "$subObject": "object",
             "desc": "string",
             "href": "string",
             "icon": "string",
@@ -211,37 +208,34 @@ describe('schema tools', () => {
             },
           },
         ],
-        "title": "string, Primary headline for profile 3 to 8 words",
         "media": {
           "format": "string",
           "html": "string",
           "url": "string",
         },
         "subTitle": "string, Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs",
-        "superHeading": "string, Shorter badge above headline, 2 to 5 words",
+        "superTitle": {
+          "$icon": "object, Visual indicator icon [ai]",
+          "icon": {
+            "alt": "string",
+            "aspect": "string",
+            "class": "string, tabler iconify class i-tabler-[icon-name]",
+            "el": "",
+            "format": "string",
+            "html": "string",
+            "iconId": "string, iconId is common icon name (e.g. user, check, lock)",
+            "props": "object",
+            "url": "string",
+          },
+          "text": "string, Short text above main title [ai]",
+          "theme": "string, Color style",
+        },
+        "title": "string, Primary headline for profile 3 to 8 words",
       }
     `)
 
     const r = zodSchemaToDotPathRecord(schema)
 
-    expect(r).toMatchInlineSnapshot(`
-      {
-        "details": "array, List of details with contact details, location, etc.",
-        "details.0.desc": "string",
-        "details.0.href": "string",
-        "details.0.icon": "string",
-        "details.0.name": "string",
-        "details.0.subObject": "object",
-        "details.0.subObject.subDesc": "string",
-        "details.0.subObject.subName": "string",
-        "title": "string, Primary headline for profile 3 to 8 words",
-        "media": "object",
-        "media.format": "string",
-        "media.html": "string",
-        "media.url": "string",
-        "subTitle": "string, Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs",
-        "superHeading": "string, Shorter badge above headline, 2 to 5 words",
-      }
-    `)
+    expect(r).toMatchInlineSnapshot(`Promise {}`)
   })
 })

@@ -111,12 +111,14 @@ describe('sockets', () => {
             "bearer": {
               "email": "[email:*****@*****.***]",
               "iat": "888",
-              "role": "",
+              "systemRole": "",
               "userId": "[id:*****]",
-              "verifyEmail": false,
+              "verifyEmail": "[email:*****]",
             },
             "bearerToken": "**MASKED**",
-            "channels": "hello",
+            "channels": [
+              "hello",
+            ],
             "clientId": "[id:********************************]",
             "connectionId": "[id:********************************_*******]",
             "pingAlive": "true",

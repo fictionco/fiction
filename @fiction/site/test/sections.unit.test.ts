@@ -45,7 +45,7 @@ describe('section handling defaults', async () => {
   const site = await loadSiteFromTheme({ themeId: 'test', ...common })
 
   it('creates default sections header, footer', async (ctx) => {
-    expect(site.currentPage.value.templateId.value).toMatchInlineSnapshot(`"wrap"`)
+    expect(site.currentPage.value.templateId.value).toMatchInlineSnapshot(`"cardPageWrapV1"`)
     expect(Object.keys(site.sections.value)).toMatchInlineSnapshot(`
       [
         "test",

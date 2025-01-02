@@ -139,7 +139,7 @@ describe('siteRendering Tests', async () => {
     })).toMatchInlineSnapshot(`
       [
         [
-          "wrap",
+          "cardPageWrapV1",
           "main",
           undefined,
           4,
@@ -151,7 +151,7 @@ describe('siteRendering Tests', async () => {
           1,
         ],
         [
-          "wrap",
+          "cardPageWrapV1",
           "main",
           undefined,
           1,

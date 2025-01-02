@@ -34,9 +34,7 @@ describe('splitLetters', () => {
     element!.innerHTML = 'Hello <strong>world</strong>!'
     splitLetters({ selector: '#test' })
 
-    expect(element!.innerHTML).toBe(
-      `<span class="word"><span class="fx">H</span><span class="fx">e</span><span class="fx">l</span><span class="fx">l</span><span class="fx">o</span></span> <strong><span class="word"><span class="fx">w</span><span class="fx">o</span><span class="fx">r</span><span class="fx">l</span><span class="fx">d</span></span></strong><span class="word"><span class="fx">!</span></span>`,
-    )
+    expect(element!.innerHTML).toBe('<span class="word"><span class="fx">H</span><span class="fx">e</span><span class="fx">l</span><span class="fx">l</span><span class="fx">o</span></span> <strong><span class="word"><span class="fx">w</span><span class="fx">o</span><span class="fx">r</span><span class="fx">l</span><span class="fx">d</span></span></strong><span class="fx">!</span>')
   })
 
   it('handles mixed text and HTML tags', () => {
@@ -44,9 +42,7 @@ describe('splitLetters', () => {
     element!.innerHTML = 'Hello <strong>world</strong>! <span>foo</span>'
     splitLetters({ selector: '#test' })
 
-    expect(element!.innerHTML).toBe(
-      `<span class="word"><span class="fx">H</span><span class="fx">e</span><span class="fx">l</span><span class="fx">l</span><span class="fx">o</span></span> <strong><span class="word"><span class="fx">w</span><span class="fx">o</span><span class="fx">r</span><span class="fx">l</span><span class="fx">d</span></span></strong><span class="word"><span class="fx">!</span></span> <span><span class="word"><span class="fx">f</span><span class="fx">o</span><span class="fx">o</span></span></span>`,
-    )
+    expect(element!.innerHTML).toBe('<span class="word"><span class="fx">H</span><span class="fx">e</span><span class="fx">l</span><span class="fx">l</span><span class="fx">o</span></span> <strong><span class="word"><span class="fx">w</span><span class="fx">o</span><span class="fx">r</span><span class="fx">l</span><span class="fx">d</span></span></strong><span class="fx">!</span> <span><span class="word"><span class="fx">f</span><span class="fx">o</span><span class="fx">o</span></span></span>')
   })
 
   it('handles nested HTML tags', () => {
@@ -61,10 +57,13 @@ describe('splitLetters', () => {
 
   it('handles only special HTML characters', () => {
     const element = document.getElementById('test')
-    element!.textContent = '&amp;&copy;'
+    element!.innerHTML = '&amp;&amp;'
+
+    expect(element!.innerHTML).toBe('&amp;&amp;')
+
     splitLetters({ selector: '#test' })
 
-    expect(element!.innerHTML).toBe('<span class="fx">&amp;</span><span class="fx">©</span>')
+    expect(element!.innerHTML).toBe('<span class="fx">&amp;</span><span class="fx">&amp;</span>')
   })
 
   it('handles empty text', () => {

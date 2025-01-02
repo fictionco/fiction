@@ -10,7 +10,7 @@ describe('numberFormatter', () => {
   })
 
   it('should handle numbers less than 100', () => {
-    expect(numberFormatter(0)).toBe('0.0')
+    expect(numberFormatter(0)).toBe('0')
     expect(numberFormatter(50)).toBe('50.0')
     expect(numberFormatter(99.9)).toBe('99.9')
   })

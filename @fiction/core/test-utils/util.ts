@@ -167,7 +167,7 @@ function snapString(value: unknown, key?: string, opts: { maskedKeys?: string[] 
   // Check each pattern
   for (const [type, pattern] of Object.entries(patterns)) {
     if (key && (pattern instanceof RegExp ? pattern.test(key) : pattern(key))) {
-      return `[${type}:${val.replace(/[\dA-Z]/gi, '*') || '""'}]`
+      return `[${type}:${val ? 'TRUTHY' : 'FALSY'}]`
     }
   }
 

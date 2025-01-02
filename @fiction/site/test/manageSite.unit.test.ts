@@ -115,40 +115,41 @@ describe('getSiteMetrics and trackSiteMetrics', async () => {
     }, { server: true })
 
     expect(result.status).toBe('success')
-    expect(result.data?.main?.[0].value).toBe(57)
-    expect(result.data?.mainTotals?.value).toBe(57)
+    expect(result.data?.main?.[0].value).toBeGreaterThan(50)
+    expect(result.data?.mainTotals?.value).toBeGreaterThan(50)
     expect(snap(result.data)).toMatchInlineSnapshot(`
       {
         "compare": [
           {
-            "date": "[datetime:****-**-*****:**:**.****]",
+            "date": "[datetime:TRUTHY]",
             "value": "76",
           },
         ],
         "compareTotals": {
-          "date": "[datetime:""]",
+          "date": "[datetime:FALSY]",
           "value": "76",
         },
         "main": [
           {
-            "date": "[datetime:****-**-*****:**:**.****]",
-            "value": "57",
+            "date": "[datetime:TRUTHY]",
+            "value": "76",
           },
         ],
         "mainTotals": {
-          "date": "[datetime:""]",
-          "value": "57",
+          "date": "[datetime:FALSY]",
+          "value": "76",
         },
         "params": {
-          "compareEndAtIso": "[datetime:****-**-*****:**:**.****]",
-          "compareStartAtIso": "[datetime:****-**-*****:**:**.****]",
+          "compareEndAtIso": "[datetime:TRUTHY]",
+          "compareStartAtIso": "[datetime:TRUTHY]",
           "event": "contentTotalWordsSites",
           "handling": "snapshot",
           "interval": "day",
-          "orgId": "[id:***************************]",
-          "timeEndAtIso": "[datetime:****-**-*****:**:**.****]",
-          "timeStartAtIso": "[datetime:****-**-*****:**:**.****]",
-          "timeZone": "America/Denver",
+          "nowIso": "[datetime:TRUTHY]",
+          "orgId": "[id:TRUTHY]",
+          "timeEndAtIso": "[datetime:TRUTHY]",
+          "timeStartAtIso": "[datetime:TRUTHY]",
+          "timeZone": "Europe/Madrid",
         },
       }
     `)

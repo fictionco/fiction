@@ -91,10 +91,11 @@ describe('post analytics tests', async () => {
           ],
           "handling": "snapshot",
           "interval": "day",
+          "nowIso": "[datetime:****-**-*****:**:**.****]",
           "orgId": "[id:***************************]",
           "timeEndAtIso": "[datetime:****-**-*****:**:**.****]",
           "timeStartAtIso": "[datetime:****-**-*****:**:**.****]",
-          "timeZone": "America/Denver",
+          "timeZone": "Europe/Madrid",
         },
       }
     `)

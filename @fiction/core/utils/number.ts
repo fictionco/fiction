@@ -17,7 +17,7 @@ export function numberFormatter(num: number | string, { fractionDigits = 1, inte
     return num
 
   if (value === 0)
-    return 0
+    return '0'
 
   // For 0-99, return whole number
   if (value < 100 && integerOnly)

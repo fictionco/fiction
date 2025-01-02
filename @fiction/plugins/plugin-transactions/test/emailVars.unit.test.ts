@@ -54,6 +54,8 @@ describe('createEmailVars', async () => {
 
     expect(Object.keys(emailVars)).toMatchInlineSnapshot(`
       [
+        "app",
+        "appName",
         "queryVars",
         "actionId",
         "redirect",
@@ -66,7 +68,6 @@ describe('createEmailVars', async () => {
         "originUrl",
         "callbackUrl",
         "unsubscribeUrl",
-        "appName",
       ]
     `)
   })

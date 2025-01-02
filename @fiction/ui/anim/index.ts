@@ -170,12 +170,15 @@ export function splitLetters(args: { selector?: string, el?: HTMLElement }): voi
     const processTextNode = (node: ChildNode): void => {
       const content = node.nodeValue ?? ''
       const newContent = content.replace(/&[a-z]+;|<[^>]*>|\b\w\S*|\S/gi, (match) => {
-        if (match.startsWith('<') && match.endsWith('>'))
+        if (match.startsWith('<') && match.endsWith('>')) {
           return match
-        else if (match.startsWith('&') && match.endsWith(';'))
+        }
+        else if ((match.startsWith('&') && match.endsWith(';')) || match.length === 1) {
           return `<span class="fx">${match}</span>`
-        else
+        }
+        else {
           return `<span class='word'>${match.split('').map(character => `<span class='fx'>${character}</span>`).join('')}</span>`
+        }
       })
 
       if (node.parentNode) {

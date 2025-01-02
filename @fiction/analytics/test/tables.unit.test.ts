@@ -1,6 +1,7 @@
 import type { SessionParams } from '../plugin-beacon/index.js'
-import { dayjs } from '@fiction/core'
 
+import { dayjs } from '@fiction/core'
+import { snap } from '@fiction/core/test-utils'
 import { describe, expect, it } from 'vitest'
 import { getSessionQuerySelectors } from '../tables.js'
 import { createAnalyticsTestUtils, testSaveAnalyticsEvents } from './helpers.js'
@@ -44,7 +45,7 @@ describe('standard tables', async () => {
         "sum(engageDuration) as session__engageDuration",
         "sum(replayDuration) as session__replayDuration",
         "avgIf(scrollDepth, event='view' AND isFinite(scrollDepth)) as session__scrollDepth",
-        "anyIf(sessionNo, event='init') as session__sessionNo",
+        "toUInt16(anyIf(sessionNo, event='init')) as session__sessionNo",
         "anyIf(countryCode, event='init') as session__countryCode",
         "anyIf(regionName, event='init') as session__regionName",
         "anyIf(cityName, event='init') as session__cityName",
@@ -60,9 +61,9 @@ describe('standard tables', async () => {
         "anyIf(referralDescription, event='init') as session__referralDescription",
         "anyIf(referralCanonicalUrl, event='init') as session__referralCanonicalUrl",
         "anyIf(referralImage, event='init') as session__referralImage",
-        "countIf(event='view') as session__pageCount",
-        "count(*) as session__totalEvents",
-        "uniq(eventId) as session__eventCount",
+        "toInt16(countIf(event='view')) as session__pageCount",
+        "toInt16(count(*)) as session__totalEvents",
+        "toInt16(uniq(eventId)) as session__eventCount",
         "if(countIf(event='session') > 0, 1, 0) as session__isClosed",
         "if(session__pageCount > 1, 0, 1) as session__isBounce",
         "if(countIf(event='bot') > 0, 1, 0) as session__isRobot",
@@ -104,72 +105,72 @@ describe('standard tables', async () => {
 
     expect(data.length).toBeGreaterThan(0)
 
-    const sample = data[0]
+    const sample = fictionClickhouse.cleanPrefixes(data).pop()
 
-    expect(Object.keys(sample)).toMatchInlineSnapshot(`
-      [
-        "session__value",
-        "session__sessionId",
-        "session__orgId",
-        "session__anonymousId",
-        "session__userId",
-        "session__email",
-        "session__timestamp",
-        "session__timeAt",
-        "session__startedAt",
-        "session__endedAt",
-        "session__duration",
-        "session__os",
-        "session__browser",
-        "session__deviceType",
-        "session__locale",
-        "session__ip",
-        "session__timezone",
-        "session__version",
-        "session__entryPage",
-        "session__exitPage",
-        "session__isReturning",
-        "session__isFake",
-        "session__scrollTotal",
-        "session__keypressTotal",
-        "session__clickTotal",
-        "session__touchTotal",
-        "session__moveTotal",
-        "session__engageDuration",
-        "session__replayDuration",
-        "session__scrollDepth",
-        "session__sessionNo",
-        "session__countryCode",
-        "session__regionName",
-        "session__cityName",
-        "session__latitude",
-        "session__longitude",
-        "session__referrer",
-        "session__referralSource",
-        "session__referralMedium",
-        "session__referralCampaign",
-        "session__referralTerm",
-        "session__referralContent",
-        "session__referralTitle",
-        "session__referralDescription",
-        "session__referralCanonicalUrl",
-        "session__referralImage",
-        "session__pageCount",
-        "session__totalEvents",
-        "session__eventCount",
-        "session__isClosed",
-        "session__isBounce",
-        "session__isRobot",
-        "session__hasReplay",
-        "session__totalGoalConversion",
-        "session__totalConversion",
-        "session__hasGoalConversion",
-        "session__hasConversion",
-      ]
+    expect(snap(sample)).toMatchInlineSnapshot(`
+      {
+        "anonymousId": "[id:TRUTHY]",
+        "browser": "Chrome",
+        "cityName": "[name:FALSY]",
+        "clickTotal": "0",
+        "countryCode": "",
+        "deviceType": "unknown",
+        "duration": "[datetime:TRUTHY]",
+        "email": "[email:FALSY]",
+        "endedAt": "[datetime:TRUTHY]",
+        "engageDuration": "0",
+        "entryPage": "",
+        "eventCount": "4",
+        "exitPage": "",
+        "hasConversion": "0",
+        "hasGoalConversion": "0",
+        "hasReplay": "0",
+        "ip": "[geo:TRUTHY]",
+        "isBounce": "1",
+        "isClosed": "0",
+        "isFake": "0",
+        "isReturning": "0",
+        "isRobot": "0",
+        "keypressTotal": "0",
+        "latitude": "[geo:TRUTHY]",
+        "locale": "",
+        "longitude": "[geo:TRUTHY]",
+        "moveTotal": "0",
+        "orgId": "[id:TRUTHY]",
+        "os": "macOS",
+        "pageCount": "1",
+        "referralCampaign": "",
+        "referralCanonicalUrl": "[url:FALSY]",
+        "referralContent": "",
+        "referralDescription": "",
+        "referralImage": "",
+        "referralMedium": "",
+        "referralSource": "",
+        "referralTerm": "",
+        "referralTitle": "",
+        "referrer": "",
+        "regionName": "[name:FALSY]",
+        "replayDuration": "0",
+        "scrollDepth": "0",
+        "scrollTotal": "0",
+        "sessionId": "[id:TRUTHY]",
+        "sessionNo": "1",
+        "startedAt": "[datetime:TRUTHY]",
+        "timeAt": "[datetime:TRUTHY]",
+        "timestamp": "[datetime:TRUTHY]",
+        "timezone": "",
+        "totalConversion": "0",
+        "totalEvents": "4",
+        "totalGoalConversion": "0",
+        "touchTotal": "0",
+        "userId": "[id:FALSY]",
+        "value": "0",
+        "version": "unknown",
+      }
     `)
 
-    expect(+(sample.eventCount || 0)).toBeGreaterThan(0)
-    expect(sample.orgId).toBeTruthy()
-    expect(sample.deviceType).toBeTruthy()
+    expect(+(sample?.eventCount || 0)).toBeGreaterThan(0)
+    expect(sample?.orgId).toBeTruthy()
+    expect(sample?.deviceType).toBeTruthy()
   })
 })
