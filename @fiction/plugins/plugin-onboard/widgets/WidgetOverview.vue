@@ -51,18 +51,29 @@ const items: MetricDisplayItem[] = [
     suffix: 'subscribers',
     events: ['subscriptionTotalActive'],
     title: 'Email List',
-    icon: 'i-tabler-mail',
+    icon: 'i-tabler-user-star',
     displayFormat: 'detailed',
     format: 'abbreviatedInteger',
   },
   {
-    key: 'bounceRate',
-    type: 'session',
-    selector: 'avg(session__isBounce) * 100',
-    title: 'Bounce Rate',
-    icon: 'i-tabler-arrow-bounce',
+    key: 'emailsSent',
+    type: 'event',
+    suffix: 'sent',
+    selector: `countIf(event='emailDelivered')`,
+    title: 'Emails Sent',
+    icon: 'i-tabler-mail-fast',
     displayFormat: 'detailed',
-    format: 'percent',
+    format: 'abbreviatedInteger',
+  },
+  {
+    key: 'emailsOpened',
+    type: 'event',
+    suffix: 'sent',
+    selector: `countIf(event='emailOpened')`,
+    title: 'Emails Opened',
+    icon: 'i-tabler-mail-heart',
+    displayFormat: 'detailed',
+    format: 'abbreviatedInteger',
   },
   {
     key: 'avgSessionDuration',
@@ -82,6 +93,16 @@ const items: MetricDisplayItem[] = [
     displayFormat: 'detailed',
     format: 'abbreviatedInteger',
   },
+  {
+    key: 'bounceRate',
+    type: 'session',
+    selector: 'avg(session__isBounce) * 100',
+    title: 'Bounce Rate',
+    icon: 'i-tabler-arrow-bounce',
+    displayFormat: 'detailed',
+    format: 'percent',
+  },
+
 ]
 
 const factory = new MetricDisplayFactory('MetricDisplayFactory', { ...service, items })

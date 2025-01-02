@@ -133,12 +133,12 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9.6.0
+          version: 9.15.2
 
       - name: Set Node Version
         uses: actions/setup-node@v4
         with:
-          node-version: 22.5.1
+          node-version: 23.5.0
           cache: pnpm
 
       - name: Get pnpm store directory

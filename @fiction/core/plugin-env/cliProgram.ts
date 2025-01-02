@@ -83,6 +83,7 @@ export async function execute(): Promise<void> {
 
   commander
     .command('run')
+    .allowExcessArguments()
     .allowUnknownOption()
     .argument('<command>', 'command to run')
     .action(async (command: string) => {
