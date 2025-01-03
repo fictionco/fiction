@@ -80,34 +80,20 @@ export const brandArchetypes: { label: string, value: typeof ARCHETYPE_VALUES[nu
 ]
 
 const BrandItemSchema = z.object({
-  value: z.string(),
-  description: z.string(),
-  examples: z.string(),
-})
-
-// Audience schema for target market definition
-const AudienceSchema = z.object({
-  value: z.string().describe('Specific audience segment (e.g., \'young professionals\')'),
-  description: z.string().describe('Primary audience persona (e.g., \'ambitious professionals\')'),
-  examples: z.string().describe('Specific examples of target audience members'),
+  value: z.string().describe('Specific name or term'),
+  description: z.string().describe('Additional details about the item'),
+  examples: z.string().describe('Examples of the item, people related to it, or content that includes it'),
 })
 
 export const BrandGuideSchemaV2 = z.object({
-  position: z.string().optional().describe('As [trend], I help [target audience(s)] to [unique value] by [unique selling proposition]'),
-  archetypes: z.array(BrandItemSchema), // combination of archetypes = avatar
-  pillars: z.array(BrandItemSchema), // topics to write about
-  communicationStyles: z.array(BrandItemSchema), // examples of writing, speaking, content
-  motifs: z.array(BrandItemSchema), // things the refer to as brand e.g. a brand might use ancient history or rap lyrics
-  avoid: z.array(BrandItemSchema), // general things to avoid e.g. trump
-  audiences: z.array(AudienceSchema), // target market
-  visual: z.object({
-    primaryColor: z.string(),
-  }),
-  aiGuidance: z.object({
-    website: z.string(),
-    email: z.string(),
-    content: z.string(),
-  }),
+  avatar: z.array(BrandItemSchema).describe('Combination of archetypes, characters, or people combined to represent the brand'),
+  pillars: z.array(BrandItemSchema).describe('Core themes or topics that the brand focuses on'),
+  communicationStyles: z.array(BrandItemSchema).describe('Unique ways this brand/person communicates'),
+  motifs: z.array(BrandItemSchema).describe('Common elements, motifs, themes in content'), // things the refer to as brand e.g. a brand might use ancient history or rap lyrics
+  avoid: z.array(BrandItemSchema).describe('Concepts and elements to avoid or prevent'), // general things to avoid e.g. trump
+  audience: z.array(BrandItemSchema).describe('Target audience characteristics'), // target market
+  visual: z.object({ primaryColor: z.string() }),
+  aiGuidance: z.object({ website: z.string(), email: z.string(), content: z.string() }),
 })
 
 export const BrandGuideSchema = z.object({

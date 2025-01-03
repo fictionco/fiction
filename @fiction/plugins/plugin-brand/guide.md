@@ -11,7 +11,7 @@ export const BrandGuideSchemaV2 = z.object({
   pillars: z.array(BrandItemSchema), // topics to write about
   communicationStyles: z.array(BrandItemSchema), // examples of writing, speaking, content
   motifs: z.array(BrandItemSchema), // things the refer to as brand e.g. a brand might use ancient history or rap lyrics
-  avoid: z.array(BrandItemSchema), // general things to avoid e.g. trump
+  avoid: z.array(BrandItemSchema), // general things to avoid e.g. politics
   visual: z.object({
     primaryColor: z.string(),
   }),

@@ -106,14 +106,14 @@ vue.onMounted(async () => {
       loading: saving === 'saving',
       icon: saveUtil.isDirty.value ? 'i-tabler-upload' : 'i-tabler-check',
     }] }"
-    :header="header"
+    :header
   >
     <div v-if="!loading" class="space-y-6">
       <FormEngine
         :model-value="org"
         state-key="settingsTool"
         ui-size="lg"
-        :options="options"
+        :options
         :card="card"
         :disable-group-hide="true"
         :data-value="JSON.stringify(org)"

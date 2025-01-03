@@ -7,6 +7,8 @@ import XIcon from '../media/XIcon.vue'
 import XMedia from '../media/XMedia.vue'
 import FormEngine from './FormEngine.vue'
 
+defineOptions({ name: 'InputControl' })
+
 const { modelValue, controlOption } = defineProps<{
   modelValue?: any
   controlOption: InputOption

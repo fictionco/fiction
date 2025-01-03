@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site'
-import { type Organization, useService, vue } from '@fiction/core'
+import { useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import InputPassword from '@fiction/ui/inputs/InputPassword.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
 
-const { modelValue } = defineProps<{ modelValue?: Organization, card: Card }>()
+const { modelValue } = defineProps<{ modelValue?: string, card: Card }>()
 
 const _emit = defineEmits<{
-  (event: 'update:modelValue', payload: Organization): void
+  (event: 'update:modelValue', payload: string): void
 }>()
 
 const { fictionUser } = useService()
@@ -19,8 +19,10 @@ const sent = vue.ref(false)
 
 async function generateApiSecret(): Promise<void> {
   const orgId = fictionUser.activeOrganization.value?.orgId
+
   if (!orgId)
     return
+
   const r = await fictionUser.requests.ManageOrganization.projectRequest({ _action: 'generateApiSecret', where: { orgId } })
 
   if (r.status === 'success')
@@ -45,10 +47,6 @@ async function generateKey(confirmNew?: boolean): Promise<void> {
     sending.value = false
   }
 }
-
-vue.onMounted(async () => {
-  await fictionUser.userInitialized()
-})
 </script>
 
 <template>
@@ -91,7 +89,7 @@ vue.onMounted(async () => {
         :loading="sending"
         @click="generateKey()"
       >
-        Generate Key
+        Generate Your API Key
       </XButton>
     </div>
   </div>

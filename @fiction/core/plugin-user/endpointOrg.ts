@@ -238,7 +238,7 @@ export class QueryManageOrganization extends OrgQuery {
     if (!responseOrg)
       throw abort('API secret generation failed')
 
-    return this.prepareResponse(responseOrg, 'private API key created', meta)
+    return this.prepareResponse(responseOrg, 'new API secret key was created', meta)
   }
 
   private async createOrganization(params: ManageOrganizationParams & { _action: 'create' }, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {

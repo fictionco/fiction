@@ -151,7 +151,12 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
 
       const orgs = this.activeOrganizations.value ?? []
 
-      this.activeOrganizations.value = orgs.map(org => ((org.orgId === value.orgId) ? value : org))
+      // get new org list, making sure to retain loadOrgId if it exists
+      const newOrgs = orgs.map((org) => {
+        return org.orgId === value.orgId ? { loadOrgId: org.loadOrgId, ...value } : org
+      })
+
+      this.activeOrganizations.value = newOrgs
     },
   })
 
