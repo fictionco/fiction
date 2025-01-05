@@ -78,7 +78,13 @@ function hide(opt: InputOption, change?: 'toggle' | 'show' | 'hide') {
   return menuVisibility.value[key]
 }
 
-function getOptionPath(key: string) {
+function getOptionPath(opt: InputOption) {
+  const key = opt.key.value
+  const input = opt.input.value
+  // Ignore the key if this is an InputControl
+  if (typeof input === 'string' && input === 'InputControl') {
+    return basePath
+  }
   return basePath ? `${basePath}.${key}` : key
 }
 
@@ -185,7 +191,7 @@ function getGroupClasses(opt: InputOption) {
           class="mb-1"
           :class="i === 0 ? 'mt-0' : 'mt-1'"
         />
-        <input v-else-if="opt.input.value === 'hidden'" :data-option-path="opt.key.value" type="hidden" :value="getNested({ path: getOptionPath(opt.key.value), data: modelValue })">
+        <input v-else-if="opt.input.value === 'hidden'" :data-option-path="opt.key.value" type="hidden" :value="getNested({ path: getOptionPath(opt), data: modelValue })">
 
         <div v-else :data-input-wrap="inputWrapClass" :class="getInputWrapClasses(opt)" :data-depth="depth">
           <ElInput
@@ -199,8 +205,8 @@ function getGroupClasses(opt: InputOption) {
             v-bind="{ ...opt.outputProps.value }"
             :input-props="{ ...inputProps }"
             :input="opt.input.value"
-            :model-value="getNested({ path: getOptionPath(opt.key.value), data: modelValue })"
-            @update:model-value="emit('update:modelValue', setNested({ path: getOptionPath(opt.key.value), data: modelValue, value: $event }))"
+            :model-value="getNested({ path: getOptionPath(opt), data: modelValue })"
+            @update:model-value="emit('update:modelValue', setNested({ path: getOptionPath(opt), data: modelValue, value: $event }))"
           />
         </div>
       </template>

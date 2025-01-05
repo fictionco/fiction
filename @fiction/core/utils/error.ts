@@ -1,8 +1,10 @@
+import type { EndpointMeta } from './endpoint'
+
 export type ErrorCategory = 'error' | 'fail' | 'success'
 
 export type ErrorCode = 'OPERATION_FAILED' | 'INVALID_INPUT' | 'RESOURCE_NOT_FOUND' | 'AUTHENTICATION_FAILED' | 'PERMISSION_DENIED' | 'TOKEN_ERROR' | string
 
-export interface ErrorConfig {
+export type ErrorConfig = {
   status?: ErrorCategory
   message?: string
   code?: ErrorCode
@@ -16,7 +18,7 @@ export interface ErrorConfig {
   retryable?: boolean
   expected?: boolean
   reason?: string
-}
+} & EndpointMeta
 
 export class EndpointError extends Error {
   status: string
@@ -30,7 +32,7 @@ export class EndpointError extends Error {
   reason: string
 
   constructor(message: string, config: ErrorConfig = {}) {
-    super(config.expected ? `[EXPECTED] ${message}` : message)
+    super(config.expected || config.expectError ? `[EXPECTED] ${message}` : message)
 
     const {
       status = 'error',

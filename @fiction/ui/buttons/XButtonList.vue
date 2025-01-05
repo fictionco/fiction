@@ -40,7 +40,7 @@ function getButtonType(action: ActionButton) {
   <div v-if="buttons?.length" :id="randomId">
     <XButton
       v-for="(btn, i) in buttons"
-      :key="i"
+      :key="btn.testId || `btn-${i}`"
       class="x-action-item"
       :data-test-id="btn.testId"
       :theme="getButtonType(btn)"

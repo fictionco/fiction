@@ -9,19 +9,47 @@ import ElZeroBanner from '@fiction/ui/ElZeroBanner.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 import ElStart from './ElStart.vue'
 
-const { card, brandIndex } = defineProps<{ card: Card, brandIndex: TableBrand[] }>()
+const { card } = defineProps<{ card: Card }>()
 
-useService<{ fictionBrand: FictionBrand }>()
+const loading = vue.ref(true)
 
-const loading = vue.ref(false)
+const { fictionBrand, fictionEnv } = useService<{ fictionBrand: FictionBrand }>()
+
+const brandIndex = vue.shallowRef<TableBrand[]>([])
+
+async function load() {
+  loading.value = true
+
+  try {
+    const response = await fictionBrand.requests.ManageBrandGuide.projectRequest({ _action: 'list' })
+
+    if (response.status === 'success' && response.data) {
+      brandIndex.value = response.data
+    }
+    else {
+      fictionEnv.events.emit('notify', { type: 'error', message: 'Failed to load brand index' })
+    }
+  }
+  catch (error) {
+    console.error('Error loading', error)
+  }
+  finally {
+    loading.value = false
+  }
+}
+
+vue.onMounted(() => load())
 
 const list = vue.computed<NavListItem[]>(() => {
-  return brandIndex.map((brand) => {
+  if (!brandIndex.value || !Array.isArray(brandIndex.value))
+    return []
+
+  return brandIndex.value.map((brand) => {
     return {
       key: brand.brandId,
       label: brand.title || 'Untitled',
       description: brand.description || 'No description',
-      href: card.link(`/manage-brand?brandId=${brand.brandId}`),
+      href: card.link(`/brand?brandId=${brand.brandId}`),
       icon: 'i-tabler-briefcase',
     } as NavListItem
   })
@@ -35,13 +63,13 @@ const showStartModal = vue.ref(false)
     <div class="p-6">
       <ElIndexGrid
         media-icon="i-tabler-mail"
-        list-title="Brand Guidelines"
+        list-title="Brand Guide"
         :list
         :loading
         :action="{
           buttons: [{
             testId: 'new-brand-button',
-            label: 'Create Brand Guidelines',
+            label: 'Create Brand Guide',
             icon: 'i-tabler-plus',
             theme: 'primary',
             onClick: () => { showStartModal = true },
@@ -50,7 +78,7 @@ const showStartModal = vue.ref(false)
         <template #zero>
           <ElZeroBanner
             test-id="brand-zero"
-            title="Create Your First Brand Guidelines"
+            title="Create Your Brand Guide"
             description="Define your brand's voice, style, and content rules to power AI-assisted content creation."
             icon="i-tabler-briefcase"
             :action="{

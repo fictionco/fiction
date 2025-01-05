@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Sortable } from '@shopify/draggable'
 import type { InputOption } from '.'
-import { isTest, shortId, vue, waitFor } from '@fiction/core'
+import { isTest, shortId, type StandardSize, vue, waitFor } from '@fiction/core'
 import TransitionSlide from '../anim/TransitionSlide.vue'
 import XButton from '../buttons/XButton.vue'
 import FormEngine from './FormEngine.vue'
@@ -13,6 +13,7 @@ const {
   options = [],
   itemLabel = 'Item',
   itemName = 'Item',
+  uiSize = 'md',
 } = defineProps<{
   modelValue?: BasicItem[]
   options?: InputOption[]
@@ -22,6 +23,7 @@ const {
   depth?: number
   min?: number
   max?: number
+  uiSize?: StandardSize
 }>()
 
 const emit = defineEmits<{
@@ -38,6 +40,9 @@ const wrapperEl = vue.ref<HTMLElement>()
 const listKey = vue.ref(0)
 
 const keyedModelValue = vue.computed<KeyedItem[]>(() => {
+  if (!modelValue || !Array.isArray(modelValue))
+    return []
+
   return modelValue.map((item, i) => {
     item._key = item._key || shortId()
     return item
@@ -67,15 +72,6 @@ async function updateOrder() {
   updateModelValue(val)
   listKey.value++ // Increment the key to force re-render
 }
-
-// function updateInputValue(args: { index: number, key: string, value: unknown }) {
-//   const { index, key, value } = args
-
-//   const val = [...modelValue]
-//   val[index] = setNested({ path: key, data: val[index], value })
-
-//   updateModelValue(val)
-// }
 
 function updateIndexValue(index: number, value: Record<string, unknown>) {
   const val = [...modelValue]
@@ -109,7 +105,9 @@ function addItem() {
   const _key = shortId()
   const defaultItem = getDefaultItem()
   const itemLabel = getItemLabel()
-  const val = [...modelValue, { name: `New ${itemLabel}`, _key, ...defaultItem }]
+
+  const existing = modelValue && Array.isArray(modelValue) ? modelValue : []
+  const val = [...existing, { name: `New ${itemLabel}`, _key, ...defaultItem }]
   openItem.value = val.length - 1
   updateModelValue(val)
 }

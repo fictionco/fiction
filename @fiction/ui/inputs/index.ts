@@ -85,7 +85,7 @@ export type ValueResponse = {
   status: 'ready' | 'enabled' | 'disabled' | 'incomplete' | 'optional'
   data?: unknown
   message?: string
-  format?: 'text' | 'html' | 'media'
+  format?: 'text' | 'html' | 'media' | 'list'
 }
 
 type InputComponent = keyof typeof inputs | 'title' | 'group' | 'hidden' | vue.Component
@@ -238,7 +238,7 @@ export class InputOption extends FictionObject<InputOptionSettings> {
 type ValidOptionKey<
   TInput extends InputComponent,
   TSchema extends z.ZodObject<any> | undefined,
-> = TInput extends 'group' | 'title'
+> = TInput extends 'group' | 'title' | 'InputControl'
   ? string
   : TSchema extends z.ZodObject<any>
     ? SchemaFields<TSchema>

@@ -35,13 +35,10 @@ async function start() {
     const brandId = response.data?.[0].brandId
 
     if (response.status === 'success' && brandId) {
-      await props.card.goto(`/manage-brand?brandId=${brandId}`)
+      await props.card.goto(`/brand?brandId=${brandId}`)
     }
     else {
-      fictionEnv.events.emit('notify', {
-        message: 'Failed to create brand guide',
-        type: 'error',
-      })
+      fictionEnv.events.emit('notify', { message: 'Failed to create brand guide', type: 'error' })
     }
   }
   catch (error) {

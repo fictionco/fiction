@@ -20,12 +20,12 @@ const {
       <div class="font-semibold text-lg">
         {{ title || 'No Title' }}
       </div>
-      <XButtonList :buttons="action.buttons" class="flex justify-end" />
+      <XButtonList :buttons="action.buttons" class="flex justify-end gap-2" ui-size="md" />
     </div>
 
-    <div v-if="header" class="p-6">
+    <div v-if="header" class="p-4">
       <ElHeader
-        class="dark:bg-theme-700/50 rounded-xl p-8"
+        class="dark:bg-theme-700/30 rounded-xl p-8"
         :model-value="header"
       />
     </div>

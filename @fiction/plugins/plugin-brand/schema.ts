@@ -2,7 +2,7 @@ import type { ColType } from '@fiction/core'
 
 import { Col, FictionDbTable, standardTable } from '@fiction/core'
 import { t as postTableNames } from '@fiction/posts'
-import { BrandGuideSchema } from './guideSchema'
+import { BrandGuideSchema, BrandGuideSchemaV3 } from './guideSchema'
 
 export const t = {
   ...standardTable,
@@ -17,7 +17,8 @@ export const brandTableColumns = [
   new Col({ key: 'orgId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`${t.org}.orgId`).onUpdate('CASCADE').notNullable().index() }),
   new Col({ key: 'title', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'description', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k).defaultTo('') }),
-  new Col({ key: 'guide', sch: () => BrandGuideSchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
+  new Col({ key: 'guide', sch: () => BrandGuideSchemaV3, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
+  new Col({ key: 'isPrimary', sch: ({ z }) => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
 ] as const
 
 export const settingsKeys = brandTableColumns.filter(c => c.sec === 'setting').map(c => c.key)

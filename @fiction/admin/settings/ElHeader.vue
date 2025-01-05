@@ -4,7 +4,10 @@ import XButtonList from '@fiction/ui/buttons/XButtonList.vue'
 import XText from '@fiction/ui/common/XText.vue'
 import ElIndexItemMedia from '@fiction/ui/lists/ElIndexItemMedia.vue'
 
-const { modelValue = {}, editable = ['title'] } = defineProps<{ modelValue?: PostObject, editable?: (keyof PostObject)[] }>()
+const {
+  modelValue = {},
+  editable = ['title'],
+} = defineProps<{ modelValue?: PostObject, editable?: (keyof PostObject)[] }>()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: PostObject): void

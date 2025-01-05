@@ -80,21 +80,33 @@ export const brandArchetypes: { label: string, value: typeof ARCHETYPE_VALUES[nu
 ]
 
 const BrandItemSchema = z.object({
-  value: z.string().describe('Specific name or term'),
-  description: z.string().describe('Additional details about the item'),
-  examples: z.string().describe('Examples of the item, people related to it, or content that includes it'),
+  title: z.string().optional(),
+  description: z.string().optional(),
+  examples: z.string().optional(),
 })
 
-export const BrandGuideSchemaV2 = z.object({
-  avatar: z.array(BrandItemSchema).describe('Combination of archetypes, characters, or people combined to represent the brand'),
-  pillars: z.array(BrandItemSchema).describe('Core themes or topics that the brand focuses on'),
-  communicationStyles: z.array(BrandItemSchema).describe('Unique ways this brand/person communicates'),
-  motifs: z.array(BrandItemSchema).describe('Common elements, motifs, themes in content'), // things the refer to as brand e.g. a brand might use ancient history or rap lyrics
-  avoid: z.array(BrandItemSchema).describe('Concepts and elements to avoid or prevent'), // general things to avoid e.g. trump
-  audience: z.array(BrandItemSchema).describe('Target audience characteristics'), // target market
-  visual: z.object({ primaryColor: z.string() }),
-  aiGuidance: z.object({ website: z.string(), email: z.string(), content: z.string() }),
+export type BrandItem = z.infer<typeof BrandItemSchema>
+
+const BrandItemsSchema = z.array(BrandItemSchema).optional()
+
+export const BrandGuideSchemaV3 = z.object({
+  vision: z.string().optional().describe('Core purpose and future direction'),
+  personality: BrandItemsSchema.describe('Brand archetypes and traits'),
+  // voice: BrandItemsSchema.describe('Communication styles and tone'),
+  pillars: BrandItemsSchema.describe('Core content themes'),
+  // motifs: BrandItemsSchema.describe('Recurring motifs and elements'),
+  audience: BrandItemsSchema.describe('Target audience archetypes'),
+  constraints: BrandItemsSchema.describe('Things to avoid'),
+  colors: z.object({
+    primary: z.enum(colorThemeBright).optional(),
+    secondary: z.enum(colorThemeBright).optional(),
+    accent: z.enum(colorThemeBright).optional(),
+  }).optional(),
 })
+
+export type BrandGuideV3 = z.infer<typeof BrandGuideSchemaV3>
+
+export type BrandGuideArrayKeys = 'personality' | 'pillars' | 'audience' | 'constraints'
 
 export const BrandGuideSchema = z.object({
   personality: z.object({

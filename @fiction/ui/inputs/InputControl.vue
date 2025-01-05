@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { InputOption } from '.'
-import { type ActionButton, isPlainObject, type MediaObject, toLabel, vue, waitFor } from '@fiction/core'
+import { type ActionButton, isPlainObject, type ListItem, type MediaObject, toLabel, vue, waitFor } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 import ElModal from '../ElModal.vue'
 import XIcon from '../media/XIcon.vue'
@@ -101,6 +101,16 @@ const actions = vue.computed<ActionButton[]>(() => {
           </div>
           <div v-else-if="v?.format === 'media' && isPlainObject(v?.data)" class="my-2">
             <XMedia class="size-14" :media="(v?.data as MediaObject)" />
+          </div>
+          <div v-else-if="v?.format === 'list' && Array.isArray(v?.data)" class="my-2 space-y-2">
+            <div v-for="(item, ii) in (v?.data as ListItem[])" :key="ii" class="gap-2 list-disc list-item ml-5">
+              <div class="line-clamp-2">
+                {{ item.label }}
+              </div>
+              <div class="text-theme-500 dark:text-theme-400 text-base font-medium line-clamp-2">
+                {{ item.description }}
+              </div>
+            </div>
           </div>
           <div v-else :data-test-id="`${baseTestId}-display-value`">
             {{ v?.data || 'Not Set' }}

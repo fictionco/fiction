@@ -36,23 +36,44 @@ export class FictionBrand extends FictionPlugin<FictionBrandSettings> {
     const { fictionAdmin } = this.settings
 
     fictionAdmin.addAdminPages({ key: 'send', loader: async ({ factory }) => [
+
       await factory.fromTemplate<typeof dashTemplate>({
         templateId: 'dash',
         slug: 'brand',
         title: 'Brand',
         cards: [
           await factory.fromTemplate<typeof panelTemplate>({
-            el: vue.defineAsyncComponent(async () => import('./admin/ViewManageIndex.vue')),
+            el: vue.defineAsyncComponent(async () => import('./admin/ViewManageBrand.vue')),
             cards: [
               await factory.fromTemplate<typeof panelTemplate>({
                 slug: '_home',
-                title: 'Brand Library',
-                description: 'Manage your brand guides and AI content models',
+                title: 'Brand Guide', // More specific than just 'Guide'
+                description: 'Define your brand identity and style guidelines',
+                el: vue.defineAsyncComponent(async () => import('./admin/BrandGuide.vue')),
+                userConfig: {
+                  isNavItem: true,
+                  navIcon: 'i-tabler-map',
+                },
+              }),
+              // await factory.fromTemplate<typeof panelTemplate>({
+              //   slug: 'model',
+              //   title: 'AI Knowledge Base', // More intuitive than 'Content Model'
+              //   description: 'Train AI with your brand voice and content guidelines',
+              //   el: vue.defineAsyncComponent(async () => import('./admin/ManageModel.vue')),
+              //   userConfig: {
+              //     isNavItem: true,
+              //     navIcon: 'i-tabler-search',
+              //   },
+              // }),
+              await factory.fromTemplate<typeof panelTemplate>({
+                slug: 'change-brand',
+                title: 'Create/Change Brand',
+                description: 'Change the primary brand model',
                 el: vue.defineAsyncComponent(async () => import('./admin/IndexList.vue')),
                 userConfig: {
                   isNavItem: true,
-                  navIcon: 'i-tabler-briefcase',
-                  navIconAlt: 'i-tabler-briefcase-2',
+                  navIcon: 'i-tabler-map-share',
+                  navIconAlt: 'i-tabler-map-plus',
                 },
               }),
             ],
@@ -60,44 +81,9 @@ export class FictionBrand extends FictionPlugin<FictionBrandSettings> {
         ],
         userConfig: {
           isNavItem: true,
-          navIcon: 'i-tabler-briefcase',
-          navIconAlt: 'i-tabler-briefcase-2',
+          navIcon: 'i-tabler-map',
+          navIconAlt: 'i-tabler-map-check',
           priority: 200,
-        },
-      }),
-      await factory.fromTemplate<typeof dashTemplate>({
-        templateId: 'dash',
-        slug: 'manage-brand',
-        title: 'Brand Editor',
-        cards: [
-          await factory.fromTemplate<typeof panelTemplate>({
-            el: vue.defineAsyncComponent(async () => import('./admin/ViewManageBrand.vue')),
-            cards: [
-              await factory.fromTemplate<typeof panelTemplate>({
-                slug: '_home',
-                title: 'Brand Guidelines', // More specific than just 'Guide'
-                description: 'Define your brand identity and style guidelines',
-                el: vue.defineAsyncComponent(() => import('./admin/ManageOverview.vue')),
-                userConfig: {
-                  isNavItem: true,
-                  navIcon: 'i-tabler-arrow-guide',
-                },
-              }),
-              await factory.fromTemplate<typeof panelTemplate>({
-                slug: 'model',
-                title: 'AI Knowledge Base', // More intuitive than 'Content Model'
-                description: 'Train AI with your brand voice and content guidelines',
-                el: vue.defineAsyncComponent(async () => import('./admin/ManageModel.vue')),
-                userConfig: {
-                  isNavItem: true,
-                  navIcon: 'i-tabler-search',
-                },
-              }),
-            ],
-          }),
-        ],
-        userConfig: {
-          parentNavItemSlug: 'brand',
         },
       }),
 

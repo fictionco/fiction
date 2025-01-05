@@ -1,4 +1,4 @@
-import type { BrandGuide } from '../guideSchema'
+import type { BrandGuideV3 } from '../guideSchema'
 import type { TableBrand } from '../schema'
 import { abort } from '@fiction/core'
 import { createTestUser } from '@fiction/core/test-utils'
@@ -22,56 +22,105 @@ describe('brand guide endpoint', async () => {
     throw abort('missing orgId or user data')
   }
 
-  const sampleBrandGuide: BrandGuide = {
-    personality: {
-      archetype: 'creator' as const,
-      traits: 'innovative',
-      voice: {
-        tone: 'Friendly but professional',
-        guidelines: 'Use clear, simple language. Be direct but warm.',
+  const sampleBrandGuide: BrandGuideV3 = {
+    vision: 'Help creators build sustainable businesses through authentic branding',
+    personality: [
+      {
+        title: 'Creator',
+        description: 'Innovates and expresses unique ideas.',
+        examples: 'Casey Neistat, Issa Rae',
       },
-    },
-    purpose: {
-      mission: 'Help creators build sustainable businesses',
-      vision: 'Empower 1000 creators to achieve financial freedom',
-      positioning: 'Practical, experience-based guidance for creators',
-      values: [{
-        title: 'Authenticity',
-        description: 'Being genuine in all interactions',
-        inPractice: 'Sharing both successes and failures openly',
-      }],
-    },
-    communities: [{
-      name: 'Early-stage creators',
-      interests: 'personal branding',
-      challenges: 'finding their voice',
-      content: 'tutorials',
-    }],
-    pillars: [{
-      topic: 'Brand Building',
-      description: 'Developing a strong personal brand',
-      examples: 'Brand voice workshop',
-      audiences: 'creators',
-    }],
-    futurePacing: {
-      declaration: 'I am the go-to resource for creator branding',
-      nextSteps: [{
-        statement: 'Regular content production',
-        action: 'Launch weekly newsletter',
-        deadline: '2024-12-01',
-      }],
-    },
-    visuals: {
-      primaryColor: 'blue',
-      typography: {
-        title: 'Montserrat',
-        body: 'Inter',
+      {
+        title: 'Authentic',
+        description: 'Genuine and transparent in all interactions.',
+        examples: 'Being open about both successes and failures',
       },
-      imageStyle: 'Clean, minimal with bold accent colors',
+    ],
+    pillars: [
+      {
+        title: 'Brand Building',
+        description: 'Developing authentic personal brands',
+        examples: 'Personal brand workshops, voice development guides',
+      },
+    ],
+    audience: [
+      {
+        title: 'Aspiring Creators',
+        description: 'People looking to build their own path in creative fields',
+        examples: 'Writers, Artists, Content Creators',
+      },
+    ],
+    constraints: [
+      {
+        title: 'Topics to Avoid',
+        description: 'Maintain professional focus',
+        examples: '"No politics", "No religion", "No industry gossip"',
+      },
+    ],
+    colors: {
+      primary: 'red',
+      secondary: 'blue',
     },
-    systemMessage: 'Maintain friendly, expert tone while prioritizing actionable advice',
-    version: '1.0.0',
   }
+
+  it('handles primary brand guides', async () => {
+    // Create three brand guides
+    const createResults = await Promise.all([1, 2, 3].map(async num =>
+      fictionBrand.queries.ManageBrandGuide.serve({
+        _action: 'create',
+        fields: {
+          title: `Guide ${num}`,
+          description: `Test guide ${num}`,
+          guide: sampleBrandGuide,
+          isPrimary: num === 1, // First guide is primary
+        },
+        orgId,
+      }, { server: true }),
+    ))
+
+    const guides = createResults.map(r => r.data?.[0]).filter(Boolean) as TableBrand[]
+    expect(guides.length).toBe(3)
+
+    // Test retrieving primary guide
+    const primaryRetrieve = await fictionBrand.queries.ManageBrandGuide.serve({
+      _action: 'retrieve',
+      where: {},
+      orgId,
+    }, { server: true })
+
+    expect(primaryRetrieve.status).toBe('success')
+    expect(primaryRetrieve.data?.[0].title).toBe('Guide 1')
+    expect(primaryRetrieve.data?.[0].isPrimary).toBe(true)
+
+    // Test setting a new primary
+    const setPrimaryResult = await fictionBrand.queries.ManageBrandGuide.serve({
+      _action: 'setPrimary',
+      where: { brandId: guides[1].brandId || '' },
+      orgId,
+    }, { server: true })
+
+    expect(setPrimaryResult.status).toBe('success')
+    expect(setPrimaryResult.data?.[0].isPrimary).toBe(true)
+    expect(setPrimaryResult.data?.[0].title).toBe('Guide 2')
+
+    // Verify old primary was unset
+    const oldPrimary = await fictionBrand.queries.ManageBrandGuide.serve({
+      _action: 'retrieve',
+      where: { brandId: guides[0].brandId },
+      orgId,
+    }, { server: true })
+
+    expect(oldPrimary.data?.[0].isPrimary).toBe(false)
+
+    // Clean up
+    await Promise.all(guides.map(guide =>
+      fictionBrand.queries.ManageBrandGuide.serve({
+        _action: 'delete',
+        where: { brandId: guide.brandId },
+        orgId,
+      }, { server: true }),
+    ))
+  })
 
   it('bulk create brand guides', async () => {
     const guides: TableBrand[] = [
@@ -85,7 +134,11 @@ describe('brand guide endpoint', async () => {
         description: 'Second test guide',
         guide: {
           ...sampleBrandGuide,
-          personality: { ...sampleBrandGuide.personality, archetype: 'sage' },
+          personality: [{
+            title: 'Sage',
+            description: 'Shares wisdom and deep insights',
+            examples: 'Neil deGrasse Tyson, Brené Brown',
+          }],
         },
       },
     ] as const
@@ -102,7 +155,7 @@ describe('brand guide endpoint', async () => {
       expect(r.status).toBe('success')
       expect(r.data?.length).toBe(1)
       expect(r.data?.[0].guide?.personality).toBeDefined()
-      expect(r.data?.[0].guide?.purpose).toBeDefined()
+      expect(r.data?.[0].guide?.vision).toBeDefined()
     })
 
     const brandIds = createResults.map(r => r.data?.[0].brandId).filter(Boolean) as string[]
@@ -130,9 +183,8 @@ describe('brand guide endpoint', async () => {
 
     expect(r.status).toBe('success')
     expect(r.data?.length).toBe(1)
-    expect(r.data?.[0].guide?.personality?.archetype).toBe('creator')
-    expect(r.data?.[0].guide?.purpose?.mission).toBeDefined()
-    expect(r.data?.[0].guide?.futurePacing?.declaration).toBeDefined()
+    expect(r.data?.[0].guide?.personality?.[0].title).toBe('Creator')
+    expect(r.data?.[0].guide?.vision).toBeDefined()
 
     const r2 = await fictionBrand.queries.ManageBrandGuide.serve({
       _action: 'create',
@@ -142,7 +194,11 @@ describe('brand guide endpoint', async () => {
         orgId,
         guide: {
           ...sampleBrandGuide,
-          personality: { ...sampleBrandGuide.personality, archetype: 'hero' },
+          personality: [{
+            title: 'Hero',
+            description: 'Overcomes challenges to inspire',
+            examples: 'David Goggins, Simone Biles',
+          }],
         },
       },
       orgId,
@@ -168,22 +224,20 @@ describe('brand guide endpoint', async () => {
         description: 'Updated description',
         guide: {
           ...sampleBrandGuide,
-          personality: {
-            ...sampleBrandGuide?.personality,
-            traits: 'bold',
-          },
-          futurePacing: {
-            ...sampleBrandGuide?.futurePacing,
-            declaration: 'I am the leading voice in creator education',
-          },
+          personality: [{
+            title: 'Rebel',
+            description: 'Challenges status quo through authentic voice',
+            examples: 'Malcolm Gladwell, Gary Vaynerchuk',
+          }],
+          vision: 'Become the leading voice in creator education',
         },
       },
     }, { server: true })
 
     expect(r.status).toBe('success')
     expect(r.data?.length).toBe(1)
-    expect(r.data?.[0].guide?.personality?.traits).toContain('bold')
-    expect(r.data?.[0].guide?.futurePacing?.declaration).toContain('leading voice')
+    expect(r.data?.[0].guide?.personality?.[0].title).toBe('Rebel')
+    expect(r.data?.[0].guide?.vision).toContain('leading voice')
   })
 
   it('handles invalid requests', async () => {
@@ -193,23 +247,36 @@ describe('brand guide endpoint', async () => {
         orgId,
         guide: {
           ...sampleBrandGuide,
-          personality: {
-            ...sampleBrandGuide?.personality,
-            // @ts-expect-error test
-            archetype: 'InvalidArchetype', // Invalid archetype
+          colors: {
+            // @ts-expect-error test invalid color format
+            primary: 'not-a-valid-color',
           },
         },
       },
       orgId,
-    }, { server: true })
+    }, { server: true, expectError: true })
 
     expect(invalidCreate.status).toBe('error')
+
+    expect(invalidCreate).toMatchInlineSnapshot(`
+      {
+        "code": "OPERATION_FAILED",
+        "context": "ManageBrandGuideQuery",
+        "data": undefined,
+        "expose": true,
+        "httpStatus": 500,
+        "location": undefined,
+        "message": "[EXPECTED] title is required to create brand guide",
+        "reason": "[EXPECTED] title is required to create brand guide",
+        "status": "error",
+      }
+    `)
 
     const invalidRetrieve = await fictionBrand.queries.ManageBrandGuide.serve({
       _action: 'retrieve',
       where: { brandId: 'non-existent-id' },
       orgId,
-    }, { server: true })
+    }, { server: true, expectError: true })
 
     expect(invalidRetrieve.status).toBe('error')
     expect(invalidRetrieve.message).toBe('Brand guide not found')

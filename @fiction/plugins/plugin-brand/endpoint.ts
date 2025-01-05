@@ -26,6 +26,7 @@ export type ManageBrandGuideRequest =
   | { _action: 'count', orgId: string, filters?: ComplexDataFilter[] }
   | { _action: 'update', where: WhereBrandGuide, fields: Partial<TableBrand> }
   | { _action: 'delete', where: WhereBrandGuide }
+  | { _action: 'setPrimary', where: WhereBrandGuide }
 
 export type ManageBrandGuideParams = ManageBrandGuideRequest & IndexQuery & { orgId: string }
 
@@ -58,6 +59,9 @@ export class ManageBrandGuideQuery extends BrandGuideEndpoint {
         break
       case 'delete':
         r = await this.delete(params, meta)
+        break
+      case 'setPrimary':
+        r = await this.setPrimary(params, meta)
         break
       default:
         r = { status: 'error', message: 'Invalid action' }
@@ -93,32 +97,70 @@ export class ManageBrandGuideQuery extends BrandGuideEndpoint {
     const { fictionDb } = this.settings
 
     if (!orgId) {
-      throw abort('orgId is required to create brand guide')
+      throw abort('orgId is required to create brand guide', meta)
     }
 
     if (!fields.title) {
-      throw abort('title is required to create brand guide')
+      throw abort('title is required to create brand guide', meta)
     }
 
-    const insertData = fictionDb.prep({ type: 'insert', fields, meta, table: t.brand })
+    // Start a transaction since we'll potentially need to check and update isPrimary
+    const trx = await this.db().transaction()
 
-    this.log.info('createBrandGuide', { data: insertData, caller: meta.caller })
+    try {
+      // Check if any primary brand guide exists
+      const existingPrimary = await trx(t.brand)
+        .where({ orgId, isPrimary: true })
+        .first()
 
-    const result = await this.db()
-      .table(t.brand)
-      .insert({ orgId, ...insertData })
-      .returning('*')
+      // Prepare insert data with isPrimary set if no existing primary
+      const insertData = fictionDb.prep({
+        type: 'insert',
+        fields: {
+          ...fields,
+          isPrimary: !existingPrimary && fields.isPrimary !== false,
+        },
+        meta,
+        table: t.brand,
+      })
 
-    return { status: 'success', data: result, indexMeta: { changedCount: 1 } }
+      this.log.info('createBrandGuide', { data: insertData, caller: meta.caller })
+
+      const result = await trx(t.brand)
+        .insert({ orgId, ...insertData })
+        .returning('*')
+
+      await trx.commit()
+
+      return { status: 'success', data: result, indexMeta: { changedCount: 1 } }
+    }
+    catch (error) {
+      await trx.rollback()
+      throw error
+    }
   }
 
   private async retrieve(params: ManageBrandGuideParams & { _action: 'retrieve' }, _meta: EndpointMeta): Promise<ManageBrandGuideResponse> {
     const { where, orgId } = params
 
-    const result = await this.db()
-      .table(t.brand)
-      .where({ orgId, ...where })
-      .first()
+    let query = this.db().table(t.brand).where({ orgId })
+
+    if (where.brandId) {
+      query = query.where('brandId', where.brandId)
+    }
+    else {
+      query = query.where('isPrimary', true)
+    }
+
+    let result = await query.first()
+
+    if (!result && !where.brandId) {
+      // If no primary found, get the first brand guide
+      result = await this.db()
+        .table(t.brand)
+        .where({ orgId })
+        .first()
+    }
 
     if (!result) {
       return { status: 'error', message: 'Brand guide not found', data: [] }
@@ -151,12 +193,14 @@ export class ManageBrandGuideQuery extends BrandGuideEndpoint {
     const { fictionDb } = this.settings
 
     const prepped = fictionDb.prep({ type: 'update', fields, meta, table: t.brand })
-    const updatedAt = new Date().toISOString()
 
+    delete prepped.isPrimary // Remove from regular update
+
+    // Regular update for all other cases
     const result = await this.db()
       .table(t.brand)
       .where({ orgId, ...where })
-      .update({ ...prepped, updatedAt })
+      .update({ ...prepped, updatedAt: new Date().toISOString() })
       .returning('*')
 
     if (!result.length) {
@@ -180,5 +224,37 @@ export class ManageBrandGuideQuery extends BrandGuideEndpoint {
     }
 
     return { status: 'success', data: result, indexMeta: { changedCount: result.length } }
+  }
+
+  private async setPrimary(params: ManageBrandGuideParams & { _action: 'setPrimary' }, _meta: EndpointMeta): Promise<ManageBrandGuideResponse> {
+    const { where, orgId } = params
+
+    // Start a transaction to ensure atomicity
+    const trx = await this.db().transaction()
+
+    try {
+      // First, unset any existing primary
+      await trx(t.brand)
+        .where({ orgId, isPrimary: true })
+        .update({ isPrimary: false })
+
+      // Then set the new primary
+      const result = await trx(t.brand)
+        .where({ orgId, ...where })
+        .update({ isPrimary: true })
+        .returning('*')
+
+      await trx.commit()
+
+      if (!result.length) {
+        return { status: 'error', message: 'Brand guide not found', data: [] }
+      }
+
+      return { status: 'success', data: result, indexMeta: { changedCount: result.length } }
+    }
+    catch (error) {
+      await trx.rollback()
+      throw error
+    }
   }
 }
