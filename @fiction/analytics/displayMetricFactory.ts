@@ -53,7 +53,7 @@ export class MetricDisplayFactory extends FictionObject<{
     return {
       ...metric,
       value: mainTotal,
-      change: compareTotal ? mainTotal - compareTotal : 0,
+      change: mainTotal - compareTotal,
       data: result.data,
     }
   }

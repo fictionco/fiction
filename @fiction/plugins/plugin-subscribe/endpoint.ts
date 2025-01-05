@@ -129,25 +129,65 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
     return { status: 'success', data: result, indexMeta: { changedCount: 1 } }
   }
 
-  // Bulk create subscriptions
   private async bulkCreate(params: ManageSubscriptionParams & { _action: 'bulkCreate' }, meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
     const { orgId, subscribers } = params
-    const results: Subscriber[] = []
+    const { fictionDb } = this.settings
 
-    // Process subscribers in batches
-    for (const subscriber of subscribers) {
-      const createParams: ManageSubscriptionParams & { _action: 'create' } = { _action: 'create', orgId, subscriber }
+    // Pre-fetch all user IDs for emails in one query
+    const emails = subscribers
+      .filter(s => s.email && !s.userId)
+      .map(s => s.email) as string[]
 
-      const result = await this.create(createParams, meta)
-      if (result.status === 'success' && result.data) {
-        results.push(...result.data)
-      }
-      else {
-        this.log.error('Failed to create subscription for subscriber', subscriber)
-      }
+    const userIdMap = new Map<string, string>()
+    if (emails.length) {
+      const users = await this.db()
+        .table(t.user)
+        .whereIn('email', emails)
+        .select(['email', 'userId'])
+
+      users.forEach((user) => {
+        userIdMap.set(user.email, user.userId)
+      })
     }
 
-    return { status: 'success', data: results, indexMeta: { changedCount: subscribers.length } }
+    // Prepare all insert records
+    const insertRecords = subscribers.map((subscriber) => {
+      const { email, userId } = subscriber
+      const resolvedUserId = userId || (email ? userIdMap.get(email) : undefined)
+
+      return fictionDb.prep({
+        type: 'insert',
+        fields: {
+          orgId,
+          userId: resolvedUserId,
+          email,
+          ...subscriber,
+          status: subscriber.status || 'active',
+        },
+        meta,
+        table: t.subscribe,
+      })
+    })
+
+    // Batch insert with conflict resolution
+    const results = await this.db()
+      .table(t.subscribe)
+      .insert(insertRecords)
+      .onConflict(['email', 'org_id'])
+      .merge()
+      .returning('*')
+
+    // Track metrics in parallel
+    trackSubscriberMetrics({
+      orgId,
+      fictionSubscribe: this.settings.fictionSubscribe,
+    }, meta)
+
+    return {
+      status: 'success',
+      data: results,
+      indexMeta: { changedCount: results.length },
+    }
   }
 
   private async listSubscriptions(params: ManageSubscriptionParams & { _action: 'list' }, _meta: EndpointMeta): Promise<ManageSubscriptionResponse> {

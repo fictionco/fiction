@@ -3,7 +3,7 @@ import type { FictionBrand } from '..'
 import type { BrandGuideArrayKeys, BrandGuideV3, BrandItem } from '../guideSchema'
 import type { TableBrand } from '../schema'
 import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
-import { type ActionArea, type ActionButton, useService, vue } from '@fiction/core'
+import { type ActionArea, type ActionButton, type PostObject, useService, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save'
 import { type Card, t } from '@fiction/site'
 import { createOption } from '@fiction/ui'
@@ -90,6 +90,13 @@ const saveUtil = new AutosaveUtility({ onSave: () => saveBrand() })
 
 function updateBrandGuide(guide?: BrandGuideV3) {
   brand.value = { ...brand.value, guide: { ...brand.value?.guide, ...guide } }
+
+  saveUtil.autosave()
+}
+
+function updateBrandTitle(header: PostObject) {
+  const title = header.title
+  brand.value = { ...brand.value, title }
 
   saveUtil.autosave()
 }
@@ -341,6 +348,8 @@ const action = vue.computed<ActionArea>(() => {
       media: { class: 'i-tabler-map' },
     }"
     :action
+    :editable="['title']"
+    @update:header="updateBrandTitle($event)"
   >
     <div class="my-6 space-y-6">
       <FormEngine

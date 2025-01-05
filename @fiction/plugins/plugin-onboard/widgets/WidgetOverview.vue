@@ -20,7 +20,7 @@ const items: MetricDisplayItem[] = [
     icon: 'i-tabler-users',
     displayFormat: 'primary',
     suffix: 'subscribers',
-    changeLabel: 'vs. last month',
+    changeLabel: 'new subscribers',
     format: 'abbreviatedInteger',
   },
   {
@@ -31,7 +31,7 @@ const items: MetricDisplayItem[] = [
     suffix: 'unique visitors',
     icon: 'i-tabler-world',
     displayFormat: 'secondary',
-    changeLabel: '30 day avg',
+    changeLabel: 'vs last period',
     format: 'abbreviatedInteger',
   },
   {
@@ -42,7 +42,7 @@ const items: MetricDisplayItem[] = [
     suffix: 'words',
     icon: 'i-tabler-file-text',
     displayFormat: 'secondary',
-    changeLabel: 'This week',
+    changeLabel: 'new words',
     format: 'abbreviatedInteger',
   },
   {
@@ -101,6 +101,7 @@ const items: MetricDisplayItem[] = [
     icon: 'i-tabler-arrow-bounce',
     displayFormat: 'detailed',
     format: 'percent',
+    invert: true,
   },
 
 ]
@@ -125,6 +126,10 @@ function setHoveredMetric(args: { metric: MetricDisplayItemWithData, point: Data
     value: point.value as number,
     suffix: dayjs(point.date).format('MMM D'),
   }
+}
+
+function isMetricPositive(metric: MetricDisplayItemWithData) {
+  return metric.change >= 0 || (metric.invert && metric.change < 0)
 }
 </script>
 
@@ -162,15 +167,34 @@ function setHoveredMetric(args: { metric: MetricDisplayItemWithData, point: Data
               />
               <span class="text-theme-500 dark:text-theme-400 text-lg">{{ metric.suffix }}</span>
             </div>
+            <div class="flex gap-2 items-center">
+              <div
+                class="text-lg flex items-center "
+                :class="isMetricPositive(metric) ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'"
+              >
+                <i :class="[isMetricPositive(metric) ? 'i-tabler-arrow-up-right' : 'i-tabler-arrow-down-right']" />
+                <XNumber
+                  class="font-semibold"
+                  :model-value="metric.change"
+                  animate
+                />
+              </div>
+              <div class="text-xs text-theme-500 dark:text-theme-400 mt-0.5">
+                {{ metric.changeLabel }}
+              </div>
+            </div>
           </div>
-          <div class="relative w-[300px] aspect-[4/1]">
-            <SuperChart
-              :data="metric.data"
-              line-color="var(--primary-400)"
-              area-color="var(--primary-400)"
-              date-format="MMM D"
-              @point-hover="setHoveredMetric({ ...$event, metric })"
-            />
+
+          <div class="text-right flex justify-end items-center gap-6">
+            <div class="aspect-[7/2] w-[300px] ">
+              <SuperChart
+                :data="metric.data"
+                line-color="var(--primary-400)"
+                area-color="var(--primary-400)"
+                date-format="MMM D"
+                @point-hover="setHoveredMetric({ ...$event, metric })"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -215,11 +239,13 @@ function setHoveredMetric(args: { metric: MetricDisplayItemWithData, point: Data
             <div>
               <div
                 class="text-lg flex items-center justify-end"
-                :class="metric.change >= 0
+                :class="isMetricPositive(metric)
                   ? 'text-green-500 dark:text-green-400'
                   : 'text-red-500 dark:text-red-400'"
               >
-                <i :class="[metric.change >= 0 ? 'i-tabler-arrow-up' : 'i-tabler-arrow-down']" />
+                <i
+                  :class="[isMetricPositive(metric) ? 'i-tabler-arrow-up' : 'i-tabler-arrow-down']"
+                />
                 <XNumber
                   class="font-semibold"
                   :model-value="metric.change"
@@ -259,14 +285,14 @@ function setHoveredMetric(args: { metric: MetricDisplayItemWithData, point: Data
             <i
               class="text-sm"
               :class="[
-                metric.change >= 0
+                isMetricPositive(metric)
                   ? 'i-tabler-trending-up text-green-500 dark:text-green-400'
                   : 'i-tabler-trending-down text-red-500 dark:text-red-400',
               ]"
             />
             <XNumber
               class="text-sm font-semibold"
-              :class="metric.change >= 0
+              :class="isMetricPositive(metric)
                 ? 'text-green-500 dark:text-green-400'
                 : 'text-red-500 dark:text-red-400'"
               :model-value="metric.change"

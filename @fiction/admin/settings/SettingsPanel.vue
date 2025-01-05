@@ -7,10 +7,16 @@ const {
   title,
   action = {},
   header,
+  editable = [],
 } = defineProps<{
   title?: string
   action?: ActionArea
   header?: PostObject
+  editable?: (keyof PostObject)[]
+}>()
+
+const emit = defineEmits<{
+  (event: 'update:header', payload: PostObject): void
 }>()
 </script>
 
@@ -27,6 +33,8 @@ const {
       <ElHeader
         class="dark:bg-theme-700/30 rounded-xl p-8"
         :model-value="header"
+        :editable
+        @update:model-value="emit('update:header', $event)"
       />
     </div>
 

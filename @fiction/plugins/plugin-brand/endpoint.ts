@@ -162,7 +162,10 @@ export class ManageBrandGuideQuery extends BrandGuideEndpoint {
         .first()
     }
 
-    if (!result) {
+    if (!result && !where.brandId) {
+      return this.create({ _action: 'create', orgId, fields: { title: 'Default Brand Guide' } }, _meta)
+    }
+    else if (!result) {
       return { status: 'error', message: 'Brand guide not found', data: [] }
     }
 

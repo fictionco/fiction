@@ -172,7 +172,11 @@ function render() {
   const baseProps = {
     'ref': elementRef,
     'data-anim-id': randomId,
-    'class': ['focus:outline-none xtext', loaded.value ? '' : 'invisible'],
+    'class': [
+      'focus:outline-none xtext',
+      loaded.value ? '' : 'invisible',
+      isContentEditable.value ? 'cursor-text hover:opacity-80' : '',
+    ],
     'innerHTML': textValue.value || fallback,
   }
 

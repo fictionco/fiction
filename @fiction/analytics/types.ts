@@ -15,6 +15,7 @@ export type MetricDisplayItem = MetricSelector & {
   displayFormat: 'primary' | 'secondary' | 'detailed'
   changeLabel?: string
   suffix?: string
+  invert?: boolean
 }
 
 export type MetricDisplayItemWithData = MetricDisplayItem & {
