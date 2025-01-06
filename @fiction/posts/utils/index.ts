@@ -20,3 +20,37 @@ export async function managePostIndex(args: { fictionPosts: FictionPosts, params
 
   return r.data?.length ? r.data.map(p => new Post({ fictionPosts, ...p, sourceMode: 'standard' })) : []
 }
+
+export async function createHelloWorldPost(args: { orgId: string, fictionPosts: FictionPosts }) {
+  const { fictionPosts, orgId } = args
+
+  const { createStockMediaHandler } = await import('@fiction/ui/stock')
+  const stock = await createStockMediaHandler()
+  await fictionPosts.queries.ManagePost.serve({
+    _action: 'create',
+    orgId,
+    fields: {
+      title: 'Hello World',
+      subTitle: 'Your first post to get things started',
+      content: `
+              <article>
+                <p><em>Welcome to your first post!</em> This is where your story begins. Feel free to edit this content and make it your own.</p>
+
+                <h2>Getting Started</h2>
+                <p>Notice how headings and paragraphs create natural reading flow? Watch how styled elements catch attention:</p>
+
+                <blockquote>
+                  "Great content starts with a simple hello."
+                  <footer>
+                    <cite>— Your Site</cite>
+                  </footer>
+                </blockquote>
+
+                <p>Ready to write your story? Just click edit to begin.</p>
+              </article>
+          `,
+      media: stock.getRandomByTags(['aspect:square']),
+      dateAt: new Date().toISOString(),
+    },
+  }, { server: true })
+}

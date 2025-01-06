@@ -5,6 +5,7 @@ import type { FictionStripe } from '@fiction/plugin-stripe/index.js'
 import type { Theme } from '@fiction/site/theme.js'
 import type { SpecificService } from './index.js'
 import * as themeAdmin from '@fiction/admin/theme/index.js'
+import * as themeBase from '@fiction/site/themes/base/index.js'
 import * as themeFiction from '@fiction/theme-fiction/index.js'
 import * as themeMinimal from '@fiction/theme-minimal/index.js'
 import * as themePrestige from '@fiction/theme-prestige/index.js'
@@ -19,6 +20,7 @@ export async function getThemes(args: {
     themeMinimal.theme,
     themeAdmin.theme,
     themePrestige.theme,
+    themeBase.theme,
   ])
 
   return themes

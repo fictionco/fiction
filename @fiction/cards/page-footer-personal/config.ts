@@ -76,7 +76,6 @@ export function getDefaultConfig(): UserConfig {
   return {
     brand: {
       logo: { variant: 'typography', typography: { label: 'Your Brand' } },
-      tagline: 'A tagline goes here',
     },
     menus: [
       {

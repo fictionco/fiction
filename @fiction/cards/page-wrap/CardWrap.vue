@@ -26,7 +26,7 @@ vue.onMounted(async () => {
       :card="card.site.sections.value.header"
       :class="card.userConfig.value.fixedHeader ? 'fixed w-full top-0 z-10' : ''"
     />
-    <ElEngine tag="main" :card />
+    <ElEngine tag="main" :card class="min-h-[40vh]" />
     <ElEngine class="transition-opacity duration-700" :class="showDelayed ? 'opacity-0' : 'opacity-100'" tag="footer" :card="card.site.sections.value.footer" />
     <ElEngine tag="div" class="hidden" :card="card.site.sections.value.hidden" />
   </div>

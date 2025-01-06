@@ -71,7 +71,13 @@ export class AdminEditorController<T extends CardSurface = CardSurface> extends 
     const { toolId } = args
     const t = this.settings.tools.find(t => t.toolId === toolId)
     const location = t?.location || 'primary'
-    this.activeToolId[location].value = toolId
+    const existingTool = this.activeToolId[location].value
+    if (existingTool === toolId) {
+      this.activeToolId[location].value = ''
+    }
+    else {
+      this.activeToolId[location].value = toolId
+    }
   }
 
   reset() {

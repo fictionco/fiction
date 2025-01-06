@@ -8,6 +8,7 @@ import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { QueryManagePost, type WherePost } from './endpoint'
 import { Post } from './post'
 import { tables } from './schema'
+import { createHelloWorldPost } from './utils/index.js'
 import { getWidgets } from './widgets'
 
 export type FictionPostsSettings = {
@@ -45,6 +46,17 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
     fictionDb.addTables(tables)
 
     this.adminUi()
+
+    this.hooks()
+  }
+
+  hooks() {
+    this.fictionEnv.events.on('onNewOrganization', async (event) => {
+      const { org: { orgId } } = event.detail
+      if (!orgId)
+        throw new Error('orgId not found')
+      await createHelloWorldPost({ orgId, fictionPosts: this })
+    })
   }
 
   adminUi() {

@@ -87,26 +87,8 @@ function getDefaultConfig(): UserConfig {
     },
     layout: 'navCenter',
     nav: {
-      primary: [
-        {
-          label: 'Get Started',
-          href: '/start',
-          variant: 'button',
-          theme: 'primary',
-          design: 'solid',
-          emphasis: 'highlighted',
-        },
-      ],
-      utility: [
-        {
-          label: 'Sign In',
-          href: '/signin',
-          icon: { iconId: 'user' },
-          variant: 'button',
-          design: 'outline',
-          onAuthState: 'loggedOut',
-        },
-      ],
+      primary: [],
+      utility: [],
     },
 
   }

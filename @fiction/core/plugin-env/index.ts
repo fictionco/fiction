@@ -1,4 +1,5 @@
 import type { RunVars, StandardServices } from '../inject.js'
+import type { Organization } from '../plugin-user/index.js'
 import type { CleanupCallback } from '../types/index.js'
 import type { HookType, UserNotification } from '../utils/index.js'
 import type { CliCommand } from './commands.js'
@@ -75,6 +76,7 @@ export type EnvEventMap = {
   fiveMinuteInterval: CustomEvent<{ reason: string }>
   hourlyInterval: CustomEvent<{ reason: string }>
   dailyInterval: CustomEvent<{ reason: string }>
+  onNewOrganization: CustomEvent<{ org: Organization }>
 }
 
 export class FictionEnv<
