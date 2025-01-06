@@ -1,11 +1,13 @@
 <script lang="ts" setup>
-import type { FictionSites } from '../index.js'
+import type { Card, FictionSites } from '../index.js'
 import { useService, vue } from '@fiction/core/index.js'
 import XButton from '@fiction/ui/buttons/XButton.vue'
+import { getThemePreviewUrl } from '../utils/demo.js'
 
-const props = defineProps({
-  modelValue: { type: String, default: '' },
-})
+const { modelValue = '', card } = defineProps<{
+  modelValue?: string
+  card: Card
+}>()
 
 const emit = defineEmits(['update:modelValue'])
 
@@ -19,7 +21,7 @@ const themes = vue.computed(() => {
 
 vue.onMounted(() => {
   vue.watch(
-    () => props.modelValue,
+    () => modelValue,
     (val) => {
       const el = validationInput.value
       el?.setCustomValidity(!val ? 'Please select a theme' : '')
@@ -29,7 +31,7 @@ vue.onMounted(() => {
 })
 
 function toggleSelected(themeId: string) {
-  if (props.modelValue === themeId) {
+  if (modelValue === themeId) {
     emit('update:modelValue', '')
     return
   }
@@ -39,11 +41,19 @@ function toggleSelected(themeId: string) {
 </script>
 
 <template>
-  <div class="relative my-12 antialiased">
-    <div class="grid grid-cols-2 lg:grid-cols-3 gap-12" @click="emit('update:modelValue', '')">
-      <div v-for="(theme, i) in themes" :key="i" class="relative space-y-4">
-        <div class="mt-4 w-full rounded-b-lg  transition-all origin-bottom flex gap-4 items-center grow justify-between ">
-          <div class="">
+  <div class="relative mt-6 mb-12 antialiased">
+    <div class="grid lg:grid-cols-2 gap-12" @click="emit('update:modelValue', '')">
+      <div v-for="(theme, i) in themes" :key="i" class="relative space-y-4 cursor-pointer" @click.stop="toggleSelected(theme.themeId)">
+        <div
+          class="screen rounded-lg group relative transition-all  select-none dark:ring-offset-theme-900 aspect-[1/1] ring-4 ring-offset-4 border border-theme-200/70 dark:border-theme-600/50"
+          :class="modelValue === theme.themeId ? 'ring-primary-500' : 'ring-theme-200/0 dark:ring-theme-700/0 hover:ring-primary-400'"
+          :data-test-id="`theme-${theme.themeId}`"
+          :data-test-index="i"
+        >
+          <img :src="theme.settings.screenshots?.dark?.desktop" class="pointer-events-none shadow-xl rounded-lg object-cover absolute object-top h-full w-full">
+        </div>
+        <div class="absolute bottom-0 py-3 px-6 bg-black/80 mt-4 w-full rounded-b-lg  transition-all origin-bottom flex flex-col gap-3 items-center grow justify-between ">
+          <div class="space-y-1 pointer-events-none">
             <div class="font-bold text-xl">
               {{ theme.title }}
             </div>
@@ -51,33 +61,25 @@ function toggleSelected(themeId: string) {
               {{ theme.settings.description }}
             </div>
           </div>
-          <div class="flex justify-end items-center gap-1.5">
-            <XButton
-              theme="default"
-              size="sm"
-              href="#"
-              target="_blank"
-            >
-              Preview
-            </XButton>
+          <div class="flex justify-start items-center gap-2 w-full">
             <XButton
               theme="primary"
               :design="modelValue === theme.themeId ? 'outline' : 'solid'"
-              size="sm"
+              size="md"
               @click.stop.prevent="toggleSelected(theme.themeId)"
             >
-              {{ modelValue === theme.themeId ? 'Selected' : 'Select' }}
+              {{ modelValue === theme.themeId ? 'Selected!' : 'Select Theme' }}
+            </XButton>
+            <XButton
+              theme="default"
+              size="md"
+              :href="getThemePreviewUrl({ site: card.site, themeId: theme.themeId })"
+              target="_blank"
+              @click.stop
+            >
+              Theme Preview
             </XButton>
           </div>
-        </div>
-        <div
-          class="screen rounded-lg group relative transition-all cursor-pointer select-none dark:ring-offset-theme-900 aspect-[9/16] ring-4 ring-offset-4 border border-theme-200/70 dark:border-theme-600/50"
-          :class="modelValue === theme.themeId ? 'ring-primary-500' : 'ring-theme-200/0 dark:ring-theme-700/0 hover:ring-primary-400'"
-          :data-test-id="`theme-${theme.themeId}`"
-          :data-test-index="i"
-          @click.stop="toggleSelected(theme.themeId)"
-        >
-          <img :src="theme.settings.screenshots?.dark?.desktop" class="pointer-events-none shadow-xl rounded-lg object-cover absolute origin-top-left h-full w-full">
         </div>
       </div>
     </div>

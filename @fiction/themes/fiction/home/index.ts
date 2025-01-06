@@ -70,12 +70,15 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
             userConfig: {
               items: [
                 {
-                  title: 'The Personal Growth Platform',
-                  content: 'Fiction is a simple and powerful platform that helps you grow your personal brand. Our AI-powered tools help you create content, grow your audience, and build authority.',
+                  title: 'Master Every Area of Your Life',
+                  content: `Close the gap between where you are and where you want to be with a scientifically proven system.`,
                 },
               ],
               standard: {
-                background: { },
+                spaceSize: 'sm',
+                background: {
+                  backgroundColor: '#666666',
+                },
               },
             },
           }),
@@ -83,7 +86,12 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
           await factory.fromTemplate<typeof marqueeTemplate>({
             templateId: 'cardMarqueeV1',
             userConfig: {
-
+              standard: {
+                headers: {
+                  title: 'Featured Clients',
+                  subTitle: 'Leaders who trust Fiction',
+                },
+              },
               items: [
                 {
                   title: 'Andrew Powers',

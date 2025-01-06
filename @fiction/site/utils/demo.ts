@@ -45,3 +45,17 @@ export async function createDemoPage(args: { site: Site, template: CardTemplate<
 
   return pg
 }
+
+export function getThemePreviewUrl(args: { site?: Site, themeId?: string }) {
+  const { site, themeId } = args
+
+  if (!site || !themeId) {
+    return ''
+  }
+
+  const isProd = site.fictionSites.fictionEnv.isProd.value
+  const app = site.fictionSites.settings.fictionAppSites
+  const base = isProd ? app?.liveUrl.value : app?.localUrl.value
+  const url = base.replace('*', `theme-${themeId}`)
+  return url
+}

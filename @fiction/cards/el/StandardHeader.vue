@@ -20,14 +20,21 @@ const textWrapClass = vue.computed(() => {
   const out = []
   const layout = headers.value.layout || ''
 
-  if (layout === 'justify')
+  if (layout === 'inline') {
+    out.push('flex flex-col md:flex-row text-left items-center gap-6')
+  }
+  else if (layout === 'justify') {
     out.push('lg:flex justify-between text-left items-end gap-8')
-  else if (layout === 'left')
+  }
+  else if (layout === 'left') {
     out.push('text-left')
-  else if (layout === 'right')
+  }
+  else if (layout === 'right') {
     out.push('text-right')
-  else
+  }
+  else {
     out.push('mx-auto text-left md:text-center')
+  }
 
   return out.join(' ')
 })
@@ -44,25 +51,25 @@ type SizeClasses = {
 const sizeClasses: Record<HeaderSize, SizeClasses> = {
   xs: {
     superTitle: 'text-xs lg:text-sm',
-    title: 'text-lg md:text-2xl lg:text-3xl',
+    title: 'text-lg md:text-2xl ',
     subTitle: 'text-sm md:text-base lg:text-lg',
     spacing: 'mb-3 gap-2',
   },
   sm: {
     superTitle: 'text-sm lg:text-base',
-    title: 'text-xl md:text-3xl lg:text-4xl',
+    title: 'text-xl md:text-3xl ',
     subTitle: 'text-lg md:text-xl lg:text-xl',
     spacing: 'mb-4 gap-2',
   },
   md: {
     superTitle: 'text-sm lg:text-base',
-    title: 'text-2xl md:text-4xl lg:text-5xl',
-    subTitle: 'text-xl md:text-2xl lg:text-2xl',
+    title: 'text-2xl md:text-4xl',
+    subTitle: 'text-lg md:text-xl',
     spacing: 'mb-5 gap-3',
   },
   lg: {
     superTitle: 'text-base lg:text-lg',
-    title: 'text-3xl md:text-5xl lg:text-6xl',
+    title: 'text-3xl md:text-5xl ',
     subTitle: 'text-2xl md:text-3xl lg:text-3xl',
     spacing: 'mb-6 gap-3',
   },

@@ -130,7 +130,10 @@ export class ManageCampaign extends SendEndpoint {
       throw new Error('Scheduled date is in the past')
     }
     else {
-      this.log.info('Sending email', { data: { campaignId: campaign.campaignId, scheduledAt } })
+      this.log.info('Sending email', { data: {
+        campaignId: campaign.campaignId,
+        scheduledAt,
+      } })
     }
 
     const r2 = await this.update({ _action: 'update', orgId, userId, where: [where], fields: { status: 'requested', scheduledAt } }, meta)

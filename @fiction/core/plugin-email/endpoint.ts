@@ -190,7 +190,12 @@ export class QueryTransactionalEmail extends EmailQuery {
     const client = this.getClient()
 
     const isReal = shouldSend && client
-    this.log.info(`sending email (${isReal ? 'REAL' : 'LOG_ONLY'})`, { data: { from, to, subject, htmlChars: html.length } })
+    this.log.info(`sending email (${isReal ? 'REAL' : 'LOG_ONLY'})`, { data: {
+      from,
+      to,
+      subject,
+      htmlChars: html.length,
+    } })
 
     let isSent = false
     if (isReal) {

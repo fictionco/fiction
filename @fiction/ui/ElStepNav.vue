@@ -92,35 +92,37 @@ async function next(currentStep: StepItem) {
 <template>
   <ElForm id="stepForm" class="h-full py-[10vh] md:px-12 relative">
     <ElStep
-      v-slot="{ step }"
+
       :steps
       :current-index="stepIndex"
       class="steps pointer-events-auto"
       transit="next"
       :data-test-id="`step-${stepKey}`"
     >
-      <div class="space-y-8">
-        <slot :step="step" />
+      <template #default="{ step }">
+        <div class="space-y-6 py-4">
+          <slot :step="step" />
 
-        <div
-          v-if="!step.noAction"
-          class="flex justify-center md:justify-end"
-        >
-          <XButton
-            theme="primary"
-            size="lg"
-            class="step-submit"
-            :loading="step.isLoading"
-            :animate="true"
-            data-test-el="step-submit"
-            :data-test-id="`step-button-${step.key}`"
-            icon-after="i-tabler-arrow-right"
-            @click.prevent="next(step)"
+          <div
+            v-if="!step.noAction"
+            class="flex justify-center md:justify-end"
           >
-            {{ step.actionText || "Next" }}
-          </XButton>
+            <XButton
+              theme="primary"
+              size="lg"
+              class="step-submit"
+              :loading="step.isLoading"
+              :animate="true"
+              data-test-el="step-submit"
+              :data-test-id="`step-button-${step.key}`"
+              icon-after="i-tabler-arrow-right"
+              @click.prevent="next(step)"
+            >
+              {{ step.actionText || "Next" }}
+            </XButton>
+          </div>
         </div>
-      </div>
+      </template>
     </ElStep>
     <div v-if="steps.length > 1" class="nav mt-12 flex w-full justify-center space-x-3 pointer-events-auto">
       <div
