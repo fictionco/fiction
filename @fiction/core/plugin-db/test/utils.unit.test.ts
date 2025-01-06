@@ -4,9 +4,12 @@ import { describe, expect, it } from 'vitest'
 import { Col, FictionDbTable } from '../objects.js'
 import { dbPrep } from '../utils.js'
 
-describe('dbPrep', () => {
+describe('dbPrep', async () => {
   const testUtils = createTestUtils()
+  const init = await testUtils.init()
   const fictionDb = testUtils.fictionDb
+
+  const meta = { bearer: init.user }
 
   const cols = [
     new Col({ key: 'campaignId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('eml')`)).index() }),
@@ -18,6 +21,7 @@ describe('dbPrep', () => {
     new Col({ key: 'sentAt', sch: ({ z }) => z.string(), make: ({ s, col }) => s.timestamp(col.k).defaultTo(null) }),
     new Col({ key: 'subject', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
     new Col({ key: 'preview', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
+    new Col({ key: 'prvt', sec: 'settingPrivate', sch: ({ z }) => z.string(), make: ({ s, col }) => s.text(col.k) }),
     new Col({ key: 'from', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k) }),
     new Col({ key: 'scheduleMode', sch: ({ z }) => z.enum(['now', 'schedule']), make: ({ s, col }) => s.string(col.k) }),
     new Col({ key: 'scheduledAt', sch: ({ z }) => z.string(), make: ({ s, col }) => s.timestamp(col.k).defaultTo(null) }),
@@ -49,8 +53,9 @@ describe('dbPrep', () => {
   it('should validate and prepare fields correctly for insert type', () => {
     const fields = {
       campaignId: 'test@example.com',
-      userId: 'user123',
+      userId: init.user.userId,
       title: 'Test Title',
+      prvt: 'Private Data',
       createdAt: new Date().toISOString(),
     }
     const result = dbPrep({
@@ -59,13 +64,34 @@ describe('dbPrep', () => {
       table: 'fiction_test_schema',
       fictionDb,
     })
+
     expect(result).toStrictEqual(expect.objectContaining({
       campaignId: 'test@example.com',
-      userId: 'user123',
+      userId: init.user.userId,
       title: 'Test Title',
       createdAt: expect.any(String),
       updatedAt: expect.any(String),
+      prvt: 'Private Data',
     }))
+
+    const result2 = dbPrep({
+      type: 'update',
+      fields,
+      table: 'fiction_test_schema',
+      fictionDb,
+    })
+
+    expect(result2.prvt).toBeFalsy()
+
+    const result3 = dbPrep({
+      type: 'insert',
+      fields,
+      table: 'fiction_test_schema',
+      fictionDb,
+      meta,
+    })
+
+    expect(result3.prvt).toBeTruthy()
   })
 
   it('should validate and prepare fields correctly for update type', () => {

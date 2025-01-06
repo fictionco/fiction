@@ -44,7 +44,11 @@ vue.onMounted(() => {
     caller: 'marquee',
     selector: `#${props.card.cardId}`,
     onVisible: async () => {
-      await animateItemEnter({ targets: `#${props.card.cardId} .x-action-item`, themeId: 'fade', config: { overallDelay: 0, isRandom: true } })
+      await animateItemEnter({
+        targets: `#${props.card.cardId} .x-action-item`,
+        themeId: 'fade',
+        config: { overallDelay: 0, isRandom: true, totalAnimationTime: 500 },
+      })
       loaded.value = true
     },
   })

@@ -19,7 +19,7 @@ export const SecurityTypeSchema = z.enum([
   'composite',
 ])
 
-type SecurityType = z.infer<typeof SecurityTypeSchema>
+export type SecurityType = z.infer<typeof SecurityTypeSchema>
 
 type MakeCol = <U extends string = string, T extends ColDefaultValue = ColDefaultValue> (params: { s: Knex.AlterTableBuilder, col: Col<U, T>, db: Knex }) => void
 export type ColSettings<U extends string = string, T extends ColDefaultValue = ColDefaultValue> = {

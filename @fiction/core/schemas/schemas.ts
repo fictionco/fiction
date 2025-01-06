@@ -156,10 +156,10 @@ export const MediaContentSchema = MediaIconSchema.extend({
 // MediaDisplaySchema (extends MediaContent with display properties)
 export const MediaDisplaySchema = MediaContentSchema.extend({
   backgroundColor: z.string().optional(),
-  gradient: GradientSettingSchema.optional(),
   backgroundRepeat: BackgroundRepeatSchema.optional(),
   backgroundPosition: BackgroundPositionSchema.optional(),
   backgroundSize: BackgroundSizeSchema.optional(),
+  gradient: GradientSettingSchema.optional(),
   filters: z.array(ImageFilterConfigSchema).optional(),
   overlay: OverlaySettingSchema.optional(),
   width: z.number().optional(),

@@ -75,7 +75,7 @@ const options: InputOption[] = [
         options: [
           createOption({
             schema,
-            key: 'groupl.fonts.main',
+            key: 'group.fonts.main',
             label: 'Primary Fonts',
             icon: { class: 'i-tabler-text-increase' },
             input: 'group',

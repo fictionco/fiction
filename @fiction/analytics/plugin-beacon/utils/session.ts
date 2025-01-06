@@ -1,5 +1,6 @@
 import type { FictionAnalytics } from '@fiction/analytics'
 import type { FictionEvent } from '@fiction/analytics/typesTracking'
+import type { ReferrerUtility } from './referrer'
 import { dayjs, groupBy, objectId } from '@fiction/core'
 import { eventFields, type SessionEvent, type SessionStarted } from '..'
 import { parseUa } from './device'
@@ -117,6 +118,22 @@ export async function getSaveEvents(params: { session: SessionEvent, events: Fic
   return saveEvents
 }
 
+export async function getReferralParams(args: { fictionAnalytics: FictionAnalytics, referrer: string, url: string }) {
+  const { fictionAnalytics, referrer, url } = args
+
+  let util: ReferrerUtility
+
+  if (fictionAnalytics.referrerUtility) {
+    util = fictionAnalytics.referrerUtility
+  }
+  else {
+    const { ReferrerUtility } = await import('./referrer')
+    util = fictionAnalytics.referrerUtility = new ReferrerUtility({ fictionCache: fictionAnalytics.settings.fictionCache })
+  }
+
+  return util.getReferralParameters(referrer, url)
+}
+
 export async function createSession(args: {
   events: FictionEvent[]
   sessionId: string
@@ -149,7 +166,7 @@ export async function createSession(args: {
 
   const [geo, referralParams, totalSessionsResponse] = await Promise.all([
     getGeo(rawIp),
-    fictionAnalytics.referrerUtility?.getReferralParameters(referrer, url),
+    getReferralParams({ referrer, url, fictionAnalytics }),
     fictionAnalytics.queries.GetTotalSessions.serve({ anonymousId, orgId }, { server: true }),
   ])
 

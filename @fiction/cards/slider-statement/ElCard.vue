@@ -31,7 +31,7 @@ function onSlideChange(index: number) {
     <EffectCarousel v-model:active-index="activeIndex" :slides="items" :options="carouselOptions" @slide-change="onSlideChange">
       <template #default="{ index }">
         <div
-          class="carousel-cell w-[80%] sm:w-[70%] lg:w-[60%] mr-24"
+          class="carousel-cell w-[80%] sm:w-[70%] lg:w-[60%] max-w-[800px] mr-24"
         >
           <div
             class="max-w-[900px] mx-auto sm:p-6 transition-all"
@@ -39,14 +39,17 @@ function onSlideChange(index: number) {
             @click="activeIndex = index"
           >
             <div class="space-y-[2vw] relative">
-              <div class="z-10 relative">
-                <CardText
-                  tag="h2"
-                  class="text-4xl sm:!leading-[1.1] sm:text-5xl   xl:text-6xl x-font-title font-medium"
-                  :card
-                  :path="pathCheck(`items.${index}.title`, schema)"
-                  animate="fade"
-                />
+              <div class="z-10 relative space-y-6">
+                <div class="flex items-baseline gap-12">
+                  <CardText
+                    tag="h2"
+                    class="text-4xl sm:!leading-[1.1] sm:text-4xl xl:text-6xl x-font-title font-semibold text-balance"
+                    :card
+                    :path="pathCheck(`items.${index}.title`, schema)"
+                    animate="fade"
+                  />
+                  <div class="border-b-4 border-theme-500/10 h-1 grow" />
+                </div>
 
                 <CardText
                   tag="p"
@@ -56,7 +59,7 @@ function onSlideChange(index: number) {
                   animate="fade"
                 />
               </div>
-              <XShape class="top-0 left-0 absolute size-[15vw] translate-x-[-45%] translate-y-[-50%]" shape="circle" :rotate="6" />
+              <XShape class="top-0 left-0 absolute size-[12vw] translate-x-[-45%] translate-y-[-50%]" shape="circle" :rotate="6" />
             </div>
 
             <CardActionArea

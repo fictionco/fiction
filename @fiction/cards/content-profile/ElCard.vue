@@ -58,7 +58,7 @@ const hoverClasses = 'group-hover/item:text-primary-600 dark:group-hover/item:te
           </div>
         </div>
         <div class="lg:w-[60%] xl:w-[50%] mt-6 md:mt-0 flex items-center">
-          <div class="flex flex-col justify-center gap-10 2xl:gap-16 " :class="isVisible ? 'translate-y-0' : 'translate-y-[100px]'">
+          <div class="flex flex-col justify-center gap-10 2xl:gap-16 max-w-full" :class="isVisible ? 'translate-y-0' : 'translate-y-[100px]'">
             <div class="details">
               <SuperTitle
                 v-if="uc.superTitle"
@@ -70,9 +70,10 @@ const hoverClasses = 'group-hover/item:text-primary-600 dark:group-hover/item:te
               <EffectFitText
                 tag="h1"
                 :content="uc.title || ''"
-                class="heading text-4xl font-semibold md:text-4xl lg:text-5xl x-font-title lg:leading-[1.2] "
+                class="heading text-4xl font-semibold md:text-4xl lg:text-5xl x-font-title lg:leading-[1.1] "
                 :lines="2"
                 :min-size="40"
+                :max-size="80"
               >
                 <CardText :card tag="span" path="title" animate="rise" />
               </EffectFitText>

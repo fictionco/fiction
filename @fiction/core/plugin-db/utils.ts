@@ -1,10 +1,56 @@
 import type { FictionDb } from '.'
+import type { SecurityType } from './objects'
 import { z } from 'zod'
 import { type EndpointMeta, removeUndefined } from '../utils'
 
-type ScenarioType = 'insert' | 'update' | 'internal' | 'return'
+type ScenarioType = 'internal' | 'update' | 'insert' | 'return'
 
-export function dbPrep<T>(args: {
+function canIncludeField(args: {
+  type: ScenarioType
+  sec: SecurityType
+  hasAuth: { return?: boolean, privateAuth?: boolean, admin?: boolean }
+}) {
+  const { type, sec, hasAuth } = args
+
+  if (type === 'internal')
+    return true
+  if (type === 'insert')
+    return sec !== 'authority'
+  if (type === 'update')
+    return sec === 'setting' || (sec === 'settingAdmin' && hasAuth.admin) || (sec === 'settingPrivate' && hasAuth.privateAuth)
+  if (type === 'return') {
+    if (!['authority', 'settingPrivate'].includes(sec))
+      return true
+    return sec === 'authority' ? hasAuth.return : (hasAuth.privateAuth || hasAuth.return)
+  }
+  return false
+}
+
+type BasePrepObject = {
+  userId?: string
+  orgId?: string
+  [key: string]: any
+}
+
+function hasPrivateAuth(args: { fields: BasePrepObject, meta?: EndpointMeta }) {
+  const { fields, meta } = args
+
+  if (meta?.bearer?.isSuperAdmin) {
+    return true
+  }
+
+  else if (fields.userId && fields.userId === meta?.bearer?.userId) {
+    return true
+  }
+
+  else if (fields.orgId && meta?.bearer?.orgs?.find(_ => _.orgId === fields.orgId)) {
+    return true
+  }
+
+  return false
+}
+
+export function dbPrep<T >(args: {
   type: ScenarioType
   fields: T
   table: string
@@ -16,54 +62,44 @@ export function dbPrep<T>(args: {
   if (!fields || typeof fields !== 'object')
     return fields
 
-  const hasPrivateAuthority = true
-  const bearerIsAdmin = meta?.bearer?.isSuperAdmin
+  const privateAuth = hasPrivateAuth({ fields: fields as BasePrepObject, meta })
 
-  const columns = fictionDb.getCols(table)
+  const hasAuth = {
+    privateAuth,
+    admin: meta?.bearer?.isSuperAdmin,
+    return: false,
+  }
+
   const out: Partial<T> = {}
+  const columns = fictionDb.getCols(table)
 
-  columns?.forEach((c) => {
-    const { key, sch, sec = 'setting', prepare } = c
+  columns?.forEach(({ key, sch, sec = 'setting', prepare }) => {
     let value = (fields as Record<string, any>)[key]
-
-    const hasReturnAuthority = meta?.returnAuthority?.includes(key)
-
     if (value === undefined)
       return
 
-    // normalize to string (db returns Date, strings are easier to work with)
-    if (value instanceof Date) {
-      value = value.toISOString()
-    }
+    hasAuth.return = meta?.returnAuthority?.includes(key) || false
 
-    const includeField = (
-      type === 'internal'
-      || (type === 'update' && (sec === 'setting' || (sec === 'settingAdmin' && bearerIsAdmin)))
-      || (type === 'insert' && sec !== 'authority')
-      || (type === 'return' && (
-        !['authority', 'settingPrivate'].includes(sec)
-        || (sec === 'authority' && hasReturnAuthority)
-        || (sec === 'settingPrivate' && (hasPrivateAuthority || hasReturnAuthority))
-      ))
-    )
+    if (value instanceof Date)
+      value = value.toISOString()
+
+    const includeField = canIncludeField({ type, sec, hasAuth })
 
     let isValid = !sch || value === null
     if (sch && value !== null && value) {
       const schema = sch({ z })
       value = removeUndefined(value, { removeNull: true })
       const parsed = schema.safeParse(value)
-      if (!parsed.success) {
-        fictionDb.log.error(`DB PREP: Validation failed for field ${table}:${key} - ${parsed.error.message}`, { data: { value, fields } })
-        isValid = false
+      if (parsed.success) {
+        isValid = true
       }
       else {
-        isValid = true
+        fictionDb.log.error(`DB PREP: Validation failed for field ${table}:${key}`, { data: { value, error: parsed.error.message } })
+        isValid = false
       }
     }
 
-    const useValid = isValid || (!isValid && type === 'return')
-
-    if (includeField && useValid && value) {
+    if (includeField && (isValid || type === 'return') && value) {
       (out as Record<string, any>)[key] = value !== null && prepare ? prepare({ value, key }) : value
     }
   })

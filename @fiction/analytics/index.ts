@@ -1,4 +1,5 @@
 import type { FictionCache, FictionDb, FictionPluginSettings, FictionServer, FictionUser, vue } from '@fiction/core'
+import type { ReferrerUtility } from './plugin-beacon/utils'
 import type { EventParams, SessionEvent } from './tables'
 import { FictionPlugin, safeDirname, WriteBuffer } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
@@ -7,7 +8,6 @@ import { QueryCompiledMetrics } from './endpointMetrics'
 import { QueryGetClientSessions, QueryGetDimensionList, QueryGetTotalSessions, QueryMetricAnalytics } from './endpoints'
 import { QueryEventTrack } from './endpointTrack'
 import { FictionBeacon } from './plugin-beacon'
-import { ReferrerUtility } from './plugin-beacon/utils'
 import { FictionClickHouse } from './plugin-clickhouse'
 
 export * from './types'
@@ -88,10 +88,6 @@ export class FictionAnalytics extends FictionPlugin<FictionAnalyticsSettings> {
     super('FictionAnalytics', { root: safeDirname(import.meta.url), ...settings })
 
     this.fictionEnv.events.on('shutdown', async () => this.close())
-
-    if (!this.fictionEnv.isApp.value) {
-      this.referrerUtility = new ReferrerUtility({ fictionCache: this.settings.fictionCache })
-    }
   }
 
   async init() {

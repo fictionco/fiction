@@ -60,7 +60,6 @@ const gapClass = vue.computed(() => {
         >
           <div
             class="flex flex-col h-full"
-            :style="getContentMaxWidth(item)"
           >
             <div v-if="(!item.verticalPosition || item.verticalPosition !== 'top')" class="h-full">
               <XMedia
@@ -70,8 +69,8 @@ const gapClass = vue.computed(() => {
                 :style="{ width: item.media.displayWidthPercent ? `${item.media.displayWidthPercent}%` : 'auto' }"
               />
             </div>
-            <div class="px-6 py-8 @xs:px-8 @xs:py-10 @2xl:p-12 @4xl:p-16 space-y-4">
-              <div class="space-y-2">
+            <div class="px-6 py-8 @xs:px-8 @xs:py-10 @2xl:p-12 @4xl:p-16 space-y-6 ">
+              <div class="space-y-4 max-w-[650px]">
                 <SuperTitle
                   :card
                   :base-path="pathCheck(`items.${i}.superTitle`, schema)"
@@ -79,30 +78,31 @@ const gapClass = vue.computed(() => {
                   :theme="item.bg?.url ? 'overlay' : (item.theme || 'default')"
                 />
 
-                <CardText
-                  v-if="item.title"
-                  :card
-                  :path="pathCheck(`items.${i}.title`, schema)"
-                  tag="h3"
-                  class="text-2xl @xs:text-3xl @xl:text-4xl @5xl:text-6xl @xl:mb-2 @5xl:mb-4 text-balance font-medium @2xl:font-semibold  x-font-title"
-                  :style="getContentStyles(item, 'text', bentoWrapEl)"
-                />
+                <div class="space-y-4 xl:space-y-6">
+                  <CardText
+                    v-if="item.title"
+                    :card
+                    :path="pathCheck(`items.${i}.title`, schema)"
+                    tag="h3"
+                    class="text-2xl @xs:text-3xl @xl:text-4xl @5xl:text-6xl @xl:mb-2 @5xl:mb-4 text-balance font-semibold  x-font-title"
+                    :style="getContentStyles(item, 'text', bentoWrapEl)"
+                  />
 
-                <CardText
-                  v-if="item.content"
-                  :card
-                  :path="pathCheck(`items.${i}.content`, schema)"
-                  tag="p"
-                  class="line-clamp-3 opacity-90 @xs:text-lg @xl:text-xl @5xl:text-2xl"
-                  :style="getContentStyles(item, 'sub', bentoWrapEl)"
-                />
+                  <CardText
+                    v-if="item.content"
+                    :card
+                    :path="pathCheck(`items.${i}.content`, schema)"
+                    tag="p"
+                    class="line-clamp-3 opacity-90 @xs:text-lg @xl:text-xl @5xl:text-2xl text-balance"
+                    :style="getContentStyles(item, 'sub', bentoWrapEl)"
+                  />
+                </div>
               </div>
 
               <CardActionArea
                 :card
-                class="mt-6"
                 :base-path="pathCheck(`items.${i}.action`, schema)"
-                :classes="{ buttons: 'flex gap-3' }"
+                :classes="{ buttons: 'flex gap-4' }"
                 design="outline"
                 :theme="(item.bg?.url ? 'overlay' : (item.theme || 'default'))"
               />

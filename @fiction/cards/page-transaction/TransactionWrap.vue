@@ -54,7 +54,7 @@ const ico = vue.computed(() => iconThemes[props.status as keyof typeof iconTheme
           </div>
           <div>
             <XText animate="fade" tag="h1" class="x-font-title text-3xl font-semibold tracking-tight text-balance" :model-value="title" />
-            <div class="mt-2 text-lg md:text-xl font-normal x-font-title text-theme-500 capitalize">
+            <div class="mt-2 text-lg md:text-xl font-normal x-font-title text-theme-500 dark:text-theme-300">
               <XText v-if="subTitle" animate="fade" tag="h4" class="space-x-2" :model-value="subTitle" />
             </div>
             <slot name="links" />

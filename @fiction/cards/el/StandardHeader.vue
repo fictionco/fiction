@@ -104,7 +104,7 @@ const currentSizeClasses = vue.computed(() => sizeClasses[headerSize.value])
         <CardText
           tag="div"
           :card
-          class="lg:leading-snug md:text-balance max-w-[65ch]"
+          class="lg:leading-snug md:text-balance max-w-[65ch] text-theme-700 dark:text-theme-200"
           :class="[
             currentSizeClasses.subTitle,
             layout === 'justify' ? 'lg:text-right' : '',

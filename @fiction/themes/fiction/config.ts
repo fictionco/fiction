@@ -30,6 +30,7 @@ import icon from '@fiction/ui/brand/icon.png'
 import shareImage from '@fiction/ui/brand/shareImage.png'
 import * as affiliate from './affiliate/index.js'
 import * as developer from './developer/index.js'
+import * as homePage from './home/index.js'
 
 const social: NavItem[] = [
   { key: 'linkedin', href: 'https://www.linkedin.com/company/fictionco', target: '_blank', label: 'LinkedIn', media: { iconId: `brand-linkedin` } },
@@ -350,6 +351,10 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
         templateId: 'cardPageAreaV1',
         userConfig: { },
         cards: [
+          await factory.fromTemplate<typeof heroTemplate>({
+            templateId: 'cardHeroV1',
+          }),
+
           await factory.fromTemplate<typeof heroTemplate>({
             templateId: 'cardHeroV1',
             userConfig: {
@@ -742,16 +747,11 @@ export async function getConfig(args: {
   const stock = await factory.getStockMedia()
   const pageArgs = { ...args, factory, stock }
 
-  const tourPage = await getTourPage(pageArgs)
-  const homePage = await getHomePage(pageArgs)
-  const pricingPage = await getPricingPage(pageArgs)
-  const aboutPage = await getAboutPage(pageArgs)
-
   const pages = await Promise.all([
-    tourPage,
-    homePage,
-    pricingPage,
-    aboutPage,
+    getTourPage(pageArgs),
+    homePage.getHomePage(pageArgs),
+    getPricingPage(pageArgs),
+    getAboutPage(pageArgs),
     developer.page({ ...args, factory }),
     affiliate.page({ ...args, factory }),
     ...demoPages,

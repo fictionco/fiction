@@ -9,15 +9,17 @@ import El404 from '@fiction/ui/page/El404.vue'
 
 const { card } = defineProps<{ card?: Card }>()
 
-const { fictionUser, fictionTransactions, fictionRouter } = useService<{ fictionTransactions: FictionTransactions }>()
+const { fictionUser, fictionTransactions } = useService<{
+  fictionTransactions: FictionTransactions
+}>()
 
 const loading = vue.ref(true)
 const actionId = vue.computed(() => {
-  return toCamel(fictionRouter.params.value.itemId as string)
+  return toCamel(card?.site?.siteRouter.params.value.itemId as string)
 })
 
 const vars = vue.computed(() => {
-  const routeQuery = fictionRouter.query.value || {}
+  const routeQuery = card?.site?.siteRouter.query.value || {}
   return { actionId: actionId.value, ...routeQuery } as EmailVars
 })
 
@@ -72,6 +74,6 @@ vue.onMounted(async () => {
         :query-vars="vars"
       />
     </template>
-    <El404 v-else heading="Missing Action" :sub-heading="`The transaction utility (${actionId}) wasn't found.`" />
+    <El404 v-else title="Missing Action" :sub-title="`The transaction utility (${actionId || 'NOT_SET'}) wasn't found.`" />
   </div>
 </template>

@@ -324,8 +324,6 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
       caller: 'saveData',
     })
 
-    this.log.debug(`saved ${rows.length} rows`, { data: { rows: rows.slice(0, 1) } })
-
     return r
   }
 }

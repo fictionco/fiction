@@ -505,6 +505,7 @@ export class ManageSite extends SitesQuery {
     }
 
     const selector = await this.getSiteSelector(where)
+
     const prepped = this.settings.fictionDb.prep({ type: 'update', fields, table: t.sites, meta })
 
     const db = this.settings.fictionDb.client()
