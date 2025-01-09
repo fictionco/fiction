@@ -1,13 +1,19 @@
 <script lang="ts" setup>
 import type { NavListItem } from '@fiction/core'
+import type { Site } from '@fiction/site/site.js'
 import type { InputOption, InputProps } from './index.js'
-import { NavListItemSchema as schema } from '@fiction/core'
+import { NavListItemSchema as schema, vue } from '@fiction/core'
 import FormEngine from './FormEngine.vue'
 import { createOption } from './index.js'
 
-const { modelValue, hasChildNav = true } = defineProps<{
+const {
+  modelValue,
+  hasChildNav = true,
+  site,
+} = defineProps<{
   modelValue?: NavListItem[]
   hasChildNav?: boolean
+  site?: Site
 }>()
 
 const emit = defineEmits<{
@@ -17,11 +23,11 @@ const emit = defineEmits<{
 function getInputListProps(name: string) {
   return {
     itemLabel: ({ item, index = 0 } = {}) => item?.label ?? `${name}${index >= 0 ? ` ${index + 1}` : ''}`,
+    site,
   } as InputProps<'InputList'>
 }
 
 const baseOptions: InputOption[] = [
-
   createOption({
     schema,
     key: 'label',
@@ -33,7 +39,7 @@ const baseOptions: InputOption[] = [
     schema,
     key: 'href',
     label: 'Link',
-    input: 'InputUrl',
+    input: 'InputSiteRoute',
   }),
   createOption({
     schema,
@@ -181,6 +187,7 @@ function handleUpdate(newValue: PassObject) {
       state-key="navOption"
       :depth="1"
       :model-value="{ [arrayKey]: modelValue }"
+      :input-props="{ site }"
       ui-size="md"
       :options="options"
       @update:model-value="handleUpdate($event as PassObject)"

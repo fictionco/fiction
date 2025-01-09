@@ -4,6 +4,7 @@ import { removeUndefined, useService, vue } from '@fiction/core'
 import EffectMasonry from '../effect/EffectMasonry.vue'
 import ElSpinner from '../loaders/ElSpinner.vue'
 import XMedia from '../media/XMedia.vue'
+import InputMediaUpload from './InputMediaUpload.vue'
 
 defineOptions({ name: 'LibraryMedia' })
 
@@ -79,30 +80,40 @@ function getMasonryItemClass(media: TableMediaConfig) {
 vue.onMounted(() => {
   fetchLibraryMedia()
 })
+
+function updateValue(value: MediaObject) {
+  emit('update:modelValue', value)
+
+  fetchLibraryMedia()
+}
 </script>
 
 <template>
-  <div class="p-8 max-h-[400px] overflow-scroll">
-    <div v-if="loadingLibrary" class="flex justify-center py-8">
-      <ElSpinner class="text-theme-600 dark:text-theme-500 size-6" />
-    </div>
-    <EffectMasonry v-else :items="libraryMedia" :options="{ gutter: 10 }">
-      <div
-        v-for="media in libraryMedia"
-        :key="media.mediaId"
-        class="inline-block masonry-grid-item group relative cursor-pointer overflow-hidden rounded-lg"
-        :class="getMasonryItemClass(media)"
-        @click="selectMedia(media)"
-      >
-        <XMedia
-          :media="media"
-          image-mode="cover"
-          class="absolute inset-0 w-full h-full transition-transform duration-300 group-hover:scale-110"
-        />
-        <div class="absolute inset-0 flex items-center justify-center bg-theme-900 bg-opacity-50 opacity-0 transition-opacity group-hover:opacity-100">
-          <i class="i-tabler-check text-2xl text-theme-100" />
-        </div>
+  <div class="space-y-8">
+    <InputMediaUpload :model-value="props.modelValue" @update:model-value="updateValue($event)" />
+
+    <div class="max-h-[300px] overflow-scroll">
+      <div v-if="loadingLibrary" class="flex justify-center py-8">
+        <ElSpinner class="text-theme-600 dark:text-theme-500 size-6" />
       </div>
-    </EffectMasonry>
+      <EffectMasonry v-else :items="libraryMedia" :options="{ gutter: 10 }">
+        <div
+          v-for="media in libraryMedia"
+          :key="media.mediaId"
+          class="inline-block masonry-grid-item group relative cursor-pointer overflow-hidden rounded-lg"
+          :class="getMasonryItemClass(media)"
+          @click="selectMedia(media)"
+        >
+          <XMedia
+            :media="media"
+            image-mode="cover"
+            class="absolute inset-0 w-full h-full transition-transform duration-300 group-hover:scale-110"
+          />
+          <div class="absolute inset-0 flex items-center justify-center bg-theme-900 bg-opacity-50 opacity-0 transition-opacity group-hover:opacity-100">
+            <i class="i-tabler-check text-2xl text-theme-100" />
+          </div>
+        </div>
+      </EffectMasonry>
+    </div>
   </div>
 </template>

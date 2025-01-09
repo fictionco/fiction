@@ -103,7 +103,7 @@ const contextTool = vue.computed(() => controller.activeTool.context.value)
           </transition>
         </div>
         <div @click="controller.useTool({ toolId: '' })">
-          <div class="h-full min-h-0 grid grid-flow-dense relative grid-rows-[minmax(0,1fr)] grid-cols-[1fr_300px] xl:grid-cols-[1fr_400px]">
+          <div class="h-full min-h-0 grid grid-flow-dense relative grid-rows-[minmax(0,1fr)] grid-cols-[1fr_370px] xl:grid-cols-[1fr_420px]">
             <div class="cards relative h-full w-full overflow-scroll bg-theme-50/50 dark:bg-theme-800/60">
               <div v-if="loading" class="">
                 <div class="text-theme-300 dark:text-theme-600 flex justify-center pt-32">

@@ -30,6 +30,9 @@ function toggleDarkMode() {
     </div>
 
     <form class="input-area mx-auto p-12 rounded-md">
+      <TestInput input-name="Media Library" :input-el="inputs.InputMedia" :service />
+      <TestInput input-name="Media Upload" :input-el="inputs.InputMediaUpload" :service />
+      <TestInput input-name="Add Items" :input-el="inputs.InputItems" />
       <TestInput input-name="Text" :input-el="inputs.InputText" />
       <TestInput input-name="Textarea" :input-el="inputs.InputTextarea" />
       <TestInput input-name="Price" :input-el="inputs.InputPrice" />
@@ -40,7 +43,7 @@ function toggleDarkMode() {
       <TestInput input-name="Password" :input-el="inputs.InputPassword" />
       <TestInput input-name="Phone" :input-el="inputs.InputPhone" />
       <TestInput input-name="Font" :input-el="inputs.InputFont" />
-      <TestInput input-name="Add Items" :input-el="inputs.InputItems" />
+
       <TestInput
         input-name="Username"
         :input-el="inputs.InputUsername"
@@ -50,7 +53,6 @@ function toggleDarkMode() {
         column="username"
       />
 
-      <TestInput input-name="Media Upload" :input-el="inputs.InputMediaUpload" :service="service" />
       <TestInput input-name="Select" :input-el="inputs.InputSelect" :list="['option 1', 'option 2', 'option 3']" />
       <TestInput input-name="Range" :input-el="inputs.InputRange" />
       <TestInput input-name="Color Scheme" :input-el="inputs.InputColorScheme" />

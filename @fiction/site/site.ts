@@ -3,6 +3,7 @@ import type { Card, CardTemplate } from './card.js'
 import type { FictionSites, ThemeConfig } from './index.js'
 
 import type { SiteMode } from './load.js'
+import type { ToolKeys } from './plugin-builder/tools/tools.js'
 import type { prefersColorScheme } from './schema.js'
 import type { CardConfigPortable, PageRegion, TableCardConfig, TableSiteConfig } from './tables.js'
 import type { LayoutOrder } from './utils/layout.js'
@@ -42,6 +43,7 @@ export type SiteSettings = {
 export type SiteEventMap = {
   addCard: CustomEvent<{ template: CardTemplate }>
   setActiveCard: CustomEvent<{ cardId: string } >
+  editorActivateTool: CustomEvent<{ toolId: ToolKeys }>
 }
 
 export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T> {
@@ -86,6 +88,12 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       },
     }]
     setupRouteWatcher({ site: this, queryVarHooks })
+  }
+
+  async editorActivateTool(args: { toolId: ToolKeys }) {
+    const { toolId } = args
+    const { adminEditorController } = await import('@fiction/site/plugin-builder/tools/tools.js')
+    adminEditorController.useTool({ toolId })
   }
 
   siteId = this.settings.siteId || objectId({ prefix: 'ste' })

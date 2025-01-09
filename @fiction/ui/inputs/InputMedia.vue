@@ -1,15 +1,16 @@
 <script lang="ts" setup>
-import type { MediaObject } from '@fiction/core'
+import type { MediaObject, StandardSize } from '@fiction/core'
 import { determineMediaFormat, removeUndefined, vue } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 import XMedia from '../media/XMedia.vue'
-import LibraryModal from './LibraryModal.vue'
+import LibraryModal from './LibraryModal2.vue'
 
 defineOptions({ name: 'InputMedia' })
 
-const { modelValue = {}, isBackground = false } = defineProps<{
+const { modelValue = {}, isBackground = false, uiSize = 'md' } = defineProps<{
   modelValue?: MediaObject
   isBackground?: boolean
+  uiSize: StandardSize
 }>()
 
 const emit = defineEmits<{
@@ -31,6 +32,20 @@ function handleMediaUpdate(newValue: MediaObject) {
   const newMedia = removeUndefined(newValue, { removeNull: true })
   emit('update:modelValue', newMedia)
 }
+
+const sizeMap = vue.computed(() => {
+  const sz: Record<StandardSize, { button: StandardSize }> = {
+    'xxs': { button: 'xxs' },
+    'xs': { button: 'xs' },
+    'sm': { button: 'xs' },
+    'md': { button: 'sm' },
+    'lg': { button: 'md' },
+    'xl': { button: 'lg' },
+    '2xl': { button: 'xl' },
+  }
+
+  return sz[uiSize || 'md']
+})
 </script>
 
 <template>
@@ -61,7 +76,7 @@ function handleMediaUpdate(newValue: MediaObject) {
       rounding="full"
       theme="primary"
       icon="i-tabler-photo"
-      size="sm"
+      :size="sizeMap.button"
       @click.stop.prevent="openMediaSelector"
     >
       {{ isBackground ? 'Edit Background' : 'Select Media' }}

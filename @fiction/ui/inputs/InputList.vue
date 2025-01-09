@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { Site } from '@fiction/site'
 import type { Sortable } from '@shopify/draggable'
 import type { InputOption } from '.'
 import { isTest, shortId, type StandardSize, vue, waitFor } from '@fiction/core'
@@ -13,7 +14,7 @@ const {
   options = [],
   itemLabel = 'Item',
   itemName = 'Item',
-  uiSize = 'md',
+  site,
 } = defineProps<{
   modelValue?: BasicItem[]
   options?: InputOption[]
@@ -24,6 +25,7 @@ const {
   min?: number
   max?: number
   uiSize?: StandardSize
+  site?: Site
 }>()
 
 const emit = defineEmits<{
@@ -200,6 +202,7 @@ vue.onMounted(async () => {
               :model-value="item"
               :options
               :depth="1"
+              :input-props="{ site }"
               @update:model-value="updateIndexValue(i, $event)"
             />
           </div>

@@ -2,6 +2,7 @@ import type { ActionButton, ListItem, MediaObject } from '@fiction/core'
 import type { SchemaFields } from '@fiction/core/utils/schemas'
 import type { z } from 'zod'
 import { FictionObject, removeUndefined, vue } from '@fiction/core'
+import InputSiteRoute from './InputSiteRoute.vue'
 
 const def = vue.defineAsyncComponent
 
@@ -29,6 +30,7 @@ export const inputs = {
   InputOneTimeCode: { el: def(() => import('./InputOneTimeCode.vue')) },
   InputText: { el: def(() => import('./InputText.vue')) },
   InputUrl: { el: def(() => import('./InputUrl.vue')) },
+  InputSiteRoute: { el: def(() => import('./InputSiteRoute.vue')) },
   InputToggle: { el: def(() => import('./InputToggle.vue')) },
   InputCheckbox: { el: def(() => import('./InputCheckbox.vue')) },
   InputCheckboxMulti: { el: def(() => import('./InputCheckboxMulti.vue')) },

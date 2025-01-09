@@ -1,3 +1,4 @@
+import type { template as templateHero } from '@fiction/cards/content-hero'
 import type { template as captureTemplate } from '@fiction/cards/convert-capture'
 import type { template as textEffectsTemplate } from '@fiction/cards/effect-text'
 
@@ -24,7 +25,15 @@ export async function getPages(args: SectionArgs) {
   return [
     await factory.fromTemplate({
       slug: '_home',
-      cards: [],
+      cards: [
+        await factory.fromTemplate<typeof templateHero>({
+          templateId: 'cardHeroV1',
+          userConfig: {
+            title: 'Hello World',
+            subTitle: 'Welcome to your new site',
+          },
+        }),
+      ],
     }),
   ]
 }

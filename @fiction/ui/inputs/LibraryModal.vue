@@ -101,7 +101,11 @@ function updateCurrentSelection(updates: Partial<MediaObject>) {
       </div>
 
       <!-- Preview section -->
-      <div v-if="currentSelection.format" class="relative  py-2 border-b border-theme-300/50 dark:border-theme-700/70">
+      <div
+        v-if="currentSelection.format"
+        class="relative  py-2 border-b border-theme-300/50 dark:border-theme-700/70"
+        :data-media-config="JSON.stringify(currentSelection)"
+      >
         <div class="absolute top-0 w-full flex justify-between items-center text-theme-500 dark:text-theme-400 px-4 py-2">
           <div class="text-xs opacity-60 flex gap-3">
             <div>Preview</div>
@@ -127,7 +131,6 @@ function updateCurrentSelection(updates: Partial<MediaObject>) {
         </div>
         <div
           class="flex justify-start items-center truncate p-4"
-          :data-media-data="JSON.stringify(currentSelection)"
         >
           <XLogo
             v-if="['iconId', 'iconClass', 'typography'].includes(currentSelection.format || '')"
@@ -137,7 +140,7 @@ function updateCurrentSelection(updates: Partial<MediaObject>) {
           />
           <XMedia
             v-else
-            class="h-[150px] max-w-full mx-auto"
+            class="h-[150px] max-w-full mx-auto w-full"
             image-mode="inline"
             :media="currentSelection"
             :data-media-format="currentSelection.format"
