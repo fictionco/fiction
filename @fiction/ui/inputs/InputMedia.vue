@@ -10,7 +10,7 @@ defineOptions({ name: 'InputMedia' })
 const { modelValue = {}, isBackground = false, uiSize = 'md' } = defineProps<{
   modelValue?: MediaObject
   isBackground?: boolean
-  uiSize: StandardSize
+  uiSize?: StandardSize
 }>()
 
 const emit = defineEmits<{
@@ -85,8 +85,8 @@ const sizeMap = vue.computed(() => {
     <LibraryModal
       v-model:vis="vis"
       :model-value="val"
-      :tools="[...(isBackground ? ['background'] as const : []), 'upload', 'library', 'html']"
-      default-tool="library"
+      :tools="[...(isBackground ? ['background'] as const : []), 'media', 'html']"
+      default-tool="media"
       title="Media Manager"
       @update:model-value="handleMediaUpdate"
     />
