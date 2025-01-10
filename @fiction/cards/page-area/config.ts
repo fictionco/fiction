@@ -46,9 +46,9 @@ export async function getConfig(args: { templateId: string, factory: CardFactory
           gradient: {
             angle: 135,
             stops: [
-              { color: '#1e3a8a', percent: 0 },
-              { color: '#3b82f6', percent: 50 },
-              { color: '#60a5fa', percent: 100 },
+              { color: '#1e3a8a', position: 0 },
+              { color: '#3b82f6', position: 50 },
+              { color: '#60a5fa', position: 100 },
             ],
           },
         },
@@ -121,8 +121,8 @@ export async function getConfig(args: { templateId: string, factory: CardFactory
           gradient: {
             angle: 45,
             stops: [
-              { color: '#7c3aed', percent: 0 },
-              { color: '#db2777', percent: 100 },
+              { color: '#7c3aed', position: 0 },
+              { color: '#db2777', position: 100 },
             ],
           },
         },

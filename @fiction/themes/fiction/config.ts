@@ -695,8 +695,8 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
               gradient: {
                 angle: 45,
                 stops: [
-                  { theme: 'blue', scale: 950, opacity: 0, percent: 50 },
-                  { theme: 'blue', scale: 950, opacity: 0.8, percent: 100 },
+                  { theme: 'blue', scale: 950, opacity: 0, position: 50 },
+                  { theme: 'blue', scale: 950, opacity: 0.8, position: 100 },
                 ],
               },
             },

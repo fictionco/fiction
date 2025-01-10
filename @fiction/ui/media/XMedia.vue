@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { GradientPoint, GradientSetting, MediaObject } from '@fiction/core'
-import { determineMediaFormat, getColorScheme, log, vue, waitFor } from '@fiction/core'
+import { determineMediaFormat, getColorScheme, getGradientCss, log, vue, waitFor } from '@fiction/core'
 import * as bh from 'blurhash'
 import ClipPathAnim from '../anim/AnimClipPath.vue'
 
@@ -114,22 +114,9 @@ function generateColorString(point: GradientPoint): string {
   return ''
 }
 
-function createGradientString(gradient: GradientSetting): string {
-  if (gradient.css)
-    return gradient.css
-
-  const angle = gradient.angle ?? 0
-  const stops = gradient.stops?.map((stop) => {
-    const colorString = generateColorString(stop)
-    return `${colorString} ${stop.percent != null ? `${stop.percent}%` : ''}`
-  }).join(', ') ?? ''
-
-  return `linear-gradient(${angle}deg, ${stops})`
-}
-
 const bgStyle = vue.computed(() => ({
   backgroundColor: media?.backgroundColor || undefined,
-  backgroundImage: media?.gradient ? createGradientString(media.gradient) : undefined,
+  backgroundImage: media?.gradient ? getGradientCss(media.gradient) : undefined,
   backgroundRepeat: media?.backgroundRepeat || undefined,
   backgroundPosition: media?.backgroundPosition || undefined,
   backgroundSize: media?.backgroundSize || undefined,
@@ -141,7 +128,7 @@ const overlayStyle = vue.computed(() => {
     return {}
 
   return {
-    background: overlay.gradient ? createGradientString(overlay.gradient) : overlay.color,
+    background: overlay.gradient ? getGradientCss(overlay.gradient) : overlay.color,
     opacity: (overlay.opacity || 50) / 100,
     mixBlendMode: overlay.blendMode,
   }
