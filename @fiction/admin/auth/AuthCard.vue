@@ -6,9 +6,9 @@ import TransactionView from '@fiction/cards/page-transaction/TransactionView.vue
 import TransactionWrap from '@fiction/cards/page-transaction/TransactionWrap.vue'
 import { unhead, useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
+import EffectTransitionList from '@fiction/ui/effect/EffectTransitionList.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
-import EffectTransitionList from '../el/EffectTransitionList.vue'
 
 export type UserConfig = { logo?: MediaObject, termsUrl?: string, privacyUrl?: string }
 

@@ -2,8 +2,15 @@
 import { vue, waitFor } from '@fiction/core'
 import EffectTransitionList from './EffectTransitionList.vue'
 
-const { itemSelector = '[data-drag-id]', allowHorizontal = false, mode = 'block', disabled = false } = defineProps<{
+const {
+  itemSelector = '[data-drag-id]',
+  dragHandle,
+  allowHorizontal = false,
+  mode = 'block',
+  disabled = false,
+} = defineProps<{
   itemSelector?: string
+  dragHandle?: string
   allowHorizontal?: boolean
   mode?: 'inline' | 'block'
   disabled?: boolean
@@ -38,8 +45,8 @@ vue.onMounted(async () => {
   const { Plugins, Sortable } = await import('@shopify/draggable')
   const sortable = new Sortable(wrapperEl.value, {
     draggable: itemSelector,
+    handle: dragHandle || undefined,
     distance: 3,
-
     mirror: {
       constrainDimensions: true,
     },

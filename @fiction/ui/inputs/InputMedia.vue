@@ -3,7 +3,7 @@ import type { MediaObject, StandardSize } from '@fiction/core'
 import { determineMediaFormat, removeUndefined, vue } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 import XMedia from '../media/XMedia.vue'
-import LibraryModal from './LibraryModal2.vue'
+import LibraryModal from './LibraryModal.vue'
 
 defineOptions({ name: 'InputMedia' })
 

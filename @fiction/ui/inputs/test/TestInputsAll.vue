@@ -30,7 +30,8 @@ function toggleDarkMode() {
     </div>
 
     <form class="input-area mx-auto p-12 rounded-md">
-      <TestInput input-name="Media Library" :input-el="inputs.InputMedia" :service />
+      <TestInput input-name="Gradient" :input-el="inputs.InputGradient" />
+      <TestInput input-name="Media Library" :input-el="inputs.InputMedia" :service :input-props="{ isBackground: true }" />
       <TestInput input-name="Media Upload" :input-el="inputs.InputMediaUpload" :service />
       <TestInput input-name="Add Items" :input-el="inputs.InputItems" />
       <TestInput input-name="Text" :input-el="inputs.InputText" />
@@ -47,10 +48,12 @@ function toggleDarkMode() {
       <TestInput
         input-name="Username"
         :input-el="inputs.InputUsername"
-        before-input="https://"
-        after-input=".test.com"
-        table="fiction_user"
-        column="username"
+        :input-props="{
+          table: 'fiction_user',
+          column: 'username',
+          beforeInput: 'https://',
+          afterInput: '.test.com',
+        }"
       />
 
       <TestInput input-name="Select" :input-el="inputs.InputSelect" :list="['option 1', 'option 2', 'option 3']" />
@@ -111,7 +114,6 @@ function toggleDarkMode() {
       />
       <TestInput input-name="Overlay" :input-el="inputs.InputOverlay" />
 
-      <TestInput input-name="Gradient" :input-el="inputs.InputGradient" />
       <TestInput input-name="DropDown" :input-el="inputs.InputDropDown" :list="['apple', 'orange', 'pear']" />
     </form>
   </div>

@@ -3,11 +3,11 @@ import type { AdminEditorController, EditorTool, Handle } from '@fiction/admin'
 import type { ActionButton } from '@fiction/core'
 import type { Site } from '../../site'
 import type { ToolKeys } from './tools.js'
-import EffectDraggableSort from '@fiction/admin/el/EffectDraggableSort.vue'
 import ElToolBanner from '@fiction/admin/tools/ElToolBanner.vue'
 import ELToolHandle from '@fiction/admin/tools/ElToolHandle.vue'
 import { vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
+import EffectDraggableSort from '@fiction/ui/effect/EffectDraggableSort.vue'
 import { saveSite } from '../../utils/site'
 
 const props = defineProps({

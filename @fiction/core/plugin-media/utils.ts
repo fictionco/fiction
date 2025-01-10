@@ -67,23 +67,6 @@ export async function relativeMedia(args: RelativeMediaArgs): Promise<TableMedia
   }
 }
 
-export function getGradientCss(gradient?: GradientSetting, options?: { noAngle?: boolean }): string {
-  const { noAngle } = options || {}
-  if (!gradient?.stops)
-    return ''
-
-  const st = gradient.stops.map(i => i.color).filter(Boolean)
-
-  // to force render if only one stop
-  if (st.length === 1)
-    st.push(st[0])
-
-  const li = st.join(', ')
-
-  const angle = noAngle || !gradient.angle ? 90 : gradient.angle
-  return li ? `linear-gradient(${angle}deg, ${li})` : ''
-}
-
 export function getImageFilter(f: ImageFilter, a?: number): string {
   if (a === undefined)
     return ''

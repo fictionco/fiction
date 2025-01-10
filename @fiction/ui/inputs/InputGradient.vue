@@ -1,173 +1,256 @@
 <script lang="ts" setup>
-import type { GradientPoint, GradientSetting } from '@fiction/core'
-import { DraggableList, getGradientCss, vue } from '@fiction/core'
-import InputColor from './InputColor.vue'
+import type { GradientPoint, GradientSetting, StandardSize } from '@fiction/core'
+import type { Key } from 'node:readline'
+import { getGradientCss, shortId, vue } from '@fiction/core'
+import XButton from '../buttons/XButton.vue'
+import EffectDraggableSort from '../effect/EffectDraggableSort.vue'
 import InputRange from './InputRange.vue'
 
 defineOptions({ name: 'InputGradient' })
 
-const props = defineProps({
-  modelValue: { type: Object as vue.PropType<GradientSetting>, default: undefined },
-})
-
-const emit = defineEmits<{
-  (event: 'update:modelValue', payload: GradientSetting): void
+const { modelValue, uiSize = 'md' } = defineProps<{
+  modelValue?: GradientSetting
+  uiSize: StandardSize
 }>()
 
-const colorEl = vue.ref<HTMLElement>()
-const visible = vue.ref(false)
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: GradientSetting | undefined): void
+}>()
 
-/**
- * Renderkey is needed for drag and drop
- * to re-render the list when it changes
- */
-const renderKey = vue.ref(0)
-// type GradientItem = { color?: string, percent?: number, colorId?: string }
-// type GradientSetting = {
-//   angle?: number
-//   stops?: GradientItem[]
-//   css?: string
-// }
+const sizing = vue.computed(() => {
+  const sz = {
+    'xxs': { preview: 'h-3' },
+    'xs': { preview: 'h-4' },
+    'sm': { preview: 'h-6' },
+    'md': { preview: 'h-8' },
+    'lg': { preview: 'h-10' },
+    'xl': { preview: 'h-12' },
+    '2xl': { preview: 'h-14' },
+  }
 
-const gradientCss = vue.computed(() => {
-  return getGradientCss(props.modelValue)
+  return sz[uiSize]
 })
 
-async function updateValue(value: GradientSetting): Promise<void> {
-  value.css = getGradientCss(value)
+const renderKey = vue.ref(0)
+
+const gradientCss = vue.computed(() => getGradientCss(modelValue))
+
+function getDefaultStop(): GradientPoint {
+  return { color: '#ffffff', opacity: 1, position: 0 }
+}
+
+type KeyedItem = GradientPoint & { _key?: string }
+
+const keyedStops = vue.computed<KeyedItem[]>(() => {
+  const stops = (modelValue?.stops || []) as KeyedItem[]
+
+  return stops.map(stop => ({
+    ...stop,
+    _key: stop._key || shortId(),
+  }))
+})
+
+async function updateValue(value?: GradientSetting): Promise<void> {
+  if (value) {
+    value.css = getGradientCss(value)
+  }
+
   emit('update:modelValue', value)
 }
 
 async function updateField(field: string, value: unknown): Promise<void> {
-  const newValue = { ...props.modelValue, [field]: value }
+  const newValue = { ...modelValue, [field]: value }
   await updateValue(newValue)
 }
 
-const colorList = vue.computed<GradientPoint[]>(() => {
-  return props.modelValue?.stops || [{}, {}]
-})
-
 async function addColor() {
-  const newValue = { ...props.modelValue, stops: [...colorList.value, {}] }
+  const lastStop = keyedStops.value[keyedStops.value.length - 1]
+  const prevPosition = lastStop?.position ?? 0
+  const newPosition = Math.min(prevPosition + 25, 100)
+
+  const newStop: KeyedItem = {
+    ...getDefaultStop(),
+    position: newPosition,
+    color: '#808080',
+    opacity: 0.2,
+    _key: shortId(),
+  }
+  const newValue = {
+    ...modelValue,
+    stops: [...keyedStops.value, newStop],
+  }
   await updateValue(newValue)
 }
 
 async function removeColor(index: number) {
   const newValue = {
-    ...props.modelValue,
-    stops: colorList.value.filter((_, i) => i !== index),
+    ...modelValue,
+    stops: keyedStops.value.filter((_, i) => i !== index),
   }
-  await updateValue(newValue)
-}
 
-async function updateColor(index: number, color: string) {
-  if (color) {
-    const value = props.modelValue || {}
-    const list = colorList.value
-    list[index] = { ...list[index], color }
-    value.stops = list
-    await updateValue(value)
+  if (newValue.stops.length === 0) {
+    await updateValue(undefined)
   }
   else {
-    await removeColor(index)
+    await updateValue(newValue)
   }
 }
-vue.onMounted(async () => {
-  const wrap = colorEl.value
-  const ddUpdate = async () => {
-    const v = props.modelValue || {}
-    const newStops: GradientPoint[] = []
 
-    wrap?.querySelectorAll('.color-item[data-color]').forEach((el) => {
-      const element = el as HTMLElement
-      const color = element.dataset.color
+async function updateColor(index: number, updates: Partial<GradientPoint>) {
+  const value = modelValue || {}
+  const list = [...keyedStops.value]
+  list[index] = { ...list[index], ...updates }
+  value.stops = list
+  await updateValue(value)
+}
 
-      if (color) {
-        const item = colorList.value.find(i => i.color === color)
+async function handleDragSort(keys: string[]) {
+  const sorted = keys.map((key) => {
+    const stop = keyedStops.value.find(s => s._key === key)
+    return stop || getDefaultStop()
+  })
 
-        if (item)
-          newStops.push(item)
-      }
-    })
+  const newValue = { ...modelValue, stops: sorted }
+  await updateValue(newValue)
+  renderKey.value++
+}
 
-    if (newStops.length > 0) {
-      v.stops = newStops
-      renderKey.value++
-
-      await updateValue(v)
-    }
-  }
-  new DraggableList({
-    wrapClass: 'color-wrap',
-    draggableClass: 'color-item',
-    ghostClasses: ['ring-4', 'ring-theme-100', 'ring-offset-2'],
-    onUpdate: () => ddUpdate(),
-  }).init()
-})
+const colorPickerClasses = [
+  'f-color-picker',
+  'cursor-pointer',
+  'ring-theme-300',
+  'dark:ring-theme-200',
+  'ring-2',
+  'rounded-md',
+  'active:opacity-75',
+  'flex',
+]
 </script>
 
 <template>
   <div class="max-w-input border border-theme-300/70 dark:border-theme-600 rounded-md p-3 space-y-3">
-    <div class="flex justify-between items-center gap-6">
-      <div class="flex items-center gap-2 cursor-pointer hover:opacity-70" @click="visible = !visible">
-        <div class="i-tabler-background text-xl" />
-        <div class="font-sans text-xs font-medium">
-          Edit Colors
-        </div>
-        <div class="i-tabler-chevron-down text-lg transition-all" :class="visible ? 'rotate-180' : ''" />
-      </div>
-      <div
-        class="hover:opacity-80 bar bg-theme-50 text-white text-center text-[9px] font-sans flex items-center justify-center dark:bg-theme-700 h-6 grow rounded-full shadow-sm ring-2 ring-inset ring-theme-800/20"
-        :style="{ 'background-image': gradientCss }"
-        :class="gradientCss ? 'cursor-pointer' : 'cursor-not-allowed opacity-0'"
-        @click="visible = !visible"
-      >
-        <div class="uppercase tracking-widest">
-          Preview
-        </div>
-      </div>
+    <!-- Preview Bar -->
+    <div
+      class="hover:opacity-80 bar bg-theme-50 text-white text-center text-[10px] font-sans flex items-center justify-center dark:bg-theme-800 grow rounded-lg border-2 border-theme-300 dark:border-theme-600"
+      :class="sizing.preview"
+      :style="{ 'background-image': gradientCss }"
+    >
+      <span class="mix-blend-overlay font-bold">Gradient Preview</span>
     </div>
-    <div v-if="visible" class="space-y-3">
-      <div class="  ">
-        <div
-          ref="colorEl"
-          class="color-wrap flex flex-wrap items-center "
-        >
-          <div
-            v-for="(c, i) in colorList"
-            :key="`${i}-${renderKey}`"
-            class="color-item my-1 mr-2 flex"
-            :data-color="c.color"
-            draggable="true"
-          >
-            <InputColor
-              :model-value="c.color"
-              @update:model-value="updateColor(i, $event)"
-            />
-            <div class="flex items-center">
-              <div
-                class="text-theme-400/80 hover:text-theme-500 cursor-move items-center p-0.5 text-sm i-tabler-grip-vertical"
-              />
-            </div>
-          </div>
-          <div
-            class="text-theme-500 hover:text-theme-600 flex items-center space-x-1 cursor-pointer  p-[.3em] text-xs font-mono"
-            @click="addColor()"
-          >
-            <div class="text-base i-tabler-plus" />
-            <div>Color</div>
+
+    <div v-if="!keyedStops?.length" class="p-4 text-xs font-sans text-center text-theme-500 dark:text-theme-600">
+      No Color Stops Added
+    </div>
+
+    <!-- Color Stops -->
+    <EffectDraggableSort
+      v-else
+      :key="renderKey"
+      class="space-y-2"
+      drag-handle="[data-drag-handle]"
+      @update:sorted="($event) => handleDragSort($event)"
+    >
+      <div
+        v-for="(stop, i) in keyedStops"
+        :key="stop._key"
+        class="color-item group flex items-center gap-3 p-2 bg-theme-100/50 dark:bg-theme-800/50 rounded-lg"
+        :data-color="stop.color"
+        :data-drag-id="stop._key"
+      >
+        <!-- Drag Handle & Color -->
+        <div class="flex items-center gap-2">
+          <div data-drag-handle class="i-tabler-grip-vertical text-theme-400/80 hover:text-theme-500 cursor-move" />
+          <div class="relative" :for="`stop-${i}`">
+            <span
+              class="wrap relative"
+              :style="{ background: stop.color || `rgba(255,255,255,.5)` }"
+              :class="colorPickerClasses"
+            >
+              <input
+                :id="`stop-${i}`"
+                type="color"
+                class="size-[1.5em] cursor-pointer opacity-0"
+                :value="stop.color || '#edf1f3'"
+                @input="updateColor(i, { color: ($event.target as HTMLInputElement)?.value })"
+              >
+            </span>
           </div>
         </div>
+
+        <!-- Controls -->
+        <div class="flex flex-col gap-1.5 grow">
+          <!-- Position -->
+          <div class="flex items-center gap-2" title="Stop Position">
+            <div class="i-tabler-arrows-horizontal text-theme-400 text-sm" />
+
+            <InputRange
+              class="grow"
+              min="0"
+              max="100"
+              step="1"
+              :hide-value="true"
+              :model-value="stop.position"
+              @update:model-value="updateColor(i, { position: $event })"
+            />
+
+            <span class="text-[10px] font-mono font-medium text-theme-500 dark:text-theme-400 text-right tabular-nums">
+              {{ stop.position }}%
+            </span>
+          </div>
+
+          <!-- Opacity -->
+          <div class="flex items-center gap-2" title="Stop Opacity">
+            <div class="i-tabler-contrast-filled text-theme-400 text-sm" />
+
+            <InputRange
+              class="grow"
+              min="0"
+              max="1"
+              step="0.01"
+              :hide-value="true"
+              :model-value="stop.opacity"
+              @update:model-value="updateColor(i, { opacity: $event })"
+            />
+            <span class="text-[10px] font-mono font-medium text-theme-500 dark:text-theme-400 text-right tabular-nums">
+              {{ Math.round((stop.opacity || 1) * 100) }}%
+            </span>
+          </div>
+        </div>
+
+        <!-- Remove Button -->
+        <button
+          class="i-tabler-x text-theme-400/80 hover:text-red-500 shrink-0 cursor-pointer"
+          @click.stop="removeColor(i)"
+        />
       </div>
-      <div class="flex shrink-0 items-center space-x-2 ">
+    </EffectDraggableSort>
+
+    <!-- Bottom Controls -->
+    <div class="flex shrink-0 items-center space-x-2 justify-between">
+      <XButton
+        theme="default"
+        design="outline"
+        class="shrink-0"
+        size="xs"
+        icon="i-tabler-plus"
+        @click="addColor()"
+      >
+        Add Color
+      </XButton>
+      <div class="grow-0 flex gap-2 items-center" title="Gradient Angle">
+        <div class="i-tabler-angle text-theme-400 text-sm" />
         <InputRange
           icon="i-tabler-angle"
           min="0"
           max="360"
           step="1"
+          :hide-value="true"
           :model-value="modelValue?.angle"
           @update:model-value="updateField('angle', $event)"
         />
+        <span class="text-[10px] font-mono font-medium text-theme-500 dark:text-theme-400 text-right tabular-nums">
+          {{ modelValue?.angle || '90' }}°
+        </span>
       </div>
     </div>
   </div>

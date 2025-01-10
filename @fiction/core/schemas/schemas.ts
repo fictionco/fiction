@@ -86,24 +86,56 @@ export const fontStyleSchema = z.object({
   family: z.string().optional(),
   weight: FontWeightsSchema.optional(),
 })
+
+// For specifying a color point in the gradient with maximum flexibility
 export const GradientPointSchema = z.object({
+  // For direct hex/rgba colors
   color: z.string().optional(),
-  percent: z.number().min(0).max(100).optional(),
+
+  // For using theme colors (e.g. 'blue', 'emerald')
   theme: ColorThemeSchema.optional(),
+
+  // For theme color intensity (e.g. 500, 600)
   scale: ColorScaleSchema.optional(),
+
+  // Position in gradient (0-100)
+  position: z.number().min(0).max(100).optional(),
+
+  // Opacity as 0-1 float
   opacity: z.number().min(0).max(1).optional(),
 })
+
 export type GradientPoint = z.infer<typeof GradientPointSchema>
+
+// Main gradient definition
 export const GradientSettingSchema = z.object({
+  // Angle in degrees
   angle: z.number().min(0).max(360).optional(),
+
+  // Array of color stops
   stops: z.array(GradientPointSchema).optional(),
+
+  // Type of gradient
+  type: z.enum(['linear', 'radial', 'conic']).optional(),
+
+  // Pre-computed CSS (for caching/performance)
   css: z.string().optional(),
 })
+
 export type GradientSetting = z.infer<typeof GradientSettingSchema>
+
+// For overlay effects
 export const OverlaySettingSchema = z.object({
+  // Full gradient definition
   gradient: GradientSettingSchema.optional(),
-  opacity: z.number().min(0).max(1).optional(),
+
+  // Overall opacity
+  opacity: z.number().min(0).max(100).optional(),
+
+  // CSS blend mode
   blendMode: BlendModesSchema.optional(),
+
+  // Solid color fallback
   color: z.string().optional(),
 })
 export const ImageFilterConfigSchema = z.object({

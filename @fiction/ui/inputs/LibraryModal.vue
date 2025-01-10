@@ -6,25 +6,17 @@ import ElModal from '../ElModal.vue'
 import XLogo from '../media/XLogo.vue'
 import XMedia from '../media/XMedia.vue'
 import ElInput from './ElInput.vue'
-import InputMediaUpload from './InputMediaUpload.vue'
 import LibraryBackground from './LibraryBackground.vue'
+import LibraryHtml from './LibraryHtml.vue'
 import LibraryIcon from './LibraryIcon.vue'
 import LibraryMedia from './LibraryMedia.vue'
 
-defineOptions({ name: 'LibraryModal' })
-
-const {
-  modelValue = {},
-  vis = false,
-  tools = ['upload'],
-  title = 'Library',
-  defaultTool,
-} = defineProps<{
+const props = defineProps<{
   modelValue: MediaObject
-  vis: boolean
-  tools: LibraryTool[]
-  title: string
-  defaultTool: LibraryTool
+  vis?: boolean
+  tools?: LibraryTool[]
+  title?: string
+  defaultTool?: LibraryTool
 }>()
 
 const emit = defineEmits<{
@@ -33,25 +25,29 @@ const emit = defineEmits<{
 }>()
 
 const availableTools = [
-  { label: 'Upload Media', value: 'upload', icon: 'i-tabler-upload' },
-  { label: 'Media Library', value: 'library', icon: 'i-tabler-photo' },
-  { label: 'Custom HTML Embed', value: 'html', icon: 'i-tabler-code' },
-  { label: 'Icon Library', value: 'icons', icon: 'i-tabler-category' },
-  { label: 'Background Color', value: 'background', icon: 'i-tabler-palette' },
+  { label: 'Select Media', value: 'media', icon: 'i-tabler-photo', component: LibraryMedia },
+  { label: 'Custom HTML', value: 'html', icon: 'i-tabler-code', component: LibraryHtml },
+  { label: 'Icon Library', value: 'icons', icon: 'i-tabler-category', component: LibraryIcon },
+  { label: 'Background', value: 'background', icon: 'i-tabler-palette', component: LibraryBackground },
 ] as const
 
 type LibraryTool = typeof availableTools[number]['value']
 
-const currentSelection = vue.ref<MediaObject>({ backgroundColor: 'rgba(50 50 50 / .1)', format: 'url' })
+const currentSelection = vue.ref<MediaObject>({ })
+
+vue.watch(() => props.modelValue, (newValue) => {
+  if (newValue) {
+    selectMedia(newValue)
+  }
+}, { immediate: true })
 
 function getDefaultTool() {
   const format = currentSelection.value.format
-  let v: LibraryTool
-  if (format === 'html')
-    v = 'html'
-  else if (format === 'iconId')
-    v = 'icons'
-  else v = defaultTool
+  const v: LibraryTool = format === 'html'
+    ? 'html'
+    : format === 'iconId'
+      ? 'icons'
+      : props.defaultTool || 'media'
 
   return availableTools.find(item => item.value === v) || availableTools[0]
 }
@@ -61,141 +57,168 @@ function selectMedia(media: MediaObject) {
   currentSelection.value = { ...currentSelection.value, format, ...media }
 }
 
-selectMedia(modelValue)
+const enabledTools = vue.computed(() =>
+  availableTools.filter(tool => !props.tools || props.tools.includes(tool.value)),
+)
 
-const navItems = vue.computed(() => tools.map(t => availableTools.find(item => item.value === t)).filter(Boolean) as typeof availableTools[number][])
-
-const navItemActive = vue.ref(getDefaultTool())
+const activeToolId = vue.ref<LibraryTool>(getDefaultTool().value)
+const activeTool = vue.computed(() => availableTools.find(t => t.value === activeToolId.value))
 
 function applyChanges() {
   emit('update:modelValue', currentSelection.value)
   emit('update:vis', false)
 }
 
-function updateCurrentSelection(updates: Partial<MediaObject>) {
-  currentSelection.value = { ...currentSelection.value, ...updates }
+function clearMedia() {
+  currentSelection.value = { }
+}
+
+function hasMedia() {
+  return currentSelection.value.url || currentSelection.value.html || currentSelection.value.iconId
 }
 </script>
 
 <template>
-  <ElModal :vis class="max-w-3xl" modal-class="max-w-screen-md" @update:vis="emit('update:vis', $event)">
-    <div data-test-id="library-modal" class="text-sm">
-      <div class="nav p-4 flex justify-between gap-4 items-center border-b border-theme-300/50 dark:border-theme-700/70">
-        <div class="font-medium">
-          {{ title }}
-        </div>
-        <div class="flex items-center justify-center gap-3">
-          <XButton
-            v-for="item in navItems"
-            :key="item.value"
-            :icon="item.icon"
-            :theme="item.value === navItemActive.value ? 'primary' : 'theme'"
-            size="xs"
-            rounding="full"
-            :data-test-id="`nav-${item.value}`"
-            @click="navItemActive = item"
-          >
-            {{ item.label }}
-          </XButton>
-        </div>
-      </div>
-
-      <!-- Preview section -->
-      <div
-        v-if="currentSelection.format"
-        class="relative  py-2 border-b border-theme-300/50 dark:border-theme-700/70"
-        :data-media-config="JSON.stringify(currentSelection)"
-      >
-        <div class="absolute top-0 w-full flex justify-between items-center text-theme-500 dark:text-theme-400 px-4 py-2">
-          <div class="text-xs opacity-60 flex gap-3">
-            <div>Preview</div>
-            <div>
-              <span class="opacity-60">
-                Format &rarr;
-              </span>
-              <span class="uppercase">{{ currentSelection.format || 'None' }}</span>
-            </div>
-          </div>
-          <div>
+  <ElModal
+    :vis="vis"
+    class="max-w-4xl"
+    modal-class="max-w-screen-md"
+    :has-close="false"
+    @update:vis="emit('update:vis', $event)"
+  >
+    <div data-test-id="media-modal" class="bg-white text-theme-900 dark:bg-theme-900 dark:text-theme-100 rounded-lg overflow-hidden">
+      <!-- Header -->
+      <div class="p-4 border-b border-theme-200 dark:border-theme-700">
+        <div class="flex items-center justify-between">
+          <h2 class="font-medium">
+            {{ title || 'Media Manager' }}
+          </h2>
+          <div class="flex gap-4">
             <XButton
-              v-if="currentSelection.url"
+              v-if="currentSelection.format"
               theme="default"
-              design="outline"
-              size="xs"
+              design="link"
+              size="sm"
+              icon="i-tabler-info-circle"
+            >
+              <span class="text-theme-400">Format:</span> <span class="uppercase">{{ currentSelection.format }}</span>
+            </XButton>
+            <XButton
+              :disabled="!hasMedia()"
+              theme="default"
+              size="sm"
               icon="i-tabler-trash"
-              @click="updateCurrentSelection({ url: undefined, iconId: undefined })"
+              @click="clearMedia"
             >
               Clear Media
             </XButton>
           </div>
         </div>
-        <div
-          class="flex justify-start items-center truncate p-4"
-        >
-          <XLogo
-            v-if="['iconId', 'iconClass', 'typography'].includes(currentSelection.format || '')"
-            class="mx-auto"
-            :media="currentSelection"
-            :class="['typography'].includes(currentSelection.format || '') ? 'h-[60px]' : 'h-[150px]'"
-          />
-          <XMedia
-            v-else
-            class="h-[150px] max-w-full mx-auto w-full"
-            image-mode="inline"
-            :media="currentSelection"
-            :data-media-format="currentSelection.format"
-          />
+      </div>
+
+      <!-- Main Content Area -->
+      <div class="flex min-h-[500px]">
+        <!-- Left Sidebar - Source Selection -->
+        <div class="w-48 border-r border-theme-200 dark:border-theme-700 flex-shrink-0 bg-theme-50 dark:bg-theme-800">
+          <nav class="p-3">
+            <button
+              v-for="tool in enabledTools"
+              :key="tool.value"
+              class="w-full px-4 py-2 rounded-lg text-left mb-1 flex items-center gap-2 transition-colors text-sm font-medium"
+              :class="[
+                activeToolId === tool.value
+                  ? 'bg-primary-600 dark:bg-primary-900/50 text-white'
+                  : 'hover:bg-theme-100 dark:hover:bg-theme-700 text-theme-700 dark:text-theme-200',
+              ]"
+              @click.prevent="activeToolId = tool.value"
+            >
+              <i class="text-lg" :class="[tool.icon]" />
+              <span>{{ tool.label }}</span>
+            </button>
+          </nav>
+        </div>
+
+        <!-- Content Area -->
+        <div class="flex-1 flex flex-col">
+          <!-- Preview Area -->
+          <div class="p-4 border-b border-theme-200 dark:border-theme-700 h-64">
+            <div class="relative h-full">
+              <div class="w-full h-full flex items-center justify-center" :data-m="JSON.stringify(currentSelection)">
+                <template v-if="currentSelection.format || currentSelection.gradient?.stops?.length || currentSelection.backgroundColor">
+                  <XLogo
+                    v-if="['iconId', 'iconClass', 'typography'].includes(currentSelection.format || '')"
+                    :media="currentSelection"
+                    class="max-h-full"
+                  />
+                  <XMedia
+                    v-else
+                    :media="currentSelection"
+                    class="max-h-full object-contain w-full h-full"
+                    image-mode="contain"
+                  />
+                </template>
+                <div
+                  v-else
+                  class="text-center border-2 border-dashed border-theme-200 dark:border-theme-700 rounded-lg p-8 w-full h-full flex items-center justify-center"
+                >
+                  <div>
+                    <i class="i-tabler-photo-plus text-4xl text-theme-400 dark:text-theme-600 mb-2" />
+                    <p class="text-theme-500 dark:text-theme-400">
+                      No media selected
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tool Content Area -->
+          <div class="flex-1 p-4 bg-theme-50/50 dark:bg-theme-800/50 max-h-[350px] overflow-scroll">
+            <!-- Dynamic Tool Component -->
+            <component
+              :is="activeTool?.component"
+              v-if="activeTool?.component"
+              v-model="currentSelection"
+              class="w-full"
+              @update:model-value="selectMedia"
+            />
+
+            <!-- HTML Input -->
+            <div v-else-if="activeToolId === 'html'" class="space-y-4">
+              <ElInput
+                :model-value="currentSelection.html"
+                input="InputTextarea"
+                :rows="6"
+                placeholder="Enter HTML or embed code here"
+                @update:model-value="value => currentSelection = {
+                  ...currentSelection,
+                  html: value,
+                  format: 'html',
+                }"
+              />
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class=" p-4 text-xs flex items-center gap-1 text-theme-500 dark:text-theme-400">
-        <span>Set New Value ({{ navItemActive.value }} format)</span> <span class="i-tabler-arrow-down-right text-lg" />
-      </div>
-
-      <!-- Tool-specific content -->
-      <div v-if="navItemActive.value === 'upload'" class="p-8 flex flex-col justify-center items-center">
-        <InputMediaUpload
-          :has-video="true"
-          :model-value="currentSelection"
-          class="w-full mx-auto max-w-xl"
-          @update:model-value="selectMedia({ format: 'url', ...$event })"
-        />
-      </div>
-
-      <LibraryMedia
-        v-else-if="navItemActive.value === 'library'"
-        v-model="currentSelection"
-        @update:model-value="selectMedia"
-      />
-
-      <div v-else-if="navItemActive.value === 'html'" class="p-4">
-        <ElInput
-          :model-value="currentSelection.html"
-          input="InputTextarea"
-          :rows="6"
-          placeholder="Enter HTML or embed code here"
-          class="mb-4"
-          @update:model-value="updateCurrentSelection({ html: $event, format: 'html' })"
-        />
-      </div>
-
-      <LibraryIcon
-        v-else-if="navItemActive.value === 'icons'"
-        v-model="currentSelection"
-        @update:model-value="selectMedia"
-      />
-
-      <LibraryBackground
-        v-else-if="navItemActive.value === 'background'"
-        v-model="currentSelection"
-        @update:model-value="updateCurrentSelection"
-      />
-
-      <div class="p-4 border-t border-theme-300/50 dark:border-theme-700/70 flex justify-between">
-        <XButton theme="default" rounding="full" icon="i-tabler-x" data-test-id="library-cancel" @click="$emit('update:vis', false)">
+      <!-- Footer -->
+      <div class="p-4 border-t border-theme-200 dark:border-theme-700 flex justify-between bg-theme-50 dark:bg-theme-800">
+        <XButton
+          theme="default"
+          size="md"
+          icon="i-tabler-x"
+          data-test-id="media-cancel"
+          @click="emit('update:vis', false)"
+        >
           Cancel
         </XButton>
-        <XButton theme="primary" rounding="full" icon="i-tabler-check" data-test-id="library-apply-changes" @click="applyChanges">
+        <XButton
+          theme="primary"
+          size="md"
+          icon="i-tabler-check"
+          data-test-id="media-apply"
+          @click="applyChanges"
+        >
           Apply Changes
         </XButton>
       </div>

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ListItem, TableTaxonomyConfig } from '@fiction/core'
 import type { FictionPosts } from '..'
-import EffectDraggableSort from '@fiction/admin/el/EffectDraggableSort.vue'
+import EffectDraggableSort from '@fiction/ui/effect/EffectDraggableSort.vue'
 import { debounce, log, toLabel, useService, vue, waitFor } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import InputSelectCustom from '@fiction/ui/inputs/InputSelectCustom.vue'

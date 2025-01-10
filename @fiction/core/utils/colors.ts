@@ -1,3 +1,4 @@
+import type { GradientSetting } from '../schemas/schemas.js'
 import { z } from 'zod'
 
 export const colorThemeBright = ['teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald'] as const
@@ -253,4 +254,36 @@ export function colorMulti(): string[] {
     colorStandard({ color: 'pink', level: 600 }),
     colorStandard({ color: 'amber', level: 600 }),
   ]
+}
+
+export function getGradientCss(gradient?: GradientSetting, options?: { noAngle?: boolean }): string {
+  if (!gradient?.stops?.length)
+    return ''
+
+  const stops = gradient.stops.map((stop) => {
+    const opacity = (stop.opacity ?? 1).toFixed(2)
+    const position = stop.position !== undefined ? ` ${stop.position}%` : ''
+
+    // Handle theme colors
+    if (stop.theme) {
+      const scheme = getColorScheme(stop.theme, { outputFormat: 'rgb' })
+      return `rgba(${scheme[stop.scale || 500]} / ${opacity})${position}`
+    }
+
+    // Handle direct colors
+    if (stop.color) {
+      const normalized = normalizeColor({ color: stop.color }).replace(/\d+\.?\d*\)$/, `${opacity})`)
+      return `${normalized}${position}`
+    }
+
+    return null
+  }).filter(Boolean)
+
+  if (!stops.length)
+    return ''
+  if (stops.length === 1)
+    stops.push(stops[0])
+
+  const angle = options?.noAngle || !gradient.angle ? 90 : gradient.angle
+  return `linear-gradient(${angle}deg, ${stops.join(', ')})`
 }

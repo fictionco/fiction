@@ -243,7 +243,7 @@ type ValidOptionKey<
 > = TInput extends 'group' | 'title' | 'InputControl'
   ? string
   : TSchema extends z.ZodObject<any>
-    ? SchemaFields<TSchema>
+    ? SchemaFields<TSchema> | '*'
     : string
 
 // Settings interface for createOption

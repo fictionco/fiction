@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import type { MediaObject, vue } from '@fiction/core'
-import ElInput from './ElInput.vue'
+import type { InputOption } from '.'
+import { MediaDisplaySchema as schema } from '@fiction/core'
+import { createOption } from '.'
+import FormEngine from './FormEngine.vue'
 
 defineOptions({ name: 'LibraryBackground' })
 
@@ -12,27 +15,85 @@ const emit = defineEmits<{
   (event: 'update:modelValue', payload: MediaObject): void
 }>()
 
-function updateBackground(updates: Partial<MediaObject>) {
-  emit('update:modelValue', { ...props.modelValue, ...updates })
-}
+const blendModes = [
+  'normal',
+  'overlay',
+  'multiply',
+  'screen',
+  'darken',
+  'lighten',
+  'color-dodge',
+  'color-burn',
+  'hard-light',
+  'soft-light',
+  'difference',
+  'exclusion',
+  'hue',
+  'saturation',
+  'color',
+  'luminosity',
+]
+
+const options: InputOption[] = [
+  createOption({
+    key: 'group.gradient',
+    input: 'group',
+    label: 'Background Colors',
+    icon: { class: 'i-tabler-background' },
+    schema,
+    options: [
+      createOption({
+        key: 'gradient',
+        label: 'Gradient',
+        input: 'InputGradient',
+        schema,
+      }),
+
+    ],
+  }),
+  createOption({
+    key: 'group.overlay',
+    input: 'group',
+    label: 'Background Overlay',
+    icon: { class: 'i-tabler-contrast-filled' },
+    schema,
+    options: [
+      createOption({
+        key: 'overlay.gradient',
+        label: 'Overlay Color',
+        input: 'InputGradient',
+        schema,
+      }),
+      createOption({
+        key: 'overlay.blendMode',
+        label: 'Blend Mode',
+        input: 'InputSelect',
+        list: blendModes,
+        schema,
+      }),
+      createOption({
+        key: 'overlay.opacity',
+        label: 'Overlay Opacity',
+        input: 'InputRange',
+        props: { min: 0, max: 1, step: 0.01 },
+        schema,
+      }),
+
+    ],
+  }),
+
+]
 </script>
 
 <template>
-  <div class="p-8">
-    <div class="max-w-md mx-auto space-y-8">
-      <ElInput
-        label="Background Colors"
-        input="InputGradient"
-        :model-value="modelValue.gradient"
-        @update:model-value="updateBackground({ gradient: $event })"
-      />
-
-      <ElInput
-        label="Background Overlay"
-        input="InputOverlay"
-        :model-value="modelValue.overlay"
-        @update:model-value="updateBackground({ overlay: $event })"
-      />
-    </div>
+  <div>
+    <FormEngine
+      state-key="bgInput"
+      :depth="1"
+      :model-value="modelValue"
+      ui-size="md"
+      :options="options"
+      @update:model-value="emit('update:modelValue', $event)"
+    />
   </div>
 </template>

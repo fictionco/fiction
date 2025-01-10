@@ -3,9 +3,9 @@ import type { Handle } from '@fiction/admin'
 import type { vue } from '@fiction/core'
 import type { Card } from '../../card'
 import type { Site } from '../../site'
-import EffectTransitionList from '@fiction/admin/el/EffectTransitionList.vue'
 import ElToolHandle from '@fiction/admin/tools/ElToolHandle.vue'
 import { toLabel } from '@fiction/core'
+import EffectTransitionList from '@fiction/ui/effect/EffectTransitionList.vue'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },

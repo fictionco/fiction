@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ListItem, StandardSize } from '@fiction/core'
-import EffectDraggableSort from '@fiction/admin/el/EffectDraggableSort.vue'
 import { debounce, log, toSlug, useService, vue, waitFor } from '@fiction/core'
+import EffectDraggableSort from '@fiction/ui/effect/EffectDraggableSort.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
 import XButton from '../buttons/XButton.vue'
 

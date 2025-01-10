@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import type { MediaObject, TableMediaConfig } from '@fiction/core'
-import { removeUndefined, useService, vue } from '@fiction/core'
-import EffectMasonry from '../effect/EffectMasonry.vue'
-import ElSpinner from '../loaders/ElSpinner.vue'
-import XMedia from '../media/XMedia.vue'
-import InputMediaUpload from './InputMediaUpload.vue'
+import type { MediaObject, vue } from '@fiction/core'
+import type { InputOption } from '.'
+import { MediaDisplaySchema as schema } from '@fiction/core'
+import { createOption } from '.'
+import FormEngine from './FormEngine.vue'
+import LibraryMediaGallery from './LibraryMediaGallery.vue'
 
-defineOptions({ name: 'LibraryMedia' })
+defineOptions({ name: 'LibraryBackground' })
 
 const props = defineProps({
   modelValue: { type: Object as vue.PropType<MediaObject>, default: () => ({}) },
@@ -16,104 +16,66 @@ const emit = defineEmits<{
   (event: 'update:modelValue', payload: MediaObject): void
 }>()
 
-const { fictionMedia } = useService()
+const blendModes = [
+  'normal',
+  'overlay',
+  'multiply',
+  'screen',
+  'darken',
+  'lighten',
+  'color-dodge',
+  'color-burn',
+  'hard-light',
+  'soft-light',
+  'difference',
+  'exclusion',
+  'hue',
+  'saturation',
+  'color',
+  'luminosity',
+]
 
-const libraryMedia = vue.ref<TableMediaConfig[]>([])
-const loadingLibrary = vue.ref(false)
-
-async function fetchLibraryMedia() {
-  loadingLibrary.value = true
-  try {
-    const response = await fictionMedia.requests.ManageMedia.projectRequest({
-      _action: 'list',
-      limit: 20,
-      offset: 0,
-    })
-    if (response.status === 'success') {
-      libraryMedia.value = response.data || []
-    }
-  }
-  catch (error) {
-    console.error('Error fetching media library:', error)
-  }
-  finally {
-    loadingLibrary.value = false
-  }
-}
-
-function selectMedia(media: MediaObject) {
-  const v = { ...props.modelValue, ...media, format: 'url' }
-  const newValue = removeUndefined(v, { removeNull: true }) as MediaObject
-  emit('update:modelValue', newValue)
-}
-
-function getMasonryItemClass(media: TableMediaConfig) {
-  const out = ['w-[18%]']
-  if (media.width && media.height) {
-    const ratio = media.width / media.height
-
-    // Define standard aspect ratios
-    const standardRatios = [
-      { class: 'aspect-square', value: 1 },
-      { class: 'aspect-video', value: 16 / 9 },
-      { class: 'aspect-[4/3]', value: 4 / 3 },
-      { class: 'aspect-[3/4]', value: 3 / 4 },
-      { class: 'aspect-[3/2]', value: 3 / 2 },
-      { class: 'aspect-[2/3]', value: 2 / 3 },
-      { class: 'aspect-[5/4]', value: 5 / 4 },
-      { class: 'aspect-[4/5]', value: 4 / 5 },
-    ]
-
-    // Find the closest standard ratio
-    const closestRatio = standardRatios.reduce((prev, curr) =>
-      Math.abs(curr.value - ratio) < Math.abs(prev.value - ratio) ? curr : prev,
-    )
-
-    out.push(closestRatio.class)
-  }
-  else {
-    out.push('aspect-square')
-  }
-  return out.join(' ')
-}
-
-vue.onMounted(() => {
-  fetchLibraryMedia()
-})
-
-function updateValue(value: MediaObject) {
-  emit('update:modelValue', value)
-
-  fetchLibraryMedia()
-}
+const options: InputOption[] = [
+  createOption({
+    key: 'group.upload',
+    input: 'group',
+    label: 'Upload Image or Video',
+    icon: { class: 'i-tabler-upload' },
+    schema,
+    options: [
+      createOption({
+        key: '*',
+        input: 'InputMediaUpload',
+        schema,
+      }),
+    ],
+  }),
+  createOption({
+    key: 'group.mediaLibrary',
+    input: 'group',
+    label: 'Media Library',
+    icon: { class: 'i-tabler-library-photo' },
+    schema,
+    options: [
+      createOption({
+        key: '*',
+        input: LibraryMediaGallery,
+        schema,
+      }),
+    ],
+  }),
+]
 </script>
 
 <template>
-  <div class="space-y-8">
-    <InputMediaUpload :model-value="props.modelValue" @update:model-value="updateValue($event)" />
-
-    <div class="max-h-[300px] overflow-scroll">
-      <div v-if="loadingLibrary" class="flex justify-center py-8">
-        <ElSpinner class="text-theme-600 dark:text-theme-500 size-6" />
-      </div>
-      <EffectMasonry v-else :items="libraryMedia" :options="{ gutter: 10 }">
-        <div
-          v-for="media in libraryMedia"
-          :key="media.mediaId"
-          class="inline-block masonry-grid-item group relative cursor-pointer overflow-hidden rounded-lg"
-          :class="getMasonryItemClass(media)"
-          @click="selectMedia(media)"
-        >
-          <XMedia
-            :media="media"
-            image-mode="cover"
-            class="absolute inset-0 w-full h-full transition-transform duration-300 group-hover:scale-110"
-          />
-          <div class="absolute inset-0 flex items-center justify-center bg-theme-900 bg-opacity-50 opacity-0 transition-opacity group-hover:opacity-100">
-            <i class="i-tabler-check text-2xl text-theme-100" />
-          </div>
-        </div>
-      </EffectMasonry>
-    </div>
+  <div>
+    <FormEngine
+      state-key="mediaSetup"
+      :depth="1"
+      :model-value="modelValue"
+      ui-size="md"
+      :options="options"
+      @update:model-value="emit('update:modelValue', $event)"
+    />
   </div>
 </template>

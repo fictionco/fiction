@@ -1,5 +1,102 @@
+import type { GradientSetting } from '../../schemas/schemas'
 import { describe, expect, it } from 'vitest'
-import { colorList, getColorScheme, hexToRgbString, normalizeColor, tailwindVarColorScheme } from '../colors'
+import { colorList, getColorScheme, getGradientCss, hexToRgbString, normalizeColor, tailwindVarColorScheme } from '../colors'
+
+describe('getGradientCss', () => {
+  it('handles empty/invalid inputs', () => {
+    expect(getGradientCss()).toBe('')
+    expect(getGradientCss({})).toBe('')
+    expect(getGradientCss({ stops: [] })).toBe('')
+  })
+
+  it('handles direct colors with opacity', () => {
+    const gradient: GradientSetting = {
+      angle: 45,
+      stops: [
+        { color: '#FF0000', position: 0, opacity: 0.5 },
+        { color: '#0000FF', position: 100 },
+      ],
+    }
+    expect(getGradientCss(gradient)).toBe(
+      'linear-gradient(45deg, rgba(255 0 0 / 0.50) 0%, rgba(0 0 255 / 1.00) 100%)',
+    )
+  })
+
+  it('handles theme-based colors', () => {
+    const gradient: GradientSetting = {
+      angle: 90,
+      stops: [
+        { theme: 'blue', scale: 500, position: 0 },
+        { theme: 'emerald', scale: 600, position: 100, opacity: 0.8 },
+      ],
+    }
+    // Using the known RGB values from our color scheme
+    expect(getGradientCss(gradient)).toBe(
+      'linear-gradient(90deg, rgba(59 130 246 / 1.00) 0%, rgba(5 150 105 / 0.80) 100%)',
+    )
+  })
+
+  it('duplicates single stop for solid gradients', () => {
+    const gradient: GradientSetting = {
+      angle: 180,
+      stops: [{ color: '#FF0000' }],
+    }
+    expect(getGradientCss(gradient)).toBe(
+      'linear-gradient(180deg, rgba(255 0 0 / 1.00), rgba(255 0 0 / 1.00))',
+    )
+  })
+
+  it('uses default angle when not specified', () => {
+    const gradient: GradientSetting = {
+      stops: [
+        { color: '#FF0000' },
+        { color: '#0000FF' },
+      ],
+    }
+    expect(getGradientCss(gradient)).toBe(
+      'linear-gradient(90deg, rgba(255 0 0 / 1.00), rgba(0 0 255 / 1.00))',
+    )
+  })
+
+  it('forces 90deg when noAngle option is true', () => {
+    const gradient: GradientSetting = {
+      angle: 45,
+      stops: [
+        { color: '#FF0000' },
+        { color: '#0000FF' },
+      ],
+    }
+    expect(getGradientCss(gradient, { noAngle: true })).toBe(
+      'linear-gradient(90deg, rgba(255 0 0 / 1.00), rgba(0 0 255 / 1.00))',
+    )
+  })
+
+  it('handles mixed theme and direct colors', () => {
+    const gradient: GradientSetting = {
+      angle: 135,
+      stops: [
+        { theme: 'blue', scale: 500, position: 0 },
+        { color: '#00FF00', position: 50, opacity: 0.5 },
+        { theme: 'emerald', scale: 600, position: 100 },
+      ],
+    }
+    expect(getGradientCss(gradient)).toBe(
+      'linear-gradient(135deg, rgba(59 130 246 / 1.00) 0%, rgba(0 255 0 / 0.50) 50%, rgba(5 150 105 / 1.00) 100%)',
+    )
+  })
+
+  it('uses default scale (500) for theme colors when not specified', () => {
+    const gradient: GradientSetting = {
+      stops: [
+        { theme: 'blue', position: 0 },
+        { theme: 'emerald', position: 100 },
+      ],
+    }
+    expect(getGradientCss(gradient)).toBe(
+      'linear-gradient(90deg, rgba(59 130 246 / 1.00) 0%, rgba(16 185 129 / 1.00) 100%)',
+    )
+  })
+})
 
 describe('normalizeColor', () => {
   it('handles hex colors', () => {

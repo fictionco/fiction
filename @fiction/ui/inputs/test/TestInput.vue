@@ -10,6 +10,7 @@ const props = defineProps({
   modelValue: { type: [Array, Object, String, Number, Boolean], default: undefined },
   options: { type: Array as vue.PropType<InputOption[]>, default: () => [] },
   uiSize: { type: String, default: 'base' },
+  inputProps: { type: Object as vue.PropType<Record<string, any>>, default: () => ({}) },
 })
 
 const val = vue.ref(props.modelValue)
@@ -64,7 +65,7 @@ const szs = ['md', 'lg', 'xl']
               :ui-size="sz"
               data-input
               :options
-              v-bind="attrs"
+              v-bind="inputProps"
               required
             />
           </div>
