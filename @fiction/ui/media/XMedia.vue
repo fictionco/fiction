@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { GradientPoint, GradientSetting, MediaObject } from '@fiction/core'
-import { determineMediaFormat, getColorScheme, getGradientCss, log, vue, waitFor } from '@fiction/core'
+import type { MediaObject } from '@fiction/core'
+import { determineMediaFormat, getGradientCss, log, vue, waitFor } from '@fiction/core'
 import * as bh from 'blurhash'
 import ClipPathAnim from '../anim/AnimClipPath.vue'
 
@@ -96,23 +96,28 @@ const cls = vue.computed(() => {
 
 const filters = vue.computed(() => media?.filters || [])
 
-function generateColorString(point: GradientPoint): string {
-  if (point.color)
-    return point.opacity !== undefined ? `${point.color}${Math.round(point.opacity * 255).toString(16).padStart(2, '0')}` : point.color
-
-  if (['primary', 'theme'].includes(point.theme || '')) {
-    const scale = point.scale || 500
-    const themeVar = point.theme === 'theme' ? 'theme' : 'primary'
-    const rgbVar = `var(--${themeVar}-${scale})`
-    return `rgba(${rgbVar} / ${point.opacity ?? 1})`
-  }
-  else if (point.theme) {
-    const v = getColorScheme(point.theme)[point.scale ?? 500]
-    return `rgba(${v} / ${point.opacity ?? 1})`
+const videoAttrs = vue.computed(() => {
+  const controls = media?.videoControls
+  if (!controls) {
+    return {
+      autoplay: true,
+      loop: true,
+      muted: true,
+      playsInline: true,
+    }
   }
 
-  return ''
-}
+  return {
+    playbackRate: controls.playbackRate,
+    autoplay: controls.autoplay ?? true,
+    loop: controls.loop ?? true,
+    muted: controls.muted ?? true,
+    controls: controls.controls,
+    preload: controls.preload,
+    poster: controls.poster,
+    playsInline: controls.playsInline ?? true,
+  }
+})
 
 const bgStyle = vue.computed(() => ({
   backgroundColor: media?.backgroundColor || undefined,
@@ -129,7 +134,7 @@ const overlayStyle = vue.computed(() => {
 
   return {
     background: overlay.gradient ? getGradientCss(overlay.gradient) : overlay.color,
-    opacity: (overlay.opacity || 50) / 100,
+    opacity: overlay.opacity,
     mixBlendMode: overlay.blendMode,
   }
 })
@@ -217,10 +222,7 @@ const aspectClass = vue.computed(() => {
           :class="[imageClass, imageModeClass, inlineImage ? 'block w-full' : 'absolute h-full w-full']"
           :src="media.url"
           :style="filterStyle"
-          autoplay
-          loop
-          muted
-          playsinline
+          v-bind="videoAttrs"
         />
         <img
           v-else-if="mediaFormat === 'image' && media.url"

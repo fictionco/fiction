@@ -22,17 +22,7 @@ const props = defineProps({
 const loading = vue.ref(false)
 const card = vue.computed<Card | undefined>(() => props.site.activeCard.value)
 const genUtil = vue.computed(() => card.value ? new CardGeneration({ card: card.value }) : undefined)
-const genConfig = vue.ref<Awaited<ReturnType<
-  typeof CardGeneration.prototype.getConfig
->>>()
-
-vue.watch(() => card.value, async () => {
-  if (!card.value)
-    return
-
-  genConfig.value = await genUtil.value?.getConfig()
-})
-
+const genConfig = vue.ref<Awaited<ReturnType< typeof CardGeneration.prototype.getConfig>>>()
 const completion = vue.ref<Record<string, unknown>>()
 const accept = vue.ref<Record<string, boolean>>({})
 async function generateCard() {
@@ -41,23 +31,62 @@ async function generateCard() {
   loading.value = false
 }
 
-vue.watch(() => completion.value, () => {
-  const c = completion.value
-  accept.value = {}
-  if (c && Object.keys(c).length) {
-    Object.entries(c).forEach(([key]) => {
-      accept.value = { ...accept.value, [key]: true }
-    })
-  }
+vue.onMounted(async () => {
+  vue.watch(
+    () => card.value,
+    async () => {
+      if (!card.value)
+        return
+
+      genConfig.value = await genUtil.value?.getConfig()
+    },
+    { immediate: true },
+  )
+
+  vue.watch(() => completion.value, () => {
+    const c = completion.value
+    accept.value = {}
+    if (c && Object.keys(c).length) {
+      Object.entries(c).forEach(([key]) => {
+        accept.value = { ...accept.value, [key]: true }
+      })
+    }
+  })
 })
 
 const finalCompletion = vue.computed(() => completion.value && Object.fromEntries(Object.entries(completion.value).filter(([key]) => accept.value[key])))
 
 function updateGeneration(opt: InputOptionGeneration, value: InputOptionGeneration) {
-  if (!opt.key || !card.value || !genUtil.value)
+  if (!opt.key || !card.value || !genUtil.value) {
+    console.error('updateGeneration: missing key, card, or genUtil', { opt, card: card.value, genUtil: genUtil.value })
     return
+  }
 
-  genUtil.value.fieldsUserConfig.value = { ...genUtil.value.fieldsUserConfig.value, [opt.key]: { ...opt, ...value } }
+  genUtil.value.fieldsUserConfig.value = {
+    ...genUtil.value.fieldsUserConfig.value,
+    [opt.key]: { ...opt, ...value },
+  }
+}
+
+function getUserEnabled(opt: InputOptionGeneration) {
+  return vue.computed({
+    get: () => {
+      if (!genUtil.value?.fieldsUserConfig.value || !opt.key)
+        return
+      return genUtil.value.fieldsUserConfig.value[opt.key].isUserEnabled
+    },
+    set: (v: boolean) => {
+      if (!genUtil.value?.fieldsUserConfig.value || !opt.key)
+        return
+
+      const existing = genUtil.value.fieldsUserConfig.value[opt.key]
+
+      genUtil.value.fieldsUserConfig.value = {
+        ...genUtil.value.fieldsUserConfig.value,
+        [opt.key]: { ...existing, isUserEnabled: v },
+      }
+    },
+  })
 }
 
 const vis = vue.ref(false)
@@ -170,7 +199,12 @@ async function applyChanges() {
             <div v-for="(opt, key) in genConfig?.jsonPropConfig" v-else :key="key" class="text-xs space-y-1">
               <div class="flex gap-2 items-center">
                 <div class="">
-                  <InputToggle :id="`opt-${key}`" :model-value="opt.isUserEnabled" input-class="bg-theme-0 dark:bg-theme-600" @update:model-value="updateGeneration(opt, { isUserEnabled: $event })" />
+                  <InputToggle
+                    :id="`opt-${key}`"
+                    :model-value="getUserEnabled(opt).value"
+                    input-class="bg-theme-0 dark:bg-theme-600"
+                    @update:model-value="getUserEnabled(opt).value = $event"
+                  />
                 </div>
                 <label :for="`opt-${key}`" class="w-24 truncate font-semibold cursor-pointer select-none">
                   {{ toLabel(opt.label) }}

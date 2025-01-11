@@ -185,6 +185,17 @@ export const MediaContentSchema = MediaIconSchema.extend({
   thumbUrl: z.string().optional(),
 })
 
+export const VideoControlsSchema = z.object({
+  playbackRate: z.number().min(0.1).max(16).optional(),
+  autoplay: z.boolean().optional(),
+  loop: z.boolean().optional(),
+  muted: z.boolean().optional(),
+  controls: z.boolean().optional(),
+  preload: z.enum(['none', 'metadata', 'auto']).optional(),
+  poster: z.string().optional(),
+  playsInline: z.boolean().optional(),
+}).describe('Video playback controls')
+
 // MediaDisplaySchema (extends MediaContent with display properties)
 export const MediaDisplaySchema = MediaContentSchema.extend({
   backgroundColor: z.string().optional(),
@@ -199,6 +210,7 @@ export const MediaDisplaySchema = MediaContentSchema.extend({
   tags: z.array(z.string()).optional(),
   displayWidthPercent: z.number().optional(),
   displayHeightPercent: z.number().optional(),
+  videoControls: VideoControlsSchema.optional(),
   modify: z.object({
     flip: z.enum(['horizontal', 'vertical']).optional(),
   }).optional(),

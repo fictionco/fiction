@@ -266,8 +266,16 @@ export function getGradientCss(gradient?: GradientSetting, options?: { noAngle?:
 
     // Handle theme colors
     if (stop.theme) {
-      const scheme = getColorScheme(stop.theme, { outputFormat: 'rgb' })
-      return `rgba(${scheme[stop.scale || 500]} / ${opacity})${position}`
+      if (['primary', 'theme'].includes(stop.theme || '')) {
+        const scale = stop.scale || 500
+        const themeVar = stop.theme === 'theme' ? 'theme' : 'primary'
+        const rgbVar = `var(--${themeVar}-${scale})`
+        return `rgba(${rgbVar} / ${stop.opacity ?? 1})`
+      }
+      else {
+        const scheme = getColorScheme(stop.theme, { outputFormat: 'rgb' })
+        return `rgba(${scheme[stop.scale || 500]} / ${opacity})${position}`
+      }
     }
 
     // Handle direct colors

@@ -56,7 +56,7 @@ function setActiveItem(index: number) {
   <div class="relative h-screen w-full">
     <div class="absolute inset-0 flex overflow-x-auto no-scrollbar snap-mandatory snap-x">
       <div v-for="(item, i) in mediaItems" :key="i" class="slide relative flex-shrink-0 snap-center w-full h-full">
-        <div class="absolute inset-0 bg-opacity-50 bg-black/50 z-10" />
+        <div v-if="!item.media?.overlay" class="absolute inset-0 bg-opacity-50 bg-black/50 z-10" />
         <XMedia v-if="item.media" class="object-cover w-full h-full" :media="item.media" />
         <div class="absolute inset-0 flex flex-col justify-center items-center text-center text-white p-4 z-20">
           <div class="max-w-screen-lg space-y-12 p-6">

@@ -311,7 +311,6 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       this.removeCard({ cardId })
     }
     else if (action === 'add') {
-      console.log('add card', args, this.siteMode.value)
       this.editorActivateTool({ toolId: 'editLayout' })
     }
     else {

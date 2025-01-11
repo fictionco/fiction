@@ -1,7 +1,7 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { SiteUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
-import { ActionAreaSchema, MediaBasicSchema, SuperTitleSchema } from '@fiction/core'
+import { ActionAreaSchema, MediaDisplaySchema, SuperTitleSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod'
 
@@ -10,12 +10,12 @@ export const CinemaItemSchema = z.object({
   superTitle: SuperTitleSchema.optional().describe('Short text (2-5 words) appearing above main header for context or categorization'),
   title: z.string().optional().describe('Primary title text - should be compelling and descriptive'),
   subTitle: z.string().optional().describe('Supporting text that provides additional context or call to action'),
-  media: MediaBasicSchema.optional().describe('Background media - supports images or videos for visual impact'),
-  action: ActionAreaSchema.optional(),
+  media: MediaDisplaySchema.optional().describe('Background media - supports images or videos for visual impact'),
+  action: ActionAreaSchema.pick({ buttons: true }).optional().describe('Call-to-action buttons for slide'),
 })
 
 export const schema = z.object({
-  items: z.array(CinemaItemSchema).optional().describe('Array of slides to display in the cinema view'),
+  items: z.array(CinemaItemSchema).optional().describe('Array of slides to display in the cinema view [ai seconds=15]'),
   autoSlide: z.boolean().optional().describe('Enable automatic slide transitions every 12 seconds'),
 })
 
@@ -71,6 +71,7 @@ export function getOptions() {
               input: 'InputMedia',
               description: 'Full-screen background image or video',
               props: {
+                isBackground: true,
                 formats: { url: true, image: true, video: true },
                 aspectRatio: '16:9',
               },
@@ -212,7 +213,14 @@ function getDefaultConfig(args: { stock: StockMedia }): UserConfig {
         superTitle: { text: 'Getting Started', icon: { iconId: 'sparkles' } },
         title: 'Create Your Slider',
         subTitle: 'Select this slide to edit and see how easy it is to customize your content',
-        media: stock.getRandomByTags(['background', 'video']),
+        media: {
+          ...stock.getRandomByTags(['background', 'video']),
+          overlay: {
+            gradient: {
+              stops: [{ color: '#000000', opacity: 0.5 }],
+            },
+          },
+        },
         action: {
           buttons: [
             {
