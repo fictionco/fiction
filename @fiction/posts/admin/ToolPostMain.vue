@@ -181,14 +181,14 @@ const options = vue.computed<InputOption[]>(() => {
               schema,
               key: 'tags',
               label: 'Tags',
-              input: 'InputItems',
+              input: 'InputTags',
               props: { taxonomyType: 'tag', table: t.posts, column: 'tags' },
             }),
             createOption({
               schema,
               key: 'categories',
               label: 'Categories',
-              input: 'InputItems',
+              input: 'InputTags',
               props: { taxonomyType: 'category', table: t.posts, column: 'categories' },
             }),
             createOption({

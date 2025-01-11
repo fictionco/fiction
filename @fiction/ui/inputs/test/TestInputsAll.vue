@@ -30,10 +30,11 @@ function toggleDarkMode() {
     </div>
 
     <form class="input-area mx-auto p-12 rounded-md">
+      <TestInput input-name="Tags" :input-el="inputs.InputTags" />
       <TestInput input-name="Gradient" :input-el="inputs.InputGradient" />
       <TestInput input-name="Media Library" :input-el="inputs.InputMedia" :service :input-props="{ isBackground: true }" />
       <TestInput input-name="Media Upload" :input-el="inputs.InputMediaUpload" :service />
-      <TestInput input-name="Add Items" :input-el="inputs.InputItems" />
+
       <TestInput input-name="Text" :input-el="inputs.InputText" />
       <TestInput input-name="Textarea" :input-el="inputs.InputTextarea" />
       <TestInput input-name="Price" :input-el="inputs.InputPrice" />

@@ -34,14 +34,14 @@ function handleMediaUpdate(newValue: MediaObject) {
 }
 
 const sizeMap = vue.computed(() => {
-  const sz: Record<StandardSize, { button: StandardSize }> = {
-    'xxs': { button: 'xxs' },
-    'xs': { button: 'xs' },
-    'sm': { button: 'xs' },
-    'md': { button: 'sm' },
-    'lg': { button: 'md' },
-    'xl': { button: 'lg' },
-    '2xl': { button: 'xl' },
+  const sz: Record<StandardSize, { button: StandardSize, preview: string }> = {
+    'xxs': { button: 'xxs', preview: 'h-[50px]' },
+    'xs': { button: 'xs', preview: 'h-[60px]' },
+    'sm': { button: 'xs', preview: 'h-[70px]' },
+    'md': { button: 'sm', preview: 'h-[80px]' },
+    'lg': { button: 'md', preview: 'h-[90px]' },
+    'xl': { button: 'lg', preview: 'h-[100px]' },
+    '2xl': { button: 'xl', preview: 'h-[110px]' },
   }
 
   return sz[uiSize || 'md']
@@ -58,8 +58,9 @@ const sizeMap = vue.computed(() => {
     >
       <XMedia
         :media="v"
-        :image-mode="isBackground ? 'cover' : 'contain'"
-        class="h-[70px] max-w-full pointer-events-none"
+        image-mode="contain"
+        class="max-w-full pointer-events-none"
+        :class="sizeMap.preview"
       />
       <div
         class="absolute text-xs font-sans inset-0 flex items-center justify-center bg-theme-900 bg-opacity-50 transition-opacity opacity-0 group-hover:opacity-100"

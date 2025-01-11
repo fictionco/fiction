@@ -237,11 +237,10 @@ async function importSubscribers() {
           </transition>
           <ElInput
             v-model="tagList"
-            input="InputItems"
+            input="InputTags"
             label="Tags"
             sub-label="Used to categorize subscribers"
             :rows="10"
-            placeholder="tag1,tag2,tag3"
             data-test-id="tag-list"
           />
           <div>

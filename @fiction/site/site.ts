@@ -296,8 +296,8 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   /**
    * sets active card and syncs active card between frames
    */
-  setActiveCard(args: { cardId: string }) {
-    const { cardId } = args
+  setActiveCard(args: { cardId: string, action?: 'delete' | 'edit' | 'add' }) {
+    const { cardId, action } = args
 
     resetUi({ scope: 'all', cause: 'setActiveCard', trigger: 'manualReset' })
 
@@ -305,9 +305,18 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
     this.events.emit('setActiveCard', { cardId })
 
-    this.frame.syncActiveCard({ cardId })
+    this.frame.syncActiveCard({ cardId, action })
 
-    scrollActiveCardIntoView({ cardId, site: this })
+    if (action === 'delete') {
+      this.removeCard({ cardId })
+    }
+    else if (action === 'add') {
+      console.log('add card', args, this.siteMode.value)
+      this.editorActivateTool({ toolId: 'editLayout' })
+    }
+    else {
+      scrollActiveCardIntoView({ cardId, site: this })
+    }
   }
 
   async updateLayout(args: { order: LayoutOrder[] }) {

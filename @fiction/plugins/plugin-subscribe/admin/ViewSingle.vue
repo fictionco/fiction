@@ -131,7 +131,7 @@ const detailOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'tags', label: 'Tags', input: 'InputItems', placeholder: 'Tag, Tag, Tag' }),
+      new InputOption({ key: 'tags', label: 'Tags', input: 'InputTags' }),
     ],
   }),
   new InputOption({

@@ -96,6 +96,25 @@ const autoSetDark = vue.computed(() => {
   const lightBg = standardUc.value?.backgroundAlt
   return baseBg && !lightBg
 })
+
+const editDropdownVisible = vue.ref(false)
+
+const editDropdownItems = vue.computed(() => {
+  const items = [
+    { value: 'edit', icon: 'icon-edit' },
+    { value: 'add', icon: 'icon-plus' },
+    { value: 'delete', icon: 'icon-delete' },
+  ] as const
+
+  return items
+})
+
+function handleEditDropdownClick(item: { value: 'delete' | 'edit' | 'add' }) {
+  const action = item.value
+  const card = props.card
+  editDropdownVisible.value = false
+  card?.site?.setActiveCard({ cardId: card.cardId, action })
+}
 </script>
 
 <template>
@@ -118,6 +137,7 @@ const autoSetDark = vue.computed(() => {
     :data-primary-scheme="colorScheme?.primary"
     :data-theme-scheme="colorScheme?.theme"
     :data-space-size="card.fullConfig.value?.standard?.spaceSize"
+    @mouseleave="editDropdownVisible = false"
   >
     <div class="w-full relative text-theme-950 dark:text-theme-50 x-font-body ">
       <div>
@@ -145,11 +165,25 @@ const autoSetDark = vue.computed(() => {
     </div>
     <div
       v-if="props.card?.site?.isEditable.value"
-      class="opacity-0 group-hover/engine:opacity-100 transition-all bg-blue-500 dark:bg-blue-600/60 dark:hover:bg-blue-600/80 hover:z-20 cursor-pointer py-[1px] px-1.5 text-blue-100 font-sans text-[10px] absolute top-0 flex gap-0.5 items-center justify-center "
+      class="z-40 opacity-0 group-hover/engine:opacity-100 transition-all bg-blue-500 dark:bg-blue-600/60 dark:hover:bg-blue-600/80 hover:z-20 cursor-pointer py-[1px] px-1.5 text-blue-100 font-sans text-[10px] absolute top-0 flex gap-0.5 items-center justify-center "
       :class="card.tpl.value?.settings.isContainer ? 'left-0' : 'right-0'"
+      @click.stop="editDropdownVisible = !editDropdownVisible"
     >
       <div :class="card.tpl.value?.settings.icon" />
       <div>{{ card.tpl.value?.settings.title }}</div>
+      <div
+        v-if="editDropdownVisible"
+        class="dd absolute top-full w-full bg-blue-500 dark:bg-blue-600/60"
+      >
+        <div
+          v-for="(item, i) in editDropdownItems"
+          :key="i"
+          class="py-1 px-1.5 hover:bg-blue-600 dark:hover:bg-blue-700 capitalize cursor-pointer"
+          @click.stop="handleEditDropdownClick(item)"
+        >
+          {{ item.value }}
+        </div>
+      </div>
     </div>
     <XMedia v-if="colorScheme?.background" class="object-cover w-full h-full absolute inset-0 pointer-events-none -z-10" :media="colorScheme?.background" />
   </div>

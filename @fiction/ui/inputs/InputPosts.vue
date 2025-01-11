@@ -112,8 +112,8 @@ const localPostOptions = [
   createOption({ schema, key: 'entries.0.media', label: 'Media', input: 'InputMedia', getDefaultValue: async () => (await createStockMediaHandler()).getRandomMedia() }),
   createOption({ schema, key: 'entries.0.content', label: 'Content', input: 'InputProse' }),
   createOption({ schema, key: 'entries.0.slug', label: 'Slug', input: 'InputText', getDefaultValue: () => shortId() }),
-  createOption({ schema, key: 'entries.0.tags', label: 'Tags', input: 'InputItems' }),
-  createOption({ schema, key: 'entries.0.categories', label: 'Categories', input: 'InputItems' }),
+  createOption({ schema, key: 'entries.0.tags', label: 'Tags', input: 'InputTags' }),
+  createOption({ schema, key: 'entries.0.categories', label: 'Categories', input: 'InputTags' }),
 ]
 
 const options = vue.computed(() => {

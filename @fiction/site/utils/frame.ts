@@ -124,7 +124,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
     this.send({ msg: { messageType: 'navigate', data: { urlOrPath, siteId } } })
   }
 
-  syncActiveCard(args: { cardId: string }) {
+  syncActiveCard(args: { cardId: string, action?: string }) {
     this.send({ msg: { messageType: 'setActiveCard', data: args } })
   }
 
@@ -192,9 +192,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
       }
 
       case 'setActiveCard': {
-        const { cardId } = msg.data
-
-        site.setActiveCard({ cardId })
+        site.setActiveCard(msg.data)
         break
       }
 
