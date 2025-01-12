@@ -88,7 +88,6 @@ export class QueryManagePost extends PostsQuery {
       orderBy = 'updatedAt',
       order = 'desc',
       type = 'post',
-      taxonomy,
       loadDraft = false,
     } = params
     const db = this.db()
@@ -107,17 +106,6 @@ export class QueryManagePost extends PostsQuery {
       .orderBy(orderBy, order)
 
     query = applyComplexFilters(query, filters)
-
-    if (taxonomy) {
-      query = query.join(t.taxonomy, `${t.taxonomy}.taxonomyId`, '=', `${t.posts}.taxonomyId`)
-      if ('taxonomyId' in taxonomy) {
-        query = query.where(`${t.taxonomy}.taxonomyId`, taxonomy.taxonomyId)
-      }
-      else if ('type' in taxonomy && 'slug' in taxonomy) {
-        query = query.where(`${t.taxonomy}.type`, taxonomy.type)
-          .where(`${t.taxonomy}.slug`, taxonomy.slug)
-      }
-    }
 
     let posts = await query
 
@@ -161,7 +149,7 @@ export class QueryManagePost extends PostsQuery {
   }
 
   private async countPosts(params: ManagePostParams & { _action: 'list' }, _meta: EndpointMeta): Promise<number> {
-    const { filters = [], type = 'post', taxonomy, where } = params
+    const { filters = [], type = 'post', where } = params
     const db = this.db()
 
     const orgId = where?.orgId || params.orgId
@@ -175,17 +163,6 @@ export class QueryManagePost extends PostsQuery {
       .where({ orgId, type })
 
     query = applyComplexFilters(query, filters)
-
-    if (taxonomy) {
-      query = query.join(t.taxonomy, `${t.taxonomy}.taxonomyId`, '=', `${t.posts}.taxonomyId`)
-      if ('taxonomyId' in taxonomy) {
-        query = query.where(`${t.taxonomy}.taxonomyId`, taxonomy.taxonomyId)
-      }
-      else if ('type' in taxonomy && 'slug' in taxonomy) {
-        query = query.where(`${t.taxonomy}.type`, taxonomy.type)
-          .where(`${t.taxonomy}.slug`, taxonomy.slug)
-      }
-    }
 
     const result = await query.first()
 

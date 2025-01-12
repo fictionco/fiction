@@ -1,4 +1,4 @@
-import type { Col } from './plugin-db/index.js'
+import type { Col } from './plugin-db/objects.js'
 
 export const standardTable = {
   org: 'fiction_org',
@@ -6,7 +6,7 @@ export const standardTable = {
   user: 'fiction_user',
   media: 'fiction_media',
   usage: 'fiction_usage',
-  taxonomy: 'fiction_taxonomy',
+  revisions: 'fiction_revisions',
   // model: 'fiction_model',
   // render: 'fiction_render',
   // image: 'fiction_image',

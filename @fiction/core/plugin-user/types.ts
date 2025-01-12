@@ -2,7 +2,7 @@ import type stripe from 'stripe'
 import type { MediaObject, ProgressStatus } from '../schemas/schemas.js'
 import type { ColType } from '../tbl.js'
 import type { UserCapability } from '../utils/priv.js'
-import type { membersColumns, orgColumns, taxonomyCols, userColumns } from './schema.js'
+import type { membersColumns, orgColumns, userColumns } from './schema.js'
 import { z } from 'zod'
 
 export const EntityStatusEnum = z.enum(['active', 'inactive', 'suspended', 'pending'])
@@ -21,8 +21,6 @@ export const UserRoleEnum = z.enum([
 export type MemberAccess = z.infer<typeof UserRoleEnum>
 
 export const GenderEnum = z.enum(['male', 'female', 'other'])
-
-export type TableTaxonomyConfig = Partial<ColType<typeof taxonomyCols>> & { isNew?: boolean, usageCount?: number }
 
 export interface OrganizationConfig {
   serverTimeoutMinutes: number

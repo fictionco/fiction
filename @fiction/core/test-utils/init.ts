@@ -1,10 +1,11 @@
+import type { RunVars } from '..'
 import type { EnvVar, ServiceList } from '../plugin-env'
 import type { Organization, User } from '../plugin-user'
 import type { vue } from '../utils'
 import path from 'node:path'
 import { faker } from '@faker-js/faker'
 import { FictionUi } from '@fiction/ui'
-import { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionRouter, FictionServer, FictionUser, type RunVars } from '..'
+import { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionRevision, FictionRouter, FictionServer, FictionUser } from '..'
 import { version as fictionVersion } from '../package.json'
 import ElRoot from '../plugin-app/ElRoot.vue'
 import { runServicesSetup } from '../plugin-env'
@@ -22,6 +23,7 @@ export interface TestUtilServices {
   fictionRouter: FictionRouter
   fictionServer: FictionServer
   fictionDb: FictionDb
+  fictionRevision: FictionRevision
   fictionUser: FictionUser
   fictionEmail: FictionEmail
 }
@@ -205,9 +207,10 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
   const fictionServer = new FictionServer({ port: serverPort, liveUrl: 'https://server.test.com', fictionEnv })
   const fictionRouter = new FictionRouter({ routerId: 'testRouter', fictionEnv, create: true })
   const fictionDb = new FictionDb({ fictionEnv, fictionServer, postgresUrl })
+  const fictionRevision = new FictionRevision({ fictionEnv, fictionDb })
   const fictionEmail = new FictionEmail({ fictionEnv, smtpHost, smtpPassword, smtpUser })
 
-  const base = { fictionEnv, fictionRouter, fictionServer, fictionDb, fictionEmail }
+  const base = { fictionEnv, fictionRouter, fictionServer, fictionDb, fictionRevision, fictionEmail }
 
   const fictionApp = new FictionApp({ ...base, port: appPort, rootComponent, isTest: true })
 

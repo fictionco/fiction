@@ -12,7 +12,9 @@ import knex from 'knex'
 import { EnvVar, vars } from '../plugin-env/index.js'
 import { FictionPlugin } from '../plugin.js'
 import { toCamel } from '../utils/casing.js'
-import { isActualBrowser, isTest, safeDirname, sortPriority } from '../utils/index.js'
+import { sortPriority } from '../utils/list.js'
+import { safeDirname } from '../utils/utils.js'
+import { isActualBrowser, isTest } from '../utils/vars.js'
 import { CheckUsername } from './endpoint.js'
 import { dbPrep } from './utils.js'
 
@@ -23,11 +25,6 @@ vars.register(() => [
 ])
 
 export type FictionDBTables = 'fiction_user' | 'fiction_post' | 'fiction_version'
-
-// export type FictionDbHookDictionary = {
-//   onStart: { args: [FictionDb] }
-//   tables: { args: [FictionDbTable[]] }
-// }
 
 export type FictionDbSettings = {
   postgresUrl?: string

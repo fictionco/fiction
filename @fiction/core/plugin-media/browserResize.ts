@@ -1,6 +1,6 @@
 // utils/imageResize.ts
 
-import { formatBytes } from '@fiction/core'
+import { formatBytes } from '../utils/number'
 
 export type ResizeOptions = {
   maxWidth?: number

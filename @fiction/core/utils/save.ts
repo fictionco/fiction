@@ -1,4 +1,5 @@
-import { log, vue } from '@fiction/core'
+import { log } from '../plugin-log'
+import { vue } from './libraries'
 
 export type AutosaveConfig = {
   onSave: () => Promise<void>

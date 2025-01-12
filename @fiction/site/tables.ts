@@ -112,16 +112,12 @@ export const tables = [
     tableKey: t.pages,
     timestamps: true,
     cols: pageCols,
-    constraints: [
-      { type: 'unique', columns: ['site_id', 'slug'] },
-    ],
+    constraints: [{ type: 'unique', columns: ['site_id', 'slug'] }],
   }),
   new FictionDbTable({
     tableKey: t.domains,
     timestamps: true,
     cols: domainCols,
-    constraints: [
-      { type: 'unique', columns: ['site_id', 'hostname'] },
-    ],
+    constraints: [{ type: 'unique', columns: ['site_id', 'hostname'] }],
   }),
 ]

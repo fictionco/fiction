@@ -4,7 +4,7 @@ import { FictionAdmin } from '@fiction/admin/index.js'
 import { FictionAnalytics } from '@fiction/analytics/index.js'
 import { FictionCards } from '@fiction/cards'
 import FSite from '@fiction/cards/CardSite.vue'
-import { apiRoot, AppRoute, FictionApp, FictionAws, FictionCache, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionRouter, FictionServer, FictionUser, safeDirname } from '@fiction/core/index.js'
+import { apiRoot, AppRoute, FictionApp, FictionAws, FictionCache, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionRevision, FictionRouter, FictionServer, FictionUser, safeDirname } from '@fiction/core/index.js'
 import { FictionDevRestart } from '@fiction/core/plugin-env/restart'
 import { FictionTeam } from '@fiction/core/plugin-team/index.js'
 import { getEnvVars } from '@fiction/core/utils/index.js'
@@ -129,8 +129,9 @@ const fictionCache = new FictionCache({ fictionEnv, redisUrl })
 
 const fictionServer = new FictionServer({ fictionEnv, serverName: 'FictionMain', port: comboPort, liveUrl: URLS.app })
 const fictionDb = new FictionDb({ fictionEnv, fictionServer, postgresUrl })
+const fictionRevision = new FictionRevision({ fictionEnv, fictionDb })
 const fictionEmail = new FictionEmail({ fictionEnv, smtpHost, smtpPassword, smtpUser, sendingDomain: 'mail.fiction.com' })
-const base = { fictionEnv, fictionApp, fictionServer, fictionDb, fictionEmail, fictionRouter }
+const base = { fictionEnv, fictionApp, fictionRevision, fictionServer, fictionDb, fictionEmail, fictionRouter }
 const fictionUser = new FictionUser({ ...base, googleClientId, googleClientSecret, tokenSecret, apolloApiKey })
 
 const fictionAnalytics = new FictionAnalytics({

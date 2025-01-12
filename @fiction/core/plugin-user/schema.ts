@@ -1,3 +1,4 @@
+import type { type } from 'node:os'
 import type { OnboardStoredSettings, OrganizationConfig, OrganizationCustomerData, OrganizationLegal, Plan, Publication, PushSubscriptionDetail, SocialAccounts, StreetAddress, UserCompany } from './types.js'
 import { z } from 'zod'
 import { Col, FictionDbTable } from '../plugin-db/index.js'
@@ -84,19 +85,6 @@ export const membersColumns = [
   new Col({ key: 'tags', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
 ] as const
 
-export const taxonomyCols = [
-  new Col({ key: 'taxonomyId', sec: 'permanent', sch: () => z.string().min(1), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('tax')`)) }),
-  new Col({ key: 'userId', sec: 'permanent', sch: () => z.string().length(50), make: ({ s, col }) => s.string(col.k, 50).references(`${t.user}.user_id`).onDelete('SET NULL').onUpdate('CASCADE').index() }),
-  new Col({ key: 'orgId', sec: 'permanent', sch: () => z.string().length(50), make: ({ s, col }) => s.string(col.k, 50).references(`${t.org}.org_id`).onUpdate('CASCADE').notNullable().index() }),
-  new Col({ key: 'title', sch: () => z.string().min(1), make: ({ s, col }) => s.string(col.k) }),
-  new Col({ key: 'slug', sch: () => z.string().min(1), make: ({ s, col }) => s.string(col.k).index() }),
-  new Col({ key: 'type', sch: () => z.enum(['tag', 'category']), make: ({ s, col }) => s.string(col.k).notNullable().index() }),
-  new Col({ key: 'context', sch: () => z.enum(['post', 'user']), make: ({ s, col }) => s.string(col.k).notNullable().index().defaultTo('post') }),
-  new Col({ key: 'description', sch: () => z.string().optional(), make: ({ s, col }) => s.text(col.k) }),
-  new Col({ key: 'parentId', sch: () => z.string().optional(), make: ({ s, col }) => s.string(col.k).references(`${t.taxonomy}.taxonomy_id`).onDelete('SET NULL') }),
-  new Col({ key: 'priority', sch: () => z.number().int().optional(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
-] as const
-
 export const orgTable = new FictionDbTable({
   tableKey: t.org,
   timestamps: true,
@@ -120,15 +108,6 @@ export const membersTable = new FictionDbTable({
   ],
 })
 
-export const taxonomyTable = new FictionDbTable({
-  tableKey: t.taxonomy,
-  timestamps: true,
-  cols: taxonomyCols,
-  constraints: [
-    { type: 'unique', columns: ['org_id', 'slug', 'context'] },
-  ],
-})
-
 export function getAdminTables() {
-  return [userTable, orgTable, membersTable, taxonomyTable]
+  return [userTable, orgTable, membersTable]
 }

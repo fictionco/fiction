@@ -51,13 +51,13 @@ export const postCols = [
   new Col({ key: 'wordCount', sec: 'setting', sch: () => z.number().int(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
 ] as const
 
-export const postTaxonomyCols = [
-  new Col({ key: 'postTaxonomyId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id()`)) }),
-  new Col({ key: 'postId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.posts}.postId`).onDelete('CASCADE') }),
-  new Col({ key: 'taxonomyId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.taxonomy}.taxonomyId`).onDelete('CASCADE') }),
-  new Col({ key: 'orgId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`${t.org}.org_id`).onUpdate('CASCADE').notNullable().index() }),
-  new Col({ key: 'priority', sch: ({ z }) => z.number().int().optional(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
-] as const
+// export const postTaxonomyCols = [
+//   new Col({ key: 'postTaxonomyId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id()`)) }),
+//   new Col({ key: 'postId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.posts}.postId`).onDelete('CASCADE') }),
+//   new Col({ key: 'taxonomyId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.taxonomy}.taxonomyId`).onDelete('CASCADE') }),
+//   new Col({ key: 'orgId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`${t.org}.org_id`).onUpdate('CASCADE').notNullable().index() }),
+//   new Col({ key: 'priority', sch: ({ z }) => z.number().int().optional(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
+// ] as const
 
 export const postAuthorCols = [
   new Col({ key: 'postAuthorId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id()`)) }),
@@ -77,13 +77,6 @@ export const postSiteCols = [
 
 export const tables = [
   new FictionDbTable({ tableKey: t.posts, cols: postCols }),
-  new FictionDbTable({
-    tableKey: t.postTaxonomies,
-    cols: postTaxonomyCols,
-    constraints: [
-      { type: 'unique', columns: ['post_id', 'taxonomy_id'] },
-    ],
-  }),
   new FictionDbTable({
     tableKey: t.postAuthor,
     cols: postAuthorCols,

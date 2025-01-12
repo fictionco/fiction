@@ -1,6 +1,6 @@
-import type { MediaObject } from '@fiction/core'
 import type { FictionUser, Organization, User } from '..'
 import type { FictionDb } from '../../plugin-db'
+import type { MediaObject } from '../../schemas/schemas'
 import type { WhereUser } from '../endpoint'
 import type { VerificationCode } from '../schema'
 import bcrypt from 'bcrypt'

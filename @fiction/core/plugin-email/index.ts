@@ -1,5 +1,5 @@
-import type { MediaObject } from '@fiction/core'
 import type { FictionMedia } from '../plugin-media'
+import type { MediaObject } from '../schemas/schemas'
 import type { EmailSendConfig } from './util'
 import { EnvVar, vars } from '../plugin-env/index.js'
 import { FictionPlugin, type FictionPluginSettings } from '../plugin.js'

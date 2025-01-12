@@ -35,14 +35,6 @@ export const subscribeColumns = [
   new Col({ key: 'importDetail', sec: 'setting' as const, sch: () => z.record(z.unknown()).optional() as z.Schema<ImportDetail>, make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(value) }),
 ] as const
 
-export const subscribeTaxonomyCols = [
-  new Col({ key: 'subscriptionTaxonomyId', sec: 'permanent', sch: () => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id()`)).index() }),
-  new Col({ key: 'subscriptionId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.subscribe}.subscriptionId`).onDelete('CASCADE') }),
-  new Col({ key: 'taxonomyId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.taxonomy}.taxonomyId`).onDelete('CASCADE') }),
-  new Col({ key: 'orgId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`${t.org}.org_id`).onUpdate('CASCADE').notNullable().index() }),
-  new Col({ key: 'priority', sch: () => z.number().int().optional(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
-] as const
-
 export const tables = [
   new FictionDbTable({
     tableKey: t.subscribe,
@@ -53,11 +45,5 @@ export const tables = [
       { type: 'unique', columns: ['email', 'orgId'] },
     ],
   }),
-  new FictionDbTable({
-    tableKey: t.subscribeTaxonomy,
-    cols: subscribeTaxonomyCols,
-    constraints: [
-      { type: 'unique', columns: ['subscription_id', 'taxonomy_id'] },
-    ],
-  }),
+
 ]

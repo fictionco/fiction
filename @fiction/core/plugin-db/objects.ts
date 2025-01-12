@@ -4,7 +4,7 @@ import type { LogHelper } from '../plugin-log/index.js'
 import { z } from 'zod'
 import { log } from '../plugin-log/index.js'
 import { FictionObject } from '../plugin.js'
-import { toSnake } from '../utils/index.js'
+import { toSnake } from '../utils/casing.js'
 
 type PrepareForStorage<T extends ColDefaultValue = ColDefaultValue> = (args: { value: T, key: string, db?: Knex }) => unknown
 
@@ -126,7 +126,11 @@ export class FictionDbTable {
       await this.ensureConstraints(db)
     }
     catch (error) {
-      this.log.error(`Error creating/updating table ${this.pgTableKey}`, { error })
+      this.log.error(`Error creating/updating table ${this.pgTableKey}`, { error, data: {
+        tableKey: this.tableKey,
+        pgTableKey: this.pgTableKey,
+        cols: this.cols.map(c => c.key),
+      } })
       throw error
     }
   }

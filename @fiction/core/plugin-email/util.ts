@@ -1,4 +1,4 @@
-import type { ActionButton } from '@fiction/core'
+import type { ActionButton } from '../schemas/schemas'
 import type { MediaItem } from '../types'
 import type { colorList } from '../utils'
 
