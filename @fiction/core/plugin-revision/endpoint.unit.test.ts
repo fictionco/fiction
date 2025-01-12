@@ -1,7 +1,214 @@
-import type { TableRevisionConfig } from './tables'
-import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import type { FullRevisionConfig, TableRevisionConfig } from './tables'
+import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createTestUtils, testEnvFile } from '../test-utils'
 import { shortId } from '../utils'
+
+// Test data
+const mockItemData = {
+  title: 'Test Page',
+  content: 'Test content',
+}
+
+function getMockRevision(): TableRevisionConfig {
+  return {
+    itemType: 'page',
+    itemId: `page-${shortId()}`,
+    itemData: mockItemData,
+    title: 'Initial revision',
+    description: 'First test revision',
+  }
+}
+
+describe('fictionRevision core methods', async () => {
+  const testUtils = createTestUtils({ envFiles: [testEnvFile] })
+  const fictionRevision = testUtils.fictionRevision
+
+  const init = await testUtils.init()
+  const orgId = init.orgId
+  const userId = init.user.userId
+
+  if (!orgId || !userId) {
+    throw new Error('Failed to initialize test environment')
+  }
+
+  describe('createRevision', () => {
+    it('creates a new revision with valid data', async () => {
+      const rev = getMockRevision()
+      const result = await fictionRevision.createRevision({ ...rev, orgId, userId }, { skipTimeCheck: true })
+
+      expect(result.status).toBe('success')
+      expect(result.data?.[0]).toMatchObject({
+        ...rev,
+        version: 1,
+        revisionId: expect.any(String),
+        createdAt: expect.any(String),
+        updatedAt: expect.any(String),
+      })
+    })
+
+    it('enforces minimum time interval between revisions', async () => {
+      const rev = getMockRevision()
+      // Create initial revision
+      await fictionRevision.createRevision({ ...rev, orgId, userId }, { skipTimeCheck: true })
+
+      // Attempt to create another revision immediately
+      const result = await fictionRevision.createRevision({ ...rev, orgId, userId }, { skipTimeCheck: false })
+
+      expect(result.status).toBe('error')
+      expect(result.message).toBe('Too soon to create a new revision')
+    })
+
+    it('allows bypass of time check with skipTimeCheck option', async () => {
+      const rev = getMockRevision()
+      const fullRev = { ...rev, orgId, userId }
+      // Create initial revision
+      await fictionRevision.createRevision(fullRev, { skipTimeCheck: true })
+
+      // Create another revision immediately with skipTimeCheck
+      const result = await fictionRevision.createRevision(fullRev, { skipTimeCheck: true })
+
+      expect(result.status).toBe('success')
+      expect(result.data).toHaveLength(1)
+    })
+
+    it('increments version number for consecutive revisions', async () => {
+      const rev = getMockRevision()
+      const fullRev = { ...rev, orgId, userId }
+      // Create first revision
+      const result1 = await fictionRevision.createRevision(fullRev, { skipTimeCheck: true })
+      const firstVersion = result1.data?.[0].version
+
+      // Create second revision
+      const result2 = await fictionRevision.createRevision(fullRev, { skipTimeCheck: true })
+      const secondVersion = result2.data?.[0].version
+
+      expect(firstVersion).toBe(1)
+      expect(secondVersion).toBe(2)
+    })
+
+    it('respects revision limit per item', async () => {
+      const rev = getMockRevision()
+      const fullRev = { ...rev, orgId, userId }
+      const defaultLimit = fictionRevision.revisionLimitPerItem
+      fictionRevision.revisionLimitPerItem = 5
+      const limit = fictionRevision.revisionLimitPerItem
+
+      // Create more revisions than the limit
+      for (let i = 0; i < limit + 2; i++) {
+        await fictionRevision.createRevision(fullRev, { skipTimeCheck: true })
+      }
+
+      // Check total revisions
+      const result = await fictionRevision.queries.ManageRevision.serve({
+        _action: 'list',
+        where: { itemId: fullRev.itemId },
+        limit: limit + 2,
+        orgId,
+        userId,
+        caller: 'test',
+      }, { server: true })
+
+      expect(result.data).toHaveLength(limit)
+      expect(result.data?.map(r => r.version)).toEqual(
+        expect.arrayContaining([limit + 1, limit + 2]), // Should contain latest versions
+      )
+
+      fictionRevision.revisionLimitPerItem = defaultLimit
+    })
+  })
+
+  describe('getRevisionData', () => {
+    it('retrieves correct revision data', async () => {
+      const rev = getMockRevision()
+      const fullRev = { ...rev, orgId, userId }
+      // Create a revision first
+      const createResult = await fictionRevision.createRevision(fullRev, { skipTimeCheck: true })
+      const revisionId = createResult.data?.[0].revisionId
+
+      if (!revisionId) {
+        throw new Error('Failed to create test revision')
+      }
+
+      const revision = await fictionRevision.getRevisionData({
+        revisionId,
+        orgId,
+        userId,
+      })
+
+      expect(revision).toMatchObject({
+        ...fullRev,
+        revisionId,
+        version: 1,
+      })
+    })
+
+    it('throws error for non-existent revision', async () => {
+      await expect(
+        fictionRevision.getRevisionData({
+          revisionId: 'non-existent',
+          orgId,
+          userId,
+        }),
+      ).rejects.toThrow('Revision not found')
+    })
+
+    it('respects organization boundaries', async () => {
+      const rev = getMockRevision()
+      const fullRev = { ...rev, orgId, userId }
+      // Create a revision
+      const createResult = await fictionRevision.createRevision(fullRev, { skipTimeCheck: true })
+      const revisionId = createResult.data?.[0].revisionId
+
+      if (!revisionId) {
+        throw new Error('Failed to create test revision')
+      }
+
+      // Attempt to access with different orgId
+      await expect(
+        fictionRevision.getRevisionData({
+          revisionId,
+          orgId: 'different-org',
+          userId,
+        }),
+      ).rejects.toThrow('Revision not found')
+    })
+
+    it('includes all expected fields in revision data', async () => {
+      const rev = getMockRevision()
+      const fullRev = { ...rev, orgId, userId }
+      const createResult = await fictionRevision.createRevision(fullRev, { skipTimeCheck: true })
+      const revisionId = createResult.data?.[0].revisionId
+
+      if (!revisionId) {
+        throw new Error('Failed to create test revision')
+      }
+
+      const revision = await fictionRevision.getRevisionData({
+        revisionId,
+        orgId,
+        userId,
+      })
+
+      expect(revision).toMatchObject({
+        revisionId: expect.any(String),
+        orgId: expect.any(String),
+        userId: expect.any(String),
+        title: expect.any(String),
+        description: expect.any(String),
+        version: expect.any(Number),
+        itemType: expect.any(String),
+        itemId: expect.any(String),
+        itemData: expect.any(Object),
+        createdAt: expect.any(String),
+        updatedAt: expect.any(String),
+      })
+    })
+  })
+
+  afterAll(async () => {
+    await testUtils.close()
+  })
+})
 
 describe('revision endpoint', async () => {
   const testUtils = createTestUtils({ envFiles: [testEnvFile] })
@@ -14,21 +221,9 @@ describe('revision endpoint', async () => {
   if (!userId)
     throw new Error('userId not found')
 
-  // Test data
-  const mockItemData = {
-    title: 'Test Page',
-    content: 'Test content',
-  }
-
-  const getMockRevision = (): TableRevisionConfig => {
-    return {
-      itemType: 'page',
-      itemId: `page-${shortId()}`,
-      itemData: mockItemData,
-      title: 'Initial revision',
-      description: 'First test revision',
-    }
-  }
+  afterAll(async () => {
+    await testUtils.close()
+  })
 
   it('should create a revision', async () => {
     const rev = getMockRevision()

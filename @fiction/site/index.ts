@@ -1,7 +1,7 @@
 import type { template as dashTemplate, panelTemplate } from '@fiction/admin/dashboard/cardDash.js'
 import type { FictionAdmin } from '@fiction/admin/index.js'
 import type { FictionAnalytics } from '@fiction/analytics/index.js'
-import type { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionPluginSettings, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
+import type { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionPluginSettings, FictionRevision, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 import type { FictionAi } from '@fiction/plugin-ai'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
 import type { Site } from './site.js'
@@ -29,6 +29,7 @@ vars.register(() => [new EnvVar({ name: 'FLY_API_TOKEN' })])
 export type SitesPluginSettings = {
   fictionEnv: FictionEnv
   fictionDb: FictionDb
+  fictionRevision: FictionRevision
   fictionUser?: FictionUser
   fictionEmail: FictionEmail
   fictionServer: FictionServer

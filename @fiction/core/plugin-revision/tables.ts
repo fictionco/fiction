@@ -29,6 +29,8 @@ export const revisionCols = [
 
 export type TableRevisionConfig = Partial<ColType<typeof revisionCols>> & { itemId: string, itemType: string, itemData: Record<string, unknown> }
 
+export type FullRevisionConfig = TableRevisionConfig & { orgId: string, userId: string }
+
 export const tables = [
   new FictionDbTable({
     tableKey: t.revisions,

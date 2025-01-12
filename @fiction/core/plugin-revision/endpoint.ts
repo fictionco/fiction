@@ -18,7 +18,7 @@ export type RevisionQuerySettings = {
   fictionRevision: FictionRevision
 } & FictionRevisionSettings
 
-type WhereRevision = { itemId: string }
+type WhereRevision = { itemId: string } | { revisionId: string }
 
 export type ManageRevisionRequestParams =
   | { _action: 'create', fields: TableRevisionConfig & { itemId: string, itemType: string, itemData: Record<string, unknown> } }
@@ -73,6 +73,8 @@ export class ManageRevision extends Query<RevisionQuerySettings> {
     const prepped = this.settings.fictionDb.prep({ type: 'insert', fields, meta, table: t.revisions })
     const { itemId } = prepped
 
+    const description = `Revision for ${fields.itemType} saved at ${new Date().toISOString()}`
+
     return db.transaction(async (trx) => {
       // Lock all rows for this item and get current state
       const revisions = await trx(t.revisions)
@@ -97,6 +99,7 @@ export class ManageRevision extends Query<RevisionQuerySettings> {
       // Create new revision with calculated version
       const [revision] = await trx(t.revisions)
         .insert({
+          description,
           ...prepped,
           orgId,
           userId,

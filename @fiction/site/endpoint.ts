@@ -3,7 +3,7 @@ import type { Knex } from 'knex'
 import type { FictionSites, Site, SitesPluginSettings } from './index.js'
 import type { WhereSite } from './load.js'
 import type { CardConfigPortable, TableCardConfig, TableDomainConfig, TableSiteConfig } from './tables.js'
-import { applyComplexFilters, deepMerge, incrementSlugId, objectId, omit, Query, shortId } from '@fiction/core'
+import { applyComplexFilters, dayjs, deepMerge, incrementSlugId, objectId, omit, Query, shortId } from '@fiction/core'
 import { abort } from '@fiction/core/utils/error.js'
 import { Card } from './card.js'
 import { t } from './tables.js'
@@ -408,6 +408,7 @@ export type ManageSiteRequestParams =
   | { _action: 'revertDraft', where: WhereSite }
   | { _action: 'delete', where: WhereSite }
   | { _action: 'retrieve', where: WhereSite }
+  | { _action: 'restore', where: WhereSite, revisionId: string }
 
 export type ManageSiteParams = ManageSiteRequestParams & SiteStandardFields
 
@@ -438,6 +439,9 @@ export class ManageSite extends SitesQuery {
         break
       case 'delete':
         result = await this.deleteSite(params as ManageSiteParams & { _action: 'delete' }, meta)
+        break
+      case 'restore':
+        result = await this.restoreFromRevision(params as ManageSiteParams & { _action: 'restore' }, meta)
         break
       default:
         throw abort('Invalid action')
@@ -536,6 +540,19 @@ export class ManageSite extends SitesQuery {
 
     const finalSite = await this.fetchSiteWithDetails({ selector, scope })
 
+    if (updatedSite && scope === 'publish') {
+      // Create revision when publishing
+      await this.settings.fictionRevision.createRevision({
+        itemId: updatedSite.siteId,
+        itemType: 'site',
+        itemData: omit(updatedSite, 'draft'),
+        title: 'Published version',
+        description: 'Site update published',
+        orgId,
+        userId,
+      }, { skipTimeCheck: true })
+    }
+
     return { status: 'success', data: finalSite, message: 'site saved' }
   }
 
@@ -544,7 +561,10 @@ export class ManageSite extends SitesQuery {
     const { where, fields, orgId, userId } = params
 
     if (!orgId)
-      throw abort('orgId required')
+      throw abort('orgId required', meta)
+
+    if (!userId)
+      throw abort('userId required', meta)
 
     // Get current date and format
     const now = new Date()
@@ -579,6 +599,18 @@ export class ManageSite extends SitesQuery {
     }
 
     const r = await this.retrieveSite({ _action: 'retrieve', scope: 'draft', caller: 'saveDraft', where }, meta)
+
+    if (site) {
+      await this.settings.fictionRevision.createRevision({
+        itemId: site.siteId,
+        itemType: 'site',
+        itemData: omit(site, 'draft'),
+        title: 'Draft autosave',
+        description: `Revision saved at ${dayjs().format('YYYY-MM-DD HH:mm:ss')}`,
+        orgId,
+        userId,
+      }, { skipTimeCheck: false }) // Use time limit for drafts
+    }
 
     return { status: 'success', data: r.data }
   }
@@ -854,6 +886,57 @@ export class ManageSite extends SitesQuery {
     }
 
     return out as WhereSite
+  }
+
+  private async restoreFromRevision(params: ManageSiteParams & { _action: 'restore' }, meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
+    const { where, revisionId, orgId, userId } = params
+
+    if (!userId || !orgId)
+      throw abort('orgId and userId required')
+
+    const selector = await this.getSiteSelector(where)
+    const revision = await this.settings.fictionRevision.getRevisionData({
+      revisionId,
+      orgId,
+      userId,
+      meta,
+    })
+
+    // Validate revision matches site
+    if (revision.itemType !== 'site' || revision.itemId !== selector.siteId) {
+      throw abort('Invalid revision for this site')
+    }
+
+    // Create backup revision of current state
+    const currentSite = await this.retrieveSite({
+      _action: 'retrieve',
+      where: selector,
+      orgId,
+      userId,
+      caller: 'restoreBackup',
+    }, meta)
+
+    if (currentSite.data) {
+      await this.settings.fictionRevision.createRevision({
+        itemId: selector.siteId,
+        itemType: 'site',
+        itemData: currentSite.data,
+        title: 'Pre-restore backup',
+        description: `Auto-created before restoring to revision ${revisionId}`,
+        orgId,
+        userId,
+      }, { skipTimeCheck: true })
+    }
+
+    // Restore site data
+    return this.updateSite({
+      _action: 'update',
+      where: selector,
+      fields: revision.itemData as Partial<TableSiteConfig>,
+      orgId,
+      userId,
+      caller: 'restoreRevision',
+    }, meta)
   }
 }
 
