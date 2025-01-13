@@ -129,11 +129,11 @@ const fictionCache = new FictionCache({ fictionEnv, redisUrl })
 
 const fictionServer = new FictionServer({ fictionEnv, serverName: 'FictionMain', port: comboPort, liveUrl: URLS.app })
 const fictionDb = new FictionDb({ fictionEnv, fictionServer, postgresUrl })
-const fictionRevision = new FictionRevision({ fictionEnv, fictionDb })
-const fictionEmail = new FictionEmail({ fictionEnv, smtpHost, smtpPassword, smtpUser, sendingDomain: 'mail.fiction.com' })
-const base = { fictionEnv, fictionApp, fictionRevision, fictionServer, fictionDb, fictionEmail, fictionRouter }
-const fictionUser = new FictionUser({ ...base, googleClientId, googleClientSecret, tokenSecret, apolloApiKey })
 
+const fictionEmail = new FictionEmail({ fictionEnv, smtpHost, smtpPassword, smtpUser, sendingDomain: 'mail.fiction.com' })
+const base = { fictionEnv, fictionApp, fictionServer, fictionDb, fictionEmail, fictionRouter }
+const fictionUser = new FictionUser({ ...base, googleClientId, googleClientSecret, tokenSecret, apolloApiKey })
+const fictionRevision = new FictionRevision({ fictionEnv, fictionDb, fictionUser, fictionServer })
 const fictionAnalytics = new FictionAnalytics({
   ...base,
   fictionUser,
@@ -144,7 +144,7 @@ const fictionAnalytics = new FictionAnalytics({
 })
 
 const fictionMonitor = new FictionMonitor({ ...base, fictionUser, slackWebhookUrl, sentryPublicDsn })
-const basicService = { ...base, fictionUser, fictionMonitor, fictionAnalytics, fictionCache }
+const basicService = { ...base, fictionRevision, fictionUser, fictionMonitor, fictionAnalytics, fictionCache }
 
 const fictionAws = new FictionAws({ ...basicService, awsAccessKey, awsAccessKeySecret })
 const fictionMedia = new FictionMedia({ ...basicService, fictionAws, awsBucketMedia, cdnUrl: `https://media.fiction.com` })

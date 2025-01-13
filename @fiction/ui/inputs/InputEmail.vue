@@ -1,14 +1,20 @@
 <script lang="ts" setup>
-import type { vue } from '@fiction/core'
+import type { ColorThemeUser } from '@fiction/core'
 import type { UiElementSize } from '../utils'
 import { textInputClasses } from './theme'
 
-defineProps({
-  modelValue: { type: [String], default: '' },
-  placeholder: { type: [String], default: 'Type your email...' },
-  inputClass: { type: String, default: '' },
-  uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
-})
+const {
+  modelValue = '',
+  placeholder = 'Type an email...',
+  inputClass = '',
+  uiSize = 'md',
+} = defineProps<{
+  modelValue?: string
+  placeholder?: string
+  inputClass?: string
+  theme?: ColorThemeUser
+  uiSize?: UiElementSize
+}>()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: string): void
@@ -23,7 +29,7 @@ function handleEmit(target: EventTarget | null): void {
 
 <template>
   <input
-    :class="textInputClasses({ inputClass, uiSize })"
+    :class="textInputClasses({ inputClass, uiSize, theme })"
     type="email"
     autocomplete="email"
     :value="modelValue"

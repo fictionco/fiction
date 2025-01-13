@@ -8,13 +8,14 @@ import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElEmail from '@fiction/ui/inputs/InputEmail.vue'
 import ConfirmModal from './CardActionAreaConfirmModal.vue'
 
-const { card, subscribe = {}, size = 'lg', enableConfirmModal = true } = defineProps<{
+const { card, subscribe = {}, size = 'lg', enableConfirmModal = true, classes, theme = 'primary' } = defineProps<{
   card: Card
   animate?: boolean
   subscribe: ActionSubscribe
   size?: StandardSize
   theme?: ColorThemeUser
   enableConfirmModal?: boolean
+  classes: { subscribe?: string }
 }>()
 
 const emit = defineEmits<{
@@ -72,6 +73,7 @@ async function createSubscription() {
   <div class="@container">
     <ElForm
       class="flex flex-col gap-5 sm:flex-row sm:flex-wrap"
+      :class="classes.subscribe"
       @submit="createSubscription()"
     >
       <ElEmail
@@ -79,22 +81,20 @@ async function createSubscription() {
         data-test-id="email"
         :ui-size="size"
         :input-class="[
-          'bg-theme-50',
-          'dark:bg-theme-700/30',
-          'dark:ring-primary-500/70',
-          'ring-1',
+          'ring-2',
           'w-full',
           'sm:basis-80',
           'min-w-72',
-          'max-w-2xl',
+          'max-w-xl',
           'grow',
           'sm:flex-1',
         ].join(' ')"
+        :theme
         :placeholder="subscribe.input?.placeholder || 'Enter your email...'"
       />
       <XButton
         data-test-id="submit"
-        theme="primary"
+        :theme
         type="submit"
         rounding="md"
         :loading="loading"

@@ -7,7 +7,8 @@ import twForms from '@tailwindcss/forms'
 import twTypography from '@tailwindcss/typography'
 import { inputs } from './inputs/index.js'
 
-export * from './buttons/util.js'
+export * from './inputs/index.js'
+export * from './utils/utils.js'
 
 type FictionUiSettings = {
   apps: FictionApp[]
@@ -15,8 +16,6 @@ type FictionUiSettings = {
   AdminPage?: vue.Component
   AdminWrap?: vue.Component
 } & FictionPluginSettings
-
-export * from './inputs/index.js'
 
 export class FictionUi extends FictionPlugin<FictionUiSettings> {
   apps: FictionApp[] = this.settings.apps || []

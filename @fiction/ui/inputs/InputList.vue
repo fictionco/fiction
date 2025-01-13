@@ -30,6 +30,7 @@ const {
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: BasicItem[]): void
+  (event: 'update:editIndex', payload: number): void
 }>()
 
 type KeyedItem = Record<string, unknown> & { _key: string }
@@ -126,6 +127,9 @@ function removeItem(item: Record<string, unknown> & { _key: string }) {
 
 function toggleItem(index: number) {
   openItem.value = openItem.value === index ? -1 : index
+
+  if (openItem.value === index)
+    emit('update:editIndex', index)
 }
 
 let sortable: Sortable | undefined

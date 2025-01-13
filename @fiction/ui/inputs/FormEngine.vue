@@ -41,6 +41,7 @@ const {
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: Record<string, unknown>): void
+  (event: 'update:editPath', payload: string): void
 }>()
 
 // Create a function to recursively get all group options and their isClosed status
@@ -78,14 +79,21 @@ function hide(opt: InputOption, change?: 'toggle' | 'show' | 'hide') {
   return menuVisibility.value[key]
 }
 
-function getOptionPath(opt: InputOption) {
+function getOptionPath(opt: InputOption, index?: number) {
   const key = opt.key.value
   const input = opt.input.value
   // Ignore the key if this is an InputControl
   if (typeof input === 'string' && input === 'InputControl') {
     return basePath
   }
-  return basePath ? `${basePath}.${key}` : key
+  const path = basePath ? `${basePath}.${key}` : key
+
+  if (index !== undefined && index >= 0) {
+    return `${path}.${index}`
+  }
+  else {
+    return path
+  }
 }
 
 const cls = vue.computed(() => {
@@ -179,6 +187,7 @@ function getGroupClasses(opt: InputOption) {
                   :base-path="basePath"
                   :format="opt.settings.format"
                   @update:model-value="emit('update:modelValue', $event)"
+                  @update:edit-path="emit('update:editPath', $event)"
                 />
               </div>
             </div>
@@ -206,6 +215,8 @@ function getGroupClasses(opt: InputOption) {
             :input-props="{ ...inputProps }"
             :input="opt.input.value"
             :model-value="getNested({ path: getOptionPath(opt), data: modelValue })"
+            @click="emit('update:editPath', getOptionPath(opt))"
+            @update:edit-index="emit('update:editPath', getOptionPath(opt, $event))"
             @update:model-value="emit('update:modelValue', setNested({ path: getOptionPath(opt), data: modelValue, value: $event }))"
           />
         </div>

@@ -219,3 +219,11 @@ export function deepMergeAll<T extends Record<string, any>>(items: (Partial<T> |
 export function sortMerge<T extends { priority?: number }[]>(arr: T): Record<string, any> {
   return deepMerge(sortPriority(arr))
 }
+
+export function getDotpathArrayIndices(path?: string): number[] {
+  if (!path)
+    return []
+  // Only match digits between dots or at end, must have dot before
+  const matches = path.match(/(?<=\.)\d+(?=\.|$)/g)
+  return matches?.map(Number) || []
+}

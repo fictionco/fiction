@@ -38,8 +38,8 @@ const sizeClasses = vue.computed(() => {
     'sm': { gap: 'gap-1.5', icon: 'size-6', iconInner: 'size-4', text: 'text-sm' },
     'md': { gap: 'gap-2', icon: 'size-8', iconInner: 'size-5', text: 'text-base' },
     'lg': { gap: 'gap-2.5', icon: 'size-10', iconInner: 'size-6', text: 'text-lg' },
-    'xl': { gap: 'gap-3', icon: 'size-14', iconInner: 'size-8', text: 'text-xl' },
-    '2xl': { gap: 'gap-3', icon: 'size-16', iconInner: 'size-10', text: 'text-2xl' },
+    'xl': { gap: 'gap-3', icon: 'size-10 lg:size-12', iconInner: 'size-6 lg:size-8', text: 'text-lg lg:text-xl' },
+    '2xl': { gap: 'gap-3', icon: 'size-10 lg:size-14', iconInner: 'size-6 lg:size-10', text: 'text-lg lg:text-2xl' },
   }
 
   return sizes[size]

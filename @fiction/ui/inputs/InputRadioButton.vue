@@ -35,12 +35,12 @@ function getButtonClasses(item: ListItem, index: number): string {
     // Base classes
     'relative inline-flex items-center justify-center font-medium transition-all duration-200 antialiased',
     'focus:outline-none  ',
+    'rounded-lg',
     sizeClasses.value,
 
     // Border handling
     isFirst ? 'rounded-l-lg' : '',
     isLast ? 'rounded-r-lg' : '',
-    !isFirst ? '-ml-px' : '',
     'border',
 
     // Selected state
@@ -60,7 +60,7 @@ function getButtonClasses(item: ListItem, index: number): string {
 
 <template>
   <div
-    class="inline-flex rounded-lg shadow-sm isolate"
+    class="inline-flex rounded-lg shadow-sm isolate gap-1 flex-wrap"
     role="radiogroup"
   >
     <button

@@ -351,6 +351,25 @@ export class Card<
       this.site?.autosave()
   }
 
+  // syncing of item being edited
+  editItem = vue.ref<string | undefined>()
+  setEditItem(args: { path: string, caller: string }) {
+    const { path, caller } = args
+
+    const site = this.site
+
+    if (!site || site?.siteMode.value === 'standard') {
+      return
+    }
+
+    this.editItem.value = path
+    site.frame.syncEditItem({
+      cardId: this.cardId,
+      path,
+      caller: `card:syncCard:${caller}`,
+    })
+  }
+
   link(location?: vueRouter.RouteLocationRaw, opts?: { caller?: string }) {
     if (!location)
       return ''

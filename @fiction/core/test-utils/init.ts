@@ -207,20 +207,17 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
   const fictionServer = new FictionServer({ port: serverPort, liveUrl: 'https://server.test.com', fictionEnv })
   const fictionRouter = new FictionRouter({ routerId: 'testRouter', fictionEnv, create: true })
   const fictionDb = new FictionDb({ fictionEnv, fictionServer, postgresUrl })
-  const fictionRevision = new FictionRevision({ fictionEnv, fictionDb })
   const fictionEmail = new FictionEmail({ fictionEnv, smtpHost, smtpPassword, smtpUser })
 
-  const base = { fictionEnv, fictionRouter, fictionServer, fictionDb, fictionRevision, fictionEmail }
+  const base = { fictionEnv, fictionRouter, fictionServer, fictionDb, fictionEmail }
 
   const fictionApp = new FictionApp({ ...base, port: appPort, rootComponent, isTest: true })
-
   const fictionUser = new FictionUser({ ...base, googleClientId, googleClientSecret, tokenSecret: 'test', apolloApiKey: 'test' })
-
+  const fictionRevision = new FictionRevision({ ...base, fictionUser })
   const fictionTeam = new FictionTeam({ ...base, fictionApp, fictionUser })
-
   const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp] })
 
-  const services = { ...base, fictionApp, fictionUser, fictionTeam, fictionUi }
+  const services = { ...base, fictionApp, fictionUser, fictionTeam, fictionUi, fictionRevision }
 
   return services
 }

@@ -1,6 +1,12 @@
 import type { ButtonDesign, ColorThemeUser } from '@fiction/core'
 
-export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string, border?: string, hover?: string, icon?: string }>> = {
+export const themes: Record<ColorThemeUser, Record<ButtonDesign, {
+  base?: string
+  border?: string
+  hover?: string
+  icon?: string
+  input?: string
+}>> = {
   naked: {
     solid: { },
     ghost: { },
@@ -10,6 +16,13 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
   default: {
     solid: {
       base: 'bg-theme-0 dark:bg-theme-700/40 text-theme-600 dark:text-theme-50',
+      input: `bg-white dark:bg-theme-800/50
+            ring-theme-200 dark:ring-theme-600/70
+            focus:ring-theme-600 focus:bg-white
+            dark:focus:ring-theme-500 dark:focus:bg-theme-800
+            focus-within:ring-theme-600 dark:focus-within:ring-theme-500
+            text-theme-900 dark:text-theme-100
+            placeholder:text-theme-400 dark:placeholder:text-theme-500`,
       border: 'border-theme-300/80 dark:border-theme-600',
       hover: 'hover:border-theme-300 dark:hover:border-theme-500',
       icon: 'text-theme-600 dark:text-theme-50',
@@ -37,6 +50,11 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
     solid: {
       base: 'bg-white/100 text-black backdrop-blur-sm shadow-sm mix-blend-overlay [text-shadow:_0_1px_1px_rgb(255_255_255_/_100%)]',
       border: 'border-white/100',
+      input: `bg-white/10 ring-white
+            focus:ring-white/90 focus:bg-white/20
+            dark:focus:ring-white/70
+            text-white
+            placeholder:text-white/60`,
       hover: 'hover:bg-white/70 ',
       icon: 'text-black',
     },
@@ -63,6 +81,12 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, { base?: string
     solid: {
       base: 'bg-primary-500 dark:bg-primary-700/70 text-primary-0 dark:text-primary-50',
       border: 'border-primary-600/80 dark:border-primary-600',
+      input: `bg-primary-50 dark:bg-primary-800/50
+            ring-primary-300 dark:ring-primary-600/70
+            focus:ring-primary-700 focus:bg-primary-50/50
+            dark:focus:ring-primary-400 dark:focus:bg-primary-800
+            text-primary-800 dark:text-primary-0
+            placeholder:text-primary-300 dark:placeholder:text-primary-600`,
       hover: 'hover:bg-primary-600 dark:hover:bg-primary-800',
       icon: 'text-primary-0 dark:text-primary-50',
     },

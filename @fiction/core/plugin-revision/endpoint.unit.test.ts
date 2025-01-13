@@ -129,13 +129,13 @@ describe('fictionRevision core methods', async () => {
         throw new Error('Failed to create test revision')
       }
 
-      const revision = await fictionRevision.getRevisionData({
+      const r = await fictionRevision.getRevisionData({
         revisionId,
         orgId,
         userId,
       })
 
-      expect(revision).toMatchObject({
+      expect(r.data).toMatchObject({
         ...fullRev,
         revisionId,
         version: 1,
@@ -143,13 +143,14 @@ describe('fictionRevision core methods', async () => {
     })
 
     it('throws error for non-existent revision', async () => {
-      await expect(
-        fictionRevision.getRevisionData({
-          revisionId: 'non-existent',
-          orgId,
-          userId,
-        }),
-      ).rejects.toThrow('Revision not found')
+      const r = await fictionRevision.getRevisionData({
+        revisionId: 'non-existent',
+        orgId,
+        userId,
+      })
+
+      expect(r.status).toBe('error')
+      expect(r.message).toMatchInlineSnapshot(`"Revision not found"`)
     })
 
     it('respects organization boundaries', async () => {
@@ -163,14 +164,14 @@ describe('fictionRevision core methods', async () => {
         throw new Error('Failed to create test revision')
       }
 
-      // Attempt to access with different orgId
-      await expect(
-        fictionRevision.getRevisionData({
-          revisionId,
-          orgId: 'different-org',
-          userId,
-        }),
-      ).rejects.toThrow('Revision not found')
+      const r = await fictionRevision.getRevisionData({
+        revisionId,
+        orgId: 'different-org',
+        userId,
+      })
+
+      expect(r.status).toBe('error')
+      expect(r.message).toMatchInlineSnapshot(`"Revision not found"`)
     })
 
     it('includes all expected fields in revision data', async () => {
@@ -183,13 +184,13 @@ describe('fictionRevision core methods', async () => {
         throw new Error('Failed to create test revision')
       }
 
-      const revision = await fictionRevision.getRevisionData({
+      const r = await fictionRevision.getRevisionData({
         revisionId,
         orgId,
         userId,
       })
 
-      expect(revision).toMatchObject({
+      expect(r.data).toMatchObject({
         revisionId: expect.any(String),
         orgId: expect.any(String),
         userId: expect.any(String),

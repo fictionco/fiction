@@ -69,6 +69,7 @@ function setActiveCardConfig(config: Partial<TableCardConfig>) {
           :input-props="{ site }"
           base-path="userConfig"
           @update:model-value="setActiveCardConfig($event)"
+          @update:edit-path="props.site?.activeCard.value?.setEditItem({ path: $event, caller: 'toolCardEdit' })"
         />
       </template>
     </transition>

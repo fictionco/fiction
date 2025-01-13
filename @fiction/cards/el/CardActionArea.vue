@@ -46,6 +46,7 @@ const hasActions = vue.computed(() => {
         :card
         :subscribe="uc?.subscribe || {}"
         :theme="uc?.theme || theme"
+        :classes="{ subscribe: classes.subscribe }"
         :enable-confirm-modal="enableConfirmModal"
         @update:subscribed="emit('update:subscribed', $event)"
       />
@@ -66,6 +67,7 @@ const hasActions = vue.computed(() => {
         :count="uc?.proof.community?.count"
         :text="joinText"
         :thumb-count="uc?.proof.community?.thumbCount"
+        :theme
       />
     </div>
   </div>

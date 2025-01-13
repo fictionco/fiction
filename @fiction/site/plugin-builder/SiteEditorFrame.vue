@@ -100,9 +100,11 @@ function toggleEditingStyle() {
             rounding="full"
             size="xs"
             icon="i-tabler-drag-drop"
+            :theme="site.editor.value.savedEditingStyle === 'quick' ? 'green' : 'primary'"
+            design="outline"
             @click="toggleEditingStyle()"
           >
-            {{ site.editor.value.savedEditingStyle === 'quick' ? 'Quick Edit' : 'Clean Edit' }}
+            {{ site.editor.value.savedEditingStyle === 'quick' ? 'Quick Edit' : 'Clean Edit' }} Mode
           </XButton>
         </ElTooltip>
       </div>

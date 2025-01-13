@@ -1,5 +1,29 @@
 import { describe, expect, it } from 'vitest'
-import { deepMerge, deepMergeAll, findValueByKey, isPlainObject, omit, parseObject, removeUndefined } from '../obj'
+import { deepMerge, deepMergeAll, findValueByKey, getDotpathArrayIndices, isPlainObject, omit, parseObject, removeUndefined } from '../obj'
+
+describe('getDotpathArrayIndices', () => {
+  it('extracts numbers from dot-separated paths', () => {
+    expect(getDotpathArrayIndices('items.0.title')).toEqual([0])
+    expect(getDotpathArrayIndices('items.2.sub.1')).toEqual([2, 1])
+    expect(getDotpathArrayIndices('items.5')).toEqual([5])
+  })
+
+  it('handles undefined and empty paths', () => {
+    expect(getDotpathArrayIndices()).toEqual([])
+    expect(getDotpathArrayIndices('')).toEqual([])
+  })
+
+  it('ignores numbers not between dots', () => {
+    expect(getDotpathArrayIndices('link2')).toEqual([])
+    expect(getDotpathArrayIndices('page5view')).toEqual([])
+    expect(getDotpathArrayIndices('items.1.page5')).toEqual([1])
+  })
+
+  it('handles paths ending in number', () => {
+    expect(getDotpathArrayIndices('item.2')).toEqual([2])
+    expect(getDotpathArrayIndices('items.sub.5')).toEqual([5])
+  })
+})
 
 describe('removeUndefined', () => {
   it('removes undefined by default', () => {

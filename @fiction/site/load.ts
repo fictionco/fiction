@@ -22,7 +22,7 @@ type MountContext = { siteMode?: SiteMode, fictionOrgId?: string, fictionSiteId?
 type RequestManageSiteParams = ManageSiteParams & { siteRouter: FictionRouter, fictionSites: FictionSites, siteMode: SiteMode, orgId?: string, siteId?: string }
 
 export async function requestManageSite(args: RequestManageSiteParams) {
-  const { _action, siteMode, caller = 'requestManageSite', fields, where } = args
+  const { _action, siteMode, caller = 'requestManageSite', fields = {}, where, revisionId } = args
   const { fictionSites, siteRouter, ...pass } = args
 
   logger.info(`request manage site:${_action}`, { data: { fields, where } })
@@ -42,13 +42,21 @@ export async function requestManageSite(args: RequestManageSiteParams) {
       return {}
     }
   }
+  else if (_action === 'restoreFromRevision') {
+    if (!revisionId) {
+      logger.error('REQUEST SITE WHERE -> no revisionId')
+      return {}
+    }
+  }
 
   if (_action === 'retrieve') {
     if (['designer', 'editable'].includes(siteMode))
       scope = 'draft'
   }
 
-  const r = await fictionSites.requests.ManageSite.projectRequest({ ...pass, caller, _action, fields: fields || {}, where: where as WhereSite, scope }, { caller: `requestManageSite:${caller}`, userOptional: _action === 'retrieve' })
+  const requestArgs = { ...pass, caller, _action, fields, where, scope } as ManageSiteParams
+
+  const r = await fictionSites.requests.ManageSite.projectRequest(requestArgs, { caller: `requestManageSite:${caller}`, userOptional: _action === 'retrieve' })
 
   let site: Site | undefined = undefined
   if (r.data?.siteId)

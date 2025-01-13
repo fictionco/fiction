@@ -59,7 +59,7 @@ const sizeMap = vue.computed(() => {
       <XMedia
         :media="v"
         image-mode="contain"
-        class="max-w-full pointer-events-none"
+        class="max-w-full pointer-events-none w-full"
         :class="sizeMap.preview"
       />
       <div

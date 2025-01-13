@@ -3,7 +3,7 @@ import type { Site } from '../../site'
 import { AdminEditorController } from '@fiction/admin'
 import { vue } from '@fiction/core'
 
-export type ToolKeys = 'managePages' | 'addPage' | 'editPage' | 'editLayout' | 'siteSettings' | 'global' | 'publish' | 'editCard' | 'styling'
+export type ToolKeys = 'managePages' | 'addPage' | 'editPage' | 'editLayout' | 'siteSettings' | 'global' | 'publish' | 'editCard' | 'styling' | 'history'
 
 export const tools = [
   {
@@ -65,6 +65,13 @@ export const tools = [
     isPrimary: true,
     widthClasses: 'w-[600px]',
     el: vue.defineAsyncComponent(async () => import('./ToolPagePublish.vue')),
+  },
+  {
+    toolId: 'history',
+    title: 'Revision History',
+    icon: 'i-tabler-history',
+    isPrimary: true,
+    el: vue.defineAsyncComponent(async () => import('./ToolPageHistory.vue')),
   },
   {
     toolId: 'editCard',

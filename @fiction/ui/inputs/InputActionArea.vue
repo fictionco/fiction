@@ -93,6 +93,7 @@ const subscribeOptions = [
       createOption({
         key: 'subscribe.button.label',
         label: 'Button Text',
+        placeholder: 'Subscribe',
         input: 'InputText',
         schema,
       }),
@@ -106,12 +107,14 @@ const subscribeOptions = [
         key: 'subscribe.success.title',
         label: 'Success Title',
         input: 'InputText',
+        placeholder: 'Thank you for subscribing!',
         schema,
       }),
       createOption({
         key: 'subscribe.success.content',
         label: 'Success Message',
         input: 'InputText',
+        placeholder: 'Check your email for a confirmation link.',
         schema,
       }),
     ],

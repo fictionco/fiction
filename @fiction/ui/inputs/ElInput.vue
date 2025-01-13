@@ -16,7 +16,7 @@ const { modelValue, label = '', subLabel = '', description = '', inputProps = {}
   defaultValue?: any
 }>()
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'update:editIndex'])
 
 type InputProps = {
   class?: string
@@ -133,6 +133,7 @@ const cls = vue.computed(() => {
         v-bind="{ ...omit(attrs, 'class', 'data-test-id', 'data-option-path', 'model-value'), ...inputProps }"
         :ui-size="uiSize"
         @update:model-value="updateValue($event)"
+        @update:edit-index="emit('update:editIndex', $event)"
       >
         <slot />
       </component>

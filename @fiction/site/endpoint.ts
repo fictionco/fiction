@@ -399,6 +399,7 @@ type SiteStandardFields = {
   fields?: Partial<TableSiteConfig>
   where?: WhereSite
   scope?: 'draft' | 'publish'
+  revisionId?: string
 }
 
 export type ManageSiteRequestParams =
@@ -408,7 +409,7 @@ export type ManageSiteRequestParams =
   | { _action: 'revertDraft', where: WhereSite }
   | { _action: 'delete', where: WhereSite }
   | { _action: 'retrieve', where: WhereSite }
-  | { _action: 'restore', where: WhereSite, revisionId: string }
+  | { _action: 'restoreFromRevision', where: WhereSite, revisionId: string }
 
 export type ManageSiteParams = ManageSiteRequestParams & SiteStandardFields
 
@@ -440,7 +441,7 @@ export class ManageSite extends SitesQuery {
       case 'delete':
         result = await this.deleteSite(params as ManageSiteParams & { _action: 'delete' }, meta)
         break
-      case 'restore':
+      case 'restoreFromRevision':
         result = await this.restoreFromRevision(params as ManageSiteParams & { _action: 'restore' }, meta)
         break
       default:
@@ -600,11 +601,12 @@ export class ManageSite extends SitesQuery {
 
     const r = await this.retrieveSite({ _action: 'retrieve', scope: 'draft', caller: 'saveDraft', where }, meta)
 
-    if (site) {
+    const finalSite = r.data
+    if (finalSite) {
       await this.settings.fictionRevision.createRevision({
-        itemId: site.siteId,
+        itemId: finalSite.siteId,
         itemType: 'site',
-        itemData: omit(site, 'draft'),
+        itemData: omit(finalSite, 'draft'),
         title: 'Draft autosave',
         description: `Revision saved at ${dayjs().format('YYYY-MM-DD HH:mm:ss')}`,
         orgId,
@@ -612,7 +614,7 @@ export class ManageSite extends SitesQuery {
       }, { skipTimeCheck: false }) // Use time limit for drafts
     }
 
-    return { status: 'success', data: r.data }
+    return { status: 'success', data: finalSite }
   }
 
   async clearSiteDrafts(db: Knex, selector: WhereSite, orgId: string): Promise<TableSiteConfig | null> {
@@ -889,22 +891,31 @@ export class ManageSite extends SitesQuery {
   }
 
   private async restoreFromRevision(params: ManageSiteParams & { _action: 'restore' }, meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
-    const { where, revisionId, orgId, userId } = params
+    const { where, orgId, userId, revisionId } = params
 
     if (!userId || !orgId)
-      throw abort('orgId and userId required')
+      throw abort('orgId and userId required', meta)
+
+    if (!revisionId)
+      throw abort('revisionId required', meta)
 
     const selector = await this.getSiteSelector(where)
-    const revision = await this.settings.fictionRevision.getRevisionData({
+
+    const r = await this.settings.fictionRevision.getRevisionData({
       revisionId,
       orgId,
       userId,
       meta,
     })
 
+    const revision = r.data
+
+    if (!revision)
+      return { status: 'error', message: 'Revision not found' }
+
     // Validate revision matches site
     if (revision.itemType !== 'site' || revision.itemId !== selector.siteId) {
-      throw abort('Invalid revision for this site')
+      throw abort('Invalid revision for this site', meta)
     }
 
     // Create backup revision of current state

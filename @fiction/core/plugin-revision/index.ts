@@ -1,4 +1,6 @@
 import type { FictionDb } from '../plugin-db/index.js'
+import type { FictionServer } from '../plugin-server/index.js'
+import type { FictionUser } from '../plugin-user/index.js'
 import type { EndpointResponse } from '../types/endpoint.js'
 import type { EndpointMeta } from '../utils/endpoint.js'
 import { FictionPlugin, type FictionPluginSettings } from '../plugin.js'
@@ -8,6 +10,8 @@ import { type FullRevisionConfig, type RevisionType, type TableRevisionConfig, t
 
 export type FictionRevisionSettings = {
   fictionDb: FictionDb
+  fictionServer: FictionServer
+  fictionUser: FictionUser
 } & FictionPluginSettings
 
 export class FictionRevision extends FictionPlugin<FictionRevisionSettings> {
@@ -16,6 +20,13 @@ export class FictionRevision extends FictionPlugin<FictionRevisionSettings> {
   queries = {
     ManageRevision: new ManageRevision({ fictionRevision: this, ...this.settings }),
   }
+
+  requests = this.createRequests({
+    queries: this.queries,
+    basePath: '/revision',
+    fictionServer: this.settings.fictionServer,
+    fictionUser: this.settings.fictionUser,
+  })
 
   constructor(settings: FictionRevisionSettings) {
     super('FictionRevision', { root: safeDirname(import.meta.url), ...settings })
@@ -84,10 +95,12 @@ export class FictionRevision extends FictionPlugin<FictionRevisionSettings> {
       caller: 'getRevisionData',
     }, meta || { server: true })
 
-    if (!result.data?.[0]) {
-      throw new Error('Revision not found')
+    const rev = result.data?.[0]
+
+    if (!rev) {
+      return { status: 'error', message: 'Revision not found' }
     }
 
-    return result.data[0]
+    return { status: 'success', data: rev }
   }
 }

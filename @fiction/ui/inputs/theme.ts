@@ -1,7 +1,7 @@
-import type { StandardSize } from '@fiction/core/index.js'
+import type { ColorThemeUser, StandardSize } from '@fiction/core/index.js'
 import type { UiElementSize } from '../utils.js'
 import { twMerge } from 'tailwind-merge'
-
+import { themes } from '../utils/themes'
 // export function inputClasses(feature: 'box') {
 //   const out: string[] = []
 
@@ -105,11 +105,11 @@ export function inputClasses(args: { uiSize?: StandardSize }) {
 
   return {
     reset: 'text-inherit appearance-none border-none bg-transparent focus:outline-none focus:ring-0 focus:border-transparent',
-    border: ['border-0', 'ring-1', 'ring-inset', 'ring-theme-300', 'dark:ring-theme-600/70'],
+
     padX: [sizeClasses[uiSize].padX],
     padY: [sizeClasses[uiSize].padY],
     textSize: sizeClasses[uiSize].textSize,
-    bg: ['bg-theme-50', 'dark:bg-theme-800/50'],
+    disabled: ['disabled:cursor-not-allowed', 'disabled:opacity-70'],
     base: [
       'font-mono',
       'font-normal',
@@ -122,41 +122,54 @@ export function inputClasses(args: { uiSize?: StandardSize }) {
       'input-shadow-sm',
       'max-w-input',
       'rounded-lg',
-    ],
-    focus: [
+      'border-0',
+      'ring-1',
+      'ring-inset',
       'focus:outline-none',
       'focus:ring-2',
       'focus:ring-inset',
-      'focus:ring-primary-700',
-      'focus:bg-theme-50/50',
       'dark:focus:ring-2',
       'dark:focus:ring-inset',
+      'focus-within:ring-2',
+      'dark:focus-within:ring-2',
+    ],
+    bg: ['bg-theme-50', 'dark:bg-theme-800/50'],
+    border: ['ring-theme-300', 'dark:ring-theme-600/70'],
+    focus: [
+      'focus:ring-primary-700',
+      'focus:bg-theme-50/50',
       'dark:focus:ring-primary-400',
       'dark:focus:bg-theme-800',
       'focus-within:ring-primary-700',
-      'focus-within:ring-2',
-      'dark:focus-within:ring-2',
       'dark:focus-within:ring-primary-400',
     ],
-    disabled: ['disabled:cursor-not-allowed', 'disabled:opacity-70'],
-    text: ['text-theme-800', 'dark:text-theme-0', 'placeholder:text-theme-300', 'dark:placeholder:text-theme-600'],
+    text: [
+      'text-theme-800',
+      'dark:text-theme-0',
+      'placeholder:text-theme-300',
+      'dark:placeholder:text-theme-600',
+    ],
   }
 }
 
-export function textInputClasses(args: { inputClass?: string, uiSize?: UiElementSize, isDisabled?: boolean }) {
-  const { inputClass = '', uiSize = 'md', isDisabled = false } = args
+export function textInputClasses(args: {
+  inputClass?: string
+  uiSize?: UiElementSize
+  isDisabled?: boolean
+  theme?: ColorThemeUser
+}) {
+  const { inputClass = '', uiSize = 'md', isDisabled = false, theme } = args
 
   const cls = inputClasses({ uiSize })
+
+  const colorTheme = theme ? themes[theme]?.solid : themes.default.solid
 
   return twMerge([
     cls.base,
     cls.padX,
     cls.padY,
     cls.textSize,
-    cls.bg,
-    cls.border,
-    cls.focus,
-    cls.text,
+    colorTheme.input,
     isDisabled ? cls.disabled : '',
     inputClass,
   ])

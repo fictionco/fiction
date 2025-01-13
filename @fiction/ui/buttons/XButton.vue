@@ -3,7 +3,7 @@ import type { ButtonDesign, ButtonFontWeight, ButtonFormat, ButtonHover, ButtonR
 import { getNavComponentType, pathIsHref, shortId, vue } from '@fiction/core'
 import { animateItemEnter, splitLetters } from '../anim'
 import XIcon from '../media/XIcon.vue'
-import { getButtonClasses } from './util'
+import { getButtonClasses } from '../utils/utils'
 
 defineOptions({ name: 'XButton' })
 
