@@ -89,7 +89,6 @@ function toggleEditingStyle() {
             {{ site.isLightMode.value ? 'Light' : 'Dark' }} Mode Preview
           </XButton>
         </ElTooltip>
-
         <ElTooltip
           direction="bottom"
           :content="site.editor.value.savedEditingStyle === 'quick'

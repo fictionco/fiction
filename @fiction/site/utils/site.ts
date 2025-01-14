@@ -143,8 +143,11 @@ export async function saveSite(args: { site: Site, scope?: 'draft' | 'publish', 
   const { site, onlyKeys, delayUntilSaveConfig, successMessage, isPublishingDomains, minTime, scope = 'publish' } = args
 
   if (scope === 'draft') {
+    site.editor.value.savedNeedsPublish = true
     return saveSiteDraft({ site })
   }
+
+  site.editor.value = { ...site.editor.value, savedNeedsPublish: false }
 
   const config = site.toConfig()
 

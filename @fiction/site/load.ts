@@ -27,7 +27,9 @@ export async function requestManageSite(args: RequestManageSiteParams) {
 
   logger.info(`request manage site:${_action}`, { data: { fields, where } })
 
-  let scope: 'publish' | 'draft' = 'publish'
+  const routeScope = siteRouter.vars.value._scope as string | undefined
+
+  let scope: 'publish' | 'draft' = routeScope === 'draft' ? 'draft' : 'publish'
 
   if (_action === 'create') {
     const { fields } = args
@@ -67,7 +69,14 @@ export async function requestManageSite(args: RequestManageSiteParams) {
 
 export async function loadSiteById(args: { where: WhereSite, siteRouter: FictionRouter, fictionSites: FictionSites, siteMode: SiteMode, caller?: string }): Promise<Site | undefined> {
   const { where, siteRouter, fictionSites, siteMode, caller = 'loadSiteById' } = args
-  const { site } = await requestManageSite({ where, _action: 'retrieve', siteRouter, fictionSites, caller, siteMode })
+  const { site } = await requestManageSite({
+    where,
+    _action: 'retrieve',
+    siteRouter,
+    fictionSites,
+    caller,
+    siteMode,
+  })
 
   return site
 }
@@ -130,7 +139,12 @@ export async function loadSiteFromCard(args: { cardId: string, siteRouter: Ficti
   return site
 }
 
-export async function loadSite(args: { fictionSites: FictionSites, siteRouter: FictionRouter, caller?: string, mountContext?: MountContext }) {
+export async function loadSite(args: {
+  fictionSites: FictionSites
+  siteRouter: FictionRouter
+  caller?: string
+  mountContext?: MountContext
+}) {
   const { siteRouter, fictionSites, caller = 'loadSite', mountContext } = args
 
   const vals = { caller, ...mountContext }

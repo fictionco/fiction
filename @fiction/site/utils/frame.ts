@@ -94,6 +94,9 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
     const fictionEnv = site.fictionSites.fictionEnv
     // Add resetUi event listener
     fictionEnv.events.on('resetUi', this.handleResetUi)
+    fictionEnv.events.on('keypress', event => this.send({
+      msg: { messageType: 'keypress', data: event.detail },
+    }))
 
     // Add currentPath watcher
     this.stopWatchCurrentPath = vue.watch(

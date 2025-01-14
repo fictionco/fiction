@@ -102,7 +102,7 @@ const editDropdownVisible = vue.ref(false)
 const editDropdownItems = vue.computed(() => {
   const items = [
     { value: 'edit', icon: 'icon-edit' },
-    { value: 'add', icon: 'icon-plus' },
+    { label: 'Add/Move', value: 'add', icon: 'icon-plus' },
     { value: 'delete', icon: 'icon-delete' },
   ] as const
 

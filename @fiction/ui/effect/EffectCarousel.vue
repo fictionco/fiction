@@ -1,6 +1,9 @@
 <script setup lang="ts" generic="T">
+import type Flickity from 'flickity'
 import { vue, waitFor } from '@fiction/core'
 import 'flickity/css/flickity.css'
+
+defineOptions({ name: 'EffectCarousel' })
 
 const props = defineProps<{
   options?: Partial<Flickity.Options>
@@ -10,11 +13,64 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'update:activeIndex', index: number): void
+  (e: 'staticClick', event: Event, pointer: Event | Touch, cellElement: Element | null, cellIndex: number): void
 }>()
 
+type RealFlickity = Flickity & {
+  options: Flickity.Options
+  updateDraggable: () => void
+}
+
 const carouselRef = vue.ref<HTMLElement | null>(null)
-let flkty: Flickity | null = null
+let flkty: RealFlickity | null = null
 const loading = vue.ref(true)
+
+// Create computed for all options
+const flickityOptions = vue.computed<Flickity.Options>(() => ({
+  selectedAttraction: 0.03,
+  friction: 0.3,
+  accessibility: false,
+  adaptiveHeight: false,
+  initialIndex: props.activeIndex,
+  wrapAround: true,
+  cellAlign: 'center',
+  draggable: true,
+  dragThreshold: 3,
+  lazyLoad: true,
+  percentPosition: true,
+  prevNextButtons: false,
+  pageDots: false,
+  setGallerySize: true,
+  ...props.options,
+  on: {
+    /**
+     * draggable stuff is messing with content editing
+     * this is the fix
+     */
+    pointerDown: (event: Event) => {
+      const target = event.target as HTMLElement
+
+      if (flkty) {
+        // Check specifically for contenteditable="true"
+        const isContentEditable
+      = target?.closest?.('[contenteditable="true"]')
+      || target?.getAttribute?.('contenteditable') === 'true'
+
+        if (isContentEditable) {
+          flkty.options.draggable = false
+          flkty.updateDraggable()
+        }
+      }
+    },
+    pointerUp: (event: Event) => {
+      if (flkty && flkty.options.draggable === false) {
+        flkty.options.draggable = true
+        flkty.updateDraggable()
+      }
+    },
+
+  },
+}))
 
 async function initFlickity() {
   if (typeof window === 'undefined')
@@ -27,36 +83,11 @@ async function initFlickity() {
   const { default: Flickity } = await import('flickity')
 
   if (carouselRef.value) {
-    flkty = new Flickity(carouselRef.value, {
-      selectedAttraction: 0.03, // Default is 0.025
-      friction: 0.3, // Default is 0.28
-      accessibility: false,
-      adaptiveHeight: false,
+    flkty = new Flickity(carouselRef.value, flickityOptions.value) as RealFlickity
 
-      // groupCells: false,
-      initialIndex: props.activeIndex,
-      wrapAround: true,
-      // autoPlay: false,
-      cellAlign: 'center',
-      // cellSelector: undefined,
-      // contain: true,
-      draggable: true,
-      dragThreshold: 3,
-      // freeScroll: false,
-      lazyLoad: true,
-      percentPosition: true,
-      prevNextButtons: false,
-      pageDots: false,
-      // resize: true,
-      // rightToLeft: false,
-      setGallerySize: true,
-      // watchCSS: false,
-      ...props.options,
-    })
+    flkty.on('change', (index: number) => emit('update:activeIndex', index))
 
-    flkty.on('change', (index: number) => {
-      emit('update:activeIndex', index)
-    })
+    flkty.on('staticClick', (...args) => emit('staticClick', ...args))
   }
 
   await waitFor(200) // attempt better height calculation

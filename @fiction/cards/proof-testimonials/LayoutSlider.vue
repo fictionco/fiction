@@ -20,26 +20,29 @@ const items = vue.computed(() => uc.value.items || [])
 const activeIndex = vue.ref(0)
 
 const carouselOptions = {
+  draggable: !props.card.isActive.value,
 }
 
 function onSlideChange(index: number) {
   activeIndex.value = index
 }
 
-function getBgClass(args: { slide: Testimonial, index: number }) {
-  const { index } = args
-  return index === activeIndex.value
-    ? 'text-primary-50 bg-primary-600 border-primary-600 dark:text-primary-50 dark:bg-primary-950 dark:border-primary-600'
-    : 'text-primary-50 bg-primary-500 border-primary-600 dark:bg-theme-700/70 dark:border-theme-700'
+function getBgClass(_args: { slide: Testimonial, index: number }) {
+  return 'text-theme-950 bg-theme-100 border-theme-50 dark:bg-theme-800 dark:border-theme-700 dark:text-theme-0'
 }
 </script>
 
 <template>
   <div class="">
-    <EffectCarousel v-model:active-index="activeIndex" :slides="items" :options="carouselOptions" @slide-change="onSlideChange">
+    <EffectCarousel
+      v-model:active-index="activeIndex"
+      :slides="items"
+      :options="carouselOptions"
+      @slide-change="onSlideChange"
+    >
       <template #default="{ slide, index }">
         <blockquote
-          class="carousel-cell w-[80%] md:w-[55%] lg:w-[30%] max-w-[600px] mr-6 md:mr-16 lg:mr-64"
+          class="carousel-cell w-[80%] md:w-[55%] lg:w-[40%] max-w-[600px] mr-6 md:mr-16 lg:mr-40"
         >
           <div
             class="transition-all duration-500"
@@ -48,15 +51,12 @@ function getBgClass(args: { slide: Testimonial, index: number }) {
           >
             <div class="relative speech-bubble">
               <div class=" rounded-2xl  relative border [perspective:1000px]" :class="getBgClass({ slide, index })">
-                <div class="p-4 md:p-8">
-                  <div class="flex gap-2 lg:gap-5 flex-col lg:flex-row">
-                    <div class="relative pt-1 opacity-20">
-                      <svg class="size-6 md:size-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M13 14.725c0-5.141 3.892-10.519 10-11.725l.984 2.126c-2.215.835-4.163 3.742-4.38 5.746 2.491.392 4.396 2.547 4.396 5.149 0 3.182-2.584 4.979-5.199 4.979-3.015 0-5.801-2.305-5.801-6.275zm-13 0c0-5.141 3.892-10.519 10-11.725l.984 2.126c-2.215.835-4.163 3.742-4.38 5.746 2.491.392 4.396 2.547 4.396 5.149 0 3.182-2.584 4.979-5.199 4.979-3.015 0-5.801-2.305-5.801-6.275z" /></svg>
-                    </div>
+                <div class="p-4 md:p-6">
+                  <div class="flex gap-2 lg:gap-4 flex-col lg:flex-row relative">
                     <div class="space-y-[2vw] w-fit">
                       <CardText
                         tag="div"
-                        class="text-xl md:text-3xl leading-snug w-fit"
+                        class="text-xl md:text-2xl leading-snug w-fit"
                         :card
                         :path="pathCheck(`items.${index}.content`, schema)"
                         animate="fade"

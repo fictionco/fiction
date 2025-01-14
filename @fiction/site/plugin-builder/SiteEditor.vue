@@ -161,7 +161,7 @@ async function resetToPublished() {
           <CardButton
             :card
             theme="default"
-            :href="activeSiteDisplayUrl(site, { mode: 'staging' }).value"
+            :href="`${activeSiteDisplayUrl(site, { mode: 'staging' }).value}?_scope=draft`"
             target="_blank"
             size="md"
             icon="i-tabler-arrow-up-right"
@@ -170,6 +170,7 @@ async function resetToPublished() {
             View Site
           </CardButton>
           <CardButton
+            v-if="site.editor.value.savedNeedsPublish || site.editor.value.isDirty"
             :card
             theme="primary"
             :loading="sending === 'save'"
@@ -179,6 +180,19 @@ async function resetToPublished() {
             @click.prevent="save()"
           >
             Publish Changes
+          </CardButton>
+          <CardButton
+            v-else
+            :card
+            theme="primary"
+            design="outline"
+            :loading="sending === 'save'"
+            icon="i-tabler-check"
+            size="md"
+            data-test-id="changesPublishedButton"
+            @click.prevent="save()"
+          >
+            Changes Published
           </CardButton>
         </template>
         <template #default>

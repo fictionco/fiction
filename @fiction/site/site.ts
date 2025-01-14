@@ -26,6 +26,7 @@ export type EditorState = {
   selectedRegionId: PageRegion | undefined
   savedCardOrder: Record<string, string[]>
   savedEditingStyle: 'clean' | 'quick'
+  savedNeedsPublish: boolean
   isDirty: boolean
   savedPrefersColorScheme: 'light' | 'dark' | '' | 'auto'
 }
@@ -50,13 +51,16 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   fictionSites = this.settings.fictionSites
   siteRouter = this.settings.siteRouter
   siteMode = vue.ref(this.settings.siteMode || 'standard')
-  heldMetaKey = vue.computed(() => this.fictionSites.fictionEnv?.heldKeys.value.meta)
+  editToggle = vue.ref(false)
   isEditable = vue.computed(() => {
-    const isEditContext = this.siteMode.value === 'editable' || false
+    const toggled = this.fictionSites.fictionEnv?.heldKeys.value.meta
+    const isEditContext = ['editable', 'designer'].includes(this.siteMode.value) || false
     const editingStyle = this.editor.value.savedEditingStyle || 'normal'
-    const held = this.heldMetaKey.value
-    const out = isEditContext && ((editingStyle === 'quick' && !held) || (editingStyle === 'clean' && held))
-    return out
+
+    const isQuickEdit = editingStyle === 'quick' && !toggled
+    const isCleanEdit = editingStyle === 'clean' && toggled
+
+    return isEditContext && (isQuickEdit || isCleanEdit)
   })
 
   isDesigner = vue.computed(() => ['designer', 'coding'].includes(this.siteMode.value) || false)
@@ -212,10 +216,12 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     selectedRegionId: 'main',
     savedCardOrder: {},
     savedEditingStyle: 'quick',
+    savedPrefersColorScheme: '',
+    savedNeedsPublish: false,
     tempPage: {},
     tempSite: {},
     isDirty: false,
-    savedPrefersColorScheme: '',
+
     ...this.settings.editor,
   })
 
@@ -225,7 +231,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     const storeKeys = Object.keys(editorValues).filter(k => k.includes('saved'))
     const out = {} as Record<string, unknown>
     storeKeys.forEach((k) => {
-      out[k] = editorValues[k as keyof EditorState] || []
+      out[k] = editorValues[k as keyof EditorState]
     })
     return out
   })
