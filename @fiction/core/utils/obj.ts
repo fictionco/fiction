@@ -3,12 +3,19 @@ import { sortPriority } from './list'
 
 export function omit<T extends Record<string, any>, K extends keyof T>(
   obj: T,
-  ...keys: K[]
+  ...keysToOmit: (K | K[])[]
 ): Omit<T, K> {
   // Create a shallow copy of the object
   const copy = { ...obj }
-  // Remove each key in keys from the copy
+
+  // Flatten and normalize keys array
+  const keys = keysToOmit.reduce<K[]>((acc, key) => {
+    return acc.concat(Array.isArray(key) ? key : [key])
+  }, [])
+
+  // Remove each key from the copy
   keys.forEach(key => delete copy[key])
+
   return copy
 }
 

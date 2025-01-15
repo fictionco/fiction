@@ -22,7 +22,7 @@ type WhereRevision = { itemId: string } | { revisionId: string }
 
 export type ManageRevisionRequestParams =
   | { _action: 'create', fields: TableRevisionConfig & { itemId: string, itemType: string, itemData: Record<string, unknown> } }
-  | { _action: 'deleteByItemId', where: WhereRevision }
+  | { _action: 'delete', where: WhereRevision }
   | { _action: 'retrieve', where: WhereRevision }
   | { _action: 'list', where: WhereRevision, limit?: number, offset?: number, filters?: ComplexDataFilter[] }
 
@@ -44,7 +44,7 @@ export class ManageRevision extends Query<RevisionQuerySettings> {
       case 'create':
         result = await this.createRevision(params, meta)
         break
-      case 'deleteByItemId':
+      case 'delete':
         result = await this.deleteRevisions(params, meta)
         break
       case 'retrieve':
@@ -76,27 +76,45 @@ export class ManageRevision extends Query<RevisionQuerySettings> {
     const description = `Revision for ${fields.itemType} saved at ${new Date().toISOString()}`
 
     return db.transaction(async (trx) => {
-      // Lock all rows for this item and get current state
+      // Get ALL versions (even deleted ones) for this item to maintain sequential version numbers
+      const maxVersion = await trx(t.revisions)
+        .where({ itemId, orgId })
+        .max('version as maxVersion')
+        .first()
+
+      const nextVersion = (maxVersion?.maxVersion || 0) + 1
+
+      // Get current revisions for limit checking
       const revisions = await trx(t.revisions)
         .where({ itemId, orgId })
-        .orderBy('createdAt', 'desc')
-        .forUpdate() // Lock rows
+        .orderBy([
+          { column: 'version', order: 'desc' },
+        ])
+        .forUpdate()
         .select('*')
 
-      // Calculate next version
-      const currentVersion = revisions[0]?.version ?? 0
-      const nextVersion = currentVersion + 1
+      // Calculate next priority (1-10) cyclically based on version
+      const nextPriority = ((nextVersion - 1) % 10) + 1
 
-      // If we have more than limit, delete oldest ones in bulk
+      // If we exceed limit, delete oldest low-priority revisions
       if (revisions.length >= limit) {
-        const toDelete = revisions.slice(limit - 1) // Keep newest (limit - 1) items
-        await trx(t.revisions)
-          .where({ orgId })
-          .whereIn('revisionId', toDelete.map(r => r.revisionId))
-          .delete()
+        // Sort by priority ascending, then version ascending
+        const sortedRevisions = [...revisions].sort((a, b) => {
+          if (a.priority !== b.priority)
+            return a.priority - b.priority
+          return a.version - b.version
+        })
+
+        // Delete oldest revision with lowest priority
+        const toDelete = sortedRevisions[0]
+        if (toDelete) {
+          await trx(t.revisions)
+            .where({ revisionId: toDelete.revisionId })
+            .delete()
+        }
       }
 
-      // Create new revision with calculated version
+      // Create new revision
       const [revision] = await trx(t.revisions)
         .insert({
           description,
@@ -104,21 +122,15 @@ export class ManageRevision extends Query<RevisionQuerySettings> {
           orgId,
           userId,
           version: nextVersion,
+          priority: nextPriority,
         })
         .returning('*')
-
-      this.log.info('Created revision', { data: {
-        version: nextVersion,
-        remaining: limit - 1,
-        itemId,
-        title: revision.title,
-      } })
 
       return { status: 'success', data: [revision] }
     })
   }
 
-  private async deleteRevisions(params: ManageRevisionParams & { _action: 'deleteByItemId' }, _meta: EndpointMeta): Promise<EndpointResponse<TableRevisionConfig[]>> {
+  private async deleteRevisions(params: ManageRevisionParams & { _action: 'delete' }, _meta: EndpointMeta): Promise<EndpointResponse<TableRevisionConfig[]>> {
     const { where, orgId } = params
     const db = this.settings.fictionDb.client()
 

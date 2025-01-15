@@ -5,7 +5,7 @@ import { Post } from '../post'
 // https://stackoverflow.com/a/57103940/1858322
 type DistributiveOmit<T, K extends keyof any> = T extends any ? Omit<T, K> : never
 
-export async function managePost(args: { fictionPosts: FictionPosts, params: DistributiveOmit<ManagePostParamsRequest, 'orgId'>, caller: string }): Promise<Post | undefined> {
+export async function managePost(args: { fictionPosts: FictionPosts, params: DistributiveOmit<ManagePostParamsRequest, 'orgId' | 'userId'>, caller: string }): Promise<Post | undefined> {
   const { fictionPosts, params, caller = 'unknown' } = args
   const r = await fictionPosts.requests.ManagePost.projectRequest(params as ManagePostParamsRequest, { caller })
 

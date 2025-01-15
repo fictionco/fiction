@@ -6,8 +6,6 @@ import type { ToolKeys } from './tools'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
 import { vue } from '@fiction/core'
 import { createOption } from '@fiction/ui'
-import ElModalConfirm from '@fiction/ui/ElModalConfirm.vue'
-import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 
 const props = defineProps({

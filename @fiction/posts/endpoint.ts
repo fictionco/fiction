@@ -2,7 +2,7 @@ import type { EndpointMeta, EndpointResponse, IndexMeta, IndexQuery } from '@fic
 import type { FictionPosts } from '.'
 import type { FictionPostsSettings } from './index'
 import type { TablePostConfig } from './schema'
-import { abort, applyComplexFilters, deepMerge, incrementSlugId, objectId, Query, standardTable, toSlug } from '@fiction/core'
+import { abort, applyComplexFilters, dayjs, deepMerge, incrementSlugId, objectId, omit, Query, standardTable, toSlug } from '@fiction/core'
 import { t } from './schema'
 import { trackPostMetrics } from './utils/analytics'
 
@@ -28,15 +28,21 @@ export type WherePost = { postId?: string, slug?: string } & ({ postId: string }
 
 export type ManagePostParamsRequest =
   | { _action: 'create', fields: Partial<TablePostConfig>, defaultTitle?: string }
-  | { _action: 'update', where: WherePost, fields: Partial<TablePostConfig>, loadDraft?: boolean }
+  | { _action: 'update', where: WherePost, fields: Partial<TablePostConfig>, loadDraft?: boolean, orgId: string, userId: string }
   | { _action: 'get', select?: (keyof TablePostConfig | '*')[], loadDraft?: boolean } & ({ orgId: string, where: WherePost & { orgId?: string } } | { where: WherePost & { orgId: string } })
   | { _action: 'delete', where: WherePost }
-  | { _action: 'saveDraft', where: WherePost, fields: Partial<TablePostConfig> }
+  | { _action: 'saveDraft', where: WherePost, fields: Partial<TablePostConfig>, userId: string, orgId: string }
   | { _action: 'revertDraft', where: WherePost }
   | { _action: 'list', type?: string, loadDraft?: boolean } & IndexQuery & ({ orgId: string, where?: { orgId?: string } } | { where: { orgId: string } })
-  | { _action: 'deletePosts', selectedIds?: string[], orgId: string }
+  | { _action: 'deletePosts', selectedIds?: string[], orgId: string, userId: string }
+  | { _action: 'restoreFromRevision', where: WherePost, revisionId: string }
 
-export type ManagePostParams = ManagePostParamsRequest & { userId?: string, orgId?: string }
+export type ManagePostParams = ManagePostParamsRequest & {
+  userId?: string
+  orgId?: string
+  caller?: string
+  scope?: 'draft' | 'publish'
+}
 
 type ManagePostResponse = EndpointResponse<TablePostConfig[]> & {
   isNew?: boolean
@@ -71,6 +77,9 @@ export class QueryManagePost extends PostsQuery {
         break
       case 'deletePosts':
         r = await this.deletePosts(params, meta)
+        break
+      case 'restoreFromRevision':
+        r = await this.restoreFromRevision(params, meta)
         break
       default:
         return { status: 'error', message: 'Invalid action' }
@@ -204,13 +213,20 @@ export class QueryManagePost extends PostsQuery {
 
   private async updatePost(params: ManagePostParams & { _action: 'update' }, meta: EndpointMeta): Promise<EndpointResponse<TablePostConfig[]>> {
     const db = this.db()
-    const { where, fields, orgId } = params
+    const { where, fields, orgId, userId, scope = 'publish' } = params
 
     if (!where.postId && !where.slug)
-      throw abort('postId or slug is required to get a post')
+      throw abort('postId or slug is required to get a post', meta)
 
     if (!orgId)
-      throw abort('orgId is required to update a post')
+      throw abort('orgId is required to update a post', meta)
+
+    if (!userId)
+      throw abort('userId is required to update a post', meta)
+
+    if (scope === 'draft') {
+      return this.saveDraft({ _action: 'saveDraft', where, fields, userId, orgId }, meta)
+    }
 
     fields.updatedAt = new Date().toISOString()
 
@@ -255,11 +271,27 @@ export class QueryManagePost extends PostsQuery {
       this.updateAssociations({ type: 'sites', postId, fields, orgId }),
     ])
 
-    const final = await this.getPost({ ...params, where: { orgId, ...where }, _action: 'get' }, { ...meta, caller: 'updatePostEnd' })
+    const result = await this.getPost({ ...params, where: { orgId, ...where }, _action: 'get' }, { ...meta, caller: 'updatePostEnd' })
 
-    await trackPostMetrics({ orgId, fictionPosts: this.settings.fictionPosts, post: final.data?.[0] }, meta)
+    const finalPost = result.data?.[0]
 
-    return { status: 'success', data: final.data, message: 'Post updated' }
+    if (!finalPost?.postId)
+      throw abort('Post not found', meta)
+
+    // Create revision when publishing
+    await this.settings.fictionRevision.createRevision({
+      itemId: finalPost.postId,
+      itemType: 'post',
+      itemData: omit(finalPost, 'draft'),
+      title: 'Published version',
+      description: 'Post update published',
+      orgId,
+      userId,
+    }, { skipTimeCheck: true })
+
+    await trackPostMetrics({ orgId, fictionPosts: this.settings.fictionPosts, post: finalPost }, meta)
+
+    return { status: 'success', data: [finalPost], message: 'Post updated' }
   }
 
   private async updateAssociations(args: { type: 'authors' | 'sites', fields: TablePostConfig, postId: string, orgId: string }) {
@@ -381,10 +413,14 @@ export class QueryManagePost extends PostsQuery {
 
   private async saveDraft(params: ManagePostParams & { _action: 'saveDraft' }, meta: EndpointMeta): Promise<EndpointResponse<TablePostConfig[]>> {
     const db = this.db()
-    const { fields, orgId } = params
+    const { fields, orgId, userId } = params
 
     if (!orgId)
-      throw abort('orgId is required to save a draft')
+      throw abort('orgId is required to save a draft', meta)
+
+    if (!userId) {
+      throw abort('userId is required to save a draft', meta)
+    }
 
     // Get current date and format
     const now = new Date()
@@ -428,7 +464,22 @@ export class QueryManagePost extends PostsQuery {
       loadDraft: true,
     }, { ...meta, caller: 'saveDraft' })
 
-    return { status: 'success', data: r.data }
+    const finalPost = r.data?.[0]
+
+    if (!finalPost?.postId)
+      throw abort('Post not found', meta)
+
+    await this.settings.fictionRevision.createRevision({
+      itemId: finalPost.postId,
+      itemType: 'post',
+      itemData: finalPost,
+      title: 'Draft autosave',
+      description: `Revision saved at ${dayjs().format('YYYY-MM-DD HH:mm:ss')}`,
+      orgId,
+      userId,
+    }, { skipTimeCheck: false }) // Use time limit for drafts
+
+    return { status: 'success', data: [finalPost] }
   }
 
   private async revertDraft(params: ManagePostParams & { _action: 'revertDraft' }, meta: EndpointMeta): Promise<EndpointResponse<TablePostConfig[]>> {
@@ -444,5 +495,65 @@ export class QueryManagePost extends PostsQuery {
     const r = await this.getPost({ _action: 'get', where: { orgId, ...where }, loadDraft: false }, { ...meta, caller: 'revertDraft' })
 
     return { status: 'success', message: 'Reverted to published version', data: r.data }
+  }
+
+  // Add restore from revision functionality
+  private async restoreFromRevision(params: ManagePostParams & { _action: 'restoreFromRevision' }, meta: EndpointMeta): Promise<ManagePostResponse> {
+    const { where, orgId, userId, revisionId } = params
+
+    if (!userId || !orgId)
+      throw abort('orgId and userId required', meta)
+
+    if (!revisionId)
+      throw abort('revisionId required', meta)
+
+    // Get revision data
+    const r = await this.settings.fictionRevision.getRevisionData({
+      revisionId,
+      orgId,
+      userId,
+      meta,
+    })
+
+    const revision = r.data
+    if (!revision)
+      return { status: 'error', message: 'Revision not found' }
+
+    // Validate revision matches post
+    const postId = where.postId
+    if (revision.itemType !== 'post' || revision.itemId !== postId) {
+      throw abort('Invalid revision for this post', meta)
+    }
+
+    // Create backup revision of current state
+    const currentPost = await this.getPost({
+      _action: 'get',
+      where,
+      orgId,
+      caller: 'restoreBackup',
+      loadDraft: false,
+    }, meta)
+
+    if (currentPost.data?.[0]) {
+      await this.settings.fictionRevision.createRevision({
+        itemId: postId,
+        itemType: 'post',
+        itemData: currentPost.data[0],
+        title: 'Pre-restore backup',
+        description: `Auto-created before restoring to revision ${revisionId}`,
+        orgId,
+        userId,
+      }, { skipTimeCheck: true })
+    }
+
+    // Restore post data
+    return this.updatePost({
+      _action: 'update',
+      where,
+      fields: revision.itemData as TablePostConfig,
+      orgId,
+      userId,
+      caller: 'restoreRevision',
+    }, meta)
   }
 }

@@ -272,7 +272,7 @@ describe('email send endpoint', async () => {
 
     const sendEmailToSubscriberSpy = vi.spyOn(manageSend, 'sendEmailToSubscriber')
 
-    const result = await manageSend.processCampaign(workingCampaigns[1])
+    const result = await manageSend.processCampaign(workingCampaigns[1], { server: true, isTest: true })
 
     workingCampaigns[1] = result.data![0]
 

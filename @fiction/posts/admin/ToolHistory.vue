@@ -1,56 +1,45 @@
 <script lang="ts" setup>
-import type { EditorTool, Handle } from '@fiction/admin'
-import type { Post } from '../post'
-import type { PostDraft } from '../schema'
+import type { AdminEditorController, EditorTool } from '@fiction/admin'
+import type { vue } from '@fiction/core'
+import type { InputOption } from '@fiction/ui'
+import type { Site } from '../../site'
+import type { ToolKeys } from './tools'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
-import ElToolBanner from '@fiction/admin/tools/ElToolBanner.vue'
-import ELToolHandle from '@fiction/admin/tools/ElToolHandle.vue'
-import { vue } from '@fiction/core'
+import { createOption } from '@fiction/ui'
+import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 
 const props = defineProps({
+  site: { type: Object as vue.PropType<Site>, required: true },
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
-  post: { type: Object as vue.PropType<Post>, required: true },
+  saveText: { type: String, default: 'Save' },
+  controller: { type: Object as vue.PropType<AdminEditorController<{ toolIds: ToolKeys }>>, required: true },
 })
 
-const handles = vue.computed<Handle[]>(() => {
-  const history = [] as PostDraft[]
+const options: InputOption[] = [
+  createOption({
+    key: 'post.revision',
+    label: 'Revision History',
+    input: 'group',
+    icon: { class: 'i-tabler-history' },
+    options: [
+      createOption({
+        key: 'group.revision',
+        label: 'Post Revisions',
+        input: 'group',
+        icon: { class: 'i-tabler-history' },
+        options: [
 
-  if (!Array.isArray(history))
-    return []
+        ],
+      }),
 
-  return history?.map((item) => {
-    return {
-      testId: `draft-${item.draftId}`,
-      handleId: item.draftId || '',
-      title: item.title || 'Untitled',
-      date: item.createdAt,
-      icon: 'i-tabler-file',
-      depth: 0,
-    }
-  })
-})
+    ],
+  }),
+
+]
 </script>
 
 <template>
-  <div>
-    <ElTool :tool>
-      <div class="p-4">
-        <ElToolBanner
-          v-if="handles.length === 0"
-          title="Draft History"
-          sub="Drafts of the post will show here"
-          :icon="tool.icon"
-        />
-        <template v-else>
-          <ELToolHandle
-            v-for="handle in handles"
-            :key="handle.handleId"
-            class="drag-handle"
-            :handle="handle"
-            :data-drag-id="handle.handleId"
-          />
-        </template>
-      </div>
-    </ElTool>
-  </div>
+  <ElTool v-bind="props">
+    <FormEngine state-key="revision" :options :input-props="{ site, tool }" />
+  </ElTool>
 </template>

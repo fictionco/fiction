@@ -2,6 +2,8 @@ import type { EditorTool } from '@fiction/admin'
 import { AdminEditorController } from '@fiction/admin'
 import { vue } from '@fiction/core'
 
+export type ToolKeys = 'history' | 'postSettings'
+
 export const tools = [
   {
     toolId: 'history',
@@ -19,7 +21,5 @@ export const tools = [
     el: vue.defineAsyncComponent(() => import('./ToolPostMain.vue')),
   },
 ] as const satisfies EditorTool[]
-
-export type ToolKeys = (typeof tools)[number]['toolId']
 
 export const postEditController = new AdminEditorController({ tools })

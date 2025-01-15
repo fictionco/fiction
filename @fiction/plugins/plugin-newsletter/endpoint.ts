@@ -3,7 +3,7 @@ import type { Subscriber } from '@fiction/plugin-subscribe'
 import type { ManageSubscriptionParams } from '@fiction/plugin-subscribe/endpoint'
 import type { FictionNewsletter, FictionNewsletterSettings } from '.'
 import type { EmailCampaignConfig } from './schema.js'
-import { applyComplexFilters, dayjs, deepMerge, objectId, Query } from '@fiction/core'
+import { abort, applyComplexFilters, dayjs, deepMerge, objectId, Query } from '@fiction/core'
 import { CronTool } from '@fiction/core/utils/cron'
 import { t } from './schema'
 import { getEmailForCampaign } from './utils'
@@ -20,16 +20,16 @@ abstract class SendEndpoint extends Query<SendEndpointSettings> {
 }
 
 export type WhereSend = { campaignId?: string }
-type StandardFields = { orgId: string, userId?: string, loadDraft?: boolean }
+type StandardFields = { orgId: string, userId: string, loadDraft?: boolean }
 
 export type ManageCampaignRequestParams =
   | { _action: 'create', fields: EmailCampaignConfig[] }
-  | { _action: 'update', where: WhereSend[], fields: Partial<EmailCampaignConfig> }
+  | { _action: 'update', where: WhereSend[], fields: Partial<EmailCampaignConfig>, orgId: string, userId: string }
   | { _action: 'delete', where: WhereSend[] }
   | { _action: 'list' } & IndexQuery
   | { _action: 'get', where: WhereSend, loadDraft?: boolean }
-  | { _action: 'send', where: WhereSend }
-  | { _action: 'saveDraft', where: WhereSend, fields: Partial<EmailCampaignConfig> }
+  | { _action: 'send', where: WhereSend, orgId: string, userId: string }
+  | { _action: 'saveDraft', where: WhereSend, fields: Partial<EmailCampaignConfig>, orgId: string, userId: string }
   | { _action: 'revertDraft', where: WhereSend }
   | { _action: 'sendTest', where: WhereSend, testEmails: string, maxEmails?: number }
 
@@ -166,7 +166,7 @@ export class ManageCampaign extends SendEndpoint {
 
       const [row] = await this.db().table(t.campaign).insert(insertData).returning('*')
 
-      const r2 = await this.get({ _action: 'get', orgId, where: { campaignId: row.campaignId } }, meta)
+      const r2 = await this.get({ _action: 'get', orgId, userId, where: { campaignId: row.campaignId } }, meta)
 
       const campaign = r2.data?.[0]
 
@@ -384,7 +384,7 @@ export class ManageCampaign extends SendEndpoint {
   }
 
   private async sendTest(params: ManageCampaignParams & { _action: 'sendTest' }, meta: EndpointMeta): Promise<ManageCampaignResponse> {
-    const { orgId, where, testEmails, maxEmails = 10 } = params
+    const { orgId, userId, where, testEmails, maxEmails = 10 } = params
     const { fictionUser, fictionEmail } = this.settings
 
     if (!where.campaignId) {
@@ -405,7 +405,7 @@ export class ManageCampaign extends SendEndpoint {
     }
 
     const [campaign, org] = await Promise.all([
-      this.get({ _action: 'get', orgId, where }, meta).then(r => r.data?.[0]),
+      this.get({ _action: 'get', orgId, userId, where }, meta).then(r => r.data?.[0]),
       fictionUser.queries.ManageOrganization.serve({ _action: 'retrieve', where: { orgId } }, { server: true }).then(r => r.data),
     ])
 
@@ -483,23 +483,23 @@ export class ManageSend extends SendEndpoint {
       .where('scheduledAt', '<=', now)
       .select<{ campaignId: string, orgId: string }[]>('*')
 
-    await Promise.all(requestedCampaigns.map(async c => this.processCampaign(c)))
+    await Promise.all(requestedCampaigns.map(async c => this.processCampaign(c, { server: true })))
   }
 
   // Method to process each email
-  async processCampaign(c: { campaignId?: string, orgId?: string }): Promise<ManageCampaignResponse & { emailsSent?: number }> {
+  async processCampaign(c: { campaignId?: string, orgId?: string, userId?: string }, meta: EndpointMeta): Promise<ManageCampaignResponse & { emailsSent?: number }> {
     const fictionUser = this.settings.fictionUser
     const fictionNewsletter = this.settings.fictionNewsletter
     const ManageCampaign = fictionNewsletter.queries.ManageCampaign
-    const { orgId, campaignId } = c
-    if (!orgId || !campaignId) {
-      throw new Error('Invalid campaign')
+    const { orgId, userId, campaignId } = c
+    if (!orgId || !campaignId || !userId) {
+      throw abort('orgId, campaignId, and userId are required', { ...meta, data: c })
     }
 
     let emailsSent = 0
     try {
       // Update email status to 'processing'
-      const r = await ManageCampaign.serve({ _action: 'update', where: [{ campaignId }], orgId, fields: { status: 'processing' } }, { server: true })
+      const r = await ManageCampaign.serve({ _action: 'update', where: [{ campaignId }], orgId, userId, fields: { status: 'processing' } }, { server: true })
 
       const campaignConfig = r.data?.[0]
 
@@ -546,7 +546,7 @@ export class ManageSend extends SendEndpoint {
 
       // Update email status to 'ready'
 
-      const r3 = await ManageCampaign.serve({ _action: 'update', orgId, where: [{ campaignId }], fields: { status: 'ready' } }, { server: true })
+      const r3 = await ManageCampaign.serve({ _action: 'update', orgId, userId, where: [{ campaignId }], fields: { status: 'ready' } }, { server: true })
 
       return { ...r3, emailsSent }
     }
@@ -555,7 +555,7 @@ export class ManageSend extends SendEndpoint {
       this.log.error(`Error processing campaign ${campaignId}:`, { error })
       // Optionally update status to 'failed' or handle retries
 
-      const r4 = await ManageCampaign.serve({ _action: 'update', where: [{ campaignId }], orgId, fields: { status: 'error' } }, { server: true })
+      const r4 = await ManageCampaign.serve({ _action: 'update', where: [{ campaignId }], orgId, userId, fields: { status: 'error' } }, { server: true })
 
       return { ...r4, emailsSent }
     }

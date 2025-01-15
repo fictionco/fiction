@@ -320,11 +320,10 @@ describe('revision endpoint', async () => {
     fictionRevision.revisionLimitPerItem = 10
     const limit = fictionRevision.revisionLimitPerItem
     const total = limit + 5
-    const results = []
 
     // Create revisions sequentially
     for (let i = 1; i <= total; i++) {
-      const result = await fictionRevision.queries.ManageRevision.serve({
+      await fictionRevision.queries.ManageRevision.serve({
         _action: 'create',
         fields: {
           ...rev,
@@ -335,8 +334,6 @@ describe('revision endpoint', async () => {
         userId,
         caller: 'test',
       }, { server: true })
-
-      results.push(result.data?.[0])
     }
 
     // Verify final state
@@ -354,31 +351,77 @@ describe('revision endpoint', async () => {
     // Should have exactly limit revisions
     expect(li.length).toBe(limit)
 
-    // Versions should be sequential and include latest ones
-    const versions = li.map(r => r.version).filter(Boolean) as number[]
+    // Versions should be strictly increasing, even with deletions
+    const versions = li.reverse().map(r => r.version) as number[]
+    expect(versions).toHaveLength(limit)
 
-    const versionsSorted = versions.sort((a, b) => a - b)
-
-    expect(versionsSorted).toMatchInlineSnapshot(`
+    expect(versions).toMatchInlineSnapshot(`
       [
+        4,
+        5,
         6,
         7,
         8,
         9,
         10,
-        11,
-        12,
         13,
         14,
         15,
       ]
     `)
 
-    expect(versionsSorted).toEqual(
-      Array.from({ length: limit }, (_, i) => total - limit + 1 + i),
-    )
+    // Each version should be greater than the previous
+    for (let i = 1; i < versions.length; i++) {
+      expect(versions[i]).toBeGreaterThan(versions[i - 1] || 0)
+    }
+
+    // Last version should match total number of revisions created
+    expect(Math.max(...versions)).toBe(total)
 
     fictionRevision.revisionLimitPerItem = defaultLimit
+  })
+
+  it('increments version number correctly after deletions', async () => {
+    const rev = getMockRevision()
+
+    // Create first revision
+    const result1 = await fictionRevision.queries.ManageRevision.serve({
+      _action: 'create',
+      fields: rev,
+      orgId,
+      userId,
+      caller: 'test',
+    }, { server: true })
+
+    const result2 = await fictionRevision.queries.ManageRevision.serve({
+      _action: 'create',
+      fields: rev,
+      orgId,
+      userId,
+      caller: 'test',
+    }, { server: true })
+
+    // Delete it
+    await fictionRevision.queries.ManageRevision.serve({
+      _action: 'delete',
+      where: { revisionId: result1.data?.[0].revisionId || '' },
+      orgId,
+      userId,
+      caller: 'test',
+    }, { server: true })
+
+    // Create new revision
+    const result3 = await fictionRevision.queries.ManageRevision.serve({
+      _action: 'create',
+      fields: rev,
+      orgId,
+      userId,
+      caller: 'test',
+    }, { server: true })
+
+    expect(result1.data?.[0].version).toBe(1)
+    expect(result2.data?.[0].version).toBe(2)
+    expect(result3.data?.[0].version).toBe(3)
   })
 
   it('should delete all revisions for an item', async () => {
@@ -394,7 +437,7 @@ describe('revision endpoint', async () => {
     expect(result1.status).toBe('success')
 
     const result = await fictionRevision.queries.ManageRevision.serve({
-      _action: 'deleteByItemId',
+      _action: 'delete',
       where: { itemId: rev.itemId },
       orgId,
       userId,

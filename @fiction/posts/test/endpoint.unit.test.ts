@@ -65,37 +65,37 @@ describe('post analytics tests', async () => {
       {
         "compare": [
           {
-            "date": "[datetime:****-**-*****:**:**.****]",
+            "date": "[datetime:TRUTHY]",
             "value": "10",
           },
         ],
         "compareTotals": {
-          "date": "[datetime:""]",
+          "date": "[datetime:FALSY]",
           "value": "10",
         },
         "main": [
           {
-            "date": "[datetime:****-**-*****:**:**.****]",
+            "date": "[datetime:TRUTHY]",
             "value": "10",
           },
         ],
         "mainTotals": {
-          "date": "[datetime:""]",
+          "date": "[datetime:FALSY]",
           "value": "10",
         },
         "params": {
-          "compareEndAtIso": "[datetime:****-**-*****:**:**.****]",
-          "compareStartAtIso": "[datetime:****-**-*****:**:**.****]",
+          "compareEndAtIso": "[datetime:TRUTHY]",
+          "compareStartAtIso": "[datetime:TRUTHY]",
           "event": [
             "contentTotalWordsPosts",
           ],
           "handling": "snapshot",
           "interval": "day",
-          "nowIso": "[datetime:****-**-*****:**:**.****]",
-          "orgId": "[id:***************************]",
-          "timeEndAtIso": "[datetime:****-**-*****:**:**.****]",
-          "timeStartAtIso": "[datetime:****-**-*****:**:**.****]",
-          "timeZone": "Europe/Madrid",
+          "nowIso": "[datetime:TRUTHY]",
+          "orgId": "[id:TRUTHY]",
+          "timeEndAtIso": "[datetime:TRUTHY]",
+          "timeStartAtIso": "[datetime:TRUTHY]",
+          "timeZone": "America/Denver",
         },
       }
     `)
@@ -117,6 +117,7 @@ describe('post analytics tests', async () => {
           content: 'Updated content with just six words',
         },
         orgId,
+        userId,
       }, { server: true })
     }
 
@@ -362,6 +363,7 @@ describe('post tests', async () => {
     const updateParams = {
       _action: 'update' as const,
       orgId,
+      userId,
       where: { postId: createdPost?.postId || '' },
       fields: {
         title: 'Updated First Post',
@@ -504,6 +506,7 @@ describe('post index tests', async () => {
       _action: 'deletePosts' as const,
       selectedIds: [createdPost?.postId || ''],
       orgId,
+      userId,
     }
 
     const deleteResult = await fictionPosts.queries.ManagePost.serve(deleteParams, { ...meta, caller: 'testDeleteSelectedPosts' })
@@ -574,6 +577,7 @@ describe('post crud tests', async () => {
     const update = {
       _action: 'update',
       orgId,
+      userId,
       where: { postId: createdPost?.postId || '' },
       fields: {
         title: 'Updated Post',
@@ -625,6 +629,7 @@ describe('post crud tests', async () => {
       where: { postId: createdPost?.postId || '' },
       fields: { ...createdPost, title: newTitle },
       orgId,
+      userId,
     } as const
 
     const r = await fictionPosts.queries.ManagePost.serve(draftParams, { ...meta, caller: 'testSaveDraft' })
