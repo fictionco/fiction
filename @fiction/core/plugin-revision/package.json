@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "@fiction/core": "workspace:*",
+    "@fiction/ui": "workspace:*"
+  },
+  "devDependencies": {
+  },
+  "license": "MIT",
+  "main": "index.ts",
+  "name": "@fiction/plugin-revision",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "version": "6.0.35"
+}

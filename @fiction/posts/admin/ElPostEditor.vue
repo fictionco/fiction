@@ -32,7 +32,7 @@ function handleUpdate(args: { key: 'title' | 'subTitle' | 'content', value: stri
   <div v-if="post">
     <div class="py-12 md:py-32 px-12 prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl xl:prose-2xl mx-auto focus:outline-none">
       <div class="flex gap-6 justify-between">
-        <div class="flex-grow not-prose space-y-4">
+        <div class="flex-grow not-prose space-y-4 dark:text-theme-0">
           <XText
             :model-value="post.title.value"
             tag="h1"
@@ -59,7 +59,7 @@ function handleUpdate(args: { key: 'title' | 'subTitle' | 'content', value: stri
       <div class="border-b border-theme-200 dark:border-theme-700 my-12" />
       <ProseEditor
         :model-value="post.content.value"
-        class="font-serif"
+        class="font-sans"
         :is-content-completion-disabled="post.userConfig.value?.isContentCompletionDisabled"
         :supplemental="{ title: post.title.value, subTitle: post.subTitle.value }"
         @update:model-value="handleUpdate({ key: 'content', value: $event as string, caller: 'proseEditor:content' })"
