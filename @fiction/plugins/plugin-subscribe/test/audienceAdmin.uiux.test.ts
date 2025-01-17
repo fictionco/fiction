@@ -38,7 +38,7 @@ describe('admin audience-subscribe', async () => {
         { type: 'click', selector: `[data-test-id="subscriber-status-modal-apply"]` },
         { type: 'click', selector: `[data-test-id="subscriber-tags-edit-button"]` },
         { type: 'fill', selector: `[data-option-path="tags"] input`, text: 'test 1, test 2' },
-        { type: 'click', selector: `[data-option-path="tags"] button` },
+        { type: 'keyboard', key: `Enter` },
         { type: 'click', selector: `[data-test-id="subscriber-tags-modal-apply"]` },
         { type: 'click', selector: `[data-test-id="subscriber-save-button"]`, waitAfter: 3000 },
         { type: 'value', selector: `[data-form-engine-depth="0"]`, onValue: (value) => {

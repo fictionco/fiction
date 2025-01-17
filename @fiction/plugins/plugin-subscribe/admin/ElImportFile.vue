@@ -107,11 +107,12 @@ async function importSubscribers() {
         message: `${changedCount} Subscribers imported successfully`,
       })
 
-      csvEmailList.value = []
-      rawTextEmailList.value = ''
       logger.info(`imported subscribers`, { data: emailList.value })
 
       await card.goto('/audience')
+
+      csvEmailList.value = []
+      rawTextEmailList.value = ''
     }
     else {
       step.value = 'import'
@@ -140,10 +141,10 @@ async function importSubscribers() {
       >
         <div v-if="step === 'submit'" class="space-y-6">
           <ElInput label="Review Information" sub-label="Here is what we'll be importing...">
-            <div class="p-8 rounded-md border border-theme-200 space-y-4">
+            <div class="p-8 rounded-md border border-theme-200 dark:border-theme-600/70 space-y-4">
               <div v-for="(item, i) in info" :key="i" class="flex flex-col ">
                 <div class="text-theme-500 font-normal text-sm">
-                  {{ item.name }}
+                  {{ item.label }}
                 </div>
                 <div class="font-semibold text-xl">
                   {{ item.value }}
