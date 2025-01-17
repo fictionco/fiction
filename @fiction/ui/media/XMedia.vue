@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { MediaObject } from '@fiction/core'
-import { determineMediaFormat, getGradientCss, log, vue, waitFor } from '@fiction/core'
+import { determineMediaFormat, getGradientCss, log, removeUndefined, vue, waitFor } from '@fiction/core'
 import * as bh from 'blurhash'
 import ClipPathAnim from '../anim/AnimClipPath.vue'
 
@@ -25,6 +25,9 @@ const logger = log.contextLogger('XMedia')
 
 const loading = vue.ref(true)
 const blurCanvas = vue.ref<HTMLCanvasElement>()
+const videoEl = vue.ref<HTMLVideoElement>()
+// used to clean up video listeners
+const cleanupFreeze = vue.ref<(() => void) | undefined>()
 
 const mediaFormat = vue.computed(() => {
   return determineMediaFormat(media)
@@ -87,6 +90,12 @@ vue.onMounted(() => {
   )
 })
 
+vue.onBeforeUnmount(() => {
+  if (cleanupFreeze.value) {
+    cleanupFreeze.value()
+  }
+})
+
 const attrs = vue.useAttrs()
 
 const cls = vue.computed(() => {
@@ -97,26 +106,20 @@ const cls = vue.computed(() => {
 const filters = vue.computed(() => media?.filters || [])
 
 const videoAttrs = vue.computed(() => {
-  const controls = media?.videoControls
-  if (!controls) {
-    return {
-      autoplay: true,
-      loop: true,
-      muted: true,
-      playsInline: true,
-    }
-  }
+  const controls = media?.videoControls || {}
 
-  return {
+  const out = removeUndefined({
     playbackRate: controls.playbackRate,
-    autoplay: controls.autoplay ?? true,
+    autoplay: controls.autoplay ?? (!controls.freeze?.playOnHover),
     loop: controls.loop ?? true,
     muted: controls.muted ?? true,
     controls: controls.controls,
     preload: controls.preload,
     poster: controls.poster,
     playsInline: controls.playsInline ?? true,
-  }
+  })
+
+  return out
 })
 
 const bgStyle = vue.computed(() => ({
@@ -170,6 +173,19 @@ const aspectClass = vue.computed(() => {
 
   return aspectMappings[aspect] || ''
 })
+
+function videoHover(args: { mode: 'enter' | 'leave' }) {
+  const { mode } = args
+  const el = videoEl.value
+  if (el && media?.videoControls?.freeze?.playOnHover) {
+    if (mode === 'enter') {
+      el.play()
+    }
+    else {
+      el.pause()
+    }
+  }
+}
 </script>
 
 <template>
@@ -218,11 +234,19 @@ const aspectClass = vue.computed(() => {
         />
         <video
           v-else-if="mediaFormat === 'video'"
-          class="inset-0 z-0"
-          :class="[imageClass, imageModeClass, inlineImage ? 'block w-full' : 'absolute h-full w-full']"
+          ref="videoEl"
+          class="inset-0 z-0 transition-opacity"
+          :class="[
+            imageClass,
+            imageModeClass,
+            inlineImage ? 'block w-full' : 'absolute h-full w-full',
+            media?.videoControls?.freeze?.playOnHover ? 'hover:opacity-90' : '',
+          ]"
           :src="media.url"
           :style="filterStyle"
           v-bind="videoAttrs"
+          @mouseenter="videoHover({ mode: 'enter' })"
+          @mouseleave="videoHover({ mode: 'leave' })"
         />
         <img
           v-else-if="mediaFormat === 'image' && media.url"
@@ -244,7 +268,7 @@ const aspectClass = vue.computed(() => {
     </div>
     <div
       v-if="media?.overlay"
-      class="absolute inset-[-1px] z-10"
+      class="absolute inset-[-1px] z-10 pointer-events-none"
       :style="overlayStyle"
     />
   </ClipPathAnim>

@@ -194,6 +194,10 @@ export const VideoControlsSchema = z.object({
   preload: z.enum(['none', 'metadata', 'auto']).optional(),
   poster: z.string().optional(),
   playsInline: z.boolean().optional(),
+  freeze: z.object({
+    time: z.number().optional().describe('Time in seconds to freeze video'),
+    playOnHover: z.boolean().optional().describe('Play on hover, freeze on blur'),
+  }).optional().describe('Video freeze settings'),
 }).describe('Video playback controls')
 
 // MediaDisplaySchema (extends MediaContent with display properties)

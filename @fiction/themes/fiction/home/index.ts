@@ -34,10 +34,10 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   rows: 3,
                   superTitle: {
                     icon: { class: 'i-tabler-rocket' },
-                    text: 'Personal Marketing for Leaders',
+                    text: 'Personal Marketing Platform for Leaders',
                   },
                   title: 'It all begins with your story...',
-                  content: 'Fiction transforms your story into an unforgettable brand. Build your dream website, grow your audience, and share your vision—all in one place.',
+                  content: 'Unlock the next level of success with an unforgettable personal brand. Build your dream website, grow your audience, and share your vision—all in one place.',
                   theme: 'blue',
                   themeMode: 'dark',
                   verticalPosition: 'bottom',
@@ -45,6 +45,9 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   bg: {
                     url: 'https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1733965053/replicate-prediction-wtfb2100xxrj00ckq1cb7s94hg_rhvr5g.mp4',
                     overlay: { opacity: 0.3 },
+                    videoControls: {
+                      freeze: { playOnHover: true },
+                    },
                   },
                   action: {
                     buttons: [

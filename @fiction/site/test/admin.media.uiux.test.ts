@@ -30,7 +30,8 @@ describe('admin site pages', async () => {
         { type: 'click', selector: `[data-test-id="typography.font"] #listbox-item-3` },
         { type: 'click', selector: `[data-test-id="radio-button-media"]` },
         { type: 'click', selector: `[data-test-id="media-select-button"]` },
-        { type: 'click', selector: `[data-test-id="library-modal"] [data-test-id="library-apply-changes"]` },
+        { type: 'fill', selector: `[data-test-id="media-upload-input"] input[type="text"]`, text: 'https://picsum.photos/id/237/200/300' },
+        { type: 'click', selector: `[data-test-id="media-apply"]` },
         { type: 'click', selector: `[data-test-id="radio-button-typography"]` },
         { type: 'frameInteraction', frameSelector: `#site-builder-iframe`, frameActions: [
           { type: 'hasText', selector: `[data-test-id="page-nav-logo"]`, text: logoText },

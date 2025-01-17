@@ -51,14 +51,14 @@ const gapClass = vue.computed(() => {
         :class="getGridStyle(item).class"
       >
         <div
-          class="relative h-full  flex flex-col z-10"
+          class="relative h-full  flex flex-col z-10 pointer-events-none"
           :style="[
             getPositionStyles(item),
             item.bg?.url ? getTextOverlayStyles(item) : {},
           ]"
         >
           <div
-            class="flex flex-col h-full"
+            class="flex flex-col h-full "
           >
             <div v-if="(!item.verticalPosition || item.verticalPosition !== 'top')" class="h-full">
               <XMedia
@@ -69,7 +69,7 @@ const gapClass = vue.computed(() => {
               />
             </div>
             <div class="px-6 py-8 @xs:px-8 @xs:py-10 @2xl:p-12 @4xl:p-16 space-y-6 ">
-              <div class="space-y-4 max-w-[650px]">
+              <div class="space-y-4 max-w-[650px] pointer-events-auto">
                 <SuperTitle
                   :card
                   :base-path="pathCheck(`items.${i}.superTitle`, schema)"
@@ -77,7 +77,7 @@ const gapClass = vue.computed(() => {
                   :theme="item.bg?.url ? 'overlay' : (item.theme || 'default')"
                 />
 
-                <div class="space-y-4 xl:space-y-6">
+                <div class="space-y-4 xl:space-y-6 ">
                   <CardText
                     v-if="item.title"
                     :card
@@ -100,6 +100,7 @@ const gapClass = vue.computed(() => {
 
               <CardActionArea
                 :card
+                class="pointer-events-auto"
                 :base-path="pathCheck(`items.${i}.action`, schema)"
                 :classes="{ buttons: 'flex gap-4' }"
                 design="outline"
@@ -127,14 +128,14 @@ const gapClass = vue.computed(() => {
 
         <div
           v-if="item.bg"
-          class="z-[5] absolute inset-0 mix-blend-multiply"
+          class="z-[5] absolute inset-0 mix-blend-multiply pointer-events-none"
           :style="getGradientStyle(item)"
         />
 
         <XMedia
           v-if="item.bg"
           :media="item.bg"
-          class="absolute inset-0 z-0"
+          class="absolute inset-0 z-0 pointer-events-auto"
           image-mode="cover"
         />
       </ClipPathAnim>

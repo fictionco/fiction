@@ -122,7 +122,7 @@ vue.onBeforeUnmount(() => {
   <div
     ref="carouselRef"
     class="carousel transition-opacity duration-700"
-    :class="loading ? 'opacity-0 min-h-[60vh]' : 'opacity-100'"
+    :class="loading ? 'opacity-0 min-h-[40vh]' : 'opacity-100'"
   >
     <slot
       v-for="(slide, index) in slides"

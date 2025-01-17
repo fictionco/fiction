@@ -64,7 +64,7 @@ const cls = vue.computed(() => twMerge('rounded-lg', props.wrapClass))
 
 const loaded = vue.ref(false)
 vue.onMounted(async () => {
-  await waitFor(2000)
+  await waitFor(3000)
   loaded.value = true
 })
 </script>

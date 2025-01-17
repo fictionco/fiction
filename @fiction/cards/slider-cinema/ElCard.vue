@@ -2,7 +2,7 @@
 import type { Card } from '@fiction/site'
 import type { UserConfig } from '.'
 import { getDotpathArrayIndices, pathCheck, vue } from '@fiction/core'
-import FlickityCarousel from '@fiction/ui/effect/EffectCarousel.vue'
+import EffectCarousel from '@fiction/ui/effect/EffectCarousel.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import CardText from '../CardText.vue'
 import CardActionArea from '../el/CardActionArea.vue'
@@ -47,7 +47,7 @@ const flickityOptions = vue.computed(() => ({
 
 <template>
   <div class="relative h-screen w-full overflow-hidden">
-    <FlickityCarousel
+    <EffectCarousel
       v-model:active-index="activeItem"
       :slides="mediaItems"
       :options="flickityOptions"
@@ -108,7 +108,7 @@ const flickityOptions = vue.computed(() => ({
           </div>
         </div>
       </template>
-    </FlickityCarousel>
+    </EffectCarousel>
 
     <NavDots
       v-model:active-item="activeItem"

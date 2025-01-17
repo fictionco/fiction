@@ -4,6 +4,7 @@ import type { UserConfig } from './index.js'
 import { vue } from '@fiction/core'
 import { useElementVisible } from '@fiction/ui/anim'
 import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
+import EffectCarousel from '@fiction/ui/effect/EffectCarousel.vue'
 import EffectFitText from '@fiction/ui/effect/EffectFitText.vue'
 import EffectGlare from '@fiction/ui/effect/EffectGlare.vue'
 import XIcon from '@fiction/ui/media/XIcon.vue'
@@ -30,6 +31,14 @@ vue.onMounted(async () => {
   await useElementVisible({ selector: `.minimal-profile`, onVisible: () => isVisible.value = true, caller: 'minimalProfile' })
 })
 
+// Flickity carousel options
+const flickityOptions = vue.computed(() => ({
+  dragThreshold: 20,
+  selectedAttraction: 0.2,
+  friction: 0.8,
+  autoPlay: false,
+}))
+
 const hoverClasses = 'group-hover/item:text-primary-600 dark:group-hover/item:text-primary-400 transition-colors'
 </script>
 
@@ -39,13 +48,26 @@ const hoverClasses = 'group-hover/item:text-primary-600 dark:group-hover/item:te
       <div class="lg:flex gap-10 md:gap-12 xl:gap-24" :class="uc.layout === 'right' ? 'md:flex-row-reverse' : ''">
         <div class="w-full max-w-sm xl:max-w-full xl:w-[50%] mb-8 ">
           <div class="relative">
-            <EffectGlare wrap-class="rounded-[20px]">
+            <EffectGlare class="rounded-[20px]">
               <AnimClipPath
                 caller="minimalProfile"
                 :animate="true"
-                class="aspect-[5/7] relative w-full overflow-x-auto snap-mandatory snap-x  flex no-scrollbar clip-path-anim"
+                class="aspect-[5/7] relative w-full overflow-hidden clip-path-anim"
               >
-                <XMedia v-for="(item, i) in mediaItems" :key="i" :media="item.media" class="relative slide w-full h-full snap-center shrink-0" />
+                <EffectCarousel
+                  v-model:active-index="activeItem"
+                  :slides="mediaItems || []"
+                  :options="flickityOptions"
+                  class="h-full w-full"
+                >
+                  <template #default="{ slide: item }">
+                    <XMedia
+                      :media="item.media"
+                      class="aspect-[5/7] w-full"
+                      image-mode="cover"
+                    />
+                  </template>
+                </EffectCarousel>
               </AnimClipPath>
             </EffectGlare>
             <NavDots
