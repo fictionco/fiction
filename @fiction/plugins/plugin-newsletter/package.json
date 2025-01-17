@@ -7,8 +7,8 @@
     "@fiction/posts": "workspace:*",
     "@fiction/site": "workspace:*",
     "@fiction/ui": "workspace:*",
-    "cron": "^3.3.2",
-    "cronstrue": "^2.52.0",
+    "cron": "^3.5.0",
+    "cronstrue": "^2.53.0",
     "vue": "^3.5.13"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",

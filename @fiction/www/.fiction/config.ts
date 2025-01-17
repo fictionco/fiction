@@ -69,6 +69,7 @@ export interface CompiledServiceConfig {
     | 'ManageOrganization'
     | 'ManagePage'
     | 'ManagePost'
+    | 'ManageRevision'
     | 'ManageSend'
     | 'ManageSite'
     | 'ManageSites'
@@ -160,16 +161,16 @@ export interface CompiledServiceConfig {
       | 'tags'
       | 'createdAt'
       | 'updatedAt'
-    fiction_taxonomy:
-      | 'taxonomyId'
-      | 'userId'
+    fiction_revisions:
+      | 'revisionId'
       | 'orgId'
+      | 'userId'
       | 'title'
-      | 'slug'
-      | 'type'
-      | 'context'
       | 'description'
-      | 'parentId'
+      | 'version'
+      | 'itemType'
+      | 'itemId'
+      | 'itemData'
       | 'priority'
       | 'createdAt'
       | 'updatedAt'
@@ -293,14 +294,6 @@ export interface CompiledServiceConfig {
       | 'importDetail'
       | 'createdAt'
       | 'updatedAt'
-    fiction_subscribe_taxonomy:
-      | 'subscriptionTaxonomyId'
-      | 'subscriptionId'
-      | 'taxonomyId'
-      | 'orgId'
-      | 'priority'
-      | 'createdAt'
-      | 'updatedAt'
     fiction_post:
       | 'postId'
       | 'userId'
@@ -325,7 +318,6 @@ export interface CompiledServiceConfig {
       | 'wordCount'
       | 'createdAt'
       | 'updatedAt'
-    fiction_post_taxonomy: 'postTaxonomyId' | 'postId' | 'taxonomyId' | 'orgId' | 'priority' | 'createdAt' | 'updatedAt'
     fiction_post_author: 'postAuthorId' | 'postId' | 'userId' | 'orgId' | 'priority' | 'createdAt' | 'updatedAt'
     fiction_post_site: 'postSiteId' | 'postId' | 'siteId' | 'orgId' | 'priority' | 'createdAt' | 'updatedAt'
     fiction_campaign:
@@ -348,7 +340,7 @@ export interface CompiledServiceConfig {
       | 'userConfig'
       | 'createdAt'
       | 'updatedAt'
-    fiction_brand: 'brandId' | 'orgId' | 'title' | 'description' | 'guide' | 'createdAt' | 'updatedAt'
+    fiction_brand: 'brandId' | 'orgId' | 'title' | 'description' | 'guide' | 'isPrimary' | 'createdAt' | 'updatedAt'
     [k: string]: unknown
   }
   [k: string]: unknown

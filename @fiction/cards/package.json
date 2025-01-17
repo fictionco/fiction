@@ -10,7 +10,7 @@
     "@fiction/ui": "workspace:*",
     "@types/mapbox-gl": "^3.4.1",
     "animejs": "^3.2.2",
-    "mapbox-gl": "^3.9.1",
+    "mapbox-gl": "^3.9.3",
     "tailwindcss": "^3.4.17",
     "vue": "^3.5.13"
   },

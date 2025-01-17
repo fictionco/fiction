@@ -2,7 +2,7 @@ import type { ColType } from '@fiction/core'
 
 import { Col, FictionDbTable, standardTable } from '@fiction/core'
 import { t as postTableNames } from '@fiction/posts'
-import { BrandGuideSchema, BrandGuideSchemaV3 } from './guideSchema'
+import { BrandGuideSchemaV3 } from './guideSchema'
 
 export const t = {
   ...standardTable,

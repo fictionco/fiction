@@ -1,5 +1,5 @@
-import type { FullRevisionConfig, TableRevisionConfig } from './tables'
-import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
+import type { TableRevisionConfig } from './tables'
+import { afterAll, describe, expect, it } from 'vitest'
 import { createTestUtils, testEnvFile } from '../test-utils'
 import { shortId } from '../utils'
 

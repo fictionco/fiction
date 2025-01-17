@@ -144,7 +144,7 @@ export function detectMultiClick({ count, interval, clicks, radius }: {
     for (let j = i + 1; j <= last; j++) {
       const distanceSquare
         = (clicks[i].event.clientX - clicks[j].event.clientX) ** 2
-        + (clicks[i].event.clientY - clicks[j].event.clientY) ** 2
+          + (clicks[i].event.clientY - clicks[j].event.clientY) ** 2
       if (distanceSquare > maxDistanceSquare)
         maxDistanceSquare = distanceSquare
       if (distanceSquare > radiusSquare)

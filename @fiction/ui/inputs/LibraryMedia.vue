@@ -45,6 +45,7 @@ const options: InputOption[] = [
     options: [
       createOption({
         key: '*',
+        testId: 'media-upload-input',
         input: 'InputMediaUpload',
         schema,
       }),

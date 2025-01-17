@@ -25,6 +25,10 @@
       "path": "/api/user/GetTopValues"
     },
     {
+      "key": "ManageRevision",
+      "path": "/api/revision/ManageRevision"
+    },
+    {
       "key": "CompiledMetrics",
       "path": "/api/analytics/CompiledMetrics"
     },

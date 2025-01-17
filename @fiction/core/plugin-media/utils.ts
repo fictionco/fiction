@@ -1,4 +1,4 @@
-import type { GradientSetting, ImageFilter } from '../schemas/schemas.js'
+import type { ImageFilter } from '../schemas/schemas.js'
 import type { FictionMedia, TableMediaConfig } from './index.js'
 import path from 'node:path'
 import process from 'node:process'

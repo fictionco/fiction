@@ -2,7 +2,6 @@ import type { ActionButton, ListItem, MediaObject } from '@fiction/core'
 import type { SchemaFields } from '@fiction/core/utils/schemas'
 import type { z } from 'zod'
 import { FictionObject, removeUndefined, vue } from '@fiction/core'
-import InputSiteRoute from './InputSiteRoute.vue'
 
 const def = vue.defineAsyncComponent
 

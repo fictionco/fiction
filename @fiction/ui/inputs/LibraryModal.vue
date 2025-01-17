@@ -124,6 +124,7 @@ function hasMedia() {
             <button
               v-for="tool in enabledTools"
               :key="tool.value"
+              :data-test-id="`media-tool-${tool.value}`"
               class="w-full px-4 py-2 rounded-lg text-left mb-1 flex items-center gap-2 transition-colors text-sm font-medium"
               :class="[
                 activeToolId === tool.value

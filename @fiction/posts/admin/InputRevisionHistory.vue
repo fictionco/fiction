@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-import type { AdminEditorController, EditorTool } from '@fiction/admin'
+import type { EditorTool } from '@fiction/admin'
 import type { Site } from '@fiction/site'
 import type { FictionPosts } from '..'
 import type { Post } from '../post'
-import type { ToolKeys } from './tools'
 import RevisionHistory from '@fiction/admin/el/RevisionHistory.vue'
 import { useService, type vue } from '@fiction/core'
 

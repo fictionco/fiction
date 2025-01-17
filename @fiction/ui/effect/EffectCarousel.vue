@@ -54,7 +54,7 @@ const flickityOptions = vue.computed<Flickity.Options>(() => ({
         // Check specifically for contenteditable="true"
         const isContentEditable
       = target?.closest?.('[contenteditable="true"]')
-      || target?.getAttribute?.('contenteditable') === 'true'
+        || target?.getAttribute?.('contenteditable') === 'true'
 
         if (isContentEditable) {
           flkty.options.draggable = false

@@ -1,12 +1,12 @@
 {
   "dependencies": {
-    "@ai-sdk/anthropic": "^1.0.6",
-    "@ai-sdk/openai": "^1.0.11",
+    "@ai-sdk/anthropic": "^1.1.0",
+    "@ai-sdk/openai": "^1.1.0",
     "@fiction/core": "workspace:*",
     "@fiction/plugin-unsplash": "workspace:*",
-    "@pinecone-database/pinecone": "^4.0.0",
-    "ai": "^4.0.22",
-    "openai": "^4.77.0",
+    "@pinecone-database/pinecone": "^4.1.0",
+    "ai": "^4.1.0",
+    "openai": "^4.79.0",
     "tailwindcss": "^3.4.17",
     "vue": "^3.5.13"
   },

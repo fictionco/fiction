@@ -1,11 +1,11 @@
 <script lang="ts" setup>
+import type { Card } from '@fiction/site'
 import type { FictionBrand } from '..'
 import type { BrandGuideArrayKeys, BrandGuideV3, BrandItem } from '../guideSchema'
 import type { TableBrand } from '../schema'
 import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
 import { type ActionArea, type ActionButton, type PostObject, useService, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save'
-import { type Card, t } from '@fiction/site'
 import { createOption } from '@fiction/ui'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import { BrandGuideSchemaV3 as schema } from '../guideSchema'

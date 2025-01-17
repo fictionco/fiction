@@ -1,5 +1,5 @@
+import type { EndpointMeta } from '@fiction/core'
 import type { TablePostConfig } from '../schema'
-import { dayjs, type EndpointMeta, omit } from '@fiction/core'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, describe, expect, it } from 'vitest'
 import { FictionPosts } from '..'

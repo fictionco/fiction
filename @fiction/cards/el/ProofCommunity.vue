@@ -2,7 +2,6 @@
 import { type ColorThemeUser, type StandardSize, vue } from '@fiction/core'
 import XNumber from '@fiction/ui/common/XNumber.vue'
 import { createStockMediaHandler } from '@fiction/ui/stock'
-import { themes } from '@fiction/ui/utils/themes'
 
 const {
   count = 10000,

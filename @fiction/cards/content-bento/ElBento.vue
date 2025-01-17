@@ -9,7 +9,6 @@ import CardActionArea from '../el/CardActionArea.vue'
 import SuperTitle from '../el/SuperTitle.vue'
 import { schema } from './config'
 import {
-  getContentMaxWidth,
   getContentStyles,
   getGradientStyle,
   getGridStyle,

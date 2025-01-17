@@ -2,7 +2,7 @@
 import type { NavListItem } from '@fiction/core'
 import type { Site } from '@fiction/site/site.js'
 import type { InputOption, InputProps } from './index.js'
-import { NavListItemSchema as schema, vue } from '@fiction/core'
+import { NavListItemSchema as schema } from '@fiction/core'
 import FormEngine from './FormEngine.vue'
 import { createOption } from './index.js'
 

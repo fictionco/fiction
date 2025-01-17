@@ -1,4 +1,3 @@
-import type { type } from 'node:os'
 import type { OnboardStoredSettings, OrganizationConfig, OrganizationCustomerData, OrganizationLegal, Plan, Publication, PushSubscriptionDetail, SocialAccounts, StreetAddress, UserCompany } from './types.js'
 import { z } from 'zod'
 import { Col, FictionDbTable } from '../plugin-db/index.js'

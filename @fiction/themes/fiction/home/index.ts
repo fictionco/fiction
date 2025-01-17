@@ -1,6 +1,4 @@
 import type { template as bentoTemplate } from '@fiction/cards/content-bento/index.js'
-import type { template as featuresTemplate } from '@fiction/cards/content-features'
-import type { template as heroTemplate } from '@fiction/cards/content-hero'
 import type { template as marqueeTemplate } from '@fiction/cards/media-marquee/index.js'
 import type { template as wrapTemplate } from '@fiction/cards/page-wrap/index.js'
 import type { template as logosTemplate } from '@fiction/cards/proof-logos/index'

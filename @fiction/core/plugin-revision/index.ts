@@ -6,7 +6,7 @@ import type { EndpointMeta } from '../utils/endpoint.js'
 import { FictionPlugin, type FictionPluginSettings } from '../plugin.js'
 import { safeDirname } from '../utils/utils.js'
 import { ManageRevision } from './endpoint.js'
-import { type FullRevisionConfig, type RevisionType, type TableRevisionConfig, tables } from './tables.js'
+import { type FullRevisionConfig, type TableRevisionConfig, tables } from './tables.js'
 
 export type FictionRevisionSettings = {
   fictionDb: FictionDb
