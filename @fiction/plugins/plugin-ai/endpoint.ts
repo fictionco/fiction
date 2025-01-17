@@ -201,7 +201,7 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
       // const _prompt = [
       //   `Prompt: ${search}`,
       //   `Format: ${description || 'none'}`,
-      //   `Contraints: make SURE the image has no text, logos, or watermarks on it.`,
+      //   `Constraints: make SURE the image has no text, logos, or watermarks on it.`,
       //   `Style: ${objectives.imageStyle}.`,
 
       // ].filter(Boolean).join('\n')

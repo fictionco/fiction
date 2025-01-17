@@ -234,7 +234,7 @@ const options = vue.computed(() => {
     // Brand Identity
     createBrandSection({
       key: 'personality',
-      label: 'Brand Personality',
+      label: 'Traits and Personality',
       icon: 'i-tabler-user-circle',
       description: 'Core traits and characteristics',
       examplePrompt: 'Role models or examples that embody these traits...',
@@ -243,28 +243,28 @@ const options = vue.computed(() => {
     // Content Strategy
     createBrandSection({
       key: 'pillars',
-      label: 'Content Pillars',
+      label: 'Content Focus',
       icon: 'i-tabler-layout-columns',
       subLabel: 'Core themes',
       description: 'Core themes',
       examplePrompt: 'Content that exemplifies this theme...',
     }),
 
-    createBrandSection({
-      key: 'audience',
-      label: 'Target Audience',
-      icon: 'i-tabler-users',
-      description: 'Who you serve',
-      examplePrompt: 'Real examples of this audience...',
-    }),
+    // createBrandSection({
+    //   key: 'audience',
+    //   label: 'Target Audience',
+    //   icon: 'i-tabler-users',
+    //   description: 'Who you serve',
+    //   examplePrompt: 'Real examples of this audience...',
+    // }),
 
-    createBrandSection({
-      key: 'constraints',
-      label: 'Contraints',
-      icon: 'i-tabler-shield-x',
-      description: 'What to avoid',
-      examplePrompt: 'Specific examples to avoid...',
-    }),
+    // createBrandSection({
+    //   key: 'constraints',
+    //   label: 'Constraints',
+    //   icon: 'i-tabler-shield-x',
+    //   description: 'What to avoid',
+    //   examplePrompt: 'Specific examples to avoid...',
+    // }),
 
     // Visual Identity
     createOption({
@@ -282,20 +282,8 @@ const options = vue.computed(() => {
           schema,
           key: 'colors.primary',
           label: 'Primary Color',
-          input: 'InputColor',
+          input: 'InputColorTheme',
           isRequired: true,
-        }),
-        createOption({
-          schema,
-          key: 'colors.secondary',
-          label: 'Secondary Color',
-          input: 'InputColor',
-        }),
-        createOption({
-          schema,
-          key: 'colors.accent',
-          label: 'Accent Color',
-          input: 'InputColor',
         }),
       ],
     }),

@@ -18,7 +18,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
     title: 'Home',
     userConfig: {
       site: {
-        title: 'Fiction - Personal Branding Platform',
+        title: 'Fiction - Personal Marketing Platform',
         description: 'Transform your expertise into influence using Fiction\'s AI-powered personal branding platform. Create authentic content, grow your audience, and build authority - all guided by intelligent automation.',
       },
     },
@@ -39,13 +39,13 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                     text: 'Personal Marketing for Leaders',
                   },
                   title: 'It all begins with your story...',
-                  content: 'Fiction is an elite personal marketing engine and content creation platform that helps you build influence.',
+                  content: 'Fiction transforms your story into an unforgettable brand. Build your dream website, grow your audience, and share your vision—all in one place.',
                   theme: 'blue',
                   themeMode: 'dark',
                   verticalPosition: 'bottom',
                   horizontalPosition: 'left',
                   bg: {
-                    ...stock.getRandomByTags(['aspect:landscape']),
+                    url: 'https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1733965053/replicate-prediction-wtfb2100xxrj00ckq1cb7s94hg_rhvr5g.mp4',
                     overlay: { opacity: 0.3 },
                   },
                   action: {
@@ -53,13 +53,66 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                       {
                         label: 'Create Account',
                         href: '/app?_reload=1',
-                        theme: 'primary',
+                        theme: 'overlay',
                         icon: 'i-tabler-user-circle',
                         design: 'solid',
-                        size: 'lg',
+                        size: 'xl',
+                      },
+                      {
+                        label: 'Learn More',
+                        href: '/tour',
+                        theme: 'overlay',
+                        icon: 'i-tabler-rocket',
+                        design: 'outline',
+                        size: 'xl',
                       },
                     ],
                   },
+                },
+                {
+                  cols: 4,
+                  rows: 2,
+                  superTitle: {
+                    icon: { class: 'i-tabler-rocket' },
+                    text: 'Own Your Brand',
+                  },
+                  title: 'Websites That Speak You',
+                  content: 'Your story deserves a home that reflects your voice. Fiction crafts stunning personal websites with effortless customization.',
+                  theme: 'orange',
+                  themeMode: 'dark',
+                  verticalPosition: 'bottom',
+                  horizontalPosition: 'left',
+
+                },
+                {
+                  cols: 4,
+                  rows: 2,
+                  superTitle: {
+                    icon: { class: 'i-tabler-mail' },
+                    text: 'Capture & Connect',
+                  },
+                  title: 'Newsletters That Spark Action',
+                  content: 'Engage your audience with every send. Fiction helps you build your email list and deliver newsletters that captivate.',
+                  theme: 'blue',
+                  themeMode: 'dark',
+                  verticalPosition: 'bottom',
+                  horizontalPosition: 'left',
+
+                },
+                {
+                  cols: 4,
+                  rows: 2,
+                  superTitle: {
+                    icon: { class: 'i-tabler-bolt' },
+                    text: 'Powered by AI',
+                  },
+                  title: 'Content Creation Made Effortless',
+                  content: 'Stuck on words? Use AI tools to unlock creativity. Craft content that inspires, informs, and converts.',
+                  theme: 'green',
+                  themeMode: 'dark',
+                  verticalPosition: 'bottom',
+                  horizontalPosition: 'left',
+
                 },
               ],
             },
@@ -71,13 +124,13 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
               items: [
                 {
                   title: 'Master Every Area of Your Life',
-                  content: `Close the gap between where you are and where you want to be with a scientifically proven system.`,
+                  content: `Close the gap between where you are and where you want to be with a proven growth platform.`,
                 },
               ],
               standard: {
                 spaceSize: 'sm',
                 background: {
-                  backgroundColor: '#666666',
+
                 },
               },
             },
@@ -86,12 +139,6 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
           await factory.fromTemplate<typeof marqueeTemplate>({
             templateId: 'cardMarqueeV1',
             userConfig: {
-              standard: {
-                headers: {
-                  title: 'Featured Clients',
-                  subTitle: 'Leaders who trust Fiction',
-                },
-              },
               items: [
                 {
                   title: 'Andrew Powers',
@@ -159,44 +206,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
               ],
             },
           }),
-          await factory.fromTemplate<typeof featuresTemplate>({
-            templateId: 'cardFeaturesV1',
-            userConfig: {
-              standard: {
-                headers: {
-                  title: 'Signature Performances',
-                  subTitle: 'Curated magical experiences for discerning audiences',
-                  layout: 'left',
-                },
-              },
-              items: [
-                {
-                  title: 'Corporate Illusions',
-                  description: 'Elevate your corporate message through sophisticated deception. From product reveals to brand storytelling, we transform business objectives into moments of astonishment.',
-                  icon: { iconId: 'briefcase' },
-                  color: 'blue',
-                  columns: '2',
-                },
-                {
-                  title: 'Creative Direction',
-                  description: 'Behind the scenes of television\'s most captivating illusions. Bringing magical authenticity to productions like Netflix\'s "The Magicians" and Broadway\'s "The Prestige".',
-                  icon: { iconId: 'bulb' },
-                  color: 'emerald',
-                  columns: '2',
-                },
-                {
-                  title: 'Private Exhibitions',
-                  description: 'Intimate performances crafted for distinguished gatherings. Specializing in high-society events where every detail is an opportunity for wonder.',
-                  icon: { iconId: 'users' },
-                  color: 'indigo',
-                  columns: '2',
-                },
-              ],
-              style: {
-                iconStyle: 'solid',
-              },
-            },
-          }),
+
           await factory.fromTemplate<typeof logosTemplate>({
             templateId: 'cardLogosV1',
             userConfig: {
