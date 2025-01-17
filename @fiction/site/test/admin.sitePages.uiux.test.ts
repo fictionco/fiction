@@ -29,6 +29,7 @@ describe('admin site pages', async () => {
         { type: 'click', selector: `[data-test-id="requestCreateNewPage"] button` },
         { type: 'visible', selector: `[data-test-id="page-new-page-${slugId}"]` },
         { type: 'click', selector: `[data-test-id="tool-button-managePages"]` },
+        { type: 'click', selector: `[data-test-id="tool-button-managePages"]` },
         { type: 'click', selector: `[data-test-id="page-new-page-${slugId}"]` },
         { type: 'fill', selector: `[data-test-id="page-seo-title"] input`, text: `test seo title` },
         { type: 'fill', selector: `[data-test-id="page-seo-description"] textarea`, text: `test seo description` },
