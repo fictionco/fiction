@@ -49,12 +49,11 @@ function toggleSelected(themeId: string) {
         class="relative space-y-4 cursor-pointer screen rounded-lg group   transition-all  select-none dark:ring-offset-theme-900 aspect-[3/4] ring-4 ring-offset-4 border border-theme-200/70 dark:border-theme-600/50"
         :class="modelValue === theme.themeId ? 'ring-primary-500' : 'ring-theme-200/0 dark:ring-theme-700/0 hover:ring-primary-400'"
 
+        :data-test-id="`theme-${theme.themeId}`"
+        :data-test-index="i"
         @click.stop="toggleSelected(theme.themeId)"
       >
-        <div
-          :data-test-id="`theme-${theme.themeId}`"
-          :data-test-index="i"
-        >
+        <div>
           <img :src="theme.settings.screenshots?.dark?.desktop" class="pointer-events-none shadow-xl rounded-lg object-cover absolute object-top h-full w-full">
         </div>
         <div
