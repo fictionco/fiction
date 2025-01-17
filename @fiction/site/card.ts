@@ -2,6 +2,7 @@ import type { colorTheme, Query, vueRouter } from '@fiction/core'
 import type { InputOption } from '@fiction/ui'
 import type { CardQuerySettings } from './cardQuery.js'
 import type { CardClassification } from './classification.js'
+import type { SiteContentPath } from './load.js'
 import type { CardOptionsWithStandard, SiteUserConfig } from './schema.js'
 import type { Site } from './site.js'
 import type { CardConfigPortable, TableCardConfig } from './tables.js'
@@ -88,9 +89,8 @@ interface CardTemplateSettings<
   onSiteLoad?: (args: { site: Site }) => void
   getConfig?: (args: ConfigArgs) => Promise<ConfigResponse<S>>
   getBaseConfig?: (args: CardSettings<CardTemplateUserConfigAll<S>>) => CardTemplateUserConfigAll<S>
-
   getQueries?: (args: CardQuerySettings) => CardTemplateSurface<S>[ 'queries' ]
-  getSitemapPaths?: (args: { site: Site, card: Card<CardTemplateUserConfigAll<S>>, pagePath: string }) => Promise<string[]>
+  getContentPaths?: (args: { site: Site, card: Card<CardTemplateUserConfigAll<S>>, viewPath: string }) => Promise<SiteContentPath[]>
   isDetached?: (args: { card: Card<CardTemplateUserConfigAll<S>> }) => boolean
 }
 
@@ -433,23 +433,3 @@ export class Card<
     })
   }
 }
-
-/**
- * Special Types
- */
-// type CreateTuple<T extends readonly CardTemplate[]> = {
-//   [P in keyof T]: T[P] extends CardTemplate<infer S> ? [S['templateId'], S['userConfig'] ] : never
-// }[number]
-
-// type TupleToObject<T extends [string, any]> = {
-//   [P in T[0]]: T extends [P, infer B] ? B : never
-// }
-
-// export type TemplateUserConfigMap<T extends readonly CardTemplate[]> = TupleToObject<CreateTuple<T>>
-
-// export type ExtractComponentUserConfig<T extends ComponentConstructor> = InstanceType<T> extends { $props: { card: { userConfig: infer B } } } ? vue.UnwrapRef<B> & SiteUserConfig : never
-
-// export type ExtractCardTemplateUserConfig<T extends CardTemplate<any >> =
-//     T extends CardTemplate<infer S> ?
-//       S extends new (...args: any[]) => { $props: { card: { userConfig: infer B } } } ? vue.UnwrapRef<B> & SiteUserConfig : never
-//       : never

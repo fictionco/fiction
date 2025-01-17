@@ -1,5 +1,6 @@
 import { safeDirname, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site'
+import { getPostPaths } from './utils'
 
 export const templateId = 'cardPostsMagazineV1'
 
@@ -20,6 +21,12 @@ export const template = cardTemplate({
   getConfig: async (args) => {
     const { getConfig } = await import('./config')
     return getConfig({ ...args, templateId })
+  },
+  getContentPaths: async ({ site, card, viewPath }) => {
+    const posts = card.userConfig.value.posts
+    if (!posts)
+      return []
+    return getPostPaths({ site, card, viewPath, posts })
   },
 })
 

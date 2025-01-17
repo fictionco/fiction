@@ -221,7 +221,6 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     tempPage: {},
     tempSite: {},
     isDirty: false,
-
     ...this.settings.editor,
   })
 

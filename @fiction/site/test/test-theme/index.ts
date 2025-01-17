@@ -34,18 +34,19 @@ export const theme = new Theme({
         getConfig: async () => {
           return {
             schema: z.object({
-              posts: z.array(z.object({
-                slug: z.string(),
-                title: z.string(),
-                content: z.string(),
-              })),
+              posts: z.array(z.object({ slug: z.string(), title: z.string(), content: z.string() })),
             }),
           }
         },
 
-        getSitemapPaths: async ({ card, pagePath }) => {
+        getContentPaths: async ({ card, viewPath }) => {
           const posts = card.userConfig.value.posts || []
-          return posts.map(post => `${pagePath}/${post.slug}`)
+          return posts.map((post) => {
+            return {
+              type: 'post',
+              path: `${viewPath}/${post.slug}`,
+            }
+          })
         },
       }),
     ]

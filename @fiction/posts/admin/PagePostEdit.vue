@@ -38,7 +38,7 @@ async function publish(mode: 'publish' | 'schedule' = 'publish') {
   // min 1 second for UX reasons
   await waitFor(500)
 
-  await post.value.save({ mode })
+  await post.value.save({ mode, caller: 'publishButton' })
 
   sending.value = ''
   vis.value = false
@@ -115,6 +115,7 @@ async function resetToPublished() {
           data-test-id="draft-control-dropdown"
         />
         <XButton
+          v-if="post?.hasChanges.value || post?.isDirty.value"
           theme="primary"
           :loading="sending === 'publish'"
           class="min-w-36"
@@ -124,6 +125,19 @@ async function resetToPublished() {
           @click.stop.prevent="publish()"
         >
           Publish Changes
+        </XButton>
+        <XButton
+          v-else
+          theme="primary"
+          design="outline"
+          :loading="sending === 'publish'"
+          class="min-w-36"
+          icon="i-tabler-check"
+          size="md"
+          data-test-id="changes-published-button"
+          @click.stop.prevent="publish()"
+        >
+          Changes Published
         </XButton>
       </template>
       <template #default>

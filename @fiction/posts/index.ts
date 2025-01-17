@@ -11,6 +11,8 @@ import { tables } from './schema'
 import { createHelloWorldPost } from './utils/index.js'
 import { getWidgets } from './widgets'
 
+export * from './post'
+
 export type FictionPostsSettings = {
   fictionUser: FictionUser
   fictionServer: FictionServer
@@ -20,8 +22,8 @@ export type FictionPostsSettings = {
   fictionRevision: FictionRevision
 } & FictionPluginSettings
 
-export * from './post'
 export * from './schema'
+export * from './types'
 export * from './utils/index.js'
 export * from './utils/links.js'
 

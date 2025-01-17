@@ -96,14 +96,15 @@ export class Post extends FictionObject<PostConfig> {
     this.clearAutosave()
 
     this.saveTimeout = setTimeout(() => {
-      this.save({ mode: 'draft' }).catch(console.error) // Error handling
+      this.save({ mode: 'draft', caller: 'autosave' }).catch(console.error) // Error handling
     }, 2000) // Set a new timeout for 2 seconds
   }
 
-  async save(args: { mode: 'publish' | 'draft' | 'schedule', publishAt?: string }) {
-    const { mode = 'draft' } = args
+  async save(args: { mode: 'publish' | 'draft' | 'schedule', publishAt?: string, caller: string }) {
+    const { mode = 'draft', caller = 'unknown caller' } = args
     this.log.info(`Saving post: ${mode}`)
-    const _action = mode === 'publish' ? 'update' : 'saveDraft'
+    const _action = mode === 'draft' ? 'saveDraft' : 'update'
+    this.hasChanges.value = mode === 'draft'
 
     const fields = mode === 'publish'
       ? { ...this.toConfig() } as const
@@ -116,7 +117,7 @@ export class Post extends FictionObject<PostConfig> {
     const p = await managePost({ fictionPosts: this.settings.fictionPosts, params, caller: 'savePost' })
 
     if (mode !== 'draft')
-      this.update(p?.toConfig() || {}, { caller: 'savePost' })
+      this.update(p?.toConfig() || {}, { caller: 'savePost', noSave: true })
 
     this.isDirty.value = false
   }

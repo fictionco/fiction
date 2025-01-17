@@ -463,8 +463,7 @@ export const PostHandlingSchema = z.object({
   limit: z.number().optional().describe('Max posts to show'),
   offset: z.number().optional().describe('Number of posts to skip'),
   entries: z.array(PostSchema).optional().describe('Local post entries [ai]'),
-  query: GlobalQuerySchema.optional()
-    .describe('Filter and sort options [ai]'),
+  query: GlobalQuerySchema.optional().describe('Filter and sort options [ai]'),
   viewSlug: z.string().optional().describe('Base URL for posts'),
 })
 

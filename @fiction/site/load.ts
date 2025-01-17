@@ -299,21 +299,44 @@ function formatPath(basePath: string, path: string): string {
   return out || '/'
 }
 
+export type SiteContentPath = {
+  path: string
+  type: 'post' | 'page' | 'item'
+}
+
+export async function getSiteContentPaths(site: Site): Promise<SiteContentPath[]> {
+  if (!site?.pages?.value)
+    return []
+
+  const pagePathPromises = site.pages.value
+    .filter(page => page.slug.value && page.slug.value !== '_404' && !page.slug.value.startsWith('__'))
+    .map(async (page) => {
+      const pagePath = page.slug.value === '_home' ? '/' : `/${page.slug.value}`
+      const viewPath = pagePath === '/' ? '/_' : pagePath
+
+      const cardPathPromises = page.cards.value
+        .filter(card => card.tpl.value?.settings.getContentPaths)
+        .map(async card => card.tpl.value?.settings.getContentPaths?.({ site, card, viewPath }) || [])
+
+      const cardPaths = (await Promise.all(cardPathPromises)).flat()
+
+      return [
+        { type: 'page' as const, path: pagePath },
+        ...cardPaths,
+      ]
+    })
+
+  const allPaths = (await Promise.all(pagePathPromises)).flat()
+
+  return allPaths
+}
+
 export async function getSitemapPathsFromSite(site: Site, basePath: string = ''): Promise<string[]> {
   if (!site?.pages?.value)
     return []
 
-  const pagePathPromises = site.pages.value.filter(page => page.slug.value && page.slug.value !== '_404' && !page.slug.value.startsWith('__')).map(async (page) => {
-    const pagePath = page.slug.value === '_home' ? '/' : `/${page.slug.value}`
-    const cardPathPromises = page.cards.value.filter(card => card.tpl.value?.settings.getSitemapPaths).map(async card => card.tpl.value?.settings.getSitemapPaths?.({ site, card, pagePath }) || [])
-    const cardPaths = (await Promise.all(cardPathPromises)).flat()
-
-    return [pagePath, ...cardPaths]
-  })
-
-  const allPaths = (await Promise.all(pagePathPromises)).flat()
-
-  return allPaths.map(path => formatPath(basePath, path))
+  const contentPaths = await getSiteContentPaths(site)
+  return contentPaths.map(contentPath => formatPath(basePath, contentPath.path))
 }
 
 export async function loadSitemap(args: { mode: 'static' | 'dynamic', runVars?: Partial<RunVars>, fictionRouter: FictionRouter, fictionSites: FictionSites }): Promise<{ hostname: string, paths: string[] }> {
