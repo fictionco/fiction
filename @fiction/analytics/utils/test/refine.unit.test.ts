@@ -33,7 +33,7 @@ describe('refineComparedData', () => {
     })
 
     // Main period should carry forward values
-    expect(result.main?.map(d => ({ date: dayjs(d.date).format('MM-DD'), value: d.followers }))).toEqual([
+    expect(result.main?.map(d => ({ date: dayjs(d.date).utc().format('MM-DD'), value: d.followers }))).toEqual([
       { date: '06-01', value: 100 }, // Initial value
       { date: '06-02', value: 100 }, // Carried forward
       { date: '06-03', value: 150 }, // New value
@@ -42,7 +42,7 @@ describe('refineComparedData', () => {
     ])
 
     // Compare period should also carry forward values
-    expect(result.compare?.map(d => ({ date: dayjs(d.date).format('MM-DD'), value: d.followers }))).toEqual([
+    expect(result.compare?.map(d => ({ date: dayjs(d.date).utc().format('MM-DD'), value: d.followers }))).toEqual([
       { date: '05-25', value: 50 }, // Initial value
       { date: '05-26', value: 50 }, // Carried forward
       { date: '05-27', value: 75 }, // New value
@@ -70,10 +70,40 @@ describe('refineComparedData', () => {
     })
 
     const mainPoints = result.main?.map(d => ({
-      date: dayjs(d.date).format('MM-DD'),
+      date: dayjs(d.date).utc().format('MM-DD'),
       followers: d.followers,
       views: d.views,
     }))
+
+    expect(mainPoints).toMatchInlineSnapshot(`
+      [
+        {
+          "date": "06-01",
+          "followers": 100,
+          "views": 50,
+        },
+        {
+          "date": "06-02",
+          "followers": 100,
+          "views": 0,
+        },
+        {
+          "date": "06-03",
+          "followers": 150,
+          "views": 30,
+        },
+        {
+          "date": "06-04",
+          "followers": 150,
+          "views": 0,
+        },
+        {
+          "date": "06-05",
+          "followers": 150,
+          "views": 0,
+        },
+      ]
+    `)
 
     // Verify followers (snapshot) carries forward but views (increment) resets
     expect(mainPoints).toEqual([

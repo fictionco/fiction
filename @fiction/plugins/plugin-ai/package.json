@@ -6,7 +6,7 @@
     "@fiction/plugin-unsplash": "workspace:*",
     "@pinecone-database/pinecone": "^4.1.0",
     "ai": "^4.1.0",
-    "openai": "^4.79.0",
+    "openai": "^4.79.1",
     "tailwindcss": "^3.4.17",
     "vue": "^3.5.13"
   },
