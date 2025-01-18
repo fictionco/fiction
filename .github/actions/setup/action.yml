@@ -1,0 +1,54 @@
+name: Setup Environment
+description: Sets up Node, pnpm, Docker and databases
+
+inputs:
+  setup-playwright:
+    description: Whether to setup Playwright
+    required: false
+    default: 'false'
+
+runs:
+  using: composite
+  steps:
+    - uses: pnpm/action-setup@v4
+      with:
+        version: 9.15.2
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 23.5.0
+        cache: pnpm
+
+    - name: Setup pnpm cache
+      uses: actions/cache@v4
+      with:
+        path: $(pnpm store path --silent)
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
+
+    - name: Install Dependencies
+      shell: bash
+      run: pnpm i && pnpm rebuild --recursive
+
+    - name: Cache node_modules
+      uses: actions/cache@v4
+      with:
+        path: |
+          node_modules
+          */*/node_modules
+        key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
+
+    - name: Setup Playwright
+      if: inputs.setup-playwright == 'true'
+      shell: bash
+      run: |
+        npx playwright install
+        npx playwright install --with-deps
+
+    - name: Setup Docker and DB
+      shell: bash
+      run: |
+        docker compose -f ./docker/docker-compose.yml pull
+        docker compose -f ./docker/docker-compose.yml up --build -d
+        npm -w @fiction/www exec -- fiction run generate

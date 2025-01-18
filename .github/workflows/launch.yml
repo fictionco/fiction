@@ -1,0 +1,111 @@
+name: LAUNCH
+
+on:
+  push:
+    branches: [dev]
+  workflow_dispatch:
+    inputs:
+      cmd:
+        description: Command
+        required: true
+        type: choice
+        options: [deploy, test]
+      tags:
+        description: Tags
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  issues: write
+
+env:
+  CI: true
+  # [Your existing env vars...]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      should-deploy: ${{ contains(github.event.head_commit.message, '-d') }}
+      should-release: ${{ contains(github.event.head_commit.message, '-r') }}
+      should-skip: ${{ contains(github.event.head_commit.message, 'skip') }}
+    steps:
+      - run: echo "Checking deployment flags"
+
+  test:
+    needs: check
+    if: ${{ !needs.check.outputs.should-skip }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        suite: [type-check, basic, integration, e2e, build, dist]
+        include:
+          - suite: type-check
+            cmd: npm run types:ci
+          - suite: basic
+            cmd: |
+              npm exec -- vitest run debug -u --passWithNoTests
+              npm exec -- vitest run aix -u --passWithNoTests
+              npm exec -- vitest run envi -u --passWithNoTests
+              npm exec -- vitest run unit -u
+          - suite: integration
+            cmd: |
+              npm exec -- vitest run spot -u --passWithNoTests
+              npm exec -- vitest run flow -u --no-file-parallelism --passWithNoTests
+          - suite: e2e
+            cmd: npm exec -- vitest run uiux -u --no-file-parallelism
+            needs-playwright: true
+          - suite: build
+            cmd: |
+              npm exec -- fiction run bundle
+              npm exec -- vitest run build -u --no-file-parallelism
+          - suite: dist
+            cmd: |
+              npm exec -- fiction run render
+              npm exec -- vitest run dist -u
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+        with:
+          setup-playwright: ${{ matrix.needs-playwright == true }}
+      - run: ${{ matrix.cmd }}
+
+  deploy:
+    needs: [check, test]
+    if: ${{ needs.check.outputs.should-deploy == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: |
+          cross-env DOMAIN=fiction APP=beacon npm run deploy
+          cross-env DOMAIN=fiction APP=www npm run deploy
+          cross-env DOMAIN=fiction APP=sites npm run deploy
+
+  release:
+    needs: [deploy, check]
+    if: ${{ needs.check.outputs.should-release == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - run: npm run i:lockfile && npm run release
+
+  notify:
+    needs: [test, deploy, release]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "icon_emoji": "${{ job.status == 'success' && ':white_check_mark:' || ':x:' }}",
+              "username": "supereon",
+              "channel": "#notify",
+              "text": "Workflow *${{ github.workflow }}* on *${{ github.ref }}* (commit: ${{ github.sha }}) completed with status: *${{ job.status }}*. <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Run>"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

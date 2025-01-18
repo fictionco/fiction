@@ -282,10 +282,10 @@ function exitHandler(options: {
   }
 
   if (code === 0) {
-    logger.info(`Exiting CLI`, logData)
+    logger.info(`Exiting CLI`, { data: logData })
   }
   else {
-    logger.error(`Exiting CLI with error`, logData)
+    logger.error(`Exiting CLI with error`, { data: logData })
   }
 
   if (shutdown) {
