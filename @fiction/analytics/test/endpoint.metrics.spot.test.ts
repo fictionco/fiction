@@ -495,6 +495,8 @@ describe('queryCompiledMetrics', async () => {
       const visitorData = result.data?.[0].data.main || []
       const lastPoint = visitorData[visitorData.length - 1]
 
+      console.warn('visitorData', visitorData)
+
       expect(+(lastPoint?.value || 0)).toBe(uniqueVisitors)
     })
 
