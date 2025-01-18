@@ -1,4 +1,4 @@
-import { dayjs, shortId } from '@fiction/core'
+import { dayjs, shortId, waitFor } from '@fiction/core'
 import { describe, expect, it } from 'vitest'
 import { createAnalyticsTestUtils } from './helpers.js'
 
@@ -44,7 +44,7 @@ describe('queryEventTrack', async () => {
       const event = `test_event_${shortId()}`
       const batchSize = 5
       const value = 10
-      const now = dayjs()
+      const now = dayjs().utc()
 
       // Create batch of events
       const promises = Array.from({ length: batchSize }).fill(0).map((_, i) =>
@@ -64,6 +64,8 @@ describe('queryEventTrack', async () => {
 
       // Force flush buffer
       await testUtils.fictionAnalytics.queries.EventTrack.flush()
+
+      await waitFor(100)
 
       // Verify writes
       const query = fictionClickhouse
@@ -85,7 +87,7 @@ describe('queryEventTrack', async () => {
 
     it('maintains event order in buffered writes', async () => {
       const event = `test_event_${shortId()}`
-      const now = dayjs()
+      const now = dayjs().utc()
 
       // Create events with different timestamps
       await Promise.all([
@@ -111,6 +113,8 @@ describe('queryEventTrack', async () => {
       ])
 
       await testUtils.fictionAnalytics.queries.EventTrack.flush()
+
+      await waitFor(100)
 
       const query = fictionClickhouse
         .clickhouseBaseQuery({ orgId, table: 'event' })

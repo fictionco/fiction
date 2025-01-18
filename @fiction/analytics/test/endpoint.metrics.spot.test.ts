@@ -1,9 +1,18 @@
 import type { FictionAnalytics } from '../index.js'
-import { dayjs, shortId, waitFor } from '@fiction/core'
+import { dayjs, shortId } from '@fiction/core'
 import { afterAll, describe, expect, it } from 'vitest'
 import { createAnalyticsTestUtils } from './helpers.js'
 
 type TestMetric = `test_${string}`
+
+const TEST_DATES = {
+  baseDate: dayjs('2024-01-01T12:00:00Z'), // Noon UTC on Jan 1, 2024
+  baseTimestamp: dayjs('2024-01-01T12:00:00Z').unix(),
+  hourAgo: dayjs('2024-01-01T11:00:00Z').unix(),
+  twoHoursAgo: dayjs('2024-01-01T10:00:00Z').unix(),
+  threeHoursAgo: dayjs('2024-01-01T09:00:00Z').unix(),
+  weekAgo: dayjs('2023-12-25T12:00:00Z').unix(),
+} as const
 
 async function createTestSession(args: {
   pageViews?: number
@@ -16,7 +25,7 @@ async function createTestSession(args: {
   const {
     pageViews = 2,
     hasGoal = false,
-    timestamp = dayjs().subtract(30, 'minute').unix(),
+    timestamp = TEST_DATES.baseDate.subtract(30, 'minute').unix(),
     fictionAnalytics,
     orgId,
     engageDuration = 60,
@@ -215,7 +224,7 @@ describe('queryCompiledMetrics', async () => {
       const metric1: TestMetric = `test_metric1_${shortId()}`
       const metric2: TestMetric = `test_metric2_${shortId()}`
       const metric3: TestMetric = `test_metric3_${shortId()}`
-      const now = dayjs()
+      const now = TEST_DATES.baseDate
 
       // Create test data
       await Promise.all([
@@ -250,6 +259,8 @@ describe('queryCompiledMetrics', async () => {
       const result = await fictionAnalytics.queries.CompiledMetrics.serve({
         orgId,
         period: 'hour',
+        timeEndAtIso: now.toISOString(),
+        timeZone: 'UTC',
         metrics: [
           {
             key: 'combo1',
@@ -274,7 +285,7 @@ describe('queryCompiledMetrics', async () => {
 
     it('handles period comparisons for snapshot metrics', async () => {
       const metricName: TestMetric = `test_compare_${shortId()}`
-      const now = dayjs()
+      const now = TEST_DATES.baseDate
       const lastWeek = now.subtract(8, 'day')
 
       // This week's data
@@ -301,6 +312,8 @@ describe('queryCompiledMetrics', async () => {
         orgId,
         period: 'week',
         compare: 'week',
+        timeEndAtIso: now.toISOString(),
+        timeZone: 'UTC',
         metrics: [
           {
             key: 'test_metric',
@@ -326,6 +339,8 @@ describe('queryCompiledMetrics', async () => {
       const result = await fictionAnalytics.queries.CompiledMetrics.serve({
         // @ts-expect-error Testing missing orgId
         orgId: undefined,
+        timeEndAtIso: TEST_DATES.baseDate.toISOString(),
+        timeZone: 'UTC',
         metrics: [
           {
             key: 'test',
@@ -343,6 +358,8 @@ describe('queryCompiledMetrics', async () => {
       const result = await fictionAnalytics.queries.CompiledMetrics.serve({
         orgId,
         metrics: [],
+        timeEndAtIso: TEST_DATES.baseDate.toISOString(),
+        timeZone: 'UTC',
       }, { caller: 'test', server: true })
 
       expect(result.status).toBe('error')
@@ -352,30 +369,32 @@ describe('queryCompiledMetrics', async () => {
 
   describe('session metrics', () => {
     it('calculates bounce rate correctly', async () => {
-      const now = dayjs()
+      const now = TEST_DATES.baseDate
       const randomOrgId = shortId()
+      const halfHourAgo = now.subtract(30, 'minute')
 
       // Create bounced session
       await createTestSession({
         fictionAnalytics,
         orgId: randomOrgId,
-        timestamp: now.unix(),
+        timestamp: halfHourAgo.unix(),
         pageViews: 1,
       })
-
-      await waitFor(1000)
 
       // Create non-bounced session
       await createTestSession({
         fictionAnalytics,
         orgId: randomOrgId,
-        timestamp: now.unix(),
+        timestamp: halfHourAgo.add(1, 'second').unix(),
         pageViews: 2,
       })
 
       const result = await fictionAnalytics.queries.CompiledMetrics.serve({
         orgId: randomOrgId,
-        period: 'hour',
+        period: 'hour4',
+        interval: 'hour',
+        timeZone: 'UTC',
+        timeEndAtIso: now.toISOString(),
         metrics: [
           {
             key: 'bounceRate',
@@ -398,22 +417,37 @@ describe('queryCompiledMetrics', async () => {
       expect(result.status).toBe('success')
 
       const bounceData = result.data?.[0].data.main || []
-      const lastPoint = bounceData[bounceData.length - 1]
+      const pnt = bounceData.find(d => dayjs(d.date).isSame(halfHourAgo, 'hour'))
+
+      expect(pnt).toMatchInlineSnapshot(`
+        {
+          "bounceRate": 50,
+          "date": "2024-01-01T11:00:00.000Z",
+          "pageCount": 1.5,
+          "sessionCount": "2",
+          "tense": "past",
+          "value": 50,
+        }
+      `)
 
       // Should be 50% bounce rate (1 bounced, 1 non-bounced)
-      expect(lastPoint?.value).toBe(50)
+      expect(pnt?.value).toBe(50)
     })
 
     it('tracks engaged time accurately', async () => {
       const engageDuration = 120 // 2 minutes
       const randomOrgId = shortId()
-      await createTestSession({ fictionAnalytics, orgId: randomOrgId, pageViews: 2, engageDuration })
-      await createTestSession({ fictionAnalytics, orgId: randomOrgId, pageViews: 2, engageDuration })
+      const now = TEST_DATES.baseDate
+      const halfHourAgo = now.subtract(30, 'minute')
+      await createTestSession({ fictionAnalytics, timestamp: halfHourAgo.unix(), orgId: randomOrgId, pageViews: 2, engageDuration })
+      await createTestSession({ fictionAnalytics, timestamp: halfHourAgo.unix(), orgId: randomOrgId, pageViews: 2, engageDuration })
 
       const result = await fictionAnalytics.queries.CompiledMetrics.serve({
         orgId: randomOrgId,
         period: 'hour4',
         interval: 'hour',
+        timeEndAtIso: now.toISOString(),
+        timeZone: 'UTC',
         metrics: [{
           key: 'engagedTime',
           type: 'session',
@@ -431,11 +465,14 @@ describe('queryCompiledMetrics', async () => {
 
     it('calculates conversion rates correctly', async () => {
       const randomOrgId = shortId()
+      const now = TEST_DATES.baseDate
+      const halfHourAgo = now.subtract(30, 'minute')
       // Session with conversion
       await createTestSession({
         fictionAnalytics,
         orgId: randomOrgId,
         hasGoal: true,
+        timestamp: halfHourAgo.unix(),
       })
 
       // Session without conversion
@@ -443,12 +480,15 @@ describe('queryCompiledMetrics', async () => {
         fictionAnalytics,
         orgId: randomOrgId,
         hasGoal: false,
+        timestamp: halfHourAgo.unix(),
       })
 
       const result = await fictionAnalytics.queries.CompiledMetrics.serve({
         orgId: randomOrgId,
         period: 'week',
         interval: 'day',
+        timeZone: 'UTC',
+        timeEndAtIso: now.toISOString(),
         metrics: [{
           key: 'conversionRate',
           type: 'session',
@@ -468,7 +508,7 @@ describe('queryCompiledMetrics', async () => {
 
   describe('event metrics', () => {
     it('counts unique visitors correctly', async () => {
-      const now = dayjs()
+      const now = TEST_DATES.baseDate
       const uniqueVisitors = 3
       const randomOrgId = shortId()
 
@@ -484,6 +524,8 @@ describe('queryCompiledMetrics', async () => {
       const result = await fictionAnalytics.queries.CompiledMetrics.serve({
         orgId: randomOrgId,
         period: 'week',
+        timeZone: 'UTC',
+        timeEndAtIso: now.toISOString(),
         metrics: [{
           key: 'uniqueVisitors',
           type: 'event',
@@ -503,6 +545,8 @@ describe('queryCompiledMetrics', async () => {
     it('tracks custom events with values', async () => {
       const randomOrgId = shortId()
       const eventName = `test_event_${shortId()}`
+      const now = TEST_DATES.baseDate
+      const halfHourAgo = now.subtract(30, 'minute')
 
       // Track custom events with values
       await fictionAnalytics.queries.EventTrack.serve({
@@ -510,6 +554,7 @@ describe('queryCompiledMetrics', async () => {
           orgId: randomOrgId,
           event: eventName,
           value: 100,
+          timestamp: now.subtract(2, 'day').unix(),
         },
       }, { caller: 'test', server: true })
 
@@ -518,13 +563,15 @@ describe('queryCompiledMetrics', async () => {
           orgId: randomOrgId,
           event: eventName,
           value: 200,
-          timestamp: dayjs().subtract(6, 'day').unix() + 3600,
+          timestamp: now.subtract(6, 'day').unix() + 3600,
         },
       }, { caller: 'test', server: true })
 
       const result = await fictionAnalytics.queries.CompiledMetrics.serve({
         orgId: randomOrgId,
         period: 'week',
+        timeZone: 'UTC',
+        timeEndAtIso: now.toISOString(),
         metrics: [{
           key: 'eventValue',
           type: 'event',
@@ -533,7 +580,9 @@ describe('queryCompiledMetrics', async () => {
       }, { caller: 'test', server: true })
 
       expect(result.status).toBe('success')
+
       const eventData = result.data?.[0].data.main || []
+
       const total = eventData.reduce((sum, point) => sum + (Number(point?.value) || 0), 0)
 
       expect(total).toBe(300)
