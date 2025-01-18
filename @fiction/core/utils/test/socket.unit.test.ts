@@ -109,18 +109,18 @@ describe('sockets', () => {
           "ping",
           {
             "bearer": {
-              "email": "[email:*****@*****.***]",
+              "email": "[email:TRUTHY]",
               "iat": "888",
               "systemRole": "",
-              "userId": "[id:*****]",
-              "verifyEmail": "[email:*****]",
+              "userId": "[id:TRUTHY]",
+              "verifyEmail": "[email:TRUTHY]",
             },
             "bearerToken": "**MASKED**",
             "channels": [
               "hello",
             ],
-            "clientId": "[id:********************************]",
-            "connectionId": "[id:********************************_*******]",
+            "clientId": "[id:TRUTHY]",
+            "connectionId": "[id:TRUTHY]",
             "pingAlive": "true",
             "pingAliveTime": "**MASKED**",
             "respond": "**MASKED**",

@@ -141,7 +141,7 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, () => {
         "check": "true",
         "clientStatus": "Ready",
         "configured": "true",
-        "createdAt": "[datetime:****-**-*****:**:***]",
+        "createdAt": "[datetime:TRUTHY]",
         "dnsProvider": "cloudflare",
         "dnsValidationHostname": "_acme-challenge.test-site.fiction.com",
         "dnsValidationInstructions": "**MASKED**",
@@ -151,19 +151,11 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, () => {
         "issued": {
           "nodes": [
             {
-              "expiresAt": "[datetime:****-**-*****:**:***]",
+              "expiresAt": "[datetime:TRUTHY]",
               "type": "rsa",
             },
             {
-              "expiresAt": "[datetime:****-**-*****:**:***]",
-              "type": "ecdsa",
-            },
-            {
-              "expiresAt": "[datetime:****-**-*****:**:***]",
-              "type": "rsa",
-            },
-            {
-              "expiresAt": "[datetime:****-**-*****:**:***]",
+              "expiresAt": "[datetime:TRUTHY]",
               "type": "ecdsa",
             },
           ],
@@ -202,7 +194,7 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, () => {
         "check": "false",
         "clientStatus": "Awaiting configuration",
         "configured": "false",
-        "createdAt": "[datetime:****-**-*****:**:***]",
+        "createdAt": "[datetime:TRUTHY]",
         "dnsProvider": "icann",
         "dnsValidationHostname": "_acme-challenge.example.com",
         "dnsValidationInstructions": "**MASKED**",
@@ -230,7 +222,7 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, () => {
         "check": "false",
         "clientStatus": "Awaiting configuration",
         "configured": "false",
-        "createdAt": "[datetime:****-**-*****:**:***]",
+        "createdAt": "[datetime:TRUTHY]",
         "dnsProvider": "icann",
         "dnsValidationHostname": "_acme-challenge.example.com",
         "dnsValidationInstructions": "**MASKED**",

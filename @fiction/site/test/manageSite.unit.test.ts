@@ -149,7 +149,7 @@ describe('getSiteMetrics and trackSiteMetrics', async () => {
           "orgId": "[id:TRUTHY]",
           "timeEndAtIso": "[datetime:TRUTHY]",
           "timeStartAtIso": "[datetime:TRUTHY]",
-          "timeZone": "Europe/Madrid",
+          "timeZone": "America/Los_Angeles",
         },
       }
     `)

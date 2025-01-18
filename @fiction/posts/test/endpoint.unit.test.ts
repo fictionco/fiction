@@ -95,7 +95,7 @@ describe('post analytics tests', async () => {
           "orgId": "[id:TRUTHY]",
           "timeEndAtIso": "[datetime:TRUTHY]",
           "timeStartAtIso": "[datetime:TRUTHY]",
-          "timeZone": "America/Denver",
+          "timeZone": "America/Los_Angeles",
         },
       }
     `)

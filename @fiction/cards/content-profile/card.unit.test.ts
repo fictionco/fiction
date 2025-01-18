@@ -443,7 +443,7 @@ describe('minimalProfile', async () => {
                                 "minimum": 0,
                                 "type": "number",
                               },
-                              "percent": {
+                              "position": {
                                 "maximum": 100,
                                 "minimum": 0,
                                 "type": "number",
@@ -536,6 +536,14 @@ describe('minimalProfile', async () => {
                           },
                           "type": "array",
                         },
+                        "type": {
+                          "enum": [
+                            "linear",
+                            "radial",
+                            "conic",
+                          ],
+                          "type": "string",
+                        },
                       },
                       "type": "object",
                     },
@@ -595,7 +603,7 @@ describe('minimalProfile', async () => {
                           "$ref": "#/properties/mediaItems/items/properties/media/properties/gradient",
                         },
                         "opacity": {
-                          "maximum": 1,
+                          "maximum": 100,
                           "minimum": 0,
                           "type": "number",
                         },
@@ -616,6 +624,59 @@ describe('minimalProfile', async () => {
                     },
                     "url": {
                       "$ref": "#/properties/superTitle/properties/icon/properties/url",
+                    },
+                    "videoControls": {
+                      "additionalProperties": false,
+                      "description": "Video playback controls",
+                      "properties": {
+                        "autoplay": {
+                          "type": "boolean",
+                        },
+                        "controls": {
+                          "type": "boolean",
+                        },
+                        "freeze": {
+                          "additionalProperties": false,
+                          "description": "Video freeze settings",
+                          "properties": {
+                            "playOnHover": {
+                              "description": "Play on hover, freeze on blur",
+                              "type": "boolean",
+                            },
+                            "time": {
+                              "description": "Time in seconds to freeze video",
+                              "type": "number",
+                            },
+                          },
+                          "type": "object",
+                        },
+                        "loop": {
+                          "type": "boolean",
+                        },
+                        "muted": {
+                          "type": "boolean",
+                        },
+                        "playbackRate": {
+                          "maximum": 16,
+                          "minimum": 0.1,
+                          "type": "number",
+                        },
+                        "playsInline": {
+                          "type": "boolean",
+                        },
+                        "poster": {
+                          "type": "string",
+                        },
+                        "preload": {
+                          "enum": [
+                            "none",
+                            "metadata",
+                            "auto",
+                          ],
+                          "type": "string",
+                        },
+                      },
+                      "type": "object",
                     },
                     "width": {
                       "type": "number",

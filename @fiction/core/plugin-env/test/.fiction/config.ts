@@ -35,6 +35,7 @@ export interface CompiledServiceConfig {
     | 'GetTopValues'
     | 'ManageMemberRelation'
     | 'ManageOrganization'
+    | 'ManageRevision'
     | 'ManageUser'
     | 'OrgMembers'
     | 'OrganizationsByUserId'

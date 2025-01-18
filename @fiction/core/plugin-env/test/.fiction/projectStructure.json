@@ -30,9 +30,8 @@
         "widget.ts": null
       },
       "el": {
-        "EffectDraggableSort.vue": null,
-        "EffectTransitionList.vue": null,
         "ElSavingSignal.vue": null,
+        "RevisionHistory.vue": null,
         "SettingsWrap.vue": null
       },
       "emails": {
@@ -137,7 +136,7 @@
       "test": {
         "beacon.unit.test.ts": null,
         "client.stats.test.ts": null,
-        "endpoint.metrics.unit.test.ts": null,
+        "endpoint.metrics.spot.test.ts": null,
         "endpoint.track.unit.test.ts": null,
         "endpoint.unit.test.ts": null,
         "helpers.ts": null,
@@ -594,16 +593,26 @@
         "index.ts": null
       },
       "plugin-media": {
+        "browserResize.ts": null,
         "index.ts": null,
         "queries.ts": null,
         "tables.ts": null,
         "test": {
           "endpoint.unit.test.ts": null,
           "relativeMedia.unit.test.ts": null,
+          "resize.unit.test.ts": null,
           "test.jpg": null,
+          "test.pdf": null,
           "upload.spot.test.ts": null
         },
         "utils.ts": null
+      },
+      "plugin-revision": {
+        "endpoint.ts": null,
+        "endpoint.unit.test.ts": null,
+        "index.ts": null,
+        "package.json": null,
+        "tables.ts": null
       },
       "plugin-router": {
         "appRoute.ts": null,
@@ -921,16 +930,18 @@
       },
       "plugin-brand": {
         "admin": {
+          "BrandGuide.vue": null,
           "ElStart.vue": null,
           "IndexList.vue": null,
           "ManageModel.vue": null,
-          "ManageOverview.vue": null,
           "ViewManageBrand.vue": null,
-          "ViewManageIndex.vue": null
+          "ViewManageIndex.vue": null,
+          "__ManageOverview.vue": null
         },
         "discovery.md": null,
         "endpoint.ts": null,
         "guide.md": null,
+        "guideExamples.ts": null,
         "guideSchema.ts": null,
         "index.ts": null,
         "package.json": null,
@@ -1098,6 +1109,7 @@
         "ElPostIndex.vue": null,
         "ElPostStart.vue": null,
         "InputAuthors.vue": null,
+        "InputRevisionHistory.vue": null,
         "PagePostEdit.vue": null,
         "PagePostIndex.vue": null,
         "ToolHistory.vue": null,
@@ -1117,10 +1129,12 @@
         "postAuthors.unit.test.ts": null,
         "postEditing.flow.test.ts": null,
         "postLoader.unit.test.ts": null,
+        "postRevisions.unit.test.ts": null,
         "postTestUtils.main.ts": null,
         "postTestUtils.ts": null,
         "utils.unit.test.ts": null
       },
+      "types.ts": null,
       "utils": {
         "analytics.ts": null,
         "index.ts": null,
@@ -1174,6 +1188,7 @@
           "InputAddElements.vue": null,
           "InputManageLayout.vue": null,
           "InputManagePages.vue": null,
+          "InputRevisionHistory.vue": null,
           "InputSpecialSlugs.vue": null,
           "LayoutDraggable.vue": null,
           "LayoutToolRegion.vue": null,
@@ -1183,6 +1198,7 @@
           "ToolPageAdd.vue": null,
           "ToolPageEdit.vue": null,
           "ToolPageGlobal.vue": null,
+          "ToolPageHistory.vue": null,
           "ToolPageLayout.vue": null,
           "ToolPagePublish.vue": null,
           "ToolPageSettings.vue": null,
@@ -1219,6 +1235,7 @@
         "siteBehavior.unit.test.ts": null,
         "siteEdit.unit.test.ts": null,
         "siteRequest.unit.test.ts": null,
+        "siteRevisions.unit.test.ts": null,
         "test-theme": {
           "TemplateWrap.vue": null,
           "img": {
@@ -1234,6 +1251,17 @@
         "utils.unit.test.ts": null
       },
       "theme.ts": null,
+      "themes": {
+        "base": {
+          "config.ts": null,
+          "img": {
+            "dark-desktop.png": null,
+            "light-desktop.png": null
+          },
+          "index.ts": null,
+          "package.json": null
+        }
+      },
       "type-utils.ts": null,
       "util.ts": null,
       "utils": {
@@ -1332,6 +1360,17 @@
           },
           "index.ts": null
         },
+        "home": {
+          "img": {
+            "andrew.jpg": null,
+            "dean2.jpg": null,
+            "mercedes-bazan.webp": null,
+            "obama.webp": null,
+            "rogan.jpg": null,
+            "selena.jpg": null
+          },
+          "index.ts": null
+        },
         "img": {
           "about": {
             "ap.webp": null,
@@ -1340,14 +1379,6 @@
             "people2.webp": null,
             "pro.webp": null,
             "spectrum.jpg": null
-          },
-          "home": {
-            "andrew.jpg": null,
-            "dean2.jpg": null,
-            "mercedes-bazan.webp": null,
-            "obama.webp": null,
-            "rogan.jpg": null,
-            "selena.jpg": null
           },
           "tour": {
             "FigurePhone.vue": null,
@@ -1410,8 +1441,7 @@
         },
         "index.ts": null,
         "package.json": null
-      },
-      "spec.md": null
+      }
     },
     "ui": {
       "ElBadge.vue": null,
@@ -1454,9 +1484,7 @@
         "__ActionButtons.vue": null,
         "test": {
           "TestButtonsAll.vue": null
-        },
-        "themes.ts": null,
-        "util.ts": null
+        }
       },
       "common": {
         "ElAvatar.vue": null,
@@ -1473,6 +1501,7 @@
       "effect": {
         "EffectCarousel.vue": null,
         "EffectConfetti.vue": null,
+        "EffectDraggableSort.vue": null,
         "EffectFitText.vue": null,
         "EffectFitTextVertical.vue": null,
         "EffectGlare.vue": null,
@@ -1482,6 +1511,7 @@
         "EffectParallaxBackground.vue": null,
         "EffectScrollReveal.vue": null,
         "EffectShootingStar.vue": null,
+        "EffectTransitionList.vue": null,
         "XShape.vue": null,
         "utilFitText.ts": null
       },
@@ -1529,7 +1559,6 @@
         "InputGradient.vue": null,
         "InputIcon.vue": null,
         "InputImage.vue": null,
-        "InputItems.vue": null,
         "InputList.vue": null,
         "InputLogo.vue": null,
         "InputMarkdown.vue": null,
@@ -1554,9 +1583,11 @@
         "InputRating.vue": null,
         "InputSelect.vue": null,
         "InputSelectCustom.vue": null,
+        "InputSiteRoute.vue": null,
         "InputStandardSize.vue": null,
         "InputSubmit.vue": null,
         "InputSuperTitle.vue": null,
+        "InputTags.vue": null,
         "InputText.vue": null,
         "InputTextarea.vue": null,
         "InputTimezone.vue": null,
@@ -1565,9 +1596,13 @@
         "InputUsername.vue": null,
         "InputWeight.vue": null,
         "LibraryBackground.vue": null,
+        "LibraryHtml.vue": null,
         "LibraryIcon.vue": null,
         "LibraryMedia.vue": null,
+        "LibraryMediaGallery.vue": null,
         "LibraryModal.vue": null,
+        "LibraryModalOld.vue": null,
+        "__InputItems.vue": null,
         "index.ts": null,
         "test": {
           "InputArray.unit.test.ts": null,
@@ -1672,6 +1707,10 @@
         "anim.unit.test.ts": null,
         "el.uiux.test.ts": null,
         "utils.unit.test.ts": null
+      },
+      "utils": {
+        "themes.ts": null,
+        "utils.ts": null
       },
       "utils.ts": null
     },

@@ -54,19 +54,19 @@ describe('org team', async () => {
     expect(snap(q?.data, { maskedKeys: ['fullName'] })).toMatchInlineSnapshot(`
       [
         {
-          "createdAt": "[datetime:****-**-** **:**:**.******+**]",
-          "email": "[email:********+**********@*****.***]",
+          "createdAt": "[datetime:TRUTHY]",
+          "email": "[email:TRUTHY]",
           "fullName": "**MASKED**",
           "invitedById": "null",
           "lastSeenAt": {},
           "memberAccess": "owner",
-          "memberId": "[id:************************]",
+          "memberId": "[id:TRUTHY]",
           "memberStatus": "active",
-          "orgId": "[id:***************************]",
+          "orgId": "[id:TRUTHY]",
           "priority": "null",
           "tags": "null",
-          "updatedAt": "[datetime:****-**-** **:**:**.******+**]",
-          "userId": "[id:***************************]",
+          "updatedAt": "[datetime:TRUTHY]",
+          "userId": "[id:TRUTHY]",
         },
       ]
     `)
