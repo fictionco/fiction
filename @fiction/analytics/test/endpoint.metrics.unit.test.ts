@@ -1,6 +1,6 @@
 import type { FictionAnalytics } from '../index.js'
 import { dayjs, shortId, waitFor } from '@fiction/core'
-import { describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { createAnalyticsTestUtils } from './helpers.js'
 
 type TestMetric = `test_${string}`
@@ -91,6 +91,10 @@ describe('queryCompiledMetrics', async () => {
 
   if (!orgId || !fictionClickhouse)
     throw new Error('Test setup failed')
+
+  afterAll(async () => {
+    await testUtils.close()
+  })
 
   describe('snapshot metrics', () => {
     it('combines multiple snapshot metrics correctly with filled timeline', async () => {

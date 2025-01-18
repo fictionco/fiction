@@ -48,6 +48,7 @@ env:
   BETTER_STACK_SOURCE_TOKEN: ${{ secrets.BETTER_STACK_SOURCE_TOKEN }}
 
 jobs:
+
   check-flags:
     runs-on: ubuntu-latest
     outputs:
@@ -120,6 +121,16 @@ jobs:
             */*/node_modules
           key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
 
+      - name: Install Playwright Browsers
+        run: npx playwright install
+
+      - name: Run Docker Compose (DB)
+        run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d
+
+      - name: Create Tables
+        run: npm -w @fiction/www exec -- fiction run generate
+
+
   type-check:
     needs: prepare
     runs-on: ubuntu-latest
@@ -158,6 +169,10 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Run Docker Compose (DB)
+        run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d
+
       - run: |
           npm exec -- vitest run debug -u --passWithNoTests
           npm exec -- vitest run aix -u --passWithNoTests
@@ -171,23 +186,6 @@ jobs:
       REDIS_URL: redis://localhost:6379
       CLICKHOUSE_URL: http://default:@localhost:8123
       POSTGRES_URL: http://test:test@localhost:5432/test
-    services:
-      redis:
-        image: redis
-        ports:
-          - 6379:6379
-      clickhouse:
-        image: clickhouse/clickhouse-server
-        ports:
-          - 8123:8123
-      postgres:
-        image: postgres:latest
-        env:
-          POSTGRES_USER: test
-          POSTGRES_PASSWORD: test
-          POSTGRES_DB: test
-        ports:
-          - 5432:5432
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -203,6 +201,9 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
+      - name: Run Docker Compose (DB)
+        run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d
+
       - run: npm -w @fiction/www exec -- fiction run generate
       - run: |
           npm exec -- vitest run spot -u --passWithNoTests
@@ -226,6 +227,10 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Run Docker Compose (DB)
+        run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d
+
       - name: Install Playwright
         run: npx playwright install --with-deps
       - run: npm exec -- vitest run uiux -u --no-file-parallelism
@@ -251,6 +256,8 @@ jobs:
             */*/node_modules
           key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
       - run: pnpm add tsup cross-env --global
+      - name: Run Docker Compose (DB)
+        run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d
       - run: npm exec -- fiction run bundle
       - run: npm exec -- vitest run build -u --no-file-parallelism
       - uses: actions/cache/save@v4
@@ -259,7 +266,7 @@ jobs:
           key: build-output-${{ github.sha }}
 
   render:
-    needs: [build-tests]
+    needs: [prepare]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -280,6 +287,9 @@ jobs:
         with:
           path: dist
           key: build-output-${{ github.sha }}
+      - name: Run Docker Compose (DB)
+        run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d
+
       - run: npm exec -- fiction run render
       - uses: actions/cache/save@v4
         with:
@@ -314,10 +324,12 @@ jobs:
         with:
           path: .fiction
           key: render-output-${{ github.sha }}
+      - name: Run Docker Compose (DB)
+        run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d
       - run: npm exec -- vitest run dist -u
 
   deploy:
-    needs: [basic-tests, integration-tests, e2e-tests, dist-tests, check-flags]
+    needs: [type-check, basic-tests, integration-tests, e2e-tests, dist-tests, check-flags]
     if: ${{ needs.check-flags.outputs.should-deploy == 'true' }}
     runs-on: ubuntu-latest
     steps:
