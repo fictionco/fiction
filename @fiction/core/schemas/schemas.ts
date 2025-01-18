@@ -193,7 +193,7 @@ export const VideoControlsSchema = z.object({
   controls: z.boolean().optional(),
   preload: z.enum(['none', 'metadata', 'auto']).optional(),
   poster: z.string().optional(),
-  playsInline: z.boolean().optional(),
+  playsinline: z.boolean().optional(),
   freeze: z.object({
     time: z.number().optional().describe('Time in seconds to freeze video'),
     playOnHover: z.boolean().optional().describe('Play on hover, freeze on blur'),

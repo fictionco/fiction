@@ -68,7 +68,7 @@ const gapClass = vue.computed(() => {
                 :style="{ width: item.media.displayWidthPercent ? `${item.media.displayWidthPercent}%` : 'auto' }"
               />
             </div>
-            <div class="px-6 py-8 @xs:px-8 @xs:py-10 @2xl:p-12 @4xl:p-16 space-y-6 ">
+            <div class="px-6 py-8 @xs:px-6 @xs:py-8 @2xl:p-12 @4xl:p-16 space-y-6 ">
               <div class="space-y-4 max-w-[650px] pointer-events-auto">
                 <SuperTitle
                   :card
@@ -102,7 +102,7 @@ const gapClass = vue.computed(() => {
                 :card
                 class="pointer-events-auto"
                 :base-path="pathCheck(`items.${i}.action`, schema)"
-                :classes="{ buttons: 'flex gap-4' }"
+                :classes="{ buttons: 'flex gap-4 flex-wrap' }"
                 design="outline"
                 :theme="(item.bg?.url ? 'overlay' : (item.theme || 'default'))"
               />

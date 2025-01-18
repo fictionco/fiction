@@ -70,6 +70,11 @@ vue.onMounted(() => {
     async (url) => {
       loading.value = true
       setBlurHash()
+
+      if (url?.includes('file://')) {
+        return
+      }
+
       if (url && mediaFormat.value === 'image') {
         try {
           await loadImage(url)
@@ -84,6 +89,13 @@ vue.onMounted(() => {
       }
       else {
         loading.value = false
+      }
+
+      // https://github.com/facebook/react/issues/10389
+      if (videoEl.value) {
+        videoEl.value.muted = true
+        // Force attribute for iOS Safari
+        videoEl.value.setAttribute('muted', '')
       }
     },
     { immediate: true },
@@ -116,7 +128,7 @@ const videoAttrs = vue.computed(() => {
     controls: controls.controls,
     preload: controls.preload,
     poster: controls.poster,
-    playsInline: controls.playsInline ?? true,
+    playsinline: controls.playsinline ?? true,
   })
 
   return out
@@ -221,48 +233,52 @@ function videoHover(args: { mode: 'enter' | 'leave' }) {
           height="64"
         />
       </transition>
-      <template v-if="!loading">
-        <component
-          :is="media.el"
-          v-if="mediaFormat === 'component'"
-          :class="[imageClass, inlineImage ? '' : 'h-full w-full']"
-        />
-        <div
-          v-else-if="mediaFormat === 'html'"
-          :class="[imageClass, inlineImage ? '' : 'h-full w-full *:w-full *:h-full']"
-          v-html="media.html"
-        />
-        <video
-          v-else-if="mediaFormat === 'video'"
-          ref="videoEl"
-          class="inset-0 z-0 transition-opacity"
-          :class="[
-            imageClass,
-            imageModeClass,
-            inlineImage ? 'block w-full' : 'absolute h-full w-full',
-            media?.videoControls?.freeze?.playOnHover ? 'hover:opacity-90' : '',
-          ]"
-          :src="media.url"
-          :style="filterStyle"
-          v-bind="videoAttrs"
-          @mouseenter="videoHover({ mode: 'enter' })"
-          @mouseleave="videoHover({ mode: 'leave' })"
-        />
-        <img
-          v-else-if="mediaFormat === 'image' && media.url"
-          class="inset-0 z-0"
-          :class="[imageClass, imageModeClass, inlineImage ? 'block w-full' : 'absolute h-full w-full']"
-          :src="media.url"
-          :style="filterStyle"
-        >
-        <iframe
-          v-else-if="mediaFormat === 'iframe'"
-          class="absolute inset-0 h-full w-full z-0"
-          :src="media.url"
-          frameborder="0"
-          allowfullscreen
-        />
-      </template>
+
+      <component
+        :is="media.el"
+        v-if="mediaFormat === 'component'"
+        v-show="!loading"
+        :class="[imageClass, inlineImage ? '' : 'h-full w-full']"
+      />
+      <div
+        v-else-if="mediaFormat === 'html'"
+        v-show="!loading"
+        :class="[imageClass, inlineImage ? '' : 'h-full w-full *:w-full *:h-full']"
+        v-html="media.html"
+      />
+      <video
+        v-else-if="mediaFormat === 'video'"
+        v-show="!loading"
+        ref="videoEl"
+        class="inset-0 z-0 transition-opacity"
+        :class="[
+          imageClass,
+          imageModeClass,
+          inlineImage ? 'block w-full' : 'absolute h-full w-full',
+          media?.videoControls?.freeze?.playOnHover ? 'hover:opacity-90' : '',
+        ]"
+        :src="media.url"
+        :style="filterStyle"
+        v-bind="videoAttrs"
+        @mouseenter="videoHover({ mode: 'enter' })"
+        @mouseleave="videoHover({ mode: 'leave' })"
+      />
+      <img
+        v-else-if="mediaFormat === 'image' && media.url"
+        v-show="!loading"
+        class="inset-0 z-0"
+        :class="[imageClass, imageModeClass, inlineImage ? 'block w-full' : 'absolute h-full w-full']"
+        :src="media.url"
+        :style="filterStyle"
+      >
+      <iframe
+        v-else-if="mediaFormat === 'iframe'"
+        v-show="!loading"
+        class="absolute inset-0 h-full w-full z-0"
+        :src="media.url"
+        frameborder="0"
+        allowfullscreen
+      />
 
       <slot />
     </div>

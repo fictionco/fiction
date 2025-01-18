@@ -172,6 +172,8 @@ jobs:
             */*/node_modules
           key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
 
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+
       - name: Run Docker Compose (DB)
         run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d
 
