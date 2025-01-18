@@ -1,0 +1,378 @@
+name: PUBLISH
+
+on:
+  push:
+    branches:
+      - dev
+  workflow_dispatch:
+    inputs:
+      cmd:
+        description: Command
+        required: true
+        type: choice
+        options:
+          - deploy
+          - test
+      tags:
+        description: Tags
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  issues: write
+
+env:
+  CI: true
+  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+  APOLLO_API_KEY: ${{ secrets.APOLLO_API_KEY }}
+  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_ACCESS_KEY_SECRET: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  AWS_BUCKET_MEDIA: ${{ secrets.AWS_BUCKET_MEDIA }}
+  REDIS_URL: ${{ secrets.REDIS_URL }}
+  CLICKHOUSE_URL: ${{ secrets.CLICKHOUSE_URL }}
+  STRIPE_SECRET_KEY_TEST: ${{ secrets.STRIPE_SECRET_KEY_TEST }}
+  TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
+  GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+  GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+  SMTP_HOST: ${{ secrets.SMTP_HOST }}
+  SMTP_USER: ${{ secrets.SMTP_USER }}
+  SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+  UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+  ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  BETTER_STACK_SOURCE_TOKEN: ${{ secrets.BETTER_STACK_SOURCE_TOKEN }}
+
+jobs:
+  check-flags:
+    runs-on: ubuntu-latest
+    outputs:
+      should-deploy: ${{ contains(github.event.head_commit.message, '-d') }}
+      should-release: ${{ contains(github.event.head_commit.message, '-r') }}
+    steps:
+      - run: echo "Checking deployment flags"
+
+  prepare:
+    needs: check-flags
+    if: contains(github.event.head_commit.message, 'skip') == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Write Build Information
+        run: |
+          echo '{
+            "commitId": "${{ github.sha }}",
+            "buildTime": "$(date +'%Y-%m-%d %H:%M:%S')",
+            "buildNumber": "${{ github.run_number }}",
+            "branch": "${{ github.ref_name }}"
+          }' > ./buildInfo.json
+
+      - name: Set up DNS for subdomain testing
+        run: |
+          echo "127.0.0.1 test.lan.com" | sudo tee -a /etc/hosts
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Install GH CLI
+        run: |
+          sudo apt update
+          sudo apt install -y gh
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.2
+
+      - name: Set Node Version
+        uses: actions/setup-node@v4
+        with:
+          node-version: 23.5.0
+          cache: pnpm
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install Dependencies
+        run: pnpm i && pnpm rebuild --recursive
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
+
+  type-check:
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 23.5.0
+          cache: pnpm
+      - uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
+      - run: npm run types:ci
+
+  basic-tests:
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 23.5.0
+          cache: pnpm
+      - uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
+      - run: |
+          npm exec -- vitest run debug -u --passWithNoTests
+          npm exec -- vitest run aix -u --passWithNoTests
+          npm exec -- vitest run envi -u --passWithNoTests
+          npm exec -- vitest run unit -u
+
+  integration-tests:
+    needs: [prepare, type-check]
+    runs-on: ubuntu-latest
+    env:
+      REDIS_URL: redis://localhost:6379
+      CLICKHOUSE_URL: http://default:@localhost:8123
+      POSTGRES_URL: http://test:test@localhost:5432/test
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+      clickhouse:
+        image: clickhouse/clickhouse-server
+        ports:
+          - 8123:8123
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: test
+        ports:
+          - 5432:5432
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 23.5.0
+          cache: pnpm
+      - uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
+      - run: npm -w @fiction/www exec -- fiction run generate
+      - run: |
+          npm exec -- vitest run spot -u --passWithNoTests
+          npm exec -- vitest run flow -u --no-file-parallelism --passWithNoTests
+
+  e2e-tests:
+    needs: [prepare, type-check]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 23.5.0
+          cache: pnpm
+      - uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+      - run: npm exec -- vitest run uiux -u --no-file-parallelism
+
+  build-tests:
+    needs: [prepare, type-check]
+    runs-on: ubuntu-latest
+    env:
+      NODE_OPTIONS: --max_old_space_size=4096
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 23.5.0
+          cache: pnpm
+      - uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
+      - run: pnpm add tsup cross-env --global
+      - run: npm exec -- fiction run bundle
+      - run: npm exec -- vitest run build -u --no-file-parallelism
+      - uses: actions/cache/save@v4
+        with:
+          path: dist
+          key: build-output-${{ github.sha }}
+
+  render:
+    needs: [build-tests]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 23.5.0
+          cache: pnpm
+      - uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
+      - uses: actions/cache/restore@v4
+        with:
+          path: dist
+          key: build-output-${{ github.sha }}
+      - run: npm exec -- fiction run render
+      - uses: actions/cache/save@v4
+        with:
+          path: .fiction
+          key: render-output-${{ github.sha }}
+
+  dist-tests:
+    needs: [render]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 23.5.0
+          cache: pnpm
+      - uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            dist
+            .fiction
+          key: build-output-${{ github.sha }}
+      - uses: actions/cache/restore@v4
+        with:
+          path: .fiction
+          key: render-output-${{ github.sha }}
+      - run: npm exec -- vitest run dist -u
+
+  deploy:
+    needs: [basic-tests, integration-tests, e2e-tests, dist-tests, check-flags]
+    if: ${{ needs.check-flags.outputs.should-deploy == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 23.5.0
+      - uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            dist
+            .fiction
+          key: build-output-${{ github.sha }}
+      - run: |
+          cross-env DOMAIN=fiction APP=beacon npm run deploy
+          cross-env DOMAIN=fiction APP=www npm run deploy
+          cross-env DOMAIN=fiction APP=sites npm run deploy
+
+  release:
+    needs: [deploy, check-flags]
+    if: ${{ needs.check-flags.outputs.should-release == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 23.5.0
+      - run: npm run i:lockfile && npm run release
+
+  notify:
+    needs: [basic-tests, integration-tests, e2e-tests, dist-tests, deploy, release]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "icon_emoji": "${{ job.status == 'success' && ':white_check_mark:' || ':x:' }}",
+              "username": "supereon",
+              "channel": "#notify",
+              "text": "Workflow *${{ github.workflow }}* on *${{ github.ref }}* (commit: ${{ github.sha }}) completed with status: *${{ job.status }}*. <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Run>"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

@@ -222,6 +222,8 @@ jobs:
         run: npm exec -- vitest run uiux -u --no-file-parallelism
 
       - name: UNIT tests
+        env:
+          NODE_OPTIONS: "--max-old-space-size=8192"
         run: npm exec -- vitest run unit -u
 
       - name: Install Build Packages
