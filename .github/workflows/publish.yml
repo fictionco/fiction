@@ -155,6 +155,7 @@ jobs:
   basic-tests:
     needs: prepare
     runs-on: ubuntu-latest
+    continue-on-error: false
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -177,7 +178,11 @@ jobs:
       - name: Create Tables
         run: npm -w @fiction/www exec -- fiction run generate
 
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
       - run: |
+          npm exec -- vitest run spot -u --passWithNoTests
           npm exec -- vitest run debug -u --passWithNoTests
           npm exec -- vitest run aix -u --passWithNoTests
           npm exec -- vitest run envi -u --passWithNoTests
@@ -212,8 +217,10 @@ jobs:
       - name: Create Tables
         run: npm -w @fiction/www exec -- fiction run generate
 
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
       - run: |
-          npm exec -- vitest run spot -u --passWithNoTests
           npm exec -- vitest run flow -u --no-file-parallelism --passWithNoTests
 
   e2e-tests:

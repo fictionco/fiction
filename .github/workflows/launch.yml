@@ -21,7 +21,29 @@ permissions:
 
 env:
   CI: true
-  # [Your existing env vars...]
+  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+  APOLLO_API_KEY: ${{ secrets.APOLLO_API_KEY }}
+  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_ACCESS_KEY_SECRET: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  AWS_BUCKET_MEDIA: ${{ secrets.AWS_BUCKET_MEDIA }}
+  REDIS_URL: redis://localhost:6379
+  CLICKHOUSE_URL: http://default:@localhost:8123
+  POSTGRES_URL: http://test:test@localhost:5432/test
+  STRIPE_SECRET_KEY_TEST: ${{ secrets.STRIPE_SECRET_KEY_TEST }}
+  TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
+  GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+  GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+  SMTP_HOST: ${{ secrets.SMTP_HOST }}
+  SMTP_USER: ${{ secrets.SMTP_USER }}
+  SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+  UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+  ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  BETTER_STACK_SOURCE_TOKEN: ${{ secrets.BETTER_STACK_SOURCE_TOKEN }}
 
 jobs:
   check:
@@ -34,7 +56,7 @@ jobs:
       - run: echo "Checking deployment flags"
 
   test:
-    needs: check
+    needs: [check]
     if: ${{ !needs.check.outputs.should-skip }}
     runs-on: ubuntu-latest
     strategy:
