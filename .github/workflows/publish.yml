@@ -341,6 +341,21 @@ jobs:
 
       - run: npm exec -- fiction run render
 
+      - run: pnpm add tsup cross-env --global
+
+      - name: Set up DNS for subdomain testing
+        run: |
+          echo "127.0.0.1 test.lan.com" | sudo tee -a /etc/hosts
+
+      - name: Run Docker Compose (DB)
+        run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d
+
+      - name: Create Tables
+        run: npm -w @fiction/www exec -- fiction run generate
+
+      - name: Verify Distribution Files
+        run: npm exec -- vitest run dist -u
+
       # Save combined build and render output
       - uses: actions/cache/save@v4
         with:
@@ -349,7 +364,7 @@ jobs:
             @fiction/*/.fiction
           key: render-output-${{ github.sha }}
 
-  deploy:
+  deploy-sites:
     needs: [type-check, unit-tests, unit-special, integration-tests, e2e-tests, check-flags]
     if: ${{ needs.check-flags.outputs.should-deploy == 'true' }}
     runs-on: ubuntu-latest
@@ -381,29 +396,90 @@ jobs:
       - name: Setup Flyctl
         uses: superfly/flyctl-actions/setup-flyctl@master
 
-      - run: pnpm add tsup cross-env --global
+      - run: pnpm add cross-env --global
 
-      - name: Set up DNS for subdomain testing
+      - name: Deploy to Production
         run: |
-          echo "127.0.0.1 test.lan.com" | sudo tee -a /etc/hosts
+          cross-env DOMAIN=fiction APP=sites npm run deploy
 
-      - name: Run Docker Compose (DB)
-        run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d
+  deploy-app:
+    needs: [type-check, unit-tests, unit-special, integration-tests, e2e-tests, check-flags]
+    if: ${{ needs.check-flags.outputs.should-deploy == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-      - name: Create Tables
-        run: npm -w @fiction/www exec -- fiction run generate
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.2
 
-      - name: Verify Distribution Files
-        run: npm exec -- vitest run dist -u
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 23.5.0
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            @fiction/*/dist
+            @fiction/*/.fiction
+          key: render-output-${{ github.sha }}
+
+      - name: Setup Flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - run: pnpm add cross-env --global
+
+      - name: Deploy to Production
+        run: |
+          cross-env DOMAIN=fiction APP=www npm run deploy
+
+  deploy-beacon:
+    needs: [type-check, unit-tests, unit-special, integration-tests, e2e-tests, check-flags]
+    if: ${{ needs.check-flags.outputs.should-deploy == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 23.5.0
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            @fiction/*/dist
+            @fiction/*/.fiction
+          key: render-output-${{ github.sha }}
+
+      - name: Setup Flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - run: pnpm add cross-env --global
 
       - name: Deploy to Production
         run: |
           cross-env DOMAIN=fiction APP=beacon npm run deploy
-          cross-env DOMAIN=fiction APP=www npm run deploy
-          cross-env DOMAIN=fiction APP=sites npm run deploy
 
   release:
-    needs: [deploy, check-flags]
+    needs: [deploy-app, check-flags]
     if: ${{ needs.check-flags.outputs.should-release == 'true' }}
     runs-on: ubuntu-latest
     steps:
@@ -428,7 +504,7 @@ jobs:
       - run: npm run i:lockfile && npm run release
 
   notify:
-    needs: [unit-tests, integration-tests, e2e-tests, deploy, release]
+    needs: [unit-tests, integration-tests, e2e-tests, deploy-app, deploy-sites, release]
     if: failure()
     runs-on: ubuntu-latest
     steps:
