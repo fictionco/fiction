@@ -10,7 +10,7 @@
     "access": "restricted"
   },
   "engines": {
-    "node": ">=23.5.0"
+    "node": ">=23.6.0"
   },
   "scripts": {
     "render": "npm exec -- fiction run render",
