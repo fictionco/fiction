@@ -129,7 +129,42 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
       - run: npm run types:ci
 
-  basic-tests:
+  unit-tests:
+    needs: [prepare]
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 23.5.0
+          cache: pnpm
+      - uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Setup Flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Run Docker Compose (DB)
+        run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d
+
+      - name: Create Tables
+        run: npm -w @fiction/www exec -- fiction run generate
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
+      - run: |
+          npm exec -- vitest run unit -u
+
+  unit-special:
     needs: [prepare]
     runs-on: ubuntu-latest
     continue-on-error: false
@@ -166,7 +201,6 @@ jobs:
           npm exec -- vitest run debug -u --passWithNoTests
           npm exec -- vitest run aix -u --passWithNoTests
           npm exec -- vitest run envi -u --passWithNoTests
-          npm exec -- vitest run unit -u
 
   integration-tests:
     needs: [prepare]
@@ -253,7 +287,6 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
-      - run: pnpm add tsup cross-env --global
 
       - name: Run Docker Compose (DB)
         run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d
@@ -317,7 +350,7 @@ jobs:
           key: render-output-${{ github.sha }}
 
   deploy:
-    needs: [type-check, basic-tests, integration-tests, e2e-tests, check-flags]
+    needs: [type-check, unit-tests, unit-special, integration-tests, e2e-tests, check-flags]
     if: ${{ needs.check-flags.outputs.should-deploy == 'true' }}
     runs-on: ubuntu-latest
     steps:
@@ -347,6 +380,8 @@ jobs:
 
       - name: Setup Flyctl
         uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - run: pnpm add tsup cross-env --global
 
       - name: Set up DNS for subdomain testing
         run: |
@@ -393,7 +428,7 @@ jobs:
       - run: npm run i:lockfile && npm run release
 
   notify:
-    needs: [basic-tests, integration-tests, e2e-tests, deploy, release]
+    needs: [unit-tests, integration-tests, e2e-tests, deploy, release]
     if: failure()
     runs-on: ubuntu-latest
     steps:
