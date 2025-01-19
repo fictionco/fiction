@@ -44,12 +44,12 @@ const padClasses: Record<SizeWithNone, string> = {
   'none': '',
   'full': 'px-4 sm:px-6 lg:px-8',
   'xxs': 'px-2 sm:px-4',
-  'xs': 'px-6 sm:px-14',
-  'sm': 'px-6 sm:px-14',
-  'md': 'px-6 sm:px-14 lg:px-20',
-  'lg': 'px-6 sm:px-14 lg:px-20',
-  'xl': 'px-6 sm:px-14 lg:px-20',
-  '2xl': 'px-6 sm:px-14 lg:px-20',
+  'xs': 'px-4 sm:px-6',
+  'sm': 'px-4 sm:px-8',
+  'md': 'px-4 sm:px-10 lg:px-20',
+  'lg': 'px-4 sm:px-14 lg:px-20',
+  'xl': 'px-4 sm:px-14 lg:px-20',
+  '2xl': 'px-4 sm:px-14 lg:px-20',
 }
 
 export function getContentWidthClass(args: { size: SizeWithNone, padSize?: SizeWithNone | boolean }): string {

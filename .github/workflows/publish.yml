@@ -133,7 +133,7 @@ jobs:
 
 
   type-check:
-    needs: prepare
+    needs: [prepare]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -153,7 +153,7 @@ jobs:
       - run: npm run types:ci
 
   basic-tests:
-    needs: prepare
+    needs: [prepare]
     runs-on: ubuntu-latest
     continue-on-error: false
     steps:
@@ -191,7 +191,7 @@ jobs:
           npm exec -- vitest run unit -u
 
   integration-tests:
-    needs: [prepare, type-check]
+    needs: [prepare]
     runs-on: ubuntu-latest
     env:
       REDIS_URL: redis://localhost:6379
@@ -226,7 +226,7 @@ jobs:
           npm exec -- vitest run flow -u --no-file-parallelism --passWithNoTests
 
   e2e-tests:
-    needs: [prepare, type-check]
+    needs: [prepare]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -256,7 +256,7 @@ jobs:
       - run: npm exec -- vitest run uiux -u --no-file-parallelism
 
   build-tests:
-    needs: [prepare, type-check]
+    needs: [prepare]
     runs-on: ubuntu-latest
     env:
       NODE_OPTIONS: --max_old_space_size=4096
@@ -290,7 +290,9 @@ jobs:
       - run: npm exec -- vitest run build -u --no-file-parallelism
       - uses: actions/cache/save@v4
         with:
-          path: dist
+          path: |
+            @fiction/*/dist
+            @fiction/*/.fiction
           key: build-output-${{ github.sha }}
 
   render:
@@ -311,9 +313,13 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
+
+      # Restore built dist folders
       - uses: actions/cache/restore@v4
         with:
-          path: dist
+          path: |
+            @fiction/*/dist
+            @fiction/*/.fiction
           key: build-output-${{ github.sha }}
 
       - name: Run Docker Compose (DB)
@@ -323,50 +329,17 @@ jobs:
         run: npm -w @fiction/www exec -- fiction run generate
 
       - run: npm exec -- fiction run render
+
+      # Save combined build and render output
       - uses: actions/cache/save@v4
         with:
-          path: .fiction
-          key: render-output-${{ github.sha }}
-
-  dist-tests:
-    needs: [render]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9.15.2
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 23.5.0
-          cache: pnpm
-      - uses: actions/cache@v4
-        with:
           path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
-      - uses: actions/cache/restore@v4
-        with:
-          path: |
-            dist
-            .fiction
-          key: build-output-${{ github.sha }}
-      - uses: actions/cache/restore@v4
-        with:
-          path: .fiction
+            @fiction/*/dist
+            @fiction/*/.fiction
           key: render-output-${{ github.sha }}
-
-      - name: Run Docker Compose (DB)
-        run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d
-
-      - name: Create Tables
-        run: npm -w @fiction/www exec -- fiction run generate
-
-      - run: npm exec -- vitest run dist -u
 
   deploy:
-    needs: [type-check, basic-tests, integration-tests, e2e-tests, dist-tests, check-flags]
+    needs: [type-check, basic-tests, integration-tests, e2e-tests, check-flags]
     if: ${{ needs.check-flags.outputs.should-deploy == 'true' }}
     runs-on: ubuntu-latest
     steps:
@@ -375,22 +348,36 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           version: 9.15.2
+
       - uses: actions/setup-node@v4
         with:
           node-version: 23.5.0
+
       - uses: actions/cache@v4
         with:
           path: |
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
+
       - uses: actions/cache/restore@v4
         with:
           path: |
-            dist
-            .fiction
-          key: build-output-${{ github.sha }}
-      - run: |
+            @fiction/*/dist
+            @fiction/*/.fiction
+          key: render-output-${{ github.sha }}
+
+      - name: Run Docker Compose (DB)
+        run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d
+
+      - name: Create Tables
+        run: npm -w @fiction/www exec -- fiction run generate
+
+      - name: Verify Distribution Files
+        run: npm exec -- vitest run dist -u
+
+      - name: Deploy to Production
+        run: |
           cross-env DOMAIN=fiction APP=beacon npm run deploy
           cross-env DOMAIN=fiction APP=www npm run deploy
           cross-env DOMAIN=fiction APP=sites npm run deploy
@@ -410,7 +397,7 @@ jobs:
       - run: npm run i:lockfile && npm run release
 
   notify:
-    needs: [basic-tests, integration-tests, e2e-tests, dist-tests, deploy, release]
+    needs: [basic-tests, integration-tests, e2e-tests, deploy, release]
     if: failure()
     runs-on: ubuntu-latest
     steps:

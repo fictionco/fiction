@@ -64,6 +64,11 @@ async function setBlurHash() {
   }
 }
 
+const validMediaUrl = vue.computed(() => {
+  const url = media?.url
+  return url?.includes('file://') ? '' : url
+})
+
 vue.onMounted(() => {
   vue.watch(
     () => media?.url,
@@ -257,25 +262,25 @@ function videoHover(args: { mode: 'enter' | 'leave' }) {
           inlineImage ? 'block w-full' : 'absolute h-full w-full',
           media?.videoControls?.freeze?.playOnHover ? 'hover:opacity-90' : '',
         ]"
-        :src="media.url"
+        :src="validMediaUrl"
         :style="filterStyle"
         v-bind="videoAttrs"
         @mouseenter="videoHover({ mode: 'enter' })"
         @mouseleave="videoHover({ mode: 'leave' })"
       />
       <img
-        v-else-if="mediaFormat === 'image' && media.url"
+        v-else-if="mediaFormat === 'image' && validMediaUrl"
         v-show="!loading"
         class="inset-0 z-0"
         :class="[imageClass, imageModeClass, inlineImage ? 'block w-full' : 'absolute h-full w-full']"
-        :src="media.url"
+        :src="validMediaUrl"
         :style="filterStyle"
       >
       <iframe
         v-else-if="mediaFormat === 'iframe'"
         v-show="!loading"
         class="absolute inset-0 h-full w-full z-0"
-        :src="media.url"
+        :src="validMediaUrl"
         frameborder="0"
         allowfullscreen
       />

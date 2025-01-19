@@ -3,6 +3,7 @@ import type { Card } from '@fiction/site'
 import type { UserConfig } from './config'
 import { getNavComponentType, vue } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
@@ -73,10 +74,10 @@ vue.onMounted(() => {
           >
             <div class="x-action-item absolute inset-0 transition-all duration-1000 opacity-0">
               <div v-if="item.media" class="item-media absolute inset-0 bg-white overflow-hidden">
-                <img
-                  :src="item.media.url"
+                <XMedia
+                  :media="item.media"
                   class="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.33,1)] group-hover/marquee:scale-105"
-                >
+                />
                 <div
                   class="grad absolute inset-0 transition-opacity duration-300 "
                   :class="uc.showAllText ? '' : 'opacity-0 group-hover/marquee:opacity-100'"
