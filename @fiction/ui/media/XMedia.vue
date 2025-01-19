@@ -24,9 +24,9 @@ type AnimateType = 'swipe' | 'expand' | '' | boolean
 const logger = log.contextLogger('XMedia')
 
 const loading = vue.ref(true)
+const isMobile = vue.ref(false)
 const blurCanvas = vue.ref<HTMLCanvasElement>()
 const videoEl = vue.ref<HTMLVideoElement>()
-// used to clean up video listeners
 const cleanupFreeze = vue.ref<(() => void) | undefined>()
 
 const mediaFormat = vue.computed(() => {
@@ -69,16 +69,44 @@ const validMediaUrl = vue.computed(() => {
   return url?.includes('file://') ? '' : url
 })
 
-vue.onMounted(() => {
+const shouldAutoplay = vue.computed(() => {
+  const controls = media?.videoControls || {}
+  // Only autoplay if explicitly set to true, ignore hover settings on mobile
+  if (isMobile.value) {
+    return controls.autoplay === true
+  }
+  return controls.autoplay ?? (!controls.freeze?.playOnHover)
+})
+
+const shouldHandleHover = vue.computed(() => {
+  // Disable hover on mobile entirely
+  if (isMobile.value) {
+    return false
+  }
+  return media?.videoControls?.freeze?.playOnHover
+})
+
+async function initVideoFirstFrame(video: HTMLVideoElement) {
+  if (!shouldAutoplay.value) {
+    try {
+      video.currentTime = 0
+      await video.play()
+      await video.pause()
+    }
+    catch (err) {
+      console.warn('Could not init video first frame:', err)
+    }
+  }
+}
+
+vue.onMounted(async () => {
+  isMobile.value = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+
   vue.watch(
     () => media?.url,
     async (url) => {
       loading.value = true
       setBlurHash()
-
-      if (url?.includes('file://')) {
-        return
-      }
 
       if (url && mediaFormat.value === 'image') {
         try {
@@ -96,11 +124,12 @@ vue.onMounted(() => {
         loading.value = false
       }
 
-      // https://github.com/facebook/react/issues/10389
       if (videoEl.value) {
         videoEl.value.muted = true
-        // Force attribute for iOS Safari
         videoEl.value.setAttribute('muted', '')
+
+        // Initialize first frame
+        await initVideoFirstFrame(videoEl.value)
       }
     },
     { immediate: true },
@@ -125,18 +154,15 @@ const filters = vue.computed(() => media?.filters || [])
 const videoAttrs = vue.computed(() => {
   const controls = media?.videoControls || {}
 
-  const out = removeUndefined({
+  return removeUndefined({
     playbackRate: controls.playbackRate,
-    autoplay: controls.autoplay ?? (!controls.freeze?.playOnHover),
+    autoplay: shouldAutoplay.value,
     loop: controls.loop ?? true,
     muted: controls.muted ?? true,
     controls: controls.controls,
-    preload: controls.preload,
-    poster: controls.poster,
+    preload: isMobile.value ? 'metadata' : (controls.preload ?? 'auto'),
     playsinline: controls.playsinline ?? true,
   })
-
-  return out
 })
 
 const bgStyle = vue.computed(() => ({
@@ -191,15 +217,16 @@ const aspectClass = vue.computed(() => {
   return aspectMappings[aspect] || ''
 })
 
-function videoHover(args: { mode: 'enter' | 'leave' }) {
+async function videoHover(args: { mode: 'enter' | 'leave' }) {
   const { mode } = args
   const el = videoEl.value
-  if (el && media?.videoControls?.freeze?.playOnHover) {
+  // Only handle hover if enabled and not on mobile
+  if (el && shouldHandleHover.value) {
     if (mode === 'enter') {
-      el.play()
+      await el.play()
     }
     else {
-      el.pause()
+      await el.pause()
     }
   }
 }
@@ -260,7 +287,7 @@ function videoHover(args: { mode: 'enter' | 'leave' }) {
           imageClass,
           imageModeClass,
           inlineImage ? 'block w-full' : 'absolute h-full w-full',
-          media?.videoControls?.freeze?.playOnHover ? 'hover:opacity-90' : '',
+          shouldHandleHover ? 'hover:opacity-90' : '',
         ]"
         :src="validMediaUrl"
         :style="filterStyle"

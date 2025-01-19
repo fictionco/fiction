@@ -74,20 +74,6 @@ jobs:
             "branch": "${{ github.ref_name }}"
           }' > ./buildInfo.json
 
-      - name: Set up DNS for subdomain testing
-        run: |
-          echo "127.0.0.1 test.lan.com" | sudo tee -a /etc/hosts
-
-      - name: Configure Git
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-
-      - name: Install GH CLI
-        run: |
-          sudo apt update
-          sudo apt install -y gh
-
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -121,15 +107,6 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
-
-      - name: Install Playwright Browsers
-        run: npx playwright install
-
-      - name: Run Docker Compose (DB)
-        run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d
-
-      - name: Create Tables
-        run: npm -w @fiction/www exec -- fiction run generate
 
 
   type-check:
@@ -172,7 +149,8 @@ jobs:
             */*/node_modules
           key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
 
-      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Setup Flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
 
       - name: Run Docker Compose (DB)
         run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d
@@ -344,7 +322,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: superfly/flyctl-actions/setup-flyctl@master
+
       - uses: pnpm/action-setup@v4
         with:
           version: 9.15.2
@@ -366,6 +344,13 @@ jobs:
             @fiction/*/dist
             @fiction/*/.fiction
           key: render-output-${{ github.sha }}
+
+      - name: Setup Flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Set up DNS for subdomain testing
+        run: |
+          echo "127.0.0.1 test.lan.com" | sudo tee -a /etc/hosts
 
       - name: Run Docker Compose (DB)
         run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d
@@ -394,6 +379,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 23.5.0
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Install GH CLI
+        run: |
+          sudo apt update
+          sudo apt install -y gh
+
       - run: npm run i:lockfile && npm run release
 
   notify:
