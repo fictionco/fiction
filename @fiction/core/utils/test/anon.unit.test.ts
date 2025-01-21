@@ -3,13 +3,11 @@
  */
 import { beforeEach, describe, expect, it } from 'vitest'
 import { ANON_ID_KEY, getAnonymousId } from '../anon'
+import { removeCookieNakedDomain } from '../cookie'
 
 describe('getAnonymousId', () => {
   beforeEach(() => {
-    // Clear cookies and local/session storage before each test
-    document.cookie.split(';').forEach((cookie) => {
-      document.cookie = cookie.replace(/^ +/, '').replace(/=.*/, `=;expires=${new Date(0).toUTCString()};path=/`)
-    })
+    removeCookieNakedDomain({ name: ANON_ID_KEY })
     localStorage.clear()
     sessionStorage.clear()
   })
