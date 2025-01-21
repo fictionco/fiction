@@ -108,7 +108,6 @@ jobs:
             */*/node_modules
           key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
 
-
   type-check:
     needs: [prepare]
     runs-on: ubuntu-latest

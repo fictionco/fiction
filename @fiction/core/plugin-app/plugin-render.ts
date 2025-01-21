@@ -222,8 +222,8 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
     const parts = await ssr.render({ runVars })
 
-    let { htmlBody, headTags, bodyTags } = parts
-    const { htmlAttrs, bodyAttrs, bodyTagsOpen } = parts
+    let { htmlBody, headTags } = parts
+    const { htmlAttrs, bodyAttrs, bodyTagsOpen, bodyTags } = parts
 
     const mode = runVars.RUN_MODE || 'prod'
     const pathname = runVars.PATHNAME || '/'
@@ -259,7 +259,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     if (this.isApp.value)
       return
 
-    const { render = true, serve = false, minify = false } = options
+    const { render = true, serve = false, minify = true } = options
 
     if (!this.fictionApp.appUrl)
       throw new Error('appUrl is required')
@@ -271,9 +271,16 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     const html = this.indexHtml.getBuildIndexHtml()
     const templates = { main: { html } }
 
-    this.log.info(`building fiction app (${this.fictionApp.appInstanceId})`, {
-      data: { isNode: isNode(), indexFiles: Object.values(templates).length },
-    })
+    this.log.info(
+      `building fiction app (${this.fictionApp.appInstanceId})`,
+      {
+        data: {
+          minify,
+          isNode: isNode(),
+          indexFiles: Object.values(templates).length,
+        },
+      },
+    )
 
     try {
       const viteConfigServer = await this.getViteConfig({ mode: 'prod' })
