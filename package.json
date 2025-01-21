@@ -125,6 +125,7 @@
     "vue-tsc": "^2.2.0"
   },
   "pnpm": {
+    "onlyBuiltDependencies": ["bcrypt", "esbuild", "msw", "ngrok", "protobufjs", "sharp", "simple-git-hooks"],
     "overrides": {
       "isomorphic-dompurify": "2.10.0"
     }
