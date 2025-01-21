@@ -1,4 +1,12 @@
 Sitemap: https://www.fiction.com/sitemap.xml
 
+# Block theme demo subdomains
 User-agent: *
-Disallow:
+Disallow: /
+Host: theme-*.fiction.com
+
+# Allow all other domains and subdomains
+User-agent: *
+Allow: /
+Host: *.fiction.com
+Host: fiction.com

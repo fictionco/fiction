@@ -7,6 +7,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import {
   getCookie,
   getNakedDomain,
+  removeCookie,
   removeCookieNakedDomain,
   setCookie,
   setCookieNakedDomain,
@@ -23,11 +24,6 @@ describe('cookie', () => {
 
   // Clear cookies before each test and reset the hostname
   beforeEach(() => {
-    // Clear all cookies
-    document.cookie.split(';').forEach((cookie) => {
-      document.cookie = cookie.replace(/^ +/, '').replace(/=.*/, `=;expires=${new Date(0).toUTCString()};path=/`)
-    })
-
     // Reset hostname to localhost for each test
     Object.defineProperty(window.location, 'hostname', {
       writable: true,
@@ -57,6 +53,7 @@ describe('cookie', () => {
     it('should set a basic cookie', () => {
       setCookie({ name: 'test', value: 'test', attributes: { expires: 14 } })
       expect(Cookies.get('test')).toBe('test')
+      removeCookie({ name: 'test' })
     })
   })
 
@@ -71,6 +68,7 @@ describe('cookie', () => {
     it('should set a cookie for the naked domain', () => {
       setCookieNakedDomain({ name: 'test2', value: 'test2', attributes: { expires: 14 } })
       expect(getCookie('test2')).toBe('test2')
+      removeCookieNakedDomain({ name: 'test2' })
     })
   })
 
@@ -86,6 +84,7 @@ describe('cookie', () => {
     it('should handle more complex cookie scenarios', () => {
       setCookie({ name: 'test3', value: 'test3', attributes: { expires: 14, domain: 'test.com' } })
       expect(getCookie('test3')).toBeUndefined()
+      removeCookie({ name: 'test3' })
     })
   })
 
