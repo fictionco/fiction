@@ -1,7 +1,7 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { SiteUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
-import { ActionAreaSchema } from '@fiction/core'
+import { ActionAreaSchema, DecorationShapeSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod'
 
@@ -10,6 +10,7 @@ export const StatementSchema = z.object({
   title: z.string().optional().describe('The headline that captures attention (3-8 words) [ai]'),
   content: z.string().optional().describe('The main message that drives your point home'),
   action: ActionAreaSchema.optional().describe('call-to-action area'),
+  shape: DecorationShapeSchema.optional().describe('The shape of the image'),
 })
 
 export type Statement = z.infer<typeof StatementSchema>
@@ -60,6 +61,13 @@ const options = [
             key: 'items.0.action',
             label: 'Action Area',
             input: 'InputActionArea',
+          }),
+          createOption({
+            schema,
+            key: 'items.0.shape',
+            label: 'Decoration Shape',
+            input: 'InputSelect',
+            list: DecorationShapeSchema.options,
           }),
         ],
       }),

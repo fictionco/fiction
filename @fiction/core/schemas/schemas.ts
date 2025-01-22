@@ -32,6 +32,9 @@ export const ButtonShadowSchema = z.enum(['none', 'sm', 'md', 'lg'])
 export const ButtonFontWeightSchema = z.enum(['normal', 'medium', 'semibold', 'bold'])
 export const ButtonBorderSchema = z.enum(['none', 'normal', 'thick'])
 export const AspectRatioSchema = z.enum(['square', 'portrait', 'landscape', 'golden', 'wide', 'tall', 'cinema', 'panorama'])
+export const DecorationShapeSchema = z.enum(['none', 'circle', 'square', 'triangle', 'hexagon', 'diamond', 'star', 'star4', 'star8'])
+
+export type DecorationShape = z.infer<typeof DecorationShapeSchema>
 
 // Inferred types
 export type ButtonFormat = z.infer<typeof ButtonFormatSchema>

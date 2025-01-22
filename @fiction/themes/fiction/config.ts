@@ -1,5 +1,5 @@
 import type { template as faqTemplate } from '@fiction/cards/content-faq'
-import type { template as heroTemplate } from '@fiction/cards/content-hero'
+import type { template as heroTemplate, UserConfig } from '@fiction/cards/content-hero'
 import type { template as tourTemplate } from '@fiction/cards/content-tour/index.js'
 import type { template as pricingTemplate } from '@fiction/cards/convert-pricing'
 import type { template as cardTextEffectV1 } from '@fiction/cards/effect-text/index.js'
@@ -245,47 +245,47 @@ export async function getPricingPage(args: { factory: CardFactory, site: Site })
   const pricingCard = await factory.fromTemplate<typeof pricingTemplate>({
     templateId: 'cardPricingV1',
     userConfig: {
+      hasAnnual: true,
       annualDiscountPercent: 40,
+      layout: 'standard',
       prices: [
         {
           title: 'Basic',
           price: 0,
           description: `What's included...`,
+          icon: { class: 'i-tabler-rocket' },
           features: [
             { label: 'Up to 2,500 Subscribers' },
-            { label: 'Web Hosting' },
-            { label: 'Custom Newsletters' },
-            { label: 'Free Plugins' },
+            { label: 'Web Hosting and Unlimited Traffic' },
+            { label: 'Content Creation and Newsletter Tools' },
+            { label: 'Free Extensions and Integrations' },
           ],
+          button: {
+            label: 'Start Free',
+            icon: { class: 'i-tabler-rocket' },
+            href: '#starter-monthly',
+            hrefAnnual: '#starter-annual',
+          },
         },
         {
           title: 'Pro',
-          price: 99,
+          price: 49,
           description: `Everything in Basic, plus...`,
+          variant: 'highlighted',
+          badge: 'Best Results',
           button: {
+            icon: { class: 'i-tabler-stars' },
             href: await purchaseUrl({ fictionStripe, priceId: 'price_222' }),
           },
-
-          badge: 'Most Popular',
+          icon: { class: 'i-tabler-stars' },
           features: [
-            { label: 'Up to 10,000 subscribers' },
-            { label: 'Remove Branding' },
-            { label: 'Custom domains' },
-            { label: 'Pro Plugins' },
-          ],
-        },
-        {
-          title: 'Pro+',
-          price: 199,
-          description: `Everything in Basic, plus...`,
-          button: {
-            href: await purchaseUrl({ fictionStripe, priceId: 'price_333' }),
-          },
-          features: [
-            { label: 'Up to 25,000 subscribers' },
-            { label: 'Advanced UI cards' },
-            { label: 'AI Copilot' },
-            { label: 'Additional Pro+ Plugins' },
+            { label: 'Up to 5,000 subscribers' },
+            { label: 'AI Tools' },
+            { label: 'Custom Domains' },
+            { label: 'Priority support (24h response)' },
+            { label: 'Custom domain support' },
+            { label: 'Remove branding' },
+            { label: 'Pro Extensions and Integrations' },
           ],
         },
       ],
@@ -840,8 +840,18 @@ export async function getConfig(args: {
                 tagline: `Your story begins here...`,
                 action: {
                   buttons: [
-                    { label: 'Start Free', theme: 'primary', icon: { iconId: 'bolt' } },
-                    { label: 'Talk to Sales', theme: 'default', icon: { iconId: 'phone' } },
+                    {
+                      label: 'Start Free',
+                      theme: 'primary',
+                      icon: { iconId: 'bolt' },
+                      href: '/app?_reload=1',
+                    },
+                    {
+                      label: 'Talk to Sales',
+                      theme: 'default',
+                      icon: { iconId: 'phone' },
+                      href: '/contact',
+                    },
                   ],
                 },
               },

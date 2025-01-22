@@ -141,7 +141,7 @@ const containerClass = vue.computed(() => {
     standard: 'grid gap-8 mx-auto',
   }
 
-  const columnClass = uc.value.prices && uc.value.prices?.length <= 2 ? 'lg:grid-cols-2' : 'lg:grid-cols-3'
+  const columnClass = uc.value.prices && uc.value.prices?.length <= 2 ? 'lg:grid-cols-2 lg:max-w-screen-lg' : 'lg:grid-cols-3'
 
   return `${layouts[uc.value.layout || 'standard']} ${columnClass}`
 })

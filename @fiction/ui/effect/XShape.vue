@@ -1,13 +1,12 @@
 <script lang="ts" setup>
-import { type ColorThemeUser, getColorScheme, isDarkOrLightMode, vue } from '@fiction/core'
+import { type ColorThemeUser, type DecorationShape, getColorScheme, isDarkOrLightMode, vue } from '@fiction/core'
 
-type ShapeType = 'circle' | 'square' | 'triangle' | 'hexagon' | 'diamond' | 'star' | 'star4' | 'star8'
 type BlendMode = 'normal' | 'multiply' | 'screen' | 'overlay' | 'darken' | 'lighten'
 type ColorMode = 'dark' | 'light' | 'auto'
 
 const props = defineProps<{
   // Shape appearance
-  shape?: ShapeType
+  shape?: DecorationShape
   color?: string
   theme?: ColorThemeUser | 'primary' | 'theme'
   opacity?: number
@@ -21,7 +20,7 @@ const props = defineProps<{
   scale?: number
 }>()
 
-const SHAPE_PATHS: Record<ShapeType, string> = {
+const SHAPE_PATHS: Record<DecorationShape, string> = {
   circle: 'M50 0a50 50 0 100 100A50 50 0 0050 0z',
   square: 'M0 0h100v100H0z',
   triangle: 'M50 0L100 100H0z',
@@ -32,7 +31,7 @@ const SHAPE_PATHS: Record<ShapeType, string> = {
   star4: 'M50 0L70 30L100 50L70 70L50 100L30 70L0 50L30 30Z',
   // 8-pointed star with even spacing
   star8: 'M50 0L61 25L85 15L75 39L100 50L75 61L85 85L61 75L50 100L39 75L15 85L25 61L0 50L25 39L15 15L39 25Z',
-
+  none: '',
 }
 
 const containerRef = vue.ref<HTMLElement | null>(null)

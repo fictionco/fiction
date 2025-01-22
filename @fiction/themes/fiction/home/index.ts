@@ -92,7 +92,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                     icon: { class: 'i-tabler-mail' },
                     text: 'Capture & Connect',
                   },
-                  title: 'Easily build and email your audience',
+                  title: 'Build an Audience, Start Your Newsletter',
                   content: 'Engage your audience with every send. Fiction helps you build your email list and deliver newsletters that captivate.',
                   theme: 'blue',
                   themeMode: 'dark',
@@ -107,7 +107,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                     icon: { class: 'i-tabler-bolt' },
                     text: 'Powered by AI',
                   },
-                  title: 'Use AI to help create and audit your content',
+                  title: 'Effortless Content Creation with AI',
                   content: 'Stuck on words? Use AI tools to unlock creativity. Craft content that inspires, informs, and converts.',
                   theme: 'green',
                   themeMode: 'dark',
@@ -124,12 +124,22 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
             userConfig: {
               items: [
                 {
-                  title: 'Master Every Area of Your Life',
-                  content: `Close the gap between where you are and where you want to be with a proven growth platform.`,
+                  title: 'Built for Decision Makers',
+                  content: `Fiction helps thought leaders transform their expertise into compelling digital content that builds real audiences.`,
+                  shape: 'star8',
+                },
+                {
+                  title: 'Skip the Mistakes',
+                  content: `No more awkward self-promotion or scattered strategies. Our proven system helps you build authority without the cringe`,
+                },
+                {
+                  title: 'Stand Out in Your Field',
+                  content: `We craft your unique perspective into content that resonates with your target audience and drives meaningful engagement.`,
+                  shape: 'diamond',
                 },
               ],
               standard: {
-                spaceSize: 'sm',
+                spaceSize: 'md',
                 background: {
 
                 },
