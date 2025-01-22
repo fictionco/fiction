@@ -7,9 +7,9 @@
   "main": "index.ts",
   "dependencies": {
     "@fiction/core": "workspace:*",
-    "@sentry/browser": "^8.50.0",
-    "@sentry/node": "^8.50.0",
-    "@sentry/vue": "^8.50.0",
+    "@sentry/browser": "^8.51.0",
+    "@sentry/node": "^8.51.0",
+    "@sentry/vue": "^8.51.0",
     "@slack/webhook": "^7.0.4"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",

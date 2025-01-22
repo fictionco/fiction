@@ -14,7 +14,7 @@
   ],
   "dependencies": {
     "@aws-sdk/client-cloudfront": "^3.731.1",
-    "@aws-sdk/client-s3": "^3.732.0",
+    "@aws-sdk/client-s3": "^3.733.0",
     "@egoist/tailwindcss-icons": "^1.8.2",
     "@faker-js/faker": "^9.4.0",
     "@iconify-json/carbon": "^1.2.5",
@@ -82,7 +82,7 @@
     "google-auth-library": "^9.15.0",
     "google-one-tap": "^1.0.6",
     "handlebars": "^4.7.8",
-    "happy-dom": "^16.7.1",
+    "happy-dom": "^16.7.2",
     "helmet": "^8.0.0",
     "html-minifier": "^4.0.0",
     "htmlparser2": "^10.0.0",
