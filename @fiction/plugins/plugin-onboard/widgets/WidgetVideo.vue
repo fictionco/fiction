@@ -1,28 +1,25 @@
 <script lang="ts" setup>
 import type { Widget } from '@fiction/admin/dashboard/widget'
 import type { NavItem } from '@fiction/core'
+import type { Card } from '@fiction/platform'
 import WidgetWrap from '@fiction/admin/dashboard/WidgetWrap.vue'
 import XIcon from '@fiction/ui/media/XIcon.vue'
 
-const { widget } = defineProps<{
+const { widget, card } = defineProps<{
   widget: Widget
+  card: Card
 }>()
 
 const items: NavItem[] = [
 
   {
-    title: 'Create Your Brand Guide',
-    href: '/',
-    media: { format: 'iconClass', class: 'i-tabler-briefcase-2' },
-  },
-  {
     title: 'Write Your First Post',
-    href: '/',
+    href: card.link('/posts?addNew=1'),
     media: { format: 'iconClass', class: 'i-tabler-pencil' },
   },
   {
-    title: 'Create A Website',
-    href: '/',
+    title: 'Create A Site',
+    href: card.link('/sites?addNew=1'),
     media: { format: 'iconClass', class: 'i-tabler-layout' },
   },
 ]

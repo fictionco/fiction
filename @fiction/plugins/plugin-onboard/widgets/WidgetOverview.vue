@@ -5,6 +5,7 @@ import WidgetWrap from '@fiction/admin/dashboard/WidgetWrap.vue'
 import { MetricDisplayFactory } from '@fiction/analytics/displayMetricFactory'
 import { dayjs, useService, vue } from '@fiction/core'
 import XNumber from '@fiction/ui/common/XNumber.vue'
+import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import SuperChart from './SuperChart.vue'
 
 const { widget } = defineProps<{ widget: Widget }>()
@@ -135,8 +136,8 @@ function isMetricPositive(metric: MetricDisplayItemWithData) {
 
 <template>
   <WidgetWrap :widget="widget">
-    <div v-if="factory.loading.value" class="p-12 text-center text-theme-500 text-xs">
-      Loading metrics...
+    <div v-if="factory.loading.value" class="p-16 text-center text-theme-500 text-xs flex justify-center items-center gap-4">
+      <ElSpinner class="size-6" /> <span>Loading metrics...</span>
     </div>
 
     <div v-else-if="factory.error.value" class="p-12 text-center text-red-500">

@@ -173,8 +173,8 @@ export class ManageBrandGuideQuery extends BrandGuideEndpoint {
   }
 
   private async list(params: ManageBrandGuideParams & { _action: 'list' }, _meta: EndpointMeta): Promise<ManageBrandGuideResponse> {
-    const { where, orgId } = params
-    let { limit = this.limit, offset = this.offset, page } = params
+    const { where, orgId, limit = this.limit, page } = params
+    let { offset = this.offset } = params
 
     if (page && page > 0) {
       offset = (page - 1) * limit

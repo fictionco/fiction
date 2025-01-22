@@ -141,7 +141,7 @@ const rootListClasses = vue.computed(() => {
 })
 
 function getInputWrapClasses(opt: InputOption) {
-  const defaultClass = format === 'control' ? 'p-6' : opt.settings.uiFormat !== 'naked' && depth === 0 ? 'px-6' : ''
+  const defaultClass = format === 'control' ? '@[500px]:p-8 p-6' : opt.settings.uiFormat !== 'naked' && depth === 0 ? 'px-6' : ''
   return twMerge([defaultClass])
 }
 
@@ -151,7 +151,7 @@ function getGroupClasses(opt: InputOption) {
 </script>
 
 <template>
-  <div :class="`form-engine-${depth}`" :data-value="depth === 0 ? JSON.stringify(modelValue) : undefined" :data-form-engine-depth="depth" :data-options-len="options.length">
+  <div class="@container" :class="`form-engine-${depth}`" :data-value="depth === 0 ? JSON.stringify(modelValue) : undefined" :data-form-engine-depth="depth" :data-options-len="options.length">
     <div :class="rootListClasses">
       <template v-for="(opt, i) in options.filter(_ => !_.settings.isHidden)" :key="i">
         <div

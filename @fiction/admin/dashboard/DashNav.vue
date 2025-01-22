@@ -23,6 +23,7 @@ async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
 const cls = {
   active: 'font-semibold bg-primary-100/50 text-primary-950 dark:bg-primary-800/50 ring-1 ring-primary-300/60 dark:ring-primary-800 dark:text-primary-0',
   inactive: 'font-medium text-theme-700 dark:text-theme-200 dark:hover:bg-theme-700 hover:text-theme-900 border-theme-0',
+  navItemWrap: 'group nav-item flex cursor-pointer items-center py-3 px-4 gap-3 xl:gap-5 truncate rounded-full font-sans text-base xl:text-lg  focus:outline-none transition-all duration-100',
 }
 </script>
 
@@ -48,13 +49,12 @@ const cls = {
           <div class="nav-menu">
             <CardLink
               :card
-              class="group nav-item flex cursor-pointer items-center py-3 px-4 space-x-3 truncate rounded-full font-sans text-base  focus:outline-none transition-all duration-100"
               :href="sub.href"
-              :class="sub.isActive ? cls.active : cls.inactive "
+              :class="[sub.isActive ? cls.active : cls.inactive, cls.navItemWrap] "
               :data-test-id="`dashboard-nav-${sub.testId}`"
               @click="handleClick($event, sub)"
             >
-              <div v-if="sub.icon" class="text-2xl shrink-0" :class="sub.icon" />
+              <div v-if="sub.icon" class="text-2xl xl:text-3xl shrink-0" :class="sub.icon" />
               <div class="pt-0.5 truncate" v-html="toLabel(sub.label)" />
             </CardLink>
           </div>
@@ -70,13 +70,12 @@ const cls = {
         <div class="nav-menu">
           <CardLink
             :card
-            class="group nav-item flex cursor-pointer items-center py-3 px-4 space-x-3 truncate rounded-full font-sans text-base  focus:outline-none transition-all duration-100"
             :href="sub.href"
-            :class=" sub.isActive ? cls.active : cls.inactive "
+            :class="[sub.isActive ? cls.active : cls.inactive, cls.navItemWrap] "
             :data-test-id="`dashboard-nav-${sub.testId}`"
             @click="handleClick($event, sub)"
           >
-            <div v-if="sub.icon" class="text-2xl" :class="sub.icon" />
+            <div v-if="sub.icon" class="text-2xl xl:text-3xl " :class="sub.icon" />
             <div class="pt-0.5" v-html="toLabel(sub.label)" />
           </CardLink>
         </div>

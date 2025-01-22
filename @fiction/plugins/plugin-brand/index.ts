@@ -80,7 +80,7 @@ export class FictionBrand extends FictionPlugin<FictionBrandSettings> {
           }),
         ],
         userConfig: {
-          isNavItem: true,
+          isNavItem: false,
           navIcon: 'i-tabler-map',
           navIconAlt: 'i-tabler-map-check',
           priority: 200,
