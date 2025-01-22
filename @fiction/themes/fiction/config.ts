@@ -1,6 +1,5 @@
 import type { template as faqTemplate } from '@fiction/cards/content-faq'
-import type { template as heroTemplate, UserConfig } from '@fiction/cards/content-hero'
-import type { template as pricingTemplate } from '@fiction/cards/convert-pricing'
+import type { template as heroTemplate } from '@fiction/cards/content-hero'
 import type { template as cardTextEffectV1 } from '@fiction/cards/effect-text/index.js'
 import type { template as mapsTemplate, MapUserConfig } from '@fiction/cards/location-maps/index.js'
 import type { template as marqueeTemplate } from '@fiction/cards/media-marquee/index.js'
@@ -10,7 +9,6 @@ import type { template as footerProTemplate } from '@fiction/cards/page-footer-p
 import type { template as navTemplate } from '@fiction/cards/page-nav/index.js'
 import type { template as wrapTemplate } from '@fiction/cards/page-wrap/index.js'
 import type { template as logosTemplate } from '@fiction/cards/proof-logos/index'
-import type { FictionStripe } from '@fiction/plugin-stripe/index.js'
 
 import type { Site } from '@fiction/site'
 import type { CardFactory } from '@fiction/site/cardFactory'
@@ -19,7 +17,6 @@ import type { StockMedia } from '@fiction/ui/stock/index.js'
 import { getCardDemoListing, getDemoPages } from '@fiction/cards'
 
 import { dayjs, type NavItem } from '@fiction/core'
-import { getCheckoutUrl } from '@fiction/plugin-stripe/index.js'
 import favicon from '@fiction/ui/brand/favicon.svg'
 
 import icon from '@fiction/ui/brand/icon.png'
@@ -27,6 +24,7 @@ import shareImage from '@fiction/ui/brand/shareImage.png'
 import * as affiliate from './affiliate/index.js'
 import * as developer from './developer/index.js'
 import * as homePage from './home/index.js'
+import { getPricingPage } from './pages/pricing/index.js'
 import { getTourPage } from './pages/tour/index.js'
 
 const social: NavItem[] = [
@@ -34,18 +32,6 @@ const social: NavItem[] = [
   { key: 'github', href: 'https://github.com/fictionco', target: '_blank', label: 'Github', media: { iconId: `brand-github` } },
   { key: 'x', href: 'https://www.x.com/fictionplatform', target: '_blank', label: 'X', media: { iconId: `brand-x` } },
 ]
-
-async function purchaseUrl(args: { priceId: string, fictionStripe?: FictionStripe }) {
-  const { fictionStripe } = args
-
-  const loginPath = '/auth/login'
-
-  if (!fictionStripe) {
-    return loginPath
-  }
-
-  return await getCheckoutUrl({ fictionStripe, query: { ...args, loginPath } })
-}
 
 export async function getAboutPage(args: { site: Site, factory: CardFactory }) {
   const { factory } = args
@@ -226,101 +212,6 @@ export async function getAboutPage(args: { site: Site, factory: CardFactory }) {
           missionHeroCard,
           missionHeroCard2,
           mapCard,
-          valueCard,
-        ],
-      }),
-
-    ],
-  })
-}
-
-export async function getPricingPage(args: { factory: CardFactory, site: Site }) {
-  const { site, factory } = args
-
-  const { fictionStripe } = site.fictionSites.fictionEnv.getService<{ fictionStripe: FictionStripe }>()
-
-  const pricingCard = await factory.fromTemplate<typeof pricingTemplate>({
-    templateId: 'cardPricingV1',
-    userConfig: {
-      hasAnnual: true,
-      annualDiscountPercent: 40,
-      layout: 'standard',
-      prices: [
-        {
-          title: 'Basic',
-          price: 0,
-          description: `What's included...`,
-          icon: { class: 'i-tabler-rocket' },
-          features: [
-            { label: 'Up to 2,500 Subscribers' },
-            { label: 'Web Hosting and Unlimited Traffic' },
-            { label: 'Content Creation and Newsletter Tools' },
-            { label: 'Free Extensions and Integrations' },
-          ],
-          button: {
-            label: 'Start Free',
-            icon: { class: 'i-tabler-rocket' },
-            href: '#starter-monthly',
-            hrefAnnual: '#starter-annual',
-          },
-        },
-        {
-          title: 'Pro',
-          price: 49,
-          description: `Everything in Basic, plus...`,
-          variant: 'highlighted',
-          badge: 'Best Results',
-          button: {
-            icon: { class: 'i-tabler-stars' },
-            href: await purchaseUrl({ fictionStripe, priceId: 'price_222' }),
-          },
-          icon: { class: 'i-tabler-stars' },
-          features: [
-            { label: 'Up to 5,000 subscribers' },
-            { label: 'AI Tools' },
-            { label: 'Custom Domains' },
-            { label: 'Priority support (24h response)' },
-            { label: 'Custom domain support' },
-            { label: 'Remove branding' },
-            { label: 'Pro Extensions and Integrations' },
-          ],
-        },
-      ],
-    },
-  })
-
-  const topHeroCard = await factory.fromTemplate<typeof heroTemplate>({
-    templateId: 'cardHeroV1',
-    userConfig: {
-      superTitle: { text: 'Simple Premium Pricing' },
-      subTitle: `40% Discount When Paying Annually`,
-      title: `Plans and Pricing`,
-    },
-  })
-
-  const valueCard = await factory.fromTemplate<typeof faqTemplate>({
-    templateId: 'cardFaqV1',
-    userConfig: {
-      standard: { headers: { title: 'Frequently Asked Questions', subTitle: 'Get answers to common questions about Fiction' } },
-      items: [
-        { title: 'Can I Cancel My Subscription At Any Time?', content: `Of course! If you decide that Fiction  isn't the right fit for your business, you can easily cancel your account from your dashboard at any time.` },
-        { title: `Does Fiction Take A Cut Of My Revenue?`, content: `No! When you make a sale with Fiction, we don't take a percentage cut of your revenue from that sale (unlike most creator platforms). If you use Stripe or Paypal to collect payments, you will still pay their merchant processing fees (for example, Stripe's merchant processing fee is 2.9% + 30 cents per transaction).` },
-        { title: `What should my personal marketing platform include?`, content: `A successful platform should feature a consistent stream of content that your audience finds valuable. This could include articles, videos, audios, courses, live webinars, downloadable resources, perks (like event tickets or physical merchandise), and/or a community section or forum.` },
-
-      ],
-    },
-  })
-
-  return factory.fromTemplate({
-    regionId: 'main',
-    templateId: 'cardPageWrapV1',
-    slug: 'pricing',
-    cards: [
-      await factory.fromTemplate({
-        templateId: 'cardPageAreaV1',
-        cards: [
-          topHeroCard,
-          pricingCard,
           valueCard,
         ],
       }),
@@ -543,9 +434,9 @@ export async function getConfig(args: {
               nav: {
                 primary: [
                   { label: 'Why Fiction', href: '/tour' },
-                  { label: 'About', href: '/about' },
+                  { label: 'Plans & Pricing', href: '/pricing' },
                   {
-                    label: 'Web Elements',
+                    label: 'Website Cards',
                     list: {
                       description: 'Professional components for your website',
                       variant: 'expanded',

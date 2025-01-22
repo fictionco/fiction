@@ -43,7 +43,7 @@ function onSlideChange(index: number) {
                 <div class="flex items-baseline gap-12">
                   <CardText
                     tag="h2"
-                    class="text-4xl sm:!leading-[1.1] sm:text-4xl xl:text-5xl x-font-title font-semibold text-balance"
+                    class="text-4xl sm:!leading-[1.1] sm:text-4xl xl:text-5xl x-font-title font-semibold md:text-balance"
                     :card
                     :path="pathCheck(`items.${index}.title`, schema)"
                     animate="fade"

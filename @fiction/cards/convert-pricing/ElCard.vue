@@ -67,7 +67,7 @@ function getVariantClasses(plan: PricingPlan) {
       }
     case 'muted':
       return {
-        card: `${base.card} bg-theme-50/50 dark:bg-theme-900/50`,
+        card: `${base.card} bg-theme-50/50 dark:bg-theme-900/50 ring-2 ring-theme-200/30 dark:ring-theme-700/30`,
         highlight: 'text-theme-600 dark:text-theme-300',
       }
     default:
@@ -242,11 +242,12 @@ const containerClass = vue.computed(() => {
             <div
               v-for="(feature, fi) in plan.features"
               :key="fi"
-              class="flex gap-3 text-lg"
+              class="flex gap-3 text-base font-sans items-center"
               :class="getFeatureClasses(plan)"
             >
-              <div
-                class="i-tabler-check shrink-0 mt-0.5"
+              <XIcon
+                class=" shrink-0 size-5 text-primary-500"
+                :media="{ class: 'i-tabler-check' }"
                 :class="uc.layout === 'cards' && plan.variant === 'highlighted' ? 'text-white' : ''"
               />
               <CardText
