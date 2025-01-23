@@ -4,7 +4,7 @@ import type { FictionEmail } from '../plugin-email/index.js'
 import type { FictionEnv } from '../plugin-env/index.js'
 import type { EndpointResponse } from '../types/index.js'
 import type { EndpointMeta } from '../utils/endpoint.js'
-import type { FictionUser, OnboardStoredSettings, Organization } from './index.js'
+import type { FictionUser, OnboardSettings, Organization } from './index.js'
 import type { User } from './types.js'
 import { Query } from '../query.js'
 import { standardTable as t } from '../tbl.js'
@@ -42,7 +42,7 @@ export type ManageUserParams =
   | { _action: 'login', where: WhereUser, password?: string }
   | { _action: 'loginGoogle', credential: string }
   | { _action: 'event', eventName: 'resetPassword', where: WhereUser }
-  | { _action: 'manageOnboard', settings: OnboardStoredSettings, orgId?: string, userId?: string }
+  | { _action: 'manageOnboard', settings: OnboardSettings, orgId?: string, userId?: string }
 
   type ManageUserResponse = EndpointResponse<User> & {
     isNew: boolean
@@ -475,7 +475,8 @@ export class QueryManageUser extends UserBaseQuery {
     return response
   }
 
-  private async manageOnboard(params: ManageUserParams & { _action: 'manageOnboard' }, _meta: EndpointMeta): Promise<User | undefined> {
+  private async
+  async manageOnboard(params: ManageUserParams & { _action: 'manageOnboard' }, _meta: EndpointMeta): Promise<User | undefined> {
     const { settings, orgId, userId } = params
     const columnKey = 'onboard'
     const newSettings = JSON.stringify(settings)

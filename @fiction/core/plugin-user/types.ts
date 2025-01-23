@@ -57,17 +57,19 @@ export interface OnboardingItem {
   data?: Record<string, unknown>
 }
 
-export interface OnboardSettings {
+export type OnboardSettings = {
   // Post-signup survey
-  surveys: Record<string, OnboardingItem>
+  surveys?: Record<string, OnboardingItem>
 
   // Onboarding tasks
-  tasks: Record<string, OnboardingItem>
+  tasks?: Record<string, OnboardingItem>
 
   // Welcome content (modals, videos, tours)
-  welcomeContent: Record<string, OnboardingItem>
+  welcomeContent?: Record<string, OnboardingItem>
 
-  lastUpdated: string
+  lastUpdated?: string
+
+  [key: string]: any
 }
 
 export type PushSubscriptionDetail = {
