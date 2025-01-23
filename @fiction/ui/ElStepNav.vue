@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { FictionRouter, FictionUser, StepConfig, StepItem } from '@fiction/core/index.js'
+import NavDots from '@fiction/cards/el/NavDots.vue'
 import { useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
@@ -92,7 +93,6 @@ async function next(currentStep: StepItem) {
 <template>
   <ElForm id="stepForm" class="h-full py-[10vh] md:px-12 relative">
     <ElStep
-
       :steps
       :current-index="stepIndex"
       class="steps pointer-events-auto"
@@ -124,19 +124,7 @@ async function next(currentStep: StepItem) {
         </div>
       </template>
     </ElStep>
-    <div v-if="steps.length > 1" class="nav mt-12 flex w-full justify-center space-x-3 pointer-events-auto">
-      <div
-        v-for="(s, i) in steps"
-        :key="i"
-        class="h-3 rounded-full transition-all duration-700 bg-theme-300"
-        :class="
-          i === stepIndex
-            ? ' w-5'
-            : 'opacity-40 hover:opacity-100 cursor-pointer w-3'
-        "
-        @click="setStepIndex(i)"
-      />
-    </div>
+    <NavDots class="mt-16 z-20 justify-center " :items="steps" :active-item="stepIndex" wrap-selector="#stepForm" @update:active-item="setStepIndex($event)" />
   </ElForm>
 </template>
 

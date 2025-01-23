@@ -49,12 +49,25 @@ export type Organization = Partial<ColType<typeof orgColumns>> & {
   relation?: OrganizationMember
 }
 
-export interface OnboardStoredSettings {
-  skip?: Record<string, boolean>
-  completed?: boolean
-  welcomed?: Record<string, boolean>
-  tasks?: Record<string, ProgressStatus>
-  [key: string]: unknown
+export interface OnboardingItem {
+  key: string
+  status: ProgressStatus
+  completedAt?: string
+  responses: { question: string, answer: string }[]
+  data?: Record<string, unknown>
+}
+
+export interface OnboardSettings {
+  // Post-signup survey
+  surveys: Record<string, OnboardingItem>
+
+  // Onboarding tasks
+  tasks: Record<string, OnboardingItem>
+
+  // Welcome content (modals, videos, tours)
+  welcomeContent: Record<string, OnboardingItem>
+
+  lastUpdated: string
 }
 
 export type PushSubscriptionDetail = {

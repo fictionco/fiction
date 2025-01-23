@@ -1,27 +1,22 @@
 <script lang="ts" setup>
 import type { ColorThemeUser, StandardSize, SuperTitle } from '@fiction/core'
-import type { Card } from '@fiction/site'
-import { getNested, vue } from '@fiction/core'
+import { vue } from '@fiction/core'
 import XIcon from '@fiction/ui/media/XIcon.vue'
 import { getColorThemeStyles } from '@fiction/ui/utils'
-import CardText from '../CardText.vue'
+import XText from './XText.vue'
 
 const {
-  card,
-  basePath,
   theme = 'default',
   size = 'md',
   superTitle,
 } = defineProps<{
-  card: Card
-  basePath: string
   theme?: ColorThemeUser
   size?: StandardSize
   superTitle?: SuperTitle
 }>()
 
 const sup = vue.computed(() => {
-  return superTitle || (getNested({ data: card.fullConfig.value, path: basePath }) || {}) as SuperTitle
+  return superTitle || {}
 })
 
 const colorStyle = vue.computed(() => {
@@ -64,12 +59,11 @@ const sizeClasses = vue.computed(() => {
         :class="sizeClasses.iconInner"
       />
     </div>
-    <CardText
+    <XText
       tag="h3"
-      :card
+      :model-value="sup.text"
       class="font-sans font-medium"
       :class="sizeClasses.text"
-      :path="`${basePath}.text`"
       placeholder="Super Title"
       animate="fade"
     />

@@ -1,12 +1,10 @@
 <script lang="ts" setup>
 import type { StepItem } from '@fiction/core'
 import { vue } from '@fiction/core'
+import XSuperTitle from './common/XSuperTitle.vue'
 
 const props = defineProps({
-  sup: {
-    type: String,
-    default: '',
-  },
+
   steps: {
     type: Array as vue.PropType<StepItem[]>,
     required: true,
@@ -20,6 +18,7 @@ const props = defineProps({
     default: 'next',
   },
 })
+
 const t = vue.ref('next')
 vue.watch(
   () => props.currentIndex,
@@ -42,22 +41,24 @@ const step = vue.computed(() => {
     <div
       v-if="step"
       :key="steps[currentIndex]?.key"
-      class="relative z-10 mx-auto w-full bg-theme-0 dark:bg-theme-950 text-theme-900 dark:text-theme-0 p-10 rounded-xl shadow-xl"
+      class="relative z-10 mx-auto w-full  p-10 rounded-xl shadow-xl"
       :class="step.class"
     >
       <div class="relative z-10 mb-4 flex gap-4 justify-between">
-        <div>
-          <div
-            v-if="sup"
-            class="sup text-theme-400 mb-4 text-sm font-bold uppercase tracking-wide"
-          >
-            {{ sup }}
-          </div>
-          <h1 class="x-font-title text-xl font-bold antialiased">
-            {{ step.title }}
-          </h1>
-          <div class="text-theme-500 dark:text-theme-400 text-lg antialiased">
-            {{ step.subTitle }}
+        <div class="space-y-5">
+          <XSuperTitle
+            v-if="step.superTitle"
+            class="justify-center"
+            size="sm"
+            :super-title="step.superTitle"
+          />
+          <div class="space-y-2">
+            <h1 class="x-font-title text-xl font-bold antialiased">
+              {{ step.title }}
+            </h1>
+            <div class="text-theme-500 dark:text-theme-400 text-lg antialiased">
+              {{ step.subTitle }}
+            </div>
           </div>
         </div>
         <div v-if="$slots.action">

@@ -4,6 +4,7 @@ import type { FictionStripe } from '@fiction/plugins/plugin-stripe'
 import type { Card } from '@fiction/site/card'
 import ElEngine from '@fiction/cards/CardEngine.vue'
 import { getAccessLevel, onResetUi, sortPriority, useService, vue } from '@fiction/core'
+import OnboardSurvey from '@fiction/plugin-onboard/survey/OnboardSurvey.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import DashBar from './DashBar.vue'
@@ -212,6 +213,7 @@ function toggleSidebar() {
       </div>
     </transition>
     <PreLaunch :card />
+    <OnboardSurvey :card />
   </div>
 </template>
 

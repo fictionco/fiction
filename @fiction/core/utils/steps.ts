@@ -1,3 +1,4 @@
+import type { SuperTitle } from '../schemas/schemas.js'
 import type { vue } from './libraries.js'
 
 export interface StepActions {
@@ -11,6 +12,7 @@ export interface StepItem {
   testId?: string
   key: string
   el?: vue.Component
+  superTitle?: SuperTitle
   title: string
   subTitle: string
   placeholder?: string

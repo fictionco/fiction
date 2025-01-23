@@ -25,8 +25,8 @@ vue.watch(
 
 function getClasses(uiSize: StandardSize) {
   const baseClasses = {
-    container: 'radio f-input',
-    label: 'my-2 flex cursor-pointer items-center',
+    container: 'radio f-input flex flex-col gap-1,5',
+    label: 'my-2 flex cursor-pointer items-center gap-4',
     input: [
       'form-radio',
       'appearance-none',
@@ -44,7 +44,7 @@ function getClasses(uiSize: StandardSize) {
       'bg-theme-100 focus:bg-theme-200 hover:bg-primary-500 dark:bg-theme-800',
 
     ],
-    text: 'font-sans dark:text-theme-100 text-theme-600 dark:hover:text-theme-200 hover:text-theme-500 ml-[.5em]',
+    text: 'font-sans dark:text-theme-100 text-theme-600 dark:hover:text-theme-200 hover:text-theme-500 ',
     selected: 'bg-primary-500 dark:bg-primary-600',
   }
 

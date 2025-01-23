@@ -23,13 +23,15 @@ async function purchaseUrl(args: { priceId: string, fictionStripe?: FictionStrip
 export async function getPricingPage(args: { factory: CardFactory, site: Site }) {
   const { site, factory } = args
 
+  const annualDiscountPercent = 30
+
   const { fictionStripe } = site.fictionSites.fictionEnv.getService<{ fictionStripe: FictionStripe }>()
 
   const pricingCard = await factory.fromTemplate<typeof pricingTemplate>({
     templateId: 'cardPricingV1',
     userConfig: {
       hasAnnual: true,
-      annualDiscountPercent: 30,
+      annualDiscountPercent,
       layout: 'standard',
       prices: [
         {
@@ -54,7 +56,7 @@ export async function getPricingPage(args: { factory: CardFactory, site: Site })
         {
           title: 'Pro',
           price: 79,
-          description: `Professional features for fast results`,
+          description: `Professional tools and support`,
           variant: 'default',
           badge: 'Most Popular',
           icon: { class: 'i-tabler-stars' },
@@ -78,7 +80,7 @@ export async function getPricingPage(args: { factory: CardFactory, site: Site })
         {
           title: 'Workshop',
           price: 279,
-          description: `For serious personal brands`,
+          description: `Dedicated help and coaching`,
           icon: { class: 'i-tabler-crown' },
           variant: 'highlighted',
           badge: 'Best Results',
@@ -108,7 +110,7 @@ export async function getPricingPage(args: { factory: CardFactory, site: Site })
     templateId: 'cardHeroV1',
     userConfig: {
       superTitle: { text: 'Simple Premium Pricing', theme: 'green', icon: { class: 'i-tabler-credit-card' } },
-      subTitle: `40% Discount When Paying Annually`,
+      subTitle: `${annualDiscountPercent}% Discount When Paying Annually`,
       title: `Plans & Pricing`,
     },
   })
