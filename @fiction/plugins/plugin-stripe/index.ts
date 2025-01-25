@@ -1,14 +1,15 @@
 import type { FictionApp, FictionDb, FictionEnv, FictionPluginSettings, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 
 import type * as StripeJS from '@stripe/stripe-js'
-
 import type Stripe from 'stripe'
 
 import type * as types from './types'
+
 import { Endpoint, FictionPlugin, vue } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
-import { QueryManageCustomer, QueryPortalSession } from './endpoints'
+import { QueryCheckoutSession, QueryManageCustomer, QueryPortalSession, QueryStripeTrial } from './endpoints'
 import { checkoutEndpointHandler, getCurrentCustomerDetails, getStripeBrowserClient, getStripeServerClient } from './utils'
+import '@stripe/stripe-js'
 
 vars.register(() => [
   new EnvVar({ name: 'STRIPE_PUBLIC_KEY_TEST', isPublic: true, isOptional: true }),
@@ -63,6 +64,8 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
   queries = {
     ManageCustomer: new QueryManageCustomer({ fictionStripe: this, ...this.settings }),
     PortalSession: new QueryPortalSession({ fictionStripe: this, ...this.settings }),
+    CheckoutSession: new QueryCheckoutSession({ fictionStripe: this, ...this.settings }),
+    StripeTrial: new QueryStripeTrial({ fictionStripe: this, ...this.settings }),
   }
 
   requests = this.createRequests({

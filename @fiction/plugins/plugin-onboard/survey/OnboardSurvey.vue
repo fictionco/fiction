@@ -8,6 +8,7 @@ import ElStepNav from '@fiction/ui/ElStepNav.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import { localMedia } from '@fiction/ui/stock/localMedia'
+import ElSubscriberStart from './SubscriptionStart.vue'
 
 defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
@@ -17,7 +18,68 @@ const isLoading = vue.ref(false)
 const hideOnboardingSurvey = vue.computed(() => {
   return false
 })
-const form = vue.ref<Record<string, any>>({ })
+const form = vue.ref<{
+  role?: string
+  roleOther?: string
+  goal?: string
+  goalOther?: string
+}>({ })
+
+const goals = [
+  {
+    label: 'Establish Authority',
+    description: 'Position yourself as a thought leader',
+    value: 'authority',
+  },
+  {
+    label: 'Attract Opportunities',
+    description: 'Win clients or dream job offers',
+    value: 'opportunities',
+  },
+  {
+    label: 'Grow Influence',
+    description: 'Build engaged audience',
+    value: 'audience',
+  },
+  {
+    label: 'Launch Products',
+    description: 'Validate and scale your ideas',
+    value: 'products',
+  },
+  {
+    label: 'Simplify Presence',
+    description: 'Centralize your professional identity',
+    value: 'branding',
+  },
+]
+
+const roles = [
+  {
+    label: 'Founder',
+    description: 'Building a business or startup',
+    value: 'founder',
+  },
+  {
+    label: 'Career Professional',
+    description: 'Advancing in current field',
+    value: 'pro',
+  },
+  {
+    label: 'Content Creator',
+    description: 'Sharing expertise regularly',
+    value: 'creator',
+  },
+  {
+    label: 'Consultant',
+    description: 'Working with multiple clients',
+    value: 'consultant',
+  },
+  {
+    label: 'Investor',
+    description: 'Growing network and opportunities',
+    value: 'investor',
+  },
+]
 
 const stepConfig: StepConfig = {
   onComplete: async () => {},
@@ -34,7 +96,7 @@ const stepConfig: StepConfig = {
         title: 'What\'s your goal with Fiction?',
         subTitle: 'We\'ll use this to help you achieve it.',
         key: 'goal',
-        class: 'max-w-screen-lg',
+        class: 'max-w-lg',
         isNeeded: true,
       },
       {
@@ -46,26 +108,36 @@ const stepConfig: StepConfig = {
         title: 'What\'s your current role?',
         subTitle: 'We\'ll use this to personalize your experience.',
         key: 'role',
-        class: 'max-w-screen-lg',
+        class: 'max-w-lg',
         isNeeded: true,
       },
       {
         superTitle: {
-          text: '14-Day Trial',
+          text: 'Pro Trial',
           theme: 'green',
           icon: { class: 'i-tabler-bolt' },
         },
-        title: 'Start Your 14-Day Trial',
-        subTitle: 'Get Premium access to all features.',
-        key: 'trial',
-        class: 'max-w-screen-lg',
+        title: 'Get Started for $1',
+        subTitle: 'One month for $1, then $39/mo. Cancel anytime.',
+        button: { label: 'Try 1 Month for $1', theme: 'primary', size: 'lg', icon: 'i-tabler-bolt', iconAfter: 'i-tabler-arrow-right' },
+        key: 'payment',
+        class: 'max-w-screen-xl',
         isNeeded: true,
+        noAction: true,
+        onClick: async () => {
+        },
       },
     ]
 
     return out
   }),
 }
+
+const features = [
+  { icon: 'i-tabler-sparkles', text: 'AI Brand Strategy' },
+  { icon: 'i-tabler-presentation', text: 'Premium Portfolio' },
+  { icon: 'i-tabler-mail', text: 'Client Templates' },
+]
 </script>
 
 <template>
@@ -80,52 +152,58 @@ const stepConfig: StepConfig = {
       <div
         class="flex min-h-full flex-col items-center justify-center p-4 text-center sm:items-center sm:p-0"
       >
-        <ElStepNav v-slot="{ step }" :step-config="stepConfig" data-test-id="createSiteModal">
-          <div v-if="step.key === 'goal'">
+        <ElStepNav
+          v-slot="{ step }"
+          :step-config="stepConfig"
+          data-test-id="createSiteModal"
+        >
+          <div v-if="step.key === 'goal'" class="space-y-4">
             <ElInput
-              v-model="form.title"
+              v-model="form.goal"
               input="InputRadio"
-              :list="[
-                { label: 'Build a personal brand', value: 'brand' },
-                { label: 'Grow my existing audience', value: 'audience' },
-                { label: 'Generate leads or sales', value: 'leads' },
-                { label: 'Create a portfolio or CV', value: 'resume' },
-              ]"
+              :list="goals"
               ui-size="lg"
-              data-test-id="siteName"
+            />
+            <ElInput
+              v-if="form.goal === 'other'"
+              v-model="form.goalOther"
+              input="InputTextarea"
+              :rows="2"
+              ui-size="lg"
             />
           </div>
-          <div v-if="step.key === 'role'">
+          <div v-if="step.key === 'role'" class="space-y-4">
             <ElInput
-              v-model="form.title"
+              v-model="form.role"
               input="InputRadio"
-              :list="[
-                { label: 'Entrepreneur or Founder', value: 'brand' },
-                { label: 'Professional or Employee', value: 'audience' },
-                { label: 'Creator or Influencer', value: 'leads' },
-                { label: 'Job Seeker or Consultant', value: 'resume' },
-                { label: 'Leader or Investor', value: 'resume' },
-              ]"
+              :list="roles"
               ui-size="lg"
-              data-test-id="siteName"
+            />
+            <ElInput
+              v-if="form.role === 'other'"
+              v-model="form.roleOther"
+              input="InputTextarea"
+              :rows="2"
+              ui-size="lg"
             />
           </div>
-          <div v-if="step.key === 'trial'">
-            <ElInput
-              v-model="form.title"
-              input="InputRadio"
-              :list="[
-                { label: 'Entrepreneur or Founder', value: 'brand' },
-                { label: 'Professional or Employee', value: 'audience' },
-                { label: 'Creator or Influencer', value: 'leads' },
-                { label: 'Job Seeker or Consultant', value: 'resume' },
-                { label: 'Leader or Investor', value: 'resume' },
-              ]"
-              ui-size="lg"
-              data-test-id="siteName"
-            />
+          <!-- Step 3: Payment -->
+          <div v-else-if="step.key === 'payment'" class="w-full mx-auto">
+            <div class="flex gap-8 justify-center">
+              <div class="space-y-6 max-w-[500px] w-full">
+                <ElSubscriberStart
+                  price-lookup-key="pro_month"
+                  trial-type="paid"
+                  :button="step.button || {}"
+                  class="w-full"
+                />
+                <div class="text-xs text-theme-500 mt-4">
+                  Secure encryption • Cancel anytime • 24/7 support
+                </div>
+              </div>
+            </div>
           </div>
-        </ElStepNav>
+        </elstepnav>
       </div>
     </div>
   </div>

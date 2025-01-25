@@ -475,7 +475,6 @@ export class QueryManageUser extends UserBaseQuery {
     return response
   }
 
-  private async
   async manageOnboard(params: ManageUserParams & { _action: 'manageOnboard' }, _meta: EndpointMeta): Promise<User | undefined> {
     const { settings, orgId, userId } = params
     const columnKey = 'onboard'

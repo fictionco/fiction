@@ -58,7 +58,7 @@ function getActions(location: 'top' | 'zero') {
 
 <template>
   <SettingsPanel :title="card.title.value">
-    <div class="p-6">
+    <div class="p-6 xl:p-12">
       <ElIndexGrid
         :loading
         :list

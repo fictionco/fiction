@@ -39,12 +39,14 @@ export type CustomerDetails = {
 export interface StripeProductConfig {
   pricing: StripePriceConfig[]
   productId: string
+  productIdTest?: string
   alias: string
   tier?: number
 }
 
 export interface StripePriceConfig {
   priceId: string
+  priceIdTest?: string
   quantity?: number
   cost?: number
   costPerUnit?: number

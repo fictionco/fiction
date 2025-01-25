@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { IndexItem, MediaObject, MemberAccess, NavItem } from '@fiction/core'
-import type { FictionStripe } from '@fiction/plugins/plugin-stripe'
+import type { FictionStripe } from '@fiction/plugin-stripe'
 import type { Card } from '@fiction/site/card'
 import ElEngine from '@fiction/cards/CardEngine.vue'
 import { getAccessLevel, onResetUi, sortPriority, useService, vue } from '@fiction/core'

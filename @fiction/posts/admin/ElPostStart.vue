@@ -87,7 +87,12 @@ const stepConfig: StepConfig = {
     :vis="vis"
     @update:vis="emit('update:vis', $event)"
   >
-    <ElStepNav v-slot="{ step }" :step-config="stepConfig" data-test-id="createPostModal">
+    <ElStepNav
+      v-slot="{ step }"
+      :step-config="stepConfig"
+      data-test-id="createPostModal"
+      :classes="{ step: 'bg-theme-0 dark:bg-theme-950 text-theme-900 dark:text-theme-0' }"
+    >
       <div v-if="step.key === 'postTitle'" class="">
         <ElInput
           v-model="postDetails.title"

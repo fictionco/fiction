@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { FictionStripe } from '@fiction/plugins/plugin-stripe'
+import type { FictionStripe } from '@fiction/plugin-stripe'
 import type { Card } from '@fiction/site'
 import { standardDate, useService, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'

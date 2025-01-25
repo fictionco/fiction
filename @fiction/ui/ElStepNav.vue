@@ -6,29 +6,45 @@ import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElStep from './ElStep.vue'
 
-const props = defineProps({
-  stepConfig: { type: Object as vue.PropType<StepConfig>, required: true },
-})
+const { stepConfig, classes = { step: '' } } = defineProps<{
+  stepConfig: StepConfig
+  classes?: { step?: string }
+}>()
 
-useService<{
+const { fictionRouter } = useService<{
   fictionRouter: FictionRouter
   fictionUser: FictionUser
 }>()
 
 const steps = vue.computed(() => {
-  return props.stepConfig.steps.value.filter(s => !s.isSkipped)
-})
-
-const stepKey = vue.ref('')
-
-const stepIndex = vue.computed(() => {
-  if (!stepKey.value)
-    return 0
-  const found = steps.value.findIndex(s => s.key === stepKey.value)
-  return found > -1 ? found : 0
+  return stepConfig.steps.value.filter(s => !s.isSkipped)
 })
 
 async function setComplete() {}
+
+const queryStep = vue.computed({
+  get: () => {
+    const routeStep = fictionRouter.vars.value.step as string | undefined
+    const s = steps.value
+    const defaultStep = s[0].key
+
+    return routeStep && s.find(step => step.key === routeStep)
+      ? routeStep
+      : defaultStep
+  },
+  set: (value: string) => {
+    const s = steps.value
+    const step = !value || !s.find(step => step.key === value) ? null : value
+    fictionRouter.replace({ query: { step } })
+  },
+})
+
+const stepIndex = vue.computed(() => {
+  if (!queryStep.value)
+    return 0
+  const found = steps.value.findIndex(s => s.key === queryStep.value)
+  return found > -1 ? found : 0
+})
 
 function checkValid() {
   const form = document.querySelector('#stepForm') as
@@ -56,18 +72,19 @@ function getStepIndex(dir: 'prev' | 'next') {
   return num
 }
 
+function setStepIndex(index: number) {
+  queryStep.value = steps.value[index]?.key || ''
+}
+function setStepKey(key: string) {
+  queryStep.value = key
+}
+
 async function changeStep(dir: 'prev' | 'next') {
   const num = getStepIndex(dir)
 
-  if (num !== -1)
-    stepKey.value = steps.value[num]?.key || ''
-}
-
-function setStepIndex(index: number) {
-  stepKey.value = steps.value[index]?.key || ''
-}
-function setStepKey(key: string) {
-  stepKey.value = key
+  if (num !== -1) {
+    setStepKey(steps.value[num]?.key || '')
+  }
 }
 
 const stepActions = {
@@ -91,13 +108,14 @@ async function next(currentStep: StepItem) {
 </script>
 
 <template>
-  <ElForm id="stepForm" class="h-full py-[10vh] md:px-12 relative">
+  <ElForm id="stepForm" class="h-full py-[10vh] md:px-12 relative w-full">
     <ElStep
       :steps
       :current-index="stepIndex"
       class="steps pointer-events-auto"
       transit="next"
-      :data-test-id="`step-${stepKey}`"
+      :data-test-id="`step-${queryStep}`"
+      :class="classes.step"
     >
       <template #default="{ step }">
         <div class="space-y-6 py-4">
@@ -105,11 +123,11 @@ async function next(currentStep: StepItem) {
 
           <div
             v-if="!step.noAction"
-            class="flex justify-center md:justify-end"
+            class="flex justify-center"
           >
             <XButton
-              theme="primary"
-              size="lg"
+              :theme="step.button?.theme || 'primary'"
+              :size="step.button?.size || 'lg'"
               class="step-submit"
               :loading="step.isLoading"
               :animate="true"
@@ -118,13 +136,20 @@ async function next(currentStep: StepItem) {
               icon-after="i-tabler-arrow-right"
               @click.prevent="next(step)"
             >
-              {{ step.actionText || "Next" }}
+              {{ step.button?.label || step.actionText || "Next" }}
             </XButton>
           </div>
         </div>
       </template>
     </ElStep>
-    <NavDots class="mt-16 z-20 justify-center " :items="steps" :active-item="stepIndex" wrap-selector="#stepForm" @update:active-item="setStepIndex($event)" />
+    <NavDots
+      class="mt-16 z-20 justify-center relative pointer-events-auto"
+      :items="steps"
+      :active-item="stepIndex"
+      wrap-selector="#stepForm"
+      @click.stop
+      @update:active-item="setStepIndex($event)"
+    />
   </ElForm>
 </template>
 

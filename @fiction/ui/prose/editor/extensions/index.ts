@@ -1,4 +1,4 @@
-import type { FictionAi } from '@fiction/plugins/plugin-ai'
+import type { FictionAi } from '@fiction/plugin-ai'
 import type { EditorSupplementary } from '../utils/editor'
 import { InputRule } from '@tiptap/core'
 import BubbleMenu from '@tiptap/extension-bubble-menu'

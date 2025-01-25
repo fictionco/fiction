@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { NavItem } from '@fiction/core'
-import type { CustomerDetails } from '@fiction/plugins/plugin-stripe'
+import type { CustomerDetails } from '@fiction/plugin-stripe'
 import type { Card } from '@fiction/site'
 import type { UserConfig } from './DashWrap.vue'
 import CardButton from '@fiction/cards/CardButton.vue'

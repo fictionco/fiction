@@ -33,7 +33,7 @@ async function generateCard() {
 
 vue.onMounted(async () => {
   vue.watch(
-    () => card.value,
+    () => card.value?.userConfig.value,
     async () => {
       if (!card.value)
         return
@@ -73,7 +73,7 @@ function getUserEnabled(opt: InputOptionGeneration) {
     get: () => {
       if (!genUtil.value?.fieldsUserConfig.value || !opt.key)
         return
-      return genUtil.value.fieldsUserConfig.value[opt.key].isUserEnabled
+      return genUtil.value.fieldsUserConfig.value?.[opt.key]?.isUserEnabled
     },
     set: (v: boolean) => {
       if (!genUtil.value?.fieldsUserConfig.value || !opt.key)

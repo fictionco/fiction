@@ -129,10 +129,7 @@ export class CardGeneration extends FictionObject<CardGenerationSettings> {
     if (!this.site || !this.tpl.value)
       throw new Error('site and template required')
 
-    const jsonPropConfig = await this.getJsonPropConfig()
-    const outputSchema = await this.getOutputSchema()
-    const outputProps = await this.getOutputProps()
-    const totalEstimatedTime = await this.getTotalEstimatedTime()
+    const { jsonPropConfig, outputProps, outputSchema, totalEstimatedTime } = await this.getConfig()
 
     if (!outputSchema)
       throw new Error('missing schema')

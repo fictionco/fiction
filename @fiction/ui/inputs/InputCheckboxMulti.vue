@@ -77,6 +77,7 @@ function inputClasses(item: ListItem) {
           type="checkbox"
           :class="inputClasses(item).value"
           :checked="isSelected(item.value)"
+          :disabled="item.disabled ? true : undefined"
           @input="selectValue(item)"
         >
         <span v-if="item.label || item.name" :class="cls.text">

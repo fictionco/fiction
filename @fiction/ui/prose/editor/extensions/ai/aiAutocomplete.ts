@@ -1,4 +1,4 @@
-import type { FictionAi } from '@fiction/plugins/plugin-ai'
+import type { FictionAi } from '@fiction/plugin-ai'
 import type { Editor } from '@tiptap/core'
 import { debounce, log } from '@fiction/core'
 import { onBrowserEvent } from '@fiction/core/utils/eventBrowser'

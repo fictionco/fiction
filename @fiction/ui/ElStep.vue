@@ -3,25 +3,15 @@ import type { StepItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import XSuperTitle from './common/XSuperTitle.vue'
 
-const props = defineProps({
-
-  steps: {
-    type: Array as vue.PropType<StepItem[]>,
-    required: true,
-  },
-  currentIndex: {
-    type: Number,
-    required: true,
-  },
-  transit: {
-    type: String,
-    default: 'next',
-  },
-})
+const { steps = [], currentIndex } = defineProps<{
+  steps: StepItem[]
+  currentIndex: number
+  transit?: 'next' | 'prev'
+}>()
 
 const t = vue.ref('next')
 vue.watch(
-  () => props.currentIndex,
+  () => currentIndex,
   (v, old) => {
     if (v < old)
       t.value = 'prev'
@@ -31,7 +21,7 @@ vue.watch(
 )
 
 const step = vue.computed(() => {
-  const v = props.steps[props.currentIndex] || props.steps[0]
+  const v = steps[currentIndex] || steps[0]
   return v
 })
 </script>
@@ -44,7 +34,7 @@ const step = vue.computed(() => {
       class="relative z-10 mx-auto w-full  p-10 rounded-xl shadow-xl"
       :class="step.class"
     >
-      <div class="relative z-10 mb-4 flex gap-4 justify-between">
+      <div class="relative z-10 mb-4 flex gap-4 justify-center">
         <div class="space-y-5">
           <XSuperTitle
             v-if="step.superTitle"

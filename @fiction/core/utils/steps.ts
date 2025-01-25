@@ -1,4 +1,4 @@
-import type { SuperTitle } from '../schemas/schemas.js'
+import type { ActionButton, SuperTitle } from '../schemas/schemas.js'
 import type { vue } from './libraries.js'
 
 export interface StepActions {
@@ -23,6 +23,7 @@ export interface StepItem {
   isLoading?: boolean
   noAction?: boolean
   onClick?: (args: StepActions) => Promise<void>
+  button?: ActionButton
 }
 
 export interface StepConfig {

@@ -24,6 +24,7 @@ import { FictionUi } from '@fiction/ui/index.js'
 import { version } from '../package.json'
 import { commands } from './commands.js'
 import { getExtensionIndex, getThemes } from './extend.js'
+import { getStripeProductConfig } from './stripeProducts'
 
 const cwd = safeDirname(import.meta.url, '..')
 
@@ -163,35 +164,7 @@ const fictionStripe = new FictionStripe({
   secretKeyTest: fictionEnv.var('STRIPE_SECRET_KEY_TEST'),
   publicKeyTest: fictionEnv.var('STRIPE_PUBLIC_KEY_TEST'),
   customerPortalUrl: `https://billing.stripe.com/p/login/fZedS66gTaiegww7ss`,
-  products: [
-    {
-      alias: 'standard',
-      productId: 'prod_Ptz7sEMEmJvZ6s',
-      tier: 10,
-      pricing: [
-        { duration: 'month', priceId: 'price_1P4B95FofsEYcKEPApAIRcWH' },
-        { duration: 'year', priceId: 'price_1P4B95FofsEYcKEPjdwAKb9j' },
-      ],
-    },
-    {
-      alias: 'pro',
-      productId: 'prod_PtzAeKqhL7w5fs',
-      tier: 20,
-      pricing: [
-        { duration: 'month', priceId: 'price_1P4BCZFofsEYcKEPX8BAkBlt' },
-        { duration: 'year', priceId: 'price_1P4BDBFofsEYcKEPdz8dDkT4' },
-      ],
-    },
-    {
-      alias: 'advanced',
-      productId: 'prod_PtzDXv4G19aO4m',
-      tier: 30,
-      pricing: [
-        { duration: 'month', priceId: 'price_1P4BF6FofsEYcKEPW6rBsDVO' },
-        { duration: 'year', priceId: 'price_1P4BFjFofsEYcKEPU6zDPhfl' },
-      ],
-    },
-  ],
+  products: getStripeProductConfig(),
 })
 const themes = async () => getThemes({ ...s, fictionStripe })
 

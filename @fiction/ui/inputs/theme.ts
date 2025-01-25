@@ -179,10 +179,9 @@ export function getCheckboxClasses(uiSize: StandardSize) {
   const baseClasses = {
     container: 'my-4',
     item: 'my-2',
-    label: 'inline-flex cursor-pointer items-center',
+    label: 'inline-flex cursor-pointer items-center gap-4 w-full',
     input: [
       'cursor-pointer',
-      'mr-[.8em]',
       'appearance-none',
       'rounded-[.25em]',
       'focus:outline-none',
@@ -191,7 +190,7 @@ export function getCheckboxClasses(uiSize: StandardSize) {
       'bg-theme-100 focus:bg-theme-200 hover:bg-primary-500 dark:bg-theme-800',
       'active:bg-primary-500 selected:bg-primary-500',
     ],
-    text: 'checkbox-label text-theme-700 dark:text-theme-50 dark:hover:text-theme-0 hover:text-theme-500 font-sans',
+    text: 'checkbox-label text-theme-700 dark:text-theme-50 dark:hover:text-theme-0 hover:text-theme-500 font-sans flex-grow text-left',
   }
 
   const sizeClasses = {

@@ -76,7 +76,11 @@ const stepConfig: StepConfig = {
     :vis="vis"
     @update:vis="emit('update:vis', $event)"
   >
-    <ElStepNav v-slot="{ step }" :step-config="stepConfig">
+    <ElStepNav
+      v-slot="{ step }"
+      :step-config="stepConfig"
+      :classes="{ step: 'bg-theme-0 dark:bg-theme-950 text-theme-900 dark:text-theme-0' }"
+    >
       <div v-if="step.key === 'title'" class="">
         <ElInput
           v-model="form.title"
