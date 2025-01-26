@@ -1,7 +1,7 @@
 import type * as StripeJS from '@stripe/stripe-js'
 import type express from 'express'
 import type { FictionStripe } from './index.js'
-import { abort, dayjs, type Organization } from '@fiction/core'
+import { abort, dayjs, type Organization, toLabel } from '@fiction/core'
 import Stripe from 'stripe'
 
 export type CheckoutQueryParams = {
@@ -29,18 +29,19 @@ export type RawCustomerData = {
 
 export type CustomerData = {
   status: CustomerStatus
+  tier: number
   plan?: {
     id: string
     name: string
     amount: number
     interval: ProductInterval
     key: string
-    tier: number
   }
   currentPeriodEnd?: string
   cancelAt?: string
   isActive: boolean
   isTrialing: boolean
+  trialEndAtIso?: string
   hasPastDue: boolean
 
   // Billing cycle
@@ -178,13 +179,13 @@ export function processCustomerData(args: ProcessCustomerDataArgs): CustomerData
   return {
     ...raw,
     status: (sub?.status || 'incomplete') as CustomerStatus,
+    tier: productConfig.tier,
     plan: price && {
       id: price.id,
-      name: price.nickname || '',
+      key: productKey,
+      name: price.nickname || toLabel(productKey),
       amount: price.unit_amount || 0,
       interval: (price.recurring?.interval || 'month') as ProductInterval,
-      key: productKey,
-      tier: productConfig.tier,
     },
 
     // Billing cycle info using UTC
@@ -194,6 +195,7 @@ export function processCustomerData(args: ProcessCustomerDataArgs): CustomerData
     // Status flags
     isActive: sub?.status === 'active' || sub?.status === 'trialing',
     isTrialing: sub?.status === 'trialing',
+    trialEndAtIso: sub?.trial_end ? dayjs.unix(sub.trial_end).utc().toISOString() : undefined,
     hasPastDue: sub?.status === 'past_due',
     isCanceled: !!sub?.cancel_at,
     paymentMethod,

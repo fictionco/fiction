@@ -213,7 +213,6 @@ function toggleSidebar() {
       </div>
     </transition>
     <PreLaunch :card />
-    <OnboardSurvey :card />
   </div>
 </template>
 

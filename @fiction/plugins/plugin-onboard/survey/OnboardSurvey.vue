@@ -3,6 +3,7 @@ import type { StepConfig, StepItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
+import EffectConfetti from '@fiction/ui/effect/EffectConfetti.vue'
 import ElStepNav from '@fiction/ui/ElStepNav.vue'
 
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
@@ -93,8 +94,8 @@ const stepConfig: StepConfig = {
           theme: 'blue',
           icon: { class: 'i-tabler-rocket' },
         },
-        title: 'What\'s your goal with Fiction?',
-        subTitle: 'We\'ll use this to help you achieve it.',
+        title: 'What would you like to achieve?',
+        subTitle: 'We will customize your experience based on your goals.',
         key: 'goal',
         class: 'max-w-lg',
         isNeeded: true,
@@ -105,7 +106,7 @@ const stepConfig: StepConfig = {
           theme: 'rose',
           icon: { class: 'i-tabler-user' },
         },
-        title: 'What\'s your current role?',
+        title: 'Which best describes you?',
         subTitle: 'We\'ll use this to personalize your experience.',
         key: 'role',
         class: 'max-w-lg',
@@ -118,7 +119,7 @@ const stepConfig: StepConfig = {
           theme: 'green',
           icon: { class: 'i-tabler-bolt' },
         },
-        title: 'Get Started for $1',
+        title: 'Start trial for $1',
         subTitle: 'One month for $1, then $39/mo. Cancel anytime.',
         button: { label: 'Try 1 Month for $1', theme: 'primary', size: 'lg', icon: 'i-tabler-bolt', iconAfter: 'i-tabler-arrow-right' },
 
@@ -135,8 +136,8 @@ const stepConfig: StepConfig = {
           theme: 'green',
           icon: { class: 'i-tabler-bolt' },
         },
-        title: 'Ready to start?',
-        subTitle: 'You\'re all set to start your journey with Fiction.',
+        title: 'You\'re All Set!',
+        subTitle: 'Your future awaits. Let\'s bring your vision to life.',
         button: {
           label: 'Go to Dashboard',
           theme: 'primary',
@@ -224,9 +225,7 @@ const features = [
               </div>
             </div>
           </div>
-          <div v-else-if="step.key === 'ready'">
-            hello
-          </div>
+          <div v-else-if="step.key === 'ready'" />
         </ElStepNav>
       </div>
     </div>

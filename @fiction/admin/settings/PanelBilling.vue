@@ -15,7 +15,7 @@ const isLoading = vue.ref(true)
 const errorMessage = vue.ref('')
 
 const header = vue.computed(() => {
-  const planName = activeCustomer.value?.plan || 'No Active Plan'
+  const planName = activeCustomer.value?.plan?.name || 'No Active Plan'
   return {
     title: `Subscription: ${planName}`,
     subTitle: 'Manage your subscription, payment methods, and billing history',

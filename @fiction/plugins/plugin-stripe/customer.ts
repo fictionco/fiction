@@ -43,6 +43,8 @@ export class CustomerState extends FictionObject<CustomerStateSettings> {
    * Updates the internal state and triggers any listeners
    */
   private setState(newState: Partial<CustomerStateData>) {
+    this.log.info('Customer state updated', { data: newState })
+
     this.state.value = {
       ...this.state.value,
       ...newState,
