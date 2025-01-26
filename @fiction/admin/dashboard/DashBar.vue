@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { NavItem } from '@fiction/core'
-import type { CustomerDetails } from '@fiction/plugin-stripe'
+import type { CustomerData } from '@fiction/plugin-stripe/utils'
 import type { Card } from '@fiction/site'
 import type { UserConfig } from './DashWrap.vue'
 import CardButton from '@fiction/cards/CardButton.vue'
@@ -12,7 +12,7 @@ import DashBarMenu from './DashBarMenu.vue'
 const { accountMenu = [], card, customer } = defineProps<{
   accountMenu: NavItem[]
   card: Card<UserConfig>
-  customer?: CustomerDetails
+  customer?: CustomerData
 }>()
 
 const emit = defineEmits<{

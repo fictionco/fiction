@@ -15,11 +15,11 @@ const { fictionStripe } = useService<{ fictionStripe?: FictionStripe }>()
 const loading = vue.ref(true)
 
 vue.onMounted(async () => {
-  await fictionStripe?.requestSetCustomerData()
+  await fictionStripe?.customerState.refresh()
   loading.value = false
 })
 
-const proStatus = vue.computed(() => fictionStripe?.activeCustomer.value)
+const proStatus = vue.computed(() => fictionStripe?.customerState.data.value)
 </script>
 
 <template>
@@ -27,7 +27,7 @@ const proStatus = vue.computed(() => fictionStripe?.activeCustomer.value)
     <ElZeroBanner
       sub-title="Welcome to Premium"
       title="Success!"
-      :description="`You're on the '${proStatus?.planName}' tier.`"
+      :description="`You're on the '${proStatus?.plan}' tier.`"
       :action="{
         buttons: [
           {

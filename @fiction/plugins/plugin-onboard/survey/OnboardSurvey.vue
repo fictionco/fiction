@@ -112,6 +112,7 @@ const stepConfig: StepConfig = {
         isNeeded: true,
       },
       {
+        key: 'payment',
         superTitle: {
           text: 'Pro Trial',
           theme: 'green',
@@ -120,12 +121,31 @@ const stepConfig: StepConfig = {
         title: 'Get Started for $1',
         subTitle: 'One month for $1, then $39/mo. Cancel anytime.',
         button: { label: 'Try 1 Month for $1', theme: 'primary', size: 'lg', icon: 'i-tabler-bolt', iconAfter: 'i-tabler-arrow-right' },
-        key: 'payment',
+
         class: 'max-w-screen-xl',
         isNeeded: true,
         noAction: true,
         onClick: async () => {
         },
+      },
+      {
+        key: 'ready',
+        superTitle: {
+          text: 'Ready',
+          theme: 'green',
+          icon: { class: 'i-tabler-bolt' },
+        },
+        title: 'Ready to start?',
+        subTitle: 'You\'re all set to start your journey with Fiction.',
+        button: {
+          label: 'Go to Dashboard',
+          theme: 'primary',
+          size: 'lg',
+          icon: 'i-tabler-bolt',
+          iconAfter: 'i-tabler-arrow-right',
+        },
+        class: 'max-w-screen-lg',
+        isNeeded: true,
       },
     ]
 
@@ -153,7 +173,7 @@ const features = [
         class="flex min-h-full flex-col items-center justify-center p-4 text-center sm:items-center sm:p-0"
       >
         <ElStepNav
-          v-slot="{ step }"
+          v-slot="{ step, changeStep }"
           :step-config="stepConfig"
           data-test-id="createSiteModal"
         >
@@ -196,6 +216,7 @@ const features = [
                   trial-type="paid"
                   :button="step.button || {}"
                   class="w-full"
+                  @complete="changeStep({ dir: 'next' })"
                 />
                 <div class="text-xs text-theme-500 mt-4">
                   Secure encryption • Cancel anytime • 24/7 support
@@ -203,7 +224,10 @@ const features = [
               </div>
             </div>
           </div>
-        </elstepnav>
+          <div v-else-if="step.key === 'ready'">
+            hello
+          </div>
+        </ElStepNav>
       </div>
     </div>
   </div>

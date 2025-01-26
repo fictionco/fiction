@@ -32,10 +32,10 @@ const queryStep = vue.computed({
       ? routeStep
       : defaultStep
   },
-  set: (value: string) => {
+  set: async (value: string) => {
     const s = steps.value
     const step = !value || !s.find(step => step.key === value) ? null : value
-    fictionRouter.replace({ query: { step } })
+    await fictionRouter.replace({ query: { step } })
   },
 })
 
@@ -79,11 +79,25 @@ function setStepKey(key: string) {
   queryStep.value = key
 }
 
-async function changeStep(dir: 'prev' | 'next') {
-  const num = getStepIndex(dir)
+async function changeStep(args: {
+  dir?: 'prev' | 'next'
+  step?: string
+  index?: number
+}) {
+  const { dir, step, index } = args
 
-  if (num !== -1) {
-    setStepKey(steps.value[num]?.key || '')
+  if (dir) {
+    const num = getStepIndex(dir)
+
+    if (num !== -1) {
+      setStepKey(steps.value[num]?.key || '')
+    }
+  }
+  else if (step) {
+    setStepKey(step)
+  }
+  else if (index !== undefined) {
+    setStepIndex(index)
   }
 }
 
@@ -103,8 +117,12 @@ async function next(currentStep: StepItem) {
   if (currentStep.onClick)
     await currentStep.onClick(stepActions)
   else
-    changeStep('next')
+    changeStep({ dir: 'next' })
 }
+
+vue.onBeforeUnmount(async () => {
+  await fictionRouter.replace({ query: { step: undefined } })
+})
 </script>
 
 <template>
@@ -119,7 +137,7 @@ async function next(currentStep: StepItem) {
     >
       <template #default="{ step }">
         <div class="space-y-6 py-4">
-          <slot :step="step" />
+          <slot :step="step" :change-step="changeStep" />
 
           <div
             v-if="!step.noAction"

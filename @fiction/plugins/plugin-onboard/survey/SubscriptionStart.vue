@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { ActionButton, EndpointResponse } from '@fiction/core'
 import type { FictionStripe } from '@fiction/plugin-stripe'
-import type { TrialSetupResponse } from '@fiction/plugin-stripe/endpoints'
-import type { Appearance, PaymentIntent, SetupIntent, Stripe, StripeElements } from '@stripe/stripe-js'
-import { getColorScheme, isDarkOrLightMode, useService, vue } from '@fiction/core'
+import type { TrialSetupResponse } from '@fiction/plugin-stripe/endpointTrial'
+import type { Appearance, Stripe, StripeElements } from '@stripe/stripe-js'
+import { isDarkOrLightMode, useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import { defineProps } from 'vue'
@@ -60,59 +60,6 @@ function getThemeConfig() {
   return appearance
 }
 
-async function handlePayment() {
-  if (!stripe.value || !elements.value || !setupResponse.value) {
-    error.value = errorMessages.initialization_failed
-    return
-  }
-
-  loading.value = true
-  error.value = ''
-
-  try {
-    let intentId: string | undefined
-    const isFreeTrial = trialType === 'free'
-
-    const handleResult = isFreeTrial
-      ? await stripe.value.confirmSetup({
-        elements: elements.value,
-        redirect: 'if_required',
-        confirmParams: { return_url: window.location.href },
-      })
-      : await stripe.value.confirmPayment({
-        elements: elements.value,
-        redirect: 'if_required',
-        confirmParams: { return_url: window.location.href },
-      })
-
-    const intent = (isFreeTrial
-      ? (handleResult as { setupIntent?: SetupIntent }).setupIntent
-      : (handleResult as { paymentIntent?: PaymentIntent }).paymentIntent)
-
-    if (!intent || intent.status !== 'succeeded') {
-      throw new Error(isFreeTrial ? 'Setup failed' : 'Payment failed')
-    }
-
-    const response = await fictionStripe.requests.StripeTrial.projectRequest({
-      _action: 'completeSetup',
-      setupIntentId: isFreeTrial ? intent.id : undefined,
-      paymentIntentId: !isFreeTrial ? intent.id : undefined,
-      priceLookupKey,
-    })
-
-    if (response.status === 'error')
-      throw new Error(response.message)
-    emit('complete', response)
-  }
-  catch (err) {
-    error.value = getFriendlyError(err)
-    emit('error', { message: error.value })
-  }
-  finally {
-    loading.value = false
-  }
-}
-
 async function setupStripe() {
   loading.value = true
   error.value = ''
@@ -129,18 +76,65 @@ async function setupStripe() {
       trialType,
     })
 
-    if (!response.data?.clientSecret)
+    const data = response.data || {}
+
+    if (!data?.paymentIntentClientSecret)
       throw new Error('Initialization failed')
+
     setupResponse.value = response.data
 
     stripe.value = await fictionStripe.getBrowserClient()
     elements.value = stripe.value.elements({
-      clientSecret: response.data.clientSecret,
+      clientSecret: data?.paymentIntentClientSecret,
       appearance: getThemeConfig(),
     })
 
     paymentElement.value = elements.value.create('payment', { layout: 'tabs' })
     paymentElement.value.mount(paymentElementRef.value)
+  }
+  catch (err) {
+    error.value = getFriendlyError(err)
+    emit('error', { message: error.value })
+  }
+  finally {
+    loading.value = false
+  }
+}
+
+async function handlePayment() {
+  if (!stripe.value || !elements.value || !setupResponse.value) {
+    error.value = errorMessages.initialization_failed
+    return
+  }
+
+  loading.value = true
+  error.value = ''
+
+  try {
+    const handleResult = await stripe.value.confirmPayment({
+      elements: elements.value,
+      redirect: 'if_required',
+      confirmParams: { return_url: window.location.href },
+    })
+
+    const intent = handleResult.paymentIntent
+
+    if (!intent || intent.status !== 'succeeded') {
+      throw new Error(`Payment confirm failed`)
+    }
+
+    const response = await fictionStripe.requests.StripeTrial.projectRequest({
+      _action: 'completeSetup',
+      priceLookupKey,
+      ...setupResponse.value,
+    })
+
+    if (response.status === 'error')
+      throw new Error(response.message)
+
+    await fictionStripe.customerState.refresh()
+
+    emit('complete', response)
   }
   catch (err) {
     error.value = getFriendlyError(err)

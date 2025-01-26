@@ -3,13 +3,12 @@ import type { FictionApp, FictionDb, FictionEnv, FictionPluginSettings, FictionR
 import type * as StripeJS from '@stripe/stripe-js'
 import type Stripe from 'stripe'
 
-import type * as types from './types'
-
 import { Endpoint, FictionPlugin, vue } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
-import { QueryCheckoutSession, QueryManageCustomer, QueryPortalSession, QueryStripeTrial } from './endpoints'
-import { checkoutEndpointHandler, getCurrentCustomerDetails, getStripeBrowserClient, getStripeServerClient } from './utils'
-import '@stripe/stripe-js'
+import { CustomerState } from './customer'
+import { QueryCheckoutSession, QueryManageCustomer, QueryPortalSession } from './endpoints'
+import { QueryStripeTrial } from './endpointTrial'
+import { checkoutEndpointHandler, type CustomerData, getStripeBrowserClient, getStripeServerClient, type StripeProductConfig } from './utils'
 
 vars.register(() => [
   new EnvVar({ name: 'STRIPE_PUBLIC_KEY_TEST', isPublic: true, isOptional: true }),
@@ -21,9 +20,6 @@ vars.register(() => [
     return !(fictionEnv.isProd.value && !value && !fictionEnv.isApp.value && !fictionEnv.isCi)
   }, isPublic: false }),
 ])
-
-export * from './types'
-export * from './utils'
 
 export type StripePluginSettings = {
   fictionEnv: FictionEnv
@@ -38,7 +34,7 @@ export type StripePluginSettings = {
   secretKeyTest?: string
   webhookSecret?: string
   isLive?: vue.Ref<boolean> | boolean
-  products: types.StripeProductConfig[]
+  products: StripeProductConfig[]
   checkoutSuccessPathname?: (args: { orgId: string }) => string
   checkoutCancelPathname?: (args: { orgId: string }) => string
   customerPortalUrl: string
@@ -86,6 +82,11 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
   secretKey = vue.computed(() => this.stripeMode.value === 'live' ? this.settings.secretKeyLive : this.settings.secretKeyTest)
   publicKey = vue.computed(() => this.stripeMode.value === 'live' ? this.settings.publicKeyLive : this.settings.publicKeyTest)
 
+  // CustomerState instance for managing customer data
+  customerState = new CustomerState({
+    fictionStripe: this,
+  })
+
   constructor(settings: StripePluginSettings) {
     super('FictionStripe', settings)
 
@@ -125,6 +126,9 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
   }
 
   private setupHooks() {
+    /**
+     * When an organization is updated, update the customer details in Stripe
+     */
     this.settings.fictionEnv?.addHook({
       hook: 'updateOrganization',
       caller: 'FictionStripe',
@@ -172,100 +176,18 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
     }
   }
 
-  activeCustomer = vue.shallowRef<types.CustomerDetails>()
-  private initPromise?: Promise<boolean>
-  private _resolveCustomer?: (value: boolean | PromiseLike<boolean>) => void
-  private initializationError?: Error
-
-  async requestSetCustomerData() {
-    try {
-      await this.settings.fictionUser.userInitialized({ caller: 'stripe.customer' })
-      this.activeCustomer.value = await getCurrentCustomerDetails({ fictionStripe: this })
-      return this.activeCustomer.value
-    }
-    catch (error) {
-      this.initializationError = new CustomerInitializationError(
-        'Failed to initialize customer data',
-        error,
-      )
-      throw this.initializationError
-    }
-  }
+  // Public API for customer data
+  readonly activeCustomer = vue.computed(() => this.customerState.data.value)
 
   async customerInitialized(args: { caller: string }) {
-    const { caller = 'unknown' } = args || {}
-
-    if (typeof window === 'undefined') {
-      this.log.warn('customer initialization: no window', { data: { caller } })
-      return
-    }
-
-    // If there was a previous initialization error, clear it and retry
-    if (this.initializationError) {
-      this.initPromise = undefined
-      this.initializationError = undefined
-    }
-
-    if (!this.initPromise) {
-      this.log.info('initializing customer', { data: { caller } })
-      this.initPromise = new Promise(async (resolve, reject) => {
-        this._resolveCustomer = resolve
-        try {
-          const result = await this.requestSetCustomerData()
-          resolve(true)
-        }
-        catch (error) {
-          this.log.error('Failed to initialize customer', {
-            error,
-            data: { caller },
-          })
-          reject(error)
-        }
-      })
-
-      this.customerDataRefreshWatchers()
-    }
-
     try {
-      await this.initPromise
-
-      if (this.activeCustomer.value?.status === 'error') {
-        this.initPromise = undefined
-      }
-
-      return this.activeCustomer.value
+      await this.customerState.initialize(args)
+      return this.customerState.data.value
     }
     catch (error) {
-      // Clear the promise so subsequent calls can retry
-      this.initPromise = undefined
+      this.log.error('Failed to initialize customer', { error })
       throw error
     }
-  }
-
-  closeWatcher?: vue.WatchHandle
-
-  customerDataRefreshWatchers() {
-    if (this.closeWatcher) {
-      this.closeWatcher()
-    }
-
-    // Debounce the update to prevent rapid consecutive calls
-    let updateTimeout: NodeJS.Timeout
-
-    this.closeWatcher = vue.watch(
-      () => this.settings.fictionUser.activeOrgId.value,
-      async () => {
-        clearTimeout(updateTimeout)
-        updateTimeout = setTimeout(async () => {
-          try {
-            await this.requestSetCustomerData()
-          }
-          catch (error) {
-            this.log.error('Failed to refresh customer data', { error })
-          }
-        }, 100) // 100ms debounce
-      },
-    )
   }
 
   getServerClient(): Stripe {
@@ -290,5 +212,10 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
       this.browserClient = await getStripeBrowserClient({ fictionStripe: this })
     }
     return this.browserClient
+  }
+
+  // Cleanup method to handle plugin disposal
+  close() {
+    this.customerState.cleanup()
   }
 }

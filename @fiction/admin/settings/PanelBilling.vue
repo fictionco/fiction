@@ -7,15 +7,15 @@ import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import SettingsPanel from './SettingsPanel.vue'
 
 const { card } = defineProps<{ card: Card }>()
-const { fictionStripe, fictionUser } = useService<{ fictionStripe?: FictionStripe }>()
+const { fictionStripe } = useService<{ fictionStripe?: FictionStripe }>()
 
-const activeCustomer = vue.computed(() => fictionStripe?.activeCustomer.value)
+const activeCustomer = vue.computed(() => fictionStripe?.customerState.data.value)
 const customerPortalUrl = vue.ref('')
 const isLoading = vue.ref(true)
 const errorMessage = vue.ref('')
 
 const header = vue.computed(() => {
-  const planName = activeCustomer.value?.planName || 'No Active Plan'
+  const planName = activeCustomer.value?.plan || 'No Active Plan'
   return {
     title: `Subscription: ${planName}`,
     subTitle: 'Manage your subscription, payment methods, and billing history',

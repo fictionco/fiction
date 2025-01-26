@@ -6,7 +6,7 @@ import type { FictionStripe } from '@fiction/plugin-stripe/index.js'
 import type { Site } from '@fiction/site'
 import type { CardFactory } from '@fiction/site/cardFactory'
 
-import { getCheckoutUrl } from '@fiction/plugin-stripe/index.js'
+import { getCheckoutUrl } from '@fiction/plugin-stripe/utils.js'
 
 async function purchaseUrl(args: { priceId: string, fictionStripe?: FictionStripe }) {
   const { fictionStripe } = args

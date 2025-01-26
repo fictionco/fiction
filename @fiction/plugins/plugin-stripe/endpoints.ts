@@ -2,14 +2,15 @@ import type { EndpointMeta, EndpointResponse, Organization } from '@fiction/core
 import type Stripe from 'stripe'
 import type { FictionStripe } from '.'
 import type { StripePluginSettings } from './index.js'
-import type { CustomerData } from './types'
+import type { CustomerData } from './utils'
 import { abort, Query, standardTable } from '@fiction/core'
+import { processCustomerData } from './utils'
 
-type StripeEndpointSettings = StripePluginSettings & { fictionStripe: FictionStripe }
+export type StripeEndpointSettings = StripePluginSettings & { fictionStripe: FictionStripe }
 
-abstract class StripeEndpoint extends Query<StripeEndpointSettings> {
+export abstract class StripeEndpoint extends Query<StripeEndpointSettings> {
   db = () => this.settings.fictionDb.client()
-
+  products = this.settings.fictionStripe.settings.products || []
   async getPriceByLookupKey(priceKey?: string) {
     if (!priceKey)
       return undefined
@@ -24,273 +25,6 @@ abstract class StripeEndpoint extends Query<StripeEndpointSettings> {
   }
 }
 
-type SetupTrialParams = {
-  _action: 'setupTrial'
-  orgId: string
-  email: string
-  priceId?: string
-  priceLookupKey?: string
-  trialType: 'free' | 'paid'
-} | {
-  _action: 'completeSetup'
-  setupIntentId?: string
-  paymentIntentId?: string
-  orgId: string
-  priceId?: string
-  priceLookupKey?: string
-  trialPeriodDays?: number
-}
-
-export type TrialSetupResponse = {
-  clientSecret?: string
-  customerId?: string
-  priceId: string
-  trialType: 'free' | 'paid'
-
-  setupIntentId?: string
-  paymentIntentId?: string
-
-  subscriptionId?: string
-}
-
-export class QueryStripeTrial extends StripeEndpoint {
-  async run(
-    params: SetupTrialParams,
-    meta: EndpointMeta,
-  ): Promise<EndpointResponse<TrialSetupResponse>> {
-    try {
-      switch (params._action) {
-        case 'setupTrial':
-          return await this.setupTrial(params, meta)
-        case 'completeSetup':
-          return await this.completeSetup(params, meta)
-        default:
-          throw abort('Invalid action', meta)
-      }
-    }
-    catch (error) {
-      this.log.error('Trial setup failed', { error })
-      return {
-        status: 'error',
-        message: error instanceof Error ? error.message : 'Failed to setup trial',
-      }
-    }
-  }
-
-  private async setupTrial(
-    params: Extract<SetupTrialParams, { _action: 'setupTrial' }>,
-    meta: EndpointMeta,
-  ): Promise<EndpointResponse<TrialSetupResponse>> {
-    const { orgId, email, priceId, priceLookupKey, trialType } = params
-
-    if (!priceLookupKey && !priceId) {
-      throw abort('Missing price identifier', meta)
-    }
-
-    const stripe = this.settings.fictionStripe.getServerClient()
-
-    const sessionPriceId = priceId || await this.getPriceByLookupKey(priceLookupKey)
-
-    if (!sessionPriceId) {
-      return { status: 'error', message: `priceId not found` }
-    }
-
-    // First ensure/create customer
-    const customerResponse = await this.settings.fictionStripe.queries.ManageCustomer.serve({
-      _action: 'create',
-      orgId,
-      fields: { email },
-    }, meta)
-
-    if (customerResponse.status === 'error' || !customerResponse.data?.customer) {
-      throw new Error('Failed to create customer')
-    }
-
-    const customerId = customerResponse.data.customer.id
-
-    // Create setup intent for collecting payment method
-    const setupIntent = await stripe.setupIntents.create({
-      customer: customerId,
-      payment_method_types: ['card'],
-      metadata: { orgId },
-      usage: 'off_session',
-    })
-
-    const clientSecret = setupIntent.client_secret
-
-    if (!clientSecret) {
-      throw abort('Failed to create setup intent', meta)
-    }
-
-    const setupIntentId = setupIntent.id
-
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: 100, // $1
-      currency: 'usd',
-      customer: customerId,
-      payment_method_types: ['card'],
-      metadata: { orgId, priceId: sessionPriceId },
-      setup_future_usage: 'off_session',
-      confirm: false,
-      capture_method: 'automatic',
-    })
-
-    const paymentIntentId = paymentIntent.id
-
-    return {
-      status: 'success',
-      data: {
-        clientSecret,
-        customerId,
-        setupIntentId,
-        paymentIntentId,
-        priceId: sessionPriceId,
-        trialType,
-      },
-    }
-  }
-
-  private async completeSetup(
-    params: Extract<SetupTrialParams, { _action: 'completeSetup' }>,
-    meta: EndpointMeta,
-  ): Promise<EndpointResponse<TrialSetupResponse>> {
-    const { setupIntentId, paymentIntentId, orgId, priceId, priceLookupKey, trialPeriodDays = 30 } = params
-    const stripe = this.settings.fictionStripe.getServerClient()
-
-    const sessionPriceId = priceId || await this.getPriceByLookupKey(priceLookupKey)
-
-    if (!sessionPriceId) {
-      throw abort('missing required product info', meta)
-    }
-
-    if (!setupIntentId || !paymentIntentId) {
-      throw abort('missing required IDs', meta)
-    }
-
-    // Get setup intent to get customer ID and payment method
-    const setupIntent = await stripe.setupIntents.retrieve(setupIntentId)
-
-    if (!setupIntent.payment_method) {
-      throw abort('No payment method attached to setup intent', meta)
-    }
-
-    // Set as default payment method for the customer
-    await stripe.customers.update(setupIntent.customer as string, {
-      invoice_settings: {
-        default_payment_method: setupIntent.payment_method as string,
-      },
-    })
-
-    // Process trial payment using the same payment method
-    const paymentIntent = await stripe.paymentIntents.confirm(paymentIntentId, {
-      payment_method: setupIntent.payment_method as string,
-    })
-
-    if (paymentIntent.status !== 'succeeded') {
-      throw abort(`Payment failed: ${paymentIntent.status}`, meta)
-    }
-
-    // Create subscription
-    const subscription = await stripe.subscriptions.create({
-      customer: setupIntent.customer as string,
-      items: [{ price: sessionPriceId }],
-      trial_period_days: trialPeriodDays,
-      payment_behavior: 'default_incomplete',
-      default_payment_method: setupIntent.payment_method as string, // Also set it on the subscription
-      payment_settings: {
-        save_default_payment_method: 'on_subscription',
-        payment_method_types: ['card'],
-      },
-      metadata: { orgId },
-    })
-
-    return {
-      status: 'success',
-      data: {
-        customerId: setupIntent.customer as string,
-        setupIntentId,
-        paymentIntentId,
-        subscriptionId: subscription.id,
-        priceId: sessionPriceId,
-        trialType: 'paid',
-      },
-    }
-  }
-}
-
-export class QueryPortalSession extends StripeEndpoint {
-  async run(params: { orgId: string, returnUrl?: string }, _meta: EndpointMeta): Promise<EndpointResponse<Stripe.BillingPortal.Session > & { customer?: Stripe.Customer }> {
-    const { orgId, returnUrl } = params
-    const fictionStripe = this.settings.fictionStripe
-    const stripe = fictionStripe.getServerClient()
-
-    const r = await fictionStripe.queries.ManageCustomer.serve({ _action: 'retrieve', orgId }, _meta)
-    const customer = r.data?.customer
-    const customerId = customer?.id
-
-    if (!customerId) {
-      return { status: 'error', message: `customerId not found` }
-    }
-
-    try {
-      const session = await stripe.billingPortal.sessions.create({
-        customer: customerId,
-        return_url: returnUrl,
-      })
-      return { status: 'success', data: session, customer }
-    }
-    catch (error) {
-      this.log.error('Payment API Error: Failed to create portal session', { error })
-      return { status: 'error', message: 'Payment API Error' }
-    }
-  }
-}
-
-export class QueryCheckoutSession extends StripeEndpoint {
-  async run(params: {
-    orgId: string
-    priceId?: string
-    priceKey?: string
-    trialPeriodDays?: number
-  }, _meta: EndpointMeta): Promise<EndpointResponse<Stripe.Checkout.Session> & { customer?: Stripe.Customer }> {
-    const { orgId, priceId, trialPeriodDays = 14, priceKey } = params
-    const fictionStripe = this.settings.fictionStripe
-    const stripe = fictionStripe.getServerClient()
-
-    const r = await fictionStripe.queries.ManageCustomer.serve({ _action: 'retrieve', orgId }, _meta)
-    const customer = r.data?.customer
-    const customerId = customer?.id
-
-    if (!customerId) {
-      return { status: 'error', message: `customerId not found` }
-    }
-
-    const sessionPriceId = priceId || await this.getPriceByLookupKey(priceKey)
-
-    if (!sessionPriceId) {
-      return { status: 'error', message: `priceId not found` }
-    }
-
-    try {
-      const session = await stripe.checkout.sessions.create({
-        customer: customerId,
-        mode: 'subscription',
-        ui_mode: 'embedded',
-        line_items: [{ price: sessionPriceId, quantity: 1 }],
-        subscription_data: {
-          trial_period_days: trialPeriodDays,
-        },
-        redirect_on_completion: 'never',
-      })
-      return { status: 'success', data: session, customer }
-    }
-    catch (error) {
-      this.log.error('Payment API Error: Failed to create checkout session', { error })
-      return { status: 'error', message: 'Payment API Error' }
-    }
-  }
-}
-
 // Union type for all possible action parameters
 type ManageCustomerRequestParams =
   | { _action: 'create', fields: { email?: string, name?: string } }
@@ -300,7 +34,7 @@ type ManageCustomerRequestParams =
 
 type ManageCustomerParams = ManageCustomerRequestParams & { orgId: string, userId?: string }
 
-export class QueryManageCustomer extends Query<StripeEndpointSettings> {
+export class QueryManageCustomer extends StripeEndpoint {
   async run(params: ManageCustomerParams, meta: EndpointMeta): Promise<EndpointResponse<CustomerData>> {
     if (!params.orgId) {
       throw abort('Missing orgId')
@@ -412,7 +146,8 @@ export class QueryManageCustomer extends Query<StripeEndpointSettings> {
     }
 
     const stripe = this.settings.fictionStripe.getServerClient()
-    const deletedCustomer = await stripe.customers.del(customer.id)
+
+    await stripe.customers.del(customer.id)
 
     await this.saveCustomerInfo({
       orgId,
@@ -421,11 +156,9 @@ export class QueryManageCustomer extends Query<StripeEndpointSettings> {
       customerAuthorized: null,
     })
 
-    return {
-      status: 'success',
-      data: { customer: deletedCustomer as Stripe.Customer & { deleted: true }, org },
-      message: 'Customer deleted successfully',
-    }
+    const customerData = await this.getCustomerData({ orgId })
+
+    return { status: 'success', data: customerData, message: 'Customer deleted successfully' }
   }
 
   private async getStoredCustomerInfo(args: { orgId: string, caller: string }): Promise<Organization> {
@@ -558,10 +291,85 @@ export class QueryManageCustomer extends Query<StripeEndpointSettings> {
       subscriptions = response.data
     }
 
-    return {
+    const raw = {
       customer,
       subscriptions,
       org,
+    }
+
+    return processCustomerData({ raw, products: this.products })
+  }
+}
+
+export class QueryPortalSession extends StripeEndpoint {
+  async run(params: { orgId: string, returnUrl?: string }, _meta: EndpointMeta): Promise<EndpointResponse<Stripe.BillingPortal.Session > & { customer?: Stripe.Customer }> {
+    const { orgId, returnUrl } = params
+    const fictionStripe = this.settings.fictionStripe
+    const stripe = fictionStripe.getServerClient()
+
+    const r = await fictionStripe.queries.ManageCustomer.serve({ _action: 'retrieve', orgId }, _meta)
+    const customer = r.data?.customer
+    const customerId = customer?.id
+
+    if (!customerId) {
+      return { status: 'error', message: `customerId not found` }
+    }
+
+    try {
+      const session = await stripe.billingPortal.sessions.create({
+        customer: customerId,
+        return_url: returnUrl,
+      })
+      return { status: 'success', data: session, customer }
+    }
+    catch (error) {
+      this.log.error('Payment API Error: Failed to create portal session', { error })
+      return { status: 'error', message: 'Payment API Error' }
+    }
+  }
+}
+
+export class QueryCheckoutSession extends StripeEndpoint {
+  async run(params: {
+    orgId: string
+    priceId?: string
+    priceKey?: string
+    trialPeriodDays?: number
+  }, _meta: EndpointMeta): Promise<EndpointResponse<Stripe.Checkout.Session> & { customer?: Stripe.Customer }> {
+    const { orgId, priceId, trialPeriodDays = 14, priceKey } = params
+    const fictionStripe = this.settings.fictionStripe
+    const stripe = fictionStripe.getServerClient()
+
+    const r = await fictionStripe.queries.ManageCustomer.serve({ _action: 'retrieve', orgId }, _meta)
+    const customer = r.data?.customer
+    const customerId = customer?.id
+
+    if (!customerId) {
+      return { status: 'error', message: `customerId not found` }
+    }
+
+    const sessionPriceId = priceId || await this.getPriceByLookupKey(priceKey)
+
+    if (!sessionPriceId) {
+      return { status: 'error', message: `priceId not found` }
+    }
+
+    try {
+      const session = await stripe.checkout.sessions.create({
+        customer: customerId,
+        mode: 'subscription',
+        ui_mode: 'embedded',
+        line_items: [{ price: sessionPriceId, quantity: 1 }],
+        subscription_data: {
+          trial_period_days: trialPeriodDays,
+        },
+        redirect_on_completion: 'never',
+      })
+      return { status: 'success', data: session, customer }
+    }
+    catch (error) {
+      this.log.error('Payment API Error: Failed to create checkout session', { error })
+      return { status: 'error', message: 'Payment API Error' }
     }
   }
 }

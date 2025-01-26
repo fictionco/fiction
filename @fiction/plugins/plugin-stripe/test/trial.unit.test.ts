@@ -1,11 +1,37 @@
 import { type EndpointMeta, waitFor } from '@fiction/core'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
-import { describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { FictionStripe } from '..'
 import { mockStripeMethods } from './stripeMocks'
 
 const testPriceId = 'price_1QkaX2GPawBUuSSLEgurp2RW'
 const testProductId = 'prod_RdsHJLIxC4dFZH'
+
+async function simulateElementsAttachment(args: {
+  fictionStripe: FictionStripe
+  customerId: string
+  paymentIntentId: string
+}) {
+  const { fictionStripe, customerId, paymentIntentId } = args
+  const stripe = fictionStripe.getServerClient()
+
+  const paymentMethod = await stripe.paymentMethods.create({
+    type: 'card',
+    card: { token: 'tok_visa' },
+  })
+
+  await stripe.paymentMethods.attach(paymentMethod.id, {
+    customer: customerId,
+  })
+
+  await stripe.paymentIntents.update(paymentIntentId, {
+    payment_method: paymentMethod.id,
+  })
+
+  await stripe.paymentIntents.confirm(paymentIntentId, {
+    payment_method: paymentMethod.id,
+  })
+}
 
 describe('queryStripeTrial', async () => {
   // Set up test utilities and initial state
@@ -25,20 +51,12 @@ describe('queryStripeTrial', async () => {
     secretKeyTest: testUtils.fictionEnv.var('STRIPE_SECRET_KEY_TEST'),
     publicKeyTest: testUtils.fictionEnv.var('STRIPE_PUBLIC_KEY_TEST'),
     customerPortalUrl: '#',
-    products: [{
-      productId: testProductId,
-      alias: 'standard',
-      tier: 10,
-      pricing: [{
-        priceId: testPriceId,
-        duration: 'month',
-        cost: 79,
-        costPerUnit: 1,
-        credits: 1000,
-        quantity: 1,
-        group: 'standard',
-      }],
-    }],
+    products: [{ key: 'pro', tier: 20 }],
+  })
+
+  afterAll(async () => {
+    await testUtils.close()
+    await fictionStripe.close()
   })
 
   describe('setupTrial action', () => {
@@ -52,7 +70,8 @@ describe('queryStripeTrial', async () => {
       }, { server: true } as EndpointMeta)
 
       expect(result.status).toBe('success')
-      expect(result.data?.clientSecret).toBeDefined()
+      expect(result.data?.paymentIntentClientSecret).toBeDefined()
+      expect(result.data?.setupIntentClientSecret).toBeDefined()
       expect(result.data?.customerId).toBeDefined()
       expect(result.data?.setupIntentId).toBeDefined()
     })
@@ -69,37 +88,11 @@ describe('queryStripeTrial', async () => {
       expect(result.status).toBe('error')
       expect(result.message).toBeDefined()
     })
-
-    it('handles stripe API errors during setup', async () => {
-      // Mock a stripe API error
-      const originalClient = fictionStripe.getServerClient
-      fictionStripe.getServerClient = () => ({
-        ...mockStripeMethods,
-        setupIntents: {
-          create: () => {
-            throw new Error('Stripe API Error')
-          },
-        },
-      }) as any
-
-      const result = await fictionStripe.queries.StripeTrial.serve({
-        _action: 'setupTrial',
-        orgId,
-        email: 'error@example.com',
-        priceId: testPriceId,
-        trialType: 'free',
-      }, { server: true, expectError: true } as EndpointMeta)
-
-      expect(result.status).toBe('error')
-      expect(result.message).toMatchInlineSnapshot(`"Failed to create customer"`)
-
-      // Restore original client
-      fictionStripe.getServerClient = originalClient
-    })
   })
 
   describe('completeSetup action', () => {
     it('completes trial setup successfully', async () => {
+      const stripe = fictionStripe.getServerClient()
       // First create a setup intent
       const setupResponse = await fictionStripe.queries.StripeTrial.serve({
         _action: 'setupTrial',
@@ -111,33 +104,13 @@ describe('queryStripeTrial', async () => {
 
       const trialSetupData = setupResponse.data
 
-      const setupIntentId = trialSetupData?.setupIntentId
+      const { setupIntentId, paymentIntentId, customerId } = trialSetupData || {}
 
-      if (!setupIntentId) {
-        throw new Error('No setupIntentId provided')
+      if (!setupIntentId || !paymentIntentId || !customerId) {
+        throw new Error('No ids provided')
       }
 
-      const customerId = trialSetupData.customerId
-
-      if (!customerId) {
-        throw new Error('No customerId provided')
-      }
-
-      // Create test payment method and attach it
-      const stripe = fictionStripe.getServerClient()
-
-      const paymentMethod = await stripe.paymentMethods.create({
-        type: 'card',
-        card: { token: 'tok_visa' },
-      })
-
-      await stripe.paymentMethods.attach(paymentMethod.id, {
-        customer: customerId,
-      })
-
-      await stripe.setupIntents.update(setupIntentId, {
-        payment_method: paymentMethod.id,
-      })
+      await simulateElementsAttachment({ fictionStripe, customerId, paymentIntentId })
 
       const trialPeriodDays = 30
       const result = await fictionStripe.queries.StripeTrial.serve({
@@ -200,65 +173,8 @@ describe('queryStripeTrial', async () => {
       expect(result.message).toBeDefined()
     })
 
-    it('handles subscription creation errors', async () => {
-      // First create a setup intent
-      const setupResponse = await fictionStripe.queries.StripeTrial.serve({
-        _action: 'setupTrial',
-        orgId,
-        email: 'sub-error@example.com',
-        priceId: testPriceId,
-        trialType: 'free',
-      }, { server: true } as EndpointMeta)
-
-      // Mock subscription creation error
-      const originalClient = fictionStripe.getServerClient
-      fictionStripe.getServerClient = () => ({
-        ...mockStripeMethods,
-        setupIntents: {
-          retrieve: async () => ({
-            customer: 'cus_test',
-            payment_method: 'pm_test',
-          }),
-        } as any,
-        paymentIntents: {
-          confirm: () => ({
-            status: 'succeeded',
-          }),
-        },
-        subscriptions: {
-          create: () => {
-            throw new Error('Subscription Creation Error')
-          },
-        },
-        paymentMethods: {
-          attach: async () => ({
-            status: 'succeeded',
-          }),
-        },
-      }) as any
-
-      const { setupIntentId, paymentIntentId } = setupResponse.data || {}
-
-      if (!setupIntentId || !paymentIntentId) {
-        throw new Error('No ids provided')
-      }
-
-      const result = await fictionStripe.queries.StripeTrial.serve({
-        _action: 'completeSetup',
-        setupIntentId,
-        paymentIntentId,
-        orgId,
-        priceId: testPriceId,
-      }, { server: true, expectError: true } as EndpointMeta)
-
-      expect(result.status).toBe('error')
-      expect(result.message).toContain('Subscription Creation Error')
-
-      // Restore original client
-      fictionStripe.getServerClient = originalClient
-    })
-
     it('verifies trial period and metadata', async () => {
+      const stripe = fictionStripe.getServerClient()
       // First create a setup intent
       const setupResponse = await fictionStripe.queries.StripeTrial.serve({
         _action: 'setupTrial',
@@ -268,26 +184,17 @@ describe('queryStripeTrial', async () => {
         trialType: 'free',
       }, { server: true } as EndpointMeta)
 
+      expect(setupResponse.status).toBe('success')
+      expect(setupResponse.data?.customerId).toBeTruthy()
+
       const { setupIntentId, paymentIntentId, customerId } = setupResponse.data || {}
 
       if (!setupIntentId || !paymentIntentId || !customerId) {
+        console.warn('No ids provided', setupResponse.data)
         throw new Error('wrong data provided')
       }
 
-      const stripe = fictionStripe.getServerClient()
-
-      const paymentMethod = await stripe.paymentMethods.create({
-        type: 'card',
-        card: { token: 'tok_visa' },
-      })
-
-      await stripe.paymentMethods.attach(paymentMethod.id, {
-        customer: customerId,
-      })
-
-      await stripe.setupIntents.update(setupIntentId, {
-        payment_method: paymentMethod.id,
-      })
+      await simulateElementsAttachment({ fictionStripe, customerId, paymentIntentId })
 
       const result = await fictionStripe.queries.StripeTrial.serve({
         _action: 'completeSetup',

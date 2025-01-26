@@ -1,6 +1,6 @@
 import { type EndpointMeta, waitFor } from '@fiction/core'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
-import { describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { FictionStripe } from '..'
 import { mockStripeMethods } from './stripeMocks'
 
@@ -25,20 +25,12 @@ describe('queryPortalSession', async () => {
     secretKeyTest: testUtils.fictionEnv.var('STRIPE_SECRET_KEY_TEST'),
     publicKeyTest: testUtils.fictionEnv.var('STRIPE_PUBLIC_KEY_TEST'),
     customerPortalUrl: '#',
-    products: [{
-      productId: testProductId,
-      alias: 'standard',
-      tier: 10,
-      pricing: [{
-        priceId: testPriceId,
-        duration: 'month',
-        cost: 10,
-        costPerUnit: 10,
-        credits: 1000,
-        quantity: 1,
-        group: 'standard',
-      }],
-    }],
+    products: [{ key: 'pro', tier: 10 }],
+  })
+
+  afterAll(async () => {
+    await testUtils.close()
+    await fictionStripe.close()
   })
 
   describe('portal session creation', () => {
@@ -197,19 +189,14 @@ describe('queryCheckoutSession', async () => {
     customerPortalUrl: '#',
     isLive: false,
     products: [{
-      productId: testProductId,
-      alias: 'standard',
-      tier: 10,
-      pricing: [{
-        priceId: testPriceId,
-        duration: 'month',
-        cost: 79,
-        costPerUnit: 1,
-        credits: 1000,
-        quantity: 1,
-        group: 'standard',
-      }],
+      tier: 40,
+      key: 'pro',
     }],
+  })
+
+  afterAll(async () => {
+    await testUtils.close()
+    await fictionStripe.close()
   })
 
   describe('checkout session creation', () => {
@@ -349,19 +336,14 @@ describe('queryManageCustomer', async () => {
     publicKeyTest: testUtils.fictionEnv.var('STRIPE_PUBLIC_KEY_TEST'),
     customerPortalUrl: '#',
     products: [{
-      productId: 'prod_test',
-      alias: 'standard',
-      tier: 10,
-      pricing: [{
-        priceId: 'price_test',
-        duration: 'month',
-        cost: 10,
-        costPerUnit: 10,
-        credits: 1000,
-        quantity: 1,
-        group: 'standard',
-      }],
+      tier: 40,
+      key: 'pro',
     }],
+  })
+
+  afterAll(async () => {
+    await testUtils.close()
+    await fictionStripe.close()
   })
 
   describe('create action', () => {
@@ -555,10 +537,8 @@ describe('queryManageCustomer', async () => {
       }, { server: true } as EndpointMeta)
 
       expect(result.status).toBe('success')
-      expect(result.data?.customer).toMatchObject({
-        id: r.data?.customer?.id,
-        deleted: true,
-      })
+      expect(result.data?.customer).toBeTruthy()
+      expect(result.data?.customer?.id).not.toBe(r.data?.customer?.id)
     })
   })
 })

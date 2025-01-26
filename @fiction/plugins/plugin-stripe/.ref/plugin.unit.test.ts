@@ -3,7 +3,7 @@
  */
 
 import type Stripe from 'stripe'
-import type { CustomerDetails } from '../types'
+import type { CustomerDetails } from '../__types'
 
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'

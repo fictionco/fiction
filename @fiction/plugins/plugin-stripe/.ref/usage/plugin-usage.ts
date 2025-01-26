@@ -1,6 +1,6 @@
 import type { FictionApp, FictionDb, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
 import type { FictionStripe } from '../index.js'
-import type { CustomerDetails } from '../types'
+import type { CustomerDetails } from '../__types.js'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { tables } from '../tables'
 import { QueryManageUsage } from './endpointsUsage'

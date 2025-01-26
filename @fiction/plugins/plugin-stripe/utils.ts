@@ -1,85 +1,59 @@
 import type * as StripeJS from '@stripe/stripe-js'
 import type express from 'express'
 import type { FictionStripe } from './index.js'
-import type { CheckoutQueryParams, CustomerData, CustomerDetails, StripeProductConfig } from './types'
-import { abort, dayjs, type EndpointResponse, toLabel } from '@fiction/core'
+import { abort, dayjs, type Organization } from '@fiction/core'
 import Stripe from 'stripe'
 
-export async function getPortalUrl(args: { fictionStripe: FictionStripe, returnUrl?: string }): Promise<string> {
-  const { fictionStripe, returnUrl } = args
+export type CheckoutQueryParams = {
+  priceId?: string
+  loginPath?: string
+  customerId?: string
+  orgId?: string
+  trialPeriod?: string
+  customerEmail?: string
+}
 
-  const portalSession = await fictionStripe.requests.PortalSession.projectRequest({ returnUrl })
+export type CustomerStatus = 'active' | 'past_due' | 'canceled' | 'incomplete' | 'trialing'
+export type ProductInterval = 'month' | 'year'
 
-  if (portalSession.status === 'success' && portalSession.data?.url) {
-    return portalSession.data?.url
+export type StripeProductConfig = {
+  key: string
+  tier: number
+}
+
+export type RawCustomerData = {
+  customer?: Stripe.Customer & { deleted?: boolean }
+  subscriptions?: Stripe.Subscription[]
+  org: Organization
+}
+
+export type CustomerData = {
+  status: CustomerStatus
+  plan?: {
+    id: string
+    name: string
+    amount: number
+    interval: ProductInterval
+    key: string
+    tier: number
   }
+  currentPeriodEnd?: string
+  cancelAt?: string
+  isActive: boolean
+  isTrialing: boolean
+  hasPastDue: boolean
 
-  const customerDetails = await getCurrentCustomerDetails({ fictionStripe })
-  const stripeCustomer = customerDetails?.customer
+  // Billing cycle
+  cycleStartAtIso?: string
+  cycleEndAtIso?: string
+  percentComplete?: number
+  daysUntilRenewal?: number
+  isCanceled?: boolean // Derived from cancelAt
 
-  let prefilledEmail = ''
-  if (stripeCustomer && 'email' in stripeCustomer)
-    prefilledEmail = `?prefilled_email=${encodeURIComponent(stripeCustomer.email || '')}`
-
-  return `${fictionStripe.settings.customerPortalUrl}${prefilledEmail}`
-}
-
-export async function getCheckoutUrl(args: { fictionStripe: FictionStripe, query: CheckoutQueryParams }): Promise<string> {
-  const { query, fictionStripe } = args
-
-  const { loginPath } = query
-
-  await fictionStripe.settings.fictionUser.userInitialized({ caller: 'getCheckoutUrl' })
-
-  const u = fictionStripe.settings.fictionUser.activeUser.value
-
-  let link
-
-  if (u) {
-    const baseUrl = fictionStripe.settings.fictionServer.serverUrl.value
-    const url = new URL(`${baseUrl}/api/stripe-checkout/init`)
-
-    query.orgId = fictionStripe.settings.fictionUser.activeOrgId.value || ':orgId'
-
-    if (args)
-      url.search = new URLSearchParams(query as Record<string, string>).toString()
-
-    link = url.toString()
-  }
-  else if (typeof location !== 'undefined') {
-    const redirect = encodeURIComponent(location.href)
-    link = `${loginPath}?redirect=${redirect}`
-  }
-
-  return link || ''
-}
-
-export function getStripeServerClient(args: { fictionStripe: FictionStripe }): Stripe {
-  const { fictionStripe } = args
-  const key = fictionStripe.secretKey.value
-
-  if (!key)
-    throw new Error(`stripe getServerClient: secretKey not found (${fictionStripe.stripeMode.value})`)
-
-  return new Stripe(key)
-}
-
-export async function getStripeBrowserClient(args: { fictionStripe: FictionStripe }): Promise<StripeJS.Stripe> {
-  const { fictionStripe } = args
-
-  const StripeJS = await import('@stripe/stripe-js')
-
-  const publicKey = fictionStripe.publicKey.value
-  if (!publicKey)
-    throw new Error(`Stripe getBrowserClient: publicKey not found (${fictionStripe.stripeMode.value})`)
-
-  const createdClient = await StripeJS.loadStripe(publicKey)
-
-  if (!createdClient)
-    throw new Error('no stripe client created')
-
-  return createdClient
-}
+  // Payment method
+  nextPaymentAmount?: number
+  paymentMethod?: Stripe.PaymentMethod
+} & RawCustomerData
 
 export async function checkoutEndpointHandler(args: {
   fictionStripe: FictionStripe
@@ -185,180 +159,122 @@ export function getCheckoutConfig(args: { orgId: string, fictionStripe: FictionS
   return config
 }
 
-export function getCycleRange(args: {
-  timestamp: number
-  now?: dayjs.Dayjs
-}) {
-  const { timestamp, now = dayjs.utc() } = args
-
-  // Ensure UTC handling throughout
-  const timestampDate = dayjs.unix(timestamp).utc()
-  const hour = timestampDate.hour()
-  const anchorDateUtc = timestampDate.date()
-
-  const daysInCurrentMonth = now.clone().utc().daysInMonth()
-  const daysInLastMonth = now.clone().utc().subtract(1, 'month').daysInMonth()
-
-  const endDay = daysInCurrentMonth < anchorDateUtc ? daysInCurrentMonth : anchorDateUtc
-  const startDay = daysInLastMonth < anchorDateUtc ? daysInLastMonth : anchorDateUtc
-
-  // Create times in UTC
-  const timeEnd = now.clone().utc().date(endDay).hour(hour)
-  const timeStart = now.clone().utc().subtract(1, 'month').date(startDay).hour(hour)
-
-  return { anchorDateUtc, timeEnd, timeStart }
-}
-
 type ProcessCustomerDataArgs = {
-  customerDataResponse: EndpointResponse<CustomerData>
+  raw: RawCustomerData
   products: StripeProductConfig[]
 }
 
-export function processCustomerData(args: ProcessCustomerDataArgs): CustomerDetails {
-  const { customerDataResponse, products } = args
-  const customerData = customerDataResponse?.data
-  const org = customerData?.org
-  const {
-    orgId,
-    specialPlan,
-    customerId = customerData?.customer?.id,
-    createdAt,
-  } = org || {}
+export function processCustomerData(args: ProcessCustomerDataArgs): CustomerData {
+  const { raw, products } = args
+  const sub = raw.subscriptions?.[0]
+  const price = sub?.items.data[0]?.price
+  const priceKey = price?.lookup_key
+  const productKey = priceKey ? priceKey.split('_')[0] : 'free'
+  const productConfig = products.find(p => p.key === productKey) || products[0]
+  const paymentMethod = raw.customer?.invoice_settings?.default_payment_method as Stripe.PaymentMethod
 
-  const basics = {
-    status: customerDataResponse.status,
-    message: customerDataResponse.message,
-    specialPlan: specialPlan as CustomerDetails['specialPlan'],
-    customerId,
-    orgId,
-    customer: customerData?.customer,
-  }
-
-  // Get all possible pricing configurations
-  const pricing = products.flatMap(product =>
-    product.pricing.map(price => ({
-      ...product,
-      ...price,
-      planName: price.planName || toLabel(price.alias || ''),
-    })),
-  )
-
-  // Try to find active subscription details
-  const activeSubscription = customerData?.subscriptions?.find((sub) => {
-    // First verify subscription has valid items data
-    if (!sub.items?.data?.[0]?.price?.id)
-      return false
-
-    // Then check if price exists and subscription is active/trialing
-    const price = pricing.find(p => p.priceId === sub.items.data[0].price.id)
-    return price && (sub.status === 'trialing' || sub.status === 'active')
-  })
-
-  // If we have an active subscription with valid pricing, process its details
-  if (activeSubscription) {
-    const price = pricing.find(p => p.priceId === activeSubscription.items.data[0].price.id)
-    // This should never happen due to the find condition above
-    if (!price) {
-      return createFreeTierDetails({ basics, createdAt })
-    }
-
-    const { timeEnd, timeStart, anchorDateUtc } = getCycleRange({
-      timestamp: activeSubscription.billing_cycle_anchor,
-    })
-
-    return {
-      ...basics,
-      ...price,
-      plan: price.alias || 'unknown',
-      quantity: price.quantity || 0,
-      credits: price.credits || 0,
-      link: '',
-      icon: 'i-carbon-star',
-      subscriptionId: activeSubscription.id,
-      isTrial: activeSubscription.status === 'trialing',
-      anchorDateUtc,
-      cyclePeriod: 'month',
-      cycleEndAtIso: timeEnd.toISOString(),
-      cycleStartAtIso: timeStart.toISOString(),
-      isCanceled: !!activeSubscription.canceled_at,
-      tier: price.tier || 0,
-    }
-  }
-
-  return createFreeTierDetails({ basics, createdAt })
-}
-
-// Helper function to create free tier details
-function createFreeTierDetails(args: {
-  basics: Pick<CustomerDetails, 'specialPlan' | 'customerId' | 'orgId' | 'customer' | 'status'>
-  createdAt?: string
-}): CustomerDetails {
-  const { basics, createdAt } = args
-  const now = dayjs()
-  const cycleStartAt = dayjs(createdAt)
-    .year(now.year())
-    .month(now.month())
-
-  const adjustedCycleStartAt = cycleStartAt.isAfter(now)
-    ? cycleStartAt.subtract(1, 'month')
-    : cycleStartAt
-
-  const cycleEndAt = adjustedCycleStartAt.add(1, 'month')
+  const { current_period_end, current_period_start } = sub || {}
 
   return {
-    ...basics,
-    plan: 'free',
-    planName: basics.specialPlan ? `Free (${basics.specialPlan})` : 'Free',
-    tier: 0,
-    quantity: 0,
-    credits: 0,
-    link: '',
-    icon: 'i-carbon-star-half',
-    isTrial: false,
-    priceId: '',
-    cost: 0,
-    group: 'free',
-    costPerUnit: 0,
-    duration: 'month',
-    cycleStartAtIso: adjustedCycleStartAt.toISOString(),
-    cycleEndAtIso: cycleEndAt.toISOString(),
-    isCanceled: false,
+    ...raw,
+    status: (sub?.status || 'incomplete') as CustomerStatus,
+    plan: price && {
+      id: price.id,
+      name: price.nickname || '',
+      amount: price.unit_amount || 0,
+      interval: (price.recurring?.interval || 'month') as ProductInterval,
+      key: productKey,
+      tier: productConfig.tier,
+    },
+
+    // Billing cycle info using UTC
+    cycleStartAtIso: current_period_start ? dayjs.unix(current_period_start).utc().toISOString() : undefined,
+    cycleEndAtIso: current_period_end ? dayjs.unix(current_period_end).utc().toISOString() : undefined,
+
+    // Status flags
+    isActive: sub?.status === 'active' || sub?.status === 'trialing',
+    isTrialing: sub?.status === 'trialing',
+    hasPastDue: sub?.status === 'past_due',
+    isCanceled: !!sub?.cancel_at,
+    paymentMethod,
   }
 }
 
-export async function setCustomerData(args: {
-  orgId: string
-  fictionStripe: FictionStripe
-}): Promise<CustomerDetails> {
-  const { fictionStripe } = args
+export async function getPortalUrl(args: { fictionStripe: FictionStripe, returnUrl?: string }): Promise<string> {
+  const { fictionStripe, returnUrl } = args
 
-  const products = fictionStripe.settings.products
+  const portalSession = await fictionStripe.requests.PortalSession.projectRequest({ returnUrl })
 
-  const fictionUser = fictionStripe.settings.fictionUser
-
-  await fictionUser.userInitialized({ caller: 'setCustomerData' })
+  if (portalSession.status === 'success' && portalSession.data?.url) {
+    return portalSession.data?.url
+  }
 
   const customerDataResponse = await fictionStripe.requests.ManageCustomer.projectRequest({
     _action: 'retrieve',
   })
+  const customerDetails = customerDataResponse.data
+  const stripeCustomer = customerDetails?.customer
 
-  return processCustomerData({
-    customerDataResponse,
-    products,
-  })
+  let prefilledEmail = ''
+  if (stripeCustomer && 'email' in stripeCustomer)
+    prefilledEmail = `?prefilled_email=${encodeURIComponent(stripeCustomer.email || '')}`
+
+  return `${fictionStripe.settings.customerPortalUrl}${prefilledEmail}`
 }
 
-export async function getCurrentCustomerDetails(args: { fictionStripe: FictionStripe }): Promise<CustomerDetails | undefined> {
+export async function getCheckoutUrl(args: { fictionStripe: FictionStripe, query: CheckoutQueryParams }): Promise<string> {
+  const { query, fictionStripe } = args
+
+  const { loginPath } = query
+
+  await fictionStripe.settings.fictionUser.userInitialized({ caller: 'getCheckoutUrl' })
+
+  const u = fictionStripe.settings.fictionUser.activeUser.value
+
+  let link
+
+  if (u) {
+    const baseUrl = fictionStripe.settings.fictionServer.serverUrl.value
+    const url = new URL(`${baseUrl}/api/stripe-checkout/init`)
+
+    query.orgId = fictionStripe.settings.fictionUser.activeOrgId.value || ':orgId'
+
+    if (args)
+      url.search = new URLSearchParams(query as Record<string, string>).toString()
+
+    link = url.toString()
+  }
+  else if (typeof location !== 'undefined') {
+    const redirect = encodeURIComponent(location.href)
+    link = `${loginPath}?redirect=${redirect}`
+  }
+
+  return link || ''
+}
+
+export function getStripeServerClient(args: { fictionStripe: FictionStripe }): Stripe {
+  const { fictionStripe } = args
+  const key = fictionStripe.secretKey.value
+
+  if (!key)
+    throw new Error(`stripe getServerClient: secretKey not found (${fictionStripe.stripeMode.value})`)
+
+  return new Stripe(key)
+}
+
+export async function getStripeBrowserClient(args: { fictionStripe: FictionStripe }): Promise<StripeJS.Stripe> {
   const { fictionStripe } = args
 
-  await fictionStripe.settings.fictionUser.userInitialized({ caller: 'setCustomerData' })
+  const StripeJS = await import('@stripe/stripe-js')
 
-  const orgId = fictionStripe.settings.fictionUser.activeOrgId.value
+  const publicKey = fictionStripe.publicKey.value
+  if (!publicKey)
+    throw new Error(`Stripe getBrowserClient: publicKey not found (${fictionStripe.stripeMode.value})`)
 
-  if (!orgId)
-    throw new Error('No active organization')
+  const createdClient = await StripeJS.loadStripe(publicKey)
 
-  const currentCustomerDetails = await setCustomerData({ orgId, fictionStripe })
+  if (!createdClient)
+    throw new Error('no stripe client created')
 
-  return currentCustomerDetails
+  return createdClient
 }
