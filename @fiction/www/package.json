@@ -23,7 +23,7 @@
     "@fiction/theme-prestige": "workspace:*",
     "@fiction/ui": "workspace:*",
     "@types/mapbox-gl": "^3.4.1",
-    "mapbox-gl": "^3.9.3",
+    "mapbox-gl": "^3.9.4",
     "postcss": "^8.5.1",
     "tailwindcss": "^3.4.17"
   },

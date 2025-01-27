@@ -34,7 +34,7 @@
     "@types/imagesloaded": "^4.1.6",
     "@types/packery": "^1.4.37",
     "add": "^2.0.6",
-    "ai": "^4.1.1",
+    "ai": "^4.1.9",
     "blurhash": "^2.0.5",
     "canvas-confetti": "^1.9.3",
     "flickity": "^3.0.0",
