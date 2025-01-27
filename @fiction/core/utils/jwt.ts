@@ -6,14 +6,15 @@ import { abort } from './error'
 
 const logger = log.contextLogger('JWT UTILS')
 
-export function createUserToken(args: { user: Partial<User>, tokenSecret?: string, expiresIn?: string | number, verifyEmail?: boolean }): string {
+export function createUserToken(args: { user: Partial<User>, tokenSecret?: string, expiresIn?: number, verifyEmail?: boolean }): string {
   const { user, tokenSecret, expiresIn, verifyEmail = false } = args
 
   if (!tokenSecret)
     throw abort('tokenSecret is not set', { code: 'TOKEN_ERROR' })
 
   const { systemRole = '', userId, email } = user
-  const options = expiresIn ? { expiresIn } : undefined
+  // expiresIn is in seconds
+  const options = typeof expiresIn !== 'undefined' ? { expiresIn } : undefined
   return jwt.sign({ systemRole, userId, email, verifyEmail }, tokenSecret, options)
 }
 

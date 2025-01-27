@@ -124,7 +124,7 @@ describe('setAuthorizedUser', () => {
     const token = createUserToken({
       user: testUser,
       tokenSecret,
-      expiresIn: '0s', // Expired immediately
+      expiresIn: 0, // Expired immediately
     })
 
     mockRequest.headers.authorization = `Bearer ${token}`

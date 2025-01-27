@@ -41,7 +41,7 @@ describe('createEmailVars', async () => {
       user: initialized.user,
       tokenSecret: testUtils.fictionUser.tokenSecret,
       verifyEmail: true,
-      expiresIn: '2d',
+      expiresIn: 60 * 60 * 24 * 2,
     }))
 
     expect(u.searchParams.get('redirect')).toBe('http://example.com/redirect')

@@ -30,7 +30,7 @@ export async function createEmailVars<
 
   const v: QueryVars = args.queryVars || {}
 
-  v.token = createUserToken({ user: recipient, tokenSecret, verifyEmail: true, expiresIn: '2d' })
+  v.token = createUserToken({ user: recipient, tokenSecret, verifyEmail: true, expiresIn: 60 * 60 * 24 * 2 })
   v.code = recipient.verify?.code || ''
   v.email = recipient.email || ''
   v.userId = recipient.userId || ''
