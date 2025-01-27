@@ -53,9 +53,9 @@ async function saveBeforeNavigate(args: { location: string, href: string }) {
 }
 
 const options = vue.computed(() => {
-  const config = campaign?.toConfig() as EmailCampaignConfig
-  const post = config.post
-  const subscriberCount = config.subscriberCount
+  const config = campaign?.toConfig() as EmailCampaignConfig | undefined
+  const post = config?.post
+  const subscriberCount = config?.subscriberCount
   const allContent = [post?.title, post?.subTitle, post?.content].filter(Boolean).join(' ')
   const wordCount = getWordCountFromHTML(allContent)
 
@@ -339,7 +339,7 @@ async function sendOrSchedule() {
 }
 
 const header = vue.computed(() => {
-  const em = campaign?.toConfig() as EmailCampaignConfig
+  const em = campaign?.toConfig()
   const allControlOptions = options.value.flatMap(o => [o, ...o.options.value]).filter(o => o.input.value === 'InputControl')
   const incompleteItems = allControlOptions.filter(opt => opt.valueDisplay.value?.status === 'incomplete')
   const isReady = incompleteItems.length === 0
@@ -383,7 +383,7 @@ const header = vue.computed(() => {
   }
 
   const out: PostObject = {
-    title: em.title || 'Untitled',
+    title: em?.title || 'Untitled',
     subTitle: `${statusText} - Status is "${em?.status}"`,
     media: { class: 'i-tabler-mail' },
     action: { buttons },

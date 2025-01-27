@@ -121,7 +121,8 @@ async function next(currentStep: StepItem) {
 }
 
 vue.onBeforeUnmount(async () => {
-  await fictionRouter.replace({ query: { step: undefined } })
+  const q = fictionRouter.query.value
+  await fictionRouter.replace({ query: { ...q, step: undefined } })
 })
 </script>
 

@@ -118,12 +118,13 @@ describe('processCustomerData', () => {
 
     const result = processCustomerData({ raw, products: mockProducts })
 
+    expect(result.tier).toBe(1)
+
     expect(result.plan).toMatchObject({
       id: 'price_1MowQULkdIwHu7ixraBm864M',
       name: 'Basic Plan',
       amount: 1000,
       interval: 'month',
-      tier: 1,
     })
   })
 
