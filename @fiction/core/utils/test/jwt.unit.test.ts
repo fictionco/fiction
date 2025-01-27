@@ -47,7 +47,7 @@ describe('jWT Functions with Expiration', () => {
 
   it('creates a token with a specific expiration time', () => {
     // Creating a token that expires in 1 second for testing
-    const token = createUserToken({ user, tokenSecret, expiresIn: '1s' })
+    const token = createUserToken({ user, tokenSecret, expiresIn: 1 })
     expect(token).toBeDefined()
 
     // Wait for the token to expire
@@ -61,7 +61,7 @@ describe('jWT Functions with Expiration', () => {
 
   it('successfully decodes a token before it expires', () => {
     // Creating a token with short but valid expiration
-    const token = createUserToken({ user, tokenSecret, expiresIn: '5s' })
+    const token = createUserToken({ user, tokenSecret, expiresIn: 5 })
     const decoded = decodeUserToken({ token, tokenSecret })
     expect(decoded).toEqual({
       userId: user.userId,
@@ -75,7 +75,7 @@ describe('jWT Functions with Expiration', () => {
 
   it('throws an error if the token has expired', () => {
     // Creating a token that expires almost immediately
-    const token = createUserToken({ user, tokenSecret, expiresIn: '1ms' })
+    const token = createUserToken({ user, tokenSecret, expiresIn: 0 })
 
     // Function to advance time and decode token
     const decodeExpiredToken = () => {
