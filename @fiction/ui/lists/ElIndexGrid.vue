@@ -48,7 +48,7 @@ async function paginate(dir: 'prev' | 'next') {
       <ElSpinner class="h-6 w-6" />
     </div>
     <div v-else>
-      <div v-if="list.length > 0" class="mb-6 flex justify-between items-end" :data-list-count="indexMeta.count">
+      <div class="mb-6 flex justify-between items-end" :data-list-count="indexMeta.count">
         <div class="text-base font-semibold leading-4 text-theme-300 dark:text-theme-500 antialiased">
           {{ listTitle }} <span v-if="indexMeta.count">({{ indexMeta.count }} total)</span>
         </div>
@@ -94,8 +94,8 @@ async function paginate(dir: 'prev' | 'next') {
             </template>
             <ElZeroBanner
               v-else
-              :title="empty?.label || 'No items found'"
-              :description="empty?.description || 'Try creating a new one.'"
+              :title="empty?.label || 'Nothing found'"
+              :description="empty?.description"
               :action="empty?.action || action"
               :icon="empty?.icon || 'i-heroicons-search'"
               :test-id="empty?.testId"

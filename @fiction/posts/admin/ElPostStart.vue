@@ -2,11 +2,12 @@
 import type { StepConfig, StepItem } from '@fiction/core'
 import type { TableSiteConfig } from '@fiction/site'
 import type { Card } from '@fiction/site/card'
+import type { FictionPosts, Post } from '..'
 import { resetUi, useService, vue } from '@fiction/core'
 import ElModal from '@fiction/ui/ElModal.vue'
 import ElStepNav from '@fiction/ui/ElStepNav.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
-import { type FictionPosts, managePost, type Post } from '..'
+import { managePost } from '..'
 
 const { card, vis = false } = defineProps<{
   card: Card
@@ -71,7 +72,7 @@ const stepConfig: StepConfig = {
         class: 'max-w-lg',
         isLoading: isSubmitting.value,
         onClick: () => createNewPost(),
-        actionText: 'Continue to Editor',
+        button: { label: 'Continue to Editor' },
       },
     ]
 

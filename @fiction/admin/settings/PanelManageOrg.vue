@@ -76,6 +76,7 @@ const list = vue.computed<NavListItem[]>(() => {
           },
         }
 
+    const isActive = org.orgId === service.fictionUser.activeOrgId.value
     return {
       key: org.orgId,
       label,
@@ -84,7 +85,7 @@ const list = vue.computed<NavListItem[]>(() => {
       action: {
         buttons: [button],
       },
-      isActive: org.loadOrgId,
+      isActive,
     } satisfies NavListItem
   })
 })

@@ -17,7 +17,7 @@ const { fictionRouter } = useService<{
 }>()
 
 const steps = vue.computed(() => {
-  return stepConfig.steps.value.filter(s => !s.isSkipped)
+  return stepConfig.steps.value.filter(s => !s.isJumped)
 })
 
 async function setComplete() {}
@@ -72,7 +72,14 @@ function getStepIndex(dir: 'prev' | 'next') {
   return num
 }
 
-function setStepIndex(index: number) {
+function setStepIndex(index: number, options?: { backOnly?: boolean }) {
+  const { backOnly } = options || {}
+
+  const currentIndex = stepIndex.value
+
+  if (index === currentIndex || (backOnly && index > currentIndex))
+    return
+
   queryStep.value = steps.value[index]?.key || ''
 }
 function setStepKey(key: string) {
@@ -108,11 +115,15 @@ const stepActions = {
   setComplete,
 }
 
-async function next(currentStep: StepItem) {
-  const valid = checkValid()
+async function next(currentStep: StepItem, args: { needsValidation: boolean }) {
+  const { needsValidation = false } = args || {}
 
-  if (!valid || currentStep.isLoading)
-    return
+  if (needsValidation) {
+    const valid = checkValid()
+
+    if (!valid || currentStep.isLoading)
+      return
+  }
 
   if (currentStep.onClick)
     await currentStep.onClick(stepActions)
@@ -141,8 +152,8 @@ vue.onBeforeUnmount(async () => {
           <slot :step="step" :change-step="changeStep" />
 
           <div
-            v-if="!step.noAction"
-            class="flex justify-center"
+            v-if="!step.noButton"
+            class="flex justify-center gap-4 items-center"
           >
             <XButton
               :theme="step.button?.theme || 'primary'"
@@ -153,9 +164,24 @@ vue.onBeforeUnmount(async () => {
               data-test-el="step-submit"
               :data-test-id="`step-button-${step.key}`"
               icon-after="i-tabler-arrow-right"
-              @click.prevent="next(step)"
+              @click.prevent="next(step, { needsValidation: true })"
             >
-              {{ step.button?.label || step.actionText || "Next" }}
+              {{ step.button?.label || "Next" }}
+            </XButton>
+          </div>
+
+          <div v-if="step.allowSkip" class="flex justify-center gap-4 items-center">
+            <XButton
+              :theme="step.skipButton?.theme || 'default'"
+              :size="step.skipButton?.size || 'sm'"
+              design="link"
+              class="step-skip"
+              :animate="true"
+              data-test-el="step-skip"
+              :data-test-id="`step-button-${step.key}`"
+              @click.prevent="next(step, { needsValidation: false })"
+            >
+              {{ step.skipButton?.label || "Skip" }}
             </XButton>
           </div>
         </div>
@@ -167,7 +193,7 @@ vue.onBeforeUnmount(async () => {
       :active-item="stepIndex"
       wrap-selector="#stepForm"
       @click.stop
-      @update:active-item="setStepIndex($event)"
+      @update:active-item="setStepIndex($event, { backOnly: true })"
     />
   </ElForm>
 </template>

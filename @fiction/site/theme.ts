@@ -2,10 +2,11 @@ import type { FictionAdmin } from '@fiction/admin/index.js'
 import type { ColorThemeBright, FictionEnv, ServiceList } from '@fiction/core'
 import type { CardTemplate } from './card.js'
 import type { SiteUserConfig } from './schema.js'
+import type { SiteSettings } from './site.js'
 import type { TableCardConfig } from './tables.js'
 import { deepMerge, FictionObject, toLabel, vue } from '@fiction/core'
 import { CardFactory } from './cardFactory.js'
-import { Site, type SiteSettings } from './site.js'
+import { Site } from './site.js'
 
 type ThemeCategory = 'blog' | 'portfolio' | 'business' | 'personal' | 'ecommerce' | 'landing' | 'internal'
 
@@ -13,6 +14,7 @@ export type ThemeConfig = {
   userConfig?: SiteUserConfig
   pages: TableCardConfig[]
   sections: Record<string, TableCardConfig>
+  onMounted?: () => (void | Promise<void>)
 }
 
 export type ThemeMeta = {
@@ -80,7 +82,7 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
 
     const pages = config.pages.map(page => ({ ...page, templateId: page.templateId || this.templateDefaults.value.page }))
 
-    return { userConfig: fullUserConfig, pages, sections: config.sections || {} }
+    return { ...config, userConfig: fullUserConfig, pages, sections: config.sections || {} }
   }
 
   async toSite(settings: Omit<SiteSettings, 'themeId'>): Promise<Site> {

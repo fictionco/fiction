@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { StepConfig, StepItem } from '@fiction/core'
+import type { FictionUser, StepConfig, StepItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import { vue } from '@fiction/core'
+import { useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import EffectConfetti from '@fiction/ui/effect/EffectConfetti.vue'
 import ElStepNav from '@fiction/ui/ElStepNav.vue'
@@ -11,9 +11,9 @@ import XMedia from '@fiction/ui/media/XMedia.vue'
 import { localMedia } from '@fiction/ui/stock/localMedia'
 import ElSubscriberStart from './SubscriptionStart.vue'
 
-defineProps({
-  card: { type: Object as vue.PropType<Card>, required: true },
-})
+const { card } = defineProps<{ card: Card }>()
+
+const { fictionUser } = useService<{ fictionUser: FictionUser }>()
 
 const isLoading = vue.ref(false)
 const hideOnboardingSurvey = vue.computed(() => {
@@ -27,59 +27,21 @@ const form = vue.ref<{
 }>({ })
 
 const goals = [
-  {
-    label: 'Establish Authority',
-    description: 'Position yourself as a thought leader',
-    value: 'authority',
-  },
-  {
-    label: 'Attract Opportunities',
-    description: 'Win clients or dream job offers',
-    value: 'opportunities',
-  },
-  {
-    label: 'Grow Influence',
-    description: 'Build engaged audience',
-    value: 'audience',
-  },
-  {
-    label: 'Launch Products',
-    description: 'Validate and scale your ideas',
-    value: 'products',
-  },
-  {
-    label: 'Simplify Presence',
-    description: 'Centralize your professional identity',
-    value: 'branding',
-  },
+  { label: 'Establish Authority', description: 'Position yourself as a thought leader', value: 'authority' },
+  { label: 'Attract Opportunities', description: 'Win clients or dream job offers', value: 'opportunities' },
+  { label: 'Grow Influence', description: 'Build engaged audience', value: 'audience' },
+  { label: 'Launch Products', description: 'Validate and scale your ideas', value: 'products' },
+  { label: 'Simplify Presence', description: 'Centralize your professional identity', value: 'branding' },
+  { label: 'Other', description: 'Tell us more about your goals', value: 'other' },
 ]
 
 const roles = [
-  {
-    label: 'Founder',
-    description: 'Building a business or startup',
-    value: 'founder',
-  },
-  {
-    label: 'Career Professional',
-    description: 'Advancing in current field',
-    value: 'pro',
-  },
-  {
-    label: 'Content Creator',
-    description: 'Sharing expertise regularly',
-    value: 'creator',
-  },
-  {
-    label: 'Consultant',
-    description: 'Working with multiple clients',
-    value: 'consultant',
-  },
-  {
-    label: 'Investor',
-    description: 'Growing network and opportunities',
-    value: 'investor',
-  },
+  { label: 'Founder', description: 'Building a business or startup', value: 'founder' },
+  { label: 'Career Professional', description: 'Advancing in current field', value: 'pro' },
+  { label: 'Content Creator', description: 'Sharing expertise regularly', value: 'creator' },
+  { label: 'Consultant', description: 'Working with multiple clients', value: 'consultant' },
+  { label: 'Investor', description: 'Growing network and opportunities', value: 'investor' },
+  { label: 'Other', description: 'Tell us more about your situation', value: 'other' },
 ]
 
 const stepConfig: StepConfig = {
@@ -97,8 +59,8 @@ const stepConfig: StepConfig = {
         title: 'What would you like to achieve?',
         subTitle: 'We will customize your experience based on your goals.',
         key: 'goal',
-        class: 'max-w-lg',
-        isNeeded: true,
+        class: 'max-w-md',
+        allowSkip: true,
       },
       {
         superTitle: {
@@ -109,8 +71,8 @@ const stepConfig: StepConfig = {
         title: 'Which best describes you?',
         subTitle: 'We\'ll use this to personalize your experience.',
         key: 'role',
-        class: 'max-w-lg',
-        isNeeded: true,
+        class: 'max-w-md',
+        allowSkip: true,
       },
       {
         key: 'payment',
@@ -119,15 +81,11 @@ const stepConfig: StepConfig = {
           theme: 'green',
           icon: { class: 'i-tabler-bolt' },
         },
-        title: 'Start trial for $1',
-        subTitle: 'One month for $1, then $39/mo. Cancel anytime.',
-        button: { label: 'Try 1 Month for $1', theme: 'primary', size: 'lg', icon: 'i-tabler-bolt', iconAfter: 'i-tabler-arrow-right' },
-
+        title: 'Start Pro Trial',
+        subTitle: 'Free for one month then $39/mo. Cancel anytime.',
+        button: { label: 'Start My Trial', theme: 'primary', size: 'lg', icon: 'i-tabler-bolt', iconAfter: 'i-tabler-arrow-right' },
         class: 'max-w-screen-xl',
-        isNeeded: true,
-        noAction: true,
-        onClick: async () => {
-        },
+        noButton: true,
       },
       {
         key: 'ready',
@@ -137,7 +95,7 @@ const stepConfig: StepConfig = {
           icon: { class: 'i-tabler-bolt' },
         },
         title: 'You\'re All Set!',
-        subTitle: 'Your future awaits. Let\'s bring your vision to life.',
+        subTitle: 'Your future awaits. Let\'s get started...',
         button: {
           label: 'Go to Dashboard',
           theme: 'primary',
@@ -145,8 +103,19 @@ const stepConfig: StepConfig = {
           icon: 'i-tabler-bolt',
           iconAfter: 'i-tabler-arrow-right',
         },
-        class: 'max-w-screen-lg',
-        isNeeded: true,
+        class: 'max-w-lg',
+        onClick: async () => {
+          const orgId = fictionUser.activeOrgId.value || ''
+          const r = await fictionUser.requests.ManageOrganization.projectRequest({
+            _action: 'update',
+            fields: { needsOnboarding: false },
+            where: { orgId },
+          }, { disableNotify: true })
+
+          if (r.status === 'success') {
+            await card.goto('/?onboarded=true')
+          }
+        },
       },
     ]
 
@@ -163,7 +132,6 @@ const features = [
 
 <template>
   <div
-    v-if="!hideOnboardingSurvey"
     class="onboarding-survey-veil text-theme-800 dark:text-theme-0 fixed left-0 top-0 flex h-full w-full items-center justify-center bg-gradient-to-br from-theme-975 via-black to-theme-975"
   >
     <div class="fixed inset-0 z-10 overflow-y-auto">
@@ -171,7 +139,7 @@ const features = [
         <XMedia class="mx-auto h-[35px]" :media="localMedia.fictionIconInline" />
       </div>
       <div
-        class="flex min-h-full flex-col items-center justify-center p-4 text-center sm:items-center sm:p-0"
+        class="flex min-h-full flex-col items-center justify-center p-4  sm:items-center sm:p-0"
       >
         <ElStepNav
           v-slot="{ step, changeStep }"
@@ -184,6 +152,7 @@ const features = [
               input="InputRadio"
               :list="goals"
               ui-size="lg"
+              required
             />
             <ElInput
               v-if="form.goal === 'other'"
@@ -191,6 +160,8 @@ const features = [
               input="InputTextarea"
               :rows="2"
               ui-size="lg"
+              required
+              placeholder="Tell us more about your goals"
             />
           </div>
           <div v-if="step.key === 'role'" class="space-y-4">
@@ -199,6 +170,7 @@ const features = [
               input="InputRadio"
               :list="roles"
               ui-size="lg"
+              required
             />
             <ElInput
               v-if="form.role === 'other'"
@@ -206,6 +178,8 @@ const features = [
               input="InputTextarea"
               :rows="2"
               ui-size="lg"
+              placeholder="Tell us more about your situation"
+              required
             />
           </div>
           <!-- Step 3: Payment -->
@@ -217,10 +191,21 @@ const features = [
                   trial-type="paid"
                   :button="step.button || {}"
                   class="w-full"
-                  @complete="changeStep({ dir: 'next' })"
+                  @complete="changeStep({ step: 'ready' })"
                 />
-                <div class="text-xs text-theme-500 mt-4">
+                <div class="text-xs text-theme-500 mt-4 text-center">
                   Secure encryption • Cancel anytime • 24/7 support
+                </div>
+
+                <div class="flex justify-center">
+                  <XButton
+                    size="sm"
+                    design="link"
+                    theme="default"
+                    @click="changeStep({ step: 'ready' })"
+                  >
+                    Maybe Later
+                  </XButton>
                 </div>
               </div>
             </div>
@@ -231,9 +216,3 @@ const features = [
     </div>
   </div>
 </template>
-
-<style lang="less" scoped>
-.onboarding-survey-veil {
-  z-index: 5000;
-}
-</style>

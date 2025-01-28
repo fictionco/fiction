@@ -83,7 +83,7 @@ type TransactionProps = InstanceType<typeof TransactionWrap>['$props']
 
 const config = vue.computed<TransactionProps | undefined>(() => {
   const mapping: Record<string, TransactionProps> = {
-    register: { title: 'Create a New Account', icon: 'i-tabler-user-plus' },
+    register: { title: 'Create Account', icon: 'i-tabler-user-plus' },
     login: { title: 'Login', icon: 'i-tabler-login' },
     confirm: { title: 'Check your inbox!', icon: 'i-tabler-mail', status: 'success' },
   }
@@ -138,17 +138,6 @@ const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length
               :value="fields.email"
               ui-size="lg"
               @input="fields.email = $event.target.value"
-            />
-
-            <ElInput
-              v-if="itemId === 'register'"
-              data-test-id="input-name"
-              label="Full Name"
-              input="InputText"
-              :input-props="{ autocomplete: 'name', required: true, placeholder: 'Enter your full name' }"
-              ui-size="lg"
-              :value="fields.fullName"
-              @input="fields.fullName = $event.target.value"
             />
 
             <ElInput

@@ -17,13 +17,13 @@ export interface StepItem {
   subTitle: string
   placeholder?: string
   class?: string
-  actionText?: string
-  isNeeded?: boolean
-  isSkipped?: boolean
   isLoading?: boolean
-  noAction?: boolean
+  isJumped?: boolean
+  noButton?: boolean
   onClick?: (args: StepActions) => Promise<void>
   button?: ActionButton
+  allowSkip?: boolean
+  skipButton?: ActionButton
 }
 
 export interface StepConfig {

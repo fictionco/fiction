@@ -3,17 +3,23 @@ import type { ActionButton, EndpointResponse } from '@fiction/core'
 import type { FictionStripe } from '@fiction/plugin-stripe'
 import type { TrialSetupResponse } from '@fiction/plugin-stripe/endpointTrial'
 import type { Appearance, Stripe, StripeElements } from '@stripe/stripe-js'
-import { isDarkOrLightMode, useService, vue } from '@fiction/core'
+import { isDarkOrLightMode, log, useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import { defineProps } from 'vue'
 
-const { priceLookupKey, button, trialType = 'paid' } = defineProps<{ priceLookupKey: string, button?: ActionButton, trialType: 'free' | 'paid' }>()
+const {
+  priceLookupKey,
+  button,
+  trialType = 'paid',
+} = defineProps<{ priceLookupKey: string, button?: ActionButton, trialType: 'free' | 'paid' }>()
 
 const emit = defineEmits<{
   (event: 'complete', payload: EndpointResponse): void
   (event: 'error', payload: { message: string }): void
 }>()
+
+const logger = log.contextLogger('SubscriptionStart')
 
 const { fictionStripe, fictionUser } = useService<{ fictionStripe: FictionStripe }>()
 
@@ -30,14 +36,21 @@ const errorMessages = {
   default: 'An unexpected error occurred. Please try again.',
   setup_failed: 'Payment method setup failed. Please check your card details.',
   incomplete_setup: 'Payment method setup incomplete. Please check your card details.',
-  payment_failed: 'Payment processing failed. Please try another payment method.',
+  payment_failed: 'Card verification failed. Please try another card.',
   user_not_found: 'Please sign in to continue.',
   initialization_failed: 'Payment system initialization failed. Please refresh the page.',
+  verification_failed: 'Unable to verify your card. Check that it\'s active and has funds available.',
+  network_error: 'Network connection issue. Please check your connection and try again.',
 }
 
 function getFriendlyError(err: unknown): string {
   if (err instanceof Error) {
     const message = err.message.toLowerCase()
+
+    if (message.includes('network'))
+      return errorMessages.network_error
+    if (message.includes('verification'))
+      return errorMessages.verification_failed
     if (message.includes('user'))
       return errorMessages.user_not_found
     if (message.includes('setup'))
@@ -93,6 +106,7 @@ async function setupStripe() {
     paymentElement.value.mount(paymentElementRef.value)
   }
   catch (err) {
+    logger.info('setupStripe error', { error: err })
     error.value = getFriendlyError(err)
     emit('error', { message: error.value })
   }
@@ -119,8 +133,8 @@ async function handlePayment() {
 
     const intent = handleResult.paymentIntent
 
-    if (!intent || intent.status !== 'succeeded') {
-      throw new Error(`Payment confirm failed`)
+    if (!intent || !['requires_capture', 'succeeded'].includes(intent.status)) {
+      throw new Error('Payment verification failed')
     }
 
     const response = await fictionStripe.requests.StripeTrial.projectRequest({
@@ -137,6 +151,7 @@ async function handlePayment() {
     emit('complete', response)
   }
   catch (err) {
+    logger.info('handlePayment error', { error: err })
     error.value = getFriendlyError(err)
     emit('error', { message: error.value })
   }
@@ -154,8 +169,9 @@ vue.watch(
   },
 )
 
-vue.onMounted(() => {
-  setupStripe()
+vue.onMounted(async () => {
+  await fictionUser.userInitialized()
+  await setupStripe()
 })
 
 vue.onBeforeUnmount(() => {
@@ -180,6 +196,10 @@ vue.onBeforeUnmount(() => {
       role="alert"
     >
       {{ error }}
+    </div>
+
+    <div class="text-xs text-theme-600 dark:text-theme-400 bg-theme-50 dark:bg-theme-900 p-3 rounded-lg text-left md:text-center">
+      To verify your card, we'll temporarily authorize (but not charge) $1.
     </div>
 
     <div ref="paymentElementRef" class="min-h-[300px]" />

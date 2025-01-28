@@ -59,7 +59,6 @@ const stepConfig: StepConfig = {
         subTitle: 'What would you like to call this brand guide?',
         key: 'title',
         class: 'max-w-lg',
-        isNeeded: true,
         onClick: () => start(),
       },
     ]

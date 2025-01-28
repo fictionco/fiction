@@ -17,6 +17,7 @@ const linkProps = vue.computed(() => {
 <template>
   <div
     :data-test-id="item.testId || `index-item-${index}`"
+    class="@container"
   >
     <component
       :is="getNavComponentType(item)"
@@ -25,8 +26,8 @@ const linkProps = vue.computed(() => {
       :class="[item.href ? hoverClass : '', boxClass]"
       @click.stop="item.onClick && item.onClick({ item, event: $event })"
     >
-      <div class="flex gap-6 items-center">
-        <ElIndexItemMedia class="size-20" :media="item.media" :icon="item.icon" />
+      <div class="@xl:flex gap-6 items-center space-y-4 @xl:space-y-0">
+        <ElIndexItemMedia class="size-12 @xl:size-20" :media="item.media" :icon="item.icon" />
         <div>
           <div class="text-xl font-semibold leading-6">
             {{ item.label }}

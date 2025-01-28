@@ -54,14 +54,18 @@ export function siteLink(args: { site?: Site, location: vueRouter.RouteLocationR
   return finalHref
 }
 
-export async function siteGoto(args: { site?: Site, location: vueRouter.RouteLocationRaw, options: { replace?: boolean, caller?: string, retainQueryVars?: boolean } }) {
-  const { site, location, options: { replace, caller = 'site:goto', retainQueryVars = false } } = args
+export async function siteGoto(args: {
+  site?: Site
+  location: vueRouter.RouteLocationRaw
+  options: { replace?: boolean, isRedirect?: boolean, caller?: string, retainQueryVars?: boolean }
+}) {
+  const { site, location, options: { replace, isRedirect, caller = 'site:goto', retainQueryVars = false } } = args
 
   if (!site)
     return
 
   const router = site.siteRouter
-  const method = replace ? 'replace' : 'push'
+  const method = isRedirect ? 'redirect' : replace ? 'replace' : 'push'
 
   const currentQuery = (router.query.value || {}) as Record<string, string >
   const targetHref = siteLink({ site, location })

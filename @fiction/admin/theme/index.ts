@@ -101,7 +101,7 @@ export async function getPages(args: { factory: CardFactory, site: Site }) {
       title: 'Settings',
       cards: [
         await factory.fromTemplate<typeof authTemplate>({
-          el: def(async () => import('../auth/AuthCard.vue')),
+          el: def(async () => import('../dashboard/AuthCard.vue')),
           userConfig: {
             logo: { format: 'html' as const, html: fictionLogo },
             standard: { spaceSize: 'none', showOnSingle: true },
@@ -127,6 +127,9 @@ export const theme = new Theme({
     const adminPages = await service.fictionAdmin.getAdminPages({ factory })
     const pages = [...pg, ...adminPages]
     return {
+      onMounted: async () => {
+        console.warn('admin mounted')
+      },
       pages,
       sections: {},
       userConfig: {
@@ -145,6 +148,7 @@ export const theme = new Theme({
           spaceSize: 'none',
         },
       } satisfies SiteUserConfig,
+
     }
   },
   templateDefaults: { page: 'dash', transaction: 'cardTransactionViewV1' },

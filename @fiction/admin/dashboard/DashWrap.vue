@@ -2,9 +2,9 @@
 import type { IndexItem, MediaObject, MemberAccess, NavItem } from '@fiction/core'
 import type { FictionStripe } from '@fiction/plugin-stripe'
 import type { Card } from '@fiction/site/card'
+import type { FictionAdmin } from '..'
 import ElEngine from '@fiction/cards/CardEngine.vue'
 import { getAccessLevel, onResetUi, sortPriority, useService, vue } from '@fiction/core'
-import OnboardSurvey from '@fiction/plugin-onboard/survey/OnboardSurvey.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import DashBar from './DashBar.vue'
@@ -24,26 +24,26 @@ export type UserConfig = {
   parentNavItemSlug?: string
 }
 
-const props = defineProps({
-  requires: { type: Array as vue.PropType<('plan' | 'instance')[]>, default: undefined },
-  access: { type: String as vue.PropType<MemberAccess>, default: 'view' },
-  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
-})
+const { card, requires, access = 'subscriber' } = defineProps<{
+  card: Card<UserConfig>
+  requires?: ('plan' | 'instance')[]
+  access?: MemberAccess
+}>()
 
-const uc = vue.computed(() => props.card.userConfig.value)
+const uc = vue.computed(() => card.userConfig.value)
 const loading = vue.ref(true)
-const site = vue.computed(() => props.card.site)
-const { fictionUser, fictionStripe } = useService<{ fictionStripe?: FictionStripe }>()
+const site = vue.computed(() => card.site)
+const { fictionUser, fictionStripe, fictionAdmin } = useService<{ fictionStripe?: FictionStripe, fictionAdmin: FictionAdmin }>()
 
 const showMobileNav = vue.ref(false)
 const menuVis = vue.ref(false)
 onResetUi(() => (menuVis.value = false))
 
 const accessLevel = vue.computed(() => fictionUser.activeRelation.value?.accessLevel || 0)
-const memberHasAccess = vue.computed(() => accessLevel.value >= getAccessLevel(props.access))
+const memberHasAccess = vue.computed(() => accessLevel.value >= getAccessLevel(access))
 
 const primaryNav = vue.computed<NavItem[]>(() => {
-  const site = props.card.site
+  const site = card.site
   if (!site)
     return []
   const pages = site?.pages.value as Card<UserConfig>[]
@@ -71,7 +71,7 @@ const primaryNav = vue.computed<NavItem[]>(() => {
 })
 
 const bottomNav = vue.computed<NavItem[]>(() => {
-  const site = props.card.site
+  const site = card.site
   if (!site)
     return []
   const currentViewId = site.siteRouter.params.value.viewId
@@ -90,12 +90,12 @@ const accountMenu: vue.ComputedRef<IndexItem[]> = vue.computed(() => {
   return [
     {
       label: 'Account Settings',
-      href: props.card.link({ path: '/settings/account' }),
+      href: card.link({ path: '/settings/account' }),
       icon: 'i-tabler-settings',
     },
     {
       label: 'Dark/Light Mode',
-      icon: props.card.site?.isLightMode ? 'i-tabler-sun' : 'i-tabler-moon-stars',
+      icon: card.site?.isLightMode ? 'i-tabler-sun' : 'i-tabler-moon-stars',
       figure: { el: DashDarkModeToggle },
     },
     {
@@ -111,15 +111,15 @@ const accountMenu: vue.ComputedRef<IndexItem[]> = vue.computed(() => {
 })
 
 vue.onMounted(async () => {
-  const user = await fictionUser.userInitialized({ caller: 'DashWrap' })
-
-  if (!user && uc.value.authRedirect)
-    props.card.site?.siteRouter.push(props.card.link(uc.value.authRedirect), { caller: 'DashWrap' })
-
-  loading.value = false
-
-  if (fictionStripe)
-    await fictionStripe.customerInitialized({ caller: 'DashWrap' })
+  try {
+    await fictionAdmin.onClientMounted({ card })
+  }
+  catch (e) {
+    console.error('mount error', e)
+  }
+  finally {
+    loading.value = false
+  }
 })
 
 function toggleSidebar() {

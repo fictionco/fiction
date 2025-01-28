@@ -1,4 +1,5 @@
 import { createTestUtils } from '@fiction/core/test-utils'
+import { isTest } from '@fiction/platform/index.js'
 import { t } from '@fiction/posts/schema.js'
 import { describe, expect, it } from 'vitest'
 import { Col, FictionDbTable } from '../objects.js'
@@ -26,6 +27,7 @@ describe('dbPrep', async () => {
     new Col({ key: 'scheduleMode', sch: ({ z }) => z.enum(['now', 'schedule']), make: ({ s, col }) => s.string(col.k) }),
     new Col({ key: 'scheduledAt', sch: ({ z }) => z.string(), make: ({ s, col }) => s.timestamp(col.k).defaultTo(null) }),
     new Col({ key: 'draft', sch: ({ z }) => z.record(z.string(), z.any()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
+    new Col({ key: 'isTestBoolean', sch: ({ z }) => z.boolean(), make: ({ s, col }) => s.boolean(col.k) }),
   ] as const
 
   const tables = [new FictionDbTable({ tableKey: 'fiction_test_schema', timestamps: true, cols })]
@@ -57,6 +59,7 @@ describe('dbPrep', async () => {
       title: 'Test Title',
       prvt: 'Private Data',
       createdAt: new Date().toISOString(),
+      isTestBoolean: false,
     }
     const result = dbPrep({
       type: 'insert',
@@ -72,6 +75,7 @@ describe('dbPrep', async () => {
       createdAt: expect.any(String),
       updatedAt: expect.any(String),
       prvt: 'Private Data',
+      isTestBoolean: false,
     }))
 
     const result2 = dbPrep({
@@ -100,6 +104,7 @@ describe('dbPrep', async () => {
       userId: 'user123',
       title: 'Updated Title',
       createdAt: new Date().toISOString(),
+      isTestBoolean: undefined,
     }
     const result = dbPrep({
       type: 'update',
@@ -128,6 +133,7 @@ describe('dbPrep', async () => {
       fields,
       table: 'fiction_test_schema',
       fictionDb,
+      meta: { expectError: true },
     })
 
     expect(r.campaignId).toBeFalsy()

@@ -3,12 +3,13 @@ import type { FictionApp, FictionDb, FictionEnv, FictionPluginSettings, FictionR
 import type * as StripeJS from '@stripe/stripe-js'
 import type Stripe from 'stripe'
 
+import type { StripeProductConfig } from './utils'
 import { Endpoint, FictionPlugin, vue } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
 import { CustomerState } from './customer'
 import { QueryCheckoutSession, QueryManageCustomer, QueryPortalSession } from './endpoints'
 import { QueryStripeTrial } from './endpointTrial'
-import { checkoutEndpointHandler, type CustomerData, getStripeBrowserClient, getStripeServerClient, type StripeProductConfig } from './utils'
+import { checkoutEndpointHandler, getStripeBrowserClient, getStripeServerClient } from './utils'
 
 vars.register(() => [
   new EnvVar({ name: 'STRIPE_PUBLIC_KEY_TEST', isPublic: true, isOptional: true }),

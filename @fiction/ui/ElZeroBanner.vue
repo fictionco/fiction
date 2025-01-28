@@ -7,7 +7,7 @@ const { testId = 'zero-banner', icon, title, description, action = {} } = define
   testId?: string
   icon?: string | MediaObject
   title: string
-  description: string
+  description?: string
   action: ActionArea
 }>()
 </script>
@@ -28,6 +28,7 @@ const { testId = 'zero-banner', icon, title, description, action = {} } = define
               {{ title }}
             </h1>
             <p
+              v-if="description"
               class="mt-3 text-base text-theme-600 dark:text-theme-300"
               :data-test-id="`${testId}-description`"
             >

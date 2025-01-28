@@ -51,7 +51,7 @@ function hasPrivateAuth(args: { fields: BasePrepObject, meta?: EndpointMeta }) {
   return false
 }
 
-export function dbPrep<T >(args: {
+export function dbPrep<T>(args: {
   type: ScenarioType
   fields: T
   table: string
@@ -87,7 +87,7 @@ export function dbPrep<T >(args: {
     const includeField = canIncludeField({ type, sec, hasAuth })
 
     let isValid = !sch || value === null
-    if (sch && value !== null && value) {
+    if (sch && value !== null) {
       const schema = sch({ z })
       value = removeUndefined(value, { removeNull: true })
       const parsed = schema.safeParse(value)
@@ -95,12 +95,13 @@ export function dbPrep<T >(args: {
         isValid = true
       }
       else {
-        fictionDb.log.error(`DB PREP: Validation failed for field ${table}:${key}`, { data: { value, error: parsed.error.message } })
+        const expected = meta?.expectError
+        fictionDb.log.error(`DB PREP${expected ? '(EXPECTED)' : ''}: Validation failed for field ${table}:${key}`, { data: { value, error: parsed.error.message } })
         isValid = false
       }
     }
 
-    if (includeField && (isValid || type === 'return') && value) {
+    if (includeField && (isValid || type === 'return')) {
       (out as Record<string, any>)[key] = value !== null && prepare ? prepare({ value, key }) : value
     }
   })

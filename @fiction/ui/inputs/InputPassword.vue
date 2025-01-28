@@ -17,14 +17,21 @@ function handleEmit(target: EventTarget | null): void {
 
   emit('update:modelValue', el.value)
 }
+
+const autocomplete = vue.computed(() => attrs.autocomplete || 'current-password')
 </script>
 
 <template>
   <input
     :class="textInputClasses({ inputClass, uiSize })"
     :value="modelValue"
-    :autocomplete="attrs.autocomplete || 'current-password'"
+    :autocomplete="autocomplete"
+    autocapitalize="none"
+    spellcheck="false"
+    data-lpignore="false"
+    :aria-label="autocomplete === 'current-password' ? 'Current password' : 'New password'"
     type="password"
+    name="password"
     minlength="6"
     placeholder="Password"
     @input="handleEmit($event.target)"

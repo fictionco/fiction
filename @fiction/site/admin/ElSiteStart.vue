@@ -59,17 +59,15 @@ const stepConfig: StepConfig = {
         placeholder: 'Enter a site name',
         key: 'name',
         class: 'max-w-lg',
-        isNeeded: true,
       },
       {
         title: `Select Your Theme`,
         subTitle: 'This is the starting point - you can customize everything later.',
         key: 'theme',
         class: 'max-w-screen-xl ',
-        isNeeded: true,
         isLoading: isLoading.value,
         onClick: () => requestCreateSite(),
-        actionText: 'Create Site',
+        button: { label: 'Create Site' },
       },
     ]
 

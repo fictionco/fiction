@@ -4,14 +4,16 @@ import type { FictionEmail } from '@fiction/core/plugin-email'
 import type { FictionMedia } from '@fiction/core/plugin-media'
 import type { FictionRouter } from '@fiction/core/plugin-router'
 import type { FictionUser } from '@fiction/core/plugin-user'
+import type { FictionPluginSettings } from '@fiction/core/plugin.js'
+import type { FictionStripe } from '@fiction/plugin-stripe/index.js'
 import type { FictionTransactions } from '@fiction/plugin-transactions'
 import type { CardFactory } from '@fiction/site/cardFactory.js'
-import type { TableCardConfig } from '@fiction/site/index.js'
+import type { Card, TableCardConfig } from '@fiction/site/index.js'
 import type { template as dashTemplate, panelTemplate } from './dashboard/cardDash.js'
 import type { Widget } from './dashboard/widget.js'
 import type { WidgetLocation } from './types.js'
 import { envConfig } from '@fiction/core'
-import { FictionPlugin, type FictionPluginSettings } from '@fiction/core/plugin.js'
+import { FictionPlugin } from '@fiction/core/plugin.js'
 import { safeDirname, vue } from '@fiction/core/utils'
 import { createWidgetEndpoints } from './dashboard/util.js'
 import { getEmails } from './emails/index.js'
@@ -91,5 +93,26 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
       //   await this.emailActions.verifyEmailAction.serveSend({ recipient: user, queryVars: { code: user.verify?.code || '', email: user.email || '' } }, { server: true })
       // }
     })
+  }
+
+  async onClientMounted(args: { card: Card }) {
+    const { card } = args
+
+    const { fictionEnv } = this.settings
+
+    const service = fictionEnv.getService<{ fictionStripe?: FictionStripe }>()
+
+    const user = await service.fictionUser.userInitialized({ caller: 'DashWrap' })
+
+    if (!user) {
+      await card.goto('/auth/login', { isRedirect: true, caller: 'Admin Client Mount: Not Logged In' })
+    }
+
+    if (service.fictionUser.activeOrganization.value?.needsOnboarding) {
+      await card.goto('/onboard', { isRedirect: true, caller: 'Admin Client Mount: Needs Onboarding' })
+    }
+
+    if (service.fictionStripe)
+      await service.fictionStripe.customerInitialized({ caller: 'DashWrap' })
   }
 }

@@ -237,12 +237,44 @@ export class FictionRouter<
     })
   }
 
+  verifyRouter() {
+    if (!this.router.value)
+      throw new Error(`router not initialized [${this.settings.routerId}]`)
+
+    return this.router.value
+  }
+
+  public async redirect(
+    location: vueRouter.RouteLocationRaw,
+    { caller = 'unknown', navMode = 'replace', force }: {
+      caller?: string
+      navMode?: 'push' | 'replace'
+      force?: boolean
+    } = {},
+  ): Promise<boolean> {
+    const targetPath = typeof location === 'string' ? location : ('path' in location ? location.path : String(location.name || ''))
+    const current = this.current.value
+
+    if (!force && (current.path === targetPath || current.name?.toString() === targetPath)) {
+      this.log.debug(`redirect skipped - already at ${targetPath}`, { data: { from: caller } })
+      return false
+    }
+
+    if (navMode === 'push') {
+      await this.push(location, { caller: `redirect:${caller}` })
+    }
+    else {
+      await this.replace(location, { caller: `redirect:${caller}` })
+    }
+
+    return true
+  }
+
   public async push(
     location: vueRouter.RouteLocationRaw,
     options: { caller: string, navMode?: 'push' | 'replace' },
   ) {
-    if (!this.router.value)
-      throw new Error(`router not initialized [${this.settings.routerId}]`)
+    const router = this.verifyRouter()
 
     const { caller = 'unknown', navMode = 'push' } = options || {}
     const path = typeof location === 'string' ? location : caller
@@ -251,9 +283,9 @@ export class FictionRouter<
     this.log.info(`routerId:${this.settings.routerId}(from ${caller}): ${current} -> ${path}`, { data: location })
 
     if (navMode === 'replace')
-      await this.router.value.replace(location)
+      await router.replace(location)
     else
-      await this.router.value.push(location)
+      await router.push(location)
   }
 
   public async replace(
@@ -262,8 +294,7 @@ export class FictionRouter<
   ) {
     const { caller = 'unknown' } = options || {}
 
-    if (!this.router.value)
-      throw new Error(`router not initialized [${this.settings.routerId}]`)
+    const router = this.verifyRouter()
 
     let path: string | undefined = ''
     if (typeof location === 'string')
@@ -277,7 +308,7 @@ export class FictionRouter<
     if (!this.fictionEnv?.isRendering)
       this.log.info(`replacing route ${path} [from ${caller}]`)
 
-    await this.router.value.replace(location)
+    await router.replace(location)
   }
 
   toConfig() {

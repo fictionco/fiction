@@ -47,7 +47,6 @@ const stepConfig: StepConfig = {
         subTitle: 'Start by naming your campaign',
         key: 'emailTitle',
         class: 'max-w-lg',
-        isNeeded: true,
         onClick: () => start(),
       } satisfies StepItem,
     ]

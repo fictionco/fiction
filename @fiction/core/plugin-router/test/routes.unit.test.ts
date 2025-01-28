@@ -147,22 +147,19 @@ describe('fictionRouter', async () => {
   })
 })
 
-describe('fictionRouter2', () => {
-  let testUtils: ReturnType<typeof createTestUtils>
-  let fictionRouter: FictionRouter
-
-  beforeEach(async () => {
-    testUtils = createTestUtils()
-    await testUtils.init()
-    fictionRouter = new FictionRouter({
-      fictionEnv: testUtils.fictionEnv,
-      routes,
-      baseUrl: 'https://www.test.com',
-      routerId: 'testRouter',
-      create: true,
-    })
-    fictionRouter.addReplacers({ orgId: 'activeOrg123' })
+describe('fictionRouter2', async () => {
+  const testUtils = createTestUtils()
+  const fictionRouter = new FictionRouter({
+    fictionEnv: testUtils.fictionEnv,
+    routes,
+    baseUrl: 'https://www.test.com',
+    routerId: 'testRouter',
+    create: true,
   })
+
+  fictionRouter.addReplacers({ orgId: 'activeOrg123' })
+
+  await testUtils.init()
 
   describe('initialization', () => {
     it('creates router with correct settings', () => {
@@ -210,6 +207,51 @@ describe('fictionRouter2', () => {
       clonedRouter.update([new AppRoute({ name: 'newRoute', path: '/new', component })])
       expect(clonedRouter.routes.value).toHaveLength(routes.length + 1)
       expect(fictionRouter.routes.value).toHaveLength(routes.length)
+    })
+  })
+
+  describe('redirect', () => {
+    beforeEach(async () => {
+      await fictionRouter.push('/', { caller: 'test' })
+    })
+
+    it('skips redirect if already at target', async () => {
+      const navigated = await fictionRouter.redirect('/', { caller: 'test' })
+      expect(navigated).toBe(false)
+    })
+
+    it('redirects to new route', async () => {
+      const navigated = await fictionRouter.redirect('/test/123', { caller: 'test' })
+      expect(navigated).toBe(true)
+      expect(fictionRouter.current.value.path).toBe('/test/123')
+    })
+
+    it('forces redirect with force flag', async () => {
+      const navigated = await fictionRouter.redirect('/', { caller: 'test', force: true })
+      expect(navigated).toBe(true)
+    })
+
+    it('replaces history by default', async () => {
+      const replaceSpy = vi.spyOn(fictionRouter.router.value!, 'replace')
+      await fictionRouter.redirect('/test/123', { caller: 'test' })
+      expect(replaceSpy).toHaveBeenCalled()
+    })
+  })
+
+  describe('edge cases', () => {
+    it('handles query changes', async () => {
+      fictionRouter.query.value = { test: '123' }
+
+      await waitFor(100)
+      expect(fictionRouter.current.value.query).toEqual({ test: '123' })
+    })
+
+    it('syncs vars with query and params', async () => {
+      await fictionRouter.push('/test/123?search=test', { caller: 'test' })
+      expect(fictionRouter.vars.value).toMatchObject({
+        testId: '123',
+        search: 'test',
+      })
     })
   })
 })

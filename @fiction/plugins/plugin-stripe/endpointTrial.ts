@@ -111,7 +111,9 @@ export class QueryStripeTrial extends StripeEndpoint {
       metadata: { orgId, priceId: sessionPriceId },
       setup_future_usage: 'off_session',
       confirm: false,
-      capture_method: 'automatic',
+      capture_method: 'manual', // Important: This allows us to authorize without capturing
+      confirmation_method: 'automatic',
+      description: 'Card verification for trial - Authorization only',
     })
 
     const { client_secret: paymentIntentClientSecret, id: paymentIntentId } = paymentIntent
@@ -155,23 +157,16 @@ export class QueryStripeTrial extends StripeEndpoint {
 
     const paymentMethod = paymentIntent.payment_method as string
 
+    await stripe.paymentIntents.cancel(paymentIntentId, {
+      cancellation_reason: 'requested_by_customer',
+    })
+
     // Set as default payment method for the customer
     await stripe.customers.update(paymentIntent.customer as string, {
       invoice_settings: {
         default_payment_method: paymentMethod,
       },
     })
-
-    if (paymentIntent.status === 'requires_confirmation') {
-      // Process trial payment using the same payment method
-      await stripe.paymentIntents.confirm(paymentIntentId, {
-        payment_method: paymentMethod,
-      })
-    }
-
-    if (paymentIntent.status !== 'succeeded') {
-      throw abort(`Payment failed: ${paymentIntent.status}`, meta)
-    }
 
     // Create subscription
     const subscription = await stripe.subscriptions.create({
@@ -184,7 +179,10 @@ export class QueryStripeTrial extends StripeEndpoint {
         save_default_payment_method: 'on_subscription',
         payment_method_types: ['card'],
       },
-      metadata: { orgId },
+      metadata: {
+        orgId,
+        verification_payment_intent: paymentIntentId,
+      },
     })
 
     return {

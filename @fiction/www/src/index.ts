@@ -151,14 +151,8 @@ const fictionAws = new FictionAws({ ...basicService, awsAccessKey, awsAccessKeyS
 const fictionMedia = new FictionMedia({ ...basicService, fictionAws, awsBucketMedia, cdnUrl: `https://media.fiction.com` })
 const fictionTransactions = new FictionTransactions({ ...basicService, fictionMedia })
 const fictionAi = new FictionAi({ ...basicService, fictionMedia, openaiApiKey, anthropicApiKey })
-const fictionAdmin = new FictionAdmin({ ...basicService, fictionTransactions, fictionMedia })
-
-const s = { ...basicService, fictionAppSites, fictionRouterSites, fictionAws, fictionMedia, fictionAi, fictionTransactions, fictionAdmin }
-
-const fictionOnboard = new FictionOnboard({ ...s })
-
 const fictionStripe = new FictionStripe({
-  ...s,
+  ...basicService,
   secretKeyLive: fictionEnv.var('STRIPE_SECRET_KEY_PROD'),
   publicKeyLive: fictionEnv.var('STRIPE_PUBLIC_KEY_PROD'),
   secretKeyTest: fictionEnv.var('STRIPE_SECRET_KEY_TEST'),
@@ -166,6 +160,13 @@ const fictionStripe = new FictionStripe({
   customerPortalUrl: `https://billing.stripe.com/p/login/fZedS66gTaiegww7ss`,
   products: getStripeProductConfig(),
 })
+
+const fictionAdmin = new FictionAdmin({ ...basicService, fictionTransactions, fictionMedia })
+
+const s = { ...basicService, fictionAppSites, fictionStripe, fictionRouterSites, fictionAws, fictionMedia, fictionAi, fictionTransactions, fictionAdmin }
+
+const fictionOnboard = new FictionOnboard({ ...s })
+
 const themes = async () => getThemes({ ...s, fictionStripe })
 
 const fictionSites = new FictionSites({ ...s, fictionAnalytics, fictionAppSites, fictionRouterSites, flyApiToken, flyAppId: 'fiction-sites', adminBaseRoute: '/admin', themes })

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
+import type { ClickCallbackArgs } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
-import { type ClickCallbackArgs, useService, vue, vueRouter } from '@fiction/core'
+import { useService, vue, vueRouter } from '@fiction/core'
 import FormEngineModal from '@fiction/ui/inputs/FormEngineModal.vue'
 
 import { createOption } from '@fiction/ui/inputs/index.js'
@@ -51,7 +52,7 @@ async function send(args: ClickCallbackArgs): Promise<void> {
 
   const r = await fictionUser.requests.ManageOrganization.request({
     userId,
-    fields: { orgName, orgEmail },
+    fields: { orgName, orgEmail, needsOnboarding: true },
     _action: 'create',
   })
 

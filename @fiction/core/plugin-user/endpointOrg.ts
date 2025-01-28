@@ -276,12 +276,15 @@ export class QueryManageOrganization extends OrgQuery {
   private async updateOrganization(params: ManageOrganizationParams & { _action: 'update' }, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {
     const { where, fields } = params
     this.validatePermission(where, meta)
+
     const updatedFields = this.settings.fictionDb.prep({
       type: meta.server ? 'internal' : 'update',
       fields,
       meta,
       table: t.org,
     })
+
+    this.log.info('updateOrganization', { data: { where, updatedFields, fields } })
 
     const [responseOrg] = await this.db()
       .update(updatedFields)

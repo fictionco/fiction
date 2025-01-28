@@ -31,6 +31,14 @@ const loading = vue.ref(false)
 const site = vue.shallowRef<Site>()
 const fonts = vue.computed(() => site.value?.siteFonts.value)
 let cleanups: (() => any)[] = []
+
+async function onSiteMounted() {
+  if (typeof window === 'undefined' || !site.value)
+    return
+
+  await site.value?.themeConfig.value?.onMounted?.()
+}
+
 async function load() {
   loading.value = true
 
@@ -48,6 +56,8 @@ async function load() {
       mountContext,
       caller: `CardSite-loadSite(${props.themeId || 'no-theme-id'}):${currentUrl}:HEADERS${runVars?.ALL_HEADERS}`,
     })
+
+    await onSiteMounted()
   }
   catch (error) {
     logger.error(`Error loading site ${(error as Error).message}`, { error })
@@ -190,7 +200,7 @@ fictionEnv.events.on('cleanup', () => {
   cleanups = []
 })
 
-vue.onMounted(() => {
+vue.onMounted(async () => {
   vue.watchEffect(() => {
     if (typeof document === 'undefined')
       return
