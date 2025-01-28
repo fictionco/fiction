@@ -6,13 +6,13 @@ import { useService, vue } from '@fiction/core'
 
 type ActionProps = FictionAdmin['emailActions']['magicLoginEmailAction']
 
-const props = defineProps({
-  card: { type: Object as vue.PropType<Card>, required: true },
-  action: { type: Object as vue.PropType<ActionProps>, required: true },
-  queryVars: { type: Object as vue.PropType<Record<string, any>>, required: true },
-})
+const { card, action, queryVars } = defineProps<{
+  card: Card
+  action: ActionProps
+  queryVars: Record<string, any>
+}>()
 
-const { fictionUser, fictionRouter } = useService()
+const { fictionUser } = useService()
 
 const loading = vue.ref(true)
 
@@ -20,7 +20,7 @@ vue.onMounted(async () => {
   const user = await fictionUser.userInitialized()
 
   if (user) {
-    await fictionRouter.replace(props.card.link('/'), { caller: 'magic-login' })
+    await card.goto({ path: '/', query: queryVars }, { caller: 'magic-login', replace: true })
   }
 
   loading.value = false
@@ -29,7 +29,12 @@ vue.onMounted(async () => {
 type TProps = InstanceType<typeof TransactionWrap>['$props']
 const wrapProps = vue.computed<TProps>(() => {
   const buttons = [
-    { name: 'Home', href: props.card.link('/'), theme: 'default' as const, icon: 'i-tabler-home' },
+    {
+      name: 'Home',
+      href: card.link({ path: '/', query: queryVars }),
+      theme: 'default' as const,
+      icon: 'i-tabler-home',
+    },
   ]
   const success: TProps = {
     superTitle: { text: 'Success!' },
@@ -52,8 +57,5 @@ const wrapProps = vue.computed<TProps>(() => {
 </script>
 
 <template>
-  <TransactionWrap
-    :loading="loading"
-    v-bind="wrapProps"
-  />
+  <TransactionWrap :loading="loading" v-bind="wrapProps" />
 </template>

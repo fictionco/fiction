@@ -34,7 +34,7 @@ export type EmailConfigResponse = EmailSendConfig & {
   emailVars: EmailVars
 }
 
-export type EmailActionSettings<T extends EmailActionSurface = EmailActionSurface > = {
+export type EmailActionSettings<T extends EmailActionSurface = EmailActionSurface> = {
   actionId: string
   template?: vue.Component
   emailConfig?: (args: EmailVars<T['queryVars']>) => EmailConfigResponse | Promise<EmailConfigResponse>
@@ -82,7 +82,7 @@ type MergeTypes<T, U> = T & Omit<U, keyof T>
 // Use defaults
 type Surface<T> = MergeTypes<EmailActionSurface, T>
 
-export class EmailAction<T extends EmailActionSurface = EmailActionSurface > extends FictionObject<EmailActionSettings<T>> {
+export class EmailAction<T extends EmailActionSurface = EmailActionSurface> extends FictionObject<EmailActionSettings<T>> {
   fictionTransactions = this.settings.fictionTransactions
   queryVars?: T['queryVars'] // type helper for inference in components
 
@@ -164,7 +164,13 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface > ext
     if (!to)
       throw abort('no email recipient provided')
 
-    const r = await this.fictionTransactions?.requests.EmailAction.request({ ...args, _action: 'sendEmail', actionId: this.settings.actionId, origin, to })
+    const r = await this.fictionTransactions?.requests.EmailAction.request({
+      ...args,
+      _action: 'sendEmail',
+      actionId: this.settings.actionId,
+      origin,
+      to,
+    })
 
     return r as T['sendResponse']
   }

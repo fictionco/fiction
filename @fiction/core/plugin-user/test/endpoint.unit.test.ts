@@ -14,6 +14,139 @@ describe('user endpoint tests', async () => {
 
   let workingUser: User | undefined
 
+  it('returns tokens for appropriate actions', async () => {
+    const fictionUser = testUtils.fictionUser
+    const email = getTestEmail()
+
+    // Test token return on create
+    const createResponse = await fictionUser.queries.ManageUser.serve({
+      _action: 'create',
+      fields: {
+        email,
+        password: 'testPassword123',
+      },
+    }, { caller: 'testTokens' })
+
+    expect(createResponse.status).toBe('success')
+    expect(createResponse.token).toBeDefined()
+    expect(createResponse.token?.length).toBeGreaterThan(10)
+
+    // Test token return on login
+    const loginResponse = await fictionUser.queries.ManageUser.serve({
+      _action: 'login',
+      where: { email },
+      password: 'testPassword123',
+    }, { caller: 'testTokens' })
+
+    expect(loginResponse.status).toBe('success')
+    expect(loginResponse.token).toBeDefined()
+    expect(loginResponse.token?.length).toBeGreaterThan(10)
+
+    // Test token return on loginWithCode
+    await fictionUser.queries.ManageUser.serve({
+      _action: 'requestCode',
+      where: { email },
+      context: 'login',
+    }, { caller: 'testTokens' })
+
+    const user = await fictionUser.queries.ManageUser.serve({
+      _action: 'retrieve',
+      where: { email },
+    }, { server: true, returnAuthority: ['verify'] })
+
+    const loginCodeResponse = await fictionUser.queries.ManageUser.serve({
+      _action: 'loginWithCode',
+      where: { email },
+      code: user.data?.verify?.code || '',
+    }, { caller: 'testTokens' })
+
+    expect(loginCodeResponse.status).toBe('success')
+    expect(loginCodeResponse.token).toBeDefined()
+    expect(loginCodeResponse.token?.length).toBeGreaterThan(10)
+
+    // Test no token return on update
+    const updateResponse = await fictionUser.queries.ManageUser.serve({
+      _action: 'update',
+      where: { email },
+      fields: { fullName: 'Test User' },
+    }, {
+      caller: 'testTokens',
+      bearer: loginResponse.user,
+    })
+
+    expect(updateResponse.status).toBe('success')
+    expect(updateResponse.token).toBeUndefined()
+
+    // Test token return on getUserWithToken
+    const tokenResponse = await fictionUser.queries.ManageUser.serve({
+      _action: 'getUserWithToken',
+      token: loginResponse.token || '',
+    }, { caller: 'testTokens' })
+
+    expect(tokenResponse.status).toBe('success')
+    expect(tokenResponse.token).toBeDefined()
+    expect(tokenResponse.token?.length).toBeGreaterThan(10)
+
+    // Test no token on retrieve
+    const retrieveResponse = await fictionUser.queries.ManageUser.serve({
+      _action: 'retrieve',
+      where: { email },
+    }, { caller: 'testTokens' })
+
+    expect(retrieveResponse.status).toBe('success')
+    expect(retrieveResponse.token).toBeUndefined()
+  })
+
+  it('handles login with code', async () => {
+    const fictionUser = testUtils.fictionUser
+    const fictionDb = testUtils.fictionDb
+    const db = fictionDb.client()
+    const email = getTestEmail()
+
+    // Create a test user first
+    const createResponse = await fictionUser.queries.ManageUser.serve({
+      _action: 'create',
+      fields: { email },
+    }, { caller: 'testLoginWithCode' })
+
+    expect(createResponse.status).toBe('success')
+    expect(createResponse.user).toBeDefined()
+
+    // Set a verification code
+    const verifyCode = '123456'
+    await db
+      .table(standardTable.user)
+      .where({ email })
+      .update({
+        verify: {
+          code: verifyCode,
+          expiresAt: dayjs().add(1, 'day').toISOString(),
+          context: 'login',
+        },
+      })
+
+    // Test login with code
+    const loginResponse = await fictionUser.queries.ManageUser.serve({
+      _action: 'loginWithCode',
+      where: { email },
+      code: verifyCode,
+    }, { caller: 'testLoginWithCode' })
+
+    expect(loginResponse.status).toBe('success')
+    expect(loginResponse.user?.email).toBe(email)
+    expect(loginResponse.message).toBe('login successful')
+    expect(loginResponse.user?.emailVerified).toBe(true)
+
+    // Verify code was cleared
+    const updatedUser = await db
+      .select('*')
+      .from(standardTable.user)
+      .where({ email })
+      .first()
+
+    expect(updatedUser.verify).toBeNull()
+  })
+
   it('creates a new user', async () => {
     const fictionUser = testUtils.fictionUser
     const email = getTestEmail()

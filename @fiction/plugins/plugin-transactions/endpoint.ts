@@ -70,6 +70,10 @@ export class EndpointEmailAction extends EmailActionQuery {
 
     const queryVars = params.queryVars || {}
 
+    if (isNew) {
+      queryVars._isNewUser = '1'
+    }
+
     await emailAction.serveSend({ recipient: user, isNew, queryVars, ...params }, meta)
 
     return { status: 'success', data: { recipient: user }, expose: false }

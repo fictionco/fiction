@@ -1,5 +1,6 @@
+import type { EndpointMeta, EndpointResponse, User } from '@fiction/core'
 import type { FictionAdmin } from '..'
-import { abort, type EndpointMeta, type EndpointResponse, type User, vue } from '@fiction/core'
+import { abort, vue } from '@fiction/core'
 import { EmailAction } from '@fiction/plugin-transactions'
 
 export type VerifyRequestVars = {
@@ -54,9 +55,13 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
       return {
         emailVars,
         subject: `${emailVars.appName}: Your Sign-In Link 🪄`,
-        title: 'Your magic link is ready',
+        title: 'Your Sign-In Link is Ready',
         subTitle: 'Click the link below to log in',
-        bodyMarkdown: `The link below will sign you in to ${emailVars.appName}.\n\nIf you didn't request this email, there's nothing to worry about, you can safely ignore it.`,
+        bodyMarkdown: [
+          `The link below will sign you in to ${emailVars.appName}.`,
+          `Alternatively, you can login with this code: **${emailVars.code}**.`,
+          `If you didn't request this email, don't worry, you can safely ignore it.`,
+        ].join(`\n\n`),
         to: `${emailVars.email}`,
         actions: [
           { label: 'Log In', href: emailVars.callbackUrl, theme: 'primary' },

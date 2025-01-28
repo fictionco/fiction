@@ -1,14 +1,42 @@
 import type { vue } from '../utils/index.js'
-import type { FictionUser } from './index.js'
+import type { ManageUserResponse } from './endpoint.js'
+import type { FictionUser, User } from './index.js'
 import { log } from '../plugin-log/index.js'
-import { getNakedDomain, waitFor } from '../utils/index.js'
+import { getNakedDomain } from '../utils/index.js'
 
 const logger = log.contextLogger('Fiction - Google One Tap')
 
+type GoogleCodeClient = {
+  requestCode: () => void
+}
+
+type GoogleCodeResponse = {
+  code: string
+  scope: string
+  authuser: string
+  prompt: string
+}
+
+type GoogleCodeClientConfig = {
+  client_id: string
+  scope: string
+  ux_mode: 'popup'
+  callback: (response: GoogleCodeResponse) => void
+  error_callback?: (error: { type: string }) => void
+}
 declare global {
   interface Window {
-    google?: typeof import('google-one-tap')
+    __googleLoading?: Promise<void>
+    google?: typeof import('google-one-tap') & {
+      accounts: {
+        oauth2: {
+          initTokenClient: (config: TokenClientConfig) => TokenClient
+          initCodeClient: (config: GoogleCodeClientConfig) => GoogleCodeClient
+        }
+      }
+    }
     gtag?: (...args: any[]) => void
+
   }
 }
 
@@ -18,16 +46,120 @@ interface CredentialResponse {
   client_id?: string
 }
 
-async function loadGoogleSignInLibrary(): Promise<void> {
-  if (!document.querySelector('#google-signin-library')) {
-    const googleScript = document.createElement('script')
+export async function loadGoogleSignInLibrary(): Promise<void> {
+  // Already loaded
+  if (window.google?.accounts)
+    return
 
-    googleScript.setAttribute('src', 'https://accounts.google.com/gsi/client')
-    googleScript.id = 'google-signin-library'
+  // Already loading
+  if (window.__googleLoading)
+    return window.__googleLoading
 
-    document.head.append(googleScript)
+  window.__googleLoading = new Promise<void>((resolve, reject) => {
+    const script = document.createElement('script')
+    script.src = 'https://accounts.google.com/gsi/client'
+    script.async = true
 
-    await waitFor(1000)
+    // Poll for google object initialization
+    const poll = (retries = 100) => {
+      if (window.google?.accounts) {
+        resolve()
+      }
+      else if (retries <= 0) {
+        reject(new Error('Google API initialization timeout'))
+      }
+      else {
+        setTimeout(() => poll(retries - 1), 50)
+      }
+    }
+
+    script.onload = () => poll()
+    script.onerror = () => reject(new Error('Failed to load Google API'))
+
+    document.head.appendChild(script)
+  })
+
+  return window.__googleLoading
+}
+
+type TokenClient = {
+  requestAccessToken: () => void
+}
+
+type TokenClientConfig = {
+  client_id: string
+  scope: string
+  callback: (response: { access_token?: string, error?: string }) => void
+  error_callback?: (error: { type: string }) => void
+}
+
+type GoogleAuthOptions = {
+  fictionUser: FictionUser
+  onComplete?: (response: ManageUserResponse) => void | Promise<void>
+  onFinally?: () => void
+  isSending?: { value: boolean }
+}
+
+export async function googleAuth(options: GoogleAuthOptions): Promise<void> {
+  const { fictionUser, onComplete, onFinally } = options
+
+  if (!window || !fictionUser.googleClientId) {
+    onComplete?.({ status: 'error', message: 'Google auth not available' })
+    onFinally?.()
+    return
+  }
+
+  if (fictionUser.fictionEnv?.isTest.value) {
+    logger.info('Google auth disabled in test mode')
+    onFinally?.()
+    return
+  }
+
+  try {
+    await loadGoogleSignInLibrary()
+
+    if (!window.google?.accounts?.oauth2) {
+      throw new Error('Google OAuth2 not available')
+    }
+
+    const client = window.google.accounts.oauth2.initCodeClient({
+      client_id: fictionUser.googleClientId,
+      scope: 'email profile openid',
+      ux_mode: 'popup',
+      callback: async (response) => {
+        try {
+          if (!response.code) {
+            throw new Error('No authorization code received')
+          }
+
+          // Exchange code for tokens on backend
+          const loginResult = await fictionUser.requests.ManageUser.request({
+            _action: 'loginGoogle',
+            code: response.code,
+          })
+
+          await onComplete?.(loginResult)
+        }
+        catch (error) {
+          onComplete?.({ status: 'error', message: (error as Error).message })
+        }
+        finally {
+          onFinally?.()
+        }
+      },
+      error_callback: (error) => {
+        logger.error('Google auth error_callback:', { error })
+        onComplete?.({ status: 'error', message: `Google Auth Error (${error.type})` })
+        onFinally?.()
+      },
+    })
+
+    client.requestCode()
+  }
+  catch (error) {
+    logger.error('googleAuth error:', { error })
+    onComplete?.({ status: 'error', message: (error as Error).message })
+    onFinally?.()
   }
 }
 

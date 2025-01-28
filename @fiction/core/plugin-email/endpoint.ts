@@ -172,7 +172,7 @@ export class QueryTransactionalEmail extends EmailQuery {
     const from = replaceEmailDomain(replyTo, sendingDomain)
 
     if (!to)
-      throw abort('missing email: to')
+      throw abort('missing email: to', meta)
 
     const theEmail: NodeMailOptions = {
       from,

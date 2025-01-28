@@ -39,22 +39,24 @@ export type ManageUserParams =
   | { _action: 'verifyEmail', email: string, code: string, password?: string }
   | { _action: 'requestCode', where: WhereUser, context?: string }
   | { _action: 'getUserWithToken', token: string, code?: string }
-  | { _action: 'login', where: WhereUser, password?: string }
-  | { _action: 'loginGoogle', credential: string }
+  | { _action: 'login', where: WhereUser, password?: string, createOnEmpty?: boolean }
+  | { _action: 'loginGoogle', credential?: string, code?: string }
+  | { _action: 'loginWithCode', where: WhereUser, code: string }
   | { _action: 'event', eventName: 'resetPassword', where: WhereUser }
   | { _action: 'manageOnboard', settings: OnboardSettings, orgId?: string, userId?: string }
 
-  type ManageUserResponse = EndpointResponse<User> & {
-    isNew: boolean
-    token?: string
-    user?: User
-  }
+export type ManageUserResponse = EndpointResponse<User> & {
+  isNew?: boolean
+  token?: string
+  user?: User
+}
 
 export class QueryManageUser extends UserBaseQuery {
   async run(params: ManageUserParams, meta: EndpointMeta): Promise<ManageUserResponse> {
     let user: User | undefined
     let isNew = false
     let message = ''
+    let sendToken = false
     let token: string | undefined
     const { fictionUser } = this.settings
 
@@ -66,6 +68,7 @@ export class QueryManageUser extends UserBaseQuery {
       case 'create': {
         user = await this.createUser(params, meta)
         isNew = true
+        sendToken = true
         break
       }
       case 'getCreate':{
@@ -76,6 +79,7 @@ export class QueryManageUser extends UserBaseQuery {
       }
       case 'getUserWithToken':
         user = await this.getUserWithToken(params, meta)
+        sendToken = true
         break
       case 'update':
         user = await this.updateUser(params, meta)
@@ -92,14 +96,24 @@ export class QueryManageUser extends UserBaseQuery {
       case 'requestCode':
         user = await this.requestCode(params, meta)
         break
-      case 'login':
-        user = await this.loginUser(params, meta)
+      case 'login': {
+        const r = await this.loginUser(params, meta)
+        user = r.user
+        isNew = r.isNew
+        sendToken = true
+        message = 'login successful'
+        break
+      }
+      case 'loginWithCode':
+        user = await this.loginWithCode(params, meta)
+        sendToken = true
         message = 'login successful'
         break
       case 'loginGoogle': {
         const r = await this.loginGoogle(params, meta)
         user = r.user
         isNew = r.isNew
+        sendToken = true
         message = 'login successful'
         break
       }
@@ -116,7 +130,7 @@ export class QueryManageUser extends UserBaseQuery {
     if (isNew)
       message = 'user created'
 
-    if (['create', 'login', 'loginGoogle', 'getUserWithToken'].includes(params._action))
+    if (sendToken)
       token = user ? fictionUser.getToken(user) : undefined
 
     return this.prepareResponse({ _action, user, isNew, token, message, params }, meta)
@@ -366,16 +380,23 @@ export class QueryManageUser extends UserBaseQuery {
     return user
   }
 
-  private async loginUser(params: ManageUserParams & { _action: 'login' }, _meta: EndpointMeta): Promise<User | undefined> {
-    const { where, password } = params
+  private async loginUser(params: ManageUserParams & { _action: 'login' }, meta: EndpointMeta): Promise<{ user?: User, isNew: boolean }> {
+    const { where, password, createOnEmpty = false } = params
 
     if (!password)
       throw abort('password required')
 
-    const user = await this.getUser({ _action: 'retrieve', where }, _meta)
+    const user = await this.getUser({ _action: 'retrieve', where }, meta)
 
-    if (!user)
-      throw abort('user not found', { data: where })
+    const email = 'email' in where ? where.email : ''
+
+    if (!user && createOnEmpty && email) {
+      const u = await this.createUser({ _action: 'create', fields: { email, password } }, meta)
+      return { user: u, isNew: true }
+    }
+    else if (!user) {
+      throw abort('user not found', { data: where, ...meta })
+    }
 
     if (!user.hashedPassword)
       throw abort('no password set')
@@ -383,9 +404,41 @@ export class QueryManageUser extends UserBaseQuery {
     const isMatch = await comparePassword(password, user.hashedPassword)
 
     if (!isMatch)
-      throw abort('password incorrect')
+      throw abort('password incorrect', meta)
 
-    return user
+    return { user, isNew: false }
+  }
+
+  private async loginWithCode(params: ManageUserParams & { _action: 'loginWithCode' }, meta: EndpointMeta): Promise<User | undefined> {
+    const { where, code } = params
+
+    if (!where || !code) {
+      throw abort('email and code required')
+    }
+
+    const { fictionDb, fictionEnv } = this.settings
+
+    // 1. Get user by email
+    const user = await this.getUser({ _action: 'retrieve', where }, meta)
+    if (!user) {
+      throw abort('user not found', { data: where, ...meta })
+    }
+
+    // 2. Verify code with same security checks as email verification
+    await verifyCode({
+      ...where,
+      verificationCode: code,
+      fictionDb,
+      isProd: fictionEnv?.isProd.value,
+    })
+
+    // 3. After verification, clear the verification code to prevent reuse
+    await this.db()
+      .table(t.user)
+      .update({ verify: null, emailVerified: true })
+      .where(where)
+
+    return await this.getUser({ _action: 'retrieve', where }, meta)
   }
 
   private googleClient?: OAuth2Client
@@ -399,19 +452,29 @@ export class QueryManageUser extends UserBaseQuery {
 
     const { OAuth2Client } = await import('google-auth-library')
     if (!this.googleClient)
-      this.googleClient = new OAuth2Client({ clientId, clientSecret })
+      this.googleClient = new OAuth2Client({ clientId, clientSecret, redirectUri: 'postmessage' })
 
     return this.googleClient
   }
 
   private async loginGoogle(params: ManageUserParams & { _action: 'loginGoogle' }, meta: EndpointMeta): Promise<{ user?: User, isNew: boolean }> {
-    const { credential } = params
+    const { credential, code } = params
 
     const googleClient = await this.getGoogleClient()
 
     const googleClientId = this.settings.fictionUser.googleClientId
 
-    const ticket = await googleClient.verifyIdToken({ idToken: credential, audience: googleClientId })
+    let idToken = credential
+    if (code) {
+      const { tokens } = await googleClient.getToken(code)
+
+      idToken = tokens.id_token as string
+    }
+
+    if (!idToken)
+      throw abort('no idToken')
+
+    const ticket = await googleClient.verifyIdToken({ idToken, audience: googleClientId })
     const payload = ticket.getPayload()
 
     const email = payload?.email
@@ -434,7 +497,9 @@ export class QueryManageUser extends UserBaseQuery {
       await this.db().table(t.user).update({ googleId }).where({ userId: user.userId })
     }
 
-    return { user, isNew }
+    const finalUser = await this.getUser({ _action: 'retrieve', where: { email } }, meta)
+
+    return { user: finalUser, isNew }
   }
 
   private async prepareResponse(args: { _action: ManageUserParams['_action'], user?: User, isNew: boolean, token?: string, message?: string, params: ManageUserParams }, meta: EndpointMeta): Promise<ManageUserResponse> {

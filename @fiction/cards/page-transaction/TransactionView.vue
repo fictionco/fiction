@@ -48,11 +48,11 @@ const uc = vue.computed(() => props.card.userConfig.value)
       <div
         class="relative z-20 mx-auto flex w-full grow flex-col justify-center"
       >
-        <div class="auth-form pb-24 transition-all">
+        <div class="auth-form transition-all">
           <div
             class="mx-auto w-full max-w-xs rounded-lg"
           >
-            <div class="relative px-4 py-12 lg:py-24">
+            <div class="relative">
               <slot />
             </div>
           </div>

@@ -111,6 +111,7 @@ const accountMenu: vue.ComputedRef<IndexItem[]> = vue.computed(() => {
 })
 
 vue.onMounted(async () => {
+  loading.value = true
   try {
     await fictionAdmin.onClientMounted({ card })
   }
