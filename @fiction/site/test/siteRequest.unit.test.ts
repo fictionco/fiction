@@ -4,7 +4,7 @@
 import type { Site } from '../site'
 import type { TableSiteConfig } from '../tables'
 import { shortId } from '@fiction/core'
-import { describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { loadSite, requestManageSite } from '../load'
 import { createSiteTestUtils } from './testUtils'
 
@@ -13,6 +13,8 @@ let site: Site
 describe('siteLoading', async () => {
   const testUtils = await createSiteTestUtils()
   await testUtils.init()
+
+  afterAll(() => testUtils.close())
 
   const common = {
     siteRouter: testUtils?.fictionRouterSites,

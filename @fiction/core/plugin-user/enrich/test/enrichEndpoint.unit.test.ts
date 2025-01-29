@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest'
+import { afterAll, describe, expect, it, vi } from 'vitest'
 import { createTestUtils } from '../../../test-utils'
 import exampleResponse from './exampleResponse.json'
 
@@ -9,6 +9,8 @@ describe('user enrichment', async () => {
   const testUtils = createTestUtils()
   testUtils.fictionUser.settings.apolloApiKey = 'test'
   const initialized = await testUtils.init()
+
+  afterAll(() => testUtils.close())
 
   it('enriches a user', async () => {
     const user = initialized?.user

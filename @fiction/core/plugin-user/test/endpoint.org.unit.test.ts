@@ -1,10 +1,12 @@
 import type { Organization, User } from '..'
 import { createTestUtils } from '@fiction/core/test-utils/init'
-import { describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 
 describe('org handling', async () => {
   const testUtils = createTestUtils()
   const initialized = await testUtils.init()
+
+  afterAll(() => testUtils.close())
 
   let workingUser: User | undefined
   let workingOrg: Organization | undefined

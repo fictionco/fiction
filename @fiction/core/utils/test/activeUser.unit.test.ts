@@ -1,11 +1,13 @@
 import type { User } from '@fiction/core/plugin-user'
-import { describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { createTestUtils } from '../../test-utils/init'
 import { vue } from '../libraries'
 
 describe('active user handling', async () => {
   const testUtils = createTestUtils()
   const initialized = await testUtils.init()
+
+  afterAll(() => testUtils.close())
 
   it('should set the user to initialized', async () => {
     testUtils.fictionUser.setCurrentUser({ user: undefined })

@@ -1,5 +1,5 @@
 import { shortId } from '@fiction/core'
-import { describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { Card } from '../card'
 import { CardGeneration } from '../generation'
 import { Site } from '../site'
@@ -8,6 +8,7 @@ import { createSiteTestUtils } from './testUtils'
 describe('cardCompletion', async () => {
   const testUtils = await createSiteTestUtils()
   await testUtils.init()
+  afterAll(() => testUtils.close())
   const site = await Site.create({ fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteId: `test-${shortId()}` })
   it('generates the content for the card', async () => {
     const card = new Card({ templateId: 'cardHeroV1', site })

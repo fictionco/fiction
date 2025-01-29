@@ -17,6 +17,12 @@ describe('siteRendering Tests', async () => {
 
   await testUtils.init()
 
+  afterAll(async () => {
+    await testUtils?.fictionApp.close()
+    await testUtils?.fictionAppSites.close()
+    await testUtils.close()
+  })
+
   subDomain = shortId()
   const hostname = `${subDomain}.fiction.com`
 
@@ -39,11 +45,6 @@ describe('siteRendering Tests', async () => {
     throw new Error('no site')
 
   siteObj = result?.site
-
-  afterAll(async () => {
-    await testUtils?.fictionApp.close()
-    await testUtils?.fictionAppSites.close()
-  })
 
   it('loads site correctly', async () => {
     expect(siteObj.pages.value.map(p => p.slug.value)).toMatchInlineSnapshot(`

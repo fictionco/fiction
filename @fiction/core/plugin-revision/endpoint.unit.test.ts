@@ -24,6 +24,8 @@ describe('fictionRevision core methods', async () => {
   const fictionRevision = testUtils.fictionRevision
 
   const init = await testUtils.init()
+
+  afterAll(() => testUtils.close())
   const orgId = init.orgId
   const userId = init.user.userId
 
@@ -204,10 +206,6 @@ describe('fictionRevision core methods', async () => {
         updatedAt: expect.any(String),
       })
     })
-  })
-
-  afterAll(async () => {
-    await testUtils.close()
   })
 })
 

@@ -3,7 +3,7 @@
  */
 import type { Site } from '../site'
 import { shortId } from '@fiction/core'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterAll, afterEach, describe, expect, it } from 'vitest'
 import { domainMountContext, getMountContext, loadSite, loadSiteById, loadSiteFromTheme, requestManageSite } from '../load'
 import { createSiteTestUtils } from './testUtils'
 
@@ -165,6 +165,8 @@ describe('getMountContext', () => {
 describe('site plugin tests', async () => {
   const testUtils = await createSiteTestUtils()
   await testUtils.init()
+
+  afterAll(() => testUtils.close())
   const subDomain = `test-${shortId({ len: 3, withNumbers: false })}`
   const hostname = 'www.testing-domain.com'
   const common = {

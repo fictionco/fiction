@@ -28,9 +28,9 @@ describe('sitePreview', async () => {
   const serviceConfig = { fictionEnv: service.fictionEnv, service, runVars: {} }
   const entry = await testUtils.fictionApp.mountApp({ selector: '#app', serviceConfig })
 
-  beforeAll(async () => { })
   afterAll(async () => {
     entry.app.unmount()
+    await testUtils.close()
   })
 
   it('should load siteId preview if siteId is in URL', async (ctx) => {

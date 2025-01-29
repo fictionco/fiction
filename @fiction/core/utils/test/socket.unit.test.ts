@@ -110,6 +110,7 @@ describe('sockets', () => {
           {
             "bearer": {
               "email": "[email:TRUTHY]",
+              "exp": "1738788982",
               "iat": "888",
               "systemRole": "",
               "userId": "[id:TRUTHY]",

@@ -1,7 +1,7 @@
 /**
  * @vitest-environment happy-dom
  */
-import { describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { getSitemapPathsFromSite, loadSiteFromTheme } from '../load'
 import { createSiteTestUtils } from './testUtils'
 
@@ -9,6 +9,9 @@ describe('site plugin tests', async () => {
   const testUtils = await createSiteTestUtils()
 
   await testUtils.init()
+
+  afterAll(() => testUtils.close())
+
   const common = {
     fictionSites: testUtils.fictionSites,
     siteRouter: testUtils.fictionRouterSites,

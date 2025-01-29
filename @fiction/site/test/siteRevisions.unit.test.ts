@@ -6,6 +6,7 @@ import { createSiteTestUtils } from './testUtils'
 describe('site revision handling', async () => {
   const testUtils = await createSiteTestUtils()
   const init = await testUtils.init()
+  afterAll(() => testUtils.close())
   const { org, user } = init
 
   const userId = user.userId
@@ -39,10 +40,6 @@ describe('site revision handling', async () => {
   if (!site) {
     throw new Error('Failed to create test site')
   }
-
-  afterAll(async () => {
-    await testUtils.close()
-  })
 
   describe('revision creation', () => {
     it('should create a revision when publishing site changes', async () => {

@@ -2,7 +2,7 @@ import type { SendEmailArgs } from '../action'
 import { FictionAws, FictionMedia, getEnvVars } from '@fiction/core'
 import { createTestUtils, testEnvFile } from '@fiction/core/test-utils'
 import { createUserToken } from '@fiction/core/utils/jwt'
-import { describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { FictionTransactions } from '..'
 import { createEmailVars } from '../utils'
 
@@ -18,6 +18,8 @@ describe('createEmailVars', async () => {
 
   const fictionTransactions = new FictionTransactions({ ...testUtils, fictionMedia })
   const initialized = await testUtils.init()
+
+  afterAll(() => testUtils.close())
 
   const getDefaultArgs = (): SendEmailArgs & { actionId: string, fictionTransactions: FictionTransactions } => {
     return {

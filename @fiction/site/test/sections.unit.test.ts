@@ -2,7 +2,7 @@
  * @vitest-environment happy-dom
  */
 import type { CardConfigPortable } from '../tables'
-import { describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { loadSiteFromTheme } from '../load'
 import { setSections } from '../utils/site'
 import { createSiteTestUtils } from './testUtils'
@@ -10,6 +10,7 @@ import { createSiteTestUtils } from './testUtils'
 describe('setSections', async () => {
   const testUtils = await createSiteTestUtils()
   await testUtils.init()
+  afterAll(() => testUtils.close())
 
   const common = {
     fictionSites: testUtils.fictionSites,
@@ -35,6 +36,7 @@ describe('section handling defaults', async () => {
   const testUtils = await createSiteTestUtils()
 
   await testUtils.init()
+  afterAll(() => testUtils.close())
   const common = {
     fictionSites: testUtils.fictionSites,
     siteRouter: testUtils.fictionRouterSites,

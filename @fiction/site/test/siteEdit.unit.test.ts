@@ -3,7 +3,7 @@
  */
 import { shortId, waitFor } from '@fiction/core'
 import { snap } from '@fiction/core/test-utils'
-import { describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { requestManageSite } from '../load'
 import { Site } from '../site'
 import { requestManagePage, updatePage } from '../utils/region'
@@ -16,6 +16,7 @@ describe('site plugin tests', async () => {
   let site = await testUtils.createSite()
 
   const r = await testUtils.init()
+  afterAll(() => testUtils.close())
   const userId = r?.user?.userId ?? ''
   const orgId = r?.user?.orgs?.[0]?.orgId ?? ''
 
@@ -932,18 +933,19 @@ describe('site plugin tests', async () => {
                   "href": "#",
                   "media": {
                     "format": "image",
-                    "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_a48afe54-6fec-4697-8162-9c5945e2582b_n4zobd",
+                    "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_3be631fa-0377-4636-9d51-4e015030eed9_fhj8jk",
                     "tags": [
                       "annotated",
                       "aspect:portrait",
                       "aspect:square",
-                      "color:cool",
+                      "color:warm",
+                      "man",
                       "person",
                       "silhouette",
                       "woman",
                       "image",
                     ],
-                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441013/arpowers_minimal_stock_background_for_profile_photo_professiona_a48afe54-6fec-4697-8162-9c5945e2582b_n4zobd.png",
+                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441017/arpowers_minimal_stock_background_for_profile_photo_professiona_3be631fa-0377-4636-9d51-4e015030eed9_fhj8jk.png",
                   },
                   "subTitle": "Shape your narrative",
                   "title": "Visual Storytelling",
@@ -952,18 +954,15 @@ describe('site plugin tests', async () => {
                   "href": "#",
                   "media": {
                     "format": "image",
-                    "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_63facb31-584d-410e-9b14-62ab9d55f79b_zepla8",
+                    "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_f93ca937-ccce-4be7-8e01-6476f6e8c9c9_y56mbj",
                     "tags": [
                       "annotated",
                       "aspect:portrait",
                       "color:warm",
-                      "headshot",
                       "person",
-                      "silhouette",
-                      "woman",
                       "image",
                     ],
-                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440976/arpowers_minimal_stock_background_for_profile_photo_professiona_63facb31-584d-410e-9b14-62ab9d55f79b_zepla8.png",
+                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441014/arpowers_minimal_stock_background_for_profile_photo_professiona_f93ca937-ccce-4be7-8e01-6476f6e8c9c9_y56mbj.png",
                   },
                   "subTitle": "Craft with purpose",
                   "title": "Dynamic Design",
@@ -972,7 +971,7 @@ describe('site plugin tests', async () => {
                   "href": "#",
                   "media": {
                     "format": "image",
-                    "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_ac3d7046-5abd-489a-8aa4-464bd8565354_r4f564",
+                    "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_189de993-3771-4a77-8b5a-6e080ca07673_qwcrkh",
                     "tags": [
                       "annotated",
                       "aspect:portrait",
@@ -981,7 +980,7 @@ describe('site plugin tests', async () => {
                       "object",
                       "image",
                     ],
-                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724555827/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_ac3d7046-5abd-489a-8aa4-464bd8565354_r4f564.png",
+                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556355/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_189de993-3771-4a77-8b5a-6e080ca07673_qwcrkh.png",
                   },
                   "subTitle": "Inspire movement",
                   "title": "Creative Flow",
@@ -990,7 +989,7 @@ describe('site plugin tests', async () => {
                   "href": "#",
                   "media": {
                     "format": "image",
-                    "slug": "arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_14001eab-faa2-4c3d-a043-321b080b73cd_juorma",
+                    "slug": "arpowers_minimal_midshot_photo_of_object_2030s_futuristic_ancie_3c00d98d-2cb1-49cf-8563-43c43573ea53_ixbak5",
                     "tags": [
                       "annotated",
                       "aspect:portrait",
@@ -999,7 +998,7 @@ describe('site plugin tests', async () => {
                       "object",
                       "image",
                     ],
-                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556306/arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_14001eab-faa2-4c3d-a043-321b080b73cd_juorma.png",
+                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556288/arpowers_minimal_midshot_photo_of_object_2030s_futuristic_ancie_3c00d98d-2cb1-49cf-8563-43c43573ea53_ixbak5.png",
                   },
                   "subTitle": "Lead with clarity",
                   "title": "Bold Vision",
@@ -1008,17 +1007,19 @@ describe('site plugin tests', async () => {
                   "href": "#",
                   "media": {
                     "format": "image",
-                    "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_06cd1345-4fca-4578-9671-63847dbeb632_xpleco",
+                    "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_8b17dc54-1507-49d5-a510-bb773a01043f_1_rch8du",
                     "tags": [
                       "annotated",
                       "aspect:portrait",
-                      "color:warm",
-                      "midshot",
-                      "person",
-                      "silhouette",
                       "aspect:square",
+                      "color:warm",
+                      "man",
+                      "nature",
+                      "object",
+                      "people",
+                      "image",
                     ],
-                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440982/arpowers_minimal_stock_background_for_profile_photo_professiona_06cd1345-4fca-4578-9671-63847dbeb632_xpleco.png",
+                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724550009/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_8b17dc54-1507-49d5-a510-bb773a01043f_1_rch8du.png",
                   },
                   "subTitle": "Guide with style",
                   "title": "Artistic Direction",

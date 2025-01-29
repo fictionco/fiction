@@ -3,7 +3,7 @@ import type { EndpointMeta } from '@fiction/core'
  * @vitest-environment happy-dom
  */
 import { shortId } from '@fiction/core'
-import { describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { requestManageSite } from '../../load.js'
 import { t } from '../../tables.js'
 import { createSiteTestUtils } from '../../test/testUtils.js'
@@ -13,6 +13,7 @@ import { saveSite } from '../site.js'
 describe('updateSiteCerts', async () => {
   const testUtils = await createSiteTestUtils()
   const { user } = await testUtils.init()
+  afterAll(() => testUtils.close())
   const meta = { bearer: user } as EndpointMeta
   const common = {
     fictionSites: testUtils.fictionSites,

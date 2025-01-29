@@ -3,7 +3,7 @@
  */
 import type { CardConfigPortable, TableCardConfig } from '../../tables'
 import { shortId, waitFor } from '@fiction/core'
-import { describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { Card } from '../../card'
 import { requestManageSite } from '../../load'
 import { Site } from '../../site'
@@ -171,6 +171,7 @@ describe('updatePage', async () => {
 describe('requestManagePage', async () => {
   const testUtils = await createSiteTestUtils()
   await testUtils.init()
+  afterAll(() => testUtils.close())
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteMode: 'standard' } as const
   const result = await requestManageSite(
     {

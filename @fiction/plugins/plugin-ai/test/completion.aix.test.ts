@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import { FictionAws, FictionMedia, getEnvVars } from '@fiction/core'
 import { createTestUtils, testEnvFile } from '@fiction/core/test-utils'
-import { describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { z } from 'zod'
 import zodToJsonSchema from 'zod-to-json-schema'
 import { FictionAi } from '..'
@@ -40,6 +40,8 @@ describe('ai completions', async () => {
   const fictionMedia = new FictionMedia({ ...testUtils, fictionAws, awsBucketMedia, unsplashAccessKey })
 
   const initialized = await testUtils.init()
+
+  afterAll(() => testUtils.close())
 
   const orgId = initialized.orgId
   const userId = initialized.user.userId || ''

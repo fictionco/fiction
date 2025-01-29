@@ -2,10 +2,8 @@
   "@fiction": {
     "admin": {
       "ViewEditor.vue": null,
-      "auth": {
-        "AuthCard.vue": null
-      },
       "dashboard": {
+        "AuthCard.vue": null,
         "DashBar.vue": null,
         "DashBarMenu.vue": null,
         "DashDarkModeToggle.vue": null,
@@ -60,7 +58,6 @@
         "SettingsBoard.vue": null,
         "SettingsMain.vue": null,
         "SettingsPanel.vue": null,
-        "__ElOrgList.vue": null,
         "index.ts": null
       },
       "tailwind.config.ts": null,
@@ -195,7 +192,7 @@
       "content-hero": {
         "ElHero.vue": null,
         "config.ts": null,
-        "hero.uiux.test.ts": null,
+        "hero.card-ui.test.ts": null,
         "index.ts": null
       },
       "content-people": {
@@ -247,7 +244,7 @@
         "EffectScrollModal.vue": null,
         "ElCard.vue": null,
         "EmailForm.vue": null,
-        "captureCard.uiux.test.ts": null,
+        "captureCard.card-ui.test.ts": null,
         "config.ts": null,
         "index.ts": null
       },
@@ -313,7 +310,7 @@
         "ElShowcase.vue": null,
         "config.ts": null,
         "index.ts": null,
-        "showcase.uiux.test.ts": null,
+        "showcase.card-ui.test.ts": null,
         "static": {
           "showcase-adidas.png": null,
           "showcase-amazon.png": null,
@@ -341,7 +338,7 @@
         "ElMarquee.vue": null,
         "config.ts": null,
         "index.ts": null,
-        "marquee.uiux.test.ts": null,
+        "marquee.card-ui.test.ts": null,
         "static": {
           "marquee-min-1.png": null,
           "marquee-min-2.png": null,
@@ -1014,6 +1011,10 @@
       "plugin-onboard": {
         "index.ts": null,
         "package.json": null,
+        "survey": {
+          "OnboardSurvey.vue": null,
+          "SubscriptionStart.vue": null
+        },
         "widgets": {
           "SuperChart.vue": null,
           "WidgetOverview.vue": null,
@@ -1023,21 +1024,18 @@
         }
       },
       "plugin-stripe": {
+        "customer.ts": null,
+        "endpointTrial.ts": null,
         "endpoints.ts": null,
         "index.ts": null,
         "package.json": null,
         "tables.ts": null,
         "test": {
+          "customer.unit.test.ts": null,
           "endpoints.unit.test.ts": null,
-          "plugin.unit.test.ts": null,
           "stripeMocks.ts": null,
+          "trial.unit.test.ts": null,
           "utils.unit.test.ts": null
-        },
-        "types.ts": null,
-        "usage": {
-          "endpointsUsage.ts": null,
-          "plugin-usage.ts": null,
-          "usage.test.ts": null
         },
         "utils.ts": null
       },
@@ -1379,30 +1377,38 @@
             "people2.webp": null,
             "pro.webp": null,
             "spectrum.jpg": null
-          },
-          "tour": {
-            "FigurePhone.vue": null,
-            "ReviewRequestSms.vue": null,
-            "fig-contact-screen.svg": null,
-            "fig-email-alt-1.svg": null,
-            "fig-email-screen.svg": null,
-            "fig-money-alt-1.svg": null,
-            "fig-money-screen.svg": null,
-            "fig-subscribe-alt-1.svg": null,
-            "fig-subscribe-screen.svg": null,
-            "fig-website-alt-1.svg": null,
-            "fig-website-screen.svg": null,
-            "person-brene.webp": null,
-            "person-ferris.webp": null,
-            "person-simon.jpg": null,
-            "site1.jpg": null,
-            "site2.webp": null,
-            "site3.jpg": null,
-            "site4.mp4": null
           }
         },
         "index.ts": null,
         "package.json": null,
+        "pages": {
+          "pricing": {
+            "index.ts": null
+          },
+          "tour": {
+            "img": {
+              "FigurePhone.vue": null,
+              "ReviewRequestSms.vue": null,
+              "fig-contact-screen.svg": null,
+              "fig-email-alt-1.svg": null,
+              "fig-email-screen.svg": null,
+              "fig-money-alt-1.svg": null,
+              "fig-money-screen.svg": null,
+              "fig-subscribe-alt-1.svg": null,
+              "fig-subscribe-screen.svg": null,
+              "fig-website-alt-1.svg": null,
+              "fig-website-screen.svg": null,
+              "person-brene.webp": null,
+              "person-ferris.webp": null,
+              "person-simon.jpg": null,
+              "site1.jpg": null,
+              "site2.webp": null,
+              "site3.jpg": null,
+              "site4.mp4": null
+            },
+            "index.ts": null
+          }
+        },
         "static": {
           "profile-man-1.png": null,
           "profile-man-2.png": null,
@@ -1494,6 +1500,7 @@
         "XDropDown.vue": null,
         "XLink.vue": null,
         "XNumber.vue": null,
+        "XSuperTitle.vue": null,
         "XText.vue": null,
         "user-blank.png": null,
         "user.svg": null
@@ -1730,6 +1737,7 @@
           "favicon.svg": null,
           "robots.txt": null
         },
+        "stripeProducts.ts": null,
         "style.less": null
       },
       "test": {

@@ -12,6 +12,8 @@ describe('user token', async () => {
   const testUtils = createTestUtils()
   await testUtils.init()
 
+  afterAll(() => testUtils.close())
+
   it('saves the token in a parent domain cookie', () => {
     manageClientUserToken({ key: 'test123', _action: 'set', token: 'test' })
     const cookieToken = getCookie('test123')

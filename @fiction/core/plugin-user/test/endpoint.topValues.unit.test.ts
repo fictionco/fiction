@@ -1,4 +1,3 @@
-import type { EndpointMeta } from '@fiction/core'
 import { objectId, standardTable } from '@fiction/core'
 import { createTestUtils, getTestEmail } from '@fiction/core/test-utils'
 import { afterAll, describe, expect, it } from 'vitest'
@@ -7,7 +6,6 @@ describe('get top values', async () => {
   const testUtils = createTestUtils()
   const fictionUser = testUtils.fictionUser
   const initialized = await testUtils.init()
-  const meta = { bearer: initialized.user } as EndpointMeta
   const orgId = initialized.org.orgId || ''
   const table = standardTable.member
 
@@ -16,9 +14,7 @@ describe('get top values', async () => {
 
   const where = { orgId }
 
-  afterAll(async () => {
-    await testUtils.close()
-  })
+  afterAll(() => testUtils.close())
 
   // Helper to create test users with tags
   async function createUserWithTags(tags: string[]) {

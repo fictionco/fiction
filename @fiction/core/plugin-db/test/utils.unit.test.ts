@@ -1,12 +1,13 @@
 import { createTestUtils } from '@fiction/core/test-utils'
 import { t } from '@fiction/posts/schema.js'
-import { describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { Col, FictionDbTable } from '../objects.js'
 import { dbPrep } from '../utils.js'
 
 describe('dbPrep', async () => {
   const testUtils = createTestUtils()
   const init = await testUtils.init()
+  afterAll(() => testUtils.close())
   const fictionDb = testUtils.fictionDb
 
   const meta = { bearer: init.user }

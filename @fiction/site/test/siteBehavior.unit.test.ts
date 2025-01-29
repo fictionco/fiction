@@ -3,13 +3,14 @@
  */
 
 import { shortId } from '@fiction/core'
-import { describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { Site } from '../site'
 import { createSiteTestUtils } from './testUtils'
 
 describe('siteMode', async () => {
   const testUtils = await createSiteTestUtils()
   await testUtils.init()
+  afterAll(() => testUtils.close())
 
   const common = {
     siteRouter: testUtils?.fictionRouterSites,
@@ -26,6 +27,7 @@ describe('siteMode', async () => {
 describe('siteInit', async () => {
   const testUtils = await createSiteTestUtils()
   await testUtils.init()
+  afterAll(() => testUtils.close())
 
   const common = {
     siteRouter: testUtils?.fictionRouterSites,

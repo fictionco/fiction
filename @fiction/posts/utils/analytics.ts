@@ -18,8 +18,6 @@ export async function updatePostWordCount(args: { orgId: string, post?: TablePos
         .update({ wordCount })
 
       post.wordCount = wordCount
-
-      console.warn('UPDATE WORD COUNT', wordCount)
     }
   }
 

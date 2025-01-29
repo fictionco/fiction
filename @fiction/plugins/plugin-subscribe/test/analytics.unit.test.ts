@@ -5,13 +5,15 @@ import { abort, dayjs } from '@fiction/core'
 import { createTestUser } from '@fiction/core/test-utils'
 
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
-import { describe, expect, it, vi } from 'vitest'
+import { afterAll, describe, expect, it, vi } from 'vitest'
 import { t } from '../schema.js'
 import { getSubscriberMetrics, trackSubscriberMetrics } from '../utils/analytics.js'
 
 describe('subscription analytics tracking', async () => {
   const testUtils = await createSiteTestUtils()
   const initialized = await testUtils.init()
+
+  afterAll(() => testUtils.close())
   const orgId = initialized.orgId
   const fictionSubscribe = testUtils.fictionSubscribe
   const trackSpy = vi.spyOn(testUtils.fictionAnalytics, 'track')
@@ -117,6 +119,8 @@ describe('subscription analytics tracking', async () => {
 describe('subscriber metrics', async () => {
   const testUtils = await createSiteTestUtils()
   const initialized = await testUtils.init()
+
+  afterAll(() => testUtils.close())
   const orgId = initialized.orgId
 
   const { user: user1 } = await createTestUser(testUtils.fictionUser)
@@ -228,6 +232,8 @@ describe('subscription endpoint', async () => {
   const testUtils = await createSiteTestUtils()
 
   const initialized = await testUtils.init()
+
+  afterAll(() => testUtils.close())
 
   const orgId = initialized.orgId
   const userId = initialized.user.userId
@@ -517,7 +523,7 @@ describe('subscription endpoint', async () => {
             "compareEndAtIso": "2024-05-10T04:40:00.000Z",
             "compareStartAtIso": "2024-04-09T04:40:00.000Z",
             "interval": "day",
-            "nowIso": "2025-01-18T03:20:26.684Z",
+            "nowIso": "2025-01-29T20:56:33.500Z",
             "order": "asc",
             "orgId": "ORG_ID",
             "timeEndAtIso": "2024-06-11T04:40:00.000Z",

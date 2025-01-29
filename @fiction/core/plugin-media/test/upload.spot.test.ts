@@ -7,7 +7,7 @@ import type { TestUtils } from '../../test-utils/init'
 import fs from 'node:fs'
 import { FormData } from 'formdata-node'
 import { fileFromPath } from 'formdata-node/file-from-path'
-import { describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { FictionMedia } from '..'
 import { FictionAws } from '../../plugin-aws'
 import { testEnvFile, testImgPath } from '../../test-utils'
@@ -29,6 +29,8 @@ describe('media upload/download tests', async () => {
   const fictionAws = new FictionAws({ ...testUtils, awsAccessKey, awsAccessKeySecret })
   testUtils.fictionMedia = new FictionMedia({ ...testUtils, fictionAws, awsBucketMedia, unsplashAccessKey })
   testUtils.initialized = await testUtils.init()
+
+  afterAll(async () => testUtils.close())
 
   it('creates media from an external URL', async () => {
     const sourceImageUrl = 'https://images.unsplash.com/photo-1708724195876-1156245fce21'

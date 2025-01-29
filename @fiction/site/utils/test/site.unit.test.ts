@@ -5,7 +5,7 @@
 import type { EditorState } from '../../site.js'
 import FSite from '@fiction/cards/CardSite.vue'
 import { AppRoute, shortId, waitFor } from '@fiction/core'
-import { describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { requestManageSite } from '../../load.js'
 import { Site } from '../../site.js'
 import { createSiteTestUtils } from '../../test/testUtils.js'
@@ -165,6 +165,7 @@ describe('query var', async () => {
 describe('saveSite', async () => {
   const testUtils = await createSiteTestUtils()
   await testUtils.init()
+  afterAll(() => testUtils.close())
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteMode: 'standard' } as const
 
   const result = await requestManageSite(

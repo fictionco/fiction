@@ -1,6 +1,6 @@
 import type { User } from '../types'
 import { createTestUtils } from '@fiction/core/test-utils/init'
-import { describe, expect, it, vi } from 'vitest'
+import { afterAll, describe, expect, it, vi } from 'vitest'
 import { getTestEmail } from '../../test-utils'
 
 vi.mock('../serverEmail', async () => {
@@ -18,6 +18,8 @@ let user: User
 describe('user tests', async () => {
   const testUtils = createTestUtils()
   await testUtils.fictionDb.init()
+
+  afterAll(() => testUtils.fictionDb.close())
 
   it('creates user', async () => {
     const email = getTestEmail()
@@ -44,7 +46,7 @@ describe('user tests', async () => {
   it('verifies account email', async () => {
     if (!user.email)
       throw new Error('email required')
-    const response = await testUtils?.fictionUser?.queries.ManageUser.serve({ _action: 'verifyEmail', email: user.email, code: 'test' }, {})
+    const response = await testUtils?.fictionUser?.queries.ManageUser.serve({ _action: 'verifyEmail', email: user.email, code: '123456' }, {})
     expect(response?.status).toMatchInlineSnapshot(`"success"`)
     expect(response?.message).toMatchInlineSnapshot(`"email verified"`)
     expect(response?.data).toBeTruthy()

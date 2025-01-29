@@ -1,6 +1,6 @@
 import { createTestUtils } from '@fiction/core/test-utils/init'
 import { waitFor } from '@fiction/core/utils'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { FictionRouter } from '..'
 import { AppRoute } from '../appRoute'
 
@@ -17,6 +17,8 @@ describe('fictionRouterCreate', async () => {
   const testUtils = createTestUtils()
 
   await testUtils.init()
+
+  afterAll(() => testUtils.close())
 
   const fictionRouter = new FictionRouter({
     fictionEnv: testUtils.fictionEnv,
@@ -49,6 +51,8 @@ describe('fictionRouter', async () => {
   const testUtils = createTestUtils()
 
   await testUtils.init()
+
+  afterAll(() => testUtils.close())
 
   const fictionRouter = new FictionRouter({ fictionEnv: testUtils.fictionEnv, routes, baseUrl: 'https://www.test.com', create: true })
 
@@ -161,6 +165,8 @@ describe('fictionRouter2', async () => {
 
   await testUtils.init()
 
+  afterAll(() => testUtils.close())
+
   describe('initialization', () => {
     it('creates router with correct settings', () => {
       expect(fictionRouter.routerId).toBe('testRouter')
@@ -256,13 +262,12 @@ describe('fictionRouter2', async () => {
   })
 })
 
-describe('fictionRouter Hooks', () => {
-  let testUtils: ReturnType<typeof createTestUtils>
+describe('fictionRouter Hooks', async () => {
+  const testUtils = createTestUtils()
+  await testUtils.init()
   let fictionRouter: FictionRouter
 
   beforeEach(async () => {
-    testUtils = createTestUtils()
-    await testUtils.init()
     fictionRouter = new FictionRouter({
       fictionEnv: testUtils.fictionEnv,
       routes,
@@ -271,6 +276,8 @@ describe('fictionRouter Hooks', () => {
       create: true,
     })
   })
+
+  afterAll(() => testUtils.close())
 
   it('calls routeBeforeEach hook', async () => {
     const mockBeforeEach = vi.fn().mockReturnValue({ navigate: true })

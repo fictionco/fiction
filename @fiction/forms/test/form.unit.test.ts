@@ -4,7 +4,7 @@
 
 import type { FormSettings } from '../form'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { afterAll, beforeEach, describe, expect, it } from 'vitest'
 import { FictionForms } from '..'
 import { Form } from '../form'
 
@@ -16,6 +16,8 @@ describe('form', async () => {
   const fictionForms = new FictionForms(testUtils)
 
   const initialized = await testUtils.init()
+
+  afterAll(() => testUtils.close())
 
   const orgId = initialized.orgId
 

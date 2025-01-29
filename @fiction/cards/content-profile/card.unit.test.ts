@@ -661,7 +661,7 @@ describe('minimalProfile', async () => {
                           "minimum": 0.1,
                           "type": "number",
                         },
-                        "playsInline": {
+                        "playsinline": {
                           "type": "boolean",
                         },
                         "poster": {

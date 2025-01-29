@@ -38,7 +38,10 @@ export default defineConfig({
     //   enabled: true,
     //   name: 'chromium',
     // },
-
+    // added to fix a memory error 3.0.4 -> https://github.com/vitest-dev/vitest/issues/7288
+    fakeTimers: {
+      toFake: ['Date', 'setTimeout', 'clearTimeout'],
+    },
     testTimeout: 40000,
     hookTimeout: 40000,
     env: {
@@ -72,5 +75,6 @@ export default defineConfig({
         replacement: path.join(__dirname, `/node_modules/monaco-editor/esm/vs/editor/editor.api`),
       },
     ],
+
   },
 })

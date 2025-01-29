@@ -1,6 +1,6 @@
 import { abort } from '@fiction/core'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
-import { describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { FictionForms } from '..'
 
 describe('form endpoint', async () => {
@@ -9,6 +9,8 @@ describe('form endpoint', async () => {
   const fictionForms = new FictionForms(testUtils)
 
   const initialized = await testUtils.init()
+
+  afterAll(() => testUtils.close())
 
   const orgId = initialized.orgId
   const userId = initialized.user.userId

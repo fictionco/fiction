@@ -13,6 +13,7 @@ import { createSiteTestUtils } from './testUtils'
 describe('getSiteMetrics and trackSiteMetrics', async () => {
   const testUtils = await createSiteTestUtils()
   const r = await testUtils.init()
+
   let site: Site
   let orgId: string
 
@@ -157,22 +158,14 @@ describe('getSiteMetrics and trackSiteMetrics', async () => {
   })
 })
 
-describe('manageSite query', () => {
-  let testUtils: SiteTestUtils
-  let r: InitializedTestUtils
-  let userId: string
-  let orgId: string
-  let org: Organization
+describe('manageSite query', async () => {
+  const testUtils = await createSiteTestUtils()
+  const r = await testUtils.init()
+  const userId = r?.user?.userId ?? ''
+  const orgId = r?.user?.orgs?.[0]?.orgId ?? ''
+  const org = r?.org
 
-  beforeEach(async () => {
-    testUtils = await createSiteTestUtils()
-    r = await testUtils.init()
-    userId = r?.user?.userId ?? ''
-    orgId = r?.user?.orgs?.[0]?.orgId ?? ''
-    org = r?.org
-  })
-
-  afterEach(async () => {
+  afterAll(async () => {
     await testUtils.close()
   })
 

@@ -1,7 +1,7 @@
 import { abort } from '@fiction/core'
 import { createTestUser } from '@fiction/core/test-utils'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
-import { describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { FictionSubscribe } from '..'
 
 describe('subscription endpoint', async () => {
@@ -10,6 +10,8 @@ describe('subscription endpoint', async () => {
   const fictionSubscribe = new FictionSubscribe(testUtils)
 
   const initialized = await testUtils.init()
+
+  afterAll(() => testUtils.close())
 
   const orgId = initialized.orgId
   const userId = initialized.user.userId

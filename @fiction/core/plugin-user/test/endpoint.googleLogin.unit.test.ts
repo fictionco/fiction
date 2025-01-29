@@ -51,7 +51,7 @@ describe('google auth', async () => {
 
   it('if no user exists, creates one with isNew = true, returns token', async () => {
     const response = await testUtils?.fictionUser?.queries.ManageUser.serve(
-      { credential: 'not a token', _action: 'loginGoogle' },
+      { credential: 'not a token', _action: 'loginGoogle', createOnEmpty: true },
       { server: true },
     )
 
@@ -72,7 +72,7 @@ describe('google auth', async () => {
 
   it('if user exists, returns login token, isNew = false', async () => {
     const response = await testUtils?.fictionUser?.queries.ManageUser.serve(
-      { credential: 'not a token', _action: 'loginGoogle' },
+      { credential: 'not a token', _action: 'loginGoogle', createOnEmpty: true },
       { server: true },
     )
 
@@ -95,7 +95,7 @@ describe('google auth', async () => {
     expect(responseCreate?.status).toBe('success')
 
     const responseLoginGoogle = await testUtils?.fictionUser?.queries.ManageUser.serve(
-      { credential: 'not a token', _action: 'loginGoogle' },
+      { credential: 'not a token', _action: 'loginGoogle', createOnEmpty: true },
       { server: true },
     )
 

@@ -2,7 +2,7 @@ import type { InitializedTestUtils } from '@fiction/core/test-utils'
 import type { TableCardConfig } from '../tables'
 import type { SiteTestUtils } from './testUtils'
 import { objectId } from '@fiction/core'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { afterAll, beforeEach, describe, expect, it } from 'vitest'
 import { Card } from '../card'
 import { Site } from '../site'
 import { theme as testTheme } from './test-theme'
@@ -42,6 +42,7 @@ async function getDbSite(testUtils: SiteTestUtils, r: InitializedTestUtils) {
 describe('managePage query', async () => {
   const testUtils = await createSiteTestUtils()
   const r = await testUtils.init()
+  afterAll(() => testUtils.close())
   const userId = r?.user?.userId ?? ''
   const orgId = r?.user?.orgs?.[0]?.orgId ?? ''
   const site = await getDbSite(testUtils, r)
@@ -298,6 +299,7 @@ describe('managePage query', async () => {
 describe('upsert action', async () => {
   const testUtils = await createSiteTestUtils()
   const r = await testUtils.init()
+  afterAll(() => testUtils.close())
   const userId = r?.user?.userId ?? ''
   const orgId = r?.user?.orgs?.[0]?.orgId ?? ''
   const m = testUtils.fictionSites.queries.ManageSite

@@ -1,12 +1,14 @@
 import type { OrganizationMember } from '@fiction/core/plugin-user/types.js'
 import { createTestUtils } from '@fiction/core/test-utils/init.js'
-import { describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { snap } from '../../test-utils/util.js'
 
 describe('org team', async () => {
   const testUtils = createTestUtils()
 
   const initialized = await testUtils.init()
+
+  afterAll(() => testUtils.close())
 
   it('get members', async () => {
     const orgId = initialized?.user?.orgs?.[0]?.orgId
@@ -58,10 +60,12 @@ describe('org team', async () => {
           "email": "[email:TRUTHY]",
           "fullName": "**MASKED**",
           "invitedById": "null",
+          "isOnboarded": "false",
           "lastSeenAt": {},
           "memberAccess": "owner",
           "memberId": "[id:TRUTHY]",
           "memberStatus": "active",
+          "needsOnboarding": "true",
           "orgId": "[id:TRUTHY]",
           "priority": "null",
           "tags": "null",

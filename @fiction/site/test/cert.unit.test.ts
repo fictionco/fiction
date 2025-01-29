@@ -1,17 +1,15 @@
-import type { SiteTestUtils } from './testUtils'
 import { isCi } from '@fiction/core'
 import { snap } from '@fiction/core/test-utils'
-import { beforeAll, describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { createSiteTestUtils } from './testUtils'
 
-let testUtils: SiteTestUtils
-describe('manageCertificates', { retry: isCi() ? 3 : 0 }, () => {
+describe('manageCertificates', { retry: isCi() ? 3 : 0 }, async () => {
   const hostname = 'example.com'
   const maskedKeys = ['id', 'dnsValidationInstructions', 'dnsValidationTarget', 'issued', 'nodes']
-  beforeAll(async () => {
-    testUtils = await createSiteTestUtils()
-    await testUtils.init()
-  })
+  const testUtils = await createSiteTestUtils()
+  await testUtils.init()
+
+  afterAll(() => testUtils.close())
 
   describe('error handling', () => {
     it('should handle missing action parameter', async () => {
