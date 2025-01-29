@@ -18,7 +18,7 @@ export type PluginSetupArgs = {
   context: 'node' | 'app' | 'test'
 }
 
-export abstract class FictionObject< T extends object = object> {
+export abstract class FictionObject<T extends object = object> {
   name: string
   settings: T
   log: LogHelper
@@ -53,7 +53,7 @@ export abstract class FictionPlugin<T extends FictionPluginSettings = { fictionE
     this.log = log.contextLogger(`${this.name}`)
   }
 
-  protected createRequests< M extends EndpointMap<R>, R extends Record<string, Query> = Record<string, Query> >(params: CreateEndpointRequestsParams<R>): M {
+  protected createRequests<M extends EndpointMap<R>, R extends Record<string, Query> = Record<string, Query>>(params: CreateEndpointRequestsParams<R>): M {
     return createEndpointRequests({ basePath: this.basePath, ...params })
   }
 

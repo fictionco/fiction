@@ -4,11 +4,12 @@
 
 import type { Stripe } from 'stripe'
 
+import type { CustomerData, RawCustomerData } from '../utils'
 import { dayjs, vue } from '@fiction/core'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { FictionStripe } from '..'
-import { checkoutEndpointHandler, type CustomerData, getCheckoutConfig, getCheckoutUrl, getPortalUrl, processCustomerData, type RawCustomerData, type StripeProductConfig } from '../utils'
+import { checkoutEndpointHandler, getCheckoutConfig, getCheckoutUrl, getPortalUrl, processCustomerData } from '../utils'
 
 describe('processCustomerData', () => {
   const mockDate = '2023-03-24T00:00:00.000Z'

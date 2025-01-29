@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { type StandardSize, vue } from '@fiction/core'
+import type { StandardSize } from '@fiction/core'
+import { vue } from '@fiction/core'
 import InputElBox from './InputElBox.vue'
 
 const props = defineProps({

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { type ColorThemeUser, type DecorationShape, getColorScheme, isDarkOrLightMode, vue } from '@fiction/core'
+import type { ColorThemeUser, DecorationShape } from '@fiction/core'
+import { getColorScheme, isDarkOrLightMode, vue } from '@fiction/core'
 
 type BlendMode = 'normal' | 'multiply' | 'screen' | 'overlay' | 'darken' | 'lighten'
 type ColorMode = 'dark' | 'light' | 'auto'

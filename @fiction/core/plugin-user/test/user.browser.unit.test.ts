@@ -35,11 +35,24 @@ describe('user tests', async () => {
 
     expect(snap(user, { maskedKeys: ['cityName', 'timezone', 'ipOrganization', 'latitude', 'longitude', 'regionName'] })).toMatchInlineSnapshot(`
       {
+        "accounts": "null",
+        "avatar": "null",
+        "birthday": "null",
+        "company": "null",
         "createdAt": "[datetime:TRUTHY]",
         "email": "[email:TRUTHY]",
+        "emailVerified": "false",
         "fullName": "[name:TRUTHY]",
+        "gender": "null",
+        "googleId": "null",
+        "headline": "null",
+        "invitedById": "null",
         "ip": "[geo:TRUTHY]",
+        "isSuperAdmin": "false",
         "lastSeenAt": "[datetime:TRUTHY]",
+        "loadOrgId": "null",
+        "needsOnboarding": "false",
+        "onboard": "null",
         "orgs": [
           {
             "accessTokens": "null",
@@ -55,8 +68,10 @@ describe('user tests', async () => {
             "customerIdTest": "null",
             "customerTest": "null",
             "extend": "null",
+            "isOnboarded": "false",
             "lastSeenAt": "[datetime:TRUTHY]",
             "legal": "null",
+            "needsOnboarding": "false",
             "onboard": "null",
             "orgEmail": "[email:TRUTHY]",
             "orgId": "[id:TRUTHY]",
@@ -71,10 +86,16 @@ describe('user tests', async () => {
             "url": "null",
           },
         ],
+        "phone": "null",
+        "pushSubscription": "null",
         "status": "active",
         "systemRole": "subscriber",
+        "tags": "null",
+        "title": "null",
         "updatedAt": "[datetime:TRUTHY]",
         "userId": "[id:TRUTHY]",
+        "username": "null",
+        "websiteUrl": "null",
       }
     `)
 
@@ -97,7 +118,7 @@ describe('user tests', async () => {
     const response = await fictionUser?.requests.ManageUser.request({
       _action: 'verifyEmail',
       email,
-      code: 'test',
+      code: '123456',
     })
 
     if (!response?.data) {

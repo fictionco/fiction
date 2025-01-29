@@ -26,7 +26,7 @@ export type TableSiteConfig = Omit<ColType<typeof siteCols>, 'draft' > & st & {
 
 type TablePageCardConfig = Partial<ColType<typeof pageCols>>
 
-export type TableCardConfig<T extends Record<string, unknown> = Record<string, unknown> > = Omit<TablePageCardConfig, 'cards' | 'effects' | 'single' | 'userConfig' | 'draft'> & st & {
+export type TableCardConfig<T extends Record<string, unknown> = Record<string, unknown>> = Omit<TablePageCardConfig, 'cards' | 'effects' | 'single' | 'userConfig' | 'draft'> & st & {
   parentId?: string
   depth?: number
   index?: number

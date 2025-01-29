@@ -1,6 +1,7 @@
 <script lang="ts" setup>
+import type { ActionButton, ListItem, MediaObject } from '@fiction/core'
 import type { InputOption } from '.'
-import { type ActionButton, isPlainObject, type ListItem, type MediaObject, toLabel, vue, waitFor } from '@fiction/core'
+import { isPlainObject, toLabel, vue, waitFor } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 import ElModal from '../ElModal.vue'
 import XIcon from '../media/XIcon.vue'

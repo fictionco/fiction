@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { type ColorThemeUser, type StandardSize, vue } from '@fiction/core'
+import type { ColorThemeUser, StandardSize } from '@fiction/core'
+import { vue } from '@fiction/core'
 import XNumber from '@fiction/ui/common/XNumber.vue'
 import { createStockMediaHandler } from '@fiction/ui/stock'
 

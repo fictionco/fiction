@@ -1,6 +1,7 @@
+import type { MediaObject } from '@fiction/core'
 import type { LocalMediaKeys } from './localMedia'
 import type { tagSet } from './tags'
-import { log, type MediaObject } from '@fiction/core'
+import { log } from '@fiction/core'
 
 const logger = log.contextLogger('stockMedia')
 

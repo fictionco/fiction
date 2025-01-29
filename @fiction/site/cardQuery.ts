@@ -1,6 +1,8 @@
+import type { EndpointMeta, EndpointResponse } from '@fiction/core'
+import type { SitesQuerySettings } from './endpoint'
 import type { Site } from './site'
-import { abort, type EndpointMeta, type EndpointResponse, Query } from '@fiction/core'
-import { SitesQuery, type SitesQuerySettings } from './endpoint'
+import { abort, Query } from '@fiction/core'
+import { SitesQuery } from './endpoint'
 
 export type CardQuerySettings = {
   site: Site

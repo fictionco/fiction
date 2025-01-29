@@ -1,6 +1,8 @@
+import type { EndpointMeta, EndpointResponse } from '@fiction/core/index.js'
+import type { EmailConfigResponse } from '@fiction/plugin-transactions/index.js'
 import type { FictionSubscribe, Subscriber } from '../index.js'
-import { type EndpointMeta, type EndpointResponse, gravatarUrlSync, vue } from '@fiction/core/index.js'
-import { EmailAction, type EmailConfigResponse } from '@fiction/plugin-transactions/index.js'
+import { gravatarUrlSync, vue } from '@fiction/core/index.js'
+import { EmailAction } from '@fiction/plugin-transactions/index.js'
 
 export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
   const { fictionSubscribe } = args

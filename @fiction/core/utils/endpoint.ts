@@ -391,7 +391,7 @@ export type CreateEndpointRequestsParams<R extends Record<string, Query> = Recor
   middleware?: () => express.RequestHandler[]
 }
 
-export function createEndpointRequests< M extends EndpointMap<R>, R extends Record<string, Query> = Record<string, Query>>(params: CreateEndpointRequestsParams<R>): M {
+export function createEndpointRequests<M extends EndpointMap<R>, R extends Record<string, Query> = Record<string, Query>>(params: CreateEndpointRequestsParams<R>): M {
   const { queries, fictionServer, fictionUser, basePath = '/no-base', endpointHandler, middleware } = params
 
   if (!fictionServer) {

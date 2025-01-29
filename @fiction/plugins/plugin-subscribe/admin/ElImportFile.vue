@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import type { ListItem } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import type { FictionSubscribe } from '..'
 import type { ImportDetail } from '../schema'
 import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
 import CardButton from '@fiction/cards/CardButton.vue'
-import { type ListItem, log, objectId, useService, vue } from '@fiction/core'
+import { log, objectId, useService, vue } from '@fiction/core'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import { csvToEmailList, parseAndValidateEmails } from './utils'
 

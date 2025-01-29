@@ -1,9 +1,11 @@
 import type { FictionMedia } from '../plugin-media'
+import type { FictionPluginSettings } from '../plugin.js'
 import type { MediaObject } from '../schemas/schemas'
+import type { EndpointMeta } from '../utils/index.js'
 import type { EmailSendConfig } from './util'
 import { EnvVar, vars } from '../plugin-env/index.js'
-import { FictionPlugin, type FictionPluginSettings } from '../plugin.js'
-import { type EndpointMeta, isTest, safeDirname } from '../utils/index.js'
+import { FictionPlugin } from '../plugin.js'
+import { isTest, safeDirname } from '../utils/index.js'
 import { toMarkdown } from '../utils/markdown.js'
 import { QueryTransactionalEmail } from './endpoint.js'
 

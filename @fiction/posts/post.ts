@@ -1,7 +1,8 @@
 import type { Card } from '@fiction/site'
+import type { FictionPosts } from '.'
 import type { TablePostConfig } from './schema'
 import { FictionObject, objectId, vue } from '@fiction/core'
-import { type FictionPosts, postLink } from '.'
+import { postLink } from '.'
 import { managePost } from './utils'
 
 export type PostConfig = {

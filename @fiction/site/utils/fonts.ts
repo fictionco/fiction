@@ -1,5 +1,6 @@
+import type { FontFamily } from '@fiction/core'
 import type { Site } from '..'
-import { type FontFamily, vue } from '@fiction/core'
+import { vue } from '@fiction/core'
 import { googleFontsUtility, safeStacks } from '@fiction/core/utils/fonts'
 import { deepMerge } from '@fiction/core/utils/obj'
 

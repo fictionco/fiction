@@ -1,5 +1,6 @@
+import type { ColType } from '@fiction/core/tbl'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
-import { type ColType, standardTable } from '@fiction/core/tbl'
+import { standardTable } from '@fiction/core/tbl'
 import { z } from 'zod'
 
 export const tableNames = {

@@ -1,8 +1,9 @@
 <script lang="ts" setup>
+import type { StandardSize } from '@fiction/core'
 import type { Site } from '@fiction/site'
 import type { Sortable } from '@shopify/draggable'
 import type { InputOption } from '.'
-import { isTest, shortId, type StandardSize, vue, waitFor } from '@fiction/core'
+import { isTest, shortId, vue, waitFor } from '@fiction/core'
 import TransitionSlide from '../anim/TransitionSlide.vue'
 import XButton from '../buttons/XButton.vue'
 import FormEngine from './FormEngine.vue'

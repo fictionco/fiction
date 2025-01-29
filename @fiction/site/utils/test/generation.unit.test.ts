@@ -1,4 +1,5 @@
 import type { JsonSchema7ObjectType } from 'zod-to-json-schema'
+import type { InputOptionGeneration } from '../generation'
 import { getCardTemplates } from '@fiction/cards'
 import { shortId } from '@fiction/core'
 import { describe, expect, it, vi } from 'vitest'
@@ -6,7 +7,7 @@ import zodToJsonSchema from 'zod-to-json-schema'
 import { Card } from '../../card'
 import { Site } from '../../site'
 import { createSiteTestUtils } from '../../test/testUtils'
-import { calculateTotalEstimatedTimeSeconds, generateJsonPropConfig, generateOutputProps, type InputOptionGeneration, parseDescription, simulateProgress } from '../generation'
+import { calculateTotalEstimatedTimeSeconds, generateJsonPropConfig, generateOutputProps, parseDescription, simulateProgress } from '../generation'
 
 describe('generation utils', async () => {
   const testUtils = await createSiteTestUtils()

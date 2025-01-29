@@ -39,7 +39,7 @@
     "lint:dev": "npm exec -- eslint . --fix --cache --color --quiet",
     "lint:view": "npx eslint-flat-config-viewer",
     "i:clear": "rm pnpm-lock.yaml && find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
-    "prep": "npm run i && npm run lint:dev && npm run generate",
+    "prep": "npm run i; npm run lint:dev; npm run generate",
     "i": "pnpm i && pnpm up -r && pnpm outdated -r && npm run i:lockfile",
     "i:lockfile": "pnpm i --lockfile-only",
     "i:full": "pnpm i:clear && npm run i",

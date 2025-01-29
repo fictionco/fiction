@@ -1,7 +1,8 @@
 <script lang="ts" setup>
+import type { OrganizationMember } from '@fiction/core'
 import type { FictionTeam } from '@fiction/core/plugin-team'
 import type { Card } from '@fiction/site'
-import { type OrganizationMember, resetUi, useService, vue } from '@fiction/core'
+import { resetUi, useService, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save.js'
 import { InputOption } from '@fiction/ui/index.js'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'

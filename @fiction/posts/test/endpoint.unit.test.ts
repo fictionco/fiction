@@ -1,6 +1,7 @@
 import type { TrackEventTypes } from '@fiction/analytics'
+import type { ComplexDataFilter, DataFilter, EndpointMeta } from '@fiction/core'
 import type { TablePostConfig } from '../schema'
-import { type ComplexDataFilter, type DataFilter, dayjs, type EndpointMeta } from '@fiction/core'
+import { dayjs } from '@fiction/core'
 import { snap } from '@fiction/core/test-utils'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'

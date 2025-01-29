@@ -1,4 +1,5 @@
-import { type ActionButton, PostHandlingSchema } from '@fiction/core'
+import type { ActionButton } from '@fiction/core'
+import { PostHandlingSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod'
 

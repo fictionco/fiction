@@ -1,9 +1,10 @@
 import type { EditorTool } from '@fiction/admin'
+import type { ActionButton } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { FictionNewsletter } from '..'
 import type { EmailCampaign } from '../campaign'
 import { AdminEditorController } from '@fiction/admin'
-import { type ActionButton, vue } from '@fiction/core'
+import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import InputAudience from './InputAudience.vue'
 

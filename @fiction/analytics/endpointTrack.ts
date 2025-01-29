@@ -1,5 +1,6 @@
+import type { EndpointMeta, EndpointResponse } from '@fiction/core'
 import type { EventParams } from './plugin-beacon'
-import { dayjs, type EndpointMeta, type EndpointResponse, objectId, WriteBuffer } from '@fiction/core'
+import { dayjs, objectId, WriteBuffer } from '@fiction/core'
 import { AnalyticsEndpoint } from './endpoints'
 
 export class QueryEventTrack extends AnalyticsEndpoint {

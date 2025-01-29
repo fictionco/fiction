@@ -1,6 +1,7 @@
-import { describe, expect, it } from 'vitest'
+import type { EditorSupplementary } from '../utils/editor.js'
 
-import { type EditorSupplementary, generateAutocompleteObjectives, shouldSuggest } from '../utils/editor.js'
+import { describe, expect, it } from 'vitest'
+import { generateAutocompleteObjectives, shouldSuggest } from '../utils/editor.js'
 
 describe('generateAutocompleteObjectives', () => {
   it('should generate objectives based on supplementary information', () => {

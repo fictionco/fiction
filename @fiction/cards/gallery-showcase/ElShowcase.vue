@@ -1,8 +1,9 @@
 <script lang="ts" setup>
+import type { MediaObject } from '@fiction/core'
 import type { FictionPosts, Post } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import type { UserConfig } from './config'
-import { type MediaObject, useService, vue, waitFor } from '@fiction/core'
+import { useService, vue, waitFor } from '@fiction/core'
 import { PostLoader } from '@fiction/posts/postLoader.js'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElClose from '@fiction/ui/common/ElClose.vue'

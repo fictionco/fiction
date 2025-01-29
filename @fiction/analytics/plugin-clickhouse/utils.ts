@@ -20,7 +20,7 @@ type FictionAnalyticsColSettings<U extends string = string, T extends ColDefault
   description?: string
 } & Omit<ColSettings<U, T>, 'make'>
 
-export class FictionAnalyticsCol< U extends string = string, T extends ColDefaultValue = ColDefaultValue> extends Col<U, T> {
+export class FictionAnalyticsCol<U extends string = string, T extends ColDefaultValue = ColDefaultValue> extends Col<U, T> {
   clickHouseType: ClickHouseDatatype
   indexOn: boolean
   getValue?: ValueCallback

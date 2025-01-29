@@ -1,9 +1,10 @@
 <script lang="ts" setup>
+import type { FontFamily } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { TickerConfig, UserConfig } from './config'
 import CardText from '@fiction/cards/CardText.vue'
 import CardLink from '@fiction/cards/el/CardLink.vue'
-import { type FontFamily, getTextColorBasedOnBackground, isDarkOrLightMode, pathCheck, vue } from '@fiction/core'
+import { getTextColorBasedOnBackground, isDarkOrLightMode, pathCheck, vue } from '@fiction/core'
 import { fontFamilyByKey } from '@fiction/site/utils/fonts'
 import { schema } from './config'
 

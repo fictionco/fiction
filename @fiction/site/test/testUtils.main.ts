@@ -1,6 +1,7 @@
+import type { ServiceConfig } from '@fiction/core'
 import * as adminTheme from '@fiction/admin/theme'
 import CardSite from '@fiction/cards/CardSite.vue'
-import { AppRoute, type ServiceConfig } from '@fiction/core'
+import { AppRoute } from '@fiction/core'
 import * as fictionTheme from '@fiction/theme-fiction'
 import * as prestigeTheme from '@fiction/theme-prestige'
 import { createSiteTestUtils } from './testUtils'

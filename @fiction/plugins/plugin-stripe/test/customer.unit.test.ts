@@ -2,7 +2,7 @@
  * @vitest-environment happy-dom
  */
 
-import { vue, waitFor } from '@fiction/core'
+import { waitFor } from '@fiction/core'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, beforeEach, describe, expect, it } from 'vitest'
 import { FictionStripe } from '..'

@@ -1,8 +1,9 @@
 <script lang="ts" setup>
+import type { User } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { FictionSubscribe, Subscriber } from '../index.js'
 import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
-import { deepMerge, gravatarUrlSync, standardDate, type User, useService, vue } from '@fiction/core'
+import { deepMerge, gravatarUrlSync, standardDate, useService, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save.js'
 import { InputOption } from '@fiction/ui/index.js'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'

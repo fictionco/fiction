@@ -1,11 +1,12 @@
 import type { TrackEventTypes } from '@fiction/analytics/index.js'
+import type { TableSubscribeConfig } from '../schema.js'
 import { refineParams } from '@fiction/analytics/utils/refine'
 import { abort, dayjs } from '@fiction/core'
 import { createTestUser } from '@fiction/core/test-utils'
-import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 
+import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { describe, expect, it, vi } from 'vitest'
-import { t, type TableSubscribeConfig } from '../schema.js'
+import { t } from '../schema.js'
 import { getSubscriberMetrics, trackSubscriberMetrics } from '../utils/analytics.js'
 
 describe('subscription analytics tracking', async () => {

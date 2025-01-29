@@ -1,5 +1,6 @@
+import type { ShortcodeMatch } from '@fiction/core'
 import type { JsonSchema7ObjectType } from 'zod-to-json-schema'
-import { type ShortcodeMatch, Shortcodes, toLabel } from '@fiction/core'
+import { Shortcodes, toLabel } from '@fiction/core'
 
 export type InputOptionGeneration = {
   prompt?: string

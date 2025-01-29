@@ -1,11 +1,12 @@
 import type { FictionAi } from '@fiction/plugin-ai'
 import type { Editor } from '@tiptap/core'
+import type { EditorSupplementary } from '../../utils/editor'
 import { debounce, log } from '@fiction/core'
 import { onBrowserEvent } from '@fiction/core/utils/eventBrowser'
 import { Extension } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
-import { type EditorSupplementary, generateAutocompleteObjectives, shouldSuggest } from '../../utils/editor'
+import { generateAutocompleteObjectives, shouldSuggest } from '../../utils/editor'
 
 const logger = log.contextLogger('AutocompleteExtension')
 

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { type MediaObject, useService, vue } from '@fiction/core'
+import type { MediaObject } from '@fiction/core'
+import { useService, vue } from '@fiction/core'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 
 const { fictionUser } = useService()

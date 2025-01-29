@@ -1,7 +1,8 @@
 import type { FictionAnalytics } from '@fiction/analytics'
 import type { EndpointResponse, FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
+import type { TableMetricConfig } from './schema'
 import { FictionPlugin } from '@fiction/core'
-import { t, type TableMetricConfig, tables } from './schema'
+import { t, tables } from './schema'
 
 type FictionMetricsSettings = {
   fictionDb: FictionDb

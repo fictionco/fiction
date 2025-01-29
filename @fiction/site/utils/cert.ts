@@ -1,6 +1,7 @@
+import type { EndpointMeta, FictionDb } from '@fiction/core'
 import type { FictionSites } from '..'
 import type { TableDomainConfig } from '../tables'
-import { _stop, type EndpointMeta, type FictionDb, validHost } from '@fiction/core'
+import { _stop, validHost } from '@fiction/core'
 import { t } from '../tables'
 
 export async function updateSiteCerts(args: { siteId: string, customDomains?: Partial<TableDomainConfig>[], fictionSites: FictionSites, fictionDb: FictionDb }, meta: EndpointMeta) {

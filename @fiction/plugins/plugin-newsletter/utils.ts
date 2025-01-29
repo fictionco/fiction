@@ -1,10 +1,11 @@
 import type { TrackEventTypes } from '@fiction/analytics/index.js'
+import type { EmailSendConfig, Organization, RequestOptions } from '@fiction/core'
 import type { EmailUserVars } from '@fiction/core/plugin-email/endpoint.js'
 import type express from 'express'
 import type { ManageCampaignRequestParams } from './endpoint.js'
 import type { FictionNewsletter } from './index.js'
 import type { EmailCampaignConfig } from './schema.js'
-import { convertKeyCase, type EmailSendConfig, log, type Organization, type RequestOptions, toMarkdown, vue } from '@fiction/core'
+import { convertKeyCase, log, toMarkdown, vue } from '@fiction/core'
 import { z } from 'zod'
 import { EmailCampaign } from './campaign.js'
 

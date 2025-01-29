@@ -1,7 +1,8 @@
+import type { MediaObject } from '@fiction/core'
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { SiteUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
-import { ActionAreaSchema, type MediaObject, NavListItemSchema, SuperTitleSchema } from '@fiction/core'
+import { ActionAreaSchema, NavListItemSchema, SuperTitleSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod'
 

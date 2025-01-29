@@ -1,5 +1,6 @@
 import type { FictionRouter } from '@fiction/core'
-import { type FictionSites, Site, type Theme } from '@fiction/site'
+import type { FictionSites, Theme } from '@fiction/site'
+import { Site } from '@fiction/site'
 
 export class ThemeStructureGenerator {
   themes: Theme[]

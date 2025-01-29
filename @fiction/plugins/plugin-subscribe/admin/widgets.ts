@@ -1,7 +1,8 @@
-import { AnalyticsWidget, Widget } from '@fiction/admin/dashboard/widget'
+import type { SubscriberEndpointSettings } from '../endpoint.js'
 
+import { AnalyticsWidget, Widget } from '@fiction/admin/dashboard/widget'
 import { vue } from '@fiction/core'
-import { type SubscriberEndpointSettings, SubscriptionAnalytics } from '../endpoint.js'
+import { SubscriptionAnalytics } from '../endpoint.js'
 
 export function getWidgets(service: SubscriberEndpointSettings) {
   const query = new SubscriptionAnalytics({ ...service })

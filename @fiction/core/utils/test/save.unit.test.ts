@@ -1,6 +1,7 @@
 import type { Mock } from 'vitest'
+import type { AutosaveConfig } from '../save'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { type AutosaveConfig, AutosaveUtility } from '../save'
+import { AutosaveUtility } from '../save'
 
 describe('autosaveUtility', () => {
   let autosaveUtil: AutosaveUtility

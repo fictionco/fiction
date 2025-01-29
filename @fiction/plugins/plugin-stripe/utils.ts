@@ -1,7 +1,8 @@
+import type { Organization } from '@fiction/core'
 import type * as StripeJS from '@stripe/stripe-js'
 import type express from 'express'
 import type { FictionStripe } from './index.js'
-import { abort, dayjs, type Organization, toLabel } from '@fiction/core'
+import { abort, dayjs, toLabel } from '@fiction/core'
 import Stripe from 'stripe'
 
 export type CheckoutQueryParams = {

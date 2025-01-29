@@ -1,7 +1,8 @@
 <script lang="ts" setup>
+import type { ActionButton, User } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { FictionAdmin } from '..'
-import { type ActionButton, gravatarUrlSync, type User, useService, vue } from '@fiction/core'
+import { gravatarUrlSync, useService, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save.js'
 import ElModal from '@fiction/ui/ElModal.vue'
 import { InputOption } from '@fiction/ui/index.js'

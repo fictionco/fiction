@@ -1,12 +1,14 @@
 import type { FictionDb } from '../plugin-db/index.js'
 import type { FictionServer } from '../plugin-server/index.js'
 import type { FictionUser } from '../plugin-user/index.js'
+import type { FictionPluginSettings } from '../plugin.js'
 import type { EndpointResponse } from '../types/endpoint.js'
 import type { EndpointMeta } from '../utils/endpoint.js'
-import { FictionPlugin, type FictionPluginSettings } from '../plugin.js'
+import type { FullRevisionConfig, TableRevisionConfig } from './tables.js'
+import { FictionPlugin } from '../plugin.js'
 import { safeDirname } from '../utils/utils.js'
 import { ManageRevision } from './endpoint.js'
-import { type FullRevisionConfig, type TableRevisionConfig, tables } from './tables.js'
+import { tables } from './tables.js'
 
 export type FictionRevisionSettings = {
   fictionDb: FictionDb

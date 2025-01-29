@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { type MediaObject, vue } from '@fiction/core'
+import type { MediaObject } from '@fiction/core'
+import { vue } from '@fiction/core'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 
 const props = defineProps<{

@@ -1,7 +1,8 @@
+import type { EndpointMeta } from '@fiction/core'
 /**
  * @vitest-environment happy-dom
  */
-import { type EndpointMeta, shortId } from '@fiction/core'
+import { shortId } from '@fiction/core'
 import { describe, expect, it } from 'vitest'
 import { requestManageSite } from '../../load.js'
 import { t } from '../../tables.js'

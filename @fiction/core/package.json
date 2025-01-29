@@ -123,7 +123,7 @@
     "react": "^19.0.0",
     "remove-markdown": "^0.6.0",
     "request-ip": "^3.3.0",
-    "semver": "^7.6.3",
+    "semver": "^7.7.0",
     "serve-favicon": "^2.5.0",
     "serve-static": "^1.16.2",
     "sharp": "^0.33.5",

@@ -1,4 +1,5 @@
-import { type ColType, standardTable } from '@fiction/core'
+import type { ColType } from '@fiction/core'
+import { standardTable } from '@fiction/core'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
 import { z } from 'zod'
 

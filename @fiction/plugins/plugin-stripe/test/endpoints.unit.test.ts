@@ -1,4 +1,4 @@
-import { type EndpointMeta, waitFor } from '@fiction/core'
+import type { EndpointMeta } from '@fiction/core'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, describe, expect, it } from 'vitest'
 import { FictionStripe } from '..'

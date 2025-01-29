@@ -1,5 +1,4 @@
 import { createTestUtils } from '@fiction/core/test-utils'
-import { isTest } from '@fiction/platform/index.js'
 import { t } from '@fiction/posts/schema.js'
 import { describe, expect, it } from 'vitest'
 import { Col, FictionDbTable } from '../objects.js'

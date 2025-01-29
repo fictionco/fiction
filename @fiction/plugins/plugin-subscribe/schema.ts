@@ -1,4 +1,5 @@
-import { type ColType, type MediaObject, standardTable, type SyndicateStatus, type User } from '@fiction/core'
+import type { ColType, MediaObject, SyndicateStatus, User } from '@fiction/core'
+import { standardTable } from '@fiction/core'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
 import { z } from 'zod'
 

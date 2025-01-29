@@ -182,7 +182,7 @@ export function cardTemplate<
   }>(settings)
 }
 
-export type CardSettings<T extends Record<string, unknown> = Record<string, unknown> > = CardConfigPortable<T> & {
+export type CardSettings<T extends Record<string, unknown> = Record<string, unknown>> = CardConfigPortable<T> & {
   site?: Site
   inlineTemplate?: CardTemplate<any>
   el?: ComponentConstructor

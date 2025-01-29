@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import type { EditorTool } from '@fiction/admin'
+import type { vue } from '@fiction/core'
 import type { Site } from '@fiction/site'
 import type { FictionPosts } from '..'
 import type { Post } from '../post'
 import RevisionHistory from '@fiction/admin/el/RevisionHistory.vue'
-import { useService, type vue } from '@fiction/core'
+import { useService } from '@fiction/core'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },

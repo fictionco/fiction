@@ -52,6 +52,7 @@ export interface CompiledServiceConfig {
     | 'AiImage'
     | 'CardQuery'
     | 'CheckUsername'
+    | 'CheckoutSession'
     | 'CompiledMetrics'
     | 'EmailAction'
     | 'EventTrack'
@@ -84,6 +85,7 @@ export interface CompiledServiceConfig {
     | 'PortalSession'
     | 'SaveMedia'
     | 'SeekInviteFromUser'
+    | 'StripeTrial'
     | 'SubscriptionAnalytics'
     | 'TeamInvite'
     | 'emailTrackingEndpoint'
@@ -116,6 +118,7 @@ export interface CompiledServiceConfig {
       | 'publication'
       | 'legal'
       | 'accessTokens'
+      | 'needsOnboarding'
       | 'createdAt'
       | 'updatedAt'
     fiction_user:
@@ -148,6 +151,7 @@ export interface CompiledServiceConfig {
       | 'gender'
       | 'tags'
       | 'systemRole'
+      | 'needsOnboarding'
       | 'createdAt'
       | 'updatedAt'
     fiction_org_user:
@@ -159,6 +163,7 @@ export interface CompiledServiceConfig {
       | 'invitedById'
       | 'priority'
       | 'tags'
+      | 'needsOnboarding'
       | 'createdAt'
       | 'updatedAt'
     fiction_revisions:

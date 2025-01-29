@@ -1,5 +1,6 @@
+import type { BrowserEvent } from '@fiction/core/utils/eventBrowser.js'
 import { log } from '@fiction/core/plugin-log/index.js'
-import { type BrowserEvent, onBrowserEvent } from '@fiction/core/utils/eventBrowser.js'
+import { onBrowserEvent } from '@fiction/core/utils/eventBrowser.js'
 import { fastHash, inIFrame } from '@fiction/core/utils/utils.js'
 import { isNode } from '@fiction/core/utils/vars.js'
 

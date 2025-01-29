@@ -3,7 +3,6 @@ import type { FictionUser, StepConfig, StepItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
-import EffectConfetti from '@fiction/ui/effect/EffectConfetti.vue'
 import ElStepNav from '@fiction/ui/ElStepNav.vue'
 
 import ElInput from '@fiction/ui/inputs/ElInput.vue'

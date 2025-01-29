@@ -89,6 +89,14 @@
       "path": "/api/fiction-stripe/PortalSession"
     },
     {
+      "key": "CheckoutSession",
+      "path": "/api/fiction-stripe/CheckoutSession"
+    },
+    {
+      "key": "StripeTrial",
+      "path": "/api/fiction-stripe/StripeTrial"
+    },
+    {
       "key": "oAuthEndpoint",
       "path": "/api/stripe-checkout/:action"
     },

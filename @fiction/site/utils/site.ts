@@ -1,7 +1,8 @@
 import type { FictionSites, Site, SiteSettings } from '../index.js'
+import type { CardConfigPortable, TableSiteConfig } from '../tables.js'
 import { toCamel, vue, waitFor } from '@fiction/core'
 import { Card } from '../card.js'
-import { type CardConfigPortable, t, type TableSiteConfig } from '../tables.js'
+import { t } from '../tables.js'
 import { setPages } from './page.js'
 
 // Define a type for the hooks to ensure type safety

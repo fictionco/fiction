@@ -1,6 +1,7 @@
 <script lang="ts" setup>
+import type { StandardSize } from '@fiction/core'
 import type { Site } from '@fiction/site'
-import { type StandardSize, toLabel, vue } from '@fiction/core'
+import { toLabel, vue } from '@fiction/core'
 import InputSelectCustom from './InputSelectCustom.vue'
 import { textInputClasses } from './theme'
 
