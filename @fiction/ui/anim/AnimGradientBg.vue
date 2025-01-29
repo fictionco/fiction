@@ -1,68 +1,66 @@
 <!-- AnimatedGradient.vue -->
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import type { ColorScale, ColorTheme } from '@fiction/core'
+import { getColorScheme, vue } from '@fiction/core'
 import { animate, SimplexNoise } from './gradientUtil'
 
-const props = defineProps({
-  baseColor: {
-    type: String,
-    default: '#3490dc',
-  },
-  speed: {
-    type: Number,
-    default: 1000,
-  },
-  blendingMode: {
-    type: String,
-    default: 'linear',
-  },
-})
+const props = defineProps<{
+  color1?: ColorTheme
+  color1Scale?: ColorScale
+  color2?: ColorTheme
+  color2Scale?: ColorScale
+  speed?: number
+}>()
 
-const container = ref<HTMLDivElement | null>(null)
-const canvas = ref<HTMLCanvasElement | null>(null)
+const canvas = vue.ref<HTMLCanvasElement>()
 let ctx: CanvasRenderingContext2D | null = null
-let animationId: number | null = null
+let animId: number | null = null
 const simplex = new SimplexNoise()
-
+const clock = vue.ref(0)
 const resolution = 110
-const clock = ref(0)
 
 function setup() {
-  if (!canvas.value || !container.value)
+  if (!canvas.value)
     return
-
   ctx = canvas.value.getContext('2d')
   if (!ctx)
     return
-
   canvas.value.width = resolution
   canvas.value.height = resolution
 }
 
-function animationLoop() {
+function loop() {
   if (!ctx)
     return
 
-  clock.value = animate(ctx, resolution, props.baseColor, props.speed, props.blendingMode, clock.value, simplex)
-  animationId = requestAnimationFrame(animationLoop)
+  const c1 = props.color1 ? getColorScheme(props.color1, { outputFormat: 'hex' })[props.color1Scale || '500'] : '#3490dc'
+  const c2 = props.color2 ? getColorScheme(props.color2, { outputFormat: 'hex' })[props.color2Scale || '500'] : '#9333ea'
+
+  clock.value = animate(
+    ctx,
+    resolution,
+    c1,
+    c2,
+    props.speed || 1000,
+    clock.value,
+    simplex,
+  )
+  animId = requestAnimationFrame(loop)
 }
 
-onMounted(() => {
+vue.onMounted(() => {
   setup()
-  animationLoop()
+  loop()
 })
 
-onUnmounted(() => {
-  if (animationId !== null) {
-    cancelAnimationFrame(animationId)
-  }
+vue.onUnmounted(() => {
+  if (animId)
+    cancelAnimationFrame(animId)
 })
 
-watch(() => props.baseColor, setup)
+vue.watch([() => props.color1, () => props.color2], setup)
 </script>
 
 <template>
-  <div ref="container" class="relative w-full h-full overflow-hidden">
-    <canvas ref="canvas" class="absolute inset-0 w-full h-full" />
-  </div>
+  <canvas ref="canvas" class="absolute inset-0 w-full h-full" />
 </template>

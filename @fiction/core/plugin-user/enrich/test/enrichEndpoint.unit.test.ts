@@ -28,6 +28,8 @@ describe('user enrichment', async () => {
     const enrichedUser = r.data
 
     expect(enrichedUser).toBeDefined()
+    expect(enrichedUser?.fullName).toBe(user.fullName)
+    expect(enrichedUser?.avatar?.url).toBe(exampleResponse.person.photo_url)
     expect(enrichedUser?.email).toBe(user.email)
     expect(enrichedUser?.orgs).toBeDefined()
     expect(enrichedUser?.userId).toBe(user.userId)

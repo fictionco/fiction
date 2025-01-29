@@ -1,62 +1,89 @@
-// util.ts
+type RGB = { r: number, g: number, b: number }
+type Lab = { l: number, a: number, b: number }
 
-export function mix(v1: number, v2: number, a: number): number {
-  return v1 * (1 - a) + v2 * a
+function hexToRgb(hex: string): RGB {
+  const h = hex.replace('#', '')
+  return {
+    r: Number.parseInt(h.slice(0, 2), 16) / 255,
+    g: Number.parseInt(h.slice(2, 4), 16) / 255,
+    b: Number.parseInt(h.slice(4, 6), 16) / 255,
+  }
 }
 
-export function rotate(x: number, y: number, angle: number, cx: number, cy: number): number {
-  const radians = (Math.PI / 180) * angle
-  const cos = Math.cos(radians)
-  const sin = Math.sin(radians)
-  return (cos * (x - cx)) + (sin * (y - cy)) + cx
+// Linear sRGB to OKLab
+function linearToOklab(rgb: RGB): Lab {
+  const l = 0.4122214708 * rgb.r + 0.5363325363 * rgb.g + 0.0514459929 * rgb.b
+  const m = 0.2119034982 * rgb.r + 0.6806995451 * rgb.g + 0.1073969566 * rgb.b
+  const s = 0.0883024619 * rgb.r + 0.2817188376 * rgb.g + 0.6299787005 * rgb.b
+
+  const l_ = Math.cbrt(l)
+  const m_ = Math.cbrt(m)
+  const s_ = Math.cbrt(s)
+
+  return {
+    l: 0.2104542553 * l_ + 0.7936177850 * m_ - 0.0040720468 * s_,
+    a: 1.9779984951 * l_ - 2.4285922050 * m_ + 0.4505937099 * s_,
+    b: 0.0259040371 * l_ + 0.7827717662 * m_ - 0.8086757660 * s_,
+  }
 }
 
-export function hexToRgb(hex: string): { r: number, g: number, b: number } | null {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
-  return result
-    ? {
-        r: Number.parseInt(result[1] ?? '0', 16),
-        g: Number.parseInt(result[2] ?? '0', 16),
-        b: Number.parseInt(result[3] ?? '0', 16),
-      }
-    : null
+// OKLab to linear sRGB
+function oklabToRgb(lab: Lab): RGB {
+  const l_ = lab.l + 0.3963377774 * lab.a + 0.2158037573 * lab.b
+  const m_ = lab.l - 0.1055613458 * lab.a - 0.0638541728 * lab.b
+  const s_ = lab.l - 0.0894841775 * lab.a - 1.2914855480 * lab.b
+
+  const l = l_ * l_ * l_
+  const m = m_ * m_ * m_
+  const s = s_ * s_ * s_
+
+  return {
+    r: +4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+    g: -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+    b: -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s,
+  }
+}
+
+function interpolate(a: number, b: number, t: number): number {
+  return a * (1 - t) + b * t
+}
+
+function lerp(c1: Lab, c2: Lab, t: number): Lab {
+  return {
+    l: interpolate(c1.l, c2.l, t),
+    a: interpolate(c1.a, c2.a, t),
+    b: interpolate(c1.b, c2.b, t),
+  }
 }
 
 export function animate(
   ctx: CanvasRenderingContext2D,
   resolution: number,
-  baseColor: string,
+  color1: string,
+  color2: string,
   speed: number,
-  blendingMode: string,
   clock: number,
   simplex: SimplexNoise,
 ): number {
   const imgData = ctx.getImageData(0, 0, resolution, resolution)
-  const data = imgData.data
-
-  const baseRgb = hexToRgb(baseColor)
-  if (!baseRgb)
-    return clock
-
-  const secondColor = {
-    r: (baseRgb.r + 50) % 256,
-    g: (baseRgb.g + 50) % 256,
-    b: (baseRgb.b + 50) % 256,
-  }
+  const lab1 = linearToOklab(hexToRgb(color1))
+  const lab2 = linearToOklab(hexToRgb(color2))
 
   for (let x = 0; x < resolution; x++) {
     for (let y = 0; y < resolution; y++) {
       const noise = simplex.noise3D(x / resolution, y / resolution, clock / speed)
-      const index = (x + y * resolution) * 4
+      const i = (x + y * resolution) * 4
 
-      const mixFactor = blendingMode === 'organic'
-        ? (rotate(x, y, clock * 0.5, resolution / 2, resolution / 2) / resolution * 3.5) * noise / 2
-        : rotate(x, y, clock * 0.5, resolution / 2, resolution / 2) / resolution * 2
+      // Map noise from [-1,1] to [0,1]
+      const t = (noise + 1) / 2
+      const color = lerp(lab1, lab2, t)
+      const rgb = oklabToRgb(color)
 
-      data[index] = mix(baseRgb.r, secondColor.r, mixFactor)
-      data[index + 1] = mix(baseRgb.g, secondColor.g, mixFactor)
-      data[index + 2] = mix(baseRgb.b, secondColor.b, mixFactor)
-      data[index + 3] = 255
+      // Clamp and convert to 8-bit
+      imgData.data[i] = Math.max(0, Math.min(255, rgb.r * 255))
+      imgData.data[i + 1] = Math.max(0, Math.min(255, rgb.g * 255))
+      imgData.data[i + 2] = Math.max(0, Math.min(255, rgb.b * 255))
+      imgData.data[i + 3] = 255
     }
   }
 

@@ -3,8 +3,8 @@
  */
 import jwt from 'jsonwebtoken'
 import { afterAll, describe, expect, it, vi } from 'vitest'
-import { createTestUtils } from '../../test-utils/init'
 
+import { createTestUtils } from '../../test-utils/init'
 import { getCookie, getNakedDomain } from '../cookie'
 import { createUserToken, decodeUserToken, manageClientUserToken } from '../jwt'
 
@@ -103,6 +103,7 @@ describe('jwt Functions', () => {
     const decoded = decodeUserToken({ token, tokenSecret })
     expect(decoded).toEqual({
       userId: user.userId,
+      exp: expect.any(Number),
       email: user.email,
       systemRole: user.systemRole,
       iat: expect.any(Number),

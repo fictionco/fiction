@@ -242,8 +242,8 @@ const hrStyle = {
               :style="{
                 'margin': '0 0 0 0',
                 'fontWeight': 'bold',
-                'font-size': '28px',
-                'lineHeight': 1.3,
+                'font-size': '24px',
+                'lineHeight': 1.33,
               }"
             >
               {{ title }}

@@ -58,13 +58,17 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
         title: 'Your Sign-In Link is Ready',
         subTitle: 'Click the link below to log in',
         bodyMarkdown: [
-          `The link below will sign you in to ${emailVars.appName}.`,
+          `[This link](${emailVars.callbackUrl}) will sign you in to ${emailVars.appName}.`,
           `Alternatively, you can login with this code: **${emailVars.code}**.`,
           `If you didn't request this email, don't worry, you can safely ignore it.`,
         ].join(`\n\n`),
         to: `${emailVars.email}`,
         actions: [
-          { label: 'Log In', href: emailVars.callbackUrl, theme: 'primary' },
+          {
+            label: `Sign in to ${emailVars.appName}`,
+            href: emailVars.callbackUrl,
+            theme: 'primary',
+          },
         ],
       }
     },

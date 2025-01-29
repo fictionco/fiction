@@ -21,7 +21,7 @@ const {
       <p class="text-sm font-medium text-theme-400 font-sans">
         {{ superTitle?.text || '404 - Not Found' }}
       </p>
-      <h1 class="mt-4 text-3xl font-semibold sm:text-5xl x-font-title">
+      <h1 class="mt-4 text-3xl font-semibold x-font-title">
         {{ title || 'Page Not Available' }}
       </h1>
       <p class="mt-6 text-base font-sans leading-7 text-theme-600">

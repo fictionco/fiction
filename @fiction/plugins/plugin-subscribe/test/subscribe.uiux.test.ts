@@ -29,7 +29,7 @@ describe('subscribe uiux', { retry: isCi() ? 3 : 0 }, async () => {
     const orgEmail = emails[Math.floor(Math.random() * emails.length)]
 
     const queryVars = { orgId, orgName: org.orgName, orgEmail }
-    const browserRequest = await action.requestSend({ to: user2.email, fields: {}, queryVars })
+    const browserRequest = await action.requestSend({ to: user2.email, createUserFields: {}, queryVars })
 
     const recipient = browserRequest?.data?.recipient
 

@@ -81,7 +81,6 @@ vue.watch(() => props.modelValue, (newVal) => {
 
 function updateModelValue() {
   const value = inputValues.value.filter(Boolean).join('')
-  console.log('updateModelValue', value)
   emit('update:modelValue', value)
 }
 

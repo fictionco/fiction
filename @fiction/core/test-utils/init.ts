@@ -71,7 +71,7 @@ export async function createTestUser(fictionUser: FictionUser, opts: { caller?: 
   const orgName = faker.company.name()
 
   const r = await fictionUser.queries.ManageUser.serve(
-    { fields: { email, password, emailVerified: true, fullName, orgName }, _action: 'create' },
+    { fields: { email, password, emailVerified: true, fullName, orgName, needsOnboarding: false }, _action: 'create' },
     { server: true, caller: `createTestUser-${caller}`, returnAuthority: ['verify'] },
   )
   const user = r.data

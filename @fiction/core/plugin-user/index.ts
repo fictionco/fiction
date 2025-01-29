@@ -246,7 +246,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     if (!email) {
       throw new Error('no app email in app meta')
     }
-    const r = await this.queries.ManageUser.serve({ _action: 'getCreate', where: { email }, fields: { orgId, orgName, email } }, { server: true })
+    const r = await this.queries.ManageUser.serve({ _action: 'getCreate', where: { email }, createUserFields: { orgId, orgName, email, needsOnboarding: false } }, { server: true })
 
     const user = r.data
 

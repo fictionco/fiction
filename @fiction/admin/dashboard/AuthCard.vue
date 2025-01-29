@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { MediaObject } from '@fiction/core'
+import type { MediaObject, User } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import type { FictionAdmin } from '..'
 import TransactionView from '@fiction/cards/page-transaction/TransactionView.vue'
@@ -10,7 +10,6 @@ import XButton from '@fiction/ui/buttons/XButton.vue'
 import EffectTransitionList from '@fiction/ui/effect/EffectTransitionList.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
-import { createLogger } from 'vite'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
@@ -24,11 +23,14 @@ const uc = vue.computed(() => props.card.userConfig.value)
 
 const { fictionRouter, fictionAdmin, fictionEnv, fictionUser } = useService<{ fictionAdmin: FictionAdmin }>()
 
-type AuthItemId = 'login' | 'register' | 'confirm' | 'magic' | undefined | ''
+type AuthItemId = 'welcome' | 'register' | 'confirm' | 'magic' | undefined | ''
+
 const itemId = vue.computed(() => {
-  return (fictionRouter.params.value.itemId as AuthItemId) || 'login'
+  const val = (fictionRouter.params.value.itemId as AuthItemId) || 'welcome'
+
+  return ['welcome', 'register', 'confirm', 'magic'].includes(val) ? val : 'welcome'
 })
-const fields = localRef({ key: 'fictionAuth', def: { email: '', fullName: '', orgName: '', password: '', oneTimeCode: '' }, lifecycle: 'session' })
+const fields = vue.ref({ email: '', fullName: '', orgName: '', password: '', oneTimeCode: '' })
 
 const sending = vue.ref<'google' | 'button' | ''>('')
 const formError = vue.ref('')
@@ -43,7 +45,7 @@ const title = () => `Login / Register - ${fictionEnv.meta.app?.name}`
 unhead.useHead({ title, meta: [{ name: `description`, content: title }] })
 
 async function handleFormSubmit() {
-  if (itemId.value === 'login') {
+  if (itemId.value === 'welcome' || itemId.value === 'register') {
     await passwordLogin()
   }
   else if (itemId.value === 'magic') {
@@ -84,10 +86,16 @@ async function sendMagicLink(): Promise<void> {
 
   const { email } = fields.value
 
+  const createUserFields: Partial<User> = {
+    ...fields.value,
+    email,
+    needsOnboarding: true,
+  }
+
   // This will create a user if one doesn't exist (getCreate)
   const r = await fictionAdmin.emailActions.magicLoginEmailAction.requestSend({
     to: email,
-    fields: fields.value,
+    createUserFields,
     baseRoute: '/app',
     queryVars: {},
   })
@@ -106,7 +114,13 @@ async function sendMagicLink(): Promise<void> {
 async function passwordLogin() {
   const { email, password } = fields.value
   // do pass
-  const r = await fictionUser.requests.ManageUser.request({ _action: 'login', where: { email }, password })
+  const r = await fictionUser.requests.ManageUser.request({
+    _action: 'login',
+    where: { email },
+    password,
+    createOnEmpty: itemId.value === 'register',
+    createUserFields: { needsOnboarding: true },
+  })
 
   if (r?.status === 'error') {
     formError.value = r.message || 'An error occurred'
@@ -129,12 +143,13 @@ type TransactionProps = InstanceType<typeof TransactionWrap>['$props']
 
 const config = vue.computed<TransactionProps | undefined>(() => {
   const mapping: Record<string, TransactionProps> = {
-    register: { title: 'Create Account', icon: 'i-tabler-user-plus' },
-    login: { title: 'Login', icon: 'i-tabler-login' },
+    register: { title: 'Create your account', subTitle: 'Get started in seconds', icon: 'i-tabler-user-plus' },
+    welcome: { title: 'Welcome back', subTitle: 'Choose how you\'d like to sign in', icon: 'i-tabler-user-share' },
     confirm: { title: 'Check your inbox!', icon: 'i-tabler-mail', status: 'success' },
+    magic: { title: 'Sign In Link', subTitle: 'We\'ll email you a sign-in link', icon: 'i-tabler-sparkles' },
   }
 
-  return mapping[itemId.value || 'login'] || mapping.login
+  return mapping[itemId.value || 'welcome'] || mapping.welcome
 })
 
 const quotes = [
@@ -150,6 +165,8 @@ async function runGoogleLogin() {
   sending.value = 'google'
   googleAuth({
     fictionUser,
+    createUserFields: { needsOnboarding: true },
+    createOnEmpty: itemId.value === 'register',
     onComplete: async (response) => {
       if (response.status === 'success') {
         if (!response.user?.emailVerified) {
@@ -187,36 +204,6 @@ vue.watch(() => itemId.value, () => {
 <template>
   <TransactionView :card :quote>
     <TransactionWrap v-bind="config">
-      <template #links>
-        <div class="text-sm text-theme-500 dark:text-theme-300 font-sans my-3">
-          <EffectTransitionList>
-            <template v-if="itemId === 'register'">
-              <XButton
-                size="sm"
-                design="ghost"
-                theme="primary"
-                icon="i-tabler-login"
-                data-test-id="to-login"
-                @click.prevent="updateItemItemId('login')"
-              >
-                Login Instead
-              </XButton>
-            </template>
-            <template v-else-if="itemId !== 'confirm'">
-              <XButton
-                size="sm"
-                design="ghost"
-                theme="primary"
-                icon="i-tabler-plus"
-                data-test-id="to-register"
-                @click.prevent="updateItemItemId('register')"
-              >
-                Create Account Instead
-              </XButton>
-            </template>
-          </EffectTransitionList>
-        </div>
-      </template>
       <ElForm class="space-y-5" data-test-id="form" :data-value="JSON.stringify(fields)" :notify="formError" @submit="handleFormSubmit()">
         <EffectTransitionList>
           <template v-if="itemId === 'confirm'">
@@ -227,7 +214,6 @@ vue.watch(() => itemId.value, () => {
                   size="sm"
                   design="ghost"
                   theme="default"
-                  icon="i-tabler-asterisk"
                   icon-after="i-tabler-arrow-down"
                   data-test-id="to-one-time-code"
                   @click.prevent="showOneTimeCode = !showOneTimeCode"
@@ -254,9 +240,10 @@ vue.watch(() => itemId.value, () => {
                 type="submit"
                 format="block"
                 theme="primary"
+                design="outline"
                 size="lg"
                 :loading="sending === 'button'"
-                icon-after="i-tabler-arrow-right"
+                icon="i-tabler-lock-open"
               >
                 Login with Code
               </XButton>
@@ -267,7 +254,7 @@ vue.watch(() => itemId.value, () => {
                 design="link"
                 icon="i-tabler-arrow-left"
                 data-test-id="to-login"
-                @click.prevent="updateItemItemId('login')"
+                @click.prevent="updateItemItemId('welcome')"
               >
                 Back to Login
               </XButton>
@@ -275,10 +262,13 @@ vue.watch(() => itemId.value, () => {
           </template>
           <template v-else>
             <XButton
+              v-if="['welcome', 'register'].includes(itemId)"
+              :key="`googleLogin-${itemId}`"
               data-test-id="google-login-button"
               type="submit"
               format="block"
-              theme="default"
+              theme="primary"
+              design="outline"
               size="lg"
               :loading="sending === 'google'"
               icon="i-tabler-brand-google-filled"
@@ -286,111 +276,136 @@ vue.watch(() => itemId.value, () => {
             >
               {{ itemId === 'register' ? 'Sign up' : 'Login' }} With Google
             </XButton>
-            <div class="absolute ml-[10000px]">
-              <div id="google-signin-button" />
-            </div>
 
-            <div class="text-center text-theme-500 flex items-center justify-center gap-4">
+            <div v-if="['welcome', 'register'].includes(itemId)" class="text-center text-theme-500 flex items-center justify-center gap-4">
               <div class="border-b border-theme-200 border-theme-700/60 grow" />
               <span>or</span>
               <div class="border-b border-theme-200 border-theme-700/60 grow" />
             </div>
 
             <ElInput
-              key="inputEmail"
+              v-if="['welcome', 'register', 'magic'].includes(itemId)"
+              :key="`inputEmail-${itemId}`"
               data-test-id="input-email"
-              class="my-6"
+              class="w-full"
               label="Email"
               input="InputEmail"
-              :input-props="{ autocomplete: 'email', required: true, placeholder: 'your@email.com' }"
+              :input-props="{ autocomplete: 'email', required: true, placeholder: 'Enter your email' }"
               :model-value="fields.email"
               ui-size="lg"
               @update:model-value="fields.email = $event"
             />
 
             <ElInput
-              v-if="itemId === 'login'"
-              key="inputPassword"
-              data-test-id="input-password"
+              v-if="itemId === 'welcome'"
+              key="inputCurrentPassword"
+              data-test-id="input-current-password"
               input="InputPassword"
               label="Password"
+              class="w-full"
               :input-props="{ autocomplete: 'current-password', required: true, placeholder: 'Enter your password' }"
               ui-size="lg"
               :model-value="fields.password"
               @update:model-value="fields.password = $event"
             />
-
             <ElInput
-              v-if="itemId === 'register'"
-              key="inputPassword"
-              data-test-id="input-password"
-              class="my-6"
+              v-else-if="itemId === 'register'"
+              key="inputNewPassword"
+              data-test-id="input-new-password"
               input="InputPassword"
               label="Password"
-              description="Must be at least 6 characters long"
-              :input-props="{ autocomplete: 'new-password', required: true, placeholder: 'Create a secure password' }"
+              class="w-full"
+              :input-props="{ autocomplete: 'new-password', required: true, placeholder: 'Create a password' }"
               ui-size="lg"
               :model-value="fields.password"
               @update:model-value="fields.password = $event"
             />
-            <div class="action">
-              <XButton
-                v-if="itemId === 'login' || itemId === 'register'"
-                data-test-id="password-login-button"
-                type="submit"
-                format="block"
-                theme="primary"
-                size="lg"
-                :loading="sending === 'button'"
-                icon-after="i-tabler-arrow-right"
-              >
-                {{ itemId === 'login' ? 'Login' : 'Create Account' }}
-              </XButton>
-              <XButton
-                v-else-if="itemId === 'magic'"
-                data-test-id="email-login-button"
-                type="submit"
-                format="block"
-                theme="primary"
-                size="lg"
-                :loading="sending === 'button'"
-                icon="i-tabler-sparkles"
-              >
-                Send Secure Login Link
-              </XButton>
-            </div>
+
+            <XButton
+              v-if="itemId === 'welcome'"
+              :key="`passwordLogin-${itemId}`"
+              data-test-id="password-login-button"
+              type="submit"
+              format="block"
+              theme="primary"
+              design="outline"
+              size="lg"
+              :loading="sending === 'button'"
+              icon="i-tabler-user-check"
+            >
+              Sign In
+            </XButton>
+            <XButton
+              v-if="itemId === 'register'"
+              :key="`passwordRegister-${itemId}`"
+              data-test-id="password-register-button"
+              type="submit"
+              format="block"
+              theme="primary"
+              design="outline"
+              size="lg"
+              :loading="sending === 'button'"
+              icon="i-tabler-user-plus"
+            >
+              Create Account
+            </XButton>
+            <XButton
+              v-if="itemId === 'magic'"
+              :key="`magicLink-${itemId}`"
+              data-test-id="password-register-button"
+              type="submit"
+              format="block"
+              theme="primary"
+              design="outline"
+              size="lg"
+              :loading="sending === 'button'"
+              icon="i-tabler-sparkles"
+            >
+              Send Sign In Link
+            </XButton>
 
             <div class="text-theme-400 dark:text-theme-500 text-xs font-sans text-balance text-center space-y-8 pt-4">
-              <div>
-                By continuing, you agree to our
-                <a class="underline text-theme-500 dark:text-theme-400" :href="uc.termsUrl" target="_blank">Terms of Service</a>
-                and
-                <a class="underline text-theme-500 dark:text-theme-400" :href="uc.privacyUrl" target="_blank">Privacy Policy</a>
-              </div>
-
-              <div class="text-center">
+              <div class="text-center flex gap-4 justify-center flex-wrap flex-col items-center">
                 <XButton
-                  v-if="itemId === 'magic'"
+                  v-if="itemId === 'welcome'"
                   size="sm"
                   design="ghost"
-                  theme="default"
-                  icon="i-tabler-login"
-                  data-test-id="to-password"
-                  @click.prevent="updateItemItemId('login')"
+                  theme="primary"
+                  icon="i-tabler-rocket"
+                  data-test-id="to-register"
+                  @click.prevent="updateItemItemId('register')"
                 >
-                  Login with Password Instead
+                  Need an Account?
                 </XButton>
                 <XButton
-                  v-else-if="itemId === 'login'"
+                  v-if="['register', 'magic'].includes(itemId)"
                   size="sm"
                   design="ghost"
+                  theme="green"
+                  icon="i-tabler-arrow-up-right"
+                  data-test-id="to-welcome"
+                  @click.prevent="updateItemItemId('welcome')"
+                >
+                  Login instead?
+                </XButton>
+                <XButton
+                  v-if="['welcome', 'register'].includes(itemId)"
+                  size="sm"
+                  design="link"
                   theme="default"
                   icon="i-tabler-wand"
                   data-test-id="to-magic"
                   @click.prevent="updateItemItemId('magic')"
                 >
-                  Email Me a Secure Login Link
+                  Forgot Password
                 </XButton>
+              </div>
+
+              <div class=" leading-[1.4]">
+                By continuing, you agree to the
+                <a class="underline text-theme-500 dark:text-theme-400" :href="uc.termsUrl" target="_blank">Terms of Service</a>
+                and
+                <a class="underline text-theme-500 dark:text-theme-400" :href="uc.privacyUrl" target="_blank">Privacy Policy</a>
               </div>
             </div>
           </template>

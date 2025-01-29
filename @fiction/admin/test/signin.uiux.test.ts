@@ -22,7 +22,7 @@ describe('signin UX', { retry: 3 }, async () => {
     if (!user.email)
       throw new Error('missing email')
 
-    const browserRequest = await action.requestSend({ to: user.email, fields: {}, queryVars: {} })
+    const browserRequest = await action.requestSend({ to: user.email, createUserFields: {}, queryVars: {} })
 
     const recipient = browserRequest?.data?.recipient
 

@@ -1,7 +1,8 @@
-import type { EndpointResponse } from '@fiction/core/types'
 import type { User } from '..'
+import type { EndpointResponse } from '../../types'
+import type { EndpointMeta } from '../../utils'
 import type { ApolloApiResponse } from './types'
-import { deepMerge, type EndpointMeta } from '@fiction/core/utils'
+import { deepMerge, removeUndefined } from '../../utils'
 import { UserBaseQuery } from '../endpoint'
 import { apolloResponseToUser } from './util'
 
@@ -45,7 +46,7 @@ export class EnrichUser extends UserBaseQuery {
       }
 
       const updatedUser = await apolloResponseToUser({ data: responseData })
-      const fields = deepMerge([updatedUser, user])
+      const fields = deepMerge([updatedUser, removeUndefined(user, { removeNull: true })])
 
       const userId = user.userId
 

@@ -98,10 +98,12 @@ type GoogleAuthOptions = {
   onComplete?: (response: ManageUserResponse) => void | Promise<void>
   onFinally?: () => void
   isSending?: { value: boolean }
+  createOnEmpty?: boolean
+  createUserFields?: Partial<User>
 }
 
 export async function googleAuth(options: GoogleAuthOptions): Promise<void> {
-  const { fictionUser, onComplete, onFinally } = options
+  const { fictionUser, onComplete, onFinally, createOnEmpty, createUserFields } = options
 
   if (!window || !fictionUser.googleClientId) {
     onComplete?.({ status: 'error', message: 'Google auth not available' })
@@ -136,6 +138,8 @@ export async function googleAuth(options: GoogleAuthOptions): Promise<void> {
           const loginResult = await fictionUser.requests.ManageUser.request({
             _action: 'loginGoogle',
             code: response.code,
+            createOnEmpty,
+            createUserFields,
           })
 
           await onComplete?.(loginResult)

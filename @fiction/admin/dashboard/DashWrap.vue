@@ -142,7 +142,7 @@ function toggleSidebar() {
       <template v-if="!loading && !fictionUser.activeUser.value">
         <El404
           :super-title="{ text: '401' }"
-          title="Login Required"
+          title="Signed Out"
           sub-title="Signin to your account to access this page."
           :buttons="[{ label: 'Login', href: card.link('/auth/login') }]"
         />

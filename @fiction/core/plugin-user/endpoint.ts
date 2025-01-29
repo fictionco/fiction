@@ -32,15 +32,15 @@ type CreateUserFields = Partial<User> & { email: string, password?: string, orgN
 
 export type ManageUserParams =
   | { _action: 'create', fields: CreateUserFields, withGeo?: boolean }
-  | { _action: 'getCreate', where: WhereUser, fields?: Partial<CreateUserFields>, refreshCode?: boolean }
+  | { _action: 'getCreate', where: WhereUser, createUserFields?: Partial<CreateUserFields>, refreshCode?: boolean }
   | { _action: 'update', fields: Partial<User> & { password?: string }, where: WhereUser, code?: string }
   | { _action: 'updateCurrentUser', fields: Partial<User> & { password?: string } }
   | { _action: 'retrieve', select?: (keyof User)[] | ['*'], where: WhereUser }
   | { _action: 'verifyEmail', email: string, code: string, password?: string }
   | { _action: 'requestCode', where: WhereUser, context?: string }
   | { _action: 'getUserWithToken', token: string, code?: string }
-  | { _action: 'login', where: WhereUser, password?: string, createOnEmpty?: boolean }
-  | { _action: 'loginGoogle', credential?: string, code?: string }
+  | { _action: 'login', where: WhereUser, password?: string, createUserFields?: Partial<User>, createOnEmpty?: boolean }
+  | { _action: 'loginGoogle', credential?: string, code?: string, createUserFields?: Partial<User>, createOnEmpty?: boolean }
   | { _action: 'loginWithCode', where: WhereUser, code: string }
   | { _action: 'event', eventName: 'resetPassword', where: WhereUser }
   | { _action: 'manageOnboard', settings: OnboardSettings, orgId?: string, userId?: string }
@@ -170,7 +170,8 @@ export class QueryManageUser extends UserBaseQuery {
 
     const { email } = where as { email?: string }
     if (!user && email) {
-      const fields: CreateUserFields = { ...params.fields, email }
+      const { createUserFields } = params
+      const fields: CreateUserFields = { ...createUserFields, email }
       user = await this.createUser({ _action: 'create', fields }, { ..._meta, server: true })
       isNew = true
     }
@@ -305,7 +306,7 @@ export class QueryManageUser extends UserBaseQuery {
 
   private async createDefaultOrganization(fields: CreateUserFields, meta: EndpointMeta): Promise<Organization> {
     const { fictionUser } = this.settings
-    const { userId, email, orgId } = fields
+    const { userId, email, orgId, needsOnboarding } = fields
 
     if (!userId)
       throw abort('userId required to make default org')
@@ -313,7 +314,7 @@ export class QueryManageUser extends UserBaseQuery {
     const orgName = fields.orgName || fields.fullName || defaultOrgName(email)
 
     const response = await fictionUser.queries.ManageOrganization.serve(
-      { _action: 'create', userId, fields: { orgName, orgEmail: email, orgId, needsOnboarding: true } },
+      { _action: 'create', userId, fields: { orgName, orgEmail: email, orgId, needsOnboarding } },
       { server: true, ...meta },
     )
 
@@ -381,7 +382,7 @@ export class QueryManageUser extends UserBaseQuery {
   }
 
   private async loginUser(params: ManageUserParams & { _action: 'login' }, meta: EndpointMeta): Promise<{ user?: User, isNew: boolean }> {
-    const { where, password, createOnEmpty = false } = params
+    const { where, password, createOnEmpty = false, createUserFields = {} } = params
 
     if (!password)
       throw abort('password required')
@@ -391,7 +392,7 @@ export class QueryManageUser extends UserBaseQuery {
     const email = 'email' in where ? where.email : ''
 
     if (!user && createOnEmpty && email) {
-      const u = await this.createUser({ _action: 'create', fields: { email, password } }, meta)
+      const u = await this.createUser({ _action: 'create', fields: { ...createUserFields, email, password } }, meta)
       return { user: u, isNew: true }
     }
     else if (!user) {
@@ -403,10 +404,13 @@ export class QueryManageUser extends UserBaseQuery {
 
     const isMatch = await comparePassword(password, user.hashedPassword)
 
-    if (!isMatch)
-      throw abort('password incorrect', meta)
+    if (!isMatch) {
+      const msg = createOnEmpty ? 'Account exists, but password is incorrect' : 'Password is incorrect'
+      throw abort(msg, meta)
+    }
 
-    return { user, isNew: false }
+    const finalUser = await this.getUser({ _action: 'retrieve', where }, meta)
+    return { user: finalUser, isNew: false }
   }
 
   private async loginWithCode(params: ManageUserParams & { _action: 'loginWithCode' }, meta: EndpointMeta): Promise<User | undefined> {
@@ -421,7 +425,7 @@ export class QueryManageUser extends UserBaseQuery {
     // 1. Get user by email
     const user = await this.getUser({ _action: 'retrieve', where }, meta)
     if (!user) {
-      throw abort('user not found', { data: where, ...meta })
+      throw abort('user not found', { code: 'RESOURCE_NOT_FOUND', data: where, ...meta })
     }
 
     // 2. Verify code with same security checks as email verification
@@ -458,7 +462,7 @@ export class QueryManageUser extends UserBaseQuery {
   }
 
   private async loginGoogle(params: ManageUserParams & { _action: 'loginGoogle' }, meta: EndpointMeta): Promise<{ user?: User, isNew: boolean }> {
-    const { credential, code } = params
+    const { credential, code, createUserFields = {}, createOnEmpty } = params
 
     const googleClient = await this.getGoogleClient()
 
@@ -486,14 +490,19 @@ export class QueryManageUser extends UserBaseQuery {
 
     let user = await this.getUser({ _action: 'retrieve', where: { email } }, meta)
     let isNew = false
-    if (!user) {
+
+    if (!user && createOnEmpty) {
       isNew = true
 
-      const fields: CreateUserFields = { fullName, email, emailVerified, googleId, avatar: { url: picture } }
+      const f: CreateUserFields = { fullName, googleId, avatar: { url: picture }, ...createUserFields, email, emailVerified }
 
-      user = await this.createUser({ _action: 'create', fields }, meta)
+      user = await this.createUser({ _action: 'create', fields: f }, meta)
     }
-    else if (user && !user.googleId && emailVerified) {
+    else if (!user) {
+      throw abort('user not found', { code: 'RESOURCE_NOT_FOUND', data: { email }, ...meta })
+    }
+
+    if (user && !user.googleId && emailVerified) {
       await this.db().table(t.user).update({ googleId }).where({ userId: user.userId })
     }
 

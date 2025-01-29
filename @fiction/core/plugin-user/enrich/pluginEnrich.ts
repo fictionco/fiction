@@ -1,9 +1,10 @@
+import type { FictionPluginSettings } from '@fiction/core/plugin'
 import type { FictionDb } from '@fiction/core/plugin-db'
 import type { FictionEmail } from '@fiction/core/plugin-email'
 import type { FictionRouter } from '@fiction/core/plugin-router'
 import type { FictionServer } from '@fiction/core/plugin-server'
 import type { FictionUser } from '..'
-import { FictionPlugin, type FictionPluginSettings } from '@fiction/core/plugin'
+import { FictionPlugin } from '@fiction/core/plugin'
 import { EnrichUser } from './endpoint'
 
 export type UserPluginSettings = {

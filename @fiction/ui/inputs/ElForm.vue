@@ -87,7 +87,7 @@ vue.watch(() => props.data, () => vue.nextTick(setValid), { deep: true })
       <ElSpinner class="h-6 w-6" />
     </div>
     <template v-else>
-      <div v-if="notify" class="font-sans my-4 rounded-lg  text-xs text-center text-orange-700 dark:text-orange-400">
+      <div v-if="notify" class="font-sans my-4 rounded-lg  text-xs text-center text-rose-700 dark:text-rose-400">
         {{ notify }}
       </div>
       <slot />

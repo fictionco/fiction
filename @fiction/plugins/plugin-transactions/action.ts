@@ -51,7 +51,7 @@ export type SendArgsSurface = Partial<{
 export type SendArgsRequest = {
   to: string
   userId?: string
-  fields?: Partial<User>
+  createUserFields?: Partial<User>
   origin?: string
   redirect?: string
   baseRoute?: string
@@ -159,7 +159,7 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface> exte
 
   async requestSend(args: SendArgsRequest & { queryVars: T['queryVars'] }): Promise<Surface<T>['sendResponse']> {
     const origin = typeof window !== 'undefined' ? window.location.origin : ''
-    const { to } = args || {}
+    const { to, createUserFields } = args || {}
 
     if (!to)
       throw abort('no email recipient provided')
@@ -170,6 +170,7 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface> exte
       actionId: this.settings.actionId,
       origin,
       to,
+      createUserFields,
     })
 
     return r as T['sendResponse']
