@@ -41,7 +41,7 @@ function loop() {
     resolution,
     c1,
     c2,
-    props.speed || 1000,
+    props.speed || 5000,
     clock.value,
     simplex,
   )

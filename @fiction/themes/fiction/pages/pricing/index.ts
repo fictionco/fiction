@@ -11,7 +11,7 @@ import { getCheckoutUrl } from '@fiction/plugin-stripe/utils.js'
 async function purchaseUrl(args: { priceId: string, fictionStripe?: FictionStripe }) {
   const { fictionStripe } = args
 
-  const loginPath = '/auth/login'
+  const loginPath = '/auth'
 
   if (!fictionStripe) {
     return loginPath

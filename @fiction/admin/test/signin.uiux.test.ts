@@ -17,25 +17,35 @@ describe('signin UX', { retry: 3 }, async () => {
 
   const action = kit.testUtils?.fictionAdmin.emailActions.magicLoginEmailAction
 
-  let vars: EmailVars | undefined
+  if (!user.email)
+    throw new Error('missing email')
+
+  const browserRequest = await action.requestSend({
+    to: user.email,
+    createUserFields: {},
+    queryVars: {},
+  })
+
+  const recipient = browserRequest?.data?.recipient
+
+  expect(recipient?.userId).toBe(user.userId)
+
+  const r = await action.serveSend({ recipient: user, queryVars: {} }, { server: true })
+  const v = JSON.parse(emailActionSnapshot(JSON.stringify(r.emailVars), r.emailVars))
+
+  const vars = r.emailVars
+
   it('sends email', async () => {
-    if (!user.email)
-      throw new Error('missing email')
-
-    const browserRequest = await action.requestSend({ to: user.email, createUserFields: {}, queryVars: {} })
-
-    const recipient = browserRequest?.data?.recipient
-
-    expect(recipient?.userId).toBe(user.userId)
-
-    const r = await action.serveSend({ recipient: user, queryVars: {} }, { server: true })
-    const v = JSON.parse(emailActionSnapshot(JSON.stringify(r.emailVars), r.emailVars))
-
-    vars = r.emailVars
     expect(user.verify?.code).toBe(r.emailVars.code)
     expect(v).toMatchInlineSnapshot(`
       {
         "actionId": "magicLogin",
+        "app": {
+          "domain": "fiction.com",
+          "email": "admin@fiction.com",
+          "name": "Test Fiction App",
+          "url": "https://testing.fiction.com",
+        },
         "appName": "Test Fiction App",
         "callbackUrl": "http://localhost:[port]/__transaction/magic-login?token=[token]&code=[code]&email=[email]&userId=[userId]",
         "code": "[code]",
@@ -52,25 +62,41 @@ describe('signin UX', { retry: 3 }, async () => {
         "token": "[token]",
         "unsubscribeUrl": "http://localhost:[port]/__transaction/unsubscribe",
         "userId": "[userId]",
-        "username": "",
+        "username": null,
       }
     `)
 
     const replaced = r.data?.html || ''
     expect(emailActionSnapshot(replaced, r.emailVars)).toMatchInlineSnapshot(`
-      "<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html id="__vue-email" lang="en" dir="ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Test Fiction App: Your Sign-In Link 🪄</title><meta name="description" content="Your magic link is ready Click the link below to log in"><style data-id="__vue-email-style"> tbody{font-size: 1rem; line-height: 1.65;} h1, h2{ line-height: 1.2; } h3, h4, h5{ line-height: 1.4; } h5, h6{font-weight: bold;} ol, ul, dd, dt{ font-size: 1rem; line-height: 1.65;} dt{font-weight: bold; margin-top: 0.5rem;} dd{margin-inline-start: 1.5rem;} ul, ol{padding-inline-start: 1.5rem;} img, figure{max-width: 100%; height: auto; } img[data-emoji]{display: inline;} figure img{border-radius: .5rem; display: block;} figcaption{font-size: 0.8rem; text-align: center; color: #666; margin-top: 0.5rem;} @media (prefers-color-scheme: dark) { } a{ transition: opacity 0.2s;} a:hover{opacity: 0.8;} </style></meta></meta></meta></meta><style>@media(prefers-color-scheme:dark){.dark\\:border-gray-700{border-color:undefined!important}@media(prefers-color-scheme:dark){.dark\\:border-gray-700{border-color:rgb(30,32,38)!important}}.dark\\:bg-blue-600{background-color:undefined!important}@media(prefers-color-scheme:dark){.dark\\:bg-blue-600{background-color:rgb(37,99,235)!important}}@media(prefers-color-scheme:dark){.dark\\:bg-blue-600{background-color:rgb(37,99,235)!important}}.dark\\:bg-gray-900{background-color:undefined!important}@media(prefers-color-scheme:dark){.dark\\:bg-gray-900{background-color:rgb(14,15,17)!important}}@media(prefers-color-scheme:dark){.dark\\:bg-gray-900{background-color:rgb(14,15,17)!important}}.dark\\:text-gray-300{color:undefined!important}@media(prefers-color-scheme:dark){.dark\\:text-gray-300{color:rgb(179,185,197)!important}}@media(prefers-color-scheme:dark){.dark\\:text-gray-300{color:rgb(179,185,197)!important}}@media(prefers-color-scheme:dark){.dark\\:text-gray-300{color:rgb(179,185,197)!important}}@media(prefers-color-scheme:dark){.dark\\:text-gray-300{color:rgb(179,185,197)!important}}.dark\\:text-gray-500{color:undefined!important}@media(prefers-color-scheme:dark){.dark\\:text-gray-500{color:rgb(100,110,130)!important}}@media(prefers-color-scheme:dark){.dark\\:text-gray-500{color:rgb(100,110,130)!important}}@media(prefers-color-scheme:dark){.dark\\:text-gray-500{color:rgb(100,110,130)!important}}@media(prefers-color-scheme:dark){.dark\\:text-gray-500{color:rgb(100,110,130)!important}}.dark\\:text-gray-600{color:undefined!important}@media(prefers-color-scheme:dark){.dark\\:text-gray-600{color:rgb(57,65,81)!important}}@media(prefers-color-scheme:dark){.dark\\:text-gray-600{color:rgb(57,65,81)!important}}@media(prefers-color-scheme:dark){.dark\\:text-gray-600{color:rgb(57,65,81)!important}}@media(prefers-color-scheme:dark){.dark\\:text-gray-600{color:rgb(57,65,81)!important}}.dark\\:text-white{color:undefined!important}@media(prefers-color-scheme:dark){.dark\\:text-white{color:rgb(255,255,255)!important}}@media(prefers-color-scheme:dark){.dark\\:text-white{color:rgb(255,255,255)!important}}@media(prefers-color-scheme:dark){.dark\\:text-white{color:rgb(255,255,255)!important}}@media(prefers-color-scheme:dark){.dark\\:text-white{color:rgb(255,255,255)!important}}}</style></head><div id="__vue-email-preview" style="display: none; overflow: hidden; line-height: 1px; opacity: 0; max-height: 0; max-width: 0">Your magic link is ready Click the link below to log in<div> ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿</div></div><body data-id="__vue-email-body" style="font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;; background-color: rgb(255,255,255); color: rgb(14,15,17);" class="dark:bg-gray-900 dark:text-white"><table align="center" width="100%" data-id="__vue-email-container" role="presentation" cellspacing="0" cellpadding="0" border="0" style="max-width:37.5em; padding-top: 2rem;
+      "<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><tailwind-clean-component caller="transactional-Test Fiction App: Your Sign-In Link 🪄"><html lang="en" dir="ltr" class="" style=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><meta name="x-apple-disable-message-reformatting"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><title>Test Fiction App: Your Sign-In Link 🪄</title><meta name="description" content="Your Sign-In Link is Ready -- Click the link below to log in"/><style data-id="__vue-email-style">
+                tbody { font-size: 1rem; line-height: 1.65; }
+                h1, h2 { line-height: 1.2; }
+                h3, h4, h5 { line-height: 1.4; }
+                h5, h6 { font-weight: bold; }
+                ol, ul, dd, dt { font-size: 1rem; line-height: 1.65; }
+                dt { font-weight: bold; margin-top: 0.5rem; }
+                dd { margin-inline-start: 1.5rem; }
+                ul, ol { padding-inline-start: 1.5rem; }
+                img, figure { max-width: 100%; height: auto; }
+                img[data-emoji] { display: inline; }
+                figure img { border-radius: .5rem; display: block; }
+                figcaption { font-size: 0.8rem; text-align: center; color: #666; margin-top: 0.5rem;  }
+                figcaption a { color: inherit; }
+                a { transition: opacity 0.2s; }
+                a:hover { opacity: 0.8; }
+              </style></head><div style="display:none;overflow:hidden;line-height:1px;opacity:0;max-height:0;max-width:0;">Your Sign-In Link is Ready -- Click the link below to log in<div> ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿</div></div><body style="font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;;"><div class="py-8 px-4" style="max-width:600px;margin:0px auto;color:#0e0f11; padding-top: 2rem;
           padding-bottom: 2rem; padding-left: 1rem;
-          padding-right: 1rem; max-width: 600px;" class="py-8 px-4 max-w-[600px]"><tbody><tr style="width: 100%"><td><table align="center" width="100%" data-id="__vue-email-section" border="0" cellpadding="0" cellspacing="0" role="presentation" class="mb-6" style="margin-bottom: 1.5rem;"><tbody><tr><td><td data-id="__vue-email-column" role="presentation" class="w-[22px]" style="width: 22px;"><a data-id="__vue-email-link" style="color: #067df7; text-decoration: none" href="https://www.fiction.com" target="_blank"><img data-id="__vue-email-img" style="display:block;outline:none;border:none;text-decoration:none; border-radius: 0.375rem; border-width: 2px !important; border-color: rgb(255,255,255,0.1) !important; border-style: solid !important;" src="https://media.fiction.com/fiction-relative-media/med66f2033d4a0726d689e49015-fiction-icon.png?blurhash=U9EMLDD%2500%3Fb9FWBay%25M00Rj%7Eqxu_3%25Mt74n" class="rounded-md !border-2 !border-white/10 !border-solid" width="22"/></a></td><td data-id="__vue-email-column" role="presentation" class="pl-3" style="padding-left: 0.75rem;"><a data-id="__vue-email-link" style="color:#067df7;text-decoration:none; color: rgb(100,110,130); font-weight: 400; font-size: 14px;" href="https://www.fiction.com" target="_blank" class="dark:text-gray-300">Fiction</a></td></td></tr></tbody></table><table align="center" width="100%" data-id="__vue-email-section" border="0" cellpadding="0" cellspacing="0" role="presentation" style="font:&#39;Geist&#39;, -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;;"><tbody><tr><td><p data-id="__vue-email-text" style="font-size:14px;line-height:24px;margin:16px 0;font-weight:bold;font-size:24px;line-height:1.33; margin-top: 0px;
-          margin-bottom: 0px;" class="my-0">Your magic link is ready</p><p data-id="__vue-email-text" style="font-size:14px;line-height:24px;margin:16px 0;font-weight:normal;font-size:24px;line-height:1.33; margin-top: 0px;
-          margin-bottom: 0px; color: rgb(100,110,130);" class="my-0 text-gray-500"><span>Click the link below to log in</span> ↘ </p></td></tr></tbody></table><hr data-id="__vue-email-hr" style="width:100%;border:none;border-top:1px solid #eaeaea; margin-top: 2rem;
-          margin-bottom: 2rem; border-color: rgb(222,223,226);" class="dark:border-gray-700"><div data-id="__vue-email-markdown" class="body-content"><p data-id="vue-email-text" style="font-size:1.1rem;line-height:1.65;font-weight:normal">The link below will sign you in to Test Fiction App.</p>
-
-      <p data-id="vue-email-text" style="font-size:1.1rem;line-height:1.65;font-weight:normal">If you didn't request this email, there's nothing to worry about, you can safely ignore it.</p></div><table align="center" width="100%" data-id="__vue-email-section" border="0" cellpadding="0" cellspacing="0" role="presentation" class="mt-12 mb-8 text-left" style="margin-top: 3rem; margin-bottom: 2rem; text-align: left;"><tbody><tr><td><table align="center" width="100%" data-id="__vue-email-section" border="0" cellpadding="0" cellspacing="0" role="presentation" class="inline-block" style="display: inline-block;"><tbody><tr><td><td data-id="__vue-email-column" role="presentation" class=""><a data-id="__vue-email-button" style="line-height:100%;text-decoration:none;display:inline-block;max-width:100%;white-space:nowrap; background-color: rgb(37,99,235); color: rgb(255,255,255); padding-top: 0.75rem;
+          padding-right: 1rem;"><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="margin-bottom:16px;"><tbody><tr><td/><td role="presentation" class="w-[22px]" style="width: 22px;"><a href="https://www.fiction.com"><img style="display:block;outline:none;border:none;text-decoration:none; border-radius: 0.375rem; border-width: 2px !important; border-color: rgb(255,255,255,0.1) !important; border-style: solid !important;" src="https://media.fiction.com/fiction-relative-media/med677ab309bb65e02c6c539f03-fiction-icon.png?blurhash=U9EMLDD%2500%3Fb9FWBay%25M00Rj%7Eqxu_3%25Mt74n" width="22" class="rounded-md !border-2 !border-white/10 !border-solid"/></a></td><td role="presentation" class="pl-3" style="padding-left: 0.75rem;"><a href="https://www.fiction.com" class="text-inherit font-normal text-[14px] no-underline" style="color: inherit; font-weight: 400; font-size: 14px; text-decoration-line: none;">Fiction</a></td></tr></tbody></table><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation"><tbody><tr><td><h1 style="margin:0 0 0 0;font-weight:bold;font-size:24px;line-height:1.33;" data-test-id="email-title" data-title="Your Sign-In Link is Ready">Your Sign-In Link is Ready</h1><h3 style="margin:0 0 0 0;font-weight:normal;font-size:24px;line-height:1.33; margin-top: 0px;
+          margin-bottom: 0px; opacity: 0.6;" data-test-id="email-sub-title" class="my-0 opacity-60"><span>Click the link below to log in</span> <span class="opacity-30" style="opacity: 0.3;">↘</span></h3></td></tr></tbody></table><hr style="width:100%;border:none;border-top:1px solid #eaeaea;border-top:1px solid #DEDFE2;opacity:.5;margin:2rem 0;"/><div data-test-id="email-content" class="body-content"><p style="font-size:1.1rem;line-height:1.65;font-weight:normal"><a href="http://localhost:[port]/__transaction/magic-login?token=[token]&code=[code]&email=[email]&userId=[userId]" target="_blank" style="color:">This link</a> will sign you in to Test Fiction App.</p>
+      <p style="font-size:1.1rem;line-height:1.65;font-weight:normal">Alternatively, you can login with this code: <strong style="font-weight:bold">[code]</strong>.</p>
+      <p style="font-size:1.1rem;line-height:1.65;font-weight:normal">If you didn't request this email, don't worry, you can safely ignore it.</p>
+      </div><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" class="mt-8 mb-8 text-left" style="margin-top: 2rem; margin-bottom: 2rem; text-align: left;"><tbody><tr><td><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="display:inline-block;"><tbody><tr><td></td><td role="presentation" class=""><a style="line-height:100%;text-decoration:none;display:inline-block;max-width:100%;padding:0px 0px 0px 0px;white-space:nowrap; background-color: rgb(44,103,255); color: rgb(255,255,255); padding-top: 0.75rem;
           padding-bottom: 0.75rem; padding-left: 1rem;
-          padding-right: 1rem; border-radius: 0.375rem; font-size: 16px; border-radius: 9999px; font-weight: 700; user-select: none;" href="http://localhost:[port]/__transaction/magic-login?token=[token]&amp;code=[code]&amp;email=[email]&amp;userId=[userId]" target="_blank" class="dark:bg-blue-600 hover:opacity-80">Log In</a></td></td></tr></tbody></table></td></tr></tbody></table><hr data-id="__vue-email-hr" style="width:100%;border:none;border-top:1px solid #eaeaea; margin-top: 3rem;
-          margin-bottom: 3rem; border-color: rgb(100,110,130); opacity: 0.3;" class="my-12 border-gray-500 opacity-30"><table align="center" width="100%" data-id="__vue-email-section" border="0" cellpadding="0" cellspacing="0" role="presentation" class="dark:text-gray-500 text-normal" style="margin-top: 2rem; text-align: left; color: rgb(179,185,197); font-size: 0.75rem;
-          line-height: 1rem;"><tbody><tr><td><td data-id="__vue-email-column" role="presentation" class="w-[65%] align-top" style="width: 65%; vertical-align: top;"><img data-id="__vue-email-img" style="display:block;outline:none;border:none;text-decoration:none;" src="https://media.fiction.com/fiction-relative-media/med66f2033efae31d14b773375d-fiction-email-footer.png?blurhash=U2DS%5D%5D%7Eq00_N00_4%25M4n00_N%3FcIU%7Eq9F%25M-%3B" width="80" alt="Personal Marketing Platform"><p data-id="__vue-email-text" style="font-size: 14px; line-height: 24px; margin: 16px 0;"><a data-id="__vue-email-link" style="color:#067df7;text-decoration:none; color: rgb(179,185,197); margin-top: 1rem;" href="https://www.fiction.com" target="_blank" class="text-normal dark:text-gray-600">Personal Marketing Platform ↗ </a></p></img></td><td data-id="__vue-email-column" role="presentation" class="w-[35%] text-right align-top text-xs" style="width: 35%; text-align: right; vertical-align: top; font-size: 0.75rem;
-          line-height: 1rem;"><!--v-if--><!--v-if--></td></td></tr></tbody></table></hr></hr></td></tr></tbody></table></body></html>"
+          padding-right: 1rem; border-radius: 0.375rem; font-size: 16px; border-radius: 9999px; font-weight: 500; user-select: none; transition-property: all;
+          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+          transition-duration: 150ms;" href="http://localhost:[port]/__transaction/magic-login?token=[token]&code=[code]&email=[email]&userId=[userId]" data-type="primary" class="hover:opacity-80">Sign in to Test Fiction App</a></td></tr></tbody></table></td></tr></tbody></table><hr style="width:100%;border:none;border-top:1px solid #eaeaea;border-top:1px solid #DEDFE2;opacity:.5;margin:2rem 0;"/><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" class="subtle-text text-normal" style="margin-top: 2rem; text-align: left; font-size: 0.75rem;
+          line-height: 1rem;"><tbody><tr><td/><td role="presentation" class="w-[65%] align-top" style="width: 65%; vertical-align: top;"><img style="display: block; outline: none; border: none; text-decoration: none" src="https://media.fiction.com/fiction-relative-media/med677ab3098ff4ae1bc17aa156-fiction-email-footer.png?blurhash=U2DS%5D%5D%7Eq00_N00_4%25M4n00_N%3FcIU%7Eq9F%25M-%3B" width="80" alt="Powered by Fiction.com"/><p style="font-size:14px;line-height:24px;margin:16px 0;"><a class="text-normal hover:opacity-80" href="https://www.fiction.com" style="margin-top: 1rem; text-decoration-line: none; color: inherit; opacity: 0.4;">Powered by Fiction.com ↗ </a></p></td><td role="presentation" class="w-[35%] text-right align-top text-xs" style="width: 35%; text-align: right; vertical-align: top; font-size: 0.75rem;
+          line-height: 1rem;"><!--v-if--><!--v-if--></td></tr></tbody></table></div></body></html></tailwind-clean-component>"
     `)
   })
 
@@ -90,60 +116,29 @@ describe('signin UX', { retry: 3 }, async () => {
       caller: 'signin2',
       path: '/auth/register',
       actions: [
-        { type: 'click', selector: '[data-test-id="to-login"]' },
+        { type: 'click', selector: '[data-test-id="to-welcome"]' },
         { type: 'visible', selector: '[data-test-id="to-register"]', wait: 1000 },
-        //   { type: 'exists', selector: '[id="google-signin-button"]' },
-        { type: 'visible', selector: '[data-test-id="email-login-button"]' },
+        { type: 'exists', selector: '[data-test-id="google-login-button"]' },
+        { type: 'visible', selector: '[data-test-id="submit-button-login"]' },
         { type: 'click', selector: '[data-test-id="to-register"]', wait: 1000 },
-        { type: 'visible', selector: '[data-test-id="to-login"]' },
-        { type: 'fill', selector: '[data-test-id="input-email"] input', text: fields.email },
-        { type: 'fill', selector: '[data-test-id="input-password"] input', text: fields.password },
-        { type: 'fill', selector: '[data-test-id="input-name"] input', text: fields.name },
+        { type: 'visible', selector: '[data-test-id="to-welcome"]', waitAfter: 500 },
+        { type: 'fill', selector: '[data-test-id="input-email"] input[type="email"]', text: fields.email },
+        { type: 'fill', selector: '[data-test-id="input-new-password"] input', text: fields.password },
         { type: 'value', selector: '[data-test-id="form"]', onValue: (v) => {
           expect(v?.email).toBe(fields.email)
           expect(v?.password).toBe(fields.password)
-          expect(v?.fullName).toBe(fields.name)
         } },
-
-      ],
-    })
-  })
-
-  it('allows user to register with google account or email', async () => {
-    await kit.performActions({
-      caller: 'signin3',
-      path: '/auth/login',
-      actions: [
-        { type: 'visible', selector: '[data-test-id="email-login-button"]' },
-        { type: 'visible', selector: '[data-test-id="to-register"]' },
-        // { type: 'exists', selector: '[id="google-signin-button"]' },
-      ],
-    })
-  })
-
-  it('defaults to login page', async () => {
-    await kit.performActions({
-      caller: 'signin4',
-      path: '/auth/does-not-exist',
-      actions: [
-        { type: 'visible', selector: '[data-test-id="email-login-button"]' },
-        { type: 'visible', selector: '[data-test-id="to-register"]' },
-        // { type: 'exists', selector: '[id="google-signin-button"]' },
-      ],
-    })
-  })
-
-  it('allows toggle between sign up and login', async () => {
-    await kit.performActions({
-      caller: 'signin5',
-      path: '/auth/register',
-      actions: [
-        { type: 'click', selector: '[data-test-id="to-login"]' },
-        { type: 'visible', selector: '[data-test-id="to-register"]', wait: 1000 },
-        //   { type: 'exists', selector: '[id="google-signin-button"]' },
-        { type: 'visible', selector: '[data-test-id="email-login-button"]' },
-        { type: 'click', selector: '[data-test-id="to-register"]', wait: 1000 },
-        { type: 'visible', selector: '[data-test-id="to-login"]' },
+        { type: 'click', selector: '[data-test-id="submit-button-register"]', wait: 1000 },
+        { type: 'visible', selector: '[data-pathname="/auth/confirm"]' },
+        { type: 'click', selector: '[data-test-id="to-one-time-code"]', wait: 1000 },
+        {
+          wait: 1000,
+          type: 'keyboard',
+          selector: '[data-test-id="input-one-time-code"] [data-test-id="digit-1"]',
+          key: ['1', '2', '3', '4', '5', '6'],
+          waitAfter: 30000,
+        },
+        { type: 'visible', selector: '[data-pathname="/onboard"]' },
       ],
     })
   })

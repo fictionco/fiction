@@ -105,7 +105,7 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
     const user = await service.fictionUser.userInitialized({ caller: 'DashWrap' })
 
     if (!user) {
-      await card.goto('/auth/login', { isRedirect: true, caller: 'Admin Client Mount: Not Logged In' })
+      await card.goto('/auth', { isRedirect: true, caller: 'Admin Client Mount: Not Logged In' })
     }
 
     if (service.fictionUser.activeOrganization.value?.needsOnboarding) {

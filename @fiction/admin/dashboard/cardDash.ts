@@ -40,7 +40,7 @@ export const template = cardTemplate({
   isPageCard: true,
   getBaseConfig: () => ({
     homeIcon: { format: 'component' as const, el: FictionLogo },
-    authRedirect: '/auth/login',
+    authRedirect: '/auth',
     standard: { spaceSize: 'none' },
   }),
   getConfig: async () => ({ schema }),

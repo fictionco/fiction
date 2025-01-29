@@ -228,7 +228,7 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                   {
                     label: 'Start Now',
                     icon: 'i-tabler-rocket',
-                    href: '/auth/login?_reload=1',
+                    href: '/auth?_reload=1',
                     theme: 'primary',
                   },
                 ],

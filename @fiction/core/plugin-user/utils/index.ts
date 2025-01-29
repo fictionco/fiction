@@ -91,11 +91,11 @@ export async function verifyCode(args: {
   const verify = row?.verify
 
   // allow short circuit in development
-  if (!isProd && verificationCode === 'test')
+  if (!isProd && ['123456', '111111', '000000', '424242'].includes(verificationCode))
     return true
 
   if (!verify || verify.code !== verificationCode)
-    throw abort(`verification code is not a match (${isProd ? 'prod' : 'dev'})`, { data: !isProd ? { verify, verificationCode } : {} })
+    throw abort(`verification code is not a match (${isProd ? 'prod' : 'dev'})`, { data: !isProd ? { verify, verificationCode, isProd } : {} })
 
   else if (!verify.expiresAt || dayjs().isAfter(verify.expiresAt))
     throw abort(`verification code is expired`)

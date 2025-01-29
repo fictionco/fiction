@@ -82,6 +82,10 @@ vue.watch(() => props.modelValue, (newVal) => {
 function updateModelValue() {
   const value = inputValues.value.filter(Boolean).join('')
   emit('update:modelValue', value)
+
+  if (value.length === length) {
+    emit('complete', value)
+  }
 }
 
 // Watch internal values and emit changes
@@ -193,6 +197,7 @@ function setRef(el: HTMLInputElement | null, index: number) {
       v-model="inputValues[index]"
       type="text"
       inputmode="numeric"
+      :data-test-id="`digit-${index + 1}`"
       autocomplete="one-time-code"
       :class="digitClasses"
       :maxlength="1"

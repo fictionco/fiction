@@ -277,7 +277,7 @@ type TestPageAction = {
   isNot?: boolean
   attribute?: string
   expectedValue?: string
-  key?: string
+  key?: string | string[]
   wait?: number
   waitAfter?: number
   onValue?: (value?: Record<string, string>) => void
@@ -374,7 +374,16 @@ export async function performActions(args: {
           break
         }
         case 'keyboard': {
-          await page.keyboard.press(action.key || '')
+          if (Array.isArray(action.key)) {
+            for (const key of action.key) {
+              await page.keyboard.press(key)
+              await waitFor(100)
+            }
+          }
+          else {
+            await page.keyboard.press(action.key || '')
+          }
+
           break
         }
         case 'visible': {

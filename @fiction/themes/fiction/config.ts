@@ -10,13 +10,14 @@ import type { template as navTemplate } from '@fiction/cards/page-nav/index.js'
 import type { template as wrapTemplate } from '@fiction/cards/page-wrap/index.js'
 import type { template as logosTemplate } from '@fiction/cards/proof-logos/index'
 
+import type { NavItem } from '@fiction/core'
 import type { Site } from '@fiction/site'
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { SiteUserConfig } from '@fiction/site/schema.js'
 import type { StockMedia } from '@fiction/ui/stock/index.js'
-import { getCardDemoListing, getDemoPages } from '@fiction/cards'
 
-import { dayjs, type NavItem } from '@fiction/core'
+import { getCardDemoListing, getDemoPages } from '@fiction/cards'
+import { dayjs } from '@fiction/core'
 import favicon from '@fiction/ui/brand/favicon.svg'
 
 import icon from '@fiction/ui/brand/icon.png'
@@ -54,7 +55,7 @@ export async function getAboutPage(args: { site: Site, factory: CardFactory }) {
       action: { buttons: [
         {
           label: 'Join The Community',
-          href: '/auth/login',
+          href: '/auth',
           theme: 'primary',
           icon: 'i-tabler-users',
         },
@@ -451,7 +452,7 @@ export async function getConfig(args: {
                     variant: 'avatar',
                     list: {
                       items: [
-                        { label: 'Sign In', href: '/app/auth/login?_reload=1', onAuthState: 'loggedOut' },
+                        { label: 'Sign In', href: '/app/auth?_reload=1', onAuthState: 'loggedOut' },
                         { label: 'Dashboard', href: '/app?_reload=1', onAuthState: 'loggedIn' },
                         { label: 'Logout', href: '/?_logout=1', onAuthState: 'loggedIn' },
                       ],

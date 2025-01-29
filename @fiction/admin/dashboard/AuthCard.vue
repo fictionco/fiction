@@ -234,6 +234,7 @@ vue.watch(() => itemId.value, () => {
                 ui-size="lg"
                 :model-value="fields.oneTimeCode"
                 @update:model-value="fields.oneTimeCode = $event"
+                @complete="loginWithCode"
               />
               <XButton
                 data-test-id="code-login-button"
@@ -324,7 +325,7 @@ vue.watch(() => itemId.value, () => {
             <XButton
               v-if="itemId === 'welcome'"
               :key="`passwordLogin-${itemId}`"
-              data-test-id="password-login-button"
+              data-test-id="submit-button-login"
               type="submit"
               format="block"
               theme="primary"
@@ -338,7 +339,7 @@ vue.watch(() => itemId.value, () => {
             <XButton
               v-if="itemId === 'register'"
               :key="`passwordRegister-${itemId}`"
-              data-test-id="password-register-button"
+              data-test-id="submit-button-register"
               type="submit"
               format="block"
               theme="primary"
@@ -352,7 +353,7 @@ vue.watch(() => itemId.value, () => {
             <XButton
               v-if="itemId === 'magic'"
               :key="`magicLink-${itemId}`"
-              data-test-id="password-register-button"
+              data-test-id="submit-button-magic"
               type="submit"
               format="block"
               theme="primary"
