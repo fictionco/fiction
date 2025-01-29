@@ -33,7 +33,7 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                 buttons: [
                   {
                     label: 'I Am Ready',
-                    href: '/app/login?_reload=1',
+                    href: '/app/auth?_reload=1',
                     theme: 'primary',
                     design: 'solid',
                     iconAfter: 'i-tabler-arrow-big-right-lines',

@@ -87,7 +87,7 @@ export class CustomerState extends FictionObject<CustomerStateSettings> {
   async initialize(args: {
     caller: string
     retries?: number
-  }): Promise<CustomerData> {
+  }): Promise<CustomerData | undefined> {
     const { caller = 'unknown', retries = 2 } = args
 
     // Skip if no window (server-side)
@@ -99,9 +99,14 @@ export class CustomerState extends FictionObject<CustomerStateSettings> {
     }
 
     // Wait for user to be ready
-    await this.settings.fictionStripe.settings.fictionUser.userInitialized({
+    const user = await this.settings.fictionStripe.settings.fictionUser.userInitialized({
       caller: 'stripe.customer',
     })
+
+    if (!user) {
+      this.log.warn('Customer initialization skipped: user not ready', { data: { caller } })
+      return
+    }
 
     // Return existing promise if initialization is in progress
     if (this.initPromise) {

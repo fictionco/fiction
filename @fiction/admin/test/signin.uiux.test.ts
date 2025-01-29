@@ -1,11 +1,11 @@
 /* eslint-disable no-irregular-whitespace */
-import type { EmailVars } from '@fiction/plugin-transactions/action.js'
+import { isCi, shortId } from '@fiction/core'
 import { createUiTestingKit } from '@fiction/core/test-utils/kit'
 import { emailActionSnapshot } from '@fiction/plugin-transactions/test/utils'
 import { afterAll, describe, expect, it } from 'vitest'
 import { setup } from './email.main.js'
 
-describe('signin UX', { retry: 3 }, async () => {
+describe('signin UX', { retry: isCi() ? 3 : 0 }, async () => {
   const kit = await createUiTestingKit({ headless: false, setup, slowMo: 0 })
   const testUtils = kit.testUtils
 
@@ -111,7 +111,7 @@ describe('signin UX', { retry: 3 }, async () => {
   })
 
   it('has fields ', async () => {
-    const fields = { email: 'foo@bar.com', password: 'password123', name: 'Test User' }
+    const fields = { email: `foo-${shortId()}@bar.com`, password: 'password123', name: 'Test User' }
     await kit.performActions({
       caller: 'signin2',
       path: '/auth/register',
@@ -121,7 +121,7 @@ describe('signin UX', { retry: 3 }, async () => {
         { type: 'exists', selector: '[data-test-id="google-login-button"]' },
         { type: 'visible', selector: '[data-test-id="submit-button-login"]' },
         { type: 'click', selector: '[data-test-id="to-register"]', wait: 1000 },
-        { type: 'visible', selector: '[data-test-id="to-welcome"]', waitAfter: 500 },
+        { type: 'visible', selector: '[data-test-id="to-welcome"]', waitAfter: 1000 },
         { type: 'fill', selector: '[data-test-id="input-email"] input[type="email"]', text: fields.email },
         { type: 'fill', selector: '[data-test-id="input-new-password"] input', text: fields.password },
         { type: 'value', selector: '[data-test-id="form"]', onValue: (v) => {
@@ -136,9 +136,10 @@ describe('signin UX', { retry: 3 }, async () => {
           type: 'keyboard',
           selector: '[data-test-id="input-one-time-code"] [data-test-id="digit-1"]',
           key: ['1', '2', '3', '4', '5', '6'],
-          waitAfter: 30000,
         },
         { type: 'visible', selector: '[data-pathname="/onboard"]' },
+        { type: 'goto', location: '/?_logout=1', waitAfter: 1000 },
+        { type: 'visible', selector: '[data-pathname="/auth"]' },
       ],
     })
   })

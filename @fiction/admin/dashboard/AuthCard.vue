@@ -4,7 +4,7 @@ import type { Card } from '@fiction/site/card'
 import type { FictionAdmin } from '..'
 import TransactionView from '@fiction/cards/page-transaction/TransactionView.vue'
 import TransactionWrap from '@fiction/cards/page-transaction/TransactionWrap.vue'
-import { localRef, log, unhead, useService, vue } from '@fiction/core'
+import { log, unhead, useService, vue } from '@fiction/core'
 import { googleAuth } from '@fiction/core/plugin-user/google'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import EffectTransitionList from '@fiction/ui/effect/EffectTransitionList.vue'
@@ -71,10 +71,17 @@ async function loginWithCode() {
 
   logger.info('loginWithCode', { data: { email, oneTimeCode } })
 
+  if (oneTimeCode.length !== 6) {
+    formError.value = 'Enter a valid code'
+    sending.value = ''
+    return
+  }
+
   const r = await fictionUser.requests.ManageUser.request({ _action: 'loginWithCode', where: { email }, code: oneTimeCode })
 
   if (r.status === 'success') {
-    await props.card.goto({ path: '/', query: {} }, { caller: 'authCard-loginWithCode' })
+    logger.info('loginWithCode SUCCESS REDIRECT')
+    await props.card.goto({ path: '/', query: { } }, { caller: 'authCard-loginWithCode' })
   }
 
   sending.value = ''
@@ -130,7 +137,7 @@ async function passwordLogin() {
       await sendMagicLink()
     }
     else {
-      const query: Record<string, string> = {}
+      const query: Record<string, string> = { }
       if (r.isNew) {
         query._isNewUser = '1'
       }

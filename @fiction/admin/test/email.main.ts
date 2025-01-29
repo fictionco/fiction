@@ -1,6 +1,7 @@
+import type { ServiceConfig } from '@fiction/core'
 import type { FictionAi } from '@fiction/plugin-ai/index.js'
 import CardSite from '@fiction/cards/CardSite.vue'
-import { AppRoute, type ServiceConfig } from '@fiction/core'
+import { AppRoute } from '@fiction/core'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils.js'
 import { FictionAdmin } from '../index.js'
 import * as adminTheme from '../theme/index.js'

@@ -237,9 +237,6 @@ export function setup(): ServiceConfig {
 
             fictionApp.logReady({ serveMode: 'comboSSR' })
           }
-          else if (context === 'app') {
-            fictionUser.init()
-          }
         }
         else if (command === 'sites') {
           const { build } = options as { build?: boolean, useLocal?: boolean }
@@ -253,9 +250,6 @@ export function setup(): ServiceConfig {
             await srv?.run()
 
             fictionAppSites.logReady({ serveMode: 'comboSSR' })
-          }
-          else if (context === 'app') {
-            fictionUser.init()
           }
         }
         else if (command === 'beacon') {

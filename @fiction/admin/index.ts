@@ -107,12 +107,11 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
     if (!user) {
       await card.goto('/auth', { isRedirect: true, caller: 'Admin Client Mount: Not Logged In' })
     }
-
-    if (service.fictionUser.activeOrganization.value?.needsOnboarding) {
-      await card.goto('/onboard', { isRedirect: true, caller: 'Admin Client Mount: Needs Onboarding' })
+    else if (service.fictionUser.activeOrganization.value?.needsOnboarding) {
+      await card.goto('/onboard', { retainQueryVars: true, isRedirect: true, caller: 'Admin Client Mount: Needs Onboarding' })
     }
 
-    if (service.fictionStripe)
+    if (user && service.fictionStripe)
       await service.fictionStripe.customerInitialized({ caller: 'DashWrap' })
   }
 }

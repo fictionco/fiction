@@ -271,11 +271,12 @@ export class PlaywrightLogger {
 }
 
 type TestPageAction = {
-  type: 'visible' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'value' | 'hasText' | 'notHasText' | 'hasValue' | 'notHasValue' | 'scrollTo' | 'frameInteraction' | 'callback' | 'hasAttribute'
+  type: 'visible' | 'goto' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'value' | 'hasText' | 'notHasText' | 'hasValue' | 'notHasValue' | 'scrollTo' | 'frameInteraction' | 'callback' | 'hasAttribute'
   selector?: string
   text?: string
   isNot?: boolean
   attribute?: string
+  location?: string
   expectedValue?: string
   key?: string | string[]
   wait?: number
@@ -363,6 +364,12 @@ export async function performActions(args: {
           }
           const attributeValue = await element.getAttribute(action.attribute)
           expect(attributeValue, `${action.selector} has attribute ${action.attribute} with value ${action.expectedValue}`).toBe(action.expectedValue)
+          break
+        }
+        case 'goto': {
+          // create new url with action.location info, based on current url
+          const url = new URL(action.location || '/', page.url()).toString()
+          await page.goto(url, { waitUntil: 'networkidle', timeout: 40000 })
           break
         }
         case 'click': {

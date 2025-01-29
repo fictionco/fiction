@@ -55,7 +55,7 @@ export async function getAboutPage(args: { site: Site, factory: CardFactory }) {
       action: { buttons: [
         {
           label: 'Join The Community',
-          href: '/auth',
+          href: '/app/auth?_reload=1',
           theme: 'primary',
           icon: 'i-tabler-users',
         },

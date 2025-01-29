@@ -10,7 +10,7 @@ import { EnvVar, vars } from '../plugin-env/index.js'
 // likely fixed in TS 4.8
 import { FictionPlugin } from '../plugin.js'
 import { TypedEventTarget } from '../utils/eventTarget.js'
-import { crossVar, hasWindow, isActualBrowser, isNode, safeDirname, vue } from '../utils/index.js'
+import { crossVar, hasWindow, isActualBrowser, isNode, safeDirname, vue, waitFor } from '../utils/index.js'
 import { createUserToken, decodeUserToken, manageClientUserToken } from '../utils/jwt.js'
 import { getAccessLevel, userCan, userCapabilities } from '../utils/priv.js'
 import * as priv from '../utils/priv.js'
@@ -98,9 +98,10 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
 
     if (!fictionEnv.isApp.value)
       this.fictionUserEnrich = new FictionUserEnrich({ ...settings, fictionUser: this })
+
+    this.init()
   }
 
-  /** Typically Invoked from Main File */
   init() {
     // redirect based on auth
     // only check if is browser not during prerender
@@ -226,6 +227,8 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
         const { _logout, orgId } = routeVars
 
         if (_logout) {
+          // wait for a bit to allow for any other actions/redirects to complete
+          await waitFor(100)
           await this?.logout({ caller: 'watchRouteUserChanges-logout-param' })
           return
         }

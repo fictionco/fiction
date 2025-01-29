@@ -22,7 +22,7 @@ const resolution = 110
 function setup() {
   if (!canvas.value)
     return
-  ctx = canvas.value.getContext('2d')
+  ctx = canvas.value.getContext('2d', { willReadFrequently: true })
   if (!ctx)
     return
   canvas.value.width = resolution

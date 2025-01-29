@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { UiElementSize } from '../utils'
-import { vue } from '@fiction/core'
+import { debounce, vue } from '@fiction/core'
 import { twMerge } from 'tailwind-merge'
 import { inputClasses } from './theme'
 
@@ -79,12 +79,15 @@ vue.watch(() => props.modelValue, (newVal) => {
   }
 })
 
+// Debounce complete event to prevent multiple triggers
+const runComplete = debounce(v => emit('complete', v), 300)
+
 function updateModelValue() {
   const value = inputValues.value.filter(Boolean).join('')
   emit('update:modelValue', value)
 
   if (value.length === length) {
-    emit('complete', value)
+    runComplete(value)
   }
 }
 
