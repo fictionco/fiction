@@ -19,10 +19,7 @@ export function defaultOrgName(email: string, suffix: string = ''): string {
 
   const capitalized = toLabel(username).replace(/\W/g, '').replace(/\d+$/, '')
 
-  // Append possessive form correctly based on the last character
-  const possessiveUsername = capitalized + (capitalized.endsWith('s') ? '\'' : '\'s')
-
-  const orgName = [possessiveUsername, suffix].join(' ')
+  const orgName = [capitalized, suffix].join(' ').trim()
 
   return orgName
 }

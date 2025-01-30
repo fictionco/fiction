@@ -128,7 +128,6 @@ export const theme = new Theme({
     const pages = [...pg, ...adminPages]
     return {
       onMounted: async () => {
-        console.warn('admin mounted')
       },
       pages,
       sections: {},

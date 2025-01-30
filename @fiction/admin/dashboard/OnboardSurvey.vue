@@ -28,11 +28,16 @@ const form = vue.ref<{
 
 // Load initial data
 async function loadInitialData() {
-  const { activeUser, activeOrganization } = fictionUser
   // Wait for user data to be available
-  await fictionUser.userInitialized()
+  const user = await fictionUser.userInitialized()
 
-  const user = activeUser.value
+  if (!user) {
+    await card.goto('/auth', { isRedirect: true, caller: 'Onboard: Not Logged In' })
+    return
+  }
+
+  const { activeOrganization } = fictionUser
+
   const org = activeOrganization.value
 
   if (user) {

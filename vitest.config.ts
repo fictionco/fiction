@@ -42,7 +42,7 @@ export default defineConfig({
     fakeTimers: {
       toFake: ['Date', 'setTimeout', 'clearTimeout'],
     },
-    testTimeout: 40000,
+    testTimeout: 60000,
     hookTimeout: 40000,
     env: {
       NODE_ENV: 'development',

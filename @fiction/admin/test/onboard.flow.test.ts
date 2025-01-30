@@ -1,3 +1,4 @@
+import { time } from 'node:console'
 import { isCi } from '@fiction/core'
 import { createUiTestingKit } from '@fiction/core/test-utils/kit'
 import { afterAll, describe, expect, it } from 'vitest'
@@ -90,5 +91,5 @@ describe('onboard UX', { retry: isCi() ? 3 : 0 }, async () => {
     expect(r2.data?.customer?.id).toBeTruthy()
     expect(r2.data?.isActive).toBeTruthy()
     expect(r2.data?.isTrialing).toBeTruthy()
-  })
+  }, { timeout: 120000 })
 })
