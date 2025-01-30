@@ -77,7 +77,7 @@ export async function createAnalyticsTestUtils(args: { mainFilePath?: string, co
 
     await Promise.all(promises)
 
-    const created = await initializeTestUtils(out)
+    const created = await initializeTestUtils({ service: out })
 
     const beaconUrl = out.fictionBeacon?.beaconUrl.value
 

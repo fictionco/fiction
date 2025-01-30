@@ -234,6 +234,7 @@ vue.onBeforeUnmount(() => {
           :size="button?.size || 'lg'"
           :icon="button?.icon"
           @click="handlePayment"
+          data-test-id="payment-submit-button"
         >
           {{ button?.label || 'Start Trial' }}
         </XButton>

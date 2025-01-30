@@ -16,10 +16,10 @@ describe('subscription endpoint', async () => {
   const orgId = initialized.orgId
   const userId = initialized.user.userId
 
-  const { user: user2 } = await createTestUser(testUtils.fictionUser)
+  const { user: user2 } = await createTestUser({ ...testUtils, caller: 'subscriptionTest1' })
   const userId2 = user2?.userId
 
-  const { user: user3 } = await createTestUser(testUtils.fictionUser)
+  const { user: user3 } = await createTestUser({ ...testUtils, caller: 'subscriptionTest2' })
   const userId3 = user3?.userId
 
   if (!orgId || !userId || !userId2 || !userId3) {
@@ -27,8 +27,8 @@ describe('subscription endpoint', async () => {
   }
 
   it('bulk create subscriptions', async () => {
-    const { user: bulkUser1 } = await createTestUser(testUtils.fictionUser)
-    const { user: bulkUser2 } = await createTestUser(testUtils.fictionUser)
+    const { user: bulkUser1 } = await createTestUser({ ...testUtils, caller: 'subscriptionTest3' })
+    const { user: bulkUser2 } = await createTestUser({ ...testUtils, caller: 'subscriptionTest4' })
 
     if (!bulkUser2.email || !bulkUser1.userId)
       throw abort('missing bulkUser info')

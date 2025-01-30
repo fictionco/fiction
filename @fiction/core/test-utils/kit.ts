@@ -1,4 +1,5 @@
 import type { MainFileSetup, ServiceList } from '../plugin-env/index.js'
+import type { User } from '../plugin-user/types.js'
 import type { InitializedTestUtils, TestUtils } from './init.js'
 import { log } from '../plugin-log/index.js'
 import { createTestBrowser, performActions } from './buildTest.js'
@@ -18,8 +19,15 @@ function parseBrowserLog(input: string) {
   return input.replace(regex, '').trim().replaceAll('%c', '')
 }
 
-export async function createUiTestingKit<T extends MainFileSetup = MainFileSetup>(args: { initUser?: boolean, headless?: boolean, slowMo?: number, setup?: T, envFiles?: string[] } = {}): Promise<TestingKit<T>> {
-  const { headless = true, setup = mainFileSetup, slowMo, envFiles = [], initUser } = args
+export async function createUiTestingKit<T extends MainFileSetup = MainFileSetup>(args: {
+  initUser?: boolean
+  headless?: boolean
+  slowMo?: number
+  setup?: T
+  envFiles?: string[]
+  userFields?: Partial<User>
+} = {}): Promise<TestingKit<T>> {
+  const { headless = true, setup = mainFileSetup, slowMo, envFiles = [], initUser, userFields = {} } = args
   const serviceConfig = await setup({ context: 'node', envFiles })
 
   if (!serviceConfig.service)
@@ -43,7 +51,7 @@ export async function createUiTestingKit<T extends MainFileSetup = MainFileSetup
 
   let initialized: InitializedTestUtils | undefined
   if (initUser) {
-    initialized = await testUtils?.initUser()
+    initialized = await testUtils?.initUser({ fields: userFields })
     const token = initialized?.token || ''
     const url = `http://localhost:${port}`
     await browser.context.addCookies([{ name: 'fictionUser', value: initialized.token, url }])

@@ -34,7 +34,7 @@ describe('taxonomy management tests', async () => {
     expect(post1?.authors?.length).toBe(1)
     expect(post1?.authors?.[0].userId).toBe(userId)
 
-    const { user: { userId: userId2 } = {} } = await createTestUser(testUtils.fictionUser)
+    const { user: { userId: userId2 } = {} } = await createTestUser({ ...testUtils, caller: 'postAuthors' })
 
     const passedAuthors = [{ userId }, { userId: userId2 }]
     const create: ManagePostParams = {

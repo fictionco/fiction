@@ -26,10 +26,10 @@ describe('email send endpoint', async () => {
   const orgId = initialized.orgId
   const userId = initialized.user.userId
 
-  const { user: user2 } = await createTestUser(testUtils.fictionUser)
+  const { user: user2 } = await createTestUser({ ...testUtils, caller: 'emailSendEndpointTest1' })
   const userId2 = user2?.userId
 
-  const { user: user3 } = await createTestUser(testUtils.fictionUser)
+  const { user: user3 } = await createTestUser({ ...testUtils, caller: 'emailSendEndpointTest2' })
   const userId3 = user3?.userId
 
   const subscriberEmail = getTestEmail()

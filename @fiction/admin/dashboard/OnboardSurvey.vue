@@ -5,12 +5,12 @@ import ElSavingSignal from '@fiction/admin/el/ElSavingSignal.vue'
 import { useService, vue } from '@fiction/core'
 
 import { AutosaveUtility } from '@fiction/core/utils/save'
+import ElSubscriberStart from '@fiction/plugin-stripe/SubscriptionStart.vue'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElStepNav from '@fiction/ui/ElStepNav.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import { localMedia } from '@fiction/ui/stock/localMedia'
-import ElSubscriberStart from './SubscriptionStart.vue'
 
 const { card } = defineProps<{ card: Card }>()
 
@@ -94,9 +94,9 @@ vue.watch(() => ({ ...form.value }), () => {
   saveUtil.autosave()
 }, { deep: true })
 
-const firstName = vue.computed(() => {
-  return form.value.fullName?.split(' ')[0] || ''
-})
+const firstName = vue.computed(() =>
+  form.value.fullName?.replace(/^(Dr|Mr|Mrs|Ms|Prof)\.\s+/i, '').split(' ')[0] || '',
+)
 
 const goals = [
   { label: 'Get More Customers', description: 'Connect with your ideal clients and unlock new opportunities', value: 'leads' },
@@ -129,7 +129,7 @@ const stepConfig: StepConfig = {
 
       {
         superTitle: {
-          text: 'Welcome',
+          text: 'Welcome to Fiction',
           theme: 'blue',
           icon: { class: 'i-tabler-north-star' },
         },
@@ -178,7 +178,7 @@ const stepConfig: StepConfig = {
       {
         key: 'payment',
         superTitle: {
-          text: 'Free Pro Trial',
+          text: 'Pro Trial',
           theme: 'green',
           icon: { class: 'i-tabler-sparkles' },
         },
@@ -325,6 +325,7 @@ const stepConfig: StepConfig = {
                     size="sm"
                     design="link"
                     theme="default"
+                    :data-test-id="`skip-button-${step.key}`"
                     @click="changeStep({ step: 'ready' })"
                   >
                     Maybe Later

@@ -43,7 +43,7 @@ export type TestUtils = {
   init: (services?: ServiceList) => Promise<InitializedTestUtils>
   initialized?: InitializedTestUtils
   close: () => Promise<void>
-  initUser: () => Promise<InitializedTestUtils>
+  initUser: (args?: { fields?: Partial<User> }) => Promise<InitializedTestUtils>
 } & TestService
 
 export interface TestUtilSettings {
@@ -62,8 +62,13 @@ export interface TestUtilSettings {
   isGlobalSetup?: boolean
 }
 
-export async function createTestUser(fictionUser: FictionUser, opts: { caller?: string } = {}) {
-  const caller = `createTestUser-${opts.caller || 'unknown'}`
+export async function createTestUser(args: {
+  fictionUser: FictionUser
+  fields?: Partial<User>
+  caller?: string
+}) {
+  const { fictionUser, fields = {} } = args
+  const caller = `createTestUser-${args.caller || 'unknown'}`
   logger.info(`creating user - ${caller}`)
   const email = getTestEmail()
   const password = 'test'
@@ -71,7 +76,15 @@ export async function createTestUser(fictionUser: FictionUser, opts: { caller?: 
   const orgName = faker.company.name()
 
   const r = await fictionUser.queries.ManageUser.serve(
-    { fields: { email, password, emailVerified: true, fullName, orgName, needsOnboarding: false }, _action: 'create' },
+    { fields: {
+      email,
+      password,
+      emailVerified: true,
+      fullName,
+      orgName,
+      needsOnboarding: false,
+      ...fields,
+    }, _action: 'create' },
     { server: true, caller: `createTestUser-${caller}`, returnAuthority: ['verify'] },
   )
   const user = r.data
@@ -94,10 +107,14 @@ export async function createTestUser(fictionUser: FictionUser, opts: { caller?: 
   return { user, token: r.token, email, password, code: user?.verify?.code, org, orgId }
 }
 
-export async function initializeTestUser(args: { fictionUser: FictionUser, context?: 'node' | 'app' }): Promise<InitializedTestUtils> {
-  const { fictionUser, context } = args
+export async function initializeTestUser(args: {
+  fictionUser: FictionUser
+  context?: 'node' | 'app'
+  fields?: Partial<User>
+}): Promise<InitializedTestUtils> {
+  const { fictionUser, context, fields } = args
 
-  const testUserDetails = await createTestUser(fictionUser, { caller: 'initializeTestUser' })
+  const testUserDetails = await createTestUser({ fictionUser, fields, caller: 'initializeTestUser' })
 
   const { user, token } = testUserDetails
 
@@ -119,7 +136,11 @@ export async function initializeTestUser(args: { fictionUser: FictionUser, conte
  * Runs services 'setup' functions
  * Creates a new user
  */
-export async function initializeTestUtils(service: TestUtilServices & ServiceList): Promise<InitializedTestUtils> {
+export async function initializeTestUtils(args: {
+  service: TestUtilServices & ServiceList
+  userFields?: Partial<User>
+}): Promise<InitializedTestUtils> {
+  const { service, userFields } = args
   await runServicesSetup(service, { context: 'test' })
 
   const { fictionUser, fictionServer, fictionDb, fictionEmail } = service
@@ -132,7 +153,7 @@ export async function initializeTestUtils(service: TestUtilServices & ServiceLis
 
   await Promise.all(promises)
 
-  return initializeTestUser({ fictionUser })
+  return initializeTestUser({ fictionUser, fields: userFields })
 }
 
 export interface TestBaseCompiled {
@@ -226,8 +247,8 @@ export function createTestUtils(opts?: TestUtilSettings) {
   const service = createTestUtilServices(opts)
 
   const all = {
-    init: async () => initializeTestUtils(service),
-    initUser: async () => initializeTestUser(service),
+    init: async (args: { userFields?: Partial<User> } = {}) => initializeTestUtils({ service, ...args }),
+    initUser: async (args: { fields?: Partial<User> } = {}) => initializeTestUser({ ...service, ...args }),
     close: async () => {
       service.fictionServer.close()
       await service.fictionDb.close()

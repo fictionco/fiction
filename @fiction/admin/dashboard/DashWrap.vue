@@ -10,7 +10,6 @@ import El404 from '@fiction/ui/page/El404.vue'
 import DashBar from './DashBar.vue'
 import DashDarkModeToggle from './DashDarkModeToggle.vue'
 import DashNav from './DashNav.vue'
-import PreLaunch from './PreLaunch.vue'
 
 export type UserConfig = {
   layoutFormat?: 'container' | 'full'
@@ -24,7 +23,7 @@ export type UserConfig = {
   parentNavItemSlug?: string
 }
 
-const { card, requires, access = 'subscriber' } = defineProps<{
+const { card, access = 'subscriber' } = defineProps<{
   card: Card<UserConfig>
   requires?: ('plan' | 'instance')[]
   access?: MemberAccess
@@ -213,7 +212,6 @@ function toggleSidebar() {
         </div>
       </div>
     </transition>
-    <PreLaunch :card />
   </div>
 </template>
 

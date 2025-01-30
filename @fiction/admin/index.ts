@@ -1,3 +1,4 @@
+import type { template as TransactionTemplate } from '@fiction/cards/page-transaction/index.js'
 import type { FictionServer } from '@fiction/core'
 import type { FictionApp } from '@fiction/core/plugin-app'
 import type { FictionEmail } from '@fiction/core/plugin-email'
@@ -17,13 +18,14 @@ import { FictionPlugin } from '@fiction/core/plugin.js'
 import { safeDirname, vue } from '@fiction/core/utils'
 import { createWidgetEndpoints } from './dashboard/util.js'
 import { getEmails } from './emails/index.js'
+import { getWidgets } from './widgets/widgets'
 
 export * from './tools/tools.js'
 export * from './types.js'
 
 envConfig.register({ name: 'ADMIN_UI_ROOT', onLoad: ({ fictionEnv }) => { fictionEnv.addUiRoot(safeDirname(import.meta.url)) } })
 
-type FictionAdminSettings = {
+export type FictionAdminSettings = {
   fictionEmail: FictionEmail
   fictionTransactions: FictionTransactions
   fictionUser: FictionUser
@@ -41,6 +43,34 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
   widgetRequests?: ReturnType<typeof createWidgetEndpoints>
   constructor(settings: FictionAdminSettings) {
     super('FictionAdmin', { root: safeDirname(import.meta.url), ...settings })
+
+    this.admin()
+  }
+
+  admin() {
+    const widgets = getWidgets(this.settings)
+
+    this.widgetRegister.value.push(...Object.values(widgets))
+
+    this.addToWidgetArea('homeMain', [{ key: 'overviewWidget', priority: 40 }])
+    this.addToWidgetArea('homeSecondary', [{ key: 'onboardWelcome', priority: 40 }])
+
+    this.addAdminPages({
+      key: 'onboardSurvey',
+      loader: async ({ factory }) => [
+        await factory.fromTemplate<typeof TransactionTemplate>({
+          templateId: 'cardTransactionViewV1',
+          slug: 'onboard',
+          title: 'Onboard Survey',
+          cards: [
+            await factory.fromTemplate({
+              el: vue.defineAsyncComponent(() => import('./dashboard/OnboardSurvey.vue')),
+            }),
+          ],
+        }),
+
+      ],
+    })
   }
 
   emailActions = getEmails({ fictionAdmin: this })

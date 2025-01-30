@@ -61,7 +61,6 @@ export const orgColumns = [
   new Col({ key: 'apiSecret', sec: 'settingPrivate', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'timezone', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'config', sec: 'setting', sch: () => z.any() as z.Schema<Partial<OrganizationConfig>>, make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(convertKeyCase(value, { mode: 'snake' })) }),
-  new Col({ key: 'onboard', sec: 'setting', sch: () => z.any() as z.Schema<OnboardSettings>, make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'extend', sec: 'setting', sch: () => z.record(z.string(), z.object({ extensionId: z.string(), isActive: z.boolean() })), make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(convertKeyCase(value, { mode: 'snake' })) }),
   new Col({ key: 'customerId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'customer', sec: 'setting', sch: () => z.any() as z.Schema<OrganizationCustomerData>, make: ({ s, col }) => s.jsonb(col.k) }),

@@ -123,9 +123,9 @@ describe('subscriber metrics', async () => {
   afterAll(() => testUtils.close())
   const orgId = initialized.orgId
 
-  const { user: user1 } = await createTestUser(testUtils.fictionUser)
-  const { user: user2 } = await createTestUser(testUtils.fictionUser)
-  const { user: user3 } = await createTestUser(testUtils.fictionUser)
+  const { user: user1 } = await createTestUser({ ...testUtils, caller: 'subscriberMetrics1' })
+  const { user: user2 } = await createTestUser({ ...testUtils, caller: 'subscriberMetrics2' })
+  const { user: user3 } = await createTestUser({ ...testUtils, caller: 'subscriberMetrics3' })
 
   it('counts subscribers by status correctly', async () => {
     const db = testUtils.fictionDb.client()
@@ -238,16 +238,16 @@ describe('subscription endpoint', async () => {
   const orgId = initialized.orgId
   const userId = initialized.user.userId
 
-  const { user: user2 } = await createTestUser(testUtils.fictionUser)
+  const { user: user2 } = await createTestUser({ ...testUtils, caller: 'subscriberMetrics4' })
   const userId2 = user2?.userId
 
-  const { user: user3 } = await createTestUser(testUtils.fictionUser)
+  const { user: user3 } = await createTestUser({ ...testUtils, caller: 'subscriberMetrics5' })
   const userId3 = user3?.userId
 
-  const { user: user4 } = await createTestUser(testUtils.fictionUser)
+  const { user: user4 } = await createTestUser({ ...testUtils, caller: 'subscriberMetrics6' })
   const userId4 = user4?.userId
 
-  const { user: user5 } = await createTestUser(testUtils.fictionUser)
+  const { user: user5 } = await createTestUser({ ...testUtils, caller: 'subscriberMetrics7' })
   const userId5 = user5?.userId
 
   const setTestData = dayjs('2024-06-11T04:40:00.000Z')

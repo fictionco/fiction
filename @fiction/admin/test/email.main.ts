@@ -2,6 +2,7 @@ import type { ServiceConfig } from '@fiction/core'
 import type { FictionAi } from '@fiction/plugin-ai/index.js'
 import CardSite from '@fiction/cards/CardSite.vue'
 import { AppRoute } from '@fiction/core'
+import { FictionStripe } from '@fiction/plugin-stripe/index.js'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils.js'
 import { FictionAdmin } from '../index.js'
 import * as adminTheme from '../theme/index.js'
@@ -20,8 +21,18 @@ export async function setup(args: { context?: 'node' | 'app' } = {}) {
   ])
 
   const fictionAdmin = new FictionAdmin({ ...testUtils })
+  const fictionStripe = new FictionStripe({
+    ...testUtils,
+    secretKeyTest: testUtils.fictionEnv.var('STRIPE_SECRET_KEY_TEST'),
+    publicKeyTest: testUtils.fictionEnv.var('STRIPE_PUBLIC_KEY_TEST'),
+    customerPortalUrl: '#',
+    products: [{
+      tier: 40,
+      key: 'pro',
+    }],
+  })
 
-  const service = { ...testUtils, fictionAdmin }
+  const service = { ...testUtils, fictionAdmin, fictionStripe }
 
   return {
     runVars: { },

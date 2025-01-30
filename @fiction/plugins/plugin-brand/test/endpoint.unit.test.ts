@@ -17,8 +17,8 @@ describe('brand guide endpoint', async () => {
   const userId = initialized.user.userId
 
   // Create additional test users
-  const { user: user2 } = await createTestUser(testUtils.fictionUser)
-  const { user: user3 } = await createTestUser(testUtils.fictionUser)
+  const { user: user2 } = await createTestUser({ ...testUtils, caller: 'brandGuideTest' })
+  const { user: user3 } = await createTestUser({ ...testUtils, caller: 'brandGuideTest' })
 
   if (!orgId || !userId || !user2 || !user3) {
     throw abort('missing orgId or user data')

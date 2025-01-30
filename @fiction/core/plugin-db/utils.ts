@@ -96,7 +96,10 @@ export function dbPrep<T>(args: {
       }
       else {
         const expected = meta?.expectError
-        fictionDb.log.error(`DB PREP(${type})${expected ? '(EXPECTED)' : ''}: Validation failed for field ${table}:${key}`, { data: { value, error: parsed.error.message } })
+        fictionDb.log.error(
+          `DB PREP(${type})${expected ? '(EXPECTED)' : ''}: Validation failed for field ${table}:${key}`,
+          { data: { value, error: parsed.error.message } },
+        )
         isValid = false
       }
     }

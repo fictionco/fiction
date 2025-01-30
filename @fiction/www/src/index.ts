@@ -14,7 +14,6 @@ import { FictionBrand } from '@fiction/plugin-brand'
 import { FictionExtend } from '@fiction/plugin-extend/index.js'
 import { FictionMonitor } from '@fiction/plugin-monitor/index.js'
 import { FictionNewsletter } from '@fiction/plugin-newsletter'
-import { FictionOnboard } from '@fiction/plugin-onboard'
 import { FictionStripe } from '@fiction/plugin-stripe/index.js'
 import { FictionSubscribe } from '@fiction/plugin-subscribe/index.js'
 import { FictionTransactions } from '@fiction/plugin-transactions'
@@ -165,8 +164,6 @@ const fictionAdmin = new FictionAdmin({ ...basicService, fictionTransactions, fi
 
 const s = { ...basicService, fictionAppSites, fictionStripe, fictionRouterSites, fictionAws, fictionMedia, fictionAi, fictionTransactions, fictionAdmin }
 
-const fictionOnboard = new FictionOnboard({ ...s })
-
 const themes = async () => getThemes({ ...s, fictionStripe })
 
 const fictionSites = new FictionSites({ ...s, fictionAnalytics, fictionAppSites, fictionRouterSites, flyApiToken, flyAppId: 'fiction-sites', adminBaseRoute: '/admin', themes })
@@ -179,7 +176,7 @@ const fictionPosts = new FictionPosts(s)
 const fictionNewsletter = new FictionNewsletter({ fictionPosts, fictionSubscribe, ...s })
 const fictionBrand = new FictionBrand({ ...s })
 
-const baseService = { ...s, fictionForms, fictionBrand, fictionAnalytics, fictionSites, fictionCards, fictionTeam, fictionUi, fictionStripe, fictionSubscribe, fictionNewsletter, fictionPosts, fictionOnboard }
+const baseService = { ...s, fictionForms, fictionBrand, fictionAnalytics, fictionSites, fictionCards, fictionTeam, fictionUi, fictionStripe, fictionSubscribe, fictionNewsletter, fictionPosts }
 
 export type SpecificService = typeof baseService
 

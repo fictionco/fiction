@@ -15,7 +15,7 @@ describe('subscribe uiux', { retry: isCi() ? 3 : 0 }, async () => {
   const orgId = initialized.orgId
   const org = initialized.org
 
-  const { user: user2 } = await createTestUser(testUtils.fictionUser, { caller: 'user2' })
+  const { user: user2 } = await createTestUser({ ...testUtils, caller: 'subcribeUiUx' })
 
   const action = kit.testUtils.fictionSubscribe.transactions.subscribe
 
