@@ -41,7 +41,7 @@ export async function getPricingPage(args: { factory: CardFactory, site: Site })
           variant: 'muted',
           icon: { class: 'i-tabler-rocket' },
           features: [
-            { label: 'Up to 2,500 Subscribers' },
+            { label: 'Up to 1,000 Subscribers' },
             { label: 'Web Hosting and Unlimited Traffic' },
             { label: 'Newsletter & Content Tools' },
             { label: 'Basic Analytics' },
@@ -55,7 +55,7 @@ export async function getPricingPage(args: { factory: CardFactory, site: Site })
         },
         {
           title: 'Pro',
-          price: 79,
+          price: 39,
           description: `Professional tools and support`,
           variant: 'default',
           badge: 'Most Popular',
@@ -78,9 +78,9 @@ export async function getPricingPage(args: { factory: CardFactory, site: Site })
           },
         },
         {
-          title: 'Workshop',
+          title: 'Elite',
           price: 279,
-          description: `Dedicated help and coaching`,
+          description: `Elite personal marketing and more`,
           icon: { class: 'i-tabler-crown' },
           variant: 'highlighted',
           badge: 'Best Results',

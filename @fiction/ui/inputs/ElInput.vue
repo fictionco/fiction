@@ -16,7 +16,11 @@ const { modelValue, label = '', subLabel = '', description = '', inputProps = {}
   defaultValue?: any
 }>()
 
-const emit = defineEmits(['update:modelValue', 'update:editIndex'])
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: any): void
+  (e: 'update:editIndex', value: string): void
+  (e: 'keydown', value: KeyboardEvent): void
+}>()
 
 type InputProps = {
   class?: string
@@ -134,6 +138,7 @@ const cls = vue.computed(() => {
         :ui-size="uiSize"
         @update:model-value="updateValue($event)"
         @update:edit-index="emit('update:editIndex', $event)"
+        @keydown="emit('keydown', $event)"
       >
         <slot />
       </component>

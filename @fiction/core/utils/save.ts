@@ -1,27 +1,28 @@
+import type { EndpointResponse } from '../types'
 import { log } from '../plugin-log'
 import { vue } from './libraries'
 
-export type AutosaveConfig = {
-  onSave: () => Promise<void>
+export type AutosaveConfig<T extends EndpointResponse = EndpointResponse> = {
+  onSave: () => Promise<T>
   debounceMs?: number
   onError?: (error: unknown) => void
 }
 
-export class AutosaveUtility {
+export class AutosaveUtility<T extends EndpointResponse = EndpointResponse> {
   isDirty = vue.ref(false)
   private saveTimeout: ReturnType<typeof setTimeout> | null = null
   private logger = log.contextLogger('AutosaveUtility')
 
-  constructor(private config: AutosaveConfig) {}
+  constructor(private config: AutosaveConfig<T>) {}
 
   public autosave(): void {
     this.isDirty.value = true
     this.debouncedSave()
   }
 
-  public async forceSync(): Promise<void> {
+  public async forceSync(): Promise<T | undefined> {
     this.clear()
-    await this.save()
+    return await this.save()
   }
 
   public clear(): void {
@@ -34,10 +35,12 @@ export class AutosaveUtility {
     this.saveTimeout = setTimeout(() => this.save(), this.config.debounceMs ?? 2000)
   }
 
-  private async save(): Promise<void> {
+  private async save(): Promise<T | undefined> {
     try {
-      await this.config.onSave()
+      const r = await this.config.onSave()
       this.isDirty.value = false
+
+      return r
     }
     catch (error) {
       if (this.config.onError) {

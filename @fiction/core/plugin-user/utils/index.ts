@@ -13,7 +13,7 @@ export function getOrgAvatar(org: Organization): MediaObject {
   return org.avatar ? org.avatar : gravatarUrlSync(org.orgEmail, { size: 400, default: 'identicon' })
 }
 
-export function defaultOrgName(email: string, suffix: string = 'Newsletter'): string {
+export function defaultOrgName(email: string, suffix: string = ''): string {
   // Extract username from email and clean special characters
   const username = email.substring(0, email.lastIndexOf('@')).split('+')[0]
 

@@ -1,10 +1,12 @@
 <script lang="ts" setup>
-import type { FictionUser, StepConfig, StepItem } from '@fiction/core'
+import type { EndpointResponse, FictionUser, StepConfig, StepItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
+import ElSavingSignal from '@fiction/admin/el/ElSavingSignal.vue'
 import { useService, vue } from '@fiction/core'
+
+import { AutosaveUtility } from '@fiction/core/utils/save'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElStepNav from '@fiction/ui/ElStepNav.vue'
-
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import { localMedia } from '@fiction/ui/stock/localMedia'
@@ -14,52 +16,152 @@ const { card } = defineProps<{ card: Card }>()
 
 const { fictionUser } = useService<{ fictionUser: FictionUser }>()
 
-const isLoading = vue.ref(false)
-const hideOnboardingSurvey = vue.computed(() => {
-  return false
-})
 const form = vue.ref<{
+  fullName?: string
+  orgName?: string
   role?: string
   roleOther?: string
   goal?: string
   goalOther?: string
-}>({ })
+  needsOnboarding?: boolean
+}>({ needsOnboarding: true })
+
+// Load initial data
+async function loadInitialData() {
+  const { activeUser, activeOrganization } = fictionUser
+  // Wait for user data to be available
+  await fictionUser.userInitialized()
+
+  const user = activeUser.value
+  const org = activeOrganization.value
+
+  if (user) {
+    form.value = {
+      ...form.value,
+      fullName: user.fullName,
+      ...user.onboard,
+      needsOnboarding: user.needsOnboarding ?? true,
+    }
+  }
+
+  if (org) {
+    form.value = {
+      ...form.value,
+      orgName: org.orgName || user?.fullName,
+      ...org.onboard,
+    }
+  }
+}
+
+// Load data on mount
+vue.onMounted(() => {
+  loadInitialData()
+})
+
+// Save function to update both user and org records
+async function save(): Promise<EndpointResponse> {
+  const { orgId } = fictionUser.activeOrganization.value || {}
+  if (!orgId)
+    return { status: 'error' }
+
+  try {
+    const { role, roleOther, goal, goalOther, fullName, orgName, needsOnboarding } = form.value
+    // Save org settings
+    await fictionUser.requests.ManageOrganization.projectRequest({
+      _action: 'update',
+      where: { orgId },
+      fields: { orgName, needsOnboarding, onboard: { role, roleOther, goal, goalOther } },
+    }, { disableNotify: true })
+
+    // Save user settings
+    await fictionUser.requests.ManageUser.projectRequest({
+      _action: 'updateCurrentUser',
+      fields: { fullName, needsOnboarding, onboard: { role, roleOther, goal, goalOther } },
+    }, { disableNotify: true })
+    return { status: 'success' }
+  }
+  catch (error) {
+    console.error('Error saving onboarding data:', error)
+    return { status: 'error' }
+  }
+}
+const saveUtil = new AutosaveUtility({
+  onSave: () => save(),
+})
+
+// Watch for form changes and trigger autosave
+vue.watch(() => ({ ...form.value }), () => {
+  saveUtil.autosave()
+}, { deep: true })
+
+const firstName = vue.computed(() => {
+  return form.value.fullName?.split(' ')[0] || ''
+})
 
 const goals = [
-  { label: 'Establish Authority', description: 'Position yourself as a thought leader', value: 'authority' },
-  { label: 'Attract Opportunities', description: 'Win clients or dream job offers', value: 'opportunities' },
-  { label: 'Grow Influence', description: 'Build engaged audience', value: 'audience' },
-  { label: 'Launch Products', description: 'Validate and scale your ideas', value: 'products' },
-  { label: 'Simplify Presence', description: 'Centralize your professional identity', value: 'branding' },
-  { label: 'Other', description: 'Tell us more about your goals', value: 'other' },
+  { label: 'Get More Customers', description: 'Connect with your ideal clients and unlock new opportunities', value: 'leads' },
+  { label: 'Share My Work', description: 'Create a stunning portfolio that showcases your best work', value: 'portfolio' },
+  { label: 'Grow My Audience', description: 'Build a loyal following that loves what you do', value: 'audience' },
+  { label: 'Launch Digital Products', description: 'Turn your expertise into scalable digital offerings', value: 'sales' },
+  { label: 'Build Authority', description: 'Become the go-to expert in your field', value: 'reputation' },
+  { label: 'Level Up My Career', description: 'Create a standout professional presence', value: 'personal' },
+  { label: 'Start Creating Content', description: 'Share your insights and build meaningful connections', value: 'content' },
+  { label: 'Get More Visibility', description: 'Be discovered for speaking and press opportunities', value: 'speaking' },
+  { label: 'Something Else', description: 'Tell us about your unique vision', value: 'other' },
 ]
 
 const roles = [
-  { label: 'Founder', description: 'Building a business or startup', value: 'founder' },
-  { label: 'Career Professional', description: 'Advancing in current field', value: 'pro' },
-  { label: 'Content Creator', description: 'Sharing expertise regularly', value: 'creator' },
-  { label: 'Consultant', description: 'Working with multiple clients', value: 'consultant' },
-  { label: 'Investor', description: 'Growing network and opportunities', value: 'investor' },
-  { label: 'Other', description: 'Tell us more about your situation', value: 'other' },
+  { label: 'Creator', description: 'I make content that moves people', value: 'creator' },
+  { label: 'Founder', description: 'I\'m building something meaningful', value: 'founder' },
+  { label: 'Professional', description: 'I want to stand out in my field', value: 'professional' },
+  { label: 'Consultant', description: 'I help others achieve results', value: 'consultant' },
+  { label: 'Expert', description: 'I share specialized knowledge', value: 'expert' },
+  { label: 'Other', description: 'Tell us about your unique path', value: 'other' },
 ]
 
 const stepConfig: StepConfig = {
-  onComplete: async () => {},
+  onComplete: async () => {
+
+  },
   form,
   steps: vue.computed<StepItem[]>(() => {
     const out: StepItem[] = [
 
       {
         superTitle: {
-          text: 'Welcome!',
+          text: 'Welcome',
           theme: 'blue',
-          icon: { class: 'i-tabler-rocket' },
+          icon: { class: 'i-tabler-north-star' },
         },
-        title: 'What would you like to achieve?',
-        subTitle: 'We will customize your experience based on your goals.',
+        title: 'First, what\'s your full name?',
+        subTitle: `${firstName.value ? `Hi ${firstName.value}! ` : ``}We're excited to help you build something!`,
+        key: 'fullName',
+        class: 'max-w-md',
+        allowSkip: false,
+      },
+      {
+        superTitle: {
+          text: 'Identity',
+          theme: 'violet',
+          icon: { class: 'i-tabler-brush' },
+        },
+        title: 'What\'s your brand name?',
+        subTitle: 'This is how you\'ll be known to the world',
+        key: 'orgName',
+        class: 'max-w-md',
+        allowSkip: false,
+      },
+      {
+        superTitle: {
+          text: 'Vision',
+          theme: 'emerald',
+          icon: { class: 'i-tabler-target' },
+        },
+        title: 'What do you want to achieve?',
+        subTitle: 'We\'ll optimize your experience for this',
         key: 'goal',
         class: 'max-w-md',
-        allowSkip: true,
+        allowSkip: false,
       },
       {
         superTitle: {
@@ -68,7 +170,7 @@ const stepConfig: StepConfig = {
           icon: { class: 'i-tabler-user' },
         },
         title: 'Which best describes you?',
-        subTitle: 'We\'ll use this to personalize your experience.',
+        subTitle: 'Help us tailor your tools',
         key: 'role',
         class: 'max-w-md',
         allowSkip: true,
@@ -76,11 +178,11 @@ const stepConfig: StepConfig = {
       {
         key: 'payment',
         superTitle: {
-          text: 'Pro Trial',
+          text: 'Free Pro Trial',
           theme: 'green',
-          icon: { class: 'i-tabler-bolt' },
+          icon: { class: 'i-tabler-sparkles' },
         },
-        title: 'Start Pro Trial',
+        title: 'Join the Best',
         subTitle: 'Free for one month then $39/mo. Cancel anytime.',
         button: { label: 'Start My Trial', theme: 'primary', size: 'lg', icon: 'i-tabler-bolt', iconAfter: 'i-tabler-arrow-right' },
         class: 'max-w-screen-xl',
@@ -93,8 +195,8 @@ const stepConfig: StepConfig = {
           theme: 'green',
           icon: { class: 'i-tabler-bolt' },
         },
-        title: 'You\'re All Set!',
-        subTitle: 'Your future awaits. Let\'s get started...',
+        title: `You\'re All Set${firstName.value ? ` ${firstName.value}` : ``}!`,
+        subTitle: 'Your incredible future awaits. Let\'s begin...',
         button: {
           label: 'Go to Dashboard',
           theme: 'primary',
@@ -104,14 +206,10 @@ const stepConfig: StepConfig = {
         },
         class: 'max-w-lg',
         onClick: async () => {
-          const orgId = fictionUser.activeOrgId.value || ''
-          const r = await fictionUser.requests.ManageOrganization.projectRequest({
-            _action: 'update',
-            fields: { needsOnboarding: false },
-            where: { orgId },
-          }, { disableNotify: true })
+          form.value.needsOnboarding = false
+          const r = await saveUtil.forceSync()
 
-          if (r.status === 'success') {
+          if (r?.status === 'success') {
             await card.goto('/?onboarded=true')
           }
         },
@@ -121,12 +219,6 @@ const stepConfig: StepConfig = {
     return out
   }),
 }
-
-const features = [
-  { icon: 'i-tabler-sparkles', text: 'AI Brand Strategy' },
-  { icon: 'i-tabler-presentation', text: 'Premium Portfolio' },
-  { icon: 'i-tabler-mail', text: 'Client Templates' },
-]
 </script>
 
 <template>
@@ -134,8 +226,9 @@ const features = [
     class="onboarding-survey-veil text-theme-800 dark:text-theme-0 fixed left-0 top-0 flex h-full w-full items-center justify-center bg-gradient-to-br from-theme-975 via-black to-theme-975"
   >
     <div class="fixed inset-0 z-10 overflow-y-auto">
-      <div class="p-8 text-white absolute left-4 top-4">
-        <XMedia class="mx-auto h-[35px]" :media="localMedia.fictionIconInline" />
+      <div class=" text-white absolute py-8 px-16 w-full flex justify-between">
+        <XMedia class="h-[35px]" :media="localMedia.fictionIconInline" />
+        <ElSavingSignal change-type="publish" :is-dirty="saveUtil.isDirty.value" />
       </div>
       <div
         class="flex min-h-full flex-col items-center justify-center p-4  sm:items-center sm:p-0"
@@ -145,6 +238,26 @@ const features = [
           :step-config="stepConfig"
           data-test-id="createSiteModal"
         >
+          <div v-if="step.key === 'fullName'">
+            <ElInput
+              v-model="form.fullName"
+              input="InputText"
+              placeholder="Your full name"
+              ui-size="lg"
+              required
+              autofocus
+            />
+          </div>
+          <div v-if="step.key === 'orgName'">
+            <ElInput
+              v-model="form.orgName"
+              input="InputText"
+              placeholder="Enter brand name"
+              ui-size="lg"
+              required
+              autofocus
+            />
+          </div>
           <div v-if="step.key === 'goal'" class="space-y-4">
             <ElInput
               v-model="form.goal"
@@ -152,6 +265,11 @@ const features = [
               :list="goals"
               ui-size="lg"
               required
+              @update:model-value="val => {
+                if (val && val !== 'other') {
+                  vue.nextTick(() => changeStep({ dir: 'next', needsValidation: false }))
+                }
+              }"
             />
             <ElInput
               v-if="form.goal === 'other'"
@@ -170,6 +288,11 @@ const features = [
               :list="roles"
               ui-size="lg"
               required
+              @update:model-value="val => {
+                if (val && val !== 'other') {
+                  vue.nextTick(() => changeStep({ dir: 'next', needsValidation: false }))
+                }
+              }"
             />
             <ElInput
               v-if="form.role === 'other'"
@@ -186,6 +309,7 @@ const features = [
             <div class="flex gap-8 justify-center">
               <div class="space-y-6 max-w-[500px] w-full">
                 <ElSubscriberStart
+                  :card
                   price-lookup-key="pro_month"
                   trial-type="paid"
                   :button="step.button || {}"

@@ -107,7 +107,7 @@ export function getButtonClasses(args: {
     rounding === 'none' ? 'rounded-none' : rounding === 'full' ? 'rounded-full' : roundedSizeMap[size],
     shadows[shadow],
     fontWeights[fontWeight],
-    disabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer',
+    disabled ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer',
   ]
 
   return {

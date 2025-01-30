@@ -2,6 +2,7 @@
 import type { ActionButton, EndpointResponse } from '@fiction/core'
 import type { FictionStripe } from '@fiction/plugin-stripe'
 import type { TrialSetupResponse } from '@fiction/plugin-stripe/endpointTrial'
+import type { Card } from '@fiction/site'
 import type { Appearance, Stripe, StripeElements } from '@stripe/stripe-js'
 import { isDarkOrLightMode, log, useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
@@ -12,7 +13,8 @@ const {
   priceLookupKey,
   button,
   trialType = 'paid',
-} = defineProps<{ priceLookupKey: string, button?: ActionButton, trialType: 'free' | 'paid' }>()
+  card,
+} = defineProps<{ priceLookupKey: string, button?: ActionButton, trialType: 'free' | 'paid', card: Card }>()
 
 const emit = defineEmits<{
   (event: 'complete', payload: EndpointResponse): void
@@ -171,6 +173,8 @@ vue.watch(
 
 vue.onMounted(async () => {
   await fictionUser.userInitialized()
+  await fictionStripe.customerState.initialize({ caller: 'SubscriptionStart' })
+
   await setupStripe()
 })
 
@@ -184,38 +188,56 @@ vue.onBeforeUnmount(() => {
 <template>
   <div class="relative min-h-[400px] max-w-lg mx-auto space-y-12">
     <div
+      v-if="!loading && fictionStripe.customerState.data.value?.isActive"
+      class="text-balance text-sm text-orange-600 dark:text-orange-100 bg-orange-50 dark:bg-orange-900/30 p-3 rounded-lg text-left md:text-center"
+    >
+      You are already subscribed to a plan.
+      Please contact support for assistance.
+    </div>
+
+    <div
       v-if="loading"
       class="absolute z-10 inset-0 py-12 flex justify-center items-center bg-white/80 dark:bg-black/80"
     >
       <ElSpinner class="w-6 text-theme-400 dark:text-theme-600" />
     </div>
-
     <div
-      v-if="error"
-      class="p-3 text-rose-600 dark:text-rose-100 dark:bg-rose-900/50 bg-rose-50 rounded-lg text-sm"
-      role="alert"
+      v-if="!fictionUser.activeOrgId.value"
+      class="absolute z-10 inset-0 py-12 flex justify-center items-center bg-white/80 dark:bg-black/80"
     >
-      {{ error }}
-    </div>
-
-    <div class="text-xs text-theme-600 dark:text-theme-400 bg-theme-50 dark:bg-theme-900 p-3 rounded-lg text-left md:text-center">
-      To verify your card, we'll temporarily authorize (but not charge) $1.
-    </div>
-
-    <div ref="paymentElementRef" class="min-h-[300px]" />
-
-    <div class="flex justify-center">
       <XButton
         v-if="elements"
         :theme="button?.theme || 'primary'"
-        display="block"
-        :loading="loading"
-        :size="button?.size || 'lg'"
-        :icon="button?.icon"
-        @click="handlePayment"
+        :href="card.link('/auth')"
       >
-        {{ button?.label || 'Start Trial' }}
+        Login to continue
       </XButton>
     </div>
+
+    <template v-else>
+      <div
+        v-if="error"
+        class="p-3 text-rose-600 dark:text-rose-100 dark:bg-rose-900/50 bg-rose-50 rounded-lg text-sm"
+        role="alert"
+      >
+        {{ error }}
+      </div>
+
+      <div ref="paymentElementRef" class="min-h-[300px]" />
+
+      <div class="flex justify-center">
+        <XButton
+          v-if="elements"
+          :theme="button?.theme || 'primary'"
+          display="block"
+          :loading="loading"
+          :size="button?.size || 'lg'"
+          :icon="button?.icon"
+          @click="handlePayment"
+        >
+          {{ button?.label || 'Start Trial' }}
+        </XButton>
+      </div>
+    </template>
   </div>
 </template>

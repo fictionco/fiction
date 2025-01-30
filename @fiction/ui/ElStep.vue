@@ -3,7 +3,7 @@ import type { StepItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import XSuperTitle from './common/XSuperTitle.vue'
 
-const { steps = [], currentIndex } = defineProps<{
+const { steps = [], currentIndex, transit = 'next' } = defineProps<{
   steps: StepItem[]
   currentIndex: number
   transit?: 'next' | 'prev'
@@ -27,7 +27,7 @@ const step = vue.computed(() => {
 </script>
 
 <template>
-  <transition :name="t" mode="out-in">
+  <transition :name="transit" mode="out-in">
     <div
       v-if="step"
       :key="steps[currentIndex]?.key"

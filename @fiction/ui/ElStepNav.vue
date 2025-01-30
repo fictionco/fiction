@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { FictionRouter, FictionUser, StepConfig, StepItem } from '@fiction/core/index.js'
+import type { dir } from 'node:console'
 import NavDots from '@fiction/cards/el/NavDots.vue'
 import { useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
@@ -20,7 +21,11 @@ const steps = vue.computed(() => {
   return stepConfig.steps.value.filter(s => !s.isJumped)
 })
 
-async function setComplete() {}
+// Track step history
+const stepHistory = vue.ref<number[]>([])
+
+// Track transition direction
+const transitionDirection = vue.ref<'next' | 'prev'>('next')
 
 const queryStep = vue.computed({
   get: () => {
@@ -46,6 +51,10 @@ const stepIndex = vue.computed(() => {
   return found > -1 ? found : 0
 })
 
+const currentStep = vue.computed(() => {
+  return steps.value[stepIndex.value]
+})
+
 function checkValid() {
   const form = document.querySelector('#stepForm') as
     | HTMLFormElement
@@ -58,18 +67,26 @@ function checkValid() {
 
   return valid
 }
-function getStepIndex(dir: 'prev' | 'next') {
-  const index = stepIndex.value
+function getStepIndex(args: { dir?: 'prev' | 'next', step?: string }) {
+  const { dir, step } = args
 
-  if (index >= steps.value.length - 1 && dir === 'next')
-    return -1
+  if (step) {
+    const found = steps.value.findIndex(s => s.key === step)
+    return found
+  }
+  else {
+    const index = stepIndex.value
 
-  if (index === 0 && dir === 'prev')
-    return 0
+    if (index >= steps.value.length - 1 && dir === 'next')
+      return -1
 
-  const num = dir === 'next' ? index + 1 : index - 1
+    if (index === 0 && dir === 'prev')
+      return 0
 
-  return num
+    const num = dir === 'next' ? index + 1 : index - 1
+
+    return num
+  }
 }
 
 function setStepIndex(index: number, options?: { backOnly?: boolean }) {
@@ -90,50 +107,69 @@ async function changeStep(args: {
   dir?: 'prev' | 'next'
   step?: string
   index?: number
+  needsValidation?: boolean
+  backOnly?: boolean
+  clearHistory?: boolean
 }) {
-  const { dir, step, index } = args
+  const { dir, step, index, needsValidation, backOnly, clearHistory } = args
+
+  const nextIndex = index ?? getStepIndex({ dir })
+
+  if (needsValidation && stepIndex.value < nextIndex) {
+    const valid = checkValid()
+
+    if (!valid)
+      return
+  }
+
+  if (dir === 'next' && currentStep.value.onClick) {
+    await currentStep.value.onClick({ changeStep })
+    return
+  }
 
   if (dir) {
-    const num = getStepIndex(dir)
-
+    const num = getStepIndex({ dir })
     if (num !== -1) {
       setStepKey(steps.value[num]?.key || '')
+    }
+
+    if (dir === 'prev') {
+      stepHistory.value.pop()
     }
   }
   else if (step) {
     setStepKey(step)
   }
   else if (index !== undefined) {
-    setStepIndex(index)
+    setStepIndex(index, { backOnly })
+  }
+
+  if (clearHistory) {
+    stepHistory.value = []
   }
 }
 
-const stepActions = {
-  changeStep,
-  setStepIndex,
-  setStepKey,
-  setComplete,
-}
+// Watch for index changes to update history and transition
+vue.watch(
+  () => stepIndex.value,
+  (newIndex, oldIndex) => {
+    if (oldIndex !== undefined) {
+      if (oldIndex < newIndex && newIndex !== 0 && oldIndex !== stepHistory.value[stepHistory.value.length - 1]) {
+        stepHistory.value.push(oldIndex)
+      }
 
-async function next(currentStep: StepItem, args: { needsValidation: boolean }) {
-  const { needsValidation = false } = args || {}
-
-  if (needsValidation) {
-    const valid = checkValid()
-
-    if (!valid || currentStep.isLoading)
-      return
-  }
-
-  if (currentStep.onClick)
-    await currentStep.onClick(stepActions)
-  else
-    changeStep({ dir: 'next' })
-}
+      transitionDirection.value = newIndex < oldIndex ? 'prev' : 'next'
+    }
+  },
+)
 
 vue.onBeforeUnmount(async () => {
   const q = fictionRouter.query.value
   await fictionRouter.replace({ query: { ...q, step: undefined } })
+})
+
+const hasBack = vue.computed(() => {
+  return stepIndex.value > 0 && stepHistory.value.length > 0 && stepIndex.value !== steps.value.length - 1
 })
 </script>
 
@@ -143,7 +179,7 @@ vue.onBeforeUnmount(async () => {
       :steps
       :current-index="stepIndex"
       class="steps pointer-events-auto"
-      transit="next"
+      :transit="transitionDirection"
       :data-test-id="`step-${queryStep}`"
       :class="classes.step"
     >
@@ -153,8 +189,20 @@ vue.onBeforeUnmount(async () => {
 
           <div
             v-if="!step.noButton"
-            class="flex justify-center gap-4 items-center"
+            class="flex  gap-4 items-center"
+            :class="!hasBack ? 'justify-center' : 'justify-between'"
           >
+            <XButton
+              :class="!hasBack ? 'hidden' : ''"
+              tag="div"
+              icon="i-tabler-arrow-left"
+              :size="step.button?.size || 'lg'"
+              theme="default"
+              design="ghost"
+              @click.prevent="changeStep({ dir: 'prev', needsValidation: false })"
+            >
+              Back
+            </XButton>
             <XButton
               :theme="step.button?.theme || 'primary'"
               :size="step.button?.size || 'lg'"
@@ -164,7 +212,7 @@ vue.onBeforeUnmount(async () => {
               data-test-el="step-submit"
               :data-test-id="`step-button-${step.key}`"
               icon-after="i-tabler-arrow-right"
-              @click.prevent="next(step, { needsValidation: true })"
+              @click.prevent="changeStep({ dir: 'next', needsValidation: true })"
             >
               {{ step.button?.label || "Next" }}
             </XButton>
@@ -179,7 +227,7 @@ vue.onBeforeUnmount(async () => {
               :animate="true"
               data-test-el="step-skip"
               :data-test-id="`step-button-${step.key}`"
-              @click.prevent="next(step, { needsValidation: false })"
+              @click.prevent="changeStep({ dir: 'next', needsValidation: false })"
             >
               {{ step.skipButton?.label || "Skip" }}
             </XButton>
@@ -193,7 +241,7 @@ vue.onBeforeUnmount(async () => {
       :active-item="stepIndex"
       wrap-selector="#stepForm"
       @click.stop
-      @update:active-item="setStepIndex($event, { backOnly: true })"
+      @update:active-item="changeStep({ index: $event, backOnly: true, clearHistory: true })"
     />
   </ElForm>
 </template>
