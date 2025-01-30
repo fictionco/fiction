@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import type { FictionRouter, FictionUser, StepConfig, StepItem } from '@fiction/core/index.js'
-import type { dir } from 'node:console'
+import type { FictionRouter, FictionUser, StepConfig } from '@fiction/core/index.js'
 import NavDots from '@fiction/cards/el/NavDots.vue'
 import { useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'

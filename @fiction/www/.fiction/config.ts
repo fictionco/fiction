@@ -106,7 +106,6 @@ export interface CompiledServiceConfig {
       | 'apiSecret'
       | 'timezone'
       | 'config'
-      | 'onboard'
       | 'extend'
       | 'customerId'
       | 'customer'
@@ -119,6 +118,7 @@ export interface CompiledServiceConfig {
       | 'legal'
       | 'accessTokens'
       | 'needsOnboarding'
+      | 'onboard'
       | 'createdAt'
       | 'updatedAt'
     fiction_user:
@@ -136,7 +136,6 @@ export interface CompiledServiceConfig {
       | 'loadOrgId'
       | 'lastSeenAt'
       | 'isSuperAdmin'
-      | 'onboard'
       | 'pushSubscription'
       | 'ip'
       | 'geo'
@@ -152,6 +151,7 @@ export interface CompiledServiceConfig {
       | 'tags'
       | 'systemRole'
       | 'needsOnboarding'
+      | 'onboard'
       | 'createdAt'
       | 'updatedAt'
     fiction_org_user:

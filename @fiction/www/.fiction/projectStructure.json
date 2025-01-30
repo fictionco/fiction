@@ -11,6 +11,7 @@
         "DashWrap.vue": null,
         "ElAvatarOrg.vue": null,
         "ElPanelSettings.vue": null,
+        "OnboardSurvey.vue": null,
         "PreLaunch.vue": null,
         "UtilDeleteOrg.vue": null,
         "ViewBillingSuccess.vue": null,
@@ -64,6 +65,7 @@
       "test": {
         "email.main.ts": null,
         "emailVerify.uiux.test.ts": null,
+        "onboard.flow.test.ts": null,
         "settings.debug.test.ts": null,
         "signin.uiux.test.ts": null
       },
@@ -78,7 +80,14 @@
         "tools.ts": null
       },
       "types.ts": null,
-      "util.ts": null
+      "util.ts": null,
+      "widgets": {
+        "SuperChart.vue": null,
+        "WidgetOverview.vue": null,
+        "WidgetVideo.vue": null,
+        "utils.ts": null,
+        "widgets.ts": null
+      }
     },
     "analytics": {
       "chart": {
@@ -1008,22 +1017,8 @@
         },
         "utils.ts": null
       },
-      "plugin-onboard": {
-        "index.ts": null,
-        "package.json": null,
-        "survey": {
-          "OnboardSurvey.vue": null,
-          "SubscriptionStart.vue": null
-        },
-        "widgets": {
-          "SuperChart.vue": null,
-          "WidgetOverview.vue": null,
-          "WidgetVideo.vue": null,
-          "utils.ts": null,
-          "widgets.ts": null
-        }
-      },
       "plugin-stripe": {
+        "SubscriptionStart.vue": null,
         "customer.ts": null,
         "endpointTrial.ts": null,
         "endpoints.ts": null,
