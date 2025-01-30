@@ -1,13 +1,9 @@
 import type { Request } from 'express'
-import type { TestUtils } from '../../test-utils/init'
-import { beforeAll, describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { createTestUtils } from '../../test-utils/init'
 
-let testUtils: undefined | TestUtils
 describe('rendering tests', () => {
-  beforeAll(async () => {
-    testUtils = createTestUtils()
-  })
+  const testUtils = createTestUtils()
 
   it('generates correct html', async () => {
     const html = testUtils?.fictionApp?.fictionRender?.addRunVarsToHtml({ html: '<html><body>hello</body></html>', runVars: { test: '123' } })

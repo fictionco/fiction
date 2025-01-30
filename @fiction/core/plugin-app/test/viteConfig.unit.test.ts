@@ -1,14 +1,11 @@
-import type { TestUtils } from '@fiction/core/test-utils/init'
 import type * as vite from 'vite'
 import { createTestUtils } from '@fiction/core/test-utils/init'
-import { beforeAll, describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 let viteConfig: vite.InlineConfig | undefined
-let testUtils: TestUtils | undefined
-describe('vite config', () => {
-  beforeAll(async () => {
-    testUtils = createTestUtils({ serverPort: 20_220, appPort: 1234 })
-  })
+describe('vite config', async () => {
+  const testUtils = createTestUtils({ serverPort: 20_220, appPort: 1234 })
+
   it('gets and merges vite config', async () => {
     expect(testUtils?.fictionServer.port.value).toBe(20_220)
 

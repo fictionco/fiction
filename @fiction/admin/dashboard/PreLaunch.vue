@@ -59,18 +59,18 @@ const hasAccessCode = vue.ref(false)
                   "
                 >The code you entered is
                   {{ validCode ? "valid" : "invalid" }}</span>
-                <span v-else class="text-theme-400 dark:text-theme-500">Software for Personal Growth</span>
+                <span v-else class="text-theme-400 dark:text-theme-500">Personal Branding</span>
               </div>
 
               <h3
                 id="modal-title"
                 class="x-font-title text-3xl font-bold text-balance tracking-tight"
               >
-                You're on the waitlist.
+                Coming February 2025
               </h3>
               <div class="mt-4">
                 <p class="text-theme-500 dark:text-theme-300 text-sm text-balance">
-                  Due to high demand, we are onboarding users in batches (to ensure exceptional results). When it's your turn, you'll receive an email with your access code.
+                  We are currently in private beta. Enter your invite code to get early access.
                 </p>
               </div>
             </div>

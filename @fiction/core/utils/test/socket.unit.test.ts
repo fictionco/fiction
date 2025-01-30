@@ -2,12 +2,10 @@
  * @vitest-environment happy-dom
  * https://vitest.dev/config/#environment
  */
-import type { TestUtils } from '../../test-utils/init'
 import type {
   SocketMeta,
-  SocketServerComponents,
 } from '../socket'
-import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { WebSocket as NodeWebSocket } from 'ws'
 import { snap } from '../../test-utils'
 import { createTestUtils } from '../../test-utils/init'
@@ -30,7 +28,6 @@ type EventMap = {
   test: { req: 'ping', res: 'pong' }
 }
 
-let s: SocketServerComponents<EventMap> | undefined
 const port = 1221
 const host = `ws://localhost:${port}`
 
@@ -41,19 +38,17 @@ const serverEvents: [
 ][] = []
 const clientEvents: [keyof EventMap, EventMap[keyof EventMap]['res']][] = []
 
-let testUtils: TestUtils | undefined
-describe('sockets', () => {
-  beforeAll(async () => {
-    testUtils = createTestUtils()
-    s = await createSocketServer<EventMap>({
-      serverName: 'testSocketServer',
-      port,
-      fictionUser: testUtils.fictionUser,
-      fictionEnv: testUtils.fictionEnv,
-    })
+describe('sockets', async () => {
+  const testUtils = await createTestUtils({})
+  const s = await createSocketServer<EventMap>({
+    serverName: 'testSocketServer',
+    port,
+    fictionUser: testUtils.fictionUser,
+    fictionEnv: testUtils.fictionEnv,
   })
   afterAll(async () => {
     s?.endpointServer.server?.close()
+    await testUtils.close()
   })
 
   it('creates a socket server', async () => {

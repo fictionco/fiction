@@ -1,21 +1,17 @@
 /**
  * @vitest-environment happy-dom
  */
-import type { TestUtils } from '@fiction/core/test-utils/init'
 import type { EndpointResponse } from '@fiction/core/types'
 import type http from 'node:http'
 import { FictionUser } from '@fiction/core/plugin-user'
 import { createTestUtils } from '@fiction/core/test-utils/init'
 import { axios, randomBetween, vue } from '@fiction/core/utils'
-import { afterEach, beforeAll, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 import { FictionServer } from '..'
 
-let testUtils: TestUtils
 let server: http.Server | undefined
-describe('server test', () => {
-  beforeAll(async () => {
-    testUtils = createTestUtils()
-  })
+describe('server test', async () => {
+  const testUtils = await createTestUtils({})
 
   afterEach(() => {
     server?.close()
