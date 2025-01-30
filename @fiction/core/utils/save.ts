@@ -3,7 +3,7 @@ import { log } from '../plugin-log'
 import { vue } from './libraries'
 
 export type AutosaveConfig<T extends EndpointResponse = EndpointResponse> = {
-  onSave: () => Promise<T>
+  onSave: () => Promise<T | undefined | void>
   debounceMs?: number
   onError?: (error: unknown) => void
 }
@@ -20,7 +20,7 @@ export class AutosaveUtility<T extends EndpointResponse = EndpointResponse> {
     this.debouncedSave()
   }
 
-  public async forceSync(): Promise<T | undefined> {
+  public async forceSync(): Promise<T | undefined | void> {
     this.clear()
     return await this.save()
   }
@@ -35,7 +35,7 @@ export class AutosaveUtility<T extends EndpointResponse = EndpointResponse> {
     this.saveTimeout = setTimeout(() => this.save(), this.config.debounceMs ?? 2000)
   }
 
-  private async save(): Promise<T | undefined> {
+  private async save(): Promise<T | undefined | void> {
     try {
       const r = await this.config.onSave()
       this.isDirty.value = false

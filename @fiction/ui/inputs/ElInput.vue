@@ -18,7 +18,7 @@ const { modelValue, label = '', subLabel = '', description = '', inputProps = {}
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: any): void
-  (e: 'update:editIndex', value: string): void
+  (e: 'update:editIndex', value: number): void
   (e: 'keydown', value: KeyboardEvent): void
 }>()
 

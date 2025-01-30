@@ -43,7 +43,7 @@ export const userColumns = [
   new Col({ key: 'tags', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
   new Col({ key: 'systemRole', sch: () => UserRoleEnum, make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('subscriber') }),
   new Col({ key: 'needsOnboarding', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
-  new Col({ key: 'onboard', sec: 'setting', sch: () => z.record(z.string(), z.any()) as z.Schema<OnboardSettings>, make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(value) }),
+  new Col({ key: 'onboard', sec: 'setting', sch: () => z.record(z.string(), z.any()) as z.Schema<OnboardSettings>, make: ({ s, col }) => s.jsonb(col.k) }),
 
 ] as const
 
@@ -74,7 +74,7 @@ export const orgColumns = [
   new Col({ key: 'legal', sec: 'setting', sch: () => z.any() as z.Schema<OrganizationLegal>, make: ({ s, col }) => s.jsonb(col.k) }),
   new Col({ key: 'accessTokens', sec: 'authority', sch: () => z.record(z.string(), z.string()), make: ({ s, col }) => s.jsonb(col.k) }),
   new Col({ key: 'needsOnboarding', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
-  new Col({ key: 'onboard', sec: 'setting', sch: () => z.record(z.string(), z.any()) as z.Schema<OnboardSettings>, make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(value) }),
+  new Col({ key: 'onboard', sec: 'setting', sch: () => z.record(z.string(), z.any()) as z.Schema<OnboardSettings>, make: ({ s, col }) => s.jsonb(col.k) }),
 ] as const
 
 export const membersColumns = [

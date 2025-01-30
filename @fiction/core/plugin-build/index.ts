@@ -241,6 +241,7 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
       },
       server: {
         fs: { strict: false },
+        allowedHosts: ['.lan.com', 'localhost'],
         hmr,
         watch: {
           ignored: [
