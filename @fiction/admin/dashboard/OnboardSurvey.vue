@@ -16,6 +16,9 @@ const { card } = defineProps<{ card: Card }>()
 
 const { fictionUser } = useService<{ fictionUser: FictionUser }>()
 
+const TRIAL_PRODUCT = 'pro_month'
+const TRIAL_PRICE = 79
+
 const form = vue.ref<{
   fullName?: string
   orgName?: string
@@ -188,7 +191,7 @@ const stepConfig: StepConfig = {
           icon: { class: 'i-tabler-sparkles' },
         },
         title: 'Join the Best',
-        subTitle: 'Free for one month then $39/mo. Cancel anytime.',
+        subTitle: `Free for one month then $${TRIAL_PRICE}/mo. Cancel anytime.`,
         button: { label: 'Start My Trial', theme: 'primary', size: 'lg', icon: 'i-tabler-bolt', iconAfter: 'i-tabler-arrow-right' },
         class: 'max-w-screen-xl',
         noButton: true,
@@ -315,7 +318,7 @@ const stepConfig: StepConfig = {
               <div class="space-y-6 max-w-[500px] w-full">
                 <ElSubscriberStart
                   :card
-                  price-lookup-key="pro_month"
+                  :price-lookup-key="TRIAL_PRODUCT"
                   trial-type="paid"
                   :button="step.button || {}"
                   class="w-full"

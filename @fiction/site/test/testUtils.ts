@@ -99,8 +99,6 @@ export async function createSiteTestUtils(args: {
 
   out.fictionEnv.log.info(`Site Test Utils Created (${context})`)
 
-  out.close = async () => testUtils.close()
-
   out.createSite = async (args: { themeId?: string } = {}) => {
     const { themeId = 'test' } = args
     const service = out as SiteTestUtils
@@ -109,17 +107,27 @@ export async function createSiteTestUtils(args: {
     return Site.create({ siteRouter, fictionSites, themeId, isProd: false, siteId: `test-${shortId()}` })
   }
 
+  const runOnStart = async (args: { context: 'app' | 'node', isProd?: boolean }) => {
+    const { context } = args
+    await out.fictionAnalytics?.init()
+    await out.fictionSites?.ensureAppDefaults({ context, defaultId: 'test' })
+  }
+
   out.init = async () => {
     const r = await testUtils.init()
-    await out.fictionAnalytics?.init()
-    await out.fictionSites?.ensureAppDefaults({ context: args.context, defaultId: 'test' })
+    await runOnStart({ context })
     return r
   }
 
   out.runApp = async (args) => {
     const r = await testUtils.runApp(args)
-    await out.fictionSites?.ensureAppDefaults({ context: args.context, defaultId: 'test' })
+    await runOnStart({ context })
     return r
+  }
+
+  out.close = async () => {
+    await out.fictionAnalytics?.close()
+    await testUtils.close()
   }
 
   return out as SiteTestUtils

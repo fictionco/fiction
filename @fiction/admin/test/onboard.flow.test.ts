@@ -1,4 +1,3 @@
-import { time } from 'node:console'
 import { isCi } from '@fiction/core'
 import { createUiTestingKit } from '@fiction/core/test-utils/kit'
 import { afterAll, describe, expect, it } from 'vitest'

@@ -71,7 +71,9 @@ export class MetricDisplayFactory extends FictionObject<{
 
       if (!response.data) {
         this.log.error('No data received from analytics', { data: response })
-        throw new Error('No data received from analytics')
+
+        this.error.value = 'No data received from analytics'
+        return
       }
       else {
         this.log.info('Received data from analytics', { data: response })
