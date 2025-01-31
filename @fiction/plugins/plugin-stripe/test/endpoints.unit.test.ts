@@ -459,6 +459,4 @@ describe('queryManageCustomer', async () => {
       expect(r.message).toMatchInlineSnapshot(`"Payment API Error"`)
     })
   })
-
-
 })

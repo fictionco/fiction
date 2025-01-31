@@ -22,7 +22,7 @@ describe('onboard UX', { retry: isCi() ? 3 : 0 }, async () => {
   const setToName = 'Onboarded User'
   const setToOrg = 'Onboarded Org'
 
-  it('completes onboard flow', async () => {
+  it('completes onboard flow', { timeout: 120000 }, async () => {
     await kit.performActions({
       caller: 'onboardUiUx',
       path: '/',
@@ -90,5 +90,5 @@ describe('onboard UX', { retry: isCi() ? 3 : 0 }, async () => {
     expect(r2.data?.customer?.id).toBeTruthy()
     expect(r2.data?.isActive).toBeTruthy()
     expect(r2.data?.isTrialing).toBeTruthy()
-  }, { timeout: 120000 })
+  })
 })

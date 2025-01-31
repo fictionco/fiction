@@ -1,4 +1,4 @@
-import type { ErrorConfig, EndpointMeta, EndpointResponse,  Organization } from '@fiction/core'
+import type { EndpointMeta, EndpointResponse, ErrorConfig, Organization } from '@fiction/core'
 import type Stripe from 'stripe'
 import type { FictionStripe } from '.'
 import type { StripePluginSettings } from './index.js'
@@ -28,7 +28,7 @@ export abstract class StripeEndpoint extends Query<StripeEndpointSettings> {
 
 // Union type for all possible action parameters
 type ManageCustomerRequestParams =
-  | { _action: 'create'}
+  | { _action: 'create' }
   | { _action: 'update', fields: { email?: string, name?: string } }
   | { _action: 'retrieve' }
   | { _action: 'delete' }
@@ -39,15 +39,14 @@ type Customer = Stripe.Customer & { deleted?: boolean }
 
 export class QueryManageCustomer extends StripeEndpoint {
   async run(params: ManageCustomerParams, meta: EndpointMeta): Promise<EndpointResponse<CustomerData>> {
+    const { _action, orgId } = params
 
-    const {_action, orgId} = params
-
-    try{
+    try {
       if (!orgId) {
         throw abort('Missing orgId', meta)
       }
 
-      switch ( _action) {
+      switch (_action) {
         case 'create':
           return this.createCustomer(params, meta)
         case 'update':
@@ -57,14 +56,13 @@ export class QueryManageCustomer extends StripeEndpoint {
         default:
           throw abort('Invalid action')
       }
-    } catch (err) {
+    }
+    catch (err) {
       const error = err as ErrorConfig
       const code = error.code || 'OPERATION_FAILED'
       this.log.error('Payment API Error', { error, params })
       return { status: 'error', message: 'Payment API Error', code }
     }
-
-
   }
 
   private async getOrgData(args: { orgId: string, caller?: string }, meta: EndpointMeta): Promise<Organization> {

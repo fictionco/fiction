@@ -275,8 +275,9 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     return this.appServer
   }
 
-  async close() {
-    this.log.info(`close app: ${this.appInstanceId}`)
+  async close(args: { caller?: string } = {}) {
+    const { caller = 'unknown' } = args
+    this.log.info(`close app: ${this.appInstanceId} (${caller})`)
     this.appServer?.close()
     this.staticServer?.close()
 

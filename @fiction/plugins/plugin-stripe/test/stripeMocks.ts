@@ -179,7 +179,7 @@ export const mockStripeMethods = {
       ...data,
     })),
     del: vi.fn().mockResolvedValue({ ...mockStripeCustomer, deleted: true }),
-    search: vi.fn().mockResolvedValue({data: [mockStripeCustomer]}),
+    search: vi.fn().mockResolvedValue({ data: [mockStripeCustomer] }),
   },
   subscriptions: {
     list: vi.fn().mockResolvedValue({
@@ -226,7 +226,7 @@ export const mockStripeMethods = {
       }],
       has_more: false,
       url: '/v1/prices',
-    })
-  }
+    }),
+  },
 
 }

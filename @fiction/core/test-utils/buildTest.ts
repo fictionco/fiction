@@ -161,6 +161,21 @@ export class PlaywrightLogger {
     page.on('console', this.handleConsoleMessage.bind(this))
     page.on('pageerror', this.handlePageError.bind(this))
     page.on('load', () => { this.currentUrl = page.url() })
+
+    // Add iframe console logging
+    page.on('frameattached', async (frame) => {
+      const framePage = frame.page()
+      framePage.on('console', this.handleConsoleMessage.bind(this))
+      framePage.on('pageerror', this.handlePageError.bind(this))
+    })
+
+    // Handle existing frames
+    const frames = page.frames()
+    for (const frame of frames) {
+      const framePage = frame.page()
+      framePage.on('console', this.handleConsoleMessage.bind(this))
+      framePage.on('pageerror', this.handlePageError.bind(this))
+    }
   }
 
   close(): void {

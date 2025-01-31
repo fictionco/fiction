@@ -109,7 +109,6 @@ export interface CompiledServiceConfig {
       | 'extend'
       | 'customerId'
       | 'customer'
-      | 'customerAuthorized'
       | 'customerIdTest'
       | 'customerTest'
       | 'orgPlan'
