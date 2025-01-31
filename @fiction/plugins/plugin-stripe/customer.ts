@@ -1,6 +1,6 @@
 import type { FictionStripe } from './index'
 import type { CustomerData } from './utils'
-import { FictionObject, vue } from '@fiction/core'
+import { debounce, FictionObject, vue } from '@fiction/core'
 
 type CustomerStateStatus = 'initializing' | 'ready' | 'error'
 
@@ -14,6 +14,7 @@ type CustomerStateData = {
 export type CustomerStateSettings = {
   fictionStripe: FictionStripe
   onStateChange?: (state: CustomerStateData) => void
+  instanceId?: string
 }
 
 export class CustomerState extends FictionObject<CustomerStateSettings> {
@@ -26,7 +27,6 @@ export class CustomerState extends FictionObject<CustomerStateSettings> {
   })
 
   private initPromise?: Promise<CustomerData>
-  private refreshTimeout?: NodeJS.Timeout
   private orgWatcher?: vue.WatchStopHandle
 
   /**
@@ -117,12 +117,15 @@ export class CustomerState extends FictionObject<CustomerStateSettings> {
 
     try {
       const result = await this.initPromise
-      this.setupAutoRefresh()
+      this.setupAutoRefresh({ caller })
       return result
     }
     catch (error) {
       this.initPromise = undefined
       throw error
+    }
+    finally {
+      this.initPromise = undefined
     }
   }
 
@@ -157,20 +160,28 @@ export class CustomerState extends FictionObject<CustomerStateSettings> {
   /**
    * Sets up auto-refresh when org changes
    */
-  private setupAutoRefresh() {
+  private setupAutoRefresh(args: { caller: string }) {
+    const { caller } = args
     this.cleanup()
+
+    // Create debounced fetch function that maintains class context
+    const debouncedFetch = debounce(async () => {
+      try {
+        await this.fetchCustomerData()
+      }
+      catch (error) {
+        this.log.error('Failed to refresh customer data', { error })
+      }
+    }, 100)
 
     // Watch for org changes
     this.orgWatcher = vue.watch(
       () => this.settings.fictionStripe.settings.fictionUser.activeOrgId.value,
-      () => {
-        this.log.error('Org changed, refreshing customer data')
-        clearTimeout(this.refreshTimeout)
-        this.refreshTimeout = setTimeout(() => {
-          this.fetchCustomerData().catch((error) => {
-            this.log.error('Failed to refresh customer data', { error })
-          })
-        }, 100)
+      (v, old) => {
+        this.log.info(`ORG CHANGED, refreshing customer data`, {
+          data: { caller, v, old },
+        })
+        debouncedFetch()
       },
     )
   }
@@ -188,6 +199,15 @@ export class CustomerState extends FictionObject<CustomerStateSettings> {
     }
   }
 
+  reset() {
+    this.setState({
+      status: 'initializing',
+      error: undefined,
+      data: undefined,
+    })
+    this.cleanup()
+  }
+
   /**
    * Cleanup resources
    */
@@ -195,10 +215,6 @@ export class CustomerState extends FictionObject<CustomerStateSettings> {
     if (this.orgWatcher) {
       this.orgWatcher()
       this.orgWatcher = undefined
-    }
-    if (this.refreshTimeout) {
-      clearTimeout(this.refreshTimeout)
-      this.refreshTimeout = undefined
     }
   }
 }

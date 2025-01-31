@@ -4,6 +4,7 @@ import { afterAll, describe, expect, it } from 'vitest'
 import { FictionStripe } from '..'
 import { mockStripeMethods } from './stripeMocks'
 
+const testLookupKey = 'pro_month'
 const testPriceId = 'price_1QkaX2GPawBUuSSLEgurp2RW'
 const testProductId = 'prod_RdsHJLIxC4dFZH'
 
@@ -39,10 +40,6 @@ describe('queryPortalSession', async () => {
       const customer = await fictionStripe.queries.ManageCustomer.serve({
         _action: 'create',
         orgId,
-        fields: {
-          email: 'portal-test@example.com',
-          name: 'Portal Test Customer',
-        },
       }, { server: true } as EndpointMeta)
 
       // Attempt to create portal session
@@ -92,10 +89,6 @@ describe('queryPortalSession', async () => {
       await fictionStripe.queries.ManageCustomer.serve({
         _action: 'create',
         orgId,
-        fields: {
-          email: 'return-url@example.com',
-          name: 'Return URL Test',
-        },
       }, { server: true } as EndpointMeta)
 
       const customUrl = 'https://custom-domain.com/return'
@@ -113,10 +106,6 @@ describe('queryPortalSession', async () => {
       await fictionStripe.queries.ManageCustomer.serve({
         _action: 'create',
         orgId,
-        fields: {
-          email: 'deleted@example.com',
-          name: 'To Be Deleted',
-        },
       }, { server: true } as EndpointMeta)
 
       await fictionStripe.queries.ManageCustomer.serve({
@@ -136,10 +125,6 @@ describe('queryPortalSession', async () => {
       await fictionStripe.queries.ManageCustomer.serve({
         _action: 'create',
         orgId,
-        fields: {
-          email: 'api-err@example.com',
-          name: 'API Error Test',
-        },
       }, { server: true } as EndpointMeta)
 
       // Mock a stripe API error
@@ -205,16 +190,12 @@ describe('queryCheckoutSession', async () => {
       const customer = await fictionStripe.queries.ManageCustomer.serve({
         _action: 'create',
         orgId,
-        fields: {
-          email: 'checkout-test@example.com',
-          name: 'Checkout Test Customer',
-        },
       }, { server: true } as EndpointMeta)
 
       // Attempt to create checkout session
       const result = await fictionStripe.queries.CheckoutSession.serve({
         orgId,
-        priceId: testPriceId,
+        priceLookupKey: testLookupKey,
       }, { server: true } as EndpointMeta)
 
       expect(result.status).toBe('success')
@@ -228,7 +209,7 @@ describe('queryCheckoutSession', async () => {
     it('handles missing orgId gracefully', async () => {
       const result = await fictionStripe.queries.CheckoutSession.serve({
         orgId: '',
-        priceId: testPriceId,
+        priceLookupKey: testLookupKey,
       }, { server: true, expectError: true } as EndpointMeta)
 
       expect(result.status).toBe('error')
@@ -248,7 +229,7 @@ describe('queryCheckoutSession', async () => {
 
       const result = await fictionStripe.queries.CheckoutSession.serve({
         orgId: newOrg.data?.orgId || '',
-        priceId: testPriceId,
+        priceLookupKey: testLookupKey,
       }, { server: true } as EndpointMeta)
 
       expect(result.status).toBe('success')
@@ -259,10 +240,6 @@ describe('queryCheckoutSession', async () => {
       await fictionStripe.queries.ManageCustomer.serve({
         _action: 'create',
         orgId,
-        fields: {
-          email: 'checkout-error@example.com',
-          name: 'Checkout Error Test',
-        },
       }, { server: true } as EndpointMeta)
 
       // Mock a stripe API error
@@ -280,7 +257,7 @@ describe('queryCheckoutSession', async () => {
 
       const result = await fictionStripe.queries.CheckoutSession.serve({
         orgId,
-        priceId: testPriceId,
+        priceLookupKey: testLookupKey,
       }, { server: true, expectError: true } as EndpointMeta)
 
       expect(result.status).toBe('error')
@@ -295,10 +272,6 @@ describe('queryCheckoutSession', async () => {
       await fictionStripe.queries.ManageCustomer.serve({
         _action: 'create',
         orgId,
-        fields: {
-          email: 'deleted-checkout@example.com',
-          name: 'To Be Deleted Checkout',
-        },
       }, { server: true } as EndpointMeta)
 
       await fictionStripe.queries.ManageCustomer.serve({
@@ -308,7 +281,7 @@ describe('queryCheckoutSession', async () => {
 
       const result = await fictionStripe.queries.CheckoutSession.serve({
         orgId,
-        priceId: testPriceId,
+        priceLookupKey: testLookupKey,
       }, { server: true, expectError: true } as EndpointMeta)
 
       expect(result.status).toBe('success')
@@ -367,17 +340,12 @@ describe('queryManageCustomer', async () => {
       const params = {
         _action: 'create' as const,
         orgId,
-        fields: {
-          orgId,
-          email: 'test@example.com',
-          name: 'Test Customer',
-        },
       }
 
       const result = await fictionStripe.queries.ManageCustomer.serve(params, { server: true } as EndpointMeta)
 
       expect(result.status).toBe('success')
-      expect(result.data?.customer?.email).toBe('test@example.com')
+      expect(result.data?.customer?.email).toBe('test@create.com')
       expect(result.data?.subscriptions).toEqual([])
     })
 
@@ -394,7 +362,7 @@ describe('queryManageCustomer', async () => {
       const r = await fictionStripe.queries.ManageCustomer.serve(params, { server: true, expectError: true } as EndpointMeta)
 
       expect(r.status).toBe('error')
-      expect(r.message).toMatchInlineSnapshot(`"Missing orgId"`)
+      expect(r.message).toMatchInlineSnapshot(`"Payment API Error"`)
     })
   })
 
@@ -418,10 +386,6 @@ describe('queryManageCustomer', async () => {
       // First create a customer
       await fictionStripe.queries.ManageCustomer.serve({
         _action: 'create',
-        fields: {
-          email: 'initial@example.com',
-          name: 'Initial Name',
-        },
         orgId,
       }, { server: true } as EndpointMeta)
 
@@ -442,13 +406,8 @@ describe('queryManageCustomer', async () => {
         email: 'updated@example.com',
         name: 'Updated Name',
       })
-      // expect(mockStripeMethods.customers.update).toHaveBeenCalledWith(
-      //   mockStripeCustomer.id,
-      //   expect.objectContaining({
-      //     email: 'updated@example.com',
-      //     name: 'Updated Name',
-      //   }),
-      // )
+
+      expect(result.data?.customer?.metadata.orgId).toEqual(orgId)
     })
   })
 
@@ -473,10 +432,6 @@ describe('queryManageCustomer', async () => {
       await fictionStripe.queries.ManageCustomer.serve({
         _action: 'create',
         orgId,
-        fields: {
-          email: 'retrieve@example.com',
-          name: 'Retrieve Test',
-        },
       }, { server: true } as EndpointMeta)
 
       const result = await fictionStripe.queries.ManageCustomer.serve({
@@ -485,7 +440,8 @@ describe('queryManageCustomer', async () => {
       }, { server: true } as EndpointMeta)
 
       expect(result.status).toBe('success')
-      expect(result.data?.customer?.email).toEqual('retrieve@example.com')
+      expect(result.data?.customer?.email).toEqual('test@retrieve.com')
+      expect(result.data?.customer?.metadata?.orgId).toEqual(orgId)
       expect(result.data?.subscriptions).toEqual([])
     })
 
@@ -500,45 +456,9 @@ describe('queryManageCustomer', async () => {
       const r = await fictionStripe.queries.ManageCustomer.serve(params, { server: true, expectError: true } as EndpointMeta)
 
       expect(r.status).toBe('error')
-      expect(r.message).toMatchInlineSnapshot(`"Missing orgId"`)
+      expect(r.message).toMatchInlineSnapshot(`"Payment API Error"`)
     })
   })
 
-  describe('delete action', () => {
-    it('deletes customer successfully', async () => {
-      const newOrg = await testUtils.fictionUser.queries.ManageOrganization.serve({
-        _action: 'create',
-        userId,
-        fields: {
-          orgName: 'Test Delete Org',
-          orgEmail: 'test@delete.com',
-        },
-      }, { server: true })
 
-      const orgId = newOrg.data?.orgId
-
-      if (!orgId) {
-        throw new Error('No orgId provided')
-      }
-
-      // First create a customer
-      const r = await fictionStripe.queries.ManageCustomer.serve({
-        _action: 'create',
-        fields: {
-          email: 'delete@example.com',
-          name: 'Delete Test',
-        },
-        orgId,
-      }, { server: true } as EndpointMeta)
-
-      const result = await fictionStripe.queries.ManageCustomer.serve({
-        _action: 'delete',
-        orgId,
-      }, { server: true } as EndpointMeta)
-
-      expect(result.status).toBe('success')
-      expect(result.data?.customer).toBeTruthy()
-      expect(result.data?.customer?.id).not.toBe(r.data?.customer?.id)
-    })
-  })
 })

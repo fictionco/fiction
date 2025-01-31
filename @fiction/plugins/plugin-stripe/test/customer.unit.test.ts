@@ -2,7 +2,7 @@
  * @vitest-environment happy-dom
  */
 
-import { waitFor } from '@fiction/core'
+import { shortId, waitFor } from '@fiction/core'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, beforeEach, describe, expect, it } from 'vitest'
 import { FictionStripe } from '..'
@@ -29,15 +29,16 @@ describe('customerState', async () => {
   if (!userId)
     throw new Error('No user ID provided')
 
-  let customerState: CustomerState
+  const customerState = new CustomerState({ fictionStripe, instanceId: shortId() })
 
-  beforeEach(() => {
-    customerState = new CustomerState({ fictionStripe })
+  beforeEach(async () => {
+    customerState.reset()
   })
 
   afterAll(async () => {
     await testUtils.close()
     await fictionStripe.close()
+    customerState.cleanup()
   })
 
   it('should initialize customer data', async () => {
@@ -70,7 +71,7 @@ describe('customerState', async () => {
   })
 
   it('should refresh when org changes', async () => {
-    await customerState.initialize({ caller: 'test' })
+    await customerState.initialize({ caller: 'testOrgChange' })
 
     const initialData = customerState.data.value
     const initialCustomerId = initialData?.customer?.id
@@ -86,7 +87,7 @@ describe('customerState', async () => {
     await testUtils.fictionUser.setNewActiveOrgId({ orgId: newOrgId, caller: 'test' })
 
     // Wait for refresh
-    await waitFor(1500)
+    await waitFor(1000)
 
     const newData = customerState.data.value
     const newCustomerId = newData?.customer?.id

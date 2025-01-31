@@ -179,6 +179,7 @@ export const mockStripeMethods = {
       ...data,
     })),
     del: vi.fn().mockResolvedValue({ ...mockStripeCustomer, deleted: true }),
+    search: vi.fn().mockResolvedValue({data: [mockStripeCustomer]}),
   },
   subscriptions: {
     list: vi.fn().mockResolvedValue({
@@ -188,4 +189,44 @@ export const mockStripeMethods = {
       url: '/v1/subscriptions',
     }),
   },
+  paymentMethods: {
+    attach: vi.fn().mockResolvedValue({}),
+    detach: vi.fn().mockResolvedValue({}),
+  },
+  prices: {
+    list: vi.fn().mockResolvedValue({
+      object: 'list',
+      data: [{
+        id: 'price_123',
+        object: 'price',
+        active: true,
+        billing_scheme: 'per_unit',
+        created: Math.floor(Date.now() / 1000),
+        currency: 'usd',
+        custom_unit_amount: null,
+        livemode: false,
+        lookup_key: null,
+        metadata: {},
+        nickname: null,
+        product: 'prod_123',
+        recurring: {
+          aggregate_usage: null,
+          interval: 'month',
+          interval_count: 1,
+          meter: null,
+          trial_period_days: null,
+          usage_type: 'licensed',
+        },
+        tax_behavior: 'unspecified',
+        tiers_mode: null,
+        transform_quantity: null,
+        type: 'recurring',
+        unit_amount: 1000,
+        unit_amount_decimal: '1000',
+      }],
+      has_more: false,
+      url: '/v1/prices',
+    })
+  }
+
 }

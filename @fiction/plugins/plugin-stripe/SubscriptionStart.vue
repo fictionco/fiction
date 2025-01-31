@@ -7,13 +7,11 @@ import type { Appearance, Stripe, StripeElements } from '@stripe/stripe-js'
 import { isDarkOrLightMode, log, useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
-import { defineProps } from 'vue'
 
 const {
   priceLookupKey,
   button,
   trialType = 'paid',
-  card,
 } = defineProps<{ priceLookupKey: string, button?: ActionButton, trialType: 'free' | 'paid', card: Card }>()
 
 const emit = defineEmits<{
@@ -25,7 +23,8 @@ const logger = log.contextLogger('SubscriptionStart')
 
 const { fictionStripe, fictionUser } = useService<{ fictionStripe: FictionStripe }>()
 
-const loading = vue.ref(false)
+const loading = vue.ref(true)
+const sending = vue.ref(false)
 const error = vue.ref('')
 const elements = vue.ref<StripeElements>()
 const stripe = vue.ref<Stripe>()
@@ -123,7 +122,7 @@ async function handlePayment() {
     return
   }
 
-  loading.value = true
+  sending.value = true
   error.value = ''
 
   try {
@@ -158,7 +157,7 @@ async function handlePayment() {
     emit('error', { message: error.value })
   }
   finally {
-    loading.value = false
+    sending.value = false
   }
 }
 
@@ -176,6 +175,8 @@ vue.onMounted(async () => {
   await fictionStripe.customerState.initialize({ caller: 'SubscriptionStart' })
 
   await setupStripe()
+
+  loading.value = false
 })
 
 vue.onBeforeUnmount(() => {
@@ -197,48 +198,34 @@ vue.onBeforeUnmount(() => {
 
     <div
       v-if="loading"
-      class="absolute z-10 inset-0 py-12 flex justify-center items-center bg-white/80 dark:bg-black/80"
+      class="w-full p-12 flex justify-center items-center min-h-[300px] inset-0 absolute"
     >
-      <ElSpinner class="w-6 text-theme-400 dark:text-theme-600" />
+      <ElSpinner class="w-8 text-theme-400 dark:text-theme-600" />
     </div>
+
     <div
-      v-if="!fictionUser.activeOrgId.value"
-      class="absolute z-10 inset-0 py-12 flex justify-center items-center bg-white/80 dark:bg-black/80"
+      v-if="error"
+      class="p-3 text-rose-600 dark:text-rose-100 dark:bg-rose-900/50 bg-rose-50 rounded-lg text-sm"
+      role="alert"
     >
+      {{ error }}
+    </div>
+
+    <div ref="paymentElementRef" class="min-h-[300px]" />
+
+    <div class="flex justify-center transition-all" :class="loading ? 'opacity-0' : 'opacity-100'">
       <XButton
         v-if="elements"
         :theme="button?.theme || 'primary'"
-        :href="card.link('/auth')"
+        display="block"
+        :loading="sending"
+        :size="button?.size || 'lg'"
+        :icon="button?.icon"
+        data-test-id="payment-submit-button"
+        @click="handlePayment"
       >
-        Login to continue
+        {{ button?.label || 'Start Trial' }}
       </XButton>
     </div>
-
-    <template v-else>
-      <div
-        v-if="error"
-        class="p-3 text-rose-600 dark:text-rose-100 dark:bg-rose-900/50 bg-rose-50 rounded-lg text-sm"
-        role="alert"
-      >
-        {{ error }}
-      </div>
-
-      <div ref="paymentElementRef" class="min-h-[300px]" />
-
-      <div class="flex justify-center">
-        <XButton
-          v-if="elements"
-          :theme="button?.theme || 'primary'"
-          display="block"
-          :loading="loading"
-          :size="button?.size || 'lg'"
-          :icon="button?.icon"
-          @click="handlePayment"
-          data-test-id="payment-submit-button"
-        >
-          {{ button?.label || 'Start Trial' }}
-        </XButton>
-      </div>
-    </template>
   </div>
 </template>

@@ -1,4 +1,4 @@
-import type { EndpointMeta, EndpointResponse, Organization } from '@fiction/core'
+import type { ErrorConfig, EndpointMeta, EndpointResponse,  Organization } from '@fiction/core'
 import type Stripe from 'stripe'
 import type { FictionStripe } from '.'
 import type { StripePluginSettings } from './index.js'
@@ -10,6 +10,7 @@ export type StripeEndpointSettings = StripePluginSettings & { fictionStripe: Fic
 
 export abstract class StripeEndpoint extends Query<StripeEndpointSettings> {
   db = () => this.settings.fictionDb.client()
+  stripe = () => this.settings.fictionStripe.getServerClient()
   products = this.settings.fictionStripe.settings.products || []
   async getPriceByLookupKey(priceKey?: string) {
     if (!priceKey)
@@ -27,57 +28,101 @@ export abstract class StripeEndpoint extends Query<StripeEndpointSettings> {
 
 // Union type for all possible action parameters
 type ManageCustomerRequestParams =
-  | { _action: 'create', fields: { email?: string, name?: string } }
+  | { _action: 'create'}
   | { _action: 'update', fields: { email?: string, name?: string } }
   | { _action: 'retrieve' }
   | { _action: 'delete' }
 
 type ManageCustomerParams = ManageCustomerRequestParams & { orgId: string, userId?: string }
 
+type Customer = Stripe.Customer & { deleted?: boolean }
+
 export class QueryManageCustomer extends StripeEndpoint {
   async run(params: ManageCustomerParams, meta: EndpointMeta): Promise<EndpointResponse<CustomerData>> {
-    if (!params.orgId) {
-      throw abort('Missing orgId')
+
+    const {_action, orgId} = params
+
+    try{
+      if (!orgId) {
+        throw abort('Missing orgId', meta)
+      }
+
+      switch ( _action) {
+        case 'create':
+          return this.createCustomer(params, meta)
+        case 'update':
+          return this.updateCustomer(params, meta)
+        case 'retrieve':
+          return this.retrieveCustomer(params, meta)
+        default:
+          throw abort('Invalid action')
+      }
+    } catch (err) {
+      const error = err as ErrorConfig
+      const code = error.code || 'OPERATION_FAILED'
+      this.log.error('Payment API Error', { error, params })
+      return { status: 'error', message: 'Payment API Error', code }
     }
 
-    switch (params._action) {
-      case 'create':
-        return this.createCustomer(params, meta)
-      case 'update':
-        return this.updateCustomer(params, meta)
-      case 'retrieve':
-        return this.retrieveCustomer(params, meta)
-      case 'delete':
-        return this.deleteCustomer(params, meta)
-      default:
-        throw abort('Invalid action')
+
+  }
+
+  private async getOrgData(args: { orgId: string, caller?: string }, meta: EndpointMeta): Promise<Organization> {
+    const { orgId, caller = 'unknown' } = args
+    const liveStripe = this.settings.fictionStripe.stripeMode.value === 'live'
+    if (!orgId) {
+      throw abort(`No orgId provided (${caller})`, meta)
+    }
+
+    const org = await this.db()
+      .select('*')
+      .from(standardTable.org)
+      .where({ orgId })
+      .first<Organization>()
+
+    if (!org) {
+      throw abort(`Organization not found: ${orgId}`, meta)
+    }
+
+    if (!liveStripe) {
+      org.customerId = org.customerIdTest
+    }
+
+    return org
+  }
+
+  private async getCustomerByOrgData(args: { orgId: string, caller: string }, meta: EndpointMeta): Promise<Customer | undefined> {
+    const { orgId, caller = 'unknown' } = args
+
+    const stripe = this.settings.fictionStripe.getServerClient()
+
+    if (!orgId) {
+      throw abort(`No orgId provided (${caller})`, meta)
+    }
+
+    const org = await this.getOrgData({ orgId, caller }, meta)
+
+    if (!org.customerId)
+      return
+
+    try {
+      return await stripe.customers.retrieve(org.customerId) as Stripe.Customer & { deleted?: boolean }
+    }
+    catch (error) {
+      this.log.error('Payment API Error: Failed to retrieve customer from OrgData', { error, org })
     }
   }
 
-  private async createCustomer(
-    params: ManageCustomerParams & { _action: 'create' },
-    _meta: EndpointMeta,
-  ): Promise<EndpointResponse<CustomerData>> {
-    const { fields: { email = '', name = '' }, orgId } = params
-    const stripe = this.settings.fictionStripe.getServerClient()
+  private async createNewCustomer(args: { orgId: string, caller?: string }, _meta: EndpointMeta): Promise<Customer> {
+    const { orgId, caller } = args
 
-    if (!orgId)
-      throw abort('No orgId provided')
+    this.log.info('Creating new customer', { data: { orgId, caller } })
 
-    const query = `metadata[\"orgId\"]:\"${orgId}\"`
+    const org = await this.getOrgData({ orgId, caller }, _meta)
 
-    const existingCustomers = await stripe.customers.search({ query })
+    const { orgEmail: email, orgName: name } = org
 
-    if (existingCustomers.data.length > 0) {
-      const customerData = await this.getCustomerData({ orgId })
-      return {
-        status: 'success',
-        data: customerData,
-        message: 'Using existing customer',
-      }
-    }
-
-    const customer = await stripe.customers.create({
+    const customer = await this.stripe().customers.create({
       email,
       name,
       description: orgId,
@@ -88,13 +133,67 @@ export class QueryManageCustomer extends StripeEndpoint {
       },
     })
 
-    await this.saveCustomerInfo({
-      orgId,
-      customerId: customer.id,
-      data: { customerId: customer.id },
-    })
+    await this.saveCustomerIdToOrg({ orgId, customerId: customer.id }, _meta)
 
-    const customerData = await this.getCustomerData({ orgId })
+    return customer as Customer
+  }
+
+  private async getCustomerByOrgId(args: { orgId: string, caller: string }, _meta: EndpointMeta): Promise<Customer> {
+    const { orgId, caller = 'unknown' } = args
+    const stripe = this.settings.fictionStripe.getServerClient()
+    const query = `metadata[\"orgId\"]:\"${orgId}\"`
+
+    const searchResponse = await stripe.customers.search({ query })
+
+    const existingCustomers = searchResponse.data
+
+    if (existingCustomers.length > 1) {
+      this.log.error('Multiple customers found for orgId', { orgId, customers: existingCustomers })
+    }
+
+    let customer: Stripe.Customer | undefined
+    if (existingCustomers.length > 0) {
+      customer = existingCustomers[0]
+    }
+    else {
+      customer = await this.getCustomerByOrgData({ orgId, caller: `getCustomerByOrgId-${caller}` }, _meta)
+    }
+
+    if (!customer) {
+      customer = await this.createNewCustomer({ orgId, caller: `getCustomerByOrgId-${caller}` }, _meta)
+    }
+
+    return customer as Customer
+  }
+
+  private async getRefinedCustomerData(args: { orgId: string }, _meta: EndpointMeta): Promise<CustomerData> {
+    const { orgId } = args
+
+    const customer = await this.getCustomerByOrgId({ orgId, caller: 'getRefinedCustomerData' }, _meta)
+    const org = await this.getOrgData({ orgId }, _meta)
+
+    let subscriptions: Stripe.Subscription[] = []
+    if (customer && !customer?.deleted) {
+      const response = await this.stripe().subscriptions.list({ customer: customer?.id })
+      subscriptions = response.data
+    }
+
+    const raw = { customer, subscriptions, org }
+
+    return processCustomerData({ raw, products: this.products })
+  }
+
+  private async createCustomer(
+    params: ManageCustomerParams & { _action: 'create' },
+    _meta: EndpointMeta,
+  ): Promise<EndpointResponse<CustomerData>> {
+    const { orgId } = params
+
+    if (!orgId)
+      throw abort('no orgId provided', _meta)
+
+    const customerData = await this.getRefinedCustomerData({ orgId }, _meta)
+
     return { status: 'success', data: customerData, message: 'Customer created successfully' }
   }
 
@@ -104,15 +203,15 @@ export class QueryManageCustomer extends StripeEndpoint {
   ): Promise<EndpointResponse<CustomerData>> {
     const { fields: { email, name }, orgId } = params
     const stripe = this.settings.fictionStripe.getServerClient()
-    const { data: customer } = await this.getCustomer({ orgId })
+    const customer = await this.getCustomerByOrgId({ orgId, caller: 'updateCustomer' }, _meta)
 
     if (!customer || customer?.deleted) {
-      throw abort(`Can't update, customer not found`)
+      throw abort(`Can't update, customer not found`, _meta)
     }
 
     await stripe.customers.update(customer.id, { email, name })
 
-    const customerData = await this.getCustomerData({ orgId })
+    const customerData = await this.getRefinedCustomerData({ orgId }, _meta)
 
     return { status: 'success', data: customerData, message: 'Customer updated successfully' }
   }
@@ -123,181 +222,25 @@ export class QueryManageCustomer extends StripeEndpoint {
   ): Promise<EndpointResponse<CustomerData>> {
     const { orgId } = params
 
-    const r = await this.getCustomer({ orgId })
-
-    if (r.status === 'error') {
-      throw abort(r.message || 'Payment API Error')
-    }
-
-    const customerData = await this.getCustomerData({ orgId })
+    const customerData = await this.getRefinedCustomerData({ orgId }, _meta)
     return { status: 'success', data: customerData }
   }
 
-  private async deleteCustomer(
-    params: ManageCustomerParams & { _action: 'delete' },
-    _meta: EndpointMeta,
-  ): Promise<EndpointResponse<CustomerData>> {
-    const { orgId } = params
-
-    const { data: customer, org } = await this.getCustomer({ orgId })
-
-    if (!customer || customer?.deleted) {
-      throw abort(`Can't delete, customer not found`)
-    }
-
-    const stripe = this.settings.fictionStripe.getServerClient()
-
-    await stripe.customers.del(customer.id)
-
-    await this.saveCustomerInfo({
-      orgId,
-      customerId: null,
-      data: null,
-      customerAuthorized: null,
-    })
-
-    const customerData = await this.getCustomerData({ orgId })
-
-    return { status: 'success', data: customerData, message: 'Customer deleted successfully' }
-  }
-
-  private async getStoredCustomerInfo(args: { orgId: string, caller: string }): Promise<Organization> {
-    const { orgId, caller = 'unknown' } = args
-    const db = this.settings.fictionDb.client()
-    const liveStripe = this.settings.fictionStripe.stripeMode.value === 'live'
-
-    if (!orgId) {
-      throw new Error(`No orgId provided (${caller})`)
-    }
-
-    const org = await db
-      .select('*')
-      .from(standardTable.org)
-      .where({ orgId })
-      .first<Organization>()
-
-    if (!org) {
-      throw new Error(`Organization not found: ${orgId}`)
-    }
-
-    if (!liveStripe) {
-      org.customer = org.customerTest
-      org.customerId = org.customerTest?.customerId
-    }
-
-    return org
-  }
-
-  private async saveCustomerInfo(args: {
+  private async saveCustomerIdToOrg(args: {
     orgId: string
     customerId?: string | null
-    customerAuthorized?: 'authorized' | 'invalid' | null
-    data?: Record<string, any> | null
-  }): Promise<void> {
-    const { orgId, customerId, customerAuthorized, data } = args
-    const db = this.settings.fictionDb.client()
+  }, _meta: EndpointMeta): Promise<void> {
+    const { orgId, customerId } = args
     const liveStripe = this.settings.fictionStripe.stripeMode.value === 'live'
 
     const save: Record<string, string | null> = {}
     if (typeof customerId !== 'undefined') {
       save[liveStripe ? 'customerId' : 'customerIdTest'] = customerId
     }
-    if (typeof customerAuthorized !== 'undefined') {
-      save.customerAuthorized = customerAuthorized
-    }
 
-    await db.update(save).from(standardTable.org).where({ orgId })
+    this.log.info('Saving customerId to org', { data: { orgId, ...save } })
 
-    if (typeof data !== 'undefined') {
-      const customerField = liveStripe ? 'customer' : 'customer_test'
-      const customerMerge = data === null
-        ? db.raw(`'{}'::jsonb`)
-        : db.raw(
-            `coalesce(${customerField}::jsonb, '{}'::jsonb) || ?::jsonb`,
-            JSON.stringify(data),
-          )
-
-      const saveMeta = liveStripe
-        ? { customer: customerMerge }
-        : { customerTest: customerMerge }
-
-      await db
-        .update(saveMeta)
-        .from(standardTable.org)
-        .where({ orgId })
-    }
-  }
-
-  private async getCustomer(args: { orgId: string }): Promise<EndpointResponse<Stripe.Customer & { deleted?: boolean } > & { org: Organization }> {
-    const { orgId } = args
-    const stripe = this.settings.fictionStripe.getServerClient()
-    const org = await this.getStoredCustomerInfo({ orgId, caller: 'getCustomer' })
-
-    if (!org.orgId) {
-      throw new Error(`Organization not found: ${orgId}`)
-    }
-
-    let customerId = org?.customerId
-
-    if (!customerId) {
-      const r = await this.createCustomer({ orgId, _action: 'create', fields: {
-        email: org?.orgEmail,
-        name: org?.orgName,
-      } }, { caller: 'getCustomer' })
-
-      customerId = r.data?.customer?.id
-    }
-
-    if (!customerId) {
-      throw new Error(`customerId not available`)
-    }
-
-    let customer: (Stripe.Customer & { deleted?: boolean }) | undefined
-
-    try {
-      customer = await stripe.customers.retrieve(customerId) as Stripe.Customer & { deleted?: boolean }
-
-      if (customer?.deleted || !customer) {
-        if (org?.orgId) {
-          this.log.warn('Customer not found on org', { orgId: org.orgId })
-          await this.saveCustomerInfo({
-            orgId: org.orgId,
-            customerId: null,
-            data: { customerId: undefined },
-            customerAuthorized: null,
-          })
-        }
-        customer = undefined
-      }
-    }
-    catch (error) {
-      this.log.error('Payment API Error: Failed to retrieve customer', { error })
-      return { status: 'error', message: 'Payment API Error', org }
-    }
-
-    return { status: 'success', data: customer, org }
-  }
-
-  private async getCustomerData(args: { orgId: string }): Promise<CustomerData> {
-    const { orgId } = args
-
-    const { data: customer, org } = await this.getCustomer({ orgId })
-
-    const stripe = this.settings.fictionStripe.getServerClient()
-
-    let subscriptions: Stripe.Subscription[] = []
-    if (customer && !customer?.deleted) {
-      const response = await stripe.subscriptions.list({ customer: customer?.id })
-      subscriptions = response.data
-    }
-
-    const raw = {
-      customer,
-      subscriptions,
-      org,
-    }
-
-    return processCustomerData({ raw, products: this.products })
+    await this.db().update(save).from(standardTable.org).where({ orgId })
   }
 }
 
@@ -332,11 +275,10 @@ export class QueryPortalSession extends StripeEndpoint {
 export class QueryCheckoutSession extends StripeEndpoint {
   async run(params: {
     orgId: string
-    priceId?: string
-    priceKey?: string
+    priceLookupKey?: string
     trialPeriodDays?: number
   }, _meta: EndpointMeta): Promise<EndpointResponse<Stripe.Checkout.Session> & { customer?: Stripe.Customer }> {
-    const { orgId, priceId, trialPeriodDays = 14, priceKey } = params
+    const { orgId, trialPeriodDays = 14, priceLookupKey } = params
     const fictionStripe = this.settings.fictionStripe
     const stripe = fictionStripe.getServerClient()
 
@@ -348,7 +290,7 @@ export class QueryCheckoutSession extends StripeEndpoint {
       return { status: 'error', message: `customerId not found` }
     }
 
-    const sessionPriceId = priceId || await this.getPriceByLookupKey(priceKey)
+    const sessionPriceId = await this.getPriceByLookupKey(priceLookupKey)
 
     if (!sessionPriceId) {
       return { status: 'error', message: `priceId not found` }
