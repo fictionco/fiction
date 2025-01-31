@@ -6,8 +6,6 @@ import { StripeEndpoint } from './endpoints'
 type SetupTrialParams = {
   _action: 'setupTrial'
   orgId: string
-  email: string
-  priceId?: string
   priceLookupKey?: string
   trialType: 'free' | 'paid'
 } | {
@@ -15,7 +13,6 @@ type SetupTrialParams = {
   setupIntentId?: string | null
   paymentIntentId?: string | null
   orgId: string
-  priceId?: string
   priceLookupKey?: string
   trialPeriodDays?: number
 }
@@ -61,19 +58,19 @@ export class QueryStripeTrial extends StripeEndpoint {
     params: Extract<SetupTrialParams, { _action: 'setupTrial' }>,
     meta: EndpointMeta,
   ): Promise<EndpointResponse<TrialSetupResponse>> {
-    const { orgId, email, priceId, priceLookupKey, trialType } = params
+    const { orgId, priceLookupKey, trialType } = params
 
     if (!orgId) {
       throw abort('Missing orgId', meta)
     }
 
-    if (!priceLookupKey && !priceId) {
+    if (!priceLookupKey) {
       throw abort('Missing price identifier', meta)
     }
 
     const stripe = this.settings.fictionStripe.getServerClient()
 
-    const sessionPriceId = priceId || await this.getPriceByLookupKey(priceLookupKey)
+    const sessionPriceId = await this.getPriceByLookupKey(priceLookupKey)
 
     if (!sessionPriceId) {
       return { status: 'error', message: `priceId not found` }
@@ -83,7 +80,6 @@ export class QueryStripeTrial extends StripeEndpoint {
     const customerResponse = await this.settings.fictionStripe.queries.ManageCustomer.serve({
       _action: 'create',
       orgId,
-      fields: { email },
     }, meta)
 
     if (customerResponse.status === 'error' || !customerResponse.data?.customer) {
@@ -135,10 +131,10 @@ export class QueryStripeTrial extends StripeEndpoint {
     params: Extract<SetupTrialParams, { _action: 'completeSetup' }>,
     meta: EndpointMeta,
   ): Promise<EndpointResponse<TrialSetupResponse>> {
-    const { setupIntentId, paymentIntentId, orgId, priceId, priceLookupKey, trialPeriodDays = 30 } = params
+    const { setupIntentId, paymentIntentId, orgId, priceLookupKey, trialPeriodDays = 30 } = params
     const stripe = this.settings.fictionStripe.getServerClient()
 
-    const sessionPriceId = priceId || await this.getPriceByLookupKey(priceLookupKey)
+    const sessionPriceId = await this.getPriceByLookupKey(priceLookupKey)
 
     if (!sessionPriceId) {
       throw abort('missing required product info', meta)

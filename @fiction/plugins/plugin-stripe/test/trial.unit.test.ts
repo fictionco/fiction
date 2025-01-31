@@ -3,8 +3,7 @@ import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, describe, expect, it } from 'vitest'
 import { FictionStripe } from '..'
 
-const testPriceId = 'price_1QkaX2GPawBUuSSLEgurp2RW'
-const testProductId = 'prod_RdsHJLIxC4dFZH'
+const testPriceLookupKey = 'pro_month'
 
 async function simulateElementsAttachment(args: {
   fictionStripe: FictionStripe
@@ -63,8 +62,7 @@ describe('queryStripeTrial', async () => {
       const result = await fictionStripe.queries.StripeTrial.serve({
         _action: 'setupTrial',
         orgId,
-        email: 'trial-setup@example.com',
-        priceId: testPriceId,
+        priceLookupKey: testPriceLookupKey,
         trialType: 'free',
       }, { server: true } as EndpointMeta)
 
@@ -79,8 +77,7 @@ describe('queryStripeTrial', async () => {
       const result = await fictionStripe.queries.StripeTrial.serve({
         _action: 'setupTrial',
         orgId: '',
-        email: 'trial@example.com',
-        priceId: testPriceId,
+        priceLookupKey: testPriceLookupKey,
         trialType: 'free',
       }, { server: true, expectError: true } as EndpointMeta)
 
@@ -96,8 +93,7 @@ describe('queryStripeTrial', async () => {
       const setupResponse = await fictionStripe.queries.StripeTrial.serve({
         _action: 'setupTrial',
         orgId,
-        email: 'complete@example.com',
-        priceId: testPriceId,
+        priceLookupKey: testPriceLookupKey,
         trialType: 'free',
       }, { server: true } as EndpointMeta)
 
@@ -116,7 +112,7 @@ describe('queryStripeTrial', async () => {
         _action: 'completeSetup',
         ...trialSetupData,
         orgId,
-        priceId: testPriceId,
+        priceLookupKey: testPriceLookupKey,
         trialPeriodDays,
       }, { server: true } as EndpointMeta)
 
@@ -148,7 +144,7 @@ describe('queryStripeTrial', async () => {
       expect(subs.data[0].metadata.orgId).toBe(orgId)
 
       // Test subscription items
-      expect(subs.data[0].items.data[0].price.id).toBe(testPriceId)
+      expect(subs.data[0].items.data[0].price.lookup_key).toBe(testPriceLookupKey)
       expect(subs.data[0].items.data[0].quantity).toBe(1)
 
       // Test trial settings
@@ -165,7 +161,7 @@ describe('queryStripeTrial', async () => {
         _action: 'completeSetup',
         setupIntentId: 'invalid_setup_intent',
         orgId,
-        priceId: testPriceId,
+        priceLookupKey: testPriceLookupKey,
       }, { server: true, expectError: true } as EndpointMeta)
 
       expect(result.status).toBe('error')
@@ -178,8 +174,7 @@ describe('queryStripeTrial', async () => {
       const setupResponse = await fictionStripe.queries.StripeTrial.serve({
         _action: 'setupTrial',
         orgId,
-        email: 'verify@example.com',
-        priceId: testPriceId,
+        priceLookupKey: testPriceLookupKey,
         trialType: 'free',
       }, { server: true } as EndpointMeta)
 
@@ -199,7 +194,7 @@ describe('queryStripeTrial', async () => {
         _action: 'completeSetup',
         ...setupResponse.data,
         orgId,
-        priceId: testPriceId,
+        priceLookupKey: testPriceLookupKey,
       }, { server: true } as EndpointMeta)
 
       expect(result.status).toBe('success')
@@ -223,7 +218,7 @@ describe('queryStripeTrial', async () => {
         _action: 'invalid' as any,
         setupIntentId: 'any',
         orgId,
-        priceId: testPriceId,
+        priceLookupKey: testPriceLookupKey,
       }, { server: true, expectError: true } as EndpointMeta)
 
       expect(result.status).toBe('error')

@@ -86,7 +86,6 @@ async function setupStripe() {
     const response = await fictionStripe.requests.StripeTrial.projectRequest({
       _action: 'setupTrial',
       priceLookupKey,
-      email: user.email,
       trialType,
     })
 
