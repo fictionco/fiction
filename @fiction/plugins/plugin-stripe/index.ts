@@ -50,13 +50,6 @@ class StripeInitializationError extends Error {
   }
 }
 
-class CustomerInitializationError extends Error {
-  constructor(message: string, public override cause?: unknown) {
-    super(message)
-    this.name = 'CustomerInitializationError'
-  }
-}
-
 export class FictionStripe extends FictionPlugin<StripePluginSettings> {
   queries = {
     ManageCustomer: new QueryManageCustomer({ fictionStripe: this, ...this.settings }),

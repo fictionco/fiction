@@ -34,6 +34,7 @@ env:
   CLICKHOUSE_URL: http://default:@localhost:8123
   POSTGRES_URL: http://test:test@localhost:5432/test
   STRIPE_SECRET_KEY_TEST: ${{ secrets.STRIPE_SECRET_KEY_TEST }}
+  STRIPE_PUBLIC_KEY_TEST: ${{ secrets.STRIPE_PUBLIC_KEY_TEST }}
   TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
   GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
   GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
