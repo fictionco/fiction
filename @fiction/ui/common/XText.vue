@@ -40,7 +40,6 @@ const loaded = vue.ref(false)
 const isEditing = vue.ref<string | undefined>()
 const textValue = vue.ref('')
 const updateValue = vue.ref('')
-const previousValue = vue.ref<string>('')
 
 function getValue(rawValue: string) {
   return rawValue
@@ -87,18 +86,13 @@ function onInput(ev: Event) {
 
   updateValue.value = inputValidations(inputValue)
 
-  const v = getValue(updateValue.value)
-  if (v !== previousValue.value) {
-    previousValue.value = v
-    emit('input', v)
-    emitValue()
-  }
+  emit('input', getValue(updateValue.value))
+  emitValue()
 }
 
 function emitValue() {
   const v = getValue(updateValue.value)
-  if (v !== previousValue.value) {
-    previousValue.value = v
+  if (typeof v !== 'undefined') {
     emit('reset', v)
     emit('update:modelValue', v)
   }
@@ -131,8 +125,6 @@ function loadAnimation() {
 }
 
 vue.onMounted(() => {
-  previousValue.value = getValue(valueFromModelValue())
-
   if (hasAnimation.value && !isEditable)
     loadAnimation()
   else

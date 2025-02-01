@@ -222,7 +222,7 @@ describe('stripe Utils', async () => {
   describe('getCheckoutUrl', () => {
     it('returns checkout initialization URL for authenticated user', async () => {
       const query = {
-        priceId: 'price_test',
+        priceLookupKey: 'pro_month',
         trialPeriod: '14',
       }
 
@@ -232,7 +232,7 @@ describe('stripe Utils', async () => {
       })
 
       expect(result).toContain('/api/stripe-checkout/init')
-      expect(result).toContain('priceId=price_test')
+      expect(result).toContain('priceLookupKey=pro_month')
       expect(result).toContain('trialPeriod=14')
     })
 
@@ -241,7 +241,7 @@ describe('stripe Utils', async () => {
       vi.spyOn(fictionStripe.settings.fictionUser, 'activeUser', 'get').mockReturnValue(vue.ref(undefined))
 
       const query = {
-        priceId: 'price_test',
+        priceLookupKey: 'pro_month',
         loginPath: '/login',
       }
 
@@ -279,7 +279,7 @@ describe('stripe Utils', async () => {
       const mockRequest = {
         params: { action: 'init' },
         query: {
-          priceId: 'price_test',
+          priceLookupKey: 'pro_month',
           orgId,
         },
       }
@@ -301,6 +301,9 @@ describe('stripe Utils', async () => {
           sessions: {
             create: vi.fn().mockResolvedValue({ url: mockSessionUrl }),
           },
+        },
+        prices: {
+          list: vi.fn().mockResolvedValue({ data: [{ id: 'price_test' }] }),
         },
       } as any)
 
@@ -330,7 +333,7 @@ describe('stripe Utils', async () => {
       expect(mockResponse.status).toHaveBeenCalledWith(400)
       expect(mockResponse.send).toHaveBeenCalledWith({
         status: 'error',
-        message: 'no priceId',
+        message: 'no priceLookupKey',
       })
       expect(mockResponse.end).toHaveBeenCalled()
     })
@@ -339,7 +342,7 @@ describe('stripe Utils', async () => {
       const mockRequest = {
         params: { action: 'invalid' },
         query: {
-          priceId: 'price_test',
+          priceLookupKey: 'pro_month',
           orgId,
         },
       }
@@ -364,7 +367,7 @@ describe('stripe Utils', async () => {
       const mockRequest = {
         params: { action: 'init' },
         query: {
-          priceId: 'price_test',
+          priceLookupKey: 'pro_month',
         },
       }
 
