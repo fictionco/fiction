@@ -99,7 +99,7 @@ const saveUtil = new AutosaveUtility({
 
 // Watch for form changes and trigger autosave
 vue.watch(() => ({ ...form.value }), () => {
-  saveUtil.autosave()
+  saveUtil.autosave({ caller: 'watchForm' })
 }, { deep: true })
 
 const firstName = vue.computed(() =>

@@ -130,14 +130,21 @@ async function resetToPublished() {
       <ViewEditor :tool-props="{ site }" :controller="adminEditorController" :card>
         <template #headerLeft>
           <div>
-            <CardButton :card theme="primary" design="outline" href="/sites" icon="i-tabler-arrow-left">
+            <CardButton
+              respond="icon:sm"
+              :card
+              theme="primary"
+              design="outline"
+              href="/sites"
+              icon="i-tabler-arrow-left"
+            >
               Back
             </CardButton>
           </div>
           <div class="flex space-x-1 font-medium">
             <CardLink
               :card
-              class="whitespace-nowrap  dark:text-theme-300 pr-1 hover:text-primary-500 dark:hover:text-theme-0 flex items-center gap-1"
+              class="whitespace-nowrap  dark:text-theme-300 pr-1 hover:text-primary-500 dark:hover:text-theme-0 hidden md:flex items-center gap-1"
               href="/"
             >
               <span class="i-tabler-browser-plus text-xl inline-block dark:text-theme-500" />
@@ -150,14 +157,16 @@ async function resetToPublished() {
         </template>
         <template v-if="site" #headerRight>
           <ElSavingSignal
-            :is-dirty="site?.editor.value.isDirty"
+            :is-dirty="site?.saveUtil.isDirty.value"
             :nav-items="[{
               label: 'Reset to Published Version',
               onClick: () => resetToPublished(),
               testId: 'reset-to-published',
             }]"
             data-test-id="draft-control-dropdown"
+            :classes="{ text: 'hidden md:inline' }"
           />
+
           <CardButton
             :card
             theme="default"

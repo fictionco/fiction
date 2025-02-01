@@ -25,11 +25,15 @@ vue.watch(() => props.site?.activeCard.value, async () => {
   options.value = await getCardOptionConfig({ card: props.site?.activeCard.value }) || []
 })
 
+const activeCard = vue.computed(() => props.site?.activeCard.value)
+
+const activeCardConfig = vue.computed({
+  get: () => activeCard.value?.toConfig() as Partial<TableCardConfig> || {},
+  set: v => activeCard.value && v && activeCard.value.update(v, { caller: 'ToolCardEditComputed' }),
+})
+
 function setActiveCardConfig(config: Partial<TableCardConfig>) {
-  if (props.site) {
-    props.site.activeCardConfig.value = config
-    props.site.activeCard.value?.syncCard({ caller: 'updateCardConfig', cardConfig: config })
-  }
+  activeCardConfig.value = config
 }
 </script>
 
@@ -60,10 +64,10 @@ function setActiveCardConfig(config: Partial<TableCardConfig>) {
       />
       <template v-else>
         <FormEngine
-          :key="site.activeCardConfig.value.cardId"
+          :key="activeCardConfig.cardId"
           state-key="cardEdit"
-          :data-active-template="site.activeCardConfig.value.templateId"
-          :model-value="site.activeCardConfig.value"
+          :data-active-template="activeCardConfig.templateId"
+          :model-value="activeCardConfig"
           :options
 
           :input-props="{ site }"

@@ -3,7 +3,17 @@ import type { NavItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import XDropDown from '@fiction/ui/common/XDropDown.vue'
 
-const { isDirty, navItems = [], changeType } = defineProps<{ isDirty: boolean, navItems?: NavItem[], changeType?: 'draft' | 'publish' }>()
+const {
+  isDirty,
+  navItems = [],
+  changeType,
+  classes = {},
+} = defineProps<{
+  isDirty: boolean
+  navItems?: NavItem[]
+  changeType?: 'draft' | 'publish'
+  classes?: { text?: string, icon?: string }
+}>()
 
 const isOpen = vue.ref(false)
 
@@ -15,7 +25,7 @@ const statusColor = vue.computed(() => isDirty ? 'fill-orange-500' : 'fill-green
 
 <template>
   <XDropDown v-slot="{ toggle }" :items="navItems" placement="bottom">
-    <Transition name="fade" mode="out-in">
+    <div class="flex items-center">
       <button
         :key="statusText"
         :aria-expanded="isOpen"
@@ -26,10 +36,10 @@ const statusColor = vue.computed(() => isDirty ? 'fill-orange-500' : 'fill-green
         <svg class="size-1.5 transition-all" :class="statusColor" viewBox="0 0 6 6" aria-hidden="true">
           <circle cx="3" cy="3" r="3" />
         </svg>
-        <span :key="statusText">{{ statusText }}</span>
+        <span :key="statusText" :class="classes.text">{{ statusText }}</span>
         <svg
           v-if="navItems?.length"
-          class="w-4 h-4 ml-1"
+          class="w-4 h-4 ml-1 hidden md:inline-block"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
           fill="currentColor"
@@ -38,7 +48,7 @@ const statusColor = vue.computed(() => isDirty ? 'fill-orange-500' : 'fill-green
           <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
         </svg>
       </button>
-    </Transition>
+    </div>
   </XDropDown>
 </template>
 

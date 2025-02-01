@@ -6,7 +6,7 @@ import { abort, dayjs, toLabel } from '@fiction/core'
 import Stripe from 'stripe'
 
 export type CheckoutQueryParams = {
-  priceId?: string
+  priceLookupKey?: string
   loginPath?: string
   customerId?: string
   orgId?: string
@@ -76,10 +76,10 @@ export async function checkoutEndpointHandler(args: {
 
   try {
     if (action === 'init') {
-      const { priceId, trialPeriod, orgId } = query as CheckoutQueryParams
+      const { priceLookupKey, trialPeriod, orgId } = query as CheckoutQueryParams
 
-      if (!priceId)
-        throw abort('no priceId')
+      if (!priceLookupKey)
+        throw abort('no priceLookupKey')
 
       if (!orgId)
         throw abort('no orgId')
@@ -107,8 +107,13 @@ export async function checkoutEndpointHandler(args: {
         ? { description: `${trialPeriodNum} Days Free`, trial_period_days: +trialPeriodNum }
         : {}
 
+      const priceId = await fictionStripe.getPriceByLookupKey(priceLookupKey)
+
       const details: Stripe.Checkout.SessionCreateParams = {
-        line_items: [{ price: priceId, quantity: 1 }],
+        line_items: [{
+          price: priceId,
+          quantity: 1,
+        }],
         customer: customerId,
         subscription_data,
         mode: 'subscription',

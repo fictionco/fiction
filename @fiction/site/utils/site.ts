@@ -134,13 +134,20 @@ export async function saveSiteDraft(args: { site: Site, resetToPublished?: boole
     caller: 'saveSite',
   })
 
-  site.editor.value.isDirty = false
-  site.clearAutosave()
+  site.saveUtil.clear()
 
   return r.data
 }
 
-export async function saveSite(args: { site: Site, scope?: 'draft' | 'publish', onlyKeys?: (keyof TableSiteConfig)[], delayUntilSaveConfig?: Partial<TableSiteConfig>, successMessage: string, isPublishingDomains?: boolean, minTime?: number }) {
+export async function saveSite(args: {
+  site: Site
+  scope?: 'draft' | 'publish'
+  onlyKeys?: (keyof TableSiteConfig)[]
+  delayUntilSaveConfig?: Partial<TableSiteConfig>
+  successMessage: string
+  isPublishingDomains?: boolean
+  minTime?: number
+}) {
   const { site, onlyKeys, delayUntilSaveConfig, successMessage, isPublishingDomains, minTime, scope = 'publish' } = args
 
   if (scope === 'draft') {
@@ -183,13 +190,20 @@ export async function saveSite(args: { site: Site, scope?: 'draft' | 'publish', 
   await updateSite({ site, newConfig: r.data || {}, caller: 'saveSite', noSave: true })
 
   site.editor.value.isDirty = false
-  site.clearAutosave()
+  site.saveUtil.clear()
 
   return r.data
 }
 
-export async function updateSite(args: { site: Site, newConfig: Partial<SiteSettings>, caller: string, noSave?: boolean, noSync?: boolean }) {
-  const { site, newConfig, noSave = false, noSync = false, caller = 'updateSite' } = args
+export async function updateSite(args: {
+  site: Site
+  newConfig: Partial<SiteSettings>
+  caller?: string
+  noSave?: boolean
+  noSync?: boolean
+  noHistory?: boolean
+}) {
+  const { site, newConfig, noSave = false, noSync = false, noHistory = false, caller = 'updateSite' } = args
   if (!newConfig)
     return
 

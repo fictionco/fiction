@@ -68,9 +68,10 @@ export class QueryStripeTrial extends StripeEndpoint {
       throw abort('Missing price identifier', meta)
     }
 
-    const stripe = this.settings.fictionStripe.getServerClient()
+    const { fictionStripe } = this.settings
+    const stripe = fictionStripe.getServerClient()
 
-    const sessionPriceId = await this.getPriceByLookupKey(priceLookupKey)
+    const sessionPriceId = await fictionStripe.getPriceByLookupKey(priceLookupKey)
 
     if (!sessionPriceId) {
       return { status: 'error', message: `priceId not found` }
@@ -132,9 +133,10 @@ export class QueryStripeTrial extends StripeEndpoint {
     meta: EndpointMeta,
   ): Promise<EndpointResponse<TrialSetupResponse>> {
     const { setupIntentId, paymentIntentId, orgId, priceLookupKey, trialPeriodDays = 30 } = params
-    const stripe = this.settings.fictionStripe.getServerClient()
+    const { fictionStripe } = this.settings
+    const stripe = fictionStripe.getServerClient()
 
-    const sessionPriceId = await this.getPriceByLookupKey(priceLookupKey)
+    const sessionPriceId = await fictionStripe.getPriceByLookupKey(priceLookupKey)
 
     if (!sessionPriceId) {
       throw abort('missing required product info', meta)

@@ -31,12 +31,12 @@ describe('autosaveUtility', () => {
   })
 
   it('should become dirty when autosave is called', () => {
-    autosaveUtil.autosave()
+    autosaveUtil.autosave({ caller: 'test' })
     expect(autosaveUtil.isDirty.value).toBe(true)
   })
 
   it('should call onSave after debounce time', async () => {
-    autosaveUtil.autosave()
+    autosaveUtil.autosave({ caller: 'test' })
     expect(onSaveMock).not.toHaveBeenCalled()
 
     await vi.runAllTimersAsync()
@@ -45,19 +45,19 @@ describe('autosaveUtility', () => {
   })
 
   it('should reset dirty state after successful save', async () => {
-    autosaveUtil.autosave()
+    autosaveUtil.autosave({ caller: 'test' })
     await vi.runAllTimersAsync()
 
     expect(autosaveUtil.isDirty.value).toBe(false)
   })
 
   it('should debounce multiple calls', async () => {
-    autosaveUtil.autosave()
-    autosaveUtil.autosave()
-    autosaveUtil.autosave()
+    autosaveUtil.autosave({ caller: 'test' })
+    autosaveUtil.autosave({ caller: 'test' })
+    autosaveUtil.autosave({ caller: 'test' })
 
     await vi.advanceTimersByTimeAsync(500)
-    autosaveUtil.autosave()
+    autosaveUtil.autosave({ caller: 'test' })
 
     await vi.runAllTimersAsync()
 
@@ -72,7 +72,7 @@ describe('autosaveUtility', () => {
   })
 
   it('should clear pending autosave and dirty state', () => {
-    autosaveUtil.autosave()
+    autosaveUtil.autosave({ caller: 'test' })
     expect(autosaveUtil.isDirty.value).toBe(true)
 
     autosaveUtil.clear()
@@ -86,7 +86,7 @@ describe('autosaveUtility', () => {
     const error = new Error('Save failed')
     onSaveMock.mockRejectedValueOnce(error)
 
-    autosaveUtil.autosave()
+    autosaveUtil.autosave({ caller: 'test' })
     await vi.runAllTimersAsync()
 
     expect(onErrorMock).toHaveBeenCalledWith(error)
@@ -99,7 +99,7 @@ describe('autosaveUtility', () => {
     }
     const defaultAutosaveUtil = new AutosaveUtility(defaultConfig)
 
-    defaultAutosaveUtil.autosave()
+    defaultAutosaveUtil.autosave({ caller: 'test' })
 
     await vi.advanceTimersByTimeAsync(1999)
     expect(onSaveMock).not.toHaveBeenCalled()

@@ -40,7 +40,7 @@ const saveUtil = new AutosaveUtility({
 
 function update(orgNew: Organization) {
   service.fictionUser.activeOrganization.value = orgNew
-  saveUtil.autosave()
+  saveUtil.autosave({ caller: 'panelDev' })
 }
 
 const controlOptions = [

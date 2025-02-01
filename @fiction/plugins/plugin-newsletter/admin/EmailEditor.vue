@@ -114,7 +114,7 @@ async function saveBeforeNavigate(args: { location: string, href: string }) {
       </template>
       <template #default>
         <div v-if="campaign?.post.value">
-          <ElPostEditor :post="campaign.post.value" :card @update:post="campaign.saveUtility.autosave()">
+          <ElPostEditor :post="campaign.post.value" :card @update:post="campaign.saveUtility.autosave({ caller: 'postEditor' })">
             <template #footer>
               <div v-if="buttons.length" class="mt-12 pt-12">
                 <XButtonList :buttons ui-size="xl" class="flex gap-4" data-test-id="editor-actions" />

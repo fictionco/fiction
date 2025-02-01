@@ -50,7 +50,7 @@ const saveUtil = new AutosaveUtility({
 function update(userNew: User) {
   service.fictionUser.activeUser.value = userNew
 
-  saveUtil.autosave()
+  saveUtil.autosave({ caller: 'panelAccountUpdate' })
 }
 
 const detailOptions = [

@@ -4,6 +4,7 @@ import { vue } from './libraries'
 
 export type AutosaveConfig<T extends EndpointResponse = EndpointResponse> = {
   onSave: () => Promise<T | undefined | void>
+  onTrigger?: () => void
   debounceMs?: number
   onError?: (error: unknown) => void
 }
@@ -15,8 +16,9 @@ export class AutosaveUtility<T extends EndpointResponse = EndpointResponse> {
 
   constructor(private config: AutosaveConfig<T>) {}
 
-  public autosave(): void {
+  public autosave(_args: { caller: string }): void {
     this.isDirty.value = true
+    this.config.onTrigger?.()
     this.debouncedSave()
   }
 

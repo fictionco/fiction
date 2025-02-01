@@ -47,7 +47,7 @@ export class EmailCampaign extends FictionObject<EmailConfig> {
           ref.value = value
 
           if (!noSave)
-            this.saveUtility.autosave()
+            this.saveUtility.autosave({ caller: 'updateEmailCampaign' })
         }
       }
 

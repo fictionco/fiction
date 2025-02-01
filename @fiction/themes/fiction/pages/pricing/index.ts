@@ -8,7 +8,7 @@ import type { CardFactory } from '@fiction/site/cardFactory'
 
 import { getCheckoutUrl } from '@fiction/plugin-stripe/utils.js'
 
-async function purchaseUrl(args: { priceId: string, fictionStripe?: FictionStripe }) {
+async function purchaseUrl(args: { priceLookupKey: string, fictionStripe?: FictionStripe }) {
   const { fictionStripe } = args
 
   const loginPath = '/auth'
@@ -55,7 +55,7 @@ export async function getPricingPage(args: { factory: CardFactory, site: Site })
         },
         {
           title: 'Pro',
-          price: 39,
+          price: 79,
           description: `Professional tools and support`,
           variant: 'default',
           badge: 'Most Popular',
@@ -73,13 +73,13 @@ export async function getPricingPage(args: { factory: CardFactory, site: Site })
           button: {
             label: 'Start Pro Trial',
             icon: { class: 'i-tabler-stars' },
-            href: await purchaseUrl({ fictionStripe, priceId: 'price_pro_monthly' }),
-            hrefAnnual: await purchaseUrl({ fictionStripe, priceId: 'price_pro_annual' }),
+            href: await purchaseUrl({ fictionStripe, priceLookupKey: 'pro_month' }),
+            hrefAnnual: await purchaseUrl({ fictionStripe, priceLookupKey: 'pro_year' }),
           },
         },
         {
           title: 'Elite',
-          price: 279,
+          price: 179,
           description: `Elite personal marketing and more`,
           icon: { class: 'i-tabler-crown' },
           variant: 'highlighted',
@@ -98,8 +98,8 @@ export async function getPricingPage(args: { factory: CardFactory, site: Site })
           button: {
             label: 'Start Workshop Trial',
             icon: { class: 'i-tabler-crown' },
-            href: await purchaseUrl({ fictionStripe, priceId: 'price_proplus_monthly' }),
-            hrefAnnual: await purchaseUrl({ fictionStripe, priceId: 'price_proplus_annual' }),
+            href: await purchaseUrl({ fictionStripe, priceLookupKey: 'elite_month' }),
+            hrefAnnual: await purchaseUrl({ fictionStripe, priceLookupKey: 'elite_year' }),
           },
         },
       ],

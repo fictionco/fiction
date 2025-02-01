@@ -41,7 +41,7 @@ const canChangeRole = vue.computed(() => {
 function update(memberNew: OrganizationMember) {
   member.value = memberNew
 
-  saveUtil.autosave()
+  saveUtil.autosave({ caller: 'updateTeamMember' })
 }
 
 async function setMemberRelation(_action: 'update' | 'delete'): Promise<void> {

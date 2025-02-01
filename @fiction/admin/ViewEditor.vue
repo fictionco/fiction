@@ -24,7 +24,7 @@ const contextTool = vue.computed(() => controller.activeTool.context.value)
           <div class="items-center flex text-sm lg:text-base space-x-4">
             <slot name="headerLeft" />
           </div>
-          <div class="flex items-center justify-end space-x-4 text-right ">
+          <div class="flex items-center justify-end gap-3 md:gap-4 text-right ">
             <slot name="headerRight" />
           </div>
         </div>
@@ -103,7 +103,7 @@ const contextTool = vue.computed(() => controller.activeTool.context.value)
           </transition>
         </div>
         <div @click="controller.useTool({ toolId: '' })">
-          <div class="h-full min-h-0 grid grid-flow-dense relative grid-rows-[minmax(0,1fr)] grid-cols-[1fr_370px] xl:grid-cols-[1fr_420px]">
+          <div class="h-full min-h-0 block md:grid grid-flow-dense relative grid-rows-[minmax(0,1fr)] md:grid-cols-[1fr_300px] lg:grid-cols-[1fr_370px] xl:grid-cols-[1fr_420px]">
             <div class="cards relative h-full w-full overflow-scroll bg-theme-50/50 dark:bg-theme-800/60">
               <div v-if="loading" class="">
                 <div class="text-theme-300 dark:text-theme-600 flex justify-center pt-32">
@@ -115,7 +115,7 @@ const contextTool = vue.computed(() => controller.activeTool.context.value)
               </template>
             </div>
 
-            <div class="no-scrollbar  bg-theme-0 dark:bg-theme-900 border-l border-theme-200 dark:border-theme-700 relative overflow-y-scroll overflow-x-clip">
+            <div class="no-scrollbar hidden md:block bg-theme-0 dark:bg-theme-900 border-l border-theme-200 dark:border-theme-700 relative overflow-y-scroll overflow-x-clip">
               <transition
                 mode="out-in"
                 enter-active-class="ease-out duration-200"

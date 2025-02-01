@@ -81,7 +81,7 @@ const saveUtil = new AutosaveUtility({
 function updateSubscriber(subscriberNew: Subscriber) {
   subscriber.value = subscriberNew
 
-  saveUtil.autosave()
+  saveUtil.autosave({ caller: 'updateSubscriber' })
 }
 
 const detailOptions = [

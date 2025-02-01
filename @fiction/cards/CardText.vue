@@ -45,7 +45,7 @@ function onValue(v: string) {
 function onInput(v: string) {
   const userConfig = getNewUserConfig(v)
   const cardId = card.cardId
-  card?.syncCard({ caller: 'updateUserConfig', cardConfig: { cardId, userConfig } })
+  card?.syncCard({ caller: 'CardText-onInput', cardConfig: { cardId, userConfig } })
 }
 
 const value = vue.computed(() => {

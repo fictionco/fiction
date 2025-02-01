@@ -305,10 +305,10 @@ export class Card<
     this.syncCard({ caller: 'addCard' })
   }
 
-  update(cardConfig: CardConfigPortable<T>, opts: { caller: string }) {
-    const { caller } = opts
+  update(cardConfig: CardConfigPortable<T>, opts: { caller: string, noHistory?: boolean }) {
+    const { caller, noHistory = false } = opts
 
-    this.log.info(`update:${caller}`, { data: cardConfig })
+    this.log.info(`update:${caller}`, { noHistory, data: cardConfig })
     if (!cardConfig)
       return
     const availableKeys = ['title', 'slug', 'userConfig', 'editorConfig', 'templateId', 'isHome', 'is404']
@@ -323,7 +323,7 @@ export class Card<
     if (cardConfig.cards)
       this.cards.value = cardConfig.cards.map(c => this.initSubCard({ cardConfig: c }))
 
-    this.syncCard({ caller: `updateCard:${this.templateId.value}`, cardConfig })
+    this.syncCard({ caller: `updateCard:${this.templateId.value}-${caller}`, cardConfig, noHistory })
   }
 
   updateUserConfig(args: { path: string, value: unknown }) {
@@ -334,7 +334,9 @@ export class Card<
     this.syncCard({ caller: `updateUserConfig:${this.templateId.value}`, cardConfig: { userConfig: this.userConfig.value } })
   }
 
-  syncCard(args: { caller: string, noSave?: boolean, cardConfig?: CardConfigPortable }) {
+  syncCard(args: { caller: string, noSave?: boolean, noHistory?: boolean, cardConfig?: CardConfigPortable }) {
+    const { caller, noHistory = false } = args
+
     if (!this.site || this.site.siteMode.value === 'standard')
       return
 
@@ -348,7 +350,15 @@ export class Card<
     }
 
     if (!args.noSave)
-      this.site?.autosave()
+      this.site?.saveUtil.autosave({ caller: `syncCard-${caller}` })
+
+    if (!noHistory && this.site?.siteMode.value === 'designer') {
+      this.site?.history.saveState({
+        description: `Card updated: ${this.tpl.value?.settings.title}`,
+        type: 'card',
+        cardConfig,
+      })
+    }
   }
 
   // syncing of item being edited

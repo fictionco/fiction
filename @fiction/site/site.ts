@@ -10,8 +10,10 @@ import type { LayoutOrder } from './utils/layout.js'
 import type { QueryVarHook } from './utils/site.js'
 import { deepMerge, FictionObject, localRef, objectId, resetUi, Shortcodes, shortId, vue, waitFor } from '@fiction/core'
 import { TypedEventTarget } from '@fiction/core/utils/eventTarget.js'
+import { AutosaveUtility } from '@fiction/core/utils/save.js'
 import { activeSiteFont } from './utils/fonts.js'
 import { SiteFrameTools } from './utils/frame.js'
+import { SiteHistory } from './utils/history.js'
 import { flattenCards, setLayoutOrder } from './utils/layout.js'
 import { activePageId, getPageById, getViewMap, updatePages } from './utils/page.js'
 import { addNewCard, removeCard } from './utils/region.js'
@@ -115,6 +117,8 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     return found || themes[0]
   })
 
+  history = new SiteHistory(this)
+
   userConfig = vue.ref(this.settings.userConfig || {})
   themeConfig = vue.ref<ThemeConfig>()
   fullConfig = vue.computed(() => deepMerge([this.themeConfig.value?.userConfig, this.userConfig.value]))
@@ -141,6 +145,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
     const pgs = this.settings.pages || []
     if (loadThemePages) {
+      console.log('loadPages')
       pgs.push(...c.pages)
     }
 
@@ -150,6 +155,8 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
     // register shortcodes etc
     this.theme.value?.templates.forEach(t => t.settings.onSiteLoad?.({ site: this }))
+
+    this.history.init()
 
     return this
   }
@@ -205,6 +212,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   shortcodes = new Shortcodes({ fictionEnv: this.fictionSites.fictionEnv })
 
   availableCards = vue.computed(() => flattenCards([...this.pages.value, ...Object.values(this.sections.value)]))
+
   currentPath = vue.computed({
     get: () => this.siteRouter.current.value.path,
     set: async v => this.siteRouter.push(v, { caller: 'currentPath' }),
@@ -237,25 +245,29 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
   saveTimeout: ReturnType<typeof setTimeout> | null = null // Store timeout reference
 
-  clearAutosave() {
-    if (this.saveTimeout) {
-      clearTimeout(this.saveTimeout) // Clear the timeout after saving
-      this.saveTimeout = null
-    }
-  }
+  saveUtil = new AutosaveUtility({
+    onSave: async () => this.save({ scope: 'draft' }),
+  })
 
-  autosave() {
-    if (this.siteMode.value !== 'designer') {
-      return
-    }
+  // clearAutosave() {
+  //   if (this.saveTimeout) {
+  //     clearTimeout(this.saveTimeout) // Clear the timeout after saving
+  //     this.saveTimeout = null
+  //   }
+  // }
 
-    this.editor.value.isDirty = true
-    this.clearAutosave()
+  // autosave() {
+  //   if (this.siteMode.value !== 'designer') {
+  //     return
+  //   }
 
-    this.saveTimeout = setTimeout(() => {
-      this.save({ scope: 'draft' }).catch(console.error) // Error handling
-    }, 2000) // Set a new timeout for 2 seconds
-  }
+  //   this.editor.value.isDirty = true
+  //   this.clearAutosave()
+
+  //   this.saveTimeout = setTimeout(() => {
+  //     this.save({ scope: 'draft' }).catch(console.error) // Error handling
+  //   }, 2000) // Set a new timeout for 2 seconds
+  // }
 
   toConfig(args: { onlyKeys?: (keyof TableSiteConfig)[] | readonly (keyof TableSiteConfig)[] } = {}): { siteId: string } & Partial<TableSiteConfig> {
     const { onlyKeys = [] } = args
@@ -283,20 +295,20 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       : { ...baseConfig, siteId: this.siteId }
   }
 
-  update = async (newConfig: Partial<TableSiteConfig>, opts: { caller: string, noSave?: boolean, noSync?: boolean }) => updateSite({ site: this, newConfig, ...opts })
+  update = async (newConfig: Partial<TableSiteConfig>, opts: Partial<Parameters<typeof updateSite>[0]>) => updateSite({ site: this, newConfig, ...opts })
   save = async (args: { minTime?: number, scope?: 'draft' | 'publish' } = {}) => saveSite({ site: this, successMessage: 'Site Saved', ...args })
-  syncChange = (args: { caller: string, noSave?: boolean }) => {
+  syncChange = (args: { caller: string, noSave?: boolean, withHistory?: boolean, onlyKeys?: (keyof TableSiteConfig)[] }) => {
+    const { caller, noSave = false, withHistory = false, onlyKeys } = args
     this.frame.syncSite(args)
 
-    if (!args.noSave)
-      this.autosave()
+    if (!noSave)
+      this.saveUtil.autosave({ caller: `syncChange-${caller}` })
+
+    if (withHistory)
+      this.history.saveState({ description: caller, type: 'site', siteConfig: this.toConfig({ onlyKeys }) })
   }
 
   activeCard = vue.computed(() => this.availableCards.value.find(c => c.cardId === this.editor.value.selectedCardId))
-  activeCardConfig = vue.computed({
-    get: () => this.activeCard.value?.toConfig() as Partial<TableCardConfig> || {},
-    set: v => this.activeCard.value && v && this.activeCard.value.update(v, { caller: 'activeCardConfig' }),
-  })
 
   /**
    * sets active card and syncs active card between frames
@@ -334,7 +346,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
     await waitFor(100)
 
-    this.syncChange({ caller: 'updateLayout' })
+    this.syncChange({ caller: 'updateLayout', withHistory: true, onlyKeys: ['pages'] })
 
     this.isAnimationDisabled.value = false
   }
@@ -354,11 +366,15 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   }
 
   removeCard(args: { cardId: string }) {
-    return removeCard({ site: this, ...args, onRemove: (_config) => {
-      (this.editor.value.selectedCardId = '')
+    return removeCard({
+      site: this,
+      ...args,
+      onRemove: (_config) => {
+        (this.editor.value.selectedCardId = '')
 
-      this.syncChange({ caller: 'removeCard' })
-    } })
+        this.syncChange({ caller: 'removeCard', withHistory: true, onlyKeys: ['pages'] })
+      },
+    })
   }
 
   async addCard(args: { templateId: string, addToCardId?: string, delay?: number, cardId?: string, location?: 'top' | 'bottom' }) {

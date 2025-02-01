@@ -92,14 +92,14 @@ const saveUtil = new AutosaveUtility({ onSave: () => saveBrand() })
 function updateBrandGuide(guide?: BrandGuideV3) {
   brand.value = { ...brand.value, guide: { ...brand.value?.guide, ...guide } }
 
-  saveUtil.autosave()
+  saveUtil.autosave({ caller: 'updateBrandGuide' })
 }
 
 function updateBrandTitle(header: PostObject) {
   const title = header.title
   brand.value = { ...brand.value, title }
 
-  saveUtil.autosave()
+  saveUtil.autosave({ caller: 'updateBrandTitle' })
 }
 
 // Core function to create brand item sections
@@ -317,7 +317,7 @@ const action = vue.computed<ActionArea>(() => {
     {
       testId: isDirty ? 'brand-saving-button' : 'brand-saved-button',
       label: isDirty ? 'Saving...' : 'Saved',
-      onClick: () => saveUtil?.autosave(),
+      onClick: () => saveUtil?.autosave({ caller: 'buttonSaveBrandGuide' }),
       theme: isDirty ? 'green' : 'default',
       icon: isDirty ? 'i-tabler-upload' : 'i-tabler-check',
     },

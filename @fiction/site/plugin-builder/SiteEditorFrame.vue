@@ -64,7 +64,7 @@ function toggleEditingStyle() {
           v-for="(mode, i) in deviceModes"
           :key="i"
           rounding="full"
-
+           respond="icon:xl"
           :theme="activeDeviceMode === mode.name ? 'theme' : 'default'"
           :icon="mode.icon"
           size="xs"
@@ -78,12 +78,43 @@ function toggleEditingStyle() {
       <div class="flex items-center gap-2">
         <ElTooltip
           direction="bottom"
+          content="Undo the last change"
+        >
+          <XButton
+            rounding="full"
+            icon="i-tabler-arrow-back"
+            size="xs"
+            :disabled="!site.history.canUndo.value"
+            respond="icon:xl"
+            @click="site.history.undo()"
+          >
+            Undo
+          </XButton>
+        </ElTooltip>
+        <ElTooltip
+          direction="bottom"
+          content="Redo the last undo"
+        >
+          <XButton
+            rounding="full"
+            icon="i-tabler-arrow-forward"
+            size="xs"
+            :disabled="!site.history.canRedo.value"
+            respond="icon:xl"
+            @click="site.history.redo()"
+          >
+            Redo
+          </XButton>
+        </ElTooltip>
+        <ElTooltip
+          direction="bottom"
           content="For previewing, to change the behavior see global styling options"
         >
           <XButton
             rounding="full"
             :icon="site.isLightMode.value ? 'i-tabler-sun' : 'i-tabler-moon'"
             size="xs"
+             respond="icon:xl"
             @click="toggleDarkLightMode()"
           >
             {{ site.isLightMode.value ? 'Light' : 'Dark' }} Mode Preview
@@ -98,6 +129,7 @@ function toggleEditingStyle() {
           <XButton
             rounding="full"
             size="xs"
+             respond="icon:xl"
             icon="i-tabler-drag-drop"
             :theme="site.editor.value.savedEditingStyle === 'quick' ? 'green' : 'primary'"
             design="outline"

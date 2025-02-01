@@ -12,14 +12,6 @@ export abstract class StripeEndpoint extends Query<StripeEndpointSettings> {
   db = () => this.settings.fictionDb.client()
   stripe = () => this.settings.fictionStripe.getServerClient()
   products = this.settings.fictionStripe.settings.products || []
-  async getPriceByLookupKey(priceKey?: string) {
-    if (!priceKey)
-      return undefined
-
-    const stripe = this.settings.fictionStripe.getServerClient()
-    const price = await stripe.prices.list({ lookup_keys: [priceKey] })
-    return price.data[0].id
-  }
 
   constructor(settings: StripeEndpointSettings) {
     super(settings)
@@ -288,7 +280,7 @@ export class QueryCheckoutSession extends StripeEndpoint {
       return { status: 'error', message: `customerId not found` }
     }
 
-    const sessionPriceId = await this.getPriceByLookupKey(priceLookupKey)
+    const sessionPriceId = await fictionStripe.getPriceByLookupKey(priceLookupKey)
 
     if (!sessionPriceId) {
       return { status: 'error', message: `priceId not found` }

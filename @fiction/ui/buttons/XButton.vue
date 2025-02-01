@@ -25,6 +25,7 @@ const {
   animate,
   tag,
   padding,
+  respond,
 } = defineProps<{
   icon?: string | MediaObject
   iconAfter?: string | MediaObject
@@ -43,6 +44,7 @@ const {
   animate?: boolean
   tag?: 'button' | 'div'
   padding?: string
+  respond?: 'icon:sm' | 'icon:md' | 'icon:lg' | 'icon:xl'
 }>()
 
 const randomId = shortId()
@@ -63,22 +65,18 @@ const hasContent = vue.computed(() => !!slots?.default?.()?.[0]?.children?.lengt
 
 const iconAdjust = vue.computed(() => {
   const sz = size || 'md'
-  const sizeAdjustments: Record<StandardSize, { mt: string, mxBefore: string, mxAfter: string }> = {
-    'xxs': { mt: '', mxBefore: '-ml-[1px] mr-[4px]', mxAfter: '-mr-[1px] ml-[4px]' },
-    'xs': { mt: '', mxBefore: '-ml-[1px] mr-[4px]', mxAfter: '-mr-[1px] ml-[4px]' },
-    'sm': { mt: '', mxBefore: '-ml-[1px] mr-[4px]', mxAfter: '-mr-[1px] ml-[4px]' },
-    'md': { mt: '', mxBefore: '-ml-[1px] mr-[5px]', mxAfter: '-mr-[1px] ml-[5px]' },
-    'lg': { mt: '', mxBefore: '-ml-[3px] mr-[6px]', mxAfter: '-mr-[3px] ml-[6px]' },
-    'xl': { mt: '', mxBefore: '-ml-1.5 mr-1.5', mxAfter: '-mr-1.5 ml-1.5' },
-    '2xl': { mt: '', mxBefore: '-ml-2 mr-2', mxAfter: '-mr-2 ml-2' },
+  const sizeAdjustments: Record<StandardSize, { gap: string }> = {
+    'xxs': { gap: 'gap-0.5' },
+    'xs': { gap: 'gap-1' },
+    'sm': { gap: 'gap-1.5' },
+    'md': { gap: 'gap-2' },
+    'lg': { gap: 'gap-2.5' },
+    'xl': { gap: 'gap-3' },
+    '2xl': { gap: 'gap-4' },
   }
 
-  const { mt, mxBefore, mxAfter } = sizeAdjustments[sz]
-
   return {
-    before: hasContent.value ? mxBefore : 'mx-[-2px]',
-    after: hasContent.value ? mxAfter : 'mx-[-2px]',
-    both: `text-[1.2em] ${mt}`,
+    gap: sizeAdjustments[sz].gap,
   }
 })
 const hasAnimation = vue.computed(() => !['none', 'basic', ''].includes(hover || '') && !disabled)
@@ -105,6 +103,20 @@ vue.onMounted(() => {
 
 const linkProps = vue.computed(() => {
   return pathIsHref(href) ? { href } : { to: href }
+})
+
+const textClass = vue.computed(() => {
+  const out = respond?.includes('icon') ? ['hidden'] : []
+  if (respond === 'icon:sm')
+    out.push('sm:block')
+  if (respond === 'icon:md')
+    out.push('md:block')
+  if (respond === 'icon:lg')
+    out.push('lg:block')
+  if (respond === 'icon:xl')
+    out.push('xl:block')
+
+  return out.join(' ')
 })
 </script>
 
@@ -152,10 +164,10 @@ const linkProps = vue.computed(() => {
       class="flex w-full min-w-0 items-center whitespace-nowrap transition-all duration-500 ease-[cubic-bezier(0.25,1,0.33,1)]"
       :class="[loading ? 'translate-y-[-150%] opacity-0' : '', wrapClass, format === 'spread' ? '' : 'justify-center']"
     >
-      <div class="flex items-center" :data-has-content="hasContent">
-        <XIcon v-if="icon" :media="icon" :class="[cls.iconClasses, iconAdjust.both, iconAdjust.before]" />
-        <div v-if="hasContent" class="txt"><slot /></div>
-        <XIcon v-if="iconAfter" :media="iconAfter" :class="[cls.iconClasses, iconAdjust.both, iconAdjust.after]" />
+      <div class="flex items-center" :class="iconAdjust.gap" :data-has-content="hasContent">
+        <XIcon v-if="icon" :media="icon" class="text-[1.2em]" :class="[cls.iconClasses]" />
+        <div v-if="hasContent" class="txt" :class="textClass"><slot /></div>
+        <XIcon v-if="iconAfter" :media="iconAfter" class="text-[1.2em]" :class="[cls.iconClasses]" />
       </div>
     </span>
   </component>

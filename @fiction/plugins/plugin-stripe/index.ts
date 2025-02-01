@@ -212,4 +212,12 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
   close() {
     this.customerState.cleanup()
   }
+
+  async getPriceByLookupKey(priceKey?: string) {
+    if (!priceKey)
+      return undefined
+
+    const price = await this.getServerClient().prices.list({ lookup_keys: [priceKey] })
+    return price.data[0].id
+  }
 }
