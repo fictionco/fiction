@@ -190,7 +190,7 @@ const options = vue.computed(() => {
 const header = vue.computed(() => {
   return {
     title: user.value?.fullName || user.value?.email,
-    subTitle: 'Accounts Details',
+    subTitle: `${user.value?.email} - Accounts Details`,
     media: avatarUrl.value,
     actions: [
       {

@@ -161,7 +161,7 @@ function toggleSidebar() {
             class="work-area relative block min-h-0 w-full overflow-hidden md:flex md:h-full md:overflow-visible"
           >
             <div
-              class="shrink-0 md:opacity-100 will-change-auto transition-all  duration-300 bg-theme-0 dark:bg-theme-900 border-theme-300/50 dark:border-theme-700 fixed top-0 z-30 justify-end border-r  md:static md:flex h-dvh w-40 lg:w-52 xl:w-[calc(16rem+4vw)]"
+              class="md:static md:flex h-dvh  w-[calc(12rem+4vw)] shrink-0 md:opacity-100 will-change-auto transition-all  duration-300 bg-theme-0 dark:bg-theme-900 border-theme-300/50 dark:border-theme-700 fixed top-0 z-30 justify-end border-r"
               :class="showMobileNav ? 'left-0 opacity-100' : '-left-full opacity-0'"
             >
               <DashNav :icon="card.userConfig.value.homeIcon" :nav="primaryNav" :nav-bottom="bottomNav" :card />
