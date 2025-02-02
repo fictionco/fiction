@@ -18,7 +18,11 @@ describe('dist checks', async () => {
   const p = `${path.dirname(require.resolve('@fiction/core'))}/test-utils/.env.test`
   dotenv.config({ path: p })
 
-  const services = [{ appId: 'fiction-sites' }, { appId: 'fiction-website' }, { appId: 'fiction-beacon' }]
+  const services = [
+    { appId: 'fiction-gateway' },
+    { appId: 'fiction-website' },
+    { appId: 'fiction-beacon' },
+  ]
   it('has secrets', async () => {
     const token = process.env.FLY_API_TOKEN
 
@@ -40,7 +44,7 @@ describe('dist checks', async () => {
   it('dist files built has dist files', async () => {
     const files = await fs.readdir(distDir)
 
-    const expectedDirs = ['app', 'sites']
+    const expectedDirs = ['app', 'gateway']
     expect(files).toEqual(expect.arrayContaining(expectedDirs))
 
     const expectedFiles = ['client', 'server']
@@ -66,11 +70,11 @@ describe('dist checks', async () => {
 
   it('runs app', async () => {
     const appPort = randomBetween(1050, 60000)
-    const sitesPort = randomBetween(1050, 60000)
+    const gatewayPort = randomBetween(1050, 60000)
     let html = ''
     let status = 0
     await appRunTest({
-      cmd: `npm exec -w @fiction/www -- fiction run app --app-port=${appPort} --sites-port=${sitesPort}`,
+      cmd: `npm exec -w @fiction/www -- fiction run app --app-port=${appPort} --gateway-port=${gatewayPort}`,
       port: appPort,
       envVars: { ...envVars, CI },
       onTrigger: async () => {
@@ -85,15 +89,15 @@ describe('dist checks', async () => {
 
   it('runs sites sub domain', async () => {
     const appPort = randomBetween(1050, 60000)
-    const sitesPort = randomBetween(1050, 60000)
+    const gatewayPort = randomBetween(1050, 60000)
     let html = ''
     let status = 0
     await appRunTest({
-      cmd: `npm exec -w @fiction/www -- fiction run sites --app-port=${appPort} --sites-port=${sitesPort}`,
+      cmd: `npm exec -w @fiction/www -- fiction run gateway --app-port=${appPort} --gateway-port=${gatewayPort}`,
       port: appPort,
       envVars: { ...envVars, CI },
       onTrigger: async () => {
-        const response = await fetch(`http://test.lan.com:${sitesPort}/`)
+        const response = await fetch(`http://test.lan.com:${gatewayPort}/`)
         html = await response.text()
         status = response.status
       },

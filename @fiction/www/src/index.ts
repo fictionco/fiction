@@ -41,7 +41,7 @@ const META = {
 const URLS = {
   app: `https://www.${META.app.domain}`,
   beacon: `https://beacon.${META.app.domain}`,
-  sites: `https://*.${META.app.domain}`,
+  gateway: `https://*.${META.app.domain}`,
 } as const
 
 const envFiles = [path.join(apiRoot, './.env')]
@@ -108,19 +108,19 @@ const fictionApp = new FictionApp({
 const fictionRouterSites = new FictionRouter({
   routerId: 'siteRouter',
   fictionEnv,
-  baseUrl: URLS.sites,
+  baseUrl: URLS.gateway,
   routes: [
     new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: FSite }),
   ],
 })
 
 const fictionAppSites = new FictionApp({
-  appInstanceId: 'sites',
+  appInstanceId: 'gateway',
   fictionEnv,
   fictionRouter: fictionRouterSites,
-  port: +fictionEnv.var('SITES_PORT'),
+  port: +fictionEnv.var('GATEWAY_PORT'),
   localHostname: '*.lan.com',
-  liveUrl: URLS.sites,
+  liveUrl: URLS.gateway,
   altHostnames: [{ prod: `theme-minimal.${fictionEnv.meta.app?.domain}`, dev: 'theme-minimal.lan.com' }],
   isLive: fictionEnv.isProd,
   srcFolder: path.join(cwd, './src'),
@@ -166,7 +166,7 @@ const s = { ...basicService, fictionAppSites, fictionStripe, fictionRouterSites,
 
 const themes = async () => getThemes({ ...s, fictionStripe })
 
-const fictionSites = new FictionSites({ ...s, fictionAnalytics, fictionAppSites, fictionRouterSites, flyApiToken, flyAppId: 'fiction-sites', adminBaseRoute: '/admin', themes })
+const fictionSites = new FictionSites({ ...s, fictionAnalytics, fictionAppSites, fictionRouterSites, flyApiToken, flyAppId: 'fiction-gateway', adminBaseRoute: '/admin', themes })
 const fictionCards = new FictionCards({ ...s, fictionSites })
 const fictionTeam = new FictionTeam({ ...s })
 const fictionForms = new FictionForms({ ...s, fictionSites })
@@ -235,7 +235,7 @@ export function setup(): ServiceConfig {
             fictionApp.logReady({ serveMode: 'comboSSR' })
           }
         }
-        else if (command === 'sites') {
+        else if (command === 'gateway') {
           const { build } = options as { build?: boolean, useLocal?: boolean }
           const srv = await fictionServer.initServer({ useLocal: true, fictionUser, port: fictionAppSites.port.value })
           if (context === 'node') {
@@ -266,7 +266,7 @@ export function setup(): ServiceConfig {
 
     createMount: async (args) => {
       // APP_INSTANCE is the APP being run
-      if (args.serviceConfig.runVars?.APP_INSTANCE === 'sites') {
+      if (args.serviceConfig.runVars?.APP_INSTANCE === 'gateway') {
         return fictionAppSites.mountApp(args)
       }
       else {

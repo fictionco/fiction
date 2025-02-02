@@ -19,7 +19,7 @@ RUN apk add --no-cache python3 && \
     pip install --no-cache --upgrade pip setuptools
 
 # Install pnpm globally and cross-env
-RUN npm install --location=global pnpm@10.0.0 cross-env
+RUN npm install --location=global pnpm@10.1.0 cross-env
 
 # Check pnpm version for debugging purposes
 RUN pnpm -v
@@ -33,14 +33,14 @@ RUN pnpm fetch --prod
 # Install production dependencies using pnpm
 RUN cross-env INSTALL_ENV=production pnpm i --prod --offline --frozen-lockfile
 
-FROM base as fiction-sites
+FROM base as fiction-gateway
 EXPOSE 6565
-CMD npm -w @fiction/www exec -- fiction run sites
+CMD npm -w @fiction/www exec -- fiction run gateway
 
 FROM base as fiction-www
 EXPOSE 4444
 CMD npm -w @fiction/www exec -- fiction run app
 
 FROM base as fiction-beacon
-EXPOSE 4444
+EXPOSE 2121
 CMD npm -w @fiction/www exec -- fiction run beacon

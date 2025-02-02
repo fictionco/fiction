@@ -55,15 +55,6 @@ export class ManageCert extends SitesQuery {
 
       if (!this.flyAppId)
         throw new Error('[CERTS-INIT] Fly.io App ID is required for managing certificates.')
-
-      this.verifyAuthentication().catch((error) => {
-        this.log.error('[CERTS-AUTH] Failed to verify API token', { data: {
-          requestId: this.requestId,
-          appId: this.flyAppId,
-          apiTokenLast4: this.flyApiToken.slice(-4),
-          error: error instanceof Error ? error.message : 'Unknown error',
-        } })
-      })
     }
   }
 

@@ -59,7 +59,7 @@ export async function createSiteTestUtils(args: {
   const fictionEnv = testUtils.fictionEnv
 
   const { awsAccessKey, awsAccessKeySecret, flyApiToken, openaiApiKey, awsBucketMedia } = v
-  const flyAppId = 'fiction-sites'
+  const flyAppId = 'fiction-gateway'
 
   const routes = [new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: FSite })]
 

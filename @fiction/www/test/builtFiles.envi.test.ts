@@ -14,7 +14,7 @@ describe('environment checks', async () => {
   const p = `${path.dirname(require.resolve('@fiction/core'))}/test-utils/.env.test`
   dotenv.config({ path: p })
 
-  const services = [{ appId: 'fiction-sites' }, { appId: 'fiction-website' }, { appId: 'fiction-beacon' }]
+  const services = [{ appId: 'fiction-gateway' }, { appId: 'fiction-website' }, { appId: 'fiction-beacon' }]
   it('has secrets', async () => {
     const token = process.env.FLY_API_TOKEN
 
