@@ -4,7 +4,8 @@ import type { FictionStripe } from '@fiction/plugin-stripe'
 import type { Card } from '@fiction/site/card'
 import type { FictionAdmin } from '..'
 import ElEngine from '@fiction/cards/CardEngine.vue'
-import { getAccessLevel, onResetUi, sortPriority, useService, vue } from '@fiction/core'
+import { fontFamilySchema, getAccessLevel, onResetUi, sortPriority, useService, vue } from '@fiction/core'
+import ElClose from '@fiction/ui/common/ElClose.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import DashBar from './DashBar.vue'
@@ -121,10 +122,6 @@ vue.onMounted(async () => {
     loading.value = false
   }
 })
-
-function toggleSidebar() {
-  showMobileNav.value = !showMobileNav.value
-}
 </script>
 
 <template>
@@ -161,26 +158,26 @@ function toggleSidebar() {
             class="work-area relative block min-h-0 w-full overflow-hidden md:flex md:h-full md:overflow-visible"
           >
             <div
-              class="md:static md:flex h-dvh  w-[calc(12rem+4vw)] shrink-0 md:opacity-100 will-change-auto transition-all  duration-300 bg-theme-0 dark:bg-theme-900 border-theme-300/50 dark:border-theme-700 fixed top-0 z-30 justify-end border-r"
+              class="md:static md:flex h-dvh w-[60%] md:w-[calc(12rem+4vw)] shrink-0 md:opacity-100 will-change-auto transition-all  duration-300 bg-theme-0 dark:bg-theme-900 border-theme-300/50 dark:border-theme-700 fixed top-0 z-30 justify-end border-r"
               :class="showMobileNav ? 'left-0 opacity-100' : '-left-full opacity-0'"
             >
               <DashNav :icon="card.userConfig.value.homeIcon" :nav="primaryNav" :nav-bottom="bottomNav" :card />
-              <div class="i-tabler-x text-3xl absolute -right-12 top-4 text-theme-400 hover:text-theme-500 active:text-theme-600 block md:hidden" @click="toggleSidebar()" />
+              <ElClose v-if="showMobileNav" class="absolute -right-16 top-4" @click="showMobileNav = false" />
             </div>
             <Transition name="backdrop">
-              <div v-if="showMobileNav" class="overlay md:hidden fixed z-20 bg-theme-700/20 inset-0  backdrop-blur-sm" @click="toggleSidebar()" />
+              <div v-if="showMobileNav" class="overlay md:hidden fixed z-20 bg-theme-700/20 inset-0  backdrop-blur-sm" @click="showMobileNav = false" />
             </Transition>
             <div
               v-if="site"
               class="no-scrollbar relative min-h-0 min-w-0 grow flex flex-col h-[100dvh]"
             >
               <DashBar
+                v-model:show-mobile-nav="showMobileNav"
                 class="border-theme-300/70 dark:border-theme-700 border-b"
                 :account-menu="accountMenu"
                 :customer="fictionStripe?.activeCustomer.value"
                 :card
                 :site
-                @nav="toggleSidebar()"
               />
               <div
                 class="mx-auto bg-theme-0 dark:bg-theme-950 grow overflow-scroll w-full"

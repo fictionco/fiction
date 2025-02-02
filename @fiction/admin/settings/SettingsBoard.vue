@@ -16,7 +16,6 @@ const {
   panelEvents = {},
   loading = false,
   header,
-  navActions = [],
 } = defineProps<{
   card: Card
   basePath?: string
@@ -24,7 +23,6 @@ const {
   panelEvents?: Record<string, (...args: any[]) => void>
   loading?: boolean
   header?: PostObject
-  navActions?: ActionButton[]
 }>()
 
 const emit = defineEmits<{
@@ -67,10 +65,9 @@ const nav = vue.computed<NavListItem[]>(() => {
 </script>
 
 <template>
-  <div class="md:flex h-[calc(100dvh-61px)]">
-    <div class="md:w-[32%] shrink-0 rounded-l-md md:pb-32 p-3 md:p-6 border-r dark:border-theme-600/60 border-theme-300/60 space-y-6">
+  <div class="lg:flex h-[calc(100dvh-61px)]">
+    <div class="lg:w-[32%] shrink-0 rounded-l-md p-3 md:p-6 md:border-r dark:border-theme-600/60 border-theme-300/60 space-y-6">
       <div class="space-y-3">
-        <CardButtons v-if="navActions?.length" :buttons="navActions" :card="card" />
         <ElHeader
           v-if="header"
           class="bg-theme-50/20 dark:bg-theme-700/30 rounded-xl p-4"

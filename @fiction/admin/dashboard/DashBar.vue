@@ -6,17 +6,19 @@ import type { UserConfig } from './DashWrap.vue'
 import CardButton from '@fiction/cards/CardButton.vue'
 import CardLink from '@fiction/cards/el/CardLink.vue'
 import { vue } from '@fiction/core'
+import XMenuButton from '@fiction/ui/common/XMenuButton.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import DashBarMenu from './DashBarMenu.vue'
 
-const { accountMenu = [], card, customer } = defineProps<{
+const { accountMenu = [], card, customer, showMobileNav } = defineProps<{
   accountMenu: NavItem[]
   card: Card<UserConfig>
   customer?: CustomerData
+  showMobileNav: boolean
 }>()
 
 const emit = defineEmits<{
-  (event: 'nav', payload: boolean): void
+  (event: 'update:showMobileNav', payload: boolean): void
 }>()
 
 const uc = vue.computed(() => card.userConfig.value)
@@ -27,34 +29,33 @@ const uc = vue.computed(() => card.userConfig.value)
     v-if="card.site"
     class="navbar text-sm font-medium"
   >
-    <div class="mx-auto flex items-center justify-between  px-4 py-2">
-      <div class="flex items-center md:min-w-[150px]">
-        <CardLink :card href="/" class="active:opacity-80 sm:hidden">
+    <div class="mx-auto flex items-center justify-between ">
+      <div class="flex items-center md:min-w-[150px] px-4 py-2">
+        <CardLink :card href="/" class="active:opacity-80 md:hidden">
           <XMedia class="h-[21px]" :media="uc.homeIcon" />
         </CardLink>
-        <div class="hidden sm:block dark:text-theme-0 text-theme-700 md:flex gap-2 items-center">
+        <div class="hidden dark:text-theme-0 text-theme-700 md:flex gap-2 items-center">
           <div v-if="uc.navIcon || uc.navIconAlt" :class="uc.navIconAlt || uc.navIcon" class="text-xl" />
           <div class="hidden text-base font-semibold sm:block  dark:text-theme-0  text-theme-700 ">
             {{ card.site.currentPage.value?.title.value }}
           </div>
         </div>
       </div>
-      <div />
 
-      <div class="flex h-full justify-end gap-6 md:min-w-[150px]">
+      <div class="flex items-center h-full justify-end gap-4 md:gap-5 md:min-w-[150px] py-2 px-3">
         <div class="flex items-center" :data-customer="JSON.stringify(customer)">
           <CardButton
             v-if="customer"
             :card
-            design="outline"
+            design="ghost"
             size="sm"
             theme="default"
             href="/settings/billing"
-            :icon="customer?.tier && customer.tier > 0 ? `i-tabler-stars` : `i-tabler-arrow-up-right`"
+            :icon="customer?.tier && customer.tier >= 10 ? `i-tabler-star` : `i-tabler-currency-dollar-off`"
             data-test-id="plan-status-button"
           >
             {{ customer?.plan?.name }}
-            {{ customer?.tier && customer.tier > 0 ? `Member` : `Free` }}
+            {{ customer?.tier && customer.tier >= 10 ? `Member` : `Free Version` }}
             <span v-if="customer?.isTrialing" class="text-theme-500 dark:text-theme-400">(Trial)</span>
           </CardButton>
         </div>
@@ -62,20 +63,17 @@ const uc = vue.computed(() => card.userConfig.value)
           size="md"
           direction="left"
           default-text="Menu"
-          class="hidden sm:block"
+          class="block"
           :account-menu="accountMenu"
           :site="card.site"
         />
-        <div
-          class="group flex h-8 w-8 cursor-pointer flex-col justify-center space-y-1 p-1 sm:hidden"
-          @click="emit('nav', true)"
-        >
-          <div
-            v-for="i in 3"
-            :key="i"
-            class="bg-theme-300 dark:bg-theme-500 group-active:bg-theme-400 h-1 rounded-full"
-          />
-        </div>
+      </div>
+      <div class="flex md:hidden items-center py-2 pr-3 h-full justify-end gap-4 md:gap-6 md:min-w-[150px]">
+        <XMenuButton
+          class="size-8"
+          :is-open="showMobileNav"
+          @click="emit('update:showMobileNav', !showMobileNav)"
+        />
       </div>
     </div>
   </div>

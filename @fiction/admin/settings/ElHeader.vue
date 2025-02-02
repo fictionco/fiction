@@ -31,14 +31,14 @@ function updateValue<T extends keyof PostObject = keyof PostObject>(key: T, valu
             v-if="modelValue.title"
             tag="h1"
             :model-value="modelValue.title"
-            class="text-xl @sm:text-2xl font-semibold text-theme-900 dark:text-theme-0 x-font-title"
+            class="text-base font-semibold text-theme-900 dark:text-theme-0 x-font-title"
             :is-editable="editable.includes('title')"
             @update:model-value="updateValue('title', $event)"
           />
           <XText
             v-if="modelValue.subTitle"
             :model-value="modelValue.subTitle"
-            class="text-sm @sm:text-base font-normal text-theme-500 dark:text-theme-500"
+            class="text-base font-normal text-theme-500 dark:text-theme-500"
             :is-editable="editable.includes('subTitle')"
             @update:model-value="updateValue('subTitle', $event)"
           />

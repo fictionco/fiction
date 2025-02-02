@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import type { AdminEditorController, EditorTool } from '@fiction/admin'
 import type { Card, FictionSites } from '@fiction/site'
+import type { InputOption } from '@fiction/ui'
 import type { Site } from '../../site'
 import type { ToolKeys } from './tools'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
 import { useService, vue } from '@fiction/core'
-import { InputOption } from '@fiction/ui'
+import { createOption } from '@fiction/ui'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import { updateSite } from '../../utils/site'
@@ -24,23 +25,24 @@ const options = vue.computed<InputOption[]>(() => {
   return [
 
     // Advanced Settings Group
-    new InputOption({
+    createOption({
       key: 'siteHandling',
       label: 'Site Handling',
       input: 'group',
       options: [
-        new InputOption({
+        createOption({
           key: 'userConfig.customCode.gtmContainerId',
           label: 'Delete Site',
           subLabel: 'Permanently delete this site',
           input: 'InputActionList',
           props: {
-            actions: [
+            buttons: [
               {
-                name: 'Delete Site...',
+                label: 'Permanently Delete Site...',
                 design: 'outline' as const,
                 theme: 'red' as const,
                 size: 'sm',
+                icon: 'i-tabler-trash',
                 loading: sending.value,
                 onClick: async () => {
                   const confirmed = confirm('This will permanently delete your site. Are you sure?')

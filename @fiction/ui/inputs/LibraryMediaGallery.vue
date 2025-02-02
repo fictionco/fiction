@@ -94,6 +94,9 @@ vue.onMounted(() => {
     <div v-if="loadingLibrary" class="flex justify-center py-8">
       <ElSpinner class="text-theme-600 dark:text-theme-500 size-6" />
     </div>
+    <div v-else-if="libraryMedia.length === 0" class="p-6 text-center text-sm text-theme-500 dark:text-theme-400">
+      No media found
+    </div>
     <EffectMasonry v-else :items="libraryMedia" :options="{ gutter: 10 }">
       <div
         v-for="media in libraryMedia"
