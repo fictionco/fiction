@@ -18,7 +18,7 @@ describe('admin:newsletter', async () => {
       path: '/app',
       actions: [
         { type: 'click', selector: '[data-test-id="dashboard-nav-newsletter"]' },
-        { type: 'hasText', selector: `[data-test-id="campaign-zero"]`, text: 'Email Your Audience' },
+        { type: 'hasText', selector: `[data-test-id="zero-banner-title"]`, text: 'Create an Email Campaign' },
         { type: 'click', selector: `[data-test-id="new-campaign-button-zero"]` },
         { type: 'fill', selector: `[data-test-id="email-title-input"] input`, text: 'Test Email' },
         { type: 'click', selector: `[data-test-id="step-button-emailTitle"]` },
