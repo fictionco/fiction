@@ -1,21 +1,36 @@
 <script lang="ts" setup>
-import type { MediaObject } from '@fiction/core'
+import type { ColorThemeUser, MediaObject } from '@fiction/core'
 import { vue } from '@fiction/core'
 import XIcon from '@fiction/ui/media/XIcon.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
+import { getColorThemeStyles } from '../utils'
 
-const { media, icon } = defineProps<{ media?: MediaObject, icon?: string | MediaObject }>()
+const {
+  media,
+  icon,
+  colorTheme = 'default',
+} = defineProps<{
+  media?: MediaObject
+  icon?: string | MediaObject
+  colorTheme?: ColorThemeUser
+}>()
 
-const mediaClass = `
-  relative
-  bg-theme-100/60
-  dark:bg-theme-600/40
-  dark:text-theme-0
-  rounded-full
-  overflow-hidden
-  text-theme-500/50
-  shrink-0
-`
+const mediaStyle = vue.computed(() => {
+  if (!colorTheme) {
+    return {
+      iconWrapper: `bg-theme-100/60 dark:bg-theme-600/40 dark:text-theme-0`,
+      icon: 'text-theme-500/50 dark:text-theme-50',
+    }
+  }
+
+  const style = getColorThemeStyles(colorTheme || 'primary')
+
+  return {
+    base: `relative rounded-full overflow-hidden shrink-0`,
+    iconWrapper: style?.bg,
+    icon: style?.text,
+  }
+})
 
 const m = vue.computed(() => {
   return Object.keys(media || {}).length === 0 ? (typeof icon === 'string' ? { class: icon } : icon) : media
@@ -23,12 +38,12 @@ const m = vue.computed(() => {
 </script>
 
 <template>
-  <div :class="mediaClass">
+  <div :class="[mediaStyle.base, mediaStyle.iconWrapper, mediaStyle.icon]">
     <div
       v-if="m && !m?.url && !m?.html"
       class="w-full h-full flex items-center justify-center"
     >
-      <XIcon class="size-[50%]" :media="m" />
+      <XIcon class="size-[60%]" :media="m" />
     </div>
     <div v-else class="absolute inset-0 overflow-hidden">
       <XMedia class="absolute inset-0 z-10" :media="m" />

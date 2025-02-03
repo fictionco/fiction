@@ -3,9 +3,8 @@ import type { ActionButton, Organization } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { gravatarUrlSync, useService, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save.js'
-import { InputOption } from '@fiction/ui/index.js'
+import { createOption, InputOption } from '@fiction/ui/index.js'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
-import ElHeader from './ElHeader.vue'
 import SettingsPanel from './SettingsPanel.vue'
 
 type UserConfig = {
@@ -49,19 +48,9 @@ function update(orgNew: Organization) {
   saveUtil.autosave({ caller: 'updateOrg' })
 }
 
-function newOrgOptions() {
-  const options: InputOption[] = [
-    new InputOption({ key: 'orgName', label: 'Publication Name', input: 'InputText', placeholder: 'Publication Name', isRequired: true }),
-    new InputOption({ key: 'orgEmail', label: 'Contact Email', description: 'Used for billing.', input: 'InputEmail', isRequired: true }),
-    new InputOption({ key: 'avatar', label: 'Publication Avatar', input: 'InputMediaUpload', subLabel: 'Upload a square image or it will be cropped' }),
-    new InputOption({ key: 'url', label: 'Website', input: 'InputUrl' }),
-  ]
-
-  return new InputOption({ key: 'orgInfo', label: 'Details', input: 'group', options })
-}
-
 const controlOptions = [
-  new InputOption({
+  createOption({
+    key: 'control.orgName',
     testId: 'orgName',
     label: 'Organization Name',
     subLabel: 'Used for publication name.',
@@ -73,10 +62,11 @@ const controlOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'orgName', label: 'Publication Name', input: 'InputText', placeholder: 'Publication Name', isRequired: true }),
+      createOption({ key: 'orgName', label: 'Publication Name', input: 'InputText', placeholder: 'Publication Name', isRequired: true }),
     ],
   }),
-  new InputOption({
+  createOption({
+    key: 'control.orgEmail',
     testId: 'orgEmail',
     label: 'Primary Email',
     subLabel: 'Used for newsletter, billing, admin.',
@@ -88,10 +78,11 @@ const controlOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'orgEmail', label: 'Contact Email', description: 'Used for billing.', input: 'InputEmail', isRequired: true }),
+      createOption({ key: 'orgEmail', label: 'Contact Email', description: 'Used for billing.', input: 'InputEmail', isRequired: true }),
     ],
   }),
-  new InputOption({
+  createOption({
+    key: 'control.orgAvatar',
     testId: 'orgAvatar',
     label: 'Logo / Avatar',
     subLabel: 'Will default to Gravatar if not set.',
@@ -104,10 +95,11 @@ const controlOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'avatar', label: 'Publication Avatar', input: 'InputMedia', subLabel: 'Upload a square image or it will be cropped' }),
+      createOption({ key: 'avatar', label: 'Publication Avatar', input: 'InputMedia', subLabel: 'Upload a square image or it will be cropped' }),
     ],
   }),
-  new InputOption({
+  createOption({
+    key: 'control.orgUrl',
     testId: 'orgUrl',
     label: 'Primary Website',
     input: 'InputControl',
@@ -118,13 +110,14 @@ const controlOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'url', label: 'Website', input: 'InputUrl' }),
+      createOption({ key: 'url', label: 'Website', input: 'InputUrl' }),
     ],
   }),
 ]
 
 const newsletterOptions = [
-  new InputOption({
+  createOption({
+    key: 'control.pubTitle',
     testId: 'pubTitle',
     label: 'Newsletter Title',
     subLabel: 'Used in emails and other places.',
@@ -136,10 +129,11 @@ const newsletterOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'publication.title', label: 'Newsletter Title', input: 'InputText' }),
+      createOption({ key: 'publication.title', label: 'Newsletter Title', input: 'InputText' }),
     ],
   }),
-  new InputOption({
+  createOption({
+    key: 'control.pubTagline',
     testId: 'pubTagline',
     label: 'Newsletter Description',
     input: 'InputControl',
@@ -150,10 +144,11 @@ const newsletterOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'publication.tagline', label: 'Newsletter Tagline', description: 'Used in descriptions and meta info', input: 'InputText', placeholder: 'A sentence on what you do...' }),
+      createOption({ key: 'publication.tagline', label: 'Newsletter Tagline', description: 'Used in descriptions and meta info', input: 'InputText', placeholder: 'A sentence on what you do...' }),
     ],
   }),
-  new InputOption({
+  createOption({
+    key: 'control.pubEmail',
     testId: 'pubEmail',
     label: 'Newsletter Email and Sender',
     subLabel: 'Email will be sent from this address.',
@@ -166,14 +161,15 @@ const newsletterOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'publication.email', label: 'Sender Email', description: 'Email will be sent from this address.', input: 'InputEmail' }),
-      new InputOption({ key: 'publication.sender', label: 'Sender Name', input: 'InputText', placeholder: 'Sender Name' }),
+      createOption({ key: 'publication.email', label: 'Sender Email', description: 'Email will be sent from this address.', input: 'InputEmail' }),
+      createOption({ key: 'publication.sender', label: 'Sender Name', input: 'InputText', placeholder: 'Sender Name' }),
     ],
   }),
 ]
 
 const legalOptions = [
-  new InputOption({
+  createOption({
+    key: 'control.legal',
     testId: 'legal',
     label: 'Terms of Service and Privacy Policy',
     subLabel: 'Needed for sites, newsletters, and other services.',
@@ -191,14 +187,15 @@ const legalOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'legal.termsUrl', label: 'Terms of Service URL', input: 'InputUrl' }),
-      new InputOption({ key: 'legal.privacyUrl', label: 'Privacy Policy URL', input: 'InputUrl' }),
+      createOption({ key: 'legal.termsUrl', label: 'Terms of Service URL', input: 'InputUrl' }),
+      createOption({ key: 'legal.privacyUrl', label: 'Privacy Policy URL', input: 'InputUrl' }),
     ],
   }),
 ]
 
 const adminOptions = [
-  new InputOption({
+  createOption({
+    key: 'control.specialPlan',
     testId: 'specialPlan',
     label: 'Add a Special Pricing Plan',
     subLabel: 'Discounts or special pricing for certain organizations.',
@@ -211,10 +208,11 @@ const adminOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'specialPlan', label: 'Assign a Special Pricing Plan', input: 'InputSelect', list: ['standard', 'vip', 'non-profit'] }),
+      createOption({ key: 'specialPlan', label: 'Assign a Special Pricing Plan', input: 'InputSelect', list: ['standard', 'vip', 'non-profit'] }),
     ],
   }),
-  new InputOption({
+  createOption({
+    key: 'control.delete',
     testId: 'deleteOrg',
     label: 'Delete Organization',
     subLabel: 'Permanently delete this organization.',
@@ -248,28 +246,28 @@ const adminOptions = [
 
 const options = vue.computed(() => {
   return [
-    new InputOption({
+    createOption({
       key: 'details',
       label: 'Organization Details',
       input: 'group',
       options: controlOptions,
       format: 'control',
     }),
-    new InputOption({
+    createOption({
       key: 'publication',
       label: 'Newsletter and Email',
       input: 'group',
       options: newsletterOptions,
       format: 'control',
     }),
-    new InputOption({
+    createOption({
       key: 'legal',
       label: 'Legal',
       input: 'group',
       options: legalOptions,
       format: 'control',
     }),
-    new InputOption({
+    createOption({
       key: 'adminOnly',
       label: 'Admin Only Options',
       subLabel: 'Only Fiction Admins should see these options.',
@@ -307,14 +305,8 @@ vue.onMounted(async () => {
       loading: sending === 'saving',
       icon: saveUtil.isDirty.value ? 'i-tabler-upload' : 'i-tabler-check',
     }] }"
+    :header
   >
-    <div class="p-6">
-      <ElHeader
-        v-if="header"
-        class="dark:bg-theme-700/50 rounded-xl p-8"
-        :model-value="header"
-      />
-    </div>
     <FormEngine
       :model-value="org"
       state-key="settingsTool"

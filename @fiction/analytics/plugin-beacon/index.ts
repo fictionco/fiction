@@ -52,7 +52,14 @@ export class FictionBeacon extends FictionPlugin<FictionBeaconSettings> {
 
     const fictionAnalytics = this.settings.fictionAnalytics
 
-    const inter = setInterval(async () => (checkForExpiredSessions({ fictionAnalytics })), fictionAnalytics.checkExpiredIntervalMs)
+    const inter = setInterval(async () => {
+      try {
+        await checkForExpiredSessions({ fictionAnalytics })
+      }
+      catch (error) {
+        this.log.error('session expiry check', { error: error as Error })
+      }
+    }, fictionAnalytics.checkExpiredIntervalMs)
 
     inter.unref() // don't keep process alive
 

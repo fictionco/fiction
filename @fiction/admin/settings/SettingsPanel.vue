@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ActionArea, PostObject } from '@fiction/core'
 import XButtonList from '@fiction/ui/buttons/XButtonList.vue'
-import ElHeader from './ElHeader.vue'
+import SettingsPanelHeader from './SettingsPanelHeader.vue'
 
 const {
   title,
@@ -29,9 +29,8 @@ const emit = defineEmits<{
       <XButtonList :buttons="action.buttons" class="flex justify-end gap-2" ui-size="md" />
     </div>
 
-    <div v-if="header" class="p-4">
-      <ElHeader
-        class="dark:bg-theme-700/30 rounded-xl p-8"
+    <div v-if="header" class="p-8">
+      <SettingsPanelHeader
         :model-value="header"
         :editable
         @update:model-value="emit('update:header', $event)"

@@ -27,11 +27,11 @@ function updateValue<T extends keyof PostObject = keyof PostObject>(key: T, valu
 <template>
   <div class="@container">
     <div class="@xs:flex @xs:items-center @xs:justify-between @xs:space-x-6">
-      <div class="items-start  @xl:space-x-6 space-y-2">
+      <div class="flex items-center gap-6">
         <div v-if="modelValue.media" class="flex-shrink-0 flex gap-3 items-center">
           <ElIndexItemMedia
             :media="modelValue.media"
-            class="size-12 @xl:size-14"
+            class="size-12 @xl:size-20"
             :color-theme="colorTheme"
           />
         </div>
@@ -40,7 +40,7 @@ function updateValue<T extends keyof PostObject = keyof PostObject>(key: T, valu
             v-if="modelValue.title"
             tag="h1"
             :model-value="modelValue.title"
-            class="text-base font-semibold text-theme-900 dark:text-theme-0 x-font-title"
+            class="text-3xl font-bold text-theme-900 dark:text-theme-0 x-font-title"
             :is-editable="editable.includes('title')"
             @update:model-value="updateValue('title', $event)"
           />

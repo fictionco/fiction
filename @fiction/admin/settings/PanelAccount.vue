@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import type { ActionButton, User } from '@fiction/core'
 import type { Card } from '@fiction/site'
+import type { InputOption } from '@fiction/ui/index.js'
 import type { FictionAdmin } from '..'
 import { gravatarUrlSync, useService, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save.js'
 import ElModal from '@fiction/ui/ElModal.vue'
-import { InputOption } from '@fiction/ui/index.js'
+import { createOption } from '@fiction/ui/index.js'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import ElHeader from './ElHeader.vue'
@@ -54,7 +55,8 @@ function update(userNew: User) {
 }
 
 const detailOptions = [
-  new InputOption({
+  createOption({
+    key: 'control.fullName',
     label: 'Full Name',
     subLabel: 'Your first and last name',
     input: 'InputControl',
@@ -65,10 +67,11 @@ const detailOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'fullName', label: 'Full Name', input: 'InputText', placeholder: 'Enter Your Name', isRequired: true }),
+      createOption({ key: 'fullName', label: 'Full Name', input: 'InputText', placeholder: 'Enter Your Name', isRequired: true }),
     ],
   }),
-  new InputOption({
+  createOption({
+    key: 'control.avatar',
     label: 'Logo / Avatar',
     subLabel: 'Will default to Gravatar if not set.',
     input: 'InputControl',
@@ -80,10 +83,11 @@ const detailOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'avatar', label: 'Account Avatar', input: 'InputMedia', subLabel: 'Upload a square image or it will be cropped' }),
+      createOption({ key: 'avatar', label: 'Account Avatar', input: 'InputMedia', subLabel: 'Upload a square image or it will be cropped' }),
     ],
   }),
-  new InputOption({
+  createOption({
+    key: 'control.username',
     label: 'Username',
     subLabel: 'Unique username for your account',
     input: 'InputControl',
@@ -94,10 +98,11 @@ const detailOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'username', label: 'Username', input: 'InputUsername', placeholder: 'my-username', props: { table: 'fiction_user', columns: [{ name: 'username' }] } }),
+      createOption({ key: 'username', label: 'Username', input: 'InputUsername', placeholder: 'my-username', props: { table: 'fiction_user', columns: [{ name: 'username' }] } }),
     ],
   }),
-  new InputOption({
+  createOption({
+    key: 'control.phone',
     label: 'Phone Number',
     subLabel: 'Include country code. Used for 2FA and notifications.',
     input: 'InputControl',
@@ -108,13 +113,14 @@ const detailOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'phone', label: 'Phone Number', description: 'Include country code. Used for 2FA and notifications.', input: 'InputPhone', placeholder: '+1 555 555 5555' }),
+      createOption({ key: 'phone', label: 'Phone Number', description: 'Include country code. Used for 2FA and notifications.', input: 'InputPhone', placeholder: '+1 555 555 5555' }),
     ],
   }),
 ]
 
 const profileOptions = [
-  new InputOption({
+  createOption({
+    key: 'control.headline',
     label: 'Profile Headline',
     subLabel: 'Appears with your name.',
     input: 'InputControl',
@@ -125,10 +131,11 @@ const profileOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'headline', label: 'Profile Headline', input: 'InputText', placeholder: 'Enter Headline' }),
+      createOption({ key: 'headline', label: 'Profile Headline', input: 'InputText', placeholder: 'Enter Headline' }),
     ],
   }),
-  new InputOption({
+  createOption({
+    key: 'control.bio',
     label: 'Profile Website',
     subLabel: 'Linked from author profile',
     input: 'InputControl',
@@ -139,10 +146,11 @@ const profileOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'websiteUrl', label: 'Website URL', input: 'InputUrl', placeholder: 'https://www.example.com' }),
+      createOption({ key: 'websiteUrl', label: 'Website URL', input: 'InputUrl', placeholder: 'https://www.example.com' }),
     ],
   }),
-  new InputOption({
+  createOption({
+    key: 'control.social',
     label: 'Social Links',
     subLabel: 'Add Links to your social profiles',
     input: 'InputControl',
@@ -156,28 +164,28 @@ const profileOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'accounts.xUrl', label: 'X / Twitter URL', input: 'InputUrl', placeholder: 'https://www.x.com/username' }),
-      new InputOption({ key: 'accounts.instagramUrl', label: 'Instagram URL', input: 'InputUrl', placeholder: 'https://www.instagram.com/username' }),
-      new InputOption({ key: 'accounts.linkedinUrl', label: 'LinkedIn URL', input: 'InputUrl', placeholder: 'https://www.linkedin.com/in/username' }),
-      new InputOption({ key: 'accounts.facebookUrl', label: 'Facebook URL', input: 'InputUrl', placeholder: 'https://www.facebook.com/username' }),
-      new InputOption({ key: 'accounts.githubUrl', label: 'GitHub URL', input: 'InputUrl', placeholder: 'https://www.github.com/username' }),
-      new InputOption({ key: 'accounts.youtubeUrl', label: 'YouTube URL', input: 'InputUrl', placeholder: 'https://www.youtube.com/channel/username' }),
-      new InputOption({ key: 'accounts.pinterestUrl', label: 'Pinterest URL', input: 'InputUrl', placeholder: 'https://www.pinterest.com/username' }),
-      new InputOption({ key: 'accounts.tiktokUrl', label: 'TikTok URL', input: 'InputUrl', placeholder: 'https://www.tiktok.com/@username' }),
+      createOption({ key: 'accounts.xUrl', label: 'X / Twitter URL', input: 'InputUrl', placeholder: 'https://www.x.com/username' }),
+      createOption({ key: 'accounts.instagramUrl', label: 'Instagram URL', input: 'InputUrl', placeholder: 'https://www.instagram.com/username' }),
+      createOption({ key: 'accounts.linkedinUrl', label: 'LinkedIn URL', input: 'InputUrl', placeholder: 'https://www.linkedin.com/in/username' }),
+      createOption({ key: 'accounts.facebookUrl', label: 'Facebook URL', input: 'InputUrl', placeholder: 'https://www.facebook.com/username' }),
+      createOption({ key: 'accounts.githubUrl', label: 'GitHub URL', input: 'InputUrl', placeholder: 'https://www.github.com/username' }),
+      createOption({ key: 'accounts.youtubeUrl', label: 'YouTube URL', input: 'InputUrl', placeholder: 'https://www.youtube.com/channel/username' }),
+      createOption({ key: 'accounts.pinterestUrl', label: 'Pinterest URL', input: 'InputUrl', placeholder: 'https://www.pinterest.com/username' }),
+      createOption({ key: 'accounts.tiktokUrl', label: 'TikTok URL', input: 'InputUrl', placeholder: 'https://www.tiktok.com/@username' }),
     ],
   }),
 ]
 
 const options = vue.computed(() => {
   return [
-    new InputOption({
+    createOption({
       key: 'userDetails',
       label: 'Account Details',
       input: 'group',
       options: detailOptions,
       format: 'control',
     }),
-    new InputOption({
+    createOption({
       key: 'userProfile',
       label: 'Profile Details',
       input: 'group',
@@ -279,12 +287,12 @@ const toolFormOptions = vue.computed<InputOption[]>(() => {
   const actions: ActionButton[] = codeSent.value ? [submitAction] : [requestAction]
 
   const options: InputOption[] = [
-    new InputOption({ key: 'email', label: 'New Email Address', input: 'InputEmail', placeholder: 'New Email Address' }),
-    new InputOption({ key: 'code', label: 'One Time Code', input: 'InputOneTimeCode', placeholder: '••••••', isHidden: !codeSent.value }),
-    new InputOption({ key: 'actions', input: 'InputActionList', props: { actions, defaultSize: 'md' } }),
+    createOption({ key: 'email', label: 'New Email Address', input: 'InputEmail', placeholder: 'New Email Address' }),
+    createOption({ key: 'code', label: 'One Time Code', input: 'InputOneTimeCode', placeholder: '••••••', isHidden: !codeSent.value }),
+    createOption({ key: 'actions', input: 'InputActionList', props: { actions, defaultSize: 'md' } }),
   ]
 
-  return [new InputOption({ key: 'accountEmailGroup', label: 'Change Email Address', input: 'group', options })]
+  return [createOption({ key: 'accountEmailGroup', label: 'Change Email Address', input: 'group', options })]
 })
 </script>
 
@@ -292,6 +300,7 @@ const toolFormOptions = vue.computed<InputOption[]>(() => {
   <SettingsPanel
     title="User Account and Author Profile"
     :loading
+    :header
     :action="{ buttons: [{
       label: saveUtil.isDirty.value ? 'Saving...' : 'Saved',
       onClick: () => save(),
@@ -300,13 +309,6 @@ const toolFormOptions = vue.computed<InputOption[]>(() => {
       icon: saveUtil.isDirty.value ? 'i-tabler-upload' : 'i-tabler-check',
     }] }"
   >
-    <div class="p-6">
-      <ElHeader
-        v-if="header"
-        class="dark:bg-theme-700/50 rounded-xl p-8"
-        :model-value="header"
-      />
-    </div>
     <FormEngine
       :model-value="user"
       state-key="settingsTool"

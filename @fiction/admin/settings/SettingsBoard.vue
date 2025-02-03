@@ -70,12 +70,13 @@ const nav = vue.computed<NavListItem[]>(() => {
       <div class="space-y-3">
         <ElHeader
           v-if="header"
-          class="bg-theme-50/20 dark:bg-theme-700/30 rounded-xl p-4"
+          class="bg-theme-50/20 dark:bg-theme-800 rounded-xl p-4"
           :model-value="header"
+          color-theme="primary"
           @update:model-value="emit('update:header', $event)"
         />
       </div>
-      <div class="space-y-2 text-right">
+      <div class="space-y-3 text-right">
         <CardLink
           v-for="(v, i) in nav"
           :key="i"
