@@ -17,5 +17,6 @@ defineProps({
       title: 'All Settings',
       subTitle: 'Manage your workspace, team, and personal preferences',
     }"
+    color-theme="green"
   />
 </template>

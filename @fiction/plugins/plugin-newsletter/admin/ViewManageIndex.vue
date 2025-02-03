@@ -38,5 +38,6 @@ vue.onMounted(() => load())
       media: { class: `i-tabler-mail` },
       action: {},
     }"
+    color-theme="orange"
   />
 </template>

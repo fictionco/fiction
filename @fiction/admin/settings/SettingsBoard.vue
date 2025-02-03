@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActionButton, NavListItem, PostObject } from '@fiction/core'
+import type { ActionButton, ColorThemeUser, NavListItem, PostObject } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import type { NavCardUserConfig } from '..'
 import CardButtons from '@fiction/cards/el/CardButtons.vue'
@@ -16,6 +16,7 @@ const {
   panelEvents = {},
   loading = false,
   header,
+  colorTheme,
 } = defineProps<{
   card: Card
   basePath?: string
@@ -23,6 +24,7 @@ const {
   panelEvents?: Record<string, (...args: any[]) => void>
   loading?: boolean
   header?: PostObject
+  colorTheme?: ColorThemeUser
 }>()
 
 const emit = defineEmits<{
@@ -33,22 +35,27 @@ const panels = vue.computed(() => card.cards.value.filter(t => t.slug.value) as 
 
 const routeItemId = vue.computed(() => toSlug(card.site?.siteRouter.params.value.itemId as string) || panels.value[0].slug.value)
 
-const currentPanel = vue.computed(() => panels.value.find(p => toSlug(p.slug.value) === routeItemId.value))
+const currentPanel = vue.computed(() => panels.value.find(p => toSlug(p.slug.value) === routeItemId.value) || panels.value[0])
+
+const viewId = vue.computed(() => {
+  return card.site?.siteRouter.current.value?.params.viewId || ''
+})
+
+const currentItemId = vue.computed(() => {
+  return card.site?.siteRouter.current.value?.params.itemId || ''
+})
 
 const nav = vue.computed<NavListItem[]>(() => {
-  const router = card.site?.siteRouter.current.value
-  const currentRoute = card.site?.siteRouter.current.value
-  const query = currentRoute?.fullPath.split('?')[1] || ''
-  const viewId = currentRoute?.params.viewId || ''
+  const query = card.site?.siteRouter.current.value?.fullPath.split('?')[1] || ''
 
   return panels.value
     .filter(p => p.userConfig.value?.isNavItem)
     .map((p) => {
       const slug = p.slug.value === '_home' ? '' : p.slug.value
       const cfg = p.userConfig.value || {}
-      const itemId = router?.params.itemId || ''
+      const itemId = currentItemId.value || ''
       const isActive = slug === itemId || slug === currentPanel.value?.userConfig.value?.parentItemId
-      const base = basePath || `/${viewId}`
+      const base = basePath || `/${viewId.value}`
       const href = `${base}/${slug}${query ? `?${query}` : ''}`
 
       return {
@@ -66,17 +73,20 @@ const nav = vue.computed<NavListItem[]>(() => {
 
 <template>
   <div class="lg:flex h-[calc(100dvh-61px)]">
-    <div class="lg:w-[32%] shrink-0 rounded-l-md p-3 md:p-6 md:border-r dark:border-theme-600/60 border-theme-300/60 space-y-6">
+    <div
+      :class="currentItemId ? 'hidden lg:block' : ''"
+      class="lg:w-[32%] shrink-0 rounded-l-md p-3  md:p-6 md:border-r dark:border-theme-600/60 border-theme-300/60 space-y-6"
+    >
       <div class="space-y-3">
         <ElHeader
           v-if="header"
           class="bg-theme-50/20 dark:bg-theme-800 rounded-xl p-4"
           :model-value="header"
-          color-theme="primary"
+          :color-theme="colorTheme || 'primary'"
           @update:model-value="emit('update:header', $event)"
         />
       </div>
-      <div class="space-y-3 text-right">
+      <div class="space-y-3 text-right pb-32">
         <CardLink
           v-for="(v, i) in nav"
           :key="i"
@@ -104,7 +114,7 @@ const nav = vue.computed<NavListItem[]>(() => {
         </CardLink>
       </div>
     </div>
-    <div class="grow overflow-scroll pb-32">
+    <div class="grow overflow-scroll pb-32" :class="currentItemId ? '' : 'hidden lg:block'">
       <transition
         enter-active-class="ease-out duration-300"
         enter-from-class="opacity-0 translate-y-12"

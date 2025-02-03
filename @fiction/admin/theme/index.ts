@@ -43,7 +43,7 @@ export async function getPages(args: { factory: CardFactory, site: Site }) {
           el: def(async () => import('../settings/SettingsMain.vue')),
           cards: [
             await factory.fromTemplate<typeof panelTemplate>({
-              slug: '_home',
+              slug: 'org',
               title: 'Organization Settings',
               description: 'Manage your organization profile, branding, and general preferences',
               el: def(async () => import('../settings/PanelOrganization.vue')),

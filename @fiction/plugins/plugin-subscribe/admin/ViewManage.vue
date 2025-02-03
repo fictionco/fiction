@@ -14,5 +14,6 @@ const _hello = 1
       title: 'Audience Management',
       subTitle: 'Build and manage your subscriber base. Track engagement, update contact information, and monitor subscription status.',
     }"
+    color-theme="rose"
   />
 </template>

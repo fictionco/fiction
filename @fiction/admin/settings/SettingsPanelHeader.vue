@@ -35,7 +35,7 @@ function updateValue<T extends keyof PostObject = keyof PostObject>(key: T, valu
             :color-theme="colorTheme"
           />
         </div>
-        <div class="pt-1.5 @xs:pt-0 space-y-1">
+        <div class="space-y-1">
           <XText
             v-if="modelValue.title"
             tag="h1"

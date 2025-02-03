@@ -16,5 +16,6 @@ const { card } = defineProps<{ card: Card }>()
       media: { class: 'i-tabler-browser' },
       action: {},
     }"
+    color-theme="green"
   />
 </template>

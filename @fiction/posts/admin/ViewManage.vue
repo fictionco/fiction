@@ -18,5 +18,6 @@ const loading = vue.ref(false)
       media: { class: `i-tabler-stack` },
       action: {},
     }"
+    color-theme="indigo"
   />
 </template>
