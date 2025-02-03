@@ -2,24 +2,20 @@ import type { template as faqTemplate } from '@fiction/cards/content-faq'
 import type { template as heroTemplate } from '@fiction/cards/content-hero'
 import type { template as cardTextEffectV1 } from '@fiction/cards/effect-text/index.js'
 import type { template as mapsTemplate, MapUserConfig } from '@fiction/cards/location-maps/index.js'
-import type { template as marqueeTemplate } from '@fiction/cards/media-marquee/index.js'
 import type { template as cardModalMediaV1 } from '@fiction/cards/modal-media/index.js'
 import type { template as areaTemplate } from '@fiction/cards/page-area/index.js'
 import type { template as footerProTemplate } from '@fiction/cards/page-footer-pro/index.js'
 import type { template as navTemplate } from '@fiction/cards/page-nav/index.js'
-import type { template as wrapTemplate } from '@fiction/cards/page-wrap/index.js'
-import type { template as logosTemplate } from '@fiction/cards/proof-logos/index'
-
 import type { NavItem } from '@fiction/core'
-import type { Site } from '@fiction/site'
+import type { Site, ThemeConfig } from '@fiction/site'
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { SiteUserConfig } from '@fiction/site/schema.js'
-import type { StockMedia } from '@fiction/ui/stock/index.js'
-
 import { getCardDemoListing, getDemoPages } from '@fiction/cards'
-import { dayjs } from '@fiction/core'
-import favicon from '@fiction/ui/brand/favicon.svg'
 
+import { dayjs } from '@fiction/core'
+import { googleOneTap } from '@fiction/core/plugin-user/google.js'
+
+import favicon from '@fiction/ui/brand/favicon.svg'
 import icon from '@fiction/ui/brand/icon.png'
 import shareImage from '@fiction/ui/brand/shareImage.png'
 import * as affiliate from './affiliate/index.js'
@@ -225,7 +221,7 @@ export async function getConfig(args: {
   site: Site
   factory: CardFactory
   domain: string
-}) {
+}): Promise<ThemeConfig> {
   const { site, factory, domain } = args
 
   const { fictionEnv } = site.fictionSites.fictionEnv.getService()
@@ -260,6 +256,21 @@ export async function getConfig(args: {
   return {
     userConfig,
     pages,
+    onMounted: async (args) => {
+      const { service: { fictionUser } } = args
+      await fictionUser.userInitialized()
+      await googleOneTap({
+        autoSignIn: false,
+        showPrompt: true,
+        fictionUser,
+        isDarkMode: !site.isLightMode.value,
+        callback: async (r) => {
+          if (r.isNew) {
+            await site.siteRouter.push('/app?_reload=1&_isNewUser=1', { caller: 'googleOneTap' })
+          }
+        },
+      })
+    },
     sections: {
       hidden: await factory.fromTemplate({
         cards: [

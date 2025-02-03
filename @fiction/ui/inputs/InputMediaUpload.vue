@@ -40,13 +40,10 @@ const uploading = vue.ref(false)
 const fileInput = vue.ref<HTMLInputElement | null>(null)
 const uploadProgress = vue.ref(0)
 
-const acceptedFileTypes = vue.computed(() => {
-  const types = fileTypes.map(type => `image/${type}`)
-  if (hasVideo) {
-    types.push('video/mp4', 'video/webm')
-  }
-  return types.join(',')
-})
+const acceptedFileTypes = vue.computed(() => [
+  'image/*',
+  ...(hasVideo ? ['video/mp4', 'video/webm', 'video/quicktime'] : []),
+].join(','))
 
 async function updateValue(value: MediaObject): Promise<void> {
   emit('update:modelValue', value)

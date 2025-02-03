@@ -75,7 +75,7 @@ vue.onMounted(loadRevisions)
         icon="i-tabler-refresh"
         @click.stop="loadRevisions()"
       >
-        Refresh
+        Refresh Checkpoints
       </XButton>
     </div>
 
@@ -87,7 +87,7 @@ vue.onMounted(loadRevisions)
       <div
         v-for="rev in revisions"
         :key="rev.revisionId"
-        class="flex justify-between items-center py-3 border-t border-theme-200 dark:border-theme-700"
+        class="flex gap-2 justify-between items-center py-3 border-t border-theme-200 dark:border-theme-700"
       >
         <div>
           <div class="font-medium text-sm">
@@ -96,19 +96,21 @@ vue.onMounted(loadRevisions)
           <div class="text-xs text-theme-500">
             {{ dayjs(rev.createdAt).format('MMM D, YYYY h:mm A') }}
           </div>
-          <div v-if="rev.description" class="text-xs text-theme-500 mt-1">
-            {{ rev.description }}
+          <div v-if="rev.description" class="text-xs text-theme-400 dark:text-theme-600 mt-1">
+            Description: {{ rev.description }}
           </div>
         </div>
-        <XButton
-          size="xs"
-          theme="orange"
-          design="outline"
-          icon="i-tabler-restore"
-          @click="(selectedRevision = rev, showConfirm = true)"
-        >
-          Restore
-        </XButton>
+        <div class="shrink-0 ">
+          <XButton
+            size="xs"
+            theme="orange"
+            design="outline"
+            icon="i-tabler-restore"
+            @click="(selectedRevision = rev, showConfirm = true)"
+          >
+            Restore
+          </XButton>
+        </div>
       </div>
     </div>
 

@@ -1,5 +1,5 @@
 import type { FictionAdmin } from '@fiction/admin/index.js'
-import type { ColorThemeBright, FictionEnv, ServiceList } from '@fiction/core'
+import type { ColorThemeBright, CoreServices, FictionEnv, ServiceList } from '@fiction/core'
 import type { CardTemplate } from './card.js'
 import type { SiteUserConfig } from './schema.js'
 import type { SiteSettings } from './site.js'
@@ -14,7 +14,7 @@ export type ThemeConfig = {
   userConfig?: SiteUserConfig
   pages: TableCardConfig[]
   sections: Record<string, TableCardConfig>
-  onMounted?: () => (void | Promise<void>)
+  onMounted?: (args: { service: CoreServices }) => (void | Promise<void>)
 }
 
 export type ThemeMeta = {

@@ -145,7 +145,6 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
     const pgs = this.settings.pages || []
     if (loadThemePages) {
-      console.log('loadPages')
       pgs.push(...c.pages)
     }
 

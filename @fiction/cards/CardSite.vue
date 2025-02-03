@@ -21,11 +21,13 @@ const props = defineProps({
 
 const logger = log.contextLogger('CardSite.vue')
 
-const { fictionSites, fictionRouter, runVars, fictionRouterSites, fictionUser, fictionEnv } = useService<{
+const service = useService<{
   fictionSites: FictionSites
   fictionRouterSites: FictionRouter
   fictionAnalytics: FictionAnalytics
 }>()
+
+const { fictionSites, fictionRouter, runVars, fictionRouterSites, fictionUser, fictionEnv } = service
 
 const loading = vue.ref(false)
 const site = vue.shallowRef<Site>()
@@ -36,7 +38,7 @@ async function onSiteMounted() {
   if (typeof window === 'undefined' || !site.value)
     return
 
-  await site.value?.themeConfig.value?.onMounted?.()
+  await site.value?.themeConfig.value?.onMounted?.({ service })
 }
 
 async function load() {

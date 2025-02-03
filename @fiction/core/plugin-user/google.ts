@@ -167,7 +167,7 @@ export async function googleAuth(options: GoogleAuthOptions): Promise<void> {
   }
 }
 
-interface GoogleOneTapSettings {
+type GoogleOneTapSettings = {
   autoSignIn?: boolean
   signinButtonId?: string
   showPrompt?: boolean
@@ -207,7 +207,7 @@ async function handleGoogleCredentialResponse(response: CredentialResponse, sett
 // const googleAuthRequest = userEndpoints().UserGoogleAuth.request
 // type CallbackResponse = Awaited<ReturnType<typeof googleAuthRequest>>
 export async function googleOneTap(settings: GoogleOneTapSettings): Promise<void> {
-  const { autoSignIn = false, signinButtonId = '#google-signin-button', cookieDomain, showPrompt = true, fictionUser, isDarkMode = false } = settings
+  const { autoSignIn = false, signinButtonId, cookieDomain, showPrompt = true, fictionUser, isDarkMode = false } = settings
 
   if (!window)
     return
@@ -222,9 +222,12 @@ export async function googleOneTap(settings: GoogleOneTapSettings): Promise<void
     return
   }
 
+  const user = await fictionUser.userInitialized()
+
   await loadGoogleSignInLibrary()
 
-  const el = document.querySelector<HTMLElement>(signinButtonId)
+  const el = signinButtonId ? document.querySelector<HTMLElement>(signinButtonId) : undefined
+
   if (window.google === undefined) {
     logger.info('Google One Tap not loaded (window.google is undefined)')
   }
@@ -260,7 +263,8 @@ export async function googleOneTap(settings: GoogleOneTapSettings): Promise<void
       const theme = isDarkMode ? 'filled_black' : 'outline'
       window.google.accounts.id.renderButton(el, { theme, size: 'large', width: 290 })
     }
-    if (showPrompt)
+
+    if (showPrompt && !user)
       window.google.accounts.id.prompt()
   }
 }

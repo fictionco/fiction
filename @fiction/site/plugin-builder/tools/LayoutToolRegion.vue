@@ -62,18 +62,24 @@ function getCardHandle(card: Card): Handle {
     :key="regionId"
     :data-region-id="card.cardId"
   >
-    <div class="relative my-1 flex justify-between items-center text-theme-400/50">
+    <div
+      class="relative mb-1.5 flex justify-between items-center"
+      :class="[scope === 'global' ? 'text-theme-500/70 dark:text-theme-400/70' : 'text-primary-500 dark:text-primary-500']"
+    >
+      <div class="z-10 pr-3 text-xs flex gap-1 items-center font-medium whitespace-nowrap">
+        {{ toLabel(regionId) }} Region
+      </div>
       <div
-        class="absolute inset-0 flex items-center"
+        class="inset-0 flex items-center w-full"
         aria-hidden="true"
       >
-        <div class="w-full border-t border-dashed border-theme-100/70 dark:border-theme-600" />
+        <div
+          class="w-full border-t border-dashed "
+          :class="[scope === 'global' ? 'border-theme-100/70 dark:border-theme-700' : 'border-primary-100/70 dark:border-primary-700']"
+        />
       </div>
-      <div class="z-10 bg-white dark:bg-theme-900 pr-3 text-[10px] flex gap-1 items-center font-medium ">
-        {{ toLabel(regionId) }}
-      </div>
-      <div class="z-10 bg-white dark:bg-theme-900 pl-3 text-[10px] flex gap-1 items-center   font-medium">
-        {{ scope }}
+      <div class="z-10 pl-3 text-xs flex gap-1 items-center   font-medium whitespace-nowrap">
+        {{ toLabel(scope) }} Scope
       </div>
     </div>
 

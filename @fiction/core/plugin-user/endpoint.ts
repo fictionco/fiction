@@ -385,7 +385,7 @@ export class QueryManageUser extends UserBaseQuery {
     const { where, password, createOnEmpty = false, createUserFields = {} } = params
 
     if (!password)
-      throw abort('password required')
+      throw abort('No password was provided.')
 
     const user = await this.getUser({ _action: 'retrieve', where }, meta)
 
@@ -396,11 +396,11 @@ export class QueryManageUser extends UserBaseQuery {
       return { user: u, isNew: true }
     }
     else if (!user) {
-      throw abort('user not found', { data: where, ...meta })
+      throw abort('No account found, create one?', { data: where, ...meta })
     }
 
     if (!user.hashedPassword)
-      throw abort('no password set')
+      throw abort('There was a problem with password. Try another way?')
 
     const isMatch = await comparePassword(password, user.hashedPassword)
 

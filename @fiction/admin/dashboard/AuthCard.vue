@@ -173,7 +173,7 @@ async function runGoogleLogin() {
   googleAuth({
     fictionUser,
     createUserFields: { needsOnboarding: true },
-    createOnEmpty: itemId.value === 'register',
+    createOnEmpty: true,
     onComplete: async (response) => {
       if (response.status === 'success') {
         if (!response.user?.emailVerified) {
