@@ -153,9 +153,9 @@ function isMetricPositive(metric: MetricDisplayItemWithData) {
         :data-number-format="metric.format || 'none'"
         :data-number-value="metric.value"
       >
-        <div class="flex justify-between items-start">
-          <div>
-            <div class="flex items-center gap-2 text-theme-500 dark:text-theme-400 mb-2">
+        <div class="flex justify-between items-center">
+          <div class="shrink-0">
+            <div class="flex items-center gap-2 text-theme-500 dark:text-theme-400 mb-2 whitespace-nowrap">
               <i :class="[metric.icon]" class="text-lg opacity-80" />
               <span>{{ metric.title }}</span>
             </div>
@@ -187,7 +187,7 @@ function isMetricPositive(metric: MetricDisplayItemWithData) {
           </div>
 
           <div class="text-right flex justify-end items-center gap-6">
-            <div class="aspect-[7/2] w-[300px] ">
+            <div class="aspect-[7/2] w-[120px] md:w-[300px] ">
               <SuperChart
                 :data="metric.data"
                 line-color="var(--primary-400)"
@@ -262,7 +262,7 @@ function isMetricPositive(metric: MetricDisplayItemWithData) {
       </div>
 
       <!-- Detailed Metrics -->
-      <div class="grid grid-cols-3 gap-4">
+      <div class="hidden md:grid grid-cols-3 gap-4">
         <div
           v-for="metric in factory.grouped.value.detailed"
           :key="metric.key"

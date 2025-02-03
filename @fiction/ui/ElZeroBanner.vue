@@ -1,68 +1,57 @@
 <script lang="ts" setup>
-import type { ActionArea, MediaObject } from '@fiction/core'
-import XButton from './buttons/XButton.vue'
-import XIcon from './media/XIcon.vue'
+import type { ColorThemeUser, MediaObject, PostObject } from '@fiction/core'
+import XButtonList from './buttons/XButtonList.vue'
+import XText from './common/XText.vue'
+import ElIndexItemMedia from './lists/ElIndexItemMedia.vue'
 
-const { testId = 'zero-banner', icon, title, description, action = {} } = defineProps<{
+const {
+  testId = 'zero-banner',
+  modelValue = {},
+  colorTheme,
+} = defineProps<{
   testId?: string
   icon?: string | MediaObject
-  title: string
-  description?: string
-  action: ActionArea
+  modelValue?: PostObject
+  colorTheme?: ColorThemeUser
 }>()
 </script>
 
 <template>
-  <div class="bg-theme-0 border border-theme-300/70 bg-theme-50/80  dark:border-theme-700 dark:bg-theme-800/70 relative rounded-lg overflow-hidden ">
-    <div class="mx-auto max-w-7xl px-12 py-16">
-      <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl flex md:flex-col justify-center ">
-        <div class="flex gap-5">
-          <div v-if="icon" class="mb-4 lg:mb-6 relative">
-            <XIcon class="size-10 lg:size-14 text-theme-500/30" :media="icon" />
-          </div>
-          <div>
-            <h1
-              class=" text-lg sm:text-xl font-semibold dark:text-theme-0 x-font-title"
-              :data-test-id="`${testId}-title`"
-            >
-              {{ title }}
-            </h1>
-            <p
-              v-if="description"
-              class="mt-3 text-base text-theme-600 dark:text-theme-300"
-              :data-test-id="`${testId}-description`"
-            >
-              {{ description }}
-            </p>
-            <div v-if="action?.buttons?.length" class="mt-10 flex items-center gap-x-6">
-              <XButton
-                v-for="(item, i) in action?.buttons"
-                :key="i"
-                :data-test-id="item.testId"
-                :href="item.href"
-                :theme="item.theme"
-                :rounding="item.rounding || 'full'"
-                :icon="item.icon"
-                size="md"
-                @click.stop="item.onClick && item.onClick({ event: $event })"
-              >
-                {{ item.label }}
-              </XButton>
+  <div class="bg-theme-50 dark:bg-theme-900 relative rounded-lg overflow-hidden ">
+    <div class="mx-auto max-w-[600px] aspect-video p-8 md:p-16 flex justify-center items-center">
+      <div class="">
+        <div class="space-y-8">
+          <div class="items-start space-y-4">
+            <div v-if="modelValue.media" class="flex-shrink-0 flex gap-3 items-center">
+              <ElIndexItemMedia
+                :media="modelValue.media"
+                class="size-16"
+                :color-theme="colorTheme || modelValue.theme"
+              />
+            </div>
+            <div class="space-y-1">
+              <XText
+                v-if="modelValue.title"
+                tag="h1"
+                :model-value="modelValue.title"
+                class=" text-xl sm:text-3xl  font-bold text-theme-900 dark:text-theme-0 x-font-title"
+                :data-test-id="`${testId}-title`"
+              />
+              <XText
+                v-if="modelValue.subTitle"
+                :model-value="modelValue.subTitle"
+                class="text-base md:text-lg font-normal text-theme-500 dark:text-theme-500 line-clamp-2"
+                :data-test-id="`${testId}-subTitle`"
+              />
             </div>
           </div>
-        </div>
-      </div>
-      <div v-if="$slots.figure" class="mx-auto mt-8 flex max-w-2xl sm:mt-16 lg:ml-10 lg:mr-0 lg:-mt-6 lg:max-w-none lg:flex-none xl:ml-32">
-        <div class="max-w-3xl flex-none sm:max-w-5xl lg:max-w-none max-h-[40dvh]">
-          <slot name="figure" />
+          <XButtonList
+            v-if="modelValue.action?.buttons?.length"
+            class="flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-3 sm:space-y-0 sm:space-x-reverse @xs:mt-0 @xs:flex-row @xs:space-x-3"
+            :buttons="modelValue.action.buttons"
+          />
         </div>
       </div>
     </div>
   </div>
 </template>
-
-<style lang="less">
-.angled-shape {
-  clip-path: polygon(0 0, 100% 0, 121% 100%, 0 100%, 12% 0, 0 0%);
-}
-</style>

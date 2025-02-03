@@ -25,17 +25,22 @@ const proStatus = vue.computed(() => fictionStripe?.customerState.data.value)
 <template>
   <ElPanelSettings v-if="!loading">
     <ElZeroBanner
-      sub-title="Welcome to Premium"
-      title="Success!"
-      :description="`You're on the '${proStatus?.plan}' tier.`"
-      :action="{
-        buttons: [
-          {
-            label: 'View Dashboard',
-            href: card.link('/'),
-            theme: 'primary',
-          },
-        ],
+      :model-value="{
+        superTitle: {
+          text: 'Upgrade',
+        },
+        title: 'Billing Success',
+        subTitle: 'You have successfully upgraded your account.',
+        media: { format: 'iconClass', class: 'i-tabler-check-circle' },
+        action: {
+          buttons: [
+            {
+              label: 'View Dashboard',
+              href: card.link('/'),
+              theme: 'primary',
+            },
+          ],
+        },
       }"
     />
   </ElPanelSettings>

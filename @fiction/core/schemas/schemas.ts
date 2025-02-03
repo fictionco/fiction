@@ -440,6 +440,7 @@ export const PostSchema = z.object({
   // Visual Elements
   media: MediaDisplaySchema.optional().describe('Featured image/video [ai]'),
   icon: MediaIconSchema.optional().describe('List view icon [ai]'),
+  theme: z.enum(colorThemeUser).optional().describe('Color theme [ai]'),
 
   // Taxonomy & Organization
   slug: z.string().optional().describe('URL-friendly title'),
@@ -452,6 +453,9 @@ export const PostSchema = z.object({
   action: ActionAreaSchema.optional().describe('Interactive buttons [ai]'),
 
   userConfig: PostUserConfigSchema.optional().describe('Custom settings'),
+
+  testId: z.string().optional().describe('Test ID for automated testing'),
+
 }, { description: 'PostSchema' })
 
 export const GlobalQuerySchema = z.object({

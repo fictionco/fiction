@@ -215,11 +215,12 @@ const options = vue.computed<InputOption[]>(() => {
           label: 'Permanently Delete Post',
           input: InputActionList,
           props: {
-            actions: [
+            buttons: [
               {
                 label: 'Delete Post...',
                 theme: 'rose',
-                design: 'ghost',
+                design: 'outline',
+                size: 'xs',
                 icon: 'i-tabler-trash',
                 onClick: (args) => {
                   const p = args.props as { post: Post }

@@ -13,6 +13,7 @@ const _hello = 1
       media: { class: `i-tabler-users` },
       title: 'Audience Management',
       subTitle: 'Build and manage your subscriber base. Track engagement, update contact information, and monitor subscription status.',
+      theme: 'rose',
     }"
     color-theme="rose"
   />

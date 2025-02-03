@@ -43,15 +43,10 @@ vue.onMounted(async () => {
 
 const buttons: ActionButton[] = [
   {
-    label: 'All Posts',
+    label: 'View Posts',
+    theme: 'default',
     icon: 'i-tabler-list',
     href: props.card.link('/posts'),
-  },
-  {
-    label: 'New Post',
-    theme: 'primary',
-    icon: 'i-tabler-pin',
-    href: props.card.link('/posts?addNew=1'),
   },
 
 ]

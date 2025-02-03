@@ -8,10 +8,12 @@ const {
   modelValue = {},
   editable = ['title'],
   colorTheme,
+  testId = 'el-header',
 } = defineProps<{
   modelValue?: PostObject
   editable?: (keyof PostObject)[]
   colorTheme?: ColorThemeUser
+  testId?: string
 }>()
 
 const emit = defineEmits<{
@@ -42,6 +44,7 @@ function updateValue<T extends keyof PostObject = keyof PostObject>(key: T, valu
             :model-value="modelValue.title"
             class="text-base font-semibold text-theme-900 dark:text-theme-0 x-font-title"
             :is-editable="editable.includes('title')"
+            :data-test-id="`${testId}-title`"
             @update:model-value="updateValue('title', $event)"
           />
           <XText
@@ -49,6 +52,7 @@ function updateValue<T extends keyof PostObject = keyof PostObject>(key: T, valu
             :model-value="modelValue.subTitle"
             class="text-base font-normal text-theme-500 dark:text-theme-500 line-clamp-2"
             :is-editable="editable.includes('subTitle')"
+            :data-test-id="`${testId}-subTitle`"
             @update:model-value="updateValue('subTitle', $event)"
           />
         </div>

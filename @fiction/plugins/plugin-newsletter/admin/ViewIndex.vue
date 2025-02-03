@@ -6,7 +6,6 @@ import type { FictionNewsletter } from '../index.js'
 import type { EmailCampaignConfig } from '../schema.js'
 import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
 import { useService, vue } from '@fiction/core'
-import ElZeroBanner from '@fiction/ui/ElZeroBanner.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 import { manageEmailCampaign } from '../utils.js'
 import ElStart from './ElStart.vue'
@@ -77,27 +76,24 @@ vue.onMounted(async () => {
             },
           ],
         }"
-      >
-        <template #zero>
-          <ElZeroBanner
-            data-test-id="campaign-zero"
-            title="Email Your Audience"
-            description="Create engaging email campaigns to connect with your audience. Design, schedule, and track performance all in one place."
-            icon="i-tabler-mail-share"
-            :action="{
-              buttons: [
-                {
-                  testId: 'new-campaign-button-zero',
-                  label: 'Create First Campaign',
-                  onClick: () => { showStartModal = true },
-                  theme: 'primary',
-                  icon: 'i-heroicons-plus',
-                },
-              ],
-            }"
-          />
-        </template>
-      </ElIndexGrid>
+        :empty="{
+          title: 'Create an Email Campaign',
+          subTitle: 'Create engaging email campaigns to connect with your audience. Design, schedule, and track performance all in one place.',
+          media: { format: 'iconClass', class: 'i-tabler-mail-share' },
+          theme: 'orange',
+          action: {
+            buttons: [
+              {
+                testId: 'new-campaign-button-zero',
+                label: 'Create First Campaign',
+                onClick: () => { showStartModal = true },
+                theme: 'primary',
+                icon: 'i-heroicons-plus',
+              },
+            ],
+          },
+        }"
+      />
       <ElStart v-model:vis="showStartModal" :card />
     </div>
   </SettingsPanel>

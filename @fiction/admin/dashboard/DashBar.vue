@@ -30,14 +30,23 @@ const uc = vue.computed(() => card.userConfig.value)
     class="navbar text-sm font-medium"
   >
     <div class="mx-auto flex items-center justify-between ">
-      <div class="flex items-center md:min-w-[150px] px-4 py-2">
-        <CardLink :card href="/" class="active:opacity-80 md:hidden">
-          <XMedia class="h-[21px]" :media="uc.homeIcon" />
-        </CardLink>
-        <div class="hidden dark:text-theme-0 text-theme-700 md:flex gap-2 items-center">
-          <div v-if="uc.navIcon || uc.navIconAlt" :class="uc.navIconAlt || uc.navIcon" class="text-xl" />
-          <div class="hidden text-base font-semibold sm:block  dark:text-theme-0  text-theme-700 ">
-            {{ card.site.currentPage.value?.title.value }}
+      <div class="flex items-center md:min-w-[150px] ">
+        <div class="flex md:hidden px-2 py-2">
+          <XMenuButton
+            class="size-8"
+            :is-open="showMobileNav"
+            @click="emit('update:showMobileNav', !showMobileNav)"
+          />
+        </div>
+        <div class="flex items-center px-3 py-2">
+          <CardLink :card href="/" class="active:opacity-80 md:hidden">
+            <XMedia class="h-[21px]" :media="uc.homeIcon" />
+          </CardLink>
+          <div class="hidden dark:text-theme-0 text-theme-700 md:flex gap-2 items-center">
+            <div v-if="uc.navIcon || uc.navIconAlt" :class="uc.navIconAlt || uc.navIcon" class="text-xl" />
+            <div class="hidden text-base font-semibold sm:block  dark:text-theme-0  text-theme-700 ">
+              {{ card.site.currentPage.value?.title.value }}
+            </div>
           </div>
         </div>
       </div>
@@ -66,13 +75,6 @@ const uc = vue.computed(() => card.userConfig.value)
           class="block"
           :account-menu="accountMenu"
           :site="card.site"
-        />
-      </div>
-      <div class="flex md:hidden items-center py-2 pr-3 h-full justify-end gap-4 md:gap-6 md:min-w-[150px]">
-        <XMenuButton
-          class="size-8"
-          :is-open="showMobileNav"
-          @click="emit('update:showMobileNav', !showMobileNav)"
         />
       </div>
     </div>

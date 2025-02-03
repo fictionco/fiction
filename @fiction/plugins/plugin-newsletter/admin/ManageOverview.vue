@@ -297,7 +297,7 @@ const options = vue.computed(() => {
                 if (confirmed && campaign?.campaignId) {
                   loading.value = 'delete'
                   await endpoint.projectRequest({ _action: 'delete', where: [{ campaignId: campaign?.campaignId }] })
-                  await card.goto('/campaigns', { caller: 'deleteCampaign' })
+                  await card.goto('/newsletter', { caller: 'deleteCampaign' })
                   loading.value = ''
                 }
               },

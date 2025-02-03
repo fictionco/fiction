@@ -105,9 +105,10 @@ const buttons: ActionButton[] = [
       :index-meta="indexMeta"
       :empty="{
         testId: 'subscriber-list-empty',
-        label: 'Your Subscribers',
-        description: 'Import your email list or start capturing emails on your site.',
-        icon: { class: 'i-tabler-users' },
+        title: 'Your Subscribers',
+        subTitle: 'Add or import email subscribers to send newsletters and updates.',
+        media: { class: 'i-tabler-users' },
+        theme: 'rose',
         action: { buttons },
       }"
       @update:offset="load({ offset: $event })"

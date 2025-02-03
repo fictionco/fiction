@@ -66,10 +66,11 @@ function getActions(location: 'top' | 'zero') {
         :index-meta="{}"
         :edit-actions="[]"
         :empty="{
-          label: 'Create Your First Site',
-          description: `The homebase for your online presence.`,
+          title: 'Create Your First Site',
+          subTitle: `The homebase for your online presence.`,
           action: getActions('zero'),
-          icon: { class: 'i-tabler-browser-plus' },
+          media: { class: 'i-tabler-browser-plus' },
+          theme: 'green',
         }"
         :action="getActions('top')"
         :on-item-click="() => {}"

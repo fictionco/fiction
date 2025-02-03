@@ -15,6 +15,7 @@ const { card } = defineProps<{ card: Card }>()
       subTitle: 'Design and manage your digital presence with customizable websites, and landing pages.',
       media: { class: 'i-tabler-browser' },
       action: {},
+      theme: 'green',
     }"
     color-theme="green"
   />

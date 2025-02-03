@@ -5,7 +5,6 @@ import type { FictionPosts, TablePostConfig } from '..'
 import type { Post } from '../post'
 import { useService, vue } from '@fiction/core'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
-import ElZeroBanner from '@fiction/ui/ElZeroBanner.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 import { managePostIndex } from '../utils'
 import ElPostStart from './ElPostStart.vue'
@@ -63,6 +62,7 @@ vue.onMounted(async () => {
     <ElIndexGrid
       :list
       :loading="loading"
+      list-title="Posts"
       :action="{
         buttons: [{
           label: 'Create Post',
@@ -72,6 +72,21 @@ vue.onMounted(async () => {
           rounding: 'full',
           testId: 'createPostButtonTop',
         }],
+      }"
+      :empty="{
+        title: 'Create your first post',
+        subTitle: 'Use posts on your site, newsletter, or social media.',
+        media: { class: 'i-tabler-pin' },
+        theme: 'indigo',
+        action: {
+          buttons: [{
+            label: 'Create Post',
+            onClick: () => (showCreateModal = true),
+            theme: 'primary',
+            icon: 'i-tabler-plus',
+            testId: 'createPostButton',
+          }],
+        },
       }"
     >
       <template #item="{ item }">
@@ -83,24 +98,6 @@ vue.onMounted(async () => {
             <ElAvatar class="h-6 w-6 rounded-full bg-theme-50 ring-2 ring-white" :email="member.email" />
           </dd>
         </div>
-      </template>
-      <template #zero>
-        <ElZeroBanner
-          title="Create your first post"
-          description="Posts are the building blocks of your marketing efforts. Use them for newsletters, social media clips, and more."
-          icon="i-tabler-pin"
-          :action="{
-            buttons: [
-              {
-                label: 'Create Post',
-                onClick: () => (showCreateModal = true),
-                theme: 'primary',
-                icon: 'i-heroicons-plus',
-                testId: 'createPostButton',
-              },
-            ],
-          }"
-        />
       </template>
     </ElIndexGrid>
     <ElPostStart v-model:vis="showCreateModal" :card />

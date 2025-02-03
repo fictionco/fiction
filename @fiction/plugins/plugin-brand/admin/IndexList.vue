@@ -5,7 +5,6 @@ import type { FictionBrand } from '../index.js'
 import type { TableBrand } from '../schema.js'
 import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
 import { useService, vue } from '@fiction/core'
-import ElZeroBanner from '@fiction/ui/ElZeroBanner.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 import ElStart from './ElStart.vue'
 
@@ -74,24 +73,20 @@ const showStartModal = vue.ref(false)
             theme: 'primary',
             onClick: () => { showStartModal = true },
           }] }"
-      >
-        <template #zero>
-          <ElZeroBanner
-            test-id="brand-zero"
-            title="Create Your Brand Guide"
-            description="Define your brand's voice, style, and content rules to power AI-assisted content creation."
-            icon="i-tabler-briefcase"
-            :action="{
-              buttons: [{
-                testId: 'new-brand-button-zero',
-                label: 'Get Started',
-                onClick: () => { showStartModal = true },
-                theme: 'primary',
-                icon: 'i-tabler-wand',
-              }] }"
-          />
-        </template>
-      </ElIndexGrid>
+        :empty="{
+          title: 'Create Your Brand Guide',
+          subTitle: 'Define your brand\'s voice, style, and content rules to power AI-assisted content creation.',
+          media: { format: 'iconClass', class: 'i-tabler-briefcase' },
+          action: {
+            buttons: [{
+              label: 'Get Started',
+              onClick: () => { showStartModal = true },
+              theme: 'primary',
+              icon: 'i-tabler-wand',
+            }],
+          },
+        }"
+      />
     </div>
     <ElStart v-model:vis="showStartModal" :card />
   </SettingsPanel>
