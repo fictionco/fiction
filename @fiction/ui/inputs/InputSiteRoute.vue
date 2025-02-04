@@ -87,7 +87,7 @@ vue.onMounted(() => {
 
     <button
       type="button"
-      class="mt-1 text-sm text-theme-500 hover:text-theme-700"
+      class="mt-1 text-sm text-theme-500"
       @click="toggleMode"
     >
       {{ mode === 'select' ? 'Enter custom URL instead' : 'Select from pages instead' }}

@@ -115,7 +115,6 @@ const hoverClasses = 'group-hover/item:text-primary-600 dark:group-hover/item:te
                 :card
                 class="sub-heading text-theme-300 dark:text-theme-500 x-font-title font-medium opacity-80"
                 path="detailsTitle"
-                placeholder="List Title"
               />
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4 ">

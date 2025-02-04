@@ -3,11 +3,12 @@ import type { Knex } from 'knex'
 import type { FictionAnalytics, FictionAnalyticsSettings } from '../index.js'
 import type { QueryParamsRefined, TimeLineInterval } from '../types.js'
 import type { ClickHouseQueryResult } from './types.js'
-import { capitalize, dayjs, fetchWithTimeout, FictionPlugin, isJson, isNode, knex } from '@fiction/core'
+import { capitalize, dayjs, fetchWithTimeout, FictionPlugin, isJson, isNode, knex, objectId } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
 import { eventFields } from '../plugin-beacon/index.js'
 import { allTables } from '../tables'
 import { getSessionQuerySelectors, t } from '../tables.js'
+import { QueryPerformanceTracker } from './performance'
 
 export * from './types.js'
 
@@ -39,7 +40,7 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
   user?: string
   password?: string
   initialized = false
-
+  private performanceTracker: QueryPerformanceTracker
   constructor(settings: FictionClickHouseSettings) {
     super('FictionClickHouse', settings)
 
@@ -65,6 +66,12 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
        */
       this.db = knex({ client: 'pg' })
     }
+
+    this.performanceTracker = new QueryPerformanceTracker(this.log, {
+      warnThresholdMs: 1000, // Warn on queries over 1 second
+      errorThresholdMs: 5000, // Error on queries over 5 seconds
+      sampleRate: 1.0, // Monitor all queries in production
+    })
   }
 
   async close() {
@@ -115,59 +122,74 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
   clickHouseQuery = async <T = unknown>(args: { query: string, caller: string }): Promise<ClickHouseQueryResult<T>> => {
     const { query, caller = 'unknown' } = args
 
-    if (!this.connectionUrl)
-      throw new Error('connectionUrl is missing')
+    const queryId = objectId({ prefix: 'qry' })
 
-    if (!this.initialized) {
-      this.log.error(`clickhouse not initialized (caller: ${caller})`, { data: { query } })
-      throw new Error('clickhouse not initialized')
+    // Start tracking query performance
+    this.performanceTracker.startQuery(queryId, query, caller)
+
+    try {
+      if (!this.connectionUrl)
+        throw new Error('connectionUrl is missing')
+
+      if (!this.initialized) {
+        this.log.error(`clickhouse not initialized (caller: ${caller})`, { data: { query } })
+        throw new Error('clickhouse not initialized')
+      }
+
+      const rawUrls: (string | undefined)[] = [this.connectionUrl.toString()]
+
+      const urls: string[] = rawUrls
+        .filter(Boolean)
+        .map(_ => `${_}?user=${this.user}&password=${this.password}&query=${encodeURIComponent(query)}`)
+
+      const _promises = urls.map(
+        async (url: string): Promise<ClickHouseQueryResult<T> | undefined> => {
+          try {
+            const fetched = await fetchWithTimeout(url, {
+              method: 'post',
+              headers: { 'access-control-allow-origin': '*' },
+              timeout: 10000,
+            })
+
+            const textData = await fetched.text()
+
+            const data = isJson<ClickHouseQueryResult<T>>(textData)
+
+            if (data === false)
+              throw new Error(`clickhouse text response: ${textData}`)
+
+            return data
+          }
+          catch (error: unknown) {
+            const e = error as Error
+
+            this.log.error(`${caller}: clickhouse query error (${e?.message ?? 'no message'})`, { data: { url, query }, error })
+
+            const { format } = await import('sql-formatter')
+
+            this.log.error(`clickhouse error query formatted (${e?.message ?? 'no message'})`, { data: { url, query: format(query) }, error })
+          }
+        },
+      )
+
+      const result = await Promise.all(_promises)
+
+      const primary = result[0]
+
+      // End performance tracking
+      this.performanceTracker.endQuery(queryId)
+
+      if (!primary) {
+        return emptyResult as ClickHouseQueryResult<T>
+      }
+
+      return primary
     }
-
-    const rawUrls: (string | undefined)[] = [this.connectionUrl.toString()]
-
-    const urls: string[] = rawUrls
-      .filter(Boolean)
-      .map(_ => `${_}?user=${this.user}&password=${this.password}&query=${encodeURIComponent(query)}`)
-
-    const _promises = urls.map(
-      async (url: string): Promise<ClickHouseQueryResult<T> | undefined> => {
-        try {
-          const fetched = await fetchWithTimeout(url, {
-            method: 'post',
-            headers: { 'access-control-allow-origin': '*' },
-            timeout: 10000,
-          })
-
-          const textData = await fetched.text()
-
-          const data = isJson<ClickHouseQueryResult<T>>(textData)
-
-          if (data === false)
-            throw new Error(`clickhouse text response: ${textData}`)
-
-          return data
-        }
-        catch (error: unknown) {
-          const e = error as Error
-
-          this.log.error(`${caller}: clickhouse query error (${e?.message ?? 'no message'})`, { data: { url, query }, error })
-
-          const { format } = await import('sql-formatter')
-
-          this.log.error(`clickhouse error query formatted (${e?.message ?? 'no message'})`, { data: { url, query: format(query) }, error })
-        }
-      },
-    )
-
-    const result = await Promise.all(_promises)
-
-    const primary = result[0]
-
-    if (!primary) {
-      return emptyResult as ClickHouseQueryResult<T>
+    catch (error) {
+      // Ensure we still track performance even if query fails
+      this.performanceTracker.endQuery(queryId)
+      throw error
     }
-
-    return primary
   }
 
   cleanPrefixes<E extends Record<string, unknown>>(data: E[]): E[] {
