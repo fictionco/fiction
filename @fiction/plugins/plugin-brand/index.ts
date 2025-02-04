@@ -46,7 +46,7 @@ export class FictionBrand extends FictionPlugin<FictionBrandSettings> {
             el: vue.defineAsyncComponent(async () => import('./admin/ViewManageBrand.vue')),
             cards: [
               await factory.fromTemplate<typeof panelTemplate>({
-                slug: '_home',
+                slug: 'guide',
                 title: 'Brand Guide', // More specific than just 'Guide'
                 description: 'Define your brand identity and style guidelines',
                 el: vue.defineAsyncComponent(async () => import('./admin/BrandGuide.vue')),

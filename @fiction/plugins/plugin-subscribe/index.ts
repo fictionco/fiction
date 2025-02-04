@@ -78,7 +78,7 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
               el: vue.defineAsyncComponent(async () => import('./admin/ViewManage.vue')),
               cards: [
                 await factory.fromTemplate<typeof panelTemplate>({
-                  slug: '_home',
+                  slug: 'subscribers',
                   title: 'Subscriber Directory',
                   description: 'View, filter, and manage your complete subscriber list',
                   el: vue.defineAsyncComponent(async () => import('./admin/ViewIndex.vue')),

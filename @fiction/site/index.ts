@@ -108,7 +108,7 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
             el: vue.defineAsyncComponent(async () => import('./admin/ViewManage.vue')),
             cards: [
               await factory.fromTemplate<typeof panelTemplate>({
-                slug: '_home',
+                slug: 'list',
                 title: 'Websites',
                 description: 'View and manage all your websites, domains, and site configurations',
                 el: vue.defineAsyncComponent(async () => import('./admin/ManageIndex.vue')),

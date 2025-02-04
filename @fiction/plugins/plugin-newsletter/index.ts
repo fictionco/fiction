@@ -83,7 +83,7 @@ export class FictionNewsletter extends FictionPlugin<FictionNewsletterSettings> 
             el: vue.defineAsyncComponent(async () => import('./admin/ViewManageIndex.vue')),
             cards: [
               await factory.fromTemplate<typeof panelTemplate>({
-                slug: '_home',
+                slug: 'campaigns',
                 title: 'Campaign Library',
                 description: 'View, track, and manage all your email campaigns in one place',
                 el: vue.defineAsyncComponent(async () => import('./admin/ViewIndex.vue')),
@@ -103,7 +103,7 @@ export class FictionNewsletter extends FictionPlugin<FictionNewsletterSettings> 
             el: vue.defineAsyncComponent(async () => import('./admin/ViewManageCampaign.vue')),
             cards: [
               await factory.fromTemplate<typeof panelTemplate>({
-                slug: '_home',
+                slug: 'summary',
                 title: 'Campaign Summary',
                 description: 'Track delivery status, engagement metrics, and campaign performance',
                 el: vue.defineAsyncComponent(async () => import('./admin/ManageOverview.vue')),

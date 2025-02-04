@@ -88,12 +88,14 @@ vue.watch(
 )
 
 const { width } = useWindowSize()
+
+const isDesktop = vue.computed(() => width.value >= 1024)
 </script>
 
 <template>
   <div class="lg:flex lg:h-[calc(100dvh-61px)] overflow-x-clip">
     <div
-      :class="currentItemId ? 'hidden lg:block' : ''"
+      v-if="!currentItemId || isDesktop"
       class="lg:w-[32%] shrink-0 rounded-l-md p-3  md:p-6 md:border-r dark:border-theme-600/60 border-theme-300/60 space-y-6"
     >
       <div class="space-y-3">
@@ -130,16 +132,9 @@ const { width } = useWindowSize()
         </CardLink>
       </div>
     </div>
-    <div class="grow lg:overflow-scroll pb-32" :class="currentItemId ? '' : 'hidden lg:block'">
-      <transition
-        :name="width > 1024 ? 'fade' : transitionDirection"
-        mode="out-in"
-      >
+    <div v-if="currentItemId || isDesktop" class="grow lg:overflow-scroll pb-32">
+      <transition name="fade" mode="out-in">
         <div v-if="currentPanel" :key="currentItemId || 'default'">
-          <!-- <div class="font-semibold text-lg p-4 border-b border-theme-300 dark:border-theme-700/70">
-            {{ currentPanel.title.value }}
-          </div> -->
-
           <div v-if="loading" class="p-12 flex justify-center">
             <ElSpinner class="size-8" />
           </div>
@@ -177,10 +172,17 @@ const { width } = useWindowSize()
 .right-enter-active,
 .right-leave-active {
   transition: transform 0.2s cubic-bezier(0.25,1,0.33,1);
+  position: absolute;
+  width: 100%;
+  top: 0;
 }
 
+// Initial states
 .left-enter-from {
   transform: translateX(100%);
+}
+.left-leave-from {
+  transform: translateX(0);
 }
 .left-leave-to {
   transform: translateX(-100%);
@@ -188,6 +190,9 @@ const { width } = useWindowSize()
 
 .right-enter-from {
   transform: translateX(-100%);
+}
+.right-leave-from {
+  transform: translateX(0);
 }
 .right-leave-to {
   transform: translateX(100%);

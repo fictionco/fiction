@@ -1,8 +1,4 @@
-# fly.toml app configuration file generated for fiction-gateway on 2025-02-01T22:15:42-08:00
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
-
+# fly.toml app configuration file generated for fiction-gateway
 app = 'fiction-gateway'
 primary_region = 'lax'
 
@@ -13,26 +9,32 @@ build-target = 'fiction-gateway'
 [deploy]
 strategy = 'bluegreen'
 
-[http_service]
+# Using services instead of http_service for TCP passthrough
+[[services]]
 internal_port = 6565
+protocol = "tcp"
 auto_stop_machines = true
 auto_start_machines = true
 min_machines_running = 1
-processes = [ 'app' ]
+processes = [ "app" ]
 
-[http_service.concurrency]
+# TCP passthrough port
+[[services.ports]]
+port = 443
+handlers = [] # Empty handlers for TCP passthrough
+
+[services.concurrency]
 type = 'requests'
 hard_limit = 1000
 soft_limit = 500
 
-[[http_service.checks]]
-timeout = '5s'
-grace_period = "10s"
+# Health check
+[[services.tcp_checks]]
 interval = "60s"
-method = 'GET'
-path = '/api/health'
-tls_skip_verify = false
+timeout = "5s"
+grace_period = "10s"
 
+# VM configuration remains the same
 [[vm]]
 size = 'performance-1x'
 memory = '8gb'

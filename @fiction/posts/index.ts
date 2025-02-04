@@ -81,8 +81,8 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
             el: vue.defineAsyncComponent(async () => import('./admin/ViewManage.vue')),
             cards: [
               await factory.fromTemplate<typeof panelTemplate>({
-                slug: '_home',
-                title: 'Blog Posts',
+                slug: 'posts',
+                title: 'Posts',
                 description: 'Manage your articles, updates, and announcements',
                 el: vue.defineAsyncComponent(async () => import('./admin/PagePostIndex.vue')),
                 userConfig: { isNavItem: true, navIcon: 'i-tabler-stack-push', navIconAlt: 'i-tabler-stack' },
