@@ -17,7 +17,13 @@ export class MetricDisplayFactory extends FictionObject<{
   items = this.settings.items
 
   // Main state
-  metrics = vue.shallowRef<MetricDisplayItemWithData[]>([])
+  metrics = vue.shallowRef<MetricDisplayItemWithData[]>(this.items.map(item => ({
+    ...item,
+    value: 0,
+    change: 0,
+    data: {},
+  })))
+
   loading = vue.ref(false)
   error = vue.ref<string>()
 

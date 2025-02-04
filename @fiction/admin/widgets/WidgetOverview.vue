@@ -117,6 +117,10 @@ vue.onMounted(async () => {
 function setHoveredMetric(args: { metric: MetricDisplayItemWithData, point: DataPointChart | null, index: number | null }) {
   const { metric, point } = args
 
+  // Don't set hover state during loading
+  if (factory.loading.value)
+    return
+
   if (!point) {
     factory.hovered.value = undefined
     return
@@ -132,11 +136,13 @@ function setHoveredMetric(args: { metric: MetricDisplayItemWithData, point: Data
 function isMetricPositive(metric: MetricDisplayItemWithData) {
   return metric.change >= 0 || (metric.invert && metric.change < 0)
 }
+
+const loading = vue.computed(() => true || factory.loading.value)
 </script>
 
 <template>
   <WidgetWrap :widget="widget">
-    <div v-if="factory.loading.value" class="p-16 text-center text-theme-500 text-xs flex justify-center items-center gap-4">
+    <div v-if="false" class="p-16 text-center text-theme-500 text-xs flex justify-center items-center gap-4">
       <ElSpinner class="size-6" /> <span>Loading metrics...</span>
     </div>
 
@@ -155,16 +161,17 @@ function isMetricPositive(metric: MetricDisplayItemWithData) {
       >
         <div class="flex justify-between items-center">
           <div class="shrink-0">
-            <div class="flex items-center gap-2 text-theme-500 dark:text-theme-400 mb-2 whitespace-nowrap">
-              <i :class="[metric.icon]" class="text-lg opacity-80" />
+            <div class="flex items-center gap-2 text-xs md:text-base text-theme-500 dark:text-theme-400 mb-2 whitespace-nowrap">
+              <i :class="[metric.icon]" class="text-base md:text-lg opacity-80" />
               <span>{{ metric.title }}</span>
             </div>
             <div class="flex items-baseline gap-2">
               <XNumber
                 :format="metric.format"
                 animate
-                class="text-4xl lg:text-5xl font-medium tracking-tight x-font-title"
+                class="text-4xl lg:text-5xl font-semibold tracking-tight x-font-title"
                 :model-value="metric.value"
+                :loading
               />
               <span class="text-theme-500 dark:text-theme-400 text-lg">{{ metric.suffix }}</span>
             </div>
@@ -178,6 +185,7 @@ function isMetricPositive(metric: MetricDisplayItemWithData) {
                   class="font-semibold"
                   :model-value="metric.change"
                   animate
+                  :loading
                 />
               </div>
               <div class="text-xs text-theme-500 dark:text-theme-400 mt-0.5">
@@ -193,6 +201,7 @@ function isMetricPositive(metric: MetricDisplayItemWithData) {
                 line-color="var(--primary-400)"
                 area-color="var(--primary-400)"
                 date-format="MMM D"
+                :loading
                 @point-hover="setHoveredMetric({ ...$event, metric })"
               />
             </div>
@@ -212,7 +221,7 @@ function isMetricPositive(metric: MetricDisplayItemWithData) {
               <i :class="[metric.icon]" class="text-primary-500 dark:text-primary-400 text-lg" />
             </div>
             <div>
-              <div class="text-sm text-theme-500 dark:text-theme-400">
+              <div class="text-xs md:text-sm text-theme-500 dark:text-theme-400">
                 {{ metric.title }}
               </div>
 
@@ -220,8 +229,9 @@ function isMetricPositive(metric: MetricDisplayItemWithData) {
                 <XNumber
                   :format="metric.format"
                   animate
-                  class="text-2xl font-medium x-font-title"
+                  class="text-2xl font-semibold x-font-title"
                   :model-value="metric.value"
+                  :loading
                 />
                 <span class="text-theme-400 dark:text-theme-600 text-xs">{{ metric.suffix }}</span>
               </div>
@@ -234,6 +244,7 @@ function isMetricPositive(metric: MetricDisplayItemWithData) {
                 line-color="var(--primary-400)"
                 area-color="var(--primary-400)"
                 date-format="MMM D"
+                :loading
                 @point-hover="setHoveredMetric({ ...$event, metric })"
               />
             </div>
@@ -251,6 +262,7 @@ function isMetricPositive(metric: MetricDisplayItemWithData) {
                   class="font-semibold"
                   :model-value="metric.change"
                   animate
+                  :loading
                 />
               </div>
               <div class="text-xs text-theme-500 dark:text-theme-400 mt-0.5">
@@ -277,8 +289,9 @@ function isMetricPositive(metric: MetricDisplayItemWithData) {
             <XNumber
               :format="metric.format"
               animate
-              class="text-2xl font-medium x-font-title"
+              class="text-2xl font-semibold x-font-title"
               :model-value="metric.value"
+              :loading
             />
             <span class="text-theme-400 dark:text-theme-600 text-xs">{{ metric.suffix }}</span>
           </div>
@@ -300,6 +313,7 @@ function isMetricPositive(metric: MetricDisplayItemWithData) {
               :data-change="metric.change"
               :data-value="metric.value"
               animate
+              :loading
             />
           </div>
           <div class="h-[20px] w-full mt-2">
@@ -308,6 +322,7 @@ function isMetricPositive(metric: MetricDisplayItemWithData) {
               line-color="var(--primary-400)"
               area-color="var(--primary-400)"
               date-format="MMM D"
+              :loading
               @point-hover="setHoveredMetric({ ...$event, metric })"
             />
           </div>

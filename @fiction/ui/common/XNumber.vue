@@ -5,46 +5,49 @@ import { animateNumber } from '../anim'
 
 defineOptions({ name: 'XNumber' })
 
-const { tag = 'div', modelValue = 0, animate = false, format = 'abbreviated', prefix, suffix } = defineProps<{
+const {
+  tag = 'div',
+  modelValue = 0,
+  animate = false,
+  format = 'abbreviated',
+  prefix,
+  suffix,
+  loading = false
+} = defineProps<{
   tag?: 'h1' | 'h2' | 'h3' | 'div' | 'span' | 'p' | 'a'
   modelValue: number | string
   animate?: boolean
   format?: NumberFormats
   prefix?: string
   suffix?: string
+  loading?: boolean
 }>()
 
 const randomId = shortId()
-
 const loaded = vue.ref(false)
-const xNumber = vue.ref<HTMLElement | undefined>()
+const xNumber = vue.ref<HTMLElement>()
 
 function loadAnimation() {
   loaded.value = true
-
-  if (!xNumber.value)
-    return
-
+  if (!xNumber.value) return
   animateNumber(xNumber.value, modelValue, format, { prefix, suffix })
 }
 
 vue.onMounted(() => {
-  if (animate)
-    loadAnimation()
-  else
-    loaded.value = true
+  if (animate) loadAnimation()
+  else loaded.value = true
 
   vue.watch(() => modelValue, () => {
-    if (animate)
-      loadAnimation()
-    else
-      loaded.value = true
+    if (animate) loadAnimation()
+    else loaded.value = true
   })
 })
 
-const displayValue = vue.computed(() => {
-  return !animate ? formatNumber(modelValue, format, { prefix, suffix }) : `${prefix || ''}${modelValue}${suffix || ''}`
-})
+const formattedValue = vue.computed(() =>
+  !animate ? formatNumber(modelValue, format, { prefix, suffix })
+  : `${prefix || ''}${modelValue}${suffix || ''}`)
+
+const displayValue = vue.computed(() => loading ? '—' : formattedValue.value)
 </script>
 
 <template>
@@ -52,8 +55,9 @@ const displayValue = vue.computed(() => {
     :is="tag"
     :id="randomId"
     ref="xNumber"
-    :class="loaded ? '' : 'invisible'"
-    class="focus:outline-none "
+    :class="loading  ? 'animate-pulse' : ''"
+    class="focus:outline-none"
     v-html="displayValue"
   />
 </template>
+
