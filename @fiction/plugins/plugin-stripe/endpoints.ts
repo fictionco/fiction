@@ -283,7 +283,7 @@ export class QueryCheckoutSession extends StripeEndpoint {
     const sessionPriceId = await fictionStripe.getPriceByLookupKey(priceLookupKey)
 
     if (!sessionPriceId) {
-      return { status: 'error', message: `priceId not found` }
+      return { status: 'error', message: `priceId not found (${priceLookupKey})` }
     }
 
     try {
@@ -291,7 +291,9 @@ export class QueryCheckoutSession extends StripeEndpoint {
         customer: customerId,
         mode: 'subscription',
         ui_mode: 'embedded',
-        line_items: [{ price: sessionPriceId, quantity: 1 }],
+        line_items: [
+          { price: sessionPriceId, quantity: 1 },
+        ],
         subscription_data: {
           trial_period_days: trialPeriodDays,
         },

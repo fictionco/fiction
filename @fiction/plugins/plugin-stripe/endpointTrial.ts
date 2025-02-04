@@ -74,7 +74,7 @@ export class QueryStripeTrial extends StripeEndpoint {
     const sessionPriceId = await fictionStripe.getPriceByLookupKey(priceLookupKey)
 
     if (!sessionPriceId) {
-      return { status: 'error', message: `priceId not found` }
+      return { status: 'error', message: `priceId not found (${priceLookupKey})` }
     }
 
     // First ensure/create customer
@@ -132,7 +132,7 @@ export class QueryStripeTrial extends StripeEndpoint {
     params: Extract<SetupTrialParams, { _action: 'completeSetup' }>,
     meta: EndpointMeta,
   ): Promise<EndpointResponse<TrialSetupResponse>> {
-    const { setupIntentId, paymentIntentId, orgId, priceLookupKey, trialPeriodDays = 30 } = params
+    const { setupIntentId, paymentIntentId, orgId, priceLookupKey, trialPeriodDays = 10 } = params
     const { fictionStripe } = this.settings
     const stripe = fictionStripe.getServerClient()
 

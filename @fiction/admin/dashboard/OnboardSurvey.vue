@@ -18,6 +18,7 @@ const { fictionUser } = useService<{ fictionUser: FictionUser }>()
 
 const TRIAL_PRODUCT = 'standard_month'
 const TRIAL_PRICE = 9
+const TRIAL_DAYS = 10
 
 const form = vue.ref<{
   fullName?: string
@@ -186,13 +187,19 @@ const stepConfig: StepConfig = {
       {
         key: 'payment',
         superTitle: {
-          text: 'Pro Trial',
+          text: 'Lock-in Discounted Pricing',
           theme: 'green',
           icon: { class: 'i-tabler-sparkles' },
         },
-        title: 'Join the Best',
-        subTitle: `Free for one month then $${TRIAL_PRICE}/mo. Cancel anytime.`,
-        button: { label: 'Start My Trial', theme: 'primary', size: 'lg', icon: 'i-tabler-bolt', iconAfter: 'i-tabler-arrow-right' },
+        title: 'Start Your Free Trial',
+        subTitle: `Free for ${TRIAL_DAYS} days then $${TRIAL_PRICE}/mo. Cancel anytime.`,
+        button: {
+          label: 'Start My Trial',
+          theme: 'primary',
+          size: 'lg',
+          icon: 'i-tabler-bolt',
+          iconAfter: 'i-tabler-arrow-right',
+        },
         class: 'max-w-screen-xl',
         noButton: true,
       },
