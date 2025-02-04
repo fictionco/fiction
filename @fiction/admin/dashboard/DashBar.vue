@@ -35,7 +35,7 @@ const uc = vue.computed(() => card.userConfig.value)
           <XMenuButton
             class="size-8"
             :is-open="showMobileNav"
-            @click="emit('update:showMobileNav', !showMobileNav)"
+            @click.stop="emit('update:showMobileNav', !showMobileNav)"
           />
         </div>
         <div class="flex items-center px-3 py-2">

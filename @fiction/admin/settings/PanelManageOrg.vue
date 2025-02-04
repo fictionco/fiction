@@ -38,6 +38,7 @@ const header = vue.computed(() => {
 const sending = vue.ref('')
 const list = vue.computed<NavListItem[]>(() => {
   const activeOrganizations = service.fictionUser.activeUser.value?.orgs || []
+  const activeOrgId = service.fictionUser.activeOrgId.value
 
   return activeOrganizations.map((org) => {
     const label = org.orgName || 'Untitled'
@@ -50,7 +51,7 @@ const list = vue.computed<NavListItem[]>(() => {
       `Created ${dayjs(org.createdAt).format('MM/YY')}`,
     ]
 
-    const button: ActionButton = org.loadOrgId
+    const button: ActionButton = org.orgId === activeOrgId
       ? {
           label: 'Currently Active',
           theme: 'orange',
@@ -76,7 +77,7 @@ const list = vue.computed<NavListItem[]>(() => {
           },
         }
 
-    const isActive = org.orgId === service.fictionUser.activeOrgId.value
+    const isActive = org.orgId === activeOrgId
     return {
       key: org.orgId,
       label,

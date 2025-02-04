@@ -3,7 +3,7 @@ import type { ActionButton, Organization } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { gravatarUrlSync, useService, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save.js'
-import { createOption, InputOption } from '@fiction/ui/index.js'
+import { createOption } from '@fiction/ui/index.js'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import SettingsPanel from './SettingsPanel.vue'
 

@@ -141,7 +141,7 @@ const rootListClasses = vue.computed(() => {
 })
 
 function getInputWrapClasses(opt: InputOption) {
-  const defaultClass = format === 'control' ? '@[500px]:p-8 p-6' : opt.settings.uiFormat !== 'naked' && depth === 0 ? 'px-6' : ''
+  const defaultClass = format === 'control' ? '@[500px]:p-8 px-4 py-6' : opt.settings.uiFormat !== 'naked' && depth === 0 ? 'px-6' : ''
   return twMerge([defaultClass])
 }
 

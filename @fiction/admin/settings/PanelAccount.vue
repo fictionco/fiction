@@ -9,7 +9,6 @@ import ElModal from '@fiction/ui/ElModal.vue'
 import { createOption } from '@fiction/ui/index.js'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
-import ElHeader from './ElHeader.vue'
 import SettingsPanel from './SettingsPanel.vue'
 
 type UserConfig = {

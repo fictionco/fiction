@@ -88,15 +88,15 @@ const actions = vue.computed<ActionButton[]>(() => {
 
 <template>
   <div>
-    <div class="relative flex gap-4 lg:gap-6 ">
+    <div class="relative flex gap-4 lg:gap-6 flex-wrap items-center">
       <div v-if="controlOption.settings.icon" class="size-8 shrink-0 lg:size-10 rounded-xl flex justify-center items-center">
         <XIcon class="size-[80%]" :media="controlOption.settings.icon" />
       </div>
       <div class="grow min-w-0">
-        <div v-if="v" class="flex items-center gap-4 text-sm lg:text-base leading-[1] font-normal text-theme-500 dark:text-theme-400">
+        <div v-if="v" class="flex items-center gap-4 text-sm lg:text-base leading-[1] font-normal text-theme-400 dark:text-theme-500">
           <div>{{ controlOption.label }}</div>
         </div>
-        <div class="my-1 text-lg lg:text-xl font-semibold break-words">
+        <div class="my-1 text-xl lg:text-2xl font-bold break-words">
           <div v-if="!v">
             {{ controlOption.label }}
           </div>
@@ -117,7 +117,7 @@ const actions = vue.computed<ActionButton[]>(() => {
             {{ v?.data || 'Not Set' }}
           </div>
         </div>
-        <div class="flex gap-2 items-center mt-3">
+        <div class="md:flex gap-2 items-center mt-3">
           <XButton
             v-if="v?.status"
             class="shrink-0"
@@ -132,10 +132,10 @@ const actions = vue.computed<ActionButton[]>(() => {
             {{ toLabel(v?.status) }}
           </XButton>
           <template v-if="v?.message || controlOption.subLabel.value">
-            <div v-if="v?.status" class="text-theme-500">
+            <div v-if="v?.status" class="text-theme-500 hidden md:block">
               &middot;
             </div>
-            <div class="text-sm text-theme-400 dark:text-theme-500">
+            <div class="text-sm text-theme-400 dark:text-theme-600">
               {{ v?.message || controlOption.subLabel.value }}
             </div>
           </template>
@@ -147,8 +147,8 @@ const actions = vue.computed<ActionButton[]>(() => {
           :key="ii"
           :data-test-id="action.testId"
           :design="action.design || 'solid'"
-          :theme="action.theme || 'theme'"
-          :size="action.size || 'lg'"
+          :theme="action.theme || 'default'"
+          :size="action.size || 'md'"
           :loading="action.loading"
           :href="action.href"
           :icon="action.icon"

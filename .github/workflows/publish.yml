@@ -78,12 +78,12 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10.1.0
+          version: 10.2.0
 
       - name: Set Node Version
         uses: actions/setup-node@v4
         with:
-          node-version: 23.6.0
+          node-version: 23.7.0
           cache: pnpm
 
       - name: Get pnpm store directory
@@ -116,10 +116,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 10.1.0
+          version: 10.2.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 23.6.0
+          node-version: 23.7.0
           cache: pnpm
       - uses: actions/cache@v4
         with:
@@ -137,10 +137,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 10.1.0
+          version: 10.2.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 23.6.0
+          node-version: 23.7.0
           cache: pnpm
       - uses: actions/cache@v4
         with:
@@ -172,10 +172,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 10.1.0
+          version: 10.2.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 23.6.0
+          node-version: 23.7.0
           cache: pnpm
       - uses: actions/cache@v4
         with:
@@ -213,10 +213,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 10.1.0
+          version: 10.2.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 23.6.0
+          node-version: 23.7.0
           cache: pnpm
       - uses: actions/cache@v4
         with:
@@ -244,10 +244,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 10.1.0
+          version: 10.2.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 23.6.0
+          node-version: 23.7.0
           cache: pnpm
       - uses: actions/cache@v4
         with:
@@ -274,10 +274,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 10.1.0
+          version: 10.2.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 23.6.0
+          node-version: 23.7.0
           cache: pnpm
       - uses: actions/cache@v4
         with:
@@ -306,10 +306,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 10.1.0
+          version: 10.2.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 23.6.0
+          node-version: 23.7.0
           cache: pnpm
       - uses: actions/cache@v4
         with:
@@ -343,10 +343,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 10.1.0
+          version: 10.2.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 23.6.0
+          node-version: 23.7.0
           cache: pnpm
       - uses: actions/cache@v4
         with:
@@ -404,11 +404,11 @@ jobs:
 
       - uses: pnpm/action-setup@v4
         with:
-          version: 10.1.0
+          version: 10.2.0
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 23.6.0
+          node-version: 23.7.0
 
       - uses: actions/cache@v4
         with:
@@ -442,11 +442,11 @@ jobs:
 
       - uses: pnpm/action-setup@v4
         with:
-          version: 10.1.0
+          version: 10.2.0
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 23.6.0
+          node-version: 23.7.0
 
       - uses: actions/cache@v4
         with:
@@ -480,11 +480,11 @@ jobs:
 
       - uses: pnpm/action-setup@v4
         with:
-          version: 10.1.0
+          version: 10.2.0
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 23.6.0
+          node-version: 23.7.0
 
       - uses: actions/cache@v4
         with:
@@ -517,10 +517,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 10.1.0
+          version: 10.2.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 23.6.0
+          node-version: 23.7.0
 
       - name: Configure Git
         run: |

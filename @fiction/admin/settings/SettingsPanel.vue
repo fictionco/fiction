@@ -29,7 +29,7 @@ const emit = defineEmits<{
       <XButtonList :buttons="action.buttons" class="flex justify-end gap-2" ui-size="md" />
     </div>
 
-    <div v-if="header" class="p-8">
+    <div v-if="header" class="p-4 md:p-8">
       <SettingsPanelHeader
         :model-value="header"
         :editable

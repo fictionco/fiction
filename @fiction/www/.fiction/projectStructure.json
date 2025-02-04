@@ -59,14 +59,15 @@
         "SettingsBoard.vue": null,
         "SettingsMain.vue": null,
         "SettingsPanel.vue": null,
+        "SettingsPanelHeader.vue": null,
         "index.ts": null
       },
       "tailwind.config.ts": null,
       "test": {
         "email.main.ts": null,
         "emailVerify.uiux.test.ts": null,
-        "onboard.flow.test.ts": null,
-        "settings.debug.test.ts": null,
+        "onboard.spot.test.ts": null,
+        "settings.flow.test.ts": null,
         "signin.uiux.test.ts": null
       },
       "theme": {
@@ -142,7 +143,7 @@
       "test": {
         "beacon.unit.test.ts": null,
         "client.stats.test.ts": null,
-        "endpoint.metrics.spot.test.ts": null,
+        "endpoint.metrics.unit.test.ts": null,
         "endpoint.track.unit.test.ts": null,
         "endpoint.unit.test.ts": null,
         "helpers.ts": null,
@@ -609,7 +610,7 @@
           "resize.unit.test.ts": null,
           "test.jpg": null,
           "test.pdf": null,
-          "upload.spot.test.ts": null
+          "upload.unit.test.ts": null
         },
         "utils.ts": null
       },
@@ -1266,6 +1267,7 @@
         "fonts.ts": null,
         "frame.ts": null,
         "generation.ts": null,
+        "history.ts": null,
         "layout.ts": null,
         "list.ts": null,
         "manage.ts": null,
@@ -1277,11 +1279,13 @@
           "fonts.unit.test.ts": null,
           "frame.unit.test.ts": null,
           "generation.unit.test.ts": null,
+          "history.unit.test.ts": null,
           "layout.unit.test.ts": null,
           "page.unit.test.ts": null,
           "region.unit.test.ts": null,
           "schema.unit.test.ts": null,
           "site.unit.test.ts": null,
+          "siteCert.deprecated copy.ts": null,
           "siteCert.unit.test.ts": null
         },
         "themeStructure.ts": null
@@ -1494,6 +1498,7 @@
         "ElTooltip.vue": null,
         "XDropDown.vue": null,
         "XLink.vue": null,
+        "XMenuButton.vue": null,
         "XNumber.vue": null,
         "XSuperTitle.vue": null,
         "XText.vue": null,
@@ -1793,7 +1798,8 @@
     "fiction.beacon.toml": null,
     "fiction.clickhouse.toml": null,
     "fiction.docs.toml": null,
-    "fiction.sites.toml": null,
+    "fiction.gateway.toml": null,
+    "fiction.proxy.toml": null,
     "fiction.www.toml": null,
     "nginx.404.html": null,
     "nginx.502.html": null,

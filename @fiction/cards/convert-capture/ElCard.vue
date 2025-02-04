@@ -83,7 +83,7 @@ vue.onMounted(async () => {
 
 onResetUi(() => {
   const _editorPreview = card.userConfig.value._editorPreview
-  if(_editorPreview){
+  if (_editorPreview) {
     card.userConfig.value = { ...card.userConfig.value, _editorPreview: undefined }
     card?.syncCard({ caller: 'cardCaptureV1Preview' })
   }

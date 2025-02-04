@@ -25,13 +25,13 @@ function updateValue<T extends keyof PostObject = keyof PostObject>(key: T, valu
 </script>
 
 <template>
-  <div class="@container">
-    <div class="@xs:flex @xs:items-center @xs:justify-between @xs:space-x-6">
-      <div class="flex items-center gap-6">
+  <div class="">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex flex-col md:flex-row items-start gap-4 md:gap-6 grow w-full">
         <div v-if="modelValue.media" class="flex-shrink-0 flex gap-3 items-center">
           <ElIndexItemMedia
             :media="modelValue.media"
-            class="size-12 @xl:size-20"
+            class="size-12 md:size-16"
             :color-theme="colorTheme"
           />
         </div>
@@ -40,14 +40,14 @@ function updateValue<T extends keyof PostObject = keyof PostObject>(key: T, valu
             v-if="modelValue.title"
             tag="h1"
             :model-value="modelValue.title"
-            class="text-3xl font-bold text-theme-900 dark:text-theme-0 x-font-title"
+            class="text-lg md:text-3xl font-bold text-theme-900 dark:text-theme-0 x-font-title"
             :is-editable="editable.includes('title')"
             @update:model-value="updateValue('title', $event)"
           />
           <XText
             v-if="modelValue.subTitle"
             :model-value="modelValue.subTitle"
-            class="text-base font-normal text-theme-500 dark:text-theme-500"
+            class="text-sm md:text-base font-normal text-theme-500 dark:text-theme-500"
             :is-editable="editable.includes('subTitle')"
             @update:model-value="updateValue('subTitle', $event)"
           />
@@ -55,8 +55,9 @@ function updateValue<T extends keyof PostObject = keyof PostObject>(key: T, valu
       </div>
       <XButtonList
         v-if="modelValue.action?.buttons?.length"
-        class="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-3 sm:space-y-0 sm:space-x-reverse @xs:mt-0 @xs:flex-row @xs:space-x-3"
+        class="flex w-full md:w-auto md:justify-end"
         :buttons="modelValue.action.buttons"
+        ui-size="sm"
       />
     </div>
   </div>

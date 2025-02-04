@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { ActionButton, ColorThemeUser, NavListItem, PostObject } from '@fiction/core'
+import type { ColorThemeUser, NavListItem, PostObject } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import type { NavCardUserConfig } from '..'
-import CardButtons from '@fiction/cards/el/CardButtons.vue'
 import CardLink from '@fiction/cards/el/CardLink.vue'
 import { toLabel, toSlug, vue } from '@fiction/core'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import XIcon from '@fiction/ui/media/XIcon.vue'
+import { useWindowSize } from '@vueuse/core'
 import ElHeader from './ElHeader.vue'
 
 const {
@@ -42,7 +42,7 @@ const viewId = vue.computed(() => {
 })
 
 const currentItemId = vue.computed(() => {
-  return card.site?.siteRouter.current.value?.params.itemId || ''
+  return (card.site?.siteRouter.current.value?.params.itemId as string | undefined) || ''
 })
 
 const nav = vue.computed<NavListItem[]>(() => {
@@ -69,10 +69,29 @@ const nav = vue.computed<NavListItem[]>(() => {
       }
     })
 })
+
+function getNavItemClass(item: NavListItem, index: number) {
+  return item.isActive
+    ? 'bg-primary-100/50 text-theme-700 dark:bg-theme-800 dark:text-theme-0'
+    : index === 0 && !currentItemId.value
+      ? 'lg:bg-primary-100/50 lg:text-theme-700 lg:dark:bg-theme-800 lg:dark:text-theme-0'
+      : 'text-theme-600 dark:text-theme-0 hover:bg-theme-100/30 dark:hover:bg-theme-700/60'
+}
+
+const transitionDirection = vue.ref<'left' | 'right'>('right')
+vue.watch(
+  () => currentItemId.value,
+  (newId, oldId) => {
+    // If going from no ID to ID, slide left, otherwise right
+    transitionDirection.value = !oldId && newId ? 'left' : 'right'
+  },
+)
+
+const { width } = useWindowSize()
 </script>
 
 <template>
-  <div class="lg:flex h-[calc(100dvh-61px)]">
+  <div class="lg:flex lg:h-[calc(100dvh-61px)] overflow-x-clip">
     <div
       :class="currentItemId ? 'hidden lg:block' : ''"
       class="lg:w-[32%] shrink-0 rounded-l-md p-3  md:p-6 md:border-r dark:border-theme-600/60 border-theme-300/60 space-y-6"
@@ -91,40 +110,32 @@ const nav = vue.computed<NavListItem[]>(() => {
           v-for="(v, i) in nav"
           :key="i"
           :card
-          class="flex items-center gap-3 xl:gap-5 px-3 py-2.5 xl:px-5 xl:py-3 text-xs sm:text-base rounded-lg transition-all duration-100"
+          class="flex items-center gap-3 xl:gap-5 px-3 py-2.5 xl:px-5 xl:py-3 rounded-lg transition-all duration-100"
           :href="v.href"
-          :class="
-            v.isActive
-              ? 'active bg-primary-100/50 text-theme-700 dark:bg-theme-700/70 dark:text-theme-0'
-              : 'inactive text-theme-600 dark:text-theme-0 hover:bg-theme-100/30 dark:hover:bg-theme-700/60' "
+          :class="getNavItemClass(v, i)"
         >
           <XIcon
             v-if="v.icon"
-            class="text-[1.3em] xl:text-[1.75em] shrink-0 text-theme-500 dark:text-theme-50"
+            class="text-[1.2em] xl:text-[1.5em] shrink-0 text-theme-500 dark:text-theme-50"
             :media="v.icon"
           />
           <div class="min-w-0 truncate overflow-ellipsis text-left">
             <div class="font-semibold truncate">
               {{ v.label }}
             </div>
-            <div class="text-theme-500 dark:text-theme-400 truncate text-sm">
+            <div class="text-theme-400 dark:text-theme-500 truncate text-sm">
               {{ v.description }}
             </div>
           </div>
         </CardLink>
       </div>
     </div>
-    <div class="grow overflow-scroll pb-32" :class="currentItemId ? '' : 'hidden lg:block'">
+    <div class="grow lg:overflow-scroll pb-32" :class="currentItemId ? '' : 'hidden lg:block'">
       <transition
-        enter-active-class="ease-out duration-300"
-        enter-from-class="opacity-0 translate-y-12"
-        enter-to-class="opacity-100 translate-y-0"
-        leave-active-class="ease-in duration-300"
-        leave-from-class="opacity-100 translate-y-0"
-        leave-to-class="opacity-0 -translate-y-12"
+        :name="width > 1024 ? 'fade' : transitionDirection"
         mode="out-in"
       >
-        <div v-if="currentPanel" :key="currentPanel?.cardId">
+        <div v-if="currentPanel" :key="currentItemId || 'default'">
           <!-- <div class="font-semibold text-lg p-4 border-b border-theme-300 dark:border-theme-700/70">
             {{ currentPanel.title.value }}
           </div> -->
@@ -147,3 +158,38 @@ const nav = vue.computed<NavListItem[]>(() => {
     </div>
   </div>
 </template>
+
+<style lang="less">
+// Fade transition for desktop
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.2s cubic-bezier(0.25,1,0.33,1);
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+// Left/Right slide transitions for mobile
+.left-enter-active,
+.left-leave-active,
+.right-enter-active,
+.right-leave-active {
+  transition: transform 0.2s cubic-bezier(0.25,1,0.33,1);
+}
+
+.left-enter-from {
+  transform: translateX(100%);
+}
+.left-leave-to {
+  transform: translateX(-100%);
+}
+
+.right-enter-from {
+  transform: translateX(-100%);
+}
+.right-leave-to {
+  transform: translateX(100%);
+}
+</style>

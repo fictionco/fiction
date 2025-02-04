@@ -4,7 +4,7 @@ import type { FictionStripe } from '@fiction/plugin-stripe'
 import type { Card } from '@fiction/site/card'
 import type { FictionAdmin } from '..'
 import ElEngine from '@fiction/cards/CardEngine.vue'
-import { fontFamilySchema, getAccessLevel, onResetUi, sortPriority, useService, vue } from '@fiction/core'
+import { getAccessLevel, onResetUi, sortPriority, useService, vue } from '@fiction/core'
 import ElClose from '@fiction/ui/common/ElClose.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
@@ -36,8 +36,7 @@ const site = vue.computed(() => card.site)
 const { fictionUser, fictionStripe, fictionAdmin } = useService<{ fictionStripe?: FictionStripe, fictionAdmin: FictionAdmin }>()
 
 const showMobileNav = vue.ref(false)
-const menuVis = vue.ref(false)
-onResetUi(() => (menuVis.value = false))
+onResetUi(() => (showMobileNav.value = false))
 
 const accessLevel = vue.computed(() => fictionUser.activeRelation.value?.accessLevel || 0)
 const memberHasAccess = vue.computed(() => accessLevel.value >= getAccessLevel(access))

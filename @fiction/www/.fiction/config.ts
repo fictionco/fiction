@@ -4,7 +4,7 @@
  */
 
 export interface CompiledServiceConfig {
-  commands: 'app' | 'beacon' | 'build' | 'dev' | 'dev-r' | 'generate' | 'render' | 'server' | 'sites'
+  commands: 'app' | 'beacon' | 'build' | 'dev' | 'dev-r' | 'gateway' | 'generate' | 'render' | 'server'
   vars:
     | 'ANTHROPIC_API_KEY'
     | 'APOLLO_API_KEY'
@@ -20,6 +20,7 @@ export interface CompiledServiceConfig {
     | 'FICTION_ORG_ID'
     | 'FICTION_SITE_ID'
     | 'FLY_API_TOKEN'
+    | 'GATEWAY_PORT'
     | 'GOOGLE_CLIENT_ID'
     | 'GOOGLE_CLIENT_SECRET'
     | 'IS_TEST'
@@ -34,7 +35,6 @@ export interface CompiledServiceConfig {
     | 'RUNTIME_VERSION'
     | 'SENTRY_PUBLIC_DSN'
     | 'SERVER_PORT'
-    | 'SITES_PORT'
     | 'SLACK_WEBHOOK_URL'
     | 'SMTP_HOST'
     | 'SMTP_PASSWORD'

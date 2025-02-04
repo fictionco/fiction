@@ -64,7 +64,7 @@ function toggleEditingStyle() {
           v-for="(mode, i) in deviceModes"
           :key="i"
           rounding="full"
-           respond="icon:xl"
+          respond="icon:xl"
           :theme="activeDeviceMode === mode.name ? 'theme' : 'default'"
           :icon="mode.icon"
           size="xs"
@@ -114,7 +114,7 @@ function toggleEditingStyle() {
             rounding="full"
             :icon="site.isLightMode.value ? 'i-tabler-sun' : 'i-tabler-moon'"
             size="xs"
-             respond="icon:xl"
+            respond="icon:xl"
             @click="toggleDarkLightMode()"
           >
             {{ site.isLightMode.value ? 'Light' : 'Dark' }} Mode Preview
@@ -129,7 +129,7 @@ function toggleEditingStyle() {
           <XButton
             rounding="full"
             size="xs"
-             respond="icon:xl"
+            respond="icon:xl"
             icon="i-tabler-drag-drop"
             :theme="site.editor.value.savedEditingStyle === 'quick' ? 'green' : 'primary'"
             design="outline"

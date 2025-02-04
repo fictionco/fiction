@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site'
-import { useService, vue } from '@fiction/core'
 import ElTeamList from './ElTeamList.vue'
 import SettingsPanel from './SettingsPanel.vue'
 
