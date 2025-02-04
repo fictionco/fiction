@@ -137,7 +137,7 @@ function isMetricPositive(metric: MetricDisplayItemWithData) {
   return metric.change >= 0 || (metric.invert && metric.change < 0)
 }
 
-const loading = vue.computed(() => true || factory.loading.value)
+const loading = vue.computed(() => factory.loading.value)
 </script>
 
 <template>
