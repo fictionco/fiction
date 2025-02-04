@@ -8,12 +8,20 @@ import type { CardFactory } from '@fiction/site/cardFactory'
 
 import { getCheckoutUrl } from '@fiction/plugin-stripe/utils.js'
 
-async function purchaseUrl(args: { priceLookupKey: string, fictionStripe?: FictionStripe }) {
-  const { fictionStripe } = args
+async function purchaseUrl(args: { priceLookupKey: string, site: Site }) {
+  const { site } = args
 
-  const loginPath = '/auth'
+  const { fictionStripe, fictionUser } = site.fictionSites.fictionEnv.getService<{ fictionStripe: FictionStripe }>()
 
-  if (!fictionStripe) {
+  const loginPath = '/app/auth?_reload=1'
+
+  if (typeof window === 'undefined') {
+    return loginPath
+  }
+
+  const user = await fictionUser.userInitialized()
+
+  if (!fictionStripe || !user) {
     return loginPath
   }
 
@@ -25,8 +33,6 @@ export async function getPricingPage(args: { factory: CardFactory, site: Site })
 
   const annualDiscountPercent = 30
 
-  const { fictionStripe } = site.fictionSites.fictionEnv.getService<{ fictionStripe: FictionStripe }>()
-
   const pricingCard = await factory.fromTemplate<typeof pricingTemplate>({
     templateId: 'cardPricingV1',
     userConfig: {
@@ -35,8 +41,8 @@ export async function getPricingPage(args: { factory: CardFactory, site: Site })
       layout: 'standard',
       prices: [
         {
-          title: 'Free',
-          price: 0,
+          title: 'Standard',
+          price: 9,
           description: `Start building your audience`,
           variant: 'muted',
           icon: { class: 'i-tabler-rocket' },
@@ -48,9 +54,10 @@ export async function getPricingPage(args: { factory: CardFactory, site: Site })
             { label: 'Email Support' },
           ],
           button: {
-            label: 'Start Free',
+            label: 'Start Standard',
             icon: { class: 'i-tabler-rocket' },
-            href: '#free-tier',
+            href: await purchaseUrl({ site, priceLookupKey: 'standard_month' }),
+            hrefAnnual: await purchaseUrl({ site, priceLookupKey: 'standard_year' }),
           },
         },
         {
@@ -73,8 +80,8 @@ export async function getPricingPage(args: { factory: CardFactory, site: Site })
           button: {
             label: 'Start Pro Trial',
             icon: { class: 'i-tabler-stars' },
-            href: await purchaseUrl({ fictionStripe, priceLookupKey: 'pro_month' }),
-            hrefAnnual: await purchaseUrl({ fictionStripe, priceLookupKey: 'pro_year' }),
+            href: await purchaseUrl({ site, priceLookupKey: 'pro_month' }),
+            hrefAnnual: await purchaseUrl({ site, priceLookupKey: 'pro_year' }),
           },
         },
         {
@@ -98,8 +105,8 @@ export async function getPricingPage(args: { factory: CardFactory, site: Site })
           button: {
             label: 'Start Workshop Trial',
             icon: { class: 'i-tabler-crown' },
-            href: await purchaseUrl({ fictionStripe, priceLookupKey: 'elite_month' }),
-            hrefAnnual: await purchaseUrl({ fictionStripe, priceLookupKey: 'elite_year' }),
+            href: await purchaseUrl({ site, priceLookupKey: 'elite_month' }),
+            hrefAnnual: await purchaseUrl({ site, priceLookupKey: 'elite_year' }),
           },
         },
       ],

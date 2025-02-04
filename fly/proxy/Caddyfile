@@ -9,16 +9,12 @@
 		level INFO
 	}
 
+	# DNS challenge config - no resolvers needed
 	acme_dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-	resolvers 1.1.1.1
 }
 
 :443 {
-	# Add health check endpoint
-	handle /healthz {
-		respond "OK" 200
-	}
-
+	# Main proxy config
 	reverse_proxy fiction-gateway.internal:6565 {
 		header_up Host {http.request.host}
 		header_up X-Real-IP {remote_ip}

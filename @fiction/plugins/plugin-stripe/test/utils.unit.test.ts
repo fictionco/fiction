@@ -26,7 +26,7 @@ describe('processCustomerData', () => {
   })
 
   const mockProducts = [
-    { key: 'basic', tier: 1 },
+    { key: 'standard', tier: 1 },
     { key: 'pro', tier: 2 },
   ]
 
