@@ -1,3 +1,4 @@
+# LibraryModal.vue
 <script lang="ts" setup>
 import type { MediaObject } from '@fiction/core'
 import type { InputOption } from '.'
@@ -5,15 +6,10 @@ import { determineMediaFormat, MediaDisplaySchema as schema, vue } from '@fictio
 import { createOption } from '.'
 import XButton from '../buttons/XButton.vue'
 import ElModal from '../ElModal.vue'
-import XLogo from '../media/XLogo.vue'
 import XMedia from '../media/XMedia.vue'
-import ElInput from './ElInput.vue'
 import FormEngine from './FormEngine.vue'
 import LibraryBackground from './LibraryBackground.vue'
-import LibraryHtml from './LibraryHtml.vue'
-
 import LibraryIcon from './LibraryIcon.vue'
-import LibraryMedia from './LibraryMedia.vue'
 import LibraryMediaGallery from './LibraryMediaGallery.vue'
 
 const props = defineProps<{
@@ -31,71 +27,7 @@ const emit = defineEmits<{
 const currentSelection = vue.ref<MediaObject>({})
 const activeOptionId = vue.ref<string>('')
 
-const availableTools = [
-  { label: 'Select Media', value: 'media', icon: 'i-tabler-photo', component: LibraryMedia },
-  { label: 'Custom HTML', value: 'html', icon: 'i-tabler-code', component: LibraryHtml },
-  { label: 'Icon Library', value: 'icons', icon: 'i-tabler-category', component: LibraryIcon },
-  { label: 'Background', value: 'background', icon: 'i-tabler-palette', component: LibraryBackground },
-] as const
-
-type LibraryTool = typeof availableTools[number]['value']
-
-vue.watch(() => props.modelValue, (newValue) => {
-  if (newValue) {
-    selectMedia(newValue)
-  }
-}, { immediate: true })
-
-// Add to the <script setup>
-const optionsContainer = vue.ref<HTMLElement>()
-const intersectionObserver = vue.ref<IntersectionObserver>()
-
-// Track which options are currently visible
-const visibleOptions = vue.ref(new Set<string>())
-
-// Setup intersection observer when component mounts
-vue.onMounted(() => {
-  intersectionObserver.value = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const optionKey = entry.target.getAttribute('data-option-key')
-        if (!optionKey)
-          return
-
-        if (entry.isIntersecting) {
-          visibleOptions.value.add(optionKey)
-        }
-        else {
-          visibleOptions.value.delete(optionKey)
-        }
-
-        // Update active option based on most visible option
-        if (visibleOptions.value.size > 0) {
-          // Get first visible option as active
-          const firstVisible = Array.from(visibleOptions.value)[0]
-          if (firstVisible !== activeOptionId.value) {
-            activeOptionId.value = firstVisible
-          }
-        }
-      })
-    },
-    {
-      root: optionsContainer.value,
-      threshold: 0.5, // Element is considered visible when 50% in view
-    },
-  )
-
-  // Observe all option elements
-  document.querySelectorAll('[data-option-key]').forEach((el) => {
-    intersectionObserver.value?.observe(el)
-  })
-})
-
-// Cleanup observer on unmount
-vue.onUnmounted(() => {
-  intersectionObserver.value?.disconnect()
-})
-
+// Options for the form engine
 const options = [
   createOption({
     key: 'upload',
@@ -191,29 +123,12 @@ function selectMedia(media: MediaObject) {
   currentSelection.value = { ...currentSelection.value, format, ...media }
 }
 
-// Modify scrollToOption function to handle smooth scrolling
 function scrollToOption(optionKey: string) {
   activeOptionId.value = optionKey
-
-  const sel = `[data-option-key="${optionKey}"]`
-  // Find target element
-  const el = document.querySelector(sel)
-
-  if (!el || !optionsContainer.value) {
-    console.error(`Element or container not found ${sel}`)
-    return
+  const el = document.querySelector(`[data-option-key="${optionKey}"]`)
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
-
-  // Calculate scroll position
-  const containerRect = optionsContainer.value.getBoundingClientRect()
-  const elementRect = el.getBoundingClientRect()
-  const scrollOffset = elementRect.top - containerRect.top + optionsContainer.value.scrollTop
-
-  // Smooth scroll to target
-  optionsContainer.value.scrollTo({
-    top: scrollOffset,
-    behavior: 'smooth',
-  })
 }
 
 function hasMedia() {
@@ -270,23 +185,23 @@ function applyChanges() {
 
       <!-- Main Content Area -->
       <div class="flex min-h-[500px]">
-        <!-- Left Sidebar - Source Selection -->
+        <!-- Left Sidebar - Option Navigation -->
         <div class="w-48 border-r border-theme-200 dark:border-theme-700 flex-shrink-0 bg-theme-50 dark:bg-theme-800">
           <nav class="p-3">
             <button
               v-for="opt in filteredOptions"
               :key="opt.key.value"
               :data-test-id="`media-tool-${opt.key.value}`"
-              class="w-full px-2 py-2 rounded-lg text-left mb-1 flex items-center gap-2 transition-colors text-sm font-medium whitespace-nowrap truncate"
+              class="w-full px-4 py-2 rounded-lg text-left mb-1 flex items-center gap-2 transition-colors text-sm font-medium"
               :class="[
                 activeOptionId === opt.key.value
-                  ? 'bg-primary-600 dark:bg-primary-900/50 text-white ring-1 ring-primary-500/50'
+                  ? 'bg-primary-600 dark:bg-primary-900/50 text-white'
                   : 'hover:bg-theme-100 dark:hover:bg-theme-700 text-theme-700 dark:text-theme-200',
               ]"
               @click="scrollToOption(opt.key.value)"
             >
-              <i class="text-lg shrink-0" :class="[opt.settings.icon?.class]" />
-              <span class="min-w-0 truncate">{{ opt.label.value }}</span>
+              <i class="text-lg" :class="[opt.settings.icon?.class]" />
+              <span>{{ opt.label.value }}</span>
             </button>
           </nav>
         </div>
@@ -296,15 +211,9 @@ function applyChanges() {
           <!-- Preview Area -->
           <div class="p-4 border-b border-theme-200 dark:border-theme-700 h-64">
             <div class="relative h-full">
-              <div class="w-full h-full flex items-center justify-center text-center" :data-m="JSON.stringify(currentSelection)">
+              <div class="w-full h-full flex items-center justify-center text-center">
                 <template v-if="currentSelection.format || currentSelection.gradient?.stops?.length || currentSelection.backgroundColor">
-                  <XLogo
-                    v-if="['iconId', 'iconClass', 'typography'].includes(currentSelection.format || '')"
-                    :media="currentSelection"
-                    class="max-h-full h-[80%]"
-                  />
                   <XMedia
-                    v-else
                     :media="currentSelection"
                     class="max-h-full object-contain w-full h-full"
                     image-mode="contain"
@@ -325,40 +234,16 @@ function applyChanges() {
             </div>
           </div>
 
-          <!-- Tool Content Area -->
-          <div ref="optionsContainer" class="flex-1 p-4 bg-theme-50/50 dark:bg-theme-800/50 max-h-[350px] overflow-scroll">
-            <div>
-              <FormEngine
-                state-key="mediaSetup"
-                :depth="1"
-                :model-value="modelValue"
-                ui-size="md"
-                :options="options"
-                @update:model-value="emit('update:modelValue', $event)"
-              />
-            </div>
-
-            <!-- <component
-              :is="activeTool?.component"
-              v-if="activeTool?.component"
-              v-model="currentSelection"
-              class="w-full"
-              @update:model-value="selectMedia"
+          <!-- Options Content Area -->
+          <div class="flex-1 p-4 bg-theme-50/50 dark:bg-theme-800/50 overflow-y-auto max-h-[400px]">
+            <FormEngine
+              state-key="mediaSetup"
+              :depth="1"
+              :model-value="modelValue"
+              ui-size="md"
+              :options="filteredOptions"
+              @update:model-value="emit('update:modelValue', $event)"
             />
-
-            <div v-else-if="activeToolId === 'html'" class="space-y-4">
-              <ElInput
-                :model-value="currentSelection.html"
-                input="InputTextarea"
-                :rows="6"
-                placeholder="Enter HTML or embed code here"
-                @update:model-value="value => currentSelection = {
-                  ...currentSelection,
-                  html: value,
-                  format: 'html',
-                }"
-              />
-            </div> -->
           </div>
         </div>
       </div>

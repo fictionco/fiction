@@ -1,15 +1,16 @@
 <script lang="ts" setup>
-import type { ActionArea, IndexItem } from '@fiction/core'
+import type { ActionArea, ColorThemeUser, IndexItem } from '@fiction/core'
 import XButtonList from '@fiction/ui/buttons/XButtonList.vue'
 import XLink from '@fiction/ui/common/XLink.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import ElIndexItemMedia from './ElIndexItemMedia.vue'
 
-const { list, loading = false, zeroText = 'No items found', action = {} } = defineProps<{
+const { list, loading = false, zeroText = 'No items found', action = {}, theme } = defineProps<{
   list: IndexItem[]
   loading?: boolean
   zeroText?: string
   action?: ActionArea
+  theme?: ColorThemeUser
 }>()
 </script>
 
@@ -42,7 +43,7 @@ const { list, loading = false, zeroText = 'No items found', action = {} } = defi
         class="relative isolate flex gap-6 items-center hover:opacity-90 cursor-pointer py-6"
         :href="item.href"
       >
-        <ElIndexItemMedia class="size-12 @md:size-16" :media="item.media" :icon="item.icon" />
+        <ElIndexItemMedia class="size-12 @md:size-16" :media="item.media" :icon="item.icon" :theme />
 
         <div>
           <div

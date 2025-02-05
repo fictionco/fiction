@@ -7,12 +7,12 @@ import ElIndexItemMedia from '@fiction/ui/lists/ElIndexItemMedia.vue'
 const {
   modelValue = {},
   editable = ['title'],
-  colorTheme,
+  theme,
   testId = 'el-header',
 } = defineProps<{
   modelValue?: PostObject
   editable?: (keyof PostObject)[]
-  colorTheme?: ColorThemeUser
+  theme?: ColorThemeUser
   testId?: string
 }>()
 
@@ -34,7 +34,7 @@ function updateValue<T extends keyof PostObject = keyof PostObject>(key: T, valu
           <ElIndexItemMedia
             :media="modelValue.media"
             class="size-12 @xl:size-14"
-            :color-theme="colorTheme"
+            :theme="theme"
           />
         </div>
         <div class="space-y-1">

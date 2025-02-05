@@ -68,7 +68,7 @@ const list = vue.computed<IndexItem[]>(() => {
 
 <template>
   <WidgetWrap :widget :buttons>
-    <IndexItemList :list :action="{ buttons }">
+    <IndexItemList :list :action="{ buttons }" theme="orange">
       <template #subTitle="{ item }">
         <div class="flex gap-2 flex-wrap ">
           <div class="opacity-80">

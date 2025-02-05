@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { NavListItem } from '@fiction/core'
+import type { ColorThemeUser, NavListItem } from '@fiction/core'
 import { getNavComponentType, pathIsHref, vue } from '@fiction/core'
 import ActionButtons from '../buttons/XButtonList.vue'
 import ElIndexItemMedia from './ElIndexItemMedia.vue'
 
-const { item, index = -1 } = defineProps<{ item: NavListItem, index: number }>()
+const { item, index = -1, theme } = defineProps<{ item: NavListItem, index: number, theme?: ColorThemeUser }>()
 
 const boxClass = 'dark:bg-theme-800/40 bg-theme-0 border border-theme-300/70 shadow-xs dark:border-theme-600/40 rounded-xl'
 const hoverClass = 'hover:bg-theme-50 dark:hover:bg-theme-800/90 cursor-pointer'
@@ -27,7 +27,7 @@ const linkProps = vue.computed(() => {
       @click.stop="item.onClick && item.onClick({ item, event: $event })"
     >
       <div class="@xl:flex gap-6 items-center space-y-4 @xl:space-y-0">
-        <ElIndexItemMedia class="size-12 @xl:size-20" :media="item.media" :icon="item.icon" />
+        <ElIndexItemMedia class="size-12 @xl:size-20" :media="item.media" :icon="item.icon" :theme />
         <div>
           <div class="text-xl font-semibold leading-6">
             {{ item.label }}

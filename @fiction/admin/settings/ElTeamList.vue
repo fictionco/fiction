@@ -41,6 +41,7 @@ const indexMeta = vue.ref()
   <div>
     <ElIndexGrid
       :list
+      theme="primary"
       :action="{ buttons: [{
         label: 'Add Team Member',
         theme: 'primary',

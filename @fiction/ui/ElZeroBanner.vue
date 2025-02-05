@@ -7,12 +7,12 @@ import ElIndexItemMedia from './lists/ElIndexItemMedia.vue'
 const {
   testId = 'zero-banner',
   modelValue = {},
-  colorTheme,
+  theme,
 } = defineProps<{
   testId?: string
   icon?: string | MediaObject
   modelValue?: PostObject
-  colorTheme?: ColorThemeUser
+  theme?: ColorThemeUser
 }>()
 </script>
 
@@ -26,7 +26,7 @@ const {
               <ElIndexItemMedia
                 :media="modelValue.media"
                 class="size-16"
-                :color-theme="colorTheme || modelValue.theme"
+                :theme="theme || modelValue.theme"
               />
             </div>
             <div class="space-y-1">

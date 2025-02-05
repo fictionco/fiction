@@ -42,6 +42,24 @@ async function fetchLibraryMedia() {
   }
 }
 
+async function deleteMediaFromLibrary(mediaId?: string) {
+  if (!mediaId)
+    return
+
+  const confirmed = confirm('Are you sure you want to delete this media? Any URLs using this media will be broken.')
+
+  if (!confirmed)
+    return
+
+  const response = await fictionMedia.requests.ManageMedia.projectRequest({
+    _action: 'delete',
+    where: [{ mediaId }],
+  })
+  if (response.status === 'success') {
+    await fetchLibraryMedia()
+  }
+}
+
 function selectMedia(media: MediaObject) {
   const v = { ...modelValue, ...media, format: 'url' }
   const newValue = removeUndefined(v, { removeNull: true }) as MediaObject
@@ -111,7 +129,8 @@ vue.onMounted(() => {
           class="absolute inset-0 w-full h-full transition-transform duration-300 group-hover:scale-110"
         />
         <div class="absolute inset-0 flex items-center justify-center bg-theme-900 bg-opacity-50 opacity-0 transition-opacity group-hover:opacity-100">
-          <i class="i-tabler-check text-2xl text-theme-100" />
+          <i class="i-tabler-switch-vertical text-2xl text-theme-100" />
+          <i class="i-tabler-x absolute top-1 right-1  text-theme-100 opacity-50 hover:opacity-100 cursor-pointer" @click.stop="deleteMediaFromLibrary(media.mediaId)" />
         </div>
       </div>
     </EffectMasonry>

@@ -8,22 +8,22 @@ import { getColorThemeStyles } from '../utils'
 const {
   media,
   icon,
-  colorTheme = 'default',
+  theme = 'default',
 } = defineProps<{
   media?: MediaObject
   icon?: string | MediaObject
-  colorTheme?: ColorThemeUser
+  theme?: ColorThemeUser
 }>()
 
 const mediaStyle = vue.computed(() => {
-  if (!colorTheme) {
+  if (!theme) {
     return {
       iconWrapper: `bg-theme-100/60 dark:bg-theme-600/40 dark:text-theme-0`,
       icon: 'text-theme-500/50 dark:text-theme-50',
     }
   }
 
-  const style = getColorThemeStyles(colorTheme || 'primary')
+  const style = getColorThemeStyles(theme || 'primary')
 
   return {
     base: `relative rounded-full overflow-hidden shrink-0`,

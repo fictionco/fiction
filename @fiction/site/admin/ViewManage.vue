@@ -17,6 +17,6 @@ const { card } = defineProps<{ card: Card }>()
       action: {},
       theme: 'green',
     }"
-    color-theme="green"
+    theme="green"
   />
 </template>

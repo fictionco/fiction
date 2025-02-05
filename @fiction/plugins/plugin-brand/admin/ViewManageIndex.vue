@@ -14,6 +14,6 @@ const { card } = defineProps<{ card: Card }>()
       media: { class: 'i-tabler-briefcase' },
       action: {},
     }"
-    color-theme="fuchsia"
+    theme="fuchsia"
   />
 </template>

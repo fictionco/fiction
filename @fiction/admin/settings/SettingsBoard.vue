@@ -16,7 +16,7 @@ const {
   panelEvents = {},
   loading = false,
   header,
-  colorTheme,
+  theme,
 } = defineProps<{
   card: Card
   basePath?: string
@@ -24,7 +24,7 @@ const {
   panelEvents?: Record<string, (...args: any[]) => void>
   loading?: boolean
   header?: PostObject
-  colorTheme?: ColorThemeUser
+  theme?: ColorThemeUser
 }>()
 
 const emit = defineEmits<{
@@ -103,7 +103,7 @@ const isDesktop = vue.computed(() => width.value >= 1024)
           v-if="header"
           class="bg-theme-50/20 dark:bg-theme-800 rounded-xl p-4"
           :model-value="header"
-          :color-theme="colorTheme || 'primary'"
+          :theme="theme || 'primary'"
           @update:model-value="emit('update:header', $event)"
         />
       </div>

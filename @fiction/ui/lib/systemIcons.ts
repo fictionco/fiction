@@ -1,4 +1,4 @@
-export type IconCategory = 'interface' | 'content' | 'commerce' | 'media' | 'social'
+export type IconCategory = 'interface' | 'content' | 'commerce' | 'media' | 'social' | 'marketing'
 
 export const recommendedIcons = [
   { class: 'i-tabler-menu-2', category: 'interface' },
@@ -69,11 +69,9 @@ export const recommendedIcons = [
   { class: 'i-tabler-contrast-2', category: 'interface' },
   { class: 'i-tabler-school', category: 'interface' },
   { class: 'i-tabler-wand', category: 'interface' },
-  { class: 'i-tabler-brush', category: 'interface' },
   { class: 'i-tabler-palette', category: 'interface' },
   { class: 'i-tabler-vector-triangle', category: 'interface' },
   { class: 'i-tabler-layers-intersect', category: 'interface' },
-  { class: 'i-tabler-wand', category: 'interface' },
   { class: 'i-tabler-cube', category: 'interface' },
   { class: 'i-tabler-puzzle', category: 'interface' },
   { class: 'i-tabler-settings-cog', category: 'interface' },
@@ -112,7 +110,6 @@ export const recommendedIcons = [
   { class: 'i-tabler-brackets', category: 'content' },
   { class: 'i-tabler-text-size', category: 'content' },
   { class: 'i-tabler-grid', category: 'content' },
-  { class: 'i-tabler-layout-grid', category: 'content' },
   { class: 'i-tabler-layout', category: 'content' },
   { class: 'i-tabler-crown', category: 'content' },
   { class: 'i-tabler-telescope', category: 'content' },
@@ -249,8 +246,6 @@ export const recommendedIcons = [
   // Extended Content Icons
   { class: 'i-tabler-template', category: 'content' },
   { class: 'i-tabler-components', category: 'content' },
-  { class: 'i-tabler-puzzle', category: 'content' },
-  { class: 'i-tabler-palette', category: 'content' },
   { class: 'i-tabler-color-picker', category: 'content' },
   { class: 'i-tabler-brush', category: 'content' },
   { class: 'i-tabler-pencil', category: 'content' },
@@ -260,7 +255,6 @@ export const recommendedIcons = [
 
   // Extended Commerce Icons
   { class: 'i-tabler-plane-arrival-store', category: 'commerce' },
-  { class: 'i-tabler-shopping-bag', category: 'commerce' },
   { class: 'i-tabler-basket', category: 'commerce' },
   { class: 'i-tabler-cash-banknote', category: 'commerce' },
   { class: 'i-tabler-receipt-refund', category: 'commerce' },
@@ -271,7 +265,6 @@ export const recommendedIcons = [
   { class: 'i-tabler-discount-check', category: 'commerce' },
 
   // Extended Media Icons
-  { class: 'i-tabler-photo-edit', category: 'media' },
   { class: 'i-tabler-photo-hexagon', category: 'media' },
   { class: 'i-tabler-photo-off', category: 'media' },
   { class: 'i-tabler-photo-plus', category: 'media' },
@@ -283,7 +276,6 @@ export const recommendedIcons = [
   { class: 'i-tabler-panorama-vertical', category: 'media' },
   { class: 'i-tabler-camera-selfie', category: 'media' },
   { class: 'i-tabler-camera-plus', category: 'media' },
-  { class: 'i-tabler-photo-plus', category: 'media' },
   { class: 'i-tabler-photo-check', category: 'media' },
   { class: 'i-tabler-photo-heart', category: 'media' },
   { class: 'i-tabler-album', category: 'media' },
@@ -333,6 +325,48 @@ export const recommendedIcons = [
   { class: 'i-tabler-separator', category: 'interface' },
   { class: 'i-tabler-section-sign', category: 'interface' },
   { class: 'i-tabler-spacing-vertical', category: 'interface' },
+
+  // Analytics & Data
+  { class: 'i-tabler-chart-bubble', category: 'marketing' },
+  { class: 'i-tabler-chart-arcs', category: 'marketing' },
+  { class: 'i-tabler-chart-area', category: 'marketing' },
+  { class: 'i-tabler-funnel', category: 'marketing' }, // For conversion funnels
+  { class: 'i-tabler-antenna', category: 'marketing' }, // For reach/broadcast
+  { class: 'i-tabler-arrows-split', category: 'marketing' }, // For A/B testing
+
+  // Automation & Workflows
+  { class: 'i-tabler-rotate-clockwise', category: 'marketing' }, // For automation cycles
+  { class: 'i-tabler-workflow', category: 'marketing' },
+  { class: 'i-tabler-broadcast', category: 'marketing' },
+  { class: 'i-tabler-switch-horizontal', category: 'marketing' }, // For workflow transitions
+
+  // Content & SEO
+  { class: 'i-tabler-sitemap', category: 'content' },
+  { class: 'i-tabler-notebook', category: 'content' },
+  { class: 'i-tabler-text-recognition', category: 'content' },
+  { class: 'i-tabler-spelling-check', category: 'content' },
+
+  // Email & Newsletter
+  { class: 'i-tabler-mail-cog', category: 'marketing' }, // Email automation
+  { class: 'i-tabler-mail-question', category: 'marketing' }, // Email support
+
+  // Personal Branding
+  { class: 'i-tabler-badge-3d', category: 'marketing' },
+  { class: 'i-tabler-certificate-2', category: 'marketing' },
+  { class: 'i-tabler-signature', category: 'marketing' },
+  { class: 'i-tabler-podium', category: 'marketing' },
+
+  // Engagement & Growth
+  { class: 'i-tabler-growth', category: 'marketing' },
+  { class: 'i-tabler-users-group', category: 'social' },
+  { class: 'i-tabler-viral', category: 'marketing' },
+  { class: 'i-tabler-flag', category: 'marketing' }, // For goals/milestones
+
+  // Modern Platform Elements
+  { class: 'i-tabler-webhook', category: 'interface' },
+  { class: 'i-tabler-api', category: 'interface' },
+  { class: 'i-tabler-stack-2', category: 'interface' },
+  { class: 'i-tabler-database', category: 'interface' },
 ] as const
 
 // Extract icon name without prefix

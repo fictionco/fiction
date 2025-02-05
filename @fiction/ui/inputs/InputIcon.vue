@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { MediaObject } from '@fiction/core'
+import type { MediaObject, StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 import XIcon from '../media/XIcon.vue'
@@ -7,8 +7,9 @@ import LibraryModal from './LibraryModal.vue'
 
 defineOptions({ name: 'InputIcon' })
 
-const { modelValue = {} } = defineProps<{
+const { modelValue = {}, uiSize = 'md' } = defineProps<{
   modelValue?: MediaObject
+  uiSize?: StandardSize
 }>()
 
 const emit = defineEmits<{
@@ -26,6 +27,20 @@ function openIconSelector() {
 function handleIconUpdate(newValue: MediaObject) {
   emit('update:modelValue', newValue)
 }
+
+const sizeMap = vue.computed(() => {
+  const sz: Record<StandardSize, { button: StandardSize, preview: string }> = {
+    'xxs': { button: 'xxs', preview: 'size-5' },
+    'xs': { button: 'xs', preview: 'size-6' },
+    'sm': { button: 'xs', preview: 'size-8' },
+    'md': { button: 'sm', preview: 'size-10' },
+    'lg': { button: 'md', preview: 'size-12' },
+    'xl': { button: 'lg', preview: 'size-14' },
+    '2xl': { button: 'xl', preview: 'size-16' },
+  }
+
+  return sz[uiSize || 'md']
+})
 </script>
 
 <template>
@@ -36,7 +51,7 @@ function handleIconUpdate(newValue: MediaObject) {
       @click.stop.prevent="openIconSelector"
     >
       <div class="flex items-center justify-center p-2">
-        <XIcon :media="v" class="size-10" />
+        <XIcon :media="v" :class="sizeMap.preview" />
       </div>
       <div
         class="absolute text-xs font-sans inset-0 flex items-center justify-center bg-theme-900 bg-opacity-50 transition-opacity opacity-0 group-hover:opacity-100"
@@ -51,8 +66,8 @@ function handleIconUpdate(newValue: MediaObject) {
       v-else
       rounding="full"
       theme="primary"
-      icon="i-tabler-photo"
-      size="sm"
+      icon="i-tabler-icons"
+      :size="sizeMap.button"
       @click.stop.prevent="openIconSelector"
     >
       Select Icon

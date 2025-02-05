@@ -14,6 +14,6 @@ const { card } = defineProps<{ card: Card }>()
       media: { class: `i-tabler-map` },
       action: {},
     }"
-    color-theme="sky"
+    theme="sky"
   />
 </template>

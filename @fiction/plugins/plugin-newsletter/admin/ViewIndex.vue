@@ -65,6 +65,7 @@ vue.onMounted(async () => {
         list-title="Email Campaigns"
         :list="list"
         :loading="loading"
+        theme="indigo"
         :action="{
           buttons: [
             {
@@ -80,7 +81,6 @@ vue.onMounted(async () => {
           title: 'Create an Email Campaign',
           subTitle: 'Create engaging email campaigns to connect with your audience. Design, schedule, and track performance all in one place.',
           media: { format: 'iconClass', class: 'i-tabler-mail-share' },
-          theme: 'orange',
           action: {
             buttons: [
               {

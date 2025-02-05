@@ -70,8 +70,8 @@ function getActions(location: 'top' | 'zero') {
           subTitle: `The homebase for your online presence.`,
           action: getActions('zero'),
           media: { class: 'i-tabler-browser-plus' },
-          theme: 'green',
         }"
+        theme="green"
         :action="getActions('top')"
         :on-item-click="() => {}"
         @bulk-edit="() => {}"

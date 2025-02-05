@@ -33,7 +33,7 @@ const items: NavItem[] = [
         class="flex items-center justify-between px-3 py-2 font-medium text-sm rounded-lg transition-all hover:bg-theme-100/10 dark:hover:bg-theme-700/50"
       >
         <div class="flex items-center gap-4">
-          <div v-if="item.media" class="size-8 rounded-full flex items-center justify-center bg-primary-500 text-primary-0">
+          <div v-if="item.media" class="size-8 rounded-full flex items-center justify-center bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-0">
             <XIcon class="size-[60%]" :media="item.media" />
           </div>
           <span class="">{{ item.title }}</span>

@@ -16,25 +16,6 @@ const emit = defineEmits<{
   (event: 'update:modelValue', payload: MediaObject): void
 }>()
 
-const blendModes = [
-  'normal',
-  'overlay',
-  'multiply',
-  'screen',
-  'darken',
-  'lighten',
-  'color-dodge',
-  'color-burn',
-  'hard-light',
-  'soft-light',
-  'difference',
-  'exclusion',
-  'hue',
-  'saturation',
-  'color',
-  'luminosity',
-]
-
 const options: InputOption[] = [
   createOption({
     key: 'group.upload',

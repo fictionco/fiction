@@ -63,6 +63,7 @@ vue.onMounted(async () => {
       :list
       :loading="loading"
       list-title="Posts"
+      theme="orange"
       :action="{
         buttons: [{
           label: 'Create Post',
@@ -73,11 +74,11 @@ vue.onMounted(async () => {
           testId: 'createPostButtonTop',
         }],
       }"
+
       :empty="{
         title: 'Create your first post',
         subTitle: 'Use posts on your site, newsletter, or social media.',
         media: { class: 'i-tabler-pin' },
-        theme: 'indigo',
         action: {
           buttons: [{
             label: 'Create Post',

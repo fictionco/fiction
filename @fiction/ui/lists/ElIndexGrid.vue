@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActionArea, IndexMeta, NavListItem, PostObject } from '@fiction/core'
+import type { ActionArea, ColorThemeUser, IndexMeta, NavListItem, PostObject } from '@fiction/core'
 import { getPaginationInfo, vue } from '@fiction/core/index.js'
 import XButton from '../buttons/XButton.vue'
 import ElZeroBanner from '../ElZeroBanner.vue'
@@ -13,6 +13,7 @@ const {
   action = {},
   loading,
   listTitle = 'Items',
+  theme,
 } = defineProps<{
   list?: NavListItem[]
   indexMeta?: IndexMeta
@@ -20,6 +21,7 @@ const {
   action?: ActionArea
   loading?: boolean
   listTitle?: string
+  theme?: ColorThemeUser
 }>()
 
 const emit = defineEmits<{
@@ -86,10 +88,11 @@ async function paginate(dir: 'prev' | 'next') {
               :key="item.key"
               :item
               :index="i"
+              :theme
             />
           </div>
           <div v-else-if="empty">
-            <ElZeroBanner  :model-value="empty"  />
+            <ElZeroBanner :model-value="empty" :theme />
           </div>
         </div>
         <div v-if="$slots.sidebar" class="col-span-12 md:col-span-6 xl:col-span-4">

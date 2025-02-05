@@ -32,7 +32,7 @@ function updateValue<T extends keyof PostObject = keyof PostObject>(key: T, valu
           <ElIndexItemMedia
             :media="modelValue.media"
             class="size-12 md:size-16"
-            :color-theme="colorTheme"
+            :theme="colorTheme"
           />
         </div>
         <div class="space-y-1">

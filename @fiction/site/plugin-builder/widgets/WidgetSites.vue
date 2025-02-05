@@ -62,6 +62,7 @@ const list = vue.computed<IndexItem[]>(() => {
         buttons: [{ label: 'Add Site', theme: 'primary', href: card.link('/sites?addNew=1') }],
       }"
       zero-text="No sites found. Create one."
+      theme="green"
     >
       <template #subTitle="{ item }">
         <div class="flex items-center gap-4">

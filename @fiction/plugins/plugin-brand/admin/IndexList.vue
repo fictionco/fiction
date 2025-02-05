@@ -65,6 +65,7 @@ const showStartModal = vue.ref(false)
         list-title="Brand Guide"
         :list
         :loading
+        theme="primary"
         :action="{
           buttons: [{
             testId: 'new-brand-button',

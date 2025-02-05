@@ -151,7 +151,13 @@ function getGroupClasses(opt: InputOption) {
 </script>
 
 <template>
-  <div class="@container" :class="`form-engine-${depth}`" :data-value="depth === 0 ? JSON.stringify(modelValue) : undefined" :data-form-engine-depth="depth" :data-options-len="options.length">
+  <div
+    class="@container"
+    :class="`form-engine-${depth}`"
+    :data-value="depth === 0 ? JSON.stringify(modelValue) : undefined"
+    :data-form-engine-depth="depth"
+    :data-options-len="options.length"
+  >
     <div :class="rootListClasses">
       <template v-for="(opt, i) in options.filter(_ => !_.settings.isHidden)" :key="i">
         <div
@@ -160,6 +166,7 @@ function getGroupClasses(opt: InputOption) {
             depth > 0 ? 'border rounded-md ' : '',
             hide(opt) ? 'overflow-hidden border-theme-300 dark:border-theme-600' : 'border-theme-200 dark:border-theme-600/80',
           ]"
+          :data-option-key="opt.key.value"
         >
           <div
             v-if="opt.label.value"
@@ -202,7 +209,7 @@ function getGroupClasses(opt: InputOption) {
         />
         <input v-else-if="opt.input.value === 'hidden'" :data-option-path="opt.key.value" type="hidden" :value="getNested({ path: getOptionPath(opt), data: modelValue })">
 
-        <div v-else :data-input-wrap="inputWrapClass" :class="getInputWrapClasses(opt)" :data-depth="depth">
+        <div v-else :data-input-wrap="inputWrapClass" :class="getInputWrapClasses(opt)" :data-depth="depth" :data-option-key="opt.key.value">
           <ElInput
             v-if="opt.isHidden.value !== true"
             :ui-size="uiSize"

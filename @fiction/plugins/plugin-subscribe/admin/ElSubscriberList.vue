@@ -103,12 +103,12 @@ const buttons: ActionButton[] = [
       :action="{ buttons }"
       list-title="Subscribers"
       :index-meta="indexMeta"
+      theme="cyan"
       :empty="{
         testId: 'subscriber-list-empty',
         title: 'Your Subscribers',
         subTitle: 'Add or import email subscribers to send newsletters and updates.',
         media: { class: 'i-tabler-users' },
-        theme: 'rose',
         action: { buttons },
       }"
       @update:offset="load({ offset: $event })"
