@@ -1,26 +1,39 @@
 {
+	# Global options block
+	email admin@fiction.com
+	acme_dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+
+	# Use persistent storage for certificates
 	storage file_system {
 		root /data/caddy
 	}
 
+	# Debug logging
 	log {
 		output stderr
 		format console
-		level INFO
+		level WARN
 	}
 
-	# DNS challenge config - no resolvers needed
-	acme_dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+	on_demand_tls {
+		# TODO - Add verification endpoint for domain ownership
+		ask http://fiction-gateway.internal:6565/api/ok
+	}
 }
 
 :443 {
-	# Main proxy config
 	reverse_proxy fiction-gateway.internal:6565 {
 		header_up Host {http.request.host}
 		header_up X-Real-IP {remote_ip}
 		header_up X-Forwarded-For {remote_ip}
-		header_up X-Forwarded-Proto {http.request.scheme}
+		header_up X-Forwarded-Proto https
 	}
 
-	encode gzip
+	tls {
+		issuer acme {
+			disable_http_challenge
+			disable_tlsalpn_challenge
+		}
+		on_demand
+	}
 }

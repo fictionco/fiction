@@ -1,8 +1,3 @@
-# fly.toml app configuration file generated for fiction-gateway-proxy on 2025-02-04T00:37:27-08:00
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
-
 app = 'fiction-gateway-proxy'
 primary_region = 'lax'
 
@@ -13,26 +8,39 @@ dockerfile = './Dockerfile'
 strategy = 'immediate'
 wait_timeout = '30s'
 
+# Persistent volume for certificates
 [[mounts]]
 source = 'caddy_data'
 destination = '/data'
 initial_size = '1GB'
 
+# HTTP Service
 [[services]]
-protocol = 'tcp'
+protocol = "tcp"
+internal_port = 80
+auto_stop_machines = false
+min_machines_running = 1
+
+[[services.ports]]
+port = 80
+handlers = []
+
+# HTTPS Service
+[[services]]
+protocol = "tcp"
 internal_port = 443
-auto_stop_machines = 'off'
+auto_stop_machines = false
 min_machines_running = 1
 
 [[services.ports]]
 port = 443
+handlers = []
 
-[[services.tcp_checks]]
-interval = '30s'
-timeout = '10s'
-grace_period = '45s'
+[metrics]
+port = 2019
+path = "/metrics"
 
 [[vm]]
-memory = '4gb'
+memory = '1gb'
 cpu_kind = 'shared'
 cpus = 2

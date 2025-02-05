@@ -1,8 +1,5 @@
-# fly.toml for fiction-gateway
 app = 'fiction-gateway'
 primary_region = 'lax'
-kill_timeout = "5s"
-kill_signal = "SIGINT"
 
 [build]
 dockerfile = './Dockerfile'
@@ -11,35 +8,25 @@ build-target = 'fiction-gateway'
 [deploy]
 strategy = 'bluegreen'
 
-# HTTP Service (Port 80)
-[[services]]
-protocol = "tcp"
+[http_service]
 internal_port = 6565
-auto_stop_machines = false # Changed to match example
-auto_start_machines = false # Changed to match example
+auto_stop_machines = true
+auto_start_machines = true
+min_machines_running = 1
+processes = [ 'app' ]
 
-[services.concurrency]
-hard_limit = 170 # Adjusted to match example
-soft_limit = 150 # Adjusted to match example
+[http_service.concurrency]
+type = 'requests'
+hard_limit = 1000
+soft_limit = 500
 
-[[services.ports]]
-port = 80
-handlers = [ "http" ]
-
-# HTTPS Service (Port 443)
-[[services]]
-protocol = "tcp"
-internal_port = 6565
-auto_stop_machines = false
-auto_start_machines = false
-
-[services.concurrency]
-hard_limit = 170
-soft_limit = 150
-
-[[services.ports]]
-port = 443
-# No handlers for raw TCP mode
+[[http_service.checks]]
+timeout = '5s'
+grace_period = "10s"
+interval = "60s"
+method = 'GET'
+path = '/api/health'
+tls_skip_verify = false
 
 [[vm]]
 size = 'performance-1x'

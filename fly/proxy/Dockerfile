@@ -7,3 +7,6 @@ RUN mkdir -p /data/caddy && \
     chmod +x /entry.sh
 
 ENTRYPOINT ["/entry.sh"]
+
+# flyctl deploy --config ./fly/proxy/fiction.gateway-proxy.toml
+# flyctl secrets import < ./@fiction/core/.env --app fiction-gateway-proxy
