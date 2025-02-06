@@ -35,7 +35,7 @@ const options: InputOption[] = [
         key: 'group.subDomain',
         label: 'Fiction Subdomain',
         input: 'group',
-        icon: { class: 'i-tabler-world-latitude' },
+        icon: { class: 'i-tabler-world-bolt' },
         options: [
           createOption({
             key: 'subDomain',
@@ -59,7 +59,7 @@ const options: InputOption[] = [
         key: 'group.subDomain',
         label: 'Custom Domain',
         input: 'group',
-        icon: { class: 'i-tabler-world-longitude' },
+        icon: { class: 'i-tabler-world-www' },
         options: [
           createOption({
             key: 'customDomains',
@@ -80,7 +80,7 @@ const options: InputOption[] = [
         key: 'group.instructions',
         label: 'Domain Setup Instructions',
         input: 'group',
-        icon: { class: 'i-tabler-world-longitude' },
+        icon: { class: 'i-tabler-world-question' },
         options: [
           createOption({
             key: 'domainSetupInstructions',
