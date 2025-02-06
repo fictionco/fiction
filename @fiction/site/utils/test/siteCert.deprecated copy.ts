@@ -75,7 +75,7 @@ describe('updateCustomDomains', async () => {
     expect(updatedSite?.customDomains[0].hostname).toBe(newDomain.hostname)
     expect(updatedSite?.customDomains[0].isPrimary).toBe(true)
 
-    const deployedCert1 = await testUtils.fictionSites.queries.ManageCert.serve({ _action: 'retrieve', hostname: newDomain.hostname, allowInTest: true }, { ...meta, caller: 'updateCustomDomains' })
+    const deployedCert1 = await testUtils.fictionSites.queries.ManageDomain.serve({ _action: 'retrieve', hostname: newDomain.hostname, allowInTest: true }, { ...meta, caller: 'updateCustomDomains' })
 
     expect(deployedCert1.status).toBe('success')
     expect(deployedCert1.data?.hostname).toBe(hostname)
@@ -90,7 +90,7 @@ describe('updateCustomDomains', async () => {
 
     expect(updatedSite2?.customDomains).toHaveLength(0)
 
-    const deployedCert2 = await testUtils.fictionSites.queries.ManageCert.serve({ _action: 'retrieve', hostname: newDomain.hostname, allowInTest: true }, { ...meta, caller: 'updateCustomDomains' })
+    const deployedCert2 = await testUtils.fictionSites.queries.ManageDomain.serve({ _action: 'retrieve', hostname: newDomain.hostname, allowInTest: true }, { ...meta, caller: 'updateCustomDomains' })
 
     expect(deployedCert2).toMatchInlineSnapshot(`
       {

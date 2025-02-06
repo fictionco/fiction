@@ -3,7 +3,7 @@ import { snap } from '@fiction/core/test-utils'
 import { afterAll, describe, expect, it } from 'vitest'
 import { createSiteTestUtils } from './testUtils'
 
-describe('manageCertificates', { retry: isCi() ? 3 : 0 }, async () => {
+describe('manageDomain', { retry: isCi() ? 3 : 0 }, async () => {
   const hostname = 'example.com'
   const maskedKeys = ['id', 'dnsValidationInstructions', 'dnsValidationTarget', 'issued', 'nodes']
   const testUtils = await createSiteTestUtils()
@@ -13,7 +13,7 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, async () => {
 
   describe('error handling', () => {
     it('should handle missing action parameter', async () => {
-      const r1 = await testUtils.fictionSites.requests.ManageCert.request({
+      const r1 = await testUtils.fictionSites.requests.ManageDomain.request({
         hostname: 'example.com',
         allowInTest: true,
       })
@@ -22,7 +22,7 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, async () => {
     })
 
     it('should handle missing hostname parameter', async () => {
-      const r1 = await testUtils.fictionSites.requests.ManageCert.request({
+      const r1 = await testUtils.fictionSites.requests.ManageDomain.request({
         _action: 'create',
         allowInTest: true,
       })
@@ -31,7 +31,7 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, async () => {
     })
 
     it('should handle invalid action parameter', async () => {
-      const r1 = await testUtils.fictionSites.requests.ManageCert.request({
+      const r1 = await testUtils.fictionSites.requests.ManageDomain.request({
         // @ts-expect-error testing invalid action
         _action: 'invalid',
         hostname: 'example.com',
@@ -48,7 +48,7 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, async () => {
       const originalToken = testUtils.fictionSites.settings.flyApiToken
       testUtils.fictionSites.settings.flyApiToken = 'invalid-token'
 
-      await expect(testUtils.fictionSites.queries.ManageCert.verifyAuthentication()).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: [CERTS-AUTH] API token verification failed]`)
+      await expect(testUtils.fictionSites.queries.ManageDomain.verifyAuthentication()).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: [CERTS-AUTH] API token verification failed]`)
 
       // Restore token
       testUtils.fictionSites.settings.flyApiToken = originalToken
@@ -57,7 +57,7 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, async () => {
 
   describe('allowInTest behavior', () => {
     it('should return test message when allowInTest is false', async () => {
-      const r1 = await testUtils.fictionSites.requests.ManageCert.request({
+      const r1 = await testUtils.fictionSites.requests.ManageDomain.request({
         _action: 'create',
         hostname: 'example.com',
         allowInTest: false,
@@ -75,14 +75,14 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, async () => {
   describe('certificate lifecycle', () => {
     it('should handle already existing certificate', async () => {
       // Create certificate first
-      await testUtils.fictionSites.requests.ManageCert.request({
+      await testUtils.fictionSites.requests.ManageDomain.request({
         _action: 'create',
         hostname: 'duplicate.com',
         allowInTest: true,
       })
 
       // Try to create again
-      const r1 = await testUtils.fictionSites.requests.ManageCert.request({
+      const r1 = await testUtils.fictionSites.requests.ManageDomain.request({
         _action: 'create',
         hostname: 'duplicate.com',
         allowInTest: true,
@@ -92,7 +92,7 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, async () => {
       expect(r1.data?.clientStatus).toMatchInlineSnapshot(`"Awaiting configuration"`)
 
       // Clean up
-      await testUtils.fictionSites.requests.ManageCert.request({
+      await testUtils.fictionSites.requests.ManageDomain.request({
         _action: 'delete',
         hostname: 'duplicate.com',
         allowInTest: true,
@@ -100,7 +100,7 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, async () => {
     })
 
     it('should verify certificate after creation', async () => {
-      const r1 = await testUtils.fictionSites.requests.ManageCert.request({
+      const r1 = await testUtils.fictionSites.requests.ManageDomain.request({
         _action: 'create',
         hostname: 'verify-test.com',
         allowInTest: true,
@@ -112,7 +112,7 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, async () => {
     })
 
     it('should handle certificate not found during retrieval', async () => {
-      const r1 = await testUtils.fictionSites.requests.ManageCert.request({
+      const r1 = await testUtils.fictionSites.requests.ManageDomain.request({
         _action: 'retrieve',
         hostname: 'nonexistent.com',
         allowInTest: true,
@@ -124,11 +124,11 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, async () => {
   })
 
   it('should set certificates', async () => {
-    const r1 = await testUtils.fictionSites.requests.ManageCert.request({ _action: 'create', hostname: 'www.fiction.com', appId: 'fiction-website', allowInTest: true })
+    const r1 = await testUtils.fictionSites.requests.ManageDomain.request({ _action: 'create', hostname: 'www.fiction.com', appId: 'fiction-website', allowInTest: true })
     expect(r1.status).toBe('success')
     expect(snap(r1.data, { maskedKeys })).toMatchInlineSnapshot(`undefined`)
 
-    const r2 = await testUtils.fictionSites.requests.ManageCert.request({ _action: 'create', hostname: 'test-site.fiction.com', appId: 'fiction-sites', allowInTest: true })
+    const r2 = await testUtils.fictionSites.requests.ManageDomain.request({ _action: 'create', hostname: 'test-site.fiction.com', appId: 'fiction-sites', allowInTest: true })
     expect(r2.status).toBe('success')
     expect(snap(r2.data, { maskedKeys })).toMatchInlineSnapshot(`
       {
@@ -164,12 +164,12 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, async () => {
   })
 
   it('should get certificate', async () => {
-    const r1 = await testUtils.fictionSites.requests.ManageCert.request({ _action: 'retrieve', hostname, allowInTest: true })
+    const r1 = await testUtils.fictionSites.requests.ManageDomain.request({ _action: 'retrieve', hostname, allowInTest: true })
     expect(r1.status).toBe('success')
     expect(r1.data).toMatchInlineSnapshot(`undefined`)
 
     if (r1.data) {
-      const r2 = await testUtils.fictionSites.requests.ManageCert.request({ _action: 'delete', hostname, allowInTest: true })
+      const r2 = await testUtils.fictionSites.requests.ManageDomain.request({ _action: 'delete', hostname, allowInTest: true })
 
       expect(r2.status).toBe('success')
       expect(r2.data).toMatchInlineSnapshot(`undefined`)
@@ -180,7 +180,7 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, async () => {
     if (!testUtils)
       throw new Error('testUtils not defined')
 
-    const r1 = await testUtils.fictionSites.requests.ManageCert.request({ _action: 'create', hostname, allowInTest: true })
+    const r1 = await testUtils.fictionSites.requests.ManageDomain.request({ _action: 'create', hostname, allowInTest: true })
     expect(r1.status).toBe('success')
     expect(snap(r1.data, { maskedKeys })).toMatchInlineSnapshot(`
       {
@@ -208,7 +208,7 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, async () => {
   })
 
   it('should check certificate', async () => {
-    const r1 = await testUtils.fictionSites.requests.ManageCert.request({ _action: 'check', hostname, allowInTest: true })
+    const r1 = await testUtils.fictionSites.requests.ManageDomain.request({ _action: 'check', hostname, allowInTest: true })
 
     expect(r1.status).toBe('success')
     expect(snap(r1.data, { maskedKeys })).toMatchInlineSnapshot(`
@@ -236,7 +236,7 @@ describe('manageCertificates', { retry: isCi() ? 3 : 0 }, async () => {
   })
 
   it('should delete certificate', async () => {
-    const r1 = await testUtils.fictionSites.requests.ManageCert.request({ _action: 'delete', hostname, allowInTest: true })
+    const r1 = await testUtils.fictionSites.requests.ManageDomain.request({ _action: 'delete', hostname, allowInTest: true })
 
     expect(r1.status).toBe('success')
     expect(snap(r1.data, { maskedKeys })).toMatchInlineSnapshot(`

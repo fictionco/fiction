@@ -87,7 +87,7 @@ describe('user config', async () => {
           "ManageSite",
           "ManageSites",
           "ManagePage",
-          "ManageCert",
+          "ManageDomain",
           "OrgMembers",
           "TeamInvite",
           "SeekInviteFromUser",

@@ -11,7 +11,7 @@ import { crossVar, FictionPlugin, getAnonymousId, isNode, safeDirname, vue } fro
 import { EnvVar, vars } from '@fiction/core/plugin-env'
 import { getWidgets } from './admin/widgets.js'
 import { CardQueryHandler } from './cardQuery.js'
-import { ManageCert } from './endpoint-certs.js'
+import { ManageDomain } from './endpoint-domains.js'
 import { ManagePage, ManageSite, ManageSites } from './endpoint.js'
 import { loadSitemap } from './load.js'
 import { FictionSiteBuilder } from './plugin-builder/index.js'
@@ -60,7 +60,7 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     ManageSite: new ManageSite({ ...this.settings, fictionSites: this }),
     ManageSites: new ManageSites({ ...this.settings, fictionSites: this }),
     ManagePage: new ManagePage({ ...this.settings, fictionSites: this }),
-    ManageCert: new ManageCert({ ...this.settings, fictionSites: this }),
+    ManageDomain: new ManageDomain({ ...this.settings, fictionSites: this }),
   }
 
   requests = this.createRequests({ queries: this.queries, fictionServer: this.settings.fictionServer, fictionUser: this.settings.fictionUser })

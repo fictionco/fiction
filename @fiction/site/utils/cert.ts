@@ -68,7 +68,7 @@ export async function updateCustomDomains(args: {
 //       return
 
 //     fictionSites.log.warn('deleting domain', { data: { domain } })
-//     const result = await fictionSites.queries.ManageCert.serve({ _action: 'delete', hostname: domain.hostname, allowInTest: true }, { caller: 'updateSiteCerts' })
+//     const result = await fictionSites.queries.ManageDomain.serve({ _action: 'delete', hostname: domain.hostname, allowInTest: true }, { caller: 'updateSiteCerts' })
 //     if (result.status !== 'success')
 //       throw _stop('cert not deleted', { data: { domain, result } })
 
@@ -83,7 +83,7 @@ export async function updateCustomDomains(args: {
 
 //     fictionSites.log.warn('create/check domain', { data: { domain } })
 
-//     const result = await fictionSites.queries.ManageCert.serve({ _action: 'create', hostname, siteId, allowInTest: true }, { caller: 'updateSiteCerts' })
+//     const result = await fictionSites.queries.ManageDomain.serve({ _action: 'create', hostname, siteId, allowInTest: true }, { caller: 'updateSiteCerts' })
 
 //     if (result.status === 'success' && result.data) {
 //       const prepped = fictionDb.prep({ type: 'internal', fields: { ...domain, ...result.data }, table: t.domains, meta })

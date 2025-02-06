@@ -1,6 +1,7 @@
 import type { EndpointMeta, EndpointResponse } from '@fiction/core'
+import type express from 'express'
 import type { SitesQuerySettings } from './endpoint.js'
-import { isNode } from '@fiction/core'
+import { Endpoint, isNode } from '@fiction/core'
 import nodeFetch from 'node-fetch'
 import { SitesQuery } from './endpoint.js'
 
@@ -30,7 +31,7 @@ type CertificateDetails = Partial<{
   _action: string
 }>
 
-interface ManageCertParams {
+interface ManageDomainParams {
   _action?: 'create' | 'retrieve' | 'delete' | 'check'
   hostname?: string
   siteId?: string
@@ -38,7 +39,7 @@ interface ManageCertParams {
   allowInTest?: boolean
 }
 
-export class ManageCert extends SitesQuery {
+export class ManageDomain extends SitesQuery {
   graphqlEndpoint = 'https://api.fly.io/graphql'
   fictionSites = this.settings.fictionSites
   flyApiToken = this.fictionSites.settings.flyApiToken
@@ -56,6 +57,28 @@ export class ManageCert extends SitesQuery {
       if (!this.flyAppId)
         throw new Error('[CERTS-INIT] Fly.io App ID is required for managing certificates.')
     }
+
+    const checkoutEndpoint = new Endpoint({
+      requestHandler: async (...r) => this.verifyHostname({ request: r[0], response: r[1] }),
+      key: 'hostnameVerify',
+      basePath: '/hostname-verify',
+      serverUrl: this.settings.fictionServer.serverUrl.value,
+      fictionUser: this.settings.fictionUser,
+      fictionEnv: this.settings.fictionEnv,
+      useNaked: true,
+    })
+
+    this.settings.fictionServer.addEndpoints([checkoutEndpoint])
+  }
+
+  async verifyHostname(args: {
+    request: express.Request
+    response: express.Response
+  }) {
+    const { request, response } = args
+
+    this.log.info('verify hostname', { data: { query: request.query, body: request.body } })
+    response.send('ok').end()
   }
 
   private readonly AUTH_CHECK_QUERY = `
@@ -107,7 +130,7 @@ export class ManageCert extends SitesQuery {
     })
   }
 
-  private async graphqlRequest(query: string, args: ManageCertParams): Promise<CertificateDetails> {
+  private async graphqlRequest(query: string, args: ManageDomainParams): Promise<CertificateDetails> {
     if (!this.isAuthenticated && !this.settings.fictionEnv.isApp.value) {
       this.log.warn('[CERTS-REQUEST] Making request without verified authentication', { data: {
         requestId: this.requestId,
@@ -172,7 +195,7 @@ export class ManageCert extends SitesQuery {
     }
   }
 
-  public async run(args: ManageCertParams, _meta: EndpointMeta): Promise<EndpointResponse<CertificateDetails>> {
+  public async run(args: ManageDomainParams, _meta: EndpointMeta): Promise<EndpointResponse<CertificateDetails>> {
     const { _action, hostname, allowInTest } = args
 
     let query = ''
