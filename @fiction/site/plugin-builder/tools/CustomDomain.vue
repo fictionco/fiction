@@ -1,10 +1,8 @@
 <script lang="ts" setup>
-import type { Site, TableSiteConfig } from '@fiction/platform'
+import type { Site } from '@fiction/platform'
 import type { UiElementSize } from '@fiction/ui/utils'
 import { vue } from '@fiction/core'
-import { saveSite } from '@fiction/site/utils/site'
 import XButton from '@fiction/ui/buttons/XButton.vue'
-import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
 
 export interface CustomDomain {

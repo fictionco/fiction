@@ -1,13 +1,11 @@
 <script lang="ts" setup>
 import type { MediaObject } from '@fiction/core'
-import type { InputOption } from '.'
 import { determineMediaFormat, MediaDisplaySchema as schema, vue } from '@fiction/core'
 import { createOption } from '.'
 import XButton from '../buttons/XButton.vue'
 import ElModal from '../ElModal.vue'
 import XLogo from '../media/XLogo.vue'
 import XMedia from '../media/XMedia.vue'
-import ElInput from './ElInput.vue'
 import FormEngine from './FormEngine.vue'
 import LibraryBackground from './LibraryBackground.vue'
 import LibraryHtml from './LibraryHtml.vue'

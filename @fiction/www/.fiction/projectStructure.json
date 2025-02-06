@@ -123,6 +123,7 @@
       "plugin-clickhouse": {
         "index.ts": null,
         "package.json": null,
+        "performance.ts": null,
         "types.ts": null,
         "utils.ts": null
       },
@@ -1158,7 +1159,7 @@
       "cardQuery.ts": null,
       "cardStandard.ts": null,
       "classification.ts": null,
-      "endpoint-certs.ts": null,
+      "endpoint-domains.ts": null,
       "endpoint.ts": null,
       "generation.ts": null,
       "hooks.ts": null,
@@ -1166,7 +1167,6 @@
       "load.ts": null,
       "package.json": null,
       "plugin-builder": {
-        "InputCustomDomains.vue": null,
         "SiteEditor.vue": null,
         "SiteEditorFrame.vue": null,
         "ViewPreview.vue": null,
@@ -1179,6 +1179,8 @@
         },
         "index.ts": null,
         "tools": {
+          "CustomDomain.vue": null,
+          "CustomDomainInstructions.vue": null,
           "InputAddElements.vue": null,
           "InputManageLayout.vue": null,
           "InputManagePages.vue": null,
@@ -1607,6 +1609,7 @@
         "LibraryIcon.vue": null,
         "LibraryMedia.vue": null,
         "LibraryMediaGallery.vue": null,
+        "LibraryModal copy.vue": null,
         "LibraryModal.vue": null,
         "LibraryModalOld.vue": null,
         "__InputItems.vue": null,
@@ -1806,11 +1809,18 @@
     "nginx.Dockerfile": null,
     "nginx.conf": null,
     "pgvector.Dockerfile": null,
+    "proxy": {
+      "Caddyfile": null,
+      "Dockerfile": null,
+      "entry.sh": null,
+      "fiction.gateway-proxy.toml": null
+    },
     "static.Dockerfile": null,
     "supereon.www.toml": null
   },
   "icon-blue.png": null,
   "icon-elite.png": null,
+  "icon-red.png": null,
   "index.ts": null,
   "package.json": null,
   "pnpm-lock.yaml": null,

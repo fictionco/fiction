@@ -16,22 +16,29 @@ export async function cacheSession(params: {
 }): Promise<SessionEvent | undefined> {
   const { _action, anonymousId, fictionAnalytics } = params
   const key = fictionAnalytics.getCacheKey('session', anonymousId)
-  if (_action === 'get') {
-    const r = await fictionAnalytics.getCache()?.get(key)
+  const cache = fictionAnalytics.getCache()
 
-    return r ? (JSON.parse(r)) : undefined
+  try {
+    if (_action === 'get') {
+      const r = await cache?.get(key)
+
+      return r ? (JSON.parse(r)) : undefined
+    }
+    else if (_action === 'set') {
+      const { session } = params
+
+      if (!session)
+        throw new Error('no session to set')
+
+      await cache?.set(key, JSON.stringify(session))
+
+      // sets score for client ID to now
+      // https://redis.io/commands/ZADD
+      await cache?.zadd(fictionAnalytics.getCacheKey('expiration'), +Date.now(), anonymousId)
+    }
   }
-  else if (_action === 'set') {
-    const { session } = params
-
-    if (!session)
-      throw new Error('no session to set')
-
-    await fictionAnalytics.getCache()?.set(key, JSON.stringify(session))
-
-    // sets score for client ID to now
-    // https://redis.io/commands/ZADD
-    await fictionAnalytics.getCache()?.zadd(fictionAnalytics.getCacheKey('expiration'), +Date.now(), anonymousId)
+  catch (error) {
+    fictionAnalytics.log.error('error getting cacheSession', { error })
   }
 }
 

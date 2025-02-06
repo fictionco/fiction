@@ -1,7 +1,6 @@
 # LibraryModal.vue
 <script lang="ts" setup>
 import type { MediaObject } from '@fiction/core'
-import type { InputOption } from '.'
 import { determineMediaFormat, MediaDisplaySchema as schema, vue } from '@fiction/core'
 import { createOption } from '.'
 import XButton from '../buttons/XButton.vue'

@@ -101,6 +101,10 @@
       "path": "/api/stripe-checkout/:action"
     },
     {
+      "key": "hostnameVerify",
+      "path": "/api/hostname-verify"
+    },
+    {
       "key": "CardQuery",
       "path": "/api/fiction-sites/CardQuery"
     },
@@ -117,8 +121,8 @@
       "path": "/api/fiction-sites/ManagePage"
     },
     {
-      "key": "ManageCert",
-      "path": "/api/fiction-sites/ManageCert"
+      "key": "ManageDomain",
+      "path": "/api/fiction-sites/ManageDomain"
     },
     {
       "key": "OrgMembers",

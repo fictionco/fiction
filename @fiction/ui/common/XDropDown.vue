@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { NavItem, NavListItem } from '@fiction/core'
+import type { NavItem } from '@fiction/core'
 import { onResetUi, resetUi, useService, vue } from '@fiction/core'
 
 const { items = [], placement = 'bottom', widthClass = 'w-48' } = defineProps<{

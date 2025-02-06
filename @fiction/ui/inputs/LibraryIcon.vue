@@ -2,7 +2,7 @@
 import type { MediaObject } from '@fiction/core'
 import type { IconCategory, IconName } from '@fiction/ui/lib/systemIcons'
 import { vue } from '@fiction/core'
-import { getIconList, recommendedIcons } from '@fiction/ui/lib/systemIcons'
+import { recommendedIcons } from '@fiction/ui/lib/systemIcons'
 import XIcon from '../media/XIcon.vue'
 import ElInput from './ElInput.vue'
 
