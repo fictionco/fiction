@@ -199,7 +199,7 @@ export async function loadSite(args: {
 export function domainMountContext({ runVars }: { runVars: Partial<RunVars> }): MountContext {
   const { HOSTNAME = '', ORIGINAL_HOST } = runVars
 
-  const specialDomains = ['lan.', 'fiction.']
+  const specialDomains = ['lan.', 'fiction.', 'fictionsites.']
   const isSpecialSubDomain = specialDomains.some(prefix => HOSTNAME.includes(prefix))
   const isSpecialOriginalHost = specialDomains.some(prefix => ORIGINAL_HOST?.includes(prefix))
   const subDomain = HOSTNAME.split('.')[0]

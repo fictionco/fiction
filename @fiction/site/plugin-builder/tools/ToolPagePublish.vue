@@ -39,9 +39,9 @@ const options: InputOption[] = [
         options: [
           createOption({
             key: 'subDomain',
-            label: 'Free Fiction Domain',
+            label: 'Staging Domain',
             subLabel: 'Your site\'s included web address',
-            description: 'Choose a unique name for your free Fiction-hosted domain. This will be your site\'s default address.',
+            description: 'Be default your site will be available at this address.',
             input: 'InputUsername',
             isRequired: true,
 
