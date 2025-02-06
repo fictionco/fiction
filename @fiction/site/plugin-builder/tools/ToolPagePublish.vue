@@ -3,27 +3,23 @@ import type { AdminEditorController, EditorTool } from '@fiction/admin'
 import type { FictionApp } from '@fiction/core'
 import type { InputOption } from '@fiction/ui'
 import type { Site } from '../../site'
-import type { TableSiteConfig } from '../../tables'
 import type { ToolKeys } from './tools'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
 import { useService, vue } from '@fiction/core'
 import { createOption } from '@fiction/ui'
-import XButton from '@fiction/ui/buttons/XButton.vue'
-import ElModalConfirm from '@fiction/ui/ElModalConfirm.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import { t } from '../../tables'
-import { activeSiteHostname, saveSite } from '../../utils/site'
+import { activeSiteHostname, updateSite } from '../../utils/site'
 
-const props = defineProps({
-  site: { type: Object as vue.PropType<Site>, required: true },
-  tool: { type: Object as vue.PropType<EditorTool>, required: true },
-  saveText: { type: String, default: 'Save' },
-  controller: { type: Object as vue.PropType<AdminEditorController<{ toolIds: ToolKeys }>>, required: true },
-})
+const props = defineProps<{
+  site: Site
+  tool: EditorTool
+  controller: AdminEditorController<{ toolIds: ToolKeys }>
+  saveText?: string
+}>()
 
 const { fictionAppSites } = useService<{ fictionAppSites: FictionApp }>()
-const loading = vue.ref(false)
 
 function getSuffixUrl() {
   return new URL(fictionAppSites.liveUrl.value).hostname.split('.').slice(-2).join('.')
@@ -67,15 +63,30 @@ const options: InputOption[] = [
         options: [
           createOption({
             key: 'customDomains',
-            label: 'Custom Domain',
-            subLabel: 'Use your own domain name',
+            label: 'Enter Custom Domain',
+            subLabel: 'Add custom domains for this site (e.g. www.example.com)',
             description: 'Connect your own domain name to your site. You\'ll need to update your DNS settings with your domain provider.',
-            input: vue.defineAsyncComponent(() => import('../InputCustomDomains.vue')),
+            input: vue.defineAsyncComponent(() => import('./CustomDomain.vue')),
             isRequired: true,
 
             props: {
               destination: activeSiteHostname(props.site, { isProd: true }).value,
               uiSize: 'md',
+            },
+          }),
+        ],
+      }),
+      createOption({
+        key: 'group.instructions',
+        label: 'Domain Setup Instructions',
+        input: 'group',
+        icon: { class: 'i-tabler-world-longitude' },
+        options: [
+          createOption({
+            key: 'domainSetupInstructions',
+            input: vue.defineAsyncComponent(() => import('./CustomDomainInstructions.vue')),
+            props: {
+              destination: activeSiteHostname(props.site, { isProd: true }).value,
             },
           }),
         ],
@@ -86,65 +97,25 @@ const options: InputOption[] = [
 
 ]
 
-const tempSite = vue.ref<Partial<TableSiteConfig>>({})
-
 const v = vue.computed({
-  get: () => ({ ...props.site.toConfig(), ...props.site.editor.value.tempSite }),
-  set: v => (props.site.editor.value.tempSite = v),
+  get: () => props.site.toConfig(),
+  set: async (v) => {
+    await updateSite({ site: props.site, newConfig: v, caller: 'updateGlobalSettings' })
+  },
 })
-
-async function save() {
-  loading.value = true
-  await saveSite({ site: props.site, delayUntilSaveConfig: props.site.editor.value.tempSite, successMessage: 'Published Successfully', isPublishingDomains: true })
-  props.site.editor.value.tempSite = {}
-  loading.value = false
-}
-
-function reset() {
-  tempSite.value = {}
-}
-const showConfirm = vue.ref(false)
 </script>
 
 <template>
   <ElTool
     v-bind="props"
   >
-    <ElForm @submit="showConfirm = true">
-      <FormEngine v-model="v" state-key="publish" :options :input-props="{ site }" />
-
-      <div class="text-right px-4 py-2 border-t border-theme-200 dark:border-theme-600 pt-4 space-x-4 flex justify-between">
-        <XButton rounding="full" theme="default" title="Discard all domain changes" @click="reset()">
-          Discard Changes
-        </XButton>
-        <XButton
-          :loading="loading"
-          type="submit"
-          theme="primary"
-          rounding="full"
-          :disabled="Object.keys(props.site.editor.value.tempSite).length === 0"
-          :title="Object.keys(props.site.editor.value.tempSite).length === 0
-            ? 'No pending domain changes'
-            : 'Apply domain changes'"
-        >
-          {{ loading ? 'Updating Domains...' : 'Update Site Address' }}
-        </XButton>
-      </div>
+    <ElForm>
+      <FormEngine
+        v-model="v"
+        state-key="publishSettings"
+        :options="options"
+        :input-props="{ site }"
+      />
     </ElForm>
-    <ElModalConfirm
-      v-model:vis="showConfirm"
-      title="Confirm Domain Changes"
-      sub="Your site's web address will change immediately after you confirm. If you're using a custom domain, make sure you've updated your DNS settings with your domain provider first to avoid any disruption.
-
-If you proceed:
-- Your site will be accessible at the new address immediately
-- The old address will no longer work
-- You may need to clear your browser cache to see the changes
-
-Are you ready to update your site's address?"
-      confirm-text="Yes, Update Address"
-      cancel-text="Not Yet"
-      @confirmed="save()"
-    />
   </ElTool>
 </template>

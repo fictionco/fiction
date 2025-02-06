@@ -8,6 +8,7 @@ import ViewEditor from '@fiction/admin/ViewEditor.vue'
 import CardButton from '@fiction/cards/CardButton.vue'
 import CardLink from '@fiction/cards/el/CardLink.vue'
 import { onResetUi, resetUi, useService, vue } from '@fiction/core'
+import XDropDown from '@fiction/ui/common/XDropDown.vue'
 import XText from '@fiction/ui/common/XText.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
@@ -144,7 +145,7 @@ async function resetToPublished() {
           <div class="flex space-x-1 font-medium">
             <CardLink
               :card
-              class="whitespace-nowrap  dark:text-theme-300 pr-1 hover:text-primary-500 dark:hover:text-theme-0 hidden md:flex items-center gap-1"
+              class="whitespace-nowrap  dark:text-theme-300 pr-1 hover:text-primary-500 dark:hover:text-theme-0 hidden lg:flex items-center gap-1"
               href="/"
             >
               <span class="i-tabler-browser-plus text-xl inline-block dark:text-theme-500" />
@@ -167,17 +168,35 @@ async function resetToPublished() {
             :classes="{ text: 'hidden md:inline' }"
           />
 
-          <CardButton
-            :card
-            theme="default"
-            :href="`${activeSiteDisplayUrl(site, { mode: 'staging' }).value}?_scope=draft`"
-            target="_blank"
-            size="md"
-            icon="i-tabler-arrow-up-right"
-            data-test-id="viewSiteButton"
-          >
-            View Site
-          </CardButton>
+          <div class="flex gap-2 items-center">
+            <XDropDown
+              v-slot="{ toggle }"
+              :items="[
+                {
+                  label: 'Published Site',
+                  href: `${activeSiteDisplayUrl(site, { mode: 'staging' }).value}`,
+                },
+                {
+                  label: 'Site with Draft Changes',
+                  href: `${activeSiteDisplayUrl(site, { mode: 'staging' }).value}?_scope=draft`,
+                },
+              ]"
+            >
+              <CardButton
+                :card
+                theme="default"
+                :href="`${activeSiteDisplayUrl(site, { mode: 'staging' }).value}`"
+                target="_blank"
+                size="md"
+                icon="i-tabler-eye"
+                icon-after="i-tabler-chevron-down"
+                data-test-id="viewSiteButton"
+                @click="toggle()"
+              >
+                Preview
+              </CardButton>
+            </XDropDown>
+          </div>
           <CardButton
             v-if="site.editor.value.savedNeedsPublish || site.editor.value.isDirty"
             :card

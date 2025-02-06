@@ -7,7 +7,7 @@ import { applyComplexFilters, dayjs, deepMerge, incrementSlugId, objectId, omit,
 import { abort } from '@fiction/core/utils/error.js'
 import { Card } from './card.js'
 import { t } from './tables.js'
-import { updateSiteCerts } from './utils/cert.js'
+import { updateCustomDomains } from './utils/cert.js'
 import { getPageWordCount } from './utils/page.js'
 import { trackSiteMetrics } from './utils/site.js'
 
@@ -476,6 +476,13 @@ export class ManageSite extends SitesQuery {
 
     await this.updateSitePages({ siteId: site.siteId, fields: themeSite.pages || [], userId, orgId, scope }, meta)
 
+    await updateCustomDomains({
+      siteId: site.siteId,
+      customDomains: fields.customDomains,
+      fictionSites: this.settings.fictionSites,
+      fictionDb: this.settings.fictionDb,
+    }, meta)
+
     const finalSite = await this.fetchSiteWithDetails({ selector: { siteId: site.siteId }, scope })
 
     await this.settings.fictionMonitor?.slackNotify({ message: '*New Site Created*', data: finalSite })
@@ -519,7 +526,7 @@ export class ManageSite extends SitesQuery {
 
     await db.transaction(async (trx) => {
       [updatedSite] = await trx(t.sites)
-        .update({ orgId, userId, ...prepped })
+        .update({ orgId, userId, ...prepped, draft: {} })
         .where({ orgId, ...selector })
         .returning('*')
 
@@ -538,6 +545,13 @@ export class ManageSite extends SitesQuery {
     if (fields.pages && fields.pages.length) {
       await this.updateSitePages({ siteId: updatedSite.siteId, fields: fields.pages, userId, orgId, scope }, meta)
     }
+
+    await updateCustomDomains({
+      siteId: updatedSite.siteId,
+      customDomains: fields.customDomains,
+      fictionSites: this.settings.fictionSites,
+      fictionDb: this.settings.fictionDb,
+    }, meta)
 
     const finalSite = await this.fetchSiteWithDetails({ selector, scope })
 
@@ -709,10 +723,6 @@ export class ManageSite extends SitesQuery {
     const { isPublishingDomains, fields } = params as ManageSiteParams & ({ _action: 'update' } | { _action: 'create' })
     const { siteId } = result.data!
 
-    if (isPublishingDomains) {
-      await updateSiteCerts({ siteId, customDomains: fields.customDomains, fictionSites: this.settings.fictionSites, fictionDb: this.settings.fictionDb }, meta)
-    }
-
     const updatedResult = await this.run({
       _action: 'retrieve',
       where: { siteId },
@@ -781,12 +791,15 @@ export class ManageSite extends SitesQuery {
       if (scope === 'draft') {
         site = deepMerge([site, site.draft as TableSiteConfig])
       }
+      else {
+        // Get domains
+        const domains = await db
+          .select()
+          .from(t.domains)
+          .where({ siteId: site.siteId })
 
-      // Get domains
-      const domains = await db
-        .select()
-        .from(t.domains)
-        .where({ siteId: site.siteId })
+        site.customDomains = domains
+      }
 
       // Get pages
       const pagesResponse = await this.settings.fictionSites.queries.ManagePage.serve({
@@ -802,7 +815,6 @@ export class ManageSite extends SitesQuery {
       // Assemble final site object
       const siteData = {
         ...omit(site, 'draft'), // Remove draft from base
-        customDomains: domains,
         pages: pagesResponse.data || [],
         org: siteOrg, // Always include org, even if empty object
       }
@@ -810,10 +822,7 @@ export class ManageSite extends SitesQuery {
       // Log warning if org data is missing
       if (!orgResponse?.data) {
         this.log.warn('Organization data not found for site', {
-          data: {
-            siteId: site.siteId,
-            orgId: site.orgId,
-          },
+          data: { siteId: site.siteId, orgId: site.orgId },
         })
       }
 
@@ -822,10 +831,7 @@ export class ManageSite extends SitesQuery {
     catch (error) {
       this.log.error('Error fetching site details', {
         error,
-        data: {
-          siteId: site.siteId,
-          orgId: site.orgId,
-        },
+        data: { siteId: site.siteId, orgId: site.orgId },
       })
 
       // Return basic site data with empty org object if error occurs
@@ -868,9 +874,9 @@ export class ManageSite extends SitesQuery {
         .where({ hostname })
 
       if (domains && domains.length) {
-        const configured = domains.filter(d => d.configured)
+        const verified = domains.filter(d => d.isVerified)
 
-        domain = configured[0] || domains[0]
+        domain = verified[0] || domains[0]
 
         const siteId = domain?.siteId
         out.siteId = siteId

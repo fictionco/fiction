@@ -94,12 +94,7 @@ export const domainCols = [
   new Col({ key: 'siteId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`${t.sites}.site_id`).onDelete('CASCADE').onUpdate('CASCADE').notNullable().index() }),
   new Col({ key: 'hostname', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k).notNullable().index() }),
   new Col({ key: 'isPrimary', sec: 'setting', sch: ({ z }) => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
-  new Col({ key: 'dnsValidationHostname', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k).defaultTo('') }),
-  new Col({ key: 'dnsValidationTarget', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k).defaultTo('') }),
-  new Col({ key: 'dnsValidationInstructions', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k).defaultTo('') }),
-  new Col({ key: 'check', sec: 'setting', sch: ({ z }) => z.boolean(), make: ({ s, col }) => s.string(col.k).defaultTo(false) }),
-  new Col({ key: 'configured', sec: 'setting', sch: ({ z }) => z.boolean(), make: ({ s, col }) => s.string(col.k).defaultTo(false) }),
-  new Col({ key: 'certificateAuthority', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k).defaultTo('') }),
+  new Col({ key: 'isVerified', sec: 'setting', sch: ({ z }) => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
 ] as const
 
 export const tables = [

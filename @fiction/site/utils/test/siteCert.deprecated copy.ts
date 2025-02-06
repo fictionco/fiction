@@ -7,10 +7,10 @@ import { afterAll, describe, expect, it } from 'vitest'
 import { requestManageSite } from '../../load.js'
 import { t } from '../../tables.js'
 import { createSiteTestUtils } from '../../test/testUtils.js'
-import { updateSiteCerts } from '../cert.js'
+import { updateCustomDomains } from '../cert.js'
 import { saveSite } from '../site.js'
 
-describe('updateSiteCerts', async () => {
+describe('updateCustomDomains', async () => {
   const testUtils = await createSiteTestUtils()
   const { user } = await testUtils.init()
   afterAll(() => testUtils.close())
@@ -38,7 +38,7 @@ describe('updateSiteCerts', async () => {
   it('adds new certs when new custom domains are added', async () => {
     const newDomain = { hostname: `test-${shortId()}.test.com` }
     const siteId = site.siteId
-    const updatedDomains = await updateSiteCerts({ siteId, customDomains: [newDomain], fictionSites, fictionDb }, {})
+    const updatedDomains = await updateCustomDomains({ siteId, customDomains: [newDomain], fictionSites, fictionDb }, {})
 
     expect(updatedDomains).toHaveLength(1)
     expect(updatedDomains[0].hostname).toBe(newDomain.hostname)
@@ -51,7 +51,7 @@ describe('updateSiteCerts', async () => {
       hostname: existingDomain.hostname,
     })
     const siteId = site.siteId
-    const updatedDomains = await updateSiteCerts({ siteId, customDomains: [], fictionSites, fictionDb }, {})
+    const updatedDomains = await updateCustomDomains({ siteId, customDomains: [], fictionSites, fictionDb }, {})
 
     const domainExists = await testUtils.fictionDb.client()(t.domains).where({ hostname: existingDomain.hostname }).first()
 
@@ -75,7 +75,7 @@ describe('updateSiteCerts', async () => {
     expect(updatedSite?.customDomains[0].hostname).toBe(newDomain.hostname)
     expect(updatedSite?.customDomains[0].isPrimary).toBe(true)
 
-    const deployedCert1 = await testUtils.fictionSites.queries.ManageCert.serve({ _action: 'retrieve', hostname: newDomain.hostname, allowInTest: true }, { ...meta, caller: 'updateSiteCerts' })
+    const deployedCert1 = await testUtils.fictionSites.queries.ManageCert.serve({ _action: 'retrieve', hostname: newDomain.hostname, allowInTest: true }, { ...meta, caller: 'updateCustomDomains' })
 
     expect(deployedCert1.status).toBe('success')
     expect(deployedCert1.data?.hostname).toBe(hostname)
@@ -90,7 +90,7 @@ describe('updateSiteCerts', async () => {
 
     expect(updatedSite2?.customDomains).toHaveLength(0)
 
-    const deployedCert2 = await testUtils.fictionSites.queries.ManageCert.serve({ _action: 'retrieve', hostname: newDomain.hostname, allowInTest: true }, { ...meta, caller: 'updateSiteCerts' })
+    const deployedCert2 = await testUtils.fictionSites.queries.ManageCert.serve({ _action: 'retrieve', hostname: newDomain.hostname, allowInTest: true }, { ...meta, caller: 'updateCustomDomains' })
 
     expect(deployedCert2).toMatchInlineSnapshot(`
       {

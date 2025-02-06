@@ -164,10 +164,10 @@ const textClass = vue.computed(() => {
       class="flex w-full min-w-0 items-center whitespace-nowrap transition-all duration-500 ease-[cubic-bezier(0.25,1,0.33,1)]"
       :class="[loading ? 'translate-y-[-150%] opacity-0' : '', wrapClass, format === 'spread' ? '' : 'justify-center']"
     >
-      <div class="flex items-center" :class="iconAdjust.gap" :data-has-content="hasContent">
-        <XIcon v-if="icon" :media="icon" class="text-[1.2em]" :class="[cls.iconClasses]" />
-        <div v-if="hasContent" class="txt" :class="textClass"><slot /></div>
-        <XIcon v-if="iconAfter" :media="iconAfter" class="text-[1.2em]" :class="[cls.iconClasses]" />
+      <div class="flex items-center min-w-0" :class="iconAdjust.gap" :data-has-content="hasContent">
+        <XIcon v-if="icon" :media="icon" class="text-[1.2em] shrink-0" :class="[cls.iconClasses]" />
+        <div v-if="hasContent" class="txt truncate min-w-0" :class="textClass"><slot /></div>
+        <XIcon v-if="iconAfter" :media="iconAfter" class="text-[1.2em] shrink-0" :class="[cls.iconClasses]" />
       </div>
     </span>
   </component>

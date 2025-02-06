@@ -4,7 +4,7 @@ import type { TableDomainConfig } from '../tables'
 import { validHost } from '@fiction/core'
 import { t } from '../tables'
 
-export async function updateSiteCerts(args: {
+export async function updateCustomDomains(args: {
   siteId: string
   customDomains?: Partial<TableDomainConfig>[]
   fictionSites: FictionSites
@@ -21,7 +21,6 @@ export async function updateSiteCerts(args: {
     .select<TableDomainConfig[]>('*')
     .where({ siteId })
 
-  // Just handle DB updates - no cert management needed
   await Promise.all(existingDomains.map(async (domain) => {
     if (validUserDomains?.some(d => d.hostname === domain.hostname))
       return

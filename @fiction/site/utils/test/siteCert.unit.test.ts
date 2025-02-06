@@ -6,10 +6,10 @@ import { afterAll, describe, expect, it } from 'vitest'
 import { requestManageSite } from '../../load.js'
 import { t } from '../../tables.js'
 import { createSiteTestUtils } from '../../test/testUtils.js'
-import { updateSiteCerts } from '../cert.js'
+import { updateCustomDomains } from '../cert.js'
 import { saveSite } from '../site.js'
 
-describe('updateSiteCerts', async () => {
+describe('updateCustomDomains', async () => {
   const testUtils = await createSiteTestUtils()
   const { user } = await testUtils.init()
   afterAll(() => testUtils.close())
@@ -33,11 +33,10 @@ describe('updateSiteCerts', async () => {
   it('adds new domain mapping when custom domain added', async () => {
     const newDomain = { hostname: `test-${shortId()}.test.com` }
     const siteId = site.siteId
-    const updatedDomains = await updateSiteCerts({ siteId, customDomains: [newDomain], fictionSites, fictionDb }, {})
+    const updatedDomains = await updateCustomDomains({ siteId, customDomains: [newDomain], fictionSites, fictionDb }, {})
 
     expect(updatedDomains).toHaveLength(1)
     expect(updatedDomains[0].hostname).toBe(newDomain.hostname)
-    expect(updatedDomains[0].configured).toBeTruthy()
   })
 
   it('removes domain mapping when custom domain removed', async () => {
@@ -47,7 +46,7 @@ describe('updateSiteCerts', async () => {
       hostname: existingDomain.hostname,
     })
 
-    const updatedDomains = await updateSiteCerts({
+    const updatedDomains = await updateCustomDomains({
       siteId: site.siteId,
       customDomains: [],
       fictionSites,

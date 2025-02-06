@@ -203,7 +203,7 @@ export async function updateSite(args: {
   noSync?: boolean
   noHistory?: boolean
 }) {
-  const { site, newConfig, noSave = false, noSync = false, noHistory = false, caller = 'updateSite' } = args
+  const { site, newConfig, noSave = false, noSync = false, caller = 'updateSite' } = args
   if (!newConfig)
     return
 
