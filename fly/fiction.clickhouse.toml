@@ -56,6 +56,6 @@ interval = 10000
 timeout = 2000
 
 [[vm]]
-memory = '2gb'
+memory = '4gb'
 cpu_kind = 'shared'
-cpus = 1
+cpus = 4

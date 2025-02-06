@@ -42,6 +42,7 @@ const URLS = {
   app: `https://www.${META.app.domain}`,
   beacon: `https://beacon.${META.app.domain}`,
   gateway: `https://*.${META.app.domain}`,
+  sites: `https://*.fictionsites.com`,
 } as const
 
 const envFiles = [path.join(apiRoot, './.env')]
@@ -120,7 +121,7 @@ const fictionAppSites = new FictionApp({
   fictionRouter: fictionRouterSites,
   port: +fictionEnv.var('GATEWAY_PORT'),
   localHostname: '*.lan.com',
-  liveUrl: URLS.gateway,
+  liveUrl: URLS.sites,
   altHostnames: [{ prod: `theme-minimal.${fictionEnv.meta.app?.domain}`, dev: 'theme-minimal.lan.com' }],
   isLive: fictionEnv.isProd,
   srcFolder: path.join(cwd, './src'),
