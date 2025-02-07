@@ -70,7 +70,7 @@ vue.onMounted(() => {
                 tag="h3"
                 :card
                 :path="`menus.${i}.title`"
-                class="text-2xl font-medium x-font-title mb-6 text-primary-500 dark:text-theme-500 animate-item"
+                class="text-lg md:text-xl font-medium x-font-title mb-6 text-primary-500 dark:text-theme-500 animate-item"
                 animate="fade"
               />
               <nav class="flex flex-col space-y-4 pl-1">

@@ -1,10 +1,14 @@
 <script lang="ts" setup>
-import { useService } from '@fiction/core'
+import type { FictionSites } from '@fiction/site'
+import { shortId, useService, vue } from '@fiction/core'
+import { Site } from '@fiction/site'
 import { InputOption, inputs } from '..'
 import XButton from '../../buttons/XButton.vue'
 import TestInput from './TestInput.vue'
 
-const service = useService()
+const service = useService<{ fictionSites: FictionSites }>()
+
+const { fictionRouter, fictionSites } = service
 
 function toggleDarkMode() {
   const body = document.body
@@ -17,6 +21,22 @@ function toggleDarkMode() {
     body.classList.add('dark')
   }
 }
+
+const site = vue.shallowRef<Site>()
+
+vue.onMounted(async () => {
+  site.value = await Site.create({
+    siteRouter: fictionRouter,
+    fictionSites,
+    themeId: 'test',
+    isProd: false,
+    siteId: `test-${shortId()}`,
+    pages: [
+      { slug: '_home' },
+      { slug: 'test' },
+    ],
+  })
+})
 </script>
 
 <template>
@@ -30,6 +50,7 @@ function toggleDarkMode() {
     </div>
 
     <form class="input-area mx-auto p-12 rounded-md">
+      <TestInput input-name="Site Route" :input-el="inputs.InputSiteRoute" :service :input-props="{ site }" />
       <TestInput input-name="Icon Library" :input-el="inputs.InputIcon" :service />
       <TestInput input-name="Media Library" :input-el="inputs.InputMedia" :service :input-props="{ isBackground: true }" />
       <TestInput input-name="Media Upload" :input-el="inputs.InputMediaUpload" :service />

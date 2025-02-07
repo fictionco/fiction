@@ -23,7 +23,7 @@ const mode = vue.ref<'select' | 'custom'>('select')
 const customPath = vue.ref('')
 
 const sitePages = vue.computed(() => {
-  const pg = props.site?.pages.value
+  const pg = props.site?.pages?.value
     .filter(p => !p.isSystem.value)
     .map(p => ({
       label: p.title.value || toLabel(p.slug.value),
