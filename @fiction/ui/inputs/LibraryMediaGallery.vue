@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { MediaObject, TableMediaConfig } from '@fiction/core'
 import { removeUndefined, useService, vue } from '@fiction/core'
+import XDropDown from '../common/XDropDown.vue'
 import EffectMasonry from '../effect/EffectMasonry.vue'
 import ElSpinner from '../loaders/ElSpinner.vue'
 import XMedia from '../media/XMedia.vue'
@@ -119,18 +120,31 @@ vue.onMounted(() => {
       <div
         v-for="media in libraryMedia"
         :key="media.mediaId"
-        class="inline-block masonry-grid-item group relative cursor-pointer overflow-hidden rounded-lg"
+        class="inline-block masonry-grid-item group relative cursor-pointer  rounded-lg"
         :class="getMasonryItemClass(media)"
         @click="selectMedia(media)"
       >
-        <XMedia
-          :media="media"
-          image-mode="cover"
-          class="absolute inset-0 w-full h-full transition-transform duration-300 group-hover:scale-110"
-        />
-        <div class="absolute inset-0 flex items-center justify-center bg-theme-900 bg-opacity-50 opacity-0 transition-opacity group-hover:opacity-100">
-          <i class="i-tabler-switch-vertical text-2xl text-theme-100" />
-          <i class="i-tabler-x absolute top-1 right-1  text-theme-100 opacity-50 hover:opacity-100 cursor-pointer" @click.stop="deleteMediaFromLibrary(media.mediaId)" />
+        <div class="absolute inset-0 overflow-hidden rounded-lg">
+          <XMedia
+            :media="media"
+            image-mode="cover"
+            class="absolute inset-0 w-full h-full transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
+        <div class="absolute inset-0 flex items-center justify-center bg-theme-900 bg-opacity-20 opacity-0 transition-opacity group-hover:opacity-100">
+          <i class="i-tabler-upload text-2xl text-theme-100 hover:opacity-100 opacity-70" />
+          <XDropDown
+            v-slot="{ isActive }"
+            dropdown-alignment="center"
+            :classes="{ wrapper: 'absolute top-1 right-1', width: 'w-24' }"
+            :items="[{ label: 'Delete', onClick: () => deleteMediaFromLibrary(media.mediaId) }]"
+            mode="click"
+          >
+            <div
+              class="i-tabler-dots text-theme-100  cursor-pointer leading-[1]"
+              :class="isActive ? 'opacity-100' : 'opacity-80 hover:opacity-100'"
+            />
+          </XDropDown>
         </div>
       </div>
     </EffectMasonry>

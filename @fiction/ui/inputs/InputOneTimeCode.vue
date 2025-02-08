@@ -9,6 +9,7 @@ const props = defineProps<{
   inputClass?: string
   uiSize?: UiElementSize
   length?: number // Number of characters in code
+  focusFirst?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -22,6 +23,7 @@ const {
   inputClass = '',
   uiSize = 'md',
   length = 6,
+  focusFirst = false,
 } = props
 
 // Create an array of refs for input elements
@@ -59,7 +61,7 @@ vue.onMounted(() => {
     })
   }
   // Focus first empty input on mount if not mobile
-  if (!('ontouchstart' in window)) {
+  if (focusFirst && !('ontouchstart' in window)) {
     focusFirstEmpty()
     // Select the text in the focused input for easy overwriting
     const firstInput = inputElements.value[0]

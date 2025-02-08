@@ -11,6 +11,8 @@ import createDOMPurify from 'dompurify'
 import knex from 'knex'
 import * as vue from 'vue'
 import * as vueRouter from 'vue-router'
+import { log } from '../plugin-log'
+import { isSSR } from './vars'
 
 dayjs.extend(relativeTime)
 dayjs.extend(utc)
@@ -44,4 +46,25 @@ function clean(text: unknown) {
   // Sanitize the text
   return DOMPurify.sanitize(text, config)
 }
+
+export function def<T extends vue.Component>(loader: vue.AsyncComponentLoader<T>): T {
+  return vue.defineAsyncComponent<T>({
+    loader,
+    loadingComponent: isSSR() ? undefined : { template: '<div/>' },
+    onError: (err, retry, fail, attempts) => {
+      const ssr = isSSR()
+      if (attempts <= 2) {
+        retry()
+      }
+      else {
+        log.info('AsyncComponent', 'Loading Error', {
+          error: err.message,
+          ...(!ssr && { component: loader.toString().split('/').pop() }),
+        })
+        fail()
+      }
+    },
+  })
+}
+
 export { axios, chalk, clean, dayjs, knex, unhead, vue, vueRouter }

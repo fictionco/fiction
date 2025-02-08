@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { MediaObject } from '@fiction/core'
-import { determineMediaFormat, MediaDisplaySchema as schema, vue } from '@fiction/core'
+import type { InputOption } from '.'
+import { determineMediaFormat, MediaDisplaySchema as schema, vue, waitFor } from '@fiction/core'
 import { createOption } from '.'
 import XButton from '../buttons/XButton.vue'
 import ElModal from '../ElModal.vue'
@@ -8,10 +9,8 @@ import XLogo from '../media/XLogo.vue'
 import XMedia from '../media/XMedia.vue'
 import FormEngine from './FormEngine.vue'
 import LibraryBackground from './LibraryBackground.vue'
-import LibraryHtml from './LibraryHtml.vue'
 
 import LibraryIcon from './LibraryIcon.vue'
-import LibraryMedia from './LibraryMedia.vue'
 import LibraryMediaGallery from './LibraryMediaGallery.vue'
 
 const props = defineProps<{
@@ -28,21 +27,17 @@ const emit = defineEmits<{
 
 const currentSelection = vue.ref<MediaObject>({})
 const activeOptionId = vue.ref<string>('')
+const isScrolling = vue.ref(false)
 
-const availableTools = [
-  { label: 'Select Media', value: 'media', icon: 'i-tabler-photo', component: LibraryMedia },
-  { label: 'Custom HTML', value: 'html', icon: 'i-tabler-code', component: LibraryHtml },
-  { label: 'Icon Library', value: 'icons', icon: 'i-tabler-category', component: LibraryIcon },
-  { label: 'Background', value: 'background', icon: 'i-tabler-palette', component: LibraryBackground },
-] as const
-
-type LibraryTool = typeof availableTools[number]['value']
-
-vue.watch(() => props.modelValue, (newValue) => {
-  if (newValue) {
-    selectMedia(newValue)
-  }
-}, { immediate: true })
+vue.watch(
+  () => props.modelValue,
+  (newValue) => {
+    if (newValue) {
+      selectMedia(newValue)
+    }
+  },
+  { immediate: true },
+)
 
 // Add to the <script setup>
 const optionsContainer = vue.ref<HTMLElement>()
@@ -51,42 +46,56 @@ const intersectionObserver = vue.ref<IntersectionObserver>()
 // Track which options are currently visible
 const visibleOptions = vue.ref(new Set<string>())
 
-// Setup intersection observer when component mounts
-vue.onMounted(() => {
-  intersectionObserver.value = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const optionKey = entry.target.getAttribute('data-option-key')
-        if (!optionKey)
-          return
+function handleIntersection(entries: IntersectionObserverEntry[]) {
+  // Skip updates if we're programmatically scrolling
+  if (isScrolling.value)
+    return
 
-        if (entry.isIntersecting) {
-          visibleOptions.value.add(optionKey)
-        }
-        else {
-          visibleOptions.value.delete(optionKey)
-        }
+  entries.forEach((entry) => {
+    const optionKey = entry.target.getAttribute('data-option-key')
+    if (!optionKey)
+      return
 
-        // Update active option based on most visible option
-        if (visibleOptions.value.size > 0) {
-          // Get first visible option as active
-          const firstVisible = Array.from(visibleOptions.value)[0]
-          if (firstVisible !== activeOptionId.value) {
-            activeOptionId.value = firstVisible
-          }
-        }
-      })
-    },
-    {
-      root: optionsContainer.value,
-      threshold: 0.5, // Element is considered visible when 50% in view
-    },
-  )
+    if (entry.isIntersecting) {
+      visibleOptions.value.add(optionKey)
+    }
+    else {
+      visibleOptions.value.delete(optionKey)
+    }
+  })
 
-  // Observe all option elements
-  document.querySelectorAll('[data-option-key]').forEach((el) => {
+  // Update active option based on most visible option
+  if (visibleOptions.value.size > 0) {
+    const firstVisible = Array.from(visibleOptions.value)[0]
+    if (firstVisible !== activeOptionId.value) {
+      activeOptionId.value = firstVisible
+    }
+  }
+}
+
+async function setObservers() {
+  await waitFor(400)
+
+  intersectionObserver.value?.disconnect()
+
+  intersectionObserver.value = new IntersectionObserver(handleIntersection, {
+    root: optionsContainer.value,
+    threshold: 0.5,
+  })
+
+  const els = document.querySelectorAll('[data-option-depth="1"][data-option-key]')
+  els.forEach((el) => {
     intersectionObserver.value?.observe(el)
   })
+}
+
+// Setup intersection observer when component mounts
+vue.onMounted(() => {
+  vue.watch(() => props.vis, (vis) => {
+    if (vis) {
+      setObservers()
+    }
+  }, { immediate: true })
 })
 
 // Cleanup observer on unmount
@@ -98,16 +107,11 @@ const options = [
   createOption({
     key: 'upload',
     input: 'group',
-    label: 'Upload Image or Video',
+    label: 'Upload',
     icon: { class: 'i-tabler-upload' },
     schema,
     options: [
-      createOption({
-        key: '*',
-        testId: 'media-upload-input',
-        input: 'InputMediaUpload',
-        schema,
-      }),
+      createOption({ key: '*', testId: 'media-upload-input', input: 'InputMediaUpload', schema }),
     ],
   }),
   createOption({
@@ -117,11 +121,7 @@ const options = [
     icon: { class: 'i-tabler-library-photo' },
     schema,
     options: [
-      createOption({
-        key: '*',
-        input: LibraryMediaGallery,
-        schema,
-      }),
+      createOption({ key: '*', input: LibraryMediaGallery, schema }),
     ],
   }),
   createOption({
@@ -131,11 +131,7 @@ const options = [
     icon: { class: 'i-tabler-icons' },
     schema,
     options: [
-      createOption({
-        key: '*',
-        input: LibraryIcon,
-        schema,
-      }),
+      createOption({ key: '*', input: LibraryIcon, schema }),
     ],
   }),
   createOption({
@@ -145,11 +141,7 @@ const options = [
     icon: { class: 'i-tabler-background' },
     schema,
     options: [
-      createOption({
-        key: '*',
-        input: LibraryBackground,
-        schema,
-      }),
+      createOption({ key: '*', input: LibraryBackground, schema }),
     ],
   }),
   createOption({
@@ -159,13 +151,7 @@ const options = [
     icon: { class: 'i-tabler-code' },
     schema,
     options: [
-      createOption({
-        key: 'html',
-        input: 'InputTextarea',
-        schema,
-        props: { rows: 5 },
-        placeholder: 'Paste your HTML or Embed code here',
-      }),
+      createOption({ key: 'html', input: 'InputTextarea', schema, props: { rows: 5 }, placeholder: 'Paste your HTML or Embed code here' }),
     ],
   }),
 ]
@@ -174,7 +160,10 @@ const options = [
 const filteredOptions = vue.computed(() => {
   if (!props.tools?.length)
     return options
-  return options.filter(opt => props.tools!.includes(opt.key.value))
+
+  return props.tools.map(toolKey =>
+    options.find(opt => opt.key.value === toolKey),
+  ).filter(Boolean) as InputOption[]
 })
 
 // Watch model value changes
@@ -198,9 +187,11 @@ function scrollToOption(optionKey: string) {
   const el = document.querySelector(sel)
 
   if (!el || !optionsContainer.value) {
-    console.error(`Element or container not found ${sel}`)
+    console.error(`Element/container not found for scroll (${sel})`)
     return
   }
+
+  isScrolling.value = true
 
   // Calculate scroll position
   const containerRect = optionsContainer.value.getBoundingClientRect()
@@ -212,6 +203,8 @@ function scrollToOption(optionKey: string) {
     top: scrollOffset,
     behavior: 'smooth',
   })
+
+  setTimeout(() => { isScrolling.value = false }, 500)
 }
 
 function hasMedia() {
@@ -226,11 +219,15 @@ function applyChanges() {
   emit('update:modelValue', currentSelection.value)
   emit('update:vis', false)
 }
+
+vue.onUnmounted(() => {
+  intersectionObserver.value?.disconnect()
+})
 </script>
 
 <template>
   <ElModal
-    :vis="vis"
+    :vis
     class="max-w-4xl"
     modal-class="max-w-screen-md"
     :has-close="false"
@@ -278,7 +275,7 @@ function applyChanges() {
               class="w-full px-2 py-2 rounded-lg text-left mb-1 flex items-center gap-2 transition-colors text-sm font-medium whitespace-nowrap truncate"
               :class="[
                 activeOptionId === opt.key.value
-                  ? 'bg-primary-600 dark:bg-primary-900/50 text-white ring-1 ring-primary-500/50'
+                  ? 'bg-theme-600 dark:bg-theme-700/50 text-white ring-1 ring-theme-500/30'
                   : 'hover:bg-theme-100 dark:hover:bg-theme-700 text-theme-700 dark:text-theme-200',
               ]"
               @click="scrollToOption(opt.key.value)"
@@ -329,34 +326,12 @@ function applyChanges() {
               <FormEngine
                 state-key="mediaSetup"
                 :depth="1"
-                :model-value="modelValue"
+                :model-value="currentSelection"
                 ui-size="md"
-                :options="options"
-                @update:model-value="emit('update:modelValue', $event)"
+                :options="filteredOptions"
+                @update:model-value="currentSelection = $event"
               />
             </div>
-
-            <!-- <component
-              :is="activeTool?.component"
-              v-if="activeTool?.component"
-              v-model="currentSelection"
-              class="w-full"
-              @update:model-value="selectMedia"
-            />
-
-            <div v-else-if="activeToolId === 'html'" class="space-y-4">
-              <ElInput
-                :model-value="currentSelection.html"
-                input="InputTextarea"
-                :rows="6"
-                placeholder="Enter HTML or embed code here"
-                @update:model-value="value => currentSelection = {
-                  ...currentSelection,
-                  html: value,
-                  format: 'html',
-                }"
-              />
-            </div> -->
           </div>
         </div>
       </div>

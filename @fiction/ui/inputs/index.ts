@@ -1,9 +1,7 @@
 import type { ActionButton, ListItem, MediaObject } from '@fiction/core'
 import type { SchemaFields } from '@fiction/core/utils/schemas'
 import type { z } from 'zod'
-import { FictionObject, removeUndefined, vue } from '@fiction/core'
-
-const def = vue.defineAsyncComponent
+import { def, FictionObject, removeUndefined, vue } from '@fiction/core'
 
 type InputEntry = { el: vue.Component, shape?: string[] }
 

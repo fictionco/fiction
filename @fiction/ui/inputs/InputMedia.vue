@@ -86,7 +86,7 @@ const sizeMap = vue.computed(() => {
     <LibraryModal
       v-model:vis="vis"
       :model-value="val"
-      :tools="[...(isBackground ? ['background'] as const : []), 'media', 'html']"
+      :tools="[...(isBackground ? ['background'] as const : []), 'upload', 'media', 'html']"
       default-tool="media"
       title="Media Manager"
       @update:model-value="handleMediaUpdate"

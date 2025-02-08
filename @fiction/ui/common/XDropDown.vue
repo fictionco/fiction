@@ -1,22 +1,23 @@
 <script setup lang="ts">
 import type { NavListItem, StandardSize } from '@fiction/core'
 import { onResetUi, resetUi, useService, vue } from '@fiction/core'
+import { twMerge } from 'tailwind-merge'
 import TransitionSlide from '../anim/TransitionSlide.vue'
 
 const {
   items = [],
   placement = 'bottom',
-  widthClass = 'w-48',
   mode = 'hover',
   dropdownAlignment = 'start',
   uiSize = 'md',
+  classes = {},
 } = defineProps<{
   items: NavListItem[]
   placement?: 'top' | 'bottom' | 'left' | 'right'
   dropdownAlignment?: 'start' | 'center' | 'end'
-  widthClass?: string
   mode?: 'hover' | 'click'
   uiSize?: StandardSize
+  classes?: { wrapper?: string, width?: string }
 }>()
 
 const emit = defineEmits<{
@@ -62,19 +63,20 @@ async function handleItemClick(args: { item: NavListItem, event: MouseEvent }) {
 onResetUi(() => resetDropDown())
 
 const menuClasses = vue.computed(() => {
-  const baseClasses = `absolute z-30 bg-theme-100 dark:bg-theme-800 rounded-md shadow-lg ring-1 ring-theme-200 dark:ring-theme-600 focus:outline-none ${widthClass}`
+  const baseClasses = `absolute z-30 bg-theme-100 dark:bg-theme-800 rounded-md shadow-lg ring-1 ring-theme-200 dark:ring-theme-600 focus:outline-none`
   const placementClasses = {
-    top: 'bottom-full mb-2',
-    bottom: 'top-full mt-2',
-    left: 'right-full mr-2',
-    right: 'left-full ml-2',
+    top: 'bottom-full mb-1',
+    bottom: 'top-full mt-1',
+    left: 'right-full mr-1',
+    right: 'left-full ml-1',
   }
   const dropdownAlignmentClasses = {
     start: 'left-0',
     center: 'left-1/2 transform -translate-x-1/2',
     end: 'right-0',
   }
-  return `${baseClasses} ${placementClasses[placement]} ${dropdownAlignmentClasses[dropdownAlignment]}`
+  const widthClass = classes.width ? classes.width : 'w-48'
+  return [widthClass, baseClasses, placementClasses[placement], dropdownAlignmentClasses[dropdownAlignment]].join(' ')
 })
 
 defineExpose({ isClicked, isHovered, toggleClicked })
@@ -100,7 +102,7 @@ const isActive = vue.computed({
   set: v => mode === 'click' ? (isClicked.value = v) : (isHovered.value = v),
 })
 
-const classes = vue.computed(() => {
+const sizeClasses = vue.computed(() => {
   const sizeClasses = {
     'xxs': { text: 'text-[10px] py-1' },
     'xs': { text: 'text-[11px] py-1' },
@@ -115,12 +117,17 @@ const classes = vue.computed(() => {
     text: sizeClasses[uiSize].text,
   }
 })
+
+const wrapperClass = vue.computed(() => {
+  const baseClasses = 'relative inline-block text-left'
+  return twMerge(baseClasses, classes.wrapper)
+})
 </script>
 
 <template>
   <div
     ref="dropdownRef"
-    class="relative inline-block text-left"
+    :class="wrapperClass"
     @mouseover="setActiveHover('on')"
     @mouseleave="setActiveHover('off')"
   >
@@ -130,7 +137,7 @@ const classes = vue.computed(() => {
       :aria-expanded="isActive"
       @click.prevent.stop="toggleClicked()"
     >
-      <slot />
+      <slot :is-active="isActive" />
     </div>
 
     <TransitionSlide>
@@ -150,7 +157,7 @@ const classes = vue.computed(() => {
               class="block cursor-pointer transition-all w-full text-left px-3 text-theme-700 dark:text-theme-200 hover:bg-theme-200 dark:hover:bg-theme-700/70 hover:text-theme-900 dark:hover:text-theme-100"
               :class="[
                 item.isActive ? 'bg-theme-200 dark:bg-theme-600/70 text-theme-900 dark:text-theme-100' : '',
-                classes.text,
+                sizeClasses.text,
               ]"
               role="menuitem"
               :data-test-id="item.testId"

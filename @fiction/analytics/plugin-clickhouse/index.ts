@@ -342,7 +342,7 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
     const tbl = this.getFullTableName(table)
 
     const r = await this.clickHouseQuery<T>({
-      query: `INSERT INTO ${tbl} FORMAT JSONEachRow ${rowJson}`,
+      query: `INSERT INTO ${tbl} FORMAT JSONEachRow\n${rowJson}`,
       caller: 'saveData',
     })
 

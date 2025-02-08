@@ -167,6 +167,7 @@ function getGroupClasses(opt: InputOption) {
             hide(opt) ? 'overflow-hidden border-theme-300 dark:border-theme-600' : 'border-theme-200 dark:border-theme-600/80',
           ]"
           :data-option-key="opt.key.value"
+          :data-option-depth="depth"
         >
           <div
             v-if="opt.label.value"
