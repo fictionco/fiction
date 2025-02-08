@@ -170,7 +170,7 @@ async function resetToPublished() {
 
           <div class="flex gap-2 items-center">
             <XDropDown
-              v-slot="{ toggle }"
+              mode="click"
               :items="[
                 {
                   label: 'Published Site',
@@ -185,13 +185,11 @@ async function resetToPublished() {
               <CardButton
                 :card
                 theme="default"
-                :href="`${activeSiteDisplayUrl(site, { mode: 'staging' }).value}`"
                 target="_blank"
                 size="md"
                 icon="i-tabler-eye"
                 icon-after="i-tabler-chevron-down"
                 data-test-id="viewSiteButton"
-                @click="toggle()"
               >
                 Preview
               </CardButton>

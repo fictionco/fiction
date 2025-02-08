@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+defineOptions({ name: 'TransitionSlide' })
+
 // Animation hooks with type safety for HTMLElement
 function beforeEnter(el: HTMLElement) {
   el.style.maxHeight = '0'
@@ -43,8 +45,11 @@ function resetMaxHeight(el: HTMLElement) {
   transition: max-height .30s cubic-bezier(.65,.01,.38,.99), opacity .25s cubic-bezier(.65,.01,.38,.99);
   overflow: hidden;
   user-select: none;
-  will-change: max-height, opacity; /* Prepares the browser for these changes */
-
+  will-change: transform, height, opacity;
+  backface-visibility: hidden;
+  perspective: 1000;
+  user-select: none;
+  perspective: 1000;
 }
 .height-animation-enter, .height-animation-leave-to {
   max-height: 0;

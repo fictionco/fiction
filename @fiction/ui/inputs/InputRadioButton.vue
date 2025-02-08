@@ -33,7 +33,7 @@ function getButtonClasses(item: ListItem, index: number): string {
 
   return [
     // Base classes
-    'relative inline-flex items-center justify-center font-medium transition-all duration-200 antialiased',
+    'relative font-sans inline-flex items-center justify-center font-medium transition-all duration-200 antialiased',
     'focus:outline-none  ',
     'rounded-lg',
     sizeClasses.value,

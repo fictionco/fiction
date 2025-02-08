@@ -1,25 +1,46 @@
 <script setup lang="ts">
-import type { NavItem } from '@fiction/core'
+import type { NavListItem, StandardSize } from '@fiction/core'
 import { onResetUi, resetUi, useService, vue } from '@fiction/core'
+import TransitionSlide from '../anim/TransitionSlide.vue'
 
-const { items = [], placement = 'bottom', widthClass = 'w-48' } = defineProps<{
-  items: NavItem[]
+const {
+  items = [],
+  placement = 'bottom',
+  widthClass = 'w-48',
+  mode = 'hover',
+  dropdownAlignment = 'start',
+  uiSize = 'md',
+} = defineProps<{
+  items: NavListItem[]
   placement?: 'top' | 'bottom' | 'left' | 'right'
+  dropdownAlignment?: 'start' | 'center' | 'end'
   widthClass?: string
+  mode?: 'hover' | 'click'
+  uiSize?: StandardSize
 }>()
 
-const isOpen = vue.ref(false)
+const emit = defineEmits<{
+  (event: 'update:model-value', value: string): void
+}>()
+
+const isClicked = vue.ref(false)
+const isHovered = vue.ref(false)
 const dropdownRef = vue.ref<HTMLDivElement | null>(null)
 const service = useService()
 
 const visibleItems = vue.computed(() => items.filter(item => !item.isHidden))
 
-function toggleDropdown() {
+function toggleClicked() {
   resetUi({ scope: 'inputs', cause: 'dropdown', trigger: 'elementClick' })
-  isOpen.value = !isOpen.value
+  isClicked.value = !isClicked.value
 }
 
-async function handleItemClick(args: { item: NavItem, event: MouseEvent }) {
+function resetDropDown() {
+  isClicked.value = false
+  isHovered.value = false
+}
+
+async function handleItemClick(args: { item: NavListItem, event: MouseEvent }) {
   const { item } = args
   if (item.onClick) {
     item.onClick(args)
@@ -32,12 +53,13 @@ async function handleItemClick(args: { item: NavItem, event: MouseEvent }) {
       await service.fictionRouter.push(item.href, { caller: 'XDropDown' })
     }
   }
-  isOpen.value = false
+  else if (item.value) {
+    emit('update:model-value', item.value as string)
+  }
+  isClicked.value = false
 }
 
-onResetUi(() => {
-  isOpen.value = false
-})
+onResetUi(() => resetDropDown())
 
 const menuClasses = vue.computed(() => {
   const baseClasses = `absolute z-30 bg-theme-100 dark:bg-theme-800 rounded-md shadow-lg ring-1 ring-theme-200 dark:ring-theme-600 focus:outline-none ${widthClass}`
@@ -47,10 +69,15 @@ const menuClasses = vue.computed(() => {
     left: 'right-full mr-2',
     right: 'left-full ml-2',
   }
-  return `${baseClasses} ${placementClasses[placement]}`
+  const dropdownAlignmentClasses = {
+    start: 'left-0',
+    center: 'left-1/2 transform -translate-x-1/2',
+    end: 'right-0',
+  }
+  return `${baseClasses} ${placementClasses[placement]} ${dropdownAlignmentClasses[dropdownAlignment]}`
 })
 
-defineExpose({ isOpen, toggleDropdown })
+defineExpose({ isClicked, isHovered, toggleClicked })
 
 let timeoutId: ReturnType<typeof setTimeout> | null = null
 
@@ -59,14 +86,35 @@ function setActiveHover(mode: 'on' | 'off') {
     clearTimeout(timeoutId)
 
   if (mode === 'on') {
-    isOpen.value = true
+    isHovered.value = true
   }
   else {
     timeoutId = setTimeout(() => {
-      isOpen.value = false
+      isHovered.value = false
     }, 350)
   }
 }
+
+const isActive = vue.computed({
+  get: () => mode === 'click' ? isClicked.value : isHovered.value,
+  set: v => mode === 'click' ? (isClicked.value = v) : (isHovered.value = v),
+})
+
+const classes = vue.computed(() => {
+  const sizeClasses = {
+    'xxs': { text: 'text-[10px] py-1' },
+    'xs': { text: 'text-[11px] py-1' },
+    'sm': { text: 'text-xs py-1.5' },
+    'md': { text: 'text-sm py-1.5' },
+    'lg': { text: 'text-base py-1.5' },
+    'xl': { text: 'text-lg py-1.5' },
+    '2xl': { text: 'text-xl py-1.5' },
+  }
+
+  return {
+    text: sizeClasses[uiSize].text,
+  }
+})
 </script>
 
 <template>
@@ -76,26 +124,43 @@ function setActiveHover(mode: 'on' | 'off') {
     @mouseover="setActiveHover('on')"
     @mouseleave="setActiveHover('off')"
   >
-    <slot :toggle="toggleDropdown" :is-open="isOpen" />
-
-    <div v-if="isOpen && items?.length" :class="menuClasses" role="menu" aria-orientation="vertical">
-      <div class="py-1" role="none">
-        <template v-for="(item, index) in visibleItems" :key="index">
-          <a
-            :href="item.href"
-            class="block cursor-pointer w-full text-left px-3 py-2 text-xs text-theme-700 dark:text-theme-200 hover:bg-theme-200 dark:hover:bg-theme-700/70 hover:text-theme-900 dark:hover:text-theme-100"
-            :class="[
-              item.isActive ? 'bg-theme-200 dark:bg-theme-600/70 text-theme-900 dark:text-theme-100' : '',
-              item.class,
-            ]"
-            role="menuitem"
-            :data-test-id="item.testId"
-            @click.prevent="handleItemClick({ item, event: $event })"
-          >
-            {{ item.label }}
-          </a>
-        </template>
-      </div>
+    <div
+      role="button"
+      aria-haspopup="true"
+      :aria-expanded="isActive"
+      @click.prevent.stop="toggleClicked()"
+    >
+      <slot />
     </div>
+
+    <TransitionSlide>
+      <div
+        v-if="isActive && items?.length"
+        :class="menuClasses"
+        role="menu"
+        aria-orientation="vertical"
+      >
+        <div class="py-1 font-sans font-medium" role="none">
+          <template
+            v-for="(item, index) in visibleItems"
+            :key="index"
+          >
+            <a
+              :href="item.href"
+              class="block cursor-pointer transition-all w-full text-left px-3 text-theme-700 dark:text-theme-200 hover:bg-theme-200 dark:hover:bg-theme-700/70 hover:text-theme-900 dark:hover:text-theme-100"
+              :class="[
+                item.isActive ? 'bg-theme-200 dark:bg-theme-600/70 text-theme-900 dark:text-theme-100' : '',
+                classes.text,
+              ]"
+              role="menuitem"
+              :data-test-id="item.testId"
+              @click.prevent="handleItemClick({ item, event: $event })"
+            >
+              {{ item.label }}
+            </a>
+          </template>
+        </div>
+      </div>
+    </TransitionSlide>
   </div>
 </template>

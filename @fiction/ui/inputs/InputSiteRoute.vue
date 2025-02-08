@@ -2,95 +2,208 @@
 import type { StandardSize } from '@fiction/core'
 import type { Site } from '@fiction/site'
 import { toLabel, vue } from '@fiction/core'
+import XButton from '@fiction/ui/buttons/XButton.vue'
+import XDropDown from '../common/XDropDown.vue'
 import InputSelectCustom from './InputSelectCustom.vue'
-import { textInputClasses } from './theme'
+import InputUrl from './InputUrl.vue'
 
-const props = defineProps({
-  modelValue: { type: String, default: '' },
-  placeholder: { type: String, default: 'Select or enter URL...' },
-  inputClass: { type: String, default: '' },
-  uiSize: { type: String as vue.PropType<StandardSize>, default: 'md' },
-  site: { type: Object as vue.PropType<Site>, default: undefined },
-})
+type RouteMode = 'url' | 'page' | 'media'
 
-const emit = defineEmits<{
-  (event: 'update:modelValue', payload: string): void
-
+const props = defineProps<{
+  modelValue?: string
+  placeholder?: string
+  uiSize?: StandardSize
+  site?: Site
 }>()
 
-const showMenu = vue.ref(false)
-const mode = vue.ref<'select' | 'custom'>('select')
-const customPath = vue.ref('')
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: string): void
+  (e: 'navigate', path: string): void
+}>()
 
-const sitePages = vue.computed(() => {
-  const pg = props.site?.pages?.value
+const mode = vue.ref<RouteMode>('url')
+const urlValue = vue.ref(props.modelValue || '')
+const mediaValue = vue.ref('')
+
+// Format URL for display
+const displayUrl = vue.computed(() => {
+  const url = urlValue.value
+  if (!url)
+    return ''
+
+  // If URL has a _modal parameter, replace just the URL value within it
+  const mediaModalMatch = url.match(/(\?_modal=)([^&]+)/)
+  if (mediaModalMatch) {
+    const [fullMatch, modalPrefix] = mediaModalMatch
+    return url.replace(fullMatch, `${modalPrefix}(URL)`)
+  }
+
+  // For non-modal URLs, remove common prefixes and trailing slashes
+  return url.replace(/(https?:\/\/)?(www\.)?/, '').replace(/\/$/, '')
+})
+
+const afterIcon = vue.computed(() => {
+  const isExternal = urlValue.value && urlValue.value.includes('http') && displayUrl.value
+  const isPopup = urlValue.value && urlValue.value.includes('?_modal=')
+
+  if (isExternal)
+    return 'i-tabler-external-link'
+  if (isPopup)
+    return 'i-tabler-window'
+  return undefined
+})
+
+// Sync URL value with model
+vue.watch(() => props.modelValue, (val) => {
+  urlValue.value = val || ''
+})
+
+// Available pages in site
+const pages = vue.computed(() => {
+  if (!props.site)
+    return []
+
+  const pagelist = props.site.pages.value
     .filter(p => !p.isSystem.value)
     .map(p => ({
       label: p.title.value || toLabel(p.slug.value),
       value: `/${p.slug.value === '_home' ? '' : p.slug.value}`,
-    })) || []
+    }))
 
   return [
-    ...pg,
-    { label: 'Add New Page', value: 'new' },
+    ...pagelist,
+    { label: '+ Create New Page', value: '_new' },
   ]
 })
 
-function handleSelect(path: string) {
-  if (path === 'new') {
+// Basic media URL validation
+function isValidMediaUrl(url: string): boolean {
+  const mediaPatterns = [
+    /^https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/.+/i,
+    /^https?:\/\/(www\.|player\.)?vimeo\.com\/.+/i,
+    /^https?:\/\/.+\.(mp4|webm|ogg)$/i,
+  ]
+  return mediaPatterns.some(pattern => pattern.test(url))
+}
+
+// Handle media URL submission
+function handleMediaAdd() {
+  if (!mediaValue.value || !isValidMediaUrl(mediaValue.value))
+    return
+
+  const newValue = `?_modal=${encodeURIComponent(mediaValue.value)}`
+  urlValue.value = newValue
+  emit('update:modelValue', newValue)
+  mediaValue.value = ''
+  mode.value = 'url'
+}
+
+// Handle URL/path changes
+function handleUrlChange(val: string) {
+  urlValue.value = val
+  emit('update:modelValue', val)
+}
+
+// Handle page selection
+function handlePageSelect(path?: string) {
+  if (!path)
+    return
+
+  if (path === '_new') {
     props.site?.editorActivateTool({ toolId: 'addPage' })
+    return
   }
-  else {
-    emit('update:modelValue', path)
-  }
-  showMenu.value = false
+
+  urlValue.value = path
+  emit('update:modelValue', path)
+  mode.value = 'url'
 }
 
-function toggleMode() {
-  mode.value = mode.value === 'select' ? 'custom' : 'select'
-  emit('update:modelValue', '')
-  customPath.value = ''
-}
-
-function handleCustomInput(target: EventTarget | null) {
-  const value = (target as HTMLInputElement)?.value || ''
-  customPath.value = value
-  emit('update:modelValue', value)
-}
-
-vue.onMounted(() => {
-  document.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement
-    if (!target.closest('.route-input')) {
-      showMenu.value = false
-    }
-  })
-})
+// Mode toggle buttons
+const modes = [
+  { label: 'Path / URL', value: 'url' as const },
+  { label: 'Select Page', value: 'page' as const },
+  { label: 'Media Modal', value: 'media' as const },
+]
 </script>
 
 <template>
-  <div class="route-input relative">
-    <div v-if="mode === 'select'" class="relative">
-      <InputSelectCustom :list="sitePages" @update:model-value="($event) => handleSelect($event as string)" />
-    </div>
-
-    <div v-else class="flex gap-2">
-      <input
-        type="url"
-        :value="customPath"
-        :class="textInputClasses({ inputClass, uiSize })"
-        :placeholder="placeholder"
-        @input="handleCustomInput($event.target)"
+  <div class="space-y-3">
+    <!-- URL Preview -->
+    <div class="flex justify-between items-center gap-3">
+      <XButton
+        size="sm"
+        theme="default"
+        rounding="full"
+        design="ghost"
+        icon="i-tabler-link"
+        :icon-after="afterIcon"
+        :title="urlValue"
+        @click.prevent.stop="emit('navigate', urlValue)"
       >
-      <div class="i-tabler-external-link text-lg text-theme-400 mt-2" />
+        {{ displayUrl }}
+      </XButton>
+      <XDropDown
+        :items="modes"
+        dropdown-alignment="end"
+        mode="click"
+        @update:model-value="mode = ($event as RouteMode)"
+      >
+        <XButton
+          size="sm"
+          theme="default"
+          rounding="full"
+          design="outline"
+          icon-after="i-tabler-chevron-down"
+          title="URL Input Mode"
+          @click.prevent
+        >
+          {{ modes.find(m => m.value === mode)?.label }}
+        </XButton>
+      </XDropDown>
     </div>
 
-    <button
-      type="button"
-      class="mt-1 text-sm text-theme-500"
-      @click="toggleMode"
-    >
-      {{ mode === 'select' ? 'Enter custom URL instead' : 'Select from pages instead' }}
-    </button>
+    <!-- Mode toggles -->
+    <div class="flex gap-1.5">
+      <template v-if="mode === 'page'">
+        <InputSelectCustom
+          class="flex-1"
+          :model-value="urlValue"
+          :list="pages"
+          placeholder="Select a page..."
+          :ui-size="props.uiSize"
+          @update:model-value="handlePageSelect($event as string)"
+        />
+      </template>
+
+      <div v-else-if="mode === 'media'" class="flex gap-2">
+        <InputUrl
+          v-model="mediaValue"
+          placeholder="https://www.youtube.com/watch?v=[id]"
+          class="flex-1"
+          :ui-size="props.uiSize"
+        />
+        <XButton
+          size="sm"
+          theme="primary"
+          rounding="md"
+          icon="i-tabler-plus"
+          @click="handleMediaAdd"
+        >
+          Add
+        </XButton>
+      </div>
+      <template v-else>
+        <InputUrl
+          v-model="urlValue"
+          :placeholder="placeholder || '/example'"
+          class="flex-1"
+          :ui-size="props.uiSize"
+          @update:model-value="handleUrlChange"
+        />
+      </template>
+    </div>
+
+    <!-- Input based on mode -->
   </div>
 </template>

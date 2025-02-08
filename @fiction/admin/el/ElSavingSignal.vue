@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { NavItem } from '@fiction/core'
+import type { NavListItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import XDropDown from '@fiction/ui/common/XDropDown.vue'
 
@@ -10,7 +10,7 @@ const {
   classes = {},
 } = defineProps<{
   isDirty: boolean
-  navItems?: NavItem[]
+  navItems?: NavListItem[]
   changeType?: 'draft' | 'publish'
   classes?: { text?: string, icon?: string }
 }>()
@@ -24,14 +24,13 @@ const statusColor = vue.computed(() => isDirty ? 'fill-orange-500' : 'fill-green
 </script>
 
 <template>
-  <XDropDown v-slot="{ toggle }" :items="navItems" placement="bottom">
+  <XDropDown :items="navItems" placement="bottom">
     <div class="flex items-center">
       <button
         :key="statusText"
         :aria-expanded="isOpen"
         class="inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-theme-400 antialiased focus:outline-none"
         :class="navItems?.length ? 'hover:bg-theme-100 dark:hover:bg-theme-700 focus:ring-2 focus:ring-offset-2 focus:ring-offset-theme-100 dark:focus:ring-offset-theme-800 focus:ring-primary-500' : ''"
-        @click.stop="toggle"
       >
         <svg class="size-1.5 transition-all" :class="statusColor" viewBox="0 0 6 6" aria-hidden="true">
           <circle cx="3" cy="3" r="3" />

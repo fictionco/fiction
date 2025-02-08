@@ -19,7 +19,7 @@ vue.onMounted(async () => {
   vue.watch(() => props.card.site, (v) => {
     if (v) {
       const queryVarHooks: QueryVarHook[] = [{
-        key: '_pop',
+        key: '_modal',
         callback: async (args: { site: Site, value: string }) => {
           const { value } = args
 

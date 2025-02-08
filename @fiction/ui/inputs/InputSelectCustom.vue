@@ -177,8 +177,8 @@ function handleKeydown(event: KeyboardEvent) {
         >
 
         <div class="z-10 absolute right-1 top-0 h-full flex items-center px-1" :class="[themeClasses.selector.always, active ? themeClasses.selector.active : '']" @click.stop="toggle()">
-          <div v-if="loading" class="i-ci-loading animate-spin text-2xl" />
-          <div v-else class="i-tabler-selector text-2xl" />
+          <div v-if="loading" class="i-ci-loading animate-spin text-[1.2em]" />
+          <div v-else class="i-tabler-selector text-[1.2em]" />
         </div>
         <!-- For validation -->
         <input
@@ -202,7 +202,7 @@ function handleKeydown(event: KeyboardEvent) {
             :aria-activedescendant="`listbox-item-${selectedIndex}`"
             class="focus:outline-none p-2"
           >
-            <div v-if="!li || li.length === 0" class="p-2 text-center text-theme-300 dark:text-theme-600 text-sm">
+            <div v-if="!li || li.length === 0" class="p-1 text-center text-theme-400 dark:text-theme-500 text-xs">
               <template v-if="loading">
                 <div class="i-svg-spinners-3-dots-bounce text-2xl" />
               </template>

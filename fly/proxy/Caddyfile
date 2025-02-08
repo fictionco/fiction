@@ -1,7 +1,7 @@
 {
 	# Global options block
 	email admin@fiction.com
-	acme_dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+	# acme_dns cloudflare {env.CLOUDFLARE_API_TOKEN}
 
 	# Use persistent storage for certificates
 	storage file_system {
@@ -31,7 +31,6 @@
 
 	tls {
 		issuer acme {
-			disable_http_challenge
 			disable_tlsalpn_challenge
 		}
 		on_demand

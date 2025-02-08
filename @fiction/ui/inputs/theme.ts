@@ -61,7 +61,7 @@ export function selectInputClasses(args: { inputClass: string, classButton?: str
     },
     dropdownClasses: twMerge([
       'bg-theme-0',
-      'dark:bg-theme-700',
+      'dark:bg-theme-800',
       'ring-theme-300/60',
       'dark:ring-theme-600',
       'absolute',
