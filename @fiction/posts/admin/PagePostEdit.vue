@@ -108,7 +108,7 @@ async function resetToPublished() {
           v-if="post"
           :is-dirty="post.isDirty.value"
           :nav-items="[{
-            label: 'Reset to Published Version',
+            label: 'Reset to Published',
             onClick: () => resetToPublished(),
             testId: 'reset-to-published',
           }]"

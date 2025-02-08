@@ -65,10 +65,10 @@ onResetUi(() => resetDropDown())
 const menuClasses = vue.computed(() => {
   const baseClasses = `absolute z-30 bg-theme-100 dark:bg-theme-800 rounded-md shadow-lg ring-1 ring-theme-200 dark:ring-theme-600 focus:outline-none`
   const placementClasses = {
-    top: 'bottom-full mb-1',
-    bottom: 'top-full mt-1',
-    left: 'right-full mr-1',
-    right: 'left-full ml-1',
+    top: 'bottom-full mb-1.5',
+    bottom: 'top-full mt-1.5',
+    left: 'right-full mr-1.5',
+    right: 'left-full ml-1.5',
   }
   const dropdownAlignmentClasses = {
     start: 'left-0',

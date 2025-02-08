@@ -137,6 +137,7 @@ unhead.useHead({
       sizes: () => iconUrls.value.faviconType === 'svg' ? 'any' : '',
     },
 
+    { rel: 'alternate icon', href: () => iconUrls.value.appleTouchIconUrl },
     { rel: 'mask-icon', href: () => iconUrls.value.faviconUrl, color: () => colors.value.themeHex['900'] },
     { rel: 'apple-touch-icon', sizes: '180x180', href: () => iconUrls.value.appleTouchIconUrl },
     { rel: 'icon', sizes: '32x32', href: () => iconUrls.value.appleTouchIconUrl },

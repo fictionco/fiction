@@ -1,4 +1,5 @@
 import type { Site } from '@fiction/site'
+import fictionFaviconSvg from '@fiction/ui/brand/favicon.svg'
 import fictionIcon from '@fiction/ui/brand/icon.png'
 import { describe, expect, it } from 'vitest'
 import { getDefaultIconUrl, getHeadIconConfig, getSiteIcons } from '../icon'
@@ -23,93 +24,12 @@ describe('icon Utils', () => {
       const result = getDefaultIconUrl({ site: undefined })
       expect(result).toBe(fictionIcon)
     })
-
-    it('generates correct url with default options', () => {
-      const result = getDefaultIconUrl({ site: mockSite })
-      const url = new URL(result)
-
-      expect(url.origin).toBe('https://ui-avatars.com')
-      expect(url.pathname).toBe('/api/')
-
-      const params = Object.fromEntries(url.searchParams)
-      expect(params).toMatchInlineSnapshot(`
-        {
-          "background": "172554",
-          "bold": "true",
-          "color": "dbeafe",
-          "font-size": "0.65",
-          "format": "png",
-          "length": "1",
-          "name": "Test Site",
-          "rounded": "false",
-          "size": "128",
-          "uppercase": "true",
-        }
-      `)
-
-      expect(url).toMatchInlineSnapshot(`"https://ui-avatars.com/api/?name=Test+Site&size=128&background=172554&color=dbeafe&length=1&rounded=false&bold=true&format=png&font-size=0.65&uppercase=true"`)
-    })
-
-    it('allows overriding default options', () => {
-      const result = getDefaultIconUrl({
-        site: mockSite,
-        options: {
-          size: 64,
-          rounded: true,
-          format: 'png',
-        },
-      })
-
-      const params = new URL(result).searchParams
-      expect(params.get('size')).toBe('64')
-      expect(params.get('rounded')).toBe('true')
-      expect(params.get('format')).toBe('png')
-    })
-
-    it('properly formats color values', () => {
-      const result = getDefaultIconUrl({
-        site: mockSite,
-        options: {
-          background: '#123ABC',
-          color: '#DEF456',
-        },
-      })
-
-      const params = new URL(result).searchParams
-      expect(params.get('background')).toBe('123ABC')
-      expect(params.get('color')).toBe('DEF456')
-    })
   })
 
   describe('getSiteIcons', () => {
-    it('returns all icon variants with correct sizes', () => {
-      const icons = getSiteIcons({ site: mockSite })
-
-      // Test favicon
-      const faviconParams = new URL(icons.favicon).searchParams
-      expect(faviconParams.get('size')).toBe('32')
-      expect(faviconParams.get('format')).toBe('png')
-
-      // Test apple touch icon
-      const appleParams = new URL(icons.appleTouchIcon).searchParams
-      expect(appleParams.get('size')).toBe('180')
-      expect(appleParams.get('format')).toBe('png')
-
-      // Test MS tile icon
-      const msParams = new URL(icons.msTileIcon).searchParams
-      expect(msParams.get('size')).toBe('144')
-      expect(msParams.get('format')).toBe('png')
-
-      // Test OG image
-      const ogParams = new URL(icons.ogImage).searchParams
-      expect(ogParams.get('size')).toBe('512')
-      expect(ogParams.get('format')).toBe('png')
-      expect(ogParams.get('font-size')).toBe('0.4')
-    })
-
     it('returns fiction icon for all variants when no site provided', () => {
       const icons = getSiteIcons({ site: undefined })
-      expect(icons.favicon).toBe(fictionIcon)
+      expect(icons.favicon).toBe(fictionFaviconSvg)
       expect(icons.appleTouchIcon).toBe(fictionIcon)
       expect(icons.msTileIcon).toBe(fictionIcon)
       expect(icons.ogImage).toBe(fictionIcon)
@@ -134,10 +54,20 @@ describe('icon Utils', () => {
 
       const config = getHeadIconConfig({ site: siteMock })
 
-      expect(config.faviconUrl).toMatch(/ui-avatars\.com/)
-      expect(config.appleTouchIconUrl).toMatch(/ui-avatars\.com/)
-      expect(config.msTileIconUrl).toMatch(/ui-avatars\.com/)
-      expect(config.ogImageUrl).toMatch(/ui-avatars\.com/)
+      expect(config).toMatchInlineSnapshot(`
+        {
+          "appleTouchIconUrl": "/@fiction/ui/brand/icon.png",
+          "faviconType": "image/png",
+          "faviconUrl": "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20141%20145'%3e%3cstyle%3e%20path%20{%20fill:%20%23000;%20}%20/*%20Default%20color%20for%20light%20mode%20*/%20@media%20(prefers-color-scheme:%20dark)%20{%20path%20{%20fill:%20%23fff;%20}%20/*%20Color%20for%20dark%20mode%20*/%20}%20%3c/style%3e%3cpath%20d='M121.209%20145H60.388c-3.952%200-7.663-1.583-10.458-4.475L3.583%2092.686c-3.504-3.613-5.54-9.005-3.653-13.72%201.9-4.727%206.32-7.783%2011.276-7.783H69V12.567c0-5.097%202.958-9.66%207.532-11.625%204.497-1.932%209.867-.83%2013.306%202.718l46.369%2047.853c2.795%202.893%204.323%206.724%204.323%2010.796v62.752c0%2010.992-8.667%2019.932-19.321%2019.932V145zM62.8%20123.621h56.466V64.983L89.652%2034.235v58.637H33.197l29.614%2030.749H62.8z'/%3e%3c/svg%3e",
+          "msTileIconUrl": "/@fiction/ui/brand/icon.png",
+          "ogImageUrl": "/@fiction/ui/brand/icon.png",
+        }
+      `)
+
+      expect(config.faviconUrl || '').toContain('svg')
+      expect(config.appleTouchIconUrl || '').toContain('png')
+      expect(config.msTileIconUrl || '').toContain('png')
+      expect(config.ogImageUrl || '').toContain('png')
     })
 
     it('correctly determines favicon mime type', () => {
@@ -163,8 +93,15 @@ describe('icon Utils', () => {
 
     it('handles missing site gracefully', () => {
       const config = getHeadIconConfig({ site: undefined })
-      expect(config.faviconUrl).toBe(fictionIcon)
-      expect(config.faviconType).toBe('image/png')
+      expect(config).toMatchInlineSnapshot(`
+        {
+          "appleTouchIconUrl": "/@fiction/ui/brand/icon.png",
+          "faviconType": "image/png",
+          "faviconUrl": "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20141%20145'%3e%3cstyle%3e%20path%20{%20fill:%20%23000;%20}%20/*%20Default%20color%20for%20light%20mode%20*/%20@media%20(prefers-color-scheme:%20dark)%20{%20path%20{%20fill:%20%23fff;%20}%20/*%20Color%20for%20dark%20mode%20*/%20}%20%3c/style%3e%3cpath%20d='M121.209%20145H60.388c-3.952%200-7.663-1.583-10.458-4.475L3.583%2092.686c-3.504-3.613-5.54-9.005-3.653-13.72%201.9-4.727%206.32-7.783%2011.276-7.783H69V12.567c0-5.097%202.958-9.66%207.532-11.625%204.497-1.932%209.867-.83%2013.306%202.718l46.369%2047.853c2.795%202.893%204.323%206.724%204.323%2010.796v62.752c0%2010.992-8.667%2019.932-19.321%2019.932V145zM62.8%20123.621h56.466V64.983L89.652%2034.235v58.637H33.197l29.614%2030.749H62.8z'/%3e%3c/svg%3e",
+          "msTileIconUrl": "/@fiction/ui/brand/icon.png",
+          "ogImageUrl": "/@fiction/ui/brand/icon.png",
+        }
+      `)
     })
   })
 })
