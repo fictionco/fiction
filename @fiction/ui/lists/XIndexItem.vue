@@ -26,7 +26,7 @@ const linkProps = vue.computed(() => {
       :class="[item.href ? hoverClass : '', boxClass]"
       @click.stop="item.onClick && item.onClick({ item, event: $event })"
     >
-      <div class="@xl:flex gap-6 items-center space-y-4 @xl:space-y-0">
+      <div class="flex gap-6 items-center space-y-0">
         <ElIndexItemMedia class="size-12 @xl:size-20" :media="item.media" :icon="item.icon" :theme />
         <div>
           <div class="text-xl font-semibold leading-6">
@@ -47,7 +47,7 @@ const linkProps = vue.computed(() => {
           class="flex gap-3"
         />
 
-        <svg v-else class="size-6 flex-none text-theme-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <svg v-else class="hidden sm:inline-block size-6 flex-none text-theme-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
           <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
         </svg>
       </dl>

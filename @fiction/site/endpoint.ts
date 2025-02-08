@@ -720,7 +720,6 @@ export class ManageSite extends SitesQuery {
   }
 
   private async finalizeSiteAction(params: ManageSiteParams, result: EndpointResponse<TableSiteConfig>, meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
-    const { isPublishingDomains, fields } = params as ManageSiteParams & ({ _action: 'update' } | { _action: 'create' })
     const { siteId } = result.data!
 
     const updatedResult = await this.run({
@@ -862,38 +861,40 @@ export class ManageSite extends SitesQuery {
   }
 
   async getSiteSelector(where: WhereSite) {
+    if (!where.hostname) {
+      return where
+    }
+
+    const db = this.settings.fictionDb.client()
     const { hostname } = where
 
-    let out: Partial<WhereSite> = {}
-    let domain: Partial<TableDomainConfig> | undefined = undefined
-    if (where.hostname) {
-      const db = this.settings.fictionDb.client()
-      const domains = await db
-        .select<TableDomainConfig[]>('*')
-        .from(t.domains)
-        .where({ hostname })
+    // Get root domain if it differs from hostname
+    const rootDomain = hostname.split('.').slice(1).join('.')
+    const shouldCheckRoot = rootDomain !== hostname
 
-      if (domains && domains.length) {
-        const verified = domains.filter(d => d.isVerified)
+    const domain = await db
+      .select('siteId')
+      .from(t.domains)
+      .where((builder) => {
+        builder.where({ hostname })
+        if (shouldCheckRoot) {
+          builder.orWhere({ hostname: rootDomain })
+        }
+      })
+      // Prioritize verified primary domains, then verified, then exact matches
+      .orderByRaw(`
+        is_verified DESC,
+        is_primary DESC,
+        hostname = ? DESC
+      `, [hostname])
+      .first()
 
-        domain = verified[0] || domains[0]
-
-        const siteId = domain?.siteId
-        out.siteId = siteId
-      }
-    }
-    else {
-      out = where
-    }
-
-    if (Object.values(out).filter(Boolean).length !== 1) {
-      this.log.error('Error Loading Site', { data: { out, where, domain } })
-
-      const errorMessage = `Site not found (where:${JSON.stringify(where)})`
-      throw new Error(errorMessage)
+    if (!domain?.siteId) {
+      this.log.error('Error Loading Site', { data: { where } })
+      throw new Error(`Site not found (where:${JSON.stringify(where)})`)
     }
 
-    return out as WhereSite
+    return { siteId: domain.siteId } as WhereSite
   }
 
   private async restoreFromRevision(params: ManageSiteParams & { _action: 'restore' }, meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {

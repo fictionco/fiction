@@ -1,5 +1,6 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { UserConfig as FeaturesUserConfig } from '../content-features/config'
+import type { template as featuresTemplate } from '../content-features/index'
 import { z } from 'zod'
 
 // Simple schema for global modal settings
@@ -16,11 +17,11 @@ function getUserConfig(): UserConfig {
 
 // Demo using a features card to showcase media modal functionality
 export async function getConfig(args: { templateId: string, factory: CardFactory }) {
-  const { templateId } = args
+  const { templateId, factory } = args
 
   // Create a features card to demonstrate the modal
-  const demoFeatures = {
-    templateId: 'features',
+  const demoFeatures = await factory.fromTemplate<typeof featuresTemplate>({
+    templateId: 'cardFeaturesV1',
     userConfig: {
       layout: {
         style: 'grid',
@@ -77,7 +78,7 @@ export async function getConfig(args: { templateId: string, factory: CardFactory
         iconStyle: 'duotone',
       },
     } satisfies FeaturesUserConfig,
-  }
+  })
 
   // Include contentModal
   const contentModal = {

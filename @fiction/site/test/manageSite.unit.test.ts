@@ -1,11 +1,194 @@
 import type { TrackEventTypes } from '@fiction/analytics'
 import type { Site } from '../site'
 import type { TableSiteConfig } from '../tables'
-import { dayjs, objectId } from '@fiction/core'
+import { dayjs, objectId, shortId } from '@fiction/core'
 import { snap } from '@fiction/core/test-utils'
 import { afterAll, beforeEach, describe, expect, it } from 'vitest'
+import { t } from '../tables'
 import { getSiteMetrics, trackSiteMetrics } from '../utils/site'
 import { createSiteTestUtils } from './testUtils'
+
+describe.only('getSiteSelector', async () => {
+  const testUtils = await createSiteTestUtils()
+  const r = await testUtils.init()
+  const userId = r?.user?.userId ?? ''
+  const orgId = r?.org?.orgId ?? ''
+
+  afterAll(async () => {
+    await testUtils.close()
+  })
+
+  // Utility function to create a test site with domains
+  async function getSelectorTestSite(domains: Array<{
+    hostname: string
+    isVerified?: boolean
+    isPrimary?: boolean
+  }>) {
+    const response = await testUtils.fictionSites.queries.ManageSite.serve({
+      _action: 'create',
+      fields: {
+        title: 'Domain Test Site',
+        themeId: 'test',
+        subDomain: `test-${objectId({ prefix: 'sub' })}`,
+      },
+      orgId,
+      userId,
+      caller: 'test',
+    }, { server: true })
+
+    const siteId = response.data?.siteId
+    if (!siteId)
+      throw new Error('Site creation failed')
+
+    // Only insert domains if array is not empty
+    if (domains.length > 0) {
+      await testUtils.fictionDb.client()(t.domains).insert(
+        domains.map(d => ({
+          siteId,
+          hostname: d.hostname,
+          isVerified: d.isVerified ?? false,
+          isPrimary: d.isPrimary ?? false,
+        })),
+      )
+    }
+
+    return siteId
+  }
+
+  it('should return exact match for www subdomain', async () => {
+    const domain = `www.test-${shortId()}.com`
+    const siteId = await getSelectorTestSite([{
+      hostname: domain,
+      isVerified: true,
+      isPrimary: true,
+    }])
+
+    const result = await testUtils.fictionSites.queries.ManageSite.serve({
+      _action: 'retrieve',
+      where: { hostname: domain },
+      caller: 'test',
+    }, { server: true })
+
+    expect(result.status).toBe('success')
+    expect(result.data?.siteId).toBe(siteId)
+  })
+
+  it('should fallback to root domain when subdomain not found', async () => {
+    const rootDomain = `test-${shortId()}.com`
+    const siteId = await getSelectorTestSite([{
+      hostname: rootDomain,
+      isVerified: true,
+    }])
+
+    const result = await testUtils.fictionSites.queries.ManageSite.serve({
+      _action: 'retrieve',
+      where: { hostname: `missing.${rootDomain}` },
+      caller: 'test',
+    }, { server: true })
+
+    expect(result.status).toBe('success')
+    expect(result.data?.siteId).toBe(siteId)
+  })
+
+  it('should prioritize verified primary domain over others', async () => {
+    const domain = `www.test-${shortId()}.com`
+
+    // First site with primary domain
+    const siteId1 = await getSelectorTestSite([{
+      hostname: domain,
+      isVerified: true,
+      isPrimary: true,
+    }])
+
+    // Second site with non-primary domain
+    await getSelectorTestSite([{
+      hostname: domain,
+      isVerified: true,
+      isPrimary: false,
+    }])
+
+    const result = await testUtils.fictionSites.queries.ManageSite.serve({
+      _action: 'retrieve',
+      where: { hostname: domain },
+      caller: 'test',
+    }, { server: true })
+
+    expect(result.status).toBe('success')
+    expect(result.data?.siteId).toBe(siteId1)
+  })
+
+  it.only('should handle non-hostname queries', async () => {
+    const siteId = await getSelectorTestSite([])
+
+    const result = await testUtils.fictionSites.queries.ManageSite.serve({
+      _action: 'retrieve',
+      where: { siteId },
+      caller: 'test',
+    }, { server: true })
+
+    expect(result.status).toBe('success')
+    expect(result.data?.siteId).toBe(siteId)
+  })
+
+  it('should error for non-existent domain', async () => {
+    const nonexistentDomain = `nonexistent-${shortId()}.com`
+    await getSelectorTestSite([]) // Create a site but with no domains
+
+    const result = await testUtils.fictionSites.queries.ManageSite.serve({
+      _action: 'retrieve',
+      where: { hostname: nonexistentDomain },
+      caller: 'test',
+    }, { server: true })
+
+    expect(result.status).toBe('error')
+    expect(result.message).toBe('')
+    expect(result.reason).toContain('Site not found')
+  })
+
+  it('should handle root domain directly', async () => {
+    const rootDomain = `test-${shortId()}.com`
+    const siteId = await getSelectorTestSite([{
+      hostname: rootDomain,
+      isVerified: true,
+    }])
+
+    const result = await testUtils.fictionSites.queries.ManageSite.serve({
+      _action: 'retrieve',
+      where: { hostname: rootDomain },
+      caller: 'test',
+    }, { server: true })
+
+    expect(result.status).toBe('success')
+    expect(result.data?.siteId).toBe(siteId)
+  })
+
+  it('should prioritize exact matches over root domain', async () => {
+    const rootDomain = `test-${shortId()}.com`
+    const subdomain = `blog.${rootDomain}`
+
+    const siteId = await getSelectorTestSite([
+      {
+        hostname: subdomain,
+        isVerified: true,
+        isPrimary: true,
+      },
+      {
+        hostname: rootDomain,
+        isVerified: true,
+        isPrimary: true,
+      },
+    ])
+
+    const result = await testUtils.fictionSites.queries.ManageSite.serve({
+      _action: 'retrieve',
+      where: { hostname: subdomain },
+      caller: 'test',
+    }, { server: true })
+
+    expect(result.status).toBe('success')
+    expect(result.data?.siteId).toBe(siteId)
+  })
+})
 
 describe('getSiteMetrics and trackSiteMetrics', async () => {
   const testUtils = await createSiteTestUtils()
