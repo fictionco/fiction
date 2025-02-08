@@ -143,7 +143,7 @@ const navigator = new FrameNavigator({
 </script>
 
 <template>
-  <div class="bg-theme-0 dark:bg-theme-800 @container border border-theme-200 dark:border-theme-500/50 overflow-hidden">
+  <div class="bg-theme-0 dark:bg-theme-800 @container border border-theme-200 dark:border-theme-500/50 overflow-hidden flex flex-col">
     <div v-if="browserBar" class="flex items-center justify-between px-2 py-2 border-b border-theme-200 dark:border-theme-600">
       <div class="w-full items-center justify-center lg:flex lg:space-x-2">
         <div class="space-x-1 hidden lg:flex" :data-nav-index="navigator.currentIndex">
@@ -199,7 +199,7 @@ const navigator = new FrameNavigator({
     </div>
     <div
       :id="`${frameId}-wrap`"
-      class="relative max-h-[100%] overflow-hidden w-full "
+      class="relative max-h-[100%] overflow-scroll w-full "
       :class="dimensions.aspectClass"
     >
       <iframe

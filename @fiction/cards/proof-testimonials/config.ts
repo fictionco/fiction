@@ -71,7 +71,7 @@ const options = [
                 schema,
                 key: 'items.0.href',
                 label: 'Link / URL',
-                input: 'InputUrl',
+                input: 'InputSiteRoute',
               }),
               createOption({
                 schema,
@@ -111,7 +111,7 @@ const options = [
                 schema,
                 key: 'items.0.user.href',
                 label: 'URL',
-                input: 'InputUrl',
+                input: 'InputSiteRoute',
               }),
             ],
           }),

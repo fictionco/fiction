@@ -28,7 +28,7 @@ export function getButtonClasses(args: {
     padding,
   } = args
 
-  const baseClasses = 'relative overflow-hidden max-w-full select-none shrink-0 items-center font-sans focus:outline-none antialiased leading-[1.2]'
+  const baseClasses = 'relative overflow-hidden max-w-full select-none items-center font-sans focus:outline-none antialiased leading-[1.2]'
 
   const sizes: Record<StandardSize, string> = {
     'xxs': 'text-[9px]',

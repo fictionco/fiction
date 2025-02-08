@@ -114,12 +114,12 @@ export function getHeadIconConfig(args: { site?: Site }) {
   // Get configured icons or defaults
   const defaultIcons = getSiteIcons({ site })
 
-  const faviconUrl = config.favicon?.url || defaultIcons.favicon
-  const iconUrl = config.icon?.url || defaultIcons.appleTouchIcon
-  const ogImageUrl = config.shareImage?.url || defaultIcons.ogImage
+  const faviconUrl = config.favicon?.url
+  const iconUrl = config.icon?.url
+  const ogImageUrl = config.shareImage?.url
 
   // Get MIME type for favicon
-  const faviconExt = faviconUrl.split('.').pop()?.toLowerCase() || ''
+  const faviconExt = faviconUrl?.split('.').pop()?.toLowerCase() || ''
   const specialFaviconTypes: Record<string, string> = {
     svg: 'image/svg+xml',
     png: 'image/png',

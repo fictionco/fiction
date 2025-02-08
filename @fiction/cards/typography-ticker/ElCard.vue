@@ -6,6 +6,7 @@ import CardText from '@fiction/cards/CardText.vue'
 import CardLink from '@fiction/cards/el/CardLink.vue'
 import { getTextColorBasedOnBackground, isDarkOrLightMode, pathCheck, vue } from '@fiction/core'
 import { fontFamilyByKey } from '@fiction/site/utils/fonts'
+import XIcon from '@fiction/ui/media/XIcon.vue'
 import { schema } from './config'
 
 const props = defineProps({
@@ -161,10 +162,19 @@ function getTransformStyle(item: TickerConfig) {
           :class="`animate-scroll-${item.direction}`"
           :style="{ animationDuration: getAnimationDuration(item.speed) }"
         >
-          <div :style="{ ...getColorStyle(item) }">
-            <span v-for="ii in 30" :key="ii" class="font-bold">
-              <CardText tag="span" :card :path="pathCheck(`items.${i}.text`, schema)" />&nbsp;
-            </span>
+          <div :style="{ ...getColorStyle(item) }" class="inline-flex items-center gap-8 font-bold ">
+            <template v-for="ii in 30" :key="ii">
+              <CardText tag="span" :card :path="pathCheck(`items.${i}.text`, schema)" />
+              <XIcon
+                v-if="item.divider?.isEnabled && item.divider.icon"
+                class="inline-block size-[.65em]"
+                :class="item.divider.shouldRotate ? 'rotate-divider' : ''"
+                :style="{
+                  color: item.divider.color,
+                }"
+                :media="item.divider.icon"
+              />
+            </template>
           </div>
         </div>
       </CardLink>
@@ -189,5 +199,16 @@ function getTransformStyle(item: TickerConfig) {
 
 .animate-scroll-right {
   animation: scroll-right 180s linear infinite;
+}
+
+/* Add these animations */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.rotate-divider {
+  animation: spin-slow 20s linear infinite;
+  transform-origin: center;
 }
 </style>

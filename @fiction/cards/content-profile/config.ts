@@ -64,7 +64,7 @@ const options = [
               createOption({ schema, key: 'details.0.label', input: 'InputText', label: 'Label' }),
               createOption({ schema, key: 'details.0.value', input: 'InputText', label: 'Value' }),
               createOption({ schema, key: 'details.0.icon', input: 'InputIcon', label: 'Icon' }),
-              createOption({ schema, key: 'details.0.href', input: 'InputUrl', label: 'Link URL' }),
+              createOption({ schema, key: 'details.0.href', input: 'InputSiteRoute', label: 'Link URL' }),
             ],
           }),
         ],

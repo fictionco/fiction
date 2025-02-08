@@ -74,7 +74,7 @@ const options: InputOption[] = [
               createOption({ schema, key: 'items.0.content', label: 'Content', input: 'InputTextarea' }),
               createOption({ schema, key: 'items.0.superTitle', label: 'Super Title', input: 'InputSuperTitle' }),
               createOption({ schema, key: 'items.0.media', label: 'Inline Media', input: 'InputMedia' }),
-              createOption({ schema, key: 'items.0.href', label: 'Item URL', input: 'InputUrl' }),
+              createOption({ schema, key: 'items.0.href', label: 'Item URL', input: 'InputSiteRoute' }),
               createOption({ schema, key: 'items.0.action', label: 'Action Area', input: 'InputActionArea' }),
             ],
           }),

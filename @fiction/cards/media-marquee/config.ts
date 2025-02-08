@@ -64,7 +64,7 @@ const options = [
             schema,
             key: 'items.0.href',
             label: 'Link URL',
-            input: 'InputUrl',
+            input: 'InputSiteRoute',
             description: 'Where the item links to when clicked',
           }),
         ],

@@ -192,7 +192,7 @@ function getOptions() {
           schema,
           key: 'action.link',
           label: 'Custom Link',
-          input: 'InputUrl',
+          input: 'InputSiteRoute',
           placeholder: 'https://instagram.com/username',
         }),
       ],

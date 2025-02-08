@@ -28,25 +28,9 @@ function getInputListProps(name: string) {
 }
 
 const baseOptions: InputOption[] = [
-  createOption({
-    schema,
-    key: 'label',
-    label: 'Label',
-    input: 'InputText',
-    isRequired: true,
-  }),
-  createOption({
-    schema,
-    key: 'href',
-    label: 'Link',
-    input: 'InputSiteRoute',
-  }),
-  createOption({
-    schema,
-    key: 'icon',
-    label: 'Icon',
-    input: 'InputIcon',
-  }),
+  createOption({ schema, key: 'label', label: 'Label', input: 'InputText', isRequired: true }),
+  createOption({ schema, key: 'href', label: 'Link', input: 'InputSiteRoute' }),
+  createOption({ schema, key: 'icon', label: 'Icon', input: 'InputIcon' }),
   createOption({
     schema,
     key: 'advancedNavItems',
@@ -54,35 +38,10 @@ const baseOptions: InputOption[] = [
     input: 'group',
     isClosed: true,
     options: [
-      createOption({
-        schema,
-        key: 'description',
-        label: 'Description',
-        input: 'InputText',
-        description: 'Shown in expanded menus',
-      }),
-
-      createOption({
-        schema,
-        key: 'variant',
-        label: 'Style Variant',
-        input: 'InputSelect',
-        list: ['default', 'button', 'avatar'],
-      }),
-      createOption({
-        schema,
-        key: 'emphasis',
-        label: 'Emphasis',
-        input: 'InputSelect',
-        list: ['default', 'highlighted', 'muted'],
-      }),
-      createOption({
-        schema,
-        key: 'theme',
-        label: 'Color Theme',
-        description: 'Used in buttons and emphasis',
-        input: 'InputColorScheme',
-      }),
+      createOption({ schema, key: 'description', label: 'Description', input: 'InputText', description: 'Shown in expanded menus' }),
+      createOption({ schema, key: 'variant', label: 'Style Variant', input: 'InputSelect', list: ['default', 'button', 'avatar'] }),
+      createOption({ schema, key: 'emphasis', label: 'Emphasis', input: 'InputSelect', list: ['default', 'highlighted', 'muted'] }),
+      createOption({ schema, key: 'theme', label: 'Color Theme', description: 'Used in buttons and emphasis', input: 'InputColorScheme' }),
     ],
   }),
 
@@ -102,38 +61,13 @@ const childMenuOptions = [
         input: 'InputList',
         props: getInputListProps('Child Nav Item'),
         options: [
-          createOption({
-            schema,
-            key: 'list.items.0.label',
-            label: 'Label',
-            input: 'InputText',
-          }),
-          createOption({
-            schema,
-            key: 'description',
-            label: 'Description',
-            input: 'InputText',
-          }),
-          createOption({
-            schema,
-            key: 'href',
-            label: 'Link',
-            input: 'InputUrl',
-          }),
-          createOption({
-            schema,
-            key: 'icon',
-            label: 'Icon',
-            input: 'InputIcon',
-          }),
+          createOption({ schema, key: 'list.items.0.label', label: 'Label', input: 'InputText' }),
+          createOption({ schema, key: 'description', label: 'Description', input: 'InputText' }),
+          createOption({ schema, key: 'href', label: 'Link', input: 'InputUrl' }),
+          createOption({ schema, key: 'icon', label: 'Icon', input: 'InputIcon' }),
         ],
       }),
-      createOption({
-        schema,
-        key: 'list.title',
-        input: 'title',
-        label: 'Menu Settings',
-      }),
+      createOption({ schema, key: 'list.title', input: 'title', label: 'Menu Settings' }),
       createOption({
         schema,
         key: 'list.variant',

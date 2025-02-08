@@ -1,4 +1,4 @@
-import { fontFamilySchema } from '@fiction/core'
+import { fontFamilySchema, MediaIconSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod'
 
@@ -15,6 +15,13 @@ export const SchemaTicker = z.object({
   backgroundColor: z.string().optional().describe('Background color'),
   backgroundColorLight: z.string().optional().describe('Background color in light mode'),
   outline: z.boolean().default(false).optional().describe('Apply text outline effect'),
+
+  divider: z.object({
+    isEnabled: z.boolean().optional().describe('Enable divider'),
+    color: z.string().optional().describe('Divider color'),
+    icon: MediaIconSchema.optional().describe('Divider character'),
+    shouldRotate: z.boolean().optional().describe('Rotate divider'),
+  }).optional(),
 
   // 3D Transform
   transform: z.object({
@@ -57,24 +64,14 @@ export function getOptions() {
             itemLabel: args => (args?.item as TickerConfig)?.text ?? 'Untitled',
           },
           options: [
-            createOption({
-              schema,
-              key: 'items.0.text',
-              label: 'Text',
-              input: 'InputText',
-              isRequired: true,
-            }),
-            createOption({
-              schema,
-              key: 'items.0.href',
-              label: 'Link URL',
-              input: 'InputUrl',
-            }),
+            createOption({ schema, key: 'items.0.text', label: 'Text', input: 'InputText', isRequired: true }),
+            createOption({ schema, key: 'items.0.href', label: 'Link URL', input: 'InputSiteRoute' }),
             createOption({
               schema,
               key: 'items.0.animation',
               label: 'Animation',
               input: 'group',
+              icon: { class: 'i-tabler-arrow-move-right' },
               options: [
                 createOption({
                   schema,
@@ -97,35 +94,25 @@ export function getOptions() {
             }),
             createOption({
               schema,
+              key: 'font',
+              label: 'Font',
+              input: 'group',
+              icon: { class: 'i-tabler-text-size' },
+              options: [
+                createOption({ schema, key: 'items.0.font', label: 'Font', input: 'InputFont' }),
+              ],
+            }),
+            createOption({
+              schema,
               key: 'appearance',
               label: 'Appearance',
               input: 'group',
+              icon: { class: 'i-tabler-palette' },
+              isClosed: true,
               options: [
-                createOption({
-                  schema,
-                  key: 'items.0.font',
-                  label: 'Font',
-                  input: 'InputFont',
-                }),
-                createOption({
-                  schema,
-                  key: 'items.0.backgroundColor',
-                  label: 'Background Color',
-                  input: 'InputColor',
-                }),
-                createOption({
-                  schema,
-                  key: 'items.0.backgroundColorLight',
-                  label: 'Background Color (Light Mode)',
-                  input: 'InputColor',
-                }),
-
-                createOption({
-                  schema,
-                  key: 'items.0.outline',
-                  label: 'Text Outline',
-                  input: 'InputToggle',
-                }),
+                createOption({ schema, key: 'items.0.backgroundColor', label: 'Background Color', input: 'InputColor' }),
+                createOption({ schema, key: 'items.0.backgroundColorLight', label: 'Background Color (Light Mode)', input: 'InputColor' }),
+                createOption({ schema, key: 'items.0.outline', label: 'Text Outline', input: 'InputToggle' }),
               ],
             }),
             createOption({
@@ -133,28 +120,26 @@ export function getOptions() {
               key: 'transform',
               label: '3D Transform',
               input: 'group',
+              icon: { class: 'i-tabler-cube' },
+              isClosed: true,
               options: [
-                createOption({
-                  schema,
-                  key: 'items.0.transform.rotateX',
-                  label: 'Tilt Forward/Back',
-                  input: 'InputRange',
-                  props: { min: -30, max: 30, step: 1 },
-                }),
-                createOption({
-                  schema,
-                  key: 'items.0.transform.rotateY',
-                  label: 'Tilt Left/Right',
-                  input: 'InputRange',
-                  props: { min: -30, max: 30, step: 1 },
-                }),
-                createOption({
-                  schema,
-                  key: 'items.0.transform.rotateZ',
-                  label: 'Rotate',
-                  input: 'InputRange',
-                  props: { min: -30, max: 30, step: 1 },
-                }),
+                createOption({ schema, key: 'items.0.transform.rotateX', label: 'Tilt Forward/Back', input: 'InputRange', props: { min: -30, max: 30, step: 1 } }),
+                createOption({ schema, key: 'items.0.transform.rotateY', label: 'Tilt Left/Right', input: 'InputRange', props: { min: -30, max: 30, step: 1 } }),
+                createOption({ schema, key: 'items.0.transform.rotateZ', label: 'Rotate', input: 'InputRange', props: { min: -30, max: 30, step: 1 } }),
+              ],
+            }),
+            createOption({
+              schema,
+              key: 'divider',
+              label: 'Divider',
+              input: 'group',
+              isClosed: true,
+              icon: { class: 'i-tabler-divide' },
+              options: [
+                createOption({ schema, key: 'items.0.divider.isEnabled', label: 'Enable Divider', input: 'InputToggle' }),
+                createOption({ schema, key: 'items.0.divider.icon', label: 'Divider Icon', input: 'InputIcon' }),
+                createOption({ schema, key: 'items.0.divider.color', label: 'Divider Color', input: 'InputColor' }),
+                createOption({ schema, key: 'items.0.divider.shouldRotate', label: 'Rotate Divider', input: 'InputToggle' }),
               ],
             }),
           ],

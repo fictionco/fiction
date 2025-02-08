@@ -8,7 +8,7 @@ import CardNavLink from '../CardNavLink.vue'
 import CardText from '../CardText.vue'
 import CardLink from '../el/CardLink.vue'
 
-defineOptions({ name: 'cardFooterPersonalV1' })
+defineOptions({ name: 'CardFooterPersonalV1' })
 
 const props = defineProps<{
   card: Card<UserConfig>
@@ -42,7 +42,7 @@ vue.onMounted(() => {
             <CardLink
               v-if="uc.brand?.logo"
               :card
-              href="/"
+              :href="uc.brand?.href || '/'"
               class="flex items-end group"
             >
               <XLogoType

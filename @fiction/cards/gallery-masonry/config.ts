@@ -145,7 +145,7 @@ const options = [
             schema,
             key: 'items.0.href',
             label: 'Link / URL',
-            input: 'InputUrl',
+            input: 'InputSiteRoute',
             props: { placeholder: 'Add a link to more details or related content' },
           }),
         ],

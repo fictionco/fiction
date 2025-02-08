@@ -79,7 +79,7 @@ const options: InputOption[] = [
               createOption({
                 key: 'items.0.href',
                 label: 'Link URL',
-                input: 'InputUrl',
+                input: 'InputSiteRoute',
                 schema,
               }),
               createOption({

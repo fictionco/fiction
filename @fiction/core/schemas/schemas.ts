@@ -385,6 +385,7 @@ export const logoSchema = z.object({
 
 export const brandSchema = z.object({
   logo: logoSchema.optional(),
+  href: z.string().optional(),
   tagline: z.string().optional(),
   action: ActionAreaSchema.optional(),
 })

@@ -81,6 +81,8 @@ export const recommendedIcons = [
   { class: 'i-tabler-cloud', category: 'interface' },
   { class: 'i-tabler-compass', category: 'interface' },
   { class: 'i-tabler-award', category: 'interface' },
+  { class: 'i-tabler-asterisk', category: 'interface' },
+  { class: 'i-tabler-north-star', category: 'interface' },
 
   // Content - Text editing and content management
   { class: 'i-tabler-file', category: 'content' },
@@ -254,7 +256,6 @@ export const recommendedIcons = [
   { class: 'i-tabler-section', category: 'content' },
 
   // Extended Commerce Icons
-  { class: 'i-tabler-plane-arrival-store', category: 'commerce' },
   { class: 'i-tabler-basket', category: 'commerce' },
   { class: 'i-tabler-cash-banknote', category: 'commerce' },
   { class: 'i-tabler-receipt-refund', category: 'commerce' },
@@ -330,13 +331,12 @@ export const recommendedIcons = [
   { class: 'i-tabler-chart-bubble', category: 'marketing' },
   { class: 'i-tabler-chart-arcs', category: 'marketing' },
   { class: 'i-tabler-chart-area', category: 'marketing' },
-  { class: 'i-tabler-funnel', category: 'marketing' }, // For conversion funnels
+  { class: 'i-tabler-chart-funnel', category: 'marketing' }, // For conversion funnels
   { class: 'i-tabler-antenna', category: 'marketing' }, // For reach/broadcast
   { class: 'i-tabler-arrows-split', category: 'marketing' }, // For A/B testing
 
   // Automation & Workflows
   { class: 'i-tabler-rotate-clockwise', category: 'marketing' }, // For automation cycles
-  { class: 'i-tabler-workflow', category: 'marketing' },
   { class: 'i-tabler-broadcast', category: 'marketing' },
   { class: 'i-tabler-switch-horizontal', category: 'marketing' }, // For workflow transitions
 
@@ -344,7 +344,7 @@ export const recommendedIcons = [
   { class: 'i-tabler-sitemap', category: 'content' },
   { class: 'i-tabler-notebook', category: 'content' },
   { class: 'i-tabler-text-recognition', category: 'content' },
-  { class: 'i-tabler-spelling-check', category: 'content' },
+  { class: 'i-tabler-spellcheck', category: 'content' },
 
   // Email & Newsletter
   { class: 'i-tabler-mail-cog', category: 'marketing' }, // Email automation
@@ -359,7 +359,7 @@ export const recommendedIcons = [
   // Engagement & Growth
   { class: 'i-tabler-growth', category: 'marketing' },
   { class: 'i-tabler-users-group', category: 'social' },
-  { class: 'i-tabler-viral', category: 'marketing' },
+  { class: 'i-tabler-virus', category: 'marketing' },
   { class: 'i-tabler-flag', category: 'marketing' }, // For goals/milestones
 
   // Modern Platform Elements

@@ -22,8 +22,7 @@ const buttonOptions: InputOption[] = [
   createOption({
     key: 'href',
     label: 'Link',
-    input: 'InputUrl',
-    props: { placeholder: 'Enter URL or path' },
+    input: 'InputSiteRoute',
     schema,
   }),
   createOption({

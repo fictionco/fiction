@@ -168,7 +168,7 @@ export function getOptions() {
               key: 'form.redirectUrl',
               label: 'Redirect URL',
               subLabel: '(Optional) URL to redirect to after form submission',
-              input: 'InputUrl',
+              input: 'InputSiteRoute',
             }),
           ],
         }),

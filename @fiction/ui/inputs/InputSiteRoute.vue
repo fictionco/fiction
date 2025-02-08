@@ -2,6 +2,7 @@
 import type { StandardSize } from '@fiction/core'
 import type { Site } from '@fiction/site'
 import { toLabel, vue } from '@fiction/core'
+import { siteGoto } from '@fiction/site/utils/manage'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import XDropDown from '../common/XDropDown.vue'
 import InputSelectCustom from './InputSelectCustom.vue'
@@ -91,7 +92,10 @@ function handleMediaAdd() {
   if (!mediaValue.value || !isValidMediaUrl(mediaValue.value))
     return
 
-  const newValue = `?_modal=${encodeURIComponent(mediaValue.value)}`
+  const baseUrl = urlValue.value && !urlValue.value.includes('http') ? urlValue.value : ''
+  const joiner = baseUrl.includes('?') ? '&' : '?'
+  const newValue = `${baseUrl}${joiner}_modal=${encodeURIComponent(mediaValue.value)}`
+
   urlValue.value = newValue
   emit('update:modelValue', newValue)
   mediaValue.value = ''
@@ -125,6 +129,10 @@ const modes = [
   { label: 'Select Page', value: 'page' as const },
   { label: 'Media Modal', value: 'media' as const },
 ]
+
+async function navigateToLink(url: string) {
+  await siteGoto({ site: props.site, location: url, options: { caller: 'InputSiteRoute' } })
+}
 </script>
 
 <template>
@@ -132,6 +140,7 @@ const modes = [
     <!-- URL Preview -->
     <div class="flex justify-between items-center gap-3">
       <XButton
+        class="min-w-0"
         size="sm"
         theme="default"
         rounding="full"
@@ -139,7 +148,7 @@ const modes = [
         icon="i-tabler-link"
         :icon-after="afterIcon"
         :title="urlValue"
-        @click.prevent.stop="emit('navigate', urlValue)"
+        @click.prevent.stop="navigateToLink(urlValue)"
       >
         {{ displayUrl }}
       </XButton>
@@ -147,6 +156,7 @@ const modes = [
         :items="modes"
         dropdown-alignment="end"
         mode="click"
+        :classes="{ wrapper: 'shrink-0' }"
         @update:model-value="mode = ($event as RouteMode)"
       >
         <XButton

@@ -1,18 +1,20 @@
 <script lang="ts" setup>
-import type { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import XLink from '@fiction/ui/common/XLink.vue'
 
 defineOptions({ name: 'CardLink' })
 
-const props = defineProps({
-  card: { type: Object as vue.PropType<Card>, required: true },
-  href: { type: String, default: undefined },
-})
+const { card, href } = defineProps<{
+  card: Card
+  href?: string
+}>()
 </script>
 
 <template>
-  <XLink :href="props.card.link(props.href)">
+  <XLink
+    :href="card.link(href)"
+    :should-prevent="card.site?.siteMode.value === 'editable'"
+  >
     <slot />
   </XLink>
 </template>

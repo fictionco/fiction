@@ -237,7 +237,12 @@ vue.watch(() => itemId.value, () => {
                 input="InputOneTimeCode"
                 label="One Time Code"
                 sub-label="Check your email for the code"
-                :input-props="{ autocomplete: 'one-time-code', required: true, placeholder: 'Enter the code from your email' }"
+                :input-props="{
+                  autocomplete: 'one-time-code',
+                  required: true,
+                  placeholder: 'Enter the code from your email',
+                  focusFirst: true,
+                }"
                 ui-size="lg"
                 :model-value="fields.oneTimeCode"
                 @update:model-value="fields.oneTimeCode = $event"

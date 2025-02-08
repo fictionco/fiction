@@ -23,11 +23,7 @@ export function getOptions() {
       schema,
       icon: { class: 'i-tabler-icons' },
       options: [
-        createOption({
-          key: 'brand',
-          input: 'InputBrand',
-          schema,
-        }),
+        createOption({ key: 'brand', input: 'InputBrand', schema }),
       ],
     }),
 
@@ -38,11 +34,7 @@ export function getOptions() {
       schema,
       icon: { class: 'i-tabler-list-check' },
       options: [
-        createOption({
-          key: 'menus',
-          input: 'InputNavMenu',
-          schema,
-        }),
+        createOption({ key: 'menus', input: 'InputNavMenu', schema }),
       ],
     }),
 
@@ -53,20 +45,8 @@ export function getOptions() {
       schema,
       icon: { class: 'i-tabler-link' },
       options: [
-        createOption({
-          key: 'additional.list1',
-          label: 'Primary Links',
-          input: 'InputNav',
-          props: { hasChildNav: false },
-          schema,
-        }),
-        createOption({
-          key: 'additional.list2',
-          label: 'Secondary Links',
-          input: 'InputNav',
-          props: { hasChildNav: false },
-          schema,
-        }),
+        createOption({ key: 'additional.list1', label: 'Primary Links', input: 'InputNav', props: { hasChildNav: false }, schema }),
+        createOption({ key: 'additional.list2', label: 'Secondary Links', input: 'InputNav', props: { hasChildNav: false }, schema }),
       ],
     }),
   ]

@@ -12,28 +12,10 @@ const emit = defineEmits<{
 }>()
 
 const options: InputOption[] = [
-  createOption({
-    key: 'logo',
-    label: 'Logo',
-    input: 'InputLogo',
-    schema,
-  }),
-  createOption({
-    key: 'tagline',
-    label: 'Tagline',
-    input: 'InputText',
-    props: {
-      placeholder: 'Enter your tagline',
-    },
-    schema,
-  }),
-  createOption({
-    key: 'action',
-    input: 'InputActionArea',
-    label: 'Action Area',
-    isClosed: true,
-    schema,
-  }),
+  createOption({ key: 'logo', label: 'Logo', input: 'InputLogo', schema }),
+  createOption({ key: 'href', label: 'Link', input: 'InputSiteRoute', schema }),
+  createOption({ key: 'tagline', label: 'Tagline / Alt', input: 'InputText', schema }),
+  createOption({ key: 'action', input: 'InputActionArea', label: 'Action Area', isClosed: true, schema }),
 ]
 </script>
 
