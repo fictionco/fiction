@@ -193,7 +193,7 @@ export class QueryManageMemberRelation extends OrgQuery {
 export type WhereOrg = { orgId: string } | { slug: string }
 
 export type ManageOrganizationParams =
-  | { _action: 'create', fields: Partial<Organization>, userId: string }
+  | { _action: 'create', fields: Partial<Organization>, userId: string, withDefaults?: boolean }
   | { _action: 'update', where: WhereOrg, fields: Partial<Organization> }
   | { _action: 'delete', where: WhereOrg }
   | { _action: 'retrieve', where: WhereOrg }
@@ -242,7 +242,7 @@ export class QueryManageOrganization extends OrgQuery {
   }
 
   private async createOrganization(params: ManageOrganizationParams & { _action: 'create' }, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {
-    const { fields, userId } = params
+    const { fields, userId, withDefaults } = params
     const { orgName, orgEmail, orgId } = fields
     const defaultName = orgEmail?.split('@')[0] || 'Untitled Organization'
 
@@ -263,7 +263,7 @@ export class QueryManageOrganization extends OrgQuery {
     if (!responseOrg?.orgId)
       throw new Error('Organization creation failed')
 
-    this.settings.fictionEnv.events.emit('onNewOrganization', { org: responseOrg, userId })
+    this.settings.fictionEnv.events.emit('onNewOrganization', { org: responseOrg, userId, withDefaults })
 
     await this.manageMemberRelation({ userId, orgId: responseOrg.orgId, accessType: 'owner' }, { server: true, ...meta, caller: 'orgCreateMemberRelationCall' })
 

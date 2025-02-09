@@ -11,7 +11,7 @@ describe('postEditing', async () => {
       path: '/app',
       actions: [
         { type: 'click', selector: '[data-test-id="dashboard-nav-posts"]' },
-        { type: 'click', selector: '[data-test-id="createPostButton"]' },
+        { type: 'click', selector: '[data-test-id="createPostButtonTop"]' },
         { type: 'fill', selector: '[data-test-id="postTitleInput"] input', text: 'Test Post' },
         { type: 'click', selector: '[data-test-id="step-button-postTitle"]' },
         { type: 'hasText', selector: '[data-test-id="post-editor-title"]', text: 'Test Post' },

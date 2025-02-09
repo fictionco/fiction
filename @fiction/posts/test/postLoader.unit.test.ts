@@ -2,7 +2,7 @@ import type { EndpointMeta } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { TablePostConfig } from '../schema'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
-import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { FictionPosts } from '..'
 import { PostLoader } from '../postLoader'
 
@@ -14,55 +14,51 @@ describe('postLoader Integration Tests', async () => {
   const { orgId, user } = await testUtils.init()
   const userId = user.userId || ''
 
-  let postLoader: PostLoader
-  let mockCard: Card
   const createdPosts: TablePostConfig[] = []
 
   const meta = { bearer: user } as EndpointMeta
 
-  beforeAll(async () => {
-    // Create some test posts
-    const postData = [
-      { title: 'Test Post 1', content: 'Content 1' },
-      { title: 'Test Post 2', content: 'Content 2' },
-      { title: 'Test Post 3', content: 'Content 3' },
-    ]
+  // Create some test posts
+  const postData = [
+    { title: 'Test Post 1', content: 'Content 1' },
+    { title: 'Test Post 2', content: 'Content 2' },
+    { title: 'Test Post 3', content: 'Content 3' },
+  ]
 
-    for (const data of postData) {
-      const result = await fictionPosts.queries.ManagePost.serve({
-        _action: 'create',
-        fields: data,
+  for (const data of postData) {
+    const result = await fictionPosts.queries.ManagePost.serve({
+      _action: 'create',
+      fields: data,
+      orgId,
+      userId,
+    }, meta)
+
+    const createdPost = result.data?.[0]
+
+    if (createdPost)
+      createdPosts.push(createdPost)
+  }
+
+  const mockCard = {
+    userConfig: {
+      value: {
+        posts: {
+          format: 'standard',
+          limit: 10,
+        },
+      },
+    },
+    site: {
+      settings: {
         orgId,
-        userId,
-      }, meta)
-
-      const createdPost = result.data?.[0]
-
-      if (createdPost)
-        createdPosts.push(createdPost)
-    }
-
-    mockCard = {
-      userConfig: {
-        value: {
-          posts: {
-            format: 'standard',
-            limit: 10,
-          },
-        },
       },
-      site: {
-        settings: {
-          orgId,
-        },
-      },
-    } as unknown as Card
+    },
+  } as unknown as Card
 
-    postLoader = new PostLoader({
-      fictionPosts,
-      card: mockCard,
-      rootKey: 'posts',
-    })
+  const postLoader = new PostLoader({
+    fictionPosts,
+    card: mockCard,
+    rootKey: 'posts',
   })
 
   afterAll(async () => {
@@ -81,9 +77,9 @@ describe('postLoader Integration Tests', async () => {
     it('should load global posts correctly', async () => {
       const { posts, indexMeta } = await postLoader.loadPosts()
 
-      expect(posts).toHaveLength(3)
+      expect(posts).toHaveLength(4)
       expect(posts[0].title.value).toBe('Test Post 3')
-      expect(indexMeta?.count).toBe(3)
+      expect(indexMeta?.count).toBe(4)
     })
 
     it('should handle pagination for global posts', async () => {
@@ -91,7 +87,7 @@ describe('postLoader Integration Tests', async () => {
 
       expect(posts).toHaveLength(2)
       expect(posts[0].title.value).toBe('Test Post 2')
-      expect(indexMeta?.count).toBe(3)
+      expect(indexMeta?.count).toBe(4)
     })
 
     it('should load local posts correctly', async () => {

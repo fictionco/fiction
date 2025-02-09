@@ -78,7 +78,7 @@ export type EnvEventMap = {
   fiveMinuteInterval: CustomEvent<{ reason: string }>
   hourlyInterval: CustomEvent<{ reason: string }>
   dailyInterval: CustomEvent<{ reason: string }>
-  onNewOrganization: CustomEvent<{ org: Organization, userId: string }>
+  onNewOrganization: CustomEvent<{ org: Organization, userId: string, withDefaults?: boolean }>
 }
 
 export class FictionEnv<
