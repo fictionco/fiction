@@ -17,17 +17,17 @@ const linkProps = vue.computed(() => {
 <template>
   <div
     :data-test-id="item.testId || `index-item-${index}`"
-    class="@container"
+    class=""
   >
     <component
       :is="getNavComponentType(item)"
       v-bind="linkProps"
-      class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 px-6 sm:flex-nowrap"
+      class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 p-4 md:p-6 sm:flex-nowrap"
       :class="[item.href ? hoverClass : '', boxClass]"
       @click.stop="item.onClick && item.onClick({ item, event: $event })"
     >
-      <div class="flex gap-6 items-center space-y-0">
-        <ElIndexItemMedia class="size-12 @xl:size-20" :media="item.media" :icon="item.icon" :theme />
+      <div class="flex gap-4 md:gap-6 items-center space-y-0">
+        <ElIndexItemMedia class="size-12 lg:size-20" :media="item.media" :icon="item.icon" :theme />
         <div>
           <div class="text-xl font-semibold leading-6">
             {{ item.label }}
@@ -37,7 +37,9 @@ const linkProps = vue.computed(() => {
           </div>
         </div>
       </div>
-      <dl class="flex w-full flex-none justify-between gap-x-8 sm:w-auto items-center">
+      <dl
+        class="w-full flex-none justify-between gap-x-8 sm:w-auto items-center hidden md:flex"
+      >
         <slot :item="item" name="item" />
 
         <ActionButtons
@@ -47,7 +49,7 @@ const linkProps = vue.computed(() => {
           class="flex gap-3"
         />
 
-        <svg v-else class="hidden sm:inline-block size-6 flex-none text-theme-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <svg v-else class="inline-block size-6 flex-none text-theme-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
           <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
         </svg>
       </dl>

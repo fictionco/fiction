@@ -90,67 +90,80 @@ vue.watch(
 const { width } = useWindowSize()
 
 const isDesktop = vue.computed(() => width.value >= 1024)
+
+const itemPanelProps = vue.computed(() => {
+  return {
+    'is': currentPanel.value?.tpl.value?.settings?.el,
+    'id': currentPanel.value?.cardId,
+    'data-test-id': 'card-engine-component',
+    'data-card-type': currentPanel.value?.templateId.value,
+    'card': currentPanel.value,
+    ...panelProps,
+    'v-on': panelEvents,
+  } as const
+})
 </script>
 
 <template>
   <div class="lg:flex lg:h-[calc(100dvh-61px)] overflow-x-clip">
-    <div
-      v-if="!currentItemId || isDesktop"
-      class="lg:w-[32%] shrink-0 rounded-l-md p-3  md:p-6 md:border-r dark:border-theme-600/60 border-theme-300/60 space-y-6"
-    >
-      <div class="space-y-3">
-        <ElHeader
-          v-if="header"
-          class="bg-theme-50/20 dark:bg-theme-800 rounded-xl p-4"
-          :model-value="header"
-          :theme="theme || 'primary'"
-          @update:model-value="emit('update:header', $event)"
-        />
-      </div>
-      <div class="space-y-3 text-right pb-32">
-        <CardLink
-          v-for="(v, i) in nav"
-          :key="i"
-          :card
-          class="flex items-center gap-3 xl:gap-5 px-3 py-2.5 xl:px-5 xl:py-3 rounded-lg transition-all duration-100"
-          :href="v.href"
-          :class="getNavItemClass(v, i)"
-        >
-          <XIcon
-            v-if="v.icon"
-            class="text-[1.2em] xl:text-[1.5em] shrink-0 text-theme-500 dark:text-theme-50"
-            :media="v.icon"
-          />
-          <div class="min-w-0 truncate overflow-ellipsis text-left">
-            <div class="font-semibold truncate">
-              {{ v.label }}
+    <div v-if="loading" class="p-12 flex justify-center items-center w-full text-theme-400 dark:text-theme-700 h-full">
+      <ElSpinner class="size-8" />
+    </div>
+    <template v-else>
+      <div
+        class="lg:w-[32%] shrink-0 rounded-l-md md:border-r dark:border-theme-600/60 border-theme-300/60"
+      >
+        <transition :name="transitionDirection" mode="out-in">
+          <div v-if="!currentItemId || isDesktop" class="space-y-6 p-3 md:p-6 ">
+            <div class="space-y-3">
+              <ElHeader
+                v-if="header"
+                class="bg-theme-50/20 dark:bg-theme-800 rounded-xl p-4"
+                :model-value="header"
+                :theme="theme || 'primary'"
+                @update:model-value="emit('update:header', $event)"
+              />
             </div>
-            <div class="text-theme-400 dark:text-theme-500 truncate text-sm">
-              {{ v.description }}
+            <div class="space-y-3 text-right pb-32">
+              <CardLink
+                v-for="(v, i) in nav"
+                :key="i"
+                :card
+                class="flex items-center gap-3 xl:gap-5 px-3 py-2.5 xl:px-5 xl:py-3 rounded-lg transition-all duration-100"
+                :href="v.href"
+                :class="getNavItemClass(v, i)"
+              >
+                <XIcon
+                  v-if="v.icon"
+                  class="text-[1.2em] xl:text-[1.5em] shrink-0 text-theme-500 dark:text-theme-50"
+                  :media="v.icon || {}"
+                />
+                <div class="min-w-0 truncate overflow-ellipsis text-left">
+                  <div class="font-semibold truncate">
+                    {{ v.label }}
+                  </div>
+                  <div class="text-theme-400 dark:text-theme-500 truncate text-sm">
+                    {{ v.description }}
+                  </div>
+                </div>
+              </CardLink>
             </div>
           </div>
-        </CardLink>
-      </div>
-    </div>
-    <div v-if="currentItemId || isDesktop" class="grow lg:overflow-scroll pb-32">
-      <transition name="fade" mode="out-in">
-        <div v-if="currentPanel" :key="currentItemId || 'default'">
-          <div v-if="loading" class="p-12 flex justify-center">
-            <ElSpinner class="size-8" />
+          <div v-else :key="currentItemId || 'default'" class="grow lg:overflow-scroll pb-32">
+            <component :is="itemPanelProps.is" v-bind="itemPanelProps" />
           </div>
-          <component
-            :is="currentPanel?.tpl.value?.settings?.el"
-            v-else
-            :id="currentPanel?.cardId"
-            data-test-id="card-engine-component"
-            :data-card-type="currentPanel?.templateId.value"
-            :card="currentPanel"
-            v-bind="panelProps"
-            v-on="panelEvents"
-          />
-        </div>
-      </transition>
-    </div>
+        </transition>
+      </div>
+      <div
+        v-if="currentPanel && isDesktop"
+
+        class="grow lg:overflow-scroll pb-32"
+      >
+        <transition name="fade" mode="out-in">
+          <component :is="itemPanelProps.is" v-bind="itemPanelProps" />
+        </transition>
+      </div>
+    </template>
   </div>
 </template>
 

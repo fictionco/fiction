@@ -8,7 +8,7 @@ import { t } from '../tables'
 import { getSiteMetrics, trackSiteMetrics } from '../utils/site'
 import { createSiteTestUtils } from './testUtils'
 
-describe.only('getSiteSelector', async () => {
+describe('getSiteSelector', async () => {
   const testUtils = await createSiteTestUtils()
   const r = await testUtils.init()
   const userId = r?.user?.userId ?? ''
@@ -117,7 +117,7 @@ describe.only('getSiteSelector', async () => {
     expect(result.data?.siteId).toBe(siteId1)
   })
 
-  it.only('should handle non-hostname queries', async () => {
+  it('should handle non-hostname queries', async () => {
     const siteId = await getSelectorTestSite([])
 
     const result = await testUtils.fictionSites.queries.ManageSite.serve({
