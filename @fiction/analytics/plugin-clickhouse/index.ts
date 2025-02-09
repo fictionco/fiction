@@ -3,6 +3,7 @@ import type { Knex } from 'knex'
 import type { FictionAnalytics, FictionAnalyticsSettings } from '../index.js'
 import type { QueryParamsRefined, TimeLineInterval } from '../types.js'
 import type { ClickHouseQueryResult } from './types.js'
+import process from 'node:process'
 import { capitalize, dayjs, fetchWithTimeout, FictionPlugin, isJson, isNode, knex, objectId } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
 import { eventFields } from '../plugin-beacon/index.js'
@@ -48,7 +49,7 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
       throw new Error('no clickhouse connection url')
     }
     else if (settings.clickhouseUrl) {
-      this.connectionUrl = new URL(settings.clickhouseUrl)
+      this.connectionUrl = new URL(this.getRefinedRawUrl(settings.clickhouseUrl))
 
       this.user = this.connectionUrl.username
       this.password = this.connectionUrl.password
@@ -72,6 +73,29 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
       errorThresholdMs: 5000, // Error on queries over 5 seconds
       sampleRate: 1.0, // Monitor all queries in production
     })
+  }
+
+  /**
+   * can't use the public fly.dev url from instance to instance
+   * so we need to convert it to internal
+   */
+  getRefinedRawUrl(url: string): string {
+    // Only convert if running in Fly.io
+    if (!process.env.FLY_APP_NAME)
+      return url
+
+    try {
+      const parsed = new URL(url)
+      if (!parsed.hostname.endsWith('.fly.dev'))
+        return url
+
+      parsed.protocol = 'http'
+      parsed.hostname = `${parsed.hostname.replace('.fly.dev', '')}.internal`
+      return parsed.toString()
+    }
+    catch {
+      return url
+    }
   }
 
   async close() {
