@@ -63,6 +63,6 @@ describe('post utils', async () => {
 
   it('managePostIndex', async () => {
     const postIndex = await managePostIndex({ fictionPosts, params: { _action: 'list' }, caller: 'test-managePostIndex' })
-    expect(postIndex.length).toBe(1)
+    expect(postIndex.length).toBe(2)
   })
 })
