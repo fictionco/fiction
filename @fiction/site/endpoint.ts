@@ -485,7 +485,9 @@ export class ManageSite extends SitesQuery {
 
     const finalSite = await this.fetchSiteWithDetails({ selector: { siteId: site.siteId }, scope })
 
-    await this.settings.fictionMonitor?.slackNotify({ message: '*New Site Created*', data: finalSite })
+    if (finalSite?.siteId !== 'admin') {
+      await this.settings.fictionMonitor?.slackNotify({ message: '*New Site Created*', data: finalSite })
+    }
 
     return { status: 'success', data: site, message: 'site created' }
   }

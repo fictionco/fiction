@@ -43,7 +43,7 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
       if (!this.settings.fictionEnv?.isApp.value) {
         const { cityName, regionName, countryCode } = user.geo || {}
 
-        if (user.email?.includes('test') || user.email?.includes('fiction.com')) {
+        if (!user.email?.includes('test') && !user.email?.includes('fiction.com')) {
           await this.slackNotify({
             message: `user created: ${user.email}`,
             data: {
