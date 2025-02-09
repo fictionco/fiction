@@ -191,7 +191,7 @@ export async function loadSite(args: {
   }
 
   if (!site)
-    logger.error('No Site Loaded', { data: { vals } })
+    logger.debug('No Site Loaded', { data: { vals } })
 
   return site
 }

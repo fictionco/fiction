@@ -271,9 +271,12 @@ export class FictionLog {
     config.priority = this.logLevel[level].priority
     config.color = this.logLevel[level].color
 
+    if (config.priority < 10 && !this.isDebug) {
+      return
+    }
+
     if (isNode()) {
-      if (config.priority < 10 && !this.isProd && !this.isDebug)
-        config.data = undefined
+      config.data = undefined
 
       this.logServer(config)
     }

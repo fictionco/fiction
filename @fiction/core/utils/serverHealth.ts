@@ -33,7 +33,7 @@ export function getServerHealth(args: { expressApp: express.Express, id: string 
     activeConnections: 0, // You will need to implement logic to get active connections
   }
 
-  log.info('expressApp', 'health check request', { data: healthData })
+  log.debug('expressApp', 'health check request', { data: healthData })
 
   return healthData
 }

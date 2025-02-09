@@ -1,0 +1,13 @@
+<clickhouse>
+    <users>
+        <fiction>
+            <password_sha256_hex>d99b709169865352053916bb2f06bb103f04f3994fe6be97f360c84924321013</password_sha256_hex>
+            <profile>default</profile>
+            <networks>
+                <ip>::/0</ip>
+                <ip>0.0.0.0/0</ip>
+            </networks>
+            <quota>default</quota>
+        </fiction>
+    </users>
+</clickhouse>

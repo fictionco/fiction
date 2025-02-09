@@ -6,7 +6,7 @@
 app = "fiction-clickhouse"
 
 [build]
-image = "clickhouse/clickhouse-server@latest"
+dockerfile = "./Dockerfile"
 
 [mounts]
 source = "clickhouse_data"
@@ -53,4 +53,4 @@ timeout = 2000
 [[vm]]
 memory = '4gb'
 cpu_kind = 'shared'
-cpus = 4
+cpus = 2
