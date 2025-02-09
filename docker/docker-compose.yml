@@ -26,7 +26,7 @@ services:
     volumes:
       - clickhouse-data:/var/lib/clickhouse
       - ./fly/clickhouse/config.xml:/etc/clickhouse-server/config.d/override.xml
-      - ./flu/clickhouse/users.xml:/etc/clickhouse-server/users.xml
+      - ./fly/clickhouse/users.xml:/etc/clickhouse-server/users.xml
   # run client with: docker-compose run clickhouse-client
   # clickhouse-client:
   #   image: yandex/clickhouse-client
