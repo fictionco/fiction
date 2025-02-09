@@ -13,7 +13,7 @@ services:
 
   # https://github.com/rongfengliang/clickhouse-docker-compose
   clickhouse-server:
-    image: yandex/clickhouse-server
+    image: clickhouse/clickhouse-server:latest
     ports:
       - '8123:8123'
       - '9000:9000'
@@ -26,7 +26,7 @@ services:
     volumes:
       - clickhouse-data:/var/lib/clickhouse
       - ./fly/clickhouse/config.xml:/etc/clickhouse-server/config.d/override.xml
-      - ./fly/clickhouse/users.xml:/etc/clickhouse-server/users.xml
+      - ./fly/clickhouse/users.xml:/etc/clickhouse-server/users.d/users.xml
   # run client with: docker-compose run clickhouse-client
   # clickhouse-client:
   #   image: yandex/clickhouse-client
