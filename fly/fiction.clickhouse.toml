@@ -8,11 +8,6 @@ app = "fiction-clickhouse"
 [build]
 image = "clickhouse/clickhouse-server@latest"
 
-[env]
-CLICKHOUSE_DATABASE = "fiction"
-CLICKHOUSE_USER = "fiction"
-CLICKHOUSE_PASSWORD = "socrates-and-plato"
-
 [mounts]
 source = "clickhouse_data"
 destination = "/var/lib/clickhouse/"
