@@ -56,10 +56,10 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
 
   hooks() {
     this.fictionEnv.events.on('onNewOrganization', async (event) => {
-      const { org: { orgId } } = event.detail
+      const { org: { orgId }, userId } = event.detail
       if (!orgId)
         throw new Error('orgId not found')
-      await createHelloWorldPost({ orgId, fictionPosts: this })
+      await createHelloWorldPost({ orgId, fictionPosts: this, userId })
     })
   }
 

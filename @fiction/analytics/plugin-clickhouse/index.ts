@@ -83,20 +83,28 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
     if (this.fictionEnv.isApp.value)
       return
 
-    if (!this.connectionUrl)
-      throw new Error('no clickhouse connection url')
+    try {
+      if (!this.connectionUrl)
+        throw new Error('no clickhouse connection url')
 
-    const check = await fetch(this.connectionUrl.href, { method: 'GET' })
-    const checkText = await check.text()
+      const check = await fetch(this.connectionUrl.href, { method: 'GET' })
+      const checkText = await check.text()
 
-    if (checkText.trim() !== 'Ok.')
-      throw new Error('clickhouse not alive')
+      if (checkText.trim() !== 'Ok.')
+        throw new Error('clickhouse not alive')
 
-    this.log.info('CLICKHOUSE INITIALIZED', { data: { url: this.connectionUrl.hostname, port: `[ ${this.connectionUrl.port} ]` } })
-    this.initialized = true
+      this.log.info('CLICKHOUSE INITIALIZED', { data: { url: this.connectionUrl.hostname, port: `[ ${this.connectionUrl.port} ]` } })
+      this.initialized = true
 
-    if (!this.fictionEnv.isTest.value)
-      await this.extend()
+      if (!this.fictionEnv.isTest.value)
+        await this.extend()
+    }
+    catch (error) {
+      this.log.error('clickhouse init error', {
+        error,
+        data: { connectionUrl: this.connectionUrl.toString() },
+      })
+    }
   }
 
   client(): Knex {

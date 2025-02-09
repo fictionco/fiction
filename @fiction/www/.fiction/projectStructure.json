@@ -1605,14 +1605,14 @@
         "InputUsername.vue": null,
         "InputWeight.vue": null,
         "LibraryBackground.vue": null,
-        "LibraryHtml.vue": null,
         "LibraryIcon.vue": null,
-        "LibraryMedia.vue": null,
         "LibraryMediaGallery.vue": null,
         "LibraryModal copy.vue": null,
         "LibraryModal.vue": null,
-        "LibraryModalOld.vue": null,
         "__InputItems.vue": null,
+        "__LibraryHtml.vue": null,
+        "__LibraryMedia.vue": null,
+        "__LibraryModalOld.vue": null,
         "index.ts": null,
         "test": {
           "InputArray.unit.test.ts": null,
@@ -1755,14 +1755,10 @@
   "CHANGELOG.md": null,
   "README.md": null,
   "docker": {
-    "Dockerfile": null,
     "clickhouse": {
-      "clickhouse-config.xml": null,
-      "clickhouse-init.sh": null,
-      "clickhouse.Dockerfile": null,
+      "config.xml": null,
       "users.xml": null
     },
-    "docker-compose.dev.yml": null,
     "docker-compose.yml": null
   },
   "docs": {
@@ -1798,8 +1794,13 @@
     "Dockerfile": null,
     "andrewpowers.www.toml": null,
     "chrome.Dockerfile": null,
+    "clickhouse": {
+      "Dockerfile": null,
+      "config.xml": null,
+      "fiction.clickhouse.toml": null,
+      "users.xml": null
+    },
     "fiction.beacon.toml": null,
-    "fiction.clickhouse.toml": null,
     "fiction.docs.toml": null,
     "fiction.gateway.toml": null,
     "fiction.proxy.toml": null,

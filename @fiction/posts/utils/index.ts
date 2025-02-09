@@ -21,14 +21,15 @@ export async function managePostIndex(args: { fictionPosts: FictionPosts, params
   return r.data?.length ? r.data.map(p => new Post({ fictionPosts, ...p, sourceMode: 'standard' })) : []
 }
 
-export async function createHelloWorldPost(args: { orgId: string, fictionPosts: FictionPosts }) {
-  const { fictionPosts, orgId } = args
+export async function createHelloWorldPost(args: { orgId: string, userId: string, fictionPosts: FictionPosts }) {
+  const { fictionPosts, orgId, userId } = args
 
   const { createStockMediaHandler } = await import('@fiction/ui/stock')
   const stock = await createStockMediaHandler()
   await fictionPosts.queries.ManagePost.serve({
     _action: 'create',
     orgId,
+    userId,
     fields: {
       title: 'Hello World',
       subTitle: 'Your first post to get things started',
