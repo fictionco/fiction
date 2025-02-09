@@ -25,7 +25,7 @@ export async function requestManageSite(args: RequestManageSiteParams) {
   const { _action, siteMode, caller = 'requestManageSite', fields = {}, where, revisionId } = args
   const { fictionSites, siteRouter, ...pass } = args
 
-  logger.info(`request manage site:${_action}`, { data: { fields, where } })
+  logger.debug(`request manage site:${_action}`, { data: { fields, where } })
 
   const routeScope = siteRouter.vars.value._scope as string | undefined
 

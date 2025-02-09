@@ -290,9 +290,9 @@ export class FictionRouter<
 
   public async replace(
     location: vueRouter.RouteLocationRaw,
-    options?: { caller?: string },
+    options?: { caller?: string, logLevel?: 'info' | 'debug' },
   ) {
-    const { caller = 'unknown' } = options || {}
+    const { caller = 'unknown', logLevel = 'info' } = options || {}
 
     const router = this.verifyRouter()
 
@@ -306,7 +306,7 @@ export class FictionRouter<
       this.log.error(`invalid path: ${path}`, { data: location })
 
     if (!this.fictionEnv?.isRendering)
-      this.log.info(`replacing route ${path} [from ${caller}]`)
+      this.log[logLevel](`replacing route ${path} [from ${caller}]`)
 
     await router.replace(location)
   }

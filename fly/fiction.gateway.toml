@@ -29,7 +29,5 @@ path = '/api/health'
 tls_skip_verify = false
 
 [[vm]]
-size = 'performance-1x'
-memory = '8gb'
-cpu_kind = 'performance'
-cpus = 1
+size = "shared-cpu-2x"
+memory = "4gb"

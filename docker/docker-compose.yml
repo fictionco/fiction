@@ -25,8 +25,8 @@ services:
         hard: 262144
     volumes:
       - clickhouse-data:/var/lib/clickhouse
-      - ./fly/clickhouse/config.xml:/etc/clickhouse-server/config.d/override.xml
-      - ./fly/clickhouse/users.xml:/etc/clickhouse-server/users.d/users.xml
+      - ./clickhouse/config.xml:/etc/clickhouse-server/config.d/override.xml
+      - ./clickhouse/users.xml:/etc/clickhouse-server/users.xml
   # run client with: docker-compose run clickhouse-client
   # clickhouse-client:
   #   image: yandex/clickhouse-client

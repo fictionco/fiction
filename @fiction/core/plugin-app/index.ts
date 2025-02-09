@@ -145,38 +145,6 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     return this.fictionRender?.serveStaticApp()
   }
 
-  createErrorHandler() {
-    const isSSR = this.settings.fictionEnv.isSSR.value
-    const log = this.log
-
-    const getComponentName = (instance: vue.ComponentPublicInstance | null) => {
-      const type = instance?.$?.type
-      return type && typeof type === 'object' && 'name' in type ? type.name : 'Unknown'
-    }
-
-    return {
-      install(app: vue.App) {
-        app.config.errorHandler = (err, instance, info) => {
-          log[isSSR ? 'error' : 'warn']('Vue Error', {
-            component: getComponentName(instance),
-            error: (err as Error).message,
-            info: isSSR ? info.split('\n')[0] : info,
-          })
-        }
-
-        app.config.warnHandler = !isSSR
-          ? (msg, instance, trace) => {
-              log.warn('Vue Warning', {
-                component: getComponentName(instance),
-                message: msg,
-                trace: trace?.split('\n')[0],
-              })
-            }
-          : undefined
-      },
-    }
-  }
-
   createVueApp = async (args: {
     runVars: Partial<RunVars>
     service: ServiceList & Partial<StandardServices>
@@ -187,7 +155,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
 
     const isSSR = this.settings.fictionEnv.isSSR.value
     if (isSSR)
-      await this.settings.fictionRouter.replace({ path: runVars?.PATHNAME }, { caller: 'CreateSSRVueApp' })
+      await this.settings.fictionRouter.replace({ path: runVars?.PATHNAME }, { caller: 'CreateSSRVueApp', logLevel: 'debug' })
 
     const app: vue.App = isSSR ? vue.createSSRApp(this.rootComponent) : vue.createApp(this.rootComponent)
 
@@ -195,7 +163,6 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
 
     app.provide('service', this.settings.fictionEnv.service)
     app.use(router)
-    app.use(this.createErrorHandler())
 
     await router.isReady()
     const meta = createHead()
