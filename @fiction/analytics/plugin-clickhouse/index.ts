@@ -173,9 +173,12 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
 
             this.log.error(`${caller}: clickhouse query error (${e?.message ?? 'no message'})`, { data: { url, query }, error })
 
-            const { format } = await import('sql-formatter')
+            // const { format } = await import('sql-formatter')
 
-            this.log.error(`clickhouse error query formatted (${e?.message ?? 'no message'})`, { data: { url, query: format(query) }, error })
+            // this.log.error(`clickhouse error query formatted (${e?.message ?? 'no message'})`, {
+            //   data: { url, query: format(query) },
+            //   error,
+            // })
           }
         },
       )

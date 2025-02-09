@@ -276,8 +276,6 @@ export class FictionLog {
     }
 
     if (isNode()) {
-      config.data = undefined
-
       this.logServer(config)
     }
     else {

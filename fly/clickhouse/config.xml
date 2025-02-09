@@ -1,4 +1,4 @@
- <clickhouse>
+<clickhouse>
   <listen_host>::</listen_host>
   <listen_host>0.0.0.0</listen_host>
   <http_port>8123</http_port>
