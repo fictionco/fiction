@@ -17,7 +17,7 @@ describe('server test', async () => {
     server?.close()
   })
   it('starts endpoint server', async () => {
-    const port = randomBetween(9000, 9999)
+    const port = randomBetween(10000, 30000)
     const fictionServer = new FictionServer({
       fictionEnv: testUtils.fictionEnv,
       serverName: 'testServer',
@@ -63,7 +63,7 @@ describe('server test', async () => {
   })
 
   it('switches to live URL correctly', async () => {
-    const port = randomBetween(9000, 9999)
+    const port = randomBetween(10000, 30000)
     const fictionServer = new FictionServer({
       fictionEnv: testUtils.fictionEnv,
       serverName: 'testServer',
@@ -77,7 +77,7 @@ describe('server test', async () => {
   })
 
   it('handles useLocal scenario', async () => {
-    const port = randomBetween(9000, 9999)
+    const port = randomBetween(10000, 30000)
     const fictionServer = new FictionServer({
       fictionEnv: testUtils.fictionEnv,
       serverName: 'testServer',
@@ -91,7 +91,7 @@ describe('server test', async () => {
   })
 
   it('useLocal forces other plugins to right place', async () => {
-    const port = randomBetween(9000, 9999)
+    const port = randomBetween(10000, 30000)
     const fictionServer = new FictionServer({
       fictionEnv: testUtils.fictionEnv,
       serverName: 'testServer',
@@ -125,7 +125,7 @@ describe('server test', async () => {
    */
   it('handles localUrl', async () => {
     window.location.href = `${window.location.href}test`
-    const port = randomBetween(9000, 9999)
+    const port = randomBetween(10000, 30000)
     const fictionEnv = testUtils.fictionEnv
     const fictionServer = new FictionServer({
       fictionEnv,
@@ -147,7 +147,7 @@ describe('server test', async () => {
   it('handles removes port in live mode in the browser', () => {
     const fictionEnv = testUtils.fictionEnv
     fictionEnv.isNode = false
-    const port = randomBetween(9000, 9999)
+    const port = randomBetween(10000, 30000)
     window.location.href = 'https://www.apple.com'
     const fictionServer2 = new FictionServer({
       fictionEnv,

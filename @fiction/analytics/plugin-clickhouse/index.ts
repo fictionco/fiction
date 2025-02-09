@@ -78,6 +78,8 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
   /**
    * can't use the public fly.dev url from instance to instance
    * so we need to convert it to internal
+   * When you try to use public IPs, you're attempting "hairpinning" (traffic going out to internet and back)
+   * Fly.io blocks this type of routing between apps
    */
   getRefinedRawUrl(url: string): string {
     // Only convert if running in Fly.io

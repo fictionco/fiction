@@ -64,7 +64,7 @@ export async function createSiteTestUtils(args: {
   const routes = [new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: FSite })]
 
   const out = { ...testUtils } as Partial<SiteTestUtils> & TestUtils
-  const sitePort = randomBetween(1100, 50_000)
+  const sitePort = randomBetween(10000, 50000)
   const cdnUrl = 'https://media.fiction.com'
 
   const clickhouseUrl = v.clickhouseUrl

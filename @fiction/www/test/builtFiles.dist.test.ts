@@ -69,8 +69,8 @@ describe('dist checks', async () => {
   })
 
   it('runs app', async () => {
-    const appPort = randomBetween(1050, 60000)
-    const gatewayPort = randomBetween(1050, 60000)
+    const appPort = randomBetween(10000, 60000)
+    const gatewayPort = randomBetween(10000, 60000)
     let html = ''
     let status = 0
     await appRunTest({
@@ -88,8 +88,8 @@ describe('dist checks', async () => {
   })
 
   it('runs sites sub domain', async () => {
-    const appPort = randomBetween(1050, 60000)
-    const gatewayPort = randomBetween(1050, 60000)
+    const appPort = randomBetween(10000, 60000)
+    const gatewayPort = randomBetween(10000, 60000)
     let html = ''
     let status = 0
     await appRunTest({
