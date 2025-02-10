@@ -22,6 +22,7 @@ import { FictionBuild } from '../plugin-build/index.js'
 import { FictionPlugin } from '../plugin.js'
 import { createExpressApp, debounce, deepMergeAll, getRequire, importIfExists, isNode, requireIfExists, safeDirname } from '../utils/index.js'
 import { addExpressHealthCheck } from '../utils/serverHealth.js'
+import { createRateLimiter } from './render/rateLimitingMiddleware.js'
 import { securityMiddleware } from './render/securityMiddleware.js'
 import { SSR } from './render/ssr.js'
 import { getRequestVars, IndexHtml } from './render/utils.js'
@@ -517,9 +518,11 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
       let template: string
       if (mode === 'prod') {
+        expressApp.use(createRateLimiter())
         expressApp.use((...args) => this.addProductionHeaders(...args))
         expressApp.use(compression())
         expressApp.use(serveStatic(this.distFolderClient, { index: false }))
+
         template = await this.indexHtml.getRenderedIndexHtml()
       }
       else {

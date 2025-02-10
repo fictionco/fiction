@@ -68,7 +68,7 @@ export class MetricDisplayFactory extends FictionObject<{
     try {
       this.loading.value = true
 
-      await this.settings.fictionUser.userInitialized()
+      await this.settings.fictionUser.userInitialized({ caller: 'MetricDisplayFactory.init' })
 
       // Get data from analytics
       const response = await this.settings.fictionAnalytics.requests.CompiledMetrics.projectRequest({

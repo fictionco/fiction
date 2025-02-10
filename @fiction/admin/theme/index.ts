@@ -127,8 +127,6 @@ export const theme = new Theme({
     const adminPages = await service.fictionAdmin.getAdminPages({ factory })
     const pages = [...pg, ...adminPages]
     return {
-      onMounted: async () => {
-      },
       pages,
       sections: {},
       userConfig: {

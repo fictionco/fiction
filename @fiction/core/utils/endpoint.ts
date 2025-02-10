@@ -253,10 +253,14 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     // Get client's time zone
     const clientTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
+    const anonymousId = typeof window === 'undefined'
+      ? 'server_http_request'
+      : getAnonymousId({ caller: `requestHttp` }).anonymousId
+
     const headers: Record<string, string> = {
       'X-Timezone': clientTimeZone,
       'X-Caller': options.caller || 'fiction-http',
-      'X-Anonymous-Id': getAnonymousId().anonymousId,
+      'X-Anonymous-Id': anonymousId,
     }
 
     if (this.accessToken) {
@@ -297,13 +301,13 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     if (!this.fictionUser)
       throw new Error(`fictionUser is required for getUserInfo`)
 
-    await this.fictionUser.userInitialized()
+    await this.fictionUser.userInitialized({ caller: 'getUserInfo' })
 
     const { orgId, orgName } = this.fictionUser.activeOrganization.value ?? {}
 
     const { userId, fullName } = this.fictionUser.activeUser.value ?? {}
 
-    const { anonymousId } = getAnonymousId()
+    const { anonymousId } = getAnonymousId({ caller: 'getUserInfo' })
 
     if (!userOptional) {
       if (!orgId)

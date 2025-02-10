@@ -71,7 +71,7 @@ async function setEmail(campaignConfig?: EmailCampaignConfig) {
 }
 
 vue.onMounted(async () => {
-  await fictionUser.userInitialized()
+  await fictionUser.userInitialized({ caller: 'email-preview' })
 
   vue.watch([() => modelValue, () => previewMode.value], () => setEmail(modelValue), { immediate: true })
 

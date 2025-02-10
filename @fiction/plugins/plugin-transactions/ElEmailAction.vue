@@ -33,7 +33,7 @@ const currentAction = vue.computed<EmailAction | undefined>(() => {
 const authError = vue.ref()
 vue.onMounted(async () => {
   try {
-    await fictionUser.userInitialized()
+    await fictionUser.userInitialized({ caller: 'transaction' })
 
     if (vars.value.token) {
       const queryToken = vars.value.token

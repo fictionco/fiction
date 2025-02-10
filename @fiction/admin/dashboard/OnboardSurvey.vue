@@ -33,7 +33,7 @@ const form = vue.ref<{
 // Load initial data
 async function loadInitialData() {
   // Wait for user data to be available
-  const user = await fictionUser.userInitialized()
+  const user = await fictionUser.userInitialized({ caller: 'Onboard: Load Initial Data' })
 
   if (!user) {
     await card.goto('/auth', { isRedirect: true, caller: 'Onboard: Not Logged In' })

@@ -9,12 +9,14 @@ export const FIRST_SESSION_KEY = 'FictionFirstSession'
  * If the user is new, save the anonymous ID in cookie and local storage.
  * @returns {anonymousId: string, isNew: boolean} The anonymous ID and whether the user is new.
  */
-export function getAnonymousId(): {
+export function getAnonymousId(args: { caller: string }): {
   anonymousId: string
   isNew: boolean
 } {
-  if (typeof window === 'undefined')
-    return { anonymousId: 'no_window', isNew: false }
+  if (typeof window === 'undefined') {
+    console.warn(`getAnonymousId called by ${args.caller} in a non-browser environment`)
+    return { anonymousId: `no_window`, isNew: false }
+  }
 
   // Retrieve the anonymous ID from cookie or local storage
   const savedCookie = getCookie(ANON_ID_KEY)

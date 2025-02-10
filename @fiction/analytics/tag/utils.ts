@@ -49,6 +49,6 @@ export function baseBrowserEvent(args: {
 }
 
 export function isReturningSession(): boolean {
-  const { isNew } = getAnonymousId()
+  const { isNew } = getAnonymousId({ caller: 'isReturningSession' })
   return !isNew
 }

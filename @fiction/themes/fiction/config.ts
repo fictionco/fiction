@@ -258,7 +258,7 @@ export async function getConfig(args: {
     pages,
     onMounted: async (args) => {
       const { service: { fictionUser } } = args
-      await fictionUser.userInitialized()
+      await fictionUser.userInitialized({ caller: 'fictionThemeOnMounted' })
       await googleOneTap({
         autoSignIn: false,
         showPrompt: true,

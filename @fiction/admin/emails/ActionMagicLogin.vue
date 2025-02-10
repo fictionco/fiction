@@ -6,7 +6,7 @@ import { useService, vue } from '@fiction/core'
 
 type ActionProps = FictionAdmin['emailActions']['magicLoginEmailAction']
 
-const { card, action, queryVars } = defineProps<{
+const { card, queryVars } = defineProps<{
   card: Card
   action: ActionProps
   queryVars: Record<string, any>
@@ -17,7 +17,7 @@ const { fictionUser } = useService()
 const loading = vue.ref(true)
 
 vue.onMounted(async () => {
-  const user = await fictionUser.userInitialized()
+  const user = await fictionUser.userInitialized({ caller: 'magic-login' })
 
   if (user) {
     await card.goto({ path: '/', query: queryVars }, { caller: 'magic-login', replace: true })

@@ -345,11 +345,11 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
       this.resolveUser(true)
   }
 
-  userInitialized = async (args?: { caller?: string }): Promise<User | undefined> => {
+  userInitialized = async (args: { caller: string }): Promise<User | undefined> => {
     const { caller = 'unknown' } = args || {}
 
     if (typeof window === 'undefined') {
-      this.log.warn('user initialization called on server', { data: { caller } })
+      this.log.warn(`user initialization called on server from (${caller})`)
       return
     }
 

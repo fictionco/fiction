@@ -226,7 +226,7 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     if (!orgId)
       throw new Error('trackWebsiteEvents: Org ID not found')
 
-    const { anonymousId } = getAnonymousId()
+    const { anonymousId } = getAnonymousId({ caller: 'trackWebsiteEvents' })
     await initializeClientTag({ siteId, orgId, beaconUrl, anonymousId })
   }
 

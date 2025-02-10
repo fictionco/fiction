@@ -79,7 +79,7 @@ async function setupStripe() {
   error.value = ''
 
   try {
-    const user = await fictionUser.userInitialized()
+    const user = await fictionUser.userInitialized({ caller: 'setupStripe' })
     if (!user?.email)
       throw new Error('User not found')
 
@@ -170,7 +170,7 @@ vue.watch(
 )
 
 vue.onMounted(async () => {
-  await fictionUser.userInitialized()
+  await fictionUser.userInitialized({ caller: 'SubscriptionStart' })
   await fictionStripe.customerState.initialize({ caller: 'SubscriptionStart' })
 
   await setupStripe()

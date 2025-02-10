@@ -19,7 +19,7 @@ async function purchaseUrl(args: { priceLookupKey: string, site: Site }) {
     return loginPath
   }
 
-  const user = await fictionUser.userInitialized()
+  const user = await fictionUser.userInitialized({ caller: 'purchaseUrl' })
 
   if (!fictionStripe || !user) {
     return loginPath

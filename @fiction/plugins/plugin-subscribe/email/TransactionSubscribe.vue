@@ -79,7 +79,7 @@ async function sendRequest(user?: User) {
 }
 
 vue.onMounted(async () => {
-  const user = await fictionUser.userInitialized()
+  const user = await fictionUser.userInitialized({ caller: 'TransactionSubscribe' })
   await sendRequest(user)
 })
 </script>

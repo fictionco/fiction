@@ -507,7 +507,7 @@ describe('manageSite query', async () => {
     let testingDomain: string
 
     beforeEach(async () => {
-      testingDomain = `test-${objectId({ prefix: 'dom' })}.fiction.com`
+      testingDomain = `test-${objectId({ prefix: 'ddd' })}.fiction.com`
 
       // Create test site with pages
       const fields = {

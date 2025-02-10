@@ -222,7 +222,7 @@ export async function googleOneTap(settings: GoogleOneTapSettings): Promise<void
     return
   }
 
-  const user = await fictionUser.userInitialized()
+  const user = await fictionUser.userInitialized({ caller: 'googleOneTap' })
 
   await loadGoogleSignInLibrary()
 

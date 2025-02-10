@@ -91,7 +91,7 @@ const header = vue.computed(() => {
 })
 
 vue.onMounted(async () => {
-  await service.fictionUser.userInitialized()
+  await service.fictionUser.userInitialized({ caller: 'panelDev' })
   loading.value = false
 })
 </script>
