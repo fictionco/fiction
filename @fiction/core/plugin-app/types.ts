@@ -29,7 +29,7 @@ export type HtmlGenerateParts = HtmlBuildingBlocks & {
   url: string
 }
 
-export interface RenderedHtmlParts {
+export type RenderedHtmlParts = {
   htmlBody: string
   headTags: string
   bodyTags: string
