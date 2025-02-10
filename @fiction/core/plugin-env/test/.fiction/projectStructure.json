@@ -11,6 +11,7 @@
         "DashWrap.vue": null,
         "ElAvatarOrg.vue": null,
         "ElPanelSettings.vue": null,
+        "OnboardSurvey.vue": null,
         "PreLaunch.vue": null,
         "UtilDeleteOrg.vue": null,
         "ViewBillingSuccess.vue": null,
@@ -58,13 +59,15 @@
         "SettingsBoard.vue": null,
         "SettingsMain.vue": null,
         "SettingsPanel.vue": null,
+        "SettingsPanelHeader.vue": null,
         "index.ts": null
       },
       "tailwind.config.ts": null,
       "test": {
         "email.main.ts": null,
         "emailVerify.uiux.test.ts": null,
-        "settings.debug.test.ts": null,
+        "onboard.spot.test.ts": null,
+        "settings.flow.test.ts": null,
         "signin.uiux.test.ts": null
       },
       "theme": {
@@ -78,7 +81,14 @@
         "tools.ts": null
       },
       "types.ts": null,
-      "util.ts": null
+      "util.ts": null,
+      "widgets": {
+        "SuperChart.vue": null,
+        "WidgetOverview.vue": null,
+        "WidgetVideo.vue": null,
+        "utils.ts": null,
+        "widgets.ts": null
+      }
     },
     "analytics": {
       "chart": {
@@ -113,6 +123,7 @@
       "plugin-clickhouse": {
         "index.ts": null,
         "package.json": null,
+        "performance.ts": null,
         "types.ts": null,
         "utils.ts": null
       },
@@ -133,7 +144,7 @@
       "test": {
         "beacon.unit.test.ts": null,
         "client.stats.test.ts": null,
-        "endpoint.metrics.spot.test.ts": null,
+        "endpoint.metrics.unit.test.ts": null,
         "endpoint.track.unit.test.ts": null,
         "endpoint.unit.test.ts": null,
         "helpers.ts": null,
@@ -502,6 +513,7 @@
         "plugin-render.ts": null,
         "render": {
           "ssr.ts": null,
+          "ssrCache.ts": null,
           "utils.ts": null
         },
         "test": {
@@ -600,7 +612,7 @@
           "resize.unit.test.ts": null,
           "test.jpg": null,
           "test.pdf": null,
-          "upload.spot.test.ts": null
+          "upload.unit.test.ts": null
         },
         "utils.ts": null
       },
@@ -1008,22 +1020,8 @@
         },
         "utils.ts": null
       },
-      "plugin-onboard": {
-        "index.ts": null,
-        "package.json": null,
-        "survey": {
-          "OnboardSurvey.vue": null,
-          "SubscriptionStart.vue": null
-        },
-        "widgets": {
-          "SuperChart.vue": null,
-          "WidgetOverview.vue": null,
-          "WidgetVideo.vue": null,
-          "utils.ts": null,
-          "widgets.ts": null
-        }
-      },
       "plugin-stripe": {
+        "SubscriptionStart.vue": null,
         "customer.ts": null,
         "endpointTrial.ts": null,
         "endpoints.ts": null,
@@ -1162,7 +1160,7 @@
       "cardQuery.ts": null,
       "cardStandard.ts": null,
       "classification.ts": null,
-      "endpoint-certs.ts": null,
+      "endpoint-domains.ts": null,
       "endpoint.ts": null,
       "generation.ts": null,
       "hooks.ts": null,
@@ -1170,7 +1168,6 @@
       "load.ts": null,
       "package.json": null,
       "plugin-builder": {
-        "InputCustomDomains.vue": null,
         "SiteEditor.vue": null,
         "SiteEditorFrame.vue": null,
         "ViewPreview.vue": null,
@@ -1183,6 +1180,8 @@
         },
         "index.ts": null,
         "tools": {
+          "CustomDomain.vue": null,
+          "CustomDomainInstructions.vue": null,
           "InputAddElements.vue": null,
           "InputManageLayout.vue": null,
           "InputManagePages.vue": null,
@@ -1271,6 +1270,7 @@
         "fonts.ts": null,
         "frame.ts": null,
         "generation.ts": null,
+        "history.ts": null,
         "layout.ts": null,
         "list.ts": null,
         "manage.ts": null,
@@ -1282,11 +1282,13 @@
           "fonts.unit.test.ts": null,
           "frame.unit.test.ts": null,
           "generation.unit.test.ts": null,
+          "history.unit.test.ts": null,
           "layout.unit.test.ts": null,
           "page.unit.test.ts": null,
           "region.unit.test.ts": null,
           "schema.unit.test.ts": null,
           "site.unit.test.ts": null,
+          "siteCert.deprecated copy.ts": null,
           "siteCert.unit.test.ts": null
         },
         "themeStructure.ts": null
@@ -1499,6 +1501,7 @@
         "ElTooltip.vue": null,
         "XDropDown.vue": null,
         "XLink.vue": null,
+        "XMenuButton.vue": null,
         "XNumber.vue": null,
         "XSuperTitle.vue": null,
         "XText.vue": null,
@@ -1603,13 +1606,14 @@
         "InputUsername.vue": null,
         "InputWeight.vue": null,
         "LibraryBackground.vue": null,
-        "LibraryHtml.vue": null,
         "LibraryIcon.vue": null,
-        "LibraryMedia.vue": null,
         "LibraryMediaGallery.vue": null,
+        "LibraryModal copy.vue": null,
         "LibraryModal.vue": null,
-        "LibraryModalOld.vue": null,
         "__InputItems.vue": null,
+        "__LibraryHtml.vue": null,
+        "__LibraryMedia.vue": null,
+        "__LibraryModalOld.vue": null,
         "index.ts": null,
         "test": {
           "InputArray.unit.test.ts": null,
@@ -1752,14 +1756,10 @@
   "CHANGELOG.md": null,
   "README.md": null,
   "docker": {
-    "Dockerfile": null,
     "clickhouse": {
-      "clickhouse-config.xml": null,
-      "clickhouse-init.sh": null,
-      "clickhouse.Dockerfile": null,
+      "config.xml": null,
       "users.xml": null
     },
-    "docker-compose.dev.yml": null,
     "docker-compose.yml": null
   },
   "docs": {
@@ -1795,19 +1795,34 @@
     "Dockerfile": null,
     "andrewpowers.www.toml": null,
     "chrome.Dockerfile": null,
+    "clickhouse": {
+      "Dockerfile": null,
+      "config.xml": null,
+      "fiction.clickhouse.toml": null,
+      "users.xml": null
+    },
     "fiction.beacon.toml": null,
-    "fiction.clickhouse.toml": null,
     "fiction.docs.toml": null,
-    "fiction.sites.toml": null,
+    "fiction.gateway.toml": null,
+    "fiction.proxy.toml": null,
     "fiction.www.toml": null,
     "nginx.404.html": null,
     "nginx.502.html": null,
     "nginx.Dockerfile": null,
     "nginx.conf": null,
     "pgvector.Dockerfile": null,
+    "proxy": {
+      "Caddyfile": null,
+      "Dockerfile": null,
+      "entry.sh": null,
+      "fiction.gateway-proxy.toml": null
+    },
     "static.Dockerfile": null,
     "supereon.www.toml": null
   },
+  "icon-blue.png": null,
+  "icon-elite.png": null,
+  "icon-red.png": null,
   "index.ts": null,
   "package.json": null,
   "pnpm-lock.yaml": null,

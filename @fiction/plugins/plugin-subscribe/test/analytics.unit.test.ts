@@ -523,7 +523,7 @@ describe('subscription endpoint', async () => {
             "compareEndAtIso": "2024-05-10T04:40:00.000Z",
             "compareStartAtIso": "2024-04-09T04:40:00.000Z",
             "interval": "day",
-            "nowIso": "2025-01-29T20:56:33.500Z",
+            "nowIso": "2025-02-10T15:12:51.958Z",
             "order": "asc",
             "orgId": "ORG_ID",
             "timeEndAtIso": "2024-06-11T04:40:00.000Z",

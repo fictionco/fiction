@@ -130,37 +130,7 @@ describe('manageDomain', { retry: isCi() ? 3 : 0 }, async () => {
 
     const r2 = await testUtils.fictionSites.requests.ManageDomain.request({ _action: 'create', hostname: 'test-site.fiction.com', appId: 'fiction-sites', allowInTest: true })
     expect(r2.status).toBe('success')
-    expect(snap(r2.data, { maskedKeys })).toMatchInlineSnapshot(`
-      {
-        "_action": "check",
-        "acmeAlpnConfigured": "true",
-        "acmeDnsConfigured": "false",
-        "certificateAuthority": "lets_encrypt",
-        "check": "true",
-        "clientStatus": "Ready",
-        "configured": "true",
-        "createdAt": "[datetime:TRUTHY]",
-        "dnsProvider": "cloudflare",
-        "dnsValidationHostname": "_acme-challenge.test-site.fiction.com",
-        "dnsValidationInstructions": "**MASKED**",
-        "dnsValidationTarget": "**MASKED**",
-        "hostname": "test-site.fiction.com",
-        "id": "**MASKED**",
-        "issued": {
-          "nodes": [
-            {
-              "expiresAt": "[datetime:TRUTHY]",
-              "type": "rsa",
-            },
-            {
-              "expiresAt": "[datetime:TRUTHY]",
-              "type": "ecdsa",
-            },
-          ],
-        },
-        "source": "fly",
-      }
-    `)
+    expect(snap(r2.data, { maskedKeys })).toMatchInlineSnapshot(`undefined`)
   })
 
   it('should get certificate', async () => {

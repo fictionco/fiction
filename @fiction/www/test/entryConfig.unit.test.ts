@@ -46,7 +46,6 @@ describe('user config', async () => {
         "fictionSubscribe",
         "fictionNewsletter",
         "fictionPosts",
-        "fictionOnboard",
         "fictionExtend",
       ]
     `)
@@ -83,6 +82,7 @@ describe('user config', async () => {
           "CheckoutSession",
           "StripeTrial",
           "oAuthEndpoint",
+          "hostnameVerify",
           "CardQuery",
           "ManageSite",
           "ManageSites",
@@ -113,7 +113,6 @@ describe('user config', async () => {
           "email",
           "themeMinimal",
           "testEditor",
-          "testInputs",
           "dash",
           "engine",
           "renderTest",
