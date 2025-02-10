@@ -322,7 +322,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
   async upload(args: {
     data: FormData
     params: DistributiveOmit<Parameters<T['run']>[0], 'orgId' | 'userId'>
-  }): Promise<ReturnType<T['run']> > {
+  }): Promise<ReturnType<T['run']>> {
     const { data, params } = args
 
     const headers = { Authorization: this.bearerHeader }
@@ -356,7 +356,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
    * Browser request with projectId and orgId added automatically
    */
   public async projectRequest(
-    params: DistributiveOmit< Parameters<this['request']>[0], 'orgId' | 'userId'>,
+    params: DistributiveOmit<Parameters<this['request']>[0], 'orgId' | 'userId'>,
     opts?: RequestOptions,
   ): Promise<ReturnType<this['request']>> {
     const { userOptional, useRouteParams } = opts || {}

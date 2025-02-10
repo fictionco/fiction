@@ -13,7 +13,7 @@ const props = defineProps({
   disabled: { type: Boolean, default: false },
   noHover: { type: Boolean, default: false },
   format: { type: String as vue.PropType<UiElementFormat>, default: 'inline' },
-  btn: { type: String as vue.PropType<UiElementStyle >, default: 'default' },
+  btn: { type: String as vue.PropType<UiElementStyle>, default: 'default' },
   size: { type: String as vue.PropType<UiElementSize>, default: '' },
   rounded: { type: String as vue.PropType<'md' | 'lg' | 'full'>, default: '' },
   wrapClass: { type: String, default: '' },

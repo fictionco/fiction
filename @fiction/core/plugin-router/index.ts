@@ -10,7 +10,7 @@ export * from './appRoute.js'
 export * from './types.js'
 
 type LocationValue = string | number | null | undefined
-type LinkReplace = Record<string, LocationValue | vue.Ref<LocationValue> | LocationValue[] >
+type LinkReplace = Record<string, LocationValue | vue.Ref<LocationValue> | LocationValue[]>
 
 type FictionRouterSettings = {
   routes?: AppRoute<string>[] | ((router: FictionRouter) => AppRoute<string>[])
@@ -49,7 +49,7 @@ export class FictionRouter<
     this.replacers = settings.replacers || {}
 
     const initialRoutes = typeof settings.routes === 'function' ? settings.routes(this) : settings.routes
-    this.routes = vue.shallowRef(initialRoutes || []) as vue.Ref< AppRoute<string>[] >
+    this.routes = vue.shallowRef(initialRoutes || []) as vue.Ref<AppRoute<string>[]>
 
     if (settings.create)
       this.create({ caller: 'init' })

@@ -3,7 +3,7 @@ import type { FictionSites } from '@fiction/site'
 import type { CardTemplate } from '@fiction/site/card'
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { Site } from '@fiction/site/site.js'
-import { def, envConfig, FictionPlugin, log, safeDirname, toKebab, toLabel, vue } from '@fiction/core'
+import { def, envConfig, FictionPlugin, log, safeDirname, toKebab, toLabel } from '@fiction/core'
 import { cardTemplate } from '@fiction/site/card'
 import { generateCardStructure } from './utils/generateStructure'
 

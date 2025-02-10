@@ -136,7 +136,7 @@ export class QueryManageUser extends UserBaseQuery {
     return this.prepareResponse({ _action, user, isNew, token, message, params }, meta)
   }
 
-  private async handleUserEvent(params: ManageUserParams & { _action: 'event' }, _meta: EndpointMeta): Promise<User > {
+  private async handleUserEvent(params: ManageUserParams & { _action: 'event' }, _meta: EndpointMeta): Promise<User> {
     const { eventName, where } = params
 
     const fictionUser = this.settings.fictionUser

@@ -1,7 +1,7 @@
 import type { FictionRouter, RunVars } from '@fiction/core'
 import type { ManageSiteParams } from './endpoint.js'
 import type { FictionSites, TableSiteConfig } from './index.js'
-import { fastHash, log, toCamel } from '@fiction/core'
+import { log, toCamel } from '@fiction/core'
 import { CardFactory } from './cardFactory.js'
 import { Site } from './index.js'
 

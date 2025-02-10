@@ -513,6 +513,7 @@
         "plugin-render.ts": null,
         "render": {
           "ssr.ts": null,
+          "ssrCache.ts": null,
           "utils.ts": null
         },
         "test": {

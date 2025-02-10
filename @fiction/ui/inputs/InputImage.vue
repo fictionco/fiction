@@ -59,7 +59,7 @@ async function handleDropFile(ev: Event) {
   await uploadFiles(event.dataTransfer?.files)
 }
 
-const uploadInput = vue.ref< HTMLInputElement>()
+const uploadInput = vue.ref<HTMLInputElement>()
 
 async function triggerFileUpload() {
   uploadInput.value?.click() // Programmatically trigger the file input dialog

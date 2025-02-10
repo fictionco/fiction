@@ -12,7 +12,7 @@ const { card, href, theme, design, size, rounding, hover } = defineProps<{
   size?: ActionButton['size']
   rounding?: ActionButton['rounding']
   hover?: ActionButton['hover']
-} >()
+}>()
 
 const attrs = vue.useAttrs()
 

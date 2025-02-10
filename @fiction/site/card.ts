@@ -96,7 +96,7 @@ interface CardTemplateSettings<
 
 export class CardTemplate<
   S extends CardTemplateSurfaceDefault = CardTemplateSurfaceDefault,
-> extends FictionObject< CardTemplateSettings<S> > {
+> extends FictionObject<CardTemplateSettings<S>> {
   constructor(settings: CardTemplateSettings<S>) {
     super('CardTemplate', { title: toLabel(settings.templateId), ...settings })
   }

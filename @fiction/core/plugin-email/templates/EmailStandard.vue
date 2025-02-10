@@ -18,7 +18,7 @@ const props = defineProps({
   actions: { type: Array as PropType<ActionButton[]>, default: undefined },
   unsubscribeUrl: { type: String, default: undefined },
   mediaSuper: { type: Object as PropType<MediaItem>, default: undefined },
-  mediaFooter: { type: Object as PropType<MediaItem >, default: undefined },
+  mediaFooter: { type: Object as PropType<MediaItem>, default: undefined },
   legal: { type: Object as PropType<MediaItem>, default: undefined },
   // set later
   to: { type: String, default: undefined },

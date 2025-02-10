@@ -45,7 +45,7 @@ export type SiteSettings = {
 
 export type SiteEventMap = {
   addCard: CustomEvent<{ template: CardTemplate }>
-  setActiveCard: CustomEvent<{ cardId: string } >
+  setActiveCard: CustomEvent<{ cardId: string }>
   editorActivateTool: CustomEvent<{ toolId: ToolKeys }>
 }
 

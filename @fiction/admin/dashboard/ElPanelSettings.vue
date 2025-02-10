@@ -9,7 +9,7 @@ defineProps({
   boxClass: { type: String, default: '' },
   panelClass: { type: String, default: '' },
   actions: {
-    type: Array as vue.PropType<ActionButton[] >,
+    type: Array as vue.PropType<ActionButton[]>,
     default: () => [],
   },
 })

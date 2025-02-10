@@ -22,7 +22,7 @@ const props = defineProps({
 const loading = vue.ref(false)
 const card = vue.computed<Card | undefined>(() => props.site.activeCard.value)
 const genUtil = vue.computed(() => card.value ? new CardGeneration({ card: card.value }) : undefined)
-const genConfig = vue.ref<Awaited<ReturnType< typeof CardGeneration.prototype.getConfig>>>()
+const genConfig = vue.ref<Awaited<ReturnType<typeof CardGeneration.prototype.getConfig>>>()
 const completion = vue.ref<Record<string, unknown>>()
 const accept = vue.ref<Record<string, boolean>>({})
 async function generateCard() {

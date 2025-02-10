@@ -46,7 +46,7 @@ export class FictionAnalyticsTable extends FictionDbTable {
   override cols: FictionAnalyticsCol[]
   constructor(settings: FictionAnalyticsTableSettings) {
     super(settings)
-    this.cols = this.addDefaultColumns(settings.cols || []) as Writeable< FictionAnalyticsCol[] >
+    this.cols = this.addDefaultColumns(settings.cols || []) as Writeable<FictionAnalyticsCol[]>
   }
 
   addDefaultColumns(

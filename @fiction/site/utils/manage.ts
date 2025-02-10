@@ -73,7 +73,7 @@ export async function siteGoto(args: {
   const router = site.siteRouter
   const method = isRedirect ? 'redirect' : replace ? 'replace' : 'push'
 
-  const currentQuery = (router.query.value || {}) as Record<string, string >
+  const currentQuery = (router.query.value || {}) as Record<string, string>
   const targetHref = siteLink({ site, location })
   const url = new URL(targetHref, 'http://dummybase.com')
   const sp = url.searchParams

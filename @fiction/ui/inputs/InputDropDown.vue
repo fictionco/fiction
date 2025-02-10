@@ -13,7 +13,7 @@ const props = defineProps({
   justify: { type: String as vue.PropType<'left' | 'right'>, default: 'left' },
   disabled: { type: Boolean, default: false },
   format: { type: String as vue.PropType<UiElementFormat>, default: 'inline' },
-  btn: { type: String as vue.PropType<UiElementStyle >, default: '' },
+  btn: { type: String as vue.PropType<UiElementStyle>, default: '' },
   size: { type: String as vue.PropType<UiElementSize>, default: '' },
 })
 const emit = defineEmits<{

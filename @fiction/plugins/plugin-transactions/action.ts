@@ -39,7 +39,7 @@ export type EmailActionSettings<T extends EmailActionSurface = EmailActionSurfac
   template?: vue.Component
   emailConfig?: (args: EmailVars<T['queryVars']>) => EmailConfigResponse | Promise<EmailConfigResponse>
   vars?: Partial<EmailVars>
-  serverTransaction?: (args: T['transactionArgs'] & { transaction: EmailAction }, meta: EndpointMeta) => Promise< T['transactionResponse']>
+  serverTransaction?: (args: T['transactionArgs'] & { transaction: EmailAction }, meta: EndpointMeta) => Promise<T['transactionResponse']>
   fictionTransactions: FictionTransactions
 }
 

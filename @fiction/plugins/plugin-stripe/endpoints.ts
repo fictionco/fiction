@@ -235,7 +235,7 @@ export class QueryManageCustomer extends StripeEndpoint {
 }
 
 export class QueryPortalSession extends StripeEndpoint {
-  async run(params: { orgId: string, returnUrl?: string }, _meta: EndpointMeta): Promise<EndpointResponse<Stripe.BillingPortal.Session > & { customer?: Stripe.Customer }> {
+  async run(params: { orgId: string, returnUrl?: string }, _meta: EndpointMeta): Promise<EndpointResponse<Stripe.BillingPortal.Session> & { customer?: Stripe.Customer }> {
     const { orgId, returnUrl } = params
     const fictionStripe = this.settings.fictionStripe
     const stripe = fictionStripe.getServerClient()

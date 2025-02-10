@@ -14,7 +14,7 @@ type AnimationThemeConfig = Partial<{
   delay?: number | ReturnType<typeof anime.stagger>
 }> & anime.AnimeAnimParams
 
-const themes: Record<string, AnimationThemeConfig > = {
+const themes: Record<string, AnimationThemeConfig> = {
   none: {},
   rise: {
     translateY: [30, 0],

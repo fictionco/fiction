@@ -2,7 +2,7 @@ import type { ComplexDataFilter, EndpointMeta, EndpointResponse } from '@fiction
 import type { Knex } from 'knex'
 import type { FictionSites, Site, SitesPluginSettings } from './index.js'
 import type { WhereSite } from './load.js'
-import type { CardConfigPortable, TableCardConfig, TableDomainConfig, TableSiteConfig } from './tables.js'
+import type { CardConfigPortable, TableCardConfig, TableSiteConfig } from './tables.js'
 import { applyComplexFilters, dayjs, deepMerge, incrementSlugId, objectId, omit, Query, shortId } from '@fiction/core'
 import { abort } from '@fiction/core/utils/error.js'
 import { Card } from './card.js'

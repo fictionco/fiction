@@ -18,7 +18,7 @@ type st = { updatedAt?: string, createdAt?: string }
 export const pageRegionIds = ['header', 'main', 'footer', 'aside', 'article', 'section'] as const
 export type PageRegion = typeof pageRegionIds[number] | string
 
-export type TableSiteConfig = Omit<ColType<typeof siteCols>, 'draft' > & st & {
+export type TableSiteConfig = Omit<ColType<typeof siteCols>, 'draft'> & st & {
   pages: CardConfigPortable[]
   draft?: TableSiteConfig
   org: Organization
@@ -39,7 +39,7 @@ export type TableCardConfig<T extends Record<string, unknown> = Record<string, u
   isSystem?: boolean
 }
 
-export type CardConfigPortable<T extends Record<string, unknown> = Record<string, unknown>> = Omit<Partial<TableCardConfig<T>>, 'cards' | 'effects' > & {
+export type CardConfigPortable<T extends Record<string, unknown> = Record<string, unknown>> = Omit<Partial<TableCardConfig<T>>, 'cards' | 'effects'> & {
   cards?: CardConfigPortable[]
   effects?: CardConfigPortable[]
 }

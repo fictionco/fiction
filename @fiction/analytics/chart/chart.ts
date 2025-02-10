@@ -82,7 +82,7 @@ function barColor(dataset: DataSet) {
   }
 }
 
-function tooltipDefaults<T extends ChartType>(): DeepPartial< TooltipOptions<T>> {
+function tooltipDefaults<T extends ChartType>(): DeepPartial<TooltipOptions<T>> {
   return {
     mode: 'index',
     intersect: false,
