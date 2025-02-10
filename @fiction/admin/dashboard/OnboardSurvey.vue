@@ -187,11 +187,11 @@ const stepConfig: StepConfig = {
       {
         key: 'payment',
         superTitle: {
-          text: 'Lock-in Discounted Pricing',
+          text: 'The #1 personal branding platform',
           theme: 'green',
           icon: { class: 'i-tabler-sparkles' },
         },
-        title: 'Start Your Free Trial',
+        title: 'Invest in Your Personal Brand',
         subTitle: `Free for ${TRIAL_DAYS} days then $${TRIAL_PRICE}/mo. Cancel anytime.`,
         button: {
           label: 'Start My Trial',
