@@ -27,6 +27,17 @@ const BLOCKED_PATTERNS = [
   /shell\.php/i,
   /cgi-bin/i,
   /bin\/sh$/i,
+
+  // New patterns for email/webmail probing
+  /roundcube/i,
+  /zimbra/i,
+  /webmail/i,
+  /cpanel/i,
+  /smtp/i,
+  /imap/i,
+  /pop3/i,
+  /email-admin/i,
+  /mail-admin/i,
 ]
 
 const BLOCKED_USER_AGENTS = [

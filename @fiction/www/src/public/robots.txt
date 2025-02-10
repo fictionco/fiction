@@ -1,12 +1,43 @@
-Sitemap: https://www.fiction.com/sitemap.xml
 
-# Block theme demo subdomains
-User-agent: *
-Disallow: /
-Host: theme-*.fiction.com
-
-# Allow all other domains and subdomains
+# Default - Allow all bots but with specific restrictions
 User-agent: *
 Allow: /
-Host: *.fiction.com
-Host: fiction.com
+Disallow: /api/
+Disallow: /auth/
+Disallow: /app/
+Disallow: /admin/
+Disallow: /private/
+Disallow: /cdn-cgi/
+Disallow: /*?*fbclid=
+Disallow: /*?*utm_
+Disallow: /*?*gclid=
+Disallow: /*?*msclkid=
+Disallow: /wp-admin/
+Disallow: /wp-json/
+Disallow: /search/
+Disallow: /*?s=
+Disallow: /*?p=
+
+# Prevent media indexing duplicates
+Disallow: */feed/
+Disallow: */embed/
+Disallow: */trackback/
+
+# Block AI training bots
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+# Site map location
+Sitemap: https://www.fiction.com/sitemap.xml
