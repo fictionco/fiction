@@ -240,7 +240,7 @@ describe('getActivePage', async () => {
 
     expect(activeCard).toBeDefined()
     expect(activeCard.cardId).toBe('_special404')
-    expect(activeCard.title.value).toBe('404')
+    expect(activeCard.title.value).toBe('Not Found')
     // More assertions can be added here to check the structure of the 404 Card
   })
 })

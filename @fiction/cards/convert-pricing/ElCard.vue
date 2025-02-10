@@ -150,7 +150,7 @@ const containerClass = vue.computed(() => {
 <template>
   <div :class="card.classes.value.contentWidth" :show="isVisible">
     <!-- Annual Toggle -->
-    <div v-if="uc.hasAnnual" class="flex flex-col items-center gap-4 mb-12 animate-item" :class="isVisible ? 'opacity-100' : 'opacity-0'">
+    <div v-if="uc.hasAnnual" class="flex flex-col items-center gap-4 mb-6 md:mb-12 animate-item" :class="isVisible ? 'opacity-100' : 'opacity-0'">
       <div v-if="uc.hasAnnual" class="flex justify-center">
         <div class="relative grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-sans font-semibold leading-5 ring-1 ring-inset ring-theme-300 dark:ring-theme-600">
           <label :class="priceDuration === 'month' ? 'text-theme-0' : 'text-theme-500 dark:text-theme-200'" class="z-10 relative cursor-pointer rounded-full px-4 py-0.5 transition-all" @click="priceDuration = 'month'">
@@ -161,8 +161,11 @@ const containerClass = vue.computed(() => {
           </label>
           <div class="bg-primary-500 dark:bg-primary-800/50 ring-1 ring-inset ring-primary-600 dark:ring-primary-500/50 text-primary-0 rounded-full marker w-50 absolute h-full w-[50%] transition-all ease-[cubic-bezier(0.25,1,0.33,1)] duration-500" :class="priceDuration === 'month' ? 'left-0' : 'left-1/2'" />
         </div>
-        <div class="relative">
-          <div v-if="uc.annualDiscountPercent" class="x-font-highlight absolute left-full -top-12 w-56 flex items-center bottom-full -rotate-12">
+        <div class="hidden md:relative">
+          <div
+            v-if="uc.annualDiscountPercent"
+            class="x-font-highlight absolute left-full -top-12 w-56 flex items-center bottom-full -rotate-12"
+          >
             <div class="i-tabler-arrow-down-left" /><div>Pay {{ uc.annualDiscountPercent }}% Less</div>
           </div>
         </div>

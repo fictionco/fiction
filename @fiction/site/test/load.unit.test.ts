@@ -167,8 +167,8 @@ describe('site plugin tests', async () => {
   await testUtils.init()
 
   afterAll(() => testUtils.close())
-  const subDomain = `test-${shortId({ len: 3, withNumbers: false })}`
-  const hostname = 'www.testing-domain.com'
+  const subDomain = `test-${shortId({ len: 6, withNumbers: false })}`
+  const hostname = `www.testing-${shortId({ len: 7 })}.com`
   const common = {
     fictionSites: testUtils.fictionSites,
     siteRouter: testUtils.fictionRouterSites,
@@ -227,16 +227,11 @@ describe('site plugin tests', async () => {
 
     expect((loaded?.customDomains.value || []).flatMap(_ => Object.keys(_)).sort()).toMatchInlineSnapshot(`
       [
-        "certificateAuthority",
-        "check",
-        "configured",
         "createdAt",
-        "dnsValidationHostname",
-        "dnsValidationInstructions",
-        "dnsValidationTarget",
         "domainId",
         "hostname",
         "isPrimary",
+        "isVerified",
         "siteId",
         "updatedAt",
       ]

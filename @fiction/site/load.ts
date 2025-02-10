@@ -296,10 +296,7 @@ export function getMountContext(args: {
     throw new Error(errorMessage)
   }
 
-  // for easy comparison in ssr/browser
-  const contextHash = fastHash(selector)
-
-  return { siteMode, fictionOrgId, fictionSiteId, contextHash, ...selector } as MountContext
+  return { siteMode, fictionOrgId, fictionSiteId, ...selector } as MountContext
 }
 
 function formatPath(basePath: string, path: string): string {
