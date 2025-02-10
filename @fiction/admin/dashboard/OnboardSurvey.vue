@@ -17,7 +17,7 @@ const { card } = defineProps<{ card: Card }>()
 const { fictionUser } = useService<{ fictionUser: FictionUser }>()
 
 const TRIAL_PRODUCT = 'standard_month'
-const TRIAL_PRICE = 9
+const TRIAL_PRICE = 29
 const TRIAL_DAYS = 10
 
 const form = vue.ref<{

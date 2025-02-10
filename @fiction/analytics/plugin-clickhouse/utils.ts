@@ -70,15 +70,31 @@ export class FictionAnalyticsTable extends FictionDbTable {
 
     const tableName = `${dbName}.${this.tableKey}`
 
-    // Optimize ORDER BY clause for common query patterns
-    const primaryKey = ['orgId', 'timestamp', 'event'].join(', ')
+    // Define order by clause based on table type
+    let orderByClause
+    switch (this.tableKey) {
+      case 'analytics_session':
+        // Sessions should be ordered by org, start time, and session ID for efficient querying
+        orderByClause = '(orgId, startedAt, sessionId)'
+        break
+      case 'analytics_event':
+        // Events keep original ordering
+        orderByClause = '(orgId, timestamp, event)'
+        break
+      case 'metrics':
+        // Metrics ordered by org, timestamp, and metric type
+        orderByClause = '(orgId, timestamp, metric)'
+        break
+      default:
+        orderByClause = '(orgId, timestamp)'
+    }
 
     const query = `
       CREATE TABLE IF NOT EXISTS ${tableName} (
       ${fieldsInQuery}
       ) ENGINE = MergeTree()
       PARTITION BY toYYYYMM(timestamp)
-      ORDER BY (${primaryKey})
+      ORDER BY (${orderByClause})
       SETTINGS index_granularity = 8192
     `
 
