@@ -1,4 +1,5 @@
 import type { FictionEnv } from '../plugin-env/index.js'
+import { data } from '@fiction/analytics/chart/test/sampleData.js'
 import { log } from '../plugin-log/index.js'
 import { FictionObject } from '../plugin.js'
 import { isPlainObject } from './obj.js'
@@ -147,7 +148,7 @@ export class Shortcodes extends FictionObject<{ fictionEnv?: FictionEnv }> {
 
         const handler = this.shortcodes[shortcode.trim()]
         if (!handler) {
-          this.log.warn(`No handler found for shortcode: ${shortcode}`)
+          this.log.warn(`No handler found for shortcode: ${shortcode}`, { data: match })
           result += fullMatch
           continue
         }

@@ -55,6 +55,13 @@ export function getViewMap(args: { pages: Card[] }) {
     cardMap._ = cardMap._home
   })
 
+  // Ensure we have a 404 page
+  if (!cardMap._404) {
+    // Find first 404 page or create fallback ID
+    const fallback404 = pages.find(p => p.is404.value)?.cardId || '_special404'
+    cardMap._404 = fallback404
+  }
+
   return cardMap
 }
 
@@ -62,21 +69,24 @@ export function activePageId(args: { siteRouter: FictionRouter, viewMapRef: vue.
   const { siteRouter, viewMapRef } = args
   return vue.computed({
     get() {
+      const viewId = (siteRouter.current.value.params.viewId || '_home') as string
       const viewMap = viewMapRef.value
-      const current = siteRouter.current.value
-      const viewId = (current.params.viewId || '_home') as string
+
+      // Break recursion if _404 appears
+      if (viewId.includes('_404') || viewId.includes('not-found'))
+        return viewMap._404 || '_special404'
+
       return viewMap[viewId] || viewMap._404 || '_special404'
     },
     async set(cardId: string) {
       const { siteRouter } = args
-      const viewMap = viewMapRef.value
-      let viewId = Object.keys(viewMap).find(k => viewMap[k] === cardId) || `not-found`
+
+      let viewId = Object.entries(viewMapRef.value).find(([_k, v]) => v === cardId)?.[0]
 
       if (viewId === '_home')
         viewId = ''
-
-      else if (viewId.includes('not-found'))
-        logger.error('missing viewId', { data: { viewMap, viewId, cardId } })
+      else if (viewId === '_404' || !viewId)
+        viewId = 'not-found'
 
       await siteRouter.push(`/${viewId}`, { caller: 'activePageId' })
     },

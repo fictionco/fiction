@@ -73,8 +73,14 @@ export function logMemoryUsage() {
   // Repeated logging every 30 seconds
   const interval = setInterval(() => {
     const memoryUsage = v8.getHeapStatistics()
+
+    const heapSize = memoryUsage.used_heap_size
+    if (heapSize <= 700000000) {
+      return
+    }
+
     const out = [
-      'Memory /',
+      'Memory:',
       `Used: ${formatBytes(memoryUsage.used_heap_size)}`,
       `Total: ${formatBytes(memoryUsage.total_heap_size)}`,
       `Limit: ${formatBytes(memoryUsage.heap_size_limit)}`,

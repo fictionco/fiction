@@ -22,6 +22,7 @@ import { FictionBuild } from '../plugin-build/index.js'
 import { FictionPlugin } from '../plugin.js'
 import { createExpressApp, debounce, deepMergeAll, getRequire, importIfExists, isNode, requireIfExists, safeDirname } from '../utils/index.js'
 import { addExpressHealthCheck } from '../utils/serverHealth.js'
+import { securityMiddleware } from './render/securityMiddleware.js'
 import { SSR } from './render/ssr.js'
 import { getRequestVars, IndexHtml } from './render/utils.js'
 import { getMarkdownPlugins } from './utils/vitePluginMarkdown.js'
@@ -501,6 +502,9 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     const { mode, id } = config
 
     const expressApp = config.expressApp || express()
+
+    // check for probe attempts and block them
+    expressApp.use(securityMiddleware)
 
     // allow additional forwarded info
     // https://stackoverflow.com/questions/23413401/what-does-trust-proxy-actually-do-in-express-js-and-do-i-need-to-use-it

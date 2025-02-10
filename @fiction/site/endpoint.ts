@@ -56,7 +56,6 @@ type PageStandardFields = {
   siteId: string
   caller: string
   successMessage?: string
-  disableLog?: boolean
   scope: 'draft' | 'publish'
 }
 
@@ -395,7 +394,6 @@ type SiteStandardFields = {
   isPublishingDomains?: boolean
   caller: string
   successMessage?: string
-  disableLog?: boolean
   fields?: Partial<TableSiteConfig>
   where?: WhereSite
   scope?: 'draft' | 'publish'
@@ -493,11 +491,10 @@ export class ManageSite extends SitesQuery {
   }
 
   private async retrieveSite(params: ManageSiteParams & { _action: 'retrieve' }, _meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
-    const { where, disableLog, scope = 'publish' } = params
+    const { where, scope = 'publish' } = params
     const selector = await this.getSiteSelector(where)
 
-    if (!disableLog)
-      this.log.info('retrieving site', { data: { selector, caller: `retrieve:${params.caller}` } })
+    this.log.debug('retrieving site', { data: { selector, caller: `retrieve:${params.caller}` } })
 
     const site = await this.fetchSiteWithDetails({ selector, scope })
 
@@ -729,7 +726,6 @@ export class ManageSite extends SitesQuery {
       where: { siteId },
       userId: params.userId,
       orgId: params.orgId,
-      disableLog: true,
       caller: 'finalizeSiteAction',
     }, { ...meta, caller: 'endManageSite' })
 

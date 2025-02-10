@@ -104,7 +104,7 @@ describe('getViewMap', async () => {
     })
   })
 
-  it('should set home and 404 to undefined if missing', async () => {
+  it('should set home and 404 correctly if missing', async () => {
     const pages = [
       new Card({ cardId: 'id1', slug: 'def', title: 'Default Page', regionId: 'main', templateId: 'engine' }),
       new Card({ cardId: 'id2', slug: 'example', title: 'Example Page', regionId: 'main', templateId: 'engine' }),
@@ -116,7 +116,7 @@ describe('getViewMap', async () => {
       _home: undefined,
       def: 'id1',
       example: 'id2',
-      _404: undefined,
+      _404: '_special404',
     })
   })
 })
