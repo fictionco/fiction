@@ -41,7 +41,7 @@ describe('site plugin tests', async () => {
 
     expect(site?.currentViewId.value).toMatchInlineSnapshot(`"foo"`)
     expect(site?.activePageId.value).toBe('_special404')
-    expect(site?.currentPage.value?.title.value).toBe('404')
+    expect(site?.currentPage.value?.title.value).toBe('Not Found')
 
     await site.siteRouter.push('/example', { caller: ctx.task.name })
 
