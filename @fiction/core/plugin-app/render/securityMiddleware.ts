@@ -74,7 +74,7 @@ function incrementIPBlock(ip: string): void {
 }
 
 // Cleanup expired blocks periodically
-setInterval(() => {
+const _interval = setInterval(() => {
   const now = Date.now()
   for (const [ip, record] of blockedIPs.entries()) {
     if (now > record.expires) {
@@ -82,6 +82,9 @@ setInterval(() => {
     }
   }
 }, CLEANUP_INTERVAL)
+
+// Unref the interval to prevent it from keeping the process alive
+_interval.unref()
 
 export const securityMiddleware: express.RequestHandler = (req, res, next) => {
   try {
