@@ -502,7 +502,7 @@ export class ManageSite extends SitesQuery {
     const site = await this.fetchSiteWithDetails({ selector, scope })
 
     if (!site?.siteId) {
-      this.log.warn('ManageSite: Site not found', { data: { where, caller: params.caller } })
+      this.log.debug('ManageSite: Site not found', { data: { where, caller: params.caller } })
       return { status: 'error', message: 'Site not found', meta: { where, caller: params.caller }, expose: false }
     }
 

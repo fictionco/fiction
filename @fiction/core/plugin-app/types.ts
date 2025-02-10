@@ -36,6 +36,7 @@ export interface RenderedHtmlParts {
   bodyTagsOpen: string
   htmlAttrs: string
   bodyAttrs: string
+  initialState: Record<string, any>
 }
 
 export interface EntryModuleExports {

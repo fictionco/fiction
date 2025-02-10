@@ -46,6 +46,7 @@ export type CliVars = {
 export type ServiceConfig = {
   service: ServiceList & { fictionEnv: FictionEnv }
   runVars: Partial<RunVars>
+  initialState?: Record<string, any>
   runCommand?: (args: { context: 'node' | 'app', command: string, cliVars?: Partial<CliVars>, runVars?: Partial<RunVars>, options?: CliOptions }) => Promise<any> | any
   // createService?: (args: { serviceConfig: ServiceConfig } & ({ context: 'app', runVars: Partial<RunVars> } | { context: 'node', cliVars: Partial<CliVars> } | { context: 'test' })) => Promise<ServiceList> | ServiceList
   createMount?: (args: { renderRoute?: string, serviceConfig: ServiceConfig }) => Promise<FictionAppEntry> | FictionAppEntry

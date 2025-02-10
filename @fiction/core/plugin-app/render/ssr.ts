@@ -28,7 +28,7 @@ export class SSR extends FictionObject<SSRSettings> {
   revertGlobal?: () => void
 
   init(): RenderedHtmlParts {
-    return { bodyAttrs: '', headTags: '', htmlAttrs: '', bodyTags: '', bodyTagsOpen: '', htmlBody: '' }
+    return { bodyAttrs: '', headTags: '', htmlAttrs: '', bodyTags: '', bodyTagsOpen: '', htmlBody: '', initialState: {} }
   }
 
   constructor(settings: SSRSettings) {
@@ -105,18 +105,20 @@ export class SSR extends FictionObject<SSRSettings> {
 
     const { app, meta, service } = appEntry
 
+    const ctx: { modules?: string[], initialState?: Record<string, any> } = {}
     /**
      * Pass context for rendering (available useSSRContext())
      * vitejs/plugin-vue injects code in component setup() that registers the component
      * on the context. Allowing us to orchestrate based on this.
      */
     try {
-      const ctx: { modules?: string[] } = {}
       out.htmlBody = await renderToString(app, ctx)
     }
     catch (error) {
       this.log.error('renderToString error', { data: { runVars }, error })
     }
+
+    out.initialState = ctx.initialState || {}
 
     /**
      * Meta/Head Rendering

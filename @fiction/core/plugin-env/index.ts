@@ -134,9 +134,17 @@ export class FictionEnv<
   // plugins that add services need to edit this
   // the services are then accessed via useService provide
   service = vue.shallowRef<{ runVars?: Partial<RunVars>, [key: string]: unknown }>({})
-
   getService<Y extends ServiceList>(): Y & StandardServices {
     return this.service.value as Y & StandardServices
+  }
+
+  initialState = vue.shallowRef<{ [key: string]: unknown }>()
+  getInitialState<Y extends Record<string, unknown>>(): Y | undefined {
+    if (typeof window !== 'undefined') {
+      return
+    }
+
+    return this.initialState.value as Y
   }
 
   async runHooks<T extends keyof FictionEnvHookDictionary>(hook: T, ...args: FictionEnvHookDictionary[T]['args']) {

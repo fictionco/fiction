@@ -81,7 +81,12 @@ export class FictionAnalytics extends FictionPlugin<FictionAnalyticsSettings> {
     name: 'eventSave',
     limit: 10_000,
     flushIntervalMs: this.bufferIntervalMs,
-    flush: async events => this.fictionClickhouse.saveData({ rows: events, table: 'event' }),
+    flush: async (events) => {
+      const orgIds = Array.from(new Set(events.map(e => e.orgId)))
+      const eventTypes = Array.from(new Set(events.map(e => e.event)))
+      this.log.info(`Saving Analytics Events - Count: ${events.length}, Orgs: ${orgIds.join(', ')}, Events: ${eventTypes.join(', ')}`)
+      await this.fictionClickhouse.saveData({ rows: events, table: 'event' })
+    },
   })
 
   constructor(settings: FictionAnalyticsSettings) {

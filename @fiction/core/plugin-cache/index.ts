@@ -77,7 +77,7 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
     this.primaryCache = this.getRedisConnection({ id: 'primaryCache' })
 
     const logUrl = new URL(this.connectionUrl.toString())
-    logUrl.password = this.connectionUrl.password ? '--sensitive--' : ''
+    logUrl.password = this.connectionUrl.password ? '***' : ''
     this.log.info('creating redis cache', { data: { url: logUrl.toString() } })
     this.initialized = true
   }

@@ -148,20 +148,28 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   createVueApp = async (args: {
     runVars: Partial<RunVars>
     service: ServiceList & Partial<StandardServices>
+    initialState: Record<string, any>
   }): Promise<FictionAppEntry> => {
-    const { service, runVars } = args
+    const { service, runVars, initialState = {} } = args
 
-    const router = this.settings.fictionRouter.create({ caller: `mountApp:${this.appInstanceId}` })
+    const { fictionEnv, fictionRouter } = this.settings
 
-    const isSSR = this.settings.fictionEnv.isSSR.value
-    if (isSSR)
-      await this.settings.fictionRouter.replace({ path: runVars?.PATHNAME }, { caller: 'CreateSSRVueApp', logLevel: 'debug' })
+    const router = fictionRouter.create({ caller: `mountApp:${this.appInstanceId}` })
+
+    const isSSR = fictionEnv.isSSR.value
+    if (isSSR) {
+      await fictionRouter.replace({ path: runVars?.PATHNAME }, { caller: 'CreateSSRVueApp', logLevel: 'debug' })
+    }
 
     const app: vue.App = isSSR ? vue.createSSRApp(this.rootComponent) : vue.createApp(this.rootComponent)
 
-    this.settings.fictionEnv.service.value = { ...this.settings.fictionEnv.service.value, ...service, runVars }
+    fictionEnv.service.value = { ...fictionEnv.service.value, ...service, runVars }
+    app.provide('service', fictionEnv.service)
 
-    app.provide('service', this.settings.fictionEnv.service)
+    // initial state in browser only, passed via #fictionInitialState
+    fictionEnv.initialState.value = { ...fictionEnv.initialState.value, ...initialState }
+    app.provide('initialState', initialState)
+
     app.use(router)
 
     await router.isReady()
@@ -182,12 +190,13 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
 
     const runVars = serviceConfig?.runVars || {}
     const service = serviceConfig?.service || {}
+    const initialState = serviceConfig?.initialState || {}
 
     const { fictionEnv, fictionRouter } = this.settings
     if (serviceConfig)
       await fictionEnv.crossRunCommand({ context: 'app', serviceConfig, runVars })
 
-    const entry = await this.createVueApp({ runVars, service })
+    const entry = await this.createVueApp({ runVars, service, initialState })
 
     if (typeof window !== 'undefined' && !this.settings.fictionEnv.isSSR.value) {
       await this.settings.fictionEnv.runHooks('beforeAppMounted', entry)

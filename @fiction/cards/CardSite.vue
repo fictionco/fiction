@@ -60,6 +60,8 @@ async function load() {
     })
 
     await onSiteMounted()
+
+    return site.value
   }
   catch (error) {
     logger.error(`Error loading site ${(error as Error).message}`, { error })
@@ -69,9 +71,19 @@ async function load() {
   }
 }
 
-vue.onServerPrefetch(async () => {
-  await load()
-})
+if (import.meta.env.SSR) {
+  const ctx = vue.useSSRContext()
+  if (ctx && !ctx.initialState) {
+    ctx.initialState = {}
+  }
+
+  vue.onServerPrefetch(async () => {
+    await load()
+
+    if (ctx)
+      ctx.initialState.siteConfig = site.value?.toConfig()
+  })
+}
 
 const page = vue.computed(() => site.value?.currentPage.value)
 

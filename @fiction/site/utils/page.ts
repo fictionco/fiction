@@ -96,10 +96,10 @@ export function getPageById(args: { pageId: string, site: Site }) {
     activeCard = new Card({
       site,
       cardId: '_special404',
-      title: '404',
+      title: 'Not Found',
       templateId: 'cardPageWrapV1',
       is404: true,
-      cards: [{ templateId: '404', userConfig: { heading: 'Nothing here' } }],
+      cards: [{ templateId: 'card404ErrorV1', userConfig: { heading: 'Nothing here' } }],
     })
   }
 

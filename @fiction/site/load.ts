@@ -1,7 +1,7 @@
 import type { FictionRouter, RunVars } from '@fiction/core'
 import type { ManageSiteParams } from './endpoint.js'
 import type { FictionSites, TableSiteConfig } from './index.js'
-import { log, toCamel } from '@fiction/core'
+import { fastHash, log, toCamel } from '@fiction/core'
 import { CardFactory } from './cardFactory.js'
 import { Site } from './index.js'
 
@@ -18,7 +18,7 @@ export type SiteMode = 'designer' | 'editable' | 'standard' | 'coding'
 export type WhereSite = { siteId?: string, subDomain?: string, hostname?: string, themeId?: string, internal?: string, cardId?: string }
   & ({ siteId: string } | { subDomain: string } | { hostname: string } | { themeId: string } | { internal: string } | { cardId: string })
 
-type MountContext = { siteMode?: SiteMode, fictionOrgId?: string, fictionSiteId?: string } & WhereSite
+type MountContext = { siteMode?: SiteMode, fictionOrgId?: string, fictionSiteId?: string, contextHash?: string } & WhereSite
 type RequestManageSiteParams = ManageSiteParams & { siteRouter: FictionRouter, fictionSites: FictionSites, siteMode: SiteMode, orgId?: string, siteId?: string }
 
 export async function requestManageSite(args: RequestManageSiteParams) {
@@ -153,8 +153,13 @@ export async function loadSite(args: {
   try {
     const { fictionOrgId, fictionSiteId, siteId, subDomain, hostname, themeId, cardId, siteMode = 'standard', internal } = mountContext || {}
 
-    const where = { siteId, subDomain, hostname, themeId } as WhereSite
+    const { siteConfig } = fictionSites.settings.fictionEnv.getInitialState<{ siteConfig?: TableSiteConfig }>() || {}
 
+    if (siteConfig) {
+      return await Site.create({ ...siteConfig, fictionSites, siteRouter, siteMode })
+    }
+
+    const where = { siteId, subDomain, hostname, themeId } as WhereSite
     const hasWhere = Object.values(where).filter(Boolean).length > 0
 
     const selectors = [siteId, subDomain, themeId, cardId].filter(Boolean)
@@ -291,7 +296,10 @@ export function getMountContext(args: {
     throw new Error(errorMessage)
   }
 
-  return { siteMode, fictionOrgId, fictionSiteId, ...selector } as MountContext
+  // for easy comparison in ssr/browser
+  const contextHash = fastHash(selector)
+
+  return { siteMode, fictionOrgId, fictionSiteId, contextHash, ...selector } as MountContext
 }
 
 function formatPath(basePath: string, path: string): string {

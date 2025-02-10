@@ -223,7 +223,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     const parts = await ssr.render({ runVars })
 
     let { htmlBody, headTags } = parts
-    const { htmlAttrs, bodyAttrs, bodyTagsOpen, bodyTags } = parts
+    const { htmlAttrs, bodyAttrs, bodyTagsOpen, bodyTags, initialState } = parts
 
     const mode = runVars.RUN_MODE || 'prod'
     const pathname = runVars.PATHNAME || '/'
@@ -236,7 +236,9 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
     const debuggingInfo = `<!--${JSON.stringify({ renderedPathname: pathname, mode })}-->`
 
-    const bodyCloseTags = `${bodyTags}\n${debuggingInfo}`
+    const initialStateElement = `<script id="fictionInitialState" type="application/json">${JSON.stringify(initialState)}</script>`
+
+    const bodyCloseTags = [bodyTags, debuggingInfo, initialStateElement].join(`\n`)
 
     const headHtml = [headTags, `<meta name="generator" content="Fiction ${version}" />`].join(`\n`)
 
@@ -441,7 +443,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
   }
 
   addRunVarsToHtml(args: { html: string, runVars?: Record<string, string> }): string {
-    const { html, runVars } = args
+    const { html, runVars = {} } = args
     const stringifiedVars = JSON.stringify(runVars)
     const tag = `<script id="fictionRun" type="application/json">${stringifiedVars}</script>`
     const out = html.replace(/<\/body>/i, `${tag}\n</body>`)

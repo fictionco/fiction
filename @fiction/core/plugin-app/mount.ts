@@ -11,6 +11,7 @@ const logger = log.contextLogger('Mount')
 declare global {
   interface Window {
     fictionRunVars: Partial<RunVars> & { [key: string]: string | undefined | Record<string, string> }
+    initialState: Record<string, any>
   }
 }
 
@@ -23,6 +24,9 @@ function setupGlobalRunVars<T extends keyof RunVars = keyof RunVars>() {
 
     const runVarsJSON = document.querySelector('#fictionRun')?.textContent
     const runVarsParsed = runVarsJSON ? JSON.parse(runVarsJSON) as Record<string, RunVars[T]> : {}
+
+    const initialStateJSON = document.querySelector('#fictionInitialState')?.textContent
+    window.initialState = initialStateJSON ? JSON.parse(initialStateJSON) : {}
 
     Object.entries(runVarsParsed).forEach(([key, value]) => {
       window.process.env[key] = typeof value === 'string' ? value : 'not_string'
@@ -38,8 +42,8 @@ async function getMainFile() {
   return (await import('@MAIN_FILE_ALIAS')) as MainFile
 }
 
-async function getServiceConfig(args: { runVars: Partial<RunVars> }): Promise<ServiceConfig> {
-  const { runVars } = args
+async function getServiceConfig(args: { runVars: Partial<RunVars>, initialState?: Record<string, any> }): Promise<ServiceConfig> {
+  const { runVars, initialState } = args
 
   const mainFileImports = await getMainFile()
 
@@ -49,11 +53,15 @@ async function getServiceConfig(args: { runVars: Partial<RunVars> }): Promise<Se
 
   await compileApplication({ context: 'app', serviceConfig, runVars })
   serviceConfig.runVars = runVars
+  serviceConfig.initialState = initialState
 
   return serviceConfig
 }
 
-async function runAppEntry(args: { renderRoute?: string, serviceConfig: ServiceConfig }): Promise<FictionAppEntry | undefined> {
+async function runAppEntry(args: {
+  renderRoute?: string
+  serviceConfig: ServiceConfig
+}): Promise<FictionAppEntry | undefined> {
   const { renderRoute, serviceConfig } = args
 
   const context = 'app'
@@ -75,7 +83,8 @@ async function runAppEntry(args: { renderRoute?: string, serviceConfig: ServiceC
 
 async function runEntryBrowser() {
   const runVars = window.fictionRunVars || {}
-  const serviceConfig = await getServiceConfig({ runVars })
+  const initialState = window.initialState || {}
+  const serviceConfig = await getServiceConfig({ runVars, initialState })
   runAppEntry({ serviceConfig }).catch(e => console.error('Error running app entry:', e))
 }
 
