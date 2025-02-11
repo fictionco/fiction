@@ -114,7 +114,7 @@ export const securityMiddleware: express.RequestHandler = (req, res, next) => {
       // block here
     }
 
-    const _path = req.path
+    const path = req.path
     const userAgent = req.get('user-agent') || ''
     const fullUrl = req.originalUrl || req.url
 
@@ -122,6 +122,7 @@ export const securityMiddleware: express.RequestHandler = (req, res, next) => {
     const isSuspicious
       = hasPathTraversalAttempt(fullUrl)
         || BLOCKED_PATTERNS.some(pattern => pattern.test(fullUrl))
+        || BLOCKED_PATTERNS.some(pattern => pattern.test(path))
         || BLOCKED_USER_AGENTS.some(pattern => pattern.test(userAgent))
 
     if (isSuspicious) {
