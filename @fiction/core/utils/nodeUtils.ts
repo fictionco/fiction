@@ -90,7 +90,7 @@ export function logMemoryUsage() {
   }, 120000)
 
   // This will not prevent the process from exiting if this is the only activity left in the event loop.
-  interval.unref()
+  interval.unref?.()
 }
 
 export async function executeCommand(args: {

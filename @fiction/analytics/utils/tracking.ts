@@ -78,7 +78,7 @@ export class ActivityTrigger {
       }
     }, this.config.idleCheckMs || 1000)
 
-    this.timer.unref()
+    this.timer.unref?.()
 
     this.clear.push(() => clearInterval(this.timer))
   }

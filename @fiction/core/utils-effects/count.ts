@@ -38,7 +38,7 @@ export function animateCount(args: {
           setTimeout(() => clearInterval(timer), 3000)
         }, stepTime)
 
-        timer.unref()
+        timer.unref?.()
       }
     },
     { immediate: true },

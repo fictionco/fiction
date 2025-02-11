@@ -98,7 +98,7 @@ const _interval = setInterval(() => {
 }, CLEANUP_INTERVAL)
 
 // Unref the interval to prevent it from keeping the process alive
-_interval.unref()
+_interval.unref?.()
 
 export const securityMiddleware: express.RequestHandler = (req, res, next) => {
   try {

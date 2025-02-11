@@ -61,7 +61,7 @@ export class FictionBeacon extends FictionPlugin<FictionBeaconSettings> {
       }
     }, fictionAnalytics.checkExpiredIntervalMs)
 
-    inter.unref() // don't keep process alive
+    inter.unref?.() // don't keep process alive
 
     this.fictionEnv.events.on('cleanup', () => clearInterval(inter))
   }

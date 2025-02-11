@@ -140,6 +140,8 @@ export class QueryCompiledMetrics extends AnalyticsEndpoint {
       .groupByRaw('date WITH ROLLUP')
       .orderBy('date', 'asc')
 
+    this.log.info('Event Query', { mainQuery: mainQuery.toString() })
+
     return mainQuery
   }
 

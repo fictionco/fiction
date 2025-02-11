@@ -235,7 +235,7 @@ class DurationHandler extends PageStat {
       }
     }, 1000)
 
-    timer.unref()
+    timer.unref?.()
 
     this.clear.push(() => clearInterval(timer))
     const activityTracker = new ActivityTrigger({

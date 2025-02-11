@@ -151,7 +151,7 @@ export async function useElementVisible(args: { caller: string, selector: string
   // Interval to check for the element periodically until it is available
   intervalId = setInterval(checkAndObserve, 50) // Check every 50 ms
 
-  intervalId.unref()
+  intervalId.unref?.()
 
   return {
     close: () => {
