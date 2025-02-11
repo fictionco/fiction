@@ -185,6 +185,10 @@ function handleEditDropdownClick(item: { value: 'delete' | 'edit' | 'add' }) {
         </div>
       </div>
     </div>
-    <XMedia v-if="colorScheme?.background" class="object-cover w-full h-full absolute inset-0 pointer-events-none -z-10" :media="colorScheme?.background" />
+    <XMedia
+      v-if="colorScheme?.background"
+      class="object-cover w-full h-full absolute inset-0 pointer-events-none -z-10"
+      :media="colorScheme?.background"
+    />
   </div>
 </template>

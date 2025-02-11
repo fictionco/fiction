@@ -73,7 +73,7 @@ function isIPBlocked(ip: string): boolean {
   return true
 }
 
-function incrementIPBlock(ip: string): void {
+function incrementIPBlock(ip: string): number {
   const record = blockedIPs.get(ip) || { count: 0, expires: Date.now() + BLOCK_DURATION }
   record.count++
 
@@ -82,6 +82,9 @@ function incrementIPBlock(ip: string): void {
   }
 
   blockedIPs.set(ip, record)
+
+  // return number of times
+  return record.count
 }
 
 // Cleanup expired blocks periodically
@@ -103,8 +106,7 @@ export const securityMiddleware: express.RequestHandler = (req, res, next) => {
 
     // Check if IP is already blocked
     if (isIPBlocked(clientIP)) {
-      res.status(403).end()
-      return
+      // block here
     }
 
     const path = req.path
@@ -118,13 +120,9 @@ export const securityMiddleware: express.RequestHandler = (req, res, next) => {
         || BLOCKED_USER_AGENTS.some(pattern => pattern.test(userAgent))
 
     if (isSuspicious) {
-      incrementIPBlock(clientIP)
+      const count = incrementIPBlock(clientIP)
 
-      // If threshold reached, block immediately
-      if (isIPBlocked(clientIP)) {
-        res.status(403).end()
-        return
-      }
+      console.warn('suspicous IP:', { clientIP, count, header: req.headers, url: fullUrl })
     }
 
     next()

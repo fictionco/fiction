@@ -1,4 +1,5 @@
 import type { template as bentoTemplate } from '@fiction/cards/content-bento/index.js'
+import type { template as heroTemplate } from '@fiction/cards/content-hero/index.js'
 import type { template as marqueeTemplate } from '@fiction/cards/media-marquee/index.js'
 import type { template as wrapTemplate } from '@fiction/cards/page-wrap/index.js'
 import type { template as logosTemplate } from '@fiction/cards/proof-logos/index'
@@ -25,128 +26,37 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
         templateId: 'cardPageAreaV1',
         userConfig: { },
         cards: [
-          await factory.fromTemplate<typeof bentoTemplate>({
-            templateId: 'cardBentoV1',
+          await factory.fromTemplate<typeof heroTemplate>({
+            templateId: 'cardHeroV1',
             userConfig: {
-              items: [
-                {
-                  cols: 12,
-                  rows: 3,
-                  superTitle: {
-                    icon: { class: 'i-tabler-rocket' },
-                    text: 'The Personal Branding Platform',
-                  },
-                  title: 'It all begins with your story...',
-                  content: 'Unlock the next level of success with an unforgettable personal brand. Build your dream website, grow your audience, and share your vision—all in one place.',
-                  theme: 'blue',
-                  themeMode: 'dark',
-                  verticalPosition: 'bottom',
-                  horizontalPosition: 'left',
-                  bg: {
-                    url: 'https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1733965053/replicate-prediction-wtfb2100xxrj00ckq1cb7s94hg_rhvr5g.mp4',
-                    overlay: { opacity: 0.3 },
-                    videoControls: {
-                      freeze: { playOnHover: true },
-                    },
-                  },
-                  action: {
-                    buttons: [
-                      {
-                        label: 'Create Account',
-                        href: '/app?_reload=1',
-                        theme: 'overlay',
-                        icon: 'i-tabler-user-circle',
-                        design: 'solid',
-                        size: 'xl',
-                      },
-                      {
-                        label: 'Learn More',
-                        href: '/tour',
-                        theme: 'overlay',
-                        icon: 'i-tabler-rocket',
-                        design: 'outline',
-                        size: 'xl',
-                      },
-                    ],
-                  },
-                },
-                {
-                  cols: 4,
-                  rows: 2,
-                  superTitle: {
-                    icon: { class: 'i-tabler-rocket' },
-                    text: 'Own Your Brand',
-                  },
-                  title: 'Websites Optimized for Personal Brands',
-                  content: 'Your story deserves a home that reflects your voice. Fiction crafts stunning personal websites with effortless customization.',
-                  theme: 'orange',
-                  themeMode: 'dark',
-                  verticalPosition: 'bottom',
-                  horizontalPosition: 'left',
+              superTitle: {
+                text: 'Invest in Your Influence & Authority',
+                theme: 'orange',
+                icon: { class: 'i-tabler-north-star' },
+              },
+              title: `Your Personal Brand On [text_effect type=squiggle]Autopilot[/text_effect]`,
+              subTitle: `An incredible tool to help you create, share, and grow your personal brand online.`,
 
-                },
-                {
-                  cols: 4,
-                  rows: 2,
-                  superTitle: {
-                    icon: { class: 'i-tabler-mail' },
-                    text: 'Capture & Connect',
+              action: {
+                buttons: [
+                  {
+                    label: 'Try Fiction Free',
+                    href: '/app/auth?_reload=1',
+                    theme: 'primary',
+                    design: 'solid',
+                    iconAfter: 'i-tabler-arrow-big-right-lines',
                   },
-                  title: 'Build an Audience, Start Your Newsletter',
-                  content: 'Engage your audience with every send. Fiction helps you build your email list and deliver newsletters that captivate.',
-                  theme: 'blue',
-                  themeMode: 'dark',
-                  verticalPosition: 'bottom',
-                  horizontalPosition: 'left',
-
-                },
-                {
-                  cols: 4,
-                  rows: 2,
-                  superTitle: {
-                    icon: { class: 'i-tabler-bolt' },
-                    text: 'Powered by AI',
+                  {
+                    label: 'View Tour',
+                    href: '/tour',
+                    theme: 'default',
+                    design: 'solid',
+                    iconAfter: 'i-tabler-arrow-big-right-lines',
                   },
-                  title: 'Effortless Content Creation with AI',
-                  content: 'Stuck on words? Use AI tools to unlock creativity. Craft content that inspires, informs, and converts.',
-                  theme: 'green',
-                  themeMode: 'dark',
-                  verticalPosition: 'bottom',
-                  horizontalPosition: 'left',
-
-                },
-              ],
-            },
-          }),
-
-          await factory.fromTemplate<typeof cardStatementTemplate>({
-            templateId: 'cardStatementSliderV1',
-            userConfig: {
-              items: [
-                {
-                  title: 'Built for Decision Makers',
-                  content: `Fiction helps thought leaders transform their expertise into compelling digital content that builds real audiences.`,
-                  shape: 'star8',
-                },
-                {
-                  title: 'Skip the Mistakes',
-                  content: `No more awkward self-promotion or scattered strategies. Our proven system helps you build authority without the cringe`,
-                },
-                {
-                  title: 'Stand Out in Your Field',
-                  content: `We craft your unique perspective into content that resonates with your target audience and drives meaningful engagement.`,
-                  shape: 'diamond',
-                },
-              ],
-              standard: {
-                spaceSize: 'md',
-                background: {
-
-                },
+                ],
               },
             },
           }),
-
           await factory.fromTemplate<typeof marqueeTemplate>({
             templateId: 'cardMarqueeV1',
             userConfig: {
@@ -241,6 +151,100 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
               label: 'Read About Us In',
             },
           }),
+          await factory.fromTemplate<typeof bentoTemplate>({
+            templateId: 'cardBentoV1',
+            userConfig: {
+              items: [
+                {
+                  cols: 12,
+                  rows: 3,
+                  superTitle: {
+                    icon: { class: 'i-tabler-rocket' },
+                    text: 'The Personal Branding Platform',
+                  },
+                  title: 'It all begins with your story...',
+                  content: 'Unlock the next level of success with an unforgettable personal brand. Build your dream website, grow your audience, and share your vision—all in one place.',
+                  theme: 'blue',
+                  themeMode: 'dark',
+                  verticalPosition: 'bottom',
+                  horizontalPosition: 'left',
+                  bg: {
+                    url: 'https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1733965053/replicate-prediction-wtfb2100xxrj00ckq1cb7s94hg_rhvr5g.mp4',
+                    overlay: { opacity: 0.3 },
+                    videoControls: {
+                      freeze: { playOnHover: true },
+                    },
+                  },
+                  action: {
+                    buttons: [
+                      {
+                        label: 'Create Account',
+                        href: '/app?_reload=1',
+                        theme: 'overlay',
+                        icon: 'i-tabler-user-circle',
+                        design: 'solid',
+                        size: 'xl',
+                      },
+                      {
+                        label: 'Learn More',
+                        href: '/tour',
+                        theme: 'overlay',
+                        icon: 'i-tabler-rocket',
+                        design: 'outline',
+                        size: 'xl',
+                      },
+                    ],
+                  },
+                },
+                {
+                  cols: 4,
+                  rows: 2,
+                  superTitle: {
+                    icon: { class: 'i-tabler-rocket' },
+                    text: 'Own Your Brand',
+                  },
+                  title: 'Websites Optimized for Personal Brands',
+                  content: 'Your story deserves a home that reflects your voice. Fiction crafts stunning personal websites with effortless customization.',
+                  theme: 'orange',
+                  themeMode: 'dark',
+                  verticalPosition: 'bottom',
+                  horizontalPosition: 'left',
+
+                },
+                {
+                  cols: 4,
+                  rows: 2,
+                  superTitle: {
+                    icon: { class: 'i-tabler-mail' },
+                    text: 'Capture & Connect',
+                  },
+                  title: 'Build an Audience, Start Your Newsletter',
+                  content: 'Engage your audience with every send. Fiction helps you build your email list and deliver newsletters that captivate.',
+                  theme: 'blue',
+                  themeMode: 'dark',
+                  verticalPosition: 'bottom',
+                  horizontalPosition: 'left',
+
+                },
+                {
+                  cols: 4,
+                  rows: 2,
+                  superTitle: {
+                    icon: { class: 'i-tabler-bolt' },
+                    text: 'Powered by AI',
+                  },
+                  title: 'Effortless Content Creation with AI',
+                  content: 'Stuck on words? Use AI tools to unlock creativity. Craft content that inspires, informs, and converts.',
+                  theme: 'green',
+                  themeMode: 'dark',
+                  verticalPosition: 'bottom',
+                  horizontalPosition: 'left',
+
+                },
+              ],
+            },
+          }),
+
         ],
 
       }),

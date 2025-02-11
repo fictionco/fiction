@@ -295,7 +295,7 @@ export async function getConfig(args: {
                   { label: 'Why Fiction', href: '/tour' },
                   { label: 'Plans & Pricing', href: '/pricing' },
                   {
-                    label: 'Website Cards',
+                    label: 'Demos',
                     list: {
                       description: 'Professional components for your website',
                       variant: 'expanded',

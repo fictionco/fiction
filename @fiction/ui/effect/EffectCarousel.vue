@@ -22,8 +22,9 @@ type RealFlickity = Flickity & {
 }
 
 const carouselRef = vue.ref<HTMLElement | null>(null)
-let flkty: RealFlickity | null = null
 const loading = vue.ref(true)
+
+let flkty: RealFlickity | null = null
 
 // Create computed for all options
 const flickityOptions = vue.computed<Flickity.Options>(() => ({
@@ -43,6 +44,16 @@ const flickityOptions = vue.computed<Flickity.Options>(() => ({
   setGallerySize: true,
   ...props.options,
   on: {
+
+    ready: async () => {
+      loading.value = false
+
+      if (flkty) {
+        vue.nextTick(() => {
+          flkty?.resize()
+        })
+      }
+    },
     /**
      * draggable stuff is messing with content editing
      * this is the fix
@@ -89,15 +100,9 @@ async function initFlickity() {
 
     flkty.on('staticClick', (...args) => emit('staticClick', ...args))
   }
-
-  await waitFor(200) // attempt better height calculation
-
-  loading.value = false
 }
 
 vue.onMounted(async () => {
-  await waitFor(300) // attempt better height calculation
-
   vue.watch(() => props.slides.length, () => {
     vue.nextTick(async () => {
       await initFlickity()
@@ -121,8 +126,8 @@ vue.onBeforeUnmount(() => {
 <template>
   <div
     ref="carouselRef"
-    class="carousel transition-opacity duration-700"
-    :class="loading ? 'opacity-0 min-h-[40vh]' : 'opacity-100'"
+    class="flickity-carousel transition-opacity duration-700"
+    :class="loading ? 'opacity-0 flickity-loading' : 'opacity-100 flickity-loaded'"
   >
     <slot
       v-for="(slide, index) in slides"

@@ -1,4 +1,4 @@
-import type { FictionRouter, RunVars } from '@fiction/core'
+import type { EndpointResponse, FictionRouter, RunVars } from '@fiction/core'
 import type { ManageSiteParams } from './endpoint.js'
 import type { FictionSites, TableSiteConfig } from './index.js'
 import { log, toCamel } from '@fiction/core'
@@ -58,7 +58,13 @@ export async function requestManageSite(args: RequestManageSiteParams) {
 
   const requestArgs = { ...pass, caller, _action, fields, where, scope } as ManageSiteParams
 
-  const r = await fictionSites.requests.ManageSite.projectRequest(requestArgs, { caller: `requestManageSite:${caller}`, userOptional: _action === 'retrieve' })
+  let r: EndpointResponse<TableSiteConfig>
+  if (typeof window === 'undefined') {
+    r = await fictionSites.queries.ManageSite.serve(requestArgs, { caller: `requestManageSite-Server:${caller}` })
+  }
+  else {
+    r = await fictionSites.requests.ManageSite.projectRequest(requestArgs, { caller: `requestManageSite:${caller}`, userOptional: _action === 'retrieve' })
+  }
 
   let site: Site | undefined = undefined
   if (r.data?.siteId)

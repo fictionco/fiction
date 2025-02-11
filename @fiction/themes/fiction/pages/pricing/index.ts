@@ -41,9 +41,9 @@ export async function getPricingPage(args: { factory: CardFactory, site: Site })
       layout: 'standard',
       prices: [
         {
-          title: 'Establish',
+          title: 'Foundation',
           price: 29,
-          description: `Establish your Foundation`,
+          description: `Establish your Brand`,
           variant: 'muted',
           icon: { class: 'i-tabler-rocket' },
           features: [
