@@ -3,7 +3,6 @@ import type { template as heroTemplate } from '@fiction/cards/content-hero/index
 import type { template as marqueeTemplate } from '@fiction/cards/media-marquee/index.js'
 import type { template as wrapTemplate } from '@fiction/cards/page-wrap/index.js'
 import type { template as logosTemplate } from '@fiction/cards/proof-logos/index'
-import type { template as cardStatementTemplate } from '@fiction/cards/slider-statement'
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StockMedia } from '@fiction/ui/stock/index.js'
 

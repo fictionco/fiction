@@ -1,5 +1,4 @@
 import type { FictionEnv } from '../plugin-env/index.js'
-import { data } from '@fiction/analytics/chart/test/sampleData.js'
 import { log } from '../plugin-log/index.js'
 import { FictionObject } from '../plugin.js'
 import { isPlainObject } from './obj.js'

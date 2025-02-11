@@ -512,8 +512,14 @@
         "mount.ts": null,
         "plugin-render.ts": null,
         "render": {
+          "rateLimitingMiddleware.ts": null,
+          "securityMiddleware.ts": null,
           "ssr.ts": null,
           "ssrCache.ts": null,
+          "test": {
+            "rateLimit.unit.test.ts": null,
+            "securityBlock.unit.test.ts": null
+          },
           "utils.ts": null
         },
         "test": {

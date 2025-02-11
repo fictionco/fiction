@@ -1,4 +1,4 @@
-import type { NextFunction, Request, Response } from 'express'
+import type { Request, Response } from 'express'
 import type { Mock } from 'vitest'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createRateLimiter } from '../rateLimitingMiddleware'

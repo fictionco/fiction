@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T">
 import type Flickity from 'flickity'
-import { vue, waitFor } from '@fiction/core'
+import { vue } from '@fiction/core'
 import 'flickity/css/flickity.css'
 
 defineOptions({ name: 'EffectCarousel' })

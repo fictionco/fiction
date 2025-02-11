@@ -217,7 +217,7 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
       return this.log.warn('trackWebsiteEvents: Analytics not enabled')
 
     if (!site)
-      throw new Error('Site not found')
+      return
 
     const { siteId, settings: { orgId } } = site
 

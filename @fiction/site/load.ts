@@ -1,4 +1,4 @@
-import type { EndpointResponse, FictionRouter, RunVars } from '@fiction/core'
+import type { FictionRouter, RunVars } from '@fiction/core'
 import type { ManageSiteParams } from './endpoint.js'
 import type { FictionSites, TableSiteConfig } from './index.js'
 import { log, toCamel } from '@fiction/core'
