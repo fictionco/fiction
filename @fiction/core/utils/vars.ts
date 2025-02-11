@@ -126,8 +126,8 @@ export const isDev = () => crossVar.has('NODE_ENV', 'development')
 export const isProd = () => !isDev()
 export const isDebug = () => crossVar.has('DEBUG')
 export const isRestart = () => crossVar.has('IS_RESTART')
-export const getVersion = () => crossVar.get('RUNTIME_VERSION')
-export const getCommit = () => crossVar.get('RUNTIME_COMMIT')
+export const getVersion = () => crossVar.get('BUILD_VERSION')
+export const getCommit = () => crossVar.get('BUILD_COMMIT')
 export const appOrgId = () => crossVar.get('FICTION_ORG_ID', { errorOnUndefined: true }) as string
 export const appSiteId = () => crossVar.get('FICTION_SITE_ID', { errorOnUndefined: true }) as string
 

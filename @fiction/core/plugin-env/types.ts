@@ -37,8 +37,8 @@ export interface MainFile {
 export type ServiceList = Record<string, FictionPlugin | FictionObject | ((...args: any) => any) | Record<string, unknown> | number | string> & { fictionEnv?: FictionEnv, fictionServer?: FictionServer, close?: () => Promise<void> | void }
 
 export type CliVars = {
-  RUNTIME_VERSION: string
-  RUNTIME_COMMIT: string
+  BUILD_VERSION: string
+  BUILD_COMMIT: string
   COMMAND: string
   COMMAND_OPTS: string
 }

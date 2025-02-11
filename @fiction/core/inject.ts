@@ -38,8 +38,8 @@ export type RunVars = {
   CI: string
   DEBUG: string
   IS_RESTART: string
-  RUNTIME_VERSION: string
-  RUNTIME_COMMIT: string
+  BUILD_VERSION: string
+  BUILD_COMMIT: string
 }
 
 // Core services that must be available

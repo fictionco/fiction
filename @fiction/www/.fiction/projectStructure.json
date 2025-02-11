@@ -1744,8 +1744,7 @@
         "public": {
           "_redirects": null,
           "favicon.png": null,
-          "favicon.svg": null,
-          "robots.txt": null
+          "favicon.svg": null
         },
         "stripeProducts.ts": null,
         "style.less": null

@@ -1,3 +1,4 @@
+import type { RunVars } from '@fiction/core'
 import type { Request } from 'express'
 import { describe, expect, it, vi } from 'vitest'
 import { createTestUtils } from '../../test-utils/init'
@@ -6,7 +7,7 @@ describe('rendering tests', () => {
   const testUtils = createTestUtils()
 
   it('generates correct html', async () => {
-    const html = testUtils?.fictionApp?.fictionRender?.addRunVarsToHtml({ html: '<html><body>hello</body></html>', runVars: { test: '123' } })
+    const html = testUtils?.fictionApp?.fictionRender?.addRunVarsToHtml({ html: '<html><body>hello</body></html>', runVars: { test: '123' } as Partial<RunVars> })
 
     expect(html).toMatchInlineSnapshot(`
       "<html><body>hello<script id="fictionRun" type="application/json">{"test":"123"}</script>

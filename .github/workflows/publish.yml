@@ -48,6 +48,10 @@ env:
   GH_TOKEN: ${{ secrets.GH_TOKEN }}
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
   BETTER_STACK_SOURCE_TOKEN: ${{ secrets.BETTER_STACK_SOURCE_TOKEN }}
+  BUILD_COMMIT: ${{ github.sha }}
+  BUILD_TIME: ${{ github.event.repository.updated_at }}
+  BUILD_NUMBER: ${{ github.run_number }}
+  BUILD_BRANCH: ${{ github.ref_name }}
 
 jobs:
 
@@ -66,14 +70,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Write Build Information
-        run: |
-          echo '{
-            "commitId": "${{ github.sha }}",
-            "buildTime": "$(date +'%Y-%m-%d %H:%M:%S')",
-            "buildNumber": "${{ github.run_number }}",
-            "branch": "${{ github.ref_name }}"
-          }' > ./buildInfo.json
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4

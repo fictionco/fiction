@@ -162,7 +162,7 @@ export class FictionEnv<
   constructor(settings: FictionControlSettings) {
     super('FictionEnv', settings)
 
-    const commitId = crossVar.get('RUNTIME_COMMIT') || ''
+    const commitId = crossVar.get('BUILD_COMMIT') || ''
 
     this.envInit()
 

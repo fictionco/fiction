@@ -27,8 +27,8 @@ export class SSRCache {
   }
 
   private getCacheKey(runVars: Partial<RunVars>): string {
-    const { RUN_MODE, URL, RUNTIME_COMMIT } = runVars
-    return fastHash({ RUN_MODE, URL, RUNTIME_COMMIT })
+    const { RUN_MODE, URL, BUILD_COMMIT } = runVars
+    return fastHash({ RUN_MODE, URL, BUILD_COMMIT })
   }
 
   private getRedisKey(cacheKey: string): string {

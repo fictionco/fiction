@@ -82,8 +82,8 @@ export async function runCommand(command: string, optionsFromCli: Record<string,
       }
     }
 
-    process.env.RUNTIME_VERSION = pkg.version
-    process.env.RUNTIME_COMMIT = getLatestCommitId()
+    process.env.BUILD_VERSION = pkg.version
+    process.env.BUILD_COMMIT = await getBuildCommit()
     process.env.COMMAND = command
     process.env.COMMAND_OPTS = JSON.stringify(optionsFromCli || {})
     /**
@@ -213,54 +213,29 @@ export const execute = asyncErrorHandler(async () => {
   commander.parse(process.argv)
 })
 
-function getLatestCommitId() {
-  let currentPath = getMonorepoRootPath()
+async function getBuildCommit(): Promise<string> {
+  if (process.env.BUILD_COMMIT) {
+    return process.env.BUILD_COMMIT
+  }
 
-  if (!currentPath)
-    currentPath = process.cwd()
-
-  const buildInfoPath = path.join(currentPath, 'buildInfo.json')
-
-  const buildInfo = fs.existsSync(buildInfoPath)
-
+  const fs = await import('node:fs')
   try {
-    if (buildInfo) {
-      const buildInfoContent = fs.readFileSync(buildInfoPath, 'utf8')
-      const { commitId } = JSON.parse(buildInfoContent)
-      return `(json)${commitId.slice(-9)}`
+    const buildInfoPath = path.join(process.cwd(), './.fiction/buildInfo.json')
+    if (fs.existsSync(buildInfoPath)) {
+      const { commitId } = JSON.parse(fs.readFileSync(buildInfoPath, 'utf8'))
+
+      if (commitId)
+        return commitId
     }
-    else {
-      for (let i = 0; i < 3; i++) { // Check current, parent, and grandparent directories
-        const gitFolderPath = path.join(currentPath, '.git')
 
-        if (fs.existsSync(gitFolderPath)) {
-          const headFilePath = path.join(gitFolderPath, 'HEAD')
-          if (!fs.existsSync(headFilePath))
-            return 'noHead'
+    const { execSync } = await import('node:child_process')
 
-          const headContent = fs.readFileSync(headFilePath, 'utf8').trim()
-          const refMatch = headContent.match(/ref: (.+)/)
-          if (!refMatch)
-            return 'noRefMatch' // Not a typical HEAD file pointing to a ref
-
-          const refPath = path.join(gitFolderPath, refMatch[1])
-          if (!fs.existsSync(refPath))
-            return 'noRefPath'
-
-          const commitId = fs.readFileSync(refPath, 'utf8').trim() // Latest Commit ID
-
-          return `(git)${commitId.slice(-9)}`
-        }
-
-        currentPath = path.dirname(currentPath) // Move up to the parent directory
-      }
-    }
+    // Fallback to git (development)
+    return execSync('git rev-parse --short HEAD').toString().trim()
   }
-  catch (error) {
-    logger.error('Error getting latest commit id', { error })
+  catch {
+    return ''
   }
-
-  return 'notFound' // No .git folder found
 }
 
 function exitHandler(options: {

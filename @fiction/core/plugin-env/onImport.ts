@@ -54,8 +54,8 @@ class EnvVarList {
       new EnvVar({ name: 'NODE_ENV', isPublic: true, isSystem: true }),
       new EnvVar({ name: 'COMMAND', isPublic: true, isSystem: true }),
       new EnvVar({ name: 'COMMAND_OPTS', isPublic: true, isSystem: true }),
-      new EnvVar({ name: 'RUNTIME_VERSION', isPublic: true, isSystem: true }),
-      new EnvVar({ name: 'RUNTIME_COMMIT', isPublic: true, isSystem: true }),
+      new EnvVar({ name: 'BUILD_VERSION', isPublic: true, isSystem: true }),
+      new EnvVar({ name: 'BUILD_COMMIT', isPublic: true, isSystem: true }),
       new EnvVar({ name: 'IS_TEST', isPublic: true, isSystem: true }),
     ],
   ]

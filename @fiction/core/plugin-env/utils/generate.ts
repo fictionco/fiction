@@ -1,6 +1,7 @@
 import type { JSONSchema } from 'json-schema-to-typescript'
 import type { FictionEnv } from '../index.js'
 import path from 'node:path'
+import process from 'node:process'
 import fs from 'fs-extra'
 import { log } from '../../plugin-log/index.js'
 import { stringify } from '../../utils/utils.js'
@@ -18,6 +19,18 @@ export async function generateStaticConfig(fictionEnv: FictionEnv): Promise<void
 
   const genConfigPath = fictionEnv.generatedFolder
   await fs.emptyDir(genConfigPath)
+
+  const buildInfoJsonLines = [
+    `  "BUILD_COMMIT": "${process.env.BUILD_COMMIT || ''}"`,
+    `  "BUILD_VERSION": "${process.env.BUILD_VERSION || ''}"`,
+    `  "BUILD_TIME": "${process.env.BUILD_TIME || ''}"`,
+    `  "BUILD_NUMBER": "${process.env.BUILD_NUMBER || ''}"`,
+    `  "BUILD_BRANCH": "${process.env.BUILD_BRANCH || ''}"`,
+  ]
+
+  const buildInfoPath = path.join(genConfigPath, 'buildInfo.json')
+
+  await fs.writeFile(buildInfoPath, `{\n${buildInfoJsonLines.join(`,\n`)}\n}`)
 
   fictionEnv.generators.push(() => generateProjectStructure({ fictionEnv }))
 
