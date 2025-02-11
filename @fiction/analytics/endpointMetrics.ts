@@ -140,7 +140,7 @@ export class QueryCompiledMetrics extends AnalyticsEndpoint {
       .groupByRaw('date WITH ROLLUP')
       .orderBy('date', 'asc')
 
-    this.log.info('Event Query', { mainQuery: mainQuery.toString() })
+    this.log.debug('Event Query', { data: { mainQuery: mainQuery.toString() } })
 
     return mainQuery
   }
@@ -268,7 +268,7 @@ export class QueryCompiledMetrics extends AnalyticsEndpoint {
       return { ...point, value }
     }
 
-    return metrics.map(metric => ({
+    const out = metrics.map(metric => ({
       ...metric,
       data: {
         ...refinedData,
@@ -278,5 +278,7 @@ export class QueryCompiledMetrics extends AnalyticsEndpoint {
         compareTotals: transformPoint({ point: refinedData.compareTotals, metric }),
       },
     }))
+
+    return out
   }
 }

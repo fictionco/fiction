@@ -46,6 +46,21 @@ function getIntervalPoints(args: {
   return endAt.diff(startAt, interval as dayjs.OpUnitType)
 }
 
+/**
+ * Creates default object with zeros for all numeric fields in dataset
+ * Keep only numeric fields (numbers or numeric strings) and skip specified keys
+ */
+export function getDefaultObject(data: Record<string, any>[] = [], skip = ['date', 'tense']): Record<string, number> {
+  const keys = new Set(
+    data.flatMap(point =>
+      Object.entries(point)
+        .filter(([key, val]) => !skip.includes(key) && (typeof val === 'number' || /^-?\d+$/.test(val)))
+        .map(([key]) => key),
+    ),
+  )
+  return Object.fromEntries([...keys].map(key => [key, 0]))
+}
+
 export function refineTimelineData<T extends DataPointChart>(args: RefineTimelineArgs<T>): T[] {
   const {
     timeStartAtIso,
@@ -71,12 +86,8 @@ export function refineTimelineData<T extends DataPointChart>(args: RefineTimelin
 
   // Rest of setup remains the same
   const newData: { date?: string, [key: string]: any }[] = withRollup ? [{ label: 'Totals', tense: 'past', ...data[0] }] : []
-  const sample = data[0] ?? {}
-  const defaultObjectIfMissing = Object.fromEntries(
-    Object.entries(sample)
-      .map(([k, v]) => ((typeof v === 'string' && /^-?\d+$/.test(v)) || typeof v === 'number') ? [k, 0] : undefined)
-      .filter(Boolean) as [string, number | string][],
-  )
+
+  const defaultObjectIfMissing = getDefaultObject(data)
   const lastKnownValues = { ...defaultObjectIfMissing }
 
   // Calculate total points using custom interval diff
@@ -100,7 +111,7 @@ export function refineTimelineData<T extends DataPointChart>(args: RefineTimelin
       if (foundData?.[key] != null) {
         values[key] = foundData[key]
         if (snapshotKeys.includes(key))
-          lastKnownValues[key] = foundData[key]
+          lastKnownValues[key] = foundData[key] as number
       }
       else if (snapshotKeys.includes(key)) {
         values[key] = lastKnownValues[key]

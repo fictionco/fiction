@@ -28,7 +28,7 @@ const _interval = setInterval(() => {
   minute.value = minute.value + 1
 }, 12_000)
 
-_interval.unref()
+_interval.unref?.()
 
 vue.onUnmounted(() => {
   clearInterval(_interval)

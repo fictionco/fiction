@@ -323,7 +323,7 @@ export class NodeSocketServer<T extends EventMap> extends EventEmitter {
       })
     }, 30_000)
 
-    this.checkConnectionInterval.unref()
+    this.checkConnectionInterval.unref?.()
   }
 
   close() {
