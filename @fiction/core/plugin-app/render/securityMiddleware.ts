@@ -38,6 +38,11 @@ const BLOCKED_PATTERNS = [
   /pop3/i,
   /email-admin/i,
   /mail-admin/i,
+
+  // manual patterns
+  /fan\.fiction/i,
+  /test-dom/i,
+  /404_404/,
 ]
 
 const BLOCKED_USER_AGENTS = [
@@ -109,20 +114,18 @@ export const securityMiddleware: express.RequestHandler = (req, res, next) => {
       // block here
     }
 
-    const path = req.path
+    const _path = req.path
     const userAgent = req.get('user-agent') || ''
     const fullUrl = req.originalUrl || req.url
 
     // Check for suspicious behavior
     const isSuspicious
       = hasPathTraversalAttempt(fullUrl)
-        || BLOCKED_PATTERNS.some(pattern => pattern.test(path))
+        || BLOCKED_PATTERNS.some(pattern => pattern.test(fullUrl))
         || BLOCKED_USER_AGENTS.some(pattern => pattern.test(userAgent))
 
     if (isSuspicious) {
-      const count = incrementIPBlock(clientIP)
-
-      console.warn('suspicious IP:', { clientIP, url: fullUrl, count })
+      incrementIPBlock(clientIP)
 
       res.status(403).end()
 
