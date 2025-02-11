@@ -53,7 +53,7 @@ export class IndexHtml extends FictionObject<IndexHtmlSettings> {
   }
 }
 
-export function getRequestVars(args: { request: Request }): Record<string, string> {
+export function getRequestVars(args: { request: Request }): Partial<RunVars> {
   const { request } = args
 
   // Extracting protocol (HTTP vs HTTPS)
@@ -81,19 +81,18 @@ export function getRequestVars(args: { request: Request }): Record<string, strin
   const ORIGIN = `${protocol}://${host}`
 
   const requestVars: Partial<RunVars> = {
-    PROTOCOL: protocol,
-    SUBDOMAIN: subdomain,
-    ORIGINAL_HOST: originalHost,
-    HOST: host || '',
-    HOSTNAME: hostname,
-    IP_ADDRESS: ip || '',
-    USER_AGENT: userAgent || '',
-    ALL_HEADERS: allHeaders,
-    PATHNAME: request?.originalUrl,
-    ORIGIN,
-    URL: `${ORIGIN}${request?.originalUrl}`,
-
+    PROTOCOL: protocol, // -> "https"
+    SUBDOMAIN: subdomain, // -> "app.stage"
+    ORIGINAL_HOST: originalHost, // -> "www.fiction.com"
+    HOST: host || '', // -> "fiction.com:3000"
+    HOSTNAME: hostname, // -> "fiction.com" (without port or subdomain)
+    IP_ADDRESS: ip || '', // -> "192.168.1.1"
+    USER_AGENT: userAgent || '', // -> "Mozilla/5.0..."
+    ALL_HEADERS: allHeaders, // -> "host: fiction.com, ..."
+    PATHNAME: request?.originalUrl, // -> "/api/users?id=123"
+    ORIGIN, // -> "https://fiction.com:3000"
+    URL: `${ORIGIN}${request?.originalUrl}`, // -> "https://fiction.com:3000/api/users?id=123"
   }
 
-  return requestVars as Record<string, string>
+  return requestVars as Partial<RunVars>
 }

@@ -12,6 +12,8 @@ describe('security Middleware', () => {
     vi.useFakeTimers()
     // Reset mocks for each test
     req = {
+      protocol: 'http',
+      host: 'www.test.com',
       path: '/normal-path',
       originalUrl: '/normal-path',
       headers: {},
@@ -38,7 +40,7 @@ describe('security Middleware', () => {
   it('blocks PHP probe attempts and increments block counter', () => {
     req = {
       ...req,
-      path: '/wp-admin/index.php',
+      originalUrl: '/wp-admin/index.php',
     }
 
     // Make three suspicious requests
@@ -72,7 +74,7 @@ describe('security Middleware', () => {
     req = {
       ...req,
       headers: { 'x-forwarded-for': '5.5.5.5, 2.2.2.2' },
-      path: '/wp-admin',
+      originalUrl: '/wp-admin',
     }
 
     // Make multiple requests to ensure blocking works with forwarded IP
@@ -87,7 +89,7 @@ describe('security Middleware', () => {
     const ip = '3.3.3.3'
     req = {
       ...req,
-      path: '/phpinfo',
+      originalUrl: '/phpinfo',
       socket: { remoteAddress: ip } as Partial<express.Request['socket']>,
     } as Partial<express.Request>
 
@@ -107,7 +109,7 @@ describe('security Middleware', () => {
     // Make another request - should be allowed
     req = {
       ...req,
-      path: '/normal-path',
+      originalUrl: '/normal-path',
     }
     securityMiddleware(req as express.Request, res as express.Response, next)
 

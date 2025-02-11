@@ -432,7 +432,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     this.log.info(`[done:render]`)
   }
 
-  getRunVars = (args: { request: Request, mode: 'dev' | 'prod' | 'test' }): Partial<RunVars> & Record<string, string> => {
+  getRunVars = (args: { request: Request, mode: 'dev' | 'prod' | 'test' }): Partial<RunVars> & Record<string, string | Record<string, string>> => {
     const { request, mode } = args
     const runVars = {
       ...this.settings.fictionEnv.getRenderedEnvVars(),
@@ -444,7 +444,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     return runVars
   }
 
-  addRunVarsToHtml(args: { html: string, runVars?: Record<string, string> }): string {
+  addRunVarsToHtml(args: { html: string, runVars?: Partial<RunVars> }): string {
     const { html, runVars = {} } = args
     const stringifiedVars = JSON.stringify(runVars)
     const tag = `<script id="fictionRun" type="application/json">${stringifiedVars}</script>`
@@ -552,6 +552,11 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
           else if (pathname === '/sitemap.xsl') {
             const xslFile = await this.fictionApp.fictionSitemap?.getXslContent()
             res.status(200).set({ 'Content-Type': 'text/xml' }).end(xslFile)
+            return
+          }
+          else if (pathname === '/robots.txt') {
+            const robots = await this.fictionApp.fictionSitemap?.getRobots({ runVars })
+            res.status(200).set({ 'Content-Type': 'text/plain' }).end(robots)
             return
           }
 

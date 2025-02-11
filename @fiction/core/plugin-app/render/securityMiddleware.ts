@@ -1,4 +1,5 @@
 import type express from 'express'
+import { getRequestVars } from './utils'
 
 // Using a Map for better performance with large sets of IPs
 const blockedIPs = new Map<string, { count: number, expires: number }>()
@@ -41,6 +42,8 @@ const BLOCKED_PATTERNS = [
 
   // manual patterns
   /fan\.fiction/i,
+  /lat\.fiction/i,
+  /non\.fiction/i,
   /test-dom/i,
   /404_404/,
 ]
@@ -53,12 +56,12 @@ const BLOCKED_USER_AGENTS = [
   /masscan/i,
 ]
 
-function hasPathTraversalAttempt(url: string): boolean {
+function hasPathTraversalAttempt(pathname: string): boolean {
   return (
-    /%2e/i.test(url)
-    || /%2f/i.test(url)
-    || /\.\.\//.test(url)
-    || /\/{2,}/.test(url)
+    /%2e/i.test(pathname)
+    || /%2f/i.test(pathname)
+    || /\.\.\//.test(pathname)
+    || /\/{2,}/.test(pathname)
   )
 }
 
@@ -114,16 +117,27 @@ export const securityMiddleware: express.RequestHandler = (req, res, next) => {
       // block here
     }
 
-    const path = req.path
-    const userAgent = req.get('user-agent') || ''
-    const fullUrl = req.originalUrl || req.url
+    const vars = getRequestVars({ request: req })
 
-    // Check for suspicious behavior
-    const isSuspicious
-      = hasPathTraversalAttempt(fullUrl)
-        || BLOCKED_PATTERNS.some(pattern => pattern.test(fullUrl))
-        || BLOCKED_PATTERNS.some(pattern => pattern.test(path))
-        || BLOCKED_USER_AGENTS.some(pattern => pattern.test(userAgent))
+    const url = vars.URL || ''
+    const userAgent = vars.USER_AGENT || ''
+    const pathname = vars.PATHNAME || ''
+
+    const fails = []
+
+    if (hasPathTraversalAttempt(pathname)) {
+      fails.push('path traversal')
+    }
+
+    if (BLOCKED_PATTERNS.some(pattern => pattern.test(url))) {
+      fails.push('blocked pattern')
+    }
+
+    if (BLOCKED_USER_AGENTS.some(pattern => pattern.test(userAgent))) {
+      fails.push('blocked user agent')
+    }
+
+    const isSuspicious = fails.length > 0
 
     if (isSuspicious) {
       incrementIPBlock(clientIP)

@@ -93,4 +93,34 @@ export class FictionSitemap extends FictionPlugin<FictionSitemapSettings> {
     const xslPath = path.resolve(dirname, './sitemap.xsl')
     return fs.readFile(xslPath, 'utf8')
   }
+
+  async getRobots(args: { runVars: Partial<RunVars> }): Promise<string> {
+    const { runVars } = args
+    const { ORIGIN } = runVars
+
+    // Block list domains
+    const blockList = [
+      'fictionsites.com',
+      'staging.fiction.com',
+      'dev.fiction.com',
+    ]
+
+    // Block if domain matches block list
+    if (blockList.some(domain => ORIGIN?.includes(domain))) {
+      return [
+        'User-agent: *',
+        'Disallow: /',
+      ].join('\n')
+    }
+
+    // Production rules
+    return [
+      'User-agent: *',
+      'Allow: /',
+      'Disallow: /api/',
+      'Disallow: /app/',
+      '',
+      `Sitemap: ${ORIGIN}/sitemap.xml`,
+    ].join('\n')
+  }
 }
