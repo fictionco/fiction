@@ -122,7 +122,7 @@ export const securityMiddleware: express.RequestHandler = (req, res, next) => {
     if (isSuspicious) {
       const count = incrementIPBlock(clientIP)
 
-      console.warn('suspicous IP:', { clientIP, count, header: req.headers, url: fullUrl })
+      console.warn('suspicious IP:', { clientIP, url: fullUrl, count })
 
       res.status(403).end()
 

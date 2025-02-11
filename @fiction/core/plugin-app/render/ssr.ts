@@ -92,7 +92,7 @@ export class SSR extends FictionObject<SSRSettings> {
       }
     }
 
-    this.log.info(`SSR:${runVars.URL} -> CACHE: ${cacheStatus}`)
+    this.log.info(`SSR:${runVars.URL} -> CACHE: ${cacheStatus} -> IP: ${runVars.IP_ADDRESS}`)
 
     if (cacheStatus === 'hit')
       return out

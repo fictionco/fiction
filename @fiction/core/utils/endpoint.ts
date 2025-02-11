@@ -298,6 +298,11 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
   async getUserInfo(args?: { userOptional?: boolean }) {
     const { userOptional = false } = args || {}
+
+    if (typeof window === 'undefined') {
+      return
+    }
+
     if (!this.fictionUser)
       throw new Error(`fictionUser is required for getUserInfo`)
 
@@ -367,9 +372,6 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
     if (!this.fictionUser)
       throw new Error(`fictionUser is required for projectRequest`)
-
-    if (typeof window === 'undefined')
-      this.log.warn(`projectRequest: not in browser`, { data: { opts, params } })
 
     let requestParams = params
     if (useRouteParams) {

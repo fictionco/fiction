@@ -187,7 +187,12 @@ const service = { ...baseService, fictionExtend }
 export function setup(): ServiceConfig {
   async function initializeBackingServices(_args: { context: 'node' | 'app' }) {
     fictionCache.init()
-    await Promise.all([fictionDb.init(), fictionEmail.init(), fictionAnalytics.serverInit(), fictionCache.init()])
+    await Promise.all([
+      fictionDb.init(),
+      fictionEmail.init(),
+      fictionAnalytics.serverInit(),
+      fictionCache.init(),
+    ])
   }
 
   return {

@@ -58,13 +58,7 @@ export async function requestManageSite(args: RequestManageSiteParams) {
 
   const requestArgs = { ...pass, caller, _action, fields, where, scope } as ManageSiteParams
 
-  let r: EndpointResponse<TableSiteConfig>
-  if (typeof window === 'undefined') {
-    r = await fictionSites.queries.ManageSite.serve(requestArgs, { caller: `requestManageSite-Server:${caller}` })
-  }
-  else {
-    r = await fictionSites.requests.ManageSite.projectRequest(requestArgs, { caller: `requestManageSite:${caller}`, userOptional: _action === 'retrieve' })
-  }
+  const r = await fictionSites.requests.ManageSite.projectRequest(requestArgs, { caller: `requestManageSite:${caller}`, userOptional: _action === 'retrieve' })
 
   let site: Site | undefined = undefined
   if (r.data?.siteId)
