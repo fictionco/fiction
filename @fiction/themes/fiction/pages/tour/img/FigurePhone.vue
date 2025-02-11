@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { PropType } from 'vue'
-import { randomBetween } from '@fiction/core'
+import { randomBetween, vue } from '@fiction/core'
 import { computed, ref } from 'vue'
 
 const props = defineProps({
@@ -24,9 +24,15 @@ const contentClasses = computed(() => {
 const hour = randomBetween(1, 12)
 const minute = ref(randomBetween(0, 45))
 
-setInterval(() => {
+const _interval = setInterval(() => {
   minute.value = minute.value + 1
 }, 12_000)
+
+_interval.unref()
+
+vue.onUnmounted(() => {
+  clearInterval(_interval)
+})
 
 const displayMinute = computed(() => {
   return String(minute.value).padStart(2, '0')
