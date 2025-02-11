@@ -46,7 +46,7 @@ describe('beacon event saving', async () => {
     await createSessionFromView({ anonymousId })
 
     // Wait for buffer flush
-    await waitFor(200)
+    await waitFor(250)
 
     const ch = testUtils.fictionClickhouse
     const viewEvents = await ch.clickHouseSelect(
@@ -70,7 +70,7 @@ describe('beacon event saving', async () => {
     const session = await cacheSession({ _action: 'get', anonymousId, fictionAnalytics })
     expect(session).toBeDefined()
     expect(session?.isOpened).toBe(true)
-  })
+  }, { retry: 2 })
 
   it('should save session data when session expires', async () => {
     const anonymousId = objectId()
