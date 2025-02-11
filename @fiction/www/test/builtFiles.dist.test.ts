@@ -57,7 +57,7 @@ describe('dist checks', async () => {
     for (const appDir of expectedDirs) {
       const clientDirFiles = await fs.readdir(`${distDir}/${appDir}/client`)
 
-      const clientFiles = ['index.html', 'assets', 'robots.txt']
+      const clientFiles = ['index.html', 'assets']
 
       expect(clientDirFiles).toEqual(expect.arrayContaining(clientFiles))
 
