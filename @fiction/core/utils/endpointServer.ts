@@ -163,7 +163,7 @@ export class EndpointServer {
 
           delete result?.internal
 
-          if (result)
+          if (result?.status)
             response.status(200).send(result).end()
         },
       )

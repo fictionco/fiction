@@ -79,24 +79,29 @@ export class ManageDomain extends SitesQuery {
     try {
       const { isIP } = await import('node:net')
 
+      this.log.info('Verifying hostname', { data: { hostname } })
+
       // Check invalid or IP-based hostnames
       if (!hostname || isIP(hostname)) {
         this.log.warn('Invalid hostname format', { data: { hostname } })
-        return response.status(403).end()
+        response.status(403).send('invalid').end()
+        return
       }
 
       // Allow system domains
       if (systemDomains.some(domain => hostname.endsWith(domain))) {
-        return response.status(200).end()
+        response.status(200).send('ok').end()
+        return
       }
 
       // Verify external domains
       const { siteId } = await this.fictionSites.queries.ManageSite.getSiteSelector({ hostname })
-      return response.status(siteId ? 200 : 403).end()
+
+      response.status(siteId ? 200 : 403).send(siteId ? 'ok' : 'invalid').end()
     }
     catch (error) {
       this.log.error('Domain verification failed', { error })
-      return response.status(500).end()
+      response.status(500).send('invalid').end()
     }
   }
 
