@@ -73,29 +73,27 @@ export class ManageDomain extends SitesQuery {
   }
 
   async verifyHostname({ request, response }: { request: express.Request, response: express.Response }) {
-    const host = request.query.host as string
+    const domain = request.query.domain as string
     const systemDomains = ['fiction.com', 'fictionsites.com']
 
     try {
       const { isIP } = await import('node:net')
 
-      this.log.info('Verifying hostname', { data: { host } })
-
       // Check invalid or IP-based hosts
-      if (!host || isIP(host)) {
-        this.log.warn('Invalid host format', { data: { host } })
+      if (!domain || isIP(domain)) {
+        this.log.warn('Invalid host format', { data: { query: request.query } })
         response.status(403).send('invalid').end()
         return
       }
 
       // Allow system domains
-      if (systemDomains.some(domain => host.endsWith(domain))) {
+      if (systemDomains.some(domain => domain.endsWith(domain))) {
         response.status(200).send('ok').end()
         return
       }
 
       // Verify external domains
-      const { siteId } = await this.fictionSites.queries.ManageSite.getSiteSelector({ hostname: host })
+      const { siteId } = await this.fictionSites.queries.ManageSite.getSiteSelector({ hostname: domain })
 
       response.status(siteId ? 200 : 403).send(siteId ? 'ok' : 'invalid').end()
     }
