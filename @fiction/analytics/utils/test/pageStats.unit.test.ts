@@ -11,7 +11,6 @@ describe('scrollHandler', () => {
   beforeEach(() => {
     scrollHandler = new ScrollHandler({ key: 'test' })
     vi.useFakeTimers()
-
     // Mock document properties
     Object.defineProperty(document.documentElement, 'scrollHeight', { value: 1000, configurable: true })
     Object.defineProperty(document.documentElement, 'clientHeight', { value: 500, configurable: true })
