@@ -78,7 +78,7 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
       await factory.fromTemplate<typeof dashTemplate>({
         templateId: 'dash',
         slug: 'posts',
-        title: 'Content',
+        title: 'Posts',
         description: 'Create, manage, and schedule your content',
         cards: [
           await factory.fromTemplate({
@@ -100,7 +100,7 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
         regionId: 'main',
         templateId: 'dash',
         slug: 'edit-post',
-        title: 'Content Editor',
+        title: 'Post Editor',
         description: 'Create and edit your content with our full-featured editor',
         cards: [
           await factory.fromTemplate<typeof panelTemplate>({

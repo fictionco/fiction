@@ -14,8 +14,8 @@ const _x = 1
 </script>
 
 <template>
-  <SettingsPanel title="All Subscribers">
-    <div class="p-6">
+  <SettingsPanel title="All Connections">
+    <div class="p-6 xl:p-12">
       <ElSubscriberList :card />
     </div>
   </SettingsPanel>

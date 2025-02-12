@@ -11,8 +11,8 @@ const _hello = 1
     :card
     :header="{
       media: { class: `i-tabler-users` },
-      title: 'Audience Management',
-      subTitle: 'Build and manage your subscriber base. Track engagement, update contact information, and monitor subscription status.',
+      title: 'Your Network',
+      subTitle: 'Build and manage your audience and professional connections.',
     }"
     theme="cyan"
   />

@@ -62,7 +62,7 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
         await factory.fromTemplate<typeof dashTemplate>({
           templateId: 'dash',
           slug: 'subscriber-view',
-          title: 'Subscriber Profile',
+          title: 'Connection Profile',
           description: 'View and manage individual subscriber details',
           cards: [await factory.fromTemplate({ el: vue.defineAsyncComponent(async () => import('./admin/ViewSingle.vue')) })],
           userConfig: { navIcon: 'i-tabler-user', parentNavItemSlug: 'audience' },
@@ -70,7 +70,7 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
         await factory.fromTemplate<typeof dashTemplate>({
           templateId: 'dash',
           slug: 'audience',
-          title: 'Audience',
+          title: 'Network',
           description: 'Manage your subscriber database and engagement',
           userConfig: { isNavItem: true, navIcon: 'i-tabler-users', navIconAlt: 'i-tabler-users-plus', priority: 50 },
           cards: [
@@ -79,31 +79,17 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
               cards: [
                 await factory.fromTemplate<typeof panelTemplate>({
                   slug: 'subscribers',
-                  title: 'Subscriber Directory',
+                  title: 'Your Audience',
                   description: 'View, filter, and manage your complete subscriber list',
                   el: vue.defineAsyncComponent(async () => import('./admin/ViewIndex.vue')),
                   userConfig: { isNavItem: true, navIcon: 'i-tabler-users', navIconAlt: 'i-tabler-users-plus' },
                 }),
                 await factory.fromTemplate<typeof panelTemplate>({
-                  slug: 'add',
-                  title: 'Import Subscribers',
-                  description: 'Add subscribers via CSV upload or copy/paste',
-                  el: vue.defineAsyncComponent(async () => import('./admin/ElImportFile.vue')),
-                  userConfig: { isNavItem: true, navIcon: 'i-tabler-table-share', navIconAlt: 'i-tabler-table-plus' },
-                }),
-                await factory.fromTemplate<typeof panelTemplate>({
                   slug: 'view',
-                  title: 'Subscriber Details',
+                  title: 'Connection Details',
                   description: 'View individual subscriber information and history',
                   el: vue.defineAsyncComponent(async () => import('./admin/ViewSingle.vue')),
                   userConfig: { navIcon: 'i-tabler-user' },
-                }),
-                await factory.fromTemplate<typeof panelTemplate>({
-                  slug: 'analytics',
-                  title: 'Audience Insights',
-                  description: 'Track subscriber growth, engagement metrics, and audience trends',
-                  el: vue.defineAsyncComponent(async () => import('./admin/ViewAnalytics.vue')),
-                  userConfig: { isNavItem: true, navIcon: 'i-tabler-chart-dots', navIconAlt: 'i-tabler-chart-line' },
                 }),
               ],
             }),

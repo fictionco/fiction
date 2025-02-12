@@ -76,7 +76,7 @@ export class FictionNewsletter extends FictionPlugin<FictionNewsletterSettings> 
       await factory.fromTemplate<typeof dashTemplate>({
         templateId: 'dash',
         slug: 'newsletter',
-        title: 'Email',
+        title: 'Send Email',
         description: 'Create and manage your email marketing campaigns',
         cards: [
           await factory.fromTemplate<typeof panelTemplate>({

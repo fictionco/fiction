@@ -59,7 +59,7 @@ vue.onMounted(async () => {
 
 <template>
   <SettingsPanel :title="card.title.value">
-    <div class="p-6">
+    <div class="p-6 xl:p-12">
       <ElIndexGrid
         media-icon="i-tabler-mail"
         list-title="Email Campaigns"

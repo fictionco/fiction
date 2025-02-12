@@ -118,17 +118,6 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
                   navIconAlt: 'i-tabler-browser-plus',
                 },
               }),
-              await factory.fromTemplate<typeof panelTemplate>({
-                slug: 'analytics',
-                title: 'Performance Analytics',
-                description: 'Monitor visitor engagement, traffic patterns, and user behavior across all sites',
-                el: vue.defineAsyncComponent(async () => import('./admin/ManageAnalytics.vue')),
-                userConfig: {
-                  isNavItem: true,
-                  navIcon: 'i-tabler-chart-dots',
-                  navIconAlt: 'i-tabler-chart-line',
-                },
-              }),
             ],
           }),
         ],

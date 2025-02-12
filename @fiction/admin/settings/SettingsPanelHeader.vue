@@ -55,7 +55,7 @@ function updateValue<T extends keyof PostObject = keyof PostObject>(key: T, valu
       </div>
       <XButtonList
         v-if="modelValue.action?.buttons?.length"
-        class="flex w-full md:w-auto md:justify-end"
+        class="flex w-full md:w-auto md:justify-end gap-3"
         :buttons="modelValue.action.buttons"
         ui-size="sm"
       />
