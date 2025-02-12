@@ -1,6 +1,7 @@
 import type { EndpointMeta, EndpointResponse } from '@fiction/core'
 import type express from 'express'
 import type { SitesQuerySettings } from './endpoint.js'
+
 import { Endpoint, isNode } from '@fiction/core'
 import nodeFetch from 'node-fetch'
 import { SitesQuery } from './endpoint.js'
@@ -61,7 +62,7 @@ export class ManageDomain extends SitesQuery {
     const checkoutEndpoint = new Endpoint({
       requestHandler: async (...r) => this.verifyHostname({ request: r[0], response: r[1] }),
       key: 'hostnameVerify',
-      basePath: '/hostname-verify',
+      basePath: '/direct-domain-verify',
       serverUrl: this.settings.fictionServer.serverUrl.value,
       fictionUser: this.settings.fictionUser,
       fictionEnv: this.settings.fictionEnv,
@@ -71,14 +72,24 @@ export class ManageDomain extends SitesQuery {
     this.settings.fictionServer.addEndpoints([checkoutEndpoint])
   }
 
-  async verifyHostname(args: {
-    request: express.Request
-    response: express.Response
-  }) {
-    const { request, response } = args
+  async verifyHostname({ request, response }: { request: express.Request, response: express.Response }) {
+    const hostname = request.query.hostname as string
 
-    this.log.info('verify hostname', { data: { query: request.query, body: request.body } })
-    response.send('ok').end()
+    const { isIP } = await import('node:net')
+    if (!hostname || isIP(hostname)) {
+      this.log.warn('Invalid hostname', { data: { hostname } })
+      response.status(403).end()
+      return
+    }
+
+    try {
+      const { siteId } = await this.fictionSites.queries.ManageSite.getSiteSelector({ hostname })
+      response.status(siteId ? 200 : 403).end()
+    }
+    catch (error) {
+      this.log.error('Verify failed', { error })
+      response.status(500).end()
+    }
   }
 
   private readonly AUTH_CHECK_QUERY = `

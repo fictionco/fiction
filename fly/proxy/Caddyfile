@@ -17,7 +17,7 @@
 
 	on_demand_tls {
 		# TODO - Add verification endpoint for domain ownership
-		ask http://fiction-gateway.internal:6565/api/ok
+		ask http://fiction-gateway.internal:6565/api/direct-domain-verify
 	}
 }
 

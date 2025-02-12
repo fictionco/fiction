@@ -889,6 +889,7 @@ export class ManageSite extends SitesQuery {
 
     if (!domain?.siteId) {
       this.log.error('Error Loading Site', { data: { where } })
+
       throw new Error(`Site not found (where:${JSON.stringify(where)})`)
     }
 
