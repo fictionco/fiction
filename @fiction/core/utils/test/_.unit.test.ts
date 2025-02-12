@@ -78,5 +78,3 @@ describe('debounce', () => {
     expect(mockFn).toHaveBeenCalledTimes(1)
   })
 })
-
-vi.useFakeTimers()

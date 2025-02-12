@@ -1,5 +1,5 @@
 import type express from 'express'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { securityMiddleware } from '../securityMiddleware'
 
 describe('security Middleware', () => {
@@ -30,6 +30,12 @@ describe('security Middleware', () => {
 
     // Mock Date.now() for consistent testing
     vi.setSystemTime(new Date('2025-02-10'))
+  })
+
+  afterEach(() => {
+    // Restore real timers
+    vi.useRealTimers()
+    vi.restoreAllMocks()
   })
 
   it('allows normal requests to pass through', () => {

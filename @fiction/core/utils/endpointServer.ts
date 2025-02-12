@@ -159,7 +159,8 @@ export class EndpointServer {
         this.endpointAuthorization, // should come after middleware, as multer, etc have to parse it first
         async (request: express.Request, response) => {
           // error handling is done via "Query" class
-          const result = await endpoint.serveRequest(request, response)
+          const result = (await endpoint.serveRequest(request, response)) as EndpointResponse
+
           delete result?.internal
 
           if (result)
