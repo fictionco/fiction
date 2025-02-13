@@ -85,6 +85,7 @@ export function getOptions() {
                   key: 'items.0.direction',
                   label: 'Direction',
                   input: 'InputRadioButton',
+                  props: { uiSize: 'sm' },
                   list: [
                     { label: 'Left', value: 'left' },
                     { label: 'Right', value: 'right' },

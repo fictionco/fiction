@@ -161,6 +161,7 @@ const options = [
             key: 'items.0.cols',
             label: 'Width',
             input: 'InputRadioButton',
+            props: { uiSize: 'sm' },
             list: ['1', '2', '3', '4'],
           }),
           createOption({
@@ -168,6 +169,7 @@ const options = [
             key: 'items.0.rows',
             label: 'Height',
             input: 'InputRadioButton',
+            props: { uiSize: 'sm' },
             list: ['1', '2', '3', '4'],
           }),
           createOption({

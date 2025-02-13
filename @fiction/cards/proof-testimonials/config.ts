@@ -134,6 +134,7 @@ const options = [
         label: 'Showcase Style',
         subLabel: 'See how each layout creates a different emotional impact',
         input: 'InputRadioButton',
+        props: { uiSize: 'sm' },
         list: [
           { value: 'slider', label: 'Slider' },
           { value: 'mega', label: 'Spotlight' },

@@ -139,7 +139,9 @@ const options = vue.computed(() => {
   const variantOption = createOption({
     key: 'variant',
     input: 'InputRadioButton',
+
     props: {
+      uiSize: 'sm',
       list: variantsList,
     },
     schema,

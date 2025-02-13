@@ -100,6 +100,7 @@ const options: InputOption[] = [
         key: 'layout',
         label: 'Layout Style',
         input: 'InputRadioButton',
+        props: { uiSize: 'sm' },
         list: [
           { label: 'Accordion (Single)', value: 'accordion' },
           { label: 'Toggle (Multiple)', value: 'toggle' },

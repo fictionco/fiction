@@ -62,6 +62,7 @@ export const options = [
         key: 'layout',
         label: 'Layout Style',
         input: 'InputRadioButton',
+        props: { uiSize: 'sm' },
         list: [
           { label: 'Inline', value: 'inline' },
           { label: 'Stacked', value: 'stacked' },

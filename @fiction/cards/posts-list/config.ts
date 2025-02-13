@@ -56,6 +56,7 @@ const options = [
         key: 'display.layout',
         label: 'Layout Style',
         input: 'InputRadioButton',
+        props: { uiSize: 'sm' },
         description: 'Choose how posts are arranged on the page',
         list: [
           {
@@ -75,6 +76,7 @@ const options = [
         key: 'display.proportions',
         label: 'Card Proportions',
         input: 'InputRadioButton',
+        props: { uiSize: 'sm' },
         description: 'Set the aspect ratio for post cards',
         list: [
           {

@@ -104,6 +104,7 @@ const options = [
         key: 'layout',
         input: 'InputRadioButton',
         label: 'Layout Style',
+        props: { uiSize: 'sm' },
         list: [
           { name: 'Media on Left', value: 'left' },
           { name: 'Media on Right', value: 'right' },

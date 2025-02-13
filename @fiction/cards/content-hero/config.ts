@@ -70,6 +70,7 @@ export function getOptions(): InputOption[] {
           key: 'layout',
           label: 'Layout Style',
           input: 'InputRadioButton',
+          props: { uiSize: 'sm' },
           list: [{ value: 'center' }, { value: 'left' }, { value: 'right' }, { value: 'justify' }],
           schema,
         }),

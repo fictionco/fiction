@@ -94,6 +94,7 @@ function getOptions() {
           schema,
           key: 'layout',
           input: 'InputRadioButton',
+          props: { uiSize: 'sm' },
           label: 'Layout Style',
           list: [
             { value: 'mediabox', label: 'Media Box', description: 'Large portraits with side text' },

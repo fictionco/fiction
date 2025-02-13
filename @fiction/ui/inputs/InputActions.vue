@@ -36,6 +36,7 @@ const buttonOptions: InputOption[] = [
         key: 'design',
         label: 'Design Style',
         input: 'InputRadioButton',
+        props: { uiSize: 'sm' },
         list: [
           { label: 'Solid', value: 'solid' },
           { label: 'Outline', value: 'outline' },
@@ -72,6 +73,7 @@ const buttonOptions: InputOption[] = [
         key: 'target',
         label: 'Link Target',
         input: 'InputRadioButton',
+        props: { uiSize: 'sm' },
         list: [
           { label: 'Same Window', value: '_self' },
           { label: 'New Window', value: '_blank' },

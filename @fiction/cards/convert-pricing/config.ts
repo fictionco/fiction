@@ -168,6 +168,7 @@ const options = [
         key: 'layout',
         label: 'Visual Style',
         input: 'InputRadioButton',
+        props: { uiSize: 'sm' },
         list: [
           { label: 'Standard', value: 'standard' },
           { label: 'Minimal', value: 'minimal' },

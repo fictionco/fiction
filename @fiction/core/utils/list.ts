@@ -1,3 +1,4 @@
+import type { NavListItem } from '@fiction/platform'
 import type { IndexMeta, ListItem } from '../types'
 import { toLabel, toSlug } from './casing'
 
@@ -74,6 +75,13 @@ export function normalizeList(
       label: formattedLabel,
     }
   })
+}
+
+export function normList(
+  list: (string | number | Partial<NavListItem> | undefined)[] | readonly (string | Partial<NavListItem> | undefined)[] = [],
+  options: { prefix?: string, suffix?: string } = {},
+): NavListItem[] {
+  return normalizeList(list as (string | number | Partial<ListItem> | undefined)[], options) as NavListItem[]
 }
 
 // Sort objects in an array by a priority value that defaults to 100

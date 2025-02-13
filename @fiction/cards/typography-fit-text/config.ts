@@ -63,6 +63,7 @@ const options = [
             key: 'align',
             label: 'Alignment',
             input: 'InputRadioButton',
+            props: { uiSize: 'sm' },
             list: [
               { label: 'Left', value: 'left' },
               { label: 'Center', value: 'center' },
@@ -74,6 +75,7 @@ const options = [
             key: 'weight',
             label: 'Weight',
             input: 'InputRadioButton',
+            props: { uiSize: 'sm' },
             list: [
               { label: 'Normal', value: 'normal' },
               { label: 'Medium', value: 'medium' },

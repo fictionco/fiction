@@ -37,6 +37,7 @@ export function getOptions() {
       key: 'layout',
       label: 'Layout',
       input: 'InputRadioButton',
+      props: { uiSize: 'sm' },
       list: [
         { label: 'Form on Right', value: 'right' },
         { label: 'Form on Left', value: 'left' },

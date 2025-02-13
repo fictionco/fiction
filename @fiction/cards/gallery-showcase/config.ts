@@ -60,6 +60,7 @@ const options = [
         label: 'Desktop Grid Columns',
         description: 'Optimize the layout for larger screens',
         input: 'InputRadioButton',
+        props: { uiSize: 'sm' },
         list: ['2', '3', '4', '5'].map(v => ({
           value: v,
           label: `${v} Col`,
@@ -70,6 +71,7 @@ const options = [
         label: 'Mobile Grid Columns',
         description: 'Ensure great mobile experience',
         input: 'InputRadioButton',
+        props: { uiSize: 'sm' },
         list: [
           { value: '1', label: 'Single Column' },
           { value: '2', label: 'Two Columns' },

@@ -38,6 +38,7 @@ const options: InputOption[] = [
             label: 'Theme Mode',
             subLabel: 'Control how your site appears to visitors',
             input: 'InputRadioButton',
+            props: { uiSize: 'sm' },
             list: [
               { value: 'auto', label: 'Auto' },
               { value: 'light', label: 'Always Light' },

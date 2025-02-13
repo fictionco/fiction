@@ -70,8 +70,8 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
         await factory.fromTemplate<typeof dashTemplate>({
           templateId: 'dash',
           slug: 'audience',
-          title: 'Network',
-          description: 'Manage your subscriber database and engagement',
+          title: 'Contacts',
+          description: 'Manage your contacts and audience',
           userConfig: { isNavItem: true, navIcon: 'i-tabler-users', navIconAlt: 'i-tabler-users-plus', priority: 50 },
           cards: [
             await factory.fromTemplate({
@@ -85,8 +85,15 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
                   userConfig: { isNavItem: true, navIcon: 'i-tabler-users', navIconAlt: 'i-tabler-users-plus' },
                 }),
                 await factory.fromTemplate<typeof panelTemplate>({
+                  slug: 'add',
+                  title: 'Add Contacts',
+                  description: 'Add people you know and build your audience',
+                  el: vue.defineAsyncComponent(async () => import('./admin/ElImportFile.vue')),
+                  userConfig: { isNavItem: false, navIcon: 'i-tabler-table-share', navIconAlt: 'i-tabler-table-plus' },
+                }),
+                await factory.fromTemplate<typeof panelTemplate>({
                   slug: 'view',
-                  title: 'Connection Details',
+                  title: 'Contact Details',
                   description: 'View individual subscriber information and history',
                   el: vue.defineAsyncComponent(async () => import('./admin/ViewSingle.vue')),
                   userConfig: { navIcon: 'i-tabler-user' },

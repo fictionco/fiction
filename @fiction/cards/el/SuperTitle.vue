@@ -50,7 +50,7 @@ const sizeClasses = vue.computed(() => {
 
 <template>
   <div
-    v-if="sup.text || sup.icon"
+    v-if="sup.text"
     class="flex items-center antialiased"
     :class="[colorStyle.text, sizeClasses.gap]"
   >

@@ -164,7 +164,7 @@ async function importSubscribers() {
               :loading="loading"
               @click="importSubscribers()"
             >
-              Import Subscribers
+              Add Contacts
             </CardButton>
             <CardButton :card theme="default" type="submit" icon="i-tabler-x" @click="step = 'import'">
               Cancel
@@ -174,13 +174,13 @@ async function importSubscribers() {
         <div v-else class="space-y-6" @dragover.prevent @drop.prevent>
           <ElInput
             v-model="importMethod"
-            label="Import Method"
-            input="InputSelectCustom"
+            input="InputRadioButton"
             :list="[
-              { label: 'Upload a CSV file', value: 'csv' },
-              { label: 'Copy and Paste Email Addresses', value: 'text' },
+              { label: 'By Email', value: 'text', icon: 'i-tabler-mail' },
+              { label: 'Import Contacts', value: 'csv', icon: 'i-tabler-file-type-csv' },
             ]"
             default-text="Select Import Method"
+            ui-size="sm"
           />
 
           <transition
@@ -198,7 +198,7 @@ async function importSubscribers() {
               input="InputTextarea"
               label="Enter Email Addresses"
               sub-label="Separate each email address with a comma or new line"
-              :rows="10"
+              :rows="5"
               placeholder="email1@example.com,email2@example.com"
               data-test-id="text-email-list"
             />

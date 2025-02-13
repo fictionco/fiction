@@ -99,6 +99,7 @@ const typographyOptions = [
       :model-value="variant"
       class="my-2"
       input="InputRadioButton"
+      ui-size="sm"
       :list="['typography', 'media']"
       @update:model-value="handleLogoUpdate({ ...v, variant: $event })"
     />

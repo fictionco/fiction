@@ -88,6 +88,7 @@ const options = [
             key: 'items.0.emphasis',
             label: 'Emphasis',
             input: 'InputRadioButton',
+            props: { uiSize: 'sm' },
             description: 'Makes this metric more prominent in featured layout',
             list: [
               { label: 'Normal', value: undefined },
@@ -111,6 +112,7 @@ const options = [
         key: 'layout',
         label: 'Layout Style',
         input: 'InputRadioButton',
+        props: { uiSize: 'sm' },
         list: [
           { label: 'Grid', value: 'grid' },
           { label: 'Inline Row', value: 'inline' },

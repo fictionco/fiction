@@ -64,6 +64,7 @@ export const options = [
             key: 'items.0.textBlend',
             label: 'Text Visibility',
             input: 'InputRadioButton',
+            props: { uiSize: 'sm' },
             list: [
               { label: 'Standard', value: 'normal' },
               { label: 'Difference', value: 'difference' },

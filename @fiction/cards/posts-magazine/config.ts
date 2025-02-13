@@ -51,6 +51,7 @@ const options = [
         key: 'index.featuredCount',
         label: 'Featured Count',
         input: 'InputRadioButton',
+        props: { uiSize: 'sm' },
         list: [{ value: 1, label: '1' }, { value: 2, label: '2' }, { value: 3, label: '3' }],
       }),
       createOption({

@@ -94,6 +94,7 @@ const options = [
         key: 'layout',
         input: 'InputRadioButton',
         label: 'Layout Style',
+        props: { uiSize: 'sm' },
         list: [
           { name: 'Media on Left', value: 'left' },
           { name: 'Media on Right', value: 'right' },
@@ -105,6 +106,7 @@ const options = [
         input: 'InputRadioButton',
         label: 'Scroll Behavior',
         subLabel: 'Standard scrolling or sticky media',
+        props: { uiSize: 'sm' },
         list: [
           { name: 'Standard Scrolling', value: 'scrolling' },
           { name: 'Sticky Media', value: 'sticky' },

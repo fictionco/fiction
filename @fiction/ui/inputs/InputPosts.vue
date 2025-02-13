@@ -18,6 +18,7 @@ const baseOptions = [
     key: 'format',
     label: 'Post Source',
     input: 'InputRadioButton',
+    props: { uiSize: 'sm' },
     list: [
       { name: 'Standard Query', value: 'standard' },
       { name: 'Local', value: 'local' },
