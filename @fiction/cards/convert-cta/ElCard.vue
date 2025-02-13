@@ -32,14 +32,21 @@ vue.onMounted(() => {
 })
 
 const colPad = 'p-4 md:p-12 xl:p-16'
+
+const hasBenefits = vue.computed(() => {
+  return uc.value.benefits?.items?.length
+})
 </script>
 
 <template>
   <div :id="card.cardId" class="relative">
     <div :class="card.classes.value.contentWidth">
       <div class="overflow-hidden bg-theme-50/50 dark:bg-theme-800/20 rounded-xl border border-theme-200 dark:border-theme-800/70">
-        <div class="flex  flex-col lg:flex-row divide-x divide-theme-200 dark:divide-theme-800/70" :class="uc.benefits?.items?.length ? '' : ''">
-          <div class="gap-8 xl:gap-8 flex flex-col justify-center grow" :class="colPad">
+        <div
+          class="flex flex-col lg:flex-row  "
+          :class="hasBenefits ? 'divide-x divide-theme-200 dark:divide-theme-800/70 lg:justify-between' : ' justify-center'"
+        >
+          <div class="gap-8 xl:gap-8 flex flex-col justify-center grow max-w-screen-md" :class="colPad">
             <div class="space-y-4 xl:space-y-6">
               <SuperTitle
                 v-if="uc.superTitle"
@@ -61,7 +68,7 @@ const colPad = 'p-4 md:p-12 xl:p-16'
                 tag="p"
                 :card
                 :path="pathCheck('subTitle', schema)"
-                class="text-xl text-theme-600 dark:text-theme-400 max-w-2xl animate-item leading-relaxed"
+                class="text-pretty text-xl text-theme-600 dark:text-theme-400 max-w-2xl animate-item leading-relaxed"
                 animate="fade"
               />
             </div>
@@ -75,9 +82,9 @@ const colPad = 'p-4 md:p-12 xl:p-16'
           </div>
 
           <!-- Benefits Grid -->
-          <div v-if="uc.benefits?.items?.length" class="flex flex-col gap-6 lg:gap-8 justify-center lg:col-span-5 bg-theme-50/50 dark:bg-theme-900" :class="colPad">
+          <div v-if="hasBenefits" class="flex flex-col gap-6 lg:gap-8 justify-center lg:col-span-5 bg-theme-50/50 dark:bg-theme-900" :class="colPad">
             <div class="relative space-y-6">
-              <div v-if="uc.benefits.title" class="x-font-highlight  flex items-center gap-3 md:-ml-4">
+              <div v-if="uc.benefits?.title" class="x-font-highlight  flex items-center gap-3 md:-ml-4">
                 <div>
                   <CardText :card :path="pathCheck('benefits.title', schema)" class="text-theme-400 dark:text-theme-500 text-lg md:text-2xl x-font-highlight" />
                 </div>
@@ -98,17 +105,23 @@ const colPad = 'p-4 md:p-12 xl:p-16'
 
               <div class="space-y-4">
                 <div
-                  v-for="(benefit, i) in uc.benefits.items"
+                  v-for="(benefit, i) in uc.benefits?.items"
                   :key="i"
                   class="flex gap-4 animate-item max-w-sm items-center justify-start w-full"
                 >
                   <XIcon v-if="benefit.icon" :media="benefit.icon" class="size-8 lg:size-10 text-primary-400/70 dark:text-primary-500" />
-                  <div class="grow w-full">
+                  <div class="grow w-full space-y-2">
                     <CardText
                       tag="h3"
                       :card
                       :path="pathCheck(`benefits.items.${i}.label`)"
                       class="font-semibold text-lg lg:text-xl x-font-title"
+                    />
+                    <CardText
+                      tag="p"
+                      :card
+                      :path="pathCheck(`benefits.items.${i}.description`)"
+                      class="font-medium text-xs lg:text-sm line-clamp-2 text-theme-500 x-font-title"
                     />
                   </div>
                 </div>

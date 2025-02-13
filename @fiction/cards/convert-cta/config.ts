@@ -35,24 +35,9 @@ export function getOptions() {
       input: 'group',
       icon: { class: 'i-tabler-highlight' },
       options: [
-        createOption({
-          schema,
-          key: 'title',
-          label: 'Main Title',
-          input: 'InputText',
-        }),
-        createOption({
-          schema,
-          key: 'subTitle',
-          label: 'Sub Title',
-          input: 'InputTextarea',
-        }),
-        createOption({
-          schema,
-          key: 'superTitle',
-          label: 'Super Title',
-          input: 'InputSuperTitle',
-        }),
+        createOption({ schema, key: 'title', label: 'Main Title', input: 'InputText' }),
+        createOption({ schema, key: 'subTitle', label: 'Sub Title', input: 'InputTextarea' }),
+        createOption({ schema, key: 'superTitle', label: 'Super Title', input: 'InputSuperTitle' }),
       ],
     }),
 
@@ -63,12 +48,7 @@ export function getOptions() {
       input: 'group',
       icon: { class: 'i-tabler-list-check' },
       options: [
-        createOption({
-          schema,
-          key: 'benefits.title',
-          label: 'Benefits Section Title',
-          input: 'InputText',
-        }),
+        createOption({ schema, key: 'benefits.title', label: 'Benefits Section Title', input: 'InputText' }),
         createOption({
           schema,
           key: 'benefits.items',
@@ -79,25 +59,9 @@ export function getOptions() {
             itemLabel: args => (args?.item as NavListItem)?.label ?? 'Untitled',
           },
           options: [
-            createOption({
-              schema,
-              key: 'benefits.items.0.label',
-              label: 'Title',
-              input: 'InputText',
-              isRequired: true,
-            }),
-            createOption({
-              schema,
-              key: 'benefits.items.0.description',
-              label: 'Description',
-              input: 'InputText',
-            }),
-            createOption({
-              schema,
-              key: 'benefits.items.0.icon',
-              label: 'Icon',
-              input: 'InputIcon',
-            }),
+            createOption({ schema, key: 'benefits.items.0.label', label: 'Title', input: 'InputText', isRequired: true }),
+            createOption({ schema, key: 'benefits.items.0.description', label: 'Description', input: 'InputText' }),
+            createOption({ schema, key: 'benefits.items.0.icon', label: 'Icon', input: 'InputIcon' }),
           ],
         }),
       ],
@@ -117,60 +81,21 @@ export function getOptions() {
 export function getDefaultConfig(): UserConfig {
   return {
     superTitle: {
-      text: 'Customizable CTA Section',
-      icon: { class: 'i-tabler-star' },
+      text: 'Connect on Fiction',
+      icon: { iconId: 'north-star' },
     },
-    title: 'Design Your Perfect Call-to-Action',
-    subTitle: 'This template helps you create compelling CTAs.',
-
-    benefits: {
-      title: 'Key Benefits',
-      items: [
-        {
-          label: 'Choose Your Action Type',
-          description: 'Switch between email subscription and custom buttons',
-          icon: { class: 'i-tabler-adjustments' },
-        },
-        {
-          label: 'Social Proof',
-          description: 'Enable community bar to showcase your audience',
-          icon: { class: 'i-tabler-users-group' },
-        },
-        {
-          label: 'Visual Hierarchy',
-          description: 'Organize content with super title, main title, and subtitle',
-          icon: { class: 'i-tabler-layout-list' },
-        },
-      ],
-    },
+    title: 'Let\'s Stay Connected',
+    subTitle: 'Connect on Fiction and get exclusive access to events, updates, and more.',
     action: {
       variant: 'subscribe',
-      subscribe: {
-        input: { placeholder: 'Your email address' },
-        button: { label: 'Get Started' },
-        success: {
-          title: 'Perfect!',
-          content: 'Watch your inbox for our welcome message',
-        },
-      },
-      proof: {
-        community: {
-          isEnabled: true,
-          text: `join 1250+ others`,
-          count: 1250,
-          thumbCount: 3,
-        },
-      },
+
     },
   }
 }
 
 export function getDemoConfigs(templateId: string): Record<string, { templateId: string, userConfig: UserConfig }> {
   return {
-    default: {
-      templateId,
-      userConfig: getDefaultConfig(),
-    },
+
     newsletter: {
       templateId,
       userConfig: {
@@ -277,6 +202,11 @@ export function getDemoConfigs(templateId: string): Record<string, { templateId:
           },
         },
       },
+
+    },
+    default: {
+      templateId,
+      userConfig: getDefaultConfig(),
     },
   }
 }

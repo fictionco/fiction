@@ -81,10 +81,10 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, {
     solid: {
       base: 'bg-primary-500 dark:bg-primary-700/70 text-primary-0 dark:text-primary-50',
       border: 'border-primary-600/80 dark:border-primary-600',
-      input: `bg-primary-50 dark:bg-primary-800/50
+      input: `bg-primary-50 dark:bg-primary-800/20
             ring-primary-300 dark:ring-primary-600/70
             focus:ring-primary-700 focus:bg-primary-50/50
-            dark:focus:ring-primary-400 dark:focus:bg-primary-800
+            dark:focus:ring-primary-600 dark:focus:bg-primary-800/40
             text-primary-800 dark:text-primary-0
             placeholder:text-primary-300 dark:placeholder:text-primary-600`,
       hover: 'hover:bg-primary-600 dark:hover:bg-primary-800',
@@ -762,4 +762,179 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, {
     },
   },
 
+}
+
+export const inputTheme: Record<Partial<ColorThemeUser>, {
+  input: string
+}> = {
+  naked: { input: '' },
+  default: { input: `bg-white dark:bg-theme-800/50
+            ring-theme-200 dark:ring-theme-600/70
+            focus:ring-theme-600 focus:bg-white
+            dark:focus:ring-theme-500 dark:focus:bg-theme-800
+            focus-within:ring-theme-600 dark:focus-within:ring-theme-500
+            text-theme-900 dark:text-theme-100
+            placeholder:text-theme-400 dark:placeholder:text-theme-500` },
+  primary: { input: `bg-primary-50 dark:bg-primary-800/20
+            ring-primary-300 dark:ring-primary-600/70
+            focus:ring-primary-700 focus:bg-primary-50/50
+            dark:focus:ring-primary-600 dark:focus:bg-primary-800/40
+            text-primary-800 dark:text-primary-0
+            placeholder:text-primary-300 dark:placeholder:text-primary-600` },
+  theme: { input: `bg-theme-50 dark:bg-theme-800/20
+              ring-theme-300 dark:ring-theme-600/70
+              focus:ring-theme-700 focus:bg-theme-50/50
+              dark:focus:ring-theme-600 dark:focus:bg-theme-800/40
+              text-theme-800 dark:text-theme-0
+              placeholder:text-theme-300 dark:placeholder:text-theme-600` },
+  overlay: { input: `bg-white/10 ring-white
+              focus:ring-white/90 focus:bg-white/20
+              dark:focus:ring-white/70
+              text-white
+              placeholder:text-white/60` },
+  green: { input: `bg-green-50 dark:bg-green-800/20
+              ring-green-300 dark:ring-green-600/70
+              focus:ring-green-700 focus:bg-green-50/50
+              dark:focus:ring-green-600 dark:focus:bg-green-800/40
+              text-green-800 dark:text-green-0
+              placeholder:text-green-300 dark:placeholder:text-green-600` },
+  orange: { input: `bg-orange-50 dark:bg-orange-800/20
+              ring-orange-300 dark:ring-orange-600/70
+              focus:ring-orange-700 focus:bg-orange-50/50
+              dark:focus:ring-orange-600 dark:focus:bg-orange-800/40
+              text-orange-800 dark:text-orange-0
+              placeholder:text-orange-300 dark:placeholder:text-orange-600` },
+  // Add remaining color variants following the same pattern
+  blue: { input: `bg-blue-50 dark:bg-blue-800/20
+              ring-blue-300 dark:ring-blue-600/70
+              focus:ring-blue-700 focus:bg-blue-50/50
+              dark:focus:ring-blue-600 dark:focus:bg-blue-800/40
+              text-blue-800 dark:text-blue-0
+              placeholder:text-blue-300 dark:placeholder:text-blue-600` },
+  indigo: { input: `bg-indigo-50 dark:bg-indigo-800/20
+              ring-indigo-300 dark:ring-indigo-600/70
+              focus:ring-indigo-700 focus:bg-indigo-50/50
+              dark:focus:ring-indigo-600 dark:focus:bg-indigo-800/40
+              text-indigo-800 dark:text-indigo-0
+              placeholder:text-indigo-300 dark:placeholder:text-indigo-600` },
+  rose: { input: `bg-rose-50 dark:bg-rose-800/20
+              ring-rose-300 dark:ring-rose-600/70
+              focus:ring-rose-700 focus:bg-rose-50/50
+              dark:focus:ring-rose-600 dark:focus:bg-rose-800/40
+              text-rose-800 dark:text-rose-0
+              placeholder:text-rose-300 dark:placeholder:text-rose-600` },
+  amber: { input: `bg-amber-50 dark:bg-amber-800/20
+              ring-amber-300 dark:ring-amber-600/70
+              focus:ring-amber-700 focus:bg-amber-50/50
+              dark:focus:ring-amber-600 dark:focus:bg-amber-800/40
+              text-amber-800 dark:text-amber-0
+              placeholder:text-amber-300 dark:placeholder:text-amber-600` },
+  fuchsia: { input: `bg-fuchsia-50 dark:bg-fuchsia-800/20
+              ring-fuchsia-300 dark:ring-fuchsia-600/70
+              focus:ring-fuchsia-700 focus:bg-fuchsia-50/50
+              dark:focus:ring-fuchsia-600 dark:focus:bg-fuchsia-800/40
+              text-fuchsia-800 dark:text-fuchsia-0
+              placeholder:text-fuchsia-300 dark:placeholder:text-fuchsia-600` },
+  sky: { input: `bg-sky-50 dark:bg-sky-800/20
+              ring-sky-300 dark:ring-sky-600/70
+              focus:ring-sky-700 focus:bg-sky-50/50
+              dark:focus:ring-sky-600 dark:focus:bg-sky-800/40
+              text-sky-800 dark:text-sky-0
+              placeholder:text-sky-300 dark:placeholder:text-sky-600` },
+  teal: { input: `bg-teal-50 dark:bg-teal-800/20
+              ring-teal-300 dark:ring-teal-600/70
+              focus:ring-teal-700 focus:bg-teal-50/50
+              dark:focus:ring-teal-600 dark:focus:bg-teal-800/40
+              text-teal-800 dark:text-teal-0
+              placeholder:text-teal-300 dark:placeholder:text-teal-600` },
+  purple: { input: `bg-purple-50 dark:bg-purple-800/20
+              ring-purple-300 dark:ring-purple-600/70
+              focus:ring-purple-700 focus:bg-purple-50/50
+              dark:focus:ring-purple-600 dark:focus:bg-purple-800/40
+              text-purple-800 dark:text-purple-0
+              placeholder:text-purple-300 dark:placeholder:text-purple-600` },
+  yellow: { input: `bg-yellow-50 dark:bg-yellow-800/20
+              ring-yellow-300 dark:ring-yellow-600/70
+              focus:ring-yellow-700 focus:bg-yellow-50/50
+              dark:focus:ring-yellow-600 dark:focus:bg-yellow-800/40
+              text-yellow-800 dark:text-yellow-0
+              placeholder:text-yellow-300 dark:placeholder:text-yellow-600` },
+  slate: { input: `bg-slate-50 dark:bg-slate-800/20
+              ring-slate-300 dark:ring-slate-600/70
+              focus:ring-slate-700 focus:bg-slate-50/50
+              dark:focus:ring-slate-600 dark:focus:bg-slate-800/40
+              text-slate-800 dark:text-slate-0
+              placeholder:text-slate-300 dark:placeholder:text-slate-600` },
+  zinc: { input: `bg-zinc-50 dark:bg-zinc-800/20
+              ring-zinc-300 dark:ring-zinc-600/70
+              focus:ring-zinc-700 focus:bg-zinc-50/50
+              dark:focus:ring-zinc-600 dark:focus:bg-zinc-800/40
+              text-zinc-800 dark:text-zinc-0
+              placeholder:text-zinc-300 dark:placeholder:text-zinc-600` },
+  neutral: { input: `bg-neutral-50 dark:bg-neutral-800/20
+              ring-neutral-300 dark:ring-neutral-600/70
+              focus:ring-neutral-700 focus:bg-neutral-50/50
+              dark:focus:ring-neutral-600 dark:focus:bg-neutral-800/40
+              text-neutral-800 dark:text-neutral-0
+              placeholder:text-neutral-300 dark:placeholder:text-neutral-600` },
+  stone: { input: `bg-stone-50 dark:bg-stone-800/20
+              ring-stone-300 dark:ring-stone-600/70
+              focus:ring-stone-700 focus:bg-stone-50/50
+              dark:focus:ring-stone-600 dark:focus:bg-stone-800/40
+              text-stone-800 dark:text-stone-0
+              placeholder:text-stone-300 dark:placeholder:text-stone-600` },
+  black: { input: `bg-gray-50 dark:bg-black/20
+              ring-gray-300 dark:ring-gray-600/70
+              focus:ring-gray-700 focus:bg-gray-50/50
+              dark:focus:ring-gray-600 dark:focus:bg-black/40
+              text-gray-800 dark:text-white
+              placeholder:text-gray-300 dark:placeholder:text-gray-600` },
+  white: { input: `bg-white/90 dark:bg-white/10
+              ring-white/30 dark:ring-white/20
+              focus:ring-white/90 focus:bg-white/100
+              dark:focus:ring-white/30 dark:focus:bg-white/20
+              text-gray-900 dark:text-white
+              placeholder:text-gray-400 dark:placeholder:text-white/60` },
+  cyan: { input: `bg-cyan-50 dark:bg-cyan-800/20
+                ring-cyan-300 dark:ring-cyan-600/70
+                focus:ring-cyan-700 focus:bg-cyan-50/50
+                dark:focus:ring-cyan-600 dark:focus:bg-cyan-800/40
+                text-cyan-800 dark:text-cyan-0
+                placeholder:text-cyan-300 dark:placeholder:text-cyan-600` },
+  violet: { input: `bg-violet-50 dark:bg-violet-800/20
+                ring-violet-300 dark:ring-violet-600/70
+                focus:ring-violet-700 focus:bg-violet-50/50
+                dark:focus:ring-violet-600 dark:focus:bg-violet-800/40
+                text-violet-800 dark:text-violet-0
+                placeholder:text-violet-300 dark:placeholder:text-violet-600` },
+  pink: { input: `bg-pink-50 dark:bg-pink-800/20
+                ring-pink-300 dark:ring-pink-600/70
+                focus:ring-pink-700 focus:bg-pink-50/50
+                dark:focus:ring-pink-600 dark:focus:bg-pink-800/40
+                text-pink-800 dark:text-pink-0
+                placeholder:text-pink-300 dark:placeholder:text-pink-600` },
+  red: { input: `bg-red-50 dark:bg-red-800/20
+                ring-red-300 dark:ring-red-600/70
+                focus:ring-red-700 focus:bg-red-50/50
+                dark:focus:ring-red-600 dark:focus:bg-red-800/40
+                text-red-800 dark:text-red-0
+                placeholder:text-red-300 dark:placeholder:text-red-600` },
+  lime: { input: `bg-lime-50 dark:bg-lime-800/20
+                  ring-lime-300 dark:ring-lime-600/70
+                  focus:ring-lime-700 focus:bg-lime-50/50
+                  dark:focus:ring-lime-600 dark:focus:bg-lime-800/40
+                  text-lime-800 dark:text-lime-0
+                  placeholder:text-lime-300 dark:placeholder:text-lime-600` },
+  emerald: { input: `bg-emerald-50 dark:bg-emerald-800/20
+                  ring-emerald-300 dark:ring-emerald-600/70
+                  focus:ring-emerald-700 focus:bg-emerald-50/50
+                  dark:focus:ring-emerald-600 dark:focus:bg-emerald-800/40
+                  text-emerald-800 dark:text-emerald-0
+                  placeholder:text-emerald-300 dark:placeholder:text-emerald-600` },
+  gray: { input: `bg-gray-50 dark:bg-gray-800/20
+                  ring-gray-300 dark:ring-gray-600/70
+                  focus:ring-gray-700 focus:bg-gray-50/50
+                  dark:focus:ring-gray-600 dark:focus:bg-gray-800/40
+                  text-gray-800 dark:text-gray-0
+                  placeholder:text-gray-300 dark:placeholder:text-gray-600` },
 }

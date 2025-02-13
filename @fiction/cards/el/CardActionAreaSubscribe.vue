@@ -101,8 +101,9 @@ async function createSubscription() {
         :size="size"
         hover="pop"
         class="shrink-0 w-full sm:w-auto"
+        icon-after="i-tabler-arrow-big-right"
       >
-        {{ subscribe.button?.label || 'Subscribe' }}
+        {{ subscribe.button?.label || 'Connect' }}
       </XButton>
     </ElForm>
     <ConfirmModal
