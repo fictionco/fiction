@@ -34,33 +34,12 @@ const options = vue.computed<InputOption[]>(() => {
       options: [
         createOption({
           schema,
-          key: 'postContentGroup',
-          label: 'Post Content',
+          key: 'group.postContent',
+          label: 'Composition Settings',
           input: 'group',
           icon: { class: 'i-tabler-highlight' },
           options: [
-            createOption({
-              schema,
-              key: 'media',
-              label: 'Featured Image',
-              description: 'The image that will be displayed with the post',
-              input: 'InputMedia',
-            }),
-            createOption({
-              schema,
-              key: 'title',
-              label: 'Post Title',
-              input: 'InputText',
-              placeholder: 'Enter a title...',
-              isRequired: true,
-            }),
-            createOption({
-              schema,
-              key: 'subTitle',
-              label: 'Sub Title / Tagline',
-              placeholder: 'Enter a sub title...',
-              input: 'InputText',
-            }),
+
             createOption({
               schema,
               key: 'userConfig.isContentCompletionDisabled',
@@ -70,44 +49,12 @@ const options = vue.computed<InputOption[]>(() => {
               props: { textOn: 'Disabled', textOff: 'Active' },
             }),
 
-            createOption({
-              schema,
-              key: 'content',
-              input: 'hidden',
-            }),
-          ],
-        }),
-        createOption({
-          schema,
-          key: 'postContentGroup',
-          label: 'Meta Details',
-          input: 'group',
-          icon: { class: 'i-tabler-highlight' },
-          options: [
-
-            createOption({
-              schema,
-              key: 'excerpt',
-              label: 'Excerpt',
-              description: 'A short teaser for the post',
-              input: 'InputTextarea',
-              placeholder: 'Enter a short excerpt...',
-              props: { rows: 2 },
-            }),
-            createOption({
-              schema,
-              key: 'dateAt',
-              label: 'Display Date',
-              description: 'For display and SEO purposes only.',
-              input: 'InputDate',
-              props: { },
-            }),
           ],
         }),
         createOption({
           schema,
           key: 'postHandling',
-          label: 'Publishing',
+          label: 'Required Settings',
           input: 'group',
           icon: { class: 'i-tabler-calendar' },
           options: [
@@ -115,7 +62,7 @@ const options = vue.computed<InputOption[]>(() => {
               schema,
               key: 'status',
               label: 'Status',
-              input: 'InputSelectCustom',
+              input: 'hidden',
               isRequired: true,
               list: ['draft', 'published', 'scheduled', 'archived'],
             }),
@@ -130,6 +77,13 @@ const options = vue.computed<InputOption[]>(() => {
                 includeTime: true,
                 dateMode: 'future',
               },
+            }),
+            createOption({
+              schema,
+              key: 'media',
+              label: 'Featured Image',
+              description: 'The image that will be displayed with the post',
+              input: 'InputMedia',
             }),
             createOption({
               schema,
@@ -149,31 +103,11 @@ const options = vue.computed<InputOption[]>(() => {
 
           ],
         }),
-        createOption({
-          schema,
-          key: 'seoGroup',
-          label: 'Search and SEO',
-          input: 'group',
-          icon: { class: 'i-tabler-search' },
-          options: [
-            createOption({
-              schema,
-              key: 'userConfig.seo.title',
-              label: 'SEO Title',
-              input: 'InputText',
-            }),
-            createOption({
-              schema,
-              key: 'userConfig.seo.description',
-              label: 'SEO Description',
-              input: 'InputText',
-            }),
-          ],
-        }),
+
         createOption({
           schema,
           key: 'taxonomyGroup',
-          label: 'Taxonomy',
+          label: 'Tags and Categories',
           input: 'group',
           icon: { class: 'i-tabler-tag' },
           options: [
@@ -200,6 +134,50 @@ const options = vue.computed<InputOption[]>(() => {
             }),
           ],
         }),
+        createOption({
+          schema,
+          key: 'group.advanced',
+          label: 'Advanced Settings',
+          input: 'group',
+          icon: { class: 'i-tabler-stars' },
+          isClosed: true,
+          options: [
+            createOption({
+              schema,
+              key: 'userConfig.seo.title',
+              label: 'SEO Title',
+              input: 'InputText',
+            }),
+            createOption({
+              schema,
+              key: 'userConfig.seo.description',
+              label: 'SEO Description',
+              input: 'InputText',
+            }),
+            createOption({
+              schema,
+              key: 'excerpt',
+              label: 'Excerpt',
+              description: 'A short teaser for the post',
+              input: 'InputTextarea',
+              placeholder: 'Enter a short excerpt...',
+              props: { rows: 2 },
+            }),
+            createOption({
+              schema,
+              key: 'dateAt',
+              label: 'Display Date',
+              description: 'For display and SEO purposes only.',
+              input: 'InputDate',
+              props: { },
+            }),
+            createOption({
+              schema,
+              key: 'content',
+              input: 'hidden',
+            }),
+          ],
+        }),
       ],
     }),
 
@@ -209,6 +187,7 @@ const options = vue.computed<InputOption[]>(() => {
       label: 'Danger Zone',
       input: 'group',
       icon: { class: 'i-tabler-alert-triangle' },
+      isClosed: true,
       options: [
         createOption({
           key: 'deletePost',

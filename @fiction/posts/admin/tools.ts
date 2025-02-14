@@ -10,7 +10,7 @@ export const tools = [
     icon: 'i-tabler-history',
     el: vue.defineAsyncComponent(() => import('./ToolHistory.vue')),
     location: 'primary',
-    isPrimary: true,
+    isPrimary: 'bottom',
   },
   {
     toolId: 'emailPreview',

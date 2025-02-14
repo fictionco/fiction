@@ -562,6 +562,8 @@ export class FictionEnv<
       `${root}/**/*.ts`,
       `!${root}/node_modules/**`, // Exclude node_modules
       `!${root}/dist/**`, // Exclude dist
+      `!${root}/.git/**`, // Exclude git
+      `!${root}/.ref/**`, // Exclude reference code
     ]
     uiPaths.forEach(uiPath => this.uiPaths.add(uiPath))
 

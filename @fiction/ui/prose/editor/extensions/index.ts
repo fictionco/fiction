@@ -28,7 +28,7 @@ const PlaceholderExtension = Placeholder.configure({
     if (node.type.name === 'heading')
       return `Heading ${node.attrs.level}`
 
-    return `Type '/' for menu...`
+    return `Type '/' for options...`
   },
 
   includeChildren: true,
