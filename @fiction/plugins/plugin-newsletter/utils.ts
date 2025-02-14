@@ -9,8 +9,6 @@ import { convertKeyCase, log, toMarkdown, vue } from '@fiction/core'
 import { z } from 'zod'
 import { EmailCampaign } from './campaign.js'
 
-const logger = log.contextLogger('NewsletterUtils')
-
 export async function manageEmailCampaign(args: { fictionNewsletter: FictionNewsletter, params: ManageCampaignRequestParams, options?: RequestOptions }) {
   const { fictionNewsletter, params, options = {} } = args
 

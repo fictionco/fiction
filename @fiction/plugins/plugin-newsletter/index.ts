@@ -109,13 +109,6 @@ export class FictionNewsletter extends FictionPlugin<FictionNewsletterSettings> 
                 el: vue.defineAsyncComponent(async () => import('./admin/ManageOverview.vue')),
                 userConfig: { isNavItem: true, navIcon: 'i-tabler-dashboard', navIconAlt: 'i-tabler-dashboard' },
               }),
-              await factory.fromTemplate<typeof panelTemplate>({
-                slug: 'analytics',
-                title: 'Performance Analytics',
-                description: 'Monitor open rates, click-through rates, and subscriber engagement',
-                el: vue.defineAsyncComponent(async () => import('./admin/ManageAnalytics.vue')),
-                userConfig: { isNavItem: true, navIcon: 'i-tabler-chart-dots', navIconAlt: 'i-tabler-chart-line' },
-              }),
             ],
           }),
         ],

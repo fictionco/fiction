@@ -195,8 +195,8 @@ async function importSubscribers() {
               <div class="text-theme-500 font-normal text-sm">
                 Tags to Add
               </div>
-              <div v-if="tagList.length" class="font-semibold text-base flex gap-4">
-                <XButton v-for="tag in tagList" :key="tag" size="xs">
+              <div v-if="tagList.length" class="font-semibold text-base flex gap-3 py-2">
+                <XButton v-for="tag in tagList" :key="tag" size="xs" design="ghost" theme="primary">
                   {{ tag }}
                 </XButton>
               </div>
