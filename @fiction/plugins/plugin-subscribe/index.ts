@@ -84,13 +84,13 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
                   el: vue.defineAsyncComponent(async () => import('./admin/ViewIndex.vue')),
                   userConfig: { isNavItem: true, navIcon: 'i-tabler-users', navIconAlt: 'i-tabler-users-plus' },
                 }),
-                await factory.fromTemplate<typeof panelTemplate>({
-                  slug: 'add',
-                  title: 'Add Contacts',
-                  description: 'Add people you know and build your audience',
-                  el: vue.defineAsyncComponent(async () => import('./admin/ElImportFile.vue')),
-                  userConfig: { isNavItem: false, navIcon: 'i-tabler-table-share', navIconAlt: 'i-tabler-table-plus' },
-                }),
+                // await factory.fromTemplate<typeof panelTemplate>({
+                //   slug: 'add',
+                //   title: 'Add Contacts',
+                //   description: 'Add people you know and build your audience',
+                //   el: vue.defineAsyncComponent(async () => import('./admin/ElAddContacts.vue')),
+                //   userConfig: { isNavItem: false, navIcon: 'i-tabler-table-share', navIconAlt: 'i-tabler-table-plus' },
+                // }),
                 await factory.fromTemplate<typeof panelTemplate>({
                   slug: 'view',
                   title: 'Contact Details',

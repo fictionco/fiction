@@ -39,7 +39,7 @@ vue.onMounted(async () => {
 </script>
 
 <template>
-  <ElModal v-model:vis="vis" modal-class="lg:max-w-[80dvw] h-[80dvh] flex justify-center items-center overflow-hidden">
+  <ElModal v-model:vis="vis" modal-class="lg:max-w-[80dvw] w-[90dvw] aspect-video flex justify-center items-center overflow-hidden">
     <div class="h-full w-full" v-html="embedHtml" />
   </ElModal>
 </template>

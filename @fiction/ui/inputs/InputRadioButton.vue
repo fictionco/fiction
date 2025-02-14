@@ -42,6 +42,7 @@ const sizeClasses = vue.computed(() => {
       :data-test-id="`radio-button-${item.value}`"
       :theme=" modelValue === item.value ? 'primary' : 'default'"
       role="radio"
+      design="outline"
       :aria-checked="modelValue === item.value"
       rounding="md"
       :size="uiSize"

@@ -4,6 +4,7 @@ import type { FictionSubscribe, Subscriber } from '@fiction/plugin-subscribe'
 import type { Card } from '@fiction/site'
 import { dayjs, gravatarUrlSync, useService, vue } from '@fiction/core'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
+import ElAddContactsModal from './ElAddContactsModal.vue'
 
 const { card, uiSize = 'md' } = defineProps<{
   card: Card
@@ -13,6 +14,8 @@ const { card, uiSize = 'md' } = defineProps<{
 const service = useService<{ fictionSubscribe: FictionSubscribe }>()
 
 const subscribers = vue.shallowRef<Subscriber[]>([])
+
+const showAddContactsModal = vue.ref(false)
 
 const list = vue.computed<NavListItem[]>(() => {
   const querySubscriptionId = card.site?.siteRouter.query.value.itemId as string | undefined
@@ -82,13 +85,22 @@ async function load(args: { offset?: number, limit?: number } = {}) {
 
 vue.onMounted(async () => {
   vue.watch(() => service.fictionSubscribe.cacheKey.value, () => load(), { immediate: true })
+
+  vue.watchEffect(() => {
+    const queryVal = card.site?.siteRouter.query.value
+    if (card.site && queryVal?.addNew) {
+      showAddContactsModal.value = true
+      delete queryVal.addNew
+      card.site.siteRouter.query.value = queryVal
+    }
+  })
 })
 
 const buttons: ActionButton[] = [
   {
     testId: 'add-subscribers-button',
     label: 'Add Contacts',
-    href: card.link('/audience/add'),
+    onClick: () => (showAddContactsModal.value = true),
     theme: 'primary',
     icon: 'i-tabler-plus',
   },
@@ -114,5 +126,6 @@ const buttons: ActionButton[] = [
       }"
       @update:offset="load({ offset: $event })"
     />
+    <ElAddContactsModal v-model:vis="showAddContactsModal" :card />
   </div>
 </template>
