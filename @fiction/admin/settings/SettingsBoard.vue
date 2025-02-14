@@ -36,6 +36,12 @@ const panels = vue.computed(() => card.cards.value.filter(t => t.slug.value) as 
 const routeItemId = vue.computed(() => toSlug(card.site?.siteRouter.params.value.itemId as string) || panels.value[0].slug.value)
 
 const currentPanel = vue.computed(() => panels.value.find(p => toSlug(p.slug.value) === routeItemId.value) || panels.value[0])
+const parentPanel = vue.computed(() => panels.value.find(p => toSlug(p.slug.value) === currentPanel.value?.userConfig.value?.parentItemId))
+
+const currentPanelKey = vue.computed(() => {
+  const itemId = card.site?.siteRouter.query.value.itemId as string | undefined
+  return `${currentPanel.value?.cardId}-${itemId || ''}`
+})
 
 const viewId = vue.computed(() => {
   return card.site?.siteRouter.current.value?.params.viewId || ''
@@ -91,16 +97,25 @@ const { width } = useWindowSize()
 
 const isDesktop = vue.computed(() => width.value >= 1024)
 
-const itemPanelProps = vue.computed(() => {
+function getItemPanelProps(panel?: Card<NavCardUserConfig>, opts: { isParent?: boolean } = {}) {
   return {
-    'is': currentPanel.value?.tpl.value?.settings?.el,
-    'id': currentPanel.value?.cardId,
+    'is': panel?.tpl.value?.settings?.el,
+    'id': panel?.cardId,
+    'is-parent': opts.isParent,
     'data-test-id': 'card-engine-component',
-    'data-card-type': currentPanel.value?.templateId.value,
-    'card': currentPanel.value,
+    'data-card-type': panel?.templateId.value,
+    'card': panel,
     ...panelProps,
     'v-on': panelEvents,
   } as const
+}
+
+const itemPanelProps = vue.computed(() => {
+  return getItemPanelProps(currentPanel.value)
+})
+
+const parentPanelProps = vue.computed(() => {
+  return getItemPanelProps(parentPanel.value, { isParent: true })
 })
 </script>
 
@@ -111,10 +126,10 @@ const itemPanelProps = vue.computed(() => {
     </div>
     <template v-else>
       <div
-        class="lg:w-[32%] shrink-0 rounded-l-md md:border-r dark:border-theme-600/60 border-theme-300/60"
+        class="lg:w-[32%] shrink-0 rounded-l-md md:border-r dark:border-theme-600/60 border-theme-300/60 relative overflow-x-clip"
       >
         <transition :name="transitionDirection" mode="out-in">
-          <div v-if="!currentItemId || isDesktop" class="space-y-6 p-3 md:p-6 ">
+          <div v-if="!currentItemId || (isDesktop && !parentPanel)" class="space-y-6 p-3 md:p-6 ">
             <div class="space-y-3">
               <ElHeader
                 v-if="header"
@@ -149,6 +164,9 @@ const itemPanelProps = vue.computed(() => {
               </CardLink>
             </div>
           </div>
+          <div v-else-if="parentPanel && isDesktop" :key="parentPanel.cardId" class="grow lg:overflow-scroll pb-32">
+            <component :is="parentPanelProps.is" v-bind="parentPanelProps" />
+          </div>
           <div v-else :key="currentItemId || 'default'" class="grow lg:overflow-scroll pb-32">
             <component :is="itemPanelProps.is" v-bind="itemPanelProps" />
           </div>
@@ -160,7 +178,7 @@ const itemPanelProps = vue.computed(() => {
         class="grow lg:overflow-scroll pb-32"
       >
         <transition name="fade" mode="out-in">
-          <component :is="itemPanelProps.is" v-bind="itemPanelProps" />
+          <component :is="itemPanelProps.is" v-bind="itemPanelProps" :key="currentPanelKey" />
         </transition>
       </div>
     </template>

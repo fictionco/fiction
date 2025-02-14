@@ -11,7 +11,7 @@ const _hello = 1
     :card
     :header="{
       media: { class: `i-tabler-users` },
-      title: 'Your Network',
+      title: 'Your Contacts and Audience',
       subTitle: 'Build and manage your audience and professional connections.',
     }"
     theme="cyan"

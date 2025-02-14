@@ -46,6 +46,7 @@ function getOptions() {
         createOption({
           key: 'layout',
           input: 'InputRadioButton',
+          props: { uiSize: 'sm' },
           schema,
           list: [
             { label: 'Center Nav', value: 'navCenter', description: 'Navigation centered with logo on side' },

@@ -1,22 +1,23 @@
 <script lang="ts" setup>
-import type { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
+import { vue } from '@fiction/core'
 import ElSubscriberList from './ElSubscriberList.vue'
 
-type UserConfig = {
-  isNavItem: boolean
-}
-defineProps({
-  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
+const { isParent, card } = defineProps<{
+  card: Card
+  isParent?: boolean
+}>()
+
+const action = vue.computed(() => {
+  return isParent ? { buttons: [{ label: 'Back', href: card.link('/audience'), icon: 'i-tabler-arrow-left' }] } : {}
 })
-const _x = 1
 </script>
 
 <template>
-  <SettingsPanel title="All Connections">
-    <div class="p-6 xl:p-12">
-      <ElSubscriberList :card />
+  <SettingsPanel title="All Connections" :action>
+    <div :class="isParent ? 'px-6 py-12' : 'p-6 xl:p-12'">
+      <ElSubscriberList :card :ui-size="isParent ? 'xs' : 'md'" />
     </div>
   </SettingsPanel>
 </template>

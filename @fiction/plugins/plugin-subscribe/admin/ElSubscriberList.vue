@@ -1,27 +1,26 @@
 <script lang="ts" setup>
-import type { ActionButton, NavListItem } from '@fiction/core'
+import type { ActionButton, NavListItem, StandardSize } from '@fiction/core'
 import type { FictionSubscribe, Subscriber } from '@fiction/plugin-subscribe'
 import type { Card } from '@fiction/site'
 import { dayjs, gravatarUrlSync, useService, vue } from '@fiction/core'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 
-type UserConfig = {
-  isNavItem: boolean
-}
-const props = defineProps({
-  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
-})
+const { card, uiSize = 'md' } = defineProps<{
+  card: Card
+  uiSize?: StandardSize
+}>()
 
 const service = useService<{ fictionSubscribe: FictionSubscribe }>()
 
 const subscribers = vue.shallowRef<Subscriber[]>([])
 
 const list = vue.computed<NavListItem[]>(() => {
+  const querySubscriptionId = card.site?.siteRouter.query.value.itemId as string | undefined
   return subscribers.value.map((p) => {
     const label = p.user?.fullName || p.user?.email || p.email || 'Unknown'
     const description = [`Added ${dayjs(p.createdAt).format('MMM D, YYYY')}`]
 
-    if (p.tags)
+    if (p.tags?.filter(Boolean).length)
       description.push(`Tags: ${p.tags.join(', ')}`)
 
     if (!label.includes('@'))
@@ -31,8 +30,9 @@ const list = vue.computed<NavListItem[]>(() => {
       key: p.subscriptionId,
       label,
       description: description.join(' | '),
-      href: props.card.link(`/audience/view?subscriptionId=${p.subscriptionId}`),
+      href: card.link(`/audience/view?itemId=${p.subscriptionId}`),
       media: p.user?.avatar || p.avatar,
+      isActive: querySubscriptionId && querySubscriptionId === p.subscriptionId,
     } as NavListItem
   })
 })
@@ -88,7 +88,7 @@ const buttons: ActionButton[] = [
   {
     testId: 'add-subscribers-button',
     label: 'Add Contacts',
-    href: props.card.link('/audience/add'),
+    href: card.link('/audience/add'),
     theme: 'primary',
     icon: 'i-tabler-plus',
   },
@@ -101,13 +101,14 @@ const buttons: ActionButton[] = [
       :list
       :loading
       :action="{ buttons }"
-      list-title="Subscribers"
+      list-title="Contacts"
       :index-meta="indexMeta"
       theme="cyan"
+      :ui-size="uiSize"
       :empty="{
         testId: 'subscriber-list-empty',
-        title: 'Your Subscribers',
-        subTitle: 'Add or import email subscribers to send newsletters and updates.',
+        title: 'Your Contacts',
+        subTitle: 'Add or import email contacts to send newsletters and updates.',
         media: { class: 'i-tabler-users' },
         action: { buttons },
       }"

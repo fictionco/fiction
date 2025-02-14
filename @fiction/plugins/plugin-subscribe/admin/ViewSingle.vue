@@ -23,7 +23,7 @@ const subscriber = vue.ref<Subscriber>({})
 async function load() {
   loading.value = true
 
-  const subscriptionId = service.fictionRouter.query.value.subscriptionId as string | undefined
+  const subscriptionId = service.fictionRouter.query.value.itemId as string | undefined
 
   try {
     if (!subscriptionId)
@@ -49,7 +49,15 @@ async function load() {
   }
 }
 
-vue.onMounted(() => load())
+vue.onMounted(() => {
+  vue.watch(
+    () => service.fictionRouter.query.value.itemId,
+    async () => {
+      load()
+    },
+    { immediate: true },
+  )
+})
 
 const user = vue.computed(() => {
   const s = subscriber.value
@@ -87,8 +95,8 @@ function updateSubscriber(subscriberNew: Subscriber) {
 const detailOptions = [
   new InputOption({
     testId: 'subscriber-email',
-    label: 'Subscriber Email',
-    subLabel: 'The email address of the subscriber',
+    label: 'Contact Email',
+    subLabel: 'The email address of the contact',
     input: 'InputControl',
     valueDisplay: () => {
       return {
@@ -232,7 +240,7 @@ const options = vue.computed(() => {
   return [
     new InputOption({
       key: 'userDetails',
-      label: 'Subscriber Details',
+      label: 'Contact Details',
       input: 'group',
       options: detailOptions,
       format: 'control',
@@ -250,7 +258,7 @@ const options = vue.computed(() => {
 const header = vue.computed(() => {
   return {
     title: user.value.fullName || user.value.email,
-    subTitle: 'Subscriber Details',
+    subTitle: 'Contact Details',
     media: getAvatarUrl(user.value),
   }
 })
@@ -258,7 +266,7 @@ const header = vue.computed(() => {
 
 <template>
   <SettingsPanel
-    title="Subscriber Details"
+    title="Contact Details"
     :action="{
       buttons: [{
         testId: 'subscriber-save-button',

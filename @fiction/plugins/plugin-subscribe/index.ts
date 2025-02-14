@@ -63,7 +63,7 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
           templateId: 'dash',
           slug: 'subscriber-view',
           title: 'Connection Profile',
-          description: 'View and manage individual subscriber details',
+          description: 'View and manage individual contact details',
           cards: [await factory.fromTemplate({ el: vue.defineAsyncComponent(async () => import('./admin/ViewSingle.vue')) })],
           userConfig: { navIcon: 'i-tabler-user', parentNavItemSlug: 'audience' },
         }),
@@ -79,8 +79,8 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
               cards: [
                 await factory.fromTemplate<typeof panelTemplate>({
                   slug: 'subscribers',
-                  title: 'Your Audience',
-                  description: 'View, filter, and manage your complete subscriber list',
+                  title: 'Contact List',
+                  description: 'View, filter, and manage your complete list',
                   el: vue.defineAsyncComponent(async () => import('./admin/ViewIndex.vue')),
                   userConfig: { isNavItem: true, navIcon: 'i-tabler-users', navIconAlt: 'i-tabler-users-plus' },
                 }),
@@ -96,7 +96,7 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
                   title: 'Contact Details',
                   description: 'View individual subscriber information and history',
                   el: vue.defineAsyncComponent(async () => import('./admin/ViewSingle.vue')),
-                  userConfig: { navIcon: 'i-tabler-user' },
+                  userConfig: { navIcon: 'i-tabler-user', parentItemId: 'subscribers' },
                 }),
               ],
             }),

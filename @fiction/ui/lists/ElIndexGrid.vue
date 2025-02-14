@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActionArea, ColorThemeUser, IndexMeta, NavListItem, PostObject } from '@fiction/core'
+import type { ActionArea, ColorThemeUser, IndexMeta, NavListItem, PostObject, StandardSize } from '@fiction/core'
 import { getPaginationInfo, vue } from '@fiction/core/index.js'
 import XButton from '../buttons/XButton.vue'
 import ElZeroBanner from '../ElZeroBanner.vue'
@@ -14,6 +14,7 @@ const {
   loading,
   listTitle = 'Items',
   theme,
+  uiSize = 'md',
 } = defineProps<{
   list?: NavListItem[]
   indexMeta?: IndexMeta
@@ -22,6 +23,7 @@ const {
   loading?: boolean
   listTitle?: string
   theme?: ColorThemeUser
+  uiSize?: StandardSize
 }>()
 
 const emit = defineEmits<{
@@ -86,6 +88,8 @@ async function paginate(dir: 'prev' | 'next') {
               v-for="(item, i) in list"
               v-else
               :key="item.key"
+              :ui-size="uiSize"
+              :is-active="item.isActive"
               :item
               :index="i"
               :theme

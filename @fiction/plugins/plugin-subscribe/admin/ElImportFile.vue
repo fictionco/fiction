@@ -71,7 +71,7 @@ const info = vue.computed<ListItem[]>(() => {
   const emailAddresses = emailList.value.slice(0, 10).join(', ')
   const hasMore = emailList.value.length > 10 ? `... and ${emailList.value.length - 10} more` : ''
   return [
-    { label: 'Emails to Import', value: emailList.value.length },
+    { label: 'Emails to Add', value: emailList.value.length },
     { label: 'Email Addresses', value: `${emailAddresses} ${hasMore}` },
     { label: 'Tags', value: tagList.value.join(', ') || 'None' },
   ]
@@ -129,7 +129,7 @@ async function importSubscribers() {
 </script>
 
 <template>
-  <SettingsPanel title="Add / Import Subscribers">
+  <SettingsPanel title="Add Contacts">
     <div class="min-h-[40dvh] p-16 max-w-3xl mx-auto">
       <transition
         enter-active-class="ease-out duration-300"
@@ -141,7 +141,7 @@ async function importSubscribers() {
         mode="out-in"
       >
         <div v-if="step === 'submit'" class="space-y-6">
-          <ElInput label="Review Information" sub-label="Here is what we'll be importing...">
+          <ElInput label="Review Information" sub-label="Here is what we'll be adding...">
             <div class="p-8 rounded-md border border-theme-200 dark:border-theme-600/70 space-y-4">
               <div v-for="(item, i) in info" :key="i" class="flex flex-col ">
                 <div class="text-theme-500 font-normal text-sm">
@@ -172,16 +172,30 @@ async function importSubscribers() {
           </div>
         </div>
         <div v-else class="space-y-6" @dragover.prevent @drop.prevent>
-          <ElInput
-            v-model="importMethod"
-            input="InputRadioButton"
-            :list="[
-              { label: 'By Email', value: 'text', icon: 'i-tabler-mail' },
-              { label: 'Import Contacts', value: 'csv', icon: 'i-tabler-file-type-csv' },
-            ]"
-            default-text="Select Import Method"
-            ui-size="sm"
-          />
+          <div class="flex gap-4 justify-between">
+            <ElInput
+              v-model="importMethod"
+              input="InputRadioButton"
+              :list="[
+                { label: 'By Email', value: 'text', icon: 'i-tabler-mail' },
+                { label: 'Import Contacts', value: 'csv', icon: 'i-tabler-file-type-csv' },
+              ]"
+              default-text="Select Import Method"
+              ui-size="sm"
+            />
+            <CardButton
+              :card
+              :disabled="!emailList.length"
+              data-test-id="save"
+              theme="primary"
+              type="submit"
+              icon-after="i-tabler-arrow-right"
+              :loading="loading"
+              @click.prevent="prepareSubmit()"
+            >
+              Next
+            </CardButton>
+          </div>
 
           <transition
             enter-active-class="ease-out duration-300"
@@ -199,7 +213,7 @@ async function importSubscribers() {
               label="Enter Email Addresses"
               sub-label="Separate each email address with a comma or new line"
               :rows="5"
-              placeholder="email1@example.com,email2@example.com"
+              :placeholder="['friend@example.com', 'colleague@example2.com'].join(',\n')"
               data-test-id="text-email-list"
             />
 
@@ -240,25 +254,12 @@ async function importSubscribers() {
           <ElInput
             v-model="tagList"
             input="InputTags"
-            label="Tags"
+            label="Tags (Optional)"
             sub-label="Used to categorize subscribers"
             :rows="10"
             data-test-id="tag-list"
+            placeholder="e.g. Work, Webinar..."
           />
-          <div>
-            <CardButton
-              :card
-              :disabled="!emailList.length"
-              data-test-id="save"
-              theme="primary"
-              type="submit"
-              icon-after="i-tabler-arrow-right"
-              :loading="loading"
-              @click.prevent="prepareSubmit()"
-            >
-              Next
-            </CardButton>
-          </div>
         </div>
       </transition>
     </div>

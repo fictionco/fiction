@@ -135,7 +135,7 @@ function getGroupHeaderClasses(opt: InputOption) {
 }
 
 const rootListClasses = vue.computed(() => {
-  const defaultClass = format === 'control' ? 'divide-y divide-theme-200/50 dark:divide-theme-600/50 gap-0' : cls.value.inputGap
+  const defaultClass = format === 'control' ? '@[1000px]:grid grid-cols-2 divide-y divide-theme-200/50 dark:divide-theme-600/50 gap-0' : cls.value.inputGap
 
   return twMerge(['flex flex-col', defaultClass])
 })
