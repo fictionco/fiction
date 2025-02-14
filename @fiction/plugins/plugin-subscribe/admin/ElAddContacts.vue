@@ -1,18 +1,27 @@
 <script setup lang="ts">
-import type { ListItem } from '@fiction/core'
+import type { NavListItem } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import type { FictionSubscribe } from '..'
-import type { ImportDetail } from '../schema'
+import type { ImportDetail, Subscriber } from '../schema'
 import CardButton from '@fiction/cards/CardButton.vue'
 import { log, objectId, useService, vue } from '@fiction/core'
+import { gravatarUrlSync } from '@fiction/core/utils/url.js'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
+import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 import { csvToEmailList, parseAndValidateEmails } from './utils'
 
 const { card } = defineProps<{ card: Card }>()
 
+const emit = defineEmits<{
+  (event: 'update:contacts', payload: Subscriber[] | undefined): void
+}>()
+
 const logger = log.contextLogger('ImportFile')
 
 const service = useService<{ fictionSubscribe: FictionSubscribe }>()
+
+const SAMPLE_EMAIL_NO = 5
 
 const loading = vue.ref(false)
 const draggingOver = vue.ref()
@@ -66,14 +75,22 @@ function prepareSubmit() {
   step.value = 'submit'
 }
 
-const info = vue.computed<ListItem[]>(() => {
-  const emailAddresses = emailList.value.slice(0, 10).join(', ')
-  const hasMore = emailList.value.length > 10 ? `... and ${emailList.value.length - 10} more` : ''
-  return [
-    { label: 'Emails to Add', value: emailList.value.length },
-    { label: 'Email Addresses', value: `${emailAddresses} ${hasMore}` },
-    { label: 'Tags', value: tagList.value.join(', ') || 'None' },
-  ]
+const info = vue.computed(() => {
+  const sample = emailList.value.slice(0, SAMPLE_EMAIL_NO)
+
+  const emailItems: NavListItem[] = sample.map((email) => {
+    return {
+      label: email,
+      description: 'Valid',
+      media: gravatarUrlSync(email),
+    }
+  })
+
+  return {
+    emailTotal: emailList.value.length,
+    tags: tagList.value,
+    emailItems,
+  }
 })
 
 function getImportDetail(): ImportDetail {
@@ -113,6 +130,10 @@ async function importSubscribers() {
 
       csvEmailList.value = []
       rawTextEmailList.value = ''
+
+      service.fictionSubscribe.cacheKey.value++
+
+      emit('update:contacts', r.data)
     }
     else {
       step.value = 'import'
@@ -160,13 +181,35 @@ async function importSubscribers() {
             </CardButton>
           </div>
         </div>
-        <div class="p-8 rounded-md border border-theme-200 dark:border-theme-600/70 space-y-4">
-          <div v-for="(item, i) in info" :key="i" class="flex flex-col ">
-            <div class="text-theme-500 font-normal text-sm">
-              {{ item.label }}
+        <div class="p-8 rounded-md border border-theme-200 dark:border-theme-600/70 space-y-4 flex gap-6">
+          <div class=" basis-[250px] space-y-4">
+            <div>
+              <div class="text-theme-500 font-normal text-sm">
+                Total Emails
+              </div>
+              <div class="font-semibold text-lg">
+                {{ info.emailTotal }}
+              </div>
             </div>
-            <div class="font-semibold text-xl">
-              {{ item.value }}
+            <div>
+              <div class="text-theme-500 font-normal text-sm">
+                Tags to Add
+              </div>
+              <div v-if="tagList.length" class="font-semibold text-base flex gap-4">
+                <XButton v-for="tag in tagList" :key="tag" size="xs">
+                  {{ tag }}
+                </XButton>
+              </div>
+              <div class="py-3 text-xs text-theme-500">
+                (No tags)
+              </div>
+            </div>
+          </div>
+          <div class=" flex-grow">
+            <ElIndexGrid list-title="Sample" :list="info.emailItems" ui-size="xs" />
+
+            <div v-if="emailList.length > SAMPLE_EMAIL_NO" class="text-theme-500 text-sm p-4 text-theme-500 text-center">
+              And {{ emailList.length - SAMPLE_EMAIL_NO }} more...
             </div>
           </div>
         </div>

@@ -25,7 +25,7 @@ const emit = defineEmits(['update:vis'])
         </div>
       </div>
       <div class="px-4 md:px-12">
-        <ElAddContacts :card />
+        <ElAddContacts :card @update:contacts="emit('update:vis', false)" />
       </div>
     </div>
   </ElModal>
