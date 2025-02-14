@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { EditorTool } from '@fiction/admin'
-import type { Site } from '@fiction/platform'
+import type { Site } from '@fiction/site'
 import RevisionHistory from '@fiction/admin/el/RevisionHistory.vue'
 
 const { site } = defineProps<{

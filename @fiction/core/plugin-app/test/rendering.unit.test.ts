@@ -1,5 +1,5 @@
-import type { RunVars } from '@fiction/core'
 import type { Request } from 'express'
+import type { RunVars } from '../../inject'
 import { describe, expect, it, vi } from 'vitest'
 import { createTestUtils } from '../../test-utils/init'
 

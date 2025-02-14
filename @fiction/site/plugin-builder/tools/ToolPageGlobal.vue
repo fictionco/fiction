@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { AdminEditorController, EditorTool } from '@fiction/admin'
-import type { Card, FictionSites } from '@fiction/platform'
+import type { Card, FictionSites } from '@fiction/site'
 import type { InputOption } from '@fiction/ui'
 import type { Site } from '../../site'
 import type { ToolKeys } from './tools'

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Site } from '@fiction/platform'
+import type { Site } from '@fiction/site'
 import type { UiElementSize } from '@fiction/ui/utils'
 import { vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'

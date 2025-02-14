@@ -2,7 +2,7 @@ import type { IndexMeta, IndexQuery, PostHandlingObject, PostObject } from '@fic
 import type { Card } from '@fiction/site'
 import type { FictionPosts } from './index.js'
 import { FictionObject, vue } from '@fiction/core'
-import { Post } from '@fiction/posts'
+import { Post } from './post.js'
 
 type PostLoaderSettings = {
   fictionPosts: FictionPosts

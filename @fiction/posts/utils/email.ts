@@ -1,6 +1,6 @@
 import type { EmailSendConfig, Organization } from '@fiction/core'
 import type { FictionPosts, TablePostConfig } from '..'
-import { toMarkdown, vue } from '@fiction/platform'
+import { toMarkdown, vue } from '@fiction/core'
 
 export async function getEmailForPost(args: {
   org: Organization

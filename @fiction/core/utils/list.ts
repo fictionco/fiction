@@ -1,4 +1,4 @@
-import type { NavListItem } from '@fiction/platform'
+import type { NavListItem } from '../schemas/schemas'
 import type { IndexMeta, ListItem } from '../types'
 import { toLabel, toSlug } from './casing'
 
