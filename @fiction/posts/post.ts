@@ -34,6 +34,7 @@ export class Post extends FictionObject<PostConfig> {
   isDirty = vue.ref(false)
   hasChanges = vue.ref(this.settings.hasChanges || false)
   publishAt = vue.ref(this.settings.publishAt)
+  scheduleMode = vue.ref<'now' | 'schedule'>('now')
   saveTimeout: ReturnType<typeof setTimeout> | null = null // Store timeout reference
 
   constructor(settings: PostConfig) {

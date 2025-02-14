@@ -34,9 +34,7 @@ export const tools = [
     location: 'context',
     isDefault: true,
     el: vue.defineAsyncComponent(async () => import('./SidebarEmailEditor.vue')),
-    props: () => {
-      return vue.computed(() => ({}))
-    },
+
   },
 ] as const satisfies EditorTool<any, { card: Card, campaign: EmailCampaign }>[]
 

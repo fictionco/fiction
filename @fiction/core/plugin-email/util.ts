@@ -28,7 +28,7 @@ export type EmailSendConfig = {
   to?: string
   bodyHtml?: string
   bodyText?: string
-  campaignId?: string
+  postId?: string
   emailId?: string
   toUserId?: string
   fromOrgId?: string
@@ -36,7 +36,7 @@ export type EmailSendConfig = {
   env?: 'prod' | 'dev' | 'test'
   caller?: string
 
-  emailType?: 'transactional' | 'campaign' | 'newsletter' | 'notification'
+  emailType?: 'transactional' | 'campaign' | 'newsletter' | 'notification' | 'post'
 
   // Theme
   previewMode?: 'dark' | 'light' | ''

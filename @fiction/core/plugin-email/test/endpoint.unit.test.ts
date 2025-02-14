@@ -62,7 +62,7 @@ describe('transactional email', async () => {
       },
       unsubscribeUrl: 'https://www.fiction.com/unsubscribe',
       env: 'test',
-      campaignId: shortId(),
+      postId: shortId(),
       caller: 'testEmailLayout',
       toUserId: user.userId,
       fromOrgId: orgId,

@@ -3,8 +3,10 @@ import type { FictionPosts } from '.'
 import type { FictionPostsSettings } from './index'
 import type { TablePostConfig } from './schema'
 import { abort, applyComplexFilters, dayjs, deepMerge, incrementSlugId, objectId, omit, Query, standardTable, toSlug } from '@fiction/core'
+
 import { t } from './schema'
 import { trackPostMetrics } from './utils/analytics'
+import { getEmailForPost } from './utils/email'
 
 export type PostsQuerySettings = FictionPostsSettings & { fictionPosts: FictionPosts }
 export abstract class PostsQuery extends Query<PostsQuerySettings> {
@@ -36,6 +38,7 @@ export type ManagePostParamsRequest =
   | { _action: 'list', type?: string, loadDraft?: boolean } & IndexQuery & ({ orgId: string, where?: { orgId?: string } } | { where: { orgId: string } })
   | { _action: 'deletePosts', selectedIds?: string[], orgId: string, userId: string }
   | { _action: 'restoreFromRevision', where: WherePost, revisionId: string }
+  | { _action: 'emailSendTest', where: WherePost, testEmails: string, maxEmails?: number }
 
 export type ManagePostParams = ManagePostParamsRequest & {
   userId?: string
@@ -80,6 +83,9 @@ export class QueryManagePost extends PostsQuery {
         break
       case 'restoreFromRevision':
         r = await this.restoreFromRevision(params, meta)
+        break
+      case 'emailSendTest':
+        r = await this.emailSendTest(params, meta)
         break
       default:
         return { status: 'error', message: 'Invalid action' }
@@ -555,5 +561,86 @@ export class QueryManagePost extends PostsQuery {
       userId,
       caller: 'restoreRevision',
     }, meta)
+  }
+
+  private async emailSendTest(params: ManagePostParams & { _action: 'emailSendTest' }, meta: EndpointMeta): Promise<ManagePostResponse> {
+    const { orgId, userId, where, testEmails, maxEmails = 10 } = params
+    const { fictionUser, fictionEmail } = this.settings
+
+    if (!orgId) {
+      return { status: 'error', message: 'orgId is required' }
+    }
+
+    if (!where.postId) {
+      return { status: 'error', message: 'campaignId is required' }
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const allEmails = testEmails.split(',').map(email => email.trim())
+    const validEmails = allEmails.filter(email => emailRegex.test(email))
+    const badlyFormattedEmails = allEmails.filter(email => !emailRegex.test(email))
+
+    if (validEmails.length === 0) {
+      return { status: 'error', message: 'No valid email addresses provided' }
+    }
+
+    if (validEmails.length > maxEmails) {
+      return { status: 'error', message: `Too many email addresses. Maximum allowed: ${maxEmails}` }
+    }
+
+    const [post, org] = await Promise.all([
+      this.getPost({ _action: 'get', orgId, userId, where }, meta).then(r => r.data?.[0]),
+      fictionUser.queries.ManageOrganization.serve({ _action: 'retrieve', where: { orgId } }, { server: true }).then(r => r.data),
+    ])
+
+    if (!post || !org) {
+      return { status: 'error', message: 'Post or organization not found' }
+    }
+
+    const emailConfig = await getEmailForPost({
+      org,
+      postConfig: post,
+      fictionPosts: this.settings.fictionPosts,
+      withDefaults: false,
+    })
+
+    const results = await Promise.all(validEmails.map(async (email) => {
+      try {
+        await fictionEmail.sendEmail(
+          {
+            ...emailConfig,
+            to: email,
+            subject: `[TEST] ${emailConfig.subject}`,
+            caller: 'sendTestEmail',
+          },
+          { server: true },
+        )
+        return { email, success: true }
+      }
+      catch (error) {
+        this.log.error(`Failed to send test email to ${email}`, { error })
+        return { email, success: false }
+      }
+    }))
+
+    const sentEmails = results.filter(r => r.success).map(r => r.email)
+    const failedToSendEmails = results.filter(r => !r.success).map(r => r.email)
+
+    const message = [
+      `Test emails sent.`,
+      failedToSendEmails.length > 0 ? `${failedToSendEmails.length} failed to send.` : '',
+      badlyFormattedEmails.length > 0 ? `${badlyFormattedEmails.length} had invalid format.` : '',
+    ].filter(Boolean).join(' ')
+
+    return {
+      status: 'success',
+      message,
+      data: [post],
+      meta: {
+        sentEmails,
+        failedToSendEmails,
+        badlyFormattedEmails,
+      },
+    }
   }
 }

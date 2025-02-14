@@ -19,9 +19,9 @@ export type EmailQuerySettings = FictionPluginSettings & {
 export type EmailUserVars = {
   toUserId?: string
   fromOrgId?: string
-  campaignId?: string
+  postId?: string
   emailId?: string
-  emailType?: 'transactional' | 'campaign' | 'newsletter' | 'notification'
+  emailType?: 'transactional' | 'campaign' | 'newsletter' | 'notification' | 'post'
   env?: 'prod' | 'dev' | 'test'
   caller?: string
 }
@@ -149,7 +149,7 @@ export class QueryTransactionalEmail extends EmailQuery {
       fromEmail,
       to,
       subject,
-      campaignId = '',
+      postId = '',
       emailId = '',
       toUserId = '',
       fromOrgId = '',
@@ -159,7 +159,7 @@ export class QueryTransactionalEmail extends EmailQuery {
     } = fields
 
     const emailVars: EmailUserVars = {
-      campaignId,
+      postId,
       emailId,
       toUserId,
       fromOrgId,

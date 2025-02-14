@@ -13,7 +13,6 @@ import { FictionAi } from '@fiction/plugin-ai'
 import { FictionBrand } from '@fiction/plugin-brand'
 import { FictionExtend } from '@fiction/plugin-extend/index.js'
 import { FictionMonitor } from '@fiction/plugin-monitor/index.js'
-import { FictionNewsletter } from '@fiction/plugin-newsletter'
 import { FictionStripe } from '@fiction/plugin-stripe/index.js'
 import { FictionSubscribe } from '@fiction/plugin-subscribe/index.js'
 import { FictionTransactions } from '@fiction/plugin-transactions'
@@ -173,10 +172,9 @@ const fictionForms = new FictionForms({ ...s, fictionSites })
 const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp, fictionAppSites] })
 const fictionSubscribe = new FictionSubscribe(s)
 const fictionPosts = new FictionPosts(s)
-const fictionNewsletter = new FictionNewsletter({ fictionPosts, fictionSubscribe, ...s })
 const fictionBrand = new FictionBrand({ ...s })
 
-const baseService = { ...s, fictionForms, fictionBrand, fictionAnalytics, fictionSites, fictionCards, fictionTeam, fictionUi, fictionStripe, fictionSubscribe, fictionNewsletter, fictionPosts }
+const baseService = { ...s, fictionForms, fictionBrand, fictionAnalytics, fictionSites, fictionCards, fictionTeam, fictionUi, fictionStripe, fictionSubscribe, fictionPosts }
 
 export type SpecificService = typeof baseService
 

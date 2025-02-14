@@ -12,7 +12,6 @@
     "@fiction/plugin-highlight-code": "workspace:*",
     "@fiction/plugin-metrics": "workspace:*",
     "@fiction/plugin-monitor": "workspace:*",
-    "@fiction/plugin-newsletter": "workspace:*",
     "@fiction/plugin-stripe": "workspace:*",
     "@fiction/plugin-transactions": "workspace:*",
     "@fiction/posts": "workspace:*",
