@@ -102,7 +102,7 @@
     },
     {
       "key": "hostnameVerify",
-      "path": "/api/hostname-verify"
+      "path": "/api/direct-domain-verify"
     },
     {
       "key": "CardQuery",
@@ -155,18 +155,6 @@
     {
       "key": "ManagePost",
       "path": "/api/fiction-posts/ManagePost"
-    },
-    {
-      "key": "ManageCampaign",
-      "path": "/api/send/ManageCampaign"
-    },
-    {
-      "key": "ManageSend",
-      "path": "/api/send/ManageSend"
-    },
-    {
-      "key": "emailTrackingEndpoint",
-      "path": "/api/email-tracking/:action?"
     },
     {
       "key": "ManageBrandGuide",

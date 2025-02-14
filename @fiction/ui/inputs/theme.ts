@@ -1,7 +1,7 @@
 import type { ColorThemeUser, StandardSize } from '@fiction/core/index.js'
 import type { UiElementSize } from '../utils.js'
 import { twMerge } from 'tailwind-merge'
-import { inputTheme, themes } from '../utils/themes'
+import { inputTheme } from '../utils/themes'
 // export function inputClasses(feature: 'box') {
 //   const out: string[] = []
 

@@ -996,36 +996,6 @@
         "index.ts": null,
         "package.json": null
       },
-      "plugin-newsletter": {
-        "admin": {
-          "ElStart.vue": null,
-          "EmailEditor.vue": null,
-          "InputAudience.vue": null,
-          "InputEmailPreview.vue": null,
-          "ManageAnalytics.vue": null,
-          "ManageContent.vue": null,
-          "ManageOverview.vue": null,
-          "ManagePreview.vue": null,
-          "SidebarEmailEditor.vue": null,
-          "SidebarEmailPreview.vue": null,
-          "SidebarEmailTestSend.vue": null,
-          "ViewIndex.vue": null,
-          "ViewManageCampaign.vue": null,
-          "ViewManageIndex.vue": null,
-          "tools.ts": null
-        },
-        "campaign.ts": null,
-        "endpoint.ts": null,
-        "index.ts": null,
-        "package.json": null,
-        "schema.ts": null,
-        "test": {
-          "endpoint.unit.test.ts": null,
-          "kit.main.ts": null,
-          "newsletter.flow.test.ts": null
-        },
-        "utils.ts": null
-      },
       "plugin-stripe": {
         "SubscriptionStart.vue": null,
         "customer.ts": null,
@@ -1046,7 +1016,8 @@
       "plugin-subscribe": {
         "admin": {
           "ChartSubs.vue": null,
-          "ElImportFile.vue": null,
+          "ElAddContacts.vue": null,
+          "ElAddContactsModal.vue": null,
           "ElSubscriberList.vue": null,
           "ViewAnalytics.vue": null,
           "ViewIndex.vue": null,
@@ -1117,7 +1088,13 @@
         "ToolHistory.vue": null,
         "ToolPostMain.vue": null,
         "ViewManage.vue": null,
-        "__InputTaxonomy.vue": null,
+        "email": {
+          "InputAudience.vue": null,
+          "InputPreview.vue": null,
+          "ToolEmailPreview.vue": null,
+          "ToolEmailSettings.vue": null,
+          "ToolEmailTest.vue": null
+        },
         "tools.ts": null
       },
       "endpoint.ts": null,
@@ -1139,6 +1116,7 @@
       "types.ts": null,
       "utils": {
         "analytics.ts": null,
+        "email.ts": null,
         "index.ts": null,
         "links.ts": null
       },
@@ -1614,11 +1592,11 @@
         "LibraryBackground.vue": null,
         "LibraryIcon.vue": null,
         "LibraryMediaGallery.vue": null,
-        "LibraryModal copy.vue": null,
         "LibraryModal.vue": null,
         "__InputItems.vue": null,
         "__LibraryHtml.vue": null,
         "__LibraryMedia.vue": null,
+        "__LibraryModal copy.vue": null,
         "__LibraryModalOld.vue": null,
         "index.ts": null,
         "test": {
@@ -1742,7 +1720,6 @@
         "extend.ts": null,
         "index.ts": null,
         "public": {
-          "_redirects": null,
           "favicon.png": null,
           "favicon.svg": null
         },

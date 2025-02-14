@@ -1,6 +1,5 @@
 import type { PackageJson } from '../types/index.js'
 import type { CliVars, MainFile } from './types.js'
-import fs from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
 import { Command } from 'commander'
@@ -9,7 +8,7 @@ import pkg from '../package.json'
 import { log } from '../plugin-log/index.js'
 import { toCamel } from '../utils/casing.js'
 import { emitEvent } from '../utils/event.js'
-import { getMonorepoRootPath, getRequire } from '../utils/nodeUtils.js'
+import { getRequire } from '../utils/nodeUtils.js'
 
 const commander = new Command()
 

@@ -35,8 +35,7 @@ const options = [
     icon: { class: 'i-tabler-upload' },
     schema,
     options: [
-      createOption({
-        key: '*',
+      createOption({  key: '*',
         testId: 'media-upload-input',
         input: 'InputMediaUpload',
         schema,
@@ -50,8 +49,7 @@ const options = [
     icon: { class: 'i-tabler-library-photo' },
     schema,
     options: [
-      createOption({
-        key: '*',
+      createOption({ key: '*',
         input: LibraryMediaGallery,
         schema,
       }),
