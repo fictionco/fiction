@@ -68,7 +68,6 @@ function toggleEditingStyle() {
           :theme="activeDeviceMode === mode.name ? 'theme' : 'default'"
           :icon="mode.icon"
           size="xs"
-
           @click.stop="activeDeviceMode = mode.name"
         >
           {{ toLabel(mode.name) }}

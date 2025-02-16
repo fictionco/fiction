@@ -30,29 +30,23 @@ const editor = useEditor({
     getSupplemental: () => supplemental,
     checkContentCompletionDisabled: () => isContentCompletionDisabled,
   }),
-  editorProps: {
-    attributes: {
-      class: 'ml-[-4em] mr-[-4em] pl-[4em] pr-[4em] focus:outline-none',
-    },
-  },
+  editorProps: { attributes: { class: 'focus:outline-none' } },
   onUpdate: ({ editor }) => {
     const html = editor.getHTML()
     if (html !== modelValue)
       emit('update:modelValue', html)
   },
-  onFocus: () => {
-    isEditing.value = true
-  },
-  onBlur: () => {
-    isEditing.value = false
-  },
+  onFocus: () => (isEditing.value = true),
+  onBlur: () => (isEditing.value = false),
 })
 
 const tt = vue.ref<HTMLElement>()
+const isDarkMode = vue.ref(false)
 vue.onMounted(() => {
   if (tt.value) {
     const md = isDarkOrLightMode(tt.value)
     tt.value.classList.add(md)
+    isDarkMode.value = md === 'dark'
   }
 
   vue.watch(() => modelValue, (v) => {
@@ -67,7 +61,12 @@ defineExpose({ editor })
 </script>
 
 <template>
-  <div ref="tt" class="tiptap-wrap" :data-ai-disabled="isContentCompletionDisabled ? 1 : 0">
+  <div
+    ref="tt"
+    class="tiptap-wrap prose-entry"
+    :class="isDarkMode ? 'dark' : 'light'"
+    :data-ai-disabled="isContentCompletionDisabled ? 1 : 0"
+  >
     <div
       v-if="!editor"
       class="flex py-24 justify-center h-[90dvh] text-theme-300 dark:text-theme-700"
@@ -75,64 +74,17 @@ defineExpose({ editor })
       <ElSpinner class="h-12 w-12" />
     </div>
     <template v-else>
-      <BubbleMenuEngine :editor="editor" />
+      <!-- <BubbleMenuEngine :editor="editor" /> -->
 
-      <EditorContent class=" focus:outline-none" :editor="editor" data-test-id="prose-editor-content" />
+      <EditorContent class="text-lg focus:outline-none" :editor="editor" data-test-id="prose-editor-content" />
     </template>
   </div>
 </template>
 
 <style lang="less">
+@import url('@fiction/ui/entry.less');
 .tiptap-wrap{
-position: relative;
-  [contentEditable="true"]:focus{
-    outline: none;
-  }
-  [contentEditable="true"]:empty {
-    &::before {
-      content: attr(placeholder);
-      opacity: 0.4;
-    }
-
-    &:hover:not(:focus)::before {
-      cursor: pointer;
-      opacity: 0.65;
-    }
-
-    &:focus::before {
-      opacity: 0.2;
-    }
-  }
-
-  .ProseMirror p.is-empty {
-    &::before{
-      content: attr(data-placeholder);
-      float: left;
-      pointer-events: none;
-      height: 0;
-      opacity: 0.4;
-    }
-    &.has-focus::before {
-      opacity: 0;
-    }
-  }
-
-  /* Custom image styles */
-
-  .ProseMirror img {
-    transition: filter 0.1s ease-in-out;
-
-    &:hover {
-      cursor: pointer;
-      filter: brightness(90%);
-    }
-
-    &.ProseMirror-selectednode {
-      outline: 3px solid #5abbf7;
-      filter: brightness(90%);
-    }
-  }
-
+  position: relative;
   .autocomplete-suggestion{
     color: rgba(var(--theme-500) / 0.5);
   }
@@ -158,50 +110,18 @@ position: relative;
     }
   }
 
-  @keyframes spinning {
-    to {
-      transform: rotate(360deg);
-    }
+  /* Placeholder (on every new line) */
+  .is-empty:not(:has(.autocomplete-suggestion))::before {
+    color: rgba(var(--theme-500) / .5);
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
   }
 
-  /* Custom TODO list checkboxes – shoutout to this awesome tutorial: https://moderncss.dev/pure-css-custom-checkbox-style/ */
-
-  ul[data-type="taskList"] li > label {
-    margin-right: 0.2rem;
-    user-select: none;
+  .dark .is-empty:not(:has(.autocomplete-suggestion))::before {
+    color: rgba(var(--theme-700) / .5);
   }
 
-  @media screen and (max-width: 768px) {
-    ul[data-type="taskList"] li > label {
-      margin-right: 0.5rem;
-    }
-  }
-
-  ul[data-type="taskList"] li > label input[type="checkbox"] {
-    border-radius: .3em;
-    margin: 0;
-    cursor: pointer;
-    width: 1.2em;
-    height: 1.2em;
-    position: relative;
-    top: .2em;
-    margin-right: .8rem;
-    display: grid;
-    place-content: center;
-  }
-
-  ul[data-type="taskList"] li[data-checked="true"] > div > p {
-    color: rgba(var(--theme-400));
-    text-decoration: line-through;
-    text-decoration-thickness: 2px;
-  }
-
-}
-
-.dark .tiptap-wrap .ProseMirror {
-  p.is-editor-empty:first-child::before,
-  p.is-empty::before {
-    color: rgba(var(--theme-500) / 0.8);
-  }
 }
 </style>

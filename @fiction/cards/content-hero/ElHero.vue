@@ -81,6 +81,7 @@ const overlays = vue.computed(() => uc.value.overlays || [])
           :class="layoutClasses.media.aspect"
           :media="uc.media"
           image-mode="inline"
+          class="w-full"
           :animate="true"
         />
 

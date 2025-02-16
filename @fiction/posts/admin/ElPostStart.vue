@@ -99,7 +99,7 @@ const stepConfig: StepConfig = {
           v-model="postDetails.title"
           input="InputText"
           :input-props="{
-            'placeholder': 'What would you like to write about?',
+            'placeholder': 'Enter a title',
             'aria-label': 'Post title',
           }"
           data-test-id="postTitleInput"

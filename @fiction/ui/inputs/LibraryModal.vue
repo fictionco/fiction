@@ -329,7 +329,7 @@ vue.onUnmounted(() => {
                 :model-value="currentSelection"
                 ui-size="md"
                 :options="filteredOptions"
-                @update:model-value="currentSelection = $event"
+                @update:model-value="selectMedia($event)"
               />
             </div>
           </div>

@@ -11,14 +11,16 @@ const {
   imageClass = '',
   animate = false,
   imageMode = 'cover',
+  constraint = 'width',
 } = defineProps<{
   media?: MediaObject
   imageClass?: string
   animate?: AnimateType
   imageMode?: ImageMode
+  constraint?: 'width' | 'height'
 }>()
 
-type ImageMode = 'inline' | 'cover' | 'contain'
+type ImageMode = 'inline' | 'cover' | 'contain' | 'inlineBlock'
 type AnimateType = 'swipe' | 'expand' | '' | boolean
 
 const logger = log.contextLogger('XMedia')
@@ -144,9 +146,23 @@ vue.onBeforeUnmount(() => {
 
 const attrs = vue.useAttrs()
 
-const cls = vue.computed(() => {
+const classes = vue.computed(() => {
   const c = (attrs.class as string) || ''
-  return c.includes('absolute') ? '' : 'relative'
+
+  const inlineImage = imageMode === 'inline'
+
+  // For inline mode, apply constraint-based classes
+  const inlineClasses = constraint === 'width'
+    ? 'w-full h-auto'
+    : 'h-full w-auto'
+
+  return {
+    container: c.includes('absolute') ? '' : 'relative',
+    wrap: inlineImage ? '' : 'h-full w-full',
+    media: inlineImage ? inlineClasses : 'absolute h-full w-full',
+    html: inlineImage ? inlineClasses : 'h-full w-full *:w-full *:h-full',
+    el: inlineImage ? inlineClasses : 'h-full w-full',
+  }
 })
 
 const filters = vue.computed(() => media?.filters || [])
@@ -197,7 +213,6 @@ const filterStyle = vue.computed(() => ({
   filter: filters.value.map(filter => `${filter.filter}(${filter.value ?? `${filter.percent}%`})`).join(' '),
 }))
 
-const inlineImage = vue.computed(() => imageMode === 'inline')
 const imageModeClass = vue.computed(() => imageMode === 'contain' ? 'object-contain' : 'object-cover')
 
 const aspectClass = vue.computed(() => {
@@ -235,7 +250,7 @@ async function videoHover(args: { mode: 'enter' | 'leave' }) {
 <template>
   <ClipPathAnim
     caller="media"
-    :class="[cls, aspectClass]"
+    :class="[classes.container, aspectClass]"
     :animate="animate"
     :data-format="mediaFormat || 'none'"
     :data-media-width="media?.width"
@@ -243,7 +258,7 @@ async function videoHover(args: { mode: 'enter' | 'leave' }) {
   >
     <div
       v-if="media"
-      :class="[!inlineImage ? 'h-full w-full' : 'flex', flipClass]"
+      :class="[classes.wrap, flipClass]"
       :style="[bgStyle]"
       :data-loading="loading"
     >
@@ -270,12 +285,12 @@ async function videoHover(args: { mode: 'enter' | 'leave' }) {
         :is="media.el"
         v-if="mediaFormat === 'component'"
         v-show="!loading"
-        :class="[imageClass, inlineImage ? '' : 'h-full w-full']"
+        :class="[imageClass, classes.el]"
       />
       <div
         v-else-if="mediaFormat === 'html'"
         v-show="!loading"
-        :class="[imageClass, inlineImage ? '' : 'h-full w-full *:w-full *:h-full']"
+        :class="[imageClass, classes.html]"
         v-html="media.html"
       />
       <video
@@ -286,7 +301,7 @@ async function videoHover(args: { mode: 'enter' | 'leave' }) {
         :class="[
           imageClass,
           imageModeClass,
-          inlineImage ? 'block w-full' : 'absolute h-full w-full',
+          classes.media,
           shouldHandleHover ? 'hover:opacity-90' : '',
         ]"
         :src="validMediaUrl"
@@ -299,7 +314,7 @@ async function videoHover(args: { mode: 'enter' | 'leave' }) {
         v-else-if="mediaFormat === 'image' && validMediaUrl"
         v-show="!loading"
         class="inset-0 z-0"
-        :class="[imageClass, imageModeClass, inlineImage ? 'block w-full' : 'absolute h-full w-full']"
+        :class="[imageClass, imageModeClass, classes.media]"
         :src="validMediaUrl"
         :style="filterStyle"
       >

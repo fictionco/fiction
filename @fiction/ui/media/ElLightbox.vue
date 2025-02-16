@@ -103,13 +103,17 @@ function previousItem() {
           </button>
         </div>
 
-        <div ref="animatedDivRef" class="relative  h-[80vh] w-[80vw] md:w-[80dvw] flex flex-col gap-6 rounded-xl justify-center">
-          <div class="relative w-full flex justify-center">
+        <div
+          ref="animatedDivRef"
+          class="relative min-h-0 h-[90vh] w-[80vw] md:w-[80dvw] flex flex-col gap-6 rounded-xl justify-center py-6"
+        >
+          <div class="relative w-full flex justify-center shrink min-h-0 h-full">
             <XMedia
               ref="mediaRef"
               :animate="true"
-              class="max-h-[70vh] mx-auto flex justify-center"
+              class="max-h-[70vh] mx-auto flex justify-center h-full"
               image-mode="inline"
+              constraint="height"
               :media="activeItem.media"
             />
             <div class="absolute inset-0 grid grid-cols-2 z-10">

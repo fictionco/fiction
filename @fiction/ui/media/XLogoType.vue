@@ -177,7 +177,6 @@ vue.onBeforeUnmount(() => {
     v-if="variant === 'media'"
     :data-media-format="mediaFormat || 'none'"
     :data-media-url="media?.url || 'no-url'"
-    image-mode="inline"
     :class="mediaClass"
   >
     <!-- Image/URL Format -->

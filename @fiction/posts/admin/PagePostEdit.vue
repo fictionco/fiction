@@ -141,9 +141,7 @@ async function resetToPublished() {
         </XButton>
       </template>
       <template #default>
-        <div v-if="post">
-          <ElPostEditor :post :card />
-        </div>
+        <ElPostEditor :post :card />
       </template>
     </ViewEditor>
     <ElModal v-model:vis="vis" modal-class="max-w-screen-md p-24 ">

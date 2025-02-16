@@ -14,6 +14,7 @@ const {
   suffix = '',
   fallback = '',
   mode = 'text',
+  disableFormatting = false,
 } = defineProps<{
   tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'div' | 'span' | 'p' | 'a' | 'RouterLink'
   placeholder?: string
@@ -24,6 +25,7 @@ const {
   suffix?: string
   fallback?: string
   mode?: InputModes
+  disableFormatting?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -68,6 +70,14 @@ function handleBlur() {
 }
 
 function inputValidations(inputValue: string) {
+  if (!inputValue || inputValue.trim() === '<br>')
+    return ''
+
+  if (disableFormatting) {
+    // Strip all HTML tags and normalize whitespace to single spaces
+    inputValue = inputValue.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ')
+  }
+
   switch (mode) {
     case 'number':
       inputValue = inputValue.replace(/[^0-9.]/g, '')
@@ -191,6 +201,11 @@ function render() {
         onClick: () => setIsEditing('click'),
         onFocus: () => setIsEditing('focus'),
         onBlur: handleBlur,
+        onKeydown: (event: KeyboardEvent) => {
+          if (event.key === 'Enter' && disableFormatting) {
+            event.preventDefault()
+          }
+        },
       }
     : {}
 

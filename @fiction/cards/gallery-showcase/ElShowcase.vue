@@ -191,7 +191,6 @@ function next() {
                   />
                 </div>
               </div>
-              <div />
             </div>
           </div>
         </transition>

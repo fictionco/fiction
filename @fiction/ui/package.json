@@ -10,6 +10,7 @@
     "@tiptap/extension-code": "^2.11.5",
     "@tiptap/extension-code-block": "^2.11.5",
     "@tiptap/extension-color": "^2.11.5",
+    "@tiptap/extension-document": "^2.11.5",
     "@tiptap/extension-focus": "^2.11.5",
     "@tiptap/extension-highlight": "^2.11.5",
     "@tiptap/extension-horizontal-rule": "^2.11.5",

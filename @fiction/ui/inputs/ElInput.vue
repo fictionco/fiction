@@ -105,6 +105,7 @@ const cls = vue.computed(() => {
     sm: { labelSize: 'text-[11px]' },
     md: { labelSize: 'text-xs' },
     lg: { labelSize: 'text-sm' },
+    xl: { labelSize: 'text-base' },
   }
 
   return map[size as keyof typeof map] || map.md

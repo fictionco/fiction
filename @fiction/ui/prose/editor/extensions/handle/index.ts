@@ -4,10 +4,9 @@ import type {
   GlobalDragHandleOptions,
 } from './utils'
 import { Extension } from '@tiptap/core'
-import { Fragment, Slice } from '@tiptap/pm/model'
+import { DOMSerializer, Fragment, Slice } from '@tiptap/pm/model'
 import { NodeSelection, Plugin, TextSelection } from '@tiptap/pm/state'
-// @ts-expect-error not exported publicly
-import { __serializeForClipboard } from '@tiptap/pm/view'
+
 import {
   absoluteRect,
   calcNodePos,
@@ -65,7 +64,25 @@ function DragHandle(options: GlobalDragHandleOptions) {
     }
 
     const slice = view.state.selection.content()
-    const { dom, text } = __serializeForClipboard(view, slice)
+    const serializer = DOMSerializer.fromSchema(view.state.schema)
+    const dom = document.createElement('div')
+    const fragment = serializer.serializeFragment(slice.content)
+
+    dom.appendChild(fragment)
+
+    // Clean up ProseMirror attributes
+    const elements = dom.querySelectorAll('*')
+    elements.forEach((el) => {
+      const attrs = el.attributes
+      for (let i = attrs.length - 1; i >= 0; i--) {
+        const name = attrs[i].name
+        if (name.startsWith('data-pm-')) {
+          el.removeAttribute(name)
+        }
+      }
+    })
+
+    const text = dom.textContent || dom.textContent || ''
 
     event.dataTransfer.clearData()
     event.dataTransfer.setData('text/html', dom.innerHTML)
