@@ -5,7 +5,6 @@ import { vue } from '@fiction/core'
 import XButton from '../../buttons/XButton.vue'
 import XDropDown from '../../common/XDropDown.vue'
 import ElInput from '../../inputs/ElInput.vue'
-import XIcon from '../../media/XIcon.vue'
 
 defineOptions({ name: 'ProseEditorToolbar' })
 
@@ -143,12 +142,6 @@ const textFormatItemsSecondary = vue.computed<NavListItem[]>(() => [
     onClick: () => editor.chain().focus(null, { scrollIntoView: false }).toggleStrike().run(),
   },
   {
-    label: 'Link',
-    isActive: editor.isActive('link'),
-    icon: { class: 'i-tabler-link' },
-    onClick: () => openLinkInput(),
-  },
-  {
     label: 'Image URL',
     isActive: editor.isActive('image'),
     icon: { class: 'i-tabler-photo' },
@@ -201,31 +194,31 @@ const headingItems = vue.computed<NavListItem[]>(() => [
     label: 'Paragraph',
     isActive: editor.isActive('paragraph'),
     icon: { class: 'i-tabler-text-recognition' },
-    onClick: () => editor.chain().setParagraph().run(),
+    onClick: () => editor.chain().setParagraph().focus(null, { scrollIntoView: false }).run(),
   },
   {
     label: 'Heading 1',
     isActive: editor.isActive('heading', { level: 1 }),
     icon: { class: 'i-tabler-h-1' },
-    onClick: () => editor.chain().toggleHeading({ level: 1 }).run(),
+    onClick: () => editor.chain().toggleHeading({ level: 1 }).focus(null, { scrollIntoView: false }).run(),
   },
   {
     label: 'Heading 2',
     isActive: editor.isActive('heading', { level: 2 }),
     icon: { class: 'i-tabler-h-2' },
-    onClick: () => editor.chain().toggleHeading({ level: 2 }).run(),
+    onClick: () => editor.chain().toggleHeading({ level: 2 }).focus(null, { scrollIntoView: false }).run(),
   },
   {
     label: 'Heading 3',
     isActive: editor.isActive('heading', { level: 3 }),
     icon: { class: 'i-tabler-h-3' },
-    onClick: () => editor.chain().toggleHeading({ level: 3 }).run(),
+    onClick: () => editor.chain().toggleHeading({ level: 3 }).focus(null, { scrollIntoView: false }).run(),
   },
   {
     label: 'Heading 4',
     isActive: editor.isActive('heading', { level: 4 }),
     icon: { class: 'i-tabler-h-4' },
-    onClick: () => editor.chain().toggleHeading({ level: 4 }).run(),
+    onClick: () => editor.chain().toggleHeading({ level: 4 }).focus(null, { scrollIntoView: false }).run(),
   },
 ])
 
@@ -234,50 +227,38 @@ const listItems = vue.computed<NavListItem[]>(() => [
     label: 'Bullet List',
     isActive: editor.isActive('bulletList'),
     icon: { class: 'i-tabler-list' },
-    onClick: () => editor.chain().toggleBulletList().run(),
+    onClick: () => editor.chain().toggleBulletList().focus(null, { scrollIntoView: false }).run(),
   },
   {
     label: 'Ordered List',
     isActive: editor.isActive('orderedList'),
     icon: { class: 'i-tabler-list-numbers' },
-    onClick: () => editor.chain().toggleOrderedList().run(),
+    onClick: () => editor.chain().toggleOrderedList().focus(null, { scrollIntoView: false }).run(),
   },
   {
     label: 'Blockquote',
     isActive: editor.isActive('blockquote'),
     icon: { class: 'i-tabler-quote' },
-    onClick: () => editor.chain().toggleBlockquote().run(),
+    onClick: () => editor.chain().toggleBlockquote().focus(null, { scrollIntoView: false }).run(),
   },
   {
     label: 'Code Block',
     isActive: editor.isActive('codeBlock'),
     icon: { class: 'i-tabler-code' },
-    onClick: () => editor.chain().toggleCodeBlock().run(),
+    onClick: () => editor.chain().toggleCodeBlock().focus(null, { scrollIntoView: false }).run(),
   },
   {
     label: 'Horizontal Rule',
     icon: { class: 'i-tabler-minus' },
-    onClick: () => editor.chain().setHorizontalRule().run(),
+    onClick: () => editor.chain().setHorizontalRule().focus(null, { scrollIntoView: false }).run(),
   },
   {
     label: 'Task List',
     isActive: editor.isActive('taskList'),
     icon: { class: 'i-tabler-list-check' },
-    onClick: () => editor.chain().toggleTaskList().run(),
+    onClick: () => editor.chain().toggleTaskList().focus(null, { scrollIntoView: false }).run(),
   },
 ])
-
-const activeHeadingType = vue.computed(() => {
-  if (editor.isActive('heading', { level: 1 }))
-    return { label: 'H1', icon: 'i-tabler-h-1' }
-  if (editor.isActive('heading', { level: 2 }))
-    return { label: 'H2', icon: 'i-tabler-h-2' }
-  if (editor.isActive('heading', { level: 3 }))
-    return { label: 'H3', icon: 'i-tabler-h-3' }
-  if (editor.isActive('heading', { level: 4 }))
-    return { label: 'H4', icon: 'i-tabler-h-4' }
-  return { label: 'Text', icon: 'i-tabler-align-left' }
-})
 
 function clearFormatting() {
   editor.chain().clearNodes().unsetAllMarks().run()
@@ -307,7 +288,7 @@ function clearFormatting() {
           <XButton
             size="xs"
             :theme="isActive ? 'primary' : 'default'"
-            icon="i-tabler-text-plus"
+            icon="i-tabler-text-increase"
             icon-after="i-tabler-chevron-down"
             rounding="md"
             title="More Formatting"
@@ -321,12 +302,12 @@ function clearFormatting() {
           <XButton
             size="xs"
             :theme="isActive ? 'primary' : 'default'"
-            icon="i-tabler-align-left"
+            :icon="alignmentItems.find((item) => item.isActive)?.icon || 'i-tabler-align-left'"
             icon-after="i-tabler-chevron-down"
             rounding="md"
             title="Text Alignment"
           >
-            <span class="hidden lg:inline">{{ activeHeadingType.label }}</span>
+            <span class="hidden lg:inline">{{ alignmentItems.find((item) => item.isActive)?.label }}</span>
           </XButton>
         </template>
       </XDropDown>
@@ -337,12 +318,12 @@ function clearFormatting() {
           <XButton
             size="xs"
             :theme="isActive ? 'primary' : 'default'"
-            :icon="activeHeadingType.icon"
+            :icon="headingItems.find((item) => item.isActive)?.icon || 'i-tabler-text-recognition'"
             icon-after="i-tabler-chevron-down"
             rounding="md"
-            :title="activeHeadingType.label"
+            :title="headingItems.find((item) => item.isActive)?.label"
           >
-            <span class="hidden lg:inline">{{ activeHeadingType.label }}</span>
+            <span class="hidden lg:inline">{{ headingItems.find((item) => item.isActive)?.label }}</span>
           </XButton>
         </template>
       </XDropDown>

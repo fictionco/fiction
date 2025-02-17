@@ -89,6 +89,7 @@ function setActiveHover(mode: 'on' | 'off') {
     clearTimeout(timeoutId)
 
   if (mode === 'on') {
+    resetUi({ scope: 'inputs', cause: 'dropdown', trigger: 'manualReset' })
     isHovered.value = true
   }
   else {
@@ -155,9 +156,9 @@ const wrapperClass = vue.computed(() => {
           >
             <a
               :href="item.href"
-              class="flex items-center cursor-pointer transition-all w-full text-left px-3 text-theme-700 dark:text-theme-200 hover:bg-theme-200 dark:hover:bg-theme-700/70 hover:text-theme-900 dark:hover:text-theme-100"
+              class="flex items-center cursor-pointer transition-all w-full text-left px-3 text-theme-700 dark:text-theme-200 "
               :class="[
-                item.isActive ? 'bg-theme-200 dark:bg-theme-600/70 text-theme-900 dark:text-theme-100' : '',
+                item.isActive ? 'bg-theme-200 dark:bg-primary-700/70 text-theme-900 dark:text-theme-100' : 'hover:bg-theme-200 dark:hover:bg-theme-600/50 hover:text-theme-900 dark:hover:text-theme-100',
                 sizeClasses.text,
               ]"
               role="menuitem"

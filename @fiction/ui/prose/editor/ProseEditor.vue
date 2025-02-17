@@ -4,7 +4,6 @@ import type { EditorSupplementary } from './utils/editor.js'
 import { isDarkOrLightMode, useService, vue } from '@fiction/core'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import { EditorContent, useEditor } from '@tiptap/vue-3'
-import BubbleMenuEngine from './el/BubbleMenuEngine.vue'
 import { getExtensions } from './extensions/index'
 
 defineOptions({ name: 'ProseEditor' })

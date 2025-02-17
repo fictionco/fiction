@@ -1,9 +1,8 @@
 import type { FictionAi } from '@fiction/plugin-ai'
 import type { Extensions } from '@tiptap/core'
 import type { EditorSupplementary } from '../utils/editor'
-import { InputRule, Node } from '@tiptap/core'
+import { InputRule } from '@tiptap/core'
 import CodeBlock from '@tiptap/extension-code-block'
-import Document from '@tiptap/extension-document'
 import Focus from '@tiptap/extension-focus'
 import HighlightText from '@tiptap/extension-highlight'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
@@ -39,6 +38,7 @@ export function getExtensions(args: {
     StarterKit.configure({
       codeBlock: false,
       horizontalRule: false,
+      dropcursor: { width: 2, class: 'rounded-lg text-theme-500 opacity-40 border-dashed' },
     }),
 
     Placeholder.configure({

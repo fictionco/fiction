@@ -1593,11 +1593,6 @@
         "LibraryIcon.vue": null,
         "LibraryMediaGallery.vue": null,
         "LibraryModal.vue": null,
-        "__InputItems.vue": null,
-        "__LibraryHtml.vue": null,
-        "__LibraryMedia.vue": null,
-        "__LibraryModal copy.vue": null,
-        "__LibraryModalOld.vue": null,
         "index.ts": null,
         "test": {
           "InputArray.unit.test.ts": null,
@@ -1643,6 +1638,7 @@
         "XProse.vue": null,
         "editor": {
           "ProseEditor.vue": null,
+          "ProseEditorToolbar.vue": null,
           "el": {
             "BubbleLinkMenu.vue": null,
             "BubbleMenuEngine.vue": null,
@@ -1650,6 +1646,7 @@
             "menu.ts": null
           },
           "extensions": {
+            "__index.ts": null,
             "ai": {
               "aiAutocomplete.ts": null,
               "aiHighlight.ts": null
