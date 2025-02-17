@@ -2,6 +2,7 @@
 import type { Card } from '@fiction/site'
 import type { AdminEditorController } from '../admin'
 import { resetUi, toLabel, vue } from '@fiction/core'
+import TransitionWidth from '@fiction/ui/anim/TransitionWidth.vue'
 import ElTooltip from '@fiction/ui/common/ElTooltip.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 
@@ -102,38 +103,44 @@ const contextTool = vue.computed(() => controller.activeTool.context.value)
             </div>
           </transition>
         </div>
-        <div @click="controller.useTool({ toolId: '' })">
-          <div
-            class="h-full min-h-0 block md:grid grid-flow-dense relative grid-rows-[minmax(0,1fr)] md:grid-cols-[1fr_300px] lg:grid-cols-[1fr_370px] xl:grid-cols-[1fr_400px] 2xl:grid-cols-[1fr_420px]"
-          >
-            <div class="cards relative h-full w-full overflow-scroll bg-theme-50/50 dark:bg-theme-800/60">
-              <div v-if="loading" class="">
-                <div class="text-theme-300 dark:text-theme-600 flex justify-center pt-32">
-                  <ElSpinner class="size-12" />
-                </div>
+        <!-- Content Area -->
+        <div class="flex flex-1 min-w-0" @click="controller.useTool({ toolId: '' })">
+          <div class="flex flex-1 min-w-0 relative">
+            <!-- Main Content -->
+            <div
+              class="flex-1 h-full overflow-scroll bg-theme-50/50 dark:bg-theme-800/60"
+            >
+              <div v-if="loading" class="pt-32 flex justify-center">
+                <ElSpinner class="size-12 text-theme-300 dark:text-theme-600" />
               </div>
               <template v-else>
                 <slot />
               </template>
             </div>
 
-            <div class="no-scrollbar hidden md:block bg-theme-0 dark:bg-theme-900 border-l border-theme-200 dark:border-theme-700 relative overflow-y-scroll overflow-x-clip">
-              <transition
-                mode="out-in"
-                enter-active-class="ease-out duration-200"
-                enter-from-class="transform scale-80 translate-y-4 opacity-0"
-                enter-to-class="transform translate-y-0 opacity-100"
-                leave-active-class="ease-in duration-200"
-                leave-from-class="transform translate-y-0 opacity-100"
-                leave-to-class="transform scale-80 translate-y-4 opacity-0"
+            <!-- Context Drawer -->
+            <TransitionWidth>
+              <div
+                v-show="!controller.hideContextDrawer.value && contextTool"
+                class="hidden md:block flex-none w-[300px] lg:w-[370px] xl:w-[400px] 2xl:w-[420px] bg-theme-0 dark:bg-theme-900 border-l border-theme-200 dark:border-theme-700 overflow-y-scroll overflow-x-clip no-scrollbar"
               >
-                <component
-                  :is="contextTool.el"
-                  v-if="contextTool"
-                  v-bind="{ card, controller, ...toolProps, tool: contextTool, ...contextTool.props?.(toolProps).value }"
-                />
-              </transition>
-            </div>
+                <transition
+                  mode="out-in"
+                  enter-active-class="ease-out duration-200"
+                  enter-from-class="transform scale-80 translate-y-4 opacity-0"
+                  enter-to-class="transform translate-y-0 opacity-100"
+                  leave-active-class="ease-in duration-200"
+                  leave-from-class="transform translate-y-0 opacity-100"
+                  leave-to-class="transform scale-80 translate-y-4 opacity-0"
+                >
+                  <component
+                    :is="contextTool.el"
+                    v-if="contextTool"
+                    v-bind="{ card, controller, ...toolProps, tool: contextTool, ...contextTool.props?.(toolProps).value }"
+                  />
+                </transition>
+              </div>
+            </TransitionWidth>
           </div>
         </div>
       </div>

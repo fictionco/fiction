@@ -51,6 +51,8 @@ export class AdminEditorController<T extends CardSurface = CardSurface> extends 
     super('AdminEditorController', settings)
   }
 
+  hideContextDrawer = vue.ref(false)
+
   activeToolId = { primary: vue.ref<string>(), context: vue.ref<string>() }
 
   defaultTool = {

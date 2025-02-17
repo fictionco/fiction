@@ -178,45 +178,45 @@ const options = vue.computed<InputOption[]>(() => {
             }),
           ],
         }),
-      ],
-    }),
-
-    createOption({
-      schema,
-      key: 'dangerZone',
-      label: 'Danger Zone',
-      input: 'group',
-      icon: { class: 'i-tabler-alert-triangle' },
-      isClosed: true,
-      options: [
         createOption({
-          key: 'deletePost',
-          label: 'Permanently Delete Post',
-          input: InputActionList,
-          props: {
-            buttons: [
-              {
-                label: 'Delete Post...',
-                theme: 'rose',
-                design: 'outline',
-                size: 'xs',
-                icon: 'i-tabler-trash',
-                onClick: (args) => {
-                  const p = args.props as { post: Post }
-                  const confirmed = confirm('Are you sure you want to delete this post?')
+          schema,
+          key: 'dangerZone',
+          label: 'Danger Zone',
+          input: 'group',
+          icon: { class: 'i-tabler-alert-triangle' },
+          isClosed: true,
+          options: [
+            createOption({
+              key: 'deletePost',
+              label: 'Permanently Delete Post',
+              input: InputActionList,
+              props: {
+                buttons: [
+                  {
+                    label: 'Delete Post...',
+                    theme: 'rose',
+                    design: 'outline',
+                    size: 'xs',
+                    icon: 'i-tabler-trash',
+                    onClick: (args) => {
+                      const p = args.props as { post: Post }
+                      const confirmed = confirm('Are you sure you want to delete this post?')
 
-                  if (confirmed) {
-                    p.post?.delete()
-                    props.card.goto('/posts')
-                  }
-                },
+                      if (confirmed) {
+                        p.post?.delete()
+                        props.card.goto('/posts')
+                      }
+                    },
+                  },
+                ] as ActionButton[],
               },
-            ] as ActionButton[],
-          },
-        }),
+            }),
 
+          ],
+        }),
       ],
     }),
+
   ]
 })
 
