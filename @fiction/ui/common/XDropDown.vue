@@ -3,6 +3,7 @@ import type { NavListItem, StandardSize } from '@fiction/core'
 import { onResetUi, resetUi, useService, vue } from '@fiction/core'
 import { twMerge } from 'tailwind-merge'
 import TransitionSlide from '../anim/TransitionSlide.vue'
+import XIcon from '../media/XIcon.vue'
 
 const {
   items = [],
@@ -104,13 +105,13 @@ const isActive = vue.computed({
 
 const sizeClasses = vue.computed(() => {
   const sizeClasses = {
-    'xxs': { text: 'text-[10px] py-1' },
-    'xs': { text: 'text-[11px] py-1' },
-    'sm': { text: 'text-xs py-1.5' },
-    'md': { text: 'text-sm py-1.5' },
-    'lg': { text: 'text-base py-1.5' },
-    'xl': { text: 'text-lg py-1.5' },
-    '2xl': { text: 'text-xl py-1.5' },
+    'xxs': { text: 'text-[10px] py-1 gap-0.5' },
+    'xs': { text: 'text-[11px] py-1 gap-1' },
+    'sm': { text: 'text-xs py-1.5 gap-1' },
+    'md': { text: 'text-sm py-1.5 gap-1.5' },
+    'lg': { text: 'text-base py-1.5 gap-2' },
+    'xl': { text: 'text-lg py-1.5 gap-2' },
+    '2xl': { text: 'text-xl py-1.5 gap-3' },
   }
 
   return {
@@ -154,7 +155,7 @@ const wrapperClass = vue.computed(() => {
           >
             <a
               :href="item.href"
-              class="block cursor-pointer transition-all w-full text-left px-3 text-theme-700 dark:text-theme-200 hover:bg-theme-200 dark:hover:bg-theme-700/70 hover:text-theme-900 dark:hover:text-theme-100"
+              class="flex items-center cursor-pointer transition-all w-full text-left px-3 text-theme-700 dark:text-theme-200 hover:bg-theme-200 dark:hover:bg-theme-700/70 hover:text-theme-900 dark:hover:text-theme-100"
               :class="[
                 item.isActive ? 'bg-theme-200 dark:bg-theme-600/70 text-theme-900 dark:text-theme-100' : '',
                 sizeClasses.text,
@@ -163,7 +164,8 @@ const wrapperClass = vue.computed(() => {
               :data-test-id="item.testId"
               @click.prevent="handleItemClick({ item, event: $event })"
             >
-              {{ item.label }}
+              <XIcon v-if="item.icon" :media="item.icon" />
+              <span>{{ item.label }}</span>
             </a>
           </template>
         </div>

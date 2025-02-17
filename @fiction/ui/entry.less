@@ -65,10 +65,9 @@
   }
 
   a {
-    @apply text-primary-600;
-
+    @apply underline underline-offset-2;
     &:hover {
-      @apply opacity-60;
+      opacity: 0.8;
     }
   }
 
@@ -128,7 +127,15 @@
     }
 
     img {
-      @apply mb-0 rounded-md border border-theme-200;
+      @apply mt-0 mb-0 rounded-md border border-theme-200;
+    }
+  }
+
+  &.dark {
+    figure {
+      img {
+        @apply border-theme-800;
+      }
     }
   }
 

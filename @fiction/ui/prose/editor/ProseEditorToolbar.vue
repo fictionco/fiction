@@ -4,37 +4,155 @@ import type { Editor } from '@tiptap/core'
 import { vue } from '@fiction/core'
 import XButton from '../../buttons/XButton.vue'
 import XDropDown from '../../common/XDropDown.vue'
+import ElInput from '../../inputs/ElInput.vue'
 import XIcon from '../../media/XIcon.vue'
+
+defineOptions({ name: 'ProseEditorToolbar' })
 
 const { editor } = defineProps<{
   editor: Editor
 }>()
 
+const showLinkInput = vue.ref(false)
+const showImageInput = vue.ref(false)
+const linkUrl = vue.ref('')
+const imageUrl = vue.ref('')
+
+// Functions to handle link editing
+function openLinkInput() {
+  const attrs = editor.getAttributes('link')
+  linkUrl.value = attrs.href || ''
+  showLinkInput.value = true
+  showImageInput.value = false
+  // Focus input after render
+  vue.nextTick(() => {
+    const input = document.querySelector<HTMLInputElement>('.link-input')
+    input?.focus({ preventScroll: true })
+    input?.select()
+  })
+}
+
+function handleLinkSubmit() {
+  if (!linkUrl.value) {
+    removeLink()
+    return
+  }
+
+  const url = encodeURIComponent(linkUrl.value.trim().replace(/^https?:\/\//, '').replace(/\/$/, ''))
+  const href = `https://${url}`
+  editor.chain().focus(null, { scrollIntoView: false }).setLink({ href }).run()
+  linkUrl.value = ''
+  showLinkInput.value = false
+}
+
+// Functions to handle image editing
+function openImageInput() {
+  const attrs = editor.getAttributes('image')
+  imageUrl.value = attrs.src || ''
+  showImageInput.value = true
+  showLinkInput.value = false
+  // Focus input after render
+  vue.nextTick(() => {
+    const input = document.querySelector<HTMLInputElement>('.image-input')
+    input?.focus({ preventScroll: true })
+    input?.select()
+  })
+}
+
+function handleImageSubmit() {
+  if (!imageUrl.value) {
+    removeImage()
+    return
+  }
+
+  const url = imageUrl.value.trim()
+  editor.chain().focus(null, { scrollIntoView: false }).setImage({ src: url }).run()
+  imageUrl.value = ''
+  showImageInput.value = false
+}
+
+// Remove functions
+function removeLink() {
+  editor.chain().focus(null, { scrollIntoView: false }).unsetLink().run()
+  showLinkInput.value = false
+}
+
+function removeImage() {
+  editor.chain().focus(null, { scrollIntoView: false }).deleteSelection().run()
+  showImageInput.value = false
+}
+
+// Close dialogs when selection changes
+vue.watch(() => editor.state.selection, () => {
+  showLinkInput.value = false
+  showImageInput.value = false
+})
+
 // Text formatting dropdown items
-const textFormatItems = vue.computed<NavListItem[]>(() => [
+const textFormatItemsPrimary = vue.computed<NavListItem[]>(() => [
   {
     label: 'Bold',
     isActive: editor.isActive('bold'),
     icon: { class: 'i-tabler-bold' },
-    onClick: () => editor.chain().toggleBold().run(),
+    onClick: () => editor.chain().focus(null, { scrollIntoView: false }).toggleBold().run(),
   },
   {
     label: 'Italic',
     isActive: editor.isActive('italic'),
     icon: { class: 'i-tabler-italic' },
-    onClick: () => editor.chain().toggleItalic().run(),
+    onClick: () => editor.chain().focus(null, { scrollIntoView: false }).toggleItalic().run(),
+  },
+
+  {
+    label: 'Underline',
+    isActive: editor.isActive('underline'),
+    icon: { class: 'i-tabler-underline' },
+    onClick: () => editor.chain().focus(null, { scrollIntoView: false }).toggleUnderline().run(),
   },
   {
-    label: 'Strike',
-    isActive: editor.isActive('strike'),
-    icon: { class: 'i-tabler-strikethrough' },
-    onClick: () => editor.chain().toggleStrike().run(),
+    label: 'Link',
+    isActive: editor.isActive('link'),
+    icon: { class: 'i-tabler-link' },
+    onClick: () => openLinkInput(),
   },
   {
     label: 'Inline Code',
     isActive: editor.isActive('code'),
     icon: { class: 'i-tabler-code' },
-    onClick: () => editor.chain().toggleCode().run(),
+    onClick: () => editor.chain().focus(null, { scrollIntoView: false }).toggleCode().run(),
+  },
+  {
+    label: 'Image Upload',
+    isActive: editor.isActive('image'),
+    icon: { class: 'i-tabler-photo-up' },
+    onClick: () => {
+      editor.chain().focus(null, { scrollIntoView: false }).insertContent({
+        type: 'xImage',
+        attrs: { /* attributes if any */ },
+      }).run()
+    },
+  },
+])
+
+// Text formatting dropdown items
+const textFormatItemsSecondary = vue.computed<NavListItem[]>(() => [
+  {
+    label: 'Strike',
+    isActive: editor.isActive('strike'),
+    icon: { class: 'i-tabler-strikethrough' },
+    onClick: () => editor.chain().focus(null, { scrollIntoView: false }).toggleStrike().run(),
+  },
+  {
+    label: 'Link',
+    isActive: editor.isActive('link'),
+    icon: { class: 'i-tabler-link' },
+    onClick: () => openLinkInput(),
+  },
+  {
+    label: 'Image URL',
+    isActive: editor.isActive('image'),
+    icon: { class: 'i-tabler-photo' },
+    onClick: () => openImageInput(),
   },
   {
     label: 'Superscript',
@@ -82,7 +200,7 @@ const headingItems = vue.computed<NavListItem[]>(() => [
   {
     label: 'Paragraph',
     isActive: editor.isActive('paragraph'),
-    icon: { class: 'i-tabler-align-left' },
+    icon: { class: 'i-tabler-text-recognition' },
     onClick: () => editor.chain().setParagraph().run(),
   },
   {
@@ -111,26 +229,6 @@ const headingItems = vue.computed<NavListItem[]>(() => [
   },
 ])
 
-const blockItems = vue.computed<NavListItem[]>(() => [
-  {
-    label: 'Blockquote',
-    isActive: editor.isActive('blockquote'),
-    icon: { class: 'i-tabler-quote' },
-    onClick: () => editor.chain().toggleBlockquote().run(),
-  },
-  {
-    label: 'Code Block',
-    isActive: editor.isActive('codeBlock'),
-    icon: { class: 'i-tabler-code-box' },
-    onClick: () => editor.chain().toggleCodeBlock().run(),
-  },
-  {
-    label: 'Horizontal Rule',
-    icon: { class: 'i-tabler-minus' },
-    onClick: () => editor.chain().setHorizontalRule().run(),
-  },
-])
-
 const listItems = vue.computed<NavListItem[]>(() => [
   {
     label: 'Bullet List',
@@ -143,6 +241,23 @@ const listItems = vue.computed<NavListItem[]>(() => [
     isActive: editor.isActive('orderedList'),
     icon: { class: 'i-tabler-list-numbers' },
     onClick: () => editor.chain().toggleOrderedList().run(),
+  },
+  {
+    label: 'Blockquote',
+    isActive: editor.isActive('blockquote'),
+    icon: { class: 'i-tabler-quote' },
+    onClick: () => editor.chain().toggleBlockquote().run(),
+  },
+  {
+    label: 'Code Block',
+    isActive: editor.isActive('codeBlock'),
+    icon: { class: 'i-tabler-code' },
+    onClick: () => editor.chain().toggleCodeBlock().run(),
+  },
+  {
+    label: 'Horizontal Rule',
+    icon: { class: 'i-tabler-minus' },
+    onClick: () => editor.chain().setHorizontalRule().run(),
   },
   {
     label: 'Task List',
@@ -170,12 +285,12 @@ function clearFormatting() {
 </script>
 
 <template>
-  <div class="prose-toolbar ">
+  <div class="prose-toolbar relative">
     <div class="flex flex-wrap items-center gap-1 p-1">
       <!-- Common Format Buttons -->
       <div class="flex items-center gap-1">
         <XButton
-          v-for="item in textFormatItems.slice(0, 3)"
+          v-for="item in textFormatItemsPrimary"
           :key="item.label"
           size="xs"
           :icon="item.icon"
@@ -187,7 +302,7 @@ function clearFormatting() {
       </div>
 
       <!-- More Text Formatting -->
-      <XDropDown :items="textFormatItems.slice(3)" mode="hover" placement="bottom">
+      <XDropDown :items="textFormatItemsSecondary" mode="hover" placement="bottom">
         <template #default="{ isActive }">
           <XButton
             size="xs"
@@ -210,7 +325,9 @@ function clearFormatting() {
             icon-after="i-tabler-chevron-down"
             rounding="md"
             title="Text Alignment"
-          />
+          >
+            <span class="hidden lg:inline">{{ activeHeadingType.label }}</span>
+          </XButton>
         </template>
       </XDropDown>
 
@@ -246,22 +363,6 @@ function clearFormatting() {
         </template>
       </XDropDown>
 
-      <!-- Block Elements -->
-      <XDropDown :items="blockItems" mode="hover" placement="bottom">
-        <template #default="{ isActive }">
-          <XButton
-            size="xs"
-            :theme="isActive ? 'primary' : 'default'"
-            icon="i-tabler-box"
-            icon-after="i-tabler-chevron-down"
-            rounding="md"
-            title="Block Elements"
-          >
-            <span class="hidden lg:inline">Block</span>
-          </XButton>
-        </template>
-      </XDropDown>
-
       <!-- Clear Formatting -->
       <XButton
         size="xs"
@@ -289,6 +390,64 @@ function clearFormatting() {
           title="Redo"
           @click.prevent="editor.chain().redo().run()"
         />
+      </div>
+
+      <!-- Link Input Dialog -->
+      <div
+        v-if="showLinkInput"
+        class="absolute z-50 top-full left-0 mt-1 bg-white dark:bg-theme-800 rounded-md shadow-lg p-2"
+      >
+        <div class="flex gap-2">
+          <ElInput
+            v-model="linkUrl"
+            input="InputText"
+            :placeholder="editor.isActive('link') ? 'Edit link URL' : 'Enter URL'"
+            @keydown.enter="handleLinkSubmit"
+            @keydown.esc="showLinkInput = false"
+          />
+          <XButton
+            size="xs"
+            icon="i-tabler-check"
+            theme="primary"
+            rounding="md"
+            @click="handleLinkSubmit"
+          />
+          <XButton
+            v-if="editor.isActive('link')"
+            size="xs"
+            icon="i-tabler-unlink"
+            rounding="md"
+            @click="removeLink"
+          />
+        </div>
+      </div>
+
+      <!-- Image Input Dialog -->
+      <div
+        v-if="showImageInput"
+        class="absolute z-50 top-full left-0 mt-1 bg-white dark:bg-theme-800 rounded-md shadow-lg p-2"
+      >
+        <div class="flex gap-2">
+          <ElInput
+            v-model="imageUrl"
+            input="InputUrl"
+            :placeholder="editor.isActive('image') ? 'Edit image URL' : 'Enter image URL'"
+            @keydown.enter="handleImageSubmit"
+            @keydown.esc="showImageInput = false"
+          />
+          <XButton
+            size="xs"
+            icon="i-tabler-check"
+            theme="primary"
+            @click="handleImageSubmit"
+          />
+          <XButton
+            v-if="editor.isActive('image')"
+            size="xs"
+            icon="i-tabler-trash"
+            @click="removeImage"
+          />
+        </div>
       </div>
     </div>
   </div>

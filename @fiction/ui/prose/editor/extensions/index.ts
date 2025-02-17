@@ -8,6 +8,7 @@ import Focus from '@tiptap/extension-focus'
 import HighlightText from '@tiptap/extension-highlight'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
 import ImageUrl from '@tiptap/extension-image'
+import TextLink from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
 import Subscript from '@tiptap/extension-subscript'
 import Superscript from '@tiptap/extension-superscript'
@@ -57,6 +58,7 @@ export function getExtensions(args: {
     TextUnderline,
     ImageUrl,
     HighlightText,
+    TextLink,
     TextAlign.configure({
       types: ['heading', 'paragraph'],
       defaultAlignment: 'left',

@@ -41,12 +41,11 @@ const editor = useEditor({
 })
 
 const tt = vue.ref<HTMLElement>()
-const isDarkMode = vue.ref(false)
+const darkLightModeClass = vue.ref()
 vue.onMounted(() => {
   if (tt.value) {
     const md = isDarkOrLightMode(tt.value)
-    tt.value.classList.add(md)
-    isDarkMode.value = md === 'dark'
+    darkLightModeClass.value = md
   }
 
   vue.watch(() => modelValue, (v) => {
@@ -64,7 +63,7 @@ defineExpose({ editor })
   <div
     ref="tt"
     class="tiptap-wrap prose-entry"
-    :class="isDarkMode ? 'dark' : 'light'"
+    :class="darkLightModeClass"
     :data-ai-disabled="isContentCompletionDisabled ? 1 : 0"
   >
     <div
