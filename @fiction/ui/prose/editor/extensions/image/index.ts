@@ -72,9 +72,13 @@ export const xImage = Node.create({
 
     return [
       'figure',
-      mergeAttributes({ 'data-x-image': '', 'style': figureStyle }),
+      mergeAttributes({
+        'data-x-image': '',
+        'style': figureStyle,
+      }),
       ['div', { class: 'media-wrapper', style: wrapperStyle }, mediaElement],
       ['figcaption', { style: 'font-size: 0.8em;' }, node.attrs.caption || ''],
     ]
   },
+
 })

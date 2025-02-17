@@ -19,6 +19,7 @@ import TextStyle from '@tiptap/extension-text-style'
 import TextUnderline from '@tiptap/extension-underline'
 import StarterKit from '@tiptap/starter-kit'
 import { AutocompleteExtension } from './ai/aiAutocomplete'
+import CustomDragHangle from './handle'
 import { xImage } from './image'
 
 export function getExtensions(args: {
@@ -29,6 +30,7 @@ export function getExtensions(args: {
   const { fictionAi, getSupplemental, checkContentCompletionDisabled } = args
   return [
     xImage,
+    CustomDragHangle,
     AutocompleteExtension.configure({
       fictionAi,
       getSupplemental,
@@ -38,6 +40,7 @@ export function getExtensions(args: {
       codeBlock: false,
       horizontalRule: false,
     }),
+
     Placeholder.configure({
       placeholder: ({ node }) => {
         if (node.type.name === 'heading') {

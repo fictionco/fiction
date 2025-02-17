@@ -53,7 +53,7 @@ const classes = vue.computed(() => {
 
 <template>
   <div v-if="post" class="h-full">
-    <div class="p-4 space-y-4 ">
+    <div class="p-4 space-y-4 flex flex-col h-full">
       <div
         class=" flex justify-between space-x-2 "
       >
@@ -146,7 +146,7 @@ const classes = vue.computed(() => {
           </div>
         </div>
         <div class="relative max-h-[100%] overflow-scroll w-full aspect-[3/4] min-h-0 dark:bg-theme-950/80 no-scrollbar">
-          <div class="py-12 md:py-16 px-12 max-w-[900px] mx-auto focus:outline-none space-y-6">
+          <div class="py-12 md:py-16 px-12 max-w-[76ch] mx-auto focus:outline-none space-y-6">
             <ProseEditor
               ref="proseEditorEl"
               :model-value="post.content.value"

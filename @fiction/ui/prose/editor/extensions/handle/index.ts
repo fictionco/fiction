@@ -4,7 +4,7 @@ import type {
   GlobalDragHandleOptions,
 } from './utils'
 import { Extension } from '@tiptap/core'
-import { DOMSerializer, Fragment, Slice } from '@tiptap/pm/model'
+import { Fragment, Slice } from '@tiptap/pm/model'
 import { NodeSelection, Plugin, TextSelection } from '@tiptap/pm/state'
 
 import {
@@ -17,9 +17,7 @@ import {
   openMenuFromDragHandle,
 } from './utils'
 
-const plus = `<svg  class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-</svg>`
+const plus = `<svg class="size-[1em]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a1 1 0 1 0 2 0a1 1 0 1 0-2 0m0 7a1 1 0 1 0 2 0a1 1 0 1 0-2 0m0 7a1 1 0 1 0 2 0a1 1 0 1 0-2 0m6-14a1 1 0 1 0 2 0a1 1 0 1 0-2 0m0 7a1 1 0 1 0 2 0a1 1 0 1 0-2 0m0 7a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/></svg>`
 
 function DragHandle(options: GlobalDragHandleOptions) {
   let listType = ''
@@ -64,25 +62,8 @@ function DragHandle(options: GlobalDragHandleOptions) {
     }
 
     const slice = view.state.selection.content()
-    const serializer = DOMSerializer.fromSchema(view.state.schema)
-    const dom = document.createElement('div')
-    const fragment = serializer.serializeFragment(slice.content)
 
-    dom.appendChild(fragment)
-
-    // Clean up ProseMirror attributes
-    const elements = dom.querySelectorAll('*')
-    elements.forEach((el) => {
-      const attrs = el.attributes
-      for (let i = attrs.length - 1; i >= 0; i--) {
-        const name = attrs[i].name
-        if (name.startsWith('data-pm-')) {
-          el.removeAttribute(name)
-        }
-      }
-    })
-
-    const text = dom.textContent || dom.textContent || ''
+    const { dom, text } = view.serializeForClipboard(slice)
 
     event.dataTransfer.clearData()
     event.dataTransfer.setData('text/html', dom.innerHTML)
@@ -116,11 +97,11 @@ function DragHandle(options: GlobalDragHandleOptions) {
         'absolute',
         'transition-opacity',
         'size-[1.5em]',
-        'text-theme-500',
-        'dark:text-theme-500',
+        'text-theme-500/50',
+        'dark:text-theme-500/50',
       )
 
-      const btnClass = ['add-button', 'cursor-grab', 'hover:text-primary-500', 'dark:hover:text-theme-0', 'hover:bg-theme-100', 'dark:hover:bg-theme-700', 'rounded-lg', 'transition-colors', 'duration-200']
+      const btnClass = ['add-button', 'cursor-grab', 'hover:text-primary-500', 'dark:hover:text-theme-500', 'hover:bg-theme-100', 'dark:hover:bg-theme-700', 'rounded-lg', 'transition-colors', 'duration-200']
       addItemElement = document.createElement('div')
       addItemElement.classList.add('add-button', 'cursor-grab', ...btnClass)
       addItemElement.innerHTML = plus

@@ -205,7 +205,7 @@ const tagInput = vue.ref<HTMLInputElement>()
 
 <template>
   <div class="space-y-3">
-    <div class="flex items-center gap-2">
+    <div class="flex items-stretch gap-2">
       <!-- Main input container -->
       <div :class="containerStyles" @click.self="$refs.tagInput.focus()">
         <EffectDraggableSort
@@ -243,7 +243,7 @@ const tagInput = vue.ref<HTMLInputElement>()
             v-model="inputText"
             type="text"
             :placeholder="modelValue?.length ? '' : (placeholder || 'Add...')"
-            class="flex-1 min-w-[80px] p-2 font-mono text-sm"
+            class="flex-1 min-w-[80px] p-1 font-mono text-sm"
             :class="inputClasses({ uiSize }).reset"
             @keydown="handleKeydown"
             @input="handleInputChange"

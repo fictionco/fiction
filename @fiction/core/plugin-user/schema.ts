@@ -25,7 +25,7 @@ export const userColumns = [
   new Col({ key: 'verify', sec: 'authority', sch: () => z.object({ code: z.string(), expiresAt: z.string(), context: z.string().optional() }) as z.Schema<VerificationCode>, make: ({ s, col }) => s.jsonb(col.k) }),
   new Col({ key: 'avatar', sec: 'setting', sch: () => MediaDisplaySchema, make: ({ s, col }) => s.jsonb(col.k) }),
   new Col({ key: 'invitedById', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.user}.user_id`) }),
-  new Col({ key: 'loadOrgId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.org}.org_id`).onDelete('SET NULL') }),
+  new Col({ key: 'loadOrgId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'lastSeenAt', sec: 'setting', sch: () => z.string(), make: ({ s, col, db }) => s.dateTime(col.k).defaultTo(db.fn.now()) }),
   new Col({ key: 'isSuperAdmin', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
   new Col({ key: 'pushSubscription', sec: 'setting', sch: () => z.any() as z.Schema<PushSubscriptionDetail>, make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(value) }),
@@ -44,7 +44,6 @@ export const userColumns = [
   new Col({ key: 'systemRole', sch: () => UserRoleEnum, make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('subscriber') }),
   new Col({ key: 'needsOnboarding', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
   new Col({ key: 'onboard', sec: 'setting', sch: () => z.record(z.string(), z.any()) as z.Schema<OnboardSettings>, make: ({ s, col }) => s.jsonb(col.k) }),
-
 ] as const
 
 export const orgColumns = [
@@ -88,19 +87,20 @@ export const membersColumns = [
   new Col({ key: 'needsOnboarding', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
 ] as const
 
-export const orgTable = new FictionDbTable({
-  tableKey: t.org,
-  timestamps: true,
-  cols: orgColumns,
-  priority: 20,
-})
-
 export const userTable = new FictionDbTable({
   tableKey: t.user,
   timestamps: true,
   cols: userColumns,
+  priority: 20,
+})
+
+export const orgTable = new FictionDbTable({
+  tableKey: t.org,
+  timestamps: true,
+  cols: orgColumns,
   priority: 40,
 })
+
 export const membersTable = new FictionDbTable({
   tableKey: t.member,
   timestamps: true,

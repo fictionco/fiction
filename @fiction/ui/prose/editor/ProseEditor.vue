@@ -30,7 +30,8 @@ const editor = useEditor({
     getSupplemental: () => supplemental,
     checkContentCompletionDisabled: () => isContentCompletionDisabled,
   }),
-  editorProps: { attributes: { class: 'focus:outline-none' } },
+  // the margin helps with drag hover UX / focus outline prevents rings from appearing awkwardly
+  editorProps: { attributes: { class: 'ml-[-4em] mr-[-4em] pl-[4em] pr-[4em] focus:outline-none' } },
   onUpdate: ({ editor }) => {
     const html = editor.getHTML()
     if (html !== modelValue)
@@ -120,6 +121,26 @@ defineExpose({ editor })
 
   .dark .is-empty:not(:has(.autocomplete-suggestion))::before {
     color: rgba(var(--theme-700) / .5);
+  }
+
+  // for editing text in image component, etc.
+  [contentEditable="true"]:focus{
+    outline: none;
+  }
+  [contentEditable="true"]:empty {
+    &::before {
+      content: attr(placeholder);
+      opacity: 0.4;
+    }
+
+    &:hover:not(:focus)::before {
+      cursor: pointer;
+      opacity: 0.65;
+    }
+
+    &:focus::before {
+      opacity: 0.2;
+    }
   }
 
 }
