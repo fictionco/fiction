@@ -94,6 +94,7 @@ function DragHandle(options: GlobalDragHandleOptions) {
         'handle-container',
         'flex',
         'items-center',
+        'justify-end',
         'absolute',
         'transition-opacity',
         'size-[1.5em]',

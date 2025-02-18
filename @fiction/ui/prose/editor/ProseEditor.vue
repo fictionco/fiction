@@ -62,7 +62,7 @@ defineExpose({ editor })
 <template>
   <div
     ref="tt"
-    class="tiptap-wrap prose-entry"
+    class="tiptap-wrap prose-entry @container/prose"
     :class="darkLightModeClass"
     :data-ai-disabled="isContentCompletionDisabled ? 1 : 0"
   >
@@ -75,7 +75,7 @@ defineExpose({ editor })
     <template v-else>
       <!-- <BubbleMenuEngine :editor="editor" /> -->
 
-      <EditorContent class="text-lg focus:outline-none" :editor="editor" data-test-id="prose-editor-content" />
+      <EditorContent class="text-sm @[500px]/prose:text-base @[1000px]/prose:text-lg focus:outline-none" :editor="editor" data-test-id="prose-editor-content" />
     </template>
   </div>
 </template>

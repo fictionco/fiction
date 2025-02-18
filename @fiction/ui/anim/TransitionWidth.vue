@@ -1,30 +1,57 @@
 <script lang="ts" setup>
 defineOptions({ name: 'TransitionWidth' })
 
-type ElementStyles = Pick<CSSStyleDeclaration, 'width' | 'overflow'>
+// Cache initial values to avoid reflows
+type CachedState = {
+  width: string
+  hasBeenMeasured: boolean
+}
+
+const cache = new WeakMap<HTMLElement, CachedState>()
+
+function cacheWidth(el: HTMLElement): CachedState {
+  if (!cache.has(el)) {
+    // Get computed width once and cache it
+    const width = el.getAttribute('data-width') || getComputedStyle(el).width
+    cache.set(el, { width, hasBeenMeasured: true })
+  }
+  return cache.get(el)!
+}
 
 function beforeEnter(el: HTMLElement) {
-  // Get target width from element
-  const width = el.getAttribute('data-width') || getComputedStyle(el).width
-  // Set initial state
-  el.style.width = width
-  el.style.overflow = 'hidden'
-  el.style.maxWidth = '0'
+  const { width } = cacheWidth(el)
+  // Set initial state efficiently
+  Object.assign(el.style, {
+    width,
+    overflow: 'hidden',
+    maxWidth: '0',
+  })
 }
 
 function enter(el: HTMLElement) {
+  // Use double RAF for better browser paint optimization
   requestAnimationFrame(() => {
-    el.style.maxWidth = el.style.width
+    requestAnimationFrame(() => {
+      const { width } = cacheWidth(el)
+      el.style.maxWidth = width
+    })
   })
 }
 
 function leave(el: HTMLElement) {
-  // Store target width for reuse
-  el.setAttribute('data-width', getComputedStyle(el).width)
-  el.style.maxWidth = getComputedStyle(el).width
-  el.style.overflow = 'hidden'
+  const state = cacheWidth(el)
 
-  void el.offsetWidth // Force reflow
+  // Update cached width before transition
+  state.width = getComputedStyle(el).width
+  el.setAttribute('data-width', state.width)
+
+  Object.assign(el.style, {
+    maxWidth: state.width,
+    overflow: 'hidden',
+  })
+
+  // Single reflow
+  void el.offsetWidth
 
   requestAnimationFrame(() => {
     el.style.maxWidth = '0'
@@ -32,9 +59,12 @@ function leave(el: HTMLElement) {
 }
 
 function afterTransition(el: HTMLElement) {
-  // Clean up only transition properties
-  el.style.maxWidth = ''
-  el.style.overflow = ''
+  // Clean up
+  const propertiesToReset = ['maxWidth', 'overflow']
+  propertiesToReset.forEach(prop => el.style[prop as any] = '')
+
+  // Clear cache when done
+  cache.delete(el)
 }
 </script>
 
@@ -54,8 +84,9 @@ function afterTransition(el: HTMLElement) {
 <style lang="less" scoped>
 .width-enter-active,
 .width-leave-active {
-  transition: max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: max-width 0.4s cubic-bezier(0.25,1,0.33,1);
   will-change: max-width;
+  contain: layout;
 }
 
 .width-enter-from,

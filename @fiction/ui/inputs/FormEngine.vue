@@ -122,7 +122,7 @@ function getGroupHeaderClasses(opt: InputOption) {
     out.push('bg-theme-50 dark:bg-theme-700 text-theme-600 dark:text-theme-100 border-primary-200 dark:border-theme-600')
   }
   else {
-    out.push('border-theme-300/50 dark:border-theme-600/80 text-theme-500 dark:text-theme-100 hover:bg-theme-50 dark:hover:bg-theme-800 active:bg-theme-100 dark:active:bg-theme-700')
+    out.push('border-theme-300/50 dark:border-theme-500/30 text-theme-500 dark:text-theme-100 hover:bg-theme-50 dark:hover:bg-theme-800 active:bg-theme-100 dark:active:bg-theme-700')
     if (depth > 0) {
       out.push('dark:bg-theme-700/60')
     }

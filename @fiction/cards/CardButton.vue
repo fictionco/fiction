@@ -26,12 +26,24 @@ const buttonProps = vue.computed(() => {
     rounding: rounding || siteStyling.value?.rounding,
     design: design || siteStyling.value?.design,
     hover: hover || siteStyling.value?.hover,
+
   }
 })
+
+const isContentEditable = vue.computed(() => card.site?.isEditable.value)
+
+function shouldStopProp(event: MouseEvent) {
+  if (isContentEditable.value) {
+    event.stopPropagation()
+    event.preventDefault()
+    const cardId = card.cardId
+    card?.site?.setActiveCard({ cardId })
+  }
+}
 </script>
 
 <template>
-  <XButton v-bind="buttonProps">
+  <XButton v-bind="buttonProps" @click="shouldStopProp($event)">
     <slot />
   </XButton>
 </template>

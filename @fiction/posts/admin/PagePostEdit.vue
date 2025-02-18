@@ -11,7 +11,7 @@ import ElModal from '@fiction/ui/ElModal.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import InputDate from '@fiction/ui/inputs/InputDate.vue'
 import { managePost } from '../utils'
-import ElPostEditor from './ElPostEditor.vue'
+import PostEditor from './PostEditor.vue'
 import { postEditController } from './tools'
 
 type UserConfig = {
@@ -96,8 +96,8 @@ async function resetToPublished() {
             class=" whitespace-nowrap text-theme-400 dark:text-theme-300  pr-1 hover:text-primary-500 dark:hover:text-theme-0 flex items-center gap-1"
             :to="card.link('/posts')"
           >
-            <span class="i-tabler-pin text-xl inline-block dark:text-theme-500" />
-            <span>Edit Post</span>
+            <span class="i-tabler-file-text text-xl inline-block dark:text-theme-500" />
+            <span>Post</span>
             <span class="i-tabler-slash text-xl dark:text-theme-500" />
           </RouterLink>
           <XText v-if="post" v-model="post.title.value" class="whitespace-nowrap" :is-editable="true" />
@@ -141,7 +141,7 @@ async function resetToPublished() {
         </XButton>
       </template>
       <template #default>
-        <ElPostEditor :post :card />
+        <PostEditor :post :card />
       </template>
     </ViewEditor>
     <ElModal v-model:vis="vis" modal-class="max-w-screen-md p-24 ">
