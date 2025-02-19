@@ -60,26 +60,6 @@ const options = vue.computed<InputOption[]>(() => {
           options: [
             createOption({
               schema,
-              key: 'status',
-              label: 'Status',
-              input: 'hidden',
-              isRequired: true,
-              list: ['draft', 'published', 'scheduled', 'archived'],
-            }),
-            createOption({
-              schema,
-              key: 'publishAt',
-              label: 'Scheduled Publish Date',
-              input: 'InputDate',
-              isRequired: true,
-              isHidden: props.post?.status.value !== 'scheduled',
-              props: {
-                includeTime: true,
-                dateMode: 'future',
-              },
-            }),
-            createOption({
-              schema,
               key: 'media',
               label: 'Featured Image',
               description: 'The image that will be displayed with the post',
@@ -142,27 +122,7 @@ const options = vue.computed<InputOption[]>(() => {
           icon: { class: 'i-tabler-stars' },
           isClosed: true,
           options: [
-            createOption({
-              schema,
-              key: 'userConfig.seo.title',
-              label: 'SEO Title',
-              input: 'InputText',
-            }),
-            createOption({
-              schema,
-              key: 'userConfig.seo.description',
-              label: 'SEO Description',
-              input: 'InputText',
-            }),
-            createOption({
-              schema,
-              key: 'excerpt',
-              label: 'Excerpt',
-              description: 'A short teaser for the post',
-              input: 'InputTextarea',
-              placeholder: 'Enter a short excerpt...',
-              props: { rows: 2 },
-            }),
+
             createOption({
               schema,
               key: 'dateAt',
@@ -170,11 +130,6 @@ const options = vue.computed<InputOption[]>(() => {
               description: 'For display and SEO purposes only.',
               input: 'InputDate',
               props: { },
-            }),
-            createOption({
-              schema,
-              key: 'content',
-              input: 'hidden',
             }),
           ],
         }),

@@ -3,7 +3,7 @@ import type { NavListItem, PostObject } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { InputOption } from '@fiction/ui/index.js'
 import type { Post } from '../post.js'
-import { toLabel, vue } from '@fiction/core'
+import { toLabel, useService, vue } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElTooltip from '@fiction/ui/common/ElTooltip.vue'
@@ -11,7 +11,10 @@ import XText from '@fiction/ui/common/XText.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import ProseEditor from '@fiction/ui/prose/editor/ProseEditor.vue'
 import ProseEditorToolbar from '@fiction/ui/prose/editor/ProseEditorToolbar.vue'
+import { t } from '../schema'
+import { TablePostSchema as schema } from '../schema.js'
 import ElOptionWrap from './ElOptionWrap.vue'
+import InputAudienceFilter from './InputAudienceFilter.vue'
 import { postEditController } from './tools'
 
 defineOptions({ name: 'PostEditor' })
@@ -24,6 +27,8 @@ const { post, card } = defineProps<{
 const emit = defineEmits<{
   (event: 'update:post', payload: Post): void
 }>()
+
+const service = useService()
 
 const proseEditorEl = vue.ref<InstanceType<typeof ProseEditor>>()
 
@@ -40,64 +45,140 @@ function handleUpdate(args: { key: 'title' | 'subTitle' | 'content', value: stri
 
 type ViewModeKey = 'compose' | 'audience' | 'email' | 'web' | 'review'
 
-const viewModes: (PostObject & { value: ViewModeKey, options?: InputOption[] })[] = [
-  { value: 'compose', title: 'Edit Post', icon: { class: 'i-tabler-edit' } },
-  {
-    value: 'audience',
-    title: 'Post Audience',
-    icon: { class: 'i-tabler-users' },
-    options: [
-      createOption({
-        key: 'group.postContent',
-        label: 'Composition Settings',
-        input: 'group',
-        icon: { class: 'i-tabler-highlight' },
-        options: [
+const viewModes = vue.computed(() => {
+  const emailConfig = post?.emailConfig.value
+  const activeOrganizationId = service.fictionUser.activeOrgId.value
+  const out: (PostObject & { value: ViewModeKey, options?: InputOption[] })[] = [
+    { value: 'compose', title: 'Edit Post', icon: { class: 'i-tabler-edit' } },
+    {
+      value: 'audience',
+      title: 'Select Audience',
+      icon: { class: 'i-tabler-users' },
+      options: [
+        createOption({
+          schema,
+          key: 'group.postContent',
+          input: 'group',
+          icon: { class: 'i-tabler-users' },
+          options: [
 
-          createOption({
-            key: 'userConfig.isContentCompletionDisabled',
-            label: 'Disable AI Completions',
-            subLabel: `Turn off completions while you're writing.`,
-            input: 'InputToggle',
-            props: { textOn: 'Disabled', textOff: 'Active' },
-          }),
+            createOption({
+              schema,
+              key: 'emailConfig.audience.mode',
+              label: 'Select Audiences',
+              input: 'InputRadioButton',
+              list: [
+                { label: 'All Subscribers', value: 'all' },
+                { label: 'Specific Contacts', value: 'filter' },
+              ],
+            }),
+            createOption({
+              schema,
+              key: 'emailConfig.audience.filters',
+              label: 'Specific Filters',
+              input: InputAudienceFilter,
+              isHidden: emailConfig?.audience?.mode !== 'filter',
+            }),
+          ],
+        }),
+      ],
+    },
+    {
+      value: 'email',
+      title: 'Email Details',
+      icon: { class: 'i-tabler-mail' },
+      options: [
+        createOption({
+          key: 'group.inbox',
+          input: 'group',
+          icon: { class: 'i-tabler-inbox' },
+          options: [
+            createOption({
+              schema,
+              key: 'emailStatus',
+              label: 'Newsletter Email',
+              input: 'InputRadioButton',
+              list: [
+                { label: 'Email on Publish', value: 'toSend' },
+                { label: `Publish to Web Only`, value: 'none' },
+              ],
+            }),
+            createOption({
+              schema,
+              key: 'emailConfig.subject',
+              label: 'Subject Line',
+              description: 'The main inbox subject line.',
+              input: 'InputText',
+              placeholder: 'Enter Subject',
+              isRequired: true,
+            }),
+            createOption({
+              schema,
+              key: 'emailConfig.preview',
+              label: 'Preview Line',
+              description: 'The preview line is the first line of the email and is shown in the inbox',
+              input: 'InputText',
+              placeholder: 'Enter Preview Text',
+            }),
+          ],
+        }),
+      ],
+    },
+    {
+      value: 'web',
+      title: 'Web and SEO',
+      icon: { class: 'i-tabler-world' },
+      options: [
+        createOption({
+          key: 'group.inbox',
+          input: 'group',
+          icon: { class: 'i-tabler-inbox' },
+          options: [
+            createOption({
+              schema,
+              key: 'slug',
+              label: 'Slug',
+              input: 'InputUsername',
+              placeholder: 'my-post',
+              isRequired: true,
+              props: {
+                table: t.posts,
+                columns: [
+                  { name: 'slug', allowReserved: true },
+                  { name: 'orgId', value: activeOrganizationId },
+                ],
+              },
+            }),
+            createOption({
+              schema,
+              key: 'userConfig.site.title',
+              label: 'SEO Title',
+              description: 'The title that will be displayed in search results.',
+              placeholder: 'Enter Title',
+              input: 'InputText',
+            }),
+            createOption({
+              schema,
+              key: 'userConfig.site.description',
+              label: 'SEO Description',
+              description: 'The description that will be displayed in search results.',
+              placeholder: 'Enter Description',
+              input: 'InputText',
+            }),
+          ],
+        }),
+      ],
+    },
+    { value: 'review', title: 'Review and Publish', icon: { class: 'i-tabler-check' } },
+  ] as const
 
-        ],
-      }),
-    ],
-  },
-  {
-    value: 'email',
-    title: 'Email Details',
-    icon: { class: 'i-tabler-mail' },
-    options: [
-      createOption({
-        key: 'group.postContent',
-        label: 'Composition Settings',
-        input: 'group',
-        icon: { class: 'i-tabler-highlight' },
-        options: [
-
-          createOption({
-            key: 'userConfig.isContentCompletionDisabled',
-            label: 'Disable AI Completions',
-            subLabel: `Turn off completions while you're writing.`,
-            input: 'InputToggle',
-            props: { textOn: 'Disabled', textOff: 'Active' },
-          }),
-
-        ],
-      }),
-    ],
-  },
-  { value: 'web', title: 'Web and SEO', icon: { class: 'i-tabler-world' } },
-  { value: 'review', title: 'Review and Publish', icon: { class: 'i-tabler-check' } },
-] as const
+  return out
+})
 
 const activeViewModeKey = vue.ref<ViewModeKey>('compose')
-const activeViewModeIndex = vue.computed(() => viewModes.findIndex(v => v.value === activeViewModeKey.value))
+const activeViewModeIndex = vue.computed(() => viewModes.value.findIndex(v => v.value === activeViewModeKey.value))
 const activeViewMode = vue.computed(() => {
-  return viewModes.find(v => v.value === activeViewModeKey.value)
+  return viewModes.value.find(v => v.value === activeViewModeKey.value)
 })
 
 const classes = vue.computed(() => {
@@ -121,7 +202,7 @@ const transit = vue.ref('next')
 vue.watch(
   () => activeViewModeIndex.value,
   (v, old) => {
-    transit.value = v < old ? 'prev' : 'next'
+    transit.value = v < old ? 'slide-prev' : 'slide-next'
   },
 )
 </script>
@@ -235,6 +316,7 @@ vue.watch(
           <ElOptionWrap
             :key="activeViewModeKey"
             :card
+            :post
             :value="activeViewModeKey"
             :title="activeViewMode?.title"
             :options="activeViewMode?.options"
@@ -246,27 +328,27 @@ vue.watch(
 </template>
 
 <style lang="less">
-.next-enter-from,
-.prev-leave-to {
+.slide-next-enter-from,
+.slide-prev-leave-to {
   opacity: 0;
   transform: translateX(15vw);
 }
-.next-enter-to,
-.next-leave-from,
-.prev-enter-to,
-.prev-leave-from {
+.slide-next-enter-to,
+.slide-next-leave-from,
+.slide-prev-enter-to,
+.slide-prev-leave-from {
   transform: translateX(0);
 }
-.next-enter-active,
-.next-leave-active,
-.prev-enter-active,
-.prev-leave-active {
+.slide-next-enter-active,
+.slide-next-leave-active,
+.slide-prev-enter-active,
+.slide-prev-leave-active {
   transition: 0.3s cubic-bezier(0.25,1,0.33,1);
   transition-property: opacity, transform;
 }
 
-.next-leave-to,
-.prev-enter-from {
+.slide-next-leave-to,
+.slide-prev-enter-from {
   opacity: 0;
   transform: translateX(-15vw);
 }

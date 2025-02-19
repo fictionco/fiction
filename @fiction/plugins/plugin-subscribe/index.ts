@@ -7,7 +7,7 @@ import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { getWidgets } from './admin/widgets'
 import { getEmails } from './email'
 import { ManageSubscriptionQuery, SubscriptionAnalytics } from './endpoint'
-import { tables } from './schema'
+import { t, tables } from './schema'
 
 export * from './schema'
 
@@ -45,6 +45,19 @@ export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
     this.settings.fictionDb?.addTables(tables)
 
     this.admin()
+  }
+
+  async getTags(args: { search?: string, limit?: number } = {}) {
+    const { search, limit = 20 } = args
+    const response = await this.settings.fictionUser.requests.GetTopValues.projectRequest({
+      table: t.subscribe,
+      column: 'tags',
+      search,
+      arrayColumn: true,
+      limit,
+    })
+
+    return response
   }
 
   admin() {

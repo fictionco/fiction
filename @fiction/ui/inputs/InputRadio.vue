@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import type { ListItem, StandardSize } from '@fiction/core'
-import { normalizeList, vue } from '@fiction/core'
+import type { NavListItem, StandardSize } from '@fiction/core'
+import { normList, vue } from '@fiction/core'
 import { twMerge } from 'tailwind-merge'
 
 const props = defineProps({
   modelValue: { type: [String, Number, Boolean], default: null },
-  list: { type: Array as vue.PropType<ListItem[]>, default: () => [] },
+  list: { type: Array as vue.PropType<NavListItem[]>, default: () => [] },
   uiSize: { type: String as vue.PropType<StandardSize>, default: 'md' },
 })
 
@@ -14,7 +14,7 @@ const emit = defineEmits<{
 }>()
 
 const selected = vue.ref(props.modelValue)
-const parsedList = normalizeList(props.list)
+const parsedList = vue.computed(() => normList(props.list))
 
 vue.watch(
   () => selected.value,
@@ -91,7 +91,7 @@ function isSelected(value: string | number | boolean | undefined): boolean {
         :value="option.value"
         v-bind="$attrs"
       >
-      <span :class="cls.text">{{ option.name }}</span>
+      <span :class="cls.text">{{ option.label }}</span>
     </label>
   </div>
 </template>

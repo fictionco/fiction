@@ -183,12 +183,13 @@ export function getCheckboxClasses(uiSize: StandardSize) {
     input: [
       'cursor-pointer',
       'appearance-none',
-      'rounded-[.25em]',
+      'rounded-lg',
       'focus:outline-none',
       'focus:ring-0',
       'focus:ring-offset-0',
+      'border border-theme-200 dark:border-theme-500 checked:border-primary-500 dark:checked:border-primary-600',
       'bg-theme-100 focus:bg-theme-200 hover:bg-primary-500 dark:bg-theme-800',
-      'active:bg-primary-500 selected:bg-primary-500',
+      'active:bg-primary-500 checked:bg-primary-500 dark:checked:bg-primary-700 dark:active:bg-primary-700',
     ],
     text: 'checkbox-label text-theme-700 dark:text-theme-50 dark:hover:text-theme-0 hover:text-theme-500 font-sans flex-grow text-left',
   }

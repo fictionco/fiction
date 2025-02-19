@@ -2,17 +2,19 @@
 import type { SuperTitle } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { InputOption } from '@fiction/ui'
-import XSuperTitle from '@fiction/ui/common/XSuperTitle.vue'
+import type { Post } from '../post'
 
+import XSuperTitle from '@fiction/ui/common/XSuperTitle.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 
-const { title, subTitle, superTitle, card, value, options = [] } = defineProps<{
+const { title, subTitle, superTitle, card, post, value, options = [] } = defineProps<{
   title?: string
   subTitle?: string
   superTitle?: SuperTitle
   options?: InputOption[]
   card: Card
   value: string
+  post: Post
 }>()
 </script>
 
@@ -38,15 +40,16 @@ const { title, subTitle, superTitle, card, value, options = [] } = defineProps<{
         </div>
       </div>
     </div>
-    <div class="relative z-10 dark:bg-theme-700/40 rounded-lg">
+    <div class="relative z-10">
       <FormEngine
-        :model-value="{}"
+        :model-value="post.toConfig()"
         :state-key="`optionWrap-${value}`"
         input-wrap-class="max-w-lg w-full"
         ui-size="lg"
         :options
         :card
         :disable-group-hide="true"
+        @update:model-value="post.update($event, { caller: 'optionWrap' })"
       />
       <slot />
     </div>

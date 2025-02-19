@@ -1,4 +1,5 @@
 import type { Col } from './plugin-db/objects.js'
+import { z } from 'zod'
 
 export const standardTable = {
   org: 'fiction_org',
@@ -41,3 +42,16 @@ type ColTupleToObject<T extends [string, unknown]> = {
 }
 
 export type ColType<T extends readonly Col<string, any>[]> = ColTupleToObject<ColTuple<T>> & Timestamps
+
+/**
+ * creates a typed schema from a list of columns
+ */
+export function createTableSchema<T extends readonly Col<any, any>[]>(cols: T) {
+  const entries = cols.map(col => [col.key, col.sch({ z })])
+  const shape = Object.fromEntries(entries)
+  const schema = z.object(shape).partial()
+
+  return schema as z.ZodObject<
+    { [K in keyof ColType<T>]: z.ZodOptional<z.ZodType<ColType<T>[K]>> }
+  >
+}

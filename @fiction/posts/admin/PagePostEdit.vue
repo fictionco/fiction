@@ -30,7 +30,7 @@ const publishItemSelected = vue.ref<string | undefined>()
 
 const vis = vue.ref(false)
 
-async function publish(mode: 'publish' | 'schedule' = 'publish') {
+async function publish(mode: 'publish' = 'publish') {
   if (!post.value)
     return
   sending.value = 'publish'
@@ -88,8 +88,8 @@ async function resetToPublished() {
   <div>
     <ViewEditor :tool-props="{ post, card }" :controller="postEditController" :loading="loading" :card>
       <template #headerLeft>
-        <XButton theme="primary" :href="card.link('/posts')" class="shrink-0" icon="i-tabler-arrow-left" design="outline">
-          Back
+        <XButton theme="default" :href="card.link('/posts')" class="shrink-0" icon="i-tabler-arrow-left" design="ghost">
+          All
         </XButton>
         <div class="flex space-x-1 font-medium">
           <RouterLink
@@ -144,57 +144,5 @@ async function resetToPublished() {
         <PostEditor :post :card />
       </template>
     </ViewEditor>
-    <ElModal v-model:vis="vis" modal-class="max-w-screen-md p-24 ">
-      <div v-if="post" class="relative max-w-xl mx-auto">
-        <div class="text-center mb-8 ">
-          <div class="text-2xl font-bold antialiased dark:text-theme-0 mb-4 text-balance">
-            <template v-if="publishItemSelected === 'publish'">
-              Publish Now
-            </template>
-            <template v-else-if="publishItemSelected === 'schedule'">
-              Select Publication Time
-            </template>
-            <template v-else>
-              This post is in draft.
-            </template>
-          </div>
-          <div class="text-base font-medium text-theme-500 dark:text-theme-300 text-balance">
-            <template v-if="publishItemSelected === 'publish'">
-              This action will publish now the post and syndicate it to your audience (based on your settings).
-            </template>
-            <template v-else-if="publishItemSelected === 'schedule'">
-              This will schedule the post to be published at the selected time.
-            </template>
-            <template v-else>
-              Publish to go live and syndicate to your audience (based on your settings).
-            </template>
-          </div>
-        </div>
-        <div v-if="!publishItemSelected" class="space-y-6">
-          <div class="flex justify-center gap-6">
-            <XButton size="md" icon="i-tabler-calendar-bolt" @click="publishItemSelected = 'schedule'">
-              Schedule Publication
-            </XButton>
-            <XButton size="md" theme="primary" icon="i-tabler-arrow-big-up-lines" :loading="sending === 'publish'" @click="publish()">
-              Publish Now
-            </XButton>
-          </div>
-        </div>
-
-        <div v-else-if="publishItemSelected === 'schedule'" class="mx-auto max-w-sm">
-          <ElForm class=" space-y-6" @submit="publish('schedule')">
-            <InputDate v-model="post.publishAt.value" :include-time="true" required date-mode="future" />
-            <div class="flex justify-center gap-6">
-              <XButton v-if="publishItemSelected" size="md" @click="publishItemSelected = ''">
-                &larr; Back
-              </XButton>
-              <XButton size="md" theme="primary" icon="i-tabler-calendar-bolt" type="submit" :loading="sending === 'publish'">
-                Schedule Publication
-              </XButton>
-            </div>
-          </ElForm>
-        </div>
-      </div>
-    </ElModal>
   </div>
 </template>

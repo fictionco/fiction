@@ -15,10 +15,14 @@ function applyDataFilter(query: Knex.QueryBuilder, filter: DataFilter): Knex.Que
     case 'like':
     case 'not like':
       return query.where(field, operator, `%${value}%`)
-    case 'in':
-      return query.whereIn(field, Array.isArray(value) ? value : [value])
-    case 'not in':
-      return query.whereNotIn(field, Array.isArray(value) ? value : [value])
+    case 'in': {
+      const values = Array.isArray(value) ? value : [value]
+      return query.whereRaw('?? && ?', [field, values]) // Using && overlap operator
+    }
+    case 'not in': {
+      const values = Array.isArray(value) ? value : [value]
+      return query.whereRaw('NOT (?? && ?)', [field, values])
+    }
     default:
       throw new Error(`Unsupported operator: ${operator}`)
   }

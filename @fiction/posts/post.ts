@@ -1,6 +1,6 @@
 import type { Card } from '@fiction/site'
 import type { FictionPosts } from '.'
-import type { TablePostConfig } from './schema'
+import type { EmailConfig, TablePostConfig } from './schema'
 import { FictionObject, objectId, vue } from '@fiction/core'
 import { postLink } from '.'
 import { managePost } from './utils'
@@ -31,9 +31,12 @@ export class Post extends FictionObject<PostConfig> {
   sites = vue.shallowRef(this.settings.sites || [])
   dateAt = vue.ref(this.settings.dateAt || new Date().toISOString())
   userConfig = vue.ref(this.settings.userConfig || {})
+  emailConfig = vue.ref(this.settings.emailConfig || ({ audience: { mode: 'all', filters: [] } } as EmailConfig))
+  emailStatus = vue.ref(this.settings.emailStatus || 'toSend')
   isDirty = vue.ref(false)
   hasChanges = vue.ref(this.settings.hasChanges || false)
   publishAt = vue.ref(this.settings.publishAt)
+  wordCount = vue.ref(this.settings.wordCount || 0)
   scheduleMode = vue.ref<'now' | 'schedule'>('now')
   saveTimeout: ReturnType<typeof setTimeout> | null = null // Store timeout reference
 
@@ -52,6 +55,8 @@ export class Post extends FictionObject<PostConfig> {
       'content',
       'slug',
       'userConfig',
+      'emailStatus',
+      'emailConfig',
       'media',
       'excerpt',
       'dateAt',
@@ -102,17 +107,13 @@ export class Post extends FictionObject<PostConfig> {
     }, 2000) // Set a new timeout for 2 seconds
   }
 
-  async save(args: { mode: 'publish' | 'draft' | 'schedule', publishAt?: string, caller: string }) {
+  async save(args: { mode: 'publish' | 'draft', publishAt?: string, caller: string }) {
     const { mode = 'draft', caller = 'unknown caller' } = args
     this.log.info(`Saving post: ${mode}`)
     const _action = mode === 'draft' ? 'saveDraft' : 'update'
     this.hasChanges.value = mode === 'draft'
 
-    const fields = mode === 'publish'
-      ? { ...this.toConfig() } as const
-      : mode === 'schedule'
-        ? { ...this.toConfig(), status: 'scheduled', publishAt: args.publishAt } as const
-        : this.toConfig()
+    const fields = this.toConfig()
 
     this.clearAutosave()
     const params = { _action, where: { postId: this.postId }, fields } as const
@@ -142,6 +143,8 @@ export class Post extends FictionObject<PostConfig> {
       excerpt: this.excerpt.value,
       content: this.content.value,
       userConfig: this.userConfig.value,
+      emailStatus: this.emailStatus.value,
+      emailConfig: this.emailConfig.value,
       media: this.media.value,
       dateAt: this.dateAt.value,
       hasChanges: this.hasChanges.value,
@@ -151,6 +154,7 @@ export class Post extends FictionObject<PostConfig> {
       categories: this.categories.value,
       authors: this.authors.value,
       sites: this.sites.value,
+      wordCount: this.wordCount.value,
     }
   }
 

@@ -1,7 +1,5 @@
 import type { z } from 'zod'
-import type { PostStatusSchema, SyndicateStatusSchema } from '../schemas/schemas.js'
-
-export type PostStatus = z.infer<typeof PostStatusSchema>
+import type { SyndicateStatusSchema } from '../schemas/schemas.js'
 
 export type SyndicateStatus = z.infer<typeof SyndicateStatusSchema>
 

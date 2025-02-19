@@ -1,27 +1,27 @@
 <script lang="ts" setup>
-import type { ListItem, StandardSize } from '@fiction/core'
-import { normalizeList, vue } from '@fiction/core'
+import type { NavListItem, StandardSize } from '@fiction/core'
+import { normList, vue } from '@fiction/core'
 import { twMerge } from 'tailwind-merge'
 import { getCheckboxClasses } from './theme.js'
 
-const props = defineProps({
-  modelValue: { type: [Array, String], default: () => [] },
-  list: { type: Array as vue.PropType<ListItem[]>, default: () => {} },
-  inputClass: { type: String, default: '' },
-  uiSize: { type: String as vue.PropType<StandardSize>, default: 'md' },
-})
+const { modelValue = [], list = [], inputClass = '', uiSize = 'md' } = defineProps<{
+  modelValue?: string | string[]
+  list?: NavListItem[]
+  inputClass?: string
+  uiSize?: StandardSize
+}>()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: (string | number)[]): void
 }>()
 
 const attrs = vue.useAttrs()
-const li = vue.computed(() => normalizeList(props.list ?? []))
+const li = vue.computed(() => normList(list ?? []))
 
 const val = vue.computed<(string | number)[]>(() => {
-  return typeof props.modelValue === 'string'
-    ? props.modelValue.split(',').map(_ => _.trim())
-    : (props.modelValue as string[])
+  return typeof modelValue === 'string'
+    ? modelValue.split(',').map(_ => _.trim())
+    : (modelValue as string[])
 })
 
 const selected = vue.computed<(string | number)[]>({
@@ -41,7 +41,7 @@ function removeValue(value: string | number): void {
   }
 }
 
-function selectValue(item: ListItem): void {
+function selectValue(item: NavListItem): void {
   const value = item.value
   if (!value)
     return
@@ -50,12 +50,12 @@ function selectValue(item: ListItem): void {
   else selected.value = [...selected.value, value]
 }
 
-const cls = vue.computed(() => getCheckboxClasses(props.uiSize))
+const cls = vue.computed(() => getCheckboxClasses(uiSize))
 
-function inputClasses(item: ListItem) {
+function inputClasses(item: NavListItem) {
   return vue.computed(() => {
     const sel = isSelected(item.value) ? 'bg-primary-500 dark:bg-primary-700' : ''
-    return twMerge(cls.value.input, props.inputClass, sel)
+    return twMerge(cls.value.input, inputClass, sel)
   })
 }
 </script>
@@ -77,12 +77,16 @@ function inputClasses(item: ListItem) {
           type="checkbox"
           :class="inputClasses(item).value"
           :checked="isSelected(item.value)"
-          :disabled="item.disabled ? true : undefined"
+          :disabled="item.isDisabled ? true : undefined"
           @input="selectValue(item)"
         >
-        <span v-if="item.label || item.name" :class="cls.text">
-          {{ item.label || item.name }}
+        <span v-if="item.label " :class="cls.text">
+          {{ item.label }}
+          <span v-if="item.count" class="text-theme-400 dark:text-theme-500 font-sans text-[.9em]">
+            ({{ item.count }})
+          </span>
         </span>
+
       </label>
     </div>
   </div>

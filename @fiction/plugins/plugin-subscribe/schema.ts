@@ -23,6 +23,8 @@ export type ImportDetail = {
   tags?: string[]
 }
 
+export const SourceCategorySchema = z.enum(['', 'site', 'list', 'invited', 'import', 'manual', 'api', 'other'])
+
 export const subscribeColumns = [
   new Col({ key: 'subscriptionId', sec: 'permanent', sch: () => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('sub')`)).index() }),
   new Col({ key: 'userId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.user}.user_id`).onUpdate('CASCADE').index() }),
@@ -32,6 +34,8 @@ export const subscribeColumns = [
   new Col({ key: 'status', sec: 'setting', sch: () => z.string() as z.Schema<SyndicateStatus>, make: ({ s, col }) => s.string(col.k, 50).defaultTo('active') }),
   new Col({ key: 'previousStatus', sch: () => z.string() as z.Schema<SyndicateStatus>, make: ({ s, col }) => s.string(col.k, 50).defaultTo('active') }),
   new Col({ key: 'tags', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
+  new Col({ key: 'sourceCategory', sec: 'setting', sch: () => SourceCategorySchema, make: ({ s, col }) => s.string(col.k).defaultTo('') }),
+  new Col({ key: 'sourceId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).defaultTo('') }),
   new Col({ key: 'inlineUser', sec: 'setting', sch: () => z.record(z.unknown()).optional() as z.Schema<Partial<User>>, make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'importDetail', sec: 'setting' as const, sch: () => z.record(z.unknown()).optional() as z.Schema<ImportDetail>, make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(value) }),
 ] as const

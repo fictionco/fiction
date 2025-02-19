@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { OrFilterGroupSchema } from '../types/endpoint.js'
 import { ColorScaleSchema, colorThemeUser, colorThemeWithInvert } from '../utils/colors.js'
 
-export const PostStatusSchema = z.enum(['draft', 'scheduled', 'published', 'hidden', 'protected', 'deleted', 'archived', 'trashed', 'spam'])
+export const PostStatusSchema = z.enum(['draft', 'public', 'private', 'archived', 'deleted'])
 export const ProgressStatusSchema = z.enum(['pending', 'requested', 'processing', 'ready', 'error', 'cancelled', 'skipped'])
 export type ProgressStatus = z.infer<typeof ProgressStatusSchema>
 export const SyndicateStatusSchema = z.enum(['active', 'unsubscribed', 'pending', 'complained', 'deleted', 'cleaned'])
@@ -295,6 +295,7 @@ const BaseNavListItemSchema = z.object({
   value: z.union([z.string(), z.number()]).optional().describe('Value associated with the item'),
   description: z.string().optional().describe('Longer description or explanation of the item'),
   info: z.string().optional().describe('Tertiary text, often used for metadata like "5 min read" or counts'),
+  count: z.number().optional().describe('Numeric count or value associated with the item'),
 
   // Visual
   media: MediaDisplaySchema.optional().describe('Media content shown with the item'),
