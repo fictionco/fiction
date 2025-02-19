@@ -24,8 +24,8 @@ describe('post analytics tests', async () => {
     // Create test posts
     const createPosts = async () => {
       const posts = [
-        { title: 'title words', content: 'just three words', status: 'published' },
-        { title: 'title words', content: 'just three words', status: 'published' },
+        { title: 'title words', content: 'just three words', status: 'public' },
+        { title: 'title words', content: 'just three words', status: 'public' },
       ] as const
 
       for (const post of posts) {
@@ -153,7 +153,7 @@ describe('post analytics tests', async () => {
       fields: {
         title: 'Post Another',
         content: 'Just three words',
-        status: 'published',
+        status: 'public',
       },
       orgId,
       userId,
@@ -233,7 +233,7 @@ describe('post tests', async () => {
       fields: {
         title: 'First Test Post',
         content: 'Content of the first test post',
-        status: 'published' as const,
+        status: 'public' as const,
       },
       orgId,
       userId,
@@ -281,7 +281,7 @@ describe('post tests', async () => {
     const [secondPost, firstPost] = result.data || []
 
     expect(firstPost?.title).toBe('First Test Post')
-    expect(firstPost?.status).toBe('published')
+    expect(firstPost?.status).toBe('public')
     expect(secondPost?.title).toBe('Second Test Post')
     expect(secondPost?.status).toBe('draft')
   })
@@ -291,7 +291,7 @@ describe('post tests', async () => {
       _action: 'list' as const,
       limit: 10,
       offset: 0,
-      filters: [[{ field: 'status', operator: '=', value: 'published' }]] as ComplexDataFilter[],
+      filters: [[{ field: 'status', operator: '=', value: 'public' }]] as ComplexDataFilter[],
       where: { orgId },
     }
 
@@ -302,10 +302,10 @@ describe('post tests', async () => {
     expect(result.data?.length).toBe(1)
     expect(result.indexMeta?.count).toBe(1)
 
-    const [publishedPost] = result.data || []
+    const [publicPost] = result.data || []
 
-    expect(publishedPost?.title).toBe('First Test Post')
-    expect(publishedPost?.status).toBe('published')
+    expect(publicPost?.title).toBe('First Test Post')
+    expect(publicPost?.status).toBe('public')
   })
 
   it('sorts posts correctly', async () => {
@@ -583,7 +583,7 @@ describe('post crud tests', async () => {
       fields: {
         title: 'Updated Post',
         content: 'Updated content of the post',
-        status: 'published',
+        status: 'public',
         media: { format: 'video', url: 'https://example.com/video.mp4', alt: 'Image alt text' },
       },
     } as const
@@ -596,7 +596,7 @@ describe('post crud tests', async () => {
     expect(updatedPost?.title).toBe(update.fields.title)
     expect(updatedPost?.content).toBe(update.fields.content)
     expect(updateResult.message).toBe('Post updated')
-    expect(updatedPost?.status).toBe('published')
+    expect(updatedPost?.status).toBe('public')
     expect(updatedPost?.media?.format).toBe('video')
     expect(updatedPost?.media?.url).toBe('https://example.com/video.mp4')
     expect(updatedPost?.postId).toBe(update.where.postId)
