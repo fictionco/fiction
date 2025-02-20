@@ -51,7 +51,7 @@ describe('post revision tests', async () => {
     const updateResult = await fictionPosts.queries.ManagePost.serve({
       _action: 'update',
       where: { postId: post.postId },
-      fields: { status: 'public' },
+      fields: { status: 'published' },
       orgId,
       userId,
     }, meta)
@@ -104,7 +104,7 @@ describe('post revision tests', async () => {
     await fictionPosts.queries.ManagePost.serve({
       _action: 'update',
       where: { postId: post.postId },
-      fields: { status: 'public' },
+      fields: { status: 'published' },
       orgId,
       userId,
     }, meta)
@@ -148,7 +148,7 @@ describe('post revision tests', async () => {
     const updateData = {
       title: 'Updated Title',
       content: 'Updated content',
-      status: 'public' as const,
+      status: 'published' as const,
     }
 
     // Make the update

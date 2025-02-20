@@ -46,6 +46,8 @@ const { title, subTitle, superTitle, card, post, value, options = [] } = defineP
         :state-key="`optionWrap-${value}`"
         input-wrap-class="max-w-lg w-full"
         ui-size="lg"
+        :depth="1"
+        :input-props="{ post, card }"
         :options
         :card
         :disable-group-hide="true"

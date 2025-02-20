@@ -1,24 +1,24 @@
 <script lang="ts" setup>
+import type { PostObject } from '@fiction/core'
 import type { Card } from '@fiction/site'
+import type { InputOption } from '@fiction/ui'
 import type { FictionPosts } from '..'
 import type { Post } from '../post.js'
 import ElSavingSignal from '@fiction/admin/el/ElSavingSignal.vue'
 import ViewEditor from '@fiction/admin/ViewEditor.vue'
 import { useService, vue, waitFor } from '@fiction/core'
+import { createOption } from '@fiction/ui'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import XText from '@fiction/ui/common/XText.vue'
-import ElModal from '@fiction/ui/ElModal.vue'
-import ElForm from '@fiction/ui/inputs/ElForm.vue'
-import InputDate from '@fiction/ui/inputs/InputDate.vue'
+import { t } from '..'
+import { TablePostSchema as schema } from '../schema.js'
 import { managePost } from '../utils'
+import InputAudienceFilter from './InputAudienceFilter.vue'
 import PostEditor from './PostEditor.vue'
 import { postEditController } from './tools'
 
-type UserConfig = {
-  isNavItem: boolean
-}
 defineProps({
-  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
+  card: { type: Object as vue.PropType<Card>, required: true },
 })
 
 const service = useService<{ fictionPosts: FictionPosts }>()
@@ -26,24 +26,6 @@ const service = useService<{ fictionPosts: FictionPosts }>()
 const loading = vue.ref(true)
 const sending = vue.ref()
 const post = vue.shallowRef<Post | undefined>()
-const publishItemSelected = vue.ref<string | undefined>()
-
-const vis = vue.ref(false)
-
-async function publish(mode: 'publish' = 'publish') {
-  if (!post.value)
-    return
-  sending.value = 'publish'
-
-  // min 1 second for UX reasons
-  await waitFor(500)
-
-  await post.value.save({ mode, caller: 'publishButton' })
-
-  sending.value = ''
-  vis.value = false
-  publishItemSelected.value = undefined
-}
 
 async function load() {
   loading.value = true
@@ -54,7 +36,7 @@ async function load() {
     service.fictionEnv.events.emit('notify', { type: 'error', message: 'No post ID provided.' })
   }
   else {
-    const editParams = { _action: 'get', where: { postId }, loadDraft: true } as const
+    const editParams = { _action: 'get', where: { postId } } as const
     post.value = await managePost({ fictionPosts: service.fictionPosts, params: editParams, caller: 'postEdit' })
   }
   loading.value = false
@@ -64,24 +46,168 @@ vue.onMounted(async () => {
   await load()
 })
 
-async function resetToPublished() {
-  if (!post.value)
-    throw new Error('No post to revert')
+export type ViewModeKey = 'compose' | 'audience' | 'email' | 'web' | 'review'
 
-  const s = post.value
-  const postId = s.postId
+export type ViewMode = (PostObject & { value: ViewModeKey, options?: InputOption[] })
+const viewModes = vue.computed(() => {
+  const emailConfig = post.value?.emailConfig.value
+  const activeOrganizationId = service.fictionUser.activeOrgId.value
+  const out: ViewMode[] = [
+    { value: 'compose', title: 'Edit Post', icon: { class: 'i-tabler-edit' } },
+    {
+      value: 'audience',
+      title: 'Select Audience',
+      icon: { class: 'i-tabler-users' },
+      options: [
+        createOption({
+          schema,
+          key: 'group.audienceEmail',
+          input: 'group',
+          label: 'Email Audience',
+          icon: { class: 'i-tabler-mail' },
+          options: [
+            createOption({
+              schema,
+              key: 'emailConfig.target',
+              label: 'Select Audiences',
+              input: 'InputRadioButton',
+              list: [
+                { label: 'All Contacts', value: 'all', icon: 'i-tabler-users' },
+                { label: 'Filter by Tag', value: 'filtered', icon: 'i-tabler-filter' },
+                { label: 'No Email', value: 'nobody', icon: 'i-tabler-mail-off' },
+              ],
+              props: { uiSize: 'md' },
+            }),
+            createOption({
+              schema,
+              key: 'emailConfig.filters',
+              input: InputAudienceFilter,
+            }),
+          ],
+        }),
+        createOption({
+          schema,
+          key: 'group.audienceWeb',
+          input: 'group',
+          label: 'Web Audience',
+          icon: { class: 'i-tabler-world' },
+          options: [
+            createOption({
+              schema,
+              key: 'visibility',
+              label: 'Website Visibility',
+              input: 'InputRadioButton',
+              list: [
+                { label: 'Public', value: 'public' },
+                { label: 'Private', value: 'private' },
+                { label: 'Unlisted', value: 'unlisted' },
+              ],
+              props: { uiSize: 'md' },
+            }),
+          ],
+        }),
+      ],
+    },
+    {
+      value: 'email',
+      title: 'Email Setup',
+      icon: { class: 'i-tabler-mail' },
+      options: [
+        createOption({
+          key: 'group.inbox',
+          input: 'group',
+          label: 'Inbox Settings',
+          icon: { class: 'i-tabler-inbox' },
+          options: [
+            createOption({
+              schema,
+              key: 'emailConfig.subject',
+              label: 'Subject Line',
+              description: 'The main inbox subject line.',
+              input: 'InputText',
+              placeholder: 'Enter Subject',
+              isRequired: true,
+            }),
+            createOption({
+              schema,
+              key: 'emailConfig.preview',
+              label: 'Preview Line',
+              description: 'The preview line is the first line of the email and is shown in the inbox',
+              input: 'InputText',
+              placeholder: 'Enter Preview Text',
+            }),
+          ],
+        }),
+      ],
+    },
+    {
+      value: 'web',
+      title: 'Web and SEO',
+      icon: { class: 'i-tabler-world' },
+      options: [
+        createOption({
+          key: 'group.inbox',
+          input: 'group',
+          label: 'Web Settings',
+          icon: { class: 'i-tabler-inbox' },
+          options: [
+            createOption({
+              schema,
+              key: 'slug',
+              label: 'Slug',
+              input: 'InputUsername',
+              placeholder: 'my-post',
+              isRequired: true,
+              props: {
+                table: t.posts,
+                columns: [
+                  { name: 'slug', allowReserved: true },
+                  { name: 'orgId', value: activeOrganizationId },
+                ],
+              },
+            }),
+            createOption({
+              schema,
+              key: 'media',
+              label: 'Featured Image',
+              description: 'The image that will be displayed with the post',
+              input: 'InputMedia',
+            }),
+          ],
+        }),
+        createOption({
+          key: 'group.inbox',
+          input: 'group',
+          label: 'SEO',
+          icon: { class: 'i-tabler-search' },
+          options: [
+            createOption({
+              schema,
+              key: 'userConfig.site.title',
+              label: 'SEO Title',
+              description: 'The title that will be displayed in search results.',
+              placeholder: 'Enter Title',
+              input: 'InputText',
+            }),
+            createOption({
+              schema,
+              key: 'userConfig.site.description',
+              label: 'SEO Description',
+              description: 'The description that will be displayed in search results.',
+              placeholder: 'Enter Description',
+              input: 'InputText',
+            }),
+          ],
+        }),
+      ],
+    },
+    { value: 'review', title: 'Review and Publish', icon: { class: 'i-tabler-check' } },
+  ] as const
 
-  const r = await s.settings.fictionPosts.requests.ManagePost.projectRequest({
-    _action: 'revertDraft',
-    where: { postId },
-  }, { caller: 'postEdit' })
+  return out
+})
 
-  if (r.status === 'success') {
-    const responsePost = r.data?.[0]
-
-    await post.value.update({ ...responsePost }, { noSave: true, caller: 'resetToPublished' })
-  }
-}
+const activeKey = vue.ref<ViewModeKey>('compose')
 </script>
 
 <template>
@@ -106,42 +232,34 @@ async function resetToPublished() {
       <template #headerRight>
         <ElSavingSignal
           v-if="post"
-          :is-dirty="post.isDirty.value"
-          :nav-items="[{
-            label: 'Reset to Published',
-            onClick: () => resetToPublished(),
-            testId: 'reset-to-published',
-          }]"
+          :is-dirty="post.saveUtil.isDirty.value"
           data-test-id="draft-control-dropdown"
         />
+
         <XButton
-          v-if="post?.hasChanges.value || post?.isDirty.value"
-          theme="primary"
-          :loading="sending === 'publish'"
-          class="min-w-36"
-          icon="i-tabler-arrow-big-up-lines"
-          size="md"
-          data-test-id="publish-button"
-          @click.stop.prevent="publish()"
+          theme="default"
+          target="_blank"
+          size="sm"
+          icon="i-tabler-eye"
+          data-test-id="preview-post-button"
+          design="ghost"
         >
-          Publish Changes
+          Preview
         </XButton>
         <XButton
-          v-else
+          v-if="post?.status.value === 'draft'"
           theme="primary"
-          design="outline"
           :loading="sending === 'publish'"
-          class="min-w-36"
-          icon="i-tabler-check"
+          icon-after="i-tabler-arrow-right"
           size="md"
-          data-test-id="changes-published-button"
-          @click.stop.prevent="publish()"
+          data-test-id="publish-button"
+          @click.stop.prevent="activeKey = 'audience'"
         >
-          Changes Published
+          Next
         </XButton>
       </template>
       <template #default>
-        <PostEditor :post :card />
+        <PostEditor v-model:active-key="activeKey" :post :card :view-modes="viewModes" />
       </template>
     </ViewEditor>
   </div>

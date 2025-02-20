@@ -2,6 +2,7 @@ import type { Card } from '@fiction/site'
 import type { FictionPosts } from '.'
 import type { EmailConfig, TablePostConfig } from './schema'
 import { FictionObject, objectId, vue } from '@fiction/core'
+import { AutosaveUtility } from '@fiction/core/utils/save'
 import { postLink } from '.'
 import { managePost } from './utils'
 
@@ -31,14 +32,19 @@ export class Post extends FictionObject<PostConfig> {
   sites = vue.shallowRef(this.settings.sites || [])
   dateAt = vue.ref(this.settings.dateAt || new Date().toISOString())
   userConfig = vue.ref(this.settings.userConfig || {})
-  emailConfig = vue.ref(this.settings.emailConfig || ({ audience: { mode: 'all', filters: [] } } as EmailConfig))
-  emailStatus = vue.ref(this.settings.emailStatus || 'toSend')
-  isDirty = vue.ref(false)
+  visibility = vue.ref(this.settings.visibility || 'public')
+  emailConfig = vue.ref(this.settings.emailConfig || ({ filters: [], target: 'all' } as EmailConfig))
+  isFeatured = vue.ref(this.settings.isFeatured || false)
+  priority = vue.ref(this.settings.priority || 0)
+
   hasChanges = vue.ref(this.settings.hasChanges || false)
   publishAt = vue.ref(this.settings.publishAt)
   wordCount = vue.ref(this.settings.wordCount || 0)
   scheduleMode = vue.ref<'now' | 'schedule'>('now')
-  saveTimeout: ReturnType<typeof setTimeout> | null = null // Store timeout reference
+
+  saveUtil = new AutosaveUtility({
+    onSave: async () => this.save({ isAutosave: true, caller: 'autosave' }),
+  })
 
   constructor(settings: PostConfig) {
     super('Post', settings)
@@ -55,8 +61,10 @@ export class Post extends FictionObject<PostConfig> {
       'content',
       'slug',
       'userConfig',
-      'emailStatus',
       'emailConfig',
+      'isFeatured',
+      'priority',
+      'visibility',
       'media',
       'excerpt',
       'dateAt',
@@ -79,7 +87,7 @@ export class Post extends FictionObject<PostConfig> {
           ref.value = value
 
           if (!noSave)
-            this.autosave()
+            this.saveUtil.autosave({ caller: 'update' })
         }
       }
 
@@ -87,42 +95,16 @@ export class Post extends FictionObject<PostConfig> {
     })
   }
 
-  clearAutosave() {
-    if (this.saveTimeout) {
-      clearTimeout(this.saveTimeout) // Clear the timeout after saving
-      this.saveTimeout = null
-    }
-  }
-
-  autosave() {
-    if (this.settings.sourceMode === 'local' || this.settings.noAutoSave) {
-      return
-    }
-
-    this.isDirty.value = true
-    this.clearAutosave()
-
-    this.saveTimeout = setTimeout(() => {
-      this.save({ mode: 'draft', caller: 'autosave' }).catch(console.error) // Error handling
-    }, 2000) // Set a new timeout for 2 seconds
-  }
-
-  async save(args: { mode: 'publish' | 'draft', publishAt?: string, caller: string }) {
-    const { mode = 'draft', caller = 'unknown caller' } = args
-    this.log.info(`Saving post: ${mode}`)
-    const _action = mode === 'draft' ? 'saveDraft' : 'update'
-    this.hasChanges.value = mode === 'draft'
-
+  async save(args: { isAutosave?: boolean, publishAt?: string, caller: string }) {
+    const { isAutosave, caller = 'unknown caller' } = args
     const fields = this.toConfig()
 
-    this.clearAutosave()
-    const params = { _action, where: { postId: this.postId }, fields } as const
-    const p = await managePost({ fictionPosts: this.settings.fictionPosts, params, caller: 'savePost' })
+    const params = { _action: 'update', where: { postId: this.postId }, fields, isAutosave } as const
+    const p = await managePost({ fictionPosts: this.settings.fictionPosts, params, caller: 'savePost', disableNotify: isAutosave })
 
-    if (mode !== 'draft')
-      this.update(p?.toConfig() || {}, { caller: 'savePost', noSave: true })
+    this.update(p?.toConfig() || {}, { caller: `savePost-${caller}`, noSave: true })
 
-    this.isDirty.value = false
+    this.saveUtil.clear()
   }
 
   async delete() {
@@ -143,8 +125,11 @@ export class Post extends FictionObject<PostConfig> {
       excerpt: this.excerpt.value,
       content: this.content.value,
       userConfig: this.userConfig.value,
-      emailStatus: this.emailStatus.value,
+
       emailConfig: this.emailConfig.value,
+      visibility: this.visibility.value,
+      isFeatured: this.isFeatured.value,
+      priority: this.priority.value,
       media: this.media.value,
       dateAt: this.dateAt.value,
       hasChanges: this.hasChanges.value,
@@ -155,21 +140,6 @@ export class Post extends FictionObject<PostConfig> {
       authors: this.authors.value,
       sites: this.sites.value,
       wordCount: this.wordCount.value,
-    }
-  }
-
-  async resetToPublished() {
-    const postId = this.postId
-
-    const r = await this.settings.fictionPosts.requests.ManagePost.projectRequest({
-      _action: 'revertDraft',
-      where: { postId },
-    }, { caller: 'postEdit' })
-
-    if (r.status === 'success') {
-      const responsePost = r.data?.[0]
-
-      await this.update({ ...responsePost }, { noSave: true, caller: 'resetToPublished' })
     }
   }
 }

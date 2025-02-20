@@ -2,15 +2,17 @@
 import type { ComplexDataFilter, StandardSize } from '@fiction/core'
 import type { TopValueResult } from '@fiction/core/plugin-user/endpointTopValues'
 import type { FictionSubscribe } from '@fiction/plugins/plugin-subscribe'
+import type { Post } from '../post'
 import { debounce, useService, vue } from '@fiction/core'
 import XNumber from '@fiction/ui/common/XNumber.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 
 defineOptions({ name: 'InputAudienceFilter' })
 
-const { modelValue = [], uiSize } = defineProps<{
+const { modelValue = [], uiSize, post } = defineProps<{
   modelValue?: ComplexDataFilter[]
   uiSize?: StandardSize
+  post: Post
 }>()
 
 const emit = defineEmits<{
@@ -41,16 +43,20 @@ async function fetchTags() {
 }
 
 const fetchCount = debounce(async () => {
-  if (!orGroups.value.length) {
+  const mode = post.emailConfig.value.target
+
+  if (mode === 'nobody') {
     recipientCount.value = 0
     return
   }
+
+  const filters = mode === 'filtered' ? orGroups.value : undefined
 
   isLoading.value = true
   try {
     const response = await fictionSubscribe.requests.ManageSubscription.projectRequest({
       _action: 'count',
-      filters: orGroups.value,
+      filters,
     })
 
     console.warn('Fetching recipient count', response)
@@ -69,7 +75,7 @@ vue.onMounted(async () => {
 
   // Watch for changes
   vue.watch(
-    () => orGroups.value,
+    () => [orGroups.value, post.emailConfig.value.target],
     () => {
       fetchCount()
     },
@@ -103,30 +109,33 @@ const tagGroupDisplay = vue.computed(() => {
 
 <template>
   <div class="space-y-6">
-    <div class="border border-theme-200 dark:border-theme-600 rounded-lg p-4">
+    <div class="border-y border-theme-200 dark:border-theme-600/60 py-4 lg:py-6 flex gap-6 justify-between">
       <div class="text-xl font-medium text-theme-600 dark:text-theme-200 space-x-2">
         <XNumber
           tag="span"
           :animate="true"
           :model-value="recipientCount"
-          class="mt-4 text-5xl lg:text-6xl font-bold x-font-title"
+          class="mt-4 text-5xl font-bold x-font-title"
           format="number"
         />
         <span>recipients</span>
       </div>
 
-      <div v-if="orGroups.length" class="mt-3">
-        <div class="text-theme-500 text-sm">
-          Sending to contacts that have:
+      <div class="text-sm space-y-1">
+        <div class="text-theme-500">
+          Sending to contacts with filters
+          {{ post.emailConfig.value.target === 'all'
+            ? 'Sending to all active contacts'
+            : post.emailConfig.value.target === 'filtered' ? 'Sending to contacts with filters' : 'No will be sent' }}
         </div>
         <div class="font-medium" v-html="tagGroupDisplay" />
       </div>
     </div>
 
-    <div>
+    <div v-if="post.emailConfig.value.target === 'filtered'">
       <ElInput
         v-model="selectedTags"
-        label="Select Tags"
+        label="Include Tags"
         input="InputCheckboxMulti"
         :list="availableTags"
       />

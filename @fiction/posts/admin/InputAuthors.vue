@@ -78,9 +78,9 @@ vue.onMounted(async () => {
         v-for="(user, i) in modelValue"
         :key="i"
         class="gap-1"
-        theme="blue"
+        theme="primary"
         size="sm"
-        design="ghost"
+        design="outline"
       >
         <span class="flex items-center gap-1">
           <span>{{ user.fullName || user.email }}</span>
@@ -94,6 +94,7 @@ vue.onMounted(async () => {
       :allow-search="true"
       :list="renderList"
       @update:model-value="addFromId($event as string)"
+      :zero-text="'No users found'"
     />
     <div class="flex justify-start gap-2">
       <XButton class="shrink-0" size="xs" btn="default" :href="card.link('/team')">

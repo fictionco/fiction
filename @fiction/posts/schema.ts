@@ -29,24 +29,30 @@ export type PostUserConfig = {
 export type PostDraft = Partial<{ draftId: string, title: string, content: string, userConfig: PostUserConfig, createdAt: string, updatedAt: string }>
 
 export const EmailConfigSchema = z.object({
+  // Basic email settings
   subject: z.string().optional(),
   preview: z.string().optional(),
-  from: z.object({
-    name: z.string().optional(),
-    email: z.string().optional(),
-    replyTo: z.string().optional(),
-  }).optional(),
-  audience: z.object({
-    mode: z.enum(['all', 'filter']).optional(),
-    filters: z.array(z.custom<ComplexDataFilter>()).optional(),
-    testEmails: z.array(z.string()).optional(),
-  }).optional(),
+  fromName: z.string().optional(),
+  fromEmail: z.string().optional(),
+  replyTo: z.string().optional(),
+
+  // Audience settings
+  target: z.enum(['all', 'filtered', 'nobody']).default('all'),
+  filters: z.array(z.custom<ComplexDataFilter>()).optional(),
+  testEmails: z.array(z.string()).optional(),
+
+  // Results
   sentAt: z.string().optional(),
+  sentCount: z.number().int().optional(),
 })
 
 export type EmailConfig = z.infer<typeof EmailConfigSchema>
 
-const EmailStatusSchema = z.enum(['none', 'toSend', 'sent'])
+const VisibilitySchema = z.enum([
+  'private', // Only logged in users
+  'public', // Anyone can view
+  'unlisted', // Only with direct link
+])
 
 export const postCols = [
   new Col({ key: 'postId', sec: 'permanent', sch: () => z.string().min(1), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('pst')`)).index() }),
@@ -59,17 +65,17 @@ export const postCols = [
   new Col({ key: 'excerpt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k).defaultTo('') }),
   new Col({ key: 'content', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k).defaultTo('') }),
   new Col({ key: 'media', sec: 'setting', sch: () => MediaDisplaySchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
-  new Col({ key: 'status', sec: 'setting', sch: () => PostStatusSchema, make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('draft') }),
   new Col({ key: 'userConfig', sec: 'setting', sch: () => z.record(z.unknown()) as z.Schema<PostUserConfig>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
-  new Col({ key: 'isSyndicated', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
   new Col({ key: 'hasChanges', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
   new Col({ key: 'draft', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'tags', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
   new Col({ key: 'categories', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
   new Col({ key: 'wordCount', sec: 'setting', sch: () => z.number().int(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
-  new Col({ key: 'isApproved', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).notNullable().defaultTo(false) }),
+  new Col({ key: 'status', sec: 'setting', sch: () => PostStatusSchema, make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('draft') }),
+  new Col({ key: 'visibility', sec: 'setting', sch: () => VisibilitySchema, make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('public') }),
+  new Col({ key: 'isFeatured', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
+  new Col({ key: 'priority', sec: 'setting', sch: () => z.number().int(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
   new Col({ key: 'emailConfig', sec: 'setting', sch: () => EmailConfigSchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
-  new Col({ key: 'emailStatus', sec: 'setting', sch: () => EmailStatusSchema, make: ({ s, col }) => s.string(col.k).defaultTo('toSend') }),
   new Col({ key: 'dateAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
   new Col({ key: 'publishAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
   new Col({ key: 'publishedAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
@@ -99,15 +105,11 @@ export const tables = [
   new FictionDbTable({
     tableKey: t.postAuthor,
     cols: postAuthorCols,
-    constraints: [
-      { type: 'unique', columns: ['post_id', 'user_id'] },
-    ],
+    constraints: [{ type: 'unique', columns: ['post_id', 'user_id'] }],
   }),
   new FictionDbTable({
     tableKey: t.postSite,
     cols: postSiteCols,
-    constraints: [
-      { type: 'unique', columns: ['post_id', 'site_id'] },
-    ],
+    constraints: [{ type: 'unique', columns: ['post_id', 'site_id'] }],
   }),
 ]

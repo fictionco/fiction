@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { ButtonDesign, ButtonFontWeight, ButtonFormat, ButtonHover, ButtonRounding, ButtonShadow, ColorThemeUser, MediaObject, StandardSize } from '@fiction/core'
 import { getNavComponentType, pathIsHref, shortId, vue } from '@fiction/core'
+import { twMerge } from 'tailwind-merge'
 import { animateItemEnter, splitLetters } from '../anim'
 import XIcon from '../media/XIcon.vue'
 import { getButtonClasses } from '../utils/utils'
@@ -26,6 +27,7 @@ const {
   tag,
   padding,
   respond,
+  classes,
 } = defineProps<{
   icon?: string | MediaObject
   iconAfter?: string | MediaObject
@@ -45,6 +47,7 @@ const {
   tag?: 'button' | 'div'
   padding?: string
   respond?: 'icon:sm' | 'icon:md' | 'icon:lg' | 'icon:xl'
+  classes?: { button?: string, icon?: string }
 }>()
 
 const randomId = shortId()
@@ -58,7 +61,12 @@ function onClick() {
 }
 
 const cls = vue.computed(() => {
-  return getButtonClasses({ rounding, design, theme, size, format, disabled, shadow, hover, fontWeight, padding })
+  const c = getButtonClasses({ rounding, design, theme, size, format, disabled, shadow, hover, fontWeight, padding })
+
+  return {
+    buttonClasses: twMerge(c.buttonClasses, classes?.button || ''),
+    iconClasses: twMerge(c.iconClasses, classes?.icon || ''),
+  }
 })
 const slots = vue.useSlots()
 const hasContent = vue.computed(() => !!slots?.default?.()?.[0]?.children?.length)

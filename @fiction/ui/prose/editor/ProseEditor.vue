@@ -75,7 +75,7 @@ defineExpose({ editor })
     <template v-else>
       <!-- <BubbleMenuEngine :editor="editor" /> -->
 
-      <EditorContent class="text-sm @[500px]/prose:text-base @[1000px]/prose:text-lg focus:outline-none" :editor="editor" data-test-id="prose-editor-content" />
+      <EditorContent class="text-sm @[500px]/prose:text-base @[700px]/prose:text-2xl focus:outline-none" :editor="editor" data-test-id="prose-editor-content" />
     </template>
   </div>
 </template>

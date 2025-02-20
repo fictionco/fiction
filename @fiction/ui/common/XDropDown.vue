@@ -84,12 +84,15 @@ defineExpose({ isClicked, isHovered, toggleClicked })
 
 let timeoutId: ReturnType<typeof setTimeout> | null = null
 
-function setActiveHover(mode: 'on' | 'off') {
+function setActiveHover(hov: 'on' | 'off') {
   if (timeoutId)
     clearTimeout(timeoutId)
 
-  if (mode === 'on') {
-    resetUi({ scope: 'inputs', cause: 'dropdown', trigger: 'manualReset' })
+  if (hov === 'on') {
+    // this prevents dropdowns hanging around when another dropdown is opened
+    if (mode === 'hover') {
+      resetUi({ scope: 'inputs', cause: 'dropdown', trigger: 'manualReset' })
+    }
     isHovered.value = true
   }
   else {
@@ -134,6 +137,7 @@ const wrapperClass = vue.computed(() => {
     @mouseleave="setActiveHover('off')"
   >
     <div
+      class="flex"
       role="button"
       aria-haspopup="true"
       :aria-expanded="isActive"

@@ -30,7 +30,7 @@ export type WherePost = { postId?: string, slug?: string } & ({ postId: string }
 
 export type ManagePostParamsRequest =
   | { _action: 'create', fields: Partial<TablePostConfig>, defaultTitle?: string }
-  | { _action: 'update', where: WherePost, fields: Partial<TablePostConfig>, loadDraft?: boolean, orgId: string, userId: string }
+  | { _action: 'update', where: WherePost, fields: Partial<TablePostConfig>, isAutosave?: boolean, loadDraft?: boolean, orgId: string, userId: string }
   | { _action: 'get', select?: (keyof TablePostConfig | '*')[], loadDraft?: boolean } & ({ orgId: string, where: WherePost & { orgId?: string } } | { where: WherePost & { orgId: string } })
   | { _action: 'delete', where: WherePost }
   | { _action: 'saveDraft', where: WherePost, fields: Partial<TablePostConfig>, userId: string, orgId: string }
@@ -219,7 +219,7 @@ export class QueryManagePost extends PostsQuery {
 
   private async updatePost(params: ManagePostParams & { _action: 'update' }, meta: EndpointMeta): Promise<EndpointResponse<TablePostConfig[]>> {
     const db = this.db()
-    const { where, fields, orgId, userId, scope = 'publish' } = params
+    const { where, fields, orgId, userId, scope = 'publish', isAutosave } = params
 
     if (!where.postId && !where.slug)
       throw abort('postId or slug is required to get a post', meta)
@@ -289,11 +289,11 @@ export class QueryManagePost extends PostsQuery {
       itemId: finalPost.postId,
       itemType: 'post',
       itemData: omit(finalPost, 'draft'),
-      title: 'Published version',
-      description: 'Post update published',
+      title: isAutosave ? 'Autosave Checkpoint' : 'Post updated',
+      description: isAutosave ? 'Autosave checkpoint reached' : 'Post updated',
       orgId,
       userId,
-    }, { skipTimeCheck: true })
+    }, { skipTimeCheck: !isAutosave })
 
     await trackPostMetrics({ orgId, fictionPosts: this.settings.fictionPosts, post: finalPost }, meta)
 

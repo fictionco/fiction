@@ -54,7 +54,7 @@ const options = vue.computed<InputOption[]>(() => {
         createOption({
           schema,
           key: 'postHandling',
-          label: 'Required Settings',
+          label: 'Post Settings',
           input: 'group',
           icon: { class: 'i-tabler-calendar' },
           options: [
@@ -96,19 +96,19 @@ const options = vue.computed<InputOption[]>(() => {
               key: 'tags',
               label: 'Tags',
               input: 'InputTags',
-              props: { taxonomyType: 'tag', table: t.posts, column: 'tags' },
+              props: { taxonomyType: 'tag', table: t.posts, column: 'tags', theme: 'indigo' },
             }),
             createOption({
               schema,
               key: 'categories',
-              label: 'Categories',
+              label: 'Category',
               input: 'InputTags',
-              props: { taxonomyType: 'category', table: t.posts, column: 'categories' },
+              props: { taxonomyType: 'category', table: t.posts, column: 'categories', theme: 'green' },
             }),
             createOption({
               schema,
               key: 'authors',
-              label: 'Authors',
+              label: 'Author',
               input: InputAuthors,
               props: { },
             }),
@@ -131,16 +131,6 @@ const options = vue.computed<InputOption[]>(() => {
               input: 'InputDate',
               props: { },
             }),
-          ],
-        }),
-        createOption({
-          schema,
-          key: 'dangerZone',
-          label: 'Danger Zone',
-          input: 'group',
-          icon: { class: 'i-tabler-alert-triangle' },
-          isClosed: true,
-          options: [
             createOption({
               key: 'deletePost',
               label: 'Permanently Delete Post',
@@ -166,9 +156,9 @@ const options = vue.computed<InputOption[]>(() => {
                 ] as ActionButton[],
               },
             }),
-
           ],
         }),
+
       ],
     }),
 

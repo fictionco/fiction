@@ -4,7 +4,15 @@ import { z } from 'zod'
 import { OrFilterGroupSchema } from '../types/endpoint.js'
 import { ColorScaleSchema, colorThemeUser, colorThemeWithInvert } from '../utils/colors.js'
 
-export const PostStatusSchema = z.enum(['draft', 'public', 'private', 'archived', 'deleted'])
+export const PostStatusSchema = z.enum([
+  'draft', // Initial state
+  'review', // Ready for review
+  'approved', // Approved for publication
+  'published', // Live content
+  'archived', // No longer active
+  'deleted', // Soft deleted
+])
+
 export const ProgressStatusSchema = z.enum(['pending', 'requested', 'processing', 'ready', 'error', 'cancelled', 'skipped'])
 export type ProgressStatus = z.infer<typeof ProgressStatusSchema>
 export const SyndicateStatusSchema = z.enum(['active', 'unsubscribed', 'pending', 'complained', 'deleted', 'cleaned'])

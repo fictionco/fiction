@@ -1,31 +1,29 @@
 <script lang="ts" setup>
-import type { NavListItem, PostObject } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import type { InputOption } from '@fiction/ui/index.js'
 import type { Post } from '../post.js'
+import type { ViewMode, ViewModeKey } from './PagePostEdit.vue'
 import { toLabel, useService, vue } from '@fiction/core'
-import { createOption } from '@fiction/ui'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElTooltip from '@fiction/ui/common/ElTooltip.vue'
 import XText from '@fiction/ui/common/XText.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import ProseEditor from '@fiction/ui/prose/editor/ProseEditor.vue'
 import ProseEditorToolbar from '@fiction/ui/prose/editor/ProseEditorToolbar.vue'
-import { t } from '../schema'
-import { TablePostSchema as schema } from '../schema.js'
 import ElOptionWrap from './ElOptionWrap.vue'
-import InputAudienceFilter from './InputAudienceFilter.vue'
 import { postEditController } from './tools'
 
 defineOptions({ name: 'PostEditor' })
 
-const { post, card } = defineProps<{
+const { post, card, viewModes, activeKey } = defineProps<{
   post?: Post
   card: Card
+  viewModes: ViewMode[]
+  activeKey: ViewModeKey
 }>()
 
 const emit = defineEmits<{
   (event: 'update:post', payload: Post): void
+  (event: 'update:activeKey', payload: ViewModeKey): void
 }>()
 
 const service = useService()
@@ -43,142 +41,9 @@ function handleUpdate(args: { key: 'title' | 'subTitle' | 'content', value: stri
   emit('update:post', post)
 }
 
-type ViewModeKey = 'compose' | 'audience' | 'email' | 'web' | 'review'
-
-const viewModes = vue.computed(() => {
-  const emailConfig = post?.emailConfig.value
-  const activeOrganizationId = service.fictionUser.activeOrgId.value
-  const out: (PostObject & { value: ViewModeKey, options?: InputOption[] })[] = [
-    { value: 'compose', title: 'Edit Post', icon: { class: 'i-tabler-edit' } },
-    {
-      value: 'audience',
-      title: 'Select Audience',
-      icon: { class: 'i-tabler-users' },
-      options: [
-        createOption({
-          schema,
-          key: 'group.postContent',
-          input: 'group',
-          icon: { class: 'i-tabler-users' },
-          options: [
-
-            createOption({
-              schema,
-              key: 'emailConfig.audience.mode',
-              label: 'Select Audiences',
-              input: 'InputRadioButton',
-              list: [
-                { label: 'All Subscribers', value: 'all' },
-                { label: 'Specific Contacts', value: 'filter' },
-              ],
-            }),
-            createOption({
-              schema,
-              key: 'emailConfig.audience.filters',
-              label: 'Specific Filters',
-              input: InputAudienceFilter,
-              isHidden: emailConfig?.audience?.mode !== 'filter',
-            }),
-          ],
-        }),
-      ],
-    },
-    {
-      value: 'email',
-      title: 'Email Details',
-      icon: { class: 'i-tabler-mail' },
-      options: [
-        createOption({
-          key: 'group.inbox',
-          input: 'group',
-          icon: { class: 'i-tabler-inbox' },
-          options: [
-            createOption({
-              schema,
-              key: 'emailStatus',
-              label: 'Newsletter Email',
-              input: 'InputRadioButton',
-              list: [
-                { label: 'Email on Publish', value: 'toSend' },
-                { label: `Publish to Web Only`, value: 'none' },
-              ],
-            }),
-            createOption({
-              schema,
-              key: 'emailConfig.subject',
-              label: 'Subject Line',
-              description: 'The main inbox subject line.',
-              input: 'InputText',
-              placeholder: 'Enter Subject',
-              isRequired: true,
-            }),
-            createOption({
-              schema,
-              key: 'emailConfig.preview',
-              label: 'Preview Line',
-              description: 'The preview line is the first line of the email and is shown in the inbox',
-              input: 'InputText',
-              placeholder: 'Enter Preview Text',
-            }),
-          ],
-        }),
-      ],
-    },
-    {
-      value: 'web',
-      title: 'Web and SEO',
-      icon: { class: 'i-tabler-world' },
-      options: [
-        createOption({
-          key: 'group.inbox',
-          input: 'group',
-          icon: { class: 'i-tabler-inbox' },
-          options: [
-            createOption({
-              schema,
-              key: 'slug',
-              label: 'Slug',
-              input: 'InputUsername',
-              placeholder: 'my-post',
-              isRequired: true,
-              props: {
-                table: t.posts,
-                columns: [
-                  { name: 'slug', allowReserved: true },
-                  { name: 'orgId', value: activeOrganizationId },
-                ],
-              },
-            }),
-            createOption({
-              schema,
-              key: 'userConfig.site.title',
-              label: 'SEO Title',
-              description: 'The title that will be displayed in search results.',
-              placeholder: 'Enter Title',
-              input: 'InputText',
-            }),
-            createOption({
-              schema,
-              key: 'userConfig.site.description',
-              label: 'SEO Description',
-              description: 'The description that will be displayed in search results.',
-              placeholder: 'Enter Description',
-              input: 'InputText',
-            }),
-          ],
-        }),
-      ],
-    },
-    { value: 'review', title: 'Review and Publish', icon: { class: 'i-tabler-check' } },
-  ] as const
-
-  return out
-})
-
-const activeViewModeKey = vue.ref<ViewModeKey>('compose')
-const activeViewModeIndex = vue.computed(() => viewModes.value.findIndex(v => v.value === activeViewModeKey.value))
+const activeViewModeIndex = vue.computed(() => viewModes.findIndex(v => v.value === activeKey))
 const activeViewMode = vue.computed(() => {
-  return viewModes.value.find(v => v.value === activeViewModeKey.value)
+  return viewModes.find(v => v.value === activeKey)
 })
 
 const classes = vue.computed(() => {
@@ -188,7 +53,7 @@ const classes = vue.computed(() => {
 })
 
 vue.onMounted(() => {
-  vue.watch(() => activeViewModeKey.value, (v) => {
+  vue.watch(() => activeKey, (v) => {
     if (v === 'compose') {
       postEditController.hideToolDrawers.value = false
     }
@@ -212,7 +77,7 @@ vue.watch(
     <div class="p-4 space-y-4 flex flex-col h-full">
       <div
         class=" flex  space-x-2 "
-        :class="activeViewModeKey === 'compose' ? 'justify-between' : 'justify-center'"
+        :class="activeKey === 'compose' ? 'justify-between' : 'justify-center'"
       >
         <div class="flex items-center gap-2 justify-center">
           <XButton
@@ -221,12 +86,12 @@ vue.watch(
             rounding="full"
             respond="icon:xl"
             design="outline"
-            :class="activeViewModeKey === mode.value ? '' : 'opacity-80'"
-            :theme="activeViewModeKey === mode.value ? 'green' : 'default'"
+            :class="activeKey === mode.value ? '' : 'opacity-80'"
+            :theme="activeKey === mode.value ? 'green' : 'default'"
             :icon="mode.icon"
             size="xs"
 
-            @click.stop="activeViewModeKey = mode.value"
+            @click.stop="emit('update:activeKey', mode.value)"
           >
             {{ toLabel(mode.value) }}
           </XButton>
@@ -234,7 +99,7 @@ vue.watch(
 
         <div class="flex items-center gap-2">
           <ElTooltip
-            v-if="activeViewModeKey === 'compose'"
+            v-if="activeKey === 'compose'"
             direction="bottom"
             content="Toggle Context Drawer"
           >
@@ -253,7 +118,7 @@ vue.watch(
         </div>
       </div>
       <transition :name="transit" mode="out-in">
-        <div v-if="activeViewModeKey === 'compose'" class="flex-grow flex flex-col gap-4 h-full min-h-0">
+        <div v-if="activeKey === 'compose'" class="flex-grow flex flex-col gap-4 h-full min-h-0">
           <div class="flex gap-4 items-stretch">
             <div :class="classes.panel" class="px-4 py-2 flex items-center justify-between grow w-full gap-6">
               <XText
@@ -296,7 +161,7 @@ vue.watch(
               </div>
             </div>
             <div class="relative max-h-[100%] overflow-scroll w-full aspect-[3/4] min-h-0 dark:bg-theme-950/80 no-scrollbar">
-              <div class="py-12 md:py-16 px-12 max-w-[76ch] mx-auto focus:outline-none space-y-6">
+              <div class="py-12 md:py-16 px-12 max-w-[900px] mx-auto focus:outline-none space-y-6">
                 <ProseEditor
                   ref="proseEditorEl"
                   :model-value="post.content.value"
@@ -314,10 +179,10 @@ vue.watch(
         </div>
         <template v-else>
           <ElOptionWrap
-            :key="activeViewModeKey"
+            :key="activeKey"
             :card
             :post
-            :value="activeViewModeKey"
+            :value="activeKey"
             :title="activeViewMode?.title"
             :options="activeViewMode?.options"
           />

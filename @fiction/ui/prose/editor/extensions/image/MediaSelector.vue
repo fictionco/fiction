@@ -150,7 +150,7 @@ const items = vue.computed<NavItem[]>(() => {
 </script>
 
 <template>
-  <NodeViewWrapper as="figure" :data-menu="media?.url ? 'image' : 'none'" class="ifigure my-6 not-prose outline-dotted outline-theme-200/30 dark:outline-theme-700 dark:focus:outline-theme-500 p-1 rounded-lg">
+  <NodeViewWrapper as="figure" :data-menu="media?.url ? 'image' : 'none'" class="ifigure my-6 not-prose p-1 rounded-lg">
     <div v-if="!media?.url" class="not-prose flex justify-center p-2">
       <InputMedia v-model:model-value="media" />
     </div>

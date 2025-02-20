@@ -7,6 +7,7 @@ export class PopupUtility {
   private originalScrollPosition: number
   private siteContentElement?: HTMLElement | null
   isActivated = false
+  clearTimeout?: NodeJS.Timeout
 
   constructor(siteContentSelector: string = '.x-site-content') {
     this.originalBodyPosition = ''
@@ -22,6 +23,10 @@ export class PopupUtility {
   }
 
   activate() {
+    if (this.clearTimeout) {
+      clearTimeout(this.clearTimeout)
+    }
+
     this.isActivated = true
     // Store original body styles and scroll position
     this.originalBodyPosition = document.body.style.position
@@ -74,12 +79,12 @@ export class PopupUtility {
     // Restore original scroll position
     window.scrollTo(0, this.originalScrollPosition)
 
-    setTimeout(() => {
+    this.clearTimeout = setTimeout(() => {
       if (this.siteContentElement) {
         this.siteContentElement.style.transform = ''
         this.siteContentElement.style.transformOrigin = ''
         this.siteContentElement.style.transition = ''
       }
-    }, 2000)
+    }, 1500)
   }
 }

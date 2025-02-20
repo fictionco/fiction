@@ -1,7 +1,6 @@
-# InputTags.vue
 <script lang="ts" setup>
-import type { StandardSize } from '@fiction/core'
-import { debounce, log, toSlug, useService, vue, waitFor } from '@fiction/core'
+import type { ColorThemeUser, StandardSize } from '@fiction/core'
+import { debounce, toSlug, useService, vue, waitFor } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import EffectDraggableSort from '@fiction/ui/effect/EffectDraggableSort.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
@@ -14,41 +13,50 @@ const props = defineProps<{
   modelValue?: string[]
   uiSize?: StandardSize
   placeholder?: string
+  label?: string // Generic label (e.g. "tags", "categories")
   table?: string
   column?: string
-  maxTags?: number
+  maxItems?: number
   inputClass?: string
+  theme?: ColorThemeUser
 }>()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: string[]): void
 }>()
 
-const logger = log.contextLogger('InputTags')
 const { fictionUser } = useService()
 
 // State
-const inputText = vue.ref<string>('')
+const inputText = vue.ref('')
 const isFocused = vue.ref(false)
-const suggestions = vue.ref<Array<{ value: string, count: number }>>([])
-const showSuggestions = vue.computed(() => isFocused.value && suggestions.value.length > 0)
-const selectedSuggestion = vue.ref(-1)
+const items = vue.ref<Array<{ value: string, count: number }>>([])
+const showDropdown = vue.computed(() => isFocused.value && items.value.length > 0)
+const selectedIndex = vue.ref(-1)
 const isModalOpen = vue.ref(false)
+const modalSearch = vue.ref('')
+const modalItems = vue.ref<Array<{ value: string, count: number }>>([])
+
+// Cache for search results
 const searchCache = new Map<string, Array<{ value: string, count: number }>>()
 
-// Modal browse state
-const modalSearch = vue.ref('')
-const modalSuggestions = vue.ref<Array<{ value: string, count: number }>>([])
+// Load initial popular items
+vue.onMounted(async () => {
+  await fetchItems()
+})
 
-const filteredModalSuggestions = vue.computed(() => {
+// Filtered modal items based on search
+const filteredModalItems = vue.computed(() => {
   const search = modalSearch.value.toLowerCase()
-  return modalSuggestions.value.filter(tag =>
-    tag.value.toLowerCase().includes(search),
+  if (!search)
+    return modalItems.value
+  return modalItems.value.filter(item =>
+    item.value.toLowerCase().includes(search),
   )
 })
 
-// Fetch suggestions from DB
-async function fetchSuggestions(search: string) {
+// Fetch items from DB
+async function fetchItems(search?: string) {
   if (!props.table || !props.column)
     return
 
@@ -57,9 +65,9 @@ async function fetchSuggestions(search: string) {
     if (!orgId)
       return
 
-    // Check cache first
-    if (searchCache.has(search)) {
-      suggestions.value = searchCache.get(search) || []
+    // Check cache
+    if (search && searchCache.has(search)) {
+      items.value = searchCache.get(search) || []
       return
     }
 
@@ -68,135 +76,93 @@ async function fetchSuggestions(search: string) {
       column: props.column,
       search,
       arrayColumn: true,
-      limit: 10,
+      limit: 20, // Show more items when not searching
     })
 
     if (response.data) {
-      suggestions.value = response.data
-      searchCache.set(search, response.data)
+      const data = response.data
+      items.value = data
+      modalItems.value = search ? [...modalItems.value, ...data] : data
+      if (search)
+        searchCache.set(search, data)
     }
   }
   catch (error) {
-    logger.error('Error fetching suggestions', { error })
+    console.error('Error fetching items:', error)
   }
 }
 
-function addTag(tag: string) {
-  if (!tag)
+const tempItems = vue.ref<string[]>([])
+
+function addItem(value: string) {
+  if (!value)
     return
 
-  const newTags = tag.split(',')
+  const newItems = value.split(',')
     .map(t => toSlug(t.trim()))
     .filter((t) => {
-      // Filter out empty, duplicate, and enforce maxTags
-      const isValid = t
-        && t.length >= 2
-        && t.length <= 30
-        && !props.modelValue?.includes(t)
-
-      const withinLimit = !props.maxTags
-        || (props.modelValue?.length || 0) < props.maxTags
-
+      const isValid = t?.length >= 2 && t.length <= 30 && !props.modelValue?.includes(t)
+      const withinLimit = !props.maxItems || (props.modelValue?.length || 0) < props.maxItems
       return isValid && withinLimit
     })
 
-  if (newTags.length) {
-    const updatedTags = [...(props.modelValue || []), ...newTags]
-    emit('update:modelValue', updatedTags)
+  if (newItems.length) {
+    emit('update:modelValue', [...(props.modelValue || []), ...newItems])
   }
 
   inputText.value = ''
-  selectedSuggestion.value = -1
+  selectedIndex.value = -1
+  tempItems.value = []
+  isModalOpen.value = false
 }
 
-function removeTag(tagToRemove: string) {
-  const updatedTags = (props.modelValue || []).filter(tag => tag !== tagToRemove)
-  emit('update:modelValue', updatedTags)
+function removeItem(value: string) {
+  emit('update:modelValue', (props.modelValue || []).filter(t => t !== value))
 }
 
-function handleInputChange(e: Event) {
+// Input handlers
+const handleInput = debounce((e: Event) => {
   const value = (e.target as HTMLInputElement).value
   inputText.value = value
-
-  // Only search after comma for multiple tags
   const searchText = value.split(',').pop()?.trim() || ''
   if (searchText.length >= 2) {
-    debounce(() => fetchSuggestions(searchText), 300)()
+    fetchItems(searchText)
   }
-  else {
-    suggestions.value = []
-  }
-}
+}, 300)
 
 function handleKeydown(event: KeyboardEvent) {
-  // Add on tab, enter or comma
-  if (event.key === 'Tab' || event.key === 'Enter' || event.key === ',') {
+  if (['Tab', 'Enter', ','].includes(event.key)) {
     event.preventDefault()
-
-    if (selectedSuggestion.value >= 0 && suggestions.value[selectedSuggestion.value]) {
-      addTag(suggestions.value[selectedSuggestion.value].value)
+    if (selectedIndex.value >= 0 && items.value[selectedIndex.value]) {
+      addItem(items.value[selectedIndex.value].value)
     }
     else if (inputText.value) {
-      addTag(inputText.value)
+      addItem(inputText.value)
     }
   }
-  // Remove last tag on backspace if input is empty
   else if (event.key === 'Backspace' && !inputText.value && props.modelValue?.length) {
-    removeTag(props.modelValue[props.modelValue.length - 1])
+    removeItem(props.modelValue[props.modelValue.length - 1])
   }
-  // Navigation
-  else if (event.key === 'ArrowDown' && showSuggestions.value) {
+  else if (event.key === 'ArrowDown' && showDropdown.value) {
     event.preventDefault()
-    selectedSuggestion.value = Math.min(
-      selectedSuggestion.value + 1,
-      suggestions.value.length - 1,
-    )
+    selectedIndex.value = Math.min(selectedIndex.value + 1, items.value.length - 1)
   }
-  else if (event.key === 'ArrowUp' && showSuggestions.value) {
+  else if (event.key === 'ArrowUp' && showDropdown.value) {
     event.preventDefault()
-    selectedSuggestion.value = Math.max(selectedSuggestion.value - 1, -1)
+    selectedIndex.value = Math.max(selectedIndex.value - 1, -1)
   }
 }
 
-function handleBlur() {
-  // Add any remaining input when focus is lost
-  setTimeout(() => {
-    if (inputText.value) {
-      addTag(inputText.value)
-    }
-    isFocused.value = false
-    suggestions.value = []
-  }, 200)
-}
-
-// Handle drag-sort
-async function handleSort(sortedValues: string[]) {
+// Sort handler
+async function handleSort(sorted: string[]) {
   await waitFor(20)
-  const newValue = sortedValues
-    .map(val => props.modelValue?.find(item => item === val))
-    .filter(Boolean) as string[]
-  emit('update:modelValue', newValue)
+  emit('update:modelValue', sorted.filter(v => props.modelValue?.includes(v)))
 }
-
-// Modal tag browse
-async function openTagBrowser() {
-  isModalOpen.value = true
-  await fetchSuggestions('')
-  modalSuggestions.value = suggestions.value
-}
-
-// Watch modal search
-vue.watch(() => modalSearch.value, async (search) => {
-  if (search.length >= 2) {
-    debounce(() => fetchSuggestions(search), 300)()
-    modalSuggestions.value = suggestions.value
-  }
-})
 
 const containerStyles = vue.computed(() =>
   textInputClasses({
     uiSize: props.uiSize,
-    inputClass: 'flex flex-wrap items-center gap-1 !p-1.5', // Adjust padding for tags
+    inputClass: 'flex flex-wrap items-center gap-1 !p-1.5',
   }),
 )
 
@@ -204,51 +170,50 @@ const tagInput = vue.ref<HTMLInputElement>()
 </script>
 
 <template>
-  <div class="space-y-3">
+  <div class="space-y-3 relative">
     <div class="flex items-stretch gap-2">
-      <!-- Main input container -->
-      <div :class="containerStyles" @click.self="$refs.tagInput.focus()">
+      <!-- Main input -->
+      <div :class="containerStyles" @click.self="tagInput?.focus()">
         <EffectDraggableSort
           class="inline-flex gap-2 flex-wrap items-center"
           :allow-horizontal="true"
           @update:sorted="handleSort"
         >
-          <!-- Selected tags -->
           <template v-if="modelValue?.length">
             <XButton
-              v-for="tag in modelValue"
-              :key="tag"
-              :data-drag-id="tag"
+              v-for="item in modelValue"
+              :key="item"
+              :data-drag-id="item"
               size="sm"
-              theme="default"
+              :theme="theme || 'default'"
               rounding="full"
-              class="group cursor-grab bg-theme-100 dark:bg-theme-700"
+              design="outline"
+              class="group"
+              hover="none"
+              :classes="{ button: 'cursor-grab' }"
               @click.stop
             >
-              <span class="flex items-center gap-1.5">
+              <span class="flex items-center gap-1 pl-1">
+                <span>{{ item }}</span>
                 <span
-                  class="i-tabler-grip-vertical opacity-50 group-hover:opacity-100 cursor-move"
-                />
-                <span>{{ tag }}</span>
-                <span
-                  class="i-tabler-x opacity-50 group-hover:opacity-100 cursor-pointer"
-                  @click.stop="removeTag(tag)"
+                  class="i-tabler-x opacity-50 hover:opacity-100 cursor-pointer"
+                  @click.stop="removeItem(item)"
                 />
               </span>
             </XButton>
           </template>
-          <!-- Input field -->
+
           <input
             ref="tagInput"
             v-model="inputText"
             type="text"
-            :placeholder="modelValue?.length ? '' : (placeholder || 'Add...')"
+            :placeholder="modelValue?.length ? '' : (placeholder || `Add ${label || 'items'}...`)"
             class="flex-1 min-w-[80px] p-1 font-mono text-sm"
             :class="inputClasses({ uiSize }).reset"
             @keydown="handleKeydown"
-            @input="handleInputChange"
+            @input="handleInput"
             @focus="isFocused = true"
-            @blur="handleBlur"
+            @blur="() => { isFocused = false; inputText && addItem(inputText) }"
           >
         </EffectDraggableSort>
       </div>
@@ -256,46 +221,40 @@ const tagInput = vue.ref<HTMLInputElement>()
       <!-- Browse button -->
       <XButton
         v-if="table && column"
-        icon="i-tabler-tags"
+        icon="i-tabler-search"
         :ui-size="uiSize"
         theme="default"
         rounding="md"
         class="shrink-0"
-        @click.stop="openTagBrowser"
+        @click.stop="isModalOpen = true"
       />
     </div>
 
-    <!-- Suggestions dropdown -->
+    <!-- Dropdown -->
     <div
-      v-if="showSuggestions"
+      v-if="showDropdown"
       class="absolute z-50 mt-1 w-full max-w-md bg-theme-0 dark:bg-theme-800
-             border border-theme-200 dark:border-theme-700 rounded-lg shadow-lg"
+             border border-theme-200 dark:border-theme-600 rounded-lg shadow-lg"
     >
       <ul class="py-1">
         <li
-          v-for="(suggestion, index) in suggestions"
-          :key="suggestion.value"
+          v-for="(item, index) in items"
+          :key="item.value"
           class="px-4 py-2 cursor-pointer text-sm flex justify-between items-center"
-          :class="[
-            index === selectedSuggestion
-              ? 'bg-theme-100 dark:bg-theme-700'
-              : 'hover:bg-theme-50 dark:hover:bg-theme-700',
-          ]"
-          @mousedown="addTag(suggestion.value)"
-          @mouseover="selectedSuggestion = index"
+          :class="[index === selectedIndex ? 'bg-theme-100 dark:bg-theme-700'
+            : 'hover:bg-theme-50 dark:hover:bg-theme-700']"
+          @mousedown="addItem(item.value)"
+          @mouseover="selectedIndex = index"
         >
           <span class="flex items-center gap-2">
-            <span class="i-tabler-hash text-theme-500 dark:text-theme-400" />
-            {{ suggestion.value }}
+            {{ item.value }}
           </span>
-          <span class="text-xs text-theme-500 dark:text-theme-400">
-            {{ suggestion.count }} posts
-          </span>
+          <span class="text-xs text-theme-500 dark:text-theme-400">{{ item.count }}</span>
         </li>
       </ul>
     </div>
 
-    <!-- Tag Browser Modal -->
+    <!-- Browse Modal -->
     <ElModal
       v-model:vis="isModalOpen"
       modal-class="max-w-2xl p-6"
@@ -304,44 +263,53 @@ const tagInput = vue.ref<HTMLInputElement>()
       <div class="space-y-6">
         <div class="flex justify-between items-center">
           <h3 class="text-lg font-semibold">
-            Browse Tags
+            Browse {{ label || 'Items' }}
           </h3>
         </div>
 
-        <div class="relative">
-          <span
-            class="absolute left-3 top-1/2 -translate-y-1/2 text-theme-400 dark:text-theme-500"
-          >
-            <span class="i-tabler-search" />
-          </span>
-          <InputText
-            v-model="modalSearch"
-            placeholder="Search tags..."
-            class="w-full pl-10"
-          />
-        </div>
+        <InputText
+          v-model="modalSearch"
+          placeholder="Search..."
+          class="w-full"
+          prefix-icon="i-tabler-search"
+        />
 
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-96 overflow-y-auto">
-          <button
-            v-for="tag in filteredModalSuggestions"
-            :key="tag.value"
-            class="p-2 text-left rounded-lg flex items-center justify-between group"
-            :class="[
-              modelValue?.includes(tag.value)
-                ? 'bg-theme-100 text-theme-600 dark:bg-theme-800 dark:text-theme-300 cursor-not-allowed'
-                : 'bg-theme-50 hover:bg-theme-100 dark:bg-theme-800 dark:hover:bg-theme-700',
-            ]"
-            :disabled="modelValue?.includes(tag.value)"
-            @click="addTag(tag.value)"
+        <div class="flex gap-2 max-h-[350px] overflow-y-auto">
+          <XButton
+            v-for="item in filteredModalItems"
+            :key="item.value"
+            :title="modelValue?.includes(item.value) ? 'Already added' : 'Add item'"
+            :theme="theme || 'default'"
+            :design="tempItems?.includes(item.value) ? 'solid' : 'outline'"
+            @click="tempItems.push(item.value)"
           >
             <span class="flex items-center gap-2">
-              <span class="i-tabler-hash text-theme-500 dark:text-theme-400" />
-              <span class="truncate">{{ tag.value }}</span>
+              <span>{{ item.value }}</span>
+              <span class="text-xs text-theme-500 dark:text-theme-400">
+                {{ item.count }}
+              </span>
             </span>
-            <span class="text-xs text-theme-500 dark:text-theme-400">
-              {{ tag.count }}
-            </span>
-          </button>
+          </XButton>
+        </div>
+        <div class="border-t border-theme-200 dark:border-theme-700 flex justify-between ">
+          <XButton
+            theme="default"
+            size="md"
+            icon="i-tabler-x"
+            data-test-id="media-cancel"
+            @click="isModalOpen = false"
+          >
+            Cancel
+          </XButton>
+          <XButton
+            theme="primary"
+            size="md"
+            icon="i-tabler-check"
+            data-test-id="media-apply"
+            @click="addItem(tempItems.join(','))"
+          >
+            Apply Changes
+          </XButton>
         </div>
       </div>
     </ElModal>

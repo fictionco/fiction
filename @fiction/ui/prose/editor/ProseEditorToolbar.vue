@@ -381,7 +381,7 @@ function clearFormatting() {
         <div class="flex gap-2">
           <ElInput
             v-model="linkUrl"
-            input="InputText"
+            input="InputUrl"
             :placeholder="editor.isActive('link') ? 'Edit link URL' : 'Enter URL'"
             @keydown.enter="handleLinkSubmit"
             @keydown.esc="showLinkInput = false"
