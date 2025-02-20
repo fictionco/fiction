@@ -105,7 +105,7 @@ const cls = vue.computed(() => {
     },
     lg: {
       groupHeader: 'py-2.5 px-3 text-sm',
-      groupPad: 'px-8 lg:px-10 py-6',
+      groupPad: 'px-8 lg:px-10 py-8 pb-10',
       inputGap: 'gap-7',
     },
   }

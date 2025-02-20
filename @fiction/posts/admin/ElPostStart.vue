@@ -66,13 +66,13 @@ const stepConfig: StepConfig = {
   steps: vue.computed<StepItem[]>(() => {
     const out: StepItem[] = [
       {
-        title: 'Start a New Post',
-        subTitle: 'Enter a title for your post',
+        title: 'Create New Post',
+        subTitle: 'Give it a title, you can change this later',
         key: 'postTitle',
         class: 'max-w-lg',
         isLoading: isSubmitting.value,
         onClick: () => createNewPost(),
-        button: { label: 'Continue to Editor' },
+        button: { label: 'Next' },
       },
     ]
 
@@ -99,11 +99,12 @@ const stepConfig: StepConfig = {
           v-model="postDetails.title"
           input="InputText"
           :input-props="{
-            'placeholder': 'Enter a title',
+            'placeholder': `Enter post title`,
             'aria-label': 'Post title',
           }"
           data-test-id="postTitleInput"
           ui-size="lg"
+          required
         />
       </div>
     </ElStepNav>

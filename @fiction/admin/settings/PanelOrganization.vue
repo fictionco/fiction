@@ -119,7 +119,7 @@ const newsletterOptions = [
   createOption({
     key: 'control.pubTitle',
     testId: 'pubTitle',
-    label: 'Newsletter Title',
+    label: 'Publication Title',
     subLabel: 'Used in emails and other places.',
     input: 'InputControl',
     valueDisplay: () => {
@@ -135,7 +135,7 @@ const newsletterOptions = [
   createOption({
     key: 'control.pubTagline',
     testId: 'pubTagline',
-    label: 'Newsletter Description',
+    label: 'Publication Description',
     input: 'InputControl',
     valueDisplay: () => {
       return {
@@ -150,7 +150,7 @@ const newsletterOptions = [
   createOption({
     key: 'control.pubEmail',
     testId: 'pubEmail',
-    label: 'Newsletter Email and Sender',
+    label: 'Email From Address',
     subLabel: 'Email will be sent from this address.',
     input: 'InputControl',
     valueDisplay: () => {
@@ -255,7 +255,7 @@ const options = vue.computed(() => {
     }),
     createOption({
       key: 'publication',
-      label: 'Newsletter and Email',
+      label: 'Sending Email and Publication',
       input: 'group',
       options: newsletterOptions,
       format: 'control',

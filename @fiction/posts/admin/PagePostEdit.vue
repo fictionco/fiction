@@ -6,14 +6,19 @@ import type { FictionPosts } from '..'
 import type { Post } from '../post.js'
 import ElSavingSignal from '@fiction/admin/el/ElSavingSignal.vue'
 import ViewEditor from '@fiction/admin/ViewEditor.vue'
-import { useService, vue, waitFor } from '@fiction/core'
+import { dayjs, useService, vue, waitFor } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import XText from '@fiction/ui/common/XText.vue'
+import ElModal from '@fiction/ui/ElModal.vue'
+import ElForm from '@fiction/ui/inputs/ElForm.vue'
+import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import { t } from '..'
 import { TablePostSchema as schema } from '../schema.js'
 import { managePost } from '../utils'
 import InputAudienceFilter from './InputAudienceFilter.vue'
+import InputPostReview from './InputPostReview.vue'
+
 import PostEditor from './PostEditor.vue'
 import { postEditController } from './tools'
 
@@ -24,7 +29,8 @@ defineProps({
 const service = useService<{ fictionPosts: FictionPosts }>()
 
 const loading = vue.ref(true)
-const sending = vue.ref()
+const sending = vue.ref<'schedule'>()
+const scheduleModalVis = vue.ref(false)
 const post = vue.shallowRef<Post | undefined>()
 
 async function load() {
@@ -123,6 +129,7 @@ const viewModes = vue.computed(() => {
               schema,
               key: 'emailConfig.subject',
               label: 'Subject Line',
+              subLabel: 'This will be same as post title unless modified',
               description: 'The main inbox subject line.',
               input: 'InputText',
               placeholder: 'Enter Subject',
@@ -132,6 +139,7 @@ const viewModes = vue.computed(() => {
               schema,
               key: 'emailConfig.preview',
               label: 'Preview Line',
+              subLabel: 'This will be same as post subtitle unless modified',
               description: 'The preview line is the first line of the email and is shown in the inbox',
               input: 'InputText',
               placeholder: 'Enter Preview Text',
@@ -201,13 +209,74 @@ const viewModes = vue.computed(() => {
         }),
       ],
     },
-    { value: 'review', title: 'Review and Publish', icon: { class: 'i-tabler-check' } },
+    {
+      value: 'review',
+      title: 'Review and Publish',
+      icon: { class: 'i-tabler-send' },
+      options: [
+        createOption({
+          key: 'group.inbox',
+          input: 'group',
+          label: 'Review Details',
+          icon: { class: 'i-tabler-send' },
+          options: [
+            createOption({
+              key: 'review',
+              input: InputPostReview,
+            }),
+          ],
+        }),
+
+      ],
+    },
   ] as const
 
   return out
 })
 
 const activeKey = vue.ref<ViewModeKey>('compose')
+const activeViewModeIndex = vue.computed(() => viewModes.value.findIndex(v => v.value === activeKey.value))
+function navigate(dir: 'next' | 'prev' | 'schedule') {
+  if (dir === 'schedule') {
+    scheduleModalVis.value = true
+    return
+  }
+
+  const index = activeViewModeIndex.value
+  const newIndex = dir === 'next' ? index + 1 : index - 1
+  const newMode = viewModes.value[newIndex]
+
+  if (newMode)
+    activeKey.value = newMode.value
+}
+
+async function saveAndSchedule() {
+  sending.value = 'schedule'
+
+  try {
+    const p = post.value
+    p?.update({ status: 'approved' }, { caller: 'saveAndSchedule' })
+    await p?.save({ caller: 'saveAndSchedule' })
+    scheduleModalVis.value = false
+  }
+  catch (e) {
+    console.error(e)
+  }
+  finally {
+    sending.value = undefined
+  }
+}
+
+const publishText = vue.computed(() => {
+  if (post.value?.publishMode.value === 'schedule') {
+    return post.value.publishAt.value
+      ? `Publish on ${dayjs(post.value.publishAt.value).format('MMM D, YYYY [at] h:mm A')}`
+      : 'Select Date'
+  }
+  else if (post.value?.publishMode.value === 'now') {
+    return 'Publish Now'
+  }
+})
 </script>
 
 <template>
@@ -246,21 +315,94 @@ const activeKey = vue.ref<ViewModeKey>('compose')
         >
           Preview
         </XButton>
+
         <XButton
-          v-if="post?.status.value === 'draft'"
+          v-if="activeViewModeIndex < viewModes.length - 1"
           theme="primary"
-          :loading="sending === 'publish'"
-          icon-after="i-tabler-arrow-right"
+          design="outline"
           size="md"
-          data-test-id="publish-button"
-          @click.stop.prevent="activeKey = 'audience'"
+          data-test-id="next-button-top"
+          icon-after="i-tabler-arrow-right"
+          @click.prevent="navigate('next')"
         >
           Next
         </XButton>
+        <XButton
+          v-else
+          theme="primary"
+          data-test-id="schedule-button-top"
+          icon="i-tabler-calendar"
+          icon-after="i-tabler-arrow-right"
+          @click.stop="navigate('schedule')"
+        >
+          Schedule
+        </XButton>
       </template>
       <template #default>
-        <PostEditor v-model:active-key="activeKey" :post :card :view-modes="viewModes" />
+        <PostEditor
+          v-model:active-key="activeKey"
+          :post
+          :card
+          :view-modes="viewModes"
+          @navigate="navigate($event)"
+        />
       </template>
     </ViewEditor>
+
+    <ElModal v-model:vis="scheduleModalVis" modal-class="max-w-screen-sm">
+      <div class="p-4 font-semibold">
+        Schedule Publish
+      </div>
+      <ElForm v-if="post" class="p-4 space-y-6 relative" @submit="saveAndSchedule()">
+        <div class="space-y-6 p-12">
+          <ElInput
+            v-model="post.publishMode.value"
+            input="InputRadioButton"
+            label="Schedule Options"
+            sub-label="When do you want to publish this post?"
+            ui-size="lg"
+            :list="[{
+              label: 'Publish Now',
+              value: 'now',
+              icon: 'i-tabler-clock',
+            }, {
+              label: 'Schedule for Later',
+              value: 'schedule',
+              icon: 'i-tabler-calendar',
+            }]"
+            required
+          />
+          <ElInput
+            v-if="post.publishMode.value === 'schedule'"
+            v-model="post.publishAt.value"
+            label="Publish Date and Time"
+            sub-label="Select the date and time you want to publish this post."
+            ui-size="lg"
+            input="InputDate"
+            :input-props="{ dateMode: 'future', includeTime: true }"
+            required
+          />
+        </div>
+        <div class="flex justify-between gap-6">
+          <XButton
+            size="md"
+            theme="default"
+            type="submit"
+            @click.prevent="scheduleModalVis = false"
+          >
+            Cancel
+          </XButton>
+          <XButton
+            size="md"
+            theme="primary"
+            icon="i-tabler-calendar-bolt"
+            type="submit"
+            :loading="sending === 'schedule'"
+          >
+            {{ publishText }}
+          </XButton>
+        </div>
+      </ElForm>
+    </ElModal>
   </div>
 </template>

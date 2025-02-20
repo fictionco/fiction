@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-import type { ComplexDataFilter, StandardSize } from '@fiction/core'
-import type { TopValueResult } from '@fiction/core/plugin-user/endpointTopValues'
+import type { ComplexDataFilter, NavListItem, StandardSize } from '@fiction/core'
 import type { FictionSubscribe } from '@fiction/plugins/plugin-subscribe'
 import type { Post } from '../post'
-import { debounce, useService, vue } from '@fiction/core'
+import { debounce, normList, useService, vue } from '@fiction/core'
 import XNumber from '@fiction/ui/common/XNumber.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 
@@ -30,14 +29,19 @@ const orGroups = vue.computed<ComplexDataFilter[]>({
 
 const recipientCount = vue.ref()
 const isLoading = vue.ref(false)
-const availableTags = vue.ref<TopValueResult[]>([])
+const availableTags = vue.ref<NavListItem[]>([])
 
 const selectedTags = vue.ref<string[]>([])
 
 async function fetchTags() {
   const response = await fictionSubscribe.getTags()
 
-  availableTags.value = response.data || []
+  const rawTags = response.data || []
+
+  availableTags.value = rawTags.map(tag => ({
+    ...tag,
+    label: tag.value,
+  }))
 
   console.warn('Fetching tags', response)
 }
@@ -50,7 +54,9 @@ const fetchCount = debounce(async () => {
     return
   }
 
-  const filters = mode === 'filtered' ? orGroups.value : undefined
+  const or = orGroups.value || []
+
+  const filters = mode === 'filtered' ? or : undefined
 
   isLoading.value = true
   try {
@@ -102,14 +108,14 @@ const tagGroupDisplay = vue.computed(() => {
 
   return orGroups.value.map((group) => {
     const tags = group.find(f => f.field === 'tags')?.value as string[] || []
-    return tags.join(' <span class="opacity-50">and</span> ')
-  }).join(' <span class="opacity-50">OR</span> ')
+    return tags.join(' <span class="text-theme-500">and</span> ')
+  }).join(' <span class="text-theme-500">OR</span> ')
 })
 </script>
 
 <template>
   <div class="space-y-6">
-    <div class="border-y border-theme-200 dark:border-theme-600/60 py-4 lg:py-6 flex gap-6 justify-between">
+    <div class="border-y border-theme-200 dark:border-theme-600/60 py-4 lg:py-6 flex gap-6 justify-between items-center">
       <div class="text-xl font-medium text-theme-600 dark:text-theme-200 space-x-2">
         <XNumber
           tag="span"
@@ -118,12 +124,11 @@ const tagGroupDisplay = vue.computed(() => {
           class="mt-4 text-5xl font-bold x-font-title"
           format="number"
         />
-        <span>recipients</span>
+        <span class="text-theme-500">recipients</span>
       </div>
 
-      <div class="text-sm space-y-1">
+      <div class="text-sm space-y-1 ">
         <div class="text-theme-500">
-          Sending to contacts with filters
           {{ post.emailConfig.value.target === 'all'
             ? 'Sending to all active contacts'
             : post.emailConfig.value.target === 'filtered' ? 'Sending to contacts with filters' : 'No will be sent' }}
@@ -135,7 +140,8 @@ const tagGroupDisplay = vue.computed(() => {
     <div v-if="post.emailConfig.value.target === 'filtered'">
       <ElInput
         v-model="selectedTags"
-        label="Include Tags"
+        label="Contact Tags"
+        sub-label="Include contacts with these tags"
         input="InputCheckboxMulti"
         :list="availableTags"
       />

@@ -24,10 +24,12 @@ const { post, card, viewModes, activeKey } = defineProps<{
 const emit = defineEmits<{
   (event: 'update:post', payload: Post): void
   (event: 'update:activeKey', payload: ViewModeKey): void
+  (event: 'navigate', payload: 'next' | 'prev' | 'schedule'): void
 }>()
 
 const service = useService()
 
+const sending = vue.ref<'publish'>()
 const proseEditorEl = vue.ref<InstanceType<typeof ProseEditor>>()
 
 function handleUpdate(args: { key: 'title' | 'subTitle' | 'content', value: string, caller: string }) {
@@ -87,7 +89,7 @@ vue.watch(
             respond="icon:xl"
             design="outline"
             :class="activeKey === mode.value ? '' : 'opacity-80'"
-            :theme="activeKey === mode.value ? 'green' : 'default'"
+            :theme="activeKey === mode.value ? 'primary' : 'default'"
             :icon="mode.icon"
             size="xs"
 
@@ -178,14 +180,49 @@ vue.watch(
           </div>
         </div>
         <template v-else>
-          <ElOptionWrap
-            :key="activeKey"
-            :card
-            :post
-            :value="activeKey"
-            :title="activeViewMode?.title"
-            :options="activeViewMode?.options"
-          />
+          <div :key="activeKey">
+            <ElOptionWrap
+
+              :card
+              :post
+              :value="activeKey"
+              :title="activeViewMode?.title"
+              :options="activeViewMode?.options"
+            >
+              <template #footer>
+                <div class="mt-6 justify-between flex gap-6">
+                  <XButton
+                    :disabled="activeViewModeIndex === 0"
+                    theme="default"
+                    design="outline"
+                    icon="i-tabler-arrow-left"
+                    @click="emit('navigate', 'prev')"
+                  >
+                    Previous
+                  </XButton>
+                  <XButton
+                    v-if="activeViewModeIndex < viewModes.length - 1"
+                    theme="primary"
+                    design="outline"
+                    icon-after="i-tabler-arrow-right"
+                    @click="emit('navigate', 'next')"
+                  >
+                    Next
+                  </XButton>
+                  <XButton
+                    v-else
+                    theme="primary"
+                    design="solid"
+                    icon="i-tabler-calendar"
+                    icon-after="i-tabler-arrow-right"
+                    @click.stop="emit('navigate', 'schedule')"
+                  >
+                    Schedule
+                  </XButton>
+                </div>
+              </template>
+            </ElOptionWrap>
+          </div>
         </template>
       </transition>
     </div>

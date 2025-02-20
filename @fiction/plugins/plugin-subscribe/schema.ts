@@ -5,7 +5,6 @@ import { z } from 'zod'
 
 export const t = {
   subscribe: 'fiction_subscribe',
-  subscribeTaxonomy: 'fiction_subscribe_taxonomy',
   ...standardTable,
 }
 

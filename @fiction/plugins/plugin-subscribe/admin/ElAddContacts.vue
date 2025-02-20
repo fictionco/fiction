@@ -10,6 +10,8 @@ import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 import { csvToEmailList, parseAndValidateEmails } from './utils'
+import {dayjs} from '@fiction/core'
+import {t} from '../schema'
 
 const { card } = defineProps<{ card: Card }>()
 
@@ -29,7 +31,7 @@ const fileList = vue.shallowRef<FileList>()
 const importMethod = vue.ref<'csv' | 'text'>('text')
 const step = vue.ref<'import' | 'submit'>('import')
 const rawTextEmailList = vue.ref<string>()
-const tagList = vue.ref<string[]>([])
+const tagList = vue.ref<string[]>([dayjs().format('YYYY-MM')])
 const csvEmailList = vue.ref<string[]>([])
 async function uploadFiles() {
   const files = fileList.value
@@ -310,10 +312,11 @@ async function importSubscribers() {
           v-model="tagList"
           input="InputTags"
           label="Tags (Optional)"
-          sub-label="Used to categorize subscribers"
+          sub-label="Used to categorize contacts"
           :rows="10"
           data-test-id="tag-list"
           placeholder="e.g. Work, Webinar..."
+          :input-props="{ theme: 'orange', table: t.subscribe, column: 'tags' }"
         />
       </div>
     </transition>

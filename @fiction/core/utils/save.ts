@@ -53,7 +53,7 @@ export class AutosaveUtility<T extends EndpointResponse = EndpointResponse> {
     }
   }
 
-  private clearTimeout(): void {
+  clearTimeout(): void {
     if (this.saveTimeout) {
       clearTimeout(this.saveTimeout)
       this.saveTimeout = null

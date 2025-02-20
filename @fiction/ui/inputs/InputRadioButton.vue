@@ -17,13 +17,13 @@ const parsedList = vue.computed(() => normList(list))
 
 const sizeClasses = vue.computed(() => {
   const sizes = {
-    'xxs': { wrap: 'gap-0.5' },
-    'xs': { wrap: 'gap-1' },
-    'sm': { wrap: 'gap-1.5' },
-    'md': { wrap: 'gap-2' },
-    'lg': { wrap: 'gap-2' },
-    'xl': { wrap: 'gap-2.5' },
-    '2xl': { wrap: 'gap-3' },
+    'xxs': { wrap: 'gap-0.5 py-0.5' },
+    'xs': { wrap: 'gap-1 py-0.5' },
+    'sm': { wrap: 'gap-1.5 py-0.5' },
+    'md': { wrap: 'gap-2 py-1' },
+    'lg': { wrap: 'gap-3 py-2' },
+    'xl': { wrap: 'gap-4 py-3' },
+    '2xl': { wrap: 'gap-5 py-4' },
   }
 
   return sizes[uiSize] || sizes.sm
@@ -32,7 +32,7 @@ const sizeClasses = vue.computed(() => {
 
 <template>
   <div
-    class="inline-flex rounded-lg shadow-sm isolate flex-wrap"
+    class="inline-flex rounded-lg shadow-sm isolate flex-wrap "
     role="radiogroup"
     :class="sizeClasses.wrap"
   >
@@ -42,7 +42,7 @@ const sizeClasses = vue.computed(() => {
       :data-test-id="`radio-button-${item.value}`"
       :theme=" modelValue === item.value ? 'primary' : 'default'"
       role="radio"
-      design="outline"
+      design="solid"
       :aria-checked="modelValue === item.value"
       rounding="md"
       :size="uiSize"

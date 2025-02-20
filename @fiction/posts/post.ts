@@ -39,6 +39,7 @@ export class Post extends FictionObject<PostConfig> {
 
   hasChanges = vue.ref(this.settings.hasChanges || false)
   publishAt = vue.ref(this.settings.publishAt)
+  publishMode = vue.ref(this.settings.publishMode || 'now')
   wordCount = vue.ref(this.settings.wordCount || 0)
   scheduleMode = vue.ref<'now' | 'schedule'>('now')
 
@@ -69,6 +70,7 @@ export class Post extends FictionObject<PostConfig> {
       'excerpt',
       'dateAt',
       'publishAt',
+      'publishMode',
       'hasChanges',
       'status',
       'tags',
@@ -95,16 +97,20 @@ export class Post extends FictionObject<PostConfig> {
     })
   }
 
-  async save(args: { isAutosave?: boolean, publishAt?: string, caller: string }) {
+  async save(args: { isAutosave?: boolean, caller: string }) {
     const { isAutosave, caller = 'unknown caller' } = args
+
+    this.saveUtil.clearTimeout()
+
     const fields = this.toConfig()
 
     const params = { _action: 'update', where: { postId: this.postId }, fields, isAutosave } as const
     const p = await managePost({ fictionPosts: this.settings.fictionPosts, params, caller: 'savePost', disableNotify: isAutosave })
 
-    this.update(p?.toConfig() || {}, { caller: `savePost-${caller}`, noSave: true })
+    if (!isAutosave)
+      this.update(p?.toConfig() || {}, { caller: `savePost-${caller}`, noSave: true })
 
-    this.saveUtil.clear()
+    this.saveUtil.isDirty.value = false
   }
 
   async delete() {
@@ -125,7 +131,6 @@ export class Post extends FictionObject<PostConfig> {
       excerpt: this.excerpt.value,
       content: this.content.value,
       userConfig: this.userConfig.value,
-
       emailConfig: this.emailConfig.value,
       visibility: this.visibility.value,
       isFeatured: this.isFeatured.value,
@@ -134,6 +139,7 @@ export class Post extends FictionObject<PostConfig> {
       dateAt: this.dateAt.value,
       hasChanges: this.hasChanges.value,
       publishAt: this.publishAt.value,
+      publishMode: this.publishMode.value,
       status: this.status.value,
       tags: this.tags.value,
       categories: this.categories.value,

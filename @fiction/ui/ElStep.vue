@@ -42,7 +42,7 @@ const step = vue.computed(() => {
             size="sm"
             :super-title="step.superTitle"
           />
-          <div class="space-y-2">
+          <div class="space-y-1">
             <h1 class="x-font-title text-xl font-bold antialiased">
               {{ step.title }}
             </h1>

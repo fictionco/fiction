@@ -53,7 +53,7 @@ const { title, subTitle, superTitle, card, post, value, options = [] } = defineP
         :disable-group-hide="true"
         @update:model-value="post.update($event, { caller: 'optionWrap' })"
       />
-      <slot />
+      <slot name="footer" />
     </div>
   </div>
 </template>

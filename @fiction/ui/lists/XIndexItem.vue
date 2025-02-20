@@ -98,8 +98,8 @@ const linkProps = vue.computed(() => {
           :icon="item.icon"
           :theme="theme"
         />
-        <div>
-          <div class="font-semibold leading-6" :class="classes.titleSize">
+        <div class="space-y-2">
+          <div class="font-bold leading-6" :class="classes.titleSize">
             {{ item.label }}
           </div>
           <div class="flex items-center gap-x-2 text-theme-500 dark:text-theme-400" :class="classes.descSize">
