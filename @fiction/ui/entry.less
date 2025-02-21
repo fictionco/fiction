@@ -119,40 +119,41 @@
   a {
     text-decoration: underline;
     text-decoration-thickness: 1px;
-    text-underline-offset: 2px;
+    text-underline-offset: 3px;
     transition: opacity 0.2s ease;
-    @apply text-primary-600;
+    @apply font-medium transition-all duration-300;
+
 
     &:hover {
-      @apply opacity-80;
+      color: rgba(var(--post-theme-light) / 1);
     }
   }
 
-  &.dark a{
-    @apply text-primary-300;
+  &.dark a:hover{
+    color: rgba(var(--post-theme-dark) / 1);
   }
 
   /* Blockquotes - professional style */
   blockquote {
-    @apply my-8 ml-8 pl-10 py-2 relative;
+    @apply my-8 ml-2 lg:ml-8 pl-6 lg:pl-12 py-2 relative;
     border-radius: 2px;
     max-width: 85ch;
     font-family: var(--font-family-title, unset);
     font-weight: var(--font-weight-title, 600);
-
+    color: rgba(var(--theme-800) / 1);
     /* Subtle left border */
     &::before {
       content: "";
       @apply absolute left-0 top-0 bottom-0 w-1;
-      background: rgba(var(--theme-200) / 1);
+      background: rgba(var(--post-theme-light) / .1);
     }
 
     p {
       margin: .5em 0;
-      color: rgba(var(--theme-700) / 1);
+
       font-weight: 400;
       line-height: 1.6;
-      font-size: clamp(1.125rem, 1.3em, 3rem);
+      font-size: clamp(1.1rem, 1.3em, 3rem);
     }
 
     /* Optional footer for attribution */
@@ -169,14 +170,9 @@
 
   /* Dark mode blockquote */
   &.dark blockquote {
-    background: rgba(var(--theme-900) / 1);
-
+    color: rgba(var(--theme-100) / 1);
     &::before {
-      background: rgba(var(--theme-700) / 1);
-    }
-
-    p {
-      color: rgba(var(--theme-300) / 1);
+      background: rgba(var(--post-theme-dark) / .1);
     }
 
     footer {

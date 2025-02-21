@@ -80,7 +80,14 @@ const options = vue.computed<InputOption[]>(() => {
                 ],
               },
             }),
-
+            createOption({
+              schema,
+              key: 'theme',
+              label: 'Theme',
+              description: 'Change the colors used in the post',
+              input: 'InputColorTheme',
+              props: { mode: 'bright' },
+            }),
           ],
         }),
 

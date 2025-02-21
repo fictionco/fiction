@@ -26,6 +26,7 @@ export class Post extends FictionObject<PostConfig> {
   slug = vue.ref(this.settings.slug || '')
   href = vue.computed(() => postLink({ card: this.settings.card, slug: this.slug.value, viewSlug: this.settings.viewSlug }))
   media = vue.ref(this.settings.media || {})
+  theme = vue.ref(this.settings.theme || 'primary')
   tags = vue.ref(this.settings.tags || [])
   categories = vue.ref(this.settings.categories || [])
   authors = vue.ref(this.settings.authors || [])
@@ -69,6 +70,7 @@ export class Post extends FictionObject<PostConfig> {
       'priority',
       'visibility',
       'media',
+      'theme',
       'excerpt',
       'dateAt',
       'publishAt',
@@ -138,6 +140,7 @@ export class Post extends FictionObject<PostConfig> {
       isFeatured: this.isFeatured.value,
       priority: this.priority.value,
       media: this.media.value,
+      theme: this.theme.value,
       dateAt: this.dateAt.value,
       hasChanges: this.hasChanges.value,
       publishAt: this.publishAt.value,
@@ -150,4 +153,9 @@ export class Post extends FictionObject<PostConfig> {
       wordCount: this.wordCount.value,
     }
   }
+
+  config = vue.computed({
+    get: () => this.toConfig(),
+    set: (value: TablePostConfig) => this.update(value, { noSave: false, caller: 'config' }),
+  })
 }

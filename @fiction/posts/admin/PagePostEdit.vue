@@ -34,6 +34,7 @@ const service = useService<{ fictionPosts: FictionPosts, fictionSubscribe: Ficti
 const loading = vue.ref(true)
 const sending = vue.ref<'schedule'>()
 const scheduleModalVis = vue.ref(false)
+const previewModalVis = vue.ref(false)
 const post = vue.shallowRef<Post | undefined>()
 
 async function load() {
@@ -256,7 +257,10 @@ const viewModes = vue.computed(() => {
 const activeKey = vue.ref<ViewModeKey>('compose')
 const activeViewModeIndex = vue.computed(() => viewModes.value.findIndex(v => v.value === activeKey.value))
 
-export type PanelNavigate = { dir?: 'next' | 'prev' | 'schedule', key?: ViewModeKey }
+export type PanelNavigate = {
+  dir?: 'next' | 'prev' | 'schedule' | 'preview'
+  key?: ViewModeKey
+}
 
 function navigate(args: PanelNavigate) {
   const { dir, key } = args
@@ -268,6 +272,10 @@ function navigate(args: PanelNavigate) {
 
   if (dir === 'schedule') {
     scheduleModalVis.value = true
+    return
+  }
+  else if (dir === 'preview') {
+    previewModalVis.value = true
     return
   }
 
@@ -360,6 +368,7 @@ const publishText = vue.computed(() => {
           icon="i-tabler-eye"
           data-test-id="preview-post-button"
           design="ghost"
+          @click.stop="navigate({ dir: 'preview' })"
         >
           Preview
         </XButton>
@@ -462,9 +471,10 @@ const publishText = vue.computed(() => {
     />
 
     <ElModal
-      :vis="true"
+      v-model:vis="previewModalVis"
       modal-class="w-full x-font-body h-[calc(100dvh-4rem)] overflow-scroll no-scrollbar"
       transition-mode="slideUp"
+      :has-close="true"
     >
       <PostPreview :post :card />
     </ElModal>

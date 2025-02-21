@@ -74,8 +74,18 @@ const imageAspect = vue.computed(() => {
             Edit Post
           </CardButton>
         </div>
-        <CardTextPost tag="h1" path="title" :post="post" class="text-6xl font-semibold x-font-title text-balance" />
-        <CardTextPost :post="post" tag="h2" path="subTitle" class="text-3xl font-medium dark:text-theme-400 text-balance" />
+        <CardTextPost
+          tag="h1"
+          path="title"
+          :post="post"
+          class="text-6xl font-semibold x-font-title text-balance"
+        />
+        <CardTextPost
+          :post="post"
+          tag="h2"
+          path="subTitle"
+          class="text-3xl font-medium dark:text-theme-400 text-balance"
+        />
         <div class="flex justify-center">
           <ElAuthor v-for="(author, i) in post.authors.value" :key="i" :user="author" :date-at="post.dateAt.value" />
         </div>

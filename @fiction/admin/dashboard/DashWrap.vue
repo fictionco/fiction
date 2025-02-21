@@ -149,7 +149,7 @@ vue.onMounted(async () => {
         />
       </template>
       <template v-else-if="uc.layoutFormat === 'full'">
-        <ElEngine tag="div" class="h-full" :card />
+        <ElEngine tag="div" class="h-full overflow-y-scroll" :card />
       </template>
       <div v-else class="relative min-h-0 grow overflow-scroll">
         <div class="page-area h-full">

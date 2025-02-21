@@ -17,6 +17,7 @@ export const ProgressStatusSchema = z.enum(['pending', 'requested', 'processing'
 export type ProgressStatus = z.infer<typeof ProgressStatusSchema>
 export const SyndicateStatusSchema = z.enum(['active', 'unsubscribed', 'pending', 'complained', 'deleted', 'cleaned'])
 export const ColorThemeSchema = z.enum(colorThemeWithInvert)
+export const ColorThemeUserSchema = z.enum(colorThemeUser)
 export const ImageFiltersSchema = z.enum(['brightness', 'opacity', 'contrast', 'blur', 'grayscale', 'sepia', 'saturate', 'invert', 'hue-rotate'])
 export type ImageFilter = z.infer<typeof ImageFiltersSchema>
 

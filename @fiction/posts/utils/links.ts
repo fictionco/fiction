@@ -39,5 +39,8 @@ export function allPostsLink(args: { card: Card }): string {
 
 export function getPostPreviewRoute(args: { post: Post, card: Card }) {
   const { post, card } = args
-  return card?.link({ path: `/preview-post/${post.postId}` })
+  const out = card?.link({ path: `/preview-post`, query: { postId: post.postId } })
+
+  console.warn('getPostPreviewRoute', out, post.postId)
+  return out
 }

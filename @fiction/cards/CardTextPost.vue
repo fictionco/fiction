@@ -4,7 +4,15 @@ import type { InputModes } from '@fiction/ui/common/XText.vue'
 import { getNested, setNested, vue } from '@fiction/core'
 import XText from '@fiction/ui/common/XText.vue'
 
-const { post, tag = 'div', path, placeholder = 'Placeholder', fallback = '', animate, editKey = true } = defineProps<{
+const {
+  post,
+  tag = 'div',
+  path,
+  placeholder = 'Placeholder',
+  fallback = '',
+  animate,
+  editKey = true,
+} = defineProps<{
   post: Post
   tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'div' | 'span' | 'p' | 'a'
   path: string

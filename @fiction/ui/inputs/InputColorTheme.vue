@@ -1,22 +1,31 @@
 <script lang="ts" setup>
 import type { ColorThemeUser } from '@fiction/core'
-import { colorTheme, getColorScheme, onlyUserColorTheme, vue } from '@fiction/core'
+import { colorTheme, colorThemeBright, getColorScheme, onlyUserColorTheme, vue } from '@fiction/core'
+import XButton from '../buttons/XButton.vue'
 import InputSelectCustom from './InputSelectCustom.vue'
 
 defineOptions({ name: 'InputColorTheme' })
 
-const { modelValue } = defineProps<{ modelValue?: ColorThemeUser }>()
+const { modelValue, mode = 'user' } = defineProps<{
+  modelValue?: ColorThemeUser
+  mode?: 'bright' | 'user' | 'color'
+}>()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: ColorThemeUser | undefined): void
 }>()
 
-const list = [
-  { format: 'title', name: 'Special Handling' },
-  ...onlyUserColorTheme,
-  { format: 'title', name: 'Color Themes' },
-  ...colorTheme,
-]
+const list = vue.computed(() => {
+  if (mode === 'bright')
+    return colorThemeBright
+
+  return [
+    { format: 'title', name: 'Special Handling' },
+    ...onlyUserColorTheme,
+    { format: 'title', name: 'Color Themes' },
+    ...colorTheme,
+  ]
+})
 
 const colorScheme = vue.computed(() => {
   if (!modelValue)
@@ -28,6 +37,8 @@ const colorScheme = vue.computed(() => {
 
   return getColorScheme(modelValue, { outputFormat: 'hex' })
 })
+
+const showPreview = vue.ref(false)
 </script>
 
 <template>
@@ -37,8 +48,17 @@ const colorScheme = vue.computed(() => {
       :model-value="modelValue"
       @update:model-value="emit('update:modelValue', $event as ColorThemeUser)"
     />
-    <div v-if="colorScheme" class="flex w-full ring-black rounded-md overflow-hidden" :style="{ border: `1px solid ${colorScheme[500]}` }">
-      <div v-for="(clr, i) in colorScheme" :key="i" :title="String(i)" class="h-6 w-full" :style="{ background: clr }" />
+    <div v-if="colorScheme" class="flex gap-2 items-center">
+      <XButton class="shrink-0" design="link" size="xs" @click.prevent="showPreview = !showPreview">
+        Show Colors
+      </XButton>
+      <div
+        v-if="colorScheme && showPreview"
+        class="flex w-full rounded-md overflow-hidden h-5 "
+        :style="{ border: `1px solid ${colorScheme[500]}` }"
+      >
+        <div v-for="(clr, i) in colorScheme" :key="i" :title="String(i)" class="w-full" :style="{ background: clr }" />
+      </div>
     </div>
   </div>
 </template>
