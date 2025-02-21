@@ -5,6 +5,7 @@ import type { Post } from '../post'
 import { debounce, normList, useService, vue } from '@fiction/core'
 import XNumber from '@fiction/ui/common/XNumber.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
+import { getPostEmailRecipientCount } from '../utils/email'
 
 defineOptions({ name: 'InputAudienceFilter' })
 
@@ -47,31 +48,8 @@ async function fetchTags() {
 }
 
 const fetchCount = debounce(async () => {
-  const mode = post.emailConfig.value.target
-
-  if (mode === 'nobody') {
-    recipientCount.value = 0
-    return
-  }
-
-  const or = orGroups.value || []
-
-  const filters = mode === 'filtered' ? or : undefined
-
   isLoading.value = true
-  try {
-    const response = await fictionSubscribe.requests.ManageSubscription.projectRequest({
-      _action: 'count',
-      filters,
-    })
-
-    console.warn('Fetching recipient count', response)
-    recipientCount.value = response.indexMeta?.count || 0
-  }
-  catch (error) {
-    console.error('Error fetching recipient count:', error)
-    recipientCount.value = 0
-  }
+  recipientCount.value = await getPostEmailRecipientCount({ post, fictionSubscribe })
   isLoading.value = false
 }, 300)
 
@@ -91,11 +69,7 @@ vue.onMounted(async () => {
   vue.watch(
     () => selectedTags.value,
     () => {
-      orGroups.value = selectedTags.value.map(tag => [{
-        field: 'tags',
-        operator: 'in',
-        value: [tag],
-      }])
+      orGroups.value = selectedTags.value.map(tag => [{ field: 'tags', operator: 'in', value: [tag] }])
     },
     { deep: true, immediate: true },
   )

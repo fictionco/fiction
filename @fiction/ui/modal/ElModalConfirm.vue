@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { vue, waitFor } from '@fiction/core'
-import XButton from './buttons/XButton.vue'
-import ElModal from './ElModal.vue'
+import XButton from '../buttons/XButton.vue'
+import ElModal from '../ElModal.vue'
 
 defineProps({
   title: { type: String, default: '' },

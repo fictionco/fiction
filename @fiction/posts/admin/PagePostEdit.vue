@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { PostObject } from '@fiction/core'
+import type { FictionSubscribe } from '@fiction/plugins/plugin-subscribe'
 import type { Card } from '@fiction/site'
 import type { InputOption } from '@fiction/ui'
 import type { FictionPosts } from '..'
@@ -13,20 +14,22 @@ import XText from '@fiction/ui/common/XText.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
+import SuccessModal from '@fiction/ui/modal/SuccessModal.vue'
 import { t } from '..'
 import { TablePostSchema as schema } from '../schema.js'
 import { managePost } from '../utils'
+import { getPostEmailRecipientCount } from '../utils/email'
 import InputAudienceFilter from './InputAudienceFilter.vue'
 import InputPostReview from './InputPostReview.vue'
-
 import PostEditor from './PostEditor.vue'
+import PostPreview from './PostPreview.vue'
 import { postEditController } from './tools'
 
 defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
-const service = useService<{ fictionPosts: FictionPosts }>()
+const service = useService<{ fictionPosts: FictionPosts, fictionSubscribe: FictionSubscribe }>()
 
 const loading = vue.ref(true)
 const sending = vue.ref<'schedule'>()
@@ -48,8 +51,18 @@ async function load() {
   loading.value = false
 }
 
+const recipientCountRef = vue.ref(0)
+
 vue.onMounted(async () => {
   await load()
+
+  vue.watch(
+    () => [post.value?.emailConfig.value.target, post.value?.emailConfig.value.filters],
+    async () => {
+      recipientCountRef.value = await getPostEmailRecipientCount({ post: post.value, fictionSubscribe: service.fictionSubscribe })
+    },
+    { deep: true, immediate: true },
+  )
 })
 
 export type ViewModeKey = 'compose' | 'audience' | 'email' | 'web' | 'review'
@@ -58,6 +71,7 @@ export type ViewMode = (PostObject & { value: ViewModeKey, options?: InputOption
 const viewModes = vue.computed(() => {
   const emailConfig = post.value?.emailConfig.value
   const activeOrganizationId = service.fictionUser.activeOrgId.value
+  const recipientCount = recipientCountRef.value
   const out: ViewMode[] = [
     { value: 'compose', title: 'Edit Post', icon: { class: 'i-tabler-edit' } },
     {
@@ -88,6 +102,7 @@ const viewModes = vue.computed(() => {
               schema,
               key: 'emailConfig.filters',
               input: InputAudienceFilter,
+              props: { recipientCount },
             }),
           ],
         }),
@@ -223,6 +238,10 @@ const viewModes = vue.computed(() => {
             createOption({
               key: 'review',
               input: InputPostReview,
+              props: {
+                recipientCount,
+                onNavigate: (payload: PanelNavigate) => navigate(payload),
+              },
             }),
           ],
         }),
@@ -236,7 +255,17 @@ const viewModes = vue.computed(() => {
 
 const activeKey = vue.ref<ViewModeKey>('compose')
 const activeViewModeIndex = vue.computed(() => viewModes.value.findIndex(v => v.value === activeKey.value))
-function navigate(dir: 'next' | 'prev' | 'schedule') {
+
+export type PanelNavigate = { dir?: 'next' | 'prev' | 'schedule', key?: ViewModeKey }
+
+function navigate(args: PanelNavigate) {
+  const { dir, key } = args
+
+  if (key) {
+    activeKey.value = key
+    return
+  }
+
   if (dir === 'schedule') {
     scheduleModalVis.value = true
     return
@@ -250,6 +279,7 @@ function navigate(dir: 'next' | 'prev' | 'schedule') {
     activeKey.value = newMode.value
 }
 
+const successModalVis = vue.ref(false)
 async function saveAndSchedule() {
   sending.value = 'schedule'
 
@@ -258,6 +288,12 @@ async function saveAndSchedule() {
     p?.update({ status: 'approved' }, { caller: 'saveAndSchedule' })
     await p?.save({ caller: 'saveAndSchedule' })
     scheduleModalVis.value = false
+
+    await waitFor(100)
+
+    await navigate({ key: 'compose' })
+
+    successModalVis.value = true
   }
   catch (e) {
     console.error(e)
@@ -266,6 +302,18 @@ async function saveAndSchedule() {
     sending.value = undefined
   }
 }
+
+const publishSuccess = vue.computed(() => {
+  return post.value?.publishMode.value === 'schedule'
+    ? {
+        title: 'Post Scheduled Successfully!',
+        content: 'Your post has been scheduled for publication.',
+      }
+    : {
+        title: 'Post Published Successfully!',
+        content: 'Your post has been published.',
+      }
+})
 
 const publishText = vue.computed(() => {
   if (post.value?.publishMode.value === 'schedule') {
@@ -323,7 +371,7 @@ const publishText = vue.computed(() => {
           size="md"
           data-test-id="next-button-top"
           icon-after="i-tabler-arrow-right"
-          @click.prevent="navigate('next')"
+          @click.prevent="navigate({ dir: 'next' })"
         >
           Next
         </XButton>
@@ -333,7 +381,7 @@ const publishText = vue.computed(() => {
           data-test-id="schedule-button-top"
           icon="i-tabler-calendar"
           icon-after="i-tabler-arrow-right"
-          @click.stop="navigate('schedule')"
+          @click.stop="navigate({ dir: 'schedule' })"
         >
           Schedule
         </XButton>
@@ -403,6 +451,22 @@ const publishText = vue.computed(() => {
           </XButton>
         </div>
       </ElForm>
+    </ElModal>
+
+    <!-- Success Confirmation Modal -->
+    <SuccessModal
+      v-model:vis="successModalVis"
+      :title="publishSuccess.title"
+      :content="publishSuccess.content"
+      :action="{ buttons: [{ label: 'Close', theme: 'primary' as const, onClick: () => successModalVis = false }] }"
+    />
+
+    <ElModal
+      :vis="true"
+      modal-class="w-full x-font-body h-[calc(100dvh-4rem)] overflow-scroll no-scrollbar"
+      transition-mode="slideUp"
+    >
+      <PostPreview :post :card />
     </ElModal>
   </div>
 </template>

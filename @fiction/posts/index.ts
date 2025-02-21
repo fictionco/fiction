@@ -2,12 +2,13 @@ import type { FictionAdmin } from '@fiction/admin'
 
 import type { template as dashTemplate, panelTemplate } from '@fiction/admin/dashboard/cardDash'
 import type { FictionAnalytics } from '@fiction/analytics'
-import type { ComplexDataFilter, FictionDb, FictionEmail, FictionMedia, FictionPluginSettings, FictionRevision, FictionServer, FictionUser } from '@fiction/core'
+import type { ComplexDataFilter, FictionDb, FictionEmail, FictionMedia, FictionPluginSettings, FictionRevision, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { WherePost } from './endpoint'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { QueryManagePost } from './endpoint'
 import { Post } from './post'
+import { getRoutes } from './routes'
 import { tables } from './schema'
 import { createHelloWorldPost } from './utils/index.js'
 import { getWidgets } from './widgets'
@@ -23,6 +24,7 @@ export type FictionPostsSettings = {
   fictionMedia: FictionMedia
   fictionAnalytics: FictionAnalytics
   fictionRevision: FictionRevision
+  fictionRouter: FictionRouter
 } & FictionPluginSettings
 
 export * from './schema'
@@ -52,6 +54,7 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
     fictionDb.addTables(tables)
 
     this.adminUi()
+    this.settings.fictionRouter?.update(getRoutes())
 
     this.hooks()
   }
@@ -111,7 +114,18 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
           }),
         ],
         userConfig: { layoutFormat: 'full' },
-
+      }),
+      await factory.fromTemplate<typeof dashTemplate>({
+        templateId: 'dash',
+        userConfig: { layoutFormat: 'full' },
+        slug: 'preview-post',
+        title: 'Post Preview',
+        cards: [
+          await factory.fromTemplate({
+            el: vue.defineAsyncComponent(async () => import('./admin/ViewPreview.vue')),
+            userConfig: { standard: { spaceSize: 'none' } },
+          }),
+        ],
       }),
     ] })
   }

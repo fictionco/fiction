@@ -88,3 +88,5 @@ export class PopupUtility {
     }, 1500)
   }
 }
+
+export const popupUtil = new PopupUtility()

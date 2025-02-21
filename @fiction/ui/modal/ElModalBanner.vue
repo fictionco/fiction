@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { ActionButton, vue } from '@fiction/core'
-import ElSpinner from './loaders/ElSpinner.vue'
+import ElSpinner from '../loaders/ElSpinner.vue'
 
 defineProps({
   icon: {

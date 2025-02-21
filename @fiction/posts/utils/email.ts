@@ -1,5 +1,6 @@
 import type { EmailSendConfig, Organization } from '@fiction/core'
-import type { FictionPosts, TablePostConfig } from '..'
+import type { FictionSubscribe } from '@fiction/plugins/plugin-subscribe'
+import type { FictionPosts, Post, TablePostConfig } from '..'
 import { toMarkdown, vue } from '@fiction/core'
 
 export async function getEmailForPost(args: {
@@ -49,4 +50,32 @@ export async function getEmailForPost(args: {
   }
 
   return emailConfig
+}
+
+export async function getPostEmailRecipientCount(args: { post?: Post, fictionSubscribe: FictionSubscribe }) {
+  const { post, fictionSubscribe } = args
+  const mode = post?.emailConfig.value.target
+
+  let recipientCount = 0
+
+  if (mode === 'nobody' || !post) {
+    return recipientCount
+  }
+
+  const filters = mode === 'filtered' ? post.emailConfig.value.filters : undefined
+
+  try {
+    const response = await fictionSubscribe.requests.ManageSubscription.projectRequest({
+      _action: 'count',
+      filters,
+    })
+
+    recipientCount = response.indexMeta?.count || 0
+  }
+  catch (error) {
+    console.error('Error fetching recipient count:', error)
+    recipientCount = 0
+  }
+
+  return recipientCount
 }

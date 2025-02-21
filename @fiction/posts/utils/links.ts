@@ -36,3 +36,8 @@ export function allPostsLink(args: { card: Card }): string {
   const { card } = args
   return card.link(`/:viewId`)
 }
+
+export function getPostPreviewRoute(args: { post: Post, card: Card }) {
+  const { post, card } = args
+  return card?.link({ path: `/preview-post/${post.postId}` })
+}

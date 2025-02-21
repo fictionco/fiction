@@ -2,8 +2,8 @@
 import type { EndpointResponse, FictionRevision } from '@fiction/core'
 import { dayjs, useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
-import ElModalConfirm from '@fiction/ui/ElModalConfirm.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
+import ElModalConfirm from '@fiction/ui/modal/ElModalConfirm.vue'
 
 const { itemId, onRestore } = defineProps<{
   itemId: string

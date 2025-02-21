@@ -24,7 +24,7 @@ const { post, card, viewModes, activeKey } = defineProps<{
 const emit = defineEmits<{
   (event: 'update:post', payload: Post): void
   (event: 'update:activeKey', payload: ViewModeKey): void
-  (event: 'navigate', payload: 'next' | 'prev' | 'schedule'): void
+  (event: 'navigate', payload: { dir?: 'next' | 'prev' | 'schedule', key?: ViewModeKey }): void
 }>()
 
 const service = useService()
@@ -196,7 +196,7 @@ vue.watch(
                     theme="default"
                     design="outline"
                     icon="i-tabler-arrow-left"
-                    @click="emit('navigate', 'prev')"
+                    @click="emit('navigate', { dir: 'prev' })"
                   >
                     Previous
                   </XButton>
@@ -205,7 +205,7 @@ vue.watch(
                     theme="primary"
                     design="outline"
                     icon-after="i-tabler-arrow-right"
-                    @click="emit('navigate', 'next')"
+                    @click="emit('navigate', { dir: 'next' })"
                   >
                     Next
                   </XButton>
@@ -215,7 +215,7 @@ vue.watch(
                     design="solid"
                     icon="i-tabler-calendar"
                     icon-after="i-tabler-arrow-right"
-                    @click.stop="emit('navigate', 'schedule')"
+                    @click.stop="emit('navigate', { dir: 'schedule' })"
                   >
                     Schedule
                   </XButton>

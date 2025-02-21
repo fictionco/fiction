@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { onResetUi, resetUi, vue, waitFor } from '@fiction/core'
-import { PopupUtility } from './anim/popupUtil'
+import { popupUtil } from './anim/popupUtil'
 import ElClose from './common/ElClose.vue'
 
 defineOptions({ name: 'ElModal' })
@@ -22,7 +22,6 @@ const {
 }>()
 
 const emit = defineEmits(['update:vis', 'close', 'escape'])
-const popupUtil = new PopupUtility()
 function close(args: { reason: 'escape' | 'reset' }): void {
   const { reason } = args
   emit('update:vis', false)

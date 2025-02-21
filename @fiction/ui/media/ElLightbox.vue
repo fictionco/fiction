@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { PostObject } from '@fiction/core'
 import { onResetUi, vue, waitFor } from '@fiction/core'
-import { PopupUtility } from '../anim/popupUtil'
+import { popupUtil } from '../anim/popupUtil'
 import ElClose from '../common/ElClose.vue'
 import XMedia from './XMedia.vue'
 
@@ -13,7 +13,6 @@ const props = defineProps<{
 const emit = defineEmits<{
   (event: 'update:activeIndex', payload: number): void
 }>()
-const popupUtil = new PopupUtility()
 const isActive = vue.computed(() => props.activeIndex !== undefined && props.activeIndex >= 0)
 const ind = vue.computed(() => props.activeIndex ?? -1)
 const activeItem = vue.computed(() => isActive.value ? props.items?.[ind.value] : undefined)

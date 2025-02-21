@@ -47,6 +47,8 @@ export class Post extends FictionObject<PostConfig> {
     onSave: async () => this.save({ isAutosave: true, caller: 'autosave' }),
   })
 
+  previewPath = vue.computed(() => this.card?.link({ path: `/preview-post/${this.postId}` }))
+
   constructor(settings: PostConfig) {
     super('Post', settings)
   }

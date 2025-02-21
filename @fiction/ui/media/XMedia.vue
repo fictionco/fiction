@@ -158,7 +158,7 @@ const classes = vue.computed(() => {
 
   return {
     container: c.includes('absolute') ? '' : 'relative',
-    wrap: inlineImage ? '' : 'h-full w-full',
+    wrap: inlineImage ? (constraint === 'height' ? 'h-full' : '') : 'h-full w-full',
     media: inlineImage ? inlineClasses : 'absolute h-full w-full',
     html: inlineImage ? inlineClasses : 'h-full w-full *:w-full *:h-full',
     el: inlineImage ? inlineClasses : 'h-full w-full',

@@ -83,6 +83,7 @@ export const recommendedIcons = [
   { class: 'i-tabler-award', category: 'interface' },
   { class: 'i-tabler-asterisk', category: 'interface' },
   { class: 'i-tabler-north-star', category: 'interface' },
+  { class: 'i-tabler-world', category: 'interface' },
 
   // Content - Text editing and content management
   { class: 'i-tabler-file', category: 'content' },
@@ -230,6 +231,7 @@ export const recommendedIcons = [
   { class: 'i-tabler-mail-forward', category: 'marketing' },
   { class: 'i-tabler-mail-fast', category: 'marketing' },
   { class: 'i-tabler-mail-opened', category: 'marketing' },
+  { class: 'i-tabler-mail-off', category: 'marketing' },
   { class: 'i-tabler-mailbox', category: 'marketing' },
   { class: 'i-tabler-address-book', category: 'marketing' },
 
