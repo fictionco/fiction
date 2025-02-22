@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ColorThemeBright } from '@fiction/core/utils/colors.js'
 import type { PropType } from 'vue'
 import type { ActionButton } from '../../schemas/schemas.js'
 import type { MediaItem } from '../../types'
@@ -20,6 +21,7 @@ const props = defineProps({
   mediaSuper: { type: Object as PropType<MediaItem>, default: undefined },
   mediaFooter: { type: Object as PropType<MediaItem>, default: undefined },
   legal: { type: Object as PropType<MediaItem>, default: undefined },
+  theme: { type: String as PropType<ColorThemeBright>, default: 'blue' },
   // set later
   to: { type: String, default: undefined },
   bodyHtml: { type: String, default: undefined },
@@ -77,7 +79,7 @@ function getButtonStyle(item: ActionButton): string {
 
 // Helper function to render markdown (consider using a simpler markdown parser)
 function renderMarkdown(md: string): string {
-  return renderEmailHtmlFromMarkdown(md)
+  return renderEmailHtmlFromMarkdown(md, { previewMode: props.previewMode, theme: props.theme })
 }
 
 const markdownContent = computed(() => props.bodyMarkdown ? renderMarkdown(props.bodyMarkdown) : '')

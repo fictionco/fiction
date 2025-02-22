@@ -8,10 +8,11 @@ import { dayjs, getColorScheme, isDarkOrLightMode, pathCheck, PostSchema as sche
 import { allPostsLink, postEditLink, postLink, taxonomyLink } from '@fiction/posts'
 import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
-
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
+
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import El404 from '@fiction/ui/page/El404.vue'
+import XEntry from '@fiction/ui/prose/XEntry.vue'
 import { getColorThemeStyles } from '@fiction/ui/utils'
 
 const { card, loading = false, post } = defineProps<{
@@ -32,23 +33,6 @@ vue.onMounted(() => {
 
 const themeStyle = vue.computed(() => {
   return getColorThemeStyles(post?.theme.value)
-})
-
-const themeColors = vue.computed(() => {
-  const t = post?.theme.value
-
-  if (['primary', 'default', 'naked', 'overlay', 'theme', ''].includes(t || '')) {
-    return {
-      colorLight: 'var(--primary-500)',
-      colorDark: 'var(--primary-400)',
-    }
-  }
-
-  const theme = getColorScheme(t as ColorThemeWithInvert)
-  return {
-    colorLight: theme[500],
-    colorDark: theme[400],
-  }
 })
 </script>
 
@@ -116,13 +100,14 @@ const themeColors = vue.computed(() => {
         />
       </AnimClipPath>
       <div class="max-w-[900px] mx-auto ">
-        <SiteText
-          v-model="post.config.value"
-          :card
-          :path="pathCheck('content', schema)"
-          class="prose-entry text-base @[500px]/prose:text-base @[700px]/prose:text-2xl"
-          :class="darkLightModeClass"
-        />
+        <XEntry :theme="post.theme.value">
+          <SiteText
+            v-model="post.config.value"
+            :card
+            :path="pathCheck('content', schema)"
+            class="text-base @[500px]/prose:text-base @[700px]/prose:text-2xl"
+          />
+        </XEntry>
       </div>
     </article>
     <El404
@@ -131,12 +116,3 @@ const themeColors = vue.computed(() => {
     />
   </div>
 </template>
-
-<style lang="less">
-@import url('@fiction/ui/entry.less');
-
-.prose-entry{
-  --post-theme-light: v-bind('themeColors.colorLight');
-  --post-theme-dark: v-bind('themeColors.colorDark');
-}
-</style>

@@ -1,4 +1,4 @@
-import type { RendererObject } from 'marked'
+import type { RendererObject, Token } from 'marked'
 import { colorList } from '@fiction/core/utils/colors.js'
 import { marked } from 'marked'
 
@@ -15,6 +15,24 @@ export type EmailMarkdownOptions = {
 const fonts = {
   standard: '-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif',
   mono: 'monaco, Consolas, "Lucida Console", monospace',
+}
+
+// Used to help custom formatting in block elements
+// to prevent paragraphs from having margin on the last paragraph, etc.
+const renderContext = {
+  inBlockquote: false,
+  paragraphCount: 0,
+  totalParagraphs: 0,
+}
+
+// First pass to count paragraphs in blockquotes
+function countParagraphs(tokens: Token[]) {
+  let count = 0
+  for (const token of tokens) {
+    if (token.type === 'paragraph')
+      count++
+  }
+  return count
 }
 
 export function renderEmailHtmlFromMarkdown(markdown: string | null | undefined, options: EmailMarkdownOptions = {}): string {
@@ -43,7 +61,7 @@ export function renderEmailHtmlFromMarkdown(markdown: string | null | undefined,
       return `<em style="font-style: italic;">${this.parser.parseInline(tokens)}</em>`
     },
     code({ text }) {
-      return `<pre style="margin: 1em 0; padding: 1em; background: ${colors.panel}; border-radius: 4px; font-family: monaco, Consolas, 'Lucida Console', monospace; font-size: 14px; line-height: 1.4; overflow-x: auto;"><code>${text}</code></pre>`
+      return `<pre style="margin: 1.5em 0; padding: 1em; background: ${colors.panel}; border-radius: 4px; font-family: monaco, Consolas, 'Lucida Console', monospace; font-size: 14px; line-height: 1.4; overflow-x: auto;"><code>${text}</code></pre>`
     },
     codespan({ text }) {
       return `<code style="padding: 0.2em 0.4em; background: ${colors.panel}; border-radius: 3px; font-family: monaco, Consolas, 'Lucida Console', monospace; font-size: 85%;">${text}</code>`
@@ -60,20 +78,42 @@ export function renderEmailHtmlFromMarkdown(markdown: string | null | undefined,
       return `<hr style="margin: 2em 0; border: 0; border-top: 1px solid ${colors.border};" />`
     },
     blockquote({ tokens }) {
-      return `<blockquote style="margin: 1em 0 1em 1em; padding: 0.5em 1em; border-left: 4px solid ${colors.border}; ">
-        <p style="margin: 0;">${this.parser.parse(tokens)}</p>
+      renderContext.inBlockquote = true
+      renderContext.paragraphCount = 0
+      renderContext.totalParagraphs = countParagraphs(tokens)
+
+      const result = `<blockquote style="margin: 1.5em 0 1.5em 1em; padding: 0.5em 0 0.5em 1.5em; font-size: 1.2em; border-left: 4px solid ${colors.border}; ">
+       ${this.parser.parse(tokens)}
       </blockquote>`
+
+      renderContext.inBlockquote = false
+      return result
     },
     listitem({ tokens }) {
       return `<li style="margin: 0.5em 0; font-size: ${baseFontSize}px; line-height: 1.6;">${this.parser.parse(tokens)}</li>`
     },
     list({ ordered, items }) {
       const type = ordered ? 'ol' : 'ul'
-      const style = 'margin: 0 0 1em; padding-left: 24px;'
+      const style = 'margin: 0 0 1.5em; padding-left: 24px;'
       return `<${type} style="${style}">${items.map(item => this.listitem(item)).join('')}</${type}>`
     },
     paragraph({ tokens }) {
-      return `<p style="margin: 0 0 1em; font-size: ${baseFontSize}px; line-height: 1.6;">${this.parser.parseInline(tokens)}</p>`
+      let marginStyle = 'margin: 0 0 1.5em;'
+
+      if (renderContext.inBlockquote) {
+        renderContext.paragraphCount++
+
+        if (renderContext.paragraphCount === 1) {
+          // First paragraph in blockquote
+          marginStyle = 'margin: 0 0 1.5em;'
+        }
+        else if (renderContext.paragraphCount === renderContext.totalParagraphs) {
+          // Last paragraph in blockquote
+          marginStyle = 'margin: 0;'
+        }
+      }
+
+      return `<p style="${marginStyle} font-size: ${baseFontSize}px; line-height: 1.6;">${this.parser.parseInline(tokens)}</p>`
     },
     heading({ tokens, depth }) {
       const size = Math.max(28 - (depth * 4), baseFontSize) // Scale heading sizes
