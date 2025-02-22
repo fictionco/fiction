@@ -1,17 +1,20 @@
 <script setup lang="ts">
+import type { ColorThemeUser } from '@fiction/core'
 import type { FictionAi } from '@fiction/plugin-ai'
 import type { EditorSupplementary } from './utils/editor.js'
-import { isDarkOrLightMode, useService, vue } from '@fiction/core'
+import { useService, vue } from '@fiction/core'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import { EditorContent, useEditor } from '@tiptap/vue-3'
+import XEntry from '../XEntry.vue'
 import { getExtensions } from './extensions/index'
 
 defineOptions({ name: 'ProseEditor' })
 
-const { modelValue = '', supplemental = {}, isContentCompletionDisabled = false } = defineProps<{
+const { modelValue = '', supplemental = {}, isContentCompletionDisabled = false, theme = 'blue' } = defineProps<{
   modelValue: string
   supplemental?: EditorSupplementary
   isContentCompletionDisabled?: boolean
+  theme?: ColorThemeUser
 }>()
 
 const emit = defineEmits<{
@@ -40,14 +43,7 @@ const editor = useEditor({
   onBlur: () => (isEditing.value = false),
 })
 
-const tt = vue.ref<HTMLElement>()
-const darkLightModeClass = vue.ref()
 vue.onMounted(() => {
-  if (tt.value) {
-    const md = isDarkOrLightMode(tt.value)
-    darkLightModeClass.value = md
-  }
-
   vue.watch(() => modelValue, (v) => {
     if (editor && !isEditing.value) {
       editor.value?.commands.setContent(v)
@@ -60,10 +56,9 @@ defineExpose({ editor })
 </script>
 
 <template>
-  <div
-    ref="tt"
+  <XEntry
+    :theme
     class="tiptap-wrap prose-entry @container/prose"
-    :class="darkLightModeClass"
     :data-ai-disabled="isContentCompletionDisabled ? 1 : 0"
   >
     <div
@@ -77,11 +72,10 @@ defineExpose({ editor })
 
       <EditorContent class="text-sm @[500px]/prose:text-base @[700px]/prose:text-2xl focus:outline-none" :editor="editor" data-test-id="prose-editor-content" />
     </template>
-  </div>
+  </XEntry>
 </template>
 
 <style lang="less">
-@import url('@fiction/ui/entry.less');
 .tiptap-wrap{
   position: relative;
   .autocomplete-suggestion{

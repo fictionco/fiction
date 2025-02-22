@@ -21,16 +21,6 @@ const { card, loading = false, post } = defineProps<{
   nextPost?: Post
 }>()
 
-const imageAspect = vue.computed(() => {
-  const img = post?.media.value
-  const h = img?.height
-  const w = img?.width
-
-  if (!img || !w || !h)
-    return 'aspect-[2/1]'
-
-  return w > h ? 'aspect-square max-h-[70dvh]' : 'aspect-[2/1]'
-})
 const singlePostEl = vue.ref<HTMLElement>()
 const darkLightModeClass = vue.ref()
 vue.onMounted(() => {

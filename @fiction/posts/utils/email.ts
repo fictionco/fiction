@@ -3,6 +3,14 @@ import type { FictionSubscribe } from '@fiction/plugins/plugin-subscribe'
 import type { FictionPosts, Post, TablePostConfig } from '..'
 import { toMarkdown, vue } from '@fiction/core'
 
+export async function compileTemplate(args: { emailConfig: EmailSendConfig }): Promise<string> {
+  const { emailConfig } = args
+  const { renderToString } = await import('vue/server-renderer')
+  const EmailV2 = vue.defineAsyncComponent(() => import('@fiction/core/plugin-email/templates/EmailV2.vue'))
+  const app = vue.createSSRApp(EmailV2, emailConfig)
+  return await renderToString(app)
+}
+
 export async function getEmailForPost(args: {
   org: Organization
   postConfig: TablePostConfig
@@ -41,9 +49,9 @@ export async function getEmailForPost(args: {
   }
 
   if (isApp) {
-    const EmailStandard = vue.defineAsyncComponent(() => import('@fiction/core/plugin-email/templates/EmailStandard.vue'))
-    const { render } = await import('@vue-email/render')
-    emailConfig.bodyHtml = await render(EmailStandard, emailConfig)
+    // const EmailStandard = vue.defineAsyncComponent(() => import('@fiction/core/plugin-email/templates/EmailStandard.vue'))
+    // const { render } = await import('@vue-email/render')
+    emailConfig.bodyHtml = await compileTemplate({ emailConfig })
   }
   else {
     emailConfig = await fictionEmail?.renderEmailTemplate(emailConfig)

@@ -135,18 +135,13 @@
 
   /* Blockquotes - professional style */
   blockquote {
-    @apply my-8 ml-2 lg:ml-8 pl-6 lg:pl-12 py-2 relative;
+    @apply my-8 ml-2 lg:ml-[.75em] pl-[1.5em] py-2 relative;
     border-radius: 2px;
     max-width: 85ch;
     font-family: var(--font-family-title, unset);
     font-weight: var(--font-weight-title, 600);
     color: rgba(var(--theme-800) / 1);
-    /* Subtle left border */
-    &::before {
-      content: "";
-      @apply absolute left-0 top-0 bottom-0 w-1;
-      background: rgba(var(--post-theme-light) / .1);
-    }
+    border-left: 3px solid rgba(var(--post-theme-light) / .1);
 
     p {
       margin: .5em 0;
@@ -159,7 +154,7 @@
     /* Optional footer for attribution */
     footer {
       @apply mt-4 text-sm;
-      color: rgba(var(--theme-600) / 1);
+      color: rgba(var(--theme-600) / .1);
 
       &::before {
         content: "—";
@@ -171,9 +166,7 @@
   /* Dark mode blockquote */
   &.dark blockquote {
     color: rgba(var(--theme-100) / 1);
-    &::before {
-      background: rgba(var(--post-theme-dark) / .1);
-    }
+    border-left-color: rgba(var(--post-theme-dark) / .1);
 
     footer {
       color: rgba(var(--theme-400) / 1);

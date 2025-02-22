@@ -1,6 +1,6 @@
+import type { colorList } from '@fiction/core/utils/colors'
 import type { ActionButton } from '../schemas/schemas'
 import type { MediaItem } from '../types'
-import type { colorList } from '../utils'
 
 export type EmailSendConfig = {
   // From info
