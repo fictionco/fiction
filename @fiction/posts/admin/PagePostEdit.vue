@@ -472,7 +472,7 @@ const publishText = vue.computed(() => {
 
     <ElModal
       v-model:vis="previewModalVis"
-      modal-class="w-full x-font-body h-[calc(100dvh-4rem)] overflow-scroll no-scrollbar"
+      modal-class="w-full x-font-body h-[calc(100dvh-1rem)] overflow-scroll no-scrollbar"
       transition-mode="slideUp"
       :has-close="true"
     >

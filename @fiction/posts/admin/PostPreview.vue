@@ -22,43 +22,69 @@ const frameRef = vue.ref<HTMLElement & { frameUtility: FrameUtility }>() // Refe
 
 const service = useService()
 
-const deviceModes = [
-  { name: 'desktop', icon: 'i-tabler-device-desktop', wrapClass: 'w-full' },
-  { name: 'mobile', icon: 'i-tabler-device-mobile', wrapClass: 'w-[60%] max-w-sm' },
-  { name: 'tablet', icon: 'i-tabler-device-ipad', wrapClass: 'w-[85%] max-w-xl' },
-  { name: 'landscape', icon: 'i-tabler-device-ipad-horizontal', wrapClass: 'w-[90%] max-w-2xl' },
+const formatModes = [
+  { label: 'web', icon: 'i-tabler-browser', wrapClass: 'w-full' },
+  { label: 'email', icon: 'i-tabler-mail', wrapClass: 'w-[60%] max-w-sm' },
 ] as const
 
-type DeviceMode = typeof deviceModes[number]['name']
+const deviceModes = [
+  { label: 'desktop', icon: 'i-tabler-device-desktop', wrapClass: 'w-full' },
+  { label: 'mobile', icon: 'i-tabler-device-mobile', wrapClass: 'w-[60%] max-w-sm' },
+  { label: 'tablet', icon: 'i-tabler-device-ipad', wrapClass: 'w-[85%] max-w-xl' },
+  { label: 'landscape', icon: 'i-tabler-device-ipad-horizontal', wrapClass: 'w-[90%] max-w-2xl' },
+] as const
+
+type DeviceMode = typeof deviceModes[number]['label']
 const activeDeviceMode = vue.ref<DeviceMode>('desktop')
-const deviceModeConfig = vue.computed(() => deviceModes.find(mode => mode.name === activeDeviceMode.value))
+const deviceModeConfig = vue.computed(() => deviceModes.find(mode => mode.label === activeDeviceMode.value))
+const activeFormatMode = vue.ref<'web' | 'email'>('web')
+const formatModeConfig = vue.computed(() => formatModes.find(mode => mode.label === activeFormatMode.value))
 </script>
 
 <template>
   <div v-if="post" class="h-full max-w-screen-xl mx-auto">
-    <div class="p-6 flex flex-col gap-8 h-full">
-      <div class="flex items-center gap-2">
-        <XButton
-          v-for="(mode, i) in deviceModes"
-          :key="i"
-          rounding="full"
-          respond="icon:xl"
-          :theme="activeDeviceMode === mode.name ? 'theme' : 'default'"
-          :icon="mode.icon"
-          size="xs"
-          @click.stop="activeDeviceMode = mode.name"
-        >
-          {{ toLabel(mode.name) }}
-        </XButton>
+    <div class="p-12 flex flex-col gap-8 h-full">
+      <div class="flex justify-between items-center gap-4">
+        <div class="flex items-center gap-2">
+          <XButton
+            v-for="(mode, i) in formatModes"
+            :key="i"
+            rounding="full"
+            respond="icon:xl"
+            design="outline"
+            :theme="activeFormatMode === mode.label ? 'primary' : 'default'"
+            :icon="mode.icon"
+            size="xs"
+            @click.stop="activeFormatMode = mode.label"
+          >
+            {{ toLabel(mode.label) }}
+          </XButton>
+        </div>
+        <div class="flex items-center gap-2">
+          <XButton
+            v-for="(mode, i) in deviceModes"
+            :key="i"
+            rounding="full"
+            respond="icon:xl"
+            design="outline"
+            :theme="activeDeviceMode === mode.label ? 'rose' : 'default'"
+            :icon="mode.icon"
+            size="xs"
+            @click.stop="activeDeviceMode = mode.label"
+          >
+            {{ toLabel(mode.label) }}
+          </XButton>
+        </div>
       </div>
-      <div class="min-h-0 h-full relative mx-auto pb-10 flex flex-col" :class="deviceModeConfig?.wrapClass">
+      <div class="min-h-0 h-full relative mx-auto flex flex-col" :class="deviceModeConfig?.wrapClass">
         <ElBrowserFrameDevice
           ref="frameRef"
           :device-mode="activeDeviceMode"
           class="rounded-md shadow-lg border border-theme-200"
-          :url="getPostPreviewRoute({ post, card })"
+          :url="getPostPreviewRoute({ post, card, format: activeFormatMode })"
           frame-id="post-preview-iframe"
-          :browser-bar="false"
+          :browser-bar="true"
+          :display-url="`/posts/${post.slug.value}`"
         />
       </div>
     </div>

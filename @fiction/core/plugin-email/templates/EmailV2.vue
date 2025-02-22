@@ -116,7 +116,7 @@ const markdownContent = computed(() => props.bodyMarkdown ? renderMarkdown(props
           <tr>
             <td style="padding:0;">
               <table
-                style="width:100%;max-width:600px;margin:0 a uto;border-spacing:0;border-collapse:separate;border:0"
+                style="width:100%;max-width:600px;margin:0 auto;border-spacing:0;border-collapse:separate;border:0"
                 cellpadding="0"
                 cellspacing="0"
               >

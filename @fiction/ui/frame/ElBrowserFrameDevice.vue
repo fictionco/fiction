@@ -199,13 +199,13 @@ const navigator = new FrameNavigator({
     </div>
     <div
       :id="`${frameId}-wrap`"
-      class="relative max-h-[100%] overflow-scroll w-full "
+      class="relative max-h-[100%] overflow-scroll w-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.33,1)]"
       :class="dimensions.aspectClass"
     >
       <iframe
         :id="frameId"
         ref="frame"
-        class="absolute inset-0 h-full w-full origin-top-left bg-theme-50 dark:bg-theme-900"
+        class="absolute inset-0 h-full w-full origin-top-left bg-theme-50 dark:bg-theme-900 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.33,1)]"
         :class="dimensions.aspectClass"
         frameborder="0"
         :style="{
