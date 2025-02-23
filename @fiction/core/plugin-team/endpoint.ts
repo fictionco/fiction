@@ -115,7 +115,7 @@ export class QuerySeekInviteFromUser extends TeamQuery {
       bodyMarkdown,
       title: 'Request for Access',
       subTitle: 'A user has requested access to your organization.',
-      actions: [{
+      buttons: [{
         label: 'Login and Invite',
         href: `${app?.url}${path}`,
       }],
@@ -219,7 +219,7 @@ export class QueryTeamInvite extends TeamQuery {
         title: `Your Invitation`,
         subTitle: `To join ${org.orgName} on Fiction`,
         bodyMarkdown,
-        actions: [
+        buttons: [
           { label: linkText, href: linkUrl, theme: 'primary' },
         ],
         caller: 'teamInvite',

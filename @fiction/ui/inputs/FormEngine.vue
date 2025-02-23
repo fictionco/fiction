@@ -42,6 +42,7 @@ const {
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: Record<string, unknown>): void
   (event: 'update:editPath', payload: string): void
+  (event: 'keydown', payload: KeyboardEvent): void
 }>()
 
 // Create a function to recursively get all group options and their isClosed status
@@ -135,7 +136,7 @@ function getGroupHeaderClasses(opt: InputOption) {
 }
 
 const rootListClasses = vue.computed(() => {
-  const defaultClass = format === 'control' ? '@[1000px]:grid grid-cols-2 divide-y divide-theme-200/50 dark:divide-theme-600/50 gap-0' : cls.value.inputGap
+  const defaultClass = format === 'control' ? '@[800px]:grid grid-cols-2 divide-y divide-theme-200/50 dark:divide-theme-600/50 gap-0' : cls.value.inputGap
 
   return twMerge(['flex flex-col', defaultClass])
 })
@@ -226,6 +227,7 @@ function getGroupClasses(opt: InputOption) {
             @click="emit('update:editPath', getOptionPath(opt))"
             @update:edit-index="emit('update:editPath', getOptionPath(opt, $event))"
             @update:model-value="emit('update:modelValue', setNested({ path: getOptionPath(opt), data: modelValue, value: $event }))"
+            @keydown="emit('keydown', $event)"
           />
         </div>
       </template>

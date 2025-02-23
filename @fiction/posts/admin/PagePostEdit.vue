@@ -162,6 +162,38 @@ const viewModes = vue.computed(() => {
             }),
           ],
         }),
+        createOption({
+          key: 'group.inbox',
+          input: 'group',
+          label: 'Sender Settings (Global)',
+          icon: { class: 'i-tabler-mail-forward' },
+          options: [
+            createOption({
+              schema,
+              key: 'emailConfig.sender.fromName',
+              label: 'Send From Name',
+              subLabel: 'The name that will appear in the inbox',
+              input: 'InputText',
+              placeholder: 'Enter Name',
+            }),
+            createOption({
+              schema,
+              key: 'emailConfig.sender.fromEmail',
+              label: 'Send From Email',
+              subLabel: 'The "sent from" email address',
+              input: 'InputEmail',
+              placeholder: 'Enter "sent from" Email',
+            }),
+            createOption({
+              schema,
+              key: 'emailConfig.sender.fromReplyTo',
+              label: 'Reply To Email (Optional)',
+              subLabel: 'Where replies will be sent, if different from "sent from" email',
+              input: 'InputEmail',
+              placeholder: 'Enter "reply to" Email',
+            }),
+          ],
+        }),
       ],
     },
     {

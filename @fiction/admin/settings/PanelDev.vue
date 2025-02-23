@@ -64,7 +64,6 @@ const controlOptions = [
         props: { card },
       }),
     ],
-    modalActions: () => [],
   }),
 ]
 

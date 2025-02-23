@@ -15,7 +15,7 @@ vue.onMounted(async () => {
     subTitle: 'Please confirm your email address',
     // bodyMarkdown: 'Please confirm your email address by clicking the button below.',
     bodyMarkdown: await toMarkdown(sampleHtml),
-    actions: [
+    buttons: [
       {
         theme: 'primary',
         label: `Confirm email address &#x2192;`,
@@ -32,18 +32,15 @@ vue.onMounted(async () => {
         href: '#',
       },
     ],
-    mediaSuper: {
-      media: { url: FictionIconImg },
-      label: 'Fiction',
+    superTitle: {
+      icon: { url: FictionIconImg },
+      text: 'Fiction',
       href: 'https://www.fiction.com',
     },
-    mediaFooter: {
-      media: { url: FictionFooterImg },
-      label: 'Personal Marketing with Fiction',
-      href: 'https://www.fiction.com',
-    },
+    mediaFooter: { url: FictionFooterImg },
+    poweredByFiction: true,
   }
-  const EmailStandard = vue.defineAsyncComponent(() => import('@fiction/core/plugin-email/templates/EmailStandard.vue'))
+  const EmailStandard = vue.defineAsyncComponent(() => import('@fiction/core/plugin-email/templates/EmailV2.vue'))
   const { render } = await import('@vue-email/render')
   email.value = await render(EmailStandard, confirmEmail)
 })

@@ -126,7 +126,7 @@ const parentPanelProps = vue.computed(() => {
     </div>
     <template v-else>
       <div
-        class="lg:w-[32%] shrink-0 rounded-l-md md:border-r dark:border-theme-600/60 border-theme-300/60 relative overflow-x-clip"
+        class="lg:w-[29%] shrink-0 rounded-l-md md:border-r dark:border-theme-600/60 border-theme-300/60 relative overflow-x-clip"
       >
         <transition :name="transitionDirection" mode="out-in">
           <div v-if="!currentItemId || (isDesktop && !parentPanel)" class="space-y-6 p-3 md:p-6 ">

@@ -7,6 +7,7 @@ type DistributiveOmit<T, K extends keyof any> = T extends any ? Omit<T, K> : nev
 
 export async function managePost(args: { fictionPosts: FictionPosts, params: DistributiveOmit<ManagePostParamsRequest, 'orgId' | 'userId'>, caller: string, disableNotify?: boolean }): Promise<Post | undefined> {
   const { fictionPosts, params, caller = 'unknown', disableNotify } = args
+
   const r = await fictionPosts.requests.ManagePost.projectRequest(params as ManagePostParamsRequest, { caller, disableNotify })
 
   const postConfig = r.data?.[0]

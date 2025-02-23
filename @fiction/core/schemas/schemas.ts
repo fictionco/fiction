@@ -249,6 +249,7 @@ export const ActionButtonSchema = z.object({
   testId: z.string().optional(),
   target: z.enum(['_blank', '_self']).optional(),
   hover: ButtonHoverSchema.optional(),
+  type: z.enum(['button', 'submit', 'reset']).optional(),
 }, { description: 'ActionButtonSchema' })
 
 export type ActionButton = z.infer<typeof ActionButtonSchema>
@@ -408,6 +409,7 @@ export const SuperTitleSchema = z.object({
   text: z.string().optional().describe('Short text above main title [ai]'),
   icon: MediaIconSchema.optional().describe('Visual indicator icon [ai]'),
   theme: z.enum(colorThemeUser).optional().describe('Color style'),
+  href: z.string().optional().describe('Link URL'),
 })
 
 export type SuperTitle = z.infer<typeof SuperTitleSchema>

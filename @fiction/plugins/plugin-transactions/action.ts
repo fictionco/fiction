@@ -120,16 +120,13 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface> exte
     return {
       fromName: app.name || '',
       fromEmail: app.email || '',
-      mediaSuper: {
-        media: { url: emailImages.icon.url },
-        label: 'Fiction',
+      superTitle: {
+        icon: { url: emailImages.icon.url },
+        text: 'Fiction',
         href: `https://www.fiction.com`,
       },
-      mediaFooter: {
-        media: { url: emailImages.footer.url },
-        label: 'Powered by Fiction.com',
-        href: `https://www.fiction.com`,
-      },
+      streetAddress: app.streetAddress || '',
+      poweredByFiction: true,
       fromOrgId: app.orgId,
       fromSiteId: app.siteId,
       caller: 'transactionalEmail',

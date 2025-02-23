@@ -116,8 +116,8 @@ vue.onMounted(async () => {
           </div>
         </div>
         <div class="flex gap-4">
-          <div>
-            <ElAvatar class="size-12 rounded-full" :url="emailConfig.avatarUrl" />
+          <div v-if="emailConfig.fromAvatar?.url">
+            <ElAvatar class="size-12 rounded-full" :url="emailConfig.fromAvatar?.url" />
           </div>
           <div>
             <div class="font-medium">

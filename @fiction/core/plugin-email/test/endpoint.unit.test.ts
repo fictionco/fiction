@@ -43,23 +43,20 @@ describe('transactional email', async () => {
       title: 'Welcome to Space 🚀',
       subTitle: 'This is a test email to test formatting of various elements.🧪',
       bodyHtml: sampleHtml,
-      actions: [
+      buttons: [
         {
           theme: 'primary',
           label: `Confirm email address &#x2192;`,
           href: '#',
         },
       ],
-      mediaSuper: {
-        media: { url: superImage.url },
-        label: 'Fiction',
+      superTitle: {
+        icon: { url: superImage.url },
+        text: 'Fiction',
         href: 'https://www.fiction.com',
       },
-      mediaFooter: {
-        media: { url: footerImage.url },
-        label: 'Powered by Fiction.com',
-        href: 'https://www.fiction.com',
-      },
+      mediaFooter: { url: footerImage.url },
+      poweredByFiction: true,
       unsubscribeUrl: 'https://www.fiction.com/unsubscribe',
       env: 'test',
       postId: shortId(),

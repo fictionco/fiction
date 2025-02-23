@@ -27,18 +27,23 @@ export interface OrganizationConfig {
   disableWatermark: boolean
 }
 
-export type Publication = {
-  title: string
-  tagline: string
-  email: string
-  sender: string
-}
+export const EmailSenderSchema = z.object({
+  title: z.string().optional(),
+  tagline: z.string().optional(),
+  fromEmail: z.string().optional(),
+  fromName: z.string().optional(),
+  fromReplyTo: z.string().optional(),
+})
 
-export type OrganizationLegal = {
-  termsUrl: string
-  privacyUrl: string
-  copyrightText: string
-}
+export type EmailSender = z.infer<typeof EmailSenderSchema>
+
+export const OrganizationLegalSchema = z.object({
+  termsUrl: z.string().optional(),
+  privacyUrl: z.string().optional(),
+  copyrightText: z.string().optional(),
+})
+
+export type OrganizationLegal = z.infer<typeof OrganizationLegalSchema>
 
 export type Organization = Partial<ColType<typeof orgColumns>> & {
   loadOrgId?: boolean

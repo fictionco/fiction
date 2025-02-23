@@ -2,6 +2,7 @@
 import type { ActionButton, Organization } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { gravatarUrlSync, useService, vue } from '@fiction/core'
+import { OrgSchema as schema } from '@fiction/core/plugin-user/schema'
 import { AutosaveUtility } from '@fiction/core/utils/save.js'
 import { createOption } from '@fiction/ui/index.js'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
@@ -62,7 +63,7 @@ const controlOptions = [
       }
     },
     options: [
-      createOption({ key: 'orgName', label: 'Publication Name', input: 'InputText', placeholder: 'Publication Name', isRequired: true }),
+      createOption({ schema, key: 'orgName', label: 'Publication Name', input: 'InputText', placeholder: 'Publication Name', isRequired: true }),
     ],
   }),
   createOption({
@@ -78,7 +79,7 @@ const controlOptions = [
       }
     },
     options: [
-      createOption({ key: 'orgEmail', label: 'Contact Email', description: 'Used for billing.', input: 'InputEmail', isRequired: true }),
+      createOption({ schema, key: 'orgEmail', label: 'Contact Email', description: 'Used for billing.', input: 'InputEmail', isRequired: true }),
     ],
   }),
   createOption({
@@ -95,7 +96,7 @@ const controlOptions = [
       }
     },
     options: [
-      createOption({ key: 'avatar', label: 'Publication Avatar', input: 'InputMedia', subLabel: 'Upload a square image or it will be cropped' }),
+      createOption({ schema, key: 'avatar', label: 'Publication Avatar', input: 'InputMedia', subLabel: 'Upload a square image or it will be cropped' }),
     ],
   }),
   createOption({
@@ -105,12 +106,12 @@ const controlOptions = [
     input: 'InputControl',
     valueDisplay: () => {
       return {
-        status: org.value?.url ? 'ready' : 'incomplete',
-        data: org.value?.url,
+        status: org.value?.websiteUrl ? 'ready' : 'incomplete',
+        data: org.value?.websiteUrl,
       }
     },
     options: [
-      createOption({ key: 'url', label: 'Website', input: 'InputUrl' }),
+      createOption({ schema, key: 'websiteUrl', label: 'Website', input: 'InputUrl', isRequired: true }),
     ],
   }),
 ]
@@ -119,76 +120,133 @@ const newsletterOptions = [
   createOption({
     key: 'control.pubTitle',
     testId: 'pubTitle',
-    label: 'Publication Title',
-    subLabel: 'Used in emails and other places.',
+    label: 'Sending Title',
+    subLabel: 'The title of your newsletter or publication',
     input: 'InputControl',
     valueDisplay: () => {
       return {
-        status: org.value?.publication?.title ? 'ready' : 'incomplete',
-        data: org.value?.publication?.title,
+        status: org.value?.sender?.title ? 'ready' : 'incomplete',
+        data: org.value?.sender?.title,
       }
     },
     options: [
-      createOption({ key: 'publication.title', label: 'Newsletter Title', input: 'InputText' }),
+      createOption({ schema, key: 'sender.title', label: 'Newsletter Title', input: 'InputText' }),
     ],
   }),
   createOption({
     key: 'control.pubTagline',
     testId: 'pubTagline',
-    label: 'Publication Description',
+    label: 'Publication Tagline',
+    subLabel: 'Description of your publication.',
     input: 'InputControl',
     valueDisplay: () => {
       return {
-        status: org.value?.publication?.tagline ? 'ready' : 'optional',
-        data: org.value?.publication?.tagline,
+        status: org.value?.sender?.tagline ? 'ready' : 'optional',
+        data: org.value?.sender?.tagline,
       }
     },
     options: [
-      createOption({ key: 'publication.tagline', label: 'Newsletter Tagline', description: 'Used in descriptions and meta info', input: 'InputText', placeholder: 'A sentence on what you do...' }),
+      createOption({ schema, key: 'sender.tagline', label: 'Publication Tagline', description: 'Used in descriptions and meta info', input: 'InputText', placeholder: 'A sentence on what you do...' }),
     ],
   }),
   createOption({
-    key: 'control.pubEmail',
+    key: 'control.fromEmail',
     testId: 'pubEmail',
-    label: 'Email From Address',
+    label: 'Email "Sent From" Email',
     subLabel: 'Email will be sent from this address.',
     input: 'InputControl',
     valueDisplay: () => {
-      const { email, sender } = org.value?.publication || {}
+      const { fromEmail } = org.value?.sender || {}
       return {
-        status: email ? 'ready' : 'incomplete',
-        data: sender ? `${sender} <${email}>` : email,
+        status: fromEmail ? 'ready' : 'incomplete',
+        data: fromEmail,
       }
     },
     options: [
-      createOption({ key: 'publication.email', label: 'Sender Email', description: 'Email will be sent from this address.', input: 'InputEmail' }),
-      createOption({ key: 'publication.sender', label: 'Sender Name', input: 'InputText', placeholder: 'Sender Name' }),
+      createOption({ schema, key: 'sender.fromEmail', label: 'From Email / Sender', description: 'Email will be sent from this address.', input: 'InputEmail' }),
     ],
   }),
+  createOption({
+    key: 'control.fromName',
+    testId: 'pubEmail',
+    label: 'Email "Sent From" Name',
+    subLabel: 'Email will be sent with this name.',
+    input: 'InputControl',
+    valueDisplay: () => {
+      const { fromName } = org.value?.sender || {}
+      return {
+        status: fromName ? 'ready' : 'incomplete',
+        data: fromName,
+      }
+    },
+    options: [
+      createOption({ schema, key: 'sender.fromName', label: 'From Name', input: 'InputText', placeholder: 'Email "From" Name' }),
+    ],
+  }),
+
 ]
 
 const legalOptions = [
   createOption({
-    key: 'control.legal',
+    key: 'control.terms',
     testId: 'legal',
-    label: 'Terms of Service and Privacy Policy',
-    subLabel: 'Needed for sites, newsletters, and other services.',
+    label: 'Terms of Service URL',
     input: 'InputControl',
     valueDisplay: () => {
-      const { termsUrl, privacyUrl } = org.value?.legal || {}
+      const { termsUrl } = org.value?.legal || {}
       const out = []
       if (termsUrl)
         out.push('Terms of Service Added')
-      if (privacyUrl)
-        out.push('Privacy Policy Added')
+
       return {
-        status: termsUrl && privacyUrl ? 'ready' : 'incomplete',
+        status: termsUrl ? 'ready' : 'incomplete',
         data: out.join(', '),
       }
     },
     options: [
-      createOption({ key: 'legal.termsUrl', label: 'Terms of Service URL', input: 'InputUrl' }),
-      createOption({ key: 'legal.privacyUrl', label: 'Privacy Policy URL', input: 'InputUrl' }),
+      createOption({ schema, key: 'legal.termsUrl', label: 'Terms of Service URL', input: 'InputUrl' }),
+    ],
+  }),
+  createOption({
+    key: 'control.privacy',
+    testId: 'legal',
+    label: 'Privacy Policy URL',
+    input: 'InputControl',
+    valueDisplay: () => {
+      const { privacyUrl } = org.value?.legal || {}
+      const out = []
+      if (privacyUrl)
+        out.push('Privacy Policy Added')
+      return {
+        status: privacyUrl ? 'ready' : 'incomplete',
+        data: out.join(', '),
+      }
+    },
+    options: [
+      createOption({ schema, key: 'legal.privacyUrl', label: 'Privacy Policy URL', input: 'InputUrl' }),
+    ],
+  }),
+  createOption({
+    key: 'control.address',
+    testId: 'streetAddress',
+    label: 'Business Street Address',
+    subLabel: 'Used in emails and other places.',
+    input: 'InputControl',
+    valueDisplay: () => {
+      const { streetAddress } = org.value || {}
+      return {
+        status: streetAddress ? 'ready' : 'incomplete',
+        data: streetAddress,
+      }
+    },
+    options: [
+      createOption({
+        schema,
+        key: 'streetAddress',
+        label: 'Street Address',
+        input: 'InputUrl',
+        placeholder: '123 Main St, City, State, Zip',
+      }),
     ],
   }),
 ]
@@ -208,7 +266,7 @@ const adminOptions = [
       }
     },
     options: [
-      createOption({ key: 'specialPlan', label: 'Assign a Special Pricing Plan', input: 'InputSelect', list: ['standard', 'vip', 'non-profit'] }),
+      createOption({ schema, key: 'specialPlan', label: 'Assign a Special Pricing Plan', input: 'InputSelect', list: ['standard', 'vip', 'non-profit'] }),
     ],
   }),
   createOption({

@@ -1,4 +1,5 @@
 import type { ServiceConfig } from '@fiction/core'
+import type { EmailConfigResponse } from '..'
 import * as adminTheme from '@fiction/admin/theme'
 import CardSite from '@fiction/cards/CardSite.vue'
 import { AppRoute, vue } from '@fiction/core'
@@ -43,14 +44,14 @@ export async function setup(args: { context?: 'node' | 'app', mainFilePath?: str
         subTitle: 'Email Action Subtitle',
         bodyMarkdown: `Email Action Body Markdown`,
         to: `${emailVars.email}`,
-        actions: [
+        buttons: [
           {
             label: 'Verify Email',
             href: emailVars.callbackUrl,
             theme: 'primary' as const,
           },
         ],
-      }
+      } satisfies EmailConfigResponse
 
       return emailConfig
     },

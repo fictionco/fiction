@@ -1,11 +1,11 @@
-import type { OnboardSettings, OrganizationConfig, OrganizationCustomerData, OrganizationLegal, Plan, Publication, PushSubscriptionDetail, SocialAccounts, StreetAddress, UserCompany } from './types.js'
+import type { OnboardSettings, OrganizationConfig, Plan, PushSubscriptionDetail, SocialAccounts, StreetAddress, UserCompany } from './types.js'
 import { z } from 'zod'
 import { Col, FictionDbTable } from '../plugin-db/index.js'
 import { MediaDisplaySchema } from '../schemas/schemas.js'
-import { standardTable as t } from '../tbl.js'
+import { createTableSchema, standardTable as t } from '../tbl.js'
 import { GeoDataSchema } from '../utils/geo.js'
 import { convertKeyCase } from '../utils/index.js'
-import { EntityStatusEnum, GenderEnum, UserRoleEnum } from './types.js'
+import { EmailSenderSchema, EntityStatusEnum, GenderEnum, OrganizationLegalSchema, UserRoleEnum } from './types.js'
 
 export type VerificationCode = {
   code: string
@@ -52,8 +52,8 @@ export const orgColumns = [
   new Col({ key: 'slug', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).unique(), prepare: ({ value }) => (value).replaceAll(/[^\dA-Z]+/gi, '').toLowerCase() }),
   new Col({ key: 'orgName', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'orgEmail', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
-  new Col({ key: 'url', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
-  new Col({ key: 'address', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'websiteUrl', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'streetAddress', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'orgStatus', sec: 'setting', sch: () => EntityStatusEnum, make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('active') }),
   new Col({ key: 'createdByUserId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'avatar', sec: 'setting', sch: () => MediaDisplaySchema, make: ({ s, col }) => s.jsonb(col.k) }),
@@ -63,17 +63,19 @@ export const orgColumns = [
   new Col({ key: 'config', sec: 'setting', sch: () => z.any() as z.Schema<Partial<OrganizationConfig>>, make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(convertKeyCase(value, { mode: 'snake' })) }),
   new Col({ key: 'extend', sec: 'setting', sch: () => z.record(z.string(), z.object({ extensionId: z.string(), isActive: z.boolean() })), make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(convertKeyCase(value, { mode: 'snake' })) }),
   new Col({ key: 'customerId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
-  new Col({ key: 'customer', sec: 'setting', sch: () => z.any() as z.Schema<OrganizationCustomerData>, make: ({ s, col }) => s.jsonb(col.k) }),
+  // new Col({ key: 'customer', sec: 'setting', sch: () => z.any() as z.Schema<OrganizationCustomerData>, make: ({ s, col }) => s.jsonb(col.k) }),
   new Col({ key: 'customerIdTest', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
-  new Col({ key: 'customerTest', sec: 'setting', sch: () => z.any() as z.Schema<OrganizationCustomerData>, make: ({ s, col }) => s.jsonb(col.k) }),
+  // new Col({ key: 'customerTest', sec: 'setting', sch: () => z.any() as z.Schema<OrganizationCustomerData>, make: ({ s, col }) => s.jsonb(col.k) }),
   new Col({ key: 'orgPlan', sec: 'setting', sch: () => z.any() as z.Schema<Plan>, make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'specialPlan', sec: 'settingAdmin', sch: () => z.enum(['vip', 'npo']), make: ({ s, col }) => s.string(col.k) }),
-  new Col({ key: 'publication', sec: 'setting', sch: () => z.any() as z.Schema<Publication>, make: ({ s, col }) => s.jsonb(col.k) }),
-  new Col({ key: 'legal', sec: 'setting', sch: () => z.any() as z.Schema<OrganizationLegal>, make: ({ s, col }) => s.jsonb(col.k) }),
+  new Col({ key: 'sender', sec: 'setting', sch: () => EmailSenderSchema, make: ({ s, col }) => s.jsonb(col.k) }),
+  new Col({ key: 'legal', sec: 'setting', sch: () => OrganizationLegalSchema, make: ({ s, col }) => s.jsonb(col.k) }),
   new Col({ key: 'accessTokens', sec: 'authority', sch: () => z.record(z.string(), z.string()), make: ({ s, col }) => s.jsonb(col.k) }),
   new Col({ key: 'needsOnboarding', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
   new Col({ key: 'onboard', sec: 'setting', sch: () => z.record(z.string(), z.any()) as z.Schema<OnboardSettings>, make: ({ s, col }) => s.jsonb(col.k) }),
 ] as const
+
+export const OrgSchema = createTableSchema(orgColumns)
 
 export const membersColumns = [
   new Col({ key: 'memberId', sec: 'permanent', sch: () => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id()`)) }),

@@ -51,10 +51,10 @@ export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
         to: `${emailVars.email}`,
         fromName,
         fromEmail,
-        actions: [
+        buttons: [
           { label: 'Confirm Subscription', href: emailVars.callbackUrl, theme: 'primary' },
         ],
-        mediaSuper: { label: fromName, media: avatar },
+        superTitle: { text: fromName, icon: avatar, href: emailVars.callbackUrl },
       } satisfies EmailConfigResponse
     },
     serverTransaction: async (args, meta: EndpointMeta) => {

@@ -1,4 +1,5 @@
 import type { EndpointMeta, EndpointResponse, User } from '@fiction/core'
+import type { EmailConfigResponse } from '@fiction/plugin-transactions'
 import type { FictionAdmin } from '..'
 import { abort, vue } from '@fiction/core'
 import { EmailAction } from '@fiction/plugin-transactions'
@@ -27,10 +28,10 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
         subTitle: 'Click the Link Below',
         bodyMarkdown: `Verify your email using the code: **${emailVars.code}** or click the button below.`,
         to: `${emailVars.email}`,
-        actions: [
-          { name: 'Verify Email', href: emailVars.callbackUrl, theme: 'primary' },
+        buttons: [
+          { label: 'Verify Email', href: emailVars.callbackUrl, theme: 'primary' },
         ],
-      }
+      } satisfies EmailConfigResponse
     },
     serverTransaction: async (args, meta: EndpointMeta) => {
       const { code, email, transaction } = args
@@ -63,14 +64,14 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
           `If you didn't request this email, don't worry, you can safely ignore it.`,
         ].join(`\n\n`),
         to: `${emailVars.email}`,
-        actions: [
+        buttons: [
           {
             label: `Sign in to ${emailVars.appName}`,
             href: emailVars.callbackUrl,
             theme: 'primary',
           },
         ],
-      }
+      } satisfies EmailConfigResponse
     },
 
   })

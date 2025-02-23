@@ -1,7 +1,7 @@
 import type { ColType, ComplexDataFilter, User } from '@fiction/core'
 import type { TableSiteConfig } from '@fiction/site'
 import type { SiteUserConfig } from '@fiction/site/schema'
-import { ColorThemeUserSchema, createTableSchema, MediaDisplaySchema, PostStatusSchema, standardTable, toSlug } from '@fiction/core'
+import { ColorThemeUserSchema, createTableSchema, EmailSenderSchema, MediaDisplaySchema, PostStatusSchema, standardTable, toSlug } from '@fiction/core'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
 import { t as siteTables } from '@fiction/site/tables'
 import { z } from 'zod'
@@ -32,9 +32,8 @@ export const EmailConfigSchema = z.object({
   // Basic email settings
   subject: z.string().optional(),
   preview: z.string().optional(),
-  fromName: z.string().optional(),
-  fromEmail: z.string().optional(),
-  replyTo: z.string().optional(),
+
+  sender: EmailSenderSchema.optional(),
 
   // Audience settings
   target: z.enum(['all', 'filtered', 'nobody']).default('all'),
@@ -77,6 +76,7 @@ export const postCols = [
   new Col({ key: 'isFeatured', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
   new Col({ key: 'priority', sec: 'setting', sch: () => z.number().int(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
   new Col({ key: 'emailConfig', sec: 'setting', sch: () => EmailConfigSchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
+  new Col({ key: 'sender', sec: 'setting', sch: () => EmailSenderSchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
   new Col({ key: 'dateAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
   new Col({ key: 'publishMode', sec: 'setting', sch: () => z.enum(['now', 'schedule']), make: ({ s, col }) => s.string(col.k).defaultTo('draft') }),
   new Col({ key: 'publishAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),

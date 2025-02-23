@@ -1,30 +1,34 @@
-import type { colorList } from '@fiction/core/utils/colors'
-import type { ActionButton } from '../schemas/schemas'
-import type { MediaItem } from '../types'
+import type { colorList, ColorThemeBright } from '@fiction/core/utils/colors'
+import type { ActionButton, MediaObject, NavListItem, SuperTitle } from '../schemas/schemas'
 
 export type EmailSendConfig = {
-  // From info
-  fromName?: string
-  fromEmail?: string
-  avatarUrl?: string
 
-  // Content
-  subject?: string
+  // content
+  superTitle?: SuperTitle
   title?: string
   subTitle?: string
   bodyMarkdown?: string
-  preview?: string
+  mediaFeatured?: MediaObject
+  theme?: ColorThemeBright
 
-  // Media
-  mediaSuper?: MediaItem
-  mediaFooter?: MediaItem
-  legal?: MediaItem
-
-  // Actions & Links
-  actions?: ActionButton[]
+  // footer and links
+  mediaFooter?: MediaObject
+  streetAddress?: string
+  company?: string
+  websiteUrl?: string
+  buttons?: ActionButton[]
   unsubscribeUrl?: string
+  poweredByFiction?: boolean
+  footerLinks?: NavListItem[]
 
   // Email specifics
+
+  subject?: string
+  preview?: string
+  fromAvatar?: MediaObject
+  fromName?: string
+  fromEmail?: string
+  fromReplyTo?: string
   to?: string
   bodyHtml?: string
   bodyText?: string

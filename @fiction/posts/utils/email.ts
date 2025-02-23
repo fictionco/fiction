@@ -26,12 +26,11 @@ export async function getEmailForPost(args: {
 
   const img = await fictionEmail?.emailImages({ fictionMedia })
 
-  const { orgName, orgEmail, url, address, avatar } = org
+  const { orgName, orgEmail, websiteUrl, streetAddress, avatar } = org
 
   let emailConfig: EmailSendConfig = {
     fromName: orgName || (withDefaults ? 'No Name' : ''),
     fromEmail: orgEmail || (withDefaults ? 'No Email' : ''),
-    avatarUrl: avatar?.url,
     emailType: 'campaign',
     fromOrgId: postConfig.orgId,
     postId: postConfig.postId,
@@ -40,9 +39,12 @@ export async function getEmailForPost(args: {
     title: postConfig?.title || (withDefaults ? 'No Title' : ''),
     subTitle: postConfig?.subTitle || (withDefaults ? 'No Subtitle' : ''),
     bodyMarkdown: await toMarkdown(postConfig?.content || (withDefaults ? 'No content' : '')),
-    mediaSuper: { media: { url: avatar?.url }, label: orgName, href: url },
-    mediaFooter: { media: { url: img.footer.url }, label: 'Powered by Fiction', href: 'https://www.fiction.com' },
-    legal: { label: orgName, href: url, description: address || '' },
+    superTitle: { icon: { url: avatar?.url }, text: orgName, href: websiteUrl },
+    mediaFooter: { url: img.footer.url },
+    poweredByFiction: true,
+    streetAddress,
+    company: orgName,
+    websiteUrl,
     unsubscribeUrl: '#',
     previewMode,
     env,

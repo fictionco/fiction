@@ -209,6 +209,7 @@ export class QueryManagePost extends PostsQuery {
     if (post.postId) {
       post.authors = await db.select([`${t.user}.userId`, `${t.user}.email`, `${t.user}.fullName`, `${t.postAuthor}.priority`]).from(t.postAuthor).join(t.user, `${t.user}.user_id`, `=`, `${t.postAuthor}.user_id`).where(`${t.postAuthor}.post_id`, post.postId).orderBy(`${t.postAuthor}.priority`, 'asc')
       post.sites = await db.select([`${t.sites}.siteId`, `${t.sites}.title`]).from(t.postSite).join(t.sites, `${t.sites}.site_id`, `=`, `${t.postSite}.site_id`).where(`${t.postSite}.post_id`, post.postId)
+      post.sender = await db.select([`${t.org}.sender`]).from(t.org).where(`${t.org}.orgId`, orgId).first()
     }
 
     if (loadDraft && post.draft)
@@ -275,6 +276,7 @@ export class QueryManagePost extends PostsQuery {
       db(t.posts).update(prepped).where({ postId }),
       this.updateAssociations({ type: 'authors', postId, fields, orgId }),
       this.updateAssociations({ type: 'sites', postId, fields, orgId }),
+      this.settings.fictionUser.queries.ManageOrganization.serve({ _action: 'update', where: { orgId }, fields: { sender: fields.sender } }, { server: true }),
     ])
 
     const result = await this.getPost({ ...params, where: { orgId, ...where }, _action: 'get' }, { ...meta, caller: 'updatePostEnd' })
