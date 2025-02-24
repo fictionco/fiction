@@ -23,7 +23,7 @@ const frameRef = vue.ref<HTMLElement & { frameUtility: FrameUtility }>() // Refe
 const service = useService()
 
 const formatModes = [
-  { label: 'web', icon: 'i-tabler-browser', wrapClass: 'w-full' },
+  { label: 'browser', icon: 'i-tabler-browser', wrapClass: 'w-full' },
   { label: 'email', icon: 'i-tabler-mail', wrapClass: 'w-[60%] max-w-sm' },
 ] as const
 
@@ -37,7 +37,7 @@ const deviceModes = [
 type DeviceMode = typeof deviceModes[number]['label']
 const activeDeviceMode = vue.ref<DeviceMode>('desktop')
 const deviceModeConfig = vue.computed(() => deviceModes.find(mode => mode.label === activeDeviceMode.value))
-const activeFormatMode = vue.ref<'web' | 'email'>('web')
+const activeFormatMode = vue.ref<'browser' | 'email'>('browser')
 const formatModeConfig = vue.computed(() => formatModes.find(mode => mode.label === activeFormatMode.value))
 </script>
 
@@ -84,6 +84,15 @@ const formatModeConfig = vue.computed(() => formatModes.find(mode => mode.label 
           :url="getPostPreviewRoute({ post, card, format: activeFormatMode })"
           frame-id="post-preview-iframe"
           :browser-bar="true"
+          :email-bar="{
+            subject: post.emailConfig.value.subject || 'No subject',
+            preview: post.emailConfig.value.preview || 'No preview',
+            fromEmail: post.sender.value.fromEmail || '',
+            fromName: post.sender.value.fromName || post.sender.value.title || 'No sender',
+            avatar: post.sender.value.avatar,
+            dateAt: post.publishAt.value,
+          }"
+          :format-mode="activeFormatMode"
           :display-url="`/posts/${post.slug.value}`"
         />
       </div>

@@ -1,21 +1,31 @@
 <script lang="ts" setup generic="T extends MsgUnknown">
+import type { MediaObject } from '@fiction/core/index.js'
 import type { MsgUnknown } from './elBrowserFrameUtil.js'
-import { shortId, vue } from '@fiction/core/index.js'
+import { dayjs, shortId, vue } from '@fiction/core/index.js'
 import XButton from '../buttons/XButton.vue'
 import ElTooltip from '../common/ElTooltip.vue'
 import ElSpinner from '../loaders/ElSpinner.vue'
 import { FrameNavigator, FrameUtility } from './elBrowserFrameUtil.js'
 
-const props = defineProps({
-  deviceMode: {
-    type: String as vue.PropType<'desktop' | 'tablet' | 'mobile' | 'landscape'>,
-    default: 'desktop',
-  },
-  frameId: { type: String, required: true },
-  url: { type: String, default: undefined },
-  displayUrl: { type: String, default: '' },
-  browserBar: { type: Boolean, default: false },
-})
+type EmailSettings = {
+  fromName?: string
+  fromEmail?: string
+  subject?: string
+  preview?: string
+  avatar?: MediaObject
+  dateAt?: string
+}
+
+const { deviceMode = 'desktop', frameId, url, displayUrl, browserBar, formatMode = 'browser', emailBar } = defineProps<{
+  deviceMode?: 'desktop' | 'tablet' | 'mobile' | 'landscape'
+  frameId: string
+  url?: string
+  displayUrl?: string
+  formatMode?: 'email' | 'browser'
+  browserBar?: boolean
+  emailBar?: EmailSettings
+}>()
+
 const emit = defineEmits<{
   (event: 'frameUtility', payload: FrameUtility): void
   (event: 'message', payload: MsgUnknown): void
@@ -31,13 +41,11 @@ const frameUtility = vue.shallowRef<FrameUtility>()
 defineExpose({ frameUtility })
 
 const dimensions = vue.computed(() => {
-  const deviceMode = props.deviceMode
-
   const devices = {
-    mobile: { minWidth: 375, minHeight: 200, aspectClass: 'aspect-[9/16]' },
-    landscape: { minWidth: 500, minHeight: 200, aspectClass: 'aspect-[4/3]' },
-    tablet: { minWidth: 768, minHeight: 200, aspectClass: 'aspect-[3/4]' },
-    desktop: { minWidth: 1300, minHeight: 200, aspectClass: 'aspect-[3/4]' },
+    mobile: { minWidth: 375, minHeight: 100, aspectClass: 'aspect-[9/16]' },
+    landscape: { minWidth: 500, minHeight: 100, aspectClass: 'aspect-[4/3]' },
+    tablet: { minWidth: 768, minHeight: 100, aspectClass: 'aspect-[3/4]' },
+    desktop: { minWidth: formatMode === 'email' ? 900 : 1300, minHeight: 100, aspectClass: 'aspect-[3/4]' },
   }
   return devices[deviceMode]
 })
@@ -101,13 +109,13 @@ vue.onMounted(async () => {
 
   const src = vue.computed(() => {
     // Create a URL object from the props.url
-    const url = new URL(props.url || '', 'http://dummybase.com')
+    const srcUrl = new URL(url || '', 'http://dummybase.com')
 
     // Add a 'key' query parameter with the value from shortId()
-    url.searchParams.set('key', shortId())
+    srcUrl.searchParams.set('key', shortId())
 
     // Return the modified URL as a string
-    return url.toString().replace('http://dummybase.com', '')
+    return srcUrl.toString().replace('http://dummybase.com', '')
   })
 
   vue.watch(src, () => {
@@ -134,17 +142,42 @@ vue.onMounted(async () => {
 })
 
 const navigator = new FrameNavigator({
-  updateCallback: async (path) => {
-    emit('update:url', path)
-  },
-  urlOrPath: vue.computed(() => props.url || '/'),
-  displayUrl: vue.computed(() => props.displayUrl),
+  updateCallback: async path => emit('update:url', path),
+  urlOrPath: vue.computed(() => url || '/'),
+  displayUrl: vue.computed(() => displayUrl || ''),
 })
 </script>
 
 <template>
-  <div class="bg-theme-0 dark:bg-theme-800 @container border border-theme-200 dark:border-theme-500/50 overflow-hidden flex flex-col">
-    <div v-if="browserBar" class="flex items-center justify-between px-2 py-2 border-b border-theme-200 dark:border-theme-600">
+  <div class="@container/frame bg-theme-0 dark:bg-theme-800 @container border border-theme-200 dark:border-theme-500/50 overflow-hidden flex flex-col">
+    <!-- Add before the iframe -->
+    <div v-if="formatMode === 'email' && emailBar" class="p-4 @[700px]/frame:p-6 space-y-6 border-b border-theme-200 dark:border-theme-600">
+      <div class="flex flex-col">
+        <span class="@[700px]/frame:text-xl text-lg">{{ emailBar.subject }}</span>
+        <span v-if="emailBar.preview" class="text-sm lg:text-base text-theme-500 truncate">{{ emailBar.preview }}</span>
+      </div>
+      <div class="flex items-center gap-3 ">
+        <img
+          v-if="emailBar.avatar?.url"
+          :src="emailBar.avatar.url"
+          class="size-8 rounded-full"
+          :alt="emailBar.fromName"
+        >
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="font-medium truncate">{{ emailBar.fromName }}</span>
+              <span class="text-theme-500 truncate">&lt;{{ emailBar.fromEmail }}&gt;</span>
+            </div>
+            <time class="text-sm text-theme-500">{{ emailBar.dateAt }}</time>
+          </div>
+        </div>
+        <div v-if="emailBar.dateAt">
+          {{ dayjs(emailBar.dateAt).format('MMM D, YYYY h:mm A') }}
+        </div>
+      </div>
+    </div>
+    <div v-else-if="browserBar" class="flex items-center justify-between px-2 py-2 border-b border-theme-200 dark:border-theme-600">
       <div class="w-full items-center justify-center lg:flex lg:space-x-2">
         <div class="space-x-1 hidden lg:flex" :data-nav-index="navigator.currentIndex">
           <button

@@ -1,4 +1,4 @@
-import type { EndpointMeta, EndpointResponse, IndexMeta, IndexQuery } from '@fiction/core'
+import type { EndpointMeta, EndpointResponse, IndexMeta, IndexQuery, Organization } from '@fiction/core'
 import type { FictionPosts } from '.'
 import type { FictionPostsSettings } from './index'
 import type { TablePostConfig } from './schema'
@@ -209,7 +209,19 @@ export class QueryManagePost extends PostsQuery {
     if (post.postId) {
       post.authors = await db.select([`${t.user}.userId`, `${t.user}.email`, `${t.user}.fullName`, `${t.postAuthor}.priority`]).from(t.postAuthor).join(t.user, `${t.user}.user_id`, `=`, `${t.postAuthor}.user_id`).where(`${t.postAuthor}.post_id`, post.postId).orderBy(`${t.postAuthor}.priority`, 'asc')
       post.sites = await db.select([`${t.sites}.siteId`, `${t.sites}.title`]).from(t.postSite).join(t.sites, `${t.sites}.site_id`, `=`, `${t.postSite}.site_id`).where(`${t.postSite}.post_id`, post.postId)
-      post.sender = await db.select([`${t.org}.sender`]).from(t.org).where(`${t.org}.orgId`, orgId).first()
+
+      // get defaults from org details
+      const orgData = await db.select<Partial<Organization>>([`sender`, 'orgName', 'orgEmail']).from(t.org).where(`${t.org}.orgId`, orgId).first()
+
+      if (orgData) {
+        post.sender = {
+          title: orgData?.orgName,
+          fromEmail: orgData?.orgEmail,
+          fromName: orgData?.orgName,
+          ...orgData.sender,
+        }
+      }
+
     }
 
     if (loadDraft && post.draft)

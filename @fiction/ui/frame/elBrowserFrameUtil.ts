@@ -252,7 +252,7 @@ export class FrameUtility<T extends MsgUnknown = FrameMessage> extends Obj<Frame
 type FrameNavigatorSettings = {
   updateCallback: (path: string) => void
   urlOrPath: Ref<string>
-  displayUrl: Ref<string>
+  displayUrl: Ref<string | undefined>
 }
 
 export class FrameNavigator extends FictionObject<FrameNavigatorSettings> {
@@ -278,7 +278,7 @@ export class FrameNavigator extends FictionObject<FrameNavigatorSettings> {
     vue.watch(
       () => this.displayUrl.value,
       (v) => {
-        const displayUrlPath = new URL(v, 'http://dummybase.com').pathname
+        const displayUrlPath = new URL(v || '/', 'http://dummybase.com').pathname
         this.setNewPath({ fullPath: displayUrlPath, updateHistory: true })
       },
       { immediate: true },

@@ -1,5 +1,5 @@
 import type stripe from 'stripe'
-import type { MediaObject, ProgressStatus } from '../schemas/schemas.js'
+import { MediaBasicSchema, type MediaObject, type ProgressStatus } from '../schemas/schemas.js'
 import type { ColType } from '../tbl.js'
 import type { UserCapability } from '../utils/priv.js'
 import type { membersColumns, orgColumns, userColumns } from './schema.js'
@@ -33,6 +33,7 @@ export const EmailSenderSchema = z.object({
   fromEmail: z.string().optional(),
   fromName: z.string().optional(),
   fromReplyTo: z.string().optional(),
+  avatar: MediaBasicSchema.optional(),
 })
 
 export type EmailSender = z.infer<typeof EmailSenderSchema>

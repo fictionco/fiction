@@ -33,6 +33,7 @@ export class Post extends FictionObject<PostConfig> {
   sites = vue.shallowRef(this.settings.sites || [])
   dateAt = vue.ref(this.settings.dateAt || new Date().toISOString())
   userConfig = vue.ref(this.settings.userConfig || {})
+  sender = vue.ref(this.settings.sender || {})
   visibility = vue.ref(this.settings.visibility || 'public')
   emailConfig = vue.ref(this.settings.emailConfig || ({ filters: [], target: 'all' } as EmailConfig))
   isFeatured = vue.ref(this.settings.isFeatured || false)
@@ -81,6 +82,7 @@ export class Post extends FictionObject<PostConfig> {
       'categories',
       'authors',
       'sites',
+      'sender',
     ]
     const entries = Object.entries(postConfig).filter(([key]) => availableKeys.includes(key))
     entries.forEach(([key, value]) => {
@@ -136,6 +138,7 @@ export class Post extends FictionObject<PostConfig> {
       content: this.content.value,
       userConfig: this.userConfig.value,
       emailConfig: this.emailConfig.value,
+      sender: this.sender.value,
       visibility: this.visibility.value,
       isFeatured: this.isFeatured.value,
       priority: this.priority.value,
