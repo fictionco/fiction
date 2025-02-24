@@ -1,15 +1,7 @@
 import type { EmailSendConfig, Organization } from '@fiction/core'
 import type { FictionSubscribe } from '@fiction/plugins/plugin-subscribe'
 import type { FictionPosts, Post, TablePostConfig } from '..'
-import { toMarkdown, vue } from '@fiction/core'
-
-export async function compileTemplate(args: { emailConfig: EmailSendConfig }): Promise<string> {
-  const { emailConfig } = args
-  const { renderToString } = await import('vue/server-renderer')
-  const EmailV2 = vue.defineAsyncComponent(() => import('@fiction/core/plugin-email/templates/EmailV2.vue'))
-  const app = vue.createSSRApp(EmailV2, emailConfig)
-  return await renderToString(app)
-}
+import { proseToMarkdown } from '@fiction/core'
 
 export async function getEmailForPost(args: {
   org: Organization
@@ -20,7 +12,6 @@ export async function getEmailForPost(args: {
 }): Promise<EmailSendConfig> {
   const { postConfig, fictionPosts, withDefaults = false, org, previewMode } = args
   const { fictionEmail, fictionEnv, fictionMedia } = fictionPosts.settings
-  const isApp = fictionEnv?.isApp.value
   const isTest = fictionEnv?.isTest.value
   const env = fictionEnv.isProd.value ? 'prod' : isTest ? 'test' : 'dev'
 
@@ -28,7 +19,7 @@ export async function getEmailForPost(args: {
 
   const { orgName, orgEmail, websiteUrl, streetAddress, avatar } = org
 
-  let emailConfig: EmailSendConfig = {
+  const emailConfig: EmailSendConfig = {
     fromName: orgName || (withDefaults ? 'No Name' : ''),
     fromEmail: orgEmail || (withDefaults ? 'No Email' : ''),
     emailType: 'campaign',
@@ -38,7 +29,7 @@ export async function getEmailForPost(args: {
     preview: postConfig.emailConfig?.preview || (withDefaults ? 'No Preview' : ''),
     title: postConfig?.title || (withDefaults ? 'No Title' : ''),
     subTitle: postConfig?.subTitle || (withDefaults ? 'No Subtitle' : ''),
-    bodyMarkdown: await toMarkdown(postConfig?.content || (withDefaults ? 'No content' : '')),
+    bodyMarkdown: await proseToMarkdown(postConfig?.content || (withDefaults ? 'No content' : '')),
     superTitle: { icon: { url: avatar?.url }, text: orgName, href: websiteUrl },
     mediaFooter: { url: img.footer.url },
     poweredByFiction: true,
@@ -50,14 +41,7 @@ export async function getEmailForPost(args: {
     env,
   }
 
-  if (isApp) {
-    // const EmailStandard = vue.defineAsyncComponent(() => import('@fiction/core/plugin-email/templates/EmailStandard.vue'))
-    // const { render } = await import('@vue-email/render')
-    emailConfig.bodyHtml = await compileTemplate({ emailConfig })
-  }
-  else {
-    emailConfig = await fictionEmail?.renderEmailTemplate(emailConfig)
-  }
+  emailConfig.bodyHtml = await fictionEmail.compileTemplateToHtml({ emailConfig })
 
   return emailConfig
 }

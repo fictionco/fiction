@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { EmailSendConfig } from '../index.js'
 import { vue } from '../../utils/libraries.js'
-import { toMarkdown } from '../../utils/markdown.js'
+import { proseToMarkdown } from '../../utils/markdown.js'
 import FictionFooterImg from '../img/fiction-email-footer.png'
 import FictionIconImg from '../img/fiction-icon.png'
 import { sampleHtml } from './content.js'
@@ -14,7 +14,7 @@ vue.onMounted(async () => {
     title: 'Welcome to Fiction',
     subTitle: 'Please confirm your email address',
     // bodyMarkdown: 'Please confirm your email address by clicking the button below.',
-    bodyMarkdown: await toMarkdown(sampleHtml),
+    bodyMarkdown: await proseToMarkdown(sampleHtml),
     buttons: [
       {
         theme: 'primary',

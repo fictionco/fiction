@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { ColorThemeBright } from '@fiction/core/utils/colors.js'
-import type { ActionButton, MediaObject, NavListItem, SuperTitle } from '../../schemas/schemas.js'
+import type { ActionButton } from '../../schemas/schemas.js'
 import type { EmailSendConfig } from '../util.js'
 import { colorList } from '@fiction/core/utils/colors.js'
 import { computed } from 'vue'
@@ -10,6 +9,7 @@ const {
   subject = '',
   title = '',
   subTitle = '',
+  bodyHtml = '',
   bodyMarkdown = '',
   preview = '',
   buttons,
@@ -25,330 +25,240 @@ const {
 } = defineProps<EmailSendConfig>()
 
 // Precalculate colors based on props
-const primaryColor = computed(() => colorList[theme]?.[500] || colorList.blue[500])
+const primaryColor = computed(() => previewMode === 'dark' ? colorList[theme]?.[400] : colorList[theme]?.[600])
 const textColor = computed(() => previewMode === 'dark' ? colorList.gray[0] : colorList.gray[900])
+const textColorSubdued = computed(() => previewMode === 'dark' ? colorList.gray[300] : colorList.gray[600])
 const hrColor = computed(() => previewMode === 'dark' ? colorList.gray[600] : colorList.gray[200])
 const bgColor = computed(() => previewMode === 'dark' ? colorList.gray[900] : previewMode === 'light' ? colorList.gray[0] : undefined)
 
 const fontStack = '-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif'
+const previewText = computed(() => preview || (title ? `${title} -- ${subTitle || ''}` : ''))
 
-const previewText = computed(() => {
-  return preview || (title ? `${title} -- ${subTitle || ''}` : '')
-})
+// Base styles that can be reused
+const baseStyles = {
+  container: `width:100%;max-width:600px;margin:0 auto;padding:32px 16px;font-family:${fontStack};color:${textColor.value};`,
+  link: `color:${textColor.value};text-decoration:none;`,
+  hr: `border:none;border-top:1px solid ${hrColor.value};margin:3em 0; width: 5em;`,
+  footerText: `font-size:13px;opacity:0.6;`,
+}
 
 function getButtonStyle(item: ActionButton): string {
   const theme = item.theme || 'default'
   const size = item.size || 'md'
+  const padding = size === 'sm' ? '8px 12px' : size === 'lg' ? '12px 20px' : '8px 12px'
+  const fontSize = size === 'sm' ? '14px' : size === 'lg' ? '18px' : '16px'
 
-  // Simplified button styles
-  let styles = ''
-
-  // Base styles
-  styles += 'display:inline-block;border-radius:9999px;font-weight:500;text-decoration:none;'
-
-  // Color based on theme
-  if (theme === 'primary') {
-    styles += `background-color:${primaryColor.value};color:white;`
-  }
-  else if (theme === 'naked') {
-    styles += `background-color:rgba(229,231,235,0.4);color:${primaryColor.value};`
-  }
-  else { // default
-    styles += `background-color:rgba(63,63,70,0.7);color:white;`
-  }
-
-  // Size styles
-  if (size === 'sm') {
-    styles += 'padding:0.5rem 0.75rem;font-size:0.875rem;'
-  }
-  else if (size === 'lg') {
-    styles += 'padding:0.75rem 1.25rem;font-size:1.125rem;'
-  }
-  else { // md
-    styles += 'padding:0.75rem 1rem;font-size:1rem;'
-  }
-
-  return styles
+  return `display:inline-block;border-radius:9999px;font-weight:600;text-decoration:none;padding:${padding};font-size:${fontSize};${
+    theme === 'primary'
+      ? `background-color:${primaryColor.value};color:white;`
+      : theme === 'naked'
+        ? `background-color:rgba(229,231,235,0.4);color:${primaryColor.value};`
+        : 'background-color:rgba(63,63,70,0.7);color:white;'}`
 }
 
-// Helper function to render markdown (consider using a simpler markdown parser)
-function renderMarkdown(md: string): string {
-  return renderEmailHtmlFromMarkdown(md, { previewMode, theme })
-}
-
-const markdownContent = computed(() => bodyMarkdown ? renderMarkdown(bodyMarkdown) : '')
+const markdownContent = computed(() => bodyMarkdown ? renderEmailHtmlFromMarkdown(bodyMarkdown, { previewMode, theme }) : '')
 </script>
 
 <template>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>{{ subject || "No Subject" }}</title>
-    <meta name="description" :content="previewText">
-  </head>
-  <body>
-    <div style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;" :style="{ color: textColor, fontFamily: fontStack }">
-      <table
-        style="width:100%;border-spacing:0;border-collapse:separate;border:0;"
-        cellpadding="0"
-        cellspacing="0"
-        :style="{ backgroundColor: bgColor }"
-      >
-        <tbody>
-          <!-- Preview text with white space hack -->
-          <tr v-if="previewText">
-            <td style="padding:0;font-size:0;line-height:0;max-height:0;overflow:hidden;">
-              {{ previewText }}
-              <!-- White space hack to prevent email clients from pulling unwanted text -->
-              <div style="display:none;max-height:0;overflow:hidden;">
-                &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
-              </div>
-            </td>
-          </tr>
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+    <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="color-scheme" content="light dark">
+      <meta name="supported-color-schemes" content="light dark">
+      <title>{{ subject || "No Subject" }}</title>
+      <style type="text/css">
+        /* Base typography */
+        body { line-height: 1.6; font-size: 18px; }
+        p {
+        margin: 1.5em 0;
+        font-size: 18px;
+        }
 
-          <tr>
-            <td style="padding:0;">
-              <table
-                style="width:100%;max-width:600px;margin:0 auto;border-spacing:0;border-collapse:separate;border:0"
-                cellpadding="0"
-                cellspacing="0"
-              >
-                <tbody>
-                  <tr>
-                    <td style="padding:32px 16px;">
-                      <!-- Email content -->
+        /* Headers */
+        h1, h2, h3, h4, h5, h6 {
+        margin: 1.5em 0 0.75em;
+        line-height: 1.3;
+        }
+        h1 { font-size: 36px; }
+        h2 { font-size: 27px; }
+        h3 { font-size: 22px; }
+        h4 { font-size: 20px; }
+        h5 { font-size: 18px; }
+        h6 { font-size: 18px; }
 
-                      <!-- Super header -->
-                      <table v-if="superTitle" style="width:100%;margin-bottom:16px;">
-                        <tbody>
-                          <tr>
-                            <td v-if="superTitle.icon?.url" width="22">
-                              <a :href="superTitle.href || '#'">
-                                <img style="border-radius:6px;border:2px solid rgba(255,255,255,0.1);" width="22" :src="superTitle.icon?.url" alt="">
-                              </a>
-                            </td>
-                            <td v-if="superTitle?.text" :style="superTitle.icon?.url ? 'padding-left:12px;' : ''">
-                              <a :href="superTitle.href || '#'" style="text-decoration:none;font-weight:normal;font-size:14px;" :style="{ color: textColor }">
-                                {{ superTitle?.text }}
-                              </a>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+        /* Lists and definition terms */
+        ul, ol, dl {
+        margin: 1.5em 0;
+        padding-left: 1.5em;
+        font-size: 18px;
+        }
+        li { margin: 0.5em 0; }
+        li p { margin: 0; }
+        dt {
+        font-weight: 600;
+        margin-top: 1em;
+        }
+        dd { margin-left: 1.5em; }
 
-                      <!-- Title section -->
-                      <table style="width:100%;">
-                        <tbody>
-                          <tr>
-                            <td>
-                              <h1
-                                data-test-id="email-title"
-                                :data-title="title"
-                                style="margin:0;font-weight:bold;font-size:24px;line-height:1.33;"
-                              >
-                                {{ title }}
-                              </h1>
+        /* Images and figures */
+        img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 0.5em;
+        }
+        img[data-emoji] {
+        display: inline;
+        border-radius: 0;
+        vertical-align: -0.1em;
+        }
+        figure {
+        margin: 2em 0;
+        text-align: center;
+        }
+        figcaption {
+        margin-top: 0.75em;
+        font-size: 16px;
+        color: v-bind(textColorSubdued);
+        }
 
-                              <h3
-                                v-if="subTitle"
-                                data-test-id="email-sub-title"
-                                style="margin:0;font-weight:normal;font-size:24px;line-height:1.33;opacity:0.6;"
-                              >
-                                <span v-html="subTitle" />
-                              </h3>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+        /* Links */
+        a {
+        color: v-bind(primaryColor);
+        text-decoration: none;
+        transition: opacity 0.2s;
+        }
+        a:hover { opacity: 0.8; }
 
-                      <!-- Divider -->
-                      <hr :style="{ border: 'none', borderTop: `1px solid ${hrColor}`, opacity: 0.5, margin: '2rem 0' }">
+        hr { border: none; border-top: 1px solid rgba(0,0,0,.1); margin: 2em 0; }
+      </style>
+    </head>
+    <body style="margin:0;padding:0;" :style="{ backgroundColor: bgColor }">
+      <!-- Preview Text Hack -->
+      <div style="display: none; font-size: 1px; line-height: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; font-family: sans-serif;">
+        {{ previewText }}
+        <!-- Prevent Gmail app from showing funky characters -->
+        &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+        &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+        &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+        <!-- Force preview text to fill available space -->
+        &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847;
+        &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847;
+      </div>
 
-                      <!-- Featured Image -->
-                      <table v-if="mediaFeatured?.url" style="width:100%;margin:32px 0;">
-                        <tbody>
-                          <tr>
-                            <td>
-                              <img
-                                :src="mediaFeatured.url"
-                                :alt="mediaFeatured.alt || 'Featured Image'"
-                                style="width:100%;height:auto;border-radius:4px;"
-                              >
-                              <p v-if="mediaFeatured.caption" style="margin:8px 0 0;font-size:14px;text-align:center;opacity:0.6;">
-                                {{ mediaFeatured.caption }}
-                              </p>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+      <!-- Main Container -->
+      <div :style="baseStyles.container">
+        <!-- Super Title -->
+        <table v-if="superTitle" style="margin-bottom:16px;">
+          <tbody>
+            <tr>
+              <td>
+                <img v-if="superTitle.icon?.url" :src="superTitle.icon.url" width="22" alt="" style="vertical-align:middle;border-radius:6px;border:2px solid rgba(255,255,255,0.1);">
+              </td>
+              <td>
+                <a v-if="superTitle?.text" :href="superTitle.href || '#'" :style="`${baseStyles.link}margin-left:.5em;font-weight: 600;font-size:.9em;`">{{ superTitle?.text }}</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-                      <!-- Email body -->
-                      <div v-if="bodyMarkdown" data-test-id="email-content" class="body-content" v-html="markdownContent" />
+        <!-- Title Section -->
+        <h1
+          style="margin:0 0 8px;font-size:24px;line-height:1.33;"
+        >
+          {{ title }}
+        </h1>
+        <h3
+          v-if="subTitle"
+          style="margin:0;font-weight:normal;font-size:24px;line-height:1.33;"
+          :style="{ color: textColorSubdued }"
+          v-html="subTitle"
+        />
 
-                      <!-- Action buttons -->
-                      <table v-if="buttons" style="width:100%;margin-top:32px;margin-bottom:32px;text-align:left;">
-                        <tbody>
-                          <tr>
-                            <td>
-                              <table style="display:inline-block;">
-                                <tr>
-                                  <td v-for="(item, i) in buttons" :key="i" :style="i === 0 ? '' : 'padding-left:12px;'">
-                                    <a
-                                      :href="item.href"
-                                      :data-type="item.theme"
-                                      :style="getButtonStyle(item)"
-                                      v-html="item.label"
-                                    />
-                                  </td>
-                                </tr>
-                              </table>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+        <hr :style="baseStyles.hr">
 
-                      <!-- Divider -->
-                      <hr :style="{ border: 'none', borderTop: `1px solid ${hrColor}`, opacity: 0.5, margin: '2rem 0' }">
+        <!-- Featured Image -->
+        <figure v-if="mediaFeatured?.url" style="margin:2em 0;">
+          <img
+            :src="mediaFeatured.url"
+            :alt="mediaFeatured.alt || ''"
+            style="width:100%;height:auto;border-radius:4px;"
+          >
+          <figcaption
+            v-if="mediaFeatured?.caption"
+            style="margin:8px 0 0;font-size:.9em;text-align:center;"
+            :style="{ color: textColorSubdued }"
+          >
+            {{ mediaFeatured.caption }}
+          </figcaption>
+        </figure>
 
-                      <!-- Footer -->
-                      <table style="width:100%;margin-top:48px;border-spacing:0;">
-                        <tbody>
-                          <tr>
-                            <td style="padding-top:24px;">
-                              <!-- Brand & Navigation -->
-                              <table style="width:100%;margin-bottom:32px;">
-                                <tbody>
-                                  <tr>
-                                    <td>
-                                      <!-- Top Navigation -->
-                                      <table style="margin:0;">
-                                        <tr>
-                                          <td v-for="(link, i) in footerLinks" :key="i" :style="i === 0 ? '' : 'padding-left:24px;'">
-                                            <a
-                                              :href="link.href"
-                                              :style="{
-                                                color: textColor,
-                                                textDecoration: 'none',
-                                                fontSize: '16px',
-                                                opacity: 0.8,
-                                              }"
-                                            >
-                                              {{ link.label }}
-                                            </a>
-                                          </td>
-                                        </tr>
-                                      </table>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
+        <!-- Content -->
+        <div v-if="bodyMarkdown" v-html="markdownContent" />
 
-                              <!-- Company Info -->
-                              <table style="width:100%;margin-bottom:32px;">
-                                <tbody>
-                                  <tr>
-                                    <td>
-                                      <div style="font-size:13px;opacity:0.6;">
-                                        © {{ new Date().getFullYear().toString() }} {{ company }}
-                                      </div>
-                                      <div v-if="streetAddress" style="font-size:13px;opacity:0.6;margin-top:4px;">
-                                        {{ streetAddress }}
-                                      </div>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
+        <!-- Buttons -->
+        <div v-if="buttons" style="margin:32px 0;">
+          <a
+            v-for="(btn, i) in buttons"
+            :key="i"
+            :href="btn.href"
+            :style="getButtonStyle(btn) + (i > 0 ? 'margin-left:12px;' : '')"
+            v-html="btn.label"
+          />
+        </div>
 
-                              <!-- Legal Links -->
-                              <table style="width:100%;">
-                                <tbody>
-                                  <tr>
-                                    <!-- Left side links -->
-                                    <td style="vertical-align:middle;">
-                                      <table style="display:inline-block;">
-                                        <tr>
-                                          <td>
-                                            <a
-                                              v-if="unsubscribeUrl"
-                                              :href="unsubscribeUrl"
-                                              :style="{
-                                                color: textColor,
-                                                textDecoration: 'none',
-                                                fontSize: '13px',
-                                                opacity: 0.6,
-                                              }"
-                                            >
-                                              Unsubscribe
-                                            </a>
-                                          </td>
-                                          <td style="padding:0 8px;opacity:0.6;">
-                                            •
-                                          </td>
-                                          <td>
-                                            <a
-                                              href="/privacy"
-                                              :style="{
-                                                color: textColor,
-                                                textDecoration: 'none',
-                                                fontSize: '13px',
-                                                opacity: 0.6,
-                                              }"
-                                            >
-                                              Privacy
-                                            </a>
-                                          </td>
-                                          <td style="padding:0 8px;opacity:0.6;">
-                                            •
-                                          </td>
-                                          <td>
-                                            <a
-                                              href="/terms"
-                                              :style="{
-                                                color: textColor,
-                                                textDecoration: 'none',
-                                                fontSize: '13px',
-                                                opacity: 0.6,
-                                              }"
-                                            >
-                                              Terms
-                                            </a>
-                                          </td>
-                                        </tr>
-                                      </table>
-                                    </td>
+        <hr :style="baseStyles.hr">
 
-                                    <!-- Fiction branding -->
-                                    <td style="vertical-align:middle;text-align:right;">
-                                      <a
-                                        v-if="poweredByFiction"
-                                        href="https://www.fiction.com"
-                                        target="_blank"
-                                        rel="noopener"
-                                        :style="{
-                                          color: textColor,
-                                          textDecoration: 'none',
-                                          fontSize: '13px',
-                                          opacity: 0.6,
-                                        }"
-                                      >
-                                        Created with Fiction
-                                      </a>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </body>
+        <!-- Footer -->
+        <div style="margin-top:2em;">
+          <!-- Footer Links -->
+          <div style="margin-bottom:32px;">
+            <a
+              v-for="(link, i) in footerLinks"
+              :key="i"
+              :href="link.href"
+              :style="{
+                marginRight: '16px',
+                fontWeight: 600,
+                color: 'inherit',
+                textDecoration: 'none',
+              }"
+            >{{ link.label }}</a>
+          </div>
+
+          <!-- Company Info -->
+          <div :style="baseStyles.footerText">
+            <div>© {{ new Date().getFullYear() }} {{ company }}</div>
+            <div v-if="streetAddress" style="margin-top:4px;">
+              {{ streetAddress }}
+            </div>
+          </div>
+
+          <!-- Legal Footer -->
+          <table style="width:100%;margin-top:32px;" cellpadding="0" cellspacing="0">
+            <tr>
+              <td>
+                <a v-if="unsubscribeUrl" :href="unsubscribeUrl" :style="baseStyles.link + baseStyles.footerText">Unsubscribe</a>
+                <span :style="baseStyles.footerText">&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+                <a href="/privacy" :style="baseStyles.link + baseStyles.footerText">Privacy</a>
+                <span :style="baseStyles.footerText">&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+                <a href="/terms" :style="baseStyles.link + baseStyles.footerText">Terms</a>
+              </td>
+              <td v-if="poweredByFiction" style="text-align:right;">
+                <a
+                  href="https://www.fiction.com"
+                  target="_blank"
+                  rel="noopener"
+                  :style="baseStyles.link + baseStyles.footerText"
+                >
+                  Created with Fiction.com
+                </a>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </body>
+  </html>
 </template>

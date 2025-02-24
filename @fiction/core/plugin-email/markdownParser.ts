@@ -4,23 +4,16 @@ import { marked } from 'marked'
 
 export type EmailMarkdownOptions = {
   primaryColor?: string
-  headerFont?: string
-  bodyFont?: string
   baseUrl?: string
   baseFontSize?: number
   previewMode?: 'dark' | 'light' | ''
   theme?: keyof typeof colorList
 }
 
-const fonts = {
-  standard: '-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif',
-  mono: 'monaco, Consolas, "Lucida Console", monospace',
-}
-
 // Used to help custom formatting in block elements
 // to prevent paragraphs from having margin on the last paragraph, etc.
 const renderContext = {
-  inBlockquote: false,
+  inBlock: false,
   paragraphCount: 0,
   totalParagraphs: 0,
 }
@@ -39,13 +32,18 @@ export function renderEmailHtmlFromMarkdown(markdown: string | null | undefined,
   if (!markdown) {
     return ''
   }
-  const bodyFont = options.bodyFont || fonts.standard
-  const headerFont = options.headerFont || bodyFont
+
   const baseFontSize = options.baseFontSize || 16
   const { previewMode, theme } = options
 
   const primaryColorScheme = theme ? colorList[theme] : colorList.blue
   const elementColorScheme = colorList.gray
+
+  const getHref = (href: string) => {
+    // remove trailing slash in baseUrl and leading slash in href and then join
+    const baseUrl = options.baseUrl || ''
+    return href.startsWith('http') ? href : `${baseUrl.replace(/\/$/, '')}/${href.replace(/^\//, '')}`
+  }
 
   const colors = {
     border: previewMode === 'dark' ? elementColorScheme[600] : elementColorScheme[200],
@@ -67,18 +65,18 @@ export function renderEmailHtmlFromMarkdown(markdown: string | null | undefined,
       return `<code style="padding: 0.2em 0.4em; background: ${colors.panel}; border-radius: 3px; font-family: monaco, Consolas, 'Lucida Console', monospace; font-size: 85%;">${text}</code>`
     },
     image({ href, text }) {
-      const src = href.startsWith('http') ? href : `${options.baseUrl}${href}`
+      const src = getHref(href)
       return `<img src="${src}" alt="${text}" style="max-width: 100%; height: auto; margin: 1em 0;" />`
     },
     link({ href, tokens }) {
-      const linkHref = href.startsWith('http') ? href : `${options.baseUrl}${href}`
+      const linkHref = getHref(href)
       return `<a href="${linkHref}" style="color: ${colors.link}; text-decoration: underline;" target="_blank">${this.parser.parseInline(tokens)}</a>`
     },
     hr() {
       return `<hr style="margin: 2em 0; border: 0; border-top: 1px solid ${colors.border};" />`
     },
     blockquote({ tokens }) {
-      renderContext.inBlockquote = true
+      renderContext.inBlock = true
       renderContext.paragraphCount = 0
       renderContext.totalParagraphs = countParagraphs(tokens)
 
@@ -86,35 +84,26 @@ export function renderEmailHtmlFromMarkdown(markdown: string | null | undefined,
        ${this.parser.parse(tokens)}
       </blockquote>`
 
-      renderContext.inBlockquote = false
+      renderContext.inBlock = false
       return result
     },
     listitem({ tokens }) {
-      return `<li style="margin: 0.5em 0; font-size: ${baseFontSize}px; line-height: 1.6;">${this.parser.parse(tokens)}</li>`
+      renderContext.inBlock = true
+      renderContext.paragraphCount = 0
+      renderContext.totalParagraphs = countParagraphs(tokens)
+      const result = `<li style="margin: 0.5em 0; font-size: ${baseFontSize}px; line-height: 1.6;">
+        ${this.parser.parse(tokens)}
+      </li>`
+
+      renderContext.inBlock = false
+      return result
     },
     list({ ordered, items }) {
       const type = ordered ? 'ol' : 'ul'
       const style = 'margin: 0 0 1.5em; padding-left: 24px;'
       return `<${type} style="${style}">${items.map(item => this.listitem(item)).join('')}</${type}>`
     },
-    paragraph({ tokens }) {
-      let marginStyle = 'margin: 0 0 1.5em;'
 
-      if (renderContext.inBlockquote) {
-        renderContext.paragraphCount++
-
-        if (renderContext.paragraphCount === 1) {
-          // First paragraph in blockquote
-          marginStyle = 'margin: 0 0 1.5em;'
-        }
-        else if (renderContext.paragraphCount === renderContext.totalParagraphs) {
-          // Last paragraph in blockquote
-          marginStyle = 'margin: 0;'
-        }
-      }
-
-      return `<p style="${marginStyle} font-size: ${baseFontSize}px; line-height: 1.6;">${this.parser.parseInline(tokens)}</p>`
-    },
     heading({ tokens, depth }) {
       const size = Math.max(28 - (depth * 4), baseFontSize) // Scale heading sizes
       const lineHeight = 1.2 + (0.1 * (depth - 1)) // Scale line height
@@ -122,7 +111,7 @@ export function renderEmailHtmlFromMarkdown(markdown: string | null | undefined,
     },
   }
 
-  marked.use({ renderer })
+  // marked.use({ renderer })
 
   const htmlContent = marked.parse(markdown, {
     breaks: true, // Convert line breaks

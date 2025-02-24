@@ -40,8 +40,8 @@ describe('transactional email', async () => {
       fromName: 'Fiction.com',
       fromEmail: 'admin@fiction.com',
       subject: `Test Space (test email 🧪🧪🧪)`,
-      title: 'Welcome to Space 🚀',
-      subTitle: 'This is a test email to test formatting of various elements.🧪',
+      title: 'Voyage to Space 🚀',
+      subTitle: 'This is to test formatting of various elements.🧪',
       bodyHtml: sampleHtml,
       buttons: [
         {
@@ -55,7 +55,12 @@ describe('transactional email', async () => {
         text: 'Fiction',
         href: 'https://www.fiction.com',
       },
+      footerLinks: [
+        { label: 'View Website', href: 'https://www.fiction.com' },
+      ],
       mediaFooter: { url: footerImage.url },
+      company: 'Some Company',
+      streetAddress: '1234 Fiction St, Fiction City, FI 12345',
       poweredByFiction: true,
       unsubscribeUrl: 'https://www.fiction.com/unsubscribe',
       env: 'test',
@@ -205,72 +210,131 @@ describe('transactional email', async () => {
 
     it('renders html content', async () => {
       expect(result.data?.html).toMatchInlineSnapshot(`
-        "<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><tailwind-clean-component env="test" campaignId="cywmq" caller="testEmailLayout" toUserId="usr67aa1770850033033784a7fc" fromOrgId="org67aa1770087c9fe37bff8c7f"><html lang="en" dir="ltr" class="" style=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><meta name="x-apple-disable-message-reformatting"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><title>Test Space (test email 🧪🧪🧪)</title><meta name="description" content="Welcome to Space 🚀 -- This is a test email to test formatting of various elements.🧪"/><style data-id="__vue-email-style">
-                  tbody { font-size: 1rem; line-height: 1.65; }
-                  h1, h2 { line-height: 1.2; }
-                  h3, h4, h5 { line-height: 1.4; }
-                  h5, h6 { font-weight: bold; }
-                  ol, ul, dd, dt { font-size: 1rem; line-height: 1.65; }
-                  dt { font-weight: bold; margin-top: 0.5rem; }
-                  dd { margin-inline-start: 1.5rem; }
-                  ul, ol { padding-inline-start: 1.5rem; }
-                  img, figure { max-width: 100%; height: auto; }
-                  img[data-emoji] { display: inline; }
-                  figure img { border-radius: .5rem; display: block; }
-                  figcaption { font-size: 0.8rem; text-align: center; color: #666; margin-top: 0.5rem;  }
-                  figcaption a { color: inherit; }
-                  a { transition: opacity 0.2s; }
-                  a:hover { opacity: 0.8; }
-                </style></head><div style="display:none;overflow:hidden;line-height:1px;opacity:0;max-height:0;max-width:0;">Welcome to Space 🚀 -- This is a test email to test formatting of various elements.🧪<div> ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿</div></div><body style="font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;;"><div class="py-8 px-4" style="max-width:600px;margin:0px auto;color:#0e0f11; padding-top: 2rem;
-            padding-bottom: 2rem; padding-left: 1rem;
-            padding-right: 1rem;"><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="margin-bottom:16px;"><tbody><tr><td/><td role="presentation" class="w-[22px]" style="width: 22px;"><a href="https://www.fiction.com"><img style="display:block;outline:none;border:none;text-decoration:none; border-radius: 0.375rem; border-width: 2px !important; border-color: rgb(255,255,255,0.1) !important; border-style: solid !important;" src="https://fiction-media-dev.s3.amazonaws.com/fiction-relative-media/med67aa1770badc1d6433a5b570-fiction-icon.png?blurhash=U9EMLDD%2500%3Fb9FWBay%25M00Rj%7Eqxu_3%25Mt74n" width="22" class="rounded-md !border-2 !border-white/10 !border-solid"/></a></td><td role="presentation" class="pl-3" style="padding-left: 0.75rem;"><a href="https://www.fiction.com" class="text-inherit font-normal text-[14px] no-underline" style="color: inherit; font-weight: 400; font-size: 14px; text-decoration-line: none;">Fiction</a></td></tr></tbody></table><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation"><tbody><tr><td><h1 style="margin:0 0 0 0;font-weight:bold;font-size:24px;line-height:1.33;" data-test-id="email-title" data-title="Welcome to Space 🚀">Welcome to Space 🚀</h1><h3 style="margin:0 0 0 0;font-weight:normal;font-size:24px;line-height:1.33; margin-top: 0px;
-            margin-bottom: 0px; opacity: 0.6;" data-test-id="email-sub-title" class="my-0 opacity-60"><span>This is a test email to test formatting of various elements.🧪</span> <span class="opacity-30" style="opacity: 0.3;">↘</span></h3></td></tr></tbody></table><hr style="width:100%;border:none;border-top:1px solid #eaeaea;border-top:1px solid #DEDFE2;opacity:.5;margin:2rem 0;"/><div data-test-id="email-content" class="body-content"><h1 style="font-size:2.2rem;line-height:1.3;font-weight:700">Welcome to the <a href="#" target="_blank" style="color:">Galactic Gazette</a>! Your Ultimate Source for Space Adventures!</h1><p style="font-size:1.1rem;line-height:1.65;font-weight:normal"><em style="font-style:italic">Discover the universe, one newsletter at a time! ✨</em></p>
-        <figure><img src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=4472&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Earth from space"/><figcaption><a href="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=4472&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">Earth from Space</a></figcaption></figure>
+        "<html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="color-scheme" content="light dark"><meta name="supported-color-schemes" content="light dark"><title>Test Space (test email 🧪🧪🧪)</title><style type="text/css">
+                /* Base typography */
+                body { line-height: 1.6; font-size: 18px; }
+                p {
+                margin: 1.5em 0;
+                font-size: 18px;
+                }
 
-        <p style="font-size:1.1rem;line-height:1.65;font-weight:normal">Imagine a world where <mark>space travel</mark> is as common as taking a bus. Our latest article explores the <strong style="font-weight:bold">future of interstellar journeys</strong>. Is <del>space tourism</del> now a reality?</p>
-        <p style="font-size:1.1rem;line-height:1.65;font-weight:normal"><a href="https://www.fiction.com" target="_blank" style="color:">Subscribe Now 🚀</a></p>
-        <h2 style="font-size:1.8rem;line-height:1.3;font-weight:700;margin-top:2rem">Breaking News: The Andromeda Galaxy is Closer than We Thought!</h2><figure><img src="https://images.unsplash.com/photo-1543722530-d2c3201371e7?q=80&w=4474&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Andromeda galaxy"/><figcaption><a href="https://images.unsplash.com/photo-1543722530-d2c3201371e7?q=80&w=4474&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">The Andromeda Galaxy</a></figcaption></figure>
+                /* Headers */
+                h1, h2, h3, h4, h5, h6 {
+                margin: 1.5em 0 0.75em;
+                line-height: 1.3;
+                }
+                h1 { font-size: 36px; }
+                h2 { font-size: 27px; }
+                h3 { font-size: 22px; }
+                h4 { font-size: 20px; }
+                h5 { font-size: 18px; }
+                h6 { font-size: 18px; }
 
-        <p style="font-size:1.1rem;line-height:1.65;font-weight:normal">New research indicates that our neighboring galaxy, <strong style="font-weight:bold">Andromeda</strong>, might be on a collision course with the Milky Way. Experts weigh in on what this means for <sup>space</sup> enthusiasts and astronomers alike.</p>
-        <h3 style="font-size:1.6rem;line-height:1.4;font-weight:700;opacity:.8;margin-top:1.5rem">Stunning Eclipse Captured by Space Station</h3><figure><img src="https://images.unsplash.com/photo-1506443432602-ac2fcd6f54e0?q=80&w=2268&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Eclipse"/><figcaption><a href="https://images.unsplash.com/photo-1506443432602-ac2fcd6f54e0?q=80&w=2268&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">Spectacular Eclipse</a></figcaption></figure>
+                /* Lists and definition terms */
+                ul, ol, dl {
+                margin: 1.5em 0;
+                padding-left: 1.5em;
+                font-size: 18px;
+                }
+                li { margin: 0.5em 0; }
+                li p { margin: 0; }
+                dt {
+                font-weight: 600;
+                margin-top: 1em;
+                }
+                dd { margin-left: 1.5em; }
 
-        <p style="font-size:1.1rem;line-height:1.65;font-weight:normal"><strong style="font-weight:bold">Check out these amazing photos</strong> of the recent solar eclipse taken from the <a href="https://www.fiction.com" target="_blank" style="color:">International Space Station</a>. Witness the awe-inspiring beauty of our universe.</p>
+                /* Images and figures */
+                img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 0.5em;
+                }
+                img[data-emoji] {
+                display: inline;
+                border-radius: 0;
+                vertical-align: -0.1em;
+                }
+                figure {
+                margin: 2em 0;
+                text-align: center;
+                }
+                figcaption {
+                margin-top: 0.75em;
+                font-size: 16px;
+                color: v-bind(textColorSubdued);
+                }
+
+                /* Links */
+                a {
+                color: v-bind(primaryColor);
+                text-decoration: none;
+                transition: opacity 0.2s;
+                }
+                a:hover { opacity: 0.8; }
+
+                /* Dark mode optimization */
+                @media (prefers-color-scheme: dark) {
+                body { background: v-bind(bgColor); }
+                .dark-img {
+                filter: brightness(0.8) contrast(1.2);
+                }
+                }
+
+                /* Mobile optimization */
+                @media only screen and (max-width: 600px) {
+                body { font-size: 15px; }
+                h1 { font-size: 1.75em; }
+                h2 { font-size: 1.5em; }
+                }
+              </style></head><body style="margin:0;padding:0;"><!-- Preview Text Hack --><div style="display:none;font-size:1px;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;font-family:sans-serif;">Voyage to Space 🚀 -- This is to test formatting of various elements.🧪 <!-- Prevent Gmail app from showing funky characters --> ‌ ‌ ‌ ‌ ‌  ‌ ‌ ‌ ‌ ‌  ‌ ‌ ‌ ‌ ‌  <!-- Force preview text to fill available space --> ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ </div><!-- Main Container --><div style="width:100%;max-width:600px;margin:0 auto;padding:32px 16px;font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif;color:#0e0f11;"><!-- Super Title --><table style="margin-bottom:16px;"><tbody><tr><td><img src="https://fiction-media-dev.s3.amazonaws.com/fiction-relative-media/med67bbf278308514c8c9f01f66-fiction-icon.png?blurhash=U9EMLDD%2500%3Fb9FWBay%25M00Rj%7Eqxu_3%25Mt74n" width="22" alt="" style="vertical-align:middle;border-radius:6px;border:2px solid rgba(255,255,255,0.1);"></td><td><a href="https://www.fiction.com" style="color:#0e0f11;text-decoration:none;margin-left:.5em;font-weight: 600;font-size:.9em;">Fiction</a></td></tr></tbody></table><!-- Title Section --><h1 style="margin:0 0 8px;font-size:24px;line-height:1.33;">Voyage to Space 🚀</h1><h3 style="margin:0;font-weight:normal;font-size:24px;line-height:1.33;color:#394151;">This is to test formatting of various elements.🧪</h3><hr style="border:none;border-top:1px solid #DEDFE2;margin:3em 0; width: 5em;"><!-- Featured Image --><!----><!-- Content --><div><h1>Welcome to the <a href="#">Galactic Gazette</a>! Your Ultimate Source for Space Adventures!</h1>
+        <p><em>Discover the universe, one newsletter at a time! ✨</em></p>
+        <figure><img src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&amp;w=4472&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Earth from space"><figcaption><a href="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&amp;w=4472&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">Earth from Space</a></figcaption></figure>
+
+        <p>Imagine a world where <mark>space travel</mark> is as common as taking a bus. Our latest article explores the <strong>future of interstellar journeys</strong>. Is <del>space tourism</del> now a reality?</p>
+        <p><a href="https://www.fiction.com">Subscribe Now 🚀</a></p>
+        <h2>Breaking News: The Andromeda Galaxy is Closer than We Thought!</h2>
+        <figure><img src="https://images.unsplash.com/photo-1543722530-d2c3201371e7?q=80&amp;w=4474&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Andromeda galaxy"><figcaption><a href="https://images.unsplash.com/photo-1543722530-d2c3201371e7?q=80&amp;w=4474&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">The Andromeda Galaxy</a></figcaption></figure>
+
+        <p>New research indicates that our neighboring galaxy, <strong>Andromeda</strong>, might be on a collision course with the Milky Way. Experts weigh in on what this means for <sup>space</sup> enthusiasts and astronomers alike.</p>
+        <h3>Stunning Eclipse Captured by Space Station</h3>
+        <figure><img src="https://images.unsplash.com/photo-1506443432602-ac2fcd6f54e0?q=80&amp;w=2268&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Eclipse"><figcaption><a href="https://images.unsplash.com/photo-1506443432602-ac2fcd6f54e0?q=80&amp;w=2268&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">Spectacular Eclipse</a></figcaption></figure>
+
+        <p><strong>Check out these amazing photos</strong> of the recent solar eclipse taken from the <a href="https://www.fiction.com">International Space Station</a>. Witness the awe-inspiring beauty of our universe.</p>
         <ul>
-        <li style="padding:.5rem 0"><strong style="font-weight:bold">🎆 Latest Discovery:*</strong>New exoplanet in the habitable zone.</li>
-        <li style="padding:.5rem 0"><mark>SpaceX</mark> announces new moon mission.</li>
-        <li style="padding:.5rem 0">NASA's next rover to search for signs of life on Mars.</li>
-        <li style="padding:.5rem 0">Galactic Federation holds first interstellar summit.</li>
-        <li style="padding:.5rem 0">Exclusive Interview: Astronaut shares their experiences from space.</li>
+        <li><strong>🎆 Latest Discovery:</strong> New exoplanet in the habitable zone.</li>
+        <li><mark>SpaceX</mark> announces new moon mission.</li>
+        <li>NASA&#39;s next rover to search for signs of life on Mars.</li>
+        <li>Galactic Federation holds first interstellar summit.</li>
+        <li>Exclusive Interview: Astronaut shares their experiences from space.</li>
         </ul>
-        <p style="font-size:1.1rem;line-height:1.65;font-weight:normal"><strong style="font-weight:bold">🌟 Editor's Pick:*</strong>Don't miss our exclusive interview with veteran astronaut Sarah Chen about life aboard the ISS!</p>
-        <h2 style="font-size:1.8rem;line-height:1.3;font-weight:700;margin-top:2rem">Astronaut's Guide to Surviving Space</h2><figure><img src="https://images.unsplash.com/photo-1576174464184-fb78fe882bfd?q=80&w=4000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Astronaut"/><figcaption><a href="https://images.unsplash.com/photo-1576174464184-fb78fe882bfd?q=80&w=4000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">Life in Space</a></figcaption></figure>
+        <p><strong>🌟 Editor&#39;s Pick:</strong> Don&#39;t miss our exclusive interview with veteran astronaut Sarah Chen about life aboard the ISS!</p>
+        <h2>Astronaut&#39;s Guide to Surviving Space</h2>
+        <figure><img src="https://images.unsplash.com/photo-1576174464184-fb78fe882bfd?q=80&amp;w=4000&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Astronaut"><figcaption><a href="https://images.unsplash.com/photo-1576174464184-fb78fe882bfd?q=80&amp;w=4000&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">Life in Space</a></figcaption></figure>
 
-        <p style="font-size:1.1rem;line-height:1.65;font-weight:normal">Learn about the <em style="font-style:italic">challenges and rewards</em> of living and working in space from our <strong style="font-weight:bold">featured astronaut</strong>. From <sup>zero gravity</sup> workouts to eating <sub>dehydrated meals</sub>, get an inside look at astronaut life.</p>
-        <h3 style="font-size:1.6rem;line-height:1.4;font-weight:700;opacity:.8;margin-top:1.5rem">Fun Facts About Space:</h3><h4 style="font-size:1.3rem;line-height:1.4;font-weight:600">Did You Know?</h4><p style="font-size:1.1rem;line-height:1.65;font-weight:normal">The <strong style="font-weight:bold">International Space Station</strong> travels at a speed of approximately 28,000 kilometers per hour (17,500 miles per hour).</p>
+        <p>Learn about the <em>challenges and rewards</em> of living and working in space from our <strong>featured astronaut</strong>. From <sup>zero gravity</sup> workouts to eating <sub>dehydrated meals</sub>, get an inside look at astronaut life.</p>
+        <h3>Fun Facts About Space:</h3>
+        <h4>Did You Know?</h4>
+        <p>The <strong>International Space Station</strong> travels at a speed of approximately 28,000 kilometers per hour (17,500 miles per hour).</p>
         <ol>
-        <li style="padding:.5rem 0">The sun's core is about 27 million degrees Fahrenheit.</li>
-        <li style="padding:.5rem 0">Venus is the hottest planet in our solar system.</li>
-        <li style="padding:.5rem 0">Jupiter has the shortest day of all the planets.</li>
-        <li style="padding:.5rem 0">Saturn's rings are made of ice and rock.</li>
-        <li style="padding:.5rem 0">The moon is drifting away from Earth at a rate of 3.8 centimeters per year.</li>
+        <li>The sun&#39;s core is about 27 million degrees Fahrenheit.</li>
+        <li>Venus is the hottest planet in our solar system.</li>
+        <li>Jupiter has the shortest day of all the planets.</li>
+        <li>Saturn&#39;s rings are made of ice and rock.</li>
+        <li>The moon is drifting away from Earth at a rate of 3.8 centimeters per year.</li>
         </ol>
-        <hr style="border:none;border-top:1px solid #DEDFE2;opacity:.5;margin:2rem 0"/>
-        <h5 style="font-size:1.2rem;line-height:1.4;font-weight:600">Space Technology Advancements</h5><p style="font-size:1.1rem;line-height:1.65;font-weight:normal"><del>Old satellite technology</del> is being replaced with cutting-edge advancements. Learn more about the latest in space tech!</p>
-        <blockquote style="padding:0 0 0 1.5rem;margin:1.5rem 0;border-left:2px solid #DEDFE2;background:transparent;font-size:1.45em;font-style:italic">
-        <p style="font-size:1.1rem;line-height:1.65;font-weight:normal">"The universe is under no obligation to make sense to you." - Neil deGrasse Tyson</p>
+        <hr>
+        <h5>Space Technology Advancements</h5>
+        <p><del>Old satellite technology</del> is being replaced with cutting-edge advancements. Learn more about the latest in space tech!</p>
+        <blockquote>
+        <p>&quot;The universe is under no obligation to make sense to you.&quot; - Neil deGrasse Tyson</p>
         </blockquote>
-        <h6 style="font-size:1rem;line-height:1.4;font-weight:600">Space Exploration: The Final Frontier</h6><p style="font-size:1.1rem;line-height:1.65;font-weight:normal">Discover the latest missions and milestones in space exploration. From Mars rovers to deep space probes, <a href="https://www.fiction.com" target="_blank" style="color:">stay updated</a> with our comprehensive coverage.</p>
-        <hr style="border:none;border-top:1px solid #DEDFE2;opacity:.5;margin:2rem 0"/>
+        <h6>Space Exploration: The Final Frontier</h6>
+        <p>Discover the latest missions and milestones in space exploration. From Mars rovers to deep space probes, <a href="https://www.fiction.com">stay updated</a> with our comprehensive coverage.</p>
+        <hr>
         <dl><dt>Galactic Economy</dt><dd>How space mining is revolutionizing the economy.</dd><dt>Space Tourism</dt><dd>Upcoming missions you can join as a tourist.</dd><dt>Astronomical Events</dt><dd>Don't miss the next meteor shower!</dd><dd>Upcoming lunar and solar eclipses.</dd></dl>
 
-        <p style="font-size:1.1rem;line-height:1.65;font-weight:normal">Finally, after months of preparation, the crew is ready to embark on their journey to Mars. <strong style="font-weight:bold">Stay tuned</strong> for live updates and exclusive coverage!</p>
-        </div><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" class="mt-8 mb-8 text-left" style="margin-top: 2rem; margin-bottom: 2rem; text-align: left;"><tbody><tr><td><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="display:inline-block;"><tbody><tr><td></td><td role="presentation" class=""><a style="line-height:100%;text-decoration:none;display:inline-block;max-width:100%;padding:0px 0px 0px 0px;white-space:nowrap; background-color: rgb(44,103,255); color: rgb(255,255,255); padding-top: 0.75rem;
-            padding-bottom: 0.75rem; padding-left: 1rem;
-            padding-right: 1rem; border-radius: 0.375rem; font-size: 16px; border-radius: 9999px; font-weight: 500; user-select: none; transition-property: all;
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-            transition-duration: 150ms;" href="#" data-type="primary" class="hover:opacity-80">Confirm email address →</a></td></tr></tbody></table></td></tr></tbody></table><hr style="width:100%;border:none;border-top:1px solid #eaeaea;border-top:1px solid #DEDFE2;opacity:.5;margin:2rem 0;"/><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" class="subtle-text text-normal" style="margin-top: 2rem; text-align: left; font-size: 0.75rem;
-            line-height: 1rem;"><tbody><tr><td/><td role="presentation" class="w-[65%] align-top" style="width: 65%; vertical-align: top;"><img style="display: block; outline: none; border: none; text-decoration: none" src="https://fiction-media-dev.s3.amazonaws.com/fiction-relative-media/med67aa17744856b03c32263f44-fiction-email-footer.png?blurhash=U2DS%5D%5D%7Eq00_N00_4%25M4n00_N%3FcIU%7Eq9F%25M-%3B" width="80" alt="Powered by Fiction.com"/><p style="font-size:14px;line-height:24px;margin:16px 0;"><a class="text-normal hover:opacity-80" href="https://www.fiction.com" style="margin-top: 1rem; text-decoration-line: none; color: inherit; opacity: 0.4;">Powered by Fiction.com ↗ </a></p></td><td role="presentation" class="w-[35%] text-right align-top text-xs" style="width: 35%; text-align: right; vertical-align: top; font-size: 0.75rem;
-            line-height: 1rem;"><!--v-if--><a href="https://www.fiction.com/unsubscribe" class="opacity-50 text-inherit no-underline" style="opacity: 0.5; color: inherit; text-decoration-line: none;"> Unsubscribe </a></td></tr></tbody></table></div></body></html></tailwind-clean-component>"
+        <p>Finally, after months of preparation, the crew is ready to embark on their journey to Mars. <strong>Stay tuned</strong> for live updates and exclusive coverage!</p></div><!-- Buttons --><div style="margin:32px 0;"><!--[--><a href="#" style="display:inline-block;border-radius:9999px;font-weight:600;text-decoration:none;padding:8px 12px;font-size:16px;background-color:#2563eb;color:white;">Confirm email address &#x2192;</a><!--]--></div><hr style="border:none;border-top:1px solid #DEDFE2;margin:3em 0; width: 5em;"><!-- Footer --><div style="margin-top:2em;"><!-- Footer Links --><div style="margin-bottom:32px;"><!--[--><!--]--></div><!-- Company Info --><div style="font-size:13px;opacity:0.6;"><div>© 2025 </div><!----></div><!-- Legal Footer --><table style="width:100%;margin-top:32px;" cellpadding="0" cellspacing="0"><tr><td><a href="https://www.fiction.com/unsubscribe" style="color:#0e0f11;text-decoration:none;font-size:13px;opacity:0.6;">Unsubscribe</a><span style="font-size:13px;opacity:0.6;">  •  </span><a href="/privacy" style="color:#0e0f11;text-decoration:none;font-size:13px;opacity:0.6;">Privacy</a><span style="font-size:13px;opacity:0.6;">  •  </span><a href="/terms" style="color:#0e0f11;text-decoration:none;font-size:13px;opacity:0.6;">Terms</a></td><td style="text-align:right;"><a href="https://www.fiction.com" target="_blank" rel="noopener" style="color:#0e0f11;text-decoration:none;font-size:13px;opacity:0.6;"> Created with Fiction </a></td></tr></table></div></div></body></html>"
       `)
 
       expect(result.status).toBe('success')

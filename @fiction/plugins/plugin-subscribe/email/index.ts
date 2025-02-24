@@ -48,7 +48,7 @@ export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
         title: 'Confirm Your Subscription',
         subTitle: 'Just click the link below',
         bodyMarkdown: `Please click the button below to confirm you'd like to receive emails from **${fromName}**.`,
-        to: `${emailVars.email}`,
+        to: emailVars.email,
         fromName,
         fromEmail,
         buttons: [

@@ -67,6 +67,9 @@ export async function toMarkdown(html: string, options: TurndownService.Options 
   return turndownService.turndown(html)
 }
 
+export async function proseToMarkdown(prose: string) {
+  return toMarkdown(prose, { keep: ['figure', 'figcaption', 'sup', 'sub', 'ins', 'del', 'mark', 'abbr', 'dfn', 'var', 'samp', 'kbd', 'q', 'cite', 'time', 'address', 'dl', 'dt', 'dd'] })
+}
 /**
  * Convert markdown into HTML
  */

@@ -5,8 +5,8 @@ import type { EndpointMeta } from '../utils/index.js'
 import type { EmailSendConfig } from './util'
 import { EnvVar, vars } from '../plugin-env/index.js'
 import { FictionPlugin } from '../plugin.js'
-import { isTest, safeDirname } from '../utils/index.js'
-import { toMarkdown } from '../utils/markdown.js'
+import { isTest, safeDirname, vue } from '../utils/index.js'
+import { proseToMarkdown, toMarkdown } from '../utils/markdown.js'
 import { QueryTransactionalEmail } from './endpoint.js'
 
 export * from './util'
@@ -55,25 +55,24 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
     })
   }
 
-  async renderEmailTemplate(fields: EmailSendConfig) {
-    const emailRenderer = await this.getRenderer()
+  async compileTemplateToHtml(args: { emailConfig: EmailSendConfig }): Promise<string> {
+    const { emailConfig } = args
+    const { renderToString } = await import('vue/server-renderer')
+    const EmailV2 = vue.defineAsyncComponent(() => import('@fiction/core/plugin-email/templates/EmailV2.vue'))
 
-    if (fields.bodyHtml && !fields.bodyMarkdown) {
-      fields.bodyMarkdown = await toMarkdown(fields.bodyHtml, { keep: ['figure', 'figcaption', 'sup', 'sub', 'ins', 'del', 'mark', 'abbr', 'dfn', 'var', 'samp', 'kbd', 'q', 'cite', 'time', 'address', 'dl', 'dt', 'dd'] })
+    if (emailConfig.bodyHtml && !emailConfig.bodyMarkdown) {
+      emailConfig.bodyMarkdown = await proseToMarkdown(emailConfig.bodyHtml)
     }
 
-    const template = await emailRenderer.render('EmailStandard.vue', { props: fields })
-
-    const bodyHtml = template.html
-    const bodyText = template.text
-
-    return { ...fields, bodyHtml, bodyText }
+    const app = vue.createSSRApp(EmailV2, emailConfig)
+    return await renderToString(app)
   }
 
-  async renderAndSendEmail(fields: EmailSendConfig, meta: EndpointMeta) {
-    fields = await this.renderEmailTemplate(fields)
+  async renderAndSendEmail(emailConfig: EmailSendConfig, meta: EndpointMeta) {
+    const html = await this.compileTemplateToHtml({ emailConfig })
+    emailConfig.bodyHtml = html
 
-    return this.sendEmail(fields, meta)
+    return this.sendEmail(emailConfig, meta)
   }
 
   async sendEmail(fields: EmailSendConfig, meta: EndpointMeta) {
