@@ -1,5 +1,6 @@
-import type { FictionPosts } from '..'
+import type { FictionPosts, TablePostConfig } from '..'
 import type { ManagePostParamsRequest } from '../endpoint'
+import { getNested, setNested, toSlug } from '@fiction/core'
 import { Post } from '../post'
 
 // https://stackoverflow.com/a/57103940/1858322
@@ -55,4 +56,46 @@ export async function createHelloWorldPost(args: { orgId: string, userId: string
       dateAt: new Date().toISOString(),
     },
   }, { server: true })
+}
+
+export function syncFields(args: { post: Post }) {
+  const { post } = args
+  const updates: Record<string, any> = {}
+
+  // Define sync relationships: source → [targets with transformers]
+  const syncMap = {
+    title: [
+      { path: 'slug', transform: toSlug },
+      { path: 'userConfig.site.title', transform: (v: string) => v },
+      { path: 'emailConfig.subject', transform: (v: string) => v },
+    ],
+    subTitle: [
+      { path: 'userConfig.site.description', transform: (v: string) => v },
+      { path: 'emailConfig.preview', transform: (v: string) => v },
+    ],
+  }
+
+  // Process each source field
+  Object.entries(syncMap).forEach(([source, targets]) => {
+    const sourceValue = post[source as 'title' | 'subTitle']?.value
+    const originalValue = post.settings[source as keyof TablePostConfig] as string
+
+    // Process each target for this source
+    targets.forEach(({ path, transform }) => {
+      const currentValue = getNested({ data: post.toConfig(), path })
+      const expectedValue = transform(originalValue || '')
+
+      // Only update if target matches expected value from original source
+      if (!currentValue || currentValue === expectedValue) {
+        // Build update object for this path
+        const newValue = transform(sourceValue)
+        Object.assign(updates, setNested({ data: updates, path, value: newValue }))
+      }
+    })
+  })
+
+  // Apply updates if any exist
+  if (Object.keys(updates).length > 0) {
+    post.update(updates, { caller: 'syncFields', noSave: true })
+  }
 }

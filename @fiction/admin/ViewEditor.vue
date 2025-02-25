@@ -23,10 +23,10 @@ const contextTool = vue.computed(() => controller.activeTool.context.value)
       <!-- Header Bar -->
       <div class="flex-none border-b border-theme-200 dark:border-theme-700 bg-theme-0 dark:bg-theme-950">
         <div class="flex py-2 items-center justify-between px-4">
-          <div class="items-center flex text-sm lg:text-base space-x-4">
+          <div class="items-center flex text-sm lg:text-base gap-4">
             <slot name="headerLeft" />
           </div>
-          <div class="flex items-center justify-end gap-3 md:gap-4 text-right ">
+          <div class="flex items-center justify-end gap-3 md:gap-3 text-right ">
             <slot name="headerRight" />
           </div>
         </div>

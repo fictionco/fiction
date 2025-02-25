@@ -109,7 +109,7 @@ export function inputClasses(args: { uiSize?: StandardSize }) {
     padX: [sizeClasses[uiSize].padX],
     padY: [sizeClasses[uiSize].padY],
     textSize: sizeClasses[uiSize].textSize,
-    disabled: ['disabled:cursor-not-allowed', 'disabled:opacity-70'],
+    disabled: ['cursor-not-allowed', 'opacity-70'],
     base: [
       'font-mono',
       'font-normal',

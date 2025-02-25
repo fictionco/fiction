@@ -205,16 +205,16 @@ const hasNoEmailRecipients = vue.computed(() =>
 <template>
   <div class="space-y-6">
     <!-- Alert for no email recipients -->
-    <div v-if="hasNoEmailRecipients" class="bg-primary-50 dark:bg-primary-900/30 rounded-lg p-4">
+    <div v-if="hasNoEmailRecipients && post.status.value === 'draft'" class="bg-primary-50 dark:bg-primary-950/30 rounded-lg p-4">
       <div class="flex gap-3">
         <div class="text-primary-500 dark:text-primary-400 mt-0.5 flex-shrink-0">
-          <XIcon media="info-circle" class="w-5 h-5" />
+          <XIcon :media="{ class: 'i-tabler-info-circle' }" class="w-5 h-5" />
         </div>
         <div>
-          <h3 class="font-medium text-primary-800 dark:text-primary-300">
+          <h3 class="font-medium text-primary-900 dark:text-primary-0">
             No recipients for email
           </h3>
-          <p class="text-primary-700 dark:text-primary-400 mt-1 text-sm">
+          <p class="text-primary-700 dark:text-primary-100 mt-1 text-sm">
             It looks like you haven't selected any email recipients. This post will only be published to your website.
           </p>
           <div class="mt-3 flex gap-2">
@@ -225,9 +225,6 @@ const hasNoEmailRecipients = vue.computed(() =>
               @click="emit('navigate', { key: 'audience' })"
             >
               Edit audience
-            </XButton>
-            <XButton size="sm" theme="primary" design="ghost">
-              Dismiss
             </XButton>
           </div>
         </div>

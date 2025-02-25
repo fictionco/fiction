@@ -6,8 +6,8 @@ import { ColorScaleSchema, colorThemeUser, colorThemeWithInvert } from '../utils
 
 export const PostStatusSchema = z.enum([
   'draft', // Initial state
-  'review', // Ready for review
-  'approved', // Approved for publication
+  'scheduled', // Ready for future publication
+  'processing', // Currently being worked on
   'published', // Live content
   'archived', // No longer active
   'deleted', // Soft deleted

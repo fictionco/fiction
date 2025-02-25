@@ -42,6 +42,7 @@ const {
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: Record<string, unknown>): void
   (event: 'update:editPath', payload: string): void
+  (event: 'update:updatePath', payload: string): void
   (event: 'keydown', payload: KeyboardEvent): void
 }>()
 
@@ -149,6 +150,15 @@ function getInputWrapClasses(opt: InputOption) {
 function getGroupClasses(opt: InputOption) {
   return opt.settings.format === 'control' ? '' : cls.value.groupPad
 }
+
+function update(args: { opt: InputOption, value: Record<string, unknown> }) {
+  const { opt, value } = args
+  const path = getOptionPath(opt)
+  emit('update:modelValue', setNested({ path, data: modelValue, value }))
+
+  // used to track which paths have been updated
+  emit('update:updatePath', path)
+}
 </script>
 
 <template>
@@ -226,7 +236,7 @@ function getGroupClasses(opt: InputOption) {
             :model-value="getNested({ path: getOptionPath(opt), data: modelValue })"
             @click="emit('update:editPath', getOptionPath(opt))"
             @update:edit-index="emit('update:editPath', getOptionPath(opt, $event))"
-            @update:model-value="emit('update:modelValue', setNested({ path: getOptionPath(opt), data: modelValue, value: $event }))"
+            @update:model-value="update({ opt, value: $event })"
             @keydown="emit('keydown', $event)"
           />
         </div>

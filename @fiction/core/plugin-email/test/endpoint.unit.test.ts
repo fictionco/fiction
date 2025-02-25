@@ -323,7 +323,7 @@ describe('transactional email', async () => {
                 blockquote {
 
                   margin-left: 1em;
-                  padding-left: 2em;
+                  padding-left: 1.5em;
                   font-style: italic;
                   border-left: 3px solid #b3b9c5;
                 }

@@ -29,7 +29,11 @@ function handleClick(target: EventTarget | null): void {
 
 <template>
   <input
-    :class="textInputClasses({ inputClass, uiSize })"
+    :class="textInputClasses({
+      inputClass,
+      uiSize,
+      isDisabled: !!attrs.disabled,
+    })"
     type="text"
     :value="modelValue"
     spellcheck="false"

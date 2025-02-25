@@ -13,6 +13,8 @@ const emit = defineEmits<{
   'update:modelValue': [value: string | number | undefined]
 }>()
 
+const attrs = vue.useAttrs()
+
 const parsedList = vue.computed(() => normList(list))
 
 const sizeClasses = vue.computed(() => {
@@ -28,6 +30,13 @@ const sizeClasses = vue.computed(() => {
 
   return sizes[uiSize] || sizes.sm
 })
+
+function update(value?: string | number): void {
+  if (attrs.disabled)
+    return
+
+  emit('update:modelValue', value)
+}
 </script>
 
 <template>
@@ -48,7 +57,8 @@ const sizeClasses = vue.computed(() => {
       :size="uiSize"
       :icon="item.icon"
       :icon-after="item.iconAfter"
-      @click.prevent="emit('update:modelValue', item.value)"
+      :disabled="!!$attrs.disabled"
+      @click.prevent="update(item.value)"
     >
       {{ item.label }}
     </XButton>

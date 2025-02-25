@@ -3,21 +3,22 @@ import type { PostObject } from '@fiction/core'
 import type { FictionSubscribe } from '@fiction/plugins/plugin-subscribe'
 import type { Card } from '@fiction/site'
 import type { InputOption } from '@fiction/ui'
-import type { FictionPosts } from '..'
+import type { FictionPosts, TablePostConfig } from '..'
 import type { Post } from '../post.js'
 import ElSavingSignal from '@fiction/admin/el/ElSavingSignal.vue'
 import ViewEditor from '@fiction/admin/ViewEditor.vue'
-import { dayjs, useService, vue, waitFor } from '@fiction/core'
+import { dayjs, toLabel, useService, vue, waitFor } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import XText from '@fiction/ui/common/XText.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
+import ElModalConfirm from '@fiction/ui/modal/ElModalConfirm.vue'
 import SuccessModal from '@fiction/ui/modal/SuccessModal.vue'
 import { t } from '..'
 import { TablePostSchema as schema } from '../schema.js'
-import { managePost } from '../utils'
+import { managePost, syncFields } from '../utils'
 import { getPostEmailRecipientCount } from '../utils/email'
 import InputAudienceFilter from './InputAudienceFilter.vue'
 import InputPostReview from './InputPostReview.vue'
@@ -32,8 +33,9 @@ defineProps({
 const service = useService<{ fictionPosts: FictionPosts, fictionSubscribe: FictionSubscribe }>()
 
 const loading = vue.ref(true)
-const sending = vue.ref<'schedule'>()
+const sending = vue.ref<'schedule' | 'update'>()
 const scheduleModalVis = vue.ref(false)
+const unscheduleModalConfirm = vue.ref(false)
 const previewModalVis = vue.ref(false)
 const post = vue.shallowRef<Post | undefined>()
 
@@ -64,6 +66,16 @@ vue.onMounted(async () => {
     },
     { deep: true, immediate: true },
   )
+
+  vue.watch(
+    () => [post.value?.title.value, post.value?.subTitle.value],
+    () => {
+      if (post.value) {
+        syncFields({ post: post.value })
+      }
+    },
+    { immediate: true },
+  )
 })
 
 export type ViewModeKey = 'compose' | 'audience' | 'email' | 'web' | 'review'
@@ -71,7 +83,8 @@ export type ViewModeKey = 'compose' | 'audience' | 'email' | 'web' | 'review'
 export type ViewMode = (PostObject & { value: ViewModeKey, options?: InputOption[] })
 const viewModes = vue.computed(() => {
   const emailConfig = post.value?.emailConfig.value
-  const activeOrganizationId = service.fictionUser.activeOrgId.value
+  const org = service.fictionUser.activeOrganization.value
+
   const recipientCount = recipientCountRef.value
   const out: ViewMode[] = [
     { value: 'compose', title: 'Edit Post', icon: { class: 'i-tabler-edit' } },
@@ -98,12 +111,14 @@ const viewModes = vue.computed(() => {
                 { label: 'No Email', value: 'nobody', icon: 'i-tabler-mail-off' },
               ],
               props: { uiSize: 'md' },
+              disabled: post.value?.status.value !== 'draft',
             }),
             createOption({
               schema,
               key: 'emailConfig.filters',
               input: InputAudienceFilter,
               props: { recipientCount },
+              disabled: post.value?.status.value !== 'draft',
             }),
           ],
         }),
@@ -148,8 +163,9 @@ const viewModes = vue.computed(() => {
               subLabel: 'This will be same as post title unless modified',
               description: 'The main inbox subject line.',
               input: 'InputText',
-              placeholder: 'Enter Subject',
+              placeholder: post.value?.title.value || 'Enter Subject',
               isRequired: true,
+              disabled: post.value?.status.value !== 'draft',
             }),
             createOption({
               schema,
@@ -158,7 +174,8 @@ const viewModes = vue.computed(() => {
               subLabel: 'This will be same as post subtitle unless modified',
               description: 'The preview line is the first line of the email and is shown in the inbox',
               input: 'InputText',
-              placeholder: 'Enter Preview Text',
+              placeholder: post.value?.subTitle.value || 'Enter Preview Text',
+              disabled: post.value?.status.value !== 'draft',
             }),
           ],
         }),
@@ -174,7 +191,7 @@ const viewModes = vue.computed(() => {
               label: 'Send From Name',
               subLabel: 'The name that will appear in the inbox',
               input: 'InputText',
-              placeholder: 'Enter Name',
+              placeholder: org?.orgName || 'Enter Name',
             }),
             createOption({
               schema,
@@ -182,7 +199,7 @@ const viewModes = vue.computed(() => {
               label: 'Send From Email',
               subLabel: 'The "sent from" email address',
               input: 'InputEmail',
-              placeholder: 'Enter "sent from" Email',
+              placeholder: org?.orgEmail || 'Enter Email',
             }),
           ],
         }),
@@ -198,7 +215,7 @@ const viewModes = vue.computed(() => {
               label: 'Website URL',
               subLabel: 'Adds a link to your website in the email footer',
               input: 'InputUrl',
-              placeholder: 'Primary Website URL',
+              placeholder: org?.websiteUrl || 'Primary Website URL',
             }),
             createOption({
               schema,
@@ -206,7 +223,7 @@ const viewModes = vue.computed(() => {
               label: 'Company Name',
               subLabel: 'The legal name of your company',
               input: 'InputText',
-              placeholder: 'Enter Name',
+              placeholder: org?.companyName || 'Enter Name',
               props: {
                 autocomplete: 'organization',
               },
@@ -217,7 +234,7 @@ const viewModes = vue.computed(() => {
               label: 'Street Address',
               subLabel: 'The physical address of your company',
               input: 'InputText',
-              placeholder: 'Enter Address',
+              placeholder: org?.streetAddress || 'Enter Address',
               props: {
                 autocomplete: 'street-address',
               },
@@ -249,7 +266,7 @@ const viewModes = vue.computed(() => {
                 table: t.posts,
                 columns: [
                   { name: 'slug', allowReserved: true },
-                  { name: 'orgId', value: activeOrganizationId },
+                  { name: 'orgId', value: org?.orgId },
                 ],
               },
             }),
@@ -283,6 +300,7 @@ const viewModes = vue.computed(() => {
               description: 'The description that will be displayed in search results.',
               placeholder: 'Enter Description',
               input: 'InputText',
+
             }),
           ],
         }),
@@ -290,7 +308,9 @@ const viewModes = vue.computed(() => {
     },
     {
       value: 'review',
-      title: 'Review and Publish',
+      title: post?.value?.status.value !== 'draft'
+        ? `Your post is ${post?.value?.status.value}`
+        : 'Review and Publish',
       icon: { class: 'i-tabler-send' },
       options: [
         createOption({
@@ -321,7 +341,7 @@ const activeKey = vue.ref<ViewModeKey>('compose')
 const activeViewModeIndex = vue.computed(() => viewModes.value.findIndex(v => v.value === activeKey.value))
 
 export type PanelNavigate = {
-  dir?: 'next' | 'prev' | 'schedule' | 'preview'
+  dir?: 'next' | 'prev' | 'schedule' | 'preview' | 'unschedule'
   key?: ViewModeKey
 }
 
@@ -337,6 +357,10 @@ function navigate(args: PanelNavigate) {
     scheduleModalVis.value = true
     return
   }
+  else if (dir === 'unschedule') {
+    unscheduleModalConfirm.value = true
+    return
+  }
   else if (dir === 'preview') {
     previewModalVis.value = true
     return
@@ -350,13 +374,31 @@ function navigate(args: PanelNavigate) {
     activeKey.value = newMode.value
 }
 
+async function savePost(postConfig?: Partial<TablePostConfig>) {
+  sending.value = 'update'
+
+  try {
+    if (postConfig) {
+      post.value?.update(postConfig, { caller: 'savePost' })
+    }
+
+    await post.value?.save({ caller: 'updatePost' })
+  }
+  catch (e) {
+    console.error(e)
+  }
+  finally {
+    sending.value = undefined
+  }
+}
+
 const successModalVis = vue.ref(false)
 async function saveAndSchedule() {
   sending.value = 'schedule'
 
   try {
     const p = post.value
-    p?.update({ status: 'approved' }, { caller: 'saveAndSchedule' })
+    p?.update({ status: 'scheduled' }, { caller: 'saveAndSchedule' })
     await p?.save({ caller: 'saveAndSchedule' })
     scheduleModalVis.value = false
 
@@ -396,6 +438,19 @@ const publishText = vue.computed(() => {
     return 'Publish Now'
   }
 })
+
+const statusMap = vue.computed(() => {
+  const status = post.value?.status.value || 'draft'
+
+  const statusMap = {
+    draft: { icon: 'i-tabler-edit', theme: 'default' },
+    scheduled: { icon: 'i-tabler-calendar', theme: 'orange' },
+    published: { icon: 'i-tabler-check', theme: 'green' },
+    archived: { icon: 'i-tabler-archive', theme: 'rose' },
+  } as const
+
+  return statusMap[status as keyof typeof statusMap] || statusMap.draft
+})
 </script>
 
 <template>
@@ -405,7 +460,7 @@ const publishText = vue.computed(() => {
         <XButton theme="default" :href="card.link('/posts')" class="shrink-0" icon="i-tabler-arrow-left" design="ghost">
           All
         </XButton>
-        <div class="flex space-x-1 font-medium">
+        <div class="flex space-x-1 font-medium pr-4">
           <RouterLink
             class=" whitespace-nowrap text-theme-400 dark:text-theme-300  pr-1 hover:text-primary-500 dark:hover:text-theme-0 flex items-center gap-1"
             :to="card.link('/posts')"
@@ -416,6 +471,19 @@ const publishText = vue.computed(() => {
           </RouterLink>
           <XText v-if="post" v-model="post.title.value" class="whitespace-nowrap" :is-editable="true" />
         </div>
+
+        <XButton
+          v-if="post?.status"
+          :theme="statusMap.theme"
+          target="_blank"
+          size="sm"
+          :icon="statusMap.icon"
+          data-test-id="preview-post-button"
+          design="outline"
+          @click.stop="navigate({ key: 'review' })"
+        >
+          {{ toLabel(post?.status.value) }}
+        </XButton>
       </template>
       <template #headerRight>
         <ElSavingSignal
@@ -423,39 +491,65 @@ const publishText = vue.computed(() => {
           :is-dirty="post.saveUtil.isDirty.value"
           data-test-id="draft-control-dropdown"
         />
-
         <XButton
           theme="default"
           target="_blank"
-          size="sm"
+          size="md"
           icon="i-tabler-eye"
           data-test-id="preview-post-button"
-          design="ghost"
+          design="outline"
           @click.stop="navigate({ dir: 'preview' })"
         >
           Preview
         </XButton>
 
+        <template v-if="post?.status && post?.status.value === 'draft'">
+          <XButton
+            v-if="activeViewModeIndex < viewModes.length - 1"
+            theme="primary"
+            design="solid"
+            size="md"
+            data-test-id="next-button-top"
+            icon-after="i-tabler-arrow-right"
+            @click.prevent="navigate({ dir: 'next' })"
+          >
+            Next
+          </XButton>
+          <XButton
+            v-else
+            theme="primary"
+            data-test-id="schedule-button-top"
+            icon="i-tabler-calendar"
+            icon-after="i-tabler-arrow-right"
+            @click.stop="navigate({ dir: 'schedule' })"
+          >
+            Schedule
+          </XButton>
+        </template>
         <XButton
-          v-if="activeViewModeIndex < viewModes.length - 1"
-          theme="primary"
+          v-else-if="post?.status.value === 'scheduled'"
+          theme="orange"
           design="outline"
           size="md"
           data-test-id="next-button-top"
-          icon-after="i-tabler-arrow-right"
-          @click.prevent="navigate({ dir: 'next' })"
+          icon="i-tabler-calendar-off"
+          icon-after="i-tabler-arrow-back-up"
+          :loading="sending === 'update'"
+          @click.prevent.stop="unscheduleModalConfirm = true"
         >
-          Next
+          Unschedule
         </XButton>
         <XButton
-          v-else
+          v-else-if="post?.status"
           theme="primary"
-          data-test-id="schedule-button-top"
-          icon="i-tabler-calendar"
-          icon-after="i-tabler-arrow-right"
-          @click.stop="navigate({ dir: 'schedule' })"
+          design="solid"
+          size="md"
+          data-test-id="next-button-top"
+          icon-after="i-tabler-upload"
+          :loading="sending === 'update'"
+          @click.prevent="savePost({ status: 'scheduled' })"
         >
-          Schedule
+          Update
         </XButton>
       </template>
       <template #default>
@@ -541,5 +635,12 @@ const publishText = vue.computed(() => {
     >
       <PostPreview :post :card />
     </ElModal>
+
+    <ElModalConfirm
+      v-model:vis="unscheduleModalConfirm"
+      title="Unschedule Post?"
+      sub="This will revert post to draft status. You'll need to republish."
+      @confirmed="savePost({ status: 'draft' })"
+    />
   </div>
 </template>

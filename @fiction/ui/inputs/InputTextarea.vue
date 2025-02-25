@@ -66,7 +66,7 @@ export default { inheritAttrs: false }
       v-bind="$attrs"
       ref="textareaElement"
       spellcheck="false"
-      :class="[textInputClasses({ inputClass, uiSize }), modelValue ? 'set' : 'empty']"
+      :class="[textInputClasses({ inputClass, uiSize, isDisabled: !!$attrs.disabled }), modelValue ? 'set' : 'empty']"
       :value="modelValue"
       :rows="rows || 3"
       @input="send($event.target)"

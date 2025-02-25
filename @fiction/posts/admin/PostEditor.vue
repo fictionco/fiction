@@ -24,12 +24,9 @@ const { post, card, viewModes, activeKey } = defineProps<{
 const emit = defineEmits<{
   (event: 'update:post', payload: Post): void
   (event: 'update:activeKey', payload: ViewModeKey): void
-  (event: 'navigate', payload: { dir?: 'next' | 'prev' | 'schedule', key?: ViewModeKey }): void
+  (event: 'navigate', payload: { dir?: 'next' | 'prev' | 'schedule' | 'unschedule', key?: ViewModeKey }): void
 }>()
 
-const service = useService()
-
-const sending = vue.ref<'publish'>()
 const proseEditorEl = vue.ref<InstanceType<typeof ProseEditor>>()
 
 function handleUpdate(args: { key: 'title' | 'subTitle' | 'content', value: string, caller: string }) {
@@ -210,7 +207,7 @@ vue.watch(
                     Next
                   </XButton>
                   <XButton
-                    v-else
+                    v-else-if="post.status.value === 'draft'"
                     theme="primary"
                     design="solid"
                     icon="i-tabler-calendar"
@@ -218,6 +215,16 @@ vue.watch(
                     @click.stop="emit('navigate', { dir: 'schedule' })"
                   >
                     Schedule
+                  </XButton>
+                  <XButton
+                    v-else-if="post.status.value === 'scheduled'"
+                    theme="orange"
+                    design="outline"
+                    icon="i-tabler-calendar-off"
+                    icon-after="i-tabler-arrow-back-up"
+                    @click.stop="emit('navigate', { dir: 'unschedule' })"
+                  >
+                    Unschedule
                   </XButton>
                 </div>
               </template>

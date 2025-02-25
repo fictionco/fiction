@@ -44,6 +44,7 @@ export class Post extends FictionObject<PostConfig> {
   publishMode = vue.ref(this.settings.publishMode || 'now')
   wordCount = vue.ref(this.settings.wordCount || 0)
   scheduleMode = vue.ref<'now' | 'schedule'>('now')
+  editedFields = vue.ref<Record<string, boolean>>({})
 
   saveUtil = new AutosaveUtility({
     onSave: async () => this.save({ isAutosave: true, caller: 'autosave' }),
@@ -106,17 +107,16 @@ export class Post extends FictionObject<PostConfig> {
   async save(args: { isAutosave?: boolean, caller: string }) {
     const { isAutosave, caller = 'unknown caller' } = args
 
-    this.saveUtil.clearTimeout()
+    this.saveUtil.clear()
 
     const fields = this.toConfig()
 
     const params = { _action: 'update', where: { postId: this.postId }, fields, isAutosave } as const
     const p = await managePost({ fictionPosts: this.settings.fictionPosts, params, caller: 'savePost', disableNotify: isAutosave })
 
-    if (!isAutosave)
+    // don't update if autosave was called again during saving to prevent missing changes
+    if (!isAutosave || !this.saveUtil.isDirty.value)
       this.update(p?.toConfig() || {}, { caller: `savePost-${caller}`, noSave: true })
-
-    this.saveUtil.isDirty.value = false
   }
 
   async delete() {
