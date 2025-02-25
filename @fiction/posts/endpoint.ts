@@ -2,7 +2,7 @@ import type { EndpointMeta, EndpointResponse, IndexMeta, IndexQuery, Organizatio
 import type { FictionPosts } from '.'
 import type { FictionPostsSettings } from './index'
 import type { TablePostConfig } from './schema'
-import { abort, applyComplexFilters, dayjs, deepMerge, incrementSlugId, objectId, omit, Query, standardTable, toSlug } from '@fiction/core'
+import { abort, applyComplexFilters, dayjs, deepMerge, getOrgAvatar, incrementSlugId, objectId, omit, Query, standardTable, toSlug } from '@fiction/core'
 
 import { t } from './schema'
 import { trackPostMetrics } from './utils/analytics'
@@ -211,17 +211,17 @@ export class QueryManagePost extends PostsQuery {
       post.sites = await db.select([`${t.sites}.siteId`, `${t.sites}.title`]).from(t.postSite).join(t.sites, `${t.sites}.site_id`, `=`, `${t.postSite}.site_id`).where(`${t.postSite}.post_id`, post.postId)
 
       // get defaults from org details
-      const orgData = await db.select<Partial<Organization>>([`sender`, 'orgName', 'orgEmail']).from(t.org).where(`${t.org}.orgId`, orgId).first()
+      const sel: (keyof Organization)[] = ['orgName', 'orgEmail', 'senderName', 'senderEmail', 'companyName', 'websiteUrl', 'streetAddress', 'avatar']
+      const orgData = await db.select<Partial<Organization>>(sel).from(t.org).where(`${t.org}.orgId`, orgId).first()
 
       if (orgData) {
         post.sender = {
-          title: orgData?.orgName,
-          fromEmail: orgData?.orgEmail,
-          fromName: orgData?.orgName,
-          ...orgData.sender,
+          ...orgData,
+          avatar: getOrgAvatar(orgData, { useSender: true }),
+          senderName: orgData.senderName || orgData?.orgName,
+          senderEmail: orgData.senderEmail || orgData?.orgEmail,
         }
       }
-
     }
 
     if (loadDraft && post.draft)
@@ -284,11 +284,14 @@ export class QueryManagePost extends PostsQuery {
 
     prepped.draft = {}
 
+    const { senderName, senderEmail, companyName, websiteUrl, streetAddress } = fields.sender || {}
+    const orgUpdateFields: { [K in keyof Organization]?: Organization[K] } = { senderName, senderEmail, companyName, websiteUrl, streetAddress }
+
     await Promise.all([
       db(t.posts).update(prepped).where({ postId }),
       this.updateAssociations({ type: 'authors', postId, fields, orgId }),
       this.updateAssociations({ type: 'sites', postId, fields, orgId }),
-      this.settings.fictionUser.queries.ManageOrganization.serve({ _action: 'update', where: { orgId }, fields: { sender: fields.sender } }, { server: true }),
+      this.settings.fictionUser.queries.ManageOrganization.serve({ _action: 'update', where: { orgId }, fields: orgUpdateFields }, { server: true }),
     ])
 
     const result = await this.getPost({ ...params, where: { orgId, ...where }, _action: 'get' }, { ...meta, caller: 'updatePostEnd' })

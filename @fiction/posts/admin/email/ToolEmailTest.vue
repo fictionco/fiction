@@ -78,10 +78,9 @@ async function sendTest() {
         <XButton
           type="submit"
           theme="primary"
-          rounding="md"
           :loading="!!loading"
         >
-          Send
+          Send Test Email
         </XButton>
       </div>
     </ElForm>

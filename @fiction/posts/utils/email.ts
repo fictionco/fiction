@@ -17,12 +17,19 @@ export async function getEmailForPost(args: {
 
   const img = await fictionEmail?.emailImages({ fictionMedia })
 
-  const { orgName, orgEmail, websiteUrl, streetAddress, avatar } = org
+  const {
+    senderName = org.orgName,
+    senderEmail = org.orgEmail,
+    avatar,
+    websiteUrl,
+    companyName = org.orgName,
+    streetAddress,
+  } = postConfig.sender || {}
 
   const emailConfig: EmailSendConfig = {
-    fromName: orgName || (withDefaults ? 'No Name' : ''),
-    fromEmail: orgEmail || (withDefaults ? 'No Email' : ''),
-    emailType: 'campaign',
+    senderName: senderName || (withDefaults ? 'No Name' : ''),
+    senderEmail: senderEmail || (withDefaults ? 'No Email' : ''),
+    emailType: 'post',
     fromOrgId: postConfig.orgId,
     postId: postConfig.postId,
     subject: postConfig.emailConfig?.subject || (withDefaults ? 'No Subject' : ''),
@@ -30,11 +37,16 @@ export async function getEmailForPost(args: {
     title: postConfig?.title || (withDefaults ? 'No Title' : ''),
     subTitle: postConfig?.subTitle || (withDefaults ? 'No Subtitle' : ''),
     bodyMarkdown: await proseToMarkdown(postConfig?.content || (withDefaults ? 'No content' : '')),
-    superTitle: { icon: { url: avatar?.url }, text: orgName, href: websiteUrl },
+    superTitle: {
+      icon: avatar,
+      text: senderName || (withDefaults ? 'No Publication Title' : ''),
+      href: websiteUrl,
+    },
+    mediaFeatured: postConfig?.media,
     mediaFooter: { url: img.footer.url },
     poweredByFiction: true,
     streetAddress,
-    company: orgName,
+    companyName,
     websiteUrl,
     unsubscribeUrl: '#',
     previewMode,

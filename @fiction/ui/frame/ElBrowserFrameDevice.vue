@@ -8,8 +8,8 @@ import ElSpinner from '../loaders/ElSpinner.vue'
 import { FrameNavigator, FrameUtility } from './elBrowserFrameUtil.js'
 
 type EmailSettings = {
-  fromName?: string
-  fromEmail?: string
+  senderName?: string
+  senderEmail?: string
   subject?: string
   preview?: string
   avatar?: MediaObject
@@ -161,15 +161,14 @@ const navigator = new FrameNavigator({
           v-if="emailBar.avatar?.url"
           :src="emailBar.avatar.url"
           class="size-8 rounded-full"
-          :alt="emailBar.fromName"
+          :alt="emailBar.senderName"
         >
         <div class="flex-1 min-w-0">
           <div class="flex items-center justify-between gap-2">
             <div class="flex items-center gap-2">
-              <span class="font-medium truncate">{{ emailBar.fromName }}</span>
-              <span class="text-theme-500 truncate">&lt;{{ emailBar.fromEmail }}&gt;</span>
+              <span class="font-medium truncate">{{ emailBar.senderName || 'No Sender' }}</span>
+              <span class="text-theme-500 truncate">&lt;{{ emailBar.senderEmail || 'no-reply@fiction.com'}}&gt;</span>
             </div>
-            <time class="text-sm text-theme-500">{{ emailBar.dateAt }}</time>
           </div>
         </div>
         <div v-if="emailBar.dateAt">

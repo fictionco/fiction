@@ -118,8 +118,8 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface> exte
     const emailImages = await fictionEmail?.emailImages({ fictionMedia })
     const app = fictionEnv?.meta.app || {}
     return {
-      fromName: app.name || '',
-      fromEmail: app.email || '',
+      senderName: app.name || '',
+      senderEmail: app.email || '',
       superTitle: {
         icon: { url: emailImages.icon.url },
         text: 'Fiction',

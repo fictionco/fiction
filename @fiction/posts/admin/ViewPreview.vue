@@ -17,12 +17,12 @@ const { fictionRouter, fictionUser, fictionPosts } = useService<{ fictionPosts: 
 const loading = vue.ref(true)
 const post = vue.shallowRef<Post | undefined>()
 const emailHtml = vue.ref('')
-const activeFormat = vue.ref<'web' | 'email'>('web')
+const activeFormat = vue.ref<'browser' | 'email'>('browser')
 
-async function load(args: { postId?: string, format?: 'web' | 'email' }) {
-  const { postId } = args
+async function load(args: { postId?: string, format?: 'browser' | 'email' }) {
+  const { postId, format = 'browser' } = args
   loading.value = true
-  activeFormat.value = args.format || 'web'
+  activeFormat.value = args.format || 'browser'
   try {
     if (!postId)
       return
@@ -32,18 +32,22 @@ async function load(args: { postId?: string, format?: 'web' | 'email' }) {
 
     const org = fictionUser.activeOrganization.value
 
+
+
     if (!org || !post.value)
       return
 
-    const conf = await getEmailForPost({
-      postConfig: post.value?.toConfig(),
-      fictionPosts,
-      org,
-      withDefaults: true,
-      previewMode: 'dark',
-    })
+    if (format === 'email') {
+      const conf = await getEmailForPost({
+        postConfig: post.value?.toConfig(),
+        fictionPosts,
+        org,
+        withDefaults: true,
+        previewMode: 'dark',
+      })
 
-    emailHtml.value = conf.bodyHtml || ''
+      emailHtml.value = conf.bodyHtml || ''
+    }
   }
   catch (error) {
     console.error('Error loading post preview', error)
@@ -54,11 +58,11 @@ async function load(args: { postId?: string, format?: 'web' | 'email' }) {
 }
 
 vue.watch(
-  () => fictionRouter.query.value,
+  () => fictionRouter.vars.value,
   async (v) => {
     const { postId, format } = v || {}
     if (v) {
-      await load({ postId: postId as string, format: format as 'web' | 'email' })
+      await load({ postId: postId as string, format: format as 'browser' | 'email' })
     }
   },
   { immediate: true },

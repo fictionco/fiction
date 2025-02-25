@@ -116,15 +116,15 @@ vue.onMounted(async () => {
           </div>
         </div>
         <div class="flex gap-4">
-          <div v-if="emailConfig.fromAvatar?.url">
-            <ElAvatar class="size-12 rounded-full" :url="emailConfig.fromAvatar?.url" />
+          <div v-if="emailConfig.avatar?.url">
+            <ElAvatar class="size-12 rounded-full" :url="emailConfig.avatar?.url" />
           </div>
           <div>
             <div class="font-medium">
-              {{ emailConfig.fromName }}
+              {{ emailConfig.senderName }}
             </div>
             <div class="text-sm text-theme-500 dark:text-theme-400">
-              {{ emailConfig.fromEmail }}
+              {{ emailConfig.senderEmail }}
             </div>
           </div>
         </div>

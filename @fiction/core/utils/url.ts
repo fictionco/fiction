@@ -1,3 +1,4 @@
+import type { Organization } from '../plugin-user/types.js'
 import type { MediaObject } from '../schemas/schemas.js'
 import * as jsCrypto from 'js-sha256'
 
@@ -200,9 +201,14 @@ export function getUrlPath({ urlOrPath }: { urlOrPath?: string }) {
 
 export function gravatarUrlSync(
   identifier?: string,
-  options: { size?: string | number, default?: '404' | 'identicon' | 'monsterid' | 'wavatar' | 'retro' | 'robohash' | 'blank' | string } = {},
+  options: {
+    size?: string | number
+    default?: '404' | 'identicon' | 'monsterid' | 'wavatar' | 'retro' | 'robohash' | 'blank' | 'initials' | 'color' | string
+    name?: string
+    initials?: string
+  } = {},
 ): MediaObject & { isDefaultImage: () => Promise<boolean> } {
-  const { size = 200, default: d = 'identicon' } = options
+  const { size = 200, default: d = 'initials', name, initials } = options
 
   if (!identifier) {
     return { url: '', format: 'url', isDefaultImage: async () => true }
@@ -221,6 +227,17 @@ export function gravatarUrlSync(
   if (d)
     baseUrl.searchParams.set('d', d)
 
+  if (name)
+    baseUrl.searchParams.set('name', name)
+
+  if (initials)
+    baseUrl.searchParams.set('initials', initials)
+
+  if (!name && !initials && d === 'initials') {
+    const nameFromEmail = identifier.split('@')[0]
+    baseUrl.searchParams.set('name', nameFromEmail)
+  }
+
   const gravatarUrl = baseUrl.toString()
 
   const isDefaultImage = async () => {
@@ -237,4 +254,34 @@ export function gravatarUrlSync(
   }
 
   return { format: 'url', url: gravatarUrl, isDefaultImage }
+}
+
+export function getOrgAvatar(org: Organization, options: {
+  useSender?: boolean
+  size?: number
+} = {}): MediaObject {
+  const { useSender = false, size = 400 } = options
+
+  // Return org avatar if available
+  if (org.avatar) {
+    return org.avatar
+  }
+
+  // Check sender avatar first when enabled
+  if (useSender && org.senderEmail) {
+    if (org.senderEmail) {
+      return gravatarUrlSync(org.senderEmail, {
+        size,
+        default: 'initials',
+        name: org.senderName || org.orgName,
+      })
+    }
+  }
+
+  // Fallback to email gravatar with initials
+  return gravatarUrlSync(org.orgEmail, {
+    size,
+    default: org.orgName ? 'initials' : 'color',
+    name: org.orgName,
+  })
 }

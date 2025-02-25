@@ -8,8 +8,9 @@ export const sampleHtml = `<h1>Welcome to the <a href="#">Galactic Gazette</a>! 
 
 <p>Imagine a world where <mark>space travel</mark> is as common as taking a bus. Our latest article explores the <strong>future of interstellar journeys</strong>. Is <del>space tourism</del> now a reality?</p>
 
-<div style="text-align: center">
-  <a href="https://www.fiction.com" style="background: #3498db; color: white; padding: 12px 24px; text-decoration: none; display: inline-block; border-radius: 4px;">Subscribe Now 🚀</a>
+<!-- Standard button format without inline styles -->
+<div class="x-button-container">
+  <a href="https://www.fiction.com" class="x-button lg">Subscribe Now 🚀</a>
 </div>
 
 <h2>Breaking News: The Andromeda Galaxy is Closer than We Thought!</h2>
@@ -21,6 +22,9 @@ export const sampleHtml = `<h1>Welcome to the <a href="#">Galactic Gazette</a>! 
 
 <p>New research indicates that our neighboring galaxy, <strong>Andromeda</strong>, might be on a collision course with the Milky Way. Experts weigh in on what this means for <sup>space</sup> enthusiasts and astronomers alike.</p>
 
+<!-- Added inline code example -->
+<p>Astronomers use the formula <code>d = v × t</code> to calculate cosmic distances, where d is distance, v is velocity, and t is time.</p>
+
 <h3>Stunning Eclipse Captured by Space Station</h3>
 
 <figure>
@@ -28,7 +32,14 @@ export const sampleHtml = `<h1>Welcome to the <a href="#">Galactic Gazette</a>! 
   <figcaption><a href="https://images.unsplash.com/photo-1506443432602-ac2fcd6f54e0?q=80&w=2268&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">Spectacular Eclipse</a></figcaption>
 </figure>
 
-<p><strong>Check out these amazing photos</strong> of the recent solar eclipse taken from the <a href="https://www.fiction.com" >International Space Station</a>. Witness the awe-inspiring beauty of our universe.</p>
+<p><strong>Check out these amazing photos</strong> of the recent solar eclipse taken from the <a href="https://www.fiction.com">International Space Station</a>. Witness the awe-inspiring beauty of our universe.</p>
+
+<!-- Added code block example -->
+<pre><code>// JavaScript code to calculate light-years
+const lightYearInKm = 9.461e+12;
+const distanceToProximaCentauri = 4.246; // light-years
+const distanceInKm = distanceToProximaCentauri * lightYearInKm;
+</code></pre>
 
 <ul>
   <li><strong>🎆 Latest Discovery:</strong> New exoplanet in the habitable zone.</li>
@@ -38,8 +49,45 @@ export const sampleHtml = `<h1>Welcome to the <a href="#">Galactic Gazette</a>! 
   <li>Exclusive Interview: Astronaut shares their experiences from space.</li>
 </ul>
 
+<!-- Added a table for data presentation -->
+<table>
+  <thead>
+    <tr>
+      <th>Planet</th>
+      <th>Distance from Sun (AU)</th>
+      <th>Diameter (km)</th>
+      <th>Moons</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Mercury</td>
+      <td>0.39</td>
+      <td>4,880</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>Venus</td>
+      <td>0.72</td>
+      <td>12,104</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>Earth</td>
+      <td>1.00</td>
+      <td>12,756</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Mars</td>
+      <td>1.52</td>
+      <td>6,792</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
 
-<div style="background: #f8f9fa; border-left: 4px solid #3498db; padding: 15px; margin: 20px 0;">
+<div class="callout">
   <strong>🌟 Editor's Pick:</strong> Don't miss our exclusive interview with veteran astronaut Sarah Chen about life aboard the ISS!
 </div>
 
@@ -69,11 +117,17 @@ export const sampleHtml = `<h1>Welcome to the <a href="#">Galactic Gazette</a>! 
 <p><del>Old satellite technology</del> is being replaced with cutting-edge advancements. Learn more about the latest in space tech!</p>
 
 <blockquote>
-  "The universe is under no obligation to make sense to you." - Neil deGrasse Tyson
+  <p>"The universe is under no obligation to make sense to you."</p>
+  <footer>- Neil deGrasse Tyson</footer>
 </blockquote>
 
+<!-- Added another button with standard class -->
+<div class="button-container">
+  <a href="https://www.fiction.com/space-tech" class="button">Explore Space Tech</a>
+</div>
+
 <h6>Space Exploration: The Final Frontier</h6>
-<p>Discover the latest missions and milestones in space exploration. From Mars rovers to deep space probes, <a href="https://www.fiction.com" >stay updated</a> with our comprehensive coverage.</p>
+<p>Discover the latest missions and milestones in space exploration. From Mars rovers to deep space probes, <a href="https://www.fiction.com">stay updated</a> with our comprehensive coverage.</p>
 
 <hr>
 
@@ -87,5 +141,14 @@ export const sampleHtml = `<h1>Welcome to the <a href="#">Galactic Gazette</a>! 
   <dd>Upcoming lunar and solar eclipses.</dd>
 </dl>
 
-<p>Finally, after months of preparation, the crew is ready to embark on their journey to Mars. <strong>Stay tuned</strong> for live updates and exclusive coverage!</p>
+
+<!-- Added footnote-style references -->
+<p>Finally, after months of preparation, the crew is ready to embark on their journey to Mars<sup id="fnref1"><a href="#fn1">1</a></sup>. <strong>Stay tuned</strong> for live updates and exclusive coverage!</p>
+
+<div class="footnotes">
+  <hr>
+  <ol>
+    <li id="fn1">Mission details available at <a href="https://www.fiction.com/mars-mission">fiction.com/mars-mission</a> <a href="#fnref1">↩</a></li>
+  </ol>
+</div>
 `

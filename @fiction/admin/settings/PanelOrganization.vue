@@ -22,7 +22,7 @@ const org = vue.computed(() => service.fictionUser.activeOrganization.value)
 
 const avatarUrl = vue.computed(() => {
   const o = org.value
-  return o?.avatar ? o?.avatar : (gravatarUrlSync(o?.orgEmail, { size: 400, default: 'identicon' }))
+  return o?.avatar ? o?.avatar : (gravatarUrlSync(o?.orgEmail, { size: 400 }))
 })
 
 async function save() {
@@ -85,7 +85,7 @@ const controlOptions = [
   createOption({
     key: 'control.orgAvatar',
     testId: 'orgAvatar',
-    label: 'Logo / Avatar',
+    label: 'Icon',
     subLabel: 'Will default to Gravatar if not set.',
     input: 'InputControl',
     valueDisplay: () => {
@@ -117,73 +117,63 @@ const controlOptions = [
 ]
 
 const newsletterOptions = [
+
   createOption({
-    key: 'control.pubTitle',
-    testId: 'pubTitle',
-    label: 'Sending Title',
-    subLabel: 'The title of your newsletter or publication',
+    key: 'control.senderEmail',
+    testId: 'senderEmail',
+    label: 'Sender Email',
+    subLabel: 'ReplyTo email for newsletters.',
     input: 'InputControl',
     valueDisplay: () => {
+      const { senderEmail } = org.value || {}
       return {
-        status: org.value?.sender?.title ? 'ready' : 'incomplete',
-        data: org.value?.sender?.title,
+        status: senderEmail ? 'ready' : 'incomplete',
+        data: senderEmail,
       }
     },
     options: [
-      createOption({ schema, key: 'sender.title', label: 'Newsletter Title', input: 'InputText' }),
+      createOption({ schema, key: 'senderEmail', label: 'From Email / ReplyTo', description: 'Email will be sent from this address.', input: 'InputEmail' }),
+    ],
+  }),
+  createOption({
+    key: 'control.fromName',
+    testId: 'senderName',
+    label: 'Sender Name',
+    subLabel: 'Email will be sent with this name.',
+    input: 'InputControl',
+    valueDisplay: () => {
+      const { senderName } = org.value || {}
+      return {
+        status: senderName ? 'ready' : 'incomplete',
+        data: senderName,
+      }
+    },
+    options: [
+      createOption({
+        schema,
+        key: 'senderName',
+        label: 'From Name',
+        input: 'InputText',
+        placeholder: 'Enter Name',
+      }),
     ],
   }),
   createOption({
     key: 'control.pubTagline',
     testId: 'pubTagline',
-    label: 'Publication Tagline',
-    subLabel: 'Description of your publication.',
+    label: 'Headline / Tagline',
+    subLabel: 'Short of your publication.',
     input: 'InputControl',
     valueDisplay: () => {
       return {
-        status: org.value?.sender?.tagline ? 'ready' : 'optional',
-        data: org.value?.sender?.tagline,
+        status: org.value?.description ? 'ready' : 'optional',
+        data: org.value?.description,
       }
     },
     options: [
-      createOption({ schema, key: 'sender.tagline', label: 'Publication Tagline', description: 'Used in descriptions and meta info', input: 'InputText', placeholder: 'A sentence on what you do...' }),
+      createOption({ schema, key: 'description', label: 'Headline / Tagline', description: 'Used in descriptions and meta info', input: 'InputText', placeholder: 'A sentence on what you do...' }),
     ],
   }),
-  createOption({
-    key: 'control.fromEmail',
-    testId: 'pubEmail',
-    label: 'Email "Sent From" Email',
-    subLabel: 'Email will be sent from this address.',
-    input: 'InputControl',
-    valueDisplay: () => {
-      const { fromEmail } = org.value?.sender || {}
-      return {
-        status: fromEmail ? 'ready' : 'incomplete',
-        data: fromEmail,
-      }
-    },
-    options: [
-      createOption({ schema, key: 'sender.fromEmail', label: 'From Email / Sender', description: 'Email will be sent from this address.', input: 'InputEmail' }),
-    ],
-  }),
-  createOption({
-    key: 'control.fromName',
-    testId: 'pubEmail',
-    label: 'Email "Sent From" Name',
-    subLabel: 'Email will be sent with this name.',
-    input: 'InputControl',
-    valueDisplay: () => {
-      const { fromName } = org.value?.sender || {}
-      return {
-        status: fromName ? 'ready' : 'incomplete',
-        data: fromName,
-      }
-    },
-    options: [
-      createOption({ schema, key: 'sender.fromName', label: 'From Name', input: 'InputText', placeholder: 'Email "From" Name' }),
-    ],
-  }),
-
 ]
 
 const legalOptions = [
@@ -199,7 +189,7 @@ const legalOptions = [
         out.push('Terms of Service Added')
 
       return {
-        status: termsUrl ? 'ready' : 'incomplete',
+        status: termsUrl ? 'ready' : 'optional',
         data: out.join(', '),
       }
     },
@@ -218,7 +208,7 @@ const legalOptions = [
       if (privacyUrl)
         out.push('Privacy Policy Added')
       return {
-        status: privacyUrl ? 'ready' : 'incomplete',
+        status: privacyUrl ? 'ready' : 'optional',
         data: out.join(', '),
       }
     },
@@ -235,7 +225,7 @@ const legalOptions = [
     valueDisplay: () => {
       const { streetAddress } = org.value || {}
       return {
-        status: streetAddress ? 'ready' : 'incomplete',
+        status: streetAddress ? 'ready' : 'optional',
         data: streetAddress,
       }
     },
@@ -244,8 +234,37 @@ const legalOptions = [
         schema,
         key: 'streetAddress',
         label: 'Street Address',
-        input: 'InputUrl',
+        input: 'InputText',
         placeholder: '123 Main St, City, State, Zip',
+        props: {
+          autocomplete: 'street-address',
+        },
+      }),
+    ],
+  }),
+  createOption({
+    key: 'control.companyName',
+    testId: 'companyName',
+    label: 'Company Name',
+    subLabel: 'For copyright and legal.',
+    input: 'InputControl',
+    valueDisplay: () => {
+      const { streetAddress } = org.value || {}
+      return {
+        status: streetAddress ? 'ready' : 'optional',
+        data: streetAddress,
+      }
+    },
+    options: [
+      createOption({
+        schema,
+        key: 'companyName',
+        label: 'Street Address',
+        input: 'InputText',
+        placeholder: 'Acme, Inc.',
+        props: {
+          autocomplete: 'organization',
+        },
       }),
     ],
   }),
@@ -275,6 +294,7 @@ const adminOptions = [
     label: 'Delete Organization',
     subLabel: 'Permanently delete this organization.',
     input: 'InputControl',
+    icon: { class: 'i-tabler-trash' },
     actions: () => [
       {
         testId: 'deleteOrgButton',
@@ -306,24 +326,27 @@ const options = vue.computed(() => {
   return [
     createOption({
       key: 'details',
-      label: 'Organization Details',
+      label: 'Details',
       input: 'group',
       options: controlOptions,
       format: 'control',
+      icon: { class: 'i-tabler-building-plus' },
     }),
     createOption({
       key: 'publication',
-      label: 'Sending Email and Publication',
+      label: 'Publication and Marketing',
       input: 'group',
       options: newsletterOptions,
       format: 'control',
+      icon: { class: 'i-tabler-speakerphone' },
     }),
     createOption({
       key: 'legal',
-      label: 'Legal',
+      label: 'Additional Info',
       input: 'group',
       options: legalOptions,
       format: 'control',
+      icon: { class: 'i-tabler-shield-check' },
     }),
     createOption({
       key: 'adminOnly',
@@ -333,6 +356,7 @@ const options = vue.computed(() => {
       format: 'control',
       isHidden: !service.fictionUser.activeUser.value?.isSuperAdmin,
       options: adminOptions,
+      icon: { class: 'i-tabler-shield-lock' },
     }),
   ]
 })

@@ -39,8 +39,7 @@ export function allPostsLink(args: { card: Card }): string {
 
 export function getPostPreviewRoute(args: { post: Post, card: Card, format: 'browser' | 'email' }) {
   const { post, card, format } = args
-  const out = card?.link({ path: `/preview-post`, query: { postId: post.postId, format } })
+  const out = card?.link({ path: `/preview-post-${format}`, query: { postId: post.postId, format } })
 
-  console.warn('getPostPreviewRoute', out, post.postId)
   return out
 }

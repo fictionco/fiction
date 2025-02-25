@@ -45,8 +45,8 @@ describe('settings e2e', async () => {
 
           expect(v.orgName).toBe('Org Name Test')
           expect(v.orgEmail).toBe('billing@example.com')
-          expect(v.sender?.fromEmail).toBe('test@example.com')
-          expect(v.sender?.fromName).toBe('Alvin the Chipmunk')
+          expect(v.senderEmail).toBe('test@example.com')
+          expect(v.senderName).toBe('Alvin the Chipmunk')
         } },
       ],
     })

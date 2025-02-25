@@ -65,7 +65,7 @@ const user = vue.computed(() => {
 })
 
 function getAvatarUrl(user: User) {
-  return user.avatar ? user.avatar : (gravatarUrlSync(user.email, { size: 400, default: 'identicon' }))
+  return user.avatar ? user.avatar : (gravatarUrlSync(user.email, { size: 400 }))
 }
 
 async function saveSubscriber(): Promise<undefined> {

@@ -145,8 +145,8 @@ export class QueryTransactionalEmail extends EmailQuery {
       throw abort('missing bodyHtml or bodyMarkdown')
 
     const {
-      fromName,
-      fromEmail,
+      senderName,
+      senderEmail,
       to,
       subject,
       postId = '',
@@ -168,7 +168,7 @@ export class QueryTransactionalEmail extends EmailQuery {
       caller,
     }
 
-    const replyTo = (fromName ? `${fromName} <${fromEmail}>` : fromEmail) || this.fromAppEmail()
+    const replyTo = (senderName ? `${senderName} <${senderEmail}>` : senderEmail) || this.fromAppEmail()
 
     const from = replaceEmailDomain(replyTo, sendingDomain)
 

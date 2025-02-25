@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import type { ActionButton, NavListItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import { dayjs, useService, vue } from '@fiction/core'
-import { getOrgAvatar } from '@fiction/core/plugin-user/utils'
+import { dayjs, getOrgAvatar, useService, vue } from '@fiction/core'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 import ElOrgNewModal from './ElOrgNewModal.vue'
 import SettingsPanel from './SettingsPanel.vue'

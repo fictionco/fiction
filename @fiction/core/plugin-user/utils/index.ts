@@ -1,17 +1,14 @@
-import type { FictionUser, Organization, User } from '..'
+import type { FictionUser, User } from '..'
 import type { FictionDb } from '../../plugin-db'
-import type { MediaObject } from '../../schemas/schemas'
 import type { WhereUser } from '../endpoint'
 import type { VerificationCode } from '../schema'
 import bcrypt from 'bcrypt'
 import { standardTable } from '../../tbl'
-import { gravatarUrlSync, isValid, toLabel } from '../../utils'
+import { isValid, toLabel } from '../../utils'
 import { abort } from '../../utils/error'
 import { dayjs } from '../../utils/libraries'
 
-export function getOrgAvatar(org: Organization): MediaObject {
-  return org.avatar ? org.avatar : gravatarUrlSync(org.orgEmail, { size: 400, default: 'identicon' })
-}
+
 
 export function defaultOrgName(email: string, suffix: string = ''): string {
   // Extract username from email and clean special characters

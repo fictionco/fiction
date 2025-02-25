@@ -1,7 +1,7 @@
 import type { EndpointMeta, EndpointResponse } from '@fiction/core/index.js'
 import type { EmailConfigResponse } from '@fiction/plugin-transactions/index.js'
 import type { FictionSubscribe, Subscriber } from '../index.js'
-import { gravatarUrlSync, vue } from '@fiction/core/index.js'
+import { getOrgAvatar, gravatarUrlSync, vue } from '@fiction/core/index.js'
 import { EmailAction } from '@fiction/plugin-transactions/index.js'
 
 export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
@@ -18,28 +18,20 @@ export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
     actionId: 'subscribe',
     template: vue.defineAsyncComponent<vue.Component>(async () => import('./TransactionSubscribe.vue')), // <vue.Component> avoids circular reference
     emailConfig: async (emailVars) => {
-      const { orgId, orgName, orgEmail } = emailVars.queryVars
+      const { orgId } = emailVars.queryVars
 
-      const fictionTransactions = fictionSubscribe.settings.fictionTransactions
       const r = await fictionUser.queries.ManageOrganization.serve({ _action: 'retrieve', where: { orgId } }, { server: true, caller: 'subscribe' })
 
-      const fromName = orgName || r.data?.orgName || emailVars.fullName
-      const fromEmail = orgEmail || r.data?.orgEmail || emailVars.email
-      let avatar = r.data?.avatar
+      const org = r.data
 
-      if (!avatar) {
-        const g = gravatarUrlSync(fromEmail, { size: 200 })
-
-        const isDefault = await g.isDefaultImage()
-
-        if (!isDefault) {
-          avatar = { url: g.url }
-        }
-        else {
-          const url = fictionUser.userImages().org
-          avatar = await fictionTransactions.settings.fictionMedia?.relativeMedia({ url })
-        }
+      if (!org) {
+        throw new Error('Organization not found')
       }
+
+      const senderName = org.senderName || org.orgName
+      const senderEmail = org.senderEmail || org.orgEmail
+      const avatar = getOrgAvatar(org, { size: 200 })
+
       emailVars.masks = { ...emailVars.masks, avatarUrl: avatar?.url }
 
       return {
@@ -47,14 +39,14 @@ export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
         subject: `Confirm Your Subscription 👍`,
         title: 'Confirm Your Subscription',
         subTitle: 'Just click the link below',
-        bodyMarkdown: `Please click the button below to confirm you'd like to receive emails from **${fromName}**.`,
+        bodyMarkdown: `Please click the button below to confirm you'd like to receive emails from **${senderName}**.`,
         to: emailVars.email,
-        fromName,
-        fromEmail,
+        senderName,
+        senderEmail,
         buttons: [
           { label: 'Confirm Subscription', href: emailVars.callbackUrl, theme: 'primary' },
         ],
-        superTitle: { text: fromName, icon: avatar, href: emailVars.callbackUrl },
+        superTitle: { text: senderName, icon: avatar, href: emailVars.callbackUrl },
       } satisfies EmailConfigResponse
     },
     serverTransaction: async (args, meta: EndpointMeta) => {

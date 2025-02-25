@@ -26,7 +26,7 @@ const user = vue.computed(() => service.fictionUser.activeUser.value)
 
 const avatarUrl = vue.computed(() => {
   const o = user.value
-  return o?.avatar ? o?.avatar : (gravatarUrlSync(o?.email, { size: 400, default: 'identicon' }))
+  return o?.avatar ? o?.avatar : (gravatarUrlSync(o?.email, { size: 400 }))
 })
 
 async function save() {
@@ -71,7 +71,7 @@ const detailOptions = [
   }),
   createOption({
     key: 'control.avatar',
-    label: 'Logo / Avatar',
+    label: 'User Avatar',
     subLabel: 'Will default to Gravatar if not set.',
     input: 'InputControl',
     valueDisplay: () => {

@@ -170,7 +170,7 @@ const viewModes = vue.computed(() => {
           options: [
             createOption({
               schema,
-              key: 'emailConfig.sender.fromName',
+              key: 'emailConfig.sender.senderName',
               label: 'Send From Name',
               subLabel: 'The name that will appear in the inbox',
               input: 'InputText',
@@ -178,20 +178,51 @@ const viewModes = vue.computed(() => {
             }),
             createOption({
               schema,
-              key: 'emailConfig.sender.fromEmail',
+              key: 'emailConfig.sender.senderEmail',
               label: 'Send From Email',
               subLabel: 'The "sent from" email address',
               input: 'InputEmail',
               placeholder: 'Enter "sent from" Email',
             }),
+          ],
+        }),
+        createOption({
+          key: 'group.inbox',
+          input: 'group',
+          label: 'Additional Settings (Global)',
+          icon: { class: 'i-tabler-mail-forward' },
+          options: [
             createOption({
               schema,
-              key: 'emailConfig.sender.fromReplyTo',
-              label: 'Reply To Email (Optional)',
-              subLabel: 'Where replies will be sent, if different from "sent from" email',
-              input: 'InputEmail',
-              placeholder: 'Enter "reply to" Email',
+              key: 'emailConfig.sender.websiteUrl',
+              label: 'Website URL',
+              subLabel: 'Adds a link to your website in the email footer',
+              input: 'InputUrl',
+              placeholder: 'Primary Website URL',
             }),
+            createOption({
+              schema,
+              key: 'emailConfig.sender.companyName',
+              label: 'Company Name',
+              subLabel: 'The legal name of your company',
+              input: 'InputText',
+              placeholder: 'Enter Name',
+              props: {
+                autocomplete: 'organization',
+              },
+            }),
+            createOption({
+              schema,
+              key: 'emailConfig.sender.streetAddress',
+              label: 'Street Address',
+              subLabel: 'The physical address of your company',
+              input: 'InputText',
+              placeholder: 'Enter Address',
+              props: {
+                autocomplete: 'street-address',
+              },
+            }),
+
           ],
         }),
       ],
@@ -504,7 +535,7 @@ const publishText = vue.computed(() => {
 
     <ElModal
       v-model:vis="previewModalVis"
-      modal-class="w-full x-font-body h-[calc(100dvh-1rem)] overflow-scroll no-scrollbar"
+      modal-class="w-full x-font-body h-[calc(100dvh-3rem)] overflow-scroll no-scrollbar"
       transition-mode="slideUp"
       :has-close="true"
     >

@@ -118,8 +118,20 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
       await factory.fromTemplate<typeof dashTemplate>({
         templateId: 'dash',
         userConfig: { layoutFormat: 'full' },
-        slug: 'preview-post',
-        title: 'Post Preview',
+        slug: 'preview-post-browser',
+        title: 'Post Preview (Browser)',
+        cards: [
+          await factory.fromTemplate({
+            el: vue.defineAsyncComponent(async () => import('./admin/ViewPreview.vue')),
+            userConfig: { standard: { spaceSize: 'none' } },
+          }),
+        ],
+      }),
+      await factory.fromTemplate<typeof dashTemplate>({
+        templateId: 'dash',
+        userConfig: { layoutFormat: 'full' },
+        slug: 'preview-post-email',
+        title: 'Post Preview (Email)',
         cards: [
           await factory.fromTemplate({
             el: vue.defineAsyncComponent(async () => import('./admin/ViewPreview.vue')),

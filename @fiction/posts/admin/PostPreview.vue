@@ -14,13 +14,7 @@ const { post, card } = defineProps<{
   card: Card
 }>()
 
-const emit = defineEmits<{
-  (event: 'update:post', payload: Post): void
-}>()
-
 const frameRef = vue.ref<HTMLElement & { frameUtility: FrameUtility }>() // Reference to the child component
-
-const service = useService()
 
 const formatModes = [
   { label: 'browser', icon: 'i-tabler-browser', wrapClass: 'w-full' },
@@ -38,7 +32,6 @@ type DeviceMode = typeof deviceModes[number]['label']
 const activeDeviceMode = vue.ref<DeviceMode>('desktop')
 const deviceModeConfig = vue.computed(() => deviceModes.find(mode => mode.label === activeDeviceMode.value))
 const activeFormatMode = vue.ref<'browser' | 'email'>('browser')
-const formatModeConfig = vue.computed(() => formatModes.find(mode => mode.label === activeFormatMode.value))
 </script>
 
 <template>
@@ -87,8 +80,8 @@ const formatModeConfig = vue.computed(() => formatModes.find(mode => mode.label 
           :email-bar="{
             subject: post.emailConfig.value.subject || 'No subject',
             preview: post.emailConfig.value.preview || 'No preview',
-            fromEmail: post.sender.value.fromEmail || '',
-            fromName: post.sender.value.fromName || post.sender.value.title || 'No sender',
+            senderEmail: post.sender.value.senderEmail || '',
+            senderName: post.sender.value.senderName || 'No sender',
             avatar: post.sender.value.avatar,
             dateAt: post.publishAt.value,
           }"

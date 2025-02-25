@@ -27,7 +27,7 @@ const media = vue.computed<MediaObject>(() => {
   }
   else if (user.value?.email || props.email) {
     const email = user.value?.email ? user.value.email : props.email
-    const g = gravatarUrlSync(email, { size: props.imageSize, default: 'identicon' })
+    const g = gravatarUrlSync(email, { size: props.imageSize })
     url = g.url
   }
 

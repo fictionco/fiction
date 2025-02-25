@@ -3,6 +3,8 @@ import type { FictionPluginSettings } from '../plugin.js'
 import type { MediaObject } from '../schemas/schemas'
 import type { EndpointMeta } from '../utils/index.js'
 import type { EmailSendConfig } from './util'
+import { renderSSRHead } from '@unhead/ssr'
+import { createHead } from '@unhead/vue'
 import { EnvVar, vars } from '../plugin-env/index.js'
 import { FictionPlugin } from '../plugin.js'
 import { isTest, safeDirname, vue } from '../utils/index.js'
@@ -55,6 +57,9 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
     })
   }
 
+  rawTemplate = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><!--head--></head><body><!--app--></body></html>`
+
   async compileTemplateToHtml(args: { emailConfig: EmailSendConfig }): Promise<string> {
     const { emailConfig } = args
     const { renderToString } = await import('vue/server-renderer')
@@ -64,8 +69,24 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
       emailConfig.bodyMarkdown = await proseToMarkdown(emailConfig.bodyHtml)
     }
 
-    const app = vue.createSSRApp(EmailV2, emailConfig)
-    return await renderToString(app)
+    const app: vue.App = vue.createSSRApp(EmailV2, emailConfig)
+
+    const meta = createHead()
+    app.use(meta)
+
+    const htmlBody = await renderToString(app)
+
+    const { headTags, htmlAttrs, bodyAttrs, bodyTags, bodyTagsOpen } = await renderSSRHead(meta)
+
+    const html = this.rawTemplate
+      .replace(`<!--head-->`, `\n${headTags}\n`)
+      .replace(`<!--app-->`, `\n${htmlBody}\n`)
+      .replace(/<body([^>]*)>/i, `<body$1 ${bodyAttrs}>`)
+      .replace(/<html([^>]*)>/i, `<html$1 ${htmlAttrs}>`)
+      .replace(/<body([^>]*)>/i, `<body$1>\n${bodyTagsOpen}\n`)
+      .replace(/<\/body>/i, `\n${bodyTags}\n</body>`)
+
+    return html
   }
 
   async renderAndSendEmail(emailConfig: EmailSendConfig, meta: EndpointMeta) {

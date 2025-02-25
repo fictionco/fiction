@@ -14,7 +14,7 @@ export type EmailSendConfig = {
   // footer and links
   mediaFooter?: MediaObject
   streetAddress?: string
-  company?: string
+  companyName?: string
   websiteUrl?: string
   buttons?: ActionButton[]
   unsubscribeUrl?: string
@@ -25,10 +25,9 @@ export type EmailSendConfig = {
 
   subject?: string
   preview?: string
-  fromAvatar?: MediaObject
-  fromName?: string
-  fromEmail?: string
-  fromReplyTo?: string
+  avatar?: MediaObject
+  senderName?: string
+  senderEmail?: string
   to?: string
   bodyHtml?: string
   bodyText?: string
